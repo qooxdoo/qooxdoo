@@ -32,7 +32,9 @@
 
       "=include" :
       [
-        "qx.module.Style"
+        "qx.module.Css",
+        "qx.module.Attribute",
+        "qx.module.Manipulating"
       ],
 
       "=environment" :
