@@ -291,33 +291,26 @@ qx.Bootstrap.define("qx.bom.Event",
      * @param type {String} Type of the event e.g. click, mousedown
      * @return {Boolean} Whether the given event is supported
      */
-    supportsEvent : qx.core.Environment.select("engine.name",
+    supportsEvent : function(target, type)
     {
-      "webkit" : function(target, type) {
-        return target.hasOwnProperty("on" + type);
-      },
+      var eventName = "on" + type;
 
-      "default" : function(target, type)
+      var supportsEvent = (eventName in target);
+
+      if (!supportsEvent)
       {
-        var eventName = "on" + type;
+        supportsEvent = typeof target[eventName] == "function";
 
-        var supportsEvent = (eventName in target);
-
-        if (!supportsEvent)
+        if (!supportsEvent && target.setAttribute)
         {
+          target.setAttribute(eventName, "return;");
           supportsEvent = typeof target[eventName] == "function";
 
-          if (!supportsEvent && target.setAttribute)
-          {
-            target.setAttribute(eventName, "return;");
-            supportsEvent = typeof target[eventName] == "function";
-
-            target.removeAttribute(eventName);
-          }
+          target.removeAttribute(eventName);
         }
-
-        return supportsEvent;
       }
-    })
+
+      return supportsEvent;
+    }
   }
 });
