@@ -26,7 +26,7 @@ qx.Class.define("qx.test.bom.element.Style",
   {
     hasCssBoxshadow : function()
     {
-      return qx.core.Environment.get("css.boxshadow");
+      return qx.core.Environment.get("css.boxshadow") !== null;
     },
     
     setUp : function()
@@ -66,6 +66,14 @@ qx.Class.define("qx.test.bom.element.Style",
 
         this.assertEquals(expected, this.__element.style["boxShadow"]);
       }
+    },
+
+
+    testSetAndGetCss : function()
+    {
+      var css = "font-weight: bold;";
+      qx.bom.element.Style.setCss(this.__element, css);
+      this.assertMatch(qx.bom.element.Style.getCss(this.__element), /font-weight.*?bold/i);
     }
   }
 });

@@ -203,19 +203,19 @@ qx.Class.define("qx.bom.element.Style",
      *
      * @param element {Element} The DOM element to modify
      * @param value {String} The full CSS string
-     * @signature function(element, value)
      * @return {void}
      */
-    setCss : qx.core.Environment.select("engine.name",
+    setCss : function(element, value)
     {
-      "mshtml" : function(element, value) {
+      if (qx.core.Environment.get("engine.name") === "mshtml" &&
+        parseInt(qx.core.Environment.get("browser.documentmode"), 10) < 8)
+      {
         element.style.cssText = value;
-      },
-
-      "default" : function(element, value) {
+      }
+      else {
         element.setAttribute("style", value);
       }
-    }),
+    },
 
 
     /**
@@ -225,16 +225,17 @@ qx.Class.define("qx.bom.element.Style",
      * @return {String} the full CSS string
      * @signature function(element)
      */
-    getCss : qx.core.Environment.select("engine.name",
+    getCss : function(element)
     {
-      "mshtml" : function(element) {
+      if (qx.core.Environment.get("engine.name") === "mshtml" &&
+        parseInt(qx.core.Environment.get("browser.documentmode"), 10) < 8)
+      {
         return element.style.cssText.toLowerCase();
-      },
-
-      "default" : function(element) {
+      }
+      else {
         return element.getAttribute("style");
       }
-    }),
+    },
 
 
 
