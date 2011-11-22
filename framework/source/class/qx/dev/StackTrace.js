@@ -117,8 +117,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
 
     /**
      * Get a stack trace from the arguments special variable using the
-     * <code>caller</code> property. This is currently not supported
-     * for Opera.
+     * <code>caller</code> property.
      *
      * This methods returns class/mixin and function names of each step
      * in the call stack.
@@ -130,44 +129,36 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      *     Each line in the array represents one call in the stack trace.
      * @signature function(args)
      */
-    getStackTraceFromCaller : qx.core.Environment.select("engine.name",
+    getStackTraceFromCaller : function(args)
     {
-      "opera" : function(args)
+      var trace = [];
+      var fcn = qx.lang.Function.getCaller(args);
+      var knownFunction = {};
+      while (fcn)
       {
-        return [];
-      },
+        var fcnName = qx.lang.Function.getName(fcn);
+        trace.push(fcnName);
 
-      "default" : function(args)
-      {
-        var trace = [];
-        var fcn = qx.lang.Function.getCaller(args);
-        var knownFunction = {};
-        while (fcn)
-        {
-          var fcnName = qx.lang.Function.getName(fcn);
-          trace.push(fcnName);
-
-          try {
-            fcn = fcn.caller;
-          } catch(ex) {
-            break;
-          }
-
-          if (!fcn) {
-            break;
-          }
-
-          // avoid infinite recursion
-          var hash = qx.core.ObjectRegistry.toHashCode(fcn);
-          if (knownFunction[hash]) {
-            trace.push("...");
-            break;
-          }
-          knownFunction[hash] = fcn;
+        try {
+          fcn = fcn.caller;
+        } catch(ex) {
+          break;
         }
-        return trace;
+
+        if (!fcn) {
+          break;
+        }
+
+        // avoid infinite recursion
+        var hash = qx.core.ObjectRegistry.toHashCode(fcn);
+        if (knownFunction[hash]) {
+          trace.push("...");
+          break;
+        }
+        knownFunction[hash] = fcn;
       }
-    }),
+      return trace;
+    },
 
 
     /**

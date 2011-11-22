@@ -47,7 +47,7 @@ qx.Bootstrap.define("qx.lang.Function",
   {
     /**
      * Extract the caller of a function from the arguments variable.
-     * This will not work in Opera.
+     * This will not work in Opera < 9.6.
      *
      * @param args {arguments} The local arguments variable
      * @return {Function} A reference to the calling function or "undefined" if caller is not supported.
