@@ -53,7 +53,7 @@ qx.Class.define("qx.event.type.Rest",
      * The id of the request.
      */
     id: {
-      check: "String"
+      check: "Number"
     }
   },
 
