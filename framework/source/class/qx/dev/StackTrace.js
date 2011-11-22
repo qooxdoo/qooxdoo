@@ -179,21 +179,16 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * @param error {Error} Error exception instance.
      * @return {String[]} Stack trace of the exception. Each line in the array
      *     represents one call in the stack trace.
-     * @signature function(error)
      */
-    getStackTraceFromError : qx.core.Environment.select("engine.name",
+    getStackTraceFromError : function(error)
     {
-      "gecko" : function(error)
-      {
-        if (!error.stack) {
-          return [];
-        }
-        // e.g. "()@http://localhost:8080/webcomponent-test-SNAPSHOT/webcomponent/js/com/ptvag/webcomponent/common/log/Logger:253"
+      var trace = [];
+      
+      if (qx.core.Environment.get("ecmascript.stacktrace") === "stack") {
+        // Gecko style, e.g. "()@http://localhost:8080/webcomponent-test-SNAPSHOT/webcomponent/js/com/ptvag/webcomponent/common/log/Logger:253"
         var lineRe = /@(.+):(\d+)$/gm;
         var hit;
-        var trace = [];
-
-
+        
         while ((hit = lineRe.exec(error.stack)) != null)
         {
           var url = hit[1];
@@ -202,105 +197,90 @@ qx.Bootstrap.define("qx.dev.StackTrace",
           var className = this.__fileNameToClassName(url);
           trace.push(className + ":" + lineNumber);
         }
-
-        return trace;
-      },
-
-      "webkit" : function(error)
-      {
-        if (error.stack) {
-          /*
-           * Chrome trace info comes in two flavors:
-           * at [jsObject].function (fileUrl:line:char)
-           * at fileUrl:line:char
-           */
-          var lineRe = /at (.*)/gm;
-          var fileReParens = /\((.*?)(:[^\/].*)\)/;
-          var fileRe = /(.*?)(:[^\/].*)/;
-          var hit;
-          var trace = [];
-          while ((hit = lineRe.exec(error.stack)) != null) {
-            var fileMatch = fileReParens.exec(hit[1]);
-            if (!fileMatch) {
-              fileMatch = fileRe.exec(hit[1]);
-            }
-
-            if (fileMatch) {
-              var className = this.__fileNameToClassName(fileMatch[1]);
-              trace.push(className + fileMatch[2]);
-            } else {
-                trace.push(hit[1]);
-            }
-          }
-
+        
+        if (trace.length > 0) {
           return trace;
         }
-        else if (error.sourceURL && error.line) {
-          return [this.__fileNameToClassName(error.sourceURL) + ":" + error.line];
-        }
-        else {
-          return [];
-        }
-      },
+        /*
+         * Chrome trace info comes in two flavors:
+         * at [jsObject].function (fileUrl:line:char)
+         * at fileUrl:line:char
+         */
+        var lineRe = /at (.*)/gm;
+        var fileReParens = /\((.*?)(:[^\/].*)\)/;
+        var fileRe = /(.*?)(:[^\/].*)/;
+        var hit;
+        var trace = [];
+        while ((hit = lineRe.exec(error.stack)) != null) {
+          var fileMatch = fileReParens.exec(hit[1]);
+          if (!fileMatch) {
+            fileMatch = fileRe.exec(hit[1]);
+          }
 
-      // Check "Exceptions Have Stacktrace" in opera:config, Section User Prefs
-      "opera" : function(error)
-      {
-        if (error.stacktrace) {
-          var stacktrace = error.stacktrace;
-          if (stacktrace.indexOf("Error created at") >= 0) {
-            stacktrace = stacktrace.split("Error created at")[0];
+          if (fileMatch) {
+            var className = this.__fileNameToClassName(fileMatch[1]);
+            trace.push(className + fileMatch[2]);
+          } else {
+              trace.push(hit[1]);
           }
-          // older Opera style
-          if (stacktrace.indexOf("of linked script") >= 0) {
-            var lineRe = /Line\ (\d+?)\ of\ linked\ script\ (.*?)$/gm;
-            var hit;
-            var trace = [];
-            while ((hit = lineRe.exec(stacktrace)) != null) {
-              var lineNumber = hit[1];
-              var url = hit[2];
-              var className = this.__fileNameToClassName(url);
-              trace.push(className + ":" + lineNumber);
-            }
-          }
-          // new Opera style (10.6+)
-          else {
-            var lineRe = /line\ (\d+?),\ column\ (\d+?)\ in\ (?:.*?)\ in\ (.*?):[^\/]/gm;
-            var hit;
-            var trace = [];
-            while ((hit = lineRe.exec(stacktrace)) != null) {
-              var lineNumber = hit[1];
-              var columnNumber = hit[2];
-              var url = hit[3];
-              var className = this.__fileNameToClassName(url);
-              trace.push(className + ":" + lineNumber + ":" + columnNumber);
-            }
-          }
-          return trace;
-        } else if (error.message && error.message.indexOf("Backtrace:") >= 0) {
-          var trace = [];
-          var traceString = qx.lang.String.trim(error.message.split("Backtrace:")[1]);
-          var lines = traceString.split("\n");
-          for (var i=0; i<lines.length; i++)
-          {
-            var reResult = lines[i].match(/\s*Line ([0-9]+) of.* (\S.*)/);
-            if (reResult && reResult.length >= 2) {
-              var lineNumber = reResult[1];
-              var fileName = this.__fileNameToClassName(reResult[2]);
-              trace.push(fileName + ":" + lineNumber);
-            }
-          }
-          return trace;
-        } else {
-          return [];
         }
-      },
-
-      "default": function() {
-        return [];
       }
-    }),
-
+      else if (qx.core.Environment.get("ecmascript.stacktrace") === "stacktrace") {
+        // Opera
+        var stacktrace = error.stacktrace;
+        if (stacktrace.indexOf("Error created at") >= 0) {
+          stacktrace = stacktrace.split("Error created at")[0];
+        }
+        
+        // new Opera style (10.6+)
+        var lineRe = /line\ (\d+?),\ column\ (\d+?)\ in\ (?:.*?)\ in\ (.*?):[^\/]/gm;
+        var hit;
+        var trace = [];
+        while ((hit = lineRe.exec(stacktrace)) != null) {
+          var lineNumber = hit[1];
+          var columnNumber = hit[2];
+          var url = hit[3];
+          var className = this.__fileNameToClassName(url);
+          trace.push(className + ":" + lineNumber + ":" + columnNumber);
+        }
+        
+        if (trace.length > 0) {
+          return trace;
+        }
+        
+        // older Opera style
+        var lineRe = /Line\ (\d+?)\ of\ linked\ script\ (.*?)$/gm;
+        var hit;
+        var trace = [];
+        while ((hit = lineRe.exec(stacktrace)) != null) {
+          var lineNumber = hit[1];
+          var url = hit[2];
+          var className = this.__fileNameToClassName(url);
+          trace.push(className + ":" + lineNumber);
+        }
+      }
+      else if (error.message && error.message.indexOf("Backtrace:") >= 0) {
+        // Some old Opera versions append the trace to the message property
+        var trace = [];
+        var traceString = qx.lang.String.trim(error.message.split("Backtrace:")[1]);
+        var lines = traceString.split("\n");
+        for (var i=0; i<lines.length; i++)
+        {
+          var reResult = lines[i].match(/\s*Line ([0-9]+) of.* (\S.*)/);
+          if (reResult && reResult.length >= 2) {
+            var lineNumber = reResult[1];
+            var fileName = this.__fileNameToClassName(reResult[2]);
+            trace.push(fileName + ":" + lineNumber);
+          }
+        }
+      }
+      else if (error.sourceURL && error.line) {
+        // Safari
+        trace.push(this.__fileNameToClassName(error.sourceURL) + ":" + error.line);
+      }
+      
+      return trace;
+    },
 
     /**
      * Convert an URL of a JavaScript class into a class name if the file is named using

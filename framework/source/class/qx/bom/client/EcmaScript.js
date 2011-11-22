@@ -38,10 +38,26 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      */
     getObjectCount : function() {
       return (({}).__count__ == 0);
+    },
+    
+    
+    /**
+     * Returns the name of the Error object property that holds stack trace 
+     * information or null if the client does not provide any.
+     * 
+     * @internal
+     * @return {String|null} <code>stack</code>, <code>stacktrace</code> or 
+     * <code>null</code>
+     */
+    getStackTrace : function()
+    {
+      var e = new Error();
+      return e.stacktrace ? "stacktrace" : e.stack ? "stack" : null;
     }
   },
 
   defer : function(statics) {
     qx.core.Environment.add("ecmascript.objectcount", statics.getObjectCount);
+    qx.core.Environment.add("ecmascript.stacktrace", statics.getStackTrace);
   }
 });

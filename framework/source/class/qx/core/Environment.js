@@ -179,6 +179,10 @@
  *       <td>ecmascript.objectcount</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getObjectCount}</td>
  *     </tr>
+ *     <tr>
+ *       <td>ecmascript.stacktrace</td><td><i>String</i> or <i>null</i></td><td><code>stack</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getStackTrace}</td>
+ *     </tr>
 
  *     <tr>
  *       <td colspan="4"><b>engine</b></td>
@@ -688,6 +692,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "event.help"                  : "qx.bom.client.Event.getHelp",
       "event.help"                  : "qx.bom.client.Event.getHashChange",
       "ecmascript.objectcount"      : "qx.bom.client.EcmaScript.getObjectCount",
+      "ecmascript.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",
       "html.webworker"              : "qx.bom.client.Html.getWebWorker",
       "html.filereader"             : "qx.bom.client.Html.getFileReader",
       "html.geolocation"            : "qx.bom.client.Html.getGeoLocation",
