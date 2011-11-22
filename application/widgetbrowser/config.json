@@ -57,6 +57,10 @@
       },
       "extend"  : ["source-script"],
       "compile-options" : {
+        "code" :
+        {
+          "except" : [ "*" ]
+        },
         "paths" :
         {
           "file"  : "source/script/${APPLICATION}.classic.js"
@@ -69,6 +73,10 @@
       "let"     : {"QXTHEME" : "qx.theme.Modern"},
       "extend"  : ["source-script"],
       "compile-options" : {
+        "code" :
+        {
+          "except" : [ "*" ]
+        },
         "paths" :
         {
           "file"  : "source/script/${APPLICATION}.modern.js"
@@ -81,6 +89,10 @@
       "let"     : {"QXTHEME" : "qx.theme.Simple"},
       "extend"  : ["source-script"],
       "compile-options" : {
+        "code" :
+        {
+          "except" : [ "*" ]
+        },
         "paths" :
         {
           "file"  : "source/script/${APPLICATION}.simple.js"
