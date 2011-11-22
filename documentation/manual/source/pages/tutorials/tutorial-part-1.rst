@@ -50,7 +50,7 @@ The first part is to create a Window. As the :doc:`Window <../widget/window>` co
     });
 
 We have created our own class extending the qooxdoo Window. In the constructor, we already set the caption of the window, which is the `first constructor parameter of the qooxdoo window <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.window.Window>`_. So you already have guessed it, ``this.base(arguments)`` calls the overridden method of the superclass, in this case the constructor.
-To test the window, we need to create an instance of it in the main application. Add these two lines of code in the Application.js file to create and open the window.
+To test the window, we need to create an instance of it in the main application. Add these two lines of code in the Application.js file to create and open the window. Make sure to add it at the end of the main function in the application class.
 
 ::
 
