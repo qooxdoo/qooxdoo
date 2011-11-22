@@ -99,12 +99,9 @@ class MClassCode(object):
         classvariants = None
         if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
             if generate:
-                bak = self._tmp_tree
-                self._tmp_tree = None
                 # TODO: it might be better to work on the variant tree, as config variants have already been pruned?!
                 tree = self.tree()  # get complete tree
                 classvariants = self._variantsFromTree(tree) # get list of variant keys
-                self._tmp_tree = bak
                 if classinfo == None:
                     classinfo = {}
                 classinfo['svariants'] = classvariants
@@ -168,9 +165,9 @@ class MClassCode(object):
 
         # source versions
         if not compOptions.optimize:
-            result = filetool.read(self.path)
-            if result[-1:] != "\n": # assure trailing \n
-                result += '\n'
+            compiled = filetool.read(self.path)
+            if compiled[-1:] != "\n": # assure trailing \n
+                compiled += '\n'
         # compiled versions
         else:
 
@@ -190,8 +187,7 @@ class MClassCode(object):
             compiled, _ = cache.read(cacheId, self.path)
 
             if compiled == None:
-                tree   = self.tree(treegen=treegen)
-                tree   = self.optimize(tree, optimize, variants, featuremap)
+                tree = self.optimize(None, optimize, variants, featuremap)
                 if optimize == ["comments"]:
                     compiled = self.serializeFormatted(tree)
                     if compiled[-1:] != "\n": # assure trailing \n
@@ -225,7 +221,7 @@ class MClassCode(object):
     ##
     # Optimize class tree.
     #
-    def optimize(self, p_tree=None, optimize=[], variantSet={}, featureMap={}):
+    def optimize(self, p_tree=None, p_optimize=[], variantSet={}, featureMap={}):
 
         def load_privates():
             cacheId  = privateoptimizer.privatesCacheId
@@ -239,7 +235,9 @@ class MClassCode(object):
             cache.write(cacheId, globalprivs)  # removes lock by default
 
         def getTreeCacheId(optimize=[], variantSet={}):
-            return "tree-%s-%s-%s" % (self.path, self._optimizeId(optimize), util.toString(variantSet))
+            classVariants = self.classVariants()
+            relevantVariants = self.projectClassVariantsToCurrent(classVariants, variantSet)
+            return "tree-%s-%s-%s" % (self.path, self._optimizeId(optimize), util.toString(relevantVariants))
 
         def optimizeTree(tree):
 
@@ -276,10 +274,27 @@ class MClassCode(object):
 
             return tree
 
+        ##
+        # Return the tree that is (pot.) closest to the optimization we want to apply
+        #
+        def getBestMatchingTree():
+            # see if we have a "variants" optimized tree already (e.g. from calculating the class list)
+            if "variants" in optimize:
+                # this is a very simple form of optimizations projection
+                result, _ = cache.read(getTreeCacheId(["variants"], variantSet))
+                if result is None:
+                    result = self.tree()
+                else:
+                    optimize.remove("variants")
+            else:
+                result = self.tree()
+            return result
+
         # -----------------------------------------------------------------------------
 
         cache   = self.context['cache']
         console = self.context['console']
+        optimize= p_optimize[:]
 
         # if a tree is passed in, just optimize it
         if p_tree:
@@ -291,7 +306,7 @@ class MClassCode(object):
             result, modtime = cache.read(cacheId, self.path)
 
             if result == None:
-                result = self.tree()
+                result = getBestMatchingTree()
                 result = optimizeTree(result)
                 if not "statics" in optimize:  # can't cache static optimized trees
                     cache.write(cacheId, result)

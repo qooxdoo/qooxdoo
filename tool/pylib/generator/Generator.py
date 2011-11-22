@@ -1930,11 +1930,6 @@ class Generator(object):
             translations[namespace] = libObj.getTranslations()
             libraries.append(libObj)
 
-        # make sure there are no dangling trees in memory
-        for libObj in libraries:
-            for cls in libObj.getClasses():
-                cls._tmp_tree = None
-
         self._console.dotclear()
         self._console.nl()
         self._console.outdent()

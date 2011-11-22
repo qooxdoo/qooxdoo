@@ -602,12 +602,17 @@ class CodeGenerator(object):
             # this relies on the side effect of changing the syntax trees in cache
 
             # make sure "variants" have been optimized
-            for clazz in classList:
-                clazz._tmp_tree = clazz.optimize(None, ["variants"], compConf.variantset)
+            if "variants" in compConf.optimize:
+                for clazz in classList:
+                    clazz._tmp_tree = clazz.optimize(None, ["variants"], compConf.variantset)
 
             # first, prune features that are not even registered
             for clazz in classlistiter():
-                clazz._tmp_tree = clazz.optimize(clazz.tree(treegen), ["optimize"], compConf.variantset, featureMap=featureMap)
+                if "variants" in compConf.optimize:
+                    tree = clazz._tmp_tree
+                else:
+                    tree = clazz.tree(treegen)
+                clazz._tmp_tree = clazz.optimize(tree, ["optimize"], compConf.variantset, featureMap=featureMap)
 
             #pprint(featureMap)
             # then, prune as long as we have ref counts == 0 on features
@@ -711,9 +716,9 @@ class CodeGenerator(object):
                 # do the rest
                 for clazz in classList:
                     tree = clazz.optimize(clazz._tmp_tree, tmp_optimize)
-                    compiled = clazz.serializeCondensed(tree, compConf.format)
-                    if compiled[-1:] != '\n': compiled += '\n'
-                    result.append(compiled)
+                    code = clazz.serializeCondensed(tree, compConf.format)
+                    if code[-1:] != '\n': code += '\n'
+                    result.append(code)
                     clazz._tmp_tree = None # reset _tmp_tree
                     log_progress()
                 result = u''.join(result)

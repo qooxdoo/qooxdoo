@@ -100,15 +100,14 @@ class MClassDependencies(object):
                         target.append(DependencyItem(className, attrName, self.id, "|hints|"))
 
             # Read source tree data
-            treeDeps  = []  # will be filled by _analyzeClassDepsNode
-            tree = self.tree()
-            tree_had_deps = getattr(tree, "_has_deps", False)
-            self._analyzeClassDepsNode(tree, treeDeps, inLoadContext=True)
+            if variantSet:
+                tree = self.optimize(None, ["variants"], variantSet)
+            else:
+                tree = self.tree()
 
-            # with deps attached to tree nodes, we want to cache the resulting tree
-            if not tree_had_deps:
-                tree._has_deps = True
-                self.context['cache'].write(self.treeId, tree)
+            # analyze tree
+            treeDeps  = []  # will be filled by _analyzeClassDepsNode
+            self._analyzeClassDepsNode(tree, treeDeps, inLoadContext=True)
 
             # Process source tree data
             for dep in treeDeps:
