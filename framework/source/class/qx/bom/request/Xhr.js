@@ -487,6 +487,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         return false;
       }
 
+      window.clearTimeout(this.__timerId);
+
       // Remove unload listener in IE. Aborting on unload is no longer required
       // for this instance.
       if (window.detachEvent) {
