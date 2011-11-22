@@ -81,7 +81,7 @@ qx.Class.define("qx.event.type.Rest",
       this.setRequest(request);
       this.setAction(action);
       this.setPhase(phase);
-      this.setId(request.toHashCode());
+      this.setId(parseInt(request.toHashCode(), 10));
     },
 
     /**
