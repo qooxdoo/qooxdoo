@@ -532,8 +532,10 @@ class Generator(object):
                     if script.buildType not in ("source","build","hybrid"):
                         raise ValueError("Unknown compile type '%s'" % script.buildType)
 
-                if script.buildType == "source":
-                    script.variants = {}  # TODO: source processing could be placed outside the variant loop
+                if (script.buildType == "source"   # TODO: source processing could be placed outside the variant loop
+                    or "variants" not in script.optimize  # TODO: script.variants is used both declaratively (config's environment map) *and* to signal variants optimization (e.g. in Class.dependencies())
+                    ):
+                    script.variants = {}
 
                 # get current class list
                 script.classes = computeClassList(includeWithDeps, excludeWithDeps, 
