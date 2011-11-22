@@ -85,7 +85,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
       var engine = qx.bom.client.Engine.getName();
       var hashchange = "onhashchange" in window;
       return (engine !== "mshtml" && hashchange) ||
-      (engine === "mshtml" && document.documentMode && 
+      (engine === "mshtml" && "documentMode" in document && 
        document.documentMode >= 8 && hashchange);
     }
   },
