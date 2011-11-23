@@ -23,9 +23,12 @@ qx.Class.define("qx.test.ui.embed.Iframe",
 
   members :
   {
+    __iframe : null,
+
+
     setUp : function()
     {
-      this.__iframe = new qx.ui.embed.Iframe;
+      this.__iframe = new qx.ui.embed.Iframe();
       this.__iframe.set({ width: 200, height: 500 });
     },
 
@@ -33,16 +36,50 @@ qx.Class.define("qx.test.ui.embed.Iframe",
       this.__iframe.dispose();
     },
 
+    testHiddenSetSourceInitial : function() {
+      this.__iframe.set({
+        visibility : "hidden"
+      });
+
+      this.getRoot().add(this.__iframe);
+
+      qx.ui.core.queue.Manager.flush();
+      this.assertNotNull(this.__iframe.getContentElement().getDomElement());
+    },
+
+
+    testHiddenSetSource : function() {
+      this.getRoot().add(this.__iframe);
+
+      qx.ui.core.queue.Manager.flush();
+      this.__iframe.hide();
+      qx.ui.core.queue.Manager.flush();
+
+      this.__iframe.setSource("http://www.qooxdoo.org");
+      qx.ui.core.queue.Manager.flush();
+
+      this.__iframe.addListener("load", function() {
+        this.resume(function() {
+          this.assertEquals(
+            this.__iframe.getSource(), 
+            this.__iframe.getWindow().location.href
+          );
+        });
+      }, this);
+    },
+
+
     testGetWindow : function()
     {
       this.__iframe.setSource("http://www.qooxdoo.org");
-      this.getRoot().add(this.__iframe);
 
       this.__iframe.addListener("load", function() {
-        this.assertNotNull(this.getWindow());
+        this.resume(function() {
+          this.assertNotNull(this.__iframe.getWindow());
+        }, this);
       }, this);
 
-      this.getRoot().remove(this.__iframe);
+      this.wait();
     }
   }
 });

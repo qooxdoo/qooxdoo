@@ -47,6 +47,10 @@ qx.Class.define("qx.html.Iframe",
 
     this.setSource(url);
     this.addListener("navigate", this.__onNavigate, this);
+
+    // add yourself to the element queue to enforce the creation of DOM element
+    qx.html.Element._modified[this.$$hash] = this;
+    qx.html.Element._scheduleFlush("element");
   },
 
 
@@ -189,7 +193,8 @@ qx.Class.define("qx.html.Iframe",
      */
     setSource : function(source)
     {
-      this._setProperty("source", source);
+      // the source needs to be applied directly in case the iFrame is hidden
+      this._setProperty("source", source, true);
       return this;
     },
 

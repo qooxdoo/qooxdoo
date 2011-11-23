@@ -173,10 +173,9 @@ qx.Class.define("qx.html.Element",
       for (var hc in modified)
       {
         obj = modified[hc];
-        // Ignore all hidden elements
+        // Ignore all hidden elements except iframes
         // but keep them until they get visible (again)
-
-        if (obj.__willBeSeeable())
+        if (obj.__willBeSeeable() || obj.classname == "qx.html.Iframe")
         {
           // Separately queue rendered elements
           if (obj.__element && qx.dom.Hierarchy.isRendered(obj.__element)) {
