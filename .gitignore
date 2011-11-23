@@ -80,3 +80,5 @@ qooxdoo/framework/api
 # Single Files
 #
 qooxdoo/application/feedreader/deps.dot
+.project
+.pydevproject
