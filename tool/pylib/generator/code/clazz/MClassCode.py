@@ -49,6 +49,10 @@ class MClassCode(object):
     #
     def tree(self, treegen=treegenerator, force=False):
 
+        # TODO: quick fix for out-of-band optimization
+        if self._tmp_tree:
+            return self._tmp_tree
+
         cache = self.context['cache']
         console = self.context['console']
         tradeSpaceForSpeed = False  # Caution: setting this to True seems to make builds slower, at least on some platforms!?

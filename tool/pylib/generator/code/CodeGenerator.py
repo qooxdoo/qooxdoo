@@ -559,7 +559,7 @@ class CodeGenerator(object):
         ##
         # process "statics" optimization
         #
-        def optimizeDeadCode(classList, featureMap, treegen):
+        def optimizeDeadCode(classList, featureMap, compConf, treegen):
             
             ##
             # define a criterion when optimization is saturated
@@ -589,11 +589,16 @@ class CodeGenerator(object):
             from pprint import pprint
             #pprint(featureMap)
             # this relies on the side effect of changing the syntax trees in cache
+
             # first, prune features that are not even registered
+            optimize = ["statics"] # make a custom 'optimize' vector
+            if "variants" in compConf.optimize:  # need to do this here too, if it's on
+                optimize.append("variants")
             for clazz in classlistiter():
-                clazz._tmp_tree = clazz.optimize(clazz.tree(treegen), ["statics"], featureMap=featureMap)
-            # then, prune as long as we have ref counts == 0 on features
+                clazz._tmp_tree = clazz.optimize(clazz.tree(treegen), optimize, featureMap=featureMap)
+
             #pprint(featureMap)
+            # then, prune as long as we have ref counts == 0 on features
             while True:
                 null_refs = [(cls, feat) for cls in featureMap for feat in featureMap[cls] if not featureMap[cls][feat].hasref()]
                 if atLimit(null_refs):
@@ -636,6 +641,10 @@ class CodeGenerator(object):
 
 
             #pprint(featureMap)
+            for cls in classList:
+                #print cls.id, id(cls._tmp_tree)
+                pass
+
             self._console.indent()
             for clazz in featureMap:
                 self._console.debug("'%s': used features: %r" % (clazz, featureMap[clazz].keys()))
@@ -648,7 +657,7 @@ class CodeGenerator(object):
             num_proc = self._job.get('run-time/num-processes', 0)
             # do "statics" optimization out of line
             if "statics" in compConf.optimize:
-                optimizeDeadCode(classList, script._featureMap, treegen=treegenerator)
+                optimizeDeadCode(classList, script._featureMap, compConf, treegen=treegenerator)
                 compConf.optimize.remove("statics")
                 if len(compConf.optimize) == 0:  # cannot completely empty optimize array
                     # TODO: leaving "statics" in would potentially optimize the head classes!
