@@ -147,7 +147,7 @@ qx.Class.define("qx.data.marshal.Json",
       var members = {__disposeItem : this.__disposeItem};
       for (var key in data) {
         // stip the unwanted characters
-        key = key.replace(/-/g, "");
+        key = key.replace(/-|\.|\s+/g, "");
         // check for valid JavaScript identifier (leading numbers are ok)
         if (qx.core.Environment.get("qx.debug")) {
           this.assertTrue((/^[$0-9A-Za-z_]*$/).test(key),
@@ -300,7 +300,7 @@ qx.Class.define("qx.data.marshal.Json",
 
         // go threw all element in the data
         for (var key in data) {
-          var propertyName = key.replace(/-/g, "");
+          var propertyName = key.replace(/-|\.|\s+/g, "");
           // warn if there has been a replacement
           if (
             (qx.core.Environment.get("qx.debug")) &&
