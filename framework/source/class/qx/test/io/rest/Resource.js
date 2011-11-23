@@ -905,7 +905,7 @@ qx.Class.define("qx.test.io.rest.Resource",
         that.assertEquals("Affe", e.getData());
         that.assertEquals("get", e.getAction());
         that.assertIdentical(req, e.getRequest());
-        that.assertIdentical(req.toHashCode(), e.getId());
+        that.assertInteger(e.getId());
       });
     },
 
@@ -921,6 +921,7 @@ qx.Class.define("qx.test.io.rest.Resource",
         that.assertEquals("Affe", e.getData());
         that.assertEquals("get", e.getAction());
         that.assertIdentical(req, e.getRequest());
+        that.assertInteger(e.getId());
       });
     },
 
