@@ -171,13 +171,11 @@ qx.Class.define("qx.ui.embed.Html",
       this.base(arguments, value);
 
       /*
-       * We have to set the value to "text" in Webkit for the container and
-       * content element
+       * We have to set the value to "text" in Webkit for the container element
        */
       if ((qx.core.Environment.get("engine.name") == "webkit"))
       {
         this.getContainerElement().setStyle("userSelect", value ? "text" : "none");
-        this.getContentElement().setStyle("userSelect", value ? "text" : "none");
       }
     },
 
