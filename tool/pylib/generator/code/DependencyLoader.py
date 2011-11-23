@@ -146,7 +146,7 @@ class DependencyLoader(object):
             classObj = self._classesObj[depsItem.name] # get class from depsItem
             if variants: # here we rely on the fact that if true(variants) "variants" optimization is actually wanted
                 # here we rely on the fact that class.tree() will use class._tmp_tree during class.getCombinedDeps()
-                classObj._tmp_tree = classObj.optimize(classObj.tree(), ["variants"], variants)
+                classObj.optimize(None, ["variants"], variants)
             deps, cached = classObj.getCombinedDeps(variants, self._jobconf, genProxy=genProxyIter.next())
             self._console.outdent()
             if logInfos: self._console.dot("%s" % "." if cached else "*")

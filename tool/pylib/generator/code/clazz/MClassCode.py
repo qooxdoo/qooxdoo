@@ -49,10 +49,6 @@ class MClassCode(object):
     #
     def tree(self, treegen=treegenerator, force=False):
 
-        # TODO: quick fix for out-of-band optimization
-        if self._tmp_tree:
-            return self._tmp_tree
-
         cache = self.context['cache']
         console = self.context['console']
         tradeSpaceForSpeed = False  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
@@ -103,8 +99,12 @@ class MClassCode(object):
         classvariants = None
         if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
             if generate:
+                bak = self._tmp_tree
+                self._tmp_tree = None
+                # TODO: it might be better to work on the variant tree, as config variants have already been pruned?!
                 tree = self.tree()  # get complete tree
                 classvariants = self._variantsFromTree(tree) # get list of variant keys
+                self._tmp_tree = bak
                 if classinfo == None:
                     classinfo = {}
                 classinfo['svariants'] = classvariants
@@ -163,9 +163,9 @@ class MClassCode(object):
 
     ##
     # Interface method: selects the right code version to return
+    # Checking the cache for the appropriate code, and pot. invoking ecmascript.backend
     def getCode(self, compOptions, treegen=treegenerator, featuremap={}):
 
-        result = u''
         # source versions
         if not compOptions.optimize:
             result = filetool.read(self.path)
@@ -173,68 +173,59 @@ class MClassCode(object):
                 result += '\n'
         # compiled versions
         else:
-            result = self._getCompiled(compOptions, treegen, featuremap)
 
-        return result
+            optimize          = compOptions.optimize
+            variants          = compOptions.variantset
+            format_           = compOptions.format
+            classVariants     = self.classVariants()
+            # relevantVariants is the intersection between the variant set of this job
+            # and the variant keys actually used in the class
+            relevantVariants  = self.projectClassVariantsToCurrent(classVariants, variants)
+            variantsId        = util.toString(relevantVariants)
+            optimizeId        = self._optimizeId(optimize)
+            cache             = self.context["cache"]
 
-    ##
-    # Checking the cache for the appropriate code, and pot. invoking ecmascript.backend
-    def _getCompiled(self, compOptions, treegen, featuremap):
+            # Caution: Sharing cache id with TreeCompiler
+            cacheId = "compiled-%s-%s-%s-%s" % (self.path, variantsId, optimizeId, format_)
+            compiled, _ = cache.read(cacheId, self.path)
 
-        ##
-        # Interface to ecmascript.backend
-        def serializeCondensed(tree, format_=False):
-            result = [u'']
-            result =  Packer().serializeNode(tree, None, result, format_)
-            return u''.join(result)
-
-        def serializeFormatted(tree):
-            # provide minimal pretty options
-            def options(): pass
-            pretty.defaultOptions(options)
-            options.prettypCommentsBlockAdd = False  # turn off comment filling
-
-            result = [u'']
-            result = pretty.prettyNode(tree, options, result)
-
-            return u''.join(result)
-
-        # ----------------------------------------------------------------------
-
-        optimize          = compOptions.optimize
-        variants          = compOptions.variantset
-        format_           = compOptions.format
-        classVariants     = self.classVariants()
-        relevantVariants  = self.projectClassVariantsToCurrent(classVariants, variants)
-        variantsId        = util.toString(relevantVariants)
-        optimizeId        = self._optimizeId(optimize)
-        cache             = self.context["cache"]
-
-        # Caution: Sharing cache id with TreeCompiler
-        cacheId = "compiled-%s-%s-%s-%s" % (self.path, variantsId, optimizeId, format_)
-        compiled, _ = cache.read(cacheId, self.path)
-
-        if compiled == None:
-            if self._tmp_tree: # TODO: hack to capture out-of-band optimization
-                tree = self._tmp_tree
-            else:
+            if compiled == None:
                 tree   = self.tree(treegen=treegen)
-            tree   = self.optimize(tree, optimize, variants, featuremap)
-            if optimize == ["comments"]:
-                compiled = serializeFormatted(tree)
-                if compiled[-1:] != "\n": # assure trailing \n
-                    compiled += '\n'
-            else:
-                compiled = serializeCondensed(tree, format_)
-            cache.write(cacheId, compiled)
+                tree   = self.optimize(tree, optimize, variants, featuremap)
+                if optimize == ["comments"]:
+                    compiled = self.serializeFormatted(tree)
+                    if compiled[-1:] != "\n": # assure trailing \n
+                        compiled += '\n'
+                else:
+                    compiled = self.serializeCondensed(tree, format_)
+                cache.write(cacheId, compiled)
 
         return compiled
 
 
     ##
+    # Interface to ecmascript.backend
+    def serializeCondensed(self, tree, format_=False):
+        result = [u'']
+        result =  Packer().serializeNode(tree, None, result, format_)
+        return u''.join(result)
+
+    def serializeFormatted(self, tree):
+        # provide minimal pretty options
+        def options(): pass
+        pretty.defaultOptions(options)
+        options.prettypCommentsBlockAdd = False  # turn off comment filling
+
+        result = [u'']
+        result = pretty.prettyNode(tree, options, result)
+
+        return u''.join(result)
+
+
+    ##
     # Optimize class tree.
     #
-    def optimize(self, tree, optimize=[], variantSet={}, featureMap={}):
+    def optimize(self, p_tree=None, optimize=[], variantSet={}, featureMap={}):
 
         def load_privates():
             cacheId  = privateoptimizer.privatesCacheId
@@ -247,47 +238,65 @@ class MClassCode(object):
             cacheId  = privateoptimizer.privatesCacheId
             cache.write(cacheId, globalprivs)  # removes lock by default
 
+        def getTreeCacheId(optimize=[], variantSet={}):
+            return "tree-%s-%s-%s" % (self.path, self._optimizeId(optimize), util.toString(variantSet))
+
+        def optimizeTree(tree):
+
+            if ["comments"] == optimize:
+                # do a mere comment stripping
+                commentoptimizer.patch(tree)
+
+            # "variants" prunes parts of the tree, so all subsequent optimizations benefit
+            if "variants" in optimize:
+                variantoptimizer.search(tree, variantSet, self.id)
+
+            # 'statics' has to come before 'privates', as it needs the original key names in tree
+            # if features should be removed recursively, this has to be controlled on the calling
+            # level.
+            if "statics" in optimize:
+                if not featureMap:
+                    console.warn("Empty feature map passed to static methods optimization; skipping")
+                elif self.type == 'static' and self.id in featureMap:
+                    featureoptimizer.patch(tree, self, featureMap)
+
+            if "basecalls" in optimize:
+                basecalloptimizer.patch(tree)
+
+            if "privates" in optimize:
+                privatesMap = load_privates()
+                privateoptimizer.patch(tree, id, privatesMap)
+                write_privates(privatesMap)
+
+            if "strings" in optimize:
+                tree = self._stringOptimizer(tree)
+
+            if "variables" in optimize:
+                variableoptimizer.search(tree)
+
+            return tree
+
         # -----------------------------------------------------------------------------
 
-        if not optimize:
-            return tree
-        
         cache   = self.context['cache']
         console = self.context['console']
 
-        if ["comments"] == optimize:
-            # do a mere comment stripping
-            commentoptimizer.patch(tree)
-            return tree
+        # if a tree is passed in, just optimize it
+        if p_tree:
+            result = optimizeTree(p_tree)
+        
+        # else we're working on the class tree, and can cache
+        else:
+            cacheId = getTreeCacheId(optimize, variantSet)
+            result, modtime = cache.read(cacheId, self.path)
 
-        # "variants" prunes parts of the tree, so all subsequent optimizations benefit
-        if "variants" in optimize:
-            variantoptimizer.search(tree, variantSet, self.id)
+            if result == None:
+                result = self.tree()
+                result = optimizeTree(result)
+                if not "statics" in optimize:  # can't cache static optimized trees
+                    cache.write(cacheId, result)
 
-        # 'statics' has to come before 'privates', as it needs the original key names in tree
-        # if features should be removed recursively, this has to be controlled on the calling
-        # level.
-        if "statics" in optimize:
-            if not featureMap:
-                console.warn("Empty feature map passed to static methods optimization; skipping")
-            elif self.type == 'static' and self.id in featureMap:
-                featureoptimizer.patch(tree, self, featureMap)
-
-        if "basecalls" in optimize:
-            basecalloptimizer.patch(tree)
-
-        if "privates" in optimize:
-            privatesMap = load_privates()
-            privateoptimizer.patch(tree, id, privatesMap)
-            write_privates(privatesMap)
-
-        if "strings" in optimize:
-            tree = self._stringOptimizer(tree)
-
-        if "variables" in optimize:
-            variableoptimizer.search(tree)
-
-        return tree
+        return result
 
 
     ##

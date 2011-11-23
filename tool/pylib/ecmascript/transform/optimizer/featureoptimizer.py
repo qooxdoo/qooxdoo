@@ -44,17 +44,23 @@ def patch(tree, classObj, featureMap):
                     if feature in feature_names:
                         del featureMap[classObj.id][feature]
                     # decrease the ref counts of the contained dependees
-                    deps = []
-                    classObj._analyzeClassDepsNode(node, deps, inLoadContext=False)
-                        # TODO: this is expensive (re-calculating deps)!
-                        #   and it doesn't honor #ignores, so might decrease ref count of ignored
-                        #   items! (which could lead to inconsistencies)
-                        #   also, i'm calling a protected method outside the class hierarchy.
-                    for depItem in deps:
-                        if depItem.name in featureMap and depItem.attribute in featureMap[depItem.name]:
-                            depFeature = featureMap[depItem.name][depItem.attribute]
-                            res = depFeature.decref(depItem.requestor, depItem.line)  # decrease reference count
-                            if not res:
-                                #print "Warning could not remove '%s:%s' from '%s:%s'" % (depItem.requestor, depItem.line, depItem.name, depItem.attribute)
-                                pass
+                    decrementFromCode(classObj, node, featureMap)
 
+##
+# Use this if a syntax tree is being removed from the build, to decrement its
+# dependencies.
+#
+def decrementFromCode(classObj, node, featureMap):
+    deps = []
+    classObj._analyzeClassDepsNode(node, deps, inLoadContext=False)
+        # TODO: this is expensive (re-calculating deps)!
+        #   and it doesn't honor #ignores, so might decrease ref count of ignored
+        #   items! (which could lead to inconsistencies)
+        #   also, i'm calling a protected method outside the class hierarchy.
+    for depItem in deps:
+        if depItem.name in featureMap and depItem.attribute in featureMap[depItem.name]:
+            depFeature = featureMap[depItem.name][depItem.attribute]
+            res = depFeature.decref(depItem.requestor, depItem.line)  # decrease reference count
+            if not res:
+                #print "Warning could not remove '%s:%s' from '%s:%s'" % (depItem.requestor, depItem.line, depItem.name, depItem.attribute)
+                pass

@@ -601,12 +601,13 @@ class CodeGenerator(object):
             #pprint(featureMap['qx.lang.String']['firstUp'])
             # this relies on the side effect of changing the syntax trees in cache
 
+            # make sure "variants" have been optimized
+            for clazz in classList:
+                clazz._tmp_tree = clazz.optimize(None, ["variants"], compConf.variantset)
+
             # first, prune features that are not even registered
-            optimize = ["statics"] # make a custom 'optimize' vector
-            if "variants" in compConf.optimize:  # need to do this here too, if it's on
-                optimize.append("variants")
             for clazz in classlistiter():
-                clazz._tmp_tree = clazz.optimize(clazz.tree(treegen), optimize, compConf.variantset, featureMap=featureMap)
+                clazz._tmp_tree = clazz.optimize(clazz.tree(treegen), ["optimize"], compConf.variantset, featureMap=featureMap)
 
             #pprint(featureMap)
             # then, prune as long as we have ref counts == 0 on features
@@ -699,25 +700,36 @@ class CodeGenerator(object):
 
         def compileClasses(classList, compConf, log_progress=lambda:None):
             num_proc = self._job.get('run-time/num-processes', 0)
+            result = []
             # do "statics" optimization out of line
             if "statics" in compConf.optimize:
+                tmp_optimize = compConf.optimize[:]
                 optimizeDeadCode(classList, script._featureMap, compConf, treegen=treegenerator)
-                compConf.optimize.remove("statics")
-                if len(compConf.optimize) == 0:  # cannot completely empty optimize array
-                    # TODO: leaving "statics" in would potentially optimize the head classes!
-                    # adding an "nop" optimization at this point
-                    compConf.optimize.append("continue")
-            if num_proc == 0:
-                result = []
+                tmp_optimize.remove("statics")
+                if "variants" in tmp_optimize:
+                    tmp_optimize.remove("variants") # has been done in optimizeDeadCode
+                # do the rest
                 for clazz in classList:
-                    #code = clazz.getCode(compConf, treegen=treegenerator_new_ast) # choose parser frontend
-                    code = clazz.getCode(compConf, treegen=treegenerator, featuremap=script._featureMap) # choose parser frontend
-                    result.append(code)
+                    tree = clazz.optimize(clazz._tmp_tree, tmp_optimize)
+                    compiled = clazz.serializeCondensed(tree, compConf.format)
+                    if compiled[-1:] != '\n': compiled += '\n'
+                    result.append(compiled)
+                    clazz._tmp_tree = None # reset _tmp_tree
                     log_progress()
-                return u''.join(result)
+                result = u''.join(result)
             else:
-                # multi-core version
-                return _compileClassesMP(classList, compConf, log_progress, num_proc)
+                if num_proc == 0:
+                    for clazz in classList:
+                        #code = clazz.getCode(compConf, treegen=treegenerator_new_ast) # choose parser frontend
+                        code = clazz.getCode(compConf, treegen=treegenerator, featuremap=script._featureMap) # choose parser frontend
+                        result.append(code)
+                        log_progress()
+                    result =  u''.join(result)
+                else:
+                    # multi-core version
+                    result =  _compileClassesMP(classList, compConf, log_progress, num_proc)
+
+            return result
 
 
         ##
