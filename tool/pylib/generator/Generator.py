@@ -1171,7 +1171,7 @@ class Generator(object):
 
             mainformat = depsLogConf.get('format', None)
             includeTransitives = depsLogConf.get('include-transitive-load-deps', True)
-            forceFreshDeps = depsLogConf.get('force-fresh-deps', True)
+            forceFreshDeps = depsLogConf.get('force-fresh-deps', False)
 
             # TODO: debug
             for cls in (c for p in packages for c in p.classes):

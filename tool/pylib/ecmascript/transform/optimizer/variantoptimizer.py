@@ -50,7 +50,7 @@ def log(level, msg, node=None):
 
 
 def search(node, variantMap, fileId_="", verb=False):
-    if variantMap == None:
+    if not variantMap:
         return False
     
     global verbose

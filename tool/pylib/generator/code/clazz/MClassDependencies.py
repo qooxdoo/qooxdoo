@@ -751,7 +751,7 @@ class MClassDependencies(object):
 
 
     def getClassMap(self, variants):
-        tree = self.tree ()
+        tree = self.optimize (None, ["variants"], variants) # TODO: this might incur an extra cached tree, if not(variants)
         qxDefine = treeutil.findQxDefine (tree)
         classMap = treeutil.getClassMap (qxDefine)
 
