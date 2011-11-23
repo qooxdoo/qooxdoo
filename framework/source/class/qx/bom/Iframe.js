@@ -104,32 +104,24 @@ qx.Class.define("qx.bom.Iframe",
      *
      * @param iframe {Element} DOM element of the iframe.
      * @return {Document} The DOM document object of the iframe.
-     * @signature function(iframe)
      */
-    getDocument : qx.core.Environment.select("engine.name",
+    getDocument : function(iframe)
     {
-      "mshtml" : function(iframe)
-      {
-        try
-        {
-          var win = this.getWindow(iframe);
-          return win ? win.document : null;
-        }
-        catch(ex)
-        {
-          return null;
-        }
-      },
-
-      "default" : function(iframe)
-      {
+      if ("contentDocument" in iframe) {
         try {
           return iframe.contentDocument;
         } catch(ex) {
           return null;
         }
       }
-    }),
+      
+      try {
+        var win = this.getWindow(iframe);
+        return win ? win.document : null;
+      } catch(ex) {
+        return null;
+      }
+    },
 
 
     /**
