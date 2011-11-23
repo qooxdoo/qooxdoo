@@ -253,10 +253,10 @@ Create the Test Application
 
 .. _pages/frame_apps_testrunner#testrunner_views:
 
-Testrunner Views
-----------------
+Test Runner Views
+-----------------
 
-The Testrunner architecture is split between the logic that executes tests and the view that displays the results and allows the user to select which tests to run. 
+The Test Runner architecture is split between the logic that executes tests and the view that displays the results and allows the user to select which tests to run. 
 Views are selected by overriding the ``TESTRUNNER_VIEW`` configuration macro, specifying the desired view class. For example, to build the Test Runner using the HTML view, use the following shell command:
 
 ::
@@ -304,7 +304,53 @@ The Reporter is a specialized view used for automated unit test runs. Based on t
 
 URI parameters
 --------------
-The following URI parameters can be used to modify the Testrunner's behavior:
+The following URI parameters can be used to modify the Test Runner's behavior:
 
 * **testclass** Restrict the tests to be loaded. Takes a fully qualified class name or namespace that is a subset of the classes included in the test application, e.g. *custom.test.gui* or *custom.test.gui.PreferencesDialog*
 * **autorun** Automatically execute all selected tests as soon as the suite is loaded. Takes any parameter, e.g. *1*.
+
+Portable Test Runner
+====================
+
+A stand-alone version of the qooxdoo's unit testing sub-system, requiring **no compile step** and with **no external dependencies**. It comes in the form of a single .js file that can simply be added to an HTML page along with the code to be tested and unit test definitions (as inline JavaScript).
+
+Its main purpose is to provide a comprehensive unit testing framework including `Assertions <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Assert>`_, `Sinon <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock>`_, :ref:`Requirements <pages/frame_apps_testrunner#requirements>` and a Test Runner GUI to developers working on non-qooxdoo JavaScript applications.
+
+Example
+-------
+The fictional non-qooxdoo JavaScript library ``foo.js`` provides a ``Bar`` class, with a constructor that takes a string parameter. This test checks if the ``getName`` method returns that string:
+
+::
+
+    <!DOCTYPE html>
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <title>Test Runner</title>
+      <script type="text/javascript" src="http://localhost/testrunner-portable.js"></script>
+      <script type="text/javascript" src="http://localhost/foo.js"></script>
+      <script type="text/javascript">
+      testrunner.define({
+        __bar : null,
+     
+        setUp : function() {
+          this.__bar = new foo.Bar("baz");
+        },
+     
+        testName : function() {
+          this.assertEquals("baz", this.__bar.getName());
+        }
+      });
+      </script>
+    </head>
+    <body>
+    </body>
+    </html>
+
+The important thing to note here is the map argument for ``testrunner.define``: It's equivalent to the ``members`` section of a class extending `qx.dev.unit.TestCase <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.TestCase>`_ and including `qx.dev.unit.MMock <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock>`_ and `qx.dev.unit.MRequirements <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MRequirements>`_, allowing full access to these APIs. Multiple test classes can be defined by additional calls to ``testrunner.define``.
+
+The Portable Test Runner can be downloaded from the Demo section of the qooxdoo website, or generated from within the SDK:
+
+::
+
+  cd component/testrunner
+  python generate.py -c portable.json build
