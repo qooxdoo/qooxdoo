@@ -100,7 +100,7 @@ class MClassDependencies(object):
                         target.append(DependencyItem(className, attrName, self.id, "|hints|"))
 
             # Read source tree data
-            if variantSet:
+            if variantSet: # a filled variantSet map means that "variants" optimization is wanted
                 tree = self.optimize(None, ["variants"], variantSet)
             else:
                 tree = self.tree()
