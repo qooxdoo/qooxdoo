@@ -227,7 +227,7 @@ def CreateDemoData(destdir):
         resCatDemos.append(resDemo)
 
         # get the tags
-        jsitem = demo[0:demo.find("html")] + "js"
+        jsitem = os.path.splitext(demo)[0] + ".js"
         jsfile = os.path.join(demosSourcePath, category, jsitem)
         tags = getTagsFromJsFile(jsfile)
 
@@ -286,7 +286,8 @@ def main(dest, scan):
             if item == ".svn":
               continue
 
-            if os.path.splitext(item)[1] != ".html":
+            fExt = os.path.splitext(item)[1]
+            if not (fExt == ".html" or fExt == ".php"):
               continue
 
             htmlfile = os.path.join(scan, category, item)
