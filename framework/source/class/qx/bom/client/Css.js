@@ -234,16 +234,46 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
     /**
      * Returns the (possibly vendor-prefixed) name this client uses for 
-     * <code>linear-background</code>.
+     * <code>linear-gradient</code>.
      * http://dev.w3.org/csswg/css3-images/#linear-gradients
      * 
      * @return {String|null} Prefixed linear-gradient name or <code>null</code>
-     * if gradients are not supported
+     * if linear gradients are not supported
+     * @internal
      */
     getLinearGradient : function()
     {
       var value = "linear-gradient(0deg, #fff, #000)";
-      var style = qx.bom.Style.getPrefixedValue("background", value);
+      return qx.bom.client.Css.__getGradientName(value);
+    },
+    
+    
+    /**
+     * Returns the (possibly vendor-prefixed) name this client uses for 
+     * <code>radial-gradient</code>.
+     * 
+     * @return {String|null} Prefixed radial-gradient name or <code>null</code>
+     * if radial gradients are not supported
+     * @internal
+     */
+    getRadialGradient : function()
+    {
+      var value = "radial-gradient(0px 0px, cover, red 50%, blue 100%)";
+      return qx.bom.client.Css.__getGradientName(value);
+    },
+    
+    
+    /**
+     * Returns the prefixed name for the given linear or radial
+     * gradient value
+     * 
+     * @param value {String} Full linear or radial gradient definition 
+     * @return {String|null} Prefixed name or <code>null</code> if not supported
+     * @internal
+     */
+    __getGradientName : function(value)
+    {
+      var style = qx.bom.Style.getPrefixedValue("backgroundImage", value);
       if (!style) {
         return null;
       }
@@ -344,7 +374,8 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.borderradius", statics.getBorderRadius);
     qx.core.Environment.add("css.boxshadow", statics.getBoxShadow);
     qx.core.Environment.add("css.gradients", statics.getGradients);
-    qx.core.Environment.add("css.gradients.linear", statics.getLinearGradient);
+    qx.core.Environment.add("css.gradient.linear", statics.getLinearGradient);
+    qx.core.Environment.add("css.gradient.radial", statics.getRadialGradient);
     qx.core.Environment.add("css.boxmodel", statics.getBoxModel);
     qx.core.Environment.add("css.rgba", statics.getRgba);
     qx.core.Environment.add("css.borderimage", statics.getBorderImage);
