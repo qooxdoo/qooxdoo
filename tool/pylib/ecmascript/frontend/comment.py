@@ -531,7 +531,8 @@ def cleanupText(text):
 #
 def expandMacros(text):
     _mmap = {
-        "qxversion" : context.jobconf.get("let/QOOXDOO_VERSION", "!!TODO!!")
+        "qxversion" : (context.jobconf.get("let/QOOXDOO_VERSION", "!!TODO!!") if 
+                        hasattr(context,'jobconf') else "[undef]" ) # ecmalint.py doesn't know jobs
     }
     templ = string.Template(text)
     text = templ.safe_substitute(_mmap)
