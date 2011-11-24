@@ -354,12 +354,8 @@ qx.Class.define("qx.ui.form.AbstractField",
       // Disable HTML5 spell checking
       el.setAttribute("spellcheck", "false");
 
-      // Block resize handle in Safari
-      if (qx.core.Environment.get("engine.name") == "webkit" ||
-        qx.core.Environment.get("engine.name") == "gecko")
-      {
-        el.setStyle("resize", "none");
-      }
+      // Block resize handle
+      el.setStyle("resize", "none");
 
       // IE8 in standard mode needs some extra love here to receive events.
       if ((qx.core.Environment.get("engine.name") == "mshtml"))
