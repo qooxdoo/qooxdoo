@@ -121,7 +121,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 
       var unit = this.getColorPositionUnit();
 
-      // new implementation for webkit is available since chrome 10 --> verison
+      // new implementation for webkit is available since chrome 10 --> version
       if (qx.core.Environment.get("engine.name") == "webkit" &&
         parseFloat(qx.core.Environment.get("engine.version")) < 534.16)
       {
@@ -149,19 +149,9 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         var start = startColor + " " + this.getStartColorPosition() + unit;
         var end = endColor + " " + this.getEndColorPosition() + unit;
 
-        var prefix = "";
-        if (qx.core.Environment.get("engine.name") == "gecko") {
-          prefix = "-moz-";
-        } else if (qx.core.Environment.get("browser.name") == "opera") {
-          prefix = "-o-";
-        } else if (qx.core.Environment.get("browser.name") == "ie") {
-          prefix = "-ms-";
-        } else if (qx.core.Environment.get("engine.name") == "webkit") {
-          prefix = "-webkit-";
-        }
-
-        styles["background-image"] =
-          prefix + "linear-gradient(" + deg + "deg, " + start + "," + end + ")";
+        var prefixedName = qx.core.Environment.get("css.gradient.linear");
+        styles["background-image"] = 
+          prefixedName + "(" + deg + "deg, " + start + "," + end + ")";
       }
     },
 

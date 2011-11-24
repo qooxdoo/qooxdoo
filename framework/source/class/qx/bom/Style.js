@@ -20,8 +20,8 @@
  * Responsible class for everything concerning styles without the need of 
  * an element.
  * 
- * If you want to querying and modification styles of HTML elements, 
- * take alook at {@see qx.bom.element.Style}.
+ * If you want to query or modify styles of HTML elements, 
+ * take a look at {@see qx.bom.element.Style}.
  */
 qx.Bootstrap.define("qx.bom.Style", 
 {
@@ -34,7 +34,8 @@ qx.Bootstrap.define("qx.bom.Style",
      * for its implementation, which might include a vendor prefix.
      * 
      * @param propertyName {String} Style property name to check
-     * @return {String|null} The supported property name or null if not supported
+     * @return {String|null} The supported property name or <code>null</code> if
+     * not supported
      */
     getPropertyName : function(propertyName)
     {
@@ -48,6 +49,38 @@ qx.Bootstrap.define("qx.bom.Style",
         if (style[prefixedProp] !== undefined) {
           return prefixedProp;
         }
+      }
+      return null;
+    },
+
+
+    /**
+     * Takes a style property name and value and returns the value with the 
+     * appropriate vendor prefix for the current browser.
+     * For example, 
+     * <code>getPrefixedValue("background", "linear-gradient(0deg, #fff, #000)")</code>
+     * will return <code>"-webkit-linear-gradient(0deg, #fff, #000)"</code> in
+     * Chrome.
+     * 
+     * @param propertyName {String} Style property name 
+     * @param value {String} Style value
+     * @return {String null} Prefixed value or <code>null</code> if not supported 
+     */
+    getPrefixedValue : function(propertyName, value)
+    {
+      var vendorPrefixes = [null].concat(this.VENDOR_PREFIXES);
+      var el = document.createElement("div");
+      
+      for (var i=0, l=vendorPrefixes.length; i<l; i++) {
+        var prefixedVal = vendorPrefixes[i] ? 
+          "-" + vendorPrefixes[i].toLowerCase() + "-" + value : value;
+        // IE might throw an exception
+        try {
+          el.style[propertyName] = prefixedVal;
+          if (el.style[propertyName] !== "") {
+            return prefixedVal;
+          }
+        } catch(ex) {}
       }
       return null;
     }

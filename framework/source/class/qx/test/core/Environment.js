@@ -411,6 +411,8 @@ qx.Class.define("qx.test.core.Environment",
       this.assert(typeof inlineBlock == "string" || inlineBlock === null);
       this.assertBoolean(qx.core.Environment.get("css.opacity"));
       this.assertBoolean(qx.core.Environment.get("css.overflowxy"));
+      var linearGradient = qx.core.Environment.get("css.gradient.linear");
+      this.assert(typeof linearGradient == "string" || linearGradient === null);
     },
 
     testPhoneGap : function() {

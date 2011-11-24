@@ -233,7 +233,27 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Checks if rgba collors can be used:
+     * Returns the (possibly vendor-prefixed) name this client uses for 
+     * <code>linear-background</code>.
+     * http://dev.w3.org/csswg/css3-images/#linear-gradients
+     * 
+     * @return {String|null} Prefixed linear-gradient name or <code>null</code>
+     * if gradients are not supported
+     */
+    getLinearGradient : function()
+    {
+      var value = "linear-gradient(0deg, #fff, #000)";
+      var style = qx.bom.Style.getPrefixedValue("background", value);
+      if (!style) {
+        return null;
+      }
+      var match = /(.*?)\(/.exec(style);
+      return match ? match[1] : null;
+    },
+
+
+    /**
+     * Checks if rgba colors can be used:
      * http://www.w3.org/TR/2010/PR-css3-color-20101028/#rgba-color
      *
      * @return {Boolean} <code>true</code>, if rgba colors are supported.
@@ -324,6 +344,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.borderradius", statics.getBorderRadius);
     qx.core.Environment.add("css.boxshadow", statics.getBoxShadow);
     qx.core.Environment.add("css.gradients", statics.getGradients);
+    qx.core.Environment.add("css.gradients.linear", statics.getLinearGradient);
     qx.core.Environment.add("css.boxmodel", statics.getBoxModel);
     qx.core.Environment.add("css.rgba", statics.getRgba);
     qx.core.Environment.add("css.borderimage", statics.getBorderImage);
