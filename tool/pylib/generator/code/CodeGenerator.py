@@ -644,11 +644,10 @@ class CodeGenerator(object):
                 log_progress()
                 clazz._tmp_tree = clazz.tree(treegen)
                 if "variants" in compConf.optimize:
-                    clazz._tmp_tree = clazz.optimize(None, ["variants"], compConf.variantset)
+                    clazz._tmp_tree = clazz.optimize(None, ["variants"], compConf.variantset) # using None allows us to re-used a cached tree
 
             # then, prune as long as we have ref counts == 0 on features
             while True:
-
                 # break the loop if we are not making any more progress ("fixed point")
                 if atLimit(featureMap):
                     break
@@ -679,14 +678,12 @@ class CodeGenerator(object):
             # debug hook
             if 0: debugFeatureMap(featureMap)
 
+            # logging
             self._console.dotclear()
             self._console.indent()
             for cls in classList:
                 self._console.info(cls.id)
-                pass
-
             self._console.info("Number of classes after static optimization: %d" % len(classList))
-
             for clazz in featureMap:
                 self._console.debug("'%s': used features: %r" % (clazz, featureMap[clazz].keys()))
             self._console.outdent()
