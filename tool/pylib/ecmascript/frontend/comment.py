@@ -23,6 +23,7 @@
 import sys, string, re
 
 from ecmascript.frontend import tree
+from generator import Context as context
 from textile import textile
 
 ##
@@ -525,6 +526,17 @@ def cleanupText(text):
     return text
 
 
+##
+# JSDoc can contain macros, which are expanded here.
+#
+def expandMacros(text):
+    _mmap = {
+        "qxversion" : context.jobconf.get("let/QOOXDOO_VERSION", "!!TODO!!")
+    }
+    templ = string.Template(text)
+    text = templ.safe_substitute(_mmap)
+    return text
+
 
 def formatText(text):
     text = cleanupText(text)
@@ -535,6 +547,8 @@ def formatText(text):
     #  print text
 
     text = text.replace("<pre", "\n\n<pre").replace("</pre>", "</pre>\n\n")
+
+    text = expandMacros(text)
 
     # encode to ascii leads into a translation of umlauts to their XML code.
     text = unicode(textile.textile(text.encode("utf-8"), output="ascii"))
