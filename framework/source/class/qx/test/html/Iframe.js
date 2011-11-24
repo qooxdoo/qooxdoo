@@ -158,8 +158,7 @@ qx.Class.define("qx.test.html.Iframe",
           this.spy(qx.bom.Iframe, "setSource");
           frame.setSource(null);
 
-          qx.html.Element.flush();
-          this.assertCalledWith(qx.bom.Iframe.setSource, elem, undefined);
+          this.assertCalledWith(qx.bom.Iframe.setSource, elem, null);
         });
       }, this);
 

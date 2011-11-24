@@ -33,7 +33,7 @@ qx.Class.define("qx.test.ui.embed.Iframe",
     },
 
     tearDown : function() {
-      this.__iframe.dispose();
+      this.__iframe.destroy();
     },
 
     testHiddenSetSourceInitial : function() {
@@ -71,6 +71,7 @@ qx.Class.define("qx.test.ui.embed.Iframe",
 
     testGetWindow : function()
     {
+      this.getRoot().add(this.__iframe);
       this.__iframe.setSource("http://www.qooxdoo.org");
 
       this.__iframe.addListener("load", function() {
