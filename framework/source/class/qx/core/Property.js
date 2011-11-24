@@ -30,7 +30,7 @@
  * through the methods provided by {@link qx.Class}.
  *
  * For a complete documentation of properties take a look at
- * http://manual.qooxdoo.org/1.4/pages/core.html#properties.
+ * http://manual.qooxdoo.org/${qxversion}/pages/core.html#properties.
  *
  *
  * *Normal properties*

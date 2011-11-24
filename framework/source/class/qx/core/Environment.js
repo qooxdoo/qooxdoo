@@ -606,7 +606,7 @@
  *       <td><i>default:</i> <code>&lt;&lt;theme name&gt;&gt;</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.version</td><td><i>String</i></td><td><code>1.5</code></td>
+ *       <td>qx.version</td><td><i>String</i></td><td><code>${qxversion}</code></td>
  *     </tr>
 
  *     <tr>

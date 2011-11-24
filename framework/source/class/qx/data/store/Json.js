@@ -31,7 +31,7 @@
  * {@link qx.data.marshal.Json} class will be used.
  *
  * Up to qooxdoo 1.4 {@link qx.io.remote.Request} was used as the transport. For
- * backwards-compatibility, qooxdoo 1.5 can be configured to use the old
+ * backwards-compatibility, qooxdoo ${qxversion} can be configured to use the old
  * transport with {@link #setDeprecatedTransport}.
  *
  * Please note that if you
