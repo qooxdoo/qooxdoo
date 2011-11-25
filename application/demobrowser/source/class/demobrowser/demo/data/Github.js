@@ -25,6 +25,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.data.Github", {
   extend: qx.application.Standalone,
 
