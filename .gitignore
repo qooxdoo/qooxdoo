@@ -4,7 +4,7 @@
 # Please comment on purpose.
 
 # SDK build dir
-release/
+/release/
 
 # Python bytecode
 *.pyc
@@ -14,6 +14,6 @@ release/
 .DS_Store
 
 # Eclipse
-.project
-.pydevproject
-.settings
+/.project
+/.pydevproject
+/.settings

@@ -1,2 +1,1 @@
-# .gitignore template for skeleton-based apps
-build/
+/build/

@@ -1,6 +1,6 @@
-api/
-build/
-inspector/
-simulator/
-test/
-source/script
+/api/
+/build/
+/inspector/
+/simulator/
+/test/
+/source/script
