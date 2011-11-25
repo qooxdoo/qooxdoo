@@ -5,15 +5,6 @@
 </head>
 <body>
 
-<script>
-  window.qx =
-  {
-    $$environment : {
-      "qx.debug.io" : true
-    }
-  }
-</script>
-
 <?php
   include("/home/qooxdoo/div/qx-gists.conf.php");
 
