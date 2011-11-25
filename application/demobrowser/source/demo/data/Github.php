@@ -25,11 +25,13 @@
 ?>
 
 <script>
-  if (typeof GITHUB == "undefined" || GITHUB.error) {
-    var redirectUri = "http://demo.qooxdoo.org/current/demobrowser/demo/data/Github.php";
-    var authorizeUri = "https://github.com/login/oauth/authorize?client_id=ec109aae020b6657af81&redirect_uri=" + redirectUri;
-    window.location = authorizeUri;
-  }
+  (function() {
+    if (typeof GITHUB == "undefined" || GITHUB.error) {
+      var redirectUri = "http://demo.qooxdoo.org/current/demobrowser/demo/data/Github.php";
+      var authorizeUri = "https://github.com/login/oauth/authorize?client_id=ec109aae020b6657af81&redirect_uri=" + redirectUri;
+      window.location = authorizeUri;
+    }
+  })();
 </script>
 
 <script type="text/javascript" src="../helper.js"></script>
