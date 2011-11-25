@@ -96,6 +96,12 @@ release-sdk-svn-collect:
 		sed 's/class="local"/class="local hide"/g' | \
 		sed 's/ class="publish"//g' > $(RELEASE_SDK)/index.html
 
+	@echo "  * Synchronizing root..."
+	@$(CMD_REMOVE) $(RELEASE_SDK)/readme.rst
+	@$(CMD_RST2HTML) ./readme.rst > $(RELEASE_SDK)/readme.html
+	@#if rst2html.py is not available, the next can replace the previous
+	@#cat ./readme.rst > $(RELEASE_SDK)/readme.txt
+
 	@echo "  * Synchronizing applications/components..."
 	@$(CMD_REMOVE) $(RELEASE_SDK)/component/buildtool/
 	@$(CMD_REMOVE) $(RELEASE_SDK)/component/toolbox/
