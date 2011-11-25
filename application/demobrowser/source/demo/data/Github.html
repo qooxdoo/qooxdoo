@@ -15,7 +15,7 @@
   </p>
   <script>
     (function() {
-      if (true || window.location == "demo.qooxdoo.org") {
+      if (window.location.host == "demo.qooxdoo.org") {
         var notice = document.getElementById("notice");
         notice.parentNode.removeChild(notice);
         var path = window.location.pathname.match(/.*\//);
