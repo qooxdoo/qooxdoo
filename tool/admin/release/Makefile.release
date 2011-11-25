@@ -39,6 +39,9 @@ CMD_DIR = $(CMD_NICE) mkdir -p
 CMD_FIND = $(CMD_NICE) find
 CMD_ZIP = $(CMD_NICE) zip
 CMD_SVN = $(CMD_NICE) svn
+CMD_GIT = $(CMD_NICE) git
+CMD_GIT_WHEREAMI = $(CMD_GIT) describe --contains --all HEAD
+CMD_RST2HTML = $(CMD_NICE) rst2html.py
 CMD_ZIP_CREATE = $(CMD_ZIP) -rq
 CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2Unix
 CMD_MKEXEC = $(CMD_NICE) chmod a+rx
@@ -50,8 +53,9 @@ FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -
 FILES_TEMP = \( -name "*.rej" -o -name "*.orig" -o -name "*.pyc" -o -name "*.pyo" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot" \)
 FILES_EXEC = \( -name "*.py" -o -name "*.sh" \)
 
-CMD_SYNC_ONLINE = $(CMD_NICE) rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn
+CMD_SYNC_ONLINE = $(CMD_NICE) rsync --checksum --recursive --delete --inplace --links --safe-links --exclude .svn
 CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --safe-links --exclude .svn
+CMD_SYNC_BACKUP = $(CMD_NICE) rsync --recursive --delete --inplace --copy-links --exclude .svn
 
 # Directories
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
@@ -84,8 +88,8 @@ release-sdk-svn-collect:
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Extracting sources..."
-	@$(CMD_DIR) `dirname $(RELEASE_SDK)`
-	@$(CMD_SVN) export . $(RELEASE_SDK)
+	@$(CMD_DIR) $(RELEASE_SDK)
+	@$(CMD_GIT) archive `$(CMD_GIT_WHEREAMI)` . | tar -x -C $(RELEASE_SDK)
 
 	@echo "  * Preparing index.html..."
 	@cat ./index.html | \
@@ -404,7 +408,7 @@ publish-production:
 
 publish-backup:
 	@echo "  * Backing up devel version on server; this will take some time..."
-	@ssh $(STAGING_HOST) 'cd /var/www/qooxdoo/demo/; cp -R -H devel 0.0.devel_backlog'
+	@ssh $(STAGING_HOST) "$(CMD_SYNC_BACKUP) /var/www/qooxdoo/demo/devel /var/www/qooxdoo/demo/0.0.devel_backlog/"
 
 publish-staging: publish-check publish-backup publish-index publish-apps publish-docs
 
