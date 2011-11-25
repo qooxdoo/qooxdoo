@@ -465,7 +465,7 @@ class Library(object):
                     self._console.error("Detected conflict between filename and classname!")
                     self._console.indent()
                     self._console.error("Classname: %s" % fileCodeId)
-                    self._console.error("Path: %s" % fileRel)
+                    self._console.error("Path: %s" % filePath)
                     self._console.outdent()
                     raise RuntimeError()
 
