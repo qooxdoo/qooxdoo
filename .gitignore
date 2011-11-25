@@ -8,7 +8,8 @@
 #
 # Directories + Wildcard
 #
-.settings/*
+/release/
+/.settings/*
 qooxdoo/cache/*
 qooxdoo/framework/test/*
 qooxdoo/framework/test-performance/*
