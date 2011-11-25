@@ -286,8 +286,7 @@ def main(dest, scan):
             if item == ".svn":
               continue
 
-            fExt = os.path.splitext(item)[1]
-            if not (fExt == ".html" or fExt == ".php"):
+            if not os.path.splitext(item)[1] == ".html":
               continue
 
             htmlfile = os.path.join(scan, category, item)
