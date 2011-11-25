@@ -4,23 +4,24 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
-  <!-- DO NOT REMOVE - NEEDED BY gendata.py
-  src="../helper.js"
-  -->
-  <p id="notice">
-    This demo can only be run from
-    <a href="http://demo.qooxdoo.org/current/demobrowser/demo/data/Github.html">
-      demo.qooxdoo.org
-    </a>
-  </p>
-  <script>
-    (function() {
-      if (window.location.host == "demo.qooxdoo.org") {
-        var notice = document.getElementById("notice");
-        notice.parentNode.removeChild(notice);
+<!-- DO NOT REMOVE - NEEDED BY gendata.py
+src="../helper.js"
+-->
+<script>
+  (function() {
+    if (window.location.host == "demo.qooxdoo.org") {
+      if (window.top == window) {
         var path = window.location.pathname.match(/.*\//);
         window.location = path + "Github.php";
+      } else {
+        var p = document.createElement("p");
+        p.innerHTML = 'This demo can only be run in <a href="#" target="_new">own window</a>';
       }
-    })()
-  </script>
+    } else {
+      var p = document.createElement("p");
+      p.innerHTML = 'This demo can only be run from <a href="http://demo.qooxdoo.org/current/demobrowser/demo/data/Github.html" target="_new">demo.qooxdoo.org</a>.';
+      document.body.appendChild(p);
+    }
+  })()
+</script>
 </body>
