@@ -42,6 +42,7 @@ CMD_FIND = $(CMD_NICE) find
 CMD_ZIP = $(CMD_NICE) zip
 CMD_SVN = $(CMD_NICE) svn
 CMD_GIT = $(CMD_NICE) git
+CMD_GIT_WHEREAMI = $(CMD_GIT) describe --contains --all HEAD
 CMD_RST2HTML = $(CMD_NICE) rst2html.py
 CMD_ZIP_CREATE = $(CMD_ZIP) -rq
 CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2Unix
@@ -96,7 +97,7 @@ release-sdk-svn-collect:
 
 	@echo "  * Extracting sources..."
 	@$(CMD_MKDIR) $(RELEASE_SDK)
-	@$(CMD_GIT) archive master . | tar -x -C $(RELEASE_SDK)
+	@$(CMD_GIT) archive `$(CMD_GIT_WHEREAMI)` . | tar -x -C $(RELEASE_SDK)
 
 	@echo "  * Preparing index.html..."
 	@cat ./index.html | \
@@ -108,7 +109,6 @@ release-sdk-svn-collect:
 	@$(CMD_RST2HTML) ./readme.rst > $(RELEASE_SDK)/readme.html
 	@#if rst2html.py is not available, the next can replace the previous
 	@#cat ./readme.rst > $(RELEASE_SDK)/readme.txt
-	@$(CMD_REMOVE) $(RELEASE_SDK)/.svnauthors.txt
 
 	@echo "  * Synchronizing applications/components..."
 	@for APPLICATION in $(APPLICATIONS); do \
