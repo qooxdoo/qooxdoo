@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+  <p id="notice">
+    This demo can only be run from
+    <a href="http://demo.qooxdoo.org/current/demobrowser/demo/data/Github.html">
+      demo.qooxdoo.org
+    </a>
+  </p>
+  <script>
+    (function() {
+      if (true || window.location == "demo.qooxdoo.org") {
+        var notice = document.getElementById("notice");
+        notice.parentNode.removeChild(notice);
+        var path = window.location.pathname.match(/.*\//);
+        window.location = path + "Github.php";
+      }
+    })()
+  </script>
+</body>
