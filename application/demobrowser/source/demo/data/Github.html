@@ -16,6 +16,7 @@ src="../helper.js"
       } else {
         var p = document.createElement("p");
         p.innerHTML = 'This demo can only be run in <a href="#" target="_new">own window</a>';
+        document.body.appendChild(p);
       }
     } else {
       var p = document.createElement("p");
