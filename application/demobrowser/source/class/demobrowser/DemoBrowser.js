@@ -1071,7 +1071,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     runSample : function(e)
     {
-      if (this.tests.selected != "") {
+      if (this.tests.selected && this.tests.selected != "") {
         var file = this.tests.selected.replace(".", "/");
         this.setCurrentSample(file);
       } else {
