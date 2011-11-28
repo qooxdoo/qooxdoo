@@ -807,6 +807,23 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertCalled(req.abort);
     },
 
+    "test: invoking public method throws when disposed": function() {
+      var req = this.req;
+      var assertDisposedException = qx.lang.Function.bind(function(callback) {
+        this.assertException(qx.lang.Function.bind(callback, this),
+          Error, /Already disposed/);
+      }, this);
+
+      this.req.dispose();
+      assertDisposedException(function() { req.open("GET", "/"); });
+      assertDisposedException(function() { req.setRequestHeader(); });
+      assertDisposedException(function() { req.send(); });
+      assertDisposedException(function() { req.abort(); });
+      assertDisposedException(function() { req.getResponseHeader(); });
+      assertDisposedException(function() { req.getAllResponseHeaders(); });
+
+    },
+
     fakeNativeXhr: function() {
       this.fakedXhr = this.useFakeXMLHttpRequest();
 

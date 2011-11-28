@@ -137,9 +137,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *  Optional password to use for authentication purposes.
      */
     open: function(method, url, async, user, password) {
-      if (this.__disposed) {
-        return;
-      }
+      this.__checkDisposed();
 
       // Mimick native behavior
       if (typeof method === "undefined" || typeof url === "undefined") {
@@ -268,9 +266,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *  The value to set as the body of the header.
      */
     setRequestHeader: function(key, value) {
-      if (this.__disposed) {
-        return;
-      }
+      this.__checkDisposed();
 
       // Detect conditional requests
       if (key == "If-Match" || key == "If-Modified-Since" ||
@@ -288,9 +284,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *  Optional data to send.
      */
     send: function(data) {
-      if (this.__disposed) {
-        return;
-      }
+      this.__checkDisposed();
 
       // BUGFIX: IE & Firefox < 3.5
       // For sync requests, some browsers throw error on open()
@@ -378,9 +372,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *
      */
     abort: function() {
-      if (this.__disposed) {
-        return;
-      }
+      this.__checkDisposed();
 
       this.__abort = true;
       this.__nativeXhr.abort();
@@ -448,9 +440,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *  Response header.
      */
     getResponseHeader: function(header) {
-      if (this.__disposed) {
-        return;
-      }
+      this.__checkDisposed();
 
       return this.__nativeXhr.getResponseHeader(header);
     },
@@ -461,9 +451,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * @return {String} All response headers.
      */
     getAllResponseHeaders: function() {
-      if (this.__disposed) {
-        return;
-      }
+      this.__checkDisposed();
 
       return this.__nativeXhr.getAllResponseHeaders();
     },
@@ -960,6 +948,15 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       return !(name == "mshtml" && version < 9 ||
                name == "gecko" && version < 3.5);
+    },
+
+    /**
+     * Throw when already disposed.
+     */
+    __checkDisposed: function() {
+      if (this.__disposed) {
+        throw new Error("Already disposed");
+      }
     }
   },
 
