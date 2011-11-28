@@ -880,7 +880,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var root = new qx.ui.tree.TreeFolder("Demos");
       tree1.setAppearance("demo-tree");
       tree1.setRoot(root);
-      tree1.setSelection([root]);
+      //tree1.setSelection([root]);
 
       this.tree = this.widgets["treeview.flat"] = tree1;
 
@@ -972,10 +972,6 @@ qx.Class.define("demobrowser.DemoBrowser",
           // category preselected, e.g. #widget
           _initialSection = category[1];
         }
-        else {
-          // nothing preselected
-          _initialSection = "Demos";
-        }
       }
 
       // use tree struct
@@ -1059,6 +1055,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (_initialNode != null) {
         this.tree.setSelection([_initialNode]);
+      }
+      else {
+        this.tree.setSelection([this.tree.getRoot()]);
       }
 
     },
