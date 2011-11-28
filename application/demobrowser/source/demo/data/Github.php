@@ -27,7 +27,7 @@
 <script>
   (function() {
     if (typeof GITHUB == "undefined" || GITHUB.error) {
-      var redirectUri = "http://demo.qooxdoo.org/current/demobrowser/demo/data/Github.php";
+      var redirectUri = window.location.origin + window.location.pathname;
       var authorizeUri = "https://github.com/login/oauth/authorize?client_id=ec109aae020b6657af81&redirect_uri=" + redirectUri;
       window.location = authorizeUri;
     }
