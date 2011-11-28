@@ -159,6 +159,21 @@ In order to use fakes in your tests, test classes must include the `MMock <http:
     // --> Expected '1' but found '0'!
   }
 
+Mocks are different from spies and stubs. They have pre-programmed *expectations*, meaning that unexpected calls fail your tests. Mocks allow to enforce implementation details without explicit assertions.
+
+::
+
+  "test: mock": function() {
+    var obj = {method: function() {}};
+    var mock = this.sinon.mock(obj);
+    mock.expects("method").once();
+
+    obj.method();
+    // Would fail test (Unexpected second call)
+    // obj.method();
+    mock.verify();
+  },
+
 For more details, please refer to the API documentation of `MMock <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock>`_. Additional examples can be found in ``qx.test.dev.unit.Sinon``.
 
 MMock is based on `Sinon.JS <http://sinonjs.org/>`_. The original ``sinon`` object can be retrieved by calling ``this.getSinon()``.
