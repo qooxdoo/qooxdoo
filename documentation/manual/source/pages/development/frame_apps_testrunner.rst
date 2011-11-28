@@ -176,7 +176,7 @@ Mocks are different from spies and stubs. They have pre-programmed *expectations
 
 For more details, please refer to the API documentation of `MMock <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock>`_. Additional examples can be found in ``qx.test.dev.unit.Sinon``.
 
-MMock is based on `Sinon.JS <http://sinonjs.org/>`_. The original ``sinon`` object can be retrieved by calling ``this.getSinon()``.
+MMock is based on `Sinon.JS <http://sinonjs.org/>`_. The original ``sinon`` object can be retrieved by calling ``qx.dev.unit.Sinon.getSinon()``.
 
 .. _pages/frame_apps_testrunner#sandboxing:
 
