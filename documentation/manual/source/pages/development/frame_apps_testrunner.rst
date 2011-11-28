@@ -232,7 +232,7 @@ Usually, the unit under test does not directly expose requests. Rather, some oth
   "test: GET with qx.io.request.Xhr": function() {
     this.useFakeXMLHttpRequest();
     var req = new qx.io.request.Xhr("GET", "/");
-    var fakeReq = this.getRequests()[1];
+    var fakeReq = this.getRequests()[0];
 
     // qx.io.request.Xhr indirectly uses an instance of XMLHttpRequest.
     // The test should not be concerned with the implementation detail
