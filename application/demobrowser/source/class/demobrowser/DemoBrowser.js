@@ -23,7 +23,6 @@
 /* ************************************************************************
 
 #asset(qx/icon/Tango/22/actions/media-playback-start.png)
-#asset(qx/icon/Tango/22/actions/media-playback-stop.png)
 #asset(qx/icon/Tango/16/actions/edit-find.png)
 #asset(qx/icon/Tango/22/actions/go-previous.png)
 #asset(qx/icon/Tango/22/actions/go-next.png)
@@ -207,20 +206,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
   /*
-   * ****************************************************************************
-   * PROPERTIES
-   * ****************************************************************************
-   */
-
-  properties : {
-    playDemos : {
-      check : [ "all", "category", "current" ],
-      init :"current"
-    }
-  },
-
-
-  /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
@@ -255,7 +240,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     _leftComposite : null,
     _infosplit : null,
     _demoView : null,
-    __autorunTimer : null,
     __overflowMenu : null,
     __menuItemStore : null,
     __menuViewRadioGroup: null,
@@ -470,26 +454,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       // -- run button
       this._runbutton = new qx.ui.toolbar.Button(this.tr("Run"), "icon/22/actions/media-playback-start.png");
       this._runbutton.addListener("execute", this.runSample, this);
-      this._runbutton.setToolTipText("Run the selected demo(s)");
+      this._runbutton.setToolTipText("Run the selected demo");
       this._navPart.add(this._runbutton);
-
-      // -- stop button
-      this._stopbutton = new qx.ui.toolbar.Button(this.tr("Stop"),
-          "icon/22/actions/media-playback-stop.png");
-      this._stopbutton.addListener("execute", this.stopSample, this);
-      this._stopbutton.setToolTipText("Stop playback after current demo");
-      this._navPart.add(this._stopbutton);
-      var self = this;
-      window.setTimeout(function() {
-        self._stopbutton.setVisibility("excluded");
-      }, 0);
-
-      // Avoid flickering of the buttons are exchanged
-      this._stopbutton.addListenerOnce("appear", function(ev) {
-        var sizeHint = this._stopbutton.getSizeHint();
-        this._stopbutton.setMinWidth(sizeHint.width);
-        this._runbutton.setMinWidth(sizeHint.width);
-      }, this);
 
       var prevNextPart = new qx.ui.toolbar.Part();
       bar.add(prevNextPart);
@@ -974,6 +940,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     treeGetSelection : function(e)
     {
       var treeNode = this.tree.getSelection()[0];
+      this._runbutton.setEnabled(!treeNode.hasChildren());
       var modelNode = treeNode.getUserData("modelLink");
       this.tests.selected = this.tests.handler.getFullName(modelNode);
     },
@@ -992,15 +959,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       var _initialSection = null;
       var _initialNode = null;
 
-      var autorun;
-      if (qx.core.Environment.get("qx.contrib") == true) {
-        autorun = false;
-      }
-      else {
-      // check for autorun parameter
-        autorun = /\?autorun=true/.test(location.href);
-      }
-
       // set a section to open initially
       var state = this._history.getState();
 
@@ -1013,17 +971,10 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (category) {
           // category preselected, e.g. #widget
           _initialSection = category[1];
-          if (autorun) {
-            this.setPlayDemos("category");
-          }
         }
         else {
           // nothing preselected
           _initialSection = "Demos";
-          if (autorun) {
-            this.setPlayDemos("all");
-          }
-
         }
       }
 
@@ -1121,45 +1072,12 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     runSample : function(e)
     {
-      // Decide what to play based on tree selection
-      if (e && (e.getType() === "execute" || e.getType() === "interval")) {
-        if (this.tests.selected === "") {
-          this.setPlayDemos("all");
-        } else if (this.tests.selected.indexOf("html") > 0) {
-          if (this.__autorunTimer) {
-            this.__autorunTimer.stop();
-          }
-          this.setPlayDemos("current");
-        } else {
-          this.setPlayDemos("category");
-        }
-      }
-
-      this._runbutton.setVisibility("excluded");
-      this._stopbutton.setVisibility("visible");
-
       if (this.tests.selected != "") {
         var file = this.tests.selected.replace(".", "/");
         this.setCurrentSample(file);
       } else {
         this.playNext();
       }
-    },
-
-
-    /**
-     * event handler for the Stop Test button - stops execution
-     *
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    stopSample : function(e)
-    {
-      this.setPlayDemos("current");
-      this._nextButton.setEnabled(true);
-      this._prevButton.setEnabled(true);
-      this._stopbutton.setVisibility("excluded");
-      this._runbutton.setVisibility("visible");
     },
 
 
@@ -1263,23 +1181,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         document.title = title;
       }
-
-      // Play the next sample after five seconds
-      if (this.getPlayDemos() != "current") {
-        if (!pagename) {
-          this.playNext();
-        } else {
-          var self = this;
-          this.__autorunTimer = qx.event.Timer.once(this.playNext, self, 5000);
-          this._nextButton.setEnabled(false);
-          this._prevButton.setEnabled(false);
-        }
-      } else {
-        // Remove stop button, display run button
-        this._stopbutton.setVisibility("excluded");
-        this._runbutton.setVisibility("visible");
-      }
-
     },
 
 
@@ -1558,7 +1459,6 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     playPrev : function(e)
     {
-      this.setPlayDemos("current");
       var currSamp = this.tree.getSelection()[0];  // widget
 
       if (currSamp)
@@ -1593,9 +1493,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
 
         if (!otherSamp || otherSamp === currSamp) {
-          // Remove stop button, display run button
-          this._stopbutton.setVisibility("excluded");
-          this._runbutton.setVisibility("visible");
           return;
         } else {
           this.tree.setSelection([otherSamp]);
@@ -1623,28 +1520,15 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         var otherSamp = this.tree.getNextNodeOf(currSamp);
         if (!otherSamp) {
-          this.setPlayDemos("current");
-          this._stopbutton.setVisibility("excluded");
-          this._runbutton.setVisibility("visible");
           return;
         }
 
         if (otherSamp.getParent() == this.tree.getRoot()) {
-          if (this.getPlayDemos() == "category") {
-            if (otherSamp != currSamp && otherSamp != currSamp.getParent()) {
-              this.setPlayDemos("current");
-              this._stopbutton.setVisibility("excluded");
-              this._runbutton.setVisibility("visible");
-              return;
-            }
-          }
           otherSamp.setOpen(true);
           otherSamp = this.tree.getNextNodeOf(otherSamp);
         }
 
         if (!otherSamp) {
-          this._stopbutton.setVisibility("excluded");
-          this._runbutton.setVisibility("visible");
           return;
         }
 
@@ -1652,8 +1536,6 @@ qx.Class.define("demobrowser.DemoBrowser",
           var candidate = this.tree.getNextNodeOf(otherSamp);
           if (!candidate) {
             // reached the last item
-            this._stopbutton.setVisibility("excluded");
-            this._runbutton.setVisibility("visible");
             return;
           }
           if (candidate.getParent() == this.tree.getRoot()) {
@@ -1667,10 +1549,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           this.tree.setSelection([otherSamp]);
           this.runSample();
-        } else {
-          // Remove stop button, display run button
-          this._stopbutton.setVisibility("excluded");
-          this._runbutton.setVisibility("visible");
         }
       }
     },
@@ -1851,7 +1729,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       "f1", "f2", "_history", "logappender", '_cmdObjectSummary',
       '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample',
       '_cmdSampleInOwnWindow', '_cmdDisposeSample', "__disposeBtn", "__debugButton",
-      "_navPart", "_runbutton", "_stopbutton", "__sobutt", "__themePart", "__themeMenu",
+      "_navPart", "_runbutton", "__sobutt", "__themePart", "__themeMenu",
       "__viewPart", "__viewGroup", "__menuBar", "_infosplit", "_searchTextField",
       "_status", "_tree", "_iframe", "_demoView", "__menuElements", "__summaryBtn",
       "__logSync", "_leftComposite", "_urlWindow", "_nextButton", "_prevButton",
