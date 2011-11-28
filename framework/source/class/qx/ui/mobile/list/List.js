@@ -196,10 +196,10 @@ qx.Class.define("qx.ui.mobile.list.List",
     _applyModel : function(value, old)
     {
       if (old != null) {
-        old.removeListener("change", this.__onModelChange, this);
+        old.removeListener("changeBubble", this.__onModelChange, this);
       }
       if (value != null) {
-        value.addListener("change", this.__onModelChange, this);
+        value.addListener("changeBubble", this.__onModelChange, this);
       }
       this.__onModelChange();
     },
