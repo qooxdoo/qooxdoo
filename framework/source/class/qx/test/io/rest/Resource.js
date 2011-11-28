@@ -420,6 +420,22 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalledWith(req.setUrl, "/photos/1/comments?id=2");
     },
 
+    "test: invoke action with undefined params": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.get();
+      this.assertCalled(req.send);
+    },
+
+    "test: invoke action with null params": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.get(null);
+      this.assertCalled(req.send);
+    },
+
     "test: invoke action when content type json": function() {
       var res = this.res,
           req = this.req;

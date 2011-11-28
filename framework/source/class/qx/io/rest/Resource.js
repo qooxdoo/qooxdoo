@@ -331,7 +331,7 @@ qx.Class.define("qx.io.rest.Resource",
     invoke: function(action, params) {
       var req = this.__createRequest(action),
           config = this._getRequestConfig(action, params),
-          params = typeof params === "undefined" ? {} : params,
+          params = params == null ? {} : params,
           data = qx.lang.Object.clone(params);
 
       // Cache parameters
