@@ -711,6 +711,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __readyStateChange: function() {
       var that = this;
 
+      // Cancel timeout before invoking handlers because they may throw
+      if (this.readyState === qx.bom.request.Xhr.DONE) {
+        // Request determined DONE. Cancel timeout.
+        window.clearTimeout(this.__timerId);
+      }
+
       // BUGFIX: IE
       // IE < 8 fires LOADING and DONE on open() - before send() - when from cache
       if (qx.core.Environment.get("engine.name") == "mshtml" &&
@@ -753,8 +759,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     __readyStateChangeDone: function() {
       if (this.readyState === qx.bom.request.Xhr.DONE) {
-        // Request determined DONE. Cancel timeout.
-        window.clearTimeout(this.__timerId);
 
         // Fire "timeout" if timeout flag is set
         if (this.__timeout) {
