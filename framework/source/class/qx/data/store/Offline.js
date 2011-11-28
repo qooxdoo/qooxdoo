@@ -37,8 +37,13 @@ qx.Class.define("qx.data.store.Offline",
   {
     this.base(arguments);
 
-    if (qx.core.Environment.get("qx.debug")) {
-      this.assertNotUndefined(key);
+    try {
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertNotUndefined(key);
+      }
+    } catch(e) {
+      this.dispose();
+      throw e;
     }
 
     if (storage == "session") {
@@ -115,6 +120,12 @@ qx.Class.define("qx.data.store.Offline",
      */
     _setModel : function(data) {
       this._marshaler.toClass(data, true);
+
+      // Dispose previous
+      if (this.getModel()) {
+        this.getModel().dispose();
+      }
+
       this.setModel(this._marshaler.toModel(data, true));
     },
 
@@ -125,6 +136,16 @@ qx.Class.define("qx.data.store.Offline",
      */
     getKey : function() {
       return this._key;
+    }
+  },
+
+  destruct : function() {
+    if (this.getModel()) {
+      this.getModel().dispose();
+    }
+
+    if (this._marshaler) {
+      this._marshaler.dispose();
     }
   }
 });
