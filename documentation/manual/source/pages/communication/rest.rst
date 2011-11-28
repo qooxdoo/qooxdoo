@@ -124,6 +124,18 @@ Events are fired by the resource when the request was sucessful or any kind of e
     // --> "get"
   });
 
+If the same action should be invoked multiple times and the events fired for each request be handled differently, it is possible to remember the id of the action’s invocation. The ``Rest`` event includes this id.
+
+::
+
+  var getPhotoId = photo.get({id: 1});
+  var getLargePhotoId = photo.get({id: 1, size: "large"});
+  photo.addListener("getSuccess", function(e) {
+    if (e.getId() === getLargePhotoId) {
+      // Handle large photo
+    }
+  });
+
 Helpers
 =======
 
