@@ -354,26 +354,26 @@ class CodeGenerator(object):
 
             allUris = []
             for packageId, package in enumerate(packages):
-                packageUris = []
+                package_uris = []
                 if package.file: # build
                     namespace = "__out__"
                     fileId    = package.file
                     relpath    = OsPath(fileId)
                     shortUri   = Uri(relpath.toUri())
                     entry      = "%s:%s" % (namespace, shortUri.encodedValue())
-                    packageUris.append(entry)
+                    package_uris.append(entry)
                     package.files.append(entry)  # TODO: make package.file obsolete
                 elif package.files:  # hybrid
-                    packageUris = package.files
+                    package_uris = package.files
                 else: # "source" :
                     for clazz in package.classes:
                         namespace  = clazz.library.namespace
                         relpath    = OsPath(clazz.relpath)
                         shortUri   = Uri(relpath.toUri())
                         entry      = "%s:%s" % (namespace, shortUri.encodedValue())
-                        packageUris.append(entry)
+                        package_uris.append(entry)
                         package.files.append(entry)  # TODO: this should done be elsewhere?!
-                allUris.append(packageUris)
+                allUris.append(package_uris)
 
             return allUris
 
@@ -738,8 +738,8 @@ class CodeGenerator(object):
                 fname = self._fileNameWithHash(fname, hash_)
                 return fname
 
-            def compileAndAdd(compiledClasses, packageUris, prelude='', wrap=''):
-                compiled = compileClasses(compiledClasses, compOptions, log_progress)
+            def compileAndAdd(compiled_classes, package_uris, prelude='', wrap=''):
+                compiled = compileClasses(compiled_classes, compOptions, log_progress)
                 if wrap:
                     compiled = wrap % compiled
                 if prelude:
@@ -749,64 +749,75 @@ class CodeGenerator(object):
                 filename = OsPath(os.path.basename(filename))
                 shortUri = Uri(filename.toUri())
                 entry = "%s:%s" % ("__out__", shortUri.encodedValue())
-                packageUris.append(entry)
+                package_uris.append(entry)
 
-                return packageUris
+                return package_uris
 
-            # ------------------------------------
-            packageUris = []
-            optimize = compConf.get("code/optimize", [])
-            format_   = compConf.get("code/format", False)
-            variantSet= script.variants
-            sourceFilter = ClassMatchList(compConf.get("code/except", []))
-            compOptions  = CompileOptions(optimize=optimize, variants=variantSet, _format=format_)
-            compOptions.allClassVariants = allClassVariants
-
-            ##
-            # This somewhat overlaps with packageUrisToJS
-            compiledClasses = []
-            packageData = getPackageData(package)
-            packageData = ("qx.$$packageData['%s']=" % package.id) + packageData
-            package_classes = package.classes
-
-            #self._console.info("Package #%s:" % package.id, feed=False)
-            len_pack_classes = len(package_classes)
             # helper log function, to log progress here, but also in compileClasses()
             def log_progress(c=[0]):
                 c[0]+=1
-                #self._console.progress(c[0],len_pack_classes)
                 self._console.dot()
 
-            new_package_classes = []
-            for pos,clazz in enumerate(package_classes):
-                if sourceFilter.match(clazz.id):
-                    package.has_source = True
-                    if packageData or compiledClasses:
-                        # treat compiled classes so far
-                        packageUris = compileAndAdd(compiledClasses, packageUris, packageData)
-                        new_package_classes += compiledClasses
-                        compiledClasses = []  # reset the collection
-                        packageData = ""
-                    # for a source class, just include the file uri
-                    clazzRelpath = clazz.id.replace(".", "/") + ".js"
-                    relpath  = OsPath(clazzRelpath)
-                    shortUri = Uri(relpath.toUri())
-                    entry    = "%s:%s" % (clazz.library.namespace, shortUri.encodedValue())
-                    packageUris.append(entry)
-                    log_progress()
-                else:
-                    compiledClasses.append(clazz)
-            else:
-                # treat remaining to-be-compiled classes
-                if compiledClasses:
-                    closureWrap = ''
-                    if isClosurePackage(package, bootPackageId(script)):
-                        closureWrap = u'''qx.Part.$$notifyLoad("%s", function() {\n%%s\n});''' % package.id
-                    packageUris = compileAndAdd(compiledClasses, packageUris, packageData, closureWrap)
-                    new_package_classes += compiledClasses
+            ##
+            # Write the package data and the compiled class code in so many
+            # .js files, skipping source files.
+            def write_uris(package_data, package_classes):
+                sourceFilter = ClassMatchList(compConf.get("code/except", []))
+                compiled_classes = []  # to accumulate classes that are compiled and can go into one .js file
+                package_uris = []      # the uri's of the .js files of this package
+                for pos,clazz in enumerate(package_classes):
 
-            package.classes = new_package_classes
-            package.files = packageUris
+                    # class is taken from the source file
+                    if sourceFilter.match(clazz.id):
+                        package.has_source = True  # indicate that this package has source files
+
+                        # before processing the source class, cat together data and accumulated classes, if any
+                        if package_data or compiled_classes:
+                            # treat compiled classes so far
+                            package_uris = compileAndAdd(compiled_classes, package_uris, package_data)
+                            compiled_classes = []  # reset the collection
+                            package_data = ""
+
+                        # now, for a source class, just include the file uri
+                        clazzRelpath = clazz.id.replace(".", "/") + ".js"
+                        relpath  = OsPath(clazzRelpath)
+                        shortUri = Uri(relpath.toUri())
+                        entry    = "%s:%s" % (clazz.library.namespace, shortUri.encodedValue())
+                        package_uris.append(entry)
+                        log_progress()
+
+                    # register it to be lumped together with other classes
+                    else:
+                        compiled_classes.append(clazz)
+
+                # finally, treat remaining to be concat'ed classes
+                else:
+                    if compiled_classes:
+                        closureWrap = ''
+                        if isClosurePackage(package, bootPackageId(script)):
+                            closureWrap = u'''qx.Part.$$notifyLoad("%s", function() {\n%%s\n});''' % package.id
+                        package_uris = compileAndAdd(compiled_classes, package_uris, package_data, closureWrap)
+                
+                return package_uris
+
+            # ------------------------------------
+            optimize = compConf.get("code/optimize", [])
+            format_   = compConf.get("code/format", False)
+            variantSet= script.variants
+            compOptions  = CompileOptions(optimize=optimize, variants=variantSet, _format=format_)
+            compOptions.allClassVariants = allClassVariants
+            #self._console.info("Package #%s:" % package.id, feed=False)
+
+            ##
+            # This somewhat overlaps with packageUrisToJS
+            package_data = getPackageData(package)
+            package_data = ("qx.$$packageData['%s']=" % package.id) + package_data
+            package_classes = package.classes
+
+            ##
+            # Here's the meat
+            package.files = write_uris(package_data, package_classes)
+
             return package
             
 
