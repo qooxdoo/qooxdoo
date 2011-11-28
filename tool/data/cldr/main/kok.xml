@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5798 $"/>
-		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 5963 $"/>
+		<generation date="$Date: 2011-07-05 10:29:49 -0500 (Tue, 05 Jul 2011) $"/>
 		<language type="kok"/>
 	</identity>
 	<localeDisplayNames>
@@ -266,6 +266,9 @@
 				<long>
 					<standard>भारतीय समय</standard>
 				</long>
+				<short>
+					<standard>IST</standard>
+				</short>
 				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 		</timeZoneNames>
@@ -293,11 +296,6 @@
 				</currencyFormat>
 			</currencyFormatLength>
 		</currencyFormats>
-		<currencies>
-			<currency type="INR">
-				<symbol>रु</symbol>
-			</currency>
-		</currencies>
 	</numbers>
 </ldml>
 

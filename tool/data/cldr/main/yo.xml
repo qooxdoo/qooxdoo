@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5798 $"/>
-		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 5953 $"/>
+		<generation date="$Date: 2011-07-04 18:22:55 -0500 (Mon, 04 Jul 2011) $"/>
 		<language type="yo"/>
 	</identity>
 	<localeDisplayNames>
@@ -523,13 +523,11 @@
 					</field>
 					<field type="day">
 						<displayName>Ọjọ́</displayName>
-						<relative type="-3">íjẹrin</relative>
 						<relative type="-2">íjẹta</relative>
 						<relative type="-1">Àná</relative>
 						<relative type="0">Òní</relative>
 						<relative type="1">Ọ̀la</relative>
 						<relative type="2">òtúùnla</relative>
-						<relative type="3">ọjọ́mẹ́rin-òní</relative>
 					</field>
 					<field type="weekday">
 						<displayName>Ọjọ́ Ọ̀sẹ̀</displayName>
@@ -737,3 +735,4 @@
 		</messages>
 	</posix>
 </ldml>
+

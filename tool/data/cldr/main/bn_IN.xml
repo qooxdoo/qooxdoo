@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5663 $"/>
-		<generation date="$Date: 2011-04-25 14:35:18 -0500 (Mon, 25 Apr 2011) $"/>
+		<version number="$Revision: 5953 $"/>
+		<generation date="$Date: 2011-07-04 18:22:55 -0500 (Mon, 04 Jul 2011) $"/>
 		<language type="bn"/>
 		<territory type="IN"/>
 	</identity>
@@ -52,7 +52,6 @@
 				</quarters>
 				<fields>
 					<field type="day">
-						<relative type="-3">গততরশু</relative>
 						<relative type="-2">গতপরশু</relative>
 					</field>
 					<field type="hour">
@@ -66,3 +65,4 @@
 		</calendars>
 	</dates>
 </ldml>
+

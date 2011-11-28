@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5859 $"/>
-		<generation date="$Date: 2011-05-07 04:18:01 -0500 (Sat, 07 May 2011) $"/>
+		<version number="$Revision: 5968 $"/>
+		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
 		<language type="se"/>
 	</identity>
 	<fallback draft="unconfirmed">nb nn sv en</fallback>
@@ -163,7 +163,7 @@
 			<territory type="151" draft="unconfirmed">nuorta-Eurohpá</territory>
 			<territory type="154" draft="unconfirmed">davvi-Eurohpá</territory>
 			<territory type="155" draft="unconfirmed">oarji-Eurohpá</territory>
-			<territory type="419" draft="unconfirmed">Lulli-Amerihkká ja Karibia</territory>
+			<territory type="419" draft="unconfirmed">Lulli-Amerihkká</territory>
 			<territory type="AC" draft="unconfirmed">Ascension</territory>
 			<territory type="AD" draft="unconfirmed">Andorra</territory>
 			<territory type="AE" draft="unconfirmed">Ovttastuvvan Arábaemiráhtat</territory>

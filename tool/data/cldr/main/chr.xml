@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5806 $"/>
-		<generation date="$Date: 2011-05-02 13:42:02 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 5905 $"/>
+		<generation date="$Date: 2011-06-15 23:14:13 -0500 (Wed, 15 Jun 2011) $"/>
 		<language type="chr"/>
 	</identity>
 	<fallback>en</fallback>
@@ -333,23 +333,12 @@
 			<hourFormat>+HH:mm;-HH:mm</hourFormat>
 			<gmtFormat>GMT{0}</gmtFormat>
 			<gmtZeroFormat>ᎢᎢᎢ</gmtZeroFormat>
-			<metazone type="Alaska">
-				<short>
-					<standard>ᎠᎳᏰᎢ</standard>
-					<daylight>ᎠᎳᎢᎢ</daylight>
-				</short>
-			</metazone>
 			<metazone type="America_Central">
 				<long>
 					<generic>ᎠᏰᎵ ᎢᏳᏩᎪᏗ</generic>
 					<standard>ᎠᏰᎵ ᏰᎵᏊ ᏗᏙᎳᎩ ᎢᏳᏩᎪᏗ</standard>
 					<daylight>ᎠᏰᎵ ᎢᎦ ᎢᏳᏩᎪᏗ</daylight>
 				</long>
-				<short>
-					<generic>ᎠᎢ</generic>
-					<standard>ᎠᏰᎢ</standard>
-					<daylight>ᎠᎢᎢ</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Eastern">
 				<long>
@@ -357,11 +346,6 @@
 					<standard>ᎧᎸᎬᎢᏗᏢ ᏰᎵᏊ ᏗᏙᎳᎩ ᎢᏳᏩᎪᏗ</standard>
 					<daylight>ᎧᎸᎬᎢᏗᏢ ᎢᎦ ᎢᏳᏩᎪᏗ</daylight>
 				</long>
-				<short>
-					<generic>ᎧᎢ</generic>
-					<standard>ᎧᏰᎢ</standard>
-					<daylight>ᎧᎢᎢ</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Mountain">
 				<long>
@@ -369,11 +353,6 @@
 					<standard>ᎣᏓᎸ ᏰᎵᏊ ᏗᏙᎳᎩ ᎢᏳᏩᎪᏗ</standard>
 					<daylight>ᎣᏓᎸ ᎢᎦ ᎢᏳᏩᎪᏗ</daylight>
 				</long>
-				<short>
-					<generic>ᎣᎢ</generic>
-					<standard>ᎣᏰᎢ</standard>
-					<daylight>ᎣᎢᎢ</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Pacific">
 				<long>
@@ -381,24 +360,11 @@
 					<standard>ᏭᏕᎵᎬ ᏰᎵᏊ ᏗᏙᎳᎩ ᎢᏳᏩᎪᏗ</standard>
 					<daylight>ᏭᏕᎵᎬ ᎢᎦ ᎢᏳᏩᎪᏗ</daylight>
 				</long>
-				<short>
-					<generic>ᏭᎢ</generic>
-					<standard>ᏭᏰᎢ</standard>
-					<daylight>ᏭᎢᎢ</daylight>
-				</short>
 			</metazone>
 			<metazone type="GMT">
 				<long>
 					<standard>ᎢᏤ ᎢᏳᏍᏗ ᎢᏳᏩᎪᏗ</standard>
 				</long>
-				<short>
-					<standard>ᎢᎢᎢ</standard>
-				</short>
-			</metazone>
-			<metazone type="Hawaii_Aleutian">
-				<short>
-					<standard>ᎭᏰᎢ</standard>
-				</short>
 			</metazone>
 		</timeZoneNames>
 	</dates>

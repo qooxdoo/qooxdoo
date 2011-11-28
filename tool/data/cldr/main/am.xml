@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5836 $"/>
-		<generation date="$Date: 2011-05-04 12:46:50 -0500 (Wed, 04 May 2011) $"/>
+		<version number="$Revision: 5953 $"/>
+		<generation date="$Date: 2011-07-04 18:22:55 -0500 (Mon, 04 Jul 2011) $"/>
 		<language type="am"/>
 	</identity>
 	<localeDisplayNames>
@@ -635,7 +635,6 @@
 			<transformName type="BGN">ቢ ጂ ኤን</transformName>
 			<transformName type="Numeric">አሃዛዊ</transformName>
 			<transformName type="Tone">የድምፅ ቃና</transformName>
-			<transformName type="UNGEGN">UNGEGN</transformName>
 			<transformName type="x-Accents">ትእምርት</transformName>
 			<transformName type="x-Fullwidth">ሙሉ ወርድ</transformName>
 			<transformName type="x-Halfwidth">ሃልፍዊድዝ</transformName>
@@ -946,13 +945,11 @@
 					</field>
 					<field type="day">
 						<displayName>ቀን</displayName>
-						<relative type="-3">ከ3 ቀናት በፊት</relative>
 						<relative type="-2">ከትናንት ወዲያ</relative>
 						<relative type="-1">ትናንት</relative>
 						<relative type="0">ዛሬ</relative>
 						<relative type="1">ነገ</relative>
 						<relative type="2">ከነገ ወዲያ</relative>
-						<relative type="3">ከዛሬ ሶስት ቀናት በኋላ</relative>
 					</field>
 					<field type="weekday">
 						<displayName>አዘቦት</displayName>

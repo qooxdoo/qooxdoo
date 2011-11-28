@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5884 $"/>
-		<generation date="$Date: 2011-05-10 15:58:32 -0500 (Tue, 10 May 2011) $"/>
+		<version number="$Revision: 5905 $"/>
+		<generation date="$Date: 2011-06-15 23:14:13 -0500 (Wed, 15 Jun 2011) $"/>
 		<language type="es"/>
 		<territory type="419"/>
 	</identity>
@@ -110,6 +110,18 @@
 			</calendar>
 		</calendars>
 		<timeZoneNames>
+			<metazone type="America_Central">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="America_Eastern">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="America_Mountain">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="America_Pacific">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
 			<metazone type="Anadyr">
 				<long>
 					<daylight draft="contributed">Hora de Verano de Anadyr</daylight>

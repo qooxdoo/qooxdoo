@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5879 $"/>
-		<generation date="$Date: 2011-05-10 13:52:32 -0500 (Tue, 10 May 2011) $"/>
+		<version number="$Revision: 5996 $"/>
+		<generation date="$Date: 2011-07-11 11:05:01 -0500 (Mon, 11 Jul 2011) $"/>
 		<language type="fr"/>
 		<territory type="CA"/>
 	</identity>
@@ -98,8 +98,6 @@
 				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="hm" draft="unconfirmed">HH:mm</dateFormatItem>
-						<dateFormatItem id="hms" draft="unconfirmed">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="Md">M-d</dateFormatItem>
 						<dateFormatItem id="MEd">EEE M-d</dateFormatItem>
 						<dateFormatItem id="MMd">MM-d</dateFormatItem>
@@ -253,9 +251,6 @@
 			<zone type="Pacific/Wallis">
 				<exemplarCity draft="contributed">Uvéa</exemplarCity>
 			</zone>
-			<metazone type="Alaska">
-				<commonlyUsed>true</commonlyUsed>
-			</metazone>
 			<metazone type="America_Central">
 				<commonlyUsed>true</commonlyUsed>
 			</metazone>
@@ -272,12 +267,6 @@
 				<long>
 					<daylight draft="contributed">Heure avancée de Choibalsan</daylight>
 				</long>
-			</metazone>
-			<metazone type="Europe_Central">
-				<commonlyUsed>false</commonlyUsed>
-			</metazone>
-			<metazone type="Europe_Eastern">
-				<commonlyUsed>false</commonlyUsed>
 			</metazone>
 			<metazone type="Lord_Howe">
 				<long>

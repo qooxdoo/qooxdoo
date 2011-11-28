@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5798 $"/>
-		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 5932 $"/>
+		<generation date="$Date: 2011-06-23 20:34:48 -0500 (Thu, 23 Jun 2011) $"/>
 		<language type="sq"/>
 	</identity>
 	<localeDisplayNames>
@@ -107,7 +107,6 @@
 			<language type="tw" draft="unconfirmed">Twi</language>
 			<language type="ug" draft="unconfirmed">Ujgur</language>
 			<language type="uk" draft="unconfirmed">Ukrainisht</language>
-			<language type="und">und</language>
 			<language type="ur" draft="unconfirmed">Urdu</language>
 			<language type="uz" draft="unconfirmed">Uzbekistanisht</language>
 			<language type="vi" draft="unconfirmed">Vietnamisht</language>
@@ -633,3 +632,4 @@
 		</messages>
 	</posix>
 </ldml>
+

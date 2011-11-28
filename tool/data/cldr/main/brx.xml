@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5832 $"/>
-		<generation date="$Date: 2011-05-04 02:45:39 -0500 (Wed, 04 May 2011) $"/>
+		<version number="$Revision: 5956 $"/>
+		<generation date="$Date: 2011-07-04 20:17:14 -0500 (Mon, 04 Jul 2011) $"/>
 		<language type="brx"/>
 	</identity>
 	<localeDisplayNames>
@@ -698,7 +698,6 @@
 			<territory type="BM">बरमूडा</territory>
 			<territory type="BN">ब्रूनइ</territory>
 			<territory type="BO">बोलीविया</territory>
-			<territory type="BQ">ब्रीटीश अंटार्टीका क्षेत्र</territory>
 			<territory type="BR">ब्राज़ील</territory>
 			<territory type="BS">बहामा</territory>
 			<territory type="BT">भूटान</territory>
@@ -2730,10 +2729,6 @@
 					<standard>मध्य यूरोप स्टैंडर्ड टाईम</standard>
 					<daylight>मध्य यूरोप समर टाईम</daylight>
 				</long>
-				<short>
-					<standard>मध्य यूरोप स्टैंडर्ड टाईम</standard>
-					<daylight>मध्य यूरोप समर टाईम</daylight>
-				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
@@ -2856,6 +2851,9 @@
 				<long>
 					<standard>भारतीय स्टैंडर्ड टाईम</standard>
 				</long>
+				<short>
+					<standard>IST</standard>
+				</short>
 				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 			<metazone type="Indian_Ocean">
@@ -4287,3 +4285,4 @@
 		</messages>
 	</posix>
 </ldml>
+

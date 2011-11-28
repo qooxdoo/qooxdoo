@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5806 $"/>
-		<generation date="$Date: 2011-05-02 13:42:02 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 5905 $"/>
+		<generation date="$Date: 2011-06-15 23:14:13 -0500 (Wed, 15 Jun 2011) $"/>
 		<language type="en"/>
 		<territory type="CA"/>
 	</identity>
@@ -129,6 +129,11 @@
 		</calendars>
 		<timeZoneNames>
 			<metazone type="Newfoundland">
+				<short>
+					<generic>NT</generic>
+					<standard>NST</standard>
+					<daylight>NDT</daylight>
+				</short>
 				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 		</timeZoneNames>

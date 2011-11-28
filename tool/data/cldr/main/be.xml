@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5859 $"/>
-		<generation date="$Date: 2011-05-07 04:18:01 -0500 (Sat, 07 May 2011) $"/>
+		<version number="$Revision: 5905 $"/>
+		<generation date="$Date: 2011-06-15 23:14:13 -0500 (Wed, 15 Jun 2011) $"/>
 		<language type="be"/>
 	</identity>
 	<localeDisplayNames>
@@ -990,7 +990,6 @@
 				<long>
 					<standard draft="contributed">Грынвічскі час</standard>
 				</long>
-				<commonlyUsed draft="contributed">true</commonlyUsed>
 			</metazone>
 		</timeZoneNames>
 	</dates>

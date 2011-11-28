@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5798 $"/>
-		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 5968 $"/>
+		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
 		<language type="nds"/>
 	</identity>
 	<localeDisplayNames>
@@ -680,7 +680,7 @@
 			<territory type="154" draft="unconfirmed">Noordeuropa</territory>
 			<territory type="155" draft="unconfirmed">Westeuropa</territory>
 			<territory type="172" draft="unconfirmed">Gemeenschop vun Unafhängige Staten</territory>
-			<territory type="419" draft="unconfirmed">Latienamerika un Karibik</territory>
+			<territory type="419" draft="unconfirmed">Latienamerika</territory>
 			<territory type="AD" draft="unconfirmed">Andorra</territory>
 			<territory type="AE" draft="unconfirmed">Vereenigte Araabsche Emiraten</territory>
 			<territory type="AF" draft="unconfirmed">Afghanistan</territory>

@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5798 $"/>
-		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 5953 $"/>
+		<generation date="$Date: 2011-07-04 18:22:55 -0500 (Mon, 04 Jul 2011) $"/>
 		<language type="ka"/>
 	</identity>
 	<localeDisplayNames>
@@ -777,13 +777,11 @@
 					</field>
 					<field type="day">
 						<displayName>დღე</displayName>
-						<relative type="-3" draft="provisional">სამი დღის წინ</relative>
 						<relative type="-2" draft="provisional">გუშინწინ</relative>
 						<relative type="-1">გუშინ</relative>
 						<relative type="0">დღეს</relative>
 						<relative type="1">ხვალ</relative>
 						<relative type="2" draft="provisional">ზეგ</relative>
-						<relative type="3" draft="provisional">სამი დღის შემდეგ</relative>
 					</field>
 					<field type="weekday">
 						<displayName>კვირის დღე</displayName>
@@ -2217,3 +2215,4 @@
 		</messages>
 	</posix>
 </ldml>
+
