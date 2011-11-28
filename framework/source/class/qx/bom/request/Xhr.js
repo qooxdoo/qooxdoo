@@ -232,6 +232,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           // - IE 7: -2147024891
           // - Legacy Firefox
           window.setTimeout(qx.Bootstrap.bind(function() {
+            if (this.__disposed) {
+              return;
+            }
             this.readyState = 4;
             this.onreadystatechange();
             this.onerror();
@@ -343,6 +346,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
           var that = this;
           window.setTimeout(function() {
+            if (that.__disposed) {
+              return;
+            }
             that.readyState = 3;
             that.__readyStateChange();
 
@@ -778,7 +784,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
           if (this.readyState == qx.bom.request.Xhr.DONE) {
             window.setTimeout(function() {
-
+              if (that.__disposed) {
+                return;
+              }
               // Replay previously skipped
               that.readyState = 3;
               that.onreadystatechange();
