@@ -417,6 +417,36 @@ qx.Class.define("qx.test.bom.request.Xhr",
       }, this);
     },
 
+    "test: cancel timeout when handler throws": function() {
+      var fakeReq = this.getFakeReq(),
+          req = this.req;
+
+      this.spy(req, "ontimeout");
+
+      req.timeout = 10;
+      req.open("GET", "/");
+      req.send();
+
+      // Simulate error in handler for readyState DONE
+      req.onreadystatechange = function() {
+        if (req.readyState === 4) {
+          // Throw only once
+          req.onreadystatechange = function() {};
+          throw new Error();
+        }
+      };
+
+      try {
+        fakeReq.respond();
+      } catch(e) {
+
+      } finally {
+        this.wait(20, function() {
+          this.assertNotCalled(req.ontimeout);
+        }, this);
+      }
+    },
+
     //
     // onloadend()
     //
