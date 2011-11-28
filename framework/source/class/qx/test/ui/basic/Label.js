@@ -43,6 +43,7 @@ qx.Class.define("qx.test.ui.basic.Label",
 
     tearDown : function()
     {
+      this.base(arguments);
       this.getSandbox().restore();
     },
 

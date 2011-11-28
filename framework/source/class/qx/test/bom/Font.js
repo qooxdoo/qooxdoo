@@ -29,6 +29,7 @@ qx.Class.define("qx.test.bom.Font",
 
 
     tearDown : function() {
+      this.base(arguments);
       this.__font.dispose();
     },
 
@@ -147,6 +148,7 @@ qx.Class.define("qx.test.bom.Font",
       // set using the color theme. So this default color should show up and not
       // the defined color of the font.
       this.assertEquals(checkValue, color, "Wrong style applied for 'color' property!");
+      label.destroy();
     },
 
 

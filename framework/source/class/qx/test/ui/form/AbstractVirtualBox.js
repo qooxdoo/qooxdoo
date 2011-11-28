@@ -35,11 +35,10 @@ qx.Class.define("qx.test.ui.form.AbstractVirtualBox",
 
     tearDown : function()
     {
-      this.getRoot().remove(this.__selectBox);
+      this.base(arguments);
       this.__selectBox.dispose();
       this.__selectBox = null;
 
-      this.getRoot().remove(this.__comboBox);
       this.__comboBox.dispose();
       this.__comboBox = null;
     },

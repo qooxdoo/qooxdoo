@@ -122,6 +122,7 @@ qx.Class.define("qx.test.util.DateFormat",
       var invalidDate = new Date("2011-11-32");
       var dateFmt = new qx.util.format.DateFormat();
       this.assertNull(dateFmt.format(invalidDate));
+      dateFmt.dispose();
     },
 
     testTimeZone : function()

@@ -35,13 +35,11 @@ qx.Class.define("qx.test.ui.form.AbstractSelectBox",
 
     tearDown : function()
     {
-      this.flush();
+      this.base(arguments);
 
-      this.getRoot().remove(this.__selectBox);
       this.__selectBox.dispose();
       this.__selectBox = null;
 
-      this.getRoot().remove(this.__comboBox);
       this.__comboBox.dispose();
       this.__comboBox = null;
     },
