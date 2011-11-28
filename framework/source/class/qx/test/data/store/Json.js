@@ -53,17 +53,28 @@ qx.Class.define("qx.test.data.store.Json",
 
     setUpFakeRequest : function()
     {
-      var req = new qx.io.request.Xhr(this.url);
+      var req = this.request = new qx.io.request.Xhr(this.url);
       req.send = req.setParser = function() {};
       req.dispose = qx.io.request.Xhr.prototype.dispose;
-      this.request = this.stub(req);
-      this.stub(qx.io.request, "Xhr").returns(this.request);
+      this.stub(qx.io.request, "Xhr").returns(this.stub(req));
     },
 
 
     tearDown : function()
     {
       this.getSandbox().restore();
+
+      if (this.request) {
+
+        // Restore manually (is unreachable from sandbox)
+        if (typeof this.request.dispose.restore == "function") {
+          this.request.dispose.restore();
+        }
+
+        // Dispose
+        this.request.dispose();
+      }
+
       this.__store.dispose();
 
       // Remove the former created classes

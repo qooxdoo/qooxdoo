@@ -49,6 +49,15 @@ qx.Class.define("qx.test.data.store.Jsonp",
       this.getSandbox().restore();
       this.__store.dispose();
 
+      if (this.request) {
+
+        // From prototype
+        delete this.request.dispose;
+
+        // Dispose
+        this.request.dispose();
+      }
+
       // remove the former created classes
       qx.data.model = {};
       for (var name in qx.Class.$$registry) {
@@ -66,10 +75,9 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
     setUpFakeRequest : function()
     {
-      var req = new qx.io.request.Jsonp();
+      var req = this.request = new qx.io.request.Jsonp();
       req.send = req.dispose = function() {};
-      this.request = this.stub(req);
-      this.stub(qx.io.request, "Jsonp").returns(this.request);
+      this.stub(qx.io.request, "Jsonp").returns(this.stub(req));
     },
 
 
@@ -77,11 +85,12 @@ qx.Class.define("qx.test.data.store.Jsonp",
       this.setUpFakeRequest();
       this.stub(this.request, "setCallbackParam");
 
-      this.__store = new qx.data.store.Jsonp();
-      this.__store.setCallbackParam("myCallback");
-      this.__store.setUrl("/url");
+      var store = new qx.data.store.Jsonp();
+      store.setCallbackParam("myCallback");
+      store.setUrl("/url");
 
       this.assertCalledWith(this.request.setCallbackParam, "myCallback");
+      store.dispose();
     },
 
 
@@ -89,11 +98,12 @@ qx.Class.define("qx.test.data.store.Jsonp",
       this.setUpFakeRequest();
       this.spy(this.request, "setCallbackName");
 
-      this.__store = new qx.data.store.Jsonp();
-      this.__store.setCallbackName("myCallback");
-      this.__store.setUrl("/url");
+      var store = new qx.data.store.Jsonp();
+      store.setCallbackName("myCallback");
+      store.setUrl("/url");
 
       this.assertCalledWith(this.request.setCallbackName, "myCallback");
+      store.dispose();
     },
 
 
@@ -122,19 +132,19 @@ qx.Class.define("qx.test.data.store.Jsonp",
         return data;
       }};
 
-      this.__store.dispose();
-      this.__store = new qx.data.store.Jsonp(null, delegate, "callback");
+      var store = new qx.data.store.Jsonp(null, delegate, "callback");
 
-      this.__store.addListener("loaded", function() {
+      store.addListener("loaded", function() {
         this.resume(function() {
           this.assertTrue(manipulated);
         }, this);
       }, this);
 
       var url = this.url;
-      this.__store.setUrl(url);
+      store.setUrl(url);
 
       this.wait();
+      store.dispose();
     },
 
 
@@ -148,17 +158,16 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
       this.spy(delegate, "configureRequest");
 
-      this.__store.dispose();
-      this.__store = new qx.data.store.Jsonp(null, delegate, "callback");
+      var store = new qx.data.store.Jsonp(null, delegate, "callback");
 
-      this.__store.addListener("loaded", function() {
+      store.addListener("loaded", function() {
         this.resume(function() {
           this.assertCalled(delegate.configureRequest);
         }, this);
       }, this);
 
       var url = this.url;
-      this.__store.setUrl(url);
+      store.setUrl(url);
 
       this.wait();
     },
@@ -166,6 +175,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
     testDisposeRequest: function() {
       this.setUpFakeRequest();
+
       var store = new qx.data.store.Jsonp(this.url);
       store.dispose();
 
