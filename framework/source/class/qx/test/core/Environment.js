@@ -385,7 +385,6 @@ qx.Class.define("qx.test.core.Environment",
     testCss : function() {
       this.assertNotEquals("", qx.core.Environment.get("css.boxmodel"));
       this.assertBoolean(qx.core.Environment.get("css.placeholder"));
-      this.assertBoolean(qx.core.Environment.get("css.gradients"));
       this.assertBoolean(qx.core.Environment.get("css.rgba"));
       var boxShadow = qx.core.Environment.get("css.boxshadow");
       this.assert(typeof boxShadow === "string" || boxShadow === null);

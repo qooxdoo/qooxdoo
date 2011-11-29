@@ -179,7 +179,7 @@ qx.Class.define("qx.test.ui.form.Form",
 
     testValidSelectBox: function() {
       var testShadow = qx.core.Environment.get("css.borderradius") &&
-          qx.core.Environment.get("css.gradients");
+          qx.core.Environment.get("css.gradient.linear");
       this.__testValid(new qx.ui.form.SelectBox(), testShadow ? undefined : "shadow");
     },
 

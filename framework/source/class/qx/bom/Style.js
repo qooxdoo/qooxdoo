@@ -14,6 +14,7 @@
 
    Authors:
      * Martin Wittemann (wittemann)
+     * Daniel Wagner (danielwagner)
 
 ************************************************************************ */
 /**
@@ -40,9 +41,6 @@ qx.Bootstrap.define("qx.bom.Style",
     getPropertyName : function(propertyName)
     {
       var style = document.documentElement.style;
-      if (style[propertyName] !== undefined) {
-        return propertyName;
-      }
       for (var i=0, l=this.VENDOR_PREFIXES.length; i<l; i++) {
         var prefixedProp = this.VENDOR_PREFIXES[i] + 
           qx.lang.String.firstUp(propertyName);
@@ -50,34 +48,44 @@ qx.Bootstrap.define("qx.bom.Style",
           return prefixedProp;
         }
       }
+      // Check non-prefixed name last since prefixed implementations seem less
+      // error-prone
+      if (style[propertyName] !== undefined) {
+        return propertyName;
+      }
       return null;
     },
-
-
+    
+    
     /**
-     * Takes a style property name and value and returns the value with the 
-     * appropriate vendor prefix for the current browser.
-     * For example, 
-     * <code>getPrefixedValue("background", "linear-gradient(0deg, #fff, #000)")</code>
-     * will return <code>"-webkit-linear-gradient(0deg, #fff, #000)"</code> in
-     * Chrome.
+     * Detects CSS support by applying a style to a DOM element of the given type
+     * and verifying the result. Also checks for vendor-prefixed variants of the
+     * value, e.g. "linear-gradient" -> "-webkit-linear-gradient". Returns the 
+     * (possibly vendor-prefixed) value if successful or <code>null</code> if 
+     * the property and/or value are not supported.
      * 
-     * @param propertyName {String} Style property name 
-     * @param value {String} Style value
-     * @return {String null} Prefixed value or <code>null</code> if not supported 
+     * @param element {DOMelement} element to be used for the detection
+     * @param propertyName {String} the style property to be tested
+     * @param value {String} style property value to be tested
+     * @param prefixed {Boolean?} try to determine the appropriate vendor prefix
+     * for the value. Default: <code>true</code>
+     * @return {String|null} prefixed style value or <code>null</code> if not supported 
+     * @internal
      */
-    getPrefixedValue : function(propertyName, value)
+    getAppliedStyle : function(element, propertyName, value, prefixed)
     {
-      var vendorPrefixes = [null].concat(this.VENDOR_PREFIXES);
-      var el = document.createElement("div");
+      var vendorPrefixes = (prefixed !== false) ? 
+        [null].concat(this.VENDOR_PREFIXES) : [null];
       
       for (var i=0, l=vendorPrefixes.length; i<l; i++) {
         var prefixedVal = vendorPrefixes[i] ? 
           "-" + vendorPrefixes[i].toLowerCase() + "-" + value : value;
         // IE might throw an exception
         try {
-          el.style[propertyName] = prefixedVal;
-          if (el.style[propertyName] !== "") {
+          element.style[propertyName] = prefixedVal;
+          if (typeof element.style[propertyName] == "string" && 
+            element.style[propertyName] !== "") 
+          {
             return prefixedVal;
           }
         } catch(ex) {}

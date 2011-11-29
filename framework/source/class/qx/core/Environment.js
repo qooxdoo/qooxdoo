@@ -98,7 +98,7 @@
  *     </tr>
  *     <tr>
  *       <td>css.gradients</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>{@link qx.bom.client.Css#getGradients}</td>
+ *       <td>{@link qx.bom.client.Css#getLinearGradient}</td>
  *     </tr>
  *     <tr>
  *       <td>css.gradient.linear</td><td><i>String</i> or <i>null</i></td><td><code>-moz-linear-gradient</code></td>
@@ -740,7 +740,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.borderradius"            : "qx.bom.client.Css.getBorderRadius",
       "css.borderimage"             : "qx.bom.client.Css.getBorderImage",
       "css.boxshadow"               : "qx.bom.client.Css.getBoxShadow",
-      "css.gradients"               : "qx.bom.client.Css.getGradients",
+      "css.gradients"               : "qx.bom.client.Css.getGradients",  // @deprecated since 1.6
       "css.gradient.linear"         : "qx.bom.client.Css.getLinearGradient",
       "css.gradient.radial"         : "qx.bom.client.Css.getRadialGradient",
       "css.boxmodel"                : "qx.bom.client.Css.getBoxModel",
@@ -786,11 +786,17 @@ qx.Bootstrap.define("qx.core.Environment",
      * @param key {String} The name of the check you want to query.
      */
     get : function(key) {
-      if (qx.Bootstrap.DEBUG && key == "css.translate3d") {
-        qx.Bootstrap.warn(
-          "The key 'css.translate3d' is deprecated. " + 
-          "Please use 'css.transform.3d' instead."
-        );
+      if (qx.Bootstrap.DEBUG) {
+        var deprecated = {
+          "css.translate3d" : "css.transform.3d", 
+          "css.gradients" : "css.gradient.linear"
+        };
+        if (key in deprecated) {
+          qx.Bootstrap.warn(
+            "The key '" + key + "' is deprecated. " + 
+            "Please use '" + deprecated[key] + "' instead."
+          );
+        }
       }
 
       // check the cache

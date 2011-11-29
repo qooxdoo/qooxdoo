@@ -54,7 +54,7 @@ qx.Theme.define("playground.theme.Appearance",
 
         // feature detect if we should use the CSS decorators
         if (qx.core.Environment.get("css.borderradius") &&
-          qx.core.Environment.get("css.gradients")) {
+          qx.core.Environment.get("css.gradient.linear")) {
             decorator += "-css";
         }
         return {

@@ -35,6 +35,8 @@ qx.Bootstrap.define("qx.bom.client.Css",
 {
   statics :
   {
+    __WEBKIT_LEGACY_GRADIENT : null,
+    
     /**
      * Checks what box model is used in the current environemnt.
      * @return {String} It either returns "content" or "border".
@@ -200,35 +202,10 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * Checks if background gradients could be used.
      * @return {Boolean} <code>true</code>, if it could be used.
      * @internal
+     * @deprecated since 1.6
      */
     getGradients : function() {
-      var el;
-      try {
-        el = document.createElement("div");
-      } catch (ex) {
-        el = document.createElement();
-      }
-
-      var style = [
-        "-webkit-gradient(linear,0% 0%,100% 100%,from(white), to(red))",
-        "-webkit-linear-gradient(left, white, black)",
-        "-moz-linear-gradient(0deg, white 0%, red 100%)",
-        "-o-linear-gradient(0deg, white 0%, red 100%)",
-        "-ms-linear-gradient(0deg, white 0%, red 100%)",
-        "linear-gradient(0deg, white 0%, red 100%)"
-      ];
-
-      for (var i=0; i < style.length; i++) {
-        // try catch for IE
-        try {
-          el.style["background"] = style[i];
-          if (el.style["background"].indexOf("gradient") != -1) {
-            return true;
-          }
-        } catch (ex) {}
-      };
-
-      return false;
+      return !!(qx.bom.client.Css.getLinearGradient());
     },
 
 
@@ -243,8 +220,27 @@ qx.Bootstrap.define("qx.bom.client.Css",
      */
     getLinearGradient : function()
     {
+      qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT = false;
       var value = "linear-gradient(0deg, #fff, #000)";
-      return qx.bom.client.Css.__getGradientName(value);
+      var el = document.createElement("div");
+      var style = qx.bom.Style.getAppliedStyle(el, "backgroundImage", value);
+      
+      if (!style) {
+        //try old WebKit syntax (versions 528 - 534.16)
+        value = "-webkit-gradient(linear,0% 0%,100% 100%,from(white), to(red))";
+        var style = qx.bom.Style.getAppliedStyle(el, "backgroundImage", value, false);
+        if (style) {
+          qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT = true;
+        }
+      }
+      
+      // not supported
+      if (!style) {
+        return null;
+      }
+      
+      var match = /(.*?)\(/.exec(style);
+      return match ? match[1] : null;
     },
     
     
@@ -259,26 +255,29 @@ qx.Bootstrap.define("qx.bom.client.Css",
     getRadialGradient : function()
     {
       var value = "radial-gradient(0px 0px, cover, red 50%, blue 100%)";
-      return qx.bom.client.Css.__getGradientName(value);
-    },
-    
-    
-    /**
-     * Returns the prefixed name for the given linear or radial
-     * gradient value
-     * 
-     * @param value {String} Full linear or radial gradient definition 
-     * @return {String|null} Prefixed name or <code>null</code> if not supported
-     * @internal
-     */
-    __getGradientName : function(value)
-    {
-      var style = qx.bom.Style.getPrefixedValue("backgroundImage", value);
+      var el = document.createElement("div");
+      var style = qx.bom.Style.getAppliedStyle(el, "backgroundImage", value);
       if (!style) {
         return null;
       }
       var match = /(.*?)\(/.exec(style);
       return match ? match[1] : null;
+    },
+
+
+    /**
+     * Checks if the **only** the old WebKit (version < 534.16) syntax for 
+     * linear gradients is supported, e.g. 
+     * <code>linear-gradient(0deg, #fff, #000)</code>
+     * 
+     * @return {Boolean} <code>true</code> if the legacy syntax must be used 
+     */
+    getLegacyWebkitGradient : function()
+    {
+      if (qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT === null) {
+        qx.bom.client.Css.getLinearGradient();
+      }
+      return qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT;
     },
 
 
@@ -376,6 +375,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.gradients", statics.getGradients);
     qx.core.Environment.add("css.gradient.linear", statics.getLinearGradient);
     qx.core.Environment.add("css.gradient.radial", statics.getRadialGradient);
+    qx.core.Environment.add("css.gradient.legacywebkit", statics.getLegacyWebkitGradient);
     qx.core.Environment.add("css.boxmodel", statics.getBoxModel);
     qx.core.Environment.add("css.rgba", statics.getRgba);
     qx.core.Environment.add("css.borderimage", statics.getBorderImage);
