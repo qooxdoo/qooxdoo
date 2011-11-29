@@ -93,12 +93,12 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     {
       if (!window.iScroll)
       {
-        var resource = "qx/mobile/js/iscroll";
         if (qx.core.Environment.get("qx.debug"))
         {
-          resource += "-debug";
+          var resource = "qx/mobile/js/iscroll.js";
+        } else {
+          var resource = "qx/mobile/js/iscroll.min.js";
         }
-        resource += ".js";
         var path = qx.util.ResourceManager.getInstance().toUri(resource);
         if (qx.core.Environment.get("qx.debug"))
         {
@@ -125,6 +125,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         fadeScrollbar:true,
         hScrollbar : false,
         scrollbarClass:"scrollbar",
+        //useTransform: false,
         onBeforeScrollStart : function(e) {
           // QOOXDOO ENHANCEMENT: Do not prevent default for form elements
           var target = e.target;
