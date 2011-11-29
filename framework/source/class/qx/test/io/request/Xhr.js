@@ -391,16 +391,60 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Parsing
     //
 
-    "test: getParser()": function() {
+    __assertParser: function(contentType, parser) {
       var req = this.req;
+
       this.stub(req, "isDone").returns(true);
-      this.stub(req, "getResponseContentType").returns("application/json");
-      this.assertFunction(req._getParser());
+      this.stub(req, "getResponseContentType").returns(contentType);
+
+      var msg = "Content type '" + contentType + "' handled incorrectly";
+      this.assertEquals(parser, req._getParser(), msg);
+
+      req.isDone.restore();
+      req.getResponseContentType.restore();
     },
 
-    "test: getParser() prematurely": function() {
+    "test: getParser() returns silently when not DONE": function() {
       var req = this.req;
       req._getParser();
+    },
+
+    "test: getParser() returns undefined for unknown": function() {
+      this.__assertParser("text/html", undefined);
+      this.__assertParser("application/pdf", undefined);
+    },
+
+    "test: getParser() returns undefined for malformed": function() {
+      this.__assertParser("", undefined);
+      this.__assertParser("json", undefined);
+      this.__assertParser("text/foo+json", undefined);
+      this.__assertParser("application/foo+jsonish", undefined);
+      this.__assertParser("application/foo+xmlish", undefined);
+    },
+
+    "test: getParser() detects json": function() {
+      var json = qx.io.request.Xhr.PARSER["json"];
+      this.__assertParser("application/json", json);
+      this.__assertParser("application/vnd.affe+json", json);
+      this.__assertParser("application/prs.affe+json", json);
+      this.__assertParser("application/vnd.oneandone.onlineoffice.email+json", json);
+    },
+
+    "test: getParser() detects xml": function() {
+      var xml = qx.io.request.Xhr.PARSER["xml"];
+      this.__assertParser("application/xml", xml);
+      this.__assertParser("application/vnd.oneandone.domains.domain+xml", xml);
+      this.__assertParser("text/xml");  // Deprecated
+    },
+
+    "test: getParser() detects deprecated xml": function() {
+      var xml = qx.io.request.Xhr.PARSER["xml"];
+      this.__assertParser("text/xml");
+    },
+
+    "test: getParser() handles character set": function() {
+      var json = qx.io.request.Xhr.PARSER["json"];
+      this.__assertParser("application/json; charset=utf-8", json);
     },
 
     "test: setParser() function": function() {

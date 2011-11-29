@@ -386,18 +386,23 @@ qx.Class.define("qx.io.request.Xhr",
         return;
       }
 
-      contentType = this.getResponseContentType();
+      // See http://restpatterns.org/Glossary/MIME_Type
 
-      if ((/^application\/json/).test(contentType)) {
+      contentType = this.getResponseContentType() || "";
+
+      // Ignore parameters (e.g. the character set)
+      contentType = contentType.replace(/;.*$/, "");
+
+      if ((/^application\/(\w|\.)*\+?json$/).test(contentType)) {
         parser = qx.io.request.Xhr.PARSER["json"];
       }
 
-      if ((/^application\/xml/).test(contentType)) {
+      if ((/^application\/xml$/).test(contentType)) {
         parser = qx.io.request.Xhr.PARSER["xml"];
       }
 
-      // Content type ending with +xml
-      if ((/[^\/]+\/[^\+]+\+xml/).test(this.getResponseContentType())) {
+      // Deprecated
+      if ((/[^\/]+\/[^\+]+\+xml$/).test(this.getResponseContentType())) {
         parser = qx.io.request.Xhr.PARSER["xml"];
       }
 
