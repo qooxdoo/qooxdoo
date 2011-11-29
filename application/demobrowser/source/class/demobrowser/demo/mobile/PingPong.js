@@ -73,10 +73,7 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
       root.useElement(document.body);
       root.setRoot(true);
 
-
-      if (qx.core.Environment.get("engine.name") != "webkit" || (!
-        qx.core.Environment.get("event.touch") &&
-        qx.core.Environment.get("qx.mobile.emulatetouch") == false))
+      if (qx.core.Environment.get("engine.name") != "webkit")
       {
         var warningLabelStyle = {
           "color" : "green",
@@ -88,7 +85,7 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
         };
         var label = new qx.html.Element("div", warningLabelStyle);
         root.add(label);
-        label.setAttribute("innerHTML", "<b>This demo is supposed to be run in a WebKit-based browser on a touch-enabled device.</b>");
+        label.setAttribute("innerHTML", "<b>This demo is supposed to be run in a WebKit-based browser.</b>");
         return;
       }
 

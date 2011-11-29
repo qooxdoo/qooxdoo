@@ -65,9 +65,8 @@ qx.Class.define("demobrowser.demo.mobile.ScaleImage",
       container.setRoot(true);
 
 
-      if (qx.core.Environment.get("engine.name") != "webkit" || (
-        !qx.core.Environment.get("event.touch") &&
-        qx.core.Environment.get("qx.mobile.emulatetouch") == false))
+      if (qx.core.Environment.get("engine.name") != "webkit" || 
+        !qx.core.Environment.get("event.touch"))
       {
         var warningLabelStyle = {
           "color" : "green",
