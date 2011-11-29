@@ -786,7 +786,7 @@ qx.Bootstrap.define("qx.core.Environment",
      * @param key {String} The name of the check you want to query.
      */
     get : function(key) {
-      if (qx.DEBUG && key == "css.translate3d") {
+      if (qx.Bootstrap.DEBUG && key == "css.translate3d") {
         qx.Bootstrap.warn(
           "The key 'css.translate3d' is deprecated. " + 
           "Please use 'css.transform.3d' instead."
