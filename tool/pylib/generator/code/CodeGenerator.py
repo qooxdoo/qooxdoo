@@ -688,7 +688,7 @@ class CodeGenerator(object):
                 self._console.debug("'%s': used features: %r" % (clazz, featureMap[clazz].keys()))
             self._console.outdent()
 
-            return
+            return classList
 
 
         def compileClasses(classList, compConf, log_progress=lambda:None):
@@ -697,7 +697,7 @@ class CodeGenerator(object):
             # do "statics" optimization out of line
             if "statics" in compConf.optimize:
                 tmp_optimize = compConf.optimize[:]
-                optimizeDeadCode(classList, script._featureMap, compConf, treegen=treegenerator, log_progress=log_progress)
+                #classList = optimizeDeadCode(classList, script._featureMap, compConf, treegen=treegenerator, log_progress=log_progress)
                 tmp_optimize.remove("statics")
                 if "variants" in tmp_optimize:
                     tmp_optimize.remove("variants") # has been done in optimizeDeadCode
@@ -726,6 +726,12 @@ class CodeGenerator(object):
 
 
         ##
+        # helper log function, to log progress here, but also in compileClasses()
+        def log_progress(c=[0]):
+            c[0]+=1
+            self._console.dot()
+
+        ##
         # Go through a set of classes, and either compile some of them into
         # a common .js file, constructing the URI to this file, or just construct
         # the URI to the source file directly if the class matches a filter.
@@ -752,11 +758,6 @@ class CodeGenerator(object):
                 package_uris.append(entry)
 
                 return package_uris
-
-            # helper log function, to log progress here, but also in compileClasses()
-            def log_progress(c=[0]):
-                c[0]+=1
-                self._console.dot()
 
             ##
             # Write the package data and the compiled class code in so many
@@ -912,6 +913,19 @@ class CodeGenerator(object):
             allClassVariants = script.classVariants()
             allClassVariants.difference_update(variantKeys)
             
+            # do "statics" optimization out of line (needs script.classes)
+            # communicates with compileAndWritePackage via Class._tmp_tree
+            compOpts = CompileOptions(compConf.get("code/optimize",[]), script.variants, compConf.get("code/format",False)) 
+            if "statics" in compOpts.optimize:
+                script.classesObj = optimizeDeadCode(script.classesObj, script._featureMap, 
+                    compOpts, treegen=treegenerator, log_progress=log_progress)
+                # make package.classes consistent with script.classesObj
+                for package in packages:
+                    for clz in package.classes[:]:
+                        if clz not in script.classesObj:
+                            package.classes.remove(clz)
+
+            # write packages to disk
             for packageIndex, package in enumerate(packages):
                 package = compileAndWritePackage(package, compConf, allClassVariants)
 

@@ -695,8 +695,8 @@ class Generator(object):
                 return set(load_names).union(run_names).difference(ignored_names)
 
             for packageId, package in enumerate(packages):
-                for classId in sorted(x.id for x in package.classes):
-                    classObj = ClassIdToObject[classId]
+                for classObj in package.classes:
+                    classId = classObj.id
                     classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=forceFreshDeps)
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     loads = classDeps["load"]
@@ -706,8 +706,8 @@ class Generator(object):
                     if not includeTransitives:
                         loads1, loads = loads[:], []
                         for dep in loads1:
-                            # if the .requestor is different from classId, it must be included
-                            # through a transitive analysis
+                            # if the .requestor is different from classId, it must have been
+                            # included through a transitive analysis
                             if dep.requestor == classId:
                                 loads.append(dep)
 
@@ -748,10 +748,10 @@ class Generator(object):
 
             # build up depsMap {"classId" : ("packageId", [<load_deps>,...], [<run_deps>, ...]) }
             for packageId, package in enumerate(packages):
-                for classId in sorted(x.id for x in package.classes):
+                for classObj in package.classes:
+                    classId = classObj.id
                     if classId not in depsMap:
                         depsMap[classId] = (packageId, [], [])
-                    classObj = ClassIdToObject[classId]
                     classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=forceFreshDeps)
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     loads = classDeps["load"]
@@ -1213,7 +1213,7 @@ class Generator(object):
         
         depsLogConf = ExtMap(depsLogConf)
 
-        self._console.info("Dependency logging...")
+        self._console.info("Dependency logging  ", feed=False)
         self._console.indent()
 
         type = depsLogConf.get('type', None)
@@ -1223,6 +1223,7 @@ class Generator(object):
             self._console.error('Dependency log type "%s" not in ["using", "used-by"]; skipping...' % type)
 
         self._console.outdent()
+        self._console.dotclear()
         return
 
 
