@@ -277,31 +277,34 @@ class MClassCode(object):
         cache = self.context['cache']
         console = self.context['console']
 
-        if ["comments"] == optimize:
-            # do a mere comment stripping
-            commentoptimizer.patch(tree)
-            return tree
+        try:
+            if ["comments"] == optimize:
+                # do a mere comment stripping
+                commentoptimizer.patch(tree)
+                return tree
 
-        # 'statics' has to come before 'privates', as it needs the original key names in tree
-        if "statics" in optimize:
-            if not featureMap:
-                console.warn("Empty feature map passed to static methods optimization; skipping")
-            elif self.type == 'static' and self.id in featureMap:
-                featureoptimizer.patch(tree, self.id, featureMap[self.id])
+            # 'statics' has to come before 'privates', as it needs the original key names in tree
+            if "statics" in optimize:
+                if not featureMap:
+                    console.warn("Empty feature map passed to static methods optimization; skipping")
+                elif self.type == 'static' and self.id in featureMap:
+                    featureoptimizer.patch(tree, self.id, featureMap[self.id])
 
-        if "basecalls" in optimize:
-            basecalloptimizer.patch(tree)
+            if "basecalls" in optimize:
+                basecalloptimizer.patch(tree)
 
-        if "privates" in optimize:
-            privatesMap = load_privates()
-            privateoptimizer.patch(tree, id, privatesMap)
-            write_privates(privatesMap)
+            if "privates" in optimize:
+                privatesMap = load_privates()
+                privateoptimizer.patch(tree, id, privatesMap)
+                write_privates(privatesMap)
 
-        if "strings" in optimize:
-            tree = self._stringOptimizer(tree)
+            if "strings" in optimize:
+                tree = self._stringOptimizer(tree)
 
-        if "variables" in optimize:
-            variableoptimizer.search(tree)
+            if "variables" in optimize:
+                variableoptimizer.search(tree)
+        except Exception, e:
+            raise RuntimeError("Problem optimizing %s; probably a syntax problem?!" % self.id)
 
         return tree
 

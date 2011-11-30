@@ -21,7 +21,7 @@
 #
 ################################################################################
 
-import re, sys
+import re, sys, types
 
 from ecmascript.frontend import tree, treeutil
 
@@ -68,6 +68,7 @@ def optimize(classDefine, classDefNodes):
         return patchCount
     
     members = classMap["members"]
+    assert isinstance(members, types.DictType)
     for methodName, methodNode in members.items():
         patchCount += optimizeConstruct(methodNode, superClass, methodName, classDefNodes)
 
