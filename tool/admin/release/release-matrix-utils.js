@@ -26,3 +26,17 @@ function autonumbering() {
   }
 }
 
+function minitests(columns) {
+  var slice = Array.prototype.slice;
+  var minis = [];
+  slice.call(document.querySelectorAll("tr.full"), 0).forEach(function(tr) {
+    columns.forEach(function(column) {
+      minis.push(tr.querySelector("td:nth-child(" + column + ")"));
+    });
+  });
+  minis.forEach(function(mini) {
+    if (mini !== null) {
+      mini.textContent = "N/A";
+    }
+  });
+}

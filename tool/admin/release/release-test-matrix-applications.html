@@ -22,7 +22,7 @@
     td {
       vertical-align: top;
     }
-    td.platforms {
+    tr.platforms td {
       width: 4%
     }
 
@@ -31,60 +31,53 @@
   <script  type="text/javascript" src="release-matrix-utils.js"></script>
 
 </head>
-<body onload="autonumbering();">
+<body onload="autonumbering(); minitests([10,11,12,13,14,15]);">
 <div>
   <em>$Rev$</em>
 </div>
-<div align="center"><b>qooxdoo 1.5</b></div>
+<div align="center"><b>qooxdoo 1.5.1</b></div>
 
 <table border="1" cellpadding="2" cellspacing="0">
   <thead> <tr>
     <th rowspan="3" colspan="2">Application Tests</th>
-    <th colspan="10">Platform</th>
+    <th colspan="13">Platform</th>
   </tr>
   <tr>
-    <td class="platforms"><b>FF 3.6</b><br>
-Linux</td>
-    <td class="platforms"><b>FF 5</b><br>
-XP</td>
-    <td class="platforms"><b>Aurora</b><br>
-OSX</td>
-    <td class="platforms"><b>Saf 5</b><br>
-Win7</td>
-    <td class="platforms"><b>Opera 10</b><br>
-XP</td>
-    <td class="platforms"><b>Opera 11.50</b><br>
-OSX</td>
-    <td class="platforms"><b>Chr 12</b><br>
-Win7</td>
-    <td class="platforms"><b>Chr 14</b><br>
-OSX</td>
-    <td class="platforms"><b>IE 8</b><br>
-XP</td>
-    <td class="platforms"><b>IE 9</b><br>
-Win7</td>
+    <td><b>IE 8</b><br>XP</td>
+    <td><b>IE 9</b><br>Win7</td>
+    <td><b>FF 8</b><br>Win7</td>
+    <td><b>Safari 5.1.2</b><br>OSX</td>
+    <td><b>Chrome Stable</b><br>OSX</td>
+    <td><b>Chrome Beta</b><br>OSX</td>
+    <td><b>Opera 11.52</b><br>OSX</td>
+    <td><b>IE 6</b><br>XP</td>
+    <td><b>IE 10 Preview</b><br>Win7</td>
+    <td><b>FF 3.6</b><br>XP</td>
+    <td><b>FF 4</b><br>OSX</td>
+    <td><b>Chrome Dev</b><br>Win7</td>
+    <td><b>Opera 11.10</b><br>Linux</td>
   </tr>
   <tr>
-    <td colspan="1" style="vertical-align: top;"><br>
-    </td>
-    <td style="vertical-align: top;">stable</td>
-    <td style="vertical-align: top;"></td>
-    <td style="vertical-align: top;">stable</td>
-    <td style="vertical-align: top;"></td>
-    <td style="vertical-align: top;">stable</td>
-    <td style="vertical-align: top;">stable
-    </td>
-    <td style="vertical-align: top;"><br>
-    </td>
-    <td style="vertical-align: top;"></td>
-    <td style="vertical-align: top;">stable</td>
+    <td>Full<br>tests</td>
+    <td>Full<br>tests</td>
+    <td>Full<br>tests</td>
+    <td>Full<br>tests</td>
+    <td>Full<br>tests</td>
+    <td>Full<br>tests</td>
+    <td>Full<br>tests</td>
+    <td>Mini<br>tests</td>
+    <td>Mini<br>tests</td>
+    <td>Mini<br>tests</td>
+    <td>Mini<br>tests</td>
+    <td>Mini<br>tests</td>
+    <td>Mini<br>tests</td>
   </tr>
   </thead> <tbody>
-    <tr>
+    <tr class="full">
       <th name="number">1</th>
-      <th colspan="11">API Viewer</th>
+      <th colspan="14">API Viewer</th>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">1.1</td>
       <td>No missing API docs</td>
       <td><br>
@@ -107,8 +100,14 @@ Win7</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">1.2</td>
       <td>Class docs load</td>
       <td><br>
@@ -131,8 +130,14 @@ Win7</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">1.3</td>
       <td>Tabs are working (new with shift-/ctrl-left-mouse)</td>
       <td><br>
@@ -155,8 +160,14 @@ Win7</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">1.4</td>
       <td>Internal links in API pages work</td>
       <td><br>
@@ -179,8 +190,14 @@ Win7</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">1.5</td>
       <td>Toggling via toolbar (pub/prot/priv, ...)</td>
       <td><br>
@@ -203,8 +220,14 @@ Win7</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">1.6</td>
       <td>Enhanced Search: disable various categories to search in
 (package, class, ...) and check results<br>
@@ -229,8 +252,14 @@ Win7</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">1.7</td>
       <td>Resizing browser: Application adapts</td>
       <td><br>
@@ -253,8 +282,14 @@ Win7</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">1.8</td>
       <td>Resizing browser: Content/controls remain accessible</td>
       <td><br>
@@ -277,13 +312,19 @@ Win7</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <th name="number">2</th>
-      <th colspan="11">Test Runner - Framework Tests<br>
+      <th colspan="14">Test Runner - Framework Tests<br>
       </th>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">2.1</td>
       <td>Test App loads</td>
       <td><br>
@@ -306,8 +347,14 @@ Win7</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">2.2</td>
       <td>Select tests</td>
       <td><br>
@@ -330,8 +377,14 @@ Win7</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">2.3</td>
       <td>Tests run</td>
       <td><br>
@@ -354,8 +407,14 @@ Win7</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">2.4</td>
       <td>Setting Log Level works (for new runs)</td>
       <td><br>
@@ -378,8 +437,14 @@ Win7</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">2.5</td>
       <td>Show/Hide Stack Trace works (for new and existing runs;
 requires failing test)</td>
@@ -403,8 +468,14 @@ requires failing test)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">2.6
       </td>
       <td style="vertical-align: top;">Reload AUT (clears log)<br>
@@ -429,8 +500,14 @@ requires failing test)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">2.7
       </td>
       <td style="vertical-align: top;">Run tests with "Autoreload"
@@ -456,8 +533,14 @@ requires failing test)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">2.8</td>
       <td>Resizing browser: Application adapts</td>
       <td><br>
@@ -480,8 +563,14 @@ requires failing test)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">2.9</td>
       <td>Resizing browser: Content/controls remain accessible</td>
       <td><br>
@@ -504,13 +593,19 @@ requires failing test)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <th name="number">2</th>
-      <th colspan="11">Test Runner - Component Tests<br>
+      <th colspan="14">Test Runner - Component Tests<br>
       </th>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">2.1</td>
       <td>Test App loads (URL:
 &lt;path_to_framework&gt;/component/testrunner/build/index.html)<br>
@@ -535,8 +630,14 @@ requires failing test)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">2.2</td>
       <td>Select tests</td>
       <td><br>
@@ -559,8 +660,14 @@ requires failing test)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">2.3</td>
       <td>Tests run (*Fail should fail, *Ssl should be skipped, all
 other success)<br>
@@ -585,8 +692,14 @@ other success)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">2.5</td>
       <td>Show/Hide Stack Trace works (for new and existing runs)</td>
       <td><br>
@@ -609,12 +722,18 @@ other success)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <th name="number">3</th>
-      <th colspan="11">Demo Browser</th>
+      <th colspan="14">Demo Browser</th>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">3.1</td>
       <td>Interact with a few demos (pick randomly; widgets are covered
 by Widgetbrowser)<br>
@@ -639,8 +758,14 @@ by Widgetbrowser)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">3.2</td>
       <td>Running entire group works (autoplay)</td>
       <td><br>
@@ -663,8 +788,14 @@ by Widgetbrowser)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">3.3</td>
       <td>Previous/Next navigation works</td>
       <td><br>
@@ -687,8 +818,14 @@ by Widgetbrowser)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">3.4</td>
       <td>Search for some demo names and class names</td>
       <td><br>
@@ -711,8 +848,14 @@ by Widgetbrowser)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">3.5</td>
       <td>Previous/Next navigation works in Search Results</td>
       <td><br>
@@ -735,8 +878,14 @@ by Widgetbrowser)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">3.6</td>
       <td>Switching of theme (Simple, Classic)</td>
       <td><br>
@@ -759,8 +908,14 @@ by Widgetbrowser)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">3.7</td>
       <td>Toggling of optional panes (HTML Code, JS Code, Log File)</td>
       <td><br>
@@ -783,11 +938,19 @@ by Widgetbrowser)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">3.8</td>
       <td>Check the link to the playground</td>
-      <td><br>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
       </td>
       <td><br>
       </td>
@@ -796,16 +959,20 @@ by Widgetbrowser)<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br></td>
       <td></td>
-      <td style="vertical-align: top;">N/A </td>
-      <td>N/A
+      <td></td>
+      <td>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
       </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">3.9</td>
       <td>Check the link to own window</td>
       <td><br>
@@ -828,8 +995,14 @@ by Widgetbrowser)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">3.10
       </td>
       <td style="vertical-align: top;">Check if the link to the manual
@@ -854,8 +1027,14 @@ and the api works</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">3.11</td>
       <td>Resizing browser: Application adapts</td>
       <td><br>
@@ -878,8 +1057,14 @@ and the api works</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">3.12</td>
       <td>Resizing browser: Content/controls remain accessible</td>
       <td><br>
@@ -902,12 +1087,18 @@ and the api works</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <th name="number">4</th>
-      <th colspan="11">Feed Reader</th>
+      <th colspan="14">Feed Reader</th>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">4.1</td>
       <td>Feeds and articles load and look ok</td>
       <td><br>
@@ -930,8 +1121,14 @@ and the api works</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">4.2</td>
       <td>Language switch reads ok</td>
       <td><br>
@@ -954,8 +1151,14 @@ and the api works</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">4.3</td>
       <td>Adding a feed works (e.g.
 http://www.theregister.co.uk/headlines.atom)</td>
@@ -979,8 +1182,14 @@ http://www.theregister.co.uk/headlines.atom)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">4.4</td>
       <td>Try to reload the feeds</td>
       <td><br>
@@ -1003,8 +1212,14 @@ http://www.theregister.co.uk/headlines.atom)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">4.5</td>
       <td>Try to erase a static (should not work) and a user feed
 (should work)</td>
@@ -1028,8 +1243,14 @@ http://www.theregister.co.uk/headlines.atom)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">4.6</td>
       <td>Check if the selected article is restored when switching feeds</td>
       <td><br>
@@ -1052,8 +1273,14 @@ http://www.theregister.co.uk/headlines.atom)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">4.7</td>
       <td>Resizing browser: Application adapts</td>
       <td><br>
@@ -1076,8 +1303,14 @@ http://www.theregister.co.uk/headlines.atom)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">4.8</td>
       <td>Resizing browser: Content/controls remain accessible</td>
       <td><br>
@@ -1100,12 +1333,18 @@ http://www.theregister.co.uk/headlines.atom)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <th name="number">5</th>
-      <th colspan="11">Playground</th>
+      <th colspan="14">Playground</th>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">5.1</td>
       <td>Samples load</td>
       <td><br>
@@ -1128,8 +1367,14 @@ http://www.theregister.co.uk/headlines.atom)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">5.2</td>
       <td>Syntax highlighting can be toggled</td>
       <td><br>
@@ -1152,8 +1397,14 @@ http://www.theregister.co.uk/headlines.atom)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">5.3</td>
       <td>Running changed code works</td>
       <td><br>
@@ -1176,8 +1427,14 @@ http://www.theregister.co.uk/headlines.atom)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">5.4</td>
       <td>Check if the log works</td>
       <td><br>
@@ -1200,8 +1457,14 @@ http://www.theregister.co.uk/headlines.atom)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">5.5</td>
       <td>Check if the link to the Manual, Api and Demobrowser works</td>
       <td><br>
@@ -1224,8 +1487,14 @@ http://www.theregister.co.uk/headlines.atom)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">5.6</td>
       <td>Shorten URL works (use e.g. a changed sample, where the code
 is in the URL)</td>
@@ -1249,8 +1518,14 @@ is in the URL)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">5.7</td>
       <td>Code via URL hash works (use the short URL gained in the
 previous step)</td>
@@ -1274,8 +1549,14 @@ previous step)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">5.8</td>
       <td>Gists work (e.g. use "qooxdoo")</td>
       <td><br>
@@ -1298,8 +1579,14 @@ previous step)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">5.9</td>
       <td>Filtering gists works</td>
       <td><br>
@@ -1322,8 +1609,14 @@ previous step)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">5.10</td>
       <td>Gist username, filtering and syntax highlighting are kept at
 reload</td>
@@ -1347,8 +1640,14 @@ reload</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">5.11</td>
       <td>Gist hash works (e.g. #gist=279900)</td>
       <td><br>
@@ -1371,8 +1670,14 @@ reload</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">5.12</td>
       <td>Resizing browser: Application adapts</td>
       <td><br>
@@ -1395,8 +1700,14 @@ reload</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">5.13</td>
       <td>Resizing browser: Content/controls remain accessible</td>
       <td><br>
@@ -1419,12 +1730,18 @@ reload</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <th name="number">6</th>
-      <th colspan="11">Inspector</th>
+      <th colspan="14">Inspector</th>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">6.1</td>
       <td>Inspect per mouse works (Standalone App)</td>
       <td><br>
@@ -1447,8 +1764,14 @@ reload</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">6.2</td>
       <td>Object window works (Standalone App)</td>
       <td><br>
@@ -1471,8 +1794,14 @@ reload</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">6.3</td>
       <td>Widget hierarchy works (Standalone App)</td>
       <td><br>
@@ -1495,8 +1824,14 @@ reload</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">6.4</td>
       <td>Property editor works (Standalone App)</td>
       <td><br>
@@ -1519,8 +1854,14 @@ reload</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">6.5</td>
       <td>Console works (Standalone App)</td>
       <td><br>
@@ -1543,8 +1884,14 @@ reload</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">6.6</td>
       <td>Selenium window works (s.
 http://manual.qooxdoo.org/current/pages/application/inspector_selenium.html)
@@ -1570,8 +1917,14 @@ App)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">6.7</td>
       <td>Inspect per mouse works (Inline App; also test with Inline
 App scrolled)</td>
@@ -1595,8 +1948,14 @@ App scrolled)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">6.8</td>
       <td>Object window works (Inline App)</td>
       <td><br>
@@ -1619,8 +1978,14 @@ App scrolled)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">6.9</td>
       <td>Widget hierarchy works (Inline App)</td>
       <td><br>
@@ -1643,8 +2008,14 @@ App scrolled)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">6.10</td>
       <td>Selenium window works (s.
 http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
@@ -1669,8 +2040,14 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">6.11</td>
       <td>Resizing browser: Application adapts</td>
       <td><br>
@@ -1693,12 +2070,18 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <th name="number">7</th>
-      <th colspan="11">Portal</th>
+      <th colspan="14">Portal</th>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">7.1</td>
       <td>Moving a portlet between columns</td>
       <td><br>
@@ -1721,10 +2104,16 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
     <tr>
       <th name="number">8</th>
-      <th colspan="11">Showcase</th>
+      <th colspan="14">Showcase</th>
     </tr>
     <tr>
       <td width="2%" name="number">8.1</td>
@@ -1749,8 +2138,14 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">8.2</td>
       <td>Interact with showcases</td>
       <td><br>
@@ -1773,8 +2168,14 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">8.3</td>
       <td>Text/Links comply with showcase/-version</td>
       <td><br>
@@ -1797,10 +2198,16 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
     <tr>
       <th name="number">9 </th>
-      <th colspan="11">Widget Browser<br>
+      <th colspan="14">Widget Browser<br>
       </th>
     </tr>
     <tr>
@@ -1826,6 +2233,12 @@ themes)<br>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
       </td>
       <td><br>
       </td>
@@ -1857,13 +2270,19 @@ effect (all themes)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <th name="number">10 </th>
-      <th colspan="11">Feature Config Editor<br>
+      <th colspan="14">Feature Config Editor<br>
       </th>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">10.1<br>
       </td>
       <td style="vertical-align: top;">Add features from table to list by double clicking, by dragging and by using the right arrow button<br>
@@ -1888,8 +2307,14 @@ effect (all themes)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">10.2
       </td>
       <td style="vertical-align: top;">Remove features from list by clicking the left arrow button and by pressing Del<br>
@@ -1914,8 +2339,14 @@ effect (all themes)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">10.3
       </td>
       <td style="vertical-align: top;">Edit String and Boolean values in the list: JSON view must auto-update after field loses focus<br>
@@ -1940,8 +2371,14 @@ effect (all themes)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">10.4
       </td>
       <td style="vertical-align: top;">Import Feature Map works: Copy a (partial) environment map from the JSON view to the import window. Table must display a new column after importing<br>
@@ -1966,17 +2403,23 @@ effect (all themes)<br>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <th name="number">11</th>
       <th colspan="2">Feed Reader - Mobile</th>
       <td><b>iPod</b></td>
       <td><b>Andr 2.1</b> </td>
-      <td colspan="7" style="vertical-align: top;"> <br>
+      <td colspan="10" style="vertical-align: top;"> <br>
       <br>
       </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">11.1
       </td>
       <td>Feed list loads and looks ok<br>
@@ -1995,8 +2438,14 @@ effect (all themes)<br>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">11.2
       </td>
       <td style="vertical-align: top;">Post lists for all feeds load
@@ -2016,8 +2465,14 @@ and look ok<br>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">11.3
       </td>
       <td style="vertical-align: top;">Individual posts load<br>
@@ -2036,8 +2491,14 @@ and look ok<br>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">11.4
       </td>
       <td style="vertical-align: top;">Back navigation works<br>
@@ -2049,15 +2510,21 @@ and look ok<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">N/A </td>
+      <td style="vertical-align: top;">N/A</td>
       <td style="vertical-align: top;">N/A</td>
       <td style="vertical-align: top;">N/A</td>
       <td style="vertical-align: top;">N/A</td>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">11.5
       </td>
       <td style="vertical-align: top;">Drag-Scroll works<br>
@@ -2076,8 +2543,14 @@ and look ok<br>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">11.6
       </td>
       <td style="vertical-align: top;">Resize / Orientation-change:
@@ -2097,16 +2570,28 @@ adapts</td>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <th name="number">12</th>
       <th colspan="2">Mobile Showcase</th>
       <td><b>iPod</b></td>
       <td><b>Andr 2.1</b></td>
       <td colspan="7" style="vertical-align: top;"> <br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">12.1
       </td>
       <td style="vertical-align: top;">Showcase list loads and looks ok<br>
@@ -2125,8 +2610,14 @@ adapts</td>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">12.2
       </td>
       <td>Form page loads, form elements can be used<br>
@@ -2145,8 +2636,14 @@ adapts</td>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">12.3
       </td>
       <td style="vertical-align: top;">List page loads, selection works
@@ -2166,8 +2663,14 @@ on "Selectable*" items, drag-scroll of list works<br>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">12.4
       </td>
       <td style="vertical-align: top;">Tab page loads, "View *" text
@@ -2187,8 +2690,14 @@ changes with selected tab button<br>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">12.5
       </td>
       <td style="vertical-align: top;">Event page loads, touch (click),
@@ -2209,8 +2718,14 @@ touch-end (mouse-up) events are recorded<br>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">12.6
       </td>
       <td style="vertical-align: top;">Animation page loads, all page
@@ -2230,8 +2745,14 @@ transition types work<br>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">12.7
       </td>
       <td style="vertical-align: top;">Back button works from all pages<br>
@@ -2250,8 +2771,14 @@ transition types work<br>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td style="vertical-align: top;" name="number">12.8
       </td>
       <td style="vertical-align: top;">Resize / Orientation-change:
@@ -2271,12 +2798,18 @@ adapts</td>
       <td style="vertical-align: top;">N/A</td>
       <td>N/A
       </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
+      <td>N/A<br>
+      </td>
     </tr>
 <!-- Manual --> <tr>
       <th name="number">13</th>
-      <th colspan="11">Manual</th>
+      <th colspan="14">Manual</th>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">13.1</td>
       <td>Check index.html (general layout, topic listing)</td>
       <td><br>
@@ -2299,8 +2832,14 @@ adapts</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">13.2</td>
       <td>Check a few content pages (general layout)</td>
       <td><br>
@@ -2323,8 +2862,14 @@ adapts</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">13.3</td>
       <td>Check breadcrumbs</td>
       <td><br>
@@ -2347,8 +2892,14 @@ adapts</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">13.4</td>
       <td>Try the Search tool (number of hits, display of search
 results)</td>
@@ -2372,8 +2923,14 @@ results)</td>
       </td>
       <td><br>
       </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
     </tr>
-    <tr>
+    <tr class="full">
       <td width="2%" name="number">13.5</td>
       <td>PDF (don't use index.html link, but
 ...build/latex/qooxdoo.pdf; should be around 350-450 pages)</td>
@@ -2394,6 +2951,12 @@ results)</td>
       <td><br>
       </td>
       <td style="vertical-align: top;"><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
       </td>
       <td><br>
       </td>
