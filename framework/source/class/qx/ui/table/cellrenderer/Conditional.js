@@ -326,7 +326,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
               break;
 
             case "!between":
-              if (compareValue < this.conditions[i][5] && compareValue > this.conditions[i][6]) {
+              if (compareValue < this.conditions[i][5] || compareValue > this.conditions[i][6]) {
                 cond_test = true;
               }
 
