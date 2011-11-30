@@ -2,27 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script src="../helper.js"></script>
 </head>
 <body>
-<!-- DO NOT REMOVE - NEEDED BY gendata.py
-src="../helper.js"
--->
-<script>
-  (function() {
-    if (window.location.host == "demo.qooxdoo.org") {
-      if (window.top == window) {
-        var path = window.location.pathname.match(/.*\//);
-        window.location = path + "Github.php";
-      } else {
-        var p = document.createElement("p");
-        p.innerHTML = 'This demo can only be run in <a href="#" target="_new">own window</a>';
-        document.body.appendChild(p);
-      }
-    } else {
-      var p = document.createElement("p");
-      p.innerHTML = 'This demo can only be run from <a href="http://demo.qooxdoo.org/current/demobrowser/demo/data/Github.html" target="_new">demo.qooxdoo.org</a>.';
-      document.body.appendChild(p);
-    }
-  })()
-</script>
+<p style="padding: 5px;">
+  This demo depends on a backend component and cannot be run in the context of the demo browser. For a working
+  example, please open the <a href="http://demo.qooxdoo.org/current/github/">GitHub demo application</a>.
+  The application is included in the SDK. Please see the comments in the source to customize to your environment.
+</p>
 </body>

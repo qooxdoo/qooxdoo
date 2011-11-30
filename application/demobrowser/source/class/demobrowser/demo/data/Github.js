@@ -42,6 +42,11 @@ qx.Class.define("demobrowser.demo.data.Github", {
     __gist: null,
 
     main: function() {
+
+      if (typeof GITHUB == "undefined") {
+        return;
+      }
+
       this.base(arguments);
 
       this._setUpResources();

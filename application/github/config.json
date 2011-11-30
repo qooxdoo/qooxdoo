@@ -1,0 +1,82 @@
+{
+  "name"    : "github",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "api-data",
+    "build",
+    "clean",
+    "distclean",
+    "fix",
+    "info",
+    "inspector",
+    "lint",
+    "migration",
+    "pretty",
+    "profiling",
+    "source",
+    "source-all",
+    "source-hybrid",
+    "simulation-build",
+    "simulation-run",
+    "test",
+    "test-source",
+    "translation"
+  ],
+
+  "default-job" : "source-hybrid",
+
+  "config-warnings" :
+  {
+   "job-shadowing" : ["libraries", "build-files"]
+  },
+
+  "let" :
+  {
+    "APPLICATION"  : "github",
+    "QOOXDOO_PATH" : "../..",
+    "QXTHEME"      : "qx.theme.Modern",
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "ROOT"         : "."
+  },
+
+  "jobs" :
+  {
+    "libraries" :
+    {
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/application/demobrowser/Manifest.demo.json"
+        }
+      ]
+    },
+    "build-files" :
+    {
+      "desc"    : "copy files of current application to build dir",
+
+      "extend" : ["common"],
+
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index.php"
+        ],
+
+        "source" : "${ROOT}/source",
+        "target" : "${BUILD_PATH}"
+      }
+    }
+  }
+}

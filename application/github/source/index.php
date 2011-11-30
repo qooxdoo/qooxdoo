@@ -6,6 +6,7 @@
 <body>
 
 <?php
+  # Must set $CLIENT_ID and $CLIENT_SECRET
   include("/home/qooxdoo/div/qx-gists.conf.php");
 
   if (isset($_GET['code'])) {
@@ -34,7 +35,7 @@
   })();
 </script>
 
-<script type="text/javascript" src="../helper.js"></script>
+<script type="text/javascript" src="script/github.js"></script>
 
 </body>
 </html>
