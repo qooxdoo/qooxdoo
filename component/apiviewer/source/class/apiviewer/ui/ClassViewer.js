@@ -543,23 +543,24 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       html.add("<h2>", "Inheritance hierarchy:", "</h2>");
 
-      var indent = 0, l = hierarchy.length;
-      for (var i=l-1; i>=0; i--) {
+      var indent = 0;
+      for (var i=hierarchy.length - 1; i >= 0; i--) {
         var name = hierarchy[i].getFullName();
         var icon = TreeUtil.getIconUrl(hierarchy[i]);
-
+        
         html.add("<div>");
-
-        if (i == l-1) {
-          html.add(ClassViewer.createImageHtml(icon));
-          html.add(InfoPanel.createItemLinkHtml(name, null, false));
-        } else {
+        
+        if (hierarchy[i].getSuperInterfaces().length > 0) {
           html.add(ClassViewer.createImageHtml("apiviewer/image/nextlevel.gif", null, "margin-left:" + indent + "px"));
           html.add(ClassViewer.createImageHtml(icon));
           html.add(i != 0 ? InfoPanel.createItemLinkHtml(name, null, false) : name);
           indent += 18;
         }
-
+        else {
+          html.add(ClassViewer.createImageHtml(icon));
+          html.add(InfoPanel.createItemLinkHtml(name, null, false));
+        }
+        
         html.add("</div>");
       }
 
