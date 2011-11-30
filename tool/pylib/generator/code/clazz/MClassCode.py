@@ -243,36 +243,39 @@ class MClassCode(object):
 
         def optimizeTree(tree):
 
-            if ["comments"] == optimize:
-                # do a mere comment stripping
-                commentoptimizer.patch(tree)
+            try:
+                if ["comments"] == optimize:
+                    # do a mere comment stripping
+                    commentoptimizer.patch(tree)
 
-            # "variants" prunes parts of the tree, so all subsequent optimizations benefit
-            if "variants" in optimize:
-                variantoptimizer.search(tree, variantSet, self.id)
+                # "variants" prunes parts of the tree, so all subsequent optimizations benefit
+                if "variants" in optimize:
+                    variantoptimizer.search(tree, variantSet, self.id)
 
-            # 'statics' has to come before 'privates', as it needs the original key names in tree
-            # if features should be removed recursively, this has to be controlled on the calling
-            # level.
-            if "statics" in optimize:
-                if not featureMap:
-                    console.warn("Empty feature map passed to static methods optimization; skipping")
-                elif self.type == 'static' and self.id in featureMap:
-                    featureoptimizer.patch(tree, self, featureMap)
+                # 'statics' has to come before 'privates', as it needs the original key names in tree
+                # if features should be removed recursively, this has to be controlled on the calling
+                # level.
+                if "statics" in optimize:
+                    if not featureMap:
+                        console.warn("Empty feature map passed to static methods optimization; skipping")
+                    elif self.type == 'static' and self.id in featureMap:
+                        featureoptimizer.patch(tree, self, featureMap)
 
-            if "basecalls" in optimize:
-                basecalloptimizer.patch(tree)
+                if "basecalls" in optimize:
+                    basecalloptimizer.patch(tree)
 
-            if "privates" in optimize:
-                privatesMap = load_privates()
-                privateoptimizer.patch(tree, id, privatesMap)
-                write_privates(privatesMap)
+                if "privates" in optimize:
+                    privatesMap = load_privates()
+                    privateoptimizer.patch(tree, id, privatesMap)
+                    write_privates(privatesMap)
 
-            if "strings" in optimize:
-                tree = self._stringOptimizer(tree)
+                if "strings" in optimize:
+                    tree = self._stringOptimizer(tree)
 
-            if "variables" in optimize:
-                variableoptimizer.search(tree)
+                if "variables" in optimize:
+                    variableoptimizer.search(tree)
+            except Exception, e:
+                raise RuntimeError("Problem optimizing %s; probably a syntax problem?!" % self.id)
 
             return tree
 
