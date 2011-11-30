@@ -32,6 +32,12 @@ def gzip(filePath, content, encoding="utf-8"):
     if not filePath.endswith(".gz"):
         filePath = filePath + ".gz"
     
+    # Normalize
+    filePath = normalize(filePath)
+
+    # Create directory
+    directory(os.path.dirname(filePath))
+
     content = unicode(content).encode(encoding)
     
     outputFile = sys_gzip.open(filePath, "wb", 9)
