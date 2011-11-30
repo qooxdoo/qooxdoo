@@ -23,6 +23,7 @@ qx.Class.define("qx.test.dev.StackTrace",
     tearDown : function()
     {
       qx.dev.StackTrace.FILENAME_TO_CLASSNAME = null;
+      qx.dev.StackTrace.FORMAT_STACKTRACE = null;
     },
     
     
@@ -65,6 +66,25 @@ qx.Class.define("qx.test.dev.StackTrace",
       var stack = qx.dev.StackTrace.getStackTraceFromError(ex);
       for (var i=0, l=stack.length; i<l; i++) {
         this.assertMatch(stack[i], /FOO/);
+      }
+    },
+    
+    
+    testFormatStackTrace : function()
+    {
+      var formatter = function(trace) {
+        this.assertArray(trace);
+        for (var i=0, l=trace.length; i<l; i++) {
+          trace[i] = "BAR " + trace[i];
+        }
+        return trace;
+      }
+      
+      qx.dev.StackTrace.FORMAT_STACKTRACE = qx.lang.Function.bind(formatter, this);
+      var ex = new Error("Just a test");
+      var stack = qx.dev.StackTrace.getStackTraceFromError(ex);
+      for (var i=0, l=stack.length; i<l; i++) {
+        this.assertMatch(stack[i], /^BAR/);
       }
     }
   }

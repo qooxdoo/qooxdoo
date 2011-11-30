@@ -32,6 +32,14 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * string is used in the output of {@link #getStackTraceFromError}
      */
     FILENAME_TO_CLASSNAME : null,
+    
+    /**
+     * Optional user-defined formatting function for stack trace information.
+     * Will be called by with an array of strings representing the calls in the 
+     * stack trace. {@link #getStackTraceFromError} will return the output of 
+     * this function
+     */
+    FORMAT_STACKTRACE : null,
 
     /**
      * Get a stack trace of the current position in the code.
@@ -178,6 +186,8 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * This will get the JavaScript file names and the line numbers of each call.
      * The file names are converted into qooxdoo class names if possible (customizable 
      * via {@link #FILENAME_TO_CLASSNAME}).
+     * 
+     * The stack trace can be custom formatted using {@link #FORMAT_STACKTRACE}.
      *
      * This works reliably in Gecko-based browsers. Later Opera versions and
      * Chrome also provide a useful stack trace. For Safari, only the class or
@@ -208,7 +218,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         }
         
         if (trace.length > 0) {
-          return trace;
+          return this.__formatStackTrace(trace);
         }
         /*
          * Chrome trace info comes in two flavors:
@@ -219,7 +229,6 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         var fileReParens = /\((.*?)(:[^\/].*)\)/;
         var fileRe = /(.*?)(:[^\/].*)/;
         var hit;
-        var trace = [];
         while ((hit = lineRe.exec(error.stack)) != null) {
           var fileMatch = fileReParens.exec(hit[1]);
           if (!fileMatch) {
@@ -230,7 +239,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
             var className = this.__fileNameToClassName(fileMatch[1]);
             trace.push(className + fileMatch[2]);
           } else {
-              trace.push(hit[1]);
+            trace.push(hit[1]);
           }
         }
       }
@@ -244,7 +253,6 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         // new Opera style (10.6+)
         var lineRe = /line\ (\d+?),\ column\ (\d+?)\ in\ (?:.*?)\ in\ (.*?):[^\/]/gm;
         var hit;
-        var trace = [];
         while ((hit = lineRe.exec(stacktrace)) != null) {
           var lineNumber = hit[1];
           var columnNumber = hit[2];
@@ -254,13 +262,12 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         }
         
         if (trace.length > 0) {
-          return trace;
+          return this.__formatStackTrace(trace);
         }
         
         // older Opera style
         var lineRe = /Line\ (\d+?)\ of\ linked\ script\ (.*?)$/gm;
         var hit;
-        var trace = [];
         while ((hit = lineRe.exec(stacktrace)) != null) {
           var lineNumber = hit[1];
           var url = hit[2];
@@ -270,7 +277,6 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       }
       else if (error.message && error.message.indexOf("Backtrace:") >= 0) {
         // Some old Opera versions append the trace to the message property
-        var trace = [];
         var traceString = qx.lang.String.trim(error.message.split("Backtrace:")[1]);
         var lines = traceString.split("\n");
         for (var i=0; i<lines.length; i++)
@@ -288,7 +294,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         trace.push(this.__fileNameToClassName(error.sourceURL) + ":" + error.line);
       }
       
-      return trace;
+      return this.__formatStackTrace(trace);
     },
 
     /**
@@ -327,6 +333,23 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       }
       var className = (jsPos == -1) ? fileName : fileName.substring(jsPos + scriptDir.length).replace(/\//g, ".").replace(/\.js$/, "");
       return className;
+    },
+    
+    
+    /**
+     * Runs the given stack trace array through the formatter function
+     * ({@link #FORMAT_STACKTRACE}) if available and returns it. Otherwise, the
+     * original array is returned
+     * 
+     * @param trace {String[]} Stack trace information
+     * @return {String[]} Formatted stack trace info
+     */
+    __formatStackTrace : function(trace)
+    {
+      if (typeof qx.dev.StackTrace.FORMAT_STACKTRACE == "function") {
+        return qx.dev.StackTrace.FORMAT_STACKTRACE(trace);
+      }
+      return trace;
     }
   }
 });
