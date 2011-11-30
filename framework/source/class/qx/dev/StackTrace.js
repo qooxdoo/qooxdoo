@@ -24,6 +24,14 @@ qx.Bootstrap.define("qx.dev.StackTrace",
 {
   statics:
   {
+    
+    /**
+     * Optional user-defined function to convert source file names into readable 
+     * class names. Will be called with the source file name extracted from the
+     * browser's stack trace information as the only argument. The returned 
+     * string is used in the output of {@link #getStackTraceFromError}
+     */
+    FILENAME_TO_CLASSNAME : null,
 
     /**
      * Get a stack trace of the current position in the code.
@@ -168,12 +176,13 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * the exception was thrown at.
      *
      * This will get the JavaScript file names and the line numbers of each call.
-     * The file names are converted into qooxdoo class names if possible.
+     * The file names are converted into qooxdoo class names if possible (customizable 
+     * via {@link #FILENAME_TO_CLASSNAME}).
      *
      * This works reliably in Gecko-based browsers. Later Opera versions and
-     * Chrome also provide an useful stack trace. For Safari, only the class or
+     * Chrome also provide a useful stack trace. For Safari, only the class or
      * file name and line number where the error occurred are returned.
-     * IE 6/7/8 does not attach any stack information to error objects so an
+     * IE 6/7/8/9 does not attach any stack information to error objects so an
      * empty array is returned.
      *
      * @param error {Error} Error exception instance.
@@ -283,14 +292,32 @@ qx.Bootstrap.define("qx.dev.StackTrace",
     },
 
     /**
-     * Convert an URL of a JavaScript class into a class name if the file is named using
-     * the qooxdoo naming conventions.
+     * Converts the URL of a JavaScript file to a class name using either a 
+     * user-defined ({@link #FILENAME_TO_CLASSNAME}) or default 
+     * ({@link #__fileNameToClassNameDefault}) converter
      *
      * @param fileName {String} URL of the JavaScript file
-     * @return {String} class name of the file if conversion was possible. Otherwise the
-     *     fileName is returned unmodified.
+     * @return {String} Result of the conversion
      */
     __fileNameToClassName : function(fileName)
+    {
+      if (typeof qx.dev.StackTrace.FILENAME_TO_CLASSNAME == "function") {
+        return qx.dev.StackTrace.FILENAME_TO_CLASSNAME(fileName);
+      }
+      
+      return qx.dev.StackTrace.__fileNameToClassNameDefault(fileName);
+    },
+    
+    
+    /**
+     * Converts the URL of a JavaScript file to a class name if the file is 
+     * named using the qooxdoo naming conventions.
+     * 
+     * @param fileName {String} URL of the JavaScript file
+     * @return {String} class name of the file if conversion was possible.
+     * Otherwise the fileName is returned unmodified.
+     */
+    __fileNameToClassNameDefault : function(fileName)
     {
       var scriptDir = "/source/class/";
       var jsPos = fileName.indexOf(scriptDir);

@@ -20,6 +20,12 @@ qx.Class.define("qx.test.dev.StackTrace",
 
   members :
   {
+    tearDown : function()
+    {
+      qx.dev.StackTrace.FILENAME_TO_CLASSNAME = null;
+    },
+    
+    
     testGetStackTraceFromError : function()
     {
       var trace = [];
@@ -33,6 +39,32 @@ qx.Class.define("qx.test.dev.StackTrace",
         qx.core.Assert.assertEquals(0, trace.length, "Got stack trace information for IE!");
       } else {
         qx.core.Assert.assertNotEquals(0, trace.length, "No stack trace information returned!");
+      }
+    },
+    
+    
+    testFilenameConverterDefault : function()
+    {
+      var ex = new Error("Just a test");
+      var stack = qx.dev.StackTrace.getStackTraceFromError(ex);
+      for (var i=0, l=stack.length; i<l; i++) {
+        this.assertMatch(stack[i], /((?:test\.dev\.StackTrace)|(?:dev\.unit)|(?:testrunner))/);
+      }
+    },
+    
+    
+    testFilenameConverterCustom : function()
+    {
+      var converter = function(fileName) {
+        this.assertString(fileName);
+        return "FOO";
+      }
+      
+      qx.dev.StackTrace.FILENAME_TO_CLASSNAME = qx.lang.Function.bind(converter, this);
+      var ex = new Error("Just a test");
+      var stack = qx.dev.StackTrace.getStackTraceFromError(ex);
+      for (var i=0, l=stack.length; i<l; i++) {
+        this.assertMatch(stack[i], /FOO/);
       }
     }
   }
