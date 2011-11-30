@@ -12,7 +12,7 @@
  "export" : 
  [
   "source-mobile.PingPong",
-  "build-animation.PingPong"
+  "build-mobile.PingPong"
  ],
 
  "jobs" : 
@@ -24,7 +24,7 @@
       "engine.name" : "webkit"
     }
   },
-  "build-animation.PingPong" : {
+  "build-mobile.PingPong" : {
     "environment" :
     {
       "qx.mobile.emulatetouch" : true,

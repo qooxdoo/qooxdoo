@@ -12,7 +12,7 @@
  "export" : 
  [
   "source-mobile.Fingers",
-  "build-animation.Fingers"
+  "build-mobile.Fingers"
  ],
 
  "jobs" : 
@@ -24,7 +24,7 @@
       "engine.name" : "webkit"
     }
   },
-  "build-animation.Fingers" : {
+  "build-mobile.Fingers" : {
     "environment" :
     {
       "qx.mobile.emulatetouch" : true,

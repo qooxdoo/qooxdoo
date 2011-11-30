@@ -12,7 +12,7 @@
  "export" : 
  [
   "source-mobile.ScaleImage",
-  "build-animation.ScaleImage"
+  "build-mobile.ScaleImage"
  ],
 
  "jobs" : 
