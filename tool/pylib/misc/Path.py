@@ -370,6 +370,8 @@ class Uri(BasePath):
             nuri = uri
         self._data = nuri
 
+    thisdirs = ['.', './', './.']  # ways of saying "this directory"
+
     def join(self, other):
         some_encoded = False
         if self._is_encoded or other._is_encoded:
@@ -386,7 +388,12 @@ class Uri(BasePath):
                 val2 = other.value()
             else:
                 val2 = other.encodedValue()
-        nuri = Uri(urlparse.urljoin(val1, val2))
+        if (val1 in self.thisdirs
+            and val2 in self.thisdirs):
+            # urlparse.urljoin collapses e.g. "./" and "." into ""!
+            nuri = Uri(".")
+        else:
+            nuri = Uri(urlparse.urljoin(val1, val2))
         if some_encoded:
             nuri._is_encoded = True
         return nuri
