@@ -140,6 +140,8 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     __childrenContainer : null,
     __emptyLabel : null,
 
+
+    // property apply
     _applyIconPosition : function(value, old)
     {
       var newLayout;
@@ -174,7 +176,9 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         this._domUpdated();
       }
     },
-    
+
+
+    // property apply  
     _applyShow : function(value, old)
     {
       if(value === 'both')
@@ -205,7 +209,9 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         }
       }
     },
-    
+
+
+    // property apply  
     _applyGap : function(value, old)
     {
       if(this.__icon)
@@ -215,6 +221,12 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       }
     },
     
+    
+    /**
+     * Returns the opposed position for a given position.
+     * @param position {String} "left", "right", "bottom", "right" position. 
+     * @return {String} opposed possition.
+     */
     __getOpposedPosition : function(position)
     {
       var opposedPosition = 'left';
@@ -232,7 +244,9 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       }
       return opposedPosition;
     },
-    
+
+
+    // property apply  
     _applyLabel : function(value, old)
     {
       if(this.__label)
@@ -258,7 +272,9 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         }
       }
     },
-    
+
+
+    // property apply  
     _applyIcon : function(value, old)
     {
       if(this.__icon)
@@ -276,23 +292,51 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         }
       }
     },
-    
+
+
+    /**
+     * Returns the icon widget.
+     * 
+     * @return {qx.ui.mobile.basic.Image} The icon widget.
+     */
     getIconWidget: function() {
       return this.__icon;
     },
     
+    
+
+    /**
+     * Returns the label widget.
+     * 
+     * @return {qx.ui.mobile.basic.Label} The label widget.
+     */    
     getLabelWidget : function() {
       return this.__label;
     },
     
-    _createIconWidget : function(iconURL)
+    
+
+    /**
+     * Creates the icon widget.
+     * 
+     * @param iconUrl {String} The icon url.
+     * @return {qx.ui.mobile.basic.Image} The created icon widget.
+     */
+    _createIconWidget : function(iconUrl)
     {
-      var iconWidget = new qx.ui.mobile.basic.Image(iconURL);
+      var iconWidget = new qx.ui.mobile.basic.Image(iconUrl);
       iconWidget.setAnonymous(true);
       iconWidget._setStyle('verticalAlign', 'middle');
       return iconWidget;
     },
     
+
+    /**
+     * Creates the label widget.
+     * 
+     * @param label {String} The text that should be displayed.
+     * @return {qx.ui.mobile.basic.Label} The created label widget.
+     */
     _createLabelWidget : function(label)
     {
       var labelWidget = new qx.ui.mobile.basic.Label(label);
@@ -304,6 +348,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       }
       return labelWidget;
     },
+
 
     /**
      *
