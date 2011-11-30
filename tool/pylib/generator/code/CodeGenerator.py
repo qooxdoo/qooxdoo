@@ -941,7 +941,10 @@ class CodeGenerator(object):
                 bfile = bfile.split(':')[1]   # "fo%c3%b6bar.js"
                 bfile = urllib.unquote(bfile) # "foöbar.js"
                 bfile = os.path.join(os.path.dirname(script.baseScriptPath), os.path.basename(bfile))
-                bcode = filetool.read(bfile)
+                if bfile.endswith(".gz"):  # code/path/gzip:true
+                    bcode = filetool.gunzip(bfile)
+                else:
+                    bcode = filetool.read(bfile)
                 os.unlink(bfile)
             else:
                 bcode = ""
