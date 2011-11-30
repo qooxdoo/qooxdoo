@@ -499,8 +499,9 @@ qx.Class.define("apiviewer.dao.Class",
       var result = [currentClass];
       var superInterfaces = currentClass.getSuperInterfaces();
       while (superInterfaces && superInterfaces.length > 0) {
-        for (var i=0,l=superInterfaces.length; i<l; i++) {
-          var superInterface = apiviewer.dao.Class.getClassByName(superInterfaces[i].getName());
+        var superInterfacesClone = superInterfaces.concat();
+        for (var i=0,l=superInterfacesClone.length; i<l; i++) {
+          var superInterface = apiviewer.dao.Class.getClassByName(superInterfacesClone[i].getName());
           result.push(superInterface);
           superInterfaces = superInterface.getSuperInterfaces();
         }
