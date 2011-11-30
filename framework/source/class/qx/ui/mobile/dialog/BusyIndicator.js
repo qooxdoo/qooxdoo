@@ -20,8 +20,18 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * This class blocks events and can be included into all widgets.
+ * The widget displays a busy indicator.
+ * 
+ * *Example*
  *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   var busyIndicator = new qx.ui.mobile.dialog.BusyIndicator("Please wait");
+ *   this.getRoot().add(busyIndicator);
+ * </pre>
+ *
+ * This example create a widget to display the label.
  */
 qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
 {
@@ -35,7 +45,6 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
 
   /**
    * @param label {String} Label to use
-   * @param icon {String?null} Icon to use
    */
   construct : function(label)
   {
@@ -57,6 +66,11 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
       refine : true,
       init : "spinnerContainer"
     },
+
+
+    /**
+     * The spinner css class to use.
+     */
     spinnerClass :
     {
       apply : "_applySpinnerClass",
@@ -74,15 +88,21 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
 
   members :
   {
-    _createIconWidget : function(iconURL)
+    // overridden
+    _createIconWidget : function(iconUrl)
     {
-      var iconWidget = this.base(arguments)
+      var iconWidget = this.base(arguments,iconUrl);
       iconWidget.addCssClass(this.getSpinnerClass());
       return iconWidget;
     },
-    
+
+
+    // property apply
     _applySpinnerClass : function(value, old)
     {
+      if (old) {
+        this.getIconWidget().removeCssClass(old);
+      }
       if(value) {
         this.getIconWidget().addCssClass(value);
       }
