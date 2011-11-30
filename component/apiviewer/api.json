@@ -61,7 +61,9 @@
         {
           "file" : "./source/script/${APIVIEWER}.js",
           "app-root" : "source"
-        }
+        },
+        
+        "code" : { "except" : [ "*" ] }
       },
       
       "compile" : { "type" : "source" }
