@@ -11,3 +11,4 @@
 \bqx\.Bootstrap\.classIsDefined = qx.util.OOUtil.classIsDefined
 \bqx\.core\.Environment\.get\("css\.gradients"=qx.core.Environment.select("css.gradient.linear"
 \bqx\.core\.Environment\.select\("css\.gradients"=qx.core.Environment.select("css.gradient.linear"
+\bqx\.log\.appender\.Util\.FORMAT_STACK = qx.dev.StackTrace.FORMAT_STACKTRACE
