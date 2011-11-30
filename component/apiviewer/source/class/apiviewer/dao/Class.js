@@ -799,7 +799,7 @@ qx.Class.define("apiviewer.dao.Class",
       var superInterfaces = clazz.getSuperInterfaces();
       for (var i=0; i<superInterfaces.length; i++)
       {
-        var superInterface = apiviewer.dao.Class.getClassByName(superInterfaces[i]);
+        var superInterface = apiviewer.dao.Class.getClassByName(superInterfaces[i].getName());
         if (superInterface) {
           this._findClasses(superInterface, foundClasses);
         } else {
