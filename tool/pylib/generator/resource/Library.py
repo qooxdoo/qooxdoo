@@ -243,6 +243,7 @@ class Library(object):
         if not path.endswith(os.sep):
             lib_prefix_len += 1
 
+        self.resources = set()
         for root, dirs, files in filetool.walk(path):
             # filter ignored directories
             for dir in dirs:
