@@ -631,6 +631,7 @@ class CodeGenerator(object):
                 for cls in classList[:]:
                     if cls.id not in reachable_nodes:
                         classList.remove(cls)
+                        #self._console.info("removing %s" % cls.id)
                     log_progress()
 
             # ------------------------------------------------------------
@@ -667,6 +668,7 @@ class CodeGenerator(object):
                             del featureMap[clazz.id]
                             remove_class_refs(clazz, featureMap) # remove all the class's UsedFeature entries as well
                             log_progress()
+                            #self._console.info("removing %s" % clazz.id)
 
                 # removing entire classes might remove dependencies of construct, defer, extend, etc,
                 # so this might have again zero'ed usage counts of remaining features, so we have to loop
@@ -707,7 +709,7 @@ class CodeGenerator(object):
                     code = clazz.serializeCondensed(tree, compConf.format)
                     if code[-1:] != '\n': code += '\n'
                     result.append(code)
-                    clazz._tmp_tree = None # reset _tmp_tree
+                    #clazz._tmp_tree = None # reset _tmp_tree
                     log_progress()
                 result = u''.join(result)
             else:

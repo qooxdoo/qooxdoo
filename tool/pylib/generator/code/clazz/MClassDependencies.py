@@ -57,7 +57,7 @@ class MClassDependencies(object):
     # return all dependencies of class from its code (both meta hints as well
     # as source code, and transitive load deps)
 
-    def dependencies(self, variantSet, force=False):
+    def dependencies(self, variantSet, force=False, tree=None):
 
         ##
         # Get deps from meta info and class code, and sort them into
@@ -66,7 +66,7 @@ class MClassDependencies(object):
         # Note:
         #   load time = before class = require
         #   run time  = after class  = use
-        def buildShallowDeps():
+        def buildShallowDeps(tree=None):
 
             load   = []
             run    = []
@@ -100,10 +100,11 @@ class MClassDependencies(object):
                         target.append(DependencyItem(className, attrName, self.id, "|hints|"))
 
             # Read source tree data
-            if variantSet: # a filled variantSet map means that "variants" optimization is wanted
-                tree = self.optimize(None, ["variants"], variantSet)
-            else:
-                tree = self.tree()
+            if not tree:
+                if variantSet: # a filled variantSet map means that "variants" optimization is wanted
+                    tree = self.optimize(None, ["variants"], variantSet)
+                else:
+                    tree = self.tree()
 
             # analyze tree
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
@@ -204,9 +205,9 @@ class MClassDependencies(object):
           or force == True
           or not transitiveDepsAreFresh(deps, cacheModTime)):
             cached = False
-            deps = buildShallowDeps()
+            deps = buildShallowDeps(tree)
             deps = buildTransitiveDeps(deps)
-            if 1:
+            if not tree: # don't cache for a passed-in tree
                 classInfo[cacheId] = (deps, time.time())
                 self._writeClassCache(classInfo)
         
@@ -215,7 +216,7 @@ class MClassDependencies(object):
         # end:dependencies()
 
 
-    def getCombinedDeps(self, variants, config, stripSelfReferences=True, projectClassNames=True, genProxy=None, force=False):
+    def getCombinedDeps(self, variants, config, stripSelfReferences=True, projectClassNames=True, genProxy=None, force=False, tree=None):
 
         # init lists
         loadFinal = []
@@ -223,7 +224,7 @@ class MClassDependencies(object):
 
         # add static dependencies
         if genProxy == None:
-            static, cached = self.dependencies (variants, force)
+            static, cached = self.dependencies (variants, force, tree=tree)
         else:
             static, cached = genProxy.dependencies(self.id, self.path, variants)
 

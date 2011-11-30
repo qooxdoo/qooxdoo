@@ -382,7 +382,7 @@ class PartBuilder(object):
 
         self._console.indent()
         for clazz in package.classes:
-            packageSize += clazz.getCompiledSize(compOptions)
+            packageSize += clazz.getCompiledSize(compOptions, featuremap=script._featureMap)
         self._console.outdent()
 
         return packageSize

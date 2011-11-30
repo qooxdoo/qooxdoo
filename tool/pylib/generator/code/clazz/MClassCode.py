@@ -194,7 +194,9 @@ class MClassCode(object):
                         compiled += '\n'
                 else:
                     compiled = self.serializeCondensed(tree, format_)
-                cache.write(cacheId, compiled)
+
+                if not "statics" in optimize:
+                    cache.write(cacheId, compiled)
 
         return compiled
 
@@ -357,8 +359,8 @@ class MClassCode(object):
     ##
     # Convenience method for length of compiled class
     # (Might become necessary if I want to cache the length).
-    def getCompiledSize(self, compOptions):
-        code = self.getCode(compOptions)
+    def getCompiledSize(self, compOptions, treegen=treegenerator, featuremap={}):
+        code = self.getCode(compOptions, treegen, featuremap)
         return len(code)
 
 

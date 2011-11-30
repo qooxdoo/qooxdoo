@@ -697,7 +697,7 @@ class Generator(object):
             for packageId, package in enumerate(packages):
                 for classObj in package.classes:
                     classId = classObj.id
-                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=forceFreshDeps)
+                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=forceFreshDeps, tree=classObj._tmp_tree)
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     loads = classDeps["load"]
                     runs = classDeps["run"]
@@ -971,7 +971,7 @@ class Generator(object):
                 compOptions.format = True # guess it's most likely
                 if classId in self._classesObj:
                     if useCompiledSize:
-                        fsize = self._classesObj[classId].getCompiledSize(compOptions)
+                        fsize = self._classesObj[classId].getCompiledSize(compOptions, featuremap=script._featureMap)
                         mode  = 'compiled'
                     else:
                         fsize = self._classesObj[classId].size
