@@ -9,3 +9,5 @@
 \bqx\.Bootstrap\.hasProperty = qx.util.OOUtil.hasProperty
 \bqx\.Bootstrap\.getPropertyDefinition = qx.util.OOUtil.getPropertyDefinition
 \bqx\.Bootstrap\.classIsDefined = qx.util.OOUtil.classIsDefined
+\bqx\.core\.Environment\.get\("css\.gradients"=qx.core.Environment.select("css.gradient.linear"
+\bqx\.core\.Environment\.select\("css\.gradients"=qx.core.Environment.select("css.gradient.linear"
