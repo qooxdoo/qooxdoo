@@ -35,6 +35,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      *
      * @internal
      * @return {Boolean} <code>true</code> if the count is available.
+     * @deprecated since 1.6
      */
     getObjectCount : function() {
       return (({}).__count__ == 0);

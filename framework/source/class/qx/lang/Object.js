@@ -52,27 +52,18 @@ qx.Class.define("qx.lang.Object",
      * @param map {Object} the map to check
      * @return {Boolean} whether the map has any keys
      */
-    isEmpty : (qx.core.Environment.get("ecmascript.objectcount")) ?
-      function(map)
-      {
-        if (qx.core.Environment.get("qx.debug")) {
-          qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
-        }
-        return map.__count__ === 0;
+    isEmpty : function(map)
+    {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
-      :
-      function(map)
-      {
-        if (qx.core.Environment.get("qx.debug")) {
-          qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
-        }
 
-        for (var key in map) {
-          return false;
-        }
+      for (var key in map) {
+        return false;
+      }
 
-        return true;
-      },
+      return true;
+    },
 
 
     /**
@@ -83,40 +74,29 @@ qx.Class.define("qx.lang.Object",
      * @param minLength {Integer} minimum number of objects in the map
      * @return {Boolean} whether the map contains at least "length" objects.
      */
-    hasMinLength : (qx.core.Environment.get("ecmascript.objectcount")) ?
-      function(map, minLength)
+    hasMinLength : function(map, minLength)
+    {
+      if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
-          qx.core.Assert && qx.core.Assert.assertInteger(minLength, "Invalid argument 'minLength'");
-        }
-        return map.__count__ >= minLength;
+        qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+        qx.core.Assert && qx.core.Assert.assertInteger(minLength, "Invalid argument 'minLength'");
       }
-      :
-      function(map, minLength)
-      {
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
-          qx.core.Assert && qx.core.Assert.assertInteger(minLength, "Invalid argument 'minLength'");
-        }
 
-        if (minLength <= 0) {
+      if (minLength <= 0) {
+        return true;
+      }
+
+      var length = 0;
+
+      for (var key in map)
+      {
+        if ((++length) >= minLength) {
           return true;
         }
+      }
 
-        var length = 0;
-
-        for (var key in map)
-        {
-          if ((++length) >= minLength) {
-            return true;
-          }
-        }
-
-        return false;
-      },
+      return false;
+    },
 
 
     /**

@@ -429,7 +429,6 @@ qx.Class.define("qx.test.core.Environment",
     },
 
     testEcmaScript : function() {
-      this.assertBoolean(qx.core.Environment.get("ecmascript.objectcount"));
       var stackTrace = qx.core.Environment.get("ecmascript.stacktrace");
       this.assert(typeof stackTrace == "string" || stackTrace === null);
     },

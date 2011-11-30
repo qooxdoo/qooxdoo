@@ -365,23 +365,16 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param map {Object} the map
      * @return {Integer} number of objects in the map
      */
-    objectGetLength :
-    ({
-      "count": function(map) {
-        return map.__count__;
-      },
+    objectGetLength : function(map)
+    {
+      var length = 0;
 
-      "default": function(map)
-      {
-        var length = 0;
-
-        for (var key in map) {
-          length++;
-        }
-
-        return length;
+      for (var key in map) {
+        length++;
       }
-    })[(({}).__count__ == 0) ? "count" : "default"],
+
+      return length;
+    },
 
 
     /**

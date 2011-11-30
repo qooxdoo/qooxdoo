@@ -699,7 +699,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "event.pointer"               : "qx.bom.client.Event.getPointer",
       "event.help"                  : "qx.bom.client.Event.getHelp",
       "event.hashchange"            : "qx.bom.client.Event.getHashChange",
-      "ecmascript.objectcount"      : "qx.bom.client.EcmaScript.getObjectCount",
+      "ecmascript.objectcount"      : "qx.bom.client.EcmaScript.getObjectCount", // @deprecated since 1.6
       "ecmascript.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",
       "html.webworker"              : "qx.bom.client.Html.getWebWorker",
       "html.filereader"             : "qx.bom.client.Html.getFileReader",
@@ -789,12 +789,15 @@ qx.Bootstrap.define("qx.core.Environment",
       if (qx.Bootstrap.DEBUG) {
         var deprecated = {
           "css.translate3d" : "css.transform.3d", 
-          "css.gradients" : "css.gradient.linear"
+          "css.gradients" : "css.gradient.linear",
+          "ecmascript.objectcount" : null
         };
         if (key in deprecated) {
           qx.Bootstrap.warn(
-            "The key '" + key + "' is deprecated. " + 
-            "Please use '" + deprecated[key] + "' instead."
+            "The key '" + key + "' is deprecated." + 
+            (deprecated[key] ? 
+              " Please use '" + deprecated[key] + "' instead."
+            : "")
           );
         }
       }
