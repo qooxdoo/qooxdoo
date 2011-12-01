@@ -3,7 +3,7 @@
 Writing API Documentation
 *************************
 
-For documenting the qooxdoo API special comments in the source code (so-called "doc comments") are used. The doc comments in qooxdoo are similar to `JSDoc comments <http://jsdoc.sourceforge.net/>`_ or `Javadoc <http://java.sun.com/j2se/1.5.0/docs/tooldocs/windows/javadoc.html>`_ comments. To account for some qooxdoo specific needs there are certain differences to the two systems mentioned above.
+For documenting the qooxdoo API special comments in the source code (so-called "doc comments") are used. The doc comments in qooxdoo are similar to `JSDoc comments <http://code.google.com/p/jsdoc-toolkit/>`_ or `Javadoc <http://docs.oracle.com/javase/7/docs/technotes/tools/solaris/javadoc.html>`_ comments. To account for some qooxdoo specific needs there are certain differences to the two systems mentioned above.
 
 .. _pages/write_api_documentation#the_structure_of_a_documentation_comment:
 
