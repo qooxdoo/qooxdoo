@@ -20,8 +20,19 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * This class blocks events and can be included into all widgets.
- *
+ * This widget displays a dialog.
+ * 
+ * *Example*
+ * 
+ * <pre class='javascript'>
+ * var label = new qx.ui.mobile.basic.Label("Hello World");
+ * var dialog = new qx.ui.mobile.dialog.Dialog(label);
+ * dialog.setTitle("Info");
+ * dialog.setModal(true); // true by default
+ * dialog.show();
+ * </pre>
+ * 
+ * This example creates a label widget and adds this widget to a dialog.
  */
 qx.Class.define("qx.ui.mobile.dialog.Dialog",
 {
@@ -42,6 +53,10 @@ qx.Class.define("qx.ui.mobile.dialog.Dialog",
       init : "dialog"
     },
     
+    
+    /**
+     * Whether the dialog should be displayed modal.
+     */
     modal :
     {
       init : true,
@@ -64,6 +79,9 @@ qx.Class.define("qx.ui.mobile.dialog.Dialog",
     __blocker : false,
     
     
+    /**
+     * Shows the blocker.
+     */
     show : function()
     {
       if(this.getModal())
@@ -87,6 +105,12 @@ qx.Class.define("qx.ui.mobile.dialog.Dialog",
       this.base(arguments);
     },
 
+
+    /**
+     * Returns the blocker widget.
+     * 
+     * @return {qx.ui.mobile.core.Blocker} Returns the blocker widget.
+     */
     __getBlocker : function()
     {
       if(!this.__blocker) {

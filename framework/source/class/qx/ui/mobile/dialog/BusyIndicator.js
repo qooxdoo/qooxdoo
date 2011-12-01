@@ -31,7 +31,7 @@
  *   this.getRoot().add(busyIndicator);
  * </pre>
  *
- * This example create a widget to display the label.
+ * This example create a widget to display the busy indicator.
  */
 qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
 {

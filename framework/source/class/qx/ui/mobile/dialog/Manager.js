@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Tino Butz (tbtz)
+     * Gabriel Munteanu (gabios)
 
 ************************************************************************ */
 
@@ -73,7 +73,6 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
   members :
   {
-
     /**
      * Displays an alert box. When the application is running in an PhoneGap
      * environment, a native alert box is shown. For debugging in a browser, a
@@ -112,8 +111,8 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * environment, a native confirm box is shown. For debugging in a browser, a
      * browser confirm is shown.
      *
-     * @param title {String} The title of the alert box
-     * @param text {String} The text to display in the alert box
+     * @param title {String} The title of the confirm box
+     * @param text {String} The text to display in the confirm box
      * @param handler {Function} The handler to call when the <code>OK</code> button
      *     was pressed. The first parameter of the function is the <code>index</code>
      *     of the pressed button, starting from 1.
@@ -138,14 +137,13 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
         return this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.MESSAGE_DIALOG);
       }
     },
-    
+
+
     /**
-     * Displays a confirm box. When the application is running in an PhoneGap
-     * environment, a native confirm box is shown. For debugging in a browser, a
-     * browser confirm is shown.
+     * Displays an input dialog. 
      *
-     * @param title {String} The title of the alert box
-     * @param text {String} The text to display in the alert box
+     * @param title {String} The title of the input dialog.
+     * @param text {String} The text to display in the input dialog.
      * @param handler {Function} The handler to call when the <code>OK</code> button
      *     was pressed. The first parameter of the function is the <code>index</code>
      *     of the pressed button, starting from 1.
@@ -158,14 +156,15 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
     {
       return this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.INPUT_DIALOG);
     },
-    
+
+
     /**
-     * Displays a confirm box. When the application is running in an PhoneGap
-     * environment, a native confirm box is shown. For debugging in a browser, a
+     * Displays an error dialog. When the application is running in an PhoneGap
+     * environment, a native error dialog is shown. For debugging in a browser, a
      * browser confirm is shown.
      *
-     * @param title {String} The title of the alert box
-     * @param text {String} The text to display in the alert box
+     * @param title {String} The title of the error dialog.
+     * @param text {String} The text to display in the error dialog.
      * @param handler {Function} The handler to call when the <code>OK</code> button
      *     was pressed. The first parameter of the function is the <code>index</code>
      *     of the pressed button, starting from 1.
@@ -193,12 +192,12 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
     
     
     /**
-     * Displays a confirm box. When the application is running in an PhoneGap
-     * environment, a native confirm box is shown. For debugging in a browser, a
+     * Displays a warning dialog. When the application is running in an PhoneGap
+     * environment, a native warning dialog is shown. For debugging in a browser, a
      * browser confirm is shown.
      *
-     * @param title {String} The title of the alert box
-     * @param text {String} The text to display in the alert box
+     * @param title {String} The title of the warning dialog.
+     * @param text {String} The text to display in the warning dialog.
      * @param handler {Function} The handler to call when the <code>OK</code> button
      *     was pressed. The first parameter of the function is the <code>index</code>
      *     of the pressed button, starting from 1.
@@ -226,12 +225,10 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
     
     /**
-     * Displays a confirm box. When the application is running in an PhoneGap
-     * environment, a native confirm box is shown. For debugging in a browser, a
-     * browser confirm is shown.
+     * Displays a waiting dialog.
      *
-     * @param title {String} The title of the alert box
-     * @param text {String} The text to display in the alert box
+     * @param title {String} The title of the waiting dialog.
+     * @param text {String} The text to display in the waiting dialog.
      * @param handler {Function} The handler to call when the <code>OK</code> button
      *     was pressed. The first parameter of the function is the <code>index</code>
      *     of the pressed button, starting from 1.
@@ -261,7 +258,20 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
         }
       }
     },
-    
+
+
+    /**
+     * Shows a dialog widget. 
+     * 
+     * @param title {String} The title of the dialog.
+     * @param text {String} The text to display in the dialog.
+     * @param handler {Function} The handler to call when the <code>OK</code> button
+     *     was pressed. The first parameter of the function is the <code>index</code>
+     *     of the pressed button, starting from 1.
+     * @param scope {Object} The scope of the handler
+     * @param buttons {String[]} Each text entry of the array represents a button and
+     *     its title
+     */
     __showNonNativeDialog: function(title, text, handler, scope, buttons, dialogType)
     {
       var widget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY: "middle"}));

@@ -103,7 +103,11 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       refine : true,
       init : "popup"
     },
-    /** The label/caption/text of the qx.ui.mobile.basic.Atom instance */
+
+
+    /** 
+     * The label/caption/text of the qx.ui.mobile.basic.Atom instance 
+     */
     title :
     {
       apply : "_applyTitle",
@@ -112,7 +116,10 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       event : "changeTitle"
     },
 
-    /** Any URI String supported by qx.ui.mobile.basic.Image to display an icon */
+
+    /** 
+     * Any URI String supported by qx.ui.mobile.basic.Image to display an icon
+     */
     icon :
     {
       check : "String",
@@ -141,7 +148,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __widget: null,
     __titleWidget: null,
     __anchorPointer: null,
-    
+
+
     /**
      * Event handler. Called whenever the position of the popup should be updated.
      */
@@ -197,8 +205,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       
       this._positionTo(left + (viewportWidth - width)/2, top + (viewportHeight-height)/2) ;
     },
-    
-    
+
+
     /**
      * This method shows the popup.
      * First it updates the position, then registers the event handlers, and the shows it.
@@ -213,7 +221,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }
       this.__isShown = true;
     },
-    
+
+
     /**
      * This method positions the popup widget at the coordinates specified.
      * @param left {Integer} - the value the will be set to container's left style property
@@ -225,7 +234,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       this.__top = top;
       this._positionTo(left, top);
     },
-    
+
+
     /**
      * This protected method positions the popup widget at the coordinates specified.
      * It is used internally by the placeTo and _updatePosition methods
@@ -236,6 +246,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       this.getContainerElement().style.left = left + "px";
       this.getContainerElement().style.top = top + "px";
     },
+
 
     /**
      * Hides the popup.
@@ -249,6 +260,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }
       this.__isShown = false;
     },
+
 
     /**
      * Registers all needed event listeners
@@ -282,7 +294,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         qx.event.Registration.removeListener(window, "scroll", this.hide, this);
       }*/
     },
-    
+
+
     /**
      * This method creates the container where the popup's widget will be placed
      * and adds it to the popup.
@@ -308,7 +321,13 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }
       this.__widget = widget;
     },
-    
+
+
+    /**
+     * Creates the title atom widget.
+     * 
+     * @return {qx.ui.mobile.basic.Atom} The title atom widget.
+     */
     _createTitleWidget : function()
     {
       if(this.__titleWidget) {
@@ -325,7 +344,9 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         return null;
       }
     },
-    
+
+
+    // property apply
     _applyTitle : function(value, old)
     {
       if(value) {
@@ -347,7 +368,9 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         }
       }
     },
-    
+
+
+    // property apply
     _applyIcon : function(value, old)
     {
       if(value) {
@@ -369,7 +392,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         }
       }
     },
-    
+
+
     /**
      * Adds the widget that will be shown in this popup. This method can be used in the case when you have removed the widget from the popup
      * or you haven't passed it in the constructor. Useful when playing with complex view and the popup
@@ -382,15 +406,28 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       this.removeWidget();
       this._initializeChild(widget);
     },
-    
+
+
+    /**
+     * A widget to attach this popup to.
+     * 
+     * @param widget {qx.ui.mobile.core.Widget} The anchor widget.
+     */
     setAnchor : function(widget) {
       this.__anchor = widget;
     },
-    
+
+
+    /**
+     * Returns the title widget.
+     * 
+     * @return {qx.ui.mobile.basic.Atom} The title widget. 
+     */
     getTitleWidget : function() {
       return this.__titleWidget;
     },
-    
+
+
     /**
      * This method removes the widget shown in the popup.
      */
