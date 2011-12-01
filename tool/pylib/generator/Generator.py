@@ -559,7 +559,8 @@ class Generator(object):
                     classListProducer = functools.partial(#args are complete, but invocation shall be later
                                computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
                                {}, verifyDeps=True, script=Script())
-                    self.runApiData(classListProducer, variantset)
+                    #self.runApiData(classListProducer, variantset)
+                    self.runApiData(script.classes, variantset)
                 if "copy-resources" in jobTriggers:
                     self.runResources(script)
                 if "compile" in jobTriggers:
@@ -595,7 +596,8 @@ class Generator(object):
 
         classList = self._job.get("let/ARGS", [])
         if not classList:
-            classList = classListProducer()
+            #classList = classListProducer()
+            classList = classListProducer
 
         self._apiLoader.storeApi(classList, apiPath, variantset)
         
