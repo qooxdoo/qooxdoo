@@ -143,11 +143,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       if(this.__searchPopup) {
         return this.__searchPopup;
       }
-      //var busyWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
       var busyIndicator = new qx.ui.mobile.dialog.BusyIndicator("Data connection...");
-      busyIndicator.setSpinnerClass('altSpinner');
-      //busyWidget.add(busyIndicator);
-      //return new qx.ui.mobile.dialog.Popup(popupWidget, attachedToWidget);
       this.__searchPopup = new qx.ui.mobile.dialog.Popup(busyIndicator, attachedToWidget);
       this.__searchPopup.setTitle("Loading...");
       return this.__searchPopup;

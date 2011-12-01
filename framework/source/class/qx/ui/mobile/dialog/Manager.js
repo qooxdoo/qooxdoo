@@ -304,16 +304,13 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
           widget.add(inputWidget);
         }
 
-        var toolbar = new qx.ui.mobile.toolbar.ToolBar();
+        var container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
         for(var i=0, l=buttons.length; i<l; i++)
         {
-          var button = new qx.ui.mobile.toolbar.Button(buttons[i]);
+          var button = new qx.ui.mobile.form.Button(buttons[i]);
           /* see the comment in android.css for width: 0 for toolbar-button class*/
-          //button._setStyle('width', 'auto');
-          toolbar.add(button);
-          if(i < l-1) {
-            toolbar.add(new qx.ui.mobile.toolbar.Separator());
-          }
+          button.addCssClass('dialogButton');
+          container.add(button, {flex:1});
           var callback = (function(index){
             return function()
             {
@@ -326,7 +323,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
           })(i);
           button.addListener("tap", callback);
         }
-        widget.add(toolbar);
+        widget.add(container);
       }
       dialog.setModal(true);
       dialog.show();

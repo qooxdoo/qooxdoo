@@ -469,18 +469,6 @@ input[type="checkbox"]:checked {
 .spinner {
   height: 20px;
   width: 20px;
-  background-image: url(../../icon/common/spinner.png);
-  -webkit-animation-name: spinnerRotate;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-  margin: 0 auto;
-  vertical-align: middle;
-}
-
-.altSpinner {
-  height: 20px;
-  width: 20px;
   background-image: url(../../icon/ios/spinner.png);
   -webkit-animation-name: spinnerRotate;
   -webkit-animation-duration: 1s;
@@ -574,6 +562,13 @@ input[type="checkbox"]:checked {
   z-index: 99;
   min-width: 200px;
   color: #fff;
+}
+
+.dialogButton {
+  width:0;
+  margin-top:6px;
+  margin-left:1px;
+  margin-right:1px;
 }
 
 .dialogTitleUnderline {
