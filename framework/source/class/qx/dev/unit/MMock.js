@@ -51,7 +51,7 @@
  *     tearDown: function() {
  *       // Restore all stubs, spies and overridden host objects.
  *       //
- *       // It is a good idea to always run this in the tearDown()
+ *       // It is a good idea to always run this in the <code>tearDown()</code>
  *       // method, especially when overwriting global or host objects.
  *       this.getSandbox().restore();
  *     }
@@ -176,14 +176,14 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * See http://sinonjs.org/docs/api/#spies.
     *
     * Note: Spies are transparently added to a sandbox. To restore
-    * the original function for all spies run this.getSandbox().restore()
-    * in your tearDown() method.
+    * the original function for all spies run <code>this.getSandbox().restore()</code>
+    * in your <code>tearDown()</code> method.
     *
-    * @param function_or_object {Function?null|Object?null} Spies on the
+    * @param function_or_object {Function|Object} Spies on the
     *   provided function or object.
     * @param method {String?null} The method to spy upon if an object was given.
-    * @return {Spy} The wrapped function enhanced with properties and methods
-    *   that allow for introspection.
+    * @return {Function} The wrapped function enhanced with properties and methods
+    *   that allow for introspection. See http://sinonjs.org/docs/#spies.
     */
     spy: function(function_or_object, method) {
       return this.__sandbox.spy.apply(this.__sandbox, arguments);
@@ -221,16 +221,16 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * See http://sinonjs.org/docs/api/#stubs.
     *
     * Note: Stubs are transparently added to a sandbox. To restore
-    * the original function for all stubs run this.getSandbox().restore()
-    * in your tearDown() method.
+    * the original function for all stubs run <code>this.getSandbox().restore()</code>
+    * in your <code>tearDown()</code> method.
     *
-    * @param object {Object?null} Object to stub. Stubs all methods if no method
-    *   is given.
+    * @param object {Object?null} Object to stub. Creates an anonymous stub function
+    *   if not given.
     * @param  method {String?null} Replaces object.method with a stub function.
     *   An exception is thrown if the property is not already a function, to
     *   help avoid typos when stubbing methods.
-    * @return {Stub} A stub. Has the interface of a spy in addition to methods
-    *   that allow to define behaviour.
+    * @return {Function} A stub. Has the interface of a spy in addition to methods
+    *   that allow to define behaviour. See http://sinonjs.org/docs/#stubs.
     *
     */
     stub: function(object, method) {
@@ -268,7 +268,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * See http://sinonjs.org/docs/api/#mocks.
     *
     * @param object {Object} The object to create a mock of.
-    * @return {Mock} A mock to set expectations on.
+    * @return {Function} A mock to set expectations on. See http://sinonjs.org/docs/#mocks.
     */
     mock: function(object) {
       var sinon = this.__getSinon();
@@ -280,8 +280,8 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * a custom implementation which does not send actual requests.
     *
     * Note: The fake XHR is transparently added to a sandbox. To restore
-    * the original host method run this.getSandbox().restore()
-    * in your tearDown() method.
+    * the original host method run <code>this.getSandbox().restore()</code>
+    * in your <code>tearDown()</code> method.
     *
     * See http://sinonjs.org/docs/api/#useFakeXMLHttpRequest.
     *
@@ -313,8 +313,8 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * See http://sinonjs.org/docs/api/#server.
     *
     * Note: The fake server is transparently added to a sandbox. To restore
-    * the original host method run this.getSandbox().restore()
-    * in your tearDown() method.
+    * the original host method run <code>this.getSandbox().restore()</code>
+    * in your <code>tearDown()</code> method.
     *
     * @return {Server}
     */
@@ -334,7 +334,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     /**
     * Get sandbox.
     *
-    * The sandbox holds all stubs and mocks. Run this.getSandbox().restore()
+    * The sandbox holds all stubs and mocks. Run <code>this.getSandbox().restore()</code>
     * to restore all mock objects.
     *
     * @return {Object}
