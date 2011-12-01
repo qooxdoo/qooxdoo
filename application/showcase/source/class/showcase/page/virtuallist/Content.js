@@ -38,7 +38,7 @@ qx.Class.define("showcase.page.virtuallist.Content",
     messenger : null,
     __addUserDialog : null,
     __tfUsername : null,
-    
+
     _createView : function()
     {
       var view = new qx.ui.window.Desktop(new qx.ui.window.Manager());
@@ -68,7 +68,7 @@ qx.Class.define("showcase.page.virtuallist.Content",
       view.add(this.createDetailsView(), {left: 20, top: 20});
       return view;
     },
-    
+
     createToolbar : function()
     {
       var toolbar = new qx.ui.toolbar.ToolBar();

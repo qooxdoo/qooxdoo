@@ -24,24 +24,24 @@
 /**
  * Displays instructions for the Feature Config Editor
  */
- 
+
 qx.Class.define("fce.view.HelpWindow", {
 
   extend : qx.ui.window.Window,
-  
+
   construct : function()
   {
     this.base(arguments, "Help", "icon/16/actions/help-contents.png");
     this.setWidth(500);
     this.setHeight(450);
-    
+
     this.setLayout(new qx.ui.layout.Canvas());
-    
+
     this._addContent();
   },
-  
+
   members : {
-    
+
     /**
      * Adds a scroll container with the content
      */
@@ -54,11 +54,11 @@ qx.Class.define("fce.view.HelpWindow", {
       var h1 = new qx.ui.basic.Label("Overview");
       h1.setFont("bigger");
       container.add(h1);
-      
+
       var linkStyle = "display: inline; color: blue;";
-      
+
       var qxVer = qx.core.Environment.get("qx.version");
-      var manualLink = "http://manual.qooxdoo.org/" + qxVer 
+      var manualLink = "http://manual.qooxdoo.org/" + qxVer
         + "/pages/application/featureconfigeditor.html#browser-specific-builds";
       var p1 = new qx.ui.basic.Label("The purpose of this application is to help"
         + " developers create configurations for <a href=\"" + manualLink + "\" "
@@ -66,11 +66,11 @@ qx.Class.define("fce.view.HelpWindow", {
         + " Multiple sets of client features can be compared to find common values.");
       p1.setRich(true);
       container.add(p1);
-      
+
       var h2 = new qx.ui.basic.Label("View Components");
       h2.setFont("bigger");
       container.add(h2);
-      
+
       var p2 = new qx.ui.basic.Label("The <strong>Available Features</strong> "
         + "table initially displays all keys defined in <a style=\"" + linkStyle + "\""
         + "href=\"http://demo.qooxdoo.org/current/apiviewer/#qx.core.Environment\""
@@ -80,24 +80,24 @@ qx.Class.define("fce.view.HelpWindow", {
         + "to the table using the <strong>Import Feature Map</strong> button.");
       p2.setRich(true);
       container.add(p2);
-      
+
       var p3 = new qx.ui.basic.Label("Individual key/value pairs can be added to "
         + "the <strong>Selected Features</strong> list by double-clicking, "
-        + "clicking and dragging or by selecting them and using the &quot;right " 
+        + "clicking and dragging or by selecting them and using the &quot;right "
         + "arrow&quot; button. When adding a feature to the selection, the "
         + "value from the first table column to the right of the &quot;name&quot;"
         + "column is used. Thus, the value to be added can be chosen by dragging "
         + "the columns.");
       p3.setRich(true);
       container.add(p3);
-      
+
       var p4 = new qx.ui.basic.Label("The <strong>Selected Features</strong> list"
         + " displays the selected environment settings and allows editing of their "
         + "values. Entries can be removed by selecting them and then either pressing "
         + "the &quot;Del&quot; key or clicking the &quot;left arrow&quot; button.");
       p4.setRich(true);
       container.add(p4);
-      
+
       var p5 = new qx.ui.basic.Label("The <strong>JSON</strong> box displays a "
         + "serialization of the currently selected configuration. This map can "
         + "be used as the value of an &quot;environment&quot; configuration key.");

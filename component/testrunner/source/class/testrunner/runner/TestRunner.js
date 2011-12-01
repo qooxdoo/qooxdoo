@@ -530,7 +530,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
       if (this.__logAppender) {
         this.__logAppender.clear();
       }
-      
+
       this.__wrapAssertions(this.frameWindow);
       this.__getTestModel();
     },
@@ -622,12 +622,12 @@ qx.Class.define("testrunner.runner.TestRunner", {
         logger.unregister(this.__logAppender);
       }
     },
-    
-    
+
+
     /**
      * Adds exception information to an existing TestResult object, making sure
      * no duplicates are recorded.
-     * 
+     *
      * @param testResult {qx.dev.unit.TestResult} TestResult object
      * @param exceptions {Object[]} List of exception objects
      */
@@ -635,7 +635,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
     {
       var oldEx = testResult.getExceptions();
       var newEx = oldEx.concat();
-      
+
       for (var i=0,l=exceptions.length; i<l; i++) {
         var newExMsg = exceptions[i].exception.toString();
         var dupe = false;

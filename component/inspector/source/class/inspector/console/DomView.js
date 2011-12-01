@@ -66,10 +66,10 @@ qx.Class.define("inspector.console.DomView",
 
     /**
      * TODOC
-     * 
+     *
      * @lint ignoreDeprecated(eval)
-     * @param object {} 
-     * @param name {} 
+     * @param object {}
+     * @param name {}
      */
     setObject: function(object, name) {
       this._iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
@@ -107,10 +107,10 @@ qx.Class.define("inspector.console.DomView",
 
     /**
      * TODOC
-     * 
+     *
      * @lint ignoreDeprecated(alert)
-     * @param index {} 
-     * @param key {} 
+     * @param index {}
+     * @param key {}
      */
     setObjectByIndex: function(index, key) {
       // reset the filter
@@ -379,7 +379,7 @@ qx.Class.define("inspector.console.DomView",
 
     /**
      * TODOC
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      * @param o {}
      * @return {}

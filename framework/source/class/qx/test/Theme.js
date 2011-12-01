@@ -130,8 +130,8 @@ qx.Class.define("qx.test.Theme",
       decorationManager.setTheme(qx.test.Theme.themes.B);
       this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Uniform);
     },
-    
-    
+
+
     testPatchInvalidTheme : function()
     {
       qx.Theme.define("qx.test.Theme.themes.A", {

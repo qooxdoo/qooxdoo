@@ -61,7 +61,7 @@ qx.Class.define("qx.test.ui.embed.Iframe",
       this.__iframe.addListener("load", function() {
         this.resume(function() {
           this.assertEquals(
-            this.__iframe.getSource(), 
+            this.__iframe.getSource(),
             this.__iframe.getWindow().location.href
           );
         });

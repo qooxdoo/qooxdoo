@@ -425,7 +425,7 @@ qx.Class.define("inspector.property.PropertyList", {
      * a checkbox for a boolean value.<br>
      * The handler for changing the values of the property will also be added
      * after the creation process.
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      * @param propertySet {Map} The array containing the property values.
      * @param key {String} The name of the property.
@@ -867,7 +867,7 @@ qx.Class.define("inspector.property.PropertyList", {
     */
     /**
      * Creates the color popup which is needed to set colors.
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
     _createColorPopup: function() {

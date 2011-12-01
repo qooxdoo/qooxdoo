@@ -135,7 +135,7 @@ qx.Class.define("qx.test.bom.Font",
 
       var useRgbValue = true;
 
-      if (qx.core.Environment.get("browser.name") == "ie" && 
+      if (qx.core.Environment.get("browser.name") == "ie" &&
           qx.core.Environment.get("browser.version") < 9) {
         useRgbValue = false;
       }
@@ -154,7 +154,7 @@ qx.Class.define("qx.test.bom.Font",
     {
       var styles = this.__font.getStyles();
 
-      // we expect a map with only 'fontFamily' set, otherwise the null values 
+      // we expect a map with only 'fontFamily' set, otherwise the null values
       // which are returned are overwriting styles. Only return styles which are set.
       var keys = qx.lang.Object.getKeys(styles);
 

@@ -28,7 +28,7 @@ qx.Class.define("qxc.application.twitterdemo.Application",
     main : function()
     {
       this.base(arguments);
-      
+
       this.getRoot().add(new qxc.application.twitterdemo.Demo());
     }
   }

@@ -127,7 +127,7 @@ qx.Class.define("qx.dev.unit.TestLoader",
     runStandAlone : function()
     {
       var testResult = new qx.dev.unit.TestResult();
-      
+
       testResult.addListener("failure", function(e)
       {
         var ex = e.getData()[0].exception;

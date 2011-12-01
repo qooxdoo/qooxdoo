@@ -93,7 +93,7 @@ qx.Class.define("mobileshowcase.Application",
       {
         tab.show();
       },this);
-      
+
       nm.onGet("/toolbar", function(data)
       {
         toolbar.show();

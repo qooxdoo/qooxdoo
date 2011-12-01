@@ -24,17 +24,17 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Scroll", 
+qx.Bootstrap.define("qx.bom.client.Scroll",
 {
   statics :
   {
     /**
      * Check if the scrollbars should be positioned on top of the content. This
      * is true of OSX Lion when the scrollbars dissapear automatically.
-     * 
+     *
      * @internal
-     * 
-     * @return {Boolean} <code>true</code> if the scrollbars should be 
+     *
+     * @return {Boolean} <code>true</code> if the scrollbars should be
      *   positioned on top of the content.
      */
     scrollBarOverlayed : function() {

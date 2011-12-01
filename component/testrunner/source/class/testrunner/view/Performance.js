@@ -69,8 +69,8 @@ qx.Class.define("testrunner.view.Performance", {
     {
       if (testResultData.getState() == "error") {
         qx.bom.Iframe.getWindow(this.getIframe()).qx.log.Logger.error(
-          testResultData.parent.fullName + ": Exception thrown in test " + 
-          testResultData.getName() + "! " + 
+          testResultData.parent.fullName + ": Exception thrown in test " +
+          testResultData.getName() + "! " +
           testResultData.getExceptions()[0].exception
         );
       }

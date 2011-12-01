@@ -39,13 +39,13 @@ qx.Class.define("showcase.page.virtuallist.messenger.Buddy",
     this._setLayout(new qx.ui.layout.HBox(3).set({
       alignY : "middle"
     }));
-    
+
     this._add(this.getChildControl("statusIcon"));
     this._add(this.getChildControl("label"), {flex : 1});
     this._add(this.getChildControl("icon"));
   },
-  
-  
+
+
   properties :
   {
     // overridden
@@ -54,24 +54,24 @@ qx.Class.define("showcase.page.virtuallist.messenger.Buddy",
       refine : true,
       init : "listitem"
     },
-    
-    
+
+
     name :
     {
       check : "String",
       apply : "_applyLabel",
       init : ""
     },
-    
-    
+
+
     avatar :
     {
       check : "String",
       apply : "_applyAvatar",
       init : ""
     },
-    
-    
+
+
     status :
     {
       check : "String",
@@ -79,7 +79,7 @@ qx.Class.define("showcase.page.virtuallist.messenger.Buddy",
       init : ""
     }
   },
-  
+
   members :
   {
     // overridden
@@ -107,20 +107,20 @@ qx.Class.define("showcase.page.virtuallist.messenger.Buddy",
       }
       return control || this.base(arguments, id);
     },
-    
-    
+
+
     // apply method
     _applyLabel : function(value, old) {
       this.getChildControl("label").setValue(value);
     },
-    
-    
+
+
     // apply method
     _applyAvatar : function(value, old) {
       this.getChildControl("icon").setSource(value);
     },
-    
-    
+
+
     // apply method
     _applyStatus : function(value, old)
     {

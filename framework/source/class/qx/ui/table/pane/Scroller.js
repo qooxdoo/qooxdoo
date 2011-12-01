@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this.__clipperContainer = new qx.ui.container.Composite();
       this.__clipperContainer.setLayout(new qx.ui.layout.Canvas());
       this.__clipperContainer.add(this.__paneClipper, {edge: 0});
-      this._add(this.__clipperContainer, {row: 1, column: 0});      
+      this._add(this.__clipperContainer, {row: 1, column: 0});
     } else {
       this._add(this.__paneClipper, {row: 1, column: 0});
     }
@@ -2409,7 +2409,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__lastMouseDownCell = this.__topRightWidget = this.__table = null;
     this._disposeObjects("__horScrollBar", "__verScrollBar",
                          "__headerClipper", "__paneClipper", "__focusIndicator",
-                         "__header", "__tablePane", "__top", "__timer", 
+                         "__header", "__tablePane", "__top", "__timer",
                          "__clipperContainer");
   }
 });

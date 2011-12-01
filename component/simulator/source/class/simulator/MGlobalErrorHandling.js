@@ -78,7 +78,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
           targetWin.qx.Simulation.errorStore.push(exString);
         });
       };
-      
+
       this.addFunctionToAut("addGlobalErrorHandler", addHandler, ["autWin"]);
       simulator.QxSelenium.getInstance().getEval("selenium.qxStoredVars['autWindow'].qx.Simulation.addGlobalErrorHandler(" + qxWin + ");");
     },

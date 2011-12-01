@@ -24,43 +24,43 @@
 qx.Class.define("fce.view.List", {
 
   extend : qx.ui.form.List,
-  
+
   construct : function(horizontal)
   {
     this.base(arguments, horizontal);
-    
+
     this.set({
       enableInlineFind: true,
       selectionMode: "multi"
     });
-    
+
     this._setUpDragDrop();
-    
+
     this.addListener("keypress", function(ev) {
       if (ev.getKeyIdentifier() === "Delete") {
         this.removeSelected();
       }
     }, this);
-    
+
     var selection = new qx.data.Array();
     selection.addListener("change", this.__onSelectionChange, this);
     this.setSelectedItems(selection);
     this.__listedItems = [];
-    
+
     var manager = this._getManager();
     this.removeListener("keypress", manager.handleKeyPress, manager);
   },
-  
+
   properties :
   {
     /**
-     * Data array of model items displayed in the list 
+     * Data array of model items displayed in the list
      */
-    selectedItems : 
+    selectedItems :
     {
       event : "changeSelectedItems"
     },
-    
+
     /** The name of the model property holding the value to be displayed */
     modelValueProperty :
     {
@@ -68,31 +68,31 @@ qx.Class.define("fce.view.List", {
       nullable : true
     }
   },
-  
+
   members :
   {
     __listedItems : null,
-    
+
     /**
      * Drag & drop support: Add dropped model items to the list
      */
     _setUpDragDrop : function()
     {
       this.setDroppable(true);
-      
+
       this.addListener("drop", function(ev) {
         var items = ev.getData("items");
         this.addItemsUnique(items);
       }, this);
-      
+
       this.addListener("dragover", function(ev) {
         if (!ev.supportsType("items")) {
           ev.preventDefault();
         }
       });
     },
-    
-    
+
+
     /**
      * Synchronizes the selected model items with the list
      */
@@ -111,12 +111,12 @@ qx.Class.define("fce.view.List", {
         }
       }
     },
-    
-    
+
+
     /**
      * Checks whether the given item or another item with the same name are
      * currently listed
-     * 
+     *
      * @param item {qx.core.Object} model item to check for
      * @return {Boolean} Whether the item or an equivalent item is listed
      */
@@ -125,7 +125,7 @@ qx.Class.define("fce.view.List", {
       if (qx.lang.Array.contains(this.__listedItems, item)) {
         return true;
       }
-      
+
       var itemName = item.getName();
       for (var i=0, l=this.__listedItems.length; i<l; i++) {
         if (this.__listedItems[i].getName() === itemName) {
@@ -134,8 +134,8 @@ qx.Class.define("fce.view.List", {
       }
       return false;
     },
-    
-    
+
+
     /**
      * Removes the model item corresponding with the selected list item
      */
@@ -149,11 +149,11 @@ qx.Class.define("fce.view.List", {
         qx.lang.Array.remove(this.__listedItems, modelItem);
       }
     },
-    
-    
+
+
     /**
      * Adds the given model items to the list if they're not already in it
-     * 
+     *
      * @param items {qx.data.Array}  data array of model items
      */
     addItemsUnique : function(items)
@@ -166,7 +166,7 @@ qx.Class.define("fce.view.List", {
       }
     }
   },
-  
+
   destruct : function()
   {
     this.getSelectedItems().removeListener("change", this.__onSelectionChange, this);

@@ -356,7 +356,7 @@ qx.Class.define("apiviewer.TreeUtil",
 
     /** {string} The icon URL of a private property. */
     ICON_PROPERTY_PRIV : "apiviewer/image/property_private18.gif",
-    
+
     /** {string} The icon URL of a internal property. */
     ICON_PROPERTY_INTERN : "apiviewer/image/property_internal18.gif",
 
@@ -395,7 +395,7 @@ qx.Class.define("apiviewer.TreeUtil",
 
     /** {string} The icon URL of a private method. */
     ICON_METHOD_PRIV : "apiviewer/image/method_private18.gif",
-    
+
     /** {string} The icon URL of a internal method. */
     ICON_METHOD_INTERN : "apiviewer/image/method_internal18.gif",
 

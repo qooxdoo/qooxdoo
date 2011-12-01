@@ -681,7 +681,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
     /**
      * Returns all currently defined synchronous checks.
-     * 
+     *
      * @internal
      * @return {Map} The map of synchronous checks
      */
@@ -693,7 +693,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
     /**
      * Returns all currently defined asynchronous checks.
-     * 
+     *
      * @internal
      * @return {Map} The map of asynchronous checks
      */

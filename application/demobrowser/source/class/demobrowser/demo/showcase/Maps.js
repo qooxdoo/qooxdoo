@@ -59,7 +59,7 @@ qx.Class.define("demobrowser.demo.showcase.Maps",
       comp.setLayout(new qx.ui.layout.VBox().set({spacing: 10}));
       comp.setWidth(450);
       comp.setHeight(400);
-      
+
       var headline = new qx.ui.basic.Label("<b>" + title + "</b>").set({
         rich: true
       });

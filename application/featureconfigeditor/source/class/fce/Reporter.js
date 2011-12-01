@@ -18,29 +18,29 @@
 ************************************************************************ */
 
 /**
- * Provides backend communication with a report server. The current client's 
+ * Provides backend communication with a report server. The current client's
  * user agent and environment features map are sent to the server. If the server
- * already has data for this user agent, the server data is compared to the 
+ * already has data for this user agent, the server data is compared to the
  * detected data to find any discrepancies which could indicate a regression
  * in qooxdoo's feature detection.
  */
 qx.Class.define("fce.Reporter", {
 
   extend : qx.core.Object,
-  
+
   statics :
   {
-    /** Environment features matching any of these expressions will be ignored 
+    /** Environment features matching any of these expressions will be ignored
      * when comparing server-side and detected feature maps **/
     IGNORED_FEATURES : [/^qx\./, /^plugin\./]
   },
-  
+
   /**
    * @param server {String} Server host name
    *
-   * @param addUrl {String} URL (relative to host name) where client environment 
+   * @param addUrl {String} URL (relative to host name) where client environment
    * data is sent to be added to the database
-   * 
+   *
    * @param getUrl {String} URL (relative to host name) by which server-side
    * environment data is accessed
    */
@@ -57,7 +57,7 @@ qx.Class.define("fce.Reporter", {
       this.setGetUrl(getUrl);
     }
   },
-  
+
   properties :
   {
     /** Server host name */
@@ -66,14 +66,14 @@ qx.Class.define("fce.Reporter", {
       init : null,
       nullable : true
     },
-    
+
     /** Server URL for data insertion */
     addUrl :
     {
       init : null,
       nullable : true
     },
-    
+
     /** Server URL for data access */
     getUrl :
     {
@@ -81,15 +81,15 @@ qx.Class.define("fce.Reporter", {
       nullable : true
     }
   },
-  
+
   members :
   {
     __foundData : null,
-    
+
     /**
      * Sends the given data to the server
-     * 
-     * @param data {var} Payload to send. Must be JSON-serializable, i.e. no 
+     *
+     * @param data {var} Payload to send. Must be JSON-serializable, i.e. no
      * qooxdoo objects
      */
     _sendReport : function(data)
@@ -97,11 +97,11 @@ qx.Class.define("fce.Reporter", {
       if (this.getServer() === null || this.getAddUrl() === null) {
         throw new Error("Report server host or URL not specified!");
       }
-      
+
       if (qx.core.Environment.get("qx.debug")) {
         this.debug("Reporting result");
       }
-      
+
       var jsonData = qx.lang.Json.stringify(data);
       var url = this.getServer() + this.getAddUrl();
       var req = new qx.io.remote.Request(url, "POST");
@@ -121,13 +121,13 @@ qx.Class.define("fce.Reporter", {
           this.info("Report ignored to prevent duplicate entry.");
         }
       }, this);
-      
+
       req.send();
     },
-    
+
     /**
      * Compares the features detected for this client with server-side values
-     * 
+     *
      * @param foundData {Map} Map of detected environment features
      */
     compare : function(foundData)
@@ -140,9 +140,9 @@ qx.Class.define("fce.Reporter", {
         this._sendReport(this.__foundData);
       }
     },
-    
+
     /**
-     * Sends this client's detected features to the server. If the server 
+     * Sends this client's detected features to the server. If the server
      * already has an entry for this client, the detected values are compared
      * to the known server values
      */
@@ -150,11 +150,11 @@ qx.Class.define("fce.Reporter", {
     {
       var userAgent = navigator.userAgent;
       var serverUrl = this.getServer() + this.getGetUrl();
-      
+
       var req = new qx.io.remote.Request(serverUrl, "GET", "application/json");
       req.setCrossDomain(true);
       req.setData("useragent=" + encodeURIComponent(userAgent));
-      
+
       req.addListener("completed", function(response) {
         var serverData = response.getContent();
         if (qx.lang.Object.getKeys(serverData).length == 0) {
@@ -166,22 +166,22 @@ qx.Class.define("fce.Reporter", {
           this._compareFeatureSets(serverData);
         }
       }, this);
-      
+
       req.addListener("failed", function(ev) {
         this.error("Request failed with status",req.getStatus());
       }, this);
-      
+
       req.addListener("timeout", function(ev) {
         this.error("Request timed out");
       }, this);
-      
+
       req.send();
     },
-    
+
     /**
      * Compares the given features map to the one detected for this client and
      * logs any keys with differing values.
-     * 
+     *
      * @param expected {Map} Expected data
      */
     _compareFeatureSets : function(expected)
@@ -189,9 +189,9 @@ qx.Class.define("fce.Reporter", {
       if (!expected["browser.name"] || !this.__foundData["browser.name"]) {
         return;
       }
-      
+
       var differing = [];
-      
+
       for (var prop in expected) {
         if (this.__foundData[prop] && !this.isIgnored(prop)) {
           if (expected[prop] !== this.__foundData[prop]) {
@@ -199,21 +199,21 @@ qx.Class.define("fce.Reporter", {
           }
         }
       }
-      
+
       if (differing.length == 0) {
         this.info("No differences found");
       }
-      
+
       for (var i=0, l=differing.length; i<l; i++) {
         var prop = differing[i];
         this.error(prop, "expected", expected[prop], "found", this.__foundData[prop]);
       }
     },
-    
+
     /**
      * Checks whether the given environment key name should be ignored for
      * comparison purposes
-     * 
+     *
      * @param setting {String} Environment feature (setting) name
      * @return {Boolean} Whether the key should be ignored
      */

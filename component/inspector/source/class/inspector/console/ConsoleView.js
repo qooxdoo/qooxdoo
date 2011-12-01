@@ -95,7 +95,7 @@ qx.Class.define("inspector.console.ConsoleView",
 
     /**
      * TODOC
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      * @param filter {}
      */

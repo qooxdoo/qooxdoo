@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.container.SlideBar",
            * element. So we have to do this by hand.
            */
           if (qx.core.Environment.get("engine.name") == "gecko" &&
-            parseInt(qx.core.Environment.get("engine.version")) < 2) 
+            parseInt(qx.core.Environment.get("engine.version")) < 2)
           {
             control.addListener("removeChildWidget", this._onRemoveChild, this);
           }

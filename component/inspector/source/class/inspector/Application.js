@@ -172,7 +172,7 @@ qx.Class.define("inspector.Application",
 
     /**
      * TODOC
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      * @return {Boolean}
      */

@@ -9,27 +9,27 @@
 ************************************************************************ */
 
 /**
- * This class demonstrates how to define simulated interaction tests for your 
+ * This class demonstrates how to define simulated interaction tests for your
  * application. See the manual for details:
  * {@link http://manual.qooxdoo.org/1.5/pages/development/simulator.html}
- * 
+ *
  * @lint ignoreUndefined(simulator)
  */
 qx.Class.define("fce.simulation.Environment", {
 
   extend : simulator.unit.TestCase,
-  
+
   members :
   {
     logFileName : "environment.json",
     logFile : null,
-    
+
     /*
     ---------------------------------------------------------------------------
       TESTS
     ---------------------------------------------------------------------------
     */
-    
+
     testGetEnvironment : function()
     {
       var autWin = simulator.Simulation.AUTWINDOW;
@@ -42,7 +42,7 @@ qx.Class.define("fce.simulation.Environment", {
       var resultsString = String(this.getQxSelenium().getEval(environmentString));
       this.writeToLog(resultsString);
     },
-    
+
     writeToLog : function(message)
     {
       var file = this.getLogFile();
@@ -50,7 +50,7 @@ qx.Class.define("fce.simulation.Environment", {
       file.newLine();
       file.flush();
     },
-    
+
     getLogFile : function()
     {
       if (!this.logFile) {
@@ -60,5 +60,5 @@ qx.Class.define("fce.simulation.Environment", {
       return this.logFile;
     }
   }
-  
+
 });

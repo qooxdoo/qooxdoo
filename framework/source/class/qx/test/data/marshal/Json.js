@@ -445,7 +445,7 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals(1, e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[0]", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
-      
+
       model.dispose();
     },
 
@@ -621,7 +621,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertException(function() {
         model.setN(1);
       }, qx.core.ValidationError);
-      
+
       model.dispose();
     },
 

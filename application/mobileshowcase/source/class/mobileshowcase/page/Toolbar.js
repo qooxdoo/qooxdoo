@@ -47,17 +47,17 @@ qx.Class.define("mobileshowcase.page.Toolbar",
 
   members :
   {
-  
+
     /**
      * The toolbar
      */
     __toolbar : null,
-    
+
     // overridden
     _initialize : function()
     {
       this.base(arguments);
-      
+
       var label = new qx.ui.mobile.form.Title("Search");
       this.getContent().add(label);
 
@@ -84,12 +84,12 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
       var closeButton = new qx.ui.mobile.toolbar.Button("Take Picture","mobileshowcase/icon/camera.png");
       toolbar.add(closeButton);
-      
+
       closeButton.addListener("tap", function(){
         label.setValue("Take a Picture");
       });
     },
-    
+
     /**
      * Handler for the main button in the page
      */
@@ -97,7 +97,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
     {
       this.__toolbar.toggle();
     },
-    
+
     // overridden
     _back : function()
     {

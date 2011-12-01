@@ -39,7 +39,7 @@ qx.Class.define("demobrowser.demo.ui.WebFonts",
         // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
       }
-      
+
       // The font configuration would normally be defined in the application's
       // font theme ($APPLICATION.theme.Font).
       var fontsConfig =
@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.ui.WebFonts",
             }
           ]
         },
-        
+
         "webFont1" :
         {
           size: 13,
@@ -79,7 +79,7 @@ qx.Class.define("demobrowser.demo.ui.WebFonts",
             }
           ]
         },
-        
+
         "webFont2" :
         {
           size: 16,
@@ -98,7 +98,7 @@ qx.Class.define("demobrowser.demo.ui.WebFonts",
           ]
         }
       };
-      
+
       var createdFonts = {};
       for (var key in fontsConfig) {
         createdFonts[key] = new qx.bom.webfonts.WebFont().set(fontsConfig[key]);
@@ -109,7 +109,7 @@ qx.Class.define("demobrowser.demo.ui.WebFonts",
         Below is your actual application code...
       -------------------------------------------------------------------------
       */
-      
+
       var demoTextShort = "The quick brown fox jumps over the lazy dog";
       var demoTextLong = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
       + "Nam lectus justo, porttitor ac, ullamcorper ac, cursus in, ante. Duis mi ante,"
@@ -119,17 +119,17 @@ qx.Class.define("demobrowser.demo.ui.WebFonts",
       + "rutrum nibh a eros. Cum sociis natoque penatibus et magnis dis parturient "
       + "montes, nascetur ridiculus mus."
       var textWidgets = [];
-      
+
       var mainContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
       this.getRoot().add(mainContainer, {edge : 10});
-      
+
       var menuContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
       mainContainer.add(menuContainer);
-      
+
       var menuLabel = new qx.ui.basic.Label("Select Font");
       menuLabel.setFont("bold");
       menuContainer.add(menuLabel);
-            
+
       var fontMenu = new qx.ui.form.SelectBox();
       fontMenu.setMinWidth(300);
       for (var key in createdFonts) {
@@ -146,19 +146,19 @@ qx.Class.define("demobrowser.demo.ui.WebFonts",
         }
       }, this);
       menuContainer.add(fontMenu);
-      
+
       var widgetContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
       mainContainer.add(widgetContainer);
       var label = new qx.ui.basic.Label(demoTextShort);
       textWidgets.push(label);
       label.setFont(createdFonts.webFont0);
       widgetContainer.add(label);
-      
+
       var field = new qx.ui.form.TextField(demoTextShort);
       textWidgets.push(field);
       field.setFont(createdFonts.webFont0);
       widgetContainer.add(field);
-      
+
       var area = new qx.ui.form.TextArea(demoTextLong);
       textWidgets.push(area);
       area.setFont(createdFonts.webFont0);

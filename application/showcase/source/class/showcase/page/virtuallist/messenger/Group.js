@@ -34,13 +34,13 @@ qx.Class.define("showcase.page.virtuallist.messenger.Group",
     this._setLayout(new qx.ui.layout.HBox(3).set({
       alignY : "middle"
     }));
-    
+
     this._add(this.getChildControl("icon"));
     this._add(this.getChildControl("label"), {flex : 1});
     this._add(this.getChildControl("count"));
   },
-  
-  
+
+
   properties :
   {
     open :
@@ -50,16 +50,16 @@ qx.Class.define("showcase.page.virtuallist.messenger.Group",
       apply : "_applyOpen",
       init : true
     },
-    
-    
+
+
     name :
     {
       check : "String",
       apply : "_applyName",
       init : ""
     },
-    
-    
+
+
     count :
     {
       check : "Integer",
@@ -67,7 +67,7 @@ qx.Class.define("showcase.page.virtuallist.messenger.Group",
       init : 0
     }
   },
-  
+
   members :
   {
     // overridden
@@ -99,30 +99,30 @@ qx.Class.define("showcase.page.virtuallist.messenger.Group",
       }
       return control || this.base(arguments, id);
     },
-    
-    
+
+
     // apply method
     _applyOpen : function(value, old) {
-      var source = "decoration/arrows/down-invert.png"; 
+      var source = "decoration/arrows/down-invert.png";
       if (value == false) {
         source = "decoration/arrows/right-invert.png";
       }
-      
+
       this.getChildControl("icon").setSource(source);
     },
-    
-    
+
+
     // apply method
     _applyName : function(value, old) {
       this.getChildControl("label").setValue(value);
     },
-    
-    
+
+
     // apply method
     _applyCount : function(value, old) {
       this.getChildControl("count").setValue("(" + value + ")");
     },
-    
+
     _onClick : function(event) {
       this.toggleOpen();
     }

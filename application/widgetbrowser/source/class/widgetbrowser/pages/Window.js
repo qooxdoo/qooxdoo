@@ -288,7 +288,7 @@ qx.Class.define("widgetbrowser.pages.Window",
 
     /**
      * TODOC
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      * @return {qx.ui.window.Window} Modal dialog window
      */

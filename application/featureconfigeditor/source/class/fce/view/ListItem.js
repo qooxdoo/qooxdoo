@@ -23,7 +23,7 @@
 qx.Class.define("fce.view.ListItem", {
 
   extend : qx.ui.container.Composite,
-  
+
   /**
    * @param modelItem {qx.core.Object?} Model item to represent, see {@link #modelItem}
    * @param valueProperty {String?} Name of the item property holding the value
@@ -37,58 +37,58 @@ qx.Class.define("fce.view.ListItem", {
     this.set({
       appearance: "listitem"
     });
-    
+
     if (valueProperty) {
       this.setValueProperty(valueProperty);
     }
-    
+
     if (labelProperty) {
       this.setLabelProperty(labelProperty);
     }
-    
+
     if (modelItem) {
       this.setModelItem(modelItem);
     }
   },
-  
+
   properties :
   {
-    /** The model item to represent. Must be a qx.core.Object with the 
+    /** The model item to represent. Must be a qx.core.Object with the
      * properties name, initialValue and userValue */
     modelItem :
     {
       apply : "_applyModelItem"
     },
-    
+
     /**  Name of the item property holding the label  */
     labelProperty :
     {
       init : null,
       nullable : true
     },
-    
+
     /**  Name of the item property holding the value */
     valueProperty :
     {
       init : null,
       nullable : true
     },
-    
+
     /** Necessary for theming support **/
     gap :
     {
       themeable : true
     }
   },
-  
+
   members :
   {
-    
+
     // property apply
     _applyModelItem : function(value, old)
     {
       var modelItem = value;
-      
+
       var label = this.getChildControl("label");
       var labelText = "";
       if(this.getLabelProperty()) {
@@ -96,14 +96,14 @@ qx.Class.define("fce.view.ListItem", {
         labelText = modelItem.get(propName);
       }
       label.setValue(labelText);
-      
+
       var itemValue = null;
       var isNumber = false;
       if(this.getValueProperty()) {
         var propName = this.getValueProperty();
         itemValue = modelItem.get(propName);
       }
-            
+
       var input;
       if (typeof itemValue === "boolean") {
         input = this.getChildControl("checkbox");
@@ -118,7 +118,7 @@ qx.Class.define("fce.view.ListItem", {
       input.setValue(itemValue);
       this.add(label, {flex: 1});
       this.add(input);
-      
+
       if (this.getValueProperty()) {
         qx.data.SingleValueBinding.bind(input, "value", modelItem, this.getValueProperty(), {
           converter : function(data, modelObj, sourceObj, targetObj) {
@@ -130,7 +130,7 @@ qx.Class.define("fce.view.ListItem", {
         });
       }
     },
-    
+
     // overriden
     _createChildControlImpl : function(id, hash)
     {
@@ -151,7 +151,7 @@ qx.Class.define("fce.view.ListItem", {
           control = new qx.ui.form.TextField();
           break;
       }
-      
+
       return control;
     }
   }

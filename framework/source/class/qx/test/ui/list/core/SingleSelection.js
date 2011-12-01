@@ -236,13 +236,13 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
       var selection = this._list.getSelection();
       selection.push(this._model.getItem(lastIndex));
       this.flush();
-  
+
       this._model.removeAt(lastIndex);
       this.flush();
-  
+
       // check selection from list
       this.assertEquals(0, this._list.getSelection().getLength(), "On List");
-  
+
       // check selection from manager
       var selection = this._list._manager.getSelection();
       this.assertEquals(0, selection.length, "On Manager");

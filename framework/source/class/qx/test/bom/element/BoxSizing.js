@@ -24,19 +24,19 @@ qx.Class.define("qx.test.bom.element.BoxSizing",
   members :
   {
     __el : null,
-    
+
     setUp : function()
     {
       this.__el = document.createElement("div");
       document.body.appendChild(this.__el);
     },
-    
+
     tearDown : function()
     {
       document.body.removeChild(this.__el);
       delete this.__el;
     },
-    
+
     testGet : function()
     {
       var possibleVals = ["border-box", "content-box", "inherit", "margin-box", "padding-box"];

@@ -79,7 +79,7 @@ qx.Class.define("qx.core.Assert",
           qx.Bootstrap.error(errorMsg + "\n Stack trace: \n" + err.getStackTrace());
         }
         throw err;
-      } 
+      }
       else
       {
         if (this.__logError) {

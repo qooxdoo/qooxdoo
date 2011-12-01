@@ -77,9 +77,9 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Filter",
 
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
       commandFrame.setLayout(new qx.ui.layout.VBox(2));
-      
+
       hBox.add(commandFrame);
-      
+
       // Create a combo box for the selection type
       var filterLabel = new qx.ui.basic.Label("Filter:");
       commandFrame.add(filterLabel);

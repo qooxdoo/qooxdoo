@@ -31,7 +31,7 @@ qx.Class.define("qx.bom.element.Overflow",
   statics :
   {
     /**
-     * The default width which is used for the width of the scroll bar if 
+     * The default width which is used for the width of the scroll bar if
      * overlayed.
      */
     DEFAULT_SCROLLBAR_WIDTH : 14,

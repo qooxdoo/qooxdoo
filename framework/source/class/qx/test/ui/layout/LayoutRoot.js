@@ -34,7 +34,7 @@ qx.Class.define("qx.test.ui.layout.LayoutRoot",
       return true;
     }
   },
-  
+
   destruct : function()
   {
     this._getLayout().dispose();

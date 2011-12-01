@@ -48,7 +48,7 @@ qx.Class.define("widgetbrowser.pages.Tree",
   {
 
     __grid : null,
-    
+
     initWidgets: function()
     {
       var label;

@@ -27,7 +27,7 @@
 qx.Class.define("fce.ApplicationLowLevel",
 {
   extend : qx.application.Native,
-  
+
   properties :
   {
     /** Map of detected client features */
@@ -48,7 +48,7 @@ qx.Class.define("fce.ApplicationLowLevel",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -70,30 +70,30 @@ qx.Class.define("fce.ApplicationLowLevel",
       }, this);
       env.check();
     },
-    
+
     _applyFeatureSet : function(value, old)
     {
       if (value) {
         var json = qx.lang.Json.stringify(value);
         var htmlFormattedJson = json.replace(/{/, "{<br/>&nbsp;&nbsp;").replace(/}/, "<br/>}").replace(/,/g, ",<br/>&nbsp;&nbsp;").replace(/:/g, " : ");
-        
-        var headerText = "qooxdoo detected client features for " 
+
+        var headerText = "qooxdoo detected client features for "
           + value["browser.name"] + " " + value["browser.version"]
           + " on " + value["os.name"] + " " + value["os.version"];
         var header = document.createElement("h1");
         header.innerHTML = headerText;
-        
+
         var out = document.createElement("div");
         out.id = "out";
         out.innerHTML = htmlFormattedJson;
-        
+
         var textFormattedJson = json.replace(/{/, "{\n  ").replace(/}/, "\n}").replace(/,/g, ",\n  ").replace(/:/g, " : ");
         var mailTo = document.createElement("a");
         mailTo.innerHTML = "Send feature set data by email";
         var subject = encodeURIComponent(headerText);
         var body = encodeURIComponent(navigator.userAgent + "\n\n" + textFormattedJson);
         mailTo.href = "mailto:?subject=" + subject + "&body=" + body;
-        
+
         document.body.appendChild(header);
         document.body.appendChild(mailTo);
         document.body.appendChild(out);

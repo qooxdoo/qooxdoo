@@ -280,7 +280,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
 
     /**
      * Checks if the application is controlled by Selenium
-     * 
+     *
      * @return {Boolean} Whether the application is controlled by Selenium
      */
     hasNoSelenium : function()
