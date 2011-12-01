@@ -79,31 +79,17 @@ qx.Class.define("qx.test.io.rest.Resource",
     // Configuration
     //
 
-    "test: configure request": function() {
+    "test: configure request receives vanilla request": function() {
       var res = this.res,
-          req = this.req,
-          msg,
-          callback;
+          req = this.req;
 
-      callback = this.spy(qx.lang.Function.bind(function(req) {
-        this.assertIdentical(this.req, req, msg);
+      res.configureRequest(qx.lang.Function.bind(function(req) {
+        this.assertNotCalled(req.setMethod);
+        this.assertNotCalled(req.setUrl);
+        this.assertNotCalled(req.send);
       }, this));
 
-      msg = "Instantiation";
-      res.configureRequest(callback);
-
-      msg = "Map";
-      res.configureRequest(callback);
-
-      msg = "Invoke #1";
       res.get();
-      res.configureRequest(callback);
-
-      msg = "Invoke #2";
-      res.get();
-      res.configureRequest(callback);
-
-      this.assertCalled(callback, "Must call configuration callback");
     },
 
     "test: configure request receives action and parameters": function() {
@@ -120,19 +106,6 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       res.get(params);
       this.assertCalled(callback);
-    },
-
-    "test: configure request receives vanilla request": function() {
-      var res = this.res,
-          req = this.req;
-
-      res.configureRequest(qx.lang.Function.bind(function(req) {
-        this.assertNotCalled(req.setMethod);
-        this.assertNotCalled(req.setUrl);
-        this.assertNotCalled(req.send);
-      }, this));
-
-      res.get();
     },
 
     //
