@@ -62,6 +62,11 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
     {
       this.__impl = new qx.ui.decoration.BoxDiv(baseImage, insets, orientation);
     }
+
+    // ignore the internal used implementation in the dispose debugging [BUG #5343]
+    if (qx.core.Environment.get("qx.debug.dispose")) {
+      this.__impl.$$ignoreDisposeWarning = true;
+    }
   },
 
 
@@ -222,5 +227,6 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
 
   destruct : function() {
     this.__markup = this.__images = this.__edges = null;
+    this.__impl.dispose();
   }
 });

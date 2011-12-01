@@ -67,6 +67,11 @@ qx.Class.define("qx.ui.decoration.Grid",
     if (insets != null) {
       this.__impl.setInsets(insets);
     }
+
+    // ignore the internal used implementation in the dispose debugging [BUG #5343]
+    if (qx.core.Environment.get("qx.debug.dispose")) {
+      this.__impl.$$ignoreDisposeWarning = true;
+    }
   },
 
 
@@ -261,7 +266,7 @@ qx.Class.define("qx.ui.decoration.Grid",
   */
 
   destruct : function() {
+    this.__impl.dispose();
     this.__impl = null;
   }
-
 });

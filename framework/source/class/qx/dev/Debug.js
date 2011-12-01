@@ -416,6 +416,10 @@ qx.Class.define("qx.dev.Debug",
               qx.theme.manager.Decoration.getInstance().isCached(obj)) {
               continue;
             }
+            // ignored objects
+            if (obj.$$ignoreDisposeWarning) {
+              continue;
+            }
             // Dynamic fonts
             if (obj instanceof qx.bom.Font &&
               qx.theme.manager.Font.getInstance().isDynamic(obj)) {
