@@ -48,11 +48,11 @@ qx.Class.define("qx.bom.storage.Abstract",
     this._storage = window[this._type + "Storage"];
     this._handleStorageEventBound = qx.lang.Function.bind(this._handleStorageEvent, this);
 
-    if (qx.bom.Event.supportsEvent(window, "storage")) {
-      qx.bom.Event.addNativeListener(window, "storage", this._handleStorageEventBound);
-    }
-    else if (qx.bom.Event.supportsEvent(document, "storage")) {
-      qx.bom.Event.addNativeListener(document, "storage", this._handleStorageEventBound);
+    this.__eventTarget = qx.bom.Event.supportsEvent(window, "storage") ?
+      window : qx.bom.Event.supportsEvent(document, "storage") ? document : null;
+    
+    if (this.__eventTarget) {
+      qx.bom.Event.addNativeListener(this.__eventTarget, "storage", this._handleStorageEventBound);
     }
   },
 
@@ -68,6 +68,7 @@ qx.Class.define("qx.bom.storage.Abstract",
     _handleStorageEventBound: null,
     _storage: null,
     _type: null,
+    __eventTarget : null,
 
     /**
      * The length of storage
@@ -201,12 +202,9 @@ qx.Class.define("qx.bom.storage.Abstract",
   destruct: function()
   {
     this._storage = null;
-
-    if ((qx.core.Environment.get("engine.name") == "mshtml") &&
-        (parseInt(qx.core.Environment.get("browser.documentmode")) < 9)) {
-      qx.bom.Event.removeNativeListener(document, "storage", this._handleStorageEventBound);
-    } else {
-      qx.bom.Event.removeNativeListener(window, "storage", this._handleStorageEventBound);
+    
+    if (this.__eventTarget) {
+      qx.bom.Event.removeNativeListener(this.__eventTarget, "storage", this._handleStorageEventBound);
     }
   }
 });
