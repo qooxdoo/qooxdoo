@@ -17,6 +17,11 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#asset(qx/icon/Tango/48/places/user-home.png)
+#asset(qx/icon/Tango/32/places/folder-open.png)
+************************************************************************ */
+
 qx.Class.define("qx.test.mobile.basic.Atom",
 {
   extend : qx.test.mobile.MobileTestCase,
@@ -41,7 +46,7 @@ qx.Class.define("qx.test.mobile.basic.Atom",
 
     testIcon : function()
     {
-      var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/folder.png");
+      var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/user-home.png");
       var atom = new qx.ui.mobile.basic.Atom("myText", imageURL);
       this.getRoot().add(atom);
 
@@ -52,7 +57,7 @@ qx.Class.define("qx.test.mobile.basic.Atom",
       // but http://127.0.0.1/tablet/framework/test/html/ differs on where you test it
       console.log(atom.getIconWidget().getContainerElement().src);
       console.log(imageURL);
-      this.assertTrue(atom.getIconWidget().getContainerElement().src.indexOf("qx/icon/Tango/48/places/folder.png") != -1);
+      this.assertTrue(atom.getIconWidget().getContainerElement().src.indexOf("qx/icon/Tango/48/places/user-home.png") != -1);
 
       var image2URL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/32/places/folder-open.png");
 
@@ -65,7 +70,7 @@ qx.Class.define("qx.test.mobile.basic.Atom",
 
     testShow : function()
     {
-      var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/folder.png");
+      var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/user-home.png");
       var atom = new qx.ui.mobile.basic.Atom("myText", imageURL);
       this.getRoot().add(atom);
 
@@ -87,7 +92,7 @@ qx.Class.define("qx.test.mobile.basic.Atom",
 
     testIconPosition : function()
     {
-      /*var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/folder.png");
+      /*var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/user-home.png");
       var atom = new qx.ui.mobile.basic.Atom("myText", imageURL);
       this.getRoot().add(atom);
       this.getRoot()._domUpdated();
@@ -112,7 +117,7 @@ qx.Class.define("qx.test.mobile.basic.Atom",
     },
     testGap : function()
     {
-      var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/folder.png");
+      var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/user-home.png");
       var atom = new qx.ui.mobile.basic.Atom("myText", imageURL);
       this.getRoot().add(atom);
 

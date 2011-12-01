@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       {
         source = qx.util.ResourceManager.getInstance().toUri(source);
         var ImageLoader = qx.io.ImageLoader;
-        if(!ImageLoader.isFailed(source)) {
+        if(!ImageLoader.isFailed(source) && !ImageLoader.isLoaded(source)) {
           ImageLoader.load(source, this.__loaderCallback, this);
         }
       }
@@ -148,11 +148,21 @@ qx.Class.define("qx.ui.mobile.basic.Image",
      */
     __loaderCallback : function(source, imageInfo)
     {
+      // Ignore the callback on already disposed images
+      if (this.$$disposed === true) {
+        return;
+      }
+
       // Output a warning if the image could not loaded and quit
       if (imageInfo.failed)
       {
         this.warn("Image could not be loaded: " + source);
         this.fireEvent("loadingFailed");
+      }
+      else if (imageInfo.aborted)
+      {
+        // ignore the rest because it is aborted
+        return;
       }
       else
       {

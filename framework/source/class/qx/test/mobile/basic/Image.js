@@ -29,8 +29,12 @@ qx.Class.define("qx.test.mobile.basic.Image",
   {
     testSrc : function()
     {
+      var source = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/folder.png");
+      if (qx.io.ImageLoader.isLoaded(source)) {
+        this.debug("testLoadedEvent skipped! Image already loaded.");
+        return;
+      }
       var image = new qx.ui.mobile.basic.Image("qx/icon/Tango/48/places/folder.png");
-      this.getRoot().add(image);
       image.addListener("loaded", function() {
         this.resume(function() {
           // use a timeout to dipose the image because it needs to
@@ -41,13 +45,15 @@ qx.Class.define("qx.test.mobile.basic.Image",
         });
       }, this);
 
+
+      this.getRoot().add(image);
       this.wait();
     },
 
 
     testLoadingFailed : function()
     {
-      var image = new qx.ui.mobile.basic.Image("does not exist.png");
+      var image = new qx.ui.mobile.basic.Image("does not exist.png" + Math.random());
       this.getRoot().add(image);
 
       image.addListener("loadingFailed", function() {
