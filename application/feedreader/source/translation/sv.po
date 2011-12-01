@@ -17,10 +17,6 @@ msgstr ""
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo driven)"
 
-#: feedreader/mobile/FeedPage.js:32 feedreader/mobile/ArticlePage.js:32
-msgid "Back"
-msgstr ""
-
 #: feedreader/model/Model.js:81
 msgid "Static Feeds"
 msgstr "Statiska flöden"
@@ -29,66 +25,72 @@ msgstr "Statiska flöden"
 msgid "User Feeds"
 msgstr "Användarflöden"
 
-#: feedreader/view/AddFeedWindow.js:49
+#: feedreader/view/desktop/AddFeedWindow.js:49
 msgid "Add a feed"
 msgstr "Lägg till ett flöde"
 
-#: feedreader/view/AddFeedWindow.js:94
+#: feedreader/view/desktop/AddFeedWindow.js:94
 msgid "Feed Information"
 msgstr "Flödesinformation"
 
-#: feedreader/view/AddFeedWindow.js:101
+#: feedreader/view/desktop/AddFeedWindow.js:101
 msgid "Title"
 msgstr "Titel"
 
-#: feedreader/view/AddFeedWindow.js:105
+#: feedreader/view/desktop/AddFeedWindow.js:105
 msgid "URL"
 msgstr "URL"
 
-#: feedreader/view/AddFeedWindow.js:108
+#: feedreader/view/desktop/AddFeedWindow.js:108
 msgid "Add"
 msgstr "Lägg till"
 
-#: feedreader/view/List.js:50
+#: feedreader/view/desktop/List.js:50
 msgid "Posts"
 msgstr "Poster"
 
-#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:85
+#: feedreader/view/desktop/PreferenceWindow.js:48
+#: feedreader/view/desktop/ToolBar.js:85
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: feedreader/view/PreferenceWindow.js:85
+#: feedreader/view/desktop/PreferenceWindow.js:85
 msgid "Language"
 msgstr "Språk"
 
-#: feedreader/view/PreferenceWindow.js:141
+#: feedreader/view/desktop/PreferenceWindow.js:141
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: feedreader/view/PreferenceWindow.js:147
+#: feedreader/view/desktop/PreferenceWindow.js:147
 msgid "OK"
 msgstr "OK"
 
-#: feedreader/view/ToolBar.js:58
+#: feedreader/view/desktop/ToolBar.js:58
 msgid "Add feed"
 msgstr "Lägg till flöde"
 
-#: feedreader/view/ToolBar.js:62
+#: feedreader/view/desktop/ToolBar.js:62
 msgid "Remove feed"
 msgstr "Ta bort flöde"
 
-#: feedreader/view/ToolBar.js:73
+#: feedreader/view/desktop/ToolBar.js:73
 msgid "Reload"
 msgstr "Uppdatera"
 
-#: feedreader/view/ToolBar.js:76
+#: feedreader/view/desktop/ToolBar.js:76
 msgid "Reload the feeds. (%1)"
 msgstr "Ladda om flödena. (%1)"
 
-#: feedreader/view/ToolBar.js:87
+#: feedreader/view/desktop/ToolBar.js:87
 msgid "Open preferences window."
 msgstr "Öppna inställningsfönstret"
 
-#: feedreader/view/ToolBar.js:96
+#: feedreader/view/desktop/ToolBar.js:96
 msgid "Help"
 msgstr "Hjälp"
+
+#: feedreader/view/mobile/ArticlePage.js:32
+#: feedreader/view/mobile/FeedPage.js:32
+msgid "Back"
+msgstr ""
