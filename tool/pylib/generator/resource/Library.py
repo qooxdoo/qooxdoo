@@ -381,7 +381,7 @@ class Library(object):
 
             # Add good directories
             currNameSpace = root[len(classNSRoot+os.sep):]
-            currNameSpace = currNameSpace.replace(os.sep, ".")
+            currNameSpace = currNameSpace.replace(os.sep, ".")  # TODO: var name
             
             # Searching for files
             for fileName in files:
@@ -392,7 +392,7 @@ class Library(object):
 
                 # Process path data
                 filePath = os.path.join(root, fileName)
-                fileRel  = filePath.replace(classNSRoot + os.sep, "")
+                fileRel  = filePath.replace(classNSRoot + os.sep, "")  # now only path fragment *afte* NS
                 fileExt  = os.path.splitext(fileName)[-1]
                 fileStat = os.stat(filePath)
                 fileSize = fileStat.st_size
@@ -403,8 +403,9 @@ class Library(object):
 
                 # Compute identifier from relative path
                 filePathId = fileRel.replace(fileExt, "").replace(os.sep, ".")
-                filePathId = self.namespace + "." + filePathId
+                filePathId = self.namespace + "." + filePathId     # e.g. "qx.core.Environment"
                 filePathId = unidata.normalize("NFC", filePathId)  # combine combining chars: o" -> ö
+                fileId     = nsPrefix + "/" + fileRel  # e.g. "qx/core/Environment.js"
 
                 # check if known and fresh
                 if (filePathId in existClassIds
@@ -420,7 +421,7 @@ class Library(object):
                 if fileName == self._docFilename:
                     fileFor = filePathId[:filePathId.rfind(".")]
                     docs[filePackage] = {
-                        "relpath" : fileRel,
+                        "relpath" : fileId,
                         "path" : filePath,
                         "encoding" : self.encoding,
                         "namespace" : self.namespace,
@@ -475,7 +476,7 @@ class Library(object):
                 clazz.encoding = self.encoding
                 clazz.size     = fileSize     # dependency logging uses this
                 clazz.package  = filePackage  # Apiloader uses this
-                clazz.relpath  = fileRel      # Locale uses this
+                clazz.relpath  = fileId       # Locale uses this
                 clazz.m_time_  = fileStat.st_mtime
                 classList.append(clazz)
 
