@@ -68,10 +68,21 @@ qx.Class.define("qx.ui.mobile.form.Button",
 
   members :
   {
+    /**
+     * Sets the value.
+     *
+     * @param value {String} The value to set
+     */
     setValue : function(value) {
       this.setLabel(value);
     },
 
+
+    /**
+     * Returns the set value.
+     *
+     * @return {String} The set value
+     */
     getValue : function() {
       return this.getLabel();
     }
