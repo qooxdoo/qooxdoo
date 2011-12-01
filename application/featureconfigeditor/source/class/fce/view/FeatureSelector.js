@@ -338,6 +338,7 @@ qx.Class.define("fce.view.FeatureSelector", {
     {
       if (value) {
         var data = this._getData(value);
+        this.__serializeNonPrimitiveValues(data);
         var model = qx.data.marshal.Json.createModel(data, true);
         this.setModel(model);
         //this._getSetsMenu(qx.lang.Object.getKeys(value));
@@ -355,6 +356,25 @@ qx.Class.define("fce.view.FeatureSelector", {
       this.getChildControl("table").setModel(value);
     },
 
+    
+    /**
+     * Serialize non-primitive values so they can be displayed and edited
+     * 
+     * @param data {Array} Environment data
+     */
+    __serializeNonPrimitiveValues : function(data)
+    {
+      for (var i=0,l=data.length; i<l; i++) {
+        var entry = data[i];
+        for (var key in entry) {
+          var type = typeof entry[key];
+          if (!(type == "boolean" || type == "number" || type == "string")) {
+            entry[key] = qx.lang.Json.stringify(entry[key]);
+          }
+        }
+      }
+    },
+    
 
     /**
      * Displays the selected data
@@ -413,8 +433,19 @@ qx.Class.define("fce.view.FeatureSelector", {
      */
     _getJson : function(data)
     {
+      //convert non-primitive values that were serialized to allow editing back into objects
+      for (var key in data) {
+        if (data[key] === "null" || 
+          /^(?:\{|\[)".*(?:\}|\])$/.test(data[key])) 
+        {
+          data[key] = qx.lang.Json.parse(data[key]);
+        }
+      }
       var json = qx.lang.Json.stringify(data);
-      return json.replace(/{/, "{\n  ").replace(/}/, "\n}").replace(/,/g, ",\n  ");
+      //a little pretty-printing
+      json = json.replace(/{/, "{\n  ").replace(/}/, "\n}").replace(/,/g, ",\n  ");
+      json = json.replace(/:/g, " : ").replace(/: \{/g, ": {\n  ").replace(/\}\}/g, "  }\n}");
+      return json;
     },
 
 
