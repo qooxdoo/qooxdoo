@@ -167,8 +167,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      *     was pressed. The first parameter of the function is the <code>index</code>
      *     of the pressed button, starting from 1.
      * @param scope {Object} The scope of the handler
-     * @param buttons {String[]} Each text entry of the array represents a button and
-     *     its title
+     * @param button {String} The text entry represents a button and its title
      * @lint ignoreDeprecated(confirm)
      */
     error : function(title, text, handler, scope, button)
@@ -200,8 +199,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      *     was pressed. The first parameter of the function is the <code>index</code>
      *     of the pressed button, starting from 1.
      * @param scope {Object} The scope of the handler
-     * @param buttons {String[]} Each text entry of the array represents a button and
-     *     its title
+     * @param button {String} The text entry represents a button and its title
      * @lint ignoreDeprecated(confirm)
      */
     warning : function(title, text, handler, scope, button)
