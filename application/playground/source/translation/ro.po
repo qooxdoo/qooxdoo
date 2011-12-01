@@ -11,23 +11,23 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Application.js:100
+#: playground/Application.js:100
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
 msgstr "Din păcate, o eroare internă gravă a fost determinată de codul tău. Acest lucru face ca aplicația playground să nu ruleze corect.||"
 
-#: Application.js:396 Application.js:451
+#: playground/Application.js:396 playground/Application.js:451
 msgid "Please enter a name"
 msgstr "Vă rugăm să introduceţi un nume"
 
-#: Application.js:404
+#: playground/Application.js:404
 msgid "Sample already exists. Do you want to overwrite?"
 msgstr "Probă există deja. Vrei să suprascrieţi?"
 
-#: Application.js:603 Application.js:646
+#: playground/Application.js:603 playground/Application.js:646
 msgid "Custom Code"
 msgstr "Cod propriu"
 
-#: Application.js:669
+#: playground/Application.js:669
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
@@ -35,143 +35,143 @@ msgstr ""
 "// Nu am putut lucra cu acest parametru URL! \n"
 "// %1"
 
-#: Application.js:672
+#: playground/Application.js:672
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
 msgstr "// Browserul tău are o restricție privind lunfimea URL-ului, lucru care e posibil sa fi cauzat problema."
 
-#: Application.js:690
+#: playground/Application.js:690
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
 msgstr "Nu pot adăuga codul furnizat la URL, e prea lung. Anulez acest avertisment în viitor?"
 
-#: Application.js:715
+#: playground/Application.js:715
 msgid "Click OK to discard your changes."
 msgstr "Apasă OK pentru a nu salva modificările."
 
-#: Application.js:775
+#: playground/Application.js:775
 msgid "Starting application"
 msgstr "aplicația se pornește"
 
-#: Application.js:778
+#: playground/Application.js:778
 msgid "Successfully started"
 msgstr "A pornit cu succes"
 
-#: Application.js:836
+#: playground/Application.js:836
 msgid "%1 (modified)"
 msgstr "%1 (modificată)"
 
-#: view/Editor.js:80
+#: playground/view/Editor.js:80
 msgid "Source Code"
 msgstr "cod sursă"
 
-#: view/Header.js:31
+#: playground/view/Header.js:31
 msgid "qooxdoo"
 msgstr ""
 
-#: view/Header.js:32
+#: playground/view/Header.js:32
 msgid "Desktop"
 msgstr ""
 
-#: view/Header.js:37 view/Header.js:94
+#: playground/view/Header.js:37 playground/view/Header.js:94
 msgid "Mobile"
 msgstr ""
 
-#: view/Header.js:48
+#: playground/view/Header.js:48
 msgid "Playground"
 msgstr "Loc de joacă"
 
-#: view/Header.js:94
+#: playground/view/Header.js:94
 msgid "Mobile (Webkit only)"
 msgstr ""
 
-#: view/RiaPlayArea.js:53 view/RiaPlayArea.js:61
+#: playground/view/RiaPlayArea.js:53 playground/view/RiaPlayArea.js:61
 msgid "Maximize"
 msgstr "Maximizează"
 
-#: view/RiaPlayArea.js:58
+#: playground/view/RiaPlayArea.js:58
 msgid "Restore"
 msgstr "Restabileşte"
 
-#: view/Samples.js:46 view/Toolbar.js:51
+#: playground/view/Samples.js:46 playground/view/Toolbar.js:51
 msgid "Samples"
 msgstr "Exemple"
 
-#: view/Samples.js:175
+#: playground/view/Samples.js:175
 msgid "Static"
 msgstr "Static"
 
-#: view/Samples.js:177
+#: playground/view/Samples.js:177
 msgid "User"
 msgstr "Utilizator"
 
-#: view/Samples.js:207
+#: playground/view/Samples.js:207
 msgid "Save"
 msgstr "Salvează"
 
-#: view/Samples.js:217
+#: playground/view/Samples.js:217
 msgid "Save As"
 msgstr "Salvează ca"
 
-#: view/Samples.js:227
+#: playground/view/Samples.js:227
 msgid "Delete"
 msgstr "Şterge"
 
-#: view/Samples.js:237
+#: playground/view/Samples.js:237
 msgid "Rename"
 msgstr "Redenumeşte"
 
-#: view/Toolbar.js:41
+#: playground/view/Toolbar.js:41
 msgid "Run"
 msgstr "Rulează"
 
-#: view/Toolbar.js:44
+#: playground/view/Toolbar.js:44
 msgid "Run the source code"
 msgstr "Rulează codul sursă"
 
-#: view/Toolbar.js:55
+#: playground/view/Toolbar.js:55
 msgid "Show samples"
 msgstr "Prezintă demo-urile"
 
-#: view/Toolbar.js:63
+#: playground/view/Toolbar.js:63
 msgid "Syntax Highlighting"
 msgstr "Sublinierea sintaxei"
 
-#: view/Toolbar.js:78
+#: playground/view/Toolbar.js:78
 msgid "Log"
 msgstr "Jurnal"
 
-#: view/Toolbar.js:81
+#: playground/view/Toolbar.js:81
 msgid "Show log output"
 msgstr "Arată conținutul jurnalului"
 
-#: view/Toolbar.js:88
+#: playground/view/Toolbar.js:88
 msgid "Shorten URL"
 msgstr "Scurtează URL-ul"
 
-#: view/Toolbar.js:91
+#: playground/view/Toolbar.js:91
 msgid "Use tinyurl to shorten the url."
 msgstr "Folosește tinyurl pentru a scurta URL-ul."
 
-#: view/Toolbar.js:98
+#: playground/view/Toolbar.js:98
 msgid "API Viewer"
 msgstr "API Viewer"
 
-#: view/Toolbar.js:101
+#: playground/view/Toolbar.js:101
 msgid "Open the qooxdoo API Viewer"
 msgstr "Deschide qooxdoo API Viewer"
 
-#: view/Toolbar.js:108
+#: playground/view/Toolbar.js:108
 msgid "Manual"
 msgstr "Manual"
 
-#: view/Toolbar.js:111
+#: playground/view/Toolbar.js:111
 msgid "Open the qooxdoo Manual"
 msgstr "Deschide manualul qooxdoo"
 
-#: view/Toolbar.js:118
+#: playground/view/Toolbar.js:118
 msgid "Demo Browser"
 msgstr ""
 
-#: view/Toolbar.js:121
+#: playground/view/Toolbar.js:121
 msgid "Open the qooxdoo Demo Browser"
 msgstr "Deschide qooxdoo Demo Browser"
 
