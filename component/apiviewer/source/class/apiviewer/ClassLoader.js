@@ -35,11 +35,11 @@ qx.Class.define("apiviewer.ClassLoader",
   {
     /**
      * TODOC
-     * 
-     * @param className {} 
-     * @param async {} 
-     * @param callback {} 
-     * @param self {} 
+     *
+     * @param className {}
+     * @param async {}
+     * @param callback {}
+     * @param self {}
      * @lint ignoreDeprecated(eval)
      * @return {apiviewer.dao.Class}
      */

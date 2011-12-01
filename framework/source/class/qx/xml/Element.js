@@ -186,7 +186,7 @@ qx.Class.define("qx.xml.Element",
 
         return element.selectNodes(query);
       }
-      
+
       throw new Error("No XPath implementation available!");
     },
 
@@ -210,7 +210,7 @@ qx.Class.define("qx.xml.Element",
       if (qx.core.Environment.get("xml.getelementsbytagnamens")) {
         return element.getElementsByTagNameNS(namespaceURI, tagname);
       }
-      
+
       if (qx.core.Environment.get("xml.domproperties")) {
         var doc = element.ownerDocument || element;
 
@@ -219,7 +219,7 @@ qx.Class.define("qx.xml.Element",
 
         return qx.xml.Element.selectNodes(element, 'descendant-or-self::ns:' + tagname);
       }
-      
+
       throw new Error("The client does not support this operation!");
     },
 
@@ -253,13 +253,13 @@ qx.Class.define("qx.xml.Element",
       if (qx.core.Environment.get("xml.attributens")) {
         element.setAttributeNS(namespaceUri, name, value);
       }
-      
+
       else if (qx.core.Environment.get("xml.createnode")) {
         var attr = document.createNode(2, name, namespaceUri);
         attr.nodeValue = value;
         element.setAttributeNode(attr);
       }
-      
+
       else {
         throw new Error("The client does not support this operation!");
       }
@@ -279,7 +279,7 @@ qx.Class.define("qx.xml.Element",
         var value = element.getAttributeNS(namespaceUri, name);
         return value === null ? '' : value;
       }
-      
+
       if (qx.core.Environment.get("xml.getqualifieditem")) {
         var attributes = element.attributes;
         var value = null;
@@ -293,7 +293,7 @@ qx.Class.define("qx.xml.Element",
         }
         return value === null ? '' : value;
       }
-      
+
       throw new Error("The client does not support this operation!");
     },
 
@@ -320,13 +320,13 @@ qx.Class.define("qx.xml.Element",
         parent.appendChild(node);
         return node;
       }
-      
+
       if (qx.core.Environment.get("xml.createnode")) {
         var node = document.createNode(1, name, namespaceUri);
         parent.appendChild(node);
         return node;
       }
-      
+
       throw new Error("The client does not support this operation!");
     }
   },

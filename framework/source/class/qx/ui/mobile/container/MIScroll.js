@@ -145,7 +145,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
       });
       return scroll;
     },
-    
+
 
     /**
      * Registers all needed event listener.

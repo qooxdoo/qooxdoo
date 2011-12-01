@@ -104,8 +104,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         "  cursor:default;" +
         "  font-size: 11px;" +
         "  font-family: 'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif;" +
-        (qx.core.Environment.get("css.userselect") ? 
-        qx.lang.String.hyphenate(qx.core.Environment.get("css.userselect")) + 
+        (qx.core.Environment.get("css.userselect") ?
+        qx.lang.String.hyphenate(qx.core.Environment.get("css.userselect")) +
         ':' + qx.core.Environment.get("css.userselect.none") + ';'
         : '')
   },

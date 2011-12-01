@@ -19,20 +19,20 @@
 
 /**
  * Responsible for checking all relevant CSS transform properties.
- * 
- * Specs: 
+ *
+ * Specs:
  * http://www.w3.org/TR/css3-2d-transforms/
  * http://www.w3.org/TR/css3-3d-transforms/
- * 
+ *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.CssTransform", 
+qx.Bootstrap.define("qx.bom.client.CssTransform",
 {
   statics :
   {
     /**
-     * Main check method which returns an object if CSS animations are 
-     * supported. This object contains all necessary keys to work with CSS 
+     * Main check method which returns an object if CSS animations are
+     * supported. This object contains all necessary keys to work with CSS
      * animations.
      * <ul>
      *  <li><code>name</code> The name of the css transform style</li>
@@ -43,9 +43,9 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
      *  <li><code>perspective-origin</code> The name of the perspective-origin style</li>
      *  <li><code>backface-visibility</code> The name of the backface-visibility style</li>
      * </ul>
-     * 
+     *
      * @internal
-     * @return {Object|null} The described object or null, if animations are 
+     * @return {Object|null} The described object or null, if animations are
      *   not supported.
      */
     getSupport : function() {
@@ -67,7 +67,7 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
     /**
      * Checks for the style name used to set the transform origin.
      * @internal
-     * @return {String|null} The name of the style or null, if the style is 
+     * @return {String|null} The name of the style or null, if the style is
      *   not supported.
      */
     getStyle : function() {
@@ -78,7 +78,7 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
     /**
      * Checks for the style name used to set the transform origin.
      * @internal
-     * @return {String|null} The name of the style or null, if the style is 
+     * @return {String|null} The name of the style or null, if the style is
      *   not supported.
      */
     getPerspective : function() {
@@ -89,7 +89,7 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
     /**
      * Checks for the style name used to set the perspective origin.
      * @internal
-     * @return {String|null} The name of the style or null, if the style is 
+     * @return {String|null} The name of the style or null, if the style is
      *   not supported.
      */
     getPerspectiveOrigin : function() {
@@ -100,7 +100,7 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
     /**
      * Checks for the style name used to set the backface visibility.
      * @internal
-     * @return {String|null} The name of the style or null, if the style is 
+     * @return {String|null} The name of the style or null, if the style is
      *   not supported.
      */
     getBackFaceVisibility : function() {
@@ -111,7 +111,7 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
     /**
      * Checks for the style name used to set the transform origin.
      * @internal
-     * @return {String|null} The name of the style or null, if the style is 
+     * @return {String|null} The name of the style or null, if the style is
      *   not supported.
      */
     getOrigin : function() {
@@ -122,7 +122,7 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
     /**
      * Checks for the style name used for transforms.
      * @internal
-     * @return {String|null} The name of the style or null, if the style is 
+     * @return {String|null} The name of the style or null, if the style is
      *   not supported.
      */
     getName : function() {

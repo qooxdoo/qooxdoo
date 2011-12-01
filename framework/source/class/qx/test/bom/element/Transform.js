@@ -16,7 +16,7 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.bom.element.Transform", 
+qx.Class.define("qx.test.bom.element.Transform",
 {
   extend : qx.dev.unit.TestCase,
   include : [qx.dev.unit.MRequirements],
@@ -126,7 +126,7 @@ qx.Class.define("qx.test.bom.element.Transform",
       qx.bom.element.Transform.setPerspectiveOrigin(this.__el, "affe");
       this.assertEquals("affe", this.__el.style[this.__keys["perspective-origin"]]);
       this.assertEquals("affe", qx.bom.element.Transform.getPerspectiveOrigin(this.__el));
-      
+
     },
 
     testBackfaceVisibility : function() {

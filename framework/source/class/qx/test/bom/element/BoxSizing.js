@@ -22,7 +22,7 @@ qx.Class.define("qx.test.bom.element.BoxSizing",
   extend : qx.dev.unit.TestCase,
 
   include : [qx.dev.unit.MRequirements],
-  
+
   members :
   {
     __support :
@@ -32,38 +32,38 @@ qx.Class.define("qx.test.bom.element.BoxSizing",
       gecko : ["border-box", "content-box", "padding-box"],
       webkit : ["border-box", "content-box"]
     },
-    
+
     __el : null,
-    
+
     setUp : function()
     {
       this.__el = document.createElement("div");
       document.body.appendChild(this.__el);
     },
-    
+
     tearDown : function()
     {
       document.body.removeChild(this.__el);
       delete this.__el;
     },
-    
+
     hasBoxsizing : function()
     {
       return !!qx.core.Environment.get("css.boxsizing");
     },
-    
+
     testGet : function()
     {
       this.require(["boxsizing"]);
-      
+
       var supported = this.__support[qx.core.Environment.get("engine.name")] || [];
       this.assertInArray(qx.bom.element.BoxSizing.get(this.__el), supported);
     },
-    
+
     testSet : function()
     {
       this.require(["boxsizing"]);
-      
+
       var allValues = this.__support["gecko"];
       var supported = this.__support[qx.core.Environment.get("engine.name")] || [];
       for (var i=0, l=allValues.length; i<l; i++) {
@@ -78,11 +78,11 @@ qx.Class.define("qx.test.bom.element.BoxSizing",
         }
       }
     },
-    
+
     testCompile : function()
     {
       this.require(["boxsizing"]);
-      
+
       var css = qx.bom.element.BoxSizing.compile("border-box");
       this.assertMatch(css, /box-sizing/);
     }

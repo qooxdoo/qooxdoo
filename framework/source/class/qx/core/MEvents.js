@@ -24,10 +24,10 @@
 ************************************************************************ */
 
 /**
- * This mixin offers basic event handling capabilities. It includes the 
+ * This mixin offers basic event handling capabilities. It includes the
  * commonly known methods for managing event listeners and firing events.
  */
-qx.Mixin.define("qx.core.MEvents", 
+qx.Mixin.define("qx.core.MEvents",
 {
   members :
   {

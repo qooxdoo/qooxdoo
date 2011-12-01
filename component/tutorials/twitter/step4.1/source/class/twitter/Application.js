@@ -33,11 +33,11 @@ qx.Class.define("twitter.Application",
   {
     __loginWindow : null,
 
-    
+
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
     main : function()
@@ -60,30 +60,30 @@ qx.Class.define("twitter.Application",
       -------------------------------------------------------------------------
       */
 
-      
+
       var main = new twitter.MainWindow();
       main.moveTo(50, 30);
       main.open();
-      
+
       var service = new twitter.TwitterService();
-      
+
       // handler after posting a tweet
       service.addListener("postOk", function() {
         main.clearPostMessage();
         service.fetchTweets();
       }, this);
-      
+
       // reload handling
       main.addListener("reload", function() {
         service.fetchTweets();
       }, this);
-      
+
       // post handling
       main.addListener("post", function(e) {
         var msg = e.getData();
         service.post(msg);
       }, this);
-      
+
       // create the controller
       var controller = new qx.data.controller.List(null, main.getList());
       controller.setLabelPath("text");
@@ -97,15 +97,15 @@ qx.Class.define("twitter.Application",
         }
       });
       service.bind("tweets", controller, "model");
-      
+
       // show the login window on startup
       this.__loginWindow = new twitter.LoginWindow();
       this.__loginWindow.addListener("changeLoginData", function(ev) {
         var loginData = ev.getData();
-        service.fetchTweets(loginData.username, loginData.password);   
+        service.fetchTweets(loginData.username, loginData.password);
       });
       this.__loginWindow.moveTo(320,30);
-      this.__loginWindow.open();      
+      this.__loginWindow.open();
     }
   }
 });

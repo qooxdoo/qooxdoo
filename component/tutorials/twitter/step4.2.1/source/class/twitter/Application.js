@@ -33,11 +33,11 @@ qx.Class.define("twitter.Application",
   {
     __loginWindow : null,
 
-    
+
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
     main : function()
@@ -60,37 +60,37 @@ qx.Class.define("twitter.Application",
       -------------------------------------------------------------------------
       */
 
-      
+
       var main = new twitter.MainWindow();
       main.moveTo(50, 30);
       main.open();
-      
+
       var service = new twitter.TwitterService();
-      
+
       // handler after posting a tweet
       service.addListener("postOk", function() {
         main.clearPostMessage();
         service.fetchTweets();
       }, this);
-      
+
       // reload handling
       main.addListener("reload", function() {
         service.fetchTweets();
       }, this);
-      
+
       // post handling
       main.addListener("post", function(e) {
         var msg = e.getData();
         service.post(msg);
       }, this);
-      
+
       // create the controller
       var controller = new qx.data.controller.List(null, main.getList());
       controller.setDelegate({
         createItem : function() {
-          return new twitter.TweetView();  
+          return new twitter.TweetView();
         },
-        
+
         bindItem : function(controller, item, id) {
           controller.bindProperty("text", "post", null, item, id);
           controller.bindProperty("user.profile_image_url", "icon", null, item, id);
@@ -103,7 +103,7 @@ qx.Class.define("twitter.Application",
             }
           }, item, id);
         },
-        
+
         configureItem : function(item) {
           item.getChildControl("icon").setWidth(48);
           item.getChildControl("icon").setHeight(48);
@@ -112,7 +112,7 @@ qx.Class.define("twitter.Application",
         }
       });
       service.bind("tweets", controller, "model");
-      
+
       service.fetchTweets();
     }
   }

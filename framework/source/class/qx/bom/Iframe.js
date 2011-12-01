@@ -114,7 +114,7 @@ qx.Class.define("qx.bom.Iframe",
           return null;
         }
       }
-      
+
       try {
         var win = this.getWindow(iframe);
         return win ? win.document : null;

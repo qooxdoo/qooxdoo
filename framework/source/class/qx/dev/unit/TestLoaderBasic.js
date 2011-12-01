@@ -24,7 +24,7 @@
 qx.Class.define("qx.dev.unit.TestLoaderBasic", {
 
   extend : qx.core.Object,
-  
+
   include : [qx.dev.unit.MTestLoader],
 
   /**

@@ -848,7 +848,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
 
       var bounds = this.getBounds();
-      
+
       if (!bounds) {
         return; // the pane has not yet been rendered -> wait for the appear event
       }

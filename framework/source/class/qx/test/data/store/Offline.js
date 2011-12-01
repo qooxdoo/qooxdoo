@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.data.store.Offline", 
+qx.Class.define("qx.test.data.store.Offline",
 {
   extend : qx.dev.unit.TestCase,
   include : [qx.dev.unit.MRequirements, qx.dev.unit.MMock],
@@ -31,20 +31,20 @@ qx.Class.define("qx.test.data.store.Offline",
     {
       return qx.core.Environment.get("html.storage.local");
     },
-    
+
     hasQxDebug : function()
     {
       return qx.core.Environment.get("qx.debug");
     },
-    
-    setUp : function() 
+
+    setUp : function()
     {
       //this.require(["html.storage.local"]);
       this.require(["localStorage"]);
     },
 
 
-    tearDown : function() 
+    tearDown : function()
     {
       this.getSandbox().restore();
 

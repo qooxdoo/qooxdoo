@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     /**
      * Calls the delegate <code>onPool</code> method when it is used in the
      * {@link #delegate} property.
-     * 
+     *
      * @param item {qx.ui.core.Widget} Item to modify.
      */
     _onPool : function(item)

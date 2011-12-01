@@ -45,7 +45,7 @@ qx.Class.define("feedreader.WebsiteApplication",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -83,7 +83,7 @@ qx.Class.define("feedreader.WebsiteApplication",
         if (feed.getState() === "loaded") {
           self.fillList(list, feed);
         } else {
-          // if not loaded, add a listener 
+          // if not loaded, add a listener
           feed.addListener("stateModified", function(e) {
             if (e.getData() == "loaded") {
               self.fillList(list, feed);
@@ -100,7 +100,7 @@ qx.Class.define("feedreader.WebsiteApplication",
 
     /**
      * Fills the given list with the data of the given feed.
-     * 
+     *
      * @param col {qx.bom.Collection} A collection which will be filled.
      * @param feed {qx.core.Object} The model for the feed.
      */
@@ -124,7 +124,7 @@ qx.Class.define("feedreader.WebsiteApplication",
 
     /**
      * Fills the given tree with the data of the given model.
-     * 
+     *
      * @param col {qx.bom.Collection} The collection which will be filled.
      * @param model {qx.core.Object} The model to take the data from.
      */
@@ -134,16 +134,16 @@ qx.Class.define("feedreader.WebsiteApplication",
       qx.bom.element.Animation.animate(col[0], fadeOut).onEnd(function() {
         // empty loading text
         col[0].innerHTML = "";
-        
+
         // take both folders
         var folders = [model.getStaticFeedFolder(), model.getUserFeedFolder()];
         var names = ["Static Feeds", "User Feeds"];
-        
+
         for (var i=0; i < folders.length; i++) {
           // create a folder item in the tree
           var feeds = folders[i].getFeeds();
           col.append(feedreader.view.website.Factory.createTreeFolder(names[i]));
-        
+
           // create a feed item for every feed in the folder
           for (var j=0; j < feeds.length; j++) {
             var feed = feeds.getItem(j);

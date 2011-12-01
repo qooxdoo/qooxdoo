@@ -63,7 +63,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
 
     /**
      * Checks if the proprietary <code>help</code> event is available.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if the "help" event is supported.
      */
@@ -71,11 +71,11 @@ qx.Bootstrap.define("qx.bom.client.Event",
     {
       return ("onhelp" in document);
     },
-    
-    
+
+
     /**
      * Checks if the <code>hashchange</code> event is available
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if the "hashchange" event is supported.
      */
@@ -85,7 +85,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
       var engine = qx.bom.client.Engine.getName();
       var hashchange = "onhashchange" in window;
       return (engine !== "mshtml" && hashchange) ||
-      (engine === "mshtml" && "documentMode" in document && 
+      (engine === "mshtml" && "documentMode" in document &&
        document.documentMode >= 8 && hashchange);
     }
   },

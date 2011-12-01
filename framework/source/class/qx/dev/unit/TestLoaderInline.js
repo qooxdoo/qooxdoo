@@ -24,7 +24,7 @@
 qx.Class.define("qx.dev.unit.TestLoaderInline",
 {
   extend : qx.application.Inline,
-  
+
   include : [qx.dev.unit.MTestLoader],
 
 

@@ -16,14 +16,14 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.bom.Template", 
+qx.Class.define("qx.test.bom.Template",
 {
   extend : qx.dev.unit.TestCase,
 
   members :
   {
     __tmpl: null,
-    
+
     tearDown : function() {
       if (this.__tmpl) {
         qx.dom.Element.removeChild(this.__tmpl, document.body);
@@ -36,7 +36,7 @@ qx.Class.define("qx.test.bom.Template",
       var view = {name: "abc"};
       var result = qx.bom.Template.toHtml(template, view);
       var expected = "abc xyz";
-      
+
       this.assertEquals(expected, result);
     },
 
@@ -46,7 +46,7 @@ qx.Class.define("qx.test.bom.Template",
       var view = {name: function() {return "abc"}};
       var result = qx.bom.Template.toHtml(template, view);
       var expected = "abc xyz";
-      
+
       this.assertEquals(expected, result);
     },
 
@@ -56,7 +56,7 @@ qx.Class.define("qx.test.bom.Template",
       var view = {l : ["a", "b", "c"]};
       var result = qx.bom.Template.toHtml(template, view);
       var expected = "abc";
-      
+
       this.assertEquals(expected, result);
     },
 
@@ -66,14 +66,14 @@ qx.Class.define("qx.test.bom.Template",
       var view = {b: true};
       var result = qx.bom.Template.toHtml(template, view);
       var expected = "yo";
-      
+
       this.assertEquals(expected, result);
-      
+
       template = "{{#b}}yo{{/b}}";
       view = {b: false};
       result = qx.bom.Template.toHtml(template, view);
       expected = "";
-      
+
       this.assertEquals(expected, result);
     },
 
@@ -83,7 +83,7 @@ qx.Class.define("qx.test.bom.Template",
       var view = {o: {a: 1, b: 2}};
       var result = qx.bom.Template.toHtml(template, view);
       var expected = "21";
-      
+
       this.assertEquals(expected, result);
     },
 
@@ -91,7 +91,7 @@ qx.Class.define("qx.test.bom.Template",
     testWrapper : function() {
       var template = "{{#b}}yo{{/b}}";
       var view = {
-        b: function() { 
+        b: function() {
           return function(text, render) {
             return "!" + render(text) + "!";
           }
@@ -99,7 +99,7 @@ qx.Class.define("qx.test.bom.Template",
       };
       var result = qx.bom.Template.toHtml(template, view);
       var expected = "!yo!";
-      
+
       this.assertEquals(expected, result);
     },
 

@@ -705,7 +705,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * TODO: Correctly support refined properties?
      *
      * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
-     * 
+     *
      * @param clazz {Class} class to check
      * @param name {String} name of the event to check for
      * @return {Map|null} whether the object support the given event.
@@ -729,7 +729,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * Whether a class has the given property
      *
      * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
-     * 
+     *
      * @param clazz {Class} class to check
      * @param name {String} name of the property to check for
      * @return {Boolean} whether the class includes the given property.
@@ -744,7 +744,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * the event does not exist.
      *
      * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
-     * 
+     *
      * @param clazz {Class} class to check
      * @param name {String} name of the event
      * @return {Map|null} Event type of the given event.
@@ -770,7 +770,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * Whether a class supports the given event type
      *
      * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
-     * 
+     *
      * @param clazz {Class} class to check
      * @param name {String} name of the event to check for
      * @return {Boolean} whether the class supports the given event.
@@ -786,7 +786,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * specified anywhere.
      *
      * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
-     * 
+     *
      * @param clazz {Class} class to look for the interface
      * @param iface {Interface} interface to look for
      * @return {Class | null} the class which directly implements the given interface
@@ -825,7 +825,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * key.
      *
      * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
-     * 
+     *
      * @param clazz {Class} class to check
      * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class includes the interface.
@@ -839,7 +839,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * Returns a list of all mixins available in a given class.
      *
      * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
-     * 
+     *
      * @param clazz {Class} class which should be inspected
      * @return {Mixin[]} array of mixins this class uses
      */

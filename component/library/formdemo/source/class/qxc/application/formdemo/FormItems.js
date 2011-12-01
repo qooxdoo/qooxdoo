@@ -250,7 +250,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
 
       slider.bind("value", spinner, "value");
       spinner.bind("value", slider, "value");
-      
+
       renderedForm = new qx.ui.form.renderer.Single(form);
       numberGroupBox.add(renderedForm);
     },

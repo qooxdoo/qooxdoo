@@ -75,7 +75,7 @@ qx.Class.define("qx.test.ui.tree.virtual.MultiSelection",
       var expectedSelection = new qx.data.Array(selectionFromManager);
       this.assertTrue(selection.equals(expectedSelection), "On selection manager");
       expectedSelection.dispose();
-      
+
       // check selection on tree
       expectedSelection = new qx.data.Array(
       [

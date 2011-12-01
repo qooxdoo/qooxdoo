@@ -103,7 +103,7 @@ qx.Class.define("qx.util.Uri",
 
     /**
      * Takes a relative URI and returns an absolute one.
-     * 
+     *
      * @param uri {String} relative URI
      * @return {String} absolute URI
      */

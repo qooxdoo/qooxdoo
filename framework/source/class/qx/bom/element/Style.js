@@ -99,11 +99,11 @@ qx.Class.define("qx.bom.element.Style",
           delete styleNames[key];
         }
         else {
-          this.__cssNames[key] = key == "float" ? "float" : 
+          this.__cssNames[key] = key == "float" ? "float" :
             qx.lang.String.hyphenate(styleNames[key]);
         }
       }
-      
+
       this.__styleNames = styleNames;
     },
 

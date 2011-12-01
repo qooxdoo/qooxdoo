@@ -79,7 +79,7 @@ qx.Class.define("qx.test.util.Base64", {
       var encodedStr = qx.util.Base64.encode(str);
       this.assertEquals(str, qx.util.Base64.decode(encodedStr));
     },
-    
+
     testKnownEncoding : function() {
       var str = "Hello\nThis\nIs\nA\nText\nFile";
       var expected = "SGVsbG8KVGhpcwpJcwpBClRleHQKRmlsZQ==";

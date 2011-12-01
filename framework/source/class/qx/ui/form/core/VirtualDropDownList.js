@@ -102,8 +102,8 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
 
     /** {Boolean} Indicator to ignore selection changes from the list. */
     __ignoreListSelection : false,
-    
-    
+
+
     __defaultSelection : null,
 
 
@@ -458,7 +458,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
       return toTop > toBottom ? toTop : toBottom;
     }
   },
-  
+
   destruct : function()
   {
     if (this.__defaultSelection) {

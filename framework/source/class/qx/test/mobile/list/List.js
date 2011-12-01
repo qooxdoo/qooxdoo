@@ -61,7 +61,7 @@ qx.Class.define("qx.test.mobile.list.List",
       var childrenLength = list.getContentElement().childNodes.length;
       this.assertEquals(dataLength, childrenLength);
     },
-    
+
     __cleanUp : function(list) {
       list.destroy();
       var modelData = list.getModel();

@@ -1454,7 +1454,7 @@ qx.Class.define("qx.html.Element",
       this.setAttribute("qxSelectable", value ? "on" : "off");
       var userSelect = qx.core.Environment.get("css.userselect");
       if (userSelect) {
-        this.setStyle(userSelect, value ? "text" : 
+        this.setStyle(userSelect, value ? "text" :
           qx.core.Environment.get("css.userselect.none"));
       }
     },

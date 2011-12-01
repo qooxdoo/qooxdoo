@@ -498,7 +498,7 @@ qx.Class.define("qx.bom.element.Location",
     {
       var top = body.offsetTop;
       var left = body.offsetLeft;
-      
+
       if (qx.core.Environment.get("engine.name") !== "mshtml" ||
          !((parseFloat(qx.core.Environment.get("engine.version")) < 8 ||
           qx.core.Environment.get("browser.documentmode") < 8) &&
@@ -507,12 +507,12 @@ qx.Class.define("qx.bom.element.Location",
         top += this.__num(body, "marginTop");
         left += this.__num(body, "marginLeft");
       }
-      
+
       if (qx.core.Environment.get("engine.name") === "gecko") {
         top += this.__num(body, "borderLeftWidth");
         left +=this.__num(body, "borderTopWidth");
       }
-      
+
       return {left: left, top: top};
     },
 

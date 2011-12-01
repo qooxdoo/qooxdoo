@@ -27,7 +27,7 @@ qx.Mixin.define("testrunner.view.MAutoRun", {
       this.setAutoRun(true);
     }
   },
-  
+
   properties :
   {
     /** Automatically run the selected tests after loading */

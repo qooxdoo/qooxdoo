@@ -547,9 +547,9 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       for (var i=hierarchy.length - 1; i >= 0; i--) {
         var name = hierarchy[i].getFullName();
         var icon = TreeUtil.getIconUrl(hierarchy[i]);
-        
+
         html.add("<div>");
-        
+
         if (hierarchy[i].getSuperInterfaces().length > 0) {
           html.add(ClassViewer.createImageHtml("apiviewer/image/nextlevel.gif", null, "margin-left:" + indent + "px"));
           html.add(ClassViewer.createImageHtml(icon));
@@ -560,7 +560,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           html.add(ClassViewer.createImageHtml(icon));
           html.add(InfoPanel.createItemLinkHtml(name, null, false));
         }
-        
+
         html.add("</div>");
       }
 
@@ -576,7 +576,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     showItem : function(itemName)
     {
       var itemNode;
-      
+
       var nameMap = {
                       "event": "events",
                       "method_public": "methods",

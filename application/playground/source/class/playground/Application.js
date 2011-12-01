@@ -281,7 +281,7 @@ qx.Class.define("playground.Application",
 
       // only add static samples to the url as name
       if (newSample.getCategory() == "static") {
-        this.__history.addToHistory(newSample.getName() + "-" + newSample.getMode());        
+        this.__history.addToHistory(newSample.getName() + "-" + newSample.getMode());
       } else {
         this.__addCodeToHistory(newSample.getCode());
       }
@@ -366,7 +366,7 @@ qx.Class.define("playground.Application",
     // SAMPEL SAVE / DELETE
     // ***************************************************
     /**
-     * Helper to write the current code to the model and with that to the 
+     * Helper to write the current code to the model and with that to the
      * offline store.
      */
     __onSave : function() {
@@ -387,7 +387,7 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * Helper to write the current code to the model and with that to the 
+     * Helper to write the current code to the model and with that to the
      * offline store.
      * @lint ignoreDeprecated(confirm)
      */
@@ -409,9 +409,9 @@ qx.Class.define("playground.Application",
       };
       // create new sample
       var data = {
-        name: name, 
-        code: this.__editor.getCode(), 
-        mode: this.__mode, 
+        name: name,
+        code: this.__editor.getCode(),
+        mode: this.__mode,
         category: "user"
       };
       var sample = qx.data.marshal.Json.createModel(data, true);
@@ -459,7 +459,7 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * Helper to toggle the editors split pane which means togglinge the 
+     * Helper to toggle the editors split pane which means togglinge the
      * visibility of the editor and the samples pane.
      */
     _onToggleMaximize : function() {
@@ -477,7 +477,7 @@ qx.Class.define("playground.Application",
     // ***************************************************
     /**
      * Handler for sample changes of the toolbar.
-     * @param e {qx.event.type.Data} Data event containing the boolean 
+     * @param e {qx.event.type.Data} Data event containing the boolean
      * weather the examples should be shown.
      */
     __onSampleChange : function(e) {
@@ -487,7 +487,7 @@ qx.Class.define("playground.Application",
       } else {
         this.__samplesPane.exclude();
       }
-    }, 
+    },
 
 
     /**

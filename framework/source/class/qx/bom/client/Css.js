@@ -36,7 +36,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
   statics :
   {
     __WEBKIT_LEGACY_GRADIENT : null,
-    
+
     /**
      * Checks what box model is used in the current environemnt.
      * @return {String} It either returns "content" or "border".
@@ -51,9 +51,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * Returns the (possibly vendor-prefixed) name the browser uses for the
      * <code>textOverflow</code> style property.
-     * 
+     *
      * @return {String|null} textOverflow property name or <code>null</code> if
      * textOverflow is not supported.
      * @internal
@@ -75,9 +75,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * Returns the (possibly vendor-prefixed) name the browser uses for the
      * <code>appearance</code> style property.
-     * 
+     *
      * @return {String|null} appearance property name or <code>null</code> if
      * appearance is not supported.
      * @internal
@@ -88,9 +88,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * Returns the (possibly vendor-prefixed) name the browser uses for the
      * <code>borderRadius</code> style property.
-     * 
+     *
      * @return {String|null} borderRadius property name or <code>null</code> if
      * borderRadius is not supported.
      * @internal
@@ -101,9 +101,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * Returns the (possibly vendor-prefixed) name the browser uses for the
      * <code>boxShadow</code> style property.
-     * 
+     *
      * @return {String|null} boxShadow property name or <code>null</code> if
      * boxShadow is not supported.
      * @internal
@@ -114,9 +114,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * Returns the (possibly vendor-prefixed) name the browser uses for the
      * <code>borderImage</code> style property.
-     * 
+     *
      * @return {String|null} borderImage property name or <code>null</code> if
      * borderImage is not supported.
      * @internal
@@ -127,9 +127,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * Returns the (possibly vendor-prefixed) name the browser uses for the
      * <code>userSelect</code> style property.
-     * 
+     *
      * @return {String|null} userSelect property name or <code>null</code> if
      * userSelect is not supported.
      * @internal
@@ -140,13 +140,13 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Returns the (possibly vendor-prefixed) value for the 
+     * Returns the (possibly vendor-prefixed) value for the
      * <code>userSelect</code> style property that disables selection. For Gecko,
      * "-moz-none" is returned since "none" only makes the target element appear
      * as if its text could not be selected
-     * 
+     *
      * @internal
-     * @return {String|null} the userSelect property value that disables 
+     * @return {String|null} the userSelect property value that disables
      * selection or <code>null</code> if userSelect is not supported
      */
     getUserSelectNone : function() {
@@ -161,9 +161,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * Returns the (possibly vendor-prefixed) name the browser uses for the
      * <code>userModify</code> style property.
-     * 
+     *
      * @return {String|null} userModify property name or <code>null</code> if
      * userModify is not supported.
      * @internal
@@ -171,18 +171,18 @@ qx.Bootstrap.define("qx.bom.client.Css",
     getUserModify : function() {
       return qx.bom.Style.getPropertyName("userModify");
     },
-    
+
     /**
-     * Returns the vendor-specific name of the <code>float</code> style property 
-     * 
-     * @return {String|null} <code>cssFloat</code> for standards-compliant 
-     * browsers, <code>styleFloat</code> for legacy IEs, <code>null</code> if 
+     * Returns the vendor-specific name of the <code>float</code> style property
+     *
+     * @return {String|null} <code>cssFloat</code> for standards-compliant
+     * browsers, <code>styleFloat</code> for legacy IEs, <code>null</code> if
      * the client supports neither property.
      * @internal
      */
     getFloat : function() {
       var style = document.documentElement.style;
-      return style.cssFloat !== undefined ? "cssFloat" : 
+      return style.cssFloat !== undefined ? "cssFloat" :
         style.styleFloat !== undefined ? "styleFloat" : null;
     },
 
@@ -210,10 +210,10 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Returns the (possibly vendor-prefixed) name this client uses for 
+     * Returns the (possibly vendor-prefixed) name this client uses for
      * <code>linear-gradient</code>.
      * http://dev.w3.org/csswg/css3-images/#linear-gradients
-     * 
+     *
      * @return {String|null} Prefixed linear-gradient name or <code>null</code>
      * if linear gradients are not supported
      * @internal
@@ -224,7 +224,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
       var value = "linear-gradient(0deg, #fff, #000)";
       var el = document.createElement("div");
       var style = qx.bom.Style.getAppliedStyle(el, "backgroundImage", value);
-      
+
       if (!style) {
         //try old WebKit syntax (versions 528 - 534.16)
         value = "-webkit-gradient(linear,0% 0%,100% 100%,from(white), to(red))";
@@ -233,21 +233,21 @@ qx.Bootstrap.define("qx.bom.client.Css",
           qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT = true;
         }
       }
-      
+
       // not supported
       if (!style) {
         return null;
       }
-      
+
       var match = /(.*?)\(/.exec(style);
       return match ? match[1] : null;
     },
-    
-    
+
+
     /**
-     * Returns the (possibly vendor-prefixed) name this client uses for 
+     * Returns the (possibly vendor-prefixed) name this client uses for
      * <code>radial-gradient</code>.
-     * 
+     *
      * @return {String|null} Prefixed radial-gradient name or <code>null</code>
      * if radial gradients are not supported
      * @internal
@@ -266,11 +266,11 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Checks if the **only** the old WebKit (version < 534.16) syntax for 
-     * linear gradients is supported, e.g. 
+     * Checks if the **only** the old WebKit (version < 534.16) syntax for
+     * linear gradients is supported, e.g.
      * <code>linear-gradient(0deg, #fff, #000)</code>
-     * 
-     * @return {Boolean} <code>true</code> if the legacy syntax must be used 
+     *
+     * @return {Boolean} <code>true</code> if the legacy syntax must be used
      */
     getLegacyWebkitGradient : function()
     {
@@ -305,12 +305,12 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
       return false;
     },
-    
-    
+
+
     /**
-     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * Returns the (possibly vendor-prefixed) name the browser uses for the
      * <code>boxSizing</code> style property.
-     * 
+     *
      * @return {String|null} boxSizing property name or <code>null</code> if
      * boxSizing is not supported.
      * @internal
@@ -323,9 +323,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
     /**
      * Returns the browser-specific name used for the <code>display</code> style
      * property's <code>inline-block</code> value.
-     * 
+     *
      * @internal
-     * @return {String|null} 
+     * @return {String|null}
      */
     getInlineBlock : function() {
       var el = document.createElement("span");
@@ -339,22 +339,22 @@ qx.Bootstrap.define("qx.bom.client.Css",
       }
       return null;
     },
-    
-    
+
+
     /**
      * Checks if CSS opacity is supported
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if opacity is supported
      */
     getOpacity : function() {
       return (typeof document.documentElement.style.opacity == "string");
     },
-    
-    
+
+
     /**
      * Checks if the overflowX and overflowY style properties are supported
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if overflow-x and overflow-y can be
      * used

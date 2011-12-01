@@ -36,7 +36,7 @@
 qx.Class.define("testrunner.view.widget.Widget", {
 
   extend : testrunner.view.Abstract,
-  
+
   include : [testrunner.view.MAutoRun],
 
   construct : function()
@@ -923,8 +923,8 @@ qx.Class.define("testrunner.view.widget.Widget", {
             this.__testTree.getSelection().push(this.getTestModel());
           }
 
-          if ((this.getAutoReload() && this.__autoReloadActive) 
-          || this.getAutoRun()) 
+          if ((this.getAutoReload() && this.__autoReloadActive)
+          || this.getAutoRun())
           {
             this.reset();
             this.fireEvent("runTests");

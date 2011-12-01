@@ -25,8 +25,8 @@ qx.Class.define("qx.test.dev.StackTrace",
       qx.dev.StackTrace.FILENAME_TO_CLASSNAME = null;
       qx.dev.StackTrace.FORMAT_STACKTRACE = null;
     },
-    
-    
+
+
     testGetStackTraceFromError : function()
     {
       var trace = [];
@@ -42,8 +42,8 @@ qx.Class.define("qx.test.dev.StackTrace",
         qx.core.Assert.assertNotEquals(0, trace.length, "No stack trace information returned!");
       }
     },
-    
-    
+
+
     testFilenameConverterDefault : function()
     {
       var ex = new Error("Just a test");
@@ -52,15 +52,15 @@ qx.Class.define("qx.test.dev.StackTrace",
         this.assertMatch(stack[i], /((?:test\.dev\.StackTrace)|(?:dev\.unit)|(?:testrunner\.js)|(?:tests\.js))/);
       }
     },
-    
-    
+
+
     testFilenameConverterCustom : function()
     {
       var converter = function(fileName) {
         this.assertString(fileName);
         return "FOO";
       }
-      
+
       qx.dev.StackTrace.FILENAME_TO_CLASSNAME = qx.lang.Function.bind(converter, this);
       var ex = new Error("Just a test");
       var stack = qx.dev.StackTrace.getStackTraceFromError(ex);
@@ -68,8 +68,8 @@ qx.Class.define("qx.test.dev.StackTrace",
         this.assertMatch(stack[i], /FOO/);
       }
     },
-    
-    
+
+
     testFormatStackTrace : function()
     {
       var formatter = function(trace) {
@@ -79,7 +79,7 @@ qx.Class.define("qx.test.dev.StackTrace",
         }
         return trace;
       }
-      
+
       qx.dev.StackTrace.FORMAT_STACKTRACE = qx.lang.Function.bind(formatter, this);
       var ex = new Error("Just a test");
       var stack = qx.dev.StackTrace.getStackTraceFromError(ex);

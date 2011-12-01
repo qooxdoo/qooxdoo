@@ -36,9 +36,9 @@ qx.Class.define("mobileshowcase.page.Atom",
 
   members :
   {
-  
+
     __disabled: false,
-    
+
     // overridden
     _initialize : function()
     {

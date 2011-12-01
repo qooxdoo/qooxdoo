@@ -21,7 +21,7 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * The widget displays a busy indicator.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.

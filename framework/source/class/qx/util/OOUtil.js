@@ -17,11 +17,11 @@
 
 ************************************************************************ */
 /**
- * This class is a base class for the OO system defined by Class, Mixin 
- * and Interface. It contains helper which are basically needed to create the 
+ * This class is a base class for the OO system defined by Class, Mixin
+ * and Interface. It contains helper which are basically needed to create the
  * Classes which define the OO system.
  */
-qx.Bootstrap.define("qx.util.OOUtil", 
+qx.Bootstrap.define("qx.util.OOUtil",
 {
   statics :
   {
@@ -88,7 +88,7 @@ qx.Bootstrap.define("qx.util.OOUtil",
      * @param iface {Interface} interface to look for
      * @return {Class | null} the class which directly implements the given interface
      */
-    getByInterface : qx.Bootstrap.getByInterface,  
+    getByInterface : qx.Bootstrap.getByInterface,
 
 
     /**

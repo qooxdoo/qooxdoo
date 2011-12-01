@@ -283,10 +283,10 @@ qx.Class.define("testrunner.view.Reporter", {
       }
       return failedTests;
     },
-    
+
     /**
      * Returns a JSON serialization of {@link #getFailedResults}
-     * 
+     *
      *  @return {String} Failed results map as JSON
      */
     getFailedResultsAsJson : function()

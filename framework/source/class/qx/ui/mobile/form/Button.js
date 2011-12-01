@@ -65,13 +65,13 @@ qx.Class.define("qx.ui.mobile.form.Button",
       init : true
     }
   },
-  
+
   members :
   {
     setValue : function(value) {
       this.setLabel(value);
     },
-    
+
     getValue : function() {
       return this.getLabel();
     }

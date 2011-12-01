@@ -181,15 +181,15 @@ qx.Bootstrap.define("qx.bom.client.Engine",
 
     /**
      * Internal helper for checking for Maple .
-     * Maple is used in Samsung SMART TV 2010-2011 models. It's based on Gecko 
-     * engine 1.8.1.11. 
+     * Maple is used in Samsung SMART TV 2010-2011 models. It's based on Gecko
+     * engine 1.8.1.11.
      * @return {boolean} true, if its maple.
      */
     __isMaple : function() {
       return window.navigator.userAgent.indexOf("Maple") != -1;
     },
-    
-    
+
+
     /**
      * Internal helper for checking for gecko.
      * @return {boolean} true, if its gecko.

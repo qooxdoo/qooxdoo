@@ -134,13 +134,13 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     _testNameSpace : null,
     _externalTestClasses : 0,
 
-    
+
     _getTestNameSpace : function()
     {
       return qx.core.Environment.get("qx.testNameSpace");
     },
-    
-    
+
+
     _loadTests : function()
     {
       var origin = qx.core.Environment.get("testrunner.testOrigin");
@@ -152,8 +152,8 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
           this._loadInlineTests(this._testNameSpace);
       }
     },
-    
-    
+
+
     /**
      * Loads test classes that are a part of the TestRunner application.
      *
@@ -166,8 +166,8 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       this._wrapAssertions();
       this._getTestModel();
     },
-    
-    
+
+
     _addTestClass : function(membersMap)
     {
       if (qx.core.Environment.get("qx.debug")) {
@@ -180,7 +180,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
         extend : qx.dev.unit.TestCase,
         members : membersMap
       });
-      
+
       if (this.loader) {
         this.loader.getSuite().add(testClass);
       }
@@ -188,14 +188,14 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
         this.loader = new qx.dev.unit.TestLoaderBasic("test");
       }
     },
-    
-    
+
+
     define : function(membersMap)
     {
       this._addTestClass(membersMap);
       this._getTestModel();
     },
-    
+
     /**
      * TODOC
      */
@@ -247,8 +247,8 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       this.setTestModel(null);
 
       var testRep = this.__getTestRep();
-      if (!testRep || testRep.length === 0 || 
-        (testRep.length === 1 && testRep[0].tests.length === 0)) 
+      if (!testRep || testRep.length === 0 ||
+        (testRep.length === 1 && testRep[0].tests.length === 0))
       {
         this.setTestSuiteState("error");
         return;
@@ -428,47 +428,47 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
 
       return testResult;
     },
-    
-    
+
+
     _onTestWait : function(ev)
     {
       this.currentTestData.setState("wait");
     },
-    
-    
+
+
     _onTestFailure : function(ev)
     {
       this.__addExceptions(this.currentTestData, ev.getData());
-      
+
       if (this.currentTestData.getState() === "failure") {
         this.currentTestData.resetState();
       }
       this.currentTestData.setState("failure");
     },
-    
-    
+
+
     _onTestError : function(ev)
     {
       this.__addExceptions(this.currentTestData, ev.getData());
-      
+
       if (this.currentTestData.getState() === "error") {
         this.currentTestData.resetState();
       }
       this.currentTestData.setState("error");
     },
-    
-    
+
+
     _onTestSkip : function(ev)
     {
       this.__addExceptions(this.currentTestData, ev.getData());
-      
+
       if (this.currentTestData.getState() === "skip") {
         this.currentTestData.resetState();
       }
       this.currentTestData.setState("skip");
     },
-    
-    
+
+
     _onTestEnd : function(ev)
     {
       var state = this.currentTestData.getState();
@@ -478,11 +478,11 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
 
       qx.event.Timer.once(this.runTests, this, 0);
     },
-    
+
     /**
      * Adds exception information to an existing TestResult object, making sure
      * no duplicates are recorded.
-     * 
+     *
      * @param testResult {qx.dev.unit.TestResult} TestResult object
      * @param exceptions {Object[]} List of exception objects
      */
@@ -490,7 +490,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     {
       var oldEx = testResult.getExceptions();
       var newEx = oldEx.concat();
-      
+
       for (var i=0,l=exceptions.length; i<l; i++) {
         var newExMsg = exceptions[i].exception.toString();
         var dupe = false;

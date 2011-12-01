@@ -98,8 +98,8 @@ qx.Class.define("inspector.widgets.View",
       var remoteAppRoot = this._iFrameWindow.qx.core.Init.getApplication().getRoot();
 
       // create a new root folder
-      if (remoteAppRoot.classname == "qx.ui.root.Application" || 
-        remoteAppRoot.classname == "qx.ui.mobile.core.Root") 
+      if (remoteAppRoot.classname == "qx.ui.root.Application" ||
+        remoteAppRoot.classname == "qx.ui.mobile.core.Root")
       {
         var rootFolder = new qx.ui.tree.TreeFolder(
           remoteAppRoot.classname + " [" + remoteAppRoot.toHashCode() + "]"
@@ -297,7 +297,7 @@ qx.Class.define("inspector.widgets.View",
       // get the current iframe window object
       this._iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
       // check for null references
-      if (widget == null || 
+      if (widget == null ||
         ((this._iFrameWindow.qx.ui.core && this._iFrameWindow.qx.ui.core.Widget) && !(widget instanceof this._iFrameWindow.qx.ui.core.Widget)) ||
         (this._iFrameWindow.qx.ui.mobile && !(widget instanceof this._iFrameWindow.qx.ui.mobile.core.Widget)))
       {

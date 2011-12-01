@@ -322,7 +322,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
             (bottom > elemLocation.top && top < elemLocation.bottom)
           ) {
             var direction = qx.ui.core.MPlacement.getMoveDirection();
-            
+
             if (direction === "left") {
               left = Math.max(elemLocation.left - bounds.width, 0);
             } else {

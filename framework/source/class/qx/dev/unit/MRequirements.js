@@ -54,25 +54,25 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
 
     /**
      * Verifies a list of infrastructure requirements by checking for
-     * corresponding "has" methods. If no such method was found, 
-     * {@link qx.core.Environment} will be checked for a key matching the given 
-     * feature name. Note that asynchronous environment checks are not supported! 
-     * 
+     * corresponding "has" methods. If no such method was found,
+     * {@link qx.core.Environment} will be checked for a key matching the given
+     * feature name. Note that asynchronous environment checks are not supported!
+     *
      * See the manual for further details:
      * {@link http://manual.qooxdoo.org/current/pages/development/frame_apps_testrunner.html#defining-test-requirements}
-     * 
-     * @throws RequirementError if any requirement check returned 
+     *
+     * @throws RequirementError if any requirement check returned
      * <code>false</code>
      * @throws if no valid check was found for a feature.
      *
      * @param featureList {String[]} List of infrastructure requirements
      */
     require : function(featureList) {
-      
+
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertArray(featureList);
       }
-      
+
       for (var i=0,l=featureList.length; i<l; i++) {
         var feature = featureList[i];
         var hasMethodName = "has" + qx.lang.String.capitalize(feature);
@@ -85,7 +85,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
             throw new qx.dev.unit.RequirementError(feature);
           }
         }
-        
+
         if (qx.core.Environment.getChecks()[feature]) {
           var envValue = qx.core.Environment.get(feature);
           if (envValue === true) {
@@ -99,12 +99,12 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
              + " as a Test Requirement since its value is not boolean!");
           }
         }
-        
+
         if (qx.core.Environment.getAsyncChecks()[feature]) {
           throw new Error('Unable to verify requirement ' + feature + ': '
           + 'Asynchronous environment checks are not supported!');
         }
-        
+
         throw new Error('Unable to verify requirement: No method "'
           + hasMethodName + '" or valid Environment key "' + feature + '" found');
       }
@@ -119,7 +119,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasSsl : function()
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
       "use require([\"io.ssl\"]) instead.");
       return this.require(["io.ssl"]);
     },
@@ -229,7 +229,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasTouch : function()
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
       "use require([\"event.touch\"]) instead.");
       return this.require(["event.touch"]);
     },
@@ -243,7 +243,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasFlash : function()
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
       "use require([\"plugin.flash\"]) instead.");
       return this.require(["plugin.flash"]);
     },
@@ -328,7 +328,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
 
     /**
      * Checks if the application is controlled by Selenium
-     * 
+     *
      * @return {Boolean} Whether the application is controlled by Selenium
      */
     hasNoSelenium : function()

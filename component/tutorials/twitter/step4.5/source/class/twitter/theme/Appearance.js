@@ -24,7 +24,7 @@ qx.Theme.define("twitter.theme.Appearance",
         };
       }
     },
-    
+
     "tweet-view/time" : {
       style : function() {
         return {
@@ -32,7 +32,7 @@ qx.Theme.define("twitter.theme.Appearance",
         }
       }
     },
-    
+
     "toolbar" : {
       style : function() {
         return {

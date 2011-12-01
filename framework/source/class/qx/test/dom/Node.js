@@ -107,15 +107,15 @@ qx.Class.define("qx.test.dom.Node",
       this.assertEquals("schokobaervanillebaer", qx.dom.Node.getText(blockElement), "Failed to get the right value for text of an element.");
       this.assertEquals("karamelbaer", qx.dom.Node.getText(xml.getElementsByTagName("foo")[0].firstChild), "Failed to get the text of a CData text node.");
     },
-    
-    
+
+
     testGetWindow : function()
     {
       var rendered = document.createElement("div");
       document.body.appendChild(rendered);
       var unrendered = document.createElement("div");
       var text = document.createTextNode("affe");
-      
+
       this.assertEquals(window, qx.dom.Node.getWindow(rendered));
       this.assertEquals(window, qx.dom.Node.getWindow(unrendered));
       this.assertEquals(window, qx.dom.Node.getWindow(text));

@@ -197,13 +197,13 @@ qx.Class.define("qx.dom.Hierarchy",
     isRendered : function(element)
     {
       var doc = element.ownerDocument || element.document;
-      
+
       if (qx.core.Environment.get("html.element.contains")) {
         // Fast check for all elements which are not in the DOM
         if (!element.parentNode || !element.offsetParent) {
           return false;
         }
-        
+
         return doc.body.contains(element);
       }
       else if (qx.core.Environment.get("html.element.compareDocumentPosition")) {
@@ -252,7 +252,7 @@ qx.Class.define("qx.dom.Hierarchy",
       if (element1 === element2) {
         return element1;
       }
-      
+
       if (qx.core.Environment.get("html.element.contains")) {
         while (element1 && qx.dom.Node.isElement(element1))
         {

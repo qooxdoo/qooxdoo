@@ -120,7 +120,7 @@ qx.Class.define("testrunner.view.Performance", {
           break;
       };
     },
-    
+
     _applyStatus : function(value, old)
     {
       this.info(value);

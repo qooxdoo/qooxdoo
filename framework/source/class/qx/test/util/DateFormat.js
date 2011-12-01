@@ -116,7 +116,7 @@ qx.Class.define("qx.test.util.DateFormat",
       }
 
     },
-    
+
     testInvalidDate : function()
     {
       var invalidDate = new Date("2011-11-32");

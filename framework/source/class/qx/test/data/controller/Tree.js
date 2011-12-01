@@ -88,7 +88,7 @@ qx.Class.define("qx.test.data.controller.Tree",
           nullable: true
         }
       },
-      
+
       destruct : function()
       {
         if (this.getChildren()) {
@@ -436,7 +436,7 @@ qx.Class.define("qx.test.data.controller.Tree",
       // check the folders
       this.assertEquals("A", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
       this.assertEquals("B", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
-      
+
       this.__controller.setModel(null);
       model.dispose();
     },
@@ -749,7 +749,7 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertTrue(this.__tree.getRoot().getChildren()[0].getUserData("a"), "Delegation not working.");
       this.assertTrue(this.__tree.getRoot().getChildren()[1].getUserData("a"), "Delegation not working.");
       this.assertTrue(this.__tree.getRoot().getChildren()[2].getUserData("a"), "Delegation not working.");
-      
+
       this.__controller.setDelegate(null);
       delegate.dispose();
     },
@@ -776,7 +776,7 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertTrue(this.__tree.getRoot().getChildren()[0].getUserData("a"), "Delegation not working.");
       this.assertTrue(this.__tree.getRoot().getChildren()[1].getUserData("a"), "Delegation not working.");
       this.assertTrue(this.__tree.getRoot().getChildren()[2].getUserData("a"), "Delegation not working.");
-      
+
       controller.dispose();
     },
 
@@ -896,7 +896,7 @@ qx.Class.define("qx.test.data.controller.Tree",
 
       this.__model.setColor("black");
       this.assertEquals("black", tree.getRoot().getTextColor(), "Root node has a wrong name");
-      
+
       tree.dispose();
     },
 
@@ -966,7 +966,7 @@ qx.Class.define("qx.test.data.controller.Tree",
       var a = new qx.test.TreeNode();
       a.setName("new");
       children.push(a);
-      
+
       var oldChildren = this.__a.getChildren();
 
       // change the children array
@@ -976,7 +976,7 @@ qx.Class.define("qx.test.data.controller.Tree",
       //    |
       //   a
       this.__a.setChildren(children);
-      
+
       oldChildren.dispose();
 
       // Test if the tree nodes exist

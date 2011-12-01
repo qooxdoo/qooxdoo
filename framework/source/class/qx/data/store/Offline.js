@@ -18,19 +18,19 @@
 ************************************************************************ */
 /**
  * This store is a read / write store for local or session storage.
- * It can be used like any other store by setting and manipulating the model 
- * property or the model itsef. Please keep in mind that if you want to have 
- * the update functionality, you have to use a model which supports the 
+ * It can be used like any other store by setting and manipulating the model
+ * property or the model itsef. Please keep in mind that if you want to have
+ * the update functionality, you have to use a model which supports the
  * "changeBubble" event.
  */
-qx.Class.define("qx.data.store.Offline", 
+qx.Class.define("qx.data.store.Offline",
 {
   extend : qx.core.Object,
 
 
   /**
    * @param key {String} A unique key which is used to store the data.
-   * @param storage {String?} Either "local" or "session" to determinate which 
+   * @param storage {String?} Either "local" or "session" to determinate which
    *   storage should be used.
    */
   construct : function(key, storage)
@@ -59,10 +59,10 @@ qx.Class.define("qx.data.store.Offline",
   },
 
 
-  properties : 
+  properties :
   {
     /**
-     * Property for holding the loaded model instance. Please keep in mind to 
+     * Property for holding the loaded model instance. Please keep in mind to
      * use a model supporting the changeBubble event.
      */
     model : {
@@ -73,7 +73,7 @@ qx.Class.define("qx.data.store.Offline",
   },
 
 
-  members : 
+  members :
   {
     _storage : null,
     __modelListenerId : null,

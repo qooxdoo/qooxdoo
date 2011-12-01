@@ -78,7 +78,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       var goBackBtn = new qx.ui.mobile.toolbar.Button(null,"mobileshowcase/icon/arrowleft.png");
       toolbar.add(goBackBtn);
       goBackBtn.addListener("tap", function(){
-        var popup = this.__createAreYouSurePopup(this._getBackButton()); // 
+        var popup = this.__createAreYouSurePopup(this._getBackButton()); //
         popup.show();
       }, this);
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
@@ -90,16 +90,16 @@ qx.Class.define("mobileshowcase.page.Toolbar",
         popup.show();
         qx.lang.Function.delay(popup.hide, 3000, popup);
       }, this);
-      
+
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
       var deleteButton = new qx.ui.mobile.toolbar.Button("Delete");
       toolbar.add(deleteButton);
-      
+
       deleteButton.addListener("tap", function(){
         this.__deleteDialog = qx.ui.mobile.dialog.Manager.getInstance().warning('Deleting', 'Are you sure?', this.__processDelete, this, ["Yes", "No"]);
       }, this);
     },
-    
+
     __processDelete : function(index)
     {
       if(index==0) {
@@ -108,7 +108,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
         this.__deleteDialog.destroy();
       }
     },
-    
+
     /**
      * Creates the popup widget to show when backButton is tapped
      */
@@ -134,7 +134,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       this.__areYouSurePopup = new qx.ui.mobile.dialog.Popup(popupWidget, attachedToWidget);
       return this.__areYouSurePopup;
     },
-    
+
     /**
      * Creates the popup widget to show when backButton is tapped
      */
@@ -152,7 +152,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       this.__searchPopup.setTitle("Loading...");
       return this.__searchPopup;
     },
-    
+
     /**
      * Creates the popup widget to show when backButton is tapped
      */

@@ -110,7 +110,7 @@ qx.Class.define("mobileshowcase.Application",
       {
         form.show();
       },this);
-      
+
       nm.onGet("/atom", function(data)
       {
         atoms.show();

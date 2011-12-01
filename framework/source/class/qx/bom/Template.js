@@ -58,10 +58,10 @@
 ************************************************************************ */
 
 /**
- * The is a template class which can be used for HTML templating. In fact, 
- * this is a wrapper for mustache.js which is a "framework-agnostic way to 
+ * The is a template class which can be used for HTML templating. In fact,
+ * this is a wrapper for mustache.js which is a "framework-agnostic way to
  * render logic-free views".
- * 
+ *
  * Here is a basic example how to use it:
  * Template:
  * <pre>
@@ -70,7 +70,7 @@
  * qx.bom.Template.toHtml(template, view);
  * // return "Hi, my name is qooxdoo!"
  * </pre>
- * 
+ *
  * For further details, please visit the mustache.js documentation here:
  *   https://github.com/janl/mustache.js/blob/master/README.md
  */
@@ -94,10 +94,10 @@ qx.Class.define("qx.bom.Template", {
 
 
     /**
-     * Helper method which provides you with a direct access to templates 
-     * stored as HTML in the DOM. The DOM node with the given ID will be reated 
-     * as a template, parsed and a new DOM node will be returned containing the 
-     * parsed data. Keep in mind to have only one root DOM element in the the 
+     * Helper method which provides you with a direct access to templates
+     * stored as HTML in the DOM. The DOM node with the given ID will be reated
+     * as a template, parsed and a new DOM node will be returned containing the
+     * parsed data. Keep in mind to have only one root DOM element in the the
      * template.
      *
      * @param id {String} The id of the HTML template in the DOM.
@@ -130,7 +130,7 @@ qx.Class.define("qx.bom.Template", {
 (function() {
 
 /**
- * Below is the original mustache.js code. Snapshot date is mentioned in 
+ * Below is the original mustache.js code. Snapshot date is mentioned in
  * the head of this file.
  */
  /*
@@ -404,7 +404,7 @@ var Mustache = function() {
       }
 
       var value;
-      
+
       // check for dot notation eg. foo.bar
       if(name.match(/([a-z_]+)\./ig)){
         var childValue = this.walk_context(name, context);

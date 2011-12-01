@@ -17,10 +17,10 @@
 
 ************************************************************************ */
 /**
- * This is a static factory for creating the DOM nodes needed for the webseite 
+ * This is a static factory for creating the DOM nodes needed for the webseite
  * view of the feedreader.
  */
-qx.Bootstrap.define("feedreader.view.website.Factory", 
+qx.Bootstrap.define("feedreader.view.website.Factory",
 {
   statics :
   {
@@ -28,7 +28,7 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
 
     /**
      * Creates an article element.
-     * 
+     *
      * @param article {qx.core.Object} An article model.
      * @return {DomNode} The DOM node holding all the infos of the article.
      */
@@ -54,14 +54,14 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
              origin: "top center",
              keyFrames: {
                0: {
-                 "padding-bottom": "0px", 
-                 "padding-top": "0px", 
+                 "padding-bottom": "0px",
+                 "padding-top": "0px",
                  "scale": [null, 0],
                  "height": "0px"
                 },
                100: {
-                 "padding-bottom": "10px", 
-                 "padding-top": "10px", 
+                 "padding-bottom": "10px",
+                 "padding-top": "10px",
                  "scale": [null, 1],
                  "height": content.offsetHeight-20 + "px"
                 }
@@ -73,19 +73,19 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
 
          } else {
            qx.bom.element.Animation.animate(content, {
-             duration: 500, 
+             duration: 500,
              origin: "top center",
              keyFrames: {
                0: {
-                 "padding-bottom": "10px", 
-                 "padding-top": "10px", 
-                 "scale": [null, 1], 
+                 "padding-bottom": "10px",
+                 "padding-top": "10px",
+                 "scale": [null, 1],
                  "height": content.offsetHeight-20 + "px"
                 },
                100: {
-                 "padding-bottom": "0px", 
-                 "padding-top": "0px", 
-                 "scale": [null, 0], 
+                 "padding-bottom": "0px",
+                 "padding-top": "0px",
+                 "scale": [null, 0],
                  "height": "0px"
                 }
              }
@@ -116,7 +116,7 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
 
     /**
      * Creates a tree item for a feed.
-     * 
+     *
      * @param feed {qx.core.Object} A feed model.
      * @return {DomNode} The DOM node representing the feed.
      */
@@ -136,7 +136,7 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
          var labels = document.getElementsByName("feedslabel");
          for (var i=0; i < labels.length; i++) {
            var label = labels[i];
-     
+
            if (qx.bom.element.Attribute.get(label, "for") == newItemId) {
              qx.bom.element.Class.add(label, "selectedFeed");
            } else {

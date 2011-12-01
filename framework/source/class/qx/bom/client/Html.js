@@ -340,7 +340,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
     /**
      * Check for element.contains
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if element.contains is supported
      */
@@ -349,11 +349,11 @@ qx.Bootstrap.define("qx.bom.client.Html",
       // "object" in IE6/7/8, "function" in IE9
       return (typeof document.documentElement.contains !== "undefined");
     },
-    
-    
+
+
     /**
      * Check for element.compareDocumentPosition
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if element.compareDocumentPosition is supported
      */
@@ -366,7 +366,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
     /**
      * Check for element.textContent. Legacy IEs do not support this, use
      * innerText instead.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if textContent is supported
      */
@@ -379,7 +379,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
     /**
      * Check for a console object.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if a console is available.
      */
@@ -390,16 +390,16 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
 
     /**
-     * Check for the <code>naturalHeight</code> and <code>naturalWidth</code> 
+     * Check for the <code>naturalHeight</code> and <code>naturalWidth</code>
      * image element attributes.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if both attributes are supported
      */
     getNaturalDimensions : function()
     {
       var img = document.createElement("img");
-      return typeof img.naturalHeight === "number" && 
+      return typeof img.naturalHeight === "number" &&
         typeof img.naturalWidth === "number";
     }
   },

@@ -121,7 +121,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
     __ignoreManagerChangeSelection : false,
 
     __defaultSelection : null,
-    
+
 
     /**
      * Initialize the selection manager with his delegate.
@@ -237,11 +237,11 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
         var item = selection.getItem(i);
         var selectables = this._getSelectables();
         var index = -1;
-        
+
         if (selectables != null) {
           index = selectables.indexOf(item);
         }
-        
+
         var row = this._reverseLookup(index);
 
         if (row >= 0) {
@@ -352,7 +352,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
         var item = selection.getItem(i);
         var selectables = this._getSelectables()
         var index = -1;
-        
+
         if (selectables != null) {
           index = selectables.indexOf(item);
         }

@@ -298,13 +298,13 @@ qx.Class.define("qx.ui.embed.Iframe",
         if (!document) {
           return;
         }
-  
+
         try
         {
           if (old === false) {
             qx.bom.Event.removeNativeListener(document, "help", qx.lang.Function.returnFalse);
           }
-  
+
           if (value === false) {
             qx.bom.Event.addNativeListener(document, "help", qx.lang.Function.returnFalse);
           }

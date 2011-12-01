@@ -246,9 +246,9 @@ qx.Class.define("qx.bom.element.Attribute",
 
       // respect original values
       // http://msdn2.microsoft.com/en-us/library/ms536429.aspx
-      if (qx.core.Environment.get("engine.name") == "mshtml" && 
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
         parseInt(qx.core.Environment.get("browser.documentmode"), 10) < 8 &&
-        hints.original[name]) 
+        hints.original[name])
       {
         value = element.getAttribute(name, 2);
       }

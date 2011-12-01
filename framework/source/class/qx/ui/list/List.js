@@ -305,9 +305,9 @@ qx.Class.define("qx.ui.list.List",
      * {Boolean} indicates when a default group is used for grouping.
      */
     __defaultGroupUsed : false,
-    
+
     __defaultGroups : null,
-    
+
 
     /**
      * Trigger a rebuild from the internal data structure.
@@ -803,7 +803,7 @@ qx.Class.define("qx.ui.list.List",
     this._background = this._provider = this._layer =
       this.__lookupTable = this.__lookupTableForGroup =
       this.__groupHashMap = null;
-    
+
     if (this.__defaultGroups) {
       this.__defaultGroups.dispose();
     }

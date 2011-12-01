@@ -36,12 +36,12 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
     /**
      * Include a CSS file
      *
-     * <em>Note:</em> Using a resource ID as the <code>href</code> parameter 
-     * will no longer be supported. Call 
-     * <code>qx.util.ResourceManager.getInstance().toUri(href)</code> to get 
+     * <em>Note:</em> Using a resource ID as the <code>href</code> parameter
+     * will no longer be supported. Call
+     * <code>qx.util.ResourceManager.getInstance().toUri(href)</code> to get
      * valid URI to be used with this method.
      *
-     * @param href {String} Href value 
+     * @param href {String} Href value
      * @param doc? {Document} Document to modify
      * @return {void}
      */
@@ -209,7 +209,7 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
 
         for (var i=len-1; i>=0; i--)
         {
-          if (imports[i].href == url || 
+          if (imports[i].href == url ||
           imports[i].href == qx.util.Uri.getAbsolute(url))
           {
             sheet.removeImport(i);

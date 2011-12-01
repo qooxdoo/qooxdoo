@@ -32,8 +32,8 @@ qx.Class.define("mobiletweets.page.Tweet",
       backButtonText : "Back"
     });
   },
-  
-  
+
+
   properties:
   {
     /** Holds the current shown tweet */
@@ -45,7 +45,7 @@ qx.Class.define("mobiletweets.page.Tweet",
       event : "changeTweet"
     }
   },
-  
+
   members :
   {
     // overridden

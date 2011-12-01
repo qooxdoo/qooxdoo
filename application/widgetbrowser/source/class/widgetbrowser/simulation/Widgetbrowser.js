@@ -16,14 +16,14 @@
 
 /**
  * Widgetbrowser GUI tests
- * 
+ *
  * @lint ignoreUndefined(simulator)
  * @lint ignoreUndefined(selenium)
  */
 qx.Class.define("widgetbrowser.simulation.Widgetbrowser", {
 
   extend : simulator.unit.TestCase,
-  
+
   construct : function()
   {
     this.base(arguments);
@@ -32,30 +32,30 @@ qx.Class.define("widgetbrowser.simulation.Widgetbrowser", {
       tabContainer : '/qx.ui.container.SlideBar/qx.ui.core.scroll.ScrollPane/qx.ui.container.Composite'
     }
   },
-  
+
   members :
   {
     locators : null,
     __tabNames : null,
-    
+
     setUp : function()
     {
       this.getSimulation().clearAutLogStore();
-      var setLocale = simulator.Simulation.AUTWINDOW + ".qx.locale.Manager.getInstance().setLocale('en')";  
+      var setLocale = simulator.Simulation.AUTWINDOW + ".qx.locale.Manager.getInstance().setLocale('en')";
       this.getQxSelenium().getEval(setLocale);
       if (!this.__tabNames) {
         this.__tabNames = this._getTabNames();
       };
     },
-    
+
     tearDown : function()
     {
       this.getSimulation().logAutLogEntries();
     },
-    
+
     /**
      * Get the tabs' labels
-     * 
+     *
      * @lint ignoreDeprecated(eval)
      * @return {String[]} Array of tab labels
      */
@@ -68,7 +68,7 @@ qx.Class.define("widgetbrowser.simulation.Widgetbrowser", {
       + "  labels.push(pages[i].getLabel());"
       + "}"
       + "return labels;";
-      
+
       try {
         var strVal = String(this.getQxSelenium().getRunInContext(this.locators.tabView, labelGetter));
       }
@@ -80,9 +80,9 @@ qx.Class.define("widgetbrowser.simulation.Widgetbrowser", {
       } catch(ex) {
         return strVal.split(",");
       }
-    
+
     },
-    
+
     "test load each tab page" : function()
     {
       for (var i=0; i<this.__tabNames.length; i++) {

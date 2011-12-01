@@ -121,7 +121,7 @@ qx.Class.define("qx.log.appender.Util",
      * User-defined formatter for stack trace information. If the value is a
      * function, it will be called with the raw stack trace string as the only
      * argument. The return value is then appended to the log message.
-     * 
+     *
      * @deprecated since 1.6
      */
     FORMAT_STACK : null,
@@ -202,8 +202,8 @@ qx.Class.define("qx.log.appender.Util",
 
         if (item.trace && item.trace.length > 0) {
           if (typeof(this.FORMAT_STACK) == "function") {
-            qx.log.Logger.deprecatedConstantWarning(qx.log.appender.Util, 
-              "FORMAT_STACK", 
+            qx.log.Logger.deprecatedConstantWarning(qx.log.appender.Util,
+              "FORMAT_STACK",
               "Use qx.dev.StackTrace.FORMAT_STACKTRACE instead");
             msg += "\n" + this.FORMAT_STACK(item.trace);
           } else {

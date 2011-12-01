@@ -695,7 +695,7 @@ qx.Class.define("apiviewer.dao.Class",
       }
       return classItems;
     },
-    
+
 
     /**
      * Return a class item matching the given name.

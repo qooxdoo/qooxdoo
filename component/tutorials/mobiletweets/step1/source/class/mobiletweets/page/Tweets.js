@@ -86,7 +86,7 @@ qx.Class.define("mobiletweets.page.Tweets",
 
     /**
      * Event handler. Called when the selection of the list is changed.
-     * 
+     *
      * @param evt {qx.event.type.Data} the causing event.
      */
     __onChangeSelection : function(evt)

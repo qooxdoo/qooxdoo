@@ -32,9 +32,9 @@ qx.Class.define("twitter.Application",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
     main : function()
@@ -57,29 +57,29 @@ qx.Class.define("twitter.Application",
       -------------------------------------------------------------------------
       */
 
-      
+
       var main = new twitter.MainWindow();
       main.moveTo(50, 30);
       main.open();
-      
+
       var service = new twitter.TwitterService();
-      
+
       // handler after posting a tweet
       service.addListener("postOk", function() {
         main.clearPostMessage();
         service.fetchTweets();
       }, this);
-      
+
       // reload handling
       main.addListener("reload", function() {
         service.fetchTweets();
       }, this);
-      
+
       // post handling
       main.addListener("post", function(e) {
         service.post(e.getData());
       }, this);
-      
+
       // create the controller
       var controller = new qx.data.controller.List(null, main.getList());
       controller.setLabelPath("text");
@@ -93,7 +93,7 @@ qx.Class.define("twitter.Application",
         }
       });
       service.bind("tweets", controller, "model");
-      
+
       // start the loading on startup
       service.fetchTweets();
     }

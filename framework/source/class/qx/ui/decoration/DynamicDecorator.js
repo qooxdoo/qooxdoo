@@ -31,7 +31,7 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
     /**
      * Returns the styles of the decorator as a map with property names written
      * in javascript style (e.g. <code>fontWeight</code> instead of <code>font-weight</code>).
-     * 
+     *
      * @return {Map} style information
      */
     getStyles : function()

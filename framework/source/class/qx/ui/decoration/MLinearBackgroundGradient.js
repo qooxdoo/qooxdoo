@@ -148,7 +148,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         var end = endColor + " " + this.getEndColorPosition() + unit;
 
         var prefixedName = qx.core.Environment.get("css.gradient.linear");
-        styles["background-image"] = 
+        styles["background-image"] =
           prefixedName + "(" + deg + "deg, " + start + "," + end + ")";
       }
     },

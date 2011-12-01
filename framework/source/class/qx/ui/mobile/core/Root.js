@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
   members :
   {
-    __root : null,  
+    __root : null,
 
     // overridden
     _createContainerElement : function() {
@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
   */
 
   destruct : function() {
-    this.__root = null; 
+    this.__root = null;
   },
 
 

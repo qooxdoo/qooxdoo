@@ -68,7 +68,7 @@ qx.Class.define("qx.test.ui.form.Date",
       this.assertTrue(field.isEmpty(), "DateField should be empty on initialization.");
       field.dispose();
     },
-    
+
     testDateFieldPopupState : function()
     {
       var field = new qx.ui.form.DateField();

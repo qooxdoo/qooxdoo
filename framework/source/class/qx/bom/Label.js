@@ -177,7 +177,7 @@ qx.Class.define("qx.bom.Label",
 
       var el = win.document.createElement("div");
 
-      if (html) 
+      if (html)
       {
         el.useHtml = true;
       }

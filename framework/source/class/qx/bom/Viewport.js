@@ -220,7 +220,7 @@ qx.Class.define("qx.bom.Viewport",
     getScrollLeft : function(win)
     {
       var doc = (win||window).document;
-      return (win||window).pageXOffset || doc.documentElement.scrollLeft || 
+      return (win||window).pageXOffset || doc.documentElement.scrollLeft ||
       doc.body.scrollLeft;
     },
 
@@ -232,14 +232,14 @@ qx.Class.define("qx.bom.Viewport",
      * As this is easier to evaluate we prefer this property over <code>scrollTop</code>.
      * Since the window could differ from the one the application is running in, we can't
      * use a one-time environment check to decide which property to use.
-     * 
+     *
      * @param win {Window?window} The window to query
      * @return {Integer} Scroll position from top edge, always a positive integer
      */
     getScrollTop : function(win)
     {
       var doc = (win||window).document;
-      return (win||window).pageYOffset || doc.documentElement.scrollTop || 
+      return (win||window).pageYOffset || doc.documentElement.scrollTop ||
       doc.body.scrollTop;
     },
 

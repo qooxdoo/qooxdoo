@@ -23,7 +23,7 @@ qx.Class.define("qx.test.mobile.dialog.Popup",
 
   members :
   {
-    
+
     testShow : function()
     {
       var label = new qx.ui.mobile.basic.Label("test");
@@ -32,7 +32,7 @@ qx.Class.define("qx.test.mobile.dialog.Popup",
       popup.show();
       this.assertTrue(popup.isVisible());
     }
-    
+
   }
 
 });

@@ -61,11 +61,11 @@ qx.Class.define("demobrowser.demo.bom.Transform",
       box = document.getElementById("origin-c");
       qx.bom.element.Transform.setOrigin(box, "50% 50%");
       qx.bom.element.Transform.transform(box, {rotate: "15deg"});
-      
+
       box = document.getElementById("origin-lb");
       qx.bom.element.Transform.setOrigin(box, "left bottom");
       qx.bom.element.Transform.transform(box, {rotate: "15deg"});
-      
+
       box = document.getElementById("origin-rt");
       qx.bom.element.Transform.setOrigin(box, "right top");
       qx.bom.element.Transform.transform(box, {rotate: "15deg"});
@@ -138,7 +138,7 @@ qx.Class.define("demobrowser.demo.bom.Transform",
       } else {
         // mark all 3d stuff as not working
         document.getElementById("3dpart").style["display"] = "none";
-        
+
         var label = document.createElement('label');
         label.innerHTML = "<br><br>Your browser does not support 3D CSS transforms, sorry!";
         document.body.appendChild(label);

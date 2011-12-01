@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
     ERROR_DIALOG: 4,
     WAITING_DIALOG: 5
   },
-  
+
   /*
   *****************************************************************************
      MEMBERS
@@ -138,9 +138,8 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
       }
     },
 
-
     /**
-     * Displays an input dialog. 
+     * Displays an input dialog.
      *
      * @param title {String} The title of the input dialog.
      * @param text {String} The text to display in the input dialog.
@@ -156,7 +155,6 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
     {
       return this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.INPUT_DIALOG);
     },
-
 
     /**
      * Displays an error dialog. When the application is running in an PhoneGap
@@ -189,8 +187,8 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
         return this.__showNonNativeDialog(title, text, handler, scope, button, qx.ui.mobile.dialog.Manager.ERROR_DIALOG);
       }
     },
-    
-    
+
+
     /**
      * Displays a warning dialog. When the application is running in an PhoneGap
      * environment, a native warning dialog is shown. For debugging in a browser, a
@@ -223,7 +221,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
       }
     },
 
-    
+
     /**
      * Displays a waiting dialog.
      *
@@ -261,8 +259,8 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
 
     /**
-     * Shows a dialog widget. 
-     * 
+     * Shows a dialog widget.
+     *
      * @param title {String} The title of the dialog.
      * @param text {String} The text to display in the dialog.
      * @param handler {Function} The handler to call when the <code>OK</code> button
@@ -284,12 +282,12 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
       if(dialogType == qx.ui.mobile.dialog.Manager.WARNING_DIALOG) {
         dialog.setIcon('qx/mobile/icon/android/warning.png');
       }
-      
+
       if(dialogType == qx.ui.mobile.dialog.Manager.WAITING_DIALOG)
       {
         var waitingWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
         widget.add(waitingWidget);
-        waitingWidget.add(new qx.ui.mobile.dialog.BusyIndicator(text));        
+        waitingWidget.add(new qx.ui.mobile.dialog.BusyIndicator(text));
       }
       else
       {
@@ -314,7 +312,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
           if(i < l-1) {
             toolbar.add(new qx.ui.mobile.toolbar.Separator());
           }
-          var callback = (function(index){ 
+          var callback = (function(index){
             return function()
             {
               dialog.hide();

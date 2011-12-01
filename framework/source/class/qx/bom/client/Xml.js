@@ -31,7 +31,7 @@ qx.Bootstrap.define("qx.bom.client.Xml",
   {
     /**
      * Checks if XML is supported
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if XML is supported
      */
@@ -43,7 +43,7 @@ qx.Bootstrap.define("qx.bom.client.Xml",
 
     /**
      * Checks if an XML DOMParser is available
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if DOMParser is supported
      */
@@ -55,7 +55,7 @@ qx.Bootstrap.define("qx.bom.client.Xml",
     /**
      * Checks if the proprietary selectSingleNode method is available on XML DOM
      * nodes.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if selectSingleNode is available
      */
@@ -68,7 +68,7 @@ qx.Bootstrap.define("qx.bom.client.Xml",
     /**
      * Checks if the proprietary selectNodes method is available on XML DOM
      * nodes.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if selectSingleNode is available
      */
@@ -80,7 +80,7 @@ qx.Bootstrap.define("qx.bom.client.Xml",
 
     /**
      * Checks availablity of the getElementsByTagNameNS XML DOM method.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if getElementsByTagNameNS is available
      */
@@ -92,7 +92,7 @@ qx.Bootstrap.define("qx.bom.client.Xml",
 
     /**
      * Checks if MSXML-style DOM Level 2 properties are supported.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if DOM Level 2 properties are supported
      */
@@ -101,26 +101,26 @@ qx.Bootstrap.define("qx.bom.client.Xml",
       var doc = qx.xml.Document.create();
       return ("getProperty" in doc && typeof doc.getProperty("SelectionLanguage") === "string");
     },
-    
-    
+
+
     /**
-     * Checks if the getAttributeNS and setAttributeNS methods are supported on 
+     * Checks if the getAttributeNS and setAttributeNS methods are supported on
      * XML DOM elements
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if get/setAttributeNS is supported
      */
     getAttributeNS : function()
     {
       var docElem = qx.xml.Document.fromString("<a></a>").documentElement;
-      return typeof docElem.getAttributeNS === "function" && 
+      return typeof docElem.getAttributeNS === "function" &&
         typeof docElem.setAttributeNS === "function";
     },
 
 
     /**
      * Checks if the createElementNS method is supported on XML DOM documents
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if createElementNS is supported
      */
@@ -131,9 +131,9 @@ qx.Bootstrap.define("qx.bom.client.Xml",
 
 
     /**
-     * Checks if the proprietary createNode method is supported on XML DOM 
+     * Checks if the proprietary createNode method is supported on XML DOM
      * documents
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if DOM Level 2 properties are supported
      */
@@ -144,9 +144,9 @@ qx.Bootstrap.define("qx.bom.client.Xml",
 
 
     /**
-     * Checks if the proprietary getQualifiedItem method is supported for XML 
+     * Checks if the proprietary getQualifiedItem method is supported for XML
      * element attributes
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if DOM Level 2 properties are supported
      */
@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.bom.client.Xml",
       return typeof docElem.attributes.getQualifiedItem !== "undefined";
     }
   },
-  
+
   defer : function(statics)
   {
     qx.core.Environment.add("xml.implementation", statics.getImplementation);

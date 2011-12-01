@@ -37,7 +37,7 @@
   "let" :
   {
     "APPLICATION"  : "qxc.ui.versionlabel",
-    "QOOXDOO_PATH" : "../../../../qooxdoo.trunk",
+    "QOOXDOO_PATH" : "../../..",
     "QXTHEME"      : "qxc.ui.versionlabel.theme.Theme",
     "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
     "LOCALES"      : [ "en" ],

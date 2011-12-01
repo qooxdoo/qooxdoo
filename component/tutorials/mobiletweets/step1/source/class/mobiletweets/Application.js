@@ -36,7 +36,7 @@ qx.Class.define("mobiletweets.Application",
   properties :
   {
     /** Holds all feeds of a user */
-    tweets : 
+    tweets :
     {
       check : "qx.data.Array",
       nullable : true,
@@ -69,7 +69,7 @@ qx.Class.define("mobiletweets.Application",
     __inputPage : null,
 
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -134,7 +134,7 @@ qx.Class.define("mobiletweets.Application",
     _applyUsername : function(value, old) {
       this.__loadTweets();
     },
-    
+
     _applyTweets : function(value, old) {
       // print the loaded data in the console
       this.debug("Tweets: ", qx.lang.Json.stringify(value)); // just display the data

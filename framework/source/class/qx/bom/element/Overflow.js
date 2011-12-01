@@ -31,7 +31,7 @@ qx.Class.define("qx.bom.element.Overflow",
   statics :
   {
     /**
-     * The default width which is used for the width of the scroll bar if 
+     * The default width which is used for the width of the scroll bar if
      * overlayed.
      */
     DEFAULT_SCROLLBAR_WIDTH : 14,
@@ -141,13 +141,13 @@ qx.Class.define("qx.bom.element.Overflow",
     {
       if (!qx.core.Environment.get("css.overflowxy")) {
         prop = "overflow:"
-        if (qx.core.Environment.get("engine.name") === "gecko" && 
-          value == "hidden") 
+        if (qx.core.Environment.get("engine.name") === "gecko" &&
+          value == "hidden")
         {
           value = "-moz-scrollbars-none";
         }
       }
-      
+
       return prop + ":" + value + ";";
     },
 
@@ -202,12 +202,12 @@ qx.Class.define("qx.bom.element.Overflow",
       if (qx.core.Environment.get("css.overflowxy")) {
         return qx.bom.element.Style.get(element, "overflowX", mode, false);
       }
-      
+
       var overflow =  qx.bom.element.Style.get(element, "overflow", mode, false);
       if (overflow === "-moz-scrollbars-none") {
         overflow = "hidden";
       }
-      
+
       return overflow;
     },
 
@@ -225,7 +225,7 @@ qx.Class.define("qx.bom.element.Overflow",
         element.style.overflowX = value;
       }
       else {
-        if (value === "hidden" && qx.core.Environment.get("engine.name") === "gecko" 
+        if (value === "hidden" && qx.core.Environment.get("engine.name") === "gecko"
           && parseFloat(qx.core.Environment.get("engine.version")) < 1.8)
         {
           value = "-moz-scrollbars-none";
@@ -266,7 +266,7 @@ qx.Class.define("qx.bom.element.Overflow",
       if (qx.core.Environment.get("css.overflowxy")) {
         return qx.bom.element.Style.get(element, "overflowY", mode, false);
       }
-      
+
       var overflow = qx.bom.element.Style.get(element, "overflow", mode, false);
       if (overflow === "-moz-scrollbars-none") {
         overflow = "hidden";
@@ -289,7 +289,7 @@ qx.Class.define("qx.bom.element.Overflow",
         element.style.overflowY = value;
       }
       else {
-        if (value === "hidden" && qx.core.Environment.get("engine.name") === "gecko" 
+        if (value === "hidden" && qx.core.Environment.get("engine.name") === "gecko"
           && parseFloat(qx.core.Environment.get("engine.version")) < 1.8)
         {
           value = "-moz-scrollbars-none";

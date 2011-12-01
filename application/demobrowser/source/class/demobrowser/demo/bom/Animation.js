@@ -159,8 +159,8 @@ qx.Class.define("demobrowser.demo.bom.Animation",
           button.style.cursor = "not-allowed";
           continue;
         }
-        button.addEventListener("click", 
-          (function(animation) { 
+        button.addEventListener("click",
+          (function(animation) {
             return function(e) {
               qx.bom.element.Animation.animate(e.target, animation);
             }

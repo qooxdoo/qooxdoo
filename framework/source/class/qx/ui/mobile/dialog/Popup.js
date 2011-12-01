@@ -22,9 +22,9 @@
  *
  * The popup represents a widget that gets shown above other widgets,
  * usually to present more info/details regarding an item in the application.
- * 
+ *
  * There are 3 usages for now:
- * 
+ *
  * <pre class='javascript'>
  * var widget = new qx.ui.mobile.form.Button("Error!");
  * var popup = new qx.ui.mobile.dialog.Popup(widget);
@@ -41,24 +41,24 @@
  * widget.addListener("tap", function(){
  *   popup.hide();
  * });
- * 
+ *
  * </pre>
- * 
+ *
  * In this case everything is as above, except that the popup will get shown next to "label"
  * so that the user can understand that the info presented is about the "Item1"
  * we also add a tap listener to the button that will hide out popup.
- * 
+ *
  * Once created, the instance is reused between show/hide calls.
- * 
+ *
  * <pre class='javascript'>
  * var widget = new qx.ui.mobile.form.Button("Error!");
  * var popup = new qx.ui.mobile.dialog.Popup(widget);
  * popup.placeTo(25,100);
  * popup.show();
  * </pre>
- * 
+ *
  * Same as the first example, but this time the popup will be shown at the 25,100 coordinates.
- * 
+ *
  *
  */
 qx.Class.define("qx.ui.mobile.dialog.Popup",
@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      CONSTRUCTOR
   *****************************************************************************
   */
- 
+
   /**
    * @param widget {qx.ui.mobile.core.Widget} the widget the will be shown in the popup
    * @param anchor {qx.ui.mobile.core.Widget?} optional parameter, a widget to attach this popup to
@@ -105,8 +105,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     },
 
 
-    /** 
-     * The label/caption/text of the qx.ui.mobile.basic.Atom instance 
+    /**
+     * The label/caption/text of the qx.ui.mobile.basic.Atom instance
      */
     title :
     {
@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     },
 
 
-    /** 
+    /**
      * Any URI String supported by qx.ui.mobile.basic.Image to display an icon
      */
     icon :
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
   members :
   {
-  
+
     __isShown : false,
     __childrenContainer : null,
     __left : null,
@@ -148,7 +148,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __widget: null,
     __titleWidget: null,
     __anchorPointer: null,
-
 
     /**
      * Event handler. Called whenever the position of the popup should be updated.
@@ -202,7 +201,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         width = dimension.width;
         height = dimension.height;
       }
-      
+
       this._positionTo(left + (viewportWidth - width)/2, top + (viewportHeight-height)/2) ;
     },
 
@@ -222,7 +221,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       this.__isShown = true;
     },
 
-
     /**
      * This method positions the popup widget at the coordinates specified.
      * @param left {Integer} - the value the will be set to container's left style property
@@ -234,7 +232,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       this.__top = top;
       this._positionTo(left, top);
     },
-
 
     /**
      * This protected method positions the popup widget at the coordinates specified.
@@ -295,12 +292,11 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }*/
     },
 
-
     /**
      * This method creates the container where the popup's widget will be placed
      * and adds it to the popup.
      * @param widget {qx.ui.mobile.core.Widget} - what to show in the popup
-     * 
+     *
      */
     _initializeChild : function(widget)
     {
@@ -325,7 +321,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
     /**
      * Creates the title atom widget.
-     * 
+     *
      * @return {qx.ui.mobile.basic.Atom} The title atom widget.
      */
     _createTitleWidget : function()
@@ -393,7 +389,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }
     },
 
-
     /**
      * Adds the widget that will be shown in this popup. This method can be used in the case when you have removed the widget from the popup
      * or you haven't passed it in the constructor. Useful when playing with complex view and the popup
@@ -410,7 +405,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
     /**
      * A widget to attach this popup to.
-     * 
+     *
      * @param widget {qx.ui.mobile.core.Widget} The anchor widget.
      */
     setAnchor : function(widget) {
@@ -420,8 +415,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
     /**
      * Returns the title widget.
-     * 
-     * @return {qx.ui.mobile.basic.Atom} The title widget. 
+     *
+     * @return {qx.ui.mobile.basic.Atom} The title widget.
      */
     getTitleWidget : function() {
       return this.__titleWidget;

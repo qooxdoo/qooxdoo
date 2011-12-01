@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
       this.__subTitle.setValue("");
     }
   },
-  
+
  /*
   *****************************************************************************
      DESTRUCTOR

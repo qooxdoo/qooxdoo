@@ -19,17 +19,17 @@
 
 /**
  * Responsible for checking all relevant animation properties.
- * 
+ *
  * Spec: http://www.w3.org/TR/css3-animations/
- * 
+ *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.CssAnimation", 
+qx.Bootstrap.define("qx.bom.client.CssAnimation",
 {
   statics : {
     /**
-     * Main check method which returns an object if CSS animations are 
-     * supported. This object contains all necessary keys to work with CSS 
+     * Main check method which returns an object if CSS animations are
+     * supported. This object contains all necessary keys to work with CSS
      * animations.
      * <ul>
      *  <li><code>name</code> The name of the css animation style</li>
@@ -37,9 +37,9 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      *  <li><code>end-event</code> The name of the end event</li>
      *  <li><code>keyframes</code> The name of the keyframes selector.</li>
      * </ul>
-     * 
+     *
      * @internal
-     * @return {Object|null} The described object or null, if animations are 
+     * @return {Object|null} The described object or null, if animations are
      *   not supported.
      */
     getSupport : function() {
@@ -59,7 +59,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
     /**
      * Checks for the 'animation-play-state' CSS style.
      * @internal
-     * @return {String|null} The name of the style or null, if the style is 
+     * @return {String|null} The name of the style or null, if the style is
      *   not supported.
      */
     getPlayState : function() {
@@ -70,7 +70,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
     /**
      * Checks for the style name used for animations.
      * @internal
-     * @return {String|null} The name of the style or null, if the style is 
+     * @return {String|null} The name of the style or null, if the style is
      *   not supported.
      */
     getName : function() {

@@ -25,7 +25,7 @@ qx.Class.define("playground.Samples",
   extend : qx.core.Object,
 
   /**
-   * @param array {qx.data.Array?} The array to which the objects should be 
+   * @param array {qx.data.Array?} The array to which the objects should be
    *   added.
    */
   construct : function(array)
@@ -55,9 +55,9 @@ qx.Class.define("playground.Samples",
         var mode = textAreas[i].title.split("-")[1];
         var code = textAreas[i].value;
         var data = {
-          name: name, 
-          code: code, 
-          mode: mode, 
+          name: name,
+          code: code,
+          mode: mode,
           category: "static"
         };
         array.unshift(qx.data.marshal.Json.createModel(data, true));

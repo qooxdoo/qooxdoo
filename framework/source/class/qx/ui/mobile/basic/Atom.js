@@ -140,10 +140,10 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       apply : "_applyCenter"
     }
   },
-  
+
   members :
   {
-  
+
     __label : null,
     __icon : null,
     __childrenContainer : null,
@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     },
 
 
-    // property apply  
+    // property apply
     _applyShow : function(value, old)
     {
       if(value === 'both')
@@ -220,7 +220,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     },
 
 
-    // property apply  
+    // property apply
     _applyGap : function(value, old)
     {
       if(this.__icon)
@@ -229,11 +229,11 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         this.__icon._setStyle('margin-'+marginPosition, value + 'px');
       }
     },
-    
-    
+
+
     /**
      * Returns the opposed position for a given position.
-     * @param position {String} "left", "right", "bottom", "right" position. 
+     * @param position {String} "left", "right", "bottom", "right" position.
      * @return {String} opposed possition.
      */
     __getOpposedPosition : function(position)
@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     },
 
 
-    // property apply  
+    // property apply
     _applyLabel : function(value, old)
     {
       if(this.__label)
@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     },
 
 
-    // property apply  
+    // property apply
     _applyIcon : function(value, old)
     {
       if(this.__icon)
@@ -305,29 +305,29 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
 
     /**
      * Returns the icon widget.
-     * 
+     *
      * @return {qx.ui.mobile.basic.Image} The icon widget.
      */
     getIconWidget: function() {
       return this.__icon;
     },
-    
-    
+
+
 
     /**
      * Returns the label widget.
-     * 
+     *
      * @return {qx.ui.mobile.basic.Label} The label widget.
-     */    
+     */
     getLabelWidget : function() {
       return this.__label;
     },
-    
-    
+
+
 
     /**
      * Creates the icon widget.
-     * 
+     *
      * @param iconUrl {String} The icon url.
      * @return {qx.ui.mobile.basic.Image} The created icon widget.
      */
@@ -338,11 +338,11 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       iconWidget._setStyle('verticalAlign', 'middle');
       return iconWidget;
     },
-    
+
 
     /**
      * Creates the label widget.
-     * 
+     *
      * @param label {String} The text that should be displayed.
      * @return {qx.ui.mobile.basic.Label} The created label widget.
      */
@@ -428,7 +428,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       this._add(verticalCenteredContainer);
     }
   },
-  
+
 
  /*
   *****************************************************************************

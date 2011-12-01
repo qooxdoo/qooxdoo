@@ -574,7 +574,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       {
         var fullItemName = selected[1];
         var itemType = selected[0];
-        
+
         var elemType = itemType.substr(itemType.lastIndexOf("/")+1);
         elemType = elemType.substr(0, elemType.length-6);
 

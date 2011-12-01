@@ -788,14 +788,14 @@ qx.Bootstrap.define("qx.core.Environment",
     get : function(key) {
       if (qx.Bootstrap.DEBUG) {
         var deprecated = {
-          "css.translate3d" : "css.transform.3d", 
+          "css.translate3d" : "css.transform.3d",
           "css.gradients" : "css.gradient.linear",
           "ecmascript.objectcount" : null
         };
         if (key in deprecated) {
           qx.Bootstrap.warn(
-            "The key '" + key + "' is deprecated." + 
-            (deprecated[key] ? 
+            "The key '" + key + "' is deprecated." +
+            (deprecated[key] ?
               " Please use '" + deprecated[key] + "' instead."
             : "")
           );
@@ -845,7 +845,7 @@ qx.Bootstrap.define("qx.core.Environment",
      *  the corresponding implementation.
      */
     _getClassNameFromEnvKey : function (key) {
-      
+
       var envmappings = this._checksMap;
       if (envmappings[key] != undefined) {
         var implementation = envmappings[key];
@@ -863,7 +863,7 @@ qx.Bootstrap.define("qx.core.Environment",
       return [undefined, undefined];
     },
 
-    
+
     /**
      * Invokes the callback as soon as the check has been done. If no check
      * could be found, a warning will be printed.
@@ -993,9 +993,9 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Takes a given map containing the check names as keys and converts 
-     * the map to an array only containing the values for check evaluating 
-     * to <code>true</code>. This is especailly handy for conditional 
+     * Takes a given map containing the check names as keys and converts
+     * the map to an array only containing the values for check evaluating
+     * to <code>true</code>. This is especailly handy for conditional
      * includes of mixins.
      * @param map {Map} A map containing check names as keys and values.
      * @return {Array} An array containing the values.
@@ -1064,7 +1064,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
     /**
      * Returns all currently defined synchronous checks.
-     * 
+     *
      * @internal
      * @return {Map} The map of synchronous checks
      */
@@ -1076,7 +1076,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
     /**
      * Returns all currently defined asynchronous checks.
-     * 
+     *
      * @internal
      * @return {Map} The map of asynchronous checks
      */
@@ -1084,7 +1084,7 @@ qx.Bootstrap.define("qx.core.Environment",
     {
       return this._asyncChecks;
     },
-    
+
 
     /**
      * Initializer for the default values of the framework settings.

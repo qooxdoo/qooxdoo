@@ -40,14 +40,14 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     getObjectCount : function() {
       return (({}).__count__ == 0);
     },
-    
-    
+
+
     /**
-     * Returns the name of the Error object property that holds stack trace 
+     * Returns the name of the Error object property that holds stack trace
      * information or null if the client does not provide any.
-     * 
+     *
      * @internal
-     * @return {String|null} <code>stack</code>, <code>stacktrace</code> or 
+     * @return {String|null} <code>stack</code>, <code>stacktrace</code> or
      * <code>null</code>
      */
     getStackTrace : function()

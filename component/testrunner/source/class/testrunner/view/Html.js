@@ -30,7 +30,7 @@
 qx.Class.define("testrunner.view.Html", {
 
   extend : testrunner.view.Abstract,
-  
+
   include : [testrunner.view.MAutoRun],
 
 
@@ -49,12 +49,12 @@ qx.Class.define("testrunner.view.Html", {
     this.__domElements = {
       rootElement : rootElement || document.body
     }
-    
+
     // "portable" TR: Run the generator job "gen-css" to replace %{Styles} with
-    // the (minified) contents of testrunner.css in the generated script file 
+    // the (minified) contents of testrunner.css in the generated script file
     // (build version)
-    if (!qx.core.Environment.get("qx.debug") && 
-      qx.core.Environment.get("testrunner.testOrigin") == "external") 
+    if (!qx.core.Environment.get("qx.debug") &&
+      qx.core.Environment.get("testrunner.testOrigin") == "external")
     {
       qx.bom.Stylesheet.createElement('%{Styles}');
     }
@@ -70,7 +70,7 @@ qx.Class.define("testrunner.view.Html", {
     this._attachResultsList();
     this._attachFooter();
     this._makeCommands();
-    
+
     this.__testResults = {};
   },
 
@@ -275,7 +275,7 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Empties the results display.
-     * 
+     *
      * @lint ignoreUndefined($)
      */
     clearResults : function()
@@ -529,7 +529,7 @@ qx.Class.define("testrunner.view.Html", {
 
       var exceptions =  testResultData.getExceptions();
       var key = this.__simplifyName(testName);
-      
+
       this._markTestInList(testName, state);
       var listItem = document.getElementById(key);
       if (listItem) {
@@ -579,10 +579,10 @@ qx.Class.define("testrunner.view.Html", {
     /**
      * Applies a CSS class corresponding to the test's state to its entry in the
      * list
-     * 
+     *
      * @param testName {String} The test methods' fully qualified name
      * @param state {String} The test's current state
-     * 
+     *
      * @lint ignoreUndefined($)
      */
     _markTestInList : function(testName, state)
@@ -592,7 +592,7 @@ qx.Class.define("testrunner.view.Html", {
       $(selector).setAttribute("class", "");
       $(selector).addClass("t_" + state);
     },
-    
+
 
     /**
      * Listener for the checkbox associated with each test in the suite.
@@ -634,7 +634,7 @@ qx.Class.define("testrunner.view.Html", {
       this._writeCookie();
     },
 
-    
+
     /**
      * Stores the current test selection in a cookie
      */
@@ -676,7 +676,7 @@ qx.Class.define("testrunner.view.Html", {
      *
      * @param value {String} The test suite's status
      * @param value {String} The previous status
-     * 
+     *
      * @lint ignoreUndefined($)
      */
     _applyTestSuiteState : function(value, old)
@@ -805,11 +805,11 @@ qx.Class.define("testrunner.view.Html", {
       }
     },
 
-    
+
     /**
-     * Sets the <code>checked</code> attribute of a checkbox corresponding to a 
+     * Sets the <code>checked</code> attribute of a checkbox corresponding to a
      * single test
-     * 
+     *
      * @param testName {String} The test method's fully qualified name
      * @param checked {Boolean} <code>true</code> if the test's checkbox should be checked
      */
@@ -858,7 +858,7 @@ qx.Class.define("testrunner.view.Html", {
     /**
      * Creates an entry in the HTML test list for each test in the given list
      * @param testList {String[]} Array of test names
-     * 
+     *
      * @lint ignoreUndefined($)
      */
     _createTestList : function(testList)
@@ -925,7 +925,7 @@ qx.Class.define("testrunner.view.Html", {
      *
      * @param value {Boolean} Incoming property value
      * @param value {Boolean} Previous property value
-     * 
+     *
      * @lint ignoreUndefined($)
      */
     _applyShowStack : function(value, old)
@@ -943,7 +943,7 @@ qx.Class.define("testrunner.view.Html", {
      *
      * @param value {Boolean} Incoming property value
      * @param value {Boolean} Previous property value
-     * 
+     *
      * @lint ignoreUndefined($)
      */
     _applyShowPassed : function(value, old)

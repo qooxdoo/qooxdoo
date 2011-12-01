@@ -105,7 +105,7 @@ qx.Class.define("feedreader.io.FeedLoader",
     {
       if (e.getData() == "aborted" ||
         e.getData() == "timeout" ||
-        e.getData() == "failed") 
+        e.getData() == "failed")
       {
         var state = "error";
         // locale storage support

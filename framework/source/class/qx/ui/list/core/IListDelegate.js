@@ -150,7 +150,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
 
     /**
      * Gives the user the opportunity to reset properties or states.
-     * 
+     *
      * @param item {qx.ui.core.Widget} Item to modify.
      */
     onPool : function(item) {}

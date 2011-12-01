@@ -623,7 +623,7 @@ qx.Class.define("qx.util.format.DateFormat",
                 replacement = qx.locale.Date.getMonthName("wide", month, locale, "format", true);
               } else if (wildcardSize == 5) {
                 replacement = qx.locale.Date.getMonthName("narrow", month, locale, "format", true);
-                
+
               }
 
               break;
@@ -1236,15 +1236,15 @@ qx.Class.define("qx.util.format.DateFormat",
       var fullQuarterManipulator = function(dateValues, value) {
         dateValues.quarter = fullQuarterNames.indexOf(value);
       }
-      
+
       var cache = {};
-      
+
       var dateNamesManipulator = function(pattern){
         var monthPatternLetters = ['L','M'];
         var dayPatternLetters = ['c', 'e', 'E'];
         var firstLetterInPattern = pattern.charAt(0);
         var isMonth = monthPatternLetters.indexOf(firstLetterInPattern)>=0;
-        
+
         var getContext = function() {
           var letters = isMonth ? monthPatternLetters : dayPatternLetters;
           var context = firstLetterInPattern === letters[0] ? "stand-alone" : "format" ;
@@ -1281,7 +1281,7 @@ qx.Class.define("qx.util.format.DateFormat",
             dateValues[isMonth ? 'month' : 'weekDay'] = names.indexOf(value);
           }
         }
-        
+
         return cache[pattern];
       }
 

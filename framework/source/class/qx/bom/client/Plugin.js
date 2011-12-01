@@ -39,11 +39,11 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
     getGears : function() {
       return !!(window.google && window.google.gears);
     },
-    
-    
+
+
     /**
      * Checks for ActiveX availability.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if ActiveX is available
      */

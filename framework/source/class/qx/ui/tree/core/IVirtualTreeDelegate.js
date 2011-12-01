@@ -69,7 +69,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
 
     /**
      * Gives the user the opportunity to reset properties or states.
-     * 
+     *
      * @param item {qx.ui.core.Widget} Item to modify.
      */
     onPool : function(item) {}

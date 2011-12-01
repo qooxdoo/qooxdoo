@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
   members :
   {
-  
+
     __rows : null,
     __labels : null,
 
@@ -126,8 +126,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
     }
   },
-  
-  
+
+
  /*
   *****************************************************************************
      DESTRUCTOR

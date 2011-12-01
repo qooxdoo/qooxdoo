@@ -182,7 +182,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
   members :
   {
     __defaultModel : null,
-    
+
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
@@ -413,7 +413,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
     /**
      * Adds/removes the state 'popupOpen' depending on the visibility of the popup
-     * 
+     *
      * @param event {qx.event.type.Data} Data event
      */
     _onPopupChangeVisibility : function(event)
@@ -486,7 +486,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
       this.getChildControl("dropdown").getChildControl("list").setMaxHeight(value);
     }
   },
-  
+
   destruct : function()
   {
     if (this.__defaultModel) {

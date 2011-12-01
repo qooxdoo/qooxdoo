@@ -23,9 +23,9 @@ qx.Class.define("qx.test.mobile.form.Form",
 
   members :
   {
-  
+
     __username : null,
-    
+
     testValidation : function()
     {
       var form = this.__createForm();

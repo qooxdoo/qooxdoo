@@ -170,9 +170,9 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
     },
 
     /**
-     * Imports the Selenium commands from a Selenese (HTML) test case pasted 
+     * Imports the Selenium commands from a Selenese (HTML) test case pasted
      * into the text area
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
     __importSelenese : function()

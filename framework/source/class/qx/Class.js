@@ -73,7 +73,7 @@ qx.Bootstrap.define("qx.Class",
   statics :
   {
     /**
-     * A static reference to the property implementation in the case it 
+     * A static reference to the property implementation in the case it
      * should be included.
      */
     __Property : qx.core.Environment.get("module.property") ? qx.core.Property : null,
@@ -1185,7 +1185,7 @@ qx.Bootstrap.define("qx.Class",
         if (!qx.core.Environment.get("module.property")) {
           throw new Error("Property module disabled.");
         }
-        
+
         var has = this.hasProperty(clazz, name);
 
         if (has)

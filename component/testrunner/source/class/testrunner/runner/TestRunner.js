@@ -34,7 +34,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
   construct : function()
   {
     this.base(arguments);
-    
+
     // Get log appender element from view
     if (this.view.getLogAppenderElement) {
       this.__logAppender = new qx.log.appender.Element();
@@ -61,19 +61,19 @@ qx.Class.define("testrunner.runner.TestRunner", {
     __loadTimer : null,
     __logAppender : null,
     _externalTestClasses : null,
-    
-    
+
+
     _getTestNameSpace : function()
     {
       // Test namespace set by URI parameter
       var params = location.search;
       if (params.indexOf("testclass=") > 0 ) {
         return params.substr(params.indexOf("testclass=") + 10);
-      } 
+      }
       return qx.core.Environment.get("qx.testNameSpace");
     },
-    
-    
+
+
     _loadTests : function()
     {
       var origin = qx.core.Environment.get("testrunner.testOrigin");
@@ -95,8 +95,8 @@ qx.Class.define("testrunner.runner.TestRunner", {
           break;
       }
     },
-    
-    
+
+
     /**
      * Loads test classes that are a part of the TestRunner application.
      *
@@ -111,8 +111,8 @@ qx.Class.define("testrunner.runner.TestRunner", {
       this._wrapAssertions();
       this._getTestModel();
     },
-    
-    
+
+
     _addTestClass : function(membersMap)
     {
       if (qx.core.Environment.get("qx.debug")) {
@@ -126,7 +126,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
         include : [qx.dev.unit.MMock, qx.dev.unit.MRequirements],
         members : membersMap
       });
-      
+
       if (this.loader) {
         this.loader.getSuite().add(testClass);
       }
@@ -142,8 +142,8 @@ qx.Class.define("testrunner.runner.TestRunner", {
       }
       this.base(arguments);
     },
-    
-    
+
+
     _getTestResult : function()
     {
       if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
@@ -166,13 +166,13 @@ qx.Class.define("testrunner.runner.TestRunner", {
 
       this.base(arguments);
     },
-    
-    
+
+
     /**
      * Waits until the test application in the iframe has finished loading, then
      * retrieves its TestLoader.
      * @param ev {qx.event.type.Event} Iframe's "load" event
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
     _onLoadIframe : function(ev)

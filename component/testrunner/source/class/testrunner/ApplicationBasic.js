@@ -45,10 +45,10 @@ qx.Class.define("testrunner.ApplicationBasic", {
       }
 
       this.runner = new testrunner.runner.TestRunnerBasic();
-      
+
       this.runner.addListener("changeTestSuiteState", function(ev) {
         var state = ev.getData();
-        
+
         switch(state) {
           // async test suite loading
           case "ready":
@@ -56,7 +56,7 @@ qx.Class.define("testrunner.ApplicationBasic", {
             break;
         }
       }, this);
-      
+
       // sync test suite loading
       if (this.runner.getTestSuiteState() === "ready") {
         this.runner.view.run();

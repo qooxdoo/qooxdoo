@@ -571,7 +571,7 @@ qx.Class.define("inspector.selenium.View", {
 
     /**
      * Deletes all commands after asking for confirmation.
-     * 
+     *
      * @lint ignoreDeprecated(confirm)
      */
     clearTable : function()
@@ -678,7 +678,7 @@ qx.Class.define("inspector.selenium.View", {
 
     /**
      * TODOC
-     * 
+     *
      * @lint ignoreDeprecated(confirm)
      * @param ev {}
      */

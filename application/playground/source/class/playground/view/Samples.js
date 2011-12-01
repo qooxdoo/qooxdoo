@@ -83,7 +83,7 @@ qx.Class.define("playground.view.Samples",
 
 
   properties : {
-    /** Model property which contains the data for showing the examples. */ 
+    /** Model property which contains the data for showing the examples. */
     model : {
       check : "qx.data.IListData",
       event : "changeModel",
@@ -113,7 +113,7 @@ qx.Class.define("playground.view.Samples",
 
 
     /**
-     * Selects the given example. If non is given, the selection will be 
+     * Selects the given example. If non is given, the selection will be
      * removed.
      * @param sample {qx.core.Obejct} The sample to select.
      */

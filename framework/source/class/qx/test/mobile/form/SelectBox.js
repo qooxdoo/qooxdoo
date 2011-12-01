@@ -23,7 +23,7 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
 
   members :
   {
-  
+
     testValue : function()
     {
       var dd = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);

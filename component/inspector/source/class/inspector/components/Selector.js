@@ -61,7 +61,7 @@ qx.Class.define("inspector.components.Selector",
 
     /** {Integer} The duration in msec how long the highlighter is shown. */
     DURATION : 1000,
-    
+
     HIGHLIGHTER_CLASS : "qxInspectorHighlighter"
   },
 
@@ -132,7 +132,7 @@ qx.Class.define("inspector.components.Selector",
         return;
       }
 
-      if (this.__applicationWindow.qx.core.Init.getApplication().getRoot().classname 
+      if (this.__applicationWindow.qx.core.Init.getApplication().getRoot().classname
         == "qx.ui.mobile.core.Root")
       {
         this.__isMobileApp = true;
@@ -222,16 +222,16 @@ qx.Class.define("inspector.components.Selector",
       var win = this.__applicationWindow;
       var elem = win.document.createElement("style");
       elem.type = "text/css";
-      
+
       var cssClass = this.self(arguments).HIGHLIGHTER_CLASS;
       var borderWidth = this.self(arguments).BORDER;
       var borderColor = this.self(arguments).BORDER_COLOR;
       var rule = "." + cssClass + " {" +
-        "outline: " + borderWidth + "px solid " + borderColor + ";" + 
+        "outline: " + borderWidth + "px solid " + borderColor + ";" +
       "}";
       elem.appendChild(document.createTextNode(rule));
       win.document.getElementsByTagName("head")[0].appendChild(elem);
-      
+
       var doc = win.document;
       // return an object that supports the widget-based highlighter's API
       return {
@@ -454,7 +454,7 @@ qx.Class.define("inspector.components.Selector",
         object.addCssClass(this.self(arguments).HIGHLIGHTER_CLASS);
         return;
       }
-      
+
       // Flush queue before compute size
       qx.ui.core.queue.Manager.flush();
 

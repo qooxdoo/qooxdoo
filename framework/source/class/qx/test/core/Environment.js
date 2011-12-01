@@ -347,13 +347,13 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("html.svg"));
       this.assertBoolean(qx.core.Environment.get("html.vml"));
       this.assertBoolean(qx.core.Environment.get("html.console"));
-      
+
       this.assertBoolean(qx.core.Environment.get("html.stylesheet.createstylesheet"));
       this.assertBoolean(qx.core.Environment.get("html.stylesheet.insertrule"));
       this.assertBoolean(qx.core.Environment.get("html.stylesheet.deleterule"));
       this.assertBoolean(qx.core.Environment.get("html.stylesheet.addimport"));
       this.assertBoolean(qx.core.Environment.get("html.stylesheet.removeimport"));
-      
+
       this.assertBoolean(qx.core.Environment.get("html.element.contains"));
       this.assertBoolean(qx.core.Environment.get("html.element.compareDocumentPosition"));
       this.assertBoolean(qx.core.Environment.get("html.element.textcontent"));

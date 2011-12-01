@@ -69,7 +69,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
       this.__setUpDelegate();
       var item = this.__cell.getCellWidget();
       this.assertInterface(item, qx.ui.form.ListItem);
-      
+
       item.dispose();
       item1.dispose();
       item2.dispose();
@@ -92,7 +92,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
       }, function(e) {
         that.assertQxWidget(e.getData());
       });
-      
+
       widget.dispose();
     },
 

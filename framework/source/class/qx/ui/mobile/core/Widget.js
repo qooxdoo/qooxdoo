@@ -651,7 +651,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       qx.ui.mobile.core.Widget.registerWidget(this);
 
     },
-    
+
     /**
      * Sets the enable property to the new value
      * @param value {Boolean}, the new value of the widget
@@ -1106,7 +1106,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         style = mapping.style || style;
         value = mapping.values[value];
       }
-      
+
       var element = this.getContainerElement();
       if (value != null) {
         qx.bom.element.Style.set(element, style, value);

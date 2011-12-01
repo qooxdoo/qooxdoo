@@ -566,8 +566,8 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
         this.tree.openNode(nodes[i]);
       }
     },
-    
-    
+
+
     __disposeChildren : function(nativeArray)
     {
       for (var i=0; i<nativeArray.length; i++) {

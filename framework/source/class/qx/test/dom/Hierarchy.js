@@ -39,12 +39,12 @@ qx.Class.define("qx.test.dom.Hierarchy",
         this.__renderedElement.removeChild(this.__childElement);
         this.__childElement = null;
       }
-      
+
       if (this.__siblingElement) {
         document.body.removeChild(this.__siblingElement);
         this.__siblingElement = null;
       }
-      
+
       document.body.removeChild(this.__renderedElement);
       this.__renderedElement = null;
 
@@ -88,7 +88,7 @@ qx.Class.define("qx.test.dom.Hierarchy",
       this.__renderedElement.appendChild(this.__childElement);
       this.assertTrue(qx.dom.Hierarchy.contains(this.__renderedElement, this.__childElement));
       this.assertFalse(qx.dom.Hierarchy.contains(this.__childElement, this.__renderedElement));
-      
+
       this.__siblingElement = qx.bom.Element.create("div");
       document.body.appendChild(this.__siblingElement);
       this.assertFalse(qx.dom.Hierarchy.contains(this.__renderedElement, this.__siblingElement));
@@ -99,13 +99,13 @@ qx.Class.define("qx.test.dom.Hierarchy",
     {
       this.__siblingElement = qx.bom.Element.create("div");
       document.body.appendChild(this.__siblingElement);
-      
-      this.assertEquals(document.body, 
+
+      this.assertEquals(document.body,
       qx.dom.Hierarchy.getCommonParent(this.__renderedElement, this.__siblingElement));
-      
+
       this.__childElement = qx.bom.Element.create("div");
       this.__renderedElement.appendChild(this.__childElement);
-      this.assertEquals(this.__renderedElement, 
+      this.assertEquals(this.__renderedElement,
       qx.dom.Hierarchy.getCommonParent(this.__renderedElement, this.__childElement));
     }
   }

@@ -195,22 +195,22 @@ qx.Class.define("fce.Reporter", {
         if (this.isIgnored(prop)) {
           continue;
         }
-        
+
         if (!expected.hasOwnProperty(prop)) {
           differing.push(prop);
           continue;
         }
-        
+
         var expType = typeof expected[prop];
         var foundType = typeof this.__foundData[prop];
         if (expType !== foundType) {
           differing.push(prop);
           continue;
         }
-        
+
         var expectedValue = expected[prop];
         var foundValue = this.__foundData[prop];
-        
+
         if (foundValue instanceof Array) {
           if (foundValue.length !== expectedValue.length) {
             differing.push(prop);
@@ -225,8 +225,8 @@ qx.Class.define("fce.Reporter", {
         }
         else if (expType === "object") {
           for (var key in expectedValue) {
-            if (!foundValue.hasOwnProperty(key) || 
-              foundValue[key] !== expectedValue[key]) 
+            if (!foundValue.hasOwnProperty(key) ||
+              foundValue[key] !== expectedValue[key])
             {
               differing.push(prop);
               continue;

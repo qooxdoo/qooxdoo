@@ -4,13 +4,13 @@
 qx.Class.define("twitter.simulation.Settings", {
 
   extend : simulator.unit.TestCase,
-  
+
   members :
   {
     testChangeLanguage : function()
     {
       this.getQxSelenium().setSpeed(1000);
-      
+
       // Click the Preferences button
       var preferencesButtonLocator = "qxhv=*/[@label=Preferences]";
       this.getQxSelenium().qxClick(preferencesButtonLocator);
@@ -18,7 +18,7 @@ qx.Class.define("twitter.simulation.Settings", {
       var settingsWindowLocator = "qxhv=[@classname=twitter.SettingsWindow]";
       var settingsWindowPresent = this.getQxSelenium().isElementPresent(settingsWindowLocator);
       this.assertTrue(settingsWindowPresent);
-      
+
       // Click the radio button for Romanian
       var romanianLabelLocator = "qxhv=[@classname=twitter.SettingsWindow]/*/[@label=Romanian]";
       this.getQxSelenium().qxClick(romanianLabelLocator);
@@ -28,8 +28,8 @@ qx.Class.define("twitter.simulation.Settings", {
       // Check if the window was closed
       settingsWindowPresent = this.getQxSelenium().isElementPresent(settingsWindowLocator);
       this.assertFalse(settingsWindowPresent);
-      
-      // Get the translated string for the Preferences button label 
+
+      // Get the translated string for the Preferences button label
       var translatedLabel = this.getQxSelenium().getRunInContext(preferencesButtonLocator,
       "return this.getLabel().translate().toString()");
       // Check if the label was translated

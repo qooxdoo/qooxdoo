@@ -99,7 +99,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
       if (qx.core.Environment.get("css.boxsizing")) {
         return qx.bom.element.Style.get(element, "boxSizing", null, false) || "";
       }
-      
+
       if (qx.bom.Document.isStandardMode(qx.dom.Node.getWindow(element)))
       {
         if (!this.__usesNativeBorderBox(element)) {

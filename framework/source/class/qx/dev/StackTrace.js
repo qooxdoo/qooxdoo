@@ -24,19 +24,19 @@ qx.Bootstrap.define("qx.dev.StackTrace",
 {
   statics:
   {
-    
+
     /**
-     * Optional user-defined function to convert source file names into readable 
+     * Optional user-defined function to convert source file names into readable
      * class names. Will be called with the source file name extracted from the
-     * browser's stack trace information as the only argument. The returned 
+     * browser's stack trace information as the only argument. The returned
      * string is used in the output of {@link #getStackTraceFromError}
      */
     FILENAME_TO_CLASSNAME : null,
-    
+
     /**
      * Optional user-defined formatting function for stack trace information.
-     * Will be called by with an array of strings representing the calls in the 
-     * stack trace. {@link #getStackTraceFromError} will return the output of 
+     * Will be called by with an array of strings representing the calls in the
+     * stack trace. {@link #getStackTraceFromError} will return the output of
      * this function
      */
     FORMAT_STACKTRACE : null,
@@ -184,9 +184,9 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * the exception was thrown at.
      *
      * This will get the JavaScript file names and the line numbers of each call.
-     * The file names are converted into qooxdoo class names if possible (customizable 
+     * The file names are converted into qooxdoo class names if possible (customizable
      * via {@link #FILENAME_TO_CLASSNAME}).
-     * 
+     *
      * The stack trace can be custom formatted using {@link #FORMAT_STACKTRACE}.
      *
      * This works reliably in Gecko-based browsers. Later Opera versions and
@@ -202,12 +202,12 @@ qx.Bootstrap.define("qx.dev.StackTrace",
     getStackTraceFromError : function(error)
     {
       var trace = [];
-      
+
       if (qx.core.Environment.get("ecmascript.stacktrace") === "stack") {
         // Gecko style, e.g. "()@http://localhost:8080/webcomponent-test-SNAPSHOT/webcomponent/js/com/ptvag/webcomponent/common/log/Logger:253"
         var lineRe = /@(.+):(\d+)$/gm;
         var hit;
-        
+
         while ((hit = lineRe.exec(error.stack)) != null)
         {
           var url = hit[1];
@@ -216,7 +216,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
           var className = this.__fileNameToClassName(url);
           trace.push(className + ":" + lineNumber);
         }
-        
+
         if (trace.length > 0) {
           return this.__formatStackTrace(trace);
         }
@@ -249,7 +249,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         if (stacktrace.indexOf("Error created at") >= 0) {
           stacktrace = stacktrace.split("Error created at")[0];
         }
-        
+
         // new Opera style (10.6+)
         var lineRe = /line\ (\d+?),\ column\ (\d+?)\ in\ (?:.*?)\ in\ (.*?):[^\/]/gm;
         var hit;
@@ -260,11 +260,11 @@ qx.Bootstrap.define("qx.dev.StackTrace",
           var className = this.__fileNameToClassName(url);
           trace.push(className + ":" + lineNumber + ":" + columnNumber);
         }
-        
+
         if (trace.length > 0) {
           return this.__formatStackTrace(trace);
         }
-        
+
         // older Opera style
         var lineRe = /Line\ (\d+?)\ of\ linked\ script\ (.*?)$/gm;
         var hit;
@@ -293,13 +293,13 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         // Safari
         trace.push(this.__fileNameToClassName(error.sourceURL) + ":" + error.line);
       }
-      
+
       return this.__formatStackTrace(trace);
     },
 
     /**
-     * Converts the URL of a JavaScript file to a class name using either a 
-     * user-defined ({@link #FILENAME_TO_CLASSNAME}) or default 
+     * Converts the URL of a JavaScript file to a class name using either a
+     * user-defined ({@link #FILENAME_TO_CLASSNAME}) or default
      * ({@link #__fileNameToClassNameDefault}) converter
      *
      * @param fileName {String} URL of the JavaScript file
@@ -310,15 +310,15 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       if (typeof qx.dev.StackTrace.FILENAME_TO_CLASSNAME == "function") {
         return qx.dev.StackTrace.FILENAME_TO_CLASSNAME(fileName);
       }
-      
+
       return qx.dev.StackTrace.__fileNameToClassNameDefault(fileName);
     },
-    
-    
+
+
     /**
-     * Converts the URL of a JavaScript file to a class name if the file is 
+     * Converts the URL of a JavaScript file to a class name if the file is
      * named using the qooxdoo naming conventions.
-     * 
+     *
      * @param fileName {String} URL of the JavaScript file
      * @return {String} class name of the file if conversion was possible.
      * Otherwise the fileName is returned unmodified.
@@ -334,13 +334,13 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       var className = (jsPos == -1) ? fileName : fileName.substring(jsPos + scriptDir.length).replace(/\//g, ".").replace(/\.js$/, "");
       return className;
     },
-    
-    
+
+
     /**
      * Runs the given stack trace array through the formatter function
      * ({@link #FORMAT_STACKTRACE}) if available and returns it. Otherwise, the
      * original array is returned
-     * 
+     *
      * @param trace {String[]} Stack trace information
      * @return {String[]} Formatted stack trace info
      */

@@ -494,7 +494,7 @@ qx.Class.define("qx.bom.element.Decoration",
         if (clipped == "b64")
         {
           var uri = ResourceManager.toDataUri(sourceid);
-          var offx = 0; 
+          var offx = 0;
           var offy = 0;
         }
         else

@@ -18,10 +18,10 @@
 ************************************************************************ */
 
 /**
- * This mixin offers the bacis property features which include generic 
+ * This mixin offers the bacis property features which include generic
  * setter, getter and resetter.
  */
-qx.Mixin.define("qx.core.MProperty", 
+qx.Mixin.define("qx.core.MProperty",
 {
   members :
   {
