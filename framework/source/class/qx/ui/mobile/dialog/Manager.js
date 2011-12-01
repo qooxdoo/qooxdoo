@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
             handler.call(scope);
           }
         }
-        this.__processDialogTextParameters(title, text, button);
+        var button = this.__processDialogButtons(button);
         return navigator.notification.alert(text, callback, title, button);
       }
       else
@@ -129,7 +129,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
         {
           handler.call(scope, index);
         }
-        this.__processDialogTextParameters(title, text, buttons);
+        var buttons = this.__processDialogButtons(buttons);
         return navigator.notification.confirm(text, callback, title, buttons);
       }
       else
@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
             handler.call(scope);
           }
         }
-        this.__processDialogTextParameters(title, text, button);
+        var button = this.__processDialogButtons(button);
         return navigator.notification.alert(text, callback, title, button);
       }
       else
@@ -210,7 +210,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
             handler.call(scope);
           }
         }
-        this.__processDialogTextParameters(title, text, button);
+        var button = this.__processDialogButtons(button);
         return navigator.notification.alert(text, callback, title, button);
       }
       else
@@ -238,14 +238,16 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
       return this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.WAITING_DIALOG);
     },
 
-    __processDialogTextParameters: function(title, text, buttons)
+
+    /**
+     * Processes the dialog buttons. Converts them to PhoneGap compatible strings.
+     * 
+     * @param buttons {String[]} Each text entry of the array represents a button and
+     *     its title
+     * @return {String} The concatenated, PhoneGap compatible, button string
+     */
+    __processDialogButtons: function(buttons)
     {
-      if (text) {
-        text = ""+ text;
-      }
-      if (title) {
-        title = ""+title;
-      }
       if(buttons) {
         if(buttons instanceof Array) {
           buttons = buttons.join(",");
@@ -253,6 +255,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
           buttons = ""+buttons;
         }
       }
+      return buttons;
     },
 
 
@@ -267,6 +270,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * @param scope {Object} The scope of the handler
      * @param buttons {String[]} Each text entry of the array represents a button and
      *     its title
+     * @param dialogType {Integer} One of the static dialog types.
      */
     __showNonNativeDialog: function(title, text, handler, scope, buttons, dialogType)
     {
