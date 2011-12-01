@@ -79,8 +79,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
   construct : function(widget, anchor)
   {
     this.base(arguments);
-    qx.core.Init.getApplication().getRoot().add(this);
     this.exclude();
+    qx.core.Init.getApplication().getRoot().add(this);
     if(anchor) {
       this.__anchor = anchor;
     }
