@@ -215,7 +215,7 @@ qx.Class.define("qx.io.rest.Resource",
      * Configure request.
      *
      * @param callback {Function} Function called before request is send.
-     *   Receives pre-configured request and action.
+     *   Receives request and action.
      *
      * <pre class="javascript">
      * res.configureRequest(function(req, action) {
