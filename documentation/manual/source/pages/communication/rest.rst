@@ -14,9 +14,9 @@ Given a REST-like interface with URLs that comply to the following pattern.
 
 ::
 
-  GET      /photos/{id}
-  PUT      /photos/{id}
-  DELETE   /photos/{id}
+  GET      /photo/{id}
+  PUT      /photo/{id}
+  DELETE   /photo/{id}
 
   GET      /photos
   POST     /photos
@@ -41,6 +41,12 @@ To declare the specifics of the REST interface declaratively, pass a description
     put: {
       method: "POST",
       url: "/photo/{id}"
+    },
+
+    // Delete photo
+    del: {
+      method: "DELETE",
+      url: "/photo/{id}"
     }
   });
 
@@ -64,7 +70,7 @@ Or programatically, for each action.
 ::
 
   var photo = new qx.io.rest.Resource();
-  photos.map("get", "GET", "/photo/{id}");
+  photo.map("get", "GET", "/photo/{id}");
 
 Invoking actions
 ================
@@ -86,12 +92,12 @@ When an action is invoked, an appropriate request is configured and send automat
 Parameters
 ==========
 
-Parameters are optional unless a check is defined. A default value can be provided.
+If the URL contains parameters, the position where the parameters should be inserted can be specified by using `URI templates <http://tools.ietf.org/html/draft-gregorio-uritemplate-07>`_. Parameters are optional unless a check is defined. A default value can be provided.
 
 ::
 
   var photo = new qx.io.rest.Resource();
-  photo.map("get", "GET", "/photo/{id}/{size=medium}", {id: true});
+  photo.map("get", "GET", "/photo/{id}/{size=medium}", {id:  qx.io.rest.Resource.REQUIRED});
 
   photo.get({id: 1, size: "large"});
   // --> GET /photo/1/large
