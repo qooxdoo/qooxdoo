@@ -56,7 +56,7 @@
       
        "environment" :
       {
-        "qx.debug" : true,
+        "qx.debug" : false,
         "qx.aspects" : false
       },
       
@@ -65,7 +65,7 @@
         "code" :
         {
           "format"   : true,
-          "optimize" : [ "variables", "basecalls", "privates" ],
+          "optimize" : [ "variables", "basecalls", "privates", "variants" ],
           "except" : []
         },
         "paths" :
