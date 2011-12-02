@@ -16,9 +16,9 @@ Given a REST-like interface with URLs that comply to the following pattern.
 
   GET      /photos           index       display a list of all photos
   POST     /photos           create      create a new photo
-  GET      /photos/:id       show        display a specific photo
-  PUT      /photos/:id       update      update a specific photo
-  DELETE   /photos/:id       destroy     delete a specific photo
+  GET      /photo/:id       show        display a specific photo
+  PUT      /photo/:id       update      update a specific photo
+  DELETE   /photo/:id       destroy     delete a specific photo
 
 Note ``:id`` stands for a placeholder replaced by
 
@@ -39,17 +39,17 @@ The specifics of the REST interface can be expressed declaratively.
 
     show: {
       method: "GET",
-      url: "/photos/:id"
+      url: "/photo/:id"
     },
 
     update: {
       method: "PUT",
-      url: "/photos/:id"
+      url: "/photo/:id"
     },
 
     destroy: {
       method: "DELETE",
-      url: "/photos/:id"
+      url: "/photo/:id"
     }
   }
 
@@ -75,7 +75,7 @@ Once configured, actions can be invoked. They are invoked by calling a method th
   // --> GET /photos
 
   photos.show({id: 1});
-  // --> GET /photos/1
+  // --> GET /photo/1
 
 When an action is invoked, an appropriate request is configured and send automatically.
 
