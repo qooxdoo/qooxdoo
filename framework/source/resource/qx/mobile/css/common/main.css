@@ -49,7 +49,10 @@ html, body {
   overflow:hidden;
 }
 
-.scroll > div {
+.iscroll {
+  width:100%;
+  position:absolute; 
+  z-index:1;
   padding-bottom:10px;/* todo: experimental*/;
 }
 
