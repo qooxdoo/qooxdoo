@@ -93,6 +93,8 @@ qx.Class.define("qx.data.store.Offline",
           "changeBubble", this.__storeModel, this
         );
         this.__storeModel();
+      } else {
+        this._storage.removeItem(this._key);
       }
     },
 
