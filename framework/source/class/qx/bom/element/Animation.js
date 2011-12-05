@@ -226,7 +226,7 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      * @param desc {Map} The description of the animation.
      */
     __normalizeDesc : function(desc) {
-      if (!desc.hasOwnProperty("alterante")) {
+      if (!desc.hasOwnProperty("alternate")) {
         desc.alternate = false;
       }
       if (!desc.hasOwnProperty("keep")) {
