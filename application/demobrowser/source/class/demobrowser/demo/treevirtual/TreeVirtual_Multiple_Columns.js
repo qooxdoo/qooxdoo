@@ -86,16 +86,16 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
       dataModel.setData();
 
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
-      commandFrame.setLayout(new qx.ui.layout.Canvas());
+      commandFrame.setLayout(new qx.ui.layout.VBox(8));
 
       hBox.add(commandFrame);
 
       var o = new qx.ui.basic.Atom("Current Selection: ");
-      commandFrame.add(o, { left: 0, top: 6 });
+      commandFrame.add(o);
 
       o = new qx.ui.form.TextField();
       o.set({ readOnly: true });
-      commandFrame.add(o, { left : 4, right : 0, top : 20 });
+      commandFrame.add(o);
 
       tree.addListener(
         "changeSelection",
@@ -111,7 +111,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
 
       var buttonRemove = new qx.ui.form.Button("Remove");
       buttonRemove.set({ enabled: false });
-      commandFrame.add(buttonRemove, { top : 50, left : 0 });
+      commandFrame.add(buttonRemove);
       buttonRemove.addListener(
         "execute",
         function(e)
@@ -126,7 +126,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
 
       o = new qx.ui.form.CheckBox("Use tree lines if theme supports them?");
       o.set({ value: true });
-      commandFrame.add(o, { top : 80, left : 0 });
+      commandFrame.add(o);
       o.addListener("changeValue",
                     function(e)
                     {
@@ -135,7 +135,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
 
       o = new qx.ui.form.CheckBox("Exclude first-level tree lines?");
       o.set({ value: false });
-      commandFrame.add(o, { top : 100, left : 0 });
+      commandFrame.add(o);
       o.addListener("changeValue",
                     function(e)
                     {
@@ -144,7 +144,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
 
       o = new qx.ui.form.CheckBox("Always show open/close symbol?");
       o.set({ value: true });
-      commandFrame.add(o, { top : 120, left : 0 });
+      commandFrame.add(o);
       o.addListener("changeValue",
                     function(e)
                     {
@@ -153,7 +153,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
 
       o = new qx.ui.form.CheckBox("Remove open/close if found empty?");
       o.set({ value: true });
-      commandFrame.add(o, { top : 140, left : 0 });
+      commandFrame.add(o);
       tree.addListener("treeOpenWhileEmpty",
                        function(e)
                        {
@@ -167,7 +167,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
 
       o = new qx.ui.form.CheckBox("Open/close click selects row?");
       o.set({ value: false });
-      commandFrame.add(o, { top : 160, left : 0 });
+      commandFrame.add(o);
       o.addListener("changeValue",
                     function(e)
                     {
@@ -176,7 +176,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
 
       o = new qx.ui.form.CheckBox("Disable the tree?");
       o.set({ value: false });
-      commandFrame.add(o, { top : 180, left : 0 });
+      commandFrame.add(o);
       o.addListener("changeValue",
                     function(e)
                     {
@@ -185,7 +185,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
 
       o = new qx.ui.form.CheckBox("Show column visibilty menu");
       o.set({ value: true });
-      commandFrame.add(o, { top : 200, left : 0 });
+      commandFrame.add(o);
       o.addListener("changeValue",
                     function(e)
                     {
