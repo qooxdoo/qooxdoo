@@ -63,7 +63,9 @@ qx.Class.define("todo.Application",
             checkbox = item.childNodes[i];
           }
         }
-        qx.bom.Event.addNativeListener(checkbox, "change", self.__onChange);
+        qx.bom.Event.addNativeListener(
+          checkbox, "change", qx.lang.Function.bind(self.__onChange, self, model)
+        );
       }, createItem : function(data) {
         // add an automatic id for the label / checkbox connection
         data.id = "task-" + self.__id++;
@@ -77,11 +79,13 @@ qx.Class.define("todo.Application",
         self.__add(model, name);
       });
 
-      // clear button
-      var clearButton = document.getElementById("clear");
-      qx.bom.Event.addNativeListener(clearButton, "click", function() {
-        self.__clear(model);
-      });
+      // update the clear button on every model change
+      model.addListener("changeBubble", function(e) {
+        this.__updateClearButton(model);
+      }, this);
+
+      // update the clear button at start manually
+      this.__updateClearButton(model);
     },
 
 
@@ -113,9 +117,50 @@ qx.Class.define("todo.Application",
 
 
     /**
-     * Handler for changes of the checkbox.
+     * Helper to update the clear button which gets disabled if nothing 
+     * can be cleard.
+     * @param model {qx.data.IListData} The model.
      */
-    __onChange : function(e) {
+    __updateClearButton : function(model) {
+      var disabled = true;
+      for (var i=0; i < model.length; i++) {
+        if (model.getItem(i).getDone()) {
+          disabled = false;
+          break;
+        }
+      };
+      this.__disableClearButton(disabled, model);
+    },
+
+
+    /**
+     * Helper to disable the clear button. Removing the listener and changing 
+     * the CSS class.
+     * @param disabled {Boolean} <code>true</code>, if the buttons shold be disabled
+     * @param model {qx.data.IListData} The model object.
+     */
+    __disableClearButton : function(disabled, model) {
+      var button = document.getElementById("clear");
+      var self = this;
+      if (disabled) {
+        qx.bom.Event.removeNativeListener(button, "click", function() {
+          self.__clear(model);
+        });
+        qx.bom.element.Class.replace(button, "button", "button-disabled");
+      } else {
+        qx.bom.Event.addNativeListener(button, "click", function() {
+          self.__clear(model);
+        });
+        qx.bom.element.Class.replace(button, "button-disabled", "button");
+      }
+    },
+
+    /**
+     * Handler for changes of the checkbox.
+     * @param model {qx.data.IListData} The model
+     * @param e {Event} The change event.
+     */
+    __onChange : function(model, e) {
       var el = qx.bom.Event.getTarget(e);
       el.parentNode.$$model.setDone(el.checked);
     }
