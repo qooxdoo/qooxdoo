@@ -152,6 +152,21 @@ qx.Class.define("fce.view.List", {
 
 
     /**
+     * Removes all entries from the list
+     */
+    removeAll : function()
+    {
+      var listItems = this.getChildren().concat();
+      for (var i=0,l=listItems.length; i<l; i++) {
+        var modelItem = listItems[i].getModelItem();
+        this.getSelectedItems().remove(modelItem);
+        listItems[i].destroy();
+        qx.lang.Array.remove(this.__listedItems, modelItem);
+      }
+    },
+
+
+    /**
      * Adds the given model items to the list if they're not already in it
      *
      * @param items {qx.data.Array}  data array of model items

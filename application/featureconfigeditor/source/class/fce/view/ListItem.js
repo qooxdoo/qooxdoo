@@ -38,17 +38,19 @@ qx.Class.define("fce.view.ListItem", {
       appearance: "listitem"
     });
 
-    if (valueProperty) {
-      this.setValueProperty(valueProperty);
-    }
+    this.setLabelProperty(labelProperty);
 
-    if (labelProperty) {
-      this.setLabelProperty(labelProperty);
+    if (!qx.Class.hasProperty(modelItem.constructor, valueProperty)) {
+      for (var prop in qx.util.PropertyUtil.getAllProperties(modelItem.constructor)) {
+        if (prop !== "name" && prop !== "distinctValues") {
+          valueProperty = prop;
+          break;
+        }
+      }
     }
+    this.setValueProperty(valueProperty);
 
-    if (modelItem) {
-      this.setModelItem(modelItem);
-    }
+    this.setModelItem(modelItem);
   },
 
   properties :

@@ -108,6 +108,7 @@ qx.Class.define("fce.view.FeatureSelector", {
     __setsMenu : null,
     __setsMenuEntries : null,
     __stash : null,
+    __modifiedData : null,
 
 
     _createChildControlImpl : function(id, hash)
@@ -257,12 +258,23 @@ qx.Class.define("fce.view.FeatureSelector", {
       if (!this.__importWindow) {
         this.__importWindow = new fce.view.ImportWindow();
         this.__importWindow.center();
-        this.__importWindow.addListener("changeFeatureMap", function (ev) {
-          var data = ev.getData();
-          this.addFeatureSet(data);
-        }, this);
+        this.__importWindow.addListener("changeFeatureMap", this.__importFeatureSet, this);
       }
       return this.__importWindow;
+    },
+
+
+    /**
+     * Adds imported feature set data
+     * 
+     * @param ev {qx.event.type.Data} Event that holds the imported data
+     */
+    __importFeatureSet : function (ev) {
+      var data = ev.getData();
+      this._saveModifiedData();
+      this.getChildControl("list").removeAll();
+      this.addFeatureSet(data);
+      this._restoreModifiedData();
     },
 
 
@@ -314,6 +326,67 @@ qx.Class.define("fce.view.FeatureSelector", {
       return data;
     },
 
+
+    /**
+     * Saves user-modified data so it can be re-applied after the model has changed 
+     */
+    _saveModifiedData : function()
+    {
+      this.__modifiedData = [];
+      var list = this.getChildControl("list");
+      var listItems = list.getChildren();
+      for (var i=0,l=listItems.length; i<l; i++) {
+        var listItem = listItems[i];
+        var modelItem = listItem.getModelItem();
+        var key = modelItem.getName();
+        var valueProp = listItem.getValueProperty();
+        var value = modelItem.get(valueProp);
+        var entry = {
+          key : key,
+          value : value,
+          valueProp : valueProp
+        };
+        this.__modifiedData.push(entry);
+      }
+    },
+
+
+    /**
+     * Restores user modifications to a (new) model
+     */
+    _restoreModifiedData : function()
+    {
+      for (var i=0,l=this.__modifiedData.length; i<l; i++) {
+        var entry = this.__modifiedData[i];
+        var modelItem = this.__getModelItemByPropertyValue("name", entry.key);
+        if (modelItem) {
+          modelItem.set(entry.valueProp, entry.value);
+          this.getChildControl("list").addItemsUnique(new qx.data.Array([modelItem]));
+        }
+      }
+    },
+
+
+    /**
+     * Finds the first item in the model where the given property has the given
+     * value
+     * 
+     * @param property {String} Name of the property
+     * @param value {var} Value to search for
+     * @return {Object|null} Matching model item
+     */
+    __getModelItemByPropertyValue : function(property, value)
+    {
+      var model = this.getModel();
+      for (var i=0,l=model.length; i<l; i++) {
+        var item = model.getItem(i);
+        if (item.get(property) === value) {
+          return item;
+        }
+      }
+      return null;
+    },
+    
 
     /**
      * Adds a new feature set to the display. Data must be a map with one key
@@ -419,6 +492,15 @@ qx.Class.define("fce.view.FeatureSelector", {
       var data = {};
       for (var i=0,l=items.length; i<l; i++) {
         var item = items.getItem(i);
+        
+        if (!qx.Class.hasProperty(item.constructor, valueProperty)) {
+          for (var prop in qx.util.PropertyUtil.getAllProperties(item.constructor)) {
+            if (prop !== "name" && prop !== "distinctValues") {
+              valueProperty = prop;
+              break;
+            }
+          }
+        }
         data[item.getName()] = item.get(valueProperty);
       }
       return data;
