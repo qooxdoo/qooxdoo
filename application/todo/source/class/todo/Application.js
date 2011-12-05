@@ -68,7 +68,7 @@ qx.Class.define("todo.Application",
       // add button
       var addButton = document.getElementById("add");
       qx.bom.Event.addNativeListener(addButton, "click", function() {
-        var name = prompt("Task name") || "";
+        var name = prompt("Task name", "") || "";
         self.__add(model, name);
       });
 
