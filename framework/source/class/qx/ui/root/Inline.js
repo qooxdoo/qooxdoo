@@ -24,6 +24,7 @@
 #use(qx.event.handler.ElementResize)
 #optional(qx.ui.popup.Manager)
 #optional(qx.ui.menu.Manager)
+#optional(qx.ui)
 
 ************************************************************************ */
 
