@@ -107,11 +107,6 @@ qx.Class.define("showcase.page.virtuallist.messenger.BuddyModel",
           statusIcon : this.getRandomStatus()
         },
         {
-          name : "Adrian Olaru",
-          img : this.getRandomBuddy(),
-          statusIcon : this.getRandomStatus()
-        },
-        {
           name : "Tino Butz",
           img : "showcase/virtuallist/imicons/tino_butz.png",
           statusIcon : this.getRandomStatus()
@@ -119,11 +114,6 @@ qx.Class.define("showcase.page.virtuallist.messenger.BuddyModel",
         {
           name : "Tristan Koch",
           img : "showcase/virtuallist/imicons/tristan_koch.png",
-          statusIcon : this.getRandomStatus()
-        },
-        {
-          name : "Gabriel Munteanu",
-          img : this.getRandomBuddy(),
           statusIcon : this.getRandomStatus()
         }
       ];
