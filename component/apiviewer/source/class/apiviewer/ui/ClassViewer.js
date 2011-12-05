@@ -586,7 +586,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
                       "property_private" : "properties",
                       "property_protected" : "properties",
                       "constant" : "constants",
-                      "childcontrol": "childcontrols"
+                      "childcontrol": "childControls"
                     };
 
       // special handling for constructor methods since the constructor
