@@ -45,17 +45,19 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
       }
       var data = new qx.data.Array(rawData);
 
-
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(8));
+      this.getRoot().add(container, {top: 10, left: 10});
+ 
       // create the textfield
       var textfield = new qx.ui.form.TextField();
       textfield.setLiveUpdate(true);
-      this.getRoot().add(textfield, {top: 70, left: 10});
+      container.add(textfield);
 
       // create the list
       var list = new qx.ui.form.List();
 
       // add the widgets to the document
-      this.getRoot().add(list, {left: 10, top: 100});
+      container.add(list);
 
       // create the controller
       var controller = new qx.data.controller.List(data, list);
@@ -84,7 +86,7 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
         "<b>Search As You Type List</b><br/>"
         + "Type a name and the list will show only the matching results (case-sensitive)."
       );
-      this.getRoot().add(description, {left: 20, top: 10});
+      container.addAt(description, 0);
     }
   }
 });
