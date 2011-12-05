@@ -119,7 +119,9 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
     },
 
     "test: progress phases when abort after loading": function() {
-      this.require(["noSelenium"]);
+      // Breaks in Selenium and IE because no intermediate loading event is fired
+      // while requesting "loading.php"
+      this.require(["noSelenium", "noIe"]);
 
       var req = this.req,
           phases = [],
@@ -201,6 +203,10 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
 
     noCache: function(url) {
       return qx.util.Uri.appendParamsToUrl(url, "nocache=" + (new Date).valueOf());
+    },
+
+    hasNoIe: function() {
+      return !(qx.core.Environment.get("engine.name") == "mshtml");
     }
 
   }
