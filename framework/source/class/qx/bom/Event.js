@@ -91,7 +91,7 @@ qx.Bootstrap.define("qx.bom.Event",
         target["on" + type] = listener;
       } else {
         if (qx.core.Environment.get("qx.debug")) {
-          this.warn("No method available to add native listener to " + target);
+          qx.log.Logger.warn("No method available to add native listener to " + target);
         }
       }
     },
@@ -134,7 +134,7 @@ qx.Bootstrap.define("qx.bom.Event",
       else
       {
         if (qx.core.Environment.get("qx.debug")) {
-          this.warn("No method available to remove native listener from " + target);
+          qx.log.Logger.warn("No method available to remove native listener from " + target);
         }
       }
     },
