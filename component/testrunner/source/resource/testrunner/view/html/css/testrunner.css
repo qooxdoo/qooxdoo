@@ -58,7 +58,7 @@ label {
 
 #run:disabled {
   background-color: #659E67;
-  color: #ACDDAE !important
+  color: #fff !important
 }
 
 #stop {
@@ -68,7 +68,7 @@ label {
 
 #stop:disabled {
   background-color: #9E5E5E;
-  color: #C9B8B8 !important;
+  color: #fff !important;
 }
 
 #framelogcontainer {
