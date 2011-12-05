@@ -57,7 +57,12 @@ qx.Class.define("todo.Application",
       var controller = new qx.data.controller.website.List(model, target, "task");
       controller.setDelegate({configureItem : function(item) {
         // attach a change listener to the checkbox
-        var checkbox = item.childNodes[1];
+        var checkbox;
+        for (var i = 0; i < item.childNodes.length; i++) {
+          if (item.childNodes[i].type == "checkbox") {
+            checkbox = item.childNodes[i];
+          }
+        }
         qx.bom.Event.addNativeListener(checkbox, "change", self.__onChange);
       }, createItem : function(data) {
         // add an automatic id for the label / checkbox connection
@@ -111,7 +116,7 @@ qx.Class.define("todo.Application",
      * Handler for changes of the checkbox.
      */
     __onChange : function(e) {
-      var el = e.target;
+      var el = qx.bom.Event.getTarget(e);
       el.parentNode.$$model.setDone(el.checked);
     }
   }
