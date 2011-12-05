@@ -271,6 +271,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * <code>linear-gradient(0deg, #fff, #000)</code>
      *
      * @return {Boolean} <code>true</code> if the legacy syntax must be used
+     * @internal
      */
     getLegacyWebkitGradient : function()
     {
@@ -286,6 +287,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * http://www.w3.org/TR/2010/PR-css3-color-20101028/#rgba-color
      *
      * @return {Boolean} <code>true</code>, if rgba colors are supported.
+     * @internal
      */
     getRgba : function() {
       var el;
