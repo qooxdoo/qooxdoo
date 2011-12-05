@@ -26,6 +26,18 @@ qx.Class.define("demobrowser.demo.bom.Animation_3d",
     {
       this.base(arguments);
 
+      // check for annimation support
+      if (
+        qx.core.Environment.get("css.animation") == null || 
+        !qx.core.Environment.get("css.transform.3d")
+      ) {
+        document.body.innerHTML = "";
+        var label = document.createElement('label');
+        label.innerHTML = "CSS animations not supported, sorry!";
+        document.body.appendChild(label);
+        return;
+      }
+
       // test transform style
       var spin = {duration: 10000, repeat: "infinite", keyFrames: {
         0 : {rotate: [null, "0deg"]},
