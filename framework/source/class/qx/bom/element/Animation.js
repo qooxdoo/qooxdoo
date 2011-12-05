@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,18 +13,19 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Martin Wittemann (wittemann)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
 /**
  * This class is responsible for applying CSS3 animations to plain DOM elements.
- * The implementation is mostly a cross browser wrapper for applying the
- * animations which include transforms. If the running browser does not support
- * CSS animations but you have set a keep frame, the keep frame will be applied
- * imediatelly which makes the animations optional.
+ * 
+ * The implementation is mostly a cross-browser wrapper for applying the
+ * animations, including transforms. If the browser does not support
+ * CSS animations, but you have set a keep frame, the keep frame will be applied
+ * immediately, thus making the animations optional.
  *
- * The API is keep to the spec as close as possible.
+ * The API aligns closely to the spec wherever possible.
  *
  * http://www.w3.org/TR/css3-animations/
  */
