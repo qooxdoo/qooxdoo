@@ -110,7 +110,8 @@ def processVariantSelect(callNode, variantMap):
     # Get the variant key from the select() call
     firstParam = params.getChildByPosition(0)
     if not isStringLiteral(firstParam):
-        log("Warning", "First argument must be a string literal constant! Ignoring this occurrence.", firstParam)
+        # warning is currently covered in parsing code
+        #log("Warning", "First argument must be a string literal constant! Ignoring this occurrence.", firstParam)
         return False
 
     variantKey = firstParam.get("value");
@@ -182,7 +183,8 @@ def processVariantGet(callNode, variantMap):
 
     firstParam = params.getChildByPosition(0)
     if not isStringLiteral(firstParam):
-        log("Warning", "First argument must be a string literal! Ignoring this occurrence.", firstParam)
+        # warning is currently covered in parsing code
+        #log("Warning", "First argument must be a string literal! Ignoring this occurrence.", firstParam)
         return treeModified
 
     # skipping "relative" calls like "a.b.qx.core.Environment.get()"
@@ -534,7 +536,8 @@ def getSelectParams(callNode):
     # Get the variant key from the select() call
     firstParam = params.getChildByPosition(0)
     if not isStringLiteral(firstParam):
-        log("Warning", "First argument must be a string literal constant! Ignoring this occurrence.", firstParam)
+        # warning is currently covered in parsing code
+        #log("Warning", "First argument must be a string literal constant! Ignoring this occurrence.", firstParam)
         return result
     variantKey = firstParam.get("value");
 

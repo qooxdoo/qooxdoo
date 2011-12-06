@@ -176,7 +176,8 @@
     {
       "config-warnings" : 
       {
-        "exclude" : "${API_EXCLUDE}"
+        "exclude" : "${API_EXCLUDE}",
+        "environment" : [ "non-literal-keys" ]
       },
       "extend" : ["common"],
 

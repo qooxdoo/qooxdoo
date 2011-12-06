@@ -150,6 +150,10 @@
           "qx.test.*",
           "${APPLICATION}.test.*",
           "${APPLICATION}.simulation.*"
+        ],
+        "environment" :
+        [
+          "non-literal-keys"
         ]
       },
 
