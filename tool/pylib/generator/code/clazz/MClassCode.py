@@ -286,7 +286,7 @@ class MClassCode(object):
             # see if we have a "variants" optimized tree already (e.g. from calculating the class list)
             if "variants" in optimize:
                 # this is a very simple form of optimizations projection
-                result, _ = cache.read(getTreeCacheId(["variants"], variantSet))
+                result, _ = cache.read(getTreeCacheId(["variants"], variantSet), self.path)
                 if result is None:
                     result = self.tree()
                 else:
