@@ -40,7 +40,7 @@
  * A page has predefined lifecycle methods that get called by the used page manager
  * when a page gets shown. Each time another page is requested to be shown the currently shown page
  * is stopped. The other page, will be, if shown for the first time, initialized and started
- * afterwards. For all called lifecylce methods an event is fired.
+ * afterwards. For all called lifecycle methods an event is fired.
  *
  * Call of the {@link #show} method triggers the following lifecycle methods:
  *
@@ -84,7 +84,7 @@
  *    var button = new qx.ui.mobile.form.Button("Back");
  *    button.addListener("tap", function() {
  *      // show the first page with a reverse animation if the Animation
- *      // page mangager is used.
+ *      // page manager is used.
  *      page1.show({animation:"fade", reverse:true});
  *    }, this);
  * })
