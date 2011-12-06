@@ -4,7 +4,8 @@ body {
   margin: 0px;
   font-family: 'Alike Angular', serif;
   color: #666;
-  font-size: 1.1em
+  font-size: 1.1em;
+  word-spacing: 0.15em;
 }
 
 .template {
