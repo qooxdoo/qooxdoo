@@ -54,8 +54,7 @@ qx.Class.define("feedreader.WebsiteApplication",
       this.base(arguments);
 
       // Enable logging in debug variant
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         // support native logging capabilities, e.g. Firebug for Firefox
         qx.log.appender.Native;
         // support additional cross-browser console. Press F7 to toggle visibility
@@ -82,8 +81,10 @@ qx.Class.define("feedreader.WebsiteApplication",
       qx.bom.Event.addNativeListener(tree[0], "click", function(e) {
         var feed = qx.bom.Event.getTarget(e).feed;
         // if the selected feed is loaded
-        if (feed.getState() === "loaded") {
+        if (feed.getState() == "loaded") {
           self.fillList(list, feed);
+        } else if (feed.getState() == "error") {
+          qx.bom.Collection.id("list").setAttribute("html", "Sorry, unable to load the feed.");
         } else {
           // if not loaded, add a listener
           feed.addListener("stateModified", function(e) {
