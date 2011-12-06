@@ -23,14 +23,12 @@
     "pretty",
     "profiling",
     "source",
-    "source-all",
-    "source-hybrid",
     "test",
     "test-source",
     "translation"
   ],
   
-  "default-job" : "source-hybrid",
+  "default-job" : "source",
 
   "let" :
   {
@@ -110,6 +108,7 @@
 
     "source" :
     {
+      "desc" : "create source version of current application",
       "extend" : [ "basic-common" ],
       "environment" :
       {
