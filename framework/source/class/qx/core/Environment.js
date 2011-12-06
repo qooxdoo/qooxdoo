@@ -22,22 +22,22 @@
  * in different environments. This contains e.g. the browser name, engine
  * version but also qooxdoo or application specific settings.
  *
- * It's public API can be found in its four main methods. One pair of methods
- * are used to check the synchronous values of the environment. The other pair
- * is used for asynchronous checks.
+ * Its public API can be found in its four main methods. One pair of methods
+ * is used to check the synchronous values of the environment. The other pair
+ * of methods is used for asynchronous checks.
  *
- * The most used method should be {@link #get} which is used to return the
+ * The most often used method should be {@link #get}, which returns the
  * current value for a given environment check.
  *
- * All qx settings can be changed via the generator's config. See the manual
+ * All qooxdoo settings can be changed via the generator's config. See the manual
  * for more details about the environment key in the config. As you can see
  * from the methods API, there is no way to override an existing key. So if you
- * need to change a qx setting, you have to use the generator to do so.
+ * need to change a qooxdoo setting, you have to use the generator to do so.
  *
- * The following table shows all checks which could be used. If you are
- * interessted in more details, check the reference to the implementation of
- * each check. Plese do not use these check implementation directly due to the
- * missing caching feature the Environment class offers.
+ * The following table shows the available checks. If you are
+ * interested in more details, check the reference to the implementation of
+ * each check. Please do not use those check implementations directly, as the 
+ * Environment class comes with a smart caching feature.
  *
  * <table border="0" cellspacing="10">
  *   <tbody>
@@ -995,7 +995,7 @@ qx.Bootstrap.define("qx.core.Environment",
     /**
      * Takes a given map containing the check names as keys and converts
      * the map to an array only containing the values for check evaluating
-     * to <code>true</code>. This is especailly handy for conditional
+     * to <code>true</code>. This is especially handy for conditional
      * includes of mixins.
      * @param map {Map} A map containing check names as keys and values.
      * @return {Array} An array containing the values.
@@ -1174,7 +1174,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Internal helper which creates a function retuning the given value.
+     * Internal helper which creates a function returning the given value.
      *
      * @param value {var} The value which should be returned.
      * @return {Function} A function which could be used by a test.
