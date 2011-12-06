@@ -177,7 +177,7 @@ qx.Class.define("qx.core.Object",
     clone : function()
     {
       if (!qx.core.Environment.get("module.property")) {
-        throw new Error("Clonging only possible with properties.");
+        throw new Error("Cloning only possible with properties.");
       }
 
       var clazz = this.constructor;
