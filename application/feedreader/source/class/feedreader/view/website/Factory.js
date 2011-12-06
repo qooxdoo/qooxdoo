@@ -24,8 +24,6 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
 {
   statics :
   {
-    __uid : 0,
-
     /**
      * Creates an article element.
      *
@@ -121,31 +119,19 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
      * @return {DomNode} The DOM node representing the feed.
      */
      createTreeItem : function(feed) {
-       var data = {
-         id : "feed-" + this.__uid++,
-         title : feed.getTitle()
-        };
+       var data = {title : feed.getTitle()};
 
-       var container = qx.bom.Template.get("tree-item", data);
-       container.children[0].feed = feed;
+       var label = qx.bom.Template.get("tree-item", data);
+       label.feed = feed;
 
        // listener for the change to sync back the css class
-       qx.bom.Event.addNativeListener(container, "change", function(e) {
+       qx.bom.Event.addNativeListener(label, "click", function(e) {
          var newItem = qx.bom.Event.getTarget(e);
-         var newItemId = qx.bom.element.Attribute.get(newItem, "id");
-         var labels = document.getElementsByName("feedslabel");
-         for (var i=0; i < labels.length; i++) {
-           var label = labels[i];
-
-           if (qx.bom.element.Attribute.get(label, "for") == newItemId) {
-             qx.bom.element.Class.add(label, "selectedFeed");
-           } else {
-             qx.bom.element.Class.remove(label, "selectedFeed");
-           }
-         };
+         qx.bom.Collection.query("div[name='feedslabel']").removeClass("selectedFeed");
+         qx.bom.element.Class.add(newItem, "selectedFeed");
        });
 
-       return container;
+       return label;
      }
   }
 });

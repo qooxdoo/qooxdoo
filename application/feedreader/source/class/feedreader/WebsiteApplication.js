@@ -64,7 +64,9 @@ qx.Class.define("feedreader.WebsiteApplication",
 
 
       // set the qooxdoo version
-      qx.bom.Collection.id("qxTag").setAttribute("html", "qooxdoo " + qx.core.Environment.get("qx.version"));
+      qx.bom.Collection.id("qxTag").setAttribute(
+        "html", "qooxdoo " + qx.core.Environment.get("qx.version")
+      );
 
       // Initialize the model
       var model = new feedreader.model.Model();
@@ -77,7 +79,7 @@ qx.Class.define("feedreader.WebsiteApplication",
 
       // add a listener to the tree to change the selected feed
       var self = this;
-      qx.bom.Event.addNativeListener(tree[0], "change", function(e) {
+      qx.bom.Event.addNativeListener(tree[0], "click", function(e) {
         var feed = qx.bom.Event.getTarget(e).feed;
         // if the selected feed is loaded
         if (feed.getState() === "loaded") {
@@ -151,14 +153,18 @@ qx.Class.define("feedreader.WebsiteApplication",
             // special handling for the initial selection
             if (i === 0 && j === 0) {
               // mark the first one as selected by default
-              item.children[0].checked = true;
-              qx.bom.element.Class.add(item.children[1], "selectedFeed");
-              // fill the list as soon as the data is available
-              feed.addListener("stateModified", function(e) {
-                if (e.getData() == "loaded") {
-                  this.fillList(qx.bom.Collection.id("list"), e.getTarget());
-                }
-              }, this);
+              qx.bom.element.Class.add(item, "selectedFeed");
+              // if the selected feed is loaded
+              if (feed.getState() === "loaded") {
+                this.fillList(qx.bom.Collection.id("list"), feed);
+              } else {
+                // if not loaded, add a listener
+                feed.addListener("stateModified", function(e) {
+                  if (e.getData() == "loaded") {
+                    this.fillList(qx.bom.Collection.id("list"), e.getTarget());
+                  }
+                }, this);
+              }
             }
             col.append(item);
           };
