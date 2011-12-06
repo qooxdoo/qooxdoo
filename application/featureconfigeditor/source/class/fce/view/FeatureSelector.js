@@ -523,11 +523,7 @@ qx.Class.define("fce.view.FeatureSelector", {
           data[key] = qx.lang.Json.parse(data[key]);
         }
       }
-      var json = qx.lang.Json.stringify(data);
-      //a little pretty-printing
-      json = json.replace(/{/, "{\n  ").replace(/}/, "\n}").replace(/,/g, ",\n  ");
-      json = json.replace(/:/g, " : ").replace(/: \{/g, ": {\n  ").replace(/\}\}/g, "  }\n}");
-      return json;
+      return qx.lang.Json.stringify(data, null, 2);
     },
 
 
