@@ -1375,7 +1375,7 @@
 
             // Executing script code or loading source depending on element configuration
             if (script.src) {
-              Loader.get().load(script.src);
+              (new Loader()).load(script.src);
             } else {
               Func.globalEval(script.text || script.textContent || script.innerHTML || "");
             }
