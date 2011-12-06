@@ -65,7 +65,7 @@ To declare the specifics of the REST interface declaratively, pass a description
     }
   });
 
-Or programatically, for each action.
+Or programmatically, for each action.
 
 ::
 
@@ -111,7 +111,7 @@ If the URL contains parameters, the position where the parameters should be inse
 Events
 ======
 
-Events are fired by the resource when the request was sucessful or any kind of error occured. There are general resource events and action specific events. Handlers receive a ``qx.event.type.Rest`` event that, among other properties, includes the response.
+Events are fired by the resource when the request was successful or any kind of error occurred. There are general resource events and action specific events. Handlers receive a ``qx.event.type.Rest`` event that, among other properties, includes the response.
 
 ::
 
