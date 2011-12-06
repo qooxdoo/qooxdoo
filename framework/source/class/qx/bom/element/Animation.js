@@ -180,7 +180,7 @@ qx.Bootstrap.define("qx.bom.element.Animation",
         qx.bom.element.Animation.__keepFrame(el, desc.keyFrames[desc.keep]);
       }
 
-      delete el.$$animation;
+      el.$$animation = null;
       animation.el = null;
       animation.ended = true;
 
