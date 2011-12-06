@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -18,9 +18,9 @@
 ************************************************************************ */
 
 /**
- * This is a simple handle which will be returnd when an animation is stared
- * using the {@link qx.bom.element.Animation#animate} method. It basically
- * controls the animation.
+ * This is a simple handle, which will be returned when an animation is 
+ * started using the {@link qx.bom.element.Animation#animate} method. It 
+ * basically controls the animation.
  */
 qx.Bootstrap.define("qx.bom.element.AnimationHandle",
 {
@@ -81,7 +81,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
 
 
     /**
-     * Pauses the animation, if running. if not, the pause will be ignored.
+     * Pauses the animation, if running. If not running, it will be ignored.
      */
     pause : function() {
       if (this.el) {
@@ -92,7 +92,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
 
 
     /**
-     * Resumes a animation. This does not start the animaion once it is ended.
+     * Resumes an animation. This does not start the animation once it has ended.
      */
     play : function() {
       if (this.el) {
