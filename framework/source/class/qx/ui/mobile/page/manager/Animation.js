@@ -191,6 +191,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
       qx.event.Registration.addListener(fromElement, "animationEnd", this._onAnimationEnd, this);
       qx.event.Registration.addListener(toElement, "animationEnd", this._onAnimationEnd, this);
 
+      this._getRoot().addCssClass("animationParent");
       qx.bom.element.Class.addClasses(toElement, toCssClasses);
       qx.bom.element.Class.addClasses(fromElement, fromCssClasses);
     },
@@ -224,6 +225,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
 
         qx.bom.element.Class.removeClasses(fromElement, this.__getAnimationClasses("out"));
         qx.bom.element.Class.removeClasses(toElement, this.__getAnimationClasses("in"));
+        this._getRoot().removeCssClass("animationParent");
         this.__inAnimation = false;
       }
     },
@@ -238,7 +240,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
      */
     __getAnimationClasses : function(direction)
     {
-      var classes = [this.__animation, direction];
+      var classes = ["animationChild", this.__animation, direction];
       if (this.__reverse) {
         classes.push("reverse");
       }

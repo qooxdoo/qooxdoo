@@ -2,6 +2,7 @@
 * {
     margin: 0;
     padding: 0;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 html, body {
@@ -14,18 +15,14 @@ html, body {
     -webkit-text-size-adjust: none;
     font-family: Helvetica;
     height:100%;
-    -webkit-perspective: 800;
-    -webkit-transform-style: preserve-3d;
 }
 
 .page {
-    -webkit-backface-visibility: hidden;
+    -webkit-transform: translate3d(0,0,0) rotate(0) scale(1);
     -webkit-box-sizing: border-box;
     position: absolute;
     left: 0;
     width: 100%;
-    -webkit-backface-visibility: hidden;
-    -webkit-transform: translate3d(0,0,0) rotate(0) scale(1);
 }
 
 
@@ -58,6 +55,17 @@ html, body {
 
 
 /* ANIMATIONS */
+
+
+.animationParent {
+  -webkit-perspective: 800;
+  -webkit-transform-style: preserve-3d;
+}
+
+.animationChild {
+  -webkit-backface-visibility: hidden;
+  
+}
 
 .in {
     z-index: 10;
