@@ -52,8 +52,8 @@ qx.Bootstrap.define("qx.bom.element.Animation",
 
 
     /**
-     * This function starts the animation. It takes a DomElement to apply the
-     * animation to and a description. The description should be a map which
+     * This function starts the animation. It takes a DOM element to apply the
+     * animation to, and a description. The description should be a map, which
      * could look like this:
      *
      * <pre class="javascript">
@@ -72,23 +72,23 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      * }
      * </pre>
      *
-     * *duration* is the duration one animation cycle should take in ms.
+     * *duration* is the time in milliseconds one animation cycle should take.
      *
      * *keep* is the key frame to apply at the end of the animation. (optional)
      *
      * *keyFrames* is a map of separate frames. Each frame is defined by a
-     *   numer which is the percent value of time in the animation. The value
+     *   number which is the percentage value of time in the animation. The value
      *   is a map itself which holds css properties or transforms
      *   {@link qx.bom.element.Transform}.
      *
      * *origin* maps to the transform origin {@link qx.bom.element.Transform#setOrigin}
      *
-     * *repeat* is the ammount of times the animation should be run in
+     * *repeat* is the amount of time the animation should be run in
      *   sequence. You can also use "infinite".
      *
-     * *alternate* defines if every second animation should be run in reverse order.
+     * *alternate* defines if every other animation should be run in reverse order.
      *
-     * *reverse* defines if the animation should run reverse.
+     * *reverse* defines if the animation should run in reverse order.
      *
      * @param el {Element} The element to animate.
      * @param desc {Map} The animations description.
@@ -192,12 +192,12 @@ qx.Bootstrap.define("qx.bom.element.Animation",
 
 
     /**
-     * Helper method which takes a element and a key frame descriptions and
+     * Helper method which takes an element and a key frame description and
      * applies the properties defined in the given frame to the element. This
      * method is used to keep the state of the animation.
      * @param el {Element} The element to apply the frame to.
-     * @param endFrame {Map} The description of the end frame which is basically
-     *   a map containing CSS properties and value including transforms.
+     * @param endFrame {Map} The description of the end frame, which is basically
+     *   a map containing CSS properties and values including transforms.
      */
     __keepFrame : function(el, endFrame) {
       // keep the element at this animation step
@@ -221,7 +221,7 @@ qx.Bootstrap.define("qx.bom.element.Animation",
 
 
     /**
-     * Preprocessing of the decription to makre sure every necessary key is
+     * Preprocessing of the description to make sure every necessary key is
      * set to its default.
      * @param desc {Map} The description of the animation.
      */
@@ -287,11 +287,11 @@ qx.Bootstrap.define("qx.bom.element.Animation",
 
 
     /**
-     * Helper to add the given frames to a internal CSS stylesheet. It parses
+     * Helper to add the given frames to an internal CSS stylesheet. It parses
      * the description and adds the key frames to the sheet.
-     * @param frames {Mac} A map of key frames holding the animation.
+     * @param frames {Map} A map of key frames that describe the animation.
      * @param reverse {Boolean} <code>true</code>, if the key frames should
-     *   be added in reverse oreder.
+     *   be added in reverse order.
      */
     __addKeyFrames : function(frames, reverse) {
       var rule = "";
