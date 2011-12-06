@@ -106,41 +106,6 @@ page1.show();</textarea>
 
 
 
-
-<!-- ********************************************************************** -->
-
-
-<textarea class="qx_samples" title="List-mobile">var page = new qx.ui.mobile.page.NavigationPage();
-page.setTitle("List");
-page.addListener("initialize", function() {
-  // List creation
-  var list = new qx.ui.mobile.list.List({
-    configureItem : function(item, data, row) {
-      item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
-      item.setTitle(row<4 ? ("Selectable " + data.title) : data.title);
-      item.setSubTitle(data.subTitle);
-      item.setSelectable(row<4);
-      item.setShowArrow(row<4);
-    }
-  });
-
-  // Create the data
-  var data = [];
-  for (var i=0; i < 50; i++) {
-    data.push({title:"Item" + i, subTitle:"Subtitle for Item #" + i});
-  }
-
-  list.setModel(new qx.data.Array(data));
-  list.addListener("changeSelection", function(evt) {
-    alert("Item Selected #" + evt.getData());
-  }, this);
-  
-  page.getContent().add(list);
-},this);
-
-page.show();</textarea>
-
-
 <!-- ********************************************************************** -->
 
 
