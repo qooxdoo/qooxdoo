@@ -51,8 +51,10 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      */
     transform : function(el, transforms) {
       var transformCss = this.__mapToCss(transforms);
-      var style = this.__cssKeys["name"];
-      el.style[style] = transformCss;
+      if (this.__cssKeys != null) {
+        var style = this.__cssKeys["name"];
+        el.style[style] = transformCss;
+      }
     },
 
 
@@ -109,8 +111,11 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      */
     getCss : function(transforms) {
       var transformCss = this.__mapToCss(transforms);
-      var style = this.__cssKeys["name"];
-      return qx.lang.String.hyphenate(style) + ":" + transformCss + ";";
+      if (this.__cssKeys != null) {
+        var style = this.__cssKeys["name"];
+        return qx.lang.String.hyphenate(style) + ":" + transformCss + ";";        
+      }
+      return "";
     },
 
 
@@ -123,7 +128,9 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      *   <code>left top</code>.
      */
     setOrigin : function(el, value) {
-      el.style[this.__cssKeys["origin"]] = value;
+      if (this.__cssKeys != null) {
+        el.style[this.__cssKeys["origin"]] = value;
+      }
     },
 
 
@@ -135,7 +142,10 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @return {String} The set property, e.g. <code>50% 50%</code>
      */
     getOrigin : function(el) {
-      return el.style[this.__cssKeys["origin"]];
+      if (this.__cssKeys != null) {
+        return el.style[this.__cssKeys["origin"]];
+      }
+      return "";
     },
 
 
@@ -147,7 +157,9 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param value {String} Either <code>flat</code> or <code>preserve-3d</code>.
      */
     setStyle : function(el, value) {
-      el.style[this.__cssKeys["style"]] = value;
+      if (this.__cssKeys != null) {
+        el.style[this.__cssKeys["style"]] = value;
+      }
     },
 
 
@@ -160,7 +172,10 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      *   <code>preserve-3d</code>.
      */
     getStyle : function(el) {
-      return el.style[this.__cssKeys["style"]];
+      if (this.__cssKeys != null) {
+        return el.style[this.__cssKeys["style"]];
+      }
+      return "";
     },
 
 
@@ -173,7 +188,9 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      *   and 5000 give the best results.
      */
     setPerspective : function(el, value) {
-      el.style[this.__cssKeys["perspective"]] = value;
+      if (this.__cssKeys != null) {
+        el.style[this.__cssKeys["perspective"]] = value;
+      }
     },
 
 
@@ -185,7 +202,10 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @return {String} The set property, e.g. <code>500</code>
      */
     getPerspective : function(el) {
-      return el.style[this.__cssKeys["perspective"]];
+      if (this.__cssKeys != null) {
+        return el.style[this.__cssKeys["perspective"]];
+      }
+      return "";
     },
 
 
@@ -198,7 +218,9 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      *   <code>left top</code>.
      */
     setPerspectiveOrigin : function(el, value) {
-      el.style[this.__cssKeys["perspective-origin"]] = value;
+      if (this.__cssKeys != null) {
+        el.style[this.__cssKeys["perspective-origin"]] = value;
+      }
     },
 
 
@@ -210,7 +232,10 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @return {String} The set property, e.g. <code>50% 50%</code>
      */
     getPerspectiveOrigin : function(el) {
-      return el.style[this.__cssKeys["perspective-origin"]];
+      if (this.__cssKeys != null) {
+        return el.style[this.__cssKeys["perspective-origin"]];
+      }
+      return "";
     },
 
 
@@ -222,7 +247,9 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param value {Boolean} <code>true</code> if the backface should be visible.
      */
     setBackfaceVisibility : function(el, value) {
-      el.style[this.__cssKeys["backface-visibility"]] = value ? "visible" : "hidden";
+      if (this.__cssKeys != null) {
+        el.style[this.__cssKeys["backface-visibility"]] = value ? "visible" : "hidden";
+      }
     },
 
 
@@ -234,7 +261,10 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @return {Boolean} <code>true</code>, if the backface is visible.
      */
     getBackfaceVisibility : function(el) {
-      return el.style[this.__cssKeys["backface-visibility"]] == "visible";
+      if (this.__cssKeys != null) {
+        return el.style[this.__cssKeys["backface-visibility"]] == "visible";
+      }
+      return true;
     },
 
 
