@@ -374,6 +374,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           control = new qx.ui.container.Composite(layout);
 
           var hexLabel = new qx.ui.basic.Label(this.tr("Hex"));
+          hexLabel.setWidth(30);
           control.add(hexLabel);
 
           var hexHelper = new qx.ui.basic.Label("#");
@@ -396,7 +397,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           control = new qx.ui.container.Composite(layout);
 
           var rgbSpinLabel = new qx.ui.basic.Label(this.tr("RGB"));
-          rgbSpinLabel.setWidth(25);
+          rgbSpinLabel.setWidth(30);
           control.add(rgbSpinLabel);
 
           control.add(this.getChildControl("rgb-spinner-red"));
@@ -428,7 +429,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           control = new qx.ui.container.Composite(layout);
 
           var hsbSpinLabel = new qx.ui.basic.Label(this.tr("HSB"));
-          hsbSpinLabel.setWidth(25);
+          hsbSpinLabel.setWidth(30);
           control.add(hsbSpinLabel);
 
           control.add(this.getChildControl("hsb-spinner-hue"));
