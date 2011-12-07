@@ -118,7 +118,7 @@
  *     </tr>
  *     <tr>
  *       <td>css.translate3d</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>{@link qx.bom.client.CssTransfrom#get3D}</td>
+ *       <td>{@link qx.bom.client.CssTransform#get3D}</td>
  *     </tr>
  *     <tr>
  *       <td>css.rgba</td><td><i>Boolean</i></td><td><code>true</code></td>

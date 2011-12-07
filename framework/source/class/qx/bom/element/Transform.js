@@ -60,7 +60,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
 
     /**
      * Translates the given element by the given value. For further details, take
-     * a look at the {@link #tarnsform} method.
+     * a look at the {@link #transform} method.
      * @param el {Element} The element to apply the transformation.
      * @param value {String|Array} The value to translate e.g. <code>"10px"</code>.
      */
@@ -71,7 +71,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
 
     /**
      * Scales the given element by the given value. For further details, take
-     * a look at the {@link #tarnsform} method.
+     * a look at the {@link #transform} method.
      * @param el {Element} The element to apply the transformation.
      * @param value {Numer|Array} The value to scale.
      */
@@ -82,7 +82,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
 
     /**
      * Rotates the given element by the given value. For further details, take
-     * a look at the {@link #tarnsform} method.
+     * a look at the {@link #transform} method.
      * @param el {Element} The element to apply the transformation.
      * @param value {String|Array} The value to rotate e.g. <code>"90deg"</code>.
      */
@@ -93,7 +93,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
 
     /**
      * Skews the given element by the given value. For further details, take
-     * a look at the {@link #tarnsform} method.
+     * a look at the {@link #transform} method.
      * @param el {Element} The element to apply the transformation.
      * @param value {String|Array} The value to skew e.g. <code>"90deg"</code>.
      */
