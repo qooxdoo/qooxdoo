@@ -94,6 +94,14 @@ qx.Class.define("qx.dev.unit.TestCase",
         self || this,
         true
       );
+    },
+
+    /**
+     * Skip this test. Any code after a call to this method will not be executed.
+     */
+    skip : function()
+    {
+      throw new qx.dev.unit.RequirementError("", "Called skip()")
     }
   }
 });
