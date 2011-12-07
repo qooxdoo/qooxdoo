@@ -106,13 +106,14 @@ qx.Class.define("testrunner.view.widget.TestResultView",
      */
     __createResultHtml : function(testResult)
     {
-      if (testResult.getState() !== "wait") {
+      var state = testResult.getState();
+      if (state !== "wait") {
 
         var html = new qx.util.StringBuilder();
         html.add("<div class='testResult ", testResult.getState(), "' id='testResult", testResult.toHashCode(), "'>");
         html.add("<h3>", testResult.getFullName(), "</h3>");
 
-        if (testResult.getState() == "failure" || testResult.getState() == "error") {
+        if (state == "failure" || state == "error" || state == "skip") {
           var exceptArr = testResult.getExceptions();
           for (var i=0,l=exceptArr.length; i<l; i++) {
             var message = exceptArr[i].exception.toString();
