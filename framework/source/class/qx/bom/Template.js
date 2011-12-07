@@ -64,7 +64,7 @@
  *
  * Here is a basic example how to use it:
  * Template:
- * <pre>
+ * <pre class="javascript">
  * var template = "Hi, my name is {{name}}!";
  * var view = {name: "qooxdoo"};
  * qx.bom.Template.toHtml(template, view);
@@ -95,7 +95,7 @@ qx.Class.define("qx.bom.Template", {
 
     /**
      * Helper method which provides you with a direct access to templates
-     * stored as HTML in the DOM. The DOM node with the given ID will be reated
+     * stored as HTML in the DOM. The DOM node with the given ID will be treated
      * as a template, parsed and a new DOM node will be returned containing the
      * parsed data. Keep in mind to have only one root DOM element in the the
      * template.

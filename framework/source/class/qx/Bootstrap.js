@@ -183,7 +183,6 @@ qx.Bootstrap.define("qx.Bootstrap",
 
     /**
      * Mapping for early use of the qx.debug environment setting.
-     * @lint ignoreUndefined(qxvariants)
      */
      DEBUG : (function() {
        // make sure to reflect all changes here to the environment class!
@@ -202,7 +201,7 @@ qx.Bootstrap.define("qx.Bootstrap",
       * WARNING: This method only should be used if the
       * {@link qx.core.Environment} class is not loaded!
       *
-      * @param key {String} The ke to get the value from.
+      * @param key {String} The key to get the value from.
       * @return {var} The value of the setting or <code>undefined</code>.
       */
      getEnvironmentSetting : function(key) {
