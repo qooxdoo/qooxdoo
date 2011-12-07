@@ -22,7 +22,7 @@
  * *General idea*
  * The list controller is responsible for synchronizing data given as model
  * to a DOM element. As definition for a single item, tempaltes are used. More
- * details on tempaltes can be found in {@link qx.bom.Tempalate}.
+ * details on tempaltes can be found in {@link qx.bom.Template}.
  *
  * *Features*
  *
