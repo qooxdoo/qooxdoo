@@ -98,10 +98,12 @@ qx.Class.define("qx.dev.unit.TestCase",
 
     /**
      * Skip this test. Any code after a call to this method will not be executed.
+     * 
+     * @param message {String|null} Optional message (reason why the test was skipped)
      */
-    skip : function()
+    skip : function(message)
     {
-      throw new qx.dev.unit.RequirementError("", "Called skip()")
+      throw new qx.dev.unit.RequirementError(null, message || "Called skip()");
     }
   }
 });
