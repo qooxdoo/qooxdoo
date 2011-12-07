@@ -49,9 +49,9 @@ CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2U
 CMD_MKEXEC = $(CMD_NICE) chmod a+rx
 # TODO: Unset QOOXDOO_REVISION macro when building for release! (see comments)
 # Development
-#OPT_GENERATOR = -m QOOXDOO_REVISION:$(FRAMEWORK_GITINFO)
+OPT_GENERATOR = -m QOOXDOO_REVISION:$(FRAMEWORK_GITINFO)
 # Release
-OPT_GENERATOR =
+#OPT_GENERATOR =
 CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
 
 STAGING_HOST = qooxdoo@webtechfe-test01.schlund.de
