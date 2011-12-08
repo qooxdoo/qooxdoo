@@ -34,17 +34,18 @@ qx.Class.define("feedreader.simulation.ria.FeedreaderAbstract", {
       feedTree : 'qxh=qx.ui.container.Composite/qx.ui.splitpane.Pane/qx.ui.tree.Tree',
       feedTreeItemStaticFeeds : 'qxhv=*/qx.ui.tree.Tree/*/qx.ui.tree.TreeFolder',
       reloadButton : 'qxhv=*/[@label="Reload"]',
-      firstFeed : 'qxh=app:qx.ui.tree.Tree/child[0]/child[0]/child[0]',
-      firstFeedItem : 'qxh=app:[@classname="feedreader.view..desktop.List"]/qx.ui.container.Stack/qx.ui.form.List/child[0]',
+      firstFeed : 'qxh=child[0]/qx.ui.splitpane.Pane/qx.ui.tree.Tree/*/[@label="qooxdoo News"]',
+      firstFeedItem : 'qxh=child[0]/qx.ui.splitpane.Pane/qx.ui.splitpane.Pane/[@classname="feedreader.view.desktop.List"]/qx.ui.container.Stack/qx.ui.form.List/qx.ui.core.scroll.ScrollPane/qx.ui.container.Composite/child[0]',
       staticFeedsItem : 'qxh=qx.ui.container.Composite/qx.ui.splitpane.Pane/qx.ui.tree.Tree/child[0]/child[1]',
       preferencesButton : 'qxhv=*/[@label="Preferences"]',
       preferencesWindow : 'qxhv=[@classname="feedreader.view.desktop.PreferenceWindow"]',
-      buttonItalian : 'qxh=app:[@caption=".*"]/qx.ui.groupbox.GroupBox/[@label="Italiano"]',
-      buttonOk : 'qxh=app:[@caption=".*"]/qx.ui.container.Composite/[@label="OK"]',
       addFeedButton : 'qxhv=*/[@label="Add"]',
       feedWindow : 'qxhv=[@classname="feedreader.view.desktop.AddFeedWindow"]',
       feedWindowButton : 'qxh=app:[@caption=".*feed.*"]/qx.ui.form.renderer.SinglePlaceholder/qx.ui.container.Composite/qx.ui.form.Button'
     };
+    
+    this.locators.buttonItalian = this.locators.preferencesWindow + '/*/[@label="Italiano"]';
+    this.locators.buttonOk = this.locators.preferencesWindow + '/*/[@label="OK"]';
   },
 
   members :
