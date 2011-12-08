@@ -19,9 +19,9 @@
 /**
  * This store is a read / write store for local or session storage.
  * It can be used like any other store by setting and manipulating the model
- * property or the model itsef. Please keep in mind that if you want to have
+ * property or the model itself. Please keep in mind that if you want to have
  * the update functionality, you have to use a model which supports the
- * "changeBubble" event.
+ * {@link qx.data.marshal.MEventBubbling#changeBubble} event.
  */
 qx.Class.define("qx.data.store.Offline",
 {
@@ -31,7 +31,7 @@ qx.Class.define("qx.data.store.Offline",
   /**
    * @param key {String} A unique key which is used to store the data.
    * @param storage {String?} Either "local" or "session" to determinate which
-   *   storage should be used.
+   *   storage should be used. Default: "local"
    */
   construct : function(key, storage)
   {
