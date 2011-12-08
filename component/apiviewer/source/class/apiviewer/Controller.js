@@ -390,6 +390,7 @@ qx.Class.define("apiviewer.Controller",
       if (!couldSelectTreeNode) {
         this.error("Unknown class: " + className);
         alert("Unknown class: " + className);
+        apiviewer.LoadingIndicator.getInstance().hide();
         return;
       }
 
@@ -407,6 +408,7 @@ qx.Class.define("apiviewer.Controller",
           {
             this.error("Unknown item of class '"+ className +"': " + itemName);
             alert("Unknown item of class '"+ className +"': " + itemName);
+            apiviewer.LoadingIndicator.getInstance().hide();
 
             this._updateHistory(className);
             this._ignoreTabViewSelection = false;
