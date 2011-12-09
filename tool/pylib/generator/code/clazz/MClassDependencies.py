@@ -154,6 +154,8 @@ class MClassDependencies(object):
             for dep in shallowDeps['load']:
                 if dep.needsRecursion:
                     recDeps = self.getTransitiveDeps(dep, variantSet, classMaps, force=force)  # need variantSet here (not relevantVariants), as the recursive deps might depend on any of those
+                    for recdep in recDeps:
+                        recdep.isLoadDep = True # all these become load dependencies
                     newLoad.update(recDeps)
             shallowDeps['load'] = list(newLoad)
 
