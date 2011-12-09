@@ -20,7 +20,6 @@ html, body {
 .page {
     -webkit-transform: translate3d(0,0,0) rotate(0) scale(1);
     -webkit-box-sizing: border-box;
-    position: absolute;
     left: 0;
     width: 100%;
 }
@@ -59,10 +58,11 @@ html, body {
 
 .animationParent {
   -webkit-perspective: 800;
-  -webkit-transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d; /* We have to remove this property after animation, otherwise the dialog widget is not shown in Chrome. See Bug #5891 */
 }
 
 .animationChild {
+  position: absolute; /* We have to remove this property after animation, otherwise the list widget is not shown in Webkit Browsers. See Bug #5935 */
   -webkit-backface-visibility: hidden;
   
 }
