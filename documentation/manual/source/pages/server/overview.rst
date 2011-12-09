@@ -14,7 +14,7 @@ There are three ways of working with qooxdoo in a server environment.
 
 Download
 --------
-The first and easiest way is to simply `download <http://demo.qooxdoo.org/devel/>`_ the *qxoo* package either in the `optimized <http://demo.qooxdoo.org/devel/framework/qx-oo.js>`_ or `unoptimized <http://demo.qooxdoo.org/devel/framework/qx-oo-noopt.js>`_ version.
+The first and easiest way is to simply `download <http://demo.qooxdoo.org/%{version}/>`_ the *qxoo* package either in the `optimized <http://demo.qooxdoo.org/%{version}/framework/qx-oo.js>`_ or `unoptimized <http://demo.qooxdoo.org/%{version}/framework/qx-oo-noopt.js>`_ version.
 
 
 npm
