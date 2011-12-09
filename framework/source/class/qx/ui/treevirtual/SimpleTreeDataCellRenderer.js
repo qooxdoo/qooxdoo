@@ -718,8 +718,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
             return STDCR.__icon.end;
           }
 
-          // Otherwise if this is the first child...
-          if (node.bFirstChild)
+          // Otherwise if this is the first child and is a branch...
+          if (node.bFirstChild && 
+              node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH)
           {
             // ... then return a start line.
             return (node.bOpened
