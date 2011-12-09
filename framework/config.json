@@ -14,6 +14,7 @@
   [
     "api",
     "api-data",
+    "api-verify",
     //"build-all",
     "clean",
     "distclean",
@@ -348,6 +349,15 @@
       "config-warnings" :
       {
         "environment" : [ "non-literal-keys" ]
+      }
+    },
+
+    "api-verify" :
+    {
+      "desc" : "creates an Apiviewer while checking internal links",
+      "extend" : [ "api" ],
+      "api" : {
+        "verify" : [ "links" ]
       }
     }
   }
