@@ -204,6 +204,9 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       var trace = [];
 
       if (qx.core.Environment.get("ecmascript.stacktrace") === "stack") {
+        if (!error.stack) {
+          return trace;
+        }
         // Gecko style, e.g. "()@http://localhost:8080/webcomponent-test-SNAPSHOT/webcomponent/js/com/ptvag/webcomponent/common/log/Logger:253"
         var lineRe = /@(.+):(\d+)$/gm;
         var hit;
@@ -246,6 +249,9 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       else if (qx.core.Environment.get("ecmascript.stacktrace") === "stacktrace") {
         // Opera
         var stacktrace = error.stacktrace;
+        if (!stacktrace) {
+          return trace;
+        }
         if (stacktrace.indexOf("Error created at") >= 0) {
           stacktrace = stacktrace.split("Error created at")[0];
         }
