@@ -42,6 +42,28 @@ qx.Class.define("qx.test.dev.StackTrace",
         qx.core.Assert.assertNotEquals(0, trace.length, "No stack trace information returned!");
       }
     },
+    
+    
+    testGetStackTraceFromErrorQx : function()
+    {
+      if (!qx.core.Environment.get("ecmascript.stacktrace")) {
+        this.skip("Test skipped since the client doesn't provide stack traces");
+      }
+      var qxErrorClasses = [qx.type.BaseError, qx.core.GlobalError, 
+        qx.core.WindowError, qx.dev.unit.RequirementError];
+      for (var i=0, l=qxErrorClasses.length; i<l; i++) {
+        var cls = qxErrorClasses[i];
+        var e;
+        if (cls.toString().indexOf("GlobalError") > 0) {
+          e = new cls(new Error());
+        }
+        else {
+          e = new cls();
+        }
+        var trace = qx.dev.StackTrace.getStackTraceFromError(e);
+        this.assertNotIdentical(0, trace.length, "Didn't get stack trace from " + cls.toString());
+      }
+    },
 
 
     testFilenameConverterDefault : function()

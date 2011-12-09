@@ -42,8 +42,14 @@ qx.Class.define("qx.dev.unit.RequirementError", {
     this.__message = message || "Requirement not met";
     this.__requirement = requirement;
 
-    Error.call(this, this.__message);
-
+    var inst = Error.call(this, this.__message);
+    // map stack trace properties since they're not added by Error's constructor
+    if (inst.stack) {
+      this.stack = inst.stack;
+    }
+    if (inst.stacktrace) {
+      this.stacktrace = inst.stacktrace;
+    }
   },
 
 

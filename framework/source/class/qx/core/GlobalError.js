@@ -40,7 +40,14 @@ qx.Bootstrap.define("qx.core.GlobalError",
 
     this.__failMessage = "GlobalError: " + (exc && exc.message ? exc.message : exc);
 
-    Error.call(this, this.__failMessage);
+    var inst = Error.call(this, this.__failMessage);
+    // map stack trace properties since they're not added by Error's constructor
+    if (inst.stack) {
+      this.stack = inst.stack;
+    }
+    if (inst.stacktrace) {
+      this.stacktrace = inst.stacktrace;
+    }
 
     this.__arguments = args;
     this.__exc = exc;
