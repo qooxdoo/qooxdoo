@@ -349,6 +349,15 @@
       {
         "environment" : [ "non-literal-keys" ]
       }
+    },
+
+    "api-verify" :
+    {
+      "desc" : "creates an Apiviewer while checking internal links",
+      "extend" : [ "api" ],
+      "api" : {
+        "verify" : [ "links" ]
+      }
     }
   }
 }
