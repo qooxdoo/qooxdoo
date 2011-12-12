@@ -523,7 +523,7 @@ qx.Class.define("fce.view.FeatureSelector", {
           data[key] = qx.lang.Json.parse(data[key]);
         }
       }
-      return qx.lang.Json.stringify(data, null, 2);
+      return qx.lang.Json.stringify(data, qx.lang.Object.getKeys(data).sort(), 2);
     },
 
 
