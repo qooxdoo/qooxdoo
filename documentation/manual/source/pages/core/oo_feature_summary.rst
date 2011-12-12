@@ -122,7 +122,7 @@ Generic form. Requires no updates if class name changes. This code can optionall
     {
       statics : {
         PI : 3.141
-      }
+      },
       members : {
         circumference : function(radius) {
           return 2 * this.self(arguments).PI * radius;
