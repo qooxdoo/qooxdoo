@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * The item's preferred width.
+     * The <code>LayoutItem</code>'s preferred width.
      *
      * The computed width may differ from the given width due to
      * stretching. Also take a look at the related properties
