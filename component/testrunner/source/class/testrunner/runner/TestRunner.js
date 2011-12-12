@@ -205,6 +205,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
                   "protocol instead.");
 
             // Quit
+            this.setTestSuiteState("error");
             return;
           }
         }

@@ -953,7 +953,9 @@ qx.Class.define("testrunner.view.widget.Widget", {
           this.__testTree.setEnabled(true);
           break;
         case "error" :
-          this.setStatus("Invalid test file selected!");
+          this.setStatus("Error loading test suite!");
+          this.__stack.setSelection([this.__testTree]);
+          alert(this._getAutLoadErrorMessage());
       };
     },
 
@@ -1028,6 +1030,30 @@ qx.Class.define("testrunner.view.widget.Widget", {
         this.__runButton.setVisibility("excluded");
       }
     },
+    
+    
+    /**
+     * Returns the error message to be displayed if the AUT couldn't be loaded
+     * @return {String} error message
+     */
+    _getAutLoadErrorMessage : function()
+    {
+      var autDebug;
+      try {
+        autDebug = this.__iframe.getWindow().qx.core.Environment.get("qx.debug");
+      }
+      catch(ex) {
+        autDebug = false;
+      }
+      var autSrc = autDebug ? "/html/tests-source.html" : "/html/tests.html";
+      
+      return "The test suite couldn't be loaded. Make sure the AUT URI is correct, " +
+        'e.g. "' + autSrc + '".' +
+        "\n\nAlso check the testclass parameter: This should be \"" + 
+        qx.core.Init.getApplication().runner._testNameSpace +
+        "\" according to the current configuration.";
+    },
+    
 
     /**
      * Run the selected tests
