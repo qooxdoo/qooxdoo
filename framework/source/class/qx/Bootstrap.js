@@ -261,7 +261,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     /**
      * Sets the display name of the given function
      *
-     * @signature (fcn, classname, name)
+     * @signature function(fcn, classname, name)
      * @param fcn {Function} the function to set the display name for
      * @param classname {String} the name of the class the function is defined in
      * @param name {String} the function name
