@@ -1,6 +1,8 @@
 /* MIXINS */
 .tap-highlight-color() {
 	-webkit-tap-highlight-color: @arguments;
+	-moz-tap-highlight-color: @arguments;
+	tap-highlight-color: @arguments;
 }
 
 .user-select() {
@@ -11,6 +13,8 @@
 
 .text-size-adjust() {
 	-webkit-text-size-adjust: @arguments;
+	-moz-text-size-adjust: @arguments;
+  text-size-adjust: @arguments;
 }
 
 .transform() {
@@ -27,14 +31,20 @@
 
 .perspective() {
 	-webkit-perspective: @arguments;
+	-moz-perspective: @arguments;
+	perspective: @arguments;
 }
 
 .transform-style() {
 	-webkit-transform-style: @arguments;
+  -moz-transform-style: @arguments;
+  transform-style: @arguments;
 }
 
 .backface-visibility() {
 	-webkit-backface-visibility: @arguments;
+  -moz-backface-visibility: @arguments;
+  backface-visibility: @arguments;
 }
 
 .animation-timing-function() {
@@ -45,6 +55,8 @@
 
 .animation-duration() {
 	-webkit-animation-duration: @arguments;
+	-moz-animation-duration: @arguments;
+  animation-duration: @arguments;
 }
 
 .animation-fill-mode() {

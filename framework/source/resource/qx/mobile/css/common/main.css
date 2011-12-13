@@ -10,20 +10,30 @@ html, body {
 .root {
   overflow-x: hidden;
   -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   -webkit-text-size-adjust: none;
   font-family: Helvetica;
   height: 100%;
 }
 .page {
   -webkit-transform: translate3d(0, 0, 0) rotate(0) scale(1);
+  -moz-transform: translate3d(0, 0, 0) rotate(0) scale(1);
+  transform: translate3d(0, 0, 0) rotate(0) scale(1);
   -webkit-transform: translate3d(0, 0, 0) rotate(0) scale(1);
+  -moz-transform: translate3d(0, 0, 0) rotate(0) scale(1);
+  transform: translate3d(0, 0, 0) rotate(0) scale(1);
   -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   position: absolute;
   left: 0;
   width: 100%;
 }
 .selectable, input, textarea {
   -webkit-user-select: auto;
+  -moz-user-select: auto;
+  user-select: auto;
 }
 .no-wrap {
   white-space: nowrap;
