@@ -192,8 +192,7 @@ class PartBuilder(object):
             for packageIdx, package in enumerate(part.packages):
                 for clazz in package.classes:
                     classIdx   += 1
-                    #classDeps, _   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
-                    classDeps, _   = clazz.getCombinedDeps(script.variants, script.jobconfig)
+                    classDeps, _   = clazz.getCombinedDeps(script.classesAll, script.variants, script.jobconfig)
                     loadDeps    = set(x.name for x in classDeps['load'])
                     ignoreDeps  = set(x.name for x in classDeps['ignore'])
                     # we cannot enforce runDeps here, as e.g. the 'boot'
@@ -358,8 +357,7 @@ class PartBuilder(object):
             # get all direct (load)deps of this package
             allDeps = set(())
             for clazz in package.classes:
-                #classDeps, _ = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
-                classDeps, _ = clazz.getCombinedDeps(script.variants, script.jobconfig)
+                classDeps, _ = clazz.getCombinedDeps(script.classesAll, script.variants, script.jobconfig)
                 loadDeps = set(x.name for x in classDeps['load'])
                 allDeps.update(loadDeps)
 

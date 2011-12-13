@@ -48,7 +48,6 @@ class Library(object):
         self._console = console
 
         self._classes = []
-        self._classesObj = []
         self._docs = {}
         self._translations = {}
         self.resources  = set()
@@ -187,17 +186,11 @@ class Library(object):
     def getClasses(self):
         return self._classes
 
-    def getClasses1(self):
-        return self._classesObj
-
-
     def getDocs(self):
         return self._docs
 
-
     def getTranslations(self):
         return self._translations
-
 
     def getNamespace(self):
         return self.namespace
@@ -438,9 +431,9 @@ class Library(object):
                     continue
 
                 if filePathId == "qx.core.Environment":
-                    clazz = qcEnvClass(filePathId, filePath, self, contextdict, self._classesObj)
+                    clazz = qcEnvClass(filePathId, filePath, self, contextdict)
                 else:
-                    clazz = Class(filePathId, filePath, self, contextdict, self._classesObj)
+                    clazz = Class(filePathId, filePath, self, contextdict)
 
                 # Extract code ID (e.g. class name, mixin name, ...)
                 try:

@@ -40,7 +40,7 @@ from generator.code.clazz.MClassResources    import MClassResources
 
 class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, MClassResources):
 
-    def __init__(self, name, path, library, context, container):
+    def __init__(self, name, path, library, context):
         #__slots__       = ('id', 'path', 'size', 'encoding', 'library', 'context', 'source', 'scopes', 'translations')
         global console, cache
         super(Class, self).__init__(path)
@@ -48,7 +48,6 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
         self.library    = library     # Library()
         # TODO: we now have both a 'context' param, but also use generator.Context (needed in __setstate__)
         self.context    = context
-        self._classesObj= container   # this is ugly, but curr. used to identify known names
         self.size       = -1
         self.encoding   = 'utf-8'
         self.source     = u''  # source text of this class

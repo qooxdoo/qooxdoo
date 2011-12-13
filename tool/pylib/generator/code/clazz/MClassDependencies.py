@@ -31,6 +31,8 @@ from ecmascript.transform.optimizer import variantoptimizer
 from generator.code.DependencyItem  import DependencyItem
 from misc import util
 
+ClassesAll = None # {'cid':generator.code.Class}
+
 QXGLOBALS = [
     #"clazz",
     "qxvariants",
@@ -172,8 +174,8 @@ class MClassDependencies(object):
             else:
                 for dep in depsStruct["load"]:
                     if dep.requestor != self.id: # this was included through a recursive traversal
-                        if dep.name in self._classesObj:
-                            classObj = self._classesObj[dep.name]
+                        if dep.name in ClassesAll:
+                            classObj = ClassesAll[dep.name]
                             if cacheModTime < classObj.m_time():
                             #if cacheModTime < classObj.library.mostRecentlyChangedFile()[1]:
                                 console.debug("Invalidating dep cache for %s, as %s is newer" % (self.id, classObj.id))
@@ -218,9 +220,11 @@ class MClassDependencies(object):
         # end:dependencies()
 
 
-    def getCombinedDeps(self, variants, config, stripSelfReferences=True, projectClassNames=True, genProxy=None, force=False, tree=None):
+    def getCombinedDeps(self, classesAll_, variants, config, stripSelfReferences=True, projectClassNames=True, genProxy=None, force=False, tree=None):
 
         # init lists
+        global ClassesAll
+        ClassesAll = classesAll_  # TODO: this is a quick hack, to not have to pass classesAll_ around as param
         loadFinal = []
         runFinal  = []
 
@@ -317,7 +321,7 @@ class MClassDependencies(object):
 
         if (inLoadContext
             and depClassName
-            and depClassName in self._classesObj  # we have a class id
+            and depClassName in ClassesAll  # we have a class id
             and hasFollowContext(node)
            ):
             return True
@@ -433,7 +437,7 @@ class MClassDependencies(object):
         if key in envmappings:
             implementation = envmappings[key]
             fullname, methname = implementation.rsplit(".", 1)
-            if fullname in self._classesObj:
+            if fullname in ClassesAll:
                 result = fullname, methname
         return result
 
@@ -541,10 +545,10 @@ class MClassDependencies(object):
     # this supersedes reduceAssembled(), improving the return value
     def _splitQxClass(self, assembled):
         className = classAttribute = ''
-        if assembled in self._classesObj:  # short cut
+        if assembled in ClassesAll:  # short cut
             className = assembled
         elif "." in assembled:
-            for entryId in self._classesObj:
+            for entryId in ClassesAll:
                 if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
                     if len(entryId) > len(className): # take the longest match
                         className      = entryId
@@ -654,14 +658,14 @@ class MClassDependencies(object):
             clazzId = "Function"
         # TODO: getter/setter are also not lexically available!
         # handle .call() ?!
-        if clazzId not in self._classesObj: # can't further process non-qooxdoo classes
+        if clazzId not in ClassesAll: # can't further process non-qooxdoo classes
             # TODO: maybe this should better use something like isInterestingIdentifier()
             # to invoke the same machinery for filtering references like in other places
             return None, None
 
         # early return if class id is finalized
         if clazzId != self.id:
-            classObj = self._classesObj[clazzId]
+            classObj = ClassesAll[clazzId]
             featureNode = self.getFeatureNode(featureId, variants)
             if featureNode:
                 return clazzId, featureNode
@@ -691,8 +695,8 @@ class MClassDependencies(object):
             # this.base calls
             if featureId == "base":
                 classId = parents[0]  # first entry must be super-class
-                if classId in self._classesObj:
-                    return self._classesObj[classId].findClassForFeature('construct', variants, classMaps)
+                if classId in ClassesAll:
+                    return ClassesAll[classId].findClassForFeature('construct', variants, classMaps)
                 else:
                     return None, None
         includeVal = classMap.get('include', None)
@@ -720,9 +724,9 @@ class MClassDependencies(object):
 
         # go through all ancestors
         for parClass in parents:
-            if parClass not in self._classesObj:
+            if parClass not in ClassesAll:
                 continue
-            parClassObj = self._classesObj[parClass]
+            parClassObj = ClassesAll[parClass]
             rclass, keyval = parClassObj.findClassForFeature(featureId, variants, classMaps)
             if rclass:
                 return rclass, keyval
@@ -825,14 +829,14 @@ class MClassDependencies(object):
             console.dot("_")
 
             # Check known class
-            if classId not in self._classesObj:
+            if classId not in ClassesAll:
                 console.debug("Skipping unknown class of dependency: %s#%s (%s:%d)" % (classId, methodId,
                               dependencyItem.requestor, dependencyItem.line))
                 return set()
 
             # Check other class
             elif classId != self.id:
-                classObj = self._classesObj[classId]
+                classObj = ClassesAll[classId]
                 otherdeps = classObj.getTransitiveDeps(dependencyItem, variants, classMaps, totalDeps, force)
                 return otherdeps
 
@@ -840,7 +844,7 @@ class MClassDependencies(object):
             defClassId, attribNode = self.findClassForFeature(methodId, variants, classMaps)
 
             # lookup error
-            if not defClassId or defClassId not in self._classesObj:
+            if not defClassId or defClassId not in ClassesAll:
                 console.debug("Skipping unknown definition of dependency: %s#%s (%s:%d)" % (classId, 
                               methodId, dependencyItem.requestor, dependencyItem.line))
                 return set()
@@ -853,7 +857,7 @@ class MClassDependencies(object):
             # inherited feature
             if defClassId != classId:
                 self.resultAdd(defDepsItem, localDeps)
-                defClass = self._classesObj[defClassId]
+                defClass = ClassesAll[defClassId]
                 otherdeps = defClass.getTransitiveDeps(defDepsItem, variants, classMaps, totalDeps, force)
                 localDeps.update(otherdeps)
                 return localDeps

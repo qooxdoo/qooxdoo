@@ -61,6 +61,7 @@ class Generator(object):
         self._variants  = {}
         self._settings  = {}
         self.approot    = None
+        self._classesObj= {} # {'cid':generator.code.Class}
 
         if 'cache' in context:  # in case the Generator want to use a common cache object
             self._cache = context['cache']
@@ -519,6 +520,7 @@ class Generator(object):
                 printVariantInfo(variantSetNum, variantset, variantSets, environData)
 
                 script           = Script()  # a new Script object represents the target code
+                script.classesAll = self._classesObj  # for deps. analysis
                 script.namespace = self.getAppName()
                 script.variants  = variantset
                 script.environment = variantset
@@ -540,7 +542,7 @@ class Generator(object):
                 # get current class list
                 script.classes = computeClassList(includeWithDeps, excludeWithDeps, 
                                    includeNoDeps, script.variants, script=script, verifyDeps=True)
-                  # keep the list of class objects in sync
+                # keep the list of class objects in sync
                 script.classesObj = [self._classesObj[id] for id in script.classes]
 
                 if "statics" in script.optimize:
@@ -699,7 +701,7 @@ class Generator(object):
             for packageId, package in enumerate(packages):
                 for classObj in package.classes:
                     classId = classObj.id
-                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=forceFreshDeps, tree=classObj._tmp_tree)
+                    classDeps, _ = classObj.getCombinedDeps(script.classesAll, variants, script.jobconfig, projectClassNames=False, force=forceFreshDeps, tree=classObj._tmp_tree)
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     loads = classDeps["load"]
                     runs = classDeps["run"]
@@ -754,7 +756,7 @@ class Generator(object):
                     classId = classObj.id
                     if classId not in depsMap:
                         depsMap[classId] = (packageId, [], [])
-                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=forceFreshDeps)
+                    classDeps, _ = classObj.getCombinedDeps(script.classesAll, variants, script.jobconfig, projectClassNames=False, force=forceFreshDeps)
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     loads = classDeps["load"]
                     runs  = classDeps["run"]
@@ -1928,7 +1930,6 @@ class Generator(object):
             classList = libObj.getClasses()
 
             for entry in classList:
-                entry._classesObj = classes
                 classes[entry.id] = entry
 
             docs.update(libObj.getDocs())

@@ -34,7 +34,6 @@
 #  - DependencyLoader.__init__()
 #  - DependencyLoader.getClassList()
 #  - DependencyLoader.classlistFromInclude()
-#  - DependencyLoader.getCombinedDeps()
 #  - DependencyLoader.sortClasses()
 #
 ##
@@ -144,7 +143,7 @@ class DependencyLoader(object):
             self._console.debug("Gathering dependencies: %s" % depsItem.name)
             self._console.indent()
             classObj = self._classesObj[depsItem.name] # get class from depsItem
-            deps, cached = classObj.getCombinedDeps(variants, self._jobconf, genProxy=genProxyIter.next())
+            deps, cached = classObj.getCombinedDeps(self._classesObj, variants, self._jobconf, genProxy=genProxyIter.next())
             self._console.outdent()
             if logInfos: self._console.dot("%s" % "." if cached else "*")
 
@@ -210,8 +209,7 @@ class DependencyLoader(object):
                 return node
 
             def getNodeChildren(depsItem):
-                #deps, cached = self.getCombinedDeps(depsItem.name, variants, buildType=buildType, genProxy=genProxyIter.next())
-                deps, cached = self._classesObj[depsItem.name].getCombinedDeps(variants, self._jobconf, genProxy=genProxyIter.next())
+                deps, cached = self._classesObj[depsItem.name].getCombinedDeps(self._classesObj, variants, self._jobconf, genProxy=genProxyIter.next())
 
                 # and evaluate them
                 deps["warn"] = self._checkDepsAreKnown(deps)  # add 'warn' key to deps
@@ -370,7 +368,7 @@ class DependencyLoader(object):
                 return
 
             # reading dependencies
-            deps, cached = self._classesObj[classId].getCombinedDeps(variants, self._jobconf)
+            deps, cached = self._classesObj[classId].getCombinedDeps(self._classesObj, variants, self._jobconf)
 
             if self._console.getLevel() is "info":
                 self._console.dot("%s" % "." if cached else "*")
@@ -422,8 +420,7 @@ class DependencyLoader(object):
 
         # for each load dependency add a directed edge
         for classId in includeWithDeps:
-            #deps, _ = self.getCombinedDeps(classId, variants)
-            deps, _ = self._classesObj[classId].getCombinedDeps(variants, self._jobconf)
+            deps, _ = self._classesObj[classId].getCombinedDeps(self._classesObj, variants, self._jobconf)
             for depClassId in deps["load"]:
                 if depClassId in includeWithDeps:
                     gr.add_edge(depClassId, classId)
@@ -453,7 +450,7 @@ class DependencyLoader(object):
             # make sure every class is at least listed
             if clazz.id not in featureMap:
                 featureMap[clazz.id] = {}
-            deps, _ = clazz.getCombinedDeps(variants, self._jobconf, stripSelfReferences=False, projectClassNames=False, force=0)
+            deps, _ = clazz.getCombinedDeps(self._classesObj, variants, self._jobconf, stripSelfReferences=False, projectClassNames=False, force=0)
             ignored_names = map(attrgetter("name"), deps['ignore'])
             for dep in deps['load'] + deps['run']:
                 if dep.name in ignored_names:
