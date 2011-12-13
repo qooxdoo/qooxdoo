@@ -79,6 +79,8 @@
 
 .box-align() {
 	-webkit-box-align: @arguments;
+	-moz-box-align: @arguments;
+  box-align: @arguments;
 }
 
 .box-flex() {
@@ -89,6 +91,8 @@
 
 .box-direction() {
 	-webkit-box-direction: @arguments;
+	-moz-box-direction: @arguments;
+  box-direction: @arguments;
 }
 
 .box-pack() {
@@ -619,16 +623,11 @@ html, body {
 
 .hbox {
         display: -webkit-box;
+        display: -moz-box;
+        display: box;
+
         .box-orient(horizontal);
         .box-align(stretch);
-
-        display: -moz-box;
-        -moz-box-orient: horizontal;
-        -moz-box-align: stretch;
-
-        display: box;
-        box-orient: horizontal;
-        box-align: stretch;
 
         /*
          * -moz-box elements shrink-wrap by default. The spec states that "a block-level
@@ -653,110 +652,76 @@ html, body {
 
 .hbox> * {
         .box-flex(0);
-        -moz-box-flex: 0;
-        box-flex: 0;
 }
 
 .vbox {
         display: -webkit-box;
+        display: -moz-box;
+        display: box;
+
         .box-orient(vertical);
         .box-align(stretch);
 
-        display: -moz-box;
-        -moz-box-orient: vertical;
-        -moz-box-align: stretch;
-
-        display: box;
-        box-orient: vertical;
-        box-align: stretch;
-
+        /* See .hbox */
         width: 100%;
         .box-sizing(border-box);
 }
 
 .vbox> * {
         .box-flex(0);
-        -moz-box-flex: 0;
-        box-flex: 0;
 }
 
 .boxSpacer {
         .box-flex(1);
-        -moz-box-flex: 1;
-        box-flex: 1;
 }
 
 .boxReverse {
         .box-direction(reverse);
-        -moz-box-direction: reverse;
-        box-direction: reverse;
 }
 
 .boxAlignStart {
         .box-align(start);
-        -moz-box-align: start;
-        box-align: start;
 }
 
 .boxAlignCenter {
         .box-align(center);
-        -moz-box-align: center;
-        box-align: center;
 }
 
 .boxAlignEnd {
         .box-align(end);
-        -moz-box-align: end;
-        box-align: end;
 }
 
 
 .boxPackStart {
         .box-pack(start);
-        -moz-box-pack: start;
-        box-pack: start;
 }
 
 .boxPackCenter {
         .box-pack(center);
-        -moz-box-pack: center;
-        box-pack: center;
 }
 
 .boxPackEnd {
         .box-pack(end);
-        -moz-box-pack: end;
-        box-pack: end;
 }
 
 .boxFlex0 {
         .box-flex(0);
-        -moz-box-flex: 0;
-        box-flex: 0;
 }
 
 .boxFlex1, .boxFlex {
         .box-flex(1);
-        -moz-box-flex: 1;
-        box-flex: 1;
 }
 
 .boxFlex2 {
         .box-flex(2);
-        -moz-box-flex: 2;
-        box-flex: 2;
 }
 
 .boxGroup1 {
         .box-flex-group(1);
-        -moz-box-flex-group: 1;
-        box-flex-group: 1;
 }
 
 .boxGroup2 {
         .box-flex-group(2);
-        -moz-box-flex-group: 2;
-        box-flex-group: 2;
 }
 
 .disabled {
