@@ -700,6 +700,65 @@ qx.Class.define("qx.test.data.marshal.Json",
           qx.data.marshal.Json.createModel(data).dispose();
         }, null, "The key 'ja!' is not a valid JavaScript identifier.", "5");
       }
+    },
+
+
+    testGetModelClass: function() {
+      qx.Class.define("qx.test.model.C", {
+        extend : qx.core.Object,
+        properties : {
+          s : {event : "s"},
+          b : {event : "b"},
+          n : {event : "n"}
+        }
+      });
+
+      var self = this;
+      var delegate = {getModelClass : function(properties) {
+        self.assertEquals('b"n"s', properties);
+        return qx.test.model.C;
+      }};
+
+      this.__marshaler.dispose();
+      this.__marshaler = new qx.data.marshal.Json(delegate);
+      this.__marshaler.toClass(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
+
+      this.assertTrue(model instanceof qx.test.model.C);
+      this.assertEquals("String", model.getS());
+      this.assertEquals(12, model.getN());
+      this.assertTrue(model.getB());
+
+      model.dispose();
+      qx.Class.undefine("qx.test.model.C");
+    },
+
+
+    testGetModelClassIgnore: function() {
+      qx.Class.define("qx.test.model.C", {
+        extend : qx.core.Object,
+        properties : {
+          b : {event : "b"}
+        }
+      });
+
+      var self = this;
+      var delegate = {getModelClass : function(properties) {
+        self.assertEquals('b"n"s', properties);
+        return qx.test.model.C;
+      }};
+
+      this.__marshaler.dispose();
+      this.__marshaler = new qx.data.marshal.Json(delegate);
+      this.__marshaler.toClass(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
+
+      this.assertTrue(model instanceof qx.test.model.C);
+
+      this.assertTrue(model.getB());
+
+      model.dispose();
+      qx.Class.undefine("qx.test.model.C");
     }
   }
 });
