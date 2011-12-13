@@ -755,10 +755,30 @@ qx.Class.define("qx.test.data.marshal.Json",
 
       this.assertTrue(model instanceof qx.test.model.C);
 
+      this.assertUndefined(model.getS);
+      this.assertUndefined(model.getN);
       this.assertTrue(model.getB());
 
       model.dispose();
       qx.Class.undefine("qx.test.model.C");
+    },
+
+
+    testGetPropertyMapping: function() {
+      var delegate = {getPropertyMapping : function(property, properties) {
+        return property + property + property;
+      }};
+
+      this.__marshaler.dispose();
+      this.__marshaler = new qx.data.marshal.Json(delegate);
+      this.__marshaler.toClass(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
+
+      this.assertEquals("String", model.getSss());
+      this.assertEquals(12, model.getNnn());
+      this.assertTrue(model.getBbb());
+
+      model.dispose();
     }
   }
 });

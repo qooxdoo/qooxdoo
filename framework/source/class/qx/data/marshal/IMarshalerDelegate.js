@@ -33,6 +33,19 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
   members :
   {
     /**
+     * Gives the possibility to change the names given in the data to convert 
+     * to something different.
+     * 
+     * @param property {String} The name of the property from the data source.
+     * @param properties {String} A sorted order of propertynames
+     *   separated by ".
+     * @return {String} The new which should be used for that property in 
+     *   the model.
+     */
+    getPropertyMapping : function(property, properties) {},
+
+
+    /**
      * Determines the user defined class for the given properties string.
      * This class could contain additional methods but needs to have the
      * properties with the given names. Also every property needs to have a

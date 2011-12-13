@@ -146,6 +146,11 @@ qx.Class.define("qx.data.marshal.Json",
       // include the disposeItem for the dispose process.
       var members = {__disposeItem : this.__disposeItem};
       for (var key in data) {
+        // apply the property names mapping
+        if (this.__delegate && this.__delegate.getPropertyMapping) {
+          key = this.__delegate.getPropertyMapping(key, hash);
+        }
+
         // stip the unwanted characters
         key = key.replace(/-|\.|\s+/g, "");
         // check for valid JavaScript identifier (leading numbers are ok)
@@ -300,19 +305,25 @@ qx.Class.define("qx.data.marshal.Json",
 
         // go threw all element in the data
         for (var key in data) {
-          var propertyName = key.replace(/-|\.|\s+/g, "");
+          // apply the property names mapping
+          var propertyName = key;
+          if (this.__delegate && this.__delegate.getPropertyMapping) {
+            propertyName = this.__delegate.getPropertyMapping(key, hash);
+          }
+          var propertyNameReplaced = propertyName.replace(/-|\.|\s+/g, "");
           // warn if there has been a replacement
           if (
             (qx.core.Environment.get("qx.debug")) &&
             qx.core.Environment.get("qx.debug.databinding")
           ) {
-            if (key != propertyName) {
+            if (propertyNameReplaced != propertyName) {
               this.warn(
                 "The model contained an illegal name: '" + key +
                 "'. Replaced it with '" + propertyName + "'."
               );
             }
           }
+          propertyName = propertyNameReplaced;
           // only set the properties if they are available [BUG #5909]
           var setterName = "set" + qx.lang.String.firstUp(propertyName);
           if (model[setterName]) {
