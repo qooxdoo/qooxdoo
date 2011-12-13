@@ -1918,7 +1918,7 @@ class Generator(object):
             if checkObj:
                 libObj = checkObj  # continue with cached obj
             # need re-scan?
-            if cacheTime < fsTime:
+            if not checkObj or cacheTime < fsTime:
                 libObj.scan(cacheTime)
                 self._cache.write(cacheId, libObj, memory=True)
 
