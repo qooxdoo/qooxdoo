@@ -311,78 +311,6 @@ class DependencyLoader(object):
         return result
 
 
-    ##
-    # return dependencies of class named <fileId>, both found in its code and
-    # expressed in config options
-    # - interface method
-
-    def getCombinedDeps_NOTUSED(self, fileId, variants, buildType="", stripSelfReferences=True, projectClassNames=True, genProxy=None):
-
-        # init lists
-        loadFinal = []
-        runFinal  = []
-
-        # add static dependencies
-        classObj = self._classesObj[fileId]
-
-        if genProxy == None:
-            static, cached = classObj.dependencies (variants)
-        else:
-            static, cached = genProxy.dependencies(classObj.id, classObj.path, variants)
-
-        loadFinal.extend(static["load"])
-        runFinal.extend(static["run"])
-
-        # fix self-references
-        if stripSelfReferences:
-            loadFinal = [x for x in loadFinal if x.name != fileId]
-            runFinal  = [x for x in runFinal  if x.name != fileId]
-
-        # collapse multiple occurrences of the same class
-        if projectClassNames:
-            loads = loadFinal
-            loadFinal = []
-            for dep in loads:
-                if dep.name not in (x.name for x in loadFinal):
-                    loadFinal.append(dep)
-            runs = runFinal
-            runFinal = []
-            for dep in runs:
-                if dep.name not in (x.name for x in runFinal):
-                    runFinal.append(dep)
-
-        # TODO: this should be removed, as it cannot happen anymore (source is not variant-optimized)
-        # fix dependency to classes that get removed with variant optimization
-        #variantSelectClasses = ("qx.core.Environment",)
-        #if len(variants) and (classObj.id not in variantSelectClasses):
-        #    depsUnOpt, _ = classObj.dependencies({})  # get unopt deps
-        #    # this might incur extra generation if unoptimized deps
-        #    # haven't computed before for this fileId
-        #    for depItem in depsUnOpt["load"]:
-        #        if depItem.name in variantSelectClasses and depItem.name not in [x.name for x in loadFinal]:
-        #            loadFinal.append(depItem)
-        #    for depItem in depsUnOpt["run"]:
-        #        if depItem.name in variantSelectClasses and depItem.name not in [x.name for x in runFinal]:
-        #            runFinal.append(depItem)
-
-        # add config dependencies
-        if fileId in self._require:
-            loadFinal.extend(DependencyItem(x, '', "|config|") for x in self._require[fileId])
-
-        if fileId in self._use:
-            runFinal.extend(DependencyItem(x, '', "|config|") for x in self._use[fileId])
-
-        # result dict
-        deps = {
-            "load"   : loadFinal,
-            "run"    : runFinal,
-            "ignore" : static['ignore'],
-        }
-
-        return deps, cached
-
-
-
     def _checkDepsAreKnown(self, deps,):
         # check the shallow deps are known classes
         new_warn = []
@@ -403,6 +331,32 @@ class DependencyLoader(object):
         return False
 
     
+    def agendaSearch(self, agenda, processNode, getNodeChildren, mode="df"):
+        while agenda:
+            node = agenda.pop(0)
+            node = processNode(node)
+            if node:
+                children = getNodeChildren(node)
+                if mode == "df":
+                    agenda[0:0] = children  # prepend
+                else:
+                    agenda.extend(children) # append
+        return
+
+
+    def agendaSearchMP(self, agenda, processNode, getNodeChildren, mode="df"):
+        while agenda:
+            node = agenda.pop(0)
+            node = processNode(node)
+            if node:
+                children = getNodeChildren(node)
+                if mode == "df":
+                    agenda[0:0] = children  # prepend
+                else:
+                    agenda.extend(children) # append
+        return
+
+
 
 
     ######################################################################
@@ -416,14 +370,6 @@ class DependencyLoader(object):
                 return
 
             # reading dependencies
-            #if classId == "qx.core.Environment":
-            #    #envObj = self._classesObj["qx.core.Environment"]
-            #    #envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
-            #    #self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
-            #    #print envTreeId
-            #    self._classesObj["qx.core.Environment"].clearTreeCache(variants)
-
-            #deps, cached = self.getCombinedDeps(classId, variants, buildType)
             deps, cached = self._classesObj[classId].getCombinedDeps(variants, self._jobconf)
 
             if self._console.getLevel() is "info":
@@ -492,6 +438,10 @@ class DependencyLoader(object):
         return classList
 
     
+    ######################################################################
+    #  FEATURE SUPPORT
+    ######################################################################
+
     ##
     # Returns featureMap =
     # { 'qx.core.Object' : {'myFeature': ('r',)} }  -- ('r',) is currently a way to say 'True'
@@ -519,32 +469,6 @@ class DependencyLoader(object):
         
         self._console.nl()
         return featureMap
-
-
-    def agendaSearch(self, agenda, processNode, getNodeChildren, mode="df"):
-        while agenda:
-            node = agenda.pop(0)
-            node = processNode(node)
-            if node:
-                children = getNodeChildren(node)
-                if mode == "df":
-                    agenda[0:0] = children  # prepend
-                else:
-                    agenda.extend(children) # append
-        return
-
-
-    def agendaSearchMP(self, agenda, processNode, getNodeChildren, mode="df"):
-        while agenda:
-            node = agenda.pop(0)
-            node = processNode(node)
-            if node:
-                children = getNodeChildren(node)
-                if mode == "df":
-                    agenda[0:0] = children  # prepend
-                else:
-                    agenda.extend(children) # append
-        return
 
 
 ##

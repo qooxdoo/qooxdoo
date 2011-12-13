@@ -23,44 +23,11 @@
 # A specialized class for qx.core.Environment
 ##
 
-from generator.code.Class import Class, CompileOptions
-from generator.code.Script import Script
-from ecmascript.frontend  import treegenerator, treeutil
+from generator.code.Class import Class
+from ecmascript.frontend  import treeutil
 from ecmascript.frontend.tree  import NodeAccessException
-from ecmascript.transform.optimizer import variantoptimizer
-from misc                 import util
 
 class qcEnvClass(Class):
-
-    def clearTreeCache(self, variantSet, treegen=treegenerator):
-        relevantVariants = self.projectClassVariantsToCurrent(self.classVariants(), variantSet)
-        cacheId = "tree%s-%s-%s" % (treegen.tag, self.path, util.toString(relevantVariants))
-        self.context['cache'].remove(cacheId)
-        return
-
-
-    def optimizeTree(self, variantSet, scriptClasses, treegen=treegenerator):
-        relevantVariants = self.projectClassVariantsToCurrent(self.classVariants(), variantSet)
-        cacheId = "tree%s-%s-%s" % (treegen.tag, self.path, util.toString(relevantVariants))
-        compOpts = CompileOptions(optimize=["variants"], variants=variantSet)
-        compOpts.allClassVariants = scriptClasses
-
-        tree = self.optimizeEnvironmentClass(compOpts)
-        ## this is for the side-effect of leaving a modified tree for qx.core.Environmet
-        ## in the cache!
-        self.context['cache'].write(cacheId, tree, memory=True, writeToFile=False)
-        ## this is for the side-effect of re-calculating the transitive dependencies
-        ## of qx.core.Environment!
-        _ = self.dependencies(variantSet, force=True)
-        return
-
-    def optimizeEnvironmentClass(self, compOptions):
-        tree = self.tree()
-        ## has to come before string optimization, or the "qx.debug", etc. args are gone
-        tree = variantoptimizer.processEnvironmentClass(tree, compOptions.allClassVariants)
-        if compOptions.optimize:
-            tree = self.optimize(tree, compOptions.optimize)
-        return tree
 
     def extractChecksMap(self):
         tree = self.tree()
