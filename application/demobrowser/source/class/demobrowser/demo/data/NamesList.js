@@ -25,6 +25,7 @@
 
 /**
  * @tag databinding
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.data.NamesList",
 {
