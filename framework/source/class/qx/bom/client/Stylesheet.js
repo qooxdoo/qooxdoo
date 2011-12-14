@@ -112,9 +112,9 @@ qx.Bootstrap.define("qx.bom.client.Stylesheet",
 
 
   defer : function (statics) {
-    qx.core.Environment.add("html.stylesheet.createstylesheet", statics.getCreateStyleSheet),
-    qx.core.Environment.add("html.stylesheet.insertrule", statics.getInsertRule),
-    qx.core.Environment.add("html.stylesheet.deleterule", statics.getDeleteRule),
+    qx.core.Environment.add("html.stylesheet.createstylesheet", statics.getCreateStyleSheet);
+    qx.core.Environment.add("html.stylesheet.insertrule", statics.getInsertRule);
+    qx.core.Environment.add("html.stylesheet.deleterule", statics.getDeleteRule);
     qx.core.Environment.add("html.stylesheet.addimport", statics.getAddImport);
     qx.core.Environment.add("html.stylesheet.removeimport", statics.getRemoveImport);
   }
