@@ -21,6 +21,7 @@
 
 #asset(qx/test/*)
 #ignore(qx.Test)
+#ignore(qx.test.model)
 
 ************************************************************************ */
 /**
@@ -703,6 +704,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     },
 
 
+    /**
+     * @lint ignoreUndefined(qx.test.model)
+     */
     testGetModelClass: function() {
       qx.Class.define("qx.test.model.C", {
         extend : qx.core.Object,
