@@ -236,6 +236,7 @@ if __name__ == '__main__':
         sys.exit(2)
 
     except Exception, e:
+        interruptCleanup()
         if (options == None or            # do a stack trace if we fail when parsing options
            (hasattr(options, "stacktrace") and options.stacktrace)):  # or when 'stacktrace' is enabled
             raise
