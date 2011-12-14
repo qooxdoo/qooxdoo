@@ -100,11 +100,13 @@ class Library(object):
         self._checkNamespace()
 
 
-    #def __repr__(self):
-    #    return "<Library:%s>" % self.manifest
+    def __repr__(self):
+        return "<Library:%s>" % ((
+            self.manifest if hasattr(self, 'manifest')
+            else self._libconfig['manifest']),)
 
-    #def __str__(self):
-    #    return repr(self)
+    def __str__(self):
+        return repr(self)
 
 
     def _download_contrib(self, contribUri):
