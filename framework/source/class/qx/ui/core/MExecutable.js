@@ -163,6 +163,14 @@ qx.Mixin.define("qx.ui.core.MExecutable",
           var cmdPropertyValue = value.get(property);
           if (cmdPropertyValue == null) {
             selfPropertyValue = this.get(property);
+            // check also for themed values [BUG #5906]
+            if (selfPropertyValue == null) {
+              // update the appearance to make sure every themed property is up to date
+              this.syncAppearance();
+              selfPropertyValue = qx.util.PropertyUtil.getThemeValue(
+                this, property
+              );
+            }
           } else {
             // Reset the self property value [BUG #4534]
             selfPropertyValue = null;
