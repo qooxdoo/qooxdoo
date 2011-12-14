@@ -80,7 +80,8 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     {
       check : "String",
       apply : "_applyLabel",
-      nullable : true
+      nullable : true,
+      event: "changeLabel"
     },
 
     /** Whether a sub menu should be shown and which one */
@@ -89,7 +90,8 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       check : "qx.ui.menu.Menu",
       apply : "_applyMenu",
       nullable : true,
-      dereference : true
+      dereference : true,
+      event : "changeMenu"
     },
 
     /** The icon to use */
@@ -98,7 +100,8 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       check : "String",
       apply : "_applyIcon",
       themeable : true,
-      nullable : true
+      nullable : true,
+      event: "changeIcon"
     }
   },
 
