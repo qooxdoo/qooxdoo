@@ -116,9 +116,6 @@ class MClassResources(object):
         # remove unwanted files
         exclpatt = re.compile("\.(?:meta|py)$", re.I)
         resources = [res for res in resources if not exclpatt.search(res.id)]
-        # for res in resources[:]:
-        #     if exclpatt.search(res.id):
-        #         resources.remove(res)
         
         # Asset pattern list  -- this is basically an optimization, to condense
         # asset patterns
