@@ -6,6 +6,7 @@
 
    Copyright:
      2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2011 Aspect IT & Design GmbH, Germany, http://www.aspect-it.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -17,6 +18,7 @@
      * Andreas Ecker (ecker)
      * Martin Wittemann (martinwittemann)
      * Jonathan Weiß (jonathan_rass)
+     * Hubert Denkmair (hd@aspect-it.de)
 
 ************************************************************************ */
 
@@ -217,7 +219,16 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       refine : true,
       init : false
+    },
+    
+    /** Show buttons? */
+    buttonVisibility :
+    {
+      check : ["visible", "hidden", "excluded"],
+      init : "visible",
+      event: "changeButtonVisibility"
     }
+    
   },
 
 
@@ -270,6 +281,7 @@ qx.Class.define("qx.ui.form.Spinner",
           control.setFocusable(false);
           control.addListener("execute", this._countUp, this);
           this._add(control, {column: 1, row: 0});
+          this.bind("buttonVisibility", control, "visibility");
           break;
 
         case "downbutton":
@@ -278,6 +290,7 @@ qx.Class.define("qx.ui.form.Spinner",
           control.setFocusable(false);
           control.addListener("execute", this._countDown, this);
           this._add(control, {column:1, row: 1});
+          this.bind("buttonVisibility", control, "visibility");
           break;
       }
 
