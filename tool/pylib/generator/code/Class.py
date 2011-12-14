@@ -69,15 +69,21 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
 
     def __getstate__(self):
         d = self.__dict__.copy()
-        # need to copy nested map, or i will modify original one
-        d['context'] = d['context'].copy()
-        del d['context']['cache']
+        del d['context'] # don't keep any of the runtime infos (jobconf, cache, console)
         d['_tmp_tree'] = None # remove memoized run time tree
         return d
 
     def __setstate__(self, d):
+        # restore runtime infos (jobconf, cache, console, ...)
+        if not hasattr(d, 'context'):
+            d['context'] = {}
         if hasattr(Context, "cache"):
             d['context']['cache'] = Context.cache
+        if hasattr(Context, 'console'):
+            d['context']['console'] = Context.console
+        if hasattr(Context, 'jobconf'):
+            d['context']['jobconf'] = Context.jobconf
+
         #d['defaultIgnoredNamesDynamic'] = [lib.namespace for lib in d['context']['jobconf'].get("library", [])]
         d['defaultIgnoredNamesDynamic'] = [lib.namespace for lib in Context.jobconf.get("library", [])]
         self.__dict__ = d

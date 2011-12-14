@@ -1921,6 +1921,7 @@ class Generator(object):
                 libObj = checkObj  # continue with cached obj
             # need re-scan?
             if not checkObj or cacheTime < fsTime:
+                self._console.debug("Re-scanning lib %s" % libObj.path)
                 libObj.scan(cacheTime)
                 self._cache.write(cacheId, libObj, memory=True)
 

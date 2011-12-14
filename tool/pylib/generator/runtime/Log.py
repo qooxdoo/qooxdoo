@@ -23,7 +23,7 @@
 ##
 ##
 
-import sys, codecs, inspect, re
+import sys, codecs, inspect, re, cPickle as pickle
 
 from misc import textutil
 
@@ -50,15 +50,14 @@ class Log(object):
         self.filter_pattern = ""
         self._inProgress = False
 
+    ##
+    # Prevent from getting pickled.
+    # It's no use pickling a runtime object. E.g. log level and log file
+    # might be completely different on next run. Runtime objects are created
+    # afresh with each run, and need to be injected into other, unpickled
+    # objects that want to use them.
     def __getstate__(self):
-        d = self.__dict__.copy()
-        if d['logfile'] != False:
-            # don't pickle open file descriptors
-            d['logfile'] = d['logfile'].name
-        return d
-
-    def __setstate__(self, d):
-        self.__dict__  = d
+        raise pickle.PickleError("Never pickle generator.runtime.Log.")
 
     def setFilter(self, filterPatternsList=[]):
         if not filterPatternsList:
