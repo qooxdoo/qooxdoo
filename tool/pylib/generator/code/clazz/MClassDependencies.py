@@ -244,16 +244,19 @@ class MClassDependencies(object):
 
         # collapse multiple occurrences of the same class
         if projectClassNames:
-            loads = loadFinal
-            loadFinal = []
-            for dep in loads:
-                if dep.name not in (x.name for x in loadFinal):
-                    loadFinal.append(dep)
-            runs = runFinal
-            runFinal = []
-            for dep in runs:
-                if dep.name not in (x.name for x in runFinal):
-                    runFinal.append(dep)
+            def dedup(deps):
+                out = []
+                seen = set()
+                for dep in deps:
+                    name = dep.name
+                    if name in seen:
+                        continue
+                    seen.add(name)
+                    out.append(dep)
+                return out
+
+            loadFinal = dedup(loadFinal)
+            runFinal = dedup(runFinal)
 
         # add config dependencies
         crequire = config.get("require", {})
