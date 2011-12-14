@@ -227,6 +227,17 @@ qx.Class.define("qx.ui.form.Spinner",
       check : ["visible", "hidden", "excluded"],
       init : "visible",
       event: "changeButtonVisibility"
+    },
+    
+    /**
+     * Alignment of the text
+     */
+    textAlign :
+    {
+      check : [ "left", "center", "right" ],
+      nullable : true,
+      themeable : true,
+      event: "changeTextAlign"
     }
     
   },
@@ -271,6 +282,7 @@ qx.Class.define("qx.ui.form.Spinner",
           control.setWidth(40);
           control.setFocusable(false);
           control.addListener("changeValue", this._onTextChange, this);
+          this.bind("textAlign", control, "textAlign");
 
           this._add(control, {column: 0, row: 0, rowSpan: 2});
           break;
