@@ -692,6 +692,12 @@ qx.Class.define("qx.ui.form.Spinner",
       var textField = this.getChildControl("textfield");
       var value;
 
+      // set to value to null if textField is emptied by user
+      if (textField.getValue()=="") {
+        this.setValue(null);
+        return;
+      }
+
       // if a number format is set
       if (this.getNumberFormat())
       {
