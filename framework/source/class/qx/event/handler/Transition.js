@@ -107,10 +107,10 @@ qx.Class.define("qx.event.handler.Transition",
 
       "gecko" :
       {
-        transitionEnd : "mozTransitionEnd",
-        animationEnd : "mozAnimationEnd",
-        animationStart : "mozAnimationStart",
-        animationIteration : "mozAnimationIteration"
+        transitionEnd : "transitionend",
+        animationEnd : "animationend",
+        animationStart : "animationstart",
+        animationIteration : "animationiteration"
       },
 
       "default" : null
@@ -129,10 +129,10 @@ qx.Class.define("qx.event.handler.Transition",
 
       "gecko" :
       {
-        mozTransitionEnd : "transitionEnd",
-        mozAnimationEnd : "animationEnd",
-        mozAnimationStart : "animationStart",
-        mozAnimationIteration : "animationIteration"
+        transitionend : "transitionEnd",
+        animationend : "animationEnd",
+        animationstart : "animationStart",
+        animationiteration : "animationIteration"
       },
 
       "default" : null
