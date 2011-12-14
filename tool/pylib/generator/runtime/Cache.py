@@ -291,7 +291,7 @@ class Cache(object):
             return content, cacheModTime
 
         except (IOError, EOFError, pickle.PickleError, pickle.UnpicklingError):
-            self._console.warn("Could not read cache object from %s, recalculating..." % self._path)
+            self._console.warn("Could not read cache object %s, recalculating..." % cacheFile)
             return None, cacheModTime
 
 
@@ -326,7 +326,11 @@ class Cache(object):
                     print "to disk"
 
             except (IOError, EOFError, pickle.PickleError, pickle.PicklingError), e:
-                e.args = ("Could not store cache to %s\n" % self._path + e.args[0], ) + e.args[1:]
+                try:
+                    os.unlink(cacheFile) # try remove cache file, Pickle might leave incomplete files
+                except:
+                    e.args = ("Cache file might be crippled.\n" % self._path + e.args[0], ) + e.args[1:]
+                e.args = ("Could not store cache to %s.\n" % self._path + e.args[0], ) + e.args[1:]
                 raise e
 
         if memory:
