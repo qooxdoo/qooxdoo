@@ -23,7 +23,7 @@
 # generator.code.Class Mixin: class compile hints (#asset, #require, ...)
 ##
 
-import sys, os, types, re, string
+import re
 from ecmascript.frontend import lang
 from misc import filetool
 
@@ -127,68 +127,50 @@ class MClassHints(object):
 
             return unknown_keys
 
+        def get_hint_meta():
+            print "building hints for %s" % (filePath,)
+            meta = {}
+
+            console.indent()
+
+            content = filetool.read(filePath, fileEntry.encoding)
+
+            meta["loadtimeDeps"] = _extractLoadtimeDeps(content, fileId)
+            meta["runtimeDeps"]  = _extractRuntimeDeps(content, fileId)
+            meta["optionalDeps"] = _extractOptionalDeps(content)
+            meta["ignoreDeps"]   = _extractIgnoreDeps(content)
+            try:
+                meta["assetDeps"]    = _extractAssetDeps(content)
+            except ValueError, e:
+                e.args = (e.args[0] + u' in: %r' % filePath,) + e.args[1:]
+                raise e
+            meta["cldr"]         = _extractCLDRDeps(content)
+
+            # warn unknown compiler hints
+            _unknown_  = _extractUnknownDeps(content)
+            for item in _unknown_:
+                console.error(u"Unknown compiler hint '#%s' in %s" % (item, self.id))
+
+            console.outdent()
+
+            return meta
+
         # ----------------------------------------------------------
 
         fileEntry = self
         filePath = fileEntry.path
         fileId   = self.id
-        cacheId = "meta-%s" % filePath
-        cache   = self.context['cache']
         console = self.context['console']
 
-        meta, _ = cache.readmulti(cacheId, filePath)
-        if meta != None:
-            if metatype:
-                return meta[metatype]
-            else:
-                return meta
-
-        meta = {}
-
-        console.indent()
-
-        content = filetool.read(filePath, fileEntry.encoding)
-
-        meta["loadtimeDeps"] = _extractLoadtimeDeps(content, fileId)
-        meta["runtimeDeps"]  = _extractRuntimeDeps(content, fileId)
-        meta["optionalDeps"] = _extractOptionalDeps(content)
-        meta["ignoreDeps"]   = _extractIgnoreDeps(content)
-        try:
-            meta["assetDeps"]    = _extractAssetDeps(content)
-        except ValueError, e:
-            e.args = (e.args[0] + u' in: %r' % filePath,) + e.args[1:]
-            raise e
-        meta["cldr"]         = _extractCLDRDeps(content)
-
-        # warn unknown compiler hints
-        _unknown_  = _extractUnknownDeps(content)
-        for item in _unknown_:
-            console.error(u"Unknown compiler hint '#%s' in %s" % (item, self.id))
-
-        console.outdent()
-
-        cache.writemulti(cacheId, meta)
+        classInfo, _ = self._getClassCache()
+        if 'hint_meta' in classInfo:
+            meta = classInfo['hint_meta']
+        else:
+            # no cached information? => build hint meta data now
+            meta = classInfo['hint_meta'] = get_hint_meta()
+            self._writeClassCache(classInfo)
 
         if metatype:
             return meta[metatype]
         else:
             return meta
-
-
-    def getOptionals(self, includeWithDeps):
-        result = []
-
-        for classId in includeWithDeps:
-            try:
-                for optional in self.getHints(classId)["optionalDeps"]:
-                    if not optional in includeWithDeps and not optional in result:
-                        result.append(optional)
-
-            # Not all meta data contains optional infos
-            except KeyError:
-                continue
-
-        return result
-
-
-

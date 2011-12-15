@@ -112,6 +112,7 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
     #   'svariants' : ['qx.debug']    # supported variants
     #   'deps-<path>-<variants>' : ([<Dep>qx.Class#define], <timestamp>)  # class dependencies
     #   'messages-<variants>' : ["Hello %1"]  # message strings
+    #   'hint-meta' : parsed compiler hints (see MClassHints.py)
     # }
     def _getClassCache(self):
         cache = self.context['cache']
