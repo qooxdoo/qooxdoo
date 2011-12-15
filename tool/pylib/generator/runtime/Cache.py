@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import os, sys, time, functools
+import os, sys, time, functools, gc
 import cPickle as pickle
 from misc import filetool
 from misc.securehash import sha_construct
@@ -274,7 +274,11 @@ class Cache(object):
             fobj = open(cacheFile, 'rb')
             #filetool.lock(fobj.fileno())
 
-            content = pickle.load(fobj)
+            gc.disable()
+            try:
+                content = pickle.load(fobj)
+            finally:
+                gc.enable()
 
             #filetool.unlock(fobj.fileno())
             fobj.close()
