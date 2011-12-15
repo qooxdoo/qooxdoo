@@ -73,7 +73,7 @@ class MClassCode(object):
 
             # store unoptimized tree
             #print "Caching %s" % cacheId
-            cache.write(cacheId, tree, memory=tradeSpaceForSpeed, writeToFile=True)
+            cache.write(cacheId, tree, memory=tradeSpaceForSpeed)
 
             console.outdent()
         return tree

@@ -128,7 +128,6 @@ class MClassHints(object):
             return unknown_keys
 
         def get_hint_meta():
-            print "building hints for %s" % (filePath,)
             meta = {}
 
             console.indent()

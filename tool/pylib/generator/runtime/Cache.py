@@ -276,7 +276,7 @@ class Cache(object):
 
             gc.disable()
             try:
-                content = pickle.load(fobj)
+                content = pickle.loads(fobj.read().decode('zlib'))
             finally:
                 gc.enable()
 
@@ -317,10 +317,9 @@ class Cache(object):
                     filetool.lock(cacheFile)
 
                 fobj = open(cacheFile, 'wb')
-
-                pickle.dump(content, fobj, 2)
-
+                fobj.write(pickle.dumps(content, 2).encode('zlib'))
                 fobj.close()
+
                 if not keepLock:
                     filetool.unlock(cacheFile)
                     self._locked_files.remove(cacheFile)  # not atomic with the previous one!
