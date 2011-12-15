@@ -24,7 +24,6 @@
 ##
 
 import sys, os, types, re, string, copy
-import optparse 
 from ecmascript.backend.Packer      import Packer
 from ecmascript.backend             import pretty
 from ecmascript.frontend import treeutil, tokenizer
@@ -239,7 +238,9 @@ class MClassCode(object):
         def getTreeCacheId(optimize=[], variantSet={}):
             classVariants = self.classVariants()
             relevantVariants = self.projectClassVariantsToCurrent(classVariants, variantSet)
-            return "tree-%s-%s-%s" % (self.path, self._optimizeId(optimize), util.toString(relevantVariants))
+            return "tree%s-%s-%s-%s" % (
+                treegenerator.tag, # TODO: hard-coded treegen.tag
+                self.path, self._optimizeId(optimize), util.toString(relevantVariants))
 
         def optimizeTree(tree):
 
