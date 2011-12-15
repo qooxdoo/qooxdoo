@@ -1,0 +1,150 @@
+.tap-highlight-color() {
+	-webkit-tap-highlight-color: @arguments;
+	-moz-tap-highlight-color: @arguments;
+	tap-highlight-color: @arguments;
+}
+
+.user-select() {
+	-webkit-user-select: @arguments;
+	-moz-user-select: @arguments;
+	user-select: @arguments;
+}
+
+.text-size-adjust() {
+	-webkit-text-size-adjust: @arguments;
+	-moz-text-size-adjust: @arguments;
+  text-size-adjust: @arguments;
+}
+
+.transform() {
+	-webkit-transform: @arguments;
+	-moz-transform: @arguments;
+	transform: @arguments;
+}
+
+.box-sizing() {
+	-webkit-box-sizing: @arguments;
+	-moz-box-sizing: @arguments;
+	box-sizing: @arguments;
+}
+
+.perspective() {
+	-webkit-perspective: @arguments;
+	-moz-perspective: @arguments;
+	perspective: @arguments;
+}
+
+.transform-style() {
+	-webkit-transform-style: @arguments;
+  -moz-transform-style: @arguments;
+  transform-style: @arguments;
+}
+
+.backface-visibility() {
+	-webkit-backface-visibility: @arguments;
+  -moz-backface-visibility: @arguments;
+  backface-visibility: @arguments;
+}
+
+.animation-timing-function() {
+	-webkit-animation-timing-function: @arguments;
+	-moz-animation-timing-function: @arguments;
+	animation-timing-function: @arguments;
+}
+
+.animation-duration() {
+	-webkit-animation-duration: @arguments;
+	-moz-animation-duration: @arguments;
+  animation-duration: @arguments;
+}
+
+.animation-fill-mode() {
+	-webkit-animation-fill-mode: @arguments;
+	-moz-animation-fill-mode: @arguments;
+	animation-fill-mode: @arguments;
+}
+
+.animation-name() {
+	-webkit-animation-name: @arguments;
+	-moz-animation-name: @arguments;
+	animation-name: @arguments;
+}
+
+.transform() {
+	-webkit-transform: @arguments;
+	-moz-transform: @arguments;
+	transform: @arguments;
+}
+
+.transform-origin() {
+	-webkit-transform-origin: @arguments;
+	-moz-transform-origin: @arguments;
+	transform-origin: @arguments;
+}
+
+.box-orient() {
+	-webkit-box-orient: @arguments;
+	-moz-box-orient: @arguments;
+	box-orient: @arguments;
+}
+
+.box-align() {
+	-webkit-box-align: @arguments;
+	-moz-box-align: @arguments;
+  box-align: @arguments;
+}
+
+.box-flex() {
+	-webkit-box-flex: @arguments;
+	-moz-box-flex: @arguments;
+	box-flex: @arguments;
+}
+
+.box-direction() {
+	-webkit-box-direction: @arguments;
+	-moz-box-direction: @arguments;
+  box-direction: @arguments;
+}
+
+.box-pack() {
+	-webkit-box-pack: @arguments;
+	-moz-box-pack: @arguments;
+	box-pack: @arguments;
+}
+
+.box-flex-group() {
+	-webkit-box-flex-group: @arguments;
+	-moz-box-flex-group: @arguments;
+	box-flex-group: @arguments;
+}
+
+#gradient {
+  /* From top to bottom */
+  .vertical(@begin, @end) {
+      background-image: -webkit-gradient(linear, center top, center bottom, from(@begin), to(@end)); /* Safari 4+, Chrome 2+ */
+      background-image: -webkit-linear-gradient(top, @begin, @end); /* Safari 5.1+, Chrome 10+ */
+      background-image: -moz-linear-gradient(top, @begin, @end); /* FF 3.6+ */
+      background-image: linear-gradient(to bottom, @begin, @end); /* Standard (in flux) */
+  }
+  /* From top to bottom with intermediate color */
+  .vertical-three(@begin, @mid, @end, @stop: 50%) {
+    background-image: -webkit-gradient(linear, center top, center bottom, from(@begin), color-stop(@stop, @mid), to(@end));
+    background-image: -webkit-linear-gradient(top, @begin, @mid @stop, @end);
+    background-image: -moz-linear-gradient(top, @begin, @mid @stop, @end);
+    background-image: linear-gradient(to bottom, @begin, @mid @stop, @end);
+  }
+  /* From left to right */
+  .horizontal(@begin, @end) {
+    background-image: -webkit-gradient(linear, center left, center right, from(@begin), to(@end));
+    background-image: -webkit-linear-gradient(left, @begin, @end);
+    background-image: -moz-linear-gradient(left, @begin, @end);
+    background-image: linear-gradient(to right, @begin, @end);
+  }
+  /* From top to bottom with intermediate color */
+  .horizontal-three(@begin, @mid, @end, @stop: 50%) {
+    background-image: -webkit-gradient(linear, center left, center bottom, from(@begin), color-stop(@stop, @mid), to(@end));
+    background-image: -webkit-linear-gradient(left, @begin, @mid @stop, @end);
+    background-image: -moz-linear-gradient(left, @begin, @mid @stop, @end);
+    background-image: linear-gradient(to right, @begin, @mid @stop, @end);
+  }
+}
