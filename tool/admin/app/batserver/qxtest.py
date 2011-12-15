@@ -329,7 +329,7 @@ class QxTest:
     buildConf = self.getConfig(defaultBuildConf, buildConf)
     
     buildResults = {}
-    for target in buildConf['targets']:
+    for target in sorted(buildConf['targets'].iterkeys()):
       buildResult = self.buildTarget(target, buildConf)
       if buildResult:
         buildResults[target] = buildResult
