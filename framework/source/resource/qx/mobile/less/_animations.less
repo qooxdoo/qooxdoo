@@ -1,9 +1,11 @@
 .animationParent {
   .perspective(800);
   .transform-style(preserve-3d);
+  -webkit-transform-style: preserve-3d; /* We have to remove this property after animation, otherwise the dialog widget is not shown in Chrome. See Bug #5891 */
 }
 
 .animationChild {
+  position: absolute; /* We have to remove this property after animation, otherwise the list widget is not shown in Webkit Browsers. See Bug #5935 */
   .backface-visibility(hidden);
 }
 
