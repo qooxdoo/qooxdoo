@@ -104,9 +104,6 @@ class DependencyLoader(object):
         result = processExplicitCludes(result, includeNoDeps, excludeWithDeps) # using excludeWithDeps here as well
         # Sort classes
         self._console.info("Sorting %s classes  " % len(result), False)
-        #if  self._jobconf.get("dependencies/sort-topological", False):
-        #    result = self.sortClassesTopological(result, variants)
-        #else:
         result = self.sortClasses(result, variants, buildType)
         self._console.dotclear()
         #self._console.nl()
@@ -361,7 +358,15 @@ class DependencyLoader(object):
     #  CLASS SORT SUPPORT
     ######################################################################
 
-    def sortClasses(self, classList, variants, buildType=""):
+    ##
+    # Method chooser
+    def sortClasses(self, *args, **kwargs):
+        #if  self._jobconf.get("dependencies/sort-topological", False):
+        return self.sortClassesRec(*args, **kwargs)
+        #return self.sortClassesTopological(*args, **kwargs)
+
+
+    def sortClassesRec(self, classList, variants, buildType=""):
 
         def sortClassesRecurser(classId, classListSorted, path):
             if classId in classListSorted:
@@ -410,25 +415,27 @@ class DependencyLoader(object):
         return classListSorted
 
 
-    def sortClassesTopological(self, includeWithDeps, variants):
+    def sortClassesTopological(self, classList, variants, buildType=''):
         
         # create graph object
         gr = graph.digraph()
 
         # add classes as nodes
-        gr.add_nodes(includeWithDeps)
+        gr.add_nodes(classList)
 
         # for each load dependency add a directed edge
-        for classId in includeWithDeps:
-            deps, _ = self._classesObj[classId].getCombinedDeps(self._classesObj, variants, self._jobconf)
-            for depClassId in deps["load"]:
-                if depClassId in includeWithDeps:
+        for classId in classList:
+            deps, _ = self._classesObj[classId].getCombinedDeps(variants, self._jobconf)
+            for dep in deps["load"]:
+                depClassId = dep.name
+                if depClassId in classList:
                     gr.add_edge(depClassId, classId)
 
         # cycle check?
         cycle_nodes = gr.find_cycle()
         if cycle_nodes:
-            raise RuntimeError("Detected circular dependencies between nodes: %r" % cycle_nodes)
+            #raise RuntimeError("Detected circular dependencies between nodes: %r" % cycle_nodes)
+            pass
 
         classList = gr.topological_sorting()
 
