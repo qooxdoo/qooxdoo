@@ -29,7 +29,6 @@ html, body {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  position: absolute;
   left: 0;
   width: 100%;
 }
@@ -65,8 +64,14 @@ html, body {
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  /* We have to remove this property after animation, otherwise the dialog widget is not shown in Chrome. See Bug #5891 */
+
 }
 .animationChild {
+  position: absolute;
+  /* We have to remove this property after animation, otherwise the list widget is not shown in Webkit Browsers. See Bug #5935 */
+
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   backface-visibility: hidden;
