@@ -152,8 +152,7 @@
     {
       "extend" : ["mobile-common"],
       "add-css" : [ 
-        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css" },
-        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css" },
+        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}.css" },
         { "uri" : "./resource/$${APPLICATION_CSS}" }
       ]
     },
@@ -163,8 +162,7 @@
       "extend" : ["mobile-common"],
       //"add-css" : [ { "uri" : "$${CSS_COMB_URI}" } ]
       "add-css" : [ 
-        { "uri" : "./resource/qx/mobile/css/common/main.css" },
-        { "uri" : "./resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css" },
+        { "uri" : "./resource/qx/mobile/css/$${PLATFORM}.css" },
         { "uri" : "./resource/$${APPLICATION_CSS}" }
       ]
     },
@@ -197,8 +195,7 @@
         "qx.mobile.platform" : [ "$${PLATFORM}" ]
       },
       "add-css" : [ 
-        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css" },
-        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css" },
+        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}.css" },
         { "uri" : "./resource/$${APPLICATION_CSS}" }
       ]
     },
@@ -216,7 +213,7 @@
       {
         "command" :
         [
-          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css $${ROOT}/source/resource/$${APPLICATION_CSS} | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${CSS_COMBINED}"
+          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css $${ROOT}/source/resource/$${APPLICATION_CSS} | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${CSS_COMBINED}"
         ]
       }
     },
@@ -234,8 +231,6 @@
       {
         "command" :
         [
-          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css | $${CSSMIN_CMD} > $${BUILD_PATH}/resource/qx/mobile/css/common/main.css",
-          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css  | $${CSSMIN_CMD} > $${BUILD_PATH}/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css",
           "$${CATCMD} $${ROOT}/source/resource/$${APPLICATION_CSS} | $${CSSMIN_CMD} > $${BUILD_PATH}/resource/$${APPLICATION_CSS}"
         ]
       }
