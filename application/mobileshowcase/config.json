@@ -61,8 +61,7 @@
         "qx.version"     : "${QOOXDOO_VERSION}",
         "qx.application" : "${APPLICATION}.Application",
         "qx.mobile.emulatetouch" : true,
-        "qx.mobile.nativescroll" : false,
-        "engine.name" : "webkit"
+        "qx.mobile.nativescroll" : false
       }
     },
 
