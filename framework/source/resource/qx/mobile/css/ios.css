@@ -44,7 +44,6 @@ html, body {
 }
 .scroll {
   position: relative;
-  z-index: 1;
   width: auto /* your desired width, auto and 100% are fine */;
   height: auto /* element height */;
   overflow: hidden;
@@ -52,7 +51,6 @@ html, body {
 .iscroll {
   width: 100%;
   position: absolute;
-  z-index: 1;
   padding-bottom: 10px;
   /* todo: experimental*/
 
