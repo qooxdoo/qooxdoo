@@ -40,6 +40,12 @@
   transform-style: @arguments;
 }
 
+.transition() {
+  -webkit-transition: @arguments;
+  -moz-transition: @arguments;
+  transition: @arguments;
+}
+
 .backface-visibility() {
 	-webkit-backface-visibility: @arguments;
   -moz-backface-visibility: @arguments;
@@ -68,6 +74,12 @@
 	-webkit-animation-name: @arguments;
 	-moz-animation-name: @arguments;
 	animation-name: @arguments;
+}
+
+.animation-iteration-count() {
+  -webkit-animation-iteration-count: @arguments;
+  -moz-animation-iteration-count: @arguments;
+  animation-iteration-count: @arguments;
 }
 
 .transform() {
@@ -118,6 +130,30 @@
 	box-flex-group: @arguments;
 }
 
+.border-radius() {
+  -webkit-border-radius: @arguments;
+  -moz-border-radius: @arguments;
+  border-radius: @arguments;
+}
+
+.box-shadow() {
+  -webkit-box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  box-shadow: @arguments;
+}
+
+.background-clip() {
+  -webkit-background-clip: @arguments;
+  -moz-background-clip: @arguments;
+  background-clip: @arguments;
+}
+
+.appearance() {
+  -webkit-appearance: @arguments;
+  -moz-appearance: @arguments;
+  appearance: @arguments;
+}
+
 #gradient {
   /* From top to bottom */
   .vertical(@begin, @end) {
@@ -133,6 +169,13 @@
     background-image: -moz-linear-gradient(top, @begin, @mid @stop, @end);
     background-image: linear-gradient(to bottom, @begin, @mid @stop, @end);
   }
+  /* From top to bottom with two intermediate colors */
+  .vertical-four(@begin, @mid1, @mid2, @end, @stop1: 33%, @stop2: 66%) {
+    background-image: -webkit-gradient(linear, center top, center bottom, from(@begin), color-stop(@stop1, @mid1), color-stop(@stop2, @mid2), to(@end));
+    background-image: -webkit-linear-gradient(top, @begin, @mid1 @stop1, @mid2 @stop2, @end);
+    background-image: -moz-linear-gradient(top, @begin, @mid1 @stop1, @mid2 @stop2, @end);
+    background-image: linear-gradient(to bottom, @begin, @mid1 @stop1, @mid2 @stop2, @end);
+  }
   /* From left to right */
   .horizontal(@begin, @end) {
     background-image: -webkit-gradient(linear, center left, center right, from(@begin), to(@end));
@@ -140,11 +183,18 @@
     background-image: -moz-linear-gradient(left, @begin, @end);
     background-image: linear-gradient(to right, @begin, @end);
   }
-  /* From top to bottom with intermediate color */
+  /* From left to right with intermediate color */
   .horizontal-three(@begin, @mid, @end, @stop: 50%) {
     background-image: -webkit-gradient(linear, center left, center bottom, from(@begin), color-stop(@stop, @mid), to(@end));
     background-image: -webkit-linear-gradient(left, @begin, @mid @stop, @end);
     background-image: -moz-linear-gradient(left, @begin, @mid @stop, @end);
     background-image: linear-gradient(to right, @begin, @mid @stop, @end);
+  }
+  /* From left to right with two intermediate colors */
+  .horizontal-four(@begin, @mid1, @mid2, @end, @stop1: 33%, @stop2: 66%) {
+    background-image: -webkit-gradient(linear, center left, center right, from(@begin), color-stop(@stop1, @mid1), color-stop(@stop2, @mid2), to(@end));
+    background-image: -webkit-linear-gradient(left, @begin, @mid1 @stop1, @mid2 @stop2, @end);
+    background-image: -moz-linear-gradient(left, @begin, @mid1 @stop1, @mid2 @stop2, @end);
+    background-image: linear-gradient(to right, @begin, @mid1 @stop1, @mid2 @stop2, @end);
   }
 }

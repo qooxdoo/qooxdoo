@@ -70,14 +70,14 @@ a:hover { color: #e89c00; }
   color: black;
   #gradient > .vertical(#f4f4f4, #c4c4c4);
   border: 1px solid #232323;
-  -webkit-border-radius: 4px;
+  .border-radius(4px);
   font: bold 17px Helvetica;
   line-height : 40px;
   text-align: center;
   padding-left: 20px;
   padding-right: 20px;
   margin-top: 15px;
-  -webkit-background-clip: padding-box;
+  .background-clip(padding-box);
 }
 
 .button.active {
@@ -90,13 +90,13 @@ a:hover { color: #e89c00; }
   color: black;
   #gradient > .vertical(#f4f4f4, #c4c4c4);
   border: 1px solid #232323;
-  -webkit-border-radius: 4px;
+  .border-radius(4px);
   font: bold 17px Helvetica;
   height : 50px;
   text-align: center;
   padding-left: 20px;
   padding-right: 20px;
-  -webkit-background-clip: padding-box;
+  .background-clip(padding-box);
   overflow: hidden;
   width: 0; /* this is for equal sizes of the buttons when aded in a toolbar or other container with flex :1*/
   /* unfortunately, this can be used only in the case where the buttons are similar in size, and the text is small
@@ -152,11 +152,16 @@ ul li.arrow {
 }
 
 ul li.active.arrow, ul li.selected.arrow {
-    background: url("../../icon/android/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
+    background-image: url("../../icon/android/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
+    background-image: url("../../icon/android/arrow_pressed.png"), -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+    background-image: url("../../icon/android/arrow_pressed.png"), -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+    background-image: url("../../icon/android/arrow_pressed.png"), linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
+    background-position: right center;
+    background-repeat: no-repeat;
 }
 
 ul li.active, ul li.selected {
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
+    #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
     color: #000;
 }
 
@@ -190,7 +195,7 @@ input, select, textarea {
 select {
   text-indent: 0;
   background: transparent no-repeat right center;
-  -webkit-appearance: textfield;
+  .appearance(textfield);
   margin-left: -6px;
   width: 100%;
   color: #777;
@@ -221,9 +226,9 @@ input[type="text"], input[type="password"], textarea {
     width: 100%;
     height: 2em;
     outline: none;
-    -webkit-appearance: textarea;
-    -webkit-border-radius: .4em;
-    -webkit-background-clip: padding-box;
+    .appearance(textarea);
+    .border-radius(.4em);
+    .background-clip(padding-box);
 }
 
 textarea {
@@ -246,8 +251,8 @@ input[type="checkbox"], input[type="radio"] {
     display: block;
     overflow: hidden;
     position:relative;
-    -webkit-border-radius: 5px;
-    -webkit-background-clip: padding-box;
+    .border-radius(5px);
+    .background-clip(padding-box);
 }
 
 .toggleButton > div.checked {
@@ -256,18 +261,18 @@ input[type="checkbox"], input[type="radio"] {
 
 .toggleButton > div {
     margin: 0;
-    -webkit-border-radius: 5px;
+    .border-radius(5px);
     background: #fff url(../../icon/android/on_off.png) 0 0 no-repeat;
     height: 27px;
     overflow: hidden;
     width: 149px;
     border: 0;
     background-color: transparent;
-    -webkit-transition: left .15s;
+    .transition(lef .15s);
     position: absolute;
     top: 0px;
     left: -55px;
-    -webkit-background-clip: padding-box;
+    .background-clip(padding-box);
 }
 
 
@@ -276,11 +281,16 @@ input[type="checkbox"], input[type="radio"] {
 .slider {
   position:relative;
   height: 20px;
+
+  /* Background left and right from slider, position set in JavaScript */
   background: -webkit-gradient(linear,left top,left bottom,from(#9EA09D), color-stop(0.85, #5B5D5A), color-stop(0.95, #5F615E), to(#757774)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from(#ecd343), color-stop(0.85, #fab907), color-stop(0.95, #f0b705), to(#f8ce2e));
-  background: -webkit-linear-gradient(top, #9EA09D, #5B5D5A 85%,#5F615E 95%, #757774) 0px 0px no-repeat, -webkit-linear-gradient(top, #ecd343, #fab907 85%,#f0b705 95%, #f8ce2e) 0px 0px no-repeat;
-  -webkit-border-radius: .6em;
+  background: -webkit-linear-gradient(top, #9EA09D, #5B5D5A 85%, #5F615E 95%, #757774) 0px 0px no-repeat, -webkit-linear-gradient(top, #ecd343, #fab907 85%,#f0b705 95%, #f8ce2e) 0px 0px no-repeat;
+  background: -moz-linear-gradient(top, #9EA09D, #5B5D5A 85%, #5F615E 95%, #757774) 0px 0px no-repeat, -moz-linear-gradient(top, #ecd343, #fab907 85%,#f0b705 95%, #f8ce2e) 0px 0px no-repeat;
+  background: linear-gradient(to bottom, #9EA09D, #5B5D5A 85%, #5F615E 95%, #757774) 0px 0px no-repeat, linear-gradient(to bottom, #ecd343, #fab907 85%,#f0b705 95%, #f8ce2e) 0px 0px no-repeat;
+
+  .border-radius(.6em);
   overflow: visible;
-  -webkit-background-clip: padding-box;
+  .background-clip(padding-box);
 }
 
 .slider > div {
@@ -290,11 +300,10 @@ input[type="checkbox"], input[type="radio"] {
   background-color:#fff;
   width: 60px;
   height: 30px;
-  background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#c4c4c4));
-  background: -webkit-linear-gradient(top, #f4f4f4, #c4c4c4);
-  -webkit-border-radius: .4em;
-  -webkit-box-shadow: 0 0 2px 1px #4A4A4A;
-  -webkit-background-clip: padding-box;
+  #gradient > .vertical(#f4f4f4, #c4c4c4);
+  .border-radius(.4em);
+  .box-shadow(0 0 2px 1px #4A4A4A);
+  .background-clip(padding-box);
 }
 
 input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
@@ -317,7 +326,7 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
   text-align: center;
   line-height: 45px;
   margin:0 !important;
-  -webkit-box-sizing: border-box;
+  .box-sizing(border-box);
   width: 0; /* this is for equal sizes od the buttons when aded in a toolbar or other container with flex :1*/
 }
 
@@ -352,12 +361,12 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
     #gradient > .vertical(#f4f4f4, #c4c4c4);
     border: 2px solid #232323;
     text-decoration: none;
-    -webkit-border-radius: 4px;
-    -webkit-background-clip: padding-box;
+    .border-radius(4px);
+    .background-clip(padding-box);
 }
 
 .navigationbar-button.active, .navigationbar-backbutton.active {
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
+    #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
 }
 
 
@@ -377,26 +386,30 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
   /* The following is probably what you want to customize */
   #gradient > .vertical(#b5b6b5, #949294);
   border: 1px solid #000;
-  -webkit-background-clip:padding-box;
-  -webkit-box-sizing:border-box;
-  -webkit-border-radius:4px;
+  .background-clip(padding-box);
+  .box-sizing(border-box);
+  .border-radius(4px);
 }
 
 /* CHECKBOX */
 
 input[type="checkbox"] {
   background-color: #929292;
-  -webkit-appearance : none;
+  .appearance(none);
   width: 30px;
   height: 30px;
-  -webkit-border-radius: .3em;
+  .border-radius(.3em);
   background: url(../../icon/android/checkbox-gray.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
   background: url(../../icon/android/checkbox-gray.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../../icon/android/checkbox-gray.png) 50% 50% no-repeat, -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../../icon/android/checkbox-gray.png) 50% 50% no-repeat, linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
 }
 
 input[type="checkbox"]:checked {
   background: url(../../icon/android/checkbox-green.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
   background: url(../../icon/android/checkbox-green.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../../icon/android/checkbox-green.png) 50% 50% no-repeat, -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../../icon/android/checkbox-green.png) 50% 50% no-repeat, linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
 }
 
 
@@ -436,20 +449,29 @@ input[type="checkbox"]:checked {
 
 .spinner {
   background-image: url(../../icon/android/spinner.png);
-  -webkit-animation-name: spinnerRotate;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
+  .animation-name(spinnerRotate);
+  .animation-duration(1s);
+  .animation-iteration-count(infinite);
+  .animation-timing-function(linear);
   margin: 0 auto;
   vertical-align: middle;
 }
 
 @-webkit-keyframes spinnerRotate {
 	from {
-		-webkit-transform:rotate(0deg);
+		.transform(rotate(0deg));
 	}
 	to {
-		-webkit-transform:rotate(360deg);
+		.transform(rotate(360deg));
+	}
+}
+
+@-moz-keyframes spinnerRotate {
+	from {
+		.transform(rotate(0deg));
+	}
+	to {
+		.transform(rotate(360deg));
 	}
 }
 
@@ -459,7 +481,7 @@ input[type="checkbox"]:checked {
   width: auto;
   padding: 6px;
   border: 2px solid #ffffff;
-  -webkit-border-radius: .3em;
+  .border-radius(.3em);
   z-index: 99;
   clear: both;
 }
@@ -501,7 +523,7 @@ input[type="checkbox"]:checked {
   width: auto;
   padding: 6px;
   border: 2px solid #ffffff;
-  -webkit-border-radius: .3em;
+  .border-radius(.3em);
   z-index: 99;
   min-width: 200px;
 }
@@ -522,7 +544,7 @@ input[type="checkbox"]:checked {
 .dialogTitleUnderline:after {
   line-height: 1px;
   content: ' ';
-  background: -webkit-gradient(linear,left top,right bottom,from(#424242), color-stop(0.3, #ffffff), color-stop(0.7, #ffffff), to(#424242)) 0px 0px no-repeat;
+  #gradient > .horizontal-four(#424242, #ffffff, #ffffff, #424242, 30%, 70%);
   height: 1px;
   width: 100%;
   display: block;
