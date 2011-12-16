@@ -1,0 +1,9 @@
+# Run "guard" in this directory to keep LESS and CSS files in sync.
+#
+# Requires guard and guard-less, see:
+# https://github.com/guard/guard
+# https://github.com/guard/guard-less
+#
+guard 'less', :all_on_start => true, :all_after_change => true, :output => '../css/' do
+  watch(%r{^.*\.less$})
+end
