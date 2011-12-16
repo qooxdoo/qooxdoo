@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    .tap-highlight-color(rgba(0,0,0,0));
+}
+
+html, body {
+  height:100%;
+}
+
+.root {
+    overflow-x: hidden;
+    .user-select(none);
+    .text-size-adjust(none);
+    font-family: Helvetica;
+    height:100%;
+}
+
+.page {
+    .transform(translate3d(0,0,0) rotate(0) scale(1));
+    .box-sizing(border-box);
+    position: absolute;
+    left: 0;
+    width: 100%;
+}
+
+
+.selectable, input, textarea {
+    .user-select(auto);
+}
+
+.no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
