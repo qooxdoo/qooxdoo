@@ -1530,13 +1530,13 @@ ul li {
   padding: 10px 25px 10px 10px;
 }
 ul li.arrow {
-  background: url("../../icon/android/arrow.png") no-repeat right center;
+  background: url("../icon/android/arrow.png") no-repeat right center;
 }
 ul li.active.arrow, ul li.selected.arrow {
-  background-image: url("../../icon/android/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%, #ffdb66), color-stop(50%, #e89c00), color-stop(100%, #fdd824));
-  background-image: url("../../icon/android/arrow_pressed.png"), -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
-  background-image: url("../../icon/android/arrow_pressed.png"), -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
-  background-image: url("../../icon/android/arrow_pressed.png"), linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: url("../icon/android/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%, #ffdb66), color-stop(50%, #e89c00), color-stop(100%, #fdd824));
+  background-image: url("../icon/android/arrow_pressed.png"), -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: url("../icon/android/arrow_pressed.png"), -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: url("../icon/android/arrow_pressed.png"), linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
   background-position: right center;
   background-repeat: no-repeat;
 }
@@ -1651,7 +1651,7 @@ input[type="checkbox"], input[type="radio"] {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background: #ffffff url(../../icon/android/on_off.png) 0 0 no-repeat;
+  background: #ffffff url(../icon/android/on_off.png) 0 0 no-repeat;
   height: 27px;
   overflow: hidden;
   width: 149px;
@@ -1847,16 +1847,16 @@ input[type="checkbox"] {
   -webkit-border-radius: 0.3em;
   -moz-border-radius: 0.3em;
   border-radius: 0.3em;
-  background: url(../../icon/android/checkbox-gray.png) 50% 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
-  background: url(../../icon/android/checkbox-gray.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-  background: url(../../icon/android/checkbox-gray.png) 50% 50% no-repeat, -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-  background: url(../../icon/android/checkbox-gray.png) 50% 50% no-repeat, linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../icon/android/checkbox-gray.png) 50% 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
+  background: url(../icon/android/checkbox-gray.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../icon/android/checkbox-gray.png) 50% 50% no-repeat, -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../icon/android/checkbox-gray.png) 50% 50% no-repeat, linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
 }
 input[type="checkbox"]:checked {
-  background: url(../../icon/android/checkbox-green.png) 50% 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
-  background: url(../../icon/android/checkbox-green.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-  background: url(../../icon/android/checkbox-green.png) 50% 50% no-repeat, -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-  background: url(../../icon/android/checkbox-green.png) 50% 50% no-repeat, linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../icon/android/checkbox-green.png) 50% 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
+  background: url(../icon/android/checkbox-green.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../icon/android/checkbox-green.png) 50% 50% no-repeat, -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../icon/android/checkbox-green.png) 50% 50% no-repeat, linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
 }
 /*  TOOLBAR  */
 .toolbar-separator {
@@ -1899,7 +1899,7 @@ input[type="checkbox"]:checked {
   text-align: center;
 }
 .spinner {
-  background-image: url(../../icon/android/spinner.png);
+  background-image: url(../icon/android/spinner.png);
   -webkit-animation-name: spinnerRotate;
   -moz-animation-name: spinnerRotate;
   animation-name: spinnerRotate;
