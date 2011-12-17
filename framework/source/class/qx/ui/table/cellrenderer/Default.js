@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
       }
       else
       {
-        res = value;
+        res = value.toString();
       }
 
       return res;
