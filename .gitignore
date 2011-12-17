@@ -3,6 +3,9 @@
 #
 # Please comment on purpose.
 
+# Emacs backup files
+*~
+
 # SDK build dir
 /release/
 
