@@ -25,18 +25,34 @@ qx.Class.define("qxc.ui.versionlabel.VersionLabel",
 {
   extend : qx.ui.basic.Label,
 
-  construct : function(value)
+  construct : function(value, version)
   {
-    var labeltext;
-    if (!value) {
-      labeltext = "qooxdoo";
-    } else {
-      labeltext = value;
+    if (value == undefined)
+    {
+      // if no parameter value given: use the environment variable
+      value = qx.core.Environment.get("versionLabel.name");
+      
+      // 'qooxdoo' as fallback
+      if (value == undefined) {
+        value = "qooxdoo";
+      }
+    }
+    
+    if (version == undefined)
+    {
+      // if no parameter value given: use the environment variable
+      version = qx.core.Environment.get("versionLabel.version");
+      
+      if (version == undefined)
+      {
+        // revision or version number as fallback
+        version = qx.core.Environment.get("qx.revision");
+        if (version == "") {
+          version = qx.core.Environment.get("qx.version");
+        }
+      }
     }
 
-    var versstring = qx.core.Environment.get("qx.revision") ? qx.core.Environment.get("qx.revision") :
-      qx.core.Environment.get("qx.version");
-    labeltext += " " + versstring;
-    this.base(arguments, labeltext);
+    this.base(arguments, value + " " + version);
   }
 });
