@@ -32,7 +32,7 @@ With that code every change of the value property of ``label1`` will automatical
 
 Binding a data event to property
 --------------------------------
-In some cases in the framework, there is only a change event and no property. For that case, you can bind a data event to a property. One common case is the ``TextField`` widget, which does not have a property containing the value of the ``TextField``. Therefor you can use the input event and bind that to a target property as you can see in the example snippet.
+In some cases in the framework, there is only a change event and no property. For that case, you can bind a data event to a property. One common case is the ``TextField`` widget, which does not have a property containing the value of the ``TextField``. It only has getter / setter and a change event for that, so it has the stuff needed for the binding but its not implemented as a property. Therefor you can use the ``changeValue`` event and bind that to a target property as you can see in the example snippet.
 The API is almost the same as in the property binding case.
 
 ::
@@ -40,7 +40,7 @@ The API is almost the same as in the property binding case.
     var textField = new qx.ui.form.TextField();
     var label = new qx.ui.basic.Label();
 
-    textField.bind("input", label, "value");
+    textField.bind("changeValue", label, "value");
 
 As you can see, the same method has been used. The difference is, that the first argument is a data event name and not a property name.
 
