@@ -417,7 +417,8 @@ input[type="checkbox"]:checked {
 
 .toolbar-button > div {
   height: 50px;
-  overflow: hidden;
+  /* Hidden overflow breaks box-pack: center in Firefox */
+  /* overflow: hidden; */
 }
 
 .toolbar-button .label {
