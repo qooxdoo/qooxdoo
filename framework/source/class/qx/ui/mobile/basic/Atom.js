@@ -396,13 +396,18 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       var iconFirst = [ "top", "left" ].indexOf(this.getIconPosition()) != -1;
       if(this.__icon && this.__label)
       {
-        this.__childrenContainer.add(iconFirst ? this.__icon : this.__label, {flex : 1});
-        this.__childrenContainer.add(!iconFirst ? this.__icon : this.__label, {flex : 1});
+        if (iconFirst) {
+          this.__childrenContainer.add(this.__icon);
+          this.__childrenContainer.add(this.__label, {flex : 1});
+        } else {
+          this.__childrenContainer.add(this.__label, {flex : 1});
+          this.__childrenContainer.add(this.__icon);
+        }
       }
       else
       {
         if(this.__icon) {
-          this.__childrenContainer.add(this.__icon, {flex : 1});
+          this.__childrenContainer.add(this.__icon);
         }
         if(this.__label) {
           this.__childrenContainer.add(this.__label, {flex : 1});
