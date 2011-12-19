@@ -162,8 +162,8 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
     {
       qx.event.Registration.addListener(window, "resize", this._updateSize, this);
       qx.event.Registration.addListener(window, "scroll", this._onScroll, this);
-      qx.event.Registration.addListener(document, "touchstart", this._onTouch, this);
-      qx.event.Registration.addListener(document, "touchmove", this._onTouch, this);
+      this.addListener("touchstart", this._onTouch, this);
+      this.addListener("touchmove", this._onTouch, this);
     },
 
 
@@ -174,8 +174,8 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
     {
       qx.event.Registration.removeListener(window, "resize", this._updateSize, this);
       qx.event.Registration.removeListener(window, "scroll", this._onScroll, this);
-      qx.event.Registration.removeListener(document, "touchstart", this._onTouch, this);
-      qx.event.Registration.removeListener(document, "touchmove", this._onTouch, this);
+      this.removeListener("touchstart", this._onTouch, this);
+      this.removeListener("touchmove", this._onTouch, this);
     }
   },
 

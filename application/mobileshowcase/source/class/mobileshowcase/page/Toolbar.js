@@ -165,7 +165,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
         this.__searchDialog.hide();
       }, this);
       this.__searchDialog = new qx.ui.mobile.dialog.Dialog(popupWidget);
-      this.__searchDialog.setModal(false);
+      this.__searchDialog.setModal(true);
       this.__searchDialog.setTitle('Search ...');
       return this.__searchDialog;
     },
