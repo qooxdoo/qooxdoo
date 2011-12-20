@@ -348,10 +348,18 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
 .navigationbar-button, .navigationbar-backbutton {
     text-align: center;
     min-width:40px;
+
+    /*
+     * Firefox uses border-box for flexbox children,
+     * see http://bugzilla.qooxdoo.org/show_bug.cgi?id=5961.
+     */
+    min-width: -moz-calc(40px + 10px);
+
     cursor: pointer;
     padding: 0 3px;
     width: auto;
     height: 30px;
+    height: -moz-calc(30px + 6px);
     line-height: 30px;
     font-family: inherit;
     font-size: 12px;
@@ -421,6 +429,7 @@ input[type="checkbox"]:checked {
 .toolbar {
   padding: 2px;
   height: 55px;
+  height: -moz-calc(55px + 4px);
   #gradient > .vertical(#9a9a9a, #7c7e7c);
   border-top: 1px solid #2d3642;
 }
@@ -525,6 +534,7 @@ input[type="checkbox"]:checked {
   .border-radius(.3em);
   z-index: 99;
   min-width: 200px;
+  min-width: -moz-calc(200px + 18px);
 }
 
 .dialogButton {
