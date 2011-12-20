@@ -2875,7 +2875,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         var useCSS = qx.core.Environment.get("css.gradient.linear");
         return {
-          decorator : useCSS ? "table-scroller-header-css" : "table-scroller-header"
+          decorator : useCSS ? "table-scroller-header-css" : "table-scroller-header",
+          textColor : states.disabled ? "text-disabled" : undefined
         };
       }
     },
@@ -2946,7 +2947,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           alignY : "middle",
-          alignX : "right"
+          alignX : "right",
+          opacity : states.disabled ? 0.3 : 1
         };
       }
     },
@@ -2958,7 +2960,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           minWidth : 0,
           alignY : "middle",
-          paddingRight : 5
+          paddingRight : 5,
+          opacity : states.disabled ? 0.3 : 1
         };
       }
     },

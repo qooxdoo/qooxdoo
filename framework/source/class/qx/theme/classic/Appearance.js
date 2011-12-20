@@ -2364,7 +2364,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          marginRight: 4
+          marginRight: 4,
+          opacity : states.disabled ? 0.3 : 1
         }
       }
     },
@@ -2373,7 +2374,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          alignY : "middle"
+          alignY : "middle",
+          opacity : states.disabled ? 0.3 : 1
         }
       }
     },
