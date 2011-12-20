@@ -1449,9 +1449,16 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
 .navigationbar-backbutton {
   padding: 0;
   max-width: 55px;
+  max-width: -moz-calc(77px);
   border-width: 0 8px 0 14px;
   -webkit-border-image: url(../icon/ios/backButton.png) 0 8 0 14;
   -moz-border-image: url(../icon/ios/backButton.png) 0 8 0 14;
+}
+/*
+ * Fix 1px off inherent width of label in Firefox
+ */
+.navigationbar-backbutton > div {
+  width: -moz-calc(30px);
 }
 .navigationbar-backbutton.active {
   -webkit-border-image: url(../icon/ios/backButton_pressed.png) 0 8 0 14;
