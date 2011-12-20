@@ -66,18 +66,18 @@ a:hover {  color:rgb(76, 86, 108); }
   background: #fff;
   border: 1px solid #B4B4B4;
   font: bold 17px Helvetica;
-  -webkit-border-radius: 8px;
+  .border-radius(8px);
   line-height : 40px;
   text-align: center;
   padding-left: 20px;
   padding-right: 20px;
   margin-top: 15px;
-  -webkit-background-clip: padding-box;
+  .background-clip(padding-box);
 }
 
 
 .button.active {
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4583fd), color-stop(100%,#194ae4));
+    #gradient > .vertical(#4583fd, #194ae4);
     color: #fff;
 }
 
@@ -97,9 +97,9 @@ ul {
     border: 1px solid #B4B4B4;
     font: bold 17px Helvetica;
     padding: 0;
-    -webkit-border-radius: 8px;
+    .border-radius(8px);
     margin-bottom: 10px;
-    -webkit-background-clip: padding-box;
+    .background-clip(padding-box);
 }
 
 ul li {
@@ -118,10 +118,13 @@ ul li.arrow {
 
 ul li.active.arrow,  ul li.selected.arrow {
     background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, from(#4583fd), to(#194ae4));
+    background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-linear-gradient(top, #4583fd, #194ae4);
+    background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -moz-linear-gradient(top, #4583fd, #194ae4);
+    background: url("../icon/ios/arrow_pressed.png") no-repeat right center, linear-gradient(to bottom, #4583fd, #194ae4);
 }
 
 ul li.active,  ul li.selected {
-    background: -webkit-gradient(linear, left top, left bottom, from(#4583fd), to(#194ae4));
+    #gradient > .vertical(#4583fd, #194ae4);
     color: #fff;
 }
 
@@ -136,13 +139,11 @@ ul li .subtitle {
 
 li:first-child, li:first-child a {
     border-top: 0;
-    -webkit-border-top-left-radius: 8px;
-    -webkit-border-top-right-radius: 8px;
+    .border-radius(8px 8px 0 0);
 }
 
 li:last-child, li:last-child a {
-    -webkit-border-bottom-left-radius: 8px;
-    -webkit-border-bottom-right-radius: 8px;
+    .border-radius(0 0 8px 8px);
 }
 
 
@@ -157,7 +158,7 @@ input, select, textarea {
 select {
   text-indent: 0;
   background: transparent no-repeat right center;
-  -webkit-appearance: textfield;
+  .appearance(textfield);
   margin-left: -6px;
   width: 100%;
   color: #777;
@@ -194,7 +195,7 @@ ul.form ul li * {
     display: inline-block;
     margin-left: 0px;
     width: 100%;
-    -webkit-appearance: textarea;
+    .appearance(textarea);
     outline: none;
 }
 
@@ -218,8 +219,8 @@ input[type="checkbox"], input[type="radio"] {
     display: block;
     overflow: hidden;
     position:relative;
-    -webkit-border-radius: 5px;
-    -webkit-background-clip: padding-box;
+    .border-radius(5px);
+    .background-clip(padding-box);
 }
 
 .toggleButton > div.checked {
@@ -228,18 +229,18 @@ input[type="checkbox"], input[type="radio"] {
 
 .toggleButton > div {
     margin: 0;
-    -webkit-border-radius: 5px;
+    .border-radius(5px);
     background: #fff url(../icon/ios/on_off.png) 0 0 no-repeat;
     height: 27px;
     overflow: hidden;
     width: 149px;
     border: 0;
     background-color: transparent;
-    -webkit-transition: left .15s;
+    .transition(left .15s);
     position: absolute;
     top: 0px;
     left: -55px;
-    -webkit-background-clip: padding-box;
+    .background-clip(padding-box);
 }
 
 
@@ -252,11 +253,13 @@ input[type="checkbox"], input[type="radio"] {
   border-left:  1px solid #b5b5b5;
   border-right:  1px solid #b5b5b5;
   height: 15px;
-  background: -webkit-gradient(linear,left top,left bottom,from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from(#093887), color-stop(0.05, #2a5db1), color-stop(0.9, #6ca9f7), to(#4e8ad4)) 0px 0px no-repeat;
+  background: -webkit-gradient(linear, left top, left bottom, from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from(#093887), color-stop(0.05, #2a5db1), color-stop(0.9, #6ca9f7), to(#4e8ad4)) 0px 0px no-repeat;
   background: -webkit-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -webkit-linear-gradient(top, #093887, #2a5db1 5%,#6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
-  -webkit-border-radius: .6em;
+  background: -moz-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -moz-linear-gradient(top, #093887, #2a5db1 5%,#6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
+  background: linear-gradient(to bottom, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, linear-gradient(to bottom, #093887, #2a5db1 5%,#6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
+  .border-radius(.6em);
   overflow: visible;
-  -webkit-background-clip: padding-box;
+  .background-clip(padding-box);
 }
 
 .slider > div {
@@ -264,13 +267,15 @@ input[type="checkbox"], input[type="radio"] {
   top: -8px;
   left: 0%;
   background-color:#fff;
-  -webkit-box-shadow: 0 0 2px 1px #a9a9a9;
+  .box-shadow(0 0 2px 1px #a9a9a9);
   width: 30px;
   height: 30px;
   background: -webkit-gradient(radial, 15 33, 6, 15 30, 29, from(#FCFCFC), color-stop(95%, #D1D1D1), to(#fff) );
   background: -webkit-radial-gradient(50% 135%, 30px 44px, #fff, #fdfdfd, #d1d1d1 83%, #fff 95%);
-  -webkit-border-radius: 1em;
-  -webkit-background-clip: padding-box;
+  background: -moz-radial-gradient(50% 135%, 30px 44px, #fff, #fdfdfd, #d1d1d1 83%, #fff 95%);
+  background: radial-gradient(50% 135%, 30px 44px, #fff, #fdfdfd, #d1d1d1 83%, #fff 95%);
+  .border-radius(1em);
+  .background-clip(padding-box);
 }
 
 input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
@@ -286,20 +291,19 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
 .tabBar {
   height:45px;
   border-top:1px solid #333333;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#232323), color-stop(50%,#111111), color-stop(51%,#000000), color-stop(100%,#000000));
-
+  #gradient > .vertical-four(#232323, #111111, #000000, #000000, 50%, 51%);
 }
 
 .tabButton {
   height:42px !important;
   text-align: center;
   line-height: 45px;
-  -webkit-box-sizing: border-box;
+  .box-sizing(border-box);
 }
 
 .tabButton.active, .tabButton.selected {
   color:#ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#393939), color-stop(50%,#292929), color-stop(51%,#1d1d1d),color-stop(100%,#1c1c1c));
+  #gradient > .vertical-four(#393939, #292929, #1d1d1d, #1c1c1c, 50%, 51%);
 }
 
 
@@ -312,7 +316,7 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
     padding-left: 10px;
     padding-right: 10px;
     height: 45px;
-    background: -webkit-gradient(linear, left top, left bottom, from(#cdd5df), to(#6d84a2), color-stop(0.5, #8195af));
+    #gradient > .vertical-three(#cdd5df, #8195af, #6d84a2);
 }
 
 
@@ -331,22 +335,22 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
     text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0;
     text-decoration: none;
     background: none;
-    -webkit-border-image: url(../icon/ios/toolButton.png) 0 5 0 5;
+    .border-image(url(../icon/ios/toolButton.png) 0 5 0 5);
 }
 
 .navigationbar-button.active {
-    -webkit-border-image: url(../icon/ios/toolButton_pressed.png) 0 5 0 5;
+    .border-image(url(../icon/ios/toolButton_pressed.png) 0 5 0 5);
 }
 
 .navigationbar-backbutton {
     padding: 0;
     max-width: 55px;
     border-width: 0 8px 0 14px;
-    -webkit-border-image: url(../icon/ios/backButton.png) 0 8 0 14;
+    .border-image(url(../icon/ios/backButton.png) 0 8 0 14);
 }
 
 .navigationbar-backbutton.active {
-    -webkit-border-image: url(../icon/ios/backButton_pressed.png) 0 8 0 14;
+    .border-image(url(../icon/ios/backButton_pressed.png) 0 8 0 14);
 }
 
 
@@ -360,34 +364,34 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
 
 .scrollbarV > div {
   border: none;
-  background:-webkit-gradient(linear, 0 0, 100% 0, from(#62666a), to(#65696c));
-  -webkit-background-clip:padding-box;
-  -webkit-box-sizing:border-box;
-  -webkit-border-radius:4px;
+  #gradient > .horizontal(#62666a, #65696c);
+  .background-clip(padding-box);
+  .box-sizing(border-box);
+  .border-radius(4px);
 }
 
 /* CHECKBOX */
 
 input[type="checkbox"] {
   background-color: #929292;
-  -webkit-appearance : none;
+  .appearance(none);
   width: 30px;
   height: 30px;
-  -webkit-border-radius: .5em;
+  .border-radius(.5em);
   border: 2px solid #4c4c4c;
-  background: -webkit-gradient(linear,left top,left bottom,from(#fefefe), to(#cecece));
-  background: -webkit-linear-gradient(top, #fefefe, #cecece);
+  #gradient > .vertical(#fefefe, #cecece);
 }
 
 input[type="checkbox"]:checked {
   background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
   background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -moz-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, linear-gradient(to bottom, #353535, #8f8f8f) 0px 0px no-repeat;
 }
 
 .disabled input[type="checkbox"]:disabled {
   border: 2px solid #b8b8b8;
-  background: -webkit-gradient(linear,left top,left bottom,from(#ffffff), to(#ebebeb));
-  background: -webkit-linear-gradient(top, #ffffff, #ebebeb);
+  #gradient > .vertical(#ffffff, #ebebeb);
 }
 
 /*  TOOLBAR  */
@@ -396,13 +400,13 @@ input[type="checkbox"]:checked {
   cursor: pointer;
   font-weight: bold;
   color: #fff;
-  -webkit-border-radius: 4px;
+  .border-radius(4px);
   font: bold 17px Helvetica;
   height : 50px;
   text-align: center;
   padding-left: 20px;
   padding-right: 20px;
-  -webkit-background-clip: padding-box;
+  .background-clip(padding-box);
   overflow: hidden;
   width: 0; /* this is for equal sizes od the buttons when aded in a toolbar or other container with flex :1*/
 }
@@ -439,8 +443,8 @@ input[type="checkbox"]:checked {
   */
   border-top: 1px solid #2d3642;
   height: 55px;
-  background: -webkit-gradient(linear, left top, left bottom, from(#cdd5df), to(#6d84a2), color-stop(0.5, #8195af));
-  -webkit-transition: bottom .65s;
+  #gradient > .vertical-three(#cdd5df, #8195af, #6d84a2);
+  .transition(bottom .65s);
 }
 
 
@@ -469,23 +473,31 @@ input[type="checkbox"]:checked {
   height: 20px;
   width: 20px;
   background-image: url(../icon/ios/spinner.png);
-  -webkit-animation-name: spinnerRotate;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
+  .animation-name(spinnerRotate);
+  .animation-duration(1s);
+  .animation-iteration-count(infinite);
+  .animation-timing-function(linear);
   margin: 0 auto;
   vertical-align: middle;
 }
 
 @-webkit-keyframes spinnerRotate {
 	from {
-		-webkit-transform:rotate(0deg);
+		.transform(rotate(0deg));
 	}
 	to {
-		-webkit-transform:rotate(360deg);
+		.transform(rotate(360deg));
 	}
 }
 
+@-moz-keyframes spinnerRotate {
+	from {
+		.transform(rotate(0deg));
+	}
+	to {
+		.transform(rotate(360deg));
+	}
+}
 
 /*  SPLITPANE  */
 
@@ -508,10 +520,11 @@ input[type="checkbox"]:checked {
   position: absolute;
   background: -webkit-gradient(radial,100 -180,215,100 -180,225,from(#637396),to(#1d3566));
   background: -webkit-radial-gradient(100px -195px,230px 230px,#637396 99%,#1D3566);
+  background: -moz-radial-gradient(100px -195px,230px 230px,#637396 99%,#1D3566);
   width: auto;
   padding: 6px;
   border: 2px solid #c7d1e3;
-  -webkit-border-radius: .7em;
+  .border-radius(.7em);
   z-index: 99;
   clear: both;
   color: #fff;
@@ -554,10 +567,11 @@ input[type="checkbox"]:checked {
   position: fixed;
   background: -webkit-gradient(radial,100 -180,215,100 -180,225,from(#637396),to(#1d3566));
   background: -webkit-radial-gradient(100px -195px,230px 230px,#637396 99%,#1D3566);
+  background: -moz-radial-gradient(100px -195px,230px 230px,#637396 99%,#1D3566);
   width: auto;
   padding: 6px;
   border: 2px solid #c7d1e3;
-  -webkit-border-radius: .7em;
+  .border-radius(.7em);
   z-index: 99;
   min-width: 200px;
   color: #fff;

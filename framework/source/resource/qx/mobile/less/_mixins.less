@@ -130,6 +130,13 @@
   border-radius: @arguments;
 }
 
+.border-image() {
+  -webkit-border-image: @arguments;
+  -moz-border-image: @arguments;
+  // Implementation seems to differ
+  // border-image: @arguments;
+}
+
 .box-shadow() {
   -webkit-box-shadow: @arguments;
   -moz-box-shadow: @arguments;
