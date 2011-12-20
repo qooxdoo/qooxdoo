@@ -546,7 +546,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     {
       "anonymous" :
       {
-        style : "pointer-events",
+        style : "pointerEvents",
         values :
         {
           "true" : "none",

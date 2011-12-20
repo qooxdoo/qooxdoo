@@ -394,7 +394,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
         // Fix knob position, so that it can't be moved over the slider area
         var knobWidth = this._knobWidth || qx.bom.element.Dimension.getWidth(knobElement);
         var marginLeft = knobWidth * (percent / 100);
-        qx.bom.element.Style.set(knobElement, "margin-left", "-" + marginLeft + "px");
+        qx.bom.element.Style.set(knobElement, "marginLeft", "-" + marginLeft + "px");
       }
     },
 
