@@ -181,22 +181,60 @@ qx.Class.define("qx.test.lang.Object",
 
 
     testMergeWith : function() {
-      this.warn("needs test!");
+      var original = {a: 0};
+      var o1 = {a: 2, b: 1};
+
+      qx.lang.Object.mergeWith(original, o1, true);
+
+      // check the original
+      this.assertEquals(2, original.a);
+      this.assertEquals(1, original.b);
     },
 
 
     testCarefullyMergeWith : function() {
-      this.warn("needs test!");
+      var original = {a: 0};
+      var o1 = {a: 2, b: 1};
+
+      qx.lang.Object.carefullyMergeWith(original, o1);
+
+      // check the original
+      this.assertEquals(0, original.a);
+      this.assertEquals(1, original.b);
     },
 
 
     testMerge : function() {
-      this.warn("needs test!");
+      var original = {a: 0};
+      var o1 = {b: 1};
+      var o2 = {c: 2};
+
+      qx.lang.Object.merge(original, o1, o2);
+
+      // check the original
+      this.assertEquals(0, original.a);
+      this.assertEquals(1, original.b);
+      this.assertEquals(2, original.c);
     },
 
 
     testClone : function() {
-      this.warn("needs test!");
+      var original = {a: 12, b: true, c: "affe"};
+      var clone = qx.lang.Object.clone(original);
+
+      clone.a = 14;
+      original.b = false;
+      clone.c = "AFFE";
+
+      // check the original
+      this.assertEquals(12, original.a);
+      this.assertEquals(false, original.b);
+      this.assertEquals("affe", original.c);
+
+      // check the clone
+      this.assertEquals(14, clone.a);
+      this.assertEquals(true, clone.b);
+      this.assertEquals("AFFE", clone.c);
     },
 
 
@@ -219,22 +257,27 @@ qx.Class.define("qx.test.lang.Object",
 
 
     testGetKeyFromValue : function() {
-      this.warn("needs test!");
+      var obj = {a: 123};
+      this.assertEquals("a", qx.lang.Object.getKeyFromValue(obj, 123));
     },
 
 
     testContains : function() {
-      this.warn("needs test!");
+      this.assertTrue(qx.lang.Object.contains({a:1}, 1));
     },
 
 
     testSelect : function() {
-      this.warn("needs test!");
+      this.assertEquals("affe", qx.lang.Object.select("affe", {affe: "affe"}));
     },
 
 
     testFromArray : function() {
-      this.warn("needs test!");
+      var array = ["a", "b"];
+      var obj = qx.lang.Object.fromArray(array);
+
+      this.assertTrue(obj.a);
+      this.assertTrue(obj.b);
     },
 
     /**
