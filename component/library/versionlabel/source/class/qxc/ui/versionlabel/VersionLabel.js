@@ -31,11 +31,6 @@ qx.Class.define("qxc.ui.versionlabel.VersionLabel",
     {
       // if no parameter value given: use the environment variable
       value = qx.core.Environment.get("versionLabel.name");
-      
-      // 'qooxdoo' as fallback
-      if (value == undefined) {
-        value = "qooxdoo";
-      }
     }
     
     if (version == undefined)
@@ -43,7 +38,7 @@ qx.Class.define("qxc.ui.versionlabel.VersionLabel",
       // if no parameter value given: use the environment variable
       version = qx.core.Environment.get("versionLabel.version");
       
-      if (version == undefined)
+      if (version == null)
       {
         // revision or version number as fallback
         version = qx.core.Environment.get("qx.revision");
@@ -54,5 +49,20 @@ qx.Class.define("qxc.ui.versionlabel.VersionLabel",
     }
 
     this.base(arguments, value + " " + version);
+  },
+  
+  environment:
+  {
+    /**
+     * The name of the version label which is shown in the upper right corner.
+     * Defaults to 'qooxdoo'.
+     */
+    "versionLabel.name" : "qooxdoo",
+    
+    /**
+     * The version string of the version label which is shown in the upper right corner.
+     * Defaults to 'null' to be able to fallback to 'qx.revision' or 'qx.version' easily.
+     */
+    "versionLabel.version" : null
   }
 });
