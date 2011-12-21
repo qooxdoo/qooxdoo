@@ -13,9 +13,9 @@ This article may be a good transition guide for experienced jQuery developers to
 
 For more info also see the following information:
 
-* `Selector demo <http://demo.qooxdoo.org/devel/demobrowser/index.html#bom~Selector.html>`_
-* `Selector API <http://demo.qooxdoo.org/devel/apiviewer/#qx.bom.Selector>`_
-* `Collection API <http://demo.qooxdoo.org/devel/apiviewer/#qx.bom.Collection>`_
+* `Selector demo <http://demo.qooxdoo.org/%{version}/demobrowser/index.html#bom~Selector.html>`_
+* `Selector API <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.bom.Selector>`_
+* `Collection API <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.bom.Collection>`_
 
 
 
