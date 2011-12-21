@@ -1663,8 +1663,9 @@ input[type="checkbox"]:checked {
 .popup {
   position: absolute;
   background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));
-  background: -webkit-radial-gradient(100px -195px, 230px 230px, #637396 99%, #1d3566);
-  background: -moz-radial-gradient(100px -195px, 230px 230px, #637396 99%, #1d3566);
+  background-image: -webkit-radial-gradient(100px -195px, circle, #637396 215px, #1d3566 225px);
+  background-image: -moz-radial-gradient(100px -195px, circle, #637396 215px, #1d3566 225px);
+  background-image: radial-gradient(100px -195px, circle, #637396 215px, #1d3566 225px);
   width: auto;
   padding: 6px;
   border: 2px solid #c7d1e3;
@@ -1704,8 +1705,9 @@ input[type="checkbox"]:checked {
 .dialog {
   position: fixed;
   background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));
-  background: -webkit-radial-gradient(100px -195px, 230px 230px, #637396 99%, #1d3566);
-  background: -moz-radial-gradient(100px -195px, 230px 230px, #637396 99%, #1d3566);
+  background-image: -webkit-radial-gradient(100px -180px, circle, #637396 215px, #1d3566 225px);
+  background-image: -moz-radial-gradient(100px -180px, circle, #637396 215px, #1d3566 225px);
+  background-image: radial-gradient(100px -180px, circle, #637396 215px, #1d3566 225px);
   width: auto;
   padding: 6px;
   border: 2px solid #c7d1e3;
