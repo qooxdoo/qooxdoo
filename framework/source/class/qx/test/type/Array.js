@@ -26,23 +26,50 @@ qx.Class.define("qx.test.type.Array",
 
     setUp : function()
     {
-      this.__arr = new qx.type.Array();
+      this.__arr = new qx.type.Array("x");
+    },
+
+    testConstruct : function() {
+      this.assertEquals(this.__arr[0], "x");
     },
 
     testAppend : function() {
       // native array
       this.__arr.append([1, 2]);
+      this.assertEquals(this.__arr[1], 1);
+      this.assertEquals(this.__arr[2], 2);
+
+      // type array
+      var a = new qx.type.Array(3, 4);
+      this.__arr.append(a);
+      this.assertEquals(this.__arr[3], 3);
+      this.assertEquals(this.__arr[4], 4);
+
+      // type base array
+      var b = new qx.type.BaseArray(5, 6);
+      this.__arr.append(b);
+      this.assertEquals(this.__arr[5], 5);
+      this.assertEquals(this.__arr[6], 6);
+    },
+
+
+    testPrepend : function() {
+      // native array
+      this.__arr.prepend([1, 2]);
       this.assertEquals(this.__arr[0], 1);
       this.assertEquals(this.__arr[1], 2);
 
       // type array
-      var a = new qx.type.Array();
-      a.push(3);
-      a.push(4);
+      var a = new qx.type.Array(3, 4);
+      this.__arr.prepend(a);
+      this.assertEquals(this.__arr[0], 3);
+      this.assertEquals(this.__arr[1], 4);
 
-      this.__arr.append(a);
-      this.assertJsonEquals(this.__arr[2], 3);
-      this.assertJsonEquals(this.__arr[3], 4);
+      // type base array
+      var b = new qx.type.BaseArray(5, 6);
+      this.__arr.prepend(b);
+      this.assertEquals(this.__arr[0], 5);
+      this.assertEquals(this.__arr[1], 6);
     }
   }
 });
