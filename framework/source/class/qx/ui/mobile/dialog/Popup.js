@@ -164,19 +164,19 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         var anchorDimension = qx.bom.element.Dimension.getSize(this.__anchor.getContainerElement());
         var dimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
         if(pos.top + dimension.height > qx.bom.Viewport.getHeight()) {
-          pos.top = pos.top - dimension.height - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'padding-bottom')) - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'border-bottom-width'));
+          pos.top = pos.top - dimension.height - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingBottom')) - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderBottomWidth'));
           this.__anchorPointer.removeCssClass('popupAnchorPointerTop');
           this.__anchorPointer.removeCssClass('popupAnchorPointerLeft');
           this.__anchorPointer.removeCssClass('popupAnchorPointerRight');
           this.__anchorPointer.addCssClass('popupAnchorPointerBottom');
-          this.__anchorPointer._setStyle('margin-left',(anchorDimension.width/2)+'px');
-          this.__anchorPointer._setStyle('margin-bottom','-'+(parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'padding-bottom')) + parseInt(qx.bom.element.Style.get(this.__anchorPointer.getContainerElement(), 'border-top-width')))+'px');
-          this.__anchorPointer._setStyle('margin-top',(parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'padding-bottom')))+'px');
+          this.__anchorPointer._setStyle('marginLeft',(anchorDimension.width/2)+'px');
+          this.__anchorPointer._setStyle('marginBottom','-'+(parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingBottom')) + parseInt(qx.bom.element.Style.get(this.__anchorPointer.getContainerElement(), 'borderTopWidth')))+'px');
+          this.__anchorPointer._setStyle('marginTop',(parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingBottom')))+'px');
           var newDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
           this._positionTo(pos.left, pos.top - (newDimension.height - dimension.height));
         }
         else if(pos.left + dimension.width > qx.bom.Viewport.getWidth()) {
-          pos.left = pos.left - dimension.width - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'padding-right')) - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'border-right-width'));
+          pos.left = pos.left - dimension.width - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingRight')) - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderRightWidth'));
           this.__anchorPointer.removeCssClass('popupAnchorPointerTop');
           this.__anchorPointer.removeCssClass('popupAnchorPointerLeft');
           this.__anchorPointer.removeCssClass('popupAnchorPointerBottom');
@@ -184,10 +184,10 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           this._positionTo(pos.left, pos.top);
         }
         else {
-          this.__anchorPointer._setStyle('margin-left',(anchorDimension.width/2)+'px');
+          this.__anchorPointer._setStyle('marginLeft',(anchorDimension.width/2)+'px');
           var newDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
-          var x = parseInt(this.__anchorPointer._getStyle('margin-top')) == 0 ? 2 : 0;
-          this.__anchorPointer._setStyle('margin-top','-'+(newDimension.height - x*parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'padding-bottom')) + parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'border-top-width')))+'px');
+          var x = parseInt(this.__anchorPointer._getStyle('marginTop')) == 0 ? 2 : 0;
+          this.__anchorPointer._setStyle('marginTop','-'+(newDimension.height - x*parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingBottom')) + parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderTopWidth')))+'px');
           this._positionTo(pos.left, pos.top + anchorDimension.height + parseInt(qx.bom.element.Dimension.getHeight(this.__anchorPointer.getContainerElement())));
         }
         return;
