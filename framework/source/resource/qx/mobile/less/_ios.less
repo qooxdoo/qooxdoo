@@ -541,6 +541,11 @@ input[type="checkbox"]:checked {
 .popupAnchorPointer {
   height: 0;
   width: 0;
+
+  // Remove from normal flow to avoid this box’s bottom margin edge
+  // to determine the height of the containing element. Fixes clipped
+  // height of popup in Firefox. Side-effect: Width grows by the
+  // pointer’s border-box width (in Firefox).
   float: left;
 }
 
