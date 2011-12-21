@@ -652,6 +652,7 @@ qx.Class.define("qx.data.controller.Tree",
      * implemented by the {@link #delegate} property.
      *
      * @param sourcePath {String | null} The path to the property in the model.
+     *   If you use an empty string, the whole model item will be bound.
      * @param targetPath {String} The name of the property in the target
      *   widget.
      * @param options {Map | null} The options to use for the binding.

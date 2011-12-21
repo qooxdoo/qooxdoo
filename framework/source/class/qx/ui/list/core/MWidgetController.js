@@ -168,6 +168,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      * {@link #delegate} property.
      *
      * @param sourcePath {String | null} The path to the property in the model.
+     *   If you use an empty string, the whole model item will be bound.
      * @param targetProperty {String} The name of the property in the target widget.
      * @param options {Map | null} The options to use for the binding.
      * @param targetWidget {qx.ui.core.Widget} The target widget.
