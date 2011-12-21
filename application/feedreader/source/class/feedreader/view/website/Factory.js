@@ -40,6 +40,10 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
        var indicator = container.children[0];
        var title = container.children[1];
        var content = container.children[2];
+       // calculate aniumation duration (depends on content height)
+       var duration = content.offsetHeight * 2;
+       duration = Math.max(1000, duration);
+       duration = Math.min(200, duration);
 
        // handler for the click on either the title or the indicator
        var onClick = function(e) {
@@ -48,7 +52,7 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
            qx.bom.element.Style.set(content, "display", "");
            qx.bom.element.Transform.scale(content, [null, 0]);
            qx.bom.element.Animation.animate(content, {
-             duration: 500,
+             duration: duration,
              origin: "top center",
              keyFrames: {
                0: {
@@ -71,7 +75,7 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
 
          } else {
            qx.bom.element.Animation.animate(content, {
-             duration: 500,
+             duration: duration,
              origin: "top center",
              keyFrames: {
                0: {
