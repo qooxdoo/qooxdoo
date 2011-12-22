@@ -51,9 +51,13 @@ qx.Class.define("qx.util.Serializer",
     toUriParameter : function(object, qxSerializer, dateFormat)
     {
       var result = "";
-      var properties = qx.util.PropertyUtil.getProperties(object.constructor);
+      var properties = qx.util.PropertyUtil.getAllProperties(object.constructor);
 
       for (var name in properties) {
+        // ignore property groups
+        if (properties[name].group != undefined) {
+          continue;
+        }
         var value = object["get" + qx.lang.String.firstUp(name)]();
 
         // handle arrays
@@ -279,7 +283,7 @@ qx.Class.define("qx.util.Serializer",
           // continue otherwise
         }
         result += "{";
-        var properties = qx.util.PropertyUtil.getProperties(object.constructor);
+        var properties = qx.util.PropertyUtil.getAllProperties(object.constructor);
         for (var name in properties) {
           // ignore property groups
           if (properties[name].group != undefined) {
