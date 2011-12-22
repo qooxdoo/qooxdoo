@@ -317,6 +317,8 @@ qx.Class.define("qx.data.controller.Form",
           }
         }
       }
+      // make sure the initial values of the model are taken for resetting [BUG #5874]
+      this.getTarget().redefineResetter();
     },
 
 
