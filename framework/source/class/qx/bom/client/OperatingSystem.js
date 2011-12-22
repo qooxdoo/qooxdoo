@@ -68,6 +68,11 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
         input.indexOf("iPad") != -1
       ) {
         return "ios";
+        
+      } else if (
+        agent.indexOf("Android") != -1
+      ) {
+        return "android";
 
       } else if (
         input.indexOf("Linux") != -1
@@ -80,11 +85,6 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
         input.indexOf("Darwin") != -1
       ) {
         return "unix";
-
-      } else if (
-        input.indexOf("Android") != -1
-      ) {
-        return "android";
 
       } else if (
         input.indexOf("SymbianOS") != -1
