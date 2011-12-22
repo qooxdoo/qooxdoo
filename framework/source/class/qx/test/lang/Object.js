@@ -238,6 +238,22 @@ qx.Class.define("qx.test.lang.Object",
     },
 
 
+    testCloneDeep : function() {
+      var original = {a: {b: 0}};
+      var clone = qx.lang.Object.clone(original, true);
+
+      // change the original
+      original.a.b = 1;
+      this.assertEquals(0, clone.a.b);
+
+      original = {a: [{b: 0}]};
+      clone = qx.lang.Object.clone(original, true);
+
+      // change the original
+      original.a[0].b = 1;
+      this.assertEquals(0, clone.a[0].b);
+    },
+
     testInvert : function()
     {
       this.assertNotUndefined(qx.lang.Object.invert);

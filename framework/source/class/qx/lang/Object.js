@@ -213,21 +213,35 @@ qx.Class.define("qx.lang.Object",
      * Return a copy of an Object
      *
      * @param source {Object} Object to copy
+     * @param deep {Boolean} If the clone should be a deep clone.
      * @return {Object} copy of vObject
      */
-    clone : function(source)
+    clone : function(source, deep)
     {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.core.Assert && qx.core.Assert.assertMap(source, "Invalid argument 'source'");
+      if (qx.lang.Type.isObject(source)) {
+        var clone = {};
+        for (var key in source) {
+          if (deep) {
+            clone[key] = qx.lang.Object.clone(source[key], deep);
+          } else {
+            clone[key] = source[key];
+          }
+        }
+        return clone;
+
+      } else if (qx.lang.Type.isArray(source)) {
+        var clone = [];
+        for (var i=0; i < source.length; i++) {
+          if (deep) {
+            clone[i] = qx.lang.Object.clone(source[i]);
+          } else {
+            clone[i] = source[i];
+          }
+        };
+        return clone;
+
       }
-
-      var clone = {};
-
-      for (var key in source) {
-        clone[key] = source[key];
-      }
-
-      return clone;
+      return source;
     },
 
 
