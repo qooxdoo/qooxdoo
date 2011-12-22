@@ -156,6 +156,16 @@ qx.Class.define("qx.test.util.Serializer",
       a3.dispose();
     },
 
+    testUrlInherited : function() {
+      var model = new qx.ui.core.Widget();
+      var data = this.__s.toUriParameter(model);
+      // property included in widget
+      this.assertTrue(data.indexOf("appearance") != -1);
+      // property included in LayoutItem (Superclass)
+      this.assertTrue(data.indexOf("alignY") != -1);
+      model.dispose();
+    },
+
     testJsonFlat : function() {
       this.__model.setData1("a");
       this.__model.setData2(10.456);
@@ -211,11 +221,20 @@ qx.Class.define("qx.test.util.Serializer",
       model.dispose();
     },
 
+    testJsonInherited : function() {
+      var model = new qx.ui.core.Widget();
+      var data = this.__s.toJson(model);
+      // property included in widget
+      this.assertTrue(data.indexOf("appearance") != -1);
+      // property included in LayoutItem (Superclass)
+      this.assertTrue(data.indexOf("alignY") != -1);
+      model.dispose();
+    },
 
     testJsonEmpty : function() {
       this.__model.setData1(new qx.data.Array());
       this.__model.setData2([]);
-      this.__model.setData3(this);
+      this.__model.setData3({});
       this.assertEquals('{"data1":[],"data2":[],"data3":{}}', this.__s.toJson(this.__model));
 
       this.__model.getData1().dispose();
