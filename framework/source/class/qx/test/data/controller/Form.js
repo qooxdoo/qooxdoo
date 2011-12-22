@@ -51,6 +51,19 @@ qx.Class.define("qx.test.data.controller.Form",
     },
 
 
+    testInitialResetter : function() {
+      // create the controller which set the inital values and
+      // saves them for resetting
+      var c = new qx.data.controller.Form(this.__model, this.__form);
+
+      this.__tf2.setValue("affe");
+      this.__form.reset();
+      this.assertEquals(null, this.__tf2.getValue());
+
+      c.dispose();
+    },
+
+
     testUnidirectionalDeep: function() {
       this.__form.dispose();
       this.__form = new qx.ui.form.Form();
