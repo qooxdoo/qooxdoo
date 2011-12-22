@@ -331,15 +331,32 @@ qx.Class.define("qx.ui.container.SlideBar",
     _onMouseWheel : function(e)
     {
       var delta = 0;
+      var pane = this.getChildControl("scrollpane");
       if (this.getOrientation() === "horizontal") {
         delta = e.getWheelDelta("x");
+
+        var position = pane.getScrollX();
+        var max = pane.getScrollMaxX();
+        var steps = parseInt(delta);
+
+        // pass the event to the parent if both scrollbars are at the end
+        if (!(steps < 0 && position <= 0 || steps > 0 && position >= max)) {
+          e.stop();
+        }
       } else {
         delta = e.getWheelDelta("y");
-      }
-      this.scrollBy(delta * this.getScrollStep());
 
-      // Stop bubbling and native event
-      e.stop();
+        var position = pane.getScrollY();
+        var max = pane.getScrollMaxY();
+        var steps = parseInt(delta);
+
+        // pass the event to the parent if both scrollbars are at the end
+        if (!(steps < 0 && position <= 0 || steps > 0 && position >= max)) {
+          e.stop();
+        }
+      }
+
+      this.scrollBy(delta * this.getScrollStep());
     },
 
 
