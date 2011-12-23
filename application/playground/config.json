@@ -71,10 +71,7 @@
       "add-css" :
       [
         {
-          "uri" : "resource/qx/mobile/css/common/main.css"
-        },
-        {
-          "uri" : "resource/qx/mobile/css/android/android.css"
+          "uri" : "resource/qx/mobile/css/android.css"
         }
       ]
     },
@@ -92,10 +89,7 @@
       "add-css" :
       [
         {
-          "uri" : "../../../framework/source/resource/qx/mobile/css/common/main.css"
-        },
-        {
-          "uri" : "../../../framework/source/resource/qx/mobile/css/android/android.css"
+          "uri" : "../../../framework/source/resource/qx/mobile/css/android.css"
         }
       ]
     },
@@ -106,10 +100,7 @@
       "add-css" :
       [
         {
-          "uri" : "../../../framework/source/resource/qx/mobile/css/common/main.css"
-        },
-        {
-          "uri" : "../../../framework/source/resource/qx/mobile/css/android/android.css"
+          "uri" : "../../../framework/source/resource/qx/mobile/css/android.css"
         }
       ]
     }
