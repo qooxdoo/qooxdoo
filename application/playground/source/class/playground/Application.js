@@ -323,7 +323,8 @@ qx.Class.define("playground.Application",
      */
     __supportsMode : function(mode) {
       if (mode == "mobile") {
-        return qx.core.Environment.get("engine.name") == "webkit";
+        var engine = qx.core.Environment.get("engine.name");
+        return (engine == "webkit" || engine == "gecko");
       } else if (mode == "ria") {
         return true;
       }
