@@ -45,6 +45,24 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
     },
 
 
+    testRootArray : function() {
+      var m = [{b: 10}];
+      m = qx.data.marshal.Json.createModel(m, true);
+
+      var self = this;
+      this.assertEventFired(m, "changeBubble", function() {
+        m.getItem(0).setB("affee");
+      }, function(e) {
+        self.assertEquals("[0].b", e.getData().name);
+      });
+      m.addListener("changeBubble", function(e) {
+        console.log(e.getData().name);
+      }, this);
+
+      m.dispose();
+    },
+
+
     testAppend : function()
     {
       var that = this;

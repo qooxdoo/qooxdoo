@@ -150,6 +150,10 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
 
       // if the target is not an array
       } else {
+        // special case for array as first element of the chain [BUG #5985]
+        if (qx.Class.hasInterface(this.constructor, qx.data.IListData) && name !== "") {
+          name = "[" + name + "]";
+        }
         var newName =  name + "." + data.name;
       }
 
