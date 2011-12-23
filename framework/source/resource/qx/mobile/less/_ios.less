@@ -1,238 +1,244 @@
-/* MAIN */
-.root {
-    background: rgb(197,204,211) url(../icon/ios/pinstripes.png);
-    color : #666;
-    font-size:0.8em;
+//
+// iOS theme.
+//
+
+//
+// GLOBAL
+//
+
+a:hover, a:active {
+  outline: none;
 }
 
-.root > * {
-    background: rgb(197,204,211) url(../icon/ios/pinstripes.png);
+a, a:active, a:visited {
+  color: rgb(76, 86, 108);
 }
 
-.content {
-  padding: 10px;
+a:hover {
+  color: rgb(76, 86, 108);
 }
-
-/* FONTS */
-
-.fontNormal {
-  color : #666;
-  font-weight:normal;
-  font-size:0.8em;
-}
-
-/* HEADINGS */
 
 h1 {
   color: #fff;
   text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
 }
 
-
 h2 {
-   font-size: 18px;
-   text-shadow: rgba(255,255,255,.2) 0 1px 1px;
-   color: rgb(76, 86, 108);
+  font-size: 18px;
+  text-shadow: rgba(255,255,255,.2) 0 1px 1px;
+  color: rgb(76, 86, 108);
 }
 
+.root {
+  background: rgb(197,204,211) url(../icon/ios/pinstripes.png);
+  color : #666;
+  font-size: 0.8em;
+}
 
-/* LINKS */
+.root > * {
+  background: rgb(197,204,211) url(../icon/ios/pinstripes.png);
+}
 
-a:hover, a:active { outline: none; }
-a, a:active, a:visited {  color: rgb(76, 86, 108); }
-a:hover {  color:rgb(76, 86, 108); }
+.content {
+  padding: 10px;
+}
 
+.fontNormal {
+  color: #666;
+  font-weight: normal;
+  font-size: 0.8em;
+}
 
-/* BUTTONS */
+//
+// LIST
+//
 
-.button {
+ul {
+  .border-radius(8px);
+  .background-clip(padding-box);
+  color: black;
   background: #fff;
   border: 1px solid #B4B4B4;
   font: bold 17px Helvetica;
-  .border-radius(8px);
-  line-height : 40px;
-  .background-clip(padding-box);
-}
-
-
-.button.active {
-    #gradient > .vertical(#4583fd, #194ae4);
-    color: #fff;
-}
-
-/* LISTS */
-
-ul {
-    color: black;
-    background: #fff;
-    border: 1px solid #B4B4B4;
-    font: bold 17px Helvetica;
-    .border-radius(8px);
-    margin-bottom: 10px;
-    .background-clip(padding-box);
+  margin-bottom: 10px;
 }
 
 ul li {
-    color: #666;
-    border-top-color: #B4B4B4;
+  color: #666;
+  border-top-color: #B4B4B4;
 }
 
 ul li.arrow {
-    background: url("../icon/ios/arrow.png") no-repeat right center;
+  background: url("../icon/ios/arrow.png") no-repeat right center;
 }
 
 ul li.active.arrow,  ul li.selected.arrow {
-    background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, from(#4583fd), to(#194ae4));
-    background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-linear-gradient(top, #4583fd, #194ae4);
-    background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -moz-linear-gradient(top, #4583fd, #194ae4);
-    background: url("../icon/ios/arrow_pressed.png") no-repeat right center, linear-gradient(to bottom, #4583fd, #194ae4);
+  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, from(#4583fd), to(#194ae4));
+  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-linear-gradient(top, #4583fd, #194ae4);
+  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -moz-linear-gradient(top, #4583fd, #194ae4);
+  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, linear-gradient(to bottom, #4583fd, #194ae4);
 }
 
 ul li.active,  ul li.selected {
-    #gradient > .vertical(#4583fd, #194ae4);
-    color: #fff;
+  #gradient > .vertical(#4583fd, #194ae4);
+  color: #fff;
 }
 
 ul li .subtitle {
   color : #585858;
 }
 
-
-/* when you have a first LI item on any list */
-
 li:first-child, li:first-child a {
-    .border-radius(8px 8px 0 0);
+  .border-radius(8px 8px 0 0);
 }
 
 li:last-child, li:last-child a {
-    .border-radius(0 0 8px 8px);
+  .border-radius(0 0 8px 8px);
 }
 
+//
+// BUTTON
+//
 
-/* FORMS */
+.button {
+  .border-radius(8px);
+  .background-clip(padding-box);
+  background: #fff;
+  border: 1px solid #B4B4B4;
+  font: bold 17px Helvetica;
+  line-height : 40px;
+}
+
+.button.active {
+  #gradient > .vertical(#4583fd, #194ae4);
+  color: #fff;
+}
+
+//
+// FORM
+//
 
 ul.form {
   margin-bottom: 10px;
 }
 
 input[type="text"], input[type="password"], textarea {
-    color: #777;
-    background: #fff url(../.png);
-    border: 0;
-    font: normal 17px Helvetica;
-    padding: 0;
-    display: inline-block;
-    margin-left: 0px;
+  color: #777;
+  background: #fff url(../.png);
+  border: 0;
+  font: normal 17px Helvetica;
+  padding: 0;
+  display: inline-block;
+  margin-left: 0px;
 }
 
-/* TOGGLE BUTTON */
-
-
-/* SLIDER */
+//
+// SLIDER
+//
 
 .slider {
+  .border-radius(.6em);
   border-bottom: 1px solid #d6d6d6;
   border-top: 1px solid #929292;
-  border-left:  1px solid #b5b5b5;
-  border-right:  1px solid #b5b5b5;
+  border-left: 1px solid #b5b5b5;
+  border-right: 1px solid #b5b5b5;
   height: 15px;
   background: -webkit-gradient(linear, left top, left bottom, from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from(#093887), color-stop(0.05, #2a5db1), color-stop(0.9, #6ca9f7), to(#4e8ad4)) 0px 0px no-repeat;
   background: -webkit-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -webkit-linear-gradient(top, #093887, #2a5db1 5%,#6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
   background: -moz-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -moz-linear-gradient(top, #093887, #2a5db1 5%,#6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
   background: linear-gradient(to bottom, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, linear-gradient(to bottom, #093887, #2a5db1 5%,#6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
-  .border-radius(.6em);
 }
 
 .slider > div {
+  .box-shadow(0 0 2px 1px #a9a9a9);
+  .border-radius(1em);
   top: -8px;
   left: 0%;
-  .box-shadow(0 0 2px 1px #a9a9a9);
   width: 30px;
   height: 30px;
   background: -webkit-gradient(radial, 15 33, 6, 15 30, 29, from(#FCFCFC), color-stop(95%, #D1D1D1), to(#fff) );
   background: -webkit-radial-gradient(50% 135%, 30px 44px, #fff, #fdfdfd, #d1d1d1 83%, #fff 95%);
   background: -moz-radial-gradient(50% 135%, 30px 44px, #fff, #fdfdfd, #d1d1d1 83%, #fff 95%);
   background: radial-gradient(50% 135%, 30px 44px, #fff, #fdfdfd, #d1d1d1 83%, #fff 95%);
-  .border-radius(1em);
 }
 
-/* TABBAR */
+//
+// TABBAR
+//
 
 .tabBar {
-  height:45px;
-  border-top:1px solid #333333;
   #gradient > .vertical-four(#232323, #111111, #000000, #000000, 50%, 51%);
+  height: 45px;
+  border-top: 1px solid #333333;
 }
 
 .tabButton {
-  height:42px !important;
+  height: 42px !important;
   line-height: 45px;
 }
 
 .tabButton.active, .tabButton.selected {
-  color:#ffffff;
   #gradient > .vertical-four(#393939, #292929, #1d1d1d, #1c1c1c, 50%, 51%);
+  color:#ffffff;
 }
 
-
-/* NAVIGATIONBAR */
-
-
+//
+// NAVIGATIONBAR
+//
 
 .navigationbar {
-    #gradient > .vertical-three(#cdd5df, #8195af, #6d84a2);
-    border-bottom: 1px solid #2d3642;
+  #gradient > .vertical-three(#cdd5df, #8195af, #6d84a2);
+  border-bottom: 1px solid #2d3642;
 }
 
-
 .navigationbar-button, .navigationbar-backbutton {
-    border-width: 0 5px;
-    padding: 0 3px;
-    height: 30px;
-    color: #fff;
-    text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0;
-    background: none;
-    .border-image(url(../icon/ios/toolButton.png) 0 5 0 5);
+  .border-image(url(../icon/ios/toolButton.png) 0 5 0 5);
+  border-width: 0 5px;
+  padding: 0 3px;
+  height: 30px;
+  color: #fff;
+  text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0;
+  background: none;
 }
 
 .navigationbar-button.active {
-    .border-image(url(../icon/ios/toolButton_pressed.png) 0 5 0 5);
+  .border-image(url(../icon/ios/toolButton_pressed.png) 0 5 0 5);
 }
 
 .navigationbar-backbutton {
-    padding: 0;
-    max-width: 55px;
-    max-width: -moz-calc(55px + 22px);
-    border-width: 0 8px 0 14px;
-    .border-image(url(../icon/ios/backButton.png) 0 8 0 14);
+  .border-image(url(../icon/ios/backButton.png) 0 8 0 14);
+  padding: 0;
+  max-width: 55px;
+  max-width: -moz-calc(55px + 22px);
+  border-width: 0 8px 0 14px;
 }
 
-/*
- * Fix 1px off inherent width of label in Firefox
- */
 .navigationbar-backbutton > div {
-  width: -moz-calc(30px);
+  width: -moz-calc(30px); // Fix 1px off inherent width of label in Firefox
 }
 
 .navigationbar-backbutton.active {
     .border-image(url(../icon/ios/backButton_pressed.png) 0 8 0 14);
 }
 
-
-/* SCROLLBAR */
+//
+// SCROLLBAR
+//
 
 .scrollbarV > div {
-  border: none;
   #gradient > .horizontal(#62666a, #65696c);
+  border: none;
 }
 
-/* CHECKBOX */
+//
+// CHECKBOX
+//
 
 input[type="checkbox"] {
-  background-color: #929292;
-  .border-radius(.5em);
-  border: 2px solid #4c4c4c;
   #gradient > .vertical(#fefefe, #cecece);
+  .border-radius(.5em);
+  background-color: #929292;
+  border: 2px solid #4c4c4c;
 }
 
 input[type="checkbox"]:checked {
@@ -243,25 +249,30 @@ input[type="checkbox"]:checked {
 }
 
 .disabled input[type="checkbox"]:disabled {
-  border: 2px solid #b8b8b8;
   #gradient > .vertical(#ffffff, #ebebeb);
+  border: 2px solid #b8b8b8;
 }
 
-/*  TOOLBAR  */
+//
+// TOOLBAR
+//
 
 .toolbar-button {
+  .border-radius(4px);
+  .background-clip(padding-box);
   cursor: pointer;
   font-weight: bold;
   color: #fff;
-  .border-radius(4px);
   font: bold 17px Helvetica;
   height : 50px;
   text-align: center;
   padding-left: 20px;
   padding-right: 20px;
-  .background-clip(padding-box);
   overflow: hidden;
-  width: 0; /* this is for equal sizes od the buttons when aded in a toolbar or other container with flex :1*/
+
+  // This is for equal sizes od the buttons when aded in a toolbar or
+  // other container with flex :1
+  width: 0;
 }
 
 .toolbar-button.active {
@@ -274,8 +285,6 @@ input[type="checkbox"]:checked {
 
 .toolbar-button > div {
   height: 50px;
-  /* Hidden overflow breaks box-pack: center in Firefox */
-  /* overflow: hidden; */
 }
 
 .toolbar-button .label {
@@ -289,33 +298,31 @@ input[type="checkbox"]:checked {
 .toolbar {
   width: 100%;
   z-index: 1;
-  /*
-  border-top: 1px solid #2d3033;
-  background: -webkit-gradient(linear,left top,left bottom,from(#d8dee6), color-stop(0.05, #b0bbce), color-stop(0.5, #8e9fb6), color-stop(0.5, #8195af), to(#778ca8));
-  background: -webkit-linear-gradient(top, #d8dee6, #b0bbce 5%,#8e9fb6 50%, #8195af 50%, #778ca8);
-  */
   border-top: 1px solid #2d3642;
   #gradient > .vertical-three(#cdd5df, #8195af, #6d84a2);
   .transition(bottom .65s);
 }
 
+//
+// BLOCKER
+//
 
-/*  BLOCKER  */
 .blocker {
-  background-color:gray;
+  background-color: gray;
 }
 
-
-/*  SPINNER  */
+//
+// SPINNER
+//
 
 .spinner {
-  height: 20px;
-  width: 20px;
-  background-image: url(../icon/ios/spinner.png);
   .animation-name(spinnerRotate);
   .animation-duration(1s);
   .animation-iteration-count(infinite);
   .animation-timing-function(linear);
+  height: 20px;
+  width: 20px;
+  background-image: url(../icon/ios/spinner.png);
 }
 
 @-webkit-keyframes spinnerRotate {
@@ -336,56 +343,38 @@ input[type="checkbox"]:checked {
 	}
 }
 
-/*  SPLITPANE  */
-
-.splitPane {
-
-}
+//
+// SPLITPANE
+//
 
 .splitPaneLeft {
-  width : 25%;
+  width: 25%;
 }
 
-.splitPaneRight {
-
-}
-
-
-/*  POPUP  */
+//
+// POPUP
+//
 
 .popup {
-  background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));
   #gradient > .radial(100px, -195px, #637396, 215px, #1d3566, 225px);
-  border: 2px solid #c7d1e3;
   .border-radius(.7em);
+  background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));
+  border: 2px solid #c7d1e3;
   color: #fff;
 }
 
-/*  DIALOG  */
+//
+// DIALOG
+//
+
 .dialog {
-  position: fixed;
-  background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));   // Legacy -webkit-gradient syntax does not accept units
   #gradient > .radial(100px, -180px, #637396, 215px, #1d3566, 225px);
-  width: auto;
-  padding: 6px;
-  border: 2px solid #c7d1e3;
   .border-radius(.7em);
+  background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));   // Legacy -webkit-gradient syntax does not accept units
+  border: 2px solid #c7d1e3;
   z-index: 99;
   min-width: 200px;
   color: #fff;
-}
-
-.dialogButton {
-  width:0;
-  margin-top:6px;
-  margin-left:1px;
-  margin-right:1px;
-}
-
-.dialogTitleUnderline {
-  font-weight: 800;
-  font-size: 16px;
-  margin: 0 0 5px 0;
 }
 
 .dialogTitleUnderline:after {

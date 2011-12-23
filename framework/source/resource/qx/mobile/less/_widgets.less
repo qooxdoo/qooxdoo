@@ -29,14 +29,14 @@ a:hover {
 
 h1, h2 {
   font-weight: bold;
-  font-size:0.8em;
+  font-size: 0.8em;
 }
 
 h1 {
   font-size: 20px;
   text-align: center;
-  margin-left:4px;
-  margin-right:4px;
+  margin-left: 4px;
+  margin-right: 4px;
 }
 
 h2 {
@@ -44,35 +44,6 @@ h2 {
   margin-left: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-ul {
-  padding: 0;
-}
-
-ul li {
-  border-top: 1px solid transparent;
-  list-style-type: none;
-  padding: 10px 25px 10px 10px;
-}
-
-input, select {
-  vertical-align: middle;
-}
-
-input, select, textarea {
-  font-family: Helvetica;
-  font-size: 0.9em;
-}
-
-select {
-  .appearance(textfield);
-  text-indent: 0;
-  background: transparent no-repeat right center;
-  margin-left: -6px;
-  width: 100%;
-  color: #777;
-  border: none;
 }
 
 .root {
@@ -91,6 +62,16 @@ select {
 //
 // LIST
 //
+
+ul {
+  padding: 0;
+}
+
+ul li {
+  border-top: 1px solid transparent;
+  list-style-type: none;
+  padding: 10px 25px 10px 10px;
+}
 
 ul li.arrow {
 
@@ -152,7 +133,7 @@ li:first-child, li:first-child a {
 }
 
 .list-itemimage {
-  margin-right:7px;
+  margin-right: 7px;
 }
 
 //
@@ -166,7 +147,7 @@ li:first-child, li:first-child a {
   height: 27px;
   display: block;
   overflow: hidden;
-  position:relative;
+  position: relative;
 }
 
 .toggleButton > div {
@@ -192,6 +173,25 @@ li:first-child, li:first-child a {
 //
 // FORM
 //
+
+input, select {
+  vertical-align: middle;
+}
+
+input, select, textarea {
+  font-family: Helvetica;
+  font-size: 0.9em;
+}
+
+select {
+  .appearance(textfield);
+  text-indent: 0;
+  background: transparent no-repeat right center;
+  margin-left: -6px;
+  width: 100%;
+  color: #777;
+  border: none;
+}
 
 ul.form li {
     padding: 10px 10px 10px 10px;
@@ -248,7 +248,7 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
 
 .slider > div {
   .background-clip(padding-box);
-  position:absolute;
+  position: absolute;
   background-color:#fff;
 }
 
@@ -295,7 +295,7 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
 //
 
 .scrollbarV {
-  position:absolute;
+  position: absolute;
   top: 2px;
   right: 2px;
   bottom: 7px;

@@ -1,12 +1,12 @@
 .animationParent {
   .perspective(800);
   .transform-style(preserve-3d);
-  -webkit-transform-style: preserve-3d; /* We have to remove this property after animation, otherwise the dialog widget is not shown in Chrome. See Bug #5891 */
+  -webkit-transform-style: preserve-3d; // We have to remove this property after animation, otherwise the dialog widget is not shown in Chrome. See Bug #5891.
 }
 
 .animationChild {
-  position: absolute; /* We have to remove this property after animation, otherwise the list widget is not shown in Webkit Browsers. See Bug #5935 */
   .backface-visibility(hidden);
+  position: absolute; // We have to remove this property after animation, otherwise the list widget is not shown in Webkit Browsers. See Bug #5935.
 }
 
 .in {
@@ -20,10 +20,12 @@
 .in, .out {
   .animation-timing-function(ease-in-out);
   .animation-duration(350ms);
-  .animation-fill-mode(forwards); /* Persist the last frame of the animation */
+  .animation-fill-mode(forwards); // Persist the last frame of the animation
 }
 
-/* Slide left */
+//
+// SLIDE LEFT
+//
 
 .slide.in {
   .animation-name(slideLeftIn);
@@ -69,7 +71,9 @@
     }
 }
 
-/* Slide right */
+//
+// SLIDE RIGHT
+//
 
 .slide.in.reverse {
     .animation-name(slideRightIn);
@@ -115,7 +119,9 @@
     }
 }
 
-/* Fade */
+//
+// FADE
+//
 
 .fade.in {
     .animation-name(fadeIn);
@@ -161,7 +167,9 @@
     }
 }
 
-/* Pop */
+//
+// POP
+//
 
 .pop.in {
     .animation-name(popIn);
@@ -215,7 +223,9 @@
     }
 }
 
-/* Dissolve */
+//
+// DISSOLVE
+//
 
 .dissolve.in {
     .animation-name(dissolveIn);
@@ -261,7 +271,9 @@
     }
 }
 
-/* Slide up */
+//
+// SLIDE UP
+//
 
 .slideup.in {
     z-index: 10;
@@ -355,7 +367,9 @@
     }
 }
 
-/* Flip Left */
+//
+// FLIP LEFT
+//
 
 .flip {
     .backface-visibility(hidden);
@@ -405,9 +419,9 @@
     }
 }
 
-
-/* Flip Right */
-
+//
+// FLIP RIGHT
+//
 
 .flip.in.reverse {
     .animation-name(flipRightIn);
@@ -453,7 +467,9 @@
     }
 }
 
-/* Swap Left */
+//
+// SWAP LEFT
+//
 
 .swap {
     .animation-duration(.7s);
@@ -527,8 +543,9 @@
     }
 }
 
-/* Swap Right */
-
+//
+// SWAP RIGHT
+//
 
 .swap.in.reverse {
     .animation-name(swapRightIn);
@@ -597,8 +614,9 @@
     }
 }
 
-
-/* Cube Left */
+//
+// CUBE LEFT
+//
 
 .cube {
     .animation-duration(.55s);
@@ -658,7 +676,9 @@
     }
 }
 
-/* Cube Right */
+//
+// CUBE RIGHT
+//
 
 
 .cube.in.reverse {

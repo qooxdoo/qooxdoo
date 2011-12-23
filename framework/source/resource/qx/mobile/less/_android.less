@@ -1,55 +1,101 @@
-/* MAIN */
-.root {
-    background: #181818;
-    color : #ffffff;
-    font-size:0.9em;
+//
+// Android theme.
+//
+
+//
+// GLOBAL
+//
+
+a:hover, a:active {
+  outline: none;
 }
 
-.root > * {
-    background: #181818;
+a, a:active, a:visited {
+  color: #e89c00;
 }
 
-/* FONTS */
-
-.fontNormal {
-  color : #ffffff;
-  font-size:0.8em;
+a:hover {
+  color: #e89c00;
 }
-
-/* HEADINGS */
-
 
 h1 {
   color: #fff;
   text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
 }
 
-
 h2 {
-   line-height:20px;
-   text-shadow: rgba(255,255,255,.2) 0 1px 1px;
-   color: #bdbebd;
-   background-color: #212021;
-   border-bottom: 1px solid #313431;
+  line-height: 20px;
+  text-shadow: rgba(255,255,255,.2) 0 1px 1px;
+  color: #bdbebd;
+  background-color: #212021;
+  border-bottom: 1px solid #313431;
 }
 
+.root {
+  background: #181818;
+  color: #ffffff;
+  font-size: 0.9em;
+}
 
-/* LINKS */
+.root > * {
+  background: #181818;
+}
 
-a:hover, a:active { outline: none; }
-a, a:active, a:visited { color: #e89c00; }
-a:hover { color: #e89c00; }
+.fontNormal {
+  color: #ffffff;
+  font-size: 0.8em;
+}
 
+//
+// LIST
+//
 
-/* BUTTONS */
+ul {
+  font: bold 17px Helvetica;
+}
+
+ul li {
+  color: #ffffff;
+  border-top-color: #6b6d6b;
+}
+
+ul li.arrow {
+  background: url("../icon/android/arrow.png") no-repeat right center;
+}
+
+ul li.active.arrow, ul li.selected.arrow {
+  background-image: url("../icon/android/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
+  background-image: url("../icon/android/arrow_pressed.png"), -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: url("../icon/android/arrow_pressed.png"), -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: url("../icon/android/arrow_pressed.png"), linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+ul li.active, ul li.selected {
+  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+  color: #000;
+}
+
+ul li .subtitle {
+  color: #949a94;
+}
+
+ul li.active .subtitle {
+  color: #313429;
+}
+
+//
+// BUTTON
+//
 
 .button, .tabButton {
   #gradient > .vertical(#f4f4f4, #c4c4c4);
-  border: 1px solid #232323;
   .border-radius(4px);
+  .background-clip(padding-box);
+  border: 1px solid #232323;
   font: bold 17px Helvetica;
   line-height : 40px;
-  .background-clip(padding-box);
 }
 
 .tabButton {
@@ -62,10 +108,10 @@ a:hover { color: #e89c00; }
 
 .toolbar-button {
   #gradient > .vertical(#f4f4f4, #c4c4c4);
-  border: 1px solid #232323;
   .border-radius(4px);
+  border: 1px solid #232323;
   font: bold 17px Helvetica;
-  height : 50px;
+  height: 50px;
 }
 
 .toolbar-button.active {
@@ -74,63 +120,31 @@ a:hover { color: #e89c00; }
 
 .toolbar-button > div {
   height: 50px;
-  /* Hidden overflow breaks box-pack: center in Firefox */
-  /* overflow: hidden; */
+
+  // Hidden overflow breaks box-pack: center in Firefox
+  // overflow: hidden;
 }
 
-/* LISTS */
-
-ul {
-    font: bold 17px Helvetica;
-}
-
-ul li {
-    color: #ffffff;
-    border-top-color: #6b6d6b;
-}
-
-ul li.arrow {
-    background: url("../icon/android/arrow.png") no-repeat right center;
-}
-
-ul li.active.arrow, ul li.selected.arrow {
-    background-image: url("../icon/android/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
-    background-image: url("../icon/android/arrow_pressed.png"), -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
-    background-image: url("../icon/android/arrow_pressed.png"), -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
-    background-image: url("../icon/android/arrow_pressed.png"), linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
-    background-position: right center;
-    background-repeat: no-repeat;
-}
-
-ul li.active, ul li.selected {
-    #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
-    color: #000;
-}
-
-ul li .subtitle {
-  color : #949a94;
-}
-
-ul li.active .subtitle {
-    color: #313429;
-}
-
-/* FORMS */
+//
+// FORM
+//
 
 input[type="text"], input[type="password"], textarea {
-    color: #222222;
-    #gradient > .vertical(#e2e0e2, #f8f5f8);
-    border: 1px solid #242424;
-    height: 2em;
-    .border-radius(.4em);
-    .background-clip(padding-box);
+  #gradient > .vertical(#e2e0e2, #f8f5f8);
+  .border-radius(.4em);
+  .background-clip(padding-box);
+  color: #222222;
+  border: 1px solid #242424;
+  height: 2em;
 }
 
 textarea {
   height: 120px;
 }
 
-/* SLIDER */
+//
+// SLIDER
+//
 
 .slider {
   height: 20px;
@@ -145,83 +159,87 @@ textarea {
 }
 
 .slider > div {
+  #gradient > .vertical(#f4f4f4, #c4c4c4);
+  .border-radius(.4em);
+  .box-shadow(0 0 2px 1px #4A4A4A);
   top: -5px;
   left: 0%;
   width: 60px;
   height: 30px;
-  #gradient > .vertical(#f4f4f4, #c4c4c4);
-  .border-radius(.4em);
-  .box-shadow(0 0 2px 1px #4A4A4A);
 }
 
-/* TABBAR */
+//
+// TABBAR
+//
 
 .tabBar {
-  bottom:1px;
-  height:45px;
+  bottom: 1px;
+  height: 45px;
 }
 
 .tabButton {
-  height:45px !important;
+  height: 45px !important;
   line-height: 45px;
-  margin:0 !important;
-  width: 0; /* this is for equal sizes od the buttons when aded in a toolbar or other container with flex :1*/
+  margin: 0 !important;
+
+  // This is for equal sizes od the buttons when aded in a toolbar or
+  // other container with flex :1
+  width: 0;
 }
 
 .tabButton.active, .tabButton.selected {
   border: 2px solid orange;
 }
 
-
-/* NAVIGATIONBAR */
+//
+// NAVIGATIONBAR
+//
 
 .navigationbar {
-    #gradient > .vertical(#9a9a9a, #7c7e7c);
-    border-bottom: 1px solid #2d3642;
+  #gradient > .vertical(#9a9a9a, #7c7e7c);
+  border-bottom: 1px solid #2d3642;
 }
 
-
 .navigationbar-button, .navigationbar-backbutton {
-    min-width:40px;
+  #gradient > .vertical(#f4f4f4, #c4c4c4);
+  .border-radius(4px);
+  .background-clip(padding-box);
+  min-width: 40px;
 
-    /*
-     * Firefox uses border-box for flexbox children,
-     * see http://bugzilla.qooxdoo.org/show_bug.cgi?id=5961.
-     */
-    min-width: -moz-calc(40px + 10px);
+  // Firefox uses border-box for flexbox children,
+  // see http://bugzilla.qooxdoo.org/show_bug.cgi?id=5961.
+  min-width: -moz-calc(40px + 10px);
 
-    padding: 0 3px;
-    height: 30px;
-    height: -moz-calc(30px + 6px);
-    color: black;
-    #gradient > .vertical(#f4f4f4, #c4c4c4);
-    border: 2px solid #232323;
-    .border-radius(4px);
-    .background-clip(padding-box);
+  padding: 0 3px;
+  height: 30px;
+  height: -moz-calc(30px + 6px);
+  color: black;
+  border: 2px solid #232323;
 }
 
 .navigationbar-button.active, .navigationbar-backbutton.active {
-    #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
 }
 
-
-/* SCROLLBAR */
+//
+// SCROLLBAR
+//
 
 .scrollbarV > div {
-  position:absolute;
-  z-index:100;
-  width:100%;
-
-  /* The following is probably what you want to customize */
   #gradient > .vertical(#b5b6b5, #949294);
+  position: absolute;
+  z-index: 100;
+  width: 100%;
   border: 1px solid #000;
 }
 
-/* CHECKBOX */
+//
+// CHECKBOX
+//
 
 input[type="checkbox"] {
-  background-color: #929292;
   .border-radius(.3em);
+  background-color: #929292;
   background: url(../icon/android/checkbox-gray.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
   background: url(../icon/android/checkbox-gray.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
   background: url(../icon/android/checkbox-gray.png) 50% 50% no-repeat, -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
@@ -236,29 +254,33 @@ input[type="checkbox"]:checked {
 }
 
 
-/*  TOOLBAR  */
+//
+// TOOLBAR
+//
+
 .toolbar-separator {
   width: 4px;
   background-color: red;
 }
 
 .toolbar {
+  #gradient > .vertical(#9a9a9a, #7c7e7c);
   padding: 2px;
   height: 55px;
   height: -moz-calc(55px + 4px);
-  #gradient > .vertical(#9a9a9a, #7c7e7c);
   border-top: 1px solid #2d3642;
 }
 
-
-/*  SPINNER  */
+//
+// SPINNER
+//
 
 .spinner {
-  background-image: url(../icon/android/spinner.png);
   .animation-name(spinnerRotate);
   .animation-duration(1s);
   .animation-iteration-count(infinite);
   .animation-timing-function(linear);
+  background-image: url(../icon/android/spinner.png);
 }
 
 @-webkit-keyframes spinnerRotate {
@@ -279,42 +301,29 @@ input[type="checkbox"]:checked {
 	}
 }
 
+//
+// DIALOG
+//
+
 .popup {
+  .border-radius(.3em);
   background-color: #424242;
   border: 2px solid #ffffff;
-  .border-radius(.3em);
 }
 
-/*  DIALOG  */
 .dialog {
-  position: fixed;
-  background-color: #424242;
-  width: auto;
-  padding: 6px;
-  border: 2px solid #ffffff;
   .border-radius(.3em);
+  background-color: #424242;
+  border: 2px solid #ffffff;
   z-index: 99;
   min-width: 200px;
   min-width: -moz-calc(200px + 18px);
 }
 
-.dialogButton {
-  width:0;
-  margin-top:6px;
-  margin-left:1px;
-  margin-right:1px;
-}
-
-.dialogTitleUnderline {
-  font-weight: 800;
-  font-size: 16px;
-  margin: 0 0 5px 0;
-}
-
 .dialogTitleUnderline:after {
+  #gradient > .horizontal-four(#424242, #ffffff, #ffffff, #424242, 30%, 70%);
   line-height: 1px;
   content: ' ';
-  #gradient > .horizontal-four(#424242, #ffffff, #ffffff, #424242, 30%, 70%);
   height: 1px;
   width: 100%;
   display: block;
