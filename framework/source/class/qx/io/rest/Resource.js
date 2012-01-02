@@ -350,8 +350,7 @@ qx.Class.define("qx.io.rest.Resource",
         this.__configureRequestCallback.call(this, req, action, params);
       }
 
-      this.__configureRequest(req, data, action, config);
-
+      this.__configureRequest(req, config, data);
 
       // Handle successful request
       req.addListenerOnce("success", function successHandler() {
@@ -436,11 +435,10 @@ qx.Class.define("qx.io.rest.Resource",
      * Configure request.
      *
      * @param req {qx.io.request.AbstractRequest} Request.
-     * @param data {Map} Data.
-     * @param action {String} Action.
      * @param config {Map} Configuration.
+     * @param data {Map} Data.
      */
-    __configureRequest: function(req, data, action, config) {
+    __configureRequest: function(req, config, data) {
       req.set({method: config.method, url: config.url});
 
       if (data) {
