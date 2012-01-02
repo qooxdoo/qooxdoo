@@ -386,21 +386,40 @@ qx.Class.define("qx.lang.Object",
     toUriParameter: function(obj, post)
     {
       var key,
-          parts = [],
-          encode = window.encodeURIComponent
+          parts = [];
 
       for (key in obj) {
         if (obj.hasOwnProperty(key)) {
-          if (post) {
-            parts.push(encode(key).replace(/%20/g, "+") + "=" +
-              encode(obj[key]).replace(/%20/g, "+"));
+          var value = obj[key];
+          if (value instanceof Array) {
+            for (var i=0; i<value.length; i++) {
+              this.__toUriParameter(key, value[i], parts, post);
+            }
           } else {
-            parts.push(encode(key) + "=" + encode(obj[key]));
+            this.__toUriParameter(key, value, parts, post);
           }
         }
       }
 
       return parts.join("&");
+    },
+
+    /**
+     * Encodes key/value to URI safe string and pushes to given array.
+     *
+     * @param key {String} Key.
+     * @param value {String} Value.
+     * @param parts {Array} Array to push to.
+     * @param post {Boolean} Whether spaces should be encoded with "+".
+     */
+    __toUriParameter : function(key, value, parts, post) {
+      var encode = window.encodeURIComponent;
+      if (post) {
+        parts.push(encode(key).replace(/%20/g, "+") + "=" +
+          encode(value).replace(/%20/g, "+"));
+      } else {
+        parts.push(encode(key) + "=" + encode(value));
+      }
     }
   }
 });

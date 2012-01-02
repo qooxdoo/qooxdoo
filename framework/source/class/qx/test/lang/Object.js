@@ -341,6 +341,12 @@ qx.Class.define("qx.test.lang.Object",
       var obj = {"a f  f e": "j a"};
       var str = qx.lang.Object.toUriParameter(obj, true);
       this.assertEquals("a+f++f+e=j+a", str);
+    },
+
+    testToUriParameterArray : function() {
+      var obj = {id: [1,2,3]};
+      var str = qx.lang.Object.toUriParameter(obj);
+      this.assertEquals("id=1&id=2&id=3", str);
     }
   }
 });
