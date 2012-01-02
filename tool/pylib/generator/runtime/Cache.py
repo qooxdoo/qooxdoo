@@ -59,9 +59,7 @@ class Cache(object):
 
 
     def __getstate__(self):
-        d = self.__dict__.copy()
-        del d['_locked_files']
-        return d
+        raise pickle.PickleError("Never pickle generator.runtime.Cache.")
 
 
     def _assureCacheIsValid(self, ):
@@ -202,38 +200,6 @@ class Cache(object):
         return "%s-%s" % (baseId, digestId)
         
         
-    def readmulti(self, cacheId, dependsOn=None):
-        splittedId = cacheId.split("-")
-        baseId = splittedId.pop(0)
-        contentId = "-".join(splittedId)
-        multiId = "multi" + baseId
-        
-        saved, _ = self.read(multiId, None, True)
-        if saved and contentId in saved:
-            temp = saved[contentId]
-            
-            if os.stat(dependsOn).st_mtime > temp["time"]:
-                return None, temp["time"]
-            
-            return temp["content"], temp["time"]
-            
-        return None, None
-        
-        
-    def writemulti(self, cacheId, content):
-        splittedId = cacheId.split("-")
-        baseId = splittedId.pop(0)
-        contentId = "-".join(splittedId)
-        multiId = "multi" + baseId
-
-        saved, _ = self.read(multiId, None, True)
-        if not saved:
-            saved = {}
-        
-        saved[contentId] = {"time":time.time(), "content":content}
-        self.write(multiId, saved, True)
-
-
     ##
     # Read an object from cache.
     # 
@@ -243,18 +209,13 @@ class Cache(object):
         if dependsOn:
             dependsModTime = os.stat(dependsOn).st_mtime
 
-        if writeCond(cacheId):
-            print "\nReading %s ..." % (cacheId,),
         # Mem cache
         if cacheId in memcache:
             memitem = memcache[cacheId]
             if not dependsOn or dependsModTime < memitem['time']:
-                if writeCond(cacheId):
-                    print "from memcache"
                 return memitem['content'], memitem['time']
 
         # File cache
-        filetool.directory(self._path)
         cacheFile = os.path.join(self._path, self.filename(cacheId))
 
         try:
@@ -267,35 +228,40 @@ class Cache(object):
                 return None, cacheModTime
 
         try:
-            if not cacheFile in self._locked_files:
-                self._locked_files.add(cacheFile)
-                filetool.lock(cacheFile)
+            try:
+                if not cacheFile in self._locked_files:
+                    self._locked_files.add(cacheFile)
+                    filetool.lock(cacheFile)
 
-            fobj = open(cacheFile, 'rb')
-            #filetool.lock(fobj.fileno())
+                fobj = open(cacheFile, 'rb')
+                fcontent = fobj.read().decode('zlib')
+                fobj.close()
+            finally:
+                if not keepLock:
+                    filetool.unlock(cacheFile)
+                    self._locked_files.remove(cacheFile)
 
+        except (IOError, ):
+            self._console.warn("Could not read cache object %s" % cacheFile)
+            filetool.unlock(cacheFile)
+            self._locked_files.remove(cacheFile)
+            return None, cacheModTime
+
+        try:
             gc.disable()
             try:
-                content = pickle.loads(fobj.read().decode('zlib'))
+                content = pickle.loads(fcontent)
             finally:
                 gc.enable()
-
-            #filetool.unlock(fobj.fileno())
-            fobj.close()
-            if not keepLock:
-                filetool.unlock(cacheFile)
-                self._locked_files.remove(cacheFile)
 
             if memory:
                 memcache[cacheId] = {'content':content, 'time': time.time()}
 
             #print "read cacheId: %s" % cacheId
-            if writeCond(cacheId):
-                print "from disk"
             return content, cacheModTime
 
-        except (IOError, EOFError, pickle.PickleError, pickle.UnpicklingError):
-            self._console.warn("Could not read cache object %s, recalculating..." % cacheFile)
+        except (EOFError, pickle.PickleError, pickle.UnpicklingError):
+            self._console.warn("Could not unpickle cache object %s" % cacheFile)
             return None, cacheModTime
 
 
@@ -305,11 +271,8 @@ class Cache(object):
     # @param memory         keep value also in memory; improves subsequent access
     # @param writeToFile    write value to disk
     def write(self, cacheId, content, memory=False, writeToFile=True, keepLock=False):
-        filetool.directory(self._path)
         cacheFile = os.path.join(self._path, self.filename(cacheId))
 
-        if writeCond(cacheId):
-            print "\nWriting %s ..." % (cacheId,),
         if writeToFile:
             try:
                 if not cacheFile in self._locked_files:
@@ -324,10 +287,6 @@ class Cache(object):
                     filetool.unlock(cacheFile)
                     self._locked_files.remove(cacheFile)  # not atomic with the previous one!
 
-                #print "wrote cacheId: %s" % cacheId
-                if writeCond(cacheId):
-                    print "to disk"
-
             except (IOError, EOFError, pickle.PickleError, pickle.PicklingError), e:
                 try:
                     os.unlink(cacheFile) # try remove cache file, Pickle might leave incomplete files
@@ -338,8 +297,6 @@ class Cache(object):
 
         if memory:
             memcache[cacheId] = {'time': time.time(), 'content':content}
-            if writeCond(cacheId):
-                print "to memcache"
 
 
     def remove(self, cacheId, writeToFile=False):
@@ -349,10 +306,6 @@ class Cache(object):
            return entry['content'], entry['time']
         else:
             return None, None
-
-
-def writeCond(cacheId):
-    return False #cacheId.startswith("class-") and "Environment.js" in cacheId
 
 
 ##
