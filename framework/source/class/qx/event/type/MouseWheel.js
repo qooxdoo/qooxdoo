@@ -175,37 +175,6 @@ qx.Class.define("qx.event.type.MouseWheel",
       return 0;
     },
 
-    /**
-     * Determine which axis the mousewheel was moved.
-     *
-     * @return {String}
-     *   <ul>
-     *     <li>If the wheel was rotated, "y" is returned.</li>
-     *     <li>If the wheel was pressed side-to-side, "x" is returned.</li>
-     *     <li>Else "?" is returned.</li>
-     *   </ul>
-     */
-    getAxis : function()
-    {
-      var e = this._native;
-      
-      // Determine which mousewheel action occurred
-      if (e.axis && e.axis == e.HORIZONTAL_AXIS)
-      {
-        // The mouse wheel was pressed side-to-side
-        return "x";
-      }
-      else if (! (e.axis && e.axis == e.HORIZONTAL_AXIS))
-      {
-        // The mouse wheel was rotated
-        return "y";
-      }
-      else
-      {
-        // Unknown mouse wheel action
-        return "?";
-      }
-    },
 
     /**
      * Get the amount the wheel has been scrolled

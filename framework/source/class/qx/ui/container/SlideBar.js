@@ -332,34 +332,34 @@ qx.Class.define("qx.ui.container.SlideBar",
     {
       var delta = 0;
       var pane = this.getChildControl("scrollpane");
-      
-      // If it's a horizontal slide bar, and the user presses the mouse wheel
-      // side-to-side...
-      if (this.getOrientation() === "horizontal" && e.getAxis() == "x") {
-        // ... then scroll the slide bar horizontally
+      if (this.getOrientation() === "horizontal") {
         delta = e.getWheelDelta("x");
 
         var position = pane.getScrollX();
         var max = pane.getScrollMaxX();
         var steps = parseInt(delta);
 
-        // pass the event to the parent if no further scrolling of the slide
-        // bar is possible in the specified direction
-        if (!(steps < 0 && position <= 0 || steps > 0 && position >= max)) {
+        // pass the event to the parent if both scrollbars are at the end
+        if (!(
+          steps < 0 && position <= 0 ||
+          steps > 0 && position >= max ||
+          delta == 0)
+        ) {
           e.stop();
         }
-      } else if (this.getOrientation() === "vertical" && e.getAxis() == "y") {
-        // A normal mouse wheel rotation occurred. and the slide bar is in the
-        // vertical orientation. Scroll the slide bar.
+      } else {
         delta = e.getWheelDelta("y");
 
         var position = pane.getScrollY();
         var max = pane.getScrollMaxY();
         var steps = parseInt(delta);
 
-        // pass the event to the parent if no further scrolling of the slide
-        // bar is possible in the specified direction
-        if (!(steps < 0 && position <= 0 || steps > 0 && position >= max)) {
+        // pass the event to the parent if both scrollbars are at the end
+        if (!(
+          steps < 0 && position <= 0 ||
+          steps > 0 && position >= max ||
+          delta == 0
+        )) {
           e.stop();
         }
       }
