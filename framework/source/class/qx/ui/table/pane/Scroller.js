@@ -1433,6 +1433,11 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
           if (this.fireDataEvent("beforeSort", data, null, true))
           {
+            // Stop cell editing
+            if (table.isEditing()) {
+              table.stopEditing();
+            }
+
             tableModel.sortByColumn(col, ascending);
             if (this.getResetSelectionOnHeaderClick())
             {
