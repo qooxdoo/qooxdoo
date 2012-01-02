@@ -570,7 +570,7 @@
        * @signature function()
        * @return {String} the full CSS string
        */
-      getCss : setter(qx.bom.element.Style, "getCss"),
+      getCss : getter(qx.bom.element.Style, "getCss"),
 
 
 
