@@ -199,7 +199,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * with unsafe characters escaped is internally generated and sent
      * as part of the request.
      *
-     * Depending on the underlying transport and it's configuration, the request
+     * Depending on the underlying transport and its configuration, the request
      * data is transparently included as URL query parameters or embedded in the
      * request body as form data.
      *
