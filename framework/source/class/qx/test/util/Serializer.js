@@ -156,6 +156,19 @@ qx.Class.define("qx.test.util.Serializer",
       a3.dispose();
     },
 
+    testUrlDataArrayNative : function() {
+      var a1 = ["a"];
+      var a2 = ["a", "b"];
+      var a3 = ["a", "b", "c"];
+      this.__model.setData1(a1);
+      this.__model.setData2(a2);
+      this.__model.setData3(a3);
+      this.assertEquals(
+        "data1=a&data2=a&data2=b&data3=a&data3=b&data3=c",
+        this.__s.toUriParameter(this.__model)
+      );
+    },
+
     testUrlInherited : function() {
       var model = new qx.ui.core.Widget();
       var data = this.__s.toUriParameter(model);
