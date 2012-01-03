@@ -26,6 +26,7 @@ Tutorials
 
 .. toctree::
 
+   low_level/use_cases_collection_class
    low_level/setup_a_low-level_library
    low_level/low_level_apis
    low_level/back-button_and_bookmark_support
