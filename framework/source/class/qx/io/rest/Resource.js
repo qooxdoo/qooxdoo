@@ -36,8 +36,8 @@
  * route must be satisfied.
  *
  * When an action is invoked, a request is configured according to the associated
- * route, is passed the parameters and finally send. What kind of request is send
- * can be configured by overwriting {@link #_getRequest}.
+ * route, is passed the URL parameters, request body data, and finally send.
+ * What kind of request is send can be configured by overwriting {@link #_getRequest}.
  *
  * No contraints on the action's name or the scope of the URLs are imposed. However,
  * if you want to follow RESTful design patterns it is recommended to name actions
@@ -46,15 +46,15 @@
  * <pre class="javascript">
  * var description = {
  *  "get": { method: "GET", url: "/photo/{id}" },
- *  "put": { method: "POST", url: "/photo"}
+ *  "put": { method: "PUT", url: "/photo/{id}"}
  * };
  * var photo = new qx.io.rest.Resource(description);
- * photo.get({id: 1});
- * photo.put();
+ * photo.get({id: 1}); // Can also be written: photo.invoke("get", {id: 1});
+ * photo.put({id: 1}, {title: "Monkey"}); // Additionally sets request data
  * </pre>
  *
- * To constrain parameters to a certain format, you can add a <code>check</code>
- * property to the description. See {@link #map} for details.
+ * To check for existence of URL parameters or constrain them to a certain format, you
+ * can add a <code>check</code> property to the description. See {@link #map} for details.
  *
  * <pre class="javascript">
  * var description = {
@@ -276,7 +276,7 @@ qx.Class.define("qx.io.rest.Resource",
      *   is invoked. Parameters are optional, unless a check is defined. A default
      *   value can be provided (<code>{param=default}</code>).
      * @param check {Map?} Map defining parameter constraints, where the key is
-     *   the parameter and the value a regular expression (to match string) or
+     *   the URL parameter and the value a regular expression (to match string) or
      *   <code>qx.io.rest.Resource.REQUIRED</code> (to verify existence).
      */
     map: function(action, method, url, check) {
@@ -323,33 +323,29 @@ qx.Class.define("qx.io.rest.Resource",
      * @lint ignoreUnused(successHandler, failHandler, loadEndHandler)
      *
      * @param action {String} Action to invoke.
-     * @param params {Map} Map of parameters to be send as part of the request,
-     *  where the key is the parameter to match and the value a string. Inserted
-     *  into URL when a matching positional parameter is found.
+     * @param params {Map} Map of parameters inserted into URL when a matching
+     *  positional parameter is found.
+     * @param data {Map|Array|String} Data to be send as part of the request.
+     *  See {@link qx.io.request.AbstractRequest#requestData}.
      * @return {Number} Id of the action's invocation.
      */
-    invoke: function(action, params) {
+    invoke: function(action, params, data) {
       var req = this.__createRequest(action),
-          config = this._getRequestConfig(action, params),
           params = params == null ? {} : params,
-          data = qx.lang.Object.clone(params);
+          config = this._getRequestConfig(action, params);
 
       // Cache parameters
       this.__routes[action].params = params;
 
-      // Remove positional parameters from request data (already in URL)
-      if (params) {
-        this.__placeholdersFromUrl(this.__routes[action][1]).forEach(function(placeholder) {
-          delete data[placeholder];
-        });
-      }
-
+      // Check parameters
       this.__checkParameters(params, config.check);
 
+      // Run configuration callback
       if (this.__configureRequestCallback) {
         this.__configureRequestCallback.call(this, req, action, params);
       }
 
+      // Configure request
       this.__configureRequest(req, config, data);
 
       // Handle successful request
@@ -638,6 +634,9 @@ qx.Class.define("qx.io.rest.Resource",
      */
     _getRequestConfig: function(action, params) {
       var route = this.__routes[action];
+
+      // Not modify original params
+      var params = qx.lang.Object.clone(params);
 
       if (!qx.lang.Type.isArray(route)) {
         throw new Error("No route for action " + action);

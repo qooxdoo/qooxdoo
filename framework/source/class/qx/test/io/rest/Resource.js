@@ -336,41 +336,20 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalledWith(req.setUrl, "/photos/1");
     },
 
-    "test: invoke action with additional params": function() {
+    "test: invoke action with params and data": function() {
       var res = this.res,
-          req = this.req,
-          spy;
-
-      spy = req.setRequestData.withArgs({article: '{title: "Affe"}'});
+          req = this.req;
 
       res.map("put", "PUT", "/articles/{id}");
-      res.put({id: "1", article: '{title: "Affe"}'});
+      res.put({id: "1"}, {article: '{title: "Affe"}'});
 
       // Note that with method GET, parameters are appended to the URLs query part.
       // Please refer to the API docs of qx.io.request.AbstractRequest#requestData.
       //
-      // res.get({id: "1", : lang: "de"});
+      // res.get({id: "1"}, {lang: "de"});
       // --> /articles/1/?lang=de
 
-      this.assertCalled(spy);
-    },
-
-    "test: invoke action with additional params not include positional params": function() {
-      var res = this.res,
-          req = this.req,
-          call,
-          msg;
-
-      res.map("get", "GET", "/photos/{id}");
-      res.get({id: "1", width: "200"});
-
-      call = req.setRequestData.getCall(0);
-      if (call) {
-        msg = "Request data must not include positional param id";
-        this.assertUndefined(call.args[0].id, msg);
-      } else {
-        this.fail("Must call setRequestData");
-      }
+      this.assertCalledWith(req.setRequestData, {article: '{title: "Affe"}'});
     },
 
     "test: invoke action with multiple positional params": function() {
@@ -421,7 +400,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       });
 
       res.map("post", "POST", "/photos/{id}/meta");
-      res.post({id: 1, location: "Karlsruhe"});
+      res.post({id: 1}, {location: "Karlsruhe"});
 
       this.assertCalledWith(req.setRequestData, '{"location":"Karlsruhe"}');
     },
