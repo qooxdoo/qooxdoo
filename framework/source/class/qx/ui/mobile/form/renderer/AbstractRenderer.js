@@ -22,7 +22,7 @@
  *
  * AbstractRenderer is an abstract class used to encapsulate
  * behaviours of how a form can be rendered into a mobile page.
- * Its subclasses can extend it and override {@link #addItems} and {@link addButton}
+ * Its subclasses can extend it and override {@link #addItems} and {@link #addButton}
  * methods in order to customize the way the form gets into the DOM.
  *
  *
