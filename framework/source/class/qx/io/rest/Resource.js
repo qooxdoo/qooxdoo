@@ -402,30 +402,30 @@ qx.Class.define("qx.io.rest.Resource",
           qx.core.Assert.assertObject(check, "Check must be object with params as keys");
         }
 
-        qx.lang.Object.getKeys(check).forEach(function(key) {
+        qx.lang.Object.getKeys(check).forEach(function(param) {
 
           // Warn about invalid check
           if (qx.core.Environment.get("qx.debug")) {
-            if (check[key] !== true) {
+            if (check[param] !== true) {
               if (qx.core.Environment.get("qx.debug")) {
-                qx.core.Assert.assertRegExp(check[key]);
+                qx.core.Assert.assertRegExp(check[param]);
               }
             }
           }
 
           // Missing parameter
-          if (check[key] === qx.io.rest.Resource.REQUIRED && typeof params[key] === "undefined") {
-            throw new Error("Missing parameter '" + key + "'");
+          if (check[param] === qx.io.rest.Resource.REQUIRED && typeof params[param] === "undefined") {
+            throw new Error("Missing parameter '" + param + "'");
           }
 
           // Ignore invalid checks
-          if (!(check[key] && typeof check[key].test == "function")) {
+          if (!(check[param] && typeof check[param].test == "function")) {
             return;
           }
 
           // Invalid parameter
-          if (!check[key].test(params[key])) {
-            throw new Error("Parameter '" + key + "' is invalid");
+          if (!check[param].test(params[param])) {
+            throw new Error("Parameter '" + param + "' is invalid");
           }
         });
       }
