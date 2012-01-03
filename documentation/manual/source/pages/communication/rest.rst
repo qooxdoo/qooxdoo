@@ -108,6 +108,28 @@ If the URL contains parameters, the position where the parameters should be inse
   photo.get();
   // --> Error: Missing parameter 'id'
 
+Data
+====
+
+Data that should be included in the body of the request is given in the second parameter. It accepts the same data as ```qx.io.request.AbstractRequest#requestData <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.io.request.AbstractRequest~requestData>`_.
+
+::
+
+  photo.put({id: 1}, {title: "Monkey"}); // URL encoded
+  photo.put({id: 1}, 'title=monkey'); // Raw
+  photo.put({id: 1}, []);
+
+Note that the behavior changes when the request body content type is changed to ``application/json``.
+
+::
+
+  photos.configureRequest(function(req) {
+    req.setRequestHeader("Content-Type", "application/json");
+  });
+
+  photos.map("post", "POST", "/photos/{id}");
+  photos.post({id: 1}, {location: "Karlsruhe"}); // JSON.stringify
+
 Events
 ======
 
