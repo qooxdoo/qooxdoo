@@ -186,7 +186,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
 
     /**
-     * Event handler. Called when the {@link qx.ui.mobile.form.Input#changeValue} event occurs.
+     * Event handler. Called when the {@link #changeValue} event occurs.
      *
      * @param evt {qx.event.type.Data} The event, containing the changed content.
      */
@@ -197,7 +197,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
 
     /**
-     * Event handler. Called when the {@link qx.ui.mobile.form.Input#input} event occurs.
+     * Event handler. Called when the {@link #input} event occurs.
      *
      * @param evt {qx.event.type.Data} The event, containing the changed content.
      */

@@ -37,7 +37,7 @@
  * </pre>
  *
  * This example creates a button with the label "Hello World" and attaches an
- * event listener to the {@link #tap} event.
+ * event listener to the {@link qx.ui.mobile.core.Widget#tap} event.
  */
 qx.Class.define("qx.ui.mobile.form.Button",
 {
