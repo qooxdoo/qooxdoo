@@ -111,15 +111,15 @@ If the URL contains parameters, the position where the parameters should be inse
 Data
 ====
 
-Data that should be included in the body of the request is given in the second parameter. It accepts the same data as ```qx.io.request.AbstractRequest#requestData <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.io.request.AbstractRequest~requestData>`_.
+Data that should be included in the request’s body can be given as second parameter. All types accepted by `qx.io.request.AbstractRequest#requestData <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.io.request.AbstractRequest~requestData>`_ are supported.
 
 ::
 
   photo.put({id: 1}, {title: "Monkey"}); // URL encoded
-  photo.put({id: 1}, 'title=monkey'); // Raw
+  photo.put({id: 1}, "title=monkey"); // Raw
   photo.put({id: 1}, []);
 
-Note that the behavior changes when the request body content type is changed to ``application/json``.
+Note that the behavior changes when the request body content type is switched to ``application/json``.
 
 ::
 
