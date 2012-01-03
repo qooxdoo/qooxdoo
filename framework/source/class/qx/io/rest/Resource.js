@@ -215,10 +215,10 @@ qx.Class.define("qx.io.rest.Resource",
      * Configure request.
      *
      * @param callback {Function} Function called before request is send.
-     *   Receives request and action.
+     *   Receives request, action, params and data.
      *
      * <pre class="javascript">
-     * res.configureRequest(function(req, action) {
+     * res.configureRequest(function(req, action, params, data) {
      *   if (action === "index") {
      *     req.setAccept("application/json");
      *   }
@@ -342,7 +342,7 @@ qx.Class.define("qx.io.rest.Resource",
 
       // Run configuration callback
       if (this.__configureRequestCallback) {
-        this.__configureRequestCallback.call(this, req, action, params);
+        this.__configureRequestCallback.call(this, req, action, params, data);
       }
 
       // Configure request

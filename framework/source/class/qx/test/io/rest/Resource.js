@@ -92,19 +92,21 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.get();
     },
 
-    "test: configure request receives action and parameters": function() {
+    "test: configure request receives invocation details": function() {
       var res = this.res,
           req = this.req,
           params = {},
+          data = {},
           callback;
 
-      callback = this.spy(qx.lang.Function.bind(function(req, _action, _params) {
+      callback = this.spy(qx.lang.Function.bind(function(req, _action, _params, _data) {
         this.assertEquals("get", _action, "Unexpected action");
         this.assertEquals(params, _params, "Unexpected params");
+        this.assertEquals(data, _data, "Unexpected data");
       }, this));
       res.configureRequest(callback);
 
-      res.get(params);
+      res.get(params, data);
       this.assertCalled(callback);
     },
 
