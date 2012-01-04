@@ -174,5 +174,10 @@
         "fce.reportServerAddUrl" : "/reports/features/add"
       }
     }
+
+    ,"translation" :
+    {
+      "translate" : { "poentry-with-occurrences" : false  }
+    }
   }
 }

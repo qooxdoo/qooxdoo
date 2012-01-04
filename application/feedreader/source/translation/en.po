@@ -13,84 +13,62 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: feedreader/Application.js:500
-msgid "FeedReader (qooxdoo powered)"
-msgstr ""
-
-#: feedreader/model/Model.js:81
-msgid "Static Feeds"
-msgstr ""
-
-#: feedreader/model/Model.js:111
-msgid "User Feeds"
-msgstr ""
-
-#: feedreader/view/desktop/AddFeedWindow.js:49
-msgid "Add a feed"
-msgstr ""
-
-#: feedreader/view/desktop/AddFeedWindow.js:94
-msgid "Feed Information"
-msgstr ""
-
-#: feedreader/view/desktop/AddFeedWindow.js:101
-msgid "Title"
-msgstr ""
-
-#: feedreader/view/desktop/AddFeedWindow.js:105
-msgid "URL"
-msgstr ""
-
-#: feedreader/view/desktop/AddFeedWindow.js:108
 msgid "Add"
 msgstr ""
 
-#: feedreader/view/desktop/List.js:50
-msgid "Posts"
+msgid "Add a feed"
 msgstr ""
 
-#: feedreader/view/desktop/PreferenceWindow.js:48
-#: feedreader/view/desktop/ToolBar.js:85
-msgid "Preferences"
-msgstr ""
-
-#: feedreader/view/desktop/PreferenceWindow.js:85
-msgid "Language"
-msgstr ""
-
-#: feedreader/view/desktop/PreferenceWindow.js:141
-msgid "Cancel"
-msgstr ""
-
-#: feedreader/view/desktop/PreferenceWindow.js:147
-msgid "OK"
-msgstr ""
-
-#: feedreader/view/desktop/ToolBar.js:58
 msgid "Add feed"
 msgstr ""
 
-#: feedreader/view/desktop/ToolBar.js:62
-msgid "Remove feed"
+msgid "Back"
 msgstr ""
 
-#: feedreader/view/desktop/ToolBar.js:73
-msgid "Reload"
+msgid "Cancel"
 msgstr ""
 
-#: feedreader/view/desktop/ToolBar.js:76
-msgid "Reload the feeds. (%1)"
+msgid "Feed Information"
 msgstr ""
 
-#: feedreader/view/desktop/ToolBar.js:87
-msgid "Open preferences window."
+msgid "FeedReader (qooxdoo powered)"
 msgstr ""
 
-#: feedreader/view/desktop/ToolBar.js:96
 msgid "Help"
 msgstr ""
 
-#: feedreader/view/mobile/ArticlePage.js:32
-#: feedreader/view/mobile/FeedPage.js:32
-msgid "Back"
+msgid "Language"
+msgstr ""
+
+msgid "OK"
+msgstr ""
+
+msgid "Open preferences window."
+msgstr ""
+
+msgid "Posts"
+msgstr ""
+
+msgid "Preferences"
+msgstr ""
+
+msgid "Reload"
+msgstr ""
+
+msgid "Reload the feeds. (%1)"
+msgstr ""
+
+msgid "Remove feed"
+msgstr ""
+
+msgid "Static Feeds"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "URL"
+msgstr ""
+
+msgid "User Feeds"
 msgstr ""

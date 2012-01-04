@@ -14,84 +14,62 @@ msgstr ""
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: COLOMBIA\n"
 
-#: feedreader/Application.js:500
-msgid "FeedReader (qooxdoo powered)"
-msgstr "FeedReader (qooxdoo powered)"
-
-#: feedreader/model/Model.js:81
-msgid "Static Feeds"
-msgstr "Feeds Estáticos"
-
-#: feedreader/model/Model.js:111
-msgid "User Feeds"
-msgstr "Feeds del Usuario"
-
-#: feedreader/view/desktop/AddFeedWindow.js:49
-msgid "Add a feed"
-msgstr "Agregar Feed"
-
-#: feedreader/view/desktop/AddFeedWindow.js:94
-msgid "Feed Information"
-msgstr "Información del Feed"
-
-#: feedreader/view/desktop/AddFeedWindow.js:101
-msgid "Title"
-msgstr "Título"
-
-#: feedreader/view/desktop/AddFeedWindow.js:105
-msgid "URL"
-msgstr "URL"
-
-#: feedreader/view/desktop/AddFeedWindow.js:108
 msgid "Add"
 msgstr "Agregar"
 
-#: feedreader/view/desktop/List.js:50
-msgid "Posts"
-msgstr "Posts"
+msgid "Add a feed"
+msgstr "Agregar Feed"
 
-#: feedreader/view/desktop/PreferenceWindow.js:48
-#: feedreader/view/desktop/ToolBar.js:85
-msgid "Preferences"
-msgstr "Preferencias"
-
-#: feedreader/view/desktop/PreferenceWindow.js:85
-msgid "Language"
-msgstr "Lenguaje"
-
-#: feedreader/view/desktop/PreferenceWindow.js:141
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: feedreader/view/desktop/PreferenceWindow.js:147
-msgid "OK"
-msgstr "OK"
-
-#: feedreader/view/desktop/ToolBar.js:58
 msgid "Add feed"
 msgstr "Agregar feed"
 
-#: feedreader/view/desktop/ToolBar.js:62
-msgid "Remove feed"
-msgstr "Eliminar feed"
+msgid "Back"
+msgstr ""
 
-#: feedreader/view/desktop/ToolBar.js:73
-msgid "Reload"
-msgstr "Actualizar"
+msgid "Cancel"
+msgstr "Cancelar"
 
-#: feedreader/view/desktop/ToolBar.js:76
-msgid "Reload the feeds. (%1)"
-msgstr "Recargar los feeds (%1)"
+msgid "Feed Information"
+msgstr "Información del Feed"
 
-#: feedreader/view/desktop/ToolBar.js:87
-msgid "Open preferences window."
-msgstr "Abre la ventana de preferencias"
+msgid "FeedReader (qooxdoo powered)"
+msgstr "FeedReader (qooxdoo powered)"
 
-#: feedreader/view/desktop/ToolBar.js:96
 msgid "Help"
 msgstr "Ayuda"
 
-#: feedreader/view/mobile/ArticlePage.js:32
-#: feedreader/view/mobile/FeedPage.js:32
-msgid "Back"
-msgstr ""
+msgid "Language"
+msgstr "Lenguaje"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open preferences window."
+msgstr "Abre la ventana de preferencias"
+
+msgid "Posts"
+msgstr "Posts"
+
+msgid "Preferences"
+msgstr "Preferencias"
+
+msgid "Reload"
+msgstr "Actualizar"
+
+msgid "Reload the feeds. (%1)"
+msgstr "Recargar los feeds (%1)"
+
+msgid "Remove feed"
+msgstr "Eliminar feed"
+
+msgid "Static Feeds"
+msgstr "Feeds Estáticos"
+
+msgid "Title"
+msgstr "Título"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "User Feeds"
+msgstr "Feeds del Usuario"

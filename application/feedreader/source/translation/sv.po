@@ -13,84 +13,62 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: feedreader/Application.js:500
-msgid "FeedReader (qooxdoo powered)"
-msgstr "FeedReader (qooxdoo driven)"
-
-#: feedreader/model/Model.js:81
-msgid "Static Feeds"
-msgstr "Statiska flöden"
-
-#: feedreader/model/Model.js:111
-msgid "User Feeds"
-msgstr "Användarflöden"
-
-#: feedreader/view/desktop/AddFeedWindow.js:49
-msgid "Add a feed"
-msgstr "Lägg till ett flöde"
-
-#: feedreader/view/desktop/AddFeedWindow.js:94
-msgid "Feed Information"
-msgstr "Flödesinformation"
-
-#: feedreader/view/desktop/AddFeedWindow.js:101
-msgid "Title"
-msgstr "Titel"
-
-#: feedreader/view/desktop/AddFeedWindow.js:105
-msgid "URL"
-msgstr "URL"
-
-#: feedreader/view/desktop/AddFeedWindow.js:108
 msgid "Add"
 msgstr "Lägg till"
 
-#: feedreader/view/desktop/List.js:50
-msgid "Posts"
-msgstr "Poster"
+msgid "Add a feed"
+msgstr "Lägg till ett flöde"
 
-#: feedreader/view/desktop/PreferenceWindow.js:48
-#: feedreader/view/desktop/ToolBar.js:85
-msgid "Preferences"
-msgstr "Inställningar"
-
-#: feedreader/view/desktop/PreferenceWindow.js:85
-msgid "Language"
-msgstr "Språk"
-
-#: feedreader/view/desktop/PreferenceWindow.js:141
-msgid "Cancel"
-msgstr "Avbryt"
-
-#: feedreader/view/desktop/PreferenceWindow.js:147
-msgid "OK"
-msgstr "OK"
-
-#: feedreader/view/desktop/ToolBar.js:58
 msgid "Add feed"
 msgstr "Lägg till flöde"
 
-#: feedreader/view/desktop/ToolBar.js:62
-msgid "Remove feed"
-msgstr "Ta bort flöde"
+msgid "Back"
+msgstr ""
 
-#: feedreader/view/desktop/ToolBar.js:73
-msgid "Reload"
-msgstr "Uppdatera"
+msgid "Cancel"
+msgstr "Avbryt"
 
-#: feedreader/view/desktop/ToolBar.js:76
-msgid "Reload the feeds. (%1)"
-msgstr "Ladda om flödena. (%1)"
+msgid "Feed Information"
+msgstr "Flödesinformation"
 
-#: feedreader/view/desktop/ToolBar.js:87
-msgid "Open preferences window."
-msgstr "Öppna inställningsfönstret"
+msgid "FeedReader (qooxdoo powered)"
+msgstr "FeedReader (qooxdoo driven)"
 
-#: feedreader/view/desktop/ToolBar.js:96
 msgid "Help"
 msgstr "Hjälp"
 
-#: feedreader/view/mobile/ArticlePage.js:32
-#: feedreader/view/mobile/FeedPage.js:32
-msgid "Back"
-msgstr ""
+msgid "Language"
+msgstr "Språk"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open preferences window."
+msgstr "Öppna inställningsfönstret"
+
+msgid "Posts"
+msgstr "Poster"
+
+msgid "Preferences"
+msgstr "Inställningar"
+
+msgid "Reload"
+msgstr "Uppdatera"
+
+msgid "Reload the feeds. (%1)"
+msgstr "Ladda om flödena. (%1)"
+
+msgid "Remove feed"
+msgstr "Ta bort flöde"
+
+msgid "Static Feeds"
+msgstr "Statiska flöden"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "User Feeds"
+msgstr "Användarflöden"

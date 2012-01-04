@@ -80,6 +80,11 @@
         } 
       }
     },
+
+    "translation" :
+    {
+      "translate" : { "poentry-with-occurrences" : false  }
+    },
     
     // A logging example job
 
