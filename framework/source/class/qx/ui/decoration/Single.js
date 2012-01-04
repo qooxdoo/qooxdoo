@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.decoration.Single",
     */
 
     // interface implementation
-    getMarkup : function(element)
+    getMarkup : function()
     {
       if (this._markup) {
         return this._markup;
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.decoration.Single",
       var styles = {};
 
       // get the single border styles
-      this._styleBorder(styles, element);
+      this._styleBorder(styles);
 
       var html = this._generateBackgroundMarkup(styles);
 
