@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.decoration.Double",
     */
 
     // interface implementation
-    getMarkup : function(element)
+    getMarkup : function()
     {
       if (this.__markup) {
         return this.__markup;
