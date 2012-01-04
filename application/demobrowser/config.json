@@ -253,5 +253,10 @@
         "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py ${GENERATOR_OPTS} -c ./config.demobrowser.json info"
       }
     }
+    
+    ,"translation" :
+    {
+      "translate" : { "poentry-with-occurrences" : false  }
+    }
   }
 }

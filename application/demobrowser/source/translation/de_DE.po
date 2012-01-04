@@ -2,247 +2,188 @@
 msgid ""
 msgstr ""
 
-#: demobrowser/DemoBrowser.js:197
-msgid "Info"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:364
-msgid "Could not open the Playground."
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:402
-msgid "Demo has been disposed."
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:406 demobrowser/DemoBrowser.js:428
-msgid "Unable to access application."
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:451
-msgid "Run"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:457
-msgid "Stop"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:469
-msgid "Previous"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:475
-msgid "Next"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:489
-msgid "Own Window"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:497
-msgid "To Playground"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:513
-msgid "API Viewer"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:516
-msgid "Open the qooxdoo API Viewer"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:521
-msgid "Manual"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:524
-msgid "Open the qooxdoo Manual"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:560
-msgid "Theme"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:574
-msgid "Object Summary"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:578
-msgid "Global Namespace Pollution"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:583
-msgid "Dispose Demo"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:587
-msgid "Debug"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:818
-msgid "Clear log"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:906
-msgid "Demo Link"
-msgstr ""
-
-#: demobrowser/DemoBrowser.js:927
-msgid "Get Demo Link"
-msgstr ""
-
-#: demobrowser/InfoWindow.js:95
-msgid "OK"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:69
-msgid "Form Elements"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:81
-msgid "Choose a locale:"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:107
-msgid "Localized ComboBox:"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:110
-#: demobrowser/demo/showcase/Localization.js:145
-msgid "Cut"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:111
-#: demobrowser/demo/showcase/Localization.js:147
-msgid "Paste"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:112
-#: demobrowser/demo/showcase/Localization.js:146
-msgid "Copy"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:119
 msgid "A date:"
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:142
-msgid "Undo"
+msgid "API Viewer"
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:143
-msgid "Redo"
+msgid "Choose a locale:"
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:148
-msgid "Delete"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:149
-msgid "Select All"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:151
-msgid "Search"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:152
-msgid "Search Again"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:154
 msgid "Command Menu (keyboard shortcuts)"
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:162
-msgid "Open Color Popup"
+msgid "Copy"
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:202
-msgid "Locale information"
+msgid "Could not open the Playground."
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:232
-msgid "Locale:"
+msgid "Cut"
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:235
-msgid "Territory code:"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:238
-msgid "Date format short:"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:240
-msgid "Date short:"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:243
-msgid "Date format medium:"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:245
-msgid "Date medium:"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:248
-msgid "Date format long:"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:250
-msgid "Date long:"
-msgstr ""
-
-#: demobrowser/demo/showcase/Localization.js:253
 msgid "Date format full:"
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:255
+msgid "Date format long:"
+msgstr ""
+
+msgid "Date format medium:"
+msgstr ""
+
+msgid "Date format short:"
+msgstr ""
+
 msgid "Date full:"
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:258
-msgid "Time format short:"
+msgid "Date long:"
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:260
-msgid "Time short:"
+msgid "Date medium:"
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:263
-msgid "Time format long:"
+msgid "Date short:"
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:265
-msgid "Time long:"
+msgid "Debug"
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:268
-msgid "Week start:"
+msgid "Delete"
 msgstr ""
 
-#: demobrowser/demo/showcase/Localization.js:271
+msgid "Demo Link"
+msgstr ""
+
+msgid "Demo has been disposed."
+msgstr ""
+
+msgid "Dispose Demo"
+msgstr ""
+
+msgid "Form Elements"
+msgstr ""
+
 msgid "Format of %1:"
 msgstr ""
 
-#: demobrowser/demo/showcase/Translation.js:117
+msgid "Get Demo Link"
+msgstr ""
+
 msgid "Hello World"
 msgstr ""
 
-#: demobrowser/demo/showcase/Translation.js:120
+msgid "Hide/Show Tests Demos"
+msgstr ""
+
 msgid "I have an apple"
 msgid_plural "I have %1 apples"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Info"
+msgstr ""
+
+msgid "Locale information"
+msgstr ""
+
+msgid "Locale:"
+msgstr ""
+
+msgid "Localized ComboBox:"
+msgstr ""
+
+msgid "Manual"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "OK"
+msgstr ""
+
+msgid "Object Summary"
+msgstr ""
+
+msgid "Open Color Popup"
+msgstr ""
+
+msgid "Open the qooxdoo API Viewer"
+msgstr ""
+
+msgid "Open the qooxdoo Manual"
+msgstr ""
+
+msgid "Orange"
+msgstr ""
+
+msgid "Own Window"
+msgstr ""
+
+msgid "Paste"
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Redo"
+msgstr ""
+
+msgid "Run"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Search Again"
+msgstr ""
+
+msgid "Select All"
+msgstr ""
+
+msgid "Territory code:"
+msgstr ""
+
 #. The mammal fox that is.
-#: demobrowser/demo/showcase/Translation.js:122
 msgid "The quick brown fox"
 msgstr ""
 
-#: demobrowser/demo/showcase/Translation.js:124
-msgid "Orange"
+msgid "Theme"
 msgstr ""
+
+msgid "Time format long:"
+msgstr ""
+
+msgid "Time format short:"
+msgstr ""
+
+msgid "Time long:"
+msgstr ""
+
+msgid "Time short:"
+msgstr ""
+
+msgid "To Playground"
+msgstr ""
+
+msgid "Unable to access application."
+msgstr ""
+
+msgid "Undo"
+msgstr ""
+
+msgid "Week start:"
+msgstr ""
+
+#~ msgid "Stop"
+#~ msgstr ""
+
+#~ msgid "Global Namespace Pollution"
+#~ msgstr ""
+
+#~ msgid "Clear log"
+#~ msgstr ""
 
 #~ msgid "One can"
 #~ msgstr ""
