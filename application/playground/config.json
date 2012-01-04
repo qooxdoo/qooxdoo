@@ -103,6 +103,11 @@
           "uri" : "../../../framework/source/resource/qx/mobile/css/android.css"
         }
       ]
+    },
+
+    "translation" :
+    {
+      "translate" : { "poentry-with-occurrences" : false  }
     }
   }
 }

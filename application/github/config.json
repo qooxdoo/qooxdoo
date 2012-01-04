@@ -77,6 +77,10 @@
         "source" : "${ROOT}/source",
         "target" : "${BUILD_PATH}"
       }
+    },
+    "translation" :
+    {
+      "translate" : { "poentry-with-occurrences" : false  }
     }
   }
 }
