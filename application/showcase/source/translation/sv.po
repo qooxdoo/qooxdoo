@@ -11,122 +11,92 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: showcase/page/i18n/Content.js:167
-msgid "Form Elements"
-msgstr "Formulärelement"
-
-#: showcase/page/i18n/Content.js:173 showcase/page/i18n/Content.js:275
-msgid "Territory code:"
-msgstr "Territoriekod"
-
-#: showcase/page/i18n/Content.js:183
-msgid "Localized ComboBox:"
-msgstr "Lokaliserad rullgardin"
-
-#: showcase/page/i18n/Content.js:186 showcase/page/i18n/Content.js:221
-msgid "Cut"
-msgstr "Klipp ut"
-
-#: showcase/page/i18n/Content.js:187 showcase/page/i18n/Content.js:223
-msgid "Paste"
-msgstr "Klistra in"
-
-#: showcase/page/i18n/Content.js:188 showcase/page/i18n/Content.js:222
-msgid "Copy"
-msgstr "Kopiera"
-
-#: showcase/page/i18n/Content.js:195
 msgid "A date:"
 msgstr "Ett datum:"
 
-#: showcase/page/i18n/Content.js:218
-msgid "Undo"
-msgstr "Ångra"
-
-#: showcase/page/i18n/Content.js:219
-msgid "Redo"
-msgstr "Återgöra"
-
-#: showcase/page/i18n/Content.js:224
-msgid "Delete"
-msgstr "Radera"
-
-#: showcase/page/i18n/Content.js:225
-msgid "Select All"
-msgstr "Välj alla"
-
-#: showcase/page/i18n/Content.js:227
-msgid "Search"
-msgstr "Sök"
-
-#: showcase/page/i18n/Content.js:228
-msgid "Search Again"
-msgstr "Sök igen"
-
-#: showcase/page/i18n/Content.js:230
 msgid "Command Menu (keyboard shortcuts)"
 msgstr "Kommandomeny (kortkommandon)"
 
-#: showcase/page/i18n/Content.js:239
-msgid "Locale Information"
-msgstr "Lokalinformation"
+msgid "Copy"
+msgstr "Kopiera"
 
-#: showcase/page/i18n/Content.js:272
-msgid "Locale:"
-msgstr "Lokal:"
+msgid "Cut"
+msgstr "Klipp ut"
 
-#: showcase/page/i18n/Content.js:278
-msgid "Date format short:"
-msgstr "Kort datumformat"
-
-#: showcase/page/i18n/Content.js:280
-msgid "Date short:"
-msgstr "Kort datum"
-
-#: showcase/page/i18n/Content.js:283
-msgid "Date format medium:"
-msgstr "Medellångt datumformat"
-
-#: showcase/page/i18n/Content.js:285
-msgid "Date medium:"
-msgstr "Medellångt datum"
-
-#: showcase/page/i18n/Content.js:288
-msgid "Date format long:"
-msgstr "Långt datumformat"
-
-#: showcase/page/i18n/Content.js:290
-msgid "Date long:"
-msgstr "Långt datum"
-
-#: showcase/page/i18n/Content.js:293
 msgid "Date format full:"
 msgstr "Fullängdsdatumformat"
 
-#: showcase/page/i18n/Content.js:295
+msgid "Date format long:"
+msgstr "Långt datumformat"
+
+msgid "Date format medium:"
+msgstr "Medellångt datumformat"
+
+msgid "Date format short:"
+msgstr "Kort datumformat"
+
 msgid "Date full:"
 msgstr "Fullängdsdatum:"
 
-#: showcase/page/i18n/Content.js:298
-msgid "Time format short:"
-msgstr "Kort tidsformat:"
+msgid "Date long:"
+msgstr "Långt datum"
 
-#: showcase/page/i18n/Content.js:300
-msgid "Time short:"
-msgstr "Kort tid:"
+msgid "Date medium:"
+msgstr "Medellångt datum"
 
-#: showcase/page/i18n/Content.js:303
+msgid "Date short:"
+msgstr "Kort datum"
+
+msgid "Delete"
+msgstr "Radera"
+
+msgid "Form Elements"
+msgstr "Formulärelement"
+
+msgid "Format of %1:"
+msgstr "Format av %1:"
+
+msgid "Locale Information"
+msgstr "Lokalinformation"
+
+msgid "Locale:"
+msgstr "Lokal:"
+
+msgid "Localized ComboBox:"
+msgstr "Lokaliserad rullgardin"
+
+msgid "Paste"
+msgstr "Klistra in"
+
+msgid "Redo"
+msgstr "Återgöra"
+
+msgid "Search"
+msgstr "Sök"
+
+msgid "Search Again"
+msgstr "Sök igen"
+
+msgid "Select All"
+msgstr "Välj alla"
+
+msgid "Territory code:"
+msgstr "Territoriekod"
+
 msgid "Time format long:"
 msgstr "Långt tidsformat:"
 
-#: showcase/page/i18n/Content.js:305
+msgid "Time format short:"
+msgstr "Kort tidsformat:"
+
 msgid "Time long:"
 msgstr "Lång tid:"
 
-#: showcase/page/i18n/Content.js:308
+msgid "Time short:"
+msgstr "Kort tid:"
+
+msgid "Undo"
+msgstr "Ångra"
+
 msgid "Week start:"
 msgstr "Veckostart:"
-
-#: showcase/page/i18n/Content.js:311
-msgid "Format of %1:"
-msgstr "Format av %1:"

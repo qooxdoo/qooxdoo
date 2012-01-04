@@ -14,122 +14,92 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: showcase/page/i18n/Content.js:167
-msgid "Form Elements"
-msgstr "Formular Widgets"
-
-#: showcase/page/i18n/Content.js:173 showcase/page/i18n/Content.js:275
-msgid "Territory code:"
-msgstr "Landeskennung:"
-
-#: showcase/page/i18n/Content.js:183
-msgid "Localized ComboBox:"
-msgstr "Lokalisierte ComboBox:"
-
-#: showcase/page/i18n/Content.js:186 showcase/page/i18n/Content.js:221
-msgid "Cut"
-msgstr "Aussschneiden"
-
-#: showcase/page/i18n/Content.js:187 showcase/page/i18n/Content.js:223
-msgid "Paste"
-msgstr "Einfügen"
-
-#: showcase/page/i18n/Content.js:188 showcase/page/i18n/Content.js:222
-msgid "Copy"
-msgstr "Kopieren"
-
-#: showcase/page/i18n/Content.js:195
 msgid "A date:"
 msgstr "Datum:"
 
-#: showcase/page/i18n/Content.js:218
-msgid "Undo"
-msgstr "Rückgängig"
-
-#: showcase/page/i18n/Content.js:219
-msgid "Redo"
-msgstr "Wiederholen"
-
-#: showcase/page/i18n/Content.js:224
-msgid "Delete"
-msgstr "Löschen"
-
-#: showcase/page/i18n/Content.js:225
-msgid "Select All"
-msgstr "Alles auswählen"
-
-#: showcase/page/i18n/Content.js:227
-msgid "Search"
-msgstr "Suchen"
-
-#: showcase/page/i18n/Content.js:228
-msgid "Search Again"
-msgstr "Weiter suchen"
-
-#: showcase/page/i18n/Content.js:230
 msgid "Command Menu (keyboard shortcuts)"
 msgstr "Command-Menü (Tastenkürzel)"
 
-#: showcase/page/i18n/Content.js:239
-msgid "Locale Information"
-msgstr "Lokalisierungsinformationen"
+msgid "Copy"
+msgstr "Kopieren"
 
-#: showcase/page/i18n/Content.js:272
-msgid "Locale:"
-msgstr "Sprachkennung:"
+msgid "Cut"
+msgstr "Aussschneiden"
 
-#: showcase/page/i18n/Content.js:278
-msgid "Date format short:"
-msgstr "kurzes Zeitformat:"
-
-#: showcase/page/i18n/Content.js:280
-msgid "Date short:"
-msgstr "Zeit (kurz):"
-
-#: showcase/page/i18n/Content.js:283
-msgid "Date format medium:"
-msgstr "Mittellanges Datumsformat:"
-
-#: showcase/page/i18n/Content.js:285
-msgid "Date medium:"
-msgstr "Mittellanges Datum:"
-
-#: showcase/page/i18n/Content.js:288
-msgid "Date format long:"
-msgstr "Langes Datumsformat:"
-
-#: showcase/page/i18n/Content.js:290
-msgid "Date long:"
-msgstr "Langes Datum:"
-
-#: showcase/page/i18n/Content.js:293
 msgid "Date format full:"
 msgstr "Vollständiges Datumsformat:"
 
-#: showcase/page/i18n/Content.js:295
+msgid "Date format long:"
+msgstr "Langes Datumsformat:"
+
+msgid "Date format medium:"
+msgstr "Mittellanges Datumsformat:"
+
+msgid "Date format short:"
+msgstr "kurzes Zeitformat:"
+
 msgid "Date full:"
 msgstr "Vollständiges Datum:"
 
-#: showcase/page/i18n/Content.js:298
-msgid "Time format short:"
-msgstr "kurzes Zeitformat:"
+msgid "Date long:"
+msgstr "Langes Datum:"
 
-#: showcase/page/i18n/Content.js:300
-msgid "Time short:"
+msgid "Date medium:"
+msgstr "Mittellanges Datum:"
+
+msgid "Date short:"
 msgstr "Zeit (kurz):"
 
-#: showcase/page/i18n/Content.js:303
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Form Elements"
+msgstr "Formular Widgets"
+
+msgid "Format of %1:"
+msgstr "Format von %1:"
+
+msgid "Locale Information"
+msgstr "Lokalisierungsinformationen"
+
+msgid "Locale:"
+msgstr "Sprachkennung:"
+
+msgid "Localized ComboBox:"
+msgstr "Lokalisierte ComboBox:"
+
+msgid "Paste"
+msgstr "Einfügen"
+
+msgid "Redo"
+msgstr "Wiederholen"
+
+msgid "Search"
+msgstr "Suchen"
+
+msgid "Search Again"
+msgstr "Weiter suchen"
+
+msgid "Select All"
+msgstr "Alles auswählen"
+
+msgid "Territory code:"
+msgstr "Landeskennung:"
+
 msgid "Time format long:"
 msgstr "Langes Zeitformat:"
 
-#: showcase/page/i18n/Content.js:305
+msgid "Time format short:"
+msgstr "kurzes Zeitformat:"
+
 msgid "Time long:"
 msgstr "Zeit (lang):"
 
-#: showcase/page/i18n/Content.js:308
+msgid "Time short:"
+msgstr "Zeit (kurz):"
+
+msgid "Undo"
+msgstr "Rückgängig"
+
 msgid "Week start:"
 msgstr "Wochenanfang:"
-
-#: showcase/page/i18n/Content.js:311
-msgid "Format of %1:"
-msgstr "Format von %1:"

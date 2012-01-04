@@ -108,6 +108,10 @@
       }
     },
     
+    "translation" :
+    {
+      "translate" : { "poentry-with-occurrences" : false  }
+    },
     
     "common-image" :
     {
