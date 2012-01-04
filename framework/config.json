@@ -341,7 +341,8 @@
 
     "translation" :
     {
-      "=include": ["qx.*"]
+      "=include": ["qx.*"],
+      "translate" : { "poentry-with-occurrences" : false  }
     },
     
     "api" :

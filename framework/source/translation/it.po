@@ -14,365 +14,272 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: qx/locale/Key.js:80
-msgid "key_short_Backspace"
-msgstr "Backspace"
+msgid "%1 does not fit %2."
+msgstr "%1 non corrisponde a %2."
 
-#: qx/locale/Key.js:81
-msgid "key_short_Tab"
-msgstr "Tab"
+msgid "%1 is not a color! %2"
+msgstr "%1 non è un colore! %2"
 
-#: qx/locale/Key.js:82
-msgid "key_short_Space"
-msgstr "Spazio"
+msgid "%1 is not a number."
+msgstr "%1 non è un numero."
 
-#: qx/locale/Key.js:83
-msgid "key_short_Enter"
-msgstr "Invio"
+msgid "%1 is not a string."
+msgstr "%1 non è una stringa."
 
-#: qx/locale/Key.js:84
-msgid "key_short_Shift"
-msgstr "Maiusc"
+msgid "%1 is not an url."
+msgstr "%1 non è un url."
 
-#: qx/locale/Key.js:85
-msgid "key_short_Control"
-msgstr "Ctrl"
+msgid "%1 is not in %2"
+msgstr "%1 non è contenuto in %2"
 
-#: qx/locale/Key.js:86
-msgid "key_short_Control_Mac"
-msgstr ""
+msgid "%1 is not in the range from [%2, %3]."
+msgstr "%1 non è compreso nell'intervallo [%2, %3]."
 
-#: qx/locale/Key.js:87
-msgid "key_short_Alt"
-msgstr "Alt"
+msgid "'%1' is not an email address."
+msgstr "'%1' non è un indirizzo email."
 
-#: qx/locale/Key.js:88
-msgid "key_short_CapsLock"
-msgstr "Bloc Maiusc"
-
-#: qx/locale/Key.js:89
-msgid "key_short_Meta"
-msgstr "Meta"
-
-#: qx/locale/Key.js:90
-msgid "key_short_Escape"
-msgstr "Esc"
-
-#: qx/locale/Key.js:91
-msgid "key_short_Left"
-msgstr "Sinistra"
-
-#: qx/locale/Key.js:92
-msgid "key_short_Up"
-msgstr "Su"
-
-#: qx/locale/Key.js:93
-msgid "key_short_Right"
-msgstr "Destra"
-
-#: qx/locale/Key.js:94
-msgid "key_short_Down"
-msgstr "Giù"
-
-#: qx/locale/Key.js:95
-msgid "key_short_PageUp"
-msgstr "Pag Su"
-
-#: qx/locale/Key.js:96
-msgid "key_short_PageDown"
-msgstr "Pag Giù"
-
-#: qx/locale/Key.js:97
-msgid "key_short_End"
-msgstr "Fine"
-
-#: qx/locale/Key.js:98
-msgid "key_short_Home"
-msgstr "Inizio"
-
-#: qx/locale/Key.js:99
-msgid "key_short_Insert"
-msgstr "Ins"
-
-#: qx/locale/Key.js:100
-msgid "key_short_Delete"
-msgstr "Canc"
-
-#: qx/locale/Key.js:101
-msgid "key_short_NumLock"
-msgstr "Bloc Num"
-
-#: qx/locale/Key.js:102
-msgid "key_short_PrintScreen"
-msgstr "Stamp"
-
-#: qx/locale/Key.js:103
-msgid "key_short_Scroll"
-msgstr "Bloc Scorr"
-
-#: qx/locale/Key.js:104
-msgid "key_short_Pause"
-msgstr "Pausa"
-
-#: qx/locale/Key.js:105
-msgid "key_short_Win"
-msgstr "Win"
-
-#: qx/locale/Key.js:106
-msgid "key_short_Apps"
-msgstr "Menu"
-
-#: qx/locale/Key.js:109
-msgid "key_full_Backspace"
-msgstr "Backspace"
-
-#: qx/locale/Key.js:110
-msgid "key_full_Tab"
-msgstr "Tabulazione"
-
-#: qx/locale/Key.js:111
-msgid "key_full_Space"
-msgstr "Spazio"
-
-#: qx/locale/Key.js:112
-msgid "key_full_Enter"
-msgstr "Invio"
-
-#: qx/locale/Key.js:113
-msgid "key_full_Shift"
-msgstr "Maiuscole"
-
-#: qx/locale/Key.js:114
-msgid "key_full_Control"
-msgstr "Control"
-
-#: qx/locale/Key.js:115
-msgid "key_full_Control_Mac"
-msgstr ""
-
-#: qx/locale/Key.js:116
-msgid "key_full_Alt"
-msgstr "Alt"
-
-#: qx/locale/Key.js:117
-msgid "key_full_CapsLock"
-msgstr "Blocca Maiuscole"
-
-#: qx/locale/Key.js:118
-msgid "key_full_Meta"
-msgstr "Meta"
-
-#: qx/locale/Key.js:119
-msgid "key_full_Escape"
-msgstr "Escape"
-
-#: qx/locale/Key.js:120
-msgid "key_full_Left"
-msgstr "Freccia Sinistra"
-
-#: qx/locale/Key.js:121
-msgid "key_full_Up"
-msgstr "Freccia Su"
-
-#: qx/locale/Key.js:122
-msgid "key_full_Right"
-msgstr "Freccia Destra"
-
-#: qx/locale/Key.js:123
-msgid "key_full_Down"
-msgstr "Freccia Giù"
-
-#: qx/locale/Key.js:124
-msgid "key_full_PageUp"
-msgstr "Pagina Su"
-
-#: qx/locale/Key.js:125
-msgid "key_full_PageDown"
-msgstr "Pagina Giù"
-
-#: qx/locale/Key.js:126
-msgid "key_full_End"
-msgstr "Fine"
-
-#: qx/locale/Key.js:127
-msgid "key_full_Home"
-msgstr "Inizio"
-
-#: qx/locale/Key.js:128
-msgid "key_full_Insert"
-msgstr "Inserisci"
-
-#: qx/locale/Key.js:129
-msgid "key_full_Delete"
-msgstr "Cancella"
-
-#: qx/locale/Key.js:130
-msgid "key_full_NumLock"
-msgstr "Blocca Numeri"
-
-#: qx/locale/Key.js:131
-msgid "key_full_PrintScreen"
-msgstr "Stampa Schermo"
-
-#: qx/locale/Key.js:132
-msgid "key_full_Scroll"
-msgstr "Blocca Scorrimento"
-
-#: qx/locale/Key.js:133
-msgid "key_full_Pause"
-msgstr "Pausa"
-
-#: qx/locale/Key.js:134
-msgid "key_full_Win"
-msgstr "Tasto Windows"
-
-#: qx/locale/Key.js:135
-msgid "key_full_Apps"
-msgstr "Tasto Menu"
-
-#: qx/test/locale/Locale.js:90 qx/test/locale/Locale.js:93
-#: qx/test/locale/Locale.js:96
-msgid "test One car"
-msgid_plural "test %1 cars"
-msgstr[0] ""
-msgstr[1] ""
-
-#: qx/test/ui/LocaleSwitch.js:85 qx/test/ui/LocaleSwitch.js:115
-#: qx/test/locale/Locale.js:78 qx/test/locale/Locale.js:153
-#: qx/test/data/marshal/Json.js:81
-msgid "test one"
-msgstr ""
-
-#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:82
-#: qx/test/locale/Locale.js:86
-msgid "test Hello %1!"
-msgstr ""
-
-#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:86
-msgid "test Jonny"
-msgstr ""
-
-#: qx/test/ui/LocaleSwitch.js:99 qx/test/locale/Locale.js:154
-msgid "test two"
-msgstr ""
-
-#: qx/test/util/Serializer.js:490 qx/test/util/Serializer.js:495
-#: qx/test/util/Serializer.js:502
-msgid "test affe"
-msgstr ""
-
-#: qx/ui/control/ColorPopup.js:147
 msgid "Automatic"
 msgstr "Automatico"
 
-#: qx/ui/control/ColorPopup.js:155
-msgid "Open ColorSelector"
-msgstr "Apri il Selettore dei Colori"
-
-#: qx/ui/control/ColorPopup.js:180
-msgid "OK"
-msgstr "OK"
-
-#: qx/ui/control/ColorPopup.js:185
 msgid "Cancel"
 msgstr "Annulla"
 
-#: qx/ui/control/ColorPopup.js:242
 msgid "Color Selector"
 msgstr "Selettore dei Colori"
 
-#: qx/ui/control/ColorSelector.js:256
-msgid "Visual"
-msgstr "Selezione visuale"
-
-#: qx/ui/control/ColorSelector.js:316
-msgid "Presets"
-msgstr "Predefiniti"
-
-#: qx/ui/control/ColorSelector.js:347
 msgid "Details"
 msgstr "Dettagli"
 
-#: qx/ui/control/ColorSelector.js:358 qx/ui/control/ColorPopup.js:162
-msgid "Preview (Old/New)"
-msgstr "Anteprima (Vecchio/Nuovo)"
-
-#: qx/ui/control/ColorSelector.js:376
-msgid "Hex"
-msgstr "Hex"
-
-#: qx/ui/control/ColorSelector.js:398
-msgid "RGB"
-msgstr "RGB"
-
-#: qx/ui/control/ColorSelector.js:430
 msgid "HSB"
 msgstr "TSL"
 
-#: qx/ui/control/DateChooser.js:253
-msgid "Last year"
-msgstr "Anno precedente"
+msgid "Hex"
+msgstr "Hex"
 
-#: qx/ui/control/DateChooser.js:265
 msgid "Last month"
 msgstr "Mese precedente"
 
-#: qx/ui/control/DateChooser.js:277
+msgid "Last year"
+msgstr "Anno precedente"
+
 msgid "Next month"
 msgstr "Mese successivo"
 
-#: qx/ui/control/DateChooser.js:289
 msgid "Next year"
 msgstr "Anno successivo"
 
-#: qx/ui/form/validation/Manager.js:35
+msgid "OK"
+msgstr "OK"
+
+msgid "Open ColorSelector"
+msgstr "Apri il Selettore dei Colori"
+
+msgid "Presets"
+msgstr "Predefiniti"
+
+msgid "Preview (Old/New)"
+msgstr "Anteprima (Vecchio/Nuovo)"
+
+msgid "RGB"
+msgstr "RGB"
+
+msgid "Reset column widths"
+msgstr "Ripristina le larghezze delle colonne"
+
 msgid "This field is required"
 msgstr "Questo campo è obbligatorio"
 
-#: qx/ui/table/Table.js:1952
-msgid "one row"
-msgid_plural "%1 rows"
-msgstr[0] "una riga"
-msgstr[1] "%1 righe"
+msgid "Visual"
+msgstr "Selezione visuale"
 
-#: qx/ui/table/Table.js:1954
+msgid "key_full_Alt"
+msgstr "Alt"
+
+msgid "key_full_Apps"
+msgstr "Tasto Menu"
+
+msgid "key_full_Backspace"
+msgstr "Backspace"
+
+msgid "key_full_CapsLock"
+msgstr "Blocca Maiuscole"
+
+msgid "key_full_Control"
+msgstr "Control"
+
+msgid "key_full_Control_Mac"
+msgstr ""
+
+msgid "key_full_Delete"
+msgstr "Cancella"
+
+msgid "key_full_Down"
+msgstr "Freccia Giù"
+
+msgid "key_full_End"
+msgstr "Fine"
+
+msgid "key_full_Enter"
+msgstr "Invio"
+
+msgid "key_full_Escape"
+msgstr "Escape"
+
+msgid "key_full_Home"
+msgstr "Inizio"
+
+msgid "key_full_Insert"
+msgstr "Inserisci"
+
+msgid "key_full_Left"
+msgstr "Freccia Sinistra"
+
+msgid "key_full_Meta"
+msgstr "Meta"
+
+msgid "key_full_NumLock"
+msgstr "Blocca Numeri"
+
+msgid "key_full_PageDown"
+msgstr "Pagina Giù"
+
+msgid "key_full_PageUp"
+msgstr "Pagina Su"
+
+msgid "key_full_Pause"
+msgstr "Pausa"
+
+msgid "key_full_PrintScreen"
+msgstr "Stampa Schermo"
+
+msgid "key_full_Right"
+msgstr "Freccia Destra"
+
+msgid "key_full_Scroll"
+msgstr "Blocca Scorrimento"
+
+msgid "key_full_Shift"
+msgstr "Maiuscole"
+
+msgid "key_full_Space"
+msgstr "Spazio"
+
+msgid "key_full_Tab"
+msgstr "Tabulazione"
+
+msgid "key_full_Up"
+msgstr "Freccia Su"
+
+msgid "key_full_Win"
+msgstr "Tasto Windows"
+
+msgid "key_short_Alt"
+msgstr "Alt"
+
+msgid "key_short_Apps"
+msgstr "Menu"
+
+msgid "key_short_Backspace"
+msgstr "Backspace"
+
+msgid "key_short_CapsLock"
+msgstr "Bloc Maiusc"
+
+msgid "key_short_Control"
+msgstr "Ctrl"
+
+msgid "key_short_Control_Mac"
+msgstr ""
+
+msgid "key_short_Delete"
+msgstr "Canc"
+
+msgid "key_short_Down"
+msgstr "Giù"
+
+msgid "key_short_End"
+msgstr "Fine"
+
+msgid "key_short_Enter"
+msgstr "Invio"
+
+msgid "key_short_Escape"
+msgstr "Esc"
+
+msgid "key_short_Home"
+msgstr "Inizio"
+
+msgid "key_short_Insert"
+msgstr "Ins"
+
+msgid "key_short_Left"
+msgstr "Sinistra"
+
+msgid "key_short_Meta"
+msgstr "Meta"
+
+msgid "key_short_NumLock"
+msgstr "Bloc Num"
+
+msgid "key_short_PageDown"
+msgstr "Pag Giù"
+
+msgid "key_short_PageUp"
+msgstr "Pag Su"
+
+msgid "key_short_Pause"
+msgstr "Pausa"
+
+msgid "key_short_PrintScreen"
+msgstr "Stamp"
+
+msgid "key_short_Right"
+msgstr "Destra"
+
+msgid "key_short_Scroll"
+msgstr "Bloc Scorr"
+
+msgid "key_short_Shift"
+msgstr "Maiusc"
+
+msgid "key_short_Space"
+msgstr "Spazio"
+
+msgid "key_short_Tab"
+msgstr "Tab"
+
+msgid "key_short_Up"
+msgstr "Su"
+
+msgid "key_short_Win"
+msgstr "Win"
+
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "una di una riga"
 msgstr[1] "%1 di %2 righe"
 
-#: qx/ui/table/columnmodel/Resize.js:199
-msgid "Reset column widths"
-msgstr "Ripristina le larghezze delle colonne"
+msgid "one row"
+msgid_plural "%1 rows"
+msgstr[0] "una riga"
+msgstr[1] "%1 righe"
 
-#: qx/util/Validate.js:91
-msgid "%1 is not a number."
-msgstr "%1 non è un numero."
+msgid "test Hello %1!"
+msgstr ""
 
-#: qx/util/Validate.js:130
-msgid "'%1' is not an email address."
-msgstr "'%1' non è un indirizzo email."
+msgid "test Jonny"
+msgstr ""
 
-#: qx/util/Validate.js:167
-msgid "%1 is not a string."
-msgstr "%1 non è una stringa."
+msgid "test One car"
+msgid_plural "test %1 cars"
+msgstr[0] ""
+msgstr[1] ""
 
-#: qx/util/Validate.js:203
-msgid "%1 is not an url."
-msgstr "%1 non è un url."
+msgid "test affe"
+msgstr ""
 
-#: qx/util/Validate.js:244
-msgid "%1 is not a color! %2"
-msgstr "%1 non è un colore! %2"
+msgid "test one"
+msgstr ""
 
-#: qx/util/Validate.js:268
-msgid "%1 is not in the range from [%2, %3]."
-msgstr "%1 non è compreso nell'intervallo [%2, %3]."
-
-#: qx/util/Validate.js:291
-msgid "%1 is not in %2"
-msgstr "%1 non è contenuto in %2"
-
-#: qx/util/Validate.js:315
-msgid "%1 does not fit %2."
-msgstr "%1 non corrisponde a %2."
+msgid "test two"
+msgstr ""

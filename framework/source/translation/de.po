@@ -14,365 +14,272 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: qx/locale/Key.js:80
-msgid "key_short_Backspace"
-msgstr "Rück"
+msgid "%1 does not fit %2."
+msgstr "%1 passt nicht zu %2."
 
-#: qx/locale/Key.js:81
-msgid "key_short_Tab"
-msgstr "Tab"
+msgid "%1 is not a color! %2"
+msgstr "%1 ist keine Farbe! %2"
 
-#: qx/locale/Key.js:82
-msgid "key_short_Space"
-msgstr "Leer"
+msgid "%1 is not a number."
+msgstr "%1 ist keine Nummer."
 
-#: qx/locale/Key.js:83
-msgid "key_short_Enter"
-msgstr "Enter"
+msgid "%1 is not a string."
+msgstr "%1 ist keine Zeichenkette."
 
-#: qx/locale/Key.js:84
-msgid "key_short_Shift"
-msgstr "Umschalt"
+msgid "%1 is not an url."
+msgstr "%1 ist keine URL."
 
-#: qx/locale/Key.js:85
-msgid "key_short_Control"
-msgstr "Strg"
+msgid "%1 is not in %2"
+msgstr "%1 ist nicht in %2"
 
-#: qx/locale/Key.js:86
-msgid "key_short_Control_Mac"
-msgstr ""
+msgid "%1 is not in the range from [%2, %3]."
+msgstr "%1 liegt nicht im Intervall [%2, %3]."
 
-#: qx/locale/Key.js:87
-msgid "key_short_Alt"
-msgstr "Alt"
+msgid "'%1' is not an email address."
+msgstr "'%1' ist keine Emailadresse."
 
-#: qx/locale/Key.js:88
-msgid "key_short_CapsLock"
-msgstr "Feststell"
-
-#: qx/locale/Key.js:89
-msgid "key_short_Meta"
-msgstr "Meta"
-
-#: qx/locale/Key.js:90
-msgid "key_short_Escape"
-msgstr "Esc"
-
-#: qx/locale/Key.js:91
-msgid "key_short_Left"
-msgstr "Links"
-
-#: qx/locale/Key.js:92
-msgid "key_short_Up"
-msgstr "Hoch"
-
-#: qx/locale/Key.js:93
-msgid "key_short_Right"
-msgstr "Rechts"
-
-#: qx/locale/Key.js:94
-msgid "key_short_Down"
-msgstr "Runter"
-
-#: qx/locale/Key.js:95
-msgid "key_short_PageUp"
-msgstr "Bild hoch"
-
-#: qx/locale/Key.js:96
-msgid "key_short_PageDown"
-msgstr "Bild runter"
-
-#: qx/locale/Key.js:97
-msgid "key_short_End"
-msgstr "Ende"
-
-#: qx/locale/Key.js:98
-msgid "key_short_Home"
-msgstr "Pos1"
-
-#: qx/locale/Key.js:99
-msgid "key_short_Insert"
-msgstr "Einfg"
-
-#: qx/locale/Key.js:100
-msgid "key_short_Delete"
-msgstr "Entf"
-
-#: qx/locale/Key.js:101
-msgid "key_short_NumLock"
-msgstr "Num"
-
-#: qx/locale/Key.js:102
-msgid "key_short_PrintScreen"
-msgstr "Druck"
-
-#: qx/locale/Key.js:103
-msgid "key_short_Scroll"
-msgstr "Rollen"
-
-#: qx/locale/Key.js:104
-msgid "key_short_Pause"
-msgstr "Pause"
-
-#: qx/locale/Key.js:105
-msgid "key_short_Win"
-msgstr "Win"
-
-#: qx/locale/Key.js:106
-msgid "key_short_Apps"
-msgstr "Kontext"
-
-#: qx/locale/Key.js:109
-msgid "key_full_Backspace"
-msgstr "Rücktaste"
-
-#: qx/locale/Key.js:110
-msgid "key_full_Tab"
-msgstr "Tabulator"
-
-#: qx/locale/Key.js:111
-msgid "key_full_Space"
-msgstr "Leertaste"
-
-#: qx/locale/Key.js:112
-msgid "key_full_Enter"
-msgstr "Enter"
-
-#: qx/locale/Key.js:113
-msgid "key_full_Shift"
-msgstr "Umschalttaste"
-
-#: qx/locale/Key.js:114
-msgid "key_full_Control"
-msgstr "Steuerung"
-
-#: qx/locale/Key.js:115
-msgid "key_full_Control_Mac"
-msgstr ""
-
-#: qx/locale/Key.js:116
-msgid "key_full_Alt"
-msgstr "Alt"
-
-#: qx/locale/Key.js:117
-msgid "key_full_CapsLock"
-msgstr "Feststelltaste"
-
-#: qx/locale/Key.js:118
-msgid "key_full_Meta"
-msgstr "Meta"
-
-#: qx/locale/Key.js:119
-msgid "key_full_Escape"
-msgstr "Escape"
-
-#: qx/locale/Key.js:120
-msgid "key_full_Left"
-msgstr "Pfeil links"
-
-#: qx/locale/Key.js:121
-msgid "key_full_Up"
-msgstr "Pfeil hoch"
-
-#: qx/locale/Key.js:122
-msgid "key_full_Right"
-msgstr "Pfeil rechts"
-
-#: qx/locale/Key.js:123
-msgid "key_full_Down"
-msgstr "Pfeil runter"
-
-#: qx/locale/Key.js:124
-msgid "key_full_PageUp"
-msgstr "Bild hoch"
-
-#: qx/locale/Key.js:125
-msgid "key_full_PageDown"
-msgstr "Bild runter"
-
-#: qx/locale/Key.js:126
-msgid "key_full_End"
-msgstr "Ende"
-
-#: qx/locale/Key.js:127
-msgid "key_full_Home"
-msgstr "Position 1"
-
-#: qx/locale/Key.js:128
-msgid "key_full_Insert"
-msgstr "Einfügen"
-
-#: qx/locale/Key.js:129
-msgid "key_full_Delete"
-msgstr "Entfernen"
-
-#: qx/locale/Key.js:130
-msgid "key_full_NumLock"
-msgstr "NumLock"
-
-#: qx/locale/Key.js:131
-msgid "key_full_PrintScreen"
-msgstr "Drucken"
-
-#: qx/locale/Key.js:132
-msgid "key_full_Scroll"
-msgstr "Rollen"
-
-#: qx/locale/Key.js:133
-msgid "key_full_Pause"
-msgstr "Pause"
-
-#: qx/locale/Key.js:134
-msgid "key_full_Win"
-msgstr "Windowstaste"
-
-#: qx/locale/Key.js:135
-msgid "key_full_Apps"
-msgstr "Kontextmenü"
-
-#: qx/test/locale/Locale.js:90 qx/test/locale/Locale.js:93
-#: qx/test/locale/Locale.js:96
-msgid "test One car"
-msgid_plural "test %1 cars"
-msgstr[0] ""
-msgstr[1] ""
-
-#: qx/test/ui/LocaleSwitch.js:85 qx/test/ui/LocaleSwitch.js:115
-#: qx/test/locale/Locale.js:78 qx/test/locale/Locale.js:153
-#: qx/test/data/marshal/Json.js:81
-msgid "test one"
-msgstr ""
-
-#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:82
-#: qx/test/locale/Locale.js:86
-msgid "test Hello %1!"
-msgstr ""
-
-#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:86
-msgid "test Jonny"
-msgstr ""
-
-#: qx/test/ui/LocaleSwitch.js:99 qx/test/locale/Locale.js:154
-msgid "test two"
-msgstr ""
-
-#: qx/test/util/Serializer.js:490 qx/test/util/Serializer.js:495
-#: qx/test/util/Serializer.js:502
-msgid "test affe"
-msgstr ""
-
-#: qx/ui/control/ColorPopup.js:147
 msgid "Automatic"
 msgstr "Automatisch"
 
-#: qx/ui/control/ColorPopup.js:155
-msgid "Open ColorSelector"
-msgstr "Öffne Farbauswahl"
-
-#: qx/ui/control/ColorPopup.js:180
-msgid "OK"
-msgstr "OK"
-
-#: qx/ui/control/ColorPopup.js:185
 msgid "Cancel"
 msgstr "Abbruch"
 
-#: qx/ui/control/ColorPopup.js:242
 msgid "Color Selector"
 msgstr "Farbauswahl"
 
-#: qx/ui/control/ColorSelector.js:256
-msgid "Visual"
-msgstr "Visuell"
-
-#: qx/ui/control/ColorSelector.js:316
-msgid "Presets"
-msgstr "Voreinstellungen"
-
-#: qx/ui/control/ColorSelector.js:347
 msgid "Details"
 msgstr "Details"
 
-#: qx/ui/control/ColorSelector.js:358 qx/ui/control/ColorPopup.js:162
-msgid "Preview (Old/New)"
-msgstr "Vorschau (alt/neu)"
-
-#: qx/ui/control/ColorSelector.js:376
-msgid "Hex"
-msgstr "Hex"
-
-#: qx/ui/control/ColorSelector.js:398
-msgid "RGB"
-msgstr "RGB"
-
-#: qx/ui/control/ColorSelector.js:430
 msgid "HSB"
 msgstr "HSB"
 
-#: qx/ui/control/DateChooser.js:253
-msgid "Last year"
-msgstr "Vorheriges Jahr"
+msgid "Hex"
+msgstr "Hex"
 
-#: qx/ui/control/DateChooser.js:265
 msgid "Last month"
 msgstr "Vorheriger Monat"
 
-#: qx/ui/control/DateChooser.js:277
+msgid "Last year"
+msgstr "Vorheriges Jahr"
+
 msgid "Next month"
 msgstr "Nächster Monat"
 
-#: qx/ui/control/DateChooser.js:289
 msgid "Next year"
 msgstr "Nächstes Jahr"
 
-#: qx/ui/form/validation/Manager.js:35
+msgid "OK"
+msgstr "OK"
+
+msgid "Open ColorSelector"
+msgstr "Öffne Farbauswahl"
+
+msgid "Presets"
+msgstr "Voreinstellungen"
+
+msgid "Preview (Old/New)"
+msgstr "Vorschau (alt/neu)"
+
+msgid "RGB"
+msgstr "RGB"
+
+msgid "Reset column widths"
+msgstr "Spaltenbreite zurücksetzen"
+
 msgid "This field is required"
 msgstr "Dieses Feld ist erforderlich"
 
-#: qx/ui/table/Table.js:1952
-msgid "one row"
-msgid_plural "%1 rows"
-msgstr[0] "Eine Zeile"
-msgstr[1] "%1 Zeilen"
+msgid "Visual"
+msgstr "Visuell"
 
-#: qx/ui/table/Table.js:1954
+msgid "key_full_Alt"
+msgstr "Alt"
+
+msgid "key_full_Apps"
+msgstr "Kontextmenü"
+
+msgid "key_full_Backspace"
+msgstr "Rücktaste"
+
+msgid "key_full_CapsLock"
+msgstr "Feststelltaste"
+
+msgid "key_full_Control"
+msgstr "Steuerung"
+
+msgid "key_full_Control_Mac"
+msgstr ""
+
+msgid "key_full_Delete"
+msgstr "Entfernen"
+
+msgid "key_full_Down"
+msgstr "Pfeil runter"
+
+msgid "key_full_End"
+msgstr "Ende"
+
+msgid "key_full_Enter"
+msgstr "Enter"
+
+msgid "key_full_Escape"
+msgstr "Escape"
+
+msgid "key_full_Home"
+msgstr "Position 1"
+
+msgid "key_full_Insert"
+msgstr "Einfügen"
+
+msgid "key_full_Left"
+msgstr "Pfeil links"
+
+msgid "key_full_Meta"
+msgstr "Meta"
+
+msgid "key_full_NumLock"
+msgstr "NumLock"
+
+msgid "key_full_PageDown"
+msgstr "Bild runter"
+
+msgid "key_full_PageUp"
+msgstr "Bild hoch"
+
+msgid "key_full_Pause"
+msgstr "Pause"
+
+msgid "key_full_PrintScreen"
+msgstr "Drucken"
+
+msgid "key_full_Right"
+msgstr "Pfeil rechts"
+
+msgid "key_full_Scroll"
+msgstr "Rollen"
+
+msgid "key_full_Shift"
+msgstr "Umschalttaste"
+
+msgid "key_full_Space"
+msgstr "Leertaste"
+
+msgid "key_full_Tab"
+msgstr "Tabulator"
+
+msgid "key_full_Up"
+msgstr "Pfeil hoch"
+
+msgid "key_full_Win"
+msgstr "Windowstaste"
+
+msgid "key_short_Alt"
+msgstr "Alt"
+
+msgid "key_short_Apps"
+msgstr "Kontext"
+
+msgid "key_short_Backspace"
+msgstr "Rück"
+
+msgid "key_short_CapsLock"
+msgstr "Feststell"
+
+msgid "key_short_Control"
+msgstr "Strg"
+
+msgid "key_short_Control_Mac"
+msgstr ""
+
+msgid "key_short_Delete"
+msgstr "Entf"
+
+msgid "key_short_Down"
+msgstr "Runter"
+
+msgid "key_short_End"
+msgstr "Ende"
+
+msgid "key_short_Enter"
+msgstr "Enter"
+
+msgid "key_short_Escape"
+msgstr "Esc"
+
+msgid "key_short_Home"
+msgstr "Pos1"
+
+msgid "key_short_Insert"
+msgstr "Einfg"
+
+msgid "key_short_Left"
+msgstr "Links"
+
+msgid "key_short_Meta"
+msgstr "Meta"
+
+msgid "key_short_NumLock"
+msgstr "Num"
+
+msgid "key_short_PageDown"
+msgstr "Bild runter"
+
+msgid "key_short_PageUp"
+msgstr "Bild hoch"
+
+msgid "key_short_Pause"
+msgstr "Pause"
+
+msgid "key_short_PrintScreen"
+msgstr "Druck"
+
+msgid "key_short_Right"
+msgstr "Rechts"
+
+msgid "key_short_Scroll"
+msgstr "Rollen"
+
+msgid "key_short_Shift"
+msgstr "Umschalt"
+
+msgid "key_short_Space"
+msgstr "Leer"
+
+msgid "key_short_Tab"
+msgstr "Tab"
+
+msgid "key_short_Up"
+msgstr "Hoch"
+
+msgid "key_short_Win"
+msgstr "Win"
+
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "Eine von einer Zeile"
 msgstr[1] "%1 von %2 Zeilen"
 
-#: qx/ui/table/columnmodel/Resize.js:199
-msgid "Reset column widths"
-msgstr "Spaltenbreite zurücksetzen"
+msgid "one row"
+msgid_plural "%1 rows"
+msgstr[0] "Eine Zeile"
+msgstr[1] "%1 Zeilen"
 
-#: qx/util/Validate.js:91
-msgid "%1 is not a number."
-msgstr "%1 ist keine Nummer."
+msgid "test Hello %1!"
+msgstr ""
 
-#: qx/util/Validate.js:130
-msgid "'%1' is not an email address."
-msgstr "'%1' ist keine Emailadresse."
+msgid "test Jonny"
+msgstr ""
 
-#: qx/util/Validate.js:167
-msgid "%1 is not a string."
-msgstr "%1 ist keine Zeichenkette."
+msgid "test One car"
+msgid_plural "test %1 cars"
+msgstr[0] ""
+msgstr[1] ""
 
-#: qx/util/Validate.js:203
-msgid "%1 is not an url."
-msgstr "%1 ist keine URL."
+msgid "test affe"
+msgstr ""
 
-#: qx/util/Validate.js:244
-msgid "%1 is not a color! %2"
-msgstr "%1 ist keine Farbe! %2"
+msgid "test one"
+msgstr ""
 
-#: qx/util/Validate.js:268
-msgid "%1 is not in the range from [%2, %3]."
-msgstr "%1 liegt nicht im Intervall [%2, %3]."
-
-#: qx/util/Validate.js:291
-msgid "%1 is not in %2"
-msgstr "%1 ist nicht in %2"
-
-#: qx/util/Validate.js:315
-msgid "%1 does not fit %2."
-msgstr "%1 passt nicht zu %2."
+msgid "test two"
+msgstr ""
