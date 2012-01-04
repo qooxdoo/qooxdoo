@@ -38,5 +38,13 @@
       "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
       "SIMULATION_INCLUDE" : "",
       "API_EXCLUDE" : ["qx.test.*"]
+  },
+
+  "jobs" :
+  {
+    "translation" :
+    {
+      "translate" : { "poentry-with-occurrences" : false  }
+    }
   }
 }

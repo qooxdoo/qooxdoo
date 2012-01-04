@@ -42,5 +42,13 @@
     "LOCALES"      : [ "en", "de", "ro", "sv"],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."
+  },
+
+  "jobs" :
+  {
+    "translation" :
+    {
+      "translate" : { "poentry-with-occurrences" : false  }
+    }
   }
 }

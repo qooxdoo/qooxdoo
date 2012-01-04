@@ -78,7 +78,13 @@
       {
         "TEST_NAMESPACE" : "${APPLICATION}.test.basic"
       }
+    },
+
+    "translation" :
+    {
+      "translate" : { "poentry-with-occurrences" : false  }
     }
+
     /*
     "source-script-packages" :
     {

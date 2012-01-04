@@ -11,10 +11,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: log/LogView.js:38
-msgid "Log"
-msgstr "Logga"
-
-#: log/LogView.js:49
 msgid "Clear"
 msgstr "Rensa"
+
+msgid "Log"
+msgstr "Logga"
