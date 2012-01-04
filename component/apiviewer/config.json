@@ -61,6 +61,11 @@
         "API_INCLUDE"  : ["${APPLICATION}.*"]
       }
     }
+
+    ,"translation" :
+    {
+      "translate" : { "poentry-with-occurrences" : false  }
+    }
   }
 }
 

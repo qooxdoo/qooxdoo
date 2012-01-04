@@ -69,5 +69,10 @@
         "qx.test.*"
       ]
     }
+
+    ,"translation" :
+    {
+      "translate" : { "poentry-with-occurrences" : false  }
+    }
   }
 }

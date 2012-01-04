@@ -2,62 +2,65 @@
 msgid ""
 msgstr ""
 
-#: apiviewer/Viewer.js:152
 msgid "Content"
 msgstr ""
 
-#: apiviewer/Viewer.js:155
-msgid "Show/hide the packages."
+msgid "Hint: You can use regular expressions in the search field."
 msgstr ""
 
-#: apiviewer/Viewer.js:158
-msgid "Search"
+msgid "Includes"
 msgstr ""
 
-#: apiviewer/Viewer.js:160
-msgid "Search for packages, classes and members."
-msgstr ""
-
-#: apiviewer/Viewer.js:163
-msgid "Legend"
-msgstr ""
-
-#: apiviewer/Viewer.js:165
-msgid "Show/hide the legend."
-msgstr ""
-
-#: apiviewer/Viewer.js:179
-msgid "Properties"
-msgstr ""
-
-#: apiviewer/Viewer.js:182
-msgid "Show/hide all generated property methods."
-msgstr ""
-
-#: apiviewer/Viewer.js:185
 msgid "Inherited"
 msgstr ""
 
-#: apiviewer/Viewer.js:187
-msgid "Show/hide inherited members of the current class."
+msgid "Internal"
 msgstr ""
 
-#: apiviewer/Viewer.js:190
-msgid "Protected"
+msgid "Legend"
 msgstr ""
 
-#: apiviewer/Viewer.js:192
-msgid "Show/hide protected members of the current class."
+msgid "Mixin Included"
 msgstr ""
 
-#: apiviewer/Viewer.js:195
 msgid "Private"
 msgstr ""
 
-#: apiviewer/Viewer.js:197
+msgid "Properties"
+msgstr ""
+
+msgid "Protected"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Search for packages, classes and members."
+msgstr ""
+
+msgid "Show/hide all generated property methods."
+msgstr ""
+
+msgid "Show/hide included members of the current class."
+msgstr ""
+
+msgid "Show/hide inherited members of the current class."
+msgstr ""
+
+msgid "Show/hide internal members of the current class."
+msgstr ""
+
+msgid "Show/hide members of other classes/mixins inherited/included in the current class"
+msgstr ""
+
 msgid "Show/hide private members of the current class."
 msgstr ""
 
-#: apiviewer/ui/SearchView.js:482
-msgid "Hint: You can use regular expressions in the search field."
+msgid "Show/hide protected members of the current class."
+msgstr ""
+
+msgid "Show/hide the legend."
+msgstr ""
+
+msgid "Show/hide the packages."
 msgstr ""

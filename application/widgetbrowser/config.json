@@ -270,5 +270,10 @@
         "simulator.globalErrorLogging" : true
       }
     }
+
+    ,"translation" :
+    {
+      "translate" : { "poentry-with-occurrences" : false  }
+    }
   }
 }
