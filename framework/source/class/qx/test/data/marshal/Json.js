@@ -368,6 +368,8 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals(0, e.getData().value, "Not the right value in the event.");
         self.assertEquals(10, e.getData().old, "Not the right old value in the event.");
         self.assertEquals("a", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(model, e.getData().item, "Not the right item in the event.");
+        self.assertEquals("a", e.getData().property, "Not the right property in the event.");
       }, "Change event not fired!");
 
       // check the event for b
@@ -377,6 +379,8 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals(0, e.getData().value, "Not the right value in the event.");
         self.assertEquals(-15, e.getData().old, "Not the right old value in the event.");
         self.assertEquals("b", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(model, e.getData().item, "Not the right item in the event.");
+        self.assertEquals("b", e.getData().property, "Not the right property in the event.");
       }, "Change event not fired!");
       model.dispose();
     },
@@ -397,6 +401,8 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals(0, e.getData().value, "Not the right value in the event.");
         self.assertEquals(10, e.getData().old, "Not the right old value in the event.");
         self.assertEquals("a.b", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(model.getA(), e.getData().item, "Not the right item in the event.");
+        self.assertEquals("b", e.getData().property, "Not the right property in the event.");
       }, "Change event not fired!");
 
       model.getA().dispose();
@@ -406,6 +412,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       }, function(e) {
         self.assertEquals(true, e.getData().value, "Not the right value in the event.");
         self.assertEquals("a", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(model, e.getData().item, "Not the right item in the event.");
+        self.assertEquals("a", e.getData().property, "Not the right property in the event.");
       }, "Change event not fired!");
       model.dispose();
     },
@@ -426,6 +434,8 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals(0, e.getData().value, "Not the right value in the event.");
         self.assertEquals(10, e.getData().old, "Not the right old value in the event.");
         self.assertEquals("a.b.c", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(model.getA().getB(), e.getData().item, "Not the right item in the event.");
+        self.assertEquals("c", e.getData().property, "Not the right property in the event.");
       }, "Change event not fired!");
       model.dispose();
     },
@@ -445,6 +455,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       }, function(e) {
         self.assertEquals(1, e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[0]", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(model.getA(), e.getData().item, "Not the right item in the event.");
+        self.assertEquals("0", e.getData().property, "Not the right property in the event.");
       }, "Change event not fired!");
 
       model.dispose();
@@ -465,6 +477,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       }, function(e) {
         self.assertEquals(0, e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[0].b", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(model.getA().getItem(0), e.getData().item, "Not the right item in the event.");
+        self.assertEquals("b", e.getData().property, "Not the right property in the event.");
       }, "Change event not fired!");
       model.dispose();
     },
@@ -484,6 +498,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       }, function(e) {
         self.assertEquals(0, e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[0][0][0][0].b", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(model.getA().getItem(0).getItem(0).getItem(0).getItem(0), e.getData().item, "Not the right item in the event.");
+        self.assertEquals("b", e.getData().property, "Not the right property in the event.");
       }, "Change event not fired!");
       model.dispose();
     },
@@ -503,6 +519,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       }, function(e) {
         self.assertEquals(12, e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[0].b[0][0].c.d[1]", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(model.getA().getItem(0).getB().getItem(0).getItem(0).getC().getD(), e.getData().item, "Not the right item in the event.");
+        self.assertEquals("1", e.getData().property, "Not the right property in the event.");
       }, "Change event not fired!");
       model.dispose();
     },
@@ -522,6 +540,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       }, function(e) {
         self.assertEquals("AFFE", e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[10]", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(model.getA(), e.getData().item, "Not the right item in the event.");
+        self.assertEquals("10", e.getData().property, "Not the right property in the event.");
       }, "Change event not fired!");
       model.dispose();
     },
@@ -543,6 +563,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       }, function(e) {
         self.assertEquals("AFFE", e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[0]", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(model.getA(), e.getData().item, "Not the right item in the event.");
+        self.assertEquals("0", e.getData().property, "Not the right property in the event.");
       }, "Change event not fired!");
       model.dispose();
     },
