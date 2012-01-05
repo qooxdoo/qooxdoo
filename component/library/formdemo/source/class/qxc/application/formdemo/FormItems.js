@@ -114,7 +114,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
       // virtual select box
       var virtualSelectBox = new qx.ui.form.VirtualSelectBox();
       virtualSelectBox.setTabIndex(tabIndex++);
-      //form.add(virtualSelectBox, "VirtualSelectBox");
+      form.add(virtualSelectBox, "VirtualSelectBox");
       this.__createItemsVirtual(virtualSelectBox);
       this.__widgets.push(virtualSelectBox);
 
