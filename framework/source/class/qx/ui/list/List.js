@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.list.List",
 {
   extend : qx.ui.virtual.core.Scroller,
   include : [qx.ui.virtual.selection.MModel],
-
+  implement : qx.data.controller.ISelection,
 
   /**
    * Creates the <code>qx.ui.list.List</code> with the passed model.

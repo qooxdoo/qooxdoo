@@ -51,6 +51,7 @@ qx.Class.define("qx.data.controller.Tree",
 {
   extend : qx.core.Object,
   include: qx.data.controller.MSelection,
+  implement : qx.data.controller.ISelection,
 
 
   /*
