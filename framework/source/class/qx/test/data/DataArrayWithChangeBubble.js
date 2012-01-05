@@ -70,7 +70,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[3-5]", e.getData().name);
         that.assertArrayEquals([], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("3-5", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -93,7 +92,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[3]", e.getData().name);
         that.assertArrayEquals([], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("3", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -116,7 +114,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[2]", e.getData().name);
         that.assertArrayEquals([], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("2", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -139,7 +136,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[2]", e.getData().name);
         that.assertArrayEquals([], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("2", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -162,7 +158,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[2]", e.getData().name);
         that.assertArrayEquals([], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("2", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -185,7 +180,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[2]", e.getData().name);
         that.assertArrayEquals(["C"], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("2", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -208,7 +202,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[3]", e.getData().name);
         that.assertArrayEquals([], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("3", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -231,7 +224,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[1]", e.getData().name);
         that.assertArrayEquals(["B"], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("1", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -254,7 +246,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[0-2]", e.getData().name);
         that.assertArrayEquals(["A", "B", "C"], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("0-2", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -277,7 +268,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[1]", e.getData().name);
         that.assertArrayEquals(["B"], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("1", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -301,7 +291,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[0-2]", e.getData().name);
         that.assertArrayEquals(["A", "B", "C"], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("0-2", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -324,7 +313,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[1]", e.getData().name);
         that.assertArrayEquals(["B"], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("1", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -347,7 +335,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[0]", e.getData().name);
         that.assertArrayEquals(["A"], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("0", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -370,7 +357,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[0-2]", e.getData().name);
         that.assertArrayEquals(["A", "B", "C"], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("0-2", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -395,7 +381,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[2-4]", e.getData().name);
         that.assertArrayEquals(["C"], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("2-4", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -418,7 +403,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[1-2]", e.getData().name);
         that.assertArrayEquals(["B", "C"], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("1-2", e.getData().property);
       }
 
       var spy = this.spy(handler);
@@ -441,7 +425,6 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertEquals("data[0]", e.getData().name);
         that.assertArrayEquals(["A"], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
-        that.assertEquals("0", e.getData().property);
       }
 
       var spy = this.spy(handler);

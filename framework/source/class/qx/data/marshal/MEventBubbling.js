@@ -43,7 +43,6 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
      *   <li>name: The name of the property changed including its parent
      *     properties separated by dots.</li>
      *   <li>item: The item which has the changed property.</li>
-     *   <li>property: The name of the changed property.</li>
      * Due to that, the <code>getOldData</code> method will always return null
      * because the old data is contained in the map.
      */
@@ -66,7 +65,7 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
     _applyEventPropagation : function(value, old, name)
     {
       this.fireDataEvent("changeBubble", {
-        value: value, name: name, old: old, item: this, property : name
+        value: value, name: name, old: old, item: this
       });
 
       this._registerEventChaining(value, old, name);
@@ -170,8 +169,7 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
           value: value,
           name: newName,
           old: old,
-          item: data.item || e.getTarget(),
-          property : data.property === undefined ? name : data.property
+          item: data.item || e.getTarget()
         }
       );
     }

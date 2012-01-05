@@ -187,8 +187,7 @@ qx.Class.define("qx.data.Array",
         value: [],
         name: this.length,
         old: [item],
-        item: this,
-        property: this.length
+        item: this
       });
 
       this.fireDataEvent("change",
@@ -223,8 +222,7 @@ qx.Class.define("qx.data.Array",
           value: [arguments[i]],
           name: this.length - 1,
           old: [],
-          item: this,
-          property: this.length -1
+          item: this
         });
 
         // fire change event
@@ -261,8 +259,7 @@ qx.Class.define("qx.data.Array",
         value: this.__array,
         name: "0-" + (this.__array.length - 1),
         old: oldArray,
-        item: this,
-        property: "0-" + (this.__array.length - 1)
+        item: this
       });
     },
 
@@ -289,8 +286,7 @@ qx.Class.define("qx.data.Array",
         value: [],
         name: "0",
         old: [item],
-        item: this,
-        property: "0"
+        item: this
       });
 
       // fire change event
@@ -377,7 +373,7 @@ qx.Class.define("qx.data.Array",
       var endIndex = (startIndex + Math.max(arguments.length - 3 , amount - 1));
       var name = startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
       this.fireDataEvent("changeBubble", {
-        value: value, name: name, old: returnArray, item: this, property: name
+        value: value, name: name, old: returnArray, item: this
       });
 
       // remove the listeners
@@ -412,8 +408,7 @@ qx.Class.define("qx.data.Array",
         value: this.__array,
         name: "0-" + (this.length - 1),
         old: oldArray,
-        item: this,
-        property: "0-" + (this.length - 1)
+        item: this
       });
     },
 
@@ -436,8 +431,7 @@ qx.Class.define("qx.data.Array",
           value: [this.__array[0]],
           name: "0",
           old: [this.__array[1]],
-          item: this,
-          property: "0"
+          item: this
         });
 
         // fire change event
@@ -501,8 +495,7 @@ qx.Class.define("qx.data.Array",
         value: [item],
         name: index,
         old: [oldItem],
-        item: this,
-        property: index
+        item: this
       });
 
       // fire change event
@@ -669,8 +662,7 @@ qx.Class.define("qx.data.Array",
         value: [],
         name: "0-" + (oldLength - 1),
         old: items,
-        item: this,
-        property: "0-" + (oldLength - 1)
+        item: this
       });
 
       // fire the change event
@@ -725,8 +717,7 @@ qx.Class.define("qx.data.Array",
         value: array,
         name: name,
         old: [],
-        item: this,
-        property: name
+        item: this
       });
 
       // fire the change event
