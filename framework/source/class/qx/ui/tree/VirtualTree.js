@@ -66,7 +66,7 @@
 qx.Class.define("qx.ui.tree.VirtualTree",
 {
   extend : qx.ui.virtual.core.Scroller,
-  implement : qx.ui.tree.core.IVirtualTree,
+  implement : [qx.ui.tree.core.IVirtualTree, qx.data.controller.ISelection],
   include : [
     qx.ui.virtual.selection.MModel,
     qx.ui.core.MContentPadding
