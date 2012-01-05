@@ -185,7 +185,7 @@ qx.Class.define("qx.data.Array",
       // fire change bubble event
       this.fireDataEvent("changeBubble", {
         value: [],
-        name: this.length,
+        name: this.length + "",
         old: [item],
         item: this
       });
@@ -220,7 +220,7 @@ qx.Class.define("qx.data.Array",
         // fire change bubbles event
         this.fireDataEvent("changeBubble", {
           value: [arguments[i]],
-          name: this.length - 1,
+          name: (this.length - 1) + "",
           old: [],
           item: this
         });
@@ -373,7 +373,7 @@ qx.Class.define("qx.data.Array",
       var endIndex = (startIndex + Math.max(arguments.length - 3 , amount - 1));
       var name = startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
       this.fireDataEvent("changeBubble", {
-        value: value, name: name, old: returnArray, item: this
+        value: value, name: name + "", old: returnArray, item: this
       });
 
       // remove the listeners
@@ -493,7 +493,7 @@ qx.Class.define("qx.data.Array",
       // fire change bubbles event
       this.fireDataEvent("changeBubble", {
         value: [item],
-        name: index,
+        name: index + "",
         old: [oldItem],
         item: this
       });
@@ -715,7 +715,7 @@ qx.Class.define("qx.data.Array",
         oldLength + "-" + (this.length-1);
       this.fireDataEvent("changeBubble", {
         value: array,
-        name: name,
+        name: name + "",
         old: [],
         item: this
       });
