@@ -37,9 +37,7 @@ qx.Class.define("qx.test.data.store.Offline",
       return qx.core.Environment.get("qx.debug");
     },
 
-    setUp : function()
-    {
-      //this.require(["html.storage.local"]);
+    setUp : function() {
       this.require(["localStorage"]);
     },
 
@@ -67,7 +65,6 @@ qx.Class.define("qx.test.data.store.Offline",
 
 
     testCreate : function() {
-      //this.require(["qx.debug"]);
       this.require(["qxDebug"]);
 
       var store;
@@ -89,6 +86,13 @@ qx.Class.define("qx.test.data.store.Offline",
     testCheckEmptyModel : function() {
       this.__initDefaultStore();
       this.assertNull(this.__store.getModel());
+
+      var model = this.__createDefaultModel();
+      this.__store.setModel(model);
+      this.__store.setModel(null);
+      this.assertNull(qx.bom.storage.Local.getInstance().getItem(this.__testKey));
+
+      model.dispose();
     },
 
 
