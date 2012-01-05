@@ -110,24 +110,29 @@ qx.Class.define("qx.test.ui.form.Resetter",
       list.add(l1);
       var l2 = new qx.ui.form.ListItem("2");
       list.add(l2);
+      var model = new qx.data.Array("a", "b", "c");
+      var vsb = new qx.ui.form.VirtualSelectBox(model);
 
       // set the init values
       slider.setValue(22);
       textarea.setValue("aaa");
       radiobutton.setValue(false);
       list.setSelection([l2]);
+      vsb.getSelection().setItem(0, "b");
 
       // add the resetter
       this.__resetter.add(slider);
       this.__resetter.add(textarea);
       this.__resetter.add(radiobutton);
       this.__resetter.add(list);
+      this.__resetter.add(vsb);
 
       // change the values
       slider.setValue(55);
       textarea.setValue("bbb");
       radiobutton.setValue(true);
       list.setSelection([l1]);
+      vsb.getSelection().setItem(0, "c");
 
       // reset
       this.__resetter.reset();
@@ -137,12 +142,15 @@ qx.Class.define("qx.test.ui.form.Resetter",
       this.assertEquals("aaa", textarea.getValue());
       this.assertEquals(false, radiobutton.getValue());
       this.assertEquals(l2, list.getSelection()[0]);
+      this.assertEquals("b", vsb.getSelection().getItem(0));
 
       // tear down
       list.dispose();
       radiobutton.dispose();
       textarea.dispose();
       slider.dispose();
+      vsb.destroy();
+      model.dispose();
     },
 
 

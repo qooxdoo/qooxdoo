@@ -52,6 +52,8 @@ qx.Class.define("qx.ui.form.Resetter",
         var init = item.getValue();
       } else if (this.__supportsSingleSelection(item)) {
         var init = item.getSelection();
+      } else if (this.__supportsDataBindingSelection(item)) {
+        var init = item.getSelection().concat();
       } else {
         throw new Error("Item " + item + " not supported for reseting.");
       }
@@ -113,8 +115,11 @@ qx.Class.define("qx.ui.form.Resetter",
       // set the init value
       if (this._supportsValue(item)) {
         item.setValue(init);
-      } else if (this.__supportsSingleSelection(item)) {
-        item.setSelection(init)
+      } else if (
+        this.__supportsSingleSelection(item) ||
+        this.__supportsDataBindingSelection(item)
+      ) {
+        item.setSelection(init);
       }
     },
 
@@ -169,7 +174,10 @@ qx.Class.define("qx.ui.form.Resetter",
     {
       if (this._supportsValue(item)) {
         return item.getValue();
-      } else if (this.__supportsSingleSelection(item)) {
+      } else if (
+        this.__supportsSingleSelection(item) || 
+        this.__supportsDataBindingSelection(item)
+      ) {
         return item.getSelection();
       }
     },
@@ -186,6 +194,20 @@ qx.Class.define("qx.ui.form.Resetter",
     __supportsSingleSelection : function(formItem) {
       var clazz = formItem.constructor;
       return qx.Class.hasInterface(clazz, qx.ui.core.ISingleSelection);
+    },
+
+
+    /**
+     * Returns true, if the given item implements the
+     * {@link qx.data.controller.ISelection} interface.
+     *
+     * @param formItem {qx.core.Object} The item to check.
+     * @return {boolean} true, if the given item implements the
+     *   necessary interface.
+     */
+    __supportsDataBindingSelection : function(formItem) {
+      var clazz = formItem.constructor;
+      return qx.Class.hasInterface(clazz, qx.data.controller.ISelection);
     },
 
 
