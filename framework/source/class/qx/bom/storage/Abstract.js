@@ -50,7 +50,7 @@ qx.Class.define("qx.bom.storage.Abstract",
 
     this.__eventTarget = qx.bom.Event.supportsEvent(window, "storage") ?
       window : qx.bom.Event.supportsEvent(document, "storage") ? document : null;
-    
+
     if (this.__eventTarget) {
       qx.bom.Event.addNativeListener(this.__eventTarget, "storage", this._handleStorageEventBound);
     }
@@ -202,7 +202,7 @@ qx.Class.define("qx.bom.storage.Abstract",
   destruct: function()
   {
     this._storage = null;
-    
+
     if (this.__eventTarget) {
       qx.bom.Event.removeNativeListener(this.__eventTarget, "storage", this._handleStorageEventBound);
     }
