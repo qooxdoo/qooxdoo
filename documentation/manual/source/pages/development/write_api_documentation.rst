@@ -167,6 +167,25 @@ Example:
         sayTrue: qx.lang.Function.returnTrue;
       }
 
+This is also possible if the function signature should contain parameters. In this case the @signature attribute is just written with the parameter names and separate @param attributes are used to provide information about these parameters.
+
+Example:
+
+::
+
+    members :
+      {
+        /**
+         * Evaluates JavaScript code globally
+         *
+         * @param data {String} JavaScript commands
+         *
+         * @return Result of the execution
+         * @signature function(data)
+         */
+        evalCode: qx.lang.Function.globalEval
+      }
+
 .. _pages/write_api_documentation#example:
 
 Example
