@@ -103,7 +103,8 @@ qx.Class.define("qx.ui.tabview.Page",
     {
       check : "String",
       init : "",
-      apply : "_applyIcon"
+      apply : "_applyIcon",
+      nullable: true
     },
 
     /** Indicates if the close button of a TabButton should be shown. */
