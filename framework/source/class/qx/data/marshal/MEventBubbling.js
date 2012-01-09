@@ -160,9 +160,6 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
         var newName =  name + "." + data.name;
       }
 
-
-      console.log("in", name, newName);
-
       this.fireDataEvent(
         "changeBubble",
         {
