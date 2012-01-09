@@ -147,6 +147,40 @@ def nameToDescription(name):
 
     return desc
 
+##
+# Parsed comments are represented as lists of "attributes". This is a schematic:
+# [{
+#   'category' : 'description'|'param'|'throws'|'return'| ... (prob. all '@' tags),
+#   'text'     : <descriptive string>,
+#   'name'     : <name e.g. param name>,
+#   'defaultValue' : <param default value>,
+#   'type'     : [{                    (array for alternatives, e.g. "{Map|null}")
+#     'type': 'Map'|'String'|...,   (from e.g. "{String[]}")
+#     'dimensions': <int>  (0 = scalar, 1 = array, ...)
+#   }]
+# }]
+#
+
+def getAttrib(attribList, category):
+    for attrib in attribList:
+        if attrib["category"] == category:
+            return attrib
+
+
+def getParam(attribList, name):
+    for attrib in attribList:
+        if attrib["category"] == "param":
+            if "name" in attrib and attrib["name"] == name:
+                return attrib
+
+
+def attribHas(attrib, key):
+    if attrib != None and key in attrib and not attrib[key] in ["", None]:
+        return True
+
+    return False
+
+
 
 ##
 # Holds a string representing a JS comment
@@ -401,26 +435,6 @@ class Comment(object):
         #  print text
 
         return text
-
-
-    def getAttrib(self, attribList, category):
-        for attrib in attribList:
-            if attrib["category"] == category:
-                return attrib
-
-
-    def getParam(self, attribList, name):
-        for attrib in attribList:
-            if attrib["category"] == "param":
-                if "name" in attrib and attrib["name"] == name:
-                    return attrib
-
-
-    def attribHas(self, attrib, key):
-        if attrib != None and key in attrib and not attrib[key] in ["", None]:
-            return True
-
-        return False
 
 
     def splitText(self, orig, attrib=True):
