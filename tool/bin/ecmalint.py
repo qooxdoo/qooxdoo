@@ -31,7 +31,7 @@ from ecmascript.frontend import tokenizer
 from ecmascript.frontend import treeutil
 from ecmascript.frontend import tree
 from ecmascript.frontend import lang
-from ecmascript.frontend import comment
+from ecmascript.frontend import comment, Comment_ as Comment
 from ecmascript.frontend.Script import Script
 from ecmascript.frontend.Scope import Scope
 from misc import filetool
@@ -349,7 +349,7 @@ class Lint:
         return self._shouldPrintVariableWarning(node, "ignoreReferenceField", name)
     
     def _shouldPrintVariableWarning(self, node, docCommand, variableName):
-        comments = comment.findComment(node)
+        comments = Comment.findComment(node)
         if comments is None:
             return True
         

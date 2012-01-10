@@ -200,7 +200,7 @@ class Comment(object):
 
     def correctBlock(self):
         source = self.string
-        if not getFormat(self.string) in ["javadoc", "qtdoc"]:
+        if not self.getFormat() in ["javadoc", "qtdoc"]:
             if R_BLOCK_COMMENT_TIGHT_START.search(self.string):
                 source = R_BLOCK_COMMENT_PURE_START.sub("/* ", self.string)
 
@@ -437,11 +437,11 @@ class Comment(object):
         return text
 
 
-    def splitText(self, orig, attrib=True):
+    def splitText(self, attrib=True):
         res = ""
         first = True
 
-        for line in orig.split("\n"):
+        for line in self.string.split("\n"):
             if attrib:
                 if first:
                     res += " %s\n" % line
@@ -459,7 +459,8 @@ class Comment(object):
         return res
 
 
-    def parseType(self, vtype):
+    @staticmethod
+    def parseType(vtype):
         typeText = ""
 
         firstType = True
@@ -770,7 +771,7 @@ def fromNode(node, assignType, name, alternative, old=[]):
         newText = "{var} TODOC"
 
     if "\n" in newText:
-        s = "/**\n%s\n-*/" % self.splitText(newText, False)
+        s = "/**\n%s\n-*/" % Comment(newText).splitText(False)
     else:
         s = "/** %s */" % newText
 
@@ -807,7 +808,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
     else:
         newText = "TODOC"
 
-    s += splitText(newText, False)
+    s += Comment(newText).splitText(False)
     s += " *\n"
 
 
@@ -835,7 +836,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
         else:
             newText = ""
 
-        s += " * @abstract%s" % splitText(newText)
+        s += " * @abstract%s" % Comment(newText).splitText()
 
         if not s.endswith("\n"):
             s += "\n"
@@ -861,7 +862,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
                 # Get type and text from old content
                 if oldParam:
                     if attribHas(oldParam, "type"):
-                        newTypeText = parseType(oldParam["type"])
+                        newTypeText = Comment.parseType(oldParam["type"])
 
                     if attribHas(oldParam, "defaultValue"):
                         newDefault = " ? %s" % oldParam["defaultValue"]
@@ -869,7 +870,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
                     if attribHas(oldParam, "text"):
                         newText = oldParam["text"].strip()
 
-                s += " * @param %s {%s%s}%s" % (newName, newTypeText, newDefault, splitText(newText))
+                s += " * @param %s {%s%s}%s" % (newName, newTypeText, newDefault, Comment(newText).splitText())
 
                 if not s.endswith("\n"):
                     s += "\n"
@@ -887,7 +888,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
         # Get type and text from old content
         if oldReturn:
             if attribHas(oldReturn, "type"):
-                newType = parseType(oldReturn["type"])
+                newType = Comment.parseType(oldReturn["type"])
 
             if attribHas(oldReturn, "text"):
                 newText = oldReturn["text"].strip()
@@ -906,7 +907,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
             if newText == "":
                 newText = "TODOC"
 
-            s += " * @return {%s}%s" % (newType, splitText(newText))
+            s += " * @return {%s}%s" % (newType, Comment(newText).splitText())
 
             if not s.endswith("\n"):
                 s += "\n"
@@ -925,7 +926,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
         else:
             newText = "TODOC"
 
-        s += " * @throws%s" % splitText(newText)
+        s += " * @throws%s" % Comment(newText).splitText()
 
         if not s.endswith("\n"):
             s += "\n"
@@ -946,9 +947,9 @@ def fromFunction(func, assignType, name, alternative, old=[]):
 
             if cat == "see":
                 if attribHas(attrib, "name"):
-                    s += splitText(attrib["name"])
+                    s += Comment(attrib["name"]).splitText()
             elif attribHas(attrib, "text"):
-                s += splitText(attrib["text"])
+                s += Comment(attrib["text"]).splitText()
 
             if not s.endswith("\n"):
                 s += "\n"

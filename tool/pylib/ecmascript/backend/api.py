@@ -33,7 +33,7 @@
 ##
 
 import sys, os, re
-from ecmascript.frontend import tree, comment
+from ecmascript.frontend import tree, comment, Comment_ as Comment
 from ecmascript.frontend.treeutil import *
 from ecmascript.transform.optimizer import variantoptimizer  # ugly here
 from generator import Context
@@ -86,7 +86,7 @@ def createPackageDoc(text, packageName, docTree = None):
 
     package = getPackageNode(docTree, packageName)
 
-    commentAttributes = comment.parseText(text)
+    commentAttributes = Comment.Comment(text).parse()
     # Read all description, param and return attributes
     for attrib in commentAttributes:
         # Add description
@@ -123,7 +123,7 @@ def handleClassDefinition(docTree, item, variant):
     else:
         classMap = {}
 
-    commentAttributes = comment.parseNode(item)
+    commentAttributes = Comment.parseNode(item)
 
     classNode = getClassNode(docTree, className, commentAttributes)
     if variant == "class":
@@ -294,7 +294,7 @@ def handleSingleton(classNode, docTree):
 function() {}""" % className
 
         node = compileString(functionCode)
-        commentAttributes = comment.parseNode(node)
+        commentAttributes = Comment.parseNode(node)
         docNode = handleFunction(node, "getInstance", commentAttributes, classNode)
 
         docNode.set("isStatic", True)
@@ -324,7 +324,7 @@ def handleInterfaces(item, classNode, docTree):
 
 def handleConstructor(ctorItem, classNode):
     if ctorItem and ctorItem.type == "function":
-        commentAttributes = comment.parseNode(ctorItem.parent.parent)
+        commentAttributes = Comment.parseNode(ctorItem.parent.parent)
         ctor = handleFunction(ctorItem, "ctor", commentAttributes, classNode, reportMissingDesc=False)
         ctor.set("isCtor", True)
         classNode.addListChild("constructor", ctor)
@@ -335,7 +335,7 @@ def handleStatics(item, classNode):
         keyvalue = value.parent
         value = value.getFirstChild()
 
-        commentAttributes = comment.parseNode(keyvalue)
+        commentAttributes = Comment.parseNode(keyvalue)
 
         # handle @signature
         if value.type != "function":
@@ -363,7 +363,7 @@ def handleMembers(item, classNode):
         keyvalue = value.parent
         value = value.getFirstChild()
 
-        commentAttributes = comment.parseNode(keyvalue)
+        commentAttributes = Comment.parseNode(keyvalue)
 
         # handle @signature
         if value.type != "function":
@@ -463,7 +463,7 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
         funcName = access + funcName + name
         functionCode = propData[funcName]
         node = compileString(functionCode)
-        commentAttributes = comment.parseNode(node)
+        commentAttributes = Comment.parseNode(node)
         docNode = handleFunction(node, funcName, commentAttributes, classNode)
         docNode.set("fromProperty", propertyName)
         classNode.addListChild("methods", docNode)
@@ -563,7 +563,7 @@ def generateGroupPropertyMethod(propertyName, groupMembers, mode, classNode):
         "paramList" : ", ".join(groupMembers)
     })
     functionNode = compileString(functionCode)
-    commentAttributes = comment.parseNode(functionNode)
+    commentAttributes = Comment.parseNode(functionNode)
     docNode = handleFunction(functionNode, functionName, commentAttributes, classNode)
 
     docNode.set("fromProperty", propertyName)
@@ -619,8 +619,8 @@ def handleProperties(item, classNode):
 
         # If the description has a type specified then take this type
         # (and not the one extracted from the paramsMap)
-        commentAttributes = comment.parseNode(keyvalue)
-        addTypeInfo(node, comment.getAttrib(commentAttributes, "description"), item)
+        commentAttributes = Comment.parseNode(keyvalue)
+        addTypeInfo(node, Comment.getAttrib(commentAttributes, "description"), item)
         handleDeprecated(node, commentAttributes)
         handleAccess(node, commentAttributes)
 
@@ -637,7 +637,7 @@ def handleEvents(item, classNode):
 
         node = tree.Node("event")
 
-        commentAttributes = comment.parseNode(keyvalue)
+        commentAttributes = Comment.parseNode(keyvalue)
         try:
             desc = commentAttributes[0]["text"]
         except (IndexError, KeyError):
@@ -802,8 +802,8 @@ def handleConstantDefinition(item, classNode):
             node.set("value", valueNode.getChild("constant").get("value"))
             node.set("type", valueNode.getChild("constant").get("constantType").capitalize())
 
-    commentAttributes = comment.parseNode(item)
-    description = comment.getAttrib(commentAttributes, "description")
+    commentAttributes = Comment.parseNode(item)
+    description = Comment.getAttrib(commentAttributes, "description")
     addTypeInfo(node, description, item)
 
     handleDeprecated(node, commentAttributes)
@@ -943,10 +943,10 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
                     hasReturnValue = True
             
             hasReturnDoc = False
-            if comment.getAttrib(commentAttributes, "return"):
+            if Comment.getAttrib(commentAttributes, "return"):
                 hasVoidType = False
-                if "type" in comment.getAttrib(commentAttributes, "return"):
-                    for typeDef in comment.getAttrib(commentAttributes, "return")["type"]:
+                if "type" in Comment.getAttrib(commentAttributes, "return"):
+                    for typeDef in Comment.getAttrib(commentAttributes, "return")["type"]:
                         if typeDef["type"] == "void":
                             hasVoidType = True
                 if not hasVoidType:        
@@ -1343,7 +1343,7 @@ function(%(firstParamName)s, %(secondParamName)s) {}""" % ({
     })
 
     node = compileString(functionCode)
-    commentAttributes = comment.parseNode(node)
+    commentAttributes = Comment.parseNode(node)
     docNode = handleFunction(node, methodNode.get("name"), commentAttributes, selectNode(methodNode, "../.."))
 
     oldParams = methodNode.getChild("params", False)

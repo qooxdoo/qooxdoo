@@ -28,7 +28,7 @@
 ##
 
 import sys, re
-from ecmascript.frontend                 import lang, comment
+from ecmascript.frontend                 import lang, comment, Comment_ as Comment
 from ecmascript.frontend.SyntaxException import SyntaxException
 import Scanner
 
@@ -172,15 +172,15 @@ def parseStream(content, uniqueId=""):
                             raiseSyntaxException(token, desc)
                         commnt = alignMultiLines(commnt, token['column'])
                         token['source'] = tok.value + commnt
-                        token['detail'] = comment.getFormat(token['source'])
+                        token['detail'] = Comment.Comment(token['source']).getFormat()
                         token['begin'] = not hasLeadingContent(tokens)
                         if restLineIsEmpty(scanner):
                             token['end'] = True
                         else:
                             token['end'] = False
                         if token['begin']:
-                            token['source'] = comment.outdent(token['source'], column - 1)
-                        token['source'] = comment.correct(token['source'])
+                            token['source'] = Comment.Text(token['source']).outdent(column - 1)
+                        token['source'] = Comment.Comment(token['source']).correct()
                         if token['end'] and not token['begin']:
                             token['connection'] = "after"
                         else:
