@@ -20,3 +20,6 @@
 /.project
 /.pydevproject
 /.settings
+
+# WebStorm
+/.idea
