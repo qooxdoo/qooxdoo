@@ -1402,10 +1402,12 @@ class QxTest:
 
         options = LintOpts(None,self.mailConf['mailTo'])
 
-        if (key != "other"):
-          options.workdir = os.path.join(self.testConf['qxPathAbs'], key, target['directory'])
+        if key == "other":
+          options.workdir = os.path.join(self.testConf['qxPathAbs'], target['directory'])
+        elif key == "external":
+          options.workdir = target['directory']
         else:
-           options.workdir = os.path.join(self.testConf['qxPathAbs'], target['directory'])
+          options.workdir = os.path.join(self.testConf['qxPathAbs'], key, target['directory'])
         
         if ('ignoreClasses' in target):
           options.ignoreClasses = target['ignoreClasses']
