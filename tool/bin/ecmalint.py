@@ -31,7 +31,7 @@ from ecmascript.frontend import tokenizer
 from ecmascript.frontend import treeutil
 from ecmascript.frontend import tree
 from ecmascript.frontend import lang
-from ecmascript.frontend import Comment_ as Comment
+from ecmascript.frontend import Comment
 from ecmascript.frontend.Script import Script
 from ecmascript.frontend.Scope import Scope
 from misc import filetool

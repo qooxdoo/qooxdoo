@@ -33,7 +33,7 @@
 ##
 
 import sys, os, re
-from ecmascript.frontend import tree, Comment_ as Comment
+from ecmascript.frontend import tree, Comment
 from ecmascript.frontend.treeutil import *
 from ecmascript.transform.optimizer import variantoptimizer  # ugly here
 from generator import Context
