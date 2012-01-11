@@ -325,7 +325,7 @@
         {
           var match = Collection.__expr.exec(input);
           if (match) {
-            return match[1] ? Collection.html(match[1], context) : Collection.id(match[3].substring(1));
+            return match[1] ? Collection.html(match[1], context) : Collection.id(match[3]);
           } else {
             return Collection.query(input, context);
           }
