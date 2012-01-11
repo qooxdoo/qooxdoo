@@ -85,6 +85,7 @@ class QxTest:
     self.log("Starting " + self.testType + " test session.")    
 
     self.qxRevision = self.getRevision()
+    self.scm = None
     self.buildStatus = self.getBuildStatus()
     
     self.sim = False      
@@ -409,11 +410,10 @@ class QxTest:
       buildResult["BuildFinished"] = time.strftime(self.timeFormat)
         
     revision = self.getLocalRevision()
-    reg = re.compile("^\d+M?")
-    found = reg.search(revision)
-    if found:
+    
+    if self.scm == "SVN":
       buildResult["SVNRevision"] = revision
-    else:
+    elif self.scm == "Git":
       buildResult["GitRevision"] = revision.rstrip()
     
     return buildResult
@@ -476,9 +476,15 @@ class QxTest:
         else:
           self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
     
-    self.storeBuildStatus(buildConf["buildLogDir"])
-    self.qxRevision = self.getLocalRevision()
+    revision = self.getLocalRevision()
     self.storeRevision(buildConf["buildLogDir"])
+    
+    if self.scm == "SVN":
+      self.buildStatus[target]["SVNRevision"] = revision
+    elif self.scm == "Git":
+      self.buildStatus[target]["GitRevision"] = revision.rstrip()
+    
+    self.storeBuildStatus(buildConf["buildLogDir"])
 
   ##
   # Runs an SVN update on a Simulator contribution checkout
@@ -631,9 +637,11 @@ class QxTest:
   def getLocalRevision(self):
     svnDir = os.path.join(self.testConf["qxPathAbs"], ".svn")
     if os.path.isdir(svnDir):
+      self.scm = "SVN"
       return self.getLocalSvnRevision()
     gitDir = os.path.join(self.testConf["qxPathAbs"], ".git")
     if os.path.isdir(gitDir):
+      self.scm = "Git"
       return self.getLocalGitDescription()
   
   ##
