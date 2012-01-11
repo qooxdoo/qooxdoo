@@ -128,8 +128,8 @@
             var i, p, s;
             for (i = 0; i < uris.length; i++) {
                 if (typeof process !== "undefined") { // Node
-                  if (uris[i][0] == '.') {
-                    p = '../../' + uris[i];
+                  if (uris[i][0] == '.') {  // if URI starts with '.' paths are taken relative to script
+                    p = '../../' + uris[i];  // Ugly: patch URI, as it is relative to application root
                   } else {
                     p = uris[i];
                   }
