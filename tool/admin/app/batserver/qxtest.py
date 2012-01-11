@@ -433,7 +433,11 @@ class QxTest:
     
     for target in sorted(buildConf["targets"]):
       self.buildStatus[target] = {
-        "BuildError"  : False
+        "BuildError"  : None,
+        "BuildWarning" : None,
+        "BuildStarted" : time.strftime(self.timeFormat),
+        "BuildFinished" : False,
+        "BuildJob" : None
       }
       # generate the skeleton
       buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"], target)
@@ -445,7 +449,7 @@ class QxTest:
       status, std, err = invokePiped(cmd)
       if status > 0:
         self.logBuildErrors(buildLogFile, target, cmd, err)
-        self.buildStatus[target]["BuildError"] = err
+        self.buildStatus[target]["BuildError"] = err.rstrip('\n')
       else:  
         # generate the application
         self.log("Generating %s application." %target)
@@ -456,12 +460,21 @@ class QxTest:
         else:
           buildcmd += os.path.join(buildConf["stageDir"], target + "application", "generate.py")
 
-        buildcmd += " " + ",".join(buildConf["targets"][target])
+        jobs = ",".join(buildConf["targets"][target])
+        self.buildStatus[target]["BuildJob"] = jobs
+        buildcmd += " " + jobs
         status, std, err = invokePiped(buildcmd)
         
         if status > 0:          
-          self.logBuildErrors(buildLogFile, target, buildcmd, err)              
+          self.logBuildErrors(buildLogFile, target, buildcmd, err)
           self.buildStatus[target]["BuildError"] = err.rstrip('\n')
+        elif err != "":
+          err = err.rstrip('\n')
+          err = err.rstrip('\r')
+          self.buildStatus[target]["BuildWarning"] =  err.rstrip('\n')
+          self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
+        else:
+          self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
     
     self.storeBuildStatus(buildConf["buildLogDir"])
     self.qxRevision = self.getLocalRevision()
