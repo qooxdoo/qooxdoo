@@ -96,8 +96,9 @@ Within a doc comment the following attributes are supported:
 
 .. _pages/write_api_documentation#param:
 
-@param (only for methods and constructors):
+@param
 -------------------------------------------
+*(only for methods and constructors)*
 
 Describes a parameter. ``@param`` is followed by the name of the parameter. Following that is the type in curly brackets (Example: ``{Integer}``), followed by the description text. Types are described more in detail in the next section.
 
@@ -107,21 +108,23 @@ You can also define multiple possible types. Example: ``{Boolean | Integer ? 0}`
 
 .. _pages/write_api_documentation#return:
 
-@return (only for methods):
+@return
 ---------------------------
+*(only for methods)*
 
 Describes the return value. After the ``@return`` comes the type in curly brackets followed by the description text.
 
 .. _pages/write_api_documentation#throws:
 
-@throws (only for methods and constructors):
+@throws
 --------------------------------------------
+*(only for methods and constructors)*
 
 Describes in which cases an exception is thrown.
 
 .. _pages/write_api_documentation#see:
 
-@see:
+@see
 -----
 
 Adds a cross reference to another structure (class, property, method or constant). The text is structured as follows: At first comes the full name of the class to link to. If you want to link to a property, method or constant, then a ``#`` comes, followed by the name of the property, method or constant.
@@ -138,19 +141,19 @@ After this target description an alternative text may follow. If missing the tar
 
 .. _pages/write_api_documentation#link:
 
-@link:
+@link
 ------
 
 The ``@link`` attribute is similar to the ``@see`` attribute, but it is used for linking to other structures within description texts. Unlike the other attributes, the ``@link`` attribute is not standalone, but in curly brackets and within the main description text or a description text of another attribute.
 
 .. _pages/write_api_documentation#signature:
 
-@signature:
+@signature
 -----------
 
-sometimes the API documentation generator is not able to extract the method signature from the source code. This is for example the case, when the method is defined using ``environment`` of if the method is assigned from a method constant like ``qx.lang.Function.returnTrue``.
+Sometimes the API documentation generator is not able to extract the method signature from the source code. This for example is the case when the method is defined using a ``qx.core.Environment`` selection, or if the method is assigned from a method constant like ``qx.lang.Function.returnTrue``.
 
-In these cases the method signature can be declared inside the documentation comment using the @signature attribute.
+In these cases the method signature can be declared inside the documentation comment using the ``@signature`` attribute.
 
 Example:
 
@@ -165,6 +168,25 @@ Example:
          * @signature function()
          */
         sayTrue: qx.lang.Function.returnTrue;
+      }
+
+You can also add individual parameter names to the signature, but then need to provide ``@param`` entries for each of them::
+
+    members :
+      {
+        /**
+         * Always returns false, but takes some parameters.
+         *
+         * @return {Boolean} returns false
+         *
+         * @signature function(foo, bar, baz)
+         * @param foo {String} ...
+         * @param bar {Integer} ...
+         * @param baz {Map} ...
+         */
+        sayFalse: function() {
+          ...
+        }
       }
 
 .. _pages/write_api_documentation#example:
