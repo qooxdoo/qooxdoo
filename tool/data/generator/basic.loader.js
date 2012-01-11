@@ -133,10 +133,8 @@
                   } else {
                     p = uris[i];
                   }
-                  p = require.resolve(p);
-                  s = fs.readFileSync(p, "utf-8");
                   try {
-                    eval(s);
+                    require(p);
                   } catch (e) {
                     console.error("Unable to load uri: "+p);
                     throw e;
