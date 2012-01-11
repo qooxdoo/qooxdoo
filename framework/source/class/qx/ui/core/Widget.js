@@ -1871,7 +1871,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Returns the children list
      *
      * @return {LayoutItem[]} The children array (Arrays are
-     *   reference types, please to not modify them in-place)
+     *   reference types, so please do not modify it in-place).
      */
     _getChildren : function() {
       return this.__widgetChildren || this.__emptyChildren;

@@ -128,3 +128,33 @@ Getting information about user interaction through browser events is an importan
   // simple 'click' listener at all elements of the collection
   // with different scope
   $("#myBox").addListener("click", listenerWithDifferentScope, window);
+  
+
+Adding event listeners with bound function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Another typical use case in combination with event listeners is to hand in additional parameters and / or change the scope of the listener method. This is necessary whenever the listener method should be able to access local variables and you don't want to introduce a closure function.
+
+Here we go:
+
+::
+
+  // the parameters of the 'addListener' method will be handed in first.
+  // The parameters of the 'bind' method afterwards
+  var callbackHandler = function(e, name, content)
+  {
+    e.preventDefault();
+
+    // more code ...
+  };
+
+  var name = "foo";
+  var content = "bar";
+  var boundFunction = qx.lang.Function.bind(callbackHandler, name, content);
+
+  var openerElemenet = $("#opener");
+  
+  // add 'click' listener at all elements of the collection
+  // the third parameter is the scope of the listener method (= reference
+  // to 'this' within that function)
+  openerElement.addListener("click", boundFunction, this);

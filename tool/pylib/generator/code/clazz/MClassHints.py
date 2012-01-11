@@ -148,7 +148,7 @@ class MClassHints(object):
             # warn unknown compiler hints
             _unknown_  = _extractUnknownDeps(content)
             for item in _unknown_:
-                console.error(u"Unknown compiler hint '#%s' in %s" % (item, self.id))
+                console.warn(u"Unknown compiler hint '#%s' in %s" % (item, self.id))
 
             console.outdent()
 

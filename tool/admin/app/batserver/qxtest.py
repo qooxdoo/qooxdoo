@@ -85,6 +85,7 @@ class QxTest:
     self.log("Starting " + self.testType + " test session.")    
 
     self.qxRevision = self.getRevision()
+    self.scm = None
     self.buildStatus = self.getBuildStatus()
     
     self.sim = False      
@@ -409,11 +410,10 @@ class QxTest:
       buildResult["BuildFinished"] = time.strftime(self.timeFormat)
         
     revision = self.getLocalRevision()
-    reg = re.compile("^\d+M?")
-    found = reg.search(revision)
-    if found:
+    
+    if self.scm == "SVN":
       buildResult["SVNRevision"] = revision
-    else:
+    elif self.scm == "Git":
       buildResult["GitRevision"] = revision.rstrip()
     
     return buildResult
@@ -433,7 +433,11 @@ class QxTest:
     
     for target in sorted(buildConf["targets"]):
       self.buildStatus[target] = {
-        "BuildError"  : False
+        "BuildError"  : None,
+        "BuildWarning" : None,
+        "BuildStarted" : time.strftime(self.timeFormat),
+        "BuildFinished" : False,
+        "BuildJob" : None
       }
       # generate the skeleton
       buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"], target)
@@ -445,7 +449,7 @@ class QxTest:
       status, std, err = invokePiped(cmd)
       if status > 0:
         self.logBuildErrors(buildLogFile, target, cmd, err)
-        self.buildStatus[target]["BuildError"] = err
+        self.buildStatus[target]["BuildError"] = err.rstrip('\n')
       else:  
         # generate the application
         self.log("Generating %s application." %target)
@@ -456,16 +460,31 @@ class QxTest:
         else:
           buildcmd += os.path.join(buildConf["stageDir"], target + "application", "generate.py")
 
-        buildcmd += " " + ",".join(buildConf["targets"][target])
+        jobs = ",".join(buildConf["targets"][target])
+        self.buildStatus[target]["BuildJob"] = jobs
+        buildcmd += " " + jobs
         status, std, err = invokePiped(buildcmd)
         
         if status > 0:          
-          self.logBuildErrors(buildLogFile, target, buildcmd, err)              
+          self.logBuildErrors(buildLogFile, target, buildcmd, err)
           self.buildStatus[target]["BuildError"] = err.rstrip('\n')
+        elif err != "":
+          err = err.rstrip('\n')
+          err = err.rstrip('\r')
+          self.buildStatus[target]["BuildWarning"] =  err.rstrip('\n')
+          self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
+        else:
+          self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
+    
+    revision = self.getLocalRevision()
+    self.storeRevision(buildConf["buildLogDir"])
+    
+    if self.scm == "SVN":
+      self.buildStatus[target]["SVNRevision"] = revision
+    elif self.scm == "Git":
+      self.buildStatus[target]["GitRevision"] = revision.rstrip()
     
     self.storeBuildStatus(buildConf["buildLogDir"])
-    self.qxRevision = self.getLocalRevision()
-    self.storeRevision(buildConf["buildLogDir"])
 
   ##
   # Runs an SVN update on a Simulator contribution checkout
@@ -618,9 +637,11 @@ class QxTest:
   def getLocalRevision(self):
     svnDir = os.path.join(self.testConf["qxPathAbs"], ".svn")
     if os.path.isdir(svnDir):
+      self.scm = "SVN"
       return self.getLocalSvnRevision()
     gitDir = os.path.join(self.testConf["qxPathAbs"], ".git")
     if os.path.isdir(gitDir):
+      self.scm = "Git"
       return self.getLocalGitDescription()
   
   ##
@@ -1381,10 +1402,12 @@ class QxTest:
 
         options = LintOpts(None,self.mailConf['mailTo'])
 
-        if (key != "other"):
-          options.workdir = os.path.join(self.testConf['qxPathAbs'], key, target['directory'])
+        if key == "other":
+          options.workdir = os.path.join(self.testConf['qxPathAbs'], target['directory'])
+        elif key == "external":
+          options.workdir = target['directory']
         else:
-           options.workdir = os.path.join(self.testConf['qxPathAbs'], target['directory'])
+          options.workdir = os.path.join(self.testConf['qxPathAbs'], key, target['directory'])
         
         if ('ignoreClasses' in target):
           options.ignoreClasses = target['ignoreClasses']

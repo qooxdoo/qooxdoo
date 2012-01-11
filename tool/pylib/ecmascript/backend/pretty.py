@@ -21,7 +21,7 @@
 ################################################################################
 
 import sys, string, re
-from ecmascript.frontend import comment, lang
+from ecmascript.frontend import lang, Comment
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
 
@@ -226,10 +226,10 @@ def commentNode(node):
     commentText = ""
     commentIsInline = False
 
-    comment = node.getChild("commentsAfter", False)
+    commnt = node.getChild("commentsAfter", False)
 
-    if comment and not comment.get("inserted", False):
-        for child in comment.children:
+    if commnt and not commnt.get("inserted", False):
+        for child in commnt.children:
             if not child.isFirstChild():
                 commentText += " "
 
@@ -253,7 +253,7 @@ def commentNode(node):
             else:
                 space()
 
-            comment.set("inserted", True)
+            commnt.set("inserted", True)
 
 
 
@@ -379,7 +379,7 @@ def prettyNode(node, opts, rslt, enableBreaks=False, enableVerbose=False):
         pass
 
     if opts.prettypCommentsBlockAdd:
-        comment.fill(node)
+        Comment.fill(node)
 
     indent       = 0
     result       = [u""]
@@ -483,10 +483,10 @@ def _prettyNode(node, optns, result):
                 text = child.get("text")
 
                 if child.get("detail") == "qtdoc":
-                    text = comment.qt2javadoc(text)
+                    text = Comment.Comment(text).qt2javadoc()
 
                 #write(comment.indent(text, INDENTSPACES * indent))
-                write(comment.indent(text, optns.prettypIndentString * indent))
+                write(Comment.Text(text).indent(optns.prettypIndentString * indent))
 
                 if singleLineBlock:
                     if docComment:

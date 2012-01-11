@@ -26,7 +26,7 @@
 ##
 
 import re
-from ecmascript.frontend import tree, tokenizer, treegenerator
+from ecmascript.frontend import tree, tokenizer, treegenerator, Comment
 
 ##
 # Finds the next qx.*.define in the given tree
@@ -614,7 +614,7 @@ def createBlockComment(txt):
     com.set("multiline", True)
     com.set("connection", "before")
     com.set("text", s)
-    com.set("detail", comment.getFormat(s))
+    com.set("detail", Comment.Comment(s).getFormat())
 
     return bef
 
