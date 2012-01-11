@@ -28,7 +28,7 @@
 ##
 
 import sys, re
-from ecmascript.frontend                 import lang, comment, Comment_ as Comment
+from ecmascript.frontend                 import lang, Comment_ as Comment
 from ecmascript.frontend.SyntaxException import SyntaxException
 import Scanner
 

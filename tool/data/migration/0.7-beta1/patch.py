@@ -8,7 +8,7 @@ import logging
 # reconfigure path to import modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "../pylib"))
 
-from ecmascript.frontend import tree, comment, Comment_ as Comment
+from ecmascript.frontend import tree, Comment
 
 
 
