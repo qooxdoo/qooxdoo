@@ -586,7 +586,7 @@
         
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/testrunner-basic-source.js"
+          "file" : "source/script/testrunner-basic-source.js"
         }
       },
       
