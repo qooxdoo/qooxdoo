@@ -49,7 +49,7 @@
   
   "config-warnings" : 
   {
-    "job-shadowing" : ["libraries", "build-script", "build-files", "common"],
+    "job-shadowing" : ["libraries", "build-script", "build-files", "common", "translation"],
     
     "environment" : [ "non-literal-keys" ]
   },

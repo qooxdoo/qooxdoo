@@ -33,7 +33,7 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["source", "source-hybrid", "build-resources", "common", "simulation-run"]
+    "job-shadowing" : ["source", "source-hybrid", "build-resources", "common", "simulation-run", "translation"]
   },
 
   "jobs" :

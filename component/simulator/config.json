@@ -27,7 +27,7 @@
   
   "config-warnings" : 
   {
-    "job-shadowing" : [ "simulation-run", "simulation-run-source" ]
+    "job-shadowing" : [ "simulation-run", "simulation-run-source", "translation" ]
   },
 
   "let" :

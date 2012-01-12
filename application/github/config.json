@@ -36,7 +36,7 @@
 
   "config-warnings" :
   {
-   "job-shadowing" : ["libraries", "build-files"]
+   "job-shadowing" : ["libraries", "build-files", "translation"]
   },
 
   "let" :

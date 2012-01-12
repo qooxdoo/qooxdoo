@@ -27,7 +27,7 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["build-files", "common"]
+    "job-shadowing" : ["build-files", "common", "translation"]
   },
 
   "jobs" :
