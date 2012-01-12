@@ -24,6 +24,7 @@
 
   <script type="text/javascript" charset="utf-8">
     var q = qx.q;
+
     var d = q('div');
     var a = q('a');
 
@@ -37,7 +38,7 @@
     console.log("getStyles", d.getStyles(["font-weight", "font-size"]));
 
     d.removeClass("test");
-    var test = q.warp(document.getElementById("test"));
+    var test = q.wrap(document.getElementById("test"));
     test.addClass("test");
     console.log("hasClass", test.hasClass("test"));
 
@@ -57,7 +58,7 @@
     q("p").empty();
 
 
-    var input = q.create("<input type='checkbox' alt='text'>");
+    var input = q.create("<input type='checkbox' alt='text'><span>✔</span>");
     input.appendTo(document.body);
     input.setAttribute("checked", true);
     console.log("getAttributes", input.getAttributes(["checked", "alt"]));
@@ -77,6 +78,11 @@
     var children = add.getChildren().setHtml("add ok");
     children.forEach(function(item, i) {item.innerHTML += " " + i});
     children.getParents().setStyle("color", "red");
+
+
+    <!-- EVENTS MODULE -->
+    q('a').setStyle("cursor", "pointer").on("click", function(e) {alert("click")});
+    input.on("click", function(e) {this.setHtml(e.target.checked ? "✔" : "✖")}, q.wrap(input[1]));
   </script>
 </body>
 </html>

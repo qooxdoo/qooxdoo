@@ -200,6 +200,89 @@
   });
 
 
+
+  /** EVENTS **/
+  testrunner.define({
+    testOnOffEmit : function() {
+      var test = q.create("<div/>");
+      var self = this;
+      var called = 0;
+      var listener = function(data) {
+        self.assertEquals(self, this);
+        self.assertEquals(sendData, data);
+        called++;
+      };
+      test.on("changeName", listener, this);
+      var sendData = {a: 12};
+      test.emit("changeName", sendData);
+      this.assertEquals(1, called);
+
+      test.off("changeName", listener, this);
+      test.emit("changeName", sendData);
+      this.assertEquals(1, called);
+    },
+
+    testOnOffEmitChange : function() {
+      var test = q.create("<div/>");
+      var self = this;
+      var called = 0;
+      var listener = function(data) {
+        self.assertEquals(self, this);
+        self.assertEquals(sendData, data);
+        called++;
+      };
+      test.on("changeName", listener, this);
+      var sendData = {a: 12};
+      test.emit("changeName", sendData);
+      this.assertEquals(1, called);
+
+      var test2 = q.wrap(test[0]);
+      test2.emit("changeName", sendData);
+      this.assertEquals(2, called);
+    },
+
+
+    testOnOffEmitMany : function() {
+      var test = q.create("<div/>");
+      test.add(q.create("<div/>")[0]);
+      var self = this;
+      var called = 0;
+      var listener = function(data) {
+        self.assertEquals(self, this);
+        self.assertEquals(sendData, data);
+        called++;
+      };
+      test.on("changeName", listener, this);
+      var sendData = {a: 12};
+      test.emit("changeName", sendData);
+      this.assertEquals(2, called);
+
+      test.off("changeName", listener, this);
+      test.emit("changeName", sendData);
+      this.assertEquals(2, called);
+    },
+
+
+    testOnce : function() {
+      var test = q.create("<div/>");
+      var self = this;
+      var called = 0;
+      var listener = function(data) {
+        self.assertEquals(self, this);
+        self.assertEquals(sendData, data);
+        called++;
+      };
+      test.once("changeName", listener, this);
+      var sendData = {a: 12};
+      test.emit("changeName", sendData);
+      this.assertEquals(1, called);
+
+      test.emit("changeName", sendData);
+      this.assertEquals(1, called);
+    }
+  });
+
+
   </script>
 </body>
 </html>
