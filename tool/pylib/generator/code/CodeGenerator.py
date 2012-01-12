@@ -21,7 +21,7 @@
 ################################################################################
 
 import os, sys, string, types, re, zlib, time
-import urllib, urlparse, optparse, pprint, copy
+import urllib, copy
 import graph
 
 from generator.config.Lang      import Key
@@ -32,6 +32,7 @@ from generator.code.Script      import Script
 import generator.resource.Library # just need the .Library type
 from ecmascript.frontend        import treegenerator, treegenerator_new_ast
 from ecmascript.backend         import pretty
+#from ecmascript.backend         import pretty_new as pretty
 from ecmascript.backend.Packer  import Packer
 from ecmascript.transform.optimizer    import privateoptimizer
 from misc                       import filetool, json, Path, securehash as sha, util
