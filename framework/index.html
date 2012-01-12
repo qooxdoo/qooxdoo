@@ -19,10 +19,13 @@
   </div>
   <a>A</a>
   <p>not empty</p>
-  
+  <section id="trav"><p>trav</p></section>
+  <section id="trav2"><p>trav</p></section>
+
   <script type="text/javascript" charset="utf-8">
-    var d = qx.q('div');
-    var a = qx.q('a');
+    var q = qx.q;
+    var d = q('div');
+    var a = q('a');
 
     a.setStyle("color", "#CCC");
     d.setStyle("color", "#666");
@@ -34,7 +37,7 @@
     console.log("getStyles", d.getStyles(["font-weight", "font-size"]));
 
     d.removeClass("test");
-    var test = qx.q.warp(document.getElementById("test"));
+    var test = q.warp(document.getElementById("test"));
     test.addClass("test");
     console.log("hasClass", test.hasClass("test"));
 
@@ -42,7 +45,7 @@
       test.toggleClass("test");
     }, 333);
 
-    var h1 = qx.q.create("<h1>H1</h1>");
+    var h1 = q.create("<h1>H1</h1>");
     h1.appendTo(document.body);
 
 
@@ -51,10 +54,10 @@
       console.log("removed h1");
     }, 1000);
 
-    qx.q("p").empty();
+    q("p").empty();
 
 
-    var input = qx.q.create("<input type='checkbox' alt='text'>");
+    var input = q.create("<input type='checkbox' alt='text'>");
     input.appendTo(document.body);
     input.setAttribute("checked", true);
     console.log("getAttributes", input.getAttributes(["checked", "alt"]));
@@ -62,13 +65,18 @@
 
     a.setProperty("innerHTML", "link");
     console.log("getProperty", a.getProperty("innerHTML"));
-    
+
     a.setProperties({a: 1, b: 2});
     console.log("getProperties", a.getProperties(["a", "b"]));
 
     d.fadeOut().onEnd(function() {d.fadeIn()});
 
 
+    <!-- TRAVERSING MODULE -->
+    var add = q("#trav").add(document.getElementById("trav2"));
+    var children = add.getChildren().setHtml("add ok");
+    children.forEach(function(item, i) {item.innerHTML += " " + i});
+    children.getParents().setStyle("color", "red");
   </script>
 </body>
 </html>

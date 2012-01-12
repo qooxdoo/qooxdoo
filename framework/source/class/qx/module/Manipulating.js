@@ -35,12 +35,12 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       };
     }
   },
-  
-  
+
+
   defer : function(statics) {
     qx.q.attachStatic({
       "create" : statics.create,
-      "warp" : statics.wrap
+      "wrap" : statics.wrap
     });
 
 

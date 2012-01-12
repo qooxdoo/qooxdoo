@@ -12,6 +12,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Attribute.set(this[i], "html", html);
       };
+      return this;
     },
 
 
@@ -19,6 +20,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Attribute.set(this[i], name, value);
       };
+      return this;
     },
 
 
@@ -34,6 +36,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
       for (var name in attributes) {
         this.setAttribute(name, attributes[name]);
       }
+      return this;
     },
 
 
@@ -50,6 +53,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
       for (var i=0; i < this.length; i++) {
         this[i][name] = value;
       };
+      return this;
     },
 
 
@@ -65,6 +69,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
       for (var name in properties) {
         this.setProperty(name, properties[name]);
       }
+      return this;
     },
 
 
@@ -87,8 +92,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
       "setAttribute" : statics.setAttribute,
       "getAttributes" : statics.getAttributes,
       "setAttributes" : statics.setAttributes,
-      
-      
+
       "getProperty" : statics.getProperty,
       "setProperty" : statics.setProperty,
       "getProperties" : statics.getProperties,
