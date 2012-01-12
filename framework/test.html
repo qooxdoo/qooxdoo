@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>q unit tests</title>
+  <script type="text/javascript" src="q.js"></script>
+  <script type="text/javascript" src="testrunner-portable.js"></script>
+</head>
+<body>
+
+  <script type="text/javascript" charset="utf-8">
+  var q = qx.q;
+
+  /** MANIPULATING **/
+  testrunner.define({
+    testCreateDiv : function() {
+      this.assertNotNull(q.create("<div/>"));
+      this.assertEquals(1, q.create("<div/>")[0].nodeType);
+    },
+
+    testWrap : function() {
+      var test = q.create("<div id='testdiv'/>");
+      test.appendTo(document.body);
+      var el = document.getElementById("testdiv");
+      this.assertEquals(el, q.wrap(el)[0]);
+      this.assertEquals(el, q.wrap([el])[0]);
+      test.remove();
+    },
+
+    testAppendToRemove : function() {
+      var test = q.create("<div/>");
+      test.appendTo(document.body);
+      this.assertEquals(document.body, test[0].parentNode);
+      test.remove();
+      this.assertNull(test[0].parentNode);
+    },
+
+    testEmpty : function() {
+      var test = q.create("<div><p>test</p></div>");
+      test.empty();
+      this.assertEquals("", test[0].innerHTML);
+    }
+  });
+
+
+  /** SELECTOR **/
+  testrunner.define({
+    testId : function() {
+      var test = q.create("<div id='testdiv'/>");
+      test.appendTo(document.body);
+      this.assertEquals(test[0], q("#testdiv")[0]);
+      test.remove();
+    }
+  });
+
+
+  /** Traversing **/
+  testrunner.define({
+    testAdd : function() {
+      var test = q.create("<div id='testdiv'/>");
+      this.assertEquals(1, test.length);
+      test.add(document.body);
+      this.assertEquals(2, test.length);
+    },
+
+    testGetChildren : function() {
+      var test = q.create("<div><p>test</p></div>");
+      this.assertEquals(1, test.getChildren().length);
+      this.assertEquals(1, test.getChildren()[0].nodeType);
+    },
+
+
+    testforEach : function() {
+      var test = q.create("<div id='testdiv'/>");
+      test.add(q.create("<div/>")[0]);
+      var self = this;
+      var i = 0;
+      test.forEach(function(item, id, array) {
+        self.assertEquals(self, this);
+        self.assertEquals(test[i], item);
+        self.assertEquals(i, id);
+        self.assertEquals(test, array);
+        i++;
+      }, this);
+    },
+
+    testgetParents : function() {
+      var test = q.create("<div id='testdiv'/>");
+      test.appendTo(document.body);
+      this.assertEquals(document.body, test.getParents()[0]);
+      test.remove();
+    }
+  });
+
+
+  /** CSS **/
+  testrunner.define({
+    testStyle : function() {
+      var test = q.create("<div/>");
+      test.appendTo(document.body);
+      test.setStyle("width", "10px");
+      this.assertEquals("10px", test.getStyle("width"));
+      test.remove();
+    },
+
+    testStyles : function() {
+      var test = q.create("<div/>");
+      test.appendTo(document.body);
+      test.setStyles({"width": "10px", "height": "20px"});
+      this.assertEquals("10px", test.getStyles(["width", "height"]).width);
+      this.assertEquals("20px", test.getStyles(["width", "height"]).height);
+      test.remove();
+    },
+
+    testClass : function() {
+      var test = q.create("<div/>");
+      test.addClass("test");
+      this.assertEquals("test", test[0].getAttribute("class"));
+      this.assertTrue(test.hasClass("test"));
+      test.toggleClass("test");
+      this.assertFalse(test.hasClass("test"));
+      test.toggleClass("test");
+      this.assertTrue(test.hasClass("test"));
+      test.removeClass("test");
+      this.assertFalse(test.hasClass("test"));
+    }
+  });
+
+
+  /** ATTRIBUTE **/
+  testrunner.define({
+    testHtml : function() {
+      var test = q.create("<div/>");
+      test.setHtml("affe");
+      this.assertEquals("affe", test[0].innerHTML);
+      this.assertEquals("affe", test.getHtml());
+    },
+
+    testAttribute : function() {
+      var test = q.create("<div/>");
+      test.setAttribute("id", "affe");
+      this.assertEquals("affe", test[0].getAttribute("id"));
+      this.assertEquals("affe", test.getAttribute("id"));
+    },
+
+    testAttributes : function() {
+      var test = q.create("<div/>");
+      test.setAttributes({"id": "affe", "x": "y"});
+      this.assertEquals("affe", test[0].getAttribute("id"));
+      this.assertEquals("affe", test.getAttributes(["id", "x"]).id);
+      this.assertEquals("y", test.getAttributes(["id", "x"]).x);
+    },
+
+    testProperty : function() {
+      var test = q.create("<div/>");
+      test.setProperty("affe", "AFFE");
+      this.assertEquals("AFFE", test[0].affe);
+      this.assertEquals("AFFE", test.getProperty("affe"));
+    },
+
+    testProperteis : function() {
+      var test = q.create("<div/>");
+      test.setProperties({"affe": "AFFE", "x": "y"});
+      this.assertEquals("AFFE", test[0].affe);
+      this.assertEquals("AFFE", test.getProperties(["affe", "x"]).affe);
+      this.assertEquals("y", test.getProperties(["affe", "x"]).x);
+    }
+  });
+
+
+
+  /** ANIMATION **/
+  testrunner.define({
+    testFadeOut : function() {
+      var test = q.create("<div id='testdiv'/>");
+      test.appendTo(document.body);
+      var handle = test.fadeOut();
+      handle.onEnd(function() {
+        this.resume(function() {
+          this.assertEquals("none", test[0].style["display"]);
+          test.remove();
+        }, this);
+      }, this);
+      this.wait();
+    },
+
+    testFadeIn : function() {
+      var test = q.create("<div id='testdiv'/>");
+      test.appendTo(document.body);
+      var handle = test.fadeIn();
+      this.assertEquals(0, test[0].style["opacity"]);
+      handle.onEnd(function() {
+        this.resume(function() {
+          this.assertEquals(1, test[0].style["opacity"]);
+          test.remove();
+        }, this);
+      }, this);
+      this.wait();
+    }
+  });
+
+
+  </script>
+</body>
+</html>
