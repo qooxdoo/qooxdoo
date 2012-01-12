@@ -36,7 +36,8 @@
         "qx.module.Attribute",
         "qx.module.Manipulating",
         "qx.module.Animation",
-        "qx.module.Traversing"
+        "qx.module.Traversing",
+        "qx.module.Event"
       ],
 
       "=environment" :
