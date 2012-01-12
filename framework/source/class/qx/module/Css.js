@@ -5,6 +5,7 @@ qx.Bootstrap.define("qx.module.Css", {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Style.set(this[i], name, value);
       };
+      return this;
     },
 
     getStyle : function(name) {
@@ -18,6 +19,7 @@ qx.Bootstrap.define("qx.module.Css", {
       for (var name in styles) {
         this.setStyle(name, styles[name]);
       }
+      return this;
     },
 
 
@@ -34,6 +36,7 @@ qx.Bootstrap.define("qx.module.Css", {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Class.add(this[i], name);
       };
+      return this;
     },
 
 
@@ -41,6 +44,7 @@ qx.Bootstrap.define("qx.module.Css", {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Class.remove(this[i], name);
       };
+      return this;
     },
 
 
@@ -54,6 +58,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
     toggleClass : function(name) {
       this.hasClass(name) ? this.removeClass(name) : this.addClass(name);
+      return this;
     }
   },
 
