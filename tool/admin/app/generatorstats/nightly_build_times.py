@@ -317,13 +317,14 @@ def processDurations(apps):
 
 
 def updateRRD(apps, tstamp=None):
-    rrd_apps = ( # order must match order of DS's in rrdtool create command!
+    rrd_apps = ( # ((<script-identifier>, <log-data-identifier>))
+        # order must match order of DS's in rrdtool create command!
         ("feedreader", "Feedreader"), 
         ("demobrowser" , "Demobrowser"),
         ("showcase" , "Showcase"),
         ("framework-tests" , "FrameworkUnitTests"),
         ("playground" , "Playground"),
-        ("apiviewer" , "APIViewer"),
+        ("apiviewer" , "FrameworkAPI"),
         ("portal" , "Portal"),
         ("inspector", "Inspector"),
         )
