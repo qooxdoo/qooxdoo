@@ -81,7 +81,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // Implicitly create new XHR when required
     //
 
-    "test: create new native XHR": function() {
+    "test: create new native XHR implicitly in legacy browsers": function() {
       this.require(["IEBelow8OrFFBelow35"]);
 
       var req = this.req;
