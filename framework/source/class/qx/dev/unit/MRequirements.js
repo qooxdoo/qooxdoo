@@ -59,7 +59,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      * feature name. Note that asynchronous environment checks are not supported!
      *
      * See the manual for further details:
-     * {@link http://manual.qooxdoo.org/current/pages/development/frame_apps_testrunner.html#defining-test-requirements}
+     * {@link http://manual.qooxdoo.org/${qxversion}/pages/development/frame_apps_testrunner.html#defining-test-requirements}
      *
      * @throws RequirementError if any requirement check returned
      * <code>false</code>
