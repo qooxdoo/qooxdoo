@@ -104,7 +104,15 @@
         "${APPLICATION}.theme.*",
         "${APPLICATION}.test.*",
         "${APPLICATION}.simulation.*"
-      ]
+      ],
+      
+      "config-warnings" :
+      {
+        "exclude" : 
+        [ "${APPLICATION}.theme.*",
+          "${APPLICATION}.test.*",
+          "${APPLICATION}.simulation.*" ] 
+      }
     },
     
     "build-lowlevel" :
@@ -145,7 +153,15 @@
         "${APPLICATION}.theme.*",
         "${APPLICATION}.test.*",
         "${APPLICATION}.simulation.*"
-      ]
+      ],
+      
+      "config-warnings" :
+      {
+        "exclude" : 
+        [ "${APPLICATION}.theme.*",
+          "${APPLICATION}.test.*",
+          "${APPLICATION}.simulation.*" ] 
+      }
     },
     
     "build-files" :
