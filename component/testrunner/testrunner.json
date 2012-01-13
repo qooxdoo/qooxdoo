@@ -463,7 +463,8 @@
       {
         "exclude" : [
           "qx.core.Init",
-          "qx.dev.Debug"
+          "qx.dev.Debug",
+          "${TEST_EXCLUDE}"
         ]
       },
       
