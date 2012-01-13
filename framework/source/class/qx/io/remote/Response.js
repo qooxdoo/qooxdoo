@@ -66,7 +66,8 @@ qx.Class.define("qx.io.remote.Response",
     responseHeaders :
     {
       check    : "Object",
-      nullable : true
+      nullable : true,
+      apply : "_applyResponseHeaders"
     }
   },
 
@@ -107,13 +108,29 @@ qx.Class.define("qx.io.remote.Response",
      */
     getResponseHeader : function(vHeader)
     {
-      var vAll = this.getResponseHeaders();
-
-      if (vAll) {
-        return vAll[vHeader] || null;
+      if (this.__lowerHeaders) {
+        return this.__lowerHeaders[vHeader.toLowerCase()] || null;
       }
 
       return null;
+    },
+
+    /**
+     * Keep lower-cased shadow of response headers for later
+     * case-insensitive matching.
+     *
+     * @param value {var} Current value
+     * @param old {var} Previous value
+     */
+    _applyResponseHeaders : function(value, old) {
+      var lowerHeaders = {};
+
+      if (value !== null) {
+        qx.lang.Object.getKeys(value).forEach(function(key) {
+          lowerHeaders[key.toLowerCase()] = value[key];
+        });
+        this.__lowerHeaders = lowerHeaders;
+      }
     }
   }
 });
