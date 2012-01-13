@@ -9,6 +9,7 @@
       [
         // need to define them locally, as the base.json versions fix qx.theme, QXTHEME, etc.
         "source",
+        "source-hybrid",
         "build"
       ]
     }
