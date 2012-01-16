@@ -716,7 +716,7 @@ qx.Class.define("inspector.selenium.View", {
      */
     __scriptsLoaded : function(ev)
     {
-      if (!(window.Selenium || window.runSeleniumTest())) {
+      if (!window.Selenium) {
         alert("Selenium instance could not be created!");
         return;
       }
@@ -725,7 +725,7 @@ qx.Class.define("inspector.selenium.View", {
       // automatically but apparently that's no longer the case in recent
       // Selenium-core versions
       if (!window.selenium) {
-        window.runSeleniumTest();
+        window.selenium = Selenium.createForWindow(window);
       }
 
       if ((ev.getData().fail > 0) || !window.Selenium.prototype.qx) {
