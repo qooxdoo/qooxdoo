@@ -64,6 +64,15 @@ qx.Bootstrap.define("qx.module.Event", {
       };
       this.on(type, wrappedListener, ctx);
       return this;
+    },
+
+    ready : function(callback) {
+      // handle case that its already ready
+      if (document.readyState === "complete") {
+        window.setTimeout(callback, 0);
+        return;
+      }
+      qx.bom.Event.addNativeListener(window, "load", callback);
     }
   },
 
@@ -75,5 +84,7 @@ qx.Bootstrap.define("qx.module.Event", {
       "once" : statics.once,
       "emit" : statics.emit
     });
+
+    qx.q.attachStatic({"ready": statics.ready});
   }
 });
