@@ -195,7 +195,27 @@ qx.Class.define("qx.io.rest.Resource",
     /**
      * A symbol used in checks to declare required parameter.
      */
-    REQUIRED: true
+    REQUIRED: true,
+
+    /**
+     * Get placeholders from URL.
+     *
+     * @param url {String} The URL to parse for placeholders.
+     * @return {Array} Array of placeholders without the placeholder prefix.
+     */
+    placeholdersFromUrl: function(url) {
+      var placeholderRe = /\{(\w+)(=\w+)?\}/g,
+          match,
+          placeholders = [];
+
+      // With g flag set, searching begins at the regex object's
+      // lastIndex, which is zero initially and increments with each match.
+      while ((match = placeholderRe.exec(url))) {
+        placeholders.push(match[1]);
+      }
+
+      return placeholders;
+    }
   },
 
   members:
@@ -645,7 +665,7 @@ qx.Class.define("qx.io.rest.Resource",
       var method = route[0],
           url = this.__baseUrl !== null ? this.__baseUrl + route[1] : route[1],
           check = route[2],
-          placeholders = this.__placeholdersFromUrl(url);
+          placeholders = qx.io.rest.Resource.placeholdersFromUrl(url);
 
       params = params || {};
 
