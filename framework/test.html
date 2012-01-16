@@ -283,6 +283,22 @@
   });
 
 
+  /** TEMPLATE **/
+  testrunner.define({
+    testToHtml : function() {
+      var result = q.template.toHtml("{{affe}}", {affe: "george"});
+      this.assertEquals("george", result);
+    },
+
+    testGet : function() {
+      var template = q.create("<div id='tmp'>{{affe}}</div>");
+      template.appendTo(document.body);
+      var result = q.template.get("tmp", {affe: "george"});
+      this.assertEquals(1, result.length);
+      this.assertEquals("george", result[0]);
+      template.remove();
+    }
+  });
   </script>
 </body>
 </html>
