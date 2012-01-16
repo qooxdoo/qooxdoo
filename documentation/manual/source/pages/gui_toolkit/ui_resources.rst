@@ -119,4 +119,13 @@ To obtain a URL for a resource, use the `ResourceManager <http://demo.qooxdoo.or
     var iframe = new
     qx.ui.embed.Iframe(qx.util.ResourceManager.getInstance().toUri("myapp/html/FAQ.htm"));
 
+Modifying the resource URI at runtime
+=====================================
 
+The **resource URI** for any qooxdoo library (i.e. the relative path from the manifest file to the directory containing the resource files) is defined by the ``provides/resource`` key in ``Manifest.json`` (see the :ref:`Generator documentation <pages/tool/generator_config_articles#library_key_and_manifest_files>` for details).
+In some usage scenarios it can be necessary to change this setting during runtime, which can be achieved using the `Library util class <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.util.Library>`_:
+
+::
+
+    qx.util.Library.set("myapp", "resourceUri", "http://example.com/resources");
+    qx.util.ResourceManager.getInstance().toUri("myapp/html/FAQ.htm"); //returns "http://example.com/resources/myapp/html/FAQ.htm"
