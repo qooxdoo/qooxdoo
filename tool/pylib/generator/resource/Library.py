@@ -69,20 +69,21 @@ class Library(object):
         if libconfig is None:
             libconfig = self._libconfig
 
-        manipath = libconfig['manifest']
+        self.manipath = libconfig['manifest']
 
         # check contrib:// URI
-        if manipath.startswith("contrib://"):
-            newmanipath = self._download_contrib(manipath)
+        if self.manipath.startswith("contrib://"):
+            newmanipath = self._download_contrib(self.manipath)
             if not newmanipath:
-                raise RuntimeError("Unable to get contribution from internet: %s" % manipath)
+                raise RuntimeError("Unable to get contribution from internet: %s" % self.manipath)
             else:
-                manipath = newmanipath
+                self.manipath = newmanipath
 
-        self.manifest = context.config.absPath(os.path.normpath(manipath))
-        manifest = Manifest(self.manifest)
+        self.manipath = context.config.absPath(os.path.normpath(self.manipath))
+        manifest = Manifest(self.manipath)
+        self.manifest = manifest
         
-        self.path = os.path.dirname(self.manifest)
+        self.path = os.path.dirname(self.manipath)
         self.uri = libconfig.get("uri", None)
         self.encoding = manifest.encoding
         self.classPath = manifest.classpath
@@ -169,7 +170,7 @@ class Library(object):
             youngFiles[mtime] = file_
             
         # also check the Manifest file
-        file_, mtime = filetool.findYoungest(self.manifest)
+        file_, mtime = filetool.findYoungest(self.manipath)
         youngFiles[mtime] = file_
         
         # and return the maximum of those

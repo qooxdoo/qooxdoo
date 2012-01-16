@@ -36,14 +36,14 @@ class Manifest(object):
         manifest = json.loads(mf.read())
         mf.close()
         self._manifest = manifest
-        libinfo       = self._manifest['info']
-        libprovides   = self._manifest['provides']
-        self.classpath = libprovides['class']
-        self.translation = libprovides['translation']
-        self.namespace = libprovides['namespace']
-        self.encoding = libprovides['encoding']
-        self.resource = libprovides['resource']
-        self.type = libprovides['type']
+        self.libinfo       = self._manifest['info']
+        self.libprovides   = self._manifest['provides']
+        self.classpath = self.libprovides['class']
+        self.translation = self.libprovides['translation']
+        self.namespace = self.libprovides['namespace']
+        self.encoding = self.libprovides['encoding']
+        self.resource = self.libprovides['resource']
+        self.type = self.libprovides['type']
 
     def patchLibEntry(self, libentry):
         '''Patches a "library" entry with the information from Manifest'''
@@ -70,6 +70,8 @@ class Manifest(object):
             libentry['version'] = libinfo['version']
         if 'qooxdoo-versions' in libinfo:
             libentry['qooxdoo-versions'] = libinfo['qooxdoo-versions']
+        if 'sourceViewUri' in libinfo:
+            libentry['sourceViewUri'] = libinfo['sourceViewUri']
 
         return libentry
 

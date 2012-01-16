@@ -28,7 +28,6 @@ from generator.resource.Library import Library
 from generator.runtime.ShellCmd import ShellCmd
 from generator.action.ContribLoader import ContribLoader
 from generator.config.ConfigurationError import ConfigurationError
-from generator.config.Manifest import Manifest
 from misc.NameSpace import NameSpace
 from misc import json
 # see late imports at the bottom of this file

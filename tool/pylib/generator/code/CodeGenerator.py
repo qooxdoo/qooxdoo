@@ -1265,6 +1265,8 @@ class CodeGenerator(object):
             # add version info
             if hasattr(lib, 'version'):
                 qxlibs[lib.namespace]['version'] = "%s" % lib.version
+            if 'sourceViewUri' in lib.manifest.libinfo:
+                qxlibs[lib.namespace]['sourceViewUri'] = "%s" % lib.manifest.libinfo['sourceViewUri']
 
         return qxlibs
 
