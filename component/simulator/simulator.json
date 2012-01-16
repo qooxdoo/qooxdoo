@@ -99,7 +99,7 @@
         "code" :
         {
           "format"   : true,
-          "optimize" : [ "variables", "basecalls", "privates" ]
+          "optimize" : [ "basecalls", "privates" ]
         },
         
         "paths" :
