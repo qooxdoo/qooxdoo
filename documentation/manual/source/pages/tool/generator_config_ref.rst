@@ -682,7 +682,7 @@ Configure log/reporting features. Takes a map.
     "dependencies"   : 
     {
       "type"         : ("using"|"used-by"),
-      "phase"        : ("runtime"|"loadtime"),
+      "phase"        : ("runtime"|"loadtime"|null),
       "include-transitive-load-deps" : (true|false),
       "force-fresh-deps" : (true|false),
       "format"       : ("txt"|"dot"|"json"|"provider"|"flare"|"term"),

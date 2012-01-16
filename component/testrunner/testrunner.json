@@ -463,7 +463,8 @@
       {
         "exclude" : [
           "qx.core.Init",
-          "qx.dev.Debug"
+          "qx.dev.Debug",
+          "${TEST_EXCLUDE}"
         ]
       },
       
@@ -586,7 +587,7 @@
         
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/testrunner-basic-source.js"
+          "file" : "source/script/testrunner-basic-source.js"
         }
       },
       

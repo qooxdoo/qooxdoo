@@ -43,7 +43,7 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["source-all-script", "common"]
+    "job-shadowing" : ["source-all-script", "common", "translation"]
   },
 
   "jobs" :

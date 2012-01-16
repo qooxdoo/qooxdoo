@@ -195,7 +195,27 @@ qx.Class.define("qx.io.rest.Resource",
     /**
      * A symbol used in checks to declare required parameter.
      */
-    REQUIRED: true
+    REQUIRED: true,
+
+    /**
+     * Get placeholders from URL.
+     *
+     * @param url {String} The URL to parse for placeholders.
+     * @return {Array} Array of placeholders without the placeholder prefix.
+     */
+    placeholdersFromUrl: function(url) {
+      var placeholderRe = /\{(\w+)(=\w+)?\}/g,
+          match,
+          placeholders = [];
+
+      // With g flag set, searching begins at the regex object's
+      // lastIndex, which is zero initially and increments with each match.
+      while ((match = placeholderRe.exec(url))) {
+        placeholders.push(match[1]);
+      }
+
+      return placeholders;
+    }
   },
 
   members:
@@ -340,13 +360,16 @@ qx.Class.define("qx.io.rest.Resource",
       // Check parameters
       this.__checkParameters(params, config.check);
 
-      // Run configuration callback
+      // Configure request
+      this.__configureRequest(req, config, data);
+
+      // Run configuration callback, passing in pre-configured request
       if (this.__configureRequestCallback) {
         this.__configureRequestCallback.call(this, req, action, params, data);
       }
 
-      // Configure request
-      this.__configureRequest(req, config, data);
+      // Configure JSON request (content type may have been set in configuration callback)
+      this.__configureJsonRequest(req, config, data);
 
       // Handle successful request
       req.addListenerOnce("success", function successHandler() {
@@ -438,15 +461,27 @@ qx.Class.define("qx.io.rest.Resource",
       req.set({method: config.method, url: config.url});
 
       if (data) {
+        req.setRequestData(data);
+      }
+    },
+
+    /**
+     * Serialize data to JSON when content type indicates.
+     *
+     * @param req {qx.io.request.AbstractRequest} Request.
+     * @param config {Map} Configuration.
+     * @param data {Map} Data.
+     */
+    __configureJsonRequest: function(req, config, data) {
+      if (data) {
         var contentType = req.getRequestHeader("Content-Type");
 
         if (qx.util.Request.methodAllowsRequestBody(req.getMethod())) {
           if ((/application\/.*\+?json/).test(contentType)) {
             data = qx.lang.Json.stringify(data);
+            req.setRequestData(data);
           }
         }
-
-        req.setRequestData(data);
       }
     },
 
@@ -645,7 +680,7 @@ qx.Class.define("qx.io.rest.Resource",
       var method = route[0],
           url = this.__baseUrl !== null ? this.__baseUrl + route[1] : route[1],
           check = route[2],
-          placeholders = this.__placeholdersFromUrl(url);
+          placeholders = qx.io.rest.Resource.placeholdersFromUrl(url);
 
       params = params || {};
 
@@ -681,26 +716,6 @@ qx.Class.define("qx.io.rest.Resource",
      */
     _getThrottleCount: function() {
       return qx.io.rest.Resource.POLL_THROTTLE_COUNT;
-    },
-
-    /**
-     * Get placeholders from URL.
-     *
-     * @param url {String} The URL to parse for placeholders.
-     * @return {Array} Array of placeholders without the placeholder prefix.
-     */
-    __placeholdersFromUrl: function(url) {
-      var placeholderRe = /\{(\w+)(=\w+)?\}/g,
-          match,
-          placeholders = [];
-
-      // With g flag set, searching begins at the regex object's
-      // lastIndex, which is zero initially and increments with each match.
-      while ((match = placeholderRe.exec(url))) {
-        placeholders.push(match[1]);
-      }
-
-      return placeholders;
     },
 
     /**

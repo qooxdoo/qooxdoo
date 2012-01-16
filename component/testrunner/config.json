@@ -31,7 +31,8 @@
       "source-basic",
       "testrunner::source-tests-script",
       "testrunner::build-basic",
-      "testrunner::source-basic"
+      "testrunner::source-basic",
+      "translation"
     ]
   },
 
@@ -46,9 +47,6 @@
     "TEST_NAMESPACE" : "${APPLICATION}.test",
     "TEST_INCLUDE" : "${TEST_NAMESPACE}.*"
   },
-
-  // You only need to edit the remainder of this file, if you want to customize
-  // specific jobs, or add own job definitions.
 
   "jobs" :
   {

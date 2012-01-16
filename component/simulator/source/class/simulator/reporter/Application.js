@@ -25,19 +25,32 @@ qx.Class.define("simulator.reporter.Application", {
   {
     main : function()
     {
+      qx.log.Logger.register(qx.log.appender.RhinoConsole);
+
       if (window.arguments) {
-        this._argumentsToSettings(window.arguments);
+        try {
+          this._argumentsToSettings(window.arguments);
+        } catch(ex) {
+          this.error(ex.toString());
+          return;
+        }
       }
 
-      qx.log.Logger.register(qx.log.appender.RhinoConsole);
+      this._initLogFile();
+      this.runner = new testrunner.runner.TestRunnerBasic();
+      this.simulation = simulator.Simulation.getInstance();
+
+      this.runner.addListener("changeTestSuiteState", this._onChangeTestSuiteState, this);
 
       var reportServer = qx.core.Environment.get("simulator.reportServer");
       simulator.reporter.Reporter.SERVER_URL = reportServer;
       qx.log.Logger.clear();
       qx.log.Logger.register(simulator.reporter.Reporter);
 
-      this.runner = new simulator.TestRunner();
-      this.runner.runTests();
+      // sync test suite loading
+      if (this.runner.getTestSuiteState() === "ready") {
+        this._runSuite();
+      }
 
       qx.log.Logger.clear();
       qx.log.Logger.unregister(simulator.reporter.Reporter);

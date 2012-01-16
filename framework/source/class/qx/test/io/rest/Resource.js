@@ -79,13 +79,13 @@ qx.Class.define("qx.test.io.rest.Resource",
     // Configuration
     //
 
-    "test: configure request receives vanilla request": function() {
+    "test: configure request receives pre-configured but unsent request": function() {
       var res = this.res,
           req = this.req;
 
       res.configureRequest(qx.lang.Function.bind(function(req) {
-        this.assertNotCalled(req.setMethod);
-        this.assertNotCalled(req.setUrl);
+        this.assertCalledWith(req.setMethod, "GET");
+        this.assertCalled(req.setUrl, "/photos");
         this.assertNotCalled(req.send);
       }, this));
 
@@ -401,10 +401,13 @@ qx.Class.define("qx.test.io.rest.Resource",
         req.setRequestHeader("Content-Type", "application/json");
       });
 
+      this.spy(qx.lang.Json, "stringify");
+      var data = {location: "Karlsruhe"};
       res.map("post", "POST", "/photos/{id}/meta");
-      res.post({id: 1}, {location: "Karlsruhe"});
+      res.post({id: 1}, data);
 
       this.assertCalledWith(req.setRequestData, '{"location":"Karlsruhe"}');
+      this.assertCalledWith(qx.lang.Json.stringify, data);
     },
 
     "test: invoke action when content type json and get": function() {

@@ -44,6 +44,11 @@
     "ROOT"         : "."
   },
 
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["translation"]
+  },
+
   "jobs" :
   {
     "translation" :

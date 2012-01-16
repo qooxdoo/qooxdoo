@@ -49,7 +49,7 @@
   
   "config-warnings" : 
   {
-    "job-shadowing" : ["libraries", "build-script", "build-files", "common"],
+    "job-shadowing" : ["libraries", "build-script", "build-files", "common", "translation"],
     
     "environment" : [ "non-literal-keys" ]
   },
@@ -104,7 +104,15 @@
         "${APPLICATION}.theme.*",
         "${APPLICATION}.test.*",
         "${APPLICATION}.simulation.*"
-      ]
+      ],
+      
+      "config-warnings" :
+      {
+        "exclude" : 
+        [ "${APPLICATION}.theme.*",
+          "${APPLICATION}.test.*",
+          "${APPLICATION}.simulation.*" ] 
+      }
     },
     
     "build-lowlevel" :
@@ -145,7 +153,15 @@
         "${APPLICATION}.theme.*",
         "${APPLICATION}.test.*",
         "${APPLICATION}.simulation.*"
-      ]
+      ],
+      
+      "config-warnings" :
+      {
+        "exclude" : 
+        [ "${APPLICATION}.theme.*",
+          "${APPLICATION}.test.*",
+          "${APPLICATION}.simulation.*" ] 
+      }
     },
     
     "build-files" :

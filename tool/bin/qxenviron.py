@@ -24,7 +24,7 @@ import sys, os
 ##
 
 # calculate script path
-scriptDir = os.path.dirname(os.path.abspath(sys.argv[0])) 
+scriptDir = os.path.dirname(os.path.abspath(__file__))
 # extend PYTHONPATH with 'pylib'
 sys.path.insert(0, 
     os.path.normpath(

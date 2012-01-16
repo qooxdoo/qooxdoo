@@ -40,6 +40,11 @@
     "TEST_INCLUDE" : "${APPLICATION}.*"
   },
 
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["translation"]
+  },
+
   "jobs" :
   {
     "source" :

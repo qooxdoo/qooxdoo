@@ -35,7 +35,7 @@
   
   "config-warnings" : 
   {
-    "job-shadowing" : ["source", "common", "inspector::common"]
+    "job-shadowing" : ["source", "common", "inspector::common", "translation"]
   },
   
   "jobs" :

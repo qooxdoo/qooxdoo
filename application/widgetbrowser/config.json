@@ -9,6 +9,7 @@
       [
         // need to define them locally, as the base.json versions fix qx.theme, QXTHEME, etc.
         "source",
+        "source-hybrid",
         "build"
       ]
     }
@@ -33,7 +34,7 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["source", "source-hybrid", "build-resources", "common", "simulation-run"]
+    "job-shadowing" : ["source", "source-hybrid", "build-resources", "common", "simulation-run", "translation"]
   },
 
   "jobs" :

@@ -1155,7 +1155,7 @@ class Packer(object):
             pass
 
         if opts.prettypCommentsBlockAdd:
-            comment.fill(node)
+            Comment.fill(node)
 
         indent       = 0
         result       = [u""]

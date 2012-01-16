@@ -60,7 +60,7 @@ class TokenStream(object):
     def __init__ (self, tokens):
         self.tokens = tokens
         self.length = len(self.tokens)
-        self.commentsBefore = None
+        self.commentsBefore = []
         self.parsepos = -1
         self.eolBefore = False
 
@@ -165,8 +165,6 @@ class TokenStream(object):
 
                 # Documentation and Block comments of next item
                 else:  # token["connection"] != "after"
-                    if not self.commentsBefore: self.commentsBefore = []
-
                     # Generating new tree node
                     commentNode = createCommentNode(token)
                     # Store the new node with this generator (TokenStream) instance
@@ -221,7 +219,7 @@ class TokenStream(object):
 
     def clearCommentsBefore(self):
         commentsBefore = self.commentsBefore
-        self.commentsBefore = None
+        self.commentsBefore = []
         return commentsBefore
 
 
@@ -234,9 +232,8 @@ def createItemNode(type, stream):
     node.set("column", stream.currColumn())
 
     commentsBefore = stream.clearCommentsBefore()
-    if commentsBefore:
-        for comment in commentsBefore:
-            node.addListChild("commentsBefore", comment)
+    for comment in commentsBefore:
+        node.addListChild("commentsBefore", comment)
 
     return node
 
@@ -287,7 +284,7 @@ def createSyntaxTree (tokenArr):
     stream = TokenStream(tokenArr)
     stream.next()
 
-    from pprint import pprint
+    #from pprint import pprint
     #pprint([(x['detail'],x['source']) for x in tokenArr])
     #pprint([x for x in tokenArr if x['type']=="comment"])
 
@@ -298,11 +295,8 @@ def createSyntaxTree (tokenArr):
         rootBlock.addChild(readStatement(stream))
 
     # collect prob. pending comments
-    try:
-        for c in stream.commentsBefore:  # stream.commentsBefore might not be defined
-            rootBlock.addChild(c)
-    except:
-        pass
+    for c in stream.commentsBefore: 
+        rootBlock.addChild(c)
 
     return rootBlock
 

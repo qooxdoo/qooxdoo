@@ -24,7 +24,8 @@
     "TESTRUNNER_ROOT" : ".",
     "TESTRUNNER_ORIGIN" : "external",
     "TESTRUNNER_MAIN_CLASS" : "testrunner.Application",
-    "TESTRUNNER_VIEW" : "testrunner.view.Html"
+    "TESTRUNNER_VIEW" : "testrunner.view.Html",
+    "TESTRUNNER_SCRIPT" : "testrunner-portable.js"
   },
   
   "config-warnings" :
@@ -98,7 +99,7 @@
         "paths" :
         {
           "app-root" : "source",
-          "file" : "source/script/testrunner-portable.js",
+          "file" : "source/script/${TESTRUNNER_SCRIPT}",
           "loader-template" : "tool/portable.loader.tmpl.js"
         }
       }
@@ -112,7 +113,7 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/testrunner-portable.js",
+          "file" : "${BUILD_PATH}/script/${TESTRUNNER_SCRIPT}",
           "loader-template" : "tool/portable.loader.tmpl.js"
         }
       }
@@ -124,7 +125,7 @@
       {
         "command" :
         [
-          "foo=`cat source/resource/testrunner/view/html/css/testrunner.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py`;sed -i.bak \"s/%{Styles}/$${foo}/\" ${BUILD_PATH}/script/testrunner-portable.js;rm -f ${BUILD_PATH}/script/testrunner-portable.js.bak"
+          "${PYTHON_CMD} tool/injectcss.py source/resource/testrunner/view/html/css/testrunner.css ${BUILD_PATH}/script/${TESTRUNNER_SCRIPT}"
         ]
       }
     },

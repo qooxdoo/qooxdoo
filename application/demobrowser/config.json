@@ -68,7 +68,7 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["simulation-run"],
+    "job-shadowing" : ["simulation-run", "translation"],
     
     "environment" : [ "non-literal-keys" ]
   },
