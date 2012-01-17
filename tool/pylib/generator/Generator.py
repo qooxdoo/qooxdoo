@@ -1915,7 +1915,7 @@ class Generator(object):
         for libObj in libraryKey:
 
             checkFile, fsTime = libObj.mostRecentlyChangedFile()
-            cacheId   = "lib-%s" % libObj.manifest
+            cacheId   = "lib-%s" % libObj.manipath
             checkObj, cacheTime  = self._cache.read(cacheId, memory=True)
             if checkObj:
                 libObj = checkObj  # continue with cached obj
