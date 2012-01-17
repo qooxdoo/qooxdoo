@@ -60,6 +60,8 @@ Included layers
 * Runtime Abstraction
 * Mobile UI
 
+.. _pages/development/skeletons#Native:
+
 Native
 ------
 For applications using custom HTML/CSS-based GUIs instead of qooxdoo's widget layer.
