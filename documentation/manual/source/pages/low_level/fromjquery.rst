@@ -37,7 +37,9 @@ jQuery's main method ``$()`` behaves different depending on the parameters suppl
   $(initFunction);
 
 
-The resulting jQuery object is an instance of ``qx.bom.Collection`` (or short a "collection") on the qooxdoo side. In general qooxdoo is intentionally a bit more verbose in terms of API, since it often is disadvantageous to use all too much implicit magic (a lesson learned from early qooxdoo).
+The resulting jQuery object is an instance of ``qx.bom.Collection`` (or short a "collection") on the qooxdoo side. In general qooxdoo is intentionally a bit more verbose in terms of API, since it often is disadvantageous to use all too much implicit magic (a lesson learned from early qooxdoo). 
+
+Nevertheless you can also use the ``$()`` shortcut in qooxdoo. Several examples below will demonstrate the usage of this shortcut.
 
 
 
@@ -48,11 +50,12 @@ The resulting jQuery object is an instance of ``qx.bom.Collection`` (or short a 
 1. Wrapping DOM Elements
 ========================
 
-You create a collection in qooxdoo by invoking the static method ``qx.bom.Collection.create`` with an existing DOM node:
+You create a collection in qooxdoo by invoking the static method ``qx.bom.Collection.create`` with an **existing DOM node**:
 
 ::
 
   var coll = qx.bom.Collection.create(li);   // qooxdoo
+  var coll = $(li); // qooxdoo shortcut
 
 
 This is basically the same as the following jQuery code:
@@ -67,6 +70,7 @@ Like jQuery, qooxdoo's collection supports an array as first argument, where eac
 ::
 
   var coll = qx.bom.Collection.create([li1, li2, li3]);   // qooxdoo
+  var coll = $([li1, li2, li3]); // qooxdoo shortcut
 
 
 
@@ -82,11 +86,12 @@ In jQuery you may select all ``h2`` and ``h3`` headers by doing this:
   var headers = $("h2,h3");   // jQuery
 
 
-In qooxdoo you use the static method ``qx.bom.Collection.query``, which expects a CSS like selector. This is how the code in qooxdoo to query the document for h2 and h3 headers looks like:
+In qooxdoo you use the static method ``qx.bom.Collection.query``, which expects a CSS like selector. Again, the ``$()`` shortcut is also possible. This is how the code in qooxdoo to query the document for h2 and h3 headers looks like:
 
 :: 
 
   var headers = qx.bom.Collection.query("h2,h3");   // qooxdoo
+  var headers = $("h2,h3"); // qooxdoo shortuct
 
 
 
@@ -108,6 +113,7 @@ In qooxdoo the same is achieved by having the collection parse HTML:
 ::
 
   var obj = qx.bom.Collection.create("<b>Some HTML</b>");   // qooxdoo
+  var obj = $("<b>Some HTML</b>"); // qooxdoo shortcut
 
 
 A more explicit way to parse HTML is to use the static method ``qx.bom.Collection.html``, so you could also say:
@@ -115,9 +121,10 @@ A more explicit way to parse HTML is to use the static method ``qx.bom.Collectio
 ::
 
   var obj = qx.bom.Collection.html("<b>Some HTML</b>");   // qooxdoo
+  var obj = $("<b>Some HTML</b>"); // qooxdoo shortcut
 
 
-Internally, ``create`` uses ``html`` when the first parameter is a valid HTML string.
+Internally, ``create`` uses ``html`` when the first parameter is a valid HTML string. You can also make use of the shortcut for both scenarios.
 
 
 
@@ -864,7 +871,7 @@ Event module in the 2 libraries are similar, with few differences shown below:
 * in jQuery you can delegate an event to be caught and handled in a root of a set of elements with ``delegate()``. In qooxdoo this is default for certain events.
 * ``jQuery.proxy()`` returns a function that will always have a particular context and this is used as event handlers so that you can be sure what ``this`` stands for. In qooxdoo ``proxy()`` function is not needed as the context is an argument for the addListener method and at that time you pass it.
 * jquery has shortcuts for common events: ``blur()``, ``click()`` have ``addListener('blur',handler)`` and ``addListener('click'.handler)`` in qooxdoo as possible counterparts. Also, ``hover()`` and ``toggle()`` shortcuts get 2 handlers as arguments so that they can handle in & out states or hover and alternate clicks for toggle. Just handy shortcuts, nothing more.
-* in jQuert there is support for ``stopImmediatePropagation`` with ``event.isImmediatePropagationStopped()`` and ``event.stopImmediatePropagation()``.
+* in jQuery there is support for ``stopImmediatePropagation`` with ``event.isImmediatePropagationStopped()`` and ``event.stopImmediatePropagation()``.
 
 .. list-table::
     :header-rows: 1
