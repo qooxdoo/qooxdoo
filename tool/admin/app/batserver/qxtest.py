@@ -521,6 +521,8 @@ class QxTest:
     revision = self.getLocalRevision()
     result[self.scm + "Revision"] = revision.rstrip()
     
+    os.chdir(startdir)
+    
     return result
 
   ##
