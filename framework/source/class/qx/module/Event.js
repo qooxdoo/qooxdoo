@@ -3,18 +3,18 @@ qx.Bootstrap.define("qx.module.Event", {
   {
     on : function(type, listener, ctx) {
       for (var i=0; i < this.length; i++) {
-        var el = this[i]
+        var el = this[i];
+        // add native listener
         if (qx.bom.Event.supportsEvent(el, type)) {
           var bound = qx.lang.Function.bind(listener, ctx);
           qx.bom.Event.addNativeListener(el, type, bound);
+          el.__bound = bound;
         }
-        if (!el.__listeners) {
-          el.__listeners = {};
+        // create an emitter if necessary
+        if (!el.__emitter) {
+          el.__emitter = new qx.event.Emitter();
         }
-        if (!el.__listeners[type]) {
-          el.__listeners[type] = [];
-        }
-        el.__listeners[type].push({listener: listener, ctx: ctx, bound: bound});
+        el.__emitter.on(type, listener, ctx);
       };
       return this;
     },
@@ -23,18 +23,14 @@ qx.Bootstrap.define("qx.module.Event", {
     off : function(type, listener, ctx) {
       for (var j=0; j < this.length; j++) {
         var el = this[j];
-        if (el.__listeners == undefined || el.__listeners[type] == undefined) {
-          continue;
+        if (el.__emitter) {
+          el.__emitter.off(type, listener, ctx);
         }
-        for (var i = el.__listeners[type].length -1; i >= 0; i--) {
-          var entry = el.__listeners[type][i];
-          if (entry.listener === listener && entry.ctx === ctx) {
-            el.__listeners[type].splice(i, 1);
-            if (qx.bom.Event.supportsEvent(el, type)) {
-              qx.bom.Event.removeNativeListener(el, type, entry.bound);
-            }
-          }
-        };
+        // remove the native listener
+        if (qx.bom.Event.supportsEvent(el, type)) {
+          qx.bom.Event.removeNativeListener(el, type, el.__bound);
+          delete el.__bound;
+        }
       };
       return this;
     },
@@ -43,14 +39,9 @@ qx.Bootstrap.define("qx.module.Event", {
     emit : function(type, data) {
       for (var j=0; j < this.length; j++) {
         var el = this[j];
-        if (el.__listeners == undefined || el.__listeners[type] == undefined) {
-          continue;
+        if (el.__emitter) {
+          el.__emitter.emit(type, data);
         }
-        var listeners = el.__listeners[type];
-        for (var i=0; i < listeners.length; i++) {
-          var entry = listeners[i];
-          entry.listener.call(entry.ctx, data);
-        };
       };
       return this;
     },
