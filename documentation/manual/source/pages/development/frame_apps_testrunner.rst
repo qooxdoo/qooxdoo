@@ -345,6 +345,8 @@ The fictional non-qooxdoo JavaScript library ``foo.js`` provides a ``Bar`` class
       <script type="text/javascript" src="http://localhost/foo.js"></script>
       <script type="text/javascript">
       testrunner.define({
+        classname : "foo.Bar",
+        
         __bar : null,
      
         setUp : function() {
@@ -362,6 +364,8 @@ The fictional non-qooxdoo JavaScript library ``foo.js`` provides a ``Bar`` class
     </html>
 
 The important thing to note here is the map argument for ``testrunner.define``: It's equivalent to the ``members`` section of a class extending `qx.dev.unit.TestCase <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.TestCase>`_ and including `qx.dev.unit.MMock <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock>`_ and `qx.dev.unit.MRequirements <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MRequirements>`_, allowing full access to these APIs. Multiple test classes can be defined by additional calls to ``testrunner.define``.
+
+The ``classname`` key is optional. If present, its value will be used as the name of the test class, making it easier to create logical groups of tests. Otherwise, the generated classes will be named ``TestN`` where N is the running count of ``testrunner.define`` calls. All test classes will be grouped under the top-level name space ``test``.
 
 The Portable Test Runner can be downloaded from the Demo section of the qooxdoo website, or generated from within the SDK:
 
