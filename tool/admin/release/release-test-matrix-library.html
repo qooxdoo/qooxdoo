@@ -50,9 +50,9 @@
     </tr>
     <tr>
       <td>1.2</td>
-      <td >Run the test file <sup>[b]</sup></td>
-      <td></td>
-      <td></td>
+      <td >Run the test file</td>
+      <td><sup>[b1]</sup></td>
+      <td><sup>[b2]</sup></td>
     </tr>
     <tr>
       <td>1.3</td>
@@ -83,11 +83,19 @@ folder</li>
       <li>The output should contain no warning.</li>
     </ul>
   </dd>
-  <dt>[b]</dt>
+  <dt>[b1]</dt>
   <dd>
     <ul>
-      <li>run <code>node qxoo.js</code> in <code>tool/admin/release/npm/test</code>
+      <li>run <code>node node.js</code> in <code>tool/admin/release/test/qxoo</code>
 for node.js e.g.</li>
+      <li>The output should print 3 times <code>ok</code></li>
+    </ul>
+  </dd>
+  <dt>[b2]</dt>
+  <dd>
+    <ul>
+      <li>run <code>rhino rhino.js</code> in <code>tool/admin/release/test/qxoo</code>
+for Rhino e.g.</li>
       <li>The output should print 3 times <code>ok</code></li>
     </ul>
   </dd>
