@@ -37,7 +37,7 @@ qx.Class.define("qx.test.Bootstrap",
   {
     "test: define class with contructor" : function()
     {
-      qx.Bootstrap.define("qx.test.Construct",
+      var c = qx.Bootstrap.define("qx.test.Construct",
       {
         extend: Object,
         construct : function() {
@@ -47,6 +47,9 @@ qx.Class.define("qx.test.Bootstrap",
 
       var obj = new qx.test.Construct();
       this.assertTrue(obj.called);
+
+      this.assertEquals(c, qx.Bootstrap.getByName("qx.test.Construct"));
+      this.assertEquals(qx.test.Construct, qx.Bootstrap.getByName("qx.test.Construct"));
 
       qx.Class.undefine("qx.test.Construct");
     },
