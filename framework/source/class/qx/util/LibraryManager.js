@@ -21,9 +21,19 @@
  * Provides read/write access to library-specific information such as 
  * source/resource URIs.
  */
-qx.Class.define("qx.util.Library", {
+qx.Class.define("qx.util.LibraryManager", {
+  
+  extend : qx.core.Object,
+  
+  type : "singleton",
   
   statics :
+  {
+    /** {Map} The libraries used by this application */
+    __libs : qx.$$libraries || {}
+  },
+  
+  members :
   {
     /**
      * Checks whether the library with the given namespace is known to the 
@@ -33,7 +43,7 @@ qx.Class.define("qx.util.Library", {
      */
     has : function(namespace)
     {
-      return !!qx.$$libraries[namespace];
+      return !!this.self(arguments).__libs[namespace];
     },
 
 
@@ -45,7 +55,8 @@ qx.Class.define("qx.util.Library", {
      */
     get : function(namespace, key)
     {
-      return qx.$$libraries[namespace][key] ? qx.$$libraries[namespace][key] : null;
+      return this.self(arguments).__libs[namespace][key] ? 
+        this.self(arguments).__libs[namespace][key] : null;
     },
 
 
@@ -58,7 +69,7 @@ qx.Class.define("qx.util.Library", {
      */
     set : function(namespace, key, value)
     {
-      qx.$$libraries[namespace][key] = value;
+      this.self(arguments).__libs[namespace][key] = value;
     }
   }
 });

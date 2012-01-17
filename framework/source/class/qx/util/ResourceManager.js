@@ -188,7 +188,7 @@ qx.Class.define("qx.util.ResourceManager",
         urlPrefix = this.self(arguments).__urlPrefix[lib];
       }
 
-      return urlPrefix + qx.util.Library.get(lib, "resourceUri") + "/" + id;
+      return urlPrefix + qx.util.LibraryManager.getInstance().get(lib, "resourceUri") + "/" + id;
     },
 
     /**
@@ -235,8 +235,8 @@ qx.Class.define("qx.util.ResourceManager",
         for (var lib in qx.$$libraries)
         {
           var resourceUri;
-          if (qx.util.Library.get(lib, "resourceUri")) {
-            resourceUri = qx.util.Library.get(lib, "resourceUri");
+          if (qx.util.LibraryManager.getInstance().get(lib, "resourceUri")) {
+            resourceUri = qx.util.LibraryManager.getInstance().get(lib, "resourceUri");
           }
           else
           {
