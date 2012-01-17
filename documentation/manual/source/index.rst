@@ -73,7 +73,7 @@ Welcome to the qooxdo manual. Here are some highlights of what you can find here
   +----------+-------------------------------------------------------------------------------------+
   ||g_write| | **APIs**                                                                            |
   |          |   * :doc:`Widgets       <pages/gui_toolkit/ui_widgets>`                             |
-  |          |   * :doc:`Low-level  <pages/low_level/low_level_apis>`                              |
+  |          |   * :doc:`Low-level  <pages/low_level/overview>`                                    |
   |          |   * :doc:`Mobile       <pages/mobile/mobile_overview>`                              |
   +----------+-------------------------------------------------------------------------------------+
 

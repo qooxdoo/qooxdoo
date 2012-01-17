@@ -3,6 +3,8 @@ Communication
 
 Sending HTTP requests and receiving responses is an important feature of almost every application running in the browser. Most commonly, the technique used is termed Ajax. qooxdoo’s communication stack offers many ways to facilitate HTTP communication at different levels of abstraction.
 
+.. _pages/communication#low_level_requests:
+
 Low-level requests
 ==================
 
