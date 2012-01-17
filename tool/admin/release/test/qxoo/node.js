@@ -1,2 +1,2 @@
 var qx = require('../../../../../framework/build/script/qx-oo.js');
-require('./test.js');
+require('../../npm/test/test.js');
