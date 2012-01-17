@@ -168,25 +168,58 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     },
 
 
+    /**
+     * Creates a test class from the given members map and adds it to the suite
+     * @param membersMap {map} Map containing the class members (test methods etc.)
+     */
     _addTestClass : function(membersMap)
     {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertMap(membersMap);
       }
       this.setTestSuiteState("loading");
-      var qxClass = qx.Class;
-      var testClass = qxClass.define("test.TestClass" + (this._externalTestClasses += 1) ,
-      {
-        extend : qx.dev.unit.TestCase,
-        members : membersMap
-      });
+      
+      this._externalTestClasses += 1;
+      var testNameSpace = this._testNameSpace || "test";
+      
+      var testClassName;
+      if (membersMap.classname) {
+        testClassName = membersMap.classname;
+        if (testClassName.split(".")[0] !== testNameSpace) {
+          testClassName = testNameSpace + "." + testClassName;
+        }
+        delete membersMap.classname;
+      }
+      else {
+        testClassName = testNameSpace + ".Test" + (this._externalTestClasses); 
+      }
+      
+      var testClass = this._defineTestClass(testClassName, membersMap);
 
       if (this.loader) {
         this.loader.getSuite().add(testClass);
       }
       else {
-        this.loader = new qx.dev.unit.TestLoaderBasic("test");
+        this.loader = new qx.dev.unit.TestLoaderBasic(testNameSpace);
       }
+    },
+    
+    
+    /**
+     * Creates a test class from the given members map
+     * 
+     * @param testClassName {String} Fully qualified name for the test class
+     * @param membersMap {map} Map containing the class members (test methods etc.)
+     * @return {qx.Class} Configured test class
+     */
+    _defineTestClass : function(testClassName, membersMap)
+    {
+      var qxClass = qx.Class;
+      return qxClass.define(testClassName,
+      {
+        extend : qx.dev.unit.TestCase,
+        members : membersMap
+      });
     },
 
 
