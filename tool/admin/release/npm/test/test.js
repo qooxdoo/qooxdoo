@@ -1,4 +1,4 @@
-if (!this.console) {
+if (typeof environment !== "undefined") {
   // for Rhino
   console = {
     log : print
