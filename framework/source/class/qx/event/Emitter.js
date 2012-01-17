@@ -26,6 +26,7 @@
 qx.Bootstrap.define("qx.event.Emitter",
 {
   statics : {
+    /** Static storage for all event listener */
     __storage : []
   },
 
