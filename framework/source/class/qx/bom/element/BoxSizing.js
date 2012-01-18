@@ -82,8 +82,10 @@ qx.Bootstrap.define("qx.bom.element.BoxSizing",
         return prop + ":" + value + ";";
       }
       else {
-        qx.log.Logger.warn(this, "This client does not support dynamic modification of the boxSizing property.");
-        qx.log.Logger.trace();
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.log.Logger.warn(this, "This client does not support dynamic modification of the boxSizing property.");
+          qx.log.Logger.trace();
+        }
       }
     },
 
@@ -125,11 +127,15 @@ qx.Bootstrap.define("qx.bom.element.BoxSizing",
         try {
           element.style[qx.core.Environment.get("css.boxsizing")] = value;
         } catch(ex) {
-          qx.log.Logger.warn(this, "This client does not support the boxSizing value", value);
+          if (qx.core.Environment.get("qx.debug")) {
+            qx.log.Logger.warn(this, "This client does not support the boxSizing value", value);
+          }
         }
       }
       else {
-        qx.log.Logger.warn(this, "This client does not support dynamic modification of the boxSizing property.");
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.log.Logger.warn(this, "This client does not support dynamic modification of the boxSizing property.");
+        }
       }
     },
 
