@@ -725,7 +725,7 @@ qx.Class.define("inspector.selenium.View", {
       // automatically but apparently that's no longer the case in recent
       // Selenium-core versions
       if (!window.selenium) {
-        window.selenium = Selenium.createForWindow(window);
+        window.selenium = window.Selenium.createForWindow(window);
       }
 
       if ((ev.getData().fail > 0) || !window.Selenium.prototype.qx) {
