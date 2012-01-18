@@ -59,7 +59,7 @@
  * Through the ability to extend from this class one could add even
  * more utility features on top of it.
  */
-qx.Class.define("qx.type.BaseArray",
+qx.Bootstrap.define("qx.type.BaseArray",
 {
   extend : Array,
 

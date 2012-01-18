@@ -21,7 +21,7 @@
 /**
  * Helper functions to handle Object as a Hash map.
  */
-qx.Class.define("qx.lang.Object",
+qx.Bootstrap.define("qx.lang.Object",
 {
   statics :
   {

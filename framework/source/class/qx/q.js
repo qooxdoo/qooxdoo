@@ -14,7 +14,7 @@ qx.Bootstrap.define("qx.q", {});
       qx.Collection.prototype[name] = module[name];
     };
   }
-  
+
   qx.q.attachStatic = function(module) {
     for (var name in module) {
       qx.q[name] = module[name];

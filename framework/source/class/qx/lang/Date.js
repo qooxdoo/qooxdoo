@@ -36,7 +36,7 @@
  *
  * The native JavaScript Date is not modified by this class.
  */
-qx.Class.define("qx.lang.Date",
+qx.Bootstrap.define("qx.lang.Date",
 {
   statics :
   {

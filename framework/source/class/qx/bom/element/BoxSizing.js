@@ -25,7 +25,7 @@
  * * "content-box" = W3C model (dimensions are content specific)
  * * "border-box" = Microsoft model (dimensions are box specific incl. border and padding)
  */
-qx.Class.define("qx.bom.element.BoxSizing",
+qx.Bootstrap.define("qx.bom.element.BoxSizing",
 {
   /*
   *****************************************************************************
