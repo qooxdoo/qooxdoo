@@ -266,33 +266,27 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
         return null;
       }
       else {
-        var known = {};
-        var obj = qx.core.ObjectRegistry;
-        var h1, h2;
+        var known = [];
 
         while (element1 || element2)
         {
           if (element1)
           {
-            h1 = obj.toHashCode(element1);
-
-            if (known[h1]) {
-              return known[h1];
+            if (qx.lang.Array.contains(known, element1)) {
+              return element1;
             }
 
-            known[h1] = element1;
+            known.push(element1);
             element1 = element1.parentNode;
           }
 
           if (element2)
           {
-            h2 = obj.toHashCode(element2);
-
-            if (known[h2]) {
-              return known[h2];
+            if (qx.lang.Array.contains(known, element2)) {
+              return element2;
             }
 
-            known[h2] = element2;
+            known.push(element2);
             element2 = element2.parentNode;
           }
         }
