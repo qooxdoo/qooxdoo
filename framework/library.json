@@ -38,8 +38,22 @@
         "qx.module.Animation",
         "qx.module.Traversing",
         "qx.module.Event",
-        "qx.module.Template"
+        "qx.module.Template",
+        "qx.q"
       ],
+
+      "log" : {
+        "dependencies" : {
+          "dot" : {
+            "root" : "qx.module.Template",
+            "compiled-class-size" : false
+            },
+          "type"   : "using",
+          "phase" : null,
+          "include-transitive-load-deps" : true,
+          "format" : "dot"
+        }
+      },
 
       "=environment" :
       {
@@ -49,6 +63,9 @@
 
       "compile-options" :
       {
+        "code" : {
+          "optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants", "statics"]
+        },
         "paths"  :
         {
           "file" : "q.js"
