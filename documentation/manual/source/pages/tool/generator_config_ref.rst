@@ -730,7 +730,7 @@ This key allows you to enable logging features along various axes.
     * ``using``: dependencies of the current class to other classes; uses the **using** key; supports ``txt``, ``dot``, ``json`` and ``flare`` output formats
     * ``used-by``: dependencies of other classes to the current class; supports only ``txt`` format
 
-  * **phase** : limit logging to run-time or load-time dependencies (default: *loadtime*)
+  * **phase** : limit logging to run-time or load-time dependencies; use ``null`` if you want to have both (default: *loadtime*)
   * **include-transitive-load-deps** : for *load-time* dependencies, whether transitive dependencies (i.e. dependencies that are not lexically in the code, but are required at load-time by some lexical dependency) should be included (default: *true*)
   * **force-fresh-deps** : force to re-calculate the class dependencies before logging them; this will take considerably longer but assures that the dependencies match exactly the latest state of the source trees (interesting after *statics* optimization; default: *false*)
   * **format** : format of the dependency output (default: *txt*)
