@@ -36,6 +36,7 @@
 
 #require(qx.lang.Array)
 #ignore(qx.core.Object)
+#ignore(qx.event.GlobalError)
 
 ************************************************************************ */
 
@@ -261,9 +262,13 @@ qx.Bootstrap.define("qx.lang.Function",
 
         if (options.delay || options.periodical)
         {
-          var returns = qx.event.GlobalError.observeMethod(function() {
+          var returns = function() {
             return func.apply(options.self||this, args);
-          });
+          };
+
+          if (qx.event && qx.event.GlobalError) {
+            returns = qx.event.GlobalError.observeMethod(returns);
+          }
 
           if (options.delay) {
             return window.setTimeout(returns, options.delay);
