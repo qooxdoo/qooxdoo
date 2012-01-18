@@ -330,18 +330,20 @@ class QxTest:
     buildConf = self.getConfig(defaultBuildConf, buildConf)
     
     buildResults = {}
-    for target in sorted(buildConf['targets'].iterkeys()):
-      buildResult = self.buildTarget(target, buildConf)
-      if buildResult:
-        buildResults[target] = buildResult
-    for shellJob in sorted(buildConf['shellJobs'].iterkeys()):
-      config = buildConf['shellJobs'][shellJob]
-      if "directory" in config:
-        shellResult = self.runShellCommands(config["commands"], config["directory"])
-      else:
-        shellResult = self.runShellCommands(config["commands"])
-      if shellResult:
-        buildResults[shellJob] = shellResult
+    if "targets" in buildConf:
+      for target in sorted(buildConf['targets'].iterkeys()):
+        buildResult = self.buildTarget(target, buildConf)
+        if buildResult:
+          buildResults[target] = buildResult
+    if "shellJobs" in buildConf:
+      for shellJob in sorted(buildConf['shellJobs'].iterkeys()):
+        config = buildConf['shellJobs'][shellJob]
+        if "directory" in config:
+          shellResult = self.runShellCommands(config["commands"], config["directory"])
+        else:
+          shellResult = self.runShellCommands(config["commands"])
+        if shellResult:
+          buildResults[shellJob] = shellResult
       
     # Store the results of this build run
     self.storeBuildStatus(buildConf["buildLogDir"], buildResults)
