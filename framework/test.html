@@ -11,8 +11,8 @@
   <script type="text/javascript" charset="utf-8">
   var q = qx.q;
 
-  /** MANIPULATING **/
   testrunner.define({
+    classname: "Manipulating",
     testCreateDiv : function() {
       this.assertNotNull(q.create("<div/>"));
       this.assertEquals(1, q.create("<div/>")[0].nodeType);
@@ -43,8 +43,9 @@
   });
 
 
-  /** SELECTOR **/
+
   testrunner.define({
+    classname : "Selector",
     testId : function() {
       var test = q.create("<div id='testdiv'/>");
       test.appendTo(document.body);
@@ -54,8 +55,8 @@
   });
 
 
-  /** Traversing **/
   testrunner.define({
+    classname : "Traversing",
     testAdd : function() {
       var test = q.create("<div id='testdiv'/>");
       this.assertEquals(1, test.length);
@@ -93,8 +94,9 @@
   });
 
 
-  /** CSS **/
+
   testrunner.define({
+    classname : "Css",
     testStyle : function() {
       var test = q.create("<div/>");
       test.appendTo(document.body);
@@ -127,8 +129,9 @@
   });
 
 
-  /** ATTRIBUTE **/
+
   testrunner.define({
+    classname : "Attribute",
     testHtml : function() {
       var test = q.create("<div/>");
       test.setHtml("affe");
@@ -169,8 +172,8 @@
 
 
 
-  /** ANIMATION **/
   testrunner.define({
+    classname : "Animation",
     testFadeOut : function() {
       var test = q.create("<div id='testdiv'/>");
       test.appendTo(document.body);
@@ -201,8 +204,8 @@
 
 
 
-  /** EVENTS **/
   testrunner.define({
+    classname : "Events",
     testOnOffEmit : function() {
       var test = q.create("<div/>");
       var self = this;
@@ -283,8 +286,9 @@
   });
 
 
-  /** TEMPLATE **/
+
   testrunner.define({
+    classname : "Templates",
     testToHtml : function() {
       var result = q.template.toHtml("{{affe}}", {affe: "george"});
       this.assertEquals("george", result);
