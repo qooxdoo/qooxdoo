@@ -74,7 +74,7 @@
  * For further details, please visit the mustache.js documentation here:
  *   https://github.com/janl/mustache.js/blob/master/README.md
  */
-qx.Class.define("qx.bom.Template", {
+qx.Bootstrap.define("qx.bom.Template", {
   statics : {
     /** Contains the mustache.js version. */
     version: null,

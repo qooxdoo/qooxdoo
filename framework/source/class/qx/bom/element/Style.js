@@ -68,7 +68,7 @@
  * Automatically normalizes cross-browser differences for setting and reading
  * CSS attributes. Optimized for performance.
  */
-qx.Class.define("qx.bom.element.Style",
+qx.Bootstrap.define("qx.bom.element.Style",
 {
   /*
   *****************************************************************************
