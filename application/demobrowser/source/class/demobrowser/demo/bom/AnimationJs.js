@@ -22,20 +22,34 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
 
   members :
   {
-    createButton : function(name, desc, AnimationClass) {
-      var button = document.createElement("div");
-      button.innerHTML = name;
-      button.className = "button";
-
-      button.addEventListener("click",
+    createButton : function(name, desc) {
+      var buttons = [];
+      var aniClasses = [qx.bom.element.Animation, qx.bom.element.JsAnimation];
+      for (var i=0; i < aniClasses.length; i++) {
+        var button = document.createElement("div");
+        button.innerHTML = name;
+        button.className = "button";
+        buttons[i] = button;
+      }
+      qx.bom.Event.addNativeListener(buttons[0], "click",
         (function(animation) {
           return function(e) {
-            AnimationClass.animate(e.target, animation);
+            qx.bom.element.Animation.animate(buttons[0], animation);
+            qx.bom.element.JsAnimation.animate(buttons[1], animation);
           }
         })(desc)
       );
 
-      return button;
+      qx.bom.Event.addNativeListener(buttons[1], "click",
+        (function(animation) {
+          return function(e) {
+            qx.bom.element.Animation.animate(buttons[0], animation);
+            qx.bom.element.JsAnimation.animate(buttons[1], animation);
+          }
+        })(desc)
+      );
+
+      return buttons;
     },
 
 
@@ -67,32 +81,114 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
         100 : {"left" : "0px", "top" : "0px"}
       }};
 
+      var shake = {duration: 500, keyFrames : {
+        0 : {"left" : "0px"},
+        30 : {"left" : "-10px"},
+        60 : {"left" : "10px"},
+        80 : {"left" : "-10px"},
+        100 : {"left" : "0px"}
+      }};
+
+      var dance = {duration: 500, keyFrames : {
+        0 : {"left" : "0px", "top": "0px"},
+        30 : {"left" : "-10px", "top": "-10px"},
+        60 : {"left" : "10px", "top": "-10px"},
+        80 : {"left" : "-10px", "top": "10px"},
+        100 : {"left" : "0px", "top": "0px"}
+      }};
+
+      var keep = {duration: 1000, keep : [70], keyFrames : {
+        0 : {"width" : "30px"},
+        70 : {"width" : "100px"},
+        100 : {"width": "50px"}
+      }};
+
+
+      var lineHeight = {duration: 1000, keyFrames : {
+        0 : {"line-height" : "1"},
+        88 : {"line-height" : "2"},
+        100 : {"line-height": "0.3"}
+      }};
+
+
+      var em = {duration: 2000, keyFrames : {
+        0 : {"font-size" : "1em"},
+        88 : {"font-size" : "2em"},
+        100 : {"font-size": "1em"}
+      }};
+
+
+      var percent = {duration: 1000, keyFrames : {
+        0 : {"width" : "10%"},
+        40 : {"width" : "20%"},
+        100 : {"width": "1%"}
+      }};
+
+
+      var color = {duration: 1000, keyFrames : {
+        0 : {"color" : "red"},
+        50 : {"color" : "#124589"},
+        100 : {"color": "#00FF00"}
+      }};
+
+
+      var twice = {duration: 500, repeat: 2, keyFrames : {
+        0 : {"top": "0px"},
+        50 : {"top" : "-10px"},
+        100 : {"top": "0px"}
+      }};
+
+      var reverse = qx.lang.Object.clone(dance);
+      reverse.reverse = true;
+
+      var alternate = {duration: 500, alternate: true, repeat: 2, keyFrames : {
+        0 : {"top" : "0px"},
+        100 : {"top": "-50px"}
+      }};
+
+
+      var ease = {duration: 1000, timing: "ease-in", keyFrames : {
+        0 : {"left" : "0px"},
+        100 : {"left": "400px"}
+      }};
+
 
       var tests = {
         "Width" : width,
         "Height" : height,
         "Fade" : fade,
-        "Move" : move
+        "Move" : move,
+        "Shake" : shake,
+        "Dance" : dance,
+        "Dance Reverse" : reverse,
+        "Keep" : keep,
+        "Font-Size": em,
+        "Line Height" : lineHeight,
+        "Percent Width" : percent,
+        "Color" : color,
+        "Twice" : twice,
+        "Alternate" : alternate,
+        "Ease" : ease
       };
 
       // CSS ANIMATIONS
       var h = document.createElement("h1");
       h.innerHTML = "CSS3 Animation";
       document.body.appendChild(h);
-      for (var test in tests) {
-        var button = this.createButton(test, tests[test], qx.bom.element.Animation);
-        document.body.appendChild(button);
-      }
+      var cssContainer = document.createElement("div");
+      document.body.appendChild(cssContainer);
 
       // JS ANIMATIONS
       h = document.createElement("h1");
-      h.style["clear"] = "both";
-      h.style["padding-top"] = "30px";
       h.innerHTML = "JavaScript Animation";
       document.body.appendChild(h);
+      var jsContainer = document.createElement("div");
+      document.body.appendChild(jsContainer);
+
       for (var test in tests) {
-        var button = this.createButton(test, tests[test], qx.bom.element.JsAnimation);
-        document.body.appendChild(button);
+        var buttons = this.createButton(test, tests[test]);
+        cssContainer.appendChild(buttons[0]);
+        jsContainer.appendChild(buttons[1]);
       }
 
     }
