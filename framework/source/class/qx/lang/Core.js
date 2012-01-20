@@ -468,7 +468,9 @@ qx.Bootstrap.define("qx.lang.Core",
 ---------------------------------------------------------------------------
 */
 
-Error.prototype.toString = qx.lang.Core.errorToString;
+if (!Error.prototype.toString) {
+  Error.prototype.toString = qx.lang.Core.errorToString;
+}
 
 
 /*
@@ -477,13 +479,33 @@ Error.prototype.toString = qx.lang.Core.errorToString;
 ---------------------------------------------------------------------------
 */
 
-Array.prototype.indexOf = qx.lang.Core.arrayIndexOf;
-Array.prototype.lastIndexOf = qx.lang.Core.arrayLastIndexOf;
-Array.prototype.forEach = qx.lang.Core.arrayForEach;
-Array.prototype.filter = qx.lang.Core.arrayFilter;
-Array.prototype.map = qx.lang.Core.arrayMap;
-Array.prototype.some = qx.lang.Core.arraySome;
-Array.prototype.every = qx.lang.Core.arrayEvery;
+if (!Array.prototype.indexOf) {
+  Array.prototype.indexOf = qx.lang.Core.arrayIndexOf;
+}
+
+if (!Array.prototype.lastIndexOf) {
+ Array.prototype.lastIndexOf = qx.lang.Core.arrayLastIndexOf;
+}
+
+if (!Array.prototype.forEach) {
+  Array.prototype.forEach = qx.lang.Core.arrayForEach;
+}
+
+if (!Array.prototype.filter) {
+ Array.prototype.filter = qx.lang.Core.arrayFilter;
+}
+
+if (!Array.prototype.map) {
+ Array.prototype.map = qx.lang.Core.arrayMap;
+}
+
+if (!Array.prototype.some) {
+ Array.prototype.some = qx.lang.Core.arraySome;
+}
+
+if (!Array.prototype.every) {
+  Array.prototype.every = qx.lang.Core.arrayEvery;
+}
 
 
 /*
@@ -492,4 +514,6 @@ Array.prototype.every = qx.lang.Core.arrayEvery;
 ---------------------------------------------------------------------------
 */
 
-String.prototype.quote = qx.lang.Core.stringQuote;
+if (!String.prototype.quote) {
+  String.prototype.quote = qx.lang.Core.stringQuote;
+}

@@ -70,7 +70,7 @@ qx.Class.define("inspector.selenium.View", {
 
     this.__userExt = qx.core.Environment.get("inspector.selenium.extensions");
     if (!this.__userExt) {
-      this.__userExt = /(.*?)framework/.exec(qx.$$libraries.qx.sourceUri)[1] + "component/simulator/tool/user-extensions/user-extensions.js";
+      this.__userExt = /(.*?)framework/.exec(qx.util.LibraryManager.getInstance().get("qx", "sourceUri"))[1] + "component/simulator/tool/user-extensions/user-extensions.js";
     }
 
     this.__availableCommands = [];
@@ -725,7 +725,7 @@ qx.Class.define("inspector.selenium.View", {
       // automatically but apparently that's no longer the case in recent
       // Selenium-core versions
       if (!window.selenium) {
-        window.selenium = Selenium.createForWindow(window);
+        window.selenium = window.Selenium.createForWindow(window);
       }
 
       if ((ev.getData().fail > 0) || !window.Selenium.prototype.qx) {

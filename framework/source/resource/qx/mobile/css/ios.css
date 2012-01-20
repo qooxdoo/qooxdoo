@@ -1,21 +1,21 @@
 * {
-  margin: 0;
-  padding: 0;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -moz-tap-highlight-color: rgba(0, 0, 0, 0);
   tap-highlight-color: rgba(0, 0, 0, 0);
+  margin: 0;
+  padding: 0;
 }
 html, body {
   height: 100%;
 }
 .root {
-  overflow-x: hidden;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
   -webkit-text-size-adjust: none;
   -moz-text-size-adjust: none;
   text-size-adjust: none;
+  overflow-x: hidden;
   font-family: Helvetica;
   height: 100%;
 }
@@ -42,19 +42,13 @@ html, body {
 .scroll {
   position: relative;
   width: auto;
-  /* your desired width, auto and 100% are fine */
-
   height: auto;
-  /* element height */
-
   overflow: hidden;
 }
 .iscroll {
   width: 100%;
   position: absolute;
   padding-bottom: 10px;
-  /* todo: experimental*/
-
 }
 .animationParent {
   -webkit-perspective: 800;
@@ -64,16 +58,12 @@ html, body {
   -moz-transform-style: preserve-3d;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-  /* We have to remove this property after animation, otherwise the dialog widget is not shown in Chrome. See Bug #5891 */
-
 }
 .animationChild {
-  position: absolute;
-  /* We have to remove this property after animation, otherwise the list widget is not shown in Webkit Browsers. See Bug #5935 */
-
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   backface-visibility: hidden;
+  position: absolute;
 }
 .in {
   z-index: 10;
@@ -91,10 +81,7 @@ html, body {
   -webkit-animation-fill-mode: forwards;
   -moz-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
-  /* Persist the last frame of the animation */
-
 }
-/* Slide left */
 .slide.in {
   -webkit-animation-name: slideLeftIn;
   -moz-animation-name: slideLeftIn;
@@ -153,7 +140,6 @@ html, body {
     transform: translatex(-100%);
   }
 }
-/* Slide right */
 .slide.in.reverse {
   -webkit-animation-name: slideRightIn;
   -moz-animation-name: slideRightIn;
@@ -212,7 +198,6 @@ html, body {
     transform: translatex(100%);
   }
 }
-/* Fade */
 .fade.in {
   -webkit-animation-name: fadeIn;
   -moz-animation-name: fadeIn;
@@ -255,7 +240,6 @@ html, body {
     opacity: 0;
   }
 }
-/* Pop */
 .pop.in {
   -webkit-animation-name: popIn;
   -moz-animation-name: popIn;
@@ -322,7 +306,6 @@ html, body {
     opacity: 0;
   }
 }
-/* Dissolve */
 .dissolve.in {
   -webkit-animation-name: dissolveIn;
   -moz-animation-name: dissolveIn;
@@ -365,7 +348,6 @@ html, body {
     opacity: 0;
   }
 }
-/* Slide up */
 .slideup.in {
   z-index: 10;
   -webkit-animation-name: slideUpIn;
@@ -486,7 +468,6 @@ html, body {
     transform: translatey(100%);
   }
 }
-/* Flip Left */
 .flip {
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
@@ -550,7 +531,6 @@ html, body {
     transform: rotatey(-180deg) scale(0.8);
   }
 }
-/* Flip Right */
 .flip.in.reverse {
   -webkit-animation-name: flipRightIn;
   -moz-animation-name: flipRightIn;
@@ -609,7 +589,6 @@ html, body {
     transform: rotatey(180deg) scale(0.8);
   }
 }
-/* Swap Left */
 .swap {
   -webkit-animation-duration: 0.7s;
   -moz-animation-duration: 0.7s;
@@ -711,7 +690,6 @@ html, body {
     opacity: 0;
   }
 }
-/* Swap Right */
 .swap.in.reverse {
   -webkit-animation-name: swapRightIn;
   -moz-animation-name: swapRightIn;
@@ -802,7 +780,6 @@ html, body {
     opacity: 0;
   }
 }
-/* Cube Left */
 .cube {
   -webkit-animation-duration: 0.55s;
   -moz-animation-duration: 0.55s;
@@ -880,7 +857,6 @@ html, body {
     opacity: .5;
   }
 }
-/* Cube Right */
 .cube.in.reverse {
   -webkit-transform-origin: 0% 50%;
   -moz-transform-origin: 0% 50%;
@@ -963,25 +939,7 @@ html, body {
   -webkit-box-align: stretch;
   -moz-box-align: stretch;
   box-align: stretch;
-  /*
-         * -moz-box elements shrink-wrap by default. The spec states that "a block-level
-         * box placed inside a block level element is positioned and sized as if it were
-         * any other block". This is not true for the (non-standard) implementation in
-         * Firefox.
-         *
-         * See https://bugzilla.mozilla.org/show_bug.cgi?id=625694
-         *
-         * TODO: Limit to Firefox, because setting an explicit width may have
-         * undesirable side-effects.
-         *
-         */
-
   width: 100%;
-  /*
-          * Subtract padding and border from content width (100%) to prevent
-          * 100% + X situation.
-          */
-
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -1001,8 +959,6 @@ html, body {
   -webkit-box-align: stretch;
   -moz-box-align: stretch;
   box-align: stretch;
-  /* See .hbox */
-
   width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1014,13 +970,6 @@ html, body {
   box-flex: 0;
 }
 .content {
-  /* Force block formatting context so that elements are laid out
-   * "one after the other", see http://www.w3.org/TR/CSS21/visuren.html#block-formatting
-   *
-   * Fixes clipped content in Firefox.
-   *
-   */
-
   overflow: hidden;
 }
 .boxSpacer {
@@ -1095,208 +1044,156 @@ html, body {
 .transparent {
   opacity: 0 !important;
 }
-/* MAIN */
-.root {
-  background: #c5ccd3 url(../icon/ios/pinstripes.png);
-  font-family: Helvetica;
-  color: #666;
-  font-weight: normal;
-  font-size: 0.8em;
-}
-.root > * {
-  background: #c5ccd3 url(../icon/ios/pinstripes.png);
-}
-.content {
-  padding: 10px;
-}
-/* FONTS */
-.fontNormal {
-  color: #666;
-  font-weight: normal;
-  font-size: 0.8em;
-}
-/* HEADINGS */
 h1, h2 {
   font-weight: bold;
+  font-size: 0.8em;
 }
 h1 {
-  color: #fff;
   font-size: 20px;
   text-align: center;
-  text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
   margin-left: 4px;
   margin-right: 4px;
 }
 h2 {
-  font-size: 18px;
+  font-size: 16px;
   margin-left: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
-  text-shadow: rgba(255, 255, 255, 0.2) 0 1px 1px;
-  color: #4c566c;
 }
-/* LINKS */
-a:hover, a:active {
-  outline: none;
+.root {
+  font-family: Helvetica;
+  font-weight: normal;
 }
-a, a:active, a:visited {
-  color: #4c566c;
+.fontNormal {
+  font-weight: normal;
 }
-a:hover {
-  color: #4c566c;
-}
-/* BUTTONS */
-.button {
-  cursor: pointer;
-  font-weight: bold;
-  color: black;
-  background: #fff;
-  border: 1px solid #B4B4B4;
-  font: bold 17px Helvetica;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-  line-height: 40px;
-  text-align: center;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-top: 15px;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
-  background-clip: padding-box;
-}
-.button.active {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#4583fd), to(#194ae4));
-  /* Safari 4+, Chrome 2+ */
-
-  background-image: -webkit-linear-gradient(top, #4583fd, #194ae4);
-  /* Safari 5.1+, Chrome 10+ */
-
-  background-image: -moz-linear-gradient(top, #4583fd, #194ae4);
-  /* FF 3.6+ */
-
-  background-image: linear-gradient(to bottom, #4583fd, #194ae4);
-  /* Standard (in flux) */
-
-  color: #fff;
-}
-/* LISTS */
-.list-itemimage {
-  margin-right: 7px;
+.content {
+  padding: 5px;
 }
 ul {
-  color: black;
-  background: #fff;
-  border: 1px solid #B4B4B4;
-  font: bold 17px Helvetica;
   padding: 0;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
-  background-clip: padding-box;
 }
 ul li {
-  color: #666;
-  border-top: 1px solid #B4B4B4;
+  border-top: 1px solid transparent;
   list-style-type: none;
   padding: 10px 25px 10px 10px;
-}
-ul li.arrow {
-  background: url("../icon/ios/arrow.png") no-repeat right center;
-}
-ul li.active.arrow, ul li.selected.arrow {
-  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, from(#4583fd), to(#194ae4));
-  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-linear-gradient(top, #4583fd, #194ae4);
-  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -moz-linear-gradient(top, #4583fd, #194ae4);
-  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, linear-gradient(to bottom, #4583fd, #194ae4);
-}
-ul li.active, ul li.selected {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#4583fd), to(#194ae4));
-  /* Safari 4+, Chrome 2+ */
-
-  background-image: -webkit-linear-gradient(top, #4583fd, #194ae4);
-  /* Safari 5.1+, Chrome 10+ */
-
-  background-image: -moz-linear-gradient(top, #4583fd, #194ae4);
-  /* FF 3.6+ */
-
-  background-image: linear-gradient(to bottom, #4583fd, #194ae4);
-  /* Standard (in flux) */
-
-  color: #fff;
 }
 ul li .subtitle {
   font-weight: normal;
   font-size: 0.8em;
-  color: #585858;
 }
-/* when you have a first LI item on any list */
 li:first-child, li:first-child a {
   border-top: 0;
-  -webkit-border-radius: 8px 8px 0 0;
-  -moz-border-radius: 8px 8px 0 0;
-  border-radius: 8px 8px 0 0;
 }
-li:last-child, li:last-child a {
-  -webkit-border-radius: 0 0 8px 8px;
-  -moz-border-radius: 0 0 8px 8px;
-  border-radius: 0 0 8px 8px;
+.button {
+  cursor: pointer;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 15px;
 }
-/* FORMS */
+.toolbar-button {
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+  cursor: pointer;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  overflow: hidden;
+  width: 0;
+}
+.toolbar-button img {
+  vertical-align: middle;
+}
+.toolbar-button .label {
+  height: auto;
+}
+.list-itemimage {
+  margin-right: 7px;
+}
+.toggleButton {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+  width: 94px;
+  height: 27px;
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+.toggleButton > div {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-transition: left 0.15s;
+  -moz-transition: left 0.15s;
+  transition: left 0.15s;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+  margin: 0;
+  background: #ffffff url(../icon/android/on_off.png) 0 0 no-repeat;
+  height: 27px;
+  overflow: hidden;
+  width: 149px;
+  border: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 0px;
+  left: -55px;
+}
+.toggleButton > div.checked {
+  left: 0px;
+}
 input, select {
   vertical-align: middle;
 }
 input, select, textarea {
   font-family: Helvetica;
-  font-size: .9em;
+  font-size: 0.9em;
 }
 select {
-  text-indent: 0;
-  background: transparent no-repeat right center;
   -webkit-appearance: textfield;
   -moz-appearance: textfield;
   appearance: textfield;
+  text-indent: 0;
+  background: transparent no-repeat right center;
   margin-left: -6px;
   width: 100%;
   color: #777;
   border: none;
 }
-ul.form {
-  margin-bottom: 10px;
-}
-ul.form ul li {
+ul.form li {
   padding: 10px 10px 10px 10px;
 }
 ul.form ul li.error {
   border: 2px solid red;
 }
-ul.form ul li.error + li.error {
+ul.form li.error + li.error {
   border-top: 0;
 }
-ul.form ul li * {
+ul.form li * {
   white-space: normal;
   text-overflow: ellipsis;
 }
 input[type="text"], input[type="password"], textarea {
-  color: #777;
-  background: #ffffff url(../.png);
-  border: 0;
-  font: normal 17px Helvetica;
-  padding: 0;
-  display: inline-block;
-  margin-left: 0px;
-  width: 100%;
   -webkit-appearance: textarea;
   -moz-appearance: textarea;
   appearance: textarea;
+  width: 100%;
   outline: none;
 }
 textarea {
   height: 120px;
-  padding: 0;
+  width: 100%;
   resize: none;
 }
 input[type="checkbox"], input[type="radio"] {
@@ -1304,181 +1201,56 @@ input[type="checkbox"], input[type="radio"] {
   color: #324f85;
   padding: 10px 10px;
 }
-/* TOGGLE BUTTON */
-.toggleButton {
-  width: 94px;
-  height: 27px;
-  display: block;
-  overflow: hidden;
-  position: relative;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
-  background-clip: padding-box;
-}
-.toggleButton > div.checked {
-  left: 0px;
-}
-.toggleButton > div {
-  margin: 0;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  background: #ffffff url(../icon/ios/on_off.png) 0 0 no-repeat;
-  height: 27px;
-  overflow: hidden;
-  width: 149px;
-  border: 0;
-  background-color: transparent;
-  -webkit-transition: left 0.15s;
-  -moz-transition: left 0.15s;
-  transition: left 0.15s;
-  position: absolute;
-  top: 0px;
-  left: -55px;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
-  background-clip: padding-box;
-}
-/* SLIDER */
-.slider {
-  position: relative;
-  border-bottom: 1px solid #d6d6d6;
-  border-top: 1px solid #929292;
-  border-left: 1px solid #b5b5b5;
-  border-right: 1px solid #b5b5b5;
-  height: 15px;
-  background: -webkit-gradient(linear, left top, left bottom, from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 0px 0px no-repeat, -webkit-gradient(linear, left top, left bottom, from(#093887), color-stop(0.05, #2a5db1), color-stop(0.9, #6ca9f7), to(#4e8ad4)) 0px 0px no-repeat;
-  background: -webkit-linear-gradient(top, #929292, #bbbbbb 5%, #f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -webkit-linear-gradient(top, #093887, #2a5db1 5%, #6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
-  background: -moz-linear-gradient(top, #929292, #bbbbbb 5%, #f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -moz-linear-gradient(top, #093887, #2a5db1 5%, #6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
-  background: linear-gradient(to bottom, #929292, #bbbbbb 5%, #f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, linear-gradient(to bottom, #093887, #2a5db1 5%, #6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
-  -webkit-border-radius: 0.6em;
-  -moz-border-radius: 0.6em;
-  border-radius: 0.6em;
-  overflow: visible;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
-  background-clip: padding-box;
-}
-.slider > div {
-  position: absolute;
-  top: -8px;
-  left: 0%;
-  background-color: #fff;
-  -webkit-box-shadow: 0 0 2px 1px #a9a9a9;
-  -moz-box-shadow: 0 0 2px 1px #a9a9a9;
-  box-shadow: 0 0 2px 1px #a9a9a9;
-  width: 30px;
-  height: 30px;
-  background: -webkit-gradient(radial, 15 33, 6, 15 30, 29, from(#fcfcfc), color-stop(95%, #d1d1d1), to(#ffffff));
-  background: -webkit-radial-gradient(50% 135%, 30px 44px, #ffffff, #fdfdfd, #d1d1d1 83%, #ffffff 95%);
-  background: -moz-radial-gradient(50% 135%, 30px 44px, #ffffff, #fdfdfd, #d1d1d1 83%, #ffffff 95%);
-  background: radial-gradient(50% 135%, 30px 44px, #ffffff, #fdfdfd, #d1d1d1 83%, #ffffff 95%);
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  border-radius: 1em;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
-  background-clip: padding-box;
-}
 input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
   border: 1px solid red;
 }
 .formElementError {
   color: red;
 }
-/* TABBAR */
-.tabBar {
-  height: 45px;
-  border-top: 1px solid #333333;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#232323), color-stop(50%, #111111), color-stop(51%, #000000), to(#000000));
-  background-image: -webkit-linear-gradient(top, #232323, #111111 50%, #000000 51%, #000000);
-  background-image: -moz-linear-gradient(top, #232323, #111111 50%, #000000 51%, #000000);
-  background-image: linear-gradient(to bottom, #232323, #111111 50%, #000000 51%, #000000);
+.slider {
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+  position: relative;
+  overflow: visible;
+}
+.slider > div {
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+  position: absolute;
+  background-color: #fff;
 }
 .tabButton {
-  height: 42px !important;
-  text-align: center;
-  line-height: 45px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  text-align: center;
 }
-.tabButton.active, .tabButton.selected {
-  color: #ffffff;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#393939), color-stop(50%, #292929), color-stop(51%, #1d1d1d), to(#1c1c1c));
-  background-image: -webkit-linear-gradient(top, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
-  background-image: -moz-linear-gradient(top, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
-  background-image: linear-gradient(to bottom, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
-}
-/* NAVIGATIONBAR */
 .navigationbar {
-  border-bottom: 1px solid #2d3642;
+  height: 45px;
   padding-left: 10px;
   padding-right: 10px;
-  height: 45px;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#cdd5df), color-stop(50%, #8195af), to(#6d84a2));
-  background-image: -webkit-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
-  background-image: -moz-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
-  background-image: linear-gradient(to bottom, #cdd5df, #8195af 50%, #6d84a2);
 }
 .navigationbar-button, .navigationbar-backbutton {
   text-align: center;
   cursor: pointer;
-  border-width: 0 5px;
-  padding: 0 3px;
   width: auto;
-  height: 30px;
   line-height: 30px;
   font-family: inherit;
   font-size: 12px;
   font-weight: bold;
-  color: #fff;
-  text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0;
   text-decoration: none;
-  background: none;
-  -webkit-border-image: url(../icon/ios/toolButton.png) 0 5 0 5;
-  -moz-border-image: url(../icon/ios/toolButton.png) 0 5 0 5;
 }
-.navigationbar-button.active {
-  -webkit-border-image: url(../icon/ios/toolButton_pressed.png) 0 5 0 5;
-  -moz-border-image: url(../icon/ios/toolButton_pressed.png) 0 5 0 5;
-}
-.navigationbar-backbutton {
-  padding: 0;
-  max-width: 55px;
-  max-width: -moz-calc(77px);
-  border-width: 0 8px 0 14px;
-  -webkit-border-image: url(../icon/ios/backButton.png) 0 8 0 14;
-  -moz-border-image: url(../icon/ios/backButton.png) 0 8 0 14;
-}
-/*
- * Fix 1px off inherent width of label in Firefox
- */
-.navigationbar-backbutton > div {
-  width: -moz-calc(30px);
-}
-.navigationbar-backbutton.active {
-  -webkit-border-image: url(../icon/ios/backButton_pressed.png) 0 8 0 14;
-  -moz-border-image: url(../icon/ios/backButton_pressed.png) 0 8 0 14;
-}
-/* SCROLLBAR */
 .scrollbarV {
   position: absolute;
-  z-index: 100;
-  width: 6px;
-  bottom: 7px;
   top: 2px;
   right: 2px;
+  bottom: 7px;
+  width: 6px;
+  z-index: 100;
 }
 .scrollbarV > div {
-  border: none;
-  background-image: -webkit-gradient(linear, center left, center right, from(#62666a), to(#65696c));
-  background-image: -webkit-linear-gradient(left, #62666a, #65696c);
-  background-image: -moz-linear-gradient(left, #62666a, #65696c);
-  background-image: linear-gradient(to right, #62666a, #65696c);
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
@@ -1489,112 +1261,16 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
   -moz-border-radius: 4px;
   border-radius: 4px;
 }
-/* CHECKBOX */
 input[type="checkbox"] {
-  background-color: #929292;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   width: 30px;
   height: 30px;
-  -webkit-border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  border-radius: 0.5em;
-  border: 2px solid #4c4c4c;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#fefefe), to(#cecece));
-  /* Safari 4+, Chrome 2+ */
-
-  background-image: -webkit-linear-gradient(top, #fefefe, #cecece);
-  /* Safari 5.1+, Chrome 10+ */
-
-  background-image: -moz-linear-gradient(top, #fefefe, #cecece);
-  /* FF 3.6+ */
-
-  background-image: linear-gradient(to bottom, #fefefe, #cecece);
-  /* Standard (in flux) */
-
-}
-input[type="checkbox"]:checked {
-  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
-  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
-  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -moz-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
-  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, linear-gradient(to bottom, #353535, #8f8f8f) 0px 0px no-repeat;
-}
-.disabled input[type="checkbox"]:disabled {
-  border: 2px solid #b8b8b8;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#ebebeb));
-  /* Safari 4+, Chrome 2+ */
-
-  background-image: -webkit-linear-gradient(top, #ffffff, #ebebeb);
-  /* Safari 5.1+, Chrome 10+ */
-
-  background-image: -moz-linear-gradient(top, #ffffff, #ebebeb);
-  /* FF 3.6+ */
-
-  background-image: linear-gradient(to bottom, #ffffff, #ebebeb);
-  /* Standard (in flux) */
-
-}
-/*  TOOLBAR  */
-.toolbar-button {
-  cursor: pointer;
-  font-weight: bold;
-  color: #fff;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  font: bold 17px Helvetica;
-  height: 50px;
-  text-align: center;
-  padding-left: 20px;
-  padding-right: 20px;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
-  background-clip: padding-box;
-  overflow: hidden;
-  width: 0;
-  /* this is for equal sizes od the buttons when aded in a toolbar or other container with flex :1*/
-
-}
-.toolbar-button.active {
-  font-weight: bolder;
-}
-.toolbar-button img {
-  vertical-align: middle;
-}
-.toolbar-button > div {
-  height: 50px;
-  /* Hidden overflow breaks box-pack: center in Firefox */
-
-  /* overflow: hidden; */
-
-}
-.toolbar-button .label {
-  height: auto;
-}
-.toolbar-separator {
-  width: 5px;
 }
 .toolbar {
-  width: 100%;
-  z-index: 1;
-  /*
-  border-top: 1px solid #2d3033;
-  background: -webkit-gradient(linear,left top,left bottom,from(#d8dee6), color-stop(0.05, #b0bbce), color-stop(0.5, #8e9fb6), color-stop(0.5, #8195af), to(#778ca8));
-  background: -webkit-linear-gradient(top, #d8dee6, #b0bbce 5%,#8e9fb6 50%, #8195af 50%, #778ca8);
-  */
-
-  border-top: 1px solid #2d3642;
   height: 55px;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#cdd5df), color-stop(50%, #8195af), to(#6d84a2));
-  background-image: -webkit-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
-  background-image: -moz-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
-  background-image: linear-gradient(to bottom, #cdd5df, #8195af 50%, #6d84a2);
-  -webkit-transition: bottom 0.65s;
-  -moz-transition: bottom 0.65s;
-  transition: bottom 0.65s;
 }
-/*  BLOCKER  */
 .blocker {
   position: absolute;
   z-index: 100;
@@ -1602,79 +1278,25 @@ input[type="checkbox"]:checked {
   height: 100%;
   left: 0;
   top: 0;
-  background-color: gray;
   opacity: 0.7;
   color: black;
+  background-color: #818181;
 }
-/*  SPINNER  */
 .spinnerContainer {
   margin: 0 auto;
   height: 100%;
   text-align: center;
 }
 .spinner {
-  height: 20px;
-  width: 20px;
-  background-image: url(../icon/ios/spinner.png);
-  -webkit-animation-name: spinnerRotate;
-  -moz-animation-name: spinnerRotate;
-  animation-name: spinnerRotate;
-  -webkit-animation-duration: 1s;
-  -moz-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-iteration-count: infinite;
-  -moz-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-  -moz-animation-timing-function: linear;
-  animation-timing-function: linear;
   margin: 0 auto;
   vertical-align: middle;
 }
-@-webkit-keyframes spinnerRotate {
-  from {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@-moz-keyframes spinnerRotate {
-  from {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-/*  SPLITPANE  */
-.splitPaneLeft {
-  width: 25%;
-}
-/*  POPUP  */
 .popup {
   position: absolute;
-  background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));
-  background-image: -webkit-radial-gradient(100px -195px, circle, #637396 215px, #1d3566 225px);
-  background-image: -moz-radial-gradient(100px -195px, circle, #637396 215px, #1d3566 225px);
-  background-image: radial-gradient(100px -195px, circle, #637396 215px, #1d3566 225px);
   width: auto;
   padding: 6px;
-  border: 2px solid #c7d1e3;
-  -webkit-border-radius: 0.7em;
-  -moz-border-radius: 0.7em;
-  border-radius: 0.7em;
   z-index: 99;
   clear: both;
-  color: #fff;
 }
 .popupAnchorPointer {
   height: 0;
@@ -1701,22 +1323,10 @@ input[type="checkbox"]:checked {
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
 }
-/*  DIALOG  */
 .dialog {
   position: fixed;
-  background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));
-  background-image: -webkit-radial-gradient(100px -180px, circle, #637396 215px, #1d3566 225px);
-  background-image: -moz-radial-gradient(100px -180px, circle, #637396 215px, #1d3566 225px);
-  background-image: radial-gradient(100px -180px, circle, #637396 215px, #1d3566 225px);
   width: auto;
   padding: 6px;
-  border: 2px solid #c7d1e3;
-  -webkit-border-radius: 0.7em;
-  -moz-border-radius: 0.7em;
-  border-radius: 0.7em;
-  z-index: 99;
-  min-width: 200px;
-  color: #fff;
 }
 .dialogButton {
   width: 0;
@@ -1728,6 +1338,381 @@ input[type="checkbox"]:checked {
   font-weight: 800;
   font-size: 16px;
   margin: 0 0 5px 0;
+}
+a:hover, a:active {
+  outline: none;
+}
+a, a:active, a:visited {
+  color: #4c566c;
+}
+a:hover {
+  color: #4c566c;
+}
+h1 {
+  color: #fff;
+  text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
+}
+h2 {
+  font-size: 18px;
+  text-shadow: rgba(255, 255, 255, 0.2) 0 1px 1px;
+  color: #4c566c;
+}
+.root {
+  background: #c5ccd3 url(../icon/ios/pinstripes.png);
+  color: #666;
+  font-size: 0.8em;
+}
+.root > * {
+  background: #c5ccd3 url(../icon/ios/pinstripes.png);
+}
+.content {
+  padding: 10px;
+}
+.fontNormal {
+  color: #666;
+  font-weight: normal;
+  font-size: 0.8em;
+}
+ul {
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+  color: black;
+  background: #fff;
+  border: 1px solid #B4B4B4;
+  font: bold 17px Helvetica;
+  margin-bottom: 10px;
+}
+ul li {
+  color: #666;
+  border-top-color: #B4B4B4;
+}
+ul li.arrow {
+  background: url("../icon/ios/arrow.png") no-repeat right center;
+}
+ul li.active.arrow, ul li.selected.arrow {
+  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, from(#4583fd), to(#194ae4));
+  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-linear-gradient(top, #4583fd, #194ae4);
+  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -moz-linear-gradient(top, #4583fd, #194ae4);
+  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, linear-gradient(to bottom, #4583fd, #194ae4);
+}
+ul li.active, ul li.selected {
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#4583fd), to(#194ae4));
+  /* Safari 4+, Chrome 2+ */
+
+  background-image: -webkit-linear-gradient(top, #4583fd, #194ae4);
+  /* Safari 5.1+, Chrome 10+ */
+
+  background-image: -moz-linear-gradient(top, #4583fd, #194ae4);
+  /* FF 3.6+ */
+
+  background-image: linear-gradient(to bottom, #4583fd, #194ae4);
+  /* Standard (in flux) */
+
+  color: #fff;
+}
+ul li .subtitle {
+  color: #585858;
+}
+li:first-child, li:first-child a {
+  -webkit-border-radius: 8px 8px 0 0;
+  -moz-border-radius: 8px 8px 0 0;
+  border-radius: 8px 8px 0 0;
+}
+li:last-child, li:last-child a {
+  -webkit-border-radius: 0 0 8px 8px;
+  -moz-border-radius: 0 0 8px 8px;
+  border-radius: 0 0 8px 8px;
+}
+.button {
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+  background: #fff;
+  border: 1px solid #B4B4B4;
+  font: bold 17px Helvetica;
+  line-height: 40px;
+}
+.button.active {
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#4583fd), to(#194ae4));
+  /* Safari 4+, Chrome 2+ */
+
+  background-image: -webkit-linear-gradient(top, #4583fd, #194ae4);
+  /* Safari 5.1+, Chrome 10+ */
+
+  background-image: -moz-linear-gradient(top, #4583fd, #194ae4);
+  /* FF 3.6+ */
+
+  background-image: linear-gradient(to bottom, #4583fd, #194ae4);
+  /* Standard (in flux) */
+
+  color: #fff;
+}
+ul.form {
+  margin-bottom: 10px;
+}
+input[type="text"], input[type="password"], textarea {
+  color: #777;
+  background: #fff;
+  border: 0;
+  font: normal 17px Helvetica;
+  padding: 0;
+  display: inline-block;
+  margin-left: 0px;
+}
+.slider {
+  -webkit-border-radius: 0.6em;
+  -moz-border-radius: 0.6em;
+  border-radius: 0.6em;
+  border-bottom: 1px solid #d6d6d6;
+  border-top: 1px solid #929292;
+  border-left: 1px solid #b5b5b5;
+  border-right: 1px solid #b5b5b5;
+  height: 15px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 0px 0px no-repeat, -webkit-gradient(linear, left top, left bottom, from(#093887), color-stop(0.05, #2a5db1), color-stop(0.9, #6ca9f7), to(#4e8ad4)) 0px 0px no-repeat;
+  background: -webkit-linear-gradient(top, #929292, #bbbbbb 5%, #f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -webkit-linear-gradient(top, #093887, #2a5db1 5%, #6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
+  background: -moz-linear-gradient(top, #929292, #bbbbbb 5%, #f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -moz-linear-gradient(top, #093887, #2a5db1 5%, #6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
+  background: linear-gradient(to bottom, #929292, #bbbbbb 5%, #f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, linear-gradient(to bottom, #093887, #2a5db1 5%, #6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
+}
+.slider > div {
+  -webkit-box-shadow: 0 0 2px 1px #a9a9a9;
+  -moz-box-shadow: 0 0 2px 1px #a9a9a9;
+  box-shadow: 0 0 2px 1px #a9a9a9;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  border-radius: 1em;
+  top: -8px;
+  left: 0%;
+  width: 30px;
+  height: 30px;
+  background: -webkit-gradient(radial, 15 33, 6, 15 30, 29, from(#fcfcfc), color-stop(95%, #d1d1d1), to(#ffffff));
+  background: -webkit-radial-gradient(50% 135%, 30px 44px, #ffffff, #fdfdfd, #d1d1d1 83%, #ffffff 95%);
+  background: -moz-radial-gradient(50% 135%, 30px 44px, #ffffff, #fdfdfd, #d1d1d1 83%, #ffffff 95%);
+  background: radial-gradient(50% 135%, 30px 44px, #ffffff, #fdfdfd, #d1d1d1 83%, #ffffff 95%);
+}
+.tabBar {
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#232323), color-stop(50%, #111111), color-stop(51%, #000000), to(#000000));
+  background-image: -webkit-linear-gradient(top, #232323, #111111 50%, #000000 51%, #000000);
+  background-image: -moz-linear-gradient(top, #232323, #111111 50%, #000000 51%, #000000);
+  background-image: linear-gradient(to bottom, #232323, #111111 50%, #000000 51%, #000000);
+  height: 45px;
+  border-top: 1px solid #333333;
+}
+.tabButton {
+  height: 42px !important;
+  line-height: 45px;
+}
+.tabButton.active, .tabButton.selected {
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#393939), color-stop(50%, #292929), color-stop(51%, #1d1d1d), to(#1c1c1c));
+  background-image: -webkit-linear-gradient(top, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
+  background-image: -moz-linear-gradient(top, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
+  background-image: linear-gradient(to bottom, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
+  color: #ffffff;
+}
+.navigationbar {
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#cdd5df), color-stop(50%, #8195af), to(#6d84a2));
+  background-image: -webkit-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
+  background-image: -moz-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
+  background-image: linear-gradient(to bottom, #cdd5df, #8195af 50%, #6d84a2);
+  border-bottom: 1px solid #2d3642;
+}
+.navigationbar-button, .navigationbar-backbutton {
+  -webkit-border-image: url(../icon/ios/toolButton.png) 0 5 0 5;
+  -moz-border-image: url(../icon/ios/toolButton.png) 0 5 0 5;
+  border-width: 0 5px;
+  padding: 0 3px;
+  height: 30px;
+  color: #fff;
+  text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0;
+  background: none;
+}
+.navigationbar-button.active {
+  -webkit-border-image: url(../icon/ios/toolButton_pressed.png) 0 5 0 5;
+  -moz-border-image: url(../icon/ios/toolButton_pressed.png) 0 5 0 5;
+}
+.navigationbar-backbutton {
+  -webkit-border-image: url(../icon/ios/backButton.png) 0 8 0 14;
+  -moz-border-image: url(../icon/ios/backButton.png) 0 8 0 14;
+  padding: 0;
+  max-width: 55px;
+  max-width: -moz-calc(77px);
+  border-width: 0 8px 0 14px;
+}
+.navigationbar-backbutton > div {
+  width: -moz-calc(30px);
+}
+.navigationbar-backbutton.active {
+  -webkit-border-image: url(../icon/ios/backButton_pressed.png) 0 8 0 14;
+  -moz-border-image: url(../icon/ios/backButton_pressed.png) 0 8 0 14;
+}
+.scrollbarV > div {
+  background-image: -webkit-gradient(linear, center left, center right, from(#62666a), to(#65696c));
+  background-image: -webkit-linear-gradient(left, #62666a, #65696c);
+  background-image: -moz-linear-gradient(left, #62666a, #65696c);
+  background-image: linear-gradient(to right, #62666a, #65696c);
+  border: none;
+}
+input[type="checkbox"] {
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#fefefe), to(#cecece));
+  /* Safari 4+, Chrome 2+ */
+
+  background-image: -webkit-linear-gradient(top, #fefefe, #cecece);
+  /* Safari 5.1+, Chrome 10+ */
+
+  background-image: -moz-linear-gradient(top, #fefefe, #cecece);
+  /* FF 3.6+ */
+
+  background-image: linear-gradient(to bottom, #fefefe, #cecece);
+  /* Standard (in flux) */
+
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  border-radius: 0.5em;
+  background-color: #929292;
+  border: 2px solid #4c4c4c;
+}
+input[type="checkbox"]:checked {
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -moz-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, linear-gradient(to bottom, #353535, #8f8f8f) 0px 0px no-repeat;
+}
+.disabled input[type="checkbox"]:disabled {
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#ebebeb));
+  /* Safari 4+, Chrome 2+ */
+
+  background-image: -webkit-linear-gradient(top, #ffffff, #ebebeb);
+  /* Safari 5.1+, Chrome 10+ */
+
+  background-image: -moz-linear-gradient(top, #ffffff, #ebebeb);
+  /* FF 3.6+ */
+
+  background-image: linear-gradient(to bottom, #ffffff, #ebebeb);
+  /* Standard (in flux) */
+
+  border: 2px solid #b8b8b8;
+}
+.toolbar-button {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+  cursor: pointer;
+  font-weight: bold;
+  color: #fff;
+  font: bold 17px Helvetica;
+  height: 50px;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  overflow: hidden;
+  width: 0;
+}
+.toolbar-button.active {
+  font-weight: bolder;
+}
+.toolbar-button img {
+  vertical-align: middle;
+}
+.toolbar-button > div {
+  height: 50px;
+}
+.toolbar-button .label {
+  height: auto;
+}
+.toolbar-separator {
+  width: 5px;
+}
+.toolbar {
+  width: 100%;
+  z-index: 1;
+  border-top: 1px solid #2d3642;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#cdd5df), color-stop(50%, #8195af), to(#6d84a2));
+  background-image: -webkit-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
+  background-image: -moz-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
+  background-image: linear-gradient(to bottom, #cdd5df, #8195af 50%, #6d84a2);
+  -webkit-transition: bottom 0.65s;
+  -moz-transition: bottom 0.65s;
+  transition: bottom 0.65s;
+}
+.blocker {
+  background-color: gray;
+}
+.spinner {
+  -webkit-animation-name: spinnerRotate;
+  -moz-animation-name: spinnerRotate;
+  animation-name: spinnerRotate;
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-timing-function: linear;
+  animation-timing-function: linear;
+  height: 20px;
+  width: 20px;
+  background-image: url(../icon/ios/spinner.png);
+}
+@-webkit-keyframes spinnerRotate {
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spinnerRotate {
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.splitPaneLeft {
+  width: 25%;
+}
+.popup {
+  background-image: -webkit-radial-gradient(100px -195px, circle, #637396 215px, #1d3566 225px);
+  background-image: -moz-radial-gradient(100px -195px, circle, #637396 215px, #1d3566 225px);
+  background-image: radial-gradient(100px -195px, circle, #637396 215px, #1d3566 225px);
+  -webkit-border-radius: 0.7em;
+  -moz-border-radius: 0.7em;
+  border-radius: 0.7em;
+  background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));
+  border: 2px solid #c7d1e3;
+  color: #fff;
+}
+.dialog {
+  background-image: -webkit-radial-gradient(100px -180px, circle, #637396 215px, #1d3566 225px);
+  background-image: -moz-radial-gradient(100px -180px, circle, #637396 215px, #1d3566 225px);
+  background-image: radial-gradient(100px -180px, circle, #637396 215px, #1d3566 225px);
+  -webkit-border-radius: 0.7em;
+  -moz-border-radius: 0.7em;
+  border-radius: 0.7em;
+  background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));
+  border: 2px solid #c7d1e3;
+  z-index: 99;
+  min-width: 200px;
+  color: #fff;
 }
 .dialogTitleUnderline:after {
   display: none;

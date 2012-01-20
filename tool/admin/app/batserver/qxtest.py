@@ -330,10 +330,20 @@ class QxTest:
     buildConf = self.getConfig(defaultBuildConf, buildConf)
     
     buildResults = {}
-    for target in sorted(buildConf['targets'].iterkeys()):
-      buildResult = self.buildTarget(target, buildConf)
-      if buildResult:
-        buildResults[target] = buildResult
+    if "targets" in buildConf:
+      for target in sorted(buildConf['targets'].iterkeys()):
+        buildResult = self.buildTarget(target, buildConf)
+        if buildResult:
+          buildResults[target] = buildResult
+    if "shellJobs" in buildConf:
+      for shellJob in sorted(buildConf['shellJobs'].iterkeys()):
+        config = buildConf['shellJobs'][shellJob]
+        if "directory" in config:
+          shellResult = self.runShellCommands(config["commands"], config["directory"])
+        else:
+          shellResult = self.runShellCommands(config["commands"])
+        if shellResult:
+          buildResults[shellJob] = shellResult
       
     # Store the results of this build run
     self.storeBuildStatus(buildConf["buildLogDir"], buildResults)
@@ -408,13 +418,9 @@ class QxTest:
     else:
       self.log(target + " build finished without errors.")
       buildResult["BuildFinished"] = time.strftime(self.timeFormat)
-        
-    revision = self.getLocalRevision()
     
-    if self.scm == "SVN":
-      buildResult["SVNRevision"] = revision
-    elif self.scm == "Git":
-      buildResult["GitRevision"] = revision.rstrip()
+    revision = self.getLocalRevision()
+    buildResult[self.scm + "Revision"] = revision.rstrip()
     
     return buildResult
     
@@ -478,13 +484,48 @@ class QxTest:
     
     revision = self.getLocalRevision()
     self.storeRevision(buildConf["buildLogDir"])
-    
-    if self.scm == "SVN":
-      self.buildStatus[target]["SVNRevision"] = revision
-    elif self.scm == "Git":
-      self.buildStatus[target]["GitRevision"] = revision.rstrip()
+    self.buildStatus[target][self.scm + "Revision"] = revision.rstrip()
     
     self.storeBuildStatus(buildConf["buildLogDir"])
+
+  def runShellCommands(self, commands, workdir = os.getcwd()):
+    result = {
+      "BuildError": None, 
+      "BuildFinished": False, 
+      "BuildJob": ";".join(commands), 
+      "BuildStarted": time.strftime(self.timeFormat), 
+      "BuildWarning": None
+    }
+    
+    startdir = os.getcwd()
+    if workdir != startdir:
+      os.chdir(workdir)
+    for cmd in commands:
+      self.log("Running shell command " + cmd)
+      ret,out,err = invokePiped(cmd)
+      if ret == 0:
+        if err != "":
+          if not result["BuildWarning"]:
+            result["BuildWarning"] = ""
+          err = err.rstrip("\n")
+          err = err.rstrip("\r")
+          result["BuildWarning"] += err + " "
+      else:
+        if not result["BuildError"]:
+            result["BuildError"] = ""
+        err = err.rstrip("\n")
+        err = err.rstrip("\r")
+        result["BuildError"] += err + " "
+    
+    if not result["BuildError"]:
+      result["BuildFinished"] = time.strftime(self.timeFormat)
+    
+    revision = self.getLocalRevision()
+    result[self.scm + "Revision"] = revision.rstrip()
+    
+    os.chdir(startdir)
+    
+    return result
 
   ##
   # Runs an SVN update on a Simulator contribution checkout

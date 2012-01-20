@@ -119,4 +119,12 @@ To obtain a URL for a resource, use the `ResourceManager <http://demo.qooxdoo.or
     var iframe = new
     qx.ui.embed.Iframe(qx.util.ResourceManager.getInstance().toUri("myapp/html/FAQ.htm"));
 
+Modifying the resource or script URIs at runtime
+================================================
 
+In some usage scenarios, it can be necessary to modify the URIs used to reference code and resources after the application was started. This can be achieved using the `Library Manager <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.util.LibraryManager>`_:
+
+::
+
+    qx.util.LibraryManager.getInstance().set("myapp", "resourceUri", "http://example.com/resources");
+    qx.util.ResourceManager.getInstance().toUri("myapp/html/FAQ.htm"); //returns "http://example.com/resources/myapp/html/FAQ.htm"
