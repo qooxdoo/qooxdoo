@@ -549,6 +549,11 @@
         "paths" :
         {
           "file" : "${BUILD_PATH}/script/testrunner-basic.js"
+        },
+        
+        "uris" : 
+        {
+          "script" : "."
         }
       },
       
@@ -587,7 +592,8 @@
         
         "paths" :
         {
-          "file" : "source/script/testrunner-basic-source.js"
+          "file" : "source/script/testrunner-basic-source.js",
+          "app-root" : "source/script"
         }
       },
       
