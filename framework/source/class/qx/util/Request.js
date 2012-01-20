@@ -33,8 +33,13 @@ qx.Class.define("qx.util.Request",
      */
     isCrossDomain: function(url) {
       var result = qx.util.Uri.parseUri(url),
-          location = window.location,
-          protocol = location.protocol;
+          location = window.location;
+
+      if (!location) {
+        return false;
+      }
+
+      var protocol = location.protocol;
 
       // URL is relative in the sence that it points to origin host
       if (!(url.indexOf("//") !== -1)) {
