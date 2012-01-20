@@ -315,8 +315,8 @@ Further Resources
 * If you want to embark on the effort of creating custom jobs you're well-advised to make yourself familiar with the :doc:`general generator configuration overview <generator_config>`, and
 * the :doc:`reference of configuration keys <generator_config_ref>` that can be used. 
 * Also, there is an example configuration file in *tool/data/config/example.json* to look at.
-* The basic configuration file, *tool/data/config/base.json*, and 
-* the configuration files for the Testrunner (*component/testrunner/testrunner.json*)
+* The basic configuration file, *tool/data/config/base.json*, 
+* and the configuration files for the Testrunner (*component/testrunner/testrunner.json*)
 * and Apiviewer (*component/apiviewer/api.json*) also provide good examples to learn from.
 
 .. |image0| image:: tutorial_basics/generate_h12.png
