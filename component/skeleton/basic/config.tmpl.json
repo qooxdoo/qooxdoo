@@ -113,6 +113,10 @@
       "environment" :
       {
         "qx.debug" : true
+      },
+      "compile-options" :
+      {
+        "paths" : { "app-root" : "source/script" }
       }
     },
 
@@ -123,6 +127,13 @@
       "environment" :
       {
         "qx.debug" : false
+      },
+      "compile-options" :
+      {
+        "uris" : 
+        { 
+          "script" : "." 
+        }
       }
     },
 
