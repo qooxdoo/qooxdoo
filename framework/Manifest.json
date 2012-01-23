@@ -55,7 +55,9 @@
     ],
 
     "version"         : "1.7",
-    "qooxdoo-versions": ["1.7"]
+    "qooxdoo-versions": ["1.7"],
+
+    "sourceViewUri" : "https://github.com/qooxdoo/qooxdoo/tree/%{qxGitBranch}/framework/source/class/%{classFilePath}"
   },
   
   "provides" : 

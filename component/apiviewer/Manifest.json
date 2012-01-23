@@ -23,7 +23,9 @@
     ],
 
     "version" : "trunk",
-    "qooxdoo-versions": ["trunk"]
+    "qooxdoo-versions": ["trunk"],
+
+    "sourceViewUri" : "https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/component/apiviewer/source/class/%{classFilePath}"
   },
   
   "provides" : 
