@@ -97,6 +97,24 @@ Included layers
 
 * Core
 
+Invoking the application
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+After you have created the *source* or *build* version of a basic application, you can run it through either Node or Rhino. But as they have different loading primitives, Node allows you to run the app from a remote directory, while Rhino needs to run the application from the current working directory. So e.g. after creating the source version of an application *foo*, you can invoke it like this for Node:
+
+.. code-block:: bash
+
+   $ node source/script/foo.js
+
+or like this for Rhino:
+
+.. code-block:: bash
+
+   $ cd source/script
+   $ java -cp path/to/js.jar org.mozilla.javascript.tools.shell.Main foo.js
+
+
+
 Contribution
 ------------
 
