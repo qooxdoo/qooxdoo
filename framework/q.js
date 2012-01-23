@@ -19,7 +19,7 @@ qx.$$packageData = {};
 
 qx.$$loader = {
   parts : {"boot":[0]},
-  packages : {"0":{"uris":["__out__:q.0c8f75fb19b4.js"]}},
+  packages : {"0":{"uris":["__out__:q.80c7680b4d5c.js"]}},
   urisBefore : [],
   cssBefore : [],
   boot : "boot",
@@ -1520,8 +1520,7 @@ return qx.lang.Array.cast(d,qx.Collection);
 },appendTo:function(parent){for(var i=0;i<this.length;i++){qx.dom.Element.insertEnd(this[i],parent);
 }},remove:function(){for(var i=0;i<this.length;i++){qx.dom.Element.remove(this[i]);
 }},empty:function(){for(var i=0;i<this.length;i++){this[i].innerHTML=a;
-}}},defer:function(f){debugger;
-q.attachStatic({"create":f.create,"wrap":f.wrap});
+}}},defer:function(f){q.attachStatic({"create":f.create,"wrap":f.wrap});
 q.attach({"appendTo":f.appendTo,"remove":f.remove,"empty":f.empty});
 }});
 })();

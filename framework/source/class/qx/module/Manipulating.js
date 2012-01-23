@@ -43,7 +43,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       "wrap" : statics.wrap
     });
 
-
     q.attach({
       "appendTo" : statics.appendTo,
       "remove" : statics.remove,
