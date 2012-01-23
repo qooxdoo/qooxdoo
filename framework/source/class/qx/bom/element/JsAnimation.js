@@ -23,7 +23,19 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
         delta.reverse();
       }
 
-      this.__startTimer(steps, stepTime, delta, desc, el);
+      var handle = new qx.bom.element.AnimationHandle();
+      handle.desc = desc;
+      handle.el = el;
+      handle.delta = delta;
+      handle.stepTime = stepTime;
+      handle.steps = steps;
+      el.$$animation = handle;
+
+      handle.i = 0;
+      handle.initValues = {};
+      handle.repeatSteps = this.__applyRepeat(steps, desc.repeat);
+
+      return this.__startTimer(handle);
     },
 
 
@@ -55,12 +67,10 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
             var value0 = qx.util.ColorUtil.cssStringToRgb(last[name]);
             var value1 = qx.util.ColorUtil.cssStringToRgb(nItem);
             var stepValue = [];
-            var old = qx.util.ColorUtil.cssStringToRgb(delta[i-1][name]);
             // calculate every color chanel
             for (var j=0; j < value0.length; j++) {
               var range = value0[j] - value1[j];
-              stepValue[j] = range / -parseInt(steps * (keys[keyIndex-1] - keys[keyIndex])/ 100);
-              stepValue[j] = parseInt(old[j]) - parseInt(stepValue[j]);
+              stepValue[j] = parseInt(value0[j] - range * this.__calculateTiming(timing, i / steps));
             };
 
             delta[i][name] = "#" + qx.util.ColorUtil.rgbToHexString(stepValue);
@@ -78,40 +88,83 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
       return delta;
     },
 
-    __startTimer : function(steps, stepTime, delta, desc, el) {
-      var i = 0;
-      var initValues = {};
+
+
+    __startTimer : function(handle) {
       var self = this;
-      var repeatSteps = this.__applyRepeat(steps, desc.repeat);
       var id = window.setInterval(function() {
-        repeatSteps--;
-        var values = delta[i % steps];
+        handle.repeatSteps--;
+        var values = handle.delta[handle.i % handle.steps];
         // save the init values
-        if (i == 0) {
-          if (initValues[name] == undefined) {
-            initValues[name] = el.style[name];
+        if (handle.i == 0) {
+          for (var name in values) {
+            if (handle.initValues[name] == undefined) {
+              handle.initValues[name] = handle.el.style[name];
+            }
           }
         }
-        self.__applyStyles(el, values);
+        self.__applyStyles(handle.el, values);
 
-        i++;
+        handle.i++;
         // iteration condition
-        if (i % steps == 0) {
-          if (desc.alternate) {
-            delta.reverse();
+        if (handle.i % handle.steps == 0) {
+          if (handle.desc.alternate) {
+            handle.delta.reverse();
           }
         }
         // end condition
-        if (repeatSteps < 0) {
-          window.clearInterval(id);
-          // if we should keep a frame
-          if (desc.keep != undefined) {
-            self.__applyStyles(el, desc.keyFrames[desc.keep]);
-          } else {
-            self.__applyStyles(el, initValues);
-          }
+        if (handle.repeatSteps < 0) {
+          self.stop(handle);
         }
-      }, stepTime);
+      }, handle.stepTime);
+
+      handle.animationId = id;
+
+      return handle;
+    },
+
+
+
+    play : function(handle) {
+      this.__startTimer(handle);
+    },
+
+
+
+
+    pause : function(handle) {
+      // stop the interval
+      window.clearInterval(handle.animationId);
+      handle.animationId = null;
+    },
+
+
+
+    /**
+     * @internal
+     */
+    stop : function(handle) {
+      var desc = handle.desc;
+      var el = handle.el;
+      var initValues = handle.initValues;
+      window.clearInterval(handle.animationId);
+
+      // if we should keep a frame
+      if (desc.keep != undefined) {
+        this.__applyStyles(el, desc.keyFrames[desc.keep]);
+      } else {
+        this.__applyStyles(el, initValues);
+      }
+
+      el.$$animation = null;
+      handle.el = null;
+      handle.ended = true;
+      handle.animationId = null;
+
+      var onEnd = handle.getOnEnd();
+      for (var j=0; j < onEnd.length; j++) {
+        onEnd[j].callback.call(onEnd[j].ctx, el);
+      };
     },
 
 
