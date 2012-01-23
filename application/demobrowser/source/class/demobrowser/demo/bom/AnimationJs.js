@@ -147,10 +147,19 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
       }};
 
 
-      var ease = {duration: 1000, timing: "ease-in", keyFrames : {
+      var easein = {duration: 1000, timing: "ease-in", keep: 100, keyFrames : {
         0 : {"left" : "0px"},
         100 : {"left": "400px"}
       }};
+      var easeout = qx.lang.Object.clone(easein);
+      easeout.timing = "ease-out";
+      var linear = qx.lang.Object.clone(easein);
+      linear.timing = "linear";
+      var ease = qx.lang.Object.clone(easein);
+      ease.timing = "ease";
+      var easeinout = qx.lang.Object.clone(easein);
+      easeinout.timing = "ease-in-out";
+
 
 
       var tests = {
@@ -168,7 +177,11 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
         "Color" : color,
         "Twice" : twice,
         "Alternate" : alternate,
-        "Ease" : ease
+        "Ease In" : easein,
+        "Ease Out" : easeout,
+        "Linear" : linear,
+        "Ease" : ease,
+        "Ease In Out" : easeinout
       };
 
       // CSS ANIMATIONS
