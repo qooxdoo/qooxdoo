@@ -29,7 +29,7 @@
  *
  * http://www.w3.org/TR/css3-animations/
  */
-qx.Bootstrap.define("qx.bom.element.Animation",
+qx.Bootstrap.define("qx.bom.element.CssAnimation",
 {
   statics : {
     // initialization
@@ -138,7 +138,7 @@ qx.Bootstrap.define("qx.bom.element.Animation",
       // fallback for browsers not supporting animations
       if (this.__cssAnimationKeys == null) {
         window.setTimeout(function() {
-          qx.bom.element.Animation.__onAnimationEnd({target: el});
+          qx.bom.element.CssAnimation.__onAnimationEnd({target: el});
         }, 0);
       }
 
@@ -161,14 +161,14 @@ qx.Bootstrap.define("qx.bom.element.Animation",
 
       var desc = animation.desc;
 
-      if (qx.bom.element.Animation.__cssAnimationKeys != null) {
+      if (qx.bom.element.CssAnimation.__cssAnimationKeys != null) {
         // reset the styling
-        el.style[qx.bom.element.Animation.__cssAnimationKeys["name"]] = "";
+        el.style[qx.bom.element.CssAnimation.__cssAnimationKeys["name"]] = "";
 
         qx.bom.Event.removeNativeListener(
           el,
-          qx.bom.element.Animation.__cssAnimationKeys["name"],
-          qx.bom.element.Animation.__onAnimationEnd
+          qx.bom.element.CssAnimation.__cssAnimationKeys["name"],
+          qx.bom.element.CssAnimation.__onAnimationEnd
         );
       }
 
@@ -177,7 +177,7 @@ qx.Bootstrap.define("qx.bom.element.Animation",
       }
 
       if (desc.keep != null) {
-        qx.bom.element.Animation.__keepFrame(el, desc.keyFrames[desc.keep]);
+        qx.bom.element.CssAnimation.__keepFrame(el, desc.keyFrames[desc.keep]);
       }
 
       el.$$animation = null;
@@ -203,7 +203,7 @@ qx.Bootstrap.define("qx.bom.element.Animation",
       // keep the element at this animation step
       var transforms;
       for (var style in endFrame) {
-        if (style in qx.bom.element.Animation.__transitionKeys) {
+        if (style in qx.bom.element.CssAnimation.__transitionKeys) {
           if (!transforms) {
             transforms = {};
           }

@@ -24,7 +24,7 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
   {
     createButton : function(name, desc) {
       var buttons = [];
-      var aniClasses = [qx.bom.element.Animation, qx.bom.element.JsAnimation];
+      var aniClasses = [qx.bom.element.CssAnimation, qx.bom.element.JsAnimation];
       for (var i=0; i < aniClasses.length; i++) {
         var button = document.createElement("div");
         button.innerHTML = name;
@@ -34,7 +34,7 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
 
       var onClick = (function(animation) {
         return function(e) {
-          qx.bom.element.Animation.animate(buttons[0], animation);
+          qx.bom.element.CssAnimation.animate(buttons[0], animation);
           qx.bom.element.JsAnimation.animate(buttons[1], animation);
         }
       })(desc);
@@ -206,7 +206,7 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
 
       // STOP
       var buttons = [];
-      var aniClasses = [qx.bom.element.Animation, qx.bom.element.JsAnimation];
+      var aniClasses = [qx.bom.element.CssAnimation, qx.bom.element.JsAnimation];
       for (var i=0; i < aniClasses.length; i++) {
         var button = document.createElement("div");
         button.innerHTML = "Stop";
@@ -225,7 +225,7 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
       qx.bom.Event.addNativeListener(buttons[0], "click", onClick);
       qx.bom.Event.addNativeListener(buttons[1], "click", onClick);
       var handle = [];
-      handle.push(qx.bom.element.Animation.animate(buttons[0], infinite));
+      handle.push(qx.bom.element.CssAnimation.animate(buttons[0], infinite));
       handle.push(qx.bom.element.JsAnimation.animate(buttons[1], infinite));
       cssContainer.appendChild(buttons[0]);
       jsContainer.appendChild(buttons[1]);
@@ -234,7 +234,7 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
 
       // PAUSE / PLAY
       var buttons = [];
-      var aniClasses = [qx.bom.element.Animation, qx.bom.element.JsAnimation];
+      var aniClasses = [qx.bom.element.CssAnimation, qx.bom.element.JsAnimation];
       for (var i=0; i < aniClasses.length; i++) {
         var button = document.createElement("div");
         button.innerHTML = "Pause";
@@ -245,12 +245,14 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
       var onClick = (function(animation) {
         return function(e) {
           for (var i=0; i < handle.length; i++) {
-            if (handle2[i].isPlaying()) {
-              handle2[i].pause();
-              handle2[i].el.innerHTML = "Play";
-            } else {
-              handle2[i].play();
-              handle2[i].el.innerHTML = "Pause";
+            if (handle2[i].el) {
+              if (handle2[i].isPlaying()) {
+                handle2[i].pause();
+                handle2[i].el.innerHTML = "Play";
+              } else {
+                handle2[i].play();
+                handle2[i].el.innerHTML = "Pause";
+              }
             }
           };
         }
@@ -259,7 +261,7 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
       qx.bom.Event.addNativeListener(buttons[0], "click", onClick);
       qx.bom.Event.addNativeListener(buttons[1], "click", onClick);
       var handle2 = [];
-      handle2.push(qx.bom.element.Animation.animate(buttons[0], infinite));
+      handle2.push(qx.bom.element.CssAnimation.animate(buttons[0], infinite));
       handle2.push(qx.bom.element.JsAnimation.animate(buttons[1], infinite));
       cssContainer.appendChild(buttons[0]);
       jsContainer.appendChild(buttons[1]);
