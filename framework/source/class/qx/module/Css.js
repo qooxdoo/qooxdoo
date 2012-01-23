@@ -64,7 +64,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
   defer : function(statics) {
-    qx.q.attach({
+    q.attach({
       "setStyle" : statics.setStyle,
       "getStyle" : statics.getStyle,
       "setStyles" : statics.setStyles,

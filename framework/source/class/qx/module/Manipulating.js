@@ -38,13 +38,13 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
 
   defer : function(statics) {
-    qx.q.attachStatic({
+    q.attachStatic({
       "create" : statics.create,
       "wrap" : statics.wrap
     });
 
 
-    qx.q.attach({
+    q.attach({
       "appendTo" : statics.appendTo,
       "remove" : statics.remove,
       "empty" : statics.empty

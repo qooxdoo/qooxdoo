@@ -59,7 +59,7 @@ qx.Bootstrap.define("qx.module.Animation", {
 
 
   defer : function(statics) {
-    qx.q.attach({
+    q.attach({
       "animate" : statics.animate,
       "fadeIn" : statics.fadeIn,
       "fadeOut" : statics.fadeOut

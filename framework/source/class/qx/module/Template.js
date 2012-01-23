@@ -13,7 +13,7 @@ qx.Bootstrap.define("qx.module.Template", {
 
 
   defer : function(statics) {
-    qx.q.attachStatic({
+    q.attachStatic({
       "template" : {get: statics.get, toHtml: statics.toHtml}
     });
   }

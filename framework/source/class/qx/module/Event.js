@@ -69,13 +69,13 @@ qx.Bootstrap.define("qx.module.Event", {
 
 
   defer : function(statics) {
-    qx.q.attach({
+    q.attach({
       "on" : statics.on,
       "off" : statics.off,
       "once" : statics.once,
       "emit" : statics.emit
     });
 
-    qx.q.attachStatic({"ready": statics.ready});
+    q.attachStatic({"ready": statics.ready});
   }
 });

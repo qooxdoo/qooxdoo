@@ -35,7 +35,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
   defer : function(statics) {
-    qx.q.attach({
+    q.attach({
       "add" : statics.add,
       "getChildren" : statics.getChildren,
       "forEach" : statics.forEach,

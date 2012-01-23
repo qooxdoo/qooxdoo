@@ -84,7 +84,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
 
 
   defer : function(statics) {
-    qx.q.attach({
+    q.attach({
       "getHtml" : statics.getHtml,
       "setHtml" : statics.setHtml,
 

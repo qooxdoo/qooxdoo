@@ -39,7 +39,7 @@
         "qx.module.Traversing",
         "qx.module.Event",
         "qx.module.Template",
-        "qx.q"
+        "q"
       ],
 
       "log" : {
