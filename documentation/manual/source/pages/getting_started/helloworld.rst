@@ -195,7 +195,7 @@ From those comments a complete, interactive API reference can be generated:
 
     generate.py api
 
-To start the "API Viewer" application, open ``index.html`` from the newly created ``api`` folder in your browser. It includes fully cross-linked and searchable documentation of your application classes as well as the framework classes.
+To start the :doc:`"API Viewer" application </pages/application/apiviewer>`, open ``index.html`` from the newly created ``api`` folder in your browser. It includes fully cross-linked and searchable documentation of your application classes as well as the framework classes.
 
 |API Viewer|
 
