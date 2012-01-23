@@ -1,3 +1,22 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Martin Wittemann (wittemann)
+
+************************************************************************ */
+
 qx.Bootstrap.define("qx.bom.element.JsAnimation", 
 {
   statics :
@@ -18,7 +37,6 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
       var steps = parseInt(duration / stepTime, 10);
 
       var delta = this.__calculateDelta(steps, stepTime, keys, keyFrames, duration, desc.timing);
-
       if (desc.reverse) {
         delta.reverse();
       }
@@ -35,7 +53,7 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
       handle.initValues = {};
       handle.repeatSteps = this.__applyRepeat(steps, desc.repeat);
 
-      return this.__startTimer(handle);
+      return this.play(handle);
     },
 
 
@@ -89,8 +107,10 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
     },
 
 
-
-    __startTimer : function(handle) {
+    /**
+     * @internal
+     */
+    play : function(handle) {
       var self = this;
       var id = window.setInterval(function() {
         handle.repeatSteps--;
@@ -124,14 +144,9 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
     },
 
 
-
-    play : function(handle) {
-      this.__startTimer(handle);
-    },
-
-
-
-
+    /**
+     * @internal
+     */
     pause : function(handle) {
       // stop the interval
       window.clearInterval(handle.animationId);
@@ -221,6 +236,7 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
         el.style[name] = styles[name];
       }
     },
+
 
     __getStepTime : function(duration, keys) {
       // get min difference
