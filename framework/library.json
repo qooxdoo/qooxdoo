@@ -64,7 +64,7 @@
       "compile-options" :
       {
         "code" : {
-          "optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants"]
+          "optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants", "statics"]
         },
         "paths"  :
         {
