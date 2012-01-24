@@ -122,6 +122,19 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     },
 
 
+    SOURCE_VIEW_MACROS :
+    {
+      classFilePath : function(classNode) {
+        return classNode.getFullName().replace(/\./gi, "/") + ".js";
+      },
+      
+      qxGitBranch : function() {
+        return qx.core.Environment.get("qx.revision") ? 
+          qx.core.Environment.get("qx.revision").split(":")[1] : "master";
+      }
+    },
+
+
     /**
      * Creates the HTML showing an image. Optionally with overlays
      *
@@ -249,8 +262,52 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       titleHtml.add(objectName, ' </span>');
       titleHtml.add(apiviewer.ui.panels.InfoPanel.setTitleClass(classNode, classNode.getName()));
-
+      
+      var sourceLink = this._getSourceLinkHtml(classNode);
+      if (sourceLink) {
+        titleHtml.add(sourceLink);
+      }
+      
       return titleHtml.get();
+    },
+    
+    
+    /**
+     * Returns the HTML fragment for the "View Source Code" link
+     * 
+     * @param classNode {apiviewer.dao.Class} the class documentation node for the title
+     * @return {String} HTML fragment for the source view link
+     */
+    _getSourceLinkHtml : function(classNode)
+    {
+      var replacements = this.self(arguments).SOURCE_VIEW_MACROS;
+      var libNs = classNode.getFullName().split(".")[0];
+      var sourceViewUri = qx.util.LibraryManager.getInstance().get(libNs, "sourceViewUri");
+      
+      if (sourceViewUri) {
+        for (var key in replacements) {
+          var macro = "%{" + key + "}";
+          if (sourceViewUri.indexOf(macro) >=0 && 
+            typeof replacements[key] == "function") 
+          {
+            var replacement = replacements[key](classNode);
+            if (replacement) {
+              sourceViewUri = sourceViewUri.replace(new RegExp(macro), replacement);
+            }
+          }
+        }
+        
+        if (sourceViewUri.indexOf("%{") >= 0) {
+          if (qx.core.Environment.get("qx.debug")) {
+            this.error("Source View URI contains unresolved macro(s):", sourceViewUri);
+          }
+          return null;
+        }
+        
+        return '<small style="float:right;margin-top:8px"><a href="' + sourceViewUri + '" target="_blank">View Source Code<a/></small>';
+      }
+      
+      return null;
     },
 
     _getTocHtml : function(classNode)

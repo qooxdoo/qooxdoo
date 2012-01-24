@@ -17,9 +17,15 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#ignore(qx.bom.element.AnimationJs)
+
+************************************************************************ */
+
 /**
- * This is a simple handle, which will be returned when an animation is 
- * started using the {@link qx.bom.element.Animation#animate} method. It 
+ * This is a simple handle, which will be returned when an animation is
+ * started using the {@link qx.bom.element.Animation#animate} method. It
  * basically controls the animation.
  */
 qx.Bootstrap.define("qx.bom.element.AnimationHandle",
@@ -29,8 +35,9 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
 
   construct : function() {
     var css = qx.core.Environment.get("css.animation");
-    this.__playState = css && css["playstate"];
+    this.__playState = css && css["play-state"];
     this.__onEnd = [];
+    this.__playing = true;
   },
 
 
@@ -87,6 +94,10 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
       if (this.el) {
         this.el.style[this.__playState] = "paused";
         this.el.$$animation.__playing = false;
+        // in case the animation is based on JS
+        if (this.animationId && qx.bom.element.AnimationJs) {
+          qx.bom.element.AnimationJs.pause(this);
+        }
       }
     },
 
@@ -98,6 +109,10 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
       if (this.el) {
         this.el.style[this.__playState] = "running";
         this.el.$$animation.__playing = true;
+        // in case the animation is based on JS
+        if (this.i != undefined && qx.bom.element.AnimationJs) {
+          qx.bom.element.AnimationJs.play(this);
+        }
       }
     },
 
@@ -106,11 +121,15 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
      * Stops the animation if running.
      */
     stop : function() {
-      if (this.el) {
+      if (this.el && qx.core.Environment.get("css.animation")) {
         this.el.style[this.__playState] = "";
         this.el.style[qx.core.Environment.get("css.animation").name] = "";
         this.el.$$animation.__playing = false;
         this.el.$$animation.__ended = true;
+      }
+      // in case the animation is based on JS
+      if (this.animationId && qx.bom.element.AnimationJs) {
+        qx.bom.element.AnimationJs.stop(this);
       }
     }
   }

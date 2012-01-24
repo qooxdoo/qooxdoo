@@ -46,8 +46,14 @@ qx.Class.define("qx.type.BaseError",
     if (inst.stack) {
       this.stack = inst.stack;
     }
-    if (inst.stacktrace) {
+    else if (inst.stacktrace) {
       this.stacktrace = inst.stacktrace;
+    }
+    // Workaround for PhantomJS bug http://code.google.com/p/phantomjs/issues/detail?id=335
+    // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=6069
+    // This can be removed once the issue is fixed
+    else {
+      this.__trace = qx.dev.StackTrace.getStackTraceFromCaller(arguments);
     }
 
     this.__comment = comment || "";
@@ -90,6 +96,26 @@ qx.Class.define("qx.type.BaseError",
      */
     getComment : function() {
       return this.__comment;
+    },
+    
+    
+    /**
+     * Workaround for PhantomJS bug http://code.google.com/p/phantomjs/issues/detail?id=335
+     * See http://bugzilla.qooxdoo.org/show_bug.cgi?id=6069
+     * This can be removed once the issue is fixed
+     * 
+     * @return {String[]} Stack trace
+     */
+    getStackTrace : function()
+    {
+      if (this.stack || this.stacktrace) {
+        return qx.dev.StackTrace.getStackTraceFromError(this);
+      }
+      else if (this.__trace) {
+        return this.__trace;
+      }
+      
+      return [];
     },
 
 
