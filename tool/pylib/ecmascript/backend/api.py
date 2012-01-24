@@ -1160,13 +1160,16 @@ def getClassNode(docTree, fullClassName, commentAttributes = None):
         className = fullClassName[dotIndex+1:]
         package = getPackageNode(docTree, packageName)
         classNode = package.getListChildByAttribute("classes", "name", className, False)
+    else:
+        package = docTree
+        classNode = package.getListChildByAttribute("classes", "name", className, False)
 
     if not classNode:
         # The class does not exist -> Create it
         classNode = tree.Node("class")
         classNode.set("name", className)
         classNode.set("fullName", fullClassName)
-        classNode.set("packageName", fullClassName.replace("." + className, ""))
+        classNode.set("packageName", packageName)
 
         # Read all description, param and return attributes
         for attrib in commentAttributes:
@@ -1179,8 +1182,7 @@ def getClassNode(docTree, fullClassName, commentAttributes = None):
             elif attrib["category"] == "see":
                 if not "name" in attrib:
                     printDocError(classNode, "Missing target for see.")
-                    return classNode
-
+                    continue
                 seeNode = tree.Node("see").set("name", attrib["name"])
                 classNode.addChild(seeNode)
 

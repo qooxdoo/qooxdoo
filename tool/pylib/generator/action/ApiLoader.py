@@ -95,6 +95,9 @@ class ApiLoader(object):
         hasErrors = False
         for pos, fileId in enumerate(include):
             self._console.progress(pos+1, length)
+            if "Foo" in fileId:
+                #import pydb; pydb.debugger()
+                pass
             fileApi = self.getApi(fileId, variantSet)
             if fileApi == None:
                 hasErrors = True
