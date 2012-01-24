@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#ignore(qx.bom.element.JsAnimation)
+#ignore(qx.bom.element.AnimationJs)
 
 ************************************************************************ */
 
@@ -95,8 +95,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
         this.el.style[this.__playState] = "paused";
         this.el.$$animation.__playing = false;
         // in case the animation is based on JS
-        if (this.animationId && qx.bom.element.JsAnimation) {
-          qx.bom.element.JsAnimation.pause(this);
+        if (this.animationId && qx.bom.element.AnimationJs) {
+          qx.bom.element.AnimationJs.pause(this);
         }
       }
     },
@@ -110,8 +110,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
         this.el.style[this.__playState] = "running";
         this.el.$$animation.__playing = true;
         // in case the animation is based on JS
-        if (this.i != undefined && qx.bom.element.JsAnimation) {
-          qx.bom.element.JsAnimation.play(this);
+        if (this.i != undefined && qx.bom.element.AnimationJs) {
+          qx.bom.element.AnimationJs.play(this);
         }
       }
     },
@@ -128,8 +128,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
         this.el.$$animation.__ended = true;
       }
       // in case the animation is based on JS
-      if (this.animationId && qx.bom.element.JsAnimation) {
-        qx.bom.element.JsAnimation.stop(this);
+      if (this.animationId && qx.bom.element.AnimationJs) {
+        qx.bom.element.AnimationJs.stop(this);
       }
     }
   }
