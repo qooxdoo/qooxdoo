@@ -304,7 +304,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           return null;
         }
         
-        return '<small><a href="' + sourceViewUri + '" target="_blank">View Source Code<a/></small>';
+        return '<small style="float:right;margin-top:8px"><a href="' + sourceViewUri + '" target="_blank">View Source Code<a/></small>';
       }
       
       return null;
