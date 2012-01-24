@@ -19,7 +19,7 @@
 
 /**
  * This class is responsible for applying CSS3 animations to plain DOM elements.
- * 
+ *
  * The implementation is mostly a cross-browser wrapper for applying the
  * animations, including transforms. If the browser does not support
  * CSS animations, but you have set a keep frame, the keep frame will be applied
@@ -28,8 +28,13 @@
  * The API aligns closely to the spec wherever possible.
  *
  * http://www.w3.org/TR/css3-animations/
+ *
+ * {@link qx.bom.element.Animation} is the class, which takes care of the
+ * feature detection for CSS animations and decides which implementation
+ * (CSS or JavaScript) should be used. Most likely, this implementation should
+ * be the one to use.
  */
-qx.Bootstrap.define("qx.bom.element.CssAnimation",
+qx.Bootstrap.define("qx.bom.element.AnimationCss",
 {
   statics : {
     // initialization
@@ -52,48 +57,12 @@ qx.Bootstrap.define("qx.bom.element.CssAnimation",
 
 
     /**
-     * This function starts the animation. It takes a DOM element to apply the
-     * animation to, and a description. The description should be a map, which
-     * could look like this:
-     *
-     * <pre class="javascript">
-     * {
-     *   "duration": 1000,
-     *   "keep": 100,
-     *   "keyFrames": {
-     *     0 : {"opacity": 1, "scale": 1},
-     *     100 : {"opacity": 0, "scale": 0}
-     *   },
-     *   "origin": "50% 50%",
-     *   "repeat": 1,
-     *   "timing": "ease-out",
-     *   "alternate": false,
-     *   "reverse": false
-     * }
-     * </pre>
-     *
-     * *duration* is the time in milliseconds one animation cycle should take.
-     *
-     * *keep* is the key frame to apply at the end of the animation. (optional)
-     *
-     * *keyFrames* is a map of separate frames. Each frame is defined by a
-     *   number which is the percentage value of time in the animation. The value
-     *   is a map itself which holds css properties or transforms
-     *   {@link qx.bom.element.Transform}.
-     *
-     * *origin* maps to the transform origin {@link qx.bom.element.Transform#setOrigin}
-     *
-     * *repeat* is the amount of time the animation should be run in
-     *   sequence. You can also use "infinite".
-     *
-     * *alternate* defines if every other animation should be run in reverse order.
-     *
-     * *reverse* defines if the animation should run in reverse order.
-     *
+     * This is the main function to start the animation. For further details,
+     * take a look at the documentation of the wrapper
+     * {@link qx.bom.element.Animation}.
      * @param el {Element} The element to animate.
-     * @param desc {Map} The animations description.
-     * @return {qx.bom.element.AnimationHandle} AnimationHandle instance to control
-     *   the animation.
+     * @param desc {Map} Animation description.
+     * @return {qx.bom.element.AnimationHandle} The handle.
      */
     animate : function(el, desc) {
       this.__normalizeDesc(desc);
@@ -138,7 +107,7 @@ qx.Bootstrap.define("qx.bom.element.CssAnimation",
       // fallback for browsers not supporting animations
       if (this.__cssAnimationKeys == null) {
         window.setTimeout(function() {
-          qx.bom.element.CssAnimation.__onAnimationEnd({target: el});
+          qx.bom.element.AnimationCss.__onAnimationEnd({target: el});
         }, 0);
       }
 
@@ -161,14 +130,14 @@ qx.Bootstrap.define("qx.bom.element.CssAnimation",
 
       var desc = animation.desc;
 
-      if (qx.bom.element.CssAnimation.__cssAnimationKeys != null) {
+      if (qx.bom.element.AnimationCss.__cssAnimationKeys != null) {
         // reset the styling
-        el.style[qx.bom.element.CssAnimation.__cssAnimationKeys["name"]] = "";
+        el.style[qx.bom.element.AnimationCss.__cssAnimationKeys["name"]] = "";
 
         qx.bom.Event.removeNativeListener(
           el,
-          qx.bom.element.CssAnimation.__cssAnimationKeys["name"],
-          qx.bom.element.CssAnimation.__onAnimationEnd
+          qx.bom.element.AnimationCss.__cssAnimationKeys["name"],
+          qx.bom.element.AnimationCss.__onAnimationEnd
         );
       }
 
@@ -177,7 +146,7 @@ qx.Bootstrap.define("qx.bom.element.CssAnimation",
       }
 
       if (desc.keep != null) {
-        qx.bom.element.CssAnimation.__keepFrame(el, desc.keyFrames[desc.keep]);
+        qx.bom.element.AnimationCss.__keepFrame(el, desc.keyFrames[desc.keep]);
       }
 
       el.$$animation = null;
@@ -203,7 +172,7 @@ qx.Bootstrap.define("qx.bom.element.CssAnimation",
       // keep the element at this animation step
       var transforms;
       for (var style in endFrame) {
-        if (style in qx.bom.element.CssAnimation.__transitionKeys) {
+        if (style in qx.bom.element.AnimationCss.__transitionKeys) {
           if (!transforms) {
             transforms = {};
           }

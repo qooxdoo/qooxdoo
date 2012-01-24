@@ -17,12 +17,29 @@
 
 ************************************************************************ */
 
-qx.Bootstrap.define("qx.bom.element.JsAnimation", 
+/**
+ * This class offers the same API as the CSS3 animation layer in
+ * {@link qx.bom.element.AnimationCss} but uses JavaScript to fake the behavior.
+ *
+ * {@link qx.bom.element.Animation} is the class, which takes care of the
+ * feature detection for CSS animations and decides which implementation
+ * (CSS or JavaScript) should be used. Most likely, this implementation should
+ * be the one to use.
+ */
+qx.Bootstrap.define("qx.bom.element.AnimationJs", 
 {
   statics :
   {
     __maxStepTime : 30,
 
+    /**
+     * This is the main function to start the animation. For further details,
+     * take a look at the documentation of the wrapper
+     * {@link qx.bom.element.Animation}.
+     * @param el {Element} The element to animate.
+     * @param desc {Map} Animation description.
+     * @return {qx.bom.element.AnimationHandle} The handle.
+     */
     animate : function(el, desc) {
       // stop if an animation is already running
       if (el.$$animation) {
@@ -57,6 +74,20 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
     },
 
 
+    /**
+     * Precalculation of the delta which will be applied during the animation.
+     * The whole deltas will be calculated prior to the animation and stored
+     * in a single array. This method takes care of that calculation.
+     *
+     * @param steps {Integer} The amount of steps to take to the end of the
+     *   animation.
+     * @param stepTime {Integer} The amount of milliseconds each step takes.
+     * @param keys {Array} Ordered list of keys in the key frames map.
+     * @param keyFrames {Map} The map of key frames.
+     * @param duration {Integer} Time in milliseconds the animation should take.
+     * @param timing {String} The given timing function.
+     * @return {Array} An array containing the animation deltas.
+     */
     __calculateDelta : function(steps, stepTime, keys, keyFrames, duration, timing) {
       var delta = new Array(steps);
 
@@ -108,7 +139,12 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
 
 
     /**
+     * Internal helper for the {@link qx.bom.element.AnimationHandle} to play
+     * the animation.
      * @internal
+     * @param handle {qx.bom.element.AnimationHandle} The hand which
+     *   represents the animation.
+     * @return {qx.bom.element.AnimationHandle} The handle for chaining.
      */
     play : function(handle) {
       var self = this;
@@ -145,8 +181,14 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
 
 
     /**
+     * Internal helper for the {@link qx.bom.element.AnimationHandle} to pause
+     * the animation.
      * @internal
+     * @param handle {qx.bom.element.AnimationHandle} The hand which
+     *   represents the animation.
+     * @return {qx.bom.element.AnimationHandle} The handle for chaining.
      */
+
     pause : function(handle) {
       // stop the interval
       window.clearInterval(handle.animationId);
@@ -154,9 +196,13 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
     },
 
 
-
     /**
+     * Internal helper for the {@link qx.bom.element.AnimationHandle} to stop
+     * the animation.
      * @internal
+     * @param handle {qx.bom.element.AnimationHandle} The hand which
+     *   represents the animation.
+     * @return {qx.bom.element.AnimationHandle} The handle for chaining.
      */
     stop : function(handle) {
       var desc = handle.desc;
@@ -220,6 +266,13 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
     },
 
 
+    /**
+     * Takes care of the repeat key of the description.
+     * @param steps {Integer} The number of steps one iteration would take.
+     * @param repeat {Integer|String} It can be either a number how often the
+     * animation should be repeated or the string 'infinite'.
+     * @return {Integer} The number of steps to animate.
+     */
     __applyRepeat : function(steps, repeat) {
       if (repeat == undefined) {
         return steps;
@@ -231,6 +284,11 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
     },
 
 
+    /**
+     * Central method to apply css styles.
+     * @param el {Element} The DOM element to apply the styles.
+     * @param styles {Map} A map containing styles and values.
+     */
     __applyStyles : function(el, styles) {
       for (var name in styles) {
         el.style[name] = styles[name];
@@ -238,6 +296,12 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
     },
 
 
+    /**
+     * Dynamic calculation of the steps time considering a max step time.
+     * @param duration {Number} The duration of the animation.
+     * @param keys {Array} An array containing the orderd set of key frame keys.
+     * @return {Integer} The best suited step time.
+     */
     __getStepTime : function(duration, keys) {
       // get min difference
       var minDiff = 100;
@@ -253,6 +317,11 @@ qx.Bootstrap.define("qx.bom.element.JsAnimation",
     },
 
 
+    /**
+     * Helper which returns the orderd keys of the key frame map.
+     * @param keyFrames {Map} The map of key frames.
+     * @return {Array} An orderd list of kyes.
+     */
     __getOrderedKeys : function(keyFrames) {
       var keys = qx.Bootstrap.getKeys(keyFrames);
       for (var i=0; i < keys.length; i++) {
