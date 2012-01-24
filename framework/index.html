@@ -5,7 +5,7 @@
   <title>test q</title>
   <script type="text/javascript" src="q.js"></script>
   <script type="text/javascript" charset="utf-8">
-    qx.q.ready(function() {
+    q.ready(function() {
       alert("READY!!!!");
     });
   </script>
@@ -76,8 +76,6 @@
     a.setProperties({a: 1, b: 2});
     console.log("getProperties", a.getProperties(["a", "b"]));
 
-    d.fadeOut().onEnd(function() {d.fadeIn()});
-
 
     <!-- TRAVERSING MODULE -->
     var add = q("#trav").add(document.getElementById("trav2"));
@@ -94,6 +92,15 @@
     <!-- TEMPLATES -->
     var templ = q.template.get("template", {name: "hugo", color: "green"});
     templ.appendTo(document.body);
+
+
+    <!-- ANIMATION -->
+    d.fadeOut().onEnd(function() {d.fadeIn()});
+    q.wrap(document.body).animate({duration: 1000, keyFrames : {
+      0 : {"background-color" : "white"},
+      50 : {"background-color" : "red"},
+      100 : {"background-color" : "white"}
+    }});
   </script>
 </body>
 </html>
