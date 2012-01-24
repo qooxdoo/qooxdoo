@@ -1133,7 +1133,9 @@ def getPackageNode(docTree, namespace):
             childPackage = tree.Node("package")
             childPackage.set("name", nsPart)
             childPackage.set("fullName", childPackageName)
-            childPackage.set("packageName", childPackageName.replace("." + nsPart, ""))
+            childPackage.set("packageName", (childPackageName.replace("." + nsPart, "")
+                if "." in childPackageName else "" )
+            )
 
             currPackage.addListChild("packages", childPackage)
 

@@ -86,6 +86,9 @@ class ApiLoader(object):
         self._console.indent()
 
         docTree = tree.Node("doctree")
+        docTree.set("fullName", "")
+        docTree.set("name", "")
+        docTree.set("packageName", "")
         length = len(include)
 
         self._console.info("Loading class docs...", False)
@@ -95,9 +98,6 @@ class ApiLoader(object):
         hasErrors = False
         for pos, fileId in enumerate(include):
             self._console.progress(pos+1, length)
-            if "Foo" in fileId:
-                #import pydb; pydb.debugger()
-                pass
             fileApi = self.getApi(fileId, variantSet)
             if fileApi == None:
                 hasErrors = True
