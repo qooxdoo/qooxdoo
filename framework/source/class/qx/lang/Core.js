@@ -468,7 +468,7 @@ qx.Bootstrap.define("qx.lang.Core",
 ---------------------------------------------------------------------------
 */
 
-if (!Error.prototype.toString) {
+if (!Error.prototype.toString || Error.prototype.toString() == "[object Error]") {
   Error.prototype.toString = qx.lang.Core.errorToString;
 }
 
