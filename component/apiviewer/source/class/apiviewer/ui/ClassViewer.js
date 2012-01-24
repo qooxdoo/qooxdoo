@@ -280,8 +280,12 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     _getSourceLinkHtml : function(classNode)
     {
-      var replacements = this.self(arguments).SOURCE_VIEW_MACROS;
       var libNs = classNode.getFullName().split(".")[0];
+      if (!qx.util.LibraryManager.getInstance().has(libNs)) {
+        return null;
+      }
+      
+      var replacements = this.self(arguments).SOURCE_VIEW_MACROS;
       var sourceViewUri = qx.util.LibraryManager.getInstance().get(libNs, "sourceViewUri");
       
       if (sourceViewUri) {
