@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.bom.AnimationJs",
+qx.Class.define("demobrowser.demo.bom.Animation_Compare",
 {
   extend : qx.application.Native,
 
@@ -24,7 +24,7 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
   {
     createButton : function(name, desc) {
       var buttons = [];
-      var aniClasses = [qx.bom.element.CssAnimation, qx.bom.element.JsAnimation];
+      var aniClasses = [qx.bom.element.AnimationCss, qx.bom.element.AnimationJs];
       for (var i=0; i < aniClasses.length; i++) {
         var button = document.createElement("div");
         button.innerHTML = name;
@@ -34,8 +34,8 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
 
       var onClick = (function(animation) {
         return function(e) {
-          qx.bom.element.CssAnimation.animate(buttons[0], animation);
-          qx.bom.element.JsAnimation.animate(buttons[1], animation);
+          qx.bom.element.AnimationCss.animate(buttons[0], animation);
+          qx.bom.element.AnimationJs.animate(buttons[1], animation);
         }
       })(desc);
 
@@ -206,7 +206,7 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
 
       // STOP
       var buttons = [];
-      var aniClasses = [qx.bom.element.CssAnimation, qx.bom.element.JsAnimation];
+      var aniClasses = [qx.bom.element.AnimationCss, qx.bom.element.AnimationJs];
       for (var i=0; i < aniClasses.length; i++) {
         var button = document.createElement("div");
         button.innerHTML = "Stop";
@@ -225,8 +225,8 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
       qx.bom.Event.addNativeListener(buttons[0], "click", onClick);
       qx.bom.Event.addNativeListener(buttons[1], "click", onClick);
       var handle = [];
-      handle.push(qx.bom.element.CssAnimation.animate(buttons[0], infinite));
-      handle.push(qx.bom.element.JsAnimation.animate(buttons[1], infinite));
+      handle.push(qx.bom.element.AnimationCss.animate(buttons[0], infinite));
+      handle.push(qx.bom.element.AnimationJs.animate(buttons[1], infinite));
       cssContainer.appendChild(buttons[0]);
       jsContainer.appendChild(buttons[1]);
 
@@ -234,7 +234,7 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
 
       // PAUSE / PLAY
       var buttons = [];
-      var aniClasses = [qx.bom.element.CssAnimation, qx.bom.element.JsAnimation];
+      var aniClasses = [qx.bom.element.AnimationCss, qx.bom.element.AnimationJs];
       for (var i=0; i < aniClasses.length; i++) {
         var button = document.createElement("div");
         button.innerHTML = "Pause";
@@ -261,8 +261,8 @@ qx.Class.define("demobrowser.demo.bom.AnimationJs",
       qx.bom.Event.addNativeListener(buttons[0], "click", onClick);
       qx.bom.Event.addNativeListener(buttons[1], "click", onClick);
       var handle2 = [];
-      handle2.push(qx.bom.element.CssAnimation.animate(buttons[0], infinite));
-      handle2.push(qx.bom.element.JsAnimation.animate(buttons[1], infinite));
+      handle2.push(qx.bom.element.AnimationCss.animate(buttons[0], infinite));
+      handle2.push(qx.bom.element.AnimationJs.animate(buttons[1], infinite));
       cssContainer.appendChild(buttons[0]);
       jsContainer.appendChild(buttons[1]);
     }
