@@ -87,6 +87,11 @@ Running text can be formatted using inline markup which uses special characters 
 
 There is no escape character, so in order to e.g. enter a literal "*@*" into the text, use the HTML entity equivalent ("*&#64;*" in this case).
 
+HTML
+-----
+
+There is limited support for HTML markup. You should be able to use all of the character-level tags, like ``<a>`` or ``<code>``, as well as paragraph-level tags like ``<p>`` or ``<ul>``. ``<pre>`` is particularly suited for code snippets, as it allows you to add syntax highlighting for %{JS} with ``<pre class="javascript">``.
+
 .. _pages/write_api_documentation#supported_attributes:
 
 Supported attributes
