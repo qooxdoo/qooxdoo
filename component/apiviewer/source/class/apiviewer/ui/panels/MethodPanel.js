@@ -42,6 +42,12 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
       } else {
         title = method.getName();
       }
+      
+      if (method.getLineNumber()) {
+        var sourceUri = apiviewer.ui.ClassViewer.getSourceUri(method);
+        title = '<a href="' + sourceUri + '" target="_blank" title="View Source">' + title + '</a>';
+      }
+      
       var titleHtml = new qx.util.StringBuilder(apiviewer.ui.panels.InfoPanel.setTitleClass(method, title));
 
       // Add the title (the method signature)

@@ -122,13 +122,28 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     },
 
 
+    /** 
+     * {Map} Replacement rules for placeholders in the source view URI. 
+     * Functions will be called with the current @link{apiviewer.dao.Node} as the
+     * only parameter and must return a string.
+    **/
     SOURCE_VIEW_MACROS :
     {
-      classFilePath : function(classNode) {
+      classFilePath : function(node) {
+        var classNode = node.getClass ? node.getClass() : node;
         return classNode.getFullName().replace(/\./gi, "/") + ".js";
       },
       
-      qxGitBranch : function() {
+      lineNumber : function(node) {
+        if (node.getLineNumber && typeof node.getLineNumber() == "number") {
+          return node.getLineNumber() + "";
+        }
+        else {
+          return "0";
+        }
+      },
+      
+      qxGitBranch : function(node) {
         return qx.core.Environment.get("qx.revision") ? 
           qx.core.Environment.get("qx.revision").split(":")[1] : "master";
       }
@@ -207,6 +222,60 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       html += '</span>';
 
       return html;
+    },
+
+
+    /**
+     * Returns the source view URI for a doc node. This is determined by getting 
+     * the value for the "sourceViewUri" key from the library that contains the 
+     * item represented by the node. Placeholders of the form %{key} in the URI 
+     * are then resolved by applying the rules defined in the
+     * @link{#SOURCE_VIEW_MACROS} map.
+     * 
+     * @param node {apiviewer.dao.Node} the documentation node for the title
+     * @return {String|null} Source view URI or <code>null</code> if it couldn't 
+     * be determined
+     */
+    getSourceUri : function(node)
+    {
+      var classNode;
+      if (node instanceof apiviewer.dao.Class) {
+        classNode = node;
+      }
+      else {
+        classNode = node.getClass();
+      }
+      
+      // get the library's top-level namespace
+      var libNs = classNode.getFullName().split(".")[0];
+      if (!qx.util.LibraryManager.getInstance().has(libNs)) {
+        return null;
+      }
+      
+      var sourceViewUri = qx.util.LibraryManager.getInstance().get(libNs, "sourceViewUri");
+      if (!sourceViewUri) {
+        return null;
+      }
+      
+      var replacements = this.SOURCE_VIEW_MACROS;
+      for (var key in replacements) {
+        var macro = "%{" + key + "}";
+        if (sourceViewUri.indexOf(macro) >=0 && typeof replacements[key] == "function") {
+          var replacement = replacements[key](node);
+          if (typeof replacement == "string") {
+            sourceViewUri = sourceViewUri.replace(new RegExp(macro), replacement);
+          }
+        }
+      }
+      
+      if (sourceViewUri.indexOf("%{") >= 0) {
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.log.Logger.warn("Source View URI contains unresolved macro(s):", sourceViewUri);
+        }
+        return null;
+      }
+      
+      return sourceViewUri;
     }
 
   },
@@ -261,59 +330,19 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       }
 
       titleHtml.add(objectName, ' </span>');
-      titleHtml.add(apiviewer.ui.panels.InfoPanel.setTitleClass(classNode, classNode.getName()));
       
-      var sourceLink = this._getSourceLinkHtml(classNode);
-      if (sourceLink) {
-        titleHtml.add(sourceLink);
+      var className = classNode.getName();
+      var sourceUri = this.self(arguments).getSourceUri(classNode);
+      if (sourceUri) {
+        className = '<a href="' + sourceUri + '" target="_blank" title="View Source">' + className + '<a/>';
       }
+      
+      titleHtml.add(apiviewer.ui.panels.InfoPanel.setTitleClass(classNode, className));
       
       return titleHtml.get();
     },
     
     
-    /**
-     * Returns the HTML fragment for the "View Source Code" link
-     * 
-     * @param classNode {apiviewer.dao.Class} the class documentation node for the title
-     * @return {String} HTML fragment for the source view link
-     */
-    _getSourceLinkHtml : function(classNode)
-    {
-      var libNs = classNode.getFullName().split(".")[0];
-      if (!qx.util.LibraryManager.getInstance().has(libNs)) {
-        return null;
-      }
-      
-      var replacements = this.self(arguments).SOURCE_VIEW_MACROS;
-      var sourceViewUri = qx.util.LibraryManager.getInstance().get(libNs, "sourceViewUri");
-      
-      if (sourceViewUri) {
-        for (var key in replacements) {
-          var macro = "%{" + key + "}";
-          if (sourceViewUri.indexOf(macro) >=0 && 
-            typeof replacements[key] == "function") 
-          {
-            var replacement = replacements[key](classNode);
-            if (replacement) {
-              sourceViewUri = sourceViewUri.replace(new RegExp(macro), replacement);
-            }
-          }
-        }
-        
-        if (sourceViewUri.indexOf("%{") >= 0) {
-          if (qx.core.Environment.get("qx.debug")) {
-            this.error("Source View URI contains unresolved macro(s):", sourceViewUri);
-          }
-          return null;
-        }
-        
-        return '<small style="float:right;margin-top:8px"><a href="' + sourceViewUri + '" target="_blank">View Source Code<a/></small>';
-      }
-      
-      return null;
-    },
-
     _getTocHtml : function(classNode)
     {
       var tocHtml = document.createDocumentFragment();

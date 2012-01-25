@@ -94,6 +94,17 @@ qx.Class.define("apiviewer.dao.Node", {
 
 
     /**
+     * Get the line number of this item in the source file
+     * 
+     * @return {Integer|null} line number or <code>null</code> if unknown 
+     */
+    getLineNumber : function()
+    {
+      return this._docNode.attributes.line || null;
+    },
+
+
+    /**
      * Get whether the node is deprecated.
      *
      * @return {Boolean} whether the node is deprecated.

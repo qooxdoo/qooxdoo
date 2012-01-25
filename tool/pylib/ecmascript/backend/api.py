@@ -815,6 +815,10 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 
     node = tree.Node("method")
     node.set("name", name)
+    
+    (line, column) = getLineAndColumnFromSyntaxItem(funcItem)
+    if line:
+        node.set("line", line)
 
     if funcItem.type != "function":
         printDocError(funcItem, "'funcItem' is no function")
