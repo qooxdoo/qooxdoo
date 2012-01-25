@@ -82,6 +82,9 @@ qx.Class.define("qx.io.remote.Response",
 
   members :
   {
+    __lowerHeaders : null,
+
+
     /*
     ---------------------------------------------------------------------------
       USER METHODS
