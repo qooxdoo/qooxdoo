@@ -155,7 +155,6 @@ qx.Class.define("mobiletweets.Application",
 
       // Some error handling
       store.addListener("error", function(evt) {
-        var data = evt.getData();
         qx.ui.mobile.dialog.Manager.getInstance().alert("Error", "Error loading the tweets for user " + this.getUsername());
         this.__inputPage.show({reverse:true});
       }, this);
