@@ -68,6 +68,11 @@
       this.assertEquals(1, test.getChildren()[0].nodeType);
     },
 
+    testGetChildrenSelector : function() {
+      var test = q.create("<div><h1/><p/></div>");
+      this.assertEquals(0, test.getChildren("div").length);
+      this.assertEquals(1, test.getChildren("h1").length);
+    },
 
     testforEach : function() {
       var test = q.create("<div id='testdiv'/>");
@@ -83,10 +88,58 @@
       }, this);
     },
 
-    testgetParents : function() {
+    testGetParents : function() {
       var test = q.create("<div id='testdiv'/>");
       test.appendTo(document.body);
       this.assertEquals(document.body, test.getParents()[0]);
+      test.remove();
+    },
+
+    testGetParentsSelector : function() {
+      var test = q.create("<a id='parent'><div id='test'/></a>");
+      test.appendTo(document.body);
+      var parent = q("#parent");
+      this.assertEquals(parent[0], q("#test").getParents("a")[0], "Element mismatch");
+      this.assertEquals(0, q("#test").getParents("div").length);
+      test.remove();
+    },
+
+    testGetClosest : function() {
+      var test = q.create("<div><a id='closest'><div><div id='test'/></div></a></div>");
+      test.appendTo(document.body);
+      this.assertEquals(q("#closest")[0], q("#test").getClosest("a")[0], "Element mismatch");
+      this.assertEquals(1, q("#test").getClosest("a").length, "Ancestor not found");
+      this.assertEquals(1, q("#test").getClosest("#test").length, "Self not found");
+      this.assertEquals(0, q("#test").getClosest("#no").length, "Found unexpected");
+      test.remove();
+    },
+
+    testFilter : function() {
+      var test = q.create("<div id='test' class='item'/><div class='item'/>");
+      test.appendTo(document.body);
+      var collection = q(".item");
+      this.assertEquals(q("#test")[0], collection.filter("#test")[0], "Element mismatch");
+      this.assertEquals(1, collection.filter("#test").length);
+      test.remove();
+    },
+
+    testFilter : function() {
+      var col = q.wrap([]);
+      var test = q.create("<div id='test' class='item'/>");
+      var other = q.create("<div class='item'/>");
+      col.add(test[0]);
+      col.add(other[0]);
+      this.assertEquals(test[0], col.filter("#test")[0], "Element mismatch");
+      this.assertEquals(1, col.filter("#test").length);
+      this.assertEquals(2, col.filter("div").length);
+    },
+
+    testFind : function() {
+      var test = q.create("<div id='outer'><div><div id='test'/><div/></div></div>");
+      test.appendTo(document.body);
+      this.assertEquals(3, q("#outer").find("div").length);
+      this.assertEquals(q("#test")[0], q("#outer").find("#test")[0], "Element mismatch");
+      this.assertEquals(1, q("#outer").find("#test").length);
       test.remove();
     }
   });
