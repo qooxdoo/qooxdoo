@@ -67,6 +67,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       for (var i=0; i < this.length; i++) {
         qx.dom.Element.remove(this[i]);
       };
+      return this;
     },
 
 
@@ -74,6 +75,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       for (var i=0; i < this.length; i++) {
         this[i].innerHTML = "";
       };
+      return this;
     },
     
     
