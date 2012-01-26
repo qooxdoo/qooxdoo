@@ -568,7 +568,7 @@
  *     </tr>
  *     <tr>
  *       <td>qx.globalErrorHandling</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td><i>default:</i> <code>false</code></td>
+ *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
  *       <td>qx.mobile.emulatetouch</td><td><i>Boolean</i></td><td><code>false</code></td>
