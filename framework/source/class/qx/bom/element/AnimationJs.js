@@ -147,7 +147,6 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      * @return {qx.bom.element.AnimationHandle} The handle for chaining.
      */
     play : function(handle) {
-      var self = this;
       var id = window.setInterval(function() {
         handle.repeatSteps--;
         var values = handle.delta[handle.i % handle.steps];
@@ -159,7 +158,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
             }
           }
         }
-        self.__applyStyles(handle.el, values);
+        qx.bom.element.AnimationJs.__applyStyles(handle.el, values);
 
         handle.i++;
         // iteration condition
@@ -170,7 +169,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         }
         // end condition
         if (handle.repeatSteps < 0) {
-          self.stop(handle);
+          qx.bom.element.AnimationJs.stop(handle);
         }
       }, handle.stepTime);
 
