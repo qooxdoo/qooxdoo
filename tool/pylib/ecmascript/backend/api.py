@@ -465,6 +465,7 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
         node = compileString(functionCode)
         commentAttributes = Comment.parseNode(node)
         docNode = handleFunction(node, funcName, commentAttributes, classNode)
+        docNode.remove("line")
         docNode.set("fromProperty", propertyName)
         classNode.addListChild("methods", docNode)
 
