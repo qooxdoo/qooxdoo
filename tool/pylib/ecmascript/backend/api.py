@@ -33,7 +33,7 @@
 ##
 
 import sys, os, re
-from ecmascript.frontend import tree, Comment
+from ecmascript.frontend import tree, Comment, lang
 from ecmascript.frontend.treeutil import *
 from ecmascript.transform.optimizer import variantoptimizer  # ugly here
 from generator import Context
@@ -1189,7 +1189,10 @@ def getClassNode(docTree, fullClassName, commentAttributes = None):
                 classNode.addChild(seeNode)
 
         if package:
-            package.addListChild("classes", classNode)
+            if fullClassName in lang.BUILTIN:
+                pass # don't add JS built-in classes
+            else:
+                package.addListChild("classes", classNode)
 
     return classNode
 
