@@ -122,9 +122,14 @@ qx.Class.define("simulator.autounit.AutoUnit", {
       this.info("");
       this.info("BEGIN UNIT TEST RESULTS");
       
-      for (var testName in results) {
+      if (!results.tests) {
+        this.warn("No test results found!");
+        return;
+      }
+      
+      for (var testName in results.tests) {
         this.info("");
-        var result = results[testName];
+        var result = results.tests[testName];
         var logLevel;
         switch(result.state) {
           case "success":
@@ -141,15 +146,27 @@ qx.Class.define("simulator.autounit.AutoUnit", {
         
         this[logLevel](testName + " " + result.state);
         
-        for (var i=0, l=result.messages.length; i<l; i++) {
-          this[logLevel]("  " + result.messages[i].split("\n").join("\n  "));
+        if (result.exceptions && result.exceptions.length > 0) {
+          for (var i=0, l=result.exceptions.length; i<l; i++) {
+            var err = result.exceptions[i];
+            //this[logLevel]("  " + result.messages[i].split("\n").join("\n  "));
+            this[logLevel](err.type + " " + err.message);
+            this[logLevel](err.stacktrace.join("\n"));
+          }
         }
-        
       }
       
       this.info("");
       this.info("END UNIT TEST RESULTS");
       this.info("");
+      
+      // TODO: clean up, parameterize
+      var ju = new simulator.autounit.JunitLog(results);
+      var res = ju.getResultsXml();
+      
+      var logFile = new simulator.autounit.RhinoFileLog("unitTestResults.xml");
+      logFile.writeLine(res);
+      logFile.close();
     },
     
     
