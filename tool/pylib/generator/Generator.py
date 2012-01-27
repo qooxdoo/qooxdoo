@@ -1333,6 +1333,9 @@ class Generator(object):
         
         if expandedjobs:
           
+            # make sure we're working with Job() objects (bug#5896)
+            expandedjobs = [self._config.getJob(x) for x in expandedjobs]
+
             # check for build loader
             buildScriptFile =  expandedjobs[0].get("compile-options/paths/file", None)
             if buildScriptFile:
