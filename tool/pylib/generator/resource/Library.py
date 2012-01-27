@@ -230,15 +230,18 @@ class Library(object):
 
 
     def _getCodeId(self, clazz):
+        className = None  # not-found return value
         tree     = clazz.tree()
         qxDefine = treeutil.findQxDefine (tree)
-        className = treeutil.getClassName (qxDefine)
+        if qxDefine:
+            className = treeutil.getClassName (qxDefine)
+            if not className:  # might be u''
+                className = None
+            else:
+                illegal = self._illegalIdentifierExpr.search(className)
+                if illegal:
+                    raise ValueError, "Item name '%s' contains illegal character '%s'" % (className,illegal.group(0))
 
-        illegal = self._illegalIdentifierExpr.search(className)
-        if illegal:
-            raise ValueError, "Item name '%s' contains illegal character '%s'" % (className,illegal.group(0))
-
-        #print "found", className
         return className
 
 
