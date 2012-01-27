@@ -41,11 +41,11 @@ qx.Class.define("simulator.autounit.AutoUnit", {
     
     ACCESS_INTERVAL : 5000,
     
-    GET_TEST_RESULTS : simulator.Simulation.AUTWINDOW + 
-                       ".qx.lang.Json.stringify(" + 
-                       simulator.Simulation.AUTWINDOW + "." + 
-                       simulator.Simulation.QXAPPLICATION + 
-                       ".runner.view.getTestResults())"
+    GET_SUITE_RESULTS : simulator.Simulation.AUTWINDOW + 
+                        ".qx.lang.Json.stringify(" + 
+                        simulator.Simulation.AUTWINDOW + "." + 
+                        simulator.Simulation.QXAPPLICATION + 
+                        ".runner.view.getSuiteResults())"
   },
   
   members :
@@ -79,10 +79,10 @@ qx.Class.define("simulator.autounit.AutoUnit", {
     },
     
     
-    _getTestResults : function()
+    _getSuiteResults : function()
     {
-      var getSuiteState = this.self(arguments).GET_TEST_RESULTS;
-      var resultsString = String(simulator.QxSelenium.getInstance().getEval(getSuiteState));
+      var getSuiteResults = this.self(arguments).GET_SUITE_RESULTS;
+      var resultsString = String(simulator.QxSelenium.getInstance().getEval(getSuiteResults));
       eval("var results=" + resultsString);
       
       return results;
@@ -116,7 +116,7 @@ qx.Class.define("simulator.autounit.AutoUnit", {
     _logResults : function()
     {
       this.info("Retrieving unit test results...");
-      var results = this._getTestResults();
+      var results = this._getSuiteResults();
       this.assertMap(results, "Couldn't get unit test results map!");
       
       this.info("");

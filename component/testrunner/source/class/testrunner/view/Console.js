@@ -45,7 +45,7 @@ qx.Class.define("testrunner.view.Console", {
   */
   members :
   {
-    __testResults : null,
+    __suiteResults : null,
     __iframe : null,
 
     /**
@@ -53,7 +53,11 @@ qx.Class.define("testrunner.view.Console", {
      */
     run : function()
     {
-      this.__testResults = {};
+      this.__suiteResults = {
+        startedAt : new Date().getTime(),
+        finishedAt : null,
+        tests : {}
+      };
       this.fireEvent("runTests");
     },
 
@@ -108,6 +112,7 @@ qx.Class.define("testrunner.view.Console", {
           this.setStatus("Running tests...");
           break;
         case "finished" :
+          this.__suiteResults.finishedAt = new Date().getTime();
           this.setStatus("Test suite finished. Call qx.core.Init.getApplication().runner.view.getTestResults() to get the results.");
           break;
         case "aborted" :
@@ -138,27 +143,51 @@ qx.Class.define("testrunner.view.Console", {
      */
     _onTestChangeState : function(testResultData)
     {
+      var timestamp = new Date();
       var testName = testResultData.getFullName();
       var state = testResultData.getState();
+      
       var exceptions = testResultData.getExceptions();
 
       //Update test results map
-      if (!this.__testResults[testName]) {
-        this.__testResults[testName] = {};
+      if (!this.__suiteResults.tests[testName]) {
+        this.__suiteResults.tests[testName] = {};
       }
-      this.__testResults[testName].state = state;
+      this.__suiteResults.tests[testName].state = state;
+      
       if (exceptions) {
-        this.__testResults[testName].exceptions = exceptions;
-        var messages = [];
+        this.__suiteResults.tests[testName].exceptions = [];
         for (var i=0,l=exceptions.length; i<l; i++) {
-          var message = exceptions[i].exception.toString()
-          var trace = testResultData.getStackTrace(exceptions[i].exception);
-          trace = trace.replace(/<br>/g, "\n");
-          message += "\n" + trace;
-          messages.push(message);
+          var ex = exceptions[i].exception;
+          var type = ex.classname || ex.type || "Error";
+          
+          var message = "";
+          if (ex.getComment) {
+            //qx.type.BaseError
+            message = ex.getComment() + ": ";
+          }
+          if (ex.message) {
+            // native Error
+            message += ex.message;
+          }
+          if (message === "" && ex.toString) {
+            message = ex.toString();
+          }
+          
+          var stacktrace = ex.getStackTrace ? ex.getStackTrace() 
+            : qx.dev.StackTrace.getStackTraceFromError(ex);
+          
+          var serializedEx = {
+            type : type,
+            message : message
+          };
+          
+          if (stacktrace) {
+            serializedEx.stacktrace = stacktrace;
+          }
+          
+          this.__suiteResults.tests[testName].exceptions.push(serializedEx);
         }
-        this.__testResults[testName].messages = messages;
-
       }
 
       var level;
@@ -194,11 +223,11 @@ qx.Class.define("testrunner.view.Console", {
     getTestResults : function(exceptions)
     {
       if (exceptions) {
-        return this.__testResults;
+        return this.__suiteResults.tests;
       }
 
       var readableResults = {};
-      var res = this.__testResults;
+      var res = this.__suiteResults.tests;
       for (var key in res) {
         if (res.hasOwnProperty(key)) {
           readableResults[key] = { state : res[key].state };
@@ -208,6 +237,11 @@ qx.Class.define("testrunner.view.Console", {
         }
       }
       return readableResults;
+    },
+    
+    getSuiteResults : function()
+    {
+      return this.__suiteResults;
     },
 
     /**
