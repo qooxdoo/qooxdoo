@@ -126,7 +126,7 @@
       {
         "command" :
         [
-          "${PYTHON_CMD} tool/injectcss.py source/resource/testrunner/view/html/css/testrunner.css ${BUILD_PATH}/script/${TESTRUNNER_SCRIPT}"
+          "foo=`cat source/resource/testrunner/view/html/css/testrunner.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py`;sed -i.bak \"s/%{Styles}/$${foo}/\" ${BUILD_PATH}/script/testrunner-portable.js;rm -f ${BUILD_PATH}/script/testrunner-portable.js.bak"
         ]
       }
     },
