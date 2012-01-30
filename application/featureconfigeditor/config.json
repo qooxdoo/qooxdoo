@@ -84,7 +84,12 @@
         "APPLICATION_MAIN_CLASS" : "${APPLICATION}.ApplicationLowLevel"
       },
     
-      "run" : ["source-lowlevel-script"]      
+      "run" : ["source-lowlevel-script"],
+      
+      "compile-options" : 
+      {
+        "code" : { "except" : [ "*" ] }
+      }
     },
     
     "source-lowlevel-script" :
