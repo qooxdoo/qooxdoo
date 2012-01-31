@@ -1,5 +1,25 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Author:
+     * Daniel Wagner (danielwagner)
+
+************************************************************************ */
+
 /**
- * This represents one test class (test suite in JUnit lingo)
+ * Formats test suite results (provided e.g. by @link{simulator.autounit.AutoUnit})
+ * as JUnit-style XML
  */
 
 qx.Class.define("simulator.autounit.JunitLog", {
@@ -10,6 +30,7 @@ qx.Class.define("simulator.autounit.JunitLog", {
   {
     this.base(arguments);
     this.__suiteData = suiteData;
+    this._parseResults();
   },
   
   members :
@@ -17,6 +38,10 @@ qx.Class.define("simulator.autounit.JunitLog", {
     __attributes : null,
     __testCases : null,
     
+    
+    /**
+     * Extracts required information from the test suite results map
+     */
     _parseResults : function()
     {
       var suiteData = this.__suiteData;
@@ -28,13 +53,13 @@ qx.Class.define("simulator.autounit.JunitLog", {
       
       this.__testCases = [];
       
-      if (suiteData.startedAt && suiteData.finishedAt) {
-        var start = new Date(suiteData.startedAt);
-        var finish = new Date(suiteData.finishedAt);
-        
-        var time = suiteData.finishedAt - suiteData.startedAt;
-        attributes.time = time / 1000;
-      }
+      var time = suiteData.finishedAt - suiteData.startedAt;
+      attributes.time = time / 1000;
+      
+      var dateFormat = new qx.util.format.DateFormat("YYYY-MM-dd'T'HH:mm:ss");
+      attributes.timestamp = dateFormat.format(new Date(suiteData.startedAt));
+      
+      attributes.hostname = suiteData.hostname;
       
       if (suiteData.tests) {
         for (var testName in suiteData.tests) {
@@ -55,24 +80,29 @@ qx.Class.define("simulator.autounit.JunitLog", {
           }
         }
       }
-      
     },
     
-    getResultsXml : function()
+    
+    /**
+     * Returns the test suite results in JUnit XML (string) format
+     * 
+     * @return {String} JUnit XML
+     */
+    getResultsXmlString : function()
     {
-      this._parseResults();
-      
+      //TODO: name, test case time
       var juXml = '<?xml version="1.0" encoding="UTF-8" ?>' +
       '\n<testsuite errors="' + this.__attributes.errors + 
       '" failures="' + this.__attributes.failures + 
-      '" hostname="foo.bar" name="whatever" tests="' + 
+      '" hostname="' + this.__attributes.hostname + 
+      '" name="unknown name" tests="' + 
       this.__attributes.tests + '" time="' + this.__attributes.time + 
-      '" timestamp="2007-11-02T23:13:50">';
+      '" timestamp="' + this.__attributes.timestamp + '">';
       
       for (var i=0, l=this.__testCases.length; i<l; i++) {
         var tC = this.__testCases[i];
         var testXml = '<testcase classname="' + tC.classname + 
-        '" name="' + tC.name + '" time="0.0010">';
+        '" name="' + tC.name + '" time="0.0000">';
         
         var props = ["error", "failure"];
         for (var a=0; a<props.length; a++) {
@@ -100,6 +130,16 @@ qx.Class.define("simulator.autounit.JunitLog", {
       return juXml;
     },
     
+    
+    /**
+     * Extracts failure/error information from a single test result for easier
+     * XML serialization
+     * 
+     * @param testName {String} Fully qualified test (method) name, e.g. 
+     * <code>foo.test.Bar:testBaz</code>
+     * @param result {Map} Test result map
+     * @return {Map} Processed test result information
+     */
     _getTestCase : function(testName, result)
     {
       var testCase = {};
