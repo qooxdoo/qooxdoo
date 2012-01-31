@@ -19,3 +19,14 @@
 #content h4:hover a.headerlink {
   display: inline;
 }
+
+#content .note {
+  margin: 1em 0;
+  padding: 10px;
+  background-color: #f0f0f0; /* @lightShade */
+}
+
+#content .note .admonition-title {
+  font-weight: bold;
+  margin-bottom: 0;
+}
