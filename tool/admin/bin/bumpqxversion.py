@@ -39,7 +39,7 @@
 
 import sys, os, re, string, types, codecs, functools
 
-qxversion_regexp = r'[\w\.-]+'  # rough regexp, to capture a qooxdoo version like '1.4' or '1.4-pre'
+qxversion_regexp = r'[\w\.-]+'  # rough regexp, to capture a qooxdoo version like '1.4.3' or '1.4-pre'
 vMajor_regexp = r'\d+'
 vMinor_regexp = r'[\w-]+'
 vPatch_regexp = r'[\w-]*'
@@ -106,16 +106,19 @@ Files = {
 
 # - End config -----------------------------------------------------------------
 
-def patch(repl, mo): 
+def patch(repl, mo):
     rel_start1 = mo.start(1) - mo.start(0)
     rel_end1   = mo.end(1)   - mo.start(0)
     repl = mo.group(0)[:rel_start1] + repl + mo.group(0)[rel_end1:]
     return repl
 
 def main(new_vers):
+    # extract major/minor/patch parts
     mo = re.match(vers_parts_regexp, new_vers)
     assert mo, "%s doesn't look like a proper version string" % new_vers
     vers_parts = mo.groups()  # e.g. ('2', '0', '4-pre') or ('1', '7', '')
+
+    # loop through files
     for f in Files:
         print "patching qooxdoo version in: %s" % f
         cont = codecs.open(f, 'rU', 'utf-8').read()
