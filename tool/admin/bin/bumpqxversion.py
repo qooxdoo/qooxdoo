@@ -20,15 +20,24 @@
 ################################################################################
 
 ##
-# NAME
+# SYNTAX
 #  bumpqxversion.py <version-string> -- set various version strings in the
-#                                       framework to <version-string>
-#  - add new files in the 'Files' map
+#                                       framework to <version-string> (or parts thereof)
+#
+# EXAMPLES
+#  bumpqxversion.py 2.0
+#  bumpqxversion.py 2.1.4-pre
+#
+# DESCRIPTION
+#  Run through a set of files (maintained in this script) and replace occurrences of 
+#  version strings with the new string from the command-line.
+#
+# NOTE
+#  Add new files to the 'Files' map (see further in the "Config section").
+#  If you add files here, also update http://qooxdoo.org/documentation/general/how_to_build_a_release!
 ##
 
 import sys, os, re, string, types, codecs, functools
-
-# - Config section -------------------------------------------------------------
 
 qxversion_regexp = r'[\w\.-]+'  # rough regexp, to capture a qooxdoo version like '1.4' or '1.4-pre'
 vMajor_regexp = r'\d+'
@@ -36,12 +45,36 @@ vMinor_regexp = r'[\w-]+'
 vPatch_regexp = r'[\w-]*'
 vers_parts_regexp = r'(%s)\.(%s)\.?(%s)' % (vMajor_regexp, vMinor_regexp, vPatch_regexp)  # to split up <version-string> into major - minor - patch part
 
-# Files to change: { "path_from_QXROOT": [<regex_to_replace>, ...] }
+# - Config section -------------------------------------------------------------
+
+##
+# Files to change:
+#
+# Files = { 
+#     "path_from_QXROOT": [
+#         <regex_to_replace>, 
+#         (<regex_to_replace>, <version_part>), 
+#         ...
+#         ],
+#     ...
+# }
+#
+# Each entry for a file is an arry of regexes or tuples of (regex, version_part).
+# The regexes will be used to match part of the file, to identify the location of
+# the old version string. If only the regex is given, the replacement will be the
+# entire new version string, as passed in the command-line argument.
+# If it is a tuple of (regex, number), the matched location will be replaced with
+# only the corresponding *part* of the new version string (see further). This 
+# allows you to only replace the major, minor or patch number.
+#
 # <regex_to_replace> -- provide a regexp that captures some occurrences of the
 #                       version string in that particular file, with a bit of
 #                       context, and put parens around the place where the
-#                       version string itself is; this will be replaced.
-# ! If you add files here, also update http://qooxdoo.org/documentation/general/how_to_build_a_release
+#                       old version string is; this will be replaced.
+# <version_part>     -- identify the replacement string as part of the new version string:
+#                       0=major, 1=minor, 2=patch
+#
+#
 Files = {
     "./version.txt" : [
         r'^(.*)$'
