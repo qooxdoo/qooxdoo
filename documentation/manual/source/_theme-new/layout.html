@@ -2,9 +2,15 @@
 {% set assets_host = "http://resources.new.qooxdoo.org" %}
 {% set css_files = [assets_host + "/stylesheets/common.css"] + css_files %}
 {% set script_files = ["http://use.typekit.com/zot3nek.js"] %}
+
+{%- block doctype %}
+<!doctype html>
+{% endblock %}
+
 {%- block extrahead %}
   <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 {% endblock %}
+
 {%- block header %}
 <div id="header-wrapper">
   <section id="header">
@@ -40,3 +46,16 @@
 <div class="decoration"></div>
 </div>
 {% endblock %}
+
+{%- block content %}
+  <section id="main">
+  {%- block document %}
+    <section id="content">
+      {% block body %} {% endblock %}
+    </section>
+    <section id="sidebar">
+      {%- block sidebar1 %}{{ sidebar() }}{% endblock %}
+    </section>
+  {%- endblock %}
+  </section>
+{%- endblock %}
