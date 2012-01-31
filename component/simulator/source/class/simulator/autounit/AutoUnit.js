@@ -45,7 +45,9 @@ qx.Class.define("simulator.autounit.AutoUnit", {
                         ".qx.lang.Json.stringify(" + 
                         simulator.Simulation.AUTWINDOW + "." + 
                         simulator.Simulation.QXAPPLICATION + 
-                        ".runner.view.getSuiteResults())"
+                        ".runner.view.getSuiteResults())",
+
+    GET_HOST_NAME : simulator.Simulation.AUTWINDOW + ".location.hostname"
   },
   
   members :
@@ -78,12 +80,20 @@ qx.Class.define("simulator.autounit.AutoUnit", {
       simulator.QxSelenium.getInstance().getEval(runSuite);
     },
     
-    
+    /**
+     * 
+     * @return {}
+     * @lint ignoreUndefined(results)
+     */
     _getSuiteResults : function()
     {
       var getSuiteResults = this.self(arguments).GET_SUITE_RESULTS;
       var resultsString = String(simulator.QxSelenium.getInstance().getEval(getSuiteResults));
       eval("var results=" + resultsString);
+      
+      var getHostName = this.self(arguments).GET_HOST_NAME;
+      var hostName = String(simulator.QxSelenium.getInstance().getEval(getHostName));
+      results.hostname = hostName;
       
       return results;
     },
@@ -160,11 +170,19 @@ qx.Class.define("simulator.autounit.AutoUnit", {
       this.info("END UNIT TEST RESULTS");
       this.info("");
       
-      // TODO: clean up, parameterize
-      var ju = new simulator.autounit.JunitLog(results);
-      var res = ju.getResultsXml();
+      var startedAt = new Date(results.startedAt).getTime();
       
-      var logFile = new simulator.autounit.RhinoFileLog("unitTestResults.xml");
+      var ju = new simulator.autounit.JunitLog(results);
+      var res = ju.getResultsXmlString();
+      
+      var fileName = "unitTestResults_" + startedAt + ".xml";
+      
+      if (qx.core.Environment.get("simulator.autounit.logpath")) {
+        fileName = qx.core.Environment.get("simulator.autounit.logpath") + "/" + fileName;
+      }
+      
+      this.info("Storing test suite results in file " + fileName);
+      var logFile = new simulator.RhinoFile(fileName);
       logFile.writeLine(res);
       logFile.close();
     },
