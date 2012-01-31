@@ -1,2 +1,21 @@
-body {
+#sidebar ul li ul {
+  margin-bottom: 0;
+}
+
+#sidebar h4 {
+  color: #707070;
+}
+
+#content a.headerlink,
+#content a.headerlink:hover {
+  display: none;
+  padding-left: 5px;
+  text-decoration: none;
+}
+
+#content h1:hover a.headerlink,
+#content h2:hover a.headerlink,
+#content h3:hover a.headerlink,
+#content h4:hover a.headerlink {
+  display: inline;
 }
