@@ -83,13 +83,13 @@ qx.Class.define("simulator.autounit.AutoUnit", {
     /**
      * 
      * @return {}
-     * @lint ignoreUndefined(results)
      */
     _getSuiteResults : function()
     {
       var getSuiteResults = this.self(arguments).GET_SUITE_RESULTS;
       var resultsString = String(simulator.QxSelenium.getInstance().getEval(getSuiteResults));
-      eval("var results=" + resultsString);
+      var results;
+      eval("results=" + resultsString);
       
       var getHostName = this.self(arguments).GET_HOST_NAME;
       var hostName = String(simulator.QxSelenium.getInstance().getEval(getHostName));
@@ -170,13 +170,13 @@ qx.Class.define("simulator.autounit.AutoUnit", {
       this.info("END UNIT TEST RESULTS");
       this.info("");
       
-      var startedAt = new Date(results.startedAt).getTime();
-      
       var ju = new simulator.autounit.JunitLog(results);
       var res = ju.getResultsXmlString();
       
-      var fileName = "unitTestResults_" + startedAt + ".xml";
-      
+      var startedAt = new Date(results.startedAt);
+      var dateFormat = new qx.util.format.DateFormat("YYYY-MM-dd_HH-mm-ss");
+      var formattedDate = dateFormat.format(startedAt)
+      var fileName = "unitTestResults_" + formattedDate + ".xml";
       if (qx.core.Environment.get("simulator.autounit.logpath")) {
         fileName = qx.core.Environment.get("simulator.autounit.logpath") + "/" + fileName;
       }
