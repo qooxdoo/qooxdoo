@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -18,10 +18,10 @@
 ************************************************************************ */
 
 /**
- * TODO: Write class doc
+ * Provides a file object.
  */
 
-qx.Class.define("simulator.autounit.RhinoFileLog", {
+qx.Class.define("simulator.RhinoFile", {
 
   extend : qx.core.Object,
   
@@ -39,12 +39,25 @@ qx.Class.define("simulator.autounit.RhinoFileLog", {
   {
     __fileHandle : null,
     
+    
+    /**
+     * Writes to the file, inserts a newline then flushes the buffer
+     * 
+     * @param msg {String} Text to write
+     */
     writeLine : function(msg) {
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertString(msg);
+      }
       this.__fileHandle.write(msg);
       this.__fileHandle.newLine();
       this.__fileHandle.flush();
     },
     
+    
+    /**
+     * Closes the file
+     */
     close : function()
     {
       this.__fileHandle.close();
