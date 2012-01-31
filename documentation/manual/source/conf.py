@@ -53,8 +53,9 @@ release = '2.0'
 # use e.g. as "%{version}" anywhere in .rst files
 qxmacros = {
     "version"  : version
-   ,"versionL" : "1.4.x"   # 'latest' in this line
-   ,"versionU" : "1_4"     # underscore notation for SourceForge viewvc links
+   ,"versionL" : "2.0.x"   # 'latest' in this line
+   ,"versionU" : "2_0"     # underscore notation for SourceForge viewvc links
+   ,"release_tag" : "release_2_0" # github release tag
    ,"JS"       : "JavaScript"
    # following are some technical values about qooxdoo that might need adaption
    # from time to time (not necessarily with every release)
