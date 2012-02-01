@@ -30,3 +30,7 @@
   font-weight: bold;
   margin-bottom: 0;
 }
+
+#content img {
+  max-width: 100%;
+}
