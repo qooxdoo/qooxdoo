@@ -1,7 +1,8 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: Verdana, Arial, "sans-serif";
+  font-family: "Lucida Sans Unicode", Arial, "sans-serif";
+  font-size: 0.9em;
 }
 
 div {
@@ -10,7 +11,7 @@ div {
 }
 
 h1 {
-  font-size: 1.1em;
+  font-size: 1.3em;
   padding: 8px 10px;
   margin: 0 0 15px 0;
   background-color: #E8E8E8;
@@ -43,8 +44,8 @@ input[type=checkbox] {
   margin: 5px 8px;
 }
 
-label {
-  font-size: 0.9em;
+.monotype {
+  font-family: Inconsolata, Consolas, "Courier New", Courier, monotype;
 }
 
 #controls {
@@ -87,8 +88,6 @@ label {
   height: 150px;
   float: right;
   overflow: auto;
-  font-family: Courier, monotype;
-  font-size: 0.8em;
   border: 1px solid #B5B5B5;
 }
 
@@ -113,7 +112,6 @@ label {
 
 #testcontrols {
   clear: both;
-  font-size: 1em;
   padding: 0 10px 0 10px;
   margin-bottom: 10px;
 }
@@ -129,7 +127,6 @@ label {
   float: left;
   width: 50%;
   padding-bottom: 30px;
-  font-size: 0.9em;
 }
 
 #tests ul {
@@ -149,7 +146,6 @@ label {
   float: right;
   width: 49%;
   margin: 0 0 30px 0;
-  font-size: 0.9em;
 }
 
 #results ul {
@@ -161,9 +157,7 @@ label {
 #results ul li {
   margin: 0 0 2px 0;
   padding: 2px;
-  font-family: "Consolas", "Courier New", monospace;
   font-weight: bold;
-  font-size: 1em;
   color: #134275;  
 }
 
@@ -230,9 +224,10 @@ label {
 
 #status {
   margin: 6px 8px;
-  font-size: 0.9em;
 }
 
 #status .error {
   color: #FF0000;
 }
+
+
