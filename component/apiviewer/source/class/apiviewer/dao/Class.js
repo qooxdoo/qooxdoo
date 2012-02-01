@@ -48,7 +48,7 @@ qx.Class.define("apiviewer.dao.Class",
      */
     registerClass : function(cls)
     {
-      if (!cls.getFullName())
+      if (typeof cls.getFullName() !== "string")
       {
         return;
       }
