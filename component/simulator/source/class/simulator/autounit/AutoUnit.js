@@ -138,7 +138,6 @@ qx.Class.define("simulator.autounit.AutoUnit", {
       }
       
       for (var testName in results.tests) {
-        this.info("");
         var result = results.tests[testName];
         var logLevel;
         switch(result.state) {
