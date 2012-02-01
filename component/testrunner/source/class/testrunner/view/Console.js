@@ -222,6 +222,9 @@ qx.Class.define("testrunner.view.Console", {
      */
     getTestResults : function(exceptions)
     {
+      if (!(this.__suiteResults && this.__suiteResults.tests)) {
+        throw new Error("No results to get. Run the test suite first.");
+      }
       if (exceptions) {
         return this.__suiteResults.tests;
       }
@@ -231,13 +234,25 @@ qx.Class.define("testrunner.view.Console", {
       for (var key in res) {
         if (res.hasOwnProperty(key)) {
           readableResults[key] = { state : res[key].state };
-          if (res[key].messages) {
-            readableResults[key].messages = res[key].messages;
+          if (res[key].exceptions) {
+            var exceptions = res[key].exceptions;
+            var messages = [];
+            for (var i=0,l=exceptions.length; i<l; i++) {
+              var exMap = exceptions[i];
+              var message = exMap.type + ": " + exMap.message;
+              if (exMap.stacktrace) {
+                message += "\n" + exMap.stacktrace.join("\n");
+              }
+              messages.push(message);
+            }
+            
+            readableResults[key].messages = messages;
           }
         }
       }
       return readableResults;
     },
+    
     
     getSuiteResults : function()
     {
