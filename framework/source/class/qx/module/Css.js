@@ -64,14 +64,13 @@ qx.Bootstrap.define("qx.module.Css", {
 
     getHeight : function() {
       var elem = this[0];
-      var Node = qx.dom.Node;
 
       if (elem) {
-        if (Node.isElement(elem)) {
+        if (qx.dom.Node.isElement(elem)) {
           return qx.bom.element.Dimension.getHeight(elem);
-        } else if (Node.isDocument(elem)) {
-          return qx.bom.Document.getHeight(Node.getWindow(elem));
-        } else if (Node.isWindow(elem)) {
+        } else if (qx.dom.Node.isDocument(elem)) {
+          return qx.bom.Document.getHeight(qx.dom.Node.getWindow(elem));
+        } else if (qx.dom.Node.isWindow(elem)) {
           return qx.bom.Viewport.getHeight(elem);
         }
       }
