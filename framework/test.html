@@ -201,6 +201,22 @@
       this.assertTrue(test.hasClass("test"));
       test.removeClass("test");
       this.assertFalse(test.hasClass("test"));
+    },
+
+    testGetHeightElement : function() {
+      var test = q.create("<div style='height: 100px'></div><div></div>");
+      test.appendTo(this.sandbox[0]);
+      this.assertNumber(test.getHeight());
+      this.assertEquals(100, test.getHeight());
+      test.remove();
+    },
+
+    testGetHeightDocument : function() {
+      this.assertNumber(q.wrap(document).getHeight());
+    },
+
+    testGetHeightWindow : function() {
+      this.assertNumber(q.wrap(window).getHeight());
     }
   });
 
@@ -208,6 +224,10 @@
 
   testrunner.define({
     classname : "Attribute",
+
+    setUp : testrunner.globalSetup,
+    tearDown : testrunner.globalTeardown,
+
     testHtml : function() {
       var test = q.create("<div/>");
       test.setHtml("affe");

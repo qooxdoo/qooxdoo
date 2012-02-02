@@ -59,6 +59,25 @@ qx.Bootstrap.define("qx.module.Css", {
     toggleClass : function(name) {
       this.hasClass(name) ? this.removeClass(name) : this.addClass(name);
       return this;
+    },
+
+
+    getHeight : function() {
+      var elem = this[0];
+      var Node = qx.dom.Node;
+
+      if (elem)
+      {
+        if (Node.isElement(elem)) {
+          return qx.bom.element.Dimension.getHeight(elem);
+        } else if (Node.isDocument(elem)) {
+          return qx.bom.Document.getHeight(Node.getWindow(elem));
+        } else if (Node.isWindow(elem)) {
+          return qx.bom.Viewport.getHeight(elem);
+        }
+      }
+
+      return null;
     }
   },
 
@@ -73,7 +92,9 @@ qx.Bootstrap.define("qx.module.Css", {
       "addClass" : statics.addClass,
       "removeClass" : statics.removeClass,
       "hasClass" : statics.hasClass,
-      "toggleClass" : statics.toggleClass
+      "toggleClass" : statics.toggleClass,
+
+      "getHeight" : statics.getHeight
     });
   }
 });
