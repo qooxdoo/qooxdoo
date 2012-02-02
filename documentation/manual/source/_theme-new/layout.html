@@ -92,7 +92,7 @@
       <p>
         Supported by the world's largest web host <a href="http://1and1.com">1&amp;1</a>
       </p>
-      <p style="padding-top: 100px">
+      <p class="legal">
         <a href="http://new.qooxdoo.org/legal">Legal notice (Impressum)</a>
       </p>
     </div>
@@ -162,6 +162,32 @@
             <a href="http://new.qooxdoo.org/contrib">Contributions</a>
           </li>
         </ul>
+      </div>
+    </div>
+    <div id="meta">
+      <div class="notice">
+        <p class="source">
+          {%- if show_source and has_source and sourcename %}
+          <strong>
+            <a href="{{ pathto('_sources/' + sourcename, true)|e }}" rel="nofollow">{{ _('Show Source') }}</a>
+          </strong>
+          {%- endif %}
+        </p>
+        <p class="page">
+          {%- if show_copyright %}
+            {%- if hasdoc('copyright') %}
+              {% trans path=pathto('copyright'), copyright=copyright|e %}&copy; <a href="{{ path }}">Copyright</a> {{ copyright }}.{% endtrans %}
+            {%- else %}
+              {% trans copyright=copyright|e %}&copy; Copyright {{ copyright }}.{% endtrans %}
+            {%- endif %}
+          {%- endif %}
+          {%- if last_updated %}
+            {% trans last_updated=last_updated|e %}Last updated on {{ last_updated }}.{% endtrans %}
+          {%- endif %}
+          {%- if show_sphinx %}
+            {% trans sphinx_version=sphinx_version|e %}Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> {{ sphinx_version }}.{% endtrans %}
+          {%- endif %}
+        </p>
       </div>
     </div>
   </footer>
