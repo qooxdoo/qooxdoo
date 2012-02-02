@@ -43,22 +43,23 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
     getClosest : function(selector) {
       var closest = [];
-      for (var i=0; i < this.length; i++) {
-        var current = q.wrap(this[i]);
 
-        (function findClosest() {
-          var found = qx.bom.Selector.matches(selector, current);
-          if (found.length) {
-            closest.push(found[0]);
-          } else {
-            current = current.getParents(); // One up
-            if(current[0] && current[0].parentNode) {
-              findClosest();
-            }
+      var findClosest = function findClosest(current) {
+        var found = qx.bom.Selector.matches(selector, current);
+        if (found.length) {
+          closest.push(found[0]);
+        } else {
+          current = current.getParents(); // One up
+          if(current[0] && current[0].parentNode) {
+            findClosest(current);
           }
-        })();
-
+        }
       };
+
+      for (var i=0; i < this.length; i++) {
+        findClosest(q.wrap(this[i]));
+      };
+
       return qx.lang.Array.cast(closest, qx.Collection);
     },
 
