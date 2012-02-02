@@ -9,8 +9,21 @@
 <body>
 
   <script type="text/javascript" charset="utf-8">
+  testrunner.globalSetup = function() {
+    this.sandbox = q.create("<div id='sandbox'></div>");
+    this.sandbox.appendTo(document.body);
+  };
+
+  testrunner.globalTeardown = function() {
+    this.sandbox.remove();
+  };
+
   testrunner.define({
     classname: "Manipulating",
+
+    setUp : testrunner.globalSetup,
+    tearDown : testrunner.globalTeardown,
+
     testCreateDiv : function() {
       this.assertNotNull(q.create("<div/>"));
       this.assertEquals(1, q.create("<div/>")[0].nodeType);
@@ -18,7 +31,7 @@
 
     testWrap : function() {
       var test = q.create("<div id='testdiv'/>");
-      test.appendTo(document.body);
+      test.appendTo(this.sandbox[0]);
       var el = document.getElementById("testdiv");
       this.assertEquals(el, q.wrap(el)[0]);
       this.assertEquals(el, q.wrap([el])[0]);
@@ -27,8 +40,8 @@
 
     testAppendToRemove : function() {
       var test = q.create("<div/>");
-      test.appendTo(document.body);
-      this.assertEquals(document.body, test[0].parentNode);
+      test.appendTo(this.sandbox[0]);
+      this.assertEquals(this.sandbox[0], test[0].parentNode);
       test.remove();
       this.assertNull(test[0].parentNode);
     },
@@ -44,9 +57,13 @@
 
   testrunner.define({
     classname : "Selector",
+
+    setUp : testrunner.globalSetup,
+    tearDown : testrunner.globalTeardown,
+
     testId : function() {
       var test = q.create("<div id='testdiv'/>");
-      test.appendTo(document.body);
+      test.appendTo(this.sandbox[0]);
       this.assertEquals(test[0], q("#testdiv")[0]);
       test.remove();
     }
@@ -55,6 +72,10 @@
 
   testrunner.define({
     classname : "Traversing",
+
+    setUp : testrunner.globalSetup,
+    tearDown : testrunner.globalTeardown,
+
     testAdd : function() {
       var test = q.create("<div id='testdiv'/>");
       this.assertEquals(1, test.length);
@@ -90,14 +111,14 @@
 
     testGetParents : function() {
       var test = q.create("<div id='testdiv'/>");
-      test.appendTo(document.body);
-      this.assertEquals(document.body, test.getParents()[0]);
+      test.appendTo(this.sandbox[0]);
+      this.assertEquals(this.sandbox[0], test.getParents()[0]);
       test.remove();
     },
 
     testGetParentsSelector : function() {
       var test = q.create("<a id='parent'><div id='test'/></a>");
-      test.appendTo(document.body);
+      test.appendTo(this.sandbox[0]);
       var parent = q("#parent");
       this.assertEquals(parent[0], q("#test").getParents("a")[0], "Element mismatch");
       this.assertEquals(0, q("#test").getParents("div").length);
@@ -106,7 +127,7 @@
 
     testGetClosest : function() {
       var test = q.create("<div><a id='closest'><div><div id='test'/></div></a></div>");
-      test.appendTo(document.body);
+      test.appendTo(this.sandbox[0]);
       this.assertEquals(q("#closest")[0], q("#test").getClosest("a")[0], "Element mismatch");
       this.assertEquals(1, q("#test").getClosest("a").length, "Ancestor not found");
       this.assertEquals(1, q("#test").getClosest("#test").length, "Self not found");
@@ -116,7 +137,7 @@
 
     testFilter : function() {
       var test = q.create("<div id='test' class='item'/><div class='item'/>");
-      test.appendTo(document.body);
+      test.appendTo(this.sandbox[0]);
       var collection = q(".item");
       this.assertEquals(q("#test")[0], collection.filter("#test")[0], "Element mismatch");
       this.assertEquals(1, collection.filter("#test").length);
@@ -136,7 +157,7 @@
 
     testFind : function() {
       var test = q.create("<div id='outer'><div><div id='test'/><div/></div></div>");
-      test.appendTo(document.body);
+      test.appendTo(this.sandbox[0]);
       this.assertEquals(3, q("#outer").find("div").length);
       this.assertEquals(q("#test")[0], q("#outer").find("#test")[0], "Element mismatch");
       this.assertEquals(1, q("#outer").find("#test").length);
@@ -148,9 +169,13 @@
 
   testrunner.define({
     classname : "Css",
+
+    setUp : testrunner.globalSetup,
+    tearDown : testrunner.globalTeardown,
+
     testStyle : function() {
       var test = q.create("<div/>");
-      test.appendTo(document.body);
+      test.appendTo(this.sandbox[0]);
       test.setStyle("width", "10px");
       this.assertEquals("10px", test.getStyle("width"));
       test.remove();
@@ -158,7 +183,7 @@
 
     testStyles : function() {
       var test = q.create("<div/>");
-      test.appendTo(document.body);
+      test.appendTo(this.sandbox[0]);
       test.setStyles({"width": "10px", "height": "20px"});
       this.assertEquals("10px", test.getStyles(["width", "height"]).width);
       this.assertEquals("20px", test.getStyles(["width", "height"]).height);
@@ -225,9 +250,13 @@
 
   testrunner.define({
     classname : "Animation",
+
+    setUp : testrunner.globalSetup,
+    tearDown : testrunner.globalTeardown,
+
     testFadeOut : function() {
       var test = q.create("<div id='testdiv'/>");
-      test.appendTo(document.body);
+      test.appendTo(this.sandbox[0]);
       var handle = test.fadeOut();
       handle.onEnd(function() {
         this.resume(function() {
@@ -240,7 +269,7 @@
 
     testFadeIn : function() {
       var test = q.create("<div id='testdiv'/>");
-      test.appendTo(document.body);
+      test.appendTo(this.sandbox[0]);
       var handle = test.fadeIn();
       this.assertEquals(0, test[0].style["opacity"]);
       handle.onEnd(function() {
@@ -257,6 +286,10 @@
 
   testrunner.define({
     classname : "Events",
+
+    setUp : testrunner.globalSetup,
+    tearDown : testrunner.globalTeardown,
+
     testOnOffEmit : function() {
       var test = q.create("<div/>");
       var self = this;
@@ -340,6 +373,10 @@
 
   testrunner.define({
     classname : "Templates",
+
+    setUp : testrunner.globalSetup,
+    tearDown : testrunner.globalTeardown,
+
     testToHtml : function() {
       var result = q.template.toHtml("{{affe}}", {affe: "george"});
       this.assertEquals("george", result);
