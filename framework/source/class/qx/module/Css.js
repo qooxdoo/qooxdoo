@@ -66,8 +66,7 @@ qx.Bootstrap.define("qx.module.Css", {
       var elem = this[0];
       var Node = qx.dom.Node;
 
-      if (elem)
-      {
+      if (elem) {
         if (Node.isElement(elem)) {
           return qx.bom.element.Dimension.getHeight(elem);
         } else if (Node.isDocument(elem)) {
@@ -75,6 +74,17 @@ qx.Bootstrap.define("qx.module.Css", {
         } else if (Node.isWindow(elem)) {
           return qx.bom.Viewport.getHeight(elem);
         }
+      }
+
+      return null;
+    },
+
+
+    getOffset : function() {
+      var elem = this[0];
+
+      if (elem) {
+        return qx.bom.element.Location.get(elem);
       }
 
       return null;
@@ -94,7 +104,8 @@ qx.Bootstrap.define("qx.module.Css", {
       "hasClass" : statics.hasClass,
       "toggleClass" : statics.toggleClass,
 
-      "getHeight" : statics.getHeight
+      "getHeight" : statics.getHeight,
+      "getOffset" : statics.getOffset
     });
   }
 });
