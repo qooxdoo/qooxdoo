@@ -543,8 +543,12 @@ qx.Class.define("qx.ui.basic.Image",
 
       if (qx.core.Environment.get("qx.debug"))
       {
-        // loading external images via HTTP/HTTPS is a common usecase
-        if (!qx.lang.String.startsWith(source.toLowerCase(), "http"))
+        // loading external images via HTTP/HTTPS is a common usecase, as is
+        // using data URLs.
+        var sourceLC = source.toLowerCase();
+        var startsWith = qx.lang.String.startsWith;
+        if (!startsWith(sourceLC, "http") &&
+            !startsWith(sourceLC, "data:image/"))
         {
           var self = this.self(arguments);
 
