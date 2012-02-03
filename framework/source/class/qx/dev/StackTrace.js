@@ -46,31 +46,28 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      *
      * Browser compatibility:
      * <ul>
-     *   <li> Mozilla combines the output of {@link #getStackTraceFromError}
-     *        and {@link #getStackTraceFromCaller} and thus generates the richest trace.
-     *   </li>
-     *   <li> Internet Explorer and WebKit always use {@link #getStackTraceFromCaller}</li>
-     *   <li> Opera is able to return file/class names and line numbers.</li>
+     *   <li>In new versions of Gecko, WebKit and Opera, the output of 
+     *   {@link #getStackTraceFromError} and {@link #getStackTraceFromCaller} is
+     *   combined to generate the richest trace, including line numbers.</li>
+     *   <li>For Internet Explorer (and other engines that do not provide stack
+     *    traces), {@link #getStackTraceFromCaller} is used</li>
      * </ul>
      *
      * @return {String[]} Stack trace of the current position in the code. Each line in the array
      *     represents one call in the stack trace.
-     * @signature function()
      */
-    getStackTrace : qx.core.Environment.select("engine.name",
+    getStackTrace : function()
     {
-      "gecko" : function()
-      {
-        try
-        {
-          throw new Error();
-        }
-        catch(ex)
-        {
-          var errorTrace = this.getStackTraceFromError(ex);
+      var trace = [];
+      try {
+        throw new Error();
+      }
+      catch(ex) {
+        if (qx.core.Environment.get("ecmascript.stacktrace")) {
+          var errorTrace = qx.dev.StackTrace.getStackTraceFromError(ex);
+          var callerTrace = qx.dev.StackTrace.getStackTraceFromCaller(arguments);
           qx.lang.Array.removeAt(errorTrace, 0);
-          var callerTrace = this.getStackTraceFromCaller(arguments);
-
+  
           var trace = callerTrace.length > errorTrace.length ? callerTrace : errorTrace;
           for (var i=0; i<Math.min(callerTrace.length, errorTrace.length); i++)
           {
@@ -78,57 +75,51 @@ qx.Bootstrap.define("qx.dev.StackTrace",
             if (callerCall.indexOf("anonymous") >= 0) {
               continue;
             }
-
-            var callerArr = callerCall.split(":");
-            if (callerArr.length != 2) {
-              continue;
+  
+            var methodName;
+            var callerArr = callerCall.split(".");
+            var mO = /(.*?)\(/.exec(callerArr[callerArr.length - 1]);
+            if (mO.length == 2) {
+              methodName = mO[1];
+              callerArr.pop();
             }
-            var callerClassName = callerArr[0];
-            var methodName = callerArr[1];
-
+            if (callerArr[callerArr.length - 1] == "prototype") {
+              callerArr.pop();
+            }
+            var callerClassName = callerArr.join(".");
+  
             var errorCall = errorTrace[i];
             var errorArr = errorCall.split(":");
             var errorClassName = errorArr[0];
             var lineNumber = errorArr[1];
-
+            var columnNumber;
+            if (errorArr[2]) {
+              columnNumber = errorArr[2];
+            }
+  
             if (qx.Class.getByName(errorClassName)) {
               var className = errorClassName;
             } else {
               className = callerClassName;
             }
-            var line = className + ":";
+            var line = className + ".";
             if (methodName) {
               line += methodName + ":";
             }
             line += lineNumber;
+            if (columnNumber) {
+              line += ":" + columnNumber;
+            }
             trace[i] = line;
           }
-
-          return trace;
         }
-      },
-
-      "mshtml|webkit" : function()
-      {
-        return this.getStackTraceFromCaller(arguments);
-      },
-
-      "opera" : function()
-      {
-        var foo;
-        try {
-          // force error
-          foo.bar();
-        }
-        catch (ex)
-        {
-          var trace = this.getStackTraceFromError(ex);
-          qx.lang.Array.removeAt(trace, 0)
-          return trace;
-        }
-        return [];
+        else {
+          trace = this.getStackTraceFromCaller(arguments);
+        }  
       }
-    }),
+      
+      return trace;
+    },
 
 
     /**
