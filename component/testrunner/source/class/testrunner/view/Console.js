@@ -174,8 +174,7 @@ qx.Class.define("testrunner.view.Console", {
             message = ex.toString();
           }
           
-          var stacktrace = ex.getStackTrace ? ex.getStackTrace() 
-            : qx.dev.StackTrace.getStackTraceFromError(ex);
+          var stacktrace = testResultData.getStackTrace(ex);
           
           var serializedEx = {
             type : type,
@@ -241,7 +240,7 @@ qx.Class.define("testrunner.view.Console", {
               var exMap = exceptions[i];
               var message = exMap.type + ": " + exMap.message;
               if (exMap.stacktrace) {
-                message += "\n" + exMap.stacktrace.join("\n");
+                message += "\n" + exMap.stacktrace.split("<br>").join("\n");
               }
               messages.push(message);
             }
