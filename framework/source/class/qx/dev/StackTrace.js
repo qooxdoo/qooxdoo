@@ -37,7 +37,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * Optional user-defined formatting function for stack trace information.
      * Will be called by with an array of strings representing the calls in the
      * stack trace. {@link #getStackTraceFromError} will return the output of
-     * this function
+     * this function. Must return an array of strings.
      */
     FORMAT_STACKTRACE : null,
 
@@ -314,7 +314,13 @@ qx.Bootstrap.define("qx.dev.StackTrace",
     __fileNameToClassName : function(fileName)
     {
       if (typeof qx.dev.StackTrace.FILENAME_TO_CLASSNAME == "function") {
-        return qx.dev.StackTrace.FILENAME_TO_CLASSNAME(fileName);
+        var convertedName = qx.dev.StackTrace.FILENAME_TO_CLASSNAME(fileName);
+        if (qx.core.Environment.get("qx.debug") &&
+          !qx.lang.Type.isString(convertedName))
+        {
+          throw new Error("FILENAME_TO_CLASSNAME must return a string!");
+        }
+        return convertedName;
       }
 
       return qx.dev.StackTrace.__fileNameToClassNameDefault(fileName);
@@ -353,7 +359,12 @@ qx.Bootstrap.define("qx.dev.StackTrace",
     __formatStackTrace : function(trace)
     {
       if (typeof qx.dev.StackTrace.FORMAT_STACKTRACE == "function") {
-        return qx.dev.StackTrace.FORMAT_STACKTRACE(trace);
+        trace = qx.dev.StackTrace.FORMAT_STACKTRACE(trace);
+        // Can't use qx.core.Assert here since it throws an AssertionError which
+        // calls getStackTrace in its constructor, leading to infinite recursion
+        if (qx.core.Environment.get("qx.debug") && !qx.lang.Type.isArray(trace)) {
+          throw new Error("FORMAT_STACKTRACE must return an array of strings!");
+        }
       }
       return trace;
     }
