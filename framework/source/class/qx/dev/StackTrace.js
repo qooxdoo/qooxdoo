@@ -79,7 +79,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
             var methodName;
             var callerArr = callerCall.split(".");
             var mO = /(.*?)\(/.exec(callerArr[callerArr.length - 1]);
-            if (mO.length == 2) {
+            if (mO && mO.length == 2) {
               methodName = mO[1];
               callerArr.pop();
             }
