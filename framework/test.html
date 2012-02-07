@@ -211,6 +211,16 @@
       test.removeClass("test");
       this.assertFalse(test.hasClass("test"));
     },
+    
+    testClasses : function() {
+      var test = q.create("<div/>");
+      test.addClasses(["foo", "bar"]);
+      this.assertTrue(test.hasClass("foo"));
+      this.assertTrue(test.hasClass("bar"));
+      test.toggleClass("bar");
+      this.assertTrue(test.hasClass("foo"));
+      this.assertFalse(test.hasClass("bar"));
+    },
 
     testGetHeightElement : function() {
       var test = q.create("<div style='height: 100px'></div><div></div>");

@@ -40,6 +40,14 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    addClasses : function(names) {
+      for (var i=0; i < this.length; i++) {
+        qx.bom.element.Class.addClasses(this[i], names);
+      };
+      return this;
+    },
+
+
     removeClass : function(name) {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Class.remove(this[i], name);
@@ -99,6 +107,7 @@ qx.Bootstrap.define("qx.module.Css", {
       "getStyles" : statics.getStyles,
 
       "addClass" : statics.addClass,
+      "addClasses" : statics.addClasses,
       "removeClass" : statics.removeClass,
       "hasClass" : statics.hasClass,
       "toggleClass" : statics.toggleClass,
