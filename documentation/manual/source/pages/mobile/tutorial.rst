@@ -85,7 +85,7 @@ Define the class like this:
 
 The “Input” class inherits from ``qx.ui.mobile.page.NavigationPage``, a
 specialized page that consists of a
-``qx.ui.mobile.navigationbar.NavigationBar`` with the a title, back and
+``qx.ui.mobile.navigationbar.NavigationBar`` including a title, back and
 action buttons, and a scrollable content area. In the constructor of the
 class we set the title of the page to “Twitter Client”.
 
