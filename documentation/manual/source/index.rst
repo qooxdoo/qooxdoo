@@ -45,57 +45,57 @@ qooxdoo Manual (|version|)
 Welcome to the qooxdoo manual. Here are some highlights of what you can find here. For a full overview proceed to the :doc:`table of contents <toc>`.
 
 
-  +----------+-------------------------------------------------------------------------------------+
-  | |o_star| | **Getting Started**                                                                 |
-  |          |   * :ref:`Prerequisites <pages/getting_started/helloworld#requirements>`            |
-  |          |   * :ref:`Download <pages/getting_started/helloworld#download>`                     |
-  |          |   * :ref:`Installation <pages/getting_started/helloworld#installation>`             |
-  |          |   * :ref:`"Hello World" <pages/getting_started/helloworld#create_your_application>` |
-  +----------+-------------------------------------------------------------------------------------+
++----------+-------------------------------------------------------------------------------------+
+| |o_star| | **Getting Started**                                                                 |
+|          |   * :ref:`Prerequisites <pages/getting_started/helloworld#requirements>`            |
+|          |   * :ref:`Download <pages/getting_started/helloworld#download>`                     |
+|          |   * :ref:`Installation <pages/getting_started/helloworld#installation>`             |
+|          |   * :ref:`"Hello World" <pages/getting_started/helloworld#create_your_application>` |
++----------+-------------------------------------------------------------------------------------+
 
-  +----------+-------------------------------------------------------------------------------------+
-  ||tutorial|| **Tutorials**                                                                       |
-  |          |   * :doc:`Rich Internet Applications  <pages/tutorials/tutorial-part-1>`            |
-  |          |   * :doc:`Mobile Apps <pages/mobile/tutorial>`                                      |
-  |          |   * :doc:`Tooling      <pages/tool/tutorial_basics>`                                |
-  +----------+-------------------------------------------------------------------------------------+
-
-
-  +----------+-------------------------------------------------------------------------------------+
-  ||g_book|  | **Core Concepts**                                                                   |
-  |          |   * :doc:`Classes       <pages/core/oo_introduction>`                               |
-  |          |   * :doc:`Properties <pages/core/understanding_properties>`                         |
-  |          |   * :doc:`Data Binding <pages/data_binding/data_binding>`                           |
-  |          |   * :doc:`Environment   <pages/core/environment>`                                   |
-  +----------+-------------------------------------------------------------------------------------+
++----------+-------------------------------------------------------------------------------------+
+||tutorial|| **Tutorials**                                                                       |
+|          |   * :doc:`Rich Internet Applications  <pages/tutorials/tutorial-part-1>`            |
+|          |   * :doc:`Mobile Apps <pages/mobile/tutorial>`                                      |
+|          |   * :doc:`Tooling      <pages/tool/tutorial_basics>`                                |
++----------+-------------------------------------------------------------------------------------+
 
 
-  +----------+-------------------------------------------------------------------------------------+
-  ||g_write| | **APIs**                                                                            |
-  |          |   * :doc:`Widgets       <pages/gui_toolkit/ui_widgets>`                             |
-  |          |   * :doc:`Low-level  <pages/low_level/overview>`                                    |
-  |          |   * :doc:`Mobile       <pages/mobile/mobile_overview>`                              |
-  +----------+-------------------------------------------------------------------------------------+
++----------+-------------------------------------------------------------------------------------+
+||g_book|  | **Core Concepts**                                                                   |
+|          |   * :doc:`Classes       <pages/core/oo_introduction>`                               |
+|          |   * :doc:`Properties <pages/core/understanding_properties>`                         |
+|          |   * :doc:`Data Binding <pages/data_binding/data_binding>`                           |
+|          |   * :doc:`Environment   <pages/core/environment>`                                   |
++----------+-------------------------------------------------------------------------------------+
 
 
-  +----------+-------------------------------------------------------------------------------------+
-  ||o_folder|| **Reference**                                                                       |
-  |          |   * :doc:`Table of Contents <toc>`                                                  |
-  |          |   * :doc:`Collection of technical references <pages/references>`                    |
-  |          |   * :doc:`Glossary                <pages/glossary>`                                 |
-  |          |   * :ref:`Index                              <genindex>`                            |
-  +----------+-------------------------------------------------------------------------------------+
++----------+-------------------------------------------------------------------------------------+
+||g_write| | **APIs**                                                                            |
+|          |   * :doc:`Widgets       <pages/gui_toolkit/ui_widgets>`                             |
+|          |   * :doc:`Low-level  <pages/low_level/overview>`                                    |
+|          |   * :doc:`Mobile       <pages/mobile/mobile_overview>`                              |
++----------+-------------------------------------------------------------------------------------+
 
 
-  +----------+-------------------------------------------------------------------------------------+
-  ||g_faq|   | **Migration**                                                                       |
-  |          |   * :doc:`Migration Guide <pages/migration/migration_guide>`                        |
-  +----------+-------------------------------------------------------------------------------------+
++----------+-------------------------------------------------------------------------------------+
+||o_folder|| **Reference**                                                                       |
+|          |   * :doc:`Table of Contents <toc>`                                                  |
+|          |   * :doc:`Collection of technical references <pages/references>`                    |
+|          |   * :doc:`Glossary                <pages/glossary>`                                 |
+|          |   * :ref:`Index                              <genindex>`                            |
++----------+-------------------------------------------------------------------------------------+
 
 
-  +----------+-------------------------------------------------------------------------------------+
-  | |o_save| | **Offline Manual**                                                                  |
-  |          |   * `Get the PDF <qooxdoo.pdf>`__                                                   |
-  +----------+-------------------------------------------------------------------------------------+
++----------+-------------------------------------------------------------------------------------+
+||g_faq|   | **Migration**                                                                       |
+|          |   * :doc:`Migration Guide <pages/migration/migration_guide>`                        |
++----------+-------------------------------------------------------------------------------------+
+
+
++----------+-------------------------------------------------------------------------------------+
+| |o_save| | **Offline Manual**                                                                  |
+|          |   * `Get the PDF <qooxdoo.pdf>`__                                                   |
++----------+-------------------------------------------------------------------------------------+
 
 
