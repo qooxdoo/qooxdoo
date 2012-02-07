@@ -45,6 +45,15 @@
       test.remove();
       this.assertNull(test[0].parentNode);
     },
+    
+    "test appendTo with cloned collection" : function() {
+      var test = q.create('<span class="child">foo</span><span class="child">foo</span');
+      test.appendTo(this.sandbox[0]);
+      var parent = q.create('<div class="parent"></div><div class="parent"></div>');
+      parent.appendTo(this.sandbox[0]);
+      q(".child").appendTo(q(".parent"));
+      this.assertEquals(q(".parent .child~.child").length, 2);
+    },
 
     testEmpty : function() {
       var test = q.create("<div><p>test</p></div>");
