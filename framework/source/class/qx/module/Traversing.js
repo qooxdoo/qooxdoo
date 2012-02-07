@@ -41,6 +41,19 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    getAncestors : function() {
+      var ancestors = [];
+      for (var i=0; i < this.length; i++) {
+        var parent = qx.dom.Element.getParentElement(this[i]);
+        while (parent) {
+          ancestors = ancestors.concat(parent);
+          parent = qx.dom.Element.getParentElement(parent);
+        }
+      }
+      return qx.lang.Array.cast(ancestors, qx.Collection);
+    },
+
+
     getClosest : function(selector) {
       var closest = [];
 
@@ -86,6 +99,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "getChildren" : statics.getChildren,
       "forEach" : statics.forEach,
       "getParents" : statics.getParents,
+      "getAncestors" : statics.getAncestors,
       "getClosest" : statics.getClosest,
       "find" : statics.find,
       "filter" : statics.filter
