@@ -50,12 +50,16 @@
       </ul>
     </nav>
     <div id="search">
-      <input type="search" placeholder="Search">
-      <select>
-        <option selected="">Page</option>
-        <option>Documentation</option>
-        <option>Blog</option>
-      </select>
+      <form class="search" action="{{ pathto('search') }}" method="get">
+        <input type="search" name="q" placeholder="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+        <select>
+          <option>Page</option>
+          <option selected="">Documentation</option>
+          <option>Blog</option>
+        </select>
+      </form>
     </div>
   </section>
 <div class="decoration"></div>
