@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     this.base(arguments, layout || new qx.ui.mobile.layout.HBox().set({
         alignY : "middle"
       }));
-    this.add(this._create(), {flex:1});
+    this._init();
   },
 
 
@@ -145,27 +145,22 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
 
 
     /**
-     * Creates the widgets for the renderer.
+     * Inits the widgets for the renderer.
      *
-     * @return {qx.ui.mobile.container.Composite} The container which contains the
-     *     created widgets.
      */
-    _create : function()
+    _init : function()
     {
       var Composite = qx.ui.mobile.container.Composite;
 
-      this.__container = new Composite(new qx.ui.mobile.layout.HBox().set({
-        alignY : "middle"
-      }));
 
       this.__image = new qx.ui.mobile.basic.Image();
       this.__image.setAnonymous(true);
       this.__image.addCssClass("list-itemimage");
 
-      this.__container.add(this.__image);
+      this.add(this.__image);
 
       this.__rightContainer = new Composite(new qx.ui.mobile.layout.VBox());
-      this.__container.add(this.__rightContainer, {flex:1});
+      this.add(this.__rightContainer, {flex:1});
 
       this.__title = new qx.ui.mobile.basic.Label();
       this.__title.setWrap(false);
@@ -177,8 +172,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
       this.__subTitle.addCssClass("subtitle");
 
       this.__rightContainer.add(this.__subTitle);
-
-      return this.__container;
     },
 
 
