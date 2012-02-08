@@ -40,6 +40,13 @@
  *
  * Implements {@link qx.bom.request.IRequest}.
  */
+
+/* ************************************************************************
+
+#ignore(qx.core.Environment)
+
+************************************************************************ */
+
 qx.Bootstrap.define("qx.bom.request.Script",
 {
 
