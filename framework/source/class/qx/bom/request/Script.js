@@ -605,7 +605,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
     },
 
     /**
-     * Proxy Environment.get in case the env is not yet present.
+     * Proxy Environment.get to guard against env not being present yet.
      */
     __environmentGet: function(key) {
       if (qx && qx.core && qx.core.Environment) {
@@ -629,6 +629,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
   },
 
   defer: function() {
-    qx.core.Environment.add("qx.debug.io", false);
+    if (qx && qx.core && qx.core.Environment) {
+      qx.core.Environment.add("qx.debug.io", false);
+    }
   }
 });
