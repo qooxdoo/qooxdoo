@@ -4,7 +4,14 @@
   "include" :
   [
     {
-      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
+      "block" : 
+      [ 
+        "build",
+        "source",
+        "source-hybrid",
+        "source-all"
+      ]
     }
   ],
 
@@ -13,7 +20,6 @@
     "api",
     "api-data",
     "build",
-    "build-lowlevel",
     "clean",
     "distclean",
     "fix",
@@ -26,7 +32,6 @@
     "source",
     "source-all",
     "source-hybrid",
-    "source-lowlevel",
     "simulation-build",
     "simulation-run",
     "test",
@@ -77,24 +82,43 @@
       }
     },
   
-    "source-lowlevel" :
+    "source" :
     {
-      "let" :
-      {
-        "APPLICATION_MAIN_CLASS" : "${APPLICATION}.ApplicationLowLevel"
-      },
+      "run" : [
+        "source-script",
+        "source-lowlevel-script"
+      ]
+    },
     
-      "run" : ["source-lowlevel-script"],
-      
+    "source-hybrid" :
+    {
       "compile-options" : 
       {
-        "code" : { "except" : [ "*" ] }
-      }
+        "code" : { "except" : [ "${APPLICATION}.*" ] }
+      },
+    
+      "run" : [
+        "source-script",
+        "source-lowlevel-script"
+      ]
+    },
+    
+    "source-all" :
+    {
+      "run" : [
+        "source-all-script",
+        "source-lowlevel-script"
+      ]
     },
     
     "source-lowlevel-script" :
     {
       "extend" : ["source-script"],
+      
+      "let" :
+      {
+        "APPLICATION_MAIN_CLASS" : "${APPLICATION}.ApplicationLowLevel"
+      },
 
       "compile-options" :
       {
@@ -120,25 +144,42 @@
       }
     },
     
-    "build-lowlevel" :
+    "build" :
     {
+      "run" : [
+        "build-script",
+        "build-resources",
+        "build-files",
+        "build-lowlevel-resources",
+        "build-lowlevel-script"
+      ]
+    },
+    
+    "build-lowlevel-resources" :
+    {
+    
+      "extend" : ["build-resources"],
+      
       "let" :
       {
         "APPLICATION_MAIN_CLASS" : "${APPLICATION}.ApplicationLowLevel"
       },
       
-      "run" :
-      [
-        "build-resources",
-        "build-lowlevel-script",
-        "build-files"
-      ]
+      "environment" :
+      {
+        "qx.application" : "${APPLICATION_MAIN_CLASS}"
+      }
     },
     
     "build-lowlevel-script" :
     {
     
       "extend" : ["build-script"],
+      
+      "let" :
+      {
+        "APPLICATION_MAIN_CLASS" : "${APPLICATION}.ApplicationLowLevel"
+      },
 
       "compile-options" :
       {

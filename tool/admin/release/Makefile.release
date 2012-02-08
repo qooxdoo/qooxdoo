@@ -284,8 +284,6 @@ build-apps:
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build,build-mobile,build-website ) || exit 1; \
 		elif [ "$$APPLICATION" = "testrunner-portable" ]; then \
 			( cd component/testrunner && $(CMD_GENERATOR) -c portable.json build ) || exit 1; \
-		elif [ "$$APPLICATION" = "featureconfigeditor" ]; then \
-			( cd application/$$APPLICATION && $(CMD_GENERATOR) build,build-lowlevel ) || exit 1; \
 		else \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
 		fi; \
