@@ -134,6 +134,16 @@ testrunner.define({
     this.assertEquals(document, ancestors[5]);
     test.remove();
   },
+  
+  testGetAncestorsSelector : function() {
+    var test = q.create('<div id="ancestor"><div id="parent"><div id="child"></div></div></div>');
+    test.appendTo(this.sandbox[0]);
+    var ancestors = q("#child").getAncestors("div");
+    this.assertEquals(3, ancestors.length);
+    this.assertEquals("parent", ancestors[0].id);
+    this.assertEquals("sandbox", ancestors[2].id);
+    test.remove();
+  },
 
   testGetClosest : function() {
     var test = q.create("<div><a id='closest'><div><div id='test'/></div></a></div>");

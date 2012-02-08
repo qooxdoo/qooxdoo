@@ -41,12 +41,19 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
-    getAncestors : function() {
+    getAncestors : function(selector) {
       var ancestors = [];
       for (var i=0; i < this.length; i++) {
         var parent = qx.dom.Element.getParentElement(this[i]);
         while (parent) {
-          ancestors = ancestors.concat(parent);
+          var found;
+          if (selector) {
+            found = qx.bom.Selector.matches(selector, [parent]);
+          }
+          else {
+            found = [parent];
+          }
+          ancestors = ancestors.concat(found);
           parent = qx.dom.Element.getParentElement(parent);
         }
       }
