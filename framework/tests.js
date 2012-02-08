@@ -32,7 +32,9 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     this.assertEquals(this.sandbox[0], test[0].parentNode);
     test.remove();
-    this.assertNull(test[0].parentNode);
+    // In legacy IEs, nodes removed from the DOM will have a document fragment 
+    // parent (node type 11)
+    this.assert(!test[0].parentNode || test[0].parentNode.nodeType !== 1);
   },
   
   "test appendTo with cloned collection" : function() {
