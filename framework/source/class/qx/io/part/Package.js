@@ -272,7 +272,10 @@ qx.Bootstrap.define("qx.io.part.Package",
           }
         };
 
-        loader.send();
+        // Force loading script asynchronously (IE may load synchronously)
+        window.setTimeout(function() {
+          loader.send();
+        });
       };
 
       loadScripts(urlList.concat());
