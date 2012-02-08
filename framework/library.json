@@ -5,12 +5,17 @@
   [
     {
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    },
+    {
+      "path" : "${QOOXDOO_PATH}/component/testrunner/portable.json",
+      "as" : "testrunner-portable"
     }
   ],
 
   "export" :
   [
-    "build-q"
+    "build-q",
+    "test-source-q"
   ],
 
 
@@ -26,10 +31,8 @@
 
   "jobs" :
   {
-    "build-q" :
+    "common" :
     {
-      "extend" : ["build"],
-
       "=include" :
       [
         "qx.module.Css",
@@ -41,6 +44,31 @@
         "qx.module.Template",
         "q"
       ],
+      
+      "environment" :
+      {
+        "qx.version"     : "2.0",
+        "qx.debug" : false
+      }
+    },
+    
+    "build-script" :
+    {
+      "compile-options" :
+      {
+        "code" : {
+          "optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants", "statics"]
+        },
+        "paths"  :
+        {
+          "file" : "q.js"
+        }
+      }
+    },
+    
+    "build-q" :
+    {
+      "extend" : ["build"],
 
       "log" : {
         "dependencies" : {
@@ -53,22 +81,63 @@
           "include-transitive-load-deps" : true,
           "format" : "dot"
         }
-      },
-
-      "=environment" :
-      {
-        "qx.version"     : "2.0",
-        "qx.debug" : false
-      },
-
+      }
+    },
+    
+    "source-script" :
+    {
       "compile-options" :
       {
-        "code" : {
-          "optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants", "statics"]
-        },
-        "paths"  :
+        "paths" :
         {
-          "file" : "q.js"
+          "file" : "q-source.js",
+          "app-root" : "."
+        }
+      }
+    },
+    
+    "test-source-q" :
+    {
+      "run" : [
+        "test-source-script"
+      ]
+    },
+    
+    "test-source-script" :
+    {
+      "extend" : ["testrunner-portable::source"],
+      
+      "desc" : "generates a combined source version of q and the portable test runner",
+      
+      "let" :
+      {
+        "TESTRUNNER_ROOT" : "../component/testrunner",
+        "TESTRUNNER_ORIGIN" : "external"
+      },
+      
+      "environment" :
+      {
+        "qx.debug" : true
+      },
+      
+      "include" :
+      [
+        "qx.module.Css",
+        "qx.module.Attribute",
+        "qx.module.Manipulating",
+        "qx.module.Animation",
+        "qx.module.Traversing",
+        "qx.module.Event",
+        "qx.module.Template",
+        "q"
+      ],
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "q-test-source.js",
+          "app-root" : "."
         }
       }
     }

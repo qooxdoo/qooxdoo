@@ -101,7 +101,7 @@
         {
           "app-root" : "source",
           "file" : "source/script/${TESTRUNNER_SCRIPT}",
-          "loader-template" : "tool/portable.loader.tmpl.js"
+          "loader-template" : "${TESTRUNNER_ROOT}/tool/portable.loader.tmpl.js"
         }
       }
     },
