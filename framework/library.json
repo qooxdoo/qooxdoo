@@ -42,6 +42,7 @@
         "qx.module.Traversing",
         "qx.module.Event",
         "qx.module.Template",
+        "qx.module.Polyfill",
         "q"
       ],
       
@@ -129,6 +130,7 @@
         "qx.module.Traversing",
         "qx.module.Event",
         "qx.module.Template",
+        "qx.module.Polyfill",
         "q"
       ],
       

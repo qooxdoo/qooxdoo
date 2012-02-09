@@ -469,3 +469,28 @@ testrunner.define({
     template.remove();
   }
 });
+
+testrunner.define({
+  classname : "Polyfill",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testFunctionBind : function() {
+    var context;
+    
+    var fcn = function(a, b) {
+      context = this;
+      return a + b;
+    };
+    var bound = fcn.bind(this);
+    var result = bound(2, 3);
+    this.assertEquals(this, context);
+    this.assertEquals(5, result);
+    
+    var boundWithArg = fcn.bind(this, 5);
+    result = boundWithArg(2);
+    this.assertEquals(this, context);
+    this.assertEquals(7, result);
+  }
+});
