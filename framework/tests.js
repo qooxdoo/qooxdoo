@@ -250,6 +250,22 @@ testrunner.define({
   testGetHeightWindow : function() {
     this.assertNumber(q.wrap(window).getHeight());
   },
+  
+  testGetWidthElement : function() {
+    var test = q.create("<div style='width: 100px'></div><div></div>");
+    test.appendTo(this.sandbox[0]);
+    this.assertNumber(test.getWidth());
+    this.assertEquals(100, test.getWidth());
+    test.remove();
+  },
+
+  testGetWidthDocument : function() {
+    this.assertNumber(q.wrap(document).getWidth());
+  },
+
+  testGetWidthWindow : function() {
+    this.assertNumber(q.wrap(window).getWidth());
+  },
 
   testGetOffset : function() {
     var test = q.create("<div style='position: absolute; top: 100px'></div><div></div>");

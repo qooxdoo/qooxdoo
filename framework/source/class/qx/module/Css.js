@@ -87,6 +87,23 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    getWidth : function() {
+      var elem = this[0];
+
+      if (elem) {
+        if (qx.dom.Node.isElement(elem)) {
+          return qx.bom.element.Dimension.getWidth(elem);
+        } else if (qx.dom.Node.isDocument(elem)) {
+          return qx.bom.Document.getWidth(qx.dom.Node.getWindow(elem));
+        } else if (qx.dom.Node.isWindow(elem)) {
+          return qx.bom.Viewport.getWidth(elem);
+        }
+      }
+
+      return null;
+    },
+
+
     getOffset : function() {
       var elem = this[0];
 
@@ -113,6 +130,7 @@ qx.Bootstrap.define("qx.module.Css", {
       "toggleClass" : statics.toggleClass,
 
       "getHeight" : statics.getHeight,
+      "getWidth" : statics.getWidth,
       "getOffset" : statics.getOffset
     });
   }
