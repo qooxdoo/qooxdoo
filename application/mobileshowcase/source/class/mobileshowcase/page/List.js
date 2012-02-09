@@ -53,7 +53,7 @@ qx.Class.define("mobileshowcase.page.List",
         {
           item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
           item.setTitle(row<4 ? ("Selectable " + data.title) : data.title);
-          item.setSubTitle(data.subTitle);
+          item.setSubtitle(data.subtitle);
           item.setSelectable(row<4);
           item.setShowArrow(row<4);
         }
@@ -61,7 +61,7 @@ qx.Class.define("mobileshowcase.page.List",
 
       var data = [];
       for (var i=0; i < 100; i++) {
-        data.push({title:"Item" + i, subTitle:"Subtitle for Item #" + i});
+        data.push({title:"Item" + i, subtitle:"Subtitle for Item #" + i});
       }
 
       list.setModel(new qx.data.Array(data));
