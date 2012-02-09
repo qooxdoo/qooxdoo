@@ -337,8 +337,10 @@ class Generator(object):
 
         ##
         # Get the include definition from the config
+        #
+        # @param includeCfg []  self._job.get("include", [])
+        #
         def getIncludes(includeCfg):
-            #includeCfg = self._job.get("include", [])
 
             # Splitting lists
             self._console.debug("Preparing include configuration...")
@@ -588,7 +590,7 @@ class Generator(object):
 
 
 
-    def runApiData(self, classListProducer, variantset):
+    def runApiData(self, aClassList, variantset):
         apiPath = self._job.get("api/path")
         if not apiPath:
             return
@@ -598,8 +600,7 @@ class Generator(object):
 
         classList = self._job.get("let/ARGS", [])
         if not classList:
-            #classList = classListProducer()
-            classList = classListProducer
+            classList = aClassList
 
         self._apiLoader.storeApi(classList, apiPath, variantset)
         
