@@ -149,9 +149,6 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
     }
   },
 
-
-
-
  /*
   *****************************************************************************
      DESTRUCTOR
@@ -160,7 +157,6 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
   destruct : function()
   {
-    this.__itemRenderer.dispose();
-    this.__itemRenderer = null;
+    this._disposeObjects("__itemRenderer");
   }
 });
