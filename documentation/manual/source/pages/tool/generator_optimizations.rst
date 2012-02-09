@@ -62,12 +62,37 @@ The reason for this behaviour is that members, including private members, of a c
 
 For more details where string references can occur, see e.g. the :doc:`class </pages/core/class_quickref>` and :doc:`property </pages/core/properties_quickref>` quick refs.
 
+
 .. _pages/tool/generator_config_articles#strings:
 
 strings
 -------
 
 With the string optimization, strings are extracted from the class definition and put into lexical variables. The occurrences of the strings in the class definition is then replaced by the variable name. This mainly benefits IE6 and repetitive references to the same string literal.
+
+
+.. _pages/tool/generator_config_articles#statics:
+
+statics
+-------
+*(experimental)*
+
+The statics optimization tries to remove unused ("dead") code, namely the code of methods of static classes. The reason for this is that static methods are often invoked with their complete class name, e.g. as ``qx.bom.Cookie.get()``, which is easy to detect. Often, an application would only call a single method of a static class, so the other methods of this class are unused, and can be removed.
+
+As removing a method reduces the dependencies this method has to other classes, those dependencies are checked themselves. If there are no other dependees, the dependent class feature can be removed as well. This pattern is applied recursively until no more code can be removed. Classes which are no longer used at all are removed entirely. (Technically, the generator uses reference counting to track the "usage count" of a class feature, and eventually constructs a reachability graph to remove entire trees of classes and their dependencies if they are not reachable by the main application classes).
+
+In the context of a dynamic language this is a very aggressive optimization, and the problem is the occurrence of false positives. I.e. methods are judged as "not used" when in fact they are. This hinges on the highly dynamic nature of %{JS} where methods can be aliased, passed around as parameters to other functions, stored as map values, and so forth, all of which is hard to detect at compile time. 
+
+The cure is to add ``#require`` hints to force the inclusion of those methods that you know are used, although the generator cannot detect this. E.g. in a class that has an undetected runtime dependency on ``qx.bom.Cookie.get()`` you should add an appropriate hint in the this class::
+
+  /*
+  #require(qx.bom.Cookie#get)
+  */
+
+.. warning::
+
+    The statics optimization is highly experimental, and is not for use in normal application development. If you use it, you should expect manual work and multiple iterations to get your classes working again. You best provide a good test coverage in advance so you can convince yourself that all classes are indeed working when this optimization is enabled.
+
 
 .. _pages/tool/generator_config_articles#variables:
 
