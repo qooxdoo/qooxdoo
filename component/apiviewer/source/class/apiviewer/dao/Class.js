@@ -52,6 +52,10 @@ qx.Class.define("apiviewer.dao.Class",
       {
         return;
       }
+      // The tree root package "" is needed as the parent for top-level classes
+      if (cls.getFullName() === "" && this._class_registry[""]) {
+        return;
+      }
       this._class_registry[cls.getFullName()] = cls;
       if (!cls._docNode.attributes.superClass) {
         this._top_level_classes.push(cls);
