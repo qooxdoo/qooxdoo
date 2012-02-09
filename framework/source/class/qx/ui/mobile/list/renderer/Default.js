@@ -35,7 +35,7 @@
  *     {
  *       item.setImage("path/to/image.png");
  *       item.setTitle(data.title);
- *       item.setSubTitle(data.subTitle);
+ *       item.setSubtitle(data.subTitle);
  *     }
  *   });
  * </pre>
@@ -75,8 +75,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
   {
     __image : null,
     __title : null,
-    __subTitle : null,
-    __container : null,
+    __subtitle : null,
     __rightContainer : null,
 
 
@@ -104,10 +103,23 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
      * Returns the subtitle widget which is used for this renderer.
      *
      * @return {qx.ui.mobile.basic.Label} The subtitle widget
+     * @deprecated since 1.6: Please use getSubtitleWidget instead.
      */
     getSubTitleWidget : function()
     {
-      return this.__subTitle;
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      return this.getSubtitleWidget();
+    },
+
+
+    /**
+     * Returns the subtitle widget which is used for this renderer.
+     *
+     * @return {qx.ui.mobile.basic.Label} The subtitle widget
+     */
+    getSubtitleWidget : function()
+    {
+      return this.__subtitle;
     },
 
 
@@ -137,10 +149,23 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
      * Sets the value of the subtitle widget.
      *
      * @param subTitle {String} The value to set
+     * @deprecated since 1.6: Please use setSubtitle instead.
      */
     setSubTitle : function(subTitle)
     {
-      this.__subTitle.setValue(subTitle);
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      this.setSubtitle(subTitle);
+    },
+
+
+    /**
+     * Sets the value of the subtitle widget.
+     *
+     * @param subTitle {String} The value to set
+     */
+    setSubtitle : function(subtitle)
+    {
+      this.__subtitle.setValue(subtitle);
     },
 
 
@@ -159,8 +184,8 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
       this.__title = this._createTitle();
       this.__rightContainer.add(this.__title);
 
-      this.__subTitle = this._createSubTitle();
-      this.__rightContainer.add(this.__subTitle);
+      this.__subtitle = this._createSubtitle();
+      this.__rightContainer.add(this.__subtitle);
     },
 
 
@@ -205,7 +230,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
      *
      * @return {qx.ui.mobile.basic.Label} the subtitle widget.
      */
-    _createSubTitle : function() {
+    _createSubtitle : function() {
       var subTitle = new qx.ui.mobile.basic.Label();
       subTitle.setWrap(false);
       subTitle.addCssClass("subtitle");
@@ -218,7 +243,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     {
       this.__image.setSource(null);
       this.__title.setValue("");
-      this.__subTitle.setValue("");
+      this.__subtitle.setValue("");
     }
   },
 
@@ -230,15 +255,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
 
   destruct : function()
   {
-    this.__image.dispose();
-    this.__image = null;
-    this.__title.dispose();
-    this.__title = null;
-    this.__subTitle.dispose();
-    this.__subTitle = null;
-    this.__container.dispose();
-    this.__container = null;
-    this.__rightContainer.dispose();
-    this.__rightContainer = null;
+    this._disposeObjects("__image", "__title", "__subtitle", "__rightContainer");
   }
 });
