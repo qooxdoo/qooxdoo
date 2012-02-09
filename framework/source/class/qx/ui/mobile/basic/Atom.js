@@ -443,18 +443,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
 
   destruct : function()
   {
-    if(this.__label) {
-      this.__label.dispose();
-    }
-    if(this.__emptyLabel) {
-      this.__emptyLabel.dispose();
-    }
-    if(this.__icon) {
-      this.__icon.dispose();
-    }
-    if(this.__childrenContainer) {
-      this.__childrenContainer.dispose();
-    }
-    this.__label = this.__icon = this.__childrenContainer = this.__emptyLabel = null;
+    this._disposeObjects("__label", "__emptyLabel", "__icon", "__childrenContainer");
   }
 });
