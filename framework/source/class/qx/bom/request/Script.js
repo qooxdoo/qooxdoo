@@ -613,6 +613,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     /**
      * Proxy Environment.get to guard against env not being present yet.
+     *
+     * @param key {String} Environment key.
      */
     __environmentGet: function(key) {
       if (qx && qx.core && qx.core.Environment) {
