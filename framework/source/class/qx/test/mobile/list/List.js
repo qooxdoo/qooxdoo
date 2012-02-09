@@ -121,7 +121,7 @@ qx.Class.define("qx.test.mobile.list.List",
       // TODO: Add check for text here
       list.getModel().setItem(0, {title:"affe", subTitle:"1", image:"qx/icon/Tango/48/places/folder.png"});
       this.__assertItemsAndModelLength(list,5);
-      var text = list.getContentElement().childNodes[0].childNodes[0].childNodes[1].childNodes[0].innerHTML;
+      var text = list.getContentElement().childNodes[0].childNodes[1].childNodes[0].innerHTML;
       this.assertEquals("affe", text);
       this.__cleanUp(list);
     },
