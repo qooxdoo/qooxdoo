@@ -150,28 +150,66 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
      */
     _init : function()
     {
-      var Composite = qx.ui.mobile.container.Composite;
-
-
-      this.__image = new qx.ui.mobile.basic.Image();
-      this.__image.setAnonymous(true);
-      this.__image.addCssClass("list-itemimage");
-
+      this.__image = this._createImage();
       this.add(this.__image);
 
-      this.__rightContainer = new Composite(new qx.ui.mobile.layout.VBox());
+      this.__rightContainer = this._createRightContainer();
       this.add(this.__rightContainer, {flex:1});
 
-      this.__title = new qx.ui.mobile.basic.Label();
-      this.__title.setWrap(false);
-      this.__title.addCssClass("list-itemlabel");
+      this.__title = this._createTitle();
       this.__rightContainer.add(this.__title);
 
-      this.__subTitle = new qx.ui.mobile.basic.Label();
-      this.__subTitle.setWrap(false);
-      this.__subTitle.addCssClass("subtitle");
-
+      this.__subTitle = this._createSubTitle();
       this.__rightContainer.add(this.__subTitle);
+    },
+
+
+    /**
+     * Creates and returns the right container composite. Override this to adapt the widget code.
+     *
+     * @return {qx.ui.mobile.container.Composite} the right container.
+     */
+    _createRightContainer : function() {
+      return new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
+    },
+
+
+    /**
+     * Creates and returns the image widget. Override this to adapt the widget code.
+     *
+     * @return {qx.ui.mobile.basic.Image} the image widget.
+     */
+    _createImage : function() {
+      var image = new qx.ui.mobile.basic.Image();
+      image.setAnonymous(true);
+      image.addCssClass("list-itemimage");
+      return image;
+    },
+
+
+    /**
+     * Creates and returns the title widget. Override this to adapt the widget code.
+     *
+     * @return {qx.ui.mobile.basic.Label} the title widget.
+     */
+    _createTitle : function() {
+      var title = new qx.ui.mobile.basic.Label();
+      title.setWrap(false);
+      title.addCssClass("list-itemlabel");
+      return title;
+    },
+
+
+    /**
+     * Creates and returns the subtitle widget. Override this to adapt the widget code.
+     *
+     * @return {qx.ui.mobile.basic.Label} the subtitle widget.
+     */
+    _createSubTitle : function() {
+      var subTitle = new qx.ui.mobile.basic.Label();
+      subTitle.setWrap(false);
+      subTitle.addCssClass("subtitle");
+      return subTitle;
     },
 
 
