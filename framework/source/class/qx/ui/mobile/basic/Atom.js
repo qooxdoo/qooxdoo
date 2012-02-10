@@ -428,9 +428,11 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
      
   /*
   *****************************************************************************
-  DESTRUCTOR
+     DESTRUCTOR
   *****************************************************************************
-  */ destruct : function() {
+  */
+  
+  destruct : function() {
       this._disposeObjects("__label", "__emptyLabel", "__icon", "__childrenContainer");
   }
 
