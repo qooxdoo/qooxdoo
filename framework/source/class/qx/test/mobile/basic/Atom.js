@@ -119,7 +119,6 @@ qx.Class.define("qx.test.mobile.basic.Atom",
       var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/user-home.png");
       var atom = new qx.ui.mobile.basic.Atom("myText", imageURL);
       this.getRoot().add(atom);
-      //debugger;
       this.assertEquals('4px', qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginRight'));
 
       atom.setGap(5);
