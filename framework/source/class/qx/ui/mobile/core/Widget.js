@@ -1156,8 +1156,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * @param cssClass {String} The CSS class to add
      */
     addCssClass : function(cssClass) {
-      var element = this.getContainerElement();
-      qx.bom.element.Class.add(element, cssClass);
+      qx.bom.element.Class.add(this.getContainerElement(), cssClass);
       this._domUpdated();
     },
 
@@ -1168,9 +1167,19 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * @param cssClass {String} The CSS class to remove
      */
     removeCssClass : function(cssClass) {
-      var element = this.getContainerElement();
-      qx.bom.element.Class.remove(element, cssClass);
+      qx.bom.element.Class.remove(this.getContainerElement(), cssClass);
       this._domUpdated();
+    },
+
+
+    /**
+     * Checks if the widget has a certain CSS class set.
+     *
+     * @param cssClass {String} The CSS class to check
+     * @return {Boolean} Whether the CSS class is set or not
+     */
+    hasCssClass : function(cssClass) {
+      return qx.bom.element.Class.has(this.getContainerElement(), cssClass);
     },
 
 
@@ -1185,11 +1194,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     _applyVisibility : function(value, old)
     {
       if (value == "excluded") {
-        this._setStyle("display", "none");
+        this.addCssClass("exclude");
       }
       else if(value == "visible")
       {
-        this._setStyle("display", "block");
+        this.removeCssClass("exclude");
         this._setStyle("visibility", "visible");
       }
       else if (value == "hidden") {
@@ -1265,7 +1274,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * isSeeable
+     * Detects if the widget and all its parents are visible.
+     * 
      * Warning: forces rendering of the browser. Do not use this method during
      * animations or performance critical tasks.
      */
