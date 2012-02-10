@@ -35,7 +35,7 @@
  *     {
  *       item.setImage("path/to/image.png");
  *       item.setTitle(data.title);
- *       item.setSubtitle(data.subTitle);
+ *       item.setSubtitle(data.subtitle);
  *     }
  *   });
  * </pre>
@@ -231,10 +231,10 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
      * @return {qx.ui.mobile.basic.Label} the subtitle widget.
      */
     _createSubtitle : function() {
-      var subTitle = new qx.ui.mobile.basic.Label();
-      subTitle.setWrap(false);
-      subTitle.addCssClass("subtitle");
-      return subTitle;
+      var subtitle = new qx.ui.mobile.basic.Label();
+      subtitle.setWrap(false);
+      subtitle.addCssClass("subtitle");
+      return subtitle;
     },
 
 
