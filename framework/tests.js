@@ -200,15 +200,21 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     test.setStyle("width", "10px");
     this.assertEquals("10px", test.getStyle("width"));
+    test.setStyle("padding-top", "5px");
+    this.assertEquals("5px", test.getStyle("padding-top"));
+    this.assertEquals("5px", test.getStyle("paddingTop"));
     test.remove();
   },
 
   testStyles : function() {
     var test = q.create("<div/>");
     test.appendTo(this.sandbox[0]);
-    test.setStyles({"width": "10px", "height": "20px"});
-    this.assertEquals("10px", test.getStyles(["width", "height"]).width);
-    this.assertEquals("20px", test.getStyles(["width", "height"]).height);
+    test.setStyles({"width": "10px", "height": "20px", "marginBottom" : "15px"});
+    var result = test.getStyles(["width", "height", "margin-bottom", "marginBottom"]);
+    this.assertEquals("10px", result.width);
+    this.assertEquals("20px", result.height);
+    this.assertEquals("15px", result.marginBottom);
+    this.assertEquals("15px", result["margin-bottom"]);
     test.remove();
   },
 

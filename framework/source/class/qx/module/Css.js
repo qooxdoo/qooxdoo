@@ -2,6 +2,9 @@ qx.Bootstrap.define("qx.module.Css", {
   statics: {
     // documnentatin here!
     setStyle : function(name, value) {
+      if (/\w-\w/.test(name)) {
+        name = qx.lang.String.camelCase(name);
+      }
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Style.set(this[i], name, value);
       };
@@ -10,6 +13,9 @@ qx.Bootstrap.define("qx.module.Css", {
 
     getStyle : function(name) {
       if (this[0]) {
+        if (/\w-\w/.test(name)) {
+          name = qx.lang.String.camelCase(name);
+        }
         return qx.bom.element.Style.get(this[0], name);
       }
       return null;
