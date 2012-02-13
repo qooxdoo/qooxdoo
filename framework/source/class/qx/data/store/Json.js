@@ -66,9 +66,6 @@ qx.Class.define("qx.data.store.Json",
     this._marshaler = new qx.data.marshal.Json(delegate);
     this._delegate = delegate;
 
-    // use new transport by default
-    this.__deprecatedTransport = false;
-
     if (url != null) {
       this.setUrl(url);
     }
@@ -136,7 +133,6 @@ qx.Class.define("qx.data.store.Json",
     _delegate : null,
 
     __request : null,
-    __deprecatedTransport : null,
 
     // apply function
     _applyUrl: function(value, old) {
