@@ -316,7 +316,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     /**
      * Get parsed response.
      *
-     * Is called in the {@link _onReadyStateChange} event handler
+     * Is called in the {@link #_onReadyStateChange} event handler
      * to parse and store the transport’s response.
      *
      * This method MUST be overridden.
