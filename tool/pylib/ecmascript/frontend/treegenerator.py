@@ -164,7 +164,6 @@ class TokenStream(IterObject):
         elif tok.name in ('number', 'string', 'regexp'):
             symbol = symbol_table["constant"]
             s = symbol()
-            s.set('value', tok.value)
             if tok.name == 'number':
                 s.set('constantType', 'number')
                 s.set('detail', tok.detail)
@@ -176,28 +175,26 @@ class TokenStream(IterObject):
         elif tok.name in ('reserved',) and tok.detail in ("TRUE", "FALSE"):
             symbol = symbol_table["constant"]
             s = symbol()
-            s.set('value', tok.value)
             s.set('constantType', 'boolean')
         elif tok.name in ('name',):
             s = symbol_table["identifier"]()
-            s.set('value', tok.value)
         else:
             # TODO: token, reserved, builtin
             # name or operator
-            symbol = symbol_table.get(tok.value)
-            if symbol:
-                s = symbol()
-                s.value = tok.value
+            if tok.value == "this":
+                # unfortunately, this comes as tok.name=='reserved' like operators
+                # re-labeling this as identifier
+                s = symbol_table["identifier"]()
             else:
-                # don't make assumptions about correct tokens here, as we might be in the
-                # middle of a regexp
-                #raise SyntaxError("Unknown operator %r (pos %d)" % (tok.value, tok.spos))
-                symbol = symbol_table['(unknown)']
-                s = symbol()
-                s.value = tok.value
+                symbol = symbol_table.get(tok.value)
+                if symbol:
+                    s = symbol()
+                else:
+                    raise SyntaxError("Unknown operator %r (pos %d)" % (tok.value, tok.spos))
+                    #s = symbol_table['(unknown)']()
 
         if s:
-            s.value = tok.value
+            s.set('value', tok.value)
             s.set('column', tok.column)
             s.set('line', tok.line)
 
@@ -220,16 +217,17 @@ class TokenStream(IterObject):
 
 class Token(object):
     def __init__(tok, t):
-        tok.name = t["type"]
-        tok.value = t["source"]
-        tok.detail = t.get( "detail")
-        tok.line = t.get( "line")
-        tok.column = t.get( "column")
-        tok.spos = tok.column
-        tok.multiline = t.get( "multiline")
-        tok.connection = t.get( "connection")
         tok.begin = t.get( "begin")
+        tok.column = t.get( "column")
+        tok.connection = t.get( "connection")
+        tok.detail = t.get( "detail")
         tok.end = t.get( "end")
+        tok.id = t["id"]
+        tok.line = t.get( "line")
+        tok.multiline = t.get( "multiline")
+        tok.name = t["type"] if t["type"]!="token" else "operator" # i hate the token "token"
+        tok.spos = tok.column
+        tok.value = t["source"]
         tok.len = len(tok.value)
 
     def __str__(s):
@@ -299,16 +297,8 @@ class symbol_base(Node):
 
     # Packer stuff (serialization to JS)
     def toJS(self):
-        r = u''
-        r += self.opening()
-        for c in self.children:
-            r += c.toJS()
-        r += self.closing()
-        return r
+        return self.get("value", u'')
 
-    def opening(self): return u''
-
-    def closing(self): return u''
 
     def compileToken(self, name, compact=False):
         s = u''
@@ -548,7 +538,7 @@ symbol("eof")
 symbol("constant").nud = lambda self: self
 
 @method(symbol("constant"))
-def opening(self):
+def toJS(self):
     r = u''
     if self.get("constantType") == "string":
         if self.get("detail") == "singlequotes":
@@ -576,11 +566,11 @@ def nud(self):
     return self
 
 @method(symbol("identifier"))
-def opening(self):
-    name = self.get("name", False)
-    if name != None:
+def toJS(self):
+    name = self.get("value", u"")
+    if name:
         return self.write(name)
-    return u""
+    return name
 
 @method(symbol("identifier"))
 def closing(self):
@@ -672,6 +662,17 @@ def led(self, left):
         # (call bar (param baz))).
     return accessor
 
+
+symbol("dotaccessor")
+
+@method(symbol("dotaccessor"))
+def toJS(self):
+    r = self.children[0].toJS()
+    r += '.'
+    r += self.children[1].toJS()
+    return r
+
+
 # pre-/postfix ops
 
 @method(symbol("++")) # prefix
@@ -722,7 +723,7 @@ constant("false")
 
 # bracket expressions
 
-symbol(")")
+symbol("("), symbol(")")
 
 @method(symbol("("))  # <call>
 def led(self, left):
@@ -742,6 +743,13 @@ def led(self, left):
             advance(",")
     advance(")")
     return call
+
+symbol("operand")
+
+@method(symbol("operand"))
+def toJS(self):
+    return self.children[0].toJS()
+
 
 @method(symbol("("))  # <group>
 def nud(self):
@@ -790,7 +798,7 @@ def nud(self):
 symbol("accessor")
 
 @method(symbol("accessor"))
-def opening(self):         # 's' is 'self'
+def toJS(self):         # 's' is 'self'
     r = u''
     return r
 
@@ -805,7 +813,7 @@ def closing(self):
 symbol("array")
 
 @method(symbol("array"))
-def opening(self):
+def toJS(self):
     r = u''
     r += self.write("[")
     if self.hasChildren(True):
@@ -825,7 +833,7 @@ def closing(self):
 symbol("key")
 
 @method(symbol("key"))
-def opening(self):
+def toJS(self):
     r = u''
     if self.parent.type == "accessor":
         r += self.write("[")
@@ -868,7 +876,7 @@ def nud(self):
 symbol("keyvalue")
 
 @method(symbol("keyvalue"))
-def opening(self):
+def toJS(self):
     r = u''
     keyString = self.get("key")
     keyQuote = self.get("quote", False)
@@ -943,7 +951,7 @@ def nud(self):
     return self
 
 @method(symbol("function"))
-def opening(self):
+def toJS(self):
     r = self.write("function")
     functionName = self.get("name", False)
     if functionName != None:
@@ -1024,75 +1032,6 @@ def nud(self):
         return self
     else:
         return self.children[0]
-
-
-symbol("while")
-
-@method(symbol("while"))
-def std(self):
-    advance("(")
-    self.children.append(expression())
-    advance(")")
-    self.children.append(block())
-    return self
-
-
-symbol("do")
-
-@method(symbol("do"))
-def std(self):
-    self.children.append(block())
-    advance("while")
-    advance("(")
-    self.children.append(expression(0))
-    advance(")")
-    #advance(";")
-
-
-symbol("if"); symbol("else")
-
-@method(symbol("if"))
-def std(self):
-    advance("(")
-    self.children.append(expression(0))
-    advance(")")
-    self.children.append(block())
-    if (token.id == "else"):
-        advance("else")
-        if token.id == "if":
-            self.children.append(statement())
-        else:
-            self.children.append(block())
-    return self
-
-
-symbol("break")
-
-@method(symbol("break"))
-def std(self):
-    if token.id not in ("eol",  ";"):
-        self.children.append(expression(0))   # this is over-generating! (should be 'label')
-    #advance(";")
-    return self
-
-
-symbol("continue")
-
-@method(symbol("continue"))
-def std(self):
-    if token.id not in ("eol",  ";"):
-        self.children.append(expression(0))   # this is over-generating! (should be 'label')
-    #advance(";")
-    return self
-
-
-symbol("return")
-
-@method(symbol("return"))
-def std(self):
-    if token.id not in StmntTerminatorTokens:
-        self.children.append(expression(0))
-    return self
 
 
 symbol("for"); symbol("in")
@@ -1177,6 +1116,161 @@ def std(self):
     statement = symbol("statement")()
     statement.children.append(block())
     self.children.append(statement)
+    return self
+
+
+symbol("while")
+
+@method(symbol("while"))
+def std(self):
+    self.type = "loop" # compat with Node.type
+    self.set("loopType", "WHILE")
+    advance("(")
+    self.children.append(expression())
+    advance(")")
+    self.children.append(block())
+    return self
+
+
+symbol("do")
+
+@method(symbol("do"))
+def std(self):
+    self.children.append(block())
+    advance("while")
+    advance("(")
+    self.children.append(expression(0))
+    advance(")")
+    #advance(";")
+
+symbol("with")
+
+#TODO: 'with' loops
+
+symbol("if"); symbol("else")
+
+@method(symbol("if"))
+def std(self):
+    self.type = "loop" # compat with Node.type (i'd rather use explicit 'if', 'for', etc.)
+    self.set("loopType", "IF")
+    advance("(")
+    self.children.append(expression(0))
+    advance(")")
+    self.children.append(block())
+    if (token.id == "else"):
+        advance("else")
+        if token.id == "if":
+            self.children.append(statement())
+        else:
+            self.children.append(block())
+    return self
+
+
+@method(symbol("if"))
+def toJS(self):
+    r = u''
+    # Additional new line before each loop
+    if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
+        prev = self.getPreviousSibling(False, True)
+
+        # No separation after case statements
+        #if prev != None and prev.type in ["case", "default"]:
+        #    pass
+        #elif self.hasChild("elseStatement") or self.getChild("statement").hasBlockChildren():
+        #    self.sep()
+        #else:
+        #    self.line()
+    r += self.write("if")
+    # condition
+    r += self.write("(")
+    r += self.children[0].toJS()
+    r += self.write(")")
+    # 'then' part
+    r += self.children[1].toJS()
+    # (opt) 'else' part
+    if len(self.children) == 3:
+        r += self.write("else")
+        r += self.children[2].toJS()
+    r += self.space(False,result=r)
+    return r
+
+symbol("loop")
+
+@method(symbol("loop"))
+def toJS(self):
+    r = u''
+    # Additional new line before each loop
+    if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
+        prev = self.getPreviousSibling(False, True)
+
+        # No separation after case statements
+        if prev != None and prev.type in ["case", "default"]:
+            pass
+        elif self.hasChild("elseStatement") or self.getChild("statement").hasBlockChildren():
+            self.sep()
+        else:
+            self.line()
+
+    loopType = self.get("loopType")
+
+    if loopType == "IF":
+        r += self.write("if")
+        r += self.space(False,result=r)
+
+    elif loopType == "WHILE":
+        r += self.write("while")
+        r += self.space(False,result=r)
+
+    elif loopType == "FOR":
+        r += self.write("for")
+        r += self.space(False,result=r)
+
+    elif loopType == "DO":
+        r += self.write("do")
+        r += self.space(False,result=r)
+
+    elif loopType == "WITH":
+        r += self.write("with")
+        r += self.space(False,result=r)
+
+    else:
+        print "Warning: Unknown loop type: %s" % loopType
+    return r
+
+@method(symbol("loop"))
+def closing(self):
+    r = u''
+    if self.get("loopType") == "DO":
+        r += self.semicolon()
+    return r
+
+
+symbol("break")
+
+@method(symbol("break"))
+def std(self):
+    if token.id not in ("eol",  ";"):
+        self.children.append(expression(0))   # this is over-generating! (should be 'label')
+    #advance(";")
+    return self
+
+
+symbol("continue")
+
+@method(symbol("continue"))
+def std(self):
+    if token.id not in ("eol",  ";"):
+        self.children.append(expression(0))   # this is over-generating! (should be 'label')
+    #advance(";")
+    return self
+
+
+symbol("return")
+
+@method(symbol("return"))
+def std(self):
+    if token.id not in StmntTerminatorTokens:
+        self.children.append(expression(0))
     return self
 
 
@@ -1288,6 +1382,14 @@ def statements():  # plural!
     return s
 
 
+@method(symbol("statements"))
+def toJS(self):
+    r = []
+    for cld in self.children:
+        r.append(cld.toJS() + ';')
+    return u''.join(r)
+
+
 def init_list():  # parse anything from "i" to "i, j=3, k,..."
     lst = []
     while True:
@@ -1329,7 +1431,7 @@ def argument_list(list):
 symbol("assignment")
 
 @method(symbol("assignment"))
-def opening(self):
+def toJS(self):
     r = u''
     if self.parent.type == "definition":
         oper = self.get("operator", False)
@@ -1346,45 +1448,36 @@ def closing(self):
 symbol("block")
 
 @method(symbol("block"))
-def opening(self):
-    return self.write("{")
-
-@method(symbol("block"))
-def closing(self):
-    return self.write("}")
-
+def toJS(self):
+    r = '{'
+    for c in self.children:
+        r += c.toJS()
+    r += '}'
+    return r
 
 symbol("break")
 
 @method(symbol("break"))
-def opening(self):
+def toJS(self):
     r = self.write("break")
     if self.get("label", False):
         r += self.space(result=r)
         r += self.write(self.get("label", False))
     return r
 
-@method(symbol("break"))
-def closing(self):
-    return u""
-
-
 symbol("call")
 
 @method(symbol("call"))
-def opening(self):
+def toJS(self):
     r = u''
+    r += self.getChild("operand").toJS()
+    r += self.getChild("params").toJS()
     return r
-
-@method(symbol("call"))
-def closing(self):
-    return u""
-
 
 symbol("case")
 
 @method(symbol("case"))
-def opening(self):
+def toJS(self):
     r = u''
     r += self.write("case")
     r += self.space(result=r)
@@ -1398,7 +1491,7 @@ def closing(self):
 symbol("catch")
 
 @method(symbol("catch"))
-def opening(self):
+def toJS(self):
     r = u''
     r += self.write("catch")
     return r
@@ -1411,7 +1504,7 @@ def closing(self):
 symbol("comment")
 
 @method(symbol("comment"))
-def opening(self):
+def toJS(self):
     r = u''
     return r
 
@@ -1423,7 +1516,7 @@ def closing(self):
 symbol("commentsAfter")
 
 @method(symbol("commentsAfter"))
-def opening(self):
+def toJS(self):
     r = u''
     return r
 
@@ -1435,7 +1528,7 @@ def closing(self):
 symbol("commentsBefore")
 
 @method(symbol("commentsBefore"))
-def opening(self):
+def toJS(self):
     r = u''
     return r
 
@@ -1447,7 +1540,7 @@ def closing(self):
 symbol("continue")
 
 @method(symbol("continue"))
-def opening(self):
+def toJS(self):
     r = self.write("continue")
     if self.get("label", False):
         r += self.space(result=r)
@@ -1462,7 +1555,7 @@ def closing(self):
 symbol("default")
 
 @method(symbol("default"))
-def opening(self):
+def toJS(self):
     r = u''
     r += self.write("default")
     r += self.write(":")
@@ -1476,7 +1569,7 @@ def closing(self):
 symbol("definition")
 
 @method(symbol("definition"))
-def opening(self):
+def toJS(self):
     r = u''
     if self.parent.type != "definitionList":
         r += self.write("var")
@@ -1495,7 +1588,7 @@ def closing(self):
 symbol("definitionList")
 
 @method(symbol("definitionList"))
-def opening(self):
+def toJS(self):
     r = self.write("var")
     r += self.space(result=r)
     return r
@@ -1508,7 +1601,7 @@ def closing(self):
 symbol("delete")
 
 @method(symbol("delete"))
-def opening(self):
+def toJS(self):
     r = self.write("delete")
     r += self.space(result=r)
     return r
@@ -1521,7 +1614,7 @@ def closing(self):
 symbol("elseStatement")
 
 @method(symbol("elseStatement"))
-def opening(self):
+def toJS(self):
     r = u''
     r += self.write("else")
 
@@ -1538,7 +1631,7 @@ def closing(self):
 symbol("emptyStatement")
 
 @method(symbol("emptyStatement"))
-def opening(self):
+def toJS(self):
     r = u''
     return r
 
@@ -1550,7 +1643,7 @@ def closing(self):
 symbol("expression")
 
 @method(symbol("expression"))
-def opening(self):
+def toJS(self):
     r = u''
     if self.parent.type == "loop":
         loopType = self.parent.get("loopType")
@@ -1603,7 +1696,7 @@ def closing(self):
 symbol("file")
 
 @method(symbol("file"))
-def opening(self):
+def toJS(self):
     return u''
 
 @method(symbol("file"))
@@ -1614,7 +1707,7 @@ def closing(self):
 symbol("finally")
 
 @method(symbol("finally"))
-def opening(self):
+def toJS(self):
     return self.write("finally")
 
 @method(symbol("finally"))
@@ -1625,7 +1718,7 @@ def closing(self):
 symbol("first")
 
 @method(symbol("first"))
-def opening(self):
+def toJS(self):
     r = u''
     # for loop
     if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
@@ -1663,7 +1756,7 @@ def closing(self):
 symbol("group")
 
 @method(symbol("group"))
-def opening(self):
+def toJS(self):
     return self.write("(")
 
 @method(symbol("group"))
@@ -1680,7 +1773,7 @@ def closing(self):
 symbol("instantiation")
 
 @method(symbol("instantiation"))
-def opening(self):
+def toJS(self):
     r = self.write("new")
     r += self.space(result=r)
     return r
@@ -1695,7 +1788,7 @@ def closing(self):
 symbol("left")
 
 @method(symbol("left"))
-def opening(self):
+def toJS(self):
     r = u''
     return r
 
@@ -1711,61 +1804,10 @@ def closing(self):
     return r
 
 
-symbol("loop")
-
-@method(symbol("loop"))
-def opening(self):
-    r = u''
-    # Additional new line before each loop
-    if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
-        prev = self.getPreviousSibling(False, True)
-
-        # No separation after case statements
-        if prev != None and prev.type in ["case", "default"]:
-            pass
-        elif self.hasChild("elseStatement") or self.getChild("statement").hasBlockChildren():
-            self.sep()
-        else:
-            self.line()
-
-    loopType = self.get("loopType")
-
-    if loopType == "IF":
-        r += self.write("if")
-        r += self.space(False,result=r)
-
-    elif loopType == "WHILE":
-        r += self.write("while")
-        r += self.space(False,result=r)
-
-    elif loopType == "FOR":
-        r += self.write("for")
-        r += self.space(False,result=r)
-
-    elif loopType == "DO":
-        r += self.write("do")
-        r += self.space(False,result=r)
-
-    elif loopType == "WITH":
-        r += self.write("with")
-        r += self.space(False,result=r)
-
-    else:
-        print "Warning: Unknown loop type: %s" % loopType
-    return r
-
-@method(symbol("loop"))
-def closing(self):
-    r = u''
-    if self.get("loopType") == "DO":
-        r += self.semicolon()
-    return r
-
-
 symbol("map")
 
 @method(symbol("map"))
-def opening(self):
+def toJS(self):
     r = u''
     r += self.write("{")
     return r
@@ -1775,47 +1817,36 @@ def closing(self):
     return self.write("}")
 
 
-symbol("operand")
-
-@method(symbol("operand"))
-def opening(self):
-    return u""
-
-@method(symbol("operand"))
-def closing(self):
-    return u""
-
-
 symbol("operation")
 
 @method(symbol("operation"))
-def opening(self):
+def toJS(self):
     r = u''
+    r += self.getChild("first").toJS()
+    r += self.get("value")
+    r += self.getChild("second").toJS()
     return r
-
-@method(symbol("operation"))
-def closing(self):
-    return u""
 
 
 symbol("params")
 
 @method(symbol("params"))
-def opening(self):
+def toJS(self):
     r = u''
     self.noline()
     r += self.write("(")
+    a = []
+    for c in self.children:
+        a.append(c.toJS())
+    r += ','.join(a)
+    r += self.write(")")
     return r
-
-@method(symbol("params"))
-def closing(self):
-    return self.write(")")
 
 
 symbol("return")
 
 @method(symbol("return"))
-def opening(self):
+def toJS(self):
     r = self.write("return")
     if self.hasChildren():
         r += self.space(result=r)
@@ -1829,7 +1860,7 @@ def closing(self):
 symbol("right")
 
 @method(symbol("right"))
-def opening(self):
+def toJS(self):
     r = u''
     if self.parent.type == "accessor":
         r += self.write(".")
@@ -1843,7 +1874,7 @@ def closing(self):
 symbol("second")
 
 @method(symbol("second"))
-def opening(self):
+def toJS(self):
     r = u''
     # for loop
     if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
@@ -1885,7 +1916,7 @@ def closing(self):
 symbol("statement")
 
 @method(symbol("statement"))
-def opening(self):
+def toJS(self):
     r = u''
     # for loop
     if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
@@ -1910,7 +1941,7 @@ def closing(self):
 symbol("switch")
 
 @method(symbol("switch"))
-def opening(self):
+def toJS(self):
     r = u''
     # Additional new line before each switch/try
     if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
@@ -1937,7 +1968,7 @@ def closing(self):
 symbol("third")
 
 @method(symbol("third"))
-def opening(self):
+def toJS(self):
     r = u''
     # for loop
     if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
@@ -1965,7 +1996,7 @@ def closing(self):
 symbol("throw")
 
 @method(symbol("throw"))
-def opening(self):
+def toJS(self):
     r = self.write("throw")
     r += self.space(result=r)
     return r
@@ -1979,7 +2010,7 @@ def closing(self):
 symbol("variable")
 
 @method(symbol("variable"))
-def opening(self):
+def toJS(self):
     r = u''
     return r
 
@@ -1991,7 +2022,7 @@ def closing(self):
 symbol("void")
 
 @method(symbol("void"))
-def opening(self):
+def toJS(self):
     r = u''
     r += self.write("void")
     r += self.write("(")
