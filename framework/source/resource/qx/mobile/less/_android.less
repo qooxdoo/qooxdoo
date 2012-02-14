@@ -88,34 +88,28 @@ ul li.active .subtitle {
 //
 // BUTTON
 //
-
-.button, .tabButton {
-  #gradient > .vertical(#f4f4f4, #c4c4c4);
-  .border-radius(4px);
-  .background-clip(padding-box);
+.android-button (@radius, @button-color, @width, @height, @font-size) {
+  .basic-button(@radius, @button-color, black, @width, @height);
+  // Less "darken method" helps to make use of android-button easier. It takes button-color and darkens it. No second gradient color is needed.
+  #gradient > .vertical(@button-color, darken(@button-color, 20%));
   border: 1px solid #232323;
-  font: bold 17px Helvetica;
-  line-height : 40px;
+  line-height: @height;
+  font-size:@font-size;
+  font-weight: bold;
+  font-family: Arial;
 }
 
-.tabButton {
-  color: black;
-}
-
-.button.active {
+.android-button-highlight {
   #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
 }
 
+// Toolbar Button
 .toolbar-button {
-  #gradient > .vertical(#f4f4f4, #c4c4c4);
-  .border-radius(4px);
-  border: 1px solid #232323;
-  font: bold 17px Helvetica;
-  height: 50px;
+  .android-button (4px, #f4f4f4, auto, 50px, 17px);
 }
 
 .toolbar-button.active {
-  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+  .android-button-highlight;
 }
 
 .toolbar-button > div {
@@ -171,20 +165,17 @@ textarea {
 //
 // TABBAR
 //
-
 .tabBar {
   bottom: 1px;
   height: 45px;
 }
 
 .tabButton {
-  height: 45px !important;
-  line-height: 45px;
+   // This is for equal sizes od the buttons when aded in a toolbar or
+   // other container with flex :1
+  .android-button (4px, #f4f4f4, 0, 45px, 17px);
+  .background-clip(padding-box);
   margin: 0 !important;
-
-  // This is for equal sizes od the buttons when aded in a toolbar or
-  // other container with flex :1
-  width: 0;
 }
 
 .tabButton.active, .tabButton.selected {
@@ -201,24 +192,22 @@ textarea {
 }
 
 .navigationbar-button, .navigationbar-backbutton {
-  #gradient > .vertical(#f4f4f4, #c4c4c4);
-  .border-radius(4px);
+  .android-button (4px, #f4f4f4, auto, 30px, 12px);
+  
   .background-clip(padding-box);
   min-width: 40px;
 
   // Firefox uses border-box for flexbox children,
   // see http://bugzilla.qooxdoo.org/show_bug.cgi?id=5961.
   min-width: -moz-calc(40px + 10px);
-
+  //height: -moz-calc(30px + 6px);
+  
   padding: 0 3px;
-  height: 30px;
-  height: -moz-calc(30px + 6px);
-  color: black;
   border: 2px solid #232323;
 }
 
 .navigationbar-button.active, .navigationbar-backbutton.active {
-  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+  .android-button-highlight;
 }
 
 //

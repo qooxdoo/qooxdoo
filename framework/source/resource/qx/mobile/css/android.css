@@ -5,7 +5,8 @@
   margin: 0;
   padding: 0;
 }
-html, body {
+html,
+body {
   height: 100%;
 }
 .root {
@@ -29,7 +30,9 @@ html, body {
   left: 0;
   width: 100%;
 }
-.selectable, input, textarea {
+.selectable,
+input,
+textarea {
   -webkit-user-select: auto;
   -moz-user-select: auto;
   user-select: auto;
@@ -74,7 +77,8 @@ html, body {
 .out {
   z-index: 0;
 }
-.in, .out {
+.in,
+.out {
   -webkit-animation-timing-function: ease-in-out;
   -moz-animation-timing-function: ease-in-out;
   animation-timing-function: ease-in-out;
@@ -1020,7 +1024,8 @@ html, body {
   -moz-box-flex: 0;
   box-flex: 0;
 }
-.boxFlex1, .boxFlex {
+.boxFlex1,
+.boxFlex {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
@@ -1047,7 +1052,8 @@ html, body {
 .transparent {
   opacity: 0 !important;
 }
-h1, h2 {
+h1,
+h2 {
   font-weight: bold;
   font-size: 0.8em;
 }
@@ -1085,7 +1091,8 @@ ul li .subtitle {
   font-weight: normal;
   font-size: 0.8em;
 }
-li:first-child, li:first-child a {
+li:first-child,
+li:first-child a {
   border-top: 0;
 }
 .button {
@@ -1156,10 +1163,13 @@ li:first-child, li:first-child a {
 .toggleButton > div.checked {
   left: 0px;
 }
-input, select {
+input,
+select {
   vertical-align: middle;
 }
-input, select, textarea {
+input,
+select,
+textarea {
   font-family: Helvetica;
   font-size: 0.9em;
 }
@@ -1187,7 +1197,9 @@ ul.form li * {
   white-space: normal;
   text-overflow: ellipsis;
 }
-input[type="text"], input[type="password"], textarea {
+input[type="text"],
+input[type="password"],
+textarea {
   -webkit-appearance: textarea;
   -moz-appearance: textarea;
   appearance: textarea;
@@ -1199,12 +1211,15 @@ textarea {
   width: 100%;
   resize: none;
 }
-input[type="checkbox"], input[type="radio"] {
+input[type="checkbox"],
+input[type="radio"] {
   margin: 0;
   color: #324f85;
   padding: 10px 10px;
 }
-input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
+input[type="text"].invalid,
+input[type="password"].invalid,
+textarea.invalid {
   border: 1px solid red;
 }
 .formElementError {
@@ -1235,7 +1250,8 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
   padding-left: 10px;
   padding-right: 10px;
 }
-.navigationbar-button, .navigationbar-backbutton {
+.navigationbar-button,
+.navigationbar-backbutton {
   text-align: center;
   cursor: pointer;
   width: auto;
@@ -1342,10 +1358,13 @@ input[type="checkbox"] {
   font-size: 16px;
   margin: 0 0 5px 0;
 }
-a:hover, a:active {
+a:hover,
+a:active {
   outline: none;
 }
-a, a:active, a:visited {
+a,
+a:active,
+a:visited {
   color: #e89c00;
 }
 a:hover {
@@ -1384,7 +1403,8 @@ ul li {
 ul li.arrow {
   background: url("../icon/android/arrow.png") no-repeat right center;
 }
-ul li.active.arrow, ul li.selected.arrow {
+ul li.active.arrow,
+ul li.selected.arrow {
   background-image: url("../icon/android/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%, #ffdb66), color-stop(50%, #e89c00), color-stop(100%, #fdd824));
   background-image: url("../icon/android/arrow_pressed.png"), -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
   background-image: url("../icon/android/arrow_pressed.png"), -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
@@ -1392,7 +1412,8 @@ ul li.active.arrow, ul li.selected.arrow {
   background-position: right center;
   background-repeat: no-repeat;
 }
-ul li.active, ul li.selected {
+ul li.active,
+ul li.selected {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
   background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
   background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
@@ -1405,57 +1426,39 @@ ul li .subtitle {
 ul li.active .subtitle {
   color: #313429;
 }
-.button, .tabButton {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c4c4c4));
-  /* Safari 4+, Chrome 2+ */
-
-  background-image: -webkit-linear-gradient(top, #f4f4f4, #c4c4c4);
-  /* Safari 5.1+, Chrome 10+ */
-
-  background-image: -moz-linear-gradient(top, #f4f4f4, #c4c4c4);
-  /* FF 3.6+ */
-
-  background-image: linear-gradient(to bottom, #f4f4f4, #c4c4c4);
-  /* Standard (in flux) */
-
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid #232323;
-  font: bold 17px Helvetica;
-  line-height: 40px;
-}
-.tabButton {
-  color: black;
-}
-.button.active {
+.android-button-highlight {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
   background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
   background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
   background-image: linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
 }
 .toolbar-button {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c4c4c4));
-  /* Safari 4+, Chrome 2+ */
-
-  background-image: -webkit-linear-gradient(top, #f4f4f4, #c4c4c4);
-  /* Safari 5.1+, Chrome 10+ */
-
-  background-image: -moz-linear-gradient(top, #f4f4f4, #c4c4c4);
-  /* FF 3.6+ */
-
-  background-image: linear-gradient(to bottom, #f4f4f4, #c4c4c4);
-  /* Standard (in flux) */
-
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  border: 1px solid #232323;
-  font: bold 17px Helvetica;
+  cursor: pointer;
+  background: #f4f4f4;
+  width: auto;
   height: 50px;
+  color: #000000;
+  text-align: center;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
+  /* Safari 4+, Chrome 2+ */
+
+  background-image: -webkit-linear-gradient(top, #f4f4f4, #c1c1c1);
+  /* Safari 5.1+, Chrome 10+ */
+
+  background-image: -moz-linear-gradient(top, #f4f4f4, #c1c1c1);
+  /* FF 3.6+ */
+
+  background-image: linear-gradient(to bottom, #f4f4f4, #c1c1c1);
+  /* Standard (in flux) */
+
+  border: 1px solid #232323;
+  line-height: 50px;
+  font-size: 17px;
+  font-weight: bold;
+  font-family: Arial;
 }
 .toolbar-button.active {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
@@ -1466,7 +1469,9 @@ ul li.active .subtitle {
 .toolbar-button > div {
   height: 50px;
 }
-input[type="text"], input[type="password"], textarea {
+input[type="text"],
+input[type="password"],
+textarea {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#e2e0e2), to(#f8f5f8));
   /* Safari 4+, Chrome 2+ */
 
@@ -1533,12 +1538,39 @@ textarea {
   height: 45px;
 }
 .tabButton {
-  height: 45px !important;
-  line-height: 45px;
-  margin: 0 !important;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #f4f4f4;
   width: 0;
+  height: 45px;
+  color: #000000;
+  text-align: center;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
+  /* Safari 4+, Chrome 2+ */
+
+  background-image: -webkit-linear-gradient(top, #f4f4f4, #c1c1c1);
+  /* Safari 5.1+, Chrome 10+ */
+
+  background-image: -moz-linear-gradient(top, #f4f4f4, #c1c1c1);
+  /* FF 3.6+ */
+
+  background-image: linear-gradient(to bottom, #f4f4f4, #c1c1c1);
+  /* Standard (in flux) */
+
+  border: 1px solid #232323;
+  line-height: 45px;
+  font-size: 17px;
+  font-weight: bold;
+  font-family: Arial;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+  margin: 0 !important;
 }
-.tabButton.active, .tabButton.selected {
+.tabButton.active,
+.tabButton.selected {
   border: 2px solid orange;
 }
 .navigationbar {
@@ -1556,34 +1588,44 @@ textarea {
 
   border-bottom: 1px solid #2d3642;
 }
-.navigationbar-button, .navigationbar-backbutton {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c4c4c4));
-  /* Safari 4+, Chrome 2+ */
-
-  background-image: -webkit-linear-gradient(top, #f4f4f4, #c4c4c4);
-  /* Safari 5.1+, Chrome 10+ */
-
-  background-image: -moz-linear-gradient(top, #f4f4f4, #c4c4c4);
-  /* FF 3.6+ */
-
-  background-image: linear-gradient(to bottom, #f4f4f4, #c4c4c4);
-  /* Standard (in flux) */
-
+.navigationbar-button,
+.navigationbar-backbutton {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  cursor: pointer;
+  background: #f4f4f4;
+  width: auto;
+  height: 30px;
+  color: #000000;
+  text-align: center;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
+  /* Safari 4+, Chrome 2+ */
+
+  background-image: -webkit-linear-gradient(top, #f4f4f4, #c1c1c1);
+  /* Safari 5.1+, Chrome 10+ */
+
+  background-image: -moz-linear-gradient(top, #f4f4f4, #c1c1c1);
+  /* FF 3.6+ */
+
+  background-image: linear-gradient(to bottom, #f4f4f4, #c1c1c1);
+  /* Standard (in flux) */
+
+  border: 1px solid #232323;
+  line-height: 30px;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Arial;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
   min-width: 40px;
   min-width: -moz-calc(50px);
   padding: 0 3px;
-  height: 30px;
-  height: -moz-calc(36px);
-  color: black;
   border: 2px solid #232323;
 }
-.navigationbar-button.active, .navigationbar-backbutton.active {
+.navigationbar-button.active,
+.navigationbar-backbutton.active {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
   background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
   background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);

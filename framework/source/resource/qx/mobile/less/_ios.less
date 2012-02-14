@@ -114,6 +114,18 @@ li:last-child, li:last-child a {
   color: #fff;
 }
 
+.ios-button (@radius, @background-color, @width, @height, @font-size) {
+  .basic-button(@radius, @background-color, #fff, @width, @height);
+  line-height: @height;
+  font-size:@font-size;
+  font-weight:bold;
+  font-family: Helvetica;
+}
+
+.ios-button (@width, @height) {
+  .ios-button (4px, @width, @height, 17px);
+}
+
 //
 // FORM
 //
@@ -208,60 +220,60 @@ input[type="text"], input[type="password"], textarea {
 //
 // iOS backbutton
 //
+@backbutton-bordercolor: #2d3f57;
+@backbutton-backgroundcolor: #50709a;
+@backbutton-gradient-stop-1: #7c97bb;
+@backbutton-gradient-stop-2: #5a7caa;
+@backbutton-gradient-stop-3: #476999;
+@backbutton-gradient-stop-4: #4A6C9B;
+
+@backbutton-active-bordercolor: #243346;
+@backbutton-active-backgroundcolor: #476489;
+@backbutton-active-gradient-stop-1: #6b89b2;
+@backbutton-active-gradient-stop-2: #50709a;
+@backbutton-active-gradient-stop-3: #476489;
+@backbutton-active-gradient-stop-4: #3e5779;
 
 .navigationbar-backbutton {
+  .ios-button(5px, @backbutton-backgroundcolor, auto, 30px, 12px);
+  
   position:relative;
-  overflow: hidden;
-  width: auto;
-  height: 30px;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: bold;
-  line-height: 30px;
+  overflow: visible;
+  
   text-overflow: ellipsis;
   text-decoration: none;
   white-space: nowrap;
   background: none;
-  margin: 0;
   padding: 0 10px;
-  color: white;
   text-shadow: #3e5779 0 -1px 0;
   
   -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
   -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-  
   box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-  border: 1px solid #2d3f57;
+
+  border: 1px solid @backbutton-bordercolor;
   border-left:0;
-  
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  
-  border-radius: 5px;
+
   background-image: none;
-  background-color: #50709a;
   
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4A6C9B));
-  background-image: -webkit-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4A6C9B);
-  
-  background-image: -moz-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4A6C9B);
-  
-  background-image: linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4A6C9B);
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, @backbutton-gradient-stop-1), color-stop(50%, @backbutton-gradient-stop-2), color-stop(51%, @backbutton-gradient-stop-3), color-stop(100%, @backbutton-gradient-stop-4));
+  background-image: -webkit-linear-gradient(top, @backbutton-gradient-stop-1, @backbutton-gradient-stop-2 50%, @backbutton-gradient-stop-3 51%, @backbutton-gradient-stop-4);
+  background-image: -moz-linear-gradient(top, @backbutton-gradient-stop-1, @backbutton-gradient-stop-2 50%, @backbutton-gradient-stop-3 51%,@backbutton-gradient-stop-4);
+  background-image: linear-gradient(top, @backbutton-gradient-stop-1, @backbutton-gradient-stop-2 50%, @backbutton-gradient-stop-3 51%, @backbutton-gradient-stop-4);
 }
 
+
 .navigationbar-backbutton.active { 
-  border-color: #243346;
+  border-color: @backbutton-active-bordercolor;
+  background-color: @backbutton-active-backgroundcolor;
+  
   background-image: none;
-  background-color: #476489;
   
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
-  background-image: -webkit-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, @backbutton-active-gradient-stop-1), color-stop(50%, @backbutton-active-gradient-stop-2), color-stop(51%, @backbutton-active-gradient-stop-3), color-stop(100%, @backbutton-active-gradient-stop-4));
+  background-image: -webkit-linear-gradient(top, @backbutton-active-gradient-stop-1, @backbutton-active-gradient-stop-2 50%, @backbutton-active-gradient-stop-3 51%, @backbutton-active-gradient-stop-4);
+  background-image: -moz-linear-gradient(top, @backbutton-active-gradient-stop-1, @backbutton-active-gradient-stop-2 50%, @backbutton-active-gradient-stop-3 51%, @backbutton-active-gradient-stop-4);
+  background-image: linear-gradient(top, @backbutton-active-gradient-stop-1, @backbutton-active-gradient-stop-2 50%, @backbutton-active-gradient-stop-3 51%, @backbutton-active-gradient-stop-4);
   
-  //background-image: -moz-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
-  background-image: -moz-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
-  
-  background-image: linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
-  color: white;
   text-shadow: #364b68 0 -1px 0;
 }
 
@@ -273,10 +285,13 @@ input[type="text"], input[type="password"], textarea {
 }
 
 .navigationbar-backbutton:before {
+  // Arrowhead of back button
+  @arrowhead-size: 21px;
+  
   content: '';
   position:absolute;
-  width: 21px;
-  height: 21px;
+  width: @arrowhead-size;
+  height: @arrowhead-size;
   left:-6px;
   top:-4px;
   
@@ -289,13 +304,12 @@ input[type="text"], input[type="password"], textarea {
   transform-origin: 0 0;
   
   background-image: none;
-  background-color: #50709a;
-  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4A6C9B));
-  background-image: -webkit-linear-gradient(top left, #7c97bb, #5a7caa 50%, #476999 51%, #4A6C9B);
+  background-color: @backbutton-backgroundcolor; 
   
-  background-image: -moz-linear-gradient(top left, #7c97bb, #5a7caa 50%, #476999 51%, #4A6C9B);
-  
-  background-image: linear-gradient(top left, #7c97bb, #5a7caa 50%, #476999 51%, #4A6C9B);
+  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, @backbutton-gradient-stop-1), color-stop(50%, @backbutton-gradient-stop-2), color-stop(51%, @backbutton-gradient-stop-3), color-stop(100%, @backbutton-gradient-stop-4));
+  background-image: -webkit-linear-gradient(top left,@backbutton-gradient-stop-1, @backbutton-gradient-stop-2 50%, @backbutton-gradient-stop-3 51%, @backbutton-gradient-stop-4);
+  background-image: -moz-linear-gradient(top left, @backbutton-gradient-stop-1, @backbutton-gradient-stop-2 50%, @backbutton-gradient-stop-3 51%, @backbutton-gradient-stop-4);
+  background-image: linear-gradient(top left, @backbutton-gradient-stop-1, @backbutton-gradient-stop-2 50%, @backbutton-gradient-stop-3 51%, @backbutton-gradient-stop-4);
   
   background-size: 100% 98%;
   
@@ -303,34 +317,28 @@ input[type="text"], input[type="password"], textarea {
   -moz-border-radius: 0 0 0 2px;
   border-radius: 0 0 0 2px;
   
-  border-left: 1px solid #2d3f57;
-  border-bottom: 1px solid #2d3f57;
-}
-
-
-.navigationbar-backbutton:before {
+  border-left: 1px solid @backbutton-bordercolor;
+  border-bottom: 1px solid @backbutton-bordercolor;
+  
   -webkit-box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
   -moz-box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
   box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
 }
 
-
 .navigationbar-backbutton.active:before {
-  background-image: none;
-  background-color: #476489;
-  border-color: #243346;
+  // Arrowhead active
+  background-color: @backbutton-active-backgroundcolor;
+  border-color: @backbutton-active-bordercolor;
   
-  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
-  background-image: -webkit-linear-gradient(left top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
-  
-  background-image: -moz-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
-  background-image: -moz-linear-gradient(left top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
-  
-  background-image: linear-gradient(left top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, @backbutton-active-gradient-stop-1), color-stop(50%, @backbutton-active-gradient-stop-2), color-stop(51%, @backbutton-active-gradient-stop-3), color-stop(100%, @backbutton-active-gradient-stop-4));
+  background-image: -webkit-linear-gradient(left top, @backbutton-active-gradient-stop-1, @backbutton-active-gradient-stop-2 50%, @backbutton-active-gradient-stop-3 51%, @backbutton-active-gradient-stop-4);
+  background-image: -moz-linear-gradient(left top, @backbutton-active-gradient-stop-1, @backbutton-active-gradient-stop-2 50%, @backbutton-active-gradient-stop-3 51%, @backbutton-active-gradient-stop-4);
+  background-image: linear-gradient(left top, @backbutton-active-gradient-stop-1, @backbutton-active-gradient-stop-2 50%, @backbutton-active-gradient-stop-3 51%, @backbutton-active-gradient-stop-4);
 }
 
+// Label of text should be positioned relative, because otherwise the arrowhead is located before text label on z-axis.
 .navigationbar-backbutton .label {
-    position:relative;
+   position:relative;
 }
 
 //
@@ -370,21 +378,14 @@ input[type="checkbox"]:checked {
 //
 
 .toolbar-button {
-  .border-radius(4px);
+  // This is for equal sizes od the buttons when added in a toolbar or
+  // other container with flex :1
+  .ios-button (0px, none, 0, 50px, 17px);
+  
   .background-clip(padding-box);
-  cursor: pointer;
-  font-weight: bold;
-  color: #fff;
-  font: bold 17px Helvetica;
-  height : 50px;
-  text-align: center;
   padding-left: 20px;
   padding-right: 20px;
   overflow: hidden;
-
-  // This is for equal sizes od the buttons when aded in a toolbar or
-  // other container with flex :1
-  width: 0;
 }
 
 .toolbar-button.active {
