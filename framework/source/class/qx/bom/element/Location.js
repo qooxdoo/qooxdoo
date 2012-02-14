@@ -44,7 +44,7 @@
  * * Opera 9.2
  * * Safari 3.0 beta
  */
-qx.Class.define("qx.bom.element.Location",
+qx.Bootstrap.define("qx.bom.element.Location",
 {
   statics :
   {
