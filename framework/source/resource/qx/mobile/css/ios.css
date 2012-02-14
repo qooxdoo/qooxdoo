@@ -5,7 +5,8 @@
   margin: 0;
   padding: 0;
 }
-html, body {
+html,
+body {
   height: 100%;
 }
 .root {
@@ -29,7 +30,9 @@ html, body {
   left: 0;
   width: 100%;
 }
-.selectable, input, textarea {
+.selectable,
+input,
+textarea {
   -webkit-user-select: auto;
   -moz-user-select: auto;
   user-select: auto;
@@ -74,7 +77,8 @@ html, body {
 .out {
   z-index: 0;
 }
-.in, .out {
+.in,
+.out {
   -webkit-animation-timing-function: ease-in-out;
   -moz-animation-timing-function: ease-in-out;
   animation-timing-function: ease-in-out;
@@ -1020,7 +1024,8 @@ html, body {
   -moz-box-flex: 0;
   box-flex: 0;
 }
-.boxFlex1, .boxFlex {
+.boxFlex1,
+.boxFlex {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
@@ -1047,7 +1052,8 @@ html, body {
 .transparent {
   opacity: 0 !important;
 }
-h1, h2 {
+h1,
+h2 {
   font-weight: bold;
   font-size: 0.8em;
 }
@@ -1085,7 +1091,8 @@ ul li .subtitle {
   font-weight: normal;
   font-size: 0.8em;
 }
-li:first-child, li:first-child a {
+li:first-child,
+li:first-child a {
   border-top: 0;
 }
 .button {
@@ -1156,10 +1163,13 @@ li:first-child, li:first-child a {
 .toggleButton > div.checked {
   left: 0px;
 }
-input, select {
+input,
+select {
   vertical-align: middle;
 }
-input, select, textarea {
+input,
+select,
+textarea {
   font-family: Helvetica;
   font-size: 0.9em;
 }
@@ -1187,7 +1197,9 @@ ul.form li * {
   white-space: normal;
   text-overflow: ellipsis;
 }
-input[type="text"], input[type="password"], textarea {
+input[type="text"],
+input[type="password"],
+textarea {
   -webkit-appearance: textarea;
   -moz-appearance: textarea;
   appearance: textarea;
@@ -1199,12 +1211,15 @@ textarea {
   width: 100%;
   resize: none;
 }
-input[type="checkbox"], input[type="radio"] {
+input[type="checkbox"],
+input[type="radio"] {
   margin: 0;
   color: #324f85;
   padding: 10px 10px;
 }
-input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
+input[type="text"].invalid,
+input[type="password"].invalid,
+textarea.invalid {
   border: 1px solid red;
 }
 .formElementError {
@@ -1235,7 +1250,8 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
   padding-left: 10px;
   padding-right: 10px;
 }
-.navigationbar-button, .navigationbar-backbutton {
+.navigationbar-button,
+.navigationbar-backbutton {
   text-align: center;
   cursor: pointer;
   width: auto;
@@ -1342,10 +1358,13 @@ input[type="checkbox"] {
   font-size: 16px;
   margin: 0 0 5px 0;
 }
-a:hover, a:active {
+a:hover,
+a:active {
   outline: none;
 }
-a, a:active, a:visited {
+a,
+a:active,
+a:visited {
   color: #4c566c;
 }
 a:hover {
@@ -1396,13 +1415,15 @@ ul li {
 ul li.arrow {
   background: url("../icon/ios/arrow.png") no-repeat right center;
 }
-ul li.active.arrow, ul li.selected.arrow {
+ul li.active.arrow,
+ul li.selected.arrow {
   background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, from(#4583fd), to(#194ae4));
   background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-linear-gradient(top, #4583fd, #194ae4);
   background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -moz-linear-gradient(top, #4583fd, #194ae4);
   background: url("../icon/ios/arrow_pressed.png") no-repeat right center, linear-gradient(to bottom, #4583fd, #194ae4);
 }
-ul li.active, ul li.selected {
+ul li.active,
+ul li.selected {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#4583fd), to(#194ae4));
   /* Safari 4+, Chrome 2+ */
 
@@ -1420,12 +1441,14 @@ ul li.active, ul li.selected {
 ul li .subtitle {
   color: #585858;
 }
-li:first-child, li:first-child a {
+li:first-child,
+li:first-child a {
   -webkit-border-radius: 8px 8px 0 0;
   -moz-border-radius: 8px 8px 0 0;
   border-radius: 8px 8px 0 0;
 }
-li:last-child, li:last-child a {
+li:last-child,
+li:last-child a {
   -webkit-border-radius: 0 0 8px 8px;
   -moz-border-radius: 0 0 8px 8px;
   border-radius: 0 0 8px 8px;
@@ -1460,7 +1483,9 @@ li:last-child, li:last-child a {
 ul.form {
   margin-bottom: 10px;
 }
-input[type="text"], input[type="password"], textarea {
+input[type="text"],
+input[type="password"],
+textarea {
   color: #777;
   background: #fff;
   border: 0;
@@ -1511,7 +1536,8 @@ input[type="text"], input[type="password"], textarea {
   height: 42px !important;
   line-height: 45px;
 }
-.tabButton.active, .tabButton.selected {
+.tabButton.active,
+.tabButton.selected {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#393939), color-stop(50%, #292929), color-stop(51%, #1d1d1d), to(#1c1c1c));
   background-image: -webkit-linear-gradient(top, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
   background-image: -moz-linear-gradient(top, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
@@ -1525,7 +1551,8 @@ input[type="text"], input[type="password"], textarea {
   background-image: linear-gradient(to bottom, #cdd5df, #8195af 50%, #6d84a2);
   border-bottom: 1px solid #2d3642;
 }
-.navigationbar-button, .navigationbar-backbutton {
+.navigationbar-button,
+.navigationbar-backbutton {
   -webkit-border-image: url(../icon/ios/toolButton.png) 0 5 0 5;
   -moz-border-image: url(../icon/ios/toolButton.png) 0 5 0 5;
   border-width: 0 5px;
@@ -1540,19 +1567,97 @@ input[type="text"], input[type="password"], textarea {
   -moz-border-image: url(../icon/ios/toolButton_pressed.png) 0 5 0 5;
 }
 .navigationbar-backbutton {
-  -webkit-border-image: url(../icon/ios/backButton.png) 0 8 0 14;
-  -moz-border-image: url(../icon/ios/backButton.png) 0 8 0 14;
-  padding: 0;
-  max-width: 55px;
-  max-width: -moz-calc(77px);
-  border-width: 0 8px 0 14px;
-}
-.navigationbar-backbutton > div {
-  width: -moz-calc(30px);
+  position: relative;
+  overflow: hidden;
+  width: auto;
+  height: 30px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 30px;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  white-space: nowrap;
+  background: none;
+  margin: 0;
+  padding: 0 10px;
+  color: white;
+  text-shadow: #3e5779 0 -1px 0;
+  -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  border: 1px solid #2d3f57;
+  border-left: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-image: none;
+  background-color: #50709a;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4a6c9b));
+  background-image: -webkit-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  background-image: -moz-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  background-image: linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
 }
 .navigationbar-backbutton.active {
-  -webkit-border-image: url(../icon/ios/backButton_pressed.png) 0 8 0 14;
-  -moz-border-image: url(../icon/ios/backButton_pressed.png) 0 8 0 14;
+  border-color: #243346;
+  background-image: none;
+  background-color: #476489;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
+  background-image: -webkit-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: -moz-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  color: white;
+  text-shadow: #364b68 0 -1px 0;
+}
+.navigationbar-backbutton {
+  max-width: 60px;
+  margin-left: 15px;
+  overflow: visible;
+  padding-left: 5px;
+}
+.navigationbar-backbutton:before {
+  content: '';
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  left: -6px;
+  top: -4px;
+  -webkit-transform: rotate(45deg) translate3d(0.2px, 0, 0);
+  -moz-transform: rotate(45deg) translate3d(0.2px, 0, 0);
+  transform: rotate(45deg) translate3d(0.2px, 0, 0);
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  transform-origin: 0 0;
+  background-image: none;
+  background-color: #50709a;
+  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4a6c9b));
+  background-image: -webkit-linear-gradient(top left, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  background-image: -moz-linear-gradient(top left, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  background-image: linear-gradient(top left, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  background-size: 100% 98%;
+  -webkit-border-radius: 0 0 0 2px;
+  -moz-border-radius: 0 0 0 2px;
+  border-radius: 0 0 0 2px;
+  border-left: 1px solid #2d3f57;
+  border-bottom: 1px solid #2d3f57;
+}
+.navigationbar-backbutton:before {
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
+}
+.navigationbar-backbutton.active:before {
+  background-image: none;
+  background-color: #476489;
+  border-color: #243346;
+  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
+  background-image: -webkit-linear-gradient(left top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: -moz-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
+  background-image: -moz-linear-gradient(left top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: linear-gradient(left top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+}
+.navigationbar-backbutton .label {
+  position: relative;
 }
 .scrollbarV > div {
   background-image: -webkit-gradient(linear, center left, center right, from(#62666a), to(#65696c));

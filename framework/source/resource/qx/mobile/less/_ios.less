@@ -205,20 +205,132 @@ input[type="text"], input[type="password"], textarea {
   .border-image(url(../icon/ios/toolButton_pressed.png) 0 5 0 5);
 }
 
+//
+// iOS backbutton
+//
+
 .navigationbar-backbutton {
-  .border-image(url(../icon/ios/backButton.png) 0 8 0 14);
-  padding: 0;
-  max-width: 55px;
-  max-width: -moz-calc(55px + 22px);
-  border-width: 0 8px 0 14px;
+  position:relative;
+  overflow: hidden;
+  width: auto;
+  height: 30px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 30px;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  white-space: nowrap;
+  background: none;
+  margin: 0;
+  padding: 0 10px;
+  color: white;
+  text-shadow: #3e5779 0 -1px 0;
+  
+  -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  
+  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  border: 1px solid #2d3f57;
+  border-left:0;
+  
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  
+  border-radius: 5px;
+  background-image: none;
+  background-color: #50709a;
+  
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4A6C9B));
+  background-image: -webkit-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4A6C9B);
+  
+  background-image: -moz-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4A6C9B);
+  
+  background-image: linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4A6C9B);
 }
 
-.navigationbar-backbutton > div {
-  width: -moz-calc(30px); // Fix 1px off inherent width of label in Firefox
+.navigationbar-backbutton.active { 
+  border-color: #243346;
+  background-image: none;
+  background-color: #476489;
+  
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
+  background-image: -webkit-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  
+  //background-image: -moz-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
+  background-image: -moz-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  
+  background-image: linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  color: white;
+  text-shadow: #364b68 0 -1px 0;
 }
 
-.navigationbar-backbutton.active {
-    .border-image(url(../icon/ios/backButton_pressed.png) 0 8 0 14);
+.navigationbar-backbutton {
+  max-width: 60px;
+  margin-left: 15px;
+  overflow: visible;
+  padding-left: 5px;
+}
+
+.navigationbar-backbutton:before {
+  content: '';
+  position:absolute;
+  width: 21px;
+  height: 21px;
+  left:-6px;
+  top:-4px;
+  
+  -webkit-transform: rotate(45deg) translate3d(0.2px, 0, 0);
+  -moz-transform: rotate(45deg) translate3d(0.2px, 0, 0);
+  transform: rotate(45deg) translate3d(0.2px, 0, 0);
+  
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  transform-origin: 0 0;
+  
+  background-image: none;
+  background-color: #50709a;
+  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4A6C9B));
+  background-image: -webkit-linear-gradient(top left, #7c97bb, #5a7caa 50%, #476999 51%, #4A6C9B);
+  
+  background-image: -moz-linear-gradient(top left, #7c97bb, #5a7caa 50%, #476999 51%, #4A6C9B);
+  
+  background-image: linear-gradient(top left, #7c97bb, #5a7caa 50%, #476999 51%, #4A6C9B);
+  
+  background-size: 100% 98%;
+  
+  -webkit-border-radius: 0 0 0 2px;
+  -moz-border-radius: 0 0 0 2px;
+  border-radius: 0 0 0 2px;
+  
+  border-left: 1px solid #2d3f57;
+  border-bottom: 1px solid #2d3f57;
+}
+
+
+.navigationbar-backbutton:before {
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
+}
+
+
+.navigationbar-backbutton.active:before {
+  background-image: none;
+  background-color: #476489;
+  border-color: #243346;
+  
+  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
+  background-image: -webkit-linear-gradient(left top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  
+  background-image: -moz-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
+  background-image: -moz-linear-gradient(left top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  
+  background-image: linear-gradient(left top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+}
+
+.navigationbar-backbutton .label {
+    position:relative;
 }
 
 //
