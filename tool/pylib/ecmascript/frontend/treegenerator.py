@@ -298,6 +298,156 @@ class symbol_base(Node):
 
     def closing(self): return u''
 
+    @staticmethod
+    def compileToken(name, compact=False):
+        s = u''
+
+        if name in ["INC", "DEC", "TYPEOF"]:
+            pass
+
+        elif name in ["INSTANCEOF", "IN"]:
+            s += Packer.space(result=s)
+
+        elif not compact and pretty:
+            s += Packer.space(result=s)
+
+        if name == None:
+            s += Packer.write("=")
+
+        elif name in ["TYPEOF", "INSTANCEOF", "IN"]:
+            s += Packer.write(name.lower())
+
+        else:
+            for key in lang.TOKENS:
+                if lang.TOKENS[key] == name:
+                    s += Packer.write(key)
+
+        if name in ["INC", "DEC"]:
+            pass
+
+        elif name in ["TYPEOF", "INSTANCEOF", "IN"]:
+            s += Packer.space(result=s)
+
+        elif not compact and pretty:
+            s += Packer.space(result=s)
+
+        return s
+
+
+    @staticmethod
+    def space(force=True, result=u''):
+        global pretty
+        global afterLine
+        global afterBreak
+        global afterDoc
+        s = u''
+
+        if not force and not pretty:
+            return s
+
+        if afterDoc or afterBreak or afterLine or result and (result.endswith(" ") or result.endswith("\n")):
+            return s
+        else:
+            return u' '
+
+
+    @staticmethod
+    def write(txt=u""):
+        result = u""
+        global breaks
+        global afterLine
+        global afterBreak
+        global afterDoc
+        global afterDivider
+        global afterArea
+
+        if breaks:
+            if afterArea or afterDivider or afterDoc or afterBreak or afterLine:
+                result += "\n"
+
+        # reset
+        afterLine = False
+        afterBreak = False
+        afterDoc = False
+        afterDivider = False
+        afterArea = False
+
+        result += txt
+
+        return result
+
+
+    @staticmethod
+    def sep():
+        global afterBreak
+        afterBreak = True
+
+
+    @staticmethod
+    def line():
+        global afterLine
+        afterLine = True
+
+
+    @staticmethod
+    def noline():
+        global afterLine
+        global afterBreak
+        global afterDivider
+        global afterArea
+        global afterDoc
+
+        afterLine = False
+        afterBreak = False
+        afterDivider = False
+        afterArea = False
+        afterDoc = False
+
+
+    @staticmethod
+    def semicolon(result=u''):
+        global breaks
+        s = u''
+
+        Packer.noline()
+
+        if not result or not (result.endswith("\n") or result.endswith(";")):
+            s += Packer.write(";")
+
+            if breaks:
+                s += "\n"
+        return s
+
+
+    @staticmethod
+    def comma(result):
+        global breaks
+        s = u''
+
+        Packer.noline()
+
+        if not result or not (result.endswith("\n") or result.endswith(",")):
+            s += Packer.write(",")
+
+            if breaks:
+                result += "\n"
+
+        return s
+
+
+    @staticmethod
+    def inForLoop(node):
+        while node:
+            if node.type in ["first", "second", "third"] and node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+                return True
+
+            if not node.hasParent():
+                return False
+
+            node = node.parent
+
+        return False
+
 # -- class factory ------------------
 
 def symbol(id, lbp=0):
@@ -421,20 +571,20 @@ symbol("eof")
 symbol("constant").nud = lambda self: self
 
 @method(symbol("constant"))
-def opening(s, node):
+def opening(self):
     r = u''
-    if node.get("constantType") == "string":
-        if node.get("detail") == "singlequotes":
+    if self.get("constantType") == "string":
+        if self.get("detail") == "singlequotes":
             r += cls.write("'")
         else:
             r += cls.write('"')
-        r += cls.write(node.get("value"))
-        if node.get("detail") == "singlequotes":
+        r += cls.write(self.get("value"))
+        if self.get("detail") == "singlequotes":
             r += cls.write("'")
         else:
             r += cls.write('"')
     else:
-        r += cls.write(node.get("value"))
+        r += cls.write(self.get("value"))
     return r
 
 @method(symbol("constant"))
