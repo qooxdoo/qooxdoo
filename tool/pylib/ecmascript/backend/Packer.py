@@ -21,6 +21,7 @@
 
 import sys, string, re
 from ecmascript.frontend import lang
+from ecmascript.frontend.treegenerator import PackerFlags as p
 
 class Packer(object):
 
@@ -38,21 +39,13 @@ class Packer(object):
 
     @staticmethod
     def serializeNode(node, opts, rslt, enableBreaks=False, enableVerbose=False):
-        global pretty
-        global breaks
-        global afterLine
-        global afterBreak
-        global afterDoc
-        global afterDivider
-        global afterArea
-        
-        pretty       = False
-        breaks       = enableBreaks
-        afterLine    = False
-        afterBreak   = False
-        afterDoc     = False
-        afterDivider = False
-        afterArea    = False
+        p.pretty       = False
+        p.breaks       = enableBreaks
+        p.afterLine    = False
+        p.afterBreak   = False
+        p.afterDoc     = False
+        p.afterDivider = False
+        p.afterArea    = False
 
         return [ Packer.emit_tree(node) ]  # caller expects []
 
