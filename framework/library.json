@@ -28,6 +28,7 @@
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : ".",
+    "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
     "Q_INCLUDES" : [
       "qx.module.Css",
       "qx.module.Attribute",
@@ -113,7 +114,6 @@
       
       "let" :
       {
-        "TESTRUNNER_ROOT" : "../component/testrunner",
         "TESTRUNNER_ORIGIN" : "external"
       },
       
@@ -136,11 +136,6 @@
     
     "test-build-q" :
     {
-      "let" :
-      {
-        "TESTRUNNER_ROOT" : "../component/testrunner"
-      },
-      
       "run" : [
         "test-build-script",
         "gen-css"
@@ -155,7 +150,6 @@
       
       "let" :
       {
-        "TESTRUNNER_ROOT" : "../component/testrunner",
         "TESTRUNNER_ORIGIN" : "external"
       },
       
@@ -173,12 +167,11 @@
     
     "gen-css" :
     {
-      "shell" :
+      "extend" : ["testrunner-portable::gen-css"],
+      
+      "let" :
       {
-        "command" :
-        [
-          "foo=`cat ${TESTRUNNER_ROOT}/source/resource/testrunner/view/html/css/testrunner.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py`;sed -i.bak \"s/%{Styles}/$${foo}/\" q-test.js;rm -f q-test.js.bak"
-        ]
+        "BUILD_SCRIPT_FILE" : "q-test.js"
       }
     }
   }

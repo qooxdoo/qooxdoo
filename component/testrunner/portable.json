@@ -127,7 +127,7 @@
       {
         "command" :
         [
-          "${PYTHON_CMD} ${TESTRUNNER_ROOT}/tool/injectcss.py ${TESTRUNNER_ROOT}/source/resource/testrunner/view/html/css/testrunner.css ${BUILD_SCRIPT_FILE}"
+          "${PYTHON_CMD} ${TESTRUNNER_ROOT}/tool/injectcss.py ${TESTRUNNER_ROOT}/source/resource/testrunner/view/html/css/testrunner.css ${BUILD_SCRIPT_FILE} ${QOOXDOO_PATH}"
         ]
       }
     },

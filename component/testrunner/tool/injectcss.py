@@ -25,10 +25,16 @@
 
 import sys, os, re
 
+if len(sys.argv) == 4:
+  qxPath = sys.argv[3]
+else:
+  qxPath = "../.."
+
 try:
   from cssmin import cssmin
 except ImportError, e:
-  sys.path.append("../../tool/pylib/cssmin")
+  modulePath = os.path.join(qxPath, "tool/pylib/cssmin")
+  sys.path.append(modulePath)
   import cssmin
 
 sourceFileName = sys.argv[1]
