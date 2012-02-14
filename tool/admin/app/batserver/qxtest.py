@@ -179,12 +179,13 @@ class QxTest:
   #
   # @param version {string} name of a subdirectory of seleniumConf["seleniumDir"]
   # @param options {string} command line options, e.g. -singleWindow -trustAllSSLCertificates 
-  def startSeleniumServer(self, version=None, options=""):
+  def startSeleniumServer(self, version=None, jar=None, options=""):
     seleniumVersion = version or self.seleniumConf["seleniumVersion"]
+    seleniumJar = jar or self.seleniumConf["seleniumJar"]
     cmd = self.testConf["javaBin"]
     cmd += " -jar " + self.seleniumConf["seleniumDir"] + "/" 
     cmd += seleniumVersion + "/"
-    cmd += self.seleniumConf["seleniumJar"]
+    cmd += seleniumJar
 
     if (self.sim):
       if "-singleWindow" in options:
@@ -870,6 +871,10 @@ class QxTest:
     seleniumVersion = self.seleniumConf["seleniumVersion"]
     if 'seleniumVersion' in appConf:
       seleniumVersion = appConf["seleniumVersion"]
+      
+    seleniumJar = self.seleniumConf["seleniumJar"]
+    if 'seleniumJar' in appConf:
+      seleniumJar = appConf["seleniumJar"]
     
     individual = True
     if 'individualServer' in appConf:
@@ -878,7 +883,7 @@ class QxTest:
     if not individual:
       self.log("individualServer set to False, using one server instance for "
                + "all tests")
-      self.startSeleniumServer(False, seleniumVersion)
+      self.startSeleniumServer(False, seleniumVersion, seleniumJar)
 
     for browser in appConf['browsers']:
       
@@ -902,6 +907,13 @@ class QxTest:
       
       if "seleniumVersion" in browser:
         seleniumVersion = browser["seleniumVersion"]
+        
+      seleniumJar = self.seleniumConf["seleniumJar"]
+      if 'seleniumJar' in appConf:
+        seleniumJar = appConf["seleniumJar"]
+      
+      if "seleniumJar" in browser:
+        seleniumJar = browser["seleniumJar"]
       
       killBrowser = True 
       if "kill" in browser:
@@ -910,7 +922,7 @@ class QxTest:
       if individual:
         self.log("individualServer set to True, using one server instance per "
                  + "test run")
-        self.startSeleniumServer(seleniumVersion, seleniumOptions)
+        self.startSeleniumServer(seleniumVersion, seleniumJar, seleniumOptions)
       
       options = False
       if "options" in browser:
