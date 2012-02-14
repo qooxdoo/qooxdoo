@@ -48,7 +48,8 @@ class QxTest:
       'seleniumHost'        : 'http://localhost:4444',
       'ieSingleWindow'      : True,
       'trustAllSSLCertificates' : False,
-      'options'             : ""
+      'options'             : "",
+      'serverStartTimeout' : 60
     }
     
     defaultTestConf = {
@@ -210,8 +211,8 @@ class QxTest:
   
     # check if it's up and running
     if ( not(self.isSeleniumServer()) ):
-      self.log("Selenium server not responding, waiting a little longer...")
-      time.sleep(30)
+      self.log("Selenium server not responding, waiting for %s seconds..." %self.seleniumConf["serverStartTimeout"])
+      time.sleep(self.seleniumConf["serverStartTimeout"])
       if ( not(self.isSeleniumServer()) ):
         self.log("ERROR: Selenium server not responding.")
         sys.exit(1)
