@@ -23,7 +23,12 @@ qx.Mixin.define("qx.test.performance.MMeasure",
       // profiling
       var profilingEnabled = window.top.qx.core.Init.getApplication().runner.view.getProfile();
 
-      if (profilingEnabled) {
+      var profilingActive = (profilingEnabled &&
+        console.profile && typeof console.profile == "function" &&
+        console.profileEnd && typeof console.profileEnd == "function"
+      );
+      
+      if (profilingActive) {
         console.profile(msg);
       }
 
@@ -32,7 +37,7 @@ qx.Mixin.define("qx.test.performance.MMeasure",
       var end = new Date();
 
       // profiling
-      if (profilingEnabled) {
+      if (profilingActive) {
         console.profileEnd(msg);
       }
 
