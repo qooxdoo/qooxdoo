@@ -494,16 +494,16 @@ def nud(self):
 @method(symbol("?"))
 def led(self, left):
     # first
-    first = Node("first")
+    first = symbol("first")()
     first.children.append(left)
     self.children.append(first)
     # second
-    second = Node("second")
+    second = symbol("second")()
     second.children.append(expression())
     self.children.append(second)
     advance(":")
     # third
-    third = Node("third")
+    third = symbol("third")()
     third.children.append(expression())
     self.children.append(third)
     return self
@@ -528,7 +528,7 @@ def led(self, left):
 def led(self, left):
     if token.id != "identifier":
         SyntaxError("Expected an attribute name (pos %d)." % self.spos)
-    #variable = Node("variable")
+    #variable = symbol("variable")()
     #variable.children.append(left.getChild("identifier")) # unwrap from <variable/>
     #variable.children.append(left)
     #while True:
@@ -537,7 +537,7 @@ def led(self, left):
     #    if token.id != ".":
     #        break
     #    advance(".")
-    accessor = Node("dotaccessor")
+    accessor = symbol("dotaccessor")()
     accessor.children.append(left)
     accessor.children.append(expression(symbol(".").lbp)) 
         # i'm providing the rbp to expression() here explicitly, so "foo.bar(baz)" gets parsed
@@ -599,13 +599,13 @@ symbol(")")
 
 @method(symbol("("))  # <call>
 def led(self, left):
-    call = Node("call")
+    call = symbol("call")()
     # operand
-    operand = Node("operand")
+    operand = symbol("operand")()
     call.children.append(operand)
     operand.children.append(left)
     # params
-    params = Node("params")
+    params = symbol("params")()
     call.children.append(params)
     if token.id != ")":
         while True:
@@ -619,7 +619,7 @@ def led(self, left):
 @method(symbol("("))  # <group>
 def nud(self):
     comma = False
-    group = Node("group")
+    group = symbol("group")()
     if token.id != ")":
         while True:
             if token.id == ")":
@@ -636,11 +636,11 @@ symbol("]")
 
 @method(symbol("["))             # "foo[0]", "foo[bar]", "foo['baz']"
 def led(self, left):
-    accessor = Node("accessor")
+    accessor = symbol("accessor")()
     # identifier
     accessor.children.append(left)
     # selector
-    key = Node("key")
+    key = symbol("key")()
     accessor.children.append(key)
     key.children.append(expression())
     advance("]")
@@ -648,7 +648,7 @@ def led(self, left):
 
 @method(symbol("["))
 def nud(self):
-    arr = Node("array")
+    arr = symbol("array")()
     if token.id != "]":
         while True:
             if token.id == "]":
@@ -716,20 +716,20 @@ symbol("}")
 
 @method(symbol("{"))                    # object literals
 def nud(self):
-    mmap = Node("map")
+    mmap = symbol("map")()
     if token.id != "}":
         while True:
             if token.id == "}":
                 break
             # key
             keyname = expression()
-            key = Node("keyvalue")
+            key = symbol("keyvalue")()
             key.set("key", keyname.get("value"))
             mmap.children.append(key)
             advance(":")
             # value
             keyval = expression()
-            val = Node("value")
+            val = symbol("value")()
             val.children.append(keyval)
             key.children.append(val)  # <value> is a child of <keyvalue>
             if token.id != ",":
@@ -786,7 +786,7 @@ def std(self):
 def block():
     t = token
     advance("{")
-    s = Node("block")
+    s = symbol("block")()
     s.children.append(t.std())  # the "{".std takes care of closing "}"
     return s
 
@@ -802,12 +802,12 @@ def nud(self):
         advance()
     # params
     assert isinstance(token, symbol("("))
-    params = Node("params")
+    params = symbol("params")()
     self.children.append(params)
     group = expression()
     params.children = group.children
     # body
-    body = Node("body")
+    body = symbol("body")()
     self.children.append(body)
     if token.id == "{":
         body.children.append(block())
@@ -852,9 +852,9 @@ symbol("var")
 #
 @method(symbol("var"))
 def std(self):
-    vardecl = Node("definitionList")
+    vardecl = symbol("definitionList")()
     while True:
-        var = Node("definition")
+        var = symbol("definition")()
         vardecl.children.append(var)
         n = token
         if n.id != "identifier":
@@ -1151,7 +1151,7 @@ def semicolonOrLineEnd():
     
 
 def statements():  # plural!
-    s = Node("statements")
+    s = symbol("statements")()
     while True:
         if token.id == "}" or token.id == "eof":
             break
