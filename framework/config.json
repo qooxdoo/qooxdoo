@@ -49,11 +49,11 @@
        "fr",
        "it",
        "nl",
-       "no",
+       "nb",  // Norwegian
        "pl",
        "ro",
-       "sl",
-       "sv"
+       "sl",  // Slovene
+       "sv"   // Swedish
     ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
   },

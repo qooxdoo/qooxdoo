@@ -38,7 +38,7 @@
  * subclass. e.g.
  *
  * <pre>
- *   qx. Class.define("custom.Table",
+ *   qx.Class.define("custom.Table",
  *   {
  *     extend  : qx.ui.table.Table,
  *     include : [ qx.core.MBindTo ]

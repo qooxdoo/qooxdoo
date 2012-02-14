@@ -68,7 +68,7 @@ Now it's time to get this method working. But how do we load the data in qooxdoo
 
 We already added the code in case the store exists. In that case, we can just invoke a reload. I also mentioned that the instance member should be private. The two underscores (``__``) :ref:`mark the member as private in qooxdoo <pages/oo_feature_summary#access>`. The creation of the store or the reload method call starts the fetching of the data.
 
-But where does the data go? The store has a property called model where the data is available as qooxdoo objects after it finished loading. This is pretty handy because all the data is already wrapped into :ref:`qooxdoo objects <pages/data_binding#the_main_idea>`! Wait, hold a second, what are :doc:`qooxdoo properites </pages/core/understanding_properties>`? Properties are a way to store data. You only need to write a :doc:`definition for a property </pages/core/defining_properties>` and qooxdoo will generate the mutator and accessor methods for that property. You will see that in just a few moments.
+But where does the data go? The store has a property called model where the data is available as qooxdoo objects after it finished loading. This is pretty handy because all the data is already wrapped into :ref:`qooxdoo objects <pages/data_binding#the_main_idea>`! Wait, hold a second, what are :doc:`qooxdoo properties </pages/core/understanding_properties>`? Properties are a way to store data. You only need to write a :doc:`definition for a property </pages/core/defining_properties>` and qooxdoo will generate the mutator and accessor methods for that property. You will see that in just a few moments.
 
 We want the data to be available as a property on our own service object. First, we need to add a property definition to the ``TwitterService.js`` file. As with the events specification, the property definition goes alongside with the ``members`` section:
 
@@ -83,7 +83,7 @@ We want the data to be available as a property on our own service object. First,
 
 We named our property tweets and added two configuration keys for it:
 
-* ``nullable`` describse that the property can be null
+* ``nullable`` describes that the property can be null
 * ``event`` takes the name of the event fired on a change of the property
 
 The real advantage here is the ``event`` key which tells the qooxdoo property system to fire an event every time the property value changes. This event is mandatory for the whole :doc:`data binding </pages/data_binding/single_value_binding>` we want to use later. But that's it for setting up a property. You can find all possible property keys :doc:`in the documentation </pages/core/properties_quickref>`.

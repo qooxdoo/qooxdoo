@@ -48,8 +48,12 @@ qx.Class.define("apiviewer.dao.Class",
      */
     registerClass : function(cls)
     {
-      if (!cls.getFullName())
+      if (typeof cls.getFullName() !== "string")
       {
+        return;
+      }
+      // The tree root package "" is needed as the parent for top-level classes
+      if (cls.getFullName() === "" && this._class_registry[""]) {
         return;
       }
       this._class_registry[cls.getFullName()] = cls;

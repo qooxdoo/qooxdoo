@@ -457,7 +457,7 @@ qx.Class.define("fce.view.FeatureSelector", {
       var valueProperty = this.getChildControl("list").getModelValueProperty();
       var data = this.__itemsToMap(this.getChildControl("list").getSelectedItems(),
         valueProperty);
-      var json = this._getJson(data);
+      var json = fce.Util.getFormattedJson(data);
       this.getChildControl("jsonField").setValue(json);
     },
 
@@ -504,26 +504,6 @@ qx.Class.define("fce.view.FeatureSelector", {
         data[item.getName()] = item.get(valueProperty);
       }
       return data;
-    },
-
-
-    /**
-     * Stringifies a map and does a little pretty-printing.
-     *
-     * @param data {Map} Map to be serialized
-     * @return {String} Formatted JSON representation of the data
-     */
-    _getJson : function(data)
-    {
-      //convert non-primitive values that were serialized to allow editing back into objects
-      for (var key in data) {
-        if (data[key] === "null" || 
-          /^(?:\{|\[)".*(?:\}|\])$/.test(data[key])) 
-        {
-          data[key] = qx.lang.Json.parse(data[key]);
-        }
-      }
-      return qx.lang.Json.stringify(data, qx.lang.Object.getKeys(data).sort(), 2);
     },
 
 

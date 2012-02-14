@@ -124,12 +124,6 @@ qx.Class.define("qx.dev.unit.TestResult",
      */
     run : function(test, testFunction, self, resume)
     {
-      /*
-      if (!resume) {
-        this.__wrapAddListener(test.getTestClass()[test.getName()]);
-      }
-      */
-
       if(!this._timeout) {
         this._timeout = {};
       }
@@ -149,7 +143,6 @@ qx.Class.define("qx.dev.unit.TestResult",
         this._timeout[test.getFullName()] = "failed";
         var qxEx = new qx.type.BaseError("Error in asynchronous test", "resume() called before wait()");
         this._createError("failure", [qxEx], test);
-        //this.__removeListeners(test.getTestClass()[test.getName()]);
         return;
       }
 
@@ -186,11 +179,17 @@ qx.Class.define("qx.dev.unit.TestResult",
             this._createError("skip", [ex], test);
           }
           else {
-            var qxEx = new qx.type.BaseError("Error setting up test: " + ex.name, ex.message);
-            this._createError("error", [qxEx], test);
+            if (ex instanceof qx.type.BaseError && 
+              ex.message == qx.type.BaseError.DEFAULTMESSAGE) 
+            {
+              ex.message = "setUp failed";
+            }
+            else {
+              ex.message = "setUp failed: " + ex.message;
+            }
+            this._createError("error", [ex], test);
           }
-
-          //this.__removeListeners(test.getTestClass()[test.getName()]);
+          
           return;
         }
       }
@@ -245,8 +244,16 @@ qx.Class.define("qx.dev.unit.TestResult",
           this.tearDown(test);
           this.fireDataEvent("endTest", test);
         } catch(ex) {
-          var qxEx = new qx.type.BaseError("Error tearing down test: " + ex.name, ex.message);
-          this._createError("error", [qxEx], test);
+          if (ex instanceof qx.type.BaseError && 
+            ex.message == qx.type.BaseError.DEFAULTMESSAGE) 
+          {
+            ex.message = "tearDown failed";
+          }
+          else {
+            ex.message = "tearDown failed: " + ex.message;
+          }
+          
+          this._createError("error", [ex], test);
         }
       }
 

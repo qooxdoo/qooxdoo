@@ -42,6 +42,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
       } else {
         title = method.getName();
       }
+      
       var titleHtml = new qx.util.StringBuilder(apiviewer.ui.panels.InfoPanel.setTitleClass(method, title));
 
       // Add the title (the method signature)
@@ -224,6 +225,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
         textHtml.add(apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(method));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createErrorHtml(method, currentClassDocNode));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createDeprecationHtml(method, "function"));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createSourceLinkHtml(method));
       }
 
       return textHtml.get();

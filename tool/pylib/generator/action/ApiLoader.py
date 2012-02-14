@@ -44,6 +44,9 @@ class ApiLoader(object):
         self._console = console
 
 
+    ##
+    # The API doctree of a specific file/class.
+    #
     def getApi(self, fileId, variantSet):
         filePath = self._classesObj[fileId].path
 
@@ -86,6 +89,9 @@ class ApiLoader(object):
         self._console.indent()
 
         docTree = tree.Node("doctree")
+        docTree.set("fullName", "")
+        docTree.set("name", "")
+        docTree.set("packageName", "")
         length = len(include)
 
         self._console.info("Loading class docs...", False)

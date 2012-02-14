@@ -33,7 +33,7 @@
 ##
 
 import sys, os, re
-from ecmascript.frontend import tree, Comment
+from ecmascript.frontend import tree, Comment, lang
 from ecmascript.frontend.treeutil import *
 from ecmascript.transform.optimizer import variantoptimizer  # ugly here
 from generator import Context
@@ -465,6 +465,7 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
         node = compileString(functionCode)
         commentAttributes = Comment.parseNode(node)
         docNode = handleFunction(node, funcName, commentAttributes, classNode)
+        docNode.remove("line")
         docNode.set("fromProperty", propertyName)
         classNode.addListChild("methods", docNode)
 
@@ -815,6 +816,10 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 
     node = tree.Node("method")
     node.set("name", name)
+    
+    (line, column) = getLineAndColumnFromSyntaxItem(funcItem)
+    if line:
+        node.set("line", line)
 
     if funcItem.type != "function":
         printDocError(funcItem, "'funcItem' is no function")
@@ -1128,7 +1133,9 @@ def getPackageNode(docTree, namespace):
             childPackage = tree.Node("package")
             childPackage.set("name", nsPart)
             childPackage.set("fullName", childPackageName)
-            childPackage.set("packageName", childPackageName.replace("." + nsPart, ""))
+            childPackage.set("packageName", (childPackageName.replace("." + nsPart, "")
+                if "." in childPackageName else "" )
+            )
 
             currPackage.addListChild("packages", childPackage)
 
@@ -1155,13 +1162,16 @@ def getClassNode(docTree, fullClassName, commentAttributes = None):
         className = fullClassName[dotIndex+1:]
         package = getPackageNode(docTree, packageName)
         classNode = package.getListChildByAttribute("classes", "name", className, False)
+    else:
+        package = docTree
+        classNode = package.getListChildByAttribute("classes", "name", className, False)
 
     if not classNode:
         # The class does not exist -> Create it
         classNode = tree.Node("class")
         classNode.set("name", className)
         classNode.set("fullName", fullClassName)
-        classNode.set("packageName", fullClassName.replace("." + className, ""))
+        classNode.set("packageName", packageName)
 
         # Read all description, param and return attributes
         for attrib in commentAttributes:
@@ -1174,13 +1184,15 @@ def getClassNode(docTree, fullClassName, commentAttributes = None):
             elif attrib["category"] == "see":
                 if not "name" in attrib:
                     printDocError(classNode, "Missing target for see.")
-                    return classNode
-
+                    continue
                 seeNode = tree.Node("see").set("name", attrib["name"])
                 classNode.addChild(seeNode)
 
         if package:
-            package.addListChild("classes", classNode)
+            if fullClassName in lang.BUILTIN:
+                pass # don't add JS built-in classes
+            else:
+                package.addListChild("classes", classNode)
 
     return classNode
 

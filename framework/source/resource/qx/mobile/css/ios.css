@@ -39,6 +39,9 @@ html, body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.exclude {
+  display: none !important;
+}
 .scroll {
   position: relative;
   width: auto;
@@ -78,9 +81,9 @@ html, body {
   -webkit-animation-duration: 350ms;
   -moz-animation-duration: 350ms;
   animation-duration: 350ms;
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
 .slide.in {
   -webkit-animation-name: slideLeftIn;

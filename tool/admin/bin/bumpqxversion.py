@@ -20,24 +20,61 @@
 ################################################################################
 
 ##
-# NAME
+# SYNTAX
 #  bumpqxversion.py <version-string> -- set various version strings in the
-#                                       framework to <version-string>
-#  - add new files in the 'Files' map
+#                                       framework to <version-string> (or parts thereof)
+#
+# EXAMPLES
+#  bumpqxversion.py 2.0
+#  bumpqxversion.py 2.1.4-pre
+#
+# DESCRIPTION
+#  Run through a set of files (maintained in this script) and replace occurrences of 
+#  version strings with the new string from the command-line.
+#
+# NOTE
+#  Add new files to the 'Files' map (see further in the "Config section").
+#  If you add files here, also update http://qooxdoo.org/documentation/general/how_to_build_a_release!
 ##
 
-import sys, os, re, string, types, codecs
+import sys, os, re, string, types, codecs, functools
+
+qxversion_regexp = r'[\w\.-]+'  # rough regexp, to capture a qooxdoo version like '1.4.3' or '1.4-pre'
+vMajor_regexp = r'\d+'
+vMinor_regexp = r'[\w-]+'
+vPatch_regexp = r'[\w-]*'
+vers_parts_regexp = r'(%s)\.(%s)\.?(%s)' % (vMajor_regexp, vMinor_regexp, vPatch_regexp)  # to split up <version-string> into major - minor - patch part
 
 # - Config section -------------------------------------------------------------
 
-qxversion_regexp = r'[\w\.-]+'  # rough regexp, to capture a qooxdoo version like '1.4' or '1.4-pre'
-
-# Files to change: { "path_from_QXROOT": [<regex_to_replace>, ...] }
+##
+# Files to change:
+#
+# Files = { 
+#     "path_from_QXROOT": [
+#         <regex_to_replace>, 
+#         (<regex_to_replace>, <version_part>), 
+#         ...
+#         ],
+#     ...
+# }
+#
+# Each entry for a file is an arry of regexes or tuples of (regex, version_part).
+# The regexes will be used to match part of the file, to identify the location of
+# the old version string. If only the regex is given, the replacement will be the
+# entire new version string, as passed in the command-line argument.
+# If it is a tuple of (regex, number), the matched location will be replaced with
+# only the corresponding *part* of the new version string (see further). This 
+# allows you to only replace the major, minor or patch number.
+#
 # <regex_to_replace> -- provide a regexp that captures some occurrences of the
 #                       version string in that particular file, with a bit of
 #                       context, and put parens around the place where the
-#                       version string itself is; this will be replaced.
-# ! If you add files here, also update http://qooxdoo.org/documentation/general/how_to_build_a_release
+#                       old version string is; this will be replaced.
+# <version_part>     -- identify the replacement string as part of the new version string:
+#                       0=major, 1=minor, 2=patch
+#
+#
 Files = {
     "./version.txt" : [
         r'^(.*)$'
@@ -55,6 +92,9 @@ Files = {
     "./documentation/manual/source/conf.py" : [
         r'^\s*version\s*=\s*[\'"](%s)[\'"]' % qxversion_regexp,
         r'^\s*release\s*=\s*[\'"](%s)[\'"]' % qxversion_regexp,
+        (r'^\s*vMajor\s*=\s*[\'"](%s)[\'"]' % vMajor_regexp, 0),  # number will be used as an index into vers_parts
+        (r'^\s*vMinor\s*=\s*[\'"](%s)[\'"]' % vMinor_regexp, 1),
+        (r'^\s*vPatch\s*=\s*[\'"](%s)[\'"]' % vPatch_regexp, 2),
         ],
     "./application/demobrowser/source/demo/welcome.html" : [
         r'var qxversion = "(%s)"'    % qxversion_regexp,
@@ -66,18 +106,29 @@ Files = {
 
 # - End config -----------------------------------------------------------------
 
-def patch(mo): 
+def patch(repl, mo):
     rel_start1 = mo.start(1) - mo.start(0)
     rel_end1   = mo.end(1)   - mo.start(0)
-    repl = mo.group(0)[:rel_start1] + new_vers + mo.group(0)[rel_end1:]
+    repl = mo.group(0)[:rel_start1] + repl + mo.group(0)[rel_end1:]
     return repl
 
 def main(new_vers):
+    # extract major/minor/patch parts
+    mo = re.match(vers_parts_regexp, new_vers)
+    assert mo, "%s doesn't look like a proper version string" % new_vers
+    vers_parts = mo.groups()  # e.g. ('2', '0', '4-pre') or ('1', '7', '')
+
+    # loop through files
     for f in Files:
         print "patching qooxdoo version in: %s" % f
         cont = codecs.open(f, 'rU', 'utf-8').read()
-        for patt in Files[f]:
-            cont, cnt = re.subn(re.compile(patt, re.M), patch, cont) # compiling patt allows to add re.M
+        for entry in Files[f]:
+            if isinstance(entry, types.TupleType):
+                (patt, repl) = entry[0], vers_parts[entry[1]]  # use only part of the version string
+            else:
+                (patt, repl) = entry, new_vers
+            fn = functools.partial(patch, repl) # bind replacement string
+            cont, cnt = re.subn(re.compile(patt, re.M), fn, cont) # compiling patt allows to add re.M
         codecs.open(f, 'w', 'utf-8').write(cont)
 
 if __name__ == "__main__":

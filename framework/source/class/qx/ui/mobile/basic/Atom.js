@@ -143,82 +143,73 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
 
   members :
   {
-
     __label : null,
     __icon : null,
     __childrenContainer : null,
     __emptyLabel : null,
 
+   
+        // property apply
+    _applyIconPosition : function(value, old) {
+        // TOP or BOTTOM handling.
+        var targetLayout;
+        var newVerticalLayout = ["top", "bottom"].indexOf(value) != -1;
+        var oldVerticalLayout = ["top", "bottom"].indexOf(old) != -1;
 
-    // property apply
-    _applyIconPosition : function(value, old)
-    {
-      var newLayout;
-      var verticalLayout = [ "top", "bottom" ].indexOf(value) != -1;
-      var oldVerticalLayout = [ "top", "bottom" ].indexOf(old) != -1;
-      if(verticalLayout && !oldVerticalLayout) {
-        newLayout = new qx.ui.mobile.layout.VBox();
-        this.__label._setStyle('display', null);
-      }
-      if(!verticalLayout && oldVerticalLayout) {
-        newLayout = new qx.ui.mobile.layout.HBox();
-        this.__label._setStyle('display', 'inline');
-      }
-      if(newLayout) {
-        this.__childrenContainer.setLayout(newLayout);
-      }
-      var iconFirst = [ "top", "left" ].indexOf(value) != -1;
-      var oldIconFirst = [ "top", "left" ].indexOf(old) != -1;
-      if(iconFirst != oldIconFirst)
-      {
-        if(iconFirst) {
-          this.__childrenContainer.remove(this.__label);
-          this.__childrenContainer._addAfter(this.__label, this.__icon);
+        // Fail handling...
+        if(newVerticalLayout && !oldVerticalLayout) {
+            targetLayout = new qx.ui.mobile.layout.VBox();
+            this.__label.setDisplay(null);
         }
-        else {
-          this.__childrenContainer.remove(this.__icon);
-          this.__childrenContainer._addAfter(this.__icon, this.__label);
+        if(!newVerticalLayout && oldVerticalLayout) {
+            targetLayout = new qx.ui.mobile.layout.HBox();
+            this.__label.setDisplay('inline');
         }
-        var oldMarginGap = this.__getOpposedPosition(old);
-        this.__icon._setStyle('margin-'+oldMarginGap, null);
-        this._applyGap(this.getGap());
-        this._domUpdated();
-      }
+
+        if(targetLayout) {
+            // only if targetLayout changed is set, change layout.
+            this.__childrenContainer.setLayout(targetLayout);
+        }
+
+        // TOP or LEFT handling.
+        var newIconFirst = ["top", "left"].indexOf(value) != -1;
+        var oldIconFirst = ["top", "left"].indexOf(old) != -1;
+        if(newIconFirst != oldIconFirst) {
+            if(newIconFirst) {
+                this.__childrenContainer.remove(this.__label);
+                this.__childrenContainer._addAfter(this.__label, this.__icon);
+            } else {
+                this.__childrenContainer.remove(this.__icon);
+                this.__childrenContainer._addAfter(this.__icon, this.__label);
+            }
+
+            var oldMarginGap = this.__getOpposedPosition(old);
+            this.__icon._setStyle('margin' + qx.lang.String.firstUp(oldMarginGap), null);
+
+            this._applyGap(this.getGap());
+            this._domUpdated();
+        }
     },
 
 
     // property apply
     _applyShow : function(value, old)
     {
-      if(value === 'both')
-      {
         if(this.__label) {
-          this.__label.show();
+            if(value === 'both' || value === 'label') {
+                this.__label.show();
+            } else if(value === 'icon') {
+                this.__label.exclude();
+            }
         }
         if(this.__icon) {
-          this.__icon.show();
+            if(value === 'both' || value === 'icon') {
+                this.__icon.show();
+            } else if(value === 'label') {
+                this.__icon.exclude();
+            }
         }
-      }
-      if(value === 'icon')
-      {
-        if(this.__label) {
-          this.__label.exclude();
-        }
-        if(this.__icon) {
-          this.__icon.show();
-        }
-      }
-      if(value === 'label')
-      {
-        if(this.__icon) {
-          this.__icon.exclude();
-        }
-        if(this.__label) {
-          this.__label.show();
-        }
-      }
     },
-
 
     // property apply
     _applyGap : function(value, old)
@@ -226,15 +217,14 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       if(this.__icon)
       {
         var marginPosition = this.__getOpposedPosition(this.getIconPosition());
-        this.__icon._setStyle('margin-'+marginPosition, value + 'px');
+        this.__icon._setStyle('margin'+qx.lang.String.firstUp(marginPosition), value + 'px');
       }
     },
-
 
     /**
      * Returns the opposed position for a given position.
      * @param position {String} "left", "right", "bottom", "right" position.
-     * @return {String} opposed possition.
+     * @return {String} opposed position.
      */
     __getOpposedPosition : function(position)
     {
@@ -435,26 +425,15 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
   },
 
 
- /*
+     
+  /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
-
-  destruct : function()
-  {
-    if(this.__label) {
-      this.__label.dispose();
-    }
-    if(this.__emptyLabel) {
-      this.__emptyLabel.dispose();
-    }
-    if(this.__icon) {
-      this.__icon.dispose();
-    }
-    if(this.__childrenContainer) {
-      this.__childrenContainer.dispose();
-    }
-    this.__label = this.__icon = this.__childrenContainer = this.__emptyLabel = null;
+  
+  destruct : function() {
+      this._disposeObjects("__label", "__emptyLabel", "__icon", "__childrenContainer");
   }
+
 });

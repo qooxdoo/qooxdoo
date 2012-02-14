@@ -252,7 +252,7 @@ qx.Class.define("testrunner.view.Html", {
       }
       var elemResults = document.createElement("div");
       elemResults.id = "results";
-      elemResults.innerHTML = '<ul id="resultslist"></ul>';
+      elemResults.innerHTML = '<ul id="resultslist" class="monotype"></ul>';
       parent.appendChild(elemResults);
       this.__domElements.elemResultsList = document.getElementById("resultslist");
     },
@@ -382,6 +382,7 @@ qx.Class.define("testrunner.view.Html", {
       // Directly create DOM element to use
       var logelem = this.__domElements.elemLogAppender = document.createElement("div");
       logelem.id = "log";
+      logelem.className = "monotype";
       parent.appendChild(logelem);
 
       return this.__domElements.elemLogAppender;

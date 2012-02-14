@@ -88,7 +88,7 @@
  * those assertions have the advantage that meaningful error messages can be
  * generated.
  *
- * For full list of assertions see http://sinonjs.org/docs/api/#assertions.
+ * For full list of assertions see http://sinonjs.org/docs/#assertions.
  * Note that sinon.assert.xyz() translates as assertXyz().
  *
  */
@@ -99,7 +99,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     var sinon = this.__getSinon();
     // Expose Sinon.JS assertions. Provides methods such
     // as assertCalled(), assertCalledWith().
-    // (http://sinonjs.org/docs/api/#assert-expose)
+    // (http://sinonjs.org/docs/#assert-expose)
     sinon.assert.expose(this, {includeFail: false});
 
     this.__sandbox = sinon.sandbox;
@@ -173,7 +173,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * * spy.exceptions
     * * spy.returnValues
     *
-    * See http://sinonjs.org/docs/api/#spies.
+    * See http://sinonjs.org/docs/#spies.
     *
     * Note: Spies are transparently added to a sandbox. To restore
     * the original function for all spies run <code>this.getSandbox().restore()</code>
@@ -218,7 +218,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * * stub.callsArg(0)
     * * stub.callsArgWith(index, arg1, arg2, ...)
     *
-    * See http://sinonjs.org/docs/api/#stubs.
+    * See http://sinonjs.org/docs/#stubs.
     *
     * Note: Stubs are transparently added to a sandbox. To restore
     * the original function for all stubs run <code>this.getSandbox().restore()</code>
@@ -265,7 +265,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * * expectation.on(obj);
     * * expecation.verify();
     *
-    * See http://sinonjs.org/docs/api/#mocks.
+    * See http://sinonjs.org/docs/#mocks.
     *
     * @param object {Object} The object to create a mock of.
     * @return {Function} A mock to set expectations on. See http://sinonjs.org/docs/#mocks.
@@ -283,7 +283,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * the original host method run <code>this.getSandbox().restore()</code>
     * in your <code>tearDown()</code> method.
     *
-    * See http://sinonjs.org/docs/api/#useFakeXMLHttpRequest.
+    * See http://sinonjs.org/docs/#useFakeXMLHttpRequest.
     *
     * @return {Xhr}
     */
@@ -297,7 +297,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * Each request can be queried for url, method, requestHeaders,
     * status and more.
     *
-    * See http://sinonjs.org/docs/api/#FakeXMLHttpRequest.
+    * See http://sinonjs.org/docs/#FakeXMLHttpRequest.
     *
     * @return {Array} Array of faked requests.
     */
@@ -310,7 +310,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * API to setup server responses. To setup responses, use the server
     * returned by {@link #getServer}.
     *
-    * See http://sinonjs.org/docs/api/#server.
+    * See http://sinonjs.org/docs/#server.
     *
     * Note: The fake server is transparently added to a sandbox. To restore
     * the original host method run <code>this.getSandbox().restore()</code>

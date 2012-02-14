@@ -30,9 +30,9 @@
  *
  *    // Data for the list
  *    var data = [
- *       {title : "Row1", subTitle : "Sub1"},
- *       {title : "Row2", subTitle : "Sub2"},
- *       {title : "Row3", subTitle : "Sub3"}
+ *       {title : "Row1", subtitle : "Sub1"},
+ *       {title : "Row2", subtitle : "Sub2"},
+ *       {title : "Row3", subtitle : "Sub3"}
  *   ];
  *
  *   // Create the list with a delegate that
@@ -41,7 +41,7 @@
  *     configureItem : function(item, data, row)
  *     {
  *       item.setTitle(data.title);
- *       item.setSubTitle(data.subTitle);
+ *       item.setSubtitle(data.subtitle);
  *       item.setShowArrow(true);
  *     }
  *   });

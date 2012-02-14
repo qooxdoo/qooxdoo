@@ -137,11 +137,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
   destruct : function()
   {
     this.resetForm();
-    for(var i=0, l=this.__labels.length; i<l; i++) {
-      this.__labels[i].dispose();
-    }
-    for(var i=0, l=this.__rows.length; i<l; i++) {
-      this.__rows[i].dispose();
-    }
+    this._disposeArray("__labels");
+    this._disposeArray("__rows");
   }
 });

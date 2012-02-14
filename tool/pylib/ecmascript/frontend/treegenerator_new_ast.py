@@ -791,8 +791,6 @@ def std(self):
             self.children.append(statement())
         else:
             self.children.append(block())
-    else:
-        self.children.append(None)
     return self
 
 

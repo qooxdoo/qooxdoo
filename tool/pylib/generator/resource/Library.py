@@ -226,15 +226,18 @@ class Library(object):
 
 
     def _getCodeId(self, clazz):
+        className = None  # not-found return value
         tree     = clazz.tree()
         qxDefine = treeutil.findQxDefine (tree)
-        className = treeutil.getClassName (qxDefine)
+        if qxDefine:
+            className = treeutil.getClassName (qxDefine)
+            if not className:  # might be u''
+                className = None
+            else:
+                illegal = self._illegalIdentifierExpr.search(className)
+                if illegal:
+                    raise ValueError, "Item name '%s' contains illegal character '%s'" % (className,illegal.group(0))
 
-        illegal = self._illegalIdentifierExpr.search(className)
-        if illegal:
-            raise ValueError, "Item name '%s' contains illegal character '%s'" % (className,illegal.group(0))
-
-        #print "found", className
         return className
 
 
@@ -356,8 +359,10 @@ class Library(object):
         ##
         # check single subdirectory from class path
         def check_multiple_namespaces(classRoot):
-            if not len([d for d in os.listdir(classRoot) if not d.startswith(".")]) == 1:
-                self._console.warn ("The class path should contain exactly one namespace: '%s'" % (classRoot,))
+            for root, dirs, files in filetool.walk(classRoot):
+                if len(dirs) != 1:
+                    self._console.warn ("The class path should contain exactly one namespace: '%s'" % (classRoot,))
+                break
 
         ##
         # check manifest namespace is on file system
@@ -441,7 +446,7 @@ class Library(object):
                     if codeIdFromTree:
                         fileCodeId = self._getCodeId(clazz)
                     else:
-                        # read content
+                        # use regexp
                         fileContent = filetool.read(filePath, self.encoding)
                         fileCodeId = self._getCodeId1(fileContent)
                 except ValueError, e:

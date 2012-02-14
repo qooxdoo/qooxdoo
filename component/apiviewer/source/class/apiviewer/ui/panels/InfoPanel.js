@@ -724,6 +724,42 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
 
     /**
+     * Creates the link to the source file that definen an item
+     * 
+     * @param node {apiviewer.dao.ClassItem} the doc node of the item.
+     * @return {String} the HTML.
+     */
+    createSourceLinkHtml : function(node)
+    {
+      if (!node.getLineNumber || !node.getLineNumber()) {
+        return "";
+      }
+      
+      var sourceUri = apiviewer.ui.ClassViewer.getSourceUri(node);
+      if (!sourceUri) {
+        return "";
+      }
+      
+      var title;
+      if (node instanceof apiviewer.dao.Class) {
+        title = node.getFullName();
+      }
+      else {
+        title = node.getClass().getFullName() + "#" + node.getName();
+      }
+      
+      var html = new qx.util.StringBuilder();
+      html.add('<div class="item-detail-headline">', "View Source:", '</div>');
+      html.add(
+        '<div class="item-detail-text">',
+        '<a href="' + sourceUri + '" target="_blank">' + title + '</a>',
+        '</div>');
+      
+      return html.get();
+    },
+
+
+    /**
      * Wraps a HTML fragment with a "span" element with CSS classes for
      * the item.
      *

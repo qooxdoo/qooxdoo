@@ -49,18 +49,18 @@ qx.Class.define("mobileshowcase.page.Overview",
         configureItem : function(item, data, row)
         {
           item.setTitle(data.title);
-          item.setSubTitle(data.subTitle);
+          item.setSubtitle(data.subtitle);
           item.setShowArrow(true);
         }
       });
 
       var data = [
-          {title : "Form Elements", subTitle : "TextField, TextArea, ToggleButton, Button...", path:"form"},
-          {title : "List", subTitle : "A large list", path:"list"},
-          {title : "Tab Bar", subTitle : "Usings tabs to switch views", path:"tab"},
-          {title : "Toolbar", subTitle : "toolbar, buttons, separators", path:"toolbar"},
-          {title : "Events", subTitle : "Touch, Tap, Swipe...", path:"event"},
-          {title : "Page Transitions", subTitle : "Slide, Fade, Cube...", path:"animation"}
+          {title : "Form Elements", subtitle : "TextField, TextArea, ToggleButton, Button...", path:"form"},
+          {title : "List", subtitle : "A large list", path:"list"},
+          {title : "Tab Bar", subtitle : "Usings tabs to switch views", path:"tab"},
+          {title : "Toolbar", subtitle : "toolbar, buttons, separators", path:"toolbar"},
+          {title : "Events", subtitle : "Touch, Tap, Swipe...", path:"event"},
+          {title : "Page Transitions", subtitle : "Slide, Fade, Cube...", path:"animation"}
       ];
 
       list.setModel(new qx.data.Array(data));

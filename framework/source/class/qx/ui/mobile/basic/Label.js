@@ -131,6 +131,10 @@ qx.Class.define("qx.ui.mobile.basic.Label",
       } else {
         this.addCssClass("no-wrap");
       }
+    },
+    
+    setDisplay : function(value) {
+        this._setStyle('display', value);
     }
   }
 });

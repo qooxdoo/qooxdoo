@@ -171,7 +171,7 @@ qx.Class.define("qx.io.request.Jsonp",
     /**
      * Return the transport’s responseJson property.
      *
-     * See {@link qx.bom.request.Jsonp#responseJson}.
+     * See {@link qx.bom.request.Jsonp}.
      *
      * @return {Object} The parsed response of the request.
      */
