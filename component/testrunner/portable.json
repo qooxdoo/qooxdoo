@@ -25,7 +25,8 @@
     "TESTRUNNER_ORIGIN" : "external",
     "TESTRUNNER_MAIN_CLASS" : "testrunner.Application",
     "TESTRUNNER_VIEW" : "testrunner.view.Html",
-    "TESTRUNNER_SCRIPT" : "testrunner-portable.js"
+    "TESTRUNNER_SCRIPT" : "testrunner-portable.js",
+    "BUILD_SCRIPT_FILE" : "${BUILD_PATH}/script/${TESTRUNNER_SCRIPT}"
   },
   
   "config-warnings" :
@@ -114,8 +115,8 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/${TESTRUNNER_SCRIPT}",
-          "loader-template" : "tool/portable.loader.tmpl.js"
+          "file" : "${BUILD_SCRIPT_FILE}",
+          "loader-template" : "${TESTRUNNER_ROOT}/tool/portable.loader.tmpl.js"
         }
       }
     },
@@ -126,7 +127,7 @@
       {
         "command" :
         [
-          "${PYTHON_CMD} tool/injectcss.py source/resource/testrunner/view/html/css/testrunner.css ${BUILD_PATH}/script/${TESTRUNNER_SCRIPT}"
+          "${PYTHON_CMD} ${TESTRUNNER_ROOT}/tool/injectcss.py ${TESTRUNNER_ROOT}/source/resource/testrunner/view/html/css/testrunner.css ${BUILD_SCRIPT_FILE}"
         ]
       }
     },

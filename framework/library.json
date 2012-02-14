@@ -15,7 +15,8 @@
   "export" :
   [
     "build-q",
-    "test-source-q"
+    "test-source-q",
+    "test-build-q"
   ],
 
 
@@ -26,25 +27,25 @@
     "API_EXCLUDE"  : ["qx.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "ROOT"         : "."
+    "ROOT"         : ".",
+    "Q_INCLUDES" : [
+      "qx.module.Css",
+      "qx.module.Attribute",
+      "qx.module.Manipulating",
+      "qx.module.Animation",
+      "qx.module.Traversing",
+      "qx.module.Event",
+      "qx.module.Template",
+      "qx.module.Polyfill",
+      "q"
+    ]
   },
 
   "jobs" :
   {
     "common" :
     {
-      "=include" :
-      [
-        "qx.module.Css",
-        "qx.module.Attribute",
-        "qx.module.Manipulating",
-        "qx.module.Animation",
-        "qx.module.Traversing",
-        "qx.module.Event",
-        "qx.module.Template",
-        "qx.module.Polyfill",
-        "q"
-      ],
+      "=include" : "${Q_INCLUDES}",
       
       "environment" :
       {
@@ -121,18 +122,7 @@
         "qx.debug" : true
       },
       
-      "include" :
-      [
-        "qx.module.Css",
-        "qx.module.Attribute",
-        "qx.module.Manipulating",
-        "qx.module.Animation",
-        "qx.module.Traversing",
-        "qx.module.Event",
-        "qx.module.Template",
-        "qx.module.Polyfill",
-        "q"
-      ],
+      "include" : "${Q_INCLUDES}",
       
       "compile-options" :
       {
@@ -141,6 +131,54 @@
           "file" : "q-test-source.js",
           "app-root" : "."
         }
+      }
+    },
+    
+    "test-build-q" :
+    {
+      "let" :
+      {
+        "TESTRUNNER_ROOT" : "../component/testrunner"
+      },
+      
+      "run" : [
+        "test-build-script",
+        "gen-css"
+      ]
+    },
+    
+    "test-build-script" :
+    {
+      "extend" : ["testrunner-portable::build-script"],
+      
+      "desc" : "generates a combined build version of q and the portable test runner",
+      
+      "let" :
+      {
+        "TESTRUNNER_ROOT" : "../component/testrunner",
+        "TESTRUNNER_ORIGIN" : "external"
+      },
+      
+      "include" : "${Q_INCLUDES}",
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "q-test.js",
+          "app-root" : "."
+        }
+      }
+    },
+    
+    "gen-css" :
+    {
+      "shell" :
+      {
+        "command" :
+        [
+          "foo=`cat ${TESTRUNNER_ROOT}/source/resource/testrunner/view/html/css/testrunner.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py`;sed -i.bak \"s/%{Styles}/$${foo}/\" q-test.js;rm -f q-test.js.bak"
+        ]
       }
     }
   }
