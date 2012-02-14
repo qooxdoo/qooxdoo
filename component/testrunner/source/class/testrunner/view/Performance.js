@@ -116,7 +116,7 @@ qx.Class.define("testrunner.view.Performance", {
           break;
         case "finished" :
           this.setStatus("Finished");
-          console.log(this.__measurements.join("\n"));
+          this.info(this.__measurements.join("\n"));
           break;
       };
     },
