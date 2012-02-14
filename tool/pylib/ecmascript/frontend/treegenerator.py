@@ -409,15 +409,15 @@ class symbol_base(Node):
         return s
 
 
-    def inForLoop(self, node):
+    def inForLoop(self):
         while node:
-            if node.type in ["first", "second", "third"] and node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+            if self.type in ["first", "second", "third"] and self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
                 return True
 
-            if not node.hasParent():
+            if not self.hasParent():
                 return False
 
-            node = node.parent
+            node = self.parent
 
         return False
 
@@ -565,7 +565,7 @@ def opening(self):
     return r
 
 @method(symbol("constant"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
@@ -576,18 +576,18 @@ def nud(self):
     return self
 
 @method(symbol("identifier"))
-def opening(self, node):
-    name = node.get("name", False)
+def opening(self):
+    name = self.get("name", False)
     if name != None:
         return self.write(name)
     return u""
 
 @method(symbol("identifier"))
-def closing(self, node):
+def closing(self):
     r = u''
-    if node.hasParent() and node.parent.type == "variable" and not node.isLastChild(True):
+    if self.hasParent() and self.parent.type == "variable" and not self.isLastChild(True):
         r += self.write(".")
-    elif node.hasParent() and node.parent.type == "label":
+    elif self.hasParent() and self.parent.type == "label":
         r += self.write(":")
     return r
 
@@ -790,14 +790,14 @@ def nud(self):
 symbol("accessor")
 
 @method(symbol("accessor"))
-def opening(self, node):         # 's' is 'self'
+def opening(self):         # 's' is 'self'
     r = u''
     return r
 
 @method(symbol("accessor"))
-def closing(self, node):
+def closing(self):
     r = u''
-    if node.hasParent() and node.parent.type == "variable" and not node.isLastChild(True):
+    if self.hasParent() and self.parent.type == "variable" and not self.isLastChild(True):
         r += self.write(".")
     return r
 
@@ -805,17 +805,17 @@ def closing(self, node):
 symbol("array")
 
 @method(symbol("array"))
-def opening(self, node):
+def opening(self):
     r = u''
     r += self.write("[")
-    if node.hasChildren(True):
+    if self.hasChildren(True):
         r += self.space(False,r)
     return r
 
 @method(symbol("array"))
-def closing(self, node):
+def closing(self):
     r = u''
-    if node.hasChildren(True):
+    if self.hasChildren(True):
         r += self.space(False,r)
 
     r += self.write("]")
@@ -825,16 +825,16 @@ def closing(self, node):
 symbol("key")
 
 @method(symbol("key"))
-def opening(self, node):
+def opening(self):
     r = u''
-    if node.parent.type == "accessor":
+    if self.parent.type == "accessor":
         r += self.write("[")
     return r
 
 @method(symbol("key"))
-def closing(self, node):
+def closing(self):
     r = u''
-    if node.hasParent() and node.parent.type == "accessor":
+    if self.hasParent() and self.parent.type == "accessor":
         r += self.write("]")
     return r
 
@@ -868,10 +868,10 @@ def nud(self):
 symbol("keyvalue")
 
 @method(symbol("keyvalue"))
-def opening(self, node):
+def opening(self):
     r = u''
-    keyString = node.get("key")
-    keyQuote = node.get("quote", False)
+    keyString = self.get("key")
+    keyQuote = self.get("quote", False)
 
     if keyQuote != None:
         # print "USE QUOTATION"
@@ -892,9 +892,9 @@ def opening(self, node):
     return r
 
 @method(symbol("keyvalue"))
-def closing(self, node):
+def closing(self):
     r = u''
-    if node.hasParent() and node.parent.type == "map" and not node.isLastChild(True):
+    if self.hasParent() and self.parent.type == "map" and not self.isLastChild(True):
         self.noline()
         r += self.comma(r)
     return r
@@ -943,16 +943,16 @@ def nud(self):
     return self
 
 @method(symbol("function"))
-def opening(self, node):
+def opening(self):
     r = self.write("function")
-    functionName = node.get("name", False)
+    functionName = self.get("name", False)
     if functionName != None:
         r += self.space(result=r)
         r += self.write(functionName)
     return r
 
 @method(symbol("function"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
@@ -1329,165 +1329,165 @@ def argument_list(list):
 symbol("assignment")
 
 @method(symbol("assignment"))
-def opening(self, node):
+def opening(self):
     r = u''
-    if node.parent.type == "definition":
-        oper = node.get("operator", False)
+    if self.parent.type == "definition":
+        oper = self.get("operator", False)
         # be compact in for-loops
         compact = self.inForLoop(node)
         r += self.compileToken(oper, compact)
     return r
 
 @method(symbol("assignment"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("block")
 
 @method(symbol("block"))
-def opening(self, node):
+def opening(self):
     return self.write("{")
 
 @method(symbol("block"))
-def closing(self, node):
+def closing(self):
     return self.write("}")
 
 
 symbol("break")
 
 @method(symbol("break"))
-def opening(self, node):
+def opening(self):
     r = self.write("break")
-    if node.get("label", False):
+    if self.get("label", False):
         r += self.space(result=r)
-        r += self.write(node.get("label", False))
+        r += self.write(self.get("label", False))
     return r
 
 @method(symbol("break"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("call")
 
 @method(symbol("call"))
-def opening(self, node):
+def opening(self):
     r = u''
     return r
 
 @method(symbol("call"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("case")
 
 @method(symbol("case"))
-def opening(self, node):
+def opening(self):
     r = u''
     r += self.write("case")
     r += self.space(result=r)
     return r
 
 @method(symbol("case"))
-def closing(self, node):
+def closing(self):
     return self.write(":")
 
 
 symbol("catch")
 
 @method(symbol("catch"))
-def opening(self, node):
+def opening(self):
     r = u''
     r += self.write("catch")
     return r
 
 @method(symbol("catch"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("comment")
 
 @method(symbol("comment"))
-def opening(self, node):
+def opening(self):
     r = u''
     return r
 
 @method(symbol("comment"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("commentsAfter")
 
 @method(symbol("commentsAfter"))
-def opening(self, node):
+def opening(self):
     r = u''
     return r
 
 @method(symbol("commentsAfter"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("commentsBefore")
 
 @method(symbol("commentsBefore"))
-def opening(self, node):
+def opening(self):
     r = u''
     return r
 
 @method(symbol("commentsBefore"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("continue")
 
 @method(symbol("continue"))
-def opening(self, node):
+def opening(self):
     r = self.write("continue")
-    if node.get("label", False):
+    if self.get("label", False):
         r += self.space(result=r)
-        r += self.write(node.get("label", False))
+        r += self.write(self.get("label", False))
     return r
 
 @method(symbol("continue"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("default")
 
 @method(symbol("default"))
-def opening(self, node):
+def opening(self):
     r = u''
     r += self.write("default")
     r += self.write(":")
     return r
 
 @method(symbol("default"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("definition")
 
 @method(symbol("definition"))
-def opening(self, node):
+def opening(self):
     r = u''
-    if node.parent.type != "definitionList":
+    if self.parent.type != "definitionList":
         r += self.write("var")
         r += self.space(result=r)
-    r += self.write(node.get("identifier"))
+    r += self.write(self.get("identifier"))
     return r
 
 @method(symbol("definition"))
-def closing(self, node):
+def closing(self):
     r = u''
-    if node.hasParent() and node.parent.type == "definitionList" and not node.isLastChild(True):
+    if self.hasParent() and self.parent.type == "definitionList" and not self.isLastChild(True):
         r += self.comma(r)
     return r
 
@@ -1495,65 +1495,65 @@ def closing(self, node):
 symbol("definitionList")
 
 @method(symbol("definitionList"))
-def opening(self, node):
+def opening(self):
     r = self.write("var")
     r += self.space(result=r)
     return r
 
 @method(symbol("definitionList"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("delete")
 
 @method(symbol("delete"))
-def opening(self, node):
+def opening(self):
     r = self.write("delete")
     r += self.space(result=r)
     return r
 
 @method(symbol("delete"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("elseStatement")
 
 @method(symbol("elseStatement"))
-def opening(self, node):
+def opening(self):
     r = u''
     r += self.write("else")
 
     # This is a elseStatement without a block around (a set of {})
-    if not node.hasChild("block"):
+    if not self.hasChild("block"):
         r += self.space(result=r)
     return r
 
 @method(symbol("elseStatement"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("emptyStatement")
 
 @method(symbol("emptyStatement"))
-def opening(self, node):
+def opening(self):
     r = u''
     return r
 
 @method(symbol("emptyStatement"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("expression")
 
 @method(symbol("expression"))
-def opening(self, node):
+def opening(self):
     r = u''
-    if node.parent.type == "loop":
-        loopType = node.parent.get("loopType")
+    if self.parent.type == "loop":
+        loopType = self.parent.get("loopType")
 
         # only do-while loops
         if loopType == "DO":
@@ -1562,38 +1562,38 @@ def opening(self, node):
         # open expression block of IF/WHILE/DO-WHILE/FOR statements
         r += self.write("(")
 
-    elif node.parent.type == "catch":
+    elif self.parent.type == "catch":
         # open expression block of CATCH statement
         r += self.write("(")
 
-    elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
+    elif self.parent.type == "switch" and self.parent.get("switchType") == "case":
         # open expression block of SWITCH statement
         r += self.write("(")
     return r
 
 @method(symbol("expression"))
-def closing(self, node):
+def closing(self):
     r = u''
-    if node.parent.type == "loop":
+    if self.parent.type == "loop":
         r += self.write(")")
 
         # e.g. a if-construct without a block {}
-        if node.parent.getChild("statement").hasChild("block"):
+        if self.parent.getChild("statement").hasChild("block"):
             pass
 
-        elif node.parent.getChild("statement").hasChild("emptyStatement"):
+        elif self.parent.getChild("statement").hasChild("emptyStatement"):
             pass
 
-        elif node.parent.type == "loop" and node.parent.get("loopType") == "DO":
+        elif self.parent.type == "loop" and self.parent.get("loopType") == "DO":
             pass
 
         else:
             r += self.space(False,result=r)
 
-    elif node.parent.type == "catch":
+    elif self.parent.type == "catch":
         r += self.write(")")
 
-    elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
+    elif self.parent.type == "switch" and self.parent.get("switchType") == "case":
         r += self.write(")")
 
         r += self.write("{")
@@ -1603,55 +1603,55 @@ def closing(self, node):
 symbol("file")
 
 @method(symbol("file"))
-def opening(self, node):
+def opening(self):
     return u''
 
 @method(symbol("file"))
-def closing(self, node):
+def closing(self):
     return u''
 
 
 symbol("finally")
 
 @method(symbol("finally"))
-def opening(self, node):
+def opening(self):
     return self.write("finally")
 
 @method(symbol("finally"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("first")
 
 @method(symbol("first"))
-def opening(self, node):
+def opening(self):
     r = u''
     # for loop
-    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+    if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
         r += self.write("(")
 
     # operation
-    elif node.parent.type == "operation":
+    elif self.parent.type == "operation":
         # operation (var a = -1)
-        if node.parent.get("left", False) == True:
-            r += self.compileToken(node.parent.get("operator"), True)
+        if self.parent.get("left", False) == True:
+            r += self.compileToken(self.parent.get("operator"), True)
     return r
 
 @method(symbol("first"))
-def closing(self, node):
+def closing(self):
     r = u''
     # for loop
-    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
-        if node.parent.get("forVariant") == "iter":
+    if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
+        if self.parent.get("forVariant") == "iter":
             r += self.write(";")
 
-            if node.parent.hasChild("second"):
+            if self.parent.hasChild("second"):
                 r += self.space(False,result=r)
 
     # operation
-    elif node.parent.type == "operation" and node.parent.get("left", False) != True:
-        oper = node.parent.get("operator")
+    elif self.parent.type == "operation" and self.parent.get("left", False) != True:
+        oper = self.parent.get("operator")
 
         # be compact in for loops
         compact = self.inForLoop(node)
@@ -1663,13 +1663,13 @@ def closing(self, node):
 symbol("group")
 
 @method(symbol("group"))
-def opening(self, node):
+def opening(self):
     return self.write("(")
 
 @method(symbol("group"))
-def closing(self, node):
+def closing(self):
     r = u''
-    if node.getChildrenLength(True) == 1:
+    if self.getChildrenLength(True) == 1:
         self.noline()
 
     r += self.write(")")
@@ -1680,14 +1680,14 @@ def closing(self, node):
 symbol("instantiation")
 
 @method(symbol("instantiation"))
-def opening(self, node):
+def opening(self):
     r = self.write("new")
     r += self.space(result=r)
     return r
 
 
 @method(symbol("instantiation"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
@@ -1695,15 +1695,15 @@ def closing(self, node):
 symbol("left")
 
 @method(symbol("left"))
-def opening(self, node):
+def opening(self):
     r = u''
     return r
 
 @method(symbol("left"))
-def closing(self, node):
+def closing(self):
     r = u''
-    if node.hasParent() and node.parent.type == "assignment":
-        oper = node.parent.get("operator", False)
+    if self.hasParent() and self.parent.type == "assignment":
+        oper = self.parent.get("operator", False)
 
         # be compact in for-loops
         compact = self.inForLoop(node)
@@ -1714,21 +1714,21 @@ def closing(self, node):
 symbol("loop")
 
 @method(symbol("loop"))
-def opening(self, node):
+def opening(self):
     r = u''
     # Additional new line before each loop
-    if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
-        prev = node.getPreviousSibling(False, True)
+    if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
+        prev = self.getPreviousSibling(False, True)
 
         # No separation after case statements
         if prev != None and prev.type in ["case", "default"]:
             pass
-        elif node.hasChild("elseStatement") or node.getChild("statement").hasBlockChildren():
+        elif self.hasChild("elseStatement") or self.getChild("statement").hasBlockChildren():
             self.sep()
         else:
             self.line()
 
-    loopType = node.get("loopType")
+    loopType = self.get("loopType")
 
     if loopType == "IF":
         r += self.write("if")
@@ -1755,9 +1755,9 @@ def opening(self, node):
     return r
 
 @method(symbol("loop"))
-def closing(self, node):
+def closing(self):
     r = u''
-    if node.get("loopType") == "DO":
+    if self.get("loopType") == "DO":
         r += self.semicolon()
     return r
 
@@ -1765,96 +1765,96 @@ def closing(self, node):
 symbol("map")
 
 @method(symbol("map"))
-def opening(self, node):
+def opening(self):
     r = u''
     r += self.write("{")
     return r
 
 @method(symbol("map"))
-def closing(self, node):
+def closing(self):
     return self.write("}")
 
 
 symbol("operand")
 
 @method(symbol("operand"))
-def opening(self, node):
+def opening(self):
     return u""
 
 @method(symbol("operand"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("operation")
 
 @method(symbol("operation"))
-def opening(self, node):
+def opening(self):
     r = u''
     return r
 
 @method(symbol("operation"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("params")
 
 @method(symbol("params"))
-def opening(self, node):
+def opening(self):
     r = u''
     self.noline()
     r += self.write("(")
     return r
 
 @method(symbol("params"))
-def closing(self, node):
+def closing(self):
     return self.write(")")
 
 
 symbol("return")
 
 @method(symbol("return"))
-def opening(self, node):
+def opening(self):
     r = self.write("return")
-    if node.hasChildren():
+    if self.hasChildren():
         r += self.space(result=r)
     return r
 
 @method(symbol("return"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("right")
 
 @method(symbol("right"))
-def opening(self, node):
+def opening(self):
     r = u''
-    if node.parent.type == "accessor":
+    if self.parent.type == "accessor":
         r += self.write(".")
     return r
 
 @method(symbol("right"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("second")
 
 @method(symbol("second"))
-def opening(self, node):
+def opening(self):
     r = u''
     # for loop
-    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
-        if not node.parent.hasChild("first"):
+    if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
+        if not self.parent.hasChild("first"):
             r += self.write("(;")
 
     # operation
-    #elif node.parent.type == "operation":
-    #    if node.isComplex():
+    #elif self.parent.type == "operation":
+    #    if self.isComplex():
     #        # (?: hook operation)
-    #        if node.parent.get("operator") == "HOOK":
+    #        if self.parent.get("operator") == "HOOK":
     #            self.sep()
     #        else:
     #            self.line()
@@ -1862,19 +1862,19 @@ def opening(self, node):
     return r
 
 @method(symbol("second"))
-def closing(self, node):
+def closing(self):
     r = u''
     # for loop
-    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+    if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
         r += self.write(";")
 
-        if node.parent.hasChild("third"):
+        if self.parent.hasChild("third"):
             r += self.space(False,result=r)
 
     # operation
-    elif node.parent.type == "operation":
+    elif self.parent.type == "operation":
         # (?: hook operation)
-        if node.parent.get("operator") == "HOOK":
+        if self.parent.get("operator") == "HOOK":
             self.noline()
             r += self.space(False,result=r)
             r += self.write(":")
@@ -1885,51 +1885,51 @@ def closing(self, node):
 symbol("statement")
 
 @method(symbol("statement"))
-def opening(self, node):
+def opening(self):
     r = u''
     # for loop
-    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
-        if node.parent.get("forVariant") == "iter":
-            if not node.parent.hasChild("first") and not node.parent.hasChild("second") and not node.parent.hasChild("third"):
+    if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
+        if self.parent.get("forVariant") == "iter":
+            if not self.parent.hasChild("first") and not self.parent.hasChild("second") and not self.parent.hasChild("third"):
                 r += self.write("(;;");
 
-            elif not node.parent.hasChild("second") and not node.parent.hasChild("third"):
+            elif not self.parent.hasChild("second") and not self.parent.hasChild("third"):
                 r += self.write(";")
 
         r += self.write(")")
 
-        if not node.hasChild("block"):
+        if not self.hasChild("block"):
             r += self.space(False,result=r)
     return r
 
 @method(symbol("statement"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("switch")
 
 @method(symbol("switch"))
-def opening(self, node):
+def opening(self):
     r = u''
     # Additional new line before each switch/try
-    if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
-        prev = node.getPreviousSibling(False, True)
+    if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
+        prev = self.getPreviousSibling(False, True)
         # No separation after case statements
         if prev != None and prev.type in ["case", "default"]:
             pass
         else:
             self.sep()
-    if node.get("switchType") == "catch":
+    if self.get("switchType") == "catch":
         r += self.write("try")
-    elif node.get("switchType") == "case":
+    elif self.get("switchType") == "case":
         r += self.write("switch")
     return r
 
 @method(symbol("switch"))
-def closing(self, node):
+def closing(self):
     r = u''
-    if node.get("switchType") == "case":
+    if self.get("switchType") == "case":
         r += self.write("}")
     return r
 
@@ -1937,72 +1937,71 @@ def closing(self, node):
 symbol("third")
 
 @method(symbol("third"))
-def opening(self, node):
+def opening(self):
     r = u''
     # for loop
-    if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
-        if not node.parent.hasChild("second"):
-            if node.parent.hasChild("first"):
+    if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
+        if not self.parent.hasChild("second"):
+            if self.parent.hasChild("first"):
                 r += self.write(";")
                 r += self.space(False,result=r)
             else:
                 r += self.write("(;;")
 
     # operation
-    #elif node.parent.type == "operation":
+    #elif self.parent.type == "operation":
     #    # (?: hook operation)
-    #    if node.parent.get("operator") == "HOOK":
-    #        if node.isComplex():
+    #    if self.parent.get("operator") == "HOOK":
+    #        if self.isComplex():
     #            self.sep()
 
     return r
 
 @method(symbol("third"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("throw")
 
 @method(symbol("throw"))
-def opening(self, node):
+def opening(self):
     r = self.write("throw")
     r += self.space(result=r)
     return r
 
 
 @method(symbol("throw"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("variable")
 
 @method(symbol("variable"))
-def opening(self, node):
+def opening(self):
     r = u''
     return r
 
 @method(symbol("variable"))
-def closing(self, node):
+def closing(self):
     return u""
 
 
 symbol("void")
 
 @method(symbol("void"))
-def opening(self, node):
+def opening(self):
     r = u''
     r += self.write("void")
     r += self.write("(")
     return r
 
 @method(symbol("void"))
-def closing(self, node):
+def closing(self):
     r = u''
-    if node.getChildrenLength(True) == 1:
+    if self.getChildrenLength(True) == 1:
         self.noline()
-
     r += self.write(")")
     return r
 
