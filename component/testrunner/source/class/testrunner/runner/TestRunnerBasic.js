@@ -52,6 +52,11 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     this.__testsInView = [];
     var viewSetting = qx.core.Environment.get("testrunner.view");
     var viewClass = qx.Class.getByName(viewSetting);
+    
+    if (qx.core.Environment.get("testrunner.performance")) {
+      qx.Class.include(viewClass, testrunner.view.MPerformance);
+    }
+    
     this.view = new viewClass();
 
     // Connect view and controller
