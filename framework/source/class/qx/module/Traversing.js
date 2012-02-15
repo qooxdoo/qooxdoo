@@ -96,6 +96,15 @@ qx.Bootstrap.define("qx.module.Traversing", {
     // TODO: Move to other class (Set, ...)
     filter : function(selector) {
       return qx.lang.Array.cast(qx.bom.Selector.matches(selector, this), qx.Collection);
+    },
+
+
+    getContents : function() {
+      var found = [];
+      for (var i=0; i < this.length; i++) {
+        found = found.concat(qx.lang.Array.fromCollection(this[i].childNodes));
+      }
+      return qx.lang.Array.cast(found, qx.Collection);
     }
   },
 
@@ -109,7 +118,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "getAncestors" : statics.getAncestors,
       "getClosest" : statics.getClosest,
       "find" : statics.find,
-      "filter" : statics.filter
+      "filter" : statics.filter,
+      "getContents" : statics.getContents
     });
   }
 });

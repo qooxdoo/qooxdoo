@@ -184,6 +184,22 @@ testrunner.define({
     this.assertEquals(q("#test")[0], q("#outer").find("#test")[0], "Element mismatch");
     this.assertEquals(1, q("#outer").find("#test").length);
     test.remove();
+  },
+  
+  testGetContents : function() {
+    var html = "<div class='container'><h1>One</h1><!-- first comment -->foo</div>";
+    html += "<div class='container'><h1>Two</h1><!-- second comment -->bar</div>";
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    var contents = q(".container").getContents();
+    this.assertEquals(6, contents.length);
+    this.assertEquals(1, contents[0].nodeType);
+    this.assertEquals(8, contents[1].nodeType);
+    this.assertEquals(3, contents[2].nodeType);
+    this.assertEquals(1, contents[3].nodeType);
+    this.assertEquals(8, contents[4].nodeType);
+    this.assertEquals(3, contents[5].nodeType);
+    test.remove();
   }
 });
 
