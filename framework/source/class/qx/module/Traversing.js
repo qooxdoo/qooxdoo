@@ -95,6 +95,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
     // TODO: Move to other class (Set, ...)
     filter : function(selector) {
+      if (qx.lang.Type.isFunction(selector)) {
+        return qx.type.BaseArray.prototype.filter.call(this, selector);
+      }
       return qx.lang.Array.cast(qx.bom.Selector.matches(selector, this), qx.Collection);
     },
 

@@ -166,7 +166,7 @@ testrunner.define({
     test.remove();
   },
 
-  testFilter : function() {
+  testFilterSelector : function() {
     var col = q.wrap([]);
     var test = q.create("<div id='test' class='item'/>");
     var other = q.create("<div class='item'/>");
@@ -175,6 +175,17 @@ testrunner.define({
     this.assertEquals(test[0], col.filter("#test")[0], "Element mismatch");
     this.assertEquals(1, col.filter("#test").length);
     this.assertEquals(2, col.filter("div").length);
+  },
+  
+  testFilterFunction : function() {
+    var test = q.create("<div id='test' class='item'/><div class='item'/>");
+    test.appendTo(this.sandbox[0]);
+    var collection = q(".item");
+    this.assertEquals(q("#test")[0], collection.filter(function(item) {
+      return item.id == "test";
+    })[0], "Element mismatch");
+    this.assertEquals(1, collection.filter("#test").length);
+    test.remove();
   },
 
   testFind : function() {
