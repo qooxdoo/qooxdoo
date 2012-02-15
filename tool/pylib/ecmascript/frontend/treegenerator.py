@@ -244,7 +244,6 @@ next = None   # produce next node into 'token'
 token= None   # current symbol_base() node
 tokenStream = None # stream of symbol_base() nodes
 
-
 class symbol_base(Node):
 
     # TODO: I should remove those.
@@ -256,6 +255,12 @@ class symbol_base(Node):
         #self.attributes = {}  # compat with Node.attributes
         #self.children   = []  # compat with Node.children
         Node.__init__(self, self.__class__.id)
+
+    ##
+    # thin wrapper around .children, to maintain .parent in them
+    def childappend(self, child):
+        self.children.append(child)
+        child.parent = self
 
     def nud(self):
         raise SyntaxError("Syntax error %r (pos %d)." % (self.id, self.spos))
@@ -297,6 +302,7 @@ class symbol_base(Node):
 
     # Packer stuff (serialization to JS)
     def toJS(self):
+        #raise NotImplementedError("%s.toJs() needs to be implemented" % (self.id,))
         return self.get("value", u'')
 
 
@@ -438,28 +444,77 @@ def symbol(id, lbp=0):
 def infix(id, bp):
     def led(self, left):
         s = symbol("first")()
-        self.children.append(s)
-        s.children.append(left)
+        self.childappend(s)
+        s.childappend(left)
         s = symbol("second")()
-        self.children.append(s)
-        s.children.append(expression(bp))
+        self.childappend(s)
+        s.childappend(expression(bp))
         return self
     symbol(id, bp).led = led
 
+    def toJS(self):
+        r = u''
+        r += self.getChild("first").toJS()
+        r += self.get("value")
+        r += self.getChild("second").toJS()
+        return r
+    symbol(id).toJS = toJS
+
+
 def infix_r(id, bp):
     def led(self, left):
-        self.children.append(left)
-        self.children.append(expression(bp-1))
+        self.childappend(left)
+        self.childappend(expression(bp-1))
         return self
     symbol(id, bp).led = led
+
 
 def prefix(id, bp):
     def nud(self):
         s = symbol("first")()
-        self.children.append(s)
-        s.children.append(expression(bp))
+        self.childappend(s)
+        s.childappend(expression(bp))
         return self
-    symbol(id).nud = nud
+    symbol(id, bp).nud = nud
+
+    def toJS(self):
+        import pydb; pydb.debugger()
+        r = u''
+        r += self.get("value")
+        r += self.getChild("first").toJS()
+        return r
+    symbol(id).toJS = toJS
+
+
+def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
+    def nud(self):  # prefix
+        self.set("left", "true")
+        s = symbol("first")()
+        self.childappend(s)
+        s.childappend(expression())  # overgenerating! only lvals allowed
+        return self
+    symbol(id_, bp).nud = nud
+
+    def led(self, left): # postfix
+        # assert(left, lval)
+        s = symbol("first")()
+        self.childappend(s)
+        s.childappend(left)
+        return self
+    symbol(id_).led = led
+
+    def toJS(self):
+        r = u''
+        operator = self.get("value")
+        operand = self.getChild("first").toJS()
+        r += self.get("value")
+        if self.get("left", '') == "true":
+            r = [operator, operand]
+        else:
+            r = [operand, operator]
+        return u''.join(r)
+    symbol(id_).toJS = toJS
+
 
 def advance(id=None):
     global token
@@ -487,7 +542,7 @@ prefix("new", 160)
 
 symbol("(", 150)
 
-symbol("++", 140); symbol("--", 140)  # pre/post increment (unary)
+prepostfix("++", 140); prepostfix("--", 140)  # pre/post increment (unary)
 
 prefix("-",  130); prefix("+",  130); prefix("~", 130); prefix("!", 130)
 prefix("delete", 130); prefix("typeof", 130); prefix("void", 130)
@@ -554,10 +609,6 @@ def toJS(self):
         r += self.write(self.get("value"))
     return r
 
-@method(symbol("constant"))
-def closing(self):
-    return u""
-
 
 symbol("identifier")
 
@@ -567,14 +618,10 @@ def nud(self):
 
 @method(symbol("identifier"))
 def toJS(self):
-    name = self.get("value", u"")
-    if name:
-        return self.write(name)
-    return name
-
-@method(symbol("identifier"))
-def closing(self):
     r = u''
+    v = self.get("value", u"")
+    if v:
+        r = self.write(v)
     if self.hasParent() and self.parent.type == "variable" and not self.isLastChild(True):
         r += self.write(".")
     elif self.hasParent() and self.parent.type == "label":
@@ -600,9 +647,9 @@ def nud(self):
     advance()  # this might be either advance("/") or advance("*/")
     s       = (symbol_table["constant"])()  # create a symbol object for the regexp
     s.value = rexp
-    self.children.append(s)
+    self.childappend(s)
     if token.id == "identifier":   # pick up regexp modifiers
-        self.children.append(token)
+        self.childappend(token)
         advance()
     return self
 
@@ -612,17 +659,17 @@ def nud(self):
 def led(self, left):
     # first
     first = symbol("first")()
-    first.children.append(left)
-    self.children.append(first)
+    first.childappend(left)
+    self.childappend(first)
     # second
     second = symbol("second")()
-    second.children.append(expression())
-    self.children.append(second)
+    second.childappend(expression())
+    self.childappend(second)
     advance(":")
     # third
     third = symbol("third")()
-    third.children.append(expression())
-    self.children.append(third)
+    third.childappend(expression())
+    self.childappend(third)
     return self
 
 
@@ -646,17 +693,17 @@ def led(self, left):
     if token.id != "identifier":
         SyntaxError("Expected an attribute name (pos %d)." % self.spos)
     #variable = symbol("variable")()
-    #variable.children.append(left.getChild("identifier")) # unwrap from <variable/>
-    #variable.children.append(left)
+    #variable.childappend(left.getChild("identifier")) # unwrap from <variable/>
+    #variable.childappend(left)
     #while True:
-    #    #variable.children.append(expression().getChildByPosition(0)) # unwrap from <variable/>
-    #    variable.children.append(expression())
+    #    #variable.childappend(expression().getChildByPosition(0)) # unwrap from <variable/>
+    #    variable.childappend(expression())
     #    if token.id != ".":
     #        break
     #    advance(".")
     accessor = symbol("dotaccessor")()
-    accessor.children.append(left)
-    accessor.children.append(expression(symbol(".").lbp)) 
+    accessor.childappend(left)
+    accessor.childappend(expression(symbol(".").lbp)) 
         # i'm providing the rbp to expression() here explicitly, so "foo.bar(baz)" gets parsed
         # as (call (dotaccessor ...) (param baz)), and not (dotaccessor foo
         # (call bar (param baz))).
@@ -675,37 +722,37 @@ def toJS(self):
 
 # pre-/postfix ops
 
-@method(symbol("++")) # prefix
-def nud(self):
-    self.set("left", "true")
-    s = symbol("first")()
-    self.children.append(s)
-    s.children.append(expression())  # overgenerating! only lvals allowed
-    return self
+#@method(symbol("++")) # prefix
+#def nud(self):
+#    self.set("left", "true")
+#    s = symbol("first")()
+#    self.childappend(s)
+#    s.childappend(expression())  # overgenerating! only lvals allowed
+#    return self
 
-@method(symbol("++")) # postfix
-def led(self, left):
-    # assert(left, lval)
-    s = symbol("first")()
-    self.children.append(s)
-    s.children.append(left)
-    return self
+#@method(symbol("++")) # postfix
+#def led(self, left):
+#    # assert(left, lval)
+#    s = symbol("first")()
+#    self.childappend(s)
+#    s.childappend(left)
+#    return self
 
-@method(symbol("--")) # prefix
-def nud(self):
-    self.set("left", "true")
-    s = symbol("first")()
-    self.children.append(s)
-    s.children.append(expression())  # overgenerating! only lvals allowed
-    return self
+#@method(symbol("--")) # prefix
+#def nud(self):
+#    self.set("left", "true")
+#    s = symbol("first")()
+#    self.childappend(s)
+#    s.childappend(expression())  # overgenerating! only lvals allowed
+#    return self
 
-@method(symbol("--")) # postfix
-def led(self, left):
-    # assert(left, lval)
-    s = symbol("first")()
-    self.children.append(s)
-    s.children.append(left)
-    return self
+#@method(symbol("--")) # postfix
+#def led(self, left):
+#    # assert(left, lval)
+#    s = symbol("first")()
+#    self.childappend(s)
+#    s.childappend(left)
+#    return self
 
 
 # constants
@@ -730,14 +777,14 @@ def led(self, left):
     call = symbol("call")()
     # operand
     operand = symbol("operand")()
-    call.children.append(operand)
-    operand.children.append(left)
+    call.childappend(operand)
+    operand.childappend(left)
     # params
     params = symbol("params")()
-    call.children.append(params)
+    call.childappend(params)
     if token.id != ")":
         while True:
-            params.children.append(expression())
+            params.childappend(expression())
             if token.id != ",":
                 break
             advance(",")
@@ -759,7 +806,7 @@ def nud(self):
         while True:
             if token.id == ")":
                 break
-            group.children.append(expression())
+            group.childappend(expression())
             if token.id != ",":
                 break
             comma = True
@@ -773,11 +820,11 @@ symbol("]")
 def led(self, left):
     accessor = symbol("accessor")()
     # identifier
-    accessor.children.append(left)
+    accessor.childappend(left)
     # selector
     key = symbol("key")()
-    accessor.children.append(key)
-    key.children.append(expression())
+    accessor.childappend(key)
+    key.childappend(expression())
     advance("]")
     return accessor
 
@@ -788,7 +835,7 @@ def nud(self):
         while True:
             if token.id == "]":
                 break
-            arr.children.append(expression())
+            arr.childappend(expression())
             if token.id != ",":
                 break
             advance(",")
@@ -860,13 +907,13 @@ def nud(self):
             keyname = expression()
             key = symbol("keyvalue")()
             key.set("key", keyname.get("value"))
-            mmap.children.append(key)
+            mmap.childappend(key)
             advance(":")
             # value
             keyval = expression()
             val = symbol("value")()
-            val.children.append(keyval)
-            key.children.append(val)  # <value> is a child of <keyvalue>
+            val.childappend(keyval)
+            key.childappend(val)  # <value> is a child of <keyvalue>
             if token.id != ",":
                 break
             advance(",")
@@ -922,7 +969,7 @@ def block():
     t = token
     advance("{")
     s = symbol("block")()
-    s.children.append(t.std())  # the "{".std takes care of closing "}"
+    s.childappend(t.std())  # the "{".std takes care of closing "}"
     return s
 
 symbol("function")
@@ -931,23 +978,23 @@ symbol("function")
 def nud(self):
     # optional name
     if token.id == "identifier":
-        #self.children.append(token.value)
-        #self.children.append(token)
+        #self.childappend(token.value)
+        #self.childappend(token)
         self.set("name", token.value)
         advance()
     # params
     assert isinstance(token, symbol("("))
     params = symbol("params")()
-    self.children.append(params)
+    self.childappend(params)
     group = expression()
     params.children = group.children
     # body
     body = symbol("body")()
-    self.children.append(body)
+    self.childappend(body)
     if token.id == "{":
-        body.children.append(block())
+        body.childappend(block())
     else:
-        body.children.append(statement())
+        body.childappend(statement())
     return self
 
 @method(symbol("function"))
@@ -990,7 +1037,7 @@ def std(self):
     vardecl = symbol("definitionList")()
     while True:
         var = symbol("definition")()
-        vardecl.children.append(var)
+        vardecl.childappend(var)
         n = token
         if n.id != "identifier":
             raise SyntaxError("Expected a new variable name (pos %d)" % self.spos)
@@ -998,11 +1045,11 @@ def std(self):
         if token.id == "=":  # initialization
             t = token
             advance("=")
-            t.children.append(n)
-            t.children.append(expression())
-            var.children.append(t)
+            t.childappend(n)
+            t.childappend(expression())
+            var.childappend(t)
         else:
-            var.children.append(n)
+            var.childappend(n)
         if token.id != ",":
             break
         else:
@@ -1022,9 +1069,9 @@ def nud(self):
         if token.id == "=":  # initialization
             t = token
             advance("=")
-            t.children.append(n)
-            t.children.append(expression())
-            self.children.append(t)
+            t.childappend(n)
+            t.childappend(expression())
+            self.childappend(t)
         if token.id != ",":
             break
         advance(",")
@@ -1048,31 +1095,31 @@ def std(self):
         self.set("forVariant", "in")
         var_s = None
         first = symbol("first")()
-        self.children.append(first)
+        self.childappend(first)
         operation = symbol("operation")()
         operation.set("operator", "IN")
-        first.children.append(operation)
+        first.childappend(operation)
         op_first = symbol("first")()
-        operation.children.append(op_first)
+        operation.childappend(op_first)
         if token.id == "var": # "var" or ident
             var_s = symbol("definitionList")()
-            op_first.children.append(var_s)
+            op_first.childappend(var_s)
             advance("var")
             defn = symbol("definition")()
-            var_s.children.append(defn)
+            var_s.childappend(defn)
         if var_s:
             defn.set("identifier", token.value)
         else:
             variable = symbol("variable")()
-            op_first.children.append(variable)
+            op_first.childappend(variable)
             ident = symbol("identifier")()
             ident.set("name", token.value)
-            variable.children.append(ident)
+            variable.childappend(ident)
         advance("identifier")
         advance("in")
         op_second = symbol("second")()
-        operation.children.append(op_second)
-        op_second.children.append(expression())
+        operation.childappend(op_second)
+        op_second.childappend(expression())
         
     # for (;;)
     else:
@@ -1081,7 +1128,7 @@ def std(self):
         var_s = None
         if token.id == "var":
             var_s = symbol("definitionList")()
-            first.children.append(var_s)
+            first.childappend(var_s)
             advance("var")
         lst = init_list()
         if var_s:
@@ -1092,30 +1139,30 @@ def std(self):
                     raise SyntaxError("Must initialize element")
                 else:
                     assignment = symbol("assignment")()
-                    assignment.children.append(assgn.children[1])  # the left operand of '='
-                    defn.children.append(assignment)
-                var_s.children.append(defn)
+                    assignment.childappend(assgn.children[1])  # the left operand of '='
+                    defn.childappend(assignment)
+                var_s.childappend(defn)
         else:
             exprList = symbol("expressionList")()
-            first.children.append(exprList)
+            first.childappend(exprList)
             for assgn in lst:
-                exprList.children.append(assgn)
+                exprList.childappend(assgn)
                 
         # ;
         advance(";")
         second = symbol("second")()
-        second.children.append(expression())
+        second.childappend(expression())
         # ;
         advance(";")
         third = symbol("third")()
-        third.children.append(expression())
+        third.childappend(expression())
         self.children.extend([first, second,third])
 
     # block
     advance(")")
     statement = symbol("statement")()
-    statement.children.append(block())
-    self.children.append(statement)
+    statement.childappend(block())
+    self.childappend(statement)
     return self
 
 
@@ -1126,9 +1173,9 @@ def std(self):
     self.type = "loop" # compat with Node.type
     self.set("loopType", "WHILE")
     advance("(")
-    self.children.append(expression())
+    self.childappend(expression())
     advance(")")
-    self.children.append(block())
+    self.childappend(block())
     return self
 
 
@@ -1136,10 +1183,10 @@ symbol("do")
 
 @method(symbol("do"))
 def std(self):
-    self.children.append(block())
+    self.childappend(block())
     advance("while")
     advance("(")
-    self.children.append(expression(0))
+    self.childappend(expression(0))
     advance(")")
     #advance(";")
 
@@ -1154,15 +1201,15 @@ def std(self):
     self.type = "loop" # compat with Node.type (i'd rather use explicit 'if', 'for', etc.)
     self.set("loopType", "IF")
     advance("(")
-    self.children.append(expression(0))
+    self.childappend(expression(0))
     advance(")")
-    self.children.append(block())
+    self.childappend(block())
     if (token.id == "else"):
         advance("else")
         if token.id == "if":
-            self.children.append(statement())
+            self.childappend(statement())
         else:
-            self.children.append(block())
+            self.childappend(block())
     return self
 
 
@@ -1250,7 +1297,7 @@ symbol("break")
 @method(symbol("break"))
 def std(self):
     if token.id not in ("eol",  ";"):
-        self.children.append(expression(0))   # this is over-generating! (should be 'label')
+        self.childappend(expression(0))   # this is over-generating! (should be 'label')
     #advance(";")
     return self
 
@@ -1260,7 +1307,7 @@ symbol("continue")
 @method(symbol("continue"))
 def std(self):
     if token.id not in ("eol",  ";"):
-        self.children.append(expression(0))   # this is over-generating! (should be 'label')
+        self.childappend(expression(0))   # this is over-generating! (should be 'label')
     #advance(";")
     return self
 
@@ -1270,7 +1317,7 @@ symbol("return")
 @method(symbol("return"))
 def std(self):
     if token.id not in StmntTerminatorTokens:
-        self.children.append(expression(0))
+        self.childappend(expression(0))
     return self
 
 
@@ -1279,7 +1326,7 @@ symbol("switch"); symbol("case"); symbol("default")
 @method(symbol("switch"))
 def std(self):
     advance("(")
-    self.children.append(expression(0))
+    self.childappend(expression(0))
     advance(")")
     advance("{")
     while True:
@@ -1289,13 +1336,13 @@ def std(self):
             c_exp = expression(0)
             advance(":")
             c_stm = statements()
-            self.children.append((c_exp, c_stm))   # TODO: do I want this?
+            self.childappend((c_exp, c_stm))   # TODO: do I want this?
         if token.id == "default":
             c_exp = token
             advance("default")
             advance(":")
             c_stm = statements()
-            self.children.append((c_exp, c_stm))   # TODO: do I want this?
+            self.childappend((c_exp, c_stm))   # TODO: do I want this?
     advance("}")
     return self
 
@@ -1304,15 +1351,15 @@ symbol("try"); symbol("catch"); symbol("finally")
 
 @method(symbol("try"))
 def std(self):
-    self.children.append(block())
+    self.childappend(block())
     if token.id == "catch":
         advance("catch")
         advance("(")
-        self.children.append(expression(0))
+        self.childappend(expression(0))
         advance(")")
-        self.children.append(block()   )# TODO: cannot assign to self.second twice!
+        self.childappend(block()   )# TODO: cannot assign to self.second twice!
     if token.id == "finally":
-        self.children.append(block())
+        self.childappend(block())
     return self
 
 symbol("throw")
@@ -1320,7 +1367,7 @@ symbol("throw")
 @method(symbol("throw"))
 def std(self):
     if token.id not in ("eol",  ";"):
-        self.children.append(expression(0))
+        self.childappend(expression(0))
     #advance(";")
     return self
 
@@ -1329,9 +1376,9 @@ symbol("with")
 @method(symbol("with"))
 def std(self):
     advance("(")
-    self.children.append(expression(0))
+    self.childappend(expression(0))
     advance(")")
-    self.children.append(block())
+    self.childappend(block())
     
     
 def expression(rbp=0):
@@ -1378,7 +1425,7 @@ def statements():  # plural!
             break
         st = statement()
         if st:
-            s.children.append(st)
+            s.childappend(st)
     return s
 
 
@@ -1720,37 +1767,21 @@ symbol("first")
 @method(symbol("first"))
 def toJS(self):
     r = u''
-    # for loop
-    if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
-        r += self.write("(")
+    return self.children[0].toJS()
 
-    # operation
-    elif self.parent.type == "operation":
-        # operation (var a = -1)
-        if self.parent.get("left", False) == True:
-            r += self.compileToken(self.parent.get("operator"), True)
-    return r
+symbol("second")
 
-@method(symbol("first"))
-def closing(self):
+@method(symbol("second"))
+def toJS(self):
     r = u''
-    # for loop
-    if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
-        if self.parent.get("forVariant") == "iter":
-            r += self.write(";")
+    return self.children[0].toJS()
 
-            if self.parent.hasChild("second"):
-                r += self.space(False,result=r)
+symbol("third")
 
-    # operation
-    elif self.parent.type == "operation" and self.parent.get("left", False) != True:
-        oper = self.parent.get("operator")
-
-        # be compact in for loops
-        compact = self.inForLoop(node)
-        r += self.compileToken(oper, compact)
-    return r
-
+@method(symbol("third"))
+def toJS(self):
+    r = u''
+    return self.children[0].toJS()
 
 
 symbol("group")
@@ -1869,48 +1900,6 @@ def toJS(self):
 @method(symbol("right"))
 def closing(self):
     return u""
-
-
-symbol("second")
-
-@method(symbol("second"))
-def toJS(self):
-    r = u''
-    # for loop
-    if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
-        if not self.parent.hasChild("first"):
-            r += self.write("(;")
-
-    # operation
-    #elif self.parent.type == "operation":
-    #    if self.isComplex():
-    #        # (?: hook operation)
-    #        if self.parent.get("operator") == "HOOK":
-    #            self.sep()
-    #        else:
-    #            self.line()
-
-    return r
-
-@method(symbol("second"))
-def closing(self):
-    r = u''
-    # for loop
-    if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
-        r += self.write(";")
-
-        if self.parent.hasChild("third"):
-            r += self.space(False,result=r)
-
-    # operation
-    elif self.parent.type == "operation":
-        # (?: hook operation)
-        if self.parent.get("operator") == "HOOK":
-            self.noline()
-            r += self.space(False,result=r)
-            r += self.write(":")
-            r += self.space(False,result=r)
-    return r
 
 
 symbol("statement")
