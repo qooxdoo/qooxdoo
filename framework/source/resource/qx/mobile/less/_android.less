@@ -88,8 +88,8 @@ ul li.active .subtitle {
 //
 // BUTTON
 //
-.android-button (@radius, @button-color, @width, @height, @font-size) {
-  .basic-button(@radius, @button-color, black, @width, @height);
+.android-button (@button-color:grey, @width:auto, @height:20px, @font-size:12px) {
+  .basic-button(4px, @button-color, black, @width, @height);
   // Less "darken method" helps to make use of android-button easier. It takes button-color and darkens it. No second gradient color is needed.
   #gradient > .vertical(@button-color, darken(@button-color, 20%));
   border: 1px solid #232323;
@@ -105,7 +105,7 @@ ul li.active .subtitle {
 
 // Toolbar Button
 .toolbar-button {
-  .android-button (4px, #f4f4f4, auto, 50px, 17px);
+  .android-button (#f4f4f4, auto, 50px, 17px);
 }
 
 .toolbar-button.active {
@@ -173,7 +173,7 @@ textarea {
 .tabButton {
    // This is for equal sizes od the buttons when aded in a toolbar or
    // other container with flex :1
-  .android-button (4px, #f4f4f4, 0, 45px, 17px);
+  .android-button (#f4f4f4, 0, 45px, 17px);
   .background-clip(padding-box);
   margin: 0 !important;
 }
@@ -192,7 +192,7 @@ textarea {
 }
 
 .navigationbar-button, .navigationbar-backbutton {
-  .android-button (4px, #f4f4f4, auto, 30px, 12px);
+  .android-button (#f4f4f4, auto, 30px, 12px);
   
   .background-clip(padding-box);
   min-width: 40px;
