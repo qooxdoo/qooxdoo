@@ -15,6 +15,7 @@
   "export" :
   [
     "build-q",
+    "source-q",
     "test-source-q",
     "test-build-q"
   ],
@@ -87,14 +88,28 @@
       }
     },
     
+    "source-q" :
+    {
+      "extend" : ["source"],
+      
+      "let" :
+      {
+        "OPTIMIZE" : []
+      },
+      
+      "run" : ["source-script"]
+    },
+    
     "source-script" :
     {
       "compile-options" :
       {
+        "code" : { "except" : [ "*" ] },
+        
         "paths" :
         {
           "file" : "q-source.js",
-          "app-root" : "."
+          "app-root" : ""
         }
       }
     },
