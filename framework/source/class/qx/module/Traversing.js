@@ -98,6 +98,16 @@ qx.Bootstrap.define("qx.module.Traversing", {
       if (qx.lang.Type.isFunction(selector)) {
         return qx.type.BaseArray.prototype.filter.call(this, selector);
       }
+      /*
+       * This works but isn't currently needed:
+      if (qx.dom.Node.isElement(selector)) {
+        for (var i=0; i < this.length; i++) {
+          if (this[i] == selector) {
+            return qx.lang.Array.cast([this[i]], qx.Collection);
+          }
+        }
+      }
+      */
       return qx.lang.Array.cast(qx.bom.Selector.matches(selector, this), qx.Collection);
     },
 
@@ -108,6 +118,14 @@ qx.Bootstrap.define("qx.module.Traversing", {
         found = found.concat(qx.lang.Array.fromCollection(this[i].childNodes));
       }
       return qx.lang.Array.cast(found, qx.Collection);
+    },
+
+
+    is : function(selector) {
+      if (qx.lang.Type.isFunction(selector)) {
+        return this.filter(selector).length > 0;
+      }
+      return !!selector && qx.bom.Selector.matches(selector, this).length > 0;
     }
   },
 
@@ -122,7 +140,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "getClosest" : statics.getClosest,
       "find" : statics.find,
       "filter" : statics.filter,
-      "getContents" : statics.getContents
+      "getContents" : statics.getContents,
+      "is" : statics.is
     });
   }
 });

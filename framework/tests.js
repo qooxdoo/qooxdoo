@@ -187,6 +187,18 @@ testrunner.define({
     this.assertEquals(1, collection.filter("#test").length);
     test.remove();
   },
+  
+  /*
+  testFilterByElement : function() {
+    var test = q.create("<div id='test' class='item'/><div class='item'/>");
+    test.appendTo(this.sandbox[0]);
+    var collection = q(".item");
+    this.assertEquals(q("#test")[0], collection.filter(document.getElementById("test"))[0],
+      "Element mismatch");
+    this.assertEquals(1, collection.filter("#test").length);
+    test.remove();
+  },
+  */
 
   testFind : function() {
     var test = q.create("<div id='outer'><div><div id='test'/><div/></div></div>");
@@ -210,6 +222,25 @@ testrunner.define({
     this.assertEquals(1, contents[3].nodeType);
     this.assertEquals(8, contents[4].nodeType);
     this.assertEquals(3, contents[5].nodeType);
+    test.remove();
+  },
+  
+  testIs : function() {
+    var html = "<ul class='test'><li>Item</li><li>Item</li><li class='foo'>Item</li></ul>";
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    this.assertTrue(q(".test li").is(".foo"));
+    this.assertFalse(q(".test li").is("#bar"));
+    test.remove();
+  },
+  
+  testIsWithFunction : function() {
+    var html = "<ul class='test'><li>Item</li><li>Item</li><li class='foo'>Item</li></ul>";
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    this.assertTrue(q(".test li").is(function(item) {
+      return item.className == "foo";
+    }));
     test.remove();
   }
 });
@@ -348,7 +379,7 @@ testrunner.define({
     this.assertEquals("AFFE", test.getProperty("affe"));
   },
 
-  testProperteis : function() {
+  testProperties : function() {
     var test = q.create("<div/>");
     test.setProperties({"affe": "AFFE", "x": "y"});
     this.assertEquals("AFFE", test[0].affe);
