@@ -273,7 +273,7 @@ class symbol_base(Node):
 
     def __repr__(self):
         if self.id == "identifier" or self.id == "constant":
-            return "(%s %r)" % (self.id, self.value)
+            return "(%s %r)" % (self.id, self.get("value"))
         id  = self.id
         if hasattr(self, 'optype'):
             id += '('+self.optype+')'
@@ -637,7 +637,7 @@ def nud(self):
 
     rexp = ""
     while True:
-        rexp += token.value      # accumulate token strings
+        rexp += token.get("value")      # accumulate token strings
         if rexp.endswith("/"):   # check for end of regexp
             # make sure "/" is not escaped, ie. preceded by an odd number of "\"
             if not is_last_escaped(rexp):
@@ -718,41 +718,6 @@ def toJS(self):
     r += '.'
     r += self.children[1].toJS()
     return r
-
-
-# pre-/postfix ops
-
-#@method(symbol("++")) # prefix
-#def nud(self):
-#    self.set("left", "true")
-#    s = symbol("first")()
-#    self.childappend(s)
-#    s.childappend(expression())  # overgenerating! only lvals allowed
-#    return self
-
-#@method(symbol("++")) # postfix
-#def led(self, left):
-#    # assert(left, lval)
-#    s = symbol("first")()
-#    self.childappend(s)
-#    s.childappend(left)
-#    return self
-
-#@method(symbol("--")) # prefix
-#def nud(self):
-#    self.set("left", "true")
-#    s = symbol("first")()
-#    self.childappend(s)
-#    s.childappend(expression())  # overgenerating! only lvals allowed
-#    return self
-
-#@method(symbol("--")) # postfix
-#def led(self, left):
-#    # assert(left, lval)
-#    s = symbol("first")()
-#    self.childappend(s)
-#    s.childappend(left)
-#    return self
 
 
 # constants
@@ -845,15 +810,12 @@ def nud(self):
 symbol("accessor")
 
 @method(symbol("accessor"))
-def toJS(self):         # 's' is 'self'
+def toJS(self):
     r = u''
-    return r
-
-@method(symbol("accessor"))
-def closing(self):
-    r = u''
-    if self.hasParent() and self.parent.type == "variable" and not self.isLastChild(True):
-        r += self.write(".")
+    r += self.getChild("identifier").toJS()
+    r += '['
+    r += self.getChild("key").toJS()
+    r += ']'
     return r
 
 
@@ -861,37 +823,17 @@ symbol("array")
 
 @method(symbol("array"))
 def toJS(self):
-    r = u''
-    r += self.write("[")
-    if self.hasChildren(True):
-        r += self.space(False,r)
-    return r
-
-@method(symbol("array"))
-def closing(self):
-    r = u''
-    if self.hasChildren(True):
-        r += self.space(False,r)
-
-    r += self.write("]")
-    return r
+    r = []
+    for c in self.children:
+        r.append(c.toJS())
+    return '[' + u','.join(r) + ']'
 
 
 symbol("key")
 
 @method(symbol("key"))
 def toJS(self):
-    r = u''
-    if self.parent.type == "accessor":
-        r += self.write("[")
-    return r
-
-@method(symbol("key"))
-def closing(self):
-    r = u''
-    if self.hasParent() and self.parent.type == "accessor":
-        r += self.write("]")
-    return r
+    return self.children[0].toJS()
 
 
 symbol("}")
@@ -907,6 +849,7 @@ def nud(self):
             keyname = expression()
             key = symbol("keyvalue")()
             key.set("key", keyname.get("value"))
+            key.set("quote", keyname.get("detail"))
             mmap.childappend(key)
             advance(":")
             # value
@@ -920,46 +863,48 @@ def nud(self):
     advance("}")
     return mmap
 
-symbol("keyvalue")
-
-@method(symbol("keyvalue"))
-def toJS(self):
-    r = u''
-    keyString = self.get("key")
-    keyQuote = self.get("quote", False)
-
-    if keyQuote != None:
-        # print "USE QUOTATION"
-        if keyQuote == "doublequotes":
-            keyString = '"' + keyString + '"'
-        else:
-            keyString = "'" + keyString + "'"
-
-    elif keyString in lang.RESERVED or not KEY.match(keyString):
-        print "Warning: Auto protect key: %r" % keyString
-        keyString = "\"" + keyString + "\""
-
-    r += self.write(keyString)
-    r += self.space(False,result=r)
-
-    r += self.write(":")
-    r += self.space(False,result=r)
-    return r
-
-@method(symbol("keyvalue"))
-def closing(self):
-    r = u''
-    if self.hasParent() and self.parent.type == "map" and not self.isLastChild(True):
-        self.noline()
-        r += self.comma(r)
-    return r
-
-
 @method(symbol("{"))                    # blocks
 def std(self):
     a = statements()
     advance("}")
     return a
+
+symbol("map")
+
+@method(symbol("map"))
+def toJS(self):
+    r = u''
+    r += self.write("{")
+    a = []
+    for c in self.children:
+        a.append(c.toJS())
+    r += ','.join(a)
+    r += self.write("}")
+    return r
+
+@method(symbol("value"))
+def toJS(self):
+    return self.children[0].toJS()
+
+symbol("keyvalue")
+
+@method(symbol("keyvalue"))
+def toJS(self):
+    key = self.get("key")
+    key_quote = self.get("quote", '')
+    if key_quote:
+        quote = '"' if key_quote == 'doublequotes' else "'"
+    elif ( key in lang.RESERVED 
+           or not lang.IDENTIFIER_REGEXP.match(key)
+           # TODO: or not lang.NUMBER_REGEXP.match(key)
+         ):
+        print "Warning: Auto protect key: %r" % key
+        quote = '"'
+    else:
+        quote = ''
+    value = self.getChild("value").toJS()
+    return quote + key + quote + ':' + value
+
 
 ##
 # The next is a shallow wrapper around "{".std, to have a more explicit rule to
@@ -972,15 +917,25 @@ def block():
     s.childappend(t.std())  # the "{".std takes care of closing "}"
     return s
 
+symbol("block")
+
+@method(symbol("block"))
+def toJS(self):
+    r = []
+    r.append('{')
+    r.append(self.children[0].toJS())
+    r.append('}')
+    return u''.join(r)
+
 symbol("function")
 
 @method(symbol("function"))
 def nud(self):
     # optional name
     if token.id == "identifier":
-        #self.childappend(token.value)
+        #self.childappend(token.get("value"))
         #self.childappend(token)
-        self.set("name", token.value)
+        self.set("name", token.get("value"))
         advance()
     # params
     assert isinstance(token, symbol("("))
@@ -1000,16 +955,36 @@ def nud(self):
 @method(symbol("function"))
 def toJS(self):
     r = self.write("function")
-    functionName = self.get("name", False)
+    functionName = self.get("name")
     if functionName != None:
         r += self.space(result=r)
         r += self.write(functionName)
+    # params
+    r += self.getChild("params").toJS()
+    # body
+    r += self.getChild("body").toJS()
     return r
 
-@method(symbol("function"))
-def closing(self):
-    return u""
+@method(symbol("params"))
+def toJS(self):
+    r = []
+    r.append('(')
+    a = []
+    for c in self.children:
+        a.append(c.toJS())
+    r.append(u','.join(a))
+    r.append(')')
+    return u''.join(r)
 
+
+@method(symbol("body"))
+def toJS(self):
+    r = []
+    r.append(self.children[0].toJS())
+    # 'if', 'while', etc. can have single-statement bodies
+    if self.children[0].id != 'block':
+        r.append(';')
+    return u''.join(r)
 
 
 # -- statements ------------------------------------------------------------
@@ -1096,8 +1071,10 @@ def std(self):
         var_s = None
         first = symbol("first")()
         self.childappend(first)
-        operation = symbol("operation")()
+        operation = symbol("in")()
+        operation.type = "operation"
         operation.set("operator", "IN")
+        operation.set("value", "in")
         first.childappend(operation)
         op_first = symbol("first")()
         operation.childappend(op_first)
@@ -1108,12 +1085,12 @@ def std(self):
             defn = symbol("definition")()
             var_s.childappend(defn)
         if var_s:
-            defn.set("identifier", token.value)
+            defn.set("identifier", token.get("value"))
         else:
             variable = symbol("variable")()
             op_first.childappend(variable)
             ident = symbol("identifier")()
-            ident.set("name", token.value)
+            ident.set("value", token.get("value"))
             variable.childappend(ident)
         advance("identifier")
         advance("in")
@@ -1158,12 +1135,38 @@ def std(self):
         third.childappend(expression())
         self.children.extend([first, second,third])
 
-    # block
+    # body
     advance(")")
-    statement = symbol("statement")()
-    statement.childappend(block())
-    self.childappend(statement)
+    body = symbol("body")()
+    body.childappend(statementOrBlock())
+    self.childappend(body)
     return self
+
+@method(symbol("for"))
+def toJS(self):
+    r = []
+    r.append('for')
+    r.append(self.space(False,result=r))
+    # cond
+    r.append('(')
+    if self.get("forVariant") == "in":  # for (.. in ..)
+        r.append(self.getChild("first").toJS())
+    else:   # for (;;)
+        pass
+    r.append(')')
+    # body
+    r.append(self.getChild("body").toJS())
+    return u''.join(r)
+
+@method(symbol("in"))  # of 'for (.. in ..)'
+def toJS(self):
+    r = u''
+    r += self.getChild("first").toJS()
+    r += self.space()
+    r += 'in'
+    r += self.space()
+    r += self.getChild("second").toJS()
+    return r
 
 
 symbol("while")
@@ -1178,6 +1181,18 @@ def std(self):
     self.childappend(block())
     return self
 
+@method(symbol("while"))
+def toJS(self):
+    r = u''
+    r += self.write("while")
+    r += self.space(False,result=r)
+    # cond
+    r += '('
+    r += self.children[0].toJS()
+    r += ')'
+    # body
+    r += self.children[1].toJS()
+    return r
 
 symbol("do")
 
@@ -1203,13 +1218,14 @@ def std(self):
     advance("(")
     self.childappend(expression(0))
     advance(")")
-    self.childappend(block())
+    then_part = symbol("body")()
+    then_part.childappend(statementOrBlock())
+    self.childappend(then_part)
     if (token.id == "else"):
         advance("else")
-        if token.id == "if":
-            self.childappend(statement())
-        else:
-            self.childappend(block())
+        else_part = symbol("body")()
+        else_part.childappend(statementOrBlock())
+        self.childappend(else_part)
     return self
 
 
@@ -1237,6 +1253,7 @@ def toJS(self):
     # (opt) 'else' part
     if len(self.children) == 3:
         r += self.write("else")
+        r += self.space()
         r += self.children[2].toJS()
     r += self.space(False,result=r)
     return r
@@ -1261,8 +1278,20 @@ def toJS(self):
     loopType = self.get("loopType")
 
     if loopType == "IF":
-        r += self.write("if")
-        r += self.space(False,result=r)
+        pass
+    #    r += self.write("if")
+    #    r += self.space(False,result=r)
+    #    # condition
+    #    r += '('
+    #    r += self.children[0].toJS()
+    #    r += ')'
+    #    # then
+    #    r += self.children[1].toJS()
+    #    # else
+    #    if len(self.children) == 3:
+    #        r += self.write("else")
+    #        r += self.children[2].toJS()
+    #    r += self.space(False,result=r)
 
     elif loopType == "WHILE":
         r += self.write("while")
@@ -1282,13 +1311,6 @@ def toJS(self):
 
     else:
         print "Warning: Unknown loop type: %s" % loopType
-    return r
-
-@method(symbol("loop"))
-def closing(self):
-    r = u''
-    if self.get("loopType") == "DO":
-        r += self.semicolon()
     return r
 
 
@@ -1417,6 +1439,11 @@ def semicolonOrLineEnd():
         except:
             advance(";")
     
+def statementOrBlock(): # for 'if', 'while', etc. bodies
+    if token.id == '{':
+        return block()
+    else:
+        return statement()
 
 def statements():  # plural!
     s = symbol("statements")()
@@ -1433,7 +1460,10 @@ def statements():  # plural!
 def toJS(self):
     r = []
     for cld in self.children:
-        r.append(cld.toJS() + ';')
+        c = cld.toJS()
+        r.append(c)
+        if c[-1] != ';':
+            r.append(';')
     return u''.join(r)
 
 
@@ -1835,19 +1865,6 @@ def closing(self):
     return r
 
 
-symbol("map")
-
-@method(symbol("map"))
-def toJS(self):
-    r = u''
-    r += self.write("{")
-    return r
-
-@method(symbol("map"))
-def closing(self):
-    return self.write("}")
-
-
 symbol("operation")
 
 @method(symbol("operation"))
@@ -1898,31 +1915,6 @@ def toJS(self):
     return r
 
 @method(symbol("right"))
-def closing(self):
-    return u""
-
-
-symbol("statement")
-
-@method(symbol("statement"))
-def toJS(self):
-    r = u''
-    # for loop
-    if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
-        if self.parent.get("forVariant") == "iter":
-            if not self.parent.hasChild("first") and not self.parent.hasChild("second") and not self.parent.hasChild("third"):
-                r += self.write("(;;");
-
-            elif not self.parent.hasChild("second") and not self.parent.hasChild("third"):
-                r += self.write(";")
-
-        r += self.write(")")
-
-        if not self.hasChild("block"):
-            r += self.space(False,result=r)
-    return r
-
-@method(symbol("statement"))
 def closing(self):
     return u""
 
@@ -2000,12 +1992,7 @@ symbol("variable")
 
 @method(symbol("variable"))
 def toJS(self):
-    r = u''
-    return r
-
-@method(symbol("variable"))
-def closing(self):
-    return u""
+    return self.children[0].toJS()
 
 
 symbol("void")
