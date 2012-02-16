@@ -92,11 +92,9 @@ ul li.active .subtitle {
   .basic-button(4px, @button-color, black, @width, @height);
   // Less "darken method" helps to make use of android-button easier. It takes button-color and darkens it. No second gradient color is needed.
   #gradient > .vertical(@button-color, darken(@button-color, 20%));
-  border: 1px solid #232323;
+  border: 1px solid #555555;
   line-height: @height;
   font-size:@font-size;
-  font-weight: bold;
-  font-family: Arial;
 }
 
 .android-button-highlight {
@@ -203,7 +201,6 @@ textarea {
   //height: -moz-calc(30px + 6px);
   
   padding: 0 3px;
-  border: 2px solid #232323;
 }
 
 .navigationbar-button.active, .navigationbar-backbutton.active {
