@@ -220,6 +220,12 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    siblings : function(selector) {
+      var ret = this.__hierarchyHelper("getSiblings", selector);
+      return qx.lang.Array.cast(ret, qx.Collection);
+    },
+
+
     __hierarchyHelper : function(method, selector)
     {
       // Iterate ourself, as we want to directly combine the result
@@ -264,6 +270,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "prev" : statics.prev,
       "prevAll" : statics.prevAll,
       "prevUntil" : statics.prevUntil,
+      "siblings" : statics.siblings,
       "__hierarchyHelper" : statics.__hierarchyHelper
     });
   }

@@ -396,6 +396,27 @@ testrunner.define({
     this.assertEquals("P", res[2].tagName);
     this.assertEquals("P", res[3].tagName);
     test.remove();
+  },
+  
+  testSiblings : function() {
+    var html = '<ul class="test">'
+    + '  <li id="juhu">A</li>'
+    + '  <li>F</li>'
+    + '  <li class="foo">F</li>'
+    + '  <li>E</li>'
+    + '</ul>';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    var res = q(".foo").siblings();
+    this.assertEquals(3, res.length);
+    this.assertEquals("A", res[0].innerHTML);
+    this.assertEquals("F", res[1].innerHTML);
+    this.assertEquals("E", res[2].innerHTML);
+    
+    res = q(".foo").siblings("#juhu");
+    this.assertEquals(1, res.length);
+    this.assertEquals("juhu", res[0].id);
+    test.remove();
   }
 });
 
