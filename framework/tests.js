@@ -242,6 +242,15 @@ testrunner.define({
       return item.className == "foo";
     }));
     test.remove();
+  },
+  
+  testEq : function() {
+    var html = '<ul class="test"><li id="a">A</li><li id="b">B</li><li id="c">C</li></ul>';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    this.assertEquals("b", q(".test li").eq(1)[0].id);
+    this.assertEquals("b", q(".test li").eq(-2)[0].id);
+    test.remove();
   }
 });
 

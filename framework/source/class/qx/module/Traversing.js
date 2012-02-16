@@ -126,6 +126,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
         return this.filter(selector).length > 0;
       }
       return !!selector && qx.bom.Selector.matches(selector, this).length > 0;
+    },
+
+
+    eq : function(index) {
+      return this.slice(index, +index + 1);
     }
   },
 
@@ -141,7 +146,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "find" : statics.find,
       "filter" : statics.filter,
       "getContents" : statics.getContents,
-      "is" : statics.is
+      "is" : statics.is,
+      "eq" : statics.eq
     });
   }
 });
