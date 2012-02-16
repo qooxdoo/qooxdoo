@@ -141,6 +141,18 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
     last : function() {
       return this.slice(this.length - 1);
+    },
+
+
+    has : function(selector) {
+      var found = [];
+      for (var i=0; i < this.length; i++) {
+        var descendants = qx.bom.Selector.matches(selector, this.eq(i).getContents())
+        if (descendants.length > 0) {
+          found.push(this[i]);
+        }
+      }
+      return qx.lang.Array.cast(found, qx.Collection);
     }
   },
 
@@ -159,7 +171,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "is" : statics.is,
       "eq" : statics.eq,
       "first" : statics.first,
-      "last" : statics.last
+      "last" : statics.last,
+      "has" : statics.has
     });
   }
 });

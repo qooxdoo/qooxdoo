@@ -269,6 +269,26 @@ testrunner.define({
     this.assertEquals(1, q(".foo").last().length);
     this.assertEquals(document.getElementById("last"), q(".foo").last()[0]);
     test.remove();
+  },
+  
+  testHas : function() {
+    var html = '<ul class="test">'
+    + '  <li>Foo</li>'
+    + '  <li id="target1"><a class="affe" href="#">Bar</a></li>'
+    + '  <li>Baz</li>'
+    + '</ul>'
+    + '<ul class="test">'
+    + '  <li>Foo</li>'
+    + '  <li id="target2"><a class="affe" href="#">Bar</a></li>'
+    + '  <li>Baz</li>'
+    + '</ul>';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    this.assertEquals(6, q(".test li").length);
+    this.assertEquals(2, q(".test li").has(".affe").length);
+    this.assertEquals("target1", q(".test li").has(".affe")[0].id);
+    this.assertEquals("target2", q(".test li").has(".affe")[1].id);
+    test.remove();
   }
 });
 
