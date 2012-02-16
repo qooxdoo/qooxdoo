@@ -1488,6 +1488,48 @@ li:last-child a {
 
   color: #fff;
 }
+.ios-menu-button {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #50709a;
+  width: auto;
+  height: 30px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 30px;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Helvetica;
+  position: relative;
+  overflow: visible;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  white-space: nowrap;
+  background: none;
+  padding: 0 10px;
+  text-shadow: #3e5779 0 -1px 0;
+  -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  border: 1px solid #2d3f57;
+  background-image: none;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4a6c9b));
+  background-image: -webkit-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  background-image: -moz-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  background-image: linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+}
+.ios-menu-button-active {
+  border-color: #243346;
+  background-color: #476489;
+  background-image: none;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
+  background-image: -webkit-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: -moz-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  text-shadow: #364b68 0 -1px 0;
+}
 ul.form {
   margin-bottom: 10px;
 }
@@ -1552,49 +1594,6 @@ textarea {
   background-image: linear-gradient(to bottom, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
   color: #ffffff;
 }
-.ios-menu-button {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #50709a;
-  width: auto;
-  height: 30px;
-  color: #ffffff;
-  text-align: center;
-  line-height: 30px;
-  font-size: 12px;
-  font-weight: bold;
-  font-family: Helvetica;
-  position: relative;
-  overflow: visible;
-  text-overflow: ellipsis;
-  text-decoration: none;
-  white-space: nowrap;
-  background: none;
-  padding: 0 10px;
-  text-shadow: #3e5779 0 -1px 0;
-  -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-  -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-  border: 1px solid #2d3f57;
-  border-left: 0;
-  background-image: none;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4a6c9b));
-  background-image: -webkit-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
-  background-image: -moz-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
-  background-image: linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
-}
-.ios-menu-button-active {
-  border-color: #243346;
-  background-color: #476489;
-  background-image: none;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
-  background-image: -webkit-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
-  background-image: -moz-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
-  background-image: linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
-  text-shadow: #364b68 0 -1px 0;
-}
 .navigationbar {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#cdd5df), color-stop(50%, #8195af), to(#6d84a2));
   background-image: -webkit-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
@@ -1628,7 +1627,6 @@ textarea {
   -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
   box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
   border: 1px solid #2d3f57;
-  border-left: 0;
   background-image: none;
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4a6c9b));
   background-image: -webkit-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
@@ -1671,7 +1669,6 @@ textarea {
   -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
   box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
   border: 1px solid #2d3f57;
-  border-left: 0;
   background-image: none;
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4a6c9b));
   background-image: -webkit-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
@@ -1681,6 +1678,7 @@ textarea {
   margin-left: 15px;
   overflow: visible;
   padding-left: 5px;
+  border-left: 0;
 }
 .navigationbar-backbutton.active {
   border-color: #243346;
