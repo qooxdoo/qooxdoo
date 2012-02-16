@@ -417,6 +417,38 @@ testrunner.define({
     this.assertEquals(1, res.length);
     this.assertEquals("juhu", res[0].id);
     test.remove();
+  },
+  
+  testNot : function() {
+    var html = '<ul class="test">'
+    + '  <li id="juhu">A</li>'
+    + '  <li>F</li>'
+    + '  <li class="foo">F</li>'
+    + '  <li>E</li>'
+    + '</ul>';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    var res = q(".test li").not(".foo");
+    this.assertEquals(3, res.length);
+    this.assertEquals(0, qx.bom.Selector.matches(".foo", res));
+    test.remove();
+  },
+  
+  testNotWithFunction : function() {
+    var html = '<ul class="test">'
+    + '  <li id="juhu">A</li>'
+    + '  <li>F</li>'
+    + '  <li class="foo">F</li>'
+    + '  <li>E</li>'
+    + '</ul>';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    var res = q(".test li").not(function(item) {
+      return item.className.indexOf("foo") >=0;
+    });
+    this.assertEquals(3, res.length);
+    this.assertEquals(0, qx.bom.Selector.matches(".foo", res));
+    test.remove();
   }
 });
 

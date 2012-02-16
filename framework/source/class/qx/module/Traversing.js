@@ -167,7 +167,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     nextAll : function(selector) {
-      var ret = this.__hierarchyHelper("getNextSiblings", selector);
+      var ret = qx.module.Traversing.__hierarchyHelper(this, "getNextSiblings", selector);
       return qx.lang.Array.cast(ret, qx.Collection);
     },
 
@@ -199,7 +199,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     prevAll : function(selector) {
-      var ret = this.__hierarchyHelper("getPreviousSiblings", selector);
+      var ret = qx.module.Traversing.__hierarchyHelper(this, "getPreviousSiblings", selector);
       return qx.lang.Array.cast(ret, qx.Collection);
     },
 
@@ -221,18 +221,32 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     siblings : function(selector) {
-      var ret = this.__hierarchyHelper("getSiblings", selector);
+      var ret = qx.module.Traversing.__hierarchyHelper(this, "getSiblings", selector);
       return qx.lang.Array.cast(ret, qx.Collection);
     },
 
 
-    __hierarchyHelper : function(method, selector)
+    not : function(selector) {
+      if (qx.lang.Type.isFunction(selector)) {
+        return this.filter(function(item, index, obj) {
+          return !selector(item, index, obj);
+        });
+      }
+      
+      var res = qx.bom.Selector.matches(selector, this);
+      return this.filter(function(value) {
+        return res.indexOf(value) === -1;
+      });
+    },
+
+
+    __hierarchyHelper : function(collection, method, selector)
     {
       // Iterate ourself, as we want to directly combine the result
       var all = [];
       var Hierarchy = qx.dom.Hierarchy;
-      for (var i=0, l=this.length; i<l; i++) {
-        all.push.apply(all, Hierarchy[method](this[i]));
+      for (var i=0, l=collection.length; i<l; i++) {
+        all.push.apply(all, Hierarchy[method](collection[i]));
       }
 
       // Remove duplicates
@@ -271,7 +285,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "prevAll" : statics.prevAll,
       "prevUntil" : statics.prevUntil,
       "siblings" : statics.siblings,
-      "__hierarchyHelper" : statics.__hierarchyHelper
+      "not" : statics.not
     });
   }
 });
