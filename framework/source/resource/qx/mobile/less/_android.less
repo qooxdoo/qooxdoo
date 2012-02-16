@@ -24,6 +24,10 @@
     line-height: @height;
     font-size:12px;
   }
+  
+  .standard-active {
+    #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+  }
 }
 
 //
@@ -120,13 +124,13 @@ ul li.active .subtitle {
   font-size: 15px;
 }
 
-.button.active{
-  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+.button.active {
+  #button > .standard-active;
 }
 
 // Toolbar Button
 .toolbar-button {
-   #button > .standard;
+  #button > .standard;
   
   height: 50px;
   font-size: 17px;
@@ -235,6 +239,10 @@ textarea {
   //height: -moz-calc(30px + 6px);
   
   padding: 0 3px;
+}
+
+.navigationbar-button.active, .navigationbar-backbutton.active {
+  #button > .standard-active;
 }
 
 //

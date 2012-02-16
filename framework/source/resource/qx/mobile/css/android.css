@@ -1383,6 +1383,12 @@ input[type="checkbox"] {
   line-height: 20px;
   font-size: 12px;
 }
+#button .standard-active {
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
+  background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
+}
 a:hover,
 a:active {
   outline: none;
@@ -1669,6 +1675,13 @@ textarea {
   min-width: 40px;
   min-width: -moz-calc(50px);
   padding: 0 3px;
+}
+.navigationbar-button.active,
+.navigationbar-backbutton.active {
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
+  background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
 }
 .scrollbarV > div {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#b5b6b5), to(#949294));
