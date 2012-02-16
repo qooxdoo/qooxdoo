@@ -289,6 +289,56 @@ testrunner.define({
     this.assertEquals("target1", q(".test li").has(".affe")[0].id);
     this.assertEquals("target2", q(".test li").has(".affe")[1].id);
     test.remove();
+  },
+  
+  testNext : function() {
+    var html = '<p class="test" id="foo">foo</p>\nText\n<p id="bar">bar</p><p id="baz">baz</p>';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    this.assertEquals(1, q(".test").next().length);
+    this.assertEquals("bar", q("#foo").next()[0].id);
+    test.remove();
+  },
+  
+  testNextWithSelector : function() {
+    var html = '<div>a</div><p>f</p><div>f</div><p class="foo">e</p> ';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    this.assertEquals(1, q("#sandbox div").next(".foo").length);
+    this.assertEquals("foo", q("#sandbox div").next(".foo")[0].className);
+    test.remove();
+  },
+  
+  testNextAll : function() {
+    var html = '<div><span id="test">a</span><span>f</span><span id="foo">f</span></div><p>foo</p>';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    this.assertEquals(2, q("#test").nextAll().length);
+    this.assertEquals(1, q("#test").nextAll("#foo").length);
+    this.assertEquals(document.getElementById("foo"), q("#test").nextAll("#foo")[0]);
+    test.remove();
+  },
+  
+  testNextUntil : function() {
+    var html = '<ul>'
+    + '  <li class="first">a</li>'
+    + '  <li>f</li>'
+    + '  <li>f</li>'
+    + '  <li class="last">e</li>'
+    + '</ul>'
+    + '<p class="first">a</p>'
+    + '<p>f</p>'
+    + '<p>f</p>'
+    + '<p class="last">e</p>';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    var res = q("#sandbox .first").nextUntil(".last");
+    this.assertEquals(4, res.length);
+    this.assertEquals("LI", res[0].tagName);
+    this.assertEquals("LI", res[1].tagName);
+    this.assertEquals("P", res[2].tagName);
+    this.assertEquals("P", res[3].tagName);
+    test.remove();
   }
 });
 

@@ -153,6 +153,59 @@ qx.Bootstrap.define("qx.module.Traversing", {
         }
       }
       return qx.lang.Array.cast(found, qx.Collection);
+    },
+
+
+    next : function(selector) {
+      var Hierarchy = qx.dom.Hierarchy;
+      var found = this.map(Hierarchy.getNextElementSibling, Hierarchy);
+      if (selector) {
+        found = qx.bom.Selector.matches(selector, found);
+      }
+      return found;
+    },
+
+
+    nextAll : function(selector) {
+      var ret = this.__hierarchyHelper("getNextSiblings", selector);
+      return qx.lang.Array.cast(ret, qx.Collection);
+    },
+
+
+    nextUntil : function(selector) {
+      var found = [];
+      this.forEach(function(item, index) {
+        var nextSiblings = qx.dom.Hierarchy.getNextSiblings(item);
+        for (var i=0, l=nextSiblings.length; i<l; i++) {
+          if (qx.bom.Selector.matches(selector, [nextSiblings[i]]).length > 0) {
+            break;
+          }
+          found.push(nextSiblings[i]);
+        }
+      });
+      
+      return qx.lang.Array.cast(found, qx.Collection);
+    },
+
+
+    __hierarchyHelper : function(method, selector)
+    {
+      // Iterate ourself, as we want to directly combine the result
+      var all = [];
+      var Hierarchy = qx.dom.Hierarchy;
+      for (var i=0, l=this.length; i<l; i++) {
+        all.push.apply(all, Hierarchy[method](this[i]));
+      }
+
+      // Remove duplicates
+      var ret = qx.lang.Array.unique(all);
+
+      // Post reduce result by selector
+      if (selector) {
+        ret = qx.bom.Selector.matches(selector, ret);
+      }
+
+      return ret;
     }
   },
 
@@ -172,7 +225,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "eq" : statics.eq,
       "first" : statics.first,
       "last" : statics.last,
-      "has" : statics.has
+      "has" : statics.has,
+      "next" : statics.next,
+      "nextAll" : statics.nextAll,
+      "nextUntil" : statics.nextUntil,
+      "__hierarchyHelper" : statics.__hierarchyHelper
     });
   }
 });
