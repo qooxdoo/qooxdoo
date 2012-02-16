@@ -188,6 +188,38 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    prev : function(selector) {
+      var Hierarchy = qx.dom.Hierarchy;
+      var found = this.map(Hierarchy.getPreviousElementSibling, Hierarchy);
+      if (selector) {
+        found = qx.bom.Selector.matches(selector, found);
+      }
+      return found;
+    },
+
+
+    prevAll : function(selector) {
+      var ret = this.__hierarchyHelper("getPreviousSiblings", selector);
+      return qx.lang.Array.cast(ret, qx.Collection);
+    },
+
+
+    prevUntil : function(selector) {
+      var found = [];
+      this.forEach(function(item, index) {
+        var previousSiblings = qx.dom.Hierarchy.getPreviousSiblings(item);
+        for (var i=0, l=previousSiblings.length; i<l; i++) {
+          if (qx.bom.Selector.matches(selector, [previousSiblings[i]]).length > 0) {
+            break;
+          }
+          found.push(previousSiblings[i]);
+        }
+      });
+      
+      return qx.lang.Array.cast(found, qx.Collection);
+    },
+
+
     __hierarchyHelper : function(method, selector)
     {
       // Iterate ourself, as we want to directly combine the result
@@ -229,6 +261,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "next" : statics.next,
       "nextAll" : statics.nextAll,
       "nextUntil" : statics.nextUntil,
+      "prev" : statics.prev,
+      "prevAll" : statics.prevAll,
+      "prevUntil" : statics.prevUntil,
       "__hierarchyHelper" : statics.__hierarchyHelper
     });
   }

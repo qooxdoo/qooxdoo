@@ -339,6 +339,63 @@ testrunner.define({
     this.assertEquals("P", res[2].tagName);
     this.assertEquals("P", res[3].tagName);
     test.remove();
+  },
+  
+  testPrev : function() {
+    var html = '<p class="test" id="foo">foo</p>\nText\n<p id="bar">bar</p><p id="baz">baz</p>';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    this.assertEquals(1, q("#baz").prev().length);
+    this.assertEquals("bar", q("#baz").prev()[0].id);
+    test.remove();
+  },
+  
+  testPrevWithSelector : function() {
+    var html = '<h1>A</h1><p>f</p>'
+    + '<h2 class="foo">A</h2><p>f</p>'
+    + '<h3>A</h3><p>f</p>'
+    + '<h4 class="foo">A</h4><p>f</p>';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    var res = q("#sandbox p").prev(".foo");
+    this.assertEquals(2, res.length);
+    this.assertEquals("foo", res[0].className);
+    this.assertEquals("foo", res[1].className);
+    this.assertEquals("H2", res[0].tagName);
+    this.assertEquals("H4", res[1].tagName);
+    test.remove();
+  },
+  
+  testPrevAll : function() {
+    var html = '<p>foo</p><div><span>f</span><span id="foo">f</span><span id="test">a</span></div>';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    this.assertEquals(2, q("#test").prevAll().length);
+    this.assertEquals(1, q("#test").prevAll("#foo").length);
+    this.assertEquals(document.getElementById("foo"), q("#test").prevAll("#foo")[0]);
+    test.remove();
+  },
+  
+  testPrevUntil : function() {
+    var html = '<ul>'
+    + '  <li class="first">a ONE</li>'
+    + '  <li>f TWO</li>'
+    + '  <li>f THREE</li>'
+    + '  <li class="last">e</li>'
+    + '</ul>'
+    + '<p class="first">a</p>'
+    + '<p>f</p>'
+    + '<p>f</p>'
+    + '<p class="last">e</p>';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    var res = q("#sandbox .last").prevUntil(".first");
+    this.assertEquals(4, res.length);
+    this.assertEquals("LI", res[0].tagName);
+    this.assertEquals("LI", res[1].tagName);
+    this.assertEquals("P", res[2].tagName);
+    this.assertEquals("P", res[3].tagName);
+    test.remove();
   }
 });
 
