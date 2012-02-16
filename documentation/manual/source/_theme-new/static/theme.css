@@ -2,8 +2,10 @@
   margin-bottom: 0;
 }
 
-#sidebar h4 {
+#sidebar h4,
+.bottom-nav {
   color: #707070;
+  font-style: normal;
 }
 
 #content a.headerlink,
@@ -53,4 +55,8 @@ ul.search .highlighted {
   font-weight: normal;
   color: #111; /* @fg */
   background-color: #ffee00; /* @attention */
+}
+
+.bottom-nav .prev {
+  padding-right: 10px;
 }

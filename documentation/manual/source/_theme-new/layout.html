@@ -74,6 +74,16 @@
     </section>
     <section id="content">
       {% block body %} {% endblock %}
+      <div class="bottom-nav">
+        {%- if prev %}
+          <a class="prev" href="{{ prev.link|e }}"
+             title="{{ _('previous chapter') }}"> ←&nbsp;&nbsp;{{ prev.title }}</a>
+        {%- endif %}
+        {%- if next %}
+          <a class="next" href="{{ next.link|e }}"
+             title="{{ _('next chapter') }}">{{ next.title }}&nbsp;&nbsp;→</a>
+        {%- endif %}
+      </div>
     </section>
     <section id="sidebar">
       {%- block sidebar1 %}{{ sidebar() }}{% endblock %}
@@ -119,6 +129,9 @@
           </li>
           <li>
             <a href="http://new.qooxdoo.org/project">Project</a>
+          </li>
+          <li>
+            <a href="http://new.qooxdoo.org/license">License</a>
           </li>
         </ul>
       </div>
