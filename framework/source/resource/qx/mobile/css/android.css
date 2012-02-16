@@ -1358,6 +1358,31 @@ input[type="checkbox"] {
   font-size: 16px;
   margin: 0 0 5px 0;
 }
+#button .standard {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: auto;
+  height: 20px;
+  color: #222222;
+  text-align: center;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
+  /* Safari 4+, Chrome 2+ */
+
+  background-image: -webkit-linear-gradient(top, #f4f4f4, #c1c1c1);
+  /* Safari 5.1+, Chrome 10+ */
+
+  background-image: -moz-linear-gradient(top, #f4f4f4, #c1c1c1);
+  /* FF 3.6+ */
+
+  background-image: linear-gradient(to bottom, #f4f4f4, #c1c1c1);
+  /* Standard (in flux) */
+
+  border: 1px solid #555555;
+  line-height: 20px;
+  font-size: 12px;
+}
 a:hover,
 a:active {
   outline: none;
@@ -1426,21 +1451,14 @@ ul li .subtitle {
 ul li.active .subtitle {
   color: #313429;
 }
-.android-button-highlight {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
-  background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
-  background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
-  background-image: linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
-}
-.toolbar-button {
+.button {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
   cursor: pointer;
-  background: #f4f4f4;
   width: auto;
-  height: 50px;
-  color: #000000;
+  height: 20px;
+  color: #222222;
   text-align: center;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
   /* Safari 4+, Chrome 2+ */
@@ -1455,14 +1473,44 @@ ul li.active .subtitle {
   /* Standard (in flux) */
 
   border: 1px solid #555555;
-  line-height: 50px;
-  font-size: 17px;
+  line-height: 20px;
+  font-size: 12px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 15px;
 }
-.toolbar-button.active {
+.button.active {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
   background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
   background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
   background-image: linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
+}
+.toolbar-button {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: auto;
+  height: 20px;
+  color: #222222;
+  text-align: center;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
+  /* Safari 4+, Chrome 2+ */
+
+  background-image: -webkit-linear-gradient(top, #f4f4f4, #c1c1c1);
+  /* Safari 5.1+, Chrome 10+ */
+
+  background-image: -moz-linear-gradient(top, #f4f4f4, #c1c1c1);
+  /* FF 3.6+ */
+
+  background-image: linear-gradient(to bottom, #f4f4f4, #c1c1c1);
+  /* Standard (in flux) */
+
+  border: 1px solid #555555;
+  line-height: 20px;
+  font-size: 12px;
+  height: 50px;
+  font-size: 17px;
 }
 .toolbar-button > div {
   height: 50px;
@@ -1540,10 +1588,9 @@ textarea {
   -moz-border-radius: 4px;
   border-radius: 4px;
   cursor: pointer;
-  background: #f4f4f4;
-  width: 0;
-  height: 45px;
-  color: #000000;
+  width: auto;
+  height: 20px;
+  color: #222222;
   text-align: center;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
   /* Safari 4+, Chrome 2+ */
@@ -1558,6 +1605,10 @@ textarea {
   /* Standard (in flux) */
 
   border: 1px solid #555555;
+  line-height: 20px;
+  font-size: 12px;
+  width: 0;
+  height: 45px;
   line-height: 45px;
   font-size: 17px;
   -webkit-background-clip: padding-box;
@@ -1590,10 +1641,9 @@ textarea {
   -moz-border-radius: 4px;
   border-radius: 4px;
   cursor: pointer;
-  background: #f4f4f4;
   width: auto;
-  height: 30px;
-  color: #000000;
+  height: 20px;
+  color: #222222;
   text-align: center;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
   /* Safari 4+, Chrome 2+ */
@@ -1608,21 +1658,17 @@ textarea {
   /* Standard (in flux) */
 
   border: 1px solid #555555;
-  line-height: 30px;
+  line-height: 20px;
   font-size: 12px;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
+  height: 30px;
+  line-height: 30px;
+  font-size: 12px;
   min-width: 40px;
   min-width: -moz-calc(50px);
   padding: 0 3px;
-}
-.navigationbar-button.active,
-.navigationbar-backbutton.active {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
-  background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
-  background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
-  background-image: linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
 }
 .scrollbarV > div {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#b5b6b5), to(#949294));

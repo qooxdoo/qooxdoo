@@ -1358,6 +1358,42 @@ input[type="checkbox"] {
   font-size: 16px;
   margin: 0 0 5px 0;
 }
+#button .nav {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 12px;
+  color: #ffffff;
+  position: relative;
+  overflow: visible;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  white-space: nowrap;
+  background: none;
+  padding: 0 10px;
+  text-shadow: #3e5779 0 -1px 0;
+  -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  border: 1px solid #2d3f57;
+  background-image: none;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4a6c9b));
+  background-image: -webkit-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  background-image: -moz-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  background-image: linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+}
+#button .nav-active {
+  border-color: #243346;
+  background-color: #476489;
+  background-image: none;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
+  background-image: -webkit-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: -moz-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  text-shadow: #364b68 0 -1px 0;
+}
 a:hover,
 a:active {
   outline: none;
@@ -1457,20 +1493,16 @@ li:last-child a {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
-  cursor: pointer;
-  background: #ffffff;
-  width: auto;
-  height: 30px;
-  color: #666666;
-  text-align: center;
-  line-height: 30px;
-  font-size: 17px;
-  font-weight: bold;
-  font-family: Helvetica;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
+  cursor: pointer;
   border: 1px solid #B4B4B4;
+  background-color: #fff;
+  color: #666666;
+  width: auto;
+  height: 30px;
+  font-size: 17px;
   font-weight: bold;
 }
 .button.active {
@@ -1487,48 +1519,6 @@ li:last-child a {
   /* Standard (in flux) */
 
   color: #fff;
-}
-.ios-menu-button {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #50709a;
-  width: auto;
-  height: 30px;
-  color: #ffffff;
-  text-align: center;
-  line-height: 30px;
-  font-size: 12px;
-  font-weight: bold;
-  font-family: Helvetica;
-  position: relative;
-  overflow: visible;
-  text-overflow: ellipsis;
-  text-decoration: none;
-  white-space: nowrap;
-  background: none;
-  padding: 0 10px;
-  text-shadow: #3e5779 0 -1px 0;
-  -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-  -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-  border: 1px solid #2d3f57;
-  background-image: none;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4a6c9b));
-  background-image: -webkit-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
-  background-image: -moz-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
-  background-image: linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
-}
-.ios-menu-button-active {
-  border-color: #243346;
-  background-color: #476489;
-  background-image: none;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
-  background-image: -webkit-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
-  background-image: -moz-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
-  background-image: linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
-  text-shadow: #364b68 0 -1px 0;
 }
 ul.form {
   margin-bottom: 10px;
@@ -1605,16 +1595,10 @@ textarea {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  cursor: pointer;
-  background: #50709a;
-  width: auto;
   height: 30px;
-  color: #ffffff;
-  text-align: center;
   line-height: 30px;
   font-size: 12px;
-  font-weight: bold;
-  font-family: Helvetica;
+  color: #ffffff;
   position: relative;
   overflow: visible;
   text-overflow: ellipsis;
@@ -1647,16 +1631,10 @@ textarea {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  cursor: pointer;
-  background: #50709a;
-  width: auto;
   height: 30px;
-  color: #ffffff;
-  text-align: center;
   line-height: 30px;
   font-size: 12px;
-  font-weight: bold;
-  font-family: Helvetica;
+  color: #ffffff;
   position: relative;
   overflow: visible;
   text-overflow: ellipsis;
@@ -1781,16 +1759,11 @@ input[type="checkbox"]:checked {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
-  cursor: pointer;
-  background: none;
-  width: auto;
-  height: 50px;
+  background-color: none;
   color: #ffffff;
-  text-align: center;
+  height: 50px;
   line-height: 50px;
   font-size: 17px;
-  font-weight: bold;
-  font-family: Helvetica;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
