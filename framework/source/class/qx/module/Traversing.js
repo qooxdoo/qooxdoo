@@ -41,17 +41,27 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
-    getAncestors : function(selector) {
+    getAncestors : function(filter) {
+      return this.__getAncestors(null, filter);
+    },
+
+
+    getAncestorsUntil : function(selector, filter) {
+      return this.__getAncestors(selector, filter);
+    },
+
+
+    __getAncestors : function(selector, filter) {
       var ancestors = [];
       for (var i=0; i < this.length; i++) {
         var parent = qx.dom.Element.getParentElement(this[i]);
         while (parent) {
-          var found;
-          if (selector) {
-            found = qx.bom.Selector.matches(selector, [parent]);
+          var found = [parent];
+          if (selector && qx.bom.Selector.matches(selector, found).length > 0) {
+            break;
           }
-          else {
-            found = [parent];
+          if (filter) {
+            found = qx.bom.Selector.matches(filter, found);
           }
           ancestors = ancestors.concat(found);
           parent = qx.dom.Element.getParentElement(parent);
@@ -274,6 +284,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "forEach" : statics.forEach,
       "getParents" : statics.getParents,
       "getAncestors" : statics.getAncestors,
+      "getAncestorsUntil" : statics.getAncestorsUntil,
+      "__getAncestors" : statics.__getAncestors,
       "getClosest" : statics.getClosest,
       "find" : statics.find,
       "filter" : statics.filter,

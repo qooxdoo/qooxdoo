@@ -146,6 +146,20 @@ testrunner.define({
     this.assertEquals("sandbox", ancestors[2].id);
     test.remove();
   },
+  
+  testGetAncestorsUntil : function() {
+    var test = q.create('<div id="ancestor"><div id="parent"><div id="child"></div></div></div>');
+    test.appendTo(this.sandbox[0]);
+    var ancestors = q("#child").getAncestorsUntil("body");
+    this.assertEquals(3, ancestors.length);
+    this.assertEquals("parent", ancestors[0].id);
+    this.assertEquals("sandbox", ancestors[2].id);
+    
+    ancestors = q("#child").getAncestorsUntil("body", "#sandbox");
+    this.assertEquals(1, ancestors.length);
+    this.assertEquals("sandbox", ancestors[0].id);
+    test.remove();
+  },
 
   testGetClosest : function() {
     var test = q.create("<div><a id='closest'><div><div id='test'/></div></a></div>");
