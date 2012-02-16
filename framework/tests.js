@@ -376,7 +376,7 @@ testrunner.define({
   testClass : function() {
     var test = q.create("<div/>");
     test.addClass("test");
-    this.assertEquals("test", test[0].getAttribute("class"));
+    this.assertEquals("test", test.getAttribute("class"));
     this.assertTrue(test.hasClass("test"));
     test.toggleClass("test");
     this.assertFalse(test.hasClass("test"));
