@@ -43,7 +43,7 @@
 import sys, os, re, types, string
 from ecmascript.frontend.SyntaxException import SyntaxException
 from ecmascript.frontend.tree            import Node
-from ecmascript.frontend.Scanner         import IterObject, LQueue, is_last_escaped
+from ecmascript.frontend.Scanner         import IterObject, LQueue, LimLQueue, is_last_escaped
 from ecmascript.frontend                 import lang
 from misc                                import filetool
 from misc.NameSpace                      import NameSpace
@@ -89,8 +89,9 @@ class TokenStream(IterObject):
 
     def __init__(self, inData):
         self.line       = 0
-        self.spos       = 0  # current char pos
-        self.sol        = 0  # last start-of-line char pos
+        self.tpos       = 0  # token position in stream
+        self.max_look_behind = 10
+        self.outData    = LimLQueue(self.max_look_behind)
         super(TokenStream, self).__init__(inData)
 
     def resetIter(self):
@@ -98,8 +99,9 @@ class TokenStream(IterObject):
         self.tok_stream = iter(self.tokenStream)
         super(TokenStream, self).resetIter()
 
+    ##
+    # Peek n tokens ahead
     def peek(self, n=1):
-        "peek n tokens ahead"
         toks = []
         cnt  = 0
 
@@ -119,6 +121,14 @@ class TokenStream(IterObject):
             self.tokenStream.putBack(t)
 
         return self._symbolFromToken(Token(toks[-1]))
+
+    ##
+    # Peek n tokens behind
+    def lookbehind(self, n=1):
+        if n>self.max_look_behind:
+            raise SyntaxException("TokenStream: can only look %d elements behind" % self.max_look_behind)
+        return self.outData[n]
+
 
     def _nonGrammaticalToken(self, tok):
         return tok['type'] in ['white', 'comment', 'eol']
@@ -141,8 +151,6 @@ class TokenStream(IterObject):
             s.value = ""
         elif tok.name == "eol":
             self.line += 1                  # increase line count
-            self.sol  = tok.spos + tok.len  # char pos of next line start
-            self.spos = tok.spos
             pass # don't yield this (yet)
             #s = symbol_table.get("eol")()
         # 'operation' nodes
@@ -176,10 +184,10 @@ class TokenStream(IterObject):
             symbol = symbol_table["constant"]
             s = symbol()
             s.set('constantType', 'boolean')
-        elif tok.name in ('name',):
+        elif tok.name in ('name', 'builtin'):
             s = symbol_table["identifier"]()
         else:
-            # TODO: token, reserved, builtin
+            # TODO: token, reserved
             # name or operator
             if tok.value == "this":
                 # unfortunately, this comes as tok.name=='reserved' like operators
@@ -190,7 +198,7 @@ class TokenStream(IterObject):
                 if symbol:
                     s = symbol()
                 else:
-                    raise SyntaxError("Unknown operator %r (pos %d)" % (tok.value, tok.spos))
+                    raise SyntaxError("Unknown operator %r (pos %r)" % (tok.value, (tok.line,tok.column)))
                     #s = symbol_table['(unknown)']()
 
         if s:
@@ -205,13 +213,13 @@ class TokenStream(IterObject):
     ##
     # yields syntax nodes as "tokens" (kind of a misnomer)
     def __iter__(self):
-        for t in self.tok_stream:
+        for i,t in enumerate(self.tok_stream):
+            self.tpos = i
             tok = Token(t)
             s = self._symbolFromToken(tok)
             if not s:
                 continue
-            self.spos = tok.spos
-            s.spos    = tok.spos
+            self.outData.appendleft(s)
             yield s
 
 
@@ -226,7 +234,6 @@ class Token(object):
         tok.line = t.get( "line")
         tok.multiline = t.get( "multiline")
         tok.name = t["type"] if t["type"]!="token" else "operator" # i hate the token "token"
-        tok.spos = tok.column
         tok.value = t["source"]
         tok.len = len(tok.value)
 
@@ -263,10 +270,10 @@ class symbol_base(Node):
         child.parent = self
 
     def nud(self):
-        raise SyntaxError("Syntax error %r (pos %d)." % (self.id, self.spos))
+        raise SyntaxError("Syntax error %r (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
 
     def led(self, left):
-        raise SyntaxError("Unknown operator %r (pos %d)." % (self.id, self.spos))
+        raise SyntaxError("Unknown operator %r (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
 
     def isVar(self):
         return self.type in ("dotaccessor", "identifier")
@@ -519,7 +526,7 @@ def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
 def advance(id=None):
     global token
     if id and token.id != id:
-        raise SyntaxError("Expected %r (pos %d)" % (id, token.spos))
+        raise SyntaxError("Expected %r (pos %r)" % (id, (token.get("line"),token.get("column"))))
     if token.id != "eof":
         token = next()
 
@@ -691,7 +698,7 @@ def led(self, left):
 @method(symbol("."))
 def led(self, left):
     if token.id != "identifier":
-        SyntaxError("Expected an attribute name (pos %d)." % self.spos)
+        SyntaxError("Expected an attribute name (pos %r)." % ((token.get("line"), token.get("column")),))
     #variable = symbol("variable")()
     #variable.childappend(left.getChild("identifier")) # unwrap from <variable/>
     #variable.childappend(left)
@@ -849,7 +856,8 @@ def nud(self):
             keyname = expression()
             key = symbol("keyvalue")()
             key.set("key", keyname.get("value"))
-            key.set("quote", keyname.get("detail"))
+            quote_type = keyname.get("detail", False)
+            key.set("quote", quote_type if quote_type else '')
             mmap.childappend(key)
             advance(":")
             # value
@@ -1017,7 +1025,7 @@ def std(self):
         vardecl.childappend(var)
         defn = expression()
         if defn.type not in ("identifier", "assignment"):
-            raise SyntaxError("Expected a new variable or assignment (pos %d)" % self.spos)
+            raise SyntaxError("Expected a new variable or assignment (pos %r)" % ((token.get("line"), token.get("column")),))
         var.childappend(defn)
         if token.id != ",":
             break
@@ -1032,7 +1040,7 @@ def nud(self):
     while True:
         n = token
         if n.id != "identifier":
-            raise SyntaxError("Expected a new variable name (pos %d)" % self.spos)
+            raise SyntaxError("Expected a new variable name (pos %r)" % ((token.get("line"), token.get("column")),))
         advance()
         if token.id == "=":  # initialization
             t = token
@@ -1445,20 +1453,26 @@ def statement():
         s = expression()
         # Crockford's too tight here
         #if not (s.id == "=" or s.id == "("):
-        #    raise SyntaxError("Bad expression statement (pos %d)" % token.spos)
-    semicolonOrLineEnd()
+        #    raise SyntaxError("Bad expression statement (pos %r)" % ((token.get("line"), token.get("column")),))
+    statementEnd()
     return s
 
 
-def semicolonOrLineEnd():
-    try:
-        advance("eof")
-    except:
-        try:
-            advance("eol")
-        except:
-            advance(";")
-    
+def statementEnd():
+    if token.id in ("eof", 
+        "eol", # these are not yielded by the TokenStream currently
+        ";", 
+        "}"  # it's the last statement in a block
+        ):
+        advance()
+    else:
+        ltok = tokenStream.lookbehind()
+        if ltok.id == '}':  # it's a statement ending with a block ('if' etc.)
+            pass
+        else:
+            raise SyntaxError("Unterminated statement (pos %r)" % ((token.get("line"), token.get("column")),))
+
+
 def statementOrBlock(): # for 'if', 'while', etc. bodies
     if token.id == '{':
         return block()
@@ -1504,7 +1518,7 @@ def init_list():  # parse anything from "i" to "i, j=3, k,..."
 def argument_list(list):
     while 1:
         if token.id != "identifier":
-            SyntaxError("Expected an argument name (pos %d)." % token.spos)
+            SyntaxError("Expected an argument name (pos %r)." % ((token.get("line"), token.get("column")),))
         list.append(token)
         advance()
         if token.id == "=":

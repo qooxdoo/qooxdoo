@@ -218,6 +218,24 @@ class LQueue(object):
             yield self.queue.popleft()
 
 
+##
+# LimLQueue   -- limited queue that only allows adding from the "Left"
+#
+# Elements can be added from the left, and accessed with their index (like an array).
+# If more than <limit> elements are added to the left, elements are dropped from the right.
+#
+class LimLQueue(deque):
+
+    def __init__(self, limit=10, iterable=[]):
+        self._limit = limit
+        deque.__init__(self, iterable)
+
+    def appendleft(self, elem):
+        if len(self) >= self._limit:
+            self.pop()
+        deque.appendleft(self, elem)
+
+
 
 # - Helpers -------------------------------------------------------------------
 
