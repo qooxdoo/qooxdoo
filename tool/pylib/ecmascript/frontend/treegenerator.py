@@ -997,8 +997,10 @@ symbol("var")
 #  <definitionList>
 #    <definition>
 #      <assignment>
-#        <identifier>
-#        <constant>
+#        <first>
+#          <identifier>
+#        <second>
+#          <constant>
 # (with assignment/2)
 # which seems more sane than the older
 #  <definitionList>
@@ -1013,23 +1015,14 @@ def std(self):
     while True:
         var = symbol("definition")()
         vardecl.childappend(var)
-        n = token
-        if n.id != "identifier":
-            raise SyntaxError("Expected a new variable name (pos %d)" % self.spos)
-        advance()
-        if token.id == "=":  # initialization
-            t = token
-            advance("=")
-            t.childappend(n)
-            t.childappend(expression())
-            var.childappend(t)
-        else:
-            var.childappend(n)
+        defn = expression()
+        if defn.type not in ("identifier", "assignment"):
+            raise SyntaxError("Expected a new variable or assignment (pos %d)" % self.spos)
+        var.childappend(defn)
         if token.id != ",":
             break
         else:
             advance(",")
-    #advance(";")
     return vardecl
 
 
@@ -1055,6 +1048,21 @@ def nud(self):
     else:
         return self.children[0]
 
+@method(symbol("definitionList"))  # this is what becomes of "var"
+def toJS(self):
+    r = []
+    r.append("var")
+    r.append(self.space())
+    a = []
+    for c in self.children:
+        a.append(c.toJS())
+    r.append(','.join(a))
+    return ''.join(r)
+
+@method(symbol("definition"))
+def toJS(self):
+    return self.children[0].toJS()
+
 
 symbol("for"); symbol("in")
 
@@ -1069,13 +1077,11 @@ def std(self):
     if tokenStream.peek(2 if token.id=="var" else 1).id == "in":
         self.set("forVariant", "in")
         var_s = None
-        first = symbol("first")()
-        self.childappend(first)
         operation = symbol("in")()
         operation.type = "operation"
         operation.set("operator", "IN")
         operation.set("value", "in")
-        first.childappend(operation)
+        self.childappend(operation)
         op_first = symbol("first")()
         operation.childappend(op_first)
         if token.id == "var": # "var" or ident
@@ -1101,39 +1107,28 @@ def std(self):
     # for (;;)
     else:
         self.set("forVariant", "iter")
-        first = symbol("first")()
+        condition = symbol("expressionList")()
+        self.childappend(condition)
+        # init part
+        init_part = None
         var_s = None
         if token.id == "var":
-            var_s = symbol("definitionList")()
-            first.childappend(var_s)
-            advance("var")
-        lst = init_list()
-        if var_s:
-            for assgn in lst:
-                defn = symbol("definition")()
-                # have to decompose result element from init_list
-                if assgn.id != "=":
-                    raise SyntaxError("Must initialize element")
-                else:
-                    assignment = symbol("assignment")()
-                    assignment.childappend(assgn.children[1])  # the left operand of '='
-                    defn.childappend(assignment)
-                var_s.childappend(defn)
+            t = token
+            advance()
+            init_part = t.std() # parse it like a 'var' stmt
         else:
             exprList = symbol("expressionList")()
-            first.childappend(exprList)
+            init_part = exprList
+            lst = init_list()
             for assgn in lst:
                 exprList.childappend(assgn)
-                
-        # ;
+        condition.childappend(init_part)
+        # condition part 
         advance(";")
-        second = symbol("second")()
-        second.childappend(expression())
-        # ;
+        condition.childappend(expression())
+        # update part
         advance(";")
-        third = symbol("third")()
-        third.childappend(expression())
-        self.children.extend([first, second,third])
+        condition.childappend(expression())
 
     # body
     advance(")")
@@ -1149,16 +1144,22 @@ def toJS(self):
     r.append(self.space(False,result=r))
     # cond
     r.append('(')
-    if self.get("forVariant") == "in":  # for (.. in ..)
-        r.append(self.getChild("first").toJS())
-    else:   # for (;;)
-        pass
+    # for (in)
+    if self.get("forVariant") == "in":
+        r.append(self.children[0].toJS())
+    # for (;;)
+    else:
+        r.append(self.children[0].children[0].toJS())
+        r.append(';')
+        r.append(self.children[0].children[1].toJS())
+        r.append(';')
+        r.append(self.children[0].children[2].toJS())
     r.append(')')
     # body
     r.append(self.getChild("body").toJS())
     return u''.join(r)
 
-@method(symbol("in"))  # of 'for (.. in ..)'
+@method(symbol("in"))  # of 'for (in)'
 def toJS(self):
     r = u''
     r += self.getChild("first").toJS()
@@ -1178,7 +1179,9 @@ def std(self):
     advance("(")
     self.childappend(expression())
     advance(")")
-    self.childappend(block())
+    body = symbol("body")()
+    body.childappend(statementOrBlock())
+    self.childappend(body)
     return self
 
 @method(symbol("while"))
@@ -1198,12 +1201,29 @@ symbol("do")
 
 @method(symbol("do"))
 def std(self):
-    self.childappend(block())
+    self.type = "loop" # compat with Node.type
+    self.set("loopType", "DO")
+    body = symbol("body")()
+    body.childappend(statementOrBlock())
+    self.childappend(body)
     advance("while")
     advance("(")
     self.childappend(expression(0))
     advance(")")
-    #advance(";")
+    return self
+
+@method(symbol("do"))
+def toJS(self):
+    r = []
+    r.append("do")
+    r.append(self.space())
+    r.append(self.children[0].toJS())
+    r.append('while')
+    r.append('(')
+    r.append(self.children[1].toJS())
+    r.append(')')
+    return ''.join(r)
+
 
 symbol("with")
 
@@ -1505,23 +1525,6 @@ def argument_list(list):
 # when creating the AST.
 
 
-symbol("assignment")
-
-@method(symbol("assignment"))
-def toJS(self):
-    r = u''
-    if self.parent.type == "definition":
-        oper = self.get("operator", False)
-        # be compact in for-loops
-        compact = self.inForLoop(node)
-        r += self.compileToken(oper, compact)
-    return r
-
-@method(symbol("assignment"))
-def closing(self):
-    return u""
-
-
 symbol("block")
 
 @method(symbol("block"))
@@ -1639,38 +1642,6 @@ def toJS(self):
     return r
 
 @method(symbol("default"))
-def closing(self):
-    return u""
-
-
-symbol("definition")
-
-@method(symbol("definition"))
-def toJS(self):
-    r = u''
-    if self.parent.type != "definitionList":
-        r += self.write("var")
-        r += self.space(result=r)
-    r += self.write(self.get("identifier"))
-    return r
-
-@method(symbol("definition"))
-def closing(self):
-    r = u''
-    if self.hasParent() and self.parent.type == "definitionList" and not self.isLastChild(True):
-        r += self.comma(r)
-    return r
-
-
-symbol("definitionList")
-
-@method(symbol("definitionList"))
-def toJS(self):
-    r = self.write("var")
-    r += self.space(result=r)
-    return r
-
-@method(symbol("definitionList"))
 def closing(self):
     return u""
 
