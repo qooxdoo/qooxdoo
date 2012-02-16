@@ -1457,13 +1457,21 @@ li:last-child a {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
+  cursor: pointer;
+  background: #ffffff;
+  width: auto;
+  height: 30px;
+  color: #666666;
+  text-align: center;
+  line-height: 30px;
+  font-size: 17px;
+  font-weight: bold;
+  font-family: Helvetica;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
-  background: #fff;
   border: 1px solid #B4B4B4;
-  font: bold 17px Helvetica;
-  line-height: 40px;
+  font-weight: bold;
 }
 .button.active {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#4583fd), to(#194ae4));
@@ -1544,6 +1552,49 @@ textarea {
   background-image: linear-gradient(to bottom, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
   color: #ffffff;
 }
+.ios-menu-button {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #50709a;
+  width: auto;
+  height: 30px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 30px;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Helvetica;
+  position: relative;
+  overflow: visible;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  white-space: nowrap;
+  background: none;
+  padding: 0 10px;
+  text-shadow: #3e5779 0 -1px 0;
+  -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  border: 1px solid #2d3f57;
+  border-left: 0;
+  background-image: none;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4a6c9b));
+  background-image: -webkit-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  background-image: -moz-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  background-image: linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+}
+.ios-menu-button-active {
+  border-color: #243346;
+  background-color: #476489;
+  background-image: none;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
+  background-image: -webkit-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: -moz-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  text-shadow: #364b68 0 -1px 0;
+}
 .navigationbar {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#cdd5df), color-stop(50%, #8195af), to(#6d84a2));
   background-image: -webkit-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
@@ -1551,20 +1602,48 @@ textarea {
   background-image: linear-gradient(to bottom, #cdd5df, #8195af 50%, #6d84a2);
   border-bottom: 1px solid #2d3642;
 }
-.navigationbar-button,
-.navigationbar-backbutton {
-  -webkit-border-image: url(../icon/ios/toolButton.png) 0 5 0 5;
-  -moz-border-image: url(../icon/ios/toolButton.png) 0 5 0 5;
-  border-width: 0 5px;
-  padding: 0 3px;
+.navigationbar-button {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #50709a;
+  width: auto;
   height: 30px;
-  color: #fff;
-  text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0;
+  color: #ffffff;
+  text-align: center;
+  line-height: 30px;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Helvetica;
+  position: relative;
+  overflow: visible;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  white-space: nowrap;
   background: none;
+  padding: 0 10px;
+  text-shadow: #3e5779 0 -1px 0;
+  -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  border: 1px solid #2d3f57;
+  border-left: 0;
+  background-image: none;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4a6c9b));
+  background-image: -webkit-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  background-image: -moz-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  background-image: linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
 }
 .navigationbar-button.active {
-  -webkit-border-image: url(../icon/ios/toolButton_pressed.png) 0 5 0 5;
-  -moz-border-image: url(../icon/ios/toolButton_pressed.png) 0 5 0 5;
+  border-color: #243346;
+  background-color: #476489;
+  background-image: none;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6b89b2), color-stop(50%, #50709a), color-stop(51%, #476489), color-stop(100%, #3e5779));
+  background-image: -webkit-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: -moz-linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  background-image: linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
+  text-shadow: #364b68 0 -1px 0;
 }
 .navigationbar-backbutton {
   -webkit-border-radius: 5px;
@@ -1598,6 +1677,10 @@ textarea {
   background-image: -webkit-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
   background-image: -moz-linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
   background-image: linear-gradient(top, #7c97bb, #5a7caa 50%, #476999 51%, #4a6c9b);
+  max-width: 60px;
+  margin-left: 15px;
+  overflow: visible;
+  padding-left: 5px;
 }
 .navigationbar-backbutton.active {
   border-color: #243346;
@@ -1609,12 +1692,6 @@ textarea {
   background-image: linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
   text-shadow: #364b68 0 -1px 0;
 }
-.navigationbar-backbutton {
-  max-width: 60px;
-  margin-left: 15px;
-  overflow: visible;
-  padding-left: 5px;
-}
 .navigationbar-backbutton:before {
   content: '';
   position: absolute;
@@ -1625,9 +1702,9 @@ textarea {
   -webkit-transform: rotate(45deg) translate3d(0.2px, 0, 0);
   -moz-transform: rotate(45deg) translate3d(0.2px, 0, 0);
   transform: rotate(45deg) translate3d(0.2px, 0, 0);
-  -webkit-transform-origin: 0 0;
-  -moz-transform-origin: 0 0;
-  transform-origin: 0 0;
+  -webkit-transform-origin: 0;
+  -moz-transform-origin: 0;
+  transform-origin: 0;
   background-image: none;
   background-color: #50709a;
   background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #7c97bb), color-stop(50%, #5a7caa), color-stop(51%, #476999), color-stop(100%, #4a6c9b));
@@ -1703,12 +1780,12 @@ input[type="checkbox"]:checked {
   border: 2px solid #b8b8b8;
 }
 .toolbar-button {
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
   cursor: pointer;
   background: none;
-  width: 0;
+  width: auto;
   height: 50px;
   color: #ffffff;
   text-align: center;

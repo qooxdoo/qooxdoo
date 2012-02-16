@@ -101,12 +101,10 @@ li:last-child, li:last-child a {
 //
 
 .button {
-  .border-radius(8px);
+  .ios-button (8px, #fff, #666666, auto, 30px, 17px);
   .background-clip(padding-box);
-  background: #fff;
   border: 1px solid #B4B4B4;
-  font: bold 17px Helvetica;
-  line-height : 40px;
+  font-weight:bold;
 }
 
 .button.active {
@@ -114,16 +112,12 @@ li:last-child, li:last-child a {
   color: #fff;
 }
 
-.ios-button (@radius, @background-color, @width, @height, @font-size) {
-  .basic-button(@radius, @background-color, #fff, @width, @height);
+.ios-button (@radius, @background-color, @textcolor, @width, @height, @font-size) {
+  .basic-button(@radius, @background-color, @textcolor, @width, @height);
   line-height: @height;
   font-size:@font-size;
   font-weight:bold;
   font-family: Helvetica;
-}
-
-.ios-button (@width, @height) {
-  .ios-button (4px, @width, @height, 17px);
 }
 
 //
@@ -195,47 +189,11 @@ input[type="text"], input[type="password"], textarea {
 }
 
 //
-// NAVIGATIONBAR
+// IOS Menu button
 //
 
-.navigationbar {
-  #gradient > .vertical-three(#cdd5df, #8195af, #6d84a2);
-  border-bottom: 1px solid #2d3642;
-}
-
-.navigationbar-button, .navigationbar-backbutton {
-  .border-image(url(../icon/ios/toolButton.png) 0 5 0 5);
-  border-width: 0 5px;
-  padding: 0 3px;
-  height: 30px;
-  color: #fff;
-  text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0;
-  background: none;
-}
-
-.navigationbar-button.active {
-  .border-image(url(../icon/ios/toolButton_pressed.png) 0 5 0 5);
-}
-
-//
-// iOS backbutton
-//
-@backbutton-bordercolor: #2d3f57;
-@backbutton-backgroundcolor: #50709a;
-@backbutton-gradient-stop-1: #7c97bb;
-@backbutton-gradient-stop-2: #5a7caa;
-@backbutton-gradient-stop-3: #476999;
-@backbutton-gradient-stop-4: #4A6C9B;
-
-@backbutton-active-bordercolor: #243346;
-@backbutton-active-backgroundcolor: #476489;
-@backbutton-active-gradient-stop-1: #6b89b2;
-@backbutton-active-gradient-stop-2: #50709a;
-@backbutton-active-gradient-stop-3: #476489;
-@backbutton-active-gradient-stop-4: #3e5779;
-
-.navigationbar-backbutton {
-  .ios-button(5px, @backbutton-backgroundcolor, auto, 30px, 12px);
+.ios-menu-button {
+  .ios-button(5px, @backbutton-backgroundcolor, #ffffff, auto, 30px, 12px);
   
   position:relative;
   overflow: visible;
@@ -262,8 +220,7 @@ input[type="text"], input[type="password"], textarea {
   background-image: linear-gradient(top, @backbutton-gradient-stop-1, @backbutton-gradient-stop-2 50%, @backbutton-gradient-stop-3 51%, @backbutton-gradient-stop-4);
 }
 
-
-.navigationbar-backbutton.active { 
+.ios-menu-button-active {
   border-color: @backbutton-active-bordercolor;
   background-color: @backbutton-active-backgroundcolor;
   
@@ -277,11 +234,52 @@ input[type="text"], input[type="password"], textarea {
   text-shadow: #364b68 0 -1px 0;
 }
 
+//
+// iOS NAVIGATIONBAR Button
+//
+
+.navigationbar {
+  #gradient > .vertical-three(#cdd5df, #8195af, #6d84a2);
+  border-bottom: 1px solid #2d3642;
+}
+
+.navigationbar-button {
+  .ios-menu-button;
+}
+
+.navigationbar-button.active {
+  .ios-menu-button-active;
+}
+
+//
+// iOS NAVIGATIONBAR Backbutton
+//
+
+@backbutton-bordercolor: #2d3f57;
+@backbutton-backgroundcolor: #50709a;
+@backbutton-gradient-stop-1: #7c97bb;
+@backbutton-gradient-stop-2: #5a7caa;
+@backbutton-gradient-stop-3: #476999;
+@backbutton-gradient-stop-4: #4A6C9B;
+
+@backbutton-active-bordercolor: #243346;
+@backbutton-active-backgroundcolor: #476489;
+@backbutton-active-gradient-stop-1: #6b89b2;
+@backbutton-active-gradient-stop-2: #50709a;
+@backbutton-active-gradient-stop-3: #476489;
+@backbutton-active-gradient-stop-4: #3e5779;
+
 .navigationbar-backbutton {
+  .ios-menu-button;
+  
   max-width: 60px;
   margin-left: 15px;
   overflow: visible;
   padding-left: 5px;
+}
+
+.navigationbar-backbutton.active { 
+  .ios-menu-button-active;
 }
 
 .navigationbar-backbutton:before {
@@ -295,13 +293,14 @@ input[type="text"], input[type="password"], textarea {
   left:-6px;
   top:-4px;
   
+  // Rotate arrowhead counter-clockwise 45 deg
   -webkit-transform: rotate(45deg) translate3d(0.2px, 0, 0);
   -moz-transform: rotate(45deg) translate3d(0.2px, 0, 0);
   transform: rotate(45deg) translate3d(0.2px, 0, 0);
   
-  -webkit-transform-origin: 0 0;
-  -moz-transform-origin: 0 0;
-  transform-origin: 0 0;
+  -webkit-transform-origin: 0;
+  -moz-transform-origin: 0;
+  transform-origin: 0;
   
   background-image: none;
   background-color: @backbutton-backgroundcolor; 
@@ -380,7 +379,8 @@ input[type="checkbox"]:checked {
 .toolbar-button {
   // This is for equal sizes od the buttons when added in a toolbar or
   // other container with flex :1
-  .ios-button (0px, none, 0, 50px, 17px);
+  
+  .ios-button (8px, none, #fff, auto, 50px, 17px);
   
   .background-clip(padding-box);
   padding-left: 20px;
