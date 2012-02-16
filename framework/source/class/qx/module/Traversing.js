@@ -131,6 +131,16 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
     eq : function(index) {
       return this.slice(index, +index + 1);
+    },
+
+
+    first : function() {
+      return this.slice(0, 1);
+    },
+
+
+    last : function() {
+      return this.slice(this.length - 1);
     }
   },
 
@@ -147,7 +157,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "filter" : statics.filter,
       "getContents" : statics.getContents,
       "is" : statics.is,
-      "eq" : statics.eq
+      "eq" : statics.eq,
+      "first" : statics.first,
+      "last" : statics.last
     });
   }
 });
