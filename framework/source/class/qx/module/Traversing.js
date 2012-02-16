@@ -240,6 +240,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    offsetParent : function() {
+      return this.map(qx.bom.element.Location.getOffsetParent);
+    },
+
+
     __hierarchyHelper : function(collection, method, selector)
     {
       // Iterate ourself, as we want to directly combine the result
@@ -285,7 +290,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "prevAll" : statics.prevAll,
       "prevUntil" : statics.prevUntil,
       "siblings" : statics.siblings,
-      "not" : statics.not
+      "not" : statics.not,
+      "offsetParent" : statics.offsetParent
     });
   }
 });

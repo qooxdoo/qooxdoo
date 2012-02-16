@@ -449,6 +449,17 @@ testrunner.define({
     this.assertEquals(3, res.length);
     this.assertEquals(0, qx.bom.Selector.matches(".foo", res));
     test.remove();
+  },
+  
+  testOffsetParent : function() {
+    var html = '<div><p class="foo">affe</p></div><div id="fixed" style="position:fixed"><p class="foo">affe</p></div>';
+    var test = q.create(html);
+    test.appendTo(this.sandbox[0]);
+    var res = q(".foo").offsetParent();
+    this.assertEquals(2, res.length);
+    this.assertEquals(document.body, res[0]);
+    this.assertEquals(document.getElementById("fixed"), res[1]);
+    test.remove();
   }
 });
 
