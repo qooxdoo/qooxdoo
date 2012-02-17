@@ -509,30 +509,41 @@ testrunner.define({
   },
 
   testClass : function() {
-    var test = q.create("<div/>");
+    var test = q.create("<div/><div/>");
     test.addClass("test");
     this.assertEquals("test", test.getAttribute("class"));
-    this.assertTrue(test.hasClass("test"));
+    this.assertEquals("test", test.eq(1).getAttribute("class"));
+    this.assertTrue(test.eq(0).hasClass("test"));
+    this.assertTrue(test.eq(1).hasClass("test"));
     test.toggleClass("test");
-    this.assertFalse(test.hasClass("test"));
+    this.assertFalse(test.eq(0).hasClass("test"));
+    this.assertFalse(test.eq(1).hasClass("test"));
     test.toggleClass("test");
-    this.assertTrue(test.hasClass("test"));
+    this.assertTrue(test.eq(0).hasClass("test"));
+    this.assertTrue(test.eq(1).hasClass("test"));
     test.removeClass("test");
-    this.assertFalse(test.hasClass("test"));
+    this.assertFalse(test.eq(0).hasClass("test"));
+    this.assertFalse(test.eq(1).hasClass("test"));
   },
   
   testClasses : function() {
-    var test = q.create("<div/>");
+    var test = q.create("<div/><div/>");
     test.addClasses(["foo", "bar"]);
-    this.assertTrue(test.hasClass("foo"));
-    this.assertTrue(test.hasClass("bar"));
+    this.assertTrue(test.eq(0).hasClass("foo"));
+    this.assertTrue(test.eq(0).hasClass("foo"));
+    this.assertTrue(test.eq(1).hasClass("bar"));
+    this.assertTrue(test.eq(1).hasClass("bar"));
     test.toggleClass("bar");
-    this.assertTrue(test.hasClass("foo"));
-    this.assertFalse(test.hasClass("bar"));
+    this.assertTrue(test.eq(0).hasClass("foo"));
+    this.assertFalse(test.eq(0).hasClass("bar"));
+    this.assertTrue(test.eq(1).hasClass("foo"));
+    this.assertFalse(test.eq(1).hasClass("bar"));
     test.addClass("bar");
     test.removeClasses(["foo", "bar"]);
-    this.assertFalse(test.hasClass("foo"));
-    this.assertFalse(test.hasClass("bar"));
+    this.assertFalse(test.eq(0).hasClass("foo"));
+    this.assertFalse(test.eq(0).hasClass("bar"));
+    this.assertFalse(test.eq(1).hasClass("foo"));
+    this.assertFalse(test.eq(1).hasClass("bar"));
   },
 
   testGetHeightElement : function() {

@@ -79,7 +79,12 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
     toggleClass : function(name) {
-      this.hasClass(name) ? this.removeClass(name) : this.addClass(name);
+      var bCls = qx.bom.element.Class;
+      for (var i=0, l=this.length; i<l; i++) {
+        bCls.has(this[i], name) ?
+          bCls.remove(this[i], name) :
+          bCls.add(this[i], name);
+      }
       return this;
     },
 
