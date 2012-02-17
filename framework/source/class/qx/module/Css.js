@@ -97,6 +97,13 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    replaceClass : function(oldName, newName) {
+      for (var i=0, l=this.length; i<l; i++) {
+        qx.bom.element.Class.replace(this[i], oldName, newName);
+      }
+    },
+
+
     getHeight : function() {
       var elem = this[0];
 
@@ -157,6 +164,7 @@ qx.Bootstrap.define("qx.module.Css", {
       "hasClass" : statics.hasClass,
       "toggleClass" : statics.toggleClass,
       "toggleClasses" : statics.toggleClasses,
+      "replaceClass" : statics.replaceClass,
 
       "getHeight" : statics.getHeight,
       "getWidth" : statics.getWidth,

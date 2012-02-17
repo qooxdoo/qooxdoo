@@ -524,6 +524,12 @@ testrunner.define({
     test.removeClass("test");
     this.assertFalse(test.eq(0).hasClass("test"));
     this.assertFalse(test.eq(1).hasClass("test"));
+    test.addClass("test");
+    test.replaceClass("test", "foo");
+    this.assertFalse(test.eq(0).hasClass("test"));
+    this.assertFalse(test.eq(1).hasClass("test"));
+    this.assertTrue(test.eq(0).hasClass("foo"));
+    this.assertTrue(test.eq(1).hasClass("foo"));
   },
   
   testClasses : function() {
