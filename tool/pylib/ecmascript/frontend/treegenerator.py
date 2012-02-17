@@ -50,6 +50,8 @@ from misc.NameSpace                      import NameSpace
 
 tag = 2  # to discriminate tree generators
 
+identifier_regex =re.compile(lang.IDENTIFIER_REGEXP)
+
 PackerFlags = NameSpace()  # the global prettyprint flags (pretty, afterLine, afterBreak, ...)
 pp = PackerFlags
 pp.pretty        = None
@@ -468,6 +470,24 @@ def infix(id, bp):
     symbol(id).toJS = toJS
 
 
+##
+# infix "verb" operators, i.e. that need a space around themselves (like 'instanceof', 'in')
+def infix_v(id_, bp):
+    infix(id_, bp)   # make it a normal infix op
+
+    def toJS(self):  # adapt the output
+        r = u''
+        r += self.getChild("first").toJS()
+        r += self.space()
+        r += self.get("value")
+        r += self.space()
+        r += self.getChild("second").toJS()
+        return r
+    symbol(id_).toJS = toJS
+        
+
+
+
 def infix_r(id, bp):
     def led(self, left):
         self.childappend(left)
@@ -485,12 +505,52 @@ def prefix(id, bp):
     symbol(id, bp).nud = nud
 
     def toJS(self):
-        import pydb; pydb.debugger()
         r = u''
         r += self.get("value")
         r += self.getChild("first").toJS()
         return r
     symbol(id).toJS = toJS
+
+
+##
+# prefix "verb" operators, i.e. that need a space before their operand like 'delete'
+def prefix_v(id, bp):
+    prefix(id, bp)
+
+    def toJS(self):
+        r = u''
+        r += self.get("value")
+        r += self.space()
+        r += self.getChild("first").toJS()
+        return r
+    symbol(id).toJS = toJS
+
+
+def preinfix(id_, bp):  # pre-/infix operators (+, -)
+    infix(id_, bp)   # init as infix op
+
+    ##
+    # better give them a nud() for prefix pos
+    def nud(self):
+        self.set("left", "true")  # mark prefix position
+        first = symbol("first")()
+        self.childappend(first)
+        first.childappend(expression())
+        return self
+    symbol(id_).nud = nud
+
+    def toJS(self):  # need to handle pre/infix cases
+        r = []
+        first = self.getChild("first").toJS()
+        op = self.get("value")
+        prefix = self.get("left", 0)
+        if prefix and prefix == "true":
+            r = [op, first]
+        else:
+            second = self.getChild("second").toJS()
+            r = [first, op, second]
+        return ''.join(r)
+    symbol(id_).toJS = toJS
 
 
 def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
@@ -545,27 +605,28 @@ def method(s):
 # (but comp. Flanagan, "Javascript Pocket Reference" 2nd, p.10f !)
 
 symbol(".",   160); symbol("[", 160)
-prefix("new", 160)
+prefix_v("new", 160)
 
 symbol("(", 150)
 
 prepostfix("++", 140); prepostfix("--", 140)  # pre/post increment (unary)
 
 prefix("-",  130); prefix("+",  130); prefix("~", 130); prefix("!", 130)
-prefix("delete", 130); prefix("typeof", 130); prefix("void", 130)
+prefix_v("delete", 130); prefix_v("typeof", 130); prefix_v("void", 130)
 
 prefix("/",  130)  # regexp
 
 
 infix("*",  120); infix("/", 120); infix("%", 120)
 
-infix("+",  110); infix("-", 110)      # '+' addition, concatenation
+#infix("+",  110); infix("-", 110)      # '+' addition, concatenation
+preinfix("+",  110); preinfix("-", 110)      # '+' addition, concatenation
 
 infix("<<", 100); infix(">>", 100); infix(">>>", 100)
 
 infix("<",  90); infix("<=", 90)
 infix(">",  90); infix(">=", 90)
-infix("in", 90); infix("instanceof", 90)
+infix_v("in", 90); infix_v("instanceof", 90)
 
 infix("!=",  80); infix("==",  80)      # (in)equality
 infix("!==", 80); infix("===", 80)      # (non-)identity
@@ -576,7 +637,7 @@ infix("|",  50)
 infix("&&", 40)
 infix("||", 30)
 
-symbol("?", 20)   # ternary operator (.nud takes care of ':')
+symbol("?", 20)   # ternary operator (.led takes care of ':')
 
 infix("=",  10)   # assignment
 infix("<<=",10); infix("-=", 10); infix("+=", 10); infix("*=", 10)
@@ -678,6 +739,17 @@ def led(self, left):
     third.childappend(expression())
     self.childappend(third)
     return self
+
+
+@method(symbol("?"))
+def toJS(self):
+    r = []
+    r.append(self.getChild("first").toJS())
+    r.append('?')
+    r.append(self.getChild("second").toJS())
+    r.append(':')
+    r.append(self.getChild("third").toJS())
+    return ''.join(r)
 
 
 ##
@@ -819,9 +891,9 @@ symbol("accessor")
 @method(symbol("accessor"))
 def toJS(self):
     r = u''
-    r += self.getChild("identifier").toJS()
+    r += self.children[0].toJS()
     r += '['
-    r += self.getChild("key").toJS()
+    r += self.children[1].toJS()
     r += ']'
     return r
 
@@ -903,7 +975,7 @@ def toJS(self):
     if key_quote:
         quote = '"' if key_quote == 'doublequotes' else "'"
     elif ( key in lang.RESERVED 
-           or not lang.IDENTIFIER_REGEXP.match(key)
+           or not identifier_regex.match(key)
            # TODO: or not lang.NUMBER_REGEXP.match(key)
          ):
         print "Warning: Auto protect key: %r" % key
@@ -963,7 +1035,7 @@ def nud(self):
 @method(symbol("function"))
 def toJS(self):
     r = self.write("function")
-    functionName = self.get("name")
+    functionName = self.get("name",0)
     if functionName != None:
         r += self.space(result=r)
         r += self.write(functionName)
@@ -1035,26 +1107,29 @@ def std(self):
 
 
 # but "var" also needs a nud method, since it can appear in expressions
-@method(symbol("var"))
-def nud(self):
-    while True:
-        n = token
-        if n.id != "identifier":
-            raise SyntaxError("Expected a new variable name (pos %r)" % ((token.get("line"), token.get("column")),))
-        advance()
-        if token.id == "=":  # initialization
-            t = token
-            advance("=")
-            t.childappend(n)
-            t.childappend(expression())
-            self.childappend(t)
-        if token.id != ",":
-            break
-        advance(",")
-    if len(self.children) != 1:
-        return self
-    else:
-        return self.children[0]
+symbol("var").nud = symbol("var").std
+
+#@method(symbol("var"))
+#def nud(self):
+#    while True:
+#        n = token
+#        if n.id != "identifier":
+#            raise SyntaxError("Expected a new variable name (pos %r)" % ((token.get("line"), token.get("column")),))
+#        advance()
+#        if token.id == "=":  # initialization
+#            t = token
+#            advance("=")
+#            t.childappend(n)
+#            t.childappend(expression())
+#            self.childappend(t)
+#        if token.id != ",":
+#            break
+#        advance(",")
+#    if len(self.children) != 1:
+#        return self
+#    else:
+#        return self.children[0]
+
 
 @method(symbol("definitionList"))  # this is what becomes of "var"
 def toJS(self):
@@ -1092,21 +1167,18 @@ def std(self):
         self.childappend(operation)
         op_first = symbol("first")()
         operation.childappend(op_first)
-        if token.id == "var": # "var" or ident
+        if token.id == "var":
             var_s = symbol("definitionList")()
             op_first.childappend(var_s)
             advance("var")
             defn = symbol("definition")()
             var_s.childappend(defn)
-        if var_s:
-            defn.set("identifier", token.get("value"))
+            defn.childappend(expression(95))  # lbp higher than "in"
         else:
-            variable = symbol("variable")()
-            op_first.childappend(variable)
             ident = symbol("identifier")()
+            op_first.childappend(ident)
             ident.set("value", token.get("value"))
-            variable.childappend(ident)
-        advance("identifier")
+            advance("identifier")
         advance("in")
         op_second = symbol("second")()
         operation.childappend(op_second)
@@ -1136,7 +1208,11 @@ def std(self):
         condition.childappend(expression())
         # update part
         advance(";")
-        condition.childappend(expression())
+        exprList = symbol("expressionList")()
+        lst = init_list()
+        for expr in lst:
+            exprList.childappend(expr)
+        condition.childappend(exprList)
 
     # body
     advance(")")
@@ -1176,6 +1252,14 @@ def toJS(self):
     r += self.space()
     r += self.getChild("second").toJS()
     return r
+
+
+@method(symbol("expressionList"))
+def toJS(self):  # WARN: this conflicts (and is overwritten) in for(;;).toJS
+    r = []
+    for c in self.children:
+        r.append(c.toJS())
+    return ','.join(r)
 
 
 symbol("while")
@@ -1370,6 +1454,14 @@ def std(self):
         self.childappend(expression(0))
     return self
 
+@method(symbol("return"))
+def toJS(self):
+    r = ["return"]
+    if self.children:
+        r.append(self.space())
+        r.append(self.children[0].toJS())
+    return ''.join(r)
+
 
 symbol("switch"); symbol("case"); symbol("default")
 
@@ -1379,22 +1471,74 @@ def std(self):
     self.childappend(expression(0))
     advance(")")
     advance("{")
+    body = symbol("body")()
+    self.childappend(body)
     while True:
         if token.id == "}": break
-        if token.id == "case":
+        elif token.id == "case":
+            case = token  # make 'case' the root node (instead e.g. ':')
             advance("case")
-            c_exp = expression(0)
+            case.childappend(expression(0))
             advance(":")
-            c_stm = statements()
-            self.childappend((c_exp, c_stm))   # TODO: do I want this?
-        if token.id == "default":
-            c_exp = token
+            if token.id in ("case", "default") : # fall-through
+                pass
+            else:
+                case.childappend(case_block())
+        elif token.id == "default":
+            case = token
             advance("default")
             advance(":")
-            c_stm = statements()
-            self.childappend((c_exp, c_stm))   # TODO: do I want this?
+            case.childappend(statements())
+        body.childappend(case)
     advance("}")
     return self
+
+def case_block():
+    # we assume here that there is at least one statement to parse
+    s = symbol("statements")()
+    while True:
+        if token.id in ("case", "default", "}"):
+            break
+        s.childappend(statement())
+    return s
+
+
+@method(symbol("switch"))
+def toJS(self):
+    r = []
+    r.append("switch")
+    # control
+    r.append('(')
+    r.append(self.children[0].toJS())
+    r.append(')')
+    # body
+    r.append('{')
+    body = self.getChild("body")
+    for c in body.children:
+        r.append(c.toJS())
+    r.append('}')
+    return ''.join(r)
+
+
+@method(symbol("case"))
+def toJS(self):
+    r = []
+    r.append('case')
+    r.append(self.space())
+    r.append(self.children[0].toJS())
+    r.append(':')
+    if len(self.children) > 1:
+        r.append(self.children[1].toJS())
+    return ''.join(r)
+
+
+@method(symbol("default"))
+def toJS(self):
+    r = []
+    r.append('default')
+    r.append(':')
+    r.append(self.children[0].toJS())
+    return ''.join(r)
 
 
 symbol("try"); symbol("catch"); symbol("finally")
@@ -1403,14 +1547,38 @@ symbol("try"); symbol("catch"); symbol("finally")
 def std(self):
     self.childappend(block())
     if token.id == "catch":
+        catch = token
+        self.childappend(catch)
         advance("catch")
         advance("(")
-        self.childappend(expression(0))
+        catch.childappend(expression(0))
         advance(")")
-        self.childappend(block()   )# TODO: cannot assign to self.second twice!
+        catch.childappend(block())
     if token.id == "finally":
-        self.childappend(block())
+        finally_ = token
+        advance("finally")
+        self.childappend(finally_)
+        finally_.childappend(block())
     return self
+
+@method(symbol("try"))
+def toJS(self):
+    r = []
+    r.append('try')
+    r.append(self.children[0].toJS())
+    catch = self.getChild("catch", 0)
+    if catch:
+        r.append('catch')
+        r.append('(')
+        r.append(catch.children[0].toJS())
+        r.append(')')
+        r.append(catch.children[1].toJS())
+    finally_ = self.getChild("finally", 0)
+    if finally_:
+        r.append('finally')
+        r.append(finally_.children[0].toJS())
+    return ''.join(r)
+
 
 symbol("throw")
 
@@ -1420,6 +1588,15 @@ def std(self):
         self.childappend(expression(0))
     #advance(";")
     return self
+
+@method(symbol("throw"))
+def toJS(self):
+    r = u''
+    r += 'throw'
+    r += self.space()
+    r += self.children[0].toJS()
+    return r
+
 
 symbol("with")
 
@@ -1459,18 +1636,20 @@ def statement():
 
 
 def statementEnd():
-    if token.id in ("eof", 
-        "eol", # these are not yielded by the TokenStream currently
-        ";", 
-        "}"  # it's the last statement in a block
-        ):
+    if token.id in (";",):
         advance()
-    else:
-        ltok = tokenStream.lookbehind()
-        if ltok.id == '}':  # it's a statement ending with a block ('if' etc.)
-            pass
-        else:
-            raise SyntaxError("Unterminated statement (pos %r)" % ((token.get("line"), token.get("column")),))
+    #if token.id in ("eof", 
+    #    "eol", # these are not yielded by the TokenStream currently
+    #    ";", 
+    #    "}"  # it's the last statement in a block
+    #    ):
+    #    advance()
+    #else:
+    #    ltok = tokenStream.lookbehind()
+    #    if ltok.id == '}':  # it's a statement ending with a block ('if' etc.)
+    #        pass
+    #    else:
+    #        raise SyntaxError("Unterminated statement (pos %r)" % ((token.get("line"), token.get("column")),))
 
 
 def statementOrBlock(): # for 'if', 'while', etc. bodies
@@ -1547,6 +1726,7 @@ def toJS(self):
     for c in self.children:
         r += c.toJS()
     r += '}'
+    r += '\n' # TODO: tmp. fix for line breaks
     return r
 
 symbol("break")
@@ -1568,32 +1748,6 @@ def toJS(self):
     r += self.getChild("params").toJS()
     return r
 
-symbol("case")
-
-@method(symbol("case"))
-def toJS(self):
-    r = u''
-    r += self.write("case")
-    r += self.space(result=r)
-    return r
-
-@method(symbol("case"))
-def closing(self):
-    return self.write(":")
-
-
-symbol("catch")
-
-@method(symbol("catch"))
-def toJS(self):
-    r = u''
-    r += self.write("catch")
-    return r
-
-@method(symbol("catch"))
-def closing(self):
-    return u""
-
 
 symbol("comment")
 
@@ -1602,11 +1756,6 @@ def toJS(self):
     r = u''
     return r
 
-@method(symbol("comment"))
-def closing(self):
-    return u""
-
-
 symbol("commentsAfter")
 
 @method(symbol("commentsAfter"))
@@ -1614,21 +1763,12 @@ def toJS(self):
     r = u''
     return r
 
-@method(symbol("commentsAfter"))
-def closing(self):
-    return u""
-
-
 symbol("commentsBefore")
 
 @method(symbol("commentsBefore"))
 def toJS(self):
     r = u''
     return r
-
-@method(symbol("commentsBefore"))
-def closing(self):
-    return u""
 
 
 symbol("continue")
@@ -1641,119 +1781,6 @@ def toJS(self):
         r += self.write(self.get("label", False))
     return r
 
-@method(symbol("continue"))
-def closing(self):
-    return u""
-
-
-symbol("default")
-
-@method(symbol("default"))
-def toJS(self):
-    r = u''
-    r += self.write("default")
-    r += self.write(":")
-    return r
-
-@method(symbol("default"))
-def closing(self):
-    return u""
-
-
-symbol("delete")
-
-@method(symbol("delete"))
-def toJS(self):
-    r = self.write("delete")
-    r += self.space(result=r)
-    return r
-
-@method(symbol("delete"))
-def closing(self):
-    return u""
-
-
-symbol("elseStatement")
-
-@method(symbol("elseStatement"))
-def toJS(self):
-    r = u''
-    r += self.write("else")
-
-    # This is a elseStatement without a block around (a set of {})
-    if not self.hasChild("block"):
-        r += self.space(result=r)
-    return r
-
-@method(symbol("elseStatement"))
-def closing(self):
-    return u""
-
-
-symbol("emptyStatement")
-
-@method(symbol("emptyStatement"))
-def toJS(self):
-    r = u''
-    return r
-
-@method(symbol("emptyStatement"))
-def closing(self):
-    return u""
-
-
-symbol("expression")
-
-@method(symbol("expression"))
-def toJS(self):
-    r = u''
-    if self.parent.type == "loop":
-        loopType = self.parent.get("loopType")
-
-        # only do-while loops
-        if loopType == "DO":
-            r += self.write("while")
-
-        # open expression block of IF/WHILE/DO-WHILE/FOR statements
-        r += self.write("(")
-
-    elif self.parent.type == "catch":
-        # open expression block of CATCH statement
-        r += self.write("(")
-
-    elif self.parent.type == "switch" and self.parent.get("switchType") == "case":
-        # open expression block of SWITCH statement
-        r += self.write("(")
-    return r
-
-@method(symbol("expression"))
-def closing(self):
-    r = u''
-    if self.parent.type == "loop":
-        r += self.write(")")
-
-        # e.g. a if-construct without a block {}
-        if self.parent.getChild("statement").hasChild("block"):
-            pass
-
-        elif self.parent.getChild("statement").hasChild("emptyStatement"):
-            pass
-
-        elif self.parent.type == "loop" and self.parent.get("loopType") == "DO":
-            pass
-
-        else:
-            r += self.space(False,result=r)
-
-    elif self.parent.type == "catch":
-        r += self.write(")")
-
-    elif self.parent.type == "switch" and self.parent.get("switchType") == "case":
-        r += self.write(")")
-
-        r += self.write("{")
-    return r
-
 
 symbol("file")
 
@@ -1761,104 +1788,23 @@ symbol("file")
 def toJS(self):
     return u''
 
-@method(symbol("file"))
-def closing(self):
-    return u''
-
-
-symbol("finally")
-
-@method(symbol("finally"))
-def toJS(self):
-    return self.write("finally")
-
-@method(symbol("finally"))
-def closing(self):
-    return u""
-
-
-symbol("first")
 
 @method(symbol("first"))
 def toJS(self):
-    r = u''
     return self.children[0].toJS()
-
-symbol("second")
 
 @method(symbol("second"))
 def toJS(self):
-    r = u''
     return self.children[0].toJS()
-
-symbol("third")
 
 @method(symbol("third"))
 def toJS(self):
-    r = u''
     return self.children[0].toJS()
 
 
-symbol("group")
-
 @method(symbol("group"))
 def toJS(self):
-    return self.write("(")
-
-@method(symbol("group"))
-def closing(self):
-    r = u''
-    if self.getChildrenLength(True) == 1:
-        self.noline()
-
-    r += self.write(")")
-    return r
-
-
-
-symbol("instantiation")
-
-@method(symbol("instantiation"))
-def toJS(self):
-    r = self.write("new")
-    r += self.space(result=r)
-    return r
-
-
-@method(symbol("instantiation"))
-def closing(self):
-    return u""
-
-
-
-symbol("left")
-
-@method(symbol("left"))
-def toJS(self):
-    r = u''
-    return r
-
-@method(symbol("left"))
-def closing(self):
-    r = u''
-    if self.hasParent() and self.parent.type == "assignment":
-        oper = self.parent.get("operator", False)
-
-        # be compact in for-loops
-        compact = self.inForLoop(node)
-        r += self.compileToken(oper, compact)
-    return r
-
-
-symbol("operation")
-
-@method(symbol("operation"))
-def toJS(self):
-    r = u''
-    r += self.getChild("first").toJS()
-    r += self.get("value")
-    r += self.getChild("second").toJS()
-    return r
+    return '(' + self.children[0].toJS() + ')'   # 'group' can only have one child(?)
 
 
 symbol("params")
@@ -1876,128 +1822,11 @@ def toJS(self):
     return r
 
 
-symbol("return")
-
-@method(symbol("return"))
-def toJS(self):
-    r = self.write("return")
-    if self.hasChildren():
-        r += self.space(result=r)
-    return r
-
-@method(symbol("return"))
-def closing(self):
-    return u""
-
-
-symbol("right")
-
-@method(symbol("right"))
-def toJS(self):
-    r = u''
-    if self.parent.type == "accessor":
-        r += self.write(".")
-    return r
-
-@method(symbol("right"))
-def closing(self):
-    return u""
-
-
-symbol("switch")
-
-@method(symbol("switch"))
-def toJS(self):
-    r = u''
-    # Additional new line before each switch/try
-    if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
-        prev = self.getPreviousSibling(False, True)
-        # No separation after case statements
-        if prev != None and prev.type in ["case", "default"]:
-            pass
-        else:
-            self.sep()
-    if self.get("switchType") == "catch":
-        r += self.write("try")
-    elif self.get("switchType") == "case":
-        r += self.write("switch")
-    return r
-
-@method(symbol("switch"))
-def closing(self):
-    r = u''
-    if self.get("switchType") == "case":
-        r += self.write("}")
-    return r
-
-
-symbol("third")
-
-@method(symbol("third"))
-def toJS(self):
-    r = u''
-    # for loop
-    if self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
-        if not self.parent.hasChild("second"):
-            if self.parent.hasChild("first"):
-                r += self.write(";")
-                r += self.space(False,result=r)
-            else:
-                r += self.write("(;;")
-
-    # operation
-    #elif self.parent.type == "operation":
-    #    # (?: hook operation)
-    #    if self.parent.get("operator") == "HOOK":
-    #        if self.isComplex():
-    #            self.sep()
-
-    return r
-
-@method(symbol("third"))
-def closing(self):
-    return u""
-
-
-symbol("throw")
-
-@method(symbol("throw"))
-def toJS(self):
-    r = self.write("throw")
-    r += self.space(result=r)
-    return r
-
-
-@method(symbol("throw"))
-def closing(self):
-    return u""
-
-
 symbol("variable")
 
 @method(symbol("variable"))
 def toJS(self):
     return self.children[0].toJS()
-
-
-symbol("void")
-
-@method(symbol("void"))
-def toJS(self):
-    r = u''
-    r += self.write("void")
-    r += self.write("(")
-    return r
-
-@method(symbol("void"))
-def closing(self):
-    r = u''
-    if self.getChildrenLength(True) == 1:
-        self.noline()
-    r += self.write(")")
-    return r
-
-
 
 
 
