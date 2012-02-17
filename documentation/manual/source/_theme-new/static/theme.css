@@ -65,3 +65,7 @@ ul.search .highlighted {
 .bottom-nav .separator {
   padding-right: 4px;
 }
+
+.toctree-l1 > a {
+  font-weight: bold;
+}
