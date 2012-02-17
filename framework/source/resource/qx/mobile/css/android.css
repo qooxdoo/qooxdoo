@@ -1358,7 +1358,7 @@ input[type="checkbox"] {
   font-size: 16px;
   margin: 0 0 5px 0;
 }
-#button .standard {
+.standard-button {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -1383,7 +1383,7 @@ input[type="checkbox"] {
   line-height: 20px;
   font-size: 12px;
 }
-#button .standard-active {
+.standard-button-active {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
   background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
   background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);

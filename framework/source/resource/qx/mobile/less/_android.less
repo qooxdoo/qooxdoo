@@ -6,28 +6,26 @@
 // MIXINS
 //
 
-#button {
-  .standard {
-    @button-color: #f4f4f4;
-    @height: 20px;
-    
-    .border-radius(4px);
-    cursor: pointer;
-    width: auto;
-    height: 20px;
-    color: #222222;
-    text-align: center;
-    
-    // Less "darken method" helps to make use of android-button easier. It takes button-color and darkens it. No second gradient color is needed.
-    #gradient > .vertical(@button-color, darken(@button-color, 20%));
-    border: 1px solid #555555;
-    line-height: @height;
-    font-size:12px;
-  }
+.standard-button {
+  @button-color: #f4f4f4;
+  @height: 20px;
   
-  .standard-active {
-    #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
-  }
+  .border-radius(4px);
+  cursor: pointer;
+  width: auto;
+  height: 20px;
+  color: #222222;
+  text-align: center;
+  
+  // Less "darken method" helps to make use of android-button easier. It takes button-color and darkens it. No second gradient color is needed.
+  #gradient > .vertical(@button-color, darken(@button-color, 20%));
+  border: 1px solid #555555;
+  line-height: @height;
+  font-size:12px;
+}
+
+.standard-button-active {
+  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
 }
 
 //
@@ -118,26 +116,26 @@ ul li.active .subtitle {
 //
 
 .button {
-  #button > .standard;
+  .standard-button();
   height: 30px;
   line-height: 30px;
   font-size: 15px;
 }
 
 .button.active {
-  #button > .standard-active;
+  .standard-button-active();
 }
 
 // Toolbar Button
 .toolbar-button {
-  #button > .standard;
+  .standard-button();
   
   height: 50px;
   font-size: 17px;
 }
 
 .toolbar-button.active {
-  #button > .standard-active;
+  .standard-button-active();
 }
 
 .toolbar-button > div {
@@ -200,7 +198,7 @@ textarea {
 }
 
 .tabButton {
-   #button > .standard;
+  .standard-button();
    
    // This is for equal sizes od the buttons when aded in a toolbar or
    // other container with flex :1
@@ -228,7 +226,7 @@ textarea {
 }
 
 .navigationbar-button, .navigationbar-backbutton {
-  #button > .standard;
+  .standard-button();
   
   .background-clip(padding-box);
   
@@ -247,7 +245,7 @@ textarea {
 }
 
 .navigationbar-button.active, .navigationbar-backbutton.active {
-  #button > .standard-active;
+  .standard-button-active();
 }
 
 //
