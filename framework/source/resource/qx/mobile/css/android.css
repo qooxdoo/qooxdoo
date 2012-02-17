@@ -1518,6 +1518,12 @@ ul li.active .subtitle {
   height: 50px;
   font-size: 17px;
 }
+.toolbar-button.active {
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
+  background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
+}
 .toolbar-button > div {
   height: 50px;
 }
