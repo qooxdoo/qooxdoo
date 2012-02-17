@@ -544,6 +544,14 @@ testrunner.define({
     this.assertFalse(test.eq(0).hasClass("bar"));
     this.assertFalse(test.eq(1).hasClass("foo"));
     this.assertFalse(test.eq(1).hasClass("bar"));
+    test.addClass("bar");
+    test.toggleClasses(["foo", "bar", "baz"]);
+    this.assertTrue(test.eq(0).hasClass("foo"));
+    this.assertFalse(test.eq(0).hasClass("bar"));
+    this.assertTrue(test.eq(0).hasClass("baz"));
+    this.assertTrue(test.eq(1).hasClass("foo"));
+    this.assertFalse(test.eq(1).hasClass("bar"));
+    this.assertTrue(test.eq(1).hasClass("baz"));
   },
 
   testGetHeightElement : function() {

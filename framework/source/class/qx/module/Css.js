@@ -89,6 +89,14 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    toggleClasses : function(names) {
+      for (var i=0,l=names.length; i<l; i++) {
+        this.toggleClass(names[i]);
+      }
+      return this;
+    },
+
+
     getHeight : function() {
       var elem = this[0];
 
@@ -148,6 +156,7 @@ qx.Bootstrap.define("qx.module.Css", {
       "removeClasses" : statics.removeClasses,
       "hasClass" : statics.hasClass,
       "toggleClass" : statics.toggleClass,
+      "toggleClasses" : statics.toggleClasses,
 
       "getHeight" : statics.getHeight,
       "getWidth" : statics.getWidth,
