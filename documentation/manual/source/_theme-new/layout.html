@@ -77,11 +77,12 @@
       <div class="bottom-nav">
         {%- if prev %}
           <a class="prev" href="{{ prev.link|e }}"
-             title="{{ _('previous chapter') }}"> ←&nbsp;&nbsp;{{ prev.title }}</a>
+             title="{{ _('previous chapter') }}">« {{ prev.title }}</a>
+          <span class="separator">|</span>
         {%- endif %}
         {%- if next %}
           <a class="next" href="{{ next.link|e }}"
-             title="{{ _('next chapter') }}">{{ next.title }}&nbsp;&nbsp;→</a>
+             title="{{ _('next chapter') }}">{{ next.title }} »</a>
         {%- endif %}
       </div>
     </section>
