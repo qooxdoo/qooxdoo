@@ -1,0 +1,90 @@
+{
+  "let" :
+  {
+    "APPLICATION"  : "library",
+    "QOOXDOO_PATH" : "..",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
+  },
+
+  "jobs" :
+  {
+    "deps-logging" : {
+      "log" : { 
+        "filter" : { "debug" : [ "generator.code.DependencyLoader.*" ] },
+        "dependencies" : { 
+          "include-transitive-load-deps" : false,
+          "force-fresh-deps" : true,
+          "type" : "using",
+          //"type" : "used-by",
+          //"format" : "txt",
+          "format" : "dot",
+          "dot" : { 
+            "root" : "qx.bom.WebStorage"
+          }
+        }
+      }
+    },
+
+
+    "build" :
+    {
+      "extend" : ["deps-logging"],
+
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
+        }
+      ],
+
+      "cache" :
+      {
+        "compile"      : "${CACHE}",
+        "downloads"    : "${CACHE}/downloads",
+        "invalidate-on-tool-change" : true
+      },
+
+      "include" : [
+        "qx.bom.WebStorage"
+      ],
+
+      "exclude" : [
+        "qx.core.Assert",
+        "qx.lang.JsonImpl"
+      ],
+
+      "environment" :
+      {
+        "qx.debug" : false,
+        "qx.aspects" : false,
+        "qx.globalErrorHandling" : false,
+        "qx.theme" : null,
+        "json" : true,
+        "qx.export" : {"storage" : "qx.bom.WebStorage"}
+      },
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "storage.js",
+          "app-root" : ".",
+          "loader-template" : "../tool/data/generator/website.loader.tmpl.js"
+        },
+        "uris" :
+        {
+          "script"   : ".",
+          "resource" : "."
+        },
+        "code" :
+        {
+          "format"   : true,
+          "optimize" : [ "variants", "base", "string", "privates", "variables" ],
+          "except"   : []
+        }
+      },
+
+      "compile" : { "type" : "build" }
+    }
+  }
+}
