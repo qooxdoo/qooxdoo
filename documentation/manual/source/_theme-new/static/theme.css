@@ -4,7 +4,7 @@
 
 #sidebar h4,
 .bottom-nav {
-  color: #707070;
+  color: #707070; /* @mediumShade */
   font-style: normal;
 }
 
@@ -39,7 +39,7 @@
 
 ul.search {
   font-size: 12px;
-  color: #555;
+  color: #707070; /* @mediumShade */
   margin-left: 0 !important;
 }
 
@@ -48,15 +48,20 @@ ul.search > li {
 }
 
 ul.search > li > a {
-  color: #111; /* @fg */
+  color: #333; /* @fg */
 }
 
 ul.search .highlighted {
   font-weight: normal;
-  color: #111; /* @fg */
+  color: #333; /* @fg */
   background-color: #ffee00; /* @attention */
 }
 
-.bottom-nav .prev {
-  padding-right: 10px;
+.bottom-nav {
+  margin-top: 1em;
+}
+
+.bottom-nav .prev,
+.bottom-nav .separator {
+  padding-right: 4px;
 }
