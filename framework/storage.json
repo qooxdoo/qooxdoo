@@ -19,7 +19,7 @@
           //"format" : "txt",
           "format" : "dot",
           "dot" : { 
-            "root" : "qx.bom.WebStorage"
+            "root" : "qx.bom.Storage"
           }
         }
       }
@@ -45,12 +45,11 @@
       },
 
       "include" : [
-        "qx.bom.WebStorage"
+        "qx.bom.Storage"
       ],
 
       "exclude" : [
-        "qx.core.Assert",
-        "qx.lang.JsonImpl"
+        "qx.core.Assert"
       ],
 
       "environment" :
@@ -60,7 +59,7 @@
         "qx.globalErrorHandling" : false,
         "qx.theme" : null,
         "json" : true,
-        "qx.export" : {"storage" : "qx.bom.storage.Web"}
+        "qx.export" : {"storage" : "qx.bom.Storage"}
       },
 
       "compile-options" :
