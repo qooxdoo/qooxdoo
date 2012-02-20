@@ -60,7 +60,7 @@
         "qx.globalErrorHandling" : false,
         "qx.theme" : null,
         "json" : true,
-        "qx.export" : {"storage" : "qx.bom.WebStorage"}
+        "qx.export" : {"storage" : "qx.bom.storage.Web"}
       },
 
       "compile-options" :

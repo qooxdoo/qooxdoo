@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Bootstrap.define("qx.bom.WebStorage", {
+qx.Bootstrap.define("qx.bom.storage.Web", {
   statics : {
     __local : null,
     __session : null,
@@ -26,7 +26,7 @@ qx.Bootstrap.define("qx.bom.WebStorage", {
       if (this.__local) {
         return this.__local;
       }
-      return this.__local = new qx.bom.WebStorage("local");
+      return this.__local = new qx.bom.storage.Web("local");
     },
 
 
@@ -34,7 +34,7 @@ qx.Bootstrap.define("qx.bom.WebStorage", {
       if (this.__session) {
         return this.__session;
       }
-      return this.__session = new qx.bom.WebStorage("session");
+      return this.__session = new qx.bom.storage.Web("session");
     }
   },
 
