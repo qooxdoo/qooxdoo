@@ -34,6 +34,7 @@ qx.Class.define("demobrowser.demo.bom.Storage",
 
       var saveButton = document.getElementById("save");
       var clearButton = document.getElementById("clear");
+      var removeButton = document.getElementById("remove");
 
       var self = this;
       qx.bom.Event.addNativeListener(saveButton, "click", function() {
@@ -47,6 +48,12 @@ qx.Class.define("demobrowser.demo.bom.Storage",
         self.__storage.clear();
         self.updateList();
       });
+
+      qx.bom.Event.addNativeListener(removeButton, "click", function() {
+        self.__storage.removeItem(self.__storage.getKey(0));
+        self.updateList();
+      });
+
 
       this.updateList();
     },
