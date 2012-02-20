@@ -272,6 +272,10 @@
  *       <td>{@link qx.bom.client.Html#getSessionStorage}</td>
  *     </tr>
  *     <tr>
+ *       <td>html.storage.userdata</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getUserDataStorage}</td>
+ *     </tr>
+ *     <tr>
  *       <td>html.svg</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getSvg}</td>
  *     </tr>
@@ -716,6 +720,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "html.video.webm"             : "qx.bom.client.Html.getVideoWebm",
       "html.storage.local"          : "qx.bom.client.Html.getLocalStorage",
       "html.storage.session"        : "qx.bom.client.Html.getSessionStorage",
+      "html.storage.userdata"        : "qx.bom.client.Html.getUserDataStorage",
       "html.classlist"              : "qx.bom.client.Html.getClassList",
       "html.xpath"                  : "qx.bom.client.Html.getXPath",
       "html.xul"                    : "qx.bom.client.Html.getXul",

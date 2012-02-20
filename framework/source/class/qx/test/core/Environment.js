@@ -340,6 +340,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assertString(qx.core.Environment.get("html.video.webm"));
       this.assertBoolean(qx.core.Environment.get("html.storage.local"));
       this.assertBoolean(qx.core.Environment.get("html.storage.session"));
+      this.assertBoolean(qx.core.Environment.get("html.storage.userdata"));
       this.assertBoolean(qx.core.Environment.get("html.classlist"));
       this.assertBoolean(qx.core.Environment.get("html.xpath"));
       this.assertBoolean(qx.core.Environment.get("html.xul"));
