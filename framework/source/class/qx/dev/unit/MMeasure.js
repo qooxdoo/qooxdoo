@@ -66,7 +66,12 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
     measure : function(msg, callback, finalize, displayIterations)
     {
       // profiling
-      var profilingEnabled = window.top.qx.core.Init.getApplication().runner.view.getNativeProfiling();
+      var profilingEnabled;
+      try {
+        profilingEnabled = window.top.qx.core.Init.getApplication().runner.view.getNativeProfiling();
+      } catch(ex) {
+        profilingEnabled = false;
+      }
 
       var profilingActive = (profilingEnabled && console &&
         console.profile && typeof console.profile == "function" &&
@@ -96,9 +101,9 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
         var renderTime = new Date() - renderStart;
         self.log(
           msg,
-          "Iterations: " + displayIterations,
-          "Time: " + time + "ms",
-          "Render time: " + renderTime + "ms"
+          displayIterations,
+          time,
+          renderTime
         );
         finalize.call(self);
       }); }, 0);
@@ -117,11 +122,11 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
      */
     log : function(msg, iterations, ownTime, renderTime)
     {
-      var runnerView = window.top.qx.core.Init.getApplication().runner.view;
-      if (runnerView.logMeasurement) {
-        runnerView.logMeasurement(this.classname, msg, iterations, ownTime, renderTime)
+      if (qx.core.Environment.get("qx.debug")) {
+        this.debug([msg, "Iterations: " + iterations, "Time: " + ownTime + "ms", 
+          "Render time: " + renderTime + "ms"].join("; "));
       }
-      this.debug([msg, iterations, ownTime, renderTime].join("; "));
+      throw new qx.dev.unit.MeasurementResult(msg, iterations, ownTime, renderTime);
     }
   }
 });

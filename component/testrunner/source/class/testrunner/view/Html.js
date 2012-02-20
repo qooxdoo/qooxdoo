@@ -568,14 +568,15 @@ qx.Class.define("testrunner.view.Html", {
         qx.bom.element.Style.set(listItem, "display", "none");
       }
 
-      if ((state == "error" || state == "failure" || state == "skip") && 
-        exceptions && exceptions.length > 0)
-      {
+      if (exceptions && exceptions.length > 0) {
         var errorList = document.createElement("ul");
         for (var i=0,l=exceptions.length; i<l; i++) {
           var error = exceptions[i].exception;
           var errorItem = document.createElement("li");
-          errorItem.innerHTML += error;
+          
+          var errorStr = error.toString ? error.toString() : 
+            error.message ? error.message : "Unknown Error";
+          errorItem.innerHTML += errorStr.replace(/\n/g, "<br/>");
 
           var trace = testResultData.getStackTrace(error);
           if (trace.length > 0) {
