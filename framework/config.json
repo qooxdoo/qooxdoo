@@ -300,7 +300,6 @@
       
       "let" :
       {
-        "TESTRUNNER_VIEW" : "testrunner.view.Performance",
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
         "TEST_INCLUDE"    : "qx.test.performance.*",
         "TEST_EXCLUDE"    : "",
@@ -316,7 +315,6 @@
       
       "let" :
       {
-        "TESTRUNNER_VIEW" : "testrunner.view.Performance",
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
         "TEST_INCLUDE"    : "qx.test.performance.*",
         "TEST_EXCLUDE"    : "",

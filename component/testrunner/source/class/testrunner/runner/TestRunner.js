@@ -47,7 +47,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
     
     this.TEST_MIXINS  = [qx.dev.unit.MMock, qx.dev.unit.MRequirements];
     if (qx.core.Environment.get("testrunner.performance")) {
-      this.TEST_MIXINS.push(qx.test.performance.MMeasure);
+      this.TEST_MIXINS.push(qx.dev.unit.MMeasure);
     }
   },
 

@@ -163,6 +163,16 @@ qx.Class.define("testrunner.view.Html", {
       var passedToggle = qx.bom.Input.create("checkbox", {id: "togglepassed", checked: "checked"});
       elemControls.appendChild(passedToggle);
       elemControls.innerHTML += '<label for="togglepassed">Show successful tests</label>';
+      
+      var nativeProfiling = (qx.core.Environment.get("testrunner.performance") &&
+        qx.Class.hasMixin(this.constructor, testrunner.view.MPerformance) &&
+        console && console.profile);
+      
+      if (nativeProfiling) {
+        var nativeProfilingToggle = qx.bom.Input.create("checkbox", {id: "nativeprofiling"});
+        elemControls.appendChild(nativeProfilingToggle);
+        elemControls.innerHTML += '<label for="nativeprofiling">Use native console profiling feature for performance tests</label>';
+      }
 
       this.__domElements.rootElement.appendChild(elemControls);
 
@@ -181,6 +191,13 @@ qx.Class.define("testrunner.view.Html", {
       qx.event.Registration.addListener(passedToggle, "change", function(ev) {
         this.setShowPassed(ev.getData());
       }, this);
+      
+      if (nativeProfiling) {
+        var profilingToggle = document.getElementById("nativeprofiling");
+        qx.event.Registration.addListener(profilingToggle, "change", function(ev) {
+          this.setNativeProfiling(ev.getData());
+        }, this);
+      }
     },
 
 

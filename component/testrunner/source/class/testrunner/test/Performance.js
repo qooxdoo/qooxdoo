@@ -24,7 +24,7 @@ qx.Class.define("testrunner.test.Performance",
 {
   extend : qx.dev.unit.TestCase,
   
-  include : qx.test.performance.MMeasure,
+  include : qx.dev.unit.MMeasure,
   
   members :
   {
