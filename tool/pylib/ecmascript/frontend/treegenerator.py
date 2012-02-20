@@ -82,7 +82,7 @@ ASSIGN_OPERATORS = ["ASSIGN", "ASSIGN_ADD", "ASSIGN_SUB", "ASSIGN_MUL", \
 
 LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
 
-StmntTerminatorTokens = ("eol", ";")
+StmntTerminatorTokens = ("eol", ";", "}")
 
 ##
 # the main purpose of this class is to instantiate parser symbol objects from
@@ -432,25 +432,26 @@ class symbol_base(Node):
 
 # -- class factory ------------------
 
-def symbol(id, lbp=0):
+def symbol(id_, lbp=0):
     try:
-        s = symbol_table[id]
+        s = symbol_table[id_]
     except KeyError:
         class s(symbol_base):
             pass
-        s.__name__ = "symbol-" + id # for debugging
-        s.type     = id  # compat with Node.type
-        s.id       = id
+        s.__name__ = "symbol-" + id_ # for debugging
+        s.type     = id_  # compat with Node.type
+        s.id       = id_
         s.value    = None
         s.lbp      = lbp
-        symbol_table[id] = s
+        symbol_table[id_] = s
+        #globals()[s.__name__] = s
     else:
         s.lbp = max(lbp, s.lbp)
     return s
 
 # helpers
 
-def infix(id, bp):
+def infix(id_, bp):
     def led(self, left):
         s = symbol("first")()
         self.childappend(s)
@@ -459,7 +460,7 @@ def infix(id, bp):
         self.childappend(s)
         s.childappend(expression(bp))
         return self
-    symbol(id, bp).led = led
+    symbol(id_, bp).led = led
 
     def toJS(self):
         r = u''
@@ -467,7 +468,7 @@ def infix(id, bp):
         r += self.get("value")
         r += self.getChild("second").toJS()
         return r
-    symbol(id).toJS = toJS
+    symbol(id_).toJS = toJS
 
 
 ##
@@ -488,34 +489,34 @@ def infix_v(id_, bp):
 
 
 
-def infix_r(id, bp):
+def infix_r(id_, bp):
     def led(self, left):
         self.childappend(left)
         self.childappend(expression(bp-1))
         return self
-    symbol(id, bp).led = led
+    symbol(id_, bp).led = led
 
 
-def prefix(id, bp):
+def prefix(id_, bp):
     def nud(self):
         s = symbol("first")()
         self.childappend(s)
         s.childappend(expression(bp))
         return self
-    symbol(id, bp).nud = nud
+    symbol(id_, bp).nud = nud
 
     def toJS(self):
         r = u''
         r += self.get("value")
         r += self.getChild("first").toJS()
         return r
-    symbol(id).toJS = toJS
+    symbol(id_).toJS = toJS
 
 
 ##
 # prefix "verb" operators, i.e. that need a space before their operand like 'delete'
-def prefix_v(id, bp):
-    prefix(id, bp)
+def prefix_v(id_, bp):
+    prefix(id_, bp)
 
     def toJS(self):
         r = u''
@@ -523,7 +524,7 @@ def prefix_v(id, bp):
         r += self.space()
         r += self.getChild("first").toJS()
         return r
-    symbol(id).toJS = toJS
+    symbol(id_).toJS = toJS
 
 
 def preinfix(id_, bp):  # pre-/infix operators (+, -)
@@ -583,10 +584,10 @@ def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
     symbol(id_).toJS = toJS
 
 
-def advance(id=None):
+def advance(id_=None):
     global token
-    if id and token.id != id:
-        raise SyntaxError("Expected %r (pos %r)" % (id, (token.get("line"),token.get("column"))))
+    if id_ and token.id != id_:
+        raise SyntaxError("Expected %r (pos %r)" % (id_, (token.get("line"),token.get("column"))))
     if token.id != "eof":
         token = next()
 
@@ -645,9 +646,9 @@ infix("/=", 10); infix("%=", 10); infix("|=", 10); infix("^=", 10)
 infix("&=", 10); infix(">>=",10); infix(">>>=",10)
 
 symbol(":", 0) #infix(":", 15)    # ?: and {1:2,...}
-prefix("function", 15)
 
-symbol(",", 0) #infix(",",  10)
+symbol(",", 0) # infix(",", 5) -- good for expression lists, but problematic for parsing arrays, maps
+
 symbol(";", 0)
 symbol("*/", 0)  # have to register this in case a regexp ends in this string
 symbol("\\", 0)  # escape char in strings ("\")
@@ -1209,9 +1210,11 @@ def std(self):
         # update part
         advance(";")
         exprList = symbol("expressionList")()
-        lst = init_list()
-        for expr in lst:
+        while token.id != ')':
+            expr = expression(0)
             exprList.childappend(expr)
+            if token.id == ',':
+                advance(',')
         condition.childappend(exprList)
 
     # body
@@ -1430,7 +1433,7 @@ symbol("break")
 
 @method(symbol("break"))
 def std(self):
-    if token.id not in ("eol",  ";"):
+    if token.id not in StmntTerminatorTokens:
         self.childappend(expression(0))   # this is over-generating! (should be 'label')
     #advance(";")
     return self
@@ -1440,7 +1443,7 @@ symbol("continue")
 
 @method(symbol("continue"))
 def std(self):
-    if token.id not in ("eol",  ";"):
+    if token.id not in StmntTerminatorTokens:
         self.childappend(expression(0))   # this is over-generating! (should be 'label')
     #advance(";")
     return self
@@ -1631,6 +1634,19 @@ def statement():
         # Crockford's too tight here
         #if not (s.id == "=" or s.id == "("):
         #    raise SyntaxError("Bad expression statement (pos %r)" % ((token.get("line"), token.get("column")),))
+
+        # handle expression lists
+        # (REFAC: somewhat ugly here, expression lists should be treated generically,
+        # but there is this conflict between ',' as an operator ('infix(",", 5)')
+        # and a stock symbol("infix",0) that terminates every expression() parse, like for
+        # arrays, maps, etc.).
+        if token.id == ',':
+            s1 = symbol("expressionList")()
+            s1.childappend(s)
+            s = s1
+            while token.id == ',':
+                advance(',')
+                s.childappend(expression())
     statementEnd()
     return s
 
@@ -1786,7 +1802,7 @@ symbol("file")
 
 @method(symbol("file"))
 def toJS(self):
-    return u''
+    return self.children[0].toJS()
 
 
 @method(symbol("first"))
@@ -1849,7 +1865,11 @@ class TreeGenerator(object):
 
 # - Interface -----------------------------------------------------------------
 
-createSyntaxTree = TreeGenerator().parse
+def createSyntaxTree(tokenArr, fileId=''):
+    fileNode = symbol("file")()
+    fileNode.set("file", fileId)
+    fileNode.childappend(TreeGenerator().parse(tokenArr))
+    return fileNode
 
 
 # - Main ----------------------------------------------------------------------
