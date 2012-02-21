@@ -346,7 +346,8 @@ class MClassDependencies(object):
     # - <recurse> seems artificial, and should be removed when cleaning up dependencies1()
     def _analyzeClassDepsNode(self, node, depsList, inLoadContext, inDefer=False):
 
-        if node.type == "variable":
+        if node.isVar():
+            import pydb; pydb.set_trace()
             if node.dep:
                 depsList.append(node.dep)
                 return
@@ -705,7 +706,7 @@ class MClassDependencies(object):
         includeVal = classMap.get('include', None)
         if includeVal:
             # 'include' value according to Class spec.
-            if includeVal.type in ('variable', 'array'):
+            if includeVal.type in tree.NODE_VARIABLE_TYPES + ('array',):
                 includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
             
             # assume qx.core.Environment.filter() call
@@ -717,7 +718,7 @@ class MClassDependencies(object):
                     #if key not in variants or (key in variants and bool(variants[key]):
                     # map value has to be value/variable
                     variable =  node.children[0]
-                    assert variable.type == "variable"
+                    assert variable.isVar()
                     symbol, isComplete = treeutil.assembleVariable(variable)
                     assert isComplete
                     includeSymbols.append(symbol)

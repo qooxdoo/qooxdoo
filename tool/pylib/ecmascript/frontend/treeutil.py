@@ -497,13 +497,13 @@ def variableOrArrayNodeToArray(node):
 
     arr = []
     if node.type == "array":
-        if not node.hasChildren():
+        if not node.children:
             raise tree.NodeAccessException("node has no children", node)
         for child in node.children:
-            if child.type == "variable":
-                arr.append((assembleVariable(child))[0])
-    elif node.type == "variable":
-        arr.append((assembleVariable(node))[0])
+            if child.isVar():
+                arr.append(child.toJS())
+    elif node.isVar():
+        arr.append(node.toJS())
     else:
         raise tree.NodeAccessException("'node' is no variable or array node", node)
     return arr
@@ -668,15 +668,17 @@ def getClassName(classNode):
 
     # check start node
     if classNode.type == "call":
-        qxDefine = selectNode(classNode, "operand/variable")
+        qxDefine = selectNode(classNode, "operand/dotaccessor")
         if qxDefine:
-            qxDefineParts = qxDefine.children
+            qxDefineParts = qxDefine.toJS().split('.')
+        else:
+            qxDefineParts = []
     else:
         qxDefineParts = []
     if (qxDefineParts and 
         len(qxDefineParts) > 2 and
-        qxDefineParts[0].get('name') == "qx" and
-        qxDefineParts[2].get('name') == "define"
+        qxDefineParts[0] == "qx" and
+        qxDefineParts[2] == "define"
        ):
         pass  # ok
     else:
