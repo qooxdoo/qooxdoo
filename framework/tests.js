@@ -769,6 +769,32 @@ testrunner.define({
 
     test.emit("changeName", sendData);
     this.assertEquals(1, called);
+  },
+
+
+  testOnOffEmitNative : function()
+  {
+    var test = q.create("<div id='foo'/>");
+    test.appendTo(this.sandbox[0]);
+    var obj = {
+      count : 0
+    }
+    var callback = function (ev) { 
+      this.count++; 
+    }
+    var callback2 = function (ev) { 
+      this.count += 2; 
+    }
+    // two listeners on the same element/event; make sure off() removes the 
+    // right one
+    q("#foo").on("mousedown", callback2, obj);
+    q("#foo").on("mousedown", callback, obj);
+    q("#foo").off("mousedown", callback, obj);
+    q("#foo").emit("mousedown");
+    this.assertEquals(2, obj.count);
+    q("#foo").off("mousedown", callback2, obj);
+    
+    test.remove();
   }
 });
 
