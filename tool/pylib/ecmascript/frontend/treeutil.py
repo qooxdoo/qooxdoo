@@ -32,7 +32,7 @@ from ecmascript.frontend import tree, tokenizer, treegenerator, Comment
 # Finds the next qx.*.define in the given tree
 
 def findQxDefine(rootNode):
-    for node in nodeIterator(rootNode, ["variable"]):
+    for node in nodeIterator(rootNode, tree.NODE_VARIABLE_TYPES):
         if isQxDefine(node)[0]:
             return node.parent.parent
         
@@ -54,7 +54,7 @@ def findQxDefineR(rootNode):
 DefiningClasses = "qx.Bootstrap qx.Class qx.Interface qx.Mixin qx.List qx.Theme".split()
 
 def isQxDefine(node):
-    if node.type == "variable":
+    if node.type in tree.NODE_VARIABLE_TYPES:
         try:
             variableName = (assembleVariable(node))[0]
         except tree.NodeAccessException:
@@ -453,31 +453,33 @@ def assembleVariable(variableItem):
     Return the full variable name from a variable node, and an isComplete flag if the name could
     be assembled completely.
     """
-    if variableItem.type != "variable":
+    if variableItem.type not in tree.NODE_VARIABLE_TYPES:
         raise tree.NodeAccessException("'variableItem' is no variable node", variableItem)
 
-    assembled = ""
-    for child in variableItem.children:
-        if child.type == "commentsBefore":
-            continue
-        elif child.type == "accessor":
-            for value in child.children:
-                if value.type == "identifier":
-                    if assembled:
-                        assembled += "."
-                    return assembled + value.get("name"), False
-            return assembled, False
-        elif child.type != "identifier":
-            # this means there is some accessor like part in the variable
-            # e.g. foo["hello"]
-            return assembled, False
+    else:
+        return variableItem.toJS(), True
+    #assembled = ""
+    #for child in variableItem.children:
+    #    if child.type == "commentsBefore":
+    #        continue
+    #    elif child.type == "dotaccessor":
+    #        for value in child.children:
+    #            if value.type == "identifier":
+    #                if assembled:
+    #                    assembled += "."
+    #                return assembled + value.get("name"), False
+    #        return assembled, False
+    #    elif child.type != "identifier":
+    #        # this means there is some accessor like part in the variable
+    #        # e.g. foo["hello"]
+    #        return assembled, False
 
-        if len(assembled) != 0:
-            assembled += "."
+    #    if len(assembled) != 0:
+    #        assembled += "."
 
-        assembled += child.get("name")
+    #    assembled += child.get("name")
 
-    return assembled, True
+    #return assembled, True
 
 
 def compileString(jsString, uniqueId=""):

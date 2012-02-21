@@ -26,6 +26,7 @@ import sys, os, copy
 #sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "../"))
 
 import simplejson
+from misc import util
 
 
 ##
@@ -61,6 +62,7 @@ class NodeAccessException (Exception):
         Exception.__init__(self, msg)
         self.node = node
 
+NODE_VARIABLE_TYPES = ("dotaccessor", "identifier")
 
 class Node(object):
 
@@ -210,7 +212,7 @@ class Node(object):
         if isinstance(ntype, basestring):
             if self.type == ntype:
                 return True
-        elif isinstance(ntype, list):
+        elif isinstance(ntype, util.FinSequenceTypes):
             if self.type in ntype:
                 return True
 
@@ -542,6 +544,9 @@ class Node(object):
             return False
 
         return self.parent.getLastChild(False, ignoreComments) == self
+
+    def isVar(self):
+        return self.type in NODE_VARIABLE_TYPES
 
     def addListChild(self, listName, childNode):
         listNode = self.getChild(listName, False)

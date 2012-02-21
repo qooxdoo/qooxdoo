@@ -444,7 +444,9 @@ def symbol(id_, lbp=0):
         s.value    = None
         s.lbp      = lbp
         symbol_table[id_] = s
-        #globals()[s.__name__] = s
+        globals()[s.__name__] = s  # ALERT: this is a devious hack to make Pickle pickle the symbol classes.
+                                   # To unpickle, it is necessary to have this module loaded, so the classes
+                                   # are ready.
     else:
         s.lbp = max(lbp, s.lbp)
     return s
