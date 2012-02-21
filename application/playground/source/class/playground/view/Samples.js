@@ -55,9 +55,7 @@ qx.Class.define("playground.view.Samples",
     this.add(this._createList(), {flex: 1});
 
     // toolbar
-    if (qx.core.Environment.get("html.storage.local")) {
-      this.add(this._createToolbar());
-    }
+    this.add(this._createToolbar());
   },
 
 
