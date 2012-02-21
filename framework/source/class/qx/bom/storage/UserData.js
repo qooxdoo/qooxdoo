@@ -115,7 +115,7 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
 
 
     getItem : function(key) {
-      return this.__storage[key];
+      return this.__storage[key] || null;
     },
 
 
