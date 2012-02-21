@@ -16,15 +16,32 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
+/**
+ * This is a cross browser storage implementation. The API is aligned with the
+ * API of the HTML webstorage (http://www.w3.org/TR/webstorage/) which is also
+ * the preferred implementation used. As fallback for IE < 8, we use user data.
+ * If both techniques are unsupported, we supply a in memory storage, which is
+ * of course, not persistent.
+ */
 qx.Bootstrap.define("qx.bom.Storage", {
   statics : {
     __impl : null,
 
+    /**
+     * Get an instance of a local storage.
+     * @return {qx.bom.storage.Web|qx.bom.storage.UserData|qx.bom.storage.Memory}
+     *   An instance of a storage implementation.
+     */
     getLocal : function() {
       return this.__impl.getLocal();
     },
 
 
+    /**
+     * Get an instance of a session storage.
+     * @return {qx.bom.storage.Web|qx.bom.storage.UserData|qx.bom.storage.Memory}
+     *   An instance of a storage implementation.
+     */
     getSession : function() {
       return this.__impl.getSession();
     }
@@ -32,10 +49,13 @@ qx.Bootstrap.define("qx.bom.Storage", {
 
 
   defer : function(statics) {
+    // always use HTML5 web storage if available
     if (qx.core.Environment.get("html.storage.local")) {
       statics.__impl = qx.bom.storage.Web;
+      // as fallback,use the userdata storage for IE5.5 - 8
     } else if (qx.core.Environment.get("html.storage.userdata")) { // IE <8 fallback
       statics.__impl = qx.bom.storage.UserData;
+      // als last fallback, use a in memory storage (this one is not persisten)
     } else {
       statics.__impl = qx.bom.storage.Memory;
     }
