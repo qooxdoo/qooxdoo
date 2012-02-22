@@ -109,6 +109,24 @@ qx.Class.define("qx.bom.element.Style",
 
 
     /**
+     * Gets the (possibly vendor-prefixed) name of a style property and stores
+     * it to avoid multiple checks.
+     * 
+     * @param name {String} Style property name to check
+     * @return {String|null} The client-specific name of the property, or 
+     * <code>null</code> if it's not supported.
+     */
+    __getStyleName : function(name)
+    {
+      var styleName = qx.bom.Style.getPropertyName(name);
+      if (styleName) {
+        this.__styleNames[name] = styleName;
+      }
+      return styleName;
+    },
+
+
+    /**
      * Mshtml has proprietary pixel* properties for locations and dimensions
      * which return the pixel value. Used by getComputed() in mshtml variant.
      *
@@ -304,7 +322,7 @@ qx.Class.define("qx.bom.element.Style",
 
 
       // normalize name
-      name = this.__styleNames[name] || name;
+      name = this.__styleNames[name] || this.__getStyleName(name) || name;
 
       // special handling for specific properties
       // through this good working switch this part costs nothing when
@@ -348,7 +366,7 @@ qx.Class.define("qx.bom.element.Style",
       for (var key in styles)
       {
         var value = styles[key];
-        var name = styleNames[key] || key;
+        var name = styleNames[key] || this.__getStyleName(key) || key;
 
         if (value === undefined)
         {
@@ -382,7 +400,7 @@ qx.Class.define("qx.bom.element.Style",
     reset : function(element, name, smart)
     {
       // normalize name
-      name = this.__styleNames[name] || name;
+      name = this.__styleNames[name] || this.__getStyleName(name) || name;
 
       // special handling for specific properties
       if (smart!==false && this.__special[name]) {
@@ -424,7 +442,7 @@ qx.Class.define("qx.bom.element.Style",
       "mshtml" : function(element, name, mode, smart)
       {
         // normalize name
-        name = this.__styleNames[name] || name;
+        name = this.__styleNames[name] || this.__getStyleName(name) || name;
 
         // special handling
         if (smart!==false && this.__special[name]) {
@@ -489,7 +507,7 @@ qx.Class.define("qx.bom.element.Style",
       "default" : function(element, name, mode, smart)
       {
         // normalize name
-        name = this.__styleNames[name] || name;
+        name = this.__styleNames[name] || this.__getStyleName(name) || name;
 
         // special handling
         if (smart!==false && this.__special[name]) {
