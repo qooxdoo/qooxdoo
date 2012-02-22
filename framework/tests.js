@@ -600,6 +600,26 @@ testrunner.define({
     this.assertNumber(test.getOffset().bottom);
     this.assertNumber(test.getOffset().left);
     this.assertEquals(100, test.getOffset().top);
+  },
+  
+  testGetContentHeight : function() {
+    var test = q.create("<div id='test'></div>").setStyles({ 
+      position: "absolute",
+      height: "200px",
+      padding: "50px" });
+    test.appendTo(this.sandbox[0]);
+    
+    this.assertEquals(200, test.getContentHeight());
+  },
+  
+  testGetContentWidth : function() {
+    var test = q.create("<div id='test'></div>").setStyles({ 
+      position: "absolute",
+      width: "200px",
+      padding: "50px" });
+    test.appendTo(this.sandbox[0]);
+    
+    this.assertEquals(200, test.getContentWidth());
   }
 });
 
