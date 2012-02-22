@@ -84,6 +84,8 @@ LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
 
 StmntTerminatorTokens = ("eol", ";", "}")
 
+class SyntaxTreeError(SyntaxError): pass
+
 ##
 # the main purpose of this class is to instantiate parser symbol objects from
 # low-level tokens
@@ -491,6 +493,9 @@ def infix_v(id_, bp):
 
 
 
+##
+# this is just to show right-associativity (mind "bp-1")
+# (cf. Lundh's TDOP paper, p.6)
 def infix_r(id_, bp):
     def led(self, left):
         self.childappend(left)
@@ -784,8 +789,12 @@ def led(self, left):
     #        break
     #    advance(".")
     accessor = symbol("dotaccessor")()
-    accessor.childappend(left)
-    accessor.childappend(expression(symbol(".").lbp)) 
+    s = symbol("first")()
+    accessor.childappend(s)
+    s.childappend(left)
+    s = symbol("second")()
+    accessor.childappend(s)
+    s.childappend(expression(symbol(".").lbp)) 
         # i'm providing the rbp to expression() here explicitly, so "foo.bar(baz)" gets parsed
         # as (call (dotaccessor ...) (param baz)), and not (dotaccessor foo
         # (call bar (param baz))).
@@ -1149,6 +1158,18 @@ def toJS(self):
 def toJS(self):
     return self.children[0].toJS()
 
+##
+# returns the identifier node of the defined symbol
+@method(symbol("definition"))
+def getDefinee(self):
+    dfn = self.children[0]
+    if dfn.type == "identifier":
+        return dfn
+    elif dfn.type == "assignment":
+        return dfn.getChild("first")
+    else:
+        raise SyntaxTreeError("Child of a 'definition' symbol must be in ('identifier', 'assignment')")
+
 
 symbol("for"); symbol("in")
 
@@ -1466,6 +1487,19 @@ def toJS(self):
         r.append(self.space())
         r.append(self.children[0].toJS())
     return ''.join(r)
+
+
+@method(symbol("new"))  # need to treat 'new' explicitly, for the awkward 'new Foo()' "call" syntax
+def std(self):
+    s = symbol("first")()
+    self.childappend(s)
+    arg = expression(self.lbp-1)  # first, parse a normal expression (this excludes '()')
+    if token.id == '(':  # if the next token indicates a call
+        t = token
+        advance("(")
+        arg = t.led(left=arg)   # invoke '('.led, with class name as <left> arg
+    s.childappend(arg)
+    return self
 
 
 symbol("switch"); symbol("case"); symbol("default")

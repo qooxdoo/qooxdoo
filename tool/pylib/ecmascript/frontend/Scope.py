@@ -209,7 +209,7 @@ Function %s(%s):
                 if child.type == "definitionList":
                     for definition in child.children:
                         if definition.type == "definition":
-                            yield (definition.get("identifier"), definition)
+                            yield (definition.getDefinee(), definition)
 
                 for (var, node) in Scope.declaredVariablesIterator(child):
                     yield (var, node)

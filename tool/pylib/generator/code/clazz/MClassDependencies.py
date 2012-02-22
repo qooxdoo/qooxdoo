@@ -347,7 +347,6 @@ class MClassDependencies(object):
     def _analyzeClassDepsNode(self, node, depsList, inLoadContext, inDefer=False):
 
         if node.isVar():
-            import pydb; pydb.set_trace()
             if node.dep:
                 depsList.append(node.dep)
                 return
@@ -448,24 +447,21 @@ class MClassDependencies(object):
 
     def _isInterestingReference(self, assembled, node, fileId, inDefer):
 
+        ##
+        # try to qualify the syntactical context of the given variable node (call, instantiation,
+        # ...); also, filter for the "head" symbol of a complex var expression (like 'a.b.c').
         def checkNodeContext(node):
-            context = 'interesting' # every context is interesting, mybe we get more specific
-            #context = ''
+            context = 'interesting' # every context is interesting, maybe we get more specific or reset to ''
 
-            # filter out the occurrences like 'c' in a.b().c
+            # as _isInterestingReference is run on *any* var node while
+            # traversing the tree intermediate occurrences of an expression like
+            # in 'a.b().c' are run through it as well; but it is enough to treat
+            # an entire expression, so we restrict ourself to the "head symbol"
+            # of each expression, and filter out the other occurrences (like 'b',
+            # 'c' in the example)
             myFirst = node.getFirstChild(mandatory=False, ignoreComments=True)
             if not treeutil.checkFirstChainChild(myFirst): # see if myFirst is the first identifier in a chain
                 context = ''
-
-            # filter out variable in lval position -- Nope! (qx.ui.form.ListItem.prototype.setValue = 
-            # function(..){...};)
-            #elif (node.hasParentContext("assignment/left")):
-            #    context = ''
-
-            # fitler out a.b[c] -- Nope! E.g. foo.ISO_8601_FORMAT might carry further dependencies
-            # (like 'new qx.util.format.DateFormat("yyyy-MM-dd")')
-            elif (treeutil.selectNode(node, "accessor")):
-                context = 'accessor'
 
             # check name in 'new ...' position
             elif (node.hasParentContext("instantiation/*/*/operand")):
@@ -535,6 +531,7 @@ class MClassDependencies(object):
 
         # ---------------------------------------------------------------------
         context = nameBase = nameExtension = ''
+        import pydb; pydb.debugger()
         context = checkNodeContext(node)
         if context: 
             if isInterestingIdentifier(assembled): # filter some local or build-in names
