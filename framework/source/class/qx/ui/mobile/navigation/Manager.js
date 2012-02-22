@@ -57,7 +57,7 @@
  *   },this);
  *
  *   // Alternative you can use regExp for a route
- *   nm.onGet(/address/(.*), function(data)
+ *   nm.onGet(/address/(.*)/, function(data)
  *   {
  *     addressPage.show();
  *     model.loadAddress(data.params.0);
