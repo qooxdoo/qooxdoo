@@ -65,6 +65,8 @@ pp.afterArea     = None
 
 ATOMS = ["string", "number", "identifier"]
 
+OPERATORS_VERBS = ["NEW", "TYPEOF", "DELETE", "VOID"]
+
 SINGLE_LEFT_OPERATORS = ["NOT", "BITNOT", "ADD", "SUB", "INC", "DEC"]
 
 SINGLE_RIGHT_OPERATORS = ["INC", "DEC"]
@@ -163,6 +165,7 @@ class TokenStream(IterObject):
             + MULTI_PROTECTED_OPERATORS
             + SINGLE_RIGHT_OPERATORS
             + SINGLE_LEFT_OPERATORS
+            + OPERATORS_VERBS
             ):
             s = symbol_table[tok.value]()
             s.type = "operation"
@@ -504,11 +507,13 @@ def infix_r(id_, bp):
     symbol(id_, bp).led = led
 
 
+##
+# prefix "sigil" operators, like '!', '~', ...
 def prefix(id_, bp):
     def nud(self):
         s = symbol("first")()
         self.childappend(s)
-        s.childappend(expression(bp))
+        s.childappend(expression(bp-1)) # right-associative
         return self
     symbol(id_, bp).nud = nud
 
@@ -523,7 +528,13 @@ def prefix(id_, bp):
 ##
 # prefix "verb" operators, i.e. that need a space before their operand like 'delete'
 def prefix_v(id_, bp):
-    prefix(id_, bp)
+    def nud(self):
+        s = symbol("first")()
+        self.childappend(s)
+        s.childappend(expression(bp-1)) # right-associative
+        return self
+    symbol(id_, bp).nud = nud
+
 
     def toJS(self):
         r = u''
@@ -1490,7 +1501,7 @@ def toJS(self):
 
 
 @method(symbol("new"))  # need to treat 'new' explicitly, for the awkward 'new Foo()' "call" syntax
-def std(self):
+def nud(self):
     s = symbol("first")()
     self.childappend(s)
     arg = expression(self.lbp-1)  # first, parse a normal expression (this excludes '()')
