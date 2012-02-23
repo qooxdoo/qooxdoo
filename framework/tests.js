@@ -815,6 +815,38 @@ testrunner.define({
     q("#foo").off("mousedown", callback2, obj);
     
     test.remove();
+  },
+  
+  testNormalization : function()
+  {
+    qx.Bootstrap.define("EventNormalizeTest", {
+      statics :
+      {
+        normalize : function(event) {
+          event.affe = "juhu";
+          return event;
+        }
+      },
+      defer : function(statics)
+      {
+        qx.module.Event.registerEventNormalization("focus", statics.normalize);
+      }
+    });
+    
+    var obj = {
+      normalized : false
+    };
+    var callback = function(ev) {
+      if (ev.affe) {
+        this.normalized = true;
+      }
+    };
+    
+    var test = q.create('<input type="text"></input>');
+    test.appendTo(this.sandbox[0]);
+    test.on("focus", callback, obj);
+    test[0].focus();
+    this.assert(obj.normalized, "Event was not manipulated!");
   }
 });
 
