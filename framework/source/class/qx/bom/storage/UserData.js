@@ -16,7 +16,11 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-
+/**
+ * Fallback storage implementation usable in IE browsers. It is recommended to use
+ * these implementation only in IE < 8 because IE >= 8 supports
+ * {@link qx.bom.storage.Web}.
+ */
 qx.Bootstrap.define("qx.bom.storage.UserData", {
   statics : {
     __local : null,
@@ -25,6 +29,11 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
     // global id used as key for the storage
     __id : 0,
 
+    /**
+     * Returns an instance of {@link qx.bom.storage.UserData} used to store
+     * data persistent.
+     * @return {qx.bom.storage.UserData} A storage instance.
+     */
     getLocal : function() {
       if (this.__local) {
         return this.__local;
@@ -33,6 +42,11 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
     },
 
 
+    /**
+     * Returns an instance of {@link qx.bom.storage.UserData} used to store
+     * data persistent.
+     * @return {qx.bom.storage.UserData} A storage instance.
+     */
     getSession : function() {
       if (this.__session) {
         return this.__session;
@@ -42,6 +56,12 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
   },
 
 
+  /**
+   * Create a new instance. Usually, you should take the static
+   * accessors to get your instance.
+   *
+   * @param storeName {String} type of storage.
+   */
   construct : function(storeName) {
     // create a dummy DOM element used for storage
     this.__el = document.createElement("div");
@@ -81,6 +101,8 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
     __reference : null,
 
     /**
+     * Returns the map used to keep a in memory copy of the stored data.
+     * @return {Map} The stored data.
      * @internal
      */
     getStorage : function() {
@@ -88,11 +110,21 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
     },
 
 
+    /**
+     * Returns the amount of key-value pairs stored.
+     * @return {Integer} The length of the storage.
+     */
     getLength : function() {
       return qx.Bootstrap.getKeys(this.__storage).length;
     },
 
 
+    /**
+     * Store an item in the storage.
+     *
+     * @param key {String} The identifier key.
+     * @param value {var} The data, which will be stored as JSON.
+     */
     setItem : function(key, value) {
       // override case
       if (this.__reference[key]) {
@@ -114,11 +146,21 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
     },
 
 
+    /**
+     * Returns the stored item.
+     *
+     * @param key {String} The identifier to get the data.
+     * @return {var} The stored data.
+     */
     getItem : function(key) {
       return this.__storage[key] || null;
     },
 
 
+    /**
+     * Removes an item form the storage.
+     * @param key {String} The identifier.
+     */
     removeItem : function(key) {
       // check if the item is availabel
       var storageName = this.__reference[key];
@@ -151,6 +193,9 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
     },
 
 
+    /**
+     * Deletes every stored item in the storage.
+     */
     clear : function() {
       // delete all entries from the storage
       for (var key in this.__reference) {
@@ -163,11 +208,24 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
     },
 
 
+    /**
+     * Returns the named key at the given index.
+     * @param index {Integer} The index in the storage.
+     * @return {String} The key stored at the given index.
+     */
     getKey : function(index) {
       return qx.Bootstrap.getKeys(this.__storage)[index];
     },
 
 
+    /**
+     * Helper to access every stored item.
+     *
+     * @param callback {Function} A function which will be called for every item.
+     *   The function will have two arguments, first the key and second the value
+     *    of the stored data.
+     * @param scope {var} The scope of the function.
+     */
     iterate : function(callback, scope) {
       var length = this.getLength();
       for (var i = 0; i < length; i++) {

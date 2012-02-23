@@ -16,12 +16,20 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-
+/**
+ * Fallback storage implementation which offers the same API as every other storage
+ * but is not persistent. Basically, its just a storage API on a JavaScript map.
+ */
 qx.Bootstrap.define("qx.bom.storage.Memory", {
   statics : {
     __local : null,
     __session : null,
 
+    /**
+     * Returns an instance of {@link qx.bom.storage.Memory} which is of course
+     * not persisted on reload.
+     * @return {qx.bom.storage.Memory} A memory storage.
+     */
     getLocal : function() {
       if (this.__local) {
         return this.__local;
@@ -30,6 +38,11 @@ qx.Bootstrap.define("qx.bom.storage.Memory", {
     },
 
 
+    /**
+     * Returns an instance of {@link qx.bom.storage.Memory} which is of course
+     * not persisted on reload.
+     * @return {qx.bom.storage.Memory} A memory storage.
+     */
     getSession : function() {
       if (this.__session) {
         return this.__session;
@@ -49,6 +62,8 @@ qx.Bootstrap.define("qx.bom.storage.Memory", {
 
 
     /**
+     * Returns the internal used map.
+     * @return {Map} The storage.
      * @internal
      */
     getStorage : function() {
@@ -56,17 +71,33 @@ qx.Bootstrap.define("qx.bom.storage.Memory", {
     },
 
 
+    /**
+     * Returns the amount of key-value pairs stored.
+     * @return {Integer} The length of the storage.
+     */
     getLength : function() {
       return qx.Bootstrap.getKeys(this.__storage).length;
     },
 
 
+    /**
+     * Store an item in the storage.
+     *
+     * @param key {String} The identifier key.
+     * @param value {var} The data, which will be stored as JSON.
+     */
     setItem : function(key, value) {
       value = qx.lang.Json.stringify(value);
       this.__storage[key] = value;
     },
 
 
+    /**
+     * Returns the stored item.
+     *
+     * @param key {String} The identifier to get the data.
+     * @return {var} The stored data.
+     */
     getItem : function(key) {
       var item = this.__storage[key];
 
@@ -77,22 +108,42 @@ qx.Bootstrap.define("qx.bom.storage.Memory", {
     },
 
 
+    /**
+     * Removes an item form the storage.
+     * @param key {String} The identifier.
+     */
     removeItem : function(key) {
       delete this.__storage[key];
     },
 
 
+    /**
+     * Deletes every stored item in the storage.
+     */
     clear : function() {
       this.__storage = {};
     },
 
 
+    /**
+     * Returns the named key at the given index.
+     * @param index {Integer} The index in the storage.
+     * @return {String} The key stored at the given index.
+     */
     getKey : function(index) {
       var keys = qx.Bootstrap.getKeys(this.__storage);
       return keys[index];
     },
 
 
+    /**
+     * Helper to access every stored item.
+     *
+     * @param callback {Function} A function which will be called for every item.
+     *   The function will have two arguments, first the key and second the value
+     *    of the stored data.
+     * @param scope {var} The scope of the function.
+     */
     iterate : function(callback, scope) {
       var length = this.getLength();
       for (var i = 0; i < length; i++) {

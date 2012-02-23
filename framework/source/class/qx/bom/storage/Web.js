@@ -67,7 +67,7 @@ qx.Bootstrap.define("qx.bom.storage.Web", {
 
 
     /**
-     * Returns the internal used storage.
+     * Returns the internal used storage (the native object).
      *
      * @internal
      * @return {Storage} The native storage implementation.
