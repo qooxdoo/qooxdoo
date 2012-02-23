@@ -27,6 +27,7 @@ qooxdoo mobile was tested with the following desktop browsers:
 
 * Safari 5
 * Chrome 10+
+* Firefox 10 (Experimental)
 
 Features
 ========
@@ -34,7 +35,7 @@ Features
 .. index:: animation, mobile, widget, theme, ios, android, touch, page, scroll, iscroll, phonegap
 
 * `Mobile widget set <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_
-* Theming via CSS
+* :doc:`Theming via CSS and LESS <theming>`
 * iOS theme
 * Android theme
 * Touch events: touchstart, touchmove, touchend, touchcancel 
