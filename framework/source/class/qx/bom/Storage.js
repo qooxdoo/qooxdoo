@@ -18,7 +18,7 @@
 ************************************************************************ */
 /**
  * This is a cross browser storage implementation. The API is aligned with the
- * API of the HTML webstorage (http://www.w3.org/TR/webstorage/) which is also
+ * API of the HTML web storage (http://www.w3.org/TR/webstorage/) which is also
  * the preferred implementation used. As fallback for IE < 8, we use user data.
  * If both techniques are unsupported, we supply a in memory storage, which is
  * of course, not persistent.

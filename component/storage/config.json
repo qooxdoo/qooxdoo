@@ -2,23 +2,21 @@
   "let" :
   {
     "APPLICATION"  : "library",
-    "QOOXDOO_PATH" : "..",
+    "QOOXDOO_PATH" : "../..",
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
   },
 
   "jobs" :
   {
     "deps-logging" : {
-      "log" : { 
+      "log" : {
         "filter" : { "debug" : [ "generator.code.DependencyLoader.*" ] },
-        "dependencies" : { 
+        "dependencies" : {
           "include-transitive-load-deps" : false,
           "force-fresh-deps" : true,
           "type" : "using",
-          //"type" : "used-by",
-          //"format" : "txt",
           "format" : "dot",
-          "dot" : { 
+          "dot" : {
             "root" : "qx.bom.Storage"
           }
         }
@@ -28,7 +26,6 @@
 
     "build" :
     {
-      "extend" : ["deps-logging"],
 
       "library" :
       [
@@ -68,7 +65,7 @@
         {
           "file" : "storage.js",
           "app-root" : ".",
-          "loader-template" : "../tool/data/generator/website.loader.tmpl.js"
+          "loader-template" : "../../tool/data/generator/website.loader.tmpl.js"
         },
         "uris" :
         {
