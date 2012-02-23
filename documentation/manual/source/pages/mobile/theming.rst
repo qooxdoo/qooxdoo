@@ -17,12 +17,12 @@ The target CSS artefacts can be found in folder "framework/source/resource/qx/mo
 Parsing LESS files
 ==================
 
-There different ways for parsing LESS files into CSS. 
+There are different ways for parsing LESS files into CSS. 
 
-* `LESS website <http://www.lesscss.org/>`_: If you are working on source variant of qooxdoo mobile, you can include less.js, and link LESS in output file directly. More details about this variant, can be found on official .
+* `LESS website <http://www.lesscss.org/>`_: If you are working on source variant of qooxdoo mobile, you can include less.js, and link LESS in output file directly.
 
-* `Guard-LESS <https://github.com/guard/guard-less>`_: A guard extension that compiles .less files to .css files when changed.  It listens on folders or set of LESS files for changes, and triggers re-compiling of CSS files automatically. This should be your choice, if you are familar to guard.
+* `Guard-LESS <https://github.com/guard/guard-less>`_: A guard extension that compiles .less files to .css files when changed. It listens on folders or a set of LESS files for changes, and triggers re-compiling of CSS files automatically. This should be your choice, if you are familar to guard.
 
-* `Simpless <http://wearekiss.com/simpless>`_: Similar to functionality of Guard LESS, but with more comfortable usage, because of UI is an application called . It also compiles LESS to CSS files automatically on file change. Simpless is available for every platform (Windows, Mac OS, Linux).
+* `Simpless <http://wearekiss.com/simpless>`_: Similar to functionality of Guard-LESS, but with more easier configuration and usage, because of a graphic user interface. It also compiles LESS to CSS files automatically on file change. Simpless is available for every platform (Windows, Mac OS, Linux).
 
 
