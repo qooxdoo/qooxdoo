@@ -8,6 +8,7 @@ qx.Bootstrap.define("qx.module.Event", {
         var bound;
         if (qx.bom.Event.supportsEvent(el, type)) {
           bound = qx.lang.Function.bind(listener, ctx);
+          qx.bom.Event.addNativeListener(el, type, bound);
         }
         // create an emitter if necessary
         if (!el.__emitter) {
