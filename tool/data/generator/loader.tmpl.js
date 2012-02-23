@@ -84,7 +84,7 @@ function loadCss(uri) {
 var isWebkit = /AppleWebKit\/([^ ]+)/.test(navigator.userAgent);
 
 // TODO: Feature-detect if browser supports async attribute on script elements
-var isLoadParallel = window.location.search.indexOf("parallel") === -1 ? false : true;
+var isLoadParallel = true;
 
 function loadScriptList(list, callback) {
   if (list.length == 0) {
