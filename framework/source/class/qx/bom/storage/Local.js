@@ -22,6 +22,7 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
+ * @deprecated
  */
 qx.Class.define("qx.bom.storage.Local",
 {
