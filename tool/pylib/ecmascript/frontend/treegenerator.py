@@ -65,7 +65,7 @@ pp.afterArea     = None
 
 ATOMS = ["string", "number", "identifier"]
 
-OPERATORS_VERBS = ["NEW", "TYPEOF", "DELETE", "VOID"]
+PREFIX_VERB_OPERATORS = ["NEW", "TYPEOF", "DELETE", "VOID"]
 
 SINGLE_LEFT_OPERATORS = ["NOT", "BITNOT", "ADD", "SUB", "INC", "DEC"]
 
@@ -165,7 +165,7 @@ class TokenStream(IterObject):
             + MULTI_PROTECTED_OPERATORS
             + SINGLE_RIGHT_OPERATORS
             + SINGLE_LEFT_OPERATORS
-            + OPERATORS_VERBS
+            + PREFIX_VERB_OPERATORS
             ):
             s = symbol_table[tok.value]()
             s.type = "operation"
@@ -820,6 +820,24 @@ def toJS(self):
     r += '.'
     r += self.children[1].toJS()
     return r
+
+##
+# walk down to find the "left-most" identifier ('a' in 'a.b.c')
+@method(symbol("dotaccessor"))
+def getLeftmostIdentifier(self):
+    ident = self.getChild("first")
+    while ident.type != "identifier":  # 'dotaccessor' or 'first'
+        ident =ident.children[0]
+    return ident
+
+##
+# walk up to find the top-most dotaccessor node
+@method(symbol("dotaccessor"))
+def topmostDotAccessor(self):
+    topmost_dotaccessor = self
+    while topmost_dotaccessor.hasParentContext("dotaccessor/*"):
+        topmost_dotaccessor = topmost_dotaccessor.parent.parent
+    return topmost_dotaccessor
 
 
 # constants
