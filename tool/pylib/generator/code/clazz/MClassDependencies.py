@@ -377,7 +377,8 @@ class MClassDependencies(object):
                 # nothing to do with the singleton 'getInstance' method (just grep in the framework)
                 #elif classAttribute == 'getInstance':  # erase 'getInstance' and introduce 'construct' dependency
                 #    classAttribute = 'construct'
-                depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1), inLoadContext)
+                line = node.get('line',0)
+                depsItem = DependencyItem(className, classAttribute, self.id, line if line else -1, inLoadContext)
                 #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
                 if node.hasParentContext("call/operand"): # it's a function call
                     depsItem.isCall = True  # interesting when following transitive deps
@@ -476,8 +477,9 @@ class MClassDependencies(object):
                 context = ''
 
             # check name in 'new ...' position
-            elif (node.hasParentContext("operation[@operator='NEW']/first")
-                or node.hasParentContext("operation[@operator='NEW']/first/call/operand")
+            elif ((node.hasParentContext("operation/first") and node.parent.parent.get("operator",0) == "new")
+                or (node.hasParentContext("operation/first/call/operand") and
+                    node.parent.parent.parent.parent.get("operator",0) == "new") # WISH: hasParentContext("operation[@operator='new']/...")
                 ):
                 context = 'new'
 
@@ -501,7 +503,7 @@ class MClassDependencies(object):
             if GlobalSymbolsCombinedPatt.search(assembled):
                 return False
             firstDot = assembled.find(".")
-            if firstDot:
+            if firstDot > -1:
                 firstElement = assembled[:firstDot]
             else:
                 firstElement = assembled
@@ -545,7 +547,6 @@ class MClassDependencies(object):
 
         # ---------------------------------------------------------------------
         context = nameBase = nameExtension = ''
-        import pydb; pydb.debugger()
         context = checkNodeContext(node)
         if context: 
             if isInterestingIdentifier(assembled): # filter some local or build-in names

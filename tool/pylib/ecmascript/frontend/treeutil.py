@@ -627,20 +627,7 @@ def getClassMap(classNode):
     classMap = {}
 
     # check start node
-    if classNode.type == "call":
-        qxDefine = selectNode(classNode, "operand/variable")
-        if qxDefine:
-            qxDefineParts = qxDefine.children
-    else:
-        qxDefineParts = []
-    if (qxDefineParts and 
-        len(qxDefineParts) > 2 and
-        qxDefineParts[0].get('name') == "qx" and
-        qxDefineParts[2].get('name') == "define"
-       ):
-        pass  # ok
-    else:
-        raise tree.NodeAccessException("Expected qx define node (as from findQxDefine())", classNode)
+    _checkQxDefineNode(classNode)
 
     # get top-level class map
     mapNode = selectNode(classNode, "params/map")
@@ -659,16 +646,9 @@ def getClassMap(classNode):
     return classMap
 
 
-##
-# return the class name, given a qx.*.define() call node
-#
-def getClassName(classNode):
-
-    className = u''
-
-    # check start node
-    if classNode.type == "call":
-        qxDefine = selectNode(classNode, "operand/dotaccessor")
+def _checkQxDefineNode(node):
+    if node.type == "call":
+        qxDefine = selectNode(node, "operand/dotaccessor")
         if qxDefine:
             qxDefineParts = qxDefine.toJS().split('.')
         else:
@@ -682,7 +662,18 @@ def getClassName(classNode):
        ):
         pass  # ok
     else:
-        raise tree.NodeAccessException("Expected qx define node (as from findQxDefine())", classNode)
+        raise tree.NodeAccessException("Expected qx define node (as from findQxDefine())", node)
+
+
+##
+# return the class name, given a qx.*.define() call node
+#
+def getClassName(classNode):
+
+    className = u''
+
+    # check start node
+    _checkQxDefineNode(classNode)
 
     # get top-level class map
     nameNode = selectNode(classNode, "params/constant")
@@ -698,25 +689,34 @@ def getClassName(classNode):
 
 # ------------------------------------------------------------------------------
 # Support for chained identifier expressions, like a.b().c[0].d()
-#
-# TODO: this currently duplicates code from ecmascript.frontend.Scope
 # ------------------------------------------------------------------------------
 
+##
+# ChainParentTypes:
+# These are not all types that can show up in a chained ("a.b.c")
+# expression, but the ones you come across when going from an identifier
+# node upwards in the tree.
 ChainParentTypes = set([
     "key", "accessor", "dotaccessor",
     "first", "second",
     "call", "operand",
     ])
 
+##
+# Find the root operator for a chained expression (like the second call in
+# "a.b().c()[0].d()"), starting from any identifier *within* this
+# expression.
+#
 def findChainRoot(node):
-    # find the root node for a chained expression like a.b().c()[0].d()
     current = node
     while current.hasParent() and current.parent.type in ChainParentTypes:
         current = current.parent
     return current  # this must be the chain root
 
-def findLeftmostChainIdentifier(node):
-    # find the leftmost child, assumed to be an identifier
+##
+# Find the leftmost child downward the tree of the passed node
+# 
+def findLeftmostChild(node):
     child = node
     while child.hasChildren():
         c = child.getFirstChild(mandatory=False, ignoreComments=True)
@@ -724,13 +724,16 @@ def findLeftmostChainIdentifier(node):
             child = c
         else:
             break
-    assert child.type == "identifier"
     return child
 
+##
+# Check if the given identifier node is the first in a chained
+# expression ("a" in "a.b.c()[0].d()")
+#
 def checkFirstChainChild(node):
-    # check if the given identifier is the first in a chained expression "a.b.c().d[]"
     chainRoot = findChainRoot(node)
-    leftmostIdentifier = findLeftmostChainIdentifier(chainRoot)
+    leftmostIdentifier = findLeftmostChild(chainRoot)
+    assert leftmostIdentifier.type in ("identifier", "constant")
     # compare to current node
     return leftmostIdentifier == node
 

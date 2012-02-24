@@ -826,7 +826,7 @@ def toJS(self):
 @method(symbol("dotaccessor"))
 def getLeftmostIdentifier(self):
     ident = self.getChild("first")
-    while ident.type != "identifier":  # 'dotaccessor' or 'first'
+    while ident.type not in ("identifier", "constant"):  # 'dotaccessor' or 'first'
         ident =ident.children[0]
     return ident
 
@@ -864,16 +864,12 @@ def led(self, left):
     operand = symbol("operand")()
     call.childappend(operand)
     operand.childappend(left)
-    # params
+    # params - parse as group
     params = symbol("params")()
     call.childappend(params)
-    if token.id != ")":
-        while True:
-            params.childappend(expression())
-            if token.id != ",":
-                break
-            advance(",")
-    advance(")")
+    group = self.nud()
+    for c in group.children:
+        params.childappend(c)
     return call
 
 symbol("operand")
@@ -894,10 +890,21 @@ def nud(self):
             group.childappend(expression())
             if token.id != ",":
                 break
-            comma = True
             advance(",")
     advance(")")
     return group
+
+@method(symbol("group"))
+def toJS(self):
+    r = []
+    r.append('(')
+    a = []
+    for c in self.children:
+        a.append(c.toJS())
+    r.append(','.join(a))
+    r.append(')')
+    return ''.join(r)
+
 
 symbol("]")
 
@@ -1059,10 +1066,12 @@ def nud(self):
         self.set("name", token.get("value"))
         advance()
     # params
-    assert isinstance(token, symbol("("))
+    assert token.id == "("
     params = symbol("params")()
     self.childappend(params)
-    group = expression()
+    group = expression()  # group parsing as helper
+    for c in group.children:
+        params.childappend(c)
     params.children = group.children
     # body
     body = symbol("body")()
@@ -1195,7 +1204,7 @@ def getDefinee(self):
     if dfn.type == "identifier":
         return dfn
     elif dfn.type == "assignment":
-        return dfn.getChild("first")
+        return dfn.getChild("first").children[0]
     else:
         raise SyntaxTreeError("Child of a 'definition' symbol must be in ('identifier', 'assignment')")
 
@@ -1881,11 +1890,6 @@ def toJS(self):
 @method(symbol("third"))
 def toJS(self):
     return self.children[0].toJS()
-
-
-@method(symbol("group"))
-def toJS(self):
-    return '(' + self.children[0].toJS() + ')'   # 'group' can only have one child(?)
 
 
 symbol("params")

@@ -131,9 +131,7 @@ class Node(object):
         currNode = self
         for path_elem in reversed(path_elems):
             if currNode.parent:
-                if ( path_elem == '*' or # currNode.parent.type == path_elem:
-                    matchNode(currNode.parent, path_elem)
-                    ):
+                if ( path_elem == '*' or currNode.parent.type == path_elem ):
                     currNode = currNode.parent
                 else:
                     return False
