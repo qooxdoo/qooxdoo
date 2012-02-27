@@ -14,11 +14,11 @@ It is possible to use the generator to build a `RequireJS <http://requirejs.org/
 There are a couple of steps you need to do to get that done:
 
   * You need a class which represents the common interface you want to offer as require.js module.
-  * You need to have your own config file for the generaot to build that library.
+  * You need to have your own config file for the generator to build that library.
 
-Represental interface
----------------------
-Lets asume you have implemented a class like the following.
+Representable interface
+-----------------------
+Lets assume you have implemented a class like the following.
 
 ::
 
