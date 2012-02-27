@@ -12,9 +12,10 @@
       "log" : {
         "filter" : { "debug" : [ "generator.code.DependencyLoader.*" ] },
         "dependencies" : {
-          "include-transitive-load-deps" : false,
+          "include-transitive-load-deps" : true,
           "force-fresh-deps" : true,
           "type" : "using",
+          "phase" : null,
           "format" : "dot",
           "dot" : {
             "root" : "qx.bom.Storage"
@@ -26,7 +27,7 @@
 
     "build" :
     {
-
+      "extend" : ["deps-logging"],
       "library" :
       [
         {
@@ -46,7 +47,7 @@
       ],
 
       "exclude" : [
-        "qx.core.Assert"
+        "qx.event.GlobalError"
       ],
 
       "environment" :
@@ -55,7 +56,6 @@
         "qx.aspects" : false,
         "qx.globalErrorHandling" : false,
         "qx.theme" : null,
-        "json" : true,
         "qx.export" : {"storage" : "qx.bom.Storage"}
       },
 
