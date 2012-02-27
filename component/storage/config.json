@@ -81,6 +81,21 @@
       },
 
       "compile" : { "type" : "build" }
-    }
+      },
+
+
+      "build-require" :
+      {
+        "extend" : ["build"],
+
+        "compile-options" :
+        {
+          "paths" :
+          {
+            "file" : "storage-require.js",
+            "loader-template" : "../../tool/data/generator/require.loader.tmpl.js"
+          }
+        }
+      }
   }
 }
