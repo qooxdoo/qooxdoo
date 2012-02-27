@@ -45,4 +45,5 @@ Technical Topics
    low_level/qooxdoo_animation
    low_level/css3animation
    low_level/fromjquery
+   low_level/storage
 
