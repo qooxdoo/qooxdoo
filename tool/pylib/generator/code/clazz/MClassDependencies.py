@@ -26,7 +26,7 @@
 import sys, os, types, re, string, time
 from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.Script     import Script
-from ecmascript.frontend.tree       import Node, NodeAccessException
+from ecmascript.frontend.tree       import Node, NODE_VARIABLE_TYPES
 from ecmascript.transform.optimizer import variantoptimizer
 from generator.code.DependencyItem  import DependencyItem
 from misc import util
@@ -464,17 +464,25 @@ class MClassDependencies(object):
             #if not treeutil.checkFirstChainChild(myFirst): # see if myFirst is the first identifier in a chain
             #    context = ''
 
-            # get the left-most identifier of this var expression
-            if node.type == "dotaccessor":
-                localFirst = node.topmostDotAccessor().getLeftmostIdentifier()
-            else:  # identifier
-                if node.hasParentContext("dotaccessor/*"): # operand of a dotaccessor
-                    localFirst = node.parent.parent.topmostDotAccessor().getLeftmostIdentifier()
-                else:
-                    localFirst = node 
-            # testing for the 'a' in 'a.b().c[d].e'
-            if not treeutil.checkFirstChainChild(localFirst):
+            leftmostChild = treeutil.findLeftmostChild(node)  # works for leafs too
+
+            # get the top-most dotaccessor of this identifier/constant
+            if leftmostChild.hasParentContext("dotaccessor/*"): # operand of a dotaccessor
+                localTop = leftmostChild.parent.parent.getHighestPureDotParent()
+            else:
+                localTop = leftmostChild 
+            
+            # testing for the 'a.b' in 'a.b().c[d].e'; bare 'a' in 'a' is also caught
+            if localTop != node:
                 context = ''
+
+            # /^\s*$/.test(value)
+            elif leftmostChild.type == "constant":
+                context = ''
+
+            ## testing for the 'a' in 'a.b().c[d].e'
+            #elif not treeutil.checkFirstChainChild(treeutil.findLeftmostChild(localTop)):
+            #    context = ''
 
             # check name in 'new ...' position
             elif ((node.hasParentContext("operation/first") and node.parent.parent.get("operator",0) == "new")
@@ -718,7 +726,7 @@ class MClassDependencies(object):
         includeVal = classMap.get('include', None)
         if includeVal:
             # 'include' value according to Class spec.
-            if includeVal.type in tree.NODE_VARIABLE_TYPES + ('array',):
+            if includeVal.type in NODE_VARIABLE_TYPES + ('array',):
                 includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
             
             # assume qx.core.Environment.filter() call

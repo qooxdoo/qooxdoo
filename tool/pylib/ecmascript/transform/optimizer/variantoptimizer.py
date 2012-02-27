@@ -649,10 +649,13 @@ def isEnvironmentCall(callNode):
     if callNode.type != "call":
         return False
     operandNode = treeutil.selectNode(callNode, "operand")
-    environNodes = treeutil.findVariablePrefix(operandNode, "qx.core.Environment")
-    if len(environNodes) != 1:
+    operand = operandNode.toJS()
+    environParts = operand.rsplit('.',1)
+    if len(environParts) != 2:
         return False
-    environMethod = treeutil.selectNode(environNodes[0], "identifier[4]/@name")
-    if environMethod in InterestingEnvMethods:
+    elif environParts[0] != "qx.core.Environment":
+        return False
+    elif environParts[1] not in InterestingEnvMethods:
+        return False
+    else:
         return True
-    return False

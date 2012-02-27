@@ -494,15 +494,19 @@ def infix_v(id_, bp):
     symbol(id_).toJS = toJS
         
 
-
-
 ##
-# this is just to show right-associativity (mind "bp-1")
-# (cf. Lundh's TDOP paper, p.6)
+# right-associative infix (all assignment ops)
+# (mind "bp-1", cf. Lundh's TDOP paper, p.6)
 def infix_r(id_, bp):
+    infix(id_, bp)
+
     def led(self, left):
-        self.childappend(left)
-        self.childappend(expression(bp-1))
+        s = symbol("first")()
+        self.childappend(s)
+        s.childappend(left)
+        s = symbol("second")()
+        self.childappend(s)
+        s.childappend(expression(bp-1))
         return self
     symbol(id_, bp).led = led
 
@@ -658,10 +662,10 @@ infix("||", 30)
 
 symbol("?", 20)   # ternary operator (.led takes care of ':')
 
-infix("=",  10)   # assignment
-infix("<<=",10); infix("-=", 10); infix("+=", 10); infix("*=", 10)
-infix("/=", 10); infix("%=", 10); infix("|=", 10); infix("^=", 10)
-infix("&=", 10); infix(">>=",10); infix(">>>=",10)
+infix_r("=",  10)   # assignment
+infix_r("<<=",10); infix_r("-=", 10); infix_r("+=", 10); infix_r("*=", 10)
+infix_r("/=", 10); infix_r("%=", 10); infix_r("|=", 10); infix_r("^=", 10)
+infix_r("&=", 10); infix_r(">>=",10); infix_r(">>>=",10)
 
 symbol(":", 0) #infix(":", 15)    # ?: and {1:2,...}
 
@@ -822,22 +826,22 @@ def toJS(self):
     return r
 
 ##
-# walk down to find the "left-most" identifier ('a' in 'a.b.c')
+# walk down to find the "left-most" identifier ('a' in 'a.b().c')
 @method(symbol("dotaccessor"))
-def getLeftmostIdentifier(self):
+def getLeftmostOperand(self):
     ident = self.getChild("first")
-    while ident.type not in ("identifier", "constant"):  # 'dotaccessor' or 'first'
+    while ident.type not in ("identifier", "constant"):  # e.g. 'dotaccessor', 'first', 'call', 'accessor', ...
         ident =ident.children[0]
     return ident
 
 ##
-# walk up to find the top-most dotaccessor node
+# get the highest (in the tree) dotaccessor parent of a pure '.' expression
 @method(symbol("dotaccessor"))
-def topmostDotAccessor(self):
-    topmost_dotaccessor = self
-    while topmost_dotaccessor.hasParentContext("dotaccessor/*"):
-        topmost_dotaccessor = topmost_dotaccessor.parent.parent
-    return topmost_dotaccessor
+def getHighestPureDotParent(self):
+    highestDot = self
+    while highestDot.hasParentContext("dotaccessor/*"):
+        highestDot = highestDot.parent.parent
+    return highestDot
 
 
 # constants
