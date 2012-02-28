@@ -8,14 +8,14 @@
 
 .standard-button {
   @button-color: #f4f4f4;
-  @height: 20px;
+  @height: 20px; 
   
   .border-radius(4px);
   cursor: pointer;
-  width: auto;
+  width: auto; 
   height: 20px;
   color: #222222;
-  text-align: center;
+  text-align: center; 
   
   // Less "darken method" helps to make use of android-button easier. It takes button-color and darkens it. No second gradient color is needed.
   #gradient > .vertical(@button-color, darken(@button-color, 20%));
@@ -129,7 +129,7 @@ ul li.active .subtitle {
 // Toolbar Button
 .toolbar-button {
   .standard-button();
-  
+
   height: 50px;
   font-size: 17px;
 }

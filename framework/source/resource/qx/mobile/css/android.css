@@ -1122,6 +1122,7 @@ li:first-child a {
 }
 .toolbar-button .label {
   height: auto;
+  padding-top: 4px;
 }
 .list-itemimage {
   margin-right: 7px;

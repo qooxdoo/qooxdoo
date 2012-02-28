@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
             // Needs a fixed size of label, for text-overflow ellipsis.
             // Overwise characters text label width will be as large as text, 
             // no matter what size the outside containers has.
-            this.__label.setDisplay('inline-block');
+            this.__label.setDisplay('block');
         }
 
         if(targetLayout) {
@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         // Needs a fixed size of label, for text-overflow ellipsis.
         // Overwise characters text label width will be as large as text, 
         // no matter what size the outside containers has.
-        labelWidget.setDisplay('inline-block');
+        labelWidget.setDisplay('block');
       }
       return labelWidget;
     },
