@@ -761,7 +761,7 @@ qx.Class.define("qx.data.Array",
      * Check whether the given array has the same content as this.
      * Checks only the equality of the arrays' content.
      *
-     * @param array {Array} The array to check.
+     * @param array {qx.data.Array} The array to check.
      * @return {Boolean} Whether the two arrays are equal.
      */
     equals : function(array)
