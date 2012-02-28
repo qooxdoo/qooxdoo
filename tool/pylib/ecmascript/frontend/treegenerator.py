@@ -667,7 +667,7 @@ infix_r("<<=",10); infix_r("-=", 10); infix_r("+=", 10); infix_r("*=", 10)
 infix_r("/=", 10); infix_r("%=", 10); infix_r("|=", 10); infix_r("^=", 10)
 infix_r("&=", 10); infix_r(">>=",10); infix_r(">>>=",10)
 
-symbol(":", 0) #infix(":", 15)    # ?: and {1:2,...}
+symbol(":", 0) #infix(":", 15)    # ?: and {1:2,...} and label:
 
 symbol(",", 0) # infix(",", 5) -- good for expression lists, but problematic for parsing arrays, maps
 
@@ -1503,6 +1503,14 @@ def std(self):
     #advance(";")
     return self
 
+@method(symbol("break"))
+def toJS(self):
+    r = self.write("break")
+    if self.children:
+        r += self.space(result=r)
+        r += self.write(self.children[0].toJS())
+    return r
+
 
 symbol("continue")
 
@@ -1512,6 +1520,14 @@ def std(self):
         self.childappend(expression(0))   # this is over-generating! (should be 'label')
     #advance(";")
     return self
+
+@method(symbol("continue"))
+def toJS(self):
+    r = self.write("continue")
+    if self.children:
+        r += self.space(result=r)
+        r += self.write(self.children[0].toJS())
+    return r
 
 
 symbol("return")
@@ -1823,16 +1839,6 @@ def toJS(self):
     r += '\n' # TODO: tmp. fix for line breaks
     return r
 
-symbol("break")
-
-@method(symbol("break"))
-def toJS(self):
-    r = self.write("break")
-    if self.get("label", False):
-        r += self.space(result=r)
-        r += self.write(self.get("label", False))
-    return r
-
 symbol("call")
 
 @method(symbol("call"))
@@ -1862,17 +1868,6 @@ symbol("commentsBefore")
 @method(symbol("commentsBefore"))
 def toJS(self):
     r = u''
-    return r
-
-
-symbol("continue")
-
-@method(symbol("continue"))
-def toJS(self):
-    r = self.write("continue")
-    if self.get("label", False):
-        r += self.space(result=r)
-        r += self.write(self.get("label", False))
     return r
 
 
