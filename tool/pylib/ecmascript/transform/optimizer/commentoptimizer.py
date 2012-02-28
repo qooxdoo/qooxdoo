@@ -23,8 +23,7 @@
 # Strip comments from tree
 ##
 
-import re, sys
-from ecmascript.frontend import tree, treeutil
+from ecmascript.frontend import treeutil
     
 def patch(node):
     global cnt
