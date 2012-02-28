@@ -7,24 +7,24 @@
   </head>
   <body>
     <h1>qooxdoo storage library</h1>
-    <div>Count: <span id="count">0</span> (click to increase)</div>
+    <div>Count: <span id="count">0</span> (click number to increment)</div>
     <script type="text/javascript" charset="utf-8">
       var countEl = document.getElementById("count");
       countEl.style.cursor = "pointer";
 
-      // use the local storage
+      // use local storage
       var storage = storage.getLocal();
       var key = "demo-count";
 
       // initialize the count
-      var count = parseInt(storage.getItem(key));
+      var count = parseInt(storage.getItem(key), 10);
       if (count) {
         countEl.innerHTML = count;
       } else {
         count = 0;
       }
 
-      // increase on click
+      // increment on click
       var onClick = function() {
         count++;
         storage.setItem(key, count);
