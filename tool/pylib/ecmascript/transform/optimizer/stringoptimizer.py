@@ -27,22 +27,6 @@ def search(node, verbose=False):
 
 
 def search_loop(node, stringMap={}, verbose=False):
-    if node.type == "call":
-        oper = node.getChild("operand", False)
-
-        if oper:
-            variable = oper.getChild("variable", False)
-
-            if variable:
-                try:
-                    variableName = (treeutil.assembleVariable(variable))[0]
-                except tree.NodeAccessException:
-                    variableName = None
-
-                # Don't extract from locales
-                if variableName == "qx.locale.Locale.define" or variableName == "qx.Locale.define":
-                    return stringMap
-
     if node.type == "constant" and node.get("constantType") == "string":
         if verbose:
             pvalue = node.get("value")
