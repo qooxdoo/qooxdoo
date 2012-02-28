@@ -22,6 +22,10 @@
 import os, sys, re, types
 from ecmascript.frontend import treeutil
 
+##
+# Remove features (mainly methods) from a class
+##
+
 def patch(tree, classObj, featureMap):
     
     feature_names = featureMap[classObj.id]
