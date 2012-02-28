@@ -61,12 +61,10 @@ def search(node, variantMap, fileId_="", verb=False):
 
     variantNodes = findVariantNodes(node)
     for variantNode in variantNodes:
-        variantMethod = selectNode(variantNode, "identifier[4]/@name")
+        variantMethod = variantNode.toJS().rsplit('.',1)[1]
         if variantMethod in ["select"]:
-            #modified = processVariantSelect(selectNode(variantNode, "../.."), variantMap) or modified
             modified = processVariantSelect(selectCallNode(variantNode), variantMap) or modified
         elif variantMethod in ["get"]:
-            #modified = processVariantGet(selectNode(variantNode, "../.."), variantMap) or modified
             modified = processVariantGet(selectCallNode(variantNode), variantMap) or modified
         elif variantMethod in ["filter"]:
             modified = processVariantFilter(selectCallNode(variantNode), variantMap) or modified
@@ -74,14 +72,10 @@ def search(node, variantMap, fileId_="", verb=False):
     return modified
 
 
-
 def selectCallNode(variableNode):
     # the call node is usually two levels up from the variable node that holds
     # the function name ("call/operator/variable")
     callNode = selectNode(variableNode, "../..")
-    # also remove unnecessary grouping around the call node
-    #while callNode.parent and callNode.parent.type == "group" and len(callNode.parent.children)==1:
-    #    callNode = callNode.parent
     return callNode
 
 ##
@@ -188,10 +182,11 @@ def processVariantGet(callNode, variantMap):
         return treeModified
 
     # skipping "relative" calls like "a.b.qx.core.Environment.get()"
-    qxIdentifier = treeutil.selectNode(callNode, "operand/variable/identifier[1]")
-    if not treeutil.checkFirstChainChild(qxIdentifier):
-        log("Warning", "Skipping relative qx.core.Environment.get call. Ignoring this occurrence ('%s')." % treeutil.findChainRoot(qxIdentifier).toJavascript())
-        return treeModified
+    #(with the new ast and the isEnvironmentCall check, this cannot happen anymore)
+    #qxIdentifier = treeutil.selectNode(callNode, "operand/variable/identifier[1]")
+    #if not treeutil.checkFirstChainChild(qxIdentifier):
+    #    log("Warning", "Skipping relative qx.core.Environment.get call. Ignoring this occurrence ('%s')." % treeutil.findChainRoot(qxIdentifier).toJavascript())
+    #    return treeModified
 
     variantKey = firstParam.get("value");
     if variantKey in variantMap:
@@ -633,15 +628,13 @@ def getFilterMap(callNode, fileId_):
 #
 # @return {Iter<Node>} node generator
 #
+
 InterestingEnvMethods = ["select", "selectAsync", "get", "getAsync", "filter"]
+
 def findVariantNodes(node):
-    variantNodes = treeutil.findVariablePrefix(node, "qx.core.Environment")
-    for variantNode in variantNodes:
-        if not variantNode.hasParentContext("call/operand"):
-            continue
-        variantMethod = treeutil.selectNode(variantNode, "identifier[4]/@name")
-        if variantMethod in InterestingEnvMethods:
-            yield variantNode
+    for callnode in treeutil.nodeIterator(node, ['call']):
+        if isEnvironmentCall(callnode):
+            yield treeutil.selectNode(callnode, "operand").getFirstChild()
         else:
             continue
 
@@ -658,4 +651,4 @@ def isEnvironmentCall(callNode):
     elif environParts[1] not in InterestingEnvMethods:
         return False
     else:
-        return True
+        return operand
