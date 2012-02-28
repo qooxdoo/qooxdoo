@@ -830,6 +830,14 @@ def getLeftmostOperand(self):
     return ident
 
 ##
+# walk down to find the "right-most" identifier ('c' in a.b.c)
+@method(symbol("dotaccessor"))
+def getRightmostOperand(self):
+    ident = self.getChild("second")
+    return ident # "left-leaning syntax tree (. (. a b) c)
+
+
+##
 # get the highest (in the tree) dotaccessor parent of a pure '.' expression
 @method(symbol("dotaccessor"))
 def getHighestPureDotParent(self):
