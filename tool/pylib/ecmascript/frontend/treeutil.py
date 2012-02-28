@@ -43,7 +43,7 @@ def findQxDefine(rootNode):
 # Finds all the qx.*.define in the given tree
 
 def findQxDefineR(rootNode):
-    for node in nodeIterator(rootNode, ["variable"]):
+    for node in nodeIterator(rootNode, tree.NODE_VARIABLE_TYPES):
         if isQxDefine(node)[0]:
             yield node.parent.parent
         
@@ -197,7 +197,11 @@ def selectNode(node, path, ignoreComments=False):
 
                     # attribute
                     elif part[0] == "@":
-                        return node.get(part[1:])
+                        try:
+                            val = node.get(part[1:])
+                        except tree.NodeAccessException:
+                            return None
+                        return val
 
                     # type
                     else:
@@ -486,7 +490,7 @@ def compileString(jsString, uniqueId=""):
     """
     Compile a string containing a JavaScript fragment into a syntax tree.
     """
-    return treegenerator.createSyntaxTree(tokenizer.parseStream(jsString, uniqueId)).getFirstChild()
+    return treegenerator.createSyntaxTree(tokenizer.parseStream(jsString, uniqueId)).getFirstChild().getFirstChild()  # strip (file (statements ...) nodes
 
 
 def variableOrArrayNodeToArray(node):
