@@ -260,11 +260,6 @@ tokenStream = None # stream of symbol_base() nodes
 
 class symbol_base(Node):
 
-    # TODO: I should remove those.
-    id = None
-    value = None
-    first = second = third = None
-
     def __init__(self):  # to override Node.__init__(self,type)
         #self.attributes = {}  # compat with Node.attributes
         #self.children   = []  # compat with Node.children
@@ -1717,32 +1712,51 @@ def expression(rbp=0):
     return left
 
 
-def statement():
-    n = token
-    s = None
-    if getattr(token, 'std', None):
-        advance()
-        s = n.std()
-    elif token.type != 'eol': # it's not an empty line
-        s = expression()
-        # Crockford's too tight here
-        #if not (s.id == "=" or s.id == "("):
-        #    raise SyntaxError("Bad expression statement (pos %r)" % ((token.get("line"), token.get("column")),))
+symbol("label")
 
-        # handle expression lists
-        # (REFAC: somewhat ugly here, expression lists should be treated generically,
-        # but there is this conflict between ',' as an operator ('infix(",", 5)')
-        # and a stock symbol("infix",0) that terminates every expression() parse, like for
-        # arrays, maps, etc.).
-        if token.id == ',':
-            s1 = symbol("expressionList")()
-            s1.childappend(s)
-            s = s1
-            while token.id == ',':
-                advance(',')
-                s.childappend(expression())
-    statementEnd()
+def statement():
+    # labeled statement
+    if token.type == "identifier" and tokenStream.peek(1).id == ":": # label
+        s = symbol("label")()
+        s.attributes = token.attributes
+        advance()
+        advance(":")
+        s.childappend(statement())
+    # normal statement
+    else:
+        n = token
+        s = None
+        if getattr(token, 'std', None):
+            advance()
+            s = n.std()
+        elif token.type != 'eol': # it's not an empty line
+            s = expression()
+            # Crockford's too tight here
+            #if not (s.id == "=" or s.id == "("):
+            #    raise SyntaxError("Bad expression statement (pos %r)" % ((token.get("line"), token.get("column")),))
+
+            # handle expression lists
+            # (REFAC: somewhat ugly here, expression lists should be treated generically,
+            # but there is this conflict between ',' as an operator ('infix(",", 5)')
+            # and a stock symbol("infix",0) that terminates every expression() parse, like for
+            # arrays, maps, etc.).
+            if token.id == ',':
+                s1 = symbol("expressionList")()
+                s1.childappend(s)
+                s = s1
+                while token.id == ',':
+                    advance(',')
+                    s.childappend(expression())
+        statementEnd()
     return s
+
+@method(symbol("label"))
+def toJS(self):
+    r = []
+    r += [self.get("value")]  # identifier
+    r += [":"]
+    r += [self.children[0].toJS()]
+    return ''.join(r)
 
 
 def statementEnd():
