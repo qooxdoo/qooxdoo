@@ -21,7 +21,7 @@
 /**
  * Cross browser abstractions to work with labels.
  */
-qx.Class.define("qx.bom.Label",
+qx.Bootstrap.define("qx.bom.Label",
 {
   /*
   *****************************************************************************
