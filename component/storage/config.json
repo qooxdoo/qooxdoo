@@ -115,31 +115,14 @@
 
       "environment" :
       {
-        "qx.debug" : true,
-        "qx.aspects" : false,
-        "qx.globalErrorHandling" : false,
-        "qx.theme" : null,
-        "qx.export" : {"storage" : "qx.bom.Storage"}
+        "qx.debug" : true
       },
 
       "compile-options" :
       {
         "paths" :
         {
-          "file" : "storage.js",
-          "app-root" : ".",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
-        },
-        "uris" :
-        {
-          "script"   : ".",
-          "resource" : "."
-        },
-        "code" :
-        {
-          "format"   : true,
-          "optimize" : [ "variants", "basecalls", "strings", "privates", "variables" ],
-          "except"   : []
+          "file" : "storage.js"
         }
       },
 
