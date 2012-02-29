@@ -342,6 +342,7 @@ qx.Class.define("qx.data.Array",
       if (removed || added) {
         if (this.__array.length > oldLength) {
           var type = "add";
+          items = qx.lang.Array.fromArguments(arguments, 2);
         } else if (this.__array.length < oldLength) {
           var type = "remove";
           items = returnArray;
