@@ -60,15 +60,15 @@ FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -
 FILES_TEMP = \( -name "*.rej" -o -name "*.orig" -o -name "*.pyc" -o -name "*.pyo" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot" \)
 FILES_EXEC = \( -name "*.py" -o -name "*.sh" \)
 
-CMD_SYNC_ONLINE = $(CMD_NICE) rsync --checksum --recursive --delete --inplace --links --safe-links --exclude .svn
-CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --safe-links --exclude .svn
-CMD_SYNC_BACKUP = $(CMD_NICE) rsync --recursive --delete --inplace --copy-links --exclude .svn
+CMD_SYNC_ONLINE = $(CMD_NICE) rsync --checksum --recursive --delete --inplace --links --safe-links
+CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --safe-links
+CMD_SYNC_BACKUP = $(CMD_NICE) rsync --recursive --delete --inplace --copy-links
 
 # Directories
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-APPLICATIONS = todo feedreader portal mobileshowcase playground showcase widgetbrowser featureconfigeditor demobrowser testrunner-portable
+APPLICATIONS = todo feedreader portal mobileshowcase playground showcase widgetbrowser featureconfigeditor demobrowser
 COMPONENTS = apiviewer testrunner inspector storage
 FRAMEWORK_TARGETS = api test qxoo-build qxoo-noopt
 
@@ -167,53 +167,43 @@ exec-apiviewer-build:
 # SHOWCASE TARGETS
 ################################################################################
 
-info-showcase:
-	@echo
-	@echo "****************************************************************************"
-	@echo "  GENERATING SHOWCASE"
-	@echo "****************************************************************************"
-
-
-showcase: info-showcase exec-showcase-build
-
-exec-showcase-build:
+showcase:
 	@time ( cd application/showcase && $(CMD_GENERATOR) build ) || exit 1
-  
-  
-################################################################################
-# INSPECTOR TARGETS
-################################################################################
 
-info-inspector:
-	@echo
-	@echo "****************************************************************************"
-	@echo "  GENERATING INSPECTOR COMPONENT"
-	@echo "****************************************************************************"
-
-
-inspector: info-inspector exec-inspector-build
-
-exec-inspector-build:
-	@time ( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
-
-
-
-################################################################################
-# TESTRUNNER TARGETS
-################################################################################
-
-info-testrunner:
-	@echo
-	@echo "****************************************************************************"
-	@echo "  GENERATING TESTRUNNER COMPONENT"
-	@echo "****************************************************************************"
-
-
-testrunner: info-testrunner exec-testrunner-build
-
-exec-testrunner-build:
-	@time ( cd component/testrunner && $(CMD_GENERATOR) build ) || exit 1
-
+#################################################################################
+## INSPECTOR TARGETS
+#################################################################################
+#
+#info-inspector:
+#	@echo
+#	@echo "****************************************************************************"
+#	@echo "  GENERATING INSPECTOR COMPONENT"
+#	@echo "****************************************************************************"
+#
+#
+#inspector: info-inspector exec-inspector-build
+#
+#exec-inspector-build:
+#	@time ( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
+#
+#
+#
+#################################################################################
+## TESTRUNNER TARGETS
+#################################################################################
+#
+#info-testrunner:
+#	@echo
+#	@echo "****************************************************************************"
+#	@echo "  GENERATING TESTRUNNER COMPONENT"
+#	@echo "****************************************************************************"
+#
+#
+#testrunner: info-testrunner exec-testrunner-build
+#
+#exec-testrunner-build:
+#	@time ( cd component/testrunner && $(CMD_GENERATOR) build ) || exit 1
+#
 
 
 ################################################################################
@@ -287,8 +277,6 @@ build-apps:
 	@time for APPLICATION in $(APPLICATIONS); do \
 		if [ "$$APPLICATION" = "feedreader" ]; then \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build,build-mobile,build-website ) || exit 1; \
-		elif [ "$$APPLICATION" = "testrunner-portable" ]; then \
-			( cd component/testrunner && $(CMD_GENERATOR) -c portable.json build ) || exit 1; \
 		else \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
 		fi; \
@@ -299,6 +287,8 @@ build-components:
 		( cd component/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
 		if [ "$$APPLICATION" = "storage" ]; then \
 			( cd component/$$APPLICATION && $(CMD_GENERATOR) build-require ) || exit 1; \
+		elif [ "$$APPLICATION" = "testrunner" ]; then \
+			( cd component/testrunner && $(CMD_GENERATOR) -c portable.json build ) || exit 1; \
 		fi; \
 	done
 
@@ -351,7 +341,14 @@ check-docs-pdf:
 # PUBLISH TARGETS
 ################################################################################
 
-publish-build: build-apps inspector testrunner build-framework build-docs
+publish-build: build-apps publish-build-components build-framework build-docs
+
+publish-build-components: 
+	@( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
+	@( cd component/testrunner && $(CMD_GENERATOR) build ) || exit 1
+	@( cd component/testrunner && $(CMD_GENERATOR) -c portable.json build ) || exit 1;
+	@( cd component/storage && $(CMD_GENERATOR) build ) || exit 1
+	@( cd component/storage && $(CMD_GENERATOR) build-require ) || exit 1
 
 publish-check: check-banner check-apps check-components check-framework check-docs
 	@echo "    - Looks good"
@@ -363,9 +360,6 @@ check-apps:
 	@for TARGET in $(APPLICATIONS); do \
 	if [ "$$TARGET" = "featureconfigeditor" ] ; then \
 		F="application/$$TARGET/build/script/fce.js"; \
-	elif [ "$$TARGET" = "testrunner-portable" ] ; then \
-		F="component/testrunner/build/script/$$TARGET.js"; \
-		[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 	else \
 		F="application/$$TARGET/build/script/$$TARGET.js"; \
 	fi; \
@@ -379,6 +373,8 @@ check-components:
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "testrunner" ]; then \
 			F="component/$$TARGET/build/script/$$TARGET.js"; \
+			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+			F="component/testrunner/build/script/$$TARGET-portable.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "storage" ]; then \
 			F="component/$$TARGET/$$TARGET.js"; \
@@ -409,6 +405,8 @@ publish-index:
 	@$(CMD_SYNC_ONLINE) temp/index.html $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
 	@$(CMD_REMOVE) temp
 
+# Putting components after framework, to be able to add to testrunner/script/testrunner-portable.js
+# to save:	ssh $(STAGING_HOST) $(CMD_MKDIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION/script/; 
 publish-apps:
 	@echo "  * Syncing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
@@ -419,21 +417,8 @@ publish-apps:
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-mobile/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-mobile || exit 1; \
 			echo "    - $$APPLICATION-website..."; \
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-website/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-website || exit 1; \
-		elif [ "$$APPLICATION" = "testrunner-portable" ]; then \
-			$(CMD_SYNC_ONLINE) component/testrunner/build/script/$$APPLICATION.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		else \
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-		fi; \
-	done
-	@echo "  * Syncing components..."
-	@for APPLICATION in $(COMPONENTS); do \
-		if [ "$$APPLICATION" = "inspector" ]; then \
-			echo "    - $$APPLICATION..."; \
-			$(CMD_SYNC_ONLINE) component/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-		fi; \
-		if [ "$$APPLICATION" = "storage" ]; then \
-			$(CMD_SYNC_ONLINE) component/storage/$$APPLICATION.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/storage/$$APPLICATION-require.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		fi; \
 	done
 	@echo "  * Syncing framework..."
@@ -451,6 +436,20 @@ publish-apps:
 		fi; \
 		if [ "$$APPLICATION" = "qxoo-noopt" ]; then \
 			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo-noopt.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+		fi; \
+	done
+	@echo "  * Syncing components..."
+	@for APPLICATION in $(COMPONENTS); do \
+		if [ "$$APPLICATION" = "inspector" ]; then \
+			echo "    - $$APPLICATION..."; \
+			$(CMD_SYNC_ONLINE) component/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+		elif [ "$$APPLICATION" = "testrunner" ]; then \
+			echo "    - $$APPLICATION..."; \
+			$(CMD_SYNC_ONLINE) component/testrunner/build/script/$$APPLICATION-portable.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION/script/$$APPLICATION-portable.js || exit 1; \
+		elif [ "$$APPLICATION" = "storage" ]; then \
+			echo "    - $$APPLICATION..."; \
+			$(CMD_SYNC_ONLINE) component/storage/$$APPLICATION.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/storage/$$APPLICATION-require.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		fi; \
 	done
 
