@@ -15,12 +15,12 @@ To get an idea of the basic API please have a look at the `API docs <http://demo
 
 Convenience on top
 ##################
-We added an ``iterate`` method, which can be used to execute a function for every stored item.
+We added an ``forEach`` method, which can be used to execute a function for every stored item.
 
 ::
 
   var storage = qx.bom.Storage.getLocal();
-  storage.iterate(function(key, value) {
+  storage.forEach(function(key, value) {
     // ... do whatever you want
   });
 

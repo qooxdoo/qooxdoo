@@ -164,7 +164,7 @@ qx.Bootstrap.define("qx.bom.storage.Web", {
      *    of the stored data.
      * @param scope {var} The scope of the function.
      */
-    iterate : function(callback, scope) {
+    forEach : function(callback, scope) {
       var length = this.getLength();
       for (var i = 0; i < length; i++) {
         var key = this.getKey(i);
