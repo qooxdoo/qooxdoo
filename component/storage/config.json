@@ -15,6 +15,11 @@
 
   "default-job" : "build",
 
+  "config-warnings" :
+  {
+    "job-shadowing" : ["distclean"]
+  },
+
   "let" :
   {
     "APPLICATION"  : "library",
@@ -24,6 +29,18 @@
 
   "jobs" :
   {
+    "distclean" :
+    {
+      "clean-files" :
+      {
+        "Deleting storage libs" :
+        [
+          "${ROOT}/storage.js",
+          "${ROOT}/storage-require.js"
+        ]
+      }
+    },
+
     "storage-common" :
     {
       "extend" : ["cache"],
@@ -78,7 +95,7 @@
       {
         "paths" :
         {
-          "file" : "storage.js",
+          "file" : "storage.js"
         },
         "code" :
         {

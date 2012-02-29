@@ -295,7 +295,12 @@ build-apps:
 	done
 
 build-components:
-	@time for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; done
+	@time for APPLICATION in $(COMPONENTS); do \
+		( cd component/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
+		if [ "$$APPLICATION" = "storage" ]; then \
+			( cd component/$$APPLICATION && $(CMD_GENERATOR) build-require ) || exit 1; \
+		fi; \
+	done
 
 build-framework:
 	@for TARGET in $(FRAMEWORK_TARGETS); do ( cd framework && $(CMD_GENERATOR) $$TARGET ) || exit 1; done
@@ -378,6 +383,8 @@ check-components:
 		elif [ "$$TARGET" = "storage" ]; then \
 			F="component/$$TARGET/$$TARGET.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+			F="component/$$TARGET/$$TARGET-require.js"; \
+			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		fi; \
 	done
 
@@ -426,6 +433,7 @@ publish-apps:
 		fi; \
 		if [ "$$APPLICATION" = "storage" ]; then \
 			$(CMD_SYNC_ONLINE) component/storage/$$APPLICATION.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/storage/$$APPLICATION-require.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		fi; \
 	done
 	@echo "  * Syncing framework..."
