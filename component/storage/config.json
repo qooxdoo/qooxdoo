@@ -1,4 +1,20 @@
 {
+  "include" : 
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
+      "import" :
+      [
+        "cache",
+        "distclean",
+        "info",
+        "log-dependencies"
+      ]
+    }
+  ],
+
+  "default-job" : "build",
+
   "let" :
   {
     "APPLICATION"  : "library",
@@ -8,7 +24,114 @@
 
   "jobs" :
   {
-    "deps-logging" : {
+    "storage-common" :
+    {
+      "extend" : ["cache"],
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
+        }
+      ],
+
+      "include" : [
+        "qx.bom.Storage"
+      ],
+
+      "exclude" : [
+        "qx.event.GlobalError"
+      ],
+
+      "environment" :
+      {
+        "qx.version"     : "${QOOXDOO_VERSION}",
+        "qx.revision"    : "${QOOXDOO_REVISION}",
+        "qx.debug" : false,
+        "qx.aspects" : false,
+        "qx.globalErrorHandling" : false,
+        "qx.theme" : null,
+        "qx.export" : {"storage" : "qx.bom.Storage"}
+      },
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "storage.js",
+          "app-root" : ".",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
+        },
+        "uris" :
+        {
+          "script"   : ".",
+          "resource" : "."
+        }
+      }
+    },
+
+
+    "build" :
+    {
+      "extend" : ["storage-common"],
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "storage.js",
+        },
+        "code" :
+        {
+          "format"   : true,
+          "optimize" : [ "variants", "basecalls", "strings", "privates", "variables" ],
+          "except"   : []
+        }
+      },
+
+      "compile" : { "type" : "build" }
+    },
+
+
+    "source" :
+    {
+      "extend" : ["storage-common"],
+
+      "environment" :
+      {
+        "qx.debug" : true,
+        "qx.aspects" : false,
+        "qx.globalErrorHandling" : false,
+        "qx.theme" : null,
+        "qx.export" : {"storage" : "qx.bom.Storage"}
+      },
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "storage.js",
+          "app-root" : ".",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
+        },
+        "uris" :
+        {
+          "script"   : ".",
+          "resource" : "."
+        },
+        "code" :
+        {
+          "format"   : true,
+          "optimize" : [ "variants", "basecalls", "strings", "privates", "variables" ],
+          "except"   : []
+        }
+      },
+
+      "compile" : { "type" : "source" }
+    },
+
+
+    "deps-logging" : 
+    {
       "log" : {
         "filter" : { "debug" : [ "generator.code.DependencyLoader.*" ] },
         "dependencies" : {
@@ -25,62 +148,9 @@
     },
 
 
-    "build" :
+    "build-deps" : 
     {
-      "extend" : ["deps-logging"],
-      "library" :
-      [
-        {
-          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
-        }
-      ],
-
-      "cache" :
-      {
-        "compile"      : "${CACHE}",
-        "downloads"    : "${CACHE}/downloads",
-        "invalidate-on-tool-change" : true
-      },
-
-      "include" : [
-        "qx.bom.Storage"
-      ],
-
-      "exclude" : [
-        "qx.event.GlobalError"
-      ],
-
-      "environment" :
-      {
-        "qx.debug" : false,
-        "qx.aspects" : false,
-        "qx.globalErrorHandling" : false,
-        "qx.theme" : null,
-        "qx.export" : {"storage" : "qx.bom.Storage"}
-      },
-
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "file" : "storage.js",
-          "app-root" : ".",
-          "loader-template" : "../../tool/data/generator/website.loader.tmpl.js"
-        },
-        "uris" :
-        {
-          "script"   : ".",
-          "resource" : "."
-        },
-        "code" :
-        {
-          "format"   : true,
-          "optimize" : [ "variants", "base", "string", "privates", "variables" ],
-          "except"   : []
-        }
-      },
-
-      "compile" : { "type" : "build" }
+      "extend" : ["build", "deps-logging"]
     },
 
 
@@ -93,7 +163,7 @@
         "paths" :
         {
           "file" : "storage-require.js",
-          "loader-template" : "../../tool/data/generator/require.loader.tmpl.js"
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/require.loader.tmpl.js"
         }
       }
     }
