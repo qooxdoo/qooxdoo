@@ -14,6 +14,78 @@ If you want to extend or change the qooxdoo mobile themes, you always should mod
 
 The target CSS artefacts can be found in folder "framework/source/resource/qx/mobile/css". Please notice: You should not change these files.
 
+Example usage of LESS in qooxdoo mobile
+=======================================
+
+When you inspect LESS files of qooxdoo mobile, you will see that there are two main files (android and ios.less).
+These two files consists out of several parts, which are imported with command:
+
+::
+
+    @import "_base";
+
+The files *_android.less* and *_ios.less* both import *_base.less*, which contains *_mixins.less*. 
+The *_mixins.less* is a important part, because it contains most important mixins 
+used in any LESS file. For example the LESS mixin for border-radius:
+
+::
+
+    .border-radius() {
+        -webkit-border-radius: @arguments;
+        -moz-border-radius: @arguments;
+        border-radius: @arguments;
+    }
+
+This mixin helps you creating border-radius for most browsers, 
+just by writing something like:
+
+::
+
+    .border-radius(4px);
+
+Another mixin example for buttons can be found in file *_android.less*.
+In this case, mixins are used like inheritance classes.
+There is a class with typical look and feel for Android buttons, 
+called *.standard-button*.
+
+::
+
+    .standard-button {
+        @button-color: #f4f4f4;
+        @height: 20px; 
+
+        .border-radius(4px);
+        cursor: pointer;
+        width: auto; 
+        height: 20px;
+        color: #222222;
+        text-align: center; 
+
+        // Less "darken method" helps to make use of android-button easier. 
+        // It takes button-color and darkens it. No second gradient color 
+        // is needed.
+        #gradient > .vertical(@button-color, darken(@button-color, 20%));
+        border: 1px solid #555555;
+        line-height: @height;
+        font-size:12px;
+    }
+
+
+The toolbar button extends this standard button, and adds some 
+special values.
+
+::
+
+    .toolbar-button {
+        .standard-button();
+        height: 50px;
+        font-size: 17px;
+    }
+
+So you are able to use inheritance directly in LESS file, which might give you a
+better overview than applying multiple CSS classes to one DOM element.
+
+
 Parsing LESS files
 ==================
 
