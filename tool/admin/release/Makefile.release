@@ -271,7 +271,12 @@ exec-skeleton-archive:
 ################################################################################
 
 distclean:
-	@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
+	@for APPLICATION in $(APPLICATIONS); do \
+		F="application/$$APPLICATION"; \
+		if [ -e $$F ]; then \
+			(( cd $$F && $(CMD_GENERATOR) distclean ) || ( echo "Unable to distclean $$F"; exit 1 )); \
+		fi; \
+	done
 	@for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
 	@cd framework && $(CMD_GENERATOR) distclean
 	@$(CMD_REMOVE) application/*.zip
