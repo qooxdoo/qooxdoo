@@ -260,10 +260,14 @@ tokenStream = None # stream of symbol_base() nodes
 
 class symbol_base(Node):
 
-    def __init__(self):  # to override Node.__init__(self,type)
+    def __init__(self, line=None, column=None):  # to override Node.__init__(self,type)
         #self.attributes = {}  # compat with Node.attributes
         #self.children   = []  # compat with Node.children
         Node.__init__(self, self.__class__.id)
+        if line:
+            self.set("line", line)
+        if column:
+            self.set("column", column)
 
     ##
     # thin wrapper around .children, to maintain .parent in them
@@ -455,10 +459,10 @@ def symbol(id_, lbp=0):
 
 def infix(id_, bp):
     def led(self, left):
-        s = symbol("first")()
+        s = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(left)
-        s = symbol("second")()
+        s = symbol("second")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(expression(bp))
         return self
@@ -496,10 +500,10 @@ def infix_r(id_, bp):
     infix(id_, bp)
 
     def led(self, left):
-        s = symbol("first")()
+        s = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(left)
-        s = symbol("second")()
+        s = symbol("second")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(expression(bp-1))
         return self
@@ -510,7 +514,7 @@ def infix_r(id_, bp):
 # prefix "sigil" operators, like '!', '~', ...
 def prefix(id_, bp):
     def nud(self):
-        s = symbol("first")()
+        s = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(expression(bp-1)) # right-associative
         return self
@@ -528,7 +532,7 @@ def prefix(id_, bp):
 # prefix "verb" operators, i.e. that need a space before their operand like 'delete'
 def prefix_v(id_, bp):
     def nud(self):
-        s = symbol("first")()
+        s = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(expression(bp-1)) # right-associative
         return self
@@ -551,7 +555,7 @@ def preinfix(id_, bp):  # pre-/infix operators (+, -)
     # better give them a nud() for prefix pos
     def nud(self):
         self.set("left", "true")  # mark prefix position
-        first = symbol("first")()
+        first = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(first)
         first.childappend(expression())
         return self
@@ -574,7 +578,7 @@ def preinfix(id_, bp):  # pre-/infix operators (+, -)
 def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
     def nud(self):  # prefix
         self.set("left", "true")
-        s = symbol("first")()
+        s = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(expression())  # overgenerating! only lvals allowed
         return self
@@ -582,7 +586,7 @@ def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
 
     def led(self, left): # postfix
         # assert(left, lval)
-        s = symbol("first")()
+        s = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(left)
         return self
@@ -744,16 +748,16 @@ def nud(self):
 @method(symbol("?"))
 def led(self, left):
     # first
-    first = symbol("first")()
+    first = symbol("first")(token.get("line"), token.get("column"))
     first.childappend(left)
     self.childappend(first)
     # second
-    second = symbol("second")()
+    second = symbol("second")(token.get("line"), token.get("column"))
     second.childappend(expression())
     self.childappend(second)
     advance(":")
     # third
-    third = symbol("third")()
+    third = symbol("third")(token.get("line"), token.get("column"))
     third.childappend(expression())
     self.childappend(third)
     return self
@@ -789,7 +793,7 @@ def toJS(self):
 def led(self, left):
     if token.id != "identifier":
         SyntaxError("Expected an attribute name (pos %r)." % ((token.get("line"), token.get("column")),))
-    #variable = symbol("variable")()
+    #variable = symbol("variable")(token.get("line"), token.get("column"))
     #variable.childappend(left.getChild("identifier")) # unwrap from <variable/>
     #variable.childappend(left)
     #while True:
@@ -798,11 +802,11 @@ def led(self, left):
     #    if token.id != ".":
     #        break
     #    advance(".")
-    accessor = symbol("dotaccessor")()
-    s = symbol("first")()
+    accessor = symbol("dotaccessor")(token.get("line"), token.get("column"))
+    s = symbol("first")(token.get("line"), token.get("column"))
     accessor.childappend(s)
     s.childappend(left)
-    s = symbol("second")()
+    s = symbol("second")(token.get("line"), token.get("column"))
     accessor.childappend(s)
     s.childappend(expression(symbol(".").lbp)) 
         # i'm providing the rbp to expression() here explicitly, so "foo.bar(baz)" gets parsed
@@ -833,7 +837,7 @@ def getLeftmostOperand(self):
 # walk down to find the "right-most" identifier ('c' in a.b.c)
 @method(symbol("dotaccessor"))
 def getRightmostOperand(self):
-    ident = self.getChild("second")
+    ident = self.getChild("second").children[0]
     return ident # "left-leaning syntax tree (. (. a b) c)
 
 
@@ -866,13 +870,13 @@ symbol("("), symbol(")")
 
 @method(symbol("("))  # <call>
 def led(self, left):
-    call = symbol("call")()
+    call = symbol("call")(token.get("line"), token.get("column"))
     # operand
-    operand = symbol("operand")()
+    operand = symbol("operand")(token.get("line"), token.get("column"))
     call.childappend(operand)
     operand.childappend(left)
     # params - parse as group
-    params = symbol("params")()
+    params = symbol("params")(token.get("line"), token.get("column"))
     call.childappend(params)
     group = self.nud()
     for c in group.children:
@@ -889,7 +893,7 @@ def toJS(self):
 @method(symbol("("))  # <group>
 def nud(self):
     comma = False
-    group = symbol("group")()
+    group = symbol("group")(token.get("line"), token.get("column"))
     if token.id != ")":
         while True:
             if token.id == ")":
@@ -917,11 +921,11 @@ symbol("]")
 
 @method(symbol("["))             # "foo[0]", "foo[bar]", "foo['baz']"
 def led(self, left):
-    accessor = symbol("accessor")()
+    accessor = symbol("accessor")(token.get("line"), token.get("column"))
     # identifier
     accessor.childappend(left)
     # selector
-    key = symbol("key")()
+    key = symbol("key")(token.get("line"), token.get("column"))
     accessor.childappend(key)
     key.childappend(expression())
     advance("]")
@@ -929,7 +933,7 @@ def led(self, left):
 
 @method(symbol("["))
 def nud(self):
-    arr = symbol("array")()
+    arr = symbol("array")(token.get("line"), token.get("column"))
     if token.id != "]":
         while True:
             if token.id == "]":
@@ -974,14 +978,14 @@ symbol("}")
 
 @method(symbol("{"))                    # object literals
 def nud(self):
-    mmap = symbol("map")()
+    mmap = symbol("map")(token.get("line"), token.get("column"))
     if token.id != "}":
         while True:
             if token.id == "}":
                 break
             # key
             keyname = expression()
-            key = symbol("keyvalue")()
+            key = symbol("keyvalue")(token.get("line"), token.get("column"))
             key.set("key", keyname.get("value"))
             quote_type = keyname.get("detail", False)
             key.set("quote", quote_type if quote_type else '')
@@ -989,7 +993,7 @@ def nud(self):
             advance(":")
             # value
             keyval = expression()
-            val = symbol("value")()
+            val = symbol("value")(token.get("line"), token.get("column"))
             val.childappend(keyval)
             key.childappend(val)  # <value> is a child of <keyvalue>
             if token.id != ",":
@@ -1048,7 +1052,7 @@ def toJS(self):
 def block():
     t = token
     advance("{")
-    s = symbol("block")()
+    s = symbol("block")(token.get("line"), token.get("column"))
     s.childappend(t.std())  # the "{".std takes care of closing "}"
     return s
 
@@ -1074,14 +1078,14 @@ def nud(self):
         advance()
     # params
     assert token.id == "("
-    params = symbol("params")()
+    params = symbol("params")(token.get("line"), token.get("column"))
     self.childappend(params)
     group = expression()  # group parsing as helper
     for c in group.children:
         params.childappend(c)
     params.children = group.children
     # body
-    body = symbol("body")()
+    body = symbol("body")(token.get("line"), token.get("column"))
     self.childappend(body)
     if token.id == "{":
         body.childappend(block())
@@ -1148,9 +1152,9 @@ symbol("var")
 #
 @method(symbol("var"))
 def std(self):
-    vardecl = symbol("definitionList")()
+    vardecl = symbol("definitionList")(token.get("line"), token.get("column"))
     while True:
-        var = symbol("definition")()
+        var = symbol("definition")(token.get("line"), token.get("column"))
         vardecl.childappend(var)
         defn = expression()
         if defn.type not in ("identifier", "assignment"):
@@ -1229,34 +1233,34 @@ def std(self):
     if tokenStream.peek(2 if token.id=="var" else 1).id == "in":
         self.set("forVariant", "in")
         var_s = None
-        operation = symbol("in")()
+        operation = symbol("in")(token.get("line"), token.get("column"))
         operation.type = "operation"
         operation.set("operator", "IN")
         operation.set("value", "in")
         self.childappend(operation)
-        op_first = symbol("first")()
+        op_first = symbol("first")(token.get("line"), token.get("column"))
         operation.childappend(op_first)
         if token.id == "var":
-            var_s = symbol("definitionList")()
+            var_s = symbol("definitionList")(token.get("line"), token.get("column"))
             op_first.childappend(var_s)
             advance("var")
-            defn = symbol("definition")()
+            defn = symbol("definition")(token.get("line"), token.get("column"))
             var_s.childappend(defn)
             defn.childappend(expression(95))  # lbp higher than "in"
         else:
-            ident = symbol("identifier")()
+            ident = symbol("identifier")(token.get("line"), token.get("column"))
             op_first.childappend(ident)
             ident.set("value", token.get("value"))
             advance("identifier")
         advance("in")
-        op_second = symbol("second")()
+        op_second = symbol("second")(token.get("line"), token.get("column"))
         operation.childappend(op_second)
         op_second.childappend(expression())
         
     # for (;;)
     else:
         self.set("forVariant", "iter")
-        condition = symbol("expressionList")()
+        condition = symbol("expressionList")(token.get("line"), token.get("column"))
         self.childappend(condition)
         # init part
         init_part = None
@@ -1266,7 +1270,7 @@ def std(self):
             advance()
             init_part = t.std() # parse it like a 'var' stmt
         else:
-            exprList = symbol("expressionList")()
+            exprList = symbol("expressionList")(token.get("line"), token.get("column"))
             init_part = exprList
             lst = init_list()
             for assgn in lst:
@@ -1277,7 +1281,7 @@ def std(self):
         condition.childappend(expression())
         # update part
         advance(";")
-        exprList = symbol("expressionList")()
+        exprList = symbol("expressionList")(token.get("line"), token.get("column"))
         while token.id != ')':
             expr = expression(0)
             exprList.childappend(expr)
@@ -1287,7 +1291,7 @@ def std(self):
 
     # body
     advance(")")
-    body = symbol("body")()
+    body = symbol("body")(token.get("line"), token.get("column"))
     body.childappend(statementOrBlock())
     self.childappend(body)
     return self
@@ -1342,7 +1346,7 @@ def std(self):
     advance("(")
     self.childappend(expression())
     advance(")")
-    body = symbol("body")()
+    body = symbol("body")(token.get("line"), token.get("column"))
     body.childappend(statementOrBlock())
     self.childappend(body)
     return self
@@ -1366,7 +1370,7 @@ symbol("do")
 def std(self):
     self.type = "loop" # compat with Node.type
     self.set("loopType", "DO")
-    body = symbol("body")()
+    body = symbol("body")(token.get("line"), token.get("column"))
     body.childappend(statementOrBlock())
     self.childappend(body)
     advance("while")
@@ -1401,12 +1405,12 @@ def std(self):
     advance("(")
     self.childappend(expression(0))
     advance(")")
-    then_part = symbol("body")()
+    then_part = symbol("body")(token.get("line"), token.get("column"))
     then_part.childappend(statementOrBlock())
     self.childappend(then_part)
     if (token.id == "else"):
         advance("else")
-        else_part = symbol("body")()
+        else_part = symbol("body")(token.get("line"), token.get("column"))
         else_part.childappend(statementOrBlock())
         self.childappend(else_part)
     return self
@@ -1552,7 +1556,7 @@ def toJS(self):
 
 @method(symbol("new"))  # need to treat 'new' explicitly, for the awkward 'new Foo()' "call" syntax
 def nud(self):
-    s = symbol("first")()
+    s = symbol("first")(token.get("line"), token.get("column"))
     self.childappend(s)
     arg = expression(self.lbp-1)  # first, parse a normal expression (this excludes '()')
     if token.id == '(':  # if the next token indicates a call
@@ -1571,7 +1575,7 @@ def std(self):
     self.childappend(expression(0))
     advance(")")
     advance("{")
-    body = symbol("body")()
+    body = symbol("body")(token.get("line"), token.get("column"))
     self.childappend(body)
     while True:
         if token.id == "}": break
@@ -1595,7 +1599,7 @@ def std(self):
 
 def case_block():
     # we assume here that there is at least one statement to parse
-    s = symbol("statements")()
+    s = symbol("statements")(token.get("line"), token.get("column"))
     while True:
         if token.id in ("case", "default", "}"):
             break
@@ -1725,7 +1729,7 @@ symbol("label")
 def statement():
     # labeled statement
     if token.type == "identifier" and tokenStream.peek(1).id == ":": # label
-        s = symbol("label")()
+        s = symbol("label")(token.get("line"), token.get("column"))
         s.attributes = token.attributes
         advance()
         advance(":")
@@ -1749,7 +1753,7 @@ def statement():
             # and a stock symbol("infix",0) that terminates every expression() parse, like for
             # arrays, maps, etc.).
             if token.id == ',':
-                s1 = symbol("expressionList")()
+                s1 = symbol("expressionList")(token.get("line"), token.get("column"))
                 s1.childappend(s)
                 s = s1
                 while token.id == ',':
@@ -1791,7 +1795,7 @@ def statementOrBlock(): # for 'if', 'while', etc. bodies
         return statement()
 
 def statements():  # plural!
-    s = symbol("statements")()
+    s = symbol("statements")(token.get("line"), token.get("column"))
     while True:
         if token.id == "}" or token.id == "eof":
             break
@@ -1956,7 +1960,7 @@ class TreeGenerator(object):
 # - Interface -----------------------------------------------------------------
 
 def createSyntaxTree(tokenArr, fileId=''):
-    fileNode = symbol("file")()
+    fileNode = symbol("file")(0,0)
     fileNode.set("file", fileId)
     fileNode.childappend(TreeGenerator().parse(tokenArr))
     return fileNode
@@ -1968,7 +1972,7 @@ def test(x, program):
     global token, next, tokenStream
     print ">>>", program
     tokenArr = tokenizer.parseStream(program)
-    from pprint import pprint
+    #from pprint import pprint
     #pprint (tokenArr)
     tokenStream = TokenStream(tokenArr)
     next = iter(tokenStream).next

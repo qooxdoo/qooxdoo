@@ -216,7 +216,8 @@ Function %s(%s):
                 if child.type == "definitionList":
                     for definition in child.children:
                         if definition.type == "definition":
-                            yield (definition.getDefinee().get("value"), definition)
+                            definee = definition.getDefinee()
+                            yield (definee.get("value"), definee)
 
                 for (var, node) in Scope.declaredVariablesIterator(child):
                     yield (var, node)
@@ -260,13 +261,13 @@ Function %s(%s):
             isFirstChild     = False
             isVariableMember = False
 
-            if node.parent.isVar(): # (the old code added "accessor" for the types to check)
+            if node.parent.parent.isVar(): # (the old code added "accessor" for the types to check)
                 isVariableMember = True
                 isFirstChild = treeutil.checkFirstChainChild(node)
 
             # inside a variable only respect the first member
             if not isVariableMember or isFirstChild:
-                name = node.get("name", False)
+                name = node.get("value", False)
                 if name:
                     yield (name, node)
 

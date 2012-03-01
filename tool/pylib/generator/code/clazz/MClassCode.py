@@ -189,10 +189,11 @@ class MClassCode(object):
                 tree = self.optimize(None, optimize, variants, featuremap)
                 if optimize == ["comments"]:
                     compiled = self.serializeFormatted(tree)
-                    if compiled[-1:] != "\n": # assure trailing \n
-                        compiled += '\n'
                 else:
                     compiled = self.serializeCondensed(tree, format_)
+
+                if compiled[-1:] != "\n": # assure trailing \n
+                    compiled += ';\n'
 
                 if not "statics" in optimize:
                     cache.write(cacheId, compiled)

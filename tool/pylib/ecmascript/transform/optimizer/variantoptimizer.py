@@ -24,6 +24,7 @@
 import re, sys, operator as operators, types
 from ecmascript.frontend.treeutil import *
 from ecmascript.frontend          import treeutil
+from ecmascript.frontend.treegenerator  import symbol
 from misc                         import json
 
 global verbose
@@ -309,9 +310,9 @@ def __variantMatchKey(key, variantValue):
 # handles parent relation
 def reduceCall(callNode, value):
     # construct the value node
-    valueNode = tree.Node("constant")
+    valueNode = symbol("constant")(
+            callNode.get("line"), callNode.get("column"))
     valueNode.set("value", str(value))
-    valueNode.set("line", callNode.get("line"))
     if isinstance(value, types.StringTypes):
         valueNode.set("constantType","string")
         valueNode.set("detail", "doublequotes")
@@ -383,10 +384,10 @@ def reduceOperation(literalNode):
         operands.append(otherVal)
          
         result = cmpFcn(operands[0],operands[1])
-        resultNode = tree.Node("constant")
+        resultNode = symbol("constant")(
+            noperationNode.get("line"), noperationNode.get("column"))
         resultNode.set("constantType","boolean")
         resultNode.set("value", str(result).lower())
-        resultNode.set("line", noperationNode.get("line"))
 
     # order compares <, =<, ...
     elif operator in ["LT", "LE", "GT", "GE"]:
@@ -408,18 +409,18 @@ def reduceOperation(literalNode):
         operands[otherPosition] = otherVal
 
         result = cmpFcn(operands[0], operands[1])
-        resultNode = tree.Node("constant")
+        resultNode = symbol("constant")(
+            noperationNode.get("line"), noperationNode.get("column"))
         resultNode.set("constantType","boolean")
         resultNode.set("value", str(result).lower())
-        resultNode.set("line", noperationNode.get("line"))
 
     # logical ! (not)
     elif operator in ["NOT"]:
         result = not literalValue
-        resultNode = tree.Node("constant")
+        resultNode = symbol("constant")(
+            noperationNode.get("line"), noperationNode.get("column"))
         resultNode.set("constantType","boolean")
         resultNode.set("value", str(result).lower())
-        resultNode.set("line", noperationNode.get("line"))
 
     # logical operators &&, || -- Currently disabled, s. bug#4856
     elif False and operator in ["AND", "OR"]:

@@ -28,6 +28,8 @@ def search(node, verbose=False):
 
 
 def search_loop(node, stringMap={}, verbose=False):
+    #if stringMap is None:
+    #    stringMap = {}
     if node.type == "constant" and node.get("constantType") == "string":
         if verbose:
             pvalue = node.get("value")
@@ -35,17 +37,14 @@ def search_loop(node, stringMap={}, verbose=False):
                 pvalue = pvalue.encode("utf-8")
             print "      - Found: '%s'" % pvalue
 
-        # (no need to distinguish between double- and single-quoted strings)
-        #if node.get("detail") == "singlequotes":
-        #    quote = "'"
-        #elif node.get("detail") == "doublequotes":
-        #    quote = '"'
-
-        #value = "%s%s%s" % (quote, node.get("value"), quote)
-        value = node.get("value")
+        if node.get("detail") == "singlequotes":
+            quote = "'"
+        elif node.get("detail") == "doublequotes":
+            quote = '"'
+        value = "%s%s%s" % (quote, node.get("value"), quote)
 
         if value in stringMap:
-            stringMap[value] += 1
+            stringMap[value] += 1  # occurrence count?!
         else:
             stringMap[value] = 1
 
@@ -118,16 +117,13 @@ def sort(stringMap):
 
 def replace(node, stringList, var="$", verbose=False):
     if node.type == "constant" and node.get("constantType") == "string":
-        #if node.get("detail") == "singlequotes":
-        #    quote = "'"
-        #elif node.get("detail") == "doublequotes":
-        #    quote = '"'
+        if node.get("detail") == "singlequotes":
+            quote = "'"
+        elif node.get("detail") == "doublequotes":
+            quote = '"'
+        oldvalue = "%s%s%s" % (quote, node.get("value"), quote)
 
-        #oldvalue = "%s%s%s" % (quote, node.get("value"), quote)
-        oldvalue = node.get("value")
-
-        pos = 0
-        for item in stringList:
+        for pos,item in enumerate(stringList):
             if item["value"] == oldvalue:
                 newvalue = "%s[%s]" % (var, pos)  # this is only for output, and is bogus
 
@@ -141,14 +137,13 @@ def replace(node, stringList, var="$", verbose=False):
 
 
                 # generate identifier
-                replacement_ident = treeutil.compileString("SSSS_%s", pos).getFirstChild()
+                replacement_ident = treeutil.compileString("SSSS_%s" % pos)
                 replacement_ident.set("line", node.get("line"))
                 replacement_ident.set("column", node.get("column"))
 
                 # replace node
                 node.parent.replaceChild(node, replacement_ident)
                 break
-            pos += 1
 
     if check(node, verbose):
         for child in node.children:
@@ -162,7 +157,7 @@ def replacement(stringList):
 
     repl = []
     repl += ["var "]
-    a = [("SSSS_%s=%s" % (pos, item["value"])) for pos, item in enumerate(stringList)]
+    a = [('SSSS_%s=%s' % (pos, item["value"])) for pos, item in enumerate(stringList)]
     repl += [','.join(a)]
     repl += [';']
 

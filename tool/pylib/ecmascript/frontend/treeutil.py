@@ -701,7 +701,7 @@ def getClassName(classNode):
 # expression, but the ones you come across when going from an identifier
 # node upwards in the tree.
 ChainParentTypes = set([
-    "key", "accessor", "dotaccessor",
+    "accessor", "dotaccessor",
     "first", "second",
     "call", "operand",
     ])
@@ -737,7 +737,6 @@ def findLeftmostChild(node):
 def checkFirstChainChild(node):
     chainRoot = findChainRoot(node)
     leftmostIdentifier = findLeftmostChild(chainRoot)
-    assert leftmostIdentifier.type in ("identifier", "constant")
     # compare to current node
     return leftmostIdentifier == node
 
