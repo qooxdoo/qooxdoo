@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.bom.Storage",
     updateList : function() {
       var list = document.getElementById("list");
       list.innerHTML = "";
-      this.__storage.iterate(function(key, value) {
+      this.__storage.forEach(function(key, value) {
         list.innerHTML += key + ":" + value + "<br>";
       }, list);
       if (list.innerHTML == "") {
