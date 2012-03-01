@@ -353,7 +353,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
       
       if (qx.core.Environment.get("testrunner.performance") &&
         qx.Class.hasMixin(this.constructor, testrunner.view.MPerformance) &&
-        console && console.profile)
+        window.console && window.console.profile)
       {
         var nativeProfilingToggle = new qx.ui.toolbar.CheckBox(this.__app.tr("Native Profiling"), "icon/22/actions/document-open-recent.png");
         nativeProfilingToggle.setToolTipText("Additionally use the browser's native" 
