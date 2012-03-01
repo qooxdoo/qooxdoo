@@ -159,23 +159,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
       check: "String"
     },
 
-    /**
-     * Map of headers to be send as part of the request. Both
-     * key and value are serialized to string.
-     *
-     * Note: Depending on the HTTP method used (e.g. POST),
-     * additional headers may be set automagically.
-     *
-     * Also note: This property is deprecated. Please use
-     * {@link #setRequestHeader} instead.
-     *
-     * @deprecated since 1.6.
-     *
-     */
-    requestHeaders: {
-      check: "Map",
-      nullable: true
-    },
 
     /**
      * Timeout limit in milliseconds. Default (0) means no limit.
@@ -512,36 +495,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
       }
     },
 
-    // DEPRECATION OF requestHeaders PROPERTY.
-
-    /**
-     * Sets the user value of the property <code>requestHeaders</code>.
-     *
-     * @deprecated since 1.6.
-     *
-     * @param value {Map} New value for property <code>requestHeaders</code>.
-     */
-    setRequestHeaders: function(value) {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use setRequestHeader() instead.");
-
-      qx.core.Assert.assertObject(value);
-      this.__requestHeadersDeprecated = value;
-    },
-
-    /**
-     * Returns the (computed) value of the property <code>requestHeaders</code>.
-     *
-     * @deprecated since 1.6.
-     *
-     * @return {Map} (Computed) value of <code>requestHeaders</code>.
-     */
-    getRequestHeaders: function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use getRequestHeader() instead.");
-
-      return this.__requestHeadersDeprecated;
-    },
 
     /*
     ---------------------------------------------------------------------------

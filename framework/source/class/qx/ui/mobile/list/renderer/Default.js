@@ -103,19 +103,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
      * Returns the subtitle widget which is used for this renderer.
      *
      * @return {qx.ui.mobile.basic.Label} The subtitle widget
-     * @deprecated since 1.6: Please use getSubtitleWidget instead.
-     */
-    getSubTitleWidget : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
-      return this.getSubtitleWidget();
-    },
-
-
-    /**
-     * Returns the subtitle widget which is used for this renderer.
-     *
-     * @return {qx.ui.mobile.basic.Label} The subtitle widget
      */
     getSubtitleWidget : function()
     {
@@ -142,19 +129,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     setTitle : function(title)
     {
       this.__title.setValue(title);
-    },
-
-
-    /**
-     * Sets the value of the subtitle widget.
-     *
-     * @param subTitle {String} The value to set
-     * @deprecated since 1.6: Please use setSubtitle instead.
-     */
-    setSubTitle : function(subTitle)
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
-      this.setSubtitle(subTitle);
     },
 
 
