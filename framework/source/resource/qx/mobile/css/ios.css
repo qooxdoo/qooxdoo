@@ -5,7 +5,8 @@
   margin: 0;
   padding: 0;
 }
-html, body {
+html,
+body {
   height: 100%;
 }
 .root {
@@ -29,7 +30,9 @@ html, body {
   left: 0;
   width: 100%;
 }
-.selectable, input, textarea {
+.selectable,
+input,
+textarea {
   -webkit-user-select: auto;
   -moz-user-select: auto;
   user-select: auto;
@@ -74,7 +77,8 @@ html, body {
 .out {
   z-index: 0;
 }
-.in, .out {
+.in,
+.out {
   -webkit-animation-timing-function: ease-in-out;
   -moz-animation-timing-function: ease-in-out;
   animation-timing-function: ease-in-out;
@@ -1020,7 +1024,8 @@ html, body {
   -moz-box-flex: 0;
   box-flex: 0;
 }
-.boxFlex1, .boxFlex {
+.boxFlex1,
+.boxFlex {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
@@ -1047,7 +1052,8 @@ html, body {
 .transparent {
   opacity: 0 !important;
 }
-h1, h2 {
+h1,
+h2 {
   font-weight: bold;
   font-size: 0.8em;
 }
@@ -1085,7 +1091,8 @@ ul li .subtitle {
   font-weight: normal;
   font-size: 0.8em;
 }
-li:first-child, li:first-child a {
+li:first-child,
+li:first-child a {
   border-top: 0;
 }
 .button {
@@ -1115,6 +1122,7 @@ li:first-child, li:first-child a {
 }
 .toolbar-button .label {
   height: auto;
+  padding-top: 4px;
 }
 .list-itemimage {
   margin-right: 7px;
@@ -1156,10 +1164,13 @@ li:first-child, li:first-child a {
 .toggleButton > div.checked {
   left: 0px;
 }
-input, select {
+input,
+select {
   vertical-align: middle;
 }
-input, select, textarea {
+input,
+select,
+textarea {
   font-family: Helvetica;
   font-size: 0.9em;
 }
@@ -1187,7 +1198,9 @@ ul.form li * {
   white-space: normal;
   text-overflow: ellipsis;
 }
-input[type="text"], input[type="password"], textarea {
+input[type="text"],
+input[type="password"],
+textarea {
   -webkit-appearance: textarea;
   -moz-appearance: textarea;
   appearance: textarea;
@@ -1199,12 +1212,15 @@ textarea {
   width: 100%;
   resize: none;
 }
-input[type="checkbox"], input[type="radio"] {
+input[type="checkbox"],
+input[type="radio"] {
   margin: 0;
   color: #324f85;
   padding: 10px 10px;
 }
-input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
+input[type="text"].invalid,
+input[type="password"].invalid,
+textarea.invalid {
   border: 1px solid red;
 }
 .formElementError {
@@ -1235,7 +1251,8 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
   padding-left: 10px;
   padding-right: 10px;
 }
-.navigationbar-button, .navigationbar-backbutton {
+.navigationbar-button,
+.navigationbar-backbutton {
   text-align: center;
   cursor: pointer;
   width: auto;
@@ -1378,10 +1395,13 @@ input[type="checkbox"] {
   background-image: linear-gradient(top, #6b89b2, #50709a 50%, #476489 51%, #3e5779);
   text-shadow: #364b68 0 -1px 0;
 }
-a:hover, a:active {
+a:hover,
+a:active {
   outline: none;
 }
-a, a:active, a:visited {
+a,
+a:active,
+a:visited {
   color: #4c566c;
 }
 a:hover {
@@ -1432,13 +1452,15 @@ ul li {
 ul li.arrow {
   background: url("../icon/ios/arrow.png") no-repeat right center;
 }
-ul li.active.arrow, ul li.selected.arrow {
+ul li.active.arrow,
+ul li.selected.arrow {
   background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, from(#4583fd), to(#194ae4));
   background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-linear-gradient(top, #4583fd, #194ae4);
   background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -moz-linear-gradient(top, #4583fd, #194ae4);
   background: url("../icon/ios/arrow_pressed.png") no-repeat right center, linear-gradient(to bottom, #4583fd, #194ae4);
 }
-ul li.active, ul li.selected {
+ul li.active,
+ul li.selected {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#4583fd), to(#194ae4));
   /* Safari 4+, Chrome 2+ */
 
@@ -1456,12 +1478,14 @@ ul li.active, ul li.selected {
 ul li .subtitle {
   color: #585858;
 }
-li:first-child, li:first-child a {
+li:first-child,
+li:first-child a {
   -webkit-border-radius: 8px 8px 0 0;
   -moz-border-radius: 8px 8px 0 0;
   border-radius: 8px 8px 0 0;
 }
-li:last-child, li:last-child a {
+li:last-child,
+li:last-child a {
   -webkit-border-radius: 0 0 8px 8px;
   -moz-border-radius: 0 0 8px 8px;
   border-radius: 0 0 8px 8px;
@@ -1481,6 +1505,7 @@ li:last-child, li:last-child a {
   height: 30px;
   font-size: 17px;
   font-weight: bold;
+  line-height: 30px;
 }
 .button.active {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#4583fd), to(#194ae4));
@@ -1500,7 +1525,9 @@ li:last-child, li:last-child a {
 ul.form {
   margin-bottom: 10px;
 }
-input[type="text"], input[type="password"], textarea {
+input[type="text"],
+input[type="password"],
+textarea {
   color: #777;
   background: #fff;
   border: 0;
@@ -1551,7 +1578,8 @@ input[type="text"], input[type="password"], textarea {
   height: 42px !important;
   line-height: 45px;
 }
-.tabButton.active, .tabButton.selected {
+.tabButton.active,
+.tabButton.selected {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#393939), color-stop(50%, #292929), color-stop(51%, #1d1d1d), to(#1c1c1c));
   background-image: -webkit-linear-gradient(top, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
   background-image: -moz-linear-gradient(top, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
@@ -1845,4 +1873,7 @@ input[type="checkbox"]:checked {
 }
 .dialogTitleUnderline:after {
   display: none;
+}
+.selectbox {
+  margin-left: 2px;
 }

@@ -14,6 +14,7 @@
 
    Authors:
      * Gabriel Munteanu (gabios)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -75,6 +76,23 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   construct : function()
   {
     this.base(arguments);
+    
+    // Create the list with a delegate that
+    // configures the list item.
+    this.__selectionList = new qx.ui.mobile.list.List({
+      configureItem : function(item, data, row)
+      {
+        item.setTitle(data);
+        item.setShowArrow(false);
+      }
+    });
+
+    // Add an changeSelection event
+    this.__selectionList.addListener("changeSelection", this.__closeSelectionDialog, this);
+
+    // Selection dialog creation.
+    this.__selectionDialog = new qx.ui.mobile.dialog.Dialog(this.__selectionList);
+    
   },
 
 
@@ -110,16 +128,70 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   members :
   {
     __selectedIndex : null,
+    
+    __selectionDialog : null,
+    
+    __selectionList : null,
+    
+    __selectionDialogTitle : null,
 
     // overridden
     _getTagName : function()
     {
       return "select";
     },
+    
+    
+    // overridden
+    _createContainerElement : function()
+    {
+      var containerElement = this.base(arguments);
+      
+      // Prevent default behaviour, for displaying own SelectionDialog.
+      var preventDefault = qx.bom.Event.preventDefault;
+
+      var showSelectionDialog = qx.lang.Function.bind(this.__showSelectionDialog, this);
+
+      qx.bom.Event.addNativeListener(containerElement, "mousedown", preventDefault, false);
+      qx.bom.Event.addNativeListener(containerElement, "mouseup", preventDefault, false);
+      qx.bom.Event.addNativeListener(containerElement, "click", preventDefault, false);
+      qx.bom.Event.addNativeListener(containerElement, "focus", preventDefault, false);
+
+      qx.bom.Event.addNativeListener(containerElement, "mousedown", showSelectionDialog, false);
+      qx.bom.Event.addNativeListener(containerElement, "focus", showSelectionDialog, false);
+
+      return containerElement;
+    },
+    
+    
+    /**
+     * Refreshs dialogs list model, and display the selectionDialog.
+     */
+    __showSelectionDialog : function (e) {
+      this.__selectionList.setModel(this.getModel());
+      
+      if(this.__selectionDialogTitle) {
+        this.__selectionDialog.setTitle(this.__selectionDialogTitle);
+      }
+      
+      this.__selectionDialog.show();
+    },
+    
+    
+    /**
+     * Closes the selection dialog, changes the selectedIndex, and triggers
+     * rendering of SelectBox.
+     */
+    __closeSelectionDialog : function (evt) {
+      this.__selectedIndex = evt.getData();
+      this._render();
+      this.__selectionDialog.hide();
+    },
 
 
     /**
      * Returns the selected value of the element
+     * @return value {String} the value of the selection
      */
     getSelection : function() {
       return this.getValue();
@@ -133,13 +205,22 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     setSelection : function(value) {
       this.setValue(value);
     },
+    
+    
+    /**
+    * Sets the SelectionDialog title
+    * @param value {String} title of SelectionDialog
+    */
+    setSelectionDialogTitle : function(value) {
+      this.__selectionDialogTitle = value;
+    },
 
 
     /**
      * Sets the value of this selectbox.
      * It is called by setValue method of qx.ui.mobile.form.MValue mixin.
      * Implements the way the value is set for the element.
-     * @param value {Boolean} the new value of the selectbox
+     * @param value {String} the new value of the selectbox
      */
     _setValue : function(value) {
       var model = this.getModel();
@@ -179,7 +260,20 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       if (old != null) {
         old.removeListener("change", this._render, this);
       }
+      
       this._render();
+    },
+    
+    /*
+    *****************************************************************************
+        DESTRUCTOR
+    *****************************************************************************
+    */
+   
+    destruct : function()
+    {
+      this.__unregisterEventListener();
+      this._disposeObjects("__selectionDialog","__selectionList");
     }
   }
 });
