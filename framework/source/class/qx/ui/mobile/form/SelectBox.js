@@ -76,23 +76,16 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   construct : function()
   {
     this.base(arguments);
-    
+
+    this._createSelectionList();
+
     // Create the list with a delegate that
     // configures the list item.
-    this.__selectionList = new qx.ui.mobile.list.List({
-      configureItem : function(item, data, row)
-      {
-        item.setTitle(data);
-        item.setShowArrow(false);
-      }
-    });
-
-    // Add an changeSelection event
-    this.__selectionList.addListener("changeSelection", this.__closeSelectionDialog, this);
+    this.__selectionList = this._createSelectionList();
 
     // Selection dialog creation.
-    this.__selectionDialog = new qx.ui.mobile.dialog.Dialog(this.__selectionList);
-    
+    this.__selectionDialog = this._createSelectionDialog(this.__selectionList);
+
   },
 
 
@@ -128,11 +121,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   members :
   {
     __selectedIndex : null,
-    
     __selectionDialog : null,
-    
     __selectionList : null,
-    
     __selectionDialogTitle : null,
 
     // overridden
@@ -140,13 +130,13 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     {
       return "select";
     },
-    
-    
+
+
     // overridden
     _createContainerElement : function()
     {
       var containerElement = this.base(arguments);
-      
+
       // Prevent default behaviour, for displaying own SelectionDialog.
       var preventDefault = qx.bom.Event.preventDefault;
 
@@ -162,22 +152,56 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
       return containerElement;
     },
-    
-    
+
+
+    /**
+     * Creates the selection list. Override this to customize the widget.
+     *
+     * @return {qx.ui.mobile.list.List} The selection list
+     */
+    _createSelectionList : function() {
+      var self = this;
+      var selectionList = new qx.ui.mobile.list.List({
+        configureItem : function(item, data, row)
+        {
+          item.setTitle(data);
+          item.setShowArrow(false);
+          item.setSelected(self.__selectedIndex == row);
+        }
+      });
+
+      // Add an changeSelection event
+      selectionList.addListener("changeSelection", this.__closeSelectionDialog, this);
+      return selectionList;
+    },
+
+
+    /**
+     * Creates the selection dialog. Override this to customize the widget.
+     *
+     * @param {qx.ui.mobile.list.List} The selection list that should be added to the dialog
+     * @return {qx.ui.mobile.dialog.Dialog} The selection list
+     */
+    _createSelectionDialog : function(selectionList) {
+      return new qx.ui.mobile.dialog.Dialog(selectionList);
+    },
+
+
     /**
      * Refreshs dialogs list model, and display the selectionDialog.
      */
     __showSelectionDialog : function (e) {
+      this.__selectionList.setModel(null);
       this.__selectionList.setModel(this.getModel());
-      
+
       if(this.__selectionDialogTitle) {
         this.__selectionDialog.setTitle(this.__selectionDialogTitle);
       }
-      
+
       this.__selectionDialog.show();
     },
-    
-    
+
+
     /**
      * Closes the selection dialog, changes the selectedIndex, and triggers
      * rendering of SelectBox.
@@ -205,8 +229,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     setSelection : function(value) {
       this.setValue(value);
     },
-    
-    
+
+
     /**
     * Sets the SelectionDialog title
     * @param value {String} title of SelectionDialog
@@ -256,20 +280,20 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param old {qx.data.Array?}, the old model
      */
     _applyModel : function(value, old){
-      value.addListener("change", this._render, this);
+      value.addListener("changeBubble", this._render, this);
       if (old != null) {
-        old.removeListener("change", this._render, this);
+        old.removeListener("changeBubble", this._render, this);
       }
-      
+
       this._render();
     },
-    
+
     /*
     *****************************************************************************
         DESTRUCTOR
     *****************************************************************************
     */
-   
+
     destruct : function()
     {
       this.__unregisterEventListener();
