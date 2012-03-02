@@ -44,7 +44,7 @@ import sys, os, re, types, string
 from ecmascript.frontend.SyntaxException import SyntaxException
 from ecmascript.frontend.tree            import Node
 from ecmascript.frontend.Scanner         import IterObject, LQueue, LimLQueue, is_last_escaped
-from ecmascript.frontend                 import lang
+from ecmascript.frontend                 import lang, tokenizer
 from misc                                import filetool
 from misc.NameSpace                      import NameSpace
 
@@ -1966,6 +1966,11 @@ def createSyntaxTree(tokenArr, fileId=''):
     return fileNode
 
 
+# quick high-level frontend
+def parse(string_):
+    ts = tokenizer.parseStream(string_)
+    return TreeGenerator().parse(ts)
+
 # - Main ----------------------------------------------------------------------
 
 def test(x, program):
@@ -1995,7 +2000,6 @@ def test(x, program):
 
 
 if __name__ == "__main__":
-    from ecmascript.frontend import tokenizer
     if len(sys.argv)>1:
         arg1 = sys.argv[1]
         p = TreeGenerator()

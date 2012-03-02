@@ -292,7 +292,7 @@ class MClassDependencies(object):
 
     def isUnknownClass(self, assembled, node, fileId):
         # check name in 'new ...' position
-        if (node.hasParentContext("instantiation/*/*/operand")
+        if (treeutil.isNEWoperand(node)
         # check name in "'extend' : ..." position
         or (node.hasParentContext("keyvalue/*") and node.parent.parent.get('key') == 'extend')):
             # skip built-in classes (Error, document, RegExp, ...)
@@ -308,7 +308,7 @@ class MClassDependencies(object):
         
 
     ##
-    # Checks if the required class is known, and the reference to is in a
+    # Checks if the required class is known, and the reference to it is in a
     # context that is executed at load-time
     def followCallDeps(self, node, fileId, depClassName, inLoadContext):
         
@@ -316,10 +316,8 @@ class MClassDependencies(object):
             pchn = node.getParentChain()
             pchain = "/".join(pchn)
             return (
-                #pchain.endswith("keyvalue/value/call/operand")               # limited version
-                #or pchain.endswith("instantiation/expression/call/operand")  # limited version
-                pchain.endswith("call/operand")                 # it's a function call
-                or pchain.endswith("instantiation/expression")  # like "new Date" (no parenthesies, but constructor called anyway)
+                pchain.endswith("call/operand")  # it's a function call
+                or treeutil.isNEWoperand(node)   # it's a 'new' operation
                 )
 
         if (inLoadContext
@@ -370,8 +368,11 @@ class MClassDependencies(object):
                     className = self.id
                 elif inDefer and className in DEFER_ARGS:
                     className = self.id
+                if self.id=="feedreader.model.FeedFolder" and className=="qx.data.Array":
+                    #import pydb; pydb.debugger()
+                    pass
                 if not classAttribute:  # see if we have to provide 'construct'
-                    if node.hasParentContext("instantiation/*/*/operand"): # 'new ...' position
+                    if treeutil.isNEWoperand(node):
                         classAttribute = 'construct'
                 # Can't do the next; it's catching too many occurrences of 'getInstance' that have
                 # nothing to do with the singleton 'getInstance' method (just grep in the framework)
@@ -892,6 +893,7 @@ class MClassDependencies(object):
 
             if isinstance(attribNode, Node):
 
+                #import pydb; pydb.debugger()
                 if (attribNode.getChild("function", False)       # is it a function(){..} value?
                     and not dependencyItem.isCall                # and the reference was no call
                    ):

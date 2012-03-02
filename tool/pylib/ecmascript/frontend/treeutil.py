@@ -741,3 +741,12 @@ def checkFirstChainChild(node):
     return leftmostIdentifier == node
 
 
+def isNEWoperand(node):
+    operation = None
+    if node.hasParentContext("operation/first/call/operand"):
+        operation = node.parent.parent.parent.parent
+    elif node.hasParentContext("operation/first"):
+        operation = node.parent.parent
+    return operation and operation.type=="operation" and operation.get("operator",0)=="NEW"
+
+
