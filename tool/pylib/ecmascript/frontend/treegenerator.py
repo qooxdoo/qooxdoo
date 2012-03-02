@@ -48,7 +48,7 @@ from ecmascript.frontend                 import lang
 from misc                                import filetool
 from misc.NameSpace                      import NameSpace
 
-tag = 2  # to discriminate tree generators
+tag = 1  # to discriminate tree generators
 
 identifier_regex =re.compile(lang.IDENTIFIER_REGEXP)
 

@@ -32,7 +32,7 @@ import sys, os, re
 from misc import filetool
 from misc import json
 from ecmascript.backend import api
-from ecmascript.frontend import tree
+from ecmascript.frontend import tree, treegenerator_2
 
 
 
@@ -55,8 +55,7 @@ class ApiLoader(object):
         self._console.debug("Extracting API data: %s..." % fileId)
 
         self._console.indent()
-        #tree = self._treeLoader.getTree(fileId)
-        tree = self._classesObj[fileId].tree()
+        tree = self._classesObj[fileId].tree(treegenerator_2)
         (data, hasError) = api.createDoc(tree)
         self._console.outdent()
         
