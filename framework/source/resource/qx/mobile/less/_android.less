@@ -8,15 +8,15 @@
 
 .standard-button {
   @button-color: #f4f4f4;
-  @height: 20px; 
-  
+  @height: 20px;
+
   .border-radius(4px);
   cursor: pointer;
-  width: auto; 
+  width: auto;
   height: 20px;
   color: #222222;
-  text-align: center; 
-  
+  text-align: center;
+
   // Less "darken method" helps to make use of android-button easier. It takes button-color and darkens it. No second gradient color is needed.
   #gradient > .vertical(@button-color, darken(@button-color, 20%));
   border: 1px solid #555555;
@@ -199,14 +199,14 @@ textarea {
 
 .tabButton {
   .standard-button();
-   
+
    // This is for equal sizes od the buttons when aded in a toolbar or
    // other container with flex :1
   width: 0;
-  
+
   height:45px;
   line-height:45px;
-  
+
   font-size: 17px;
   .background-clip(padding-box);
   margin: 0 !important;
@@ -227,12 +227,12 @@ textarea {
 
 .navigationbar-button, .navigationbar-backbutton {
   .standard-button();
-  
+
   .background-clip(padding-box);
-  
+
   height: 30px;
   line-height: 30px;
-  
+
   font-size:12px;
 
   min-width: 40px;
@@ -240,7 +240,7 @@ textarea {
   // see http://bugzilla.qooxdoo.org/show_bug.cgi?id=5961.
   min-width: -moz-calc(40px + 10px);
   //height: -moz-calc(30px + 6px);
-  
+
   padding: 0 3px;
 }
 
@@ -311,21 +311,21 @@ input[type="checkbox"]:checked {
 }
 
 @-webkit-keyframes spinnerRotate {
-	from {
-		.transform(rotate(0deg));
-	}
-	to {
-		.transform(rotate(360deg));
-	}
+  from {
+    .transform(rotate(0deg));
+  }
+  to {
+    .transform(rotate(360deg));
+  }
 }
 
 @-moz-keyframes spinnerRotate {
-	from {
-		.transform(rotate(0deg));
-	}
-	to {
-		.transform(rotate(360deg));
-	}
+  from {
+    .transform(rotate(0deg));
+  }
+  to {
+    .transform(rotate(360deg));
+  }
 }
 
 //

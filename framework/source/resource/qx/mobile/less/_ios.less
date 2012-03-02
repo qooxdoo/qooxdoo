@@ -27,46 +27,46 @@
 #button {
   .nav {
       .border-radius(5px);
-      
+
       height: 30px;
       line-height: 30px;
       font-size: 12px;
       color: #ffffff;
       position: relative;
       overflow: visible;
-      
+
       text-overflow: ellipsis;
       text-decoration: none;
       white-space: nowrap;
       background: none;
       padding: 0 10px;
       text-shadow: #3e5779 0 -1px 0;
-      
+
       -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
       -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
       box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-    
+
       border: 1px solid @ios-button-bordercolor;
-    
+
       background-image: none;
-      
+
       background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, @ios-button-gradient-stop-1), color-stop(50%, @ios-button-gradient-stop-2), color-stop(51%, @ios-button-gradient-stop-3), color-stop(100%, @ios-button-gradient-stop-4));
       background-image: -webkit-linear-gradient(top, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
       background-image: -moz-linear-gradient(top, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%,@ios-button-gradient-stop-4);
       background-image: linear-gradient(top, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
   }
-  
+
   .nav-active {
       border-color: @ios-button-active-bordercolor;
       background-color: @ios-button-active-backgroundcolor;
-      
+
       background-image: none;
-      
+
       background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, @ios-button-active-gradient-stop-1), color-stop(50%, @ios-button-active-gradient-stop-2), color-stop(51%, @ios-button-active-gradient-stop-3), color-stop(100%, @ios-button-active-gradient-stop-4));
       background-image: -webkit-linear-gradient(top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
       background-image: -moz-linear-gradient(top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
       background-image: linear-gradient(top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
-      
+
       text-shadow: #364b68 0 -1px 0;
   }
 }
@@ -279,57 +279,57 @@ input[type="text"], input[type="password"], textarea {
 
 .navigationbar-backbutton {
   #button > .nav();
-  
+
   max-width: 60px;
   margin-left: 15px;
   overflow: visible;
   padding-left: 5px;
-  
+
   // No left border, because this is the place for arrowhead.
   border-left:0;
 }
 
-.navigationbar-backbutton.active { 
+.navigationbar-backbutton.active {
    #button > .nav-active();
 }
 
 .navigationbar-backbutton:before {
   // Arrowhead of back button
   @arrowhead-size: 21px;
-  
+
   content: '';
   position:absolute;
   width: @arrowhead-size;
   height: @arrowhead-size;
   left:-6px;
   top:-4px;
-  
+
   // Rotate arrowhead counter-clockwise 45 deg
   -webkit-transform: rotate(45deg) translate3d(0.2px, 0, 0);
   -moz-transform: rotate(45deg) translate3d(0.2px, 0, 0);
   transform: rotate(45deg) translate3d(0.2px, 0, 0);
-  
+
   -webkit-transform-origin: 0;
   -moz-transform-origin: 0;
   transform-origin: 0;
-  
+
   background-image: none;
-  background-color: @ios-button-backgroundcolor; 
-  
+  background-color: @ios-button-backgroundcolor;
+
   background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, @ios-button-gradient-stop-1), color-stop(50%, @ios-button-gradient-stop-2), color-stop(51%, @ios-button-gradient-stop-3), color-stop(100%, @ios-button-gradient-stop-4));
   background-image: -webkit-linear-gradient(top left,@ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
   background-image: -moz-linear-gradient(top left, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
   background-image: linear-gradient(top left, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
-  
+
   background-size: 100% 98%;
-  
+
   -webkit-border-radius: 0 0 0 2px;
   -moz-border-radius: 0 0 0 2px;
   border-radius: 0 0 0 2px;
-  
+
   border-left: 1px solid @ios-button-bordercolor;
   border-bottom: 1px solid @ios-button-bordercolor;
-  
+
   -webkit-box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
   -moz-box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
   box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
@@ -339,7 +339,7 @@ input[type="text"], input[type="password"], textarea {
   // Arrowhead active
   background-color: @ios-button-active-backgroundcolor;
   border-color: @ios-button-active-bordercolor;
-  
+
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, @ios-button-active-gradient-stop-1), color-stop(50%, @ios-button-active-gradient-stop-2), color-stop(51%, @ios-button-active-gradient-stop-3), color-stop(100%, @ios-button-active-gradient-stop-4));
   background-image: -webkit-linear-gradient(left top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
   background-image: -moz-linear-gradient(left top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
@@ -453,21 +453,21 @@ input[type="checkbox"]:checked {
 }
 
 @-webkit-keyframes spinnerRotate {
-	from {
-		.transform(rotate(0deg));
-	}
-	to {
-		.transform(rotate(360deg));
-	}
+  from {
+    .transform(rotate(0deg));
+  }
+  to {
+    .transform(rotate(360deg));
+  }
 }
 
 @-moz-keyframes spinnerRotate {
-	from {
-		.transform(rotate(0deg));
-	}
-	to {
-		.transform(rotate(360deg));
-	}
+  from {
+    .transform(rotate(0deg));
+  }
+  to {
+    .transform(rotate(360deg));
+  }
 }
 
 //
