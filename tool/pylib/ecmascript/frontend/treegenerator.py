@@ -84,7 +84,10 @@ ASSIGN_OPERATORS = ["ASSIGN", "ASSIGN_ADD", "ASSIGN_SUB", "ASSIGN_MUL", \
 
 LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
 
-StmntTerminatorTokens = ("eol", ";", "}")
+StmntTerminatorTokens = ("eol", ";", "}", "eof")
+
+def expressionTerminated():
+    return token.id in StmntTerminatorTokens or tokenStream.eolBefore
 
 class SyntaxTreeError(SyntaxError): pass
 
@@ -98,6 +101,7 @@ class TokenStream(IterObject):
         self.tpos       = 0  # token position in stream
         self.max_look_behind = 10
         self.outData    = LimLQueue(self.max_look_behind)
+        self.eolBefore  = False
         super(TokenStream, self).__init__(inData)
 
     def resetIter(self):
@@ -148,17 +152,19 @@ class TokenStream(IterObject):
         # provided the tokens with the right attributes (esp. name, detail).
 
         # tok isinstanceof Token()
-        if (tok.name == "white" # TODO: 'white'?!
+        if (tok.name == "white"
             or tok.name == 'comment'):
-            pass
+            #pass
+            s = symbol_table.get(tok.name)()
+        elif tok.name == "eol":
+            self.line += 1                  # increase line count
+            #pass # don't yield this (yet)
+            s = symbol_table.get("eol")()
+
         elif tok.name == "eof":
             symbol = symbol_table.get("eof")
             s = symbol()
             s.value = ""
-        elif tok.name == "eol":
-            self.line += 1                  # increase line count
-            pass # don't yield this (yet)
-            #s = symbol_table.get("eol")()
         # 'operation' nodes
         elif tok.detail in (
             MULTI_TOKEN_OPERATORS
@@ -226,8 +232,18 @@ class TokenStream(IterObject):
             s = self._symbolFromToken(tok)
             if not s:
                 continue
-            self.outData.appendleft(s)
-            yield s
+            elif s.type in ("white", "comment"):
+                continue
+            elif s.type == "eol":
+                self.eolBefore = 1
+                continue
+            else:
+                self.eolBefore = 2 if self.eolBefore == 1 else 0
+                    # the next token after 'eol' sees eolBefore==1, but must not reset
+                    # it before it has been yielded, so the parser can react on it; the
+                    # token after next will then reset it
+                self.outData.appendleft(s)
+                yield s
 
 
 class Token(object):
@@ -1505,7 +1521,8 @@ symbol("break")
 
 @method(symbol("break"))
 def std(self):
-    if token.id not in StmntTerminatorTokens:
+    #if token.id not in StmntTerminatorTokens:
+    if not expressionTerminated():
         self.childappend(expression(0))   # this is over-generating! (should be 'label')
     #advance(";")
     return self
@@ -1523,7 +1540,8 @@ symbol("continue")
 
 @method(symbol("continue"))
 def std(self):
-    if token.id not in StmntTerminatorTokens:
+    #if token.id not in StmntTerminatorTokens:
+    if not expressionTerminated():
         self.childappend(expression(0))   # this is over-generating! (should be 'label')
     #advance(";")
     return self
@@ -1541,7 +1559,8 @@ symbol("return")
 
 @method(symbol("return"))
 def std(self):
-    if token.id not in StmntTerminatorTokens:
+    #if token.id not in StmntTerminatorTokens:
+    if not expressionTerminated():
         self.childappend(expression(0))
     return self
 
@@ -1774,6 +1793,8 @@ def toJS(self):
 def statementEnd():
     if token.id in (";",):
         advance()
+    elif tokenStream.eolBefore:
+        pass # that's ok as statement end
     #if token.id in ("eof", 
     #    "eol", # these are not yielded by the TokenStream currently
     #    ";", 
