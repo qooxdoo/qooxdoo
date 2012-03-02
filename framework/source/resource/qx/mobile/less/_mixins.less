@@ -143,6 +143,12 @@
   box-shadow: @arguments;
 }
 
+.box-inset-shadow(){
+  -moz-box-shadow: inset @arguments;
+  -webkit-box-shadow: inset @arguments;
+  box-shadow: inner @arguments;
+}
+
 .background-clip() {
   -webkit-background-clip: @arguments;
   -moz-background-clip: @arguments;

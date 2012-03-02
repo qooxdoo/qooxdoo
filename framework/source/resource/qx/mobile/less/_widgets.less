@@ -147,28 +147,29 @@ li:first-child, li:first-child a {
   width: 94px;
   height: 27px;
   display: block;
-  overflow: hidden;
   position: relative;
 }
 
 .toggleButton > div {
-  .border-radius(5px);
-  .transition(left .15s);
+   width: 94px;
+
+  .box-inset-shadow(0 3px 3px #999);
+  .border-radius(15px);
+  /*.transition(left .15s);*/
   .background-clip(padding-box);
   margin: 0;
-  background: #fff url(../icon/android/on_off.png) 0 0 no-repeat;
+  /*background: #fff url(../icon/android/on_off.png) 0 0 no-repeat;*/
   height: 27px;
-  overflow: hidden;
-  width: 149px;
-  border: 0;
-  background-color: transparent;
+  /*overflow: hidden;*/
+  border: 1px solid #999 ;
+  background-color: white;
   position: absolute;
   top: 0px;
-  left: -55px;
+  /*left: -55px;*/
 }
 
 .toggleButton > div.checked {
-    left: 0px;
+    /*left: 0px;*/
 }
 
 //

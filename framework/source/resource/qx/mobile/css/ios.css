@@ -1151,7 +1151,8 @@ li:first-child a {
   -moz-background-clip: padding-box;
   background-clip: padding-box;
   margin: 0;
-  background: #ffffff url(../icon/android/on_off.png) 0 0 no-repeat;
+  /*background: #fff url(../icon/android/on_off.png) 0 0 no-repeat;*/
+
   height: 27px;
   overflow: hidden;
   width: 149px;
@@ -1162,7 +1163,8 @@ li:first-child a {
   left: -55px;
 }
 .toggleButton > div.checked {
-  left: 0px;
+  /*left: 0px;*/
+
 }
 input,
 select {
