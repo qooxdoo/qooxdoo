@@ -275,7 +275,7 @@ def getLatestLogURL():
     # we assume to run the day after the latest build run has been started
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     logpatt += yesterday.strftime("%Y-%m-%d")
-    logpatt += "_22-..-.."
+    logpatt += "_23-..-.."
     #logpatt += r"\.txt"
     logpatt += extension.replace('.',r'\.')
     logpattr = re.compile(logpatt)
