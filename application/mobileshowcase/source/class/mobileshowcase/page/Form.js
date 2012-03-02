@@ -122,6 +122,8 @@ qx.Class.define("mobileshowcase.page.Form",
       var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad"]);
       this.__sel = new qx.ui.mobile.form.SelectBox();
       this.__sel.setModel(dd);
+      
+      this.__sel.setSelectionDialogTitle("How did you hear about us ?");
       form.add(this.__sel, "How did you hear about us ?");
 
       return form;

@@ -40,6 +40,13 @@
  *
  * Implements {@link qx.bom.request.IRequest}.
  */
+
+/* ************************************************************************
+
+#ignore(qx.core.Environment)
+
+************************************************************************ */
+
 qx.Bootstrap.define("qx.bom.request.Script",
 {
 
@@ -128,7 +135,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       this.__abort = null;
       this.__url = url;
 
-      if (qx.core.Environment.get("qx.debug.io")) {
+      if (this.__environmentGet("qx.debug.io")) {
         qx.Bootstrap.debug(qx.bom.request.Script, "Open native request with " +
           "url: " + url);
       }
@@ -181,7 +188,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
         this.__timeoutId = window.setTimeout(this.__onTimeoutBound, this.timeout);
       }
 
-      if (qx.core.Environment.get("qx.debug.io")) {
+      if (this.__environmentGet("qx.debug.io")) {
         qx.Bootstrap.debug(qx.bom.request.Script, "Send native request");
       }
 
@@ -283,7 +290,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
         return;
       }
 
-      if (qx.core.Environment.get("qx.debug")) {
+      if (this.__environmentGet("qx.debug")) {
         qx.log.Logger.debug("Response header cannot be determined for " +
           "requests made with script transport.");
       }
@@ -301,7 +308,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
         return;
       }
 
-      if (qx.core.Environment.get("qx.debug")) {
+      if (this.__environmentGet("qx.debug")) {
         qx.log.Logger.debug("Response headers cannot be determined for" +
           "requests made with script transport.");
       }
@@ -403,18 +410,18 @@ qx.Bootstrap.define("qx.bom.request.Script",
       // BUGFIX: IE < 9
       // When handling "readystatechange" event, skip if readyState
       // does not signal loaded script
-      if (qx.core.Environment.get("engine.name") === "mshtml" &&
-          qx.core.Environment.get("engine.version") < 9) {
+      if (this.__environmentGet("engine.name") === "mshtml" &&
+          this.__environmentGet("engine.version") < 9) {
         if (!(/loaded|complete/).test(script.readyState)) {
           return;
         } else {
-          if (qx.core.Environment.get("qx.debug.io")) {
+          if (this.__environmentGet("qx.debug.io")) {
             qx.Bootstrap.debug(qx.bom.request.Script, "Received native readyState: loaded");
           }
         }
       }
 
-      if (qx.core.Environment.get("qx.debug.io")) {
+      if (this.__environmentGet("qx.debug.io")) {
         qx.Bootstrap.debug(qx.bom.request.Script, "Received native load");
       }
 
@@ -429,7 +436,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       }
 
       if (this.status === 500) {
-        if (qx.core.Environment.get("qx.debug.io")) {
+        if (this.__environmentGet("qx.debug.io")) {
           qx.Bootstrap.debug(qx.bom.request.Script, "Detected error");
         }
       }
@@ -562,10 +569,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
      * @return {Boolean} Whether browser supports error handler.
      */
     __supportsErrorHandler: function() {
-      var isLegacyIe = qx.core.Environment.get("engine.name") === "mshtml" &&
-        qx.core.Environment.get("engine.version") < 9;
+      var isLegacyIe = this.__environmentGet("engine.name") === "mshtml" &&
+        this.__environmentGet("engine.version") < 9;
 
-      var isOpera = qx.core.Environment.get("engine.name") === "opera";
+      var isOpera = this.__environmentGet("engine.name") === "opera";
 
       return !(isLegacyIe || isOpera);
     },
@@ -585,8 +592,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
       // BUGFIX: IE < 9
       // Legacy IEs do not fire the "load" event for script elements.
       // Instead, they support the "readystatechange" event
-      if (qx.core.Environment.get("engine.name") === "mshtml" &&
-          qx.core.Environment.get("engine.version") < 9) {
+      if (this.__environmentGet("engine.name") === "mshtml" &&
+          this.__environmentGet("engine.version") < 9) {
         script.onreadystatechange = this.__onNativeLoadBound;
       }
 
@@ -602,10 +609,37 @@ qx.Bootstrap.define("qx.bom.request.Script",
       if (script && script.parentNode) {
         this.__headElement.removeChild(script);
       }
+    },
+
+    /**
+     * Proxy Environment.get to guard against env not being present yet.
+     *
+     * @param key {String} Environment key.
+     */
+    __environmentGet: function(key) {
+      if (qx && qx.core && qx.core.Environment) {
+        return qx.core.Environment.get(key);
+      } else {
+        if (key === "engine.name") {
+          return qx.bom.client.Engine.getName();
+        }
+
+        if (key === "engine.version") {
+          return qx.bom.client.Engine.getVersion();
+        }
+
+        if (key == "qx.debug.io") {
+          return false;
+        }
+
+        throw new Error("Unknown environment key at this phase");
+      }
     }
   },
 
   defer: function() {
-    qx.core.Environment.add("qx.debug.io", false);
+    if (qx && qx.core && qx.core.Environment) {
+      qx.core.Environment.add("qx.debug.io", false);
+    }
   }
 });

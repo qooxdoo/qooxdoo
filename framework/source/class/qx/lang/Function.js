@@ -261,9 +261,13 @@ qx.Bootstrap.define("qx.lang.Function",
 
         if (options.delay || options.periodical)
         {
-          var returns = qx.event.GlobalError.observeMethod(function() {
+          var returns = function() {
             return func.apply(options.self||this, args);
-          });
+          };
+
+          if (qx.core.Environment.get("qx.globalErrorHandling")) {
+            returns = qx.event.GlobalError.observeMethod(returns);
+          }
 
           if (options.delay) {
             return window.setTimeout(returns, options.delay);

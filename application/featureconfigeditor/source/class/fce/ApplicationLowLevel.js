@@ -75,8 +75,8 @@ qx.Class.define("fce.ApplicationLowLevel",
     _applyFeatureSet : function(value, old)
     {
       if (value) {
-        var json = qx.lang.Json.stringify(value);
-        var htmlFormattedJson = json.replace(/{/, "{<br/>&nbsp;&nbsp;").replace(/}/, "<br/>}").replace(/,/g, ",<br/>&nbsp;&nbsp;").replace(/:/g, " : ");
+        var json = fce.Util.getFormattedJson(value);
+        var htmlFormattedJson = json.replace(/ /g, "&nbsp;").replace(/\n/g, "<br/>");
 
         var headerText = "qooxdoo detected client features for "
           + value["browser.name"] + " " + value["browser.version"]
@@ -88,15 +88,19 @@ qx.Class.define("fce.ApplicationLowLevel",
         out.id = "out";
         out.innerHTML = htmlFormattedJson;
 
-        var textFormattedJson = json.replace(/{/, "{\n  ").replace(/}/, "\n}").replace(/,/g, ",\n  ").replace(/:/g, " : ");
+        var riaLink = document.createElement("a");
+        riaLink.href = "?ria";
+        riaLink.innerHTML = "Launch Configuration Editor (may not work on mobile devices)";
+        
         var mailTo = document.createElement("a");
         mailTo.innerHTML = "Send feature set data by email";
         var subject = encodeURIComponent(headerText);
-        var body = encodeURIComponent(navigator.userAgent + "\n\n" + textFormattedJson);
+        var body = encodeURIComponent(navigator.userAgent + "\n\n" + json);
         mailTo.href = "mailto:?subject=" + subject + "&body=" + body;
 
         document.body.appendChild(header);
         document.body.appendChild(mailTo);
+        document.body.appendChild(riaLink);
         document.body.appendChild(out);
       }
     }

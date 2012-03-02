@@ -29,11 +29,11 @@ qx.Class.define("qx.test.mobile.list.List",
     __createModel : function()
     {
       var data = [];
-      data.push({title:"1", subTitle : "s1", image: "qx/icon/Tango/48/places/folder.png"});
-      data.push({title:"2", subTitle : "s2", image: "qx/icon/Tango/48/places/folder.png"});
-      data.push({title:"3", subTitle : "s3", image: "qx/icon/Tango/48/places/folder.png"});
-      data.push({title:"4", subTitle : "s4", image: "qx/icon/Tango/48/places/folder.png"});
-      data.push({title:"5", subTitle : "s5", image: "qx/icon/Tango/48/places/folder.png"});
+      data.push({title:"1", subtitle : "s1", image: "qx/icon/Tango/48/places/folder.png"});
+      data.push({title:"2", subtitle : "s2", image: "qx/icon/Tango/48/places/folder.png"});
+      data.push({title:"3", subtitle : "s3", image: "qx/icon/Tango/48/places/folder.png"});
+      data.push({title:"4", subtitle : "s4", image: "qx/icon/Tango/48/places/folder.png"});
+      data.push({title:"5", subtitle : "s5", image: "qx/icon/Tango/48/places/folder.png"});
       return new qx.data.Array(data);
     },
 
@@ -54,7 +54,7 @@ qx.Class.define("qx.test.mobile.list.List",
     {
       item.setImage(data.image);
       item.setTitle(data.title);
-      item.setSubTitle(data.subTitle);
+      item.setSubTitle(data.subtitle);
     },
 
     __assertItemsAndModelLength : function(list, dataLength) {
@@ -119,9 +119,9 @@ qx.Class.define("qx.test.mobile.list.List",
       });
       this.__assertItemsAndModelLength(list,5);
       // TODO: Add check for text here
-      list.getModel().setItem(0, {title:"affe", subTitle:"1", image:"qx/icon/Tango/48/places/folder.png"});
+      list.getModel().setItem(0, {title:"affe", subtitle:"1", image:"qx/icon/Tango/48/places/folder.png"});
       this.__assertItemsAndModelLength(list,5);
-      var text = list.getContentElement().childNodes[0].childNodes[0].childNodes[1].childNodes[0].innerHTML;
+      var text = list.getContentElement().childNodes[0].childNodes[1].childNodes[0].innerHTML;
       this.assertEquals("affe", text);
       this.__cleanUp(list);
     },
@@ -133,7 +133,7 @@ qx.Class.define("qx.test.mobile.list.List",
         return new qx.ui.mobile.list.renderer.Default();
       });
       this.__assertItemsAndModelLength(list,5);
-      list.getModel().push({title:"6", subTitle:"6", image:"qx/icon/Tango/48/places/folder.png"});
+      list.getModel().push({title:"6", subtitle:"6", image:"qx/icon/Tango/48/places/folder.png"});
       this.__assertItemsAndModelLength(list,6);
       this.__cleanUp(list);
     }

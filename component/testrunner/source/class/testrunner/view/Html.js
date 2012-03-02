@@ -163,6 +163,16 @@ qx.Class.define("testrunner.view.Html", {
       var passedToggle = qx.bom.Input.create("checkbox", {id: "togglepassed", checked: "checked"});
       elemControls.appendChild(passedToggle);
       elemControls.innerHTML += '<label for="togglepassed">Show successful tests</label>';
+      
+      var nativeProfiling = (qx.core.Environment.get("testrunner.performance") &&
+        qx.Class.hasMixin(this.constructor, testrunner.view.MPerformance) &&
+        console && console.profile);
+      
+      if (nativeProfiling) {
+        var nativeProfilingToggle = qx.bom.Input.create("checkbox", {id: "nativeprofiling"});
+        elemControls.appendChild(nativeProfilingToggle);
+        elemControls.innerHTML += '<label for="nativeprofiling">Use native console profiling feature for performance tests</label>';
+      }
 
       this.__domElements.rootElement.appendChild(elemControls);
 
@@ -181,6 +191,13 @@ qx.Class.define("testrunner.view.Html", {
       qx.event.Registration.addListener(passedToggle, "change", function(ev) {
         this.setShowPassed(ev.getData());
       }, this);
+      
+      if (nativeProfiling) {
+        var profilingToggle = document.getElementById("nativeprofiling");
+        qx.event.Registration.addListener(profilingToggle, "change", function(ev) {
+          this.setNativeProfiling(ev.getData());
+        }, this);
+      }
     },
 
 
@@ -252,7 +269,7 @@ qx.Class.define("testrunner.view.Html", {
       }
       var elemResults = document.createElement("div");
       elemResults.id = "results";
-      elemResults.innerHTML = '<ul id="resultslist"></ul>';
+      elemResults.innerHTML = '<ul id="resultslist" class="monotype"></ul>';
       parent.appendChild(elemResults);
       this.__domElements.elemResultsList = document.getElementById("resultslist");
     },
@@ -382,6 +399,7 @@ qx.Class.define("testrunner.view.Html", {
       // Directly create DOM element to use
       var logelem = this.__domElements.elemLogAppender = document.createElement("div");
       logelem.id = "log";
+      logelem.className = "monotype";
       parent.appendChild(logelem);
 
       return this.__domElements.elemLogAppender;
@@ -550,14 +568,15 @@ qx.Class.define("testrunner.view.Html", {
         qx.bom.element.Style.set(listItem, "display", "none");
       }
 
-      if ((state == "error" || state == "failure" || state == "skip") && 
-        exceptions && exceptions.length > 0)
-      {
+      if (exceptions && exceptions.length > 0) {
         var errorList = document.createElement("ul");
         for (var i=0,l=exceptions.length; i<l; i++) {
           var error = exceptions[i].exception;
           var errorItem = document.createElement("li");
-          errorItem.innerHTML += error;
+          
+          var errorStr = error.toString ? error.toString() : 
+            error.message ? error.message : "Unknown Error";
+          errorItem.innerHTML += errorStr.replace(/\n/g, "<br/>");
 
           var trace = testResultData.getStackTrace(error);
           if (trace.length > 0) {

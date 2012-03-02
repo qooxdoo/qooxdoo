@@ -52,6 +52,11 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     this.__testsInView = [];
     var viewSetting = qx.core.Environment.get("testrunner.view");
     var viewClass = qx.Class.getByName(viewSetting);
+    
+    if (qx.core.Environment.get("testrunner.performance")) {
+      qx.Class.include(viewClass, testrunner.view.MPerformance);
+    }
+    
     this.view = new viewClass();
 
     // Connect view and controller
@@ -458,6 +463,8 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       testResult.addListener("skip", this._onTestSkip, this);
 
       testResult.addListener("endTest", this._onTestEnd, this);
+      
+      testResult.addListener("endMeasurement", this._onTestEndMeasurement, this);
 
       return testResult;
     },
@@ -510,6 +517,11 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       }
 
       qx.event.Timer.once(this.runTests, this, 0);
+    },
+    
+    _onTestEndMeasurement : function(ev)
+    {
+      this.__addExceptions(this.currentTestData, ev.getData());
     },
 
     /**

@@ -25,8 +25,11 @@
 
 import sys, os, re
 
-sys.path.append("../../tool/pylib/cssmin")
-import cssmin
+try:
+  from cssmin import cssmin
+except ImportError, e:
+  sys.path.append("../../tool/pylib/cssmin")
+  import cssmin
 
 sourceFileName = sys.argv[1]
 targetFileName = sys.argv[2]

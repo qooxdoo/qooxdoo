@@ -50,9 +50,6 @@ qx.Class.define("qx.ui.mobile.form.Form",
   construct : function()
   {
     this.base(arguments);
-    // dispose the resetter instantiated in the RIA Form class, and create a new mobile resetter instead
-    this._resetter.dispose();
-    this._resetter = new qx.ui.mobile.form.Resetter();
   },
 
   members :
@@ -63,6 +60,12 @@ qx.Class.define("qx.ui.mobile.form.Form",
      *
      */
     __renderer : null,
+
+
+    // overridden
+    _createResetter : function() {
+      return new qx.ui.mobile.form.Resetter();
+    },
 
 
     /**

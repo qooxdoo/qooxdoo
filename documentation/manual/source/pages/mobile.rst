@@ -10,3 +10,4 @@ Introduction
 
    mobile/mobile_overview
    mobile/tutorial
+   mobile/theming

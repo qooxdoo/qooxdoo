@@ -23,6 +23,8 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * http://www.w3.org/TR/webstorage/
+ *
+ * @deprecated
  */
 qx.Class.define("qx.bom.storage.Session",
 {

@@ -86,7 +86,7 @@ qx.Class.define("qx.io.request.Xhr",
     /**
      * Fired on every change of the transport’s readyState.
      *
-     * See {@link qx.bom.request.Xhr#readyState} for available readyStates.
+     * See {@link qx.bom.request.Xhr} for available readyStates.
      */
     "readyStateChange": "qx.event.type.Event",
 

@@ -346,6 +346,7 @@ qx.Class.define("qx.data.Array",
       if (removed || added) {
         if (this.__array.length > oldLength) {
           var type = "add";
+          items = qx.lang.Array.fromArguments(arguments, 2);
         } else if (this.__array.length < oldLength) {
           var type = "remove";
           items = returnArray;
@@ -448,7 +449,14 @@ qx.Class.define("qx.data.Array",
     },
 
 
-    // interface implementation
+    /**
+     * Returns the list data as native array. Beware of the fact that the
+     * internal representation will be returnd and any manipulation of that
+     * can cause a misbehavior of the array. This method should only be used for
+     * debugging purposes.
+     *
+     * @return {Array} The native array.
+     */
     toArray: function() {
       return this.__array;
     },
@@ -754,7 +762,7 @@ qx.Class.define("qx.data.Array",
      * Check whether the given array has the same content as this.
      * Checks only the equality of the arrays' content.
      *
-     * @param array {Array} The array to check.
+     * @param array {qx.data.Array} The array to check.
      * @return {Boolean} Whether the two arrays are equal.
      */
     equals : function(array)

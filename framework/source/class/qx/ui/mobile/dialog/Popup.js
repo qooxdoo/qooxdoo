@@ -452,6 +452,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
   destruct : function()
   {
     this.__unregisterEventListener();
-    this.__childrenContainer.dispose();
+    this._disposeObjects("__childrenContainer");
   }
 });

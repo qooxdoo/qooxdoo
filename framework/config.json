@@ -49,11 +49,11 @@
        "fr",
        "it",
        "nl",
-       "no",
+       "nb",  // Norwegian
        "pl",
        "ro",
-       "sl",
-       "sv"
+       "sl",  // Slovene
+       "sv"   // Swedish
     ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
   },
@@ -300,7 +300,6 @@
       
       "let" :
       {
-        "TESTRUNNER_VIEW" : "testrunner.view.Performance",
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
         "TEST_INCLUDE"    : "qx.test.performance.*",
         "TEST_EXCLUDE"    : "",
@@ -316,7 +315,6 @@
       
       "let" :
       {
-        "TESTRUNNER_VIEW" : "testrunner.view.Performance",
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
         "TEST_INCLUDE"    : "qx.test.performance.*",
         "TEST_EXCLUDE"    : "",

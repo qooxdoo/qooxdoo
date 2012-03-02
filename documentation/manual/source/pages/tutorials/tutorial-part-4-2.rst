@@ -16,7 +16,7 @@ You can see that one tweet consists of a photo, a text and a creation date, but 
 
 .. note::
 
-    The code in this tutorial should also work when you haven't completed the 4.1 tutorial because it doesn't depend on the code changes from tutorial 4.1. But if you have any problems to run the tutorial, you can also checkout the code from tutorial 4.1 on `github <https://github.com/qooxdoo/qooxdoo/tree/master/qooxdoo/component/tutorials/twitter/step4.1>`_.
+    The code in this tutorial should also work when you haven't completed the 4.1 tutorial because it doesn't depend on the code changes from tutorial 4.1. But if you have any problems to run the tutorial, you can also checkout the code from tutorial 4.1 on `github <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.1>`_.
 
 .. _pages/tutorials/tutorial-part-4-2#the_plan:
 
@@ -325,4 +325,4 @@ Great, now we've got it! Run ``generate.py`` to create the application.
 
 .. |Step 4-2| image:: /pages/tutorials/step42.png
 
-Again, if you want to take a `look at the code <https://github.com/qooxdoo/qooxdoo/tree/master/qooxdoo/component/tutorials/twitter/step4.2>`_, fork the project on github.
+Again, if you want to take a `look at the code <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.2>`_, fork the project on github.

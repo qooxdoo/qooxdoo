@@ -64,9 +64,6 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -95,9 +92,6 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       return scrollContentElement || contentElement;
     }
   },
-
-
-
 
   /*
   *****************************************************************************

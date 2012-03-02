@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   {
     this.removeListener("tap", this._onTap, this);
     this.removeListener("swipe", this._onSwipe, this);
-    this.__child.dispose();
-    this.__child = null;
+    
+    this._disposeObjects("__child");
   }
 });

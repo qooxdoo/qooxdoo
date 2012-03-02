@@ -42,9 +42,11 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       height : null
     },
 
-    /** {Array} Known image types */
+    /** {RegExp} Known image types */
     __knownImageTypesRegExp : /\.(png|gif|jpg|jpeg|bmp)\b/i,
 
+    /** {RegExp} Image types of a data URL */
+    __dataUrlRegExp : /^data:image\/(png|gif|jpg|jpeg|bmp)\b/i,
 
     /**
      * Whether the given image has previously been loaded using the
@@ -96,6 +98,32 @@ qx.Bootstrap.define("qx.io.ImageLoader",
     getFormat : function(source)
     {
       var entry = this.__data[source];
+
+      if (! entry || ! entry.format)
+      {
+        var result = this.__dataUrlRegExp.exec(source);
+        if (result != null)
+        {
+          // If width and height aren't defined, provide some defaults
+          var width =
+            (entry && qx.lang.Type.isNumber(entry.width)
+             ? entry.width 
+             : this.__defaultSize.width);
+
+          var height =
+            (entry && qx.lang.Type.isNumber(entry.height) 
+             ? entry.height
+             : this.__defaultSize.height);
+
+          entry =
+            {
+              loaded : true,
+              format : result[1],
+              width  : width,
+              height : height
+            };
+        }
+      }
       return entry ? entry.format : null;
     },
 

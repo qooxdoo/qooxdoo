@@ -79,7 +79,7 @@ qx.Class.define("feedreader.io.FeedLoader",
           // locale storage support
           if (qx.core.Environment.get("html.storage.local")) {
             var key = "qx-feeds-" + feed.getUrl();
-            qx.bom.storage.Local.getInstance().setItem(key, data);
+            qx.bom.Storage.getLocal().setItem(key, data);
           }
           return data;
         } catch (e) {
@@ -111,7 +111,7 @@ qx.Class.define("feedreader.io.FeedLoader",
         // locale storage support
         if (qx.core.Environment.get("html.storage.local")) {
           var key = "qx-feeds-" + feed.getUrl();
-          var oldData = qx.bom.storage.Local.getInstance().getItem(key);
+          var oldData = qx.bom.Storage.getLocal().getItem(key);
           if (oldData) {
             var articles = qx.data.marshal.Json.createModel(oldData);
             feed.setArticles(articles);

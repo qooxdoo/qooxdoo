@@ -56,6 +56,14 @@
  *     model.loadAddress(data.params.id);
  *   },this);
  *
+ *   // Alternative you can use regExp for a route
+ *   nm.onGet(/address\/(.*)/, function(data)
+ *   {
+ *     addressPage.show();
+ *     model.loadAddress(data.params.0);
+ *   },this);
+ *
+ *
  *   // make sure that the data is always loaded
  *   nm.onGet("/address.*", function(data)
  *   {

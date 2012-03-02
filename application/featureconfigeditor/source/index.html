@@ -6,7 +6,7 @@
   <script type="text/javascript">
     var lowlevel = "";
     var ua = navigator.userAgent.toLowerCase();
-    if (/(mobile.*?safari|android)/i.exec(ua)) {
+    if (location.search.indexOf("ria") < 0) {
       lowlevel = "-lowlevel";
       document.write('<link rel="stylesheet" type="text/css" media="all" href="resource/fce/lowlevel/css/style.css" \/>');
     }

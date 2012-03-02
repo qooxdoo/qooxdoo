@@ -19,7 +19,7 @@
 qx.Class.define("qx.test.performance.Event",
 {
   extend : qx.dev.unit.TestCase,
-  include : qx.test.performance.MMeasure,
+  include : qx.dev.unit.MMeasure,
 
   events : {
     "plain" : "qx.event.type.Event",

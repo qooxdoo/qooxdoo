@@ -18,8 +18,8 @@
 ************************************************************************ */
 
 /**
- * Wrapper for {@link qx.bom.element.AnimationCSS} and
- * {@link qx.bom.element.AnimationJS}. It offers the pubilc API and decides using
+ * Wrapper for {@link qx.bom.element.AnimationCss} and
+ * {@link qx.bom.element.AnimationJs}. It offers the pubilc API and decides using
  * feature checks either to use CSS animations or JS animations.
  *
  * If you use this class, the restrictions of the JavaScript animations apply.

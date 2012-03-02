@@ -165,6 +165,21 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     {
       return this.__content;
     },
+    
+    /**
+     * Scrolls the wrapper contents to the x/y coordinates in a given 
+     * period.
+     * 
+     * @param x {Integer} X coordinate to scroll to.
+     * @param y {Integer} Y coordinate to scroll to.
+     * @param time {Integer} Time slice in which scrolling should 
+     *              be done.
+     *
+     */
+    scrollTo : function(x, y, time)
+    {
+      this.__scrollContainer._scrollTo(x, y, time);
+    },
 
 
     /**

@@ -55,12 +55,14 @@ qx.Class.define("fce.Environment", {
       var features = {};
       for (var i=0,l=keys.length; i<l; i++) {
         var key = keys[i];
-        features[key] = qx.core.Environment.get(key);
+        if (key.indexOf("fce.") < 0) {
+          features[key] = qx.core.Environment.get(key);
+        }
       }
 
       checks = qx.core.Environment.getAsyncChecks();
       var numberOfChecks = qx.lang.Object.getLength(checks);
-      keys = qx.lang.Object.getKeys(checks);
+      //keys = qx.lang.Object.getKeys(checks);
 
       for (var i=0,l=keys.length; i<l; i++) {
         var key = keys[i];

@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.form.Form",
     this._buttons = [];
     this._buttonOptions = [];
     this._validationManager = new qx.ui.form.validation.Manager();
-    this._resetter = new qx.ui.form.Resetter();
+    this._resetter = this._createResetter();
   },
 
 
@@ -265,6 +265,18 @@ qx.Class.define("qx.ui.form.Form",
         }
       }
       return items;
+    },
+
+
+    /**
+     * Creates and returns the used resetter class.
+     *
+     * @return {qx.ui.form.Resetter} the resetter class.
+     *
+     * @internal
+     */
+    _createResetter : function() {
+      return new qx.ui.form.Resetter();
     }
   },
 

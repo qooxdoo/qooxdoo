@@ -9,7 +9,7 @@
 qx.Class.define("qx.test.performance.BaseCall",
 {
   extend : qx.dev.unit.TestCase,
-  include : qx.test.performance.MMeasure,
+  include : qx.dev.unit.MMeasure,
 
   members :
   {

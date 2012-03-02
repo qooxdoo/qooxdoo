@@ -55,8 +55,6 @@ qx.Class.define("qx.test.mobile.basic.Atom",
       // atom.getIconWidget().getContainerElement().src is usually in the form:
       // http://127.0.0.1/tablet/framework/test/html/qx/icon/Tango/48/places/folder-remote.png
       // but http://127.0.0.1/tablet/framework/test/html/ differs on where you test it
-      console.log(atom.getIconWidget().getContainerElement().src);
-      console.log(imageURL);
       this.assertTrue(atom.getIconWidget().getContainerElement().src.indexOf("qx/icon/Tango/48/places/user-home.png") != -1);
 
       var image2URL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/32/places/folder-open.png");
@@ -92,7 +90,7 @@ qx.Class.define("qx.test.mobile.basic.Atom",
 
     testIconPosition : function()
     {
-      /*var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/user-home.png");
+      var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/user-home.png");
       var atom = new qx.ui.mobile.basic.Atom("myText", imageURL);
       this.getRoot().add(atom);
       this.getRoot()._domUpdated();
@@ -100,38 +98,35 @@ qx.Class.define("qx.test.mobile.basic.Atom",
       var iconElement = atom.getIconWidget().getContainerElement();
       var labelElement = atom.getLabelWidget().getContainerElement();
 
-      this.assertTrue(qx.bom.element.Location.getLeft(iconElement) <= qx.bom.element.Location.getLeft(labelElement));
-
       atom.setIconPosition('top');
-      this.assertTrue(qx.bom.element.Location.getTop(iconElement) <= qx.bom.element.Location.getTop(labelElement));
+      this.assertTrue(qx.bom.element.Location.getTop(iconElement) <= qx.bom.element.Location.getTop(labelElement), "setIconPosition(top): iconElement.top is greater than labelElement.top");
 
       atom.setIconPosition('bottom');
-      this.assertTrue(qx.bom.element.Location.getTop(iconElement) >= qx.bom.element.Location.getTop(labelElement));
+      
+      this.assertTrue(qx.bom.element.Location.getTop(iconElement) >= qx.bom.element.Location.getTop(labelElement), "setIconPosition(bottom): iconElement.top is lower than labelElement.top");
 
       atom.setIconPosition('right');
-      this.assertTrue(qx.bom.element.Location.getLeft(iconElement) >= qx.bom.element.Location.getLeft(labelElement));
+      this.assertTrue(qx.bom.element.Location.getLeft(iconElement) >= qx.bom.element.Location.getLeft(labelElement), "setIconPosition(right): iconElement.left is lower than labelElement.left");
 
       atom.setIconPosition('left');
-      this.assertTrue(qx.bom.element.Location.getLeft(iconElement) <= qx.bom.element.Location.getLeft(labelElement));
-      */
+      this.assertTrue(qx.bom.element.Location.getLeft(iconElement) <= qx.bom.element.Location.getLeft(labelElement), "setIconPosition(left): iconElement.left is greater than labelElement.left");
+      
     },
     testGap : function()
     {
       var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/user-home.png");
       var atom = new qx.ui.mobile.basic.Atom("myText", imageURL);
       this.getRoot().add(atom);
-
-      console.log(qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'margin-right'));
-      this.assertEquals(qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'margin-right'), '4px');
+      this.assertEquals('4px', qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginRight'));
 
       atom.setGap(5);
-      console.log(qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'margin-right'));
-      this.assertEquals(qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'margin-right'), '5px');
+    
+      this.assertEquals( '5px', qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginRight'));
 
       atom.setIconPosition('bottom');
-      console.log(qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'margin-right'));
-      this.assertEquals(qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'margin-right'), '0px');
-      this.assertEquals(qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'margin-top'), '5px');
+      
+      this.assertEquals('0px',qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginRight'));
+      this.assertEquals('5px',qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginTop'));
     }
   }
 

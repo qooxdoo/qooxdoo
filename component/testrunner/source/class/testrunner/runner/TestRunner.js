@@ -44,6 +44,11 @@ qx.Class.define("testrunner.runner.TestRunner", {
         qx.log.Logger.register(this.__logAppender);
       }
     }
+    
+    this.TEST_MIXINS  = [qx.dev.unit.MMock, qx.dev.unit.MRequirements];
+    if (qx.core.Environment.get("testrunner.performance")) {
+      this.TEST_MIXINS.push(qx.dev.unit.MMeasure);
+    }
   },
 
 
@@ -61,6 +66,8 @@ qx.Class.define("testrunner.runner.TestRunner", {
     __loadTimer : null,
     __logAppender : null,
     _externalTestClasses : null,
+    
+    TEST_MIXINS : null,
 
 
     _getTestNameSpace : function()
@@ -120,7 +127,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
       return qxClass.define(testClassName,
       {
         extend : qx.dev.unit.TestCase,
-        include : [qx.dev.unit.MMock, qx.dev.unit.MRequirements],
+        include : this.TEST_MIXINS,
         members : membersMap
       });
     },

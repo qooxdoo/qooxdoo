@@ -28,6 +28,7 @@
  * For more information see:
  * http://www.w3.org/TR/webstorage/
  *
+ * @deprecated
  */
 qx.Class.define("qx.bom.storage.Abstract",
 {
@@ -42,6 +43,15 @@ qx.Class.define("qx.bom.storage.Abstract",
   construct: function(type)
   {
     this.base(arguments);
+
+    // @deprecated since 2.0
+    if (qx.core.Environment.get("qx.debug")) {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "qx.bom.storage.Abstract / .Local / .Session is deprecated in whole. "+
+        "Please use qx.bom.Storage instead."
+      );
+    }
+
 
     this._type = type;
 

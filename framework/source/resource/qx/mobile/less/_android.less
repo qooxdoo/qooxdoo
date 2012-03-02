@@ -3,6 +3,32 @@
 //
 
 //
+// MIXINS
+//
+
+.standard-button {
+  @button-color: #f4f4f4;
+  @height: 20px;
+
+  .border-radius(4px);
+  cursor: pointer;
+  width: auto;
+  height: 20px;
+  color: #222222;
+  text-align: center;
+
+  // Less "darken method" helps to make use of android-button easier. It takes button-color and darkens it. No second gradient color is needed.
+  #gradient > .vertical(@button-color, darken(@button-color, 20%));
+  border: 1px solid #555555;
+  line-height: @height;
+  font-size:12px;
+}
+
+.standard-button-active {
+  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+}
+
+//
 // GLOBAL
 //
 
@@ -89,33 +115,27 @@ ul li.active .subtitle {
 // BUTTON
 //
 
-.button, .tabButton {
-  #gradient > .vertical(#f4f4f4, #c4c4c4);
-  .border-radius(4px);
-  .background-clip(padding-box);
-  border: 1px solid #232323;
-  font: bold 17px Helvetica;
-  line-height : 40px;
-}
-
-.tabButton {
-  color: black;
+.button {
+  .standard-button();
+  height: 30px;
+  line-height: 30px;
+  font-size: 15px;
 }
 
 .button.active {
-  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+  .standard-button-active();
 }
 
+// Toolbar Button
 .toolbar-button {
-  #gradient > .vertical(#f4f4f4, #c4c4c4);
-  .border-radius(4px);
-  border: 1px solid #232323;
-  font: bold 17px Helvetica;
+  .standard-button();
+
   height: 50px;
+  font-size: 17px;
 }
 
 .toolbar-button.active {
-  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+  .standard-button-active();
 }
 
 .toolbar-button > div {
@@ -178,13 +198,18 @@ textarea {
 }
 
 .tabButton {
-  height: 45px !important;
-  line-height: 45px;
-  margin: 0 !important;
+  .standard-button();
 
-  // This is for equal sizes od the buttons when aded in a toolbar or
-  // other container with flex :1
+   // This is for equal sizes od the buttons when aded in a toolbar or
+   // other container with flex :1
   width: 0;
+
+  height:45px;
+  line-height:45px;
+
+  font-size: 17px;
+  .background-clip(padding-box);
+  margin: 0 !important;
 }
 
 .tabButton.active, .tabButton.selected {
@@ -201,24 +226,26 @@ textarea {
 }
 
 .navigationbar-button, .navigationbar-backbutton {
-  #gradient > .vertical(#f4f4f4, #c4c4c4);
-  .border-radius(4px);
-  .background-clip(padding-box);
-  min-width: 40px;
+  .standard-button();
 
+  .background-clip(padding-box);
+
+  height: 30px;
+  line-height: 30px;
+
+  font-size:12px;
+
+  min-width: 40px;
   // Firefox uses border-box for flexbox children,
   // see http://bugzilla.qooxdoo.org/show_bug.cgi?id=5961.
   min-width: -moz-calc(40px + 10px);
+  //height: -moz-calc(30px + 6px);
 
   padding: 0 3px;
-  height: 30px;
-  height: -moz-calc(30px + 6px);
-  color: black;
-  border: 2px solid #232323;
 }
 
 .navigationbar-button.active, .navigationbar-backbutton.active {
-  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+  .standard-button-active();
 }
 
 //
@@ -284,21 +311,21 @@ input[type="checkbox"]:checked {
 }
 
 @-webkit-keyframes spinnerRotate {
-	from {
-		.transform(rotate(0deg));
-	}
-	to {
-		.transform(rotate(360deg));
-	}
+  from {
+    .transform(rotate(0deg));
+  }
+  to {
+    .transform(rotate(360deg));
+  }
 }
 
 @-moz-keyframes spinnerRotate {
-	from {
-		.transform(rotate(0deg));
-	}
-	to {
-		.transform(rotate(360deg));
-	}
+  from {
+    .transform(rotate(0deg));
+  }
+  to {
+    .transform(rotate(360deg));
+  }
 }
 
 //
@@ -329,4 +356,12 @@ input[type="checkbox"]:checked {
   display: block;
   margin: 3px 0 0 0;
   padding: 0;
+}
+
+//
+// SELECTBOX
+//
+
+.selectbox {
+  margin-left:2px;
 }

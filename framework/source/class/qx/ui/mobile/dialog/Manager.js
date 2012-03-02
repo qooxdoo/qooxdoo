@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
       }
       else
       {
-        return this.__showNonNativeDialog(title, text, handler, scope, button, qx.ui.mobile.dialog.Manager.MESSAGE_DIALOG);
+        return this.__showNonNativeDialog(title, text, handler, scope, [button], qx.ui.mobile.dialog.Manager.MESSAGE_DIALOG);
       }
     },
 

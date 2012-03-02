@@ -359,8 +359,10 @@ class Library(object):
         ##
         # check single subdirectory from class path
         def check_multiple_namespaces(classRoot):
-            if not len([d for d in os.listdir(classRoot) if not d.startswith(".")]) == 1:
-                self._console.warn ("The class path should contain exactly one namespace: '%s'" % (classRoot,))
+            for root, dirs, files in filetool.walk(classRoot):
+                if len(dirs) != 1:
+                    self._console.warn ("The class path should contain exactly one namespace: '%s'" % (classRoot,))
+                break
 
         ##
         # check manifest namespace is on file system
