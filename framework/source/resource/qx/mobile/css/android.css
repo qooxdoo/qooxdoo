@@ -1141,27 +1141,27 @@ li:first-child a {
 }
 .toggleButton > div {
   width: 94px;
-  -moz-box-shadow: inset 0 3px 3px #999999;
-  -webkit-box-shadow: inset 0 3px 3px #999999;
-  box-shadow: inner 0 3px 3px #999999;
+  -moz-box-shadow: inset 0 3px 2px #999999, inset 0 15px 1px #eaeaea;
+  -webkit-box-shadow: inset 0 3px 2px #999999, inset 0 15px 1px #eaeaea;
+  box-shadow: inner 0 3px 2px #999999, inset 0 15px 1px #eaeaea;
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
   border-radius: 15px;
-  /*.transition(left .15s);*/
-
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
   margin: 0;
-  /*background: #fff url(../icon/android/on_off.png) 0 0 no-repeat;*/
-
   height: 27px;
-  /*overflow: hidden;*/
-
   border: 1px solid #999 ;
   background-color: white;
   position: absolute;
   top: 0px;
+  /*background: #fff url(../icon/android/on_off.png) 0 0 no-repeat;*/
+
+  /*.transition(left .15s);*/
+
+  /*overflow: hidden;*/
+
   /*left: -55px;*/
 
 }

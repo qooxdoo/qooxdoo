@@ -1137,16 +1137,18 @@ li:first-child a {
   width: 94px;
   height: 27px;
   display: block;
-  overflow: hidden;
   position: relative;
 }
 .toggleButton > div {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -webkit-transition: left 0.15s;
-  -moz-transition: left 0.15s;
-  transition: left 0.15s;
+  width: 94px;
+  -moz-box-shadow: inset 0 3px 3px #999999;
+  -webkit-box-shadow: inset 0 3px 3px #999999;
+  box-shadow: inner 0 3px 3px #999999;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  /*.transition(left .15s);*/
+
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
@@ -1154,13 +1156,14 @@ li:first-child a {
   /*background: #fff url(../icon/android/on_off.png) 0 0 no-repeat;*/
 
   height: 27px;
-  overflow: hidden;
-  width: 149px;
-  border: 0;
-  background-color: transparent;
+  /*overflow: hidden;*/
+
+  border: 1px solid #999 ;
+  background-color: white;
   position: absolute;
   top: 0px;
-  left: -55px;
+  /*left: -55px;*/
+
 }
 .toggleButton > div.checked {
   /*left: 0px;*/
