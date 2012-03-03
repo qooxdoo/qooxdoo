@@ -568,12 +568,12 @@ def preinfix(id_, bp):  # pre-/infix operators (+, -)
     infix(id_, bp)   # init as infix op
 
     ##
-    # better give them a nud() for prefix pos
+    # give them a nud() for prefix pos
     def nud(self):
         self.set("left", "true")  # mark prefix position
         first = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(first)
-        first.childappend(expression())
+        first.childappend(expression(130)) # need to use prefix rbp!
         return self
     symbol(id_).nud = nud
 
@@ -650,6 +650,7 @@ symbol("(", 150)
 prepostfix("++", 140); prepostfix("--", 140)  # pre/post increment (unary)
 
 prefix("~", 130); prefix("!", 130)
+#prefix("+", 130); prefix("-", 130)  # higher than infix position! handled in preinfix.nud()
 prefix_v("delete", 130); prefix_v("typeof", 130); prefix_v("void", 130)
 
 prefix("/",  130)  # regexp
