@@ -649,16 +649,14 @@ symbol("(", 150)
 
 prepostfix("++", 140); prepostfix("--", 140)  # pre/post increment (unary)
 
-prefix("-",  130); prefix("+",  130); prefix("~", 130); prefix("!", 130)
+prefix("~", 130); prefix("!", 130)
 prefix_v("delete", 130); prefix_v("typeof", 130); prefix_v("void", 130)
 
 prefix("/",  130)  # regexp
 
-
 infix("*",  120); infix("/", 120); infix("%", 120)
 
-#infix("+",  110); infix("-", 110)      # '+' addition, concatenation
-preinfix("+",  110); preinfix("-", 110)      # '+' addition, concatenation
+preinfix("+",  110); preinfix("-", 110)      # pre/infix '+', '-'
 
 infix("<<", 100); infix(">>", 100); infix(">>>", 100)
 
@@ -728,10 +726,6 @@ def toJS(self):
     v = self.get("value", u"")
     if v:
         r = self.write(v)
-    if self.hasParent() and self.parent.type == "variable" and not self.isLastChild(True):
-        r += self.write(".")
-    elif self.hasParent() and self.parent.type == "label":
-        r += self.write(":")
     return r
 
 
@@ -1951,14 +1945,6 @@ def toJS(self):
     r += ','.join(a)
     r += self.write(")")
     return r
-
-
-symbol("variable")
-
-@method(symbol("variable"))
-def toJS(self):
-    return self.children[0].toJS()
-
 
 
 # - Class Frontend for the Grammar Infrastructure ------------------------------
