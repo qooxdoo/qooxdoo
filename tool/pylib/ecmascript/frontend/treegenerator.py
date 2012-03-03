@@ -1268,37 +1268,47 @@ def std(self):
         operation.childappend(op_second)
         op_second.childappend(expression())
         
-    # for (;;)
+    # for (;;) [mind: all three subexpressions are optional]
     else:
         self.set("forVariant", "iter")
         condition = symbol("expressionList")(token.get("line"), token.get("column"))
         self.childappend(condition)
         # init part
-        init_part = None
-        var_s = None
-        if token.id == "var":
-            t = token
-            advance()
-            init_part = t.std() # parse it like a 'var' stmt
+        first = symbol("first")(token.get("line"), token.get("column"))
+        condition.childappend(first)
+        if token.id == ";":
+            pass                # empty part
         else:
-            exprList = symbol("expressionList")(token.get("line"), token.get("column"))
-            init_part = exprList
-            lst = init_list()
-            for assgn in lst:
-                exprList.childappend(assgn)
-        condition.childappend(init_part)
+            init_part = None
+            if token.id == "var":
+                t = token
+                advance()
+                init_part = t.std() # parse it like a 'var' stmt
+            else:
+                exprList = symbol("expressionList")(token.get("line"), token.get("column"))
+                init_part = exprList
+                lst = init_list()
+                for assgn in lst:
+                    exprList.childappend(assgn)
+            first.childappend(init_part)
+        advance(";")
         # condition part 
+        second = symbol("second")(token.get("line"), token.get("column"))
+        condition.childappend(second)
+        if token.id != ";":
+            second.childappend(expression())
         advance(";")
-        condition.childappend(expression())
         # update part
-        advance(";")
-        exprList = symbol("expressionList")(token.get("line"), token.get("column"))
-        while token.id != ')':
-            expr = expression(0)
-            exprList.childappend(expr)
-            if token.id == ',':
-                advance(',')
-        condition.childappend(exprList)
+        third = symbol("third")(token.get("line"), token.get("column"))
+        condition.childappend(third)
+        if token.id != ")":
+            exprList = symbol("expressionList")(token.get("line"), token.get("column"))
+            while token.id != ')':
+                expr = expression(0)
+                exprList.childappend(expr)
+                if token.id == ',':
+                    advance(',')
+            third.childappend(exprList)
 
     # body
     advance(")")
@@ -1922,15 +1932,24 @@ def toJS(self):
 
 @method(symbol("first"))
 def toJS(self):
-    return self.children[0].toJS()
+    r = u''
+    if self.children:  # could be empty in for(;;)
+        r = self.children[0].toJS()
+    return r
 
 @method(symbol("second"))
 def toJS(self):
-    return self.children[0].toJS()
+    r = u''
+    if self.children:
+        r = self.children[0].toJS()
+    return r
 
 @method(symbol("third"))
 def toJS(self):
-    return self.children[0].toJS()
+    r = u''
+    if self.children:
+        r = self.children[0].toJS()
+    return r
 
 
 symbol("params")
