@@ -272,70 +272,6 @@ def getDefinitions(node, definitions=None):
   return definitions
 
 
-def findVariablePrefix(node, namePrefix, varNodes=None):
-    """
-    Search "node" for all variables starting with "namePrefix"
-    """
-    if varNodes == None:
-        varNodes = []
-
-    if node.type == "variable":
-        try:
-            nameParts = []
-            for child in node.children:
-                if child.type == "identifier":
-                    nameParts.append(child.get("name"))
-        except tree.NodeAccessException:
-            nameParts = []
-        i = 0
-        found = True
-        prefixParts = namePrefix.split(".")
-        if len(prefixParts) <= len (nameParts):
-            for prefixPart in prefixParts:
-                if prefixPart != nameParts[i]:
-                    found = False
-                    break
-                i += 1
-        else:
-            found = False
-        if found:
-            varNodes.append(node)
-            return varNodes
-
-    if node.hasChildren():
-        for child in node.children:
-            varNodes = findVariablePrefix(child, namePrefix, varNodes)
-
-    return varNodes
-
-
-def findVariable(node, varName, varNodes=None):
-    """
-    Return a list of all variable definitions inside "node" of name "varName".
-    """
-    if varNodes == None:
-        varNodes = []
-
-    if node.type == "variable":
-        try:
-            nameParts = []
-            for child in node.children:
-                if child.type == "identifier":
-                    nameParts.append(child.get("name"))
-                name = u".".join(nameParts)
-        except tree.NodeAccessException:
-            name = ""
-        if name == varName:
-            varNodes.append(node)
-            return varNodes
-
-    if node.hasChildren():
-        for child in node.children:
-            varNodes = findVariable(child, varName, varNodes)
-
-    return varNodes
-
-
 def mapNodeToMap(mapNode):
     """
     convert a "map" tree node into a python map.
@@ -589,17 +525,6 @@ def createConstant(type, value):
         constant.set("detail", "doublequotes")
 
     return constant
-
-
-def createVariable(l):
-    var = tree.Node("variable")
-
-    for name in l:
-        iden = tree.Node("identifier")
-        iden.set("name", name)
-        var.addChild(iden)
-
-    return var
 
 
 def createBlockComment(txt):

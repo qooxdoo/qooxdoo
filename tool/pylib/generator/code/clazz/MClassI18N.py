@@ -84,7 +84,6 @@ class MClassI18N(object):
                     varname = (treeutil.assembleVariable(var))[0]
                     for entry in [ ".tr", ".trn", ".trc", ".marktr" ]:
                         if varname.endswith(entry):
-                            #import pdb; pdb.set_trace()
                             self._addTranslationBlock(entry[1:], messages, node, var)
                             break
 
@@ -102,7 +101,6 @@ class MClassI18N(object):
             "column" : node.get("column")
         }
         console = self.context['console']
-        print "_addTranslationBlock", data
 
         # tr(msgid, args)
         # trn(msgid, msgid_plural, count, args)
