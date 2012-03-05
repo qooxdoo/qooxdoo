@@ -1769,6 +1769,8 @@ def statement():
         if getattr(token, 'std', None):
             advance()
             s = n.std()
+        elif token.id == ';': # empty statement
+            s = symbol("(empty)")()
         elif token.type != 'eol': # it's not an empty line
             s = expression()
             # Crockford's too tight here
@@ -1789,6 +1791,10 @@ def statement():
                     s.childappend(expression())
         statementEnd()
     return s
+
+@method(symbol("(empty)"))
+def toJS(self):
+    return u''
 
 @method(symbol("label"))
 def toJS(self):
@@ -1841,7 +1847,7 @@ def toJS(self):
     for cld in self.children:
         c = cld.toJS()
         r.append(c)
-        if c[-1] != ';':
+        if not c or c[-1] != ';':
             r.append(';')
     return u''.join(r)
 
