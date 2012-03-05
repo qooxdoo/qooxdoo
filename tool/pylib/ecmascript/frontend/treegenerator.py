@@ -1616,7 +1616,10 @@ def std(self):
             case = token
             advance("default")
             advance(":")
-            case.childappend(statements())
+            if token.id in ("case",) : # fall-through
+                pass
+            else:
+                case.childappend(case_block())
         body.childappend(case)
     advance("}")
     return self
@@ -1665,7 +1668,8 @@ def toJS(self):
     r = []
     r.append('default')
     r.append(':')
-    r.append(self.children[0].toJS())
+    if len(self.children) > 0:
+        r.append(self.children[0].toJS())
     return ''.join(r)
 
 
