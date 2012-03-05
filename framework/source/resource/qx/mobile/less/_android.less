@@ -365,3 +365,53 @@ input[type="checkbox"]:checked {
 .selectbox {
   margin-left:2px;
 }
+
+//
+// TOGGLEBUTTON
+//
+
+.toggleButton {
+  .standard-button();
+  height:auto;
+  width:60px;
+
+  overflow-y:visible;
+  font-size:14px;
+}
+
+.toggleButton > div {
+  padding-top:24px;
+  padding-bottom:10px;
+  height:auto;
+}
+
+div.checked .toggleButtonSwitch {
+  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+}
+
+div.checked .toggleButtonSwitch:before {
+  position:relative;
+  top:-20px;
+  
+  content: "ON";
+  width:100%;
+}
+
+.toggleButtonSwitch:before {
+  position:relative;
+  top:-20px;
+
+  content: "OFF";
+  width:100%;
+}
+
+.toggleButtonSwitch {
+  .box-inset-shadow(0 1px 1px #999);
+  
+  background-color: #ffffff;
+  height:7px;
+  margin: 0 auto;
+  width:70%;
+
+  .border-radius(7px);
+}
