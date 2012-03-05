@@ -22,7 +22,7 @@ The configuration file that drives the generator adheres to the `JSON specificat
     }
   }
 
-The job names ``job1``, ..., ``jobN`` are freely chooseable names but must form a valid key. JavaScript-style comments (/*...*/ and %%//%%...) are permissible but only in rather robust places, like after a comma or directly after opening or before closing parentheses, but e.g. not between a key and its value.
+The job names ``job1``, ..., ``jobN`` are freely chooseable names but must form a valid key. JavaScript-style comments (/*...*/ and //...) are permissible but only in rather robust places, like after a comma or directly after opening or before closing parentheses, but e.g. not between a key and its value.
 
 Quick links:
 
