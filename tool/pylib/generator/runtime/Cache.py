@@ -29,7 +29,7 @@ from generator.runtime.Log import Log
 
 memcache  = {} # {key: {'content':content, 'time': (time.time()}}
 check_file     = u".cache_check_file"
-CACHE_REVISION = 28985 # increment this when existing caches need clearing
+CACHE_REVISION = 28986 # increment this when existing caches need clearing
 
 class Cache(object):
 
