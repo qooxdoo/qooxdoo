@@ -172,37 +172,6 @@ qx.Class.define("qx.test.io.request.Xhr",
         "application/x-www-form-urlencoded"), msg);
     },
 
-    // DEPRECATED
-    // (Catches bug in requestHeaders property handling, keep around to avoid
-    // regression until finally deprecated)
-    "test: set content type urlencoded for POST request when no type given using property": function() {
-      this.stub(qx.log.Logger, "deprecatedMethodWarning");
-
-      this.setUpFakeTransport();
-      this.req.setMethod("POST");
-      this.req.setRequestHeaders({"X-Animal": "Affe"});
-      this.req.send();
-
-      this.assertCalledWith(this.transport.setRequestHeader,
-           "Content-Type", "application/x-www-form-urlencoded");
-    },
-
-    // DEPRECATED
-    "test: not set content type urlencoded for POST request when type given using property": function() {
-      this.stub(qx.log.Logger, "deprecatedMethodWarning");
-
-      var msg;
-
-      this.setUpFakeTransport();
-      this.req.setMethod("POST");
-      this.req.setRequestHeaders({"Content-Type": "application/json"});
-      this.req.send();
-
-      msg = "Must not set content type urlencoded when other type given";
-      this.assert(!this.transport.setRequestHeader.calledWith("Content-Type",
-        "application/x-www-form-urlencoded"), msg);
-    },
-
     "test: send string data with POST request": function() {
       this.setUpFakeTransport();
       this.req.setMethod("POST");

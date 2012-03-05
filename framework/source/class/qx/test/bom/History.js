@@ -24,12 +24,14 @@ qx.Class.define("qx.test.bom.History", {
   members :
   {
     __history : null,
-    
+
+
     setUp : function()
     {
       this.__history = qx.bom.History.getInstance();
     },
-    
+
+
     testInstance : function()
     {
       if (qx.core.Environment.get("event.hashchange")) {
@@ -38,6 +40,26 @@ qx.Class.define("qx.test.bom.History", {
       else if (qx.core.Environment.get("engine.name") == "mshtml") {
         this.assertInstance(this.__history, qx.bom.IframeHistory);
       }
+    },
+
+
+    testNavigateBack : function()
+    {
+      this.__history.addToHistory("foo", "Title Foo");
+      this.assertEquals("#foo", window.location.hash);
+      this.assertEquals("Title Foo", document.title);
+      this.__history.addToHistory("bar", "Title Bar");
+      this.__history.navigateBack();
+      var self = this;
+      //navigateBack is async
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.assertEquals("#foo", window.location.hash);
+          this.assertEquals("Title Foo", document.title);
+        }, self);
+      }, 250);
+      
+      this.wait();
     }
   }
 });

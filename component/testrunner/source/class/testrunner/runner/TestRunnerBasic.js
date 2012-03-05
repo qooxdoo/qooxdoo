@@ -444,7 +444,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
 
         if (this.currentTestData && this.currentTestData.fullName === test.getFullName()
           && this.currentTestData.getState() == "wait") {
-          this.currentTestData.setState("start");
+          this.currentTestData.setState(this.currentTestData.getPreviousState() || "start");
           return;
         }
 

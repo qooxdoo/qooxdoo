@@ -48,7 +48,7 @@ page.addListener("initialize", function() {
     configureItem : function(item, data, row) {
       item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
       item.setTitle(row<4 ? ("Selectable " + data.title) : data.title);
-      item.setSubTitle(data.subTitle);
+      item.setSubtitle(data.subTitle);
       item.setSelectable(row<4);
       item.setShowArrow(row<4);
     }
@@ -161,7 +161,7 @@ page.addListener("initialize", function()
     configureItem : function(item, data, row)
     {
       item.setTitle(data.getTitle());
-      item.setSubTitle(data.getPubDate());
+      item.setSubtitle(data.getPubDate());
     }
   });
 

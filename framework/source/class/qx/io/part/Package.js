@@ -242,7 +242,6 @@ qx.Bootstrap.define("qx.io.part.Package",
 
         loader.onload = function()
         {
-          var success = loader.status === "200";
           urlsLoaded += 1;
           loader.dispose();
 

@@ -14,6 +14,7 @@
 
    Authors:
      * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -126,7 +127,14 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      * button.
      */
     _createChild : function() {
-      return new qx.ui.mobile.container.Composite();
+      var composite = new qx.ui.mobile.container.Composite();
+      
+      var toggleButtonSwitch = new qx.ui.mobile.container.Composite();
+      toggleButtonSwitch.addCssClass("toggleButtonSwitch");
+      
+      composite.add(toggleButtonSwitch);
+      
+      return composite;
     },
 
 
