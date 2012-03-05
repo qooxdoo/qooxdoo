@@ -59,7 +59,7 @@ qx.Class.define("demobrowser.demo.bom.Environment",
         }
 
         output.add("<tr><td>", key, "</td><td>",
-          qx.core.Environment.get(key), "</td></tr>");
+          qx.lang.Json.stringify(qx.core.Environment.get(key), null, 2), "</td></tr>");
       }
 
 
@@ -78,7 +78,7 @@ qx.Class.define("demobrowser.demo.bom.Environment",
         {
           var key = keys[i];
           qx.core.Environment.getAsync(key, function(result) {
-            output.add("<tr><td>", this, "</td><td>", result, "</td></tr>");
+            output.add("<tr><td>", this, "</td><td>", qx.lang.Json.stringify(result, null, 2), "</td></tr>");
             numberOfChecks--;
             if (numberOfChecks === 0) {
               output.add("</table>");
