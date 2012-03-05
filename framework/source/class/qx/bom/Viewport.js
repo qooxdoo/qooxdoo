@@ -86,124 +86,33 @@ qx.Class.define("qx.bom.Viewport",
   statics :
   {
     /**
-     * Returns the current width of the viewport (excluding an eventually visible scrollbar).
-     *
-     * <code>clientWidth</code> is the inner width of an element in pixels. It includes padding
-     * but not the vertical scrollbar (if present, if rendered), border or margin.
-     *
-     * The property <code>innerWidth</code> is not useable as defined by the standard as it includes the scrollbars
-     * which is not the indented behavior of this method. We can decrement the size by the scrollbar
-     * size but there are easier possibilities to work around this.
-     *
-     * Safari 2 and 3 beta (3.0.2) do not correctly implement <code>clientWidth</code> on documentElement/body,
-     * but <code>innerWidth</code> works there. Interesting is that webkit do not correctly implement
-     * <code>innerWidth</code>, too. It calculates the size excluding the scroll bars and this
-     * differs from the behavior of all other browsers - but this is exactly what we want to have
-     * in this case.
-     *
-     * Opera less then 9.50 only works well using <code>body.clientWidth</code>.
-     *
-     * Verified to correctly work with:
-     *
-     * * Mozilla Firefox 2.0.0.4
-     * * Opera 9.2.1
-     * * Safari 3.0 beta (3.0.2)
-     * * Internet Explorer 7.0
-     *
-     * @signature function(win)
+     * Returns the current width of the viewport (excluding the vertical scrollbar
+     * if present).
+     * 
      * @param win {Window?window} The window to query
-     * @return {Integer} The width of the viewable area of the page (excludes scrollbars).
+     * @return {Integer} The width of the viewable area of the page (excluding scrollbars).
      */
-    getWidth : qx.core.Environment.select("engine.name",
+    getWidth : function(win)
     {
-      "opera" : function(win) {
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 9.5) {
-          return (win||window).document.body.clientWidth;
-        }
-        else
-        {
-          var doc = (win||window).document;
-          return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientWidth : doc.body.clientWidth;
-        }
-      },
-
-      "webkit" : function(win) {
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 523.15) { // Version < 3.0.4
-          return (win||window).innerWidth;
-        }
-        else
-        {
-          var doc = (win||window).document;
-          return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientWidth : doc.body.clientWidth;
-        }
-      },
-
-      "default" : function(win)
-      {
-        var doc = (win||window).document;
-        return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientWidth : doc.body.clientWidth;
-      }
-    }),
+      var win = win || window;
+      var doc = win.document;
+      return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientWidth : doc.body.clientWidth;
+    },
 
 
     /**
-     * Returns the current height of the viewport (excluding an eventually visible scrollbar).
+     * Returns the current height of the viewport (excluding the horizontal scrollbar
+     * if present).
      *
-     * <code>clientHeight</code> is the inner height of an element in pixels. It includes padding
-     * but not the vertical scrollbar (if present, if rendered), border or margin.
-     *
-     * The property <code>innerHeight</code> is not useable as defined by the standard as it includes the scrollbars
-     * which is not the indented behavior of this method. We can decrement the size by the scrollbar
-     * size but there are easier possibilities to work around this.
-     *
-     * Safari 2 and 3 beta (3.0.2) do not correctly implement <code>clientHeight</code> on documentElement/body,
-     * but <code>innerHeight</code> works there. Interesting is that webkit do not correctly implement
-     * <code>innerHeight</code>, too. It calculates the size excluding the scroll bars and this
-     * differs from the behavior of all other browsers - but this is exactly what we want to have
-     * in this case.
-     *
-     * Opera less then 9.50 only works well using <code>body.clientHeight</code>.
-     *
-     * Verified to correctly work with:
-     *
-     * * Mozilla Firefox 2.0.0.4
-     * * Opera 9.2.1
-     * * Safari 3.0 beta (3.0.2)
-     * * Internet Explorer 7.0
-     *
-     * @signature function(win)
      * @param win {Window?window} The window to query
-     * @return {Integer} The Height of the viewable area of the page (excludes scrollbars).
+     * @return {Integer} The Height of the viewable area of the page (excluding scrollbars).
      */
-    getHeight : qx.core.Environment.select("engine.name",
+    getHeight : function(win)
     {
-      "opera" : function(win) {
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 9.5) {
-          return (win||window).document.body.clientHeight;
-        }
-        else
-        {
-          var doc = (win||window).document;
-          return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientHeight : doc.body.clientHeight;
-        }
-      },
-
-      "webkit" : function(win) {
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 523.15) { // Version < 3.0.4
-          return (win||window).innerHeight;
-        }
-        else {
-          var doc = (win||window).document;
-          return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientHeight : doc.body.clientHeight;
-        }
-      },
-
-      "default" : function(win)
-      {
-        var doc = (win||window).document;
-        return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientHeight : doc.body.clientHeight;
-      }
-    }),
+      var win = win || window;
+      var doc = win.document;
+      return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientHeight : doc.body.clientHeight;
+    },
 
 
     /**
