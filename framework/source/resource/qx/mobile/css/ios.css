@@ -1195,7 +1195,7 @@ div.checked .toggleButtonSwitch:before {
   position: relative;
   content: "ON";
   color: #ffffff;
-  left: -40px;
+  left: -35px;
   line-height: 26px;
 }
 .toggleButtonSwitch:after {
