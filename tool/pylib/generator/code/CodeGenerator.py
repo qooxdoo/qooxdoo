@@ -30,7 +30,7 @@ from generator.code.Package     import Package
 from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.Script      import Script
 import generator.resource.Library # just need the .Library type
-from ecmascript.frontend        import treegenerator, treegenerator_new_ast
+from ecmascript.frontend        import treegenerator, treegenerator_2
 from ecmascript.backend         import pretty
 #from ecmascript.backend         import pretty_new as pretty
 from ecmascript.backend.Packer  import Packer
@@ -996,7 +996,7 @@ class CodeGenerator(object):
         numClasses = len(classesObj)
         for pos, classId in enumerate(classesObj):
             self._console.progress(pos+1, numClasses)
-            tree = classesObj[classId].tree()
+            tree = classesObj[classId].tree(treegenerator_2)
             result = [u'']
             result = pretty.prettyNode(tree, options, result)
             compiled = u''.join(result)
