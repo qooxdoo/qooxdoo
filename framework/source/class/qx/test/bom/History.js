@@ -21,9 +21,17 @@ qx.Class.define("qx.test.bom.History", {
 
   extend : qx.dev.unit.TestCase,
   
+  include : [qx.dev.unit.MRequirements],
+  
   members :
   {
     __history : null,
+
+
+    hasNoIe : function()
+    {
+      return qx.core.Environment.get("engine.name") !== "mshtml";
+    },
 
 
     setUp : function()
@@ -43,21 +51,37 @@ qx.Class.define("qx.test.bom.History", {
     },
 
 
-    testNavigateBack : function()
+    testAddState : function()
     {
       this.__history.addToHistory("foo", "Title Foo");
-      this.assertEquals("#foo", window.location.hash);
-      this.assertEquals("Title Foo", document.title);
+      
+      var self = this;
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.assertEquals("foo", this.__history.getState(), "AFFE1");
+          this.assertEquals("Title Foo", this.__history.getTitle());
+        }, self);
+      }, 100);
+      
+      this.wait();
+    },
+    
+    
+    testNavigateBack : function()
+    {
+      // navigateBack causes the AUT to reload in IE
+      this.require(["noIe"]);
+      this.__history.addToHistory("foo", "Title Foo");
       this.__history.addToHistory("bar", "Title Bar");
       this.__history.navigateBack();
       var self = this;
       //navigateBack is async
       window.setTimeout(function() {
         self.resume(function() {
-          this.assertEquals("#foo", window.location.hash);
-          this.assertEquals("Title Foo", document.title);
+          this.assertEquals("foo", this.__history.getState(), "AFFE2");
+          this.assertEquals("Title Foo", this.__history.getTitle());
         }, self);
-      }, 250);
+      }, 100);
       
       this.wait();
     }
