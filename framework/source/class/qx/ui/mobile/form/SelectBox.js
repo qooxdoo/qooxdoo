@@ -179,7 +179,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     /**
      * Creates the selection dialog. Override this to customize the widget.
      *
-     * @param {qx.ui.mobile.list.List} The selection list that should be added to the dialog
+     * @param selectionList {qx.ui.mobile.list.List} The selection list that should be added to the dialog
      * @return {qx.ui.mobile.dialog.Dialog} The selection list
      */
     _createSelectionDialog : function(selectionList) {
