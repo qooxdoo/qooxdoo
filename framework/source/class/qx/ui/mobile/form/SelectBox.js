@@ -157,7 +157,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     /**
      * Creates the selection list. Override this to customize the widget.
      *
-     * @return {qx.ui.mobile.list.List} The selection list
+     * @return value {qx.ui.mobile.list.List} The selection list
      */
     _createSelectionList : function() {
       var self = this;
@@ -179,8 +179,9 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     /**
      * Creates the selection dialog. Override this to customize the widget.
      *
-     * @param selectionList {qx.ui.mobile.list.List} The selection list that should be added to the dialog
-     * @return {qx.ui.mobile.dialog.Dialog} The selection list
+     * @param selectionList {qx.ui.mobile.list.List} The selection list that 
+     *        should be added to the dialog
+     * @return value {qx.ui.mobile.dialog.Dialog} The selection list
      */
     _createSelectionDialog : function(selectionList) {
       return new qx.ui.mobile.dialog.Dialog(selectionList);
@@ -286,18 +287,19 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       }
 
       this._render();
-    },
-
-    /*
-    *****************************************************************************
-        DESTRUCTOR
-    *****************************************************************************
-    */
-
-    destruct : function()
-    {
-      this.__unregisterEventListener();
-      this._disposeObjects("__selectionDialog","__selectionList");
     }
+  }
+  ,
+
+  /*
+  *****************************************************************************
+      DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this.__unregisterEventListener();
+    this._disposeObjects("__selectionDialog","__selectionList");
   }
 });
