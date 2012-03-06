@@ -81,7 +81,9 @@ qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
       }
 
       // pass the event to the parent if both scrollbars are at the end
-      if (!endY || !endX) {
+      if ((!endY && deltaX === 0) ||
+          (!endX && deltaY === 0) ||
+          ((!endX || !endY ) && deltaX !== 0 && deltaY !== 0)) {
         // Stop bubbling and native event only if a scrollbar is visible
         e.stop();
       }
