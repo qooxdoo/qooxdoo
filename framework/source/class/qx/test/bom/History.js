@@ -85,7 +85,7 @@ qx.Class.define("qx.test.bom.History", {
           this.assertEquals("foo", this.__history.getState(), "AFFE2");
           this.assertEquals("Title Foo", this.__history.getTitle());
         }, self);
-      }, 150);
+      }, 500);
       
       this.wait();
     }
