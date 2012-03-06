@@ -14,6 +14,7 @@
 
    Authors:
      * Daniel Wagner (danielwagner)
+     * Mustafa Sak (msak)
 
 ************************************************************************ */
 
@@ -42,7 +43,10 @@ qx.Class.define("qx.test.bom.History", {
 
     testInstance : function()
     {
-      if (qx.core.Environment.get("event.hashchange")) {
+      if (!(window == window.top) && qx.core.Environment.get("event.hashchange") && qx.core.Environment.get("engine.name") == "mshtml") {
+        this.assertInstance(this.__history, qx.bom.HashHistory);
+      }
+      else if (qx.core.Environment.get("event.hashchange")) {
         this.assertInstance(this.__history, qx.bom.NativeHistory);
       }
       else if (qx.core.Environment.get("engine.name") == "mshtml") {
@@ -70,7 +74,7 @@ qx.Class.define("qx.test.bom.History", {
     testNavigateBack : function()
     {
       // navigateBack causes the AUT to reload in IE
-      this.require(["noIe"]);
+      //this.require(["noIe"]);
       this.__history.addToHistory("foo", "Title Foo");
       this.__history.addToHistory("bar", "Title Bar");
       this.__history.navigateBack();
@@ -81,7 +85,7 @@ qx.Class.define("qx.test.bom.History", {
           this.assertEquals("foo", this.__history.getState(), "AFFE2");
           this.assertEquals("Title Foo", this.__history.getTitle());
         }, self);
-      }, 100);
+      }, 150);
       
       this.wait();
     }
