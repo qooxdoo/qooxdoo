@@ -91,7 +91,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         var eventName = this.__cssAnimationKeys["end-event"];
         qx.bom.Event.addNativeListener(el, eventName, this.__onAnimationEnd);
 
-        el.style[this.__cssAnimationKeys["name"]] = style;
+        el.style[qx.lang.String.camelCase(this.__cssAnimationKeys["name"])] = style;
       }
 
       var animation = new qx.bom.element.AnimationHandle();
@@ -132,7 +132,10 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
 
       if (qx.bom.element.AnimationCss.__cssAnimationKeys != null) {
         // reset the styling
-        el.style[qx.bom.element.AnimationCss.__cssAnimationKeys["name"]] = "";
+        var key = qx.lang.String.camelCase(
+          qx.bom.element.AnimationCss.__cssAnimationKeys["name"]
+        );
+        el.style[key] = "";
 
         qx.bom.Event.removeNativeListener(
           el,
@@ -178,7 +181,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
           }
           transforms[style] = endFrame[style];
         } else {
-          el.style[style] = endFrame[style];
+          el.style[qx.lang.String.camelCase(style)] = endFrame[style];
         }
       }
 

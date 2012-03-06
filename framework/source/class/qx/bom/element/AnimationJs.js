@@ -155,7 +155,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         if (handle.i == 0) {
           for (var name in values) {
             if (handle.initValues[name] == undefined) {
-              handle.initValues[name] = handle.el.style[name];
+              handle.initValues[name] = handle.el.style[qx.lang.String.camelCase(name)];
             }
           }
         }
@@ -291,7 +291,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      */
     __applyStyles : function(el, styles) {
       for (var name in styles) {
-        el.style[name] = styles[name];
+        el.style[qx.lang.String.camelCase(name)] = styles[name];
       }
     },
 
@@ -327,7 +327,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       for (var i=0; i < keys.length; i++) {
         keys[i] = parseInt(keys[i], 10);
       };
-      keys.sort(function(a,b) {return a>b;});
+      keys.sort(function(a,b) {return a-b;});
       return keys;
     }
   }
