@@ -893,7 +893,6 @@ class MClassDependencies(object):
 
             if isinstance(attribNode, Node):
 
-                #import pydb; pydb.debugger()
                 if (attribNode.getChild("function", False)       # is it a function(){..} value?
                     and not dependencyItem.isCall                # and the reference was no call
                    ):
