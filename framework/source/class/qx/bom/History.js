@@ -268,7 +268,6 @@ qx.Class.define("qx.bom.History",
     // property apply
     _applyTitle : function (title)
     {
-      console.log(title);
       if (title != null) {
         document.title = title || "";
       }
@@ -329,7 +328,6 @@ qx.Class.define("qx.bom.History",
     {
       this.setState(state);
       this.fireDataEvent("request", state);
-      console.log(this.__titles[state], "_onHistoryLoad");
       if (this.__titles[state] != null) {
         this.setTitle(this.__titles[state]);
       }
@@ -380,8 +378,6 @@ qx.Class.define("qx.bom.History",
      */
     _getHash : function()
     {
-      //console.warn(window.location.href);
-      //console.log(qx.dev.StackTrace.getStackTrace());
       var hash = /#(.*)$/.exec(window.location.href);
       return hash && hash[1] ? hash[1] : "";
     }
