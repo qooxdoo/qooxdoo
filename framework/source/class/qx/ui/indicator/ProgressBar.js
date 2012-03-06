@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
       this.__value = value;
 
       //update progress
-      this.__changeProgress(value / max);
+      this._changeProgress(value / max);
 
       return value;
     },
@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
       this.__maximum = max;
 
       //update progress
-      this.__changeProgress(val / max);
+      this._changeProgress(val / max);
 
       return max;
     },
@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
    *
    * @param value {Number} future value of progress bar
    */
-    __changeProgress: function(value) {
+    _changeProgress: function(value) {
       var bar = this.getChildControl("progress");
       var to = Math.floor(value * 100);
       var from = parseInt(bar.getLayoutProperties().width, 10);

@@ -31,7 +31,9 @@ qx.Bootstrap.define("qx.util.OOUtil",
      * @param name {String} class name to check
      * @return {Boolean} true if class exists
      */
-    classIsDefined : qx.Bootstrap.classIsDefined,
+    classIsDefined : function(name) {
+      return qx.Bootstrap.getByName(name) !== undefined;
+    },
 
 
     /**
@@ -44,8 +46,19 @@ qx.Bootstrap.define("qx.util.OOUtil",
      * @param name {String} name of the event to check for
      * @return {Map|null} whether the object support the given event.
      */
-    getPropertyDefinition : qx.Bootstrap.getPropertyDefinition,
+    getPropertyDefinition : function(clazz, name)
+    {
+      while (clazz)
+      {
+        if (clazz.$$properties && clazz.$$properties[name]) {
+          return clazz.$$properties[name];
+        }
 
+        clazz = clazz.superclass;
+      }
+
+      return null;
+    },
 
 
     /**
@@ -55,7 +68,9 @@ qx.Bootstrap.define("qx.util.OOUtil",
      * @param name {String} name of the property to check for
      * @return {Boolean} whether the class includes the given property.
      */
-    hasProperty : qx.Bootstrap.hasProperty,
+    hasProperty : function(clazz, name) {
+      return !!qx.util.OOUtil.getPropertyDefinition(clazz, name);
+    },
 
 
     /**
@@ -66,7 +81,21 @@ qx.Bootstrap.define("qx.util.OOUtil",
      * @param name {String} name of the event
      * @return {Map|null} Event type of the given event.
      */
-    getEventType : qx.Bootstrap.getEventType,
+    getEventType : function(clazz, name)
+    {
+      var clazz = clazz.constructor;
+
+      while (clazz.superclass)
+      {
+        if (clazz.$$events && clazz.$$events[name] !== undefined) {
+          return clazz.$$events[name];
+        }
+
+        clazz = clazz.superclass;
+      }
+
+      return null;
+    },
 
 
     /**
@@ -76,7 +105,9 @@ qx.Bootstrap.define("qx.util.OOUtil",
      * @param name {String} name of the event to check for
      * @return {Boolean} whether the class supports the given event.
      */
-    supportsEvent : qx.Bootstrap.supportsEvent,
+    supportsEvent : function(clazz, name) {
+      return !!qx.util.OOUtil.getEventType(clazz, name);
+    },
 
 
     /**
@@ -88,7 +119,29 @@ qx.Bootstrap.define("qx.util.OOUtil",
      * @param iface {Interface} interface to look for
      * @return {Class | null} the class which directly implements the given interface
      */
-    getByInterface : qx.Bootstrap.getByInterface,
+    getByInterface : function(clazz, iface)
+    {
+      var list, i, l;
+
+      while (clazz)
+      {
+        if (clazz.$$implements)
+        {
+          list = clazz.$$flatImplements;
+
+          for (i=0, l=list.length; i<l; i++)
+          {
+            if (list[i] === iface) {
+              return clazz;
+            }
+          }
+        }
+
+        clazz = clazz.superclass;
+      }
+
+      return null;
+    },
 
 
     /**
@@ -103,7 +156,9 @@ qx.Bootstrap.define("qx.util.OOUtil",
      * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class includes the interface.
      */
-    hasInterface : qx.Bootstrap.hasInterface,
+    hasInterface : function(clazz, iface) {
+      return !!qx.util.OOUtil.getByInterface(clazz, iface);
+    },
 
 
     /**
@@ -112,6 +167,20 @@ qx.Bootstrap.define("qx.util.OOUtil",
      * @param clazz {Class} class which should be inspected
      * @return {Mixin[]} array of mixins this class uses
      */
-    getMixins : qx.Bootstrap.getMixins
+    getMixins : function(clazz)
+    {
+      var list = [];
+
+      while (clazz)
+      {
+        if (clazz.$$includes) {
+          list.push.apply(list, clazz.$$flatIncludes);
+        }
+
+        clazz = clazz.superclass;
+      }
+
+      return list;
+    }
   }
 });

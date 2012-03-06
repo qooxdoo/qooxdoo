@@ -184,18 +184,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertEquals("value", this.req._getAllRequestHeaders()["otherkey"]);
     },
 
-    // DEPRECATED
-    "test: set request headers": function() {
-      // Ignore expected deprecation warning
-      this.stub(qx.log.Logger, "deprecatedMethodWarning");
-
-      this.req.setRequestHeaders({key1: "value", key2: "value"});
-      this.req.send();
-
-      this.assertCalledWith(this.transport.setRequestHeader, "key1", "value");
-      this.assertCalledWith(this.transport.setRequestHeader, "key2", "value");
-    },
-
     "test: not append cache parameter to URL": function() {
       this.req.send();
 

@@ -266,7 +266,7 @@ qx.Bootstrap.define("qx.lang.Function",
             return func.apply(options.self||this, args);
           };
 
-          if (qx.event && qx.event.GlobalError) {
+          if (qx.core.Environment.get("qx.globalErrorHandling")) {
             returns = qx.event.GlobalError.observeMethod(returns);
           }
 

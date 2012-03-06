@@ -380,7 +380,7 @@ qx.Class.define("qx.core.Assert",
       var id;
       try {
         id = obj.addListener(event, listener, obj);
-        invokeFunc.call();
+        invokeFunc.call(obj);
       } catch (ex) {
         throw ex;
       } finally {

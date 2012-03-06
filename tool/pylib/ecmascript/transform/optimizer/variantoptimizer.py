@@ -24,6 +24,7 @@
 import re, sys, operator as operators, types
 from ecmascript.frontend.treeutil import *
 from ecmascript.frontend          import treeutil
+from ecmascript.frontend.treegenerator  import symbol
 from misc                         import json
 
 global verbose
@@ -61,12 +62,10 @@ def search(node, variantMap, fileId_="", verb=False):
 
     variantNodes = findVariantNodes(node)
     for variantNode in variantNodes:
-        variantMethod = selectNode(variantNode, "identifier[4]/@name")
+        variantMethod = variantNode.toJS().rsplit('.',1)[1]
         if variantMethod in ["select"]:
-            #modified = processVariantSelect(selectNode(variantNode, "../.."), variantMap) or modified
             modified = processVariantSelect(selectCallNode(variantNode), variantMap) or modified
         elif variantMethod in ["get"]:
-            #modified = processVariantGet(selectNode(variantNode, "../.."), variantMap) or modified
             modified = processVariantGet(selectCallNode(variantNode), variantMap) or modified
         elif variantMethod in ["filter"]:
             modified = processVariantFilter(selectCallNode(variantNode), variantMap) or modified
@@ -74,14 +73,10 @@ def search(node, variantMap, fileId_="", verb=False):
     return modified
 
 
-
 def selectCallNode(variableNode):
     # the call node is usually two levels up from the variable node that holds
     # the function name ("call/operator/variable")
     callNode = selectNode(variableNode, "../..")
-    # also remove unnecessary grouping around the call node
-    #while callNode.parent and callNode.parent.type == "group" and len(callNode.parent.children)==1:
-    #    callNode = callNode.parent
     return callNode
 
 ##
@@ -188,10 +183,11 @@ def processVariantGet(callNode, variantMap):
         return treeModified
 
     # skipping "relative" calls like "a.b.qx.core.Environment.get()"
-    qxIdentifier = treeutil.selectNode(callNode, "operand/variable/identifier[1]")
-    if not treeutil.checkFirstChainChild(qxIdentifier):
-        log("Warning", "Skipping relative qx.core.Environment.get call. Ignoring this occurrence ('%s')." % treeutil.findChainRoot(qxIdentifier).toJavascript())
-        return treeModified
+    #(with the new ast and the isEnvironmentCall check, this cannot happen anymore)
+    #qxIdentifier = treeutil.selectNode(callNode, "operand/variable/identifier[1]")
+    #if not treeutil.checkFirstChainChild(qxIdentifier):
+    #    log("Warning", "Skipping relative qx.core.Environment.get call. Ignoring this occurrence ('%s')." % treeutil.findChainRoot(qxIdentifier).toJavascript())
+    #    return treeModified
 
     variantKey = firstParam.get("value");
     if variantKey in variantMap:
@@ -314,9 +310,9 @@ def __variantMatchKey(key, variantValue):
 # handles parent relation
 def reduceCall(callNode, value):
     # construct the value node
-    valueNode = tree.Node("constant")
+    valueNode = symbol("constant")(
+            callNode.get("line"), callNode.get("column"))
     valueNode.set("value", str(value))
-    valueNode.set("line", callNode.get("line"))
     if isinstance(value, types.StringTypes):
         valueNode.set("constantType","string")
         valueNode.set("detail", "doublequotes")
@@ -388,10 +384,10 @@ def reduceOperation(literalNode):
         operands.append(otherVal)
          
         result = cmpFcn(operands[0],operands[1])
-        resultNode = tree.Node("constant")
+        resultNode = symbol("constant")(
+            noperationNode.get("line"), noperationNode.get("column"))
         resultNode.set("constantType","boolean")
         resultNode.set("value", str(result).lower())
-        resultNode.set("line", noperationNode.get("line"))
 
     # order compares <, =<, ...
     elif operator in ["LT", "LE", "GT", "GE"]:
@@ -413,18 +409,18 @@ def reduceOperation(literalNode):
         operands[otherPosition] = otherVal
 
         result = cmpFcn(operands[0], operands[1])
-        resultNode = tree.Node("constant")
+        resultNode = symbol("constant")(
+            noperationNode.get("line"), noperationNode.get("column"))
         resultNode.set("constantType","boolean")
         resultNode.set("value", str(result).lower())
-        resultNode.set("line", noperationNode.get("line"))
 
     # logical ! (not)
     elif operator in ["NOT"]:
         result = not literalValue
-        resultNode = tree.Node("constant")
+        resultNode = symbol("constant")(
+            noperationNode.get("line"), noperationNode.get("column"))
         resultNode.set("constantType","boolean")
         resultNode.set("value", str(result).lower())
-        resultNode.set("line", noperationNode.get("line"))
 
     # logical operators &&, || -- Currently disabled, s. bug#4856
     elif False and operator in ["AND", "OR"]:
@@ -633,15 +629,13 @@ def getFilterMap(callNode, fileId_):
 #
 # @return {Iter<Node>} node generator
 #
+
 InterestingEnvMethods = ["select", "selectAsync", "get", "getAsync", "filter"]
+
 def findVariantNodes(node):
-    variantNodes = treeutil.findVariablePrefix(node, "qx.core.Environment")
-    for variantNode in variantNodes:
-        if not variantNode.hasParentContext("call/operand"):
-            continue
-        variantMethod = treeutil.selectNode(variantNode, "identifier[4]/@name")
-        if variantMethod in InterestingEnvMethods:
-            yield variantNode
+    for callnode in treeutil.nodeIterator(node, ['call']):
+        if isEnvironmentCall(callnode):
+            yield treeutil.selectNode(callnode, "operand").getFirstChild()
         else:
             continue
 
@@ -649,10 +643,13 @@ def isEnvironmentCall(callNode):
     if callNode.type != "call":
         return False
     operandNode = treeutil.selectNode(callNode, "operand")
-    environNodes = treeutil.findVariablePrefix(operandNode, "qx.core.Environment")
-    if len(environNodes) != 1:
+    operand = operandNode.toJS()
+    environParts = operand.rsplit('.',1)
+    if len(environParts) != 2:
         return False
-    environMethod = treeutil.selectNode(environNodes[0], "identifier[4]/@name")
-    if environMethod in InterestingEnvMethods:
-        return True
-    return False
+    elif environParts[0] != "qx.core.Environment":
+        return False
+    elif environParts[1] not in InterestingEnvMethods:
+        return False
+    else:
+        return operand

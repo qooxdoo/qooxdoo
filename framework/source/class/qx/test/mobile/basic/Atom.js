@@ -55,8 +55,6 @@ qx.Class.define("qx.test.mobile.basic.Atom",
       // atom.getIconWidget().getContainerElement().src is usually in the form:
       // http://127.0.0.1/tablet/framework/test/html/qx/icon/Tango/48/places/folder-remote.png
       // but http://127.0.0.1/tablet/framework/test/html/ differs on where you test it
-      console.log(atom.getIconWidget().getContainerElement().src);
-      console.log(imageURL);
       this.assertTrue(atom.getIconWidget().getContainerElement().src.indexOf("qx/icon/Tango/48/places/user-home.png") != -1);
 
       var image2URL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/32/places/folder-open.png");

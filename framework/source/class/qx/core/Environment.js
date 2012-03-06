@@ -97,10 +97,6 @@
  *       <td>{@link qx.bom.client.Css#getBoxShadow}</td>
  *     </tr>
  *     <tr>
- *       <td>css.gradients</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>{@link qx.bom.client.Css#getLinearGradient}</td>
- *     </tr>
- *     <tr>
  *       <td>css.gradient.linear</td><td><i>String</i> or <i>null</i></td><td><code>-moz-linear-gradient</code></td>
  *       <td>{@link qx.bom.client.Css#getLinearGradient}</td>
  *     </tr>
@@ -115,10 +111,6 @@
  *     <tr>
  *       <td>css.textoverflow</td><td><i>String</i> or <i>null</i></td><td><code>textOverflow</code></td>
  *       <td>{@link qx.bom.client.Css#getTextOverflow}</td>
- *     </tr>
- *     <tr>
- *       <td>css.translate3d</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>{@link qx.bom.client.CssTransform#get3D}</td>
  *     </tr>
  *     <tr>
  *       <td>css.rgba</td><td><i>Boolean</i></td><td><code>true</code></td>
@@ -182,10 +174,6 @@
 
  *     <tr>
  *       <td colspan="4"><b>ecmascript</b></td>
- *     </tr>
- *     <tr>
- *       <td>ecmascript.objectcount</td><td><i>Boolean</i></td><td><code>false</code></td>
- *       <td>{@link qx.bom.client.EcmaScript#getObjectCount}</td>
  *     </tr>
  *     <tr>
  *       <td>ecmascript.stacktrace</td><td><i>String</i> or <i>null</i></td><td><code>stack</code></td>
@@ -270,6 +258,10 @@
  *     <tr>
  *       <td>html.storage.session</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getSessionStorage}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.storage.userdata</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getUserDataStorage}</td>
  *     </tr>
  *     <tr>
  *       <td>html.svg</td><td><i>Boolean</i></td><td><code>true</code></td>
@@ -699,7 +691,6 @@ qx.Bootstrap.define("qx.core.Environment",
       "event.pointer"               : "qx.bom.client.Event.getPointer",
       "event.help"                  : "qx.bom.client.Event.getHelp",
       "event.hashchange"            : "qx.bom.client.Event.getHashChange",
-      "ecmascript.objectcount"      : "qx.bom.client.EcmaScript.getObjectCount", // @deprecated since 1.6
       "ecmascript.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",
       "html.webworker"              : "qx.bom.client.Html.getWebWorker",
       "html.filereader"             : "qx.bom.client.Html.getFileReader",
@@ -716,6 +707,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "html.video.webm"             : "qx.bom.client.Html.getVideoWebm",
       "html.storage.local"          : "qx.bom.client.Html.getLocalStorage",
       "html.storage.session"        : "qx.bom.client.Html.getSessionStorage",
+      "html.storage.userdata"        : "qx.bom.client.Html.getUserDataStorage",
       "html.classlist"              : "qx.bom.client.Html.getClassList",
       "html.xpath"                  : "qx.bom.client.Html.getXPath",
       "html.xul"                    : "qx.bom.client.Html.getXul",
@@ -740,7 +732,6 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.borderradius"            : "qx.bom.client.Css.getBorderRadius",
       "css.borderimage"             : "qx.bom.client.Css.getBorderImage",
       "css.boxshadow"               : "qx.bom.client.Css.getBoxShadow",
-      "css.gradients"               : "qx.bom.client.Css.getGradients",  // @deprecated since 1.6
       "css.gradient.linear"         : "qx.bom.client.Css.getLinearGradient",
       "css.gradient.radial"         : "qx.bom.client.Css.getRadialGradient",
       "css.boxmodel"                : "qx.bom.client.Css.getBoxModel",
@@ -751,7 +742,6 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.appearance"              : "qx.bom.client.Css.getAppearance",
       "css.float"                   : "qx.bom.client.Css.getFloat",
       "css.boxsizing"               : "qx.bom.client.Css.getBoxSizing",
-      "css.translate3d"             : "qx.bom.client.CssTransform.get3D", // @deprecated since 1.6
       "css.animation" : "qx.bom.client.CssAnimation.getSupport",
       "css.transform" : "qx.bom.client.CssTransform.getSupport",
       "css.transform.3d" : "qx.bom.client.CssTransform.get3D",
@@ -786,22 +776,6 @@ qx.Bootstrap.define("qx.core.Environment",
      * @param key {String} The name of the check you want to query.
      */
     get : function(key) {
-      if (qx.Bootstrap.DEBUG) {
-        var deprecated = {
-          "css.translate3d" : "css.transform.3d",
-          "css.gradients" : "css.gradient.linear",
-          "ecmascript.objectcount" : null
-        };
-        if (key in deprecated) {
-          qx.Bootstrap.warn(
-            "The key '" + key + "' is deprecated." +
-            (deprecated[key] ?
-              " Please use '" + deprecated[key] + "' instead."
-            : "")
-          );
-        }
-      }
-
       // check the cache
       if (this.__cache[key] != undefined) {
         return this.__cache[key];

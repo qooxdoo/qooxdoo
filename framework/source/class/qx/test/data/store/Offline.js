@@ -50,7 +50,7 @@ qx.Class.define("qx.test.data.store.Offline",
         this.__store.dispose();
       }
       // erase the data from the storages
-      qx.bom.storage.Local.getInstance().removeItem(this.__testKey);
+      qx.bom.Storage.getLocal().removeItem(this.__testKey);
     },
 
 
@@ -74,7 +74,7 @@ qx.Class.define("qx.test.data.store.Offline",
 
       // fallback for the storage is local
       store = new qx.data.store.Offline(this.__testKey);
-      this.assertEquals(store._storage, qx.bom.storage.Local.getInstance());
+      this.assertEquals(store._storage, qx.bom.Storage.getLocal());
       store.dispose();
 
       // assert no exception
@@ -90,7 +90,7 @@ qx.Class.define("qx.test.data.store.Offline",
       var model = this.__createDefaultModel();
       this.__store.setModel(model);
       this.__store.setModel(null);
-      this.assertNull(qx.bom.storage.Local.getInstance().getItem(this.__testKey));
+      this.assertNull(qx.bom.Storage.getLocal().getItem(this.__testKey));
 
       model.dispose();
     },
@@ -139,7 +139,7 @@ qx.Class.define("qx.test.data.store.Offline",
 
 
     testModelRead : function() {
-      this.stub(qx.bom.storage.Local.getInstance(), "getItem").returns({b : "b"});
+      this.stub(qx.bom.Storage.getLocal(), "getItem").returns({b : "b"});
       this.__initDefaultStore();
 
       this.assertNotUndefined(this.__store.getModel());

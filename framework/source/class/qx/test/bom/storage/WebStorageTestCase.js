@@ -26,14 +26,7 @@ qx.Class.define("qx.test.bom.storage.WebStorageTestCase",
   {
     _storage: null,
 
-    _checkFeature: function() {
-    },
-
-    _getStorage: function() {
-    },
-
     setUp : function() {
-      this._checkFeature();
       this._storage = this._getStorage();
       this._storage.clear();
     },
@@ -87,42 +80,18 @@ qx.Class.define("qx.test.bom.storage.WebStorageTestCase",
       this.assertEquals(0, this._storage.getLength());
     },
 
-    testIterate: function() {
+    testForEach: function() {
       var i;
       for (i=0; i<10; i++) {
         this._storage.setItem("key"+i,"value");
       }
       //don't rely on the order
       i = 0;
-      this._storage.iterate(function(key, item) {
+      this._storage.forEach(function(key, item) {
         this.assertEquals(this._storage.getItem(key), item);
         i++;
       }, this);
       this.assertEquals(10, i);
-    },
-
-    testStorageEvent: function() {
-      this.require(["mshtml", "firefox", "opera"]);
-      //CHROME
-      //the event is never fired in the same document
-      //the event seems to be fired for others documents from the same domain
-      //
-      //FIREFOX
-      //sessionStorage doesn't fire the event in the same document
-      //localStorage fires the event in the same document
-      //
-      //NOTE: at this point maybe the best idea is to not base our storage event
-      //on the native storage event
-      //here's a test page where you can check the storage on diff browsers:
-      //http://www.lysator.liu.se/~jhs/test/html5-storage-events.html
-      this._storage.addListenerOnce("storage", function() {
-        this.resume(function() {
-          // ignore
-        }, this);
-      }, this);
-
-      this._storage.setItem("key1", "affe");
-      this.wait();
     }
   }
 });

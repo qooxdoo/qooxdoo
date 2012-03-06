@@ -143,7 +143,6 @@ qx.Class.define("testrunner.view.Console", {
      */
     _onTestChangeState : function(testResultData)
     {
-      var timestamp = new Date();
       var testName = testResultData.getFullName();
       var state = testResultData.getState();
       
@@ -161,20 +160,13 @@ qx.Class.define("testrunner.view.Console", {
           var ex = exceptions[i].exception;
           var type = ex.classname || ex.type || "Error";
           
-          var message = "";
-          if (ex.getComment) {
-            //qx.type.BaseError
-            message = ex.getComment() + ": ";
-          }
-          if (ex.message) {
-            // native Error
-            message += ex.message;
-          }
-          if (message === "" && ex.toString) {
-            message = ex.toString();
-          }
+          var message = ex.toString ? ex.toString() : 
+            ex.message ? ex.message : "Unknown Error";
           
-          var stacktrace = testResultData.getStackTrace(ex);
+          var stacktrace;
+          if (!(ex.classname && ex.classname == "qx.dev.unit.MeasurementResult")) {
+            stacktrace = testResultData.getStackTrace(ex);
+          }
           
           var serializedEx = {
             type : type,

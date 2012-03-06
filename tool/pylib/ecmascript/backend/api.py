@@ -34,8 +34,8 @@
 
 import sys, os, re
 from ecmascript.frontend import tree, Comment, lang
-from ecmascript.frontend.treeutil import *
-from ecmascript.transform.optimizer import variantoptimizer  # ugly here
+from ecmascript.frontend.treeutil_2 import *
+from ecmascript.transform.optimizer import variantoptimizer_2 as variantoptimizer  # ugly here
 from generator import Context
 
 

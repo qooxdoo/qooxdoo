@@ -405,6 +405,17 @@ qx.Class.define("qx.test.bom.Location",
       var span2 = document.getElementById("span2");
       var pos = qx.bom.element.Location.get(span2);
       this.assertEquals(30, pos.left);
+    },
+
+
+    testDivFixed : function()
+    {
+      document.body.innerHTML =
+      '<div style="position: absolute; left: 0px; top: 0px; width: 20px; height: 1000px;"></div>' +
+      '<div id="test" style="position: fixed; width: 300px; height: 600px; top: 50px;"></div>';
+      window.scrollTo(0,100);
+      var pos = qx.bom.element.Location.get(document.getElementById("test"));
+      this.assertEquals(150, pos.top);
     }
   }
 });

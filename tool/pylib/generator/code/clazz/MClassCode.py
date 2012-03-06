@@ -129,7 +129,7 @@ class MClassCode(object):
             if firstParam:
                 if treeutil.isStringLiteral(firstParam):
                     classvariants.add(firstParam.get("value"))
-                elif firstParam.type == "variable":
+                elif firstParam.isVar():
                     if warn_non_literal_keys:
                         console.warn("qx.core.Environment call with non-literal key (%s:%s)" % (self.id, variantNode.get("line", False)))
                 elif firstParam.type == "map": # e.g. .filter() method
@@ -189,10 +189,11 @@ class MClassCode(object):
                 tree = self.optimize(None, optimize, variants, featuremap)
                 if optimize == ["comments"]:
                     compiled = self.serializeFormatted(tree)
-                    if compiled[-1:] != "\n": # assure trailing \n
-                        compiled += '\n'
                 else:
                     compiled = self.serializeCondensed(tree, format_)
+
+                if compiled[-1:] != "\n": # assure trailing \n
+                    compiled += ';\n'
 
                 if not "statics" in optimize:
                     cache.write(cacheId, compiled)

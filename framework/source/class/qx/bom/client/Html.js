@@ -228,6 +228,29 @@ qx.Bootstrap.define("qx.bom.client.Html",
       }
     },
 
+    /**
+     * Whether the client supports user data to persist data. This is only
+     * relevant for IE < 8.
+     *
+     * @internal
+     * @return {Boolean} <code>true</code> if the user data is supported.
+     */
+    getUserDataStorage : function() {
+      var el = document.createElement("div");
+      el.style["display"] = "none";
+      document.getElementsByTagName("head")[0].appendChild(el);
+
+      var supported = false;
+      try {
+        el.addBehavior("#default#userdata");
+        el.load("qxtest");
+        supported = true;
+      } catch (e) {}
+
+      document.getElementsByTagName("head")[0].removeChild(el);
+      return supported;
+    },
+
 
     /**
      * Whether the browser supports CSS class lists.
@@ -420,6 +443,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
     qx.core.Environment.add("html.video.webm", statics.getVideoWebm);
     qx.core.Environment.add("html.storage.local", statics.getLocalStorage);
     qx.core.Environment.add("html.storage.session", statics.getSessionStorage);
+    qx.core.Environment.add("html.storage.userdata", statics.getUserDataStorage);
     qx.core.Environment.add("html.classlist", statics.getClassList);
     qx.core.Environment.add("html.xpath", statics.getXPath);
     qx.core.Environment.add("html.xul", statics.getXul);

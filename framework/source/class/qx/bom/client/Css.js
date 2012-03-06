@@ -199,17 +199,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Checks if background gradients could be used.
-     * @return {Boolean} <code>true</code>, if it could be used.
-     * @internal
-     * @deprecated since 1.6
-     */
-    getGradients : function() {
-      return !!(qx.bom.client.Css.getLinearGradient());
-    },
-
-
-    /**
      * Returns the (possibly vendor-prefixed) name this client uses for
      * <code>linear-gradient</code>.
      * http://dev.w3.org/csswg/css3-images/#linear-gradients
@@ -374,7 +363,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.placeholder", statics.getPlaceholder);
     qx.core.Environment.add("css.borderradius", statics.getBorderRadius);
     qx.core.Environment.add("css.boxshadow", statics.getBoxShadow);
-    qx.core.Environment.add("css.gradients", statics.getGradients);
     qx.core.Environment.add("css.gradient.linear", statics.getLinearGradient);
     qx.core.Environment.add("css.gradient.radial", statics.getRadialGradient);
     qx.core.Environment.add("css.gradient.legacywebkit", statics.getLegacyWebkitGradient);

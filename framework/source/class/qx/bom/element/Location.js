@@ -82,48 +82,11 @@ qx.Bootstrap.define("qx.bom.element.Location",
     __computeScroll : function(elem)
     {
       var left = 0, top = 0;
+      // Find window
+      var win = qx.dom.Node.getWindow(elem);
 
-      // Use faster getBoundingClientRect() if available
-      // Hint: The viewport workaround here only needs to be applied for
-      // MSHTML and gecko clients currently.
-      //
-      // TODO: Make this a bug, add unit tests if feasible
-      // Opera 9.6+ supports this too, but has a few glitches:
-      // http://edvakf.googlepages.com/clientrect.html
-      // http://tc.labs.opera.com/apis/cssom/clientrects/
-      // Until these are fixed we will not use this method in Opera.
-      if (elem.getBoundingClientRect &&
-        qx.core.Environment.get("engine.name") != "opera")
-      {
-        // Find window
-        var win = qx.dom.Node.getWindow(elem);
-
-        // Reduce by viewport scrolling.
-        // Hint: getBoundingClientRect returns the location of the
-        // element in relation to the viewport which includes
-        // the scrolling
-        left -= qx.bom.Viewport.getScrollLeft(win);
-        top -= qx.bom.Viewport.getScrollTop(win);
-      }
-      else
-      {
-        // Find body element
-        var body = qx.dom.Node.getDocument(elem).body;
-
-        // Only the parents are influencing the scroll position
-        elem = elem.parentNode;
-
-        // Get scroll offsets
-        // stop at the body => the body scroll position is irrelevant
-        while (elem && elem != body)
-        {
-          left += elem.scrollLeft;
-          top += elem.scrollTop;
-
-          // One level up (children hierarchy)
-          elem = elem.parentNode;
-        }
-      }
+      left -= qx.bom.Viewport.getScrollLeft(win);
+      top -= qx.bom.Viewport.getScrollTop(win);
 
       return {
         left : left,
@@ -260,7 +223,6 @@ qx.Bootstrap.define("qx.bom.element.Location",
         var doc = qx.dom.Node.getDocument(elem);
 
         // Use faster getBoundingClientRect() if available
-        // Note: This is not yet supported by Webkit.
         if (elem.getBoundingClientRect)
         {
           var rect = elem.getBoundingClientRect();
@@ -423,6 +385,10 @@ qx.Bootstrap.define("qx.bom.element.Location",
       {
         var body = this.__computeBody(elem);
         var offset = this.__computeOffset(elem);
+        // Reduce by viewport scrolling.
+        // Hint: getBoundingClientRect returns the location of the
+        // element in relation to the viewport which includes
+        // the scrolling
         var scroll = this.__computeScroll(elem);
 
         var left = offset.left + body.left - scroll.left;

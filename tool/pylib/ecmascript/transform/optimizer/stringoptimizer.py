@@ -20,29 +20,16 @@
 #
 ################################################################################
 
-from ecmascript.frontend import tree, treeutil
+import operator
+from ecmascript.frontend import treeutil
 
 def search(node, verbose=False):
     return search_loop(node, {}, verbose)
 
 
 def search_loop(node, stringMap={}, verbose=False):
-    if node.type == "call":
-        oper = node.getChild("operand", False)
-
-        if oper:
-            variable = oper.getChild("variable", False)
-
-            if variable:
-                try:
-                    variableName = (treeutil.assembleVariable(variable))[0]
-                except tree.NodeAccessException:
-                    variableName = None
-
-                # Don't extract from locales
-                if variableName == "qx.locale.Locale.define" or variableName == "qx.Locale.define":
-                    return stringMap
-
+    #if stringMap is None:
+    #    stringMap = {}
     if node.type == "constant" and node.get("constantType") == "string":
         if verbose:
             pvalue = node.get("value")
@@ -54,11 +41,10 @@ def search_loop(node, stringMap={}, verbose=False):
             quote = "'"
         elif node.get("detail") == "doublequotes":
             quote = '"'
-
         value = "%s%s%s" % (quote, node.get("value"), quote)
 
         if value in stringMap:
-            stringMap[value] += 1
+            stringMap[value] += 1  # occurrence count?!
         else:
             stringMap[value] = 1
 
@@ -70,6 +56,15 @@ def search_loop(node, stringMap={}, verbose=False):
 
 
 
+##
+# This function declines string optimization for the following contexts:
+# - arguments of output built-ins (debug, info, alert, ...)
+# - when the last part of an identifier is all-uppercase ("foo.BAR")
+# - all-uppercase keys in maps ({FOO:'bar'})
+#
+# I don't see a striking reason to *not* string-optimize those too,
+# so the whole thing might be obsolete.
+#
 def check(node, verbose=True):
     # Needs children
     if not node.hasChildren():
@@ -83,9 +78,9 @@ def check(node, verbose=True):
         if nx != None:
             cu = nx
 
-        all = cu.getAllChildrenOfType("identifier")
+        all_ = cu.getAllChildrenOfType("identifier")
 
-        for ch in all:
+        for ch in all_:
             if ch.get("name", False) in ["debug", "info", "warn", "error", "fatal", "Error", "alert"]:
                 if verbose:
                     print "      - Ignore output statement at line: %s" % ch.get("line")
@@ -115,18 +110,9 @@ def check(node, verbose=True):
     return True
 
 
-
 def sort(stringMap):
-    stringList = []
-
-    for value in stringMap:
-        stringList.append({ "value" : value, "number" : stringMap[value] })
-
-    stringList.sort(lambda x, y: y["number"]-x["number"])
-
-    return stringList
-
-
+    stringList = [{"value":x, "number":y} for x,y in stringMap.items()]
+    return sorted(stringList, key=operator.itemgetter("number"))
 
 
 def replace(node, stringList, var="$", verbose=False):
@@ -135,13 +121,11 @@ def replace(node, stringList, var="$", verbose=False):
             quote = "'"
         elif node.get("detail") == "doublequotes":
             quote = '"'
-
         oldvalue = "%s%s%s" % (quote, node.get("value"), quote)
 
-        pos = 0
-        for item in stringList:
+        for pos,item in enumerate(stringList):
             if item["value"] == oldvalue:
-                newvalue = "%s[%s]" % (var, pos)
+                newvalue = "%s[%s]" % (var, pos)  # this is only for output, and is bogus
 
                 if verbose:
                     poldvalue = oldvalue
@@ -152,22 +136,14 @@ def replace(node, stringList, var="$", verbose=False):
                 line = node.get("line")
 
 
-                # GENERATE IDENTIFIER
-                newvariable = tree.Node("variable")
-                newvariable.set("line", line)
+                # generate identifier
+                replacement_ident = treeutil.compileString("SSSS_%s" % pos)
+                replacement_ident.set("line", node.get("line"))
+                replacement_ident.set("column", node.get("column"))
 
-                childidentifier = tree.Node("identifier")
-                childidentifier.set("line", line)
-                childidentifier.set("name", "SSSS_%s" % pos)
-
-                newvariable.addChild(childidentifier)
-
-
-                # REPLACE NODE
-                node.parent.replaceChild(node, newvariable)
+                # replace node
+                node.parent.replaceChild(node, replacement_ident)
                 break
-
-            pos += 1
 
     if check(node, verbose):
         for child in node.children:
@@ -179,13 +155,10 @@ def replacement(stringList):
     if len(stringList) == 0:
         return ""
 
-    repl = "var "
+    repl = []
+    repl += ["var "]
+    a = [('SSSS_%s=%s' % (pos, item["value"])) for pos, item in enumerate(stringList)]
+    repl += [','.join(a)]
+    repl += [';']
 
-    pos = 0
-    for item in stringList:
-        repl += "SSSS_%s=%s," % (pos, item["value"])
-        pos += 1
-
-    repl = repl[:-1] + ";"
-
-    return repl
+    return ''.join(repl)

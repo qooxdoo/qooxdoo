@@ -26,6 +26,7 @@
 #asset(qx/icon/Tango/22/status/dialog-error.png)
 #asset(qx/icon/Tango/16/actions/document-properties.png)
 #asset(qx/icon/Tango/22/actions/media-seek-forward.png)
+#asset(qx/icon/Tango/22/actions/document-open-recent.png)
 
 #asset(testrunner/view/widget/css/testrunner.css)
 #asset(testrunner/view/widget/image/*)
@@ -349,6 +350,27 @@ qx.Class.define("testrunner.view.widget.Widget", {
         }
       });
       part3.add(autoReloadToggle);
+      
+      if (qx.core.Environment.get("testrunner.performance") &&
+        qx.Class.hasMixin(this.constructor, testrunner.view.MPerformance) &&
+        window.console && window.console.profile)
+      {
+        var nativeProfilingToggle = new qx.ui.toolbar.CheckBox(this.__app.tr("Native Profiling"), "icon/22/actions/document-open-recent.png");
+        nativeProfilingToggle.setToolTipText("Additionally use the browser's native" 
+          + " profiling feature (console.profile) for performance tests");
+        var nativeProfilingValue = qx.bom.Cookie.get("testrunner.nativeProfiling");
+        if (nativeProfilingValue !== null) {
+          nativeProfilingToggle.setValue(eval(nativeProfilingValue));
+        }
+        nativeProfilingToggle.bind("value", this, "nativeProfiling", {
+          converter : function(data)
+          {
+            qx.bom.Cookie.set("testrunner.nativeProfiling", data.toString(), 365);
+            return data
+          }
+        });
+        part3.add(nativeProfilingToggle);
+      }
 
       // enable overflow handling
       toolbar.setOverflowHandling(true);

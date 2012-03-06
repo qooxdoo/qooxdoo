@@ -46,13 +46,29 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
 
     /**
-     * Mixin method. Returns the scroll content element..
+     * Mixin method. Returns the scroll content element.
      *
      * @return {Element} The scroll content element
      */
     _getScrollContentElement : function()
     {
       return null
+    },
+    
+    
+    /**
+    * Scrolls the wrapper contents to the x/y coordinates in a given period.
+    * 
+    * @param x {Integer} X coordinate to scroll to.
+    * @param y {Integer} Y coordinate to scroll to.
+    * @param time {Integer} Time slice in which scrolling should 
+    *              be done.
+    */
+    _scrollTo : function(x, y, time)
+    {
+      // Nothing to implement. No explicit scrolling can be done on 
+      // Native scroll.
     }
+    
   }
 });

@@ -58,9 +58,16 @@ function loadScript(uri, callback) {
   elem.onreadystatechange = elem.onload = function() {
     if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
       elem.onreadystatechange = elem.onload = null;
-      callback();
+      if (typeof callback === "function") {
+        callback();
+      }
     }
   };
+
+  if (isLoadParallel) {
+    elem.async = false;
+  }
+
   var head = document.getElementsByTagName("head")[0];
   head.appendChild(elem);
 }
@@ -75,23 +82,38 @@ function loadCss(uri) {
 }
 
 var isWebkit = /AppleWebKit\/([^ ]+)/.test(navigator.userAgent);
+var isLoadParallel = 'async' in document.createElement('script');
 
 function loadScriptList(list, callback) {
   if (list.length == 0) {
     callback();
     return;
   }
-  var item = list.shift();
-  loadScript(item,  function() {
-    if (isWebkit) {
-      // force async, else Safari fails with a "maximum recursion depth exceeded"
-      window.setTimeout(function() {
-        loadScriptList(list, callback);
-      }, 0);
-    } else {
-      loadScriptList(list, callback);
+
+  var item;
+
+  if (isLoadParallel) {
+    while (list.length) {
+      item = list.shift();
+      if (list.length) {
+        loadScript(item);
+      } else {
+        loadScript(item, callback);
+      }
     }
-  });
+  } else {
+    item = list.shift();
+    loadScript(item,  function() {
+      if (isWebkit) {
+        // force async, else Safari fails with a "maximum recursion depth exceeded"
+        window.setTimeout(function() {
+          loadScriptList(list, callback);
+        }, 0);
+      } else {
+        loadScriptList(list, callback);
+      }
+    });
+  }
 }
 
 var fireContentLoadedEvent = function() {

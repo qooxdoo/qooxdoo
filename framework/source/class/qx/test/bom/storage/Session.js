@@ -24,15 +24,7 @@ qx.Class.define("qx.test.bom.storage.Session",
 
   members: {
     _getStorage: function() {
-      return qx.bom.storage.Session.getInstance();
-    },
-
-    _checkFeature: function() {
-      this.require(["storage"]);
-    },
-
-    hasStorage: function() {
-      return qx.core.Environment.get("html.storage.session");
+      return qx.bom.Storage.getSession();
     }
   }
 });

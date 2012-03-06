@@ -20,12 +20,9 @@
 #
 ################################################################################
 
-import sys, os, copy
+import sys, os, copy, re
 
-# reconfigure path to import own modules from modules subfolder
-#sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "../"))
-
-import simplejson
+from misc import util
 
 
 ##
@@ -61,6 +58,7 @@ class NodeAccessException (Exception):
         Exception.__init__(self, msg)
         self.node = node
 
+NODE_VARIABLE_TYPES = ("dotaccessor", "identifier")
 
 class Node(object):
 
@@ -128,12 +126,12 @@ class Node(object):
     # "call" type, ie. it's a function being called; the wildcard '*' is allowed
     # to indicate any type on a particular level, like "value/*/operand"
     def hasParentContext(self, contextPath):
-        parents = contextPath.split('/')
+        path_elems = contextPath.split('/')
 
         currNode = self
-        for parent in reversed(parents):
+        for path_elem in reversed(path_elems):
             if currNode.parent:
-                if parent == '*' or currNode.parent.type == parent:
+                if ( path_elem == '*' or currNode.parent.type == path_elem ):
                     currNode = currNode.parent
                 else:
                     return False
@@ -210,7 +208,7 @@ class Node(object):
         if isinstance(ntype, basestring):
             if self.type == ntype:
                 return True
-        elif isinstance(ntype, list):
+        elif isinstance(ntype, util.FinSequenceTypes):
             if self.type in ntype:
                 return True
 
@@ -471,9 +469,7 @@ class Node(object):
             for child in self.children:
                 if ignoreComments and child.type in ["comment", "commentsBefore", "commentsAfter"]:
                     continue
-
                 return child
-
         if mandatory:
             raise NodeAccessException("Node " + self.type + " has no children", self)
 
@@ -542,6 +538,9 @@ class Node(object):
             return False
 
         return self.parent.getLastChild(False, ignoreComments) == self
+
+    def isVar(self):
+        return self.type in NODE_VARIABLE_TYPES
 
     def addListChild(self, listName, childNode):
         listNode = self.getChild(listName, False)
