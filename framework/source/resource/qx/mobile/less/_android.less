@@ -17,7 +17,9 @@
   color: #222222;
   text-align: center;
 
-  // Less "darken method" helps to make use of android-button easier. It takes button-color and darkens it. No second gradient color is needed.
+  // Less "darken method" helps to make use of android-button easier. 
+  // It takes button-color and darkens it. 
+  // No second gradient color is needed.
   #gradient > .vertical(@button-color, darken(@button-color, 20%));
   border: 1px solid #555555;
   line-height: @height;
@@ -359,7 +361,7 @@ input[type="checkbox"]:checked {
 }
 
 // 
-// SELECTBOX
+// SELECTBOX  
 //
 
 .selectbox {
@@ -367,7 +369,7 @@ input[type="checkbox"]:checked {
 }
 
 //
-// TOGGLEBUTTON
+// TOGGLEBUTTON 
 //
 
 .toggleButton {
@@ -377,6 +379,7 @@ input[type="checkbox"]:checked {
 
   overflow-y:visible;
   font-size:14px;
+  font-weight:normal;
 }
 
 .toggleButton > div {
@@ -400,18 +403,15 @@ div.checked .toggleButtonSwitch:before {
 .toggleButtonSwitch:before {
   position:relative;
   top:-20px;
-
   content: "OFF";
   width:100%;
 }
 
 .toggleButtonSwitch {
   .box-inset-shadow(0 1px 1px #999);
-  
   background-color: #ffffff;
+  .border-radius(7px);
   height:7px;
   margin: 0 auto;
   width:70%;
-
-  .border-radius(7px);
 }
