@@ -158,7 +158,7 @@ qx.Class.define("qx.bom.History",
     {
       if (!this.$$instance)
       {
-        if (!(window == window.top) && this.SUPPORTS_HASH_CHANGE_EVENT && qx.core.Environment.get("engine.name") == "mshtml") {
+        if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml") {
           this.$$instance = new qx.bom.HashHistory();
         } else if (this.SUPPORTS_HASH_CHANGE_EVENT) {
           this.$$instance = new qx.bom.NativeHistory();

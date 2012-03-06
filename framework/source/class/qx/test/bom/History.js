@@ -43,7 +43,7 @@ qx.Class.define("qx.test.bom.History", {
 
     testInstance : function()
     {
-      if (!(window == window.top) && qx.core.Environment.get("event.hashchange") && qx.core.Environment.get("engine.name") == "mshtml") {
+      if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml") {
         this.assertInstance(this.__history, qx.bom.HashHistory);
       }
       else if (qx.core.Environment.get("event.hashchange")) {
