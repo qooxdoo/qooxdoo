@@ -144,12 +144,12 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
-    first : function() {
+    getFirst : function() {
       return this.slice(0, 1);
     },
 
 
-    last : function() {
+    getLast : function() {
       return this.slice(this.length - 1);
     },
 
@@ -166,7 +166,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
-    next : function(selector) {
+    getNext : function(selector) {
       var Hierarchy = qx.dom.Hierarchy;
       var found = this.map(Hierarchy.getNextElementSibling, Hierarchy);
       if (selector) {
@@ -176,13 +176,13 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
-    nextAll : function(selector) {
+    getNextAll : function(selector) {
       var ret = qx.module.Traversing.__hierarchyHelper(this, "getNextSiblings", selector);
       return qx.lang.Array.cast(ret, qx.Collection);
     },
 
 
-    nextUntil : function(selector) {
+    getNextUntil : function(selector) {
       var found = [];
       this.forEach(function(item, index) {
         var nextSiblings = qx.dom.Hierarchy.getNextSiblings(item);
@@ -198,7 +198,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
-    prev : function(selector) {
+    getPrev : function(selector) {
       var Hierarchy = qx.dom.Hierarchy;
       var found = this.map(Hierarchy.getPreviousElementSibling, Hierarchy);
       if (selector) {
@@ -208,13 +208,13 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
-    prevAll : function(selector) {
+    getPrevAll : function(selector) {
       var ret = qx.module.Traversing.__hierarchyHelper(this, "getPreviousSiblings", selector);
       return qx.lang.Array.cast(ret, qx.Collection);
     },
 
 
-    prevUntil : function(selector) {
+    getPrevUntil : function(selector) {
       var found = [];
       this.forEach(function(item, index) {
         var previousSiblings = qx.dom.Hierarchy.getPreviousSiblings(item);
@@ -230,7 +230,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
-    siblings : function(selector) {
+    getSiblings : function(selector) {
       var ret = qx.module.Traversing.__hierarchyHelper(this, "getSiblings", selector);
       return qx.lang.Array.cast(ret, qx.Collection);
     },
@@ -250,7 +250,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
-    offsetParent : function() {
+    getOffsetParent : function() {
       return this.map(qx.bom.element.Location.getOffsetParent);
     },
 
@@ -292,18 +292,18 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "getContents" : statics.getContents,
       "is" : statics.is,
       "eq" : statics.eq,
-      "first" : statics.first,
-      "last" : statics.last,
+      "getFirst" : statics.getFirst,
+      "getLast" : statics.getLast,
       "has" : statics.has,
-      "next" : statics.next,
-      "nextAll" : statics.nextAll,
-      "nextUntil" : statics.nextUntil,
-      "prev" : statics.prev,
-      "prevAll" : statics.prevAll,
-      "prevUntil" : statics.prevUntil,
-      "siblings" : statics.siblings,
+      "getNext" : statics.getNext,
+      "getNextAll" : statics.getNextAll,
+      "getNextUntil" : statics.getNextUntil,
+      "getPrev" : statics.getPrev,
+      "getPrevAll" : statics.getPrevAll,
+      "getPrevUntil" : statics.getPrevUntil,
+      "getSiblings" : statics.getSiblings,
       "not" : statics.not,
-      "offsetParent" : statics.offsetParent
+      "getOffsetParent" : statics.getOffsetParent
     });
   }
 });

@@ -267,21 +267,21 @@ testrunner.define({
     test.remove();
   },
   
-  testFirst : function() {
+  testGetFirst : function() {
     var html = '<p id="first" class="foo">Affe</p><h2 class="foo">Juhu</h2><div class="foo">Hugo</div>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(1, q(".foo").first().length);
-    this.assertEquals(document.getElementById("first"), q(".foo").first()[0]);
+    this.assertEquals(1, q(".foo").getFirst().length);
+    this.assertEquals(document.getElementById("first"), q(".foo").getFirst()[0]);
     test.remove();
   },
   
-  testLast : function() {
+  testGetLast : function() {
     var html = '<p class="foo">Affe</p><h2 class="foo">Juhu</h2><div id="last" class="foo">Hugo</div>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(1, q(".foo").last().length);
-    this.assertEquals(document.getElementById("last"), q(".foo").last()[0]);
+    this.assertEquals(1, q(".foo").getLast().length);
+    this.assertEquals(document.getElementById("last"), q(".foo").getLast()[0]);
     test.remove();
   },
   
@@ -305,35 +305,35 @@ testrunner.define({
     test.remove();
   },
   
-  testNext : function() {
+  testGetNext : function() {
     var html = '<p class="test" id="foo">foo</p>\nText\n<p id="bar">bar</p><p id="baz">baz</p>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(1, q(".test").next().length);
-    this.assertEquals("bar", q("#foo").next()[0].id);
+    this.assertEquals(1, q(".test").getNext().length);
+    this.assertEquals("bar", q("#foo").getNext()[0].id);
     test.remove();
   },
   
-  testNextWithSelector : function() {
+  testGetNextWithSelector : function() {
     var html = '<div>a</div><p>f</p><div>f</div><p class="foo">e</p> ';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(1, q("#sandbox div").next(".foo").length);
-    this.assertEquals("foo", q("#sandbox div").next(".foo")[0].className);
+    this.assertEquals(1, q("#sandbox div").getNext(".foo").length);
+    this.assertEquals("foo", q("#sandbox div").getNext(".foo")[0].className);
     test.remove();
   },
   
-  testNextAll : function() {
+  testGetNextAll : function() {
     var html = '<div><span id="test">a</span><span>f</span><span id="foo">f</span></div><p>foo</p>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(2, q("#test").nextAll().length);
-    this.assertEquals(1, q("#test").nextAll("#foo").length);
-    this.assertEquals(document.getElementById("foo"), q("#test").nextAll("#foo")[0]);
+    this.assertEquals(2, q("#test").getNextAll().length);
+    this.assertEquals(1, q("#test").getNextAll("#foo").length);
+    this.assertEquals(document.getElementById("foo"), q("#test").getNextAll("#foo")[0]);
     test.remove();
   },
   
-  testNextUntil : function() {
+  testGetNextUntil : function() {
     var html = '<ul>'
     + '  <li class="first">a</li>'
     + '  <li>f</li>'
@@ -346,7 +346,7 @@ testrunner.define({
     + '<p class="last">e</p>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    var res = q("#sandbox .first").nextUntil(".last");
+    var res = q("#sandbox .first").getNextUntil(".last");
     this.assertEquals(4, res.length);
     this.assertEquals("LI", res[0].tagName);
     this.assertEquals("LI", res[1].tagName);
@@ -355,23 +355,23 @@ testrunner.define({
     test.remove();
   },
   
-  testPrev : function() {
+  testGetPrev : function() {
     var html = '<p class="test" id="foo">foo</p>\nText\n<p id="bar">bar</p><p id="baz">baz</p>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(1, q("#baz").prev().length);
-    this.assertEquals("bar", q("#baz").prev()[0].id);
+    this.assertEquals(1, q("#baz").getPrev().length);
+    this.assertEquals("bar", q("#baz").getPrev()[0].id);
     test.remove();
   },
   
-  testPrevWithSelector : function() {
+  testGetPrevWithSelector : function() {
     var html = '<h1>A</h1><p>f</p>'
     + '<h2 class="foo">A</h2><p>f</p>'
     + '<h3>A</h3><p>f</p>'
     + '<h4 class="foo">A</h4><p>f</p>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    var res = q("#sandbox p").prev(".foo");
+    var res = q("#sandbox p").getPrev(".foo");
     this.assertEquals(2, res.length);
     this.assertEquals("foo", res[0].className);
     this.assertEquals("foo", res[1].className);
@@ -380,17 +380,17 @@ testrunner.define({
     test.remove();
   },
   
-  testPrevAll : function() {
+  testGetPrevAll : function() {
     var html = '<p>foo</p><div><span>f</span><span id="foo">f</span><span id="test">a</span></div>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(2, q("#test").prevAll().length);
-    this.assertEquals(1, q("#test").prevAll("#foo").length);
-    this.assertEquals(document.getElementById("foo"), q("#test").prevAll("#foo")[0]);
+    this.assertEquals(2, q("#test").getPrevAll().length);
+    this.assertEquals(1, q("#test").getPrevAll("#foo").length);
+    this.assertEquals(document.getElementById("foo"), q("#test").getPrevAll("#foo")[0]);
     test.remove();
   },
   
-  testPrevUntil : function() {
+  testGetPrevUntil : function() {
     var html = '<ul>'
     + '  <li class="first">a ONE</li>'
     + '  <li>f TWO</li>'
@@ -403,7 +403,7 @@ testrunner.define({
     + '<p class="last">e</p>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    var res = q("#sandbox .last").prevUntil(".first");
+    var res = q("#sandbox .last").getPrevUntil(".first");
     this.assertEquals(4, res.length);
     this.assertEquals("LI", res[0].tagName);
     this.assertEquals("LI", res[1].tagName);
@@ -412,7 +412,7 @@ testrunner.define({
     test.remove();
   },
   
-  testSiblings : function() {
+  testGetSiblings : function() {
     var html = '<ul class="test">'
     + '  <li id="juhu">A</li>'
     + '  <li>F</li>'
@@ -421,13 +421,13 @@ testrunner.define({
     + '</ul>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    var res = q(".foo").siblings();
+    var res = q(".foo").getSiblings();
     this.assertEquals(3, res.length);
     this.assertEquals("A", res[0].innerHTML);
     this.assertEquals("F", res[1].innerHTML);
     this.assertEquals("E", res[2].innerHTML);
     
-    res = q(".foo").siblings("#juhu");
+    res = q(".foo").getSiblings("#juhu");
     this.assertEquals(1, res.length);
     this.assertEquals("juhu", res[0].id);
     test.remove();
@@ -465,11 +465,11 @@ testrunner.define({
     test.remove();
   },
   
-  testOffsetParent : function() {
+  testGetOffsetParent : function() {
     var html = '<div><p class="foo">affe</p></div><div id="fixed" style="position:fixed"><p class="foo">affe</p></div>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    var res = q(".foo").offsetParent();
+    var res = q(".foo").getOffsetParent();
     this.assertEquals(2, res.length);
     this.assertEquals(document.body, res[0]);
     this.assertEquals(document.getElementById("fixed"), res[1]);
