@@ -89,7 +89,7 @@ StmntTerminatorTokens = ("eol", ";", "}", "eof")
 def expressionTerminated():
     return token.id in StmntTerminatorTokens or tokenStream.eolBefore
 
-class SyntaxTreeError(SyntaxError): pass
+class SyntaxTreeError(SyntaxException): pass
 
 ##
 # the main purpose of this class is to instantiate parser symbol objects from
@@ -211,7 +211,7 @@ class TokenStream(IterObject):
                 if symbol:
                     s = symbol()
                 else:
-                    raise SyntaxError("Unknown operator %r (pos %r)" % (tok.value, (tok.line,tok.column)))
+                    raise SyntaxException("Unknown operator %r (pos %r)" % (tok.value, (tok.line,tok.column)))
                     #s = symbol_table['(unknown)']()
 
         if s:
@@ -292,10 +292,10 @@ class symbol_base(Node):
         child.parent = self
 
     def nud(self):
-        raise SyntaxError("Syntax error %r (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
+        raise SyntaxException("Syntax error %r (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
 
     def led(self, left):
-        raise SyntaxError("Unknown operator %r (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
+        raise SyntaxException("Unknown operator %r (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
 
     def isVar(self):
         return self.type in ("dotaccessor", "identifier")
@@ -624,7 +624,7 @@ def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
 def advance(id_=None):
     global token
     if id_ and token.id != id_:
-        raise SyntaxError("Expected %r (pos %r)" % (id_, (token.get("line"),token.get("column"))))
+        raise SyntaxException("Expected %r (pos %r)" % (id_, (token.get("line"),token.get("column"))))
     if token.id != "eof":
         token = next()
 
@@ -803,7 +803,7 @@ def toJS(self):
 @method(symbol("."))
 def led(self, left):
     if token.id != "identifier":
-        SyntaxError("Expected an attribute name (pos %r)." % ((token.get("line"), token.get("column")),))
+        SyntaxException("Expected an attribute name (pos %r)." % ((token.get("line"), token.get("column")),))
     #variable = symbol("variable")(token.get("line"), token.get("column"))
     #variable.childappend(left.getChild("identifier")) # unwrap from <variable/>
     #variable.childappend(left)
@@ -1169,7 +1169,7 @@ def std(self):
         vardecl.childappend(var)
         defn = expression()
         if defn.type not in ("identifier", "assignment"):
-            raise SyntaxError("Expected a new variable or assignment (pos %r)" % ((token.get("line"), token.get("column")),))
+            raise SyntaxException("Expected a new variable or assignment (pos %r)" % ((token.get("line"), token.get("column")),))
         var.childappend(defn)
         if token.id != ",":
             break
@@ -1186,7 +1186,7 @@ symbol("var").nud = symbol("var").std
 #    while True:
 #        n = token
 #        if n.id != "identifier":
-#            raise SyntaxError("Expected a new variable name (pos %r)" % ((token.get("line"), token.get("column")),))
+#            raise SyntaxException("Expected a new variable name (pos %r)" % ((token.get("line"), token.get("column")),))
 #        advance()
 #        if token.id == "=":  # initialization
 #            t = token
@@ -1775,7 +1775,7 @@ def statement():
             s = expression()
             # Crockford's too tight here
             #if not (s.id == "=" or s.id == "("):
-            #    raise SyntaxError("Bad expression statement (pos %r)" % ((token.get("line"), token.get("column")),))
+            #    raise SyntaxException("Bad expression statement (pos %r)" % ((token.get("line"), token.get("column")),))
 
             # handle expression lists
             # (REFAC: somewhat ugly here, expression lists should be treated generically,
@@ -1821,7 +1821,7 @@ def statementEnd():
     #    if ltok.id == '}':  # it's a statement ending with a block ('if' etc.)
     #        pass
     #    else:
-    #        raise SyntaxError("Unterminated statement (pos %r)" % ((token.get("line"), token.get("column")),))
+    #        raise SyntaxException("Unterminated statement (pos %r)" % ((token.get("line"), token.get("column")),))
 
 
 def statementOrBlock(): # for 'if', 'while', etc. bodies
@@ -1869,7 +1869,7 @@ def init_list():  # parse anything from "i" to "i, j=3, k,..."
 def argument_list(list):
     while 1:
         if token.id != "identifier":
-            SyntaxError("Expected an argument name (pos %r)." % ((token.get("line"), token.get("column")),))
+            SyntaxException("Expected an argument name (pos %r)." % ((token.get("line"), token.get("column")),))
         list.append(token)
         advance()
         if token.id == "=":
