@@ -477,8 +477,8 @@ class MClassDependencies(object):
             if localTop != node:
                 context = ''
 
-            # /^\s*$/.test(value)
-            elif leftmostChild.type == "constant":
+            # '/^\s*$/.test(value)' or '[].push' or '{}.toString'
+            elif leftmostChild.type in ("constant", "array", "map"):
                 context = ''
 
             ## testing for the 'a' in 'a.b().c[d].e'
