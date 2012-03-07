@@ -1162,7 +1162,8 @@ symbol("var")
 # (with assignment/1, where it is /2 elsewhere)
 #
 @method(symbol("var"))
-def std(self):
+#def std(self):
+def nud(self):
     vardecl = symbol("definitionList")(token.get("line"), token.get("column"))
     while True:
         var = symbol("definition")(token.get("line"), token.get("column"))
@@ -1179,7 +1180,7 @@ def std(self):
 
 
 # but "var" also needs a nud method, since it can appear in expressions
-symbol("var").nud = symbol("var").std
+#symbol("var").nud = symbol("var").std
 
 #@method(symbol("var"))
 #def nud(self):
@@ -1237,60 +1238,32 @@ symbol("for"); symbol("in")
 def std(self):
     self.type = "loop" # compat with Node.type
     self.set("loopType", "FOR")
-    # condition
     advance("(")
     
+    # condition
+    # try to consume the first part of (pot. longer) condition
+    if token.id != ";":
+        chunk = expression()
+    else:
+        chunk = None
     # for (.. in ..)
-    if tokenStream.peek(2 if token.id=="var" else 1).id == "in":
+    if chunk and chunk.id == 'in':
         self.set("forVariant", "in")
-        var_s = None
-        operation = symbol("in")(token.get("line"), token.get("column"))
-        operation.type = "operation"
-        operation.set("operator", "IN")
-        operation.set("value", "in")
-        self.childappend(operation)
-        op_first = symbol("first")(token.get("line"), token.get("column"))
-        operation.childappend(op_first)
-        if token.id == "var":
-            var_s = symbol("definitionList")(token.get("line"), token.get("column"))
-            op_first.childappend(var_s)
-            advance("var")
-            defn = symbol("definition")(token.get("line"), token.get("column"))
-            var_s.childappend(defn)
-            defn.childappend(expression(95))  # lbp higher than "in"
-        else:
-            ident = symbol("identifier")(token.get("line"), token.get("column"))
-            op_first.childappend(ident)
-            ident.set("value", token.get("value"))
-            advance("identifier")
-        advance("in")
-        op_second = symbol("second")(token.get("line"), token.get("column"))
-        operation.childappend(op_second)
-        op_second.childappend(expression())
-        
+        self.childappend(chunk)
+
     # for (;;) [mind: all three subexpressions are optional]
     else:
+        #import pydb; pydb.debugger()
         self.set("forVariant", "iter")
         condition = symbol("expressionList")(token.get("line"), token.get("column"))
         self.childappend(condition)
         # init part
         first = symbol("first")(token.get("line"), token.get("column"))
         condition.childappend(first)
-        if token.id == ";":
+        if chunk is None:
             pass                # empty part
         else:
-            init_part = None
-            if token.id == "var":
-                t = token
-                advance()
-                init_part = t.std() # parse it like a 'var' stmt
-            else:
-                exprList = symbol("expressionList")(token.get("line"), token.get("column"))
-                init_part = exprList
-                lst = init_list()
-                for assgn in lst:
-                    exprList.childappend(assgn)
-            first.childappend(init_part)
+            first.childappend(chunk)
         advance(";")
         # condition part 
         second = symbol("second")(token.get("line"), token.get("column"))
@@ -1309,6 +1282,78 @@ def std(self):
                 if token.id == ',':
                     advance(',')
             third.childappend(exprList)
+
+
+    #if tokenStream.peek(2 if token.id=="var" else 1).id == "in":
+    #    self.set("forVariant", "in")
+    #    var_s = None
+    #    operation = symbol("in")(token.get("line"), token.get("column"))
+    #    operation.type = "operation"
+    #    operation.set("operator", "IN")
+    #    operation.set("value", "in")
+    #    self.childappend(operation)
+    #    op_first = symbol("first")(token.get("line"), token.get("column"))
+    #    operation.childappend(op_first)
+    #    if token.id == "var":
+    #        var_s = symbol("definitionList")(token.get("line"), token.get("column"))
+    #        op_first.childappend(var_s)
+    #        advance("var")
+    #        defn = symbol("definition")(token.get("line"), token.get("column"))
+    #        var_s.childappend(defn)
+    #        defn.childappend(expression(95))  # lbp higher than "in"
+    #    else:
+    #        #ident = symbol("identifier")(token.get("line"), token.get("column"))
+    #        #op_first.childappend(ident)
+    #        #ident.set("value", token.get("value"))
+    #        #advance("identifier")
+    #        # !support: for(a[i++] in o)
+    #        op_first.childappend(expression())
+    #    advance("in")
+    #    op_second = symbol("second")(token.get("line"), token.get("column"))
+    #    operation.childappend(op_second)
+    #    op_second.childappend(expression())
+    #    
+    ## for (;;) [mind: all three subexpressions are optional]
+    #else:
+    #    self.set("forVariant", "iter")
+    #    condition = symbol("expressionList")(token.get("line"), token.get("column"))
+    #    self.childappend(condition)
+    #    # init part
+    #    first = symbol("first")(token.get("line"), token.get("column"))
+    #    condition.childappend(first)
+    #    if token.id == ";":
+    #        pass                # empty part
+    #    else:
+    #        init_part = None
+    #        if token.id == "var":
+    #            t = token
+    #            advance()
+    #            init_part = t.std() # parse it like a 'var' stmt
+    #        else:
+    #            exprList = symbol("expressionList")(token.get("line"), token.get("column"))
+    #            init_part = exprList
+    #            lst = init_list()
+    #            for assgn in lst:
+    #                exprList.childappend(assgn)
+    #        first.childappend(init_part)
+    #    advance(";")
+    #    # condition part 
+    #    second = symbol("second")(token.get("line"), token.get("column"))
+    #    condition.childappend(second)
+    #    if token.id != ";":
+    #        second.childappend(expression())
+    #    advance(";")
+    #    # update part
+    #    third = symbol("third")(token.get("line"), token.get("column"))
+    #    condition.childappend(third)
+    #    if token.id != ")":
+    #        exprList = symbol("expressionList")(token.get("line"), token.get("column"))
+    #        while token.id != ')':
+    #            expr = expression(0)
+    #            exprList.childappend(expr)
+    #            if token.id == ',':
+    #                advance(',')
+    #        third.childappend(exprList)
 
     # body
     advance(")")
