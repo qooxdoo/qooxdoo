@@ -26,21 +26,34 @@
 import sys, os, re, subprocess
 
 CMD_PYTHON = sys.executable
-QOOXDOO_PATH = '${REL_QOOXDOO_PATH}'
+##
+# Set QOOXDOO_PATH initally to None
+##
+
+QOOXDOO_PATH=None
+
+##
+# Check if the environment has QOOXDOO_PATH variable ser
+##
+
+if os.environ.has_key("QOOXDOO_PATH"):
+    QOOXDOO_PATH=os.environ["QOOXDOO_PATH"]
 
 def getQxPath():
     path = QOOXDOO_PATH
-    # try updating from config file
-    if os.path.exists('config.json'):
-        # "using QOOXDOO_PATH from config.json"
-        qpathr=re.compile(r'"QOOXDOO_PATH"\s*:\s*"([^"]*)"\s*,?')
-        conffile = open('config.json')
-        aconffile = conffile.readlines()
-        for line in aconffile:
-            mo = qpathr.search(line)
-            if mo:
-                path = mo.group(1)
-                break # assume first occurrence is ok
+    # Only try updating the QOOXDOO_PATH from config.json when path is None
+    if path is None:
+        # try updating from config file
+        if os.path.exists('config.json'):
+            # "using QOOXDOO_PATH from config.json"
+            qpathr=re.compile(r'"QOOXDOO_PATH"\s*:\s*"([^"]*)"\s*,?')
+            conffile = open('config.json')
+            aconffile = conffile.readlines()
+            for line in aconffile:
+                mo = qpathr.search(line)
+                if mo:
+                    path = mo.group(1)
+                    break # assume first occurrence is ok
     path = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), path))
 
     return path
