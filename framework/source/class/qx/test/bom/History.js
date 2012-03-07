@@ -62,10 +62,9 @@ qx.Class.define("qx.test.bom.History", {
       var self = this;
       window.setTimeout(function() {
         self.resume(function() {
-          this.assertEquals("foo", this.__history.getState(), "AFFE1");
-          this.assertEquals("Title Foo", this.__history.getTitle());
+          this.__checkState();
         }, self);
-      }, 100);
+      }, 200);
       
       this.wait();
     },
@@ -73,21 +72,50 @@ qx.Class.define("qx.test.bom.History", {
     
     testNavigateBack : function()
     {
-      // navigateBack causes the AUT to reload in IE
-      //this.require(["noIe"]);
       this.__history.addToHistory("foo", "Title Foo");
-      this.__history.addToHistory("bar", "Title Bar");
-      this.__history.navigateBack();
+      
       var self = this;
-      //navigateBack is async
       window.setTimeout(function() {
         self.resume(function() {
-          this.assertEquals("foo", this.__history.getState(), "AFFE2");
-          this.assertEquals("Title Foo", this.__history.getTitle());
+          this.__checkFooAndSetBar();
         }, self);
-      }, 500);
-      
+      }, 200);
       this.wait();
+    },
+    
+    
+    __checkFooAndSetBar : function()
+    {
+      var self = this;
+      this.assertEquals("foo", this.__history.getState(), "AFFE1");
+      this.__history.addToHistory("bar", "Title Bar");
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.__checkBarAndGoBack();
+        }, self);
+      }, 200);
+      this.wait();
+    },
+    
+    
+    __checkBarAndGoBack : function()
+    {
+      var self = this;
+      this.assertEquals("bar", this.__history.getState(), "AFFE1");
+      history.back();
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.__checkState();
+        }, self);
+      }, 200);
+      this.wait();
+    },
+    
+    
+    __checkState : function()
+    {
+      this.assertEquals("foo", this.__history.getState(), "AFFE2");
+      this.assertEquals("Title Foo", this.__history.getTitle());
     }
   }
 });
