@@ -131,7 +131,11 @@ class SimulationLogParser:
         
       platma = platre.search(entry)
       if (platma):
-        simulationDict["platform"] = platma.group(1)
+        # Rhino reports Win 8 as "Windows NT (unknown)
+        if platma.group(1) == "Windows NT (unknown)":
+          simulationDict["platform"] = "Windows 8"
+        else:
+          simulationDict["platform"] = platma.group(1)
   
       duration = durationre.search(entry)
       if (duration):
