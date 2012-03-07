@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Mustafa Sak (msak)
 
 ************************************************************************ */
 
@@ -46,6 +47,14 @@ qx.Class.define("qx.bom.IframeHistory",
     __iframe : null,
     __iframeReady : false,
     __locationState : null,
+    __writeStateTimner : null,
+    
+
+    //overwritten;
+    _applyState : function(value, old)
+    {
+      //this._writeState(value);
+    },
 
 
     // overridden
@@ -55,7 +64,8 @@ qx.Class.define("qx.bom.IframeHistory",
       this.__locationState = this._getHash();
     },
 
-
+    
+    //overridden
     _setHash : function(value)
     {
       this.base(arguments, value);
@@ -76,7 +86,6 @@ qx.Class.define("qx.bom.IframeHistory",
 
       var doc = this.__iframe.contentWindow.document;
       var elem = doc.getElementById("state");
-
       return elem ? this._decode(elem.innerText) : "";
     },
 
@@ -89,20 +98,34 @@ qx.Class.define("qx.bom.IframeHistory",
      */
     _writeState : function(state)
     {
+      if (!this.__iframeReady) {
+        this.__clearWriteSateTimer();
+        this.__writeStateTimner = qx.event.Timer.once(function(){this._writeState(state);}, this, 50);
+        return;
+      }
+      
+      this.__clearWriteSateTimer();
+      
       var state = this._encode(state);
 
       this._setHash(state);
       this.__locationState = state;
 
-      try
-      {
-        var doc = this.__iframe.contentWindow.document;
-        doc.open();
-        doc.write('<html><body><div id="state">' + state + '</div></body></html>');
-        doc.close();
-      }
-      catch (ex) {
-        // ignore
+      var doc = this.__iframe.contentWindow.document;
+      doc.open();
+      doc.write('<html><body><div id="state">' + state + '</div></body></html>');
+      doc.close();
+    },
+    
+    
+    /**
+     * Helper function to clear the write state timer.
+     */
+    __clearWriteSateTimer : function()
+    {
+      if (this.__writeStateTimner){
+        this.__writeStateTimner.stop();
+        this.__writeStateTimner.dispose();
       }
     },
 
@@ -135,7 +158,6 @@ qx.Class.define("qx.bom.IframeHistory",
       } else {
         currentState = this._readState();
       }
-
       if (qx.lang.Type.isString(currentState) && currentState != this.getState()) {
         this._onHistoryLoad(currentState);
       }
@@ -248,6 +270,10 @@ qx.Class.define("qx.bom.IframeHistory",
   destruct : function()
   {
     this.__iframe = null;
+    if (this.__writeStateTimner){
+      this.__writeStateTimner.dispose();
+      this.__writeStateTimner = null;
+    }
     qx.event.Idle.getInstance().addListener("interval", this.__onHashChange, this);
   }
 });
