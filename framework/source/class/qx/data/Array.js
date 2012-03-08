@@ -340,27 +340,28 @@ qx.Class.define("qx.data.Array",
         this.__updateLength();
       }
       // fire an event for the change
-      var removed = amount > 0;
-      var added = arguments.length > 2;
       var items = null;
-      if (removed || added) {
-        if (this.__array.length > oldLength) {
-          var type = "add";
-        } else if (this.__array.length < oldLength) {
-          var type = "remove";
-          items = returnArray;
-        } else {
-          var type = "order";
-        }
+      if (amount > 0) {
         this.fireDataEvent("change",
           {
             start: startIndex,
-            end: this.length - 1,
-            type: type,
-            items: items
+            end: startIndex + amount,
+            type: "remove",
+            items: returnArray.slice(startIndex, startIndex + amount)
           }, null
         );
       }
+      if (arguments.length > 2) {
+        this.fireDataEvent("change",
+          {
+            start: startIndex,
+            end: startIndex + arguments.length - 2,
+            type: "add",
+            items: qx.lang.Array.fromArguments(arguments, 2)
+          }, null
+        );
+      }
+      
       // add listeners
       for (var i = 2; i < arguments.length; i++) {
         this._registerEventChaining(arguments[i], null, startIndex + i);
