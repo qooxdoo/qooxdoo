@@ -44,6 +44,7 @@ qx.Class.define("fce.Environment", {
   {
     __form : null,
 
+
     /**
      * Queries qx.core.Environment to retrieve all settings/values
      */
@@ -62,7 +63,7 @@ qx.Class.define("fce.Environment", {
 
       checks = qx.core.Environment.getAsyncChecks();
       var numberOfChecks = qx.lang.Object.getLength(checks);
-      //keys = qx.lang.Object.getKeys(checks);
+      keys = qx.lang.Object.getKeys(checks);
 
       for (var i=0,l=keys.length; i<l; i++) {
         var key = keys[i];
