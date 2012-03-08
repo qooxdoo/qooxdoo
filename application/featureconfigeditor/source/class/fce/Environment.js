@@ -44,6 +44,7 @@ qx.Class.define("fce.Environment", {
   {
     __form : null,
 
+
     /**
      * Queries qx.core.Environment to retrieve all settings/values
      */
