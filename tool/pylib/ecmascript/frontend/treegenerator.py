@@ -7,7 +7,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2011 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2012 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -1168,9 +1168,19 @@ def nud(self):
     while True:
         var = symbol("definition")(token.get("line"), token.get("column"))
         vardecl.childappend(var)
-        defn = expression()
-        if defn.type not in ("identifier", "assignment"):
-            raise SyntaxException("Expected a new variable or assignment (pos %r)" % ((token.get("line"), token.get("column")),))
+        #defn = expression()
+        #if defn.type not in ("identifier", "assignment"):
+        #    raise SyntaxException("Expected a new variable or assignment (pos %r)" % ((token.get("line"), token.get("column")),))
+        n = token
+        if n.id != "identifier":
+            raise SyntaxException("Expected a new variable name (pos %r)" % ((token.get("line"), token.get("column")),))
+        advance()
+        if token.id == "=": # initialization
+            t = token
+            advance()
+            defn = t.led(n)
+        else:
+            defn = n
         var.childappend(defn)
         if token.id != ",":
             break
@@ -1238,33 +1248,40 @@ symbol("for"); symbol("in")
 def std(self):
     self.type = "loop" # compat with Node.type
     self.set("loopType", "FOR")
-    advance("(")
     
     # condition
-    # try to consume the first part of (pot. longer) condition
+    advance("(")
+    # try to consume the first part of a (pot. longer) condition
     if token.id != ";":
         chunk = expression()
     else:
         chunk = None
 
-    # for (.. in ..)
+    # for (in)
     if chunk and chunk.id == 'in':
         self.set("forVariant", "in")
         self.childappend(chunk)
 
     # for (;;) [mind: all three subexpressions are optional]
     else:
-        #import pydb; pydb.debugger()
         self.set("forVariant", "iter")
         condition = symbol("expressionList")(token.get("line"), token.get("column"))
         self.childappend(condition)
         # init part
         first = symbol("first")(token.get("line"), token.get("column"))
         condition.childappend(first)
-        if chunk is None:
-            pass                # empty part
-        else:
+        if chunk is None:       # empty init expr
+            pass
+        elif token.id == ';':   # single init expr
             first.childappend(chunk)
+        elif token.id == ',':   # multiple init expr
+            advance()
+            exprList = symbol("expressionList")(token.get("line"), token.get("column"))
+            first.childappend(exprList)
+            exprList.childappend(chunk)
+            lst = init_list()
+            for assgn in lst:
+                exprList.childappend(assgn)
         advance(";")
         # condition part 
         second = symbol("second")(token.get("line"), token.get("column"))
