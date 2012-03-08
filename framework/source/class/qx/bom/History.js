@@ -158,7 +158,11 @@ qx.Class.define("qx.bom.History",
     {
       if (!this.$$instance)
       {
-        if (this.SUPPORTS_HASH_CHANGE_EVENT) {
+        if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.version") >= 9) {
+          this.$$instance = new qx.bom.HashHistory();
+        } else if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml") {
+          this.$$instance = new qx.bom.IframeHistory();
+        } else if (this.SUPPORTS_HASH_CHANGE_EVENT) {
           this.$$instance = new qx.bom.NativeHistory();
         } else if ((qx.core.Environment.get("engine.name") == "mshtml")) {
           this.$$instance = new qx.bom.IframeHistory();
@@ -304,7 +308,7 @@ qx.Class.define("qx.bom.History",
      * Simulates a back button click.
      */
      navigateBack : function() {
-       qx.event.Timer.once(function() {history.back();}, 0);
+       qx.event.Timer.once(function() {history.back();}, this, 100);
      },
 
 
@@ -313,7 +317,7 @@ qx.Class.define("qx.bom.History",
      * Simulates a forward button click.
      */
      navigateForward : function() {
-       qx.event.Timer.once(function() {history.forward();}, 0);
+       qx.event.Timer.once(function() {history.forward();}, this, 100);
      },
 
 
@@ -326,7 +330,6 @@ qx.Class.define("qx.bom.History",
     {
       this.setState(state);
       this.fireDataEvent("request", state);
-
       if (this.__titles[state] != null) {
         this.setTitle(this.__titles[state]);
       }
