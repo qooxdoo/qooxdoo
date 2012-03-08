@@ -43,13 +43,13 @@ qx.Class.define("qx.test.bom.History", {
 
     testInstance : function()
     {
-      if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml") {
+      if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.version") >= 9) {
         this.assertInstance(this.__history, qx.bom.HashHistory);
-      }
-      else if (qx.core.Environment.get("event.hashchange")) {
+      } else if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml") {
+        this.assertInstance(this.__history, qx.bom.IframeHistory);
+      } else if (qx.core.Environment.get("event.hashchange")) {
         this.assertInstance(this.__history, qx.bom.NativeHistory);
-      }
-      else if (qx.core.Environment.get("engine.name") == "mshtml") {
+      } else if (qx.core.Environment.get("engine.name") == "mshtml") {
         this.assertInstance(this.__history, qx.bom.IframeHistory);
       }
     },
@@ -73,7 +73,6 @@ qx.Class.define("qx.test.bom.History", {
     testNavigateBack : function()
     {
       this.__history.addToHistory("foo", "Title Foo");
-      
       var self = this;
       window.setTimeout(function() {
         self.resume(function() {
@@ -87,7 +86,7 @@ qx.Class.define("qx.test.bom.History", {
     __checkFooAndSetBar : function()
     {
       var self = this;
-      this.assertEquals("foo", this.__history.getState(), "AFFE1");
+      this.assertEquals("foo", this.__history._readState(), "check1");
       this.__history.addToHistory("bar", "Title Bar");
       window.setTimeout(function() {
         self.resume(function() {
@@ -101,7 +100,7 @@ qx.Class.define("qx.test.bom.History", {
     __checkBarAndGoBack : function()
     {
       var self = this;
-      this.assertEquals("bar", this.__history.getState(), "AFFE1");
+      this.assertEquals("bar", this.__history._readState(), "check2");
       history.back();
       window.setTimeout(function() {
         self.resume(function() {
@@ -114,8 +113,67 @@ qx.Class.define("qx.test.bom.History", {
     
     __checkState : function()
     {
-      this.assertEquals("foo", this.__history.getState(), "AFFE2");
+      this.assertEquals("foo", this.__history._readState(), "check3");
       this.assertEquals("Title Foo", this.__history.getTitle());
+    },
+    
+    
+    testNavigateBackAfterSetState : function()
+    {
+      this.__history.setState("affe");
+      
+      var self = this;
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.__setState_checkAffeAndSetFoo();
+        }, self);
+      }, 200);
+      this.wait();
+    },
+    
+    
+    __setState_checkAffeAndSetFoo : function()
+    {
+      var self = this;
+      this.assertEquals("affe", this.__history._readState(), "check0");
+      this.__history.setState("foo");
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.__setState_checkFooAndSetBar();
+        }, self);
+      }, 200);
+      this.wait();
+    },
+    
+    
+    __setState_checkFooAndSetBar : function()
+    {
+      var self = this;
+      this.assertEquals("foo", this.__history._readState(), "check1");
+      this.__history.setState("bar");
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.__setState_checkBarAndGoBack();
+        }, self);
+      }, 300);
+      this.wait();
+    },
+    
+    
+    __setState_checkBarAndGoBack : function()
+    {
+      var self = this;
+      this.assertEquals("bar", this.__history._readState(), "check2");
+      return;
+      history.back();
+      history.back();
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.assertEquals("affe", this.__history._readState(), "check3");
+        }, self);
+      }, 200);
+      this.wait();
     }
+    
   }
 });
