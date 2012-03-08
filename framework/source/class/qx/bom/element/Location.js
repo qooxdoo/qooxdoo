@@ -218,53 +218,6 @@ qx.Class.define("qx.bom.element.Location",
      */
     __computeOffset : qx.core.Environment.select("engine.name",
     {
-      "mshtml|webkit" : function(elem)
-      {
-        var doc = qx.dom.Node.getDocument(elem);
-
-        // Use faster getBoundingClientRect() if available
-        if (elem.getBoundingClientRect)
-        {
-          var rect = elem.getBoundingClientRect();
-
-          var left = rect.left;
-          var top = rect.top;
-        }
-        else
-        {
-          // Offset of the incoming element
-          var left = elem.offsetLeft;
-          var top = elem.offsetTop;
-
-          // Start with the first offset parent
-          elem = elem.offsetParent;
-
-          // Stop at the body
-          var body = doc.body;
-
-          // Border correction is only needed for each parent
-          // not for the incoming element itself
-          while (elem && elem != body)
-          {
-            // Add node offsets
-            left += elem.offsetLeft;
-            top += elem.offsetTop;
-
-            // Fix missing border
-            left += this.__num(elem, "borderLeftWidth");
-            top += this.__num(elem, "borderTopWidth");
-
-            // One level up (offset hierarchy)
-            elem = elem.offsetParent;
-          }
-        }
-
-        return {
-          left : left,
-          top : top
-        }
-      },
-
       "gecko" : function(elem)
       {
         // Use faster getBoundingClientRect() if available (gecko >= 1.9)
@@ -325,26 +278,46 @@ qx.Class.define("qx.bom.element.Location",
           top : top
         }
       },
-
-      // At the moment only correctly supported by Opera
+      
       "default" : function(elem)
       {
-        var left = 0;
-        var top = 0;
+        var doc = qx.dom.Node.getDocument(elem);
 
-        // Stop at the body
-        var body = qx.dom.Node.getDocument(elem).body;
-
-        // Add all offsets of parent hierarchy, do not include
-        // body element.
-        while (elem && elem !== body)
+        // Use faster getBoundingClientRect() if available
+        if (elem.getBoundingClientRect)
         {
-          // Add node offsets
-          left += elem.offsetLeft;
-          top += elem.offsetTop;
+          var rect = elem.getBoundingClientRect();
 
-          // One level up (offset hierarchy)
+          var left = rect.left;
+          var top = rect.top;
+        }
+        else
+        {
+          // Offset of the incoming element
+          var left = elem.offsetLeft;
+          var top = elem.offsetTop;
+
+          // Start with the first offset parent
           elem = elem.offsetParent;
+
+          // Stop at the body
+          var body = doc.body;
+
+          // Border correction is only needed for each parent
+          // not for the incoming element itself
+          while (elem && elem != body)
+          {
+            // Add node offsets
+            left += elem.offsetLeft;
+            top += elem.offsetTop;
+
+            // Fix missing border
+            left += this.__num(elem, "borderLeftWidth");
+            top += this.__num(elem, "borderTopWidth");
+
+            // One level up (offset hierarchy)
+            elem = elem.offsetParent;
+          }
         }
 
         return {
