@@ -46,7 +46,27 @@ qx.Class.define("qx.bom.IframeHistory",
     __iframe : null,
     __iframeReady : false,
     __locationState : null,
+    __writeStateTimner : null,
+    
+    
+    //overridden
+    addToHistory : function(state, newTitle)
+    {
+      if (!qx.lang.Type.isString(state)) {
+        state = state + "";
+      }
 
+      if (qx.lang.Type.isString(newTitle))
+      {
+        this.setTitle(newTitle);
+        this.__titles[state] = newTitle;
+      }
+
+      if (this.getState() !== state) {
+        this.setState(state);
+      }
+    },
+    
 
     // overridden
     _setInitialState : function()
