@@ -196,7 +196,7 @@ ul.form {
   margin-bottom: 10px;
 }
 
-input[type="text"], input[type="password"], textarea {
+input[type="text"]:not(.selectbox-input), input[type="password"], textarea {
   color: #777;
   background: #fff;
   border: 0;
@@ -578,7 +578,7 @@ div.checked .toggleButtonSwitch:before {
   content: "ON";
   color:#ffffff;
   left:-35px;
-  line-height:26px;
+  line-height:27px;
   height:26px;
   overflow:visible;
 }
@@ -588,7 +588,7 @@ div.checked .toggleButtonSwitch:before {
   color: #888888;
   position:relative;
   left: 35px;
-  line-height:26px;
+  line-height:27px;
   height:26px;
   overflow:visible;
 }
@@ -617,4 +617,66 @@ div.checked .toggleButtonSwitch:before {
   background: -ms-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* IE10+ */
   background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfcfcf', endColorstr='#fdfdfd',GradientType=0 ); /* IE6-8 */
+}
+
+//
+// SELECTBOX
+//
+
+@selection-foreground-color:#2a4880;
+@selectbox-tick-size: 20px;
+
+
+.selectbox > select {
+  display:none;
+}
+
+.selectbox {
+  .hbox();
+  color:@selection-foreground-color;
+}
+
+.selectbox-label{
+  .boxFlex1();
+}
+
+.selectbox-arrow {
+  .boxFlex0();
+  
+  background-image:url(../../mobile/icon/ios/arrow.png);
+  background-repeat:no-repeat;
+  background-position: 0 -2px;
+  
+  @arrow-container-size:18px;
+  width: @arrow-container-size;
+  height: @arrow-container-size;
+}
+
+.selectbox-selected > div > .list-itemlabel {
+  color:@selection-foreground-color;
+  background-image:url(../icon/ios/selectbox-check.png);
+  background-repeat:no-repeat;
+  background-position: right -2px;
+  text-indent:4px;
+}
+
+.selectbox-unselected > div > .list-itemlabel {
+  text-indent:4px;
+}
+
+.selectbox-selected > .list-itemimage {
+  display:none;
+}
+
+.selectbox-unselected > .list-itemimage {
+  display:none;
+}
+
+.selectbox-input{
+  background-color:transparent;
+  border:none;
+  color:@selection-foreground-color;
+  background-image:none; 
+  text-indent:2px;
+  cursor:pointer;
 }

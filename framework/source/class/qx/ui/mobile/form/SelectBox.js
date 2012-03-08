@@ -71,10 +71,16 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   */
 
   /**
-   * @param value {var?null} The value of the widget.
+   * @param value {var?null}, The initial value of the widget.
+   * @param isNativeMode {boolean?false}, defines if a native browser HTML SelectBox, 
+   *        or a label with a selected value is shown. Default: false.
    */
-  construct : function()
+  construct : function(value, isNativeMode)
   {
+    if(isNativeMode) {
+      this.__nativeMode = isNativeMode;
+    }
+
     this.base(arguments);
 
     this._createSelectionList();
@@ -104,6 +110,13 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       refine : true,
       init : "selectbox"
     },
+    
+    // overridden
+    activatable :
+    {
+      refine :true,
+      init : true
+    },
 
     /**
      * The model to use to render the list.
@@ -124,11 +137,17 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     __selectionDialog : null,
     __selectionList : null,
     __selectionDialogTitle : null,
+    __nativeMode : false,
 
     // overridden
     _getTagName : function()
     {
-      return "select";
+      var tagName = "select";
+      
+      if(!this.isNativeMode()) {
+        tagName = "div";
+      }
+      return tagName;
     },
 
 
@@ -137,18 +156,13 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     {
       var containerElement = this.base(arguments);
 
-      // Prevent default behaviour, for displaying own SelectionDialog.
-      var preventDefault = qx.bom.Event.preventDefault;
+      if(!this.isNativeMode()) {
+        var showSelectionDialog = qx.lang.Function.bind(this.__showSelectionDialog, this);
 
-      var showSelectionDialog = qx.lang.Function.bind(this.__showSelectionDialog, this);
-
-      qx.bom.Event.addNativeListener(containerElement, "mousedown", preventDefault, false);
-      qx.bom.Event.addNativeListener(containerElement, "mouseup", preventDefault, false);
-      qx.bom.Event.addNativeListener(containerElement, "click", preventDefault, false);
-      qx.bom.Event.addNativeListener(containerElement, "focus", preventDefault, false);
-
-      qx.bom.Event.addNativeListener(containerElement, "mousedown", showSelectionDialog, false);
-      qx.bom.Event.addNativeListener(containerElement, "focus", showSelectionDialog, false);
+        qx.bom.Event.addNativeListener(containerElement, "tap", showSelectionDialog, false);
+        qx.bom.Event.addNativeListener(containerElement, "click", showSelectionDialog, false);
+        qx.bom.Event.addNativeListener(containerElement, "focus", showSelectionDialog, false);
+      }
 
       return containerElement;
     },
@@ -166,7 +180,20 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
         {
           item.setTitle(data);
           item.setShowArrow(false);
-          item.setSelected(self.__selectedIndex == row);
+
+          var isSelected = (self.__selectedIndex == row);
+
+          var selectedClassName = "selectbox-selected";
+          var unselectedClassName = "selectbox-unselected";
+
+          item.removeCssClass(selectedClassName);
+          item.removeCssClass(unselectedClassName);
+
+          if(isSelected){
+            item.addCssClass(selectedClassName);
+          } else{
+            item.addCssClass(unselectedClassName);
+          }
         }
       });
 
@@ -219,6 +246,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @return value {String} the value of the selection
      */
     getSelection : function() {
+      console.log("getSelection():");
       return this.getValue();
     },
 
@@ -228,6 +256,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param value {String} the value of the selection
      */
     setSelection : function(value) {
+      console.log("setSelection():"+value);
       this.setValue(value);
     },
 
@@ -257,37 +286,92 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * Renders the selectbox. Override this if you would like to display the
      * values of the select box in a different way than the default.
      */
-    _render : function(){
+    _render : function() {
+      // Clear HTML content.
       this._setHtml("");
-      var element = this.getContentElement();
-      for(var i=0, l=this.getModel().getLength(); i<l; i++)
-      {
-        var item = this.getModel().getItem(i);
-        var option = qx.bom.Element.create("option");
-        qx.bom.element.Attribute.set(option,"value",item);
-        option.appendChild(document.createTextNode(item));
-        element.appendChild(option);
-        if(i===this.__selectedIndex || (this.__selectedIndex==null && i===0)) {
-          qx.bom.element.Attribute.set(option,"selected","true");
-        }
+      
+      // Then recreate content.
+      var contentElement = this.getContentElement();
+      
+      var selectedItem = this.getModel().toArray()[0];
+      if(this.__selectedIndex){
+        var selectedItem = this.getModel().toArray()[this.__selectedIndex];
       }
+      
+      
+      if (this.isNativeMode()) {
+        for(var i=0, l=this.getModel().getLength(); i<l; i++)
+        {
+          var item = this.getModel().getItem(i);
+
+          var option = qx.bom.Element.create("option");
+          qx.bom.element.Attribute.set(option,"value",item);
+          option.appendChild(document.createTextNode(item));
+
+          if(i===this.__selectedIndex || (this.__selectedIndex==null && i===0)) {
+            qx.bom.element.Attribute.set(option,"selected","true");
+          }
+          contentElement.appendChild(option);
+        }
+      } else {
+        // This text node is for compatibility reasons, because Firefox can not
+        // change appearance of select boxes. 
+        var inputElement = new qx.bom.Element.create("input");
+        qx.bom.element.Attribute.set(inputElement,"type","text");
+        qx.bom.element.Attribute.set(inputElement,"value",selectedItem);
+        qx.bom.element.Attribute.set(inputElement,"readonly","readonly");
+        inputElement.className += " selectbox-input";
+        
+        var labelElement = new qx.bom.Element.create("div");
+        labelElement.className += " selectbox-label";
+        
+        labelElement.appendChild(inputElement);
+        
+        contentElement.appendChild(labelElement);
+
+        var arrowElement = new qx.bom.Element.create("div");
+        arrowElement.className += " selectbox-arrow";
+        contentElement.appendChild(arrowElement);
+      }
+      
       this._domUpdated();
     },
-
-
+    
+    
     /**
      * Sets the model property to the new value
      * @param value {qx.data.Array}, the new model
      * @param old {qx.data.Array?}, the old model
      */
     _applyModel : function(value, old){
-      value.addListener("changeBubble", this._render, this);
+      value.addListener("change", this._render, this);
       if (old != null) {
-        old.removeListener("changeBubble", this._render, this);
+        old.removeListener("change", this._render, this);
       }
 
       this._render();
+    },
+    
+    
+    /**
+     * Returns boolean if native mode is active.
+     * Native mode means, that a native select box is shown.
+     * @return value {boolean}, if nativeMode active.
+     */
+    isNativeMode : function() {
+      return this.__nativeMode;
+    },
+    
+    
+    /**
+     * Defines whether a native select box should be shown, or
+     * a cross-browser-safe label with a popup.
+     * @param nativeMode {boolean}, new nativeMode value.
+     */
+    setNativeMode : function(nativeMode) {
+      this.__nativeMode = nativeMode;
     }
+    
   }
   ,
 
@@ -299,7 +383,6 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
   destruct : function()
   {
-    this.__unregisterEventListener();
     this._disposeObjects("__selectionDialog","__selectionList");
   }
 });
