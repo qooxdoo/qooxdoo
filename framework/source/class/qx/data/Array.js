@@ -347,7 +347,7 @@ qx.Class.define("qx.data.Array",
             start: startIndex,
             end: startIndex + amount,
             type: "remove",
-            items: returnArray.slice(startIndex, startIndex + amount)
+            items: returnArray
           }, null
         );
       }
