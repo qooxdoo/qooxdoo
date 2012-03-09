@@ -56,7 +56,7 @@ qx.Class.define("qx.bom.HashHistory",
       if (qx.lang.Type.isString(newTitle))
       {
         this.setTitle(newTitle);
-        this.__titles[state] = newTitle;
+        this._titles[state] = newTitle;
       }
 
       if (this.getState() !== state) {
