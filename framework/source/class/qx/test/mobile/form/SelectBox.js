@@ -27,9 +27,9 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
     testValue : function()
     {
       var dd = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
-      var selectBox = new qx.ui.mobile.form.SelectBox();
+      var selectBox = new qx.ui.mobile.form.SelectBox(null, true);
       selectBox.setModel(dd);
-      this.assertEquals("Item 1",selectBox.getValue());
+      this.assertEquals("Item 2",selectBox.getValue());
       selectBox.setSelection("Item 3");
       this.assertEquals("Item 3",selectBox.getValue());
       selectBox.destroy();
@@ -40,7 +40,7 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
     testSelection : function()
     {
       var dd = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
-      var selectBox = new qx.ui.mobile.form.SelectBox();
+      var selectBox = new qx.ui.mobile.form.SelectBox(null, true);
       selectBox.setModel(dd);
       this.assertEquals("Item 1",selectBox.getSelection());
       selectBox.setSelection("Item 3");

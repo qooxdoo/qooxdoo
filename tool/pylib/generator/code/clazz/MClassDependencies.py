@@ -455,6 +455,10 @@ class MClassDependencies(object):
         def checkNodeContext(node):
             context = 'interesting' # every context is interesting, maybe we get more specific or reset to ''
 
+            # don't treat label references
+            if node.parent.type in ("break", "continue"):
+                return ''
+
             # as _isInterestingReference is run on *any* var node while
             # traversing the tree intermediate occurrences var nodes like
             # in 'a.b().c[d].e' are run through it as well; but it is enough to treat
@@ -477,8 +481,8 @@ class MClassDependencies(object):
             if localTop != node:
                 context = ''
 
-            # /^\s*$/.test(value)
-            elif leftmostChild.type == "constant":
+            # '/^\s*$/.test(value)' or '[].push' or '{}.toString'
+            elif leftmostChild.type in ("constant", "array", "map"):
                 context = ''
 
             ## testing for the 'a' in 'a.b().c[d].e'
@@ -893,7 +897,6 @@ class MClassDependencies(object):
 
             if isinstance(attribNode, Node):
 
-                #import pydb; pydb.debugger()
                 if (attribNode.getChild("function", False)       # is it a function(){..} value?
                     and not dependencyItem.isCall                # and the reference was no call
                    ):

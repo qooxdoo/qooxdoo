@@ -28,7 +28,7 @@ from ecmascript.backend.Packer      import Packer
 from ecmascript.backend             import pretty
 from ecmascript.frontend import treeutil, tokenizer
 from ecmascript.frontend import treegenerator
-#from ecmascript.frontend import treegenerator_new_ast as treegenerator
+from ecmascript.frontend.SyntaxException import SyntaxException
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, commentoptimizer
 from ecmascript.transform.optimizer import stringoptimizer, basecalloptimizer, privateoptimizer
 from ecmascript.transform.optimizer import featureoptimizer
@@ -68,7 +68,13 @@ class MClassCode(object):
             console.outdent()
             console.debug("Generating tree: %s..." % self.id)
             console.indent()
-            tree = treegen.createSyntaxTree(tokens)  # allow exceptions to propagate
+            fileId = self.path if self.path else self.id
+            try:
+                tree = treegen.createSyntaxTree(tokens, fileId)
+            except SyntaxException, e:
+                # add file info
+                e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
+                raise e
 
             # store unoptimized tree
             #print "Caching %s" % cacheId

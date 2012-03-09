@@ -54,7 +54,7 @@ qx.Class.define("qx.test.mobile.list.List",
     {
       item.setImage(data.image);
       item.setTitle(data.title);
-      item.setSubTitle(data.subtitle);
+      item.setSubtitle(data.subtitle);
     },
 
     __assertItemsAndModelLength : function(list, dataLength) {

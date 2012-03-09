@@ -6,6 +6,8 @@
 // MIXINS
 //
 
+@highlighted-text-color: #e89c00;
+
 .standard-button {
   @button-color: #f4f4f4;
   @height: 20px;
@@ -17,7 +19,9 @@
   color: #222222;
   text-align: center;
 
-  // Less "darken method" helps to make use of android-button easier. It takes button-color and darkens it. No second gradient color is needed.
+  // Less "darken method" helps to make use of android-button easier. 
+  // It takes button-color and darkens it. 
+  // No second gradient color is needed.
   #gradient > .vertical(@button-color, darken(@button-color, 20%));
   border: 1px solid #555555;
   line-height: @height;
@@ -149,7 +153,7 @@ ul li.active .subtitle {
 // FORM 
 //
 
-input[type="text"], input[type="password"], textarea {
+input[type="text"]:not(.selectbox-input), input[type="password"], textarea {
   #gradient > .vertical(#e2e0e2, #f8f5f8);
   .border-radius(.4em);
   .background-clip(padding-box);
@@ -359,7 +363,7 @@ input[type="checkbox"]:checked {
 }
 
 // 
-// SELECTBOX
+// SELECTBOX  
 //
 
 .selectbox {
@@ -367,7 +371,7 @@ input[type="checkbox"]:checked {
 }
 
 //
-// TOGGLEBUTTON
+// TOGGLEBUTTON 
 //
 
 .toggleButton {
@@ -377,6 +381,7 @@ input[type="checkbox"]:checked {
 
   overflow-y:visible;
   font-size:14px;
+  font-weight:normal;
 }
 
 .toggleButton > div {
@@ -400,18 +405,115 @@ div.checked .toggleButtonSwitch:before {
 .toggleButtonSwitch:before {
   position:relative;
   top:-20px;
-
   content: "OFF";
   width:100%;
 }
 
 .toggleButtonSwitch {
   .box-inset-shadow(0 1px 1px #999);
-  
   background-color: #ffffff;
+  .border-radius(7px);
   height:7px;
   margin: 0 auto;
   width:70%;
-
-  .border-radius(7px);
 }
+
+//
+// SELECTBOX
+//
+
+.selectbox {
+  .hbox();
+
+  .border-radius(4px);
+  
+  .boxAlignCenter();
+
+  
+}
+
+.selectbox.active {
+  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+}
+
+.selectbox.active > div > .selectbox-input {
+  color:#000000;
+}
+
+.selectbox-arrow {
+  .boxFlex0();
+
+  padding-top:7px;
+  padding-bottom:5px;
+  padding-left:2px;
+  padding-right:2px;
+
+  border: 3px solid #ffffff;
+  .border-radius(20px);
+
+  background: rgb(183,183,183);
+  background: -moz-linear-gradient(top,  rgba(183,183,183,1) 0%, rgba(81,81,81,1) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(183,183,183,1)), color-stop(100%,rgba(81,81,81,1)));
+  background: -webkit-linear-gradient(top,  rgba(183,183,183,1) 0%,rgba(81,81,81,1) 100%);
+  background: -o-linear-gradient(top,  rgba(183,183,183,1) 0%,rgba(81,81,81,1) 100%);
+  background: -ms-linear-gradient(top,  rgba(183,183,183,1) 0%,rgba(81,81,81,1) 100%);
+  background: linear-gradient(top,  rgba(183,183,183,1) 0%,rgba(81,81,81,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b7b7b7', endColorstr='#515151',GradientType=0 );
+}
+
+.selectbox-arrow:after {
+  content: "";
+  
+  display:block;
+
+  @arrow-size:8px;
+
+  border-left: @arrow-size solid transparent;
+  border-right: @arrow-size solid transparent;
+  border-top: @arrow-size solid #fff;
+
+  .border-radius(4px);
+}
+
+.selectbox-label{
+  .boxFlex1();
+  .boxAlignCenter(); 
+}
+
+.selectbox-input{
+  background-color:transparent;
+  border:none;
+  color:@highlighted-text-color;
+  background-image:none; 
+  text-indent:2px;
+  cursor:pointer;
+}
+
+.selectbox > select {
+  display:none;
+}
+
+.selectbox-selected > div > .list-itemlabel {
+  background-image:url(../icon/common/dialog-apply.png);
+  background-repeat:no-repeat;
+
+  background-position: right -2px;
+  text-indent:4px;
+}
+
+.selectbox-unselected > div > .list-itemlabel {
+  text-indent:4px;
+}
+
+.selectbox-selected > .list-itemimage {
+  display:none;
+}
+
+.selectbox-unselected > .list-itemimage {
+  display:none;
+}
+
+
+
+
+

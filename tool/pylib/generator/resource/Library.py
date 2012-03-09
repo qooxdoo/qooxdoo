@@ -98,7 +98,6 @@ class Library(object):
 
         if not self.namespace: 
             raise RuntimeError
-        self._checkNamespace()
 
 
     def __repr__(self):
@@ -241,8 +240,9 @@ class Library(object):
         return className
 
 
-    def _checkNamespace(self, ):
-        path = os.path.join(self.path, self.classPath)
+    def _checkNamespace(self, path=''):
+        if not path:
+            path = os.path.join(self.path, self.classPath)
         if not os.path.exists(path):
             raise ValueError("The given path does not contain a class folder: %s" % path)
 
@@ -263,31 +263,7 @@ class Library(object):
         if ns == None:
             raise ValueError("Namespace could not be detected!")
 
-
-    def _detectNamespace(self, path):
-        if not os.path.exists(path):
-            raise ValueError("The given path does not contain a class folder: %s" % path)
-
-        ns = None
-        files = os.listdir(path)
-
-        for entry in files:
-            if entry.startswith(".") or self._ignoredDirEntries.match(entry):
-                continue
-
-            full = os.path.join(path, entry)
-            if os.path.isdir(full):
-                if ns != None:
-                    raise ValueError("Multiple namespaces per library are not supported (%s,%s)" % (full, ns))
-
-                ns = entry
-
-        if ns == None:
-            raise ValueError("Namespace could not be detected!")
-
-        self._console.debug("Detected namespace: %s" % ns)
-        self.namespace = ns
-
+        return ns
 
 
     def scanResourcePath(self):
@@ -359,10 +335,10 @@ class Library(object):
         ##
         # check single subdirectory from class path
         def check_multiple_namespaces(classRoot):
-            for root, dirs, files in filetool.walk(classRoot):
-                if len(dirs) != 1:
-                    self._console.warn ("The class path should contain exactly one namespace: '%s'" % (classRoot,))
-                break
+            try:
+                self._checkNamespace(classRoot)
+            except ValueError:
+                self._console.warn ("The class path should contain exactly one namespace: '%s'" % (classRoot,))
 
         ##
         # check manifest namespace is on file system

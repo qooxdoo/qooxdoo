@@ -26,14 +26,14 @@ import sys
 import qxenviron
 from optparse import OptionParser
 
-from ecmascript.frontend import treegenerator
+from ecmascript.frontend import treegenerator_2 as treegenerator
 from ecmascript.frontend import tokenizer
-from ecmascript.frontend import treeutil
+from ecmascript.frontend import treeutil_2 as treeutil
 from ecmascript.frontend import tree
 from ecmascript.frontend import lang
 from ecmascript.frontend import Comment
-from ecmascript.frontend.Script import Script
-from ecmascript.frontend.Scope import Scope
+from ecmascript.frontend.Script_2 import Script
+from ecmascript.frontend.Scope_2 import Scope
 from misc import filetool
 
 class ConsoleLogger:
