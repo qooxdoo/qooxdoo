@@ -89,6 +89,10 @@
  *       <td>{@link qx.bom.client.Css#getBorderImage}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.borderimage.standardsyntax</td><td><i>Boolean</i> or <i>null</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getBorderImageSyntax}</td>
+ *     </tr>
+ *     <tr>
  *       <td>css.boxmodel</td><td><i>String</i></td><td><code>content</code></td>
  *       <td>{@link qx.bom.client.Css#getBoxModel}</td>
  *     </tr>
@@ -731,6 +735,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.placeholder"             : "qx.bom.client.Css.getPlaceholder",
       "css.borderradius"            : "qx.bom.client.Css.getBorderRadius",
       "css.borderimage"             : "qx.bom.client.Css.getBorderImage",
+      "css.borderimage.standardsyntax" : "qx.bom.client.Css.getBorderImageSyntax",
       "css.boxshadow"               : "qx.bom.client.Css.getBoxShadow",
       "css.gradient.linear"         : "qx.bom.client.Css.getLinearGradient",
       "css.gradient.radial"         : "qx.bom.client.Css.getRadialGradient",
