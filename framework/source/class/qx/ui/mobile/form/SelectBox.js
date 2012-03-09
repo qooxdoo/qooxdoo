@@ -137,6 +137,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     // overridden
     _getTagName : function()
     {
+      // No select here, see BUG #6054
       return "input";
     },
 
