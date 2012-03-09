@@ -392,6 +392,8 @@ qx.Class.define("qx.test.core.Environment",
       this.assert(typeof borderRadius == "string" || borderRadius === null);
       var borderImage = qx.core.Environment.get("css.borderimage");
       this.assert(typeof borderImage == "string" || borderImage === null);
+      var borderImageSyntax = qx.core.Environment.get("css.borderimage.standardsyntax");
+      this.assert(typeof borderImageSyntax == "boolean" || borderImageSyntax === null);
       var textOverflow = qx.core.Environment.get("css.textoverflow");
       this.assert(typeof textOverflow == "string" || textOverflow === null);
       var userSelect = qx.core.Environment.get("css.userselect");
