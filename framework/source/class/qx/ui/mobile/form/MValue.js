@@ -154,9 +154,12 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       value = this._convertValue(value);
       if (this.__oldValue != value)
       {
+        console.log("oldValue != value",value);
         if (this._setValue) {
+          console.log("setValue",value);
           this._setValue(value);
         } else {
+          console.log("setAttribute",value);
           this._setAttribute("value", value);
         }
         this.__fireChangeValue(value);

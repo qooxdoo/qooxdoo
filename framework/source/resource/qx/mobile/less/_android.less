@@ -153,7 +153,7 @@ ul li.active .subtitle {
 // FORM 
 //
 
-input[type="text"]:not(.selectbox-input), input[type="password"], textarea {
+input[type="text"]:not(.selectbox), input[type="password"], textarea {
   #gradient > .vertical(#e2e0e2, #f8f5f8);
   .border-radius(.4em);
   .background-clip(padding-box);
@@ -423,70 +423,27 @@ div.checked .toggleButtonSwitch:before {
 //
 
 .selectbox {
-  .hbox();
+  .user-select(none);
+  -moz-user-select: -moz-none;
 
+  .hbox();
   .border-radius(4px);
-  
   .boxAlignCenter();
 
+  vertical-align:middle;
+  height:25px;
+
+  cursor:pointer;
   
+  color:@highlighted-text-color;
+
+  background-color:transparent;
+  border:none;
 }
 
 .selectbox.active {
   #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
-}
-
-.selectbox.active > div > .selectbox-input {
   color:#000000;
-}
-
-.selectbox-arrow {
-  .boxFlex0();
-
-  padding-top:7px;
-  padding-bottom:5px;
-  padding-left:2px;
-  padding-right:2px;
-
-  border: 3px solid #ffffff;
-  .border-radius(20px);
-
-  background: rgb(183,183,183);
-  background: -moz-linear-gradient(top,  rgba(183,183,183,1) 0%, rgba(81,81,81,1) 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(183,183,183,1)), color-stop(100%,rgba(81,81,81,1)));
-  background: -webkit-linear-gradient(top,  rgba(183,183,183,1) 0%,rgba(81,81,81,1) 100%);
-  background: -o-linear-gradient(top,  rgba(183,183,183,1) 0%,rgba(81,81,81,1) 100%);
-  background: -ms-linear-gradient(top,  rgba(183,183,183,1) 0%,rgba(81,81,81,1) 100%);
-  background: linear-gradient(top,  rgba(183,183,183,1) 0%,rgba(81,81,81,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b7b7b7', endColorstr='#515151',GradientType=0 );
-}
-
-.selectbox-arrow:after {
-  content: "";
-  
-  display:block;
-
-  @arrow-size:8px;
-
-  border-left: @arrow-size solid transparent;
-  border-right: @arrow-size solid transparent;
-  border-top: @arrow-size solid #fff;
-
-  .border-radius(4px);
-}
-
-.selectbox-label{
-  .boxFlex1();
-  .boxAlignCenter(); 
-}
-
-.selectbox-input{
-  background-color:transparent;
-  border:none;
-  color:@highlighted-text-color;
-  background-image:none; 
-  text-indent:2px;
-  cursor:pointer;
 }
 
 .selectbox > select {
