@@ -114,7 +114,7 @@ qx.Class.define("qx.bom.History",
 
     this._baseUrl = window.location.href.split('#')[0] + '#';
 
-    this.__titles = {};
+    this._titles = {};
     this._setInitialState();
   },
 
@@ -217,7 +217,7 @@ qx.Class.define("qx.bom.History",
 
   members :
   {
-    __titles : null,
+    _titles : null,
 
 
     // property apply
@@ -294,7 +294,7 @@ qx.Class.define("qx.bom.History",
       if (qx.lang.Type.isString(newTitle))
       {
         this.setTitle(newTitle);
-        this.__titles[state] = newTitle;
+        this._titles[state] = newTitle;
       }
 
       if (this.getState() !== state) {
@@ -330,8 +330,8 @@ qx.Class.define("qx.bom.History",
     {
       this.setState(state);
       this.fireDataEvent("request", state);
-      if (this.__titles[state] != null) {
-        this.setTitle(this.__titles[state]);
+      if (this._titles[state] != null) {
+        this.setTitle(this._titles[state]);
       }
     },
 
@@ -388,6 +388,6 @@ qx.Class.define("qx.bom.History",
 
   destruct : function()
   {
-    this.__titles = null;
+    this._titles = null;
   }
 });
