@@ -345,7 +345,7 @@ qx.Class.define("qx.data.Array",
         this.fireDataEvent("change",
           {
             start: startIndex,
-            end: startIndex + amount,
+            end: this.length - 1,
             type: "remove",
             items: returnArray
           }, null
@@ -355,7 +355,7 @@ qx.Class.define("qx.data.Array",
         this.fireDataEvent("change",
           {
             start: startIndex,
-            end: startIndex + arguments.length - 2,
+            end: this.length - 1,
             type: "add",
             items: qx.lang.Array.fromArguments(arguments, 2)
           }, null

@@ -535,7 +535,7 @@ qx.Class.define("qx.test.data.DataArray",
         self.assertEquals(0, e.getData().start, "Wrong start index in the event.");
         self.assertEquals(3, e.getData().end, "Wrong end index in the event.");
         self.assertEquals("add", e.getData().type, "Wrong type in the event.");
-        self.assertNull(e.getData().items, "Wrong type in the event.");
+        self.assertArrayEquals([0], e.getData().items, "Wrong items in the event.");
       }, "Change event not fired!");
       a.dispose();
     },
