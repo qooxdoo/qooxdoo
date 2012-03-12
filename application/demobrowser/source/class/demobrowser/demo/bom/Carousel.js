@@ -16,7 +16,7 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.bom.Carusel",
+qx.Class.define("demobrowser.demo.bom.Carousel",
 {
   extend : qx.application.Native,
 
@@ -37,12 +37,12 @@ qx.Class.define("demobrowser.demo.bom.Carusel",
       var offset = 30;
 
 
-      var carusel = document.getElementById("carusel");
+      var carousel = document.getElementById("carousel");
       var entries = [];
       for (var i=0; i < items.length; i++) {
-        entries[i] = qx.bom.Template.get("carusel-entry", {data: items[i]})
+        entries[i] = qx.bom.Template.get("carousel-entry", {data: items[i]})
         qx.bom.element.Class.add(entries[i], "entry");
-        qx.dom.Element.insertEnd(entries[i], carusel);
+        qx.dom.Element.insertEnd(entries[i], carousel);
       };
 
 
