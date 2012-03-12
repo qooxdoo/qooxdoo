@@ -47,16 +47,33 @@ qx.Class.define("mobileshowcase.page.Basic",
       
       
       this.getContent().add(new qx.ui.mobile.form.Title("Button"));
-      this.getContent().add(new qx.ui.mobile.form.Button("Button"));
+      var exButton = new qx.ui.mobile.form.Button("Button");
+      this.getContent().add(exButton);
       
       this.getContent().add(new qx.ui.mobile.form.Title("ToggleButton"));
-      this.getContent().add(new qx.ui.mobile.form.ToggleButton(false));
+      var exToggleButton = new qx.ui.mobile.form.ToggleButton(false);
+      this.getContent().add(exToggleButton);
       
       this.getContent().add(new qx.ui.mobile.form.Title("Label"));
-      this.getContent().add(new qx.ui.mobile.basic.Label("A text label"));
+      var exLabel = new qx.ui.mobile.basic.Label("A text label");
+      this.getContent().add(exLabel);
       
       this.getContent().add(new qx.ui.mobile.form.Title("Image"));
-      this.getContent().add(new qx.ui.mobile.basic.Image("../build/resource/qx/mobile/icon/android/checkbox-green.png"));
+      var exImage = new qx.ui.mobile.basic.Image("../build/resource/qx/mobile/icon/android/checkbox-green.png");
+      this.getContent().add(exImage);
+      
+      this.getContent().add(new qx.ui.mobile.form.Title("Toggle enabled state"));
+      var toggleEnableButton = new qx.ui.mobile.form.Button("Toggle");
+      
+      toggleEnableButton.addListener("tap", function(e) {
+        exImage.toggleEnabled();
+        exToggleButton.toggleEnabled();
+        exLabel.toggleEnabled();
+        exButton.toggleEnabled();
+      }, this);
+      
+      this.getContent().add(toggleEnableButton);
+      
       
     },
 
