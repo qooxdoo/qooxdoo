@@ -124,12 +124,14 @@ qx.Class.define("testrunner.runner.TestRunner", {
     _defineTestClass : function(testClassName, membersMap)
     {
       var qxClass = qx.Class;
-      return qxClass.define(testClassName,
-      {
+      var classDef = {
         extend : qx.dev.unit.TestCase,
-        include : this.TEST_MIXINS,
         members : membersMap
-      });
+      };
+      if (this.TEST_MIXINS) {
+        classDef.include = this.TEST_MIXINS;
+      }
+      return qxClass.define(testClassName, classDef);
     },
 
 
