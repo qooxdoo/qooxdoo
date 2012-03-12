@@ -899,6 +899,44 @@ testrunner.define({
     test[0].blur();
     this.assert(obj1.normalized, "Event was not manipulated!");
     this.assert(obj2.normalized, "Event was not manipulated!");
+  },
+  
+  __normalizeFocusBlur : null,
+  
+  testNormalizationForMultipleTypes : function() {
+    this.__normalizeFocusBlur = function(event) {
+      event.affe = "juhu";
+      return event;
+    };
+    this.__registerNormalization(["focus", "blur"], this.__normalizeFocusBlur);
+    
+    var obj1, obj2;
+    obj1 = obj2 = {
+      normalized : false
+    };
+    var callback = function(ev) {
+      if (ev.affe && ev.affe === "juhu") {
+        this.normalized = true;
+      }
+    };
+    
+    var test = q.create('<input type="text"></input>');
+    test.appendTo(this.sandbox[0]);
+    test.on("focus", callback, obj1);
+    test.on("blur", callback, obj2);
+    
+    test[0].focus();
+    test[0].blur();
+    this.assert(obj1.normalized, "Event was not manipulated!");
+    this.assert(obj2.normalized, "Event was not manipulated!");
+  },
+  
+  tearDownTestNormalizationForMultipleTypes : function() {
+    var registry = q.getEventNormalizationRegistry();
+    var before = registry["focus"].length + registry["blur"].length;
+    q.unregisterEventNormalization(["focus", "blur"], this.__normalizeFocusBlur);
+    var after = registry["focus"].length + registry["blur"].length;
+    this.assertEquals((before - 2), after);
   }
 });
 

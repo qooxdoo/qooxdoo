@@ -93,22 +93,34 @@ qx.Bootstrap.define("qx.module.Event", {
       qx.bom.Event.addNativeListener(window, "load", callback);
     },
 
-    registerNormalization : function(type, normalize)
+    registerNormalization : function(types, normalize)
     {
+      if (!qx.lang.Type.isArray(types)) {
+        types = [types];
+      }
       var registry = qx.module.Event.__normalizations;
-      if (qx.lang.Type.isFunction(normalize)) {
-        if (!registry[type]) {
-          registry[type] = [];
+      for (var i=0,l=types.length; i<l; i++) {
+        var type = types[i];
+        if (qx.lang.Type.isFunction(normalize)) {
+          if (!registry[type]) {
+            registry[type] = [];
+          }
+          registry[type].push(normalize);
         }
-        registry[type].push(normalize);
       }
     },
 
-    unregisterNormalization : function(type, normalize)
+    unregisterNormalization : function(types, normalize)
     {
-      var registry = qx.module.Event.__normalizations;
-      if (registry[type]) {
-        qx.lang.Array.remove(registry[type], normalize);
+      if (!qx.lang.Type.isArray(types)) {
+        types = [types];
+      }
+      var registry = qx.module.Event.__normalizations; 
+      for (var i=0,l=types.length; i<l; i++) {
+        var type = types[i];
+        if (registry[type]) {
+          qx.lang.Array.remove(registry[type], normalize);
+        }
       }
     },
 
