@@ -819,7 +819,7 @@ testrunner.define({
   
   testNormalization : function()
   {
-    qx.Bootstrap.define("EventNormalizeTest", {
+    qx.Bootstrap.define("EventNormalizeTest1", {
       statics :
       {
         normalize : function(event) {
@@ -833,11 +833,25 @@ testrunner.define({
       }
     });
     
+    qx.Bootstrap.define("EventNormalizeTest2", {
+      statics :
+      {
+        normalize : function(event) {
+          event.affe += " affe";
+          return event;
+        }
+      },
+      defer : function(statics)
+      {
+        qx.module.Event.registerEventNormalization("focus", statics.normalize);
+      }
+    });
+    
     var obj = {
       normalized : false
     };
     var callback = function(ev) {
-      if (ev.affe) {
+      if (ev.affe && ev.affe === "juhu affe") {
         this.normalized = true;
       }
     };

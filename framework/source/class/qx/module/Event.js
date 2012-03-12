@@ -12,16 +12,20 @@ qx.Bootstrap.define("qx.module.Event", {
         var bound;
         if (qx.bom.Event.supportsEvent(el, type)) {
           
-          // apply normalization
+          // apply normalizations
           var registry = qx.module.Event.__normalizations;
-          if (registry[type] && qx.lang.Type.isFunction(registry[type])) {
+          if (registry[type]) {
             bound = function(event) {
-              listener.apply(ctx, [registry[type](event)]);
+              for (var x=0, y=registry[type].length; x<y; x++) {
+                event = registry[type][x](event);
+              }
+              listener.apply(ctx, [event]);
             }
           }
           else {
             bound = qx.lang.Function.bind(listener, ctx);
           }
+          
           qx.bom.Event.addNativeListener(el, type, bound);
         }
         // create an emitter if necessary
@@ -92,7 +96,10 @@ qx.Bootstrap.define("qx.module.Event", {
     {
       var registry = qx.module.Event.__normalizations;
       if (qx.lang.Type.isFunction(normalize)) {
-        registry[type] = normalize;
+        if (!registry[type]) {
+          registry[type] = [];
+        }
+        registry[type].push(normalize);
       }
     }
   },
