@@ -17,7 +17,8 @@
     "build-q",
     "source-q",
     "test-source-q",
-    "test-build-q"
+    "test-build-q",
+    "log-deps"
   ],
 
 
@@ -56,25 +57,12 @@
       }
     },
     
-    "build-script" :
+    "log-deps" :
     {
-      "compile-options" :
-      {
-        "code" : {
-          "optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants", "statics"]
-        },
-        "paths"  :
-        {
-          "file" : "q.js"
-        }
-      }
-    },
+      "extend" : ["build-q"],
     
-    "build-q" :
-    {
-      "extend" : ["build"],
-
-      "log" : {
+      "log" : 
+      {
         "dependencies" : {
           "dot" : {
             "root" : "qx.module.Template",
@@ -88,20 +76,31 @@
       }
     },
     
+    "build-q" :
+    {
+      "extend" : ["build-script"],
+      
+      "compile-options" :
+      {
+        "code" : {
+          "optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants", "statics"]
+        },
+        "paths"  :
+        {
+          "file" : "q.js"
+        }
+      }
+    },
+    
     "source-q" :
     {
-      "extend" : ["source"],
+      "extend" : ["source-script"],
       
       "let" :
       {
         "OPTIMIZE" : []
       },
       
-      "run" : ["source-script"]
-    },
-    
-    "source-script" :
-    {
       "compile-options" :
       {
         "code" : { "except" : [ "*" ] },
