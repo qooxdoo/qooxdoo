@@ -46,8 +46,8 @@ qx.Class.define("qx.bom.IframeHistory",
   {
     __iframe : null,
     __iframeReady : false,
-    __locationState : null,
     __writeStateTimner : null,
+    __dontApplyState : null,
     
     
     //overridden
@@ -68,22 +68,40 @@ qx.Class.define("qx.bom.IframeHistory",
       }
     },
     
-
-    // overridden
-    _setInitialState : function()
-    {
-      this.base(arguments);
-      this.__locationState = this._getHash();
-    },
-
     
     //overridden
-    _setHash : function(value)
+    _onHistoryLoad : function(state)
     {
-      this.base(arguments, value);
-      this.__locationState = this._encode(value);
+      this._setState(state);
+      this.fireDataEvent("request", state);
+      if (this._titles[state] != null) {
+        this.setTitle(this._titles[state]);
+      }
     },
-
+    
+    
+    /**
+     * Helper function to set state property. This will only be called 
+     * by _onHistoryLoad. It determines, that no apply of state will be called.
+     * @param state {String} State loaded from history
+     */
+    _setState : function(state)
+    {
+      this.__dontApplyState = true;
+      this.setState(state);
+      this.__dontApplyState = false;
+    },
+    
+    
+    //overridden
+    _applyState : function(value, old)
+    {
+      if (this.__dontApplyState){
+        return;
+      }
+      this._writeState(value);
+    },
+    
 
     /**
      * Get state from the iframe
@@ -115,14 +133,15 @@ qx.Class.define("qx.bom.IframeHistory",
         this.__writeStateTimner = qx.event.Timer.once(function(){this._writeState(state);}, this, 50);
         return;
       }
-      
       this.__clearWriteSateTimer();
       
       var state = this._encode(state);
-
-      this._setHash(state);
-      this.__locationState = state;
-
+      
+      // IE8 is sometimes recognizing a hash change as history entry. Cause of sporadic surface of this behavior, we have to prevent setting hash.
+      if (qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.version") != 8){
+        this._setHash(state);
+      }
+      
       var doc = this.__iframe.contentWindow.document;
       doc.open();
       doc.write('<html><body><div id="state">' + state + '</div></body></html>');
@@ -163,13 +182,7 @@ qx.Class.define("qx.bom.IframeHistory",
       // the location only changes if the user manually changes the fragment
       // identifier.
       var currentState = null;
-      var locationState = this._getHash();
-
-      if (!this.__isCurrentLocationState(locationState)) {
-        currentState = this.__storeLocationState(locationState);
-      } else {
-        currentState = this._readState();
-      }
+      currentState = this._readState();
       if (qx.lang.Type.isString(currentState) && currentState != this.getState()) {
         this._onHistoryLoad(currentState);
       }
@@ -188,17 +201,6 @@ qx.Class.define("qx.bom.IframeHistory",
       this._writeState(locationState);
 
       return locationState;
-    },
-
-
-    /**
-     * Checks whether the given location state is the current one.
-     *
-     * @param locationState {String} location state to check
-     * @return {Boolean}
-     */
-    __isCurrentLocationState : function (locationState) {
-      return qx.lang.Type.isString(locationState) && locationState == this.__locationState;
     },
 
 
