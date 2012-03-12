@@ -826,7 +826,7 @@ testrunner.define({
       },
       defer : function(statics)
       {
-        qx.module.Event.registerEventNormalization(type, statics.normalize);
+        q.registerEventNormalization(type, statics.normalize);
       }
     });
   },
@@ -862,7 +862,7 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     test.on("focus", callback, obj);
     
-    qx.module.Event.unregisterEventNormalization("focus", normalizer);
+    q.unregisterEventNormalization("focus", normalizer);
     
     test[0].focus();
     this.assert(obj.normalized, "Event was not manipulated!");

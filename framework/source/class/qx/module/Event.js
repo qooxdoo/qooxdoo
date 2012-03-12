@@ -92,7 +92,7 @@ qx.Bootstrap.define("qx.module.Event", {
       qx.bom.Event.addNativeListener(window, "load", callback);
     },
 
-    registerEventNormalization : function(type, normalize)
+    registerNormalization : function(type, normalize)
     {
       var registry = qx.module.Event.__normalizations;
       if (qx.lang.Type.isFunction(normalize)) {
@@ -103,7 +103,7 @@ qx.Bootstrap.define("qx.module.Event", {
       }
     },
 
-    unregisterEventNormalization : function(type, normalize)
+    unregisterNormalization : function(type, normalize)
     {
       var registry = qx.module.Event.__normalizations;
       if (registry[type]) {
@@ -121,6 +121,10 @@ qx.Bootstrap.define("qx.module.Event", {
       "emit" : statics.emit
     });
 
-    q.attachStatic({"ready": statics.ready});
+    q.attachStatic({
+      "ready": statics.ready,
+      "registerEventNormalization" : statics.registerNormalization,
+      "unregisterEventNormalization" : statics.unregisterNormalization
+    });
   }
 });
