@@ -37,6 +37,7 @@ qx.Class.define("simulator.autounit.JunitLog", {
   {
     __attributes : null,
     __testCases : null,
+    __suiteData : null,
     
     
     /**

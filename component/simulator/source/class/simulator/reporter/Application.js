@@ -23,6 +23,9 @@ qx.Class.define("simulator.reporter.Application", {
 
   members :
   {
+    /**
+     * @lint ignoreUndefined(testrunner)
+     */
     main : function()
     {
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
