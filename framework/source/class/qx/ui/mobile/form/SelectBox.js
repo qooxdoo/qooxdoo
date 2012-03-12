@@ -269,7 +269,6 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param value {String} the new value of the selectbox
      */
     _setValue : function(value) {
-      var model = this.getModel();
       this.getContainerElement().value = value;
     },
 
@@ -279,10 +278,6 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * values of the select box in a different way than the default.
      */
     _render : function() {
-      // Clear HTML content.
-      this._setHtml("");
-      
-      // Then recreate content.
       var contentElement = this.getContentElement();
       
       var selectedItem = this.getModel().toArray()[0];
