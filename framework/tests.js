@@ -941,6 +941,30 @@ testrunner.define({
 });
 
 
+testrunner.define({
+  classname : "event.Native",
+  
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+  
+  testGetTarget : function()
+  {
+    var obj = {
+      target : null
+    };
+    var callback = function(ev) {
+      this.target = ev.getTarget();
+    };
+    
+    var test = q.create('<input type="text"></input>');
+    test.appendTo(this.sandbox[0]);
+    test.on("focus", callback, obj);
+    
+    test[0].focus();
+    this.assertEquals(test[0], obj.target);
+  }
+});
+
 
 testrunner.define({
   classname : "Templates",
