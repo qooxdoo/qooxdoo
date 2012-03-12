@@ -866,6 +866,12 @@ testrunner.define({
     
     test[0].focus();
     this.assert(obj.normalized, "Event was not manipulated!");
+  },
+  
+  tearDownTestNormalization : function()
+  {
+    var registry = q.getEventNormalizationRegistry();
+    delete registry.focus;
   }
 });
 
