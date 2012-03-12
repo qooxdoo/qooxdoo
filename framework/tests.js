@@ -817,34 +817,36 @@ testrunner.define({
     test.remove();
   },
   
-  testNormalization : function()
-  {
-    qx.Bootstrap.define("EventNormalizeTest1", {
+  __registerNormalization : function(type, normalizer) {
+    var now = new Date().getTime();
+    qx.Bootstrap.define("EventNormalize" + now.toString(), {
       statics :
       {
-        normalize : function(event) {
-          event.affe = "juhu";
-          return event;
-        }
+        normalize : normalizer
       },
       defer : function(statics)
       {
-        qx.module.Event.registerEventNormalization("focus", statics.normalize);
+        qx.module.Event.registerEventNormalization(type, statics.normalize);
       }
     });
+  },
+  
+  testNormalization : function()
+  {
+    this.__registerNormalization("focus", function(event) {
+      event.affe = "juhu";
+      return event;
+    });
     
-    qx.Bootstrap.define("EventNormalizeTest2", {
-      statics :
-      {
-        normalize : function(event) {
-          event.affe += " affe";
-          return event;
-        }
-      },
-      defer : function(statics)
-      {
-        qx.module.Event.registerEventNormalization("focus", statics.normalize);
-      }
+    var normalizer = function(event) {
+      event.affe += " hugo";
+      return event;
+    };
+    this.__registerNormalization("focus", normalizer);
+    
+    this.__registerNormalization("focus", function(event) {
+      event.affe += " affe";
+      return event;
     });
     
     var obj = {
@@ -859,6 +861,9 @@ testrunner.define({
     var test = q.create('<input type="text"></input>');
     test.appendTo(this.sandbox[0]);
     test.on("focus", callback, obj);
+    
+    qx.module.Event.unregisterEventNormalization("focus", normalizer);
+    
     test[0].focus();
     this.assert(obj.normalized, "Event was not manipulated!");
   }

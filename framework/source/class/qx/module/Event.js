@@ -101,6 +101,14 @@ qx.Bootstrap.define("qx.module.Event", {
         }
         registry[type].push(normalize);
       }
+    },
+
+    unregisterEventNormalization : function(type, normalize)
+    {
+      var registry = qx.module.Event.__normalizations;
+      if (registry[type]) {
+        qx.lang.Array.remove(registry[type], normalize);
+      }
     }
   },
 
