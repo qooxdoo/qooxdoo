@@ -38,6 +38,7 @@
       "qx.module.Animation",
       "qx.module.Traversing",
       "qx.module.Event",
+      "qx.module.event.Native",
       "qx.module.Template",
       "qx.module.Polyfill",
       "q"
