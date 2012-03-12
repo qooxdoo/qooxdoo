@@ -11,19 +11,20 @@ qx.Bootstrap.define("qx.module.Event", {
         // add native listener
         var bound;
         if (qx.bom.Event.supportsEvent(el, type)) {
-          
-          // apply normalizations
-          var registry = qx.module.Event.__normalizations;
-          if (registry[type]) {
-            bound = function(event) {
-              for (var x=0, y=registry[type].length; x<y; x++) {
-                event = registry[type][x](event);
-              }
-              listener.apply(ctx, [event]);
+          bound = function(event) {
+            // apply normalizations
+            var registry = qx.module.Event.__normalizations;
+            // generic
+            var normalizations = registry["*"] || [];
+            // type specific
+            if (registry[type]) {
+              normalizations = normalizations.concat(registry[type]);
             }
-          }
-          else {
-            bound = qx.lang.Function.bind(listener, ctx);
+            
+            for (var x=0, y=normalizations.length; x<y; x++) {
+              event = normalizations[x](event);
+            }
+            listener.apply(ctx, [event]);
           }
           
           qx.bom.Event.addNativeListener(el, type, bound);
