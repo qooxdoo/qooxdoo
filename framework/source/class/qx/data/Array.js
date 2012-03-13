@@ -382,8 +382,9 @@ qx.Class.define("qx.data.Array",
 
 
     /**
-     * Sorts the array. If a sort function is given, this will be used to
-     * compare the items.
+     * Sorts the array. If a function is given, this will be used to
+     * compare the items. <code>changeBubble</code> event will only be fired,
+     * if sorting result differs from original array.
      *
      * @param func {Function} A compare function comparing two parameters and
      *   should return a number.
@@ -399,7 +400,12 @@ qx.Class.define("qx.data.Array",
       this.fireDataEvent("change",
         {start: 0, end: this.length - 1, type: "order", items: null}, null
       );
-
+      
+      // prevent changeBubble event if nothing has been changed
+      if (qx.lang.Array.equals(this.__array, oldArray) === true){
+        return;
+      }
+      
       // fire change bubbles event
       this.fireDataEvent("changeBubble", {
         value: this.__array,
