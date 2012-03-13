@@ -260,6 +260,7 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
         "<div style='",
         qx.bom.element.Style.compile({
           "borderImage" : 'url("' + source + '") ' + slice.join(" ") + fill + " " + repeat,
+          "borderStyle" : "solid",
           position: "absolute",
           lineHeight: 0,
           fontSize: 0,

@@ -252,7 +252,11 @@ qx.Class.define("qx.ui.decoration.Grid",
     _applySlices : function(value, old, name)
     {
       var setter = "set" + qx.lang.String.firstUp(name);
-      this.__impl[setter](value);
+      // The GridDiv implementation doesn't have slice properties,
+      // slices are obtained from the sizes of the images instead
+      if (this.__impl[setter]) {
+        this.__impl[setter](value);
+      }
     },
 
 
