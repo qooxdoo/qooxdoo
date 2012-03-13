@@ -962,6 +962,25 @@ testrunner.define({
     
     test[0].focus();
     this.assertEquals(test[0], obj.target);
+  },
+  
+  testGetRelatedTarget : function()
+  {
+    var obj = {
+      target : null
+    };
+    var callback = function(ev) {
+      // only actual mouse events have a related target so just check the
+      // method
+      this.normalized = typeof ev.getRelatedTarget == "function";
+    };
+    
+    var test = q.create('<input type="text"></input>');
+    test.appendTo(this.sandbox[0]);
+    test.on("focus", callback, obj);
+    
+    test[0].focus();
+    this.assertTrue(obj.normalized);
   }
 });
 

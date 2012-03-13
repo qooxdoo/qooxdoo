@@ -3,6 +3,7 @@ qx.Bootstrap.define("qx.module.event.Native", {
   {
     normalize : function(event) {
       event.getTarget = qx.lang.Function.curry(qx.bom.Event.getTarget, event);
+      event.getRelatedTarget = qx.lang.Function.curry(qx.bom.Event.getRelatedTarget, event);
       
       return event;
     }
