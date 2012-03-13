@@ -167,29 +167,6 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.assertIdentical(1, req.readyState);
     },
 
-    //
-    // var req = this.req,
-    //     count = 0,
-    //     url = this.getUrl("qx/test/xmlhttp/sample.html");
-    //
-    // var that = this;
-    //
-    // req.onload = function() {
-    //   // From cache with new request
-    //   var req = new qx.bom.request.Xhr();
-    //   req.open("GET", url);
-    //   req.send();
-    //   req.onload = function() {
-    //     that.resume();
-    //   };
-    // };
-    //
-    // // Prime cache
-    // req.open("GET", url);
-    // req.send();
-    //
-    // this.wait();
-
     "test: abort pending request": function() {
       this.require(["php"]);
 
