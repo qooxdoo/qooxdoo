@@ -62,7 +62,8 @@
         "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}",
         "testrunner.title" : "${APPLICATION}",
         "testrunner.testParts" : false,
-        "testrunner.reportServer" : null
+        "testrunner.reportServer" : null,
+        "testrunner.performance" : true
       },
       
       "library" :
