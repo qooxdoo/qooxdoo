@@ -864,8 +864,14 @@ testrunner.define({
     
     q.unregisterEventNormalization("focus", normalizer);
     
-    test[0].focus();
-    this.assert(obj.normalized, "Event was not manipulated!");
+    var that = this;
+    window.setTimeout(function() {
+      test[0].focus();
+    }, 100);
+    
+    this.wait(function() {
+      this.assert(obj.normalized, "Event was not manipulated!");
+    }, 200, this);
   },
   
   tearDownTestNormalization : function()
@@ -895,10 +901,17 @@ testrunner.define({
     test.on("focus", callback, obj1);
     test.on("blur", callback, obj2);
     
-    test[0].focus();
-    test[0].blur();
-    this.assert(obj1.normalized, "Event was not manipulated!");
-    this.assert(obj2.normalized, "Event was not manipulated!");
+    
+    var that = this;
+    window.setTimeout(function() {
+      test[0].focus();
+      test[0].blur();
+    }, 100);
+    
+    this.wait(function() {
+      this.assert(obj1.normalized, "Event was not manipulated!");
+      this.assert(obj2.normalized, "Event was not manipulated!");
+    }, 200, this);
   },
   
   __normalizeFocusBlur : null,
@@ -925,10 +938,16 @@ testrunner.define({
     test.on("focus", callback, obj1);
     test.on("blur", callback, obj2);
     
-    test[0].focus();
-    test[0].blur();
-    this.assert(obj1.normalized, "Event was not manipulated!");
-    this.assert(obj2.normalized, "Event was not manipulated!");
+    var that = this;
+    window.setTimeout(function() {
+      test[0].focus();
+      test[0].blur();
+    }, 100);
+    
+    this.wait(function() {
+      this.assert(obj1.normalized, "Event was not manipulated!");
+      this.assert(obj2.normalized, "Event was not manipulated!");
+    }, 200, this);
   },
   
   tearDownTestNormalizationForMultipleTypes : function() {
@@ -960,8 +979,14 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     test.on("focus", callback, obj);
     
-    test[0].focus();
-    this.assertEquals(test[0], obj.target);
+    var that = this;
+    window.setTimeout(function() {
+      test[0].focus();
+    }, 100);
+    
+    this.wait(function() {
+      this.assertEquals(test[0], obj.target);
+    }, 200, this);
   },
   
   testGetRelatedTarget : function()
@@ -979,8 +1004,14 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     test.on("focus", callback, obj);
     
-    test[0].focus();
-    this.assertTrue(obj.normalized);
+    var that = this;
+    window.setTimeout(function() {
+      test[0].focus();
+    }, 100);
+    
+    this.wait(function() {
+      this.assertTrue(obj.normalized);
+    }, 200, this);
   }
 });
 
