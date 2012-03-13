@@ -1,9 +1,13 @@
 qx.Bootstrap.define("qx.module.event.Native", {
   statics :
   {
+    METHODS : ["getTarget", "getRelatedTarget", "preventDefault", "stopPropagation"],
+    
     normalize : function(event) {
-      event.getTarget = qx.lang.Function.curry(qx.bom.Event.getTarget, event);
-      event.getRelatedTarget = qx.lang.Function.curry(qx.bom.Event.getRelatedTarget, event);
+      var methods = qx.module.event.Native.METHODS;
+      for (var i=0, l=methods.length; i<l; i++) {
+        event[methods[i]] = qx.lang.Function.curry(qx.bom.Event[methods[i]], event);
+      }
       
       return event;
     }

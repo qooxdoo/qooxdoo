@@ -989,15 +989,18 @@ testrunner.define({
     }, 200, this);
   },
   
-  testGetRelatedTarget : function()
+  testEventMethods : function()
   {
+    var methods = ["getRelatedTarget", "preventDefault", "stopPropagation"];
+    
     var obj = {
       target : null
     };
     var callback = function(ev) {
-      // only actual mouse events have a related target so just check the
-      // method
-      this.normalized = typeof ev.getRelatedTarget == "function";
+      for (var i=0, l=methods.length; i<l; i++) {
+        var methodName = methods[i];
+        this[methodName] = (typeof ev[methodName] == "function");
+      }
     };
     
     var test = q.create('<input type="text"></input>');
@@ -1010,7 +1013,9 @@ testrunner.define({
     }, 100);
     
     this.wait(function() {
-      this.assertTrue(obj.normalized);
+      for (var i=0, l=methods.length; i<l; i++) {
+        this.assertTrue(obj[methods[i]]);
+      }
     }, 200, this);
   }
 });
