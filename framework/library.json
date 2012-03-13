@@ -84,11 +84,12 @@
       "compile-options" :
       {
         "code" : {
-          "optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants", "statics"]
+          "=optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants"]
         },
         "paths"  :
         {
-          "file" : "q.js"
+          "file" : "q.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
         }
       }
     },
@@ -109,7 +110,9 @@
         "paths" :
         {
           "file" : "q-source.js",
-          "app-root" : ""
+          "app-root" : "",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.source.tmpl.js"
+          
         }
       }
     },
