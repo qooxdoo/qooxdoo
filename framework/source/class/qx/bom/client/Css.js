@@ -447,7 +447,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
       var el = document.createElement("div");
       el.style.filter = value;
       return el.style.filter == value;
-    },
+    }
   },
 
 
