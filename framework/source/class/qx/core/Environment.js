@@ -113,6 +113,10 @@
  *       <td>{@link qx.bom.client.Css#getRadialGradient}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.gradient.legacywebkit</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Css#getLegacyWebkitGradient}</td>
+ *     </tr>
+ *     <tr>
  *       <td>css.placeholder</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getPlaceholder}</td>
  *     </tr>
@@ -752,6 +756,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.gradient.linear"         : "qx.bom.client.Css.getLinearGradient",
       "css.gradient.filter"         : "qx.bom.client.Css.getFilterGradient",
       "css.gradient.radial"         : "qx.bom.client.Css.getRadialGradient",
+      "css.gradient.legacywebkit"   : "qx.bom.client.Css.getLegacyWebkitGradient",
       "css.boxmodel"                : "qx.bom.client.Css.getBoxModel",
       "css.rgba"                    : "qx.bom.client.Css.getRgba",
       "css.userselect"              : "qx.bom.client.Css.getUserSelect",
