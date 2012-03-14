@@ -173,6 +173,10 @@
  *       <td>{@link qx.bom.client.Css#getOverflowXY}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.textShadow</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getTextShadow}</td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><b>device</b></td>
  *     </tr>
  *     <tr>
@@ -758,6 +762,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.inlineblock" : "qx.bom.client.Css.getInlineBlock",
       "css.opacity" : "qx.bom.client.Css.getOpacity",
       "css.overflowxy" : "qx.bom.client.Css.getOverflowXY",
+      "css.textShadow" : "qx.bom.client.Css.getTextShadow",
       "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
       "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification",
       "xml.implementation"          : "qx.bom.client.Xml.getImplementation",

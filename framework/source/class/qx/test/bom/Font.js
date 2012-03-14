@@ -14,15 +14,24 @@
 
    Authors:
      * Jonathan Weiß (jonathan_rass)
+     * Mustafa Sak (msak)
 
 ************************************************************************ */
 
 qx.Class.define("qx.test.bom.Font",
 {
   extend : qx.test.ui.LayoutTestCase,
+  
+  include : [qx.dev.unit.MRequirements],
 
   members :
   {
+    hasNoIe : function()
+    {
+      return qx.core.Environment.get("engine.name") !== "mshtml";
+    },
+    
+    
     setUp : function() {
       this.__font = new qx.bom.Font;
     },
@@ -122,6 +131,17 @@ qx.Class.define("qx.test.bom.Font",
       var styles = this.__font.getStyles();
       this.assertEquals("red", styles.color, "Wrong style value for 'color' property!");
     },
+    
+    
+    testTextShadow : function()
+    {
+      this.require(["noIe"]);
+      
+      this.__font.setTextShadow("red 1px 1px 3px, green -1px -1px 3px, white -1px 1px 3px, white 1px -1px 3px");
+
+      var styles = this.__font.getStyles();
+      this.assertEquals("red 1px 1px 3px, green -1px -1px 3px, white -1px 1px 3px, white 1px -1px 3px", styles.textShadow, "Wrong style value for 'textShadow' property!");
+    },
 
 
     testColorAtWidget : function()
@@ -161,7 +181,7 @@ qx.Class.define("qx.test.bom.Font",
       var keys = qx.lang.Object.getKeys(styles);
 
       this.assertMap(styles, "Method 'getStyles' should return a map!");
-      this.assertEquals(7, qx.lang.Object.getLength(styles), "Map should contain 7 key!");
+      this.assertEquals(8, qx.lang.Object.getLength(styles), "Map should contain 7 key!");
       this.assertNotUndefined(styles.fontFamily, "Key 'fontFamily' has to be present!");
       this.assertNotUndefined(styles.fontStyle, "Key 'fontStyle' has to be present!");
       this.assertNotUndefined(styles.fontWeight, "Key 'fontWeight' has to be present!");
@@ -169,6 +189,7 @@ qx.Class.define("qx.test.bom.Font",
       this.assertNotUndefined(styles.lineHeight, "Key 'lineHeight' has to be present!");
       this.assertNotUndefined(styles.textDecoration, "Key 'textDecoration' has to be present!");
       this.assertNotUndefined(styles.color, "Key 'color' has to be present!");
+      this.assertNotUndefined(styles.textShadow, "Key 'textShadow' has to be present!");
     },
 
 

@@ -415,7 +415,39 @@ qx.Bootstrap.define("qx.bom.client.Css",
     getOverflowXY : function() {
       return (typeof document.documentElement.style.overflowX == "string") &&
         (typeof document.documentElement.style.overflowY == "string");
-    }
+    },
+    
+    
+    /**
+     * Checks if CSS texShadow is supported
+     *
+     * @internal
+     * @return {Boolean} <code>true</code> if textShadow is supported
+     */
+    getTextShadow : function() 
+    {
+      var value = "red 1px 1px 3px";
+      var el = document.createElement("div");
+      var style = qx.bom.Style.getAppliedStyle(el, "textShadow", value);
+      return (!style) ? false : true;
+    },
+    
+    
+    /**
+     * Returns <code>true</code> if the browser supports setting text shadow
+     * using the filter style. This usually only applies for IE browsers
+     * starting from IE5.5.
+     *
+     * @internal
+     * @return {Boolean} <code>true</code> if textShadow is supported
+     */
+    getFilterTextShadow : function() 
+    {
+      var value = "progid:DXImageTransform.Microsoft.Shadow(color=#666666,direction=45);";
+      var el = document.createElement("div");
+      el.style.filter = value;
+      return el.style.filter == value;
+    },
   },
 
 
@@ -442,5 +474,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.inlineblock", statics.getInlineBlock);
     qx.core.Environment.add("css.opacity", statics.getOpacity);
     qx.core.Environment.add("css.overflowxy", statics.getOverflowXY);
+    qx.core.Environment.add("css.textShadow", statics.getTextShadow);
+    qx.core.Environment.add("css.textShadow.filter", statics.getFilterTextShadow);
   }
 });
