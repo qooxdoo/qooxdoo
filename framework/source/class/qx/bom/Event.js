@@ -195,26 +195,11 @@ qx.Bootstrap.define("qx.bom.Event",
      */
     preventDefault : function(e)
     {
-      if (e.preventDefault)
-      {
+      if (e.preventDefault) {
         e.preventDefault();
-
-        // not working in firefox 3 and above
-        if ((qx.core.Environment.get("engine.name") == "gecko") &&
-            parseFloat(qx.core.Environment.get("engine.version")) < 1.9)
-        {
-          try
-          {
-            // this allows us to prevent some key press events in Firefox.
-            // See bug #1049
-            e.keyCode = 0;
-          } catch(ex) {}
-        }
       }
-      else
-      {
-        try
-        {
+      else {
+        try {
           // this allows us to prevent some key press events in IE.
           // See bug #1049
           e.keyCode = 0;
