@@ -476,17 +476,16 @@ def reduceOperation(literalNode):
 def reduceLoop(startNode):
     treeModified = False
     conditionNode = None
-    loopType = None
 
     # Can only reduce constant condition expression
     if startNode.type != "constant":
         return treeModified
 
-    # Can only reduce a condition expression,
-    # i.e. a "loop/expression/..." context
+    # Can only reduce a condition expression
+    # of a loop context
     node = startNode
-    while (node):
-        if node.type == "expression" and node.parent and node.parent.type == "loop":
+    while(node):  # find the loop's condition node
+        if node.parent and node.parent.type == "loop" and node.parent.getFirstChild(ignoreComments=True)==node:
             conditionNode = node
             break
         node = node.parent
@@ -497,7 +496,7 @@ def reduceLoop(startNode):
     if conditionNode.parent.get("loopType") == "IF":
         loopNode = conditionNode.parent
         # startNode must be only condition
-        if isDirectDescendant(startNode, conditionNode):
+        if startNode==conditionNode or isDirectDescendant(startNode, conditionNode):
             value = startNode.get("value")
             if startNode.get("constantType") == 'string':
                 value = '"' + value + '"'
