@@ -217,7 +217,6 @@ qx.Class.define("qx.bom.HashHistory",
         return;
       }
       var hash = !this.__iframe.contentWindow.document.location.hash ? "" : this.__iframe.contentWindow.document.location.hash.substr(1);
-      debugger;
       if (value != hash) {
         this.__iframe.contentWindow.document.location.hash = value;
       }
