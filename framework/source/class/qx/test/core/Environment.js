@@ -416,6 +416,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assert(typeof linearGradient == "string" || linearGradient === null);
       var radialGradient = qx.core.Environment.get("css.gradient.radial");
       this.assert(typeof radialGradient == "string" || radialGradient === null);
+      this.assertBoolean(qx.core.Environment.get("css.gradient.legacywebkit"));
     },
 
     testPhoneGap : function() {

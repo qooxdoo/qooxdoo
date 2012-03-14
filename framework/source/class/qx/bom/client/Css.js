@@ -311,7 +311,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Checks if the **only** the old WebKit (version < 534.16) syntax for
+     * Checks if **only** the old WebKit (version < 534.16) syntax for
      * linear gradients is supported, e.g.
      * <code>linear-gradient(0deg, #fff, #000)</code>
      *
