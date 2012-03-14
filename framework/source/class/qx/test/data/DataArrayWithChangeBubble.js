@@ -377,8 +377,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
       var changeBubbleExecutionCounter = 0;
       
       var handler = function(e) {
-        this.debug("chnageBubble");
-        that.assertEquals(0, changeBubbleExecutionCounter);
+        that.assertEquals(0, changeBubbleExecutionCounter, "Handler was fired more than one times.");
         that.assertArrayEquals(["C", "B", "A"], that.array.toArray(), "Changes are not applied when handler is executed!");
         // check the data
         that.assertArrayEquals(["C", "B", "A"], e.getData().value);
