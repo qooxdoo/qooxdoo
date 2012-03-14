@@ -197,16 +197,6 @@ qx.Bootstrap.define("qx.bom.Event",
     {
       if (e.preventDefault)
       {
-        // Firefox 3 does not fire a "contextmenu" event if the mousedown
-        // called "preventDefault" => don't prevent the default behavior for
-        // right clicks.
-        if ((qx.core.Environment.get("engine.name") == "gecko") &&
-            parseFloat(qx.core.Environment.get("engine.version")) >= 1.9 &&
-            e.type == "mousedown" &&
-            e.button == 2) {
-          return;
-        }
-
         e.preventDefault();
 
         // not working in firefox 3 and above
