@@ -27,6 +27,12 @@
  * * Firefox 3.6+
  * * Opera 11.1+
  * * IE 10+
+ * * IE 5.5+ (with limitations)
+ *
+ * For IE 5.5 to IE 9,this class uses the filter rules to create the gradient. This
+ * has some limitations: The start and end position property can not be used. For
+ * more details, see the original documentation:
+ * http://msdn.microsoft.com/en-us/library/ms532997(v=vs.85).aspx
  */
 qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 {
@@ -81,14 +87,14 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
     },
 
 
-    /** Property group to set the start color inluding its start position. */
+    /** Property group to set the start color including its start position. */
     gradientStart :
     {
       group : ["startColor", "startColorPosition"],
       mode : "shorthand"
     },
 
-    /** Property group to set the end color inluding its end position. */
+    /** Property group to set the end color including its end position. */
     gradientEnd :
     {
       group : ["endColor", "endColorPosition"],
@@ -140,6 +146,22 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 
         var value = "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")";
         styles["background"] = value;
+
+      // IE filter syntax
+      // http://msdn.microsoft.com/en-us/library/ms532997(v=vs.85).aspx
+      } else if (
+        qx.core.Environment.get("css.gradient.filter") &&
+        !qx.core.Environment.get("css.gradient.linear")
+      ) {
+        var type = this.getOrientation() == "horizontal" ? 1 : 0;
+        // get rid of the starting '#'
+        startColor = startColor.substring(1, startColor.length);
+        endColor = endColor.substring(1, endColor.length);
+        var value = "progid:DXImageTransform.Microsoft.Gradient" +
+          "(GradientType=" + type + ", " +
+          "StartColorStr='#FF" + startColor + "', " +
+          "EndColorStr='#FF" + endColor + "')";
+        styles["filter"] = value;
 
       // spec like syntax
       } else {

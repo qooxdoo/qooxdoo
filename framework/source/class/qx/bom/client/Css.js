@@ -125,6 +125,51 @@ qx.Bootstrap.define("qx.bom.client.Css",
       return qx.bom.Style.getPropertyName("borderImage");
     },
 
+    /**
+     * Returns the type of syntax this client supports for its CSS border-image
+     * implementation. Some browsers do not support the "fill" keyword defined 
+     * in the W3C draft (http://www.w3.org/TR/css3-background/) and will not 
+     * show the border image if it's set. Others follow the standard closely and
+     * will omit the center image if "fill" is not set. 
+     *
+     * @return {Boolean|null} <code>true</code> if the standard syntax is supported. 
+     * <code>null</code> if the supported syntax could not be detected.
+     * @internal
+     */
+    getBorderImageSyntax : function() {
+      var styleName = qx.bom.client.Css.getBorderImage();
+      if (!styleName) {
+        return null;
+      }
+      
+      var variants = [
+        {
+          standard : true,
+          syntax : 'url("foo.png") 4 4 4 4 fill stretch',
+          regEx : /foo\.png.*?4.*?fill.*?stretch/
+        },
+        {
+          standard : false,
+          syntax : 'url("foo.png") 4 4 4 4 stretch',
+          regEx : /foo\.png.*?4 4 4 4 stretch/
+        }
+      ];
+      
+      for (var i=0,l=variants.length; i<l; i++) {
+        var el = document.createElement("div");
+        el.style[styleName] = variants[i].syntax;
+        if (variants[i].regEx.exec(el.style[styleName]) ||
+          // Chrome 19 does not apply any value to the shorthand borderImage 
+          // property, only the individual properties like borderImageSlice 
+          el.style.borderImageSlice && el.style.borderImageSlice == "4 fill") 
+        {
+          return variants[i].standard;
+        }
+      }
+      
+      return null;
+    },
+    
 
     /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the
@@ -234,6 +279,24 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
+     * Returns <code>true</code> if the browser supports setting gradients
+     * using the filter style. This usually only applies for IE browsers
+     * starting from IE5.5.
+     * http://msdn.microsoft.com/en-us/library/ms532997(v=vs.85).aspx
+     *
+     * @return {Boolean} <code>true</code> if supported.
+     * @internal
+     */
+    getFilterGradient : function() {
+      var value = "progid:DXImageTransform.Microsoft.gradient(" +
+        "startColorStr=#550000FF, endColorStr=#55FFFF00)";
+      var el = document.createElement("div");
+      el.style.filter = value;
+      return el.style.filter == value;
+    },
+
+
+    /**
      * Returns the (possibly vendor-prefixed) name this client uses for
      * <code>radial-gradient</code>.
      *
@@ -269,7 +332,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
       }
       return qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT;
     },
-
 
     /**
      * Checks if rgba colors can be used:
@@ -364,11 +426,13 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.borderradius", statics.getBorderRadius);
     qx.core.Environment.add("css.boxshadow", statics.getBoxShadow);
     qx.core.Environment.add("css.gradient.linear", statics.getLinearGradient);
+    qx.core.Environment.add("css.gradient.filter", statics.getFilterGradient);
     qx.core.Environment.add("css.gradient.radial", statics.getRadialGradient);
     qx.core.Environment.add("css.gradient.legacywebkit", statics.getLegacyWebkitGradient);
     qx.core.Environment.add("css.boxmodel", statics.getBoxModel);
     qx.core.Environment.add("css.rgba", statics.getRgba);
     qx.core.Environment.add("css.borderimage", statics.getBorderImage);
+    qx.core.Environment.add("css.borderimage.standardsyntax", statics.getBorderImageSyntax);
     qx.core.Environment.add("css.usermodify", statics.getUserModify);
     qx.core.Environment.add("css.userselect", statics.getUserSelect);
     qx.core.Environment.add("css.userselect.none", statics.getUserSelectNone);

@@ -301,41 +301,45 @@ def inlineIfStatement(ifNode, conditionValue):
     newDefinitions = []
     removedDefinitions = []
 
-    if ifNode.getChild("elseStatement", False):
+    if len(ifNode.children)==3:  # there is an 'else' part
         if conditionValue:
-            removedDefinitions = getDefinitions(ifNode.getChild("elseStatement"))
-            newDefinitions = getDefinitions(ifNode.getChild("statement"))
-            replacement = ifNode.getChild("statement").children
+            removedDefinitions = getDefinitions(ifNode.children[2])
+            newDefinitions = getDefinitions(ifNode.children[1])
+            replacement = ifNode.children[1].children[0].children
         else:
-            removedDefinitions = getDefinitions(ifNode.getChild("statement"))
-            newDefinitions = getDefinitions(ifNode.getChild("elseStatement"))
-            replacement = ifNode.getChild("elseStatement").children
+            removedDefinitions = getDefinitions(ifNode.children[1])
+            newDefinitions = getDefinitions(ifNode.children[2])
+            replacement = ifNode.children[2].children[0].children
     else:
         if conditionValue:
-            newDefinitions = getDefinitions(ifNode.getChild("statement"))
-            replacement = ifNode.getChild("statement").children
+            newDefinitions = getDefinitions(ifNode.children[1])
+            replacement = ifNode.children[1].children[0].children
         else:
-            removedDefinitions = getDefinitions(ifNode.getChild("statement"))
+            removedDefinitions = getDefinitions(ifNode.children[1])
 
-    newDefinitions = map(lambda x: x.get("identifier"), newDefinitions)
+    newDefinitions = [x.getDefinee().get("value") for x in newDefinitions]
     definitions = []
     for definition in removedDefinitions:
-        if not definition.get("identifier") in newDefinitions:
+        if not definition.getDefinee().get("value") in newDefinitions:
             definitions.append(definition)
 
     if len(definitions) > 0:
-        defList = tree.Node("definitionList")
+        defList = treegenerator.symbol("definitionList")()
         defList.set("line", ifNode.get("line"))
+        defList.set("column", ifNode.get("column"))
         for definition in definitions:
-            if definition.hasChildren():
-                #del definition.children
-                definition.children = []
+            # remove initialisations
+            if definition.children[0].type == "identifier":
+                pass
+            else: # assignment
+                idf = definition.getDefinee()
+                definition.children[0] = idf
             defList.addChild(definition)
 
         # move defList to higher node
         node = ifNode
-        while node.type != "block":
-            if node.hasParent():
+        while node.type not in ("statements",):
+            if node.parent:
                 node = node.parent
             else:
                 break
@@ -346,7 +350,7 @@ def inlineIfStatement(ifNode, conditionValue):
         replacement = replacement[:] # retain copy for return value
         replaceChildWithNodes(ifNode.parent, ifNode, replacement)
     else:
-        emptyBlock = tree.Node("block");
+        emptyBlock = treegenerator.symbol("block")()
         emptyBlock.set("line", ifNode.get("line"))
         # TODO: experimental bug#4734: is this enough?
         if (ifNode.parent.type in ["block", "file"]):

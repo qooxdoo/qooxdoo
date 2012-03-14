@@ -189,6 +189,17 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     {
       group : ["repeatX", "repeatY"],
       mode : "shorthand"
+    },
+
+
+    /**
+     * If set to <code>false</code>, the center image will be omitted and only
+     * the border will be drawn.
+     */
+    fill :
+    {
+      check : "Boolean",
+      init : true
     }
   },
 
@@ -242,10 +253,14 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
         this.getRepeatY()
       ].join(" ")
 
+      var fill = this.getFill() && 
+        qx.core.Environment.get("css.borderimage.standardsyntax") ? " fill" : "";
+      
       this.__markup = [
         "<div style='",
         qx.bom.element.Style.compile({
-          "borderImage" : 'url("' + source + '") ' + slice.join(" ") + " " + repeat,
+          "borderImage" : 'url("' + source + '") ' + slice.join(" ") + fill + " " + repeat,
+          "borderStyle" : "solid",
           position: "absolute",
           lineHeight: 0,
           fontSize: 0,
@@ -284,7 +299,7 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
 
 
     // property apply
-    _applyStyle : function()
+    _applyStyle : function(value, old, name)
     {
       if (qx.core.Environment.get("qx.debug"))
       {
