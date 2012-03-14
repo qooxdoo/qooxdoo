@@ -366,14 +366,12 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
       var changeBubbleExecutionCounter = 0;
       
       var handler = function(e) {
-        this.debug("chnageBubble");
         that.assertEquals(0, changeBubbleExecutionCounter);
         that.assertArrayEquals(["C", "B", "A"], that.array.toArray(), "Changes are not applied when handler is executed!");
         // check the data
         that.assertArrayEquals(["C", "B", "A"], e.getData().value);
         that.assertEquals("data[0-2]", e.getData().name);
         that.assertArrayEquals(["A", "B", "C"], e.getData().old);
-        that.assertEquals(that.array, e.getData().item);
         
         changeBubbleExecutionCounter ++;
       }
