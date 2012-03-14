@@ -76,6 +76,14 @@ qx.Class.define("mobileshowcase.page.Basic",
       
       this.getContent().add(toggleEnableButton);
       
+      var toggleLabelWrapButton = new qx.ui.mobile.form.Button("Label.toggleWrap()");
+      
+      toggleLabelWrapButton.addListener("tap", function(e) {
+          exLabel.toggleWrap();
+      }, this);
+      
+      this.getContent().add(toggleLabelWrapButton);
+      
       // WIDGETS 4 Test
       this.getContent().add(new qx.ui.mobile.form.Title("Button"));
       var exButton = new qx.ui.mobile.form.Button("Button");
@@ -86,7 +94,8 @@ qx.Class.define("mobileshowcase.page.Basic",
       this.getContent().add(exToggleButton);
       
       this.getContent().add(new qx.ui.mobile.form.Title("Label"));
-      var exLabel = new qx.ui.mobile.basic.Label("A text label");
+      var exLabel = new qx.ui.mobile.basic.Label("Text in the label. Text in the label. \n\
+      Text in the label. Text in the label. Text in the label. Text in the label. Text in the label.  Text in the label. Text in the label. Text in the label. Text in the label. Text in the label.");
       this.getContent().add(exLabel);
       
       this.getContent().add(new qx.ui.mobile.form.Title("Image"));
