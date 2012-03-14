@@ -279,6 +279,24 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
+     * Returns <code>true</code> if the browser supports setting gradients
+     * using the filter style. This usually only applies for IE browsers
+     * starting from IE5.5.
+     * http://msdn.microsoft.com/en-us/library/ms532997(v=vs.85).aspx
+     *
+     * @return {Boolean} <code>true</code> if supported.
+     * @internal
+     */
+    getFilterGradient : function() {
+      var value = "progid:DXImageTransform.Microsoft.gradient(" +
+        "startColorStr=#550000FF, endColorStr=#55FFFF00)";
+      var el = document.createElement("div");
+      el.style.filter = value;
+      return el.style.filter == value;
+    },
+
+
+    /**
      * Returns the (possibly vendor-prefixed) name this client uses for
      * <code>radial-gradient</code>.
      *
@@ -314,7 +332,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
       }
       return qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT;
     },
-
 
     /**
      * Checks if rgba colors can be used:
@@ -409,6 +426,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.borderradius", statics.getBorderRadius);
     qx.core.Environment.add("css.boxshadow", statics.getBoxShadow);
     qx.core.Environment.add("css.gradient.linear", statics.getLinearGradient);
+    qx.core.Environment.add("css.gradient.filter", statics.getFilterGradient);
     qx.core.Environment.add("css.gradient.radial", statics.getRadialGradient);
     qx.core.Environment.add("css.gradient.legacywebkit", statics.getLegacyWebkitGradient);
     qx.core.Environment.add("css.boxmodel", statics.getBoxModel);

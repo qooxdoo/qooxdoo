@@ -105,6 +105,10 @@
  *       <td>{@link qx.bom.client.Css#getLinearGradient}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.gradient.filter</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getFilterGradient}</td>
+ *     </tr>
+ *     <tr>
  *       <td>css.gradient.radial</td><td><i>String</i> or <i>null</i></td><td><code>-moz-radial-gradient</code></td>
  *       <td>{@link qx.bom.client.Css#getRadialGradient}</td>
  *     </tr>
