@@ -933,7 +933,7 @@ testrunner.define({
       }
     };
     
-    var test = q.create('<input type="text"></input>');
+    var test = q.create('<input type="text" />');
     test.appendTo(this.sandbox[0]);
     test.on("focus", callback, obj1);
     test.on("blur", callback, obj2);
@@ -941,13 +941,18 @@ testrunner.define({
     var that = this;
     window.setTimeout(function() {
       test[0].focus();
-      test[0].blur();
     }, 100);
     
+    // IE < 9 won't fire the focus event if blur() is called immediately after
+    // focus()
+    window.setTimeout(function() {
+      test[0].blur();
+    }, 250);
+    
     this.wait(function() {
-      this.assert(obj1.normalized, "Event was not manipulated!");
-      this.assert(obj2.normalized, "Event was not manipulated!");
-    }, 200, this);
+      this.assert(obj1.normalized, "Focus event was not manipulated!");
+      this.assert(obj2.normalized, "Blur event was not manipulated!");
+    }, 500, this);
   },
   
   tearDownTestNormalizationForMultipleTypes : function() {
@@ -975,7 +980,7 @@ testrunner.define({
       this.target = ev.getTarget();
     };
     
-    var test = q.create('<input type="text"></input>');
+    var test = q.create('<input id="foo" type="text" />');
     test.appendTo(this.sandbox[0]);
     test.on("focus", callback, obj);
     
