@@ -978,6 +978,7 @@ testrunner.define({
     };
     var callback = function(ev) {
       this.target = ev.getTarget();
+      this.currentTarget = ev.getCurrentTarget();
     };
     
     var test = q.create('<input id="foo" type="text" />');
@@ -991,6 +992,7 @@ testrunner.define({
     
     this.wait(function() {
       this.assertEquals(test[0], obj.target);
+      this.assertEquals(test[0], obj.currentTarget);
     }, 200, this);
   },
   

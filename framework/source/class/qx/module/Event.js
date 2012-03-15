@@ -7,7 +7,7 @@ qx.Bootstrap.define("qx.module.Event", {
       for (var i=0; i < this.length; i++) {
         var el = this[i];
         var ctx = context || el;
-        
+
         // add native listener
         var bound;
         if (qx.bom.Event.supportsEvent(el, type)) {
@@ -22,7 +22,7 @@ qx.Bootstrap.define("qx.module.Event", {
             }
             
             for (var x=0, y=normalizations.length; x<y; x++) {
-              event = normalizations[x](event);
+              event = normalizations[x](event, el);
             }
             listener.apply(ctx, [event]);
           }
