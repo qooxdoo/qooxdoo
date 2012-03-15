@@ -53,7 +53,6 @@ qx.Class.define("mobileshowcase.page.Basic",
       
       var changeLayoutButton = new qx.ui.mobile.form.Button("Atom.changeIconPosition()");
       changeLayoutButton.addListener("tap", function(e) {
-        
         var possibilities = [ "top", "right", "bottom", "left" ]
         
         newPosition = possibilities[(currentIconPos++)%4];

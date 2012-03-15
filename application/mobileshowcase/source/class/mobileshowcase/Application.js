@@ -79,6 +79,7 @@ qx.Class.define("mobileshowcase.Application",
       var animationLanding = new mobileshowcase.page.AnimationLanding();
       var atoms = new mobileshowcase.page.Atom();
       var basic = new mobileshowcase.page.Basic();
+      var dialogs = new mobileshowcase.page.Dialog();
 
 
       // Navigation
@@ -130,6 +131,11 @@ qx.Class.define("mobileshowcase.Application",
       nm.onGet("/basic", function(data)
       {
         basic.show();
+      },this);
+      
+      nm.onGet("/dialog", function(data)
+      {
+        dialogs.show();
       },this);
 
     }

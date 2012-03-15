@@ -61,7 +61,8 @@ qx.Class.define("mobileshowcase.page.Overview",
           {title : "Toolbar", subtitle : "toolbar, buttons, separators", path:"toolbar"},
           {title : "Events", subtitle : "Touch, Tap, Swipe...", path:"event"},
           {title : "Page Transitions", subtitle : "Slide, Fade, Cube...", path:"animation"},
-          {title : "Basic Widgets", subtitle : "Atoms, Buttons, Labels, Images...", path:"basic"}
+          {title : "Basic Widgets", subtitle : "Atoms, Buttons, Labels, Images...", path:"basic"},
+          {title : "Dialog Widgets", subtitle : "Dialogs, Popups, Confirm Dialogs...", path:"dialog"}
       ];
 
       list.setModel(new qx.data.Array(data));
