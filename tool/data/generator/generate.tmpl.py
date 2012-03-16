@@ -23,29 +23,50 @@
 # This is a stub proxy for the real generator.py
 ##
 
-import sys, os, re, subprocess
+import sys, os, re, subprocess, codecs
 
 CMD_PYTHON = sys.executable
-##
-# Set QOOXDOO_PATH initally to None
-##
+QOOXDOO_PATH = '${REL_QOOXDOO_PATH}'
 
-QOOXDOO_PATH=None
-
-##
-# Check if the environment has QOOXDOO_PATH variable ser
-##
-
-if os.environ.has_key("QOOXDOO_PATH"):
-    QOOXDOO_PATH=os.environ["QOOXDOO_PATH"]
+# this is from misc.json, duplicated for decoupling
+_eolComment = re.compile(r'(?<![a-zA-Z]:)//.*$$', re.M) # double $$ for string.Template
+_mulComment = re.compile(r'/\*.*?\*/', re.S)
+def stripComments(s):
+    b = _eolComment.sub('',s)
+    b = _mulComment.sub('',b)
+    return b
 
 def getQxPath():
     path = QOOXDOO_PATH
-    # Only try updating the QOOXDOO_PATH from config.json when path is None
-    if path is None:
-        # try updating from config file
-        if os.path.exists('config.json'):
-            # "using QOOXDOO_PATH from config.json"
+    # OS env takes precedence
+    if os.environ.has_key("QOOXDOO_PATH"):
+        path = os.environ["QOOXDOO_PATH"]
+
+    # else use QOOXDOO_PATH from config.json
+    elif os.path.exists('config.json'):
+        # try json parsing with qx json
+        if not path.startswith('$${'): # template macro has been resolved
+            sys.path.insert(0, path)
+            try:
+                from misc import json
+                got_json = True
+            except:
+                got_json = False
+
+        got_path = False
+        if got_json:
+            config_str = codecs.open('config.json', "r", "utf-8").read()
+            config_str = stripComments(config_str)
+            config = json.loads(config_str)
+            p = config.get("let")
+            if p:
+                p = p.get("QOOXDOO_PATH")
+                if p:
+                    path = p
+                    got_path = True
+
+        # regex parsing - error prone
+        if not got_path:
             qpathr=re.compile(r'"QOOXDOO_PATH"\s*:\s*"([^"]*)"\s*,?')
             conffile = open('config.json')
             aconffile = conffile.readlines()
@@ -54,6 +75,7 @@ def getQxPath():
                 if mo:
                     path = mo.group(1)
                     break # assume first occurrence is ok
+
     path = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), path))
 
     return path
