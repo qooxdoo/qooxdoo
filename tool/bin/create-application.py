@@ -83,11 +83,13 @@ def createApplication(options):
 
     outDir = os.path.join(out, options.name)
     copySkeleton(options.skeleton_path, options.type, outDir, options.namespace)
-    shutil.copy(GENERATE_PY, outDir)
 
     if options.type == "contribution":
+        shutil.copy(GENERATE_PY, os.path.join(outDir, "trunk"))
+        shutil.copy(GENERATE_PY, os.path.join(outDir, *"trunk/demo/default".split("/")))
         patchSkeleton(os.path.join(outDir, "trunk"), FRAMEWORK_DIR, options)
     else:
+        shutil.copy(GENERATE_PY, outDir)
         patchSkeleton(outDir, FRAMEWORK_DIR, options)
 
     return
