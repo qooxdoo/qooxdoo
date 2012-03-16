@@ -416,23 +416,23 @@ qx.Bootstrap.define("qx.bom.client.Css",
       return (typeof document.documentElement.style.overflowX == "string") &&
         (typeof document.documentElement.style.overflowY == "string");
     },
-    
-    
+
+
     /**
      * Checks if CSS texShadow is supported
      *
      * @internal
      * @return {Boolean} <code>true</code> if textShadow is supported
      */
-    getTextShadow : function() 
+    getTextShadow : function()
     {
       var value = "red 1px 1px 3px";
       var el = document.createElement("div");
       var style = qx.bom.Style.getAppliedStyle(el, "textShadow", value);
       return (!style) ? false : true;
     },
-    
-    
+
+
     /**
      * Returns <code>true</code> if the browser supports setting text shadow
      * using the filter style. This usually only applies for IE browsers
@@ -441,7 +441,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      * @return {Boolean} <code>true</code> if textShadow is supported
      */
-    getFilterTextShadow : function() 
+    getFilterTextShadow : function()
     {
       var value = "progid:DXImageTransform.Microsoft.Shadow(color=#666666,direction=45);";
       var el = document.createElement("div");
