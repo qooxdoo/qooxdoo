@@ -1027,6 +1027,21 @@ testrunner.define({
   }
 });
 
+testrunner.define({
+  classname : "event.Mouse",
+  
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+  
+  testEventMethods : function()
+  {
+    var eventTypes = qx.module.event.Mouse.TYPES;
+    var registry = qx.module.Event.getRegistry();
+    for (var i=0,l=eventTypes.length; i<l; i++) {
+      this.assertKeyInMap(eventTypes[i], registry);
+    }
+  }
+});
 
 testrunner.define({
   classname : "Templates",

@@ -39,6 +39,7 @@
       "qx.module.Traversing",
       "qx.module.Event",
       "qx.module.event.Native",
+      "qx.module.event.Mouse",
       "qx.module.Template",
       "qx.module.Polyfill",
       "q"
