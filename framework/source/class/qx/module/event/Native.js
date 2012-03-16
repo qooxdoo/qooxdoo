@@ -1,12 +1,37 @@
 qx.Bootstrap.define("qx.module.event.Native", {
   statics :
   {
-    FORWARD_METHODS : ["getTarget", "getRelatedTarget", "preventDefault", "stopPropagation"],
+    FORWARD_METHODS : ["getTarget", "getRelatedTarget"],
+    
+    BIND_METHODS : ["preventDefault", "stopPropagation"],
+    
+    preventDefault : function()
+    {
+      try {
+        // this allows us to prevent some key press events in IE.
+        // See bug #1049
+        this.keyCode = 0;
+      } catch(ex) {}
+
+      this.returnValue = false;
+    },
+    
+    stopPropagation : function()
+    {
+      this.cancelBubble = true;
+    },
     
     normalize : function(event, element) {
-      var methods = qx.module.event.Native.FORWARD_METHODS;
-      for (var i=0, l=methods.length; i<l; i++) {
-        event[methods[i]] = qx.lang.Function.curry(qx.bom.Event[methods[i]], event);
+      var fwdMethods = qx.module.event.Native.FORWARD_METHODS;
+      for (var i=0, l=fwdMethods.length; i<l; i++) {
+        event[fwdMethods[i]] = qx.lang.Function.curry(qx.bom.Event[fwdMethods[i]], event);
+      }
+      
+      var bindMethods = qx.module.event.Native.BIND_METHODS;
+      for (var i=0, l=bindMethods.length; i<l; i++) {
+        if (typeof event[bindMethods[i]] != "function") { 
+          event[bindMethods[i]] = qx.module.event.Native[bindMethods[i]].bind(event);
+        }
       }
       
       event.getCurrentTarget = function()
