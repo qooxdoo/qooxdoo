@@ -98,6 +98,16 @@ qx.Mixin.define("widgetbrowser.MControls",
         controls.add(toggleInvalid);
       }
 
+      if (options.overflow) {
+        var toggleInvalid = new qx.ui.form.ToggleButton("Overflow");
+        toggleInvalid.addListener("changeValue", function(e) {
+          widgets.forEach(function(widget, index) {
+            widget.toggleOverflow(widget, e.getData());
+          }, this);
+        });
+        controls.add(toggleInvalid);
+      }
+
     }
   }
 });
