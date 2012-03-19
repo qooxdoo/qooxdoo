@@ -65,7 +65,7 @@ qx.Theme.define("qx.theme.indigo.Color",
     "window-border-inner" : "#F4F4F4",
 
     // group box
-    "white-box-border" : "#BCBCBC",
+    "white-box-border" : "#dddddd",
 
     // shaddows
     "shadow" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.4)" : "#666666",
@@ -90,12 +90,12 @@ qx.Theme.define("qx.theme.indigo.Color",
 
     // table
     "table-header" : [ 242, 242, 242 ],
-    "table-focus-indicator" : [ 179, 217, 255 ],
+    "table-focus-indicator" : "#3D72C9",
 
     // used in table code
     "table-header-cell" : [ 235, 234, 219 ],
-    "table-row-background-focused-selected" : [ 90, 138, 211 ],
-    "table-row-background-focused" : [ 221, 238, 255 ],
+    "table-row-background-focused-selected" : "#3D72C9",
+    "table-row-background-focused" : "#F4F4F4",
     "table-row-background-selected" : [ 51, 94, 168 ],
     "table-row-background-even" : "white",
     "table-row-background-odd" : "white",

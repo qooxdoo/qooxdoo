@@ -85,7 +85,7 @@ qx.Theme.define("qx.theme.indigo.Appearance",
         return {
           padding : 8,
           font: states.active ? "bold" : "default",
-          textColor: states.active ? "white" : null,
+          textColor: states.active && !states.disabled ? "white" : "text-disabled",
           decorator: "window-caption"
         };
       }

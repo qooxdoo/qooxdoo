@@ -951,7 +951,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         width : 1,
-        color : "background-selected",
+        color : "border-main",
         radius : 3,
         backgroundColor : "white"
       }

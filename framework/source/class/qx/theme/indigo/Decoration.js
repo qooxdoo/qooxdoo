@@ -66,6 +66,22 @@ qx.Theme.define("qx.theme.indigo.Decoration",
     },
 
 
+    "white-box" :
+    {
+      decorator : [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBackgroundColor
+      ],
+
+      style :
+      {
+        width: 1,
+        color: "white-box-border",
+        backgroundColor : "white"
+      }
+    },
+
+
 
     "app-header" : {
       decorator : [
