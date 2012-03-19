@@ -685,6 +685,38 @@ testrunner.define({
     this.assertEquals("AFFE", test[0].affe);
     this.assertEquals("AFFE", test.getProperties(["affe", "x"]).affe);
     this.assertEquals("y", test.getProperties(["affe", "x"]).x);
+  },
+  
+  testGetSetValue : function()
+  {
+    q.create('<input type="text" value="affe"/>' +
+      '<input type="checkbox" value="affe"/>' +
+      '<select><option value="foo">Foo</option><option selected="selected" value="affe">Affe</option></select>')
+    .appendTo(this.sandbox[0]);
+    
+    q.create('<select multiple="multiple">' +
+        '<option selected="selected" value="foo">Foo</option>' +
+        '<option value="bar">Bar</option>' +
+        '<option selected="selected" value="baz">Baz</option>' +
+        '<option value="boing">Boing</option>' +
+      '</select>')
+    .appendTo(this.sandbox[0]);
+    
+    this.assertEquals("affe", q("#sandbox input[type=text]").getValue());
+    this.assertEquals("affe", q("#sandbox input[type=checkbox]").getValue());
+    this.assertEquals("affe", q("#sandbox select").getValue());
+    this.assertArrayEquals(["foo", "baz"], q("#sandbox select[multiple=multiple]").getValue());
+    
+    q("#sandbox input").setValue("fnord");
+    // setting the same value again sets the 'checked' attribute
+    q("#sandbox input[type=checkbox]").setValue("affe");
+    q("#sandbox select").setValue("foo");
+    q("#sandbox select[multiple=multiple]").setValue(["bar", "boing"])
+    
+    this.assertEquals("fnord", q("#sandbox input[type=text]").getValue());
+    this.assertTrue(q("#sandbox input[type=checkbox]").getAttribute("checked"));
+    this.assertEquals("foo", q("#sandbox select").getValue());
+    this.assertArrayEquals(["bar", "boing"], q("#sandbox select[multiple=multiple]").getValue());
   }
 });
 

@@ -79,6 +79,24 @@ qx.Bootstrap.define("qx.module.Attribute", {
         properties[names[i]] = this.getProperty(names[i]);
       };
       return properties;
+    },
+
+
+    getValue : function() {
+      if (this[0]) {
+        return qx.bom.Input.getValue(this[0]);
+      }
+      return null;
+    },
+
+
+    setValue : function(value)
+    {
+      for (var i=0, l=this.length; i<l; i++) {
+        qx.bom.Input.setValue(this[i], value);
+      }
+      
+      return this;
     }
   },
 
@@ -96,7 +114,10 @@ qx.Bootstrap.define("qx.module.Attribute", {
       "getProperty" : statics.getProperty,
       "setProperty" : statics.setProperty,
       "getProperties" : statics.getProperties,
-      "setProperties" : statics.setProperties
+      "setProperties" : statics.setProperties,
+      
+      "getValue" : statics.getValue,
+      "setValue" : statics.setValue
     });
   }
 });
