@@ -1,4 +1,4 @@
-GUI Toolkit
+Desktop
 ***********
 
 .. _index#documents:

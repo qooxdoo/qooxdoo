@@ -1,4 +1,4 @@
-Core Framework
+Core
 **************
 
 Object Orientation

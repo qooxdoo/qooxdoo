@@ -8,7 +8,6 @@
    :maxdepth: 3
 
    pages/introduction
-   pages/getting_started
 
 
 .. core
