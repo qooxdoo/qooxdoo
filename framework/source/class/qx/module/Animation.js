@@ -1,13 +1,13 @@
 qx.Bootstrap.define("qx.module.Animation", { 
   statics :
   {
-    _fadeOut : {duration: 1000, keyFrames : {
+    _fadeOut : {duration: 700, timing: "ease-out", keyFrames : {
       0: {opacity: 1},
       100: {opacity: 0}
     }},
 
 
-    _fadeIn : {duration: 1000, keyFrames : {
+    _fadeIn : {duration: 700, timing: "ease-in", keyFrames : {
       0: {opacity: 0},
       100: {opacity: 1}
     }},
