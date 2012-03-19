@@ -157,6 +157,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       qx.bom.Event.addNativeListener(containerElement, "mouseup", preventDefault, false);
       qx.bom.Event.addNativeListener(containerElement, "click", preventDefault, false);
       qx.bom.Event.addNativeListener(containerElement, "focus", preventDefault, false);
+      qx.bom.Event.addNativeListener(containerElement, "tap", preventDefault, false);
 
       return containerElement;
     },
@@ -278,18 +279,16 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * values of the select box in a different way than the default.
      */
     _render : function() {
-      var contentElement = this.getContentElement();
-      
-      var selectedItem = this.getModel().toArray()[0];
-      if(this.__selectedIndex){
-        selectedItem = this.getModel().toArray()[this.__selectedIndex];
+      var selectedItem = this.getModel().getItem(0);
+      if(this.__selectedIndex) {
+        selectedItem = this.getModel().getItem(this.__selectedIndex);
       }
       
       // This text node is for compatibility reasons, because Firefox can not
       // change appearance of select boxes. 
-      qx.bom.element.Attribute.set(contentElement,"type","text");
-      qx.bom.element.Attribute.set(contentElement,"value",selectedItem);
-      qx.bom.element.Attribute.set(contentElement,"readonly","readonly");
+      this._setAttribute("type","text");
+      this._setAttribute("value",selectedItem);
+      this._setAttribute("readonly","readonly");
       
       this._domUpdated();
     },
@@ -320,6 +319,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
   destruct : function()
   {
-    this._disposeObjects("__selectionDialog","__selectionList");
+    this._disposeObjects("__selectionDialog","__selectionList"
+                              ,"__selectionDialogTitle","__selectedIndex");
   }
 });
