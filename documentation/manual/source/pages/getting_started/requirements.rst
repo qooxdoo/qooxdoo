@@ -11,8 +11,8 @@ Here is a detailed list of supported platforms for the various qooxdoo component
 
 .. _pages/requirements#client:
 
-Browsers
-========
+Desktop Browser
+================
 
 This section applies to you if you want to work with the :doc:`Website </pages/low_level/overview>` or :doc:`Desktop </pages/gui_toolkit/ui_overview>` components of qooxdoo. An application built with those components runs in all major web browsers - if you use qooxdoo's GUI widgets with identical look & feel:
 
@@ -30,6 +30,28 @@ This section applies to you if you want to work with the :doc:`Website </pages/l
      - Chrome 2+
 
 Not only the end users of your application benefit from this true cross-browser solution. As a developer you can also pick *your* preferred development platform, i.e. combination of browser and operating system.
+
+
+.. _pages/requirements#mobile:
+
+Mobile Browser
+==============
+
+This section applies to you if you want to work with the :doc:`Mobile </pages/mobile/mobile_overview>` components of qooxdoo.
+
+.. list-table::
+
+   * - .. image:: ie.png 
+     - Internet Explorer
+   * - .. image:: ff.png 
+     - Firefox
+   * - .. image:: opera.png 
+     - Opera
+   * - .. image:: safari.png 
+     - Safari
+   * - .. image:: chrome.png 
+     - Chrome
+
 
 .. _pages/requirements#server:
 
