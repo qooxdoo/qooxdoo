@@ -708,7 +708,8 @@ class CodeGenerator(object):
                 for clazz in classList:
                     tree = clazz.optimize(clazz._tmp_tree, tmp_optimize)
                     code = clazz.serializeCondensed(tree, compConf.format)
-                    if code[-1:] != '\n': code += '\n'
+                    if code[-1:] != '\n': 
+                        code += ';\n' # bug#6217
                     result.append(code)
                     #clazz._tmp_tree = None # reset _tmp_tree
                     log_progress()
