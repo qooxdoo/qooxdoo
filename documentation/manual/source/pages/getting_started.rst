@@ -50,8 +50,8 @@ You can find some community made
 
 .. _index#sdk:
 
-SDK
-===
+SDK Structure
+==============
 
 .. toctree::
 
