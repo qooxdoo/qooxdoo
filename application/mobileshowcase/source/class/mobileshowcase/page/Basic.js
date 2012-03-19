@@ -55,7 +55,7 @@ qx.Class.define("mobileshowcase.page.Basic",
       changeLayoutButton.addListener("tap", function(e) {
         var possibilities = [ "top", "right", "bottom", "left" ]
         
-        newPosition = possibilities[(currentIconPos++)%4];
+        var newPosition = possibilities[(currentIconPos++)%4];
         exAtom.setIconPosition(newPosition);
         exAtom.setLabel("IconPosition: "+newPosition);
       }, this);
