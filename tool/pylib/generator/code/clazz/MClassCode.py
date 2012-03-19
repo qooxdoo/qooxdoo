@@ -199,7 +199,7 @@ class MClassCode(object):
                     compiled = self.serializeCondensed(tree, format_)
 
                 if compiled[-1:] != "\n": # assure trailing \n
-                    compiled += ';\n'
+                    compiled += ';\n' # bug#6217
 
                 if not "statics" in optimize:
                     cache.write(cacheId, compiled)
