@@ -18,15 +18,15 @@ This section applies to you if you want to work with the :doc:`Website </pages/l
 
 .. list-table::
 
-   * - .. image:: ie.png 
+   * - .. image:: /_static/ie.png 
      - Internet Explorer 6+
-   * - .. image:: ff.png 
+   * - .. image:: /_static/ff.png 
      - Firefox 2+
-   * - .. image:: opera.png 
+   * - .. image:: /_static/opera.png 
      - Opera 9+
-   * - .. image:: safari.png 
+   * - .. image:: /_static/safari.png 
      - Safari 3+
-   * - .. image:: chrome.png 
+   * - .. image:: /_static/chrome.png 
      - Chrome 2+
 
 Not only the end users of your application benefit from this true cross-browser solution. As a developer you can also pick *your* preferred development platform, i.e. combination of browser and operating system.
@@ -41,15 +41,15 @@ This section applies to you if you want to work with the :doc:`Mobile </pages/mo
 
 .. list-table::
 
-   * - .. image:: ie.png 
+   * - .. image:: /_static/ie.png 
      - Internet Explorer
-   * - .. image:: ff.png 
+   * - .. image:: /_static/ff.png 
      - Firefox
-   * - .. image:: opera.png 
+   * - .. image:: /_static/opera.png 
      - Opera
-   * - .. image:: safari.png 
+   * - .. image:: /_static/safari.png 
      - Safari
-   * - .. image:: chrome.png 
+   * - .. image:: /_static/chrome.png 
      - Chrome
 
 
@@ -74,28 +74,28 @@ The tool chain only requires to have `Python <http://www.python.org>`_ installed
 |image0| Windows
 ^^^^^^^^^^^^^^^^
 
-.. |image0| image:: windows.png
+.. |image0| image:: /_static/windows.png
 
 It is trivial! Just download and install the excellent `ActivePython <http://www.activestate.com/Products/activepython/>`_ package. Its default settings of the installation wizard are fine, there is nothing to configure. You can as well use the Windows package from `Python.org <http://www.python.org/download/releases/2.6.1/>`_, but this might require additional manual :ref:`configuration <pages/troubleshooting#windows>`.
 
 |image1| Cygwin
 ^^^^^^^^^^^^^^^
 
-.. |image1| image:: cygwin.png
+.. |image1| image:: /_static/cygwin.png
 
 `Cygwin <http://www.cygwin.com/>`_ can be used as an optional free and powerful Unix-like environment for Windows. You won't need a native Python installation, just make sure to include Cygwin's **built-in** Python as an additional package when using Cygwin's `setup program <http://cygwin.com/setup.exe>`_.
 
 |image2| Mac
 ^^^^^^^^^^^^
 
-.. |image2| image:: macosx.png
+.. |image2| image:: /_static/macosx.png
 
 Python is **pre-installed** on Max OS X. No additional software needs to be installed, but on older systems it might need an update.
 
 |image3| Linux
 ^^^^^^^^^^^^^^
 
-.. |image3| image:: linux.png
+.. |image3| image:: /_static/linux.png
 
 Python often comes **pre-installed** with your favorite distribution, just make sure they're still using a Python 2.x version. If not, simply use your package manager to install a suitable package.
 
