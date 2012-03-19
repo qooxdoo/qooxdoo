@@ -6,7 +6,7 @@ Getting Started
    :maxdepth: 2
 
    getting_started/requirements
-   Hello World - "A must-read introduction" <getting_started/helloworld>
+   getting_started/setup
    tool/troubleshooting
 
 .. _index#tutorial:

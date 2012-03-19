@@ -29,7 +29,7 @@ This section applies to you if you want to work with the :doc:`Website </pages/l
    * - .. image:: /_static/chrome.png 
      - Chrome 2+
 
-Not only the end users of your application benefit from this true cross-browser solution. As a developer you can also pick *your* preferred development platform, i.e. combination of browser and operating system.
+Not only the end users of your application benefit from this true cross-browser solution. As a developer you can also pick *your* preferred development platform, i.e. combination of browser and operating system. Developers  should note that with some browsers, such as Chrome and Firefox, there is a known issue loading reasonably complex qooxdoo applications (such as the API viewer or the demo browser) via the `file://` protocol. Either consult your browser's documentation (usually there is a command-line option to fix this), or use the HTTP protocol even while developing. In the latter case be sure to read and understand this `FAQ entry <http://qooxdoo.org/documentation/general/snippets#running_a_source_version_from_a_web_server>`__.
 
 
 .. _pages/requirements#mobile:

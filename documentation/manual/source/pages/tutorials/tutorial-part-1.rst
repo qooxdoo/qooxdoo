@@ -8,7 +8,7 @@ Tutorial Part 1: The Beginning of a twitter App
 The Missing Manual
 ==================
 
-We have heard it a couple of times: Users are missing a tutorial a bit more complex than the simple :doc:`"Hello World" tutorial </pages/getting_started/helloworld>` we already have. Today, we want to close that gap between the first tutorial and the `demo applications <http://qooxdoo.org/demo>`_ included in the framework like the `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_.
+We have heard it a couple of times: Users are missing a tutorial a bit more complex than the simple :ref:`"Hello World" tutorial <pages/getting_started/helloworld#helloworld>` we already have. Today, we want to close that gap between the first tutorial and the `demo applications <http://qooxdoo.org/demo>`_ included in the framework like the `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_.
 
 As you sure have read in the headline, we are building a simple twitter application. `twitter <http://twitter.com>`_ is a well known service for posting public short messages and has a `good API <http://apiwiki.twitter.com>`_ for accessing data. The following mockup shows you how the application should look like at the end.
 
@@ -18,7 +18,7 @@ As you sure have read in the headline, we are building a simple twitter applicat
 
 If you take a closer look at the mockup, you see a :doc:`window <../widget/window>` containing a :doc:`toolbar <../widget/toolbar>`, a :doc:`list <../widget/list>`, a :doc:`text area <../widget/textarea>` and a :doc:`button <../widget/button>` to post messages. This should cover some common scenarios of a typical qooxdoo application.
 
-In the first part you'll learn how to create a new application and how to build a part of the main UI. But before we get started, be sure you looked at the :doc:`"Hello World" tutorial </pages/getting_started/helloworld>`. We rely on some of the fundamentals explained there.
+In the first part you'll learn how to create a new application and how to build a part of the main UI. But before we get started, be sure you looked at the :ref:`"Hello World" tutorial <pages/getting_started/helloworld#helloworld>`. We rely on some of the fundamentals explained there.
 
 .. _pages/tutorial-part-1#getting_started:
 

@@ -85,7 +85,7 @@ As a few quick hints at how you would invoke the generator, here are the most co
 * ``generate.py api``  -- when your application is getting complex and/or you want to have a local version of the standard `Apiviewer <http://api.qooxdoo.org>`_ application that includes the documentation of all of your application classes.
 * ``generate.py test``  -- when you have created unit test classes for your application and want to run them in the `Testrunner <http://demo.qooxdoo.org/%{version}/testrunner>`_ frame application.
 
-The :doc:`/pages/getting_started/helloworld` tutorial will give the complete steps how to start a project and get going.
+The :ref:`Getting Started <pages/getting_started/helloworld#helloworld>` tutorial will give the complete steps how to start a project and get going.
 
 .. _pages/tool/generator_usage#default_jobs:
 

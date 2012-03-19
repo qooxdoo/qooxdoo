@@ -1,4 +1,4 @@
-.. _pages/getting_started/helloworld#hello_world:
+.. _pages/getting_started/helloworld#helloworld:
 
 Hello World
 ***********
@@ -15,7 +15,7 @@ Setup the Framework
 Requirements
 ^^^^^^^^^^^^
 
-Please make sure to have read the detailed :doc:`requirements`. To recap, there are only a few requirements for full-featured qooxdoo application development:
+Please make sure to have read the detailed :doc:`/pages/getting_started/requirements`. To recap, there are only a few requirements for full-featured qooxdoo application development:
 
 * *client*: any major web browser
 * *server*: any HTTP-aware backend. During development the local file system should also be ok (*)
@@ -66,7 +66,7 @@ To create a new skeleton with ``create-application.py`` you will need to follow 
 Windows |image0|
 ^^^^^^^^^^^^^^^^
 
-.. |image0| image:: windows.png
+.. |image0| image:: /_static/windows.png
 
 Installing `ActivePython <http://www.activestate.com/Products/activepython/index.mhtml>`_ for Windows is trivial. Now let's create an application named ``custom`` in ``C:``, with the qooxdoo SDK available at ``C:\qooxdoo-%{version}-sdk``: 
 
@@ -79,7 +79,7 @@ Installing `ActivePython <http://www.activestate.com/Products/activepython/index
 Cygwin |image1|
 ^^^^^^^^^^^^^^^
 
-.. |image1| image:: cygwin.png
+.. |image1| image:: /_static/cygwin.png
 
 To create your application ``custom`` to ``C:``, with the qooxdoo SDK available at ``C:\qooxdoo-%{version}-sdk``, call the script as follows:
 
@@ -92,8 +92,8 @@ To create your application ``custom`` to ``C:``, with the qooxdoo SDK available 
 Mac |image2| , Linux |image3|
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. |image2| image:: macosx.png
-.. |image3| image:: linux.png
+.. |image2| image:: /_static/macosx.png
+.. |image3| image:: /_static/linux.png
 
 To create an application ``custom`` in your home directory, change to your home directory (just ``cd``). With a qooxdoo SDK available at ``/opt/qooxdoo-%{version}-sdk``, call the script as follows:
 
@@ -121,7 +121,7 @@ After the application has been generated, open ``source/index.html`` file in you
 
 |Running application|
 
-.. |Running application| image:: running_application.png
+.. |Running application| image:: /_static/running_application.png
                          :width: 500 px
                          :target: ../../_images/running_application.png
 
@@ -157,7 +157,7 @@ This code turns on two different ways of "logging", i.e. capturing and printing 
 
 |Debug application|
 
-.. |Debug application| image:: debug_application.png
+.. |Debug application| image:: /_static/debug_application.png
                        :width: 500 px
                        :target: ../../_images/debug_application.png
 
@@ -199,7 +199,7 @@ To start the :doc:`"API Viewer" application </pages/application/apiviewer>`, ope
 
 |API Viewer|
 
-.. |API Viewer| image:: api_viewer.png
+.. |API Viewer| image:: /_static/api_viewer.png
                 :width: 500 px
                 :target: ../../_images/api_viewer.png
 
@@ -218,7 +218,7 @@ Open ``index.html`` from the newly created top-level ``test`` folder in your bro
 
 |Testrunner application|
 
-.. |Testrunner application| image:: /pages/_static/testrunner.png
+.. |Testrunner application| image:: /_static/testrunner.png
                             :width: 500 px
                             :target: ../../_images/testrunner.png
 

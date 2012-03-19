@@ -9,6 +9,7 @@ Introduction
 .. toctree::
    :maxdepth: 1
 
+   tool/helloworld
    tool/generator
    tool/generator_usage
    tool/generator_optimizations

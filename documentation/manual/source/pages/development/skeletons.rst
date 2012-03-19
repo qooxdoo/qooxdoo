@@ -5,7 +5,7 @@ Application Skeletons
 
 qooxdoo comes with several different application templates or *skeletons*. Each is meant for a specific usage scenario and includes a different subset of the qooxdoo framework (see the :ref:`architecture diagram<pages/architecture#architecture>` for reference).
 
-When creating a new application using :ref:`create-application.py<pages/getting_started/helloworld#hello_world>`, the *-t* or *--type* parameter specifies the type of skeleton to be used, e.g.
+When creating a new application using :ref:`create-application.py<pages/getting_started/helloworld#helloworld>`, the *-t* or *--type* parameter specifies the type of skeleton to be used, e.g.
 
 ::
 

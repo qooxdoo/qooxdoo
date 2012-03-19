@@ -5,7 +5,7 @@ Introduction to the SDK
 
 Or *"Everything is a library."*
 
-While the :doc:`Hello World <helloworld>` tutorial is geared towards getting you started with your own project, this page walks you through the basic structure of the qooxdoo SDK itself.
+While the :ref:`Hello World <pages/getting_started/helloworld#helloworld>` tutorial is geared towards getting you started with your own project, this page walks you through the basic structure of the qooxdoo SDK itself.
 
 There is a page that gives you an overview of the :doc:`physical structure <framework_structure>` of the SDK. As you can see there the SDK has four main components represented through the subdirectories *application*, *component*, *framework* and *tool*. Three of them, *application*, *component* and *framework* contain (either directly or in further subdirectories) qooxdoo applications or libraries that follow the general scheme for a :doc:`qooxdoo application <application_structure>`. In each you will find a *Manifest.json* file which signifies the adherance to the skeleton scheme. They also all contain a *generate.py* script which offers all or a subset of the standard :doc:`qooxdoo jobs </pages/tool/generator_usage>` that you can run on a library, like *source*, *build*, *test* or *api*.
 
