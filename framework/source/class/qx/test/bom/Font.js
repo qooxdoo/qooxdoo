@@ -21,7 +21,7 @@
 qx.Class.define("qx.test.bom.Font",
 {
   extend : qx.test.ui.LayoutTestCase,
-  
+
   include : [qx.dev.unit.MRequirements],
 
   members :
@@ -30,8 +30,8 @@ qx.Class.define("qx.test.bom.Font",
     {
       return qx.core.Environment.get("engine.name") !== "mshtml";
     },
-    
-    
+
+
     setUp : function() {
       this.__font = new qx.bom.Font;
     },
@@ -131,12 +131,12 @@ qx.Class.define("qx.test.bom.Font",
       var styles = this.__font.getStyles();
       this.assertEquals("red", styles.color, "Wrong style value for 'color' property!");
     },
-    
-    
+
+
     testTextShadow : function()
     {
       this.require(["noIe"]);
-      
+
       this.__font.setTextShadow("red 1px 1px 3px, green -1px -1px 3px, white -1px 1px 3px, white 1px -1px 3px");
 
       var styles = this.__font.getStyles();
