@@ -38,7 +38,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'qooxdoo'
-copyright = u'2011-2012, qooxdoo developers'
+copyright = u'2012, qooxdoo developers'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -123,14 +123,14 @@ html_theme = '_theme'
 #html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = ["."]
+html_theme_path = ["../../manual/source"]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
 #html_title = None
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
-html_short_title = "Manual (v" + version + ")"
+html_short_title = "Technical Manual (v" + version + ")"
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
