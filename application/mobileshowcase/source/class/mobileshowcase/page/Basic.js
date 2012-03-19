@@ -46,65 +46,85 @@ qx.Class.define("mobileshowcase.page.Basic",
       this.base(arguments);
       
       // BASIC WIDGET CHANGE MENU
-      this.getContent().add(new qx.ui.mobile.form.Title("Basic Widget Change Menu"));
-      
-      // ATOM LAYOUT CHANGE BUTTON
-      var currentIconPos = 0;
-      
-      var changeLayoutButton = new qx.ui.mobile.form.Button("Atom.changeIconPosition()");
-      changeLayoutButton.addListener("tap", function(e) {
-        var possibilities = [ "top", "right", "bottom", "left" ]
-        
-        var newPosition = possibilities[(currentIconPos++)%4];
-        exAtom.setIconPosition(newPosition);
-        exAtom.setLabel("IconPosition: "+newPosition);
-      }, this);
-      
-      this.getContent().add(changeLayoutButton);
+      this.getContent().add(new qx.ui.mobile.form.Title("Basic Widget Menu"));
       
       // TOGGLE BUTTON
-      var toggleEnableButton = new qx.ui.mobile.form.Button("Widget.toggleEnabled()");
+      var toggleEnableButton = new qx.ui.mobile.form.Button("Widget Enabled/Disabled");
       
       toggleEnableButton.addListener("tap", function(e) {
         exImage.toggleEnabled();
         exToggleButton.toggleEnabled();
         exLabel.toggleEnabled();
         exButton.toggleEnabled();
-        exAtom.toggleEnabled();
+        exAtomLeft.toggleEnabled();
+        exAtomRight.toggleEnabled();
+        exAtomTop.toggleEnabled();
+        exAtomBottom.toggleEnabled();
       }, this);
       
-      this.getContent().add(toggleEnableButton);
       
-      var toggleLabelWrapButton = new qx.ui.mobile.form.Button("Label.toggleWrap()");
       
+      // TOGGLE LABEL WRAP BUTTONT
+      var toggleLabelWrapButton = new qx.ui.mobile.form.Button("Label Wrap ON/OFF");
+       
       toggleLabelWrapButton.addListener("tap", function(e) {
-          exLabel.toggleWrap();
+        exLabel.toggleWrap();
       }, this);
       
+      // WIDGETS 4 EXAMPLE
+      var exButton = new qx.ui.mobile.form.Button("Button");
+      
+      var exToggleButton = new qx.ui.mobile.form.ToggleButton(false);
+      
+      var exLabel = new qx.ui.mobile.basic.Label("Text in the label. Text in the label. \n\
+      Text in the label. Text in the label. Text in the label. Text in the label. Text in the label.  \n\
+      Text in the label. Text in the label. Text in the label. Text in the label. Text in the label.");
+      exLabel.addCssClass("space-top");
+      
+      var exImage = new qx.ui.mobile.basic.Image("mobileshowcase/icon/arrowleft.png");
+      
+      // ATOMS
+      var positions = [ "left", "right", "top", "bottom" ]
+        
+      var iconSrc = "mobileshowcase/icon/camera.png";
+      var exAtomLeft = new qx.ui.mobile.basic.Atom("Icon Position: left", iconSrc);
+      exAtomLeft.setIconPosition(positions[0]);
+      exAtomLeft.addCssClass("space-top");
+      
+      var exAtomRight = new qx.ui.mobile.basic.Atom("Icon Position: right", iconSrc);
+      exAtomRight.setIconPosition(positions[1]);
+      exAtomRight.addCssClass("space-top");
+      
+      var exAtomTop = new qx.ui.mobile.basic.Atom("Icon Position: top", iconSrc);
+      exAtomTop.setIconPosition(positions[2]);
+      exAtomTop.addCssClass("space-top");
+      
+      var exAtomBottom = new qx.ui.mobile.basic.Atom("Icon Position: bottom", iconSrc);
+      exAtomBottom.setIconPosition(positions[3]);
+      exAtomBottom.addCssClass("space-top");
+      
+      // BUILD VIEW
+      this.getContent().add(toggleEnableButton);
       this.getContent().add(toggleLabelWrapButton);
       
-      // WIDGETS 4 Test
       this.getContent().add(new qx.ui.mobile.form.Title("Button"));
-      var exButton = new qx.ui.mobile.form.Button("Button");
       this.getContent().add(exButton);
       
       this.getContent().add(new qx.ui.mobile.form.Title("ToggleButton"));
-      var exToggleButton = new qx.ui.mobile.form.ToggleButton(false);
       this.getContent().add(exToggleButton);
       
       this.getContent().add(new qx.ui.mobile.form.Title("Label"));
-      var exLabel = new qx.ui.mobile.basic.Label("Text in the label. Text in the label. \n\
-      Text in the label. Text in the label. Text in the label. Text in the label. Text in the label.  Text in the label. Text in the label. Text in the label. Text in the label. Text in the label.");
+      
       this.getContent().add(exLabel);
       
       this.getContent().add(new qx.ui.mobile.form.Title("Image"));
-      var exImage = new qx.ui.mobile.basic.Image("../build/resource/qx/mobile/icon/android/checkbox-green.png");
       this.getContent().add(exImage);
       
-      // ATOMS
       this.getContent().add(new qx.ui.mobile.form.Title("Atoms"));
-      var exAtom = new qx.ui.mobile.basic.Atom("Icon Position: left", "../build/resource/qx/mobile/icon/android/loading.png");
-      this.getContent().add(exAtom);
+      this.getContent().add(exAtomLeft);
+      this.getContent().add(exAtomTop);
+      this.getContent().add(exAtomRight);
+      this.getContent().add(exAtomBottom);
     },
 
 
