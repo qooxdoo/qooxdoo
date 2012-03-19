@@ -58,7 +58,7 @@ To create a new skeleton with ``create-application.py`` you will need to follow 
 
 .. note::
 
-    If you have any problems setting up the qooxdoo tool chain, please see some additional help for :doc:`troubleshooting <troubleshooting>`.
+    If you have any problems setting up the qooxdoo tool chain, please see some additional help for :ref:`troubleshooting <pages/troubleshooting#troubleshooting>`.
 
 
 .. _pages/getting_started/helloworld#windows:

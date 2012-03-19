@@ -7,7 +7,7 @@ Getting Started
 
    getting_started/requirements
    Hello World - "A must-read introduction" <getting_started/helloworld>
-   getting_started/troubleshooting
+   tool/troubleshooting
 
 .. _index#tutorial:
 
