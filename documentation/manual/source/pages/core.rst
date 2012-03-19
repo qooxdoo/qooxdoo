@@ -25,8 +25,9 @@ Properties
    core/property_behavior
    core/property_features
 
+
 Environment
-===========
+============
 
 .. toctree::
    :maxdepth: 2
@@ -35,9 +36,17 @@ Environment
 
 
 Data Binding
-============
+=============
 
 .. toctree::
    :maxdepth: 2
 
    data_binding
+
+Tooling
+=======
+
+.. toctree::
+   :maxdepth: 2
+
+   tool

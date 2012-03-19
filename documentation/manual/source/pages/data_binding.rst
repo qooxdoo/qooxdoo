@@ -1,6 +1,3 @@
-Data Binding
-************
-
 .. toctree::
 
    data_binding/data_binding
