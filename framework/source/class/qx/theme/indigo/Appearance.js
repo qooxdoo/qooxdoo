@@ -66,6 +66,89 @@ qx.Theme.define("qx.theme.indigo.Appearance",
     },
 
 
+    "window" :
+    {
+      style : function(states)
+      {
+        return {
+          contentPadding : [ 10, 10, 10, 10 ],
+          decorator : states.maximized ? undefined : states.active ? "window-active" : "window"
+        };
+      }
+    },
+
+
+    "window/captionbar" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : 8,
+          font: states.active ? "bold" : "default",
+          textColor: states.active ? "white" : null,
+          decorator: "window-caption"
+        };
+      }
+    },
+
+
+    "window/minimize-button" :
+    {
+      alias : "button",
+
+      style : function(states)
+      {
+        return {
+          icon : "decoration/window/minimize-white.gif",
+          padding : [ 1, 2 ],
+          cursor : states.disabled ? undefined : "pointer"
+        };
+      }
+    },
+
+    "window/restore-button" :
+    {
+      alias : "button",
+
+      style : function(states)
+      {
+        return {
+          icon : "decoration/window/restore-white.gif",
+          padding : [ 1, 2 ],
+          cursor : states.disabled ? undefined : "pointer"
+        };
+      }
+    },
+
+    "window/maximize-button" :
+    {
+      alias : "button",
+
+      style : function(states)
+      {
+        return {
+          icon : "decoration/window/maximize-white.gif",
+          padding : [ 1, 2 ],
+          cursor : states.disabled ? undefined : "pointer"
+        };
+      }
+    },
+
+    "window/close-button" :
+    {
+      alias : "button",
+
+      style : function(states)
+      {
+        return {
+          marginLeft : 2,
+          icon : "decoration/window/close-white.gif",
+          padding : [ 1, 2 ],
+          cursor : states.disabled ? undefined : "pointer"
+        };
+      }
+    },
+
 
     "app-header" :
     {

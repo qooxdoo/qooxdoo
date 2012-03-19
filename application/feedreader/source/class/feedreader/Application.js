@@ -344,6 +344,9 @@ qx.Class.define("feedreader.Application",
       this.__verticalSplitPane.setDecorator(null);
       this.__horizontalSplitPane.add(this.__verticalSplitPane, 1);
 
+      this.__horizontalSplitPane.setPadding([0, 10, 10, 10]);
+      this.__horizontalSplitPane.setBackgroundColor("light-background");
+
       // Create the list view
       this.__listView = new feedreader.view.desktop.List(this.__feedFolder);
       this.__listView.setHeight(200);

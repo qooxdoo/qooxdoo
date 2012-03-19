@@ -61,8 +61,8 @@ qx.Theme.define("qx.theme.indigo.Color",
     "border-lead" : "#888888",
 
     // window
-    "window-border" : "#2E3A46",
-    "window-border-inner" : "#9DCBFE",
+    "window-border" : "#dddddd",
+    "window-border-inner" : "#F4F4F4",
 
     // group box
     "white-box-border" : "#BCBCBC",

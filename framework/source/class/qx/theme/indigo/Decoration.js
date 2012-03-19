@@ -18,18 +18,55 @@
 ************************************************************************* */
 
 /**
- * The simple qooxdoo decoration theme.
+ * The indigo qooxdoo decoration theme.
  */
 qx.Theme.define("qx.theme.indigo.Decoration",
 {
   extend : qx.theme.simple.Decoration,
 
   aliases : {
-    decoration : "qx/decoration/Indigo"
+    decoration : "qx/decoration/Simple"
   },
 
   decorations :
   {
+    "window" :
+    {
+      decorator: [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBoxShadow,
+        qx.ui.decoration.MBackgroundColor
+      ],
+
+      style :
+      {
+        width : 1,
+        color : "window-border",
+        shadowLength : 1,
+        shadowBlurRadius : 3,
+        shadowColor : "shadow",
+        backgroundColor : "background"
+      }
+    },
+
+
+    "window-caption" : {
+      decorator : [
+        qx.ui.decoration.MLinearBackgroundGradient,
+        qx.ui.decoration.MBackgroundColor
+      ],
+
+      style :
+      {
+        gradientStart : ["#505154", 0],
+        gradientEnd : ["#323335", 100],
+
+        backgroundColor : "#323335"
+      }
+    },
+
+
+
     "app-header" : {
       decorator : [
         qx.ui.decoration.MLinearBackgroundGradient,
