@@ -6,3 +6,4 @@ Server Framework
    :maxdepth: 1
 
    server/overview
+   server/requirejs
