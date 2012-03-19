@@ -50,6 +50,25 @@ testrunner.define({
     var test = q.create("<div><p>test</p></div>");
     test.empty();
     this.assertEquals("", test[0].innerHTML);
+  },
+  
+  testAppendHtmlString : function() {
+    var test = q.create("<ul><li>Foo</li><li>Bar</li></ul>");
+    test.appendTo(this.sandbox[0]);
+    
+    q("#sandbox li").append('<h2>Hello</h2><span>Affe</span>');
+    this.assertEquals(2, q("li").has("h2").length);
+    this.assertEquals(2, q("li").has("span").length);
+  },
+  
+  testAppendCollection : function() {
+    var test = q.create("<ul><li>Foo</li><li>Bar</li></ul>");
+    test.appendTo(this.sandbox[0]);
+    
+    var children = q.create('<h2>Hello</h2><span>Affe</span>');
+    q("#sandbox li").append(children);
+    this.assertEquals(2, q("li").has("h2").length);
+    this.assertEquals(2, q("li").has("span").length);
   }
 });
 

@@ -15,6 +15,30 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     },
 
 
+    append : function(html) {
+      var arr = qx.bom.Html.clean([html]);
+      var children = qx.lang.Array.cast(arr, qx.Collection);
+      
+      for (var i=0, l=this.length; i < l; i++) {
+        for (var j=0, m=children.length; j < m; j++) {
+          if (i == 0) {
+            // first parent: move the target node(s)
+            qx.dom.Element.insertEnd(children[j], this[i]);
+          }
+          else {
+            // further parents: clone the target node(s)
+            /* TODO: Implement workaround for IE problem with listeners attached
+             * to cloned nodes; see qx.bom.Element.clone()
+             */
+            qx.dom.Element.insertEnd(children[j].cloneNode(true), this[i]);
+          }
+        }
+      }
+      
+      return this;
+    },
+
+
     appendTo : function(parent) {
       if (!qx.lang.Type.isArray(parent)) {
         parent = [parent];
@@ -59,6 +83,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     });
 
     q.attach({
+      "append" : statics.append,
       "appendTo" : statics.appendTo,
       "remove" : statics.remove,
       "empty" : statics.empty
