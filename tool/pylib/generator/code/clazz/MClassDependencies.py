@@ -368,9 +368,8 @@ class MClassDependencies(object):
                     className = self.id
                 elif inDefer and className in DEFER_ARGS:
                     className = self.id
-                if self.id=="feedreader.model.FeedFolder" and className=="qx.data.Array":
-                    #import pydb; pydb.debugger()
-                    pass
+                #if self.id=="feedreader.model.FeedFolder" and className=="qx.data.Array":
+                #    import pydb; pydb.debugger()
                 if not classAttribute:  # see if we have to provide 'construct'
                     if treeutil.isNEWoperand(node):
                         classAttribute = 'construct'
