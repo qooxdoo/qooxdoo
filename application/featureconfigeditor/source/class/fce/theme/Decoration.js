@@ -10,7 +10,7 @@
 
 qx.Theme.define("fce.theme.Decoration",
 {
-  extend : qx.theme.simple.Decoration,
+  extend : qx.theme.indigo.Decoration,
 
   decorations :
   {
