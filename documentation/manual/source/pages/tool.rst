@@ -1,8 +1,5 @@
 .. _pages/tool#tooling:
 
-Generator
-======================
-
 Introduction
 ------------
 
@@ -38,7 +35,7 @@ Reference Material
 
 
 Further Tools
-=============
+-------------
 
 .. toctree::
    :maxdepth: 1
