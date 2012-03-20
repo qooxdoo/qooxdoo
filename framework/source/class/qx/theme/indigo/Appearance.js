@@ -83,7 +83,7 @@ qx.Theme.define("qx.theme.indigo.Appearance",
       style : function(states)
       {
         return {
-          padding : 8,
+          padding : [3, 8],
           font: states.active ? "bold" : "default",
           textColor: states.active && !states.disabled ? "white" : "text-disabled",
           decorator: "window-caption"
