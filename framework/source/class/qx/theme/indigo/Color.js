@@ -30,6 +30,9 @@ qx.Theme.define("qx.theme.indigo.Color",
     "dark-blue" : "#323335",
     "light-background" : "#F4F4F4",
 
+    "highlight" : "#3D72C9", // bright blue
+    "highlight-shade" : "#5583D0", // bright blue
+
     // backgrounds
     "background-selected" : "#3D72C9",
     "background-selected-dark" : "#323335",

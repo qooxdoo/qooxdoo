@@ -93,9 +93,9 @@ qx.Theme.define("qx.theme.indigo.Decoration",
       style :
       {
         innerWidthBottom : 1,
-        innerColorBottom: "#5583D0",
+        innerColorBottom: "highlight-shade",
         widthBottom: 9,
-        colorBottom: "#3D72C9",
+        colorBottom: "highlight",
 
         gradientStart : ["#505154", 0],
         gradientEnd : ["#323335", 100],

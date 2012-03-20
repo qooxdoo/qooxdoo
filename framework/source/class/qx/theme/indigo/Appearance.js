@@ -60,7 +60,7 @@ qx.Theme.define("qx.theme.indigo.Appearance",
           source : qx.theme.simple.Image.URLS[
             "knob-" + (states.horizontal ? "horizontal" : "vertical")
           ],
-          padding : 5
+          padding : 3
         };
       }
     },
@@ -169,6 +169,16 @@ qx.Theme.define("qx.theme.indigo.Appearance",
       {
         return {
           paddingTop : 5
+        }
+      }
+    },
+
+    "app-splitpane" : {
+      alias : "splitpane",
+      style : function(states) {
+        return {
+          padding: [0, 10, 10, 10],
+          backgroundColor: "light-background"
         }
       }
     }

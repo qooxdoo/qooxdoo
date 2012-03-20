@@ -64,6 +64,8 @@ qx.Class.define("playground.view.Editor",
      */
     init: function()
     {
+      this.setBackgroundColor("white");
+
       // If widgets are added to the container, the zIndex of the editor blocker
       // is set to 100. This makes possible to resize the splitpanes
       this.addListener("addChildWidget", function() {
