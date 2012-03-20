@@ -224,6 +224,36 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
+    "test: validate freshness": function() {
+      this.require(["php"]);
+
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/time.php");
+
+      var send = function() {
+        req.open("GET", url);
+        req.send();
+      };
+
+      var that = this;
+      var count = 0;
+      var results = [];
+      req.onload = function() {
+        count += 1;
+        results.push(req.responseText);
+        if (count < 2) {
+          send();
+        } else {
+          that.resume(function() {
+            that.assertNotEquals(results[0], results[1], "Response must differ");
+          });
+        }
+      };
+
+      send();
+      this.wait();
+    },
+
     // "test: GET simultaneously": function() {
     //   var count = 1,
     //       upTo = 20,

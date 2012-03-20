@@ -242,6 +242,15 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       }
 
+      // BUGFIX: IE < 9
+      // IE < 9 tends to cache overly agressive. This may result in stale
+      // representations. Force validating freshness of cached representation.
+      if (qx.core.Environment.get("engine.name") === "mshtml" &&
+        qx.core.Environment.get("engine.version") < 9 &&
+        this.__nativeXhr.readyState > 0) {
+          this.__nativeXhr.setRequestHeader("If-Modified-Since", "-1");
+        }
+
       // BUGFIX: Firefox
       // Firefox < 4 fails to trigger onreadystatechange OPENED for sync requests
       if (qx.core.Environment.get("engine.name") === "gecko" &&
