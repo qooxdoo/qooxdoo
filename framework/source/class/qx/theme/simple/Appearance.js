@@ -2393,8 +2393,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
           var padding = [8, 4, 8, 4];
         }
 
-        var margin = [0, 0, 0, 0];
-
         // decorator
         if (states.checked) {
           if (states.barTop) {
