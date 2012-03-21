@@ -58,6 +58,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
           }
         }
       }
+      
+      return this;
     },
 
 
