@@ -6,7 +6,19 @@ Introduction
 .. toctree::
    :maxdepth: 1
 
+   tool/sdk_introduction
    tool/helloworld
+   tool/sdk_structure
+   tool/application_structure
+   tool/manifest
+   tool/code_structure
+
+Generator
+----------
+
+.. toctree::
+   :maxdepth: 1
+
    tool/generator
    tool/generator_usage
    tool/generator_optimizations
