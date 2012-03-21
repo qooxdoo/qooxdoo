@@ -69,6 +69,15 @@ testrunner.define({
     q("#sandbox li").append(children);
     this.assertEquals(2, q("li").has("h2").length);
     this.assertEquals(2, q("li").has("span").length);
+  },
+  
+  testScroll : function()
+  {
+    var t = q.create('<div id="test" style="overflow:auto; width:50px; height:50px;"><div style="width:150px; height:150px;">AAAAA</div></div>');
+    t.appendTo(this.sandbox[0]);
+    q("#test").setScrollLeft(50).setScrollTop(50);
+    this.assertEquals(50, q("#test").getScrollLeft());
+    this.assertEquals(50, q("#test").getScrollTop());
   }
 });
 
