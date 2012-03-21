@@ -1,3 +1,9 @@
+/* ************************************************************************
+
+#ignore(qx.bom.element.Style)
+
+************************************************************************ */
+
 qx.Bootstrap.define("qx.module.Animation", { 
   statics :
   {
@@ -11,6 +17,16 @@ qx.Bootstrap.define("qx.module.Animation", {
       0: {opacity: 0},
       100: {opacity: 1}
     }},
+
+
+    __setStyle : function(el, name, value) {
+      name = qx.lang.String.camelCase(name);
+      if (qx && qx.bom && qx.bom.element && qx.bom.element.Style) {
+        qx.bom.element.Style.set(el, name, value);
+      } else {
+        el.style[name] = value;
+      }
+    },
 
 
     animate : function(desc) {
@@ -28,11 +44,11 @@ qx.Bootstrap.define("qx.module.Animation", {
     fadeIn : function() {
       var returnHandle;
       for (var i=0; i < this.length; i++) {
-        this[i].style["opacity"] = 0;
-        this[i].style["display"] = "";
+        qx.module.Animation.__setStyle(this[i], "opacity", 0);
+        qx.module.Animation.__setStyle(this[i], "display", "");
         var handle = qx.bom.element.Animation.animate(this[i], qx.module.Animation._fadeIn);
         handle.onEnd(function(el) {
-          el.style["opacity"] = 1;
+          qx.module.Animation.__setStyle(el, "opacity", 1);
         });
         if (i === 0) {
           returnHandle = handle;
@@ -47,7 +63,7 @@ qx.Bootstrap.define("qx.module.Animation", {
       for (var i=0; i < this.length; i++) {
         var handle = qx.bom.element.Animation.animate(this[i], qx.module.Animation._fadeOut);
         handle.onEnd(function(el) {
-          el.style["display"] = "none";
+          qx.module.Animation.__setStyle(el, "display", "none");
         });
         if (i === 0) {
           returnHandle = handle;

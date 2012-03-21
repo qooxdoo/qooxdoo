@@ -16,6 +16,11 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
+/* ************************************************************************
+
+#ignore(qx.bom.element.Style)
+
+************************************************************************ */
 
 /**
  * This class offers the same API as the CSS3 animation layer in
@@ -154,7 +159,13 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         if (handle.i == 0) {
           for (var name in values) {
             if (handle.initValues[name] == undefined) {
-              handle.initValues[name] = handle.el.style[qx.lang.String.camelCase(name)];
+              if (qx.bom.element.Style) {
+                handle.initValues[name] = qx.bom.element.Style.get(
+                  handle.el, qx.lang.String.camelCase(name)
+                );
+              } else {
+                handle.initValues[name] = handle.el.style[qx.lang.String.camelCase(name)];
+              }
             }
           }
         }
@@ -290,7 +301,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      */
     __applyStyles : function(el, styles) {
       for (var name in styles) {
-        el.style[qx.lang.String.camelCase(name)] = styles[name];
+        name = qx.lang.String.camelCase(name);
+        if (qx.bom.element.Style) {
+          qx.bom.element.Style.set(el, name, styles[name]);
+        } else {
+          el.style[name] = styles[name];
+        }
       }
     },
 
