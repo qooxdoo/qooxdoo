@@ -168,6 +168,17 @@ qx.Bootstrap.define("qx.module.Css", {
       }
 
       return null;
+    },
+
+
+    getPosition : function()
+    {
+      var obj = this[0];
+      if (qx.dom.Node.isElement(obj)) {
+        return qx.bom.element.Location.getPosition(obj);
+      }
+
+      return null;
     }
   },
 
@@ -192,7 +203,9 @@ qx.Bootstrap.define("qx.module.Css", {
       "getWidth" : statics.getWidth,
       "getOffset" : statics.getOffset,
       "getContentHeight" : statics.getContentHeight,
-      "getContentWidth" : statics.getContentWidth
+      "getContentWidth" : statics.getContentWidth,
+      
+      "getPosition" : statics.getPosition
     });
   }
 });

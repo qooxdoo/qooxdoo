@@ -648,6 +648,25 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     
     this.assertEquals(200, test.getContentWidth());
+  },
+  
+  testGetPosition : function()
+  {
+    var outer = q.create('<div id="outer"></div>').setStyles({
+      padding: 0,
+      backgroundColor: "red",
+      position: "absolute",
+      top: "0px",
+      left: "0px"
+    }).appendTo(this.sandbox[0]);
+    
+    var test = q.create('<div id="affe"></div>').setStyles({
+      margin: "10px"
+    }).appendTo(outer[0]);
+    
+    var pos = test.getPosition();
+    this.assertEquals(10, pos.left);
+    this.assertEquals(10, pos.top);
   }
 });
 
