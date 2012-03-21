@@ -265,8 +265,8 @@ class Token(object):
 
     __repr__ = __str__
 
-# - Grammar Infrastructure -------------------------------------------------
 
+# - Grammar Infrastructure -------------------------------------------------
 
 # symbol (token type) registry
 symbol_table = {}
@@ -331,7 +331,6 @@ class symbol_base(Node):
 
     # Packer stuff (serialization to JS)
     def toJS(self):
-        #raise NotImplementedError("%s.toJs() needs to be implemented" % (self.id,))
         return self.get("value", u'')
 
 
@@ -553,7 +552,6 @@ def prefix_v(id_, bp):
         s.childappend(expression(bp-1)) # right-associative
         return self
     symbol(id_, bp).nud = nud
-
 
     def toJS(self):
         r = u''
