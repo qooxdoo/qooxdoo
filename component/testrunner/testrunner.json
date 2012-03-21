@@ -16,7 +16,7 @@
     "TESTS_SCRIPT" : "tests.js",         // output script name
     "BUILD_PATH"   : "build",
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "THEME"        : "qx.theme.Modern"
+    "THEME"        : "qx.theme.Indigo"
   },
 
   "config-warnings" : 
