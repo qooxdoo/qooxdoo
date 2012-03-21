@@ -3,10 +3,12 @@
 Code Structure
 **************
 
-Guidelines
+.. _pages/code_structure#guidelines:
+
+Outline
 ==========
 
-This is how a single source file should look like. Ahead of the detailed listing some general rules to follow when you write your own classes:
+This is how a single source file should look like. Ahead of the detailed listing here are some general rules to follow when you write your own classes:
 
 * Define **one** class per file.
 * The base **class name** (like "Application" in *"custom.Application"*) has to match the **file name** (e.g. *"Application.js"*).
@@ -14,6 +16,8 @@ This is how a single source file should look like. Ahead of the detailed listing
 
   * This applies recursively for sub-directories. E.g. a class in the file *"custom/foo/Bar.js"* has to be named *"custom.foo.Bar"*.
 
+
+.. _pages/code_structure#details:
 
 Details
 =======

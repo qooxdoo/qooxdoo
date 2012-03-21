@@ -10,7 +10,7 @@ This tutorial is a fast-paced, high-level *tour de force*, to get you acquainted
 Set up the Framework
 ====================
 
-Make sure your computer meets the requirements for the SDK as outlined on the :doc:`/pages/getting_started/requirements` page.  Go to the `download <http://qooxdoo.org/download>`_ page and grab the latest stable Desktop component. After downloading, all you have to do is to unzip the archive to a suitable path on your hard drive.  
+To follow this, make sure your computer meets the requirements for the SDK as outlined on the :doc:`/pages/getting_started/requirements` page.  Go to the `download <http://qooxdoo.org/download>`_ page and grab the latest stable Desktop component. After downloading, all you have to do is to unzip the archive to a suitable path on your hard drive.  
 
 
 .. _pages/getting_started/helloworld#create_your_application:
