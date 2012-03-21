@@ -78,6 +78,56 @@ testrunner.define({
     q("#test").setScrollLeft(50).setScrollTop(50);
     this.assertEquals(50, q("#test").getScrollLeft());
     this.assertEquals(50, q("#test").getScrollTop());
+  },
+  
+  "test before with HTML string": function()
+  {
+    var test = q.create('<p>Affe</p><p>Affe</p>');
+    test.appendTo(this.sandbox[0]);
+    q("#sandbox p").before('<h2>Juhu</h2>');
+    this.assertEquals(2, q("#sandbox h2 + p").length);
+  },
+  
+  "test before with array of HTML strings": function()
+  {
+    var test = q.create('<p>Affe</p><p>Affe</p>');
+    test.appendTo(this.sandbox[0]);
+    q("#sandbox p").before(['<h2>Juhu</h2>', '<h3>Kinners</h3>']);
+    this.assertEquals(2, q("#sandbox h2 + h3 + p").length);
+  },
+  
+  "test before with collection": function()
+  {
+    var test = q.create('<p>Affe</p><p>Affe</p>');
+    test.appendTo(this.sandbox[0]);
+    var elements = q.create('<h2>Juhu</h2><h3>Kinners</h3>');
+    q("#sandbox p").before(elements);
+    this.assertEquals(2, q("#sandbox h2 + h3 + p").length);
+  },
+  
+  "test after with HTML string" : function()
+  {
+    var test = q.create('<p>Affe</p><p>Affe</p>');
+    test.appendTo(this.sandbox[0]);
+    q("#sandbox p").after('<h2>Juhu</h2>');
+    this.assertEquals(2, q("#sandbox p + h2").length);
+  },
+  
+  "test after with array of HTML strings": function()
+  {
+    var test = q.create('<p>Affe</p><p>Affe</p>');
+    test.appendTo(this.sandbox[0]);
+    q("#sandbox p").after(['<h2>Juhu</h2>', '<h3>Kinners</h3>']);
+    this.assertEquals(2, q("#sandbox p + h2 + h3").length);
+  },
+  
+  "test after with collection": function()
+  {
+    var test = q.create('<p>Affe</p><p>Affe</p>');
+    test.appendTo(this.sandbox[0]);
+    var elements = q.create('<h2>Juhu</h2><h3>Kinners</h3>');
+    q("#sandbox p").after(elements);
+    this.assertEquals(2, q("#sandbox p + h2 + h3").length);
   }
 });
 

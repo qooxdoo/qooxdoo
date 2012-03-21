@@ -77,8 +77,56 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       };
       return this;
     },
-    
-    
+
+
+    before : function(args) {
+      if (!qx.lang.Type.isArray(args)) {
+        args = [args];
+      }
+      var fragment = document.createDocumentFragment();
+      qx.bom.Html.clean(args, document, fragment);
+      this.forEach(function(item, index) {
+        var kids = qx.lang.Array.cast(fragment.childNodes, Array);
+        for (var i=0,l=kids.length; i<l; i++) {
+          var child;
+          if (index < this.length - 1) {
+            child = kids[i].cloneNode(true)
+          }
+          else {
+            child = kids[i];
+          }
+          item.parentNode.insertBefore(child, item);
+        }
+      }, this);
+      
+      return this;
+    },
+
+
+    after : function(args) {
+      if (!qx.lang.Type.isArray(args)) {
+        args = [args];
+      }
+      var fragment = document.createDocumentFragment();
+      qx.bom.Html.clean(args, document, fragment);
+      this.forEach(function(item, index) {
+        var kids = qx.lang.Array.cast(fragment.childNodes, Array);
+        for (var i=kids.length-1; i>=0; i--) {
+          var child;
+          if (index < this.length - 1) {
+            child = kids[i].cloneNode(true)
+          }
+          else {
+            child = kids[i];
+          }
+          item.parentNode.insertBefore(child, item.nextSibling);
+        }
+      }, this);
+      
+      return this;
+    },
+
+
     /**
      * Returns the left scroll position of the first element in the collection.
      *
@@ -187,6 +235,9 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       "appendTo" : statics.appendTo,
       "remove" : statics.remove,
       "empty" : statics.empty,
+      
+      "before" : statics.before,
+      "after" : statics.after,
       
       "getScrollLeft" : statics.getScrollLeft,
       "setScrollLeft" : statics.setScrollLeft,
