@@ -58,9 +58,10 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       this.__selectionList.setModel(itemsModel);
     }
     
-    this._getBlocker().addListener("tap", this.__onBlockerTap, this);
-    
     this.add(this.__selectionList);
+    
+    
+    this._getBlocker().addListener("tap", this.__onBlockerTap, this);
   },
   
   
@@ -165,7 +166,9 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
         });
 
       // Add an changeSelection event
-      selectionList.addListener("changeSelection", this.__hideMenu, this);
+      selectionList.addListener("changeSelection", this.__onListChangeSelection, this);
+      selectionList.addListener("click", this.__onListClick, this);
+      
       return selectionList;
     },
     
@@ -196,23 +199,34 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     /**
      * Hides the menu, fires an event which contains index and data.
      */
-    __hideMenu : function (evt) {
+    __onListChangeSelection : function (evt) {
       var selectedIndex = evt.getData();
       var selectedItem = this.__selectionList.getModel().getItem(selectedIndex)
       
       this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedItem});
-      this.hide();
     },
     
     
     /**
      * Reacts on blocker tap.
      */
-    __onBlockerTap : function (evt) {
+    __onBlockerTap : function () {
       if(this.getHideOnBlockerClick()) {
         // Just hide dialog, no changes.
         this.hide();
       }
+    },
+    
+    
+    /**
+     * Reacts on selection list click.
+     */
+    __onListClick : function () {
+        // Last event which is fired by tap on List is a click event,
+        // so hide menu, first on click event. 
+        // If menu is hidden before click-event, event will bubble to ui 
+        // element which is behind menu, and might cause an unexpected action.
+        this.hide();
     }
     
   },

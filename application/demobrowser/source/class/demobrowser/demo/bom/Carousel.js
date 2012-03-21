@@ -111,7 +111,7 @@ qx.Class.define("demobrowser.demo.bom.Carousel",
             frames[0].top = "0px";
             frames[100].top = middleOffset + "px";
 
-            frames[0].left = qx.bom.element.Style.get(item, "left") + "px";
+            frames[0].left = qx.bom.element.Style.get(item, "left");
             frames[100].left = (to + middleOffset) + "px";
 
             frames[100]["z-index"] = 1;
