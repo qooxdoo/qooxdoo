@@ -47,13 +47,20 @@ CMD_RST2HTML = $(CMD_NICE) rst2html.py
 CMD_ZIP_CREATE = $(CMD_ZIP) -rq
 CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2Unix
 CMD_MKEXEC = $(CMD_NICE) chmod a+rx
-# TODO: Unset QOOXDOO_REVISION macro when building for release! (see comments)
-# Development
-OPT_GENERATOR = -m QOOXDOO_REVISION:$(FRAMEWORK_GITINFO)
-# Release
-#OPT_GENERATOR =
-CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
 
+ifeq ($(DO_RELEASE),)
+# --------  DEVELOPMENT SETTINGS --------------------------------------
+# these settings are used during development time
+OPT_GENERATOR = -m QOOXDOO_REVISION:$(FRAMEWORK_GITINFO)
+QOOXDOO_RELEASE = 
+else
+# --------  RELEASE SETTINGS ------------------------------------------
+# activate from the command line with: make DO_RELEASE=1 ...
+OPT_GENERATOR =
+QOOXDOO_RELEASE = QOOXDOO_RELEASE=1
+endif
+
+CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
 STAGING_HOST = qooxdoo@webtechfe-test01.schlund.de
 
 FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
@@ -314,14 +321,18 @@ source-components:
 # DOCUMENTATION TARGETS
 ################################################################################
 
+# the next is necessary as we're changing conf.py values for release
+build-docs-clean:
+	@(cd documentation/manual && make clean)
+
 build-docs-html:
-	@(cd documentation/manual && make html)
+	@(cd documentation/manual && $(QOOXDOO_RELEASE) make html)
 
 build-docs-pdf:
-	@(cd documentation/manual && make latex)
+	@(cd documentation/manual && $(QOOXDOO_RELEASE) make latex)
 	@(cd documentation/manual/build/latex && make all-pdf)
 
-build-docs: build-docs-html build-docs-pdf
+build-docs: build-docs-clean build-docs-html build-docs-pdf
 
 publish-docs:
 	@echo "  * Publishing HTML docs to staging host..."
