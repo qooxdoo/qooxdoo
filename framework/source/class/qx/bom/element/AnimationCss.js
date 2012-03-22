@@ -156,10 +156,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
       animation.el = null;
       animation.ended = true;
 
-      var onEnd = animation.getOnEnd();
-      for (var i=0; i < onEnd.length; i++) {
-        onEnd[i].callback.call(onEnd[i].ctx, el);
-      };
+      animation.emit("end");
     },
 
 

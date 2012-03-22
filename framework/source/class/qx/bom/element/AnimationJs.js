@@ -222,15 +222,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       handle.ended = true;
       handle.animationId = null;
 
-      var onEnd = handle.getOnEnd();
-      for (var j=0; j < onEnd.length; j++) {
-        onEnd[j].callback.call(onEnd[j].ctx, el);
-      };
+      handle.emit("end");
     },
 
 
     /**
-     * Calculation of the predefined timing functions. Aproximitations of the real
+     * Calculation of the predefined timing functions. Approximations of the real
      * bezier curves has ben used for easier calculation. This is good and close
      * enough for the predefined functions like <code>ease</code> or
      * <code>linear</code>.
