@@ -33,7 +33,7 @@ qx.Bootstrap.define("qx.module.Event", {
         if (!el.__emitter) {
           el.__emitter = new qx.event.Emitter();
         }
-        var id = el.__emitter.on(type, listener, ctx);
+        var id = el.__emitter.on(type, bound || listener, ctx);
         if (id && bound) {
           el.__bound ? el.__bound[id] = bound : el.__bound = {
             id : bound

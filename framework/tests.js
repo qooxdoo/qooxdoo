@@ -1162,13 +1162,46 @@ testrunner.define({
   setUp : testrunner.globalSetup,
   tearDown : testrunner.globalTeardown,
   
-  testEventMethods : function()
+  testEventNormalization : function()
   {
     var eventTypes = qx.module.event.Mouse.TYPES;
     var registry = qx.module.Event.getRegistry();
     for (var i=0,l=eventTypes.length; i<l; i++) {
       this.assertKeyInMap(eventTypes[i], registry);
     }
+  },
+  
+  testEventMethods : function()
+  {
+    var eventMethods = qx.module.event.Mouse.BIND_METHODS;
+    
+    var test = q.create("<div id='foo'></div>");
+    test.appendTo(this.sandbox[0]);
+    
+    var obj = {};
+    
+    q("#sandbox #foo").on("mousedown", function(ev) {
+      for (var i=0; i<eventMethods.length; i++) {
+        if (typeof ev[eventMethods[i]] !== "function"
+          || ev[eventMethods[i]]() !== "none") {
+          this.normalized = false;
+          return;
+        }
+      }
+      this.normalized = true;
+    }, obj);
+    
+    q("#sandbox #foo").emit("mousedown", {
+      button : "none",
+      clientX : "none",
+      clientY : "none",
+      pageX : "none",
+      pageY : "none",
+      screenX : "none",
+      screenY : "none"
+    });
+    
+    this.assertTrue(obj.normalized);
   }
 });
 
