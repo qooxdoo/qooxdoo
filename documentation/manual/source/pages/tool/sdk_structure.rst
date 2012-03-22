@@ -19,6 +19,11 @@ When exploring the SDK tree, the following overview will give you an idea about 
 
   * :ref:`helper applications and libraries <pages/application#developer_tools>` (used internally), like ``apiviewer``, ``testrunner`` or ``simulator``.
 
+**documentation/** - documentation files
+
+  * ``manual`` - the user manual
+
+
 **framework/** - qooxdoo's class library
 
   * ``source``
