@@ -17,6 +17,13 @@
 
 ************************************************************************* */
 
+/* ************************************************************************
+
+#asset(qx/decoration/Indigo/font/JosefinSlab-Bold.ttf)
+
+************************************************************************* */
+
+
 /**
  * The simple qooxdoo font theme.
  */
@@ -43,8 +50,18 @@ qx.Theme.define("qx.theme.indigo.Font",
 
     "headline" :
     {
-      size : 18,
-      family : ["Lucida Grande", "Verdana", "sans-serif"]
+      size : 23,
+      family : ["serif"],
+      bold: true,
+      sources:
+      [
+        {
+          family : "Josefin Slab",
+          source: [
+            "qx/decoration/Indigo/font/JosefinSlab-Bold.ttf"
+          ]
+        }
+      ]
     },
 
     "small" :
