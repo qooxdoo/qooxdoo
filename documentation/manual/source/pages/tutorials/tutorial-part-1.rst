@@ -45,7 +45,7 @@ The first part is to create a Window. As the :doc:`Window <../widget/window>` co
 
         construct : function()
         {
-          this.base(arguments, "twitter")
+          this.base(arguments, "twitter");
         }
     });
 
