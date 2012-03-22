@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
       animation.el = null;
       animation.ended = true;
 
-      animation.emit("end");
+      animation.emit("end", el);
     },
 
 

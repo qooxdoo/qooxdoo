@@ -222,7 +222,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       handle.ended = true;
       handle.animationId = null;
 
-      handle.emit("end");
+      handle.emit("end", el);
     },
 
 
