@@ -2079,24 +2079,18 @@ def test(x, program):
     global token, next, tokenStream
     print ">>>", program
     tokenArr = tokenizer.parseStream(program)
-    #from pprint import pprint
-    #pprint (tokenArr)
     tokenStream = TokenStream(tokenArr)
     next = iter(tokenStream).next
     token = next()
     if x == e:
         res =  expression()
-        #import pydb; pydb.debugger()
         print res.toXml()
-        #print repr(res)
     elif x == s:
         res =  statements()
         print res.toXml()
-        #print repr(res)
     elif x == b:
         res = block()
         print res.toXml()
-        #print repr(res)
     else:
         raise RuntimeError("Wrong test parameter: %s" % x)
 
@@ -2112,23 +2106,7 @@ if __name__ == "__main__":
         tokenArr = tokenizer.parseStream(text)
         print p.parse(tokenArr).toXml()
     else:
-        #execfile (os.path.normpath(os.path.join(os.environ["QOOXDOO_PATH"], "tool/test/compiler/treegenerator.py")))
         execfile (os.path.normpath(os.path.join(__file__, "../../../../test/compiler/treegenerator.py"))) # __file__ doesn't seem to work in pydb
         for t in tests:
             test(*t)
-
-
-
-
-##
-# A plan for the new parser:
-#
-#  - main::tests must pass
-#  - check the astlet's!
-#  - if all is well, activate treegenerator_new_ast in compile.py
-#  - compile single files (from skeleton Application.js to qx/Class.js), checken results
-#  - if all is well, activate treegenerator_new_ast for *compile* jobs:
-#    - 'source' - check dependencies, check app runs (this also checks the
-#      class list)
-#    - 'build' - check app runs (this also checks compression)
 
