@@ -104,7 +104,7 @@ The Twitter tutorial application was created before the ``simulation-*`` generat
 
 Defining a test case
 ====================
-Now that we've got our infrastructure set up, we can finally start writing tests. First, create a new subfolder named ``simulation`` in ``qooxdoo-tutorial/source/class/twitter``. This is the default location for Simulator tests. In this folder, create a new file named ``Settings.js``. This will be our test case that is going to interact with the Twitter application's settings dialog. For now, just add a test method stub that will cause the test to fail:
+Now that we've got our infrastructure set up, we can finally start writing tests. First, navigate to the subfolder named ``simulation`` in ``qooxdoo-tutorial/source/class/twitter``. This is the default location for Simulator tests. In this folder, delete the predefined ``DemoSimulation.js`` and create a new file named ``Settings.js``. This will be our test case that is going to interact with the Twitter application's settings dialog. For now, just add a test method stub that will cause the test to fail:
 
 ::
 
