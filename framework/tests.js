@@ -810,7 +810,7 @@ testrunner.define({
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
     var handle = test.fadeOut();
-    handle.onEnd(function() {
+    handle.on("end", function() {
       this.resume(function() {
         this.assertEquals("none", test[0].style["display"]);
         test.remove();
@@ -824,7 +824,7 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     var handle = test.fadeIn();
     this.assertEquals(0, test[0].style["opacity"]);
-    handle.onEnd(function() {
+    handle.on("end", function() {
       this.resume(function() {
         this.assertEquals(1, test[0].style["opacity"]);
         test.remove();

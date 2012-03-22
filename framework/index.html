@@ -95,7 +95,7 @@
 
 
     <!-- ANIMATION -->
-    d.fadeOut().onEnd(function() {d.fadeIn()});
+    d.fadeOut().on("end", function() {d.fadeIn()});
     q.wrap(document.body).animate({duration: 1000, keyFrames : {
       0 : {"background-color" : "white"},
       50 : {"background-color" : "red"},

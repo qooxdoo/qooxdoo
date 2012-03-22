@@ -47,7 +47,7 @@ qx.Bootstrap.define("qx.module.Animation", {
         qx.module.Animation.__setStyle(this[i], "opacity", 0);
         qx.module.Animation.__setStyle(this[i], "display", "");
         var handle = qx.bom.element.Animation.animate(this[i], qx.module.Animation._fadeIn);
-        handle.onEnd(function(el) {
+        handle.on("end", function(el) {
           qx.module.Animation.__setStyle(el, "opacity", 1);
         });
         if (i === 0) {
@@ -62,7 +62,7 @@ qx.Bootstrap.define("qx.module.Animation", {
       var returnHandle;
       for (var i=0; i < this.length; i++) {
         var handle = qx.bom.element.Animation.animate(this[i], qx.module.Animation._fadeOut);
-        handle.onEnd(function(el) {
+        handle.on("end", function(el) {
           qx.module.Animation.__setStyle(el, "display", "none");
         });
         if (i === 0) {
