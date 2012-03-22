@@ -87,7 +87,7 @@ Our widget should show a Tweet as shown in the mockup. To achieve this, we need 
 
 The properties ``icon``, ``time`` and ``post`` contain the data from a tweet. In this definition you'll also find a property ``appearance``. This property is needed for the theming, it tells the appearance system that the ``TweetView`` should be styled like the ``ListItem``. We could also use a new appearance id, but than we'd have to define an appearance for it and that's not part of this tutorial.
 
-How to define properties was explained in :doc:`tutorial part 3 <tutorial-part-4-1>`, so we don't repeat it. But we use some unfamiliar keys for definition and I will explain them:
+How to define properties was explained in :doc:`tutorial part 3 <tutorial-part-3>`, so we don't repeat it. But we use some unfamiliar keys for definition and I will explain them:
 
 * **check**: check ensures that the incoming value is of this type. But be careful, the check is only done in the source version.
 * **apply**: here you can define which method should be called when the value changes.
@@ -278,7 +278,7 @@ Now to the delegate, just replace the current delegate with this one:
         controller.bindProperty("user.profile_image_url", "icon", null, item, id);
         controller.bindProperty("created_at", "time", {
           converter: function(data) {
-           if (qx.core.Environment.get("engine.name")) {
+           if (qx.core.Environment.get("browser.name") == "ie") {
              data = Date.parse(data.replace(/( \+)/, " UTC$1"));
            }
            return new Date(data);

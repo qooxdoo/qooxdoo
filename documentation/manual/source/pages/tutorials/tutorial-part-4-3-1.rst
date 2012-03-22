@@ -42,7 +42,7 @@ Required Libraries
 ------------------
 The Simulator depends on these external libraries:
 
-* `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Download the ZIP archive and extract ``js.jar`` to workspace
+* `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Download the ZIP archive, extract the ZIP and place ``js.jar`` to workspace
 * `Selenium Server <http://selenium.googlecode.com/files/selenium-server-standalone-2.5.0.jar>`_: Place ``selenium-server-standalone-2.5.0.jar`` in workspace
 * `Selenium Java <http://selenium.googlecode.com/files/selenium-java-2.5.0.zip>`_ Client Driver: Extract ``selenium-java-2.5.0.jar`` and the ``libs`` directory and place them in workspace.
 
@@ -104,7 +104,7 @@ The Twitter tutorial application was created before the ``simulation-*`` generat
 
 Defining a test case
 ====================
-Now that we've got our infrastructure set up, we can finally start writing tests. First, create a new subfolder named ``simulation`` in ``qooxdoo-tutorial/source/class/twitter``. This is the default location for Simulator tests. In this folder, create a new file named ``Settings.js``. This will be our test case that is going to interact with the Twitter application's settings dialog. For now, just add a test method stub that will cause the test to fail:
+Now that we've got our infrastructure set up, we can finally start writing tests. First, navigate to the subfolder named ``simulation`` in ``qooxdoo-tutorial/source/class/twitter``. This is the default location for Simulator tests. In this folder, delete the predefined ``DemoSimulation.js`` and create a new file named ``Settings.js``. This will be our test case that is going to interact with the Twitter application's settings dialog. For now, just add a test method stub that will cause the test to fail:
 
 ::
 
