@@ -42,7 +42,7 @@ Required Libraries
 ------------------
 The Simulator depends on these external libraries:
 
-* `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Download the ZIP archive and extract ``js.jar`` to workspace
+* `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Download the ZIP archive, extract the ZIP and place ``js.jar`` to workspace
 * `Selenium Server <http://selenium.googlecode.com/files/selenium-server-standalone-2.5.0.jar>`_: Place ``selenium-server-standalone-2.5.0.jar`` in workspace
 * `Selenium Java <http://selenium.googlecode.com/files/selenium-java-2.5.0.zip>`_ Client Driver: Extract ``selenium-java-2.5.0.jar`` and the ``libs`` directory and place them in workspace.
 
