@@ -144,7 +144,7 @@ The next case is a bit different but also easy.
           this.fireDataEvent("post", textarea.getValue());
         }, this);
 
-This time, we call the ``fireDataEvent`` method to get a data event fired. The second parameter is the data to embed in the event. We simply use the value of the text area. That's it for adding the events. To test both events we add a debug listener for each event in out application code, in the main() method of Application.js:
+This time, we call the ``fireDataEvent`` method to get a data event fired. The second parameter is the data to embed in the event. We simply use the value of the text area. That's it for adding the events. To test both events we add a debug listener for each event in our application code, in the main() method of Application.js:
 
 ::
 
