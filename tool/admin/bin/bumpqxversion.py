@@ -37,13 +37,25 @@
 #  If you add files here, also update http://qooxdoo.org/documentation/general/how_to_build_a_release!
 ##
 
-import sys, os, re, string, types, codecs, functools
+import sys, os, re, string, types, codecs, functools, subprocess as sub
 
 qxversion_regexp = r'[\w\.-]+'  # rough regexp, to capture a qooxdoo version like '1.4.3' or '1.4-pre'
 vMajor_regexp = r'\d+'
 vMinor_regexp = r'[\w-]+'
 vPatch_regexp = r'[\w-]*'
 vers_parts_regexp = r'(%s)\.(%s)\.?(%s)' % (vMajor_regexp, vMinor_regexp, vPatch_regexp)  # to split up <version-string> into major - minor - patch part
+git_branch_regexp = r'[\w-]+'
+
+def gitBranch():
+    # mirror line:
+    # "* master            98df6b4 [ahead 3] [BUG #5706] minor comments"
+    branch_list = sub.Popen(['git', 'branch', '-v'], stdout=sub.PIPE).communicate()[0]
+    branch_list = branch_list.split('\n')
+    curr_branch = [x for x in branch_list if x.startswith('*')][0]
+    branch_name = curr_branch.split()[1]
+    return branch_name
+
+git_branch = gitBranch()
 
 # - Config section -------------------------------------------------------------
 
@@ -95,6 +107,7 @@ Files = {
         (r'^\s*vMajor\s*=\s*[\'"](%s)[\'"]' % vMajor_regexp, 0),  # number will be used as an index into vers_parts
         (r'^\s*vMinor\s*=\s*[\'"](%s)[\'"]' % vMinor_regexp, 1),
         (r'^\s*vPatch\s*=\s*[\'"](%s)[\'"]' % vPatch_regexp, 2),
+        (r'^\s*git_branch\s*=\s*[\'"](%s)[\'"]' % git_branch_regexp, git_branch),
         ],
     "./application/demobrowser/source/demo/welcome.html" : [
         r'var qxversion = "(%s)"'    % qxversion_regexp,
@@ -123,8 +136,10 @@ def main(new_vers):
         print "patching qooxdoo version in: %s" % f
         cont = codecs.open(f, 'rU', 'utf-8').read()
         for entry in Files[f]:
-            if isinstance(entry, types.TupleType):
+            if isinstance(entry, types.TupleType) and isinstance(entry[1], types.IntType):
                 (patt, repl) = entry[0], vers_parts[entry[1]]  # use only part of the version string
+            elif isinstance(entry, types.TupleType) and isinstance(entry[1], types.StringTypes):
+                (patt, repl) = entry[0], entry[1]  # take the replacement from the config directly
             else:
                 (patt, repl) = entry, new_vers
             fn = functools.partial(patch, repl) # bind replacement string
