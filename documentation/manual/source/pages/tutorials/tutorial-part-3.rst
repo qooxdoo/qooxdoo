@@ -15,7 +15,7 @@ First, we need to specify what's the data we need to transfer. For that, we need
 1. Show the public twitter timeline.
 2. Post a tweet.
 
-So it's clear that we need to fetch the public timeline (that's how it is called by twitter), and we need to post a message to twitter. It's time to take a look at the `twitter API <http://apiwiki.twitter.com/Twitter-API-Documentation>`_ so that we know what we need to do to communicate with the service.
+So it's clear that we need to fetch the public timeline (that's how it is called by twitter), and we need to post a message to twitter. It's time to take a look at the `twitter API <https://dev.twitter.com/>`_ so that we know what we need to do to communicate with the service.
 But keep in mind that we are still on a website so we can't just send some ``POST`` or ``GET`` requests due to cross-site scripting restrictions. The one thing we can and should do is take advantage of JSONP. If you have never heard of JSONP, take some time to read the `article on ajaxian <http://ajaxian.com/archives/jsonp-json-with-padding>`_ to get further details.
 
 .. _pages/tutorials/tutorial-part-3#creating_the_data_access_class:
