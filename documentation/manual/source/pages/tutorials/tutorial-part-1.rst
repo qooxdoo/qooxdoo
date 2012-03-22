@@ -25,7 +25,7 @@ In the first part you'll learn how to create a new application and how to build 
 Getting started
 ===============
 
-The first step is to get a working qooxdoo application where we can start our development. You should have already have the qooxdoo SDK and know how to use ``create-application.py``, so we just create an application called ``twitter``.
+The first step is to get a working qooxdoo application where we can start our development. You should already have the qooxdoo SDK and know how to use ``create-application.py``, so we just create an application called ``twitter``.
 
 ::
 
