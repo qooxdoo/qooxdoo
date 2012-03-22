@@ -405,7 +405,7 @@ method to the members section of the “Tweets” page.
             // set the data of the model
             item.setTitle(value.getText());
             // we use the dataFormat instance to format the data value of the twitter API
-            item.setSubTitle(value.getUser().getName() + ", " + dateFormat.format(new Date(value.getCreated_at())));
+            item.setSubtitle(value.getUser().getName() + ", " + dateFormat.format(new Date(value.getCreated_at())));
             item.setImage(value.getUser().getProfile_image_url());
             // we have more data to display, show an arrow
             item.setShowArrow(true);
