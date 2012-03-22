@@ -453,7 +453,7 @@ the ``member`` section:
 
 There are only two tasks left:
 
-#. Bind the ``tweets`` property form the “Application” to the ``tweets``
+#. Bind the ``tweets`` property from the “Application” to the ``tweets``
    property of the “Tweets” page instance.
 #. Bind the ``username`` property form the “Application” to the
    ``title`` property of the “Tweets” page instance.
