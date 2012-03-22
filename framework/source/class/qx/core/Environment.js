@@ -113,6 +113,10 @@
  *       <td>{@link qx.bom.client.Css#getRadialGradient}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.gradient.legacywebkit</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Css#getLegacyWebkitGradient}</td>
+ *     </tr>
+ *     <tr>
  *       <td>css.placeholder</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getPlaceholder}</td>
  *     </tr>
@@ -171,6 +175,14 @@
  *     <tr>
  *       <td>css.overflowxy</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getOverflowXY}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.textShadow</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getTextShadow}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.textShadow.filter</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getFilterTextShadow}</td>
  *     </tr>
  *     <tr>
  *       <td colspan="4"><b>device</b></td>
@@ -742,7 +754,9 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.borderimage.standardsyntax" : "qx.bom.client.Css.getBorderImageSyntax",
       "css.boxshadow"               : "qx.bom.client.Css.getBoxShadow",
       "css.gradient.linear"         : "qx.bom.client.Css.getLinearGradient",
+      "css.gradient.filter"         : "qx.bom.client.Css.getFilterGradient",
       "css.gradient.radial"         : "qx.bom.client.Css.getRadialGradient",
+      "css.gradient.legacywebkit"   : "qx.bom.client.Css.getLegacyWebkitGradient",
       "css.boxmodel"                : "qx.bom.client.Css.getBoxModel",
       "css.rgba"                    : "qx.bom.client.Css.getRgba",
       "css.userselect"              : "qx.bom.client.Css.getUserSelect",
@@ -757,6 +771,8 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.inlineblock" : "qx.bom.client.Css.getInlineBlock",
       "css.opacity" : "qx.bom.client.Css.getOpacity",
       "css.overflowxy" : "qx.bom.client.Css.getOverflowXY",
+      "css.textShadow" : "qx.bom.client.Css.getTextShadow",
+      "css.textShadow.filter" : "qx.bom.client.Css.getFilterTextShadow",
       "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
       "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification",
       "xml.implementation"          : "qx.bom.client.Xml.getImplementation",

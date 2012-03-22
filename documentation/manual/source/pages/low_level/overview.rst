@@ -78,4 +78,4 @@ You can create this application using the ``create-application.py`` script:
    path_to_SDK/tool/bin/create-application.py -n myLowLevelApp -t native
    
    
-The result is a new low-level application skeleton named ``myLowLevelApp`` in the current folder. Dive into the :doc:`Getting started </pages/getting_started/helloworld>` tutorial for further infos about creating your application.
+The result is a new low-level application skeleton named ``myLowLevelApp`` in the current folder. Dive into the :ref:`Getting started <pages/getting_started/helloworld#helloworld>` tutorial for further infos about creating your application.

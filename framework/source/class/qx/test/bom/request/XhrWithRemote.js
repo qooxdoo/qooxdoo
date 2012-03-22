@@ -167,29 +167,6 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.assertIdentical(1, req.readyState);
     },
 
-    //
-    // var req = this.req,
-    //     count = 0,
-    //     url = this.getUrl("qx/test/xmlhttp/sample.html");
-    //
-    // var that = this;
-    //
-    // req.onload = function() {
-    //   // From cache with new request
-    //   var req = new qx.bom.request.Xhr();
-    //   req.open("GET", url);
-    //   req.send();
-    //   req.onload = function() {
-    //     that.resume();
-    //   };
-    // };
-    //
-    // // Prime cache
-    // req.open("GET", url);
-    // req.send();
-    //
-    // this.wait();
-
     "test: abort pending request": function() {
       this.require(["php"]);
 
@@ -221,6 +198,36 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       };
       req.send();
 
+      this.wait();
+    },
+
+    "test: validate freshness": function() {
+      this.require(["php"]);
+
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/time.php");
+
+      var send = function() {
+        req.open("GET", url);
+        req.send();
+      };
+
+      var that = this;
+      var count = 0;
+      var results = [];
+      req.onload = function() {
+        count += 1;
+        results.push(req.responseText);
+        if (count < 2) {
+          send();
+        } else {
+          that.resume(function() {
+            that.assertNotEquals(results[0], results[1], "Response must differ");
+          });
+        }
+      };
+
+      send();
       this.wait();
     },
 

@@ -8,7 +8,6 @@
    :maxdepth: 3
 
    pages/introduction
-   pages/getting_started
 
 
 .. core
@@ -73,11 +72,18 @@
    :maxdepth: 3
 
    pages/development
-   pages/tool
+
+.. toctree::
+   :maxdepth: 3
+
    pages/application
 
 .. toctree::
    :maxdepth: 3
 
    pages/migration
+
+.. toctree::
+   :maxdepth: 3
+
    pages/references

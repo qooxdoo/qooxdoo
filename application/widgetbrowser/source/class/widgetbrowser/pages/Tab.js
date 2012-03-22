@@ -75,10 +75,30 @@ qx.Class.define("widgetbrowser.pages.Tab",
       widgets.push(tabRight);
     },
 
+
+    toggleOverflow : function(tabView, enable) {
+      if (!enable) {
+        var children = tabView.getChildren();
+        for (var i=children.length -1; i >=0; i--) {
+          tabView.remove(children[i]);
+        };
+      }
+      this.addTabPages(tabView);
+    },
+
+
     __getTabView: function() {
       var tabView = new qx.ui.tabview.TabView();
+      tabView.toggleOverflow = qx.lang.Function.bind(this.toggleOverflow, this);
       tabView.setWidth(400);
+      tabView.setHeight(200);
+      this.addTabPages(tabView);
 
+      return tabView;
+    },
+
+
+    addTabPages : function(tabView) {
       var page1 = new qx.ui.tabview.Page("Layout", "icon/16/apps/utilities-terminal.png");
       page1.setLayout(new qx.ui.layout.VBox());
       page1.add(new qx.ui.basic.Label("Layout-Settings…"));
@@ -93,8 +113,6 @@ qx.Class.define("widgetbrowser.pages.Tab",
       page3.setLayout(new qx.ui.layout.VBox());
       page3.add(new qx.ui.basic.Label("Calculator…"));
       tabView.add(page3);
-
-      return tabView;
     }
   }
 });

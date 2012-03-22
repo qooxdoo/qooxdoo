@@ -28,7 +28,7 @@ Making the interpreter available
 
 .. note::
 
-    The following is only required when installing the Windows package from `Python.org <http://python.org>`_. When installing the preferred `ActivePython <http://www.activestate.com/Products/activepython/>`_ this installation step is conveniently handled within its graphical installation wizard.
+    The following is only required when installing the Windows package from `Python.org <http://python.org>`_. When installing the preferred `ActivePython <http://www.activestate.com/activepython/downloads>`_ this installation step is conveniently handled within its graphical installation wizard.
 
 
 After your successful :ref:`Python installation <pages/requirements#tools>`, you need to add the installation folder to the so-called ``PATH`` environment variable, which contains a list of directories that are searched for executables. 
@@ -50,7 +50,7 @@ File association
 
 .. note::
 
-    The following is only required when installing the Windows package from `Python.org <http://python.org>`_. When installing the preferred `ActivePython <http://www.activestate.com/Products/activepython/>`_ this installation step is conveniently handled within its graphical installation wizard.
+    The following is only required when installing the Windows package from `Python.org <http://python.org>`_. When installing the preferred `ActivePython`_ this installation step is conveniently handled within its graphical installation wizard.
 
 
 In a standard Python installation on Windows, the ``.py`` file extension gets associated with the Python interpreter. This allows you to invoke .py files directly. You can check that in the following way at a command prompt:

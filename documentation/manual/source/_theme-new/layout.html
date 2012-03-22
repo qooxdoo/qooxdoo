@@ -2,7 +2,7 @@
 
 {% set assets_host = "http://resources.new.qooxdoo.org" %}
 {% set css_files = [assets_host + "/stylesheets/common.css"] + css_files %}
-{% set script_files = ["http://use.typekit.com/zot3nek.js", assets_host + "/javascripts/q.js", assets_host + "/javascripts/application.js"] + script_files %}
+{% set script_files = ["http://use.typekit.com/zot3nek.js", assets_host + "/javascripts/q.js", assets_host + "/javascripts/q.placeholder.js", assets_host + "/javascripts/q.sticky.js", assets_host + "/javascripts/application.js"] + script_files %}
 
 {%- macro breadcrumb() %}
   <a href="http://new.qooxdoo.org">home</a>{{ reldelim1 }}
@@ -27,7 +27,7 @@
 {% endblock %}
 
 {%- block header %}
-<div id="main-wrapper">
+<div id="main-wrapper" class="sphinx">
 <div id="header-wrapper">
   <section id="header">
     <h1><a href="http://new.qooxdoo.org/">qooxdoo</a></h1>
@@ -50,17 +50,30 @@
         </li>
       </ul>
     </nav>
-    <div id="search">
-      <form class="search" action="{{ pathto('search') }}" method="get">
-        <input type="search" name="q" placeholder="Search" />
-        <input type="hidden" name="check_keywords" value="yes" />
-        <input type="hidden" name="area" value="default" />
-        <select>
-          <option>Site</option>
-          <option selected="">Docs</option>
-          <option>Blog</option>
-        </select>
+    <script type="template" id="search-options-template">
+      <select>
+        <option value="site">Site</option>
+        <option value="docs">Docs</option>
+        <option value="blog">Blog</option>
+      </select>
+    </script>
+    <script type="template" id="search-site-template">
+      <form action="http://new.qooxdoo.org/" id="search-form">
+        <input type="hidden" name="do" value="search">
+        <input type="search" name="id" placeholder="Search"></input>
       </form>
+    </script>
+    <script type="template" id="search-blog-template">
+      <form method="get" id="searchform" action="http://news.new.qooxdoo.org/" id="search-form">
+        <input type="search" class="field" name="s" id="s" placeholder="Search">
+      </form>
+    </script>
+    <script type="template" id="search-docs-template">
+      <form action="{{ pathto('search') }}" id="search-form">
+        <input type="search" name="q" placeholder="Search"></input>
+      </form>
+    </script>
+    <div id="search">
     </div>
   </section>
 <div class="decoration"></div>

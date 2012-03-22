@@ -528,6 +528,7 @@ input[type="checkbox"]:checked {
   display: block;
   cursor:default;
   font-size:16px;
+  font-weight:bold;
 }
 
 .toggleButton > div {
@@ -595,7 +596,9 @@ div.checked .toggleButtonSwitch:before {
 
 .toggleButtonSwitch {
   position:relative;
-  .transition(left .15s);
+  // Because of display problems in Safari, 
+  // Animation is disabled.
+  //.transition(left .15s);
 
   left: 0px;
   

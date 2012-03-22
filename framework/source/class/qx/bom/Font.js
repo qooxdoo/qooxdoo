@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Mustafa Sak (msak)
 
 ************************************************************************ */
 
@@ -52,7 +53,8 @@ qx.Class.define("qx.bom.Font",
       fontStyle: null,
       textDecoration: null,
       lineHeight: null,
-      color: null
+      color: null,
+      textShadow: null
     };
 
     if (size !== undefined) {
@@ -150,7 +152,8 @@ qx.Class.define("qx.bom.Font",
       fontStyle: "",
       textDecoration: "",
       lineHeight: 1.2,
-      color: ""
+      color: "",
+      textShadow: ""
     },
 
 
@@ -236,6 +239,14 @@ qx.Class.define("qx.bom.Font",
       check : "Color",
       nullable: true,
       apply: "_applyColor"
+    },
+
+    /** The text shadow for this font */
+    textShadow :
+    {
+      nullable : true,
+      check : "String",
+      apply : "_applyTextShadow"
     }
   },
 
@@ -311,6 +322,11 @@ qx.Class.define("qx.bom.Font",
     // property apply
     _applyColor : function(value, old) {
       this.__lookupMap.color = value === null ? null : value;
+    },
+
+    // property apply
+    _applyTextShadow : function(value, old) {
+      this.__lookupMap.textShadow = value === null ? null : value;
     },
 
 

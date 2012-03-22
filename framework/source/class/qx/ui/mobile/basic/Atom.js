@@ -22,7 +22,7 @@
  *
  * A multi-purpose widget, which combines a label with an icon.
  *
- * The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text
+ * The intended purpose of qx.ui.mobile.basic.Atom is to easily align the common icon-text
  * combination in different ways.
  *
  * *Example*
@@ -30,7 +30,7 @@
  * Here is a little example of how to use the widget.
  *
  * <pre class='javascript'>
- *   var atom = new qx.ui.basic.Atom("Icon Right", "icon/32/actions/go-next.png");
+ *   var atom = new qx.ui.mobile.basic.Atom("Icon Right", "icon/32/actions/go-next.png");
  *   this.getRoot().add(atom);
  * </pre>
  *

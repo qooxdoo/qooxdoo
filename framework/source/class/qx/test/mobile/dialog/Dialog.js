@@ -33,19 +33,19 @@ qx.Class.define("qx.test.mobile.dialog.Dialog",
           
          var dialog = new qx.ui.mobile.dialog.Dialog();
           
-         this.assertFalse(dialog.__getBlocker().isShown(), 'After usage of getBlocker, a blocker instance should be shown.');
+         this.assertFalse(dialog._getBlocker().isShown(), 'After usage of getBlocker, a blocker instance should be shown.');
          
          // Modal mode false test cases, no changes expected.
          dialog.setModal(false);
          dialog.show();
          
-         dialog.hide(); 
+         dialog.hide();
          this.assertFalse(dialog.isVisible(), 'Dialog should not be visible.');
          
-         this.assertFalse(dialog.__getBlocker().isShown(), 'Modal mode is false, called dialog.hide(), blocker should be still hidden.');
+         this.assertFalse(dialog._getBlocker().isShown(), 'Modal mode is false, called dialog.hide(), blocker should be still hidden.');
          
          dialog.show();
-         this.assertFalse(dialog.__getBlocker().isShown(), 'Modal mode is false, called dialog.show(), blocker should be still hidden.');
+         this.assertFalse(dialog._getBlocker().isShown(), 'Modal mode is false, called dialog.show(), blocker should be still hidden.');
           
          this.assertTrue(dialog.isVisible(), 'Dialog should be visible.');
           
@@ -53,10 +53,10 @@ qx.Class.define("qx.test.mobile.dialog.Dialog",
          dialog.setModal(true);
          
          dialog.show();
-         this.assertTrue(dialog.__getBlocker().isShown(), 'Modal mode is true, called dialog.show(), Blocker should be shown.');
+         this.assertTrue(dialog._getBlocker().isShown(), 'Modal mode is true, called dialog.show(), Blocker should be shown.');
          
          dialog.hide();
-         this.assertFalse(dialog.__getBlocker().isShown(), 'Modal mode is true, called dialog.hide(), Blocker should not be shown.');
+         this.assertFalse(dialog._getBlocker().isShown(), 'Modal mode is true, called dialog.hide(), Blocker should not be shown.');
     },
     
     hasDebug: function() {

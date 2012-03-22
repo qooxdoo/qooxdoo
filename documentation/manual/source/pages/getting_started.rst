@@ -6,8 +6,9 @@ Getting Started
    :maxdepth: 2
 
    getting_started/requirements
-   Hello World - "A must-read introduction" <getting_started/helloworld>
-   getting_started/troubleshooting
+   getting_started/setup
+   tool/troubleshooting
+   getting_started/architecture
 
 .. _index#tutorial:
 
@@ -48,17 +49,4 @@ Video Tutorials
 You can find some community made 
 `tutorial videos on vimeo <http://vimeo.com/channels/qooxdoo>`_.
 
-.. _index#sdk:
-
-SDK
-===
-
-.. toctree::
-
-   getting_started/introduction_sdk
-   getting_started/framework_structure
-   getting_started/application_structure
-   getting_started/manifest
-   getting_started/code_structure
-   getting_started/architecture
 

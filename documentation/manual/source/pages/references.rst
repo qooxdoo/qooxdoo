@@ -1,5 +1,9 @@
+.. _pages/references#references:
+
 References
 **********
+
+.. _pages/references#core:
 
 Core
 ====
@@ -14,6 +18,8 @@ Core
    core/array
    core/framework_jobs
 
+.. _pages/references#desktop:
+
 GUI Toolkit
 ===========
 
@@ -22,6 +28,8 @@ GUI Toolkit
 
    widget/widget_ref
    layout
+
+.. _pages/references#tooling:
 
 Tooling
 =======
@@ -33,7 +41,8 @@ Tooling
    tool/generator_config_ref
    tool/generator_config_macros
    tool/ebnf_like
-   tool/astlets
+
+.. _pages/references#miscellaneous:
 
 Miscellaneous
 =============
@@ -44,6 +53,8 @@ Miscellaneous
    introduction/third_party_components
 
 
+.. _pages/references#glossary:
+
 Glossary
 ========
 
@@ -51,6 +62,8 @@ Glossary
    :maxdepth: 1
 
    glossary
+
+.. _pages/references#license:
 
 License
 =======

@@ -49,6 +49,7 @@ tests = [
         (s,"for(var i=0, j=a; i<j; i++){ a=3; }"),
         (s,"for(i in j){}"),
         (s,"for(var key in config){process(key);}"),
+        (s,"for(a[i++] in o);"),
         (e,"qx.Class.define('foo', {extend: object, bar: function() {return 1;}})"),
         (e,"qx.Class.define('foo', {\n  extend: object,\n  bar: function() {return 1;}\n  }\n)"),
         # regexp literals

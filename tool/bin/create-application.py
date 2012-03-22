@@ -32,6 +32,7 @@ from misc import Path
 SCRIPT_DIR    = qxenviron.scriptDir
 FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
 SKELETON_DIR  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton")))
+GENERATE_PY   = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "data", "generator", "generate.tmpl.py")))
 APP_DIRS      = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
 R_ILLEGAL_NS_CHAR = re.compile(r'(?u)[^\.\w]')  # allow unicode, but disallow $
@@ -84,8 +85,11 @@ def createApplication(options):
     copySkeleton(options.skeleton_path, options.type, outDir, options.namespace)
 
     if options.type == "contribution":
+        shutil.copy(GENERATE_PY, os.path.join(outDir, "trunk"))
+        shutil.copy(GENERATE_PY, os.path.join(outDir, *"trunk/demo/default".split("/")))
         patchSkeleton(os.path.join(outDir, "trunk"), FRAMEWORK_DIR, options)
     else:
+        shutil.copy(GENERATE_PY, outDir)
         patchSkeleton(outDir, FRAMEWORK_DIR, options)
 
     return
