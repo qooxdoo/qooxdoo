@@ -23,8 +23,8 @@ qx.Theme.define("playground.theme.Theme",
 {
   meta :
   {
-    color : qx.theme.modern.Color,
-    decoration : qx.theme.modern.Decoration,
+    color : qx.theme.indigo.Color,
+    decoration : playground.theme.Decoration,
     font : playground.theme.Font,
     appearance : playground.theme.Appearance,
     icon : qx.theme.icon.Tango

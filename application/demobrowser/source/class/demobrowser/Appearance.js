@@ -1,6 +1,6 @@
 qx.Theme.define("demobrowser.Appearance",
 {
-  extend : qx.theme.modern.Appearance,
+  extend : qx.theme.indigo.Appearance,
   title : "Demo browser",
 
   appearances :
@@ -14,7 +14,8 @@ qx.Theme.define("demobrowser.Appearance",
       {
         return {
           width : 270,
-          decorator : "main"
+          padding: 0,
+          decorator: "main"
         };
       }
     }

@@ -53,7 +53,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         width : 1,
-        color : "background-selected"
+        color : "border-main"
       }
     },
 
@@ -951,7 +951,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         width : 1,
-        color : "background-selected",
+        color : "border-main",
         radius : 3,
         backgroundColor : "white"
       }
@@ -1049,7 +1049,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       {
         width : [1, 1, 0, 1],
         backgroundColor: "background",
-        color : "background-selected",
+        color : "border-main",
         radius : [3, 3, 0, 0]
       }
     },

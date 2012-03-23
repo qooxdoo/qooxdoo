@@ -134,6 +134,7 @@ qx.Class.define("fce.Application",
 
       var title = new qx.ui.basic.Label("Feature Configuration Editor");
       var version = new qxc.ui.versionlabel.VersionLabel();
+      version.setFont("default");
 
       header.add(title);
       header.add(new qx.ui.core.Spacer, {flex : 1});

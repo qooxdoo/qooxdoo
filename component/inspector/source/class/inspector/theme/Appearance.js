@@ -10,10 +10,22 @@
 
 qx.Theme.define("inspector.theme.Appearance",
 {
-  extend : qx.theme.modern.Appearance,
+  extend : qx.theme.indigo.Appearance,
 
   appearances :
   {
+    "toolbar" :
+    {
+      style : function(states)
+      {
+        return {
+          padding: [0, 0],
+          backgroundColor: "light-background"
+        };
+      }
+    },
+
+
     "toolbar-button-bold" :
     {
       alias : "toolbar-button",
@@ -48,20 +60,6 @@ qx.Theme.define("inspector.theme.Appearance",
     /*
      * Objects Window
      */
-
-    "objects-toolbar" :
-    {
-      alias : "toolbar",
-      include : "toolbar",
-
-      style : function(states)
-      {
-        return {
-          paddingLeft : 3,
-          paddingRight : 3
-        };
-      }
-    },
 
     "objects-textfield" :
     {
