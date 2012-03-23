@@ -173,9 +173,9 @@ qx.Class.define("testrunner.view.Html", {
       .append('<input type="submit" title="Run selected tests (Ctrl+R)" id="run" value="Run Tests"></input>' +
       '<input type="submit" title="Stop the test suite (Ctrl+S)" id="stop" value="Stop Tests"></input>')
       .append(qx.bom.Input.create("checkbox", {id: "togglestack", checked: "checked"}))
-      .append('<label for="togglestack">Show stack traces for failed tests</label>');
-      //.append(qx.bom.Input.create("checkbox", {id: "togglepassed", checked: "checked"}))
-      //.append('<label for="togglepassed">Show successful tests</label>');
+      .append('<label for="togglestack">Show stack traces for failed tests</label>')
+      .append(qx.bom.Input.create("checkbox", {id: "togglepassed", checked: "checked"}))
+      .append('<label for="togglepassed">Show successful tests</label>');
       
       if (this.__nativeProfiling) {
         controls.append(qx.bom.Input.create("checkbox", {id: "nativeprofiling"}))
@@ -196,11 +196,9 @@ qx.Class.define("testrunner.view.Html", {
         this.setShowStack(ev.getData());
       }, this);
 
-      /*
       qx.event.Registration.addListener(controls.children("#togglepassed")[0], "change", function(ev) {
         this.setShowPassed(ev.getData());
       }, this);
-      */
       
       if (this.__nativeProfiling) {
         qx.event.Registration.addListener(controls.children("#nativeprofiling")[0], "change", function(ev) {
@@ -329,10 +327,8 @@ qx.Class.define("testrunner.view.Html", {
       var frameContainer = $('<div id="framecontainer">' +
         '<div id="framecontrols" class="controls">' +
           '<h2>Application Under Test</h2>' +
-          '<div>' +
-            '<input type="submit" title="Reload the test suite (Ctrl+Shift+R)" id="setiframesrc" value="Reload"></input>' +
-            '<input type="text" id="iframesrc"></input>' +
-          '</div>' +
+          '<input type="submit" title="Reload the test suite (Ctrl+Shift+R)" id="setiframesrc" value="Reload"></input>' +
+          '<input type="text" id="iframesrc"></input>' +
         '</div>')
       .append(qx.bom.Iframe.create({id : "autframe"}))
       .appendTo("#frame_log");
@@ -359,18 +355,16 @@ qx.Class.define("testrunner.view.Html", {
       var logContainer = $('<div id="logcontainer">' +
           '<div id="logcontrols" class="controls">' +
             '<h2>Log</h2>' +
-            '<div>' +
-              '<select id="loglevel">' +
-                '<option>Debug</option>' +
-              '</select>' +
-              '<label for="loglevel">Log level</label>' +
-            '</div>' +
+//            '<div>' +
+//              '<select id="loglevel">' +
+//                '<option>Debug</option>' +
+//              '</select>' +
+//              '<label for="loglevel">Log level</label>' +
+//            '</div>' +
           '</div>' +
           '<div id="log" class="monotype"></div>' +
         '</div>').appendTo("#frame_log");
       
-      //var log = $('<div id="log" clas="monotype"></div>').appendTo("#frame_log");
-
       return logContainer.children("#log")[0];
     },
 
@@ -386,7 +380,7 @@ qx.Class.define("testrunner.view.Html", {
     toggleAllTests : function(selected, onlyVisible)
     {
       var testsToModify = [];
-      var boxes = document.getElementsByTagName("input");
+      var boxes = $("#testlist input[type=checkbox]");
       for (var i=0,l=boxes.length; i<l; i++) {
         if (boxes[i].type == "checkbox" && boxes[i].id.indexOf("cb_") == 0) {
           if (onlyVisible && boxes[i].parentNode.style.display == "none") {
@@ -424,10 +418,10 @@ qx.Class.define("testrunner.view.Html", {
         for (var i=0,l=matches.length; i<l; i++) {
           var key = this.__simplifyName(matches[i]);
           var checkboxId = "cb_" + key;
-          var box = document.getElementById(checkboxId);
-          box.parentNode.style.display = "block";
+          var box = $("#" + checkboxId);
+          box.parent().setStyle("display", "block");
           if ($("#togglealltests")[0].checked) {
-            box.checked = true;
+            box.setAttribute("checked", "checked");
             testsToModify.push(matches[i]);
           }
         }
@@ -442,10 +436,7 @@ qx.Class.define("testrunner.view.Html", {
      */
     hideAllTestListEntries : function()
     {
-      var items = qx.bom.Selector.query("li", $("#testlist")[0]);
-      for (var i=0,l=items.length; i<l; i++) {
-        items[i].style.display = "none";
-      }
+      $("#testlist").children("li").setStyle("display", "none");
     },
 
 
@@ -792,7 +783,7 @@ qx.Class.define("testrunner.view.Html", {
     {
       var value = checked ? "checked" : "";
       var target = testName ? "#cb_" + this.__simplifyName(testName) : "input";
-      qx.bom.Collection.query("#testlist " + target).setAttribute("checked", value);
+      $("#testlist " + target).setAttribute("checked", value);
     },
 
     /**

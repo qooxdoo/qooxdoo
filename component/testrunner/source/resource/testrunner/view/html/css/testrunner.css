@@ -72,8 +72,9 @@ h2 {
   zoom: 1;
   margin: 0 auto;
   min-height: 30px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 24px;
+  /*padding-bottom: 20px;*/
+  height: 48px;
   color: #b7b7b7;
 }
 #header:after {
@@ -88,9 +89,9 @@ h2 {
   display: block;
   float: left;
   margin-left: 25px;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 300;
-  line-height: 1;
+  /*line-height: 1;*/
   margin-top: 0;
   margin-bottom: 0;
   color: #ffffff;
@@ -99,12 +100,13 @@ h2 {
 #header #search {
   float: right;
   margin-right: 25px;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 #header #search input[type=search] {
   display: block;
   float: left;
+  height: 21.6px;
   width: 130px;
   margin-left: 10px;
   -moz-appearance: none;
@@ -166,6 +168,7 @@ h2 {
 }
 
 #testlist li {
+  overflow: auto;
   margin-bottom: 5px;
 }
 
@@ -196,19 +199,18 @@ h2 {
   margin-bottom: 50px;
 }
 
-#framecontrols div {
-  width: 65%;
-}
-
-#framecontrols input {
-  float: right;
+#framecontrols {
+  height: auto;
 }
 
 #framecontrols input[type=text] {
-  width: 75%;
+  width: 99%;
+  clear: both;
+  margin-top: 5px;
 }
 
 #framecontrols input[type=submit] {
+  float: right;
   margin: 0 0 0 5px;
 }
 
