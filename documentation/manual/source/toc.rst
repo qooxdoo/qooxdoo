@@ -67,16 +67,28 @@
 
      pages/communication
 
+.. development
 
 .. toctree::
    :maxdepth: 3
 
    pages/development
 
+.. standard apps
+
 .. toctree::
    :maxdepth: 3
 
    pages/application
+
+.. tooling
+
+.. toctree::
+   :maxdepth: 3
+
+   pages/tool
+
+.. migration
 
 .. toctree::
    :maxdepth: 3
