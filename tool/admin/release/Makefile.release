@@ -47,22 +47,29 @@ CMD_RST2HTML = $(CMD_NICE) rst2html.py
 CMD_ZIP_CREATE = $(CMD_ZIP) -rq
 CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2Unix
 CMD_MKEXEC = $(CMD_NICE) chmod a+rx
-# TODO: Unset QOOXDOO_REVISION macro when building for release! (see comments)
-# Development
-#OPT_GENERATOR = -m QOOXDOO_REVISION:$(FRAMEWORK_GITINFO)
-# Release
-OPT_GENERATOR =
-CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
 
+ifeq ($(DO_RELEASE),)
+# --------  DEVELOPMENT SETTINGS --------------------------------------
+# these settings are used during development time
+OPT_GENERATOR = -m QOOXDOO_REVISION:$(FRAMEWORK_GITINFO)
+QOOXDOO_RELEASE = 
+else
+# --------  RELEASE SETTINGS ------------------------------------------
+# activate from the command line with: make DO_RELEASE=1 ...
+OPT_GENERATOR =
+QOOXDOO_RELEASE = QOOXDOO_RELEASE=1
+endif
+
+CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
 STAGING_HOST = qooxdoo@webtechfe-test01.schlund.de
 
 FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
 FILES_TEMP = \( -name "*.rej" -o -name "*.orig" -o -name "*.pyc" -o -name "*.pyo" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot" \)
 FILES_EXEC = \( -name "*.py" -o -name "*.sh" \)
 
-CMD_SYNC_ONLINE = $(CMD_NICE) rsync --checksum --recursive --delete --inplace --links --safe-links --exclude .svn
-CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --safe-links --exclude .svn
-CMD_SYNC_BACKUP = $(CMD_NICE) rsync --recursive --delete --inplace --copy-links --exclude .svn
+CMD_SYNC_ONLINE = $(CMD_NICE) rsync --checksum --recursive --delete --inplace --links --safe-links
+CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --safe-links
+CMD_SYNC_BACKUP = $(CMD_NICE) rsync --recursive --delete --inplace --copy-links
 
 # Directories
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
@@ -213,6 +220,7 @@ testrunner: info-testrunner exec-testrunner-build
 
 exec-testrunner-build:
 	@time ( cd component/testrunner && $(CMD_GENERATOR) build ) || exit 1
+	@time ( cd component/testrunner && $(CMD_GENERATOR) -c portable.json build ) || exit 1
 
 
 
@@ -271,7 +279,12 @@ exec-skeleton-archive:
 ################################################################################
 
 distclean:
-	@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
+	@for APPLICATION in $(APPLICATIONS); do \
+		F="application/$$APPLICATION"; \
+		if [ -e $$F ]; then \
+			(( cd $$F && $(CMD_GENERATOR) distclean ) || ( echo "Unable to distclean $$F"; exit 1 )); \
+		fi; \
+	done
 	@for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
 	@cd framework && $(CMD_GENERATOR) distclean
 	@$(CMD_REMOVE) application/*.zip
@@ -319,14 +332,18 @@ source-components:
 # DOCUMENTATION TARGETS
 ################################################################################
 
+# the next is necessary as we're changing conf.py values for release
+build-docs-clean:
+	@(cd documentation/manual && make clean)
+
 build-docs-html:
-	@(cd documentation/manual && make html)
+	@(cd documentation/manual && $(QOOXDOO_RELEASE) make html)
 
 build-docs-pdf:
-	@(cd documentation/manual && make latex)
+	@(cd documentation/manual && $(QOOXDOO_RELEASE) make latex)
 	@(cd documentation/manual/build/latex && make all-pdf)
 
-build-docs: build-docs-html build-docs-pdf
+build-docs: build-docs-clean build-docs-html build-docs-pdf
 
 publish-docs:
 	@echo "  * Publishing HTML docs to staging host..."
@@ -374,8 +391,6 @@ check-components:
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 			F="component/$$TARGET/build/script/$$TARGET-portable.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-		else \
-			F="component/$$TARGET/build/script"; [ -d $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		fi; \
 	done
 
@@ -412,16 +427,6 @@ publish-apps:
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-website/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-website || exit 1; \
 		fi; \
 	done
-	@echo "  * Syncing components..."
-	@for APPLICATION in $(COMPONENTS); do \
-		if [ "$$APPLICATION" = "inspector" ]; then \
-			echo "    - $$APPLICATION..."; \
-			$(CMD_SYNC_ONLINE) component/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-		elif [ "$$APPLICATION" = "testrunner" ]; then \
-			echo "    - $$APPLICATION..."; \
-			$(CMD_SYNC_ONLINE) component/$$APPLICATION/build/script/testrunner-portable.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-		fi; \
-	done
 	@echo "  * Syncing framework..."
 	@ssh $(STAGING_HOST) "$(CMD_MKDIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework"
 	@for APPLICATION in $(FRAMEWORK_TARGETS); do \
@@ -437,6 +442,16 @@ publish-apps:
 		fi; \
 		if [ "$$APPLICATION" = "qxoo-noopt" ]; then \
 			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo-noopt.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+		fi; \
+	done
+	@echo "  * Syncing components..."
+	@for APPLICATION in $(COMPONENTS); do \
+		if [ "$$APPLICATION" = "inspector" ]; then \
+			echo "    - $$APPLICATION..."; \
+			$(CMD_SYNC_ONLINE) component/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+		elif [ "$$APPLICATION" = "testrunner" ]; then \
+			echo "    - $$APPLICATION..."; \
+			$(CMD_SYNC_ONLINE) component/$$APPLICATION/build/script/testrunner-portable.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION/testrunner-portable.js || exit 1; \
 		fi; \
 	done
 
