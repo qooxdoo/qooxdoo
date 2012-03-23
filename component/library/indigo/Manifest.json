@@ -30,9 +30,9 @@
   {
     "namespace"   : "indigo",
     "encoding"    : "utf-8",
-    //"class"       : "source/class",
     "resource"    : "source/resource",
-    //"translation" : "source/translation",
+    "class"       : "source/class",
+    "translation" : "source/translation",
     "type"        : "library"
   }
 }
