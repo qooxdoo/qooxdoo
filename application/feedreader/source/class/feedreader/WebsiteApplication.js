@@ -110,7 +110,7 @@ qx.Class.define("feedreader.WebsiteApplication",
     fillList : function(col, feed) {
       var fadeOut = feedreader.WebsiteApplication.fadeOut;
       var fadeIn = feedreader.WebsiteApplication.fadeIn;
-      qx.bom.element.Animation.animate(col[0], fadeOut).onEnd(function() {
+      qx.bom.element.Animation.animate(col[0], fadeOut).on("end", function() {
         // delete the current content
         col[0].innerHTML = "";
 
@@ -134,7 +134,7 @@ qx.Class.define("feedreader.WebsiteApplication",
     fillTree : function(col, model) {
       var fadeOut = feedreader.WebsiteApplication.fadeOut;
       var fadeIn = feedreader.WebsiteApplication.fadeIn;
-      qx.bom.element.Animation.animate(col[0], fadeOut).onEnd(function() {
+      qx.bom.element.Animation.animate(col[0], fadeOut).on("end", function() {
         // empty loading text
         col[0].innerHTML = "";
 
