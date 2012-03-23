@@ -327,6 +327,7 @@ build-docs-clean:
 
 build-docs-html:
 	@(cd documentation/manual && $(QOOXDOO_RELEASE) make html)
+	@(cd documentation/tech_manual && make html)
 
 build-docs-pdf:
 	@(cd documentation/manual && $(QOOXDOO_RELEASE) make latex)
