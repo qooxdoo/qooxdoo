@@ -60,6 +60,12 @@ OPT_GENERATOR =
 QOOXDOO_RELEASE = QOOXDOO_RELEASE=1
 endif
 
+ifeq ($(PREVIEW),1)
+DEMO_DIR = /var/www/qooxdoo/new/demo
+else
+DEMO_DIR = /var/www/qooxdoo/demo
+endif
+
 CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
 STAGING_HOST = qooxdoo@webtechfe-test01.schlund.de
 
@@ -413,54 +419,54 @@ publish-index:
 		sed 's/class="local"/class="local hide"/g' | \
 		sed 's/ class="publish"//g' > temp/index.html
 	@echo "  * Syncing index.html..."
-	@$(CMD_SYNC_ONLINE) temp/index.html $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
+	@$(CMD_SYNC_ONLINE) temp/index.html $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/
 	@$(CMD_REMOVE) temp
 
 # Putting components after framework, to be able to add to testrunner/script/testrunner-portable.js
-# to save:	ssh $(STAGING_HOST) $(CMD_MKDIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION/script/; 
+# to save:	ssh $(STAGING_HOST) $(CMD_MKDIR) $(DEMO_DIR)/$(FRAMEWORK_VERSION)/$$APPLICATION/script/; 
 publish-apps:
 	@echo "  * Syncing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
 		echo "    - $$APPLICATION..."; \
 		if [ "$$APPLICATION" = "feedreader" ]; then \
 			echo "    - $$APPLICATION-mobile..."; \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-mobile/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-mobile || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-mobile/* $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/$$APPLICATION-mobile || exit 1; \
 			echo "    - $$APPLICATION-website..."; \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-website/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-website || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-website/* $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/$$APPLICATION-website || exit 1; \
 		else \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		fi; \
 	done
 	@echo "  * Syncing framework..."
-	@ssh $(STAGING_HOST) "$(CMD_MKDIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework"
+	@ssh $(STAGING_HOST) "$(CMD_MKDIR) $(DEMO_DIR)/$(FRAMEWORK_VERSION)/framework"
 	@for APPLICATION in $(FRAMEWORK_TARGETS); do \
 	  echo "    - $$APPLICATION..."; \
 		if [ "$$APPLICATION" = "api" ]; then \
-			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/apiviewer || exit 1; \
+			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/apiviewer || exit 1; \
 		fi; \
 		if [ "$$APPLICATION" = "test" ]; then \
-			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/testrunner || exit 1; \
+			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/testrunner || exit 1; \
 		fi; \
 		if [ "$$APPLICATION" = "qxoo-build" ]; then \
-			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo.js $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		fi; \
 		if [ "$$APPLICATION" = "qxoo-noopt" ]; then \
-			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo-noopt.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo-noopt.js $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		fi; \
 	done
 	@echo "  * Syncing components..."
 	@for APPLICATION in $(COMPONENTS); do \
 		if [ "$$APPLICATION" = "inspector" ]; then \
 			echo "    - $$APPLICATION..."; \
-			$(CMD_SYNC_ONLINE) component/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) component/$$APPLICATION/build/* $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		elif [ "$$APPLICATION" = "testrunner" ]; then \
 			echo "    - $$APPLICATION..."; \
-			$(CMD_SYNC_ONLINE) component/testrunner/build/script/$$APPLICATION-portable.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION/script/$$APPLICATION-portable.js || exit 1; \
+			$(CMD_SYNC_ONLINE) component/testrunner/build/script/$$APPLICATION-portable.js $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/$$APPLICATION/script/$$APPLICATION-portable.js || exit 1; \
 		elif [ "$$APPLICATION" = "storage" ]; then \
 			echo "    - $$APPLICATION..."; \
-			$(CMD_SYNC_ONLINE) component/storage/$$APPLICATION.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/storage/$$APPLICATION-require.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/storage/$$APPLICATION.js $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/storage/$$APPLICATION-require.js $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		fi; \
 	done
 
@@ -470,7 +476,7 @@ publish-production:
 
 publish-backup:
 	@echo "  * Backing up devel version on server; this will take some time..."
-	@ssh $(STAGING_HOST) "$(CMD_SYNC_BACKUP) /var/www/qooxdoo/demo/devel /var/www/qooxdoo/demo/0.0.devel_backlog/"
+	@ssh $(STAGING_HOST) "$(CMD_SYNC_BACKUP) $(DEMO_DIR)/devel $(DEMO_DIR)/0.0.devel_backlog/"
 
 publish-staging: publish-check publish-backup publish-index publish-apps publish-docs
 
