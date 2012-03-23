@@ -44,6 +44,9 @@
         },
         {
           "manifest" : "${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
+        },
+        {
+          "manifest" : "${QOOXDOO_PATH}/component/library/indigo/Manifest.json"
         }
       ],
       "packages" : 
@@ -102,12 +105,11 @@
       }
     },
     
-    
     "build-files" :
     {
       "copy-files" :
       {
-        "=files" : ["index.html", "blank.html", "resource/static"]
+        "=files" : ["index.html", "blank.html", "resource/static", "indigo/css/fonts"]
       }
     },
     

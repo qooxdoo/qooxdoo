@@ -21,6 +21,8 @@
 /* ************************************************************************
 
 #asset(showcase/*)
+#asset(indigo/css/*)
+#asset(indigo/fonts/*)
 
 ************************************************************************ */
 
@@ -70,11 +72,19 @@ qx.Class.define("showcase.Application",
 
       qx.locale.Manager.getInstance().setLocale("en_US");
 
+      var cssReset = qx.util.ResourceManager.getInstance().toUri("indigo/css/reset.css");
+      var cssBase = qx.util.ResourceManager.getInstance().toUri("indigo/css/base.css");
+      var cssShowcase = qx.util.ResourceManager.getInstance().toUri("resource/static/css/showcase.css");
+      qx.bom.Stylesheet.includeFile(cssReset);
+      qx.bom.Stylesheet.includeFile(cssBase);
+      qx.bom.Stylesheet.includeFile(cssShowcase);
+
       var grid = new qx.ui.layout.Grid();
       grid.setColumnFlex(0, 1);
       grid.setRowFlex(1, 1);
       var row = 0;
       var htmlElement = document.getElementById("showcase");
+      htmlElement.style.offsetHeight;
       var container = new qx.ui.root.Inline(htmlElement, true, true);
       container.set({
         layout: grid,
