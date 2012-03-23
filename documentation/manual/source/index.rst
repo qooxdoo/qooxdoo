@@ -94,7 +94,7 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 
 
 +----------+-------------------------------------------------------------------------------------+
-||g_faq|   | **Tool Chain**                                                                      |
+||g_faq|   | **Tooling**                                                                         |
 |          |   * :ref:`Introduction <pages/tool#tooling>`                                        |
 |          |   * :ref:`Tutorial     <pages/getting_started/helloworld#helloworld>`               |
 |          |   * :ref:`Reference    <pages/references#tooling>`                                  |
