@@ -68,7 +68,7 @@ SDK
 
 qooxdoo comes with a platform-independent and user-friendly tool chain. It comes with the :doc:`Desktop </pages/gui_toolkit/ui_overview>` and :doc:`Mobile </pages/mobile/mobile_overview>` downloads. For those components you use it for *creating and developing* a qooxdoo application. It is not needed for running the application. For the *Website* and *Server* components there are pre-build libraries to download, so you don't need the SDK.
 
-The tool chain only requires to have `Python <http://www.python.org>`_ installed. Use a standard **Python 2.x** release, version 2.5 or above. **Python 3** is currently `not supported <http://qooxdoo.org/documentation/general/python_3_support>`_! As a qooxdoo user you do not need any Python knowledge, it is merely a technology used internally for the tools. Python comes either pre-installed on many systems or it can very easily be installed:
+The tool chain only requires to have `Python <http://www.python.org>`_ installed. Use a standard **Python 2.x** release, version 2.5 or above. Python 3 is currently `not supported <http://qooxdoo.org/documentation/general/python_3_support>`_. (If in doubt you can query the version of your local Python installation by running the command ``python -V``). As a qooxdoo user you do not need any Python knowledge, it is merely a technology used internally for the tools. Python comes either pre-installed on many systems or it can very easily be installed:
 
 
 |image0| Windows
@@ -76,7 +76,7 @@ The tool chain only requires to have `Python <http://www.python.org>`_ installed
 
 .. |image0| image:: /_static/windows.png
 
-It is trivial! Just download and install the excellent `ActivePython <http://www.activestate.com/Products/activepython/>`_ package. Its default settings of the installation wizard are fine, there is nothing to configure. You can as well use the Windows package from `Python.org <http://www.python.org/download/releases/2.6.1/>`_, but this might require additional manual :ref:`configuration <pages/troubleshooting#windows>`.
+It is trivial! Just download and install the excellent `ActivePython <http://www.activestate.com/activepython/downloads>`_ package. Its default settings of the installation wizard are fine, there is nothing to configure. You can as well use the Windows package from `Python.org <http://www.python.org/download/releases/2.6.1/>`_, but this might require additional manual :ref:`configuration <pages/troubleshooting#windows>`.
 
 |image1| Cygwin
 ^^^^^^^^^^^^^^^

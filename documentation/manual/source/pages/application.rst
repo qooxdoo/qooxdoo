@@ -1,5 +1,10 @@
+.. _pages/application#standard_applications:
+
 Standard Applications
 *********************
+
+
+.. _pages/application#demo_applications:
 
 Demo Applications
 =================
@@ -85,6 +90,8 @@ Demo Applications
 
   `Online demo <http://demo.qooxdoo.org/%{version}/widgetbrowser>`__
 
+
+.. _pages/application#developer_tools:
 
 Developer Tools
 ===============

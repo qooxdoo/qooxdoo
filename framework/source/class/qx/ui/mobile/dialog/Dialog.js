@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.mobile.dialog.Dialog",
     {
       if(this.getModal())
       {
-        this.__getBlocker().show();
+        this._getBlocker().show();
       }
       this.base(arguments);
     },
@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.mobile.dialog.Dialog",
     {
       if(this.getModal())
       {
-        this.__getBlocker().hide();
+        this._getBlocker().hide();
       }
       this.base(arguments);
     },
@@ -111,10 +111,11 @@ qx.Class.define("qx.ui.mobile.dialog.Dialog",
      *
      * @return {qx.ui.mobile.core.Blocker} Returns the blocker widget.
      */
-    __getBlocker : function()
+    _getBlocker : function()
     {
       if(!this.__blocker) {
         this.__blocker = new qx.ui.mobile.core.Blocker();
+        this.__blocker.hide();
         qx.core.Init.getApplication().getRoot().add(this.__blocker);
         var blockerZIndex = qx.bom.element.Style.get(this.__blocker.getContainerElement(), 'zIndex');
         blockerZIndex = parseInt(blockerZIndex) +1;
