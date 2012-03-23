@@ -208,7 +208,7 @@ Details instructions can be found in ``tool/admin/release/npm/readme.txt``. As s
 Release at Maven Central
 ===========================
 
-The final build should also be put at Maven Central. To release the new version of the SDK you should follow the instructions of our `maven-central-integration project <https://github.com/qooxdoo/maven-central-integration>`_ at GitHub and the instructions on the internal server. It is necessary to release it using the internal server infrastructure to make sure the artifacts are correctly signed.
+The final build should also be put at Maven Central. To release the new version of the SDK you should follow the instructions of our `maven-central-integration project <https://github.com/qooxdoo/maven-central-integration>`_ at GitHub and the instructions on the internal server (look for the project's git checkout in the workspace). It is necessary to release it using the internal server infrastructure to make sure the artifacts are correctly signed.
 
 .. _pages/project/release_how_to_build.rst#post_processing:
 

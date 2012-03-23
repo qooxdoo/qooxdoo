@@ -58,11 +58,6 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 |          |   * :doc:`Properties <pages/core/understanding_properties>`                         |
 |          |   * :doc:`Data Binding <pages/data_binding/data_binding>`                           |
 |          |   * :doc:`Environment   <pages/core/environment>`                                   |
-|          |   * Tooling                                                                         |
-|          |                                                                                     |
-|          |     * :ref:`Introduction <pages/tool#tooling>`                                      |
-|          |     * :ref:`Tutorial     <pages/getting_started/helloworld#helloworld>`             |
-|          |     * :ref:`Reference    <pages/references#tooling>`                                |
 +----------+-------------------------------------------------------------------------------------+
 
 
@@ -95,6 +90,14 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 |          |   * :doc:`Introduction    <pages/server/overview>`                                  |
 |          |   * :ref:`Tutorial        <pages/server/overview#basic_example>`                    |
 |          |   * :doc:`Reference       <pages/server/overview>`                                  |
++----------+-------------------------------------------------------------------------------------+
+
+
++----------+-------------------------------------------------------------------------------------+
+||g_faq|   | **Tool Chain**                                                                      |
+|          |   * :ref:`Introduction <pages/tool#tooling>`                                        |
+|          |   * :ref:`Tutorial     <pages/getting_started/helloworld#helloworld>`               |
+|          |   * :ref:`Reference    <pages/references#tooling>`                                  |
 +----------+-------------------------------------------------------------------------------------+
 
 

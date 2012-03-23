@@ -1,5 +1,8 @@
 .. _pages/tool#tooling:
 
+Tooling
+=======
+
 Introduction
 ------------
 

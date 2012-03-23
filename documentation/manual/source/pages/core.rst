@@ -50,10 +50,3 @@ Data Binding
 
    data_binding
 
-Tooling
-=======
-
-.. toctree::
-   :maxdepth: 2
-
-   tool
