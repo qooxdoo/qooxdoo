@@ -176,7 +176,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     /**
      *  Sets the items in the menu.
      *  
-     *  @param itemModel {qx.data.Array}, the model of choosable items in the menu.
+     *  @param itemsModel {qx.data.Array}, the model of choosable items in the menu.
      */
     setItems : function (itemsModel) {
       if(this.__selectionList) {
