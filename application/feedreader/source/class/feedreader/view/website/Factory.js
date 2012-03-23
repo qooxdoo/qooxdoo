@@ -68,7 +68,7 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
                  "height": content.offsetHeight-20 + "px"
                 }
              }
-           }).onEnd(function() {
+           }).on("end", function() {
              qx.bom.element.Transform.scale(content, 1);
              indicator.innerHTML = "[-]";
            });
@@ -91,7 +91,7 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
                  "height": "0px"
                 }
              }
-           }).onEnd(function(el) {
+           }).on("end", function(el) {
              qx.bom.element.Style.set(el, "display", "none");
              indicator.innerHTML = "[+]";
            });
