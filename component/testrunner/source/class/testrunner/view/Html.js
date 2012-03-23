@@ -19,8 +19,10 @@
 
 /* ************************************************************************
 
+#require(qx.bom.Collection)
 #ignore($)
 #asset(testrunner/view/html/*)
+#asset(indigo/css/*)
 
 ************************************************************************ */
 
@@ -55,8 +57,8 @@ qx.Class.define("testrunner.view.Html", {
       qx.bom.Stylesheet.createElement('%{Styles}');
     }
     else {
-      var s1 = "http://resources.new.qooxdoo.org/stylesheets/reset.css";
-      var s2 = "http://resources.new.qooxdoo.org/stylesheets/base.css";
+      var s1 = qx.util.ResourceManager.getInstance().toUri("indigo/css/reset.css");
+      var s2 = qx.util.ResourceManager.getInstance().toUri("indigo/css/base.css");
       var s3 = qx.util.ResourceManager.getInstance().toUri("testrunner/view/html/css/testrunner.css");
       qx.bom.Stylesheet.includeFile(s1);
       qx.bom.Stylesheet.includeFile(s2);
