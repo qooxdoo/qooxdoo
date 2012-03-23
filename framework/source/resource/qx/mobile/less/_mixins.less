@@ -205,7 +205,15 @@
   }
   // From left to right with two intermediate colors
   .horizontal-four(@begin, @mid1, @mid2, @end, @stop1: 33%, @stop2: 66%) {
-    background-image: -webkit-gradient(linear, center left, center right, from(@begin), color-stop(@stop1, @mid1), color-stop(@stop2, @mid2), to(@end));
+    background-image: -webkit-gradient(
+      linear,
+      left bottom,
+      right top,
+      from(@begin),
+      color-stop(@stop1, @mid1),
+      color-stop(@stop2, @mid2),
+      to(@end)
+    );
     background-image: -webkit-linear-gradient(left, @begin, @mid1 @stop1, @mid2 @stop2, @end);
     background-image: -moz-linear-gradient(left, @begin, @mid1 @stop1, @mid2 @stop2, @end);
     background-image: linear-gradient(to right, @begin, @mid1 @stop1, @mid2 @stop2, @end);

@@ -110,7 +110,7 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__info = new qx.ui.mobile.form.TextArea().set({placeholder:"Terms of Service"});
       form.add(this.__info,"Terms of Service: ");
-      this.__info.setValue("qooxdoo Licensing Information\n=============================\n\nqooxdoo may be used under the terms of either the\n\n  * GNU Lesser General Public License (LGPL)\n    http://www.gnu.org/licenses/lgpl.html\n\nor the\n\n  * Eclipse Public License (EPL)\n    http://www.eclipse.org/org/documents/epl-v10.php\n\nAs a recipient of qooxdoo, you may choose which license to receive the code \nunder. Certain files or entire directories may not be covered by this \ndual license, but are subject to licenses compatible to both LGPL and EPL.\nLicense exceptions are explicitly declared in all relevant files or in a \n\nLICENSE file in the relevant directories.");
+      this.__info.setValue("qooxdoo Licensing Information\n=============================\n\nqooxdoo may be used under the terms of GPL. \n");
 
       this.__save = new qx.ui.mobile.form.ToggleButton();
       this.__save.addListener("changeValue", this._enableFormSubmitting, this);
