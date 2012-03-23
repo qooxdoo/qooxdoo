@@ -1,109 +1,21 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head profile="http://dublincore.org/documents/dcq-html">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  
-    <link rel="shortcut icon" href="resource/static/favicon/favicon.ico" />
-  
+<html>
+  <head>
     <title>
-      qooxdoo » Demo » Showcase
+      qooxdoo » Showcase
     </title>
-  
-    <link rel="start" href="http://qooxdoo.org/" />
-    <link rel="alternate" type="application/rss+xml" title="News" href="http://feeds2.feedburner.com/qooxdoo/news/content" />
-    <link rel="alternate" type="application/rss+xml" title="Development (SVN)" href="http://feeds2.feedburner.com/qooxdoo/svn/commits" />
-    <link rel="alternate" type="application/rss+xml" title="Wiki Changes" href="http://feeds2.feedburner.com/qooxdoo/wiki/changes" />
-
-    <link rel="stylesheet" type="text/css" media="all" href="resource/static/style/core.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="resource/static/style/layout.css" />    
-
-    <!--[if IE]>
-    <link rel="stylesheet" type="text/css" media="all" href="resource/static/style/hacks/mshtml.css" />
-    <![endif]--><!--[if lte IE 6]>
-    <link rel="stylesheet" type="text/css" media="all" href="resource/static/style/hacks/mshtml_6.css" />
-    <![endif]-->
-
-    <style type="text/css">
-      #frame {
-	      background-image: none !important;
-		  }
-
-      #showcase-wrapper {
-        margin-bottom: -20px;
-      }
-      
-      #footer {
-        margin-top: 0px !important;
-      }
-
-			#loading {
-				width: 900px;
-				height: 650px;
-				text-align: center;
-				top: 250px;
-				position: relative;
-			}
-    </style>
+    <link href="http://resources.new.qooxdoo.org/stylesheets/reset.css" rel="stylesheet" type="text/css" />
+    <link href="http://resources.new.qooxdoo.org/stylesheets/base.css" rel="stylesheet" type="text/css" />
+    <link href="resource/static/css/showcase.css" rel="stylesheet" type="text/css" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   </head>
-  <body class="default">
-    <div id="frame">
-      <div id="header">
-        <div id="headcenter">
-          <a href="http://qooxdoo.org/"><img id="logo" src="resource/static/images/logo.gif" alt="qooxdoo logo" /></a>
-          <h1 id="headline">
-            qooxdoo
-          </h1>
-          <h2 id="subline">
-            the new era of web development
-          </h2>
-        </div>
-        <div id="navigation" class="clearfix">
-          <ul>
-            <li>
-              <a href="http://qooxdoo.org/">Home</a>
-            </li>
-            <li>
-              <a href="http://qooxdoo.org/about">About</a>
-            </li>
-            <li>
-              <a href="http://news.qooxdoo.org/">News</a>
-            </li>
-            <li class="current">
-              <a href="http://demo.qooxdoo.org/">Demo</a>
-            </li>
-            <li>
-              <a href="http://qooxdoo.org/documentation">Documentation</a>
-            </li>
-            <li>
-              <a href="http://qooxdoo.org/community">Community</a>
-            </li>
-            <li>
-              <a href="http://qooxdoo.org/download">Download</a>
-            </li>
-            <li>
-              <a href="http://bugzilla.qooxdoo.org/">Bugs</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      
-      <div id="showcase-wrapper">
-	      <div id="showcase">
-	        <div id="loading">
-	          <img src="resource/showcase/images/loading66.gif">
-	        </div>
-  	    </div>
-	    </div>
-     
-      <br style="clear: both" />
-      <div id="footer">
-        <p class="designedby">&nbsp;</p>
-        <p class="copyright">
-          <a href="http://qooxdoo.org/imprint">Imprint</a> | Copyright <a href="http://www.1and1.org/">1&amp;1 Internet AG</a>
-        </p><br style="clear: both" />
-      </div>
+  <body>
+    <div id="header">
+      <h1>Showcase</h1>
+      <div id="version-label"></div>
+      <div class="decoration"></div>
     </div>
-		<script type="text/javascript" src="script/showcase.js"></script>
+    <div id="showcase" class="main"></div>
+    <script type="text/javascript" src="script/showcase.js"></script>
   </body>
 </html>

@@ -19,7 +19,7 @@
 ************************************************************************ */
 qx.Theme.define("showcase.theme.Decoration",
 {
-  extend : qx.theme.modern.Decoration,
+  extend : qx.theme.indigo.Decoration,
 
   include : [
     showcase.page.theme.calc.theme.Decoration
