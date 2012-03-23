@@ -201,7 +201,6 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param title {String} the title to set on selection dialog.
      */
     setDialogTitle : function(title) {
-      console.log(title);
       if(this.__selectionDialog){
         this.__selectionDialog.setTitle(title);
       }
