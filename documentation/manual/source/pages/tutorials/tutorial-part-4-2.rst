@@ -99,7 +99,7 @@ How to define properties was explained in :doc:`tutorial part 3 <tutorial-part-3
 Using Child Control
 ===================
 
-qooxdoo has a special system to realize combined widgets like in our case. This system is called child controls and you can find a detailed documentation in our :doc:`manual </pages/gui_toolkit/ui_develop>`.
+qooxdoo has a special system to realize combined widgets like in our case. This system is called child controls and you can find a detailed documentation in our :doc:`manual </pages/desktop/ui_develop>`.
 
 Okay, back to our problem. To achieve the requirements we need an `Image <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.basic.Image>`_ for the photo, a Label for the post and another `Label <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.basic.Label>`_ for the creation time. So three widgets, also called sub widgets, are needed for our custom widget. And last but not least the familiar `Grid <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.layout.Grid>`_ layout for layouting, but that's not created in the child control implementation. We just need to keep it in mind when adding the child control with ``_add``.
 

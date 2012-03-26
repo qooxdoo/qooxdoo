@@ -1,9 +1,9 @@
-.. _pages/gui_toolkit/ui_interaction#interaction:
+.. _pages/desktop/ui_interaction#interaction:
 
 Interaction
 ***********
 
-.. _pages/gui_toolkit/ui_interaction#register_listeners:
+.. _pages/desktop/ui_interaction#register_listeners:
 
 Register listeners
 ==================
@@ -20,7 +20,7 @@ The method is called with the event object as the first and only argument. The e
 
 Please note that event objects are automatically pooled after their dispatch. This is mainly for performance reasons; event objects are reused during the application runtime. That's why keeping references to event instances is not a good idea! If some of the data is needed later during the application runtime it is best to store the actual data and not the event object, e.g. store the coordinates instead of the mouse event object.
 
-.. _pages/gui_toolkit/ui_interaction#event_phases:
+.. _pages/desktop/ui_interaction#event_phases:
 
 Event Phases
 ============
@@ -31,7 +31,7 @@ In the capturing phase, the event is dispatched on the root widget first. Then i
 
 Most of the time only the bubbling phase is used but sometimes the capturing phase can be very useful. For example a capturing listener for "mousedown" events on the root widget is guaranteed to receive every "mousedown" event even if the target widget calls ``stopPropagation()`` on the event. Further it can be used to block events from sub widgets.
 
-.. _pages/gui_toolkit/ui_interaction#mouse_events:
+.. _pages/desktop/ui_interaction#mouse_events:
 
 Mouse Events
 ============
@@ -44,7 +44,7 @@ During every mouse event it is possible to check the status of modifier keys thr
 
 See the `API documentation of the MouseEvent <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.event.type.Mouse>`_ for a full list of all available methods.
 
-.. _pages/gui_toolkit/ui_interaction#event_capturing:
+.. _pages/desktop/ui_interaction#event_capturing:
 
 Event Capturing
 ===============
@@ -55,7 +55,7 @@ If a widget is a capturing widget, all mouse events will be dispatched on this w
 
 Internally, qooxdoo uses mouse capturing in menus, split panes or sliders for example.
 
-.. _pages/gui_toolkit/ui_interaction#keyboard_support:
+.. _pages/desktop/ui_interaction#keyboard_support:
 
 Keyboard Support
 ================
@@ -66,7 +66,7 @@ All the typical key sequence events ``keyup``, ``keydown`` and ``keypress`` supp
 
 To handle character inputs e.g. on text boxes, there is a special ``keyinput`` event which has nice unified accessors, ``getChar()`` and ``getCharCode()``, to detect the pressed character. This even automatically respects the effects modifier keys have, supporting e.g. German umlauts. The API lists all available methods of the `KeyInput <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.event.type.KeyInput>`_ event.
 
-.. _pages/gui_toolkit/ui_interaction#working_with_commands:
+.. _pages/desktop/ui_interaction#working_with_commands:
 
 Working with Commands
 =====================
@@ -82,7 +82,7 @@ Creating new commands is as easy as it can be. A shortcut can simply be defined 
 
 The command can easily be attached to many types of Buttons etc. Some of them, like the ``MenuButtons``, automatically display the configured shortcut as well. As seen above, the Commands also make use of the key identifiers.
 
-.. _pages/gui_toolkit/ui_interaction#focus_handling:
+.. _pages/desktop/ui_interaction#focus_handling:
 
 Focus Handling
 ==============

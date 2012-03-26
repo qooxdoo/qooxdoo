@@ -1,18 +1,18 @@
-.. _pages/gui_toolkit/ui_inline#inline_widgets:
+.. _pages/desktop/ui_inline#inline_widgets:
 
 Inline Widgets
 **************
 
 This page describes how you can use qooxdoo widgets inside HTML-dominated pages. This use case is different from creating a regular, "standalone" qooxdoo application.
 
-.. _pages/gui_toolkit/ui_inline#target_audience:
+.. _pages/desktop/ui_inline#target_audience:
 
 Target Audience
 ===============
 
 Integrating qooxdoo widgets into existing HTML pages could be interesting to all users who already have (many) existing pages, often some kind of "portal",  and therefore don't want to transform these into a standalone rich Internet application (RIA). 
 
-.. _pages/gui_toolkit/ui_inline#online_demos:
+.. _pages/desktop/ui_inline#online_demos:
 
 Online Demos
 ============
@@ -24,7 +24,7 @@ Take a look at the online demos to see the use of inline widgets in action.
 * `Dynamic resize for Inline <http://demo.qooxdoo.org/%{version}/demobrowser/demo/root/Inline_Dynamic_Resize.html>`_
 * `Inline window <http://demo.qooxdoo.org/%{version}/demobrowser/demo/root/Inline_Window.html>`_
 
-.. _pages/gui_toolkit/ui_inline#setup_an_inline_application:
+.. _pages/desktop/ui_inline#setup_an_inline_application:
 
 Set Up An Inline Application
 ============================
@@ -37,7 +37,7 @@ An inline application is set up by using the ``create-application`` script descr
 
 Once executed you get a skeleton application which is ready-to-use to develop an inline application. The skeleton also demostrates the different integration approaches which are described in the next section.
 
-.. _pages/gui_toolkit/ui_inline#ways_of_integration:
+.. _pages/desktop/ui_inline#ways_of_integration:
 
 Ways of Integration
 ===================
@@ -68,7 +68,7 @@ Instead of using ``qx.application.Standalone`` as a base application class you n
     }
   });
 
-.. _pages/gui_toolkit/ui_inline#absolute_positioning:
+.. _pages/desktop/ui_inline#absolute_positioning:
 
 Absolute Positioning
 --------------------
@@ -100,7 +100,7 @@ Adding a widget to the page without regarding the page flow is a no-brainer. Jus
     }
   });
 
-.. _pages/gui_toolkit/ui_inline#page_flow:
+.. _pages/desktop/ui_inline#page_flow:
 
 Page Flow
 ---------

@@ -26,7 +26,7 @@ Selection Interfaces
 
 |Selection API Interfaces|
 
-.. |Selection API Interfaces| image:: /pages/gui_toolkit/new_selection_api.png
+.. |Selection API Interfaces| image:: /pages/desktop/new_selection_api.png
 
 .. _pages/ui_selection#event:
 

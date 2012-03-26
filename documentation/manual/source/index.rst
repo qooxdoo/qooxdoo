@@ -67,9 +67,9 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 
 +----------+-------------------------------------------------------------------------------------+
 ||tutorial|| **Desktop**                                                                         |
-|          |   * :doc:`Introduction  <pages/gui_toolkit/ui_overview>`                            |
+|          |   * :doc:`Introduction  <pages/desktop/ui_overview>`                                |
 |          |   * :doc:`Tutorial      <pages/tutorials/tutorial-part-1>`                          |
-|          |   * :doc:`Reference     <pages/gui_toolkit/ui_widgets>`                             |
+|          |   * :doc:`Reference     <pages/desktop/ui_widgets>`                                 |
 +----------+-------------------------------------------------------------------------------------+
 
 .. rst-class:: toc
