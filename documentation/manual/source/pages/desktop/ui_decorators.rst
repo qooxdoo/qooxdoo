@@ -1,9 +1,9 @@
-.. _pages/gui_toolkit/ui_decorators#decorators:
+.. _pages/desktop/ui_decorators#decorators:
 
 Decorators
 **********
 
-.. _pages/gui_toolkit/ui_decorators#introduction:
+.. _pages/desktop/ui_decorators#introduction:
 
 Introduction
 ============
@@ -12,7 +12,7 @@ Decorations are used to style widgets. The idea is to have an independent layer 
 
 Decorations are used for both, the ``shadow`` and the ``decorator`` property. They could be applied separately or together. There is no dependency between them.
 
-.. _pages/gui_toolkit/ui_decorators#using_decorators:
+.. _pages/desktop/ui_decorators#using_decorators:
 
 Using Decorators
 ================
@@ -22,7 +22,7 @@ Generally all decorators used should be part of the selected decorator theme. Th
 It is also regarded as bad style to make use of so-named inline decorators which are created by hand as part of a function call. The reason for this is that generally decorators defined by the theme may be used in multiple places. This means that widgets and application code should not directly deal with decorator instances.
 
 
-.. _pages/gui_toolkit/ui_decorators#decoration_theme:
+.. _pages/desktop/ui_decorators#decoration_theme:
 
 Decoration Theme
 ================
@@ -83,7 +83,7 @@ Sometimes it is very handy to change change only little details about the decora
 
 As you can see here, we include the previously defined decorator and override the backgroundColor property. Thats all you need to do!
 
-.. _pages/gui_toolkit/ui_decorators#custom_decorators:
+.. _pages/desktop/ui_decorators#custom_decorators:
 
 Custom Decorators
 =================
@@ -114,7 +114,7 @@ Additionall to these explicit decorators, qooxdoo supplies a set of Mixins which
 
 As you may have guessed, the last three mixins do not work cross browser due to the fact that they rely on CSS propertes not available in all browsers. If you want more details, take a look at the `API documentations of the mixins <http://demo.qooxdoo.org/current/apiviewer/#qx.ui.decoration>`_.
 
-.. _pages/gui_toolkit/ui_decorators#writing_decorators:
+.. _pages/desktop/ui_decorators#writing_decorators:
 
 Writing Decorators
 ==================
@@ -132,7 +132,7 @@ One thing to additionally respect is that ``resize`` and ``tint`` should be as f
 Each decorator configuration means exactly one decorator instance (created with the first usage). Even when dozens of widgets use the decorator only one instance is used. To cache the markup is a good way to improve the initial time to create new element instances. These configured elements are reused e.g. a hover effect which moves from "Button 1" to "Button 2" uses the same DOM element when reaching "Button 2" as it has used in "Button 1". This way the number of DOM elements needed is reduced dramatically. Generally each decorator instance may be used to create dozens of these elements, but after some time enough elements may have been created to fulfill all further needs for the same styling.
 
 
-.. _pages/gui_toolkit/ui_decorators#writing_decorator_mixins:
+.. _pages/desktop/ui_decorators#writing_decorator_mixins:
 
 Writing Decorator Mixins
 ========================

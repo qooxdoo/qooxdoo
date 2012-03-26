@@ -37,7 +37,7 @@
   .. toctree::
     :maxdepth: 3
 
-    pages/gui_toolkit
+    pages/desktop
 
 .. mobile
 
