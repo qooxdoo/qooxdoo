@@ -456,7 +456,13 @@ qx.Class.define("qx.util.fsm.State",
       }
 
       // Terminate the try block for function invocations
-      func += "}" + "catch(ex)" + "{" + "  fsm.debug(ex);" + "}";
+      func +=
+        "}" + 
+        "catch(ex)" + 
+        "{" +
+        "  fsm.debug(ex + ' (objName=' + objName + ', ' + " +
+        "            'obj=' + fsm.getObject(objName) + ')');" +
+        "}";
 
       // We've now built the entire body of a function that implements calls
       // to each of the requested automatic actions.  Create and return the
