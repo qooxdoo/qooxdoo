@@ -27,7 +27,7 @@
   .. toctree::
     :maxdepth: 3
 
-    pages/low_level.rst
+    pages/website.rst
 
 
 .. gui

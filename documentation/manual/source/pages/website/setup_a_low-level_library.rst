@@ -3,7 +3,7 @@
 Setting up a low-level library
 *******************************
 
-A low-level library is interesting for all those who like to use the :doc:`low-level APIs <low_level_apis>` of qooxdoo. Such a library consists of a pre-build javascript file that contains only the low-level classes of qooxdoo. For instance, no GUI toolkit (widgets, layouts, theming) is included.
+A low-level library is interesting for all those who like to use the :doc:`low-level APIs <website_apis>` of qooxdoo. Such a library consists of a pre-build javascript file that contains only the low-level classes of qooxdoo. For instance, no GUI toolkit (widgets, layouts, theming) is included.
 
 .. _pages/setup_a_low-level_library#create_a_low-level_skeleton:
 
