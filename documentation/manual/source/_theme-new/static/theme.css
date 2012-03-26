@@ -37,6 +37,10 @@
   max-width: 100%;
 }
 
+#content table.toc {
+  font-size: inherit;
+}
+
 a.reference.internal em {
   font-style: normal;
 }

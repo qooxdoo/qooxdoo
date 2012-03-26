@@ -44,6 +44,7 @@ qooxdoo Manual
 
 Welcome to the manual of qooxdoo |version|. Here are some highlights of what you can find here. The main entries are the qooxdoo components *Core*, *Website*, *Desktop*, *Mobile* and *Server*. For a full overview proceed to the :doc:`table of contents <toc>`.
 
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 | |o_star| | **Getting Started**                                                                 |
@@ -51,6 +52,8 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 |          |   * :ref:`Download and Installation<pages/getting_started/setup#setup>`             |
 |          |   * :ref:`"Hello World" <pages/getting_started/helloworld#create_your_application>` |
 +----------+-------------------------------------------------------------------------------------+
+
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 ||g_book|  | **Core**                                                                            |
@@ -60,6 +63,7 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 |          |   * :doc:`Environment   <pages/core/environment>`                                   |
 +----------+-------------------------------------------------------------------------------------+
 
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 ||tutorial|| **Desktop**                                                                         |
@@ -68,6 +72,7 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 |          |   * :doc:`Reference     <pages/gui_toolkit/ui_widgets>`                             |
 +----------+-------------------------------------------------------------------------------------+
 
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 ||g_write| | **Mobile**                                                                          |
@@ -76,6 +81,7 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 |          |   * :doc:`Reference     <pages/mobile/mobile_overview>`                             |
 +----------+-------------------------------------------------------------------------------------+
 
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 ||o_folder|| **Website**                                                                         |
@@ -84,6 +90,7 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 |          |   * :doc:`Reference        <pages/website/overview>`                                |
 +----------+-------------------------------------------------------------------------------------+
 
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 ||g_faq|   | **Server**                                                                          |
@@ -92,6 +99,7 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 |          |   * :doc:`Reference       <pages/server/overview>`                                  |
 +----------+-------------------------------------------------------------------------------------+
 
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 ||g_faq|   | **Tooling**                                                                         |
@@ -100,6 +108,7 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 |          |   * :ref:`Reference    <pages/references#tooling>`                                  |
 +----------+-------------------------------------------------------------------------------------+
 
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 | |o_save| | **References**                                                                      |
