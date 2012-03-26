@@ -460,8 +460,8 @@ qx.Class.define("qx.util.fsm.State",
         "}" + 
         "catch(ex)" + 
         "{" +
-        "  fsm.debug(ex + ' (objName=' + objName + ', ' + " +
-        "            'obj=' + fsm.getObject(objName) + ')');" +
+        "  fsm.warn(ex + ' (objName=' + objName + ', ' + " +
+        "           'obj=' + fsm.getObject(objName) + ')');" +
         "}";
 
       // We've now built the entire body of a function that implements calls
