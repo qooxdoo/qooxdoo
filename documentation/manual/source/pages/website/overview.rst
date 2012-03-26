@@ -32,7 +32,7 @@ Communication
 
 Pulling data from remote sources is also one of the most common use cases and usually the next logical step when it comes to improving your existing JavaScript powered website / application. However, you expect that the underlying framework is providing you a nice abstracted cross-browser solution you can easily use. qooxdoo offers you multiple implementations to pull data. 
 
-The first option is to use `XHR <http://en.wikipedia.org/wiki/XHR>`__. This browser API is widely used and qooxdoo comes with :ref:`a wrapper of this API <pages/communication#website_requests>` which hides away inconsistencies and works around bugs. However, to gain more comfort the recommended way is to use the :doc:`Higher-level requests </pages/communication/request_io>`.
+The first option is to use `XHR <http://en.wikipedia.org/wiki/XHR>`__. This browser API is widely used and qooxdoo comes with :ref:`a wrapper of this API <pages/communication#low_level_requests>` which hides away inconsistencies and works around bugs. However, to gain more comfort the recommended way is to use the :doc:`Higher-level requests </pages/communication/request_io>`.
 
 The second option is to use `JSONP <http://en.wikipedia.org/wiki/JSONP>`__. With that approach you can overcome the `same orgin policy <http://en.wikipedia.org/wiki/Same_origin_policy>`__ and can talk to any server which is offering a JSON API like e.g `Twitter <https://dev.twitter.com/>`__ does. qooxdoo is offering a :doc:`nice and powerful API </pages/communication/request_io>` with the same interface as the XHR transport to let you easily adapt any JSONP API out there.
 

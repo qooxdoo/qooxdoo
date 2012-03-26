@@ -3,19 +3,6 @@
 Overview
 ********
 
-.. _pages/ui_overview#server:
-
-Server
-======
-
-Developing a qooxdoo application does not require a server. Its static application contents (initial html file, JavaScript files, images, etc.) may just be loaded from your local file system.
-
-Of course, for the actual deployment of your final app you would use a web server to deliver the (static) contents. For developing a qooxdoo app it is not a prerequisite to setup a web server, so you can start right away on your local computer. 
-
-Any practical qooxdoo client application will communicate with a server, for instance to retrieve and store certain application data, to do credit card validation and so on. qooxdoo includes an advanced :doc:`RPC mechanism </pages/communication/rpc>` for direct calls to server-side methods. It allows you to write true client/server applications without having to worry about the communication details. qooxdoo offers such *optional* `RPC backends <http://qooxdoo.org/contrib/project#backend>`_ for Java, PHP, Perl and Python. If you are missing your favorite backend language, you can even create your own RPC server by following a generic :doc:`server writer guide </pages/communication/rpc_server_writer_guide>`.
-
-If you already have an existing backend that serves HTTP (or HTTPS) requests and you do not want to use those optional RPC implementations, that's fine. It should be easy to integrate your qooxdoo app with your existing backend using traditional AJAX calls.
-
 .. _pages/ui_overview#widgets:
 
 Widgets
@@ -72,4 +59,17 @@ There are different applications which could be used as a starting point for a c
 * `Standalone <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Standalone>`_: Uses the ``Application`` root to build full blown standalone qooxdoo applications
 * `Inline <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Inline>`__: Uses the ``Page`` root to build traditional web page based application which are embedded into isles in the classic HTML page.
 * `Native <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Native>`_: This class is for applications that do not involve qooxdoo's GUI toolkit. Typically they make only use of the IO ("Ajax") and BOM functionality (e.g. to manipulate the existing DOM).
+
+.. _pages/ui_overview#communication:
+
+Communication
+=============
+
+Developing a qooxdoo application does not require a server. Its static application contents (initial html file, JavaScript files, images, etc.) may just be loaded from your local file system.
+
+Of course, for the actual deployment of your final app you would use a web server to deliver the (static) contents. For developing a qooxdoo app it is not a prerequisite to setup a web server, so you can start right away on your local computer. 
+
+Any practical qooxdoo client application will communicate with a server, for instance to retrieve and store certain application data, to do credit card validation and so on. qooxdoo includes an advanced :doc:`RPC mechanism </pages/communication/rpc>` for direct calls to server-side methods. It allows you to write true client/server applications without having to worry about the communication details. qooxdoo offers such *optional* `RPC backends <http://qooxdoo.org/contrib/project#backend>`_ for Java, PHP, Perl and Python. If you are missing your favorite backend language, you can even create your own RPC server by following a generic :doc:`server writer guide </pages/communication/rpc_server_writer_guide>`.
+
+If you already have an existing backend that serves HTTP (or HTTPS) requests and you do not want to use those optional RPC implementations, that's fine. It should be easy to integrate your qooxdoo app with your existing backend using traditional AJAX calls.
 
