@@ -79,9 +79,9 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 
 +----------+-------------------------------------------------------------------------------------+
 ||o_folder|| **Website**                                                                         |
-|          |   * :doc:`Introduction     <pages/website/overview>`                              |
-|          |   * :doc:`Tutorial         </pages/website/tutorial_web_developers>`              |
-|          |   * :doc:`Reference        <pages/website/overview>`                              |
+|          |   * :doc:`Introduction     <pages/website/overview>`                                |
+|          |   * :doc:`Tutorial         </pages/website/tutorial_web_developers>`                |
+|          |   * :doc:`Reference        <pages/website/overview>`                                |
 +----------+-------------------------------------------------------------------------------------+
 
 
