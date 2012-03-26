@@ -14,7 +14,7 @@ Here is a detailed list of supported platforms for the various qooxdoo component
 Desktop Browser
 ================
 
-This section applies to you if you want to work with the :doc:`Website </pages/low_level/overview>` or :doc:`Desktop </pages/gui_toolkit/ui_overview>` components of qooxdoo. An application built with those components runs in all major web browsers - if you use qooxdoo's GUI widgets with identical look & feel:
+This section applies to you if you want to work with the :doc:`Website </pages/website/overview>` or :doc:`Desktop </pages/gui_toolkit/ui_overview>` components of qooxdoo. An application built with those components runs in all major web browsers - if you use qooxdoo's GUI widgets with identical look & feel:
 
 .. list-table::
 
