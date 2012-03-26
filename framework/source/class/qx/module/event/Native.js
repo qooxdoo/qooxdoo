@@ -22,6 +22,9 @@ qx.Bootstrap.define("qx.module.event.Native", {
     },
     
     normalize : function(event, element) {
+      if (!event) {
+        return event;
+      }
       var fwdMethods = qx.module.event.Native.FORWARD_METHODS;
       for (var i=0, l=fwdMethods.length; i<l; i++) {
         event[fwdMethods[i]] = qx.lang.Function.curry(qx.bom.Event[fwdMethods[i]], event);

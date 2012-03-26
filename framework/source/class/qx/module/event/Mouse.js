@@ -131,6 +131,9 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
     
     normalize : function(event)
     {
+      if (!event) {
+        return event;
+      }
       var bindMethods = qx.module.event.Mouse.BIND_METHODS;
       for (var i=0, l=bindMethods.length; i<l; i++) {
         if (typeof event[bindMethods[i]] != "function") { 
