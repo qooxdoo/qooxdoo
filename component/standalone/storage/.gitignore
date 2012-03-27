@@ -1,2 +1,7 @@
-/storage.js
-/storage-require.js
+/api/
+/build/
+/inspector/
+/simulator/
+/test/
+/source/script/
+/script/

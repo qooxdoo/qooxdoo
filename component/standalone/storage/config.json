@@ -23,24 +23,13 @@
   "let" :
   {
     "APPLICATION"  : "library",
-    "QOOXDOO_PATH" : "../..",
+    "QOOXDOO_PATH" : "../../..",
+    "BUILD_PATH"   : "script",
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
   },
 
   "jobs" :
   {
-    "distclean" :
-    {
-      "clean-files" :
-      {
-        "Deleting storage libs" :
-        [
-          "${ROOT}/storage.js",
-          "${ROOT}/storage-require.js"
-        ]
-      }
-    },
-
     "storage-common" :
     {
       "extend" : ["cache"],
@@ -74,7 +63,7 @@
       {
         "paths" :
         {
-          "file" : "storage.js",
+          "file" : "${BUILD_PATH}/storage.js",
           "app-root" : ".",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
         },
@@ -95,7 +84,7 @@
       {
         "paths" :
         {
-          "file" : "storage.js"
+          "file" : "${BUILD_PATH}/storage.js"
         },
         "code" :
         {
@@ -122,7 +111,7 @@
       {
         "paths" :
         {
-          "file" : "storage.js"
+          "file" : "${BUILD_PATH}/storage.js"
         }
       },
 
@@ -162,7 +151,7 @@
       {
         "paths" :
         {
-          "file" : "storage-require.js",
+          "file" : "${BUILD_PATH}/storage-require.js",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/require.loader.tmpl.js"
         }
       }
