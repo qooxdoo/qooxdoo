@@ -948,13 +948,21 @@ def ifix(self, left):
 def pfix(self):
     arr = symbol("array")(token.get("line"), token.get("column"))
     if token.id != "]":
+        is_after_comma = 0
         while True:
             if token.id == "]":
+                if is_after_comma:  # preserve dangling comma (bug#6210)
+                    arr.childappend(symbol("(empty)")())
                 break
-            arr.childappend(expression())
+            elif token.id == ",":  # elision
+                arr.childappend(symbol("(empty)")())
+            else:
+                arr.childappend(expression())
             if token.id != ",":
                 break
-            advance(",")
+            else:
+                is_after_comma = 1
+                advance(",")
     advance("]")
     return arr
 
@@ -993,9 +1001,13 @@ symbol("}")
 def pfix(self):
     mmap = symbol("map")(token.get("line"), token.get("column"))
     if token.id != "}":
+        is_after_comma = 0
         while True:
             if token.id == "}":
+                if is_after_comma:  # prevent dangling comma '...,}' (bug#6210)
+                    raise SyntaxException("Illegal dangling comma in map (pos %r)" % ((token.get("line"),token.get("column")),))
                 break
+            is_after_comma = 0
             # key
             keyname = expression()
             key = symbol("keyvalue")(token.get("line"), token.get("column"))
@@ -1011,7 +1023,9 @@ def pfix(self):
             key.childappend(val)  # <value> is a child of <keyvalue>
             if token.id != ",":
                 break
-            advance(",")
+            else:
+                is_after_comma = 1
+                advance(",")
     advance("}")
     return mmap
 
