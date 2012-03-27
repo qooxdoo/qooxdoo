@@ -67,7 +67,7 @@ qx.Class.define("testrunner.view.Html", {
     
     this.__nativeProfiling = (qx.core.Environment.get("testrunner.performance") &&
       qx.Class.hasMixin(this.constructor, testrunner.view.MPerformance) &&
-      console && console.profile);
+      typeof console != "undefined" && console.profile);
 
     this._getHeader().appendTo("body");
     $('<div id="main"></div>').appendTo("body");
