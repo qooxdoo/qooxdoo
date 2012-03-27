@@ -14,7 +14,8 @@
 
   "export" :
   [
-    "build-q",
+    //"build-q", Uncompressed build not available until #6265 is fixed
+    "build-q-min",
     "source-q",
     "test-source-q",
     "test-build-q",
@@ -82,6 +83,30 @@
     {
       "extend" : ["build-script"],
       
+      "let" :
+      {
+        "OPTIMIZE" : ["variants"]
+      },
+      
+      "compile-options" :
+      {
+        
+        "code" : {
+          "format" : true
+        },
+        
+        "paths"  :
+        {
+          "file" : "q.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
+        }
+      }
+    },
+    
+    "build-q-min" :
+    {
+      "extend" : ["build-q"],
+      
       "compile-options" :
       {
         "code" : {
@@ -89,8 +114,7 @@
         },
         "paths"  :
         {
-          "file" : "q.js",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
+          "file" : "q.min.js"
         }
       }
     },
