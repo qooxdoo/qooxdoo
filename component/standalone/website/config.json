@@ -49,6 +49,11 @@
     ]
   },
 
+  "config-warnings" : 
+  {
+    "job-shadowing" : [ "common" ]
+  },
+
   "jobs" :
   {
     "common" :
@@ -59,9 +64,16 @@
       {
         "qx.version"     : "${QOOXDOO_VERSION}",
         "qx.debug" : false
-      }
+      },
+
+      "=library" : 
+      [
+        {
+           "manifest": "${QOOXDOO_PATH}/framework/Manifest.json"
+        }
+      ]
     },
-    
+
     "log-deps" :
     {
       "extend" : ["build-q"],
@@ -212,7 +224,7 @@
     
     "gen-css" :
     {
-      "extend" : ["testrunner-portable::gen-css"],
+      "extend" : ["testrunner-portable::gen-css", "cache"],
       
       "let" :
       {
