@@ -112,7 +112,7 @@ Files = {
     "./application/demobrowser/source/demo/welcome.html" : [
         r'var qxversion = "(%s)"'    % qxversion_regexp,
         ],
-    "./tool/admin/release/release-matrix-utils.js"  : [
+    "./tool/admin/release/test_plans/release-matrix-utils.js"  : [
         r'var qxversion = "(%s)"'    % qxversion_regexp
         ],
 }
