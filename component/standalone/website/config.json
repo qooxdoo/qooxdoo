@@ -1,85 +1,221 @@
 {
-  "name"    : "website",
+  "name"    : "library",
 
   "include" :
   [
     {
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    },
+    {
+      "path" : "${QOOXDOO_PATH}/component/testrunner/portable.json",
+      "as" : "testrunner-portable"
     }
   ],
 
   "export" :
   [
-    "api",
-    "api-data",
-    "build",
-    "clean",
-    "distclean",
-    "fix",
-    "info",
-    "inspector",
-    "lint",
-    "migration",
-    "pretty",
-    "profiling",
-    "source",
-    "source-all",
-    "source-hybrid",    
-    "simulation-build",
-    "simulation-run",
-    "test",
-    "test-source",
-    "translation"
+    //"build-q", Uncompressed build not available until #6265 is fixed
+    "build-q-min",
+    "source-q",
+    "test-source-q",
+    "test-build-q",
+    "log-deps"
   ],
-  
-  "default-job" : "source-hybrid",
+
 
   "let" :
   {
-    "APPLICATION"  : "website",
-    "QOOXDOO_PATH" : "../../..",
-    "QXTHEME"      : "website.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "APPLICATION"  : "library",
+    "QOOXDOO_PATH" : "..",
+    "API_EXCLUDE"  : ["qx.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "ROOT"         : "."
+    "ROOT"         : ".",
+    "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
+    "Q_INCLUDES" : [
+      "qx.module.Css",
+      "qx.module.Attribute",
+      "qx.module.Manipulating",
+      "qx.module.Animation",
+      "qx.module.Traversing",
+      "qx.module.Event",
+      "qx.module.event.Native",
+      "qx.module.event.Mouse",
+      "qx.module.Template",
+      "qx.module.Polyfill",
+      "q"
+    ]
   },
-
-  // You only need to edit the remainder of this file, if you want to customize
-  // specific jobs, or add own job definitions.
 
   "jobs" :
   {
-    // Uncomment the following entry to add a contrib or library to your
-    // project; make sure to adapt the path to the Manifest.json; if you are
-    // using a contrib: library, it will be downloaded into the path specified
-    // by the 'cache/downloads' config key
-    /*
-    "libraries" : 
+    "common" :
     {
-      "library" :
-      [
-        {
-          "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json"
-        }
-      ]
-    }
-    */
-
-    // If you want to tweak a job setting, see the following sample where
-    // the "format" feature of the "build-script" job is overridden.
-    // To see a list of available jobs, invoke 'generate.py x'.
-	/*
-    ,"build-script" :
-    {
-      "compile-options" : 
+      "=include" : "${Q_INCLUDES}",
+      
+      "environment" :
       {
-        "code" :
-        {
-          "format" : false
+        "qx.version"     : "2.0",
+        "qx.debug" : false
+      }
+    },
+    
+    "log-deps" :
+    {
+      "extend" : ["build-q"],
+    
+      "log" : 
+      {
+        "dependencies" : {
+          "dot" : {
+            "root" : "qx.module.Template",
+            "compiled-class-size" : false
+            },
+          "type"   : "using",
+          "phase" : null,
+          "include-transitive-load-deps" : true,
+          "format" : "dot"
         }
       }
+    },
+    
+    "build-q" :
+    {
+      "extend" : ["build-script"],
+      
+      "let" :
+      {
+        "OPTIMIZE" : ["variants"]
+      },
+      
+      "compile-options" :
+      {
+        
+        "code" : {
+          "format" : true
+        },
+        
+        "paths"  :
+        {
+          "file" : "q.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
+        }
+      }
+    },
+    
+    "build-q-min" :
+    {
+      "extend" : ["build-q"],
+      
+      "compile-options" :
+      {
+        "code" : {
+          "=optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants"]
+        },
+        "paths"  :
+        {
+          "file" : "q.min.js"
+        }
+      }
+    },
+    
+    "source-q" :
+    {
+      "extend" : ["source-script"],
+      
+      "let" :
+      {
+        "OPTIMIZE" : []
+      },
+      
+      "compile-options" :
+      {
+        "code" : { "except" : [ "*" ] },
+        
+        "paths" :
+        {
+          "file" : "q-source.js",
+          "app-root" : "",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.source.tmpl.js"
+          
+        }
+      }
+    },
+    
+    "test-source-q" :
+    {
+      "run" : [
+        "test-source-script"
+      ]
+    },
+    
+    "test-source-script" :
+    {
+      "extend" : ["testrunner-portable::source"],
+      
+      "desc" : "generates a combined source version of q and the portable test runner",
+      
+      "let" :
+      {
+        "TESTRUNNER_ORIGIN" : "external"
+      },
+      
+      "environment" :
+      {
+        "qx.debug" : true
+      },
+      
+      "include" : "${Q_INCLUDES}",
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "q-test-source.js",
+          "app-root" : "."
+        }
+      }
+    },
+    
+    "test-build-q" :
+    {
+      "run" : [
+        "test-build-script",
+        "gen-css"
+      ]
+    },
+    
+    "test-build-script" :
+    {
+      "extend" : ["testrunner-portable::build-script"],
+      
+      "desc" : "generates a combined build version of q and the portable test runner",
+      
+      "let" :
+      {
+        "TESTRUNNER_ORIGIN" : "external"
+      },
+      
+      "include" : "${Q_INCLUDES}",
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "q-test.js",
+          "app-root" : "."
+        }
+      }
+    },
+    
+    "gen-css" :
+    {
+      "extend" : ["testrunner-portable::gen-css"],
+      
+      "let" :
+      {
+        "BUILD_SCRIPT_FILE" : "q-test.js"
+      }
     }
-    */
   }
 }

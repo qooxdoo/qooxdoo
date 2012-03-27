@@ -3,5 +3,6 @@
 /build/
 /inspector/
 /simulator/
-/test/
+/test/script/
 /source/script/
+/script/
