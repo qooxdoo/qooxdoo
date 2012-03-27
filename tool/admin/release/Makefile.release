@@ -76,7 +76,6 @@ RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = todo feedreader portal mobileshowcase playground showcase widgetbrowser featureconfigeditor demobrowser
-#APPLICATIONS = todo feedreader portal mobileshowcase playground showcase widgetbrowser featureconfigeditor
 COMPONENTS = apiviewer testrunner inspector storage server
 FRAMEWORK_TARGETS = api test
 
@@ -473,7 +472,6 @@ publish-backup:
 	@ssh $(STAGING_HOST) "$(CMD_SYNC_BACKUP) /var/www/qooxdoo/demo/devel /var/www/qooxdoo/demo/0.0.devel_backlog/"
 
 publish-staging: publish-check publish-backup publish-index publish-apps publish-docs
-#publish-staging: publish-check publish-index publish-apps publish-docs
 
 publish: publish-staging publish-production
 
