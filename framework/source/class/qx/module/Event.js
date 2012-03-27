@@ -26,7 +26,7 @@ qx.Bootstrap.define("qx.module.Event", {
             }
             listener.apply(ctx, [event]);
           }
-          
+          bound.original = listener;
           qx.bom.Event.addNativeListener(el, type, bound);
         }
         // create an emitter if necessary
@@ -35,9 +35,10 @@ qx.Bootstrap.define("qx.module.Event", {
         }
         var id = el.__emitter.on(type, bound || listener, ctx);
         if (id && bound) {
-          el.__bound ? el.__bound[id] = bound : el.__bound = {
-            id : bound
-          };
+          if (!el.__bound) {
+            el.__bound = {};
+          }
+          el.__bound[id] = bound;
         }
       };
       return this;
@@ -47,15 +48,17 @@ qx.Bootstrap.define("qx.module.Event", {
     off : function(type, listener, ctx) {
       for (var j=0; j < this.length; j++) {
         var el = this[j];
-        var id;
-        if (el.__emitter) {
-          id = el.__emitter.off(type, listener, ctx);
+        if (!el.__bound) {
+          el.__emitter.off(type, listener, ctx);
         }
-        // remove the native listener
-        if (qx.bom.Event.supportsEvent(el, type)) {
-          qx.bom.Event.removeNativeListener(el, type, el.__bound);
-          if (id) {
-            delete el.__bound[id];
+        else {
+          for (var id in el.__bound) {
+            if (el.__bound[id].original == listener) {
+              el.__emitter.off(type, el.__bound[id], ctx);
+              // remove the native listener
+              qx.bom.Event.removeNativeListener(el, type, el.__bound[id]);
+              delete el.__bound[id];
+            }
           }
         }
       };

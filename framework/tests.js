@@ -967,16 +967,18 @@ testrunner.define({
       return event;
     });
     
-    var normalizer = function(event) {
+    var normalizer1 = function(event) {
       event.affe += " hugo";
       return event;
     };
-    this.__registerNormalization("focus", normalizer);
+    this.__registerNormalization("focus", normalizer1);
     
-    this.__registerNormalization("focus", function(event) {
+    var normalizer2 = function(event) {
       event.affe += " affe";
       return event;
-    });
+    };
+    
+    this.__registerNormalization("focus", normalizer2);
     
     var obj = {
       normalized : false
@@ -991,7 +993,7 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     test.on("focus", callback, obj);
     
-    q.unregisterEventNormalization("focus", normalizer);
+    q.unregisterEventNormalization("focus", normalizer1);
     
     var that = this;
     window.setTimeout(function() {
@@ -1000,6 +1002,7 @@ testrunner.define({
     
     this.wait(function() {
       this.assert(obj.normalized, "Event was not manipulated!");
+      q.unregisterEventNormalization("focus", normalizer2);
     }, 200, this);
   },
   
@@ -1010,10 +1013,11 @@ testrunner.define({
   },
   
   testNormalizationWildcard : function() {
-    this.__registerNormalization("*", function(event) {
+    var normalizer = function(event) {
       event.affe = "juhu";
       return event;
-    });
+    };
+    this.__registerNormalization("*", normalizer);
     
     var obj1, obj2;
     obj1 = obj2 = {
@@ -1040,6 +1044,7 @@ testrunner.define({
     this.wait(function() {
       this.assert(obj1.normalized, "Event was not manipulated!");
       this.assert(obj2.normalized, "Event was not manipulated!");
+      q.unregisterEventNormalization("*", normalizer);
     }, 200, this);
   },
   
