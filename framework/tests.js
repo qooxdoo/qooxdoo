@@ -8,6 +8,17 @@ testrunner.globalTeardown = function() {
 };
 
 testrunner.define({
+  classname: "Basic",
+  
+  testDependencies : function()
+  {
+    this.assertUndefined(qx.Class);
+    this.assertUndefined(qx.Interface);
+    this.assertUndefined(qx.Mixin);
+  }
+});
+
+testrunner.define({
   classname: "Manipulating",
 
   setUp : testrunner.globalSetup,
