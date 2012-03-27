@@ -59,7 +59,7 @@ img{
 }
 
 h1{
-  font-size: 22px;
+  font-size: 18px;
   margin-bottom: 20px;
   color: #134275;
 }
@@ -86,14 +86,25 @@ p{
 ul ul{
   margin-top: 20px;
 }
+
+.block{
+  width: 300px;
+  margin: 16px 40px;
+  margin-top: 40px;
+  float: left;
+}
+
   </style>
 </head>
 <body>
   <div id="demoHead">qooxdoo<span> - Universal JavaScript Framework</span></div>
 
+  <!--
   <div id="content" style="position:absolute;top:0px;left:0px">
+  -->
+  <div class="block">
 
-    <h1>Demo Applications</h1>
+    <h1>Desktop</h1>
 
     <ul>
       <li>
@@ -122,13 +133,26 @@ ul ul{
       </li>
       <li>
         <h2>Feed Reader</h2>
-        <p>A hybrid application for displaying RSS feeds, available as a RIA (all browsers) and a mobile application (Smartphones: Android 1.6+, iOS; Desktop: Safari 5, Chrome 10+).</p>
-        <span class="local">RIA: <a href="feedreader/build/index.html"><b>Build</b></a> | <a href="feedreader/source/index.html">Source (Developer)</a></span>
+        <p>A hybrid application for displaying RSS feeds, available as a RIA, a website-like application, or a mobile application (see respective sections for the latter two). They all share a common code base.</p>
+        <span class="local"><a href="feedreader/build/index.html"><b>Build</b></a> | <a href="feedreader/source/index.html">Source (Developer)</a></span>
         <span class="publish"><a href="feedreader/index.html"><b>Open Feed Reader (RIA)</b></a></span>
-        <span class="local"><br>mobile: <a href="feedreader/build-mobile/index.html"><b>Build</b></a> | <a href="feedreader/source/index-mobile.html">Source (Developer)</a></span>
-        <span class="publish"><br><a href="feedreader-mobile/index.html"><b>Open Feed Reader (mobile)</b></a></span>
-        <span class="local"><br>website: <a href="feedreader/build-website/index.html"><b>Build</b></a> | <a href="feedreader/source/index-website.html">Source (Developer)</a></span>
-        <span class="publish"><br><a href="feedreader-website/index.html"><b>Open Feed Reader (website)</b></a></span>
+      </li>
+    </ul>
+      <li>
+        <h2>Inspector</h2>
+        <p>A debugging tool to inspect a qooxdoo application, featuring an interactive console, an object and widget finder, and a property editor.</p>
+        <span class="local"><a href="inspector/build/index.html"><b>Build</b></a> | <a href="inspector/source/index.html">Source (Developer)</a></span>
+        <span class="publish"><a href="inspector/index.html"><b>Open Inspector</b></a></span>
+      </li>
+
+    <h1>Website</h1>
+
+    <ul>
+      <li>
+        <h2>Feed Reader</h2>
+        <p>A light-weight, website-oriented version of the Feedreader application.</p>
+        <span class="local"><a href="feedreader/build-website/index.html"><b>Build</b></a> | <a href="feedreader/source/index-website.html">Source (Developer)</a></span>
+        <span class="publish"><a href="feedreader-website/index.html"><b>Open Feed Reader (website)</b></a></span>
       </li>
       <li>
         <h2>Portal</h2>
@@ -142,45 +166,31 @@ ul ul{
         <span class="local"><a href="todo/build/index.html"><b>Build</b></a> | <a href="todo/source/index.html">Source (Developer)</a></span>
         <span class="publish"><a href="todo/index.html"><b>Open ToDo</b></a></span>
       </li>
+    </ul>
+    </div>
+    
+    <div class="block">
+    
+    <h1>Mobile</h1>
+      
+    <ul>  
       <li>
         <h2>Mobile Showcase</h2>
         <p>An experimental showcase for mobile widgets (Smartphones: Android 1.6+, iOS; Desktop: Safari 5, Chrome 10+).</p>
         <span class="local"><a href="mobileshowcase/build/index.html"><b>Build</b></a> | <a href="mobileshowcase/source/index.html">Source (Developer)</a></span>
         <span class="publish"><a href="mobileshowcase/index.html"><b>Open Mobile Showcase</b></a></span>
       </li>
+      <li>
+        <h2>Feed Reader</h2>
+        <p>The mobile version of the Feedreader application (Smartphones: Android 1.6+, iOS; Desktop: Safari 5, Chrome 10+).</p>
+        <span class="local"><a href="feedreader/build-mobile/index.html"><b>Build</b></a> | <a href="feedreader/source/index-mobile.html">Source (Developer)</a></span>
+        <span class="publish"><a href="feedreader-mobile/index.html"><b>Open Feed Reader (mobile)</b></a></span>
+      </li>
     </ul>
-    
-    <br/>
-    
-    <h1>Developer Tools</h1>
-      
-    <ul>  
-      <li>
-        <h2>API Viewer</h2>
-        <p>Searchable API reference of the qooxdoo framework.</p>
-        <span class="local"><a href="apiviewer/build/index.html"><b>Build</b></a> | <a href="apiviewer/source/index.html">Source (Developer)</a></span>
-        <span class="publish"><a href="apiviewer/index.html"><b>Open API Viewer</b></a></span>
-      </li>
-      <li>
-        <h2>Test Runner</h2>
-        <p>Integrated unit testing framework similar to (but not requiring) JSUnit.</p>
-        <span class="local"><a href="testrunner/build/index.html"><b>Build</b></a> | <a href="testrunner/source/index.html">Source (Developer)</a></span>
-        <span class="publish"><a href="testrunner/index.html"><b>Open Test Runner</b></a></span>
-        <span class="local"><br><a href="testrunner/build/script/testrunner-portable.js"><b>Portable Test Runner</b></a></span>
-        <span class="publish"><br><a href="testrunner/script/testrunner-portable.js"><b>Portable Test Runner</b></a></span>
-      </li>
-      <li>
-        <h2>Inspector</h2>
-        <p>A debugging tool to inspect a qooxdoo application, featuring an interactive console, an object and widget finder, and a property editor.</p>
-        <span class="local"><a href="inspector/build/index.html"><b>Build</b></a> | <a href="inspector/source/index.html">Source (Developer)</a></span>
-        <span class="publish"><a href="inspector/index.html"><b>Open Inspector</b></a></span>
-      </li>
-      <li>
-        <h2>Feature Configuration Editor</h2>
-        <p>A tool that aids developers in creating configurations for feature-based builds.</p>
-        <span class="local"><a href="featureconfigeditor/build/index.html"><b>Build</b></a> | <a href="featureconfigeditor/source/index.html">Source (Developer)</a></span>
-        <span class="publish"><a href="featureconfigeditor/index.html"><b>Open Feature Configuration Editor</b></a></span>
-      </li>
+
+    <h1>Server</h1>
+
+    <ul>
       <li>
         <h2>qooxdoo OO Layer</h2>
         <p>Not a demo, but a compact JS package that encapsulates qooxdoo's OO layer, to be downloaded to add qooxdoo classes and properties to e.g. sparse JS environments like Webworkers, Rhino or node.js. (<em>experimental</em>)</p>
@@ -194,6 +204,32 @@ ul ul{
         <span class="publish"><a href="framework/storage.js"><b>storage.js</b></a> | <a href="framework/storage-require.js"><b>storage-require.js</b></a> (for RequireJS)</span>
       </li>
     </ul>
+
+    <h1>Tools</h1>
+    
+    <ul>
+      <li>
+        <h2>API Viewer</h2>
+        <p>Searchable API reference of the entire qooxdoo framework.</p>
+        <span class="local"><a href="apiviewer/build/index.html"><b>Build</b></a> | <a href="apiviewer/source/index.html">Source (Developer)</a></span>
+        <span class="publish"><a href="apiviewer/index.html"><b>Open API Viewer</b></a></span>
+      </li>
+      <li>
+        <h2>Test Runner</h2>
+        <p>Integrated unit testing framework similar to (but not requiring) JSUnit.</p>
+        <span class="local"><a href="testrunner/build/index.html"><b>Build</b></a> | <a href="testrunner/source/index.html">Source (Developer)</a></span>
+        <span class="publish"><a href="testrunner/index.html"><b>Open Test Runner</b></a></span>
+        <span class="local"><br><a href="testrunner/build/script/testrunner-portable.js"><b>Portable Test Runner</b></a></span>
+        <span class="publish"><br><a href="testrunner/script/testrunner-portable.js"><b>Portable Test Runner</b></a></span>
+      </li>
+      <li>
+        <h2>Feature Configuration Editor</h2>
+        <p>A tool that aids developers in creating configurations for feature-based builds.</p>
+        <span class="local"><a href="featureconfigeditor/build/index.html"><b>Build</b></a> | <a href="featureconfigeditor/source/index.html">Source (Developer)</a></span>
+        <span class="publish"><a href="featureconfigeditor/index.html"><b>Open Feature Configuration Editor</b></a></span>
+      </li>
+    </ul>
   </div>
+
 </body>
 </html>
