@@ -1,5 +1,5 @@
 {
-  "name"    : "library",
+  "name"    : "website component",
 
   "include" :
   [
@@ -26,12 +26,14 @@
   "let" :
   {
     "APPLICATION"  : "library",
-    "QOOXDOO_PATH" : "..",
+    "QOOXDOO_PATH" : "../../..",
     "API_EXCLUDE"  : ["qx.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "BUILD_PATH"   : "script",
     "ROOT"         : ".",
     "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
+    "TEST_SCRIPT_PATH"  : "./test/script",
     "Q_INCLUDES" : [
       "qx.module.Css",
       "qx.module.Attribute",
@@ -55,7 +57,7 @@
       
       "environment" :
       {
-        "qx.version"     : "2.0",
+        "qx.version"     : "${QOOXDOO_VERSION}",
         "qx.debug" : false
       }
     },
@@ -97,7 +99,7 @@
         
         "paths"  :
         {
-          "file" : "q.js",
+          "file" : "${BUILD_PATH}/q.js",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
         }
       }
@@ -114,7 +116,7 @@
         },
         "paths"  :
         {
-          "file" : "q.min.js"
+          "file" : "${BUILD_PATH}/q.min.js"
         }
       }
     },
@@ -134,7 +136,7 @@
         
         "paths" :
         {
-          "file" : "q-source.js",
+          "file" : "${BUILD_PATH}/q-source.js",
           "app-root" : "",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.source.tmpl.js"
           
@@ -171,7 +173,7 @@
       {
         "paths" :
         {
-          "file" : "q-test-source.js",
+          "file" : "${TEST_SCRIPT_PATH}/q-test-source.js",
           "app-root" : "."
         }
       }
@@ -202,7 +204,7 @@
       {
         "paths" :
         {
-          "file" : "q-test.js",
+          "file" : "${TEST_SCRIPT_PATH}/q-test.js",
           "app-root" : "."
         }
       }
@@ -214,7 +216,7 @@
       
       "let" :
       {
-        "BUILD_SCRIPT_FILE" : "q-test.js"
+        "BUILD_SCRIPT_FILE" : "${TEST_SCRIPT_PATH}/q-test.js"
       }
     }
   }
