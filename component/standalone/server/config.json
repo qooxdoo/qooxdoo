@@ -4,7 +4,15 @@
   "include" :
   [
     {
-      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
+      "block" :
+      [
+        "build",
+        "build-script",
+        "build-resources",
+        "source",
+        "source-script"
+      ]
     }
   ],
 
@@ -15,21 +23,13 @@
     "build",
     "clean",
     "distclean",
-    "fix",
     "info",
     "inspector",
-    "lint",
     "migration",
-    "pretty",
     "profiling",
     "source",
-    "source-all",
-    "source-hybrid",    
-    "simulation-build",
-    "simulation-run",
     "test",
-    "test-source",
-    "translation"
+    "test-source"
   ],
   
   "default-job" : "source-hybrid",
@@ -42,44 +42,138 @@
     "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "BUILD_PATH"   : "script",
     "ROOT"         : "."
   },
 
-  // You only need to edit the remainder of this file, if you want to customize
-  // specific jobs, or add own job definitions.
+  "config-warnings" :
+  {
+    "job-shadowing" : 
+    [
+      "api"
+    ]
+  },
 
   "jobs" :
   {
-    // Uncomment the following entry to add a contrib or library to your
-    // project; make sure to adapt the path to the Manifest.json; if you are
-    // using a contrib: library, it will be downloaded into the path specified
-    // by the 'cache/downloads' config key
-    /*
-    "libraries" : 
+    "qxoo-common" : 
     {
+      "config-warnings" :
+      {
+        "exclude" : ["qx.event.GlobalError"] 
+      },
+
       "library" :
       [
         {
-          "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json"
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json",
+          "uri" : ".."          
         }
-      ]
-    }
-    */
+      ],
 
-    // If you want to tweak a job setting, see the following sample where
-    // the "format" feature of the "build-script" job is overridden.
-    // To see a list of available jobs, invoke 'generate.py x'.
-	/*
-    ,"build-script" :
-    {
-      "compile-options" : 
+      "extend" : [ "cache" ],
+      
+      "include" : 
+      [
+        "qx.Class",
+        "qx.Mixin",
+        "qx.Interface"
+      ],
+      
+      "exclude" :
+      [
+        "qx.event.GlobalError"
+      ],
+
+      "environment" :
       {
-        "code" :
+        "qx.debug" : false,
+        "qx.debug.dispose" : false,
+        "qx.debug.databinding" : false,
+        "qx.aspects" : false,
+        "qx.globalErrorHandling" : false
+      },
+
+      "compile-options" :
+      {
+        "paths" :
         {
-          "format" : false
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/oo.loader.tmpl.js"
+        },
+        "uris" :
+        {
+          "script"   : ".",
+          "resource" : "."
         }
       }
+    },
+
+    "build" : 
+    {
+      "desc" : "a basic qooxdoo OO library",
+      "extend" : [ "qxoo-common" ],
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/qx-oo.js",
+          "app-root" : "."
+        },
+        "code" :
+        {
+          "format"   : true,
+          "except"   : [],
+          "optimize" : [ "variables", "basecalls", "privates", "strings", "variants" ]
+        }
+      },
+      "compile" : { "type" : "build" }
+    },
+    
+    
+    "source" : 
+    {
+      "desc" : "a basic qooxdoo OO library (non-optimized)",
+      "extend" : [ "qxoo-common" ],
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/qx-oo-noopt.js",
+          "app-root" : "."
+        },
+        "code" :
+        {
+          "format"   : true,
+          "except"   : [],
+          "optimize" : [ ]
+        }
+      },
+      "compile" : { "type" : "build" }
+    },
+
+
+    "api" :
+    {
+      "desc" : "create api doc for qxoo",
+      "=library" : [
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
+        },
+        {
+          "manifest" : "${QOOXDOO_PATH}/component/apiviewer/Manifest.json"
+        },
+        {
+          "manifest" : "${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
+        }
+      ],
+      "let" :
+      {
+        "BUILD_PATH"     : "./api",
+        "API_INCLUDE"    : ["qx.Class", "qx.Mixin", "qx.Interface"],
+        "API_EXCLUDE"    : ["qx.test.*", "qx.event.GlobalError"]
+      }
     }
-    */
   }
 }
