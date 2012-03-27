@@ -152,7 +152,7 @@ qx.Class.define("qx.event.type.KeySequence",
      * @return {Boolean} Whether the pressed key is printable.
      */
     isPrintable : function() {
-      return qx.event.handler.Keyboard.isPrintableKeyIdentifier(this._identifier);
+      return qx.event.util.Keyboard.isPrintableKeyIdentifier(this._identifier);
     }
   }
 });

@@ -59,8 +59,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
    * @param styleInformation {String | Map | null} Optional style information for the editor's document
    *                                               Can be a string or a map (example: { "p" : "padding:2px" }
    * @param source {String} source of the iframe
-   *
-   * @lint ignoreDeprecated(_keyCodeToIdentifierMap)
    */
   construct : function(value, styleInformation, source)
   {
