@@ -20,7 +20,7 @@ qx.Bootstrap.define("q", {});
     for (var name in module) {
       if (qx.core.Environment.get("qx.debug")) {
         if (qx.Collection.prototype[name] != undefined) {
-          throw new Error("Method '" + name * "' already available.");
+          throw new Error("Method '" + name + "' already available.");
         }
       }
       qx.Collection.prototype[name] = module[name];
@@ -31,7 +31,7 @@ qx.Bootstrap.define("q", {});
     for (var name in module) {
       if (qx.core.Environment.get("qx.debug")) {
         if (qx.Collection.prototype[name] != undefined) {
-          throw new Error("Method '" + name * "' already available as static method.");
+          throw new Error("Method '" + name + "' already available as static method.");
         }
       }
       q[name] = module[name];
