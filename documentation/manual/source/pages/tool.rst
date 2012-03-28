@@ -3,6 +3,18 @@
 Tooling
 *********
 
+qooxdoo's tool chain comes with the SDK and comprises tools that help you create and maintain your %{JS} applications. They fall into two broad categories:
+
+* command-line tools
+* browser-based tools
+
+Command-line tools are tools that run on your operating system's command shell, like *bash* for MacOSX and Linux, or *cmd* or *PowerShell* for Microsoft Windows. They generally require a Python installation on your system. Two important examples of this category are *create-application.py*, sort of an application wizard which you use to create a new application, and *generate.py* which you use during your development activities (and referred to as the "generator"), e.g. to build a running application from your source code.
+
+Browser-based tools run in a web browser. Among them are the Apiviewer, which provides an interactive API reference, the Testrunner, which allows running your unit test in a GUI, or the Inspector, which allows to inspect the visual elements of your application and manipulate their properties.
+
+As the browser-based applications are mostly described elsewhere, this section deals mainly with the command-line tools. It also provides a general introduction into the qooxdoo SDK and its structure.
+
+
 Introduction
 =============
 
@@ -15,6 +27,15 @@ Introduction
    tool/application_structure
    tool/manifest
    tool/code_structure
+
+Application Wizard
+===================
+
+.. toctree::
+   :maxdepth: 1
+
+   tool/create_application
+
 
 Generator
 =============
@@ -55,15 +76,6 @@ Lint
    Source code validation <tool/source_code_validation>
 
 
-Application Wizard
-===================
-
-.. toctree::
-   :maxdepth: 1
-
-   tool/create_application
-
-
 Other Tools
 ====================
 
@@ -71,6 +83,7 @@ Some of the tools that come with the SDK are described elsewhere in this manual.
 
 * :doc:`application/apiviewer`
 * :doc:`development/frame_apps_testrunner`
-* :doc:`development/simulator`
+* :doc:`application/inspector`
 * :doc:`application/featureconfigeditor`
+* :doc:`development/simulator`
 
