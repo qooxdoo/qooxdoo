@@ -1222,6 +1222,43 @@ testrunner.define({
 });
 
 testrunner.define({
+  classname : "event.Keyboard",
+  
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+  
+  testEventNormalization : function()
+  {
+    var eventTypes = qx.module.event.Keyboard.TYPES;
+    this.assertArray(eventTypes);
+    this.assert(eventTypes.length > 0);
+    var registry = qx.module.Event.getRegistry();
+    for (var i=0,l=eventTypes.length; i<l; i++) {
+      this.assertKeyInMap(eventTypes[i], registry);
+    }
+  },
+  
+  testEventMethods : function()
+  {
+    var test = q.create("<div id='foo'></div>");
+    test.appendTo(this.sandbox[0]);
+    
+    var obj = {};
+    
+    q("#sandbox #foo").on("keydown", function(ev) {
+      this.keyIdentifier = ev.getKeyIdentifier();
+    }, obj);
+    
+    q("#sandbox #foo").emit("keydown", {
+      keyCode: 27
+    });
+    
+    this.assertEquals("Escape", obj.keyIdentifier);
+  }
+});
+  
+
+testrunner.define({
   classname : "Templates",
 
   setUp : testrunner.globalSetup,

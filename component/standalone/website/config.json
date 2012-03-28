@@ -44,6 +44,7 @@
       "qx.module.Event",
       "qx.module.event.Native",
       "qx.module.event.Mouse",
+      "qx.module.event.Keyboard",
       "qx.module.Template",
       "qx.module.Polyfill",
       "q"
