@@ -5,7 +5,12 @@
   [
     {
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
-      "block" : ["test-source", "test-build"]
+      "block" : [
+        "test-source", 
+        "test-build", 
+        "build", 
+        "source"
+      ]
     },
     {
       "path" : "${QOOXDOO_PATH}/component/testrunner/portable.json",
@@ -17,6 +22,7 @@
   [
     //"build", Uncompressed build not available until #6265 is fixed
     "build-min",
+    "build",
     "source",
     "test-source",
     "test-build",
