@@ -627,7 +627,7 @@ qx.Class.define("qx.event.handler.Keyboard",
       // Use: charCode
       else
       {
-        keyIdentifier = this._charCodeToIdentifier(charCode);
+        keyIdentifier = qx.event.util.Keyboard.charCodeToIdentifier(charCode);
 
         this._fireSequenceEvent(domEvent, "keypress", keyIdentifier);
         this._fireInputEvent(domEvent, charCode);
