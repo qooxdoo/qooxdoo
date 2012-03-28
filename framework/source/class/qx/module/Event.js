@@ -2,11 +2,11 @@ qx.Bootstrap.define("qx.module.Event", {
   statics :
   {
     __normalizations : {},
-    
+
     on : function(type, listener, context) {
       for (var i=0; i < this.length; i++) {
         var el = this[i];
-        var ctx = context || el;
+        var ctx = context || q.wrap(el);
 
         // add native listener
         var bound;
@@ -20,7 +20,7 @@ qx.Bootstrap.define("qx.module.Event", {
             if (registry[type]) {
               normalizations = normalizations.concat(registry[type]);
             }
-            
+
             for (var x=0, y=normalizations.length; x<y; x++) {
               event = normalizations[x](event, el);
             }
