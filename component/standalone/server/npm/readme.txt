@@ -5,14 +5,14 @@ This file explains how to publish the qxoo package to npm.
 
 * make sure node [1] and npm [2] is installed
 * build the new qxoo script
-  * run "./generate.py qxoo-build" in the framework folder
-  * copy the script in "framework/build/script/qx-oo.js" to the build folder ("tool/admin/release/npm/build")
+  * run "./generate.py build" in the "component/standalone/server" folder
+  * copy the script "component/standalone/server/script/qx-oo.js" to the build folder ("component/standalone/server/npm/build")
 * link the npm package (run npm link in the build folder)
 * update the version number in the package.json manifest
-* go to the test folder ("tool/admin/release/npm/test")
+* go to the test folder ("component/standalone/server/npm/test")
 * install the npm package with "npm install ../build/"
 * run the test (node npm.js) --> prints "ok" 3 times
-* change to the build folder again ("tool/admin/release/npm/build")
+* change to the build folder again ("component/standalone/server/npm/build")
 * run "npm publish" to push the package to the server (needs the qooxdoo user account)
 * Check if it worked in the online registry [3]
 
