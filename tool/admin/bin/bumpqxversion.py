@@ -57,6 +57,13 @@ def gitBranch():
 
 git_branch = gitBranch()
 
+##
+# npm wants always 3 elements, so supply '0' if necessary
+def npm_version_string(vers_parts):
+    v = "%s.%s.%s" % (vers_parts[0], vers_parts[1],
+        vers_parts[2] if vers_parts[2] else '0')
+    return v
+
 # - Config section -------------------------------------------------------------
 
 ##
@@ -115,6 +122,10 @@ Files = {
     "./tool/admin/release/test_plans/release-matrix-utils.js"  : [
         r'var qxversion = "(%s)"'    % qxversion_regexp
         ],
+    "./component/standalone/server/npm/package.json" : [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        r'"homepage"\s*:\s*"http://manual.qooxdoo.org/(%s)/pages/core.html"' % qxversion_regexp,
+        ],
 }
 
 # - End config -----------------------------------------------------------------
@@ -140,6 +151,8 @@ def main(new_vers):
                 (patt, repl) = entry[0], vers_parts[entry[1]]  # use only part of the version string
             elif isinstance(entry, types.TupleType) and isinstance(entry[1], types.StringTypes):
                 (patt, repl) = entry[0], entry[1]  # take the replacement from the config directly
+            elif isinstance(entry, types.TupleType) and isinstance(entry[1], types.FunctionType):
+                (patt, repl) = entry[0], entry[1](vers_parts, *entry[2:])  # call a function to return the replacement
             else:
                 (patt, repl) = entry, new_vers
             fn = functools.partial(patch, repl) # bind replacement string
