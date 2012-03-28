@@ -373,7 +373,6 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       "gecko" : function(domEvent)
       {
-        var keyCode = this._keyCodeFix[domEvent.keyCode] || domEvent.keyCode;
         var charCode = 0;
         var type = domEvent.type;
         var kbUtil = qx.event.util.Keyboard;
@@ -524,7 +523,6 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       "gecko" : function(domEvent)
       {
-        var keyCode = this._keyCodeFix[domEvent.keyCode] || domEvent.keyCode;
         var charCode = domEvent.charCode;
         var type = domEvent.type;
 
@@ -784,12 +782,6 @@ qx.Class.define("qx.event.handler.Keyboard",
       {
         13 : 13,
         27 : 27
-      };
-    }
-    else if ((qx.core.Environment.get("engine.name") == "gecko"))
-    {
-      members._keyCodeFix = {
-        12 : members._identifierToKeyCode("NumLock")
       };
     }
     else if ((qx.core.Environment.get("engine.name") == "webkit"))
