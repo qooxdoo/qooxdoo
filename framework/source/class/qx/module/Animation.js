@@ -15,13 +15,13 @@ qx.Bootstrap.define("qx.module.Animation", {
       this.__animationHandles = [];
     },
 
-    _fadeOut : {duration: 700, timing: "ease-out", keyFrames : {
+    _fadeOut : {duration: 700, timing: "ease-out", keep: 100, keyFrames : {
       0: {opacity: 1},
-      100: {opacity: 0}
+      100: {opacity: 0, display: "none"}
     }},
 
 
-    _fadeIn : {duration: 700, timing: "ease-in", keyFrames : {
+    _fadeIn : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
       0: {opacity: 0},
       100: {opacity: 1}
     }},

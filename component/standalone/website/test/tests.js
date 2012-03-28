@@ -820,8 +820,8 @@ testrunner.define({
   testFadeOut : function() {
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
-    var handle = test.fadeOut();
-    handle.on("end", function() {
+    test.fadeOut();
+    test.on("end", function() {
       this.resume(function() {
         this.assertEquals("none", test[0].style["display"]);
         test.remove();
@@ -833,11 +833,11 @@ testrunner.define({
   testFadeIn : function() {
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
-    var handle = test.fadeIn();
+    test.fadeIn();
     this.assertEquals(0, test[0].style["opacity"]);
-    handle.on("end", function() {
+    test.on("end", function() {
       this.resume(function() {
-        this.assertEquals(1, test[0].style["opacity"]);
+        this.assertEquals(1, test[0].style["opacity"], "not visible after the animation");
         test.remove();
       }, this);
     }, this);
