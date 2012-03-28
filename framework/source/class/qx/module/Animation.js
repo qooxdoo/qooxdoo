@@ -7,6 +7,10 @@
 qx.Bootstrap.define("qx.module.Animation", { 
   statics :
   {
+    init : function() {
+      this.__animationHandles = [];
+    },
+
     _fadeOut : {duration: 700, timing: "ease-out", keyFrames : {
       0: {opacity: 1},
       100: {opacity: 0}
@@ -80,5 +84,7 @@ qx.Bootstrap.define("qx.module.Animation", {
       "fadeIn" : statics.fadeIn,
       "fadeOut" : statics.fadeOut
     });
+
+    q.attachInit(statics.init);
   }
 });

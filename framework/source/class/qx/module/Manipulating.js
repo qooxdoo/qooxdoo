@@ -2,8 +2,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
   statics :
   {
     create : function(html) {
-      var arr = qx.bom.Html.clean([html]);
-      return qx.lang.Array.cast(arr, qx.Collection);
+      return q.init(qx.bom.Html.clean([html]));
     },
 
 
@@ -11,14 +10,14 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       if (!qx.lang.Type.isArray(el)) {
         el = [el];
       }
-      return qx.lang.Array.cast(el, qx.Collection);
+      return q.init(el);
     },
 
 
     append : function(html) {
       var arr = qx.bom.Html.clean([html]);
       var children = qx.lang.Array.cast(arr, qx.Collection);
-      
+
       for (var i=0, l=this.length; i < l; i++) {
         for (var j=0, m=children.length; j < m; j++) {
           if (i == 0) {

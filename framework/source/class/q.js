@@ -3,11 +3,18 @@ qx.Bootstrap.define("q", {});
 
 (function() {
   q = function(selector, context) {
-    var arr = qx.bom.Selector.query(selector, context);
-    var col = qx.lang.Array.cast(arr, qx.Collection);
-
-    return col;
+    return q.init(qx.bom.Selector.query(selector, context));
   }
+
+  q.__init = [];
+
+  q.init = function(arg) {
+    var col = qx.lang.Array.cast(arg, qx.Collection);
+    for (var i=0; i < q.__init.length; i++) {
+      q.__init[i].call(col);
+    };
+    return col;
+  };
 
   q.attach = function(module) {
     for (var name in module) {
@@ -29,5 +36,9 @@ qx.Bootstrap.define("q", {});
       }
       q[name] = module[name];
     }
+  }
+
+  q.attachInit = function(init) {
+    this.__init.push(init);
   }
 })();
