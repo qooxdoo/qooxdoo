@@ -201,7 +201,6 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param title {String} the title to set on selection dialog.
      */
     setDialogTitle : function(title) {
-      console.log(title);
       if(this.__selectionDialog){
         this.__selectionDialog.setTitle(title);
       }
@@ -280,6 +279,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     
     /**
      * Gets the selectedIndex out of change selection event, renders view.
+     * @param evt {qx.event.type.Data} data event.
      */
     _onChangeSelection : function (evt) {
       this.__selectedIndex = evt.getData().index;

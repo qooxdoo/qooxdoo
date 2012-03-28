@@ -166,7 +166,7 @@ qx.Class.define("testrunner.view.Html", {
       
       var nativeProfiling = (qx.core.Environment.get("testrunner.performance") &&
         qx.Class.hasMixin(this.constructor, testrunner.view.MPerformance) &&
-        console && console.profile);
+        typeof console != "undefined" && console.profile);
       
       if (nativeProfiling) {
         var nativeProfilingToggle = qx.bom.Input.create("checkbox", {id: "nativeprofiling"});

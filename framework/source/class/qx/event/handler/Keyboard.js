@@ -111,36 +111,13 @@ qx.Class.define("qx.event.handler.Keyboard",
      *
      * @param keyIdentifier {String} The key identifier.
      * @return {Boolean} whether the given string is a valid keyIdentifier
+     * @deprecated since 2.0
      */
     isValidKeyIdentifier : function(keyIdentifier)
     {
-      if (this._identifierToKeyCodeMap[keyIdentifier]) {
-        return true;
-      }
-
-      if (keyIdentifier.length != 1) {
-        return false;
-      }
-
-      if (keyIdentifier >= "0" && keyIdentifier <= "9") {
-        return true;
-      }
-
-      if (keyIdentifier >= "A" && keyIdentifier <= "Z") {
-        return true;
-      }
-
-      switch(keyIdentifier)
-      {
-        case "+":
-        case "-":
-        case "*":
-        case "/":
-          return true;
-
-        default:
-          return false;
-      }
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "Use qx.event.util.Keyboard.isValidKeyIdentifier instead.");
+      return qx.event.util.Keyboard.isValidKeyIdentifier(keyIdentifier);
     },
 
 
@@ -149,14 +126,13 @@ qx.Class.define("qx.event.handler.Keyboard",
      *
      * @param keyIdentifier {String} The key identifier.
      * @return {Boolean} whether the given string is a printable keyIdentifier.
+     * @deprecated since 2.0
      */
     isPrintableKeyIdentifier : function(keyIdentifier)
     {
-      if (keyIdentifier === "Space") {
-        return true;
-      } else {
-        return this._identifierToKeyCodeMap[keyIdentifier] ? false : true;
-      }
+      qx.log.Logger.  atedMethodWarning(arguments.callee, 
+        "Use qx.event.util.Keyboard.isPrintableKeyIdentifier instead.");
+      return qx.event.util.Keyboard.isPrintableKeyIdentifier(keyIdentifier);
     }
   },
 
@@ -263,7 +239,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         if (type == "keydown" && event.getDefaultPrevented())
         {
           // some key press events are already emulated. Ignore these events.
-          if (!this._isNonPrintableKeyCode(keyCode) && !this._emulateKeyPress[keyCode]) {
+          if (!qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) && !this._emulateKeyPress[keyCode]) {
             this._fireSequenceEvent(domEvent, "keypress", keyIdentifier);
           }
         }
@@ -386,7 +362,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         if (type == "keydown")
         {
           // non-printable, backspace or tab
-          if (this._isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
+          if (qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
             this._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
           }
         }
@@ -400,11 +376,12 @@ qx.Class.define("qx.event.handler.Keyboard",
         var keyCode = this._keyCodeFix[domEvent.keyCode] || domEvent.keyCode;
         var charCode = 0;
         var type = domEvent.type;
+        var kbUtil = qx.event.util.Keyboard;
 
         // FF repeats under windows keydown events like IE
         if (qx.core.Environment.get("os.name") == "win")
         {
-          var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode);
+          var keyIdentifier = keyCode ? kbUtil.keyCodeToIdentifier(keyCode) : kbUtil.charCodeToIdentifier(charCode);
 
           if (!(this.__lastUpDownType[keyIdentifier] == "keydown" && type == "keydown")) {
             this._idealKeyHandler(keyCode, charCode, type, domEvent);
@@ -458,7 +435,7 @@ qx.Class.define("qx.event.handler.Keyboard",
           if (type == "keydown")
           {
             // non-printable, backspace or tab
-            if (this._isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
+            if (qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
               this._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
             }
           }
@@ -605,7 +582,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         }
         else
         {
-          if (this._keyCodeToIdentifierMap[domEvent.keyCode]) {
+          if (qx.event.util.Keyboard.keyCodeToIdentifierMap[domEvent.keyCode]) {
             this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
           } else {
             this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
@@ -642,7 +619,7 @@ qx.Class.define("qx.event.handler.Keyboard",
       // Use: keyCode
       if (keyCode || (!keyCode && !charCode))
       {
-        keyIdentifier = this._keyCodeToIdentifier(keyCode);
+        keyIdentifier = qx.event.util.Keyboard.keyCodeToIdentifier(keyCode);
 
         this._fireSequenceEvent(domEvent, eventType, keyIdentifier);
       }
@@ -668,23 +645,6 @@ qx.Class.define("qx.event.handler.Keyboard",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * {Map} maps the charcodes of special printable keys to key identifiers
-     *
-     * @lint ignoreReferenceField(_specialCharCodeMap)
-     */
-    _specialCharCodeMap :
-    {
-      8  : "Backspace",   // The Backspace (Back) key.
-      9  : "Tab",         // The Horizontal Tabulation (Tab) key.
-
-      //   Note: This key identifier is also used for the
-      //   Return (Macintosh numpad) key.
-      13 : "Enter",       // The Enter key.
-      27 : "Escape",      // The Escape (Esc) key.
-      32 : "Space"        // The Space (Spacebar) key.
-    },
-
 
     /**
      * {Map} maps the charcodes of special keys for key press emulation
@@ -708,83 +668,6 @@ qx.Class.define("qx.event.handler.Keyboard",
     }),
 
 
-    /**
-     * {Map} maps the keycodes of non printable keys to key identifiers
-     *
-     * @lint ignoreReferenceField(_keyCodeToIdentifierMap)
-     */
-    _keyCodeToIdentifierMap :
-    {
-       16 : "Shift",        // The Shift key.
-       17 : "Control",      // The Control (Ctrl) key.
-       18 : "Alt",          // The Alt (Menu) key.
-       20 : "CapsLock",     // The CapsLock key
-      224 : "Meta",         // The Meta key. (Apple Meta and Windows key)
-
-       37 : "Left",         // The Left Arrow key.
-       38 : "Up",           // The Up Arrow key.
-       39 : "Right",        // The Right Arrow key.
-       40 : "Down",         // The Down Arrow key.
-
-       33 : "PageUp",       // The Page Up key.
-       34 : "PageDown",     // The Page Down (Next) key.
-
-       35 : "End",          // The End key.
-       36 : "Home",         // The Home key.
-
-       45 : "Insert",       // The Insert (Ins) key. (Does not fire in Opera/Win)
-       46 : "Delete",       // The Delete (Del) Key.
-
-      112 : "F1",           // The F1 key.
-      113 : "F2",           // The F2 key.
-      114 : "F3",           // The F3 key.
-      115 : "F4",           // The F4 key.
-      116 : "F5",           // The F5 key.
-      117 : "F6",           // The F6 key.
-      118 : "F7",           // The F7 key.
-      119 : "F8",           // The F8 key.
-      120 : "F9",           // The F9 key.
-      121 : "F10",          // The F10 key.
-      122 : "F11",          // The F11 key.
-      123 : "F12",          // The F12 key.
-
-      144 : "NumLock",      // The Num Lock key.
-       44 : "PrintScreen",  // The Print Screen (PrintScrn, SnapShot) key.
-      145 : "Scroll",       // The scroll lock key
-       19 : "Pause",        // The pause/break key
-       // The left Windows Logo key or left cmd key
-       91 : qx.core.Environment.get("os.name") == "osx" ? "cmd" : "Win",
-       92 : "Win",          // The right Windows Logo key or left cmd key
-       // The Application key (Windows Context Menu) or right cmd key
-       93 : qx.core.Environment.get("os.name") == "osx" ? "cmd" : "Apps"
-    },
-
-
-    /**
-     * {Map} maps the keycodes of the numpad keys to the right charcodes
-     *
-     * @lint ignoreReferenceField(_numpadToCharCode)
-     */
-    _numpadToCharCode :
-    {
-       96 : "0".charCodeAt(0),
-       97 : "1".charCodeAt(0),
-       98 : "2".charCodeAt(0),
-       99 : "3".charCodeAt(0),
-      100 : "4".charCodeAt(0),
-      101 : "5".charCodeAt(0),
-      102 : "6".charCodeAt(0),
-      103 : "7".charCodeAt(0),
-      104 : "8".charCodeAt(0),
-      105 : "9".charCodeAt(0),
-      106 : "*".charCodeAt(0),
-      107 : "+".charCodeAt(0),
-      109 : "-".charCodeAt(0),
-      110 : ",".charCodeAt(0),
-      111 : "/".charCodeAt(0)
-    },
-
-
 
 
     /*
@@ -793,20 +676,18 @@ qx.Class.define("qx.event.handler.Keyboard",
     ---------------------------------------------------------------------------
     */
 
-    _charCodeA : "A".charCodeAt(0),
-    _charCodeZ : "Z".charCodeAt(0),
-    _charCode0 : "0".charCodeAt(0),
-    _charCode9 : "9".charCodeAt(0),
-
 
     /**
      * Checks whether the keyCode represents a non printable key
      *
      * @param keyCode {String} key code to check.
      * @return {Boolean} Whether the keyCode represents a non printable key.
+     * @deprecated since 2.0
      */
     _isNonPrintableKeyCode : function(keyCode) {
-      return this._keyCodeToIdentifierMap[keyCode] ? true : false;
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "Use qx.event.util.Keyboard.isNonPrintableKeyCode instead.");
+      return qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode);
     },
 
 
@@ -815,35 +696,13 @@ qx.Class.define("qx.event.handler.Keyboard",
      *
      * @param keyCode {String} key code to check.
      * @return {Boolean} Whether the keycode can be reliably detected in keyup/keydown events.
+     * @deprecated since 2.0
      */
     _isIdentifiableKeyCode : function(keyCode)
     {
-      // A-Z (TODO: is this lower or uppercase?)
-      if (keyCode >= this._charCodeA && keyCode <= this._charCodeZ) {
-        return true;
-      }
-
-      // 0-9
-      if (keyCode >= this._charCode0 && keyCode <= this._charCode9) {
-        return true;
-      }
-
-      // Enter, Space, Tab, Backspace
-      if (this._specialCharCodeMap[keyCode]) {
-        return true;
-      }
-
-      // Numpad
-      if (this._numpadToCharCode[keyCode]) {
-        return true;
-      }
-
-      // non printable keys
-      if (this._isNonPrintableKeyCode(keyCode)) {
-        return true;
-      }
-
-      return false;
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "Use qx.event.util.Keyboard.isIdentifiableKeyCode instead.");
+      return qx.event.util.Keyboard.isIdentifiableKeyCode(keyCode);
     },
 
 
@@ -852,23 +711,13 @@ qx.Class.define("qx.event.handler.Keyboard",
      *
      * @param keyCode {Integer} key code
      * @return {String} key identifier
+     * @deprecated since 2.0
      */
     _keyCodeToIdentifier : function(keyCode)
     {
-      if (this._isIdentifiableKeyCode(keyCode))
-      {
-        var numPadKeyCode = this._numpadToCharCode[keyCode];
-
-        if (numPadKeyCode) {
-          return String.fromCharCode(numPadKeyCode);
-        }
-
-        return (this._keyCodeToIdentifierMap[keyCode] || this._specialCharCodeMap[keyCode] || String.fromCharCode(keyCode));
-      }
-      else
-      {
-        return "Unidentified";
-      }
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "Use qx.event.util.Keyboard.keyCodeToIdentifier instead.");
+      return qx.event.util.Keyboard.keyCodeToIdentifier(keyCode);
     },
 
 
@@ -877,9 +726,12 @@ qx.Class.define("qx.event.handler.Keyboard",
      *
      * @param charCode {String} character code
      * @return {String} key identifier
+     * @deprecated since 2.0
      */
     _charCodeToIdentifier : function(charCode) {
-      return this._specialCharCodeMap[charCode] || String.fromCharCode(charCode).toUpperCase();
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "Use qx.event.util.Keyboard.charCodeToIdentifier instead.");
+      return qx.event.util.Keyboard.charCodeToIdentifier(charCode);
     },
 
 
@@ -890,7 +742,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      * @return {Integer} keyboard code
      */
     _identifierToKeyCode : function(keyIdentifier) {
-      return qx.event.handler.Keyboard._identifierToKeyCodeMap[keyIdentifier] || keyIdentifier.charCodeAt(0);
+      return qx.event.util.Keyboard.identifierToKeyCodeMap[keyIdentifier] || keyIdentifier.charCodeAt(0);
     }
   },
 
@@ -925,22 +777,7 @@ qx.Class.define("qx.event.handler.Keyboard",
   {
     // register at the event handler
     qx.event.Registration.addHandler(statics);
-
-
-    // construct inverse of keyCodeToIdentifierMap
-    if (!statics._identifierToKeyCodeMap)
-    {
-      statics._identifierToKeyCodeMap = {};
-
-      for (var key in members._keyCodeToIdentifierMap) {
-        statics._identifierToKeyCodeMap[members._keyCodeToIdentifierMap[key]] = parseInt(key, 10);
-      }
-
-      for (var key in members._specialCharCodeMap) {
-        statics._identifierToKeyCodeMap[members._specialCharCodeMap[key]] = parseInt(key, 10);
-      }
-    }
-
+    
     if ((qx.core.Environment.get("engine.name") == "mshtml"))
     {
       members._charCode2KeyCode =
@@ -1002,6 +839,5 @@ qx.Class.define("qx.event.handler.Keyboard",
         };
       }
     }
-
   }
 });

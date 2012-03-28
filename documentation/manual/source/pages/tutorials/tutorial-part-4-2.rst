@@ -87,7 +87,7 @@ Our widget should show a Tweet as shown in the mockup. To achieve this, we need 
 
 The properties ``icon``, ``time`` and ``post`` contain the data from a tweet. In this definition you'll also find a property ``appearance``. This property is needed for the theming, it tells the appearance system that the ``TweetView`` should be styled like the ``ListItem``. We could also use a new appearance id, but than we'd have to define an appearance for it and that's not part of this tutorial.
 
-How to define properties was explained in :doc:`tutorial part 3 <tutorial-part-4-1>`, so we don't repeat it. But we use some unfamiliar keys for definition and I will explain them:
+How to define properties was explained in :doc:`tutorial part 3 <tutorial-part-3>`, so we don't repeat it. But we use some unfamiliar keys for definition and I will explain them:
 
 * **check**: check ensures that the incoming value is of this type. But be careful, the check is only done in the source version.
 * **apply**: here you can define which method should be called when the value changes.
@@ -99,7 +99,7 @@ How to define properties was explained in :doc:`tutorial part 3 <tutorial-part-4
 Using Child Control
 ===================
 
-qooxdoo has a special system to realize combined widgets like in our case. This system is called child controls and you can find a detailed documentation in our :doc:`manual </pages/gui_toolkit/ui_develop>`.
+qooxdoo has a special system to realize combined widgets like in our case. This system is called child controls and you can find a detailed documentation in our :doc:`manual </pages/desktop/ui_develop>`.
 
 Okay, back to our problem. To achieve the requirements we need an `Image <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.basic.Image>`_ for the photo, a Label for the post and another `Label <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.basic.Label>`_ for the creation time. So three widgets, also called sub widgets, are needed for our custom widget. And last but not least the familiar `Grid <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.layout.Grid>`_ layout for layouting, but that's not created in the child control implementation. We just need to keep it in mind when adding the child control with ``_add``.
 
@@ -278,7 +278,7 @@ Now to the delegate, just replace the current delegate with this one:
         controller.bindProperty("user.profile_image_url", "icon", null, item, id);
         controller.bindProperty("created_at", "time", {
           converter: function(data) {
-           if (qx.core.Environment.get("engine.name")) {
+           if (qx.core.Environment.get("browser.name") == "ie") {
              data = Date.parse(data.replace(/( \+)/, " UTC$1"));
            }
            return new Date(data);

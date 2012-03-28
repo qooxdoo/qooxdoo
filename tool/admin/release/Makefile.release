@@ -47,13 +47,20 @@ CMD_RST2HTML = $(CMD_NICE) rst2html.py
 CMD_ZIP_CREATE = $(CMD_ZIP) -rq
 CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2Unix
 CMD_MKEXEC = $(CMD_NICE) chmod a+rx
-# TODO: Unset QOOXDOO_REVISION macro when building for release! (see comments)
-# Development
-OPT_GENERATOR = -m QOOXDOO_REVISION:$(FRAMEWORK_GITINFO)
-# Release
-#OPT_GENERATOR =
-CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
 
+ifeq ($(DO_RELEASE),)
+# --------  DEVELOPMENT SETTINGS --------------------------------------
+# these settings are used during development time
+OPT_GENERATOR = -m QOOXDOO_REVISION:$(FRAMEWORK_GITINFO)
+QOOXDOO_RELEASE = 
+else
+# --------  RELEASE SETTINGS ------------------------------------------
+# activate from the command line with: make DO_RELEASE=1 ...
+OPT_GENERATOR =
+QOOXDOO_RELEASE = QOOXDOO_RELEASE=1
+endif
+
+CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
 STAGING_HOST = qooxdoo@webtechfe-test01.schlund.de
 
 FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
@@ -69,8 +76,9 @@ RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = todo feedreader portal mobileshowcase playground showcase widgetbrowser featureconfigeditor demobrowser
-COMPONENTS = apiviewer testrunner inspector storage
-FRAMEWORK_TARGETS = api test qxoo-build qxoo-noopt
+#APPLICATIONS = todo feedreader portal mobileshowcase playground showcase widgetbrowser featureconfigeditor
+COMPONENTS = apiviewer testrunner inspector storage server
+FRAMEWORK_TARGETS = api test
 
 
 ################################################################################
@@ -114,9 +122,9 @@ release-sdk-svn-collect:
 	@for APPLICATION in $(APPLICATIONS); do \
 		$(CMD_MKDIR) $(RELEASE_SDK)/application/$$APPLICATION/source/script; \
 		if [ "$$APPLICATION" = "widgetbrowser" ]; then \
-	    $(CMD_SYNC_OFFLINE) ./tool/data/publish/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.modern.js; \
+	    $(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.modern.js; \
 		else \
-	    $(CMD_SYNC_OFFLINE) ./tool/data/publish/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.js; \
+	    $(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.js; \
 		fi; \
 	done
 	@$(CMD_SYNC_OFFLINE) application/showcase/build/* $(RELEASE_SDK)/application/showcase/build
@@ -283,11 +291,11 @@ build-apps:
 	done
 
 build-components:
-	@time for APPLICATION in $(COMPONENTS); do \
-		( cd component/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
-		if [ "$$APPLICATION" = "storage" ]; then \
-			( cd component/$$APPLICATION && $(CMD_GENERATOR) build-require ) || exit 1; \
-		elif [ "$$APPLICATION" = "testrunner" ]; then \
+	@time for COMPONENT in $(COMPONENTS); do \
+		( cd component/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
+		if [ "$$COMPONENT" = "storage" ]; then \
+			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-require ) || exit 1; \
+		elif [ "$$COMPONENT" = "testrunner" ]; then \
 			( cd component/testrunner && $(CMD_GENERATOR) -c portable.json build ) || exit 1; \
 		fi; \
 	done
@@ -314,14 +322,19 @@ source-components:
 # DOCUMENTATION TARGETS
 ################################################################################
 
+# the next is necessary as we're changing conf.py values for release
+build-docs-clean:
+	@(cd documentation/manual && make clean)
+
 build-docs-html:
-	@(cd documentation/manual && make html)
+	@(cd documentation/manual && $(QOOXDOO_RELEASE) make html)
+	@(cd documentation/tech_manual && make html)
 
 build-docs-pdf:
-	@(cd documentation/manual && make latex)
+	@(cd documentation/manual && $(QOOXDOO_RELEASE) make latex)
 	@(cd documentation/manual/build/latex && make all-pdf)
 
-build-docs: build-docs-html build-docs-pdf
+build-docs: build-docs-clean build-docs-html build-docs-pdf
 
 publish-docs:
 	@echo "  * Publishing HTML docs to staging host..."
@@ -332,7 +345,9 @@ publish-docs:
 check-docs: check-docs-html check-docs-pdf
 
 check-docs-html:
-	@for TARGET in `echo "index.html pages/core.html pages/development.html pages/gui_toolkit.html"`; do F="documentation/manual/build/html/$$TARGET"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); done
+	@for TARGET in `echo "index.html pages/core.html pages/development.html pages/desktop.html"`; do \
+		F="documentation/manual/build/html/$$TARGET"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+	done
 
 check-docs-pdf:
 	@F="documentation/manual/build/latex/qooxdoo.pdf"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 );
@@ -347,8 +362,8 @@ publish-build-components:
 	@( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/testrunner && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/testrunner && $(CMD_GENERATOR) -c portable.json build ) || exit 1;
-	@( cd component/storage && $(CMD_GENERATOR) build ) || exit 1
-	@( cd component/storage && $(CMD_GENERATOR) build-require ) || exit 1
+	@( cd component/standalone/storage && $(CMD_GENERATOR) build ) || exit 1
+	@( cd component/standalone/storage && $(CMD_GENERATOR) build-require ) || exit 1
 
 publish-check: check-banner check-apps check-components check-framework check-docs
 	@echo "    - Looks good"
@@ -377,28 +392,27 @@ check-components:
 			F="component/testrunner/build/script/$$TARGET-portable.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "storage" ]; then \
-			F="component/$$TARGET/$$TARGET.js"; \
+			F="component/standalone/$$TARGET/script/$$TARGET.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-			F="component/$$TARGET/$$TARGET-require.js"; \
+			F="component/standalone/$$TARGET/script/$$TARGET-require.js"; \
+			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+		elif [ "$$TARGET" = "server" ]; then \
+			F="component/standalone/$$TARGET/script/qx-oo.js"; \
+			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+			F="component/standalone/$$TARGET/script/qx-oo-noopt.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		fi; \
 	done
 
 check-framework:
 	@for TARGET in $(FRAMEWORK_TARGETS); do \
-		if [ "$$TARGET" = "qxoo-build" ]; then \
-			F="framework/build/script/qx-oo.js"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-		elif [ "$$TARGET" = "qxoo-noopt" ]; then \
-			F="framework/build/script/qx-oo-noopt.js"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-		else \
-			F="framework/$$TARGET/script"; [ -d $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-		fi; \
+		F="framework/$$TARGET/script"; [ -d $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 	done
 
 publish-index:
 	@echo "  * Preparing index.html..."
 	@$(CMD_MKDIR) temp/
-	@cat tool/data/publish/index.html | \
+	@cat tool/admin/release/index.html | \
 		sed 's/class="local"/class="local hide"/g' | \
 		sed 's/ class="publish"//g' > temp/index.html
 	@echo "  * Syncing index.html..."
@@ -431,25 +445,22 @@ publish-apps:
 		if [ "$$APPLICATION" = "test" ]; then \
 			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/testrunner || exit 1; \
 		fi; \
-		if [ "$$APPLICATION" = "qxoo-build" ]; then \
-			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-		fi; \
-		if [ "$$APPLICATION" = "qxoo-noopt" ]; then \
-			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo-noopt.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-		fi; \
 	done
 	@echo "  * Syncing components..."
-	@for APPLICATION in $(COMPONENTS); do \
-		if [ "$$APPLICATION" = "inspector" ]; then \
-			echo "    - $$APPLICATION..."; \
-			$(CMD_SYNC_ONLINE) component/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-		elif [ "$$APPLICATION" = "testrunner" ]; then \
-			echo "    - $$APPLICATION..."; \
-			$(CMD_SYNC_ONLINE) component/testrunner/build/script/$$APPLICATION-portable.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION/script/$$APPLICATION-portable.js || exit 1; \
-		elif [ "$$APPLICATION" = "storage" ]; then \
-			echo "    - $$APPLICATION..."; \
-			$(CMD_SYNC_ONLINE) component/storage/$$APPLICATION.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/storage/$$APPLICATION-require.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+	@for COMPONENT in $(COMPONENTS); do \
+		if [ "$$COMPONENT" = "inspector" ]; then \
+			echo "    - $$COMPONENT..."; \
+			$(CMD_SYNC_ONLINE) component/$$COMPONENT/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT || exit 1; \
+		elif [ "$$COMPONENT" = "testrunner" ]; then \
+			echo "    - $$COMPONENT..."; \
+			$(CMD_SYNC_ONLINE) component/testrunner/build/script/$$COMPONENT-portable.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT/script/$$COMPONENT-portable.js || exit 1; \
+		elif [ "$$COMPONENT" = "storage" ]; then \
+			echo "    - $$COMPONENT..."; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$$COMPONENT.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$$COMPONENT-require.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+		elif [ "$$COMPONENT" = "server" ]; then \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo-noopt.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		fi; \
 	done
 
@@ -462,6 +473,7 @@ publish-backup:
 	@ssh $(STAGING_HOST) "$(CMD_SYNC_BACKUP) /var/www/qooxdoo/demo/devel /var/www/qooxdoo/demo/0.0.devel_backlog/"
 
 publish-staging: publish-check publish-backup publish-index publish-apps publish-docs
+#publish-staging: publish-check publish-index publish-apps publish-docs
 
 publish: publish-staging publish-production
 

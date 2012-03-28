@@ -405,7 +405,7 @@ method to the members section of the “Tweets” page.
             // set the data of the model
             item.setTitle(value.getText());
             // we use the dataFormat instance to format the data value of the twitter API
-            item.setSubTitle(value.getUser().getName() + ", " + dateFormat.format(new Date(value.getCreated_at())));
+            item.setSubtitle(value.getUser().getName() + ", " + dateFormat.format(new Date(value.getCreated_at())));
             item.setImage(value.getUser().getProfile_image_url());
             // we have more data to display, show an arrow
             item.setShowArrow(true);
@@ -432,7 +432,7 @@ It has three parameters:
 
 In this case the list item renderer is the
 ``qx.ui.mobile.list.renderer.Default``. This renderer has a ``title``,
-``subTitle`` and a ``icon`` property, which can be set individually per
+``subTitle`` and a ``image`` property, which can be set individually per
 row. In addition to those properties, the ``showArrow`` property shows
 an arrow on the left corner of the row, indicating that we have more
 data to display.
@@ -453,7 +453,7 @@ the ``member`` section:
 
 There are only two tasks left:
 
-#. Bind the ``tweets`` property form the “Application” to the ``tweets``
+#. Bind the ``tweets`` property from the “Application” to the ``tweets``
    property of the “Tweets” page instance.
 #. Bind the ``username`` property form the “Application” to the
    ``title`` property of the “Tweets” page instance.

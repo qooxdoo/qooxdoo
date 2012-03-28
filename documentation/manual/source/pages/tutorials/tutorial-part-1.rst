@@ -25,11 +25,11 @@ In the first part you'll learn how to create a new application and how to build 
 Getting started
 ===============
 
-The first step is to get a working qooxdoo application where we can start our development. You should have already have the qooxdoo SDK and know how to use ``create-application.py``, so we just create an application called ``twitter``.
+The first step is to get a working qooxdoo application where we can start our development. You should already have the qooxdoo SDK and know how to use ``create-application.py``, so we just create an application called ``twitter``.
 
 ::
 
-    create-application.py -n twitter
+    create-application.py --name=twitter
 
 After that, we should check if everything works as expected. Change the directory to twitter and run ``./generate.py``. Now the skeleton application is ready to run and you can open the index file located in the ``source`` directory. After that, open the ``Application.js`` file located in ``source/class/twitter/Application.js`` with your favorite editor and we are set up for development!
 
@@ -45,7 +45,7 @@ The first part is to create a Window. As the :doc:`Window <../widget/window>` co
 
         construct : function()
         {
-          this.base(arguments, "twitter")
+          this.base(arguments, "twitter");
         }
     });
 

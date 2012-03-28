@@ -1,0 +1,179 @@
+{
+  "name"    : "server",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
+      "block" :
+      [
+        "build",
+        "build-script",
+        "build-resources",
+        "source",
+        "source-script"
+      ]
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "api-data",
+    "build",
+    "clean",
+    "distclean",
+    "info",
+    "inspector",
+    "migration",
+    "profiling",
+    "source",
+    "test",
+    "test-source"
+  ],
+  
+  "default-job" : "source-hybrid",
+
+  "let" :
+  {
+    "APPLICATION"  : "server",
+    "QOOXDOO_PATH" : "../../..",
+    "QXTHEME"      : "server.theme.Theme",
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "BUILD_PATH"   : "script",
+    "ROOT"         : "."
+  },
+
+  "config-warnings" :
+  {
+    "job-shadowing" : 
+    [
+      "api"
+    ]
+  },
+
+  "jobs" :
+  {
+    "qxoo-common" : 
+    {
+      "config-warnings" :
+      {
+        "exclude" : ["qx.event.GlobalError"] 
+      },
+
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json",
+          "uri" : ".."          
+        }
+      ],
+
+      "extend" : [ "cache" ],
+      
+      "include" : 
+      [
+        "qx.Class",
+        "qx.Mixin",
+        "qx.Interface"
+      ],
+      
+      "exclude" :
+      [
+        "qx.event.GlobalError"
+      ],
+
+      "environment" :
+      {
+        "qx.debug" : false,
+        "qx.debug.dispose" : false,
+        "qx.debug.databinding" : false,
+        "qx.aspects" : false,
+        "qx.globalErrorHandling" : false
+      },
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/oo.loader.tmpl.js"
+        },
+        "uris" :
+        {
+          "script"   : ".",
+          "resource" : "."
+        }
+      }
+    },
+
+    "build" : 
+    {
+      "desc" : "a basic qooxdoo OO library",
+      "extend" : [ "qxoo-common" ],
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/qx-oo.js",
+          "app-root" : "."
+        },
+        "code" :
+        {
+          "format"   : true,
+          "except"   : [],
+          "optimize" : [ "variables", "basecalls", "privates", "strings", "variants" ]
+        }
+      },
+      "compile" : { "type" : "build" }
+    },
+    
+    
+    "source" : 
+    {
+      "desc" : "a basic qooxdoo OO library (non-optimized)",
+      "extend" : [ "qxoo-common" ],
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/qx-oo-noopt.js",
+          "app-root" : "."
+        },
+        "code" :
+        {
+          "format"   : true,
+          "except"   : [],
+          "optimize" : [ ]
+        }
+      },
+      "compile" : { "type" : "build" }
+    },
+
+
+    "api" :
+    {
+      "desc" : "create api doc for qxoo",
+      "=library" : [
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
+        },
+        {
+          "manifest" : "${QOOXDOO_PATH}/component/apiviewer/Manifest.json"
+        },
+        {
+          "manifest" : "${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
+        }
+      ],
+      "let" :
+      {
+        "BUILD_PATH"     : "./api",
+        "API_INCLUDE"    : ["qx.Class", "qx.Mixin", "qx.Interface"],
+        "API_EXCLUDE"    : ["qx.test.*", "qx.event.GlobalError"]
+      }
+    }
+  }
+}

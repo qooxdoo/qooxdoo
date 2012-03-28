@@ -1,8 +1,8 @@
 {% extends "basic/layout.html" %}
 
 {% set assets_host = "http://resources.new.qooxdoo.org" %}
-{% set css_files = [assets_host + "/stylesheets/common.css"] + css_files %}
-{% set script_files = ["http://use.typekit.com/zot3nek.js", assets_host + "/javascripts/q.js", assets_host + "/javascripts/q.placeholder.js", assets_host + "/javascripts/q.sticky.js", assets_host + "/javascripts/application.js"] + script_files %}
+{% set css_files = [assets_host + "/stylesheets/reset.css", assets_host + "/stylesheets/base.css", assets_host + "/stylesheets/layout.css"] + css_files %}
+{% set script_files = [assets_host + "/javascripts/q.js", assets_host + "/javascripts/q.placeholder.js", assets_host + "/javascripts/q.sticky.js", assets_host + "/javascripts/application.js"] + script_files %}
 
 {%- macro breadcrumb() %}
   <a href="http://new.qooxdoo.org">home</a>{{ reldelim1 }}
@@ -20,10 +20,6 @@
 
 {%- block doctype %}
 <!doctype html>
-{% endblock %}
-
-{%- block extrahead %}
-  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 {% endblock %}
 
 {%- block header %}

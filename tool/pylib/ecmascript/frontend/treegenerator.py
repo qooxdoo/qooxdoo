@@ -948,13 +948,21 @@ def ifix(self, left):
 def pfix(self):
     arr = symbol("array")(token.get("line"), token.get("column"))
     if token.id != "]":
+        is_after_comma = 0
         while True:
             if token.id == "]":
+                if is_after_comma:  # preserve dangling comma (bug#6210)
+                    arr.childappend(symbol("(empty)")())
                 break
-            arr.childappend(expression())
+            elif token.id == ",":  # elision
+                arr.childappend(symbol("(empty)")())
+            else:
+                arr.childappend(expression())
             if token.id != ",":
                 break
-            advance(",")
+            else:
+                is_after_comma = 1
+                advance(",")
     advance("]")
     return arr
 
@@ -993,9 +1001,13 @@ symbol("}")
 def pfix(self):
     mmap = symbol("map")(token.get("line"), token.get("column"))
     if token.id != "}":
+        is_after_comma = 0
         while True:
             if token.id == "}":
+                if is_after_comma:  # prevent dangling comma '...,}' (bug#6210)
+                    raise SyntaxException("Illegal dangling comma in map (pos %r)" % ((token.get("line"),token.get("column")),))
                 break
+            is_after_comma = 0
             # key
             keyname = expression()
             key = symbol("keyvalue")(token.get("line"), token.get("column"))
@@ -1011,7 +1023,9 @@ def pfix(self):
             key.childappend(val)  # <value> is a child of <keyvalue>
             if token.id != ",":
                 break
-            advance(",")
+            else:
+                is_after_comma = 1
+                advance(",")
     advance("}")
     return mmap
 
@@ -1302,78 +1316,6 @@ def std(self):
                 if token.id == ',':
                     advance(',')
             third.childappend(exprList)
-
-
-    #if tokenStream.peek(2 if token.id=="var" else 1).id == "in":
-    #    self.set("forVariant", "in")
-    #    var_s = None
-    #    operation = symbol("in")(token.get("line"), token.get("column"))
-    #    operation.type = "operation"
-    #    operation.set("operator", "IN")
-    #    operation.set("value", "in")
-    #    self.childappend(operation)
-    #    op_first = symbol("first")(token.get("line"), token.get("column"))
-    #    operation.childappend(op_first)
-    #    if token.id == "var":
-    #        var_s = symbol("definitionList")(token.get("line"), token.get("column"))
-    #        op_first.childappend(var_s)
-    #        advance("var")
-    #        defn = symbol("definition")(token.get("line"), token.get("column"))
-    #        var_s.childappend(defn)
-    #        defn.childappend(expression(95))  # bind_left higher than "in"
-    #    else:
-    #        #ident = symbol("identifier")(token.get("line"), token.get("column"))
-    #        #op_first.childappend(ident)
-    #        #ident.set("value", token.get("value"))
-    #        #advance("identifier")
-    #        # !support: for(a[i++] in o)
-    #        op_first.childappend(expression())
-    #    advance("in")
-    #    op_second = symbol("second")(token.get("line"), token.get("column"))
-    #    operation.childappend(op_second)
-    #    op_second.childappend(expression())
-    #    
-    ## for (;;) [mind: all three subexpressions are optional]
-    #else:
-    #    self.set("forVariant", "iter")
-    #    condition = symbol("expressionList")(token.get("line"), token.get("column"))
-    #    self.childappend(condition)
-    #    # init part
-    #    first = symbol("first")(token.get("line"), token.get("column"))
-    #    condition.childappend(first)
-    #    if token.id == ";":
-    #        pass                # empty part
-    #    else:
-    #        init_part = None
-    #        if token.id == "var":
-    #            t = token
-    #            advance()
-    #            init_part = t.std() # parse it like a 'var' stmt
-    #        else:
-    #            exprList = symbol("expressionList")(token.get("line"), token.get("column"))
-    #            init_part = exprList
-    #            lst = init_list()
-    #            for assgn in lst:
-    #                exprList.childappend(assgn)
-    #        first.childappend(init_part)
-    #    advance(";")
-    #    # condition part 
-    #    second = symbol("second")(token.get("line"), token.get("column"))
-    #    condition.childappend(second)
-    #    if token.id != ";":
-    #        second.childappend(expression())
-    #    advance(";")
-    #    # update part
-    #    third = symbol("third")(token.get("line"), token.get("column"))
-    #    condition.childappend(third)
-    #    if token.id != ")":
-    #        exprList = symbol("expressionList")(token.get("line"), token.get("column"))
-    #        while token.id != ')':
-    #            expr = expression(0)
-    #            exprList.childappend(expr)
-    #            if token.id == ',':
-    #                advance(',')
-    #        third.childappend(exprList)
 
     # body
     advance(")")
@@ -2079,24 +2021,18 @@ def test(x, program):
     global token, next, tokenStream
     print ">>>", program
     tokenArr = tokenizer.parseStream(program)
-    #from pprint import pprint
-    #pprint (tokenArr)
     tokenStream = TokenStream(tokenArr)
     next = iter(tokenStream).next
     token = next()
     if x == e:
         res =  expression()
-        #import pydb; pydb.debugger()
         print res.toXml()
-        #print repr(res)
     elif x == s:
         res =  statements()
         print res.toXml()
-        #print repr(res)
     elif x == b:
         res = block()
         print res.toXml()
-        #print repr(res)
     else:
         raise RuntimeError("Wrong test parameter: %s" % x)
 
@@ -2112,23 +2048,7 @@ if __name__ == "__main__":
         tokenArr = tokenizer.parseStream(text)
         print p.parse(tokenArr).toXml()
     else:
-        #execfile (os.path.normpath(os.path.join(os.environ["QOOXDOO_PATH"], "tool/test/compiler/treegenerator.py")))
         execfile (os.path.normpath(os.path.join(__file__, "../../../../test/compiler/treegenerator.py"))) # __file__ doesn't seem to work in pydb
         for t in tests:
             test(*t)
-
-
-
-
-##
-# A plan for the new parser:
-#
-#  - main::tests must pass
-#  - check the astlet's!
-#  - if all is well, activate treegenerator_new_ast in compile.py
-#  - compile single files (from skeleton Application.js to qx/Class.js), checken results
-#  - if all is well, activate treegenerator_new_ast for *compile* jobs:
-#    - 'source' - check dependencies, check app runs (this also checks the
-#      class list)
-#    - 'build' - check app runs (this also checks compression)
 
