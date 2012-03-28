@@ -27,7 +27,7 @@ qx.Class.define("showcase.page.virtuallist.messenger.Group",
     this.base(arguments);
 
     this.set({
-      backgroundColor: "rgb(60, 97, 226)",
+      backgroundColor: "dark-blue",
       padding: [0, 3]
     });
 
