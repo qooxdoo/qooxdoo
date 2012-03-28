@@ -4,7 +4,11 @@
 
 ************************************************************************ */
 
-qx.Bootstrap.define("qx.module.Animation", { 
+qx.Bootstrap.define("qx.module.Animation", {
+  events : {
+    "animationEnd" : undefined
+  },
+
   statics :
   {
     init : function() {
@@ -34,46 +38,77 @@ qx.Bootstrap.define("qx.module.Animation", {
 
 
     animate : function(desc) {
-      var returnHandle;
+      if (this.__animationHandles.length > 0) {
+        throw new Error("Only one animation at a time.");
+      }
       for (var i=0; i < this.length; i++) {
         var handle = qx.bom.element.Animation.animate(this[i], desc);
-        if (i === 0) {
-          returnHandle = handle;
+        var self = this;
+        handle.on("end", function() {
+          var handles = self.__animationHandles;
+          handles.splice(self.indexOf(handle), 1);
+          if (handles.length == 0) {
+            self.emit("end");
+          }
+        }, handle);
+        this.__animationHandles.push(handle);
+      };
+      return this;
+    },
+
+
+    play : function() {
+      for (var i=0; i < this.__animationHandles.length; i++) {
+        this.__animationHandles[i].play();
+      };
+      return this;
+    },
+
+
+    pause : function() {
+      for (var i=0; i < this.__animationHandles.length; i++) {
+        this.__animationHandles[i].pause();
+      };
+      return this;
+    },
+
+
+    stop : function() {
+      for (var i=0; i < this.__animationHandles.length; i++) {
+        this.__animationHandles[i].stop();
+      };
+      this.__animationHandles = [];
+      return this;
+    },
+
+
+    isPlaying : function() {
+      for (var i=0; i < this.__animationHandles.length; i++) {
+        if (this.__animationHandles[i].isPlaying()) {
+          return true;
         }
       };
-      return returnHandle;
+      return false;
+    },
+
+
+    isEnded : function() {
+      for (var i=0; i < this.__animationHandles.length; i++) {
+        if (!this.__animationHandles[i].isEnded()) {
+          return false;
+        }
+      };
+      return true;
     },
 
 
     fadeIn : function() {
-      var returnHandle;
-      for (var i=0; i < this.length; i++) {
-        qx.module.Animation.__setStyle(this[i], "opacity", 0);
-        qx.module.Animation.__setStyle(this[i], "display", "");
-        var handle = qx.bom.element.Animation.animate(this[i], qx.module.Animation._fadeIn);
-        handle.on("end", function(el) {
-          qx.module.Animation.__setStyle(el, "opacity", 1);
-        });
-        if (i === 0) {
-          returnHandle = handle;
-        }
-      };
-      return returnHandle;
+      return this.animate(qx.module.Animation._fadeIn);
     },
 
 
     fadeOut : function() {
-      var returnHandle;
-      for (var i=0; i < this.length; i++) {
-        var handle = qx.bom.element.Animation.animate(this[i], qx.module.Animation._fadeOut);
-        handle.on("end", function(el) {
-          qx.module.Animation.__setStyle(el, "display", "none");
-        });
-        if (i === 0) {
-          returnHandle = handle;
-        }
-      };
-      return handle;
+      return this.animate(qx.module.Animation._fadeOut);
     }
   },
 
@@ -82,7 +117,12 @@ qx.Bootstrap.define("qx.module.Animation", {
     q.attach({
       "animate" : statics.animate,
       "fadeIn" : statics.fadeIn,
-      "fadeOut" : statics.fadeOut
+      "fadeOut" : statics.fadeOut,
+      "play" : statics.play,
+      "pause" : statics.pause,
+      "stop" : statics.stop,
+      "isEnded" : statics.isEnded,
+      "isPlaying" : statics.isPlaying
     });
 
     q.attachInit(statics.init);

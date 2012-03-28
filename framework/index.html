@@ -6,7 +6,7 @@
   <script type="text/javascript" src="q.js"></script>
   <script type="text/javascript" charset="utf-8">
     q.ready(function() {
-      alert("READY!!!!");
+      console && console.log("READY!!!!");
     });
   </script>
   <style type="text/css" media="screen">
@@ -26,6 +26,7 @@
   <p>not empty</p>
   <section id="trav"><p>trav</p></section>
   <section id="trav2"><p>trav</p></section>
+  <h2>Blink</h2>
   <script type="template" id="template">
     <div style="color: {{color}}">{{name}}</div>
   </script>
@@ -95,12 +96,13 @@
 
 
     <!-- ANIMATION -->
-    d.fadeOut().on("end", function() {d.fadeIn()});
-    q.wrap(document.body).animate({duration: 1000, keyFrames : {
+    d.fadeOut().once("end", function() {this.fadeIn();});
+    q("h2").animate({duration: 1000, alternate: true, repeat: "infinite", keyFrames : {
       0 : {"background-color" : "white"},
       50 : {"background-color" : "red"},
-      100 : {"background-color" : "white"}
-    }});
+    }}).on("click", function() {
+      this.isPlaying() ? this.pause() : this.play();
+    }).pause();
   </script>
 </body>
 </html>
