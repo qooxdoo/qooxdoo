@@ -14,11 +14,11 @@
 
   "export" :
   [
-    //"build-q", Uncompressed build not available until #6265 is fixed
-    "build-q-min",
-    "source-q",
-    "test-source-q",
-    "test-build-q",
+    //"build", Uncompressed build not available until #6265 is fixed
+    "build-min",
+    "source",
+    "test-source",
+    "test-build",
     "log-deps"
   ],
 
@@ -76,7 +76,7 @@
 
     "log-deps" :
     {
-      "extend" : ["build-q"],
+      "extend" : ["build"],
     
       "log" : 
       {
@@ -93,7 +93,7 @@
       }
     },
     
-    "build-q" :
+    "build" :
     {
       "extend" : ["build-script"],
       
@@ -117,9 +117,9 @@
       }
     },
     
-    "build-q-min" :
+    "build-min" :
     {
-      "extend" : ["build-q"],
+      "extend" : ["build"],
       
       "compile-options" :
       {
@@ -133,7 +133,7 @@
       }
     },
     
-    "source-q" :
+    "source" :
     {
       "extend" : ["source-script"],
       
@@ -156,7 +156,7 @@
       }
     },
     
-    "test-source-q" :
+    "test-source" :
     {
       "run" : [
         "test-source-script"
@@ -191,7 +191,7 @@
       }
     },
     
-    "test-build-q" :
+    "test-build" :
     {
       "run" : [
         "test-build-script",
