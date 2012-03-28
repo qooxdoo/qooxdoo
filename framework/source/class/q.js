@@ -19,7 +19,7 @@ qx.Bootstrap.define("q", {});
   q.attach = function(module) {
     for (var name in module) {
       if (qx.core.Environment.get("qx.debug")) {
-        if (qx.Collection.prototype[name] != undefined) {
+        if (qx.Collection.prototype[name] != undefined && Array.prototype[name] == undefined) {
           throw new Error("Method '" + name + "' already available.");
         }
       }
