@@ -130,7 +130,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     isPrintableKeyIdentifier : function(keyIdentifier)
     {
-      qx.log.Logger.  atedMethodWarning(arguments.callee, 
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
         "Use qx.event.util.Keyboard.isPrintableKeyIdentifier instead.");
       return qx.event.util.Keyboard.isPrintableKeyIdentifier(keyIdentifier);
     }
