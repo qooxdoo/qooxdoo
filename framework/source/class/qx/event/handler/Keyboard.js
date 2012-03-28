@@ -374,6 +374,7 @@ qx.Class.define("qx.event.handler.Keyboard",
       "gecko" : function(domEvent)
       {
         var charCode = 0;
+        var keyCode = domEvent.keyCode;
         var type = domEvent.type;
         var kbUtil = qx.event.util.Keyboard;
 
@@ -526,7 +527,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         var charCode = domEvent.charCode;
         var type = domEvent.type;
 
-        this._idealKeyHandler(keyCode, charCode, type, domEvent);
+        this._idealKeyHandler(domEvent.keyCode, charCode, type, domEvent);
       },
 
       "webkit" : function(domEvent)
