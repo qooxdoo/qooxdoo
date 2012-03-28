@@ -71,7 +71,7 @@ qx.Class.define("qx.bom.Element",
      */
     allowCreationWithMarkup : function(win) {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee);
-      return qx.dom.Node._allowCreationWithMarkup(win);
+      return qx.dom.Element._allowCreationWithMarkup(win);
     },
 
     /**
@@ -83,8 +83,8 @@ qx.Class.define("qx.bom.Element",
      */
     getHelperElement : function (win)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use qx.dom.Node.getHelperElement instead");
-      return qx.dom.Node.getHelperElement(win);
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use qx.dom.Element.getHelperElement instead");
+      return qx.dom.Element.getHelperElement(win);
     },
 
 
