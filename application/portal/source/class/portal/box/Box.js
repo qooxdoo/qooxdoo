@@ -234,7 +234,7 @@ qx.Class.define("portal.box.Box",
                  " It does contain no UI widget code at all.";
       text = text + "<br/><br/>" + text + "<br/><br/>" + text;
 
-      var box = qx.bom.Element.create("div", { "class" : "box_content" });
+      var box = qx.dom.Element.create("div", { "class" : "box_content" });
       box.innerHTML = text;
 
       qx.dom.Element.insertEnd(box, this.getElement());

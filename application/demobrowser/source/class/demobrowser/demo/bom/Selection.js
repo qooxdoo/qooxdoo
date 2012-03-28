@@ -30,14 +30,14 @@ qx.Class.define("demobrowser.demo.bom.Selection",
       /* ***************************************
        *  SETUP
        * ************************************* */
-      var container = qx.bom.Element.create("div", { id : "container", style : "position:relative;padding:20px"});
+      var container = qx.dom.Element.create("div", { id : "container", style : "position:relative;padding:20px"});
 
 
       /* TEXT */
-      var textContainer = qx.bom.Element.create("div", { id : "textContainer", style : "width:100%;margin-bottom:20px" });
+      var textContainer = qx.dom.Element.create("div", { id : "textContainer", style : "width:100%;margin-bottom:20px" });
       qx.dom.Element.insertEnd(textContainer, container);
 
-      var textBlock = qx.bom.Element.create("div", { id : "textBlock", style : "margin-bottom:20px" });
+      var textBlock = qx.dom.Element.create("div", { id : "textBlock", style : "margin-bottom:20px" });
       textBlock.innerHTML = "test test2 test3 test4 test5 test6";
       qx.dom.Element.insertEnd(textBlock, textContainer);
 
@@ -64,7 +64,7 @@ qx.Class.define("demobrowser.demo.bom.Selection",
 
 
       /* INPUT ELEMENT */
-      var inputContainer = qx.bom.Element.create("div", { id : "inputContainer", style : "width:100%;margin-bottom:20px" });
+      var inputContainer = qx.dom.Element.create("div", { id : "inputContainer", style : "width:100%;margin-bottom:20px" });
       qx.dom.Element.insertEnd(inputContainer, container);
 
       this._input = qx.bom.Input.create("text", { id : "textfield", value : "test text", style:"width:20%;margin-right:10px" });
@@ -88,7 +88,7 @@ qx.Class.define("demobrowser.demo.bom.Selection",
 
 
       /* TEXTAREA ELEMENT */
-      var areaContainer = qx.bom.Element.create("div", { id : "areaContainer", style : "width:100%;margin-bottom:20px" });
+      var areaContainer = qx.dom.Element.create("div", { id : "areaContainer", style : "width:100%;margin-bottom:20px" });
       qx.dom.Element.insertEnd(areaContainer, container);
 
       this._textArea = qx.bom.Input.create("textarea", { id : "textarea", rows : 7, cols : 20, value : "test\ntest2\ntest3\ntest4\ntest5", style : "width:300px;height:250px" });
@@ -112,17 +112,17 @@ qx.Class.define("demobrowser.demo.bom.Selection",
 
 
 
-      var resultLabel = qx.bom.Element.create("div", { style : "margin: 4px 0px" });
+      var resultLabel = qx.dom.Element.create("div", { style : "margin: 4px 0px" });
       resultLabel.innerHTML = "<strong>Results</strong>";
 
-      var resultDiv = qx.bom.Element.create("div", { id : "results", style : "width:500px;height:200px;" +
+      var resultDiv = qx.dom.Element.create("div", { id : "results", style : "width:500px;height:200px;" +
                                                                               "border:1px solid darkgrey;" +
                                                                               "background-color: lightgrey" });
       qx.dom.Element.insertEnd(resultLabel, container);
       qx.dom.Element.insertEnd(resultDiv, container);
 
 
-      var textDiv = qx.bom.Element.create("div", { id : "plaintext" });
+      var textDiv = qx.dom.Element.create("div", { id : "plaintext" });
       textDiv.innerHTML = "this is a test";
 
       qx.dom.Element.insertEnd(textDiv, document.body);

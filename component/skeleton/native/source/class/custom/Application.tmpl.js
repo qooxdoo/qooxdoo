@@ -57,7 +57,7 @@ qx.Class.define("${Namespace}.Application",
       -------------------------------------------------------------------------
       */
       
-      var logger = qx.bom.Element.create("div");
+      var logger = qx.dom.Element.create("div");
       var loggerStyles = {
         "width" : "80%",
         "height" : "250px",

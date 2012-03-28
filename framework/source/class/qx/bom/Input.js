@@ -32,16 +32,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.handler.Input)
-
-************************************************************************ */
-
 /**
  * Cross browser abstractions to work with input elements.
  */
-qx.Class.define("qx.bom.Input",
+qx.Bootstrap.define("qx.bom.Input",
 {
   /*
   *****************************************************************************
@@ -106,7 +100,7 @@ qx.Class.define("qx.bom.Input",
         attributes.type = type;
       }
 
-      return qx.bom.Element.create(tag, attributes, win);
+      return qx.dom.Element.create(tag, attributes, win);
     },
 
 

@@ -554,7 +554,7 @@ qx.Class.define("testrunner.view.Html", {
         qx.bom.element.Attribute.set(listItem, "class", state);
         qx.bom.Collection.create(listItem).children("ul").destroy();
       } else {
-        var item = qx.bom.Element.create("li", {id : key, "class" : state});
+        var item = qx.dom.Element.create("li", {id : key, "class" : state});
         if (this.__domElements.elemResultsList.firstChild) {
           qx.dom.Element.insertBefore(item, this.__domElements.elemResultsList.firstChild);
         } else {

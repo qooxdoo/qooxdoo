@@ -479,7 +479,7 @@ qx.Class.define("qx.html.Element",
      *
      */
     _createDomElement : function() {
-      return qx.bom.Element.create(this.__nodeName);
+      return qx.dom.Element.create(this.__nodeName);
     },
 
 
@@ -1389,7 +1389,7 @@ qx.Class.define("qx.html.Element",
       if ((qx.core.Environment.get("engine.name") == "mshtml")) {
         var helper = document.createElement("div");
       } else {
-        var helper = qx.bom.Element.getHelperElement();
+        var helper = qx.dom.Element.getHelperElement();
       }
 
       // Extract first element

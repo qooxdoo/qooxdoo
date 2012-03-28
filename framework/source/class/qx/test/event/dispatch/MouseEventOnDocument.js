@@ -25,7 +25,7 @@ qx.Class.define("qx.test.event.dispatch.MouseEventOnDocument",
   {
     setUp : function()
     {
-      this.root = qx.bom.Element.create("div", {id: "root"});
+      this.root = qx.dom.Element.create("div", {id: "root"});
       document.body.appendChild(this.root);
       this.ringAppender = new qx.log.appender.RingBuffer();
       qx.log.Logger.register(this.ringAppender);

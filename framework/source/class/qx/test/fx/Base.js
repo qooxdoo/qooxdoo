@@ -25,7 +25,7 @@ qx.Class.define("qx.test.fx.Base",
   {
     setUp : function()
     {
-      this.__elementToAnimate = qx.bom.Element.create("div");
+      this.__elementToAnimate = qx.dom.Element.create("div");
       qx.bom.element.Style.set(this.__elementToAnimate, "backgroundColor", "orange");
 
       document.body.appendChild(this.__elementToAnimate);

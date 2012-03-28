@@ -110,7 +110,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
     // override
     showErrorForItem : function(item) {
-      var errorNode = qx.bom.Element.create('div');
+      var errorNode = qx.dom.Element.create('div');
       errorNode.innerHTML = item.getInvalidMessage();
       qx.bom.element.Class.add(errorNode, 'formElementError');
       qx.dom.Element.insertAfter(errorNode, item.getContainerElement());

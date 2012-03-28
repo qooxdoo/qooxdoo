@@ -28,6 +28,7 @@
 #require(qx.event.handler.Appear)
 #require(qx.event.handler.Touch)
 #require(qx.event.handler.Offline)
+#require(qx.event.handler.Input)
 
 ************************************************************************ */
 
@@ -51,36 +52,6 @@ qx.Class.define("qx.bom.Element",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * {Map} A list of all attributes which needs to be part of the initial element to work correctly
-     *
-     * @internal
-     */
-    __initialAttributes :
-    {
-      "onload" : true,
-      "onpropertychange" : true,
-      "oninput" : true,
-      "onchange" : true,
-      "name" : true,
-      "type" : true,
-      "checked" : true,
-      "disabled" : true
-    },
-
-    /**
-     * Stores helper element for element creation in WebKit
-     *
-     * @internal
-     */
-    __helperElement : {},
-
-    /**
-     * Saves whether a helper element is needed for each window.
-     *
-     * @internal
-     */
-    __allowMarkup : {},
 
     /**
      * Detects if the DOM support a <code>document.createElement</code> call with a
@@ -96,56 +67,24 @@ qx.Class.define("qx.bom.Element",
      *
      * @param win {Window?} Window to check for
      * @return {Boolean} <code>true</code> if the DOM supports it, <code>false</code> otherwise.
+     * @deprecated since 2.0
      */
     allowCreationWithMarkup : function(win) {
-      if (!win) {
-        win = window;
-      }
-
-      // key is needed to allow using different windows
-      var key = win.location.href;
-      if (qx.bom.Element.__allowMarkup[key] == undefined)
-      {
-        try {
-          win.document.createElement("<INPUT TYPE='RADIO' NAME='RADIOTEST' VALUE='Second Choice'>");
-          qx.bom.Element.__allowMarkup[key] = true;
-        } catch(e) {
-          qx.bom.Element.__allowMarkup[key] = false;
-        }
-      }
-
-      return qx.bom.Element.__allowMarkup[key];
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      return qx.dom.Node._allowCreationWithMarkup(win);
     },
 
     /**
-     * Creates and returns an DOM helper element.
+     * Creates and returns a DOM helper element.
      *
      * @param win {Window?} Window to create the element for
      * @return {Element} The created element node
+     * @deprecated since 2.0
      */
     getHelperElement : function (win)
     {
-      if (!win) {
-        win = window;
-      }
-
-      // key is needed to allow using different windows
-      var key = win.location.href;
-
-      if (!qx.bom.Element.__helperElement[key])
-      {
-        var helper = qx.bom.Element.__helperElement[key] = win.document.createElement("div");
-
-        // innerHTML will only parsed correctly if element is appended to document
-        if (qx.core.Environment.get("engine.name") == "webkit")
-        {
-          helper.style.display = "none";
-
-          win.document.body.appendChild(helper);
-        }
-      }
-
-      return qx.bom.Element.__helperElement[key];
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use qx.dom.Node.getHelperElement instead");
+      return qx.dom.Node.getHelperElement(win);
     },
 
 
@@ -163,57 +102,12 @@ qx.Class.define("qx.bom.Element",
      * @param attributes {Map?} Map of attributes to apply
      * @param win {Window?} Window to create the element for
      * @return {Element} The created element node
+     * @deprecated since 2.0
      */
     create : function(name, attributes, win)
     {
-      if (!win) {
-        win = window;
-      }
-
-      if (!name) {
-        throw new Error("The tag name is missing!");
-      }
-
-      var initial = this.__initialAttributes;
-      var attributesHtml = "";
-
-      for (var key in attributes)
-      {
-        if (initial[key]) {
-          attributesHtml += key + "='" + attributes[key] + "' ";
-        }
-      }
-
-      var element;
-
-      // If specific attributes are defined we need to process
-      // the element creation in a more complex way.
-      if (attributesHtml != "")
-      {
-        if (qx.bom.Element.allowCreationWithMarkup(win)) {
-          element = win.document.createElement("<" + name + " " + attributesHtml + ">");
-        }
-        else
-        {
-          var helper = qx.bom.Element.getHelperElement(win);
-
-          helper.innerHTML = "<" + name + " " + attributesHtml + "></" + name + ">";
-          element = helper.firstChild;
-        }
-      }
-      else
-      {
-        element = win.document.createElement(name);
-      }
-
-      for (var key in attributes)
-      {
-        if (!initial[key]) {
-          qx.bom.element.Attribute.set(element, key, attributes[key]);
-        }
-      }
-
-      return element;
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use qx.dom.Element.create instead");
+      return qx.dom.Element.create(name, attributes, win);
     },
 
 
@@ -231,9 +125,11 @@ qx.Class.define("qx.bom.Element",
      *
      * @param element {Element} element to clean
      * @return {String} empty string (new HTML content)
+     * @deprecated since 2.0
      */
     empty : function(element) {
-      return element.innerHTML = "";
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use qx.dom.Element.empty instead");
+      return qx.dom.Element.empty(element);
     },
 
 
@@ -390,6 +286,7 @@ qx.Class.define("qx.bom.Element",
      * @param element {Element} DOM element to test against
      * @param selector {String} Valid selector (CSS3 + extensions)
      * @return {Boolean} whether the element can be selected by the selector or not
+     * @deprecated since 2.0
      */
     matchesSelector : function(element,selector) {
       if (selector) {

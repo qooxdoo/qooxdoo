@@ -220,7 +220,7 @@ qx.Class.define("qx.bom.Blocker",
      */
     __setupBlockerElement : function()
     {
-      this.__blockerElement = qx.bom.Element.create("div");
+      this.__blockerElement = qx.dom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__blockerElement,
       {
         display: "block",
