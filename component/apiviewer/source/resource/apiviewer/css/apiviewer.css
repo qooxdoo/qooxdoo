@@ -1,11 +1,27 @@
 /* ==============================================
+    OVERALL CONTENT
+============================================== */
+
+div.ClassViewer {
+  color: #323335 !important; /* background-selected-dark */
+}
+
+.content a {
+  color: #3d72c9; /* highlight */
+}
+
+.content h1 a {
+  color: #323335; /* background-selected-dark */
+}
+
+/* ==============================================
     HEADER (TOP)
 ============================================== */
 
 #header{
   margin: 0;
   padding: 0;
-  background-color: #134275;
+/*  background-color: #134275;*/
   font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
 }
 
@@ -17,7 +33,7 @@
 #header h1{
   font-size: 18px;
   font-weight: bold;
-  color: #DEFF83;
+  color: #323335; /* background-selected-dark */
   position: absolute;
   top: 30px;
   left: 20px;
@@ -28,7 +44,7 @@
 #header .version{
   font-size: 11px;
   text-transform: lowercase;
-  color: #F3FFD1;
+  color: #f4f4f4; /* light-background */
   margin-top: -14px;
   letter-spacing: 1px;
   word-spacing: 4px;
@@ -82,7 +98,7 @@
 
 #legend h3{
   font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
-  color: #134275;
+/*  color: #134275;*/
   font-size: 13px;
   margin: 0 !important;
 }
@@ -119,7 +135,7 @@
 .content h5,
 .content h6{
   font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
-  color: #134275;
+/*  color: #134275;*/
 }
 
 .content h1{
@@ -135,7 +151,7 @@
 }
 
 .content h2{
-  color: #134275;
+/*  color: #134275;*/
   font-size: 18px;
   margin-top: 36px;
   margin-bottom: 4px;
@@ -163,12 +179,12 @@
 
 .content a:link,
 .content a:visited{
-  color: #134275;
+/*  color: #134275;*/
 }
 
 .content a:hover,
 .content a:active{
-  color: #134275;
+/*  color: #134275;*/
   text-decoration: underline;
 }
 
@@ -201,7 +217,7 @@
 }
 
 .keyword {
-	color : #134275;
+/*  color : #134275;*/
 	font-weight: bold;
 }
 
@@ -262,7 +278,7 @@
     CLASS VIEWER: TOC Items
 ============================================== */
 .tocitem {
-  color: #134275;
+/*  color: #134275;*/
   margin: 2px 7px 10px 1px;
   line-height: 18px;
   cursor: pointer;
@@ -283,7 +299,7 @@
 ============================================== */
 
 .ClassViewer h1 span.type{
-  color: #83B300;
+  color: #3d72c9; /* highlight */
   font-weight: normal;
 }
 
@@ -291,9 +307,9 @@
   font-size: 12px;
   line-height: 1.6;
 	overflow: auto;
-	background: #F3FFD1;
+	background: #f4f4f4; /* light-background */
 	margin-bottom: 30px;
-	border: 1px solid #F3FFD1;
+	border: 1px solid #f4f4f4; /* light-background */
   -moz-border-radius-topright: 20px;
   padding: 2px 20px;
 }
@@ -307,7 +323,7 @@
 }
 
 .ClassViewer div.class-description em{
-  color: #83B300;
+  color: #3d72c9; /* highlight */
   font-style: normal;
   font-weight: bold;
 }
@@ -348,7 +364,7 @@
 }
 
 .ClassViewer table.info tr{
-  background: #F9FFE9;
+  background: #f4f4f4; /* light-background */
 }
 
 .ClassViewer table.info tr.marked{
@@ -408,7 +424,7 @@
   font-size: 11px;
   font-style: italic;
   font-weight: bold;
-  color: #83B300;
+  color: #3d72c9; /* highlight */
 }
 
 .ClassViewer table.info td.toggle{
@@ -439,7 +455,7 @@
 
 .ClassViewer table.info td.text table th{
 	text-align: left;
-	color: #134275;
+/*  color: #134275;*/
 	font-weight: normal;
 	padding: 1px 3px;
 }
@@ -458,16 +474,16 @@
 ============================================== */
 
 .ClassViewer span.method-signature{
-  color: #83B300;
+  color: #3d72c9; /* highlight */
 }
 
 .ClassViewer span.method-signature a{
-  color: #83B300;
+  color: #3d72c9; /* highlight */
 }
 
 .ClassViewer span.method-signature span.separator,
 .ClassViewer span.method-signature span.parenthesis{
-  color: #134275;
+/*  color: #134275;*/
   font-weight: bold;
 }
 
