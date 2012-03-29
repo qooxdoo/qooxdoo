@@ -312,6 +312,7 @@ div.ClassViewer {
 	border: 1px solid #f4f4f4; /* light-background */
   -moz-border-radius-topright: 20px;
   padding: 2px 20px;
+  color: #000000; /* text */
 }
 
 .ClassViewer div.class-description p,
@@ -365,6 +366,7 @@ div.ClassViewer {
 
 .ClassViewer table.info tr{
   background: #f4f4f4; /* light-background */
+  color: #000000; /* text */
 }
 
 .ClassViewer table.info tr.marked{
