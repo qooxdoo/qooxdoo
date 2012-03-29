@@ -1,3 +1,8 @@
+.. _pages/data_binding:
+
+Data Binding
+************
+
 .. toctree::
 
    data_binding/data_binding
