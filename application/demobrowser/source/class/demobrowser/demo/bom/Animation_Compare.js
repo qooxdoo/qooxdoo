@@ -68,6 +68,12 @@ qx.Class.define("demobrowser.demo.bom.Animation_Compare",
         100 : {"opacity" : 1}
       }};
 
+      var fadeOut = {duration: 500, keep: 100, keyFrames : {
+        0 : {"opacity" : 1},
+        100 : {"opacity": 0, display: "none"}
+      }};
+
+
       var move = {duration: 500, keyFrames : {
         0 : {"left" : "0px", "top" : "0px"},
         80 : {"left" : "50px", "top" : "100px"},
@@ -153,11 +159,18 @@ qx.Class.define("demobrowser.demo.bom.Animation_Compare",
       var easeinout = qx.lang.Object.clone(easein);
       easeinout.timing = "ease-in-out";
 
+      var missing = {duration: 1000, keyFrames: {
+        0: {},
+        50: {"opacity": 0},
+        100 : {}
+      }};
+
 
       var tests = {
         "Width" : width,
         "Height" : height,
         "Fade" : fade,
+        "FadeOut" : fadeOut,
         "Move" : move,
         "Shake" : shake,
         "Dance" : dance,
@@ -173,7 +186,8 @@ qx.Class.define("demobrowser.demo.bom.Animation_Compare",
         "Ease Out" : easeout,
         "Linear" : linear,
         "Ease" : ease,
-        "Ease In Out" : easeinout
+        "Ease In Out" : easeinout,
+        "Missing Values" : missing
       };
 
       // CSS ANIMATIONS
