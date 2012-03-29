@@ -9,54 +9,58 @@ Overview
 .. toctree::
    :maxdepth: 1
 
-   getting_started/components
    getting_started/architecture
 
-Website
-=======
+%{Website}
+===========
+
+:doc:`/pages/website` is a low-level package that you deploy as a single *.js* file, like you would with many other %{JS} libraries. Its contents encompasses DOM and BOM abstractions, cross-browser event handling, a selector engine, and the qooxdoo :doc:`class system </pages/core>`. It does not include any UI widgets. It is suitable if you basically want to manipulate DOM elements on a page.
 
 .. toctree::
    :maxdepth: 1
 
-   website/requirements
-   website/getting_started
-   website/tutorials
+   Requirements <website/requirements>
+   Getting Started <website/getting_started>
+   Tutorials <website/tutorials>
 
 
-Desktop
-=======
+%{Desktop}
+==========
 
-.. toctree::
-   :maxdepth: 1
-
-   desktop/requirements
-   desktop/getting_started
-   desktop/tutorials
-
-
-Mobile
-======
+:doc:`/pages/desktop` contains the full scope of qooxdoo classes and infrastructure, like the class system, low-level DOM/BOM layers, a theming system, and a rich set of UI widgets and controls. It is available through the :doc:`SDK </pages/tool/sdk_introduction>`. It allows you to create desktop-like, interactive web applications.
 
 .. toctree::
    :maxdepth: 1
 
-   mobile/requirements
-   mobile/getting_started
-   mobile/tutorials
+   Requirements <desktop/requirements>
+   Getting Started <desktop/getting_started>
+   Tutorials <desktop/tutorials>
 
 
-Server
-======
+%{Mobile}
+=========
+
+:doc:`/pages/mobile` is used to develop applications for mobile platforms, like iOS and Android.It provides specific UI elements and theming capabilities suitable for mobile devices. Like the %{Desktop} component it is available through the :doc:`SDK </pages/tool/sdk_introduction>`.
 
 .. toctree::
    :maxdepth: 1
 
-   server/requirements
-   server/getting_started
-   server/tutorials
+   Requirements <mobile/requirements>
+   Getting Started <mobile/getting_started>
+   Tutorials <mobile/tutorials>
 
 
-.. _index#tutorial:
+%{Server}
+=========
+
+:doc:`/pages/server` is a library suitable for all environments that do not provide a DOM, such as Node.js and Rhino. But you can also use it to program Webworkers. With no dependencies to external APIs (like a global *window* object), you get the infrastructure of qooxdoo's classes, mixins, properties, custom events and data binding.
+
+.. toctree::
+   :maxdepth: 1
+
+   Requirements <server/requirements>
+   Getting Started <server/getting_started>
+   Tutorials <server/tutorials>
 
 
 General
