@@ -7,7 +7,10 @@ Debugging your qooxdoo mobile application
 =========================================
 
 You can develop and debug the applications on your machine in Safari or Chrome desktop browsers. 
-But sometimes there are errors that only occur on the mobile device. Debugging CSS or runtime-specific JS code can be challenging, if the application is running in the mobile browser or is deployed as a native app via PhoneGap.
+But sometimes there are errors, that only occur on the mobile device. Debugging CSS or runtime-specific JS code can be challenging, if the application is running in the mobile browser or is deployed as a native app via PhoneGap.
+
+Debugging with weinre
+=====================
 
 If you want to debug your qooxdoo mobile application on a mobile device, we propose
 using a web remote debugger called "weinre":
@@ -48,6 +51,20 @@ the target device disconnects from debug server.
 This means, debugging with weinre works fine, as long as you do not reload a 
 subpage of your qooxdoo mobile page. Your starting point for remote debugging should
 always be the "index.html" without any strings attached.
+
+Debugging with desktop browsers
+===============================
+
+Instead of using the weinre debug client, you can also use your webkit desktop browser (Safari or Chrome).
+
+The newest versions of webkit browsers and their debuggers might have more functions than the 
+weinre debug client. 
+
+Just open the weinre debugging client with following URL:
+
+``http://localhost:8081/client/``
+
+
 
 
 
