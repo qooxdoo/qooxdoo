@@ -87,10 +87,10 @@ qx.Class.define("widgetbrowser.Application",
 
     getThemes: function() {
       return ([
+        {"Indigo" : "qx.theme.Indigo"},
         {"Modern" : "qx.theme.Modern"},
         {"Simple" : "qx.theme.Simple"},
-        {"Classic" : "qx.theme.Classic"},
-        {"Indigo" : "qx.theme.Indigo"}
+        {"Classic" : "qx.theme.Classic"}
       ]);
     }
   }
