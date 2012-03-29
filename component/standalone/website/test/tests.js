@@ -1303,3 +1303,44 @@ testrunner.define({
     this.assertEquals(7, result);
   }
 });
+
+testrunner.define({
+  classname : "Placement",
+  
+  //setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+  
+  setUp: function()
+  {
+    testrunner.globalSetup.call(this);
+    
+    q.create('<div id="foo"></div>').setStyles({
+      position: "absolute",
+      top: "200px",
+      left: "200px",
+      width: "200px",
+      height: "100px",
+      backgroundColor : "red"
+    }).appendTo(this.sandbox[0]);
+    
+    q.create('<div id="bar"></div>').setStyles({
+      position: "relative",
+      width: "100px",
+      height: "25px",
+      backgroundColor : "green"
+    }).appendTo(this.sandbox[0]);
+    
+  },
+  
+  testPlaceToDirect : function()
+  {
+    q("#sandbox #bar").placeTo(q("#sandbox #foo")[0], "right-bottom", {top: 10, right: 10, bottom: 10, left: 10});
+    
+    var expectedLocation = { 
+      left: 410,
+      top: 265 
+    };
+    this.assertEquals(expectedLocation.left, q("#bar").getOffset().left);
+    this.assertEquals(expectedLocation.top, q("#bar").getOffset().top);
+  }
+});

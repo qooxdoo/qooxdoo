@@ -53,6 +53,7 @@
       "qx.module.event.Keyboard",
       "qx.module.Template",
       "qx.module.Polyfill",
+      "qx.module.Placement",
       "q"
     ]
   },
