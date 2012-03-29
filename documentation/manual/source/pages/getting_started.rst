@@ -1,52 +1,67 @@
 Getting Started
 ***************
 
+This section provides you with resources that help you pick the qooxdoo package for your needs, set it up on your local machine and get started with writing your own code.
 
-.. toctree::
-   :maxdepth: 2
-
-   getting_started/requirements
-   getting_started/setup
-   tool/troubleshooting
-   getting_started/architecture
-
-.. _index#tutorial:
-
-Tutorials
+Overview
 =========
-
-Rich Internet Applications (RIA)
---------------------------------
 
 .. toctree::
    :maxdepth: 1
 
-   tutorials/tutorial-part-1
-   tutorials/tutorial-part-2
-   tutorials/tutorial-part-3
-   tutorials/tutorial-part-4-1
-   tutorials/tutorial-part-4-2
-   tutorials/tutorial-part-4-2-1
-   tutorials/tutorial-part-4-3
-   tutorials/tutorial-part-4-3-1
-   tutorials/tutorial-part-4-4-1
-   tutorials/tutorial-part-4-5
+   getting_started/components
+   getting_started/architecture
 
-Mobile Apps
------------
+Website
+=======
 
-* :doc:`Tutorial: Creating a Twitter Client with qooxdoo mobile <mobile/tutorial>`
+.. toctree::
+   :maxdepth: 1
 
-Tooling
--------
-
-* :doc:`tool/tutorial_basics`
+   website/requirements
+   website/getting_started
+   website/tutorials
 
 
-Video Tutorials
----------------
+Desktop
+=======
 
-You can find some community made 
-`tutorial videos on vimeo <http://vimeo.com/channels/qooxdoo>`_.
+.. toctree::
+   :maxdepth: 1
+
+   desktop/requirements
+   desktop/getting_started
+   desktop/tutorials
+
+
+Mobile
+======
+
+.. toctree::
+   :maxdepth: 1
+
+   mobile/requirements
+   mobile/getting_started
+   mobile/tutorials
+
+
+Server
+======
+
+.. toctree::
+   :maxdepth: 1
+
+   server/requirements
+   server/getting_started
+   server/tutorials
+
+
+.. _index#tutorial:
+
+
+General
+=========
+
+* You can find some community made `tutorial videos on vimeo <http://vimeo.com/channels/qooxdoo>`_.
 
 
