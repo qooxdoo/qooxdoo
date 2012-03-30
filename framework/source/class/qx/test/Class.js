@@ -38,6 +38,17 @@ qx.Class.define("qx.test.Class",
 
   members :
   {
+    testAnonymous : function() {
+      var clazz = qx.Class.define(null, {statics : {
+        test : function() {
+          return true;
+        }
+      }});
+
+      this.assertTrue(clazz.test());
+    },
+
+
     testEmptyClass : function()
     {
       qx.Class.define("qx.Empty",
