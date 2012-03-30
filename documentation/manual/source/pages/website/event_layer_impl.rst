@@ -5,7 +5,7 @@ The Event Layer
 
 The class `qx.event.Manager <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.event.Manager>`_ provides a per-document wrapper for cross-browser DOM event handling. The implementation of the event layer is inside the `qx.event <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.event>`_ namespace.
 
-The following features work in all :ref:`supported browsers <pages/requirements#client>`:
+The following features work in all :ref:`supported browsers <pages/website/requirements#client>`:
 
 * Canceling events: ``stopPropagation()``
 * Skipping the browser's default behavior: ``preventDefault()``

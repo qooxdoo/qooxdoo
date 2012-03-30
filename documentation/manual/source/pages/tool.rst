@@ -23,7 +23,6 @@ Introduction
 
    tool/sdk_introduction
    tool/sdk_requirements
-   tool/sdk_install_troubleshoot
    tool/getting_started
    tool/sdk_structure
    tool/application_structure

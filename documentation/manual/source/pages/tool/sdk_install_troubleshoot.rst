@@ -31,7 +31,7 @@ Making the interpreter available
     The following is only required when installing the Windows package from `Python.org <http://python.org>`_. When installing the preferred `ActivePython <http://www.activestate.com/activepython/downloads>`_ this installation step is conveniently handled within its graphical installation wizard.
 
 
-After your successful :ref:`Python installation <pages/requirements#tools>`, you need to add the installation folder to the so-called ``PATH`` environment variable, which contains a list of directories that are searched for executables. 
+After your successful :ref:`Python installation <pages/tool/requirements#python>`, you need to add the installation folder to the so-called ``PATH`` environment variable, which contains a list of directories that are searched for executables. 
 
 Suppose you installed Python to its default location ``C:\Python26``, open a Windows command shell (choose menu ``Start -> Run...`` and type ``cmd``). The following command prepends the installation folder to the value of ``PATH``, separated by a semicolon:
 
