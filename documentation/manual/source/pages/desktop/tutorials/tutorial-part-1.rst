@@ -16,7 +16,7 @@ As you sure have read in the headline, we are building a simple twitter applicat
 
 .. |twitter mockup.png| image:: /pages/desktop/tutorials/twittermockup1.png
 
-If you take a closer look at the mockup, you see a :doc:`window <../widget/window>` containing a :doc:`toolbar <../widget/toolbar>`, a :doc:`list <../widget/list>`, a :doc:`text area <../widget/textarea>` and a :doc:`button <../widget/button>` to post messages. This should cover some common scenarios of a typical qooxdoo application.
+If you take a closer look at the mockup, you see a :doc:`window </pages/widget/window>` containing a :doc:`toolbar </pages/widget/toolbar>`, a :doc:`list </pages/widget/list>`, a :doc:`text area </pages/widget/textarea>` and a :doc:`button </pages/widget/button>` to post messages. This should cover some common scenarios of a typical qooxdoo application.
 
 In the first part you'll learn how to create a new application and how to build a part of the main UI. But before we get started, be sure you looked at the :ref:`"Hello World" tutorial <pages/getting_started/helloworld#helloworld>`. We rely on some of the fundamentals explained there.
 
@@ -35,7 +35,7 @@ After that, we should check if everything works as expected. Change the director
 
 You should see the unchanged skeleton code of the application containing the creation of a button. We don't need that anymore so you can delete it including all the listener stuff.
 
-The first part is to create a Window. As the :doc:`Window <../widget/window>` contains all the UI controls, we should extend from the qooxdoo Window and add the controls within that class. Adding a new class is as easy as creating a new file. Just create a file parallel to the ``Application.js`` file named ``MainWindow.js``. Now it is time to add some code to that file. We want to create a class so we use the qooxdoo function ``qx.Class.define`` for that. Add the following lines to your newly created file.
+The first part is to create a Window. As the :doc:`Window </pages/widget/window>` contains all the UI controls, we should extend from the qooxdoo Window and add the controls within that class. Adding a new class is as easy as creating a new file. Just create a file parallel to the ``Application.js`` file named ``MainWindow.js``. Now it is time to add some code to that file. We want to create a class so we use the qooxdoo function ``qx.Class.define`` for that. Add the following lines to your newly created file.
 
 ::
 

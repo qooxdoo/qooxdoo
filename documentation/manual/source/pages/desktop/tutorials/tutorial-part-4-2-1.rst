@@ -2,8 +2,8 @@
 
 Tutorial Part 4.2.1: Basic Theming
 **********************************
-This time, we continue with a very exciting topic for the :doc:`tutorials <../getting_started>`: Theming. As you might already know, the theming system in qooxdoo is not based on CSS which means you, as an application developer, don't have to bother with cross browser CSS. The qooxdoo framework takes care of all that for you.
-As a base for theming an app, we use the already known twitter client we built in the :doc:`former tutorials <../getting_started>`. On the left is a picture how it should look to get you started. The the code of the tutorial `on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.2.1>`_.
+This time, we continue with a very exciting topic for the :doc:`tutorials </pages/getting_started>`: Theming. As you might already know, the theming system in qooxdoo is not based on CSS which means you, as an application developer, don't have to bother with cross browser CSS. The qooxdoo framework takes care of all that for you.
+As a base for theming an app, we use the already known twitter client we built in the :doc:`former tutorials </pages/getting_started>`. On the left is a picture how it should look to get you started. The the code of the tutorial `on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.2.1>`_.
 
 .. image:: tutorial_4_2_1-1.png
 
@@ -26,7 +26,7 @@ Style the widget we created for showing tweets
 In 
 :doc:`Tutorial 4.2 <tutorial-part-4-2>`, we created a custom widget for showing the tweets icons, content and date. As you can see on the screenshot above, the time and the content have the same text color which might be irritating. That's why we want to change the time's color to a lighter gray. So how should we do that?
 
-First, we need to get some knowledge about the theming system itself. Every widget has a so called :doc:`appearance <../desktop/ui_appearance>`, which is used to identify the styling of a widget. In our case, we used the ``listitem`` appearance in the former tutorial, which is defined in qooxdoo's default theme, the :doc:`Modern theme <../desktop/ui_theming>`. But now we want to change that so we need to edit the ``TweetView`` class and change the appearance property's init value from ``listitem`` to a custom name we choose, lets say ``tweet-view``. The new code should look like this:
+First, we need to get some knowledge about the theming system itself. Every widget has a so called :doc:`appearance </pages/desktop/ui_appearance>`, which is used to identify the styling of a widget. In our case, we used the ``listitem`` appearance in the former tutorial, which is defined in qooxdoo's default theme, the :doc:`Modern theme </pages/desktop/ui_theming>`. But now we want to change that so we need to edit the ``TweetView`` class and change the appearance property's init value from ``listitem`` to a custom name we choose, lets say ``tweet-view``. The new code should look like this:
 
 ::
 
@@ -63,7 +63,7 @@ The basic outline of such an appearance definition can be compared to a class de
 
 The last missing piece of our first task is to style the label. But how do we access it in the appearance theme if we haven't assigned a separate appearance key for it?
 
-Luckily, we defined the label as :doc:`child control <../desktop/ui_develop>` named ``time`` (take a look at the :doc:`custom widget tutorial <tutorial-part-4-2>` for more details). That way, we can assign a separate appearance key using that hierarchy:
+Luckily, we defined the label as :doc:`child control </pages/desktop/ui_develop>` named ``time`` (take a look at the :doc:`custom widget tutorial <tutorial-part-4-2>` for more details). That way, we can assign a separate appearance key using that hierarchy:
 
 ::
 
@@ -96,7 +96,7 @@ Now, we have defined a color alias for our color which can be used in the whole 
 
 Change the default theme
 ========================
-As a next step, we want to change the default theme, which is the :doc:`Modern theme <../desktop/ui_theming>`, to the new :doc:`Simple theme <../desktop/ui_theming>` we recently shipped with the `1.4 release <http://news.qooxdoo.org/qooxdoo-1-4-and-1-3-1-released>`_. For that, we have to take another look at the files in the ``theme`` folder. You might have already realized that all these files do have an "extend" key which extends from the Modern theme's files. Thats what we are going to change now. Just open all the files in the theme folder and change the extend key from ``qx.theme.modern.xyz`` to ``qx.theme.simple.xyz`` with *xyz* as a placeholder for the name of the file you are editing. There is only one file you don't have to change which is the meta theme named ``Theme.js``. It does not refer to the framework theme so there is nothing to change. With that change, we included new dependencies to classes and resources which means, we have to rebuild our application. Run ``./generate.py`` in the root folder of your application to rebuild the development version of the twitter application. After the process is done, we can reload the application and see a dramatically changed application using the Simple theme.
+As a next step, we want to change the default theme, which is the :doc:`Modern theme </pages/desktop/ui_theming>`, to the new :doc:`Simple theme </pages/desktop/ui_theming>` we recently shipped with the `1.4 release <http://news.qooxdoo.org/qooxdoo-1-4-and-1-3-1-released>`_. For that, we have to take another look at the files in the ``theme`` folder. You might have already realized that all these files do have an "extend" key which extends from the Modern theme's files. Thats what we are going to change now. Just open all the files in the theme folder and change the extend key from ``qx.theme.modern.xyz`` to ``qx.theme.simple.xyz`` with *xyz* as a placeholder for the name of the file you are editing. There is only one file you don't have to change which is the meta theme named ``Theme.js``. It does not refer to the framework theme so there is nothing to change. With that change, we included new dependencies to classes and resources which means, we have to rebuild our application. Run ``./generate.py`` in the root folder of your application to rebuild the development version of the twitter application. After the process is done, we can reload the application and see a dramatically changed application using the Simple theme.
 
 .. image:: tutorial_4_2_1-3.png
 
@@ -127,4 +127,4 @@ This is a named color which comes from the frameworks Simple theme. You can find
 
 Job done
 ========
-With the last step, we have finally managed to change the three basic things we wanted to change. If you are interessted in more details about the theming possibilities in qooxdoo, :doc:`check out the manual <../desktop>` for more information. As always, the code of the tutorial is `on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.2.1>`_.
+With the last step, we have finally managed to change the three basic things we wanted to change. If you are interessted in more details about the theming possibilities in qooxdoo, :doc:`check out the manual </pages/desktop>` for more information. As always, the code of the tutorial is `on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.2.1>`_.
