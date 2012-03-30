@@ -22,9 +22,9 @@
  */
 qx.Bootstrap.define("qx.util.placement.AbstractAxis",
 {
-  extend : qx.core.Object,
+  extend : Object,
 
-  members :
+  statics :
   {
     /**
      * Computes the start of the object on the axis

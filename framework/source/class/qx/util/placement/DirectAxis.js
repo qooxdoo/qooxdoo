@@ -23,11 +23,10 @@
  */
 qx.Bootstrap.define("qx.util.placement.DirectAxis",
 {
-  extend : qx.util.placement.AbstractAxis,
-
-  members :
+  statics :
   {
-    //overridden
+    _moveToEdgeAndAlign : qx.util.placement.AbstractAxis._moveToEdgeAndAlign,
+    
     computeStart : function(size, target, offsets, areaSize, position) {
       return this._moveToEdgeAndAlign(size, target, offsets, position);
     }

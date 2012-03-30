@@ -8,8 +8,8 @@ qx.Bootstrap.define("qx.module.Placement", {
       }
       
       var axes = {
-        x : new qx.util.placement.DirectAxis(),
-        y : new qx.util.placement.DirectAxis()
+        x : qx.util.placement.DirectAxis,
+        y : qx.util.placement.DirectAxis
       };
       
       var size = {
@@ -37,11 +37,11 @@ qx.Bootstrap.define("qx.module.Placement", {
       var align = splitted[1];
       
       var position = {
-        x : q._getPositionX(edge,align),
-        y : q._getPositionY(edge,align)
+        x : qx.module.Placement._getPositionX(edge,align),
+        y : qx.module.Placement._getPositionY(edge,align)
       }
       
-      var newLocation = q._computePlacement(axes, size, area, target, offsets, position);
+      var newLocation = qx.module.Placement._computePlacement(axes, size, area, target, offsets, position);
       
       this.setStyles({
         position: "absolute",
@@ -106,12 +106,6 @@ qx.Bootstrap.define("qx.module.Placement", {
   
   defer : function(statics)
   {
-    q.attachStatic({
-      "_computePlacement" : statics._computePlacement,
-      "_getPositionX" : statics._getPositionX,
-      "_getPositionY" : statics._getPositionY
-    });
-    
     q.attach({
      "placeTo" : statics.placeTo
     });
