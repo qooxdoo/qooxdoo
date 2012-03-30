@@ -1,7 +1,7 @@
 .. _pages/troubleshooting#troubleshooting:
 
-Troubleshooting
-***************
+SDK Installation Troubleshooting
+**********************************
 
 Python Installation
 ===================

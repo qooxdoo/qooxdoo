@@ -22,7 +22,9 @@ Introduction
    :maxdepth: 1
 
    tool/sdk_introduction
-   tool/helloworld
+   tool/sdk_requirements
+   tool/sdk_install_troubleshoot
+   tool/getting_started
    tool/sdk_structure
    tool/application_structure
    tool/manifest
