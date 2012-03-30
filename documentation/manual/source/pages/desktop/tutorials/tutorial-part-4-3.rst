@@ -1,17 +1,17 @@
-.. _pages/tutorials/tutorial-part-4-3#tutorial_part_4.3:_translation:
+.. _pages/desktop/tutorials/tutorial-part-4-3#tutorial_part_4.3:_translation:
 
 Tutorial Part 4.3: Translation
 ******************************
 
 We've already covered quite a few of qooxdoo's features to get to this point. In this tutorial, we want to :doc:`internationalize </pages/development/internationalization>` the twitter client. Additionally, we want to add a preferences dialog allowing users to change the language during runtime. Adding a window containing a form should be familiar to you if you've read the :doc:`form handling tutorial <tutorial-part-4-1>`
 
-.. _pages/tutorials/tutorial-part-4-3#the_plan:
+.. _pages/desktop/tutorials/tutorial-part-4-3#the_plan:
 
 The plan
 ========
 The first step is to make the application aware of localization. We need to identify all the strings which need to change on a language change. After that, we need to create translations for our initial string set. After that is done, we can add a window containing a radio group with all available language options.
 
-.. _pages/tutorials/tutorial-part-4-3#identifying_string_to_translation:
+.. _pages/desktop/tutorials/tutorial-part-4-3#identifying_string_to_translation:
 
 Identifying strings to translate
 ================================
@@ -45,7 +45,7 @@ qooxdoo offers a handy way to tell both the JavaScript code and the generator wh
   postButton.setToolTipText(this.tr("Post this message on twitter."));
 
 
-.. _pages/tutorials/tutorial-part-4-3#generating_the_translation_files:
+.. _pages/desktop/tutorials/tutorial-part-4-3#generating_the_translation_files:
 
 Generating the translation files
 ================================
@@ -76,7 +76,7 @@ The first line is a comment, which is a hint containing the class file and line 
 
 You may have already realized that the rest of the file is a list of blocks similar to this one. Now you should translate all strings and add them in the right spots.
 
-.. _pages/tutorials/tutorial-part-4-3#give_it_a_try:
+.. _pages/desktop/tutorials/tutorial-part-4-3#give_it_a_try:
 
 Give it a try
 =============
@@ -90,7 +90,7 @@ After adding these translations, we should rebuild the application using ``./gen
 If you added a language like German in which most words are longer than in English, you may recognize that we made a mistake in our main window. ``postButton.setWidth(60);`` may cut off the text in the button because we set the width explicitly. Changing that to ``postButton.setMinWidth(60);`` will keep the layout flexible for different content sizes.
 
 
-.. _pages/tutorials/tutorial-part-4-3#adding_the_preferences_window:
+.. _pages/desktop/tutorials/tutorial-part-4-3#adding_the_preferences_window:
 
 Adding the preferences window
 =============================
@@ -178,7 +178,7 @@ The last thing missing in the window is changing the locale if the user selects 
   
 First, we get the model selection array, which is a data array and has a change event for every change in the array. The new locale is always the first element of the selection array itself, as you can see in the second line. You might have noticed that we need to access the item with a special method instead of the bracket notation normally used with arrays. That's a special method you have to use for data arrays. The third line simply hands the new locale to the manager, which will take care of all the necessary changes.
 
-.. _pages/tutorials/tutorial-part-4-3#accessing_the_preferences:
+.. _pages/desktop/tutorials/tutorial-part-4-3#accessing_the_preferences:
 
 Accessing the preferences
 =========================
@@ -205,7 +205,7 @@ With that, we are done with the preferences window, but we can't access it yet. 
   
 The first thing we do is to add a spacer to attach the preferences button to the right side of the toolbar. This should be the only new thing you haven't seen before, so we won't go into details here.
 
-.. _pages/tutorials/tutorial-part-4-3#final_steps:
+.. _pages/desktop/tutorials/tutorial-part-4-3#final_steps:
 
 Final steps
 ===========

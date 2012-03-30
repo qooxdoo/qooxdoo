@@ -1,4 +1,4 @@
-.. _pages/tutorials/tutorial-part-4-5#tutorial_part_4.5:_virtual_list:
+.. _pages/desktop/tutorials/tutorial-part-4-5#tutorial_part_4.5:_virtual_list:
 
 Tutorial Part 4.5: Virtual List
 *******************************
@@ -12,7 +12,7 @@ twitter client we built in the :doc:`former tutorials <../getting_started>`.
 
 .. image:: tutorial_4_5-1.png
 
-.. _pages/tutorials/tutorial-part-4-5#change_the_instantiation:
+.. _pages/desktop/tutorials/tutorial-part-4-5#change_the_instantiation:
 
 Change the instantiation
 ========================
@@ -36,7 +36,7 @@ Now we use the virtual List instead of the non virtual List. But before
 we can use the twitter application with the virtual List we have to
 configure the usage with a delegate.
 
-.. _pages/tutorials/tutorial-part-4-5#configure_the_virtual_list:
+.. _pages/desktop/tutorials/tutorial-part-4-5#configure_the_virtual_list:
 
 Configure the virtual List
 ==========================
@@ -79,7 +79,7 @@ default item hight. This is necessary, because the virtual List has no
 auto sizing for the item height. This is due to the huge count of model
 items.
 
-.. _pages/tutorials/tutorial-part-4-5#update_list_binding:
+.. _pages/desktop/tutorials/tutorial-part-4-5#update_list_binding:
 
 Update list binding
 ===================

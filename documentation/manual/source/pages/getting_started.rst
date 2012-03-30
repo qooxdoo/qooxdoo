@@ -3,13 +3,6 @@ Getting Started
 
 This section provides you with resources that help you pick the qooxdoo package for your needs, set it up on your local machine and get started with writing your own code.
 
-Overview
-=========
-
-.. toctree::
-   :maxdepth: 1
-
-   getting_started/architecture
 
 %{Website}
 ===========

@@ -1,7 +1,7 @@
 .. _pages/architecture#architecture:
 
-Architecture
-************
+Architectural Overview
+**********************
 
 .. _pages/architecture#ui_architecture:
 

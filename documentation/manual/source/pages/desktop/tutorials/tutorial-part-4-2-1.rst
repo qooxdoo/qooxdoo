@@ -1,4 +1,4 @@
-.. _pages/tutorials/tutorial-part-4-2-1#tutorial_part_4.2.1:_basic_theming:
+.. _pages/desktop/tutorials/tutorial-part-4-2-1#tutorial_part_4.2.1:_basic_theming:
 
 Tutorial Part 4.2.1: Basic Theming
 **********************************
@@ -7,7 +7,7 @@ As a base for theming an app, we use the already known twitter client we built i
 
 .. image:: tutorial_4_2_1-1.png
 
-.. _pages/tutorials/tutorial-part-4-2-1#the_plan:
+.. _pages/desktop/tutorials/tutorial-part-4-2-1#the_plan:
 
 The plan
 ========
@@ -19,7 +19,7 @@ Giving the whole application a new look is too much detail and work for such a s
 
 Lets get started with the first one:
 
-.. _pages/tutorials/tutorial-part-4-2-1#Style-the-widget-we-created-for-showing-tweets:
+.. _pages/desktop/tutorials/tutorial-part-4-2-1#Style-the-widget-we-created-for-showing-tweets:
 
 Style the widget we created for showing tweets
 ==============================================
@@ -92,7 +92,7 @@ Now, we have defined a color alias for our color which can be used in the whole 
 .. image:: tutorial_4_2_1-2.png
 
 
-.. _pages/tutorials/tutorial-part-4-2-1#change-the-default-theme:
+.. _pages/desktop/tutorials/tutorial-part-4-2-1#change-the-default-theme:
 
 Change the default theme
 ========================
@@ -101,7 +101,7 @@ As a next step, we want to change the default theme, which is the :doc:`Modern t
 .. image:: tutorial_4_2_1-3.png
 
 
-.. _pages/tutorials/tutorial-part-4-2-1#change-the-look-of-a-built-in-widget:
+.. _pages/desktop/tutorials/tutorial-part-4-2-1#change-the-look-of-a-built-in-widget:
 
 Change the look of a built in widget
 ====================================
@@ -123,7 +123,7 @@ This is a named color which comes from the frameworks Simple theme. You can find
 .. image:: tutorial_4_2_1-4.png
 
 
-.. _pages/tutorials/tutorial-part-4-2-1#job-done:
+.. _pages/desktop/tutorials/tutorial-part-4-2-1#job-done:
 
 Job done
 ========

@@ -1,4 +1,4 @@
-.. _pages/tutorials/tutorial-part-4-4-1#tutorial_part_4.4:_unit_testing:
+.. _pages/desktop/tutorials/tutorial-part-4-4-1#tutorial_part_4.4:_unit_testing:
 
 Tutorial Part 4.4: Unit Testing
 *********************************
@@ -74,7 +74,7 @@ In the top-level directory of the twitter tutorial application, run ``generate.p
 
 |Testrunner displaying the results of twitter.DemoTest|
 
-.. |Testrunner displaying the results of twitter.DemoTest| image:: /pages/tutorials/tutorial_4_4_1-1.png
+.. |Testrunner displaying the results of twitter.DemoTest| image:: /pages/desktop/tutorials/tutorial_4_4_1-1.png
 
 Creating a new test class
 =========================
@@ -183,6 +183,6 @@ While qx.dev.unit.MRequirements contains a number of "has" methods for common sc
 
 |Testrunner displaying skipped tests|
 
-.. |Testrunner displaying skipped tests| image:: /pages/tutorials/tutorial_4_4_1-2.png
+.. |Testrunner displaying skipped tests| image:: /pages/desktop/tutorials/tutorial_4_4_1-2.png
 
 And that's it for a first look at unit testing for qooxdoo applications. Note that qooxdoo comes with a `wrapper <http://demo.qooxdoo.org/current/apiviewer/#qx.dev.unit.MMock>`_ for the powerful `Sinon.js <http://sinonjs.org/>`_ testing framework, which offers spies, stubs and mock objects that allow testing the very internals of a class, such as if and how many times a specific method was invoked. But that's a topic for a separate tutorial.

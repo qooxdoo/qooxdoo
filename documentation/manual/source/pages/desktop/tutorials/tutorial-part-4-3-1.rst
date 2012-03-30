@@ -1,28 +1,28 @@
-.. _pages/tutorials/tutorial-part-4-3-1#tutorial_part_4.3.1:_gui_testing:
+.. _pages/desktop/tutorials/tutorial-part-4-3-1#tutorial_part_4.3.1:_gui_testing:
 
 Tutorial Part 4.3: Automated UI Testing
 ***************************************
 
-Having previously covered :doc:`unit testing </pages/tutorials/tutorial-part-4-3>`, it's time to take a look at qooxdoo's built-in facilities for automated UI testing. Over the course of this tutorial, we'll set up the required infrastructure and develop a test case that interacts with the Twitter application from the previous tutorials.
+Having previously covered :doc:`unit testing </pages/desktop/tutorials/tutorial-part-4-3>`, it's time to take a look at qooxdoo's built-in facilities for automated UI testing. Over the course of this tutorial, we'll set up the required infrastructure and develop a test case that interacts with the Twitter application from the previous tutorials.
 
 |Simulator executing a test suite|
 
-.. |Simulator executing a test suite| image:: /pages/tutorials/tutorial_4_3_1-1.png
+.. |Simulator executing a test suite| image:: /pages/desktop/tutorials/tutorial_4_3_1-1.png
 
-.. _pages/tutorials/tutorial-part-4-3-1#simulator:
+.. _pages/desktop/tutorials/tutorial-part-4-3-1#simulator:
 
 Simulator: Selenium support for qooxdoo
 =======================================
 The :doc:`Simulator </pages/development/simulator>` component provides the infrastructure necessary to write GUI tests for qooxdoo applications and execute them in a real web browser by way of a `Selenium <http://seleniumhq.org/>`_ server.
 The Simulator is based on those parts of the Selenium project that were formerly known as "Selenium RC" and are now referred to as "Selenium 1". While this tutorial doesn't require in-depth Selenium knowledge, you should at least familiarize yourself with its basic concepts and capabilities before reading on.
 
-.. _pages/tutorials/tutorial-part-4-3-1#qxselenium:
+.. _pages/desktop/tutorials/tutorial-part-4-3-1#qxselenium:
 
 The testing API: QxSelenium
 ===========================
 Simulator Test cases are defined as qooxdoo classes inheriting from ``simulator.unit.TestCase``. Similar to unit tests, they live in the namespace of the application they're testing and support the setUp/testSomething/tearDown pattern. Test methods interact with an application by using the **QxSelenium API**. This consists of the `DefaultSelenium <http://www.jarvana.com/jarvana/view/org/seleniumhq/selenium/selenium/2.0a2/selenium-2.0a2-javadoc.jar!/com/thoughtworks/selenium/DefaultSelenium.html>`_ API plus several qooxdoo-specific additions. You can get an API reference for these by running ``generate.py api`` in the qooxdoo SDK's ``component/simulator`` directory and then opening ``/component/simulator/api/`` in your browser.
 
-.. _pages/tutorials/tutorial-part-4-3-1#setup:
+.. _pages/desktop/tutorials/tutorial-part-4-3-1#setup:
 
 Setting up the infrastructure
 =============================
@@ -57,7 +57,7 @@ Wherever selenium-server.jar is located, in order to test qooxdoo-based applicat
 
 The server should now be listening on the default port, 4444.
 
-.. _pages/tutorials/tutorial-part-4-3-1#configuration:
+.. _pages/desktop/tutorials/tutorial-part-4-3-1#configuration:
 
 Test Configuration Settings
 ===========================
@@ -100,7 +100,7 @@ Making the jobs available
 
 The Twitter tutorial application was created before the ``simulation-*`` generator jobs existed, so if you downloaded the tutorial code from Github, you'll get a "No such job" error if you try to run them. To fix this, you need to add both ``simulation-build`` and ``simulation-run`` to the :ref:`"export"<pages/tool/generator_config_ref#export>` list at the top of the application's config.json file. This is not necessary for application skeletons created by more recent qooxdoo SDKs (1.3 and later).
 
-.. _pages/tutorials/tutorial-part-4-3-1#defining_a_test_case:
+.. _pages/desktop/tutorials/tutorial-part-4-3-1#defining_a_test_case:
 
 Defining a test case
 ====================
@@ -121,7 +121,7 @@ Now that we've got our infrastructure set up, we can finally start writing tests
     }
   });
 
-.. _pages/tutorials/tutorial-part-4-3-1#building-running-test-suite:
+.. _pages/desktop/tutorials/tutorial-part-4-3-1#building-running-test-suite:
 
 Building and running the test suite
 ===================================
@@ -171,7 +171,7 @@ You'll notice a warning about the "simulation-run" job being shadowed. Since we'
     "job-shadowing" : ["simulation-run"]
   },
 
-.. _pages/tutorials/tutorial-part-4-3-1#test-development:
+.. _pages/desktop/tutorials/tutorial-part-4-3-1#test-development:
 
 Test development
 ================
@@ -205,7 +205,7 @@ The qxhv locator allows us to find any widget with a given "label" property valu
 
 A word about locales
 --------------------
-As you'll be aware if you've completed the :ref:`Translation tutorial <pages/tutorials/tutorial-part-4-3#tutorial_part_4.3:_translation>`, the Twitter application is localized and will automatically switch the display language if the locale of the browser it's opened in matches one of the supported languages (German, English, French and Romanian). This means that depending on the locale of the browser you're using to run the test suite, you may have to adjust the target value of the Preferences label locator step, e.g. ``qxhv=*/[@label=Einstellungen]`` for a German language browser.
+As you'll be aware if you've completed the :ref:`Translation tutorial <pages/desktop/tutorials/tutorial-part-4-3#tutorial_part_4.3:_translation>`, the Twitter application is localized and will automatically switch the display language if the locale of the browser it's opened in matches one of the supported languages (German, English, French and Romanian). This means that depending on the locale of the browser you're using to run the test suite, you may have to adjust the target value of the Preferences label locator step, e.g. ``qxhv=*/[@label=Einstellungen]`` for a German language browser.
 
 Executing commands
 ------------------

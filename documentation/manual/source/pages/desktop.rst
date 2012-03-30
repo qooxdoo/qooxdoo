@@ -61,14 +61,14 @@ Tutorials
 .. toctree::
    :maxdepth: 1
 
-   /pages/tutorials/tutorial-part-1
-   /pages/tutorials/tutorial-part-2
-   /pages/tutorials/tutorial-part-3
-   /pages/tutorials/tutorial-part-4-1
-   /pages/tutorials/tutorial-part-4-2
-   /pages/tutorials/tutorial-part-4-2-1
-   /pages/tutorials/tutorial-part-4-3
-   /pages/tutorials/tutorial-part-4-3-1
-   /pages/tutorials/tutorial-part-4-4-1
-   /pages/tutorials/tutorial-part-4-5
+   /pages/desktop/tutorials/tutorial-part-1
+   /pages/desktop/tutorials/tutorial-part-2
+   /pages/desktop/tutorials/tutorial-part-3
+   /pages/desktop/tutorials/tutorial-part-4-1
+   /pages/desktop/tutorials/tutorial-part-4-2
+   /pages/desktop/tutorials/tutorial-part-4-2-1
+   /pages/desktop/tutorials/tutorial-part-4-3
+   /pages/desktop/tutorials/tutorial-part-4-3-1
+   /pages/desktop/tutorials/tutorial-part-4-4-1
+   /pages/desktop/tutorials/tutorial-part-4-5
 

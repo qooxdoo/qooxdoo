@@ -1,5 +1,5 @@
 
-.. _pages/tutorials/tutorial-part-4-2#tutorial_part_4.2:_custom_widgets:
+.. _pages/desktop/tutorials/tutorial-part-4-2#tutorial_part_4.2:_custom_widgets:
 
 Tutorial Part 4.2: Custom Widgets
 *********************************
@@ -10,22 +10,22 @@ Do you remember the mockup from tutorial part 1?
 
 |Mockup|
 
-.. |Mockup| image:: /pages/tutorials/twittermockup1.png
+.. |Mockup| image:: /pages/desktop/tutorials/twittermockup1.png
 
 You can see that one tweet consists of a photo, a text and a creation date, but at the moment the Twitter application doesn't show the creation date of a tweet.  This is because we use the default `ListItem <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.ListItem>`_ to show a tweet and a ListItem can only show an image and/or label. To achieve our goal, we have to create a custom widget which we can use instead of the ListItem.
 
 .. note::
 
-    The code in this tutorial should also work when you haven't completed the 4.1 tutorial because it doesn't depend on the code changes from tutorial 4.1. But if you have any problems to run the tutorial, you can also checkout the code from tutorial 4.1 on `github <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.1>`_.
+    The code in this tutorial should also work when you haven't completed the 4.1 tutorial because it doesn't depend on the code changes from tutorial 4.1. But if you have any problems to run the tutorial, you can also checkout the code from tutorial 4.1 on `github <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/desktop/tutorials/twitter/step4.1>`_.
 
-.. _pages/tutorials/tutorial-part-4-2#the_plan:
+.. _pages/desktop/tutorials/tutorial-part-4-2#the_plan:
 
 The plan
 ========
 
 First of all we have to create a custom widget which fulfills our requirements from the mockup. We will achieve this by combining a widget with two labels and one image. Afterwards we have to configure the controller so that it uses our custom widget for the tweets.
 
-.. _pages/tutorials/tutorial-part-4-2#create_the_custom_widget_class:
+.. _pages/desktop/tutorials/tutorial-part-4-2#create_the_custom_widget_class:
 
 Create the custom widget class
 ==============================
@@ -46,7 +46,7 @@ You should know how to create a class from the previous tutorials. So please cre
 
 The attentive reader noticed that we use the ``include`` key for the first time. ``include`` is used to include a :doc:`mixin </pages/core/mixins>` in a class. This is necessary in our case to support Data Binding. Our Twitter application uses it and therefore it is expected that the new widget implements the `qx.ui.form.IModel <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.IModel>`_ interface. Otherwise the widget can't be used with Data Binding. But fortunately the mixin ``qx.ui.form.MModelProperty`` already implements it, so we can reuse the implementation.
 
-.. _pages/tutorials/tutorial-part-4-2#define_the_needed_properties:
+.. _pages/desktop/tutorials/tutorial-part-4-2#define_the_needed_properties:
 
 Define the needed properties
 ============================
@@ -94,7 +94,7 @@ How to define properties was explained in :doc:`tutorial part 3 <tutorial-part-3
 * **refine**: this is needed when an already defined property should be overridden.
 * **init**: defines the initialized value of a property.
 
-.. _pages/tutorials/tutorial-part-4-2#using_child_control:
+.. _pages/desktop/tutorials/tutorial-part-4-2#using_child_control:
 
 Using Child Control
 ===================
@@ -148,7 +148,7 @@ In our case:
 
 Dependent on the passed id we create the correct sub widget, configure it and add it to the Grid layout at the right position. If an unknown id is passed, we delegate it to the superclass.
 
-.. _pages/tutorials/tutorial-part-4-2#finishing_the_constructor:
+.. _pages/desktop/tutorials/tutorial-part-4-2#finishing_the_constructor:
 
 Finishing the constructor
 =========================
@@ -183,7 +183,7 @@ Now we create a layout for our custom widget. This should be known from :doc:`tu
 
 Time for our child control implementation. With these lines we trigger the subwidget creation which we implemented before.
 
-.. _pages/tutorials/tutorial-part-4-2#adding_the_apply_methods:
+.. _pages/desktop/tutorials/tutorial-part-4-2#adding_the_apply_methods:
 
 Adding the apply methods
 ========================
@@ -213,7 +213,7 @@ The apply methods for ``icon`` and ``post`` are trivial, we have to ensure that 
 
 The date, however, needs some extra love. We have to use the DateFormat instance to format the date before we set the value.
 
-.. _pages/tutorials/tutorial-part-4-2#finishing_the_custom_widget:
+.. _pages/desktop/tutorials/tutorial-part-4-2#finishing_the_custom_widget:
 
 Finishing the custom widget
 ===========================
@@ -235,7 +235,7 @@ Just add this line at the beginning of the members section:
 
 Great, now we have finished the custom widget.
 
-.. _pages/tutorials/tutorial-part-4-2#configure_the_list_controller:
+.. _pages/desktop/tutorials/tutorial-part-4-2#configure_the_list_controller:
 
 Configure the List Controller
 =============================
@@ -323,6 +323,6 @@ Great, now we've got it! Run ``generate.py`` to create the application.
 
 |Step 4-2|
 
-.. |Step 4-2| image:: /pages/tutorials/step42.png
+.. |Step 4-2| image:: /pages/desktop/tutorials/step42.png
 
 Again, if you want to take a `look at the code <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.2>`_, fork the project on github.

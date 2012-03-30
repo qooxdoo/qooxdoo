@@ -1,4 +1,4 @@
-.. _pages/tutorials/tutorial-part-4-1#tutorial_part_4.1:_form_handling:
+.. _pages/desktop/tutorials/tutorial-part-4-1#tutorial_part_4.1:_form_handling:
 
 Tutorial Part 4.1: Form Handling
 ********************************
@@ -12,14 +12,14 @@ In the previous steps of this tutorial, we :doc:`laid the groundwork <tutorial-p
 
 Before we get started, make sure you're working on the version of the Twitter tutorial application tagged with `"Step 3" in the GitHub repository <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step3>`_. This includes the posting part of the communication layer that we'll be using in this tutorial.
 
-.. _pages/tutorials/tutorial-part-4-1#the_plan:
+.. _pages/desktop/tutorials/tutorial-part-4-1#the_plan:
 
 The plan
 ========
 
 We want to create a new window with user name and password fields that pops up when the Twitter application starts. The values will be used to retrieve the user's list of Tweets. Seems simple enough, so let's get right down to business.
 
-.. _pages/tutorials/tutorial-part-4-1#creating_the_login_window:
+.. _pages/desktop/tutorials/tutorial-part-4-1#creating_the_login_window:
 
 Creating the login window
 =========================
@@ -45,7 +45,7 @@ The Login window will only contain the form, which takes care of its own layout.
   this.setLayout(layout);
   this.setModal(true);
 
-.. _pages/tutorials/tutorial-part-4-1#adding_the_form:
+.. _pages/desktop/tutorials/tutorial-part-4-1#adding_the_form:
 
 Adding the Form
 ===============
@@ -94,7 +94,7 @@ That's all the elements we need, let's get them displayed. We'll let one of qoox
 
 The renderer is a widget, so we can just add it to the window. In addition to the standard renderers, it's fairly simple to create a cusstom renderer by subclassing `qx.ui.form.renderer.AbstractRenderer <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.form.renderer.AbstractRenderer>`_, though that's outside the scope of this tutorial.
 
-.. _pages/tutorials/tutorial-part-4-1#accessing_the_form_values:
+.. _pages/desktop/tutorials/tutorial-part-4-1#accessing_the_form_values:
 
 Accessing the form values
 =========================
@@ -168,7 +168,7 @@ OK, time to run ``generate.py`` and load the application in a browser to make su
 
 |Twitter client application with login window|
 
-.. |Twitter client application with login window| image:: /pages/tutorials/step41.png
+.. |Twitter client application with login window| image:: /pages/desktop/tutorials/step41.png
 
 Twitter client application with login window
 

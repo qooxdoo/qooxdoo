@@ -66,7 +66,7 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 +----------+-------------------------------------------------------------------------------------+
 ||tutorial|| **Desktop**                                                                         |
 |          |   * :doc:`Introduction  <pages/desktop/ui_overview>`                                |
-|          |   * :doc:`Tutorial      <pages/tutorials/tutorial-part-1>`                          |
+|          |   * :doc:`Tutorial      <pages/desktop/tutorials/tutorial-part-1>`                          |
 |          |   * :doc:`Reference     <pages/desktop/ui_widgets>`                                 |
 +----------+-------------------------------------------------------------------------------------+
 
