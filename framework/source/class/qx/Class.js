@@ -124,7 +124,8 @@ qx.Bootstrap.define("qx.Class",
      * });
      * </pre>
      *
-     * @param name {String} Name of the class
+     * @param name {String?null} Name of the class. If <code>null</code>, the class
+     *   will not be added to any namespace which could be handy for testing.
      * @param config {Map ? null} Class definition structure. The configuration map has the following keys:
      *     <table>
      *       <tr><th>Name</th><th>Type</th><th>Description</th></tr>

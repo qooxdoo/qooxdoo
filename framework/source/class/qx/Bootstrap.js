@@ -251,7 +251,8 @@ qx.Bootstrap.define("qx.Bootstrap",
      *
      * @internal
      * @signature function(name, config)
-     * @param name {String} Name of the class
+     * @param name {String?} Name of the class. If null, the class will not be
+     *   attached to a namespace.
      * @param config {Map ? null} Class definition structure.
      * @return {Class} The defined class
      */
