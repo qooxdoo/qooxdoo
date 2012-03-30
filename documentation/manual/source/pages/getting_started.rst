@@ -52,7 +52,7 @@ This section provides you with resources that help you pick the qooxdoo package 
    Getting Started <server/getting_started>
 
 
-General
+Others
 =========
 
 * You can find some community made `tutorial videos on vimeo <http://vimeo.com/channels/qooxdoo>`_.
