@@ -8,12 +8,10 @@ This section provides tutorials and introductory material. For your daily work w
 General
 =======
 
-Overview
---------
-
 .. toctree::
+   :maxdepth: 2
 
-  website/overview
+   website/overview
 
 
 ..  Scenarios
@@ -29,6 +27,7 @@ Tutorials
 =========
 
 .. toctree::
+   :maxdepth: 2
 
    website/use_cases_collection_class
    website/setup_a_low-level_library
@@ -41,6 +40,7 @@ Technical Topics
 ================
 
 .. toctree::
+   :maxdepth: 2
 
    website/html_element_handling
    website/image_handling

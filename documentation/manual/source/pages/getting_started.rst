@@ -21,7 +21,6 @@ Overview
 
    Requirements <website/requirements>
    Getting Started <website/getting_started>
-   Tutorials <website/tutorials>
 
 
 %{Desktop}
@@ -34,7 +33,6 @@ Overview
 
    Requirements <desktop/requirements>
    Getting Started <desktop/getting_started>
-   Tutorials <desktop/tutorials>
 
 
 %{Mobile}
@@ -47,7 +45,6 @@ Overview
 
    Requirements <mobile/requirements>
    Getting Started <mobile/getting_started>
-   Tutorials <mobile/tutorials>
 
 
 %{Server}
@@ -60,7 +57,6 @@ Overview
 
    Requirements <server/requirements>
    Getting Started <server/getting_started>
-   Tutorials <server/tutorials>
 
 
 General

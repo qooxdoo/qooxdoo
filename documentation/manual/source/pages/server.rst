@@ -7,3 +7,11 @@
 
    server/overview
    server/requirejs
+
+Tutorials
+=========
+
+.. toctree::
+   :maxdepth: 1
+
+   server/tutorial
