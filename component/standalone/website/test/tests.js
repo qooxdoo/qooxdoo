@@ -1307,8 +1307,6 @@ testrunner.define({
 testrunner.define({
   classname : "Placement",
   
-  //setUp : testrunner.globalSetup,
-  tearDown : testrunner.globalTeardown,
   
   setUp: function()
   {
@@ -1317,7 +1315,7 @@ testrunner.define({
     q.create('<div id="foo"></div>').setStyles({
       position: "absolute",
       top: "200px",
-      left: "200px",
+      left: "0px",
       width: "200px",
       height: "100px",
       backgroundColor : "red"
@@ -1332,12 +1330,39 @@ testrunner.define({
     
   },
   
+  tearDown : function() {
+    testrunner.globalTeardown.call(this);
+    q("#sandbox #bar").setStyle("position", "relative");
+  },
+  
+  testPlaceToSimple : function()
+  {
+    q("#sandbox #bar").placeTo(q("#sandbox #foo")[0], "right-top");
+    var expectedLocation = { 
+      left: 200,
+      top: 200 
+    };
+    this.assertEquals(expectedLocation.left, q("#bar").getOffset().left);
+    this.assertEquals(expectedLocation.top, q("#bar").getOffset().top);
+  },
+  
   testPlaceToDirect : function()
   {
-    q("#sandbox #bar").placeTo(q("#sandbox #foo")[0], "right-bottom", {top: 10, right: 10, bottom: 10, left: 10});
+    q("#sandbox #bar").placeTo(q("#sandbox #foo")[0], "right-bottom", {top: 10, right: 10, bottom: 10, left: 10}, "direct", "direct");
     
     var expectedLocation = { 
-      left: 410,
+      left: 210,
+      top: 265 
+    };
+    this.assertEquals(expectedLocation.left, q("#bar").getOffset().left);
+    this.assertEquals(expectedLocation.top, q("#bar").getOffset().top);
+  },
+  
+  testPlaceToKeepAlign : function()
+  {
+    q("#sandbox #bar").placeTo(q("#sandbox #foo")[0], "left-top", {top: 10, right: 10, bottom: 10, left: 10}, "keep-align", "keep-align");
+    var expectedLocation = { 
+      left: 210,
       top: 265 
     };
     this.assertEquals(expectedLocation.left, q("#bar").getOffset().left);

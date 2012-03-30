@@ -2,14 +2,14 @@ qx.Bootstrap.define("qx.module.Placement", {
 
   statics: {
     
-    placeTo : function(target, position, offsets) {
+    placeTo : function(target, position, offsets, modeX, modeY) {
       if (!this[0]) {
         return null;
       }
       
       var axes = {
-        x : qx.util.placement.DirectAxis,
-        y : qx.util.placement.DirectAxis
+        x : qx.module.Placement._getAxis(modeX),
+        y : qx.module.Placement._getAxis(modeY)
       };
       
       var size = {
@@ -50,6 +50,22 @@ qx.Bootstrap.define("qx.module.Placement", {
       });
       
       return this;
+    },
+    
+    _getAxis : function(mode)
+    {
+      switch(mode)
+      {
+        case "keep-align":
+          return qx.util.placement.KeepAlignAxis;
+
+        case "best-fit":
+          return qx.util.placement.BestFitAxis;
+
+        case "direct":
+        default:
+          return qx.util.placement.DirectAxis;
+      }
     },
     
     _computePlacement : function(axes, size, area, target, offsets, position)
