@@ -130,7 +130,7 @@ qx.Class.define("qx.util.placement.Placement",
     __bestFit : null,
 
     /**
-     * Get the axis instance for the given mode
+     * Get the axis implementation for the given mode
      *
      * @param mode {String} One of <code>direct</code>, <code>keep-align</code> or
      *   <code>best-fit</code>
