@@ -441,16 +441,22 @@ div.checked .toggleButtonSwitch:before {
   color:#000000;
 }
 
-.selectbox-selected > div > .list-itemlabel {
-  background-image:url(../icon/common/dialog-apply.png);
-  background-repeat:no-repeat;
-
-  background-position: right -2px;
-  text-indent:4px;
+.selectbox-selected {
+  overflow-y:hidden;
+  max-height:40px;
 }
 
-.selectbox-unselected > div > .list-itemlabel {
-  text-indent:4px;
+.selectbox-selected:after {
+  .iconFont();
+  content:@iconFont-yes;
+
+  color:@highlighted-text-color;
+  .text-shadow (1px 1px 4px #222);
+
+  font-size:1.6em;
+  position:relative;
+  
+  top:-5px;
 }
 
 .selectbox-selected > .list-itemimage {

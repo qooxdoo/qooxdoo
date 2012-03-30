@@ -653,17 +653,41 @@ div.checked .toggleButtonSwitch:before {
   .button.active();
 }
 
-.selectbox-selected > div > .list-itemlabel {
+.selectbox-selected {
+  overflow-y:hidden;
+  max-height:40px;
+}
+
+.selectbox-selected:after {
+  .iconFont();
+  content:@iconFont-yes;
   color:@selection-foreground-color;
-  background-image:url(../icon/ios/selectbox-check.png);
-  background-repeat:no-repeat;
-  background-position: right -2px; 
-  text-indent:4px;
+  
+  font-weight: normal;
+  font-size:1.7em;
+
+  position:relative;
+  top:-5px;
+}
+
+.selectbox-selected.active:after {
+  color:white;
 }
 
 .selectbox-unselected > div > .list-itemlabel {
   text-indent:4px;
 }
+
+.selectbox-selected > div > .list-itemlabel {
+  text-indent:4px;
+  color:@selection-foreground-color;
+}
+
+.selectbox-selected.active > div > .list-itemlabel {
+  color:white;
+}
+
+
 
 .selectbox-selected > .list-itemimage {
   display:none;
