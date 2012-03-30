@@ -1,11 +1,11 @@
-.. _pages/requirements#requirements:
+.. _pages/mobile/requirements#requirements:
 
 %{Mobile} Requirements
 ***********************
 
 %{qooxdoo} %{Mobile} runs on iOS 2.0+ and Android 1.6+ devices. Working with %{Mobile} requires of you access to such a mobile device, with a suitable mobile browser, or a mobile emulator for the respective platform that runs on your desktop PC.
 
-.. _pages/requirements#mobile:
+.. _pages/mobile/requirements#mobile:
 
 Browsers
 ==============

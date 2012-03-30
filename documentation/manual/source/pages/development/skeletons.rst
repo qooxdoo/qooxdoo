@@ -13,6 +13,8 @@ When creating a new application using :ref:`create-application.py<pages/getting_
 
 The following skeletons are available:
 
+.. _pages/development/skeletons#gui:
+
 Gui
 ---
 For a GUI application that looks & feels like a native desktop application (often called “RIA” – Rich Internet Application).
@@ -47,6 +49,8 @@ Included layers
 * Low-Level
 * GUI Toolit
 
+.. _pages/development/skeletons#mobile:
+
 Mobile
 ------
 For a :ref:`mobile application <pages/mobile/mobile_overview#overview>` running in a WebKit-based browser on iOS or Android (and also on desktop machines). Supports the `mobile widget set <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_. 
@@ -60,7 +64,7 @@ Included layers
 * Runtime Abstraction
 * Mobile UI
 
-.. _pages/development/skeletons#Native:
+.. _pages/development/skeletons#native:
 
 Native
 ------
@@ -75,6 +79,8 @@ Included layers
 * Runtime Abstraction
 * Low-Level
 
+.. _pages/development/skeletons#bom:
+
 Bom
 ---
 
@@ -85,6 +91,8 @@ Included layers
 
 * Runtime Abstraction (partially)
 * Low-Level (partially)
+
+.. _pages/development/skeletons#basic:
 
 Basic
 -----
@@ -114,6 +122,8 @@ or like this for Rhino:
    $ java -cp path/to/js.jar org.mozilla.javascript.tools.shell.Main foo.js
 
 
+
+.. _pages/development/skeletons#contribution:
 
 Contribution
 ------------
