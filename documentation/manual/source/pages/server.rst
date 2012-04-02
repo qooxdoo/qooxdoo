@@ -6,6 +6,7 @@
 .. toctree::
 
    server/overview
+   server/requirements
    server/requirejs
 
 Tutorials

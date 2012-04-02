@@ -3,7 +3,7 @@
 %{Server} Requirements
 ***********************
 
-%{qooxdoo} %{Server} is a basic component that runs in many different contexts and environments, as it has very little dependencies to the underlying runtime. For use in command-line tools and programs you will need a corresponding %{JS} interpreter like Node.js or Mozilla Rhino. For use in HTML5 Webworkers you will need a browser that supports this.
+%{qooxdoo} %{Server} is a basic component that runs in many different contexts and environments, as it has very little dependencies to the underlying runtime. For use in command-line tools and programs you will need a corresponding %{JS} interpreter like Node.js or Mozilla Rhino. For use in HTML5 Web Workers you will need a browser that supports this technology.
 
 .. _pages/server/requirements#runtimes:
 
@@ -21,11 +21,11 @@ The following runtimes are supported:
 Installation
 =======================
 
-These are the options to get hold of %{qooxdoo} %{Server}.
+These are the options to get %{qooxdoo} %{Server}.
 
 Manual download
 ---------------
-Download the %{Server} component from %{qooxdoo}'s `download page <http://%{qooxdoo}.org/download>`_ and place it in a suitable path on your machine. There is an optimized and an unoptimized version available.
+Download the %{Server} component from %{qooxdoo}'s `download page <http://%{qooxdoo}.org/download>`_ and place it in a suitable path on your machine. Optimized and unoptimized versions are available.
 
 Npm
 -------
@@ -43,6 +43,9 @@ In both cases, to verify the installation use your runtime's loading primitive t
 
 SDK
 ----
-You can also use the :doc:`SDK </pages/tool/sdk_introduction>` to work with %{Server}. It provides a dedicated :ref:`skeleton <pages/development/skeletons#basic>` which you can utilize. This offers you additional features like dependency detection, optimization, API doc generation, and generated loaders that work under both Node.js and Rhino.
+You can also use the :doc:`SDK </pages/tool/sdk_introduction>` to work with %{Server}. It provides a dedicated :ref:`skeleton <pages/development/skeletons#basic>` which you can utilize. This offers you additional features like dependency detection, optimization, API doc generation, unit testing and generated loaders that work under both Node.js and Rhino. As with all types of qooxdoo skeletons, ``create-application.py`` is used to create a new custom application:
 
+.. code-block:: bash
 
+   $ qooxdoo-%{version}-sdk/tool/bin/create-application.py --name=myapp --type=basic
+ 
