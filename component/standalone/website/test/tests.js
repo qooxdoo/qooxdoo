@@ -566,6 +566,15 @@ testrunner.define({
     this.assertEquals(document.body, res[0]);
     this.assertEquals(document.getElementById("fixed"), res[1]);
     test.remove();
+  },
+  
+  testIsElement : function()
+  {
+    this.assertTrue(q.isElement(document.body));
+    this.assertTrue(q.isElement(q("#sandbox")[0]));
+    this.assertFalse(q.isElement({}));
+    q.create('<span id="affe">text</span>').appendTo(this.sandbox[0]);
+    this.assertFalse(q.isElement(q("#sandbox #affe")[0].firstChild));
   }
 });
 
