@@ -260,6 +260,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    isNode : function(node) {
+      return qx.dom.Node.isNode(node);
+    },
+
+
     __hierarchyHelper : function(collection, method, selector)
     {
       // Iterate ourself, as we want to directly combine the result
@@ -312,7 +317,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
     });
     
     q.attachStatic({
-      "isElement" : statics.isElement
+      "isElement" : statics.isElement,
+      "isNode" : statics.isNode
     });
   }
 });

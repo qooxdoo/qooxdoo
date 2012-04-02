@@ -575,6 +575,16 @@ testrunner.define({
     this.assertFalse(q.isElement({}));
     q.create('<span id="affe">text</span>').appendTo(this.sandbox[0]);
     this.assertFalse(q.isElement(q("#sandbox #affe")[0].firstChild));
+  },
+  
+  testIsNode : function()
+  {
+    this.assertTrue(q.isNode(document));
+    this.assertTrue(q.isNode(q("#sandbox")[0]));
+    this.assertFalse(q.isNode({}));
+    q.create('<span id="affe">text</span>').appendTo(this.sandbox[0]);
+    this.assertTrue(q.isNode(q("#sandbox #affe")[0].firstChild));
+    this.assertTrue(q.isNode(document.createAttribute("id")));
   }
 });
 
