@@ -38,6 +38,7 @@
  * Core effect "Highlight"
  *
  * Cycles the background color of the element from initial to final color.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.effect.core.Highlight",
 {
@@ -56,6 +57,7 @@ qx.Class.define("qx.fx.effect.core.Highlight",
 
       /**
        * Initial background color value.
+       * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
        */
       startColor :
       {
@@ -65,6 +67,7 @@ qx.Class.define("qx.fx.effect.core.Highlight",
 
       /**
        * Final background color value.
+       * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
        */
       endColor :
       {
@@ -74,6 +77,7 @@ qx.Class.define("qx.fx.effect.core.Highlight",
 
       /**
        * Flag indicating if element's background color or image should be restored.
+       * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
        */
       restoreBackground :
       {
@@ -84,6 +88,7 @@ qx.Class.define("qx.fx.effect.core.Highlight",
       /**
        * Flag indicating if element's background image should consists during effect.
        * Useful for no-repeating background images.
+       * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
        */
       keepBackgroundImage :
       {
@@ -161,6 +166,7 @@ qx.Class.define("qx.fx.effect.core.Highlight",
     /**
      * Helper function to restore style attributes
      * to the state before the effect was started.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     _restore : function()
     {

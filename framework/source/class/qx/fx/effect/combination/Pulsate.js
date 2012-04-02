@@ -38,6 +38,7 @@
  * Combination effect "Pulsate"
  *
  * Fades the element in and out several times.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 
 qx.Class.define("qx.fx.effect.combination.Pulsate",
@@ -53,6 +54,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 
   /**
    * @param element {Object} The DOM element
+   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
    */
   construct : function(element)
   {
@@ -96,6 +98,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 
     /**
      * Number of seconds the effect should run.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     duration :
     {
@@ -201,6 +204,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 
     /**
     * Cancels the member effects first and then cancels itself.
+    * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
     */
     cancel : function()
     {

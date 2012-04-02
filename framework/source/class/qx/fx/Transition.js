@@ -112,6 +112,7 @@
 
 /**
  * Static class containing all transition functions.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.Transition",
 {
@@ -125,9 +126,13 @@ qx.Class.define("qx.fx.Transition",
      * @param functionName {String} Name off the function.
      * @return {Function|Boolean} Function belonging to the name or false,
      * function does not exist
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     get : function(functionName)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+      );
       return qx.fx.Transition[functionName] || false;
     },
 
@@ -138,9 +143,13 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     linear : function(pos)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+      );
       return pos;
     },
 
@@ -150,9 +159,13 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     easeInQuad : function (pos)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+      );
       return Math.pow(2, 10 * (pos - 1));
     },
 
@@ -162,9 +175,13 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     easeOutQuad : function (pos)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+      );
       return (-Math.pow(2, -10 * pos) + 1);
     },
 
@@ -174,9 +191,13 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     sinodial : function(pos)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+      );
       return ( -Math.cos(pos * Math.PI) / 2 ) + 0.5;
     },
 
@@ -186,9 +207,13 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     reverse: function(pos)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+      );
       return 1 - pos;
     },
 
@@ -200,9 +225,13 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     flicker : function(pos)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+      );
       var pos = ( (-Math.cos(pos * Math.PI) / 4) + 0.75) + Math.random() / 4;
       return pos > 1 ? 1 : pos;
     },
@@ -213,9 +242,13 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     wobble : function(pos)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+      );
       return ( -Math.cos(pos * Math.PI * (9 * pos)) / 2) + 0.5;
     },
 
@@ -228,9 +261,13 @@ qx.Class.define("qx.fx.Transition",
      * @param pos {Number} Effect position in duration
      * @param pulses {Number} Amount of pulses
      * @return {Number} Modified effect position
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     pulse : function(pos, pulses)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+      );
 
       pulses = (typeof(pulses) == "Number") ? pulses : 5;
 
@@ -248,9 +285,13 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     spring : function(pos)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+      );
       return 1 - (Math.cos(pos * 4.5 * Math.PI) * Math.exp(-pos * 6));
     },
 
@@ -259,9 +300,13 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     none : function(pos)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+      );
       return 0;
     },
 
@@ -271,9 +316,13 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     full : function(pos)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+      );
       return 1;
     }
   }
