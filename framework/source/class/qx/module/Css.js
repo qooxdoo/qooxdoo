@@ -187,6 +187,11 @@ qx.Bootstrap.define("qx.module.Css", {
       }
 
       return null;
+    },
+
+
+    includeStylesheet : function(uri, doc) {
+      qx.bom.Stylesheet.includeFile(uri, doc);
     }
   },
 
@@ -215,6 +220,10 @@ qx.Bootstrap.define("qx.module.Css", {
       "getContentWidth" : statics.getContentWidth,
       
       "getPosition" : statics.getPosition
+    });
+    
+    q.attachStatic({
+      "includeStylesheet" : statics.includeStylesheet
     });
   }
 });

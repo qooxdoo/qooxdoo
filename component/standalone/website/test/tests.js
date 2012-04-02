@@ -759,6 +759,30 @@ testrunner.define({
     var pos = test.getPosition();
     this.assertEquals(10, pos.left);
     this.assertEquals(10, pos.top);
+  },
+  
+  testIncludeStylesheet : function()
+  {
+    var styleSheet = "../../../../framework/source/resource/qx/test/style2.css";
+    q.includeStylesheet(styleSheet);
+    q.create('<div id="affe"></div>').appendTo(this.sandbox[0]);
+    
+    var self = this;
+    window.setTimeout(function() {
+      self.resume(function() {
+        var val;
+        if (typeof window.getComputedStyle == "function") {
+          var compStyle = window.getComputedStyle(q("#sandbox #affe")[0]);
+          val = compStyle.borderTopWidth;
+        }
+        else {
+          val = q("#sandbox #affe").getStyle("border-top-width");
+        }
+        this.assertEquals("1px", val);
+      }, self);
+    }, 250);
+    
+    this.wait(500);
   }
 });
 
