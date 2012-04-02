@@ -1,9 +1,26 @@
 {
+    "name"    : "${Name}",
+
+  "include" :
+  [
+    {
+      "path" : "$${QOOXDOO_PATH}/tool/data/config/application.json",
+      "import" : [
+        "api",
+        "api-data",
+        "clean",
+        "distclean",
+        "info"
+      ]
+    }
+  ],
+
   "let" :
   {
     "APPLICATION"  : "bom",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     "CACHE"        : "${Cache}",
+    "BUILD_PATH"   : "script",
     "ROOT"         : "."
   },
   
@@ -64,7 +81,7 @@
       {
         "paths" :
         {
-          "file" : "qx-bom.js",
+          "file" : "$${BUILD_PATH}/qx-bom.js",
           "app-root" : "."
         },
         "uris" :
