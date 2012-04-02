@@ -677,7 +677,7 @@ testrunner.define({
     this.assertTrue(test.eq(1).hasClass("foo"));
     this.assertFalse(test.eq(1).hasClass("bar"));
     this.assertTrue(test.eq(1).hasClass("baz"));
-    this.assertEquals("foo baz", test.getClass());
+    this.assertMatch(test.getClass(), "foo baz");
   },
 
   testGetHeightElement : function() {
