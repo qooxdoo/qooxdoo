@@ -624,23 +624,28 @@ testrunner.define({
     test.addClass("test");
     this.assertEquals("test", test.getAttribute("class"));
     this.assertEquals("test", test.eq(1).getAttribute("class"));
+    this.assertEquals("test", test.getClass());
     this.assertTrue(test.eq(0).hasClass("test"));
     this.assertTrue(test.eq(1).hasClass("test"));
     test.toggleClass("test");
     this.assertFalse(test.eq(0).hasClass("test"));
     this.assertFalse(test.eq(1).hasClass("test"));
+    this.assertEquals("", test.getClass());
     test.toggleClass("test");
     this.assertTrue(test.eq(0).hasClass("test"));
     this.assertTrue(test.eq(1).hasClass("test"));
+    this.assertEquals("test", test.getClass());
     test.removeClass("test");
     this.assertFalse(test.eq(0).hasClass("test"));
     this.assertFalse(test.eq(1).hasClass("test"));
+    this.assertEquals("", test.getClass());
     test.addClass("test");
     test.replaceClass("test", "foo");
     this.assertFalse(test.eq(0).hasClass("test"));
     this.assertFalse(test.eq(1).hasClass("test"));
     this.assertTrue(test.eq(0).hasClass("foo"));
     this.assertTrue(test.eq(1).hasClass("foo"));
+    this.assertEquals("foo", test.getClass());
   },
   
   testClasses : function() {
@@ -650,17 +655,20 @@ testrunner.define({
     this.assertTrue(test.eq(0).hasClass("foo"));
     this.assertTrue(test.eq(1).hasClass("bar"));
     this.assertTrue(test.eq(1).hasClass("bar"));
+    this.assertEquals("foo bar", test.getClass());
     test.toggleClass("bar");
     this.assertTrue(test.eq(0).hasClass("foo"));
     this.assertFalse(test.eq(0).hasClass("bar"));
     this.assertTrue(test.eq(1).hasClass("foo"));
     this.assertFalse(test.eq(1).hasClass("bar"));
+    this.assertEquals("foo", test.getClass());
     test.addClass("bar");
     test.removeClasses(["foo", "bar"]);
     this.assertFalse(test.eq(0).hasClass("foo"));
     this.assertFalse(test.eq(0).hasClass("bar"));
     this.assertFalse(test.eq(1).hasClass("foo"));
     this.assertFalse(test.eq(1).hasClass("bar"));
+    this.assertEquals("", test.getClass());
     test.addClass("bar");
     test.toggleClasses(["foo", "bar", "baz"]);
     this.assertTrue(test.eq(0).hasClass("foo"));
@@ -669,6 +677,7 @@ testrunner.define({
     this.assertTrue(test.eq(1).hasClass("foo"));
     this.assertFalse(test.eq(1).hasClass("bar"));
     this.assertTrue(test.eq(1).hasClass("baz"));
+    this.assertEquals("foo baz", test.getClass());
   },
 
   testGetHeightElement : function() {

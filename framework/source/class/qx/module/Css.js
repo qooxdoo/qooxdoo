@@ -78,6 +78,14 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    getClass : function() {
+      if (!this[0]) {
+        return "";
+      }
+      return qx.bom.element.Class.get(this[0]);
+    },
+
+
     toggleClass : function(name) {
       var bCls = qx.bom.element.Class;
       for (var i=0, l=this.length; i<l; i++) {
@@ -195,6 +203,7 @@ qx.Bootstrap.define("qx.module.Css", {
       "removeClass" : statics.removeClass,
       "removeClasses" : statics.removeClasses,
       "hasClass" : statics.hasClass,
+      "getClass" : statics.getClass,
       "toggleClass" : statics.toggleClass,
       "toggleClasses" : statics.toggleClasses,
       "replaceClass" : statics.replaceClass,
