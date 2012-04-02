@@ -68,7 +68,7 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      * *timing* takes one of the predefined value:
      *   <code>ease</code> | <code>linear</code> | <code>ease-in</code>
      *   | <code>ease-out</code> | <code>ease-in-out</code> |
-     *   <code>cubic-bezier(<number>, <number>, <number>, <number>)</number>
+     *   <code>cubic-bezier(&lt;number&gt;, &lt;number&gt;, &lt;number&gt;, &lt;number&gt;)</code>
      *   (cubic-bezier only available for CSS animations)
      *
      * *alternate* defines if every other animation should be run in reverse order.
