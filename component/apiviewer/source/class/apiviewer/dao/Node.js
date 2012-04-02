@@ -112,7 +112,8 @@ qx.Class.define("apiviewer.dao.Node", {
     isDeprecated : function()
     {
       if (typeof this._deprecated == "string" 
-        || this.getClass && typeof this.getClass()._deprecated == "string")
+        || this.getClass && typeof this.getClass()._deprecated == "string"
+        || this.getFromProperty && this.getFromProperty() && this.getFromProperty().isDeprecated())
       {
         return true;
       }
