@@ -7,12 +7,25 @@
       "path" : "$${QOOXDOO_PATH}/tool/data/config/application.json",
       "import" : [
         "api",
-        "api-data",
+        "apiconf::build-resources",   // it is ugly to include these here
+        "apiconf::build-script",
+        "apiconf::build-files",
+        "apiconf::build-data",
+        "apiconf::common",
         "clean",
         "distclean",
         "info"
-      ]
+     ]
     }
+  ],
+
+  "export" :
+  [
+    "api",
+    "build",
+    "clean",
+    "distclean",
+    "info"
   ],
 
   "let" :
@@ -21,13 +34,52 @@
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     "CACHE"        : "${Cache}",
     "BUILD_PATH"   : "script",
+    "BOM_INCLUDES" :  [
+        "qx.event.handler.Application",
+        "qx.bom.Collection",
+        "qx.bom.request.*",
+        "qx.bom.element.Background"
+        ],
+    "BOM_EXCLUDES" :  [
+        "qx.data.SingleValueBinding",
+        "qx.event.type.Drag",
+        "qx.event.handler.DragDrop"
+        ],
     "ROOT"         : "."
   },
   
   "default-job" : "build",
 
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["api"] 
+  },
+
   "jobs" :
   {
+    "api" :
+    {
+      "=library" :
+      [
+        {
+          "manifest" : "$${QOOXDOO_PATH}/framework/Manifest.json"
+        },
+        {
+          "manifest" : "$${QOOXDOO_PATH}/component/apiviewer/Manifest.json"
+        },
+        {
+          "manifest" : "$${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
+        }
+      ],
+      "let" : 
+      {
+        "API_INCLUDE" : "$${BOM_INCLUDES}",
+        "API_EXCLUDE" : "$${BOM_EXCLUDES}",
+        "BUILD_PATH"  : "api"
+      }
+      
+    },
+
     "build" :
     {
       "config-warnings" : 
@@ -54,20 +106,9 @@
         "invalidate-on-tool-change" : true
       },
 
-      "include" : 
-      [
-        "qx.event.handler.Application",
-        "qx.bom.Collection",
-        "qx.bom.request.*",
-        "qx.bom.element.Background"
-      ],
+      "include" : "$${BOM_INCLUDES}",
       
-      "exclude" :
-      [
-        "qx.data.SingleValueBinding",
-        "qx.event.type.Drag",
-        "qx.event.handler.DragDrop"
-      ],
+      "exclude" : "$${BOM_EXCLUDES}",
 
       "environment" :
       {
