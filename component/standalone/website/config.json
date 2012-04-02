@@ -97,6 +97,7 @@
           "type"   : "using",
           "phase" : null,
           "include-transitive-load-deps" : true,
+          "force-fresh-deps" : true,
           "format" : "dot"
         }
       }
