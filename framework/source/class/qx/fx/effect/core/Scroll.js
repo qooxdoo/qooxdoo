@@ -38,6 +38,7 @@
  * Core effect "Scroll"
  *
  * Scrolls to specified coordinates on given element.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.effect.core.Scroll",
 {
@@ -55,6 +56,7 @@ qx.Class.define("qx.fx.effect.core.Scroll",
   {
     /**
      * String indicating if the coordinates are relative or absolute.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     mode :
     {
@@ -64,6 +66,7 @@ qx.Class.define("qx.fx.effect.core.Scroll",
 
     /**
      * X coordinate the element should be scroll to.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     x :
     {
@@ -73,6 +76,7 @@ qx.Class.define("qx.fx.effect.core.Scroll",
 
     /**
      * Y coordinate the element should be scroll to.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     y :
     {
@@ -94,6 +98,7 @@ qx.Class.define("qx.fx.effect.core.Scroll",
      __startOffsets : null,
      __deltaOffsets : null,
 
+     // overridden
     start : function()
     {
       if (!this.base(arguments)) {
@@ -122,6 +127,7 @@ qx.Class.define("qx.fx.effect.core.Scroll",
     },
 
 
+    // overridden
     update : function(position)
     {
       this.base(arguments);
@@ -157,6 +163,7 @@ qx.Class.define("qx.fx.effect.core.Scroll",
      *  @return {Boolean} true, if scroll properties are
      *  at a limit, otherwise false: scrolling can be
      *  performed.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     _atEndPosition : function(left, top)
     {

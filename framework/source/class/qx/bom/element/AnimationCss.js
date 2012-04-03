@@ -62,9 +62,11 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
      * {@link qx.bom.element.Animation}.
      * @param el {Element} The element to animate.
      * @param desc {Map} Animation description.
+     * @param duration {Integer?} The duration of the animation which will override
+     *   the duration given in the description.
      * @return {qx.bom.element.AnimationHandle} The handle.
      */
-    animate : function(el, desc) {
+    animate : function(el, desc, duration) {
       this.__normalizeDesc(desc);
 
       // debug validation
@@ -77,13 +79,17 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
       }
       var keyFrames = desc.keyFrames;
 
+      if (duration == undefined) {
+        duration = desc.duration;
+      }
+
       // if animations are supported
       if (this.__cssAnimationKeys != null) {
         var name = this.__addKeyFrames(keyFrames, desc.reverse);
 
         var style =
           name + " " +
-          desc.duration + "ms " +
+          duration + "ms " +
           desc.repeat + " " +
           desc.timing + " " +
           (desc.alternate ? "alternate" : "");
@@ -235,10 +241,6 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
           }
         };
 
-        // check for mandatory keys
-        if (desc.duration == null || desc.duration <= 0) {
-          qx.Bootstrap.warn("No 'duration' given > 0");
-        }
         if (desc.keyFrames == null) {
           qx.Bootstrap.warn("No 'keyFrames' given > 0");
         } else {

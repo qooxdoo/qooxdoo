@@ -68,7 +68,7 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      * *timing* takes one of the predefined value:
      *   <code>ease</code> | <code>linear</code> | <code>ease-in</code>
      *   | <code>ease-out</code> | <code>ease-in-out</code> |
-     *   <code>cubic-bezier(<number>, <number>, <number>, <number>)</number>
+     *   <code>cubic-bezier(&lt;number&gt;, &lt;number&gt;, &lt;number&gt;, &lt;number&gt;)</code>
      *   (cubic-bezier only available for CSS animations)
      *
      * *alternate* defines if every other animation should be run in reverse order.
@@ -77,14 +77,16 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      *
      * @param el {Element} The element to animate.
      * @param desc {Map} The animations description.
+     * @param duration {Integer?} The duration of the animation which will override
+     *   the duration given in the description.
      * @return {qx.bom.element.AnimationHandle} AnimationHandle instance to control
      *   the animation.
      */
-    animate : function(el, desc) {
+    animate : function(el, desc, duration) {
       if (qx.core.Environment.get("css.animation")) {
-        return qx.bom.element.AnimationCss.animate(el, desc);
+        return qx.bom.element.AnimationCss.animate(el, desc, duration);
       } else {
-        return qx.bom.element.AnimationJs.animate(el, desc);
+        return qx.bom.element.AnimationJs.animate(el, desc, duration);
       }
     }
   }
