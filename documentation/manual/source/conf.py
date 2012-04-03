@@ -62,10 +62,10 @@ qxmacros = {
    ,"versionU" : vMajor + '_' + vMinor + (('_' + vPatch) if vPatch else '') # underscore notation for SourceForge viewvc links
    ,"JS"       : "JavaScript"
    ,"qooxdoo"  : project
-   ,"Website"  : "Website"
-   ,"Server"   : "Server"
-   ,"Desktop"  : "Desktop"
-   ,"Mobile"   : "Mobile"
+   ,"Website"  : "qx.Website"
+   ,"Server"   : "qx.Server"
+   ,"Desktop"  : "qx.Desktop"
+   ,"Mobile"   : "qx.Mobile"
    ,"Q"        : "q"
    # following are some technical values about qooxdoo that might need adaption
    # from time to time (not necessarily with every release)
