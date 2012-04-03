@@ -37,12 +37,12 @@ qx.Bootstrap.define("qx.module.Animation", {
     },
 
 
-    animate : function(desc) {
+    animate : function(desc, duration) {
       if (this.__animationHandles.length > 0) {
         throw new Error("Only one animation at a time.");
       }
       for (var i=0; i < this.length; i++) {
-        var handle = qx.bom.element.Animation.animate(this[i], desc);
+        var handle = qx.bom.element.Animation.animate(this[i], desc, duration);
         var self = this;
         handle.on("end", function() {
           var handles = self.__animationHandles;
@@ -102,13 +102,13 @@ qx.Bootstrap.define("qx.module.Animation", {
     },
 
 
-    fadeIn : function() {
-      return this.animate(qx.module.Animation._fadeIn);
+    fadeIn : function(duration) {
+      return this.animate(qx.module.Animation._fadeIn, duration);
     },
 
 
-    fadeOut : function() {
-      return this.animate(qx.module.Animation._fadeOut);
+    fadeOut : function(duration) {
+      return this.animate(qx.module.Animation._fadeOut, duration);
     }
   },
 
