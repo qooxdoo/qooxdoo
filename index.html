@@ -9,13 +9,14 @@
 html,body{
   padding: 0;
   margin: 0;
-  background: #FAFFED;
+  background: #FFFFFF;
+  color: #262626;
 }
 
 body{
-  font-family: Verdana, "Bitstream Vera Sans", "Lucida Grande", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
+  font-family: "Lucida Grande", Verdana, Arial, sans-serif;
   font-size: 12px;
-  line-height: 160%;
+  line-height: 180%;
 }
 
 *{
@@ -32,7 +33,7 @@ a:visited{
 a:hover,
 a:active{
   text-decoration: underline;
-  color: #83B300;
+  color: #3D72C9;
 }
 
 h1{
@@ -41,14 +42,14 @@ h1{
 }
 
 h2{
-  color: #83B343;
+  color: #3D72C9;
   font-size: 14px;
 }
 
 h3{
   font-size: 12px;
   font-weight: bold;
-  color: #565656;
+  color: #000000;
 }
 
 h3 span{
@@ -86,26 +87,43 @@ code{
 }
 
 .head{
-  background: #134275;
+  background-color: #323335;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), to(#323335));
+  background-image: -webkit-linear-gradient(top, #505154, #323335);
+  background-image: -moz-linear-gradient(top, #505154, #323335);
+  background-image: -o-linear-gradient(to bottom, #505154, #323335);
+  background-image: linear-gradient(to bottom, #505154, #323335);
   color: white;
-  padding: 16px 40px;
+  height: 46px;
+}
+
+.head h1 {
+  padding: 12px 40px;
+}
+
+.decoration {
+  height: 10px;
+  background-color: #3d72c9;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#5583d0), color-stop(1px, #5583d0), color-stop(1px, #5583d0), to(#3d72c9));
+  background-image: -webkit-linear-gradient(top, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
+  background-image: -moz-linear-gradient(top, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
+  background-image: -o-linear-gradient(to bottom, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
+  background-image: linear-gradient(to bottom, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
 }
 
 .main{
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  background: #DEFF83;
+  background: #F0F0F0;
   padding: 16px 40px;
 }
 
 .main pre,
 .main code{
-  background: #FAFFED;
+  background: #FFFFFF;
 }
 
 .block pre,
 .block code{
-  background: #F0FFC9;
+  background: #F0F0F0;
 }
 
 .block{
@@ -144,9 +162,12 @@ code{
   </script>
 </head>
 <body onload="myOnLoad();">
+  <!--
   <div class="head">
     <h1>qooxdoo - Universal JavaScript Framework</h1>
   </div>
+  <div class="decoration"></div>
+  -->
 
   <div class="main">
     <p>
