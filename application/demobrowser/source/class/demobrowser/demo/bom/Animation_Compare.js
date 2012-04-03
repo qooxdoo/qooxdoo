@@ -51,9 +51,9 @@ qx.Class.define("demobrowser.demo.bom.Animation_Compare",
       this.base(arguments);
 
       var width = {duration: 1000, keyFrames : {
-        0 : {"width" : "30px"},
-        70 : {"width" : "100px"},
-        100 : {"width": "50px"}
+        0 : {"width" : "100px"},
+        70 : {"width" : "200px"},
+        100 : {"width": "100px"}
       }};
 
       var height = {duration: 1000, keyFrames : {

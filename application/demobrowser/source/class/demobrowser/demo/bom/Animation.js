@@ -35,9 +35,9 @@ qx.Class.define("demobrowser.demo.bom.Animation",
       }
 
       var css = {duration: 1000, timing: "ease-out", keyFrames : {
-        0 : {"width" : "30px"},
-        70 : {"width" : "100px"},
-        100 : {"width": "30px"}
+        0 : {},
+        70 : {"width" : "200px"},
+        100 : {}
       }};
 
       var transform = {duration: 1000, keyFrames : {
@@ -139,6 +139,7 @@ qx.Class.define("demobrowser.demo.bom.Animation",
         "Scale" : scale,
         "translate" : translate,
         "Width" : css,
+        "Fast Width": css,
         "Rotate Out" : rotateOut,
         "Rotate In" : rotateIn,
         "Up and out" : upAndAway,
@@ -160,11 +161,11 @@ qx.Class.define("demobrowser.demo.bom.Animation",
           continue;
         }
         button.addEventListener("click",
-          (function(animation) {
+          (function(animation, test) {
             return function(e) {
-              qx.bom.element.Animation.animate(e.target, animation);
+              qx.bom.element.AnimationJs.animate(e.target, animation, test == "Fast Width" ? 300 : undefined);
             }
-          })(tests[test])
+          })(tests[test], test)
         );
       }
 

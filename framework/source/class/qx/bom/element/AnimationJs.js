@@ -39,15 +39,20 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      * {@link qx.bom.element.Animation}.
      * @param el {Element} The element to animate.
      * @param desc {Map} Animation description.
+     * @param duration {Integer?} The duration of the animation which will override
+     *   the duration given in the description.
      * @return {qx.bom.element.AnimationHandle} The handle.
      */
-    animate : function(el, desc) {
+    animate : function(el, desc, duration) {
       // stop if an animation is already running
       if (el.$$animation) {
         return;
       }
 
-      var duration = desc.duration;
+      if (duration == undefined) {
+        duration = desc.duration;
+      }
+
       var keyFrames = desc.keyFrames;
 
       var keys = this.__getOrderedKeys(keyFrames);

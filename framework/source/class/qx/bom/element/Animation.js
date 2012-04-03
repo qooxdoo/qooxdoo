@@ -77,14 +77,16 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      *
      * @param el {Element} The element to animate.
      * @param desc {Map} The animations description.
+     * @param duration {Integer?} The duration of the animation which will override
+     *   the duration given in the description.
      * @return {qx.bom.element.AnimationHandle} AnimationHandle instance to control
      *   the animation.
      */
-    animate : function(el, desc) {
+    animate : function(el, desc, duration) {
       if (qx.core.Environment.get("css.animation")) {
-        return qx.bom.element.AnimationCss.animate(el, desc);
+        return qx.bom.element.AnimationCss.animate(el, desc, duration);
       } else {
-        return qx.bom.element.AnimationJs.animate(el, desc);
+        return qx.bom.element.AnimationJs.animate(el, desc, duration);
       }
     }
   }
