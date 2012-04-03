@@ -9,6 +9,7 @@ Generator
    :maxdepth: 1
 
    pages/tool/astlets.rst
+   pages/tool/create_application.rst
 
 
 Project
