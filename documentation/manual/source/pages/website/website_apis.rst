@@ -54,7 +54,7 @@ The following manipulations are offered by the ``qx.bom.element`` package:
 
 Wrapper for native layers/objects
 ---------------------------------
-These classes are offer an unique and powerful way to deal with native layers and objects. Wrappers exist for:
+These classes offer an unique and powerful way to deal with native layers and objects. Wrappers exist for:
 
 * the current document
 * DOM elements to be connected to qooxdoo's event system
