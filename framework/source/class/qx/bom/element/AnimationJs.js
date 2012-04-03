@@ -36,6 +36,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
   statics :
   {
     __maxStepTime : 30,
+    __units : ["%", "in", "cm", "mm", "em", "ex", "pt", "pc", "px"],
 
     /**
      * This is the main function to start the animation. For further details,
@@ -58,6 +59,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       var stepTime = this.__getStepTime(duration, keys);
       var steps = parseInt(duration / stepTime, 10);
 
+      this.__normalizeKeyFrames(keyFrames, el);
+
       var delta = this.__calculateDelta(steps, stepTime, keys, keyFrames, duration, desc.timing);
       if (desc.reverse) {
         delta.reverse();
@@ -76,6 +79,48 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       handle.repeatSteps = this.__applyRepeat(steps, desc.repeat);
 
       return this.play(handle);
+    },
+
+
+    /**
+     * Try to normalize the keyFrames by adding the default / set values of the
+     * element.
+     * @param keyFrames {Map} The map of key frames.
+     * @param el {Element} The element to animate.
+     */
+    __normalizeKeyFrames : function(keyFrames, el) {
+      // collect all possible keys and its units
+      var units = [];
+      for (var percent in keyFrames) {
+        for (var name in keyFrames[percent]) {
+          if (units[name] == undefined) {
+            var item = keyFrames[percent][name];
+            if (typeof item == "string") {
+              units[name] = item.substring((parseInt(item, 10)+"").length, item.length);
+            } else {
+              units[name] = "";
+            }
+          }
+        };
+      }
+      // add all missing keys
+      for (var percent in keyFrames) {
+        var frame = keyFrames[percent];
+        for (var name in units) {
+          if (frame[name] == undefined) {
+            // get the computed style if possible
+            if (window.getComputedStyle) {
+              frame[name] = getComputedStyle(el)[name];
+            } else {
+              frame[name] = el.style[name];
+            }
+            // if its a unit we know, set 0 as fallback
+            if (frame[name] == "" && this.__units.indexOf(units[name]) != -1) {
+              frame[name] = "0" + units[name];
+            }
+          }
+        };
+      };
     },
 
 
@@ -130,7 +175,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
             delta[i][name] = "#" + qx.util.ColorUtil.rgbToHexString(stepValue);
 
           } else {
-            var unit = nItem.substring((parseInt(nItem, 10)+"").length, nItem.length)
+            var unit = nItem.substring((parseInt(nItem, 10)+"").length, nItem.length);
             var range = parseFloat(nItem, 10) - parseFloat(last[name], 10);
             delta[i][name] = (parseFloat(last[name]) + range * this.__calculateTiming(timing, i / steps)) + unit;
           }

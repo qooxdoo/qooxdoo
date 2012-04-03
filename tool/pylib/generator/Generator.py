@@ -1325,17 +1325,16 @@ class Generator(object):
             self._console.info("Kit looks OK: %s" % os.path.isfile(classFile) )
 
         self._console.info("Looking for generated versions...")
+        self._console.indent()
         try:
-            console.indent()
             expandedjobs = self._config.resolveExtendsAndRuns(["build-script", "source-script"])
             self._config.includeSystemDefaults(expandedjobs)
             self._config.resolveMacros(expandedjobs)
-            console.outdent()
         except Exception:
+            self._console.outdent()  # TODO: clean-up from the try block; fix this where the exception occurrs
             expandedjobs = []
         
         if expandedjobs:
-          
             # make sure we're working with Job() objects (bug#5896)
             expandedjobs = [self._config.getJob(x) for x in expandedjobs]
 
@@ -1350,31 +1349,35 @@ class Generator(object):
             if sourceScriptFile:
                 sourceScriptFilePath = self._config.absPath(sourceScriptFile)
                 self._console.info("Source version generated: %s" % os.path.isfile(sourceScriptFilePath) )
+        else:
+            self._console.info("nope")
+        console.outdent()
 
-            # check cache path
-            cacheCfg = expandedjobs[0].get("cache", None)  # TODO: this might be better taken from self._cache?!
-            if cacheCfg:
-                if 'compile' in cacheCfg:
-                    compDir = self._config.absPath(cacheCfg['compile'])
-                    self._console.info("Compile cache path is: %s" % compDir )
-                    self._console.indent()
-                    isDir = os.path.isdir(compDir)
-                    self._console.info("Existing directory: %s" % isDir)
-                    if isDir:
-                        self._console.info("Cache file revision: %d" % self._cache.getCacheFileVersion())
-                        self._console.info("Elements in cache: %d" % len(os.listdir(compDir)))
-                    self._console.outdent()
-                if 'downloads' in cacheCfg:
-                    downDir = self._config.absPath(cacheCfg['downloads'])
-                    self._console.info("Download cache path is: %s" % downDir )
-                    self._console.indent()
-                    isDir = os.path.isdir(downDir)
-                    self._console.info("Existing directory: %s" % isDir)
-                    if isDir:
-                        self._console.info("Elements in cache: %d" % len(os.listdir(downDir)))
-                    self._console.outdent()
-                    
-
+        # check cache path
+        cacheCfg = self._job.get("cache", None)
+        if cacheCfg:
+            self._console.info("Cache settings")
+            self._console.indent()
+            if 'compile' in cacheCfg:
+                compDir = self._config.absPath(cacheCfg['compile'])
+                self._console.info("Compile cache path is: %s" % compDir )
+                self._console.indent()
+                isDir = os.path.isdir(compDir)
+                self._console.info("Existing directory: %s" % isDir)
+                if isDir:
+                    self._console.info("Cache file revision: %d" % self._cache.getCacheFileVersion())
+                    self._console.info("Elements in cache: %d" % len(os.listdir(compDir)))
+                self._console.outdent()
+            if 'downloads' in cacheCfg:
+                downDir = self._config.absPath(cacheCfg['downloads'])
+                self._console.info("Download cache path is: %s" % downDir )
+                self._console.indent()
+                isDir = os.path.isdir(downDir)
+                self._console.info("Existing directory: %s" % isDir)
+                if isDir:
+                    self._console.info("Elements in cache: %d" % len(os.listdir(downDir)))
+                self._console.outdent()
+            self._console.outdent()
         
         self._console.outdent()
             

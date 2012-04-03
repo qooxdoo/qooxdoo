@@ -48,9 +48,7 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 
 +----------+-------------------------------------------------------------------------------------+
 | |o_star| | **Getting Started**                                                                 |
-|          |   * :ref:`Prerequisites <pages/requirements#requirements>`                          |
-|          |   * :ref:`Download and Installation<pages/getting_started/setup#setup>`             |
-|          |   * :ref:`"Hello World" <pages/getting_started/helloworld#create_your_application>` |
+|          |   * :doc:`pages/getting_started`                                                    |
 +----------+-------------------------------------------------------------------------------------+
 
 .. rst-class:: toc
@@ -68,7 +66,7 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 +----------+-------------------------------------------------------------------------------------+
 ||tutorial|| **Desktop**                                                                         |
 |          |   * :doc:`Introduction  <pages/desktop/ui_overview>`                                |
-|          |   * :doc:`Tutorial      <pages/tutorials/tutorial-part-1>`                          |
+|          |   * :doc:`Tutorial      <pages/desktop/tutorials/tutorial-part-1>`                          |
 |          |   * :doc:`Reference     <pages/desktop/ui_widgets>`                                 |
 +----------+-------------------------------------------------------------------------------------+
 

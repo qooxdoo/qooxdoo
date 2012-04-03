@@ -1,12 +1,7 @@
-.. _pages/data_binding#data_binding:
-
-Data Binding
-************
-
 .. _pages/data_binding#introduction:
 
-Introduction
-============
+Data Binding Introduction
+=========================
 
 Data binding is a functionality that allows to connect data from a source to a target. The entire topic can be divided into a low-level part, called "single value binding", and some higher-level concepts involving stores and controllers.
 

@@ -159,7 +159,7 @@ Both the standard apps for 1. as well as an SDK for 2. are usually made availabl
 
 .. _pages/project/release_how_to_build.rst#create_a_sourceforge_release:
 
-Create a Sourceforge release
+Publish SDK at Sourceforge
 ============================
 
 Release files are published to Sourceforge through their `File Manager <https://sourceforge.net/projects/qooxdoo/files/>`__ interface (`doc <https://sourceforge.net/apps/trac/sourceforge/wiki/Release%20files%20for%20download>`__).
@@ -196,17 +196,27 @@ Once the final build has been made, you can put the demos created in the above s
 
 This will create the appropriate *version* subdirectory on the *demo* web server, and copy all demos underneath it, together with an *index.html* in a suitable form.
 
+
 .. _pages/project/release_how_to_build.rst#publish_the_qx-oo_package_with_npm:
 
-Publish the qx-oo package with npm
+Publish qx-oo at NPM
 ==================================
 
-Details instructions can be found in ``tool/admin/release/npm/readme.txt``. As soon as you have built and tested the npm package, run ``npm publish`` to upload the version.
+As soon as you have built and tested the npm package, run ``npm publish`` to upload the version. Here are the steps to achieve all that:
+
+* Make sure `node <http://nodejs.org>`_ and `npm <npmjs.org>`_ is installed (tested to work with 0.6.4/1.1.13).
+* Change to ``component/standalone/server``.
+* Make sure the ``qx-oo.js`` has been built (in /script).
+* Run ``generate.py npm-package-copy``.
+* Run ``generate.py npm-package-publish`` (needs the qooxdoo user account).
+* Check if it worked in the `online registry <http://search.npmjs.org/>`_.
+* More details can be found in the `npm documentation <https://github.com/isaacs/npm/blob/master/doc/developers.md>`_.
+
 
 .. _pages/project/release_how_to_build.rst#release_it_at_maven_central:
 
-Release at Maven Central
-===========================
+Publish SDK at Maven Central
+============================
 
 The final build should also be put at Maven Central. To release the new version of the SDK you should follow the instructions of our `maven-central-integration project <https://github.com/qooxdoo/maven-central-integration>`_ at GitHub and the instructions on the internal server (look for the project's git checkout in the workspace). It is necessary to release it using the internal server infrastructure to make sure the artifacts are correctly signed.
 

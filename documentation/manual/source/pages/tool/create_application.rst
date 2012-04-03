@@ -16,7 +16,7 @@ Here is a simple example:
 
    $ create-application.py -n foo -t native
 
-Several tutorials in this manual make use of *create-application.py*, e.g. the :doc:`helloworld` tutorial. There is also a dedicated page that describes the :doc:`various application types </pages/development/skeletons>`.
+Several tutorials in this manual make use of *create-application.py*, e.g. the :doc:`getting_started` tutorial. There is also a dedicated page that describes the :doc:`various application types </pages/development/skeletons>`.
 
 For the most current information about the options please refer to the interactive help you get with ``create-application.py --help``. Here is a sample capture:
 

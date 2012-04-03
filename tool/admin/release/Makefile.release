@@ -76,7 +76,6 @@ RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = todo feedreader portal mobileshowcase playground showcase widgetbrowser featureconfigeditor demobrowser
-#APPLICATIONS = todo feedreader portal mobileshowcase playground showcase widgetbrowser featureconfigeditor
 COMPONENTS = apiviewer testrunner inspector storage server
 FRAMEWORK_TARGETS = api test
 
@@ -364,6 +363,11 @@ publish-build-components:
 	@( cd component/testrunner && $(CMD_GENERATOR) -c portable.json build ) || exit 1;
 	@( cd component/standalone/storage && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/standalone/storage && $(CMD_GENERATOR) build-require ) || exit 1
+<<<<<<< HEAD
+=======
+	@( cd component/standalone/server && $(CMD_GENERATOR) source ) || exit 1
+	@( cd component/standalone/server && $(CMD_GENERATOR) build ) || exit 1
+>>>>>>> master
 
 publish-check: check-banner check-apps check-components check-framework check-docs
 	@echo "    - Looks good"

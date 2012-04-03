@@ -5,7 +5,7 @@ function inform(){
   var message = 
     "<div style='font-family: Verdana'>" + 
     "<h2>Application not yet ready!</h2>" + 
-    "<div>Please use the generator to build this application, i.e. run <i>'generate.py source'</i> in an OS shell, in the application folder; then reload this page.</div>" + 
+    "<div>Please use the generator to build this application, i.e. run <i>'generate.py'</i> in an OS shell, in the application folder; then reload this page.</div>" + 
     "</div>";
 
   window.setTimeout(function() {

@@ -653,12 +653,22 @@ div.checked .toggleButtonSwitch:before {
   .button.active();
 }
 
+
 .selectbox-selected > div > .list-itemlabel {
   color:@selection-foreground-color;
   background-image:url(../icon/ios/selectbox-check.png);
   background-repeat:no-repeat;
   background-position: right -2px; 
   text-indent:4px;
+
+  &:hover {
+    color:white;
+  }
+}
+
+.selectbox-selected.active > div > .list-itemlabel {
+  color:white;
+  background-image:url(../icon/ios/selectbox-check-grey.png);
 }
 
 .selectbox-unselected > div > .list-itemlabel {

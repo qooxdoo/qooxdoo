@@ -429,7 +429,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
       var value = "red 1px 1px 3px";
       var el = document.createElement("div");
       var style = qx.bom.Style.getAppliedStyle(el, "textShadow", value);
-      return (!style) ? false : true;
+      return !style;
     },
 
 
