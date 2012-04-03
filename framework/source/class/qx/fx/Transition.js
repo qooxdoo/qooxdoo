@@ -120,6 +120,8 @@ qx.Class.define("qx.fx.Transition",
 
   statics :
   {
+    __warned : false,
+
     /**
      * Maps function name to function.
      *
@@ -130,9 +132,13 @@ qx.Class.define("qx.fx.Transition",
      */
     get : function(functionName)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
-      );
+      if (!this.__warned) {
+        this.__warned = true;
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+        );
+      }
+
       return qx.fx.Transition[functionName] || false;
     },
 
@@ -147,9 +153,13 @@ qx.Class.define("qx.fx.Transition",
      */
     linear : function(pos)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
-      );
+      if (!this.__warned) {
+        this.__warned = true;
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+        );
+      }
+
       return pos;
     },
 
@@ -163,9 +173,13 @@ qx.Class.define("qx.fx.Transition",
      */
     easeInQuad : function (pos)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
-      );
+      if (!this.__warned) {
+        this.__warned = true;
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+        );
+      }
+
       return Math.pow(2, 10 * (pos - 1));
     },
 
@@ -179,9 +193,13 @@ qx.Class.define("qx.fx.Transition",
      */
     easeOutQuad : function (pos)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
-      );
+      if (!this.__warned) {
+        this.__warned = true;
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+        );
+      }
+
       return (-Math.pow(2, -10 * pos) + 1);
     },
 
@@ -195,9 +213,13 @@ qx.Class.define("qx.fx.Transition",
      */
     sinodial : function(pos)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
-      );
+      if (!this.__warned) {
+        this.__warned = true;
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+        );
+      }
+
       return ( -Math.cos(pos * Math.PI) / 2 ) + 0.5;
     },
 
@@ -211,9 +233,13 @@ qx.Class.define("qx.fx.Transition",
      */
     reverse: function(pos)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
-      );
+      if (!this.__warned) {
+        this.__warned = true;
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+        );
+      }
+
       return 1 - pos;
     },
 
@@ -229,9 +255,13 @@ qx.Class.define("qx.fx.Transition",
      */
     flicker : function(pos)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
-      );
+      if (!this.__warned) {
+        this.__warned = true;
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+        );
+      }
+
       var pos = ( (-Math.cos(pos * Math.PI) / 4) + 0.75) + Math.random() / 4;
       return pos > 1 ? 1 : pos;
     },
@@ -246,9 +276,13 @@ qx.Class.define("qx.fx.Transition",
      */
     wobble : function(pos)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
-      );
+      if (!this.__warned) {
+        this.__warned = true;
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+        );
+      }
+
       return ( -Math.cos(pos * Math.PI * (9 * pos)) / 2) + 0.5;
     },
 
@@ -265,9 +299,12 @@ qx.Class.define("qx.fx.Transition",
      */
     pulse : function(pos, pulses)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
-      );
+      if (!this.__warned) {
+        this.__warned = true;
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+        );
+      }
 
       pulses = (typeof(pulses) == "Number") ? pulses : 5;
 
@@ -289,9 +326,13 @@ qx.Class.define("qx.fx.Transition",
      */
     spring : function(pos)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
-      );
+      if (!this.__warned) {
+        this.__warned = true;
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+        );
+      }
+
       return 1 - (Math.cos(pos * 4.5 * Math.PI) * Math.exp(-pos * 6));
     },
 
@@ -304,9 +345,13 @@ qx.Class.define("qx.fx.Transition",
      */
     none : function(pos)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
-      );
+      if (!this.__warned) {
+        this.__warned = true;
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+        );
+      }
+
       return 0;
     },
 
@@ -320,9 +365,13 @@ qx.Class.define("qx.fx.Transition",
      */
     full : function(pos)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-        "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
-      );
+      if (!this.__warned) {
+        this.__warned = true;
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+        );
+      }
+
       return 1;
     }
   }
