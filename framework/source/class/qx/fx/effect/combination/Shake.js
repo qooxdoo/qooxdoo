@@ -38,6 +38,7 @@
  * Combination effect "Shake"
  *
  * Moves the element forwards and backwards several times.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.effect.combination.Shake",
 {
@@ -52,6 +53,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
   /**
    * @param element {Object} The DOM element
+   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
    */
   construct : function(element)
   {
@@ -77,6 +79,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
   {
     /**
      * Direction in which the element should be shaken.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     direction :
     {
@@ -86,6 +89,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
     /**
      * Number of seconds the effect should run.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     duration :
     {
@@ -95,6 +99,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
     /**
      * Amount of pixel the element should be moved during the shake.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     distance :
     {

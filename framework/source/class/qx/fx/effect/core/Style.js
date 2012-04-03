@@ -38,6 +38,7 @@
  * A simple effect which changes the given CSS attribute during the
  * duration of the animation. A function can be given to modify the
  * incoming numeric value.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 
 qx.Class.define("qx.fx.effect.core.Style",
@@ -56,6 +57,7 @@ qx.Class.define("qx.fx.effect.core.Style",
    * @param cssAttribute {String} Name of the CSS attribute to animate.
    * @param func {Function} Function which modifies the numeric value given by
    * update().
+   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
    */
   construct : function(element, cssAttribute, func)
   {
@@ -93,8 +95,5 @@ qx.Class.define("qx.fx.effect.core.Style",
 
       qx.bom.element.Style.set(this._getElement(), this.__cssAttribute, value)
     }
-
   }
-
-
 });

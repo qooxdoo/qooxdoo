@@ -38,6 +38,7 @@
  * A simple effect which changes the given qooxdoo property during the
  * duration of the animation. A function can be given to modify the
  * incoming numeric value.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.effect.core.Property",
 {
@@ -55,6 +56,7 @@ qx.Class.define("qx.fx.effect.core.Property",
    * @param qxProperty {String} Name of the qooxdoo property to animate.
    * @param func {Function} Function which modifies the numeric value given by
    * update().
+   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
    */
   construct : function(element, qxProperty, func)
   {
@@ -94,8 +96,5 @@ qx.Class.define("qx.fx.effect.core.Property",
       properties[this.__qxProperty] = value;
       this._getElement().set(properties);
     }
-
   }
-
-
 });
