@@ -90,6 +90,16 @@ LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
 
 StmntTerminatorTokens = ("eol", ";", "}", "eof")
 
+SYMBOLS = {
+    "infix" : "* / % << >> >>> < <= > >= != == !== === & ^ | && ||".split(),
+    "infix_v" : "in instanceof".split(),
+    "infix_r" : "= <<= -= += *= /= %= |= ^= &= >>= >>>=".split(),
+    "prefix"  : "~ ! /".split(),
+    "prefix_v": "new  delete typeof void".split(),
+    "prepostfix" : "++ --".split(),
+    "preinfix": "+ -".split(),
+}
+
 def expressionTerminated():
     return token.id in StmntTerminatorTokens or tokenStream.eolBefore
 
