@@ -46,7 +46,6 @@ Technical Topics
    website/image_handling
    website/event_layer_impl
    website/focus_layer_impl
-   website/qooxdoo_animation
    website/css3animation
    website/fromjquery
    website/storage
