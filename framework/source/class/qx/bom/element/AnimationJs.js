@@ -33,20 +33,64 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
     __maxStepTime : 30,
     __units : ["%", "in", "cm", "mm", "em", "ex", "pt", "pc", "px"],
 
+
     /**
      * This is the main function to start the animation. For further details,
      * take a look at the documentation of the wrapper
      * {@link qx.bom.element.Animation}.
      * @param el {Element} The element to animate.
      * @param desc {Map} Animation description.
-     * @param duration {Integer?} The duration of the animation which will override
-     *   the duration given in the description.
+     * @param duration {Integer?} The duration of the animation which will
+     *   override the duration given in the description.
      * @return {qx.bom.element.AnimationHandle} The handle.
      */
     animate : function(el, desc, duration) {
+      return this._animate(el, desc, duration, false);
+    },
+
+
+    /**
+     * This is the main function to start the animation in reversed mode.
+     * For further details, take a look at the documentation of the wrapper
+     * {@link qx.bom.element.Animation}.
+     * @param el {Element} The element to animate.
+     * @param desc {Map} Animation description.
+     * @param duration {Integer?} The duration of the animation which will
+     *   override the duration given in the description.
+     * @return {qx.bom.element.AnimationHandle} The handle.
+     */
+    animateReverse : function(el, desc, duration) {
+      return this._animate(el, desc, duration, true);
+    },
+
+
+    /**
+     * Helper to start the animation, either in reversed order or not.
+     *
+     * @param el {Element} The element to animate.
+     * @param desc {Map} Animation description.
+     * @param duration {Integer?} The duration of the animation which will
+     *   override the duration given in the description.
+     * @param reverse {Boolean} <code>true</code>, if the animation should be
+     *   reversed.
+     * @return {qx.bom.element.AnimationHandle} The handle.
+     */
+    _animate : function(el, desc, duration, reverse) {
       // stop if an animation is already running
       if (el.$$animation) {
         return;
+      }
+
+      // @deprecated since 2.0
+      if (desc.hasOwnProperty("reverse")) {
+        reverse = desc.reverse;
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.log.Logger.warn(
+            "The key 'reverse' is deprecated: Please use the method " +
+            "'animateReverse' instead."
+          );
+          qx.log.Logger.trace();
+        }
       }
 
       if (duration == undefined) {
@@ -62,7 +106,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       this.__normalizeKeyFrames(keyFrames, el);
 
       var delta = this.__calculateDelta(steps, stepTime, keys, keyFrames, duration, desc.timing);
-      if (desc.reverse) {
+      if (reverse) {
         delta.reverse();
       }
 

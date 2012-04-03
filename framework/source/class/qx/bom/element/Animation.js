@@ -73,8 +73,6 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      *
      * *alternate* defines if every other animation should be run in reverse order.
      *
-     * *reverse* defines if the animation should run in reverse order.
-     *
      * @param el {Element} The element to animate.
      * @param desc {Map} The animations description.
      * @param duration {Integer?} The duration of the animation which will override
@@ -87,6 +85,25 @@ qx.Bootstrap.define("qx.bom.element.Animation",
         return qx.bom.element.AnimationCss.animate(el, desc, duration);
       } else {
         return qx.bom.element.AnimationJs.animate(el, desc, duration);
+      }
+    },
+
+
+    /**
+     * Starts an animation in reversed order. For further details, take a look at
+     * the {@link #animate} method.
+     * @param el {Element} The element to animate.
+     * @param desc {Map} The animations description.
+     * @param duration {Integer?} The duration of the animation which will override
+     *   the duration given in the description.
+     * @return {qx.bom.element.AnimationHandle} AnimationHandle instance to control
+     *   the animation.
+     */
+    animateReverse : function(el, desc, duration) {
+      if (qx.core.Environment.get("css.animation")) {
+        return qx.bom.element.AnimationCss.animateReverse(el, desc, duration);
+      } else {
+        return qx.bom.element.AnimationJs.animateReverse(el, desc, duration);
       }
     }
   }
