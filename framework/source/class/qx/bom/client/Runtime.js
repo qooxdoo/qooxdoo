@@ -21,6 +21,7 @@
 
 #ignore(environment)
 #ignore(process)
+#ignore(Titanium)
 
 ************************************************************************ */
 
