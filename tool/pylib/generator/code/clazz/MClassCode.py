@@ -194,8 +194,8 @@ class MClassCode(object):
 
             if compiled == None:
                 tree = self.optimize(None, optimize, variants, featuremap)
-                #if not "whitespace" in optimize:
-                if optimize == ["comments"]:
+                #if optimize == ["comments"]:
+                if not "whitespace" in optimize:
                     compiled = self.serializeFormatted(tree)
                 else:
                     compiled = self.serializeCondensed(tree, format_)

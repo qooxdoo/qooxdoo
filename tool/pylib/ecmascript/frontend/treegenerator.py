@@ -94,7 +94,7 @@ SYMBOLS = {
     "infix" : "* / % << >> >>> < <= > >= != == !== === & ^ | && ||".split(),
     "infix_v" : "in instanceof".split(),
     "infix_r" : "= <<= -= += *= /= %= |= ^= &= >>= >>>=".split(),
-    "prefix"  : "~ ! /".split(),
+    "prefix"  : "~ !".split(),  # '/' left out, as never seen by the parser as prefix op (but regexp constant)
     "prefix_v": "new  delete typeof void".split(),
     "prepostfix" : "++ --".split(),
     "preinfix": "+ -".split(),

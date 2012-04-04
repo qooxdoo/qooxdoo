@@ -24,22 +24,9 @@ import sys, os, re, types, string
 from ecmascript.frontend.treegenerator import method, symbol, symbol_base, SYMBOLS, identifier_regex
 from ecmascript.frontend import lang
 
-def prettyNode(tree, options, result):
-    return [tree.toPretty(options, {})]
-
-
-def defaultOptions(optns):
-    optns.prettyPrint = True  # turn on pretty-printing
-    optns.prettypCommentsBlockAdd  = True  # comment filling
-    optns.prettypIndentString      = "  "   # general indent string
-    optns.prettypOpenCurlyNewlineBefore = 'm'  # mixed, dep. on complexity
-    optns.prettypOpenCurlyIndentBefore  = False  # indent curly on a new line
-    optns.prettypAlignBlockWithCurlies  = False  # put block on same column as curlies
-    optns.prettypCommentsTrailingCommentCols = ''  # put trailing comments on fixed columns
-    optns.prettypCommentsTrailingKeepColumn  = False  # fix trailing comment on column of original text
-    optns.prettypCommentsInlinePadding  = '  '   # space between end of code and beginning of comment
-
-    return optns
+# ------------------------------------------------------------------------------
+# Symbol methods
+# ------------------------------------------------------------------------------
 
 # fall-back in symbol_base
 def toPretty(self, optns, state):
@@ -51,7 +38,9 @@ def infix(id_):
     def toPretty(self, optns, state):
         r = u''
         r += self.getChild("first").toPretty(optns, state)
+        r += ' '
         r += self.get("value")
+        r += ' '
         r += self.getChild("second").toPretty(optns, state)
         return r
     symbol(id_).toPretty = toPretty
@@ -112,7 +101,7 @@ def preinfix(id_):  # pre-/infix operators (+, -)
             r = [op, first]
         else:
             second = self.getChild("second").toPretty(optns, state)
-            r = [first, op, second]
+            r = [first, ' ', op, ' ', second]
         return ''.join(r)
     symbol(id_).toPretty = toPretty
 
@@ -166,9 +155,13 @@ def toPretty(self, optns, state):
 def toPretty(self, optns, state):
     r = []
     r.append(self.getChild("first").toPretty(optns, state))
+    r.append(' ')
     r.append('?')
+    r.append(' ')
     r.append(self.getChild("second").toPretty(optns, state))
+    r.append(' ')
     r.append(':')
+    r.append(' ')
     r.append(self.getChild("third").toPretty(optns, state))
     return ''.join(r)
 
@@ -190,7 +183,7 @@ def toPretty(self, optns, state):
     a = []
     for c in self.children:
         a.append(c.toPretty(optns, state))
-    r.append(','.join(a))
+    r.append(', '.join(a))
     r.append(')')
     return ''.join(r)
 
@@ -208,7 +201,7 @@ def toPretty(self, optns, state):
     r = []
     for c in self.children:
         r.append(c.toPretty(optns, state))
-    return '[' + u','.join(r) + ']'
+    return '[' + u', '.join(r) + ']'
 
 @method(symbol("key"))
 def toPretty(self, optns, state):
@@ -217,12 +210,17 @@ def toPretty(self, optns, state):
 @method(symbol("map"))
 def toPretty(self, optns, state):
     r = u''
-    r += self.write("{")
+    r += self.write("{\n")
+    state.indentLevel += 1
+    indent = indentString(optns, state)
     a = []
     for c in self.children:
-        a.append(c.toPretty(optns, state))
-    r += ','.join(a)
-    r += self.write("}")
+        a.append(indent + c.toPretty(optns, state))
+    r += (',\n').join(a)
+    state.indentLevel -= 1
+    if len(self.children):
+        r += '\n'
+    r += self.write("%s}"%indentString(optns, state))
     return r
 
 @method(symbol("value"))
@@ -244,7 +242,7 @@ def toPretty(self, optns, state):
     else:
         quote = ''
     value = self.getChild("value").toPretty(optns, state)
-    return quote + key + quote + ':' + value
+    return quote + key + quote + ' : ' + value
 
 @method(symbol("block"))
 def toPretty(self, optns, state):
@@ -552,20 +550,28 @@ def toPretty(self, optns, state):
 @method(symbol("statements"))
 def toPretty(self, optns, state):
     r = []
+    indent = indentString(optns, state)
     for cld in self.children:
+        l = [indent]
         c = cld.toPretty(optns, state)
-        r.append(c)
+        l.append(c)
         if not c or c[-1] != ';':
-            r.append(';')
-    return u''.join(r)
+            l.append(';')
+        r.append(u''.join(l))
+    return u'\n'.join(r)
 
 @method(symbol("block"))
 def toPretty(self, optns, state):
-    r = '{'
-    for c in self.children:
-        r += c.toPretty(optns, state)
-    r += '}'
-    r += '\n' # TODO: tmp. fix for line breaks
+    r = u''
+    r += self.write("{\n")
+    state.indentLevel += 1
+    a = []
+    for c in self.children: # should be just "statements"
+        a.append(c.toPretty(optns, state))
+    r += u''.join(a)
+    state.indentLevel -= 1
+    indent_string = indentString(optns, state)
+    r += self.write("\n%s}"%indent_string)
     return r
 
 @method(symbol("call"))
@@ -626,3 +632,34 @@ def toPretty(self, optns, state):
     r += ','.join(a)
     r += self.write(")")
     return r
+
+# ------------------------------------------------------------------------------
+# Interface functions
+# ------------------------------------------------------------------------------
+
+def prettyNode(tree, options, result):
+    def state(): pass
+    dstate = defaultState(state, options)
+    return [tree.toPretty(options, dstate)]
+
+
+def defaultOptions(optns):
+    optns.prettyPrint = True  # turn on pretty-printing
+    optns.prettypCommentsBlockAdd  = True  # comment filling
+    optns.prettypIndentString      = "  "   # general indent string
+    optns.prettypOpenCurlyNewlineBefore = 'm'  # mixed, dep. on complexity
+    optns.prettypOpenCurlyIndentBefore  = False  # indent curly on a new line
+    optns.prettypAlignBlockWithCurlies  = False  # put block on same column as curlies
+    optns.prettypCommentsTrailingCommentCols = ''  # put trailing comments on fixed columns
+    optns.prettypCommentsTrailingKeepColumn  = False  # fix trailing comment on column of original text
+    optns.prettypCommentsInlinePadding  = '  '   # space between end of code and beginning of comment
+
+    return optns
+
+def defaultState(state, optns):
+    state.indentLevel = 0
+
+    return state
+
+def indentString(optns, state):
+    return optns.prettypIndentString * state.indentLevel
