@@ -98,14 +98,12 @@ The cure is to add ``#require`` hints to force the inclusion of those methods th
 
 variables
 ---------
-
 Local variable names are made short. Scoped variables (those declared with a *var* statement in a function) are replaced by generated names that are much shorter (1-2 characters on average). Dependending on the original code, this can result in significant space savings.
 
 .. _pages/tool/generator_optimizations#variants:
 
 variants
 --------
-
 With giving the *variants* optimization key, code will be removed that is not relevant for the current build. The decision about relevance is based on the settings given in the job configuration's :ref:`environment <pages/tool/generator_config_ref#environment>` key. Often, these settings will be queried in class code to select a certain code branch. If the value of the setting is known at compile time, the correct branch can be selected right away, and all other branches be removed. This allows to omit code that wouldn't be executed at run time anyway ("dead code removal").
 
 The way environment settings are queried in class code is through certain APIs of the `qx.core.Environment <http://demo.qooxdoo.org/%{version}/apiviewer#qx.core.Environment>`_ class. These API calls are searched for, and depending on context safe optimizations are applied. Here are the different calls and how they are treated.
@@ -185,4 +183,9 @@ Similar to ``.select()``, `qx.core.Environment.filter() <http://demo.qooxdoo.org
 
 
 Each key is checked, and if its value resolves to a true value, the corresponding map value is added to an array. At the end, this array is returned. That means, ``.filter()`` turns a set of environment keys into a list of corresponding expressions. For the generator, this means that if an environment value is known to be false at compile time, its entry can be safely removed from the filter map. The benefit of this is that code dependencies that are in the map values are removed, again saving dependencies that would never be used at runtime.
+
+whitespace
+-----------
+Whitespace (spaces, tabs, newlines) is removed. Semi-colons are inserted where necessary.
+
 

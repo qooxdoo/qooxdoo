@@ -24,6 +24,8 @@
  * list, which provides the user the possibility to select one value.
  * The selected value is identified through selected index.
  * 
+ * 
+ * 
  * *Example*
  * <pre class='javascript'>
  * 
@@ -59,7 +61,6 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     }
     
     this.add(this.__selectionList);
-    
     
     this._getBlocker().addListener("tap", this.__onBlockerTap, this);
   },
@@ -114,7 +115,6 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     {
       init : "item-selected"
     },
-    
     
     
     /**
@@ -176,7 +176,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     /**
      *  Sets the items in the menu.
      *  
-     *  @param itemModel {qx.data.Array}, the model of choosable items in the menu.
+     *  @param itemsModel {qx.data.Array}, the model of choosable items in the menu.
      */
     setItems : function (itemsModel) {
       if(this.__selectionList) {

@@ -44,13 +44,14 @@ qooxdoo Manual
 
 Welcome to the manual of qooxdoo |version|. Here are some highlights of what you can find here. The main entries are the qooxdoo components *Core*, *Website*, *Desktop*, *Mobile* and *Server*. For a full overview proceed to the :doc:`table of contents <toc>`.
 
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 | |o_star| | **Getting Started**                                                                 |
-|          |   * :ref:`Prerequisites <pages/requirements#requirements>`                          |
-|          |   * :ref:`Download and Installation<pages/getting_started/setup#setup>`             |
-|          |   * :ref:`"Hello World" <pages/getting_started/helloworld#create_your_application>` |
+|          |   * :doc:`pages/getting_started`                                                    |
 +----------+-------------------------------------------------------------------------------------+
+
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 ||g_book|  | **Core**                                                                            |
@@ -58,21 +59,18 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 |          |   * :doc:`Properties <pages/core/understanding_properties>`                         |
 |          |   * :doc:`Data Binding <pages/data_binding/data_binding>`                           |
 |          |   * :doc:`Environment   <pages/core/environment>`                                   |
-|          |   * Tooling                                                                         |
-|          |                                                                                     |
-|          |     * :ref:`Introduction <pages/tool#tooling>`                                      |
-|          |     * :ref:`Tutorial     <pages/getting_started/helloworld#helloworld>`             |
-|          |     * :ref:`Reference    <pages/references#tooling>`                                |
 +----------+-------------------------------------------------------------------------------------+
 
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 ||tutorial|| **Desktop**                                                                         |
-|          |   * :doc:`Introduction  <pages/gui_toolkit/ui_overview>`                            |
-|          |   * :doc:`Tutorial      <pages/tutorials/tutorial-part-1>`                          |
-|          |   * :doc:`Reference     <pages/gui_toolkit/ui_widgets>`                             |
+|          |   * :doc:`Introduction  <pages/desktop/ui_overview>`                                |
+|          |   * :doc:`Tutorial      <pages/desktop/tutorials/tutorial-part-1>`                  |
+|          |   * :doc:`Reference     <pages/desktop/ui_widgets>`                                 |
 +----------+-------------------------------------------------------------------------------------+
 
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 ||g_write| | **Mobile**                                                                          |
@@ -81,14 +79,16 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 |          |   * :doc:`Reference     <pages/mobile/mobile_overview>`                             |
 +----------+-------------------------------------------------------------------------------------+
 
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 ||o_folder|| **Website**                                                                         |
-|          |   * :doc:`Introduction     <pages/low_level/overview>`                              |
-|          |   * :doc:`Tutorial         </pages/low_level/tutorial_web_developers>`              |
-|          |   * :doc:`Reference        <pages/low_level/overview>`                              |
+|          |   * :doc:`Introduction     <pages/website/overview>`                                |
+|          |   * :doc:`Tutorial         </pages/website/tutorial_web_developers>`                |
+|          |   * :doc:`Reference        <pages/website/overview>`                                |
 +----------+-------------------------------------------------------------------------------------+
 
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 ||g_faq|   | **Server**                                                                          |
@@ -97,6 +97,16 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 |          |   * :doc:`Reference       <pages/server/overview>`                                  |
 +----------+-------------------------------------------------------------------------------------+
 
+.. rst-class:: toc
+
++----------+-------------------------------------------------------------------------------------+
+||g_faq|   | **Tooling**                                                                         |
+|          |   * :ref:`Introduction <pages/tool#tooling>`                                        |
+|          |   * :ref:`Tutorial     <pages/getting_started/helloworld#helloworld>`               |
+|          |   * :ref:`Reference    <pages/references#tooling>`                                  |
++----------+-------------------------------------------------------------------------------------+
+
+.. rst-class:: toc
 
 +----------+-------------------------------------------------------------------------------------+
 | |o_save| | **References**                                                                      |

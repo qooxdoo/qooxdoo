@@ -27,7 +27,7 @@
   .. toctree::
     :maxdepth: 3
 
-    pages/low_level.rst
+    pages/website.rst
 
 
 .. gui
@@ -37,7 +37,7 @@
   .. toctree::
     :maxdepth: 3
 
-    pages/gui_toolkit
+    pages/desktop
 
 .. mobile
 
@@ -67,16 +67,28 @@
 
      pages/communication
 
+.. development
 
 .. toctree::
    :maxdepth: 3
 
    pages/development
 
+.. standard apps
+
 .. toctree::
    :maxdepth: 3
 
    pages/application
+
+.. tooling
+
+.. toctree::
+   :maxdepth: 3
+
+   pages/tool
+
+.. migration
 
 .. toctree::
    :maxdepth: 3

@@ -244,8 +244,7 @@ qx.Class.define("showcase.Application",
     __cancelFade : function()
     {
       if (this.__effect) {
-        this.__effect.cancel();
-        this.__effect.dispose();
+        this.__effect.stop();
         this.__effect = null;
       }
     },
@@ -253,26 +252,19 @@ qx.Class.define("showcase.Application",
 
     __fadeIn : function(view)
     {
-      // no fades for IE, sorry!
-      if (qx.core.Environment.get("engine.name") == "mshtml") {
-        return;
-      }
-
-      view.getContentElement().setStyle("display", "none", true);
+      view.getContentElement().setStyle("opacity", 0, true);
       this.__cancelFade();
 
       qx.event.Timer.once(function() {
         var element = view.getContentElement().getDomElement();
-        this.__effect = new qx.fx.effect.core.Fade(element);
-        this.__effect.set({
-          from: 0,
-          to: 1
+        this.__effect = qx.bom.element.Animation.animate(element, {
+          duration: 1000,
+          keep: 100,
+          keyFrames : {
+            0 : {opacity: 0},
+            100 : {opacity: 1, display: "block"}
+          }
         });
-        this.__effect.addListenerOnce("update", function() {
-          view.getContentElement().setStyle("display", "block");
-        }, this);
-
-        this.__effect.start();
       }, this, 0);
     }
   },

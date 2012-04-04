@@ -1,6 +1,6 @@
 .. _pages/frame_apps_testrunner#the_qooxdoo_test_runner:
 
-The qooxdoo Test Runner
+Test Runner
 ***********************
 
 "Test Runner" is a `unit testing <http://en.wikipedia.org/wiki/Unit_test>`_ framework that fully supports testing qooxdoo classes. It is similar to but does not require JSUnit or any other JavaScript unit testing framework. If you look at the component section of a qooxdoo distribution under ``component/testrunner/``, you will find the Test Runner sources, together with a mockup test class. In the ``framework/`` section you can create a Test Runner instance with all test classes from the qooxdoo framework by running:

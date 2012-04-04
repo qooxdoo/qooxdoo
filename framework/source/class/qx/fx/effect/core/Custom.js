@@ -37,6 +37,7 @@
 /**
  * A "empty" effect based on Base which executes the given function to
  * performe animation.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.effect.core.Custom",
 {
@@ -52,6 +53,7 @@ qx.Class.define("qx.fx.effect.core.Custom",
   /**
    * @param element {Object} The DOM element
    * @param func {Function} Function to be execute when update() is called.
+   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
    */
   construct : function(element, func)
   {

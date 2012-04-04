@@ -42,7 +42,7 @@ Details
   * **#asset**\ *(resourcepattern)* : Resources that are used by this class (required if the class uses resources such as icons)
   * **#cldr** : Indicates that this class requires CLDR data at runtime
 
-* **Single Definition** : One call to a *define()* method, such as qx.(:doc:`Class </pages/core/classes>`\|\ :doc:`Theme </pages/gui_toolkit/ui_theming>`\|\ :doc:`Interface </pages/core/interfaces>`\|\ :doc:`Mixin </pages/core/mixins>`\|...).define().
+* **Single Definition** : One call to a *define()* method, such as qx.(:doc:`Class </pages/core/classes>`\|\ :doc:`Theme </pages/desktop/ui_theming>`\|\ :doc:`Interface </pages/core/interfaces>`\|\ :doc:`Mixin </pages/core/mixins>`\|...).define().
 
 Example:
 

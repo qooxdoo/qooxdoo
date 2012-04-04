@@ -2,16 +2,21 @@
 // Android theme.
 //
 
+@android-orange: #e89c00;
+@android-light-orange: #ffdb66;
+@android-light-orange-2: #fdd824;
+@android-dark-grey: #636363;
+
+@button-color: #f4f4f4;
+
+@highlighted-text-color: @android-orange;
+
 //
 // MIXINS
 //
 
-@highlighted-text-color: #e89c00;
-
 .standard-button {
-  @button-color: #f4f4f4;
   @height: 20px;
-
   .border-radius(4px);
   cursor: pointer;
   width: auto;
@@ -29,7 +34,7 @@
 }
 
 .standard-button-active {
-  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+  #gradient > .vertical-three(@android-light-orange, @android-orange, @android-light-orange-2);
 }
 
 //
@@ -41,11 +46,11 @@ a:hover, a:active {
 }
 
 a, a:active, a:visited {
-  color: #e89c00;
+  color: @android-orange;
 }
 
 a:hover {
-  color: #e89c00;
+  color: @android-orange;
 }
 
 h1 {
@@ -76,6 +81,15 @@ h2 {
   font-size: 0.8em;
 }
 
+// 
+// VIEW
+//
+
+.scroll {
+  // This makes it possible to place a widget (TabBar, Toolbar) before the view.
+  .border-ordinal-group(2);
+}
+
 //
 // LIST
 //
@@ -94,16 +108,16 @@ ul li.arrow {
 }
 
 ul li.active.arrow, ul li.selected.arrow {
-  background-image: url("../icon/android/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
-  background-image: url("../icon/android/arrow_pressed.png"), -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
-  background-image: url("../icon/android/arrow_pressed.png"), -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
-  background-image: url("../icon/android/arrow_pressed.png"), linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: url("../icon/android/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%,@android-light-orange), color-stop(50%,@android-orange),color-stop(100%,@android-light-orange-2));
+  background-image: url("../icon/android/arrow_pressed.png"), -webkit-linear-gradient(top, @android-light-orange, @android-orange 50%, @android-light-orange-2);
+  background-image: url("../icon/android/arrow_pressed.png"), -moz-linear-gradient(top, @android-light-orange, @android-orange 50%, @android-light-orange-2);
+  background-image: url("../icon/android/arrow_pressed.png"), linear-gradient(to bottom, @android-light-orange, @android-orange 50%, @android-light-orange-2);
   background-position: right center;
   background-repeat: no-repeat;
 }
 
 ul li.active, ul li.selected {
-  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+  #gradient > .vertical-three(@android-light-orange, @android-orange, @android-light-orange-2);
   color: #000;
 }
 
@@ -197,27 +211,53 @@ textarea {
 //
 
 .tabBar {
+  padding-top:4px;
   bottom: 1px;
-  height: 45px; 
+  border-bottom: 3px solid @android-orange;
+  
+  // Place TabBar before view
+  .border-ordinal-group(1);
 }
 
 .tabButton {
-  .standard-button();
-
-   // This is for equal sizes od the buttons when aded in a toolbar or
+   // This is for equal sizes od the buttons when added in a toolbar or
    // other container with flex :1
   width: 0;
+
+  color:white;
+
+  background: @android-dark-grey;
+  background: -moz-linear-gradient(top,  @android-dark-grey 83%, #444444 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(83%,@android-dark-grey), color-stop(100%,#444444));
+  background: -webkit-linear-gradient(top,  @android-dark-grey 83%,#444444 100%);
+  background: linear-gradient(top,  @android-dark-grey 83%,#444444 100%);
+  
+  border: 1px solid lighten(@android-dark-grey, 10%);
+  .border-radius-top(6px);
+
+  cursor:pointer;
 
   height:45px;
   line-height:45px;
 
-  font-size: 17px;
+  font-size: 15px;
   .background-clip(padding-box);
-  margin: 0 !important;
+  
+  @margin-size:4px;
+  margin-left:@margin-size;
+  margin-right:@margin-size;
 }
 
+
 .tabButton.active, .tabButton.selected {
-  border: 2px solid orange;
+  background: #ffffff;
+  background: -moz-linear-gradient(top,  #ffffff 2%, @android-light-orange 4%, @android-light-orange-2 49%, @android-orange 53%, @android-orange 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,#ffffff), color-stop(4%,@android-light-orange), color-stop(49%,@android-light-orange-2), color-stop(53%,@android-orange), color-stop(100%,@android-orange));
+  background: -webkit-linear-gradient(top,  #ffffff 2%,@android-light-orange 4%,@android-light-orange-2 49%,@android-orange 53%,@android-orange 100%);
+  background: linear-gradient(top,  #ffffff 2%,@android-light-orange 4%,@android-light-orange-2 49%,@android-orange 53%,@android-orange 100%);
+
+  color:black;
+  border: 1px solid @android-orange;
 }
 
 //
@@ -296,6 +336,9 @@ input[type="checkbox"]:checked {
 
 .toolbar {
   #gradient > .vertical(#9a9a9a, #7c7e7c);
+
+  .border-ordinal-group(3);
+
   padding: 2px;
   height: 55px;
   height: -moz-calc(55px + 4px);
@@ -353,21 +396,13 @@ input[type="checkbox"]:checked {
 
 .dialogTitleUnderline:after {
   #gradient > .horizontal-four(#424242, #ffffff, #ffffff, #424242, 30%, 70%);
-  line-height: 1px;
+  line-height: 10px;
   content: ' ';
   height: 1px;
   width: 100%;
   display: block;
   margin: 3px 0 0 0;
   padding: 0;
-}
-
-// 
-// SELECTBOX  
-//
-
-.selectbox {
-  margin-left:2px;
 }
 
 //
@@ -391,7 +426,7 @@ input[type="checkbox"]:checked {
 }
 
 div.checked .toggleButtonSwitch {
-  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+  #gradient > .vertical-three(@android-light-orange, @android-orange, @android-light-orange-2);
 }
 
 div.checked .toggleButtonSwitch:before {
@@ -429,9 +464,12 @@ div.checked .toggleButtonSwitch:before {
   .hbox();
   .border-radius(4px);
   .boxAlignCenter();
+  
+  margin-left:2px;
+  padding-left:1px;
 
   vertical-align:middle;
-  height:25px;
+  height:35px;
 
   cursor:pointer;
   
@@ -442,7 +480,7 @@ div.checked .toggleButtonSwitch:before {
 }
 
 .selectbox.active {
-  #gradient > .vertical-three(#ffdb66, #e89c00, #fdd824);
+  #gradient > .vertical-three(@android-light-orange, @android-orange, @android-light-orange-2);
   color:#000000;
 }
 
@@ -474,7 +512,3 @@ div.checked .toggleButtonSwitch:before {
   .standard-button-active();
   color:black;
 }
-
-
-
-

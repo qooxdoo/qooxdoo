@@ -25,7 +25,8 @@
 
 import sys, os, types, re, string, copy
 from ecmascript.backend.Packer      import Packer
-from ecmascript.backend             import pretty
+#from ecmascript.backend             import pretty
+from ecmascript.backend             import pretty_new_meth as pretty
 from ecmascript.frontend import treeutil, tokenizer
 from ecmascript.frontend import treegenerator
 from ecmascript.frontend.SyntaxException import SyntaxException
@@ -193,13 +194,14 @@ class MClassCode(object):
 
             if compiled == None:
                 tree = self.optimize(None, optimize, variants, featuremap)
+                #if not "whitespace" in optimize:
                 if optimize == ["comments"]:
                     compiled = self.serializeFormatted(tree)
                 else:
                     compiled = self.serializeCondensed(tree, format_)
 
-                if compiled[-1:] != "\n": # assure trailing \n
-                    compiled += ';\n' # bug#6217
+                if compiled[-1:] != "\n":
+                    compiled += ';\n' # assure trailing \n; bug#6217
 
                 if not "statics" in optimize:
                     cache.write(cacheId, compiled)

@@ -38,6 +38,7 @@
  * Combination effect "Shrink"
  *
  * Resizes the element from initial to given dimensions.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 
 qx.Class.define("qx.fx.effect.combination.Shrink",
@@ -53,6 +54,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
   /**
    * @param element {Object} The DOM element
+   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
    */
   construct : function(element)
   {
@@ -75,6 +77,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
     /**
      * Direction in which the element should shrink.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     direction :
     {
@@ -84,6 +87,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
     /**
      * Transition function to modify the movement process.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     moveTransition :
     {
@@ -95,6 +99,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
     /**
      * Transition function to modify the scaling process.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     scaleTransition :
     {
@@ -107,6 +112,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
     /**
      * Flag indicating if the CSS attribute "display"
      * should be modified by effect
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     modifyDisplay :
     {

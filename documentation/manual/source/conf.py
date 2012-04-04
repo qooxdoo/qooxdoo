@@ -38,7 +38,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'qooxdoo'
-copyright = u'2011-2012, qooxdoo developers'
+copyright = u'2011-2012, ' + project + ' developers'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -61,6 +61,12 @@ qxmacros = {
    ,"versionL" : vMajor + '.' + vMinor + '.x' # latest in this line
    ,"versionU" : vMajor + '_' + vMinor + (('_' + vPatch) if vPatch else '') # underscore notation for SourceForge viewvc links
    ,"JS"       : "JavaScript"
+   ,"qooxdoo"  : project
+   ,"Website"  : "qx.Website"
+   ,"Server"   : "qx.Server"
+   ,"Desktop"  : "qx.Desktop"
+   ,"Mobile"   : "qx.Mobile"
+   ,"Q"        : "q"
    # following are some technical values about qooxdoo that might need adaption
    # from time to time (not necessarily with every release)
    ,"sdk_unpacked" : "110"   # disk requirements for unpacked SDK, in MB

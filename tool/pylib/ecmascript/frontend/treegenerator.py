@@ -90,6 +90,16 @@ LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
 
 StmntTerminatorTokens = ("eol", ";", "}", "eof")
 
+SYMBOLS = {
+    "infix" : "* / % << >> >>> < <= > >= != == !== === & ^ | && ||".split(),
+    "infix_v" : "in instanceof".split(),
+    "infix_r" : "= <<= -= += *= /= %= |= ^= &= >>= >>>=".split(),
+    "prefix"  : "~ ! /".split(),
+    "prefix_v": "new  delete typeof void".split(),
+    "prepostfix" : "++ --".split(),
+    "preinfix": "+ -".split(),
+}
+
 def expressionTerminated():
     return token.id in StmntTerminatorTokens or tokenStream.eolBefore
 
@@ -948,13 +958,21 @@ def ifix(self, left):
 def pfix(self):
     arr = symbol("array")(token.get("line"), token.get("column"))
     if token.id != "]":
+        is_after_comma = 0
         while True:
             if token.id == "]":
+                if is_after_comma:  # preserve dangling comma (bug#6210)
+                    arr.childappend(symbol("(empty)")())
                 break
-            arr.childappend(expression())
+            elif token.id == ",":  # elision
+                arr.childappend(symbol("(empty)")())
+            else:
+                arr.childappend(expression())
             if token.id != ",":
                 break
-            advance(",")
+            else:
+                is_after_comma = 1
+                advance(",")
     advance("]")
     return arr
 
@@ -993,9 +1011,13 @@ symbol("}")
 def pfix(self):
     mmap = symbol("map")(token.get("line"), token.get("column"))
     if token.id != "}":
+        is_after_comma = 0
         while True:
             if token.id == "}":
+                if is_after_comma:  # prevent dangling comma '...,}' (bug#6210)
+                    raise SyntaxException("Illegal dangling comma in map (pos %r)" % ((token.get("line"),token.get("column")),))
                 break
+            is_after_comma = 0
             # key
             keyname = expression()
             key = symbol("keyvalue")(token.get("line"), token.get("column"))
@@ -1011,7 +1033,9 @@ def pfix(self):
             key.childappend(val)  # <value> is a child of <keyvalue>
             if token.id != ",":
                 break
-            advance(",")
+            else:
+                is_after_comma = 1
+                advance(",")
     advance("}")
     return mmap
 
@@ -1302,78 +1326,6 @@ def std(self):
                 if token.id == ',':
                     advance(',')
             third.childappend(exprList)
-
-
-    #if tokenStream.peek(2 if token.id=="var" else 1).id == "in":
-    #    self.set("forVariant", "in")
-    #    var_s = None
-    #    operation = symbol("in")(token.get("line"), token.get("column"))
-    #    operation.type = "operation"
-    #    operation.set("operator", "IN")
-    #    operation.set("value", "in")
-    #    self.childappend(operation)
-    #    op_first = symbol("first")(token.get("line"), token.get("column"))
-    #    operation.childappend(op_first)
-    #    if token.id == "var":
-    #        var_s = symbol("definitionList")(token.get("line"), token.get("column"))
-    #        op_first.childappend(var_s)
-    #        advance("var")
-    #        defn = symbol("definition")(token.get("line"), token.get("column"))
-    #        var_s.childappend(defn)
-    #        defn.childappend(expression(95))  # bind_left higher than "in"
-    #    else:
-    #        #ident = symbol("identifier")(token.get("line"), token.get("column"))
-    #        #op_first.childappend(ident)
-    #        #ident.set("value", token.get("value"))
-    #        #advance("identifier")
-    #        # !support: for(a[i++] in o)
-    #        op_first.childappend(expression())
-    #    advance("in")
-    #    op_second = symbol("second")(token.get("line"), token.get("column"))
-    #    operation.childappend(op_second)
-    #    op_second.childappend(expression())
-    #    
-    ## for (;;) [mind: all three subexpressions are optional]
-    #else:
-    #    self.set("forVariant", "iter")
-    #    condition = symbol("expressionList")(token.get("line"), token.get("column"))
-    #    self.childappend(condition)
-    #    # init part
-    #    first = symbol("first")(token.get("line"), token.get("column"))
-    #    condition.childappend(first)
-    #    if token.id == ";":
-    #        pass                # empty part
-    #    else:
-    #        init_part = None
-    #        if token.id == "var":
-    #            t = token
-    #            advance()
-    #            init_part = t.std() # parse it like a 'var' stmt
-    #        else:
-    #            exprList = symbol("expressionList")(token.get("line"), token.get("column"))
-    #            init_part = exprList
-    #            lst = init_list()
-    #            for assgn in lst:
-    #                exprList.childappend(assgn)
-    #        first.childappend(init_part)
-    #    advance(";")
-    #    # condition part 
-    #    second = symbol("second")(token.get("line"), token.get("column"))
-    #    condition.childappend(second)
-    #    if token.id != ";":
-    #        second.childappend(expression())
-    #    advance(";")
-    #    # update part
-    #    third = symbol("third")(token.get("line"), token.get("column"))
-    #    condition.childappend(third)
-    #    if token.id != ")":
-    #        exprList = symbol("expressionList")(token.get("line"), token.get("column"))
-    #        while token.id != ')':
-    #            expr = expression(0)
-    #            exprList.childappend(expr)
-    #            if token.id == ',':
-    #                advance(',')
-    #        third.childappend(exprList)
 
     # body
     advance(")")

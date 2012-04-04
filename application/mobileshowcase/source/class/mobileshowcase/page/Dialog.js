@@ -56,13 +56,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
     {
       this.base(arguments);
       
-      var closeDialogs = function() {
-        this.__modaldialogpopup.hide();
-        this.__busypopup.hide();
-        this.__anchorpopup.hide();
-        this.__popup.hide();
-      }
-      
       // CLOSING BUTTONS
       var closeDialogButton1 = new qx.ui.mobile.form.Button("Close Dialog");
       closeDialogButton1.addListener("tap", this._stop, this);
@@ -94,28 +87,33 @@ qx.Class.define("mobileshowcase.page.Dialog",
       // MENU
       var showDialogButton = new qx.ui.mobile.form.Button("Show Dialog");
       showDialogButton.addListener("tap", function(e) {
+          this._stop();
           this.__dialogpopup.show();
       }, this);
       
       // MODAL DIALOG
       var showModalDialogButton = new qx.ui.mobile.form.Button("Show Modal Dialog");
       showModalDialogButton.addListener("tap", function(e) {
+          this._stop();
           this.__modaldialogpopup.show();
       }, this);
       
       var showPopupButton = new qx.ui.mobile.form.Button("Show Popup");
       showPopupButton.addListener("tap", function(e) {
+          this._stop();
           this.__popup.show();
       }, this);
       
       var showAnchorButton = new qx.ui.mobile.form.Button("Show Anchor Popup");
       showAnchorButton.addListener("tap", function(e) {
+          this._stop();
           this.__anchorpopup.show();
       }, this);
       
       var i = 0;
       var busyIndicatorButton = new qx.ui.mobile.form.Button("Show/Hide Busy Indicator");
       busyIndicatorButton.addListener("tap", function(e) {
+        this._stop();
         if((i++%2)==0){
           this.__busypopup.show();
         } else {
@@ -125,6 +123,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       
       var showMenuButton = new qx.ui.mobile.form.Button("Show Menu");
       showMenuButton.addListener("tap", function(e) {
+          this._stop();
           this.__menu.show();
       }, this);
       

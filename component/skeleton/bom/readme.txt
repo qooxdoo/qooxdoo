@@ -8,3 +8,4 @@ can then be further extended. Please refer to the script and other documentation
 for further information.
 
 short:: can be used to build low-level qooxdoo applications
+default_script:: script/qx-bom.js

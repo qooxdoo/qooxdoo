@@ -138,7 +138,7 @@ Non-App-Generating Jobs
 So now you know about the basic jobs to create a runnable application
 using the generator. There is a whole bunch of jobs that is not
 concerned with creating a runnable version of your app, but do other
-things. One of those is addressed in the :doc:`Twitter tutorial </pages/tutorials/tutorial-part-4-3>` which is
+things. One of those is addressed in the :doc:`Twitter tutorial </pages/desktop/tutorials/tutorial-part-4-3>` which is
 concerned with internationalization of an application. The generator job
 in this context is ``translation``, and extracts translatable strings
 from your JavaScript source files into *.po* files. Here is a quick

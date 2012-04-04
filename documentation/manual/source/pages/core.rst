@@ -1,11 +1,9 @@
 Core
 **************
 
-qooxdoo *Core* is not a component on its own, but encompasses central features of the qooxdoo class library. The elements described here are available in all qooxdoo components, be it *Desktop*, *Mobile*, *Website* or *Server*. Among these features are a dedicated *class system* with custom class *properties*, *data binding* and a runtime *environment*.
+qooxdoo Core is not a component on its own, but encompasses central features of the qooxdoo class library. The elements described here are available in all qooxdoo components, be it Desktop, Mobile, Website or Server. Among these features are a dedicated class system with custom class properties, data binding and a runtime environment.
 
-In this section we also cover qooxdoo's *tool chain*, as it is relevant for more than one of the other components.
-
-We recommend that you at least make your way through the chapters *Introduction to Object Orientation*, *Features of Object Orientation* and *Classes* from the Object Orientation section, which provide the foundation for working with qooxdoo's class system. The other chapters can be read when the need arises, and as reference material for the other components' documentation. Users of the SDK, which includes the tool chain, will greatly benefit from at least covering the *Introduction* chapter in the Tooling section.
+We recommend that you at least make your way through the chapters *Introduction to Object Orientation*, *Features of Object Orientation* and *Classes* from the *Object Orientation* section, which provide the foundation for working with qooxdoo's class system. The other chapters can be read when the need arises, and as reference material for the other components' documentation.
 
 
 Object Orientation
@@ -50,10 +48,3 @@ Data Binding
 
    data_binding
 
-Tooling
-=======
-
-.. toctree::
-   :maxdepth: 2
-
-   tool
