@@ -401,8 +401,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
         // Append this group name to the list of groups this friendly name is
         // in
-        this.__friendlyToGroups[friendlyName] =
-          this.__friendlyToGroups[friendlyName].concat(groupNames);
+        this.__friendlyToGroups[friendlyName].push(groupName);
       }
     },
 
@@ -419,14 +418,36 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     removeObject : function(friendlyName)
     {
-      var hash = this.__friendlyToHash[friendlyName];
+      var             hash;
+      var             groupName;
+      var             objName;
+      var             bGroupEmpty;
+      
+      hash = this.__friendlyToHash[friendlyName];
 
       // Delete references to any groupos this friendly name was in
       if (this.__friendlyToGroups[friendlyName])
       {
-        for (var groupName in this.__friendlyToGroups[friendlyName])
+        for (var i = 0; i < this.__friendlyToGroups[friendlyName].length; i++)
         {
-          delete this.__groupToFriendly[groupName];
+          groupName = this.__friendlyToGroups[friendlyName][i];
+          delete this.__groupToFriendly[groupName][friendlyName];
+          
+          // Is the group empty now?
+          bGroupEmpty = true;
+          for (objName in this.__groupToFriendly[groupName])
+          {
+            // The group is not empty. That's all we wanted to know.
+            bGroupEmpty = false;
+            break;
+          }
+          
+          // If the group is empty...
+          if (bGroupEmpty)
+          {
+            // ... then we can delete the entire entry
+            delete this.__groupToFriendly[groupName];
+          }
         }
 
         delete this.__friendlyToGroups[friendlyName];
@@ -521,6 +542,40 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       }
     },
 
+
+    /**
+     * Get internal data for debugging
+     *
+     * @return {Map}
+     *   A map containing the following:
+     *     __states
+     *     __startState
+     *     __eventQueue
+     *     __blockedEvents
+     *     __savedStates
+     *     __friendlyToObject
+     *     __friendlyToHash
+     *     __hashToFriendly
+     *     __groupToFriendly
+     *     __friendlyToGroups
+     *     __bEventProcessingInProgress
+     */
+    _getInternalData : function()
+    {
+      return (
+        {
+          "states"           : this.__states,
+          "startState"       : this.__startState,
+          "eventQueue"       : this.__eventQueue,
+          "blockedEvents"    : this.__blockedEvents,
+          "savedStates"      : this.__savedStates,
+          "friendlyToObject" : this.__friendlyToObject,
+          "friendlyToHash"   : this.__friendlyToHash,
+          "hashToFriendly"   : this.__hashToFriendly,
+          "groupToFriendly"  : this.__groupToFriendly,
+          "friendlyToGroups" : this.__friendlyToGroups
+        });
+    },
 
     /**
      * Start (or restart, after it has terminated) the finite state machine
