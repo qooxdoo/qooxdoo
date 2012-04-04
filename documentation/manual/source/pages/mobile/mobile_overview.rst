@@ -73,7 +73,6 @@ If you are new to qooxdoo, make sure you have read the :ref:`getting started <pa
 understand the basics of qooxdoo.
 
 
-
 Environment Keys
 ================
 

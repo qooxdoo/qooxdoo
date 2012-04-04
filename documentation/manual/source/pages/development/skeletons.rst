@@ -5,13 +5,15 @@ Application Skeletons
 
 qooxdoo comes with several different application templates or *skeletons*. Each is meant for a specific usage scenario and includes a different subset of the qooxdoo framework (see the :ref:`architecture diagram<pages/architecture#architecture>` for reference).
 
-When creating a new application using :ref:`create-application.py<pages/getting_started/helloworld#hello_world>`, the *-t* or *--type* parameter specifies the type of skeleton to be used, e.g.
+When creating a new application using :ref:`create-application.py<pages/getting_started/helloworld#helloworld>`, the *-t* or *--type* parameter specifies the type of skeleton to be used, e.g.
 
 ::
 
   qooxdoo-%{version}-sdk/tool/bin/create-application.py --name=custom --type=mobile
 
 The following skeletons are available:
+
+.. _pages/development/skeletons#gui:
 
 Gui
 ---
@@ -47,6 +49,8 @@ Included layers
 * Low-Level
 * GUI Toolit
 
+.. _pages/development/skeletons#mobile:
+
 Mobile
 ------
 For a :ref:`mobile application <pages/mobile/mobile_overview#overview>` running in a WebKit-based browser on iOS or Android (and also on desktop machines). Supports the `mobile widget set <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_. 
@@ -60,7 +64,7 @@ Included layers
 * Runtime Abstraction
 * Mobile UI
 
-.. _pages/development/skeletons#Native:
+.. _pages/development/skeletons#native:
 
 Native
 ------
@@ -75,6 +79,8 @@ Included layers
 * Runtime Abstraction
 * Low-Level
 
+.. _pages/development/skeletons#bom:
+
 Bom
 ---
 
@@ -85,6 +91,8 @@ Included layers
 
 * Runtime Abstraction (partially)
 * Low-Level (partially)
+
+.. _pages/development/skeletons#basic:
 
 Basic
 -----
@@ -114,6 +122,8 @@ or like this for Rhino:
    $ java -cp path/to/js.jar org.mozilla.javascript.tools.shell.Main foo.js
 
 
+
+.. _pages/development/skeletons#contribution:
 
 Contribution
 ------------

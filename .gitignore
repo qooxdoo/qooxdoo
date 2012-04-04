@@ -23,3 +23,5 @@
 
 # WebStorm
 /.idea
+/application/mobileshowcase/build-ios/
+/application/mobileshowcase/build-android/

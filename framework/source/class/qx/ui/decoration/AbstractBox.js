@@ -102,6 +102,52 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
       check : "String",
       nullable : true,
       apply : "_applyBaseImage"
+    },
+    
+    /** Width of the left slice */
+    sliceLeft :
+    {
+      check : "Number",
+      nullable: true,
+      apply : "_applySlices"
+    },
+
+    /** Width of the right slice */
+    sliceRight :
+    {
+      check : "Number",
+      nullable: true,
+      apply : "_applySlices"
+    },
+
+    /** Width of the bottom slice */
+    sliceBottom :
+    {
+      check : "Number",
+      nullable: true,
+      apply : "_applySlices"
+    },
+
+    /** Width of the top slice */
+    sliceTop :
+    {
+      check : "Number",
+      nullable: true,
+      apply : "_applySlices"
+    },
+
+    /** Property group for slices */
+    slices :
+    {
+      group : [ "sliceTop", "sliceRight", "sliceBottom", "sliceLeft" ],
+      mode  : "shorthand"
+    },
+    
+    
+    /** Only used for the CSS3 implementation, see {@link qx.ui.decoration.css3.BorderImage#fill} **/
+    fill :
+    {
+      apply : "_applyFill"
     }
   },
 
@@ -163,6 +209,27 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
 
 
     // property apply
+    _applySlices : function(value, old, name)
+    {
+      var setter = "set" + qx.lang.String.firstUp(name);
+      // The GridDiv implementation doesn't have slice properties,
+      // slices are obtained from the sizes of the images instead
+      if (this.__impl[setter]) {
+        this.__impl[setter](value);
+      }
+    },
+
+
+    //property apply
+    _applyFill : function(value, old, name)
+    {
+      if (this.__impl.setFill) {
+        this.__impl.setFill(value);
+      }
+    },
+
+
+    // property apply
     _applyBaseImage : function(value, old)
     {
       if (this.__impl instanceof qx.ui.decoration.BoxDiv) {
@@ -204,13 +271,17 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
       {
         var leftSlice = ResourceManager.getImageWidth(prefix + "-l" + ext);
         var rightSlice = ResourceManager.getImageWidth(prefix + "-r" + ext);
-        this.__impl.setSlice([0, rightSlice, 0, leftSlice]);
-    }
+        if (rightSlice && leftSlice) {
+          this.__impl.setSlice([0, rightSlice, 0, leftSlice]);
+        }
+      }
       else
       {
         var bottomSlice = ResourceManager.getImageHeight(prefix + "-b" + ext);
         var topSlice = ResourceManager.getImageHeight(prefix + "-t" + ext);
-        this.__impl.setSlice([topSlice, 0, bottomSlice, 0]);
+        if (topSlice && bottomSlice) {
+          this.__impl.setSlice([topSlice, 0, bottomSlice, 0]);
+        }
       }
 
     }

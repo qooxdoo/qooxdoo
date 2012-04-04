@@ -43,13 +43,13 @@ qx.Class.define("qx.test.bom.History", {
 
     testInstance : function()
     {
-      if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml") {
+      if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.version") >= 9) {
         this.assertInstance(this.__history, qx.bom.HashHistory);
-      }
-      else if (qx.core.Environment.get("event.hashchange")) {
+      } else if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml") {
+        this.assertInstance(this.__history, qx.bom.IframeHistory);
+      } else if (qx.core.Environment.get("event.hashchange")) {
         this.assertInstance(this.__history, qx.bom.NativeHistory);
-      }
-      else if (qx.core.Environment.get("engine.name") == "mshtml") {
+      } else if (qx.core.Environment.get("engine.name") == "mshtml") {
         this.assertInstance(this.__history, qx.bom.IframeHistory);
       }
     },
@@ -62,10 +62,9 @@ qx.Class.define("qx.test.bom.History", {
       var self = this;
       window.setTimeout(function() {
         self.resume(function() {
-          this.assertEquals("foo", this.__history.getState(), "AFFE1");
-          this.assertEquals("Title Foo", this.__history.getTitle());
+          this.__checkState();
         }, self);
-      }, 100);
+      }, 200);
       
       this.wait();
     },
@@ -73,21 +72,108 @@ qx.Class.define("qx.test.bom.History", {
     
     testNavigateBack : function()
     {
-      // navigateBack causes the AUT to reload in IE
-      //this.require(["noIe"]);
       this.__history.addToHistory("foo", "Title Foo");
-      this.__history.addToHistory("bar", "Title Bar");
-      this.__history.navigateBack();
       var self = this;
-      //navigateBack is async
       window.setTimeout(function() {
         self.resume(function() {
-          this.assertEquals("foo", this.__history.getState(), "AFFE2");
-          this.assertEquals("Title Foo", this.__history.getTitle());
+          this.__checkFooAndSetBar();
         }, self);
-      }, 500);
+      }, 200);
+      this.wait();
+    },
+    
+    
+    __checkFooAndSetBar : function()
+    {
+      var self = this;
+      this.assertEquals("foo", this.__history._readState(), "check1");
+      this.__history.addToHistory("bar", "Title Bar");
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.__checkBarAndGoBack();
+        }, self);
+      }, 200);
+      this.wait();
+    },
+    
+    
+    __checkBarAndGoBack : function()
+    {
+      var self = this;
+      this.assertEquals("bar", this.__history._readState(), "check2");
+      history.back();
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.__checkState();
+        }, self);
+      }, 200);
+      this.wait();
+    },
+    
+    
+    __checkState : function()
+    {
+      this.assertEquals("foo", this.__history._readState(), "check3");
+      this.assertEquals("Title Foo", this.__history.getTitle());
+    },
+    
+    
+    testNavigateBackAfterSetState : function()
+    {
+      this.__history.setState("affe");
       
+      var self = this;
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.__setState_checkAffeAndSetFoo();
+        }, self);
+      }, 200);
+      this.wait();
+    },
+    
+    
+    __setState_checkAffeAndSetFoo : function()
+    {
+      var self = this;
+      this.assertEquals("affe", this.__history._readState(), "check0");
+      this.__history.setState("foo");
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.__setState_checkFooAndSetBar();
+        }, self);
+      }, 200);
+      this.wait();
+    },
+    
+    
+    __setState_checkFooAndSetBar : function()
+    {
+      var self = this;
+      this.assertEquals("foo", this.__history._readState(), "check1");
+      this.__history.setState("bar");
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.__setState_checkBarAndGoBack();
+        }, self);
+      }, 300);
+      this.wait();
+    },
+    
+    
+    __setState_checkBarAndGoBack : function()
+    {
+      var self = this;
+      this.assertEquals("bar", this.__history._readState(), "check2");
+      return;
+      history.back();
+      history.back();
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.assertEquals("affe", this.__history._readState(), "check3");
+        }, self);
+      }, 200);
       this.wait();
     }
+    
   }
 });

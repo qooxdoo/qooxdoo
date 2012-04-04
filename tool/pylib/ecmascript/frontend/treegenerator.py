@@ -7,7 +7,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2011 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2012 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -38,6 +38,10 @@
 # Greg Wilson, O'Reilly Media Inc. 2007, which reproduces Douglas' online
 # article verbatim, states that readers are free to use the code from the book
 # for their own programming without prior permission (p.xx).
+#
+# For reference with the original algorithm:
+#   led => ifix
+#   nud => pfix
 ##
 
 import sys, os, re, types, string
@@ -85,6 +89,16 @@ ASSIGN_OPERATORS = ["ASSIGN", "ASSIGN_ADD", "ASSIGN_SUB", "ASSIGN_MUL", \
 LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
 
 StmntTerminatorTokens = ("eol", ";", "}", "eof")
+
+SYMBOLS = {
+    "infix" : "* / % << >> >>> < <= > >= != == !== === & ^ | && ||".split(),
+    "infix_v" : "in instanceof".split(),
+    "infix_r" : "= <<= -= += *= /= %= |= ^= &= >>= >>>=".split(),
+    "prefix"  : "~ !".split(),  # '/' left out, as never seen by the parser as prefix op (but regexp constant)
+    "prefix_v": "new  delete typeof void".split(),
+    "prepostfix" : "++ --".split(),
+    "preinfix": "+ -".split(),
+}
 
 def expressionTerminated():
     return token.id in StmntTerminatorTokens or tokenStream.eolBefore
@@ -265,8 +279,8 @@ class Token(object):
 
     __repr__ = __str__
 
-# - Grammar Infrastructure -------------------------------------------------
 
+# - Grammar Infrastructure -------------------------------------------------
 
 # symbol (token type) registry
 symbol_table = {}
@@ -291,10 +305,10 @@ class symbol_base(Node):
         self.children.append(child)
         child.parent = self
 
-    def nud(self):
+    def pfix(self):
         raise SyntaxException("Syntax error %r (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
 
-    def led(self, left):
+    def ifix(self, left):
         raise SyntaxException("Unknown operator %r (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
 
     def isVar(self):
@@ -303,12 +317,12 @@ class symbol_base(Node):
     def __repr__(self):
         if self.id == "identifier" or self.id == "constant":
             return "(%s %r)" % (self.id, self.get("value"))
-        id  = self.id
+        id_  = self.id
         if hasattr(self, 'optype'):
-            id += '('+self.optype+')'
-        #out = [id, self.first, self.second, self.third]
-        out = [id] + self.children
-        out = map(repr, filter(None, out))
+            id_ += '('+self.optype+')'
+        #out = [id_, self.first, self.second, self.third]
+        out = map(repr, filter(None, self.children))
+        out = ["%s"%id_] + out
         return "(" + " ".join(out) + ")"
 
     def __toXml(self):  # don't override Node.toXml()
@@ -331,7 +345,6 @@ class symbol_base(Node):
 
     # Packer stuff (serialization to JS)
     def toJS(self):
-        #raise NotImplementedError("%s.toJs() needs to be implemented" % (self.id,))
         return self.get("value", u'')
 
 
@@ -452,7 +465,7 @@ class symbol_base(Node):
 
 # -- class factory ------------------
 
-def symbol(id_, lbp=0):
+def symbol(id_, bind_left=0):
     try:
         s = symbol_table[id_]
     except KeyError:
@@ -462,19 +475,19 @@ def symbol(id_, lbp=0):
         s.type     = id_  # compat with Node.type
         s.id       = id_
         s.value    = None
-        s.lbp      = lbp
+        s.bind_left      = bind_left
         symbol_table[id_] = s
         globals()[s.__name__] = s  # ALERT: this is a devious hack to make Pickle pickle the symbol classes.
                                    # To unpickle, it is necessary to have this module loaded, so the classes
                                    # are ready.
     else:
-        s.lbp = max(lbp, s.lbp)
+        s.bind_left = max(bind_left, s.bind_left)
     return s
 
 # helpers
 
 def infix(id_, bp):
-    def led(self, left):
+    def ifix(self, left):
         s = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(left)
@@ -482,7 +495,7 @@ def infix(id_, bp):
         self.childappend(s)
         s.childappend(expression(bp))
         return self
-    symbol(id_, bp).led = led
+    symbol(id_, bp).ifix = ifix
 
     def toJS(self):
         r = u''
@@ -515,7 +528,7 @@ def infix_v(id_, bp):
 def infix_r(id_, bp):
     infix(id_, bp)
 
-    def led(self, left):
+    def ifix(self, left):
         s = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(left)
@@ -523,18 +536,18 @@ def infix_r(id_, bp):
         self.childappend(s)
         s.childappend(expression(bp-1))
         return self
-    symbol(id_, bp).led = led
+    symbol(id_, bp).ifix = ifix
 
 
 ##
 # prefix "sigil" operators, like '!', '~', ...
 def prefix(id_, bp):
-    def nud(self):
+    def pfix(self):
         s = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(expression(bp-1)) # right-associative
         return self
-    symbol(id_, bp).nud = nud
+    symbol(id_, bp).pfix = pfix
 
     def toJS(self):
         r = u''
@@ -547,13 +560,12 @@ def prefix(id_, bp):
 ##
 # prefix "verb" operators, i.e. that need a space before their operand like 'delete'
 def prefix_v(id_, bp):
-    def nud(self):
+    def pfix(self):
         s = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(expression(bp-1)) # right-associative
         return self
-    symbol(id_, bp).nud = nud
-
+    symbol(id_, bp).pfix = pfix
 
     def toJS(self):
         r = u''
@@ -568,14 +580,14 @@ def preinfix(id_, bp):  # pre-/infix operators (+, -)
     infix(id_, bp)   # init as infix op
 
     ##
-    # give them a nud() for prefix pos
-    def nud(self):
+    # give them a pfix() for prefix pos
+    def pfix(self):
         self.set("left", "true")  # mark prefix position
         first = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(first)
         first.childappend(expression(130)) # need to use prefix rbp!
         return self
-    symbol(id_).nud = nud
+    symbol(id_).pfix = pfix
 
     def toJS(self):  # need to handle pre/infix cases
         r = []
@@ -592,21 +604,21 @@ def preinfix(id_, bp):  # pre-/infix operators (+, -)
 
 
 def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
-    def nud(self):  # prefix
+    def pfix(self):  # prefix
         self.set("left", "true")
         s = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(expression())  # overgenerating! only lvals allowed
         return self
-    symbol(id_, bp).nud = nud
+    symbol(id_, bp).pfix = pfix
 
-    def led(self, left): # postfix
+    def ifix(self, left): # postfix
         # assert(left, lval)
         s = symbol("first")(token.get("line"), token.get("column"))
         self.childappend(s)
         s.childappend(left)
         return self
-    symbol(id_).led = led
+    symbol(id_).ifix = ifix
 
     def toJS(self):
         r = u''
@@ -650,7 +662,7 @@ symbol("(", 150)
 prepostfix("++", 140); prepostfix("--", 140)  # pre/post increment (unary)
 
 prefix("~", 130); prefix("!", 130)
-#prefix("+", 130); prefix("-", 130)  # higher than infix position! handled in preinfix.nud()
+#prefix("+", 130); prefix("-", 130)  # higher than infix position! handled in preinfix.pfix()
 prefix_v("delete", 130); prefix_v("typeof", 130); prefix_v("void", 130)
 
 prefix("/",  130)  # regexp
@@ -674,7 +686,7 @@ infix("|",  50)
 infix("&&", 40)
 infix("||", 30)
 
-symbol("?", 20)   # ternary operator (.led takes care of ':')
+symbol("?", 20)   # ternary operator (.ifix takes care of ':')
 
 infix_r("=",  10)   # assignment
 infix_r("<<=",10); infix_r("-=", 10); infix_r("+=", 10); infix_r("*=", 10)
@@ -690,12 +702,12 @@ symbol("*/", 0)  # have to register this in case a regexp ends in this string
 symbol("\\", 0)  # escape char in strings ("\")
 
 
-symbol("(unknown)").nud = lambda self: self
+symbol("(unknown)").pfix = lambda self: self
 symbol("eol")
 symbol("eof")
 
 
-symbol("constant").nud = lambda self: self
+symbol("constant").pfix = lambda self: self
 
 @method(symbol("constant"))
 def toJS(self):
@@ -718,7 +730,7 @@ def toJS(self):
 symbol("identifier")
 
 @method(symbol("identifier"))
-def nud(self):
+def pfix(self):
     return self
 
 @method(symbol("identifier"))
@@ -731,8 +743,8 @@ def toJS(self):
 
 
 @method(symbol("/"))   # regexp literals
-def nud(self):
-    # problem: "/".led() and "/".nud() return similar ASTs, e.g. with "/" as root
+def pfix(self):
+    # problem: "/".ifix() and "/".pfix() return similar ASTs, e.g. with "/" as root
     # and 2 childs; it is not clear from this AST whether it is division or literal regexp,
     # and the types of the childs have to be inspected to decide this.
 
@@ -757,7 +769,7 @@ def nud(self):
 
 # ternary op ?:
 @method(symbol("?"))
-def led(self, left):
+def ifix(self, left):
     # first
     first = symbol("first")(token.get("line"), token.get("column"))
     first.childappend(left)
@@ -801,7 +813,7 @@ def toJS(self):
 # Node.isVar() method that returns true for those two node types.
 
 @method(symbol("."))
-def led(self, left):
+def ifix(self, left):
     if token.id != "identifier":
         SyntaxException("Expected an attribute name (pos %r)." % ((token.get("line"), token.get("column")),))
     #variable = symbol("variable")(token.get("line"), token.get("column"))
@@ -819,7 +831,7 @@ def led(self, left):
     s.childappend(left)
     s = symbol("second")(token.get("line"), token.get("column"))
     accessor.childappend(s)
-    s.childappend(expression(symbol(".").lbp)) 
+    s.childappend(expression(symbol(".").bind_left)) 
         # i'm providing the rbp to expression() here explicitly, so "foo.bar(baz)" gets parsed
         # as (call (dotaccessor ...) (param baz)), and not (dotaccessor foo
         # (call bar (param baz))).
@@ -866,7 +878,7 @@ def getHighestPureDotParent(self):
 
 def constant(id):
     @method(symbol(id))
-    def nud(self):
+    def pfix(self):
         self.id = "constant"
         self.value = id
         return self
@@ -880,7 +892,7 @@ constant("false")
 symbol("("), symbol(")")
 
 @method(symbol("("))  # <call>
-def led(self, left):
+def ifix(self, left):
     call = symbol("call")(token.get("line"), token.get("column"))
     # operand
     operand = symbol("operand")(token.get("line"), token.get("column"))
@@ -889,7 +901,7 @@ def led(self, left):
     # params - parse as group
     params = symbol("params")(token.get("line"), token.get("column"))
     call.childappend(params)
-    group = self.nud()
+    group = self.pfix()
     for c in group.children:
         params.childappend(c)
     return call
@@ -902,7 +914,7 @@ def toJS(self):
 
 
 @method(symbol("("))  # <group>
-def nud(self):
+def pfix(self):
     comma = False
     group = symbol("group")(token.get("line"), token.get("column"))
     if token.id != ")":
@@ -931,7 +943,7 @@ def toJS(self):
 symbol("]")
 
 @method(symbol("["))             # "foo[0]", "foo[bar]", "foo['baz']"
-def led(self, left):
+def ifix(self, left):
     accessor = symbol("accessor")(token.get("line"), token.get("column"))
     # identifier
     accessor.childappend(left)
@@ -943,16 +955,24 @@ def led(self, left):
     return accessor
 
 @method(symbol("["))
-def nud(self):
+def pfix(self):
     arr = symbol("array")(token.get("line"), token.get("column"))
     if token.id != "]":
+        is_after_comma = 0
         while True:
             if token.id == "]":
+                if is_after_comma:  # preserve dangling comma (bug#6210)
+                    arr.childappend(symbol("(empty)")())
                 break
-            arr.childappend(expression())
+            elif token.id == ",":  # elision
+                arr.childappend(symbol("(empty)")())
+            else:
+                arr.childappend(expression())
             if token.id != ",":
                 break
-            advance(",")
+            else:
+                is_after_comma = 1
+                advance(",")
     advance("]")
     return arr
 
@@ -988,12 +1008,16 @@ def toJS(self):
 symbol("}")
 
 @method(symbol("{"))                    # object literals
-def nud(self):
+def pfix(self):
     mmap = symbol("map")(token.get("line"), token.get("column"))
     if token.id != "}":
+        is_after_comma = 0
         while True:
             if token.id == "}":
+                if is_after_comma:  # prevent dangling comma '...,}' (bug#6210)
+                    raise SyntaxException("Illegal dangling comma in map (pos %r)" % ((token.get("line"),token.get("column")),))
                 break
+            is_after_comma = 0
             # key
             keyname = expression()
             key = symbol("keyvalue")(token.get("line"), token.get("column"))
@@ -1009,7 +1033,9 @@ def nud(self):
             key.childappend(val)  # <value> is a child of <keyvalue>
             if token.id != ",":
                 break
-            advance(",")
+            else:
+                is_after_comma = 1
+                advance(",")
     advance("}")
     return mmap
 
@@ -1080,7 +1106,7 @@ def toJS(self):
 symbol("function")
 
 @method(symbol("function"))
-def nud(self):
+def pfix(self):
     # optional name
     if token.id == "identifier":
         #self.childappend(token.get("value"))
@@ -1162,14 +1188,25 @@ symbol("var")
 # (with assignment/1, where it is /2 elsewhere)
 #
 @method(symbol("var"))
-def std(self):
+#def std(self):
+def pfix(self):
     vardecl = symbol("definitionList")(token.get("line"), token.get("column"))
     while True:
         var = symbol("definition")(token.get("line"), token.get("column"))
         vardecl.childappend(var)
-        defn = expression()
-        if defn.type not in ("identifier", "assignment"):
-            raise SyntaxException("Expected a new variable or assignment (pos %r)" % ((token.get("line"), token.get("column")),))
+        #defn = expression()
+        #if defn.type not in ("identifier", "assignment"):
+        #    raise SyntaxException("Expected a new variable or assignment (pos %r)" % ((token.get("line"), token.get("column")),))
+        n = token
+        if n.id != "identifier":
+            raise SyntaxException("Expected a new variable name (pos %r)" % ((token.get("line"), token.get("column")),))
+        advance()
+        if token.id == "=": # initialization
+            t = token
+            advance()
+            defn = t.ifix(n)
+        else:
+            defn = n
         var.childappend(defn)
         if token.id != ",":
             break
@@ -1178,11 +1215,11 @@ def std(self):
     return vardecl
 
 
-# but "var" also needs a nud method, since it can appear in expressions
-symbol("var").nud = symbol("var").std
+# but "var" also needs a pfix method, since it can appear in expressions
+#symbol("var").pfix = symbol("var").std
 
 #@method(symbol("var"))
-#def nud(self):
+#def pfix(self):
 #    while True:
 #        n = token
 #        if n.id != "identifier":
@@ -1237,37 +1274,20 @@ symbol("for"); symbol("in")
 def std(self):
     self.type = "loop" # compat with Node.type
     self.set("loopType", "FOR")
+    
     # condition
     advance("(")
-    
-    # for (.. in ..)
-    if tokenStream.peek(2 if token.id=="var" else 1).id == "in":
+    # try to consume the first part of a (pot. longer) condition
+    if token.id != ";":
+        chunk = expression()
+    else:
+        chunk = None
+
+    # for (in)
+    if chunk and chunk.id == 'in':
         self.set("forVariant", "in")
-        var_s = None
-        operation = symbol("in")(token.get("line"), token.get("column"))
-        operation.type = "operation"
-        operation.set("operator", "IN")
-        operation.set("value", "in")
-        self.childappend(operation)
-        op_first = symbol("first")(token.get("line"), token.get("column"))
-        operation.childappend(op_first)
-        if token.id == "var":
-            var_s = symbol("definitionList")(token.get("line"), token.get("column"))
-            op_first.childappend(var_s)
-            advance("var")
-            defn = symbol("definition")(token.get("line"), token.get("column"))
-            var_s.childappend(defn)
-            defn.childappend(expression(95))  # lbp higher than "in"
-        else:
-            ident = symbol("identifier")(token.get("line"), token.get("column"))
-            op_first.childappend(ident)
-            ident.set("value", token.get("value"))
-            advance("identifier")
-        advance("in")
-        op_second = symbol("second")(token.get("line"), token.get("column"))
-        operation.childappend(op_second)
-        op_second.childappend(expression())
-        
+        self.childappend(chunk)
+
     # for (;;) [mind: all three subexpressions are optional]
     else:
         self.set("forVariant", "iter")
@@ -1276,21 +1296,18 @@ def std(self):
         # init part
         first = symbol("first")(token.get("line"), token.get("column"))
         condition.childappend(first)
-        if token.id == ";":
-            pass                # empty part
-        else:
-            init_part = None
-            if token.id == "var":
-                t = token
-                advance()
-                init_part = t.std() # parse it like a 'var' stmt
-            else:
-                exprList = symbol("expressionList")(token.get("line"), token.get("column"))
-                init_part = exprList
-                lst = init_list()
-                for assgn in lst:
-                    exprList.childappend(assgn)
-            first.childappend(init_part)
+        if chunk is None:       # empty init expr
+            pass
+        elif token.id == ';':   # single init expr
+            first.childappend(chunk)
+        elif token.id == ',':   # multiple init expr
+            advance()
+            exprList = symbol("expressionList")(token.get("line"), token.get("column"))
+            first.childappend(exprList)
+            exprList.childappend(chunk)
+            lst = init_list()
+            for assgn in lst:
+                exprList.childappend(assgn)
         advance(";")
         # condition part 
         second = symbol("second")(token.get("line"), token.get("column"))
@@ -1579,14 +1596,14 @@ def toJS(self):
 
 
 @method(symbol("new"))  # need to treat 'new' explicitly, for the awkward 'new Foo()' "call" syntax
-def nud(self):
+def pfix(self):
     s = symbol("first")(token.get("line"), token.get("column"))
     self.childappend(s)
-    arg = expression(self.lbp-1)  # first, parse a normal expression (this excludes '()')
+    arg = expression(self.bind_left-1)  # first, parse a normal expression (this excludes '()')
     if token.id == '(':  # if the next token indicates a call
         t = token
         advance("(")
-        arg = t.led(left=arg)   # invoke '('.led, with class name as <left> arg
+        arg = t.ifix(left=arg)   # invoke '('.ifix, with class name as <left> arg
     s.childappend(arg)
     return self
 
@@ -1740,15 +1757,15 @@ def std(self):
     self.childappend(block())
     
     
-def expression(rbp=0):
+def expression(bind_right=0):
     global token
     t = token
     token = next()
-    left = t.nud()
-    while rbp < token.lbp:
+    left = t.pfix()
+    while token.bind_left > bind_right:
         t = token
         token = next()
-        left = t.led(left)
+        left = t.ifix(left)
     return left
 
 
@@ -2014,24 +2031,18 @@ def test(x, program):
     global token, next, tokenStream
     print ">>>", program
     tokenArr = tokenizer.parseStream(program)
-    #from pprint import pprint
-    #pprint (tokenArr)
     tokenStream = TokenStream(tokenArr)
     next = iter(tokenStream).next
     token = next()
     if x == e:
         res =  expression()
-        #import pydb; pydb.debugger()
         print res.toXml()
-        #print repr(res)
     elif x == s:
         res =  statements()
         print res.toXml()
-        #print repr(res)
     elif x == b:
         res = block()
         print res.toXml()
-        #print repr(res)
     else:
         raise RuntimeError("Wrong test parameter: %s" % x)
 
@@ -2047,23 +2058,7 @@ if __name__ == "__main__":
         tokenArr = tokenizer.parseStream(text)
         print p.parse(tokenArr).toXml()
     else:
-        #execfile (os.path.normpath(os.path.join(os.environ["QOOXDOO_PATH"], "tool/test/compiler/treegenerator.py")))
         execfile (os.path.normpath(os.path.join(__file__, "../../../../test/compiler/treegenerator.py"))) # __file__ doesn't seem to work in pydb
         for t in tests:
             test(*t)
-
-
-
-
-##
-# A plan for the new parser:
-#
-#  - main::tests must pass
-#  - check the astlet's!
-#  - if all is well, activate treegenerator_new_ast in compile.py
-#  - compile single files (from skeleton Application.js to qx/Class.js), checken results
-#  - if all is well, activate treegenerator_new_ast for *compile* jobs:
-#    - 'source' - check dependencies, check app runs (this also checks the
-#      class list)
-#    - 'build' - check app runs (this also checks compression)
 

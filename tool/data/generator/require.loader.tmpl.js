@@ -18,7 +18,9 @@ if (exp) {
     for (var i=0; i < c.length; i++) {
       root = root[c[i]];
     };
-    define(root);
+    define(function() {
+      return root;
+    });
   }
 }
 delete window.qx;

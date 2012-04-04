@@ -6,17 +6,17 @@ About
 
 qooxdoo (pronounced ['kuksdu:]) is a universal JavaScript framework that enables you to create applications for a wide range of platforms. With its object-oriented programming model you build rich, interactive applications (RIAs), native-like apps for mobile devices, traditional web applications or even applications to run outside the browser. 
 
-You leverage its integrated tool chain to develop and deploy applications of any scale, while taking advantage of a comprehensive feature set and a state-of-the-art GUI toolkit. qooxdoo is open source under liberal :doc:`licenses <license>`, led by the world's largest web host `1&1 <http://1and1.com/xml/order/AboutUs>`_, with a vibrant community.
+You leverage its integrated tool chain to develop and deploy applications of any scale, while taking advantage of a comprehensive feature set and a state-of-the-art GUI toolkit. qooxdoo is open source under liberal `licenses <http://qooxdoo.org/license>`_, led by the world's largest web host `1&1 <http://qooxdoo.org/about/developers#initiator_and_maintainer>`_, with a vibrant `community <http://qooxdoo.org/community>`_.
 
 .. _pages/introduction/about#framework:
 
 Framework
 ---------
 
-qooxdoo is entirely class-based and tries to leverage the features of object-oriented JavaScript. It is largely based on namespaces to allow for easy integration with other libraries and existing user code. Most :ref:`modern browsers <pages/requirements#client>` are supported (e.g. Firefox, Internet Explorer, Opera, Safari, Chrome). It comes with a `comprehensive API reference <http://api.qooxdoo.org>`_ that is auto-generated from Javadoc-like comments. The fast and complete JavaScript parser not only allows documentation generation but is an integral part of the automatic build process that makes optimizing, compressing, linking and deployment of custom applications very user-friendly. Internationalization and localization of applications for various countries and languages is a core feature and easy to use.  `more ... <http://qooxdoo.org/about/framework>`_
+qooxdoo is entirely class-based and tries to leverage the features of object-oriented JavaScript. It is largely based on namespaces to allow for easy integration with other libraries and existing user code. Most :ref:`modern browsers <pages/desktop/requirements#client>` are supported (e.g. Firefox, Internet Explorer, Opera, Safari, Chrome). It comes with a `comprehensive API reference <http://api.qooxdoo.org>`_ that is auto-generated from Javadoc-like comments. The fast and complete JavaScript parser not only allows documentation generation but is an integral part of the automatic build process that makes optimizing, compressing, linking and deployment of custom applications very user-friendly. Internationalization and localization of applications for various countries and languages is a core feature and easy to use.  `more ... <http://qooxdoo.org/about/framework>`_
 
 
-.. _pages/introduction/about#gui_toolkit:
+.. _pages/introduction/about#desktop:
 
 GUI Toolkit
 -----------
@@ -42,8 +42,7 @@ More Information (online)
 * `Framework Features <http://qooxdoo.org/about/framework>`_
 * `Release Notes <http://qooxdoo.org/about/release_notes>`_
 * `Roadmap <http://qooxdoo.org/about/roadmap>`_
-* `Developers <http://qooxdoo.org/about/developers>`_
+* `Release Handling <http://qooxdoo.org/about/releases>`_
 * `Committers Guide <http://qooxdoo.org/documentation/general/committers_guide>`_
 * `Media Download <http://qooxdoo.org/about/media_download>`_
-
 

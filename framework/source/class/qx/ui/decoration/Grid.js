@@ -152,6 +152,53 @@ qx.Class.define("qx.ui.decoration.Grid",
     {
       group : [ "insetTop", "insetRight", "insetBottom", "insetLeft" ],
       mode  : "shorthand"
+    },
+
+
+    /** Width of the left slice */
+    sliceLeft :
+    {
+      check : "Number",
+      nullable: true,
+      apply : "_applySlices"
+    },
+
+    /** Width of the right slice */
+    sliceRight :
+    {
+      check : "Number",
+      nullable: true,
+      apply : "_applySlices"
+    },
+
+    /** Width of the bottom slice */
+    sliceBottom :
+    {
+      check : "Number",
+      nullable: true,
+      apply : "_applySlices"
+    },
+
+    /** Width of the top slice */
+    sliceTop :
+    {
+      check : "Number",
+      nullable: true,
+      apply : "_applySlices"
+    },
+
+    /** Property group for slices */
+    slices :
+    {
+      group : [ "sliceTop", "sliceRight", "sliceBottom", "sliceLeft" ],
+      mode  : "shorthand"
+    },
+    
+    
+    /** Only used for the CSS3 implementation, see {@link qx.ui.decoration.css3.BorderImage#fill} **/
+    fill :
+    {
+      apply : "_applyFill"
     }
   },
 
@@ -202,6 +249,27 @@ qx.Class.define("qx.ui.decoration.Grid",
 
 
     // property apply
+    _applySlices : function(value, old, name)
+    {
+      var setter = "set" + qx.lang.String.firstUp(name);
+      // The GridDiv implementation doesn't have slice properties,
+      // slices are obtained from the sizes of the images instead
+      if (this.__impl[setter]) {
+        this.__impl[setter](value);
+      }
+    },
+
+
+    //property apply
+    _applyFill : function(value, old, name)
+    {
+      if (this.__impl.setFill) {
+        this.__impl.setFill(value);
+      }
+    },
+
+
+    // property apply
     _applyBaseImage : function(value, old)
     {
       if (this.__impl instanceof qx.ui.decoration.GridDiv) {
@@ -233,7 +301,8 @@ qx.Class.define("qx.ui.decoration.Grid",
       var bottomSlice = ResourceManager.getImageHeight(prefix + "-b" + ext);
       var leftSlice = ResourceManager.getImageWidth(prefix + "-l" + ext);
 
-      if (qx.core.Environment.get("qx.debug"))
+      if (qx.core.Environment.get("qx.debug") &&
+        !this.__impl instanceof qx.ui.decoration.css3.BorderImage)
       {
         var assertMessageTop = "The value of the property 'topSlice' is null! " +
           "Please verify the image '" + prefix + "-t" + ext + "' is present.";
@@ -253,7 +322,9 @@ qx.Class.define("qx.ui.decoration.Grid",
         qx.core.Assert.assertNotNull(leftSlice, assertMessageLeft);
       }
 
-      this.__impl.setSlice([topSlice, rightSlice, bottomSlice, leftSlice]);
+      if (topSlice && rightSlice && bottomSlice && leftSlice) {
+        this.__impl.setSlice([topSlice, rightSlice, bottomSlice, leftSlice]);
+      }
     }
   },
 

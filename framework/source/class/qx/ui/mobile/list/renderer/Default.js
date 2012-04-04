@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     /**
      * Sets the value of the subtitle widget.
      *
-     * @param subTitle {String} The value to set
+     * @param subtitle {String} The value to set
      */
     setSubtitle : function(subtitle)
     {

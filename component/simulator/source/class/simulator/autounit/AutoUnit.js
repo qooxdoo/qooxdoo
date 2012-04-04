@@ -81,7 +81,7 @@ qx.Class.define("simulator.autounit.AutoUnit", {
     },
     
     /**
-     * 
+     * @lint ignoreDeprecated(eval)
      * @return {}
      */
     _getSuiteResults : function()

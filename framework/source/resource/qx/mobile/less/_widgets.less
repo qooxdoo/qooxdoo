@@ -104,7 +104,7 @@ li:first-child, li:first-child a {
   text-align: center;
   padding-left: 20px;
   padding-right: 20px;
-  margin-top: 15px;
+  margin-top:4px;
 }
 
 .toolbar-button {
@@ -140,7 +140,6 @@ li:first-child, li:first-child a {
 // 
 // FORM
 //
-
 input, select {
   vertical-align: middle;
 }
@@ -148,16 +147,6 @@ input, select {
 input, select, textarea {
   font-family: Helvetica;
   font-size: 0.9em;
-}
-
-select {
-  .appearance(textfield);
-  text-indent: 0;
-  background: transparent no-repeat right center;
-  margin-left: -6px;
-  width: 100%;
-  color: #777;
-  border: none;
 }
 
 ul.form li {
@@ -409,4 +398,17 @@ input[type="checkbox"]:checked {
 
 .dialogTitleUnderline:after {
 
+}
+
+//
+// SELECTBOX 
+//
+.selectbox {
+  text-indent: 2px;
+  margin-left: -6px;
+  width: 100%;
+  color: #777;
+  font-weight:normal;
+  font-size:15px;
+  cursor:pointer;
 }

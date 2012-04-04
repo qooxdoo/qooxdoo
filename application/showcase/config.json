@@ -71,10 +71,6 @@
           {
             "include" : ["showcase.page.databinding.Content"]
           },
-          "animation": 
-          {
-            "include" : ["showcase.page.animation.Content"]
-          },
           "dragdrop": 
           {
             "include" : ["showcase.page.dragdrop.Content"]

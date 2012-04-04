@@ -5,20 +5,20 @@ RequireJS Support
   experimental
 
 
-It is possible to use the generator to build a `RequireJS <http://requirejs.org/>`_ compatible library using qooxdoo. Here is the description of RequireJS taken from the homepage.
+It is possible to use the generator to build a `RequireJS <http://requirejs.org/>`_ compatible library using %{qooxdoo}. Here is the description of RequireJS taken from the project's website:
 
   "RequireJS is a JavaScript file and module loader. It is optimized for in-browser use, but it can be used in other JavaScript environments, like Rhino and Node. Using a modular script loader like RequireJS will improve the speed and quality of your code."
 
   -- `http://requirejs.org/ <http://requirejs.org/>`_
 
-There are a couple of steps you need to do to get that done:
+A couple of steps are necessary to accomplish this:
 
-  * You need a class which represents the common interface you want to offer as require.js module.
-  * You need to have your own config file for the generator to build that library.
+  * You need a class which represents the common interface you want to offer as a require.js module
+  * and a customized generator config file to build your library.
 
 Representable interface
 -----------------------
-Lets assume you have implemented a class like the following.
+Let's assume you've implemented a class like the following:
 
 ::
 
@@ -31,7 +31,7 @@ Lets assume you have implemented a class like the following.
     }
   });
 
-You want to have that class exported as a module usable with RequireJS. The usage could look something like this:
+You want to export this class as a module usable with RequireJS. Usage could look something like this:
 
 ::
 
@@ -39,11 +39,11 @@ You want to have that class exported as a module usable with RequireJS. The usag
     dog.bark();
   });
 
-But thats all you need to take care of on the JavaScript side.
+That's all you need to take care of on the JavaScript side.
 
 Config file
 -----------
-There is some more work in the config part which might change some time. Here is a sample config:
+There is some more work to be done on the config side (this might change at some point). Here is a sample config:
 
 ::
 
@@ -94,4 +94,4 @@ There is some more work in the config part which might change some time. Here is
     }
   }
 
-I won't go much into detail here because much of that is covered by the :ref:`Generator Config Keys <pages/tool/generator_config_ref>` page and others. But there are two things I want to draw your attention to. First, a new loader template is set for the compile step. There is a special loader template for RequireJS which uses the next important thing, the ``qx.export`` environment key. It holds a map saying which class should be exported as a module. Running that job will then generate a file named ``dog.js`` which is compatible to RequireJS offering the given dog class as module.
+We won't go much into detail here because most of this is covered by the :doc:`Generator Config Keys </pages/tool/generator_config_ref>` page and others. But there are two things you should be aware of. First, a new loader template is set for the compile step. There's a special loader template for RequireJS which uses the other important thing: The ``qx.export`` environment key. It holds a map specifying which class should be exported as a module. Running the ``build`` job will then generate a RequireJS-compatible file named ``dog.js`` which exposes the ``dog`` class as a module.

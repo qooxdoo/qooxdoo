@@ -46,6 +46,25 @@ qx.Class.define("qx.bom.HashHistory",
     __iframeReady : false,
     
     
+    //overridden
+    addToHistory : function(state, newTitle)
+    {
+      if (!qx.lang.Type.isString(state)) {
+        state = state + "";
+      }
+
+      if (qx.lang.Type.isString(newTitle))
+      {
+        this.setTitle(newTitle);
+        this._titles[state] = newTitle;
+      }
+
+      if (this.getState() !== state) {
+        this.setState(state);
+      }
+    },
+    
+    
     /**
      * Initializes the iframe
      *
@@ -58,7 +77,7 @@ qx.Class.define("qx.bom.HashHistory",
       
       this.__waitForIFrame(function()
       {
-        this._baseUrl = this.__iframe.contentWindow.location.href;
+        this._baseUrl = this.__iframe.contentWindow.document.location.href;
         this.__attachListeners();
       }, this);
     },
@@ -171,7 +190,7 @@ qx.Class.define("qx.bom.HashHistory",
       if (!this.__iframeReady){
         return;
       }
-      return this.__iframe.contentWindow.location.hash;
+      return this.__iframe.contentWindow.document.location.hash;
     },
 
 
@@ -197,9 +216,9 @@ qx.Class.define("qx.bom.HashHistory",
       if (!this.__iframe || !this._baseUrl){
         return;
       }
-      var hash = !this.__iframe.contentWindow.location.hash ? "" : this.__iframe.contentWindow.location.hash.substr(1);
+      var hash = !this.__iframe.contentWindow.document.location.hash ? "" : this.__iframe.contentWindow.document.location.hash.substr(1);
       if (value != hash) {
-        this.__iframe.contentWindow.location.hash = value;
+        this.__iframe.contentWindow.document.location.hash = value;
       }
     }
   },

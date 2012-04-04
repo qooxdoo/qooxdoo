@@ -37,6 +37,7 @@
 /**
  * Helper class for building combination effects with
  * several effects running synchronized.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.effect.core.Parallel",
 {
@@ -52,6 +53,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
 
   /**
    * @param varargs {varargs} List of effects
+   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
    */
   construct : function(varargs)
   {
@@ -74,6 +76,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
 
     /**
      * Finishes all child effects
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     finish : function()
     {
@@ -101,6 +104,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
      *
      * @param position {Number} Animation setp
      * as Number between 0 and 1.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     update : function(position)
     {
