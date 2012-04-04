@@ -27,7 +27,8 @@
 #button {
   .nav {
       .border-radius-right(5px);
-
+      .border-radius-left(4px);
+      
       height: 30px;
       line-height: 30px;
       font-size: 12px;
@@ -301,13 +302,13 @@ input[type="text"]:not(.selectbox), input[type="password"], textarea {
   position:absolute;
   width: @arrowhead-size;
   height: @arrowhead-size;
-  left:-8px;
+  left:-6px;
   top:-4px;
 
   // Rotate arrowhead counter-clockwise 45 deg
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg) translate3d(0.2px, 0, 0);
+  -moz-transform: rotate(45deg) translate3d(0.2px, 0, 0);
+  transform: rotate(45deg) translate3d(0.2px, 0, 0);
 
   -webkit-transform-origin: 0;
   -moz-transform-origin: 0;
@@ -321,7 +322,7 @@ input[type="text"]:not(.selectbox), input[type="password"], textarea {
   background-image: -moz-linear-gradient(top left, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
   background-image: linear-gradient(top left, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
 
-  background-size: 100% 98%;
+  //background-size: 100% 98%;
 
   -webkit-border-radius: 0 0 0 2px;
   -moz-border-radius: 0 0 0 2px;

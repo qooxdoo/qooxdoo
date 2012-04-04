@@ -158,6 +158,17 @@
   border-bottom-right-radius: @arguments;
 }
 
+.border-radius-left() {
+  -moz-border-radius-bottomright:@arguments;
+  -moz-border-radius-topright:@arguments;
+  
+  -webkit-border-radius-bottomright:@arguments;
+  -webkit-border-radius-topright:@arguments;
+
+  border-top-right-radius: @arguments;
+  border-bottom-right-radius: @arguments;
+}
+
 .border-radius-bottom() {
   -moz-border-radius-bottomleft:@arguments;
   -moz-border-radius-bottomright:@arguments;
