@@ -86,7 +86,7 @@
         "code" :
         {
           "format"   : false,
-          "optimize" : [ "variants", "basecalls", "strings", "privates", "variables" , "statics"],
+          "optimize" : [ "variants", "basecalls", "strings", "privates", "variables" , "statics", "whitespace"],
           "except"   : []
         }
       },
