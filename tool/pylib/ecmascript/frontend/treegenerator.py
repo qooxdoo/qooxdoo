@@ -317,12 +317,12 @@ class symbol_base(Node):
     def __repr__(self):
         if self.id == "identifier" or self.id == "constant":
             return "(%s %r)" % (self.id, self.get("value"))
-        id  = self.id
+        id_  = self.id
         if hasattr(self, 'optype'):
-            id += '('+self.optype+')'
-        #out = [id, self.first, self.second, self.third]
-        out = [id] + self.children
-        out = map(repr, filter(None, out))
+            id_ += '('+self.optype+')'
+        #out = [id_, self.first, self.second, self.third]
+        out = map(repr, filter(None, self.children))
+        out = ["%s"%id_] + out
         return "(" + " ".join(out) + ")"
 
     def __toXml(self):  # don't override Node.toXml()
