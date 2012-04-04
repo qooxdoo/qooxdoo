@@ -1337,8 +1337,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      *
      * Note: Most times this element points to to the container element.
      * When the widget has a more complex element structure,
-     * the function should return the element that should contain the content
-     * by reference.
+     * the function should return a reference of the element that should contain
+     * the content.
      *
      * @return {Element} the content DOM element of the widget
      */
