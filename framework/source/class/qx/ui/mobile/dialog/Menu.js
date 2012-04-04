@@ -198,6 +198,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     
     /**
      * Hides the menu, fires an event which contains index and data.
+     * @param evt {qx.event.type.Data}, contains the selected index number.
      */
     __onListChangeSelection : function (evt) {
       var selectedIndex = evt.getData();
