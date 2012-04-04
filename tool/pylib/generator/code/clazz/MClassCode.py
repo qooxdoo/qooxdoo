@@ -201,7 +201,7 @@ class MClassCode(object):
                     compiled = self.serializeCondensed(tree, format_)
 
                 if compiled[-1:] != "\n":
-                    compiled += ';\n' # assure trailing \n; bug#6217
+                    compiled += '\n' # assure trailing \n
 
                 if not "statics" in optimize:
                     cache.write(cacheId, compiled)
@@ -339,13 +339,16 @@ class MClassCode(object):
 
 
     def _stringOptimizer(self, tree):
-        stringMap = stringoptimizer.search(tree)
+        # string optimization works over a list of statements,
+        # so extract the <file>'s <statements> node
+        statementsNode = tree.getChild("statements")
+        stringMap = stringoptimizer.search(statementsNode)
 
         if len(stringMap) == 0:
             return tree
 
         stringList = stringoptimizer.sort(stringMap)
-        stringoptimizer.replace(tree, stringList)
+        stringoptimizer.replace(statementsNode, stringList)
 
         # Build JS string fragments
         stringStart = "(function(){"
@@ -356,14 +359,15 @@ class MClassCode(object):
         wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop, self.id + "||stringopt")
 
         # Reorganize structure
-        funcBody = wrapperNode.getChild("operand").getChild("group").getChild("function").getChild("body").getChild("block")
-        if tree.hasChildren():
-            for child in copy.copy(tree.children):
-                tree.removeChild(child)
-                funcBody.addChild(child)
+        funcStatements = (wrapperNode.getChild("operand").getChild("group").getChild("function")
+                    .getChild("body").getChild("block").getChild("statements"))
+        if statementsNode.hasChildren():
+            for child in statementsNode.children[:]:
+                statementsNode.removeChild(child)
+                funcStatements.addChild(child)
 
         # Add wrapper to tree
-        tree.addChild(wrapperNode)
+        statementsNode.addChild(wrapperNode)
 
         return tree
 
