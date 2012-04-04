@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     {
       var path = evt.getData();
       if (path == "" || path == null){
-        path = sd3.Navigation.DEFAULT_PATH;
+        path = qx.ui.mobile.navigation.Manager.DEFAULT_PATH;
       }
 
       if (path != this.__currentGetPath)
