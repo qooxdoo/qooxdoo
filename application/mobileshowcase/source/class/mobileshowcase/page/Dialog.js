@@ -202,7 +202,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
     */
     destruct : function()
     {
-      this.__unregisterEventListener();
       this._disposeObjects("__anchorpopup", "__modaldialogpopup","__popup","__dialogpopup","__busypopup","__menu");
     }
   }

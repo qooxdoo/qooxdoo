@@ -97,8 +97,7 @@
         "qx.application" : "${APPLICATION}.Application",
         "qx.mobile.emulatetouch" : true,
         "qx.mobile.nativescroll" : false,
-        "qx.theme" : "${PLATFORM}",
-        "engine.name" : "webkit"
+        "qx.theme" : "${PLATFORM}"
       }
     },
     
