@@ -14,6 +14,7 @@
 
    Authors:
      * Gabriel Munteanu (gabios)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -57,7 +58,20 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
   construct : function(value)
   {
     this.base(arguments);
-
+    //qx.bom.Event.addNativeListener(containerElement, "onClick", function(){alert("works");}, false);
+  },
+  
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  events :
+  {
+    /**
+     * Fired when the selection value is changed.
+     */
+    changeValue : "qx.event.type.Data"
   },
 
   /*
@@ -78,7 +92,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons */
     group :
     {
-      check  : "qx.ui.form.RadioGroup",
+      check  : "qx.ui.mobile.form.RadioGroup",
       nullable : true,
       apply : "_applyGroup"
     }
@@ -92,6 +106,10 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     {
       return "radio";
     },
+    
+    _onClick : function() {
+      this.fireDataEvent("changeValue", {});
+    },
 
     /** The assigned {@link qx.ui.form.RadioGroup} which handles the switching between registered buttons */
     _applyGroup : function(value, old)
@@ -103,6 +121,17 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
       if (value) {
         value.add(this);
       }
+    },
+    
+    // overridden
+    _createContainerElement : function()
+    {
+      var containerElement = this.base(arguments);
+      
+      var onClick = qx.lang.Function.bind(this._onClick, this);
+      qx.bom.Event.addNativeListener(containerElement, "click", onClick, false);
+      
+      return containerElement;
     },
 
     /**
