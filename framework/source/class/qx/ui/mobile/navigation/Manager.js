@@ -113,7 +113,11 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
     this.__navigationHandler = qx.bom.History.getInstance();
     this.__navigationHandler.addListener("changeState", this.__onChangeHash, this);
-    this._executeGet(this.__navigationHandler.getState(), null, true);
+    var path = this.__navigationHandler.getState();
+    if (path == "" || path == null){
+      path = qx.ui.mobile.navigation.Manager.DEFAULT_PATH;
+    }
+    this._executeGet(path, null, true);
   },
 
 
