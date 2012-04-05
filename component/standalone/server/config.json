@@ -126,7 +126,7 @@
         {
           "format"   : true,
           "except"   : [],
-          "optimize" : [ "variables", "basecalls", "privates", "strings", "variants" ]
+          "optimize" : [ "variables", "basecalls", "privates", "strings", "variants", "whitespace" ]
         }
       },
       "compile" : { "type" : "build" }

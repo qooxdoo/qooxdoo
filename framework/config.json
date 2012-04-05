@@ -104,7 +104,7 @@
         {
           "format"   : "on",
           "except"   : [],
-          "optimize" : ["basecalls", "variables", "privates", "strings"]
+          "optimize" : ["basecalls", "variables", "privates", "strings", "whitespace"]
         }
       },
       

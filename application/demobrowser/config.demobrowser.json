@@ -160,7 +160,7 @@
         {
           "format" : true,
           "except" : [],
-          "optimize" : ["basecalls", "variables", "privates", "strings", "variants"]
+          "optimize" : ["basecalls", "variables", "privates", "strings", "variants", "whitespace"]
         }
       },
 

@@ -119,7 +119,7 @@
         },
         "code" :
         {
-          "optimize" : ["variables", "basecalls", "privates", "strings", "variants"],
+          "optimize" : ["variables", "basecalls", "privates", "strings", "variants", "whitespace"],
           "except"   : []
         },
         "uris"   :
@@ -294,7 +294,7 @@
         "code" :
         {
           "locales"  : "${LOCALES}",
-          "optimize" : ["variables", "basecalls", "privates", "strings", "variants"],
+          "optimize" : ["variables", "basecalls", "privates", "strings", "variants", "whitespace"],
           "except"   : [],
           "format"   : true
         }
@@ -544,7 +544,7 @@
         "code" :
         {
           "format"   : true,
-          "optimize" : [ "variables", "basecalls", "privates" ]
+          "optimize" : [ "variables", "basecalls", "privates" , "whitespace"]
         },
         
         "paths" :

@@ -332,7 +332,7 @@
       ,"let" :
       {
         "PROVIDER_ROOT" : "./provider",
-        "PROVIDER_OPTIMIZE" : ["variables", "basecalls", "strings"] 
+        "PROVIDER_OPTIMIZE" : ["variables", "basecalls", "strings", "whitespace"] 
       }
       
       ,"run" : [
