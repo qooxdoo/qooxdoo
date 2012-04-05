@@ -40,7 +40,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
     appendTo : function(parent) {
       if (!qx.lang.Type.isArray(parent)) {
-        parent = [parent];
+        var fromSelector = q(parent);
+        parent = fromSelector.length > 0 ? fromSelector : [parent];
       }
       for (var i=0, l=parent.length; i < l; i++) {
         for (var j=0, m=this.length; j < m; j++) {

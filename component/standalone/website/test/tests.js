@@ -59,6 +59,13 @@ testrunner.define({
     q(".child").appendTo(q(".parent"));
     this.assertEquals(q(".parent .child~.child").length, 2);
   },
+  
+  "test appendTo with selector" : function()
+  {
+    var test = q.create('<span class="child">foo</span><span class="child">foo</span');
+    test.appendTo("#sandbox");
+    this.assertEquals(2, q("#sandbox .child").length);
+  },
 
   testEmpty : function() {
     var test = q.create("<div><p>test</p></div>");
