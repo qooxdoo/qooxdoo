@@ -54,6 +54,7 @@
       "qx.module.Template",
       "qx.module.Polyfill",
       "qx.module.Placement",
+      "qx.module.Blocker",
       "q"
     ]
   },
