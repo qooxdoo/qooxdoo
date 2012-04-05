@@ -138,7 +138,10 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      */
     getInstance : function()
     {
-      this.$$instance = new qx.ui.mobile.navigation.Manager();
+      if (!this.$$instance)
+      {
+        this.$$instance = new qx.ui.mobile.navigation.Manager();
+      }
       return this.$$instance;
     }
   },
