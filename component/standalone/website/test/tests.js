@@ -1582,5 +1582,20 @@ testrunner.define({
   testEscapeRegexpChars : function() {
     // also escape the \ in the expected
     this.assertEquals("\\.\\.\\.", q.util.String.escapeRegexpChars("..."));
+  },
+
+
+  testTrim : function() {
+    this.assertEquals("abc", "    abc    ".trim());
+  },
+
+
+  testTrimLeft : function() {
+    this.assertEquals("abc    ", "    abc    ".trimLeft());
+  },
+
+
+  testTrimRight : function() {
+    this.assertEquals("    abc", "    abc    ".trimRight());
   }
 });
