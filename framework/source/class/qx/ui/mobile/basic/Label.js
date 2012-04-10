@@ -133,6 +133,10 @@ qx.Class.define("qx.ui.mobile.basic.Label",
       }
     },
     
+    /**
+     * Deprecated method.
+     * @param value {String} target display value
+     */
     setDisplay : function(value) {
         this._setStyle('display', value);
     }

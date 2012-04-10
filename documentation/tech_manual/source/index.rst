@@ -19,4 +19,5 @@ Project
    :maxdepth: 1
 
    pages/project/release_how_to_build
+   pages/project/qooxdoo_website
 

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>qooxdoo emitter library</title>
+    <script type="text/javascript" charset="utf-8" src="require.js"></script>
+  </head>
+  <body>
+    <h1>qooxdoo emitter library</h1>
+    See console log for demo.
+    <script type="text/javascript" charset="utf-8">
+    require(["script/emitter.require.min"], function(Emitter) {
+      var emitter = new Emitter();
+      var id1 = emitter.on("custom", function(data) {
+        console.log("(1) custom executed with '", data, "'");
+      });
+      console.log("Listener added with id:", id1);
+
+      var id2 = emitter.once("custom", function(data) {
+        console.log("(2) custom executed with '", data, "'");
+      });
+      console.log("Listener added once with id:", id2);
+
+      emitter.emit("custom", "custom data");
+      emitter.emit("custom", {a: 1, b: 2});
+
+      emitter.offById(id1);
+      console.log("(1) Removed listener by id:", id1);
+
+      emitter.emit("custom", "(2) only");
+
+
+      emitter.emit("custom", "you never see that!");
+    });
+    </script>
+  </body>
+</html>

@@ -133,7 +133,7 @@
         "code" :
         {
           "format"   : true,
-          "optimize" : [ "variables", "basecalls", "privates", "strings", "variants" ],
+          "optimize" : [ "variables", "basecalls", "privates", "strings", "variants", "whitespace" ],
           "except"   : []
         }
       },

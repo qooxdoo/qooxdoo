@@ -101,7 +101,7 @@
         "code" :
         {
           "format"   : true,
-          "optimize" : ["strings", "basecalls", "variables", "privates", "variants"],
+          "optimize" : ["strings", "basecalls", "variables", "privates", "variants", "whitespace"],
           "except"   : []
         }
       },

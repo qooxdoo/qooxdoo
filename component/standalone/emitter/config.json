@@ -22,15 +22,16 @@
 
   "let" :
   {
-    "APPLICATION"  : "library",
+    "APPLICATION"  : "emitter",
     "QOOXDOO_PATH" : "../../..",
     "BUILD_PATH"   : "script",
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
   },
 
+
   "jobs" :
   {
-    "storage-common" :
+    "emitter-common" :
     {
       "extend" : ["cache"],
       "library" :
@@ -41,11 +42,7 @@
       ],
 
       "include" : [
-        "qx.bom.Storage"
-      ],
-
-      "exclude" : [
-        "qx.event.GlobalError"
+        "qx.event.Emitter"
       ],
 
       "environment" :
@@ -56,14 +53,14 @@
         "qx.aspects" : false,
         "qx.globalErrorHandling" : false,
         "qx.theme" : null,
-        "qx.export" : {"storage" : "qx.bom.Storage"}
+        "qx.export" : {"emitter" : "qx.event.Emitter"}
       },
 
       "compile-options" :
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/storage.js",
+          "file" : "${BUILD_PATH}/emitter.js",
           "app-root" : ".",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
         },
@@ -78,25 +75,24 @@
 
     "build-min" :
     {
-      "extend" : ["storage-common"],
+      "extend" : ["emitter-common"],
 
       "compile-options" :
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/storage.min.js"
+          "file" : "${BUILD_PATH}/emitter.min.js"
         },
         "code" :
         {
           "format"   : false,
-          "optimize" : [ "variants", "basecalls", "strings", "privates", "variables", "whitespace"],
+          "optimize" : [ "variants", "basecalls", "strings", "privates", "variables" , "statics", "whitespace"],
           "except"   : []
         }
       },
 
       "compile" : { "type" : "build" }
     },
-
 
     "build" :
     {
@@ -106,7 +102,7 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/storage.js"
+          "file" : "${BUILD_PATH}/emitter.js"
         },
         "code" :
         {
@@ -120,7 +116,7 @@
 
     "source" :
     {
-      "extend" : ["storage-common"],
+      "extend" : ["emitter-common"],
 
       "environment" :
       {
@@ -131,7 +127,7 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/storage.js"
+          "file" : "${BUILD_PATH}/emitter.src.js"
         }
       },
 
@@ -150,14 +146,14 @@
           "phase" : null,
           "format" : "dot",
           "dot" : {
-            "root" : "qx.bom.Storage"
+            "root" : "qx.event.Emitter"
           }
         }
       }
     },
 
 
-    "build-deps" : 
+    "build-deps" :
     {
       "extend" : ["build", "deps-logging"]
     },
@@ -171,7 +167,7 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/storage.require.min.js",
+          "file" : "${BUILD_PATH}/emitter.require.min.js",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/require.loader.tmpl.js"
         }
       }
@@ -185,8 +181,7 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/storage.require.js",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/require.loader.tmpl.js"
+          "file" : "${BUILD_PATH}/emitter.require.js"
         },
         "code" :
         {

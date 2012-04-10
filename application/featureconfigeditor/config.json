@@ -77,7 +77,7 @@
       {
         "code" :
         {
-          "=optimize" : ["basecalls", "variables", "privates", "strings", "comments"]
+          "=optimize" : ["basecalls", "variables", "privates", "strings", "comments", "whitespace"]
         }
       }
     },
@@ -190,7 +190,7 @@
         
         "code"   :
         {
-          "=optimize" : ["basecalls", "variables", "privates", "strings", "comments"]
+          "=optimize" : ["basecalls", "variables", "privates", "strings", "comments", "whitespace"]
         }
       },
       
