@@ -55,6 +55,7 @@
       "qx.module.Polyfill",
       "qx.module.Placement",
       "qx.module.Blocker",
+      "qx.module.util.String",
       "q"
     ]
   },

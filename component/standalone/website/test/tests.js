@@ -1539,6 +1539,48 @@ testrunner.define({
   setUp : testrunner.globalSetup,
   tearDown : testrunner.globalTeardown,
 
-  test
+  testCamelCase : function() {
+    this.assertEquals("ABC", q.util.String.camelCase("-a-b-c"));
+    this.assertEquals("WebkitLinearGradient", q.util.String.camelCase("-webkit-linear-gradient"));
+  },
 
+
+  testHyphenate : function() {
+    this.assertEquals("-a-b-c", q.util.String.hyphenate("ABC"));
+    this.assertEquals("-webkit-linear-gradient", q.util.String.hyphenate("WebkitLinearGradient"));
+  },
+
+
+  testFirstUp : function() {
+    this.assertEquals("MAn", q.util.String.firstUp("mAn"));
+    this.assertEquals("Man", q.util.String.firstUp("Man"));
+  },
+
+
+  testFirstLow : function() {
+    this.assertEquals("man", q.util.String.firstLow("Man"));
+    this.assertEquals("mAN", q.util.String.firstLow("MAN"));
+  },
+
+
+  testStartsWith : function() {
+    this.assertTrue(q.util.String.startsWith("Test", "Te"));
+    this.assertTrue(q.util.String.startsWith("Test", "Test"));
+    this.assertFalse(q.util.String.startsWith("Test", "est"));
+    this.assertFalse(q.util.String.startsWith("Test", "x"));
+  },
+
+
+  testEndsWith : function() {
+    this.assertTrue(q.util.String.endsWith("Test", "st"));
+    this.assertTrue(q.util.String.endsWith("Test", "Test"));
+    this.assertFalse(q.util.String.endsWith("Test", "Te"));
+    this.assertFalse(q.util.String.endsWith("Test", "x"));
+  },
+
+
+  testEscapeRegexpChars : function() {
+    // also escape the \ in the expected
+    this.assertEquals("\\.\\.\\.", q.util.String.escapeRegexpChars("..."));
+  }
 });
