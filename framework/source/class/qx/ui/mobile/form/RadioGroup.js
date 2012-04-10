@@ -20,44 +20,30 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * The Radio button for mobile.
+ * The Radio button group for mobile usage.
  *
  * *Example*
  *
- * TODO
+ * <pre class='javascript'>
+ *    var form = new qx.ui.mobile.form.Form();
+ *    
+ *    var radio1 = new qx.ui.mobile.form.RadioButton();
+ *    var radio2 = new qx.ui.mobile.form.RadioButton();
+ *    var radio3 = new qx.ui.mobile.form.RadioButton();
+ *    
+ *    var radiogroup = new qx.ui.mobile.form.RadioGroup(radio1, radio2, radio3);
+
+ *    form.add(radio1, "Germany");
+ *    form.add(radio2, "UK");
+ *    form.add(radio3, "USA");
+ *
+ *    this.getRoot.add(new qx.ui.mobile.form.renderer.Single(form));
+ * </pre>
  *
  *
  */
 qx.Class.define("qx.ui.mobile.form.RadioGroup",
 {
-  extend : qx.ui.form.RadioGroup,
+  extend : qx.ui.form.RadioGroup
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  /**
-   * @param value {Boolean?null} The value of the checkbox.
-   */
-  construct : function(value)
-  {
-    this.base(arguments);
-  },
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-
-  },
-
-  members :
-  {
-  }
 });

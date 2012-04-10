@@ -62,8 +62,8 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__submitButton.setEnabled(false);
       this.getContent().add(this.__submitButton);
 
-      var title = new qx.ui.mobile.form.Title("Registration Result");
-      this.getContent().add(title);
+      var title2 = new qx.ui.mobile.form.Title("Registration Result");
+      this.getContent().add(title2);
       this.__result = new qx.ui.mobile.embed.Html();
       this.getContent().add(this.__result);
     },
@@ -100,12 +100,12 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__rememberPass.bind("model",this.__password,"value");
       this.__password.bind("value",this.__rememberPass,"model");
 
-
       form.addGroupHeader("Gender: ");
       this.__radio1 = new qx.ui.mobile.form.RadioButton();
       this.__radio2 = new qx.ui.mobile.form.RadioButton();
       
       var radioGroup = new qx.ui.mobile.form.RadioGroup();
+      radioGroup.setAllowEmptySelection(true);
       radioGroup.add(this.__radio1, this.__radio2);
       form.add(this.__radio1, "Male");
       form.add(this.__radio2, "Female");
@@ -130,7 +130,6 @@ qx.Class.define("mobileshowcase.page.Form",
       form.add(this.__sel, selQuestion);
 
       return form;
-
     },
 
     _enableFormSubmitting : function(evt) {

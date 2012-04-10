@@ -27,10 +27,12 @@
  *
  * <pre class='javascript'>
  *    var form = new qx.ui.mobile.form.Form();
+ *    
  *    var radio1 = new qx.ui.mobile.form.RadioButton();
  *    var radio2 = new qx.ui.mobile.form.RadioButton();
  *    var radio3 = new qx.ui.mobile.form.RadioButton();
- *    var group = new qx.ui.form.RadioGroup(radio1, radio2, radio3);
+ *    
+ *    var group = new qx.ui.mobile.form.RadioGroup(radio1, radio2, radio3);
 
  *    form.add(radio1, "Germany");
  *    form.add(radio2, "UK");
@@ -58,7 +60,6 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
   construct : function(value)
   {
     this.base(arguments);
-    //qx.bom.Event.addNativeListener(containerElement, "onClick", function(){alert("works");}, false);
   },
   
   /*
