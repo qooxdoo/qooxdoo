@@ -45,9 +45,9 @@ qx.Class.define("playground.view.RiaPlayArea",
     });
 
     // button for max / min the play area
-    var maxIcon = "decoration/window/maximize-inactive.png";
-    var restoreIcon = "decoration/window/restore-inactive.png";
-    var maxButton = new qx.ui.form.Button(null, "decoration/window/maximize-inactive.png");
+    var maxIcon = "decoration/window/maximize.gif";
+    var restoreIcon = "decoration/window/restore.gif";
+    var maxButton = new qx.ui.form.Button(null, maxIcon);
     maxButton.setAppearance("toolbar-button");
     maxButton.setMarginRight(6);
     maxButton.setToolTipText(this.tr("Maximize"));

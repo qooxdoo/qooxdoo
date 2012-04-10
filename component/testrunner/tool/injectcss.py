@@ -19,8 +19,8 @@
 ################################################################################
 
 ##
-# Reads CSS from a source file, minifies it and injects it into a target file,
-# replacing the macro %{Styles}
+# Reads CSS from one or more source files, minifies it and injects it into a 
+# target file, # replacing the macro %{Styles}
 ##
 
 import sys, os, re
@@ -31,16 +31,26 @@ except ImportError, e:
   sys.path.append("../../tool/pylib/cssmin")
   import cssmin
 
-sourceFileName = sys.argv[1]
-targetFileName = sys.argv[2]
+args = sys.argv[:]
+args.pop(0)
 
-css = open(sourceFileName, "r").read()
-minifiedCss = cssmin.cssmin(css)
+if len(args) < 2:
+  print "At least two arguments needed"
+  sys.exit(1)
+
+targetFileName = args.pop()
+
+minifiedCss = ""
+for sourceFileName in args:
+  css = open(sourceFileName, "r").read()
+  minifiedCss += cssmin.cssmin(css)
+
 targetFile = open(targetFileName, "r")
 targetFileContent = targetFile.read()
 targetFile.close()
 
-targetFile = open(targetFileName, "w+")
+minifiedCss = minifiedCss.replace("'", r"\'")
 replaced = re.sub("%{Styles}", minifiedCss, targetFileContent)
+targetFile = open(targetFileName, "w+")
 targetFile.write(replaced)
 targetFile.close()

@@ -41,12 +41,12 @@
   {
     "source" :
     {
-      "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple"]
+      "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple", "source-script-indigo"]
     },
 
     "source-hybrid" :
     {
-      "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple"]
+      "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple", "source-script-indigo"]
     },
 
     "source-script-classic" :
@@ -101,6 +101,23 @@
       }
     },
 
+    "source-script-indigo" :
+    {
+      "let"     : {"QXTHEME" : "qx.theme.Indigo"},
+      "extend"  : ["source-script"],
+      "compile-options" : {
+        "code" :
+        {
+          "except" : [ "*" ]
+        },
+        "paths" :
+        {
+          "file"  : "source/script/${APPLICATION}.indigo.js"
+        }
+      }
+    },
+
+
     "build" :
     {
       "=run" : [
@@ -108,6 +125,7 @@
         "build-script-classic",
         "build-script-modern",
         "build-script-simple",
+        "build-script-indigo",
         "build-files"
       ]
 
@@ -120,7 +138,8 @@
       [
         "qx.theme.Classic",
         "qx.theme.Simple",
-        "qx.theme.Modern"
+        "qx.theme.Modern",
+        "qx.theme.Indigo"
       ],
 
       "copy-resources" :
@@ -131,8 +150,8 @@
 
     "build-script-classic" :
     {
-      "let"     : 
-      { 
+      "let" :
+      {
         "QXTHEME" : "qx.theme.Classic",
         "QXICONTHEME" : ["Oxygen"]
       },
@@ -168,6 +187,19 @@
         }
       }
     },
+
+    "build-script-indigo" :
+    {
+      "let"     : {"QXTHEME" : "qx.theme.Indigo"},
+      "extend"  : ["build-script"],
+      "compile-options" : {
+        "paths" :
+        {
+          "file": "./build/script/${APPLICATION}.indigo.js"
+        }
+      }
+    },
+
 
     "common" :
     {
@@ -256,7 +288,7 @@
         }
       }
     },
-    
+
     "simulation-run" :
     {
       "environment" :

@@ -455,6 +455,12 @@ publish-apps:
 		if [ "$$APPLICATION" = "test" ]; then \
 			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/testrunner || exit 1; \
 		fi; \
+		if [ "$$APPLICATION" = "qxoo-build" ]; then \
+			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo.js $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/framework || exit 1; \
+		fi; \
+		if [ "$$APPLICATION" = "qxoo-noopt" ]; then \
+			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo-noopt.js $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/framework || exit 1; \
+		fi; \
 	done
 	@echo "  * Syncing components..."
 	@for COMPONENT in $(COMPONENTS); do \

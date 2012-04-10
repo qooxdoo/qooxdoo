@@ -77,6 +77,11 @@ qx.Class.define("showcase.page.virtuallist.messenger.Buddy",
       check : "String",
       apply : "_applyStatus",
       init : ""
+    },
+
+    gap :
+    {
+      themeable: true
     }
   },
 

@@ -74,7 +74,7 @@
       "asset-let" :
       {
         "qx.icontheme" : ["Tango", "Oxygen"],
-        "qx.theme"     : ["Modern"]
+        "qx.theme"     : ["Indigo"]
       },
 
       "cache" :
@@ -205,6 +205,7 @@
         "qx.theme.Classic",
         "qx.theme.Simple",
         "qx.theme.Modern",
+        "qx.theme.Indigo",
         "demobrowser.demo.*"
       ],
 

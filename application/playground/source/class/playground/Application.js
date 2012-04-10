@@ -145,6 +145,7 @@ qx.Class.define("playground.Application",
       // mainsplit, contains the editor splitpane and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
       mainContainer.add(mainsplit, { flex : 1 });
+      mainsplit.setAppearance("app-splitpane");
 
       // editor split (left side of main split)
       this.__editorsplit = new qx.ui.splitpane.Pane("horizontal");
@@ -194,7 +195,7 @@ qx.Class.define("playground.Application",
       this.__editorsplit.add(this.__editor, 4);
 
       mainsplit.add(this.__editorsplit, 6);
-      mainsplit.add(infosplit, 5);
+      mainsplit.add(infosplit, 3);
 
       this.__playArea = new playground.view.PlayArea();
       this.__playArea.addListener("toggleMaximize", this._onToggleMaximize, this);

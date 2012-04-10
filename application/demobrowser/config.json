@@ -111,7 +111,7 @@
       "asset-let" :
       {
         "qx.icontheme" : ["Tango", "Oxygen"],
-        "qx.theme"     : ["Modern"]
+        "qx.theme"     : ["Indigo"]
       }
     },
 

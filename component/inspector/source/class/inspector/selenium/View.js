@@ -82,8 +82,11 @@ qx.Class.define("inspector.selenium.View", {
     var part2 = this.__getToolbarPart2();
     part2.setEnabled(false);
     this._toolbar.add(part2);
+    var part3 = this.__getToolbarPart3();
+    part3.setEnabled(false);
+    this._toolbar.add(part3);
     this._toolbar.addSpacer();
-    this._toolbar.add(this.__getToolbarPart3());
+    this._toolbar.add(this.__getToolbarPart4());
 
     // Options window
     this._optionsWindow = new inspector.selenium.OptionsWindow("Selenium Options", null, this);
@@ -204,8 +207,7 @@ qx.Class.define("inspector.selenium.View", {
     },
 
     /**
-     * Creates the toolbar part containing the speed slider and the run, record
-     * and export buttons
+     * Creates the toolbar part containing the speed slider
      *
      * @return {qx.ui.toolbar.Part}
      */
@@ -239,14 +241,28 @@ qx.Class.define("inspector.selenium.View", {
       };
       this._speedSlider.bind("value", speedLabel, "value", options);
 
+      return part2;
+    },
+
+
+    /**
+     * Creates the toolbar part containing the run, record
+     * and export buttons
+     *
+     * @return {qx.ui.toolbar.Part}
+     */
+    __getToolbarPart3 : function()
+    {
+      var part3 = new qx.ui.toolbar.Part();
+
       var runCmdButton = new qx.ui.toolbar.Button(null, "icon/22/actions/media-playback-start.png");
-      part2.add(runCmdButton)
+      part3.add(runCmdButton)
       runCmdButton.addListener("execute", this.runSeleniumCommands, this);
       runCmdButton.setToolTipText("Run selected command(s)");
 
       this._recordButton = new qx.ui.toolbar.CheckBox(null,
           "icon/22/actions/media-record.png");
-      part2.add(this._recordButton);
+      part3.add(this._recordButton);
       var recOpts = {
         converter : function(data) {
           return data ? "Stop adding commands for inspected widgets" :
@@ -256,33 +272,34 @@ qx.Class.define("inspector.selenium.View", {
       this._recordButton.bind("value", this._recordButton, "toolTipText", recOpts);
 
       this._exportButton = new qx.ui.toolbar.CheckBox(null, "icon/22/actions/window-new.png");
-      part2.add(this._exportButton);
+      part3.add(this._exportButton);
       this._exportButton.setToolTipText("Import/export Selenese");
       this._exportButton.addListenerOnce("changeValue", function(ev) {
         this.__getSelenese();
       }, this);
 
-      return part2;
+      return part3;
     },
+
 
     /**
      * Creates the toolbar part containing the options button
      *
      * @return {qx.ui.toolbar.Part}
      */
-    __getToolbarPart3 : function()
+    __getToolbarPart4 : function()
     {
-      var part3 = new qx.ui.toolbar.Part();
+      var part4 = new qx.ui.toolbar.Part();
       this._optionsButton = new qx.ui.toolbar.Button(null, "icon/22/categories/system.png");
       this._optionsButton.setToolTipText("Options");
-      part3.add(this._optionsButton);
+      part4.add(this._optionsButton);
       this._optionsButton.addListener("execute", function(ev) {
         if (!this._optionsWindow.isVisible()) {
           this._optionsWindow.open();
         }
       }, this);
 
-      return part3;
+      return part4;
     },
 
     /**
@@ -645,6 +662,7 @@ qx.Class.define("inspector.selenium.View", {
 
       this._toolbar.getChildren()[0].setEnabled(false);
       this._toolbar.getChildren()[1].setEnabled(false);
+      this._toolbar.getChildren()[2].setEnabled(false);
 
       if (window.Selenium) {
         window.Selenium = null;
@@ -736,6 +754,7 @@ qx.Class.define("inspector.selenium.View", {
       qx.bom.Cookie.set("coreScripts", this.getSeleniumScripts(), 365);
       this._toolbar.getChildren()[0].setEnabled(true);
       this._toolbar.getChildren()[1].setEnabled(true);
+      this._toolbar.getChildren()[2].setEnabled(true);
       this.__availableCommands = this.getAvailableCommands();
     }
 

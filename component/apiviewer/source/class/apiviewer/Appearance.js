@@ -24,7 +24,7 @@
 qx.Theme.define("apiviewer.Appearance",
 {
   title: "Theme for API Viewer",
-  extend : qx.theme.modern.Appearance,
+  extend : qx.theme.indigo.Appearance,
 
   appearances :
   {
@@ -58,7 +58,8 @@ qx.Theme.define("apiviewer.Appearance",
       style : function(states)
       {
         return {
-          contentPadding : [ 10, 10, 10, 10 ]
+          contentPadding : [ 10, 10, 10, 10 ],
+          backgroundColor: "white"
         };
       }
     },

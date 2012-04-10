@@ -56,7 +56,6 @@ qx.Class.define("apiviewer.Viewer",
     this.__menuItemStore = {};
 
     var layout = new qx.ui.layout.VBox;
-    layout.setSeparator("separator-vertical");
 
     this.setLayout(layout);
 
@@ -384,6 +383,7 @@ qx.Class.define("apiviewer.Viewer",
     __createSplitPane : function(leftWidget, rightWidget)
     {
       var mainSplitPane = new qx.ui.splitpane.Pane("horizontal");
+      mainSplitPane.setAppearance("app-splitpane");
       mainSplitPane.add(leftWidget, 0);
       mainSplitPane.add(rightWidget, 1);
       return mainSplitPane;
@@ -400,6 +400,7 @@ qx.Class.define("apiviewer.Viewer",
 
       var title = new qx.ui.basic.Label("API Documentation");
       var version = new qxc.ui.versionlabel.VersionLabel();
+      version.setFont("default");
 
       header.add(title);
       header.add(new qx.ui.core.Spacer, {flex : 1});
