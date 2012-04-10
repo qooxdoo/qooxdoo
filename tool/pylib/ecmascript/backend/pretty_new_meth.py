@@ -388,6 +388,7 @@ def toPretty(self, optns, state):
     r += self.children[1].toPretty(optns, state)
     # (opt) 'else' part
     if len(self.children) == 3:
+        r += self.space()
         r += self.write("else")
         r += self.space()
         r += self.children[2].toPretty(optns, state)
