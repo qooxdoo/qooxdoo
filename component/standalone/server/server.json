@@ -1,43 +1,5 @@
 {
-  "name"    : "server component",
-
-  "include" :
-  [
-    {
-      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
-      "block" :
-      [
-        "build",
-        "build-script",
-        "build-resources",
-        "source",
-        "source-script"
-      ]
-    },
-    {
-      "path" : "./server.json"
-    }
-  ],
-
-  /*
-  "export" :
-  [
-    "api",
-    "api-data",
-    "build",
-    "clean",
-    "distclean",
-    "info",
-    "inspector",
-    "migration",
-    "profiling",
-    "source",
-    "test",
-    "test-source"
-  ],
-  */
-  
-  "default-job" : "source-hybrid",
+  "name"    : "server component include config",
 
   "let" :
   {
@@ -51,13 +13,6 @@
     "ROOT"         : "."
   },
 
-  "config-warnings" :
-  {
-    "job-shadowing" : 
-    [
-      "api"
-    ]
-  },
 
   "jobs" :
   {
@@ -156,64 +111,6 @@
         }
       },
       "compile" : { "type" : "build" }
-    },
-
-    // -- npm jobs -------------------------------------------------------------
-    
-    "npm-package-copy" :
-    {
-      "extend" : ["cache"],
-      "shell" :
-      {
-        "command" : [
-          "mkdir -p npm/build",
-          "cp script/qx-oo.js npm/build",
-          "cp npm/package.json npm/build"
-        ]
-      }
-    },
-
-    "npm-package-test" :
-    {
-      "extend" : ["cache"],
-      "shell" :
-      {
-        "command" : "cd test/npm && npm install ../../npm/build/ && node npm.js"
-      }
-    },
-
-    "npm-package-publish" :
-    {
-      // relies on npm-package-copy having run
-      "extend" : ["cache"],
-      "shell" :
-      {
-        "command" : "cd npm/build && npm publish"
-      }
-    },
-
-    // -- others ---------------------------------------------------------------
-
-    "api" :
-    {
-      "desc" : "create api doc for qxoo",
-      "=library" : [
-        {
-          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
-        },
-        {
-          "manifest" : "${QOOXDOO_PATH}/component/apiviewer/Manifest.json"
-        },
-        {
-          "manifest" : "${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
-        }
-      ],
-      "let" :
-      {
-        "BUILD_PATH"     : "./api",
-        "API_INCLUDE"    : ["qx.Class", "qx.Mixin", "qx.Interface"],
-        "API_EXCLUDE"    : ["qx.test.*", "qx.event.GlobalError"]
-      }
     }
   }
 }
