@@ -6,6 +6,10 @@
     {
       "path" : "$${QOOXDOO_PATH}/tool/data/config/application.json",
       "block" : ["test", "test-source"]
+    },
+    {
+      "path" : "$${QOOXDOO_PATH}/component/standalone/server/server.json",
+      "as"   : "server"
     }
   ],
 
@@ -19,6 +23,7 @@
     "fix",
     "info",
     "lint",
+    "library",
     "migration",
     "pretty",
     "profiling",
@@ -149,6 +154,14 @@
       "extend" : [ "basic-common" ]
     },
 
+    "library" : 
+    {
+      "desc" : "create a local 'server' library",
+      "extend" : ["server::build"],
+      "let" : {
+        "BUILD_PATH" : "./script"
+      }
+    },
 
     "run" : 
     {
