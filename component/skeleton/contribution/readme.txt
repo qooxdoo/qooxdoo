@@ -11,3 +11,4 @@ Please use the provided application inside the 'demo' folder to test your
 contribution.
 
 short:: is suitable for qooxdoo-contrib
+copy_file:: tool/data/generator/needs_generation.js demo/default/source/script/custom.demo.js

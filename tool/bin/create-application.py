@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import re, os, sys, optparse, shutil, errno, stat, codecs, glob
+import re, os, sys, optparse, shutil, errno, stat, codecs, glob, types
 from string import Template
 from collections import defaultdict
 
@@ -34,12 +34,11 @@ SCRIPT_DIR    = qxenviron.scriptDir
 FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
 SKELETON_DIR  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton")))
 GENERATE_PY   = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "data", "generator", "generate.tmpl.py")))
-NEEDS_GENERATION_JS   = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "data", "generator", "needs_generation.js")))
 APP_DIRS      = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
 R_ILLEGAL_NS_CHAR = re.compile(r'(?u)[^\.\w]')  # allow unicode, but disallow $
 R_SHORT_DESC      = re.compile(r'(?m)^short::\s*(.*)$')  # to search "short:: ..." in skeleton's 'readme.txt'
-R_DEFAULT_SCRIPT  = re.compile(r'(?m)^default_script::\s*(.*)$')  # "default_script" in 'readme.txt': where to place 'needs_generation.js' copy
+R_COPY_FILE       = re.compile(r'(?m)^copy_file::\s*(.*)$')  # special files to copy from SDK for this skeleton
 QOOXDOO_VERSION   = ''  # will be filled later
 
 
@@ -49,13 +48,18 @@ def getAppInfos():
         readme = os.path.join(SKELETON_DIR, dir_, "readme.txt")
         appinfo = defaultdict(unicode)
         if os.path.isfile(readme):
-            cont = open(readme, "r").read()
-            mo   = R_SHORT_DESC.search(cont)
-            if mo:
-                appinfo['short'] = mo.group(1)
-            mo   = R_DEFAULT_SCRIPT.search(cont)
-            if mo:
-                appinfo['default_script'] = mo.group(1)
+            cont = open(readme, "rU").readlines()
+            for line in cont:
+                # short::
+                mo   = R_SHORT_DESC.search(line)
+                if mo:
+                    appinfo['short'] = mo.group(1)
+                # copy_file:: - could be multiple
+                mo   = R_COPY_FILE.search(line)
+                if mo:
+                    if not isinstance(appinfo['copy_file'], types.ListType):
+                        appinfo['copy_file'] = []
+                    appinfo['copy_file'].append(mo.group(1))
         appInfos[dir_] = appinfo
     return appInfos
 
@@ -90,6 +94,7 @@ def createApplication(options):
     outDir = os.path.join(out, options.name)
     is_contribution = options.type == "contribution"
     appDir = os.path.join(outDir, "trunk") if is_contribution else outDir
+    app_infos = APP_INFOS[options.type]
     demo_suffix = "demo/default" if is_contribution else ''
 
     # copy the template structure
@@ -101,14 +106,18 @@ def createApplication(options):
     if is_contribution:
         shutil.copy(GENERATE_PY, os.path.join(appDir, *demo_suffix.split("/")))
 
-    # script/custom.js
-    default_script = APP_INFOS[options.type]['default_script'] or "source/script/custom.js"
-    if is_contribution:
-        script_path = os.path.join(appDir, demo_suffix, "source/script/custom.demo.js")
-    else:
-        script_path = os.path.join(appDir, default_script)
-    os.makedirs(os.path.dirname(script_path))
-    shutil.copy(NEEDS_GENERATION_JS, script_path)
+    # copy files
+    if isinstance(app_infos['copy_file'], types.ListType):
+        for pair in app_infos['copy_file']:
+            src, dest = pair.split(None, 1)
+            src_path = os.path.join(FRAMEWORK_DIR, src)
+            dst_path = os.path.join(appDir, dest)
+            if os.path.isfile(src_path):
+                if not os.path.isdir(os.path.dirname(dst_path)):
+                    os.makedirs(os.path.dirname(dst_path))
+                shutil.copy(src_path, dst_path)
+            else:
+                print >>sys.stderr, "Warning: Source file \"%s\" not available - please see the skeleton's readme.txt" % src_path
 
     # rename files
     rename_folders(appDir, options.namespace)
