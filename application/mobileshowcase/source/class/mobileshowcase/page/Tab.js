@@ -43,11 +43,16 @@ qx.Class.define("mobileshowcase.page.Tab",
       
       var theme = qx.core.Environment.get("qx.theme");
       
-      if(theme == "ios") {
+      if(theme == "ios") 
+      {
         this.add(this.__createTabBar());
-      } else if (theme == "android") {
+      } 
+      else if (theme == "android") 
+      {
         this.addAfter(this.__createTabBar(),this._getNavigationBar());
-      } else {
+      } 
+      else 
+      {
         // Default
         this.add(this.__createTabBar());
       }

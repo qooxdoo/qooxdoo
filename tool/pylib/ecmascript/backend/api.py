@@ -632,9 +632,9 @@ def handleProperties(item, classNode):
 
 
 def handleEvents(item, classNode):
-    for key, value in mapNodeToMap(item).items():
-        keyvalue = value.parent
-        value = value.getFirstChild(True, True).get("value")
+    for key, value_ in mapNodeToMap(item).items():
+        keyvalue = value_.parent
+        value = value_.getFirstChild(True, True).toJavascript()
 
         node = tree.Node("event")
 

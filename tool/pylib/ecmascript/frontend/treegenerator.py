@@ -2016,6 +2016,7 @@ class TreeGenerator(object):
 def createSyntaxTree(tokenArr, fileId=''):
     fileNode = symbol("file")(0,0)
     fileNode.set("file", fileId)
+    fileNode.set("treegenerator_tag", tag)
     fileNode.childappend(TreeGenerator().parse(tokenArr))
     return fileNode
 
