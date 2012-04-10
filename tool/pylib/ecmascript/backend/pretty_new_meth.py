@@ -513,18 +513,20 @@ def toPretty(self, optns, state):
 @method(symbol("try"))
 def toPretty(self, optns, state):
     r = []
-    r.append('try')
+    r.append("try")
     r.append(self.children[0].toPretty(optns, state))
     catch = self.getChild("catch", 0)
     if catch:
-        r.append('catch')
+        r.append(self.space())
+        r.append("catch")
         r.append('(')
         r.append(catch.children[0].toPretty(optns, state))
         r.append(')')
+        r.append(self.space())
         r.append(catch.children[1].toPretty(optns, state))
     finally_ = self.getChild("finally", 0)
     if finally_:
-        r.append('finally')
+        r.append("finally")
         r.append(finally_.children[0].toPretty(optns, state))
     return ''.join(r)
 
@@ -569,10 +571,13 @@ def toPretty(self, optns, state):
     a = []
     for c in self.children: # should be just "statements"
         a.append(c.toPretty(optns, state))
-    r += u''.join(a)
+    a_ = u''.join(a)
+    r += a_
+    if a_:
+        r += "\n"
     state.indentLevel -= 1
     indent_string = indentString(optns, state)
-    r += self.write("\n%s}"%indent_string)
+    r += self.write(indent_string + "}")
     return r
 
 @method(symbol("call"))
@@ -630,7 +635,7 @@ def toPretty(self, optns, state):
     a = []
     for c in self.children:
         a.append(c.toPretty(optns, state))
-    r += ','.join(a)
+    r += ', '.join(a)
     r += self.write(")")
     return r
 
