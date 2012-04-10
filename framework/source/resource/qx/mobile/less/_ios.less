@@ -218,23 +218,42 @@ input[type="text"]:not(.selectbox), input[type="password"], textarea {
   border-left: 1px solid #b5b5b5;
   border-right: 1px solid #b5b5b5;
   height: 15px;
-  background: -webkit-gradient(linear, left top, left bottom, from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from(#093887), color-stop(0.05, #2a5db1), color-stop(0.9, #6ca9f7), to(#4e8ad4)) 0px 0px no-repeat;
-  background: -webkit-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -webkit-linear-gradient(top, #093887, #2a5db1 5%,#6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
-  background: -moz-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -moz-linear-gradient(top, #093887, #2a5db1 5%,#6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
-  background: linear-gradient(to bottom, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, linear-gradient(to bottom, #093887, #2a5db1 5%,#6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
+
+  @color-stop-active-1: #007FEA;
+  @color-stop-active-2: #6db5f3;
+  @color-stop-active-3: #007FEA;
+  @color-stop-active-4: #0056A1;
+
+  background: -webkit-gradient(linear, left top, left bottom, from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from( @color-stop-active-1), color-stop(0.05,  @color-stop-active-2), color-stop(0.8,  @color-stop-active-3), to( @color-stop-active-4)) 0px 0px no-repeat;
+  background: -webkit-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -webkit-linear-gradient(top,  @color-stop-active-1,  @color-stop-active-2 5%, @color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
+  background: -moz-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -moz-linear-gradient(top, @color-stop-active-1, @color-stop-active-2 5%,@color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
+  background: linear-gradient(to bottom, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, linear-gradient(to bottom, @color-stop-active-1, @color-stop-active-2 5%,@color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
 }
 
 .slider > div {
-  .box-shadow(0 0 2px 1px #a9a9a9);
-  .border-radius(1em);
-  top: -8px;
-  left: 0%;
-  width: 30px;
-  height: 30px;
-  background: -webkit-gradient(radial, 15 33, 6, 15 30, 29, from(#FCFCFC), color-stop(95%, #D1D1D1), to(#fff) );
-  background: -webkit-radial-gradient(50% 135%, 30px 44px, #fff, #fdfdfd, #d1d1d1 83%, #fff 95%);
-  background: -moz-radial-gradient(50% 135%, 30px 44px, #fff, #fdfdfd, #d1d1d1 83%, #fff 95%);
-  background: radial-gradient(50% 135%, 30px 44px, #fff, #fdfdfd, #d1d1d1 83%, #fff 95%);
+  position:relative;
+  top: -6px;
+  left: 0%;  
+
+  @size:25px;
+  height:@size;
+  width:@size;
+
+  border: 1px solid #E8E8E8;
+  .border-radius(@size);
+
+  .box-shadow(0 0 2px #000000);
+
+  background: #cfcfcf; /* Old browsers */
+  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2NmY2ZjZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZGZkZmQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfcf), color-stop(100%,#fdfdfd)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* IE10+ */
+  background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfcfcf', endColorstr='#fdfdfd',GradientType=0 ); /* IE6-8 */
 }
 
 //
@@ -508,15 +527,6 @@ input[type="checkbox"]:checked {
 .dialogTitleUnderline:after {
   display: none;
 }
-
-//
-// SELECTBOX
-//
-
-.selectbox {
-  margin-left:2px;
-}
-
 
 //
 // TOGGLEBUTTON
