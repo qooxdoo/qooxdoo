@@ -41,6 +41,12 @@
         },
         {
           "manifest"   : "${QOOXDOO_PATH}/component/library/twitterdemo/Manifest.json"
+        },
+        {
+          "manifest" : "${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
+        },
+        {
+          "manifest" : "${QOOXDOO_PATH}/component/library/indigo/Manifest.json"
         }
       ],
       "packages" : 
@@ -71,10 +77,6 @@
           {
             "include" : ["showcase.page.databinding.Content"]
           },
-          "animation": 
-          {
-            "include" : ["showcase.page.animation.Content"]
-          },
           "dragdrop": 
           {
             "include" : ["showcase.page.dragdrop.Content"]
@@ -99,12 +101,11 @@
       }
     },
     
-    
     "build-files" :
     {
       "copy-files" :
       {
-        "=files" : ["index.html", "blank.html", "resource/static"]
+        "=files" : ["index.html", "blank.html", "resource/static", "indigo/css/fonts"]
       }
     },
     

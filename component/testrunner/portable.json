@@ -69,6 +69,10 @@
       "library" :
       [
         {
+          "manifest"   : "${QOOXDOO_PATH}/component/library/indigo/Manifest.json"
+        },
+
+        {
           "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
         },
 
@@ -119,6 +123,11 @@
           "file" : "${BUILD_SCRIPT_FILE}",
           "loader-template" : "${TESTRUNNER_ROOT}/tool/portable.loader.tmpl.js"
         }
+        ,
+        "code" :
+        {
+          "=optimize" : []
+        }
       }
     },
     
@@ -128,7 +137,7 @@
       {
         "command" :
         [
-          "${PYTHON_CMD} ${TESTRUNNER_ROOT}/tool/injectcss.py ${TESTRUNNER_ROOT}/source/resource/testrunner/view/html/css/testrunner.css ${BUILD_SCRIPT_FILE} ${QOOXDOO_PATH}"
+          "${PYTHON_CMD} tool/injectcss.py ${QOOXDOO_PATH}/component/library/indigo/source/resource/indigo/css/reset.css ${QOOXDOO_PATH}/component/library/indigo/source/resource/indigo/css/base.css ${TESTRUNNER_ROOT}/source/resource/testrunner/view/html/css/testrunner.css ${BUILD_SCRIPT_FILE} ${QOOXDOO_PATH}"
         ]
       }
     },

@@ -90,6 +90,16 @@ LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
 
 StmntTerminatorTokens = ("eol", ";", "}", "eof")
 
+SYMBOLS = {
+    "infix" : "* / % << >> >>> < <= > >= != == !== === & ^ | && ||".split(),
+    "infix_v" : "in instanceof".split(),
+    "infix_r" : "= <<= -= += *= /= %= |= ^= &= >>= >>>=".split(),
+    "prefix"  : "~ !".split(),  # '/' left out, as never seen by the parser as prefix op (but regexp constant)
+    "prefix_v": "new  delete typeof void".split(),
+    "prepostfix" : "++ --".split(),
+    "preinfix": "+ -".split(),
+}
+
 def expressionTerminated():
     return token.id in StmntTerminatorTokens or tokenStream.eolBefore
 
@@ -307,12 +317,12 @@ class symbol_base(Node):
     def __repr__(self):
         if self.id == "identifier" or self.id == "constant":
             return "(%s %r)" % (self.id, self.get("value"))
-        id  = self.id
+        id_  = self.id
         if hasattr(self, 'optype'):
-            id += '('+self.optype+')'
-        #out = [id, self.first, self.second, self.third]
-        out = [id] + self.children
-        out = map(repr, filter(None, out))
+            id_ += '('+self.optype+')'
+        #out = [id_, self.first, self.second, self.third]
+        out = map(repr, filter(None, self.children))
+        out = ["%s"%id_] + out
         return "(" + " ".join(out) + ")"
 
     def __toXml(self):  # don't override Node.toXml()
@@ -2006,6 +2016,7 @@ class TreeGenerator(object):
 def createSyntaxTree(tokenArr, fileId=''):
     fileNode = symbol("file")(0,0)
     fileNode.set("file", fileId)
+    fileNode.set("treegenerator_tag", tag)
     fileNode.childappend(TreeGenerator().parse(tokenArr))
     return fileNode
 

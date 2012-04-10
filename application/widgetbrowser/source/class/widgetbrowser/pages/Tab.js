@@ -82,6 +82,8 @@ qx.Class.define("widgetbrowser.pages.Tab",
         for (var i=children.length -1; i >=0; i--) {
           tabView.remove(children[i]);
         };
+      } else {
+        this.addTabPages(tabView);
       }
       this.addTabPages(tabView);
     },

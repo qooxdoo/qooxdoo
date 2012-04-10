@@ -91,7 +91,9 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
           child.renderLayout(left + offsetLeft, top, hint.width, hint.height);
         }
 
-        left += columns[i] + spacing;
+        if (columns[i] > 0) {
+          left += columns[i] + spacing;
+        }
       }
     },
 

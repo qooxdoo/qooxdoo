@@ -66,7 +66,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
     this.__labelDeco = null;
     try {
       this.__labelDeco = new qx.ui.decoration.Background().set({
-        backgroundColor : "background-pane"
+        backgroundColor : "white"
       });
     } catch(ex) {}
 

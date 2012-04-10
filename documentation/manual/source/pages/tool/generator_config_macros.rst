@@ -54,8 +54,8 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
       - [ "en" ] 
   
     * - OPTIMIZE 
-      - list of optimization options for build version 
-      - ["basecalls", "comments", "privates", "strings", "variables", "variants"]
+      - list of :ref:`optimization options <pages/tool/generator_config_ref#compile-options>` for build version 
+      - ["basecalls", "comments", "privates", "strings", "variables", "variants", "whitespace"]
   
     * - QOOXDOO_PATH 
       - path to the qooxdoo installation root dir 

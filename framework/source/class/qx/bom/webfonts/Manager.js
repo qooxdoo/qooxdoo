@@ -174,7 +174,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       var os = qx.core.Environment.get("os.name");
       var osVersion = qx.core.Environment.get("os.version");
 
-      if ((browser == "ie" && browserVersion >= 9) ||
+      if ((browser == "ie" && qx.core.Environment.get("browser.documentmode") >= 9) ||
           (browser == "firefox" && browserVersion >= 3.6) ||
           (browser == "chrome" && browserVersion >= 6)) {
         preferredFormats.push("woff");
@@ -380,8 +380,8 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     __getSourceForFormat : function(format, url)
     {
       switch(format) {
-        case "eot":
-          return "url('" + url + "?#iefix') format('eot')";
+        case "eot": return "url('" + url + "');" +
+          "src: url('" + url + "?#iefix') format('embedded-opentype')";
         case "woff":
           return "url('" + url + "') format('woff')";
         case "ttf":
@@ -404,7 +404,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       var completeRule = "@font-face {" + rule + "}\n";
 
       if (qx.core.Environment.get("browser.name") == "ie" &&
-          qx.core.Environment.get("browser.version") < 9) {
+          qx.core.Environment.get("browser.documentmode") < 9) {
         var cssText = this.__fixCssText(this.__styleSheet.cssText);
         cssText += completeRule;
         this.__styleSheet.cssText = cssText;

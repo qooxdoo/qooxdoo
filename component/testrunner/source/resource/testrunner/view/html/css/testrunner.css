@@ -1,172 +1,16 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: "Lucida Sans Unicode", Arial, "sans-serif";
-  font-size: 0.9em;
+  font-family: 'Lucida Grande', 'Verdana', sans-serif;
 }
 
-div {
-  margin: 0;
-  padding: 0;
-}
-
-h1 {
-  font-size: 1.3em;
-  padding: 8px 10px;
-  margin: 0 0 15px 0;
-  background-color: #E8E8E8;
-  border-bottom: 1px solid #B5B5B5;
-  color: #000;
-  font-weight: bold;
-  text-shadow: 0px 1px 1px #fff;
-}
-
-input[type=submit] {
-  color: #fff;
-  background-color: #B5B5B5;
-  font-weight: bold;
-  padding: 6px;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  border-width: 0;
-}
-
-input[type=text] {
-  border: 1px solid #B5B5B5;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  padding: 2px;
-}
-
-input[type=checkbox] {
-  margin: 5px 8px;
+h2 {
+  font-family: 'Lucida Grande', 'Verdana', sans-serif;
+  font-size: 14px;
 }
 
 .monotype {
   font-family: Inconsolata, Consolas, "Courier New", Courier, monotype;
-}
-
-#controls {
-  margin: 0 10px 15px 10px;
-}
-
-#run {
-  margin-right: 10px;
-  background-color: #007F00;
-}
-
-#run:disabled {
-  background-color: #659E67;
-  color: #fff !important
-}
-
-#stop {
-  margin-right: 10px;
-  background-color: #9E0000;
-}
-
-#stop:disabled {
-  background-color: #9E5E5E;
-  color: #fff !important;
-}
-
-#framelogcontainer {
-  height: 150px;
-  margin: 0 10px 10px 10px;
-}
-
-#framecontainer {
-  height: 150px;
-  float: left;
-  width: 50%;
-}
-
-#log {
-  width: 49%;
-  height: 150px;
-  float: right;
-  overflow: auto;
-  border: 1px solid #B5B5B5;
-}
-
-#autframe {
-  display: inline-block;
-  border: 1px solid #B5B5B5;
-  margin-top: 5px;
-  max-height: 120px;
-  width: 99%;
-}
-
-#iframesrc {
-  width: 83%;
-  margin-right: 10px;
-}
-
-#setiframesrc {
-  background-color: #777777;
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-
-#testcontrols {
-  clear: both;
-  padding: 0 10px 0 10px;
-  margin-bottom: 10px;
-}
-
-#testcontrols input {
-  margin-left: 10px;
-}
-
-#testscontainer {
-}
-
-#tests {
-  float: left;
-  width: 50%;
-  padding-bottom: 30px;
-}
-
-#tests ul {
-  border-top: 1px solid #E5E5E5;
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
-#tests ul li {
-  border-bottom: 1px solid #E5E5E5;
-  border-top: 1px solid #fff;
-  background-color: #F4F4F4;
-}
-
-#results {
-  float: right;
-  width: 49%;
-  margin: 0 0 30px 0;
-}
-
-#results ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
-#results ul li {
-  margin: 0 0 2px 0;
-  padding: 2px;
-  font-weight: bold;
-  color: #134275;  
-}
-
-#results ul li ul li {
-  margin: 3px 0 3px 10px;
-}
-
-.stacktrace {
-  font-weight: normal;
+  font-size: 1.1em;
+  line-height: 125%;
 }
 
 .success {
@@ -208,26 +52,204 @@ input[type=checkbox] {
 	color: #9E0000;
 }
 
-#aut iframe {
+#header-wrapper {
+  background-color: #323335;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), to(#323335));
+  background-image: -webkit-linear-gradient(top, #505154, #323335);
+  background-image: -moz-linear-gradient(top, #505154, #323335);
+  background-image: linear-gradient(to bottom, #505154, #323335);
+}
+#header-wrapper .decoration {
+  height: 10px;
+  background-color: #3d72c9;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#5583d0), color-stop(1px, #5583d0), color-stop(1px, #5583d0), to(#3d72c9));
+  background-image: -webkit-linear-gradient(top, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
+  background-image: -moz-linear-gradient(top, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
+  background-image: linear-gradient(to bottom, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
+}
+#header {
+  margin: 0 auto;
+  zoom: 1;
+  margin: 0 auto;
+  min-height: 30px;
+  padding-top: 24px;
+  /*padding-bottom: 20px;*/
+  height: 48px;
+  color: #b7b7b7;
+}
+#header:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
+}
+#header h1 {
+  font-family: 'Lucida Grande', 'Verdana', sans-serif;
+  display: block;
+  float: left;
+  margin-left: 25px;
+  font-size: 22px;
+  font-weight: 300;
+  /*line-height: 1;*/
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #ffffff;
+}
+
+#header #search {
+  float: right;
+  margin-right: 25px;
+  margin-top: 5px;
+}
+
+#header #search input[type=search] {
+  display: block;
+  float: left;
+  height: 21.6px;
+  width: 130px;
+  margin-left: 10px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  font-size: 10px;
+  margin: 0;
+  padding: 2px;
+  border: none;
+  background-color: #dddddd;
+}
+#header #search input[type=search]:first-child {
+  margin-left: 0;
+}
+#header #search input[type=search]:focus {
+  outline: none;
+}
+
+#main {
+  margin:0 auto;
+  padding: 25px 25px 50px 25px;
+}
+
+#controls {
+  margin-bottom: 25px;
+}
+
+#controls input[type=submit],
+#controls label {
+  margin-right: 15px;
+}
+
+#tests {
+  float: left;
+  width: 49%;
+  margin-bottom: 50px;
+}
+
+.controls {
+  height: 24px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.controls h2 {
+  margin: 5px 0 0 0;
+  float: left;
+}
+
+.controls div {
+  float: right;
+}
+
+#testlist {
+  clear: both;
+  font-weight: bold;
+  background-color: #F0F0F0;
+}
+
+#testlist li {
+  overflow: auto;
+  margin-bottom: 5px;
+}
+
+#testlist .stacktrace {
+  font-weight: normal;
+}
+
+#testlist li .result {
+  float: right;
+  margin-right: 5px;
+}
+
+#testlist label {
+  margin-left: 5px;
+}
+
+#testlist li ol {
+  list-style-type: decimal;
+}
+
+#testlist li ol li {
+  margin-left: 45px;
+}
+
+#frame_log {
+  float: right;
+  width: 49%;
+  margin-bottom: 50px;
+}
+
+#framecontrols {
+  height: auto;
+}
+
+#framecontrols input[type=text] {
+  width: 99%;
+  clear: both;
+  margin-top: 5px;
+}
+
+#framecontrols input[type=submit] {
+  float: right;
+  margin: 0 0 0 5px;
+}
+
+#frame_log iframe {
+  margin-top: 5px;
+  display: block;
   width: 100%;
+  height: 150px;
+  overflow: auto;
+  border: 1px solid #323335;
+}
+
+#logcontainer {
+  margin-top: 25px;
+}
+
+#logcontrols select {
+  float: right;
+  margin: 0 0 0 5px;
+}
+
+#log {
+  overflow: auto;
+  border: 1px solid #323335;
+  height: 150px;
 }
 
 #footer {
   position: fixed;
+  clear: both;
   bottom: 0px;
   width: 100%;
-  
-  background-color: #E8E8E8;
-  border-top: 1px solid #B5B5B5;
-  color: #000;
+  border-top: 1px solid #7c7f84;
+  background-color: #323335;
+  color: #fff;
+  padding: 10px 25px;
 }
 
-#status {
-  margin: 6px 8px;
+#footer span {
+  font-size: 120%;
 }
-
-#status .error {
-  color: #FF0000;
-}
-
 

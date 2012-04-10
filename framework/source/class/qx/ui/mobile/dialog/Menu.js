@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
   },
   
   
-   /*
+  /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
@@ -146,24 +146,24 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      * @return value {qx.ui.mobile.list.List} The selection list
      */
     _createSelectionList : function() {
-        var self = this;
-        var selectionList = new qx.ui.mobile.list.List({
-          configureItem : function(item, data, row)
-          {
-            item.setTitle(data);
-            item.setShowArrow(false);
-            
-            var isItemSelected = (self.__selectedIndex == row);
+      var self = this;
+      var selectionList = new qx.ui.mobile.list.List({
+        configureItem : function(item, data, row)
+        {
+          item.setTitle(data);
+          item.setShowArrow(false);
 
-            if(isItemSelected) {
-              item.removeCssClass(self.getUnselectedItemClass());
-              item.addCssClass(self.getSelectedItemClass());
-            } else {
-              item.removeCssClass(self.getSelectedItemClass());
-              item.addCssClass(self.getUnselectedItemClass());
-            }
+          var isItemSelected = (self.__selectedIndex == row);
+
+          if(isItemSelected) {
+            item.removeCssClass(self.getUnselectedItemClass());
+            item.addCssClass(self.getSelectedItemClass());
+          } else {
+            item.removeCssClass(self.getSelectedItemClass());
+            item.addCssClass(self.getUnselectedItemClass());
           }
-        });
+        }
+      });
 
       // Add an changeSelection event
       selectionList.addListener("changeSelection", this.__onListChangeSelection, this);
@@ -198,6 +198,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     
     /**
      * Hides the menu, fires an event which contains index and data.
+     * @param evt {qx.event.type.Data}, contains the selected index number.
      */
     __onListChangeSelection : function (evt) {
       var selectedIndex = evt.getData();

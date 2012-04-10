@@ -35,7 +35,7 @@ to the created folder and call the qooxdoo generator with the following
 command:
 ::
 
-    ./generate.py
+    ./generate.py source
 
 After a few seconds the generator has analyzed all class dependencies
 and created a source version of the application. You can test the
@@ -432,7 +432,7 @@ It has three parameters:
 
 In this case the list item renderer is the
 ``qx.ui.mobile.list.renderer.Default``. This renderer has a ``title``,
-``subTitle`` and a ``image`` property, which can be set individually per
+``subtitle`` and a ``image`` property, which can be set individually per
 row. In addition to those properties, the ``showArrow`` property shows
 an arrow on the left corner of the row, indicating that we have more
 data to display.

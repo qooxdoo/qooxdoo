@@ -10,7 +10,7 @@
     "ICONTHEME"    : ["Tango"],    
     "INSPECTOR_ROOT"  : ".",
     "INSPECTOR_PATH"   : "${ROOT}/build",    
-    "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings"]
+    "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings", "whitespace"]
   },
 
   "jobs" :

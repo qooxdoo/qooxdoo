@@ -25,7 +25,8 @@
 
 import sys, os, types, re, string, copy
 from ecmascript.backend.Packer      import Packer
-from ecmascript.backend             import pretty
+#from ecmascript.backend             import pretty
+from ecmascript.backend             import pretty_new_meth as pretty
 from ecmascript.frontend import treeutil, tokenizer
 from ecmascript.frontend import treegenerator
 from ecmascript.frontend.SyntaxException import SyntaxException
@@ -175,10 +176,9 @@ class MClassCode(object):
                 compiled += '\n'
         # compiled versions
         else:
-
-            optimize          = compOptions.optimize
-            variants          = compOptions.variantset
-            format_           = compOptions.format
+            optimize  = compOptions.optimize
+            variants  = compOptions.variantset
+            format_   = compOptions.format
             classVariants     = self.classVariants()
             # relevantVariants is the intersection between the variant set of this job
             # and the variant keys actually used in the class
@@ -187,25 +187,26 @@ class MClassCode(object):
             optimizeId        = self._optimizeId(optimize)
             cache             = self.context["cache"]
 
-            # Caution: Sharing cache id with TreeCompiler
             cacheId = "compiled-%s-%s-%s-%s" % (self.path, variantsId, optimizeId, format_)
             compiled, _ = cache.read(cacheId, self.path)
 
             if compiled == None:
                 tree = self.optimize(None, optimize, variants, featuremap)
-                if optimize == ["comments"]:
-                    compiled = self.serializeFormatted(tree)
-                else:
-                    compiled = self.serializeCondensed(tree, format_)
-
-                if compiled[-1:] != "\n": # assure trailing \n
-                    compiled += ';\n' # bug#6217
-
+                compiled = self.serializeTree(tree, optimize, format_)
                 if not "statics" in optimize:
                     cache.write(cacheId, compiled)
 
         return compiled
 
+    def serializeTree(self, tree, optimize, format_=False):
+        if not "whitespace" in optimize:
+            compiled = self.serializeFormatted(tree)
+        else:
+            compiled = self.serializeCondensed(tree, format_)
+
+        if compiled[-1:] != "\n":
+            compiled += '\n' # assure trailing \n
+        return compiled
 
     ##
     # Interface to ecmascript.backend
@@ -337,13 +338,16 @@ class MClassCode(object):
 
 
     def _stringOptimizer(self, tree):
-        stringMap = stringoptimizer.search(tree)
+        # string optimization works over a list of statements,
+        # so extract the <file>'s <statements> node
+        statementsNode = tree.getChild("statements")
+        stringMap = stringoptimizer.search(statementsNode)
 
         if len(stringMap) == 0:
             return tree
 
         stringList = stringoptimizer.sort(stringMap)
-        stringoptimizer.replace(tree, stringList)
+        stringoptimizer.replace(statementsNode, stringList)
 
         # Build JS string fragments
         stringStart = "(function(){"
@@ -354,14 +358,15 @@ class MClassCode(object):
         wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop, self.id + "||stringopt")
 
         # Reorganize structure
-        funcBody = wrapperNode.getChild("operand").getChild("group").getChild("function").getChild("body").getChild("block")
-        if tree.hasChildren():
-            for child in copy.copy(tree.children):
-                tree.removeChild(child)
-                funcBody.addChild(child)
+        funcStatements = (wrapperNode.getChild("operand").getChild("group").getChild("function")
+                    .getChild("body").getChild("block").getChild("statements"))
+        if statementsNode.hasChildren():
+            for child in statementsNode.children[:]:
+                statementsNode.removeChild(child)
+                funcStatements.addChild(child)
 
-        # Add wrapper to tree
-        tree.addChild(wrapperNode)
+        # Add wrapper to now empty statements node
+        statementsNode.addChild(wrapperNode)
 
         return tree
 

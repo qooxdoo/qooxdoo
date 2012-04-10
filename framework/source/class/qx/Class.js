@@ -994,7 +994,7 @@ qx.Bootstrap.define("qx.Class",
       }
 
       // Create namespace
-      var basename = name ? qx.Bootstrap.createNamespace(name, clazz) : null;
+      var basename = name ? qx.Bootstrap.createNamespace(name, clazz) : "";
 
       // Store names in constructor/object
       clazz.name = clazz.classname = name;

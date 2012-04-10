@@ -21,6 +21,8 @@
 /* ************************************************************************
 
 #asset(showcase/*)
+#asset(indigo/css/*)
+#asset(indigo/fonts/*)
 
 ************************************************************************ */
 
@@ -70,19 +72,36 @@ qx.Class.define("showcase.Application",
 
       qx.locale.Manager.getInstance().setLocale("en_US");
 
+      var cssReset = qx.util.ResourceManager.getInstance().toUri("indigo/css/reset.css");
+      var cssBase = qx.util.ResourceManager.getInstance().toUri("indigo/css/base.css");
+      var cssShowcase = qx.util.ResourceManager.getInstance().toUri("resource/static/css/showcase.css");
+      qx.bom.Stylesheet.includeFile(cssReset);
+      qx.bom.Stylesheet.includeFile(cssBase);
+      qx.bom.Stylesheet.includeFile(cssShowcase);
+
       var grid = new qx.ui.layout.Grid();
       grid.setColumnFlex(0, 1);
       grid.setRowFlex(1, 1);
       var row = 0;
       var htmlElement = document.getElementById("showcase");
-      var container = new qx.ui.root.Inline(htmlElement, false, false);
+      htmlElement.style.offsetHeight;
+      var container = new qx.ui.root.Inline(htmlElement, true, true);
       container.set({
         layout: grid,
-        width: 900,
+        minWidth: 900,
         minHeight: 650,
+        paddingTop: 53,
         allowGrowX: false,
         height: null
       });
+
+      var versionLabelElement = document.getElementById("version-label");
+      var versionContainer = new qx.ui.root.Inline(versionLabelElement, false, false);
+      versionContainer.setBackgroundColor("transparent");
+      var version = new qxc.ui.versionlabel.VersionLabel(this.tr("qooxdoo"));
+      version.setFont("default");
+      version.setTextColor("white");
+      versionContainer.add(version);
 
       var list = new showcase.ui.PreviewList();
       container.add(list, {row: row++, column: 0, colSpan: 2});
@@ -90,8 +109,8 @@ qx.Class.define("showcase.Application",
       this.__stack = new qx.ui.container.Stack();
       this.__stack.set({
         appearance: "stack",
-        maxWidth: 600,
-        allowGrowX: false
+        minWidth: 600,
+        allowGrowX: true
       });
       container.add(this.__stack, {row: row, column: 0});
 
@@ -113,7 +132,9 @@ qx.Class.define("showcase.Application",
       this.__content = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       this.__stack.add(this.__content);
 
-      this.__description = new showcase.ui.Description();
+      this.__description = new showcase.ui.Description().set({
+        padding: [25, 10]
+      });
       container.add(this.__description, {row: row++, column: 1});
       this.__description.exclude();
 
@@ -161,7 +182,7 @@ qx.Class.define("showcase.Application",
             page = pages.getItem(i);
             break;
           }
-        };
+        }
         if (page) {
           // opera requires a flush to scroll the selection into view!
           qx.ui.core.queue.Manager.flush();
@@ -223,8 +244,7 @@ qx.Class.define("showcase.Application",
     __cancelFade : function()
     {
       if (this.__effect) {
-        this.__effect.cancel();
-        this.__effect.dispose();
+        this.__effect.stop();
         this.__effect = null;
       }
     },
@@ -232,26 +252,19 @@ qx.Class.define("showcase.Application",
 
     __fadeIn : function(view)
     {
-      // no fades for IE, sorry!
-      if (qx.core.Environment.get("engine.name") == "mshtml") {
-        return;
-      }
-
-      view.getContentElement().setStyle("display", "none", true);
+      view.getContentElement().setStyle("opacity", 0, true);
       this.__cancelFade();
 
       qx.event.Timer.once(function() {
         var element = view.getContentElement().getDomElement();
-        this.__effect = new qx.fx.effect.core.Fade(element);
-        this.__effect.set({
-          from: 0,
-          to: 1
+        this.__effect = qx.bom.element.Animation.animate(element, {
+          duration: 1000,
+          keep: 100,
+          keyFrames : {
+            0 : {opacity: 0},
+            100 : {opacity: 1, display: "block"}
+          }
         });
-        this.__effect.addListenerOnce("update", function() {
-          view.getContentElement().setStyle("display", "block");
-        }, this);
-
-        this.__effect.start();
       }, this, 0);
     }
   },

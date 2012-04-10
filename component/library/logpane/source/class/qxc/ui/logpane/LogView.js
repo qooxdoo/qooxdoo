@@ -59,6 +59,7 @@ qx.Class.define("qxc.ui.logpane.LogView", {
     this.__toolbar = new qx.ui.toolbar.ToolBar();
     this.__toolbar.add(caption);
     this.__toolbar.addSpacer();
+    this.__toolbar.setBackgroundColor("white");
     var clearButton = new qx.ui.toolbar.Button(this.tr("Clear"), "icon/16/actions/edit-clear.png");
     clearButton.addListener("execute", function(e) {
       this.clear();

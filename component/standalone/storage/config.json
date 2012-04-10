@@ -76,9 +76,31 @@
     },
 
 
-    "build" :
+    "build-min" :
     {
       "extend" : ["storage-common"],
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/storage.min.js"
+        },
+        "code" :
+        {
+          "format"   : false,
+          "optimize" : [ "variants", "basecalls", "strings", "privates", "variables", "whitespace"],
+          "except"   : []
+        }
+      },
+
+      "compile" : { "type" : "build" }
+    },
+
+
+    "build" :
+    {
+      "extend" : ["build-min"],
 
       "compile-options" :
       {
@@ -89,13 +111,11 @@
         "code" :
         {
           "format"   : true,
-          "optimize" : [ "variants", "basecalls", "strings", "privates", "variables" ],
-          "except"   : []
+          "=optimize" : [ "variants", "static" ]
         }
-      },
-
-      "compile" : { "type" : "build" }
+      }
     },
+
 
 
     "source" :
@@ -143,16 +163,35 @@
     },
 
 
-    "build-require" :
+    "build-require-min" :
     {
-      "extend" : ["build"],
+      "extend" : ["build-min"],
 
       "compile-options" :
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/storage-require.js",
+          "file" : "${BUILD_PATH}/storage.require.min.js",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/require.loader.tmpl.js"
+        }
+      }
+    },
+
+    "build-require" :
+    {
+      "extend" : ["build-require-min"],
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/storage.require.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/require.loader.tmpl.js"
+        },
+        "code" :
+        {
+          "format"   : true,
+          "=optimize" : [ "variants", "static" ]
         }
       }
     }

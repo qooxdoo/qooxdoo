@@ -38,6 +38,7 @@ qx.Class.define("widgetbrowser.view.Header",
 
     this.setLayout(new qx.ui.layout.HBox);
     this.setAppearance("app-header");
+    this.getLayout().setAlignY("middle");
 
     var title = new qx.ui.basic.Label("Widget Browser");
     var version = new qxc.ui.versionlabel.VersionLabel();

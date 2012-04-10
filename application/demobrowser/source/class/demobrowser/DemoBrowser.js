@@ -72,7 +72,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     // Configure layout
     var layout = new qx.ui.layout.VBox;
-    layout.setSeparator("separator-vertical");
     this.setLayout(layout);
 
     // Header
@@ -81,7 +80,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     // Data
     this.widgets = {};
     this.tests = {};
-    this.__currentTheme = "qx.theme.Modern";
+    this.__currentTheme = "qx.theme.Indigo";
 
 
     // Commands & Menu Bar
@@ -92,6 +91,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     // Main Split Pane
     var mainsplit = new qx.ui.splitpane.Pane("horizontal");
+    mainsplit.setAppearance("app-splitpane");
     this.mainsplit = mainsplit;
 
     var infosplit = new qx.ui.splitpane.Pane("horizontal");
@@ -103,7 +103,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     // tree side
     var leftComposite = this._leftComposite = new qx.ui.container.Composite();
     leftComposite.setLayout(new qx.ui.layout.VBox(3));
-    leftComposite.setBackgroundColor("background-splitpane");
     mainsplit.add(leftComposite, 0);
 
     if (qx.core.Environment.get("qx.contrib")) {
@@ -144,7 +143,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     searchComposlite.add(this._status);
 
     mainsplit.add(infosplit, 1);
-
     this._tree = this.__makeTree();
     leftComposite.add(this._tree, {flex: 1});
     this.__makeUrlMenu();
@@ -158,8 +156,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     var htmlView = this.__htmlView = this.__makeHtmlCodeView();
     var jsView = this.__jsView = this.__makeJsCodeView();
     var logView = this.__logView = new qxc.ui.logpane.LogView();
+    logView.setDecorator(null);
 
-    var stack = this.__stack = new qx.ui.container.Stack;
+    var stack = this.__stack = new qx.ui.container.Stack();
     stack.setDecorator("main");
     stack.add(htmlView);
     stack.add(jsView);
@@ -448,14 +447,11 @@ qx.Class.define("demobrowser.DemoBrowser",
       // NAVIGATION BUTTONS
       // -----------------------------------------------------
 
-      this._navPart = new qx.ui.toolbar.Part();
-      bar.add(this._navPart);
-
       // -- run button
       this._runbutton = new qx.ui.toolbar.Button(this.tr("Run"), "icon/22/actions/media-playback-start.png");
       this._runbutton.addListener("execute", this.runSample, this);
       this._runbutton.setToolTipText("Run the selected demo");
-      this._navPart.add(this._runbutton);
+      bar.add(this._runbutton);
 
       var prevNextPart = new qx.ui.toolbar.Part();
       bar.add(prevNextPart);
@@ -543,18 +539,21 @@ qx.Class.define("demobrowser.DemoBrowser",
         var t1 = new qx.ui.menu.RadioButton("Modern Theme");
         var t2 = new qx.ui.menu.RadioButton("Classic Theme");
         var t3 = new qx.ui.menu.RadioButton("Simple Theme");
+        var t4 = new qx.ui.menu.RadioButton("Indigo Theme");
 
         t1.setUserData("value", "qx.theme.Modern");
-        t1.setValue(true);
         t2.setUserData("value", "qx.theme.Classic");
         t3.setUserData("value", "qx.theme.Simple");
+        t4.setUserData("value", "qx.theme.Indigo");
+        t4.setValue(true);
 
-        var group = new qx.ui.form.RadioGroup(t1, t2, t3);
+        var group = new qx.ui.form.RadioGroup(t1, t2, t3, t4);
         group.addListener("changeSelection", this.__onChangeTheme, this);
 
         themeMenu.add(t1);
         themeMenu.add(t2);
         themeMenu.add(t3);
+        themeMenu.add(t4);
 
         var themeButton = new qx.ui.toolbar.MenuButton(this.tr("Theme"), "icon/22/apps/utilities-color-chooser.png", themeMenu);
         this.__themePart = themeButton;

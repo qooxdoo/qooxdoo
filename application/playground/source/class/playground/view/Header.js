@@ -28,7 +28,15 @@ qx.Class.define("playground.view.Header",
     this.base(arguments, new qx.ui.layout.HBox());
     this.setAppearance("app-header");
 
+    // EVIL HACK
+    this.addListener("appear", function() {
+      var el = this.getContentElement();
+      el.setStyle("top", (parseInt(el.getStyle("top")) + 1) + "px");
+    }, this);
+    // /////////
+
     var version = new qxc.ui.versionlabel.VersionLabel(this.tr("qooxdoo"));
+    version.setFont("default");
     var riaButton = new qx.ui.form.RadioButton(this.tr("Desktop"));
     riaButton.set({
       model: "ria",

@@ -19,7 +19,7 @@
 ************************************************************************ */
 qx.Theme.define("showcase.theme.Color",
 {
-  extend : qx.theme.modern.Color,
+  extend : qx.theme.indigo.Color,
 
   include : [
     showcase.page.theme.calc.theme.Color
