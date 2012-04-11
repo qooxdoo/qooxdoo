@@ -42,8 +42,13 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
   *****************************************************************************
   */
 
-  construct : function()
+  /**
+   * @param useTransform {Boolean} Whether iScroll should use transforms or not. Set this to false
+   *    when input fields are used inside the scroll container.
+   */
+  construct : function(useTransform)
   {
+    this.__useTransform = useTransform !== false ?  true : false;
     this.__initScroll();
     this.__registerEventListeners();
   },
@@ -60,6 +65,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
   members :
   {
     __scroll : null,
+    __useTransform : null,
 
     /**
      * Mixin method. Creates the scroll element.
@@ -138,7 +144,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         fadeScrollbar:true,
         hScrollbar : false,
         scrollbarClass:"scrollbar",
-        //useTransform: false,
+        useTransform: this.__useTransform,
         onBeforeScrollStart : function(e) {
           // QOOXDOO ENHANCEMENT: Do not prevent default for form elements
           var target = e.target;
