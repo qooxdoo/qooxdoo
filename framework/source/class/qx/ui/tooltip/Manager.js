@@ -280,6 +280,16 @@ qx.Class.define("qx.ui.tooltip.Manager",
     __onMouseOverRoot : function(e)
     {
       var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
+      this.showToolTip(target);
+    },
+
+
+    /**
+     * Explicitly show tooltip for particular form item.
+     *
+     * @param target {Object || null} widget to show tooltip for
+     */
+    showToolTip : function(target) {
       if (!target){
         return;
       }
