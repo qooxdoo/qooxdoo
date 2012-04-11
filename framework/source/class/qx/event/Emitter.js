@@ -179,6 +179,16 @@ qx.Bootstrap.define("qx.event.Emitter",
 
 
 
+    /**
+     * Returns the internal attached listener.
+     * @internal
+     * @return {Map} A map which has the event name as key. The values are
+     *   arrays containing a map with 'listener' and 'ctx'.
+     */
+    getListeners : function() {
+      return this.__listener;
+    },
+
 
     /**
      * Internal helper which will return the storage for the given name.

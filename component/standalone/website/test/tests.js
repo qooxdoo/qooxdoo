@@ -41,6 +41,54 @@ testrunner.define({
     test.remove();
   },
 
+  testClone : function() {
+    var orig = q.create("<div id='testdiv'>abc</div>");
+    var clone = orig.clone();
+    this.assertNotEquals(orig[0], clone[0]);
+    this.assertEquals(orig.getAttribute("id"), clone.getAttribute("id"));
+    this.assertEquals(orig.getHtml(), clone.getHtml());
+  },
+
+
+  testCloneWithEvents : function() {
+    var orig = q.create("<div id='testdiv'>abc</div>");
+    var called = 0;
+    orig.on("click", function() {
+      called++;
+    });
+    orig.on("custom", function() {
+      called--;
+    });
+    var clone = orig.clone(true);
+    clone.emit("click");
+    this.assertEquals(1, called);
+
+    orig.emit("click");
+    this.assertEquals(2, called);
+
+    orig.emit("custom");
+    this.assertEquals(1, called);
+
+    clone.emit("custom");
+    this.assertEquals(0, called);
+  },
+
+
+  testCloneWithEventsDeep : function() {
+    var orig = q.create("<div id='testdiv'>abc</div>");
+    var origInner = q.create("<div id='inner'>def</div>");
+    origInner.appendTo(orig);
+    var called = 0;
+    origInner.on("click", function() {
+      called++;
+    });
+
+    var clone = orig.clone(true);
+    var children = clone.getChildren();
+    q.wrap(children[0]).emit("click");
+    this.assertEquals(1, called);
+  },
+
   testAppendToRemove : function() {
     var test = q.create("<div/>");
     test.appendTo(this.sandbox[0]);

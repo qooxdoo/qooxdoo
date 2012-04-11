@@ -14,6 +14,21 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     },
 
 
+    clone : function(events) {
+      var clones = [];
+      for (var i=0; i < this.length; i++) {
+        clones.push(this[i].cloneNode(true));
+      };
+
+      if (events === true) {
+        this.copyEventsTo(clones);
+      }
+
+      return q.wrap(clones);
+    },
+
+
+
     append : function(html) {
       var arr = qx.bom.Html.clean([html]);
       var children = qx.lang.Array.cast(arr, qx.Collection);
@@ -33,7 +48,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
           }
         }
       }
-      
+
       return this;
     },
 
@@ -58,7 +73,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
           }
         }
       }
-      
+
       return this;
     },
 
@@ -98,7 +113,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
           item.parentNode.insertBefore(child, item);
         }
       }, this);
-      
+
       return this;
     },
 
@@ -122,7 +137,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
           item.parentNode.insertBefore(child, item.nextSibling);
         }
       }, this);
-      
+
       return this;
     },
 
@@ -167,8 +182,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
       return obj.scrollTop;
     },
-    
-    
+
+
     /**
      * Scrolls the elements of the collection to the given coordinate.
      *
@@ -235,10 +250,12 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       "appendTo" : statics.appendTo,
       "remove" : statics.remove,
       "empty" : statics.empty,
-      
+
       "before" : statics.before,
       "after" : statics.after,
-      
+
+      "clone" : statics.clone,
+
       "getScrollLeft" : statics.getScrollLeft,
       "setScrollLeft" : statics.setScrollLeft,
       "getScrollTop" : statics.getScrollTop,
