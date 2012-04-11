@@ -47,6 +47,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
     this.__app = qx.core.Init.getApplication();
 
     var mainContainer = new qx.ui.container.Composite();
+    mainContainer.setBackgroundColor("light-background");
     var layout = new qx.ui.layout.VBox();
 
     mainContainer.setLayout(layout);
@@ -61,6 +62,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
     // Main Pane
     // split
     var mainsplit = new qx.ui.splitpane.Pane("horizontal");
+    mainsplit.setAppearance("app-splitpane");
     mainContainer.add(mainsplit, {flex : 1});
 
     this.__labelDeco = null;
@@ -651,6 +653,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
       p1.setUserData("pane", "center");
 
       var inner = new qx.ui.container.Composite(new qx.ui.layout.Dock());
+      inner.setBackgroundColor("white");
       p1.add(inner);
       var caption1 = new qx.ui.basic.Label(this.__app.tr("Test Results")).set({
         font : "bold",
@@ -860,7 +863,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
       var layout = new qx.ui.layout.HBox(10);
       var statuspane = new qx.ui.container.Composite(layout);
       statuspane.set({
-        margin : 4
+        margin : [0, 10, 10, 10]
       });
 
       // Test Info
