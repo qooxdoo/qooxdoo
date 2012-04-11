@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
       {
         var callback = function(index)
         {
-          handler.call(scope, index);
+          handler.call(scope, index-1);
         }
         var buttons = this.__processDialogButtons(buttons);
         return navigator.notification.confirm(text, callback, title, buttons);
