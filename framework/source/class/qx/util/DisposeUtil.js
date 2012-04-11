@@ -170,6 +170,67 @@ qx.Class.define("qx.util.DisposeUtil",
         triggerDispose.call(trigger);
         disposeMe.dispose();
       }
+    },
+    
+    
+    /**
+     * Destroys a container and all of its children recursivly.
+     * @param container {qx.ui.container.Composite || qx.ui.container.Scroll || 
+     *   qx.ui.container.SlideBar || qx.ui.container.Stack} Container to be destroyed
+     */
+    destroyContainer : function(container)
+    {
+      if(qx.core.Environment.get("qx.debug"))
+      {
+        qx.core.Assert.assertQxWidget(container, "First argument must be a container widget!");
+        
+        qx.core.Assert.assertTrue((
+          qx.Class.isSubClassOf(container.constructor, qx.ui.container.Composite) ||
+          qx.Class.isSubClassOf(container.constructor, qx.ui.container.Scroll) ||
+          qx.Class.isSubClassOf(container.constructor, qx.ui.container.SlideBar) ||
+          qx.Class.isSubClassOf(container.constructor, qx.ui.container.Stack)
+        ), 
+          "Container must be a instance of qx.ui.container.Composite or " + 
+          "qx.ui.container.Scroll or qx.ui.container.Resizer or " + 
+          "qx.ui.container.SlideBar or qx.ui.container.Stack!"
+        );
+      }
+      
+      var arr=[];
+      this._collectContainerChildren(container, arr);
+            
+      var len = arr.length;
+      for(var i=len-1; i>=0; i--)
+      {
+        arr[i].destroy();
+      }
+      container.destroy();
+    },
+    
+    
+    /**
+     * Helper function to collect all children widgets of an container recursivly.
+     * @param container {qx.ui.container.Composite || qx.ui.container.Scroll || qx.ui.container.SlideBar || qx.ui.container.Stack} Container to be destroyed
+     * @param arr {Array} Array wich holds all children widgets
+     */
+    _collectContainerChildren : function(container, arr)
+    {
+      var children = container.getChildren();
+
+      for(var i=0; i<children.length; i++)
+      {
+        var item = children[i];
+        arr.push(item);
+        
+        if (
+          qx.Class.isSubClassOf(item.constructor, qx.ui.container.Composite) ||
+          qx.Class.isSubClassOf(item.constructor, qx.ui.container.Scroll) ||
+          qx.Class.isSubClassOf(item.constructor, qx.ui.container.SlideBar) ||
+          qx.Class.isSubClassOf(item.constructor, qx.ui.container.Stack)
+        ){
+          this._collectContainerChildren(item, arr);
+        }
+      }
     }
   }
 });
