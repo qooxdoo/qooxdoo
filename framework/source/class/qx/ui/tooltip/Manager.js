@@ -111,10 +111,12 @@ qx.Class.define("qx.ui.tooltip.Manager",
      * Get the shared tooltip, which is used to display the
      * {@link qx.ui.core.Widget#toolTipText} and
      * {@link qx.ui.core.Widget#toolTipIcon} properties of widgets.
+     * You can use this public shared instance to e.g. customize the
+     * look and feel.
      *
      * @return {qx.ui.tooltip.ToolTip} The shared tooltip
      */
-    __getSharedTooltip : function()
+    getSharedTooltip : function()
     {
       if (!this.__sharedToolTip)
       {
@@ -130,16 +132,20 @@ qx.Class.define("qx.ui.tooltip.Manager",
      * Get the shared tooltip, which is used to display the
      * {@link qx.ui.core.Widget#toolTipText} and
      * {@link qx.ui.core.Widget#toolTipIcon} properties of widgets.
+     * You can use this public shared instance to e.g. customize the
+     * look and feel of the validation tooltips like
+     * <code>getSharedErrorTooltip().getChildControl("atom").getChildControl("label").set({rich: true, wrap: true, width: 80})</code>
      *
      * @return {qx.ui.tooltip.ToolTip} The shared tooltip
      */
-    __getSharedErrorTooltip : function()
+    getSharedErrorTooltip : function()
     {
       if (!this.__sharedErrorToolTip)
       {
         this.__sharedErrorToolTip = new qx.ui.tooltip.ToolTip().set({
           appearance: "tooltip-error"
         });
+        this.__sharedErrorToolTip.setLabel(""); // trigger label widget creation
         this.__sharedErrorToolTip.syncAppearance();
       }
       return this.__sharedErrorToolTip;
@@ -319,13 +325,13 @@ qx.Class.define("qx.ui.tooltip.Manager",
 
       if (invalidMessage)
       {
-        tooltip = this.__getSharedErrorTooltip().set({
+        tooltip = this.getSharedErrorTooltip().set({
           label: invalidMessage
         });
       }
       if (!tooltip)
       {
-        tooltip = this.__getSharedTooltip().set({
+        tooltip = this.getSharedTooltip().set({
           label: tooltipText,
           icon: tooltipIcon
         });
