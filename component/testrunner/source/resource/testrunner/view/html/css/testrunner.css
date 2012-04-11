@@ -199,6 +199,10 @@ h2 {
   margin-bottom: 50px;
 }
 
+#framecontainer {
+  margin-bottom: 25px;
+}
+
 #framecontrols {
   height: auto;
 }
@@ -221,10 +225,6 @@ h2 {
   height: 150px;
   overflow: auto;
   border: 1px solid #323335;
-}
-
-#logcontainer {
-  margin-top: 25px;
 }
 
 #logcontrols select {
