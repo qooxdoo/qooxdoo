@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
       {
         var exit = true;
         if (this.__currentPage) {
-          exit = this.__currentPage.back();
+          exit = this.__currentPage.back(true);
         }
         if (exit) {
           navigator.app.exitApp();

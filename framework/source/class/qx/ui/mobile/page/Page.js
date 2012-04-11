@@ -146,8 +146,10 @@ qx.Class.define("qx.ui.mobile.page.Page",
     /** Fired when the lifecycle method {@link #resume} is called */
     "resume" : "qx.event.type.Event",
 
-    /** Fired when the method {@link #back} is called */
-    "back" : "qx.event.type.Event",
+    /** Fired when the method {@link #back} is called. Data indicating 
+     *  whether the action was triggered by a key event or not.
+     */
+    "back" : "qx.event.type.Data",
 
     /** Fired when the method {@link #menu} is called */
     "menu" : "qx.event.type.Event"
@@ -254,13 +256,14 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * by the used page manager when the back button was pressed. Return <code>true</code>
      * to exit the application.
      *
+     * @param triggeredByKeyEvent {Boolean} Whether the back action was triggered by a key event.
      * @return {Boolean} Whether the exit should be exit or not. Return <code>true</code
      *     to exit the application. Only needed for Android PhoneGap applications.
      */
-    back : function()
+    back : function(triggeredByKeyEvent)
     {
-      this.fireEvent("back");
-      var value = this._back();
+      this.fireDataEvent("back", triggeredByKeyEvent);
+      var value = this._back(triggeredByKeyEvent);
       return value || false;
     },
 
@@ -269,11 +272,12 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * Override this method if you want to perform a certain action when back
      * is called.
      *
+     * @param triggeredByKeyEvent {Boolean} Whether the back action was triggered by a key event.
      * @return {Boolean} Whether the exit should be exit or not. Return <code>true</code
      *     to exit the application. Only needed for Android PhoneGap applications.
      * @see #back
      */
-    _back : function()
+    _back : function(triggeredByKeyEvent)
     {
 
     },
