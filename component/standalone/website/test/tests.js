@@ -78,8 +78,8 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
 
     q("#sandbox li").append('<h2>Hello</h2><span>Affe</span>');
-    this.assertEquals(2, q("li").has("h2").length);
-    this.assertEquals(2, q("li").has("span").length);
+    this.assertEquals(2, q("#sandbox li").has("h2").length);
+    this.assertEquals(2, q("#sandbox li").has("span").length);
   },
 
   testAppendCollection : function() {
@@ -88,8 +88,8 @@ testrunner.define({
 
     var children = q.create('<h2>Hello</h2><span>Affe</span>');
     q("#sandbox li").append(children);
-    this.assertEquals(2, q("li").has("h2").length);
-    this.assertEquals(2, q("li").has("span").length);
+    this.assertEquals(2, q("#sandbox li").has("h2").length);
+    this.assertEquals(2, q("#sandbox li").has("span").length);
   },
 
   testScroll : function()
