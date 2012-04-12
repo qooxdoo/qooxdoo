@@ -131,6 +131,7 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
       apply : "_applyRich"
     },
 
+
     /** Widget that opened the tooltip */
     opener :
     {

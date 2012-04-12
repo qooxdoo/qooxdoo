@@ -143,11 +143,13 @@ qx.Class.define("qx.ui.tooltip.Manager",
       if (!this.__sharedErrorToolTip)
       {
         this.__sharedErrorToolTip = new qx.ui.tooltip.ToolTip().set({
-          appearance: "tooltip-error"
+          appearance: "tooltip-error",
+          rich: true
         });
         this.__sharedErrorToolTip.setLabel(""); // trigger label widget creation
         this.__sharedErrorToolTip.syncAppearance();
       }
+
       return this.__sharedErrorToolTip;
     },
 
