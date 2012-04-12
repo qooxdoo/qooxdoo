@@ -90,7 +90,7 @@ qx.Mixin.define("widgetbrowser.MControls",
         toggleInvalid.addListener("changeValue", function(e) {
           widgets.forEach(function(widget, index) {
             if (widget.setInvalidMessage && widget.setValid) {
-              widget.setInvalidMessage("Invalid (" + index + ")");
+              widget.setInvalidMessage("This is invalid message number " + index + ".");
               widget.setValid(!this.getValue());
             }
           }, this);
