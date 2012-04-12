@@ -499,6 +499,24 @@ qx.Class.define("qx.ui.form.validation.Manager",
 
 
     /**
+     * Selects invalid form items
+     *
+     * @return {Array} invalid form items
+     */
+    getInvalidFormItems : function() {
+      var res = [];
+      for (var i = 0; i < this.__formItems.length; i++) {
+        var formItem = this.__formItems[i].item;
+        if (!formItem.getValid()) {
+          res.push(formItem);
+        }
+      }
+
+      return res;
+    },
+
+
+    /**
      * Resets the validator.
      */
     reset: function() {
