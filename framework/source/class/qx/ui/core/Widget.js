@@ -2455,19 +2455,12 @@ qx.Class.define("qx.ui.core.Widget",
         // Add to container
         container.add(elem);
 
-        // Move out of container by top/left inset
-        var insets = elem.getInsets();
-        elem.setStyles({
-          left: (-insets.left) + "px",
-          top: (-insets.top) + "px"
-        });
-
         // Directly update for size when possible
         var bounds = this.getBounds();
         if (bounds)
         {
-          var shadowWidth = bounds.width + insets.left + insets.right;
-          var shadowHeight = bounds.height + insets.top + insets.bottom;
+          var shadowWidth = bounds.width;
+          var shadowHeight = bounds.height;
 
           elem.resize(shadowWidth, shadowHeight);
         }
@@ -2845,7 +2838,6 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Query current selector
       var newData = manager.styleFrom(selector, states, null, this.getAppearance());
-
       if (newData)
       {
         if (oldData)
