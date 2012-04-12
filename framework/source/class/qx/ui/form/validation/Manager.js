@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
         throw new Error("Added widget not supported.");
       }
       // check for the data type
-      if (this.__supportsSingleSelection(formItem)) {
+      if (this.__supportsSingleSelection(formItem) && !formItem.getValue) {
         // check for a validator
         if (validator != null) {
           throw new Error("Widgets supporting selection can only be validated " +
