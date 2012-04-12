@@ -372,7 +372,17 @@ qx.Theme.define("qx.theme.modern.Decoration",
         radius : 4,
         shadowColor : "shadow",
         shadowBlurRadius : 2,
-        shadowLength : 1
+        shadowLength : 1,
+        insets: [-2, 0, 0, -2]
+      }
+    },
+
+    "tooltip-error-css-left" :
+    {
+      include : "tooltip-error-css",
+
+      style : {
+        insets : [1, 0, 0, 2]
       }
     },
 
@@ -383,9 +393,37 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style: {
         backgroundImage: "decoration/form/tooltip-error-arrow.png",
-        backgroundPositionY: "center",
+        backgroundPositionY: "top",
         backgroundRepeat: "no-repeat",
-        insets: [0, 0, 0, 10]
+        insets: [-4, 0, 0, 13]
+      }
+    },
+
+
+    "tooltip-error-arrow-left" :
+    {
+      decorator: qx.ui.decoration.Background,
+
+      style: {
+        backgroundImage: "decoration/form/tooltip-error-arrow-right.png",
+        backgroundPositionY: "top",
+        backgroundPositionX: "right",
+        backgroundRepeat: "no-repeat",
+        insets: [-4, -13, 0, 0]
+      }
+    },
+
+
+    "tooltip-error-arrow-left-css" :
+    {
+      decorator: qx.ui.decoration.Background,
+
+      style: {
+        backgroundImage: "decoration/form/tooltip-error-arrow-right.png",
+        backgroundPositionY: "top",
+        backgroundPositionX: "right",
+        backgroundRepeat: "no-repeat",
+        insets: [-6, -13, 0, 0]
       }
     },
 
