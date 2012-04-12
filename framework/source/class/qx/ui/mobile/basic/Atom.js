@@ -151,47 +151,23 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
    
         // property apply
     _applyIconPosition : function(value, old) {
-        // TOP or BOTTOM handling.
         var targetLayout;
-        var newVerticalLayout = ["top", "bottom"].indexOf(value) != -1;
-        var oldVerticalLayout = ["top", "bottom"].indexOf(old) != -1;
+        var verticalLayout = ["top", "bottom"].indexOf(value) != -1;
 
-        // Fail handling...
-        if(newVerticalLayout && !oldVerticalLayout) {
-            targetLayout = new qx.ui.mobile.layout.VBox();
-            this.__label.setDisplay(null);
+        if(verticalLayout) {
+           targetLayout = new qx.ui.mobile.layout.VBox();
+        } else {
+           targetLayout = new qx.ui.mobile.layout.HBox();
         }
-        if(!newVerticalLayout && oldVerticalLayout) {
-            targetLayout = new qx.ui.mobile.layout.HBox();
-            // Needs a fixed size of label, for text-overflow ellipsis.
-            // Overwise characters text label width will be as large as text, 
-            // no matter what size the outside containers has.
-            this.__label.setDisplay('block');
+        
+        this.__childrenContainer.setLayout(targetLayout);
+        
+        var isReverse = ["right", "bottom"].indexOf(value) != -1;
+        if(isReverse){
+          this.__childrenContainer.addCssClass("boxReverse");
         }
-
-        if(targetLayout) {
-            // only if targetLayout changed is set, change layout.
-            this.__childrenContainer.setLayout(targetLayout);
-        }
-
-        // TOP or LEFT handling.
-        var newIconFirst = ["top", "left"].indexOf(value) != -1;
-        var oldIconFirst = ["top", "left"].indexOf(old) != -1;
-        if(newIconFirst != oldIconFirst) {
-            if(newIconFirst) {
-                this.__childrenContainer.remove(this.__label);
-                this.__childrenContainer._addAfter(this.__label, this.__icon);
-            } else {
-                this.__childrenContainer.remove(this.__icon);
-                this.__childrenContainer._addAfter(this.__icon, this.__label);
-            }
-
-            var oldMarginGap = this.__getOpposedPosition(old);
-            this.__icon._setStyle('margin' + qx.lang.String.firstUp(oldMarginGap), null);
-
-            this._applyGap(this.getGap());
-            this._domUpdated();
-        }
+        
+        this._domUpdated();
     },
 
 
@@ -258,15 +234,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       else
       {
         this.__label = this._createLabelWidget(value);
-        if(this.__icon)
-        {
-          var iconFirst = [ "top", "left" ].indexOf(this.getIconPosition()) != -1;
-          if(iconFirst) {
-            this.__childrenContainer._addAfter(this.__label, this.__icon);
-          } else {
-            this.__childrenContainer._addBefore(this.__label, this.__icon);
-          }
-        }
+
         if(this.__emptyLabel) {
           this.__childrenContainer._addAfter(this.__label, this.__emptyLabel);
           this.__emptyLabel.destroy();
@@ -286,12 +254,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       else
       {
         this.__icon = this._createIconWidget(value);
-        var iconFirst = [ "top", "left" ].indexOf(this.getIconPosition()) != -1;
-        if(iconFirst) {
-          this.__childrenContainer._addBefore(this.__icon, this.__label);
-        } else {
-          this.__childrenContainer._addAfter(this.__icon, this.__label);
-        }
       }
     },
 
@@ -328,7 +290,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     {
       var iconWidget = new qx.ui.mobile.basic.Image(iconUrl);
       iconWidget.setAnonymous(true);
-      iconWidget._setStyle('verticalAlign', 'middle');
+      
       return iconWidget;
     },
 
@@ -344,13 +306,16 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       var labelWidget = new qx.ui.mobile.basic.Label(label);
       labelWidget.setAnonymous(true);
       labelWidget.setWrap(false);
+      
+      // Reapply Icon Position.
+      /*this.setIconPosition(this.getIconPosition());
       var verticalLayout = [ "top", "bottom" ].indexOf(this.getIconPosition()) != -1;
       if(!verticalLayout) {
         // Needs a fixed size of label, for text-overflow ellipsis.
         // Overwise characters text label width will be as large as text, 
         // no matter what size the outside containers has.
         labelWidget.setDisplay('block');
-      }
+      }*/
       return labelWidget;
     },
 
@@ -374,59 +339,54 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         this.__icon = this._createIconWidget(icon);
         this.setIcon(icon);
       }
+      
+      var layout;
       var verticalLayout = [ "top", "bottom" ].indexOf(this.getIconPosition()) != -1;
-      var layout = verticalLayout ? new qx.ui.mobile.layout.VBox() : new qx.ui.mobile.layout.HBox();
-      if(this.getCenter())
-      {
-        if(verticalLayout)
-        {
+      
+      if(verticalLayout){
+        layout = new qx.ui.mobile.layout.VBox();
+
+        if(this.getCenter()){
           layout.set({alignY: "middle"});
         }
-        else
-        {
+      } else {
+        layout = new qx.ui.mobile.layout.HBox();
+
+        if(this.getCenter()){
           layout.set({alignX: "center"});
         }
       }
+      
       this.__childrenContainer = new qx.ui.mobile.container.Composite(layout);
       this.__childrenContainer.setAnonymous(true);
-      var iconFirst = [ "top", "left" ].indexOf(this.getIconPosition()) != -1;
-      if(this.__icon && this.__label)
-      {
-        if (iconFirst) {
-          this.__childrenContainer.add(this.__icon);
-          this.__childrenContainer.add(this.__label, {flex : 1});
-        } else {
-          this.__childrenContainer.add(this.__label, {flex : 1});
-          this.__childrenContainer.add(this.__icon);
-        }
+      
+      if(this.__icon) {
+        var iconContainer = new qx.ui.mobile.container.Composite();
+        iconContainer.addCssClass("atomIcon");
+        iconContainer.add(this.__icon);
+        
+        this.__childrenContainer.add(iconContainer, {flex : 0});
       }
-      else
-      {
-        if(this.__icon) {
-          this.__childrenContainer.add(this.__icon);
-        }
-        if(this.__label) {
-          this.__childrenContainer.add(this.__label, {flex : 1});
-        }
-        else
-        {
-          if(!this.__icon)
-          {
-            this.__emptyLabel = new qx.ui.mobile.basic.Label(" ");
-            this.__childrenContainer.add(this.__emptyLabel);
-          }
-        }
+      
+      if(this.__label) {
+        this.__childrenContainer.add(this.__label, {flex : 0});
       }
+      else if(!this.__icon)
+      {
+        this.__emptyLabel = new qx.ui.mobile.basic.Label(" ");
+        this.__childrenContainer.add(this.__emptyLabel);
+      }
+      
       if(this.getShow() === 'icon' && this.__label) {
         this.__label.exclude();
       }
       if(this.getShow() === 'label' && this.__icon) {
         this.__icon.exclude();
       }
-      var verticalCenteredContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY:"middle"}));
-      verticalCenteredContainer.setAnonymous(true);
-      verticalCenteredContainer.add(this.__childrenContainer, {'flex': 0});
-      this._add(verticalCenteredContainer);
+      //var verticalCenteredContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY:"middle"}));
+      //verticalCenteredContainer.setAnonymous(true);
+      //verticalCenteredContainer.add(this.__childrenContainer, {'flex': 0});
+      this._add(this.__childrenContainer);
     }
   },
 

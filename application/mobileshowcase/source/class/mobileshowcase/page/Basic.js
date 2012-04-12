@@ -62,8 +62,6 @@ qx.Class.define("mobileshowcase.page.Basic",
         exAtomBottom.toggleEnabled();
       }, this);
       
-      
-      
       // TOGGLE LABEL WRAP BUTTONT
       var toggleLabelWrapButton = new qx.ui.mobile.form.Button("Label Wrap ON/OFF");
        
@@ -76,9 +74,10 @@ qx.Class.define("mobileshowcase.page.Basic",
       
       var exToggleButton = new qx.ui.mobile.form.ToggleButton(false);
       
-      var exLabel = new qx.ui.mobile.basic.Label("Text in the label. Text in the label. \n\
-      Text in the label. Text in the label. Text in the label. Text in the label. Text in the label.  \n\
-      Text in the label. Text in the label. Text in the label. Text in the label. Text in the label.");
+      var labelText = "Your mobile theme: "+qx.core.Environment.get("qx.theme");
+      labelText += "\n Your operation system: "+qx.core.Environment.get("qx.theme");
+      
+      var exLabel = new qx.ui.mobile.basic.Label(labelText);
       exLabel.addCssClass("space-top");
       
       var exImage = new qx.ui.mobile.basic.Image("mobileshowcase/icon/arrowleft.png");
