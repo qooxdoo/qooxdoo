@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Christian Hagendorn (cs)
 
 ************************************************************************ */
 
@@ -430,6 +431,22 @@ qx.Class.define("qx.util.ColorUtil",
       }
 
       throw new Error("Invalid hex3 value: " + value);
+    },
+
+
+    /**
+     * Converts a hex3 (#xxx) string to a hex6 (#xxxxxx) string.
+     * 
+     * @param value {String} a hex3 (#xxx) string
+     * @return {String} The hex6 (#xxxxxx) string or the passed value when the 
+     *   passed value is not an hex3 (#xxx) value.
+     */
+    hex3StringToHex6String : function(value)
+    {
+      if (this.isHex3String(value)) {
+        return "#" + this.rgbToHexString(this.hex3StringToRgb(value));
+      }
+      return value;
     },
 
 

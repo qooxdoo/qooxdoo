@@ -154,9 +154,15 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         !qx.core.Environment.get("css.gradient.linear")
       ) {
         var type = this.getOrientation() == "horizontal" ? 1 : 0;
+
+        // convert all hex3 to hex6
+        startColor = qx.util.ColorUtil.hex3StringToHex6String(startColor);
+        endColor = qx.util.ColorUtil.hex3StringToHex6String(endColor);
+
         // get rid of the starting '#'
         startColor = startColor.substring(1, startColor.length);
         endColor = endColor.substring(1, endColor.length);
+
         var value = "progid:DXImageTransform.Microsoft.Gradient" +
           "(GradientType=" + type + ", " +
           "StartColorStr='#FF" + startColor + "', " +

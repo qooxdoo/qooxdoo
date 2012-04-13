@@ -14,6 +14,7 @@
 
    Authors:
      * Jonathan Weiß (jonathan_rass)
+     * Christian Hagendorn (cs)
 
 ************************************************************************ */
 
@@ -31,7 +32,13 @@ qx.Class.define("qx.test.util.ColorUtil",
 
       this.assertEquals("255,0,0", qx.util.ColorUtil.cssStringToRgb("rgb(255,0,0)"));
       this.assertEquals("201,23,120", qx.util.ColorUtil.cssStringToRgb("rgb(201,23,120)"));
-    }
+    },
 
+
+    testHex3StringToHex6String : function()
+    {
+      this.assertEquals("#FFFFFF", qx.util.ColorUtil.hex3StringToHex6String("#fff"));
+      this.assertEquals("#ffffff", qx.util.ColorUtil.hex3StringToHex6String("#ffffff"));
+    }
   }
 });
