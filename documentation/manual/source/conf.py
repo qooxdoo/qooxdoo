@@ -130,6 +130,11 @@ pygments_style = 'sphinx'
 # Sphinx are currently 'default' and 'sphinxdoc'.
 html_theme = '_theme.indigo'
 
+# A dict passed to the HTML templating engine (like {% set ... *})
+html_context = {
+  "version" : qxmacros["version"],  
+}
+
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
