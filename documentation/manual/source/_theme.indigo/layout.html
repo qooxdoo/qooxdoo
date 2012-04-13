@@ -1,11 +1,11 @@
 {% extends "basic/layout.html" %}
 
-{% set assets_host = "http://resources.new.qooxdoo.org" %}
+{% set assets_host = "http://resources.qooxdoo.org" %}
 {% set css_files = [assets_host + "/stylesheets/reset.css", assets_host + "/stylesheets/base.css", assets_host + "/stylesheets/layout.css"] + css_files %}
 {% set script_files = [assets_host + "/javascripts/q.js", assets_host + "/javascripts/q.placeholder.js", assets_host + "/javascripts/q.sticky.js", assets_host + "/javascripts/application.js"] + script_files %}
 
 {%- macro breadcrumb() %}
-  <a href="http://new.qooxdoo.org">home</a>{{ reldelim1 }}
+  <a href="http://qooxdoo.org">home</a>{{ reldelim1 }}
   {%- block rootrellink %}
     <a href="{{ pathto(master_doc) }}">{{ shorttitle|e }}</a>{{ reldelim1 }}
   {%- endblock %}
@@ -26,28 +26,28 @@
 <div id="main-wrapper" class="sphinx">
 <div id="header-wrapper">
   <section id="header">
-    <h1><a href="http://new.qooxdoo.org/">qooxdoo</a></h1>
+    <h1><a href="http://qooxdoo.org/">qooxdoo</a></h1>
     <nav>
       <ul>
         <!--
         <li>
-          <a class="" href="http://new.qooxdoo.org/">home</a>
+          <a class="" href="http://qooxdoo.org/">home</a>
         </li>
         -->
         <li>
-          <a href="http://news.new.qooxdoo.org">blog</a>
+          <a href="http://news.qooxdoo.org">blog</a>
         </li>
         <li>
-          <a class="" href="http://new.qooxdoo.org/demos">demos</a>
+          <a class="" href="http://qooxdoo.org/demos">demos</a>
         </li>
         <li>
-          <a class="" href="http://new.qooxdoo.org/downloads">downloads</a>
+          <a class="" href="http://qooxdoo.org/downloads">downloads</a>
         </li>
         <li>
-          <a class="active" href="http://new.qooxdoo.org/docs">docs</a>
+          <a class="active" href="http://qooxdoo.org/docs">docs</a>
         </li>
         <li>
-          <a class="" href="http://new.qooxdoo.org/community">community</a>
+          <a class="" href="http://qooxdoo.org/community">community</a>
         </li>
       </ul>
     </nav>
@@ -59,13 +59,13 @@
       </select>
     </script>
     <script type="template" id="search-site-template">
-      <form action="http://new.qooxdoo.org/" id="search-form">
+      <form action="http://qooxdoo.org/" id="search-form">
         <input type="hidden" name="do" value="search">
         <input type="search" name="id" placeholder="Search"></input>
       </form>
     </script>
     <script type="template" id="search-blog-template">
-      <form method="get" id="searchform" action="http://news.new.qooxdoo.org/" id="search-form">
+      <form method="get" id="searchform" action="http://news.qooxdoo.org/" id="search-form">
         <input type="search" class="field" name="s" id="s" placeholder="Search">
       </form>
     </script>
@@ -118,7 +118,7 @@
   <footer id="footer">
     <div id="supported-by">
       <a href="http://1and1.com">
-        <img src="http://resources.new.qooxdoo.org/images/1and1.png">
+        <img src="http://resources.qooxdoo.org/images/1and1.png">
       </a>
       <p>
         Brought to you by <a href="http://1and1.com">1&amp;1</a>, one of world's leading web hosts
@@ -130,71 +130,71 @@
     </div>
     <div id="sitemap">
       <div>
-        <h3><a href="http://new.qooxdoo.org/">Home</a></h3>
+        <h3><a href="http://qooxdoo.org/">Home</a></h3>
         <ul>
           <li>
-            <a href="http://new.qooxdoo.org/demos">Demos</a>
+            <a href="http://qooxdoo.org/demos">Demos</a>
           </li>
           <li>
-            <a href="http://new.qooxdoo.org/download">Download</a>
+            <a href="http://qooxdoo.org/download">Download</a>
           </li>
           <li>
-            <a href="http://news.new.qooxdoo.org">Blog</a>
+            <a href="http://news.qooxdoo.org">Blog</a>
           </li>
           <li>
-            <a href="http://bugs.new.qooxdoo.org">Bugs</a>
+            <a href="http://bugs.qooxdoo.org">Bugs</a>
           </li>
           <li>
-            <a href="http://new.qooxdoo.org/project">Project</a>
+            <a href="http://qooxdoo.org/project">Project</a>
           </li>
           <li>
-            <a href="http://new.qooxdoo.org/license">License</a>
+            <a href="http://qooxdoo.org/license">License</a>
           </li>
         </ul>
       </div>
       <div>
-        <h3><a href="http://new.qooxdoo.org/docs">Docs</a></h3>
+        <h3><a href="http://qooxdoo.org/docs">Docs</a></h3>
         <ul>
           <li>
-            <a href="http://manual.new.qooxdoo.org/devel/pages/introduction/about.html">About</a>
+            <a href="http://manual.qooxdoo.org/devel/pages/introduction/about.html">About</a>
           </li>
           <li>
-            <a href="http://manual.new.qooxdoo.org/devel/pages/getting_started.html">Getting Started</a>
+            <a href="http://manual.qooxdoo.org/devel/pages/getting_started.html">Getting Started</a>
           </li>
           <li>
-            <a href="http://manual.new.qooxdoo.org/devel/pages/website.html">Website</a>
+            <a href="http://manual.qooxdoo.org/devel/pages/website.html">Website</a>
           </li>
           <li>
-            <a href="http://manual.new.qooxdoo.org/devel/pages/mobile.html">Mobile</a>
+            <a href="http://manual.qooxdoo.org/devel/pages/mobile.html">Mobile</a>
           </li>
           <li>
-            <a href="http://manual.new.qooxdoo.org/devel/pages/desktop.html">Desktop</a>
+            <a href="http://manual.qooxdoo.org/devel/pages/desktop.html">Desktop</a>
           </li>
           <li>
-            <a href="http://manual.new.qooxdoo.org/devel/pages/server.html">Server</a>
+            <a href="http://manual.qooxdoo.org/devel/pages/server.html">Server</a>
           </li>
         </ul>
       </div>
       <div>
-        <h3><a href="http://new.qooxdoo.org/community">Community</a></h3>
+        <h3><a href="http://qooxdoo.org/community">Community</a></h3>
         <ul>
           <li>
-            <a href="http://new.qooxdoo.org/community/contribution">Get Involved</a>
+            <a href="http://qooxdoo.org/community/contribution">Get Involved</a>
           </li>
           <li>
-            <a href="http://new.qooxdoo.org/community/mailing_lists">Mailing List</a>
+            <a href="http://qooxdoo.org/community/mailing_lists">Mailing List</a>
           </li>
           <li>
-            <a href="http://new.qooxdoo.org/community/real_life_examples">Real Life Examples</a>
+            <a href="http://qooxdoo.org/community/real_life_examples">Real Life Examples</a>
           </li>
           <li>
-            <a href="http://new.qooxdoo.org/community/events">Events</a>
+            <a href="http://qooxdoo.org/community/events">Events</a>
           </li>
           <li>
-            <a href="http://new.qooxdoo.org/community/jobs_services">Jobs &amp; Services</a>
+            <a href="http://qooxdoo.org/community/jobs_services">Jobs &amp; Services</a>
           </li>
           <li>
-            <a href="http://new.qooxdoo.org/contrib">Contributions</a>
+            <a href="http://qooxdoo.org/contrib">Contributions</a>
           </li>
         </ul>
       </div>
