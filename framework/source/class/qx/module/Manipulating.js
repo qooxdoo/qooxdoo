@@ -235,6 +235,40 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       }
 
       return this;
+    },
+
+
+    /**
+     * Focuses the first element in the collection
+     * 
+     * @return {qx.Collection} The collection for chaining
+     */
+    focus : function()
+    {
+      try {
+        this[0].focus();
+      }
+      catch(ex) {}
+      
+      return this;
+    },
+
+
+    /**
+     * Blurs each element in the collection
+     * 
+     * @return {qx.Collection} The collection for chaining
+     */
+    blur : function()
+    {
+      this.forEach(function(item, index) {
+        try {
+          item.blur();
+        }
+        catch(ex) {}
+      });
+      
+      return this;
     }
   },
 
@@ -259,7 +293,10 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       "getScrollLeft" : statics.getScrollLeft,
       "setScrollLeft" : statics.setScrollLeft,
       "getScrollTop" : statics.getScrollTop,
-      "setScrollTop" : statics.setScrollTop
+      "setScrollTop" : statics.setScrollTop,
+      
+      "focus" : statics.focus,
+      "blur" : statics.blur
     });
   }
 });

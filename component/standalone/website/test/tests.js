@@ -197,6 +197,34 @@ testrunner.define({
     var elements = q.create('<h2>Juhu</h2><h3>Kinners</h3>');
     q("#sandbox p").after(elements);
     this.assertEquals(2, q("#sandbox p + h2 + h3").length);
+  },
+  
+  testFocus : function()
+  {
+    var obj = {
+      focused : 0
+    };
+    var onFocus =  function(ev) {
+      this.focused++;
+    };
+    var test = q.create('<input type="text"></input><input type="text"></input>')
+    .appendTo("#sandbox").on("focus", onFocus, obj).focus();
+    
+    this.assertEquals(1, obj.focused);
+  },
+  
+  testBlur : function()
+  {
+    var obj = {
+      blurred : 0
+    };
+    var onBlur =  function(ev) {
+      this.blurred++;
+    };
+    var test = q.create('<input type="text"></input><input type="text"></input>')
+    .appendTo("#sandbox").on("blur", onBlur, obj).focus().blur();
+    
+    this.assertEquals(1, obj.blurred);
   }
 });
 
