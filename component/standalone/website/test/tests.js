@@ -210,7 +210,14 @@ testrunner.define({
     var test = q.create('<input type="text"></input><input type="text"></input>')
     .appendTo("#sandbox").on("focus", onFocus, obj).focus();
     
-    this.assertEquals(1, obj.focused);
+    var that = this;
+    window.setTimeout(function() {
+      that.resume(function() {
+        this.assertEquals(1, obj.focused);
+      }, that);
+    }, 100);
+    
+    this.wait();
   },
   
   testBlur : function()
@@ -224,7 +231,14 @@ testrunner.define({
     var test = q.create('<input type="text"></input><input type="text"></input>')
     .appendTo("#sandbox").on("blur", onBlur, obj).focus().blur();
     
-    this.assertEquals(1, obj.blurred);
+    var that = this;
+    window.setTimeout(function() {
+      that.resume(function() {
+        this.assertEquals(1, obj.blurred);
+      }, that);
+    }, 100);
+    
+    this.wait();
   }
 });
 
