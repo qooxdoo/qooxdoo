@@ -265,6 +265,15 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    isDocument : function(node) {
+      return qx.dom.Node.isDocument(node);
+    },
+
+
+    getWindow : function(node) {
+      return qx.dom.Node.getWindow(node);
+    },
+
     __hierarchyHelper : function(collection, method, selector)
     {
       // Iterate ourself, as we want to directly combine the result
@@ -318,7 +327,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
     
     q.attachStatic({
       "isElement" : statics.isElement,
-      "isNode" : statics.isNode
+      "isNode" : statics.isNode,
+      "isDocument" : statics.isDocument,
+      "getWindow" : statics.getWindow
     });
   }
 });

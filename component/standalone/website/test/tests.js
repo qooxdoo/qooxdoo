@@ -668,6 +668,18 @@ testrunner.define({
     q.create('<span id="affe">text</span>').appendTo(this.sandbox[0]);
     this.assertTrue(q.isNode(q("#sandbox #affe")[0].firstChild));
     this.assertTrue(q.isNode(document.createAttribute("id")));
+  },
+
+  testIsDocument : function()
+  {
+    this.assertTrue(q.isDocument(document));
+    this.assertFalse(q.isDocument(q("#sandbox")[0]));
+    this.assertFalse(q.isDocument({}));
+  },
+
+  testGetWindow : function()
+  {
+    this.assertEquals(window, q.getWindow(q("#sandbox")[0]));
   }
 });
 
@@ -1512,7 +1524,10 @@ testrunner.define({
   classname : "Blocker",
 
   setUp : testrunner.globalSetup,
-  tearDown : testrunner.globalTeardown,
+  tearDown : function() {
+    testrunner.globalTeardown.call(this);
+    q.wrap(document).unblock();
+  },
 
   testBlocker : function() {
     var styles = {
@@ -1526,36 +1541,38 @@ testrunner.define({
     .appendTo(this.sandbox[0]);
     test.block("#00FF00", 1);
 
-    this.assertElement(test[0].__blocker.div);
-    this.assertTrue(qx.dom.Hierarchy.isRendered(test[0].__blocker.div));
-    var blockerLocation = qx.bom.element.Location.get(test[0].__blocker.div);
+    var blockerDiv = test[0].__blocker.div[0];
+    this.assertElement(blockerDiv);
+    this.assertTrue(qx.dom.Hierarchy.isRendered(blockerDiv));
+    var blockerLocation = qx.bom.element.Location.get(blockerDiv);
     this.assertEquals(styles.top, blockerLocation.top + "px");
     this.assertEquals(styles.left, blockerLocation.left + "px");
-    var blockerSize = qx.bom.element.Dimension.getSize(test[0].__blocker.div);
+    var blockerSize = qx.bom.element.Dimension.getSize(blockerDiv);
     this.assertEquals(styles.width, blockerSize.width + "px");
     this.assertEquals(styles.height, blockerSize.height + "px");
 
     if (qx.core.Environment.get("engine.name") == "mshtml") {
-      this.assertElement(test[0].__blocker.iframe);
-      this.assertTrue(qx.dom.Hierarchy.isRendered(test[0].__blocker.iframe));
-      var blockerIframeLocation = qx.bom.element.Location.get(test[0].__blocker.iframe);
+      var blockerIframe = test[0].__blocker.iframe[0];
+      this.assertElement(blockerIframe);
+      this.assertTrue(qx.dom.Hierarchy.isRendered(blockerIframe));
+      var blockerIframeLocation = qx.bom.element.Location.get(blockerIframe);
       this.assertEquals(styles.top, blockerIframeLocation.top + "px");
       this.assertEquals(styles.left, blockerIframeLocation.left + "px");
-      var blockerIframeSize = qx.bom.element.Dimension.getSize(test[0].__blocker.iframe);
+      var blockerIframeSize = qx.bom.element.Dimension.getSize(blockerIframe);
       this.assertEquals(styles.width, blockerIframeSize.width + "px");
       this.assertEquals(styles.height, blockerIframeSize.height + "px");
     }
 
-    this.assertEquals(1, qx.bom.element.Style.get(test[0].__blocker.div, "opacity"));
-    var rgbString = qx.bom.element.Style.get(test[0].__blocker.div, "backgroundColor")
+    this.assertEquals(1, qx.bom.element.Style.get(blockerDiv, "opacity"));
+    var rgbString = qx.bom.element.Style.get(blockerDiv, "backgroundColor")
     var hexCol = qx.util.ColorUtil.rgbToHexString(qx.util.ColorUtil.stringToRgb(rgbString));
     this.assertEquals("00FF00", hexCol);
 
     test.unblock();
-    this.assertFalse(qx.dom.Hierarchy.isRendered(test[0].__blocker.div));
+    this.assertFalse(qx.dom.Hierarchy.isRendered(blockerDiv));
 
     if (qx.core.Environment.get("engine.name") == "mshtml") {
-      this.assertFalse(qx.dom.Hierarchy.isRendered(test[0].__blocker.iframe));
+      this.assertFalse(qx.dom.Hierarchy.isRendered(blockerIframe));
     }
 
     var newStyles = {
@@ -1567,20 +1584,20 @@ testrunner.define({
     test.setStyles(newStyles);
     test.block();
 
-    this.assertTrue(qx.dom.Hierarchy.isRendered(test[0].__blocker.div));
-    blockerLocation = qx.bom.element.Location.get(test[0].__blocker.div);
+    this.assertTrue(qx.dom.Hierarchy.isRendered(blockerDiv));
+    blockerLocation = qx.bom.element.Location.get(blockerDiv);
     this.assertEquals(newStyles.top, blockerLocation.top + "px");
     this.assertEquals(newStyles.left, blockerLocation.left + "px");
-    blockerSize = qx.bom.element.Dimension.getSize(test[0].__blocker.div);
+    blockerSize = qx.bom.element.Dimension.getSize(blockerDiv);
     this.assertEquals(newStyles.width, blockerSize.width + "px");
     this.assertEquals(newStyles.height, blockerSize.height + "px");
 
     if (qx.core.Environment.get("engine.name") == "mshtml") {
-      this.assertTrue(qx.dom.Hierarchy.isRendered(test[0].__blocker.iframe));
-      blockerIframeLocation = qx.bom.element.Location.get(test[0].__blocker.iframe);
+      this.assertTrue(qx.dom.Hierarchy.isRendered(blockerIframe));
+      blockerIframeLocation = qx.bom.element.Location.get(blockerIframe);
       this.assertEquals(newStyles.top, blockerIframeLocation.top + "px");
       this.assertEquals(newStyles.left, blockerIframeLocation.left + "px");
-      blockerIframeSize = qx.bom.element.Dimension.getSize(test[0].__blocker.iframe);
+      blockerIframeSize = qx.bom.element.Dimension.getSize(blockerIframe);
       this.assertEquals(newStyles.width, blockerIframeSize.width + "px");
       this.assertEquals(newStyles.height, blockerIframeSize.height + "px");
     }
@@ -1589,21 +1606,22 @@ testrunner.define({
   testBlockDocument : function()
   {
     q.wrap(document).block();
-    this.assertTrue(qx.dom.Hierarchy.isRendered(document.__blocker.div));
-    this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(document.__blocker.div));
-    this.assertEquals(qx.bom.Document.getHeight(), qx.bom.element.Dimension.getHeight(document.__blocker.div));
+    var blockerDiv = document.__blocker.div[0];
+    this.assertTrue(qx.dom.Hierarchy.isRendered(blockerDiv));
+    this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(blockerDiv));
+    this.assertEquals(qx.bom.Document.getHeight(), qx.bom.element.Dimension.getHeight(blockerDiv));
 
     if (qx.core.Environment.get("engine.name") == "mshtml") {
-      this.assertTrue(qx.dom.Hierarchy.isRendered(document.__blocker.iframe));
-      this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(document.__blocker.iframe));
-      this.assertEquals(qx.bom.Document.getHeight(), qx.bom.element.Dimension.getHeight(document.__blocker.iframe));
+      this.assertTrue(qx.dom.Hierarchy.isRendered(document.__blocker.iframe[0]));
+      this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(document.__blocker.iframe[0]));
+      this.assertEquals(qx.bom.Document.getHeight(), qx.bom.element.Dimension.getHeight(document.__blocker.iframe[0]));
     }
 
     q.wrap(document).unblock();
 
-    this.assertFalse(qx.dom.Hierarchy.isRendered(document.__blocker.div));
+    this.assertFalse(qx.dom.Hierarchy.isRendered(blockerDiv));
     if (qx.core.Environment.get("engine.name") == "mshtml") {
-      this.assertFalse(qx.dom.Hierarchy.isRendered(document.__blocker.iframe));
+      this.assertFalse(qx.dom.Hierarchy.isRendered(document.__blocker.iframe[0]));
     }
   }
 });

@@ -1,8 +1,14 @@
+/* ************************************************************************
+#require(qx.module.Manipulating)
+#require(qx.module.Traversing)
+#require(qx.module.Css)
+#require(qx.module.Attribute)
+************************************************************************ */
+
 /**
  * Provides a way to block elements so they will no longer receive (native) 
  * events by overlaying them with a div.
  * For Internet Explorer, an additional Iframe element will be overlayed since 
- * this is the only way to block events on native form controls.
  * 
  * The blocker can also be applied to the entire document, e.g.:
  * <br/><code>q.wrap(document).block()</code>
@@ -21,24 +27,23 @@ qx.Bootstrap.define("qx.module.Blocker", {
      */
     __attachBlocker : function(item, color, opacity, zIndex)
     {
-      var win = qx.dom.Node.getWindow(item);
-      var isDocument = qx.dom.Node.isDocument(item);
+      var win = q.getWindow(item);
+      var isDocument = q.isDocument(item);
       
       if (!item.__blocker) {
         item.__blocker = {
-          div : qx.dom.Element.create("div", null, win)
+          div : q.create("<div/>")
         };
         if ((qx.core.Environment.get("engine.name") == "mshtml")) {
           item.__blocker.iframe = qx.module.Blocker.__getIframeElement(win)
         }
       }
       
-      qx.module.Blocker.__styleBlocker(item, color, opacity, zIndex, isDocument, win);
+      qx.module.Blocker.__styleBlocker(item, color, opacity, zIndex, isDocument);
       
-      var bodyEl = qx.dom.Node.getBodyElement(item);
-      qx.dom.Element.insertEnd(item.__blocker.div, bodyEl);
+      item.__blocker.div.appendTo(win.document.body);
       if (item.__blocker.iframe) {
-        qx.dom.Element.insertEnd(item.__blocker.iframe, bodyEl);
+        item.__blocker.iframe.appendTo(win.document.body);
       }
       
       if (isDocument) {
@@ -57,42 +62,36 @@ qx.Bootstrap.define("qx.module.Blocker", {
      * @param isDocument {Boolean} Whether the item is a document node
      * @param win {Window} The parent window of the item
      */
-    __styleBlocker : function(item, color, opacity, zIndex, isDocument, win)
+    __styleBlocker : function(item, color, opacity, zIndex, isDocument)
     {
-      if (isDocument) {
-        var location = {
-          left : 0,
-          top : 0
-        };
-        var size = {
-          width : qx.bom.Document.getWidth(win),
-          height : qx.bom.Document.getHeight(win)
-        };
-      }
-      else {
-        var location = qx.bom.element.Location.get(item);
-        var size = qx.bom.element.Dimension.getSize(item);
-      }
+      var qItem = q.wrap(item);
       
       var styles = {
         "zIndex" : zIndex,
         "display" : "block",
         "position" : "absolute",
-        "top" : location.top + "px",
-        "left" : location.left + "px",
-        "width" : size.width + "px",
-        "height" : size.height + "px",
         "backgroundColor" : color,
-        "opacity" : opacity
+        "opacity" : opacity,
+        "width" : qItem.getWidth() + "px",
+        "height" : qItem.getHeight() + "px"
       };
       
-      qx.bom.element.Style.setStyles(item.__blocker.div, styles);
+      if (isDocument) {
+        styles.top = 0 + "px";
+        styles.left = 0 + "px";
+      }
+      else {
+        var pos = qItem.getOffset();
+        styles.top = pos.top + "px";
+        styles.left = pos.left + "px";
+      }
+      item.__blocker.div.setStyles(styles);
       
       if (item.__blocker.iframe) {
         styles.zIndex = styles.zIndex - 1;
         styles.backgroundColor = "transparent";
         styles.opacity = 0;
-        qx.bom.element.Style.setStyles(item.__blocker.iframe, styles);
+        item.__blocker.iframe.setStyles(styles);
       }
     },
 
@@ -105,9 +104,19 @@ qx.Bootstrap.define("qx.module.Blocker", {
      */
     __getIframeElement : function(win)
     {
-      var iframe = qx.dom.Element.create("iframe", null, win);
-      qx.bom.element.Attribute.set(iframe, "allowTransparency", false);
-      qx.bom.element.Attribute.set(iframe, "src", "javascript:false;");
+      var iframe = q.create('<iframe></iframe>');
+      iframe.setAttributes({
+        frameBorder: 0,
+        frameSpacing: 0,
+        marginWidth: 0,
+        marginHeight: 0,
+        hspace: 0,
+        vspace: 0,
+        border: 0,
+        allowTransparency: false,
+        src : "javascript:false"
+      });
+      
       return iframe;
     },
 
@@ -121,12 +130,12 @@ qx.Bootstrap.define("qx.module.Blocker", {
     __onWindowResize : function(ev) {
       var win = this[0];
       var size = {
-        width : qx.bom.Document.getWidth(win) + "px",
-        height : qx.bom.Document.getHeight(win) + "px"
+        width : this.getWidth() + "px",
+        height : this.getHeight() + "px"
       }
-      qx.bom.element.Style.setStyles(win.document.__blocker.div, size);
+      q.wrap(win.document.__blocker.div).setStyles(size);
       if (win.document.__blocker.iframe) {
-        qx.bom.element.Style.setStyles(win.document.__blocker.iframe, size);
+        q.wrap(win.document.__blocker.iframe).setStyles(size);
       }
     },
 
@@ -142,13 +151,12 @@ qx.Bootstrap.define("qx.module.Blocker", {
       if (!item.__blocker) {
         return;
       }
-      
-      qx.dom.Element.remove(item.__blocker.div);
+      item.__blocker.div.remove();
       if (item.__blocker.iframe) {
-        qx.dom.Element.remove(item.__blocker.iframe);
+        item.__blocker.iframe.remove();
       }
-      if (qx.dom.Node.isDocument(item)) {
-        q.wrap(qx.dom.Node.getWindow(item))
+      if (q.isDocument(item)) {
+        q.wrap(q.getWindow(item))
         .off("resize", qx.module.Blocker.__onWindowResize);
       }
     },
