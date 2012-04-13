@@ -550,10 +550,10 @@ qx.Class.define("demobrowser.DemoBrowser",
         var group = new qx.ui.form.RadioGroup(t1, t2, t3, t4);
         group.addListener("changeSelection", this.__onChangeTheme, this);
 
+        themeMenu.add(t4);
         themeMenu.add(t1);
         themeMenu.add(t2);
         themeMenu.add(t3);
-        themeMenu.add(t4);
 
         var themeButton = new qx.ui.toolbar.MenuButton(this.tr("Theme"), "icon/22/apps/utilities-color-chooser.png", themeMenu);
         this.__themePart = themeButton;
@@ -1701,6 +1701,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var title = new qx.ui.basic.Label("Demo Browser");
       var version = new qxc.ui.versionlabel.VersionLabel();
+      version.setFont("default");
 
       header.add(title);
       header.add(new qx.ui.core.Spacer, {flex : 1});

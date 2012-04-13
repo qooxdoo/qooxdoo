@@ -49,7 +49,8 @@ qx.Class.define("qxc.ui.logpane.LogView", {
     var caption = new qx.ui.basic.Label(this.tr("Log")).set(
     {
       font       : "bold",
-      padding    : 6,
+      padding    : 10,
+      alignY     : "middle",
       allowGrowX : true,
       allowGrowY : true
     });
