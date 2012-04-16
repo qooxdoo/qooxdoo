@@ -20,7 +20,6 @@
 
   "export" :
   [
-    //"build", Uncompressed build not available until #6265 is fixed
     "build-min",
     "build",
     "source",

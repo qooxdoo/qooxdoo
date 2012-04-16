@@ -17,7 +17,7 @@ qx.Bootstrap.define("qx.module.util.String", {
   defer : function(statics) {
     q.attachStatic({
       util : {
-        String : {
+        string : {
           camelCase : statics.camelCase,
           hyphenate : statics.hyphenate,
           firstUp : statics.firstUp,
