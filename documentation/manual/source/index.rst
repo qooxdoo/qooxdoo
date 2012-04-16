@@ -27,21 +27,6 @@ qooxdoo Manual
 
    toc
 
-
-.. |apiviewer| image:: _static/apiviewer.png
-.. |fce_thumb| image:: _static/fce_thumb.png
-.. |feedreadermobile_ios| image:: _static/feedreadermobile_ios.png
-.. |portal| image:: _static/portal.png
-.. |widgetbrowser| image:: _static/widgetbrowser.png
-.. |g_book| image:: _static/utilities-notes.png
-.. |o_star| image:: _static/development.png
-.. .. |g_write| image:: _static/internet-blog.png
-.. |g_write| image:: _static/office-contact.png
-.. |o_folder| image:: _static/utilities-dictionary.png
-.. |o_save| image:: _static/document-open.png
-.. |g_faq| image:: _static/engineering.png
-.. |tutorial| image:: _static/internet-blog1.png
-
 .. |started| image:: _static/getting-started.png
 .. |core| image:: _static/core.png
 .. |desktop| image:: _static/desktop.png
