@@ -43,7 +43,7 @@ qx.Bootstrap.define("qx.bom.client.Runtime",
      * to the browser name defined by {@link qx.bom.client.Browser#getName}.
      * @return {String} The name of the current runtime.
      * @internal
-     * @lint ignoreUndefined(environment, process)
+     * @lint ignoreUndefined(environment, process, Titanium)
      */
     getName : function() {
       var name = "";
