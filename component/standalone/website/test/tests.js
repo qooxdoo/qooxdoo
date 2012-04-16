@@ -1704,3 +1704,17 @@ testrunner.define({
     this.assertEquals("    abc", "    abc    ".trimRight());
   }
 });
+
+
+testrunner.define({
+  classname : "Environment",
+
+  testGet : function() {
+    this.assertEquals(qx.core.Environment.get("qx.debug"), q.env.get("qx.debug"));
+  },
+
+  testAdd : function() {
+    q.env.add("q.test", true);
+    this.assertTrue(q.env.get("q.test"));
+  }
+});

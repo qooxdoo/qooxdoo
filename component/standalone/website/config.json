@@ -55,11 +55,12 @@
       "qx.module.Placement",
       "qx.module.Blocker",
       "qx.module.util.String",
+      "qx.module.Environment",
       "q"
     ]
   },
 
-  "config-warnings" : 
+  "config-warnings" :
   {
     "job-shadowing" : [ "common" ]
   },
