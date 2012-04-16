@@ -34,7 +34,6 @@ qx.Bootstrap.define("q", {});
           throw new Error("Method '" + name + "' already available as static method.");
         }
       }
-      // TODO: merge for q.util e.g.
       q[name] = module[name];
     }
   }

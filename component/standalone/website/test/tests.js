@@ -1718,3 +1718,29 @@ testrunner.define({
     this.assertTrue(q.env.get("q.test"));
   }
 });
+
+
+testrunner.define({
+  classname : "Type",
+
+  testGet : function() {
+    this.assertEquals("Array", q.type.get([]));
+    this.assertEquals("Array", q.type.get([1,2,3]));
+    this.assertEquals("Boolean", q.type.get(true));
+    this.assertEquals("Boolean", q.type.get(false));
+    this.assertEquals("Date", q.type.get(new Date()));
+    this.assertEquals("Error", q.type.get(new Error()));
+    this.assertEquals("Function", q.type.get(function() {}));
+    this.assertEquals("Number", q.type.get(123));
+    this.assertEquals("Number", q.type.get(0x123));
+    this.assertEquals("Number", q.type.get(0123));
+    this.assertEquals("Number", q.type.get(1e23));
+    this.assertEquals("Object", q.type.get({}));
+    this.assertEquals("Object", q.type.get({a: "b"}));
+    this.assertEquals("RegExp", q.type.get(new RegExp("^123")));
+    this.assertEquals("RegExp", q.type.get(/^123/g));
+    this.assertEquals("String", q.type.get(""));
+    this.assertEquals("String", q.type.get("123"));
+    this.assertEquals("String", q.type.get("abc"));
+  }
+});

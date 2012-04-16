@@ -56,6 +56,7 @@
       "qx.module.Blocker",
       "qx.module.util.String",
       "qx.module.Environment",
+      "qx.module.util.Type",
       "q"
     ]
   },
