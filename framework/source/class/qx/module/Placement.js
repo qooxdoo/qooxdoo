@@ -1,7 +1,60 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2012 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Daniel Wagner (danielwagner)
+
+************************************************************************ */
+
+/**
+ * The Placement module provides a convenient way to align two elements relative
+ * to each other using various pre-defined algorithms.
+ */
 qx.Bootstrap.define("qx.module.Placement", {
 
   statics: {
     
+    /**
+     * Moves the first element in the collection, aligning it with the given 
+     * target.
+     * 
+     * @param target {Element} Placement target
+     * @param position {String} Alignment of the object with the target, any of 
+     * <code>"top-left", <code>"top-right"</code>, <code>"bottom-left"</code>, 
+     * <code>"bottom-right"</code>, <code>"left-top"</code>, 
+     * <code>"left-bottom"</code>, <code>"right-top"</code>, 
+     * <code>"right-bottom"</code>
+     * @param offsets {Map?null} Map with the desired offsets between the two elements.
+     * Must contain the keys <code>left</code>, <code>top</code>, 
+     * <code>right</code> and <code>bottom</code>
+     * @param modeX {String} Horizontal placement mode. Valid values are:
+     *   <ul>
+     *   <li><code>direct</code>: place the element directly at the given
+     *   location.</li>
+     *   <li><code>keep-align</code>: if the element is partially outside of the
+     *   visible area, it is moved to the best fitting 'edge' and 'alignment' of
+     *   the target.
+     *   It is guaranteed the the new position attaches the object to one of the
+     *   target edges and that it is aligned with a target edge.</li>
+     *   <li>best-fit</li>: If the element is partially outside of the visible
+     *   area, it is moved into the view port, ignoring any offset and position
+     *   values.
+     *   </ul>
+     * @param modeY {String} Vertical placement mode. Accepts the same values as
+     *   the 'modeX' argument.
+     * @return {qx.Collection} The collection for chaining
+     */
     placeTo : function(target, position, offsets, modeX, modeY) {
       if (!this[0]) {
         return null;
@@ -52,6 +105,14 @@ qx.Bootstrap.define("qx.module.Placement", {
       return this;
     },
     
+    
+    /**
+     * Returns the appropriate axis implementation for the given placement
+     * mode
+     *  
+     * @param mode {String} Placement mode
+     * @return {Object} Placement axis class
+     */
     _getAxis : function(mode)
     {
       switch(mode)
@@ -68,6 +129,23 @@ qx.Bootstrap.define("qx.module.Placement", {
       }
     },
     
+    /**
+     * Returns the computed coordinates for the element to be placed
+     * 
+     * @param axes {Map} Map with the keys <code>x</code> and <code>y</code>. Values
+     * are the axis implementations
+     * @param size {Map} Map with the keys <code>width</code> and <code>height</code>
+     * containing the size of the placement target
+     * @param area {Map} Map with the keys <code>width</code> and <code>height</code>
+     * containing the size of the two elements' common parent (available space for
+     * placement)
+     * @param target {q} Collection containing the placement target
+     * @param offsets {Map} Map of offsets (top, right, bottom, left)
+     * @param position {Map} Map with the keys <code>x</code> and <code>y</code>,
+     * containing the type of positioning for each axis
+     * @return {Map} Map with the keys <code>left</code> and <code>top</code> 
+     * containing the computed coordinates to which the element should be moved
+     */
     _computePlacement : function(axes, size, area, target, offsets, position)
     {
       var left = axes.x.computeStart(
@@ -91,7 +169,16 @@ qx.Bootstrap.define("qx.module.Placement", {
         top: top
       }
     },
-    
+
+
+    /**
+     * Returns the X axis positioning type for the given edge and alignment
+     * values
+     * 
+     * @param edge {String} edge value
+     * @param align {String} align value
+     * @return {String} X positioning type
+     */
     _getPositionX : function(edge, align)
     {
       if (edge == "left") {
@@ -105,6 +192,15 @@ qx.Bootstrap.define("qx.module.Placement", {
       }
     },
 
+
+    /**
+     * Returns the Y axis positioning type for the given edge and alignment
+     * values
+     * 
+     * @param edge {String} edge value
+     * @param align {String} align value
+     * @return {String} Y positioning type
+     */
     _getPositionY : function(edge, align)
     {
       if (edge == "top") {

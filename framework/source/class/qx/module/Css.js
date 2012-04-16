@@ -1,6 +1,37 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2011-2012 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Martin Wittemann (wittemann)
+     * Daniel Wagner (danielwagner)
+
+************************************************************************ */
+
+/**
+ * CSS/Style property manipulation module
+ */
 qx.Bootstrap.define("qx.module.Css", {
   statics: {
-    // documnentatin here!
+
+
+    /**
+     * Modifies the given style property on all elements in the collection.
+     * 
+     * @param name {String} Name of the style property to modify
+     * @param value {var} The value to apply
+     * @return {qx.Collection} The collection for chaining
+     */
     setStyle : function(name, value) {
       if (/\w-\w/.test(name)) {
         name = qx.lang.String.camelCase(name);
@@ -11,6 +42,14 @@ qx.Bootstrap.define("qx.module.Css", {
       return this;
     },
 
+
+    /**
+     * Returns the value of the given style property for the first item in the 
+     * collection.
+     * 
+     * @param name {String} Style property name
+     * @return {var} Style property value
+     */
     getStyle : function(name) {
       if (this[0]) {
         if (/\w-\w/.test(name)) {
@@ -21,6 +60,13 @@ qx.Bootstrap.define("qx.module.Css", {
       return null;
     },
 
+
+    /**
+     * Sets multiple style properties for each item in the collection.
+     * 
+     * @param styles {Map} A map of style property name/value pairs
+     * @return {qx.Collection} The collection for chaining
+     */
     setStyles : function(styles) {
       for (var name in styles) {
         this.setStyle(name, styles[name]);
@@ -29,6 +75,13 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Returns the values of multiple style properties for each item in the 
+     * collection
+     *  
+     * @param names {String[]} List of style property names
+     * @return {Map} Map of style property name/value pairs
+     */
     getStyles : function(names) {
       var styles = {};
       for (var i=0; i < names.length; i++) {
@@ -38,6 +91,12 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Adds a class name to each element in the collection
+     * 
+     * @param name {String} Class name
+     * @return {qx.Collection} The collection for chaining
+     */
     addClass : function(name) {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Class.add(this[i], name);
@@ -46,6 +105,12 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Adds multiple class names to each element in the collection
+     * 
+     * @param names {String[]} List of class names to add
+     * @return {qx.Collection} The collection for chaining
+     */
     addClasses : function(names) {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Class.addClasses(this[i], names);
@@ -54,6 +119,12 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Removes a class name from each element in the collection
+     * 
+     * @param name {String} The class name to remove
+     * @return {qx.Collection} The collection for chaining
+     */
     removeClass : function(name) {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Class.remove(this[i], name);
@@ -62,6 +133,12 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Removes multiple class names from each element in the collection
+     * 
+     * @param names {String[]} List of class names to remove
+     * @return {qx.Collection} The collection for chaining
+     */
     removeClasses : function(names) {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Class.removeClasses(this[i], names);
@@ -70,6 +147,12 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Checks if the first element in the collection has the given class name
+     * 
+     * @param name {String} Class name to check for
+     * @return {Boolean} <code>true</code> if the first item has the given class name
+     */
     hasClass : function(name) {
       if (!this[0]) {
         return false;
@@ -78,6 +161,11 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Returns the class name of the first element in the collection
+     * 
+     * @return {String} Class name
+     */
     getClass : function() {
       if (!this[0]) {
         return "";
@@ -86,6 +174,12 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Toggle the given class name on each item in the collection
+     * 
+     * @param name {String} Class name
+     * @return {qx.Collection} The collection for chaining
+     */
     toggleClass : function(name) {
       var bCls = qx.bom.element.Class;
       for (var i=0, l=this.length; i<l; i++) {
@@ -97,6 +191,12 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Toggle the given list of class names on each item in the collection
+     * 
+     * @param names {String[]} Class names
+     * @return {qx.Collection} The collection for chaining
+     */
     toggleClasses : function(names) {
       for (var i=0,l=names.length; i<l; i++) {
         this.toggleClass(names[i]);
@@ -105,13 +205,25 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Replace a class name on each element in the collection
+     * 
+     * @param oldName {String} Class name to remove
+     * @param newName {String} Class name to add
+     * @return {qx.Collection} The collection for chaining
+     */
     replaceClass : function(oldName, newName) {
       for (var i=0, l=this.length; i<l; i++) {
         qx.bom.element.Class.replace(this[i], oldName, newName);
       }
+      return this;
     },
 
 
+    /**
+     * Returns the rendered height of the first element in the collection
+     * @return {Integer} The first item's rendered height
+     */
     getHeight : function() {
       var elem = this[0];
 
@@ -129,6 +241,10 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Returns the rendered width of the first element in the collection
+     * @return {Integer} The first item's rendered width
+     */
     getWidth : function() {
       var elem = this[0];
 
@@ -146,6 +262,14 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Returns the computed location of the given element in context of the 
+     * document dimensions.
+     * 
+     * @return {Map} A map with the keys <code>left<code/>, <code>top<code/>, 
+     * <code>right<code/> and <code>bottom<code/> which contains the distance 
+     * of the element relative to the document.
+     */
     getOffset : function() {
       var elem = this[0];
 
@@ -157,6 +281,12 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Returns the content height of the first element in the collection.
+     * This is the maximum height the element can use, excluding borders, 
+     * margins, padding or scroll bars.
+     * @return {Integer} Computed content height
+     */
     getContentHeight : function()
     {
       var obj = this[0];
@@ -168,6 +298,12 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Returns the content width of the first element in the collection.
+     * This is the maximum width the element can use, excluding borders, 
+     * margins, padding or scroll bars.
+     * @return {Integer} Computed content width
+     */
     getContentWidth : function()
     {
       var obj = this[0];
@@ -179,6 +315,13 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Returns the distance between the first element in the collection and its
+     * offset parent
+     * 
+     * @return {Map} a map with the keys <code>left</code> and <code>top</code>
+     * containing the distance between the elements
+     */
     getPosition : function()
     {
       var obj = this[0];
@@ -190,6 +333,12 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Include a Stylesheet file
+     * 
+     * @param uri {String} The stylesheet's URI
+     * @param doc {Document?} Document to modify
+     */
     includeStylesheet : function(uri, doc) {
       qx.bom.Stylesheet.includeFile(uri, doc);
     }

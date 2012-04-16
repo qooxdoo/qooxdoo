@@ -1,28 +1,79 @@
 /* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2012 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Daniel Wagner (danielwagner)
+
+************************************************************************ */
+
+/* ************************************************************************
 #require(qx.module.Event)
 ************************************************************************ */
 
+/**
+ * Normalization for native mouse events
+ */
 qx.Bootstrap.define("qx.module.event.Mouse", {
   statics :
   {
+    /**
+     * List of event types to be normalized
+     * @type Array 
+     */
     TYPES : ["click", "dblclick", "mousedown", "mouseup", "mouseover", "mousemove",
       "mouseout"],
-      
+
+
+    /**
+     * List qx.module.event.Mouse methods to be attached to native mouse event
+     * objects
+     * @type Array
+     * @internal
+     */
     BIND_METHODS : ["getButton", "getViewportLeft", "getViewportTop", 
       "getDocumentLeft", "getDocumentTop", "getScreenLeft", "getScreenTop"],
-    
+
+
+    /**
+     * Standard mouse button mapping
+     * @type Array
+     */
     BUTTONS_DOM2 : {
       0 : "left",
       2 : "right",
       1 : "middle"
     },
-    
+
+
+    /**
+     * Legacy Internet Explorer mouse button mapping
+     * @type 
+     */
     BUTTONS_MSHTML : {
       1 : "left",
       2 : "right",
       4 : "middle"
     },
-    
+
+
+    /**
+     * Returns the identifier of the mouse button that change state when the
+     * event was triggered
+     * 
+     * @return {String} One of <code>left</code>, <code>right</code> or 
+     * <code>middle</code>
+     */
     getButton : function()
     {
       switch(this.type)
@@ -46,9 +97,10 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
           }
       }
     },
-    
+
+
     /**
-     * Get the he horizontal coordinate at which the event occurred relative
+     * Get the horizontal coordinate at which the event occurred relative
      * to the viewport.
      *
      * @return {Integer} The horizontal mouse position
@@ -132,8 +184,18 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
     getScreenTop : function() {
       return this.screenY;
     },
-    
-    normalize : function(event)
+
+
+    /**
+     * Manipulates the native event object, adding methods if they're not
+     * already present
+     * 
+     * @param event {Event} Native event object
+     * @param element {Element} DOM element the listener was attached to
+     * @return {Event} Normalized event object
+     * @internal
+     */
+    normalize : function(event, element)
     {
       if (!event) {
         return event;

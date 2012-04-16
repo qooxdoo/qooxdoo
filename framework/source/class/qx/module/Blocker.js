@@ -1,4 +1,23 @@
 /* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2012 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Daniel Wagner (danielwagner)
+
+************************************************************************ */
+
+/* ************************************************************************
 #require(qx.module.Manipulating)
 #require(qx.module.Traversing)
 #require(qx.module.Css)
@@ -9,6 +28,7 @@
  * Provides a way to block elements so they will no longer receive (native) 
  * events by overlaying them with a div.
  * For Internet Explorer, an additional Iframe element will be overlayed since 
+ * native form controls cannot be blocked otherwise.
  * 
  * The blocker can also be applied to the entire document, e.g.:
  * <br/><code>q.wrap(document).block()</code>
@@ -60,7 +80,6 @@ qx.Bootstrap.define("qx.module.Blocker", {
      * @param opacity {Number} The CSS opacity value for the blocker
      * @param zIndex {Number} The zIndex value for the blocker
      * @param isDocument {Boolean} Whether the item is a document node
-     * @param win {Window} The parent window of the item
      */
     __styleBlocker : function(item, color, opacity, zIndex, isDocument)
     {
@@ -169,7 +188,7 @@ qx.Bootstrap.define("qx.module.Blocker", {
      * @param color {String ? transparent} The color for the blocker element (any CSS color value)
      * @param opacity {Float ? 0} The CSS opacity value for the blocker
      * @param zIndex {Integer ? 10000} The zIndex value for the blocker
-     * @return {q} The collection for chaining
+     * @return {qx.Collection} The collection for chaining
      */
     block : function(color, opacity, zIndex)
     {
@@ -192,7 +211,7 @@ qx.Bootstrap.define("qx.module.Blocker", {
     /**
      * Removes the blockers from all items in the collection
      * 
-     * @return {q} The collection for chaining
+     * @return {qx.Collection} The collection for chaining
      */
     unblock : function()
     {

@@ -1,12 +1,50 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2011-2012 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Martin Wittemann (wittemann)
+     * Daniel Wagner (danielwagner)
+
+************************************************************************ */
+
+/**
+ * DOM traversal module
+ */
 qx.Bootstrap.define("qx.module.Traversing", {
   statics :
   {
+    /**
+     * Adds an element to the collection
+     * 
+     * @param el {Element} DOM element to add to the collection
+     * @return {qx.Collection} The collection for chaining
+     */
     add : function(el) {
       this.push(el);
       return this;
     },
 
 
+    /**
+     * Gets a set of elements containing all of the unique immediate children of 
+     * each of the matched set of elements.
+     * This set can be filtered with an optional expression that will cause only
+     * elements matching the selector to be collected.
+     * 
+     * @param selector {String?null} Optional selector to match 
+     * @return {qx.Collection} Collection containing the child elements
+     */
     getChildren : function(selector) {
       var children = [];
       for (var i=0; i < this.length; i++) {
@@ -20,6 +58,14 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Executes the provided callback function once for each item in the 
+     * collection. @see qx.type.BaseArray#forEach
+     * 
+     * @param fn {Function} Callback function
+     * @param ctx {Obj} Context object
+     * @return {qx.Collection} The collection for chaining
+     */
     forEach : function(fn, ctx) {
       for (var i=0; i < this.length; i++) {
         fn.call(ctx, this[i], i, this);
@@ -28,6 +74,15 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Gets a set of elements containing the parent of each element in the
+     * collection.
+     * This set can be filtered with an optional expression that will cause only
+     * elements matching the selector to be collected.
+     * 
+     * @param selector {String?null} Optional selector to match
+     * @return {qx.Collection} Collection containing the parent elements
+     */
     getParents : function(selector) {
       var parents = [];
       for (var i=0; i < this.length; i++) {
@@ -41,16 +96,46 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Gets a set of elements containing all ancestors of each element in the
+     * collection.
+     * This set can be filtered with an optional expression that will cause only
+     * elements matching the selector to be collected.
+     * 
+     * @param filter {String?null} Optional selector to match
+     * @return {qx.Collection} Collection containing the ancestor elements
+     */
     getAncestors : function(filter) {
       return this.__getAncestors(null, filter);
     },
 
 
+    /**
+     * Gets a set of elements containing all ancestors of each element in the
+     * collection, up to (but not including) the element matched by the provided
+     * selector.
+     * This set can be filtered with an optional expression that will cause only
+     * elements matching the selector to be collected.
+     * 
+     * @param selector {String} Selector that indicates where to stop including 
+     * ancestor elements
+     * @param filter {String?null} Optional selector to match
+     * @return {qx.Collection} Collection containing the ancestor elements
+     */
     getAncestorsUntil : function(selector, filter) {
       return this.__getAncestors(selector, filter);
     },
 
 
+    /**
+     * Internal helper for getAncestors and getAncestorsUntil
+     * 
+     * @param selector {String} Selector that indicates where to stop including 
+     * ancestor elements
+     * @param filter {String?null} Optional selector to match
+     * @return {qx.Collection} Collection containing the ancestor elements
+     * @internal
+     */
     __getAncestors : function(selector, filter) {
       var ancestors = [];
       for (var i=0; i < this.length; i++) {
@@ -71,6 +156,15 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Gets a set containing the closest matching ancestor for each item in 
+     * the collection.
+     * If the item itself matches, it is added to the new set. Otherwise, the
+     * item's parent chain will be traversed until a match is found.
+     * 
+     * @param selector {String} Selector expression to match
+     * @return {qx.Collection} New collection containing the closest matching ancestors
+     */
     getClosest : function(selector) {
       var closest = [];
 
@@ -94,6 +188,14 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Searches the child elements of each item in the collection and returns
+     * a new collection containing the children that match the provided selector
+     * 
+     * @param selector {String} Selector expression to match the child elements 
+     * against
+     * @return {qx.Collection} New collection containing the matching child elements
+     */
     find : function(selector) {
       var found = [];
       for (var i=0; i < this.length; i++) {
@@ -103,7 +205,14 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
-    // TODO: Move to other class (Set, ...)
+    /**
+     * Gets a new collection containing only those elements that passed the
+     * given filter. This can be either a selector expression or a filter
+     * function @see qx.type.BaseArray#filter
+     * 
+     * @param selector {String|Function} Selector expression or filter function
+     * @return {qx.Collection} New collection containing the elements that passed the filter
+     */
     filter : function(selector) {
       if (qx.lang.Type.isFunction(selector)) {
         return qx.type.BaseArray.prototype.filter.call(this, selector);
@@ -122,6 +231,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Gets a new set of elements containing the child nodes of each item in the
+     * current set.
+     * @return {qx.Collection} New collection containing the child nodes
+     */
     getContents : function() {
       var found = [];
       for (var i=0; i < this.length; i++) {
@@ -131,6 +245,14 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Checks if at least one element in the collection passes the provided 
+     * filter. This can be either a selector expression or a filter
+     * function @see qx.type.BaseArray#filter
+     * 
+     * @param selector {String|Function} Selector expression or filter function
+     * @return {Boolean} <code>true</code> if at least one element matches
+     */
     is : function(selector) {
       if (qx.lang.Type.isFunction(selector)) {
         return this.filter(selector).length > 0;
@@ -139,21 +261,44 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Reduce the set of matched elements to a single element.
+     * 
+     * @param index {Integer} The position of the element in the collection
+     * @return {qx.Collection} A new collection containing one element
+     */
     eq : function(index) {
       return this.slice(index, +index + 1);
     },
 
 
+    /**
+     * Reduces the collection to the first element.
+     * 
+     * @return {qx.Collection} A new collection containing one element
+     */
     getFirst : function() {
       return this.slice(0, 1);
     },
 
 
+    /**
+     * Reduces the collection to the last element.
+     * 
+     * @return {qx.Collection} A new collection containing one element
+     */
     getLast : function() {
       return this.slice(this.length - 1);
     },
 
 
+    /**
+     * Gets a collection containing only the elements that have descendants
+     * matching the given selector
+     * 
+     * @param selector {String} Selector expression
+     * @return {qx.Collection} a new collection containing only elements with matching descendants
+     */
     has : function(selector) {
       var found = [];
       for (var i=0; i < this.length; i++) {
@@ -166,6 +311,15 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Gets a collection containing the next sibling element of each item in 
+     * the current set (ignoring text and comment nodes).
+     * This set can be filtered with an optional expression that will cause only
+     * elements matching the selector to be collected.
+     * 
+     * @param selector {String?} Optional selector expression
+     * @return {qx.Collection} New set containing next siblings
+     */
     getNext : function(selector) {
       var Hierarchy = qx.dom.Hierarchy;
       var found = this.map(Hierarchy.getNextElementSibling, Hierarchy);
@@ -176,12 +330,29 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Gets a collection containing all following sibling elements of each 
+     * item in the current set (ignoring text and comment nodes).
+     * This set can be filtered with an optional expression that will cause only
+     * elements matching the selector to be collected.
+     * 
+     * @param selector {String?} Optional selector expression
+     * @return {qx.Collection} New set containing following siblings
+     */
     getNextAll : function(selector) {
       var ret = qx.module.Traversing.__hierarchyHelper(this, "getNextSiblings", selector);
       return qx.lang.Array.cast(ret, qx.Collection);
     },
 
 
+    /**
+     * Gets a collection containing the following sibling elements of each 
+     * item in the current set (ignoring text and comment nodes) up to but not
+     * including any element that matches the given selector.
+     * 
+     * @param selector {String?} Optional selector expression
+     * @return {qx.Collection} New set containing following siblings
+     */
     getNextUntil : function(selector) {
       var found = [];
       this.forEach(function(item, index) {
@@ -198,6 +369,15 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Gets a collection containing the previous sibling element of each item in 
+     * the current set (ignoring text and comment nodes).
+     * This set can be filtered with an optional expression that will cause only
+     * elements matching the selector to be collected.
+     * 
+     * @param selector {String?} Optional selector expression
+     * @return {qx.Collection} New set containing previous siblings
+     */
     getPrev : function(selector) {
       var Hierarchy = qx.dom.Hierarchy;
       var found = this.map(Hierarchy.getPreviousElementSibling, Hierarchy);
@@ -208,12 +388,29 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Gets a collection containing all preceding sibling elements of each 
+     * item in the current set (ignoring text and comment nodes).
+     * This set can be filtered with an optional expression that will cause only
+     * elements matching the selector to be collected.
+     * 
+     * @param selector {String?} Optional selector expression
+     * @return {qx.Collection} New set containing preceding siblings
+     */
     getPrevAll : function(selector) {
       var ret = qx.module.Traversing.__hierarchyHelper(this, "getPreviousSiblings", selector);
       return qx.lang.Array.cast(ret, qx.Collection);
     },
 
 
+    /**
+     * Gets a collection containing the preceding sibling elements of each 
+     * item in the current set (ignoring text and comment nodes) up to but not
+     * including any element that matches the given selector.
+     * 
+     * @param selector {String?} Optional selector expression
+     * @return {qx.Collection} New set containing preceding siblings
+     */
     getPrevUntil : function(selector) {
       var found = [];
       this.forEach(function(item, index) {
@@ -230,12 +427,29 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Gets a collection containing all sibling elements of the items in the
+     * current set.
+     * This set can be filtered with an optional expression that will cause only
+     * elements matching the selector to be collected.
+     * 
+     * @param selector {String?} Optional selector expression
+     * @return {qx.Collection} New set containing sibling elements
+     */
     getSiblings : function(selector) {
       var ret = qx.module.Traversing.__hierarchyHelper(this, "getSiblings", selector);
       return qx.lang.Array.cast(ret, qx.Collection);
     },
 
 
+    /**
+     * Remove elements from the collection that do not pass the given filter.
+     * This can be either a selector expression or a filter function 
+     * @see qx.type.BaseArray#filter
+     * 
+     * @param selector {String|Function} Selector or filter function
+     * @return {qx.Collection} Reduced collection
+     */
     not : function(selector) {
       if (qx.lang.Type.isFunction(selector)) {
         return this.filter(function(item, index, obj) {
@@ -250,30 +464,74 @@ qx.Bootstrap.define("qx.module.Traversing", {
     },
 
 
+    /**
+     * Gets a new collection containing the offset parent of each item in the
+     * current set.
+     * 
+     * @return {qx.Collection} New collection containing offset parents
+     */
     getOffsetParent : function() {
       return this.map(qx.bom.element.Location.getOffsetParent);
     },
 
 
+    /**
+     * Checks if the given object is a DOM element
+     * 
+     * @param element {Object} Object to check
+     * @return {Boolean} <code>true</code> if the object is a DOM element
+     */
     isElement : function(element) {
       return qx.dom.Node.isElement(element);
     },
 
 
+    /**
+     * Checks if the given object is a DOM node
+     * 
+     * @param node {Object} Object to check
+     * @return {Boolean} <code>true</code> if the object is a DOM node
+     */
     isNode : function(node) {
       return qx.dom.Node.isNode(node);
     },
 
 
+    /**
+     * Checks if the given object is a DOM document object
+     * 
+     * @param node {Object} Object to check
+     * @return {Boolean} <code>true</code> if the object is a DOM document
+     */
     isDocument : function(node) {
       return qx.dom.Node.isDocument(node);
     },
 
 
+    /**
+     * Returns the DOM2 <code>defaultView</code> (window) for the given node.
+     * 
+     * @param node {Node|Document|Window} Node to inspect
+     * @return {Window} the <code>defaultView</code> for the given node
+     */
     getWindow : function(node) {
       return qx.dom.Node.getWindow(node);
     },
 
+
+    /**
+     * Helper function that iterates over a set of items and applies the given
+     * qx.dom.Hierarchy method to each entry, storing the results in a new Array.
+     * Duplicates are removed and the items are filtered if a selector is 
+     * provided. 
+     * 
+     * @param collection {Array} Collection to iterate over (any Array-like object)
+     * @param method {String} Name of the qx.dom.Hierarchy method to apply
+     * @param selector {String?} Optional selector that elements to be included 
+     * must match
+     * @return {Array} Result array
+     * @internal
+     */
     __hierarchyHelper : function(collection, method, selector)
     {
       // Iterate ourself, as we want to directly combine the result

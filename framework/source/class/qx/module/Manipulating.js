@@ -1,11 +1,47 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2011-2012 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Martin Wittemann (wittemann)
+     * Daniel Wagner (danielwagner)
+
+************************************************************************ */
+
+/**
+ * DOM manipulation module
+ */
 qx.Bootstrap.define("qx.module.Manipulating", {
   statics :
   {
+    /**
+     * Creates a new collection from the given argument. This can either be an
+     * HTML string, a single DOM element or an array of elements
+     * 
+     * @param html {String|Element[]} HTML string or DOM element(s)
+     * @return {qx.Collection} Collection of elements
+     */
     create : function(html) {
       return q.init(qx.bom.Html.clean([html]));
     },
 
 
+    /**
+     * Creates a new collection from a DOM element.
+     * 
+     * @param el {Element} DOM element
+     * @return {qx.Collection} Collection of elements
+     */
     wrap : function(el) {
       if (!qx.lang.Type.isArray(el)) {
         el = [el];
@@ -14,6 +50,13 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     },
 
 
+    /**
+     * Clones the items in the current collection and returns them in a new set.
+     * Event listeners can also be cloned.
+     * 
+     * @param events {Boolean} clone event listeners
+     * @return {qx.Collection} New collection with clones
+     */
     clone : function(events) {
       var clones = [];
       for (var i=0; i < this.length; i++) {
@@ -29,6 +72,13 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
 
 
+    /**
+     * Appends content to each element in the current set. Accepts an HTML string,
+     * a single DOM element or an array of elements
+     * 
+     * @param html {String|Element[]} HTML string or DOM element(s) to append
+     * @return {qx.Collection} The collection for chaining
+     */
     append : function(html) {
       var arr = qx.bom.Html.clean([html]);
       var children = qx.lang.Array.cast(arr, qx.Collection);
@@ -53,6 +103,15 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     },
 
 
+    /**
+     * Appends all items in the collection to the specified parents. If multiple
+     * parents are given, the items will be moved to the first parent, while 
+     * clones of the items will be appended to subsequent parents.
+     * 
+     * @param parent {String|Element[]} Parent selector expression or list of 
+     * parent elements
+     * @return {qx.Collection} The collection for chaining
+     */
     appendTo : function(parent) {
       if (!qx.lang.Type.isArray(parent)) {
         var fromSelector = q(parent);
@@ -78,6 +137,11 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     },
 
 
+    /**
+     * Removes each element in the current collection from the DOM
+     * 
+     * @return {qx.Collection} The collection for chaining
+     */
     remove : function() {
       for (var i=0; i < this.length; i++) {
         qx.dom.Element.remove(this[i]);
@@ -86,6 +150,11 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     },
 
 
+    /**
+     * Removes all content from the elements in the collection
+     * 
+     * @return {qx.Collection} The collection for chaining
+     */
     empty : function() {
       for (var i=0; i < this.length; i++) {
         this[i].innerHTML = "";
@@ -94,6 +163,14 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     },
 
 
+    /**
+     * Inserts content before each element in the collection. This can either 
+     * be an HTML string, an array of HTML strings, a single DOM element or an 
+     * array of elements.
+     * 
+     * @param args {String[]|Element[]} HTML string(s) or DOM element(s)
+     * @return {qx.Collection} The collection for chaining
+     */
     before : function(args) {
       if (!qx.lang.Type.isArray(args)) {
         args = [args];
@@ -118,6 +195,14 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     },
 
 
+    /**
+     * Inserts content after each element in the collection. This can either 
+     * be an HTML string, an array of HTML strings, a single DOM element or an 
+     * array of elements.
+     * 
+     * @param args {String[]|Element[]} HTML string(s) or DOM element(s)
+     * @return {qx.Collection} The collection for chaining
+     */
     after : function(args) {
       if (!qx.lang.Type.isArray(args)) {
         args = [args];
