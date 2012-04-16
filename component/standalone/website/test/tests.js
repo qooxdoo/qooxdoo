@@ -1645,48 +1645,48 @@ testrunner.define({
   classname : "StringUtil",
 
   testCamelCase : function() {
-    this.assertEquals("ABC", q.util.string.camelCase("-a-b-c"));
-    this.assertEquals("WebkitLinearGradient", q.util.string.camelCase("-webkit-linear-gradient"));
+    this.assertEquals("ABC", q.string.camelCase("-a-b-c"));
+    this.assertEquals("WebkitLinearGradient", q.string.camelCase("-webkit-linear-gradient"));
   },
 
 
   testHyphenate : function() {
-    this.assertEquals("-a-b-c", q.util.string.hyphenate("ABC"));
-    this.assertEquals("-webkit-linear-gradient", q.util.string.hyphenate("WebkitLinearGradient"));
+    this.assertEquals("-a-b-c", q.string.hyphenate("ABC"));
+    this.assertEquals("-webkit-linear-gradient", q.string.hyphenate("WebkitLinearGradient"));
   },
 
 
   testFirstUp : function() {
-    this.assertEquals("MAn", q.util.string.firstUp("mAn"));
-    this.assertEquals("Man", q.util.string.firstUp("Man"));
+    this.assertEquals("MAn", q.string.firstUp("mAn"));
+    this.assertEquals("Man", q.string.firstUp("Man"));
   },
 
 
   testFirstLow : function() {
-    this.assertEquals("man", q.util.string.firstLow("Man"));
-    this.assertEquals("mAN", q.util.string.firstLow("MAN"));
+    this.assertEquals("man", q.string.firstLow("Man"));
+    this.assertEquals("mAN", q.string.firstLow("MAN"));
   },
 
 
   testStartsWith : function() {
-    this.assertTrue(q.util.string.startsWith("Test", "Te"));
-    this.assertTrue(q.util.string.startsWith("Test", "Test"));
-    this.assertFalse(q.util.string.startsWith("Test", "est"));
-    this.assertFalse(q.util.string.startsWith("Test", "x"));
+    this.assertTrue(q.string.startsWith("Test", "Te"));
+    this.assertTrue(q.string.startsWith("Test", "Test"));
+    this.assertFalse(q.string.startsWith("Test", "est"));
+    this.assertFalse(q.string.startsWith("Test", "x"));
   },
 
 
   testEndsWith : function() {
-    this.assertTrue(q.util.string.endsWith("Test", "st"));
-    this.assertTrue(q.util.string.endsWith("Test", "Test"));
-    this.assertFalse(q.util.string.endsWith("Test", "Te"));
-    this.assertFalse(q.util.string.endsWith("Test", "x"));
+    this.assertTrue(q.string.endsWith("Test", "st"));
+    this.assertTrue(q.string.endsWith("Test", "Test"));
+    this.assertFalse(q.string.endsWith("Test", "Te"));
+    this.assertFalse(q.string.endsWith("Test", "x"));
   },
 
 
   testEscapeRegexpChars : function() {
     // also escape the \ in the expected
-    this.assertEquals("\\.\\.\\.", q.util.string.escapeRegexpChars("..."));
+    this.assertEquals("\\.\\.\\.", q.string.escapeRegexpChars("..."));
   },
 
 

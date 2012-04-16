@@ -16,16 +16,14 @@ qx.Bootstrap.define("qx.module.util.String", {
 
   defer : function(statics) {
     q.attachStatic({
-      util : {
-        string : {
-          camelCase : statics.camelCase,
-          hyphenate : statics.hyphenate,
-          firstUp : statics.firstUp,
-          firstLow : statics.firstLow,
-          startsWith : statics.startsWith,
-          endsWith : statics.endsWith,
-          escapeRegexpChars : statics.escapeRegexpChars
-        }
+      string : {
+        camelCase : statics.camelCase,
+        hyphenate : statics.hyphenate,
+        firstUp : statics.firstUp,
+        firstLow : statics.firstLow,
+        startsWith : statics.startsWith,
+        endsWith : statics.endsWith,
+        escapeRegexpChars : statics.escapeRegexpChars
       }
     });
   }
