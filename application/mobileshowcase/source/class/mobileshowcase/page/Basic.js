@@ -74,8 +74,11 @@ qx.Class.define("mobileshowcase.page.Basic",
       
       var exToggleButton = new qx.ui.mobile.form.ToggleButton(false);
       
-      var labelText = "Your mobile theme: "+qx.core.Environment.get("qx.theme");
-      labelText += "\n Your operation system: "+qx.core.Environment.get("qx.theme");
+      var labelText = "Mobile theme: "+qx.core.Environment.get("qx.theme");
+      labelText += " <br>Operation system: "+qx.core.Environment.get("os.name");
+      labelText += " <br>OS version: "+qx.core.Environment.get("os.version");
+      labelText += " <br>Browser: "+qx.core.Environment.get("browser.name");
+      labelText += " <br>Browser version: "+qx.core.Environment.get("browser.version");
       
       var exLabel = new qx.ui.mobile.basic.Label(labelText);
       exLabel.addCssClass("space-top");

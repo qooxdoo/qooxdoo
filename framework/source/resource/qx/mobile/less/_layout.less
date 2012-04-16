@@ -4,7 +4,6 @@
   display: box;
 
   .box-orient(horizontal);
-  .box-align(stretch);
 
   // -moz-box elements shrink-wrap by default. The spec states that "a block-level
   // box placed inside a block level element is positioned and sized as if it were
@@ -32,7 +31,6 @@
   display: box;
 
   .box-orient(vertical);
-  .box-align(stretch);
 
   // See .hbox
   width: 100%;
@@ -41,6 +39,11 @@
 
 .vbox> * {
   .box-flex(0);
+}
+
+.box-centered {
+  .boxPackCenter();
+  .box-align(center);
 }
 
 .content {

@@ -14,6 +14,7 @@
 
    Authors:
      * Gabriel Munteanu (gabios)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -55,7 +56,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
   {
     this.base(arguments);
     this.__createChildren(label, icon);
-    this.initGap();
+    this.__updateGap(this.getIconPosition(),4);
   },
 
   /*
@@ -126,18 +127,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       init   : "left",
       check : [ "top", "right", "bottom", "left" ],
       apply : "_applyIconPosition"
-    },
-
-
-    /**
-     * Whether the content should be rendered centrally when too much space
-     * is available. Affects both axis.
-     */
-    center :
-    {
-      init : true,
-      check : "Boolean",
-      apply : "_applyCenter"
     }
   },
 
@@ -160,12 +149,14 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
            targetLayout = new qx.ui.mobile.layout.HBox();
         }
         
-        this.__childrenContainer.setLayout(targetLayout);
-        
         var isReverse = ["right", "bottom"].indexOf(value) != -1;
         if(isReverse){
-          this.__childrenContainer.addCssClass("boxReverse");
+          targetLayout.setReversed(true);
         }
+        
+        this.__childrenContainer.setLayout(targetLayout);
+        
+        this.__updateGap(value,this.getGap());
         
         this._domUpdated();
     },
@@ -193,10 +184,21 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     // property apply
     _applyGap : function(value, old)
     {
+      this.__updateGap(this.getIconPosition(),value);
+    },
+    
+    
+    /**
+     * Updates the gap between icon and label text.
+     * @param iconPosition {String} position of the icon: "left", "bottom", "right", "top".
+     * @param value {Integer} size of the gap.
+     */
+    __updateGap : function (iconPosition, value) {
       if(this.__icon)
       {
-        var marginPosition = this.__getOpposedPosition(this.getIconPosition());
-        this.__icon._setStyle('margin'+qx.lang.String.firstUp(marginPosition), value + 'px');
+        var marginPosition = this.__getOpposedPosition(iconPosition);
+        var propKey = 'margin'+qx.lang.String.firstUp(marginPosition);
+        this.__icon._setStyle(propKey, value + 'px');
       }
     },
 
@@ -236,7 +238,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         this.__label = this._createLabelWidget(value);
 
         if(this.__emptyLabel) {
-          this.__childrenContainer._addAfter(this.__label, this.__emptyLabel);
+          this.__childrenContainer.addAfter(this.__label, this.__emptyLabel);
           this.__emptyLabel.destroy();
           this.__emptyLabel = null;
         }
@@ -307,21 +309,11 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       labelWidget.setAnonymous(true);
       labelWidget.setWrap(false);
       
-      // Reapply Icon Position.
-      /*this.setIconPosition(this.getIconPosition());
-      var verticalLayout = [ "top", "bottom" ].indexOf(this.getIconPosition()) != -1;
-      if(!verticalLayout) {
-        // Needs a fixed size of label, for text-overflow ellipsis.
-        // Overwise characters text label width will be as large as text, 
-        // no matter what size the outside containers has.
-        labelWidget.setDisplay('block');
-      }*/
       return labelWidget;
     },
 
 
     /**
-     *
      * This function is responsible for creating and adding 2 children controls to the Button widget.
      * A label and an icon.
      * @param label {String} the text of the button
@@ -342,50 +334,43 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       
       var layout;
       var verticalLayout = [ "top", "bottom" ].indexOf(this.getIconPosition()) != -1;
+      // If Atom has no Label, only Icon is shown, and should vertically centered.
+      var hasNoLabel = !this.__label;
       
-      if(verticalLayout){
+      if(verticalLayout || hasNoLabel){
         layout = new qx.ui.mobile.layout.VBox();
-
-        if(this.getCenter()){
-          layout.set({alignY: "middle"});
-        }
       } else {
         layout = new qx.ui.mobile.layout.HBox();
-
-        if(this.getCenter()){
-          layout.set({alignX: "center"});
-        }
       }
       
       this.__childrenContainer = new qx.ui.mobile.container.Composite(layout);
+      this.__childrenContainer.addCssClass("box-centered");
       this.__childrenContainer.setAnonymous(true);
       
       if(this.__icon) {
-        var iconContainer = new qx.ui.mobile.container.Composite();
-        iconContainer.addCssClass("atomIcon");
-        iconContainer.add(this.__icon);
-        
-        this.__childrenContainer.add(iconContainer, {flex : 0});
+        this.__childrenContainer.add(this.__icon, {flex : 0});
       }
       
       if(this.__label) {
+        // LABEL
+        this.__label.addCssClass("box-centered");
         this.__childrenContainer.add(this.__label, {flex : 0});
       }
       else if(!this.__icon)
       {
+        // NO LABEL, NO ICON
         this.__emptyLabel = new qx.ui.mobile.basic.Label(" ");
         this.__childrenContainer.add(this.__emptyLabel);
       }
       
+      // Show/Hide Label/Icon
       if(this.getShow() === 'icon' && this.__label) {
         this.__label.exclude();
       }
       if(this.getShow() === 'label' && this.__icon) {
         this.__icon.exclude();
       }
-      //var verticalCenteredContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY:"middle"}));
-      //verticalCenteredContainer.setAnonymous(true);
-      //verticalCenteredContainer.add(this.__childrenContainer, {'flex': 0});
+      
       this._add(this.__childrenContainer);
     }
   },
