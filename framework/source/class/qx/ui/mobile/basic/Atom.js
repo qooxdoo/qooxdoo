@@ -150,12 +150,11 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         }
         
         var isReverse = ["right", "bottom"].indexOf(value) != -1;
-        if(isReverse){
-          targetLayout.setReversed(true);
-        }
+        targetLayout.setReversed(isReverse);
         
         this.__childrenContainer.setLayout(targetLayout);
         
+        this.__updateGap(old, null);
         this.__updateGap(value,this.getGap());
         
         this._domUpdated();
@@ -194,11 +193,19 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
      * @param value {Integer} size of the gap.
      */
     __updateGap : function (iconPosition, value) {
+     
       if(this.__icon)
       {
-        var marginPosition = this.__getOpposedPosition(iconPosition);
-        var propKey = 'margin'+qx.lang.String.firstUp(marginPosition);
-        this.__icon._setStyle(propKey, value + 'px');
+        // Then set new margin gap.
+        var newMarginPosition = this.__getOpposedPosition(iconPosition);
+        var newPropKey = 'margin'+qx.lang.String.firstUp(newMarginPosition);
+        
+        if(value) {
+          this.__icon._setStyle(newPropKey, value + 'px');
+        } else {
+          this.__icon._setStyle(newPropKey, null);
+        }
+        
       }
     },
 
