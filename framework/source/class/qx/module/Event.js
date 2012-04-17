@@ -110,7 +110,8 @@ qx.Bootstrap.define("qx.module.Event", {
         else {
           for (var id in el.__bound) {
             if (el.__bound[id].original == listener) {
-              if (!context && typeof el.__ctx !== "undefined" && el.__ctx[id]) {
+              var storedContext = typeof el.__ctx !== "undefined" && el.__ctx[id];
+              if (!context && storedContext) {
                 context = el.__ctx[id];
               } 
 
@@ -119,7 +120,7 @@ qx.Bootstrap.define("qx.module.Event", {
               qx.bom.Event.removeNativeListener(el, type, el.__bound[id]);
               delete el.__bound[id];
 
-              if (el.__ctx[id]) {
+              if (storedContext) {
                 delete el.__ctx[id];
               }
             }
