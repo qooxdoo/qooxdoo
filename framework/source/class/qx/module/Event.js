@@ -26,16 +26,16 @@ qx.Bootstrap.define("qx.module.Event", {
   {
     /**
      * Event normalization registry
-     * 
+     *
      * @type Map
-     * @internal 
+     * @internal
      */
     __normalizations : {},
 
     /**
-     * Register a listener for the given event type on each item in the 
-     * collection
-     * 
+     * Register a listener for the given event type on each item in the
+     * collection. This can be either native or custom events.
+     *
      * @param type {String} Type of the event to listen for
      * @param listener {Function} Listener callback
      * @param context {Object?} Context the callback function will be executed in.
@@ -86,23 +86,23 @@ qx.Bootstrap.define("qx.module.Event", {
 
     /**
      * Unregister event listeners for the given type from each element in the
-     * collection
-     * 
+     * collection.
+     *
      * @param type {String} Type of the event
      * @param listener {Function} Listener callback
-     * @param ctx {Object?} Listener callback context
+     * @param context {Object?} Listener callback context
      * @return {qx.Collection} The collection for chaining
      */
-    off : function(type, listener, ctx) {
+    off : function(type, listener, context) {
       for (var j=0; j < this.length; j++) {
         var el = this[j];
         if (!el.__bound) {
-          el.__emitter.off(type, listener, ctx);
+          el.__emitter.off(type, listener, context);
         }
         else {
           for (var id in el.__bound) {
             if (el.__bound[id].original == listener) {
-              el.__emitter.off(type, el.__bound[id], ctx);
+              el.__emitter.off(type, el.__bound[id], context);
               // remove the native listener
               qx.bom.Event.removeNativeListener(el, type, el.__bound[id]);
               delete el.__bound[id];
@@ -116,10 +116,10 @@ qx.Bootstrap.define("qx.module.Event", {
 
     /**
      * Fire an event of the given type.
-     * 
+     *
      * @param type {String} Event type
-     * @param data {?var} Optional data that will be passed to the listener 
-     * callback function
+     * @param data {?var} Optional data that will be passed to the listener
+     * callback function.
      * @return {qx.Collection} The collection for chaining
      */
     emit : function(type, data) {
@@ -135,28 +135,29 @@ qx.Bootstrap.define("qx.module.Event", {
 
     /**
      * Attach a listener for the given event that will be executed only once.
-     * 
+     *
      * @param type {String} Type of the event to listen for
      * @param listener {Function} Listener callback
-     * @param ctx {Object?} Context the callback function will be executed in.
+     * @param context {Object?} Context the callback function will be executed in.
      * Default: The element on which the listener was registered
      * @return {qx.Collection} The collection for chaining
      */
-    once : function(type, listener, ctx) {
+    once : function(type, listener, context) {
       var self = this;
       var wrappedListener = function(data) {
         listener.call(this, data);
-        self.off(type, wrappedListener, ctx);
+        self.off(type, wrappedListener, context);
       };
-      this.on(type, wrappedListener, ctx);
+      this.on(type, wrappedListener, context);
       return this;
     },
 
 
     /**
-     * Copies any event listeners that are attached to the elements in the 
+     * Copies any event listeners that are attached to the elements in the
      * collection to the provided target element
-     * 
+     *
+     * @internal
      * @param target {Element} Element to attach the copied listeners to
      */
     copyEventsTo : function(target) {
@@ -197,8 +198,8 @@ qx.Bootstrap.define("qx.module.Event", {
 
 
     /**
-     * Executes the given function once the document is ready
-     * 
+     * Executes the given function once the document is ready.
+     *
      * @param callback {Function} callback function
      */
     ready : function(callback) {
@@ -215,11 +216,11 @@ qx.Bootstrap.define("qx.module.Event", {
      * Register a normalization function for the given event types. Listener
      * callbacks for these types will be called with the return value of the
      * normalization function instead of the regular event object.
-     * 
+     *
      * The normalizer will be called with two arguments: The original event
      * object and the element on which the event was triggered
-     * 
-     * @param types {String[]} List of event types to be normalized. Use an 
+     *
+     * @param types {String[]} List of event types to be normalized. Use an
      * asterisk (<code>*</code>) to normalize all event types
      * @param normalizer {Function} Normalizer function
      */
@@ -242,8 +243,8 @@ qx.Bootstrap.define("qx.module.Event", {
 
 
     /**
-     * Unregister a normalization function from the given event types
-     * 
+     * Unregister a normalization function from the given event types.
+     *
      * @param types {String[]} List of event types
      * @param normalizer {Function} Normalizer function
      */
@@ -259,17 +260,6 @@ qx.Bootstrap.define("qx.module.Event", {
           qx.lang.Array.remove(registry[type], normalizer);
         }
       }
-    },
-
-
-    /**
-     * Returns all registered event normalizers
-     * 
-     * @return {Map} Map of event types/normalizer functions
-     */
-    getRegistry : function()
-    {
-      return qx.module.Event.__normalizations;
     }
   },
 
@@ -286,8 +276,7 @@ qx.Bootstrap.define("qx.module.Event", {
     q.attachStatic({
       "ready": statics.ready,
       "registerEventNormalization" : statics.registerNormalization,
-      "unregisterEventNormalization" : statics.unregisterNormalization,
-      "getEventNormalizationRegistry" : statics.getRegistry
+      "unregisterEventNormalization" : statics.unregisterNormalization
     });
   }
 });
