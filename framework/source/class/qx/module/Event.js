@@ -260,6 +260,17 @@ qx.Bootstrap.define("qx.module.Event", {
           qx.lang.Array.remove(registry[type], normalizer);
         }
       }
+    },
+
+
+    /**
+     * Returns all registered event normalizers
+     * 
+     * @return {Map} Map of event types/normalizer functions
+     */
+    getRegistry : function()
+    {
+      return qx.module.Event.__normalizations;
     }
   },
 
@@ -276,7 +287,8 @@ qx.Bootstrap.define("qx.module.Event", {
     q.attachStatic({
       "ready": statics.ready,
       "registerEventNormalization" : statics.registerNormalization,
-      "unregisterEventNormalization" : statics.unregisterNormalization
+      "unregisterEventNormalization" : statics.unregisterNormalization,
+      "getEventNormalizationRegistry" : statics.getRegistry
     });
   }
 });
