@@ -75,8 +75,8 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      *
      * @param el {Element} The element to animate.
      * @param desc {Map} The animations description.
-     * @param duration {Integer?} The duration of the animation which will override
-     *   the duration given in the description.
+     * @param duration {Integer?} The duration in milliseconds of the animation
+     *   which will override the duration given in the description.
      * @return {qx.bom.element.AnimationHandle} AnimationHandle instance to control
      *   the animation.
      */
@@ -94,8 +94,8 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      * the {@link #animate} method.
      * @param el {Element} The element to animate.
      * @param desc {Map} The animations description.
-     * @param duration {Integer?} The duration of the animation which will override
-     *   the duration given in the description.
+     * @param duration {Integer?} The duration in milliseconds of the animation
+     *   which will override the duration given in the description.
      * @return {qx.bom.element.AnimationHandle} AnimationHandle instance to control
      *   the animation.
      */
