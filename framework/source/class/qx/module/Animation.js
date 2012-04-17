@@ -123,49 +123,18 @@ qx.Bootstrap.define("qx.module.Animation", {
      *   (cubic-bezier only available for CSS animations)
      *
      * *alternate* defines if every other animation should be run in reverse order.
-     * 
-     * @param desc {Map} The animations description.
-     * @param duration {Integer?} The duration in milliseconds of the animation
-     *   which will override the duration given in the description.
-     * @return {qx.Collection} The collection for chaining.
-     */
-    animate : function(desc, duration) {
-      this.__animate(desc, duration, false);
-      return this;
-    },
-
-
-    /**
-     * Starts an animation in reversed order. For further details, take a look at
-     * the {@link #animate} method.
-     * @param desc {Map} The animations description.
-     * @param duration {Integer?} The duration in milliseconds of the animation
-     *   which will override the duration given in the description.
-     * @return {qx.Collection} The collection for chaining.
-     */
-    animateReverese : function(desc, duration) {
-      this.__animate(desc, duration, true);
-      return this;
-    },
-
-
-    /**
-     * Private helper to start the animation.
      *
-     * @param desc {Map} The description of the Animation.
-     * @param duration {Number?} The duration of the animation in milliseconds.
-     * @param reverse {Boolean} Weather the animation should be run in reversed order.
+     * @param desc {Map} The animations description.
+     * @param duration {Integer?} The duration in milliseconds of the animation
+     *   which will override the duration given in the description.
+     * @return {qx.Collection} The collection for chaining.
      */
-    __animate : function(desc, duration, reverse) {
+    animate : function(desc, duration, reverse) {
       if (this.__animationHandles.length > 0) {
         throw new Error("Only one animation at a time.");
       }
       for (var i=0; i < this.length; i++) {
-        if (reverse) {
-          var handle = qx.bom.element.Animation.animateReverse(this[i], desc, duration);
-        } else {
-          var handle = qx.bom.element.Animation.animate(this[i], desc, duration);
-        }
+        var handle = qx.bom.element.Animation.animate(this[i], desc, duration);
 
         var self = this;
         handle.on("end", function() {
@@ -179,6 +148,36 @@ qx.Bootstrap.define("qx.module.Animation", {
       };
       return this;
     },
+
+
+    /**
+     * Starts an animation in reversed order. For further details, take a look at
+     * the {@link #animate} method.
+     * @param desc {Map} The animations description.
+     * @param duration {Integer?} The duration in milliseconds of the animation
+     *   which will override the duration given in the description.
+     * @return {qx.Collection} The collection for chaining.
+     */
+    animateReverese : function(desc, duration) {
+      if (this.__animationHandles.length > 0) {
+        throw new Error("Only one animation at a time.");
+      }
+      for (var i=0; i < this.length; i++) {
+        var handle = qx.bom.element.Animation.animateReverse(this[i], desc, duration);
+
+        var self = this;
+        handle.on("end", function() {
+          var handles = self.__animationHandles;
+          handles.splice(self.indexOf(handle), 1);
+          if (handles.length == 0) {
+            self.emit("end");
+          }
+        }, handle);
+        this.__animationHandles.push(handle);
+      };
+      return this;
+    },
+
 
 
     /**
