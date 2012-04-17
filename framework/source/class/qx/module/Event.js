@@ -79,6 +79,14 @@ qx.Bootstrap.define("qx.module.Event", {
           }
           el.__bound[id] = bound;
         }
+        if (!context) {
+          // store a reference to the dynamically created context so we know
+          // what to check for when removing the listener
+          if (!el.__ctx) {
+            el.__ctx = {};
+          }
+          el.__ctx[id] = ctx;
+        }
       };
       return this;
     },
@@ -102,10 +110,18 @@ qx.Bootstrap.define("qx.module.Event", {
         else {
           for (var id in el.__bound) {
             if (el.__bound[id].original == listener) {
+              if (!context && typeof el.__ctx !== "undefined" && el.__ctx[id]) {
+                context = el.__ctx[id];
+              } 
+
               el.__emitter.off(type, el.__bound[id], context);
               // remove the native listener
               qx.bom.Event.removeNativeListener(el, type, el.__bound[id]);
               delete el.__bound[id];
+
+              if (el.__ctx[id]) {
+                delete el.__ctx[id];
+              }
             }
           }
         }
@@ -150,6 +166,24 @@ qx.Bootstrap.define("qx.module.Event", {
       };
       this.on(type, wrappedListener, context);
       return this;
+    },
+    
+    
+    /**
+     * Checks if one or more listeners for the given event type are attached to
+     * the first element in the collection
+     * 
+     * @param type {String} Event type, e.g. <code>mousedown</code>
+     * @return {Boolean} <code>true</code> if one or more listeners are attached
+     */
+    hasListener : function(type) {
+      if (!this[0] || !this[0].__emitter || 
+        !this[0].__emitter.getListeners()[type]) 
+      {
+        return false;
+      }
+      
+      return this[0].__emitter.getListeners()[type].length > 0;
     },
 
 
@@ -281,6 +315,7 @@ qx.Bootstrap.define("qx.module.Event", {
       "off" : statics.off,
       "once" : statics.once,
       "emit" : statics.emit,
+      "hasListener" : statics.hasListener,
       "copyEventsTo" : statics.copyEventsTo
     });
 

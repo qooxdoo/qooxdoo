@@ -1276,6 +1276,17 @@ testrunner.define({
     q.unregisterEventNormalization(["focus", "blur"], this.__normalizeFocusBlur);
     var after = registry["focus"].length + registry["blur"].length;
     this.assertEquals((before - 2), after);
+  },
+
+  testHasListener : function()
+  {
+    var test = q.create('<div></div>').appendTo("#sandbox");
+    this.assertFalse(test.hasListener("mousedown"));
+    var cb = function() {};
+    test.on("mousedown", cb);
+    this.assertTrue(test.hasListener("mousedown"));
+    test.off("mousedown", cb);
+    this.assertFalse(test.hasListener("mousedown"));
   }
 });
 
