@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 #ignore(jsonFlickrApi)
-#ignore(demobrowser.demo.data.store.Flickr)
+#ignore(demobrowser.demo.data.store)
 ************************************************************************ */
 
 /**

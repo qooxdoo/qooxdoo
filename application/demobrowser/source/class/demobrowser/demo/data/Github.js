@@ -20,8 +20,8 @@
 /* ************************************************************************
 
 #ignore(GITHUB)
-#ignore(github.rest.Resource)
-#ignore(github.view.Gist)
+#ignore(github.rest)
+#ignore(github.view)
 
 ************************************************************************ */
 
