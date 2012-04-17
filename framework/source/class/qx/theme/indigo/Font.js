@@ -19,6 +19,7 @@
 
 /* ************************************************************************
 
+#asset(qx/decoration/Indigo/font/JosefinSlab-SemiBold.woff)
 #asset(qx/decoration/Indigo/font/JosefinSlab-SemiBold.ttf)
 
 ************************************************************************* */
@@ -52,12 +53,12 @@ qx.Theme.define("qx.theme.indigo.Font",
     {
       size : 22,
       family : ["serif"],
-      bold: true,
       sources:
       [
         {
           family : "JosefinSlab",
           source: [
+            "qx/decoration/Indigo/font/JosefinSlab-SemiBold.woff",
             "qx/decoration/Indigo/font/JosefinSlab-SemiBold.ttf"
           ]
         }
