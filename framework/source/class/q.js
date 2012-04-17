@@ -59,7 +59,19 @@ qx.Bootstrap.define("q", {
      * @signature function(init)
      * @param init {Function} The initialization method for a module.
      */
-    attachInit : null
+    attachInit : null,
+
+
+    /**
+     * Define a new class using the qooxdoo class system.
+     *
+     * @signature function(name, config)
+     * @param name {String?} Name of the class. If null, the class will not be
+     *   attached to a namespace.
+     * @param config {Map ? null} Class definition structure.
+     * @return {Class} The defined class
+     */
+    define : null
   }
 });
 
@@ -102,5 +114,13 @@ qx.Bootstrap.define("q", {
 
   q.attachInit = function(init) {
     this.__init.push(init);
+  }
+
+  q.define = function(name, config) {
+    if (config == undefined) {
+      config = name;
+      name = null;
+    }
+    return qx.Bootstrap.define.call(qx.Bootstrap, name, config);
   }
 })();

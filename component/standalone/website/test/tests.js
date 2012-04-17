@@ -1761,3 +1761,18 @@ testrunner.define({
     this.assertEquals("String", q.type.get("abc"));
   }
 });
+
+
+testrunner.define({
+  classname : "Define",
+
+  testDefine : function() {
+    q.define("XXXXX", {statics : { a: 123 }});
+    this.assertEquals(123, XXXXX.a);
+    window["XXXXX"] = undefined;
+
+    var C = q.define({members : { a : function() {return 123;}}});
+    var c = new C();
+    this.assertEquals(123, c.a());
+  }
+});
