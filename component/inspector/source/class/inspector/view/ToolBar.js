@@ -148,6 +148,8 @@ qx.Class.define("inspector.view.ToolBar",
     __menuItemStore : null,
 
     __overflowMenu : null,
+    
+    __windowsPart : null,
 
     getTextField : function() {
       return this._urlTextField;
@@ -279,6 +281,7 @@ qx.Class.define("inspector.view.ToolBar",
     this._seleniumButton.dispose();
     this._consoleWindow.dispose();
     this.__overflowMenu.dispose();
+    this.__windowsPart.dispose();
 
     this._separator = this._inspectButton = this._selectedWidgetLabel =
       this._urlTextField = this._reloadButton = this._objectsButton =
