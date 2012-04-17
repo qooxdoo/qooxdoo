@@ -1,5 +1,67 @@
-// fake class
-qx.Bootstrap.define("q", {});
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2012 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Martin Wittemann (wittemann)
+
+************************************************************************ */
+
+qx.Bootstrap.define("q", {
+  statics : {
+    /**
+     * Internal helper to initialize collections.
+     *
+     * @internal
+     * @signature function(arg)
+     * @param arg {var} An Element or an array of Elements which will
+     *   be initialized as {@link qx.Collection}.
+     * @return {qx.Collection} A new initialized collection.
+     */
+    init : null,
+
+
+    /**
+     * This is an API for module development and can be used to attach new methods
+     * to {@link qx.Collection}.
+     *
+     * @signature function(module)
+     * @param module {Map} A map containing the methods to attach.
+     */
+    attach : null,
+
+
+    /**
+     * This is an API for module development and can be used to attach new methods
+     * to {@link q}.
+     *
+     * @signature function(module)
+     * @param module {Map} A map containing the methods to attach.
+     */
+    attachStatic : null,
+
+
+    /**
+     * This is an API for module development and can be used to attach new initialization
+     * methods to {@link qx.Collection} which will be called when a new collection is
+     * created.
+     *
+     * @signature function(init)
+     * @param init {Function} The initialization method for a module.
+     */
+    attachInit : null
+  }
+});
 
 (function() {
   q = function(selector, context) {
