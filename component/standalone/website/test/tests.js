@@ -915,6 +915,9 @@ testrunner.define({
     test.setAttribute("id", "affe");
     this.assertEquals("affe", test[0].getAttribute("id"));
     this.assertEquals("affe", test.getAttribute("id"));
+    test.removeAttribute("id");
+    this.assertNull(test[0].getAttribute("id"));
+    this.assertNull(test.getAttribute("id"));
   },
 
   testAttributes : function() {
@@ -923,6 +926,9 @@ testrunner.define({
     this.assertEquals("affe", test[0].getAttribute("id"));
     this.assertEquals("affe", test.getAttributes(["id", "x"]).id);
     this.assertEquals("y", test.getAttributes(["id", "x"]).x);
+    test.removeAttributes(["id", "x"]);
+    this.assertNull(test.getAttributes(["id", "x"]).id);
+    this.assertNull(test.getAttributes(["id", "x"]).x);
   },
 
   testProperty : function() {

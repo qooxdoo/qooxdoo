@@ -81,6 +81,20 @@ qx.Bootstrap.define("qx.module.Attribute", {
 
 
     /**
+     * Removes the given attribute from all elements in the collection
+     * 
+     * @param name {String} Attribute name
+     * @return {qx.Collection} The collection for chaining
+     */
+    removeAttribute : function(name) {
+      for (var i=0; i < this.length; i++) {
+        qx.bom.element.Attribute.set(this[i], name, null);
+      };
+      return this;
+    },
+
+
+    /**
      * Sets multiple attributes for each item in the collection.
      * 
      * @param attributes {Map} A map of attribute name/value pairs
@@ -108,6 +122,20 @@ qx.Bootstrap.define("qx.module.Attribute", {
       return attributes;
     },
 
+    
+    /**
+     * Removes multiple attributes from each item in the collection.
+     * 
+     * @param attributes {String[]} List of attribute names
+     * @return {qx.Collection} The collection for chaining
+     */
+    removeAttributes : function(attributes) {
+      for (var i=0, l=attributes.length; i<l; i++) {
+        this.removeAttribute(attributes[i]);
+      }
+      return this;
+    },
+    
 
     /**
      * Sets a property on each item in the collection
@@ -215,8 +243,10 @@ qx.Bootstrap.define("qx.module.Attribute", {
 
       "getAttribute" : statics.getAttribute,
       "setAttribute" : statics.setAttribute,
+      "removeAttribute" : statics.removeAttribute,
       "getAttributes" : statics.getAttributes,
       "setAttributes" : statics.setAttributes,
+      "removeAttributes" : statics.removeAttributes,
 
       "getProperty" : statics.getProperty,
       "setProperty" : statics.setProperty,
