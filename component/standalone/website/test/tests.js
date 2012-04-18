@@ -1820,3 +1820,32 @@ testrunner.define({
     this.assertEquals(123, c.a());
   }
 });
+
+
+testrunner.define({
+  classname : "Cookie",
+  
+    testGetSetDel : function()
+    {
+      var key1 = "q.test.cookie.Gorilla";
+      var key2 = "q.test.cookie.Chimp";
+      
+      this.assertNull(q.cookie.get(key1));
+      this.assertNull(q.cookie.get(key2));
+      
+      var value1 = "Donkey";
+      var value2 = "Diddy";
+      
+      q.cookie.set(key1, value1);
+      q.cookie.set(key2, value2);
+      
+      this.assertEquals(value1, q.cookie.get(key1));
+      this.assertEquals(value2, q.cookie.get(key2));
+      
+      q.cookie.del(key1);
+      q.cookie.del(key2);
+      
+      this.assertNull(q.cookie.get(key1));
+      this.assertNull(q.cookie.get(key2));
+    }
+});
