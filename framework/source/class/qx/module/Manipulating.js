@@ -109,10 +109,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {qx.Collection} The collection for chaining
      */
     appendTo : function(parent) {
-      if (!qx.lang.Type.isArray(parent)) {
-        var fromSelector = q(parent);
-        parent = fromSelector.length > 0 ? fromSelector : [parent];
-      }
+      parent = qx.module.Manipulating.__getElementArray(parent);
       for (var i=0, l=parent.length; i < l; i++) {
         for (var j=0, m=this.length; j < m; j++) {
           if (i == 0) {
@@ -121,12 +118,86 @@ qx.Bootstrap.define("qx.module.Manipulating", {
           }
           else {
             // further parents: clone the target node(s)
-            qx.dom.Element.insertEnd(this.eq(j).clone(true), parent[i]);
+            qx.dom.Element.insertEnd(this.eq(j).clone(true)[0], parent[i]);
           }
         }
       }
 
       return this;
+    },
+
+
+    /**
+     * Inserts the current collection before each target item. The collection 
+     * items are moved before the first target. For subsequent targets, 
+     * clones of the collection items are created and inserted.
+     * 
+     * @param target {String|Element} Selector expression or DOM element
+     * @return {qx.Collection} The collection for chaining
+     */
+    insertBefore : function(target)
+    {
+      target = qx.module.Manipulating.__getElementArray(target);
+      for (var i=0, l=target.length; i < l; i++) {
+        for (var j=0, m=this.length; j < m; j++) {
+          if (i == 0) {
+            // first target: move the target node(s)
+            qx.dom.Element.insertBefore(this[j], target[i]);
+          }
+          else {
+            // further targets: clone the target node(s)
+            qx.dom.Element.insertBefore(this.eq(j).clone(true)[0], target[i]);
+          }
+        }
+      }
+
+      return this;
+    },
+    
+
+
+    /**
+     * Inserts the current collection after each target item. The collection 
+     * items are moved after the first target. For subsequent targets, 
+     * clones of the collection items are created and inserted.
+     * 
+     * @param target {String|Element} Selector expression or DOM element
+     * @return {qx.Collection} The collection for chaining
+     */
+    insertAfter : function(target)
+    {
+      target = qx.module.Manipulating.__getElementArray(target);
+      for (var i=0, l=target.length; i < l; i++) {
+        for (var j=this.length - 1; j >= 0; j--) {
+          if (i == 0) {
+            // first target: move the target node(s)
+            qx.dom.Element.insertAfter(this[j], target[i]);
+          }
+          else {
+            // further targets: clone the target node(s)
+            qx.dom.Element.insertAfter(this.eq(j).clone(true)[0], target[i]);
+          }
+        }
+      }
+
+      return this;
+    },
+
+
+    /**
+     * Returns an array from a selector expression or a single element
+     * 
+     * @param arg {String|Element} Selector expression or DOM element
+     * @return {Element[]} Array of elements
+     * @internal
+     */
+    __getElementArray : function(arg)
+    {
+      if (!qx.lang.Type.isArray(arg)) {
+        var fromSelector = q(arg);
+        arg = fromSelector.length > 0 ? fromSelector : [arg];
+      }
+      return arg;
     },
 
 
@@ -364,7 +435,9 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       "empty" : statics.empty,
 
       "before" : statics.before,
+      "insertBefore" : statics.insertBefore,
       "after" : statics.after,
+      "insertAfter" : statics.insertAfter,
 
       "clone" : statics.clone,
 

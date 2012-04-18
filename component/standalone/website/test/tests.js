@@ -239,6 +239,38 @@ testrunner.define({
     }, 100);
     
     this.wait();
+  },
+  
+  "test insertAfter with element" : function()
+  {
+    q.create('<h1>Foo</h1>').
+    appendTo("#sandbox");
+    q.create('<h2>Bar</h2><h3>Baz</h3>').insertAfter(q("#sandbox h1")[0]);
+    this.assertEquals(1, q("#sandbox h1 + h2 + h3").length);
+  },
+  
+  "testInsertAfter with collection" : function()
+  {
+    q.create('<h1>Foo</h1><h1>Foo</h1>').
+    appendTo("#sandbox");
+    q.create('<h2>Bar</h2><h3>Baz</h3>').insertAfter("#sandbox h1");
+    this.assertEquals(2, q("#sandbox h1 + h2 + h3").length);
+  },
+  
+  "test insertBefore with element" : function()
+  {
+    q.create('<h1>Foo</h1>').
+    appendTo("#sandbox");
+    q.create('<h2>Bar</h2><h3>Baz</h3>').insertBefore(q("#sandbox h1")[0]);
+    this.assertEquals(1, q("#sandbox h2 + h3 + h1").length);
+  },
+  
+  "testInsertBefore with collection" : function()
+  {
+    q.create('<h1>Foo</h1><h1>Foo</h1>').
+    appendTo("#sandbox");
+    q.create('<h2>Bar</h2><h3>Baz</h3>').insertBefore("#sandbox h1");
+    this.assertEquals(2, q("#sandbox h2 + h3 + h1").length);
   }
 });
 
