@@ -137,7 +137,7 @@
       "compile-options" :
       {
         "code" : {
-          "=optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants"]
+          "=optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants", "statics"]
         },
         "paths"  :
         {
@@ -205,43 +205,16 @@
 
     "test" :
     {
-      "run" : [
-        "test-build-script",
-        "gen-css"
-      ]
-    },
-
-    "test-build-script" :
-    {
-      "extend" : ["testrunner-portable::build-script"],
-
-      "desc" : "generates a combined build version of q and the portable test runner",
-
       "let" :
       {
-        "TESTRUNNER_ORIGIN" : "external"
+        "BUILD_SCRIPT_FILE" : "${TEST_SCRIPT_PATH}/testrunner-portable.js"
       },
-
-      "include" : "${Q_INCLUDES}",
-
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "file" : "${TEST_SCRIPT_PATH}/q-test.js",
-          "app-root" : "."
-        }
-      }
-    },
-
-    "gen-css" :
-    {
-      "extend" : ["testrunner-portable::gen-css", "cache"],
-
-      "let" :
-      {
-        "BUILD_SCRIPT_FILE" : "${TEST_SCRIPT_PATH}/q-test.js"
-      }
+      
+      "run" : [
+        "build",
+        "testrunner-portable::build-script",
+        "testrunner-portable::gen-css"
+      ]
     }
   }
 }

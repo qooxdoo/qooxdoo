@@ -1129,7 +1129,7 @@ testrunner.define({
 
   __registerNormalization : function(type, normalizer) {
     var now = new Date().getTime();
-    qx.Bootstrap.define("EventNormalize" + now.toString(), {
+    q.define("EventNormalize" + now.toString(), {
       statics :
       {
         normalize : normalizer
@@ -1361,8 +1361,9 @@ testrunner.define({
 
   testEventNormalization : function()
   {
-    var eventTypes = qx.module.event.Mouse.TYPES;
-    var registry = qx.module.Event.getRegistry();
+    var eventTypes = ["click", "dblclick", "mousedown", "mouseup", "mouseover", "mousemove",
+      "mouseout"];
+    var registry = q.getEventNormalizationRegistry();
     for (var i=0,l=eventTypes.length; i<l; i++) {
       this.assertKeyInMap(eventTypes[i], registry);
     }
@@ -1370,7 +1371,8 @@ testrunner.define({
 
   testEventMethods : function()
   {
-    var eventMethods = qx.module.event.Mouse.BIND_METHODS;
+    var eventMethods = ["getButton", "getViewportLeft", "getViewportTop", 
+      "getDocumentLeft", "getDocumentTop", "getScreenLeft", "getScreenTop"];
 
     var test = q.create("<div id='foo'></div>");
     test.appendTo(this.sandbox[0]);
@@ -1410,10 +1412,10 @@ testrunner.define({
 
   testEventNormalization : function()
   {
-    var eventTypes = qx.module.event.Keyboard.TYPES;
+    var eventTypes = ["keydown", "keypress", "keyup"];
     this.assertArray(eventTypes);
     this.assert(eventTypes.length > 0);
-    var registry = qx.module.Event.getRegistry();
+    var registry = q.getEventNormalizationRegistry();
     for (var i=0,l=eventTypes.length; i<l; i++) {
       this.assertKeyInMap(eventTypes[i], registry);
     }
@@ -1572,38 +1574,33 @@ testrunner.define({
     .appendTo(this.sandbox[0]);
     test.block("#00FF00", 1);
 
-    var blockerDiv = test[0].__blocker.div[0];
-    this.assertElement(blockerDiv);
-    this.assertTrue(qx.dom.Hierarchy.isRendered(blockerDiv));
-    var blockerLocation = qx.bom.element.Location.get(blockerDiv);
+    var blockerDiv = test[0].__blocker.div;
+    this.assertElement(blockerDiv[0]);
+    this.assertTrue(qx.dom.Hierarchy.isRendered(blockerDiv[0]));
+    var blockerLocation = blockerDiv.getOffset();
     this.assertEquals(styles.top, blockerLocation.top + "px");
     this.assertEquals(styles.left, blockerLocation.left + "px");
-    var blockerSize = qx.bom.element.Dimension.getSize(blockerDiv);
-    this.assertEquals(styles.width, blockerSize.width + "px");
-    this.assertEquals(styles.height, blockerSize.height + "px");
+    this.assertEquals(styles.width, blockerDiv.getWidth() + "px");
+    this.assertEquals(styles.height, blockerDiv.getHeight() + "px");
 
-    if (qx.core.Environment.get("engine.name") == "mshtml") {
-      var blockerIframe = test[0].__blocker.iframe[0];
-      this.assertElement(blockerIframe);
-      this.assertTrue(qx.dom.Hierarchy.isRendered(blockerIframe));
-      var blockerIframeLocation = qx.bom.element.Location.get(blockerIframe);
+    if (q.env.get("engine.name") == "mshtml") {
+      var blockerIframe = test[0].__blocker.iframe;
+      this.assertElement(blockerIframe[0]);
+      this.assertTrue(qx.dom.Hierarchy.isRendered(blockerIframe[0]));
+      var blockerIframeLocation = blockerIframe.getOffset();
       this.assertEquals(styles.top, blockerIframeLocation.top + "px");
       this.assertEquals(styles.left, blockerIframeLocation.left + "px");
-      var blockerIframeSize = qx.bom.element.Dimension.getSize(blockerIframe);
-      this.assertEquals(styles.width, blockerIframeSize.width + "px");
-      this.assertEquals(styles.height, blockerIframeSize.height + "px");
+      this.assertEquals(styles.width, blockerIframe.getWidth() + "px");
+      this.assertEquals(styles.height, blockerIframe.getHeight() + "px");
     }
 
-    this.assertEquals(1, qx.bom.element.Style.get(blockerDiv, "opacity"));
-    var rgbString = qx.bom.element.Style.get(blockerDiv, "backgroundColor")
-    var hexCol = qx.util.ColorUtil.rgbToHexString(qx.util.ColorUtil.stringToRgb(rgbString));
-    this.assertEquals("00FF00", hexCol);
-
+    this.assertEquals(1, blockerDiv.getStyle("opacity"));
+    this.assertMatch(blockerDiv.getStyle("backgroundColor"), /(rgb.*?0,.*?255.*?0|#00ff00)/i);
     test.unblock();
-    this.assertFalse(qx.dom.Hierarchy.isRendered(blockerDiv));
+    this.assertFalse(qx.dom.Hierarchy.isRendered(blockerDiv[0]));
 
-    if (qx.core.Environment.get("engine.name") == "mshtml") {
-      this.assertFalse(qx.dom.Hierarchy.isRendered(blockerIframe));
+    if (q.env.get("engine.name") == "mshtml") {
+      this.assertFalse(qx.dom.Hierarchy.isRendered(blockerIframe[0]));
     }
 
     var newStyles = {
@@ -1615,44 +1612,43 @@ testrunner.define({
     test.setStyles(newStyles);
     test.block();
 
-    this.assertTrue(qx.dom.Hierarchy.isRendered(blockerDiv));
-    blockerLocation = qx.bom.element.Location.get(blockerDiv);
+    this.assertTrue(qx.dom.Hierarchy.isRendered(blockerDiv[0]));
+    var blockerLocation = blockerDiv.getOffset();
     this.assertEquals(newStyles.top, blockerLocation.top + "px");
     this.assertEquals(newStyles.left, blockerLocation.left + "px");
-    blockerSize = qx.bom.element.Dimension.getSize(blockerDiv);
-    this.assertEquals(newStyles.width, blockerSize.width + "px");
-    this.assertEquals(newStyles.height, blockerSize.height + "px");
+    this.assertEquals(newStyles.width, blockerDiv.getWidth() + "px");
+    this.assertEquals(newStyles.height, blockerDiv.getHeight() + "px");
 
-    if (qx.core.Environment.get("engine.name") == "mshtml") {
-      this.assertTrue(qx.dom.Hierarchy.isRendered(blockerIframe));
-      blockerIframeLocation = qx.bom.element.Location.get(blockerIframe);
+    if (q.env.get("engine.name") == "mshtml") {
+      this.assertTrue(qx.dom.Hierarchy.isRendered(blockerIframe[0]));
+      blockerIframeLocation = blockerIframe.getOffset();
       this.assertEquals(newStyles.top, blockerIframeLocation.top + "px");
       this.assertEquals(newStyles.left, blockerIframeLocation.left + "px");
-      blockerIframeSize = qx.bom.element.Dimension.getSize(blockerIframe);
-      this.assertEquals(newStyles.width, blockerIframeSize.width + "px");
-      this.assertEquals(newStyles.height, blockerIframeSize.height + "px");
+      this.assertEquals(newStyles.width, blockerIframe.getWidth() + "px");
+      this.assertEquals(newStyles.height, blockerIframe.getHeight() + "px");
     }
   },
 
   testBlockDocument : function()
   {
     q.wrap(document).block();
-    var blockerDiv = document.__blocker.div[0];
-    this.assertTrue(qx.dom.Hierarchy.isRendered(blockerDiv));
-    this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(blockerDiv));
-    this.assertEquals(qx.bom.Document.getHeight(), qx.bom.element.Dimension.getHeight(blockerDiv));
+    var blockerDiv = document.__blocker.div;
+    this.assertTrue(qx.dom.Hierarchy.isRendered(blockerDiv[0]));
+    this.assertEquals(q.wrap(document).getWidth(), blockerDiv.getWidth());
+    this.assertEquals(q.wrap(document).getHeight(), blockerDiv.getHeight());
 
-    if (qx.core.Environment.get("engine.name") == "mshtml") {
-      this.assertTrue(qx.dom.Hierarchy.isRendered(document.__blocker.iframe[0]));
-      this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(document.__blocker.iframe[0]));
-      this.assertEquals(qx.bom.Document.getHeight(), qx.bom.element.Dimension.getHeight(document.__blocker.iframe[0]));
+    if (q.env.get("engine.name") == "mshtml") {
+      var blockerIframe = document.__blocker.iframe;
+      this.assertTrue(qx.dom.Hierarchy.isRendered(blockerIframe[0]));
+      this.assertEquals(q.wrap(document).getWidth(), blockerIframe.getWidth());
+      this.assertEquals(q.wrap(document).getHeight(), blockerIframe.getHeight());
     }
 
     q.wrap(document).unblock();
 
-    this.assertFalse(qx.dom.Hierarchy.isRendered(blockerDiv));
-    if (qx.core.Environment.get("engine.name") == "mshtml") {
-      this.assertFalse(qx.dom.Hierarchy.isRendered(document.__blocker.iframe[0]));
+    this.assertFalse(qx.dom.Hierarchy.isRendered(blockerDiv[0]));
+    if (q.env.get("engine.name") == "mshtml") {
+      this.assertFalse(qx.dom.Hierarchy.isRendered(blockerIframe[0]));
     }
   }
 });
