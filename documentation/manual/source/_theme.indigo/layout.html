@@ -2,7 +2,7 @@
 
 {% set assets_host = "http://resources.qooxdoo.org" %}
 {% set css_files = [assets_host + "/stylesheets/reset.css", assets_host + "/stylesheets/base.css", assets_host + "/stylesheets/layout.css"] + css_files %}
-{% set script_files = [assets_host + "/javascripts/q.js", assets_host + "/javascripts/q.placeholder.js", assets_host + "/javascripts/q.sticky.js", assets_host + "/javascripts/application.js"] + script_files %}
+{% set script_files = [assets_host + "/javascripts/html5shiv.js", assets_host + "/javascripts/q.js", assets_host + "/javascripts/q.placeholder.js", assets_host + "/javascripts/q.sticky.js", assets_host + "/javascripts/application.js"] + script_files %}
 
 {%- macro breadcrumb() %}
   <a href="http://qooxdoo.org">home</a>{{ reldelim1 }}
