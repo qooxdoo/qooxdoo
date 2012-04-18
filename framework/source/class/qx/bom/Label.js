@@ -21,7 +21,7 @@
 /**
  * Cross browser abstractions to work with labels.
  */
-qx.Class.define("qx.bom.Label",
+qx.Bootstrap.define("qx.bom.Label",
 {
   /*
   *****************************************************************************
@@ -78,7 +78,7 @@ qx.Class.define("qx.bom.Label",
      */
     __createMeasureElement : function(html)
     {
-      var el = qx.bom.Element.create("div");
+      var el = qx.dom.Element.create("div");
       var style = el.style;
 
       style.width = style.height = "auto";

@@ -22,13 +22,15 @@
 /* ************************************************************************
 
 #ignore(qx.theme.manager.Color)
+#ignore(qx.Class)
+#ignore(qx.theme.manager.Color)
 
 ************************************************************************ */
 
 /**
  * Methods to convert colors between different color spaces.
  */
-qx.Class.define("qx.util.ColorUtil",
+qx.Bootstrap.define("qx.util.ColorUtil",
 {
   statics :
   {
@@ -140,7 +142,10 @@ qx.Class.define("qx.util.ColorUtil",
      * @return {Boolean} <code>true</code> when color theme support is ready.
      **/
     supportsThemes : function() {
-      return qx.Class.isDefined("qx.theme.manager.Color");
+      if (qx.Class) {
+        return qx.Class.isDefined("qx.theme.manager.Color");
+      }
+      return false;
     },
 
 
@@ -156,7 +161,10 @@ qx.Class.define("qx.util.ColorUtil",
         return false;
       }
 
-      return qx.theme.manager.Color.getInstance().isDynamic(value);
+      if (qx.theme && qx.theme.manager && qx.theme.manager.Color) {
+        return qx.theme.manager.Color.getInstance().isDynamic(value);
+      }
+      return false;
     },
 
 

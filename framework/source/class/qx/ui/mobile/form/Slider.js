@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     _createKnobElement : function()
     {
-      return qx.bom.Element.create("div");
+      return qx.dom.Element.create("div");
     },
 
 

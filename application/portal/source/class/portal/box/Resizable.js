@@ -122,7 +122,7 @@ qx.Class.define("portal.box.Resizable",
       // add 3 div elements for resizing
       for (var orientation in this.__handles)
       {
-        var handle = this.__handles[orientation] = qx.bom.Element.create("div");
+        var handle = this.__handles[orientation] = qx.dom.Element.create("div");
         qx.bom.element.Attribute.set(handle, "orientation", orientation);
 
         qx.dom.Element.insertEnd(handle, this.__element);

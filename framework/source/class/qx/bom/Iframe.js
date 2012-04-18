@@ -78,7 +78,7 @@ qx.Class.define("qx.bom.Iframe",
         }
       }
 
-      return qx.bom.Element.create("iframe", attributes, win);
+      return qx.dom.Element.create("iframe", attributes, win);
     },
 
 

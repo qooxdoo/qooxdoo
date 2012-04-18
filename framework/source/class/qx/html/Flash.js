@@ -72,7 +72,7 @@ qx.Class.define("qx.html.Flash",
 
     // overridden
     _createDomElement : function() {
-      return qx.bom.Element.create("div");
+      return qx.dom.Element.create("div");
     },
 
     /**

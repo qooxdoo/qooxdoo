@@ -25,7 +25,8 @@
     "TESTRUNNER_ORIGIN" : "external",
     "TESTRUNNER_MAIN_CLASS" : "testrunner.Application",
     "TESTRUNNER_VIEW" : "testrunner.view.Html",
-    "TESTRUNNER_SCRIPT" : "testrunner-portable.js"
+    "TESTRUNNER_SCRIPT" : "testrunner-portable.js",
+    "BUILD_SCRIPT_FILE" : "${BUILD_PATH}/script/${TESTRUNNER_SCRIPT}"
   },
   
   "config-warnings" :
@@ -61,7 +62,8 @@
         "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}",
         "testrunner.title" : "${APPLICATION}",
         "testrunner.testParts" : false,
-        "testrunner.reportServer" : null
+        "testrunner.reportServer" : null,
+        "testrunner.performance" : true
       },
       
       "library" :
@@ -105,7 +107,7 @@
         {
           "app-root" : "source",
           "file" : "source/script/${TESTRUNNER_SCRIPT}",
-          "loader-template" : "tool/portable.loader.tmpl.js"
+          "loader-template" : "${TESTRUNNER_ROOT}/tool/portable.loader.tmpl.js"
         }
       }
     },
@@ -118,8 +120,8 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/${TESTRUNNER_SCRIPT}",
-          "loader-template" : "tool/portable.loader.tmpl.js"
+          "file" : "${BUILD_SCRIPT_FILE}",
+          "loader-template" : "${TESTRUNNER_ROOT}/tool/portable.loader.tmpl.js"
         }
         ,
         "code" :
@@ -135,7 +137,7 @@
       {
         "command" :
         [
-          "${PYTHON_CMD} tool/injectcss.py ${QOOXDOO_PATH}/component/library/indigo/source/resource/indigo/css/reset.css ${QOOXDOO_PATH}/component/library/indigo/source/resource/indigo/css/base.css source/resource/testrunner/view/html/css/testrunner.css ${BUILD_PATH}/script/${TESTRUNNER_SCRIPT}"
+          "${PYTHON_CMD} ${TESTRUNNER_ROOT}/tool/injectcss.py ${QOOXDOO_PATH}/component/library/indigo/source/resource/indigo/css/reset.css ${QOOXDOO_PATH}/component/library/indigo/source/resource/indigo/css/base.css ${TESTRUNNER_ROOT}/source/resource/testrunner/view/html/css/testrunner.css -t ${BUILD_SCRIPT_FILE} -q ${QOOXDOO_PATH}"
         ]
       }
     },

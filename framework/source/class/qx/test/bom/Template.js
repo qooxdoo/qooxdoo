@@ -137,7 +137,7 @@ qx.Class.define("qx.test.bom.Template",
 
     testGet : function() {
       // add template
-      this.__tmpl = qx.bom.Element.create("div");
+      this.__tmpl = qx.dom.Element.create("div");
       qx.bom.element.Attribute.set(this.__tmpl, "id", "qx-test-template");
       qx.bom.element.Style.set(this.__tmpl, "display", "none");
       this.__tmpl.innerHTML = "<div>{{a}}</div>";
@@ -153,7 +153,7 @@ qx.Class.define("qx.test.bom.Template",
 
     testPlainText : function() {
       // add template
-      this.__tmpl = qx.bom.Element.create("div");
+      this.__tmpl = qx.dom.Element.create("div");
       qx.bom.element.Attribute.set(this.__tmpl, "id", "qx-test-template");
       qx.bom.element.Style.set(this.__tmpl, "display", "none");
       this.__tmpl.innerHTML = "{{a}}.{{b}}";
@@ -167,7 +167,7 @@ qx.Class.define("qx.test.bom.Template",
 
     testGetMixed : function() {
       // add template
-      this.__tmpl = qx.bom.Element.create("div");
+      this.__tmpl = qx.dom.Element.create("div");
       qx.bom.element.Attribute.set(this.__tmpl, "id", "qx-test-template");
       qx.bom.element.Style.set(this.__tmpl, "display", "none");
       this.__tmpl.innerHTML = "<div>{{a}}<span>{{b}}</span></div>";

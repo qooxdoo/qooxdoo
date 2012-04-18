@@ -36,6 +36,7 @@
 
 #require(qx.lang.Array)
 #ignore(qx.core.Object)
+#ignore(qx.event.GlobalError)
 
 ************************************************************************ */
 

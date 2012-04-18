@@ -4,82 +4,217 @@
   "include" :
   [
     {
-      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
+      "block" : [
+        "test-source",
+        "test",
+        "build",
+        "source"
+      ]
+    },
+    {
+      "path" : "${QOOXDOO_PATH}/component/testrunner/portable.json",
+      "as" : "testrunner-portable"
     }
   ],
 
   "export" :
   [
-    "api",
-    "api-data",
+    "build-min",
     "build",
-    "clean",
-    "distclean",
-    "fix",
-    "info",
-    "inspector",
-    "lint",
-    "migration",
-    "pretty",
-    "profiling",
     "source",
-    "source-all",
-    "source-hybrid",    
-    "simulation-build",
-    "simulation-run",
-    "test",
     "test-source",
-    "translation"
+    "test",
+    "log-deps"
   ],
-  
-  "default-job" : "source-hybrid",
+
 
   "let" :
   {
-    "APPLICATION"  : "website",
+    "APPLICATION"  : "library",
     "QOOXDOO_PATH" : "../../..",
-    "QXTHEME"      : "website.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "API_EXCLUDE"  : ["qx.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "ROOT"         : "."
+    "BUILD_PATH"   : "script",
+    "ROOT"         : ".",
+    "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
+    "TEST_SCRIPT_PATH"  : "./test/script",
+    "Q_INCLUDES" : [
+      "qx.module.Css",
+      "qx.module.Attribute",
+      "qx.module.Manipulating",
+      "qx.module.Animation",
+      "qx.module.Traversing",
+      "qx.module.Event",
+      "qx.module.event.Native",
+      "qx.module.event.Mouse",
+      "qx.module.event.Keyboard",
+      "qx.module.Template",
+      "qx.module.Polyfill",
+      "qx.module.Placement",
+      "qx.module.Blocker",
+      "qx.module.util.String",
+      "qx.module.Environment",
+      "qx.module.util.Type",
+      "q"
+    ]
   },
 
-  // You only need to edit the remainder of this file, if you want to customize
-  // specific jobs, or add own job definitions.
+  "config-warnings" :
+  {
+    "job-shadowing" : [ "common" ]
+  },
 
   "jobs" :
   {
-    // Uncomment the following entry to add a contrib or library to your
-    // project; make sure to adapt the path to the Manifest.json; if you are
-    // using a contrib: library, it will be downloaded into the path specified
-    // by the 'cache/downloads' config key
-    /*
-    "libraries" : 
+    "common" :
     {
-      "library" :
+      "=include" : "${Q_INCLUDES}",
+
+      "environment" :
+      {
+        "qx.version"     : "${QOOXDOO_VERSION}",
+        "qx.debug" : false
+      },
+
+      "=library" :
       [
         {
-          "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json"
+           "manifest": "${QOOXDOO_PATH}/framework/Manifest.json"
         }
       ]
-    }
-    */
+    },
 
-    // If you want to tweak a job setting, see the following sample where
-    // the "format" feature of the "build-script" job is overridden.
-    // To see a list of available jobs, invoke 'generate.py x'.
-	/*
-    ,"build-script" :
+    "log-deps" :
     {
-      "compile-options" : 
+      "extend" : ["build"],
+
+      "log" :
       {
-        "code" :
-        {
-          "format" : false
+        "dependencies" : {
+          "dot" : {
+            "root" : "qx.module.Template",
+            "compiled-class-size" : false
+            },
+          "type"   : "using",
+          "phase" : null,
+          "include-transitive-load-deps" : true,
+          "force-fresh-deps" : true,
+          "format" : "dot"
         }
       }
+    },
+
+    "build" :
+    {
+      "extend" : ["build-script"],
+
+      "let" :
+      {
+        "OPTIMIZE" : ["variants"]
+      },
+
+      "compile-options" :
+      {
+
+        "code" : {
+          "format" : true
+        },
+
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
+        }
+      }
+    },
+
+    "build-min" :
+    {
+      "extend" : ["build"],
+
+      "compile-options" :
+      {
+        "code" : {
+          "=optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants", "statics"]
+        },
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q.min.js"
+        }
+      }
+    },
+
+    "source" :
+    {
+      "extend" : ["source-script"],
+
+      "let" :
+      {
+        "OPTIMIZE" : []
+      },
+
+      "compile-options" :
+      {
+        "code" : { "except" : [ "*" ] },
+
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/q-source.js",
+          "app-root" : "",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.source.tmpl.js"
+
+        }
+      }
+    },
+
+    "test-source" :
+    {
+      "run" : [
+        "test-source-script"
+      ]
+    },
+
+    "test-source-script" :
+    {
+      "extend" : ["testrunner-portable::source"],
+
+      "desc" : "generates a combined source version of q and the portable test runner",
+
+      "let" :
+      {
+        "TESTRUNNER_ORIGIN" : "external"
+      },
+
+      "environment" :
+      {
+        "qx.debug" : true
+      },
+
+      "include" : "${Q_INCLUDES}",
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${TEST_SCRIPT_PATH}/q-test-source.js"
+        }
+      }
+    },
+
+    "test" :
+    {
+      "let" :
+      {
+        "BUILD_SCRIPT_FILE" : "${TEST_SCRIPT_PATH}/testrunner-portable.js"
+      },
+      
+      "run" : [
+        "build",
+        "testrunner-portable::build-script",
+        "testrunner-portable::gen-css"
+      ]
     }
-    */
   }
 }

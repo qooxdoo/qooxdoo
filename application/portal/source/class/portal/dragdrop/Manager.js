@@ -118,7 +118,7 @@ qx.Class.define("portal.dragdrop.Manager",
     {
       // create ghost element
       if (!this.__ghost) {
-        this.__ghost = qx.bom.Element.create("div");
+        this.__ghost = qx.dom.Element.create("div");
       }
 
       var element = this.getActiveBox().getElement();

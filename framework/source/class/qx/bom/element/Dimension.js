@@ -26,7 +26,7 @@
  * sizes which are available via {@link #getContentWidth} and
  * {@link #getContentHeight}.
  */
-qx.Class.define("qx.bom.element.Dimension",
+qx.Bootstrap.define("qx.bom.element.Dimension",
 {
   /*
   *****************************************************************************

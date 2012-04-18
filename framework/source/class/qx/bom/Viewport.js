@@ -81,7 +81,7 @@
 /**
  * Includes library functions to work with the client's viewport (window).
  */
-qx.Class.define("qx.bom.Viewport",
+qx.Bootstrap.define("qx.bom.Viewport",
 {
   statics :
   {

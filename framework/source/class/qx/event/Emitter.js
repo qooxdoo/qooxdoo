@@ -25,6 +25,7 @@
  */
 qx.Bootstrap.define("qx.event.Emitter",
 {
+  extend : Object,
   statics : {
     /** Static storage for all event listener */
     __storage : []
@@ -77,6 +78,8 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @param name {String} The name of the event to listen to.
      * @param listener {function} The function execute on {@link #emit}.
      * @param ctx {?var} The context of the listener.
+     * @return {Integer|null} The listener's id if it was removed or 
+     * <code>null</code> if it wasn't found
      */
     off : function(name, listener, ctx) {
       var storage = this.__getStorage(name);
@@ -84,8 +87,10 @@ qx.Bootstrap.define("qx.event.Emitter",
         var entry = storage[i];
         if (entry.listener == listener && entry.ctx == ctx) {
           storage.splice(i, 1);
+          return i;
         }
       };
+      return null;
     },
 
 
@@ -173,6 +178,16 @@ qx.Bootstrap.define("qx.event.Emitter",
     },
 
 
+
+    /**
+     * Returns the internal attached listener.
+     * @internal
+     * @return {Map} A map which has the event name as key. The values are
+     *   arrays containing a map with 'listener' and 'ctx'.
+     */
+    getListeners : function() {
+      return this.__listener;
+    },
 
 
     /**

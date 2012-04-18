@@ -143,7 +143,6 @@ h2 {
 #tests {
   float: left;
   width: 49%;
-  margin-bottom: 50px;
 }
 
 .controls {
@@ -165,6 +164,7 @@ h2 {
   clear: both;
   font-weight: bold;
   background-color: #F0F0F0;
+  margin-bottom: 50px;
 }
 
 #testlist li {
@@ -199,6 +199,10 @@ h2 {
   margin-bottom: 50px;
 }
 
+#framecontainer {
+  margin-bottom: 25px;
+}
+
 #framecontrols {
   height: auto;
 }
@@ -221,10 +225,6 @@ h2 {
   height: 150px;
   overflow: auto;
   border: 1px solid #323335;
-}
-
-#logcontainer {
-  margin-top: 25px;
 }
 
 #logcontrols select {

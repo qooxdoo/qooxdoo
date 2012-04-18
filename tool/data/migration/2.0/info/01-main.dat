@@ -1,1 +1,2 @@
+\bqx\.bom\.Element\.allowCreationWithMarkup\b=This method is no longer available
 \bqx\.fx\.=The 'qx.fx' animation layer is deprecated. Please use qx.bom.element.Animation instead.

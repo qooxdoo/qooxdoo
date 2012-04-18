@@ -24,11 +24,11 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
   members :
   {
     setUp : function() {
-      this.axis = new qx.util.placement.BestFitAxis();
+      this.axis = qx.util.placement.BestFitAxis;
     },
 
     tearDown : function() {
-      this.axis.dispose();
+      delete this.axis;
     },
 
     testEnoughSpace : function()

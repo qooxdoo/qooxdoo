@@ -71,10 +71,22 @@ References
 Lint
 =============
 
+Tutorials
+------------
+
 .. toctree::
    :maxdepth: 1
 
    Source code validation <tool/source_code_validation>
+
+
+Application Wizard
+===================
+
+.. toctree::
+   :maxdepth: 1
+
+   tool/create_application
 
 
 Other Tools

@@ -16,6 +16,11 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
+/* ************************************************************************
+
+#ignore(qx.bom.element.Style)
+
+************************************************************************ */
 
 /**
  * This class offers the same API as the CSS3 animation layer in
@@ -200,10 +205,10 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         }
 
         delta[i] = {};
+
         // for every property
         for (var name in next) {
           var nItem = next[name] + "";
-
           // color values
           if (nItem.charAt(0) == "#") {
             // get the two values from the frames as RGB arrays
@@ -218,10 +223,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
 
             delta[i][name] = "#" + qx.util.ColorUtil.rgbToHexString(stepValue);
 
-          } else {
+          } else if (!isNaN(parseInt(nItem))) {
             var unit = nItem.substring((parseInt(nItem, 10)+"").length, nItem.length);
             var range = parseFloat(nItem, 10) - parseFloat(last[name], 10);
             delta[i][name] = (parseFloat(last[name]) + range * this.__calculateTiming(timing, i / steps)) + unit;
+          } else {
+            delta[i][name] = nItem;
           }
 
         };
@@ -241,7 +248,6 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      * @return {qx.bom.element.AnimationHandle} The handle for chaining.
      */
     play : function(handle) {
-      var self = this;
       var id = window.setInterval(function() {
         handle.repeatSteps--;
         var values = handle.delta[handle.i % handle.steps];
@@ -249,11 +255,17 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         if (handle.i == 0) {
           for (var name in values) {
             if (handle.initValues[name] == undefined) {
-              handle.initValues[name] = handle.el.style[qx.lang.String.camelCase(name)];
+              if (qx.bom.element.Style) {
+                handle.initValues[name] = qx.bom.element.Style.get(
+                  handle.el, qx.lang.String.camelCase(name)
+                );
+              } else {
+                handle.initValues[name] = handle.el.style[qx.lang.String.camelCase(name)];
+              }
             }
           }
         }
-        self.__applyStyles(handle.el, values);
+        qx.bom.element.AnimationJs.__applyStyles(handle.el, values);
 
         handle.i++;
         // iteration condition
@@ -264,7 +276,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         }
         // end condition
         if (handle.repeatSteps < 0) {
-          self.stop(handle);
+          qx.bom.element.AnimationJs.stop(handle);
         }
       }, handle.stepTime);
 
@@ -382,7 +394,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      */
     __applyStyles : function(el, styles) {
       for (var name in styles) {
-        el.style[qx.lang.String.camelCase(name)] = styles[name];
+        name = qx.lang.String.camelCase(name);
+        if (qx.bom.element.Style) {
+          qx.bom.element.Style.set(el, name, styles[name]);
+        } else {
+          el.style[name] = styles[name];
+        }
       }
     },
 

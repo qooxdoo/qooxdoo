@@ -598,7 +598,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     */
     _createContainerElement : function()
     {
-      return qx.bom.Element.create(this._getTagName());
+      return qx.dom.Element.create(this._getTagName());
     },
 
 

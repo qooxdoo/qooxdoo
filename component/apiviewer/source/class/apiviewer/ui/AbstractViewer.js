@@ -287,7 +287,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       this._updatePanels();
       if(this._tocElem)
       {
-        qx.bom.Element.empty(this._tocElem);
+        qx.dom.Element.empty(this._tocElem);
         this._tocElem.appendChild(this._getTocHtml(this.__classNode));
       }
     },
@@ -310,7 +310,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       }
 
       this._titleElem.innerHTML = this._getTitleHtml(classNode);
-      qx.bom.Element.empty(this._tocElem);
+      qx.dom.Element.empty(this._tocElem);
       this._tocElem.appendChild(this._getTocHtml(classNode));
       this._classDescElem.innerHTML = this._getDescriptionHtml(classNode);
       apiviewer.ui.AbstractViewer.fixLinks(this._classDescElem);

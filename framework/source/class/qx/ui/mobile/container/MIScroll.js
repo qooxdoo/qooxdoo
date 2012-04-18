@@ -74,7 +74,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
      */
     _createScrollElement : function()
     {
-      var scroll = qx.bom.Element.create("div");
+      var scroll = qx.dom.Element.create("div");
       qx.bom.element.Class.add(scroll,"iscroll");
       return scroll;
     },

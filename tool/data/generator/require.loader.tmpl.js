@@ -23,5 +23,10 @@ if (exp) {
     });
   }
 }
-delete window.qx;
+
+window[qx] = undefined;
+try {
+  delete window.qx;
+} catch(e) {}
+
 })();

@@ -87,40 +87,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     }
 
     /*
-     * "Fix" Keycode to identifier mapping in opera to suit the needs
-     * of the editor component
-     */
-    if ((qx.core.Environment.get("engine.name") == "opera"))
-    {
-      /*
-       * To correct the broken key handling in Opera "fix" the meanings of
-       * the several keyCodes manually to the desired Identifiers
-       *
-       * However for these keys it is bit more complicated:
-       *
-       * KEY   RESULT   POSSIBLE SOLUTION
-       * ************************************
-       * $     "Home"   SHIFT + "Home"  -> $
-       * (     "Down"   SHIFT + "Down"  -> (
-       * '     "Right"  SHIFT + "Right" -> '
-       *
-       */
-      var contentWindow = qx.dom.Node.getWindow(element);
-      var keyEventHandler = qx.event.Registration.getManager(contentWindow).getHandler(qx.event.handler.Keyboard);
-
-      /*
-       * fix mapping for the keys "#", "-", "P", "S", "X"
-       * for other keys there maybe also a problem with the wrong identifier,
-       * but here are only these keys fixed which are needed for the smiley handling
-       */
-      keyEventHandler._keyCodeToIdentifierMap[35]  = "#";
-      keyEventHandler._keyCodeToIdentifierMap[45]  = "-";
-      keyEventHandler._keyCodeToIdentifierMap[112] = "P";
-      keyEventHandler._keyCodeToIdentifierMap[115] = "S";
-      keyEventHandler._keyCodeToIdentifierMap[120] = "X";
-    }
-
-    /*
      * Build up this commandManager object to stack all commands
      * which are arriving before the "real" commandManager is initialised.
      * Once initialised the stacked commands will be executed.

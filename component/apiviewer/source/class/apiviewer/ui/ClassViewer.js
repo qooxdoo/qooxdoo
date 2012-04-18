@@ -411,7 +411,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           if(lastTocItem) {
             tocHtml.appendChild(document.createTextNode(' | '));
           }
-          var tocItem = qx.bom.Element.create('span');
+          var tocItem = qx.dom.Element.create('span');
           qx.bom.element.Class.add(tocItem,'tocitem');
 
           // add icon in front of the TOC item
@@ -426,7 +426,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
                 this.togglePanelVisibility(panel);
               }
             };})(panelByName[members[i]],memberList[0]),this,false);
-          var textSpan = qx.bom.Element.create('span');
+          var textSpan = qx.dom.Element.create('span');
           if(members[i] === 'methods-static' && qx.core.Environment.get("engine.name")=='webkit') {
             qx.bom.element.Style.set(textSpan,'margin-left','25px');
           }

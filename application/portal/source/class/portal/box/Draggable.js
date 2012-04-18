@@ -90,7 +90,7 @@ qx.Class.define("portal.box.Draggable",
      */
     __createHandle : function()
     {
-      this.__handle = qx.bom.Element.create("div");
+      this.__handle = qx.dom.Element.create("div");
 
       /* Only set the className attribute (CSS is defined seperately) */
       qx.bom.element.Class.add(this.__handle, "dragHandle");

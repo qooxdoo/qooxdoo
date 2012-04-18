@@ -61,10 +61,10 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
     {
       this.base(arguments);
 
-      this.__container = qx.bom.Element.create("div");
+      this.__container = qx.dom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__container, { margin: "20px 20px" });
 
-      var descriptionContainer = qx.bom.Element.create("div");
+      var descriptionContainer = qx.dom.Element.create("div");
       qx.bom.element.Style.setStyles(descriptionContainer, { width: "840px",
                                                                     padding: "0px",
                                                                     margin: "0px" });
@@ -77,14 +77,14 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
                         "buttons at the toolbar.</p>";
       qx.bom.element.Attribute.set(descriptionContainer, "innerHTML", description);
 
-      this.__buttonContainer = qx.bom.Element.create("div");
+      this.__buttonContainer = qx.dom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__buttonContainer, { width: "840px",
                                                                padding: "0px",
                                                                margin: "0px",
                                                                lineHeight: "0px",
                                                                border: "1px solid #AAA" });
 
-      this.__htmlAreaContainer = qx.bom.Element.create("div");
+      this.__htmlAreaContainer = qx.dom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__htmlAreaContainer, { width: "840px",
                                                                  height: "350px",
                                                                  border: "1px solid #AAA",
@@ -215,11 +215,11 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
     */
    __fontFamilyToolbarEntry : function()
    {
-     var container = qx.bom.Element.create("div");
+     var container = qx.dom.Element.create("div");
      qx.bom.element.Style.setStyles(container, { "float": "left" });
 
      var listItem;
-     var button = qx.bom.Element.create("select", { title: "Change font family" });
+     var button = qx.dom.Element.create("select", { title: "Change font family" });
 
      if (qx.core.Environment.get("engine.name") == "mshtml") {
        qx.bom.element.Attribute.set(button, "hideFocus", "true");
@@ -275,12 +275,12 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
     */
    __fontSizeToolbarEntry : function()
    {
-     var container = qx.bom.Element.create("div");
+     var container = qx.dom.Element.create("div");
      qx.bom.element.Style.setStyles(container, { "marginRight": "16px",
                                                  "float": "left" });
 
      var listItem;
-     var button = qx.bom.Element.create("select", { title: "Change font size" });
+     var button = qx.dom.Element.create("select", { title: "Change font size" });
 
      if (qx.core.Environment.get("engine.name") == "mshtml") {
        qx.bom.element.Attribute.set(button, "hideFocus", "true");
@@ -386,7 +386,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
        partStyle["marginRight"] = i == j-1 ? "0px" : "16px";
        partStyle["float"] = "left";
 
-       part = qx.bom.Element.create("div");
+       part = qx.dom.Element.create("div");
        qx.bom.element.Style.setStyles(part, partStyle);
 
        for (var entry in toolbarEntries[i])
@@ -407,7 +407,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
                           qxKeepFocus: "on",
                           qxSelectable: "off" };
 
-           button = qx.bom.Element.create("input", attributes);
+           button = qx.dom.Element.create("input", attributes);
            qx.bom.element.Style.setStyles(button, { width: "16px",
                                                     height: "16px",
                                                     padding: "4px" });
@@ -426,7 +426,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
        }
        qx.dom.Element.insertEnd(part, this.__buttonContainer);
      }
-     qx.dom.Element.insertEnd(qx.bom.Element.create("br", { style: "clear:both" }), this.__buttonContainer);
+     qx.dom.Element.insertEnd(qx.dom.Element.create("br", { style: "clear:both" }), this.__buttonContainer);
    }
   }
 });

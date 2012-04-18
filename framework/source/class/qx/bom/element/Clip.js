@@ -21,7 +21,7 @@
 /**
  * Contains methods to control and query the element's clip property
  */
-qx.Class.define("qx.bom.element.Clip",
+qx.Bootstrap.define("qx.bom.element.Clip",
 {
   /*
   *****************************************************************************

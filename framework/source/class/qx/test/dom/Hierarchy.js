@@ -26,10 +26,10 @@ qx.Class.define("qx.test.dom.Hierarchy",
 
     setUp : function()
     {
-      this.__renderedElement = qx.bom.Element.create("div");
+      this.__renderedElement = qx.dom.Element.create("div");
       document.body.appendChild(this.__renderedElement);
 
-      this.__unRenderedElement = qx.bom.Element.create("div");
+      this.__unRenderedElement = qx.dom.Element.create("div");
     },
 
 
@@ -84,12 +84,12 @@ qx.Class.define("qx.test.dom.Hierarchy",
     {
       this.assertTrue(qx.dom.Hierarchy.contains(document.body, this.__renderedElement));
 
-      this.__childElement = qx.bom.Element.create("div");
+      this.__childElement = qx.dom.Element.create("div");
       this.__renderedElement.appendChild(this.__childElement);
       this.assertTrue(qx.dom.Hierarchy.contains(this.__renderedElement, this.__childElement));
       this.assertFalse(qx.dom.Hierarchy.contains(this.__childElement, this.__renderedElement));
 
-      this.__siblingElement = qx.bom.Element.create("div");
+      this.__siblingElement = qx.dom.Element.create("div");
       document.body.appendChild(this.__siblingElement);
       this.assertFalse(qx.dom.Hierarchy.contains(this.__renderedElement, this.__siblingElement));
     },
@@ -97,13 +97,13 @@ qx.Class.define("qx.test.dom.Hierarchy",
 
     testGetCommonParent : function()
     {
-      this.__siblingElement = qx.bom.Element.create("div");
+      this.__siblingElement = qx.dom.Element.create("div");
       document.body.appendChild(this.__siblingElement);
 
       this.assertEquals(document.body,
       qx.dom.Hierarchy.getCommonParent(this.__renderedElement, this.__siblingElement));
 
-      this.__childElement = qx.bom.Element.create("div");
+      this.__childElement = qx.dom.Element.create("div");
       this.__renderedElement.appendChild(this.__childElement);
       this.assertEquals(this.__renderedElement,
       qx.dom.Hierarchy.getCommonParent(this.__renderedElement, this.__childElement));

@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.bom.Flash",
     {
       this.base(arguments);
 
-      var domElement = new qx.bom.Element.create("div");
+      var domElement = qx.dom.Element.create("div");
       qx.bom.element.Style.set(domElement, "position", "absolute");
       qx.bom.element.Style.set(domElement, "top", "20px");
       qx.bom.element.Style.set(domElement, "bottom", "20px");
