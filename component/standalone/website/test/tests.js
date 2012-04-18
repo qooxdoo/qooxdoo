@@ -1286,6 +1286,23 @@ testrunner.define({
     this.assertTrue(test.hasListener("mousedown"));
     test.off("mousedown", cb);
     this.assertFalse(test.hasListener("mousedown"));
+  },
+  
+  testContext : function()
+  {
+    window.temp = null;
+    q.create('<input type="text" id="one"></input><input type="text" id="two"></input>')
+    .on("focus", function(ev) {
+      window.temp = this.getAttribute("id");
+    }).appendTo("#sandbox");
+    
+    window.setTimeout(function() {
+      q("#sandbox #one").focus();
+    }, 100);
+    
+    this.wait(200, function() {
+      this.assertEquals("one", window.temp);
+    }, this);
   }
 });
 

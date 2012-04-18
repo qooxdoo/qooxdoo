@@ -63,8 +63,8 @@ qx.Bootstrap.define("qx.module.Event", {
             for (var x=0, y=normalizations.length; x<y; x++) {
               event = normalizations[x](event, el);
             }
-            listener.apply(ctx, [event]);
-          }
+            listener.apply(this, [event]);
+          }.bind(ctx);
           bound.original = listener;
           qx.bom.Event.addNativeListener(el, type, bound);
         }
