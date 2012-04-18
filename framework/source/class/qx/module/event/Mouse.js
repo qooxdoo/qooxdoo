@@ -18,6 +18,7 @@
 ************************************************************************ */
 
 /* ************************************************************************
+#require(qx.module.Environment)
 #require(qx.module.Event)
 ************************************************************************ */
 
@@ -83,8 +84,8 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
 
         case "click":
           // IE does not support buttons on click --> assume left button
-          if (qx.core.Environment.get("browser.name") === "ie" &&
-          qx.core.Environment.get("browser.documentmode") < 9)
+          if (q.env.get("browser.name") === "ie" &&
+            q.env.get("browser.documentmode") < 9)
           {
             return "left";
           }

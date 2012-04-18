@@ -18,6 +18,7 @@
 ************************************************************************ */
 
 /* ************************************************************************
+#require(qx.module.Environment)
 #require(qx.module.Manipulating)
 #require(qx.module.Traversing)
 #require(qx.module.Css)
@@ -54,7 +55,7 @@ qx.Bootstrap.define("qx.module.Blocker", {
         item.__blocker = {
           div : q.create("<div/>")
         };
-        if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+        if ((q.env.get("engine.name") == "mshtml")) {
           item.__blocker.iframe = qx.module.Blocker.__getIframeElement(win)
         }
       }
