@@ -129,7 +129,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      *   which will override the duration given in the description.
      * @return {qx.Collection} The collection for chaining.
      */
-    animate : function(desc, duration, reverse) {
+    animate : function(desc, duration) {
       if (this.__animationHandles.length > 0) {
         throw new Error("Only one animation at a time.");
       }
@@ -158,7 +158,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      *   which will override the duration given in the description.
      * @return {qx.Collection} The collection for chaining.
      */
-    animateReverese : function(desc, duration) {
+    animateReverse : function(desc, duration) {
       if (this.__animationHandles.length > 0) {
         throw new Error("Only one animation at a time.");
       }
