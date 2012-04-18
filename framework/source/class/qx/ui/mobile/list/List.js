@@ -85,8 +85,6 @@ qx.Class.define("qx.ui.mobile.list.List",
   },
 
 
-
-
  /*
   *****************************************************************************
      EVENTS
@@ -239,8 +237,6 @@ qx.Class.define("qx.ui.mobile.list.List",
       this._domUpdated();
     }
   },
-
-
 
 
  /*

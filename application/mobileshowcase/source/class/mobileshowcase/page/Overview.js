@@ -62,6 +62,7 @@ qx.Class.define("mobileshowcase.page.Overview",
           {title : "Tab Bar", subtitle : "Usings tabs to switch views", path:"tab"},
           {title : "Toolbar", subtitle : "toolbar, buttons, separators", path:"toolbar"},
           {title : "Events", subtitle : "Touch, Tap, Swipe...", path:"event"},
+          {title : "Data Binding", subtitle : "See how data binding works", path:"databinding"},
           {title : "Page Transitions", subtitle : "Slide, Fade, Cube...", path:"animation"}
       ];
 
