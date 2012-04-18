@@ -1004,10 +1004,9 @@ testrunner.define({
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
     test.fadeIn();
-    this.assertEquals(0, test[0].style["opacity"]);
     test.on("end", function() {
       this.resume(function() {
-        this.assertEquals(1, test[0].style["opacity"], "not visible after the animation");
+        this.assertEquals(1, test.getStyle("opacity"), "not visible after the animation");
         test.remove();
       }, this);
     }, this);

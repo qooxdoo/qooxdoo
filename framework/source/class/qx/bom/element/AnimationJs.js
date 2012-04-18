@@ -205,10 +205,10 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         }
 
         delta[i] = {};
+
         // for every property
         for (var name in next) {
           var nItem = next[name] + "";
-
           // color values
           if (nItem.charAt(0) == "#") {
             // get the two values from the frames as RGB arrays
@@ -223,10 +223,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
 
             delta[i][name] = "#" + qx.util.ColorUtil.rgbToHexString(stepValue);
 
-          } else {
+          } else if (!isNaN(parseInt(nItem))) {
             var unit = nItem.substring((parseInt(nItem, 10)+"").length, nItem.length);
             var range = parseFloat(nItem, 10) - parseFloat(last[name], 10);
             delta[i][name] = (parseFloat(last[name]) + range * this.__calculateTiming(timing, i / steps)) + unit;
+          } else {
+            delta[i][name] = nItem;
           }
 
         };
