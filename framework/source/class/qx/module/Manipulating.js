@@ -90,11 +90,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
             qx.dom.Element.insertEnd(children[j], this[i]);
           }
           else {
-            // further parents: clone the target node(s)
-            /* TODO: Implement workaround for IE problem with listeners attached
-             * to cloned nodes; see qx.bom.Element.clone()
-             */
-            qx.dom.Element.insertEnd(children[j].cloneNode(true), this[i]);
+            qx.dom.Element.insertEnd(children.eq(j).clone(true)[0], this[i]);
           }
         }
       }
@@ -125,10 +121,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
           }
           else {
             // further parents: clone the target node(s)
-            /* TODO: Implement workaround for IE problem with listeners attached
-             * to cloned nodes; see qx.bom.Element.clone()
-             */
-            qx.dom.Element.insertEnd(this[j].cloneNode(true), parent[i]);
+            qx.dom.Element.insertEnd(this.eq(j).clone(true), parent[i]);
           }
         }
       }
