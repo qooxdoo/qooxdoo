@@ -236,7 +236,7 @@ qx.Class.define("qx.bom.IframeHistory",
     __createIframe : function ()
     {
       var iframe = qx.bom.Iframe.create({
-        src : qx.util.ResourceManager.getInstance().toUri("qx/static/blank.html")
+        src : qx.util.ResourceManager.getInstance().toUri(qx.core.Environment.get("qx.blankpage"))
       });
 
       iframe.style.visibility = "hidden";

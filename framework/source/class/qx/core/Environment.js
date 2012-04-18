@@ -627,6 +627,9 @@
  *     </tr>
  *     <tr>
  *       <td>qx.version</td><td><i>String</i></td><td><code>${qxversion}</code></td>
+ *     </tr> 
+ *     <tr>
+ *       <td>qx.blankpage</td><td><i>String</i></td><td><code>URI to blank.html page</code></td>
  *     </tr>
 
  *     <tr>
@@ -1101,6 +1104,7 @@ qx.Bootstrap.define("qx.core.Environment",
       this.add("qx.dynlocale", function() {return true;});
       this.add("qx.mobile.emulatetouch", function() {return false;});
       this.add("qx.mobile.nativescroll", function() {return false;});
+      this.add("qx.blankpage", function() { return "qx/static/blank.html";});
 
       this.add("qx.dynamicmousewheel", function() {return true;});
       this.add("qx.debug.databinding", function() {return false;});

@@ -69,7 +69,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
   {
     this.base(arguments);
 
-    var uri = source || qx.util.ResourceManager.getInstance().toUri("qx/static/blank.html");
+    var uri = source || qx.util.ResourceManager.getInstance().toUri(qx.core.Environment.get("qx.blankpage"));
 
     this.__connectToDomElement(element);
     this.__initDocumentSkeletonParts();
