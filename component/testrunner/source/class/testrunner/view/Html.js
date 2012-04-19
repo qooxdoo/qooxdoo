@@ -71,7 +71,7 @@ qx.Class.define("testrunner.view.Html", {
 
     this._getHeader().appendTo("body");
     $('<div id="main"></div>').appendTo("body");
-    this._getMainControls().appendTo("#main");
+    this._getMainControls().appendTo("#header-wrapper");
     this._bindMainControls();
     
     $('<div id="tests"></div>').appendTo("#main");
@@ -157,9 +157,9 @@ qx.Class.define("testrunner.view.Html", {
     _getHeader : function()
     {
       var header = $('<div id="header-wrapper"></div>')
-      .append('<section id="header"><h1>qooxdoo Test Runner</h1>' +
+      .append('<div id="header"><h1>qooxdoo Test Runner</h1>' +
         '<div id="search"><input type="search" placeholder="Filter Tests" id="testfilter"/></div>' +
-        '</section>')
+        '</div>')
       .append('<div class="decoration" />');
       
       return header;

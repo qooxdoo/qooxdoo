@@ -53,6 +53,8 @@ h2 {
 }
 
 #header-wrapper {
+  position: fixed;
+  width: 100%;
   background-color: #323335;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), to(#323335));
   background-image: -webkit-linear-gradient(top, #505154, #323335);
@@ -128,11 +130,12 @@ h2 {
 
 #main {
   margin:0 auto;
-  padding: 25px 25px 50px 25px;
+  padding: 145px 25px 50px 25px;
 }
 
 #controls {
-  margin-bottom: 25px;
+  padding: 5px 25px 5px 25px;
+  background-color: #F6F6F6;
 }
 
 #controls input[type=submit],
