@@ -892,8 +892,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this._provider.removeBindings();
       this.__lookupTable.removeAll();
       this.__lookupTable.append(lookupTable);
-      this._updateSelection();
       this.__updateRowCount();
+      this._updateSelection();
     },
 
 
