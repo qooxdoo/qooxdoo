@@ -243,7 +243,7 @@ qx.Bootstrap.define("qx.lang.Function",
       {
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (qx.core && qx.core.Object && options.self instanceof qx.core.Object)
+          if (qx.core && qx.core.Object && options.self && options.self instanceof qx.core.Object)
           {
             qx.core.Assert && qx.core.Assert.assertFalse(
               options.self.isDisposed(),
