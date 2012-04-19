@@ -167,8 +167,8 @@ qx.Class.define("qx.lang.Object",
 
 
     /**
-     * Inserts all keys of the source object into the
-     * target objects but don't override existing keys
+     * Inserts all key/value pairs of the source object into the
+     * target object but doesn't override existing keys
      *
      * @param target {Object} target object
      * @param source {Object} object to be merged
