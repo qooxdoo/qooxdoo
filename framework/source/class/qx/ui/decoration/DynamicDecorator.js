@@ -80,7 +80,11 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
       if (!this._generateMarkup) {
         var html = ['<div style="'];
         html.push(qx.bom.element.Style.compile(styles));
-        html.push('"></div>');
+        html.push('">');
+        if (this._getContent) {
+          html.push(this._getContent());
+        }
+        html.push('</div>');
         html = html.join("");
       } else {
         var html = this._generateMarkup(styles);

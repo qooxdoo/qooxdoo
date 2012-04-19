@@ -205,7 +205,9 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
      * @return {String} The generated decorator HTML.
      */
     __generateMarkupDoubleBorder : function(styles) {
-      var innerHtml = this._generateBackgroundMarkup(styles);
+      var innerHtml = this._generateBackgroundMarkup(
+        styles, this._getContent ? this._getContent() : ""
+      );
 
       if (qx.core.Environment.get("qx.theme"))
       {
