@@ -116,7 +116,6 @@ qx.Class.define("mobileshowcase.page.DataBinding",
      */
     __onStopTimeButtonTap : function () 
     {
-      var date = qx.locale.Date.getDateFormat("medium");
       var now = new Date();
       var hours = now.getHours();
       var min = now.getMinutes();
@@ -134,7 +133,7 @@ qx.Class.define("mobileshowcase.page.DataBinding",
       */
     __onInterval : function()
     {
-        var old = parseInt(this.__dataLabel.getValue());
+        var old = parseInt(this.__dataLabel.getValue(),10);
         if(this.__increaseMode) {
           if (old<100) {
             this.__dataLabel.setValue(old+1);
