@@ -23,7 +23,7 @@
   font-style: normal;
 }
 body {
-  font-family: "Lucida Grande", "Verdana", sans-serif;
+  font-family: "Lucida Grande", "DejaVu Sans", "Verdana", sans-serif;
   font-size: 12px;
   line-height: 1.8;
   color: #262626;
@@ -46,7 +46,7 @@ i {
 }
 h1,
 h2 {
-  font-family: "JosefinSlab", "Lucida Grande", "Verdana", sans-serif;
+  font-family: "JosefinSlab", "DejaVu Sans", "Lucida Grande", "Verdana", sans-serif;
   font-style: normal;
   line-height: 1;
 }
@@ -82,6 +82,9 @@ pre {
   overflow: auto;
   margin: 1em 0;
 }
+span.pre {
+  background-color: #f0f0f0;
+}
 code {
   font-size: 11px;
 }
@@ -90,6 +93,12 @@ sub {
 }
 sup {
   vertical-align: super;
+}
+cite {
+  font-style: italic;
+}
+dt {
+  font-style: italic;
 }
 blockquote {
   margin-left: 2px;
@@ -127,8 +136,8 @@ table th {
   color: #366ac1;
   text-decoration: underline;
 }
-#main a.highlight,
-.main a.highlight {
+#main .highlight,
+.main .highlight {
   font-weight: bold;
 }
 #main a.button,
