@@ -45,7 +45,8 @@ qx.Theme.define("apiviewer.Appearance",
       {
         return {
           backgroundColor : "white",
-          decorator : "main"
+          decorator : "main",
+          padding : [10, 0, 10, 0]
         }
       }
     },

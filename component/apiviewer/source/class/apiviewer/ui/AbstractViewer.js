@@ -41,8 +41,6 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     this._infoPanelHash = {};
     this._infoPanels = [];
 
-    this.getContentElement().setStyle("marginTop", "10px");
-
     apiviewer.ObjectRegistry.register(this);
   },
 
