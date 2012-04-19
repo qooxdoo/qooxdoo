@@ -96,6 +96,11 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
      */
     getKeyIdentifier : function()
     {
+      if (this.type == "keypress" && 
+      (q.env.get("engine.name") != "gecko" || this.charCode != 0)) 
+      {
+        return qx.event.util.Keyboard.charCodeToIdentifier(this.charCode || this.keyCode)
+      }
       return qx.event.util.Keyboard.keyCodeToIdentifier(this.keyCode);
     },
 
