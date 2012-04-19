@@ -269,10 +269,12 @@ qx.Class.define("playground.Application",
 
     // property apply
     _applyCurrentSample : function(newSample, old) {
-      // ignore wenn the sample is set to null
+      // ignore when the sample is set to null
       if (!newSample) {
         return;
       }
+
+      this.setMode(newSample.getMode());
 
       // need to get the code from the editor in case he changes something
       // in the code
