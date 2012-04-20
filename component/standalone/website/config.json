@@ -41,22 +41,7 @@
     "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
     "TEST_SCRIPT_PATH"  : "./test/script",
     "Q_INCLUDES" : [
-      "qx.module.Css",
-      "qx.module.Attribute",
-      "qx.module.Manipulating",
-      "qx.module.Animation",
-      "qx.module.Traversing",
-      "qx.module.Event",
-      "qx.module.event.Native",
-      "qx.module.event.Mouse",
-      "qx.module.event.Keyboard",
-      "qx.module.Template",
-      "qx.module.Polyfill",
-      "qx.module.Placement",
-      "qx.module.Blocker",
-      "qx.module.util.String",
-      "qx.module.Environment",
-      "qx.module.util.Type",
+      "qx.module.*",
       "q"
     ]
   },
