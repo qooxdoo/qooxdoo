@@ -51,7 +51,7 @@ def findQxDefineR(rootNode):
 ##
 # Checks if the given node is a qx.*.define function invocation
 
-DefiningClasses = "qx.Bootstrap qx.Class qx.Interface qx.Mixin qx.List qx.Theme".split()
+DefiningClasses = "q qx.Bootstrap qx.Class qx.Interface qx.Mixin qx.Theme".split()
 
 def isQxDefine(node):
     if node.type in tree.NODE_VARIABLE_TYPES:
@@ -588,11 +588,13 @@ def _checkQxDefineNode(node):
             qxDefineParts = []
     else:
         qxDefineParts = []
-    if (qxDefineParts and 
+    if (qxDefineParts and
         len(qxDefineParts) > 2 and
         qxDefineParts[0] == "qx" and
         qxDefineParts[2] == "define"
        ):
+        pass  # ok
+    elif (qxDefineParts == ["q", "define"]):
         pass  # ok
     else:
         raise tree.NodeAccessException("Expected qx define node (as from findQxDefine())", node)

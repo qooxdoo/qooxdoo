@@ -34,7 +34,7 @@
  * The blocker can also be applied to the entire document, e.g.:
  * <br/><code>q.wrap(document).block()</code>
  */
-qx.Bootstrap.define("qx.module.Blocker", {
+q.define("qx.module.Blocker", {
   statics :
   {
     /**

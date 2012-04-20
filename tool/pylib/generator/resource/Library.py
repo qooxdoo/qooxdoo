@@ -167,11 +167,11 @@ class Library(object):
             # find youngest file
             file_, mtime = filetool.findYoungest(catPath)
             youngFiles[mtime] = file_
-            
+
         # also check the Manifest file
         file_, mtime = filetool.findYoungest(self.manipath)
         youngFiles[mtime] = file_
-        
+
         # and return the maximum of those
         youngest = sorted(youngFiles.keys())[-1]
         self.__youngest = (youngFiles[youngest], youngest) # ("filepath", mtime)
@@ -179,7 +179,7 @@ class Library(object):
         return self.__youngest
 
 
-    _codeExpr = re.compile(r'''qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["']((?u)[^"']+)["']''', re.M)
+    _codeExpr = re.compile(r'''(q|(qx.Bootstrap|qx.Class|qx.Mixin|qx.Interface|qx.Theme)).define\s*\(\s*["']((?u)[^"']+)["']''', re.M)
     _illegalIdentifierExpr = re.compile(lang.IDENTIFIER_ILLEGAL_CHARS)
     _ignoredDirEntries = re.compile(r'%s' % '|'.join(filetool.VERSIONCONTROL_DIR_PATTS), re.I)
     _docFilename = "__init__.js"

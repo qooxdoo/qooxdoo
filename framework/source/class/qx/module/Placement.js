@@ -27,10 +27,10 @@
  * The Placement module provides a convenient way to align two elements relative
  * to each other using various pre-defined algorithms.
  */
-qx.Bootstrap.define("qx.module.Placement", {
+q.define("qx.module.Placement", {
 
   statics: {
-    
+
     /**
      * Moves the first element in the collection, aligning it with the given 
      * target.

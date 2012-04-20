@@ -279,12 +279,12 @@ class MClassDependencies(object):
 
     # ----------------------------------------------------------------------------------
     # -- all methods below this line up to _analyzeClassDepsNode() are only used by that
-    
+
     ##
     # Only applies to qx.*.define calls, checks for a 'defer' child in class map
     def checkDeferNode(self, assembled, node):
         deferNode = None
-        if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define" or assembled == "qx.List.define":
+        if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define" or assembled == "q.define":
             if node.hasParentContext("call/operand"):
                 deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
         return deferNode
