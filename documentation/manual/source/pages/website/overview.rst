@@ -2,7 +2,7 @@ Low Level Overview
 ==================
 
 .. note::
-  This is work in progress
+  This section is outdated and does not reflect the current implementation. To get an idea of where %{Website} is heading, please refer to the API docs of `qx.module <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.module>`__.
 
 This page is an overview of qooxdoo's low-level capabilities. It does collect the existing documentation and tries to show the big picture.
 
