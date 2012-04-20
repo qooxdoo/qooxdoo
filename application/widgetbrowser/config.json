@@ -34,7 +34,9 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["source", "source-hybrid", "build-resources", "common", "simulation-run", "translation"]
+    "job-shadowing" : ["source", "source-hybrid", "build-resources", "common", "simulation-run", "translation"],
+    
+    "environment" : [ "non-literal-keys" ]
   },
 
   "jobs" :

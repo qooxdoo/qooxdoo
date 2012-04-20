@@ -24,7 +24,9 @@
   
   "config-warnings" :
   {
-	"job-shadowing" : ["libraries", "common", "simulation-build", "simulation-run", "translation"]
+  "job-shadowing" : ["libraries", "common", "simulation-build", "simulation-run", "translation"],
+  
+  "environment" : [ "non-literal-keys" ]
   },
   
   

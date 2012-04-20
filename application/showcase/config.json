@@ -27,7 +27,9 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["build-files", "common", "translation"]
+    "job-shadowing" : ["build-files", "common", "translation"],
+    
+    "environment" : [ "non-literal-keys" ]
   },
 
   "jobs" :
