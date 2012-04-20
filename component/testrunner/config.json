@@ -32,7 +32,9 @@
       "testrunner::source-tests-script",
       "testrunner::build-basic",
       "testrunner::source-basic"
-    ]
+    ],
+    
+    "environment" : [ "non-literal-keys" ]
   },
 
   "let" :
