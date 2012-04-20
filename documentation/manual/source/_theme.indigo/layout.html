@@ -56,6 +56,7 @@
         <option value="site">Site</option>
         <option value="manual">Manual</option>
         <option value="blog">Blog</option>
+        <option value="bugs">Bugs</option>
       </select>
     </script>
     <script type="template" id="search-site-template">
@@ -72,6 +73,11 @@
     <script type="template" id="search-manual-template">
       <form action="{{ pathto('search') }}" id="search-form">
         <input type="search" name="q" placeholder="Search"></input>
+      </form>
+    </script>
+    <script type="template" id="search-bugs-template">
+      <form action="http://bugs.qooxdoo.org/buglist.cgi" id="search-form">
+        <input type="search" name="quicksearch" placeholder="Search"></input>
       </form>
     </script>
     <div id="search">
