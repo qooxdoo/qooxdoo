@@ -41,6 +41,9 @@ qx.Class.define("demobrowser.demo.data.Github", {
     __list: null,
     __gist: null,
 
+    /**
+     * @lint ignoreUndefined(GITHUB)
+     */
     main: function() {
 
       if (typeof GITHUB == "undefined") {

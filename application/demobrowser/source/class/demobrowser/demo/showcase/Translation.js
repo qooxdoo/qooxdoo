@@ -38,6 +38,7 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
     /**
      * This method contains the initial application code and gets called
      * during startup of the application
+     * @lint ignoreDeprecated(alert)
      */
     main : function()
     {

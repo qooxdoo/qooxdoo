@@ -132,6 +132,13 @@ qx.Class.define("demobrowser.demo.test.Touch",
     },
 
 
+    /**
+     * 
+     * @param x {} x
+     * @param y {} y
+     * @return {Element} Div element
+     * @lint ignoreDeprecated(alert)
+     */
     __createCancelArea : function(x,y) {
       var styles = {
           "position" : "absolute",

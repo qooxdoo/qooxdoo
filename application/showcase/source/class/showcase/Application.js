@@ -55,6 +55,9 @@ qx.Class.define("showcase.Application",
     __effect : null,
     __description : null,
 
+    /**
+     * @lint ignoreUndefined(qxc)
+     */
     main : function()
     {
       this.base(arguments);

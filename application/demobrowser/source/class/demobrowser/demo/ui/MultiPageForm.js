@@ -22,6 +22,9 @@ qx.Class.define("demobrowser.demo.ui.MultiPageForm",
 
   members :
   {
+    /**
+     * @lint ignoreDeprecated(alert)
+     */
     main : function() {
       this.base(arguments);
 

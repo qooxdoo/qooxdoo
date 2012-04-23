@@ -125,6 +125,7 @@ qx.Class.define("fce.Application",
      * Creates the application header
      *
      * @return {qx.ui.container.Composite} Header widget
+     * @lint ignoreUndefined(qxc)
      */
     _createHeader : function()
     {

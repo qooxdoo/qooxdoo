@@ -29,6 +29,7 @@ qx.Class.define("demobrowser.demo.bom.Selector",
   {
     /**
      * @lint ignoreUndefined($)
+     * @lint ignoreDeprecated(alert)
      */
     main: function()
     {
