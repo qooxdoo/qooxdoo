@@ -82,6 +82,7 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username"});
       this.__name.setRequired(true);
+      
       form.add(this.__name, "Username: ");
       validationManager.add(this.__name, function(value, item){
         var valid = value != null && value.length>3;
@@ -93,7 +94,13 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__password = new qx.ui.mobile.form.PasswordField().set({placeholder:"Password"});
       form.add(this.__password, "Password: ");
-
+      
+      // NUMBER FIELD
+      this.__numberField = new qx.ui.mobile.form.NumberField();
+      this.__numberField.setMaximum(150);
+      this.__numberField.setMinimum(0);
+      form.add(this.__numberField,"Enter your age:");
+      
       this.__rememberPass = new qx.ui.mobile.form.CheckBox();
       form.add(this.__rememberPass, "Remember password? ");
       this.__rememberPass.setModel("password_reminder");
