@@ -1103,12 +1103,19 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         pane.removeListener("cellClick", this._onOpen, this);
       }
     }
+    
+    if (this.__deferredCall != null)
+    {
+      this.__deferredCall.cancel();
+      this.__deferredCall.dispose();
+    }
 
     this._layer.removeListener("updated", this._onUpdated, this);
     this._layer.destroy();
     this._provider.dispose();
     this.__lookupTable.dispose();
 
-    this._layer = this._provider = this.__lookupTable = this.__openNodes = null;
+    this._layer = this._provider = this.__lookupTable = this.__openNodes =
+      this.__deferredCall = null;
   }
 });
