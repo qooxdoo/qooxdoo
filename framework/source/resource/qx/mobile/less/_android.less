@@ -17,10 +17,14 @@
 
 .standard-button {
   @height: 20px;
+
   .border-radius(4px);
   cursor: pointer;
   width: auto;
+
   height: 20px;
+  line-height: @height;
+
   color: #222222;
   text-align: center;
 
@@ -29,7 +33,7 @@
   // No second gradient color is needed.
   #gradient > .vertical(@button-color, darken(@button-color, 20%));
   border: 1px solid #555555;
-  line-height: @height;
+  
   font-size:12px;
 }
 
@@ -135,14 +139,32 @@ ul li.active .subtitle {
   .standard-button-active();
 }
 
-// Toolbar Button
+//
+// TOOLBAR
+//
+
 .toolbar-button {
   .standard-button();
-  font-size: 17px;
+  font-size: 15px;
+  height:auto;
+  line-height:normal;
 }
 
 .toolbar-button.active {
   .standard-button-active();
+}
+
+.toolbar-separator {
+  width: 4px;
+}
+
+.toolbar {
+  #gradient > .vertical(#9a9a9a, #7c7e7c);
+
+  padding: 2px;
+  height: 55px;
+  height: -moz-calc(55px + 4px);
+  border-top: 1px solid #2d3642;
 }
 
 //
@@ -301,25 +323,6 @@ input[type="checkbox"]:checked {
   background: url(../icon/android/checkbox-green.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
   background: url(../icon/android/checkbox-green.png) 50% 50% no-repeat, -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
   background: url(../icon/android/checkbox-green.png) 50% 50% no-repeat, linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-}
-
-
-//
-// TOOLBAR
-//
-
-.toolbar-separator {
-  width: 4px;
-  background-color: red;
-}
-
-.toolbar {
-  #gradient > .vertical(#9a9a9a, #7c7e7c);
-
-  padding: 2px;
-  height: 55px;
-  height: -moz-calc(55px + 4px);
-  border-top: 1px solid #2d3642;
 }
 
 //
