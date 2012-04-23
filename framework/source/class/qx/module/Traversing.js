@@ -524,6 +524,17 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     /**
+     * Returns the owner document of the given node
+     * 
+     * @param node {Node } Node to get the document for
+     * @return {Document|null} The document of the given DOM node
+     */
+    getDocument : function(node) {
+      return qx.dom.Node.getDocument(node);
+    },
+
+
+    /**
      * Helper function that iterates over a set of items and applies the given
      * qx.dom.Hierarchy method to each entry, storing the results in a new Array.
      * Duplicates are removed and the items are filtered if a selector is 
@@ -591,6 +602,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "isElement" : statics.isElement,
       "isNode" : statics.isNode,
       "isDocument" : statics.isDocument,
+      "getDocument" : statics.getDocument,
       "getWindow" : statics.getWindow
     });
   }

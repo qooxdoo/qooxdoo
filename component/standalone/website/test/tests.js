@@ -726,6 +726,13 @@ testrunner.define({
   testGetWindow : function()
   {
     this.assertEquals(window, q.getWindow(q("#sandbox")[0]));
+  },
+  
+  testGetDocument : function()
+  {
+    this.assertEquals(document, q.getDocument(q("#sandbox")[0]));
+    this.assertEquals(document, q.getDocument(window));
+    this.assertEquals(document, q.getDocument(document));
   }
 });
 
