@@ -107,14 +107,19 @@ li:first-child, li:first-child a {
   margin-top:4px;
 }
 
+// TOOLBAR
+
+.toolbar {
+  .box-align(stretch);
+}
+
 .toolbar-button {
+  .hbox();
   .background-clip(padding-box);
   cursor: pointer;
   font-weight: bold;
   color: black;
   
-  padding-left: 20px;
-  padding-right: 20px;
   overflow: hidden;
 
   // This is for equal sizes of the buttons when added in a toolbar or other container
