@@ -42,7 +42,6 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
   construct : function(value)
   {
     this.base(arguments);
-    this.setValue("0");
   },
 
   /*
@@ -67,7 +66,8 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
     minimum :
     {
       check : "Integer",
-      init : 0,
+      init : null,
+      nullable : true,
       apply : "_onChangeMinimum"
     },
 
@@ -79,7 +79,8 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
     maximum :
     {
       check : "Integer",
-      init : 100,
+      init : null,
+      nullable : true,
       apply : "_onChangeMaximum"
     },
 
@@ -90,7 +91,8 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
     step :
     {
       check : "Integer",
-      init : 1,
+      init : null,
+      nullable : true,
       apply : "_onChangeStep"
     }
   },
