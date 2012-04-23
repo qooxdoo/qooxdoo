@@ -28,6 +28,8 @@
 
 /**
  * Plain HTML TestRunner view.
+ * 
+ * @lint ignoreUndefined($)
  */
 qx.Class.define("testrunner.view.Html", {
 
@@ -45,6 +47,7 @@ qx.Class.define("testrunner.view.Html", {
   /**
    * @param rootElement {DOMElement?} DOM Element in which the result view
    * should be created. Default: document.body
+   * @lint ignoreUndefined($)
    */
   construct : function(rootElement)
   {
@@ -153,6 +156,7 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Creates the header.
+     * @lint ignoreUndefined($)
      */
     _getHeader : function()
     {
@@ -168,6 +172,7 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Creates the main controls.
+     * @lint ignoreUndefined($)
      */
     _getMainControls : function()
     {
@@ -188,6 +193,9 @@ qx.Class.define("testrunner.view.Html", {
     },
     
     
+    /**
+     * @lint ignoreUndefined($)
+     */
     _bindMainControls : function()
     {
       var controls = $("#controls");
@@ -212,6 +220,7 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Creates the test selection controls.
+     * @lint ignoreUndefined($)
      */
     _getTestControls : function()
     {
@@ -228,6 +237,9 @@ qx.Class.define("testrunner.view.Html", {
     },
 
 
+    /**
+     * @lint ignoreUndefined($)
+     */
     _bindTestControls : function() {
       qx.event.Registration.addListener($("#togglealltests")[0], "change", function(ev) {
         var checked = ev.getTarget().checked;
@@ -249,6 +261,7 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Creates the list of available tests and attaches it to the root node.
+     * @lint ignoreUndefined($)
      */
     _getTestList : function()
     {
@@ -258,6 +271,7 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Creates the footer/status bar.
+     * @lint ignoreUndefined($)
      */
     _getFooter : function()
     {
@@ -278,6 +292,7 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Empties the test list.
+     * @lint ignoreUndefined($)
      */
     clearTestList : function()
     {
@@ -305,6 +320,7 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Reload the test suite
+     * @lint ignoreUndefined($)
      */
     __reloadAut : function()
     {
@@ -318,6 +334,7 @@ qx.Class.define("testrunner.view.Html", {
      * Returns the iframe element the AUT should be loaded in.
      *
      * @return {DOMElement} The iframe
+     * @lint ignoreUndefined($)
      */
     getIframe : function()
     {
@@ -346,6 +363,7 @@ qx.Class.define("testrunner.view.Html", {
      * {@link qx.log.appender.Element} to display the AUT's log output.
      *
      * @return {Element} DIV element
+     * @lint ignoreUndefined($)
      */
     getLogAppenderElement : function()
     {
@@ -378,6 +396,7 @@ qx.Class.define("testrunner.view.Html", {
      * tests
      * @param onlyVisible {Boolean} true: only modify tests if the corresponding
      * entry in the test list is visible. Default: false
+     * @lint ignoreUndefined($)
      */
     toggleAllTests : function(selected, onlyVisible)
     {
@@ -400,6 +419,7 @@ qx.Class.define("testrunner.view.Html", {
     /**
      * Shows and selects any tests matching the search term while hiding and
      * deselecting the rest.
+     * @lint ignoreUndefined($)
      *
      * @param term {String} Search term
      */
@@ -435,6 +455,7 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Hides all entries in the test list.
+     * @lint ignoreUndefined($)
      */
     hideAllTestListEntries : function()
     {
@@ -542,6 +563,13 @@ qx.Class.define("testrunner.view.Html", {
     },
     
     
+    /**
+     * TODOC
+     * 
+     * @param testResultData {testrunner.runner.TestItem} Test data object
+     * @return {Element} HTML list element
+     * @lint ignoreUndefined($)
+     */
     _getExceptionsList : function(testResultData)
     {
       var exceptions =  testResultData.getExceptions();
@@ -640,6 +668,7 @@ qx.Class.define("testrunner.view.Html", {
      * Displays a status message.
      * @param value {String} The message to be displayed
      * @param old {String} The previous status
+     * @lint ignoreUndefined($)
      */
     _applyStatus : function(value, old)
     {
@@ -780,6 +809,7 @@ qx.Class.define("testrunner.view.Html", {
      *
      * @param testName {String} The test method's fully qualified name
      * @param checked {Boolean} <code>true</code> if the test's checkbox should be checked
+     * @lint ignoreUndefined($)
      */
     _setTestChecked : function(testName, checked)
     {
@@ -878,6 +908,7 @@ qx.Class.define("testrunner.view.Html", {
      *
      * @param value {String} AUT URI
      * @param old {String} Previous value
+     * @lint ignoreUndefined($)
      */
     _applyAutUri : function(value, old)
     {

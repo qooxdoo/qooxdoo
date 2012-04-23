@@ -66,6 +66,7 @@ qx.Class.define("demobrowser.demo.widget.CheckBox",
      * Reads the labels of all checked checkboxes and raises an
      * alert box with these values in it.
      * @param e {qx.event.type.Data} The incoming data event
+     * @lint ignoreDeprecated(alert)
      */
     _onExecute : function(e)
     {

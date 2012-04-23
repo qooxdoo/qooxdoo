@@ -23,6 +23,9 @@ qx.Class.define("playground.view.Header",
 {
   extend : qx.ui.container.Composite,
 
+  /**
+   * @lint ignoreUndefined(qxc)
+   */
   construct : function()
   {
     this.base(arguments, new qx.ui.layout.HBox());

@@ -74,6 +74,8 @@ qx.Class.define("mobileshowcase.page.DataBinding",
     __timer: null,
     __form: null,
     __list: null,
+    __dataLabel: null,
+    __slider: null,
     
   
     // overridden
@@ -204,7 +206,6 @@ qx.Class.define("mobileshowcase.page.DataBinding",
      * Creates a list and returns it.
      */
     __createListDataBindings : function() {
-      var self = this;
       var list = new qx.ui.mobile.list.List({
       configureItem : function(item, data, row)
         {
@@ -236,7 +237,9 @@ qx.Class.define("mobileshowcase.page.DataBinding",
     *****************************************************************************
     */
     destruct : function() {
-      this._disposeObjects("__increaseMode", "__decreaseButton", "__increaseButton", "__stopTimeButton", "__timer", "__form", "__list");
+      this._disposeObjects("__increaseMode", "__decreaseButton", 
+        "__increaseButton", "__stopTimeButton", "__timer", "__dataLabel", 
+        "__slider", "__form", "__list");
     }
   }
 });

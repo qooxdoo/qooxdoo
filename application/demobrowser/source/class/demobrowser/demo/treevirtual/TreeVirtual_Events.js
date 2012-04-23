@@ -61,11 +61,14 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Events",
 
       var newItem = 1;
 
-      /*
+      /**
        * Each time we get a treeOpenWithContent event, add yet another leaf
        * node to the node being opened.
        */
       tree.addListener("treeOpenWithContent",
+                       /**
+                        * @lint ignoreDeprecated(alert)
+                        */
                        function(e)
                        {
                          alert('treeOpenWithContent ');
@@ -75,6 +78,9 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Events",
                        });
 
       tree.addListener("treeClose",
+                       /**
+                        * @lint ignoreDeprecated(alert)
+                        */
                        function(e)
                        {
                          alert('treeClose ');
@@ -88,6 +94,9 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Events",
        * removing the open/close symbol.
        */
       tree.addListener("treeOpenWhileEmpty",
+                       /**
+                        * @lint ignoreDeprecated(alert)
+                        */
                        function(e)
                        {
                          alert('treeOpenWhileEmpty');
@@ -97,6 +106,9 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Events",
 
 
       tree.addListener("changeSelection",
+                       /**
+                        * @lint ignoreDeprecated(alert)
+                        */
                        function(e)
                        {
                          var text = "Selected labels:";

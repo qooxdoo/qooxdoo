@@ -64,6 +64,7 @@ qx.Class.define("demobrowser.demo.widget.RadioButton",
      * Reads the label of the selected radio button and
      * raises a alert box with this information in it.
      * @param e {qx.event.type.Data} The incoming data event
+     * @lint ignoreDeprecated(alert)
      */
     _onChangeSelection : function(e)
     {

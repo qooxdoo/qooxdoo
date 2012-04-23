@@ -224,6 +224,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
      * Returns the application header
      *
      * @return {qx.ui.container.Composite} The application header
+     * @lint ignoreUndefined(qxc)
      */
     __createHeader : function()
     {
@@ -888,6 +889,12 @@ qx.Class.define("testrunner.view.widget.Widget", {
       return statuspane;
     },
 
+    /**
+     * 
+     * @param value {String} New suite state value
+     * @param old {String} Old suite state value
+     * @lint ignoreDeprecated(alert)
+     */
     _applyTestSuiteState : function(value, old)
     {
       switch(value)
