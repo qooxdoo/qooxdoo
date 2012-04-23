@@ -60,7 +60,9 @@
       "build-files",
       "build-script",
       "source-script"
-    ]
+    ],
+    
+    "environment" : ["non-literal-keys"]
   },
 
   // You only need to edit the remainder of this file, if you want to customize
