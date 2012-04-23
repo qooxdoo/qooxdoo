@@ -1,4 +1,5 @@
 /build/
+/build-ios/
 /api/
 /inspector/
 /simulator/
