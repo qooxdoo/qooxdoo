@@ -84,7 +84,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       }, this);
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
       
-      var loadButton = new qx.ui.mobile.toolbar.Button("Take a picture","mobileshowcase/icon/camera.png");
+      var loadButton = new qx.ui.mobile.toolbar.Button("Take a new picture","mobileshowcase/icon/camera.png");
       loadButton.setIconPosition("top");
       loadButton.setGap(0);
       toolbar.add(loadButton);
