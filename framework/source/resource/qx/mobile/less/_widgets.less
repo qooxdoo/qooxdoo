@@ -114,11 +114,16 @@ li:first-child, li:first-child a {
 }
 
 .toolbar-button {
-  .hbox();
+  .box();
+  .box-centered();
   .background-clip(padding-box);
   cursor: pointer;
   font-weight: bold;
   color: black;
+
+  @padding:4px;
+  padding-left:@padding;
+  padding-right:@padding;
   
   overflow: hidden;
 
@@ -137,8 +142,8 @@ li:first-child, li:first-child a {
   height: auto;
   padding-top:2px;
   text-align:center;
-  // 97% for displaying ellipsis correctly.
-  max-width:97%;
+  // For displaying ellipsis correctly.
+  max-width:100%;
 }
 
 .list-itemimage {
@@ -174,10 +179,11 @@ ul.form li * {
     text-overflow: ellipsis;
 }
 
-input[type="text"], input[type="password"], textarea {
+input[type="text"], input[type="password"],input[type="number"], textarea {
   .appearance(textarea);
   width: 100%;
   outline: none;
+  text-indent:4px;
 }
 
 textarea {

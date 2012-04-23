@@ -145,8 +145,9 @@ ul li.active .subtitle {
 
 .toolbar-button {
   .standard-button();
-  font-size: 15px;
+  font-size: 12px;
   height:auto;
+  width:0;
   line-height:normal;
 }
 
@@ -171,7 +172,7 @@ ul li.active .subtitle {
 // FORM 
 //
 
-input[type="text"]:not(.selectbox), input[type="password"], textarea {
+input[type="text"]:not(.selectbox),input[type="number"], input[type="password"], textarea {
   #gradient > .vertical(#e2e0e2, #f8f5f8);
   .border-radius(.4em);
   .background-clip(padding-box);
