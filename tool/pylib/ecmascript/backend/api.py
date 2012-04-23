@@ -32,7 +32,7 @@
 #            HTML).
 ##
 
-import sys, os, re
+import sys, os, re, string
 from ecmascript.frontend import tree, Comment, lang
 from ecmascript.frontend.treeutil_2 import *
 from ecmascript.transform.optimizer import variantoptimizer_2 as variantoptimizer  # ugly here
@@ -635,6 +635,7 @@ def handleEvents(item, classNode):
     for key, value_ in mapNodeToMap(item).items():
         keyvalue = value_.parent
         value = value_.getFirstChild(True, True).toJavascript()
+        value = string.strip(value, '\'"') # unquote result from .toJavascript; TODO: unnecessary with .toJS!?
 
         node = tree.Node("event")
 
