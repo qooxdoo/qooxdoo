@@ -29,13 +29,13 @@ qx.Class.define("qx.test.mobile.form.NumberField",
       this.getRoot().add(numberField);
 
       this.assertEquals('',numberField.getValue());
-      this.assertEquals(null,qx.bom.element.Attribute.get(numberField.getContainerElement(),'value'));
+      this.assertEquals(null, qx.bom.element.Attribute.get(numberField.getContainerElement(),'value'));
       this.assertEventFired(numberField, "changeValue", function() {
-        numberField.setValue("15");
+        numberField.setValue(15);
       });
       
-      this.assertEquals('15',numberField.getValue());
-      this.assertEquals('15',qx.bom.element.Attribute.get(numberField.getContainerElement(),'value'));
+      this.assertEquals(15,numberField.getValue());
+      this.assertEquals(15,qx.bom.element.Attribute.get(numberField.getContainerElement(),'value'));
 
       numberField.destroy();
     },
@@ -48,9 +48,9 @@ qx.Class.define("qx.test.mobile.form.NumberField",
       
       this.assertEquals('',numberField.getMinimum());
       
-      numberField.setMinimum('42');
+      numberField.setMinimum(42);
       
-     this.assertEquals('42',numberField.getMinimum());
+     this.assertEquals(42,numberField.getMinimum());
       
       numberField.destroy();
       
@@ -64,9 +64,9 @@ qx.Class.define("qx.test.mobile.form.NumberField",
       
       this.assertEquals('',numberField.getMaximum());
       
-      numberField.setMaximum('42');
+      numberField.setMaximum(42);
       
-      this.assertEquals('42',numberField.getMaximum());
+      this.assertEquals(42,numberField.getMaximum());
       
       numberField.destroy();
     },
@@ -79,9 +79,9 @@ qx.Class.define("qx.test.mobile.form.NumberField",
       
       this.assertEquals('',numberField.getStep());
       
-      numberField.setStep('42');
-      
-      this.assertEquals('42',numberField.getStep());
+      numberField.setStep(42);
+     
+      this.assertEquals(42,numberField.getStep());
       
       numberField.destroy();
     },
