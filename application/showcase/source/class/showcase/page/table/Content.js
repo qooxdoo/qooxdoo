@@ -72,7 +72,8 @@ qx.Class.define("showcase.page.table.Content",
         width: 540,
         height: 400,
         decorator : null,
-        headerCellHeight : null
+        headerCellHeight : null,
+        showCellFocusIndicator: false
       });
 
       table.getSelectionModel().setSelectionMode(
