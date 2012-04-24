@@ -36,7 +36,7 @@ qx.Theme.define("qx.theme.indigo.Font",
     {
       size : 12,
       family : ["Lucida Grande", "DejaVu Sans", "Verdana", "sans-serif"],
-      color: "#262626",
+      color: "font",
       lineHeight: 1.8
     },
 
@@ -45,7 +45,7 @@ qx.Theme.define("qx.theme.indigo.Font",
       size : 12,
       family : ["Lucida Grande", "DejaVu Sans", "Verdana", "sans-serif"],
       bold : true,
-      color: "#262626",
+      color: "font",
       lineHeight: 1.8
     },
 
@@ -69,7 +69,7 @@ qx.Theme.define("qx.theme.indigo.Font",
     {
       size : 11,
       family : ["Lucida Grande", "DejaVu Sans", "Verdana", "sans-serif"],
-      color: "#262626",
+      color: "font",
       lineHeight: 1.8
     },
 
@@ -77,7 +77,7 @@ qx.Theme.define("qx.theme.indigo.Font",
     {
       size : 11,
       family : [ "DejaVu Sans Mono", "Courier New", "monospace" ],
-      color: "#262626",
+      color: "font",
       lineHeight: 1.8
     }
   }

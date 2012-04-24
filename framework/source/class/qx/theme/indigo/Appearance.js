@@ -102,69 +102,25 @@ qx.Theme.define("qx.theme.indigo.Appearance",
     {
       style : function(states)
       {
+        var active = states.active && !states.disabled;
         return {
-          padding : [3, 8],
-          font: states.active ? "bold" : "default",
-          textColor: states.active && !states.disabled ? "white" : "text-disabled",
-          decorator: "window-caption"
+          padding : [3, 8, active ? 1 : 3, 8],
+          textColor: active ? "highlight" : "font",
+          decorator: active ? "window-caption-active" : "window-caption"
         };
       }
     },
 
 
-    "window/minimize-button" :
+    "window/title" :
     {
-      alias : "button",
-
       style : function(states)
       {
         return {
-          icon : "decoration/window/minimize-white.gif",
-          padding : [ 1, 2 ],
-          cursor : states.disabled ? undefined : "pointer"
-        };
-      }
-    },
-
-    "window/restore-button" :
-    {
-      alias : "button",
-
-      style : function(states)
-      {
-        return {
-          icon : "decoration/window/restore-white.gif",
-          padding : [ 1, 2 ],
-          cursor : states.disabled ? undefined : "pointer"
-        };
-      }
-    },
-
-    "window/maximize-button" :
-    {
-      alias : "button",
-
-      style : function(states)
-      {
-        return {
-          icon : "decoration/window/maximize-white.gif",
-          padding : [ 1, 2 ],
-          cursor : states.disabled ? undefined : "pointer"
-        };
-      }
-    },
-
-    "window/close-button" :
-    {
-      alias : "button",
-
-      style : function(states)
-      {
-        return {
-          marginLeft : 2,
-          icon : "decoration/window/close-white.gif",
-          padding : [ 1, 2 ],
-          cursor : states.disabled ? undefined : "pointer"
+          cursor : "default",
+          font : "default",
+          marginRight : 20,
+          alignY: "middle"
         };
       }
     },

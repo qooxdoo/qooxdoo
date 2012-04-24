@@ -35,7 +35,8 @@ qx.Theme.define("qx.theme.indigo.Decoration",
       decorator: [
         qx.ui.decoration.MSingleBorder,
         qx.ui.decoration.MBoxShadow,
-        qx.ui.decoration.MBackgroundColor
+        qx.ui.decoration.MBackgroundColor,
+        qx.ui.decoration.MBorderRadius
       ],
 
       style :
@@ -45,23 +46,37 @@ qx.Theme.define("qx.theme.indigo.Decoration",
         shadowLength : 1,
         shadowBlurRadius : 3,
         shadowColor : "shadow",
-        backgroundColor : "background"
+        backgroundColor : "background",
+        radius: 3
       }
     },
 
 
     "window-caption" : {
       decorator : [
-        qx.ui.decoration.MLinearBackgroundGradient,
-        qx.ui.decoration.MBackgroundColor
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MSingleBorder
       ],
 
       style :
       {
-        gradientStart : ["#505154", 0],
-        gradientEnd : ["#323335", 100],
+        radius: [3, 3, 0, 0],
+        color: "window-border",
+        widthBottom: 1
+      }
+    },
 
-        backgroundColor : "#323335"
+    "window-caption-active" : {
+      decorator : [
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MSingleBorder
+      ],
+
+      style :
+      {
+        radius: [3, 3, 0, 0],
+        color: "highlight",
+        widthBottom: 3
       }
     },
 
@@ -81,6 +96,17 @@ qx.Theme.define("qx.theme.indigo.Decoration",
       }
     },
 
+    "statusbar" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthTop : 1,
+        colorTop : "border-main",
+        styleTop : "solid"
+      }
+    },
 
 
     "app-header" : {

@@ -29,6 +29,8 @@ qx.Theme.define("qx.theme.indigo.Color",
     "background" : "white",
     "dark-blue" : "#323335",
     "light-background" : "#F4F4F4",
+    "font" : "#262626",
+
 
     "highlight" : "#3D72C9", // bright blue
     "highlight-shade" : "#5583D0", // bright blue
@@ -82,7 +84,7 @@ qx.Theme.define("qx.theme.indigo.Color",
     "border-separator" : "#808080",
 
     // text
-    "text" : "black",
+    "text" : "#262626",
     "text-disabled" : "#A7A6AA",
     "text-selected" : "white",
     "text-placeholder" : "#CBC8CD",
