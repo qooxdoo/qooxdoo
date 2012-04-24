@@ -544,7 +544,8 @@ qx.Class.define("testrunner.view.widget.Widget", {
         delegate : {
           bindItem : this.__bindTreeItem
         },
-        decorator : "separator-vertical"
+        decorator : "separator-vertical",
+        padding: 0
       });
 
       var selection = new qx.data.Array();
@@ -776,7 +777,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
 
       labelBox.add(new qx.ui.basic.Label(this.__app.tr("Queued: ")));
       var queuecnt = new qx.ui.basic.Label("0").set({
-        width : 30,
+        width : 40,
         font: "bold"
       });
       labelBox.add(queuecnt);
@@ -794,7 +795,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
 
       labelBox.add(new qx.ui.basic.Label(this.__app.tr("Failed: ")));
       var failcnt = new qx.ui.basic.Label("0").set({
-        width : 30,
+        width : 40,
         font : "bold",
         textColor: "#9D1111"
       });
@@ -808,7 +809,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
 
       labelBox.add(new qx.ui.basic.Label(this.__app.tr("Succeeded: ")));
       var succcnt = new qx.ui.basic.Label("0").set({
-        width : 30,
+        width : 40,
         font : "bold",
         textColor: "#51A634"
       });
@@ -822,7 +823,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
 
       labelBox.add(new qx.ui.basic.Label(this.__app.tr("Skipped: ")));
       var skipcnt = new qx.ui.basic.Label("0").set({
-        width : 30,
+        width : 40,
         font : "bold",
         marginRight: 5,
         textColor: "#888"

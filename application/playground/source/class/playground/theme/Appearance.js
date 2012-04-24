@@ -34,7 +34,7 @@ qx.Theme.define("playground.theme.Appearance",
           textColor : "text-selected",
           backgroundColor: "background-selected-dark",
           decorator: "app-header",
-          padding : [6, 12, 0, 12]
+          padding : [10, 10, 0, 10]
         };
       }
     },
@@ -51,7 +51,8 @@ qx.Theme.define("playground.theme.Appearance",
           textColor: "white",
           decorator : states.checked ? "mode-select-tab" : null,
           padding: [2, 15, 6, 15],
-          marginBottom: -5
+          marginBottom: -5,
+          marginTop: 8
         };
       }
     },
