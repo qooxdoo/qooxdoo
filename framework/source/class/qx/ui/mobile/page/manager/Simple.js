@@ -84,6 +84,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     __pages : null,
     __currentPage : null,
     __root : null,
+    __deviceReadyHandler : null,
     __backButtonHandler : null,
     __menuButtonHandler : null,
 
@@ -95,10 +96,10 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     {
       if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("os.name") == "android")
       {
+        this.__deviceReadyHandler = qx.lang.Function.bind(this._onDeviceReady, this);
         this.__backButtonHandler = qx.lang.Function.bind(this._onBackButton, this);
         this.__menuButtonHandler = qx.lang.Function.bind(this._onMenuButton, this);
-        qx.bom.Event.addNativeListener(document, "backbutton", this.__backButtonHandler);
-        qx.bom.Event.addNativeListener(document, "menubutton", this.__menuButtonHandler);
+        qx.bom.Event.addNativeListener(document, "deviceready", this.__deviceReadyHandler);
       }
     },
 
@@ -110,9 +111,19 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     {
       if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("os.name") == "android")
       {
+        qx.bom.Event.removeNativeListener(document, "deviceready", this.__deviceReadyHandler);
         qx.bom.Event.removeNativeListener(document, "backbutton", this.__backButtonHandler);
         qx.bom.Event.removeNativeListener(document, "menubutton", this.__menuButtonHandler);
       }
+    },
+    
+    
+    /**
+     * Event handler. Called when the device is ready.
+     */
+    _onDeviceReady : function() {
+      qx.bom.Event.addNativeListener(document, "backbutton", this.__backButtonHandler);
+      qx.bom.Event.addNativeListener(document, "menubutton", this.__menuButtonHandler);
     },
 
 
