@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     /**
      * Get the singleton instance of the navigation manager.
      *
-     * @return {qx.ui.mobile.navigation.Manager}
+     * @return {History}
      */
     getInstance : function()
     {
@@ -187,9 +187,9 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      * Adds a route handler for the "get" operation. The route gets called
      * when the {@link #executeGet} method found a match.
      *
-     * @param route {String|RegExp} The route, used for checking if the executed path matches.
-     * @param handler {Function} The handler to call, when the route matches with the executed path.
-     * @param scope {Object} The scope of the handler.
+     * @param route {String|RegExp} The route, used for checking if the executed path matches
+     * @param handler {Function} The handler to call, when the route matches with the executed path
+     * @param scope {Object} The scope of the handler
      */
     onGet : function(route, handler, scope)
     {
@@ -201,9 +201,9 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      * Adds a route handler for the "post" operation. The route gets called
      * when the {@link #executePost} method found a match.
      *
-     * @param route {String|RegExp} The route, used for checking if the executed path matches.
-     * @param handler {Function} The handler to call, when the route matches with the executed path.
-     * @param scope {Object} The scope of the handler.
+     * @param route {String|RegExp} The route, used for checking if the executed path matches
+     * @param handler {Function} The handler to call, when the route matches with the executed path
+     * @param scope {Object} The scope of the handler
      */
     onPost : function(route, handler, scope)
     {
@@ -320,14 +320,13 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
     
     /**
-     * Executes the get operation and informs all matching route handler.
+     * Helper function wich executes the get operation and informs all matching route handler.
      *
      * @param path {String} The path to execute
      * @param customData {var} The given custom data that should be propagated
-     * @param fromEvent {var} Determines whether this method was called from history 
-     * 
+     * @param fromEvent {Boolean} True if called by hashchange event. False if executeGet was called in runtime.
      */
-    _executeGet : function(path, customData, fromEvent)
+    _executeGet : function(path, customData,fromEvent)
     {
       this.__currentGetPath = path;
 
@@ -349,7 +348,6 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
       this.__navigationHandler.setState(path);
       this._execute("get", path, null, customData);
     },
-
 
     /**
      * Executes the get operation and informs all matching route handler.
