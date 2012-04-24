@@ -364,7 +364,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
           this.__itemWidth = Math.max(this.__itemWidth, widget.getSizeHint().width);
         }
       }
-      var paneWidth = this.getPane().getBounds().width;
+      var paneWidth = this.getPane().getInnerSize().width;
       this.getPane().getColumnConfig().setItemSize(0, Math.max(this.__itemWidth, paneWidth));
     },
 
