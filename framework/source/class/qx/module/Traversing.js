@@ -20,6 +20,8 @@
 
 /* ************************************************************************
 #require(qx.dom.Hierarchy#getSiblings)
+#require(qx.dom.Hierarchy#getNextSiblings)
+#require(qx.dom.Hierarchy#getPreviousSiblings)
 ************************************************************************ */
 
 /**
@@ -325,8 +327,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * @return {qx.Collection} New set containing next siblings
      */
     getNext : function(selector) {
-      var Hierarchy = qx.dom.Hierarchy;
-      var found = this.map(Hierarchy.getNextElementSibling, Hierarchy);
+      var found = this.map(qx.dom.Hierarchy.getNextElementSibling, Hierarchy);
       if (selector) {
         found = qx.bom.Selector.matches(selector, found);
       }
@@ -383,8 +384,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * @return {qx.Collection} New set containing previous siblings
      */
     getPrev : function(selector) {
-      var Hierarchy = qx.dom.Hierarchy;
-      var found = this.map(Hierarchy.getPreviousElementSibling, Hierarchy);
+      var found = this.map(qx.dom.Hierarchy.getPreviousElementSibling, Hierarchy);
       if (selector) {
         found = qx.bom.Selector.matches(selector, found);
       }
