@@ -77,7 +77,10 @@ qx.Bootstrap.define("qx.module.Event", {
           if (!el.__bound) {
             el.__bound = {};
           }
-          el.__bound[id] = bound;
+          if (!el.__bound[type]) {
+            el.__bound[type] = {};
+          }
+          el.__bound[type][id] = bound;
         }
         if (!context) {
           // store a reference to the dynamically created context so we know
@@ -104,21 +107,21 @@ qx.Bootstrap.define("qx.module.Event", {
     off : function(type, listener, context) {
       for (var j=0; j < this.length; j++) {
         var el = this[j];
-        if (!el.__bound) {
+        if (!el.__bound || !type in el.__bound) {
           el.__emitter.off(type, listener, context);
         }
         else {
-          for (var id in el.__bound) {
-            if (el.__bound[id].original == listener) {
+          for (var id in el.__bound[type]) {
+            if (el.__bound[type][id].original == listener) {
               var storedContext = typeof el.__ctx !== "undefined" && el.__ctx[id];
               if (!context && storedContext) {
                 context = el.__ctx[id];
               } 
 
-              el.__emitter.off(type, el.__bound[id], context);
+              el.__emitter.off(type, el.__bound[type][id], context);
               // remove the native listener
-              qx.bom.Event.removeNativeListener(el, type, el.__bound[id]);
-              delete el.__bound[id];
+              qx.bom.Event.removeNativeListener(el, type, el.__bound[type][id]);
+              delete el.__bound[type][id];
 
               if (storedContext) {
                 delete el.__ctx[id];
