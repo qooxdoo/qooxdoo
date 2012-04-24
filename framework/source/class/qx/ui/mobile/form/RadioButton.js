@@ -62,6 +62,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     this.base(arguments);
   },
   
+  
   /*
   *****************************************************************************
      EVENTS
@@ -75,12 +76,12 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     changeValue : "qx.event.type.Data"
   },
 
+
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
-
   properties :
   {
     // overridden
@@ -90,6 +91,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
       init : "radio"
     },
 
+
     /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons */
     group :
     {
@@ -97,7 +99,6 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
       nullable : true,
       apply : "_applyGroup"
     }
-
   },
 
   members :
@@ -108,11 +109,20 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
       return "radio";
     },
     
+    
+    /**
+     * Reacts on click on radio button.
+     */
     _onClick : function() {
       this.fireDataEvent("changeValue", {});
     },
 
-    /** The assigned {@link qx.ui.form.RadioGroup} which handles the switching between registered buttons */
+
+    /** 
+     * The assigned {@link qx.ui.form.RadioGroup} which handles the switching between registered buttons
+     * @param value {@link qx.ui.form.RadioGroup} the new radio group to which this radio button belongs.
+     * @param old {@link qx.ui.form.RadioGroup} the old radio group of this radio button.
+     */
     _applyGroup : function(value, old)
     {
       if (old) {
@@ -123,6 +133,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
         value.add(this);
       }
     },
+    
     
     // overridden
     _createContainerElement : function()
@@ -135,6 +146,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
       return containerElement;
     },
 
+
     /**
      * Sets the value [true/false] of this radio button.
      * It is called by setValue method of qx.ui.mobile.form.MValue mixin
@@ -143,6 +155,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     _setValue : function(value) {
       this._setAttribute("checked", value);
     },
+
 
     /**
      * Gets the value [true/false] of this radio button.
