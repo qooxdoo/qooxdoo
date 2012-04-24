@@ -327,7 +327,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * @return {qx.Collection} New set containing next siblings
      */
     getNext : function(selector) {
-      var found = this.map(qx.dom.Hierarchy.getNextElementSibling, Hierarchy);
+      var found = this.map(qx.dom.Hierarchy.getNextElementSibling, qx.dom.Hierarchy);
       if (selector) {
         found = qx.bom.Selector.matches(selector, found);
       }
@@ -384,7 +384,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * @return {qx.Collection} New set containing previous siblings
      */
     getPrev : function(selector) {
-      var found = this.map(qx.dom.Hierarchy.getPreviousElementSibling, Hierarchy);
+      var found = this.map(qx.dom.Hierarchy.getPreviousElementSibling, qx.dom.Hierarchy);
       if (selector) {
         found = qx.bom.Selector.matches(selector, found);
       }
