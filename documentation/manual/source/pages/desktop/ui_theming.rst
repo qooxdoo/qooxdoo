@@ -8,6 +8,7 @@ qooxdoo includes three themes:
 * ``Modern`` - a graphically rich theme, showcasing many UI capabilities of qooxdoo %{version}
 * ``Classic`` - MS Windows oriented theme
 * ``Simple`` - a lightweight theme, which looks more like a website.
+* ``Indigo`` - a theme, based on simple but offers the style of the qooxdoo.org website.
 
 Here some screenshots:
 
@@ -23,7 +24,12 @@ Here some screenshots:
 
 .. |Simple theme| image:: ui_theming/window_simple_theme.png
 
-While those three themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  :ref:`extending existing ones <pages/desktop/ui_custom_themes#extending_themes>` or they can be :ref:`created from scratch <pages/desktop/ui_custom_themes#custom_themes>`.
+|Indigo theme|
+
+.. |Indigo theme| image:: ui_theming/window_indigo_theme.png
+
+
+While those four themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  :ref:`extending existing ones <pages/desktop/ui_custom_themes#extending_themes>` or they can be :ref:`created from scratch <pages/desktop/ui_custom_themes#custom_themes>`.
 
 A complete theme (a so-called *meta theme*) consists of several special themes, each designed to play a dedicated role and to setup the different parts of the whole theming. These special themes are described at the subsequent sections followed by a description of how to create own themes.
 
