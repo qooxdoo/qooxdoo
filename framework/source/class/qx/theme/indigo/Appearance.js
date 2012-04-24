@@ -170,6 +170,20 @@ qx.Theme.define("qx.theme.indigo.Appearance",
     },
 
 
+    "virtual-tree" :
+    {
+      include : "tree",
+      alias : "tree",
+
+      style : function(states)
+      {
+        return {
+          itemHeight : 27
+        };
+      }
+    },
+
+
     "app-header" :
     {
       style : function(states)
