@@ -260,7 +260,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           break;
 
         case "control-pane":
-          control = new qx.ui.container.Composite(new qx.ui.layout.VBox(12));
+          control = new qx.ui.container.Composite(new qx.ui.layout.VBox(0));
           control.add(this.getChildControl("preset-field-set"));
           control.add(this.getChildControl("input-field-set"));
           control.add(this.getChildControl("preview-field-set"), {flex: 1});

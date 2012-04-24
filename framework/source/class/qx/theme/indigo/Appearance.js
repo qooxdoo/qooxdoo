@@ -39,6 +39,26 @@ qx.Theme.define("qx.theme.indigo.Appearance",
 
   appearances :
   {
+    "colorselector/input-field-set" : {
+      include : "groupbox",
+      alias : "groupbox",
+      style : function() {
+        return {
+          paddingTop: 0
+        }
+      }
+    },
+
+    "colorselector/preview-field-set" : {
+      include : "groupbox",
+      alias : "groupbox",
+      style : function() {
+        return {
+          paddingTop: 0
+        }
+      }
+    },
+
 
     "toolbar" :
     {

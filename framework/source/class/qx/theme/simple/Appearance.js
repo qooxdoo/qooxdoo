@@ -1381,7 +1381,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "datefield" : "combobox",
+    "datefield" : "textfield",
 
     "datefield/button" :
     {
@@ -1396,6 +1396,19 @@ qx.Theme.define("qx.theme.simple.Appearance",
           backgroundColor : undefined,
           decorator : undefined,
           width: 19
+        };
+      }
+    },
+
+    "datefield/textfield" : {
+      alias : "textfield",
+      include : "textfield",
+
+      style : function(states)
+      {
+        return {
+          decorator : undefined,
+          padding: 0
         };
       }
     },
@@ -1924,7 +1937,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator : "main"
+          decorator : "main",
+          minWidth: 220
         }
       }
     },
@@ -2575,8 +2589,25 @@ qx.Theme.define("qx.theme.simple.Appearance",
     },
 
     "colorselector/preset-field-set" : "groupbox",
-    "colorselector/input-field-set" : "groupbox",
-    "colorselector/preview-field-set" : "groupbox",
+    "colorselector/input-field-set" : {
+      include : "groupbox",
+      alias : "groupbox",
+      style : function() {
+        return {
+          paddingTop: 12
+        }
+      }
+    },
+
+    "colorselector/preview-field-set" : {
+      include : "groupbox",
+      alias : "groupbox",
+      style : function() {
+        return {
+          paddingTop: 12
+        }
+      }
+    },
 
     "colorselector/hex-field-composite" : "widget",
     "colorselector/hex-field" : "textfield",
@@ -2598,7 +2629,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           decorator : "main-dark",
           width : 50,
-          height : 10
+          height : 25
         }
       }
     },
@@ -2611,7 +2642,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator : "main-dark",
           backgroundColor : "white",
           width : 50,
-          height : 10
+          height : 25
         }
       }
     },

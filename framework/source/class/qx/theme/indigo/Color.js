@@ -38,7 +38,7 @@ qx.Theme.define("qx.theme.indigo.Color",
     "background-selected-dark" : "#323335",
     "background-disabled" : "#F7F7F7",
     "background-disabled-checked" : "#BBBBBB",
-    "background-pane" : "#FAFBFE",
+    "background-pane" : "white",
 
     // tabview
     "tabview-unselected" : "#1866B5",
@@ -88,7 +88,7 @@ qx.Theme.define("qx.theme.indigo.Color",
     "text-placeholder" : "#CBC8CD",
 
     // tooltip
-    "tooltip" : "#FFFFE1",
+    "tooltip" : "#FE0",
     "tooltip-text" : "black",
 
     // table

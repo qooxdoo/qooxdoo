@@ -2155,8 +2155,25 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
     "colorselector/preset-field-set" : "groupbox",
-    "colorselector/input-field-set" : "groupbox",
-    "colorselector/preview-field-set" : "groupbox",
+    "colorselector/input-field-set" : {
+      include : "groupbox",
+      alias : "groupbox",
+      style : function() {
+        return {
+          paddingTop: 12
+        }
+      }
+    },
+
+    "colorselector/preview-field-set" : {
+      include : "groupbox",
+      alias : "groupbox",
+      style : function() {
+        return {
+          paddingTop: 12
+        }
+      }
+    },
 
     "colorselector/hex-field-composite" : "widget",
     "colorselector/hex-field" : "textfield",
