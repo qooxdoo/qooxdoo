@@ -59,7 +59,8 @@ ul.search > li > a {
   color: #333; /* @fg */
 }
 
-ul.search .highlighted {
+ul.search .highlighted,
+div.body .highlighted {
   font-weight: normal;
   color: #333; /* @fg */
   background-color: #ffee00; /* @attention */

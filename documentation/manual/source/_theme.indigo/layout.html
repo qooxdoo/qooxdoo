@@ -98,7 +98,9 @@
       {{ breadcrumb() }}
     </section>
     <section id="content">
-      {% block body %} {% endblock %}
+      <div class="body">
+        {% block body %} {% endblock %}
+      </div>
       <div class="bottom-nav">
         {%- if prev %}
           <a class="prev" href="{{ prev.link|e }}"
