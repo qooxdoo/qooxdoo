@@ -6,45 +6,13 @@ with the new `qooxdoo mobile`_ widgets. The client should display all
 tweets of a certain user. When a tweet is selected, the details of the
 tweet should be shown. You can find the tutorial code `here`_.
 
-Requirements
-~~~~~~~~~~~~
+Requirements + Getting Started
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Although this should be a basic tutorial, you should be at least
-familiar with the `tool chain`_ and the basic `object oriented`_
-principles of qooxdoo. A working `qooxdoo environment`_ is mandatory. As
-qooxdoo is based on web technologies, you will need a running instance
-of Google `Chrome`_ or Apple `Safari`_ browser on your system to run the
-application (see qooxdoo mobile `requirements`_). An iOS or Android
-device is not necessarily required.
+Please visit the getting started section, and follow the introduction, which
+describes how to create a %{Mobile} Application.
 
-Getting Started
-~~~~~~~~~~~~~~~
-
-Lets start with our new application. The first step is to create a
-mobile skeleton, by calling the ``create-applicaton.py`` script from the
-command line. Navigate to the qooxdoo folder and execute the following
-command:
-::
-
-    ./tool/bin/create-application.py --type=mobile --name=mobiletweets --out=..
-
-A new folder “mobiletweets” will be created next to the qooxdoo folder,
-containing the mobile skeleton application. Right now the application is
-pretty useless, until we create the ``source`` version of it. Navigate
-to the created folder and call the qooxdoo generator with the following
-command:
-::
-
-    ./generate.py source
-
-After a few seconds the generator has analyzed all class dependencies
-and created a source version of the application. You can test the
-application by opening the ``source/index.html`` file in your Chrome /
-Safari browser. You should see a page “Page 1” with a button “Next
-Page”. When you click on the button, the next page “Page 2”, with a
-“Back” button in the upper left corner, is displayed. 
-
-Congratulations, you have just created your first qooxdoo mobile application!
+:doc:`%{Mobile} Getting Started <getting_started>`
 
 Creating your first Page
 ~~~~~~~~~~~~~~~~~~~~~~~~
