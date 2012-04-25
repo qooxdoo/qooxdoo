@@ -35,7 +35,14 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
 {
   statics :
   {
+    /**
+     * The maximal time a frame should take.
+     */
     __maxStepTime : 30,
+
+    /**
+     * The supported CSS units.
+     */
     __units : ["%", "in", "cm", "mm", "em", "ex", "pt", "pc", "px"],
 
 
