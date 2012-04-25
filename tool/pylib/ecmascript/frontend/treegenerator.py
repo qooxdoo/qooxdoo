@@ -114,8 +114,9 @@ class TokenStream(IterObject):
         self.line       = 0
         self.tpos       = 0  # token position in stream
         self.max_look_behind = 10
-        self.outData    = LimLQueue(self.max_look_behind)
+        self.outData    = LimLQueue(self.max_look_behind)  # limited record of yielded tokens
         self.eolBefore  = False
+        self.comments   = []                               # temp. store for comment nodes
         super(TokenStream, self).__init__(inData)
 
     def resetIter(self):
@@ -166,10 +167,11 @@ class TokenStream(IterObject):
         # provided the tokens with the right attributes (esp. name, detail).
 
         # tok isinstanceof Token()
-        if (tok.name == "white"
-            or tok.name == 'comment'):
-            #pass
+        if tok.name == "white":
             s = symbol_table.get(tok.name)()
+        elif tok.name == 'comment':
+            s = symbol_table.get(tok.name)()
+            self.comments.append(s)         # keep comments in temp. store
         elif tok.name == "eol":
             self.line += 1                  # increase line count
             #pass # don't yield this (yet)
@@ -246,7 +248,7 @@ class TokenStream(IterObject):
             s = self._symbolFromToken(tok)
             if not s:
                 continue
-            elif s.type in ("white", "comment"):
+            elif s.type in ("white", "comment"):  # currently these are handled in _symbolFromToken
                 continue
             elif s.type == "eol":
                 self.eolBefore = 1
