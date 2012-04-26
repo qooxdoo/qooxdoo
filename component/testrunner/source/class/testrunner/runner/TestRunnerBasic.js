@@ -33,7 +33,11 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
   {
     start : function()
     {
-      qx.core.Init.getApplication().runner._loadExternalTests();
+      var runner = qx.core.Init.getApplication().runner;
+      runner._loadExternalTests();
+      if (typeof runner.view.toggleAllTests == "function") {
+        runner.view.toggleAllTests(true);
+      }
     }
   },
 
@@ -145,6 +149,20 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       return qx.core.Environment.get("qx.testNameSpace");
     },
 
+    
+    _resetSuite : function()
+    {
+      var runner = qx.core.Init.getApplication().runner;
+    
+      if (this.loader) {
+        this.loader.dispose();
+        this.loader = null;
+      }
+      
+      this._externalTestClasses = 0;
+      this.setTestModel(null);
+      this.__testsInView = [];
+    },
 
     _loadTests : function()
     {
@@ -198,7 +216,6 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       else {
         testClassName = testNameSpace + ".Test" + (this._externalTestClasses); 
       }
-      
       var testClass = this._defineTestClass(testClassName, membersMap);
 
       if (this.loader) {
@@ -239,10 +256,13 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
      */
     _loadExternalTests : function()
     {
+      this._resetSuite();
+      
       if (window.testrunner.testDefinitions instanceof Array) {
         for (var i=0,l=testrunner.testDefinitions.length; i<l; i++) {
           this._addTestClass(testrunner.testDefinitions[i]);
         }
+        window.testrunner.testDefinitions = [];
         if (this.loader) {
           //FIXME: Assertion wrapping causes weird errors
           //this._wrapAssertions();

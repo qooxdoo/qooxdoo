@@ -749,6 +749,8 @@ qx.Class.define("testrunner.view.Html", {
     _applyTestModel : function(value, old)
     {
       if (value == null) {
+        this.clearTestList();
+        this.clearResults();
         return;
       }
 
@@ -777,28 +779,26 @@ qx.Class.define("testrunner.view.Html", {
     _applyCookieSelection : function()
     {
       var cookieSelection = qx.bom.Cookie.get("selectedTests");
+      var foundTests = [];
       if (cookieSelection) {
         var cookieSelection = cookieSelection.split("#");
-        var foundTests = [];
         for (var i=0,l=cookieSelection.length; i<l; i++) {
           var found = testrunner.runner.ModelUtil.getItemByFullName(this.__testModel, cookieSelection[i]);
           if (found) {
             foundTests.push(found.getFullName());
           }
         }
-
-        if (foundTests.length > 0) {
-          this.toggleAllTests(false);
-          this.__toggleTestsSelected(foundTests, true);
-
-          for (var i=0,l=foundTests.length; i<l; i++) {
-            this._setTestChecked(foundTests[i], true);
-          }
+      }
+      
+      if (foundTests.length > 0) {
+        this.toggleAllTests(false);
+        this.__toggleTestsSelected(foundTests, true);
+        for (var i=0,l=foundTests.length; i<l; i++) {
+          this._setTestChecked(foundTests[i], true);
         }
       }
       else {
-        var testList = testrunner.runner.ModelUtil.getItemsByProperty(this.__testModel, "type", "test");
-        this.getSelectedTests().append(testList);
+        this.toggleAllTests(true);
       }
     },
 
@@ -861,7 +861,7 @@ qx.Class.define("testrunner.view.Html", {
      */
     _createTestList : function(testList)
     {
-      var template = '<li><span class="result"></span><input checked="checked" type="checkbox" id="{{id}}"><label for="{{id}}">{{name}}</label></li>';
+      var template = '<li><span class="result"></span><input type="checkbox" id="{{id}}"><label for="{{id}}">{{name}}</label></li>';
       for (var i=0,l=testList.length; i<l; i++) {
         var testName = testList[i];
         var key = this.__simplifyName(testName);
@@ -874,7 +874,9 @@ qx.Class.define("testrunner.view.Html", {
         $("#testlist")[0].innerHTML += itemHtml;
       }
 
-      $("#testlist input:checkbox").addListener("change", this.__onToggleTest, this);
+      $("#testlist input:checkbox")
+      .resetAttribute("checked")
+      .addListener("change", this.__onToggleTest, this);
     },
 
 
