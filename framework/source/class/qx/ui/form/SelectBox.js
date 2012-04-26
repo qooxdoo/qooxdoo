@@ -24,6 +24,21 @@
  * A form widget which allows a single selection. Looks somewhat like
  * a normal button, but opens a list of items to select when clicking on it.
  *
+ * Keep in mind that the SelectBox widget has always a selected item (due to the
+ * single selection mode). Right after adding the first item a <code>changeSelection</code>
+ * event is fired.
+ *
+ * <pre class='javascript'>
+ * var selectBox = new qx.ui.form.SelectBox();
+ *
+ * selectBox.addListener("changeSelection", function(e) {
+ *   // ...
+ * });
+ * 
+ * // now the 'changeSelection' event is fired
+ * selectBox.add(new qx.ui.form.ListItem("Item 1");
+ * </pre>
+ *
  * @childControl spacer {qx.ui.core.Spacer} flexible spacer widget
  * @childControl atom {qx.ui.basic.Atom} shows the text and icon of the content
  * @childControl arrow {qx.ui.basic.Image} shows the arrow to open the popup
