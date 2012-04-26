@@ -5,15 +5,17 @@
 
 
 General
-=============
+=======
 
 .. toctree::
    :maxdepth: 2
 
    mobile/mobile_overview
+   mobile/requirements
+   mobile/getting_started
 
 Tutorials
-==========
+=========
 
 .. toctree::
    :maxdepth: 2
@@ -21,10 +23,17 @@ Tutorials
    mobile/tutorial
 
 Development
-============
+===========
 
 .. toctree::
    :maxdepth: 2
 
    mobile/theming
    mobile/debugging
+
+Deployment
+==========
+.. toctree::
+   :maxdepth: 2
+
+   mobile/deployment

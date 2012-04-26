@@ -1,3 +1,5 @@
+.. _pages/mobile/getting_started#getting_started:
+
 Getting Started with %{qooxdoo} %{Mobile}
 ******************************************
 

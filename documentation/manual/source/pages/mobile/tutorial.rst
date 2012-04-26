@@ -29,6 +29,7 @@ But first of all we have to define what a page is:
     application is usually composed of one or more loosely bound pages.
     Typically there is one page that presents the “main” view.*
 
+
 Open the “mobiletweets” folder in your favorite IDE, so that you can
 edit all the files. Navigate to the “source/class/mobiletweets” folder,
 were all of the application class files are located. Now you are ready
@@ -554,11 +555,10 @@ After you have finished this tutorial, you have learned the basics of
 qooxdoo mobile. You have seen how easy it is to develop qooxdoo mobile
 applications when you are familiar with qooxdoo. There are only some new
 concepts (e.g. Pages) to learn and you are good to go. All qooxdoo
-mobile applications work on Android and iOS devices. Just have a look on
-the great `PhoneGap`_ project, which will enable you to deploy native
-applications, that run the qooxdoo mobile JavaScript code in an wrapped
-native browser, in the App Stores or directly on your mobile device.
+mobile applications work on Android and iOS devices. 
 
+
+:doc:`%{Mobile} Deployment with Apache Cordova <deployment>`
 
 .. _Twitter: http://twitter.com/
 .. _qooxdoo mobile: http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile
@@ -573,4 +573,3 @@ native browser, in the App Stores or directly on your mobile device.
 .. _animations: http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile.page.manager.Animation
 .. _Data binding: http://manual.qooxdoo.org/%{version}/pages/core.html#data-binding
 .. _JSONP: http://demo.qooxdoo.org/%{version}/apiviewer/#qx.data.store.Jsonp
-.. _PhoneGap: http://www.phonegap.com/
