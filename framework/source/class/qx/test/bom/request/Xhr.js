@@ -235,6 +235,27 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     //
+    // Event helper
+    //
+
+    "test: call event handler": function() {
+      var req = this.req;
+      req.onevent = this.spy();
+      req._emit("event");
+      this.assertCalled(req.onevent);
+    },
+
+    "test: fire event": function(){
+      var req = this.req;
+      var event = this.spy();
+      req.onevent = this.spy();
+      req.on("event", event);
+      req._emit("event");
+      this.assertCalled(event);
+    },
+
+    //
+    //
     // onreadystatechange()
     //
 
@@ -252,11 +273,10 @@ qx.Class.define("qx.test.bom.request.Xhr",
       fakeReq.onreadystatechange();
     },
 
-    "test: call onreadystatechange when reopened": function() {
+    "test: emit readystatechange when reopened": function() {
       var req = this.req;
       var fakeReq = this.getFakeReq();
-
-      req.onreadystatechange = function() {};
+      this.stub(req, "_emit");
 
       // Send and respond
       req.open("GET", "/");
@@ -264,10 +284,9 @@ qx.Class.define("qx.test.bom.request.Xhr",
       fakeReq.respond();
 
       // Reopen
-      this.spy(req, "onreadystatechange");
       req.open("GET", "/");
 
-      this.assertCalled(req.onreadystatechange);
+      this.assertCalledWith(req._emit, "readystatechange");
     },
 
     // BUGFIXES
@@ -300,18 +319,18 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // onload()
     //
 
-    "test: call onload on successful request": function() {
+    "test: emit load on successful request": function() {
       var req = this.req;
       var fakeReq = this.getFakeReq();
 
-      this.spy(req, "onload");
+      this.stub(req, "_emit");
       req.open("GET", "/");
       req.send();
 
       // Status does not matter. Set a non-empty response for file:// workaround.
       fakeReq.respond(200, {}, "RESPONSE");
 
-      this.assertCalled(req.onload);
+      this.assertCalledWith(req._emit, "load");
     },
 
     //
@@ -324,51 +343,52 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // onabort()
     //
 
-    "test: call onabort": function() {
+    "test: emit abort": function() {
       var req = this.req;
 
-      this.spy(req, "onabort");
+      this.spy(req, "_emit");
 
       req.open("GET", "/");
       req.send();
       req.abort();
 
-      this.assertCalled(req.onabort);
+      this.assertCalledWith(req._emit, "abort");
     },
 
-    "test: call onabort before onloadend": function() {
+    "test: emit abort before loadend": function() {
       var req = this.req;
 
-      this.spy(req, "onabort");
-      this.spy(req, "onloadend");
+      var emit = this.stub(req, "_emit");
+      var abort = emit.withArgs("abort");
+      var loadend = emit.withArgs("loadend");
 
       req.open("GET", "/");
       req.send();
       req.abort();
 
-      this.assertCallOrder(req.onabort, req.onloadend);
+      this.assertCallOrder(abort, loadend);
     },
 
     //
     // ontimeout()
     //
 
-    "test: call ontimeout": function() {
+    "test: emit timeout": function() {
       var req = this.req,
           that = this;
 
-      this.spy(req, "ontimeout");
+      var timeout = this.stub(req, "_emit").withArgs("timeout");
 
       req.timeout = 10;
       req.open("GET", "/");
       req.send();
 
       this.wait(20, function() {
-        this.assertCalledOnce(req.ontimeout);
+        this.assertCalledOnce(timeout);
       }, this);
     },
 
-    "test: not call onerror when timeout": function() {
+    "test: not emit error when timeout": function() {
 
       // Since Opera does not fire "error" on network error, fire additional
       // "error" on timeout (may well be related to network error)
@@ -378,27 +398,27 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
       var req = this.req;
 
-      this.spy(req, "onerror");
+      var error = this.stub(req, "_emit").withArgs("error");
 
       req.timeout = 10;
       req.open("GET", "/");
       req.send();
 
       this.wait(20, function() {
-        this.assertNotCalled(req.onerror);
+        this.assertNotCalled(error);
       }, this);
     },
 
-    "test: not call onerror when aborted immediately": function() {
+    "test: not emit error when aborted immediately": function() {
       var req = this.req;
 
-      this.spy(req, "onerror");
+      var error = this.stub(req, "_emit").withArgs("error");
 
       req.open("GET", "/");
       req.send();
       req.abort();
 
-      this.assertNotCalled(req.onerror);
+      this.assertNotCalled(error);
     },
 
     "test: cancel timeout when DONE": function() {
@@ -451,19 +471,24 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // onloadend()
     //
 
-    "test: call onloadend when request complete": function() {
+    "test: fire loadend when request complete": function() {
       var req = this.req;
       var fakeReq = this.getFakeReq();
 
-      this.spy(req, "onloadend");
+      var loadend = this.stub(req, "_emit").withArgs("loadend");
       req.open("GET", "/");
       req.send();
 
       // Status does not matter
       fakeReq.respond();
 
-      this.assertCalled(req.onloadend);
+      this.assertCalled(loadend);
     },
+
+    //
+    // Events
+    //
+
 
     //
     // readyState

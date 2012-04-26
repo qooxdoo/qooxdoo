@@ -54,6 +54,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     this.__onTimeoutBound = qx.Bootstrap.bind(this.__onTimeout, this);
 
     this.__initNativeXhr();
+    this._emitter = new qx.event.Emitter();
 
     // BUGFIX: IE
     // IE keeps connections alive unless aborted on unload
@@ -212,9 +213,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
             this.readyState = 4;
             this.__nativeXhr = new XDomainRequest();
             this.__nativeXhr.onerror = qx.Bootstrap.bind(function() {
-              this.onreadystatechange();
-              this.onerror();
-              this.onloadend();
+              this._emit("readystatechange");
+              this._emit("error");
+              this._emit("loadend");
             }, this);
 
             if (qx.core.Environment.get("qx.debug.io")) {
@@ -234,9 +235,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
               return;
             }
             this.readyState = 4;
-            this.onreadystatechange();
-            this.onerror();
-            this.onloadend();
+            this._emit("readystatechange");
+            this._emit("error");
+            this._emit("loadend");
           }, this));
         }
 
@@ -259,7 +260,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         // Native XHR is already set to readyState DONE. Fake readyState
         // and call onreadystatechange manually.
         this.readyState = qx.bom.request.Xhr.OPENED;
-        this.onreadystatechange();
+        this._emit("readystatechange");
       }
 
     },
@@ -391,6 +392,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
     },
 
+    _emit: function(event) {
+      this["on" + event]();
+      this._emitter.emit(event);
+    },
+
     /**
      * Event handler for XHR event that fires at every state change.
      *
@@ -439,6 +445,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     * Replace with custom method to listen to the "timeout" event.
     */
     ontimeout: function() {},
+
+    on: function(event, callback) {
+      this._emitter.on(event, callback);
+    },
 
     /**
      * Get a single response header from response.
@@ -786,10 +796,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
               }
               // Replay previously skipped
               that.readyState = 3;
-              that.onreadystatechange();
+              that._emit("readystatechange");
 
               that.readyState = 4;
-              that.onreadystatechange();
+              that._emit("readystatechange");
               that.__readyStateChangeDone();
             });
             return;
@@ -799,7 +809,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // Always fire "readystatechange"
-      this.onreadystatechange();
+      this._emit("readystatechange");
       if (this.readyState === qx.bom.request.Xhr.DONE) {
         this.__readyStateChangeDone();
       }
@@ -812,13 +822,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __readyStateChangeDone: function() {
       // Fire "timeout" if timeout flag is set
       if (this.__timeout) {
-        this.ontimeout();
+        this._emit("timeout");
 
         // BUGFIX: Opera
         // Since Opera does not fire "error" on network error, fire additional
         // "error" on timeout (may well be related to network error)
         if (qx.core.Environment.get("engine.name") === "opera") {
-          this.onerror();
+          this._emit("error");
         }
 
         this.__timeout = false;
@@ -826,14 +836,19 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // Fire either "abort", "load" or "error"
       } else {
         if (this.__abort) {
-          this.onabort();
-        } else {
-          this.__isNetworkError() ? this.onerror() : this.onload();
+          this._emit("abort");
+        } else{
+          if (this.__isNetworkError()) {
+            this._emit("error");
+          } else {
+            this._emit("load");
+            this._emitter.emit("load");
+          }
         }
       }
 
       // Always fire "onloadend" when DONE
-      this.onloadend();
+      this._emit("loadend");
     },
 
     /**

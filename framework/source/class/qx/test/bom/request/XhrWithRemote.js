@@ -53,7 +53,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     // Basic
     //
 
-    "test: GET": function() {
+    "test: GET with event attribute handler": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.txt");
       req.open("GET", this.noCache(url));
@@ -66,6 +66,25 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
           });
         }
       };
+      req.send();
+
+      this.wait();
+    },
+
+    "test: GET with event": function() {
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/sample.txt");
+      req.open("GET", this.noCache(url));
+
+      var that = this;
+      var onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume(function() {
+            that.assertEquals(req.responseText, "SAMPLE");
+          });
+        }
+      };
+      req.on("readystatechange", onreadystatechange);
       req.send();
 
       this.wait();
