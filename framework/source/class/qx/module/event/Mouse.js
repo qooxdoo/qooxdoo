@@ -207,7 +207,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
           event[bindMethods[i]] = qx.module.event.Mouse[bindMethods[i]].bind(event);
         }
       }
-      
+
       return event;
     }
   },

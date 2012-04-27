@@ -35,7 +35,7 @@ qx.Bootstrap.define("qx.module.event.Native", {
      * @internal
      */
     FORWARD_METHODS : ["getTarget", "getRelatedTarget"],
-    
+
     /**
      * List of qx.module.event.Native methods to be attached to native event objects
      * @type Array
@@ -85,23 +85,23 @@ qx.Bootstrap.define("qx.module.event.Native", {
       for (var i=0, l=fwdMethods.length; i<l; i++) {
         event[fwdMethods[i]] = qx.lang.Function.curry(qx.bom.Event[fwdMethods[i]], event);
       }
-      
+
       var bindMethods = qx.module.event.Native.BIND_METHODS;
       for (var i=0, l=bindMethods.length; i<l; i++) {
         if (typeof event[bindMethods[i]] != "function") { 
           event[bindMethods[i]] = qx.module.event.Native[bindMethods[i]].bind(event);
         }
       }
-      
+
       event.getCurrentTarget = function()
       {
         return event.currentTarget || element;
       };
-      
+
       return event;
     }
   },
-  
+
   defer : function(statics) {
     q.registerEventNormalization("*", statics.normalize);
   }

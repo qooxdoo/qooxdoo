@@ -30,7 +30,7 @@
  * events by overlaying them with a div.
  * For Internet Explorer, an additional Iframe element will be overlayed since 
  * native form controls cannot be blocked otherwise.
- * 
+ *
  * The blocker can also be applied to the entire document, e.g.:
  * <br/><code>q.wrap(document).block()</code>
  */
@@ -40,7 +40,7 @@ q.define("qx.module.Blocker", {
     /**
      * Attaches a blocker div (and additionally a blocker Iframe for IE) to the
      * given element.
-     * 
+     *
      * @param item {DOMElement|DOMDocument} The element to be overlaid with the blocker
      * @param color {String} The color for the blocker element (any CSS color value)
      * @param opacity {Number} The CSS opacity value for the blocker
@@ -50,7 +50,7 @@ q.define("qx.module.Blocker", {
     {
       var win = q.getWindow(item);
       var isDocument = q.isDocument(item);
-      
+
       if (!item.__blocker) {
         item.__blocker = {
           div : q.create("<div/>")
@@ -59,20 +59,20 @@ q.define("qx.module.Blocker", {
           item.__blocker.iframe = qx.module.Blocker.__getIframeElement(win)
         }
       }
-      
+
       qx.module.Blocker.__styleBlocker(item, color, opacity, zIndex, isDocument);
-      
+
       item.__blocker.div.appendTo(win.document.body);
       if (item.__blocker.iframe) {
         item.__blocker.iframe.appendTo(win.document.body);
       }
-      
+
       if (isDocument) {
         q.wrap(win).on("resize", qx.module.Blocker.__onWindowResize);
       }
     },
-    
-    
+
+
     /**
      * Styles the blocker element(s)
      * 
@@ -85,7 +85,7 @@ q.define("qx.module.Blocker", {
     __styleBlocker : function(item, color, opacity, zIndex, isDocument)
     {
       var qItem = q.wrap(item);
-      
+
       var styles = {
         "zIndex" : zIndex,
         "display" : "block",
@@ -95,7 +95,7 @@ q.define("qx.module.Blocker", {
         "width" : qItem.getWidth() + "px",
         "height" : qItem.getHeight() + "px"
       };
-      
+
       if (isDocument) {
         styles.top = 0 + "px";
         styles.left = 0 + "px";
@@ -106,7 +106,7 @@ q.define("qx.module.Blocker", {
         styles.left = pos.left + "px";
       }
       item.__blocker.div.setStyles(styles);
-      
+
       if (item.__blocker.iframe) {
         styles.zIndex = styles.zIndex - 1;
         styles.backgroundColor = "transparent";
@@ -118,7 +118,7 @@ q.define("qx.module.Blocker", {
 
     /**
      * Creates an iframe element used as a blocker in IE
-     * 
+     *
      * @param win {Window} The parent window of the item to be blocked
      * @return {Iframe} Iframe blocker
      */
@@ -136,7 +136,7 @@ q.define("qx.module.Blocker", {
         allowTransparency: false,
         src : "javascript:false"
       });
-      
+
       return iframe;
     },
 
@@ -144,7 +144,7 @@ q.define("qx.module.Blocker", {
     /**
      * Callback for the Window's resize event. Applies the window's new sizes
      * to the blocker element(s).
-     * 
+     *
      * @param ev {Event} resize event
      */
     __onWindowResize : function(ev) {
@@ -162,7 +162,7 @@ q.define("qx.module.Blocker", {
 
     /**
      * Removes the given item's blocker element(s) from the DOM
-     * 
+     *
      * @param item {DOMElement} Blocked element
      * @param index {Integer} index of the item in the collection
      */
@@ -183,9 +183,10 @@ q.define("qx.module.Blocker", {
 
 
     /**
-     * Adds an overlay to all items in the collection that intercepts mouse 
-     * events
-     * 
+     * Adds an overlay to all items in the collection that intercepts mouse
+     * events.
+     *
+     * @attach {qx.Collection}
      * @param color {String ? transparent} The color for the blocker element (any CSS color value)
      * @param opacity {Float ? 0} The CSS opacity value for the blocker
      * @param zIndex {Integer ? 10000} The zIndex value for the blocker
@@ -196,22 +197,23 @@ q.define("qx.module.Blocker", {
       if (!this[0]) {
         return this;
       }
-      
+
       color = color || "transparent";
       opacity = opacity || 0;
       zIndex = zIndex || 10000;
-      
+
       this.forEach(function(item, index) {
         qx.module.Blocker.__attachBlocker(item, color, opacity, zIndex);
       });
-      
+
       return this;
     },
 
 
     /**
      * Removes the blockers from all items in the collection
-     * 
+     *
+     * @attach {qx.Collection}
      * @return {qx.Collection} The collection for chaining
      */
     unblock : function()
@@ -219,9 +221,9 @@ q.define("qx.module.Blocker", {
       if (!this[0]) {
         return this;
       }
-      
+
       this.forEach(qx.module.Blocker.__detachBlocker);
-      
+
       return this;
     }
   },

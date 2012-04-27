@@ -39,6 +39,7 @@ qx.Bootstrap.define("qx.module.util.Type", {
      * <code>"Function"</code>,
      * <code>"Error"</code>
      * </pre>
+     * @attachStatic {q, q.type.get}
      * @signature function(value)
      * @param value {var} Value to get the class for.
      * @return {String} The internal class of the value.

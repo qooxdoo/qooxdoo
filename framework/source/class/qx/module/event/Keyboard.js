@@ -124,11 +124,11 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
           event[bindMethods[i]] = qx.module.event.Keyboard[bindMethods[i]].bind(event);
         }
       }
-      
+
       return event;
     }
   },
-  
+
   defer : function(statics) {
     q.registerEventNormalization(qx.module.event.Keyboard.TYPES, statics.normalize);
   }

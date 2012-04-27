@@ -29,6 +29,7 @@ qx.Bootstrap.define("qx.module.util.String", {
      * The implementation does not force a lowerCamelCase or upperCamelCase version.
      * The first letter of the parameter keeps its case.
      *
+     * @attachStatic {q.string.camelCase}
      * @param str {String} hyphenated string
      * @return {String} camelcase string
      */
@@ -45,6 +46,7 @@ qx.Bootstrap.define("qx.module.util.String", {
      * The implementation does not force a lowerCamelCase or upperCamelCase version.
      * The first letter of the parameter keeps its case.
      *
+     * @attachStatic {q.string.hyphenate}
      * @param str {String} camelcased string
      * @return {String} hyphenated string
      */
@@ -56,6 +58,7 @@ qx.Bootstrap.define("qx.module.util.String", {
     /**
      * Convert the first character of the string to upper case.
      *
+     * @attachStatic {q.string.firstLow}
      * @signature function(str)
      * @param str {String} the string
      * @return {String} the string with an upper case first character
@@ -66,6 +69,7 @@ qx.Bootstrap.define("qx.module.util.String", {
     /**
      * Convert the first character of the string to lower case.
      *
+     * @attachStatic {q.string.firstLow}
      * @signature function(str)
      * @param str {String} the string
      * @return {String} the string with a lower case first character
@@ -76,6 +80,7 @@ qx.Bootstrap.define("qx.module.util.String", {
     /**
      * Check whether the string starts with the given substring.
      *
+     * @attachStatic {q.string.startsWith}
      * @signature function(fullstr, substr)
      * @param fullstr {String} the string to search in
      * @param substr {String} the substring to look for
@@ -87,6 +92,7 @@ qx.Bootstrap.define("qx.module.util.String", {
     /**
      * Check whether the string ends with the given substring.
      *
+     * @attachStatic {q.string.endsWith}
      * @signature function(fullstr, substr)
      * @param fullstr {String} the string to search in
      * @param substr {String} the substring to look for
@@ -98,6 +104,7 @@ qx.Bootstrap.define("qx.module.util.String", {
     /**
      * Escapes all chars that have a special meaning in regular expressions.
      *
+     * @attachStatic {q.string.escapeRegexpChars}
      * @signature function(str)
      * @param str {String} the string where to escape the chars.
      * @return {String} the string with the escaped chars.

@@ -124,6 +124,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      *
      * *alternate* defines if every other animation should be run in reverse order.
      *
+     * @attach {qx.Collection}
      * @param desc {Map} The animations description.
      * @param duration {Integer?} The duration in milliseconds of the animation
      *   which will override the duration given in the description.
@@ -153,6 +154,7 @@ qx.Bootstrap.define("qx.module.Animation", {
     /**
      * Starts an animation in reversed order. For further details, take a look at
      * the {@link #animate} method.
+     * @attach {qx.Collection}
      * @param desc {Map} The animations description.
      * @param duration {Integer?} The duration in milliseconds of the animation
      *   which will override the duration given in the description.
@@ -183,6 +185,7 @@ qx.Bootstrap.define("qx.module.Animation", {
     /**
      * Manipulates the play state of the animation.
      * This can be used to continue an animation when paused.
+     * @attach {qx.Collection}
      * @return {qx.Collection} The collection for chaining.
      */
     play : function() {
@@ -196,6 +199,7 @@ qx.Bootstrap.define("qx.module.Animation", {
     /**
      * Manipulates the play state of the animation.
      * This can be used to paused an animation when running.
+     * @attach {qx.Collection}
      * @return {qx.Collection} The collection for chaining.
      */
     pause : function() {
@@ -208,6 +212,7 @@ qx.Bootstrap.define("qx.module.Animation", {
 
     /**
      * Stops a running animation.
+     * @attach {qx.Collection}
      * @return {qx.Collection} The collection for chaining.
      */
     stop : function() {
@@ -221,6 +226,7 @@ qx.Bootstrap.define("qx.module.Animation", {
 
     /**
      * Returns weather an animation is running or not.
+     * @attach {qx.Collection}
      * @return {Boolean} <code>true</code>, if an animation is running.
      */
     isPlaying : function() {
@@ -235,6 +241,7 @@ qx.Bootstrap.define("qx.module.Animation", {
 
     /**
      * Returns weather an animation has ended or not.
+     * @attach {qx.Collection}
      * @return {Boolean} <code>true</code>, if an animation has ended.
      */
     isEnded : function() {
@@ -249,6 +256,7 @@ qx.Bootstrap.define("qx.module.Animation", {
 
     /**
      * Fades in all elements in the collection.
+     * @attach {qx.Collection}
      * @param duration {Number?} The duration in milliseconds.
      * @return {qx.Collection} The collection for chaining.
      */
@@ -259,6 +267,7 @@ qx.Bootstrap.define("qx.module.Animation", {
 
     /**
      * Fades out all elements in the collection.
+     * @attach {qx.Collection}
      * @param duration {Number?} The duration in milliseconds.
      * @return {qx.Collection} The collection for chaining.
      */
