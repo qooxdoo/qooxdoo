@@ -247,12 +247,45 @@ qx.Bootstrap.define("qx.module.Event", {
      * @param callback {Function} callback function
      */
     ready : function(callback) {
-      // handle case that its already ready
+      // DOM is already ready
       if (document.readyState === "complete") {
-        window.setTimeout(callback, 0);
+        window.setTimeout(callback, 1);
         return;
       }
-      qx.bom.Event.addNativeListener(window, "load", callback);
+      
+      // listen for the load event so the callback is executed no matter what
+      q.wrap(window).on("load", callback);
+      
+      var wrappedCallback = function() {
+        q.wrap(window).off("load", callback);
+        callback();
+      };
+      
+      // Listen for DOMContentLoaded event if available (no way to reliably detect
+      // support)
+      if (q.env.get("engine.name") !== "mshtml" || q.env.get("browser.documentmode") > 8) {
+        qx.bom.Event.addNativeListener(document, "DOMContentLoaded", wrappedCallback);
+      }
+      else {
+        var self = this;
+
+        // Continually check to see if the document is ready
+        var timer = function() {
+          try {
+            // If DOMContentLoaded is unavailable, use the trick by Diego Perini
+            // http://javascript.nwbox.com/IEContentLoaded/
+            document.documentElement.doScroll("left");
+            if (document.body) {
+              wrappedCallback();
+            }
+          }
+          catch(error) {
+            window.setTimeout(timer, 100);
+          }
+        };
+
+        timer();
+      }
     },
 
 

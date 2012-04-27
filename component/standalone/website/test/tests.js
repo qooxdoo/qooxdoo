@@ -1342,6 +1342,24 @@ testrunner.define({
     this.wait(200, function() {
       this.assertEquals("one", window.temp);
     }, this);
+  },
+  
+  testReady : function()
+  {
+    var ctx = {
+      ready : 0
+    };
+    var callback = function() {
+      this.ready++;
+    };
+    
+    window.setTimeout(function() {
+      q.ready(callback.bind(ctx));
+    }, 100);
+    
+    this.wait(200, function() {
+      this.assertEquals(1, ctx.ready);
+    }, this);
   }
 });
 
