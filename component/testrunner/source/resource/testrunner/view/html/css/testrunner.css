@@ -55,6 +55,7 @@ h2 {
 #header-wrapper {
   position: fixed;
   width: 100%;
+  border-bottom: 4px solid #fff;
   background-color: #323335;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), to(#323335));
   background-image: -webkit-linear-gradient(top, #505154, #323335);
@@ -141,6 +142,11 @@ h2 {
 #controls input[type=submit],
 #controls label {
   margin-right: 15px;
+  vertical-align: middle;
+}
+
+#controls input[type=checkbox] {
+  vertical-align: middle;
 }
 
 #tests {
@@ -161,6 +167,11 @@ h2 {
 
 .controls div {
   float: right;
+}
+
+.controls div input,
+.controls div label {
+  vertical-align: middle;
 }
 
 #testlist {
@@ -184,8 +195,13 @@ h2 {
   margin-right: 5px;
 }
 
+#testlist li input {
+  vertical-align: middle;
+}
+
 #testlist label {
   margin-left: 5px;
+  vertical-align: middle;
 }
 
 #testlist li ol {
