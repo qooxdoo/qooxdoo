@@ -1,4 +1,3 @@
-
 .. _pages/introduction/about#about:
 
 About
