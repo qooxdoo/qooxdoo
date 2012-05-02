@@ -5,7 +5,7 @@ About
 
 qooxdoo (pronounced ['kuksdu:]) is a universal JavaScript framework that enables you to create applications for a wide range of platforms. With its object-oriented programming model you build rich, interactive applications (RIAs), native-like apps for mobile devices, traditional web applications or even applications to run outside the browser. 
 
-You leverage its integrated tool chain to develop and deploy applications of any scale, while taking advantage of a comprehensive feature set and a state-of-the-art GUI toolkit. qooxdoo is open source under liberal `licenses <http://qooxdoo.org/license>`_, led by the world's largest web host `1&1 <http://qooxdoo.org/project/developers#initiator_and_maintainer>`_, with a vibrant `community <http://qooxdoo.org/community>`_.
+You leverage its integrated tool chain to develop and deploy applications of any scale, while taking advantage of a comprehensive feature set and a state-of-the-art GUI toolkit. qooxdoo is open source under liberal `licenses <http://qooxdoo.org/license>`_, run by one of the world's leading web hosts `1&1 <http://qooxdoo.org/project/developers#initiator_and_maintainer>`_, with a vibrant `community <http://qooxdoo.org/community>`_.
 
 .. _pages/introduction/about#framework:
 
