@@ -740,19 +740,12 @@ class CodeGenerator(object):
         # Return the list of constructed URIs.
         def compileAndWritePackage(package, compConf, allClassVariants):
 
-            def compiledFilename(compiled):
-                hash_ = sha.getHash(compiled)[:12]
-                fname = self._resolveFileName(script.baseScriptPath, script.variants, {}, "")
-                fname = self._fileNameWithHash(fname, hash_)
-                return fname
-
             def compileAndAdd(compiled_classes, package_uris, prelude='', wrap=''):
                 compiled = compileClasses(compiled_classes, compOptions, log_progress)
                 if wrap:
                     compiled = wrap % compiled
                 if prelude:
                     compiled = prelude + compiled
-                #filename = compiledFilename(compiled)
                 filename = self._computeFilePath(script, sha.getHash(compiled)[:12])
                 self.writePackage(compiled, filename, script)
                 filename = OsPath(os.path.basename(filename))
@@ -950,7 +943,6 @@ class CodeGenerator(object):
             else:
                 bcode = ""
             loaderCode = generateLoader(script, compConf, globalCodes, bcode)
-            #fname = self._resolveFileName(script.baseScriptPath, script.variants, {}, "")
             fname = self._computeFilePath(script, isLoader=1)
             self.writePackage(loaderCode, fname, script, isLoader=1)
 
@@ -1021,26 +1013,6 @@ class CodeGenerator(object):
             settings[key] = settingsRuntime[key]
 
         return settings
-
-
-    def _resolveFileName(self, fileName, variants=None, settings=None, packageId=""):
-        if variants:
-            for key in variants:
-                pattern = "{%s}" % key
-                fileName = fileName.replace(pattern, str(variants[key]))
-
-        if packageId != "":
-            fileName = fileName.replace(".js", "-%s.js" % packageId)
-
-        return fileName
-
-
-    def _fileNameWithHash(self, fname, hash):
-        filebase, fileext = os.path.splitext(fname)
-        filename = filebase
-        filename += "." + hash if hash else ""
-        filename += fileext
-        return filename
 
 
     def _computeFilePath(self, script, hash_=None, packageId="", isLoader=0):
@@ -1194,10 +1166,6 @@ class CodeGenerator(object):
             dataS        = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
             intpackage.compiled.append(dataS)
             intpackage.hash     = hash_
-            #fPath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode)
-            #intpackage.file = os.path.basename(fPath)
-            #if self._job.get("compile-options/paths/scripts-add-hash", False):
-            #    intpackage.file = self._fileNameWithHash(intpackage.file, intpackage.hash)
             filepath = self._computeFilePath(script, intpackage.hash, localeCode)
             intpackage.file = os.path.basename(filepath)
             intpackage.files = ["%s:%s" % ("__out__", intpackage.file)]
