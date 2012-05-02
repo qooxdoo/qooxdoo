@@ -1,0 +1,59 @@
+@import "_theme.less";
+
+// Colors
+@dark-blue : #3D72C9;
+@font-color : #1D1D1D;
+@font-title-color : #2446BB;
+
+// Widgets
+
+@background: white;
+
+@group-title: @font-title-color;
+
+h2 {
+  font-weight:normal;
+  font-size:16px;
+}
+
+@active-gradient-stop-1 : @dark-blue;
+@active-gradient-stop-2 : #5583D0;
+@active-color : #fff;
+
+@navigationbar-gradient-stop-1: #505154;
+@navigationbar-gradient-stop-2: #323335;
+
+.navigationbar-background() {
+  #gradient > .vertical(@navigationbar-gradient-stop-1, @navigationbar-gradient-stop-2);
+}
+
+@toolbar-gradient-stop-1: @navigationbar-gradient-stop-1;
+@toolbar-gradient-stop-2: @navigationbar-gradient-stop-2;
+
+.toolbar-background() {
+  #gradient > .vertical(@toolbar-gradient-stop-1, @toolbar-gradient-stop-2);
+}
+
+@button-bordercolor : #BBB;
+@button-gradient-stop-1: #F9F9F9;
+@button-gradient-stop-2: #E3E3E3;
+@button-color : @font-color;
+
+@button-active-bordercolor : #888888;
+@button-active-gradient-stop-1 : #DDDDDD;
+@button-active-gradient-stop-2: #F5F5F5;
+@button-active-color : @dark-blue;
+
+.standard-button {
+  font-weight:normal;
+  font-size:14px;
+}
+
+@list-bordercolor: #DDDDDD;
+@list-subtitle-color : @dark-blue;
+
+.dialog-background() {
+  background:@button-gradient-stop-1;
+}
+@dialog-border-color:@dark-blue;
+@dialog-color:@font-color;
