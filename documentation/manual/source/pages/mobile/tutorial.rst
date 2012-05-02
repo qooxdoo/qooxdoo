@@ -288,7 +288,7 @@ section of the “Application” class:
 
 Now the username has to be retrieved from the user input. To do so, we
 have to create an input form. The usage of the form classes should be
-familiar to you when you have used the RIA widget set. Open the “Input”
+familiar to you if you have used the RIA widget set before. Open the “Input”
 class again and place the following code, before the button instance in
 the ``_initialize`` method:
 ::
@@ -573,3 +573,4 @@ mobile applications work on Android and iOS devices.
 .. _animations: http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile.page.manager.Animation
 .. _Data binding: http://manual.qooxdoo.org/%{version}/pages/core.html#data-binding
 .. _JSONP: http://demo.qooxdoo.org/%{version}/apiviewer/#qx.data.store.Jsonp
+.. _PhoneGap: http://www.phonegap.com/
