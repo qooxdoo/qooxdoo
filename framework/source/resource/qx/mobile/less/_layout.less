@@ -1,3 +1,22 @@
+// Card Layout
+
+.layout-card {
+  -webkit-perspective: 800;
+  -webkit-transform-style: preserve-3d;
+  overflow:hidden;
+}
+
+.layout-card-item {
+    -webkit-backface-visibility: hidden;
+    -webkit-box-sizing: border-box;
+    -webkit-transform: translate3d(0,0,0) rotate(0) scale(1);
+    position: relative;
+    left:0px;
+    width: 100%;
+}
+
+// Box-Layout
+
 .hbox {
   display: -webkit-box;
   display: -moz-box;
