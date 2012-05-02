@@ -36,12 +36,4 @@ While being a client-side and server-agnostic solution, the qooxdoo project incl
 More Information (online)
 -------------------------
 
-* `FAQ <http://qooxdoo.org/project/faq>`_
-* `License <http://qooxdoo.org/license>`_
-* `Framework Features <http://qooxdoo.org/project/framework>`_
-* `Release Notes <http://qooxdoo.org/project/release_notes>`_
-* `Roadmap <http://qooxdoo.org/project/roadmap>`_
-* `Release Handling <http://qooxdoo.org/project/releases>`_
-* `Committers Guide <http://qooxdoo.org/project/committers_guide>`_
-* `Media Download <http://qooxdoo.org/project/media_download>`_
-
+There is `more information <http://qooxdoo.org/project>`_ available about the project on the project's home page.
