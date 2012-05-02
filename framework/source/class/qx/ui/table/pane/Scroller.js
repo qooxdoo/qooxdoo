@@ -35,7 +35,11 @@
 qx.Class.define("qx.ui.table.pane.Scroller",
 {
   extend : qx.ui.core.Widget,
-  include : qx.ui.core.scroll.MScrollBarFactory,
+  include : [qx.ui.core.scroll.MScrollBarFactory].concat(
+    qx.core.Environment.filter({
+      "event.touch" : qx.ui.core.scroll.MTouchScroll
+    })
+  ),
 
 
 
@@ -91,6 +95,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__paneClipper.addListener("contextmenu", this._onContextMenu, this);
     this.__paneClipper.addListener("dblclick", this._onDblclickPane, this);
     this.__paneClipper.addListener("resize", this._onResizePane, this);
+    
+    //this.__paneClipper.addListener("swipe", this._onSwipe, this);
+    
 
     // if we have overlayed scroll bars, we should use a separate container
     if (qx.core.Environment.get("os.scrollBarOverlayed")) {
@@ -849,7 +856,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this._postponedUpdateContent();
     },
 
-
+   
     /**
      * Event handler. Called when the user moved the mouse wheel.
      *
