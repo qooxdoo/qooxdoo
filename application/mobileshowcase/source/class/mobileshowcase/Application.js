@@ -68,6 +68,8 @@ qx.Class.define("mobileshowcase.Application",
       -------------------------------------------------------------------------
       */
 
+      var tablet = true;
+
       // Create the pages
       var overview = new mobileshowcase.page.Overview();
       var events = new mobileshowcase.page.Event();
@@ -82,6 +84,25 @@ qx.Class.define("mobileshowcase.Application",
       var dialogs = new mobileshowcase.page.Dialog();
       var dataBinding = new mobileshowcase.page.DataBinding();
 
+      // todo: tablet support
+      if (tablet) {
+        var splitPane = new qx.ui.mobile.container.SplitPane();
+        splitPane.setPopup(new qx.ui.mobile.dialog.Popup());
+        this.getRoot().setLayout(new qx.ui.mobile.layout.VBox());
+        this.getRoot().add(splitPane, {flex:1});
+        splitPane.show();
+        splitPane.getLeft().add(overview);
+        splitPane.getRight().add(events);
+        splitPane.getRight().add(list);
+        splitPane.getRight().add(tab);
+        splitPane.getRight().add(toolbar);
+        splitPane.getRight().add(form);
+        splitPane.getRight().add(animation);
+        splitPane.getRight().add(atoms);
+        splitPane.getRight().add(basic);
+        splitPane.getRight().add(dialogs);
+        splitPane.getRight().add(dataBinding);
+      }
 
       // Navigation
       var nm = qx.ui.mobile.navigation.Manager.getInstance();
