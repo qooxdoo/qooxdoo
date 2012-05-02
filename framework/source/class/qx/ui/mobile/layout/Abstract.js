@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
      *
      * @return {String} The css class that the layout is using
      */
-    getCssClass: function()
+    _getCssClass: function()
     {
       if (qx.core.Environment.get("qx.debug")) {
         throw new Error("Abstract method call");

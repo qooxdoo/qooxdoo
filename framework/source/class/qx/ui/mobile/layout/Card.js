@@ -112,8 +112,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     _getCssClass : function() {
       return "layout-card";
     },
-    
-    
+
+
     // overridden
     connectToChildWidget : function(widget)
     {
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       if (action == "visible")
       {
         this.__showWidget(widget, properties);
-      }      
+      }
     },
 
 
@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       if (this.__inAnimation) {
         this.__stopAnimation();
       }
-      
+
       this.__widget = widget;
 
       properties = properties || {};
@@ -172,9 +172,9 @@ qx.Class.define("qx.ui.mobile.layout.Card",
  */
 /*
       if (qx.core.Environment.get("css.translate3d")) {
-        
+
       } else {
-        
+
       }
 */
       if (this.__activeWidget) {
@@ -183,8 +183,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         this.__swapWidget();
       }
     },
-    
-    
+
+
     __swapWidget : function() {
       if (this.__activeWidget) {
         this.__activeWidget.exclude();
@@ -242,7 +242,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
         qx.bom.element.Class.removeClasses(fromElement, this.__getAnimationClasses("out"));
         qx.bom.element.Class.removeClasses(toElement, this.__getAnimationClasses("in"));
-        
+
         this.__swapWidget();
 
         this.__inAnimation = false;
