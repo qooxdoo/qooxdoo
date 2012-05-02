@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
     {
       // Process all registered widgets
       var queue = this.__queue;
-      var obj;
+      var obj, jobs;
       for (var i = queue.length - 1 ; i >= 0; i--)
       {
         // Order is important to allow the same widget to be requeued directly
