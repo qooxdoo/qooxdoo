@@ -257,8 +257,7 @@ Specify various options for compile (and other) keys. Takes a map.
       "file"            : "<path>",
       "app-root"        : "<path>",            
       "gzip"            : (true|false),
-      "loader-template" : "<path>",
-      "scripts-add-hash": (true|false)
+      "loader-template" : "<path>"
     },
     "uris" :
     {
@@ -286,7 +285,6 @@ Possible keys are
   * **app-root** : (*source*) relative (in the above sense) path to the directory containing the app’s HTML page (default: *./source*)
   * **loader-template** : path to a JS file that will be used as an alternative loader template; for possible macros and structure see the default (default: *${QOOXDOO_PATH}/tool/data/generator/loader.tmpl.js*)
   * **gzip** : whether to gzip output file(s) (default: *false*)
-  * **scripts-add-hash** : whether the file name of generated script files should contain the script's hash code; the primary compile output file (see above) is exempted even if set to true (default: *false*)
 
 * **uris** : URIs used to reference code and resources
 

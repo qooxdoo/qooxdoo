@@ -752,7 +752,8 @@ class CodeGenerator(object):
                     compiled = wrap % compiled
                 if prelude:
                     compiled = prelude + compiled
-                filename = compiledFilename(compiled)
+                #filename = compiledFilename(compiled)
+                filename = self._computeFilePath(script, sha.getHash(compiled)[:12])
                 self.writePackage(compiled, filename, script)
                 filename = OsPath(os.path.basename(filename))
                 shortUri = Uri(filename.toUri())
@@ -949,8 +950,9 @@ class CodeGenerator(object):
             else:
                 bcode = ""
             loaderCode = generateLoader(script, compConf, globalCodes, bcode)
-            fname = self._resolveFileName(script.baseScriptPath, script.variants, {}, "")
-            self.writePackage(loaderCode, fname, script)
+            #fname = self._resolveFileName(script.baseScriptPath, script.variants, {}, "")
+            fname = self._computeFilePath(script, isLoader=1)
+            self.writePackage(loaderCode, fname, script, isLoader=1)
 
 
         self._console.outdent()
@@ -1039,6 +1041,36 @@ class CodeGenerator(object):
         filename += "." + hash if hash else ""
         filename += fileext
         return filename
+
+
+    def _computeFilePath(self, script, hash_=None, packageId="", isLoader=0):
+
+        filepath = script.baseScriptPath
+        variants = script.variants
+
+        # replace environment placeholders
+        if variants:
+            for key in variants:
+                pattern = "{%s}" % key
+                filepath = filepath.replace(pattern, str(variants[key]))
+
+        # insert a package id
+        if packageId != "":
+            filepath = filepath.replace(".js", "-%s.js" % packageId)
+
+        # hash component
+        #if hash_ and self._job.get("compile-options/paths/scripts-add-hash", False):
+        if hash_ :
+            filebase, fileext = os.path.splitext(filepath)
+            filepath = filebase
+            filepath += "." + hash_
+            filepath += fileext
+
+        # gzip component
+        if script.scriptCompress and not isLoader:
+            filepath += ".gz"
+
+        return filepath
 
 
     def _computeContentSize(self, content):
@@ -1162,10 +1194,12 @@ class CodeGenerator(object):
             dataS        = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
             intpackage.compiled.append(dataS)
             intpackage.hash     = hash_
-            fPath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode)
-            intpackage.file = os.path.basename(fPath)
-            if self._job.get("compile-options/paths/scripts-add-hash", False):
-                intpackage.file = self._fileNameWithHash(intpackage.file, intpackage.hash)
+            #fPath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode)
+            #intpackage.file = os.path.basename(fPath)
+            #if self._job.get("compile-options/paths/scripts-add-hash", False):
+            #    intpackage.file = self._fileNameWithHash(intpackage.file, intpackage.hash)
+            filepath = self._computeFilePath(script, intpackage.hash, localeCode)
+            intpackage.file = os.path.basename(filepath)
             intpackage.files = ["%s:%s" % ("__out__", intpackage.file)]
             setattr(intpackage,"__localeflag", True)   # TODO: temp. hack for writeI18NPackages()
 
@@ -1301,9 +1335,9 @@ class CodeGenerator(object):
         return
 
     
-    def writePackage(self, content, filePath, script):
+    def writePackage(self, content, filePath, script, isLoader=0):
         console.debug("Writing script file %s" % filePath)
-        if script.scriptCompress:
+        if script.scriptCompress and not isLoader:
             filetool.gzip(filePath, content)
         else:
             filetool.save(filePath, content)
