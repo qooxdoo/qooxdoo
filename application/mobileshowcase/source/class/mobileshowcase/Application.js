@@ -106,8 +106,17 @@ qx.Class.define("mobileshowcase.Application",
 
       // Navigation
       var nm = qx.ui.mobile.navigation.Manager.getInstance();
+
+      if (tablet) {
+        nm.onGet("/.*", function(data) {
+          overview.show();
+        },this);
+      }
+
+
       nm.onGet("/", function(data) {
         overview.show(data.customData);
+        
       },this);
 
       nm.onGet("/event", function(data)

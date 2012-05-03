@@ -187,6 +187,22 @@ qx.Class.define("qx.ui.mobile.page.Page",
   {
     __initialized : false,
 
+    // overridden
+    show : function(properties)
+    {
+      this.initialize();
+      this.start();
+      this.base(arguments, properties);
+    },
+
+
+    // overridden
+    exclude : function(properties)
+    {
+      this.stop();
+      this.base(arguments, properties);
+    },
+
 
     /**
      * Resizes the page to the innerHeight of the window.
