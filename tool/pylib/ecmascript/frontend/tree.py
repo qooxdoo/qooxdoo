@@ -629,8 +629,18 @@ def nodeToXmlStringNR(node, prefix="", encoding="utf-8"):
 
 
 def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
+    asString = u''
     hasText = False
-    asString = prefix + "<" + node.type
+
+    # comments
+    if node.comments:
+        cmtStrings = []
+        for comment in node.comments:
+            cmtStrings.append(nodeToXmlString(comment, prefix, childPrefix, newLine, encoding))
+        asString += u''.join(cmtStrings)
+
+    # own str repr
+    asString += prefix + "<" + node.type
     #if node.hasAttributes():
     if True:
         for key in node.attributes:

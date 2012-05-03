@@ -259,6 +259,12 @@ class TokenStream(IterObject):
                     # it before it has been yielded, so the parser can react on it; the
                     # token after next will then reset it
                 self.outData.appendleft(s)
+                # handle comments
+                if self.comments:
+                    s.comments = self.comments
+                    self.comments = []
+                #if s.type == "eof":
+                #    import pydb; pydb.debugger()
                 yield s
 
 
@@ -300,6 +306,7 @@ class symbol_base(Node):
             self.set("line", line)
         if column:
             self.set("column", column)
+        self.comments = None   # [Node(comment)] of comments preceding the node ("commentsBefore")
 
     ##
     # thin wrapper around .children, to maintain .parent in them
@@ -1809,6 +1816,8 @@ def statement():
                     advance(',')
                     s.childappend(expression())
         statementEnd()
+        if token.id == "eof" and token.comments:
+            s.childappend(token)  # keep eof for pot. comments
     return s
 
 @method(symbol("(empty)"))
@@ -1827,6 +1836,8 @@ def toJS(self):
 def statementEnd():
     if token.id in (";",):
         advance()
+    #elif token.id == "eof":
+    #    return token  # ok as stmt end, but don't just skip it (bc. comments)
     elif tokenStream.eolBefore:
         pass # that's ok as statement end
     #if token.id in ("eof", 
@@ -1842,6 +1853,10 @@ def statementEnd():
     #    else:
     #        raise SyntaxException("Unterminated statement (pos %r)" % ((token.get("line"), token.get("column")),))
 
+
+@method(symbol("eof"))
+def toJS(self):
+    return u''
 
 def statementOrBlock(): # for 'if', 'while', etc. bodies
     if token.id == '{':
