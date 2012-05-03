@@ -26,7 +26,7 @@
 ##
 
 import re
-from ecmascript.frontend import tree, tokenizer, treegenerator_2 as treegenerator, Comment
+from ecmascript.frontend import tree, tokenizer, treegenerator_2 as treegenerator, Comment_2 as Comment
 
 ##
 # Finds the next qx.*.define in the given tree

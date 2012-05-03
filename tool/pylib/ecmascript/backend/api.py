@@ -34,8 +34,11 @@
 
 import sys, os, re, string
 from ecmascript.frontend import tree, Comment, lang
-from ecmascript.frontend.treeutil_2 import *
-from ecmascript.transform.optimizer import variantoptimizer_2 as variantoptimizer  # ugly here
+#from ecmascript.frontend import treeutil_2 as treeutil
+from ecmascript.frontend import treeutil
+from ecmascript.frontend import treegenerator
+#from ecmascript.transform.optimizer import variantoptimizer_2 as variantoptimizer  # ugly here
+from ecmascript.transform.optimizer import variantoptimizer  # ugly here
 from generator import Context
 
 
@@ -55,7 +58,7 @@ class DocException (Exception):
 hasDocError = False
 
 def printDocError(node, msg):
-    (line, column) = getLineAndColumnFromSyntaxItem(node)
+    (line, column) = treeutil.getLineAndColumnFromSyntaxItem(node)
     print "      - Failed: %s, Line: %s, Column: %s" % (
         msg, str(line), str(column)
     )
@@ -68,9 +71,11 @@ def createDoc(syntaxTree, docTree = None):
     if not docTree:
         docTree = tree.Node("doctree")
 
-    defineNode = findQxDefine(syntaxTree)
+    defineNode = treeutil.findQxDefine(syntaxTree)
+    import pydb; pydb.debugger()
     if defineNode != None:
-        variant = selectNode(defineNode, "operand/variable/2/@name").lower()
+        #variant = selectNode(defineNode, "operand/variable/2/@name").lower()
+        variant = treeutil.selectNode(defineNode, "operand").toJS().split(".")[1].lower()  # 'class' in 'qx.Class.define'
         handleClassDefinition(docTree, defineNode, variant)
 
     global hasDocError
@@ -114,8 +119,8 @@ def createPackageDoc(text, packageName, docTree = None):
 #
 ########################################################################################
 
-def handleClassDefinition(docTree, item, variant):
-    params = item.getChild("params")
+def handleClassDefinition(docTree, callNode, variant):
+    params = callNode.getChild("params")
     className = params.children[0].get("value")
 
     if len(params.children) > 1:
@@ -123,12 +128,13 @@ def handleClassDefinition(docTree, item, variant):
     else:
         classMap = {}
 
-    commentAttributes = Comment.parseNode(item)
+    cls_cmnt_node = treeutil.findLeftmostChild(callNode.getChild("operand"))
+    commentAttributes = Comment.parseNode(cls_cmnt_node)
 
-    classNode = getClassNode(docTree, className, commentAttributes)
+    classNode = classNodeFromDocTree(docTree, className, commentAttributes)
     if variant == "class":
         classNode.set("type", "class")
-        type = selectNode(params, "2/keyvalue[@key='type']/value/constant/@value")
+        type = treeutil.selectNode(params, "2/keyvalue[@key='type']/value/constant/@value")
         if type == "singleton":
             classNode.set("isSingleton", True)
         elif type == "abstract":
@@ -139,8 +145,8 @@ def handleClassDefinition(docTree, item, variant):
 
     handleDeprecated(classNode, commentAttributes)
     handleAccess(classNode, commentAttributes)
-    handleAppearance(item, classNode, className, commentAttributes)
-    handleChildControls(item, classNode, className, commentAttributes)
+    handleAppearance(callNode, classNode, className, commentAttributes)
+    handleChildControls(callNode, classNode, className, commentAttributes)
 
     try:
         children = classMap.children
@@ -189,13 +195,13 @@ def handleClassDefinition(docTree, item, variant):
     handleSingleton(classNode, docTree)
     
     if not classNode.hasChild("desc"):
-        addError(classNode, "Class documentation is missing.", item)    
+        addError(classNode, "Class documentation is missing.", callNode)    
     
 
 
 def handleClassExtend(valueItem, classNode, docTree, className):
-    superClassName = (assembleVariable(valueItem))[0]
-    superClassNode = getClassNode(docTree, superClassName)
+    superClassName = (treeutil.assembleVariable(valueItem))[0]
+    superClassNode = classNodeFromDocTree(docTree, superClassName)
     childClasses = superClassNode.get("childClasses", False)
 
     if childClasses:
@@ -211,7 +217,7 @@ def handleInterfaceExtend(valueItem, classNode, docTree, className):
     superInterfaceNames = variableOrArrayNodeToArray(valueItem)
 
     for superInterface in superInterfaceNames:
-        superInterfaceNode = getClassNode(docTree, superInterface)
+        superInterfaceNode = classNodeFromDocTree(docTree, superInterface)
         childInterfaces = superInterfaceNode.get("childClasses", False)
 
         if childInterfaces:
@@ -245,7 +251,7 @@ def handleInterfaceExtend(valueItem, classNode, docTree, className):
 def handleMixins(item, classNode, docTree, className):
     try:
         # direct symbol or list of symbols
-        mixins = variableOrArrayNodeToArray(item)
+        mixins = treeutil.variableOrArrayNodeToArray(item)
     except tree.NodeAccessException:
         try:
             # call to qx.core.Environment.filter
@@ -258,7 +264,7 @@ def handleMixins(item, classNode, docTree, className):
                 # map value has to be value/variable
                 variable =  node.children[0]
                 assert variable.type == "variable"
-                symbol, isComplete = assembleVariable(variable)
+                symbol, isComplete = treeutil.assembleVariable(variable)
                 assert isComplete
                 includeSymbols.append(symbol)
             mixins = includeSymbols
@@ -266,7 +272,7 @@ def handleMixins(item, classNode, docTree, className):
             Context.console.warn("Illegal include definition in " + classNode.get("fullName"))
             return
     for mixin in mixins:
-        mixinNode = getClassNode(docTree, mixin)
+        mixinNode = classNodeFromDocTree(docTree, mixin)
         includer = mixinNode.get("includer", False)
         if includer:
             includer += "," + className
@@ -293,7 +299,7 @@ def handleSingleton(classNode, docTree):
  */
 function() {}""" % className
 
-        node = compileString(functionCode)
+        node = treeutil.compileString(functionCode)
         commentAttributes = Comment.parseNode(node)
         docNode = handleFunction(node, "getInstance", commentAttributes, classNode)
 
@@ -304,14 +310,14 @@ function() {}""" % className
 def handleInterfaces(item, classNode, docTree):
     className = classNode.get("fullName")
     try:
-        interfaces = variableOrArrayNodeToArray(item)
+        interfaces = treeutil.variableOrArrayNodeToArray(item)
     except tree.NodeAccessException:
         Context.console.warn("")
         Context.console.warn("Illegal implement definition in " + classNode.get("fullName"))
         return
 
     for interface in interfaces:
-        interfaceNode = getClassNode(docTree, interface)
+        interfaceNode = classNodeFromDocTree(docTree, interface)
         impl = interfaceNode.get("implementations", False)
         if impl:
             impl += "," + className
@@ -331,7 +337,7 @@ def handleConstructor(ctorItem, classNode):
 
 
 def handleStatics(item, classNode):
-    for key, value in mapNodeToMap(item).items():
+    for key, value in treeutil.mapNodeToMap(item).items():
         keyvalue = value.parent
         value = value.getFirstChild()
 
@@ -341,7 +347,7 @@ def handleStatics(item, classNode):
         if value.type != "function":
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
-                    value = compileString(docItem["text"][3:-4] + "{}")
+                    value = treeutil.compileString(docItem["text"][3:-4] + "{}")
 
         # Function
         if value.type == "function":
@@ -359,7 +365,7 @@ def handleStatics(item, classNode):
 
 
 def handleMembers(item, classNode):
-    for key, value in mapNodeToMap(item).items():
+    for key, value in treeutil.mapNodeToMap(item).items():
         keyvalue = value.parent
         value = value.getFirstChild()
 
@@ -370,7 +376,7 @@ def handleMembers(item, classNode):
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
                     try:
-                        value = compileString(docItem["text"][3:-4] + "{}")
+                        value = treeutil.compileString(docItem["text"][3:-4] + "{}")
                     except treegenerator.SyntaxException:
                         printDocError(keyvalue, "Invalid signature")
 
@@ -462,7 +468,7 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
     for funcName in generatedMethods:
         funcName = access + funcName + name
         functionCode = propData[funcName]
-        node = compileString(functionCode)
+        node = treeutil.compileString(functionCode)
         commentAttributes = Comment.parseNode(node)
         docNode = handleFunction(node, funcName, commentAttributes, classNode)
         docNode.remove("line")
@@ -563,7 +569,7 @@ def generateGroupPropertyMethod(propertyName, groupMembers, mode, classNode):
         "params" : "\n".join(paramsDef),
         "paramList" : ", ".join(groupMembers)
     })
-    functionNode = compileString(functionCode)
+    functionNode = treeutil.compileString(functionCode)
     commentAttributes = Comment.parseNode(functionNode)
     docNode = handleFunction(functionNode, functionName, commentAttributes, classNode)
 
@@ -590,14 +596,14 @@ def handlePropertyGroup(propName, propDefinition, classNode):
 
 
 def handleProperties(item, classNode):
-    for propName, value in mapNodeToMap(item).items():
+    for propName, value in treeutil.mapNodeToMap(item).items():
         keyvalue = value.parent
         value = value.getFirstChild()
 
         if value.type != "map":
             continue
 
-        propDefinition = mapNodeToMap(value)
+        propDefinition = treeutil.mapNodeToMap(value)
         #print propName, propDefinition
 
         if "group" in propDefinition:
@@ -632,7 +638,7 @@ def handleProperties(item, classNode):
 
 
 def handleEvents(item, classNode):
-    for key, value_ in mapNodeToMap(item).items():
+    for key, value_ in treeutil.mapNodeToMap(item).items():
         keyvalue = value_.parent
         value = value_.getFirstChild(True, True).toJavascript()
         value = string.strip(value, '\'"') # unquote result from .toJavascript; TODO: unnecessary with .toJS!?
@@ -818,7 +824,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
     node = tree.Node("method")
     node.set("name", name)
     
-    (line, column) = getLineAndColumnFromSyntaxItem(funcItem)
+    (line, column) = treeutil.getLineAndColumnFromSyntaxItem(funcItem)
     if line:
         node.set("line", line)
 
@@ -944,7 +950,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             #from pydbgr.api import debug
             
             hasReturnValue = False
-            for returnNode in nodeIterator(funcItem, ["return"]):
+            for returnNode in treeutil.nodeIterator(funcItem, ["return"]):
                 if returnNode.hasChild("expression"):
                     hasReturnValue = True
             
@@ -1014,7 +1020,7 @@ def getValue(item):
         else:
             value = item.get("value")
     elif item.type == "variable":
-        value, isComplete = assembleVariable(item)
+        value, isComplete = treeutil.assembleVariable(item)
         if not isComplete:
             value = "[Complex expression]"
     elif item.type == "operation" and item.get("operator") == "SUB":
@@ -1101,7 +1107,7 @@ def addError(node, msg, syntaxItem):
     errorNode = tree.Node("error")
     errorNode.set("msg", msg)
 
-    (line, column) = getLineAndColumnFromSyntaxItem(syntaxItem)
+    (line, column) = treeutil.getLineAndColumnFromSyntaxItem(syntaxItem)
     if line:
         errorNode.set("line", line)
 
@@ -1148,7 +1154,10 @@ def getPackageNode(docTree, namespace):
     return currPackage
 
 
-def getClassNode(docTree, fullClassName, commentAttributes = None):
+##
+# Get (or create) the node for the given class name in the docTree
+#
+def classNodeFromDocTree(docTree, fullClassName, commentAttributes = None):
     if commentAttributes == None:
         commentAttributes = {}
 
@@ -1284,7 +1293,7 @@ def isClassAbstract(docTree, classNode, visitedMethodNames):
     # methods that haven't been overridden
     superClassName = classNode.get("superClass", False)
     if superClassName:
-        superClassNode = getClassNode(docTree, superClassName)
+        superClassNode = classNodeFromDocTree(docTree, superClassName)
         return isClassAbstract(docTree, superClassNode, visitedMethodNames)
 
 
@@ -1305,11 +1314,11 @@ def documentApplyMethod(methodNode, props):
     if methodNode.getChild("desc", False) != None:
         return
 
-    firstParam = selectNode(methodNode, "params/param[1]/@name")
+    firstParam = treeutil.selectNode(methodNode, "params/param[1]/@name")
     if firstParam is None:
         firstParam = "value"
 
-    secondParam = selectNode(methodNode, "params/param[2]/@name")
+    secondParam = treeutil.selectNode(methodNode, "params/param[2]/@name")
     if secondParam is None:
         secondParam = "old"
 
@@ -1355,9 +1364,9 @@ function(%(firstParamName)s, %(secondParamName)s) {}""" % ({
         "propName": methodNode.get("name")
     })
 
-    node = compileString(functionCode)
+    node = treeutil.compileString(functionCode)
     commentAttributes = Comment.parseNode(node)
-    docNode = handleFunction(node, methodNode.get("name"), commentAttributes, selectNode(methodNode, "../.."))
+    docNode = handleFunction(node, methodNode.get("name"), commentAttributes, treeutil.selectNode(methodNode, "../.."))
 
     oldParams = methodNode.getChild("params", False)
     if oldParams:
@@ -1417,7 +1426,7 @@ def dependendClassIterator(docTree, classNode):
             directDependencies.extend(listItems.split(","))
 
     for dep in directDependencies:
-        for cls in dependendClassIterator(docTree, getClassNode(docTree, dep)):
+        for cls in dependendClassIterator(docTree, classNodeFromDocTree(docTree, dep)):
             yield cls
 
 
@@ -1475,7 +1484,7 @@ def postWorkItemList(docTree, classNode, listName, overridable):
 
             # look for documentation in super classes
             while superClassName and (not overriddenFound or not docFound):
-                superClassNode = getClassNode(docTree, superClassName)
+                superClassNode = classNodeFromDocTree(docTree, superClassName)
                 superItemNode = superClassNode.getListChildByAttribute(listName, "name", name, False)
 
                 if superItemNode:

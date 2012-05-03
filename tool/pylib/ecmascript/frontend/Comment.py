@@ -625,6 +625,17 @@ def parseNode(node):
     """Takes the last doc comment from the commentsBefore child, parses it and
     returns a Node representing the doc comment"""
 
+    commentsBefore = node.comments[-1:]
+    if commentsBefore:
+        return Comment(commentsBefore[0].get("value", "")).parse()
+    else:
+        return []
+
+
+def parseNode_2(node):
+    """Takes the last doc comment from the commentsBefore child, parses it and
+    returns a Node representing the doc comment"""
+
     # Find the last doc comment
     commentsBefore = node.getChild("commentsBefore", False)
     if commentsBefore and commentsBefore.hasChildren():

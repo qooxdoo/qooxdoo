@@ -171,6 +171,9 @@ class TokenStream(IterObject):
             s = symbol_table.get(tok.name)()
         elif tok.name == 'comment':
             s = symbol_table.get(tok.name)()
+            #s.set('connection', tok.connection)  # before/after(!?)
+            s.set('detail', "inline" if tok.value[:2]=="//" else "block") # tok.detail is javadoc/qtdoc/area/divider/header/block
+            s.set('multiline', tok.multiline)  # true/false
             self.comments.append(s)         # keep comments in temp. store
         elif tok.name == "eol":
             self.line += 1                  # increase line count
