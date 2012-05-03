@@ -883,7 +883,7 @@ class QxTest:
     if not individual:
       self.log("individualServer set to False, using one server instance for "
                + "all tests")
-      self.startSeleniumServer(False, seleniumVersion, seleniumJar)
+      self.startSeleniumServer(seleniumVersion, seleniumJar)
 
     for browser in appConf['browsers']:
       
