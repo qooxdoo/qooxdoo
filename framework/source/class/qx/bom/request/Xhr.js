@@ -74,6 +74,28 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     DONE: 4
   },
 
+
+  events : {
+    /** Fired at ready state changes. */
+    "readystatechange" : undefined,
+
+    /** Fired on error. */
+    "error" : undefined,
+
+    /** Fired at loadend. */
+    "loadend" : undefined,
+
+    /** Fired on timeouts. */
+    "timeout" : undefined,
+
+    /** Fired when the request is aborted. */
+    "abort" : undefined,
+
+    /** Fired on successful retrieval. */
+    "load" : undefined
+  },
+
+
   members :
   {
     /*
@@ -392,6 +414,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
     },
 
+
+    /**
+     * Helper to emit events and call the callback methods.
+     * @param event {String} The name of the event.
+     */
     _emit: function(event) {
       this["on" + event]();
       this._emitter.emit(event);
@@ -446,9 +473,19 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     */
     ontimeout: function() {},
 
-    on: function(event, callback) {
-      this._emitter.on(event, callback);
+
+    /**
+     * Add an event listener for the given event name.
+     *
+     * @param name {String} The name of the event to listen to.
+     * @param listener {function} The function execute on {@link #emit}.
+     * @param ctx {?var} The context of the listener.
+     * @return {Integer} An unique <code>id</code> for the attached listener.
+     */
+    on: function(name, listener, ctx) {
+      return this._emitter.on(name, listener, ctx);
     },
+
 
     /**
      * Get a single response header from response.
@@ -553,7 +590,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         return new window.ActiveXObject("Microsoft.XMLHTTP");
       }
 
-      qx.log.Logger.error(this, "No XHR support available.");
+      qx.Bootstrap.error(this, "No XHR support available.");
     },
 
     /**
