@@ -92,6 +92,7 @@ qx.Theme.define("qx.theme.indigo.Appearance",
       {
         return {
           contentPadding : [ 10, 10, 10, 10 ],
+          backgroundColor: states.maximized ? "background" : undefined,
           decorator : states.maximized ? undefined : states.active ? "window-active" : "window"
         };
       }
