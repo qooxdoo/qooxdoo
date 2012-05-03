@@ -61,12 +61,36 @@ qx.Bootstrap.define("qx.bom.request.Script",
     this.__headElement = document.head || document.getElementsByTagName( "head" )[0] ||
                          document.documentElement;
 
+   this._emitter = new qx.event.Emitter();
+
     // BUGFIX: Browsers not supporting error handler
     // Set default timeout to capture network errors
     //
     // Note: The script is parsed and executed, before a "load" is fired.
     this.timeout = this.__supportsErrorHandler() ? 0 : 15000;
   },
+
+
+  events : {
+    /** Fired at ready state changes. */
+    "readystatechange" : undefined,
+
+    /** Fired on error. */
+    "error" : undefined,
+
+    /** Fired at loadend. */
+    "loadend" : undefined,
+
+    /** Fired on timeouts. */
+    "timeout" : undefined,
+
+    /** Fired when the request is aborted. */
+    "abort" : undefined,
+
+    /** Fired on successful retrieval. */
+    "load" : undefined
+  },
+
 
   members :
   {
@@ -113,6 +137,20 @@ qx.Bootstrap.define("qx.bom.request.Script",
      * {Function} Function that is executed once the script was loaded.
      */
     __determineSuccess: null,
+
+
+    /**
+     * Add an event listener for the given event name.
+     *
+     * @param name {String} The name of the event to listen to.
+     * @param listener {function} The function execute on {@link #emit}.
+     * @param ctx {?var} The context of the listener.
+     * @return {Integer} An unique <code>id</code> for the attached listener.
+     */
+    on: function(name, listener, ctx) {
+      return this._emitter.on(name, listener, ctx);
+    },
+
 
     /**
      * Initializes (prepares) request.
@@ -213,8 +251,19 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
       this.__abort = true;
       this.__disposeScriptElement();
-      this.onabort();
+      this._emit("abort");
     },
+
+
+    /**
+     * Helper to emit events and call the callback methods.
+     * @param event {String} The name of the event.
+     */
+    _emit: function(event) {
+      this["on" + event]();
+      this._emitter.emit(event);
+    },
+
 
     /**
      * Event handler for an event that fires at every state change.
@@ -384,13 +433,13 @@ qx.Bootstrap.define("qx.bom.request.Script",
       this.__failure();
 
       if (!this.__supportsErrorHandler()) {
-        this.onerror();
+        this._emit("error");
       }
 
-      this.ontimeout();
+      this._emit("timeout");
 
       if (!this.__supportsErrorHandler()) {
-        this.onloadend();
+        this._emit("loadend");
       }
     },
 
@@ -448,8 +497,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
       window.setTimeout(function() {
         that.__success();
         that.__readyStateChange(4);
-        that.onload();
-        that.onloadend();
+        that._emit("load");
+        that._emit("loadend");
       });
     },
 
@@ -458,8 +507,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
      */
     _onNativeError: function() {
       this.__failure();
-      this.onerror();
-      this.onloadend();
+      this._emit("error");
+      this._emit("loadend");
     },
 
     /*
@@ -535,7 +584,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
      */
     __readyStateChange: function(readyState) {
       this.readyState = readyState;
-      this.onreadystatechange();
+      this._emit("readystatechange");
     },
 
     /**

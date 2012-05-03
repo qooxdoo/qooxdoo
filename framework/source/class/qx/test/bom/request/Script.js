@@ -42,8 +42,8 @@ qx.Class.define("qx.test.bom.request.Script",
   members :
   {
     setUp: function() {
-      var req = this.req = new qx.bom.request.Script(),
-          url = this.url = this.getUrl("qx/test/script.js");
+      var req = this.req = new qx.bom.request.Script();
+      this.url = this.getUrl("qx/test/script.js");
 
       // Assume timeout after 1s in Opera (no error!)
       if (qx.core.Environment.get("engine.name") === "opera") {
@@ -93,6 +93,26 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     //
+    // Event helper
+    //
+
+    "test: call event handler": function() {
+      var req = this.req;
+      req.onevent = this.spy();
+      req._emit("event");
+      this.assertCalled(req.onevent);
+    },
+
+    "test: fire event": function(){
+      var req = this.req;
+      var event = this.spy();
+      req.onevent = this.spy();
+      req.on("event", event);
+      req._emit("event");
+      this.assertCalled(event);
+    },
+
+    //
     // Properties
     //
 
@@ -112,6 +132,9 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
+    /**
+     * @lint ignoreUndefined(SCRIPT_LOADED)
+     */
     "test: status indicates success when determineSuccess returns true": function() {
       var that = this;
 
@@ -224,8 +247,7 @@ qx.Class.define("qx.test.bom.request.Script",
     //
 
     "test: send() adds script element to DOM": function() {
-      var req = this.req,
-          url = this.url;
+      var req = this.req;
 
       // Helper triggers send()
       this.request();
@@ -256,8 +278,7 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: abort() makes request not fire load": function() {
-      var req = this.req,
-          that = this;
+      var req = this.req;
 
       this.spy(req, "onload");
 
@@ -365,8 +386,7 @@ qx.Class.define("qx.test.bom.request.Script",
         this.skip();
       }
 
-      var that = this,
-          timerId;
+      var that = this
 
       this.req.onload = function() {
         that.resume(function() {
@@ -479,8 +499,7 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: call onabort when request was aborted": function() {
-      var req = this.req,
-          that = this;
+      var req = this.req;
 
       this.spy(req, "onabort");
       this.request();
