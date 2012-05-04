@@ -148,7 +148,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *
      * @lint ignoreUndefined(XDomainRequest)
      *
-     * @param method {String}
+     * @param method {String?"GET"}
      *  The HTTP method to use.
      * @param url {String}
      *  The URL to which to send the request.
@@ -163,8 +163,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__checkDisposed();
 
       // Mimick native behavior
-      if (typeof method === "undefined" || typeof url === "undefined") {
+      if (typeof url === "undefined") {
         throw new Error("Not enough arguments");
+      } else if (typeof method === "undefined") {
+        method = "GET";
       }
 
       // Reset flags that may have been set on previous request
