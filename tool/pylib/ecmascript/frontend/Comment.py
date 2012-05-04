@@ -621,15 +621,36 @@ def findComment(node):
         return findCommentBefore(node)  
 
 
+##
+# Takes the last doc comment from the commentsBefore child, parses it and
+# returns a Node representing the doc comment
+#
 def parseNode(node):
-    """Takes the last doc comment from the commentsBefore child, parses it and
-    returns a Node representing the doc comment"""
 
-    commentsBefore = node.comments[-1:]
-    if commentsBefore:
-        return Comment(commentsBefore[0].get("value", "")).parse()
+    # the intended meaning of <node> is "the node that has comments preceding
+    # it"; in the ast, this might not be <node> itself, but the lexically first
+    # token that got the comment attached; look for that
+    commentsNode = findAssociatedComment(node)
+
+    if commentsNode and commentsNode.comments:
+        # check for a suitable comment, from the back so that the closer wins
+        for comment in commentsNode.comments[::-1]:
+            if comment.get("detail") in ["javadoc", "qtdoc"]:
+                return Comment(comment.get("value", "")).parse()
+    return []
+
+
+def findAssociatedComment(node):
+    # traverse <node> tree left-most, looking for comments
+    from ecmascript.frontend import treeutil # ugly here, but due to import cycle
+
+    if node.comments:
+        return node
     else:
-        return []
+        if node.children:
+            left_most = treeutil.findLeftmostChild(node)
+            return findAssociatedComment(left_most)
+    return None
 
 
 def parseNode_2(node):

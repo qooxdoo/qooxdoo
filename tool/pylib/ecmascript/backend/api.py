@@ -72,9 +72,7 @@ def createDoc(syntaxTree, docTree = None):
         docTree = tree.Node("doctree")
 
     defineNode = treeutil.findQxDefine(syntaxTree)
-    import pydb; pydb.debugger()
     if defineNode != None:
-        #variant = selectNode(defineNode, "operand/variable/2/@name").lower()
         variant = treeutil.selectNode(defineNode, "operand").toJS().split(".")[1].lower()  # 'class' in 'qx.Class.define'
         handleClassDefinition(docTree, defineNode, variant)
 
@@ -214,7 +212,7 @@ def handleClassExtend(valueItem, classNode, docTree, className):
 
 
 def handleInterfaceExtend(valueItem, classNode, docTree, className):
-    superInterfaceNames = variableOrArrayNodeToArray(valueItem)
+    superInterfaceNames = treeutil.variableOrArrayNodeToArray(valueItem)
 
     for superInterface in superInterfaceNames:
         superInterfaceNode = classNodeFromDocTree(docTree, superInterface)
@@ -259,11 +257,12 @@ def handleMixins(item, classNode, docTree, className):
             assert filterMap
             includeSymbols = []
             for key, node in filterMap.items():
-                # only consider true or undefined 
-                #if key not in variants or (key in variants and bool(variants[key]):
-                # map value has to be value/variable
+                # to select the current environment variant, add something like:
+                #  if key not in variants or (key in variants and bool(variants[key]):
+
+                # map value has to be variable
                 variable =  node.children[0]
-                assert variable.type == "variable"
+                assert variable.isVar()
                 symbol, isComplete = treeutil.assembleVariable(variable)
                 assert isComplete
                 includeSymbols.append(symbol)
@@ -365,6 +364,7 @@ def handleStatics(item, classNode):
 
 
 def handleMembers(item, classNode):
+
     for key, value in treeutil.mapNodeToMap(item).items():
         keyvalue = value.parent
         value = value.getFirstChild()
@@ -836,11 +836,11 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
     params = funcItem.getChild("params", False)
     if params and params.hasChildren():
         for param in params.children:
-            if param.type != "variable":
+            if param.type != "identifier":
                 continue
 
             paramNode = tree.Node("param")
-            paramNode.set("name", param.getFirstChild().get("name"))
+            paramNode.set("name", param.get("value"))
             node.addListChild("params", paramNode)
 
     # Check whether the function is abstract
@@ -947,7 +947,6 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
                     isAbstract = True
         
         if hasComment and not isInterface and not hasSignatureDef and not isAbstract:
-            #from pydbgr.api import debug
             
             hasReturnValue = False
             for returnNode in treeutil.nodeIterator(funcItem, ["return"]):
@@ -978,14 +977,6 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
                 addError(node, "Missing documentation for return value.", funcItem)
     
     return node
-
-
-
-
-
-
-
-
 
 
 ########################################################################################
@@ -1420,8 +1411,8 @@ def dependendClassIterator(docTree, classNode):
     if superClassName:
         directDependencies.append(superClassName)
 
-    for list in ["mixins", "interfaces", "superMixins", "superInterfaces"]:
-        listItems = classNode.get(list, False)
+    for list_ in ["mixins", "interfaces", "superMixins", "superInterfaces"]:
+        listItems = classNode.get(list_, False)
         if listItems:
             directDependencies.extend(listItems.split(","))
 
@@ -1449,6 +1440,9 @@ def postWorkItemList(docTree, classNode, listName, overridable):
 
     # Sort the list
     sortByName(classNode, listName)
+
+    #if classNode.get("name")=="Table":
+    #    import pydb; pydb.debugger()
 
     # Post work all items
     listNode = classNode.getChild(listName, False)

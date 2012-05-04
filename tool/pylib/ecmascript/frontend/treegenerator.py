@@ -172,7 +172,8 @@ class TokenStream(IterObject):
         elif tok.name == 'comment':
             s = symbol_table.get(tok.name)()
             #s.set('connection', tok.connection)  # before/after(!?)
-            s.set('detail', "inline" if tok.value[:2]=="//" else "block") # tok.detail is javadoc/qtdoc/area/divider/header/block
+            #s.set('detail', "inline" if tok.value[:2]=="//" else "block") # tok.detail is javadoc/qtdoc/area/divider/header/block
+            s.set('detail', tok.detail)
             s.set('multiline', tok.multiline)  # true/false
             self.comments.append(s)         # keep comments in temp. store
         elif tok.name == "eol":
@@ -212,7 +213,7 @@ class TokenStream(IterObject):
                 s.set('detail', tok.detail)
             elif tok.name == 'regexp':
                 s.set('constantType', 'regexp')
-        elif tok.name in ('reserved',) and tok.detail in ("TRUE", "FALSE"):
+        elif tok.name in ('reserved',) and tok.detail in ("TRUE", "FALSE", "NULL"):
             symbol = symbol_table["constant"]
             s = symbol()
             s.set('constantType', 'boolean')
@@ -886,11 +887,11 @@ def getHighestPureDotParent(self):
 
 # constants
 
-def constant(id):
-    @method(symbol(id))
+def constant(id_):
+    @method(symbol(id_))
     def pfix(self):
         self.id = "constant"
-        self.value = id
+        self.value = id_
         return self
 
 constant("null")
