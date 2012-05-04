@@ -876,41 +876,36 @@ class QxTest:
     if 'seleniumJar' in appConf:
       seleniumJar = appConf["seleniumJar"]
     
+    seleniumOptions = ""
+    # Use trustAllSSLCertificates option?
+    trustAllCerts = False
+    if self.seleniumConf['trustAllSSLCertificates']:
+      seleniumOptions += " -trustAllSSLCertificates"
+    
+    # Any additional options
+    seleniumOptions += " %s" %self.seleniumConf["options"]
+    
     individual = True
     if 'individualServer' in appConf:
-      individual = appConf['individualServer']      
+      individual = appConf['individualServer']
     
     if not individual:
       self.log("individualServer set to False, using one server instance for "
                + "all tests")
-      self.startSeleniumServer(seleniumVersion, seleniumJar)
+    
+      # Use single window mode if IE is among the browsers to be tested in.
+      # This is necessary due to cross-window/tab JavaScript access restrictions.
+      for browser in appConf['browsers']:
+        browserLauncher = self.browserConf[browser['browserId']]
+        if self.seleniumConf['ieSingleWindow'] and ("iexplore" in browserLauncher or "iepreview" in browserLauncher):
+          seleniumOptions += " -singleWindow"
+          break
+      
+      self.startSeleniumServer(seleniumVersion, seleniumJar, seleniumOptions)
 
     for browser in appConf['browsers']:
-      
-      seleniumOptions = ""
-      # Use single window mode? (Necessary for IE with Selenium 1.*)
-      if self.seleniumConf['ieSingleWindow']:
-        if "iexplore" in self.browserConf[browser['browserId']] or "iepreview" in self.browserConf[browser['browserId']]:
-          seleniumOptions += " -singleWindow"
-      
-      # Use trustAllSSLCertificates option?
-      trustAllCerts = False
-      if self.seleniumConf['trustAllSSLCertificates']:
-        seleniumOptions += " -trustAllSSLCertificates"
-      
-      # Any additional options
-      seleniumOptions += " %s" %self.seleniumConf["options"]
-      
-      seleniumVersion = self.seleniumConf["seleniumVersion"]
-      if 'seleniumVersion' in appConf:
-        seleniumVersion = appConf["seleniumVersion"]
-      
       if "seleniumVersion" in browser:
         seleniumVersion = browser["seleniumVersion"]
-        
-      seleniumJar = self.seleniumConf["seleniumJar"]
-      if 'seleniumJar' in appConf:
-        seleniumJar = appConf["seleniumJar"]
       
       if "seleniumJar" in browser:
         seleniumJar = browser["seleniumJar"]
