@@ -88,7 +88,6 @@ qx.Class.define("mobileshowcase.Application",
       if (tablet) {
         var splitPane = new qx.ui.mobile.container.SplitPane();
         splitPane.setPopup(new qx.ui.mobile.dialog.Popup());
-        this.getRoot().setLayout(new qx.ui.mobile.layout.VBox());
         this.getRoot().add(splitPane, {flex:1});
         splitPane.show();
         splitPane.getLeft().add(overview);
@@ -98,6 +97,7 @@ qx.Class.define("mobileshowcase.Application",
         splitPane.getRight().add(toolbar);
         splitPane.getRight().add(form);
         splitPane.getRight().add(animation);
+        splitPane.getRight().add(animationLanding);
         splitPane.getRight().add(atoms);
         splitPane.getRight().add(basic);
         splitPane.getRight().add(dialogs);
@@ -116,7 +116,6 @@ qx.Class.define("mobileshowcase.Application",
 
       nm.onGet("/", function(data) {
         overview.show(data.customData);
-        
       },this);
 
       nm.onGet("/event", function(data)

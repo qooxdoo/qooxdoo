@@ -19,16 +19,6 @@ html, body {
   font-family: Helvetica;
   height: 100%;
 }
-.page {
-  -webkit-transform: translate3d(0, 0, 0) rotate(0) scale(1);
-  -moz-transform: translate3d(0, 0, 0) rotate(0) scale(1);
-  transform: translate3d(0, 0, 0) rotate(0) scale(1);
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  left: 0;
-  width: 100%;
-}
 .selectable, input, textarea {
   -webkit-user-select: auto;
   -moz-user-select: auto;
@@ -936,15 +926,16 @@ html, body {
   }
 }
 .layout-card {
-  -webkit-perspective: 800;
-  -webkit-transform-style: preserve-3d;
   overflow: hidden;
+  position: relative;
 }
 .layout-card-item {
-  -webkit-backface-visibility: hidden;
   -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   -webkit-transform: translate3d(0, 0, 0) rotate(0) scale(1);
-  position: relative;
+  -moz-transform: translate3d(0, 0, 0) rotate(0) scale(1);
+  transform: translate3d(0, 0, 0) rotate(0) scale(1);
   left: 0px;
   width: 100%;
 }
@@ -1344,7 +1335,7 @@ input[type="checkbox"] {
   text-indent: 4px;
 }
 .splitPaneLeft {
-  width: 25%;
+  width: 400px;
 }
 #button .nav {
   -moz-border-radius-bottomright: 5px;
@@ -1414,7 +1405,7 @@ h2 {
   color: #666;
   font-size: 0.8em;
 }
-.root > * {
+.page {
   background: #c5ccd3 url(../icon/ios/pinstripes.png);
 }
 .content {
@@ -2094,4 +2085,7 @@ div.checked .toggleButtonSwitch:before {
 }
 .selectbox-unselected > .list-itemimage {
   display: none;
+}
+.splitPaneLeft {
+  border-right: 1px solid #2d3642;
 }

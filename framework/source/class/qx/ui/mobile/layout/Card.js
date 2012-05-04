@@ -210,6 +210,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       qx.event.Registration.addListener(fromElement, "animationEnd", this._onAnimationEnd, this);
       qx.event.Registration.addListener(toElement, "animationEnd", this._onAnimationEnd, this);
 
+      this.__widget.getLayoutParent().addCssClass("animationParent");
       qx.bom.element.Class.addClasses(toElement, toCssClasses);
       qx.bom.element.Class.addClasses(fromElement, fromCssClasses);
     },
@@ -244,7 +245,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         qx.bom.element.Class.removeClasses(toElement, this.__getAnimationClasses("in"));
 
         this.__swapWidget();
-
+        this.__widget.getLayoutParent().removeCssClass("animationParent");
         this.__inAnimation = false;
       }
     },
@@ -259,7 +260,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
      */
     __getAnimationClasses : function(direction)
     {
-      var classes = [this.__animation, direction];
+      var classes = ["animationChild", this.__animation, direction];
       if (this.__reverse) {
         classes.push("reverse");
       }

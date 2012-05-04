@@ -1,16 +1,13 @@
 // Card Layout
 
 .layout-card {
-  -webkit-perspective: 800;
-  -webkit-transform-style: preserve-3d;
   overflow:hidden;
+  position: relative;
 }
 
 .layout-card-item {
-    -webkit-backface-visibility: hidden;
-    -webkit-box-sizing: border-box;
-    -webkit-transform: translate3d(0,0,0) rotate(0) scale(1);
-    position: relative;
+    .box-sizing(border-box);
+    .transform(translate3d(0,0,0) rotate(0) scale(1));
     left:0px;
     width: 100%;
 }
