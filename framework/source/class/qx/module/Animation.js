@@ -142,7 +142,7 @@ qx.Bootstrap.define("qx.module.Animation", {
           var handles = self.__animationHandles;
           handles.splice(self.indexOf(handle), 1);
           if (handles.length == 0) {
-            self.emit("end");
+            self.emit("animationEnd");
           }
         }, handle);
         this.__animationHandles.push(handle);
@@ -172,7 +172,7 @@ qx.Bootstrap.define("qx.module.Animation", {
           var handles = self.__animationHandles;
           handles.splice(self.indexOf(handle), 1);
           if (handles.length == 0) {
-            self.emit("end");
+            self.emit("animationEnd");
           }
         }, handle);
         this.__animationHandles.push(handle);
