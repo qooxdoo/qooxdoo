@@ -347,7 +347,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       }
 
       if (this.__environmentGet("qx.debug")) {
-        qx.log.Logger.debug("Response header cannot be determined for " +
+        qx.Bootstrap.debug("Response header cannot be determined for " +
           "requests made with script transport.");
       }
       return "unknown";
@@ -365,7 +365,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       }
 
       if (this.__environmentGet("qx.debug")) {
-        qx.log.Logger.debug("Response headers cannot be determined for" +
+        qx.Bootstrap.debug("Response headers cannot be determined for" +
           "requests made with script transport.");
       }
 
@@ -382,8 +382,6 @@ qx.Bootstrap.define("qx.bom.request.Script",
      *
      */
     setDetermineSuccess: function(check) {
-      qx.core.Assert.assertFunction(check);
-
       this.__determineSuccess = check;
     },
 

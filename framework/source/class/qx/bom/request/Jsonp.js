@@ -134,7 +134,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
           };
         } else {
           if (qx.core.Environment.get("qx.debug.io")) {
-            qx.log.Logger.debug(qx.bom.request.Jsonp, "Callback " +
+            qx.Bootstrap.debug(qx.bom.request.Jsonp, "Callback " +
               this.__callbackName + " already exists");
           }
         }
