@@ -1181,45 +1181,21 @@ def toJS(self):
 
 symbol("var")
 
-##
-# TODO: deviation from old ast
-# This does (for "var a=1")
-#  <var>
-#    <definition>
-#      <assignment>
-#        <first>
-#          <identifier>
-#        <second>
-#          <constant>
-# (with assignment/2)
-# which seems more sane than the older
-#  <definitionList>
-#    <definition>
-#      <assignment identifier=a>
-#        <constant>
-# (with assignment/1, where it is /2 elsewhere)
-#
 @method(symbol("var"))
-#def std(self):
 def pfix(self):
-    #vardecl = symbol("definitionList")(token.get("line"), token.get("column"))
-    # re-cast 'var' instance as 'definitionList'
-    #vardecl = self
-    #vardecl.type = "definitionList"
     while True:
         defn = symbol("definition")(token.get("line"), token.get("column"))
         self.childappend(defn)
-        #elem = expression()
-        #if elem.type not in ("identifier", "assignment"):
-        #    raise SyntaxException("Expected a new variable or assignment (pos %r)" % ((token.get("line"), token.get("column")),))
         n = token
         if n.id != "identifier":
             raise SyntaxException("Expected a new variable name (pos %r)" % ((token.get("line"), token.get("column")),))
         advance()
-        if token.id == "=": # initialization
+        # initialization
+        if token.id == "=":
             t = token
             advance()
             elem = t.ifix(n)
+        # plain identifier
         else:
             elem = n
         defn.childappend(elem)
@@ -1228,32 +1204,6 @@ def pfix(self):
         else:
             advance(",")
     return self
-
-
-# but "var" also needs a pfix method, since it can appear in expressions
-#symbol("var").pfix = symbol("var").std
-
-#@method(symbol("var"))
-#def pfix(self):
-#    while True:
-#        n = token
-#        if n.id != "identifier":
-#            raise SyntaxException("Expected a new variable name (pos %r)" % ((token.get("line"), token.get("column")),))
-#        advance()
-#        if token.id == "=":  # initialization
-#            t = token
-#            advance("=")
-#            t.childappend(n)
-#            t.childappend(expression())
-#            self.childappend(t)
-#        if token.id != ",":
-#            break
-#        advance(",")
-#    if len(self.children) != 1:
-#        return self
-#    else:
-#        return self.children[0]
-
 
 @method(symbol("var"))
 def toJS(self):
