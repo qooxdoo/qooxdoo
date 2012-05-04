@@ -73,22 +73,22 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
   events : {
     /** Fired at ready state changes. */
-    "readystatechange" : undefined,
+    "readystatechange" : "qx.bom.request.Script",
 
     /** Fired on error. */
-    "error" : undefined,
+    "error" : "qx.bom.request.Script",
 
     /** Fired at loadend. */
-    "loadend" : undefined,
+    "loadend" : "qx.bom.request.Script",
 
     /** Fired on timeouts. */
-    "timeout" : undefined,
+    "timeout" : "qx.bom.request.Script",
 
     /** Fired when the request is aborted. */
-    "abort" : undefined,
+    "abort" : "qx.bom.request.Script",
 
     /** Fired on successful retrieval. */
-    "load" : undefined
+    "load" : "qx.bom.request.Script"
   },
 
 
@@ -145,10 +145,11 @@ qx.Bootstrap.define("qx.bom.request.Script",
      * @param name {String} The name of the event to listen to.
      * @param listener {function} The function execute on {@link #emit}.
      * @param ctx {?var} The context of the listener.
-     * @return {Integer} An unique <code>id</code> for the attached listener.
+     * @return {qx.bom.request.Script} Self for chaining.
      */
     on: function(name, listener, ctx) {
-      return this._emitter.on(name, listener, ctx);
+      this._emitter.on(name, listener, ctx);
+      return this;
     },
 
 
@@ -194,6 +195,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
      *  The name of the header whose value is to be set.
      * @param value {String}
      *  The value to set as the body of the header.
+     * @return {qx.bom.request.Script} Self for chaining.
      */
     setRequestHeader: function(key, value) {
       if (this.__disposed) {
@@ -208,10 +210,12 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
       param[key] = value;
       this.__url = qx.util.Uri.appendParamsToUrl(this.__url, param);
+      return this;
     },
 
     /**
      * Sends request.
+     * @return {qx.bom.request.Script} Self for chaining.
      */
     send: function() {
       if (this.__disposed) {
@@ -239,10 +243,12 @@ qx.Bootstrap.define("qx.bom.request.Script",
         that.__readyStateChange(2);
         that.__readyStateChange(3);
       });
+      return this;
     },
 
     /**
      * Aborts request.
+     * @return {qx.bom.request.Script} Self for chaining.
      */
     abort: function() {
       if (this.__disposed) {
@@ -252,6 +258,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       this.__abort = true;
       this.__disposeScriptElement();
       this._emit("abort");
+      return this;
     },
 
 
@@ -261,7 +268,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
      */
     _emit: function(event) {
       this["on" + event]();
-      this._emitter.emit(event);
+      this._emitter.emit(event, this);
     },
 
 

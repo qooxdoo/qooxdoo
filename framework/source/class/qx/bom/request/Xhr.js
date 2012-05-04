@@ -77,22 +77,22 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
   events : {
     /** Fired at ready state changes. */
-    "readystatechange" : undefined,
+    "readystatechange" : "qx.bom.request.Xhr",
 
     /** Fired on error. */
-    "error" : undefined,
+    "error" : "qx.bom.request.Xhr",
 
     /** Fired at loadend. */
-    "loadend" : undefined,
+    "loadend" : "qx.bom.request.Xhr",
 
     /** Fired on timeouts. */
-    "timeout" : undefined,
+    "timeout" : "qx.bom.request.Xhr",
 
     /** Fired when the request is aborted. */
-    "abort" : undefined,
+    "abort" : "qx.bom.request.Xhr",
 
     /** Fired on successful retrieval. */
-    "load" : undefined
+    "load" : "qx.bom.request.Xhr"
   },
 
 
@@ -296,6 +296,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *  The name of the header whose value is to be set.
      * @param value {String}
      *  The value to set as the body of the header.
+     * @return {qx.bom.request.Xhr} Self for chaining.
      */
     setRequestHeader: function(key, value) {
       this.__checkDisposed();
@@ -307,6 +308,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       this.__nativeXhr.setRequestHeader(key, value);
+      return this;
     },
 
     /**
@@ -314,6 +316,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *
      * @param data {String|Document?null}
      *  Optional data to send.
+     * @return {qx.bom.request.Xhr} Self for chaining.
      */
     send: function(data) {
       this.__checkDisposed();
@@ -395,13 +398,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       // Set send flag
       this.__send = true;
+      return this;
     },
 
     /**
      * Abort request.
      *
      * Cancels any network activity.
-     *
+     * @return {qx.bom.request.Xhr} Self for chaining.
      */
     abort: function() {
       this.__checkDisposed();
@@ -412,6 +416,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       if (this.__nativeXhr) {
         this.readyState = this.__nativeXhr.readyState;
       }
+      return this;
     },
 
 
@@ -421,7 +426,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     _emit: function(event) {
       this["on" + event]();
-      this._emitter.emit(event);
+      this._emitter.emit(event, this);
     },
 
     /**
@@ -480,10 +485,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * @param name {String} The name of the event to listen to.
      * @param listener {function} The function execute on {@link #emit}.
      * @param ctx {?var} The context of the listener.
-     * @return {Integer} An unique <code>id</code> for the attached listener.
+     * @return {qx.bom.request.Xhr} Self for chaining.
      */
     on: function(name, listener, ctx) {
-      return this._emitter.on(name, listener, ctx);
+      this._emitter.on(name, listener, ctx);
+      return this;
     },
 
 
