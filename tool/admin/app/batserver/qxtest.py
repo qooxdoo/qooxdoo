@@ -915,6 +915,10 @@ class QxTest:
         killBrowser = browser['kill'] 
       
       if individual:
+        browserLauncher = self.browserConf[browser['browserId']]
+        if self.seleniumConf['ieSingleWindow'] and ("iexplore" in browserLauncher or "iepreview" in browserLauncher):
+          seleniumOptions += " -singleWindow"
+        
         self.log("individualServer set to True, using one server instance per "
                  + "test run")
         self.startSeleniumServer(seleniumVersion, seleniumJar, seleniumOptions)
