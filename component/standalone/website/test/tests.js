@@ -1849,28 +1849,65 @@ testrunner.define({
 
 testrunner.define({
   classname : "Cookie",
-  
-    testGetSetDel : function()
-    {
-      var key1 = "q.test.cookie.Gorilla";
-      var key2 = "q.test.cookie.Chimp";
-      
-      this.assertNull(q.cookie.get(key1));
-      this.assertNull(q.cookie.get(key2));
-      
-      var value1 = "Donkey";
-      var value2 = "Diddy";
-      
-      q.cookie.set(key1, value1);
-      q.cookie.set(key2, value2);
-      
-      this.assertEquals(value1, q.cookie.get(key1));
-      this.assertEquals(value2, q.cookie.get(key2));
-      
-      q.cookie.del(key1);
-      q.cookie.del(key2);
-      
-      this.assertNull(q.cookie.get(key1));
-      this.assertNull(q.cookie.get(key2));
-    }
+
+  testGetSetDel : function()
+  {
+    var key1 = "q.test.cookie.Gorilla";
+    var key2 = "q.test.cookie.Chimp";
+
+    this.assertNull(q.cookie.get(key1));
+    this.assertNull(q.cookie.get(key2));
+
+    var value1 = "Donkey";
+    var value2 = "Diddy";
+
+    q.cookie.set(key1, value1);
+    q.cookie.set(key2, value2);
+
+    this.assertEquals(value1, q.cookie.get(key1));
+    this.assertEquals(value2, q.cookie.get(key2));
+
+    q.cookie.del(key1);
+    q.cookie.del(key2);
+
+    this.assertNull(q.cookie.get(key1));
+    this.assertNull(q.cookie.get(key2));
+  }
+});
+
+
+testrunner.define({
+  classname : "IO",
+
+  testBasicXhr : function() {
+    q.io.xhr("tests.js").on("loadend", function(xhr) {
+      this.resume(function() {
+        this.assertEquals(4, xhr.readyState);
+      }, this);
+    }, this).send();
+    this.wait();
+  },
+
+
+  testBasicScript : function() {
+    q.io.script("scriptload.js").on("loadend", function(script) {
+      this.resume(function() {
+        this.assertEquals(4, script.readyState);
+        this.assertEquals("loaded", window.qTest); // will be set by the test file
+        window.qTest = undefined;
+      }, this);
+    }, this).send();
+    this.wait();
+  },
+
+
+  testBasicJsonp : function() {
+    q.io.jsonp("jsonpload.js", {callbackName: "callback"}).on("loadend", function(req) {
+      this.resume(function() {
+        this.assertEquals(4, req.readyState);
+        this.assertEquals("test", req.responseJson.data); // comes from the test file
+      }, this);
+    }, this).send();
+    this.wait();
+  }
 });
