@@ -213,7 +213,7 @@ Function %s(%s):
         if node.hasChildren():
             for child in node.children:
 
-                if child.type == "definitionList":
+                if child.type == "var":
                     for definition in child.children:
                         if definition.type == "definition":
                             definee = definition.getDefinee()
@@ -250,7 +250,7 @@ Function %s(%s):
             node.parent.type == "operation" and
             node.parent.get("operator") == "IN"
            ):
-            use = treeutil.selectNode(node, "definitionList/definition/identifier")
+            use = treeutil.selectNode(node, "var/definition/identifier")
             if use:
                 name = use.get("value", False)
                 yield (name, use)

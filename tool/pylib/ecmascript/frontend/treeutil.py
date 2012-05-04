@@ -324,7 +324,7 @@ def inlineIfStatement(ifNode, conditionValue):
             definitions.append(definition)
 
     if len(definitions) > 0:
-        defList = treegenerator.symbol("definitionList")()
+        defList = treegenerator.symbol("var")()
         defList.set("line", ifNode.get("line"))
         defList.set("column", ifNode.get("column"))
         for definition in definitions:

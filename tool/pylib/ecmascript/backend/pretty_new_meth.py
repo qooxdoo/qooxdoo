@@ -286,7 +286,7 @@ def toPretty(self, optns, state):
         r.append(';')
     return u''.join(r)
 
-@method(symbol("definitionList"))  # this is what becomes of "var"
+@method(symbol("var"))  # this is what becomes of "var"
 def toPretty(self, optns, state):
     r = []
     r.append("var")

@@ -266,8 +266,6 @@ class TokenStream(IterObject):
                 if self.comments:
                     s.comments = self.comments
                     self.comments = []
-                #if s.type == "eof":
-                #    import pydb; pydb.debugger()
                 yield s
 
 
@@ -1184,7 +1182,7 @@ symbol("var")
 ##
 # TODO: deviation from old ast
 # This does (for "var a=1")
-#  <definitionList>
+#  <var>
 #    <definition>
 #      <assignment>
 #        <first>
@@ -1202,12 +1200,15 @@ symbol("var")
 @method(symbol("var"))
 #def std(self):
 def pfix(self):
-    vardecl = symbol("definitionList")(token.get("line"), token.get("column"))
+    #vardecl = symbol("definitionList")(token.get("line"), token.get("column"))
+    # re-cast 'var' instance as 'definitionList'
+    #vardecl = self
+    #vardecl.type = "definitionList"
     while True:
-        var = symbol("definition")(token.get("line"), token.get("column"))
-        vardecl.childappend(var)
-        #defn = expression()
-        #if defn.type not in ("identifier", "assignment"):
+        defn = symbol("definition")(token.get("line"), token.get("column"))
+        self.childappend(defn)
+        #elem = expression()
+        #if elem.type not in ("identifier", "assignment"):
         #    raise SyntaxException("Expected a new variable or assignment (pos %r)" % ((token.get("line"), token.get("column")),))
         n = token
         if n.id != "identifier":
@@ -1216,15 +1217,15 @@ def pfix(self):
         if token.id == "=": # initialization
             t = token
             advance()
-            defn = t.ifix(n)
+            elem = t.ifix(n)
         else:
-            defn = n
-        var.childappend(defn)
+            elem = n
+        defn.childappend(elem)
         if token.id != ",":
             break
         else:
             advance(",")
-    return vardecl
+    return self
 
 
 # but "var" also needs a pfix method, since it can appear in expressions
@@ -1252,7 +1253,7 @@ def pfix(self):
 #        return self.children[0]
 
 
-@method(symbol("definitionList"))  # this is what becomes of "var"
+@method(symbol("var"))
 def toJS(self):
     r = []
     r.append("var")
