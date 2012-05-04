@@ -1030,17 +1030,19 @@ def pfix(self):
             is_after_comma = 0
             # key
             keyname = expression()
-            key = symbol("keyvalue")(token.get("line"), token.get("column"))
-            key.set("key", keyname.get("value"))
+            map_item = symbol("keyvalue")(token.get("line"), token.get("column"))
+            # the <keyname> node is not entered into the ast, but resolved into <keyvalue>
+            mmap.childappend(map_item)
+            map_item.set("key", keyname.get("value"))
             quote_type = keyname.get("detail", False)
-            key.set("quote", quote_type if quote_type else '')
-            mmap.childappend(key)
+            map_item.set("quote", quote_type if quote_type else '')
+            map_item.comments = keyname.comments
             advance(":")
             # value
             keyval = expression()
             val = symbol("value")(token.get("line"), token.get("column"))
             val.childappend(keyval)
-            key.childappend(val)  # <value> is a child of <keyvalue>
+            map_item.childappend(val)  # <value> is a child of <keyvalue>
             if token.id != ",":
                 break
             else:
