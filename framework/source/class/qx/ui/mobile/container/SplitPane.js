@@ -59,13 +59,12 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     __left : null,
     __right : null,
     __popup : null,
-    
 
     getLeft : function() {
       return this.__left;
     },
-    
-    
+
+
     getRight : function() {
       return this.__right;
     },
@@ -77,7 +76,7 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
       }
       return this.__popup;
     },
-    
+
     /**
      * Set the popup used by this splipane to show the leftPane when ii gets hidden.
      */
@@ -85,8 +84,7 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     {
       this.__popup = popup;
     },
-    
-    
+
     _onOrientationChange : function(evt) {
       if (evt.isPortrait()) {
         this.__showPaneInPopup(this.__left);
@@ -100,11 +98,10 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     _createLeftContainer : function() {
       return this.__createContainer("splitPaneLeft")
     },
-    
+
    __showPaneInPopup : function(pane)
    {
      this.getPopup().add(pane);
-     this.getPopup().setAnchor(this.__right.getChildren()[0]._getBackButton());
      this.getPopup().show();
    },
 

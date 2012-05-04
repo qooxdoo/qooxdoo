@@ -1335,7 +1335,7 @@ input[type="checkbox"] {
   text-indent: 4px;
 }
 .splitPaneLeft {
-  width: 400px;
+  width: 25%;
 }
 #button .nav {
   -moz-border-radius-bottomright: 5px;
