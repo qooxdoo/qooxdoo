@@ -257,8 +257,8 @@ qx.Class.define("qx.ui.table.model.Remote",
       // If there is currently a request on its way, then this request will bring
       // obsolete data -> Ignore it
       if (this.__firstLoadingBlock != -1) {
-        var cancelingSuceed = this._cancelCurrentRequest();
-        if (cancelingSuceed) {
+        var cancelingSucceed = this._cancelCurrentRequest();
+        if (cancelingSucceed) {
           // The request was canceled -> We're not loading any blocks any more
           this.__firstLoadingBlock = -1;
           this.__ignoreCurrentRequest = false;
@@ -326,9 +326,9 @@ qx.Class.define("qx.ui.table.model.Remote",
       if (this.__firstLoadingBlock != -1)
       {
         // Try to cancel the current request
-        var cancelingSuceed = this._cancelCurrentRequest();
+        var cancelingSucceed = this._cancelCurrentRequest();
 
-        if (cancelingSuceed)
+        if (cancelingSucceed)
         {
           // The request was canceled -> We're not loading any blocks any more
           this.__firstLoadingBlock = -1;
