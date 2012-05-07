@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Mustafa Sak (msak)
 
 ************************************************************************ */
 
@@ -31,6 +32,12 @@ qx.Class.define("qx.ui.core.queue.Widget",
   {
     /** {Array} This contains all the queued widgets for the next flush. */
     __queue : [],
+    
+    
+    /** {Object} This contains a map of widgets hash ($$hash) and there 
+     * corresponding map of jobs
+     */
+    __jobs : {},
 
 
     /**
@@ -39,25 +46,28 @@ qx.Class.define("qx.ui.core.queue.Widget",
      * during interims disposes of one or a few widgets.
      *
      * @param widget {qx.ui.core.Widget} The widget to clear
-     * @param job {String} Job identifier. <code>null</code> will be converted
+     * @param job {String} Job identifier. If not used, it will be converted to 
+     * "$$default".
      * to "default"
      */
     remove : function(widget, job) 
     {
       var queue = this.__queue;
-      if (job == null) {
-        job = "$$default";
+      
+      if (!qx.lang.Array.contains(queue, widget)) {
+        return;
       }
       
-      for (var i = queue.length-1 ; i>=0; i--) 
+      var hash = widget.$$hash;
+      
+      if (this.__jobs[hash])
       {
-        var item = queue[i][0];
-        var itemJob = queue[i][1];
-        // Widget in queue?
-        if (item == widget && itemJob == job){
-          qx.lang.Array.removeAt(queue, i);
+        delete this.__jobs[hash][job];
+        
+        if(qx.lang.Object.getLength(this.__jobs[hash]) == 0) {
+          qx.lang.Array.remove(queue, widget);
         }
-      };
+      }
     },
 
 
@@ -67,16 +77,27 @@ qx.Class.define("qx.ui.core.queue.Widget",
      * an map at flushing on method {@link qx.ui.core.Widget#syncWidget}.
      *
      * @param widget {qx.ui.core.Widget} The widget to add.
-     * @param job {String?} Job identifier. If not used, it will be converted to "$$default"
+     * @param job {String?} Job identifier. If not used, it will be converted to 
+     * "$$default".
      */
     add : function(widget, job)
     {
       var queue = this.__queue;
+      //add widget if not containing
+      if (!qx.lang.Array.contains(queue, widget)){
+        queue.unshift(widget);
+      }
+      
+      //add job
       if (job == null) {
         job = "$$default";
       }
+      var hash = widget.$$hash;
+      if (!this.__jobs[hash]) {
+        this.__jobs[hash] = {};
+      }
+      this.__jobs[hash][job] = true;
       
-      queue.unshift([widget, job]);
       qx.ui.core.queue.Manager.scheduleFlush("widget");
     },
 
@@ -89,13 +110,13 @@ qx.Class.define("qx.ui.core.queue.Widget",
     flush : function()
     {
       // Process all registered widgets
-      var queue = this.__mergeQueueJobs(this.__queue);
+      var queue = this.__queue;
       var obj, jobs;
       for (var i = queue.length - 1 ; i >= 0; i--)
       {
         // Order is important to allow the same widget to be requeued directly
-        obj = queue[i][0];
-        jobs = queue[i][1];
+        obj = queue[i];
+        jobs = this.__jobs[obj.$$hash];
         
         queue.splice(i, 1);
         obj.syncWidget(jobs);
@@ -109,50 +130,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
       // Recreate the array is cheaper compared to keep a holey array over time
       // This is especially true for IE7
       this.__queue = [];
-    },
-    
-    
-    /**
-     * Helper function to merge all jobs of a widget to one object.
-     * @param queue {Object} The internal queue array
-     * @return {Object} Array of array with unique widgets and map of jobs
-     */
-    __mergeQueueJobs : function(queue)
-    {
-      var mergedQueue = [];
-      
-      for (var i=0; i < queue.length; i++) 
-      {
-        var widgetFound = false;
-        var widget = queue[i][0];
-        var job = queue[i][1];
-        
-        //search for widget
-        for (var l=0; l < mergedQueue.length; l++) {
-          var item = mergedQueue[l][0];
-          var jobs = mergedQueue[l][1];
-          if (item == widget)
-          {
-            //widget found in mergedQueue
-            if (!qx.lang.Object.contains(jobs, job)) {
-              //job not in mergedQueue; add job
-              jobs[job] = true;
-            }
-            widgetFound = true;
-            break;
-          }
-        };
-        
-        // Widget not found; push to array
-        if (!widgetFound){
-          //widget not found; push
-          var jobs = {};
-          jobs[job] = true;
-          
-          mergedQueue.push([widget, jobs]);
-        }
-      };
-      return mergedQueue;
+      this.__jobs = {};
     }
   }
 });
