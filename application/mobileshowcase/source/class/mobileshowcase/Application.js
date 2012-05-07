@@ -88,21 +88,27 @@ qx.Class.define("mobileshowcase.Application",
       if (tablet) {
         var splitPane = new qx.ui.mobile.container.SplitPane();
         this.getRoot().setLayout(new qx.ui.mobile.layout.VBox());
-        splitPane.setPopup(new qx.ui.mobile.dialog.Popup());
+        var popup = new qx.ui.mobile.dialog.Popup();
+        splitPane.setPortraitMasterContainer(popup);
+        splitPane.addListener("layoutChange", function(evt) {
+          if (evt.getData()) {
+            popup.show();
+          }
+        }, this);
         this.getRoot().add(splitPane, {flex:1});
         splitPane.show();
-        splitPane.getLeft().add(overview);
-        splitPane.getRight().add(events);
-        splitPane.getRight().add(list);
-        splitPane.getRight().add(tab);
-        splitPane.getRight().add(toolbar);
-        splitPane.getRight().add(form);
-        splitPane.getRight().add(animation);
-        splitPane.getRight().add(animationLanding);
-        splitPane.getRight().add(atoms);
-        splitPane.getRight().add(basic);
-        splitPane.getRight().add(dialogs);
-        splitPane.getRight().add(dataBinding);
+        splitPane.getMaster().add(overview);
+        splitPane.getSlave().add(events);
+        splitPane.getSlave().add(list);
+        splitPane.getSlave().add(tab);
+        splitPane.getSlave().add(toolbar);
+        splitPane.getSlave().add(form);
+        splitPane.getSlave().add(animation);
+        splitPane.getSlave().add(animationLanding);
+        splitPane.getSlave().add(atoms);
+        splitPane.getSlave().add(basic);
+        splitPane.getSlave().add(dialogs);
+        splitPane.getSlave().add(dataBinding);
       }
 
       // Navigation

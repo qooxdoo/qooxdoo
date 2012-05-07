@@ -1334,7 +1334,7 @@ input[type="checkbox"] {
   cursor: pointer;
   text-indent: 4px;
 }
-.splitPaneLeft {
+.split-pane-master.attached {
   width: 25%;
 }
 #button .nav {
@@ -2086,6 +2086,6 @@ div.checked .toggleButtonSwitch:before {
 .selectbox-unselected > .list-itemimage {
   display: none;
 }
-.splitPaneLeft {
+.split-pane-master.attached {
   border-right: 1px solid #2d3642;
 }

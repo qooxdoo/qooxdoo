@@ -25,11 +25,15 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
 {
   extend : qx.ui.mobile.container.Composite,
 
+  events : {
+    "layoutChange" : "qx.event.type.Data"
+  },
+
 
   properties : {
     defaultCssClass : {
       refine : true,
-      init : "splitPane"
+      init : "split-pane"
     }
   },
 
@@ -43,71 +47,105 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
   construct : function(layout)
   {
     this.base(arguments, layout || new qx.ui.mobile.layout.HBox());
-    this.__left = this._createLeftContainer();
-    this.add(this.__left);
+    this.__master = this._createMasterContainer();
 
-    this.__right = this._createRightContainer();
-    this.add(this.__right, {flex:1});
+    this.__slave = this._createSlaveContainer();
+    this.add(this.__slave, {flex:1});
     qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
-    if (qx.bom.Viewport.isPortrait()) {
-      this.__showPaneInPopup(this.__left);
-    }
+
+    this.__syncLayout();
   },
 
 
   members : {
-    __left : null,
-    __right : null,
-    __popup : null,
+    __master : null,
+    __slave : null,
+    __portraitMasterContainer : null,
 
-    getLeft : function() {
-      return this.__left;
+
+    getMaster : function() {
+      return this.__master;
     },
 
 
-    getRight : function() {
-      return this.__right;
+    getSlave : function() {
+      return this.__slave;
     },
 
 
-    getPopup : function() {
-      if(this.__popup == null) {
-        this.__popup = new qx.ui.mobile.dialog.Popup();
-      }
-      return this.__popup;
+    getPortraitMasterContainer : function() {
+      return this.__portraitMasterContainer;
     },
+
 
     /**
-     * Set the popup used by this splipane to show the leftPane when ii gets hidden.
+     * Set the popup used by this splipane to show the leftPane when it gets hidden.
      */
-    setPopup : function(popup)
+    setPortraitMasterContainer : function(container)
     {
-      this.__popup = popup;
+      this.__portraitMasterContainer = container;
+      this.__syncLayout();
     },
 
+
     _onOrientationChange : function(evt) {
-      if (evt.isPortrait()) {
-        this.__showPaneInPopup(this.__left);
+      this.__syncLayout();
+    },
+
+
+    __syncLayout  : function() {
+      var isPortrait = qx.bom.Viewport.isPortrait();
+      if (isPortrait) {
+        this.__addMasterToPortraitContainer();
       } else {
-        this.addBefore(this.__left, this.__right);
-        this.getPopup().hide();
+        this.__addMasterToSplitView();
+      }
+      this._applyMasterContainerCss(isPortrait);
+      var container = this.getPortraitMasterContainer();
+      if (container) {
+        container.hide();
+      }
+      this.fireDataEvent("layoutChange", isPortrait);
+    },
+
+
+    __addMasterToPortraitContainer : function()
+    {
+      var container = this.getPortraitMasterContainer();
+      if (container) {
+        container.add(this.__master);
       }
     },
 
 
-    _createLeftContainer : function() {
-      return this.__createContainer("splitPaneLeft")
+    __addMasterToSplitView : function()
+    {
+      if (this.__master.getLayoutParent() != this) {
+        this.addBefore(this.__master, this.__slave);
+      }
     },
 
-   __showPaneInPopup : function(pane)
-   {
-     this.getPopup().add(pane);
-     this.getPopup().show();
-   },
+
+    _createMasterContainer : function() {
+      return this.__createContainer("split-pane-master");
+    },
 
 
-    _createRightContainer : function() {
-      return this.__createContainer("splitPaneRight");
+    _applyMasterContainerCss : function(isPortrait)
+    {
+      var container = this.getPortraitMasterContainer();
+      if (container) {
+        if (isPortrait) {
+          this.__master.removeCssClass("attached");
+        } else {
+          this.__master.addCssClass("attached");
+        }
+      }
+    },
+
+
+    _createSlaveContainer : function() {
+      return this.__createContainer("split-pane-slave");
     },
 
 
