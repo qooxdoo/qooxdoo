@@ -54,6 +54,7 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
     
     /** 
      * Returns true if touch momentum is currently on progress.
+     * 
      * @return {Boolean} true if in momentum
      */
     inTouchMomentum : function()
@@ -64,7 +65,8 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
     
     /**
      * Handler for <code>touchstart</code> event. Clears timers and flags.
-     * @param {qx.event.type.Touch} 
+     * 
+     * @param e {qx.event.type.Touch} 
      */
     _onTouchStart : function(e) 
     {
@@ -81,7 +83,8 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
     
     /**
      * Handler for touchend event. Stops event propagation if needed.
-     * @param {qx.event.type.Touch}
+     * 
+     * @param e {qx.event.type.Touch}
      */
     _onTouchEnd : function(e) 
     {
@@ -152,6 +155,7 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
 
     /**
      * Helper for momentum scrolling.
+     *
      * @param delta {Number} The delta from the last scrolling.
      * @param dir {String} Direction of the scrollbar ('x' or 'y').
      */
