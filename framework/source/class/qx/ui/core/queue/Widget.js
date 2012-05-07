@@ -45,30 +45,17 @@ qx.Class.define("qx.ui.core.queue.Widget",
     remove : function(widget, job) 
     {
       var queue = this.__queue;
-      if (job === null || job === undefined) {
-        job = "default";
+      if (job == null) {
+        job = "$$default";
       }
       
-      for (var i=0; i < queue.length; i++) 
+      for (var i = queue.length-1 ; i>=0; i--) 
       {
         var item = queue[i][0];
-        var jobs = queue[i][1];
+        var itemJob = queue[i][1];
         // Widget in queue?
-        if (item == widget)
-        {
-          if (jobs[job])
-          {
-            jobs[job] = false;
-
-            for (var j in jobs){
-              if (j === true){ 
-                return;
-              }
-            }
-            // No jobs left, remove widget from queue
-            queue.removeAt(i);
-          }
-          return;
+        if (item == widget && itemJob == job){
+          qx.lang.Array.removeAt(queue, i);
         }
       };
     },
@@ -77,38 +64,19 @@ qx.Class.define("qx.ui.core.queue.Widget",
     /**
      * Adds a widget to the queue. The second param can be used to idetify 
      * several jobs. You can add one job at once, wich will be returned as
-     * an map at flushing.
+     * an map at flushing on method {@link qx.ui.core.Widget#syncWidget}.
      *
      * @param widget {qx.ui.core.Widget} The widget to add.
-     * @param job {String} Job identifier. <code>null</code> will be converted to "default"
+     * @param job {String?} Job identifier. If not used, it will be converted to "$$default"
      */
     add : function(widget, job)
     {
       var queue = this.__queue;
-      if (job === null || job === undefined) {
-        job = "default";
+      if (job == null) {
+        job = "$$default";
       }
       
-      for (var i=0; i < queue.length; i++) 
-      {
-        var item = queue[i][0];
-        var jobs = queue[i][1];
-        // Widget in queue?
-        if (item == widget)
-        {
-          if (!qx.lang.Object.contains(jobs, job)) {
-            // Add job
-            jobs[job] = true;
-            qx.ui.core.queue.Manager.scheduleFlush("widget");
-          }
-          return;
-        }
-      };
-      
-      var jobs = {};
-      jobs[job] = true;
-      
-      queue.unshift([widget, jobs]);
+      queue.unshift([widget, job]);
       qx.ui.core.queue.Manager.scheduleFlush("widget");
     },
 
@@ -121,13 +89,13 @@ qx.Class.define("qx.ui.core.queue.Widget",
     flush : function()
     {
       // Process all registered widgets
-      var queue = this.__queue;
+      var queue = this.__mergeQueueJobs(this.__queue);
       var obj, jobs;
       for (var i = queue.length - 1 ; i >= 0; i--)
       {
         // Order is important to allow the same widget to be requeued directly
         obj = queue[i][0];
-        jobs = queue[i][1]
+        jobs = queue[i][1];
         
         queue.splice(i, 1);
         obj.syncWidget(jobs);
@@ -141,6 +109,50 @@ qx.Class.define("qx.ui.core.queue.Widget",
       // Recreate the array is cheaper compared to keep a holey array over time
       // This is especially true for IE7
       this.__queue = [];
+    },
+    
+    
+    /**
+     * Helper function to merge all jobs of a widget to one object.
+     * @param queue {Object} The internal queue array
+     * @return {Object} Array of array with unique widgets and map of jobs
+     */
+    __mergeQueueJobs : function(queue)
+    {
+      var mergedQueue = [];
+      
+      for (var i=0; i < queue.length; i++) 
+      {
+        var widgetFound = false;
+        var widget = queue[i][0];
+        var job = queue[i][1];
+        
+        //search for widget
+        for (var l=0; l < mergedQueue.length; l++) {
+          var item = mergedQueue[l][0];
+          var jobs = mergedQueue[l][1];
+          if (item == widget)
+          {
+            //widget found in mergedQueue
+            if (!qx.lang.Object.contains(jobs, job)) {
+              //job not in mergedQueue; add job
+              jobs[job] = true;
+            }
+            widgetFound = true;
+            break;
+          }
+        };
+        
+        // Widget not found; push to array
+        if (!widgetFound){
+          //widget not found; push
+          var jobs = {};
+          jobs[job] = true;
+          
+          mergedQueue.push([widget, jobs]);
+        }
+      };
+      return mergedQueue;
     }
   }
 });
