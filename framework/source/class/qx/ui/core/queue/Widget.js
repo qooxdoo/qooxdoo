@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Mustafa Sak (msak)
 
 ************************************************************************ */
 
@@ -31,6 +32,12 @@ qx.Class.define("qx.ui.core.queue.Widget",
   {
     /** {Array} This contains all the queued widgets for the next flush. */
     __queue : [],
+    
+    
+    /** {Object} This contains a map of widgets hash ($$hash) and there 
+     * corresponding map of jobs
+     */
+    __jobs : {},
 
 
     /**
@@ -39,76 +46,58 @@ qx.Class.define("qx.ui.core.queue.Widget",
      * during interims disposes of one or a few widgets.
      *
      * @param widget {qx.ui.core.Widget} The widget to clear
-     * @param job {String} Job identifier. <code>null</code> will be converted
+     * @param job {String} Job identifier. If not used, it will be converted to 
+     * "$$default".
      * to "default"
      */
     remove : function(widget, job) 
     {
       var queue = this.__queue;
-      if (job === null || job === undefined) {
-        job = "default";
+      
+      if (!qx.lang.Array.contains(queue, widget)) {
+        return;
       }
       
-      for (var i=0; i < queue.length; i++) 
+      var hash = widget.$$hash;
+      
+      if (this.__jobs[hash])
       {
-        var item = queue[i][0];
-        var jobs = queue[i][1];
-        // Widget in queue?
-        if (item == widget)
-        {
-          if (jobs[job])
-          {
-            jobs[job] = false;
-
-            for (var j in jobs){
-              if (j === true){ 
-                return;
-              }
-            }
-            // No jobs left, remove widget from queue
-            queue.removeAt(i);
-          }
-          return;
+        delete this.__jobs[hash][job];
+        
+        if(qx.lang.Object.getLength(this.__jobs[hash]) == 0) {
+          qx.lang.Array.remove(queue, widget);
         }
-      };
+      }
     },
 
 
     /**
      * Adds a widget to the queue. The second param can be used to idetify 
      * several jobs. You can add one job at once, wich will be returned as
-     * an map at flushing.
+     * an map at flushing on method {@link qx.ui.core.Widget#syncWidget}.
      *
      * @param widget {qx.ui.core.Widget} The widget to add.
-     * @param job {String} Job identifier. <code>null</code> will be converted to "default"
+     * @param job {String?} Job identifier. If not used, it will be converted to 
+     * "$$default".
      */
     add : function(widget, job)
     {
       var queue = this.__queue;
-      if (job === null || job === undefined) {
-        job = "default";
+      //add widget if not containing
+      if (!qx.lang.Array.contains(queue, widget)){
+        queue.unshift(widget);
       }
       
-      for (var i=0; i < queue.length; i++) 
-      {
-        var item = queue[i][0];
-        var jobs = queue[i][1];
-        // Widget in queue?
-        if (item == widget)
-        {
-          if (!qx.lang.Object.contains(jobs, job)) {
-            // Add job
-            jobs[job] = true;
-            qx.ui.core.queue.Manager.scheduleFlush("widget");
-          }
-          return;
-        }
-      };
+      //add job
+      if (job == null) {
+        job = "$$default";
+      }
+      var hash = widget.$$hash;
+      if (!this.__jobs[hash]) {
+        this.__jobs[hash] = {};
+      }
+      this.__jobs[hash][job] = true;
       
-      var jobs = {};
-      jobs[job] = true;
-      
-      queue.unshift([widget, jobs]);
       qx.ui.core.queue.Manager.scheduleFlush("widget");
     },
 
@@ -126,8 +115,8 @@ qx.Class.define("qx.ui.core.queue.Widget",
       for (var i = queue.length - 1 ; i >= 0; i--)
       {
         // Order is important to allow the same widget to be requeued directly
-        obj = queue[i][0];
-        jobs = queue[i][1]
+        obj = queue[i];
+        jobs = this.__jobs[obj.$$hash];
         
         queue.splice(i, 1);
         obj.syncWidget(jobs);
@@ -141,6 +130,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
       // Recreate the array is cheaper compared to keep a holey array over time
       // This is especially true for IE7
       this.__queue = [];
+      this.__jobs = {};
     }
   }
 });

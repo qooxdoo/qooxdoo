@@ -524,6 +524,28 @@ qx.Class.define("qx.test.data.store.Json",
       this.__store.setUrl("not-found");
 
       this.wait();
+    },
+    
+    "test Internal Server Error" : function() {
+      this.useFakeServer();
+
+      var server = this.getServer();
+      server.respondWith("GET", "/foo", [ 500, {}, "SERVER ERROR" ]);
+      
+      this.__store.addListener("error", function(e)
+      {
+        this.resume(function(){
+          this.assertTrue(e.getData().getPhase() == "statusError");
+        });
+      }, this);
+      
+      qx.event.Timer.once(function()
+      {
+        this.__store.setUrl("/foo");
+        server.respond();
+      }, this, 500)
+      
+      this.wait(1000);
     }
   }
 });
