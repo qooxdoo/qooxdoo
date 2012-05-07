@@ -124,16 +124,18 @@ qx.Bootstrap.define("qx.bom.Viewport",
      * use a one-time environment check to decide which property to use.
      *
      * @param win {Window?window} The window to query
-     * @return {Integer} Scroll position from left edge, always a positive integer
+     * @return {Integer} Scroll position in pixels from left edge, always a positive integer or zero
      */
     getScrollLeft : function(win)
     {
       var win = win ? win : window;
-      var doc = (win||window).document;
-      
+
       if (typeof win.pageXOffset !== "undefined") {
-        return win.pageYOffset;
-      } else if (typeof doc.documentElement.scrollLeft !== "undefined") {
+        return win.pageXOffset;
+      }
+      
+      var doc = win.document;
+      if (typeof doc.documentElement.scrollLeft !== "undefined") {
         return doc.documentElement.scrollLeft;
       } else {
         return doc.body.scrollLeft;
@@ -150,16 +152,18 @@ qx.Bootstrap.define("qx.bom.Viewport",
      * use a one-time environment check to decide which property to use.
      *
      * @param win {Window?window} The window to query
-     * @return {Integer} Scroll position from top edge, always a positive integer
+     * @return {Integer} Scroll position in pixels from top edge, always a positive integer or zero
      */
     getScrollTop : function(win)
     {
       var win = win ? win : window;
-      var doc = (win||window).document;
       
       if (typeof win.pageYOffeset !== "undefined") {
         return win.pageYOffset;
-      } else if (typeof doc.documentElement.scrollTop !== "undefined") {
+      }
+      
+      var doc = win.document;
+      if (typeof doc.documentElement.scrollTop !== "undefined") {
         return doc.documentElement.scrollTop;
       } else {
         return doc.body.scrollTop;
