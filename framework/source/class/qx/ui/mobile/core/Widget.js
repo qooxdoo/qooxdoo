@@ -1194,6 +1194,20 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
+     * Toggles the given CSS. Adds or removes the CSS class from the container element of the widget.
+     *
+     * @param cssClass {String} The CSS class to toggle
+     */
+    toggleCssClass : function(cssClass) {
+      if (this.hasCssClass(cssClass)) {
+        this.removeCssClass(cssClass);
+      } else {
+        this.addCssClass(cssClass);
+      }
+    },
+
+
+    /**
      * Checks if the widget has a certain CSS class set.
      *
      * @param cssClass {String} The CSS class to check
