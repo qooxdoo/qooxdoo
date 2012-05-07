@@ -3,7 +3,7 @@
 <head>
   <title>q Documentation</title>
   <script type="text/javascript" charset="utf-8" src="../script/q.js"></script>
-  <script type="text/javascript" charset="utf-8" src="x.js"></script>
+  <script type="text/javascript" charset="utf-8" src="viewer.js"></script>
   <link href="http://resources.qooxdoo.org/stylesheets/reset.css" rel="stylesheet" type="text/css">
   <link href="http://resources.qooxdoo.org/stylesheets/base.css" rel="stylesheet" type="text/css">
 <link href="http://resources.qooxdoo.org/stylesheets/layout.css" rel="stylesheet" type="text/css">
@@ -12,18 +12,25 @@
 <body>
   <!-- HEADER -->
   <div id="header-wrapper">
-    <section id="header">
+    <div id="header">
       <h1><a href="/">q Docs</a></h1>
-    </section>
+    </div>
     <div class="decoration"></div>
   </div>
 
   <!-- CONTENT -->
   <div id="list"></div>
-  <div id="content">Content</div>
+  <div id="content"></div>
 
   <script type="text/template" charset="utf-8" id="list-item">
-    <li><a href="#">{{name}}</a></li>
+    <li><a href="#{{link}}">{{name}}</a></li>
+  </script>
+
+  <script type="text/template" charset="utf-8" id="method">
+  <div id="{{name}}">
+    <h2>{{name}} ({{{printParams}}}) <span class="returns">{{returns.types}}</span></h2>
+    {{{desc}}}
+  </div>
   </script>
 
 </body>

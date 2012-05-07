@@ -10,14 +10,57 @@
 }
 
 #content {
-  margin-left: 220px;
+  left: 220px;
+  padding-right: 20px;
+  top: 82px;
+  position: fixed;
+  overflow-y: auto;
+  bottom: 0;
+  right: 0;
+}
+
+#content h1 {
+  margin-top: 30px;
+}
+
+#content :first-child {
+  margin-top: 22px;
+}
+
+
+#content h2 {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+#content div {
+  margin-bottom: 20px;
 }
 
 #list h2, #list ul {
   margin-left: 15px;
 }
 
+#header {
+  width: auto;
+  padding-left: 15px;
+}
+
+#header-wrapper {
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
+
 ul {
   list-style: square;
   list-style-position: inside;
+}
+
+.monotype {
+  font-family: Inconsolata, Consolas, "Courier New", Courier, monotype;
+}
+
+.returns {
+  float: right;
 }
