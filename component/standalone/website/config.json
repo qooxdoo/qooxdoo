@@ -9,7 +9,8 @@
         "test-source",
         "test",
         "build",
-        "source"
+        "source",
+        "api-data"
       ]
     },
     {
@@ -25,7 +26,8 @@
     "source",
     "test-source",
     "test",
-    "log-deps"
+    "log-deps",
+    "api-data"
   ],
 
 
@@ -43,7 +45,8 @@
     "Q_INCLUDES" : [
       "qx.module.*",
       "q"
-    ]
+    ],
+    "API_INCLUDE" : "${Q_INCLUDES}"
   },
 
   "config-warnings" :
@@ -221,12 +224,25 @@
       {
         "BUILD_SCRIPT_FILE" : "${TEST_SCRIPT_PATH}/testrunner-portable.js"
       },
-      
+
       "run" : [
         "build",
         "testrunner-portable::build-script",
         "testrunner-portable::gen-css"
       ]
+    },
+
+    "api-data" : {
+      "library" : [
+        {"manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"}
+      ],
+
+      "include" : "${API_INCLUDE}",
+      //"exclude" : "${API_EXCLUDE}",
+
+      "api" : {
+        "path" : "api/script"
+      }
     }
   }
 }

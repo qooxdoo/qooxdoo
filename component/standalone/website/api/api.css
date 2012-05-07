@@ -1,0 +1,23 @@
+#list {
+  width: 200px;
+  position: fixed;
+  background-color: red;
+  bottom: 0;
+  top: 82px;
+  background-color: #F6F6F6;
+  border-right: 1px solid #DDD;
+  overflow-y: auto;
+}
+
+#content {
+  margin-left: 220px;
+}
+
+#list h2, #list ul {
+  margin-left: 15px;
+}
+
+ul {
+  list-style: square;
+  list-style-position: inside;
+}
