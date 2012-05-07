@@ -35,11 +35,10 @@
 qx.Class.define("qx.ui.table.pane.Scroller",
 {
   extend : qx.ui.core.Widget,
-  include : [qx.ui.core.scroll.MScrollBarFactory].concat(
-    qx.core.Environment.filter({
+  include : qx.core.Environment.filter({
+      "true"        : qx.ui.core.scroll.MScrollBarFactory,
       "event.touch" : qx.ui.core.scroll.MTouchScroll
-    })
-  ),
+    }),
 
 
 
