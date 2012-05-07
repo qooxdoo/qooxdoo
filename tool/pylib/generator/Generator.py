@@ -196,11 +196,11 @@ class Generator(object):
         ##
         # Invoke the DependencyLoader to calculate the list of required classes
         # from include/exclude settings
-        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, variants, verifyDeps=False, script=None):
+        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, script, verifyDeps=False):
             self._console.info("Collecting classes   ", feed=False)
             self._console.indent()
-            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, [], variants, verifyDeps, script)
-            #buildType = script.buildType if script else ""
+            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, [], script, verifyDeps)
+            # with generator.code.ClassList(): 
             #classList = ClassList(self._libraries, includeWithDeps, includeNoDeps, excludeWithDeps, variants, buildType)
             #classList = classList.calculate(verifyDeps)
             self._console.outdent()
@@ -543,7 +543,7 @@ class Generator(object):
 
                 # get current class list
                 script.classes = computeClassList(includeWithDeps, excludeWithDeps, 
-                                   includeNoDeps, script.variants, script=script, verifyDeps=True)
+                                   includeNoDeps, script, verifyDeps=True)
                 # keep the list of class objects in sync
                 script.classesObj = [self._classesObj[id] for id in script.classes]
 
@@ -559,11 +559,6 @@ class Generator(object):
 
                 # Execute real tasks
                 if "api" in jobTriggers:
-                    # class list with no variants (all-encompassing)
-                    classListProducer = functools.partial(#args are complete, but invocation shall be later
-                               computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
-                               {}, verifyDeps=True, script=Script())
-                    #self.runApiData(classListProducer, variantset)
                     self.runApiData(script.classes, variantset)
                 if "copy-resources" in jobTriggers:
                     self.runResources(script)

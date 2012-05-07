@@ -63,7 +63,7 @@ class DependencyLoader(object):
 
     ##
     # Return a class list for the current script
-    def getClassList(self, includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps=False, script=None):
+    def getClassList(self, includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, script, verifyDeps=False):
         
         ##
         # Resolve intelli include/exclude depdendencies
@@ -74,7 +74,7 @@ class DependencyLoader(object):
                     pass
                 result = []
             else:
-                result = self.classlistFromInclude(includeWithDeps, excludeWithDeps, variants, verifyDeps, script)
+                result = self.classlistFromInclude(includeWithDeps, excludeWithDeps, script.variants, verifyDeps, script)
 
             return result
 
@@ -95,16 +95,11 @@ class DependencyLoader(object):
 
         # ---------------------------------------------------
 
-        if script:
-            buildType = script.buildType  # source/build, for sortClasses
-        else:
-            buildType = ""
-
         result = resolveDepsSmartCludes()
         result = processExplicitCludes(result, includeNoDeps, excludeWithDeps) # using excludeWithDeps here as well
         # Sort classes
         self._console.info("Sorting %s classes  " % len(result), False)
-        result = self.sortClasses(result, variants, buildType)
+        result = self.sortClasses(result, script.variants, script.buildType)
         self._console.dotclear()
         #self._console.nl()
 
