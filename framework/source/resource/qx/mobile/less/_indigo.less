@@ -1,59 +1,310 @@
-@import "_theme.less";
+//
+// COLORS
+//
 
-// Colors
 @dark-blue : #3D72C9;
-@font-color : #1D1D1D;
+@light-blue: lighten(#5583D0,10%); //#5583D0;// //#5583D0;
+@blue: #5583D0;
+
+@dark-grey : #888888;
+@light-grey: #F4F4F4;
+
+//
+// THEME SPECIFIC VARIABLES
+//
+
+@font-color : #333333;
 @font-title-color : #2446BB;
+@button-color:@light-grey;
+@border-color:#DDDDDD;
 
-// Widgets
+//
+// MIXINS
+//
 
-@background: white;
+.clickable {
+  color: #222222;
 
-@group-title: @font-title-color;
+  // Less "darken method" helps to make use of gradient-buttons easier. 
+  // It takes button-color and darkens it. 
+  // No second gradient color is needed.
+  #gradient > .vertical(@button-color, darken(@button-color, 20%));
+  border: 1px solid #555555;
+}
+
+.clickable-active {
+  color:white;
+  #gradient > .vertical(@light-blue,@dark-blue);
+}
 
 h2 {
+  color: #2446BB;
   font-weight:normal;
   font-size:16px;
 }
 
-@active-gradient-stop-1 : @dark-blue;
-@active-gradient-stop-2 : #5583D0;
-@active-color : #fff;
+//
+// ROOT
+//
 
-@navigationbar-gradient-stop-1: #505154;
-@navigationbar-gradient-stop-2: #323335;
-
-.navigationbar-background() {
-  #gradient > .vertical(@navigationbar-gradient-stop-1, @navigationbar-gradient-stop-2);
+.root {
+  background-color: @light-grey;
 }
 
-@toolbar-gradient-stop-1: @navigationbar-gradient-stop-1;
-@toolbar-gradient-stop-2: @navigationbar-gradient-stop-2;
-
-.toolbar-background() {
-  #gradient > .vertical(@toolbar-gradient-stop-1, @toolbar-gradient-stop-2);
+//
+// INPUT FIELDS
+//
+input[type="text"], input[type="password"],input[type="number"], textarea {
+  border: 1px solid @border-color;
+  color:font-color;
 }
 
-@button-bordercolor : #BBB;
-@button-gradient-stop-1: #F9F9F9;
-@button-gradient-stop-2: #E3E3E3;
-@button-color : @font-color;
+//
+// NAVIGATIONBAR
+//
 
-@button-active-bordercolor : #888888;
-@button-active-gradient-stop-1 : #DDDDDD;
-@button-active-gradient-stop-2: #F5F5F5;
-@button-active-color : @dark-blue;
-
-.standard-button {
-  font-weight:normal;
-  font-size:14px;
+.navigationbar {
+   #gradient > .vertical(#505154, #323335);
+   color:white;
 }
 
-@list-bordercolor: #DDDDDD;
-@list-subtitle-color : @dark-blue;
-
-.dialog-background() {
-  background:@button-gradient-stop-1;
+.navigationbar-button, .navigationbar-backbutton {
+  .clickable();
 }
-@dialog-border-color:@dark-blue;
-@dialog-color:@font-color;
+
+.navigationbar-button.active, .navigationbar-backbutton.active {
+  .clickable-active();
+}
+
+//
+// LIST
+//
+
+ul {
+  border: 1px solid @border-color;
+  background-color:white;
+}
+
+ul li {
+  color:@font-color;
+  border-top: 1px solid @border-color;
+}
+
+ul li .subtitle {
+  color: @dark-blue;
+}
+
+ul li.active * {
+  color: white;
+}
+
+ul li.arrow {
+  background: url("../icon/android/arrow.png") no-repeat right center;
+}
+
+ul li.active.arrow, ul li.selected.arrow {
+
+  background-image: url("../icon/common/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%,@light-blue), color-stop(100%,@dark-blue));
+  background-image: url("../icon/common/arrow_pressed.png"), -webkit-linear-gradient(top, @light-blue, @dark-blue 100%);
+  background-image: url("../icon/common/arrow_pressed.png"), -moz-linear-gradient(top, @light-blue, @dark-blue 100%);
+  background-image: url("../icon/common/arrow_pressed.png"), linear-gradient(to bottom, @light-blue, @dark-blue 100%);
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+//
+// BUTTON
+//
+
+.button {
+  .clickable();
+  color:@font-color;
+}
+
+.button.active{
+  .clickable-active();
+}
+
+//
+// DIALOG
+//
+
+.dialog {
+   #gradient > .vertical(#505154, #323335);
+   border: 2px solid @dark-blue;
+   color:white;
+}
+
+.popup {
+  #gradient > .vertical(#505154, #323335);
+  border: 2px solid @dark-blue;
+  color:white;
+}
+
+.popupAnchorPointerTop {
+  border-bottom: 10px solid @dark-blue;
+}
+
+.dialogTitleUnderline:after {
+}
+
+//
+// TAB BAR
+//
+
+.tabBar {
+  border-bottom: 3px solid @dark-blue;
+}
+
+.tabButton {
+  color:@light-grey;
+  
+  #gradient > .vertical(lighten(#505154,20%), lighten(#323335,20%));
+
+  @tab-button-border :1px solid lighten(@dark-grey, 10%);  
+  border-top: @tab-button-border;
+  border-left: @tab-button-border;
+  border-right: @tab-button-border;
+}
+
+
+.tabButton.active, .tabButton.selected {
+  
+  border: 1px solid @dark-blue;
+ 
+  @highlighted-line:lighten(@dark-blue,20%);
+  background: -moz-linear-gradient(top,  @highlighted-line 2%, @blue 4%, @blue 49%, @dark-blue 53%, @dark-blue 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,@highlighted-line), color-stop(4%,@blue), color-stop(49%,@blue), color-stop(53%,@dark-blue), color-stop(100%,@dark-blue));
+  background: -webkit-linear-gradient(top,  @highlighted-line 2%,@blue 4%,@blue 49%,@dark-blue 53%,@dark-blue 100%);
+  background: linear-gradient(top,  @highlighted-line 2%,@blue 4%,@blue 49%,@dark-blue 53%,@dark-blue 100%);
+}
+
+//
+// SLIDER
+//
+
+.slider > div {
+ .box-shadow(0 0 2px #000000);
+  
+  border: 1px solid #E8E8E8;
+
+  background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%); 
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfcf), color-stop(100%,#fdfdfd));
+  background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
+  background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
+}
+
+.slider {
+  border-bottom: 1px solid #d6d6d6;
+  border-top: 1px solid #929292;
+  border-left: 1px solid #b5b5b5;
+  border-right: 1px solid #b5b5b5;
+
+  @color-stop-active-1: @dark-blue;
+  @color-stop-active-2: lighten(@dark-blue, 20%);
+  @color-stop-active-3: @dark-blue;
+  @color-stop-active-4: lighten(@dark-blue, 20%);
+
+  background: -webkit-gradient(linear, left top, left bottom, from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from( @color-stop-active-1), color-stop(0.05,  @color-stop-active-2), color-stop(0.8,  @color-stop-active-3), to( @color-stop-active-4)) 0px 0px no-repeat;
+  background: -webkit-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -webkit-linear-gradient(top,  @color-stop-active-1,  @color-stop-active-2 5%, @color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
+  background: -moz-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -moz-linear-gradient(top, @color-stop-active-1, @color-stop-active-2 5%,@color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
+  background: linear-gradient(to bottom, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, linear-gradient(to bottom, @color-stop-active-1, @color-stop-active-2 5%,@color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
+}
+
+//
+// SELECT BOX
+//
+
+.selectbox {
+  color:@dark-blue;
+  .clickable();
+}
+
+.selectbox:active {
+  .clickable-active();
+}
+
+//
+// TOGGLEBUTTON
+//
+
+.toggleButton > div {
+  // Light inset border.
+  .box-inset-multi-shadow(0 2px 2px #999, 0 14px 1px #EAEAEA);
+  
+  border: 1px solid #9e9e9e ;
+  background-color: white;
+}
+
+.toggleButton > div.checked {
+  .box-inset-multi-shadow(0 3px 2px darken(@dark-blue,20%), 0 14px 0px @dark-blue);
+  background-color:lighten(@dark-blue,10%);
+}
+
+div.checked .toggleButtonSwitch {
+  .box-shadow(-1px 0 2px #4b4b4b);
+}
+
+div.checked .toggleButtonSwitch:before {
+  color:#ffffff;
+}
+
+.toggleButtonSwitch:after {
+  color: #888888;
+}
+
+.toggleButtonSwitch {
+  border: 1px solid #E8E8E8;
+
+  .box-shadow(1px 0 2px #4b4b4b);
+
+  background: #cfcfcf;
+  background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfcf), color-stop(100%,#fdfdfd)); 
+  background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
+  background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
+
+  // Because of display problems in Safari, 
+  // Animation is disabled.
+  //.transition(left .15s);
+}
+
+//
+// CHECKBOX
+//
+
+input[type="checkbox"] {
+  border:1px solid @dark-grey;
+  background-color: #929292;
+  background: url(../icon/common/checkbox-gray.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
+  background: url(../icon/common/checkbox-gray.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../icon/common/checkbox-gray.png) 50% 50% no-repeat, -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../icon/common/checkbox-gray.png) 50% 50% no-repeat, linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+}
+
+input[type="checkbox"]:checked {
+  background: url(../icon/common/checkbox-green.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
+  background: url(../icon/common/checkbox-green.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../icon/common/checkbox-green.png) 50% 50% no-repeat, -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: url(../icon/common/checkbox-green.png) 50% 50% no-repeat, linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+}
+
+//
+// TOOLBAR
+// 
+
+.toolbar-button {
+  .clickable();
+}
+
+.toolbar-button.active {
+  .clickable-active();
+}
+
+//
+// MENU
+//
+
+.item-selected {
+  .clickable-active();
+}
