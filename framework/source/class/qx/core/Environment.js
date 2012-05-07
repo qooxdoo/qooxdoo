@@ -1092,6 +1092,9 @@ qx.Bootstrap.define("qx.core.Environment",
      * Initializer for the default values of the framework settings.
      */
     _initDefaultQxValues : function() {
+      // an always-true key (e.g. for use in qx.core.Environment.filter() calls)
+      this.add("true", function() {return true;});
+
       // old settings
       this.add("qx.allowUrlSettings", function() {return false;});
       this.add("qx.allowUrlVariants", function() {return false;});
