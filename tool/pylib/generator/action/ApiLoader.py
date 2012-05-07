@@ -38,11 +38,12 @@ from ecmascript.frontend import tree, treegenerator
 
 
 class ApiLoader(object):
-    def __init__(self, classesObj, docs, cache, console, ):
+    def __init__(self, classesObj, docs, cache, console, job):
         self._classesObj = classesObj
         self._docs = docs
         self._cache = cache
         self._console = console
+        self._job = job
 
 
     ##
@@ -59,8 +60,11 @@ class ApiLoader(object):
         self._console.debug("Extracting API data: %s..." % fileId)
 
         self._console.indent()
-        tree = self._classesObj[fileId].tree(treegenerator)
-        (data, hasError) = api.createDoc(tree)
+        tree_ = self._classesObj[fileId].tree(treegenerator)
+        optimize = self._job.get("compile-options/code/optimize", [])
+        if "variants" in optimize:
+            tree_ = self._classesObj[fileId].optimize(tree_, ["variants"], variantSet)
+        (data, hasError) = api.createDoc(tree_)
         self._console.outdent()
         
         if hasError:
