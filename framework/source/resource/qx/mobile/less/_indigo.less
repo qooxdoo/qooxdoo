@@ -99,7 +99,7 @@ ul li.active * {
 }
 
 ul li.arrow {
-  background: url("../icon/android/arrow.png") no-repeat right center;
+  background: url("../icon/common/arrow.png") no-repeat right center;
 }
 
 ul li.active.arrow, ul li.selected.arrow {
@@ -110,6 +110,10 @@ ul li.active.arrow, ul li.selected.arrow {
   background-image: url("../icon/common/arrow_pressed.png"), linear-gradient(to bottom, @light-blue, @dark-blue 100%);
   background-position: right center;
   background-repeat: no-repeat;
+}
+
+ul li.active {
+  .clickable-active();
 }
 
 //
