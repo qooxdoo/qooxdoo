@@ -219,9 +219,16 @@ qx.Class.define("qx.bom.Viewport",
      */
     getScrollLeft : function(win)
     {
+      var win = win ? win : window;
       var doc = (win||window).document;
-      return (win||window).pageXOffset || doc.documentElement.scrollLeft ||
-      doc.body.scrollLeft;
+      
+      if (typeof win.pageXOffset !== "undefined") {
+        return win.pageYOffset;
+      } else if (typeof doc.documentElement.scrollLeft !== "undefined") {
+        return doc.documentElement.scrollLeft;
+      } else {
+        return doc.body.scrollLeft;
+      }
     },
 
 
@@ -238,9 +245,16 @@ qx.Class.define("qx.bom.Viewport",
      */
     getScrollTop : function(win)
     {
+      var win = win ? win : window;
       var doc = (win||window).document;
-      return (win||window).pageYOffset || doc.documentElement.scrollTop ||
-      doc.body.scrollTop;
+      
+      if (typeof win.pageYOffeset !== "undefined") {
+        return win.pageYOffset;
+      } else if (typeof doc.documentElement.scrollTop !== "undefined") {
+        return doc.documentElement.scrollTop;
+      } else {
+        return doc.body.scrollTop;
+      }
     },
 
 
