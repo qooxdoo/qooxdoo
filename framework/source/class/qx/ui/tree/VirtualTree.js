@@ -352,7 +352,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     // overridden
-    syncWidget : function()
+    syncWidget : function(jobs)
     {
       var firstRow = this._layer.getFirstRow();
       var rowSize = this._layer.getRowSizes().length;

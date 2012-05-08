@@ -2956,6 +2956,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * This method is called during the flush of the
      * {@link qx.ui.core.queue.Widget widget queue}.
+     *
      * @param jobs {Map} A map of jobs.
      */
     syncWidget : function(jobs) {

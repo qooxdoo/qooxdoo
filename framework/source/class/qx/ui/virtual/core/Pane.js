@@ -695,7 +695,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
 
     // overridden
-    syncWidget : function()
+    syncWidget : function(jobs)
     {
       if (this.__jobs._fullUpdate) {
         this._fullUpdate();
