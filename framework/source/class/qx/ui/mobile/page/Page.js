@@ -212,11 +212,12 @@ qx.Class.define("qx.ui.mobile.page.Page",
      */
     _resize : function()
     {
+      // TODO: CALCULATE THIS!
       if (qx.core.Environment.get("qx.mobile.nativescroll"))
       {
-        this._setStyle("minHeight", window.innerHeight - 40 + "px");
+        this._setStyle("minHeight", window.innerHeight - 45 + "px");
       } else {
-        this._setStyle("height", window.innerHeight - 40 + "px");
+        this._setStyle("height", window.innerHeight - 45 + "px");
       }
     },
 
