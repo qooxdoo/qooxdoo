@@ -66,7 +66,7 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
     /**
      * Handler for <code>touchstart</code> event. Clears timers and flags.
      * 
-     * @param e {qx.event.type.Touch} 
+     * @param e {qx.event.type.Touch} the touch event
      */
     _onTouchStart : function(e) 
     {
@@ -84,7 +84,7 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
     /**
      * Handler for touchend event. Stops event propagation if needed.
      * 
-     * @param e {qx.event.type.Touch}
+     * @param e {qx.event.type.Touch} the touch event
      */
     _onTouchEnd : function(e) 
     {
