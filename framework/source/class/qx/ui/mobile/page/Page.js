@@ -115,6 +115,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
     this._resize();
     qx.event.Registration.addListener(window, "orientationchange", this._resize, this);
     qx.event.Registration.addListener(window, "resize", this._resize, this);
+    this.addListener("domupdated", this._resize, this);
   },
 
 
@@ -212,12 +213,17 @@ qx.Class.define("qx.ui.mobile.page.Page",
      */
     _resize : function()
     {
-      // TODO: CALCULATE THIS!
-      if (qx.core.Environment.get("qx.mobile.nativescroll"))
-      {
-        this._setStyle("minHeight", window.innerHeight - 45 + "px");
-      } else {
-        this._setStyle("height", window.innerHeight - 45 + "px");
+      
+      var element = this.getContainerElement();
+      var parent = this.getLayoutParent();
+      if (parent) {
+        var height = parent.getContainerElement().offsetHeight + "px";
+        if (qx.core.Environment.get("qx.mobile.nativescroll"))
+        {
+          qx.bom.element.Style.set(element, "minHeight", height);
+        } else {
+          qx.bom.element.Style.set(element, "height", height);
+        }
       }
     },
 
