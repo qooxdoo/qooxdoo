@@ -59,7 +59,7 @@ var renderList = function(data) {
   keys.sort();
   for (var i = 0; i < keys.length; i++) {
     var module = keys[i];
-    list.append(q.create("<h2>" + module + "</h2>"));
+    list.append(q.create("<a href='#" + module + "'><h2>" + module + "</h2></a>"));
     var ul = q.create("<ul></ul>").appendTo(list);
     data[module]["static"].sort();
     data[module]["static"].forEach(function(name) {
@@ -136,7 +136,7 @@ var parseMethod = function(method) {
 
   // render data
   if (__lastModule != data.module) {
-    q("#content").append(q.create("<h1>" + data.module + "</h1>"));
+    q("#content").append(q.create("<h1 id='" + data.module + "'>" + data.module + "</h1>"));
     __lastModule = data.module;
   }
   q("#content").append(q.template.get("method", data));
