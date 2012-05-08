@@ -1,7 +1,9 @@
 .standard-button() {
   .border-radius(4px);
   cursor: pointer;
-
+  
+  padding-left:4px;
+  padding-right: 4px;
   width: auto;
   
   font-weight:normal;
@@ -125,6 +127,7 @@ input[type="text"]:not(.selectbox),input[type="number"], input[type="password"],
   .border-radius(.4em);
   .background-clip(padding-box);
   text-indent:4px;
+  height:1.7em;
 }
 
 input, select {
@@ -478,19 +481,16 @@ div.checked .toggleButtonSwitch:before {
   .border-radius(4px);
   .boxAlignCenter();
   
+  cursor:pointer;
+
   vertical-align:middle;
   height:35px;
-
-  cursor:pointer;
   
   background-color:transparent;
-  border:none;
 
   font-weight:normal;
   font-size:15px;
-  cursor:pointer;
   text-indent: 4px;
-  
 }
 
 .selectbox-selected > div > .list-itemlabel {
