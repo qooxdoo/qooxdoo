@@ -19,9 +19,6 @@ html, body {
   font-family: Helvetica;
   height: 100%;
 }
-.page {
-  padding: 5px;
-}
 .selectable, input, textarea {
   -webkit-user-select: auto;
   -moz-user-select: auto;
@@ -931,8 +928,10 @@ html, body {
 .layout-card {
   overflow: hidden;
   position: relative;
+  height: 100%;
 }
 .layout-card-item {
+  height: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -947,7 +946,6 @@ html, body {
   -webkit-box-orient: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -1405,6 +1403,9 @@ h2 {
 }
 .page {
   background: #c5ccd3 url(../icon/ios/pinstripes.png);
+}
+.content {
+  margin: 10px;
 }
 .fontNormal {
   color: #666;
@@ -2026,7 +2027,6 @@ div.checked .toggleButtonSwitch:before {
   -webkit-box-orient: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;

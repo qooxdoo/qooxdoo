@@ -214,9 +214,9 @@ qx.Class.define("qx.ui.mobile.page.Page",
     {
       if (qx.core.Environment.get("qx.mobile.nativescroll"))
       {
-        this._setStyle("minHeight", window.innerHeight + "px");
+        this._setStyle("minHeight", window.innerHeight - 40 + "px");
       } else {
-        this._setStyle("height", window.innerHeight + "px");
+        this._setStyle("height", window.innerHeight - 40 + "px");
       }
     },
 

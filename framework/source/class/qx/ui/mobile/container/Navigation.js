@@ -55,32 +55,11 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     }
     
     this.__content = this._createContent();
-    this._add(this.__content);
+    this._add(this.__content, {flex:1});
 
     this._resize();
     qx.event.Registration.addListener(window, "orientationchange", this._resize, this);
     qx.event.Registration.addListener(window, "resize", this._resize, this);
-  },
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /**
-     * The CSS class to add to the content per default.
-     */
-    contentCssClass :
-    {
-      check : "String",
-      init : "content",
-      nullable : true,
-      apply : "_applyContentCssClass"
-    }
   },
 
 
@@ -105,8 +84,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       {
         this._setStyle("minHeight", window.innerHeight + "px");
       } else {
-        this._setStyle("height", window.innerHeight + "px");
-        this.__content._setStyle("minHeight", window.innerHeight + "px");
+        this._setStyle("minHeight", window.innerHeight + "px");
       }
     },
 
@@ -153,15 +131,6 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     },
 
 
-    // property apply
-    _applyContentCssClass : function(value, old)
-    {
-      if (this.__content) {
-        this.__content.setDefaultCssClass(value);
-      }
-    },
-
-
     /**
      * Creates the content container.
      *
@@ -171,7 +140,6 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     {
       var content = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.Card());
       content.getLayout().addListener("updateLayout", this._onUpdateLayout, this);
-      content.setDefaultCssClass(this.getContentCssClass());
       return content;
     },
 
