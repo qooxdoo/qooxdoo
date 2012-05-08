@@ -32,38 +32,38 @@ qx.Class.define("qx.ui.core.queue.Widget",
   {
     /** {Array} This contains all the queued widgets for the next flush. */
     __queue : [],
-    
-    
-    /** {Object} This contains a map of widgets hash ($$hash) and there 
-     * corresponding map of jobs
+
+
+    /**
+     * {Object} This contains a map of widgets hash ($$hash) and their
+     * corresponding map of jobs.
      */
     __jobs : {},
 
 
     /**
-     * Clears given job of a widget from the internal queue. If no jobs left, 
+     * Clears given job of a widget from the internal queue. If no jobs left, the
      * widget will be removed completely from queue. Normally only used
      * during interims disposes of one or a few widgets.
      *
      * @param widget {qx.ui.core.Widget} The widget to clear
-     * @param job {String} Job identifier. If not used, it will be converted to 
+     * @param job {String?} Job identifier. If not used, it will be converted to
      * "$$default".
-     * to "default"
      */
-    remove : function(widget, job) 
+    remove : function(widget, job)
     {
       var queue = this.__queue;
-      
+
       if (!qx.lang.Array.contains(queue, widget)) {
         return;
       }
-      
+
       var hash = widget.$$hash;
-      
+
       if (this.__jobs[hash])
       {
         delete this.__jobs[hash][job];
-        
+
         if(qx.lang.Object.getLength(this.__jobs[hash]) == 0) {
           qx.lang.Array.remove(queue, widget);
         }
@@ -72,12 +72,12 @@ qx.Class.define("qx.ui.core.queue.Widget",
 
 
     /**
-     * Adds a widget to the queue. The second param can be used to idetify 
-     * several jobs. You can add one job at once, wich will be returned as
+     * Adds a widget to the queue. The second param can be used to identify
+     * several jobs. You can add one job at once, which will be returned as
      * an map at flushing on method {@link qx.ui.core.Widget#syncWidget}.
      *
      * @param widget {qx.ui.core.Widget} The widget to add.
-     * @param job {String?} Job identifier. If not used, it will be converted to 
+     * @param job {String?} Job identifier. If not used, it will be converted to
      * "$$default".
      */
     add : function(widget, job)
@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
       if (!qx.lang.Array.contains(queue, widget)){
         queue.unshift(widget);
       }
-      
+
       //add job
       if (job == null) {
         job = "$$default";
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
         this.__jobs[hash] = {};
       }
       this.__jobs[hash][job] = true;
-      
+
       qx.ui.core.queue.Manager.scheduleFlush("widget");
     },
 
@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
         // Order is important to allow the same widget to be requeued directly
         obj = queue[i];
         jobs = this.__jobs[obj.$$hash];
-        
+
         queue.splice(i, 1);
         obj.syncWidget(jobs);
       }
