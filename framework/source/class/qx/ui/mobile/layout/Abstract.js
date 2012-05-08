@@ -41,6 +41,20 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
 
  /*
   *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** Fired when the layout is updated. Data contains the "widget", "action", "properties" */
+    updateLayout : "qx.event.type.Data"
+  },
+
+
+
+ /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -79,7 +93,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
 
     /**
      * Abstracts method. Override this in your implementation.
-     * The function is called for all given layout properties once. 
+     * The function is called for all given layout properties once.
      *
      * @param widget {qx.ui.mobile.core.Widget} The target widget
      * @param property {String?null} Optional. The layout property to set.
@@ -147,22 +161,26 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
         this.__cachedProperties = null;
       }
     },
-    
-    
+
+
     connectToChildWidget : function(widget)
     {
-      
+
     },
-    
-    
+
+
     disconnectFromChildWidget : function(widget)
     {
-      
+
     },
-    
-    
+
+
     updateLayout : function(widget, action, properties) {
-      
+      this.fireDataEvent("updateLayout", {
+        widget : widget,
+        action : action,
+        properties : properties
+      });
     },
 
 

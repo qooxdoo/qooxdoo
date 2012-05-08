@@ -44,7 +44,7 @@ qx.Class.define("mobileshowcase.page.Atom",
     {
       this.base(arguments);
 
-      this.getContent().add(this.__createAtoms());
+      this.add(this.__createAtoms());
     },
 
     __createAtoms : function()

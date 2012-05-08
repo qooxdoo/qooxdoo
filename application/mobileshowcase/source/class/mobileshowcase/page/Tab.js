@@ -93,7 +93,7 @@ qx.Class.define("mobileshowcase.page.Tab",
     __createView : function(text)
     {
       var label = new qx.ui.mobile.basic.Label(text);
-      this.getContent().add(label);
+      this.add(label);
       return label;
     },
 

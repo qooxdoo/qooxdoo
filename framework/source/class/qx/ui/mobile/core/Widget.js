@@ -944,6 +944,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         layout.connectToWidget(this);
       }
       this.__layoutManager = layout;
+      this._domUpdated();
     },
 
 
@@ -997,14 +998,25 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       if (layout) {
         layout.setLayoutProperties(widget, properties);
       }
+      this._domUpdated();
     },
 
 
-    updateLayout : function(widget, value, properties) {
+    /**
+     * Updates the layout with the given arguments.
+     *
+     * @param widget {qx.ui.mobile.core.Widget} The widget that should be updated
+     * @param action {String}
+     * @param value {var}
+     *
+     * @internal
+     */
+    updateLayout : function(widget, action, value) {
       var layout = this._getLayout();
       if (layout) {
-        layout.updateLayout(widget, value, properties);
+        layout.updateLayout(widget, action, value);
       }
+      this._domUpdated();
     },
 
 
@@ -1242,12 +1254,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
-    __setVisibility : function(value, properties) {
-      this.setVisibility(value);
+    __setVisibility : function(action, properties) {
+      this.setVisibility(action);
 
       var parent = this.getLayoutParent();
       if (parent) {
-        parent.updateLayout(this, value, properties);
+        parent.updateLayout(this, action, properties);
       }
     },
 

@@ -100,6 +100,7 @@
 qx.Class.define("qx.ui.mobile.page.Page",
 {
   extend : qx.ui.mobile.container.Composite,
+  implement : qx.ui.mobile.container.INavigation,
 
 
  /*
@@ -117,12 +118,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
     this._resize();
     qx.event.Registration.addListener(window, "orientationchange", this._resize, this);
     qx.event.Registration.addListener(window, "resize", this._resize, this);
-
-    // TODO: Remove this - this is just code so that old applications still work
-    qx.core.Init.getApplication().getRoot().add(this);
   },
-
-
 
 
  /*
@@ -173,6 +169,15 @@ qx.Class.define("qx.ui.mobile.page.Page",
     {
       refine : true,
       init : "page"
+    },
+
+
+    title :
+    {
+      check : "String",
+      init : "",
+      event : "changeTitle",
+      apply : "_applyTitle"
     }
   },
 
@@ -401,6 +406,46 @@ qx.Class.define("qx.ui.mobile.page.Page",
     _resume : function()
     {
 
+    },
+
+
+    // interface implementation
+    getTitleWidget : function() {
+      if (!this.__title) {
+        this.__title = this._createTitleWidget();
+      }
+      return this.__title;
+    },
+
+
+    /**
+     * Creates the navigation bar title.
+     *
+     * @return {qx.ui.mobile.navigationbar.Title} The created title widget
+     */
+    _createTitleWidget : function()
+    {
+      return new qx.ui.mobile.navigationbar.Title(this.getTitle());
+    },
+
+
+    // property apply
+    _applyTitle : function(value, old) {
+      if (this.__title) {
+        this.__title.setValue(value);
+      }
+    },
+
+
+    // interface implementation
+    getLeftContainer : function() {
+      return null;
+    },
+
+
+    // interface implementation
+    getRightContainer : function() {
+      return null;
     }
   },
 

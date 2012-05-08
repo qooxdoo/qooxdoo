@@ -101,8 +101,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
   members :
   {
-    __widget : null,
-    __activeWidget : null,
+    __nextWidget : null,
+    __currentWidget : null,
     __inAnimation : null,
     __animation : null,
     __reverse : null,
@@ -119,7 +119,9 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     {
       this.base(arguments);
       widget.addCssClass("layout-card-item");
-      widget.exclude();
+      if (this._widget.hasChildren()) {
+        widget.exclude();  
+      }
     },
 
 
@@ -132,19 +134,19 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
 
     // overridden
-    // TODO: Rethink order of parameters (action, widget, properties)
     updateLayout : function(widget, action, properties)
     {
       if (action == "visible")
       {
         this.__showWidget(widget, properties);
       }
+      this.base(arguments, widget, action, properties);
     },
 
 
     __showWidget : function(widget, properties)
     {
-      if (this.__widget == widget) {
+      if (this.__nextWidget == widget) {
         return;
       }
 
@@ -152,7 +154,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         this.__stopAnimation();
       }
 
-      this.__widget = widget;
+      this.__nextWidget = widget;
 
       properties = properties || {};
 
@@ -177,7 +179,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
       }
 */
-      if (this.__activeWidget) {
+      if (this.__currentWidget) {
          this.__startAnimation(widget);
       } else {
         this.__swapWidget();
@@ -186,10 +188,10 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
 
     __swapWidget : function() {
-      if (this.__activeWidget) {
-        this.__activeWidget.exclude();
+      if (this.__currentWidget) {
+        this.__currentWidget.exclude();
       }
-      this.__activeWidget = this.__widget;
+      this.__currentWidget = this.__nextWidget;
     },
 
 
@@ -200,8 +202,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     {
       this.__inAnimation = true;
 
-      this.fireDataEvent("animationStart", [this.__activeWidget, widget]);
-      var fromElement = this.__activeWidget.getContainerElement();
+      this.fireDataEvent("animationStart", [this.__currentWidget, widget]);
+      var fromElement = this.__currentWidget.getContainerElement();
       var toElement = widget.getContainerElement();
 
       var fromCssClasses = this.__getAnimationClasses("out");
@@ -210,7 +212,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       qx.event.Registration.addListener(fromElement, "animationEnd", this._onAnimationEnd, this);
       qx.event.Registration.addListener(toElement, "animationEnd", this._onAnimationEnd, this);
 
-      this.__widget.getLayoutParent().addCssClass("animationParent");
+      this._widget.addCssClass("animationParent");
       qx.bom.element.Class.addClasses(toElement, toCssClasses);
       qx.bom.element.Class.addClasses(fromElement, fromCssClasses);
     },
@@ -224,7 +226,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     _onAnimationEnd : function(evt)
     {
       this.__stopAnimation();
-      this.fireDataEvent("animationEnd", [this.__activeWidget, this.__widget]);
+      this.fireDataEvent("animationEnd", [this.__currentWidget, this.__nextWidget]);
     },
 
 
@@ -235,8 +237,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     {
       if (this.__inAnimation)
       {
-        var fromElement = this.__activeWidget.getContainerElement();
-        var toElement = this.__widget.getContainerElement();
+        var fromElement = this.__currentWidget.getContainerElement();
+        var toElement = this.__nextWidget.getContainerElement();
 
         qx.event.Registration.removeListener(fromElement, "animationEnd", this._onAnimationEnd, this);
         qx.event.Registration.removeListener(toElement, "animationEnd", this._onAnimationEnd, this);
@@ -245,7 +247,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         qx.bom.element.Class.removeClasses(toElement, this.__getAnimationClasses("in"));
 
         this.__swapWidget();
-        this.__widget.getLayoutParent().removeCssClass("animationParent");
+        this._widget.removeCssClass("animationParent");
         this.__inAnimation = false;
       }
     },

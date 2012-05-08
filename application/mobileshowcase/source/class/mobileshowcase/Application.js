@@ -69,7 +69,7 @@ qx.Class.define("mobileshowcase.Application",
       */
 
       var tablet = true;
-
+      
       // Create the pages
       var overview = new mobileshowcase.page.Overview();
       var events = new mobileshowcase.page.Event();
@@ -84,31 +84,43 @@ qx.Class.define("mobileshowcase.Application",
       var dialogs = new mobileshowcase.page.Dialog();
       var dataBinding = new mobileshowcase.page.DataBinding();
 
+
+      var navigationContainer = new qx.ui.mobile.container.Navigation();
+      
+      if (tablet) {
+        var masterNavigationContainer = new qx.ui.mobile.container.Navigation();
+        masterNavigationContainer.add(overview);  
+      } else {
+        navigationContainer.add(overview);  
+      }
+
+      navigationContainer.add(events);
+      navigationContainer.add(list);
+      navigationContainer.add(tab);
+      navigationContainer.add(toolbar);
+      navigationContainer.add(form);
+      navigationContainer.add(animation);
+      navigationContainer.add(animationLanding);
+      navigationContainer.add(atoms);
+      navigationContainer.add(basic);
+      navigationContainer.add(dialogs);
+      navigationContainer.add(dataBinding);
+
       // todo: tablet support
       if (tablet) {
         var splitPane = new qx.ui.mobile.container.SplitPane();
-        this.getRoot().setLayout(new qx.ui.mobile.layout.VBox());
-        var popup = new qx.ui.mobile.dialog.Popup();
-        splitPane.setPortraitMasterContainer(popup);
+
         splitPane.addListener("layoutChange", function(evt) {
           if (evt.getData()) {
-            popup.show();
+           // popup.show();
           }
         }, this);
         this.getRoot().add(splitPane, {flex:1});
-        splitPane.show();
-        splitPane.getMaster().add(overview);
-        splitPane.getSlave().add(events);
-        splitPane.getSlave().add(list);
-        splitPane.getSlave().add(tab);
-        splitPane.getSlave().add(toolbar);
-        splitPane.getSlave().add(form);
-        splitPane.getSlave().add(animation);
-        splitPane.getSlave().add(animationLanding);
-        splitPane.getSlave().add(atoms);
-        splitPane.getSlave().add(basic);
-        splitPane.getSlave().add(dialogs);
-        splitPane.getSlave().add(dataBinding);
+        splitPane.getMaster().add(masterNavigationContainer);
+        splitPane.getDetail().add(navigationContainer);
+        
+      } else {
+        this.getRoot().add(navigationContainer);
       }
 
       // Navigation

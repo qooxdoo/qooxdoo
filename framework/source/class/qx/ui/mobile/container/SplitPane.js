@@ -49,8 +49,8 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     this.base(arguments, layout || new qx.ui.mobile.layout.HBox());
     this.__master = this._createMasterContainer();
 
-    this.__slave = this._createSlaveContainer();
-    this.add(this.__slave, {flex:1});
+    this.__detail = this._createDetailContainer();
+    this.add(this.__detail, {flex:1});
     qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
 
     this.__syncLayout();
@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
 
   members : {
     __master : null,
-    __slave : null,
+    __detail : null,
     __portraitMasterContainer : null,
 
 
@@ -68,8 +68,8 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     },
 
 
-    getSlave : function() {
-      return this.__slave;
+    getDetail : function() {
+      return this.__detail;
     },
 
 
@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     __addMasterToSplitView : function()
     {
       if (this.__master.getLayoutParent() != this) {
-        this.addBefore(this.__master, this.__slave);
+        this.addBefore(this.__master, this.__detail);
       }
     },
 
@@ -144,8 +144,8 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     },
 
 
-    _createSlaveContainer : function() {
-      return this.__createContainer("split-pane-slave");
+    _createDetailContainer : function() {
+      return this.__createContainer("split-pane-detail");
     },
 
 

@@ -1334,7 +1334,16 @@ input[type="checkbox"] {
   cursor: pointer;
   text-indent: 4px;
 }
-.split-pane-master.attached {
+.split-pane-master.show {
+  width: 25%;
+}
+.drawer {
+  width: 1px;
+  border-right: 4px solid red;
+  position: absolute;
+  z-index: 100;
+}
+.drawer.open {
   width: 25%;
 }
 #button .nav {
@@ -2086,6 +2095,6 @@ div.checked .toggleButtonSwitch:before {
 .selectbox-unselected > .list-itemimage {
   display: none;
 }
-.split-pane-master.attached {
+.split-pane-master.show {
   border-right: 1px solid #2d3642;
 }

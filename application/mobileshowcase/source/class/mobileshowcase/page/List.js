@@ -68,7 +68,7 @@ qx.Class.define("mobileshowcase.page.List",
       list.addListener("changeSelection", function(evt) {
         alert("Item Selected #" + evt.getData());
       }, this);
-      this.getContent().add(list);
+      this.add(list);
     },
 
 

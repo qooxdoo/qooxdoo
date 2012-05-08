@@ -67,8 +67,6 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
   },
 
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -77,16 +75,6 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
   properties :
   {
-    /** The title of the page */
-    title :
-    {
-      check : "String",
-      init : "",
-      nullable : true,
-      apply : "_applyTitle"
-    },
-
-
     /** The back button text */
     backButtonText :
     {
@@ -124,18 +112,6 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       check : "Boolean",
       init : false,
       apply : "_applyShowButton"
-    },
-
-
-    /**
-     * The CSS class to add to the content per default.
-     */
-    contentCssClass :
-    {
-      check : "String",
-      init : "content",
-      nullable : true,
-      apply : "_applyContentCssClass"
     }
   },
 
@@ -148,59 +124,47 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
   members :
   {
-    __navigationBar : null,
-    __title : null,
     __backButton : null,
     __button : null,
-    __content : null,
-    __scrollContainer : null,
+    __leftContainer : null,
+    __rightContainer : null,
 
 
-    /**
-     * Returns the content container. Add all your widgets to this container.
-     *
-     * @return {qx.ui.mobile.container.Composite} The content container
-     */
-    getContent : function()
-    {
-      return this.__content;
-    },
-    
-    /**
-     * Scrolls the wrapper contents to the x/y coordinates in a given 
-     * period.
-     * 
-     * @param x {Integer} X coordinate to scroll to.
-     * @param y {Integer} Y coordinate to scroll to.
-     * @param time {Integer} Time slice in which scrolling should 
-     *              be done.
-     *
-     */
-    scrollTo : function(x, y, time)
-    {
-      this.__scrollContainer._scrollTo(x, y, time);
+    // overridden
+    getLeftContainer : function() {
+      if (!this.__leftContainer) {
+        this.__leftContainer = this._createLeftContainer();
+      }
+      return this.__leftContainer;
     },
 
 
-    /**
-     * Returns the title widget.
-     *
-     * @return {qx.ui.mobile.navigationbar.Title} The title widget
-     */
-    _getTitle : function()
-    {
-      return this.__title;
+    // overridden
+    getRightContainer : function() {
+      if (!this.__rightContainer) {
+        this.__rightContainer = this._createRightContainer();
+      }
+      return this.__rightContainer;
     },
 
 
-    /**
-     * Returns the navigation bar widget.
-     *
-     * @return {qx.ui.mobile.navigationbar.NavigationBar} The navigation bar widget
-     */
-    _getNavigationBar : function()
-    {
-      return this.__navigationBar;
+    _createLeftContainer : function() {
+      var container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+      this.__backButton = this._createBackButton();
+      this.__backButton.addListener("tap", this._onBackButtonTap, this);
+      this._showBackButton();
+      container.add(this.__backButton);
+      return container;
+    },
+
+
+    _createRightContainer : function() {
+      var container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+      this.__button = this._createButton();
+      this.__button.addListener("tap", this._onButtonTap, this);
+      this._showButton();
+      container.add(this.__button);
+      return container;
     },
 
 
@@ -223,26 +187,6 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     _getButton : function()
     {
       return this.__button;
-    },
-
-
-    /**
-     * Returns the scroll container.
-     *
-     * @return {qx.ui.mobile.container.Scroll} The scroll container
-     */
-    _getScrollContainer : function()
-    {
-      return this.__scrollContainer;
-    },
-
-
-    // property apply
-    _applyTitle : function(value, old)
-    {
-      if (this.__title) {
-        this.__title.setValue(value);
-      }
     },
 
 
@@ -278,15 +222,6 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
-    // property apply
-    _applyContentCssClass : function(value, old)
-    {
-      if (this.__content) {
-        this.__content.setDefaultCssClass(value);
-      }
-    },
-
-
     /**
      * Helper method to show the back button.
      */
@@ -319,106 +254,13 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
-    // overridden
-    _initialize : function()
-    {
-      this.base(arguments);
-
-      this.__navigationBar = this._createNavigationBar();
-      if (this.__navigationBar) {
-        this.add(this.__navigationBar);
-      }
-      this.__scrollContainer = this._createScrollContainer();
-      this.__content = this._createContent();
-      if (this.__content) {
-        this.__scrollContainer._setLayout(new qx.ui.mobile.layout.VBox());
-        this.__scrollContainer.add(this.__content, {flex :1});
-      }
-      if (this.__scrollContainer) {
-        this.add(this.__scrollContainer, {flex:1});
-      }
-    },
-
-
-    /**
-     * Creates the scroll container.
-     *
-     * @return {qx.ui.mobile.container.Scroll} The created scroll container
-     */
-    _createScrollContainer : function()
-    {
-      return new qx.ui.mobile.container.Scroll();
-    },
-
-
-    /**
-     * Creates the content container.
-     *
-     * @return {qx.ui.mobile.container.Composite} The created content container
-     */
-    _createContent : function()
-    {
-      var content = new qx.ui.mobile.container.Composite();
-      content.setDefaultCssClass(this.getContentCssClass());
-      return content;
-    },
-
-
-    /**
-     * Creates the navigation bar.
-     *
-     * @return {qx.ui.mobile.navigationbar.NavigationBar} The created navigation bar
-     */
-    _createNavigationBar : function()
-    {
-      var bar = new qx.ui.mobile.navigationbar.NavigationBar();
-
-      this.__backButton = this._createBackButton();
-      if (this.__backButton)
-      {
-        this.__backButton.addListener("tap", this._onBackButtonTap, this);
-        this.__backButton.setValue(this.getBackButtonText());
-        this._showBackButton()
-        bar.add(this.__backButton);
-      }
-
-
-      this.__title = this._createTitle();
-      if (this.__title) {
-        bar.add(this.__title, {flex:1});
-      }
-
-      this.__button = this._createButton();
-      if (this.__button)
-      {
-        this.__button.addListener("tap", this._onButtonTap, this);
-        this.__button.setValue(this.getButtonText());
-        this._showButton()
-        bar.add(this.__button);
-      }
-
-      return bar;
-    },
-
-
-    /**
-     * Creates the navigation bar title.
-     *
-     * @return {qx.ui.mobile.navigationbar.Title} The created title widget
-     */
-    _createTitle : function()
-    {
-      return new qx.ui.mobile.navigationbar.Title(this.getTitle());
-    },
-
-
     /**
      * Creates the navigation bar back button.
      *
      * @return {qx.ui.mobile.navigationbar.BackButton} The created back button widget
      */
     _createBackButton : function() {
-      return new qx.ui.mobile.navigationbar.BackButton();
+      return new qx.ui.mobile.navigationbar.BackButton(this.getBackButtonText());
     },
 
 
@@ -428,7 +270,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      * @return {qx.ui.mobile.navigationbar.Button} The created button widget
      */
     _createButton : function() {
-      return new qx.ui.mobile.navigationbar.Button();
+      return new qx.ui.mobile.navigationbar.Button(this.getButtonText());
     },
 
 
@@ -457,6 +299,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
   destruct : function()
   {
-    this.__navigationBar = this.__title = this.__backButton = this.__button = this.__content = this.__scrollContainer = null;
+    this._disposeObjects("__leftContainer", "__rightContainer", "__backButton", "__button");
+    this.__leftContainer = this.__rightContainer = this.__backButton = this.__button = null;
   }
 });

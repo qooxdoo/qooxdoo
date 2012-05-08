@@ -64,7 +64,7 @@ qx.Class.define("mobileshowcase.page.Animation",
         var animation = data[evt.getData()].animation;
         qx.ui.mobile.navigation.Manager.getInstance().executeGet("/animation/" + animation);
       }, this);
-      this.getContent().add(list);
+      this.add(list);
     },
 
 

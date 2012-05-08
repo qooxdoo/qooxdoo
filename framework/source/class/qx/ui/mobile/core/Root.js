@@ -36,12 +36,12 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
   /**
    * @param root {Element?null} Optional. The root DOM element of the widget. Default is the body of the document.
-   * @param layout {qx.ui.mobile.layout.Abstract ? qx.ui.mobile.layout.Card} The layout of the root widget.
+   * @param layout {qx.ui.mobile.layout.Abstract ? qx.ui.mobile.layout.VBox} The layout of the root widget.
    */
   construct : function(root, layout)
   {
     this.__root = root || document.body;
-    this.base(arguments, layout || new qx.ui.mobile.layout.Card());
+    this.base(arguments, layout || new qx.ui.mobile.layout.VBox());
   },
 
 

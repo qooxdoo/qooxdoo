@@ -53,7 +53,7 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
       this.base(arguments);
 
       var embed = new qx.ui.mobile.embed.Html('<strong>Tap "back" button for the reverse animation</strong>');
-      this.getContent().add(embed);
+      this.add(embed);
     },
 
 

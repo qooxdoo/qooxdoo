@@ -89,19 +89,23 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     {
       return this.getContainerElement().childNodes[0];
     },
-    
-    /**
+
+
+   /**
     * Scrolls the wrapper contents to the x/y coordinates in a given period.
-    * 
+    *
     * @param x {Integer} X coordinate to scroll to.
     * @param y {Integer} Y coordinate to scroll to.
-    * @param time {Integer} Time slice in which scrolling should 
+    * @param time {Integer} Time slice in which scrolling should
     *              be done.
     */
-    _scrollTo : function(x, y, time) 
+    _scrollTo : function(x, y, time)
     {
+      if (this.__scroll) {
         this.__scroll.scrollTo(x, y, time);
+      }
     },
+
 
     /**
      * Loads and inits the iScroll instance.

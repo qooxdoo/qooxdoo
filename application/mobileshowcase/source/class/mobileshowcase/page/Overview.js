@@ -71,8 +71,7 @@ qx.Class.define("mobileshowcase.page.Overview",
         var path = data[evt.getData()].path;
         qx.ui.mobile.navigation.Manager.getInstance().executeGet("/"+path);
       }, this);
-      this.getContent().add(list);
-
+      this.add(list);
     }
   }
 });
