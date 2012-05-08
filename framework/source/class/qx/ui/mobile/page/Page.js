@@ -212,8 +212,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * Resizes the page to the innerHeight of the window.
      */
     _resize : function()
-    {
-      
+    { 
       var element = this.getContainerElement();
       var parent = this.getLayoutParent();
       if (parent) {
@@ -467,6 +466,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
   {
     this._disposeObjects("__title");
     this.__title = null;
+    this.removeListener("domupdated", this._resize, this);
     qx.event.Registration.removeListener(window, "orientationchange", this._resize, this);
     qx.event.Registration.removeListener(window, "resize", this._resize, this);
   }

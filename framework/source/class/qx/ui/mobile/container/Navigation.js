@@ -60,6 +60,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     this._resize();
     qx.event.Registration.addListener(window, "orientationchange", this._resize, this);
     qx.event.Registration.addListener(window, "resize", this._resize, this);
+    this.addListener("domupdated", this._resize, this);
   },
 
 
@@ -80,11 +81,16 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
      */
     _resize : function()
     {
-      if (qx.core.Environment.get("qx.mobile.nativescroll"))
-      {
-        this._setStyle("minHeight", window.innerHeight + "px");
-      } else {
-        this._setStyle("minHeight", window.innerHeight + "px");
+      var element = this.getContainerElement();
+      var parent = this.getLayoutParent();
+      if (parent) {
+        var height = parent.getContainerElement().offsetHeight + "px";
+        if (qx.core.Environment.get("qx.mobile.nativescroll"))
+        {
+          this._setStyle("minHeight", height);
+        } else {
+          this._setStyle("minHeight", height);
+        }
       }
     },
 
@@ -193,6 +199,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
   {
     qx.event.Registration.removeListener(window, "orientationchange", this._resize, this);
     qx.event.Registration.removeListener(window, "resize", this._resize, this);
+    this.removeListener("domupdated", this._resize, this);
     this._disposeObjects("__navigationBar", "__content");
     this.__navigationBar = this.__content = null;
   }
