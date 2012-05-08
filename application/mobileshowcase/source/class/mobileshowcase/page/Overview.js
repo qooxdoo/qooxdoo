@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Tino Butz (tbtz)
+     * Tino Butz (tbtz)
 
 ************************************************************************ */
 
@@ -71,7 +71,8 @@ qx.Class.define("mobileshowcase.page.Overview",
         var path = data[evt.getData()].path;
         qx.ui.mobile.navigation.Manager.getInstance().executeGet("/"+path);
       }, this);
-      this.add(list);
+      this.getContent().add(list);
+
     }
   }
 });

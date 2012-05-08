@@ -46,7 +46,7 @@ qx.Class.define("mobileshowcase.page.Basic",
       this.base(arguments);
       
       // BASIC WIDGET CHANGE MENU
-      this.add(new qx.ui.mobile.form.Title("Basic Widget Menu"));
+      this.getContent().add(new qx.ui.mobile.form.Title("Basic Widget Menu"));
       
       // TOGGLE BUTTON
       var toggleEnableButton = new qx.ui.mobile.form.Button("Widget Enabled/Disabled");
@@ -106,27 +106,27 @@ qx.Class.define("mobileshowcase.page.Basic",
       exAtomBottom.addCssClass("space-top");
       
       // BUILD VIEW
-      this.add(toggleEnableButton);
-      this.add(toggleLabelWrapButton);
+      this.getContent().add(toggleEnableButton);
+      this.getContent().add(toggleLabelWrapButton);
       
-      this.add(new qx.ui.mobile.form.Title("Button"));
-      this.add(exButton);
+      this.getContent().add(new qx.ui.mobile.form.Title("Button"));
+      this.getContent().add(exButton);
       
-      this.add(new qx.ui.mobile.form.Title("ToggleButton"));
-      this.add(exToggleButton);
+      this.getContent().add(new qx.ui.mobile.form.Title("ToggleButton"));
+      this.getContent().add(exToggleButton);
       
-      this.add(new qx.ui.mobile.form.Title("Label"));
+      this.getContent().add(new qx.ui.mobile.form.Title("Label"));
       
-      this.add(exLabel);
+      this.getContent().add(exLabel);
       
-      this.add(new qx.ui.mobile.form.Title("Image"));
-      this.add(exImage);
+      this.getContent().add(new qx.ui.mobile.form.Title("Image"));
+      this.getContent().add(exImage);
       
-      this.add(new qx.ui.mobile.form.Title("Atoms"));
-      this.add(exAtomLeft);
-      this.add(exAtomTop);
-      this.add(exAtomRight);
-      this.add(exAtomBottom);
+      this.getContent().add(new qx.ui.mobile.form.Title("Atoms"));
+      this.getContent().add(exAtomLeft);
+      this.getContent().add(exAtomTop);
+      this.getContent().add(exAtomRight);
+      this.getContent().add(exAtomBottom);
     },
 
 

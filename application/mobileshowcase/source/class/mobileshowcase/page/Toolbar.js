@@ -64,7 +64,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       this.base(arguments);
 
       var label = new qx.ui.mobile.form.Title("Search");
-      this.add(label);
+      this.getContent().add(label);
 
       var toolbar = this.__toolbar = new qx.ui.mobile.toolbar.ToolBar();
       this.add(toolbar); // getContent()

@@ -119,9 +119,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     {
       this.base(arguments);
       widget.addCssClass("layout-card-item");
-      if (this._widget.hasChildren()) {
-        widget.exclude();  
-      }
+      widget.exclude();
     },
 
 
@@ -149,13 +147,13 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       if (this.__nextWidget == widget) {
         return;
       }
-
+      
       if (this.__inAnimation) {
         this.__stopAnimation();
       }
-
+      
       this.__nextWidget = widget;
-
+    
       properties = properties || {};
 
       this.__animation = properties.animation || this.getDefaultAnimation();
@@ -184,6 +182,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       } else {
         this.__swapWidget();
       }
+      
+      
     },
 
 

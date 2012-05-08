@@ -47,20 +47,19 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
 
   construct : function()
   {
-    this.base(arguments);
+    this.base(arguments, new qx.ui.mobile.layout.VBox());
 
     this.__navigationBar = this._createNavigationBar();
     if (this.__navigationBar) {
       this._add(this.__navigationBar);
     }
-    this.__scrollContainer = this._createScrollContainer();
+    
     this.__content = this._createContent();
-    if (this.__content) {
-      this.__scrollContainer.add(this.__content, {flex :1});
-    }
-    if (this.__scrollContainer) {
-      this._add(this.__scrollContainer, {flex:1});
-    }
+    this._add(this.__content);
+
+    this._resize();
+    qx.event.Registration.addListener(window, "orientationchange", this._resize, this);
+    qx.event.Registration.addListener(window, "resize", this._resize, this);
   },
 
 
@@ -95,7 +94,21 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
   {
     __navigationBar : null,
     __content : null,
-    __scrollContainer : null,
+    
+    
+   /**
+     * Resizes the page to the innerHeight of the window.
+     */
+    _resize : function()
+    {
+      if (qx.core.Environment.get("qx.mobile.nativescroll"))
+      {
+        this._setStyle("minHeight", window.innerHeight + "px");
+      } else {
+        this._setStyle("height", window.innerHeight + "px");
+        this.__content._setStyle("minHeight", window.innerHeight + "px");
+      }
+    },
 
 
     // overridden
@@ -140,39 +153,12 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     },
 
 
-    /**
-     * Scrolls the wrapper contents to the x/y coordinates in a given
-     * period.
-     *
-     * @param x {Integer} X coordinate to scroll to.
-     * @param y {Integer} Y coordinate to scroll to.
-     * @param time {Integer} Time slice in which scrolling should
-     *              be done.
-     *
-     */
-    scrollTo : function(x, y, time)
-    {
-      this.__scrollContainer.scrollTo(x, y, time);
-    },
-
-
     // property apply
     _applyContentCssClass : function(value, old)
     {
       if (this.__content) {
         this.__content.setDefaultCssClass(value);
       }
-    },
-
-
-    /**
-     * Creates the scroll container.
-     *
-     * @return {qx.ui.mobile.container.Scroll} The created scroll container
-     */
-    _createScrollContainer : function()
-    {
-      return new qx.ui.mobile.container.Scroll(new qx.ui.mobile.layout.VBox());
     },
 
 
@@ -200,7 +186,6 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       var widget = data.widget;
       var action = data.action;
       if (action == "visible") {
-        this.scrollTo(0,0);
         this._syncNavigationBarWithWidget(widget);
       }
     },
@@ -238,6 +223,9 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
 
   destruct : function()
   {
-    this.__navigationBar = this.__content = this.__scrollContainer = null;
+    qx.event.Registration.removeListener(window, "orientationchange", this._resize, this);
+    qx.event.Registration.removeListener(window, "resize", this._resize, this);
+    this._disposeObjects("__navigationBar", "__content");
+    this.__navigationBar = this.__content = null;
   }
 });

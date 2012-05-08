@@ -127,13 +127,13 @@ qx.Class.define("mobileshowcase.page.Dialog",
           this.__menu.show();
       }, this);
       
-      this.add(new qx.ui.mobile.form.Title("Dialog Widget Menu"));
-      this.add(showModalDialogButton);
-      this.add(showPopupButton);
-      this.add(showAnchorButton);
-      this.add(showMenuButton);
-      this.add(busyIndicatorButton);
-      this.add(this.__busypopup);
+      this.getContent().add(new qx.ui.mobile.form.Title("Dialog Widget Menu"));
+      this.getContent().add(showModalDialogButton);
+      this.getContent().add(showPopupButton);
+      this.getContent().add(showAnchorButton);
+      this.getContent().add(showMenuButton);
+      this.getContent().add(busyIndicatorButton);
+      this.getContent().add(this.__busypopup);
     },
     
     

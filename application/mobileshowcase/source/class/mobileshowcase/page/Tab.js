@@ -43,18 +43,15 @@ qx.Class.define("mobileshowcase.page.Tab",
       
       var theme = qx.core.Environment.get("qx.theme");
       
+      // Special treatment for iOS theme. TabBar should be below content.
       if(theme == "ios") 
       {
         this.add(this.__createTabBar());
       } 
-      else if (theme == "android") 
-      {
-        this.addAfter(this.__createTabBar(),this._getNavigationBar());
-      } 
       else 
       {
-        // Default
-        this.add(this.__createTabBar());
+        // Default add TabBar after NavigationBar.
+        this.addAfter(this.__createTabBar(),this._getNavigationBar());
       }
     },
 
@@ -93,7 +90,7 @@ qx.Class.define("mobileshowcase.page.Tab",
     __createView : function(text)
     {
       var label = new qx.ui.mobile.basic.Label(text);
-      this.add(label);
+      this.getContent().add(label);
       return label;
     },
 

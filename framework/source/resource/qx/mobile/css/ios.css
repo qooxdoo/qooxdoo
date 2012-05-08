@@ -19,6 +19,9 @@ html, body {
   font-family: Helvetica;
   height: 100%;
 }
+.page {
+  padding: 5px;
+}
 .selectable, input, textarea {
   -webkit-user-select: auto;
   -moz-user-select: auto;
@@ -936,8 +939,6 @@ html, body {
   -webkit-transform: translate3d(0, 0, 0) rotate(0) scale(1);
   -moz-transform: translate3d(0, 0, 0) rotate(0) scale(1);
   transform: translate3d(0, 0, 0) rotate(0) scale(1);
-  left: 0px;
-  width: 100%;
 }
 .hbox {
   display: -webkit-box;
@@ -1083,9 +1084,6 @@ h2 {
 }
 .fontNormal {
   font-weight: normal;
-}
-.content {
-  padding: 5px;
 }
 ul {
   padding: 0;
@@ -1334,16 +1332,7 @@ input[type="checkbox"] {
   cursor: pointer;
   text-indent: 4px;
 }
-.split-pane-master.show {
-  width: 25%;
-}
-.drawer {
-  width: 1px;
-  border-right: 4px solid red;
-  position: absolute;
-  z-index: 100;
-}
-.drawer.open {
+.split-pane-master.attached {
   width: 25%;
 }
 #button .nav {
@@ -1416,9 +1405,6 @@ h2 {
 }
 .page {
   background: #c5ccd3 url(../icon/ios/pinstripes.png);
-}
-.content {
-  padding: 10px;
 }
 .fontNormal {
   color: #666;
@@ -2095,6 +2081,6 @@ div.checked .toggleButtonSwitch:before {
 .selectbox-unselected > .list-itemimage {
   display: none;
 }
-.split-pane-master.show {
+.split-pane-master.attached {
   border-right: 1px solid #2d3642;
 }

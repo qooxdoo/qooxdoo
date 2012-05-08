@@ -61,7 +61,7 @@ qx.Class.define("mobileshowcase.page.Event",
       container.add(label);
 
 
-      this.add(container, {flex:1});
+      this.getContent().add(container, {flex:1});
     },
 
 

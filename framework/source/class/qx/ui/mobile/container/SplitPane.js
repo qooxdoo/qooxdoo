@@ -134,12 +134,10 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     _applyMasterContainerCss : function(isPortrait)
     {
       var container = this.getPortraitMasterContainer();
-      if (container) {
-        if (isPortrait) {
-          this.__master.removeCssClass("attached");
-        } else {
-          this.__master.addCssClass("attached");
-        }
+      if (container && isPortrait) {
+        this.__master.removeCssClass("attached");
+      } else {
+        this.__master.addCssClass("attached");
       }
     },
 
@@ -150,7 +148,7 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
 
 
     __createContainer : function(cssClass) {
-      var container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.Card());
+      var container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
       container.setDefaultCssClass(cssClass);
       return container;
     }

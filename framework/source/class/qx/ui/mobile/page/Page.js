@@ -111,10 +111,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
   construct : function(layout)
   {
-    this.base(arguments, layout);
-    if (!layout) {
-      this.setLayout(new qx.ui.mobile.layout.VBox());
-    }
+    this.base(arguments, layout || new qx.ui.mobile.layout.VBox());
     this._resize();
     qx.event.Registration.addListener(window, "orientationchange", this._resize, this);
     qx.event.Registration.addListener(window, "resize", this._resize, this);
@@ -172,6 +169,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
     },
 
 
+    /** The title of the page */
     title :
     {
       check : "String",
@@ -460,6 +458,8 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
   destruct : function()
   {
+    this._disposeObjects("__title");
+    this.__title = null;
     qx.event.Registration.removeListener(window, "orientationchange", this._resize, this);
     qx.event.Registration.removeListener(window, "resize", this._resize, this);
   }
