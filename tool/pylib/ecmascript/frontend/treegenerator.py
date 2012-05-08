@@ -216,7 +216,10 @@ class TokenStream(IterObject):
         elif tok.name in ('reserved',) and tok.detail in ("TRUE", "FALSE", "NULL"):
             symbol = symbol_table["constant"]
             s = symbol()
-            s.set('constantType', 'boolean')
+            if tok.detail in ("TRUE", "FALSE"):
+                s.set('constantType', 'boolean')
+            elif tok.detail == "NULL":
+                s.set('constantType', 'null')
         elif tok.name in ('name', 'builtin'):
             s = symbol_table["identifier"]()
         else:

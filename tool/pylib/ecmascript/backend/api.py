@@ -1010,7 +1010,7 @@ def getValue(item):
             value = '"' + item.get("value") + '"'
         else:
             value = item.get("value")
-    elif item.type == "variable":
+    elif item.isVar():
         value, isComplete = treeutil.assembleVariable(item)
         if not isComplete:
             value = "[Complex expression]"
