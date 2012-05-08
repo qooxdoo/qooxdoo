@@ -21,58 +21,6 @@
 @ios-button-active-gradient-stop-4: #3e5779;
 
 //
-// MIXINS
-//
-
-#button {
-  .nav {
-      .border-radius-right(5px);
-      .border-radius-left(4px);
-      
-      height: 30px;
-      line-height: 30px;
-      font-size: 12px;
-      color: #ffffff;
-      position: relative;
-      overflow: visible;
-
-      text-overflow: ellipsis;
-      text-decoration: none;
-      white-space: nowrap;
-      background: none;
-      padding: 0 10px;
-      text-shadow: #3e5779 0 -1px 0;
-
-      -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-      -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-      box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-
-      border: 1px solid @ios-button-bordercolor;
-
-      background-image: none;
-
-      background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, @ios-button-gradient-stop-1), color-stop(50%, @ios-button-gradient-stop-2), color-stop(51%, @ios-button-gradient-stop-3), color-stop(100%, @ios-button-gradient-stop-4));
-      background-image: -webkit-linear-gradient(top, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
-      background-image: -moz-linear-gradient(top, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%,@ios-button-gradient-stop-4);
-      background-image: linear-gradient(top, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
-  }
-
-  .nav-active {
-      border-color: @ios-button-active-bordercolor;
-      background-color: @ios-button-active-backgroundcolor;
-
-      background-image: none;
-
-      background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, @ios-button-active-gradient-stop-1), color-stop(50%, @ios-button-active-gradient-stop-2), color-stop(51%, @ios-button-active-gradient-stop-3), color-stop(100%, @ios-button-active-gradient-stop-4));
-      background-image: -webkit-linear-gradient(top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
-      background-image: -moz-linear-gradient(top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
-      background-image: linear-gradient(top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
-
-      text-shadow: #364b68 0 -1px 0;
-  }
-}
-
-//
 // GLOBAL 
 //
 
@@ -94,7 +42,6 @@ h1 {
 }
 
 h2 {
-  font-size: 18px;
   text-shadow: rgba(255,255,255,.2) 0 1px 1px;
   color: rgb(76, 86, 108);
 }
@@ -115,8 +62,6 @@ h2 {
 
 .fontNormal {
   color: #666;
-  font-weight: normal;
-  font-size: 0.8em;
 }
 
 //
@@ -124,29 +69,25 @@ h2 {
 //
 
 ul {
-  .border-radius(8px);
-  .background-clip(padding-box);
   color: black;
   background: #fff;
   border: 1px solid #B4B4B4;
-  font: bold 17px Helvetica;
-  margin-bottom: 10px;
 }
 
 ul li {
   color: #666;
-  border-top-color: #B4B4B4;
+  border-top: 1px solid #B4B4B4;
 }
 
 ul li.arrow {
-  background: url("../icon/ios/arrow.png") no-repeat right center;
+  background: url("../icon/common/arrow.png") no-repeat right center;
 }
 
 ul li.active.arrow,  ul li.selected.arrow {
-  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, from(#4583fd), to(#194ae4));
-  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -webkit-linear-gradient(top, #4583fd, #194ae4);
-  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, -moz-linear-gradient(top, #4583fd, #194ae4);
-  background: url("../icon/ios/arrow_pressed.png") no-repeat right center, linear-gradient(to bottom, #4583fd, #194ae4);
+  background: url("../icon/common/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, from(#4583fd), to(#194ae4));
+  background: url("../icon/common/arrow_pressed.png") no-repeat right center, -webkit-linear-gradient(top, #4583fd, #194ae4);
+  background: url("../icon/common/arrow_pressed.png") no-repeat right center, -moz-linear-gradient(top, #4583fd, #194ae4);
+  background: url("../icon/common/arrow_pressed.png") no-repeat right center, linear-gradient(to bottom, #4583fd, #194ae4);
 }
 
 ul li.active,  ul li.selected {
@@ -154,9 +95,6 @@ ul li.active,  ul li.selected {
   color: #fff;
 }
 
-ul li.selected .subtitle {
-  color : #fff;
-}
 
 ul li.active .subtitle {
   color : #fff;
@@ -166,30 +104,15 @@ ul li .subtitle {
   color : #585858;
 }
 
-li:first-child, li:first-child a {
-  .border-radius(8px 8px 0 0);
-}
-
-li:last-child, li:last-child a {
-  .border-radius(0 0 8px 8px);
-}
-
 //
 // BUTTON
 //
 
 .button {
   .border-radius(8px);
-  .background-clip(padding-box);
-  cursor: pointer;
   border: 1px solid #B4B4B4;
   background-color: #fff;
   color: #666666;
-  width: auto;
-  height: 30px;
-  font-size: 17px;
-  font-weight: bold;
-  line-height:30px;
 }
 
 .button.active {
@@ -201,10 +124,6 @@ li:last-child, li:last-child a {
 // FORM
 //
 
-ul.form {
-  margin-bottom: 10px;
-}
-
 input[type="text"]:not(.selectbox), input[type="password"], input[type="number"], textarea {
   color: #777;
   background: #fff;
@@ -213,6 +132,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   padding: 0;
   display: inline-block;
   margin-left: 0px;
+  text-indent:0px;
 }
 
 //
@@ -220,7 +140,6 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 //
 
 .slider {
-  .border-radius(.6em);
   border-bottom: 1px solid #d6d6d6;
   border-top: 1px solid #929292;
   border-left: 1px solid #b5b5b5;
@@ -239,29 +158,15 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 }
 
 .slider > div {
-  position:relative;
-  top: -6px;
-  left: 0%;  
-
-  @size:25px;
-  height:@size;
-  width:@size;
-
   border: 1px solid #E8E8E8;
-  .border-radius(@size);
 
   .box-shadow(0 0 2px #000000);
 
   background: #cfcfcf; /* Old browsers */
-  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2NmY2ZjZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZGZkZmQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
   background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfcf), color-stop(100%,#fdfdfd)); /* Chrome,Safari4+ */
   background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* IE10+ */
   background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfcfcf', endColorstr='#fdfdfd',GradientType=0 ); /* IE6-8 */
 }
 
 //
@@ -272,11 +177,14 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   #gradient > .vertical-four(#232323, #111111, #000000, #000000, 50%, 51%);
   height: 45px;
   border-top: 1px solid #333333;
+  padding-top:0px;
+  
 }
 
 .tabButton {
   height: 42px !important;
-  line-height: 45px;
+  .border-radius(0px);
+  margin:0;
 }
 
 .tabButton.active, .tabButton.selected {
@@ -285,7 +193,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 }
 
 //
-// iOS NAVIGATIONBAR Button
+// NAVIGATIONBAR 
 //
 
 .navigationbar {
@@ -294,11 +202,43 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 }
 
 .navigationbar-button {
-  #button > .nav();
+    .border-radius-right(5px);
+    .border-radius-left(4px);
+    
+    position:relative;
+    font-size: 12px;
+    color: #ffffff;
+    overflow: visible;
+
+    white-space: nowrap;
+    background: none;
+    padding: 0 10px;
+    
+    text-shadow: #3e5779 0 -1px 0;
+
+    -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+    -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+    box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+
+    border: 1px solid @ios-button-bordercolor;
+
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, @ios-button-gradient-stop-1), color-stop(50%, @ios-button-gradient-stop-2), color-stop(51%, @ios-button-gradient-stop-3), color-stop(100%, @ios-button-gradient-stop-4));
+    background-image: -webkit-linear-gradient(top, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
+    background-image: -moz-linear-gradient(top, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%,@ios-button-gradient-stop-4);
+    background-image: linear-gradient(top, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
+  
 }
 
 .navigationbar-button.active {
-  #button > .nav-active();
+    border-color: @ios-button-active-bordercolor;
+    background-color: @ios-button-active-backgroundcolor;
+
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, @ios-button-active-gradient-stop-1), color-stop(50%, @ios-button-active-gradient-stop-2), color-stop(51%, @ios-button-active-gradient-stop-3), color-stop(100%, @ios-button-active-gradient-stop-4));
+    background-image: -webkit-linear-gradient(top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
+    background-image: -moz-linear-gradient(top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
+    background-image: linear-gradient(top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
+
+    text-shadow: #364b68 0 -1px 0;
 }
 
 //
@@ -306,7 +246,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 //
 
 .navigationbar-backbutton {
-  #button > .nav();
+  .navigationbar-button();
 
   max-width: 60px;
   margin-left: 15px;
@@ -318,7 +258,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 }
 
 .navigationbar-backbutton.active {
-   #button > .nav-active();
+  .navigationbar-button.active();
 }
 
 .navigationbar-backbutton:before {
@@ -348,8 +288,6 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   background-image: -webkit-linear-gradient(top left,@ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
   background-image: -moz-linear-gradient(top left, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
   background-image: linear-gradient(top left, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
-
-  //background-size: 100% 98%;
 
   -webkit-border-radius: 0 0 0 2px;
   -moz-border-radius: 0 0 0 2px;
@@ -385,7 +323,6 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 
 .scrollbarV > div {
   #gradient > .horizontal(#62666a, #65696c);
-  border: none;
 }
 
 //
@@ -422,7 +359,6 @@ input[type="checkbox"]:checked {
   background-color: none;
   color: #ffffff;
   font-size: 14px;
-  .background-clip(padding-box);
   overflow: hidden;
 }
 
@@ -430,68 +366,10 @@ input[type="checkbox"]:checked {
   font-weight: bolder;
 }
 
-.toolbar-button img {
-  vertical-align: middle;
-}
-
-.toolbar-button > div {
-  height: 50px;
-}
-
-.toolbar-button .label {
-  height: auto;
-}
-
-.toolbar-separator {
-  width: 5px;
-}
-
 .toolbar {
-  width: 100%;
-  z-index: 1;
   border-top: 1px solid #2d3642;
   #gradient > .vertical-three(#cdd5df, #8195af, #6d84a2);
   .transition(bottom .65s);
-}
-
-//
-// BLOCKER
-//
-
-.blocker {
-  background-color: gray;
-}
-
-//
-// SPINNER
-//
-
-.spinner {
-  .animation-name(spinnerRotate);
-  .animation-duration(1s);
-  .animation-iteration-count(infinite);
-  .animation-timing-function(linear);
-  height: 20px;
-  width: 20px;
-  background-image: url(../icon/ios/spinner.png);
-}
-
-@-webkit-keyframes spinnerRotate {
-  from {
-    .transform(rotate(0deg));
-  }
-  to {
-    .transform(rotate(360deg));
-  }
-}
-
-@-moz-keyframes spinnerRotate {
-  from {
-    .transform(rotate(0deg));
-  }
-  to {
-    .transform(rotate(360deg));
-  }
 }
 
 //
@@ -521,10 +399,8 @@ input[type="checkbox"]:checked {
 .dialog {
   #gradient > .radial(100px, -180px, #637396, 215px, #1d3566, 225px);
   .border-radius(.7em);
-  background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));   // Legacy -webkit-gradient syntax does not accept units
+  background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));
   border: 2px solid #c7d1e3;
-  z-index: 99;
-  min-width: 200px;
   color: #fff;
 }
 
@@ -536,29 +412,13 @@ input[type="checkbox"]:checked {
 // TOGGLEBUTTON
 //
 
-.toggleButton {
-  .background-clip(padding-box);
-  width: 84px;
-  height: 29px;
-  display: block;
-  cursor:default;
-  font-size:16px;
-  font-weight:bold;
-}
-
 .toggleButton > div {
   // Light inset border.
   .box-inset-multi-shadow(0 2px 2px #999, 0 14px 1px #EAEAEA);
   .border-radius(15px);
   
-  margin: 0;
-  height: 27px;
-  width: 80px;
-  
   border: 1px solid #9e9e9e ;
   background-color: white;
-  
-  overflow:hidden;
 }
 
 .toggleButton > div.checked {
@@ -566,75 +426,36 @@ input[type="checkbox"]:checked {
   .box-inset-multi-shadow(0 3px 2px #0056A1, 0 14px 0px #007FEA);
   
   // Background for checked toggle button
-  background: #2591ed; /* Old browsers */
-  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzI1OTFlZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjU2JSIgc3RvcC1jb2xvcj0iIzI1OTFlZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM2ZGI1ZjMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-  background: -moz-linear-gradient(top,  #2591ed 0%, #2591ed 56%, #6db5f3 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2591ed), color-stop(56%,#2591ed), color-stop(100%,#6db5f3)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); /* IE10+ */
-  background: linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2591ed', endColorstr='#6db5f3',GradientType=0 ); /* IE6-8 */
+  background: #2591ed; 
+  background: -moz-linear-gradient(top,  #2591ed 0%, #2591ed 56%, #6db5f3 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2591ed), color-stop(56%,#2591ed), color-stop(100%,#6db5f3));
+  background: -webkit-linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); 
+  background: linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); 
 }
 
 div.checked .toggleButtonSwitch {
-  position:relative;
-  left: 53px;
   .box-shadow(-1px 0 2px #4b4b4b);
 }
 
-div.checked .toggleButtonSwitch:after {
-  display:block;
-  content: "";
-}
-
 div.checked .toggleButtonSwitch:before {
-  position:relative;
-  content: "ON";
-  color:#ffffff;
-  left:-35px;
-  line-height:27px;
-  height:26px;
-  overflow:visible;
+  color: #ffffff;
 }
 
 .toggleButtonSwitch:after {
-  content: "OFF";
   color: #888888;
-  position:relative;
-  left: 35px;
-  line-height:27px;
-  height:26px;
-  overflow:visible;
 }
 
 .toggleButtonSwitch {
-  position:relative;
-  // Because of display problems in Safari, 
-  // Animation is disabled.
-  //.transition(left .15s);
-
-  left: 0px;
-  
-  height:25px;
-  width:25px;
-
   border: 1px solid #E8E8E8;
   .border-radius(15px);
 
   .box-shadow(1px 0 2px #4b4b4b);
 
   background: #cfcfcf; /* Old browsers */
-  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2NmY2ZjZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZGZkZmQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
   background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfcf), color-stop(100%,#fdfdfd)); /* Chrome,Safari4+ */
   background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* IE10+ */
   background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfcfcf', endColorstr='#fdfdfd',GradientType=0 ); /* IE6-8 */
 }
 
 //
@@ -642,22 +463,12 @@ div.checked .toggleButtonSwitch:before {
 //
 
 @selection-foreground-color:#2a4880;
-@selectbox-tick-size: 20px;
 
 .selectbox {
-  .hbox();
   color:@selection-foreground-color;
-
   background-color:transparent;
   border:none;
   .border-radius(4px);
-
-  cursor:pointer;
-
-  .user-select(none);
-
-  vertical-align:middle;
-  height:25px;
 }
 
 .selectbox.active {
@@ -670,7 +481,6 @@ div.checked .toggleButtonSwitch:before {
   background-image:url(../icon/ios/selectbox-check.png);
   background-repeat:no-repeat;
   background-position: right -2px; 
-  text-indent:4px;
 
   &:hover {
     color:white;
@@ -680,16 +490,4 @@ div.checked .toggleButtonSwitch:before {
 .selectbox-selected.active > div > .list-itemlabel {
   color:white;
   background-image:url(../icon/ios/selectbox-check-grey.png);
-}
-
-.selectbox-unselected > div > .list-itemlabel {
-  text-indent:4px;
-}
-
-.selectbox-selected > .list-itemimage {
-  display:none;
-}
-
-.selectbox-unselected > .list-itemimage {
-  display:none;
 }

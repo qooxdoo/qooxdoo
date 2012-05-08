@@ -16,6 +16,7 @@
 
 .button {
   .standard-button();
+  .background-clip(padding-box);
   cursor: pointer;
   font-weight: bold;
   text-align: center;
@@ -27,6 +28,7 @@
   margin-top:4px;
   
   height: 30px;
+  width: auto;
   line-height: 30px;
 
   font-size: 15px;
@@ -67,12 +69,13 @@
 }
 
 .toolbar {
+  width: 100%;
+  z-index: 1;
   padding: 2px;
   height: 55px;
   height: -moz-calc(55px + 4px);
   .box-align(stretch);
 }
-
 
 .toolbar-button img {
   vertical-align: middle;
@@ -86,6 +89,10 @@
   max-width:100%;
 }
 
+.toolbar-separator {
+  width: 5px;
+}
+
 .list-itemimage {
   margin-right: 7px;
 }
@@ -93,6 +100,9 @@
 //
 // FORM 
 //
+ul.form {
+  margin-bottom: 10px;
+}
 
 ul.form li {
     padding: 10px 10px 10px 10px;
@@ -114,7 +124,6 @@ ul.form li * {
 input[type="text"]:not(.selectbox),input[type="number"], input[type="password"], textarea {
   .border-radius(.4em);
   .background-clip(padding-box);
-  height: 2em;
   text-indent:4px;
 }
 
@@ -176,14 +185,19 @@ textarea {
 // TABBAR   
 //
 
+
+.tabButton.active, .tabButton.selected {
+
+}
+
 .tabBar {
   padding-top:4px;
   bottom: 1px;
 }
 
 .tabButton {
-   // This is for equal sizes od the buttons when added in a toolbar or
-   // other container with flex :1
+  // This is for equal sizes od the buttons when added in a toolbar or
+  // other container with flex :1
   width: 0;
 
   .border-radius-top(6px);
@@ -193,8 +207,11 @@ textarea {
   height:45px;
   line-height:45px;
 
+  text-align: center;
+
   font-size: 15px;
   .background-clip(padding-box);
+  .box-sizing(border-box);
   
   @margin-size:4px;
   margin-left:@margin-size;
@@ -215,27 +232,24 @@ textarea {
   .standard-button();
 
   text-align: center;
-  width: auto;
   font-family: inherit;
   font-size: 12px;
   font-weight: bold;
   text-decoration: none;
+  text-overflow: ellipsis;
 
   .background-clip(padding-box);
 
   height: 30px;
   line-height: 30px;
 
-  font-size:12px;
-
   min-width: 40px;
   // Firefox uses border-box for flexbox children,
   // see http://bugzilla.qooxdoo.org/show_bug.cgi?id=5961.
   min-width: -moz-calc(40px + 10px);
   //height: -moz-calc(30px + 6px);
-
-  padding-left:6px;
-  padding-right:6px;
+  
+  
 }
 
 //
@@ -246,7 +260,7 @@ textarea {
    .background-clip(padding-box);
   .box-sizing(border-box);
   .border-radius(4px);
-
+  
   position: absolute;
   z-index: 100;
   width: 100%;
@@ -284,7 +298,7 @@ input[type="checkbox"] {
   .animation-duration(1s);
   .animation-iteration-count(infinite);
   .animation-timing-function(linear);
-  background-image: url(../icon/android/spinner.png);
+  background-image: url(../icon/common/spinner.png);
   margin: 0 auto;
   vertical-align: middle;
 }
@@ -459,7 +473,7 @@ div.checked .toggleButtonSwitch:before {
 .selectbox {
   .user-select(none);
   -moz-user-select: -moz-none;
-
+    
   .hbox();
   .border-radius(4px);
   .boxAlignCenter();
@@ -517,19 +531,6 @@ div.checked .toggleButtonSwitch:before {
 }
 
 //
-// TABBAR
-//
-
-.tabButton {
-  .box-sizing(border-box);
-  text-align: center;
-}
-
-.tabButton.active, .tabButton.selected {
-
-}
-
-//
 // SLIDER
 //
 
@@ -550,6 +551,7 @@ div.checked .toggleButtonSwitch:before {
 //
 
 ul {
+  .background-clip(padding-box);
   padding: 0;
   font: bold 17px Helvetica;
   .border-radius(.4em);
