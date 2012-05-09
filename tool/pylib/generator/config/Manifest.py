@@ -32,6 +32,7 @@ from generator.config.ConfigurationError import ConfigurationError
 
 class Manifest(object):
     def __init__(self, path):
+        self.path = path
         mf = codecs.open(path, "r", "utf-8")
         manifest = json.loads(mf.read())
         mf.close()

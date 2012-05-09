@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 ################################################################################
 #
 #  qooxdoo - the new era of web development
@@ -8,7 +7,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2012 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -21,15 +20,12 @@
 ################################################################################
 
 import re, os, sys, zlib, optparse, types, string, glob, shutil
-import functools, codecs, operator
 
-from misc                                   import filetool, textutil, util, Path, PathType, json, copytool
-from misc.PathType                          import PathType
-from generator                              import Context as context
-#from generator.resource.ResourceHandler     import ResourceHandler
-from generator.config.Config                import ConfigurationError
-from generator.code.Class                   import CompileOptions
-from generator.code.Script                  import Script
+from misc        import filetool, textutil, util, json, copytool
+from generator   import Context as context
+from generator.config.Config    import ConfigurationError
+from generator.code.Class       import CompileOptions
+from generator.code.Script      import Script
 
 global inclregexps, exclregexps
 

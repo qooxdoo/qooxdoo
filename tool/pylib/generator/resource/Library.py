@@ -23,7 +23,6 @@
 import os, re, sys, unicodedata as unidata
 
 from misc                         import filetool, Path
-from misc.NameSpace               import NameSpace
 from ecmascript.frontend          import lang, treeutil
 from generator.code.Class         import Class
 from generator.code.qcEnvClass    import qcEnvClass
@@ -56,10 +55,10 @@ class Library(object):
         self._libconfig = libconfig
 
         #TODO: clean up the others later
-        self.categories = {}
-        self.categories["classes"] = {}
-        self.categories["translations"] = {}
-        self.categories["resources"] = {}
+        self.assets = {}
+        self.assets["classes"] = {}
+        self.assets["translations"] = {}
+        self.assets["resources"] = {}
         
         self.__youngest = (None, None) # to memoize youngest file in lib
 
@@ -88,21 +87,25 @@ class Library(object):
         self.encoding = manifest.encoding
         self.classPath = manifest.classpath
         self.classUri  = manifest.classpath # TODO: ???
-        self.translationPath = manifest.translation
         self.resourcePath = manifest.resource
         self.namespace = manifest.namespace
 
-        self.categories["classes"]["path"]  = self.classPath
-        self.categories["translations"]["path"]  = self.translationPath
-        self.categories["resources"]["path"] = self.resourcePath
+        self.assets["classes"]["path"]  = self.classPath
+        self.assets["translations"]["path"]  = manifest.translation
+        self.assets["resources"]["path"] = self.resourcePath
 
         if not self.namespace: 
             raise RuntimeError
 
+        # ensure translation dir
+        transPath = os.path.join(self.path, self.assets['translations']["path"])
+        if not os.path.isdir(transPath):
+            os.makedirs(transPath)
+
 
     def __repr__(self):
         return "<Library:%s>" % ((
-            self.manifest if hasattr(self, 'manifest')
+            self.manifest.path if hasattr(self, 'manifest')
             else self._libconfig['manifest']),)
 
     def __str__(self):
@@ -160,9 +163,9 @@ class Library(object):
 
         youngFiles = {} # {timestamp: "filepath"}
         # for each interesting library part
-        for category in self.categories:
-            catPath = os.path.join(self.path, self.categories[category]["path"])
-            if category == "translation" and not os.path.isdir(catPath):
+        for category in self.assets:
+            catPath = os.path.join(self.path, self.assets[category]["path"])
+            if category == "translations" and not os.path.isdir(catPath):
                 continue
             # find youngest file
             file_, mtime = filetool.findYoungest(catPath)
@@ -194,6 +197,9 @@ class Library(object):
     def getTranslations(self):
         return self._translations
 
+    def translationPathSuffix(self):
+        return self.assets['translations']['path']
+
     def getNamespace(self):
         return self.namespace
 
@@ -207,7 +213,7 @@ class Library(object):
         scanres = self._scanClassPath(timeOfLastScan)
         self._classes = scanres[0]
         self._docs    = scanres[1]
-        self._scanTranslationPath(os.path.join(self.path, self.translationPath))
+        self._scanTranslationPath(os.path.join(self.path, self.assets['translations']['path']))
         self._scanResourcePath(os.path.join(self.path, self.resourcePath))
 
         self._console.outdent()
@@ -310,6 +316,9 @@ class Library(object):
 
                 self.resources.add(res)
 
+        self._console.indent()
+        self._console.debug("Found %s resources" % len(self.resources))
+        self._console.indent()
         return
 
 
@@ -466,6 +475,7 @@ class Library(object):
 
 
     def _scanTranslationPath(self, path):
+        self._translations = {}  # reset
         if not os.path.exists(path):
             self._console.warn("The given path does not contain a translation folder: %s" % path)
 
@@ -480,7 +490,7 @@ class Library(object):
 
             # Searching for files
             for fileName in files:
-                # Ignore non-script and dot files
+                # Ignore non-po and dot files
                 if os.path.splitext(fileName)[-1] != ".po" or fileName.startswith("."):
                     continue
 
