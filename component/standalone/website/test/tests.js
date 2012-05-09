@@ -1030,7 +1030,7 @@ testrunner.define({
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
     test.fadeOut();
-    test.on("end", function() {
+    test.on("animationEnd", function() {
       this.resume(function() {
         this.assertEquals("none", test[0].style["display"]);
         test.remove();
@@ -1043,7 +1043,7 @@ testrunner.define({
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
     test.fadeIn();
-    test.on("end", function() {
+    test.on("animationEnd", function() {
       this.resume(function() {
         this.assertEquals(1, test.getStyle("opacity"), "not visible after the animation");
         test.remove();
