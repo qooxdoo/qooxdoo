@@ -110,9 +110,12 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
 
     _add : function(pages, target) {
-      // TODO ASSERTIONS
       for (var i = 0; i < pages.length; i++) {
         var page = pages[i];
+        if (qx.core.Environment.get("qx.debug"))
+        {
+          this.assertInstance(page, qx.ui.mobile.page.Page);
+        }
         target.add(page);
       }
     },

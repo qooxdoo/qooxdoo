@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     remove : function(widget) {
       if (qx.core.Environment.get("qx.debug"))
       {
-        this.assertInstance(widget, qx.ui.mobile.container.INavigation);
+        this.assertInterface(widget, qx.ui.mobile.container.INavigation);
       }
       this.getContent().remove(widget);
     },
