@@ -90,7 +90,7 @@ qx.Class.define("qx.test.mobile.layout.HBox",
       this.assertFalse(composite.hasCssClass("hbox"));
       
       composite.destroy();
-    },
+    }
   }
 
 });
