@@ -198,26 +198,27 @@ def _handleI18N(script, generator):
     # write translation and cldr files
     context.console.info("Writing localisation files: ", False)
     numTrans = len(trans_dat)
-    for num,lang in enumerate(trans_dat):
+    for num,lang in enumerate(script.locales):
         context.console.progress(num+1, numTrans)
 
         # translations
-        transmap  = {}
-        filename = "i18n-" + lang
-        targetname = "i18n-" + lang
-        translations = trans_dat[lang]
-        for key in translations:
-            if translations[key]:
-                transmap[key] = [ { "target" : targetname, "data" : { key : translations[key] }} ]
-            else:
-                transmap[key] = [ ]
-        filetool.save(approot+"/data/translation/"+filename+".json", json.dumpsCode(transmap))
+        if trans_dat:
+            transmap  = {}
+            filename = "i18n-" + lang
+            targetname = "i18n-" + lang
+            translations = trans_dat[lang]
+            for key in translations:
+                if translations[key]:
+                    transmap[key] = [ { "target" : targetname, "data" : { key : translations[key] }} ]
+                else:
+                    transmap[key] = [ ]
+            filetool.save(approot+"/data/translation/"+filename+".json", json.dumpsCode(transmap))
         
         # cldr
-        localemap = {}
-        filename = "locale-" + lang
-        targetname = "locale-" + lang
         if loc_dat:
+            localemap = {}
+            filename = "locale-" + lang
+            targetname = "locale-" + lang
             # sample: { "cldr" : [ { "target" : "locale-en", "data" : {"alternativeQuotationEnd":'"', "cldr_am": "AM",...}} ]}
             localekeys = loc_dat[lang]
             cldr_entry = [ { "target" : targetname, "data" : { }} ]
