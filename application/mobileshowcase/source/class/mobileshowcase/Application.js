@@ -129,6 +129,9 @@ qx.Class.define("mobileshowcase.Application",
             navigationContainer.getMasterButton().exclude();
           }
         }, this);
+        if (qx.bom.Viewport.isPortrait()) {
+          navigationContainer.getMasterButton().show();
+        }
 
         this.getRoot().add(splitPane, {flex:1});
         splitPane.getMaster().add(masterNavigationContainer);
@@ -145,13 +148,16 @@ qx.Class.define("mobileshowcase.Application",
         nm.onGet("/.*", function(data) {
           overview.show();
         },this);
+        
+        nm.onGet("/", function(data) {
+          basic.show();
+        },this);
       }
-
 
       nm.onGet("/", function(data) {
         overview.show(data.customData);
       },this);
-
+      
       nm.onGet("/event", function(data)
       {
         events.show();

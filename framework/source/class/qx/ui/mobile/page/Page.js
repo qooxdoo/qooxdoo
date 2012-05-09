@@ -112,7 +112,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
   construct : function(layout)
   {
     this.base(arguments, layout || new qx.ui.mobile.layout.VBox());
-    this._resize();
+    this._setHeight(window.innerHeight);
     qx.event.Registration.addListener(window, "orientationchange", this._resize, this);
     qx.event.Registration.addListener(window, "resize", this._resize, this);
     this.addListener("domupdated", this._resize, this);
@@ -213,17 +213,26 @@ qx.Class.define("qx.ui.mobile.page.Page",
      */
     _resize : function()
     { 
-      var element = this.getContainerElement();
       var parent = this.getLayoutParent();
       if (parent) {
-        var height = parent.getContainerElement().offsetHeight + "px";
-        if (qx.core.Environment.get("qx.mobile.nativescroll"))
-        {
-          qx.bom.element.Style.set(element, "minHeight", height);
-        } else {
-          qx.bom.element.Style.set(element, "height", height);
-        }
+        this._setHeight(parent.getContainerElement().offsetHeight)
       } 
+    },
+
+
+    /**
+     * Sets the height of the container element.
+     * 
+     * @param height {Integer} The height to set
+     */
+    _setHeight : function(height) {
+      var element = this.getContainerElement();
+      if (qx.core.Environment.get("qx.mobile.nativescroll"))
+      {
+        qx.bom.element.Style.set(element, "minHeight", height + "px");
+      } else {
+        qx.bom.element.Style.set(element, "height", height + "px");
+      }
     },
 
 

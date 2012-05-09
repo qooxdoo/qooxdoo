@@ -1043,6 +1043,26 @@ html, body {
   -moz-box-flex: 2;
   box-flex: 2;
 }
+.boxFlex3 {
+  -webkit-box-flex: 3;
+  -moz-box-flex: 3;
+  box-flex: 3;
+}
+.boxFlex4 {
+  -webkit-box-flex: 4;
+  -moz-box-flex: 4;
+  box-flex: 4;
+}
+.boxFlex5 {
+  -webkit-box-flex: 5;
+  -moz-box-flex: 5;
+  box-flex: 5;
+}
+.boxFlex6 {
+  -webkit-box-flex: 6;
+  -moz-box-flex: 6;
+  box-flex: 6;
+}
 .boxGroup1 {
   -webkit-box-flex-group: 1;
   -moz-box-flex-group: 1;
@@ -1330,8 +1350,8 @@ input[type="checkbox"] {
   cursor: pointer;
   text-indent: 4px;
 }
-.split-pane-master.attached {
-  width: 25%;
+.split-pane-master {
+  width: 300px;
 }
 .master-popup {
   height: 80%;

@@ -90,27 +90,37 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       return new qx.ui.mobile.navigationbar.Button("M");
     },
     
-    
+
    /**
      * Resizes the page to the innerHeight of the window.
      */
     _resize : function()
-    {
-      var element = this.getContainerElement();
+    { 
       var parent = this.getLayoutParent();
       if (parent) {
-        var height = parent.getContainerElement().offsetHeight + "px";
+        var height = parent.getContainerElement().offsetHeight;
         if (this.__lastHeight != height) {
-          if (qx.core.Environment.get("qx.mobile.nativescroll"))
-          {
-            qx.bom.element.Style.set(element, "minHeight", height);
-          } else {
-            qx.bom.element.Style.set(element, "height", height);
-          }
+          this._setHeight(height);
           this.__lastHeight = height;
           this._domUpdated();
         }
       } 
+    },
+
+
+    /**
+     * Sets the height of the container element.
+     * 
+     * @param height {Integer} The height to set
+     */
+    _setHeight : function(height) {
+      var element = this.getContainerElement();
+      if (qx.core.Environment.get("qx.mobile.nativescroll"))
+      {
+        qx.bom.element.Style.set(element, "minHeight", height + "px");
+      } else {
+        qx.bom.element.Style.set(element, "height", height + "px");
+      }
     },
 
 
