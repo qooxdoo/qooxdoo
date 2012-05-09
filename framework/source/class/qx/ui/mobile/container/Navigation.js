@@ -49,9 +49,6 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
   {
     this.base(arguments, new qx.ui.mobile.layout.VBox());
 
-    this.__masterButton = this._createMasterButton();
-    this.__masterButton.exclude();    
-
     this.__navigationBar = this._createNavigationBar();
     if (this.__navigationBar) {
       this._add(this.__navigationBar);
@@ -78,18 +75,13 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     __navigationBar : null,
     __content : null,
     __lastHeight : null,
-    __materButton : null,
+    __delegateFunc : null,    
 
 
-    getMasterButton : function() {
-      return this.__masterButton;
+    setSyncNavigationBarDelegate : function(func) {
+      this.__delegateFunc = func;
     },
 
-
-    _createMasterButton : function() {
-      return new qx.ui.mobile.navigationbar.Button("M");
-    },
-    
 
    /**
      * Resizes the page to the innerHeight of the window.
@@ -197,7 +189,6 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     _syncNavigationBarWithWidget : function(widget) {
       var navigationBar = this.getNavigationBar();
       navigationBar.removeAll();
-      navigationBar.add(this.getMasterButton());
       var leftContainer = widget.getLeftContainer();
       if (leftContainer) {
         navigationBar.add(leftContainer);
@@ -209,6 +200,9 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       var rightContainer = widget.getRightContainer();
       if (rightContainer) {
         navigationBar.add(rightContainer);
+      }
+      if (this.__delegateFunc) {
+        this.__delegateFunc.call(null, navigationBar, widget);  
       }
     },
 
@@ -231,6 +225,6 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     qx.event.Registration.removeListener(window, "resize", this._resize, this);
     this.removeListener("domupdated", this._resize, this);
     this._disposeObjects("__navigationBar", "__content");
-    this.__navigationBar = this.__content = null;
+    this.__delegateFunc = this.__navigationBar = this.__content = null;
   }
 });

@@ -47,10 +47,12 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       this.__splitPane = new this._createSplitPane();
       this.__splitPane.addListener("layoutChange", this._onLayoutChange, this);
 
-      var masterButton = this.__detailContainer.getMasterButton();
-      masterButton.addListener("tap", this._onTap, this);
+      this.__masterButton = this._createMasterButton();
+      this.__detailContainer.setSyncNavigationBarDelegate(qx.lang.Function.bind(this.__syncNavigationBarDelegate, this));
 
-      this.__portraitMasterContainer = this._createPortraitMasterContainer(masterButton);
+      this.__masterButton.addListener("tap", this._onTap, this);
+
+      this.__portraitMasterContainer = this._createPortraitMasterContainer(this.__masterButton);
       // TODO: ADD Delegate to Navigation Container to add Master Button
       this.__splitPane.setPortraitMasterContainer(this.__portraitMasterContainer);
 
@@ -80,6 +82,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     __masterContainer : null,
     __splitPane : null,
     __portraitMasterContainer : null,
+    __masterButton : null,
 
 
     addMaster : function(pages) {
@@ -89,8 +92,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         this.addDetail(pages);
       }
     },
-
-
+    
+    
     addDetail : function(pages) {
       this._add(pages, this.__detailContainer);
     },
@@ -102,6 +105,16 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         var page = pages[i];
         target.add(page);
       }
+    },
+
+
+    __syncNavigationBarDelegate : function(navigationBar, widget) {
+      navigationBar.addAt(this.__masterButton,0);
+    },
+
+
+    _createMasterButton : function() {
+      return new qx.ui.mobile.navigationbar.Button("M");
     },
     
     
@@ -144,9 +157,9 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     __toggleMasterButtonVisibility : function()
     {
       if (qx.bom.Viewport.isPortrait()) {
-        this.__detailContainer.getMasterButton().show();
+        this.__masterButton.show();
       } else {
-        this.__detailContainer.getMasterButton().exclude();
+        this.__masterButton.exclude();
       }
     }
   },
@@ -162,6 +175,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
   destruct : function()
   {
-    this._disposeObjects("__detailContainer", "__masterContainer", "__splitPane", "__portraitMasterContainer");
+    this._disposeObjects("__detailContainer", "__masterContainer", "__splitPane",
+      "__portraitMasterContainer", "__masterButton");
   }
 });
