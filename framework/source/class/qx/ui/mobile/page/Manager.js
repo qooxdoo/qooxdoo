@@ -102,6 +102,11 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     getPortraitMasterContainer : function() {
       return this.__portraitMasterContainer;
     },
+    
+    
+    getMasterButton : function() {
+      return this.__masterButton;
+    },
 
 
     _add : function(pages, target) {
