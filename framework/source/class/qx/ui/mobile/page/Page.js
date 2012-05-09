@@ -119,6 +119,58 @@ qx.Class.define("qx.ui.mobile.page.Page",
   },
 
 
+
+ /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics : {
+    _currentPage : null,
+    
+    /**
+     * Event handler. Called when the device is ready.
+     */
+    _onDeviceReady : function() {
+      qx.bom.Event.addNativeListener(document, "backbutton", qx.ui.mobile.page.Page._onBackButton);
+      qx.bom.Event.addNativeListener(document, "menubutton", qx.ui.mobile.page.Page._onMenuButton);
+    },
+
+
+    /**
+     * Event handler. Called when the back button of the device was pressed.
+     */
+    _onBackButton : function()
+    {
+      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("os.name") == "android")
+      {
+        var exit = true;
+        if (qx.ui.mobile.page.Page._currentPage) {
+          exit = qx.ui.mobile.page.Page._currentPage.back(true);
+        }
+        if (exit) {
+          navigator.app.exitApp();
+        }
+      }
+    },
+
+
+    /**
+     * Event handler. Called when the menu button of the device was pressed.
+     */
+    _onMenuButton : function()
+    {
+      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("os.name") == "android")
+      {
+        if (qx.ui.mobile.page.Page._currentPage) {
+          qx.ui.mobile.page.Page._currentPage.menu();
+        }
+      }
+    }
+  },
+
+
  /*
   *****************************************************************************
      EVENTS
@@ -194,6 +246,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
     // overridden
     show : function(properties)
     {
+      qx.ui.mobile.page.Page._currentPage = this;
       this.initialize();
       this.start();
       this.base(arguments, properties);
@@ -478,5 +531,21 @@ qx.Class.define("qx.ui.mobile.page.Page",
     this.removeListener("domupdated", this._resize, this);
     qx.event.Registration.removeListener(window, "orientationchange", this._resize, this);
     qx.event.Registration.removeListener(window, "resize", this._resize, this);
-  }
+  },
+
+
+
+
+ /*
+  *****************************************************************************
+      DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics) {
+    if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("os.name") == "android")
+    {
+      qx.bom.Event.addNativeListener(document, "deviceready", statics._onDeviceReady);
+    }
+  } 
 });
