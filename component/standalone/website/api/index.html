@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>q Documentation</title>
+  <title>q API Documentation</title>
   <script type="text/javascript" charset="utf-8" src="../script/q.js"></script>
   <script type="text/javascript" charset="utf-8" src="viewer.js"></script>
   <link href="http://resources.qooxdoo.org/stylesheets/reset.css" rel="stylesheet" type="text/css">
@@ -13,7 +13,7 @@
   <!-- HEADER -->
   <div id="header-wrapper">
     <div id="header">
-      <h1><a href="/">q Docs</a></h1>
+      <h1><a href="/">q API Documentation</a></h1>
     </div>
     <div class="decoration"></div>
   </div>
@@ -22,14 +22,25 @@
   <div id="list"></div>
   <div id="content"></div>
 
+  <!-- TEMPLATES -->
   <script type="text/template" charset="utf-8" id="list-item">
     <li><a href="#{{link}}">{{name}}</a></li>
   </script>
 
   <script type="text/template" charset="utf-8" id="method">
-  <div id="{{name}}">
-    <h2>{{name}} ({{{printParams}}}) <span class="returns">{{returns.types}}</span></h2>
+  <div id="{{name}}" class="method">
+    <h2 class="method-header box">{{name}} ({{{printParams}}}) <span class="returns">{{{returns.printTypes}}}</span></h2>
     {{{desc}}}
+    <h4>Parameters</h4>
+    <ul>
+      {{#params}}
+      <li>{{{printTypes}}} <code>{{name}}</code> {{{desc}}}</li>
+      {{/params}}
+    </ul>
+    {{#returns.desc}}
+    <h4>Returns</h4>
+    <div class="inline return-desc"><p>{{{returns.printTypes}}}<p> {{{returns.desc}}}</div>
+    {{/returns.desc}}
   </div>
   </script>
 

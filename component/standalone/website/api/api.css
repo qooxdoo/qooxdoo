@@ -7,6 +7,7 @@
   background-color: #F6F6F6;
   border-right: 1px solid #DDD;
   overflow-y: auto;
+  padding-top: 8px;
 }
 
 #content {
@@ -19,23 +20,32 @@
   right: 0;
 }
 
+#content * {
+  /*margin-left: 8px;*/
+}
+
 #content h1 {
   margin-top: 30px;
+  font-size: 28px;
 }
-
-#content :first-child {
-  margin-top: 22px;
-}
-
 
 #content h2 {
-  margin-top: 10px;
+  margin-top: 30px;
   margin-bottom: 0;
 }
 
 #content div {
   margin-bottom: 20px;
 }
+
+#content a {
+  text-decoration: underline;
+}
+
+#content a:hover {
+  color: #366AC1;
+}
+
 
 #list h2, #list ul {
   margin-left: 15px;
@@ -44,6 +54,10 @@
 #header {
   width: auto;
   padding-left: 15px;
+}
+
+#header h1 {
+  width: auto;
 }
 
 #header-wrapper {
@@ -57,8 +71,36 @@ ul {
   list-style-position: inside;
 }
 
-.monotype {
+p {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.method > h2, .method > p, .method > h4, .method > ul, .method > ul > li, .method > div,
+.module > h1, .module > p, .module > pre, .module > ul {
+  margin-left: 8px;
+}
+
+.method-header {
   font-family: Inconsolata, Consolas, "Courier New", Courier, monotype;
+  font-size: 14px;
+  margin-left: 0px !important;
+}
+
+.box, .javascript {
+  background-color: #F6F6F6;
+  border: 1px solid #DDD;
+  border-radius: 3px;
+  padding: 3px 7px;
+}
+
+.method ul li p, .inline * {
+  display: inline;
+  margin-left: 0;
+}
+
+.return-desc {
+  margin-left: 28px !important;
 }
 
 .returns {
