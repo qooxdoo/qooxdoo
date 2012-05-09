@@ -1450,7 +1450,7 @@ class Generator(object):
         if not self._job.get("slice-images", False):
             return
 
-        self._imageClipper   = ImageClipping(self._console, self._cache)
+        self._imageClipper   = ImageClipping(self._console, self._cache, self._job)
 
         images = self._job.get("slice-images/images", {})
         for image, imgspec in images.iteritems():
@@ -1521,7 +1521,7 @@ class Generator(object):
 
         self._console.info("Combining images...")
         self._console.indent()
-        self._imageClipper   = ImageClipping(self._console, self._cache)
+        self._imageClipper   = ImageClipping(self._console, self._cache, self._job)
 
         images = self._job.get("combine-images/images", {})
         for image, imgspec in images.iteritems():

@@ -207,6 +207,8 @@
 
       "combine-images" :
       {
+        "montage-cmd" : "montage @%(tempfile)s -geometry +0+0 -gravity NorthWest -tile %(orientation)s -background None %(combinedfile)s",
+
         "images" :
         {
           //

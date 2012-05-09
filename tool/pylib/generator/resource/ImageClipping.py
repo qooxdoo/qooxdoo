@@ -40,9 +40,10 @@ from generator.resource.Image  import Image
 
 
 class ImageClipping(object):
-    def __init__(self, console, cache):
+    def __init__(self, console, cache, job):
         self._console = console
         self._cache   = cache
+        self._job     = job
 
 
     def slice(self, source, dest_prefix, border, trim_width):
@@ -148,12 +149,14 @@ class ImageClipping(object):
 
 
     def combineImgMagick(self, clips, combined, orientation):
-        montage_cmd = "montage -geometry +0+0 -gravity NorthWest -tile %s -background None %s %s"
+        montage_cmd = self._job.get("combine-images/montage-cmd", 
+            "montage -geometry +0+0 -gravity NorthWest -tile %s -background None %s %s")
         (fileDescriptor, tempPath) = tempfile.mkstemp(text=True, dir=os.curdir)
         temp = os.fdopen(fileDescriptor, "w")
         temp.write("\n".join(clips))
         temp.close()
-        cmd = montage_cmd % (orientation, "@" + os.path.basename(tempPath), combined)
+        cmd = montage_cmd % {"orientation": orientation, "tempfile": os.path.basename(tempPath), "combinedfile": combined}
+        print cmd
         rc = os.system(cmd)
         os.unlink(tempPath)
         if rc != 0:
