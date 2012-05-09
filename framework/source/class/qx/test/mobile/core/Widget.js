@@ -255,6 +255,20 @@ qx.Class.define("qx.test.mobile.core.Widget",
 
       widget.destroy();
 
+    },
+
+
+    testToggleCss : function() {
+        var widget = new qx.ui.mobile.core.Widget();
+        this.getRoot().add(widget);
+        
+        widget.toggleCssClass("test");
+        this.assertTrue(widget.hasCssClass("test"));
+        
+        widget.toggleCssClass("test");
+        this.assertFalse(widget.hasCssClass("test"));
+              
+        widget.destroy();
     }
   }
 });
