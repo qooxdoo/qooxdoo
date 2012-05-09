@@ -68,8 +68,6 @@ qx.Class.define("mobileshowcase.Application",
       -------------------------------------------------------------------------
       */
 
-      var tablet = true;
-      
       // Create the pages
       var overview = new mobileshowcase.page.Overview();
       var events = new mobileshowcase.page.Event();
@@ -85,66 +83,29 @@ qx.Class.define("mobileshowcase.Application",
       var dataBinding = new mobileshowcase.page.DataBinding();
 
 
-      var navigationContainer = new qx.ui.mobile.container.Navigation();
-      
-      if (tablet) {
-        var masterNavigationContainer = new qx.ui.mobile.container.Navigation();
-        masterNavigationContainer.add(overview);  
-      } else {
-        navigationContainer.add(overview);  
-      }
+      // Add the pages to the page manager
+      var manager = new qx.ui.mobile.page.Manager();
+      manager.addMaster([overview]);
+      manager.addDetail([
+        events,
+        list,
+        tab,
+        toolbar,
+        form,
+        animation,
+        animationLanding,
+        atoms,
+        basic,
+        dialogs,
+        dataBinding
+      ]);
+     
 
-      navigationContainer.add(events);
-      navigationContainer.add(list);
-      navigationContainer.add(tab);
-      navigationContainer.add(toolbar);
-      navigationContainer.add(form);
-      navigationContainer.add(animation);
-      navigationContainer.add(animationLanding);
-      navigationContainer.add(atoms);
-      navigationContainer.add(basic);
-      navigationContainer.add(dialogs);
-      navigationContainer.add(dataBinding);
-
-      // todo: tablet support
-      if (tablet) {
-        var splitPane = new qx.ui.mobile.container.SplitPane();
-        var popup = new qx.ui.mobile.dialog.Popup();
-        popup.setAnchor(navigationContainer.getMasterButton());
-        popup.addCssClass("master-popup");
-        splitPane.setPortraitMasterContainer(popup);
-        navigationContainer.getMasterButton().addListener("tap", function() {
-          if (popup.isVisible()) {
-            popup.hide();  
-          } else {
-            popup.show();
-          }
-        }, this);
-
-
-        splitPane.addListener("layoutChange", function(evt) {
-          if (evt.getData()) {
-            navigationContainer.getMasterButton().show();
-          } else {
-            navigationContainer.getMasterButton().exclude();
-          }
-        }, this);
-        if (qx.bom.Viewport.isPortrait()) {
-          navigationContainer.getMasterButton().show();
-        }
-
-        this.getRoot().add(splitPane, {flex:1});
-        splitPane.getMaster().add(masterNavigationContainer);
-        splitPane.getDetail().add(navigationContainer);
-        
-      } else {
-        this.getRoot().add(navigationContainer);
-      }
-
-      // Navigation
+      // Initialize the navigation
       var nm = qx.ui.mobile.navigation.Manager.getInstance();
 
-      if (tablet) {
+      // TODO: Add env check isTablet, see Bug 6392
+      if (qx.core.Environment.get("device.name") == "ipad" || qx.core.Environment.get("device.name") == "pc") {
         nm.onGet("/.*", function(data) {
           overview.show();
         },this);
@@ -212,9 +173,6 @@ qx.Class.define("mobileshowcase.Application",
       {
         dataBinding.show();
       },this);
-      
-      
-
     }
   }
 });
