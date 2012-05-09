@@ -76,7 +76,7 @@ p {
   margin-top: 5px;
 }
 
-.method > h2, .method > p, .method > h4, .method > ul, .method > ul > li, .method > div,
+.method > h2, .method > p, .method > h4, .method > ul, .method > ul > li, .method > div, .method > pre,
 .module > h1, .module > p, .module > pre, .module > ul {
   margin-left: 8px;
 }
@@ -92,6 +92,7 @@ p {
   border: 1px solid #DDD;
   border-radius: 3px;
   padding: 3px 7px;
+  margin-right: 8px;
 }
 
 .method ul li p, .inline * {

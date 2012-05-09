@@ -2,7 +2,7 @@ q.ready(function() {
   // global storage for the method index
   var listData = {};
 
-
+  // load API data of q
   q.io.xhr("script/q.json").send().on("loadend", function(xhr) {
     if (xhr.readyState == 4) {
       var ast = JSON.parse(xhr.responseText);
@@ -12,7 +12,6 @@ q.ready(function() {
       console.log("ERROR!"); // TODO
     }
   });
-
 
 
   /**
@@ -26,6 +25,10 @@ q.ready(function() {
 
   var attachToListData = function(ast, type) {
     ast && ast.children.forEach(function(item) {
+      // skip internal methods
+      if (item.attributes.isInternal) {
+        return;
+      }
       var name = item.attributes.name;
       var module = getModuleName(item.attributes.attach);
       if (!listData[module]) {
@@ -58,8 +61,34 @@ q.ready(function() {
     // after the list has been rendered, also render the content
     sortMethods();
     methods.forEach(parseMethod);
+    onContentReady();
   };
 
+
+  var loading = 0;
+  var onContentReady = function() {
+    if (loading > 0) {
+      return;
+    }
+    if (location.hash) {
+      location.href = location.href;
+    }
+    // enable syntax highlighting
+    q('pre').forEach(function(el) {hljs.highlightBlock(el)});
+
+    q.io.script("samples.js").send().on("loadend", function() {
+      for (var method in samples) {
+        selector = "#" + method.replace(".", "\\.");
+        q(selector).append(q.create("<h4>Examples</h4>"));
+        for (var i=0; i < samples[method].length; i++) {
+          var sample = samples[method][i].toString();
+          sample = sample.substring(sample.indexOf("\n") + 1, sample.length - 2);
+          console.log(sample);
+          hljs.highlightBlock(q.create("<pre>").appendTo(selector).setHtml(sample)[0]);
+        };
+      }
+    });
+  }
 
 
   /**
@@ -88,6 +117,10 @@ q.ready(function() {
 
   var __lastModule = "";
   var parseMethod = function(method) {
+    // skip internal methods
+    if (method.attributes.isInternal) {
+      return;
+    }
     var isStatic = method.attributes.isStatic;
     // add the name
     var data = {name: (isStatic ? "q." : ".") + method.attributes.name};
@@ -145,8 +178,10 @@ q.ready(function() {
       parent.append(desc);
       return;
     }
-
+    loading++;
     q.io.xhr("script/" + name + ".json").send().on("loadend", function(xhr) {
+      loading--;
+      onContentReady();
       if (xhr.readyState == 4) {
         var ast = JSON.parse(xhr.responseText);
         var desc = getByType(ast, "desc");
@@ -262,4 +297,3 @@ q.ready(function() {
   };
 
 });
-
