@@ -705,6 +705,30 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
+     * Add a child widget at the specified index
+     *
+     * @param child {Widget} widget to add
+     * @param index {Integer} Index, at which the widget will be inserted
+     * @param options {Map?null} Optional layout data for widget.
+     */
+    _addAt : function(child, index, options)
+    {
+      // When moving in the same widget, remove widget first
+      if (child.getLayoutParent() == this) {
+        qx.lang.Array.remove(this.__children, child);
+      }
+
+      var ref = this.__children[index];
+
+      if (ref) {
+        this._addBefore(child, ref, options);
+      } else {
+        this._add(child, options);
+      }
+    },
+
+
+    /**
      * Add a widget before another already inserted widget
      *
      * @param child {Widget} widget to add

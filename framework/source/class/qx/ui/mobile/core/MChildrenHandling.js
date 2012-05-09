@@ -80,6 +80,19 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
     add : function(child, layoutProperties) {
       this._add(child, layoutProperties);
     },
+    
+    
+    /**
+     * Add a child widget at the specified index
+     *
+     * @param child {Widget} widget to add
+     * @param index {Integer} Index, at which the widget will be inserted
+     * @param options {Map?null} Optional layout data for widget.
+     */
+    addAt : function(child, index, options)
+    {
+      this._addAt(child, index, options);
+    },
 
 
     /**
