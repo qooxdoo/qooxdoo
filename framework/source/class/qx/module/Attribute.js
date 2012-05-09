@@ -26,7 +26,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
   {
     /**
      * Returns the HTML content of the first item in the collection
-     * @attach {qx.Collection}
+     * @attach {q}
      * @return {String|null} HTML content or null if the collection is empty
      */
     getHtml : function() {
@@ -40,9 +40,9 @@ qx.Bootstrap.define("qx.module.Attribute", {
     /**
      * Sets the HTML content of each item in the collection
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param html {String} HTML string
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     setHtml : function(html) {
       for (var i=0; i < this.length; i++) {
@@ -55,10 +55,10 @@ qx.Bootstrap.define("qx.module.Attribute", {
     /**
      * Sets an HTML attribute on each item in the collection
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param name {String} Attribute name
      * @param value {var} Attribute value
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     setAttribute : function(name, value) {
       for (var i=0; i < this.length; i++) {
@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * Returns the value of the given attribute for the first item in the 
      * collection.
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param name {String} Attribute name
      * @return {var} Attribute value
      */
@@ -87,9 +87,9 @@ qx.Bootstrap.define("qx.module.Attribute", {
     /**
      * Removes the given attribute from all elements in the collection
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param name {String} Attribute name
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     removeAttribute : function(name) {
       for (var i=0; i < this.length; i++) {
@@ -102,9 +102,9 @@ qx.Bootstrap.define("qx.module.Attribute", {
     /**
      * Sets multiple attributes for each item in the collection.
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param attributes {Map} A map of attribute name/value pairs
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     setAttributes : function(attributes) {
       for (var name in attributes) {
@@ -117,7 +117,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
     /**
      * Returns the values of multiple attributes for each item in the collection
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param names {String[]} List of attribute names
      * @return {Map} Map of attribute name/value pairs
      */
@@ -133,9 +133,9 @@ qx.Bootstrap.define("qx.module.Attribute", {
     /**
      * Removes multiple attributes from each item in the collection.
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param attributes {String[]} List of attribute names
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     removeAttributes : function(attributes) {
       for (var i=0, l=attributes.length; i<l; i++) {
@@ -148,10 +148,10 @@ qx.Bootstrap.define("qx.module.Attribute", {
     /**
      * Sets a property on each item in the collection
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param name {String} Property name
      * @param value {var} Property value
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     setProperty : function(name, value) {
       for (var i=0; i < this.length; i++) {
@@ -165,7 +165,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * Returns the value of the given property for the first item in the
      * collection
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param name {String} Property name
      * @return {var} Property value
      */
@@ -180,9 +180,9 @@ qx.Bootstrap.define("qx.module.Attribute", {
     /**
      * Sets multiple properties for each item in the collection.
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param properties {Map} A map of property name/value pairs
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     setProperties : function(properties) {
       for (var name in properties) {
@@ -195,7 +195,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
     /**
      * Returns the values of multiple properties for each item in the collection
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param names {String[]} List of property names
      * @return {Map} Map of property name/value pairs
      */
@@ -214,7 +214,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * elements. Returns an array for select boxes with multi selection In all 
      * other cases a string is returned.
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @return {String|Array}
      */
     getValue : function() {
@@ -235,9 +235,9 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * Please note: To modify the value attribute of a checkbox or radiobutton 
      * use @link{#set} instead.
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param value {String|Number|Array} The value to apply
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     setValue : function(value)
     {

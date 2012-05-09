@@ -186,11 +186,11 @@ q.define("qx.module.Blocker", {
      * Adds an overlay to all items in the collection that intercepts mouse
      * events.
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param color {String ? transparent} The color for the blocker element (any CSS color value)
      * @param opacity {Float ? 0} The CSS opacity value for the blocker
      * @param zIndex {Integer ? 10000} The zIndex value for the blocker
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     block : function(color, opacity, zIndex)
     {
@@ -213,8 +213,8 @@ q.define("qx.module.Blocker", {
     /**
      * Removes the blockers from all items in the collection
      *
-     * @attach {qx.Collection}
-     * @return {qx.Collection} The collection for chaining
+     * @attach {q}
+     * @return {q} The collection for chaining
      */
     unblock : function()
     {

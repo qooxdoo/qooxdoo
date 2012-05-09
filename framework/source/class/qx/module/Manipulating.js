@@ -29,7 +29,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * HTML string, a single DOM element or an array of elements
      * 
      * @param html {String|Element[]} HTML string or DOM element(s)
-     * @return {qx.Collection} Collection of elements
+     * @return {q} Collection of elements
      */
     create : function(html) {
       return q.init(qx.bom.Html.clean([html]));
@@ -40,7 +40,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Creates a new collection from a DOM element.
      * 
      * @param el {Element} DOM element
-     * @return {qx.Collection} Collection of elements
+     * @return {q} Collection of elements
      */
     wrap : function(el) {
       if (!qx.lang.Type.isArray(el)) {
@@ -55,7 +55,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Event listeners can also be cloned.
      * 
      * @param events {Boolean} clone event listeners
-     * @return {qx.Collection} New collection with clones
+     * @return {q} New collection with clones
      */
     clone : function(events) {
       var clones = [];
@@ -77,11 +77,11 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * a single DOM element or an array of elements
      * 
      * @param html {String|Element[]} HTML string or DOM element(s) to append
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     append : function(html) {
       var arr = qx.bom.Html.clean([html]);
-      var children = qx.lang.Array.cast(arr, qx.Collection);
+      var children = q.init(arr);
 
       for (var i=0, l=this.length; i < l; i++) {
         for (var j=0, m=children.length; j < m; j++) {
@@ -106,7 +106,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * 
      * @param parent {String|Element[]} Parent selector expression or list of 
      * parent elements
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     appendTo : function(parent) {
       parent = qx.module.Manipulating.__getElementArray(parent);
@@ -133,7 +133,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * clones of the collection items are created and inserted.
      * 
      * @param target {String|Element} Selector expression or DOM element
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     insertBefore : function(target)
     {
@@ -162,7 +162,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * clones of the collection items are created and inserted.
      * 
      * @param target {String|Element} Selector expression or DOM element
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     insertAfter : function(target)
     {
@@ -204,7 +204,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Removes each element in the current collection from the DOM
      * 
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     remove : function() {
       for (var i=0; i < this.length; i++) {
@@ -217,7 +217,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Removes all content from the elements in the collection
      * 
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     empty : function() {
       for (var i=0; i < this.length; i++) {
@@ -228,12 +228,12 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
 
     /**
-     * Inserts content before each element in the collection. This can either 
-     * be an HTML string, an array of HTML strings, a single DOM element or an 
+     * Inserts content before each element in the collection. This can either
+     * be an HTML string, an array of HTML strings, a single DOM element or an
      * array of elements.
-     * 
+     *
      * @param args {String[]|Element[]} HTML string(s) or DOM element(s)
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     before : function(args) {
       if (!qx.lang.Type.isArray(args)) {
@@ -265,7 +265,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * array of elements.
      * 
      * @param args {String[]|Element[]} HTML string(s) or DOM element(s)
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     after : function(args) {
       if (!qx.lang.Type.isArray(args)) {
@@ -390,7 +390,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Focuses the first element in the collection
      * 
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     focus : function()
     {
@@ -406,7 +406,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Blurs each element in the collection
      * 
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     blur : function()
     {

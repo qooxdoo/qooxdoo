@@ -36,12 +36,12 @@ qx.Bootstrap.define("qx.module.Event", {
      * Register a listener for the given event type on each item in the
      * collection. This can be either native or custom events.
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param type {String} Type of the event to listen for
      * @param listener {Function} Listener callback
      * @param context {Object?} Context the callback function will be executed in.
      * Default: The element on which the listener was registered
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     on : function(type, listener, context) {
       for (var i=0; i < this.length; i++) {
@@ -100,11 +100,11 @@ qx.Bootstrap.define("qx.module.Event", {
      * Unregister event listeners for the given type from each element in the
      * collection.
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param type {String} Type of the event
      * @param listener {Function} Listener callback
      * @param context {Object?} Listener callback context
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     off : function(type, listener, context) {
       for (var j=0; j < this.length; j++) {
@@ -139,11 +139,11 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Fire an event of the given type.
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param type {String} Event type
      * @param data {?var} Optional data that will be passed to the listener
      * callback function.
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     emit : function(type, data) {
       for (var j=0; j < this.length; j++) {
@@ -159,12 +159,12 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Attach a listener for the given event that will be executed only once.
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param type {String} Type of the event to listen for
      * @param listener {Function} Listener callback
      * @param context {Object?} Context the callback function will be executed in.
      * Default: The element on which the listener was registered
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     once : function(type, listener, context) {
       var self = this;
@@ -181,7 +181,7 @@ qx.Bootstrap.define("qx.module.Event", {
      * Checks if one or more listeners for the given event type are attached to
      * the first element in the collection
      *
-     * @attach {qx.Collection}
+     * @attach {q}
      * @param type {String} Event type, e.g. <code>mousedown</code>
      * @return {Boolean} <code>true</code> if one or more listeners are attached
      */

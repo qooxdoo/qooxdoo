@@ -53,7 +53,7 @@ qx.Bootstrap.define("qx.module.Environment", {
      *
      * @attachStatic {q, q.env.add}
      * @param value {var} The value to store.
-     * @return {qx.Collection} The collection for chaining.
+     * @return {q} The collection for chaining.
      */
     add : function(key, value) {
       qx.core.Environment.add(key, value);

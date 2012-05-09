@@ -44,12 +44,12 @@ qx.Bootstrap.define("qx.module.Template", {
      * @param id {String} The id of the HTML template in the DOM.
      * @param view {Object} The object holding the data to render.
      * @param partials {Object} Object holding parts of a template.
-     * @return {qx.Collection} Collection containing a single DOM element with the parsed 
+     * @return {q} Collection containing a single DOM element with the parsed 
      * template data.
      */
     get : function(id, view, partials) {
       var el = qx.bom.Template.get(id, view, partials);
-      return qx.lang.Array.cast([el], qx.Collection);
+      return q.init([el]);
     },
 
     /**

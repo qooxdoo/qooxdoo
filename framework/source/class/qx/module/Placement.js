@@ -59,7 +59,7 @@ q.define("qx.module.Placement", {
      *   </ul>
      * @param modeY {String} Vertical placement mode. Accepts the same values as
      *   the 'modeX' argument.
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     placeTo : function(target, position, offsets, modeX, modeY) {
       if (!this[0]) {

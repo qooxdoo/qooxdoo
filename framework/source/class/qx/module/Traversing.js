@@ -34,7 +34,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Adds an element to the collection
      * 
      * @param el {Element} DOM element to add to the collection
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     add : function(el) {
       this.push(el);
@@ -49,7 +49,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * elements matching the selector to be collected.
      * 
      * @param selector {String?null} Optional selector to match 
-     * @return {qx.Collection} Collection containing the child elements
+     * @return {q} Collection containing the child elements
      */
     getChildren : function(selector) {
       var children = [];
@@ -60,7 +60,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         }
         children = children.concat(found);
       };
-      return qx.lang.Array.cast(children, qx.Collection);
+      return q.init(children);
     },
 
 
@@ -70,7 +70,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * 
      * @param fn {Function} Callback function
      * @param ctx {Obj} Context object
-     * @return {qx.Collection} The collection for chaining
+     * @return {q} The collection for chaining
      */
     forEach : function(fn, ctx) {
       for (var i=0; i < this.length; i++) {
@@ -87,7 +87,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * elements matching the selector to be collected.
      * 
      * @param selector {String?null} Optional selector to match
-     * @return {qx.Collection} Collection containing the parent elements
+     * @return {q} Collection containing the parent elements
      */
     getParents : function(selector) {
       var parents = [];
@@ -98,7 +98,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         }
         parents = parents.concat(found);
       };
-      return qx.lang.Array.cast(parents, qx.Collection);
+      return q.init(parents);
     },
 
 
@@ -109,7 +109,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * elements matching the selector to be collected.
      * 
      * @param filter {String?null} Optional selector to match
-     * @return {qx.Collection} Collection containing the ancestor elements
+     * @return {q} Collection containing the ancestor elements
      */
     getAncestors : function(filter) {
       return this.__getAncestors(null, filter);
@@ -126,7 +126,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * @param selector {String} Selector that indicates where to stop including 
      * ancestor elements
      * @param filter {String?null} Optional selector to match
-     * @return {qx.Collection} Collection containing the ancestor elements
+     * @return {q} Collection containing the ancestor elements
      */
     getAncestorsUntil : function(selector, filter) {
       return this.__getAncestors(selector, filter);
@@ -139,7 +139,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * @param selector {String} Selector that indicates where to stop including 
      * ancestor elements
      * @param filter {String?null} Optional selector to match
-     * @return {qx.Collection} Collection containing the ancestor elements
+     * @return {q} Collection containing the ancestor elements
      * @internal
      */
     __getAncestors : function(selector, filter) {
@@ -158,7 +158,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
           parent = qx.dom.Element.getParentElement(parent);
         }
       }
-      return qx.lang.Array.cast(ancestors, qx.Collection);
+      return q.init(ancestors);
     },
 
 
@@ -169,7 +169,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * item's parent chain will be traversed until a match is found.
      * 
      * @param selector {String} Selector expression to match
-     * @return {qx.Collection} New collection containing the closest matching ancestors
+     * @return {q} New collection containing the closest matching ancestors
      */
     getClosest : function(selector) {
       var closest = [];
@@ -190,7 +190,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         findClosest(q.wrap(this[i]));
       };
 
-      return qx.lang.Array.cast(closest, qx.Collection);
+      return q.init(closest);
     },
 
 
@@ -200,14 +200,14 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * 
      * @param selector {String} Selector expression to match the child elements 
      * against
-     * @return {qx.Collection} New collection containing the matching child elements
+     * @return {q} New collection containing the matching child elements
      */
     find : function(selector) {
       var found = [];
       for (var i=0; i < this.length; i++) {
         found = found.concat(qx.bom.Selector.query(selector, this[i]));
       };
-      return qx.lang.Array.cast(found, qx.Collection);
+      return q.init(found);
     },
 
 
@@ -217,7 +217,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * function @see qx.type.BaseArray#filter
      * 
      * @param selector {String|Function} Selector expression or filter function
-     * @return {qx.Collection} New collection containing the elements that passed the filter
+     * @return {q} New collection containing the elements that passed the filter
      */
     filter : function(selector) {
       if (qx.lang.Type.isFunction(selector)) {
@@ -228,26 +228,26 @@ qx.Bootstrap.define("qx.module.Traversing", {
       if (qx.dom.Node.isElement(selector)) {
         for (var i=0; i < this.length; i++) {
           if (this[i] == selector) {
-            return qx.lang.Array.cast([this[i]], qx.Collection);
+            return q.init([this[i]]);
           }
         }
       }
       */
-      return qx.lang.Array.cast(qx.bom.Selector.matches(selector, this), qx.Collection);
+      return q.init(qx.bom.Selector.matches(selector, this));
     },
 
 
     /**
      * Gets a new set of elements containing the child nodes of each item in the
      * current set.
-     * @return {qx.Collection} New collection containing the child nodes
+     * @return {q} New collection containing the child nodes
      */
     getContents : function() {
       var found = [];
       for (var i=0; i < this.length; i++) {
         found = found.concat(qx.lang.Array.fromCollection(this[i].childNodes));
       }
-      return qx.lang.Array.cast(found, qx.Collection);
+      return q.init(found);
     },
 
 
@@ -271,7 +271,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Reduce the set of matched elements to a single element.
      * 
      * @param index {Integer} The position of the element in the collection
-     * @return {qx.Collection} A new collection containing one element
+     * @return {q} A new collection containing one element
      */
     eq : function(index) {
       return this.slice(index, +index + 1);
@@ -281,7 +281,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Reduces the collection to the first element.
      * 
-     * @return {qx.Collection} A new collection containing one element
+     * @return {q} A new collection containing one element
      */
     getFirst : function() {
       return this.slice(0, 1);
@@ -291,7 +291,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Reduces the collection to the last element.
      * 
-     * @return {qx.Collection} A new collection containing one element
+     * @return {q} A new collection containing one element
      */
     getLast : function() {
       return this.slice(this.length - 1);
@@ -303,7 +303,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * matching the given selector
      * 
      * @param selector {String} Selector expression
-     * @return {qx.Collection} a new collection containing only elements with matching descendants
+     * @return {q} a new collection containing only elements with matching descendants
      */
     has : function(selector) {
       var found = [];
@@ -313,7 +313,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
           found.push(this[i]);
         }
       }
-      return qx.lang.Array.cast(found, qx.Collection);
+      return q.init(found);
     },
 
 
@@ -324,7 +324,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * elements matching the selector to be collected.
      * 
      * @param selector {String?} Optional selector expression
-     * @return {qx.Collection} New set containing next siblings
+     * @return {q} New set containing next siblings
      */
     getNext : function(selector) {
       var found = this.map(qx.dom.Hierarchy.getNextElementSibling, qx.dom.Hierarchy);
@@ -342,11 +342,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * elements matching the selector to be collected.
      * 
      * @param selector {String?} Optional selector expression
-     * @return {qx.Collection} New set containing following siblings
+     * @return {q} New set containing following siblings
      */
     getNextAll : function(selector) {
       var ret = qx.module.Traversing.__hierarchyHelper(this, "getNextSiblings", selector);
-      return qx.lang.Array.cast(ret, qx.Collection);
+      return q.init(ret);
     },
 
 
@@ -356,7 +356,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * including any element that matches the given selector.
      * 
      * @param selector {String?} Optional selector expression
-     * @return {qx.Collection} New set containing following siblings
+     * @return {q} New set containing following siblings
      */
     getNextUntil : function(selector) {
       var found = [];
@@ -370,7 +370,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         }
       });
       
-      return qx.lang.Array.cast(found, qx.Collection);
+      return q.init(found);
     },
 
 
@@ -381,7 +381,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * elements matching the selector to be collected.
      * 
      * @param selector {String?} Optional selector expression
-     * @return {qx.Collection} New set containing previous siblings
+     * @return {q} New set containing previous siblings
      */
     getPrev : function(selector) {
       var found = this.map(qx.dom.Hierarchy.getPreviousElementSibling, qx.dom.Hierarchy);
@@ -399,11 +399,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * elements matching the selector to be collected.
      * 
      * @param selector {String?} Optional selector expression
-     * @return {qx.Collection} New set containing preceding siblings
+     * @return {q} New set containing preceding siblings
      */
     getPrevAll : function(selector) {
       var ret = qx.module.Traversing.__hierarchyHelper(this, "getPreviousSiblings", selector);
-      return qx.lang.Array.cast(ret, qx.Collection);
+      return q.init(ret);
     },
 
 
@@ -413,7 +413,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * including any element that matches the given selector.
      * 
      * @param selector {String?} Optional selector expression
-     * @return {qx.Collection} New set containing preceding siblings
+     * @return {q} New set containing preceding siblings
      */
     getPrevUntil : function(selector) {
       var found = [];
@@ -427,7 +427,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         }
       });
       
-      return qx.lang.Array.cast(found, qx.Collection);
+      return q.init(found);
     },
 
 
@@ -438,11 +438,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * elements matching the selector to be collected.
      * 
      * @param selector {String?} Optional selector expression
-     * @return {qx.Collection} New set containing sibling elements
+     * @return {q} New set containing sibling elements
      */
     getSiblings : function(selector) {
       var ret = qx.module.Traversing.__hierarchyHelper(this, "getSiblings", selector);
-      return qx.lang.Array.cast(ret, qx.Collection);
+      return q.init(ret);
     },
 
 
@@ -452,7 +452,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * @see qx.type.BaseArray#filter
      * 
      * @param selector {String|Function} Selector or filter function
-     * @return {qx.Collection} Reduced collection
+     * @return {q} Reduced collection
      */
     not : function(selector) {
       if (qx.lang.Type.isFunction(selector)) {
@@ -472,7 +472,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Gets a new collection containing the offset parent of each item in the
      * current set.
      * 
-     * @return {qx.Collection} New collection containing offset parents
+     * @return {q} New collection containing offset parents
      */
     getOffsetParent : function() {
       return this.map(qx.bom.element.Location.getOffsetParent);
