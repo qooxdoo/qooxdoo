@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     root = root || qx.core.Init.getApplication().getRoot();
 
     // TODO: Add env check isTablet, see Bug 6392
-    this.__isTablet = isTablet || qx.core.Environment.get("device.name") == "ipad" || qx.core.Environment.get("device.name") == "pc";
+    this.__isTablet = (isTablet != null) ? isTablet : (qx.core.Environment.get("device.name") == "ipad" || qx.core.Environment.get("device.name") == "pc");
     this.__detailContainer = this._createDetailContainer();
  
     if (this.__isTablet) {
@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       this.__splitPane.addListener("layoutChange", this._onLayoutChange, this);
 
       this.__masterButton = this._createMasterButton();
-      this.__detailContainer.setSyncNavigationBarDelegate(qx.lang.Function.bind(this.__syncNavigationBarDelegate, this));
+      this.__detailContainer.addListener("update", this._onDetailContainerUpdate, this);
 
       this.__masterButton.addListener("tap", this._onTap, this);
 
@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
 
 
- /*
+  /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
@@ -99,6 +99,11 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     },
 
 
+    getPortraitMasterContainer : function() {
+      return this.__portraitMasterContainer;
+    },
+
+
     _add : function(pages, target) {
       // TODO ASSERTIONS
       for (var i = 0; i < pages.length; i++) {
@@ -106,9 +111,18 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         target.add(page);
       }
     },
+    
 
-
-    __syncNavigationBarDelegate : function(navigationBar, widget) {
+    _onDetailContainerUpdate : function(evt) {
+      var widget = evt.getData();
+      var navigationBar = this.__detailContainer.getNavigationBar();
+      //TODO: Remove this. The Navigation Page might implement some magic to remove the back button.
+      if (this.__isTablet) {
+        if (widget.getLeftContainer()) {
+          navigationBar.remove(widget.getLeftContainer());  
+        }
+      }
+      // TODO: END
       navigationBar.addAt(this.__masterButton,0);
     },
 

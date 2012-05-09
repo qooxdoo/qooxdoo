@@ -62,9 +62,22 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     qx.event.Registration.addListener(window, "resize", this._resize, this);
     this.addListener("domupdated", this._resize, this);
   },
+  
+  
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+ 
 
+  events :
+  {
+    "update" : "qx.event.type.Data"
+  },
+  
 
- /*
+  /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
@@ -75,12 +88,6 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     __navigationBar : null,
     __content : null,
     __lastHeight : null,
-    __delegateFunc : null,    
-
-
-    setSyncNavigationBarDelegate : function(func) {
-      this.__delegateFunc = func;
-    },
 
 
    /**
@@ -181,12 +188,12 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       var widget = data.widget;
       var action = data.action;
       if (action == "visible") {
-        this._syncNavigationBarWithWidget(widget);
+        this._update(widget);
       }
     },
 
 
-    _syncNavigationBarWithWidget : function(widget) {
+    _update : function(widget) {
       var navigationBar = this.getNavigationBar();
       navigationBar.removeAll();
       var leftContainer = widget.getLeftContainer();
@@ -201,9 +208,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       if (rightContainer) {
         navigationBar.add(rightContainer);
       }
-      if (this.__delegateFunc) {
-        this.__delegateFunc.call(null, navigationBar, widget);  
-      }
+      this.fireDataEvent("update", widget);
     },
 
 
@@ -225,6 +230,6 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     qx.event.Registration.removeListener(window, "resize", this._resize, this);
     this.removeListener("domupdated", this._resize, this);
     this._disposeObjects("__navigationBar", "__content");
-    this.__delegateFunc = this.__navigationBar = this.__content = null;
+    this.__navigationBar = this.__content = null;
   }
 });
