@@ -167,17 +167,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
       this.__reverse = properties.fromHistory || properties.reverse;
 
-/*
- * TODO: Implement this
- */
-/*
-      if (qx.core.Environment.get("css.translate3d")) {
-
-      } else {
-
-      }
-*/
-      if (this.__currentWidget) {
+      if (this.__currentWidget && qx.core.Environment.get("css.transform.3d")) {
          this.__startAnimation(widget);
       } else {
         this.__swapWidget();
