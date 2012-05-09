@@ -318,7 +318,7 @@ class Library(object):
 
         self._console.indent()
         self._console.debug("Found %s resources" % len(self.resources))
-        self._console.indent()
+        self._console.outdent()
         return
 
 
