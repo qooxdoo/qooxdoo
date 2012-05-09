@@ -49,6 +49,9 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
   {
     this.base(arguments, new qx.ui.mobile.layout.VBox());
 
+    this.__masterButton = this._createMasterButton();
+    this.__masterButton.exclude();    
+
     this.__navigationBar = this._createNavigationBar();
     if (this.__navigationBar) {
       this._add(this.__navigationBar);
@@ -74,6 +77,18 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
   {
     __navigationBar : null,
     __content : null,
+    __lastHeight : null,
+    __materButton : null,
+
+
+    getMasterButton : function() {
+      return this.__masterButton;
+    },
+
+
+    _createMasterButton : function() {
+      return new qx.ui.mobile.navigationbar.Button("M");
+    },
     
     
    /**
@@ -85,13 +100,17 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       var parent = this.getLayoutParent();
       if (parent) {
         var height = parent.getContainerElement().offsetHeight + "px";
-        if (qx.core.Environment.get("qx.mobile.nativescroll"))
-        {
-          this._setStyle("minHeight", height);
-        } else {
-          this._setStyle("minHeight", height);
+        if (this.__lastHeight != height) {
+          if (qx.core.Environment.get("qx.mobile.nativescroll"))
+          {
+            qx.bom.element.Style.set(element, "minHeight", height);
+          } else {
+            qx.bom.element.Style.set(element, "height", height);
+          }
+          this.__lastHeight = height;
+          this._domUpdated();
         }
-      }
+      } 
     },
 
 
@@ -168,6 +187,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     _syncNavigationBarWithWidget : function(widget) {
       var navigationBar = this.getNavigationBar();
       navigationBar.removeAll();
+      navigationBar.add(this.getMasterButton());
       var leftContainer = widget.getLeftContainer();
       if (leftContainer) {
         navigationBar.add(leftContainer);

@@ -223,7 +223,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
         } else {
           qx.bom.element.Style.set(element, "height", height);
         }
-      }
+      } 
     },
 
 

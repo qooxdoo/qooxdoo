@@ -1251,6 +1251,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       else if (value == "hidden") {
         this._setStyle("visibility", "hidden");
       }
+      this._domUpdated();
     },
 
 

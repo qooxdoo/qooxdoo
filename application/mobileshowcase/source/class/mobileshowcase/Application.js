@@ -109,12 +109,27 @@ qx.Class.define("mobileshowcase.Application",
       // todo: tablet support
       if (tablet) {
         var splitPane = new qx.ui.mobile.container.SplitPane();
+        var popup = new qx.ui.mobile.dialog.Popup();
+        popup.setAnchor(navigationContainer.getMasterButton());
+        popup.addCssClass("master-popup");
+        splitPane.setPortraitMasterContainer(popup);
+        navigationContainer.getMasterButton().addListener("tap", function() {
+          if (popup.isVisible()) {
+            popup.hide();  
+          } else {
+            popup.show();
+          }
+        }, this);
+
 
         splitPane.addListener("layoutChange", function(evt) {
           if (evt.getData()) {
-           // popup.show();
+            navigationContainer.getMasterButton().show();
+          } else {
+            navigationContainer.getMasterButton().exclude();
           }
         }, this);
+
         this.getRoot().add(splitPane, {flex:1});
         splitPane.getMaster().add(masterNavigationContainer);
         splitPane.getDetail().add(navigationContainer);

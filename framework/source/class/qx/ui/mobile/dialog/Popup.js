@@ -302,12 +302,13 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     {
       if(this.__childrenContainer == null) {
         this.__childrenContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY: "middle"}));
+        this.__childrenContainer.setDefaultCssClass("popup-content")
         this._add(this.__childrenContainer);
       }
       if(this._createTitleWidget()) {
         this.__childrenContainer.add(this._createTitleWidget());
       }
-      this.__childrenContainer.add(widget);
+      this.__childrenContainer.add(widget, {flex:1});
       if(this.__anchor)
       {
         this.__anchorPointer = new qx.ui.mobile.core.Widget();

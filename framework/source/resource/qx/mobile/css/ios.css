@@ -1333,6 +1333,12 @@ input[type="checkbox"] {
 .split-pane-master.attached {
   width: 25%;
 }
+.master-popup {
+  height: 80%;
+}
+.popup-content {
+  height: 100%;
+}
 #button .nav {
   -moz-border-radius-bottomright: 5px;
   -moz-border-radius-topright: 5px;

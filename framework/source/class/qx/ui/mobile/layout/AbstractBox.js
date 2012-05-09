@@ -211,6 +211,17 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
       }
       this.base(arguments, widget);
     },
+    
+
+    // overridden
+    disconnectFromChildWidget : function(widget)
+    {
+      this.base(arguments);
+      for (var i = 0; i <= 6; i++) {
+        widget.removeCssClass("boxFlex" +i);  
+      }
+    },
+
 
 
     // property apply
