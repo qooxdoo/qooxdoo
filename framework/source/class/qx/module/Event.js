@@ -51,7 +51,7 @@ qx.Bootstrap.define("qx.module.Event", {
         // add native listener
         var bound;
         if (qx.bom.Event.supportsEvent(el, type)) {
-          bound = function(event) {
+          bound = (function(event) {
             // apply normalizations
             var registry = qx.module.Event.__normalizations;
             // generic
@@ -65,7 +65,7 @@ qx.Bootstrap.define("qx.module.Event", {
               event = normalizations[x](event, el);
             }
             listener.apply(this, [event]);
-          }.bind(ctx);
+          }).bind(ctx);
           bound.original = listener;
           qx.bom.Event.addNativeListener(el, type, bound);
         }
