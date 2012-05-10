@@ -208,18 +208,23 @@ testrunner.define({
       this.focused++;
     };
     var test = q.create('<input type="text"></input><input type="text"></input>')
-    .appendTo("#sandbox").on("focus", onFocus, obj).focus();
-    
+    .appendTo("#sandbox").on("focus", onFocus, obj);
+
+    // IE won't focus the element immediately after adding it to the DOM
+    window.setTimeout(function() {
+      test.focus();
+    }, 200);
+
     var that = this;
     window.setTimeout(function() {
       that.resume(function() {
         this.assertEquals(1, obj.focused);
       }, that);
-    }, 100);
-    
+    }, 400);
+
     this.wait();
   },
-  
+
   testBlur : function()
   {
     var obj = {
@@ -229,15 +234,24 @@ testrunner.define({
       this.blurred++;
     };
     var test = q.create('<input type="text"></input><input type="text"></input>')
-    .appendTo("#sandbox").on("blur", onBlur, obj).focus().blur();
-    
+    .appendTo("#sandbox").on("blur", onBlur, obj);
+
+    // IE won't focus the element immediately after adding it to the DOM
+    window.setTimeout(function() {
+      test.focus();
+    }, 200);
+
+    window.setTimeout(function() {
+      test.blur();
+    }, 400);
+
     var that = this;
     window.setTimeout(function() {
       that.resume(function() {
         this.assertEquals(1, obj.blurred);
       }, that);
-    }, 100);
-    
+    }, 500);
+
     this.wait();
   },
   
