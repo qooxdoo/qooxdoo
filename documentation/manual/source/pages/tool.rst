@@ -29,15 +29,6 @@ Introduction
    tool/manifest
    tool/code_structure
 
-Application Wizard
-===================
-
-.. toctree::
-   :maxdepth: 1
-
-   tool/create_application
-
-
 Generator
 =============
 
