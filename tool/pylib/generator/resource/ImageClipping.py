@@ -37,6 +37,7 @@ import sys, os, glob, shutil, tempfile
 
 from misc                      import filetool
 from generator.resource.Image  import Image
+from generator.config.ConfigurationError  import ConfigurationError
 
 
 class ImageClipping(object):
@@ -48,13 +49,17 @@ class ImageClipping(object):
 
     def slice(self, source, dest_prefix, border, trim_width):
 
+        #convert_cmd = "convert %s -crop %sx%s+%s+%s +repage %s"
+        #convert_cmd = "convert %(infile)s -crop %(xoff)sx%(yoff)s+%(xorig)s+%(yorig)s +repage %(outfile)s"
+        convert_cmd = self._job.get("slice-images/convert-cmd", "")
+        if not convert_cmd:
+            raise ConfigurationError("You need to specify a command template for the \"convert\" command (in slice-images/convert-cmd)")
+
         source_file = source
         dest_file   = os.path.join(os.path.dirname(source), dest_prefix)
 
         imginf        = Image(source_file).getInfoMap()
         width, height = imginf['width'], imginf['height']
-
-        crop_cmd = "convert %s -crop %sx%s+%s+%s +repage %s"
         
         if isinstance(border, int):
             single_border = True
@@ -65,41 +70,161 @@ class ImageClipping(object):
 
         # split
         if single_border:
-            os.system(crop_cmd % (source_file, border, border, 0, 0, dest_file + "-tl.png"))
-            os.system(crop_cmd % (source_file, border, border, border, 0, dest_file + "-t.png"))
-            os.system(crop_cmd % (source_file, border, border, width-border, 0, dest_file + "-tr.png"))
+            #os.system(convert_cmd % (source_file, border, border, 0, 0, dest_file + "-tl.png"))
+            os.system(convert_cmd % {'infile': source_file, 
+                                  'outfile': dest_file + "-tl.png",
+                                  'xoff': border, 
+                                  'yoff': border, 
+                                  'xorig': 0, 
+                                  'yorig': 0, })
+            #os.system(convert_cmd % (source_file, border, border, border, 0, dest_file + "-t.png"))
+            os.system(convert_cmd % {'infile': source_file, 
+                                  'outfile': dest_file + "-t.png",
+                                  'xoff': border, 
+                                  'yoff': border, 
+                                  'xorig': border, 
+                                  'yorig': 0, })
+            #os.system(convert_cmd % (source_file, border, border, width-border, 0, dest_file + "-tr.png"))
+            os.system(convert_cmd % {'infile': source_file, 
+                                  'outfile': dest_file + "-tr.png",
+                                  'xoff': border, 
+                                  'yoff': border, 
+                                  'xorig': width - border, 
+                                  'yorig': 0, })
     
-            os.system(crop_cmd % (source_file, border, height-2*border, 0, border, dest_file + "-l.png"))
+            #os.system(convert_cmd % (source_file, border, height-2*border, 0, border, dest_file + "-l.png"))
+            os.system(convert_cmd % {'infile': source_file, 
+                                  'outfile': dest_file + "-l.png",
+                                  'xoff': border, 
+                                  'yoff': height - 2*border, 
+                                  'xorig': 0, 
+                                  'yorig': border, })
             if trim_width:
-                os.system(crop_cmd % (source_file, min(20, width-2*border), height-2*border, border, border, dest_file + "-c.png"))            
+                #os.system(convert_cmd % (source_file, min(20, width-2*border), height-2*border, border, border, dest_file + "-c.png"))            
+                os.system(convert_cmd % {'infile': source_file, 
+                                      'outfile': dest_file + "-c.png",
+                                      'xoff': min(20, width-2*border), 
+                                      'yoff': height-2*border, 
+                                      'xorig': border, 
+                                      'yorig': border, })
             else:
-                os.system(crop_cmd % (source_file, width-2*border, height-2*border, border, border, dest_file + "-c.png"))
-            os.system(crop_cmd % (source_file, border, height-2*border, width-border, border, dest_file + "-r.png"))
+                #os.system(convert_cmd % (source_file, width-2*border, height-2*border, border, border, dest_file + "-c.png"))
+                os.system(convert_cmd % {'infile': source_file, 
+                                      'outfile': dest_file + "-c.png",
+                                      'xoff': width-2*border, 
+                                      'yoff': height-2*border, 
+                                      'xorig': border, 
+                                      'yorig': border, })
+            #os.system(convert_cmd % (source_file, border, height-2*border, width-border, border, dest_file + "-r.png"))
+            os.system(convert_cmd % {'infile': source_file, 
+                                  'outfile': dest_file + "-r.png",
+                                  'xoff': border, 
+                                  'yoff': height-2*border, 
+                                  'xorig': width-border, 
+                                  'yorig': border, })
     
-            os.system(crop_cmd % (source_file, border, border, 0, height-border, dest_file + "-bl.png"))
-            os.system(crop_cmd % (source_file, border, border, border, height-border, dest_file + "-b.png"))
-            os.system(crop_cmd % (source_file, border, border, width-border, height-border, dest_file + "-br.png"))
+            #os.system(convert_cmd % (source_file, border, border, 0, height-border, dest_file + "-bl.png"))
+            os.system(convert_cmd % {'infile': source_file, 
+                                  'outfile': dest_file + "-bl.png",
+                                  'xoff': border, 
+                                  'yoff': border, 
+                                  'xorig': 0, 
+                                  'yorig': height-border, })
+            #os.system(convert_cmd % (source_file, border, border, border, height-border, dest_file + "-b.png"))
+            os.system(convert_cmd % {'infile': source_file, 
+                                  'outfile': dest_file + "-b.png",
+                                  'xoff': border, 
+                                  'yoff': border, 
+                                  'xorig': border, 
+                                  'yorig': height-border, })
+            #os.system(convert_cmd % (source_file, border, border, width-border, height-border, dest_file + "-br.png"))
+            os.system(convert_cmd % {'infile': source_file, 
+                                  'outfile': dest_file + "-br.png",
+                                  'xoff': border, 
+                                  'yoff': border, 
+                                  'xorig': width-border, 
+                                  'yorig': height-border, })
         else:
             if border[0] > 0 and border[3] > 0:
-                os.system(crop_cmd % (source_file, border[3], border[0], 0, 0, dest_file + "-tl.png"))
+                #os.system(convert_cmd % (source_file, border[3], border[0], 0, 0, dest_file + "-tl.png"))
+                os.system(convert_cmd % {'infile': source_file, 
+                                      'outfile': dest_file + "-tl.png",
+                                      'xoff': border[3], 
+                                      'yoff': border[0], 
+                                      'xorig': 0, 
+                                      'yorig': 0, })
             if border[0] > 0:
-                os.system(crop_cmd % (source_file, width - border[3] - border[1], border[0], border[3], 0, dest_file + "-t.png"))
+                #os.system(convert_cmd % (source_file, width - border[3] - border[1], border[0], border[3], 0, dest_file + "-t.png"))
+                os.system(convert_cmd % {'infile': source_file, 
+                                      'outfile': dest_file + "-t.png",
+                                      'xoff': width - border[3] - border[1], 
+                                      'yoff': border[0], 
+                                      'xorig': border[3], 
+                                      'yorig': 0, })
             if border[0] > 0 and border[1] > 0:
-                os.system(crop_cmd % (source_file, border[1], border[0], width - border[1], 0, dest_file + "-tr.png"))
+                #os.system(convert_cmd % (source_file, border[1], border[0], width - border[1], 0, dest_file + "-tr.png"))
+                os.system(convert_cmd % {'infile': source_file, 
+                                      'outfile': dest_file + "-tr.png",
+                                      'xoff': border[1], 
+                                      'yoff': border[0], 
+                                      'xorig': width - border[1], 
+                                      'yorig': 0, })
             if border[3] > 0:            
-                os.system(crop_cmd % (source_file, border[3], height - border[0] - border[2], 0, border[0], dest_file + "-l.png"))
+                #os.system(convert_cmd % (source_file, border[3], height - border[0] - border[2], 0, border[0], dest_file + "-l.png"))
+                os.system(convert_cmd % {'infile': source_file, 
+                                      'outfile': dest_file + "-l.png",
+                                      'xoff': border[3], 
+                                      'yoff': height - border[0] - border[2], 
+                                      'xorig': 0, 
+                                      'yorig': border[0], })
             if trim_width:
-                os.system(crop_cmd % (source_file, min(20, width- border[3] - border[1]), height - border[0] - border[2], border[3], border[0], dest_file + "-c.png"))            
+                #os.system(convert_cmd % (source_file, min(20, width- border[3] - border[1]), height - border[0] - border[2], border[3], border[0], dest_file + "-c.png"))            
+                os.system(convert_cmd % {'infile': source_file, 
+                                      'outfile': dest_file + "-c.png",
+                                      'xoff': min(20, width- border[3] - border[1]), 
+                                      'yoff': height - border[0] - border[2], 
+                                      'xorig': border[3], 
+                                      'yorig': border[0], })
             else:
-                os.system(crop_cmd % (source_file, width- border[3] - border[1], height - border[0] - border[2], border[3], border[0], dest_file + "-c.png"))
+                #os.system(convert_cmd % (source_file, width- border[3] - border[1], height - border[0] - border[2], border[3], border[0], dest_file + "-c.png"))
+                os.system(convert_cmd % {'infile': source_file, 
+                                      'outfile': dest_file + "-c.png",
+                                      'xoff': width- border[3] - border[1], 
+                                      'yoff': height - border[0] - border[2], 
+                                      'xorig': border[3], 
+                                      'yorig': border[0], })
             if border[1] > 0:
-                os.system(crop_cmd % (source_file, border[1], height - border[0] - border[2], width - border[1], border[0], dest_file + "-r.png"))
+                #os.system(convert_cmd % (source_file, border[1], height - border[0] - border[2], width - border[1], border[0], dest_file + "-r.png"))
+                os.system(convert_cmd % {'infile': source_file, 
+                                      'outfile': dest_file + "-r.png",
+                                      'xoff': border[1], 
+                                      'yoff': height - border[0] - border[2], 
+                                      'xorig': width - border[1], 
+                                      'yorig': border[0], })
             if border[2] > 0 and border[3] > 0:
-                os.system(crop_cmd % (source_file, border[3], border[2], 0, height - border[2], dest_file + "-bl.png"))
+                #os.system(convert_cmd % (source_file, border[3], border[2], 0, height - border[2], dest_file + "-bl.png"))
+                os.system(convert_cmd % {'infile': source_file, 
+                                      'outfile': dest_file + "-bl.png",
+                                      'xoff': border[3], 
+                                      'yoff': border[2], 
+                                      'xorig': 0, 
+                                      'yorig': height - border[2], })
             if border[2] > 0:
-                os.system(crop_cmd % (source_file, width- border[3] - border[1], border[2], border[3], height - border[2], dest_file + "-b.png"))
+                #os.system(convert_cmd % (source_file, width- border[3] - border[1], border[2], border[3], height - border[2], dest_file + "-b.png"))
+                os.system(convert_cmd % {'infile': source_file, 
+                                      'outfile': dest_file + "-b.png",
+                                      'xoff': width- border[3] - border[1], 
+                                      'yoff': border[2], 
+                                      'xorig': border[3], 
+                                      'yorig': height - border[2], })
             if border[2] > 0 and border[1] > 0:
-                os.system(crop_cmd % (source_file, border[1], border[2], width - border[1], height - border[2], dest_file + "-br.png"))
+                #os.system(convert_cmd % (source_file, border[1], border[2], width - border[1], height - border[2], dest_file + "-br.png"))
+                os.system(convert_cmd % {'infile': source_file, 
+                                      'outfile': dest_file + "-br.png",
+                                      'xoff': border[1], 
+                                      'yoff': border[2], 
+                                      'xorig': width - border[1], 
+                                      'yorig': height - border[2], })
         
         # for css3, the original images are used
         shutil.copyfile(source_file, dest_file + ".png")
@@ -149,8 +274,9 @@ class ImageClipping(object):
 
 
     def combineImgMagick(self, clips, combined, orientation):
-        montage_cmd = self._job.get("combine-images/montage-cmd", 
-            "montage -geometry +0+0 -gravity NorthWest -tile %s -background None %s %s")
+        montage_cmd = self._job.get("combine-images/montage-cmd", "")
+        if not montage_cmd:
+            raise ConfigurationError("You need to specify a command template for the \"montage\" command (in combine-images/montage-cmd)")
         (fileDescriptor, tempPath) = tempfile.mkstemp(text=True, dir=os.curdir)
         temp = os.fdopen(fileDescriptor, "w")
         temp.write("\n".join(clips))

@@ -175,6 +175,7 @@ Triggers the creation of combined image files that contain various other images.
 
   "combine-images" :
   {
+    "montage-cmd" : "<string_template>",
     "images" :
     {
       "<output_image>" :
@@ -199,6 +200,13 @@ Triggers the creation of combined image files that contain various other images.
 .. note::
 
   Unless you are generating a base64 combined image, this key requires an external program (ImageMagic) to run successfully.
+
+* **montage-cmd** *(experimental)*: command line for the ImageMagick `montage` command. If you create a binary combined image (e.g. .png, .gif), the *montage* command line utility will be invoked. This command template will be used to invoke it, and is exposed here so you can adjust it to your local ImageMagick installation. If you tweak this template and shuffle things around, make sure the placholders ``%(<name>)s`` remain intact. Example values are:
+
+  * ``"montage @%(tempfile)s -geometry +0+0 -gravity NorthWest -tile %(orientation)s -background None %(combinedfile)s"`` *(for ImageMagick v6.x)*
+  * ``"montage -geometry +0+0 -gravity NorthWest -tile %(orientation)s -background None @%(tempfile)s %(combinedfile)s``" *(for ImageMagick v5.x)*
+
+  (default: *""*)
 
 * **images** : map with combine entries
 
@@ -1047,6 +1055,7 @@ Triggers cutting images into regions. Takes a map.
 
   "slice-images" :
   {
+    "convert-cmd" : "<string_template>",
     "images" : 
     {
       "<input_image>" :
@@ -1061,6 +1070,16 @@ Triggers cutting images into regions. Takes a map.
 .. note::
 
   peer-keys: :ref:`pages/tool/generator_config_ref#cache`
+
+.. note::
+
+  This key requires an external program (ImageMagic) to run successfully.
+
+* **convert-cmd** *(experimental)*: command line for the ImageMagick `convert` command. If you create clippings of an image, the *convert* command line utility will be invoked. This command template will be used to invoke it, and is exposed here so you can adjust it to your local ImageMagick installation. If you tweak this template and shuffle things around, make sure the placholders ``%(<name>)s`` remain intact. Example value:
+
+  * ``"convert %(infile)s -crop %(xoff)sx%(yoff)s+%(xorig)s+%(yorig)s +repage %(outfile)s"`` *(for ImageMagick v5.x, v6.x)*
+
+  (default: *""*)
 
 * **images** : map with slice entries.
 
