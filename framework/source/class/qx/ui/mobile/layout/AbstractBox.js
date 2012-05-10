@@ -211,6 +211,19 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
       }
       this.base(arguments, widget);
     },
+    
+
+    // overridden
+    disconnectFromChildWidget : function(widget)
+    {
+      this.base(arguments);
+      // Todo: BoxFlex should be set by style, so that is more flexible than css classes
+      // When this is done we don't need a loop here
+      for (var i = 0; i <= 6; i++) {
+        widget.removeCssClass("boxFlex" +i);  
+      }
+    },
+
 
 
     // property apply
@@ -218,7 +231,7 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
     {
       if (this._widget)
       {
-        var layoutCss = this.getCssClass();
+        var layoutCss = this._getCssClass();
         var CSS_MAPPING = qx.ui.mobile.layout.AbstractBox.PROPERTY_CSS_MAPPING[property][layoutCss];
         if (old)
         {

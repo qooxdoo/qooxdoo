@@ -63,7 +63,6 @@ qx.Class.define("feedreader.MobileApplication",
         qx.log.appender.Native;
         qx.log.appender.Console;
       }
-
       var model = new feedreader.model.Model();
       var loader = feedreader.io.FeedLoader.getInstance();
       this.__feedFolder = model.getFeedFolder();
@@ -82,7 +81,13 @@ qx.Class.define("feedreader.MobileApplication",
       var overview = new feedreader.view.mobile.OverviewPage();
       var feedpage = new feedreader.view.mobile.FeedPage();
       var articlePage = new feedreader.view.mobile.ArticlePage();
-
+      
+      var navigationContainer = new qx.ui.mobile.container.Navigation();
+      navigationContainer.add(overview);
+      navigationContainer.add(feedpage);
+      navigationContainer.add(articlePage);
+      this.getRoot().add(navigationContainer);
+      
       // show the first page and set the feeds
       overview.show();
       overview.setFeeds(this.__feedFolder);

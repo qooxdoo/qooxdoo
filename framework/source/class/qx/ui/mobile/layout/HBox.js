@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.mobile.layout.HBox",
   members :
   {
     // overridden
-    getCssClass : function(){
+    _getCssClass : function(){
       return "hbox";
     }
   }

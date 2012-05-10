@@ -26,26 +26,31 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * The animation page manager displays the next page with an animation.
- * Is used automatically when transform3d is available.
+ * A card layout.
  *
- * One of the following animations can be used:
+ * The card layout lays out widgets in a stack. Call show to display a widget. 
+ * Only the widget which show method is called is displayed. All other widgets are excluded.
  *
- *  <ul>
- *   <li>slide</li>
- *   <li>pop</li>
- *   <li>fade</li>
- *   <li>dissolve</li>
- *   <li>slideup</li>
- *   <li>flip</li>
- *   <li>swap</li>
- *   <li>cube</li>
- *  </ul>
  *
+ * *Example*
+ *
+ * Here is a little example of how to use the Card layout.
+ *
+ * <pre class="javascript">
+ * var layout = new qx.ui.mobile.layout.Card());
+ * var container = new qx.ui.mobile.container.Composite(layout);
+ *
+ * var label1 = new qx.ui.mobile.basic.Label("1");
+ * container.add(label1);
+ * var label2 = new qx.ui.mobile.basic.Label("2");
+ * container.add(label2);
+ * 
+ * label2.show();
+ * </pre> 
  */
-qx.Class.define("qx.ui.mobile.page.manager.Animation",
+qx.Class.define("qx.ui.mobile.layout.Card",
 {
-  extend : qx.ui.mobile.page.manager.Simple,
+  extend : qx.ui.mobile.layout.Abstract,
 
 
  /*
@@ -108,8 +113,6 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
   },
 
 
-
-
  /*
   *****************************************************************************
      MEMBERS
@@ -118,72 +121,110 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
 
   members :
   {
+    __nextWidget : null,
+    __currentWidget : null,
     __inAnimation : null,
-
     __animation : null,
     __reverse : null,
-    __fromPage : null,
-    __toPage : null,
 
 
-    /**
-     * Whether the manager is animating a page transition right now.
-     *
-     * @return {Boolean} In page transition or not.
-     */
-    isInAnimation : function()
-    {
-      return this.__inAnimation;
-    },
-
-
-    /**
-     * Shows a certain registered page. The page transition will be animated.
-     *
-     * @param page {qx.ui.mobile.page.Page} The page to show
-     * @param data {Map} The data for animation, e.g. {animation:"fade", reverse:true}
-     */
-    show : function(page, data)
-    {
-      if (this.__inAnimation) {
-        return;
-      }
-      data = data || {};
-
-      this.__animation = data.animation || this.getDefaultAnimation();
-
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        this.assertNotUndefined(qx.ui.mobile.page.manager.Animation.ANIMATIONS[this.__animation], "Animation " + this.__animation + " is not defined.");
-      }
-
-      data.reverse = data.reverse == null ? false : data.reverse;
-
-      this.__reverse = data.fromHistory || data.reverse;
-      this.__fromPage = this.getCurrentPage();
-      this.__toPage = page;
-
-      this.base(arguments, page);
+    // overridden
+    _getCssClass : function() {
+      return "layout-card";
     },
 
 
     // overridden
-    _removeCurrentPage : function()
+    connectToChildWidget : function(widget)
     {
-      this.__startAnimation();
+      this.base(arguments);
+      widget.addCssClass("layout-card-item");
+      widget.exclude();
+    },
+
+
+    // overridden
+    disconnectFromChildWidget : function(widget)
+    {
+      this.base(arguments);
+      widget.removeCssClass("layout-card-item");
+    },
+
+
+    // overridden
+    updateLayout : function(widget, action, properties)
+    {
+      if (action == "visible")
+      {
+        this.__showWidget(widget, properties);
+      }
+      this.base(arguments, widget, action, properties);
+    },
+
+
+
+    /**
+     * Shows the widget with the given properties.
+     * 
+     * @param widget {qx.ui.mobile.core.Widget} The target widget
+     * @param properties {Map} The layout properties to set. Key / value pairs.
+     */
+    __showWidget : function(widget, properties)
+    {
+      if (this.__nextWidget == widget) {
+        return;
+      }
+      
+      if (this.__inAnimation) {
+        this.__stopAnimation();
+      }
+      
+      this.__nextWidget = widget;
+    
+      properties = properties || {};
+
+      this.__animation = properties.animation || this.getDefaultAnimation();
+
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        this.assertNotUndefined(qx.ui.mobile.layout.Card.ANIMATIONS[this.__animation], "Animation " + this.__animation + " is not defined.");
+      }
+
+      properties.reverse = properties.reverse == null ? false : properties.reverse;
+
+      this.__reverse = properties.fromHistory || properties.reverse;
+
+      if (this.__currentWidget && qx.core.Environment.get("css.transform.3d")) {
+         this.__startAnimation(widget);
+      } else {
+        this.__swapWidget();
+      }
+    },
+
+
+    /**
+     * Excludes the current widget and sets the next widget to the current widget.
+     */
+    __swapWidget : function() {
+      if (this.__currentWidget) {
+        this.__currentWidget.exclude();
+      }
+      this.__currentWidget = this.__nextWidget;
     },
 
 
     /**
      * Starts the animation for the page transition.
+     * 
+     * @param widget {qx.ui.mobile.core.Widget} The target widget
      */
-    __startAnimation : function()
+    __startAnimation : function(widget)
     {
       this.__inAnimation = true;
 
-      this.fireDataEvent("animationStart", [this.__fromPage, this.__toPage]);
-      var fromElement = this.__fromPage.getContainerElement();
-      var toElement = this.__toPage.getContainerElement();
+      this.fireDataEvent("animationStart", [this.__currentWidget, widget]);
+      var fromElement = this.__currentWidget.getContainerElement();
+      var toElement = widget.getContainerElement();
 
       var fromCssClasses = this.__getAnimationClasses("out");
       var toCssClasses = this.__getAnimationClasses("in");
@@ -191,7 +232,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
       qx.event.Registration.addListener(fromElement, "animationEnd", this._onAnimationEnd, this);
       qx.event.Registration.addListener(toElement, "animationEnd", this._onAnimationEnd, this);
 
-      this._getRoot().addCssClass("animationParent");
+      this._widget.addCssClass("animationParent");
       qx.bom.element.Class.addClasses(toElement, toCssClasses);
       qx.bom.element.Class.addClasses(fromElement, fromCssClasses);
     },
@@ -204,9 +245,8 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
      */
     _onAnimationEnd : function(evt)
     {
-      this._getRoot().remove(this.__fromPage);
       this.__stopAnimation();
-      this.fireDataEvent("animationEnd", [this.__fromPage, this.__toPage]);
+      this.fireDataEvent("animationEnd", [this.__currentWidget, this.__nextWidget]);
     },
 
 
@@ -217,15 +257,17 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
     {
       if (this.__inAnimation)
       {
-        var fromElement = this.__fromPage.getContainerElement();
-        var toElement = this.__toPage.getContainerElement();
+        var fromElement = this.__currentWidget.getContainerElement();
+        var toElement = this.__nextWidget.getContainerElement();
 
         qx.event.Registration.removeListener(fromElement, "animationEnd", this._onAnimationEnd, this);
         qx.event.Registration.removeListener(toElement, "animationEnd", this._onAnimationEnd, this);
 
         qx.bom.element.Class.removeClasses(fromElement, this.__getAnimationClasses("out"));
         qx.bom.element.Class.removeClasses(toElement, this.__getAnimationClasses("in"));
-        this._getRoot().removeCssClass("animationParent");
+
+        this.__swapWidget();
+        this._widget.removeCssClass("animationParent");
         this.__inAnimation = false;
       }
     },
@@ -246,21 +288,5 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
       }
       return classes;
     }
-  },
-
-
-
-
- /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    this.__stopAnimation();
-    this.__inAnimation = this.__animation, this.__reverse = null;
-    this.__fromPage = this.__toPage = null;
   }
 });

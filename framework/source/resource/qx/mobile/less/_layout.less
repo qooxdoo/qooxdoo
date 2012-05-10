@@ -1,3 +1,19 @@
+// Card Layout
+
+.layout-card {
+  overflow:hidden;
+  position: relative;
+  height:100%;
+}
+
+.layout-card-item {
+    height:100%;
+    .box-sizing(border-box);
+    .transform(translate3d(0,0,0) rotate(0) scale(1));
+}
+
+// Box-Layout
+
 .hbox {
   display: -webkit-box;
   display: -moz-box;
@@ -14,7 +30,7 @@
   //
   // TODO: Limit to Firefox, because setting an explicit width may have
   // undesirable side-effects.
-  width: 100%;
+  //width: 100%;
 
   // Subtract padding and border from content width (100%) to prevent
   // 100% + X situation.
@@ -102,6 +118,22 @@
 
 .boxFlex2 {
   .box-flex(2);
+}
+
+.boxFlex3 {
+  .box-flex(3);
+}
+
+.boxFlex4 {
+  .box-flex(4);
+}
+
+.boxFlex5 {
+  .box-flex(5);
+}
+
+.boxFlex6 {
+  .box-flex(6);
 }
 
 .boxGroup1 {

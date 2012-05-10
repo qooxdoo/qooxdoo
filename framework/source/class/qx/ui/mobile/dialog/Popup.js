@@ -302,12 +302,13 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     {
       if(this.__childrenContainer == null) {
         this.__childrenContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY: "middle"}));
+        this.__childrenContainer.setDefaultCssClass("popup-content")
         this._add(this.__childrenContainer);
       }
       if(this._createTitleWidget()) {
         this.__childrenContainer.add(this._createTitleWidget());
       }
-      this.__childrenContainer.add(widget);
+      this.__childrenContainer.add(widget, {flex:1});
       if(this.__anchor)
       {
         this.__anchorPointer = new qx.ui.mobile.core.Widget();
@@ -391,9 +392,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
     /**
      * Adds the widget that will be shown in this popup. This method can be used in the case when you have removed the widget from the popup
-     * or you haven't passed it in the constructor. Useful when playing with complex view and the popup
-     * is part of that. See the SplitPane, where the widget is removed from the left container
-     * and shown in a popup.
+     * or you haven't passed it in the constructor.
      * @param widget {qx.ui.mobile.core.Widget} - what to show in the popup
      */
     add : function(widget)

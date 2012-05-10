@@ -83,12 +83,42 @@ qx.Class.define("mobileshowcase.Application",
       var dataBinding = new mobileshowcase.page.DataBinding();
 
 
-      // Navigation
+      // Add the pages to the page manager
+      var manager = new qx.ui.mobile.page.Manager();
+      manager.addMaster([overview]);
+      manager.addDetail([
+        events,
+        list,
+        tab,
+        toolbar,
+        form,
+        animation,
+        animationLanding,
+        atoms,
+        basic,
+        dialogs,
+        dataBinding
+      ]);
+     
+
+      // Initialize the navigation
       var nm = qx.ui.mobile.navigation.Manager.getInstance();
+
+      // TODO: Add env check isTablet, see Bug 6392
+      if (qx.core.Environment.get("device.name") == "ipad" || qx.core.Environment.get("device.name") == "pc") {
+        nm.onGet("/.*", function(data) {
+          overview.show();
+        },this);
+        
+        nm.onGet("/", function(data) {
+          basic.show();
+        },this);
+      }
+
       nm.onGet("/", function(data) {
         overview.show(data.customData);
       },this);
-
+      
       nm.onGet("/event", function(data)
       {
         events.show();
@@ -143,9 +173,6 @@ qx.Class.define("mobileshowcase.Application",
       {
         dataBinding.show();
       },this);
-      
-      
-
     }
   }
 });
