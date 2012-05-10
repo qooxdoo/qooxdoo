@@ -26,7 +26,27 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
+ * A card layout.
+ *
+ * The card layout lays out widgets in a stack. Call show to display a widget. 
+ * Only the widget which show method is called is displayed. All other widgets are excluded.
+ *
+ *
+ * *Example*
+ *
+ * Here is a little example of how to use the Card layout.
+ *
+ * <pre class="javascript">
+ * var layout = new qx.ui.mobile.layout.Card());
+ * var container = new qx.ui.mobile.container.Composite(layout);
+ *
+ * var label1 = new qx.ui.mobile.basic.Label("1");
+ * container.add(label1);
+ * var label2 = new qx.ui.mobile.basic.Label("2");
+ * container.add(label2);
  * 
+ * label2.show();
+ * </pre> 
  */
 qx.Class.define("qx.ui.mobile.layout.Card",
 {
@@ -142,6 +162,13 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     },
 
 
+
+    /**
+     * Shows the widget with the given properties.
+     * 
+     * @param widget {qx.ui.mobile.core.Widget} The target widget
+     * @param properties {Map} The layout properties to set. Key / value pairs.
+     */
     __showWidget : function(widget, properties)
     {
       if (this.__nextWidget == widget) {
@@ -172,11 +199,12 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       } else {
         this.__swapWidget();
       }
-      
-      
     },
 
 
+    /**
+     * Excludes the current widget and sets the next widget to the current widget.
+     */
     __swapWidget : function() {
       if (this.__currentWidget) {
         this.__currentWidget.exclude();

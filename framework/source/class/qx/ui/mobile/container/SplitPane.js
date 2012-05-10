@@ -20,6 +20,21 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
+ * A split pane divides an area into two panes, master and detail. The master
+ * can be detached when the orientation of the device changes to portrait. 
+ * This container can be used for tablet devices.
+ * 
+ * *Example*
+ *
+ * Here is a little example of how to use the split pane 
+ *
+ * <pre class="javascript">
+ * var container = new qx.ui.mobile.container.SplitPane();
+ *
+ * container.getMaster().add(new qx.ui.mobile.container.Navigation());
+ * container.getMaster().add(new qx.ui.mobile.container.Navigation());
+ *
+ * </pre> 
  */
 qx.Class.define("qx.ui.mobile.container.SplitPane",
 {
@@ -31,6 +46,7 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
 
 
   properties : {
+    // overridden
     defaultCssClass : {
       refine : true,
       init : "split-pane"
@@ -63,23 +79,42 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     __portraitMasterContainer : null,
 
 
+    /**
+     * Returns the master container of the split pane.
+     * 
+     * @return {qx.ui.mobile.container.Composite} The master container
+     */
     getMaster : function() {
       return this.__master;
     },
 
 
+    /**
+     * Returns the detail container of the split pane.
+     * 
+     * @return {qx.ui.mobile.container.Composite} The detail container
+     */
     getDetail : function() {
       return this.__detail;
     },
 
 
+    /**
+     * Returns the set container for the portrait mode. The master container will be added and removed
+     * automatically to this container when the orientation is changed.
+     * 
+     * @return {qx.ui.mobile.core.Widget} The set master container for the portrait mode.
+     */
     getPortraitMasterContainer : function() {
       return this.__portraitMasterContainer;
     },
 
 
     /**
-     * Set the popup used by this splipane to show the leftPane when it gets hidden.
+     * Set the container for the portrait mode. The master container will be added and removed
+     * automatically to this container when the orientation is changed.
+     * 
+     * @param container {qx.ui.mobile.core.Widget} The set master container for the portrait mode.
      */
     setPortraitMasterContainer : function(container)
     {
@@ -88,11 +123,20 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     },
 
 
+    /**
+     * Event handler. Called when the orientation of the device is changed.
+     * 
+     * @param evt {qx.event.type.Orientation} The causing event
+     */
     _onOrientationChange : function(evt) {
       this.__syncLayout();
     },
 
 
+
+    /**
+     * Synchronizes the layout. 
+     */
     __syncLayout  : function() {
       var isPortrait = qx.bom.Viewport.isPortrait();
       if (isPortrait) {
@@ -109,6 +153,10 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     },
 
 
+
+    /**
+     * Adds the master container to the portrait container.
+     */
     __addMasterToPortraitContainer : function()
     {
       var container = this.getPortraitMasterContainer();
@@ -118,6 +166,9 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     },
 
 
+    /**
+     * Adds the master container to the split view master container.
+     */
     __addMasterToSplitView : function()
     {
       if (this.__master.getLayoutParent() != this) {
@@ -126,6 +177,11 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     },
 
 
+    /**
+     * Creates the master container.
+     * 
+     * @return {qx.ui.mobile.container.Composite} The created container
+     */
     _createMasterContainer : function() {
       return this.__createContainer("split-pane-master");
     },
@@ -142,11 +198,23 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     },
 
 
+    /**
+     * Creates the detail container.
+     * 
+     * @return {qx.ui.mobile.container.Composite} The created container
+     */
     _createDetailContainer : function() {
       return this.__createContainer("split-pane-detail");
     },
 
 
+    /**
+     * Creates a container.
+     * 
+     * @param cssClass {String} The CSS class that should be set to the container.
+     * 
+     * @return {qx.ui.mobile.container.Composite} The created container
+     */
     __createContainer : function(cssClass) {
       var container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
       container.setDefaultCssClass(cssClass);

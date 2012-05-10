@@ -163,18 +163,38 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
     },
 
 
+
+    /**
+     * Connects the layout to a given child widget. Can be overridden in a concrete
+     * interface implementation.
+     * 
+     * @param widget {qx.ui.mobile.core.Widget} The widget to connect to
+     */
     connectToChildWidget : function(widget)
     {
-
+      
     },
 
 
+    /**
+     * Disconnects the layout from a given child widget. Can be overridden in a concrete
+     * interface implementation.
+     * 
+     * @param widget {qx.ui.mobile.core.Widget} The widget to connect to
+     */
     disconnectFromChildWidget : function(widget)
     {
 
     },
 
 
+    /**
+     * Updates the layout. Method is called by a widget, when it changes its state.
+     * 
+     * @param widget {qx.ui.mobile.core.Widget} The target widget
+     * @param action {String} The causing action that triggered the layout update.
+     * @param properties {Map} The layout properties to set. Key / value pairs.
+     */
     updateLayout : function(widget, action, properties) {
       this.fireDataEvent("updateLayout", {
         widget : widget,
