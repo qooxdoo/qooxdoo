@@ -41,6 +41,10 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
   extend : qx.ui.mobile.container.Composite,
 
   events : {
+    /** 
+     * Fired when the layout of the master detail is changed. This happens
+     * when the orientation of the device is changed. 
+     */
     "layoutChange" : "qx.event.type.Data"
   },
 
@@ -59,7 +63,10 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
   *****************************************************************************
   */
 
-
+  /**
+   * @param layout {qx.ui.mobile.layout.Abstract?null} The layout that should be used for this
+   *     container
+   */
   construct : function(layout)
   {
     this.base(arguments, layout || new qx.ui.mobile.layout.HBox());
@@ -187,6 +194,9 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
     },
 
 
+    /**
+     * Applies the master container CSS classes.
+     */
     _applyMasterContainerCss : function(isPortrait)
     {
       var container = this.getPortraitMasterContainer();
@@ -220,5 +230,13 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
       container.setDefaultCssClass(cssClass);
       return container;
     }
+  },
+  
+  
+  
+  destruct : function() {
+    qx.event.Registration.removeListener(window, "orientationchange", this._onOrientationChange, this);
+    this._disposeObjects("__master", "__detail");
+    this.__master = this.__detail = this.__portraitMasterContainer = null;
   }
 });

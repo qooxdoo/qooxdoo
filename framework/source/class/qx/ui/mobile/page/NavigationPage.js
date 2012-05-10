@@ -204,6 +204,11 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
+    /**
+     * Creates the left container for the navigation bar.
+     * 
+     * @return {qx.ui.mobile.container.Composite} Creates the left container for the navigation bar.
+     */
     _createLeftContainer : function() {
       var container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
       this.__backButton = this._createBackButton();
@@ -214,6 +219,11 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
+    /**
+     * Creates the right container for the navigation bar.
+     * 
+     * @return {qx.ui.mobile.container.Composite} Creates the right container for the navigation bar.
+     */
     _createRightContainer : function() {
       var container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
       this.__button = this._createButton();
