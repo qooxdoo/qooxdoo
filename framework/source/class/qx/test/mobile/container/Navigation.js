@@ -34,7 +34,7 @@ qx.Class.define("qx.test.mobile.container.Navigation",
     testAdd : function()
     {
       var container = new qx.ui.mobile.container.Navigation();
-      var page = new qx.ui.mobile.page.Page();
+      var page = new qx.ui.mobile.page.NavigationPage();
       this.getRoot().add(container);
       this.assertFalse(container.getContent().hasChildren());      
       container.add(page);
@@ -47,7 +47,7 @@ qx.Class.define("qx.test.mobile.container.Navigation",
     testRemove : function()
     {
       var container = new qx.ui.mobile.container.Navigation();
-      var page = new qx.ui.mobile.page.Page();
+      var page = new qx.ui.mobile.page.NavigationPage();
       this.getRoot().add(container);
       this.assertFalse(container.getContent().hasChildren());      
       container.add(page);
@@ -68,8 +68,8 @@ qx.Class.define("qx.test.mobile.container.Navigation",
       }, this);
 
       
-      var page1 = new qx.ui.mobile.page.Page();
-      var page2 = new qx.ui.mobile.page.Page();
+      var page1 = new qx.ui.mobile.page.NavigationPage();
+      var page2 = new qx.ui.mobile.page.NavigationPage();
       this.getRoot().add(container);     
       container.add(page1);
       container.add(page2);

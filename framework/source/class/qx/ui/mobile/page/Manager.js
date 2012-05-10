@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         var page = pages[i];
         if (qx.core.Environment.get("qx.debug"))
         {
-          this.assertInstance(page, qx.ui.mobile.page.Page);
+          this.assertInstance(page, qx.ui.mobile.page.NavigationPage);
         }
         target.add(page);
       }
