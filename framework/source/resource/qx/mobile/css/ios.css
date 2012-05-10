@@ -956,10 +956,8 @@ h2 {
 .layout-card {
   overflow: hidden;
   position: relative;
-  height: 100%;
 }
 .layout-card-item {
-  height: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
