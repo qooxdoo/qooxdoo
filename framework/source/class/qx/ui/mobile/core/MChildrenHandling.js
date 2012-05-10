@@ -171,6 +171,7 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
       members.indexOf = members._indexOf;
 
       members.add = members._add;
+      members.addAt = members._addAt;
       members.addBefore = members._addBefore;
       members.addAfter = members._addAfter;
 

@@ -37,6 +37,7 @@
 qx.Class.define("qx.ui.mobile.container.Navigation",
 {
   extend : qx.ui.mobile.container.Composite,
+  include : qx.ui.mobile.core.MResize,
 
 
   /*
@@ -57,10 +58,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     this.__content = this._createContent();
     this._add(this.__content, {flex:1});
 
-    this._resize();
-    qx.event.Registration.addListener(window, "orientationchange", this._resize, this);
-    qx.event.Registration.addListener(window, "resize", this._resize, this);
-    this.addListener("domupdated", this._resize, this);
+    this.setFireDomUpdatedOnResize(true);
   },
   
   
@@ -87,41 +85,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
   {
     __navigationBar : null,
     __content : null,
-    __lastHeight : null,
-
-
-   /**
-     * Resizes the page to the innerHeight of the window.
-     */
-    _resize : function()
-    { 
-      var parent = this.getLayoutParent();
-      if (parent) {
-        var height = parent.getContainerElement().offsetHeight;
-        if (this.__lastHeight != height) {
-          this._setHeight(height);
-          this.__lastHeight = height;
-          this._domUpdated();
-        }
-      } 
-    },
-
-
-    /**
-     * Sets the height of the container element.
-     * 
-     * @param height {Integer} The height to set
-     */
-    _setHeight : function(height) {
-      var element = this.getContainerElement();
-      if (qx.core.Environment.get("qx.mobile.nativescroll"))
-      {
-        qx.bom.element.Style.set(element, "minHeight", height + "px");
-      } else {
-        qx.bom.element.Style.set(element, "height", height + "px");
-      }
-    },
-
+ 
 
     // overridden
     add : function(widget) {
@@ -226,9 +190,6 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
 
   destruct : function()
   {
-    qx.event.Registration.removeListener(window, "orientationchange", this._resize, this);
-    qx.event.Registration.removeListener(window, "resize", this._resize, this);
-    this.removeListener("domupdated", this._resize, this);
     this._disposeObjects("__navigationBar", "__content");
     this.__navigationBar = this.__content = null;
   }

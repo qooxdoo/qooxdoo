@@ -1327,6 +1327,9 @@ input[type="checkbox"] {
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
 }
+.popup-content {
+  height: 100%;
+}
 .dialog {
   position: fixed;
   width: auto;
@@ -1350,14 +1353,11 @@ input[type="checkbox"] {
   cursor: pointer;
   text-indent: 4px;
 }
-.split-pane-master {
+.master-detail-master {
   width: 300px;
 }
 .master-popup {
   height: 80%;
-}
-.popup-content {
-  height: 100%;
 }
 #button .nav {
   -moz-border-radius-bottomright: 5px;
