@@ -8,6 +8,10 @@
     },
     {
       "path" : "image.json"
+    },
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/image.json",
+      "as"   : "image"
     }
   ],
   
@@ -24,9 +28,17 @@
   
   "config-warnings" :
   {
-  "job-shadowing" : ["libraries", "common", "simulation-build", "simulation-run", "translation"],
-  
-  "environment" : [ "non-literal-keys" ]
+    "job-shadowing" : 
+    [
+      "common", 
+      "image-combine",
+      "libraries", 
+      "simulation-build", 
+      "simulation-run", 
+      "translation"
+    ],
+    
+    "environment" : [ "non-literal-keys" ]
   },
   
   
@@ -244,6 +256,13 @@
       {
         "SIMULATION_INCLUDE" : "feedreader.simulation.mobile.*"
       }
+    },
+
+    // -- Image Jobs ------------------------------------------------------
+    
+    "image-combine" :
+    {
+      "extend" : ["image::combining"]
     }
   }  
 }
