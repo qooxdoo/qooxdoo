@@ -2107,6 +2107,6 @@ div.checked .toggleButtonSwitch:before {
 .selectbox-unselected > .list-itemimage {
   display: none;
 }
-.split-pane-master.attached {
+.master-detail-master.attached {
   border-right: 1px solid #2d3642;
 }

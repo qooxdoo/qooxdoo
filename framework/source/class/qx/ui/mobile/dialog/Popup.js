@@ -392,9 +392,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
     /**
      * Adds the widget that will be shown in this popup. This method can be used in the case when you have removed the widget from the popup
-     * or you haven't passed it in the constructor. Useful when playing with complex view and the popup
-     * is part of that. See the SplitPane, where the widget is removed from the left container
-     * and shown in a popup.
+     * or you haven't passed it in the constructor.
      * @param widget {qx.ui.mobile.core.Widget} - what to show in the popup
      */
     add : function(widget)

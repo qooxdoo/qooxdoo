@@ -44,8 +44,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
  
     if (this.__isTablet) {
       this.__masterContainer = this._createMasterContainer();
-      this.__splitPane = new this._createSplitPane();
-      this.__splitPane.addListener("layoutChange", this._onLayoutChange, this);
+      this.__masterDetailContainer = new this._createMasterDetail();
+      this.__masterDetailContainer.addListener("layoutChange", this._onLayoutChange, this);
 
       this.__masterButton = this._createMasterButton();
       this.__detailContainer.addListener("update", this._onDetailContainerUpdate, this);
@@ -53,13 +53,12 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       this.__masterButton.addListener("tap", this._onTap, this);
 
       this.__portraitMasterContainer = this._createPortraitMasterContainer(this.__masterButton);
-      // TODO: ADD Delegate to Navigation Container to add Master Button
-      this.__splitPane.setPortraitMasterContainer(this.__portraitMasterContainer);
+      this.__masterDetailContainer.setPortraitMasterContainer(this.__portraitMasterContainer);
 
-      root.add(this.__splitPane, {flex:1});
+      root.add(this.__masterDetailContainer, {flex:1});
 
-      this.__splitPane.getMaster().add(this.__masterContainer);
-      this.__splitPane.getDetail().add(this.__detailContainer);
+      this.__masterDetailContainer.getMaster().add(this.__masterContainer);
+      this.__masterDetailContainer.getDetail().add(this.__detailContainer);
 
       this.__toggleMasterButtonVisibility();
     } else {
@@ -80,7 +79,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     __isTablet : null,
     __detailContainer : null,
     __masterContainer : null,
-    __splitPane : null,
+    __masterDetailContainer : null,
     __portraitMasterContainer : null,
     __masterButton : null,
 
@@ -158,8 +157,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     },
 
 
-    _createSplitPane : function() {
-      return new qx.ui.mobile.container.SplitPane();
+    _createMasterDetail : function() {
+      return new qx.ui.mobile.container.MasterDetail();
     },
 
 
@@ -197,7 +196,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
   destruct : function()
   {
-    this._disposeObjects("__detailContainer", "__masterContainer", "__splitPane",
+    this._disposeObjects("__detailContainer", "__masterContainer", "__masterDetailContainer",
       "__portraitMasterContainer", "__masterButton");
   }
 });

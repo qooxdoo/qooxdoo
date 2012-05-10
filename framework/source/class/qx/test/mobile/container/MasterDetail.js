@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.container.SplitPane",
+qx.Class.define("qx.test.mobile.container.MasterDetail",
 {
   extend : qx.test.mobile.MobileTestCase,
 
@@ -25,7 +25,7 @@ qx.Class.define("qx.test.mobile.container.SplitPane",
   {
     testCreate : function()
     {
-      var container = new qx.ui.mobile.container.SplitPane();
+      var container = new qx.ui.mobile.container.MasterDetail();
       this.getRoot().add(container);
       container.destroy();
     }

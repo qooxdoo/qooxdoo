@@ -20,23 +20,23 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * A split pane divides an area into two panes, master and detail. The master
+ * The master/detail container divides an area into two panes, master and detail. The master
  * can be detached when the orientation of the device changes to portrait. 
  * This container can be used for tablet devices.
  * 
  * *Example*
  *
- * Here is a little example of how to use the split pane 
+ * Here is a little example of how to use the master/detail container.
  *
  * <pre class="javascript">
- * var container = new qx.ui.mobile.container.SplitPane();
+ * var container = new qx.ui.mobile.container.MasterDetail();
  *
  * container.getMaster().add(new qx.ui.mobile.container.Navigation());
  * container.getMaster().add(new qx.ui.mobile.container.Navigation());
  *
  * </pre> 
  */
-qx.Class.define("qx.ui.mobile.container.SplitPane",
+qx.Class.define("qx.ui.mobile.container.MasterDetail",
 {
   extend : qx.ui.mobile.container.Composite,
 
@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
     // overridden
     defaultCssClass : {
       refine : true,
-      init : "split-pane"
+      init : "master-detail"
     }
   },
 
@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
 
 
     /**
-     * Returns the master container of the split pane.
+     * Returns the master container.
      * 
      * @return {qx.ui.mobile.container.Composite} The master container
      */
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
 
 
     /**
-     * Returns the detail container of the split pane.
+     * Returns the detail container.
      * 
      * @return {qx.ui.mobile.container.Composite} The detail container
      */
@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
       if (isPortrait) {
         this.__addMasterToPortraitContainer();
       } else {
-        this.__addMasterToSplitView();
+        this.__addMasterToOrigin();
       }
       this._applyMasterContainerCss(isPortrait);
       var container = this.getPortraitMasterContainer();
@@ -167,9 +167,9 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
 
 
     /**
-     * Adds the master container to the split view master container.
+     * Adds the master container to the origin position.
      */
-    __addMasterToSplitView : function()
+    __addMasterToOrigin : function()
     {
       if (this.__master.getLayoutParent() != this) {
         this.addBefore(this.__master, this.__detail);
@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
      * @return {qx.ui.mobile.container.Composite} The created container
      */
     _createMasterContainer : function() {
-      return this.__createContainer("split-pane-master");
+      return this.__createContainer("master-detail-master");
     },
 
 
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.mobile.container.SplitPane",
      * @return {qx.ui.mobile.container.Composite} The created container
      */
     _createDetailContainer : function() {
-      return this.__createContainer("split-pane-detail");
+      return this.__createContainer("master-detail-detail");
     },
 
 
