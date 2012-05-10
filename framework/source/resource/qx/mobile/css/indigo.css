@@ -1443,6 +1443,9 @@ input[type="checkbox"] {
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
 }
+.popup-content {
+  height: 100%;
+}
 .dialog {
   -webkit-border-radius: 0.5em;
   -moz-border-radius: 0.5em;
