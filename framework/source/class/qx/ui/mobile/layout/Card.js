@@ -215,6 +215,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
     /**
      * Starts the animation for the page transition.
+     * 
+     * @param widget {qx.ui.mobile.core.Widget} The target widget
      */
     __startAnimation : function(widget)
     {

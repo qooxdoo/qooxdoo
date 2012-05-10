@@ -193,7 +193,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
      * 
      * @param widget {qx.ui.mobile.core.Widget} The target widget
      * @param action {String} The causing action that triggered the layout update.
-     * @param properties {Map} The layout properties to set. Key / value pairs.
+     * @param properties {Map} The animation properties to set. Key / value pairs.
      */
     updateLayout : function(widget, action, properties) {
       this.fireDataEvent("updateLayout", {

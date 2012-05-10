@@ -24,8 +24,27 @@ qx.Interface.define("qx.ui.mobile.container.INavigation",
 {
   members :
   {
+    /**
+     * Returns the title widget that is merged into the navigation bar.
+     *
+     * @return {qx.ui.mobile.navigationbar.Title} The title of the navigation bar 
+     */
     getTitleWidget : function() {},
+
+    
+    /**
+     * Returns the left container that is merged into the navigation bar.
+     * 
+     * @return {qx.ui.mobile.container.Composite} The left container of the navigation bar 
+     */
     getLeftContainer : function() {},
+
+
+    /**
+     * Returns the right container that is merged into the navigation bar.
+     * 
+     * @return {qx.ui.mobile.container.Composite} The right container of the navigation bar 
+     */
     getRightContainer : function() {}
   }
 });

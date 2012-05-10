@@ -972,6 +972,13 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+
+    /**
+     * Initializes the layout of the given child widget.
+     * 
+     * @param child {Widget} The child widget
+     * @param layoutProperties {Map?null} Optional layout data for widget
+     */
     _initializeChildLayout : function(child, layoutProperties)
     {
       child.setLayoutParent(this);
@@ -1279,6 +1286,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * Sets the visibility of the widget.
+     * 
+     * @param action {String} The causing action that triggered the layout update.
+     * @param properties {Map} The animation properties to set. Key / value pairs.
+     */
     __setVisibility : function(action, properties) {
       this.setVisibility(action);
 
@@ -1291,6 +1304,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Make this widget visible.
+     * 
+     * @param properties {Map} The animation properties to set. Key / value pairs.
      *
      * @return {void}
      */
@@ -1301,6 +1316,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Hide this widget.
+     * 
+     * @param properties {Map} The animation properties to set. Key / value pairs.
      *
      * @return {void}
      */
@@ -1311,6 +1328,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Hide this widget and exclude it from the underlying layout.
+     * 
+     * @param properties {Map} The animation properties to set. Key / value pairs.
      *
      * @return {void}
      */

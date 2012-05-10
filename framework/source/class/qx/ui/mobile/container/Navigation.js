@@ -20,19 +20,24 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * Specialiced page. This page includes already a {@link qx.ui.mobile.navigationbar.NavigationBar}
- * and a {@link qx.ui.mobile.container.Scroll} container.
+ * The navigation controller includes already a {@link qx.ui.mobile.navigationbar.NavigationBar}
+ * and a {@link qx.ui.mobile.container.Composite} container with a {@link qx.ui.mobile.layout.Card} layout.
+ * All widgets that implement the {@link qx.ui.mobile.container.INavigation} 
+ * interface can be added to the container. The added widget provide the title
+ * widget and the left/right container, which will be automatically merged into
+ * navigation bar.
  *
  * *Example*
  *
  * Here is a little example of how to use the widget.
  *
  * <pre class='javascript'>
-
+ *   var container = new qx.ui.mobile.container.Navigation();
+ *   this.getRoot(container);
+ *   var page = new qx.ui.mobile.page.NavigationPage();
+ *   container.add(page);
+ *   page.show();
  * </pre>
- *
- * This example creates a NavigationPage with a title and a back button. In the
- * <code>initialize</code> lifecycle method a button is added.
  */
 qx.Class.define("qx.ui.mobile.container.Navigation",
 {
@@ -71,6 +76,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
 
   events :
   {
+    /** Fired when the navigation bar gets updated */
     "update" : "qx.event.type.Data"
   },
   
@@ -157,6 +163,11 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     },
 
 
+    /**
+     * Updates the navigation bar depending on the set widget.
+     * 
+     * @param widget {qx.ui.mobile.core.Widget} The widget that should be merged into the navigation bar.
+     */
     _update : function(widget) {
       var navigationBar = this.getNavigationBar();
       navigationBar.removeAll();
