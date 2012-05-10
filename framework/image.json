@@ -22,7 +22,7 @@
 
   "jobs" :
   {
-    "common" :
+    "image-common" :
     {
       "let" :
       {
@@ -40,7 +40,7 @@
 
     "image-clipping" :
     {
-      "extend" : ["common", "image::clipping"],
+      "extend" : ["image-common", "image::clipping"],
 
       "slice-images" :
       {
@@ -223,7 +223,7 @@
 
     "image-combine" :
     {
-      "extend" : ["common", "image::combining"],
+      "extend" : ["image-common", "image::combining"],
 
       "combine-images" :
       {
