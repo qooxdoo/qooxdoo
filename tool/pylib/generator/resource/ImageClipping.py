@@ -68,8 +68,11 @@ class ImageClipping(object):
         else:
             single_border = False
 
-        # split
+        # Split borders and corners from source image
+
+        # Single width for all borders
         if single_border:
+            # top-left corner 
             #os.system(convert_cmd % (source_file, border, border, 0, 0, dest_file + "-tl.png"))
             os.system(convert_cmd % {'infile': source_file, 
                                   'outfile': dest_file + "-tl.png",
@@ -77,6 +80,7 @@ class ImageClipping(object):
                                   'yoff': border, 
                                   'xorig': 0, 
                                   'yorig': 0, })
+            # top border
             #os.system(convert_cmd % (source_file, border, border, border, 0, dest_file + "-t.png"))
             os.system(convert_cmd % {'infile': source_file, 
                                   'outfile': dest_file + "-t.png",
@@ -84,6 +88,7 @@ class ImageClipping(object):
                                   'yoff': border, 
                                   'xorig': border, 
                                   'yorig': 0, })
+            # top-right corner
             #os.system(convert_cmd % (source_file, border, border, width-border, 0, dest_file + "-tr.png"))
             os.system(convert_cmd % {'infile': source_file, 
                                   'outfile': dest_file + "-tr.png",
@@ -92,6 +97,7 @@ class ImageClipping(object):
                                   'xorig': width - border, 
                                   'yorig': 0, })
     
+            # left border
             #os.system(convert_cmd % (source_file, border, height-2*border, 0, border, dest_file + "-l.png"))
             os.system(convert_cmd % {'infile': source_file, 
                                   'outfile': dest_file + "-l.png",
@@ -99,6 +105,7 @@ class ImageClipping(object):
                                   'yoff': height - 2*border, 
                                   'xorig': 0, 
                                   'yorig': border, })
+            # center piece
             if trim_width:
                 #os.system(convert_cmd % (source_file, min(20, width-2*border), height-2*border, border, border, dest_file + "-c.png"))            
                 os.system(convert_cmd % {'infile': source_file, 
@@ -115,6 +122,7 @@ class ImageClipping(object):
                                       'yoff': height-2*border, 
                                       'xorig': border, 
                                       'yorig': border, })
+            # right border
             #os.system(convert_cmd % (source_file, border, height-2*border, width-border, border, dest_file + "-r.png"))
             os.system(convert_cmd % {'infile': source_file, 
                                   'outfile': dest_file + "-r.png",
@@ -123,6 +131,7 @@ class ImageClipping(object):
                                   'xorig': width-border, 
                                   'yorig': border, })
     
+            # bottom-left corner
             #os.system(convert_cmd % (source_file, border, border, 0, height-border, dest_file + "-bl.png"))
             os.system(convert_cmd % {'infile': source_file, 
                                   'outfile': dest_file + "-bl.png",
@@ -130,6 +139,7 @@ class ImageClipping(object):
                                   'yoff': border, 
                                   'xorig': 0, 
                                   'yorig': height-border, })
+            # bottom border
             #os.system(convert_cmd % (source_file, border, border, border, height-border, dest_file + "-b.png"))
             os.system(convert_cmd % {'infile': source_file, 
                                   'outfile': dest_file + "-b.png",
@@ -137,6 +147,7 @@ class ImageClipping(object):
                                   'yoff': border, 
                                   'xorig': border, 
                                   'yorig': height-border, })
+            # bottom-right corner
             #os.system(convert_cmd % (source_file, border, border, width-border, height-border, dest_file + "-br.png"))
             os.system(convert_cmd % {'infile': source_file, 
                                   'outfile': dest_file + "-br.png",
@@ -144,8 +155,11 @@ class ImageClipping(object):
                                   'yoff': border, 
                                   'xorig': width-border, 
                                   'yorig': height-border, })
+        
+        # Individual borders
         else:
             if border[0] > 0 and border[3] > 0:
+                # top-left corner
                 #os.system(convert_cmd % (source_file, border[3], border[0], 0, 0, dest_file + "-tl.png"))
                 os.system(convert_cmd % {'infile': source_file, 
                                       'outfile': dest_file + "-tl.png",
@@ -154,6 +168,7 @@ class ImageClipping(object):
                                       'xorig': 0, 
                                       'yorig': 0, })
             if border[0] > 0:
+                # top border
                 #os.system(convert_cmd % (source_file, width - border[3] - border[1], border[0], border[3], 0, dest_file + "-t.png"))
                 os.system(convert_cmd % {'infile': source_file, 
                                       'outfile': dest_file + "-t.png",
@@ -162,6 +177,7 @@ class ImageClipping(object):
                                       'xorig': border[3], 
                                       'yorig': 0, })
             if border[0] > 0 and border[1] > 0:
+                # top-right corner
                 #os.system(convert_cmd % (source_file, border[1], border[0], width - border[1], 0, dest_file + "-tr.png"))
                 os.system(convert_cmd % {'infile': source_file, 
                                       'outfile': dest_file + "-tr.png",
@@ -170,6 +186,7 @@ class ImageClipping(object):
                                       'xorig': width - border[1], 
                                       'yorig': 0, })
             if border[3] > 0:            
+                # left border
                 #os.system(convert_cmd % (source_file, border[3], height - border[0] - border[2], 0, border[0], dest_file + "-l.png"))
                 os.system(convert_cmd % {'infile': source_file, 
                                       'outfile': dest_file + "-l.png",
@@ -177,6 +194,7 @@ class ImageClipping(object):
                                       'yoff': height - border[0] - border[2], 
                                       'xorig': 0, 
                                       'yorig': border[0], })
+            # center piece
             if trim_width:
                 #os.system(convert_cmd % (source_file, min(20, width- border[3] - border[1]), height - border[0] - border[2], border[3], border[0], dest_file + "-c.png"))            
                 os.system(convert_cmd % {'infile': source_file, 
@@ -194,6 +212,7 @@ class ImageClipping(object):
                                       'xorig': border[3], 
                                       'yorig': border[0], })
             if border[1] > 0:
+                # right border
                 #os.system(convert_cmd % (source_file, border[1], height - border[0] - border[2], width - border[1], border[0], dest_file + "-r.png"))
                 os.system(convert_cmd % {'infile': source_file, 
                                       'outfile': dest_file + "-r.png",
@@ -202,6 +221,7 @@ class ImageClipping(object):
                                       'xorig': width - border[1], 
                                       'yorig': border[0], })
             if border[2] > 0 and border[3] > 0:
+                # bottom-left corner
                 #os.system(convert_cmd % (source_file, border[3], border[2], 0, height - border[2], dest_file + "-bl.png"))
                 os.system(convert_cmd % {'infile': source_file, 
                                       'outfile': dest_file + "-bl.png",
@@ -210,6 +230,7 @@ class ImageClipping(object):
                                       'xorig': 0, 
                                       'yorig': height - border[2], })
             if border[2] > 0:
+                # bottom border
                 #os.system(convert_cmd % (source_file, width- border[3] - border[1], border[2], border[3], height - border[2], dest_file + "-b.png"))
                 os.system(convert_cmd % {'infile': source_file, 
                                       'outfile': dest_file + "-b.png",
@@ -218,6 +239,7 @@ class ImageClipping(object):
                                       'xorig': border[3], 
                                       'yorig': height - border[2], })
             if border[2] > 0 and border[1] > 0:
+                # bottom-right corner
                 #os.system(convert_cmd % (source_file, border[1], border[2], width - border[1], height - border[2], dest_file + "-br.png"))
                 os.system(convert_cmd % {'infile': source_file, 
                                       'outfile': dest_file + "-br.png",
