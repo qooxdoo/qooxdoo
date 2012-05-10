@@ -1036,16 +1036,16 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Updates the layout with the given arguments.
      *
-     * @param widget {qx.ui.mobile.core.Widget} The widget that should be updated
-     * @param action {String}
-     * @param value {var}
+     * @param widget {qx.ui.mobile.core.Widget} The target widget
+     * @param action {String} The causing action that triggered the layout update.
+     * @param properties {Map} The animation properties to set. Key / value pairs.
      *
      * @internal
      */
-    updateLayout : function(widget, action, value) {
+    updateLayout : function(widget, action, properties) {
       var layout = this._getLayout();
       if (layout) {
-        layout.updateLayout(widget, action, value);
+        layout.updateLayout(widget, action, properties);
       }
       this._domUpdated();
     },
