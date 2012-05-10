@@ -20,7 +20,25 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  * 
- * TODO: API DOC
+ * The page manager decides automatically whether the added pages should be 
+ * displayed in a master/detail view (for tablet) or as a plain card layout (for
+ * smartphones).
+ * 
+ * *Example*
+ *
+ * Here is a little example of how to use the manager.
+ * 
+ * <pre class='javascript'>
+ *  var manager = new qx.ui.mobile.page.Manager();
+ *  var page1 = new qx.ui.mobile.page.NavigationPage();
+ *  var page2 = new qx.ui.mobile.page.NavigationPage();
+ *  var page3 = new qx.ui.mobile.page.NavigationPage();
+ *  manager.addMaster([page1]);
+ *  manager.addDetail([page2,page3]);
+ * 
+ *  page1.show();
+ * </pre>
+ *
  *
  */
 qx.Class.define("qx.ui.mobile.page.Manager",
