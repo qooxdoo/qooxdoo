@@ -298,7 +298,7 @@ Possible keys are
 
   * **script** : (*build*) URI from application root to code directory (default: *"script"*)
   * **resource** : (*build*) URI from application root to resource directory (default: *"resource"*)
-  * **add-nocache-param** : (*source*) whether to add a ``?nocache=<random_number>`` parameter to the URI, to overrule browser caching when loading the application (default: *true*)
+  * **add-nocache-param** : (*source*) whether to add a ``?nocache=<random_number>`` parameter to the URI, to overrule browser caching when loading the application; use the :doc:`ADD_NOCACHE_PARAM <generator_config_macros>` macro to tweak this setting for *source* builds (default: *false*)
 
 * **code** : code options
 

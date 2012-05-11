@@ -26,6 +26,7 @@
     ],
     "LOCALES"      : [ "en" ],
     "APPLICATION_MAIN_CLASS" : "${APPLICATION}.Application",
+    "ADD_NOCACHE_PARAM"      : false,
     "BUILD_PATH"   : "${ROOT}/build"
   },
 
@@ -116,7 +117,7 @@
         },
         "uris" : 
         {
-          "add-nocache-param" : false
+          "add-nocache-param" : "${ADD_NOCACHE_PARAM}"
         },
         "code" :
         {
@@ -187,7 +188,7 @@
         },
         "uris" : 
         {
-          "add-nocache-param" : false
+          "add-nocache-param" : "${ADD_NOCACHE_PARAM}"
         },
         "code" :
         {
