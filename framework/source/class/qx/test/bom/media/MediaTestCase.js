@@ -65,6 +65,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
 
     testVolume: function()
     {
+      var exReg = /index.*?size.*?error/i;
       var that = this;
 
       this._media.setVolume(1);
@@ -75,11 +76,11 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
 
       this.assertException(function() {
         that._media.setVolume(-1);
-      }, DOMException, "INDEX_SIZE_ERR");
+      }, DOMException, exReg);
 
       this.assertException(function() {
         that._media.setVolume(2);
-      }, DOMException, "INDEX_SIZE_ERR");
+      }, DOMException, exReg);
     },
 
 
