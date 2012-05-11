@@ -1401,7 +1401,30 @@ def toJS(self):
 
 symbol("with")
 
-#TODO: 'with' loops
+@method(symbol("with"))
+def std(self):
+    self.type = "loop" # compat. with Node.type
+    self.set("loopType", "WITH")
+    advance("(")
+    self.childappend(expression(0))
+    advance(")")
+    body = symbol("body")(token.get("line"), token.get("column"))
+    body.childappend(statementOrBlock())
+    self.childappend(body)
+    return self
+
+# the next one - like with other loop types - is *used*, as dispatch is by class, 
+# not obj.type (cf. "loop".toJS())
+@method(symbol("with"))
+def toJS(self):
+    r = []
+    r += ["with"]
+    r += ["("]
+    r += [self.children[0].toJS()]
+    r += [")"]
+    r += [self.children[1].toJS()]
+    return u''.join(r)
+
 
 symbol("if"); symbol("else")
 
@@ -1715,17 +1738,6 @@ def toJS(self):
     r += self.children[0].toJS()
     return r
 
-
-symbol("with")
-
-@method(symbol("with"))
-def std(self):
-    advance("(")
-    self.childappend(expression(0))
-    advance(")")
-    self.childappend(block())
-    
-    
 def expression(bind_right=0):
     global token
     t = token
