@@ -353,6 +353,17 @@ def toPretty(self, optns, state):
     r += self.children[1].toPretty(optns, state)
     return r
 
+@method(symbol("with"))
+def toPretty(self, optns, state):
+    r = []
+    r.append("with")
+    r.append(self.space())
+    r.append('(')
+    r.append(self.children[0].toPretty(optns, state))
+    r.append(')')
+    r.append(self.children[1].toPretty(optns, state))
+    return ''.join(r)
+
 @method(symbol("do"))
 def toPretty(self, optns, state):
     r = []
