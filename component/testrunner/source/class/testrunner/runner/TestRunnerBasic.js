@@ -152,8 +152,6 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     
     _resetSuite : function()
     {
-      var runner = qx.core.Init.getApplication().runner;
-    
       if (this.loader) {
         this.loader.dispose();
         this.loader = null;
