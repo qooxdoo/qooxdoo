@@ -63,7 +63,8 @@ qx.Class.define("mobileshowcase.page.Overview",
           {title : "Toolbar", subtitle : "toolbar, buttons, separators", path:"toolbar"},
           {title : "Events", subtitle : "Touch, Tap, Swipe...", path:"event"},
           {title : "Data Binding", subtitle : "See how data binding works", path:"databinding"},
-          {title : "Page Transitions", subtitle : "Slide, Fade, Cube...", path:"animation"}
+          {title : "Page Transitions", subtitle : "Slide, Fade, Cube...", path:"animation"},
+          {title : "Theme Switcher", subtitle : "Switch between our themes...", path:"themeswitcher"}
       ];
 
       list.setModel(new qx.data.Array(data));

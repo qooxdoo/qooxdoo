@@ -81,6 +81,7 @@ qx.Class.define("mobileshowcase.Application",
       var basic = new mobileshowcase.page.Basic();
       var dialogs = new mobileshowcase.page.Dialog();
       var dataBinding = new mobileshowcase.page.DataBinding();
+      var themeSwitcher = new mobileshowcase.page.ThemeSwitcher();
 
 
       // Add the pages to the page manager
@@ -97,7 +98,8 @@ qx.Class.define("mobileshowcase.Application",
         atoms,
         basic,
         dialogs,
-        dataBinding
+        dataBinding,
+        themeSwitcher
       ]);
       manager.setMasterTitle("Overview");
      
@@ -174,6 +176,13 @@ qx.Class.define("mobileshowcase.Application",
       {
         dataBinding.show();
       },this);
+      
+      nm.onGet("/themeswitcher", function(data)
+      {
+        themeSwitcher.show();
+      },this);
+      
+      
     }
   }
 });
