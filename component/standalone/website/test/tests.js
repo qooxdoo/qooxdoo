@@ -1198,7 +1198,61 @@ testrunner.define({
     test.remove();
   },
 
-  __registerNormalization : function(type, normalizer) {
+  testHasListener : function()
+  {
+    var test = q.create('<div></div>').appendTo("#sandbox");
+    this.assertFalse(test.hasListener("mousedown"));
+    var cb = function() {};
+    test.on("mousedown", cb);
+    this.assertTrue(test.hasListener("mousedown"));
+    test.off("mousedown", cb);
+    this.assertFalse(test.hasListener("mousedown"));
+  },
+  
+  testContext : function()
+  {
+    window.temp = null;
+    q.create('<input type="text" id="one"></input><input type="text" id="two"></input>')
+    .on("focus", function(ev) {
+      window.temp = this.getAttribute("id");
+    }).appendTo("#sandbox");
+    
+    window.setTimeout(function() {
+      q("#sandbox #one").focus();
+    }, 100);
+    
+    this.wait(200, function() {
+      this.assertEquals("one", window.temp);
+    }, this);
+  },
+  
+  testReady : function()
+  {
+    var ctx = {
+      ready : 0
+    };
+    var callback = function() {
+      this.ready++;
+    };
+    
+    window.setTimeout(function() {
+      q.ready(callback.bind(ctx));
+    }, 100);
+    
+    this.wait(200, function() {
+      this.assertEquals(1, ctx.ready);
+    }, this);
+  }
+});
+
+
+testrunner.define({
+  classname : "event.Normalization",
+  
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+  
+    __registerNormalization : function(type, normalizer) {
     var now = new Date().getTime();
     q.define("EventNormalize" + now.toString(), {
       statics :
@@ -1347,52 +1401,6 @@ testrunner.define({
     q.unregisterEventNormalization(["focus", "blur"], this.__normalizeFocusBlur);
     var after = registry["focus"].length + registry["blur"].length;
     this.assertEquals((before - 2), after);
-  },
-
-  testHasListener : function()
-  {
-    var test = q.create('<div></div>').appendTo("#sandbox");
-    this.assertFalse(test.hasListener("mousedown"));
-    var cb = function() {};
-    test.on("mousedown", cb);
-    this.assertTrue(test.hasListener("mousedown"));
-    test.off("mousedown", cb);
-    this.assertFalse(test.hasListener("mousedown"));
-  },
-  
-  testContext : function()
-  {
-    window.temp = null;
-    q.create('<input type="text" id="one"></input><input type="text" id="two"></input>')
-    .on("focus", function(ev) {
-      window.temp = this.getAttribute("id");
-    }).appendTo("#sandbox");
-    
-    window.setTimeout(function() {
-      q("#sandbox #one").focus();
-    }, 100);
-    
-    this.wait(200, function() {
-      this.assertEquals("one", window.temp);
-    }, this);
-  },
-  
-  testReady : function()
-  {
-    var ctx = {
-      ready : 0
-    };
-    var callback = function() {
-      this.ready++;
-    };
-    
-    window.setTimeout(function() {
-      q.ready(callback.bind(ctx));
-    }, 100);
-    
-    this.wait(200, function() {
-      this.assertEquals(1, ctx.ready);
-    }, this);
   }
 });
 
@@ -1543,6 +1551,49 @@ testrunner.define({
     });
 
     this.assertEquals("Escape", obj.keyIdentifier);
+  }
+});
+
+
+testrunner.define({
+  classname : "event.RegistrationHooks",
+  
+  setUp : function() {
+    testrunner.globalSetup.call(this);
+    this.__hooks = {};
+    var reg = q.getEventHookRegistry();
+    for (var type in reg) {
+      this.__hooks[type] = reg[type];
+    }
+  },
+  
+  tearDown : function() {
+    testrunner.globalTeardown.call(this);
+    var reg = q.getEventHookRegistry();
+    reg = {};
+    for (var type in this.__hooks) {
+      reg[type] = this.__hooks[type];
+    }
+  },
+  
+  testRegisterHook : function()
+  {
+    var test = q.create('<div></div>').appendTo("#sandbox");
+    var hookFunc = function(element, type, callback, context) {
+      element.hookApplied = "foo";
+    };
+    var hooks = q.getEventHookRegistry();
+    var len = hooks["foo"] ? hooks["foo"].length : 0;
+    
+    q.registerEventHook(["foo"], hookFunc);
+    this.assertArray(hooks["foo"]);
+    this.assertEquals(len+1, hooks["foo"].length);
+    
+    test.on("foo");
+    this.assertEquals("foo", test[0].hookApplied);
+    
+    q.unregisterEventHook(["foo"], hookFunc);
+    this.assertEquals(len, hooks["foo"].length);
   }
 });
 

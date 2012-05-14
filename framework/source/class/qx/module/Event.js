@@ -31,6 +31,13 @@ qx.Bootstrap.define("qx.module.Event", {
      * @internal
      */
     __normalizations : {},
+    
+    /**
+     * Registry of event hooks
+     * @type
+     * @internal 
+     */
+    __hooks : {},
 
     /**
      * Register a listener for the given event type on each item in the
@@ -48,6 +55,18 @@ qx.Bootstrap.define("qx.module.Event", {
         var el = this[i];
         var ctx = context || q.wrap(el);
 
+        // call hooks
+        var hooks = qx.module.Event.__hooks;
+        // generic
+        var typeHooks = hooks["*"] || [];
+        // type specific
+        if (hooks[type]) {
+          typeHooks = typeHooks.concat(hooks[type]);
+        }
+        for (var j=0, m=typeHooks.length; j<m; j++) {
+          typeHooks[j](el, type, listener, context);
+        }
+        
         // add native listener
         var bound;
         if (qx.bom.Event.supportsEvent(el, type)) {
@@ -364,6 +383,67 @@ qx.Bootstrap.define("qx.module.Event", {
     getRegistry : function()
     {
       return qx.module.Event.__normalizations;
+    },
+    
+    
+    /**
+     * Register an event hook for the given event types.
+     *
+     * @attachStatic {q, q.registerEventHook}
+     * @param types {String[]} List of event types
+     * @param hook {Function} Hook function
+     * @internal
+     */
+    registerEventHook : function(types, hook)
+    {
+      if (!qx.lang.Type.isArray(types)) {
+        types = [types];
+      }
+      var registry = qx.module.Event.__hooks;
+      for (var i=0,l=types.length; i<l; i++) {
+        var type = types[i];
+        if (qx.lang.Type.isFunction(hook)) {
+          if (!registry[type]) {
+            registry[type] = [];
+          }
+          registry[type].push(hook);
+        }
+      }
+    },
+    
+    
+    /**
+     * Unregister a hook from the given event types.
+     *
+     * @attachStatic {q, q.unregisterEventHooks}
+     * @param types {String[]} List of event types
+     * @param normalizer {Function} Hook function
+     */
+    unregisterEventHook : function(types, hook)
+    {
+      if (!qx.lang.Type.isArray(types)) {
+        types = [types];
+      }
+      var registry = qx.module.Event.__hooks;
+      for (var i=0,l=types.length; i<l; i++) {
+        var type = types[i];
+        if (registry[type]) {
+          qx.lang.Array.remove(registry[type], hook);
+        }
+      }
+    },
+    
+
+    /**
+     * Returns all registered event normalizers
+     *
+     * @attachStatic {q, q.getEventHookRegistry}
+     * @return {Map} Map of event types/registration hook functions
+     * @internal
+     */
+    getHookRegistry : function()
+    {
+      return qx.module.Event.__hooks;
     }
   },
 
@@ -382,7 +462,11 @@ qx.Bootstrap.define("qx.module.Event", {
       "ready": statics.ready,
       "registerEventNormalization" : statics.registerNormalization,
       "unregisterEventNormalization" : statics.unregisterNormalization,
-      "getEventNormalizationRegistry" : statics.getRegistry
+      "getEventNormalizationRegistry" : statics.getRegistry,
+      
+      "registerEventHook" : statics.registerEventHook,
+      "unregisterEventHook" : statics.unregisterEventHook,
+      "getEventHookRegistry" : statics.getHookRegistry
     });
   }
 });
