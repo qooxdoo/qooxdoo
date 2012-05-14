@@ -65,7 +65,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
 
     testVolume: function()
     {
-      var exReg = /index.*?size.*?error/i;
+      var exReg = /index.*?size.*?err/i;
       var that = this;
 
       this._media.setVolume(1);
