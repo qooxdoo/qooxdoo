@@ -235,7 +235,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
             var range = parseFloat(nItem) - parseFloat(last[name]);
             delta[i][name] = (parseFloat(last[name]) + range * this.__calculateTiming(timing, i / steps)) + unit;
           } else {
-            delta[i][name] = nItem;
+            delta[i][name] = last[name] + "";
           }
 
         };

@@ -59,7 +59,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      * Animation description used in {@link #fadeIn}.
      */
     _fadeIn : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
-      0: {opacity: 0},
+      0: {opacity: 0, display: ""},
       100: {opacity: 1}
     }},
 
