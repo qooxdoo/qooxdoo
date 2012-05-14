@@ -197,7 +197,7 @@ def _handleI18N(script, generator):
 
     # write translation and cldr files
     context.console.info("Writing localisation files: ", False)
-    numTrans = len(trans_dat)
+    numTrans = len(script.locales)
     for num,lang in enumerate(script.locales):
         context.console.progress(num+1, numTrans)
 
@@ -206,12 +206,13 @@ def _handleI18N(script, generator):
             transmap  = {}
             filename = "i18n-" + lang
             targetname = "i18n-" + lang
-            translations = trans_dat[lang]
-            for key in translations:
-                if translations[key]:
-                    transmap[key] = [ { "target" : targetname, "data" : { key : translations[key] }} ]
-                else:
-                    transmap[key] = [ ]
+            if lang in trans_dat:
+                translations = trans_dat[lang]
+                for key in translations:
+                    if translations[key]:
+                        transmap[key] = [ { "target" : targetname, "data" : { key : translations[key] }} ]
+                    else:
+                        transmap[key] = [ ]
             filetool.save(approot+"/data/translation/"+filename+".json", json.dumpsCode(transmap))
         
         # cldr
@@ -220,12 +221,13 @@ def _handleI18N(script, generator):
             filename = "locale-" + lang
             targetname = "locale-" + lang
             # sample: { "cldr" : [ { "target" : "locale-en", "data" : {"alternativeQuotationEnd":'"', "cldr_am": "AM",...}} ]}
-            localekeys = loc_dat[lang]
-            cldr_entry = [ { "target" : targetname, "data" : { }} ]
-            for key in localekeys:
-                if localekeys[key]:
-                    cldr_entry[0]['data'][key] = localekeys[key]
-            localemap['cldr'] = cldr_entry
+            if lang in loc_dat:
+                localekeys = loc_dat[lang]
+                cldr_entry = [ { "target" : targetname, "data" : { }} ]
+                for key in localekeys:
+                    if localekeys[key]:
+                        cldr_entry[0]['data'][key] = localekeys[key]
+                localemap['cldr'] = cldr_entry
             filetool.save(approot+"/data/locale/"+filename+".json", json.dumpsCode(localemap))
 
     context.console.outdent()
