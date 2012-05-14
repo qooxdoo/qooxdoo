@@ -335,7 +335,6 @@ qx.Bootstrap.define("qx.bom.element.Style",
      * @param value {var} The value for the given style
      * @param smart {Boolean?true} Whether the implementation should automatically use
      *    special implementations for some properties
-     * @return {void}
      */
     set : function(element, name, value, smart)
     {

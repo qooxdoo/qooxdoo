@@ -186,8 +186,8 @@ qx.Bootstrap.define("qx.module.Event", {
      * @return {Boolean} <code>true</code> if one or more listeners are attached
      */
     hasListener : function(type) {
-      if (!this[0] || !this[0].__emitter || 
-        !this[0].__emitter.getListeners()[type]) 
+      if (!this[0] || !this[0].__emitter ||
+        !this[0].__emitter.getListeners()[type])
       {
         return false;
       }

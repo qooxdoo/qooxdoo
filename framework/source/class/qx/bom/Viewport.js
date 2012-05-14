@@ -238,6 +238,9 @@ qx.Bootstrap.define("qx.bom.Viewport",
         // Calculate orientation from window width and window height
         orientation = this.getWidth(win) > this.getHeight(win) ? 90 : 0;
       } else {
+        if (this.__orientationNormalizer == null) {
+          this.__orientationNormalizer = this.__getOrientationNormalizer();
+        }
         // Normalize orientation value
         orientation = this.__orientationNormalizer[orientation];
       }
@@ -268,10 +271,5 @@ qx.Bootstrap.define("qx.bom.Viewport",
     {
       return Math.abs(this.getOrientation(win)) !== 90;
     }
-  },
-
-
-  defer : function(statics) {
-    statics.__orientationNormalizer = statics.__getOrientationNormalizer();
   }
 });
