@@ -73,16 +73,16 @@ qx.Bootstrap.define("qx.module.Event", {
         if (!el.__emitter) {
           el.__emitter = new qx.event.Emitter();
         }
+
         var id = el.__emitter.on(type, bound || listener, ctx);
-        if (typeof id == "number" && bound) {
-          if (!el.__bound) {
-            el.__bound = {};
-          }
-          if (!el.__bound[type]) {
-            el.__bound[type] = {};
-          }
-          el.__bound[type][id] = bound;
+        if (!el.__listener) {
+          el.__listener = {};
         }
+        if (!el.__listener[type]) {
+          el.__listener[type] = {};
+        }
+        el.__listener[type][id] = bound || listener;
+
         if (!context) {
           // store a reference to the dynamically created context so we know
           // what to check for when removing the listener
@@ -109,29 +109,31 @@ qx.Bootstrap.define("qx.module.Event", {
     off : function(type, listener, context) {
       for (var j=0; j < this.length; j++) {
         var el = this[j];
-        if (!el.__bound || !type in el.__bound) {
-          el.__emitter.off(type, listener, context);
-        }
-        else {
-          for (var id in el.__bound[type]) {
-            if (el.__bound[type][id].original == listener) {
-              var storedContext = typeof el.__ctx !== "undefined" && el.__ctx[id];
-              if (!context && storedContext) {
-                context = el.__ctx[id];
-              } 
+        for (var id in el.__listener[type]) {
+          var storedListener = el.__listener[type][id];
+          if (storedListener == listener || storedListener.original == listener) {
+            // get the stored context
+            var storedContext = typeof el.__ctx !== "undefined" && el.__ctx[id];
+            if (!context && storedContext) {
+              context = el.__ctx[id];
+            }
+            // remove the listener from the emitter
+            el.__emitter.off(type, storedListener, context);
 
-              el.__emitter.off(type, el.__bound[type][id], context);
+            // check if its a bound listener which means it was a native event
+            if (storedListener.original == listener) {
               // remove the native listener
-              qx.bom.Event.removeNativeListener(el, type, el.__bound[type][id]);
-              delete el.__bound[type][id];
+              qx.bom.Event.removeNativeListener(el, type, storedListener);
+            }
 
-              if (storedContext) {
-                delete el.__ctx[id];
-              }
+            delete el.__listener[type][id];
+
+            if (storedContext) {
+              delete el.__ctx[id];
             }
           }
         }
-      };
+      }
       return this;
     },
 
@@ -169,8 +171,8 @@ qx.Bootstrap.define("qx.module.Event", {
     once : function(type, listener, context) {
       var self = this;
       var wrappedListener = function(data) {
-        listener.call(this, data);
         self.off(type, wrappedListener, context);
+        listener.call(this, data);
       };
       this.on(type, wrappedListener, context);
       return this;

@@ -1094,6 +1094,25 @@ testrunner.define({
     this.assertEquals(1, called);
   },
 
+  testOnOffEmitWithoutContext : function() {
+    var test = q.create("<div/>");
+    var self = this;
+    var called = 0;
+    var listener = function(data) {
+      self.assertEquals(sendData, data);
+      called++;
+    };
+    test.on("changeName", listener);
+    var sendData = {a: 12};
+    test.emit("changeName", sendData);
+    this.assertEquals(1, called);
+
+    test.off("changeName", listener);
+    test.emit("changeName", sendData);
+    this.assertEquals(1, called);
+  },
+
+
   testOnOffEmitChange : function() {
     var test = q.create("<div/>");
     var self = this;
