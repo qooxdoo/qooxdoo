@@ -212,11 +212,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
       var type = type || domEvent.type;
 
-      if (target && target.nodeType)
+      if (target && target.nodeType && target.__emitter)
       {
-        if (!target.__emitter) {
-          target.__emitter = new qx.event.Emitter();
-        }
         target.__emitter.emit(type, domEvent);
       }
     },
