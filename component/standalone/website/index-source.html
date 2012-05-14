@@ -4,13 +4,10 @@
   <title>q source</title>
   <script type="text/javascript" src="script/q-source.js"></script>
   <script type="text/javascript">
-    window.onload = function() {
-      if (typeof q == "function") {
-        console.log("q ready");
-        
-        // do something
-      }
-    };
+    q.ready(function() {
+      console.log("q ready");        
+      // do something awesome
+    });
   </script>
 </head>
 <body>
