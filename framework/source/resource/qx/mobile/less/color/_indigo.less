@@ -6,6 +6,7 @@
 @light-blue: lighten(#5583D0,10%); //#5583D0;// //#5583D0;
 @blue: #5583D0;
 
+@light-black: #222222;
 @dark-grey : #888888;
 @light-grey: #F4F4F4;
 
@@ -23,7 +24,7 @@
 //
 
 .clickable {
-  color: #222222;
+  color: @light-black;
 
   // Less "darken method" helps to make use of gradient-buttons easier. 
   // It takes button-color and darkens it. 
@@ -81,6 +82,7 @@ input[type="text"], input[type="password"],input[type="number"], textarea {
 //
 
 ul {
+  .border-radius(.4em);
   border: 1px solid @border-color;
   background-color:white;
 }
@@ -134,19 +136,18 @@ ul li.active {
 //
 
 .dialog {
-   #gradient > .vertical(#505154, #323335);
+   #gradient > .vertical-three(#505154, #323335,#323335,20px);
    border: 2px solid @dark-blue;
    color:white;
 }
 
 .popup {
-  #gradient > .vertical(#505154, #323335);
-  border: 2px solid @dark-blue;
-  color:white;
+  .dialog();
 }
 
-.popupAnchorPointerTop {
-  border-bottom: 10px solid @dark-blue;
+// Arrow Up
+.popupAnchorPointerTop:before {
+   border-bottom-color:@dark-blue;
 }
 
 .dialogTitleUnderline:after {
@@ -311,3 +312,38 @@ input[type="checkbox"]:checked {
 .item-selected {
   .clickable-active();
 }
+
+// 
+// MASTER DETAIL
+// 
+
+.master-popup * {
+  border:none;
+  background:none;
+}
+
+.master-popup ul li:not(:first-child) {
+  border-top: 1px solid @border-color;
+}
+
+.master-popup ul li:first-child, .master-popup ul li:first-child a {
+  border-top: 0;
+  .border-radius-top(.28em);
+}
+
+.master-popup ul li:last-child, .master-popup ul li:last-child a {
+  .border-radius-bottom(.28em);
+}
+
+.master-detail-master.attached {
+  border-right: 1px solid #555555;
+}
+
+.master-popup .layout-card {
+  .border-radius(.3em);
+
+  @corner-color: @border-color;
+  background-color: white;
+  
+}
+

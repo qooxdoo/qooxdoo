@@ -43,15 +43,17 @@ qx.Class.define("mobileshowcase.page.Tab",
       
       var theme = qx.core.Environment.get("qx.theme");
       
+      var tabBar = this.__createTabBar();
+      
       // Special treatment for iOS theme. TabBar should be below content.
       if(theme == "ios") 
       {
-        this.add(this.__createTabBar());
+        this.add(tabBar);
       } 
       else 
       {
         // Default add TabBar after NavigationBar.
-        this.addAfter(this.__createTabBar(),this._getNavigationBar());
+        this.addAfterNavigationBar(tabBar);
       }
     },
 
@@ -98,7 +100,7 @@ qx.Class.define("mobileshowcase.page.Tab",
     // overridden
     _back : function()
     {
-     qx.ui.mobile.navigation.Manager.getInstance().executeGet("/", {reverse:true});
+      qx.ui.mobile.navigation.Manager.getInstance().executeGet("/", {reverse:true});
     }
   }
 });

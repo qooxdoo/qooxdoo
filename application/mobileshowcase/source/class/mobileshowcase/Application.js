@@ -99,6 +99,7 @@ qx.Class.define("mobileshowcase.Application",
         dialogs,
         dataBinding
       ]);
+      manager.setMasterTitle("Overview");
      
 
       // Initialize the navigation

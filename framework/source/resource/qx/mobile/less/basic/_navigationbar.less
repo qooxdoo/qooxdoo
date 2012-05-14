@@ -1,0 +1,31 @@
+//
+// NAVIGATIONBAR 
+//
+
+.navigationbar {
+  height: 45px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.navigationbar-button, .navigationbar-backbutton {
+  .standard-button();
+
+  text-align: center;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  text-overflow: ellipsis;
+
+  .background-clip(padding-box);
+
+  height: 30px;
+  line-height: 30px;
+
+  min-width: 40px;
+  // Firefox uses border-box for flexbox children,
+  // see http://bugzilla.qooxdoo.org/show_bug.cgi?id=5961.
+  min-width: -moz-calc(40px + 10px);
+  //height: -moz-calc(30px + 6px);
+}

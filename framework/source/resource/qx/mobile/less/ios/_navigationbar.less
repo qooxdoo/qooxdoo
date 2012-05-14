@@ -1,0 +1,79 @@
+//
+// NAVIGATIONBAR IOS
+//
+
+.navigationbar {
+  height: 45px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.navigationbar-button {
+  position:relative;
+  font-size: 12px;
+  overflow: visible;
+
+  white-space: nowrap;
+  background: none;
+  padding: 0 10px;
+
+  text-align: center;
+  font-family: inherit;
+  font-weight: bold;
+  text-decoration: none;
+  text-overflow: ellipsis;
+
+  .background-clip(padding-box);
+
+  height: 30px;
+  line-height: 30px;
+
+  min-width: 40px;
+  // Firefox uses border-box for flexbox children,
+  // see http://bugzilla.qooxdoo.org/show_bug.cgi?id=5961.
+  min-width: -moz-calc(40px + 10px);
+  //height: -moz-calc(30px + 6px);
+
+}
+
+//
+// NAVIGATIONBAR BACKBUTTON IOS
+//
+
+.navigationbar-backbutton {
+  .navigationbar-button();
+
+  margin-left: 15px;
+  overflow: visible;
+  padding-left: 2px;
+  padding-right: 5px;
+
+  // No left border, because this is the place for arrowhead.
+  border-left:0;
+}
+
+.navigationbar-backbutton:before {
+  // Arrowhead of back button
+  @arrowhead-size: 21px;
+
+  content: '';
+  position:absolute;
+  width: @arrowhead-size;
+  height: @arrowhead-size;
+  left:-6px;
+  top:-4px;
+
+  // Rotate arrowhead counter-clockwise 45 deg
+  -webkit-transform: rotate(45deg) translate3d(0.2px, 0, 0);
+  -moz-transform: rotate(45deg) translate3d(0.2px, 0, 0);
+  transform: rotate(45deg) translate3d(0.2px, 0, 0);
+
+  -webkit-transform-origin: 0;
+  -moz-transform-origin: 0;
+  transform-origin: 0;
+}
+
+// Label of text should be positioned relative, because otherwise the arrowhead is located before text label on z-axis.
+.navigationbar-backbutton .label {
+   position:relative;
+}

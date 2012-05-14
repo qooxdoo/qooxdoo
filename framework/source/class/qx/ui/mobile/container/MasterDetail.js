@@ -152,9 +152,12 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
         this.__addMasterToOrigin();
       }
       this._applyMasterContainerCss(isPortrait);
-      var container = this.getPortraitMasterContainer();
-      if (container) {
-        container.hide();
+      
+      var portraitMasterContainer = this.getPortraitMasterContainer();
+      
+      // Initial hiding of container.
+      if (portraitMasterContainer) {
+        portraitMasterContainer.hide();
       }
       this.fireDataEvent("layoutChange", isPortrait);
     },

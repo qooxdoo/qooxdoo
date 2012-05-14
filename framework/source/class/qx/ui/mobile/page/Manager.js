@@ -85,7 +85,16 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       root.add(this.__detailContainer);
     }
   },
-
+  
+  
+  properties : {
+    /* The caption/label of the Master Button and Popup Title. */
+    masterTitle : {
+      init : "Master",
+      check : "String",
+      apply : "_applyMasterTitle"
+    }
+  },
 
 
   /*
@@ -155,7 +164,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
 
     _createMasterButton : function() {
-      return new qx.ui.mobile.navigationbar.Button("M");
+      return new qx.ui.mobile.navigationbar.Button(this.getMasterTitle());
     },
     
     
@@ -171,6 +180,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     _createPortraitMasterContainer : function(masterButton) {
       var portraitMasterContainer = new qx.ui.mobile.dialog.Popup();
+      
       portraitMasterContainer.setAnchor(masterButton);
       portraitMasterContainer.addCssClass("master-popup");
       return portraitMasterContainer;
@@ -190,9 +200,17 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       }
     },
 
+
     _onLayoutChange : function(evt) {
       this.__toggleMasterButtonVisibility();
     },
+    
+    
+    _applyMasterTitle : function(value, old){
+      this.__masterButton.setLabel(value);
+      this.__portraitMasterContainer.setTitle(value);
+    },
+    
 
 
     __toggleMasterButtonVisibility : function()

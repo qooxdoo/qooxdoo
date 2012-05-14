@@ -1,0 +1,47 @@
+
+//
+// SELECTBOX
+//
+
+.selectbox {
+  .user-select(none);
+  -moz-user-select: -moz-none;
+    
+  .hbox();
+  .border-radius(4px);
+  border:none;
+  .boxAlignCenter();
+  
+  cursor:pointer;
+
+  vertical-align:middle;
+  height:35px;
+  
+  background-color:transparent;
+
+
+  font-weight:normal;
+  font-size:15px;
+  text-indent: 4px;
+}
+
+.selectbox-selected > div > .list-itemlabel {
+  background-image:url(../icon/common/checkbox-green.png);
+  background-repeat:no-repeat;
+  background-position: right;
+
+  padding-top:3px;
+  text-indent:4px;
+}
+
+.selectbox-unselected > div > .list-itemlabel {
+  text-indent:4px;
+}
+
+.selectbox-selected > .list-itemimage {
+  display:none;
+}
+
+.selectbox-unselected > .list-itemimage {
+  display:none;
+}

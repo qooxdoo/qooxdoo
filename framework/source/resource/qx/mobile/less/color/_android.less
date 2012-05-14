@@ -1,5 +1,5 @@
 //
-// Android theme.
+// ANDROID THEME
 //
 
 @android-orange: #e89c00;
@@ -9,11 +9,14 @@
 
 @button-color: #f4f4f4;
 @border-color: #6b6d6b;
+@background-color:#181818;
+
+@dialog-background-color: #424242;
 
 @highlighted-text-color: @android-orange;
 
 //
-// MIXINS
+// ANDROID CLICKABLE STYLE
 //
 
 .clickable {
@@ -35,6 +38,19 @@
 // GLOBAL
 //
 
+.fontNormal {
+  color: #ffffff;
+}
+
+.page {
+  background: @background-color;
+}
+
+.root {
+  background: @background-color;
+  color: #ffffff;
+}
+
 a, a:active, a:visited {
   color: @android-orange;
 }
@@ -55,19 +71,6 @@ h2 {
   border-bottom: 1px solid #313431;
 }
 
-.root {
-  background: #181818;
-  color: #ffffff;
-}
-
-.page {
-  background: #181818;
-}
-
-.fontNormal {
-  color: #ffffff;
-}
-
 //
 // BUTTON
 //
@@ -84,7 +87,6 @@ h2 {
 // LIST
 //
 
-
 li:first-child, li:first-child a {
   .border-radius-top(0px);
 }
@@ -94,9 +96,15 @@ li:last-child, li:last-child a {
   .border-radius-bottom(0px);
 }
 
+ul {
+  background-color:@background-color;
+  //border:1px solid @border-color;
+  .border-radius(0);
+}
+
 ul li {
   color: #ffffff;
-  border-top: 1px #6b6d6b solid;
+  border-top: 1px #313431 solid;
 }
 
 ul li.arrow {
@@ -134,6 +142,12 @@ input[type="text"]:not(.selectbox),input[type="number"], input[type="password"],
   border: 1px solid #242424;
 }
 
+// OVERRIDDEN
+ul.form li {
+  @ul-padding:5px;
+  padding: @ul-padding @ul-padding @ul-padding @ul-padding;
+}
+
 //
 // SLIDER 
 //
@@ -147,8 +161,12 @@ input[type="text"]:not(.selectbox),input[type="number"], input[type="password"],
 }
 
 .slider > div {
-  #gradient > .vertical(#f4f4f4, #c4c4c4);
+  #gradient > .vertical(@button-color, #c4c4c4);
   .box-shadow(0 0 2px 1px #4A4A4A);
+  
+  // OVERRIDDEN
+  .border-radius(0.4em);
+  width:50px;
 }
 
 //
@@ -233,69 +251,15 @@ input[type="checkbox"]:checked {
 //
 
 .popup {
-  background-color: #424242;
+  background-color: @dialog-background-color;
   border: 2px solid #ffffff;
 }
 
 .dialog { 
-  background-color: #424242;
+  background-color: @dialog-background-color;
   border: 2px solid #ffffff;
 }
 
-.dialogTitleUnderline:after {
-  #gradient > .horizontal-four(#424242, #ffffff, #ffffff, #424242, 30%, 70%);
-  line-height: 10px;
-  content: ' ';
-  height: 1px;
-  width: 100%;
-  display: block;
-  margin: 3px 0 0 0;
-  padding: 0;
-}
-
-//
-// TOGGLEBUTTON
-//
-.toggleButton > div {
-  // Light inset border.
-  .box-inset-multi-shadow(0 2px 2px #999, 0 14px 1px #EAEAEA);
-  
-  border: 1px solid #777777 ;
-  background-color: white;
-}
-
-.toggleButton > div.checked {
-  .box-inset-multi-shadow(0 3px 2px darken(@android-orange,20%), 0 14px 0px @android-orange);
-  background-color:lighten(@android-orange,10%);
-}
-
-div.checked .toggleButtonSwitch {
-  .box-shadow(-1px 0 2px #4b4b4b);
-}
-
-div.checked .toggleButtonSwitch:before {
-  color:#333333;
-}
-
-.toggleButtonSwitch:after {
-  color:#333333;
-}
-
-.toggleButtonSwitch {
-  border: 1px solid #E8E8E8;
-
-  .box-shadow(1px 0 2px #4b4b4b);
-
-  background: #cfcfcf;
-  background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfcf), color-stop(100%,#fdfdfd)); 
-  background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
-  background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
-
-  // Because of display problems in Safari, 
-  // Animation is disabled.
-  //.transition(left .15s);
-}
 
 //
 // TOOLBAR
@@ -329,4 +293,42 @@ div.checked .toggleButtonSwitch:before {
 
 .item-selected {
   .clickable-active();
+}
+
+.menu ul {
+  border: 1px solid @border-color;
+}
+
+//
+// MASTER DETAIL
+// 
+
+@master-popup-border-color:white;
+
+.master-popup * {
+  background: none;
+}
+
+.master-detail-master.attached {
+  border-right: 1px solid @border-color;
+}
+
+.master-popup {
+  //#gradient > .vertical-three(@ios-button-gradient-stop-1, @ios-button-gradient-stop-3,@ios-button-gradient-stop-3, 20px);
+  border:2px solid @master-popup-border-color;
+}
+
+.master-popup .page {
+  border: 1px solid @border-color;
+}
+
+.master-popup .layout-card {
+  background-color: @background-color;
+}
+
+// 
+// MASTER PARENT CONTAINER ARROWS
+//
+.master-popup.popupAnchorPointerTop:before  {
+  border-bottom-color:@master-popup-border-color;
 }

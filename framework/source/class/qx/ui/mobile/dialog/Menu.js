@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     defaultCssClass :
     {
       refine : true,
-      init : "dialog"
+      init : "menu"
     },
     
     

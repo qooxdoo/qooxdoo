@@ -147,54 +147,71 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __anchor: null,
     __widget: null,
     __titleWidget: null,
-    __anchorPointer: null,
+
 
     /**
      * Event handler. Called whenever the position of the popup should be updated.
      */
     _updatePosition : function()
     {
-      if(this.__left != null || this.__top != null) {
+      console.log("UpdatePosition()");
+      
+      var isInitialized = this.__left != null || this.__top != null;
+      
+      if(isInitialized) {
         return;
       }
+      
       if(this.__anchor)
       {
         // TODO: remove this hack, find another way to compute the anchorPointer location
         var pos = qx.bom.element.Location.getPosition(this.__anchor.getContainerElement());
-        var anchorDimension = qx.bom.element.Dimension.getSize(this.__anchor.getContainerElement());
         var dimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
+        var anchorDimension = qx.bom.element.Dimension.getSize(this.__anchor.getContainerElement());
+        
+        // Reset Anchor.
+         this.removeCssClass('popupAnchorPointerTop');
+         this.removeCssClass('popupAnchorPointerLeft');
+         this.removeCssClass('popupAnchorPointerRight');
+         this.removeCssClass('popupAnchorPointerBottom');
+        
+        var arrowHeight = 10;
+        
         if(pos.top + dimension.height > qx.bom.Viewport.getHeight()) {
-          pos.top = pos.top - dimension.height - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingBottom')) - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderBottomWidth'));
-          this.__anchorPointer.removeCssClass('popupAnchorPointerTop');
-          this.__anchorPointer.removeCssClass('popupAnchorPointerLeft');
-          this.__anchorPointer.removeCssClass('popupAnchorPointerRight');
-          this.__anchorPointer.addCssClass('popupAnchorPointerBottom');
-          this.__anchorPointer._setStyle('marginLeft',(anchorDimension.width/2)+'px');
-          this.__anchorPointer._setStyle('marginBottom','-'+(parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingBottom')) + parseInt(qx.bom.element.Style.get(this.__anchorPointer.getContainerElement(), 'borderTopWidth')))+'px');
-          this.__anchorPointer._setStyle('marginTop',(parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingBottom')))+'px');
+          // Flip position
+          pos.top = pos.top - dimension.height - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingBottom'))
+            - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderBottomWidth'));
+          
           var newDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
-          this._positionTo(pos.left, pos.top - (newDimension.height - dimension.height));
+          this.placeTo(pos.left, pos.top - (newDimension.height - dimension.height));
+          
+          this.addCssClass('popupAnchorPointerBottom');
         }
         else if(pos.left + dimension.width > qx.bom.Viewport.getWidth()) {
-          pos.left = pos.left - dimension.width - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingRight')) - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderRightWidth'));
-          this.__anchorPointer.removeCssClass('popupAnchorPointerTop');
-          this.__anchorPointer.removeCssClass('popupAnchorPointerLeft');
-          this.__anchorPointer.removeCssClass('popupAnchorPointerBottom');
-          this.__anchorPointer.addCssClass('popupAnchorPointerRight');
-          this._positionTo(pos.left, pos.top);
+          // Flip Position
+          pos.left = pos.left - dimension.width - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingRight')) 
+            - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderRightWidth'));
+          
+          this.addCssClass('popupAnchorPointerRight');
+          
+          this.placeTo(pos.left, pos.top);
         }
         else {
-          this.__anchorPointer._setStyle('marginLeft',(anchorDimension.width/2)+'px');
+          //this.__anchorPointer._setStyle('marginLeft',(anchorDimension.width/2)+'px');
+          
           var newDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
-          var x = parseInt(this.__anchorPointer._getStyle('marginTop')) == 0 ? 2 : 0;
-          this.__anchorPointer._setStyle('marginTop','-'+(newDimension.height - x*parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingBottom')) + parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderTopWidth')))+'px');
-          this._positionTo(pos.left, pos.top + anchorDimension.height + parseInt(qx.bom.element.Dimension.getHeight(this.__anchorPointer.getContainerElement())));
+          this.placeTo(pos.left, pos.top + anchorDimension.height);
+          this.addCssClass('popupAnchorPointerTop');
+        
         }
-        return;
-      }
+      } else {
+        // No Anchor
       var top = qx.bom.Viewport.getScrollTop(), height = 1;
       var left = qx.bom.Viewport.getScrollLeft(), width = 1;
-      var viewportWidth = qx.bom.Viewport.getWidth(), viewportHeight = qx.bom.Viewport.getHeight();
+      
+      var viewportWidth = qx.bom.Viewport.getWidth()
+      var viewportHeight = qx.bom.Viewport.getHeight();
+      
       if(this.__childrenContainer)
       {
         var dimension = qx.bom.element.Dimension.getSize(this.__childrenContainer.getContainerElement());
@@ -203,6 +220,9 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }
 
       this._positionTo(left + (viewportWidth - width)/2, top + (viewportHeight-height)/2) ;
+        
+      }
+     
     },
 
 
@@ -306,16 +326,17 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this._add(this.__childrenContainer);
       }
       if(this._createTitleWidget()) {
+        this.__childrenContainer.remove(this._createTitleWidget());
         this.__childrenContainer.add(this._createTitleWidget());
       }
       this.__childrenContainer.add(widget, {flex:1});
+      
+      // Anchor Arrow Init...
       if(this.__anchor)
       {
-        this.__anchorPointer = new qx.ui.mobile.core.Widget();
-        this.__anchorPointer.addCssClass('popupAnchorPointer');
-        this.__anchorPointer.addCssClass('popupAnchorPointerTop');
-        this._add(this.__anchorPointer);
+        this.addCssClass('popupAnchorPointerTop');
       }
+      // ...
       this.__widget = widget;
     },
 

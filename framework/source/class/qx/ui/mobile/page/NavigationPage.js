@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     __rightContainer : null,
     
     
-   // interface implementation
+    // interface implementation
     getTitleWidget : function() {
       if (!this.__title) {
         this.__title = this._createTitleWidget();
@@ -286,7 +286,6 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
-
     /**
      * Returns the back button widget.
      *
@@ -318,7 +317,18 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     {
       return this.__scrollContainer;
     },
-
+    
+    
+    /**
+     * Adds a widget, below the NavigationBar.
+     *
+     * @param evt {qx.ui.mobile.core.Widget} The Widget to add, after NavigationBar.
+     */
+    addAfterNavigationBar : function(widget) {
+      if(widget && this.__scrollContainer) {
+        this.addBefore(widget,this.__scrollContainer);
+      }
+    },
 
 
     // property apply
