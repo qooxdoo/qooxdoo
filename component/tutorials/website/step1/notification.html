@@ -26,8 +26,9 @@
 
       // create the notification API
       var notify = function(message, delay, callback) {
-        // do the notify
-      }
+        popup.setHtml(message);
+        popup.fadeIn();
+      };
 
       // DEMO
       notify("This is ...", 1000, function() {
