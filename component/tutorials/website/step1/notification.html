@@ -27,7 +27,11 @@
       // create the notification API
       var notify = function(message, delay, callback) {
         popup.setHtml(message);
-        popup.fadeIn();
+        popup.fadeIn().once("animationEnd", function() {
+          window.setTimeout(function() {
+             popup.fadeOut();
+          }, delay);
+        });
       };
 
       // DEMO
