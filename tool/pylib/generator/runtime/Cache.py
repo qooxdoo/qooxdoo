@@ -29,7 +29,7 @@ from generator.runtime.Log import Log
 
 memcache  = {} # {key: {'content':content, 'time': (time.time()}}
 check_file     = u".cache_check_file"
-CACHE_REVISION = 0xc28c44f # set this to a unique value (e.g. commit hash prefix)
+CACHE_REVISION = 0xb0b9a9c # set this to a unique value (e.g. commit hash prefix)
                            # when existing caches need clearing
 
 class Cache(object):
