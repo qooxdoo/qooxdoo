@@ -59,7 +59,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      * Animation description used in {@link #fadeIn}.
      */
     _fadeIn : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
-      0: {opacity: 0, display: ""},
+      0: {opacity: 0},
       100: {opacity: 1}
     }},
 
@@ -261,6 +261,10 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @return {q} The collection for chaining.
      */
     fadeIn : function(duration) {
+      // remove 'display: none' style
+      for (var i=0; i < this.length; i++) {
+        this[i].style.display = "";
+      };
       return this.animate(qx.module.Animation._fadeIn, duration);
     },
 
