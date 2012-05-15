@@ -30,7 +30,7 @@
  */
 qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
-  extend : qx.core.Object,
+  extend : Object,
   
   statics :
   {
@@ -74,11 +74,18 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     SWIPE_MIN_VELOCITY : 0
   },
   
+  
+  /**
+   * Create a new instance
+   * 
+   * @param target {Element} element on which to listen for native touch events
+   */
   construct : function(target)
   {
     this.__target = target;
     this._initTouchObserver();
   },
+  
   
   members :
   {
@@ -344,20 +351,16 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         };
       }
       return swipe;
-    }
-  },
-  
-  
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-  
-  destruct : function()
-  {
-    this._stopTouchObserver();
+    },
     
-    this.__originalTarget = null;
+    
+    /**
+     * Dispose this object
+     */
+    dispose : function()
+    {
+      this._stopTouchObserver();
+      this.__originalTarget = this.__target = null;
+    }
   }
 });

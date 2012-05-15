@@ -59,7 +59,7 @@ qx.Class.define("qx.event.handler.Touch",
     this.__window = manager.getWindow();
     this.__root = this.__window.document;
 
-    this.base(arguments, this.__root);
+    qx.event.handler.TouchCore.apply(this, [this.__root]);
     
     this._initMouseObserver();
   },
@@ -362,21 +362,29 @@ qx.Class.define("qx.event.handler.Touch",
       }),
 
       "default" : qx.lang.Function.empty
-    })
-  },
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    this._stopMouseObserver();
-
-    this.__manager = this.__window = this.__root = null;
+    }),
+    
+    
+    /**
+     * Dispose this object
+     */
+    dispose : function()
+    {
+      this.__callBase("dispose");
+      this._stopMouseObserver();
+      this.__manager = this.__window = this.__root = null;
+    },
+    
+    
+    /**
+     * Call overriden method.
+     *
+     * @param method {String} Name of the overriden method.
+     * @param args {Array} Arguments.
+     */
+    __callBase: function(method, args) {
+      qx.event.handler.TouchCore.prototype[method].apply(this, args || []);
+    }
   },
 
 
