@@ -493,10 +493,8 @@ class Text(object):
     # @param indent {Int} number of spaces to remove
     #
     def outdent(self, indent):
-        return re.compile("\n\s{%s}" % indent).sub("\n", self.string)
-
-    #def indent(self, source, indent):
-    #  return re.compile("\n").sub("\n" + (" " * indent), source)
+        #return re.compile(r"\n\s{%s}" % indent).sub("\n", self.string)
+        return re.compile(r"^\s{%s}" % indent, re.M).sub("", self.string)
 
     ##
     # Insert <indent> at the beginning of each line in text

@@ -23,10 +23,7 @@
 # Strip comments from tree
 ##
 
-from ecmascript.frontend import treeutil
-    
-def patch(node):
-    global cnt
-    #for _, commentNode in treeutil.nodeIteratorNonRec(node,["comment", "commentsBefore", "commentsAfter"]):
-    for commentNode in treeutil.nodeIterator(node,["comment", "commentsBefore", "commentsAfter"]):
-        commentNode.parent.removeChild(commentNode)
+def patch(tree):
+    for node in tree.nodeIter():
+        if node.comments:
+            node.comments = []

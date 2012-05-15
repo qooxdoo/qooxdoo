@@ -311,7 +311,7 @@ class symbol_base(Node):
             self.set("line", line)
         if column:
             self.set("column", column)
-        self.comments = None   # [Node(comment)] of comments preceding the node ("commentsBefore")
+        self.comments = []   # [Node(comment)] of comments preceding the node ("commentsBefore")
 
     ##
     # thin wrapper around .children, to maintain .parent in them
@@ -1921,7 +1921,9 @@ symbol("comment")
 
 @method(symbol("comment"))
 def toJS(self):
-    r = u''
+    r = self.get("value")
+    if self.get("detail") == "inline":
+        r += '\n'  # force newline after inline comment
     return r
 
 symbol("commentsAfter")

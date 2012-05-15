@@ -253,8 +253,7 @@ class MClassCode(object):
         def optimizeTree(tree):
 
             try:
-                if ["comments"] == optimize:
-                    # do a mere comment stripping
+                if "comments" in optimize:
                     commentoptimizer.patch(tree)
 
                 # "variants" prunes parts of the tree, so all subsequent optimizations benefit

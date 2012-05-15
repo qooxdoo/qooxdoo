@@ -22,7 +22,7 @@
 import sys, os, re, types, string
 
 from ecmascript.frontend.treegenerator import method, symbol, symbol_base, SYMBOLS, identifier_regex
-from ecmascript.frontend import lang
+from ecmascript.frontend import lang, Comment
 
 # ------------------------------------------------------------------------------
 # Symbol methods
@@ -30,13 +30,31 @@ from ecmascript.frontend import lang
 
 # fall-back in symbol_base
 def toPretty(self, optns, state):
-    return self.get("value", u'')
+    r = self.commentsPretty(optns, state)
+    r += self.get("value", u'')
+    return r
 symbol_base.toPretty = toPretty
+
+def commentsPretty(self, optns, state):
+    comments = []
+    for i,comment in enumerate(self.comments):
+        commentStr = comment.toPretty(optns, state)
+        comments.append(commentStr)
+        # handle additional line breaks between comments
+        if i>0:
+            pass
+            #curr_start = comment.get("line")
+            #prev_start = self.comments[i-1].get("line")
+            #prev_lines = comments[i-1].count('\n')
+            #addtl_lb = curr_start - prev_start + prev_lines
+            #comments[i-1] += addtl_lb * '\n'
+    return u''.join(comments)
+symbol_base.commentsPretty = commentsPretty
 
 
 def infix(id_):
     def toPretty(self, optns, state):
-        r = u''
+        r = self.commentsPretty(optns, state)
         r += self.getChild("first").toPretty(optns, state)
         r += ' '
         r += self.get("value")
@@ -52,7 +70,7 @@ for sym in SYMBOLS['infix']+SYMBOLS['infix_r']:
 # infix "verb" operators, i.e. that need a space around themselves (like 'instanceof', 'in')
 def infix_v(id_):
     def toPretty(self, optns, state):  # adapt the output
-        r = u''
+        r = self.commentsPretty(optns, state)
         r += self.getChild("first").toPretty(optns, state)
         r += self.space()
         r += self.get("value")
@@ -68,7 +86,7 @@ for sym in SYMBOLS['infix_v']:
 # prefix "sigil" operators, like '!', '~', ...
 def prefix(id_):
     def toPretty(self, optns, state):
-        r = u''
+        r = self.commentsPretty(optns, state)
         r += self.get("value")
         r += self.getChild("first").toPretty(optns, state)
         return r
@@ -81,7 +99,7 @@ for sym in SYMBOLS['prefix']:
 # prefix "verb" operators, i.e. that need a space before their operand like 'delete'
 def prefix_v(id_):
     def toPretty(self, optns, state):
-        r = u''
+        r = self.commentsPretty(optns, state)
         r += self.get("value")
         r += self.space()
         r += self.getChild("first").toPretty(optns, state)
@@ -93,7 +111,8 @@ for sym in SYMBOLS['prefix_v']:
 
 def preinfix(id_):  # pre-/infix operators (+, -)
     def toPretty(self, optns, state):  # need to handle pre/infix cases
-        r = []
+        r = self.commentsPretty(optns, state)
+        r = [r]
         first = self.getChild("first").toPretty(optns, state)
         op = self.get("value")
         prefix = self.get("left", 0)
@@ -110,7 +129,7 @@ for sym in SYMBOLS['preinfix']:
 
 def prepostfix(id_):  # pre-/post-fix operators (++, --)
     def toPretty(self, optns, state):
-        r = u''
+        r = self.commentsPretty(optns, state)
         operator = self.get("value")
         operand = self.getChild("first").toPretty(optns, state)
         r += self.get("value")
@@ -127,7 +146,7 @@ for sym in SYMBOLS['prepostfix']:
 
 @method(symbol("constant"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     if self.get("constantType") == "string":
         if self.get("detail") == "singlequotes":
             r += self.write("'")
@@ -145,15 +164,16 @@ def toPretty(self, optns, state):
 
 @method(symbol("identifier"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     v = self.get("value", u"")
     if v:
-        r = self.write(v)
+        r += self.write(v)
     return r
 
 @method(symbol("?"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r.append(self.getChild("first").toPretty(optns, state))
     r.append(' ')
     r.append('?')
@@ -167,18 +187,22 @@ def toPretty(self, optns, state):
 
 @method(symbol("dotaccessor"))
 def toPretty(self, optns, state):
-    r = self.children[0].toPretty(optns, state)
+    r = self.commentsPretty(optns, state)
+    r += self.children[0].toPretty(optns, state)
     r += '.'
     r += self.children[1].toPretty(optns, state)
     return r
 
 @method(symbol("operand"))
 def toPretty(self, optns, state):
-    return self.children[0].toPretty(optns, state)
+    r = self.commentsPretty(optns, state)
+    r += self.children[0].toPretty(optns, state)
+    return r
 
 @method(symbol("group"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r.append('(')
     a = []
     for c in self.children:
@@ -189,7 +213,7 @@ def toPretty(self, optns, state):
 
 @method(symbol("accessor"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     r += self.children[0].toPretty(optns, state)
     r += '['
     r += self.children[1].toPretty(optns, state)
@@ -198,18 +222,21 @@ def toPretty(self, optns, state):
 
 @method(symbol("array"))
 def toPretty(self, optns, state):
+    cmnts = self.commentsPretty(optns, state)
     r = []
     for c in self.children:
         r.append(c.toPretty(optns, state))
-    return '[' + u', '.join(r) + ']'
+    return cmnts + '[' + u', '.join(r) + ']'
 
 @method(symbol("key"))
 def toPretty(self, optns, state):
-    return self.children[0].toPretty(optns, state)
+    r = self.commentsPretty(optns, state)
+    r += self.children[0].toPretty(optns, state)
+    return r
 
 @method(symbol("map"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     r += self.write("{\n")
     state.indentLevel += 1
     indent = indentString(optns, state)
@@ -225,10 +252,13 @@ def toPretty(self, optns, state):
 
 @method(symbol("value"))
 def toPretty(self, optns, state):
-    return self.children[0].toPretty(optns, state)
+    r = self.commentsPretty(optns, state)
+    r += self.children[0].toPretty(optns, state)
+    return r
 
 @method(symbol("keyvalue"))
 def toPretty(self, optns, state):
+    r = self.commentsPretty(optns, state)
     key = self.get("key")
     key_quote = self.get("quote", '')
     if key_quote:
@@ -242,11 +272,12 @@ def toPretty(self, optns, state):
     else:
         quote = ''
     value = self.getChild("value").toPretty(optns, state)
-    return quote + key + quote + ' : ' + value
+    return r + quote + key + quote + ' : ' + value
 
 @method(symbol("block"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r.append('{')
     r.append(self.children[0].toPretty(optns, state))
     r.append('}')
@@ -254,7 +285,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("function"))
 def toPretty(self, optns, state):
-    r = self.write("function")
+    r = self.commentsPretty(optns, state)
+    r += self.write("function")
     functionName = self.get("name",0)
     if functionName != None:
         r += self.space(result=r)
@@ -267,7 +299,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("params"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r.append('(')
     a = []
     for c in self.children:
@@ -279,7 +312,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("body"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r.append(self.children[0].toPretty(optns, state))
     # 'if', 'while', etc. can have single-statement bodies
     if self.children[0].id != 'block':
@@ -288,7 +322,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("var"))  # this is what becomes of "var"
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r.append("var")
     r.append(self.space())
     a = []
@@ -299,11 +334,14 @@ def toPretty(self, optns, state):
 
 @method(symbol("definition"))
 def toPretty(self, optns, state):
-    return self.children[0].toPretty(optns, state)
+    r = self.commentsPretty(optns, state)
+    r += self.children[0].toPretty(optns, state)
+    return r
 
 @method(symbol("for"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r.append('for')
     r.append(self.space(False,result=r))
     # cond
@@ -325,7 +363,7 @@ def toPretty(self, optns, state):
 
 @method(symbol("in"))  # of 'for (in)'
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     r += self.getChild("first").toPretty(optns, state)
     r += self.space()
     r += 'in'
@@ -335,14 +373,15 @@ def toPretty(self, optns, state):
 
 @method(symbol("expressionList"))
 def toPretty(self, optns, state):  # WARN: this conflicts (and is overwritten) in for(;;).toPretty
+    cmnts = self.commentsPretty(optns, state)
     r = []
     for c in self.children:
         r.append(c.toPretty(optns, state))
-    return ','.join(r)
+    return cmnts + ','.join(r)
 
 @method(symbol("while"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     r += self.write("while")
     r += self.space(False,result=r)
     # cond
@@ -355,7 +394,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("with"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r.append("with")
     r.append(self.space())
     r.append('(')
@@ -366,7 +406,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("do"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r.append("do")
     r.append(self.space())
     r.append(self.children[0].toPretty(optns, state))
@@ -378,7 +419,7 @@ def toPretty(self, optns, state):
 
 @method(symbol("if"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     # Additional new line before each loop
     if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
         prev = self.getPreviousSibling(False, True)
@@ -408,7 +449,7 @@ def toPretty(self, optns, state):
 
 @method(symbol("loop"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     # Additional new line before each loop
     if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
         prev = self.getPreviousSibling(False, True)
@@ -461,7 +502,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("break"))
 def toPretty(self, optns, state):
-    r = self.write("break")
+    r = self.commentsPretty(optns, state)
+    r += self.write("break")
     if self.children:
         r += self.space(result=r)
         r += self.write(self.children[0].toPretty(optns, state))
@@ -469,7 +511,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("continue"))
 def toPretty(self, optns, state):
-    r = self.write("continue")
+    r = self.commentsPretty(optns, state)
+    r += self.write("continue")
     if self.children:
         r += self.space(result=r)
         r += self.write(self.children[0].toPretty(optns, state))
@@ -477,7 +520,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("return"))
 def toPretty(self, optns, state):
-    r = ["return"]
+    r = [self.commentsPretty(optns, state)]
+    r += ["return"]
     if self.children:
         r.append(self.space())
         r.append(self.children[0].toPretty(optns, state))
@@ -485,7 +529,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("switch"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r.append("switch")
     # control
     r.append('(')
@@ -502,7 +547,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("case"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r.append('case')
     r.append(self.space())
     r.append(self.children[0].toPretty(optns, state))
@@ -514,7 +560,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("default"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r.append('default')
     r.append(':')
     if len(self.children) > 0:
@@ -523,7 +570,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("try"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r.append("try")
     r.append(self.children[0].toPretty(optns, state))
     catch = self.getChild("catch", 0)
@@ -543,7 +591,7 @@ def toPretty(self, optns, state):
 
 @method(symbol("throw"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     r += 'throw'
     r += self.space()
     r += self.children[0].toPretty(optns, state)
@@ -551,11 +599,13 @@ def toPretty(self, optns, state):
 
 @method(symbol("(empty)"))
 def toPretty(self, optns, state):
-    return u''
+    r = self.commentsPretty(optns, state)
+    return r
 
 @method(symbol("label"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     r += [self.get("value")]  # identifier
     r += [":"]
     r += [self.children[0].toPretty(optns, state)]
@@ -563,7 +613,8 @@ def toPretty(self, optns, state):
 
 @method(symbol("statements"))
 def toPretty(self, optns, state):
-    r = []
+    r = self.commentsPretty(optns, state)
+    r = [r]
     indent = indentString(optns, state)
     for cld in self.children:
         l = [indent]
@@ -576,7 +627,7 @@ def toPretty(self, optns, state):
 
 @method(symbol("block"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     r += self.write("{\n")
     state.indentLevel += 1
     a = []
@@ -593,54 +644,59 @@ def toPretty(self, optns, state):
 
 @method(symbol("call"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     r += self.getChild("operand").toPretty(optns, state)
     r += self.getChild("params").toPretty(optns, state)
     return r
 
 @method(symbol("comment"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.get("value")
+    r = Comment.Text(r).indent(indentString(optns, state))
+    r += '\n'  # 'inline' needs terminating newline anyway
+    r += indentString(optns, state)  # to pass on the indentation that was set ahead of the comment
     return r
 
 @method(symbol("commentsAfter"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.toJS()
     return r
 
 @method(symbol("commentsBefore"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.toJS()
     return r
 
 @method(symbol("file"))
 def toPretty(self, optns, state):
-    return self.children[0].toPretty(optns, state)
+    r = self.commentsPretty(optns, state)
+    r += self.children[0].toPretty(optns, state)
+    return r
 
 @method(symbol("first"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     if self.children:  # could be empty in for(;;)
         r = self.children[0].toPretty(optns, state)
     return r
 
 @method(symbol("second"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     if self.children:
         r = self.children[0].toPretty(optns, state)
     return r
 
 @method(symbol("third"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     if self.children:
-        r = self.children[0].toPretty(optns, state)
+        r += self.children[0].toPretty(optns, state)
     return r
 
 @method(symbol("params"))
 def toPretty(self, optns, state):
-    r = u''
+    r = self.commentsPretty(optns, state)
     self.noline()
     r += self.write("(")
     a = []
