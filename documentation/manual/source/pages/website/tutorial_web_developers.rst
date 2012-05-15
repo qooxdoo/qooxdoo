@@ -1,241 +1,173 @@
 .. _pages/tutorial_web_developers#Low-level_tutorial_for_web_developers:
 
-Low-level tutorial for web developers
-*************************************
+Tutorial: Building Notifications
+********************************
 
 .. _pages/tutorial_web_developers#Introduction:
 
 Introduction
 ============
 
-Developing web applications demands more and more skills, and, as they try to match the desktop apps or even outrun them, the HTML, CSS and JavaScript code gets more and more complex. Many libraries and frameworks come to the rescue. In this tutorial we will show how a web developer can benefit from using qooxdoo in his day to day work. We will cover several use cases that many of us encounter on a daily basis from simple to more complex, and we will show how it can be achieved in both ways , using plain HTML, CSS and JavaScript, and using qooxdoo. The use cases will cover the creation of a menu that opens when a button is clicked.
+In this tutorial, we want to show the basic steps using %{Website}. For that, we build a simple notification system for web pages. The system should offer one method which then brings up a bubble on the screen containing the notification message. The bubble should go away after a period of time. Some of you might know `growl for OSX <http://growl.info/>`__ which offer similar functionality for OSX.
 
-.. _pages/tutorial_web_developers#The_HTML:
 
-The HTML
-=========
+.. _pages/tutorial_web_developers#Basics:
 
-Let's start with a piece of HTML that will host both the classical and the qooxdoo solution.
+Basics
+======
+
+Let's get started! As %{Website} is a simple %{JS} file, we first need to download the script `here <http://demo.qooxdoo.org/devel/framework/q.min.js>`__. After that, we should create a simple HTML file next to the script file and include the script file:
 
 .. code-block:: html
 
-  <body>
-      <div id="container">
-          <div id="qooxdoo">
-              <div id="qx1">get the position of it</div>
-          </div>
-          <div id="classic">
-              <div id="ex1">get the position of it</div>
-          </div>
-          <div class="clearer"></div>
-      </div>
-  </body>
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>%{Website} tutorial</title>
+      <script type="text/javascript" src="q.min.js"></script>
+    </head>
+    <body>
+    </body>
+  </html>
 
+Having that, you can load the page in your favorite browser and check if the title is there and the %{Website} library has been loaded. Simply open a console in your browser and see if ``q`` is defined. If so, we do have the first step done and can start building the application. Next, we need a script tag to place our code in. To keep it simple, we just put it in the head of the html page, right below the already added script tag.
 
-As you can see, inside the ``#container`` DIV we have two further DIVs that will hold the experiments for the qooxdoo version and the classic way. Inside each of them we have a button, made of a DIV too, surrounded by a 2 pixel wide red border. The CSS is presented in the <HEAD> section of the HTML file so you can play with it.
+.. code-block:: html
 
+  <script type="text/javascript" charset="utf-8">
+    // your code here...
+    console.log("it works");
+  </script>
+
+I put a ``console.log`` statement in the script to see if its working. Reloading the page in the browser should bring up the log message in your browsers console. Now its time to set up a simple plan what we want to do. In general, we should first create the popup we want to show, then we can implement the notify method and at the end, we can put in some demo code to showcase our work. The following code should be placed in the script tag and can replace the former content.
+
+::
+
+  // create the notification popup
+  var popup;
+
+  // create the notification API
+  var notify = function(message, delay, callback) {
+   // do the notify
+  }
+
+  // DEMO
+  notify("This is ...", 1000, function() {
+   notify("... a %{Website} notification demo.", 2000);
+  });
+
+As you see, I have given the ``notify`` method three arguments. First, the ``message`` to display, second a ``delay`` in milliseconds and as last argument a ``callback`` method, which will be executed as soon as the popup is gone. The demo code at the bottom shows how it should be used and should trigger two messages in sequence.
+
+.. _pages/tutorial_web_developers#Popup:
+
+Popup
+=====
+
+Lets take care of the popup. Thats there the %{Website} library comes in handy. The popup should be a simple div which can be added to the documents body. So we can do something like the following:
+
+::
+
+  var popup = q.create("<div>").appendTo(document.body);
+
+In this line of code, two essential methods of %{Website} has been used. First, we create a new DOM element, which is wrapped in a collection. On that object, we called the ``applyTo`` method which adds the newly created element to ``document.body``. Now reloading the page... brings up an error!?! Sure, we added our script in the head which means, ``document.body`` is not ready yet. We need to wait until the document is ready until we can start and %{Website} offers a way to do that. We just put the code we have written into a function and give that to ``q.ready``:
+
+::
+
+  q.ready(function() {
+    // ...
+  });
+
+Reloading the page now does not show an error but nothing more. How can we tell if it worked? I suggest to simply style the div using CSS and make it visible. As I won't go into detail about the CSS, just copy and past the following CSS class into the HTML files head tag.
 
 .. code-block:: css
 
-   <head>
-     <style type="text/css">
-     body {
-       padding: 0px;
-       margin: 0px;
-     }
-     #container {
-       margin: 12px auto;
-       padding: 4px 2px;
-       width: 90%;
-     }
-     #qooxdoo {
-       float: left;
-       width: 45%;
-       background-color: #e1e1e1;
-       height: 750px;
-       margin: 0px 10px;
-     }
-     #classic {
-       float: left;
-       width: 45%;
-       background-color: #e1e1e1;
-       height: 750px;
-       margin: 0px 10px;
-     }
-     .clearer {
-       clear: left;
-     }
-     #qx1 {
-       border: solid 2px #ff0000;
-     }
-     #ex1 {
-       border: solid 2px #ff0000;
-     }
-     </style>
-   </head>
+  <style type="text/css" media="screen">
+    .popup {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 150px;
+      background-color: #aaa;
+      color: white;
+      padding: 10px;
+      font-family: "Lucida Grande", "DejaVu Sans", "Verdana", sans-serif;
+      font-size: 14px;
+      border: solid 1px #000000;
+    }
+  </style>
 
-
-.. _pages/tutorial_web_developers#qooxdoo_initial_step:
-
-qooxdoo initial step
-====================
-
-For qooxdoo we will start with creating the low-level skeleton application. This procedure will create a minimal application environment and JS file that contains the low-level qooxdoo library. The benefits are small for this particular demo but when you want to create a larger application, this comes in handy.  You can find more details about this operation in the :doc:`Setting up a low-level library <setup_a_low-level_library>` section.  We create the application with the following command:
+Now, the only thing missing is to set the CSS class for the popup div. Thats as easy as calling another method.
 
 ::
 
-$QOOXDOO_PATH/tool/bin/create-application.py -n $APPNAME -t bom -o $OUTPUT_DIR
+  var popup = q.create("<div>").appendTo(document.body).addClass("popup");
 
-``$QOOXDOO_PATH`` is the path to your qooxdoo SDK, ``$APPNAME`` specifies your chosen name for the application and ``$OUTPUT_DIR`` is the directory where you want the root folder of the application to be located. The ``-o bom`` option specifies the low-level application type.
+Now reload and see the popup in the upper right corner. Hm, but the styling is not done, right? A real popup has rounded corners! But wasn't that one of the newer CSS keys which is usually vendor prefixed? Yes! That means, we need to add a key for every known browser. No, wait a second. IE and Opera don't use the vendor prefix which means we only need to add the unprefixed key and additionally one key for webkit and mozilla.
 
-Change to the application folder and you will find a Python script that builds our application:
+.. code-block:: css
 
-::
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
 
-./generate.py build
-
-This can easily be automated, or integrated into your development environment. Now we have a ``qx-bom.js`` file in the current directory that we can use in the subsequent steps. You will also find a ``index.html`` file that you can use to paste the above HTML and CSS elements into.  
-
-
-.. _pages/tutorial_web_developers#the_javascript_code:
-
-The JavaScript code
-====================
-
-Now we will dive into events, positioning and location, and then creation and showing of an element.
-
-Events
-------
-
-After creating the button, we must attach a ``click`` event to it, in order to know when to show the menu. It sounds easy to add the click event to the button, but even here there are differences between the browsers. IE has the method ``attachEvent()`` (IE9 supports the W3C standard, though) while the other browsers support the standard W3C method ``addEventListener()``. Also, the handler function of the event treats the ``this`` variable as the global window in IE and as the target element of the event in other browsers. First we fetch the HTML element into a JS variable:
+That was a lot of work for something simple as a border radius! But we could have achieved that more easy. Using %{Website} to set the style will take care of all the vendor prefix stuff! Just add the setting of the style to the popup creation and were done.
 
 ::
 
- var positionedDiv = document.getElementById('ex1');
+  var popup = q.create("<div>").appendTo(document.body).addClass("popup").setStyle("border-radius", "5px");
 
-Now we attach the click event. The first version shows how to achieve this in the classical style:
+Thats about it with the popup. I think thats good enough for the first prototype.
 
-::
+.. _pages/tutorial_web_developers#notify:
 
-  if(!window.addEventListener){
-    positionedDiv.attachEvent('onclick', function(evt){
-     // processing code here
-    });
-  }
-  else {
-    positionedDiv.addEventListener('click', function(evt){
-     // processing code here
-    }, false);
-  }
+notify
+======
 
-Here is the qooxdoo version:
+Next, lets implement the notify method. We already added the function and only need to fill in the implementation. First, we want to set the message and show the popup. But we want to show the popup with some style and fade it in.
 
 ::
 
- var positionedDiv = document.getElementById('qx1');
+  var notify = function(message, delay, callback) {
+    popup.setHtml(message);
+    popup.fadeIn();
+  };
 
- qx.bom.Element.addListener(positionedDiv,'click',function(){
-  // processing code here
- },positionedDiv,false);
-
-
-
-You don't have to worry about the browsers differences now, and it is a one-liner. qooxdoo is well namespaced, so you can safely use it in your webpage, it won't affect other libraries or the global objects, like Array, String ... . For the low-level things we present here, there are three packages of interest: ``qx.bom``, ``qx.dom`` and ``qx.html``. The above method used for adding the click-event listener on a DIV is a static method of the ``Element`` class, so one can use it  right away without instantiating objects. Most methods in these three namespaces are static.
-
-
-Getting the position of a DIV
------------------------------
-
-Next, we need to get ``offsetTop`` and ``offsetLeft`` properties of the DIV node, in order to find out where we must position the menu. The qooxdoo version is simple, so we will write it first to get it out of the way:
+That was easy. The first line simply applies the message as inner HTML of the popup. The second line fades in the popup. This simple fadeIn applies a CSS animation in all browsers supporting CSS animations. If the browser doesn't support CSS animations, the fade in is done using %{JS} so you don't need to bother about that either! Reload the page and see your message in the popup fading in.
+As soon as the message is faded in, we should start a timer to trigger the fade out. But when does the animation end? Especially for that, %{Website} offers an event named ``animationEnd`` on which we can react.
 
 ::
 
- var location = qx.bom.element.Location.get(positionedDiv);
+  popup.fadeIn().once("animationEnd", function() {
+    console.log("end");
+  });
 
-We call the ``get()`` static method on the Location class in the ``qx.bom.element`` namespace. You should `browse the docs <http://demo.qooxdoo.org/%{version}/apiviewer>`_ for these three namespaces to find your way when you need something. Calling ``get()`` will provide us with an object that has 4 properties, ``left``, ``top``, ``right`` and ``bottom``. Now we do the following:
-
-::
-
- var offsetTop = location.top;
- var offsetLeft = location.left;
-
-We will use these variable later.
-
-The classic way is a bit more messy. In this case, the problem is not in the JavaScript differences, but in the CSS and layout. We use the ``offsetTop`` and ``offsetLeft`` element properties which are present in all major browsers. Computing the absolute top and left distance from the upper-left corner of the document is done in the event listener:
+Again, we used the ``console`` API to check if our code is working. Running the code now should show the end message in the console as soon as the popup is faded in. A little hint: Make sure you add the listener only once using the ``once`` method. We don't want to pile up all the listeners on the popup. Now we can start the timer which will be a simple ``setTimeout`` offered by the browser. As soon as the time is over, we can fade out.
 
 ::
 
-    var el = evt.srcElement;
-    var height = el.offsetHeight;
-    var offsetTop = 0;
-	var offsetLeft = 0;
-	while(el.tagName.toLowerCase()!='body'){
-		offsetTop+=el.offsetTop;
-		offsetLeft+=el.offsetLeft;
-		el=el.offsetParent;
-	}
+  popup.fadeIn().once("animationEnd", function() {
+    window.setTimeout(function() {
+       popup.fadeOut();
+    }, delay);
+  });
 
-The problem is, when running this code it gives different results on IE and FF. On IE , the border dimension is not taken into account when computing the position. So for IE we must have something like this below:
+Now we are already there. The only thing missing is to call the ``callback`` as soon as the fade out ended. Again, we listen to the ``animationEnd`` event and call the callback. But as this should be an optional parameter, we should check its availability before executing.
 
 ::
 
-	var el = evt.srcElement;
-	var height = el.offsetHeight;
-	var offsetTop = 0;
-	var offsetLeft = 0;
-	while(el.tagName.toLowerCase()!='body'){
-		var borderTopWidth = parseInt(el.currentStyle.borderTopWidth);
-		var borderLeftWidth = parseInt(el.currentStyle.borderLeftWidth);
-		offsetTop+=el.offsetTop+(isNaN(borderTopWidth) ? 0 : borderTopWidth);
-		offsetLeft+=el.offsetLeft+(isNaN(borderLeftWidth) ? 0 : borderLeftWidth);
-		el=el.offsetParent;
-	}
+  popup.fadeIn().once("animationEnd", function() {
+    window.setTimeout(function() {
+       popup.fadeOut().once("animationEnd", function() {
+         callback && callback.call();
+       });
+    }, delay);
+  });
 
-Now we get the same result. This is not a difference in the JavaScript and DOM API as was the case for the event part, it is about the way CSS and layout are handled. This is internal to the two browser classes, both of which are unified in qooxdoo and the programmer is relieved of them.
+Giving it a try should show both notification messages in sequence. Well done! We have implemented a (very) simple notification mechanism for web pages.
 
 
-Creating and showing the menu.
-------------------------------
+.. _pages/tutorial_web_developers#Summary:
 
-A class is already in place for the menu DIV , so all we are left to do is to create the element, position it at the right coordinates and show it.
-We will show it right below the button, and left-aligned with it.
-
-The classic way:
-
-To get the bottom coordinate we will add to ``offsetTop`` variable in the click handler the button's ``offsetHeight`` value before calling the ``showMenu`` function.
-
-::
-
- showMenu(offsetTop+height,offsetLeft);
-
-where ``height`` variable is obtained earlier in the code fragments above. Now we are set to create and show the menu.
-
-::
-
-    var menuDiv = document.createElement('div');
-    menuDiv.className = 'menu';
-    menuDiv.style.top=top+'px';
-    menuDiv.style.left=left+'px';
-    menuDiv.innerHTML = 'menu1<br>------------<br>menu2';
-    document.body.appendChild(menuDiv);
-
-
-The qooxdoo way:
-
-To get the bottom coordinate we will use ``location.bottom`` computed earlier.
-
-::
-
-    var menuDiv = qx.bom.Element.create('div',{'class': 'menu'});
-    qx.bom.element.Style.setStyles(menuDiv,{
-      'top': location.bottom+'px',
-      'left': location.left+'px'
-    });
-    menuDiv.innerHTML = 'menu1<br>--------------<br>menu2';
-    qx.dom.Element.insertEnd(menuDiv,document.body);
-
-Creating an element comes along with specifying attributes, too, in a good JS manner by having the second argument as a object literal with attribute names and values. The same style is for the method `qx.bom.element.Style.setStyles() <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.bom.element.Style~setStyles>`__, where we specify in a single call all the styles we want for the element.
-
-The menu gets hidden when we move the mouse out of it. Adding a ``mouseout`` event is similar to the click event, so we don't repeat it here because there aren't many differences between browsers.
-
-This concludes the low-level tutorial, where we hoped to show some of the benefits you get when using qooxdoo in low-level applications.
+Summary
+-------
+In this tutorial, we have used a small part of the %{Website} API. First, we have seen parts of the Manipulating module with ``q.create`` and ``.appendTo``. After that, we used the CSS module with ``.setStyle`` and ``.addClass`` and the Attributes module with ``.setHtml``. ``.fadeIn`` and ``.fadeOut`` are part of the Animation module and ``.once`` is part of the Event module. There are more method in the named modules as there are a lot of more modules you can experiment with.
