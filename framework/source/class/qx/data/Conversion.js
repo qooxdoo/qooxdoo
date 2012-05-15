@@ -64,7 +64,7 @@ qx.Class.define("qx.data.Conversion",
 
 
     /**
-     * Converts the given value to a number via <code>!!value</code>.
+     * Converts the given value to a boolean via <code>!!value</code>.
      *
      * @param value {var} The value to convert.
      * @return {Boolean} The converted value.
