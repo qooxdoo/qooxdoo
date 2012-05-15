@@ -1558,42 +1558,54 @@ testrunner.define({
 testrunner.define({
   classname : "event.RegistrationHooks",
   
-  setUp : function() {
-    testrunner.globalSetup.call(this);
-    this.__hooks = {};
-    var reg = q.getEventHookRegistry();
-    for (var type in reg) {
-      this.__hooks[type] = reg[type];
-    }
-  },
-  
-  tearDown : function() {
-    testrunner.globalTeardown.call(this);
-    var reg = q.getEventHookRegistry();
-    reg = {};
-    for (var type in this.__hooks) {
-      reg[type] = this.__hooks[type];
-    }
-  },
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
   
   testRegisterHook : function()
   {
-    var test = q.create('<div></div>').appendTo("#sandbox");
-    var hookFunc = function(element, type, callback, context) {
-      element.hookApplied = "foo";
+    var test = q.create('<div></div>').appendTo(this.sandbox[0]);
+    var registerHook = function(element, type, callback, context) {
+      element.hookApplied = true;
+    };
+    var unregisterHook = function(element, type, callback, context) {
+      element.hookApplied = false;
     };
     var hooks = q.getEventHookRegistry();
-    var len = hooks["foo"] ? hooks["foo"].length : 0;
+    var onHookCount = hooks["on"]["foo"] ? hooks["on"]["foo"].length : 0;
     
-    q.registerEventHook(["foo"], hookFunc);
-    this.assertArray(hooks["foo"]);
-    this.assertEquals(len+1, hooks["foo"].length);
+    q.registerEventHook(["foo"], registerHook, unregisterHook);
+    this.assertArray(hooks["on"]["foo"]);
+    this.assertEquals(onHookCount+1, hooks["on"]["foo"].length);
     
-    test.on("foo");
-    this.assertEquals("foo", test[0].hookApplied);
+    var cb = function() {};
+    test.on("foo", cb);
+    this.assertTrue(test[0].hookApplied);
     
-    q.unregisterEventHook(["foo"], hookFunc);
-    this.assertEquals(len, hooks["foo"].length);
+    test.off("foo", cb);
+    this.assertFalse(test[0].hookApplied);
+    
+    q.unregisterEventHook(["foo"], registerHook, unregisterHook);
+    this.assertEquals(onHookCount, hooks["on"]["foo"].length);
+  }
+});
+
+
+testrunner.define({
+  classname : "event.TouchHandler",
+  
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+  
+  testRegister : function()
+  {
+    var cb = function() {};
+    var test = q.create('<div></div>').appendTo(this.sandbox[0])
+    .on("swipe", cb).on("tap", cb);
+    this.assertInstance(test[0].__touchHandler, qx.event.handler.TouchCore);
+    test.off("swipe", cb);
+    this.assertNotNull(test[0].__touchHandler);
+    test.off("tap", cb)
+    this.assertNull(test[0].__touchHandler);
   }
 });
 

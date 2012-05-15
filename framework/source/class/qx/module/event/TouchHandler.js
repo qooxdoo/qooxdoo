@@ -36,11 +36,12 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
     TYPES : ["tap", "swipe"],
     
     /**
-     * Creates a touch handler for the given element
+     * Creates a touch handler for the given element when a touch event listener
+     * is attached to it
      * 
      * @param element {Element} DOM element
      */
-    eventHook : function(element)
+    register : function(element)
     {
       if (!element.__touchHandler) {
         if (!element.__emitter) {
@@ -48,11 +49,38 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
         }
         element.__touchHandler = new qx.event.handler.TouchCore(element, element.__emitter);
       }
+    },
+    
+    
+    /**
+     * Removes the touch event handler from the element if there are no more
+     * touch event listeners attached to it
+     * @param element {Element} DOM element
+     */
+    unregister : function(element)
+    {
+      if (element.__touchHandler) {
+        if (!element.__emitter) {
+          element.__touchHandler = null;
+        }
+        else {
+          var hasTouchListener = false;
+          var listeners = element.__emitter.getListeners();
+          qx.module.event.TouchHandler.TYPES.forEach(function(type) {
+            if (type in listeners && listeners[type].length > 0) {
+              hasTouchListener = true;
+            }
+          });
+          if (!hasTouchListener) {
+            element.__touchHandler = null;
+          }
+        }
+      }
     }
   },
   
   defer : function(statics)
   {
-    q.registerEventHook(statics.TYPES, statics.eventHook);
+    q.registerEventHook(statics.TYPES, statics.register, statics.unregister);
   }
 });

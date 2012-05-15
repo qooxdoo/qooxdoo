@@ -34,10 +34,12 @@ qx.Bootstrap.define("qx.module.Event", {
     
     /**
      * Registry of event hooks
-     * @type
      * @internal 
      */
-    __hooks : {},
+    __hooks : {
+      on : {},
+      off : {}
+    },
 
     /**
      * Register a listener for the given event type on each item in the
@@ -56,7 +58,7 @@ qx.Bootstrap.define("qx.module.Event", {
         var ctx = context || q.wrap(el);
 
         // call hooks
-        var hooks = qx.module.Event.__hooks;
+        var hooks = qx.module.Event.__hooks.on;
         // generic
         var typeHooks = hooks["*"] || [];
         // type specific
@@ -128,18 +130,19 @@ qx.Bootstrap.define("qx.module.Event", {
     off : function(type, listener, context) {
       for (var j=0; j < this.length; j++) {
         var el = this[j];
+        
         for (var id in el.__listener[type]) {
           var storedListener = el.__listener[type][id];
           if (storedListener == listener || storedListener.original == listener) {
             // get the stored context
-            var storedContext = typeof el.__ctx !== "undefined" && el.__ctx[id];
-            if (!context && storedContext) {
-              context = el.__ctx[id];
+            var hasStoredContext = typeof el.__ctx !== "undefined" && el.__ctx[id];
+            if (!context && hasStoredContext) {
+              var storedContext = el.__ctx[id];
             }
             // remove the listener from the emitter
-            el.__emitter.off(type, storedListener, context);
+            el.__emitter.off(type, storedListener, storedContext || context);
 
-            // check if its a bound listener which means it was a native event
+            // check if it's a bound listener which means it was a native event
             if (storedListener.original == listener) {
               // remove the native listener
               qx.bom.Event.removeNativeListener(el, type, storedListener);
@@ -147,10 +150,22 @@ qx.Bootstrap.define("qx.module.Event", {
 
             delete el.__listener[type][id];
 
-            if (storedContext) {
+            if (hasStoredContext) {
               delete el.__ctx[id];
             }
           }
+        }
+        
+        // call hooks
+        var hooks = qx.module.Event.__hooks.off;
+        // generic
+        var typeHooks = hooks["*"] || [];
+        // type specific
+        if (hooks[type]) {
+          typeHooks = typeHooks.concat(hooks[type]);
+        }
+        for (var i=0, m=typeHooks.length; i<m; i++) {
+          typeHooks[i](el, type, listener, context);
         }
       }
       return this;
@@ -391,22 +406,36 @@ qx.Bootstrap.define("qx.module.Event", {
      *
      * @attachStatic {q, q.registerEventHook}
      * @param types {String[]} List of event types
-     * @param hook {Function} Hook function
+     * @param registerHook {Function} Hook function to be called on event registration
+     * @param unregisterHook {Function?} Hook function to be called on event deregistration
      * @internal
      */
-    registerEventHook : function(types, hook)
+    registerEventHook : function(types, registerHook, unregisterHook)
     {
       if (!qx.lang.Type.isArray(types)) {
         types = [types];
       }
-      var registry = qx.module.Event.__hooks;
+      var onHooks = qx.module.Event.__hooks.on;
       for (var i=0,l=types.length; i<l; i++) {
         var type = types[i];
-        if (qx.lang.Type.isFunction(hook)) {
-          if (!registry[type]) {
-            registry[type] = [];
+        if (qx.lang.Type.isFunction(registerHook)) {
+          if (!onHooks[type]) {
+            onHooks[type] = [];
           }
-          registry[type].push(hook);
+          onHooks[type].push(registerHook);
+        }
+      }
+      if (!unregisterHook) {
+        return;
+      }
+      var offHooks = qx.module.Event.__hooks.off;
+      for (var i=0,l=types.length; i<l; i++) {
+        var type = types[i];
+        if (qx.lang.Type.isFunction(unregisterHook)) {
+          if (!offHooks[type]) {
+            offHooks[type] = [];
+          }
+          offHooks[type].push(unregisterHook);
         }
       }
     },
@@ -416,19 +445,30 @@ qx.Bootstrap.define("qx.module.Event", {
      * Unregister a hook from the given event types.
      *
      * @attachStatic {q, q.unregisterEventHooks}
-     * @param types {String[]} List of event types
-     * @param normalizer {Function} Hook function
+     * @param registerHook {Function} Hook function to be called on event registration
+     * @param unregisterHook {Function?} Hook function to be called on event deregistration
+     * @internal
      */
-    unregisterEventHook : function(types, hook)
+    unregisterEventHook : function(types, registerHook, unregisterHook)
     {
       if (!qx.lang.Type.isArray(types)) {
         types = [types];
       }
-      var registry = qx.module.Event.__hooks;
+      var onHooks = qx.module.Event.__hooks.on;
       for (var i=0,l=types.length; i<l; i++) {
         var type = types[i];
-        if (registry[type]) {
-          qx.lang.Array.remove(registry[type], hook);
+        if (onHooks[type]) {
+          qx.lang.Array.remove(onHooks[type], registerHook);
+        }
+      }
+      if (!unregisterHook) {
+        return;
+      }
+      var offHooks = qx.module.Event.__hooks.off;
+      for (var i=0,l=types.length; i<l; i++) {
+        var type = types[i];
+        if (offHooks[type]) {
+          qx.lang.Array.remove(offHooks[type], unregisterHook);
         }
       }
     },
