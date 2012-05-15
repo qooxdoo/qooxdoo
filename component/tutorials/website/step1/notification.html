@@ -29,7 +29,9 @@
         popup.setHtml(message);
         popup.fadeIn().once("animationEnd", function() {
           window.setTimeout(function() {
-             popup.fadeOut();
+             popup.fadeOut().once("animationEnd", function() {
+               callback && callback.call();
+             });
           }, delay);
         });
       };
