@@ -240,6 +240,8 @@ qx.Class.define("apiviewer.dao.Node", {
         case "errors":
           this._errors = this._createNodeList(childNode);
           break;
+        case "attach":
+          break;
         default:
           return false;
       }

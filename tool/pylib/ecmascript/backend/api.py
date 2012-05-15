@@ -70,14 +70,16 @@ def printDocError(node, msg):
 def createDoc(syntaxTree, docTree = None):
     if not docTree:
         docTree = tree.Node("doctree")
+    attachMap = {} # {"targetclass#targetmethod" : method_docnode}
 
     defineNode = treeutil.findQxDefine(syntaxTree)
     if defineNode != None:
         variant = treeutil.selectNode(defineNode, "operand").toJS().split(".")[1].lower()  # 'class' in 'qx.Class.define'
         handleClassDefinition(docTree, defineNode, variant)
+        attachMap = findAttachMethods(docTree)
 
     global hasDocError
-    ret = (docTree, hasDocError)
+    ret = (docTree, hasDocError, attachMap)
     hasDocError = False
 
     return ret
@@ -871,6 +873,13 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             seeNode = tree.Node("see").set("name", attrib["name"])
             node.addChild(seeNode)
 
+        elif attrib["category"] == "attach":
+            if not "targetClass" in attrib:
+                printDocError(funcItem, "Missing target for attach.")
+            attachNode = tree.Node("attach").set("targetClass", attrib["targetClass"])
+            attachNode.set("targetMethod", attrib["targetMethod"])
+            node.addChild(attachNode)
+
         elif attrib["category"] == "param":
             if not "name" in attrib:
                 printDocError(funcItem, "Missing name of parameter.")
@@ -984,6 +993,24 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 #  COMMON STUFF
 #
 #######################################################################################
+
+
+def findAttachMethods(docTree):
+    attachMap = {}
+    sections = {"attach": "members", "attachStatic" :"statics"}
+
+    for method in methodNodeIterator(docTree):
+        for child in method.children:
+            if child.type in ("attach", "attachStatic"):
+                target_class = child.get("targetClass")
+                if target_class not in attachMap:
+                    attachMap[target_class] = {"statics": {}, "members": {}}
+                target_method = child.get("targetMethod")
+                if not target_method:
+                    target_method = method.get("name")
+                attachMap[target_class][sections[child.type]][target_method] = method  # copy.deepcopy(method)?
+
+    return attachMap
 
 
 def variableIsClassName(varItem):
@@ -1680,3 +1707,23 @@ def classNodeIterator(docTree):
         for child in docTree.children:
             for cls in classNodeIterator(child):
                 yield cls
+
+
+def methodNodeIterator(docTree):
+    if docTree.type == "method":
+        yield docTree
+        return
+
+    if docTree.hasChildren():
+        for child in docTree.children:
+            for method in methodNodeIterator(child):
+                yield method
+
+def docTreeIterator(docTree, type_):
+    if docTree.type == type_:
+        yield docTree
+
+    if docTree.children:
+        for child in docTree.children:
+            for entry in docTreeIterator(child, type_):
+                yield entry

@@ -50,7 +50,7 @@ R_BLOCK_COMMENT_TIGHT_END = re.compile("\S+\*/$")
 R_BLOCK_COMMENT_PURE_START = re.compile("^/\*")
 R_BLOCK_COMMENT_PURE_END = re.compile("\*/$")
 
-R_ATTRIBUTE = re.compile('[^{]@(\w+)\s*')
+R_ATTRIBUTE = re.compile(r'[^{]@(\w+)\b')
 R_JAVADOC_STARS = re.compile(r'^\s*\*')
 
 
@@ -327,28 +327,37 @@ class Comment(object):
                 remain = match.group(2)
 
             if remain != None:
-                defIndex = remain.rfind("?")
-                if defIndex != -1:
-                    attrib["defaultValue"] = remain[defIndex+1:].strip()
-                    remain = remain[0:defIndex].strip()
-                    #print ">>> DEFAULT: %s" % attrib["defaultValue"]
+                if attrib["category"] == "attach":
+                    defIndex = remain.find(",")
+                    if defIndex == -1:  # @attach {q}
+                        attrib["targetClass"] = remain.strip()
+                        attrib["targetMethod"] = ""
+                    else:              # @attach {q,m}
+                        attrib["targetClass"] = remain[:defIndex].strip()
+                        attrib["targetMethod"] = remain[defIndex+1:].strip()
+                else:
+                    defIndex = remain.rfind("?")
+                    if defIndex != -1:
+                        attrib["defaultValue"] = remain[defIndex+1:].strip()
+                        remain = remain[0:defIndex].strip()
+                        #print ">>> DEFAULT: %s" % attrib["defaultValue"]
 
-                typValues = []
-                for typ in remain.split("|"):
-                    typValue = typ.strip()
-                    arrayIndex = typValue.find("[")
+                    typValues = []
+                    for typ in remain.split("|"):
+                        typValue = typ.strip()
+                        arrayIndex = typValue.find("[")
 
-                    if arrayIndex != -1:
-                        arrayValue = (len(typValue) - arrayIndex) / 2
-                        typValue = typValue[0:arrayIndex]
-                    else:
-                        arrayValue = 0
+                        if arrayIndex != -1:
+                            arrayValue = (len(typValue) - arrayIndex) / 2
+                            typValue = typValue[0:arrayIndex]
+                        else:
+                            arrayValue = 0
 
-                    typValues.append({ "type" : typValue, "dimensions" : arrayValue })
+                        typValues.append({ "type" : typValue, "dimensions" : arrayValue })
 
-                if len(typValues) > 0:
-                    attrib["type"] = typValues
-                    #print ">>> TYPE: %s" % attrib["type"]
+                    if len(typValues) > 0:
+                        attrib["type"] = typValues
+                        #print ">>> TYPE: %s" % attrib["type"]
 
         if format:
             attrib["text"] = self.formatText(text)

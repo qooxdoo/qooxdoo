@@ -39,7 +39,7 @@ qx.Bootstrap.define("qx.module.Environment", {
     /**
      * Get the value stored for the given key.
      *
-     * @attachStatic {q, q.env.get}
+     * @attachStatic {q, env.get}
      * @param key {String} The key to check for.
      * @return {var} The value stored for the given key.
      */
@@ -51,7 +51,7 @@ qx.Bootstrap.define("qx.module.Environment", {
      * Adds a new environment setting which can be queried via {@link #get}.
      * @param key {String} The key to store the value for.
      *
-     * @attachStatic {q, q.env.add}
+     * @attachStatic {q, env.add}
      * @param value {var} The value to store.
      * @return {q} The collection for chaining.
      */

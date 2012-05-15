@@ -53,9 +53,9 @@ class ApiLoader(object):
         filePath = self._classesObj[fileId].path
 
         cacheId = "api-%s" % filePath
-        data, _ = self._cache.read(cacheId, filePath)
-        if data != None:
-            return data
+        tdata, _ = self._cache.read(cacheId, filePath)
+        if tdata != None:
+            return tdata
 
         self._console.debug("Extracting API data: %s..." % fileId)
 
@@ -64,15 +64,19 @@ class ApiLoader(object):
         optimize = self._job.get("compile-options/code/optimize", [])
         if "variants" in optimize:
             tree_ = self._classesObj[fileId].optimize(tree_, ["variants"], variantSet)
-        (data, hasError) = api.createDoc(tree_)
+        (data, hasError, attachMap) = api.createDoc(tree_)
+        # debug on
+        #if fileId=="qx.module.Animation":
+        #    import pydb; pydb.debugger()
+        # debug off
         self._console.outdent()
         
         if hasError:
             self._console.error("Error in API data of class: %s" % fileId)
             data = None
         
-        self._cache.write(cacheId, data)
-        return data
+        self._cache.write(cacheId, (data, attachMap))
+        return data, attachMap
 
 
     def getPackageApi(self, packageId):
@@ -102,15 +106,31 @@ class ApiLoader(object):
         self._console.indent()
 
         packages = []
+        AttachMap = {}
         hasErrors = False
         for pos, fileId in enumerate(include):
             self._console.progress(pos+1, length)
-            fileApi = self.getApi(fileId, variantSet)
+            fileApi, attachMap = self.getApi(fileId, variantSet)
             if fileApi == None:
                 hasErrors = True
             
             # Only continue merging if there were no errors
             if not hasErrors:
+                # update AttachMap
+                for cls in attachMap: # 'qx.Class', 'qx.core.Object', 'q', ...
+                    if cls not in AttachMap:
+                        AttachMap[cls] = attachMap[cls]
+                    else:
+                        for section in attachMap[cls]:  # 'statics', 'members'
+                            if section not in AttachMap[cls]:
+                                AttachMap[cls][section] = attachMap[cls][section]
+                            else:
+                                for method in attachMap[cls][section]:  # 'define', 'showToolTip', ...
+                                    if method not in AttachMap[cls][section]:
+                                        AttachMap[cls][section][method] = attachMap[cls][section][method]
+                                    else:
+                                        self._console.warn("Multiple @attach for same target '%s::%s#%s'." % (cls, section, method))
+
                 self._mergeApiNodes(docTree, fileApi)
                 pkgId = self._classesObj[fileId].package
                 # make sure all parent packages are included
@@ -147,7 +167,14 @@ class ApiLoader(object):
         packageData = api.getPackageData(docTree)
         packageJson = json.dumps(packageData)
         filetool.save(os.path.join(apiPath, "apidata.json"), packageJson)
+
+        # apply the @attach information
+        for classData in api.classNodeIterator(docTree):
+            className = classData.get("fullName")
+            if className in AttachMap:
+                self._applyAttachInfo(className, classData, AttachMap[className])
         
+        # write per-class .json to disk
         length = 0
         for classData in api.classNodeIterator(docTree):
             length += 1
@@ -163,6 +190,7 @@ class ApiLoader(object):
             
         self._console.outdent()
             
+        # writ apiindex.json
         self._console.info("Saving index...")
         filetool.save(os.path.join(apiPath, "apiindex.json"), indexContent)            
 
@@ -473,3 +501,43 @@ class ApiLoader(object):
                     
                     self._console.info("The %s documentation for %s contains a broken link to %s" %(nodeType,linkNode,ref))
             
+
+    ##
+    # Apply collected @attach info to a specific class doc
+    #
+    def _applyAttachInfo(self, className, classDoc, classAttachInfo):
+        node_types = {"statics" : "methods-static", "members" : "methods"}
+
+        ##
+        # get or create a section node
+        def get_section_node(classDoc, section):
+            section_node = None
+            for node in api.docTreeIterator(classDoc, node_types[section]):
+                section_node = node  # first should be only
+                break
+            if not section_node:
+                section_node = tree.Node(node_types[section])
+                classDoc.addChild(section_node)
+            return section_node
+
+
+        def has_method(section_node, method):
+            for method in api.methodNodeIterator(section_node):
+                if method.get("name") == method_name:
+                    return True
+            return False
+
+        def add_meth_doc(methDoc, section_node):
+            section_node.addChild(methDoc)
+
+        # -----------------------------------------------------------------
+
+        for section in ('statics', 'members'):
+            if not classAttachInfo[section]:
+                continue
+            section_node = get_section_node(classDoc, section)
+            for method_name in classAttachInfo[section]:
+                if has_method(section_node, method_name):
+                    self._console.warn("Attempt to attach already existing method '%s::%s#%s'" % (className, section, method_name))
+                else:
+                    add_meth_doc(classAttachInfo[section][method_name], section_node)

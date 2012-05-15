@@ -344,7 +344,7 @@ qx.Bootstrap.define("qx.module.Event", {
      * The normalizer will be called with two arguments: The original event
      * object and the element on which the event was triggered
      *
-     * @attachStatic {q, q.registerEventNormalization}
+     * @attachStatic {q, registerEventNormalization}
      * @param types {String[]} List of event types to be normalized. Use an
      * asterisk (<code>*</code>) to normalize all event types
      * @param normalizer {Function} Normalizer function
@@ -370,7 +370,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Unregister a normalization function from the given event types.
      *
-     * @attachStatic {q, q.unregisterEventNormalization}
+     * @attachStatic {q, unregisterEventNormalization}
      * @param types {String[]} List of event types
      * @param normalizer {Function} Normalizer function
      */
@@ -392,7 +392,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Returns all registered event normalizers
      *
-     * @attachStatic {q, q.getEventNormalizationRegistry}
+     * @attachStatic {q, getEventNormalizationRegistry}
      * @return {Map} Map of event types/normalizer functions
      */
     getRegistry : function()
@@ -404,7 +404,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Register an event hook for the given event types.
      *
-     * @attachStatic {q, q.registerEventHook}
+     * @attachStatic {q, registerEventHook}
      * @param types {String[]} List of event types
      * @param registerHook {Function} Hook function to be called on event registration
      * @param unregisterHook {Function?} Hook function to be called on event deregistration
@@ -444,7 +444,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Unregister a hook from the given event types.
      *
-     * @attachStatic {q, q.unregisterEventHooks}
+     * @attachStatic {q, unregisterEventHooks}
      * @param registerHook {Function} Hook function to be called on event registration
      * @param unregisterHook {Function?} Hook function to be called on event deregistration
      * @internal
@@ -477,7 +477,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Returns all registered event normalizers
      *
-     * @attachStatic {q, q.getEventHookRegistry}
+     * @attachStatic {q, getEventHookRegistry}
      * @return {Map} Map of event types/registration hook functions
      * @internal
      */
