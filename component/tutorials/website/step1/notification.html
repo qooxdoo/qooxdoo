@@ -22,7 +22,7 @@
     <script type="text/javascript" charset="utf-8">
     q.ready(function() {
       // create the notification popup
-      var popup = q.create("<div>").appendTo(document.body).addClass("popup");
+      var popup = q.create("<div>").appendTo(document.body).addClass("popup").setStyle("border-radius", "5px");
 
       // create the notification API
       var notify = function(message, delay, callback) {
