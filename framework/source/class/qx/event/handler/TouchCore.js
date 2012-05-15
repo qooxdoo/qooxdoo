@@ -26,7 +26,8 @@
 ************************************************************************ */
 
 /**
- * 
+ * Listens for native touch events and fires composite events like "tap" and
+ * "swipe"
  */
 qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
@@ -79,10 +80,12 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
    * Create a new instance
    * 
    * @param target {Element} element on which to listen for native touch events
+   * @param emitter {qx.event.Emitter} 
    */
-  construct : function(target)
+  construct : function(target, emitter)
   {
     this.__target = target;
+    this.__emitter = emitter;
     this._initTouchObserver();
   },
   
@@ -219,9 +222,9 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
       var type = type || domEvent.type;
 
-      if (target && target.nodeType && target.__emitter)
+      if (target && target.nodeType && this.__emitter)
       {
-        target.__emitter.emit(type, domEvent);
+        this.__emitter.emit(type, domEvent);
       }
     },
     
@@ -360,7 +363,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     dispose : function()
     {
       this._stopTouchObserver();
-      this.__originalTarget = this.__target = null;
+      this.__originalTarget = this.__target = this.__emitter = null;
     }
   }
 });

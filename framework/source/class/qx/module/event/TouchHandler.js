@@ -43,13 +43,16 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
     eventHook : function(element)
     {
       if (!element.__touchHandler) {
-        element.__touchHandler = new qx.event.handler.TouchCore(element);
+        if (!element.__emitter) {
+          element.__emitter = new qx.event.Emitter();
+        }
+        element.__touchHandler = new qx.event.handler.TouchCore(element, element.__emitter);
       }
     }
   },
   
   defer : function(statics)
   {
-    q.registerEventHook(qx.module.event.TouchHandler.TYPES, statics.eventHook);
+    q.registerEventHook(statics.TYPES, statics.eventHook);
   }
 });
