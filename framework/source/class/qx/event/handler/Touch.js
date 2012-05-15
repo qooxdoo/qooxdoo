@@ -31,7 +31,7 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * This class provides an unified touch event handler.
+ * This class provides a unified touch event handler.
  */
 qx.Class.define("qx.event.handler.Touch",
 {
