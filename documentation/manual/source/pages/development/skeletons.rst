@@ -5,7 +5,7 @@ Application Skeletons
 
 qooxdoo comes with several different application templates or *skeletons*. Each is meant for a specific usage scenario and includes a different subset of the qooxdoo framework (see the :ref:`architecture diagram<pages/architecture#architecture>` for reference).
 
-When creating a new application using :ref:`create-application.py<pages/getting_started/helloworld#helloworld>`, the *-t* or *--type* parameter specifies the type of skeleton to be used, e.g.
+When creating a new application using :doc:`create-application.py </pages/tool/create_application>`, the *-t* or *--type* parameter specifies the type of skeleton to be used, e.g.
 
 ::
 
@@ -15,8 +15,8 @@ The following skeletons are available:
 
 .. _pages/development/skeletons#gui:
 
-Gui
----
+Desktop
+-------
 For a GUI application that looks & feels like a native desktop application (often called “RIA” – Rich Internet Application).
 
 Such a stand-alone application typically creates and updates all content dynamically. Often it is called a “single-page application”, since the document itself is never reloaded or changed.
@@ -81,8 +81,8 @@ Included layers
 
 .. _pages/development/skeletons#bom:
 
-Bom
----
+Website
+-------
 
 Pre-configured :ref:`low-level library <pages/setup_a_low-level_library#setup_a_low-level_library>`.
 
@@ -94,8 +94,8 @@ Included layers
 
 .. _pages/development/skeletons#basic:
 
-Basic
------
+Server
+------
 For applications running in "browserless" or server-side environments such as node.js and Rhino. 
 
 Inherits from `qx.application.Basic <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Basic>`_

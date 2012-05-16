@@ -347,7 +347,7 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
         help="Applications's top-level namespace. (Default: APPLICATIONNAME)"
     )
     parser.add_option(
-        "-t", "--type", dest="type", metavar="TYPE", default="gui",
+        "-t", "--type", dest="type", metavar="TYPE", default="desktop",
         help=skeletonsHelpString()
      )
     parser.add_option(

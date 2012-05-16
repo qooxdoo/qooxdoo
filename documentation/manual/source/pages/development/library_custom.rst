@@ -1,18 +1,18 @@
 Custom Libraries
 ****************
 
-Once your application has grown beyond a certain size, or when you start a second application that could re-use some of the code of the first, you start thinking about factoring code out into separately managable units. This is where custom libraries come into play.
+Once your application has grown beyond a certain size, or when you start a second application that could re-use some of the code of the first, you start thinking about factoring code out into separately manageable units. This is where custom libraries come into play.
 
-In qooxdoo, all application files are organized in what we call "libraries". This affects source code, but also other resources like images, media files with sound or video, or static HTML pages. In this sense, the framework class library and its resources is nothing more than a library. But also your application is in that sense a library. (The fact that it has a "main" class which can be run as an application doesn't mattere here). Hence there is this little saying in qooxdoo that *"everything is a library"*.
+In qooxdoo, all application files are organized in what we call "libraries". This affects source code, but also other resources like images, media files with sound or video, or static HTML pages. In this sense, the framework class library and its resources is nothing more than a library. But also your application is in that sense a library. (The fact that it has a "main" class which can be run as an application doesn't matter here). Hence there is this little saying in qooxdoo that *"everything is a library"*.
 
-What constitutes a library is just its *Manifest.json*, which provides the main meta-data, and a *source* path with corresponding subdirectories that holds the class code and resources. That's it, and this is exaclty what most application skeletons like "gui" or "server" create. So once you've run *create-application.py* the result can immediately be used as a library.
+What constitutes a library is just its :doc:`Manifest.json </pages/tool/manifest>`, which provides the main meta-data, and a *source* path with corresponding subdirectories that holds the class code and resources. That's it, and this is exactly what most application :doc:`skeletons </pages/development/skeletons>` like "desktop" or "server" create. So once you've run *create-application.py* the result can immediately be used as a library.
 
 Creating a Custom Library
 =========================
 
-Just run *create-application.py*. The default application type ("gui") is good enough for this purpose. If you have existing code that you want to put into the library, just move the files over to their new location under the *source/class/<namespace>* path. Don't forget to adapt the class name as given in the call to e.g. *qx.Class.define*. The name passed in this call has to match the path suffix of the class file, like *"mylib.Foo"*.
+Just run :doc:`create-application.py </pages/tool/create_application>`. The default application type ("desktop") is good enough for this purpose. If you have existing code that you want to put into the library, just move the files over to their new location under the *source/class/<namespace>* path. Don't forget to adapt the class name as given in the call to e.g. *qx.Class.define*. The name passed in this call has to match the path suffix of the class file, like *"<namespace>.Foo"*.
 
-If you don't plan to develop a small demo application along with the library classes, you could put away with the *Application.js* class that is part of every skeleton by default. But you could just as well keep this file, as it allows you to build an application in your library directly (see also further).
+If you don't plan to develop a small demo application along with the library classes, you could put away with the *Application.js* file that is part of every skeleton by default. But you could just as well keep this file, as it allows you to build an application in your library directly (also see further).
 
 Using the Library
 =================
