@@ -241,6 +241,7 @@ qx.Class.define("apiviewer.dao.Node", {
           this._errors = this._createNodeList(childNode);
           break;
         case "attach":
+        case "attachStatic":
           break;
         default:
           return false;

@@ -327,7 +327,7 @@ class Comment(object):
                 remain = match.group(2)
 
             if remain != None:
-                if attrib["category"] == "attach":
+                if attrib["category"] in ("attach", "attachStatic"):
                     defIndex = remain.find(",")
                     if defIndex == -1:  # @attach {q}
                         attrib["targetClass"] = remain.strip()

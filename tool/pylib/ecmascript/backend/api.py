@@ -873,10 +873,12 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             seeNode = tree.Node("see").set("name", attrib["name"])
             node.addChild(seeNode)
 
-        elif attrib["category"] == "attach":
+        elif attrib["category"] in ("attach", "attachStatic"):
             if not "targetClass" in attrib:
                 printDocError(funcItem, "Missing target for attach.")
-            attachNode = tree.Node("attach").set("targetClass", attrib["targetClass"])
+                continue
+
+            attachNode = tree.Node(attrib["category"]).set("targetClass", attrib["targetClass"])
             attachNode.set("targetMethod", attrib["targetMethod"])
             attachNode.set("sourceClass", classNode.get("fullName"))  # these two are interesting for display at the target class
             attachNode.set("sourceMethod", name)
