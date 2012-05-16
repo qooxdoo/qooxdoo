@@ -1,5 +1,5 @@
-GUI Skeleton - A qooxdoo Application Template
-=============================================
+Desktop Skeleton - A qooxdoo Application Template
+==================================================
 
 This is a qooxdoo application skeleton which is used as a template. The 
 'create-application.py' script (usually under tool/bin/create-application.py)
