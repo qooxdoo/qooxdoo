@@ -32,8 +32,8 @@ q.ready(function() {
       if (item.attributes.isInternal) {
         return;
       }
-      var name = item.attributes.name;
-      var module = getModuleName(item.attributes.attach);
+      var name = getMethodName(item);
+      var module = getModuleName(item.attributes.sourceClass);
       if (!listData[module]) {
         listData[module] = {"static": [], "member": []};
       }
@@ -52,12 +52,10 @@ q.ready(function() {
       var ul = q.create("<ul></ul>").appendTo(list);
       data[module]["static"].sort();
       data[module]["static"].forEach(function(name) {
-        name = "q." + name;
         q.template.get("list-item", {name: name + "()", link: name}).appendTo(ul);
       });
       data[module]["member"].sort();
       data[module]["member"].forEach(function(name) {
-        name = "." + name;
         q.template.get("list-item", {name: name + "()", link: name}).appendTo(ul);
       });
     }
@@ -107,8 +105,8 @@ q.ready(function() {
 
   var sortMethods = function() {
     methods.sort(function(a, b) {
-      var moduleA = getModuleName(a.attributes.attach);
-      var moduleB = getModuleName(b.attributes.attach);
+      var moduleA = getModuleName(a.attributes.sourceClass);
+      var moduleB = getModuleName(b.attributes.sourceClass);
       if (moduleA == moduleB) {
         return a.attributes.name > b.attributes.name ? 1 : -1;
       }
@@ -123,12 +121,11 @@ q.ready(function() {
     if (method.attributes.isInternal) {
       return;
     }
-    var isStatic = method.attributes.isStatic;
     // add the name
-    var data = {name: (isStatic ? "q." : ".") + method.attributes.name};
+    var data = {name: getMethodName(method)};
 
     // module
-    data.module = getModuleName(method.attributes.attach)
+    data.module = getModuleName(method.attributes.sourceClass);
 
     // add the description
     data.desc = parse(getByType(method, "desc").attributes.text) || "";
@@ -166,7 +163,7 @@ q.ready(function() {
     if (__lastModule != data.module) {
       var module = q.create("<div class='module'>").appendTo("#content");
       module.append(q.create("<h1 id='" + data.module + "'>" + data.module + "</h1>"));
-      addClassDoc(method.attributes.attach, module);
+      addClassDoc(method.attributes.sourceClass, module);
       __lastModule = data.module;
     }
     q("#content").append(q.template.get("method", data));
@@ -253,16 +250,21 @@ q.ready(function() {
 
 
   var getModuleName = function(attach) {
-    if (!attach) {
-      return "Core";
-    }
-   if (attach.indexOf("#") != -1) {
-     attach = /\.(\w*)#/.exec(attach)[1];
-   } else {
-     attach = attach.split(".");
-     attach = attach[attach.length -1];
+   if (!attach) {
+     return "Core";
    }
+   attach = attach.replace("qx.module.", "");
    return attach;
+  };
+
+
+  var getMethodName = function(item) {
+    var attachData = getByType(item, "attachStatic");
+    if (item.attributes.isStatic) {
+      return "q." + (attachData.attributes.targetMethod || item.attributes.name);
+    } else {
+      return "." + item.attributes.name;
+    }
   };
 
 
