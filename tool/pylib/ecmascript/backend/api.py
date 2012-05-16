@@ -1016,6 +1016,8 @@ def findAttachMethods(docTree):
                     cmethod.set("isStatic", True)
                 else:
                     cmethod.set("isStatic", False)
+                cmethod.set("sourceClass", child.get("sourceClass"))
+                cmethod.set("sourceMethod", method.get("name"))
 
     return attachMap
 
