@@ -166,7 +166,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
           if (frame[name] == undefined) {
             // get the computed style if possible
             if (window.getComputedStyle) {
-              frame[name] = getComputedStyle(el)[name];
+              frame[name] = getComputedStyle(el, null)[name];
             } else {
               frame[name] = el.style[name];
             }
