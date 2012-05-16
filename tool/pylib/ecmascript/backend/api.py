@@ -32,7 +32,7 @@
 #            HTML).
 ##
 
-import sys, os, re, string
+import sys, os, re, string, copy
 from ecmascript.frontend import tree, Comment, lang
 #from ecmascript.frontend import treeutil_2 as treeutil
 from ecmascript.frontend import treeutil
@@ -878,6 +878,8 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
                 printDocError(funcItem, "Missing target for attach.")
             attachNode = tree.Node("attach").set("targetClass", attrib["targetClass"])
             attachNode.set("targetMethod", attrib["targetMethod"])
+            attachNode.set("sourceClass", classNode.get("fullName"))  # these two are interesting for display at the target class
+            attachNode.set("sourceMethod", name)
             node.addChild(attachNode)
 
         elif attrib["category"] == "param":
@@ -1008,7 +1010,12 @@ def findAttachMethods(docTree):
                 target_method = child.get("targetMethod")
                 if not target_method:
                     target_method = method.get("name")
-                attachMap[target_class][sections[child.type]][target_method] = method  # copy.deepcopy(method)?
+                cmethod = attachMap[target_class][sections[child.type]][target_method] = copy.deepcopy(method)  # copy.deepcopy(method)?
+                # patch isStatics in target class
+                if sections[child.type] == "statics":
+                    cmethod.set("isStatic", True)
+                else:
+                    cmethod.set("isStatic", False)
 
     return attachMap
 
