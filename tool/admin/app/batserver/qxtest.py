@@ -1002,27 +1002,25 @@ class QxTest:
     sendReport = True
     if 'sendReport' in appConf:
       sendReport = appConf['sendReport']
-    
-    if not sendReport:
-      return
-    
-    ignore = None
-    if "ignoreLogEntries" in browser:
-      ignore = browser["ignoreLogEntries"]
-    else:
-      if "ignoreLogEntries" in appConf:
-        ignore = appConf["ignoreLogEntries"]
-    
-    if (self.sim):
-      self.log("SIMULATION: Formatting log and sending report.\n")
-    else:        
-      if getReportFrom == 'testLog':
-        self.formatLog(logFile, reportFile, ignore)
-      else:
-        self.formatLog(None, reportFile, ignore)
 
-      self.sendReport(appConf['appName'], reportFile)
-        
+    if sendReport:
+      ignore = None
+      if "ignoreLogEntries" in browser:
+        ignore = browser["ignoreLogEntries"]
+      else:
+        if "ignoreLogEntries" in appConf:
+          ignore = appConf["ignoreLogEntries"]
+
+      if (self.sim):
+        self.log("SIMULATION: Formatting log and sending report.\n")
+      else:
+        if getReportFrom == 'testLog':
+          self.formatLog(logFile, reportFile, ignore)
+        else:
+          self.formatLog(None, reportFile, ignore)
+
+        self.sendReport(appConf['appName'], reportFile)
+
     if "reportServerUrl" in self.testConf:
       if (self.sim):
         self.log("SIMULATION: Sending results to report server.\n")
@@ -1206,9 +1204,12 @@ class QxTest:
   # @param aut {str} The name of the tested application
   def sendReport(self, aut, reportfile):    
     self.log("Preparing to send " + aut + " report: " + reportfile)
-    if ( not(os.path.exists(reportfile)) ):
-      self.log("ERROR: Report file not found, quitting.")
-      sys.exit(1)
+    if not os.path.exists(reportfile):
+      self.log("sendReport: Report file not found!")
+      return
+    if not "mailTo" in self.mailConf:
+      self.log("sendReport: No mail recipient configured!")
+      return
   
     self.mailConf['subject'] = "[qooxdoo-test] " + aut
   
