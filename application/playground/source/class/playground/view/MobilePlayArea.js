@@ -66,7 +66,7 @@ qx.Class.define("playground.view.MobilePlayArea",
         qx.ui.mobile.page.Page.setManager(null);
         manager.dispose();
       }
-      qx.ui.mobile.page.Page.setManager(new qx.ui.mobile.page.manager.Animation(this._playRoot));
+      qx.ui.mobile.page.Page.setManager(new qx.ui.mobile.page.Manager(this._playRoot));
     }
   }
 });

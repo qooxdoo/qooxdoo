@@ -88,8 +88,6 @@ qx.Class.define("qx.ui.mobile.layout.Card",
   },
 
 
-
-
  /*
   *****************************************************************************
      STATICS
@@ -139,6 +137,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     {
       this.base(arguments);
       widget.addCssClass("layout-card-item");
+      widget.addCssClass("boxFlex1");
       widget.exclude();
     },
 
@@ -160,7 +159,6 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       }
       this.base(arguments, widget, action, properties);
     },
-
 
 
     /**
@@ -195,7 +193,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       this.__reverse = properties.fromHistory || properties.reverse;
 
       if (this.__currentWidget && qx.core.Environment.get("css.transform.3d")) {
-         this.__startAnimation(widget);
+        this.__startAnimation(widget);
       } else {
         this.__swapWidget();
       }

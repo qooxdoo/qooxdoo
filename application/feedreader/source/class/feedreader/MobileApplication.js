@@ -77,9 +77,8 @@ qx.Class.define("feedreader.MobileApplication",
      */
     buildUpGui : function()
     {
-      alert('Works');
       // create the pages
-     /* var overview = new feedreader.view.mobile.OverviewPage();
+      var overview = new feedreader.view.mobile.OverviewPage();
       var feedpage = new feedreader.view.mobile.FeedPage();
       var articlePage = new feedreader.view.mobile.ArticlePage();
       
@@ -115,7 +114,7 @@ qx.Class.define("feedreader.MobileApplication",
 
       // bind the data
       overview.bind("selectedFeed", feedpage, "feed");
-      feedpage.bind("selectedArticle", articlePage, "article");*/
+      feedpage.bind("selectedArticle", articlePage, "article");
     }
   }
 });

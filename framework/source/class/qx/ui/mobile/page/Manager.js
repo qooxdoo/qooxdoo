@@ -77,8 +77,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
       root.add(this.__masterDetailContainer, {flex:1});
 
-      this.__masterDetailContainer.getMaster().add(this.__masterContainer);
-      this.__masterDetailContainer.getDetail().add(this.__detailContainer);
+      this.__masterDetailContainer.getMaster().add(this.__masterContainer, {flex:1});
+      this.__masterDetailContainer.getDetail().add(this.__detailContainer, {flex:1});
 
       this.__toggleMasterButtonVisibility();
     } else {
@@ -211,7 +211,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       this.__portraitMasterContainer.setTitle(value);
     },
     
-
 
     __toggleMasterButtonVisibility : function()
     {

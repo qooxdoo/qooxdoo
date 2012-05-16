@@ -154,8 +154,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     _updatePosition : function()
     {
-      console.log("UpdatePosition()");
-      
       var isInitialized = this.__left != null || this.__top != null;
       
       if(isInitialized) {

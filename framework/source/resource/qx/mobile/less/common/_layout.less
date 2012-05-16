@@ -3,14 +3,17 @@
 .layout-card {
   overflow:hidden;
   position: relative;
+  .hbox();
 }
 
 .layout-card-item {
-    .box-sizing(border-box);
-    .transform(translate3d(0,0,0) rotate(0) scale(1));
+  .box-sizing(border-box);
+  .transform(translate3d(0,0,0) rotate(0) scale(1));
 }
 
+//
 // Box-Layout
+//
 
 .hbox {
   display: -webkit-box;
@@ -19,20 +22,32 @@
 
   .box-orient(horizontal);
 
-  // -moz-box elements shrink-wrap by default. The spec states that "a block-level
-  // box placed inside a block level element is positioned and sized as if it were
-  // any other block". This is not true for the (non-standard) implementation in
-  // Firefox.
-  //
-  // See https://bugzilla.mozilla.org/show_bug.cgi?id=625694
-  //
-  // TODO: Limit to Firefox, because setting an explicit width may have
-  // undesirable side-effects.
-  //width: 100%;
+  
 
   // Subtract padding and border from content width (100%) to prevent
   // 100% + X situation.
   .box-sizing(border-box);
+}
+
+// Firefox only
+@-moz-document url-prefix() {
+    .hbox {
+        // -moz-box elements shrink-wrap by default. The spec states that "a block-level
+        // box placed inside a block level element is positioned and sized as if it were
+        // any other block". This is not true for the (non-standard) implementation in
+        // Firefox.
+        //
+        // See https://bugzilla.mozilla.org/show_bug.cgi?id=625694
+        //
+        // TODO: Limit to Firefox, because setting an explicit width may have
+        // undesirable side-effects.
+        width: 100%;
+    }
+
+    .vbox { 
+       // See .hbox
+       width: 100%;
+    }
 }
 
 .hbox> * {
@@ -46,8 +61,7 @@
 
   .box-orient(vertical);
 
-  // See .hbox
-  width: 100%;
+ 
   .box-sizing(border-box);
 }
 

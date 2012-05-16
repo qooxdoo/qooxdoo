@@ -42,9 +42,8 @@
 qx.Class.define("qx.ui.mobile.container.Navigation",
 {
   extend : qx.ui.mobile.container.Composite,
-  include : qx.ui.mobile.core.MResize,
-
-
+  
+  
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -62,18 +61,28 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     
     this.__content = this._createContent();
     this._add(this.__content, {flex:1});
-
-    this.setFireDomUpdatedOnResize(true);
   },
   
   
   /*
   *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+  properties : {
+    // overridden
+    defaultCssClass : {
+      refine : true,
+      init : "navigation"
+    }
+  },
+
+
+  /*
+  *****************************************************************************
      EVENTS
   *****************************************************************************
   */
- 
-
   events :
   {
     /** Fired when the navigation bar gets updated */
@@ -99,6 +108,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       {
         this.assertInterface(widget, qx.ui.mobile.container.INavigation);
       }
+      
       this.getContent().add(widget);
     },
 

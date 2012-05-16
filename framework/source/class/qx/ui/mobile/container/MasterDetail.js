@@ -71,9 +71,9 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
   {
     this.base(arguments, layout || new qx.ui.mobile.layout.HBox());
     this.__master = this._createMasterContainer();
-
     this.__detail = this._createDetailContainer();
-    this.add(this.__detail, {flex:1});
+    this.add(this.__detail, {flex:4});
+
     qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
 
     this.__syncLayout();

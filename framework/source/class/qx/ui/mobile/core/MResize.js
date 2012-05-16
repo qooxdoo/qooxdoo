@@ -35,10 +35,11 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
   construct : function()
   {
     // Initial size hint
-    this._setHeight(window.innerHeight);
-    qx.event.Registration.addListener(window, "orientationchange", this._resize, this);
-    qx.event.Registration.addListener(window, "resize", this._resize, this);
-    this.addListener("domupdated", this._resize, this);
+    //this._setHeight(window.innerHeight);
+    qx.event.Registration.addListener(window, "orientationchange", this.fixSize, this);
+    qx.event.Registration.addListener(window, "resize", this.fixSize, this);
+    this.addListener("appear", this.fixSize, this);
+    
   },
 
 
@@ -75,20 +76,25 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
   members :
   {
     __lastHeight : null,
+    __lastWidth : null,
 
 
     /**
      * Resizes the container element to the height of the parent element.
      */
-    _resize : function()
+    fixSize : function()
     { 
       var parent = this.getLayoutParent();
       if (parent) {
-        var height = parent.getContainerElement().offsetHeight;
+        var height = parent.getContainerElement().clientHeight;
+        var width = parent.getContainerElement().clientWidth;
         if (!this.getFireDomUpdatedOnResize()) {
           this._setHeight(height);
-        } else if (this.__lastHeight != height) {
+          this._setWidth(width);
+        } else if (this.__lastHeight != height && this.__lastWidth != width) {
           this._setHeight(height);
+          this._setWidth(width);
+          this.__lastWidth = width;
           this.__lastHeight = height;
           this._domUpdated();
         }
@@ -109,6 +115,23 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
       } else {
         qx.bom.element.Style.set(element, "height", height + "px");
       }
+    },
+    
+    
+    
+    /**
+     * Sets the width of the container element.
+     * 
+     * @param width {Integer} The width to set
+     */
+    _setWidth : function(width) {
+      var element = this.getContainerElement();
+      if (qx.core.Environment.get("qx.mobile.nativescroll"))
+      {
+        qx.bom.element.Style.set(element, "minWidth", width + "px");
+      } else {
+        qx.bom.element.Style.set(element, "width", width + "px");
+      }
     }
   },
 
@@ -121,8 +144,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
 
 
   destruct : function() {
-    this.removeListener("domupdated", this._resize, this);
-    qx.event.Registration.removeListener(window, "orientationchange", this._resize, this);
-    qx.event.Registration.removeListener(window, "resize", this._resize, this);
+    qx.event.Registration.removeListener(window, "orientationchange", this.fixSize, this);
+    qx.event.Registration.removeListener(window, "resize", this.fixSize, this);
   }
 })

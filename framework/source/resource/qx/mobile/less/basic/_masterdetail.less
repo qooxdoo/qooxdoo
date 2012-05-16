@@ -3,11 +3,12 @@
 //
 
 .master-detail {
-
+  overflow:hidden;
 }
 
 .master-detail-master {
-  width : 300px;
+  width:300px;
+  z-index:100;
 }
 
 .master-detail-master.attached {
@@ -20,11 +21,11 @@
 
 .master-popup {
   height : 80%;
+  min-width:300px;
 }
 
 .master-popup .navigationbar {
   display:none;
-  
 }
 
 .master-popup .page {
@@ -51,4 +52,12 @@
 .master-popup.popupAnchorPointerTop,
 {
   margin-top:11px;
+}
+
+//
+// NAVIGATION
+// 
+
+.navigation {
+  overflow:hidden;
 }

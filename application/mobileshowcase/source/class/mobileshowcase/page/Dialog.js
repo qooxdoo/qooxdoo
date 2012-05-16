@@ -152,8 +152,8 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var okButton = new qx.ui.mobile.form.Button("Yes");
       var cancelButton = new qx.ui.mobile.form.Button("No");
       
-      buttonsWidget.add(okButton);
-      buttonsWidget.add(cancelButton);
+      buttonsWidget.add(okButton, {flex:1});
+      buttonsWidget.add(cancelButton, {flex:1});
       popupWidget.add(buttonsWidget);
       
       okButton.addListener("tap", function(){

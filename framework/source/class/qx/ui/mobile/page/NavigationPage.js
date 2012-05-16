@@ -68,8 +68,6 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
   },
 
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -210,7 +208,8 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      * @return {qx.ui.mobile.container.Composite} Creates the left container for the navigation bar.
      */
     _createLeftContainer : function() {
-      var container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+      var layout =new qx.ui.mobile.layout.HBox();
+      var container = new qx.ui.mobile.container.Composite(layout);
       this.__backButton = this._createBackButton();
       this.__backButton.addListener("tap", this._onBackButtonTap, this);
       this._showBackButton();
@@ -225,7 +224,8 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      * @return {qx.ui.mobile.container.Composite} Creates the right container for the navigation bar.
      */
     _createRightContainer : function() {
-      var container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+      var layout =new qx.ui.mobile.layout.HBox();
+      var container = new qx.ui.mobile.container.Composite(layout);
       this.__button = this._createButton();
       this.__button.addListener("tap", this._onButtonTap, this);
       this._showButton();
@@ -412,7 +412,6 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       this.__scrollContainer = this._createScrollContainer();
       this.__content = this._createContent();
       if (this.__content) {
-        this.__scrollContainer._setLayout(new qx.ui.mobile.layout.VBox());
         this.__scrollContainer.add(this.__content, {flex :1});
       }
       if (this.__scrollContainer) {
