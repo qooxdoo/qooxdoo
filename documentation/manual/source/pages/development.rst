@@ -44,6 +44,15 @@ Testing
    development/simulator_locators
 
 
+Code Organisation
+=================
+
+.. toctree::
+   :maxdepth: 1
+
+   development/library_custom
+
+
 Parts
 =====
 

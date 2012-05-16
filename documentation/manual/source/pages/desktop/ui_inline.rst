@@ -33,7 +33,7 @@ An inline application is set up by using the ``create-application`` script descr
 
 ::
 
-  /opt/qooxdoo-sdk/tool/bin/create_application.py -n myapp -t inline
+  /opt/qooxdoo-sdk/tool/bin/create-application.py -n myapp -t inline
 
 Once executed you get a skeleton application which is ready-to-use to develop an inline application. The skeleton also demostrates the different integration approaches which are described in the next section.
 
