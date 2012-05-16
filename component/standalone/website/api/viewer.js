@@ -1,3 +1,6 @@
+/**
+ * @lint ignoreUndefined(q, samples, hljs)
+ */
 q.ready(function() {
   // global storage for the method index
   var listData = {};
@@ -78,12 +81,11 @@ q.ready(function() {
 
     q.io.script("samples.js").send().on("loadend", function() {
       for (var method in samples) {
-        selector = "#" + method.replace(".", "\\.");
+        var selector = "#" + method.replace(".", "\\.");
         q(selector).append(q.create("<h4>Examples</h4>"));
         for (var i=0; i < samples[method].length; i++) {
           var sample = samples[method][i].toString();
           sample = sample.substring(sample.indexOf("\n") + 1, sample.length - 2);
-          console.log(sample);
           hljs.highlightBlock(q.create("<pre>").appendTo(selector).setHtml(sample)[0]);
         };
       }
@@ -97,9 +99,9 @@ q.ready(function() {
   var methods = [];
   var desc = "";
   var saveContent = function(ast) {
-    desc = parse(getByType(ast, "desc").attributes.text);
-    methods = methods.concat(getByType(ast, "methods-static").children);
+    desc = parse(getByType(ast, "desc").attributes.text) || "";
     methods = methods.concat(getByType(ast, "methods").children);
+    methods = methods.concat(getByType(ast, "methods-static").children);
   };
 
 
@@ -129,12 +131,12 @@ q.ready(function() {
     data.module = getModuleName(method.attributes.attach)
 
     // add the description
-    data.desc = parse(getByType(method, "desc").attributes.text);
+    data.desc = parse(getByType(method, "desc").attributes.text) || "";
 
     // add the return type
     var returnType = getByType(method, "return");
     if (returnType) {
-      data.returns = {desc: parse(getByType(returnType, "desc").attributes.text)};
+      data.returns = {desc: parse(getByType(returnType, "desc").attributes.text || "")};
       data.returns.types = [];
       getByType(returnType, "types").children.forEach(function(item) {
         data.returns.types.push(item.attributes.type);
@@ -148,7 +150,7 @@ q.ready(function() {
     for (var j=0; j < params.children.length; j++) {
       var param = params.children[j];
       var paramData = {name: param.attributes.name};
-      paramData.desc = parse(getByType(param, "desc").attributes.text);
+      paramData.desc = parse(getByType(param, "desc").attributes.text || "");
       paramData.types = [];
       var types = getByType(param, "types");
       for (var k=0; k < types.children.length; k++) {
@@ -185,7 +187,7 @@ q.ready(function() {
       if (xhr.readyState == 4) {
         var ast = JSON.parse(xhr.responseText);
         var desc = getByType(ast, "desc");
-        parent.append(parse(desc.attributes.text));
+        parent.append(parse(desc.attributes.text || ""));
       } else {
         console.log("ERROR!"); // TODO
       }
