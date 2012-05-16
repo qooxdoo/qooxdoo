@@ -46,7 +46,7 @@ qx.Class.define("qx.data.Conversion",
 
 
     /**
-     * Converts the given value to a number via <code>parseInt</code>.
+     * Converts the given value to a number via <code>parseFloat</code>.
      *
      * @param value {var} The value to convert.
      * @return {Number} The converted value.
