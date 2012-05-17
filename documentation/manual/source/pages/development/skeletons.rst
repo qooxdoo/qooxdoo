@@ -11,7 +11,7 @@ When creating a new application using :doc:`create-application.py </pages/tool/c
 
   qooxdoo-%{version}-sdk/tool/bin/create-application.py --name=custom --type=mobile
 
-The following skeletons are available:
+The following skeletons are available (The application types are in fact all lower-case, but are capitalized in the following headings for better readability):
 
 .. _pages/development/skeletons#gui:
 
@@ -84,7 +84,17 @@ Included layers
 Website
 -------
 
-Pre-configured :ref:`low-level library <pages/setup_a_low-level_library#setup_a_low-level_library>`.
+This is an alternative to working with the :doc:`Website </pages/website>` library directly. %{Website} provides a single-file library for download which contains all the code that encompasses its API. You then just go ahead in your own code using this API in a way that suits you, e.g. by adding custom code in an HTML page that also loads the library.
+
+The 'website' skeleton provides you with the exact same scenario, pre-built. It contains the %{Website} library, and an index.html that contains code using it. You can just open the HTML file in a browser and see the default application running. You can then start extending it in the index.html file directly, or create other %{JS} files that use it, and include those in the HTML file.
+
+This all matches pretty much what somebody would do that just downloaded the Website library to his local machine. In both cases you are using a static library file, and take care of organizing your code yourself. But the 'website' skeleton provides you with a few features that go beyond this:
+
+* You can *re-create* the library file (located in *script/*), by running the ``generate.py build`` job. This is interesting if you e.g. upgrade to a new qooxdoo SDK and want to make sure you are working against the latest code.
+* You can create a *non-optimized* version of the library, if you want to debug into its code. This is achieved by running the ``generate.py source`` job.
+* You can *extend* the set of classes you want to work with, by changing the configuration of the ``build`` job. This is interesting if you want to take your application beyond the low-level layer, e.g. by including GUI elements.
+* You can create a custom *Apiviewer*, by running the ``generate.py api`` job. This is interesting if you want to have an offline API reference close-by.
+
 
 Included layers
 ^^^^^^^^^^^^^^^
