@@ -2,7 +2,15 @@
 qooxdoo Implementation Manual
 =============================
 
-Generator
+About
+------
+
+.. toctree::
+   :maxdepth: 1
+
+   pages/about
+
+Tooling
 ----------
 
 .. toctree::

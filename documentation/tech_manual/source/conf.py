@@ -64,6 +64,7 @@ qxmacros = {
    ,"sdk_unpacked" : "110"   # disk requirements for unpacked SDK, in MB
    ,"cache_average_min" : "0.5" # average lower bound for cache space on disk, in GB
    ,"cache_average_max" : "1.5" # average upper bound for cache space on disk, in GB
+   ,"qooxdoo"  : "qooxdoo"
 }
 
 # more qxmacros
