@@ -84,36 +84,38 @@ Included layers
 Website
 -------
 
-This is an alternative to working with the :doc:`Website </pages/website>` library directly. %{Website} provides a single-file library for download which contains all the code that encompasses its API. You then just go ahead in your own code using this API in a way that suits you, e.g. by adding custom code in an HTML page that also loads the library.
+This is an alternative to working with the :doc:`Website </pages/website>` library directly, which is a single-file download containing all the %{Website} API. If you deploy the download you use its API in your own code in a way that suits you, e.g. by adding custom code in an HTML page that also loads the library.
 
-The 'website' skeleton provides you with the exact same scenario, pre-built. It contains the %{Website} library, and an index.html that contains code using it. You can just open the HTML file in a browser and see the default application running. You can then start extending it in the index.html file directly, or create other %{JS} files that use it, and include those in the HTML file.
+Getting started
+^^^^^^^^^^^^^^^
 
-This all matches pretty much what somebody would do that just downloaded the Website library to his local machine. In both cases you are using a static library file, and take care of organizing your code yourself. But the 'website' skeleton provides you with a few features that go beyond this:
+The 'website' skeleton provides you with the same development model, with additional options. It contains a pre-built version of the Website library. You can just open the contained index.html file in a browser and see the default application running (If this is not the case and you just get an "Application needs generation..." message, just run ``generate.py`` on the shell). Then you start extending it, either in the index.html file directly or by creating other %{JS} files that use it, and include those in the HTML file.
 
-* You can *re-create* the library file (located in *script/*), by running the ``generate.py build`` job. This is interesting if you e.g. upgrade to a new qooxdoo SDK and want to make sure you are working against the latest code.
-* You can create a *non-optimized* version of the library, if you want to debug into its code. This is achieved by running the ``generate.py source`` job.
-* You can *extend* the set of classes you want to work with, by changing the configuration of the ``build`` job. This is interesting if you want to take your application beyond the low-level layer, e.g. by including GUI elements.
-* You can create a custom *Apiviewer*, by running the ``generate.py api`` job. This is interesting if you want to have an offline API reference close-by.
+Both approaches (download or skeleton) pretty much match up, with the skeleton giving you a little head start. In both cases you are using a static library file, and take care of organizing your application code yourself. The 'website' skeleton provides you with a few features that go beyond this:
+
+* You can *re-create* the library file (located in *script/*), by running the ``generate.py [build-min]`` job. This is interesting if you e.g. upgrade to a new qooxdoo SDK and want to make sure you are working against the latest code.
+* You can create a *non-optimized* version of the library, if you want to debug into its code. This is achieved by running the ``generate.py build`` job. Mind, though, that you then need to include *q.js* in your HTML code (rather than *q.min.js* which is the minified version).
 
 
 Included layers
 ^^^^^^^^^^^^^^^
 
-* Runtime Abstraction (partially)
-* Low-Level (partially)
+* See the :doc:`%{Website} </pages/website>` documentation.
 
 .. _pages/development/skeletons#basic:
 
 Server
 ------
-For applications running in "browserless" or server-side environments such as node.js and Rhino. 
+For applications running in "browserless" or server-side environments such as node.js and Rhino. The skeleton follows the normal qooxdoo development model, so you have a *source/* folder with classes and resources, and can create *source* and *build* versions of your app. It also supports other development jobs like *"test"*, *"api"* or *"lint"*. The special job *"library"* allows you to re-create the %{Server} library locally.
 
-Inherits from `qx.application.Basic <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Basic>`_
+Inherits from `qx.application.Basic <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Basic>`_.
 
-Included layers
+Getting started
 ^^^^^^^^^^^^^^^
+ 
+This skeleton depends on a generated Server library, located in *script/*. If this was not delivered with your SDK you can create it locally, by running ``generate.py library``. (If you intend to create multiple 'server' skeletons, you might want to change to *${QOOXDOO_PATH}/component/standalone/server* and invoke ``generate.py build``. This will generate the library for further 'server' skeletons).
 
-* Core
+The library will be used together with the application code to make up the final application. You need to generate the application first, e.g. by running ``generate.py source``.  The generated source file is saved under *source/script/<custom>.js*, the build file (with ``generate.py build``) under *build/script/<custom>.js*. Those files can then be executed.
 
 Invoking the application
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -131,6 +133,11 @@ or like this for Rhino:
    $ cd source/script
    $ java -cp path/to/js.jar org.mozilla.javascript.tools.shell.Main foo.js
 
+
+Included layers
+^^^^^^^^^^^^^^^
+
+* See the :doc:`%{Server} </pages/server>` documentation.
 
 
 .. _pages/development/skeletons#contribution:

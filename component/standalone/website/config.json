@@ -53,7 +53,7 @@
 
   "jobs" :
   {
-    "common" :
+    "website-common" :
     {
       "=include" : "${Q_INCLUDES}",
 
@@ -93,7 +93,7 @@
 
     "build" :
     {
-      "extend" : ["build-script"],
+      "extend" : ["website-common", "build-script"],
 
       "let" :
       {
@@ -133,7 +133,7 @@
 
     "source" :
     {
-      "extend" : ["source-script"],
+      "extend" : ["website-common", "source-script"],
 
       "let" :
       {

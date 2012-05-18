@@ -4,141 +4,37 @@
   "include" :
   [
     {
-      "path" : "$${QOOXDOO_PATH}/tool/data/config/application.json",
-      "import" : [
-        "api",
-        "apiconf::build-resources",   // it is ugly to include these here
-        "apiconf::build-script",
-        "apiconf::build-files",
-        "apiconf::build-data",
-        "apiconf::common",
-        "clean",
-        "distclean",
-        "info"
-     ]
+      "path" : "$${QOOXDOO_PATH}/component/standalone/website/config.json"
     }
   ],
 
   "export" :
   [
-    "api",
     "build",
-    "clean",
-    "distclean",
-    "info"
+    "build-min"
   ],
 
-  "let" :
-  {
-    "APPLICATION"  : "bom",
-    "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
-    "CACHE"        : "${Cache}",
-    "BUILD_PATH"   : "script",
-    "BOM_INCLUDES" :  [
-        "qx.event.handler.Application",
-        "qx.bom.Collection",
-        "qx.bom.request.*",
-        "qx.bom.element.Background"
-        ],
-    "BOM_EXCLUDES" :  [
-        "qx.data.SingleValueBinding",
-        "qx.event.type.Drag",
-        "qx.event.handler.DragDrop"
-        ],
-    "ROOT"         : "."
-  },
-  
-  "default-job" : "build",
+  "default-job" : "build-min",
 
   "config-warnings" : 
   {
     "job-shadowing" : ["api"] 
   },
 
+  "let" :
+  {
+    "APPLICATION"  : "${Namespace}",
+    "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
+    "CACHE"        : "${Cache}",
+    "BUILD_PATH"   : "script",
+    "ROOT"         : "."
+  },
+
+  // You only need to edit the remainder of this file, if you want to customize
+  // specific jobs, or add own job definitions.
+
   "jobs" :
   {
-    "api" :
-    {
-      "=library" :
-      [
-        {
-          "manifest" : "$${QOOXDOO_PATH}/framework/Manifest.json"
-        },
-        {
-          "manifest" : "$${QOOXDOO_PATH}/component/apiviewer/Manifest.json"
-        },
-        {
-          "manifest" : "$${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
-        }
-      ],
-      "let" : 
-      {
-        "API_INCLUDE" : "$${BOM_INCLUDES}",
-        "API_EXCLUDE" : "$${BOM_EXCLUDES}",
-        "BUILD_PATH"  : "api"
-      }
-      
-    },
-
-    "build" :
-    {
-      "config-warnings" : 
-      { 
-        "exclude" :
-        [
-          "qx.data.SingleValueBinding",
-          "qx.event.type.Drag",
-          "qx.event.handler.DragDrop"
-        ]
-      },
- 
-      "library" :
-      [
-        {
-          "manifest" : "$${QOOXDOO_PATH}/framework/Manifest.json"
-        }
-      ],
-
-      "cache" :
-      {
-        "compile"      : "$${CACHE}",
-        "downloads"    : "$${CACHE}/downloads",
-        "invalidate-on-tool-change" : true
-      },
-
-      "include" : "$${BOM_INCLUDES}",
-      
-      "exclude" : "$${BOM_EXCLUDES}",
-
-      "environment" :
-      {
-        "qx.debug" : false,
-        "qx.aspects" : false,
-        "qx.globalErrorHandling" : false,
-        "qx.theme" : null
-      },
-
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "file" : "$${BUILD_PATH}/qx-bom.js",
-          "app-root" : "."
-        },
-        "uris" :
-        {
-          "script"   : ".",
-          "resource" : "."
-        },
-        "code" :
-        {
-          "format"   : true,
-          "optimize" : [ "variables", "basecalls", "privates", "strings", "variants", "whitespace" ],
-          "except"   : []
-        }
-      },
-      
-      "compile" : { "type" : "build" }
-    }
   }
 }
+

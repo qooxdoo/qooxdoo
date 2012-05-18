@@ -1,11 +1,17 @@
-Website Skeleton - A qooxdoo Application Template
+WEBSITE Skeleton - A qooxdoo Application Template
 =================================================
 
-This is a qooxdoo application skeleton which is used as a template. The 
-'create-application.py' script (usually under tool/bin/create-application.py)
-will use this and expand it into a self-contained qooxdoo application which 
-can then be further extended. Please refer to the script and other documentation
-for further information.
+This skeleton application was created by running the 'create-application.py'
+script. You usually will want to run
 
+  ./generate.py
+
+in this directory first thing. For more information about how to use this 
+skeleton, please refer to the 'skeleton' section in the manual.
+
+You can safely replace the entire contents of this file with your own 
+documentation.
+
+# The following is only required during execution of 'create-application.py'
 short:: can be used to build low-level qooxdoo applications
-copy_file:: tool/data/generator/needs_generation.js script/qx-bom.js
+copy_file:: component/standalone/website/script/q.min.js  script/q.min.js
