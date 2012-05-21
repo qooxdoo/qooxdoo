@@ -97,6 +97,7 @@ qx.Bootstrap.define("qx.lang.String",
         result = str.replace(/\-([a-z])/g, function(match, chr) {
           return chr.toUpperCase();
         });
+        this.__stringsMap[str] = result;
       }
       return result;
     },
@@ -121,6 +122,7 @@ qx.Bootstrap.define("qx.lang.String",
         result = str.replace(/[A-Z]/g, function(match){
           return  ('-' + match.charAt(0).toLowerCase());
         });
+        this.__stringsMap[str] = result;
       }
       return result;
     },
