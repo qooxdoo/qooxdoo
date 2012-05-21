@@ -86,7 +86,7 @@ qx.Class.define("feedreader.MobileApplication",
       navigationContainer.add(overview);
       navigationContainer.add(feedpage);
       navigationContainer.add(articlePage);
-      this.getRoot().add(navigationContainer);
+      this.getRoot().add(navigationContainer, {flex:1});
       
       // show the first page and set the feeds
       overview.show();
@@ -105,11 +105,15 @@ qx.Class.define("feedreader.MobileApplication",
 
       // connect the page flow
       feedpage.addListener("changeSelectedArticle", function(e) {
-        articlePage.show();
+        if(e.getData()){
+          articlePage.show();
+        }
       });
 
       overview.addListener("changeSelectedFeed", function(e) {
-        feedpage.show();
+        if(e.getData()){
+          feedpage.show();
+        }
       });
 
       // bind the data
