@@ -3,14 +3,16 @@
  */
 q.ready(function() {
   // global storage for the method index
-  var listData = {};
+  var data = {};
 
   // load API data of q
   q.io.xhr("script/q.json").send().on("loadend", function(xhr) {
     if (xhr.readyState == 4) {
       var ast = JSON.parse(xhr.responseText);
-      saveContent(ast);
-      createListData(ast);
+      createData(ast);
+      renderList();
+      renderContent()
+      onContentReady();
     } else {
       console.log("ERROR!"); // TODO
     }
@@ -18,105 +20,86 @@ q.ready(function() {
 
 
   /**
-   * LIST
+   * DATA PROCESSING
    */
-  var createListData = function(ast) {
-    attachToListData(getByType(ast, "methods-static"), "static");
-    attachToListData(getByType(ast, "methods"), "member");
-    renderList(listData);
+  var desc = "";
+  var createData = function(ast) {
+    desc = ast.attributes.desc || "";
+    attachData(getByType(ast, "methods-static"), "static");
+    attachData(getByType(ast, "methods"), "member");
+    // sort all methods
+    for (var module in data) {
+      data[module]["static"].sort(sortMethods);
+      data[module]["member"].sort(sortMethods);
+    }
   };
 
-  var attachToListData = function(ast, type) {
+
+  var attachData = function(ast, type) {
     ast && ast.children.forEach(function(item) {
       // skip internal methods
       if (item.attributes.isInternal) {
         return;
       }
-      var name = getMethodName(item);
       var module = getModuleName(item.attributes.sourceClass);
-      if (!listData[module]) {
-        listData[module] = {"static": [], "member": []};
+      if (!data[module]) {
+        data[module] = {"static": [], "member": [], fileName: item.attributes.sourceClass};
       }
-      listData[module][type].push(name);
+      data[module][type].push(item);
     });
-  }
+  };
 
 
-  var renderList = function(data) {
+  var sortMethods = function(a, b) {
+    return a.attributes.name > b.attributes.name;
+  };
+
+
+  /**
+   * LIST
+   */
+  var renderList = function() {
     var list = q("#list");
-    var keys = Object.keys(data);
-    keys.sort();
+    var keys = getDataKeys();
     for (var i = 0; i < keys.length; i++) {
       var module = keys[i];
       list.append(q.create("<a href='#" + module + "'><h2>" + module + "</h2></a>"));
       var ul = q.create("<ul></ul>").appendTo(list);
-      data[module]["static"].sort();
-      data[module]["static"].forEach(function(name) {
+      data[module]["static"].forEach(function(ast) {
+        var name = getMethodName(ast);
         q.template.get("list-item", {name: name + "()", link: name}).appendTo(ul);
       });
-      data[module]["member"].sort();
-      data[module]["member"].forEach(function(name) {
+      data[module]["member"].forEach(function(ast) {
+        var name = getMethodName(ast);
         q.template.get("list-item", {name: name + "()", link: name}).appendTo(ul);
       });
     }
-    // after the list has been rendered, also render the content
-    sortMethods();
-    methods.forEach(parseMethod);
-    onContentReady();
   };
-
-
-  var loading = 0;
-  var onContentReady = function() {
-    if (loading > 0) {
-      return;
-    }
-    if (location.hash) {
-      location.href = location.href;
-    }
-    // enable syntax highlighting
-    q('pre').forEach(function(el) {hljs.highlightBlock(el)});
-
-    q.io.script("samples.js").send().on("loadend", function() {
-      for (var method in samples) {
-        var selector = "#" + method.replace(".", "\\.");
-        q(selector).append(q.create("<h4>Examples</h4>"));
-        for (var i=0; i < samples[method].length; i++) {
-          var sample = samples[method][i].toString();
-          sample = sample.substring(sample.indexOf("\n") + 1, sample.length - 2);
-          hljs.highlightBlock(q.create("<pre>").appendTo(selector).setHtml(sample)[0]);
-        };
-      }
-    });
-  }
 
 
   /**
    * CONTENT
    */
-  var methods = [];
-  var desc = "";
-  var saveContent = function(ast) {
-    desc = parse(getByType(ast, "desc").attributes.text) || "";
-    methods = methods.concat(getByType(ast, "methods").children);
-    methods = methods.concat(getByType(ast, "methods-static").children);
-  };
+   var renderContent = function() {
+     var keys = getDataKeys();
+     for (var i = 0; i < keys.length; i++) {
+       renderModule(keys[i], data[keys[i]]);
+     }
+   };
 
 
-  var sortMethods = function() {
-    methods.sort(function(a, b) {
-      var moduleA = getModuleName(a.attributes.sourceClass);
-      var moduleB = getModuleName(b.attributes.sourceClass);
-      if (moduleA == moduleB) {
-        return a.attributes.name > b.attributes.name ? 1 : -1;
-      }
-      return moduleA > moduleB ? 1 : -1;
-    });
-  };
+   var renderModule = function(name, data, fileName) {
+     // render module desc
+     var module = q.create("<div class='module'>").appendTo("#content");
+     module.append(q.create("<h1 id='" + name + "'>" + name + "</h1>"));
+     addClassDoc(data.fileName, module);
+
+     data["static"].forEach(renderMethod);
+     data["member"].forEach(renderMethod);
+   };
 
 
-  var __lastModule = "";
-  var parseMethod = function(method) {
+  var renderMethod = function(method) {
     // skip internal methods
     if (method.attributes.isInternal) {
       return;
@@ -159,13 +142,6 @@ q.ready(function() {
     };
     data.printParams = printParams;
 
-    // render data
-    if (__lastModule != data.module) {
-      var module = q.create("<div class='module'>").appendTo("#content");
-      module.append(q.create("<h1 id='" + data.module + "'>" + data.module + "</h1>"));
-      addClassDoc(method.attributes.sourceClass, module);
-      __lastModule = data.module;
-    }
     q("#content").append(q.template.get("method", data));
   }
 
@@ -235,9 +211,60 @@ q.ready(function() {
      return text;
    };
 
+
+  /**
+   * FINALIZE
+   */
+  var loading = 0;
+  var onContentReady = function() {
+    if (loading > 0) {
+      return;
+    }
+    // jump to the selected item
+    if (location.hash) {
+      location.href = location.href;
+    }
+    // enable syntax highlighting
+    q('pre').forEach(function(el) {hljs.highlightBlock(el)});
+
+    loadSamples();
+  }
+
+
+  var loadSamples = function() {
+    q.io.script("samples.js").send().on("loadend", function() {
+      for (var method in samples) {
+        var selector = "#" + method.replace(".", "\\.");
+        q(selector).append(q.create("<h4>Examples</h4>"));
+        for (var i=0; i < samples[method].length; i++) {
+          var sample = samples[method][i].toString();
+          sample = sample.substring(sample.indexOf("\n") + 1, sample.length - 2);
+          var sampleElement = q(selector);
+          if (sampleElement[0]) {
+            hljs.highlightBlock(q.create("<pre>").appendTo(sampleElement).setHtml(sample)[0]);
+          } else {
+            console && console.warn("Sample could not be attached for '", method, "'.")
+          }
+        };
+      }
+    });
+  };
+
   /**
    * HELPERS
    */
+   var getDataKeys = function() {
+     var keys = Object.keys(data);
+     keys.sort(function(a, b) {
+       if (a == "Core") {
+         return -1;
+       }
+       return a < b ? -1 : +1;
+     });
+     return keys;
+   };
+
+
   var getByType = function(ast, type) {
     for (var i=0; i < ast.children.length; i++) {
       var item = ast.children[i];
