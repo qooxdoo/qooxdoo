@@ -108,7 +108,7 @@
  *     If a string is given, the string should hold a reference to a member
  *     method.<br>
  *     <code>"<i>methodname</i>"</code> for example
- *     <code>"this.__validateProperty"</code><br>
+ *     <code>"__validateProperty"</code><br>
  *     There are some default validators in the {@link qx.util.Validate} class.
  *     See this documentation for usage examples.
  *   </td></tr>
