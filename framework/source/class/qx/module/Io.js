@@ -38,6 +38,7 @@ qx.Bootstrap.define("qx.module.Io", {
      * * <code>async</code> flag to mark the request as async which will be true by default
      * * <code>header</code> A map of request header.
      *
+     * @attachStatic {q, io.xhr}
      * @return {qx.bom.request.Xhr} The request object.
      */
     xhr : function(url, settings) {
@@ -60,6 +61,7 @@ qx.Bootstrap.define("qx.module.Io", {
      * Returns a predefined script tag wrapper which can be used to load data.
      *
      * @param url {String} The mandatory URL to load the data from.
+     * @attachStatic {q, io.script}
      * @return {qx.bom.request.Script} The request object.
      */
     script : function(url) {
@@ -80,6 +82,7 @@ qx.Bootstrap.define("qx.module.Io", {
      *      be called by the loaded script.
      * * <code>callbackParam</code>: The name of the parameter the server expects
      *      the name of the callback.
+     * @attachStatic {q, io.jsonp}
      * @return {qx.bom.request.Script} The request object.
      */
     jsonp : function(url, settings) {
