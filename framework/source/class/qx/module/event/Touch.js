@@ -46,6 +46,9 @@ qx.Bootstrap.define("qx.module.event.Touch", {
      */
     normalize : function(event, element, type)
     {
+      if (!event) {
+        return event;
+      }
       event._type = type;
       return event;
     }

@@ -1554,6 +1554,23 @@ testrunner.define({
   }
 });
 
+testrunner.define({
+  classname : "event.Touch",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testEventNormalization : function()
+  {
+    var eventTypes = ["tap", "swipe"];
+    this.assertArray(eventTypes);
+    this.assert(eventTypes.length > 0);
+    var registry = q.getEventNormalizationRegistry();
+    for (var i=0,l=eventTypes.length; i<l; i++) {
+      this.assertKeyInMap(eventTypes[i], registry);
+    }
+  }
+});
 
 testrunner.define({
   classname : "event.RegistrationHooks",
