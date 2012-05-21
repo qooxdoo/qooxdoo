@@ -309,7 +309,7 @@ build-components:
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
 		elif [ "$$COMPONENT" = "testrunner" ]; then \
 			( cd component/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
-			( cd component/testrunner && $(CMD_GENERATOR) -c portable.json build ) || exit 1; \
+			( cd component/testrunner && $(CMD_GENERATOR) portable-build ) || exit 1; \
 		else \
 			( cd component/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
 		fi; \
@@ -376,7 +376,7 @@ publish-build: build-apps publish-build-components build-framework build-docs
 publish-build-components: 
 	@( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/testrunner && $(CMD_GENERATOR) build ) || exit 1
-	@( cd component/testrunner && $(CMD_GENERATOR) -c portable.json build ) || exit 1;
+	@( cd component/testrunner && $(CMD_GENERATOR) portable-build ) || exit 1;
 	@( cd component/standalone/storage && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/standalone/storage && $(CMD_GENERATOR) build-require ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) build ) || exit 1

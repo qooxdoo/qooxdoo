@@ -55,22 +55,27 @@
 
   "jobs" :
   {
-    "website-common" :
+    "website-libraries" :
     {
-      "=include" : "${Q_INCLUDES}",
-
-      "environment" :
-      {
-        "qx.version"     : "${QOOXDOO_VERSION}",
-        "qx.debug" : false
-      },
-
       "=library" :
       [
         {
            "manifest": "${QOOXDOO_PATH}/framework/Manifest.json"
         }
       ]
+    },
+
+    "website-common" :
+    {
+      "extend" : ["website-libraries"],
+
+      "=include" : "${Q_INCLUDES}",
+
+      "environment" :
+      {
+        "qx.version" : "${QOOXDOO_VERSION}",
+        "qx.debug"   : false
+      }
     },
 
     "log-deps" :
@@ -165,7 +170,7 @@
 
     "test-source-script" :
     {
-      "extend" : ["testrunner-portable::source"],
+      "extend" : ["testrunner-portable::source-script"],
 
       "desc" : "generates a combined source version of q and the portable test runner",
 
@@ -189,6 +194,26 @@
         }
       }
     },
+
+    /*
+    "testrunner-portable::build-script" :
+    {
+      "library" :
+      [
+        {
+          "manifest"   : "${QOOXDOO_PATH}/component/library/indigo/Manifest.json"
+        },
+
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
+        },
+
+        {
+          "manifest" : "${TESTRUNNER_ROOT}/Manifest.json"
+        }
+      ]
+    },
+    */
 
     "test" :
     {
