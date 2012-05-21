@@ -80,7 +80,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
    * Create a new instance
    * 
    * @param target {Element} element on which to listen for native touch events
-   * @param emitter {qx.event.Emitter} 
+   * @param emitter {qx.event.Emitter} Event emitter object
    */
   construct : function(target, emitter)
   {
@@ -93,6 +93,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
   members :
   {
     __target : null,
+    __emitter : null,
     __onTouchEventWrapper : null,
     
     __originalTarget : null,
