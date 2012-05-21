@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
+/* 
  * If you have added resources to your app remove the leading '*' in the
  * following line to make use of them.
 

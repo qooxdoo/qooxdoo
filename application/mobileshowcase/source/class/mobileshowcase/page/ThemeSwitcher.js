@@ -17,6 +17,14 @@
 
 ************************************************************************ */
 
+/* 
+ * If you have added resources to your app remove the leading '*' in the
+ * following line to make use of them.
+
+#asset(qx/mobile/css/*)
+
+************************************************************************ */
+
 /**
  * Mobile page responsible for switching between provided themes.
  */
@@ -36,9 +44,9 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
   members :
   {
     __themes : [
-      {"name":"Indigo","css":"../../../framework/source/resource/qx/mobile/css/indigo.css"},
-      {"name":"Android","css":"../../../framework/source/resource/qx/mobile/css/android.css"},
-      {"name":"iOS","css":"../../../framework/source/resource/qx/mobile/css/ios.css"}],
+      {"name":"Indigo","css":"qx/mobile/css/indigo.css"},
+      {"name":"Android","css":"qx/mobile/css/android.css"},
+      {"name":"iOS","css":"qx/mobile/css/ios.css"}],
     
     
     // overridden
@@ -86,7 +94,10 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
       
       for(var i = 0; i < this.__themes.length; i++) {
         if(chosenValue == this.__themes[i].name) {
-          this.__changeCSS(this.__themes[i].css,1);
+          
+          var cssResource = this.__themes[i].css;
+          var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
+          this.__changeCSS(cssURI,1);
         }
       }
     },
