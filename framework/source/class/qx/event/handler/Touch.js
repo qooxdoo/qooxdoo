@@ -79,7 +79,15 @@ qx.Class.define("qx.event.handler.Touch",
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
 
     /** {Map} Supported event types */
-    SUPPORTED_TYPES : qx.event.handler.TouchCore.SUPPORTED_TYPES,
+    SUPPORTED_TYPES :
+    {
+      touchstart : 1,
+      touchmove : 1,
+      touchend : 1,
+      touchcancel : 1, // Appears when the touch is interrupted, e.g. by an alert box
+      tap : 1,
+      swipe : 1
+    },
 
     /** {Integer} Which target check to use */
     TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE + qx.event.IEventHandler.TARGET_DOCUMENT,

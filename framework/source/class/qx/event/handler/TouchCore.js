@@ -35,18 +35,6 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
   
   statics :
   {
-    /** {Map} Supported event types */
-    SUPPORTED_TYPES :
-    {
-      touchstart : 1,
-      touchmove : 1,
-      touchend : 1,
-      touchcancel : 1, // Appears when the touch is interrupted, e.g. by an alert box
-      tap : 1,
-      swipe : 1
-    },
-    
-    
     /** {Integer} The maximum distance of a tap. Only if the x or y distance of
      *      the performed tap is less or equal the value of this constant, a tap
      *      event is fired.
