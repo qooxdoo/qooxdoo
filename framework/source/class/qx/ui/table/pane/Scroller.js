@@ -804,8 +804,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler for the scroller's appear event
      */
-    _onAppear : function()
-    {
+    _onAppear : function() {
       // after the Scroller appears we start the interval again
       this._startInterval(this.getScrollTimeout());
     },

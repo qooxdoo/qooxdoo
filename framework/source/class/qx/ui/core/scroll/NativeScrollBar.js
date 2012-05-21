@@ -62,12 +62,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     this.addListener("mousedown", this._stopPropagation, this);
     this.addListener("mouseup", this._stopPropagation, this);
     this.addListener("mousemove", this._stopPropagation, this);
-
-    if ((qx.core.Environment.get("engine.name") == "opera") &&
-      parseFloat(qx.core.Environment.get("engine.version")) < 11.5)
-    {
-      this.addListener("appear", this._onAppear, this);
-    }
+    this.addListener("appear", this._onAppear, this);
 
     this.getContentElement().add(this._getScrollPaneElement());
 
@@ -327,13 +322,13 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
 
 
     /**
-     * Listener for appear.
-     * Scrolls to the correct position to fix a rendering bug in Opera.
+     * Listener for appear which ensured the scroll bar is positioned right
+     * on appear.
      *
      * @param e {qx.event.type.Data} Incoming event object
      */
     _onAppear : function(e) {
-      this.scrollTo(this.getPosition());
+      this._applyPosition(this.getPosition());
     },
 
 
