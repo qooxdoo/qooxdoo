@@ -381,8 +381,8 @@ publish-build-components:
 	@( cd component/standalone/storage && $(CMD_GENERATOR) build-require ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) build-min ) || exit 1
-	@( cd component/standalone/server && $(CMD_GENERATOR) source ) || exit 1
 	@( cd component/standalone/server && $(CMD_GENERATOR) build ) || exit 1
+	@( cd component/standalone/server && $(CMD_GENERATOR) build-min ) || exit 1
 
 publish-check: check-banner check-apps check-components check-framework check-docs
 	@echo "    - Looks good"
