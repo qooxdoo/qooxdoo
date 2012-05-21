@@ -23,7 +23,10 @@
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="Hello World-mobile">var page = new qx.ui.mobile.page.NavigationPage();
+<textarea class="qx_samples" title="Hello World-mobile">var navigationContainer = new qx.ui.mobile.container.Navigation();
+this.getRoot().add(navigationContainer, {flex:1});
+
+var page = new qx.ui.mobile.page.NavigationPage();
 page.setTitle("Hello World");
 page.addListener("initialize", function() {
   var button = new qx.ui.mobile.form.Button("First Button");
@@ -33,14 +36,17 @@ page.addListener("initialize", function() {
     alert("Hello World");
   }, this);
 },this);
-
+navigationContainer.add(page);
 page.show();</textarea>
 
 
 <!-- ********************************************************************** -->
 
 
-<textarea class="qx_samples" title="List-mobile">var page = new qx.ui.mobile.page.NavigationPage();
+<textarea class="qx_samples" title="List-mobile">var navigationContainer = new qx.ui.mobile.container.Navigation();
+this.getRoot().add(navigationContainer, {flex:1});
+
+var page = new qx.ui.mobile.page.NavigationPage();
 page.setTitle("List");
 page.addListener("initialize", function() {
   // List creation
@@ -68,13 +74,17 @@ page.addListener("initialize", function() {
   page.getContent().add(list);
 },this);
 
+navigationContainer.add(page,{flex:1});
 page.show();</textarea>
 
 
 <!-- ********************************************************************** -->
 
 
-<textarea class="qx_samples" title="Pages-mobile">// Page 1
+<textarea class="qx_samples" title="Pages-mobile">var navigationContainer = new qx.ui.mobile.container.Navigation();
+this.getRoot().add(navigationContainer, {flex:1});
+
+// Page 1
 var page1 = new qx.ui.mobile.page.NavigationPage();
 page1.setTitle("Page 1");
 page1.addListener("initialize", function() {
@@ -102,6 +112,9 @@ page2.addListener("back", function() {
   page1.show({reverse:true});
 }, this);
 
+navigationContainer.add(page1);
+navigationContainer.add(page2);
+
 page1.show();</textarea>
 
 
@@ -109,7 +122,11 @@ page1.show();</textarea>
 <!-- ********************************************************************** -->
 
 
-<textarea class="qx_samples" title="Form-mobile">var page = new qx.ui.mobile.page.NavigationPage();
+<textarea class="qx_samples" title="Form-mobile">
+var navigationContainer = new qx.ui.mobile.container.Navigation();
+this.getRoot().add(navigationContainer, {flex:1});
+
+var page = new qx.ui.mobile.page.NavigationPage();
 page.setTitle("Login");
 page.addListener("initialize", function() {
   var form = new qx.ui.mobile.form.Form();
@@ -138,13 +155,19 @@ page.addListener("initialize", function() {
   }, this);
 },this);
 
+navigationContainer.add(page);
+
 page.show();</textarea>
 
 
 <!-- ********************************************************************** -->
 
 
-<textarea class="qx_samples" title="YQL Binding-mobile">// Data model
+<textarea class="qx_samples" title="YQL Binding-mobile">
+var navigationContainer = new qx.ui.mobile.container.Navigation();
+this.getRoot().add(navigationContainer, {flex:1});
+
+// Data model
 var query = "select * from feed where url='http://feeds.feedburner.com/qooxdoo/news/content'";
 
 var delegate = {manipulateData : function(data) {
@@ -169,6 +192,7 @@ page.addListener("initialize", function()
   page.getContent().add(list);
 },this);
 
+navigationContainer.add(page);
 page.show();</textarea>
 
 

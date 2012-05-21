@@ -45,10 +45,7 @@ qx.Class.define("playground.view.MobilePlayArea",
       this._playRoot = new qx.ui.mobile.core.Root(playRootEl);
 
       var self = this;
-      qx.ui.mobile.page.Page.getManager()._getRoot = function() {
-        return self._playRoot;
-      };
-
+      
       this._playApp = new qx.application.Mobile();
       this._playApp.getRoot = function() {
         return self._playRoot;
@@ -61,12 +58,6 @@ qx.Class.define("playground.view.MobilePlayArea",
     // overridden
     reset : function(beforeReg, afterReg, code) {
       this._playRoot.removeAll();
-      var manager = qx.ui.mobile.page.Page.getManager();
-      if (manager) {
-        qx.ui.mobile.page.Page.setManager(null);
-        manager.dispose();
-      }
-      qx.ui.mobile.page.Page.setManager(new qx.ui.mobile.page.Manager(this._playRoot));
     }
   }
 });
