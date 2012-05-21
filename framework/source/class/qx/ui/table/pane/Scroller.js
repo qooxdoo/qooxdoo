@@ -94,9 +94,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__paneClipper.addListener("contextmenu", this._onContextMenu, this);
     this.__paneClipper.addListener("dblclick", this._onDblclickPane, this);
     this.__paneClipper.addListener("resize", this._onResizePane, this);
-    
-    //this.__paneClipper.addListener("swipe", this._onSwipe, this);
-    
 
     // if we have overlayed scroll bars, we should use a separate container
     if (qx.core.Environment.get("os.scrollBarOverlayed")) {
@@ -810,8 +807,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler for the scroller's appear event
      */
-    _onAppear : function()
-    {
+    _onAppear : function() {
       // after the Scroller appears we start the interval again
       this._startInterval(this.getScrollTimeout());
     },
@@ -855,7 +851,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this._postponedUpdateContent();
     },
 
-   
+
     /**
      * Event handler. Called when the user moved the mouse wheel.
      *
