@@ -48,7 +48,9 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : [ "common" ]
+    "job-shadowing" : [ "common" ],
+
+    "environment" : [ "non-literal-keys" ]
   },
 
   "jobs" :
