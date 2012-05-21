@@ -5,17 +5,29 @@ This page is an overview of %{Website}'s capabilities. It does collect the exist
 
 
 Basic Concept
--------------
-TODO
+*************
+The basic concept is simple. %{Website} offers one global object called ``q`` (short for query). This global object's main task is to query the DOM using selectors and offer convenience methods on the returned collection of elements.
 
-- chaining
-- everything in one place
-- modular
-- explicit API
+::
+
+  q("#test").setStyle("color", "red");
+
+As you can see in the example above, %{Website}'s idea of API design is to have an explicit API with a clear scope and readable names. In most cases, methods come in pairs: a getter and a setter. Another API concept is chaining:
+
+::
+
+  q("#test").setStyle("color", "red").appendTo(document.body);
+
+Unless noted otherwise, methods return the collection for chaining, such as the setStyle method in the example. It returns the collection created with ``q("#test")`` on which the append method is called.
+
+TODO 
+- statics
+- modular (use only q API)
+
 
 
 API Documentation
------------------
+*****************
 The best documentation is found in the API viewer for %{Website}. It offers a detailed documentation of all available methods, sorted into modules.
 
 TODO Image of the API viewer and Link
@@ -23,7 +35,7 @@ TODO Image of the API viewer and Link
 
 
 CSS Selector Support
---------------------
+********************
 %{Website} uses the same CSS selector engine like jQuery which is called `Sizzle <http://sizzlejs.org>`__. Please check the `Sizzle Documentation <https://github.com/jquery/sizzle/wiki/Sizzle-Home>`__ for more details.
 
 ::
@@ -31,6 +43,15 @@ CSS Selector Support
   q("#id"); // query for id
   q("div"); // query for all div's
 
+
+Plugins
+*******
+
+%{Website} supports a plugin mechanism. All modules are written as %{Website} plugins. For further details about how to write plugins, take a look at the :doc:`plugins documentation </pages/website/plugins>`
+
+
+Included Modules
+****************
 
 Animation
 ---------
@@ -154,44 +175,8 @@ A convenient way to work with cookies is implemented in the cookie module. Setti
 
 Placement
 ---------
-From time to time, it can be necessary to place an element right beside another one. Think about a popup message or tooltip which should offer some context sensitive help. For that, the placement module offers a method to place one element 
-
-
-
-Plugins
--------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Scenarios
----------
-
-Depending on your needs you can either use a pre-build low-level library or use a low-level application class. The qooxdoo SDK offers you to let you generate you both so-called :doc:`skeletons </pages/development/skeletons>` in an easy and fast way.
-
-
-Low-level application
-*********************
-
-Suppose you like to create an application, but you don't want to use the RIA approach with all rich widgets. The :ref:`low-level application <pages/development/skeletons#Native>` (aka ``native``) comes exactly with the same structure as a normal GUI skeleton and does offer the same powerful functionalities like automatic dependency analysis, generated API viewer, unit testing infrastructure and the like. The main difference that no rich widgets are referenced and you can create your application using HTML and CSS. 
-
-You can create this application using the ``create-application.py`` script:
+From time to time, it can be necessary to place an element right beside another one. Think about a popup message or tooltip which should offer some context sensitive help. For that, the placement module offers a method to place one element to another.
 
 ::
 
-   path_to_SDK/tool/bin/create-application.py -n myLowLevelApp -t native
-   
-   
-The result is a new low-level application skeleton named ``myLowLevelApp`` in the current folder. Dive into the :ref:`Getting started <pages/getting_started/helloworld#helloworld>` tutorial for further infos about creating your application.
+  q("#test").placeTo(target, "top-right");
