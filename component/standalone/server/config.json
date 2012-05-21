@@ -55,7 +55,8 @@
   {
     "job-shadowing" : 
     [
-      "api"
+      "api",
+      "apiconf::build-data"
     ]
   },
 
