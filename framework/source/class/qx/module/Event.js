@@ -68,26 +68,27 @@ qx.Bootstrap.define("qx.module.Event", {
         for (var j=0, m=typeHooks.length; j<m; j++) {
           typeHooks[j](el, type, listener, context);
         }
+
+        var bound = (function(event) {
+          // apply normalizations
+          var registry = qx.module.Event.__normalizations;
+          // generic
+          var normalizations = registry["*"] || [];
+          // type specific
+          if (registry[type]) {
+            normalizations = normalizations.concat(registry[type]);
+          }
+
+          for (var x=0, y=normalizations.length; x<y; x++) {
+            event = normalizations[x](event, el, type);
+          }
+          // call original listener with normalized event
+          listener.apply(this, [event]);
+        }).bind(ctx);
+        bound.original = listener;
         
         // add native listener
-        var bound;
         if (qx.bom.Event.supportsEvent(el, type)) {
-          bound = (function(event) {
-            // apply normalizations
-            var registry = qx.module.Event.__normalizations;
-            // generic
-            var normalizations = registry["*"] || [];
-            // type specific
-            if (registry[type]) {
-              normalizations = normalizations.concat(registry[type]);
-            }
-
-            for (var x=0, y=normalizations.length; x<y; x++) {
-              event = normalizations[x](event, el);
-            }
-            listener.apply(this, [event]);
-          }).bind(ctx);
-          bound.original = listener;
           qx.bom.Event.addNativeListener(el, type, bound);
         }
         // create an emitter if necessary
@@ -95,14 +96,14 @@ qx.Bootstrap.define("qx.module.Event", {
           el.__emitter = new qx.event.Emitter();
         }
 
-        var id = el.__emitter.on(type, bound || listener, ctx);
+        var id = el.__emitter.on(type, bound, ctx);
         if (!el.__listener) {
           el.__listener = {};
         }
         if (!el.__listener[type]) {
           el.__listener[type] = {};
         }
-        el.__listener[type][id] = bound || listener;
+        el.__listener[type][id] = bound;
 
         if (!context) {
           // store a reference to the dynamically created context so we know

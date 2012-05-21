@@ -41,7 +41,7 @@ qx.Bootstrap.define("qx.module.event.Native", {
      * @type Array
      * @internal
      */
-    BIND_METHODS : ["preventDefault", "stopPropagation"],
+    BIND_METHODS : ["preventDefault", "stopPropagation", "getType"],
 
 
     /**
@@ -67,6 +67,16 @@ qx.Bootstrap.define("qx.module.event.Native", {
       this.cancelBubble = true;
     },
 
+
+    /**
+     * Returns the event's type
+     * 
+     * @return {String} event type
+     */
+    getType : function()
+    {
+      return this._type || this.type;
+    },
 
     /**
      * Manipulates the native event object, adding methods if they're not
