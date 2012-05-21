@@ -32,7 +32,7 @@
  * native form controls cannot be blocked otherwise.
  *
  * The blocker can also be applied to the entire document, e.g.:
- * <br/><code>q.wrap(document).block()</code>
+ * <br/><code>q(document).block()</code>
  */
 q.define("qx.module.Blocker", {
   statics :
@@ -68,7 +68,7 @@ q.define("qx.module.Blocker", {
       }
 
       if (isDocument) {
-        q.wrap(win).on("resize", qx.module.Blocker.__onWindowResize);
+        q(win).on("resize", qx.module.Blocker.__onWindowResize);
       }
     },
 
@@ -84,7 +84,7 @@ q.define("qx.module.Blocker", {
      */
     __styleBlocker : function(item, color, opacity, zIndex, isDocument)
     {
-      var qItem = q.wrap(item);
+      var qItem = q(item);
 
       var styles = {
         "zIndex" : zIndex,
@@ -153,9 +153,9 @@ q.define("qx.module.Blocker", {
         width : this.getWidth() + "px",
         height : this.getHeight() + "px"
       }
-      q.wrap(win.document.__blocker.div).setStyles(size);
+      q(win.document.__blocker.div).setStyles(size);
       if (win.document.__blocker.iframe) {
-        q.wrap(win.document.__blocker.iframe).setStyles(size);
+        q(win.document.__blocker.iframe).setStyles(size);
       }
     },
 
@@ -176,7 +176,7 @@ q.define("qx.module.Blocker", {
         item.__blocker.iframe.remove();
       }
       if (q.isDocument(item)) {
-        q.wrap(q.getWindow(item))
+        q(q.getWindow(item))
         .off("resize", qx.module.Blocker.__onWindowResize);
       }
     },

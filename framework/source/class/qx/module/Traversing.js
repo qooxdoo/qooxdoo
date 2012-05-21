@@ -187,7 +187,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
       };
 
       for (var i=0; i < this.length; i++) {
-        findClosest(q.wrap(this[i]));
+        findClosest(q(this[i]));
       };
 
       return q.init(closest);

@@ -79,7 +79,12 @@ qx.Bootstrap.define("q", {
 (function() {
   var Collection = q;
   q = function(selector, context) {
-    return q.init(qx.bom.Selector.query(selector, context));
+    if (selector instanceof String) {
+      selector = qx.bom.Selector.query(selector, context);
+    } else if (!(selector instanceof Array)) {
+      selector = [selector];
+    }
+    return q.init(selector);
   }
 
   q.__init = [];

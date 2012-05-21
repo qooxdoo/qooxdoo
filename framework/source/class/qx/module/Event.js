@@ -31,7 +31,7 @@ qx.Bootstrap.define("qx.module.Event", {
      * @internal
      */
     __normalizations : {},
-    
+
     /**
      * Registry of event hooks
      * @internal 
@@ -55,7 +55,7 @@ qx.Bootstrap.define("qx.module.Event", {
     on : function(type, listener, context) {
       for (var i=0; i < this.length; i++) {
         var el = this[i];
-        var ctx = context || q.wrap(el);
+        var ctx = context || q(el);
 
         // call hooks
         var hooks = qx.module.Event.__hooks.on;
@@ -270,7 +270,7 @@ qx.Bootstrap.define("qx.module.Event", {
             if (listener.original) {
               listener = listener.original;
             }
-            q.wrap(target[i]).on(name, listener, storage[name][j].ctx);
+            q(target[i]).on(name, listener, storage[name][j].ctx);
           };
         }
       };
@@ -300,10 +300,10 @@ qx.Bootstrap.define("qx.module.Event", {
         callback();
       };
 
-      q.wrap(window).on("load", onWindowLoad);
+      q(window).on("load", onWindowLoad);
 
       var wrappedCallback = function() {
-        q.wrap(window).off("load", onWindowLoad);
+        q(window).off("load", onWindowLoad);
         callback();
       };
 

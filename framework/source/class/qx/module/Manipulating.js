@@ -37,20 +37,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
 
     /**
-     * Creates a new collection from a DOM element.
-     * 
-     * @param el {Element} DOM element
-     * @return {q} Collection of elements
-     */
-    wrap : function(el) {
-      if (!qx.lang.Type.isArray(el)) {
-        el = [el];
-      }
-      return q.init(el);
-    },
-
-
-    /**
      * Clones the items in the current collection and returns them in a new set.
      * Event listeners can also be cloned.
      * 
@@ -67,7 +53,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
         this.copyEventsTo(clones);
       }
 
-      return q.wrap(clones);
+      return q(clones);
     },
 
 

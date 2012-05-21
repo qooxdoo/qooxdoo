@@ -82,7 +82,7 @@ q.define("qx.module.Placement", {
         height : parent.getHeight()
       };
 
-      var target = q.wrap(target).getOffset();
+      var target = q(target).getOffset();
 
       var offsets = offsets || {
         top: 0,

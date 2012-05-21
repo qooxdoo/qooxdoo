@@ -36,8 +36,8 @@ testrunner.define({
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
     var el = document.getElementById("testdiv");
-    this.assertEquals(el, q.wrap(el)[0]);
-    this.assertEquals(el, q.wrap([el])[0]);
+    this.assertEquals(el, q(el)[0]);
+    this.assertEquals(el, q([el])[0]);
     test.remove();
   },
 
@@ -85,7 +85,7 @@ testrunner.define({
 
     var clone = orig.clone(true);
     var children = clone.getChildren();
-    q.wrap(children[0]).emit("click");
+    q(children[0]).emit("click");
     this.assertEquals(1, called);
   },
 
@@ -416,7 +416,7 @@ testrunner.define({
   },
 
   testFilterSelector : function() {
-    var col = q.wrap([]);
+    var col = q([]);
     var test = q.create("<div id='test' class='item'/>");
     var other = q.create("<div class='item'/>");
     col.add(test[0]);
@@ -851,11 +851,11 @@ testrunner.define({
   },
 
   testGetHeightDocument : function() {
-    this.assertNumber(q.wrap(document).getHeight());
+    this.assertNumber(q(document).getHeight());
   },
 
   testGetHeightWindow : function() {
-    this.assertNumber(q.wrap(window).getHeight());
+    this.assertNumber(q(window).getHeight());
   },
 
   testGetWidthElement : function() {
@@ -867,11 +867,11 @@ testrunner.define({
   },
 
   testGetWidthDocument : function() {
-    this.assertNumber(q.wrap(document).getWidth());
+    this.assertNumber(q(document).getWidth());
   },
 
   testGetWidthWindow : function() {
-    this.assertNumber(q.wrap(window).getWidth());
+    this.assertNumber(q(window).getWidth());
   },
 
   testGetOffset : function() {
@@ -1127,7 +1127,7 @@ testrunner.define({
     test.emit("changeName", sendData);
     this.assertEquals(1, called);
 
-    var test2 = q.wrap(test[0]);
+    var test2 = q(test[0]);
     test2.emit("changeName", sendData);
     this.assertEquals(2, called);
   },
@@ -1728,7 +1728,7 @@ testrunner.define({
   setUp : testrunner.globalSetup,
   tearDown : function() {
     testrunner.globalTeardown.call(this);
-    q.wrap(document).unblock();
+    q(document).unblock();
   },
 
   testBlocker : function() {
@@ -1800,20 +1800,20 @@ testrunner.define({
 
   testBlockDocument : function()
   {
-    q.wrap(document).block();
+    q(document).block();
     var blockerDiv = document.__blocker.div;
     this.assertTrue(qx.dom.Hierarchy.isRendered(blockerDiv[0]));
-    this.assertEquals(q.wrap(document).getWidth(), blockerDiv.getWidth());
-    this.assertEquals(q.wrap(document).getHeight(), blockerDiv.getHeight());
+    this.assertEquals(q(document).getWidth(), blockerDiv.getWidth());
+    this.assertEquals(q(document).getHeight(), blockerDiv.getHeight());
 
     if (q.env.get("engine.name") == "mshtml") {
       var blockerIframe = document.__blocker.iframe;
       this.assertTrue(qx.dom.Hierarchy.isRendered(blockerIframe[0]));
-      this.assertEquals(q.wrap(document).getWidth(), blockerIframe.getWidth());
-      this.assertEquals(q.wrap(document).getHeight(), blockerIframe.getHeight());
+      this.assertEquals(q(document).getWidth(), blockerIframe.getWidth());
+      this.assertEquals(q(document).getHeight(), blockerIframe.getHeight());
     }
 
-    q.wrap(document).unblock();
+    q(document).unblock();
 
     this.assertFalse(qx.dom.Hierarchy.isRendered(blockerDiv[0]));
     if (q.env.get("engine.name") == "mshtml") {
