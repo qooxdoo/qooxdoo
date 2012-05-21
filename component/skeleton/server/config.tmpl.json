@@ -157,7 +157,7 @@
     "library" : 
     {
       "desc" : "create a local 'server' library",
-      "extend" : ["server::build"],
+      "extend" : ["server::build-min"],
       "let" : {
         "BUILD_PATH" : "./script"
       }

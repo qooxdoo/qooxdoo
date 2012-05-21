@@ -27,5 +27,5 @@ system.
 
 # The following is only required during execution of 'create-application.py'
 short:: for non-browser run times like Rhino, node.js
-copy_file:: component/standalone/server/script/qx-oo.js     script/qx-oo.js
+copy_file:: component/standalone/server/script/qx-oo.min.js     script/qx-oo.min.js
 copy_file:: tool/data/generator/needs_generation_server.js  source/script/custom.js

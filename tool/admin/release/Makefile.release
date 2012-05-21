@@ -126,7 +126,12 @@ release-sdk-svn-collect:
 	    $(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.js; \
 		fi; \
 	done
+	@# showcase
 	@$(CMD_SYNC_OFFLINE) application/showcase/build/* $(RELEASE_SDK)/application/showcase/build
+	@# libs
+	@for COMPONENT in `echo server website`; do \
+		$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/* $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
+	done
 
 	@echo "  * Synchronizing framework..."
 	@$(CMD_SYNC_OFFLINE) framework/api/* $(RELEASE_SDK)/framework/api
@@ -301,6 +306,7 @@ build-components:
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
+			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
 		elif [ "$$COMPONENT" = "testrunner" ]; then \
 			( cd component/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
 			( cd component/testrunner && $(CMD_GENERATOR) -c portable.json build ) || exit 1; \
@@ -417,9 +423,9 @@ check-components:
 			F="component/standalone/$$TARGET/script/q.min.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "server" ]; then \
-			F="component/standalone/$$TARGET/script/qx-oo.js"; \
+			F="component/standalone/$$TARGET/script/qx-oo.min.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-			F="component/standalone/$$TARGET/script/qx-oo-noopt.js"; \
+			F="component/standalone/$$TARGET/script/qx-oo.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		fi; \
 	done
@@ -470,12 +476,6 @@ publish-apps:
 		if [ "$$APPLICATION" = "test" ]; then \
 			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/testrunner || exit 1; \
 		fi; \
-		if [ "$$APPLICATION" = "qxoo-build" ]; then \
-			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo.js $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/framework || exit 1; \
-		fi; \
-		if [ "$$APPLICATION" = "qxoo-noopt" ]; then \
-			$(CMD_SYNC_ONLINE) framework/build/script/qx-oo-noopt.js $(STAGING_HOST):$(DEMO_DIR)/$(FRAMEWORK_VERSION)/framework || exit 1; \
-		fi; \
 	done
 	@echo "  * Syncing components..."
 	@for COMPONENT in $(COMPONENTS); do \
@@ -495,7 +495,7 @@ publish-apps:
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q.min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo-noopt.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo.min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		fi; \
 	done
 

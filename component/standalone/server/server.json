@@ -70,7 +70,7 @@
     },
 
 
-    "build" : 
+    "build-min" : 
     {
       "desc" : "a basic qooxdoo OO library",
       "extend" : [ "qxoo-common" ],
@@ -79,7 +79,7 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/qx-oo.js",
+          "file" : "${BUILD_PATH}/qx-oo.min.js",
           "app-root" : "."
         },
         "code" :
@@ -93,7 +93,7 @@
     },
     
     
-    "source" : 
+    "build" : 
     {
       "desc" : "a basic qooxdoo OO library (non-optimized)",
       "extend" : [ "qxoo-common" ],
@@ -102,7 +102,7 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/qx-oo-noopt.js",
+          "file" : "${BUILD_PATH}/qx-oo.js",
           "app-root" : "."
         },
         "code" :
