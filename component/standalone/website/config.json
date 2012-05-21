@@ -10,7 +10,8 @@
         "test",
         "build",
         "source",
-        "api-data"
+        "api-data",
+        "api"
       ]
     },
     {
@@ -27,7 +28,8 @@
     "test-source",
     "test",
     "log-deps",
-    "api-data"
+    "api-data",
+    "api"
   ],
 
 
@@ -232,16 +234,25 @@
       ]
     },
 
+    "api" :
+    {
+      "run" : ["build", "api-data"]
+    },
+
+
     "api-data" : {
       "library" : [
         {"manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"}
       ],
 
       "include" : "${API_INCLUDE}",
-      //"exclude" : "${API_EXCLUDE}",
 
       "api" : {
         "path" : "api/script"
+      },
+      "cache" :     {
+        "compile"      : "${CACHE}",
+        "invalidate-on-tool-change" : true
       }
     }
   }
