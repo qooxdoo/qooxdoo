@@ -32,19 +32,19 @@ q.define("qx.module.Placement", {
   statics: {
 
     /**
-     * Moves the first element in the collection, aligning it with the given 
+     * Moves the first element in the collection, aligning it with the given
      * target.
-     * 
+     *
      * @param target {Element} Placement target
-     * @param position {String} Alignment of the object with the target, any of 
-     * <code>"top-left", <code>"top-right"</code>, <code>"bottom-left"</code>, 
-     * <code>"bottom-right"</code>, <code>"left-top"</code>, 
-     * <code>"left-bottom"</code>, <code>"right-top"</code>, 
+     * @param position {String} Alignment of the object with the target, any of
+     * <code>"top-left"</code>, <code>"top-right"</code>, <code>"bottom-left"</code>,
+     * <code>"bottom-right"</code>, <code>"left-top"</code>,
+     * <code>"left-bottom"</code>, <code>"right-top"</code>,
      * <code>"right-bottom"</code>
      * @param offsets {Map?null} Map with the desired offsets between the two elements.
-     * Must contain the keys <code>left</code>, <code>top</code>, 
+     * Must contain the keys <code>left</code>, <code>top</code>,
      * <code>right</code> and <code>bottom</code>
-     * @param modeX {String} Horizontal placement mode. Valid values are:
+     * @param modeX {String?"direct"} Horizontal placement mode. Valid values are:
      *   <ul>
      *   <li><code>direct</code>: place the element directly at the given
      *   location.</li>
@@ -57,7 +57,7 @@ q.define("qx.module.Placement", {
      *   area, it is moved into the view port, ignoring any offset and position
      *   values.
      *   </ul>
-     * @param modeY {String} Vertical placement mode. Accepts the same values as
+     * @param modeY {String?"direct"} Vertical placement mode. Accepts the same values as
      *   the 'modeX' argument.
      * @return {q} The collection for chaining
      */
@@ -65,57 +65,57 @@ q.define("qx.module.Placement", {
       if (!this[0]) {
         return null;
       }
-      
+
       var axes = {
         x : qx.module.Placement._getAxis(modeX),
         y : qx.module.Placement._getAxis(modeY)
       };
-      
+
       var size = {
         width: this.getWidth(),
         height: this.getHeight()
       };
-      
+
       var parent = this.getParents();
       var area = {
         width : parent.getWidth(),
         height : parent.getHeight()
       };
-      
-      var target = q.wrap(target).getOffset(); 
-      
+
+      var target = q.wrap(target).getOffset();
+
       var offsets = offsets || {
         top: 0,
         right: 0,
         bottom: 0,
         left: 0
       };
-      
+
       var splitted = position.split("-");
       var edge = splitted[0];
       var align = splitted[1];
-      
+
       var position = {
         x : qx.module.Placement._getPositionX(edge,align),
         y : qx.module.Placement._getPositionY(edge,align)
       }
-      
+
       var newLocation = qx.module.Placement._computePlacement(axes, size, area, target, offsets, position);
-      
+
       this.setStyles({
         position: "absolute",
         left: newLocation.left + "px",
         top: newLocation.top + "px"
       });
-      
+
       return this;
     },
-    
-    
+
+
     /**
      * Returns the appropriate axis implementation for the given placement
      * mode
-     *  
+     *
      * @param mode {String} Placement mode
      * @return {Object} Placement axis class
      */
@@ -134,10 +134,10 @@ q.define("qx.module.Placement", {
           return qx.util.placement.DirectAxis;
       }
     },
-    
+
     /**
      * Returns the computed coordinates for the element to be placed
-     * 
+     *
      * @param axes {Map} Map with the keys <code>x</code> and <code>y</code>. Values
      * are the axis implementations
      * @param size {Map} Map with the keys <code>width</code> and <code>height</code>
@@ -149,7 +149,7 @@ q.define("qx.module.Placement", {
      * @param offsets {Map} Map of offsets (top, right, bottom, left)
      * @param position {Map} Map with the keys <code>x</code> and <code>y</code>,
      * containing the type of positioning for each axis
-     * @return {Map} Map with the keys <code>left</code> and <code>top</code> 
+     * @return {Map} Map with the keys <code>left</code> and <code>top</code>
      * containing the computed coordinates to which the element should be moved
      */
     _computePlacement : function(axes, size, area, target, offsets, position)
@@ -180,7 +180,7 @@ q.define("qx.module.Placement", {
     /**
      * Returns the X axis positioning type for the given edge and alignment
      * values
-     * 
+     *
      * @param edge {String} edge value
      * @param align {String} align value
      * @return {String} X positioning type
@@ -202,7 +202,7 @@ q.define("qx.module.Placement", {
     /**
      * Returns the Y axis positioning type for the given edge and alignment
      * values
-     * 
+     *
      * @param edge {String} edge value
      * @param align {String} align value
      * @return {String} Y positioning type
@@ -219,9 +219,9 @@ q.define("qx.module.Placement", {
         return "align-end";
       }
     }
-    
+
   },
-  
+
   defer : function(statics)
   {
     q.attach({

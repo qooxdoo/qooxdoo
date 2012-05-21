@@ -1,69 +1,185 @@
-Low Level Overview 
-==================
+%{Website} Overview
+===================
 
-.. note::
-  This section is outdated and does not reflect the current implementation. To get an idea of where %{Website} is heading, please refer to the API docs of `qx.module <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.module>`__.
-
-This page is an overview of qooxdoo's low-level capabilities. It does collect the existing documentation and tries to show the big picture.
+This page is an overview of %{Website}'s capabilities. It does collect the existing documentation and tries to show the big picture.
 
 
-CSS Selector Support 
---------------------
-
-If you are familiar with jQuery you can check out the :doc:`comparison article <fromjquery>` of qooxdoo's `Collection class <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.bom.Collection>`__ and jQuery implementation. Internally qooxdoo also uses the `Sizzle <http://sizzlejs.org>`__ selector engine, so you can use the CSS selectors you're familiar with. 
-
-
-DOM query and manipulation
---------------------------
-
-The core for querying the DOM and manipulate DOM elements is the ``qx.bom.Collection`` class which offers this fundamental functionality. This class connects all relevant :doc:`low level APIs <website_apis>` of qooxdoo. For further reading the :doc:`overview of the collection use cases <use_cases_collection_class>` is worth reading.
-
-
-Event layer
------------
-
-Adding listeners to interact with the user is one of the top use cases. qooxdoo does offer a sophisticated event layer with powerful features like *cross-browser event bubbling and capturing* and many more! 
-
-Check out the detailed article about the :doc:`qooxdoo event layer <event_layer_impl>`.
-
-
-Communication
+Basic Concept
 -------------
+TODO
 
-Pulling data from remote sources is also one of the most common use cases and usually the next logical step when it comes to improving your existing JavaScript powered website / application. However, you expect that the underlying framework is providing you a nice abstracted cross-browser solution you can easily use. qooxdoo offers you multiple implementations to pull data. 
+- chaining
+- everything in one place
+- modular
+- explicit API
 
-The first option is to use `XHR <http://en.wikipedia.org/wiki/XHR>`__. This browser API is widely used and qooxdoo comes with :ref:`a wrapper of this API <pages/communication#low_level_requests>` which hides away inconsistencies and works around bugs. However, to gain more comfort the recommended way is to use the :doc:`Higher-level requests </pages/communication/request_io>`.
 
-The second option is to use `JSONP <http://en.wikipedia.org/wiki/JSONP>`__. With that approach you can overcome the `same orgin policy <http://en.wikipedia.org/wiki/Same_origin_policy>`__ and can talk to any server which is offering a JSON API like e.g `Twitter <https://dev.twitter.com/>`__ does. qooxdoo is offering a :doc:`nice and powerful API </pages/communication/request_io>` with the same interface as the XHR transport to let you easily adapt any JSONP API out there.
+API Documentation
+-----------------
+The best documentation is found in the API viewer for %{Website}. It offers a detailed documentation of all available methods, sorted into modules.
+
+TODO Image of the API viewer and Link
+
+
+
+CSS Selector Support
+--------------------
+%{Website} uses the same CSS selector engine like jQuery which is called `Sizzle <http://sizzlejs.org>`__. Please check the `Sizzle Documentation <https://github.com/jquery/sizzle/wiki/Sizzle-Home>`__ for more details.
+
+::
+
+  q("#id"); // query for id
+  q("div"); // query for all div's
 
 
 Animation
 ---------
+Animations can enhance the user experience and can help to create appealing and natural behaving user interfaces. With modern browsers CSS animations and transforms are opening a new way of realizing this in an efficient way. No need to do it programmatically in JavaScript.
 
-Animations can enhance the user experience and can help to create appealing and natural behaving user interfaces. With modern browsers CSS3 animations and transforms are opening a new way of realizing this in an efficient way. No need to do it programmatically in JavaScript. 
+To use animations with %{Website} you can use the animation module. This is a cross-browser wrapper for CSS animations and transforms with the goal to align closely to the spec wherever possible. If no CSS animations are supported, a JavaScript solution will work in place offering the same API and almost the same functionality as the CSS based solution.
 
-To use animations with qooxdoo you can use the `animation layer <http://demo.qooxdoo.org/current/apiviewer/#qx.bom.element.Animation>`__ introduced with the 1.6 release of qooxdoo. This is a cross-browser wrapper for CSS3 animations and transforms with the goal to align closely to the spec wherever possible.
+For further details, take a look at the :doc:`Animations and Transforms documentation </pages/website/css3animation>`
 
-A `fallback implementation <http://demo.qooxdoo.org/current/apiviewer/#qx.fx>`__ for older browser is also available and can be used together with the new implementation.
+::
 
-.. note::
-
-  A new and more consistent fallback implementation is planned.
+  q("#test").fadeIn();
 
 
-Scenarios 
+Attributes
+----------
+%{Website} offers an easy and elegant way to manipulate attributes and properties of DOM elements. This contains also setting the HTML content of an element.
+
+::
+
+  // sets the HTML content
+  q("#test").setHtml("<h2>TEST</h2>");
+  // returns the value of the placeholder attribute
+  q("#test").getAttribute("placeholder");
+
+
+CSS
+---
+Working with CSS can be easy with the right help of %{Website}. The CSS module includes a lot of convenience helper to set styles, classes, or dimensions.
+
+::
+
+  // cross browser setting of the opacity
+  q("#test").setStyle("opacity", 0.5);
+  // checks if 'myClass' is applied
+  q("#test").hasClass("myClass");
+
+
+Environment
+-----------
+%{Website} covers most of the cross browser issues. Still, the environment module offers a lot of information about the environment the app is running in. This includes simple checks like browser name to information about the application itself.
+
+::
+
+  // return "webkit" e.g.
+  q.env.get("engine.name");
+  // can be used to place debugging infomration
+  q.env.get("qx.debug");
+
+
+Manipulating
+------------
+The manipulating module offers help to change the structure of the DOM. Appending or creating elements is also part of this module as manipulating the scroll position.
+
+::
+
+  q("#test").setScrollTop(100);
+  q("#test").empty(); // removes all content
+
+
+Polyfill
+--------
+A polyfill is best explained by a quote from an explaining blog post:
+
+  A polyfill, or polyfiller, is a piece of code (or plugin) that provides the technology that you, the developer, expect the browser to provide natively. Flattening the API landscape if you will. `What is a polyfill <http://remysharp.com/2010/10/08/what-is-a-polyfill/>`_
+
+Which polyfills the module adds can be found in the API documentation of the module.
+
+
+Template
+--------
+Templating is a powerful tool in web development. %{Website} uses mustache.js as its templating engine. For further information about that, see the documentation of `mustache.js <https://github.com/janl/mustache.js/>`_.
+
+::
+
+  // returns a collection containing the new element
+  q.template.get("templateId", {data: "test"});
+
+Traversing
+----------
+In the traversing module, you'll find helpers to work with the collection. One good sample is the filter method, which reduces the number of elements in the collection. Another big part of the module is go query for children, ancestors or siblings.
+
+::
+
+  // returns the children
+  q("#test").getChildren();
+  // returns all siblings having the class 'myClass'
+  q("#test").getSiblings(".myClass");
+
+Communication
+-------------
+
+Pulling data from remote sources is also one of the most common use cases and usually the next logical step when it comes to improving your existing JavaScript powered website / application. However, you expect that the underlying framework is providing you a nice abstracted cross-browser solution you can easily use. %{Website} offers you multiple implementations to pull data.
+
+The first option is to use `XHR <http://en.wikipedia.org/wiki/XHR>`__. This browser API is widely used and %{Website} comes with :ref:`a wrapper of this API <pages/communication#low_level_requests>` which hides away inconsistencies and works around bugs.
+The second option is to use `JSONP <http://en.wikipedia.org/wiki/JSONP>`__. With that approach you can overcome the `same orgin policy <http://en.wikipedia.org/wiki/Same_origin_policy>`__ and can talk to any server which is offering a JSON API like e.g `Twitter <https://dev.twitter.com/>`__ does. %{Website} is offering a :doc:`nice and powerful API </pages/communication/request_io>` with the same interface as the XHR transport to let you easily adapt any JSONP API out there.
+
+::
+
+  q.io.xhr(url).on("loadend", function(xhr) {});
+
+
+
+Blocker
+-------
+The blocker module offers a way to block elements. This means that they don't receive any native event during the blocked time.
+
+::
+
+  q("#test").block();
+
+
+Cookie
+------
+A convenient way to work with cookies is implemented in the cookie module. Setting, reading and deleting cookies is implemented in a cross browser way.
+
+::
+
+  q.cookie.set("key", "value");
+
+
+Placement
+---------
+From time to time, it can be necessary to place an element right beside another one. Think about a popup message or tooltip which should offer some context sensitive help. For that, the placement module offers a method to place one element 
+
+
+
+Plugins
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Scenarios
 ---------
 
 Depending on your needs you can either use a pre-build low-level library or use a low-level application class. The qooxdoo SDK offers you to let you generate you both so-called :doc:`skeletons </pages/development/skeletons>` in an easy and fast way.
-
-
-Low Level library
-*****************
-
-This library is suited for all developers which like to use qooxdoo for traditional websites. It comes which a pre-configured set of classes which should cover the top use cases. 
-
-How to create this low-level library is described at :doc:`Setting up a low-level library <setup_a_low-level_library>`.
-
 
 
 Low-level application
