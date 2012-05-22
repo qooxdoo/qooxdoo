@@ -4,12 +4,12 @@
 
 .toolbar-button {
   .standard-button();
-  
-  .box();
-  .box-centered();
+  .hbox();
   .background-clip(padding-box);
   cursor: pointer;
   font-weight: bold;
+  
+  width:0;
 
   @padding:4px;
   padding-left:@padding;
@@ -17,8 +17,7 @@
   
   overflow: hidden;
 
-  width: 100%;
-
+  
   font-size: 12px;
   
   line-height:normal;
@@ -38,6 +37,10 @@
 
 .toolbar-button img {
   vertical-align: middle;
+}
+
+.toolbar-button > div {
+  .boxFlex();
 }
 
 .toolbar-button .label {

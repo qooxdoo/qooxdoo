@@ -30,7 +30,7 @@
  * Base class for all layout managers.
  *
  * Custom layout manager must derive from
- * this class and implement the methods {@link #getCssClass},
+ * this class and implement the methods {@link #getCssClasses},
  * {@link #_getSupportedChildLayoutProperties} and {@link #_setLayoutProperty}.
  */
 qx.Class.define("qx.ui.mobile.layout.Abstract",
@@ -67,11 +67,11 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
 
 
     /**
-     * Returns the css class that the layout is using.
+     * Returns the css classes in an array that the layout is using.
      *
-     * @return {String} The css class that the layout is using
+     * @return {Array} The css classes that the layout is using
      */
-    _getCssClass: function()
+    _getCssClasses: function()
     {
       if (qx.core.Environment.get("qx.debug")) {
         throw new Error("Abstract method call");
@@ -143,13 +143,13 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
     connectToWidget : function(widget)
     {
       if (this._widget) {
-         this._widget.removeCssClass(this._getCssClass());
+        this._widget.removeCssClasses(this._getCssClasses());
       }
 
       this._widget = widget;
       if (widget)
       {
-        widget.addCssClass(this._getCssClass());
+        widget.addCssClasses(this._getCssClasses());
         if (this.__cachedProperties) {
           for (var property in this.__cachedProperties)
           {
@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
      * Adds a property to the cache. Needed when the layout is not yet
      * connected with the widget.
      *
-     * @param property {Strig} The property to add
+     * @param property {String} The property to add
      * @param value {var} The value of the property to add
      */
     _addCachedProperty : function(property, value)
@@ -224,7 +224,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
      * Returns a child layout property value.
      *
      * @param widget {qx.ui.mobile.core.Widget} The target widget
-     * @param property {Strig} The property to retrieve the value from
+     * @param property {String} The property to retrieve the value from
      * @return {var} The value of the given property
      */
     _getChildLayoutPropertyValue : function(widget, property)
@@ -239,7 +239,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
      * <code>null</code> the property will be deleted from the cache.
      *
      * @param widget {qx.ui.mobile.core.Widget} The target widget
-     * @param property {Strig} The property to add
+     * @param property {String} The property to add
      * @param value {var} The value of the property to add
      */
     _addPropertyToChildLayoutCache : function(widget, property, value)

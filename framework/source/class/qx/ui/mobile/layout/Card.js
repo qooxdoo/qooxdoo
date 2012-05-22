@@ -109,8 +109,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       "cube" : true
     }
   },
-
-
+  
+  
  /*
   *****************************************************************************
      MEMBERS
@@ -127,8 +127,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
 
     // overridden
-    _getCssClass : function() {
-      return "layout-card";
+    _getCssClasses : function() {
+      return ["layout-card",'hbox'];
     },
 
 
@@ -136,6 +136,9 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     connectToChildWidget : function(widget)
     {
       this.base(arguments);
+      if (widget) {
+        widget.fixSize();
+      }
       widget.addCssClass("layout-card-item");
       widget.addCssClass("boxFlex1");
       widget.exclude();

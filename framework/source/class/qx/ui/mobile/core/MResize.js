@@ -35,11 +35,9 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
   construct : function()
   {
     // Initial size hint
-    //this._setHeight(window.innerHeight);
     qx.event.Registration.addListener(window, "orientationchange", this.fixSize, this);
     qx.event.Registration.addListener(window, "resize", this.fixSize, this);
-    this.addListener("appear", this.fixSize, this);
-    
+    this.addListener("domupdated", this.fixSize, this);
   },
 
 
@@ -86,8 +84,8 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
     { 
       var parent = this.getLayoutParent();
       if (parent) {
-        var height = parent.getContainerElement().clientHeight;
-        var width = parent.getContainerElement().clientWidth;
+        var height = parent.getContainerElement().offsetHeight;
+        var width = parent.getContainerElement().offsetWidth;
         if (!this.getFireDomUpdatedOnResize()) {
           this._setHeight(height);
           this._setWidth(width);
@@ -141,7 +139,6 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
      DESTRUCTOR
   *****************************************************************************
   */
-
 
   destruct : function() {
     qx.event.Registration.removeListener(window, "orientationchange", this.fixSize, this);

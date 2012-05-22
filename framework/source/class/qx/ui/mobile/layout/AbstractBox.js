@@ -231,7 +231,8 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
     {
       if (this._widget)
       {
-        var layoutCss = this._getCssClass();
+        // In this case the layout should only have one main css class.
+        var layoutCss = this._getCssClasses()[0];
         var CSS_MAPPING = qx.ui.mobile.layout.AbstractBox.PROPERTY_CSS_MAPPING[property][layoutCss];
         if (old)
         {

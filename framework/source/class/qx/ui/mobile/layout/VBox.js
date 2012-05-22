@@ -65,8 +65,8 @@ qx.Class.define("qx.ui.mobile.layout.VBox",
   members :
   {
     // overridden
-    _getCssClass : function(){
-      return "vbox";
+    _getCssClasses : function(){
+      return ["vbox"];
     }
   }
 });
