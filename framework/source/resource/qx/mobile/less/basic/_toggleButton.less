@@ -3,61 +3,55 @@
 //
 
 .toggleButton {
-  .background-clip(padding-box);
+  cursor:pointer;
+
   width: 84px;
   height: 29px;
   display: block;
-  cursor:default;
   font-size:16px;
   font-weight:bold;
 
-  cursor:pointer;
+  .border-radius(30px);
+
+  overflow:hidden;
 }
 
 .toggleButton > div {
-  .border-radius(15px);
+  .border-radius(30px);
   margin: 0;
   height: 27px;
   width: 80px;
   overflow:hidden;
 }
 
-
 div.checked .toggleButtonSwitch {
   position:relative;
   left: 53px;
 }
 
-div.checked .toggleButtonSwitch:after {
-  display:block;
-  content: "";
-}
-
 div.checked .toggleButtonSwitch:before {
-  position:relative;
+  position:absolute;
   content: "ON";
   left:-35px;
   line-height:27px;
   height:26px;
-  overflow:visible;
 }
 
 .toggleButtonSwitch:after {
+  position:absolute;
   content: "OFF";
-  position:relative;
   left: 35px;
   line-height:27px;
   height:26px;
-  overflow:visible;
 }
-
 
 .toggleButtonSwitch {
   position:relative;
-  left: 0px;
+  
+  @size:25px;
+  height:@size;
+  width:@size;
 
-  height:25px;
-  width:25px;
-
-  .border-radius(15px);
+  .border-radius(@size);
+  
 }

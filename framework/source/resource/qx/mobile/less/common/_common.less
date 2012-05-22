@@ -16,6 +16,11 @@ html, body {
   overflow:hidden;
 }
 
+input {
+  line-height:1;
+  vertical-align:middle;
+}
+
 .selectable, input, textarea {
   .user-select(auto);
 }
@@ -46,5 +51,17 @@ a:hover, a:active {
   
   height:100%;
   width:100%;
+}
+
+// WEBKIT ONLY
+
+input::-webkit-input-placeholder {
+  line-height:normal;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 

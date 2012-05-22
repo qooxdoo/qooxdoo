@@ -69,8 +69,6 @@ qx.Class.define("qx.ui.mobile.layout.Card",
   },
 
 
-
-
  /*
   *****************************************************************************
      PROPERTIES
@@ -128,7 +126,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
     // overridden
     _getCssClasses : function() {
-      return ["layout-card",'hbox'];
+      return ["layout-card","hbox"];
     },
 
 
@@ -138,10 +136,10 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       this.base(arguments);
       if (widget) {
         widget.fixSize();
+        widget.addCssClass("layout-card-item");
+        widget.addCssClass("boxFlex1");
+        widget.exclude();
       }
-      widget.addCssClass("layout-card-item");
-      widget.addCssClass("boxFlex1");
-      widget.exclude();
     },
 
 

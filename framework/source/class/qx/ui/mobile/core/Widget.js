@@ -1229,13 +1229,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * Adds an array of CSS classes to the container element of the widget. Use this method
      * to enhance the default appearance of the widget.
      *
-     * @param cssClasses {Array} The CSS classes to add, wrapped by an array.
+     * @param cssClasses {String[]} The CSS classes to add, wrapped by an array.
      */
     addCssClasses : function(cssClasses) {
       if(cssClasses){
-        for(var i=0;i<cssClasses.length;i++){
-          qx.bom.element.Class.add(this.getContainerElement(), cssClasses[i]);
-        }
+        qx.bom.element.Class.addClasses(this.getContainerElement(), cssClasses);
         this._domUpdated();
       }
     },
@@ -1255,14 +1253,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Removes an array of CSS classes from the container element of the widget.
      *
-     * @param cssClasses {Array} The CSS classes to remove from widget.
+     * @param cssClasses {String[]} The CSS classes to remove from widget.
      */
     removeCssClasses : function(cssClasses) {
        if(cssClasses){
-          for(var i=0;i<cssClasses.length;i++){
-            qx.bom.element.Class.remove(this.getContainerElement(), cssClasses[i]);
-          }
-          this._domUpdated();
+         qx.bom.element.Class.removeClasses(this.getContainerElement(), cssClasses);
+         this._domUpdated();
        }
     },
 

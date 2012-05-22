@@ -29,16 +29,14 @@
 // Firefox only
 @-moz-document url-prefix() {
     .hbox {
-    // -moz-box elements shrink-wrap by default. The spec states that "a block-level
-    // box placed inside a block level element is positioned and sized as if it were
-    // any other block". This is not true for the (non-standard) implementation in
-    // Firefox.
-    //
-    // See https://bugzilla.mozilla.org/show_bug.cgi?id=625694
-    //
-    // TODO: Limit to Firefox, because setting an explicit width may have
-    // undesirable side-effects.
-    width: 100%;
+      // -moz-box elements shrink-wrap by default. The spec states that "a block-level
+      // box placed inside a block level element is positioned and sized as if it were
+      // any other block". This is not true for the (non-standard) implementation in
+      // Firefox.
+      //
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=625694
+      //
+      width: 100%;
     }
 
     .vbox { 
