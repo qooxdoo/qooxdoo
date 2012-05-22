@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5844 $"/>
-		<generation date="$Date: 2011-05-05 14:19:20 -0500 (Thu, 05 May 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="nus"/>
 	</identity>
 	<localeDisplayNames>
@@ -127,7 +127,7 @@
 							<month type="1">Tiop</month>
 							<month type="2">Pɛt</month>
 							<month type="3">Duɔ̱ɔ̱</month>
-							<month type="4">Dua</month>
+							<month type="4">Guak</month>
 							<month type="5">Duä</month>
 							<month type="6">Kor</month>
 							<month type="7">Pay</month>
@@ -135,7 +135,7 @@
 							<month type="9">Tɛɛ</month>
 							<month type="10">Laa</month>
 							<month type="11">Kur</month>
-							<month type="12">Tiop</month>
+							<month type="12">Tid</month>
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">Tiop thar pɛt</month>
@@ -283,7 +283,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
@@ -298,10 +298,10 @@
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/y</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE، d/M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E، d/M/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE، d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E، d MMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 					</availableFormats>
@@ -328,9 +328,6 @@
 					<field type="weekday">
 						<displayName>Ni̱n jokä</displayName>
 					</field>
-					<field type="dayperiod">
-						<displayName/>
-					</field>
 					<field type="hour">
 						<displayName>Thaak</displayName>
 					</field>
@@ -339,9 +336,6 @@
 					</field>
 					<field type="second">
 						<displayName>Thɛkɛni</displayName>
-					</field>
-					<field type="zone">
-						<displayName/>
 					</field>
 				</fields>
 			</calendar>
@@ -352,21 +346,21 @@
 			<decimal>.</decimal>
 			<group>,</group>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>

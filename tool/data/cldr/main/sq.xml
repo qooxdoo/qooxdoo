@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5932 $"/>
-		<generation date="$Date: 2011-06-23 20:34:48 -0500 (Thu, 23 Jun 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="sq"/>
 	</identity>
 	<localeDisplayNames>
@@ -91,7 +91,7 @@
 			<language type="sk" draft="unconfirmed">Sllovakisht</language>
 			<language type="sl" draft="unconfirmed">Sllovenisht</language>
 			<language type="so" draft="unconfirmed">Somalisht</language>
-			<language type="sq">shqipe</language>
+			<language type="sq">shqip</language>
 			<language type="sr" draft="unconfirmed">Serbisht</language>
 			<language type="st" draft="unconfirmed">Sesotho</language>
 			<language type="su" draft="unconfirmed">Sundanisht</language>
@@ -285,6 +285,12 @@
 		<exemplarCharacters type="auxiliary">[w]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="contributed">[A B C Ç D {DH} E Ë F G {GJ} H I J K L {LL} M N {NJ} O P Q R {RR} S {SH} T {TH} U V W X {XH} Y Z {ZH}]</exemplarCharacters>
 	</characters>
+	<delimiters>
+		<quotationStart>„</quotationStart>
+		<quotationEnd>“</quotationEnd>
+		<alternateQuotationStart>‚</alternateQuotationStart>
+		<alternateQuotationEnd>‘</alternateQuotationEnd>
+	</delimiters>
 	<dates>
 		<calendars>
 			<calendar type="gregorian">
@@ -449,9 +455,9 @@
 						<dateFormatItem id="ms" draft="contributed">mm.ss</dateFormatItem>
 						<dateFormatItem id="y" draft="contributed">y</dateFormatItem>
 						<dateFormatItem id="yM" draft="contributed">M.yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">EEE, d.M.yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="contributed">E, d.M.yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM" draft="contributed">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="contributed">EEE, d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="contributed">E, d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM" draft="contributed">MMMM y</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y</dateFormatItem>
 					</availableFormats>
@@ -541,17 +547,23 @@
 			</zone>
 			<metazone type="Europe_Central">
 				<long>
-					<standard draft="contributed">Ora qendrore evropiane</standard>
+					<generic draft="contributed">Ora qendrore evropiane</generic>
+					<standard draft="contributed">Ora standarde qendrore evropiane</standard>
+					<daylight draft="contributed">Ora verore qendrore evropiane</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<standard draft="contributed">Ora lindore evropiane</standard>
+					<generic draft="contributed">Ora lindore evropiane</generic>
+					<standard draft="contributed">Ora standarde lindore evropiane</standard>
+					<daylight draft="contributed">Ora verore lindore evropiane</daylight>
 				</long>
 			</metazone>
 			<metazone type="Moscow">
 				<long>
+					<generic draft="contributed">Ora e Moskës</generic>
 					<standard draft="contributed">Ora standarde e Moskës</standard>
+					<daylight draft="contributed">Ora verore e Moskës</daylight>
 				</long>
 			</metazone>
 		</timeZoneNames>
@@ -561,7 +573,7 @@
 			<decimal>,</decimal>
 			<group>.</group>
 		</symbols>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00</pattern>
@@ -632,4 +644,3 @@
 		</messages>
 	</posix>
 </ldml>
-

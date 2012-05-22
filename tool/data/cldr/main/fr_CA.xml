@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5996 $"/>
-		<generation date="$Date: 2011-07-11 11:05:01 -0500 (Mon, 11 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="fr"/>
 		<territory type="CA"/>
 	</identity>
@@ -74,6 +74,12 @@
 			<stopwordList type="collation" draft="provisional">le la les</stopwordList>
 		</stopwords>
 	</characters>
+    <delimiters>
+        <quotationStart>«</quotationStart>
+        <quotationEnd>»</quotationEnd>
+        <alternateQuotationStart>‹</alternateQuotationStart>
+        <alternateQuotationEnd>›</alternateQuotationEnd>
+    </delimiters>
 	<dates>
 		<calendars>
 			<calendar type="gregorian">
@@ -99,12 +105,12 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="Md">M-d</dateFormatItem>
-						<dateFormatItem id="MEd">EEE M-d</dateFormatItem>
+						<dateFormatItem id="MEd">E M-d</dateFormatItem>
 						<dateFormatItem id="MMd">MM-d</dateFormatItem>
 						<dateFormatItem id="MMdd">MM-dd</dateFormatItem>
 						<dateFormatItem id="yM">yyyy-MM</dateFormatItem>
 						<dateFormatItem id="yMd">yyyy-MM-dd</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE yyyy-MM-dd</dateFormatItem>
+						<dateFormatItem id="yMEd">E yyyy-MM-dd</dateFormatItem>
 						<dateFormatItem id="yyMM">yy-MM</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
@@ -252,97 +258,44 @@
 				<exemplarCity draft="contributed">Uvéa</exemplarCity>
 			</zone>
 			<metazone type="America_Central">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>HC</generic>
+					<standard>HNC</standard>
+					<daylight>HAC</daylight>
+				</short>
 			</metazone>
 			<metazone type="America_Eastern">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>HE</generic>
+					<standard>HNE</standard>
+					<daylight>HAE</daylight>
+				</short>
 			</metazone>
 			<metazone type="America_Mountain">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>HR</generic>
+					<standard>HNR</standard>
+					<daylight>HAR</daylight>
+				</short>
 			</metazone>
 			<metazone type="America_Pacific">
-				<commonlyUsed>true</commonlyUsed>
-			</metazone>
-			<metazone type="Choibalsan">
-				<long>
-					<daylight draft="contributed">Heure avancée de Choibalsan</daylight>
-				</long>
-			</metazone>
-			<metazone type="Lord_Howe">
-				<long>
-					<generic draft="contributed">Heure de l'île Lord Howe</generic>
-					<standard draft="contributed">Heure normale de l'île Lord Howe</standard>
-					<daylight draft="contributed">Heure avancée de l'île Lord Howe</daylight>
-				</long>
-			</metazone>
-			<metazone type="Macquarie">
-				<long>
-					<generic draft="contributed">Heure de l'Île Macquarie</generic>
-				</long>
-			</metazone>
-			<metazone type="Magadan">
-				<long>
-					<daylight draft="contributed">Heure avancée de Magadan</daylight>
-				</long>
-			</metazone>
-			<metazone type="Mongolia">
-				<long>
-					<standard draft="contributed">Heure d'Oulan-Bator</standard>
-					<daylight draft="contributed">Heure avancée d'Oulan-Bator</daylight>
-				</long>
+				<short>
+					<generic>HP</generic>
+					<standard>HNP</standard>
+					<daylight>HAP</daylight>
+				</short>
 			</metazone>
 			<metazone type="Newfoundland">
-				<commonlyUsed>true</commonlyUsed>
-			</metazone>
-			<metazone type="Noronha">
-				<long>
-					<generic draft="contributed">Heure de Fernando de Noronha</generic>
-					<daylight draft="contributed">Heure avancée de Fernando de Noronha</daylight>
-				</long>
-			</metazone>
-			<metazone type="Novosibirsk">
-				<long>
-					<generic draft="contributed">Heure de Novosibirsk</generic>
-					<standard draft="contributed">Heure de Novosibirsk</standard>
-					<daylight draft="contributed">Heure d'été de Novosibirsk</daylight>
-				</long>
-			</metazone>
-			<metazone type="Omsk">
-				<long>
-					<generic draft="contributed">Heure d'Omsk</generic>
-					<daylight draft="contributed">Heure avancée d'Omsk</daylight>
-				</long>
-			</metazone>
-			<metazone type="Sakhalin">
-				<long>
-					<generic draft="contributed">Heure de Sakhaline</generic>
-					<standard draft="contributed">Heure de Sakhaline</standard>
-					<daylight draft="contributed">Heure avancée de Sakhaline</daylight>
-				</long>
-			</metazone>
-			<metazone type="Vladivostok">
-				<long>
-					<daylight draft="contributed">Heure avancée de Vladivostok</daylight>
-				</long>
-			</metazone>
-			<metazone type="Yakutsk">
-				<long>
-					<generic draft="contributed">Heure de Yakutsk</generic>
-					<standard draft="contributed">Heure de Yakutsk</standard>
-					<daylight draft="contributed">Heure d'été de Yakutsk</daylight>
-				</long>
-			</metazone>
-			<metazone type="Yekaterinburg">
-				<long>
-					<generic draft="contributed">Heure de Iekaterinbourg</generic>
-					<standard draft="contributed">Heure de Iekaterinbourg</standard>
-					<daylight draft="contributed">Heure avancée d'Iekaterinbourg</daylight>
-				</long>
+				<short>
+					<generic>HT</generic>
+					<standard>HNT</standard>
+					<daylight>HAT</daylight>
+				</short>
 			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength type="short">
 				<decimalFormat>
 					<pattern type="1000000000" draft="contributed">0.0B</pattern>
@@ -351,7 +304,7 @@
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤;(#,##0.00 ¤)</pattern>

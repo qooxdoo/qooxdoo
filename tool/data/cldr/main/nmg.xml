@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5799 $"/>
-		<generation date="$Date: 2011-05-02 01:19:45 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 6610 $"/>
+		<generation date="$Date: 2012-02-27 01:50:26 +0100 (Mon, 27 Feb 2012) $"/>
 		<language type="nmg"/>
 	</identity>
 	<localeDisplayNames>
@@ -35,7 +35,7 @@
 			<language type="my">Kiɛl birmania</language>
 			<language type="ne">Kiɛl nepal</language>
 			<language type="nl">Kiɛl bóllandais</language>
-			<language type="nmg"/>
+			<language type="nmg" draft="provisional">Kwasio</language>
 			<language type="pa">Kiɛl pɛndjabi</language>
 			<language type="pl">Kiɛl pɔlɔŋe</language>
 			<language type="pt">Kiɛl bó pɔ̄rtugɛ̂</language>
@@ -289,8 +289,8 @@
 		<exemplarCharacters type="index">[A B Ɓ C D E Ǝ Ɛ F G H I J K L M N Ŋ O Ɔ P R S T U V W Y]</exemplarCharacters>
 	</characters>
 	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>„</quotationEnd>
+		<quotationStart>„</quotationStart>
+		<quotationEnd>”</quotationEnd>
 		<alternateQuotationStart>«</alternateQuotationStart>
 		<alternateQuotationEnd>»</alternateQuotationEnd>
 	</delimiters>
@@ -443,14 +443,14 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">EEE d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E d/M</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
@@ -458,10 +458,10 @@
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/y</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE d/M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E d/M/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 					</availableFormats>
@@ -512,21 +512,21 @@
 			<decimal>,</decimal>
 			<group> </group>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>
@@ -708,4 +708,3 @@
 		</messages>
 	</posix>
 </ldml>
-

@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="fur"/>
 	</identity>
 	<localeDisplayNames>
@@ -301,7 +301,6 @@
 			<territory type="151" draft="unconfirmed">Europe orientâl</territory>
 			<territory type="154" draft="unconfirmed">Europe setentrionâl</territory>
 			<territory type="155" draft="unconfirmed">Europe ocidentâl</territory>
-			<territory type="172" draft="unconfirmed">Commonwealth dai stâts indipendents</territory>
 			<territory type="419" draft="unconfirmed">Americhe latine</territory>
 			<territory type="AD" draft="unconfirmed">Andorra</territory>
 			<territory type="AE" draft="unconfirmed">Emirâts araps unîts</territory>
@@ -593,7 +592,6 @@
 			<type type="big5han" key="collation" draft="unconfirmed">ordin cinês tradizionâl - Big5</type>
 			<type type="buddhist" key="calendar" draft="unconfirmed">calendari budist</type>
 			<type type="chinese" key="calendar" draft="unconfirmed">calendari cinês</type>
-			<type type="direct" key="collation" draft="unconfirmed">ordin diret</type>
 			<type type="ducet" key="collation" draft="unconfirmed">ordenament predeterminât Unicode</type>
 			<type type="gb2312han" key="collation" draft="unconfirmed">ordin cinês semplificât - GB2312</type>
 			<type type="gregorian" key="calendar" draft="unconfirmed">calendari gregorian</type>
@@ -883,7 +881,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d" draft="unconfirmed">d</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="unconfirmed">d EEE</dateFormatItem>
+						<dateFormatItem id="Ed" draft="unconfirmed">d E</dateFormatItem>
 						<dateFormatItem id="Hm" draft="unconfirmed">H:mm</dateFormatItem>
 						<dateFormatItem id="M" draft="unconfirmed">L</dateFormatItem>
 						<dateFormatItem id="Md" draft="unconfirmed">d/M</dateFormatItem>
@@ -897,9 +895,9 @@
 						<dateFormatItem id="ms" draft="unconfirmed">mm:ss</dateFormatItem>
 						<dateFormatItem id="y" draft="unconfirmed">y</dateFormatItem>
 						<dateFormatItem id="yM" draft="unconfirmed">M/yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="unconfirmed">EEE, d/M/yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="unconfirmed">E, d/M/yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM" draft="unconfirmed">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="unconfirmed">EEE d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="unconfirmed">E d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM" draft="unconfirmed">LLLL 'dal' y</dateFormatItem>
 						<dateFormatItem id="yQ" draft="unconfirmed">Q yyyy</dateFormatItem>
 						<dateFormatItem id="yQQQ" draft="unconfirmed">QQQ y</dateFormatItem>
@@ -1097,28 +1095,30 @@
 			</zone>
 			<metazone type="Europe_Central">
 				<long>
+					<generic draft="unconfirmed">Ore de Europe centrâl</generic>
 					<standard draft="unconfirmed">Ore de Europe centrâl</standard>
 					<daylight draft="unconfirmed">Ore estive de Europe centrâl</daylight>
 				</long>
-				<commonlyUsed draft="unconfirmed">true</commonlyUsed>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
+					<generic draft="unconfirmed">Ore de Europe orientâl</generic>
 					<standard draft="unconfirmed">Ore de Europe orientâl</standard>
 					<daylight draft="unconfirmed">Ore estive de Europe orientâl</daylight>
 				</long>
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
+					<generic draft="unconfirmed">Ore de Europe ocidentâl</generic>
 					<standard draft="unconfirmed">Ore de Europe ocidentâl</standard>
 					<daylight draft="unconfirmed">Ore estive de Europe ocidentâl</daylight>
 				</long>
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
 			</metazone>
 			<metazone type="Moscow">
 				<long>
 					<generic draft="unconfirmed">Ore di Mosche</generic>
+					<standard draft="unconfirmed">Ore di Mosche</standard>
+					<daylight draft="unconfirmed">Ore estive di Mosche</daylight>
 				</long>
 			</metazone>
 		</timeZoneNames>
@@ -1136,28 +1136,28 @@
 			<infinity draft="unconfirmed">∞</infinity>
 			<nan draft="unconfirmed">NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern draft="unconfirmed">#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern draft="unconfirmed">#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern draft="unconfirmed">#,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern draft="unconfirmed">¤ #,##0.00</pattern>

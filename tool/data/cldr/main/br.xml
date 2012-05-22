@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6444 $"/>
+		<generation date="$Date: 2012-01-25 22:40:58 +0100 (Wed, 25 Jan 2012) $"/>
 		<language type="br"/>
 	</identity>
 	<localeDisplayNames>
@@ -591,7 +591,6 @@
 			<type type="coptic" key="calendar">deiziadur kopt</type>
 			<type type="deva" key="numbers">sifroù devanagari</type>
 			<type type="dictionary" key="collation">urzh rummañ ar geriadur</type>
-			<type type="direct" key="collation">urzh rummañ eeun</type>
 			<type type="ducet" key="collation">urzh rummañ Unicode dre ziouer</type>
 			<type type="ethi" key="numbers">niveroù etiopiat</type>
 			<type type="ethiopic" key="calendar">deiziadur etiopiat</type>
@@ -653,6 +652,12 @@
 		<exemplarCharacters type="currencySymbol">[a b c č d e f g h i j k l ł m n o º p q r s t u v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P R S T U V W X Y Z]</exemplarCharacters>
 	</characters>
+	<delimiters>
+		<quotationStart>«</quotationStart>
+		<quotationEnd>»</quotationEnd>
+		<alternateQuotationStart>‹</alternateQuotationStart>
+		<alternateQuotationEnd>›</alternateQuotationEnd>
+	</delimiters>
 	<dates>
 		<calendars>
 			<calendar type="gregorian">
@@ -2066,4 +2071,3 @@
 		</messages>
 	</posix>
 </ldml>
-

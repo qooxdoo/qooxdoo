@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5799 $"/>
-		<generation date="$Date: 2011-05-02 01:19:45 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="seh"/>
 	</identity>
 	<localeDisplayNames>
@@ -56,7 +56,7 @@
 		</languages>
 		<territories>
 			<territory type="AD">Andorra</territory>
-			<territory type="AE">Reino Unido</territory>
+			<territory type="AE">Emirados Árabes Unidos</territory>
 			<territory type="AF">Afeganistão</territory>
 			<territory type="AG">Antígua e Barbuda</territory>
 			<territory type="AI">Anguilla</territory>
@@ -123,7 +123,7 @@
 			<territory type="FM">Micronésia</territory>
 			<territory type="FR">França</territory>
 			<territory type="GA">Gabão</territory>
-			<territory type="GB">Uruguai</territory>
+			<territory type="GB">Reino Unido</territory>
 			<territory type="GD">Granada</territory>
 			<territory type="GE">Geórgia</territory>
 			<territory type="GF">Guiana Francesa</territory>
@@ -247,39 +247,39 @@
 			<territory type="SV">El Salvador</territory>
 			<territory type="SY">Síria</territory>
 			<territory type="SZ">Suazilândia</territory>
-			<territory type="TC">Tuvalu</territory>
+			<territory type="TC">Ilhas Turks e Caicos</territory>
 			<territory type="TD">Chade</territory>
-			<territory type="TG">Tokelau</territory>
-			<territory type="TH">Togo</territory>
+			<territory type="TG">Togo</territory>
+			<territory type="TH">Tailândia</territory>
 			<territory type="TJ">Tadjiquistão</territory>
-			<territory type="TK">Tonga</territory>
+			<territory type="TK">Tokelau</territory>
 			<territory type="TL">Timor Leste</territory>
-			<territory type="TM">Ilhas Turks e Caicos</territory>
-			<territory type="TN">Turquia</territory>
-			<territory type="TO">Trinidad e Tobago</territory>
-			<territory type="TR">Turcomenistão</territory>
-			<territory type="TT">Tunísia</territory>
-			<territory type="TV">Ilhas Virgens dos EUA</territory>
+			<territory type="TM">Turcomenistão</territory>
+			<territory type="TN">Tunísia</territory>
+			<territory type="TO">Tonga</territory>
+			<territory type="TR">Turquia</territory>
+			<territory type="TT">Trinidad e Tobago</territory>
+			<territory type="TV">Tuvalu</territory>
 			<territory type="TW">Taiwan</territory>
-			<territory type="TZ">Tailândia</territory>
-			<territory type="UA">Emirados Árabes Unidos</territory>
-			<territory type="UG">Ucrânia</territory>
-			<territory type="US">Uzbequistão</territory>
-			<territory type="UY">Estados Unidos</territory>
-			<territory type="UZ">Vanuatu</territory>
-			<territory type="VA">Venezuela</territory>
+			<territory type="UA">Ucrânia</territory>
+			<territory type="UG">Uganda</territory>
+			<territory type="US">Estados Unidos</territory>
+			<territory type="UY">Uruguai</territory>
+			<territory type="UZ">Uzbequistão</territory>
+			<territory type="VA">Vaticano</territory>
 			<territory type="VC">São Vicente e Granadinas</territory>
-			<territory type="VE">Vietnã</territory>
+			<territory type="VE">Venezuela</territory>
 			<territory type="VG">Ilhas Virgens Britânicas</territory>
-			<territory type="VI">Uganda</territory>
-			<territory type="VN">Wallis e Futuna</territory>
-			<territory type="VU">Vaticano</territory>
-			<territory type="WF">Iêmen</territory>
+			<territory type="VI">Ilhas Virgens dos EUA</territory>
+			<territory type="VN">Vietnã</territory>
+			<territory type="VU">Vanuatu</territory>
+			<territory type="WF">Wallis e Futuna</territory>
 			<territory type="WS">Samoa</territory>
-			<territory type="YE">Zâmbia</territory>
+			<territory type="YE">Iêmen</territory>
 			<territory type="YT">Mayotte</territory>
 			<territory type="ZA">África do Sul</territory>
-			<territory type="ZM">Zimbábue</territory>
+			<territory type="ZM">Zâmbia</territory>
+			<territory type="ZW">Zimbábue</territory>
 		</territories>
 	</localeDisplayNames>
 	<characters>
@@ -287,10 +287,10 @@
 		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
 	</characters>
 	<delimiters>
-		<quotationStart>'</quotationStart>
-		<quotationEnd>'</quotationEnd>
-		<alternateQuotationStart>'</alternateQuotationStart>
-		<alternateQuotationEnd>'</alternateQuotationEnd>
+		<quotationStart>“</quotationStart>
+		<quotationEnd>”</quotationEnd>
+		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -438,27 +438,27 @@
 						<dateFormatItem id="Hm">H:mm</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">EEE, dd/MM</dateFormatItem>
+						<dateFormatItem id="MEd">E, dd/MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">EEE, d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">EEE, d MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E, d MMMM</dateFormatItem>
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">MM/y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, dd/MM/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, dd/MM/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM 'de' y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d 'de' MMM 'de' y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d 'de' MMM 'de' y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM 'de' y</dateFormatItem>
 						<dateFormatItem id="yQ">y Q</dateFormatItem>
 						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/yy</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
 						<dateFormatItem id="yyMMMd">d 'de' MMM 'de' yy</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd">EEE, d 'de' MMM 'de' yy</dateFormatItem>
+						<dateFormatItem id="yyMMMEd">E, d 'de' MMM 'de' yy</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
@@ -496,7 +496,7 @@
 			<decimal>,</decimal>
 			<group>.</group>
 		</symbols>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00¤</pattern>

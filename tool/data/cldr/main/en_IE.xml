@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5798 $"/>
-		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 6465 $"/>
+		<generation date="$Date: 2012-01-27 18:47:35 +0100 (Fri, 27 Jan 2012) $"/>
 		<language type="en"/>
 		<territory type="IE"/>
 	</identity>
@@ -40,28 +40,6 @@
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="Md" draft="contributed">d/M</dateFormatItem>
@@ -69,9 +47,9 @@
 						<dateFormatItem id="MMdd" draft="contributed">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMMMd" draft="contributed">d MMMM</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">EEE, d/M/yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="contributed">E, d/M/yyyy</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
 						<dateFormatItem id="yyyyMM" draft="contributed">MM/yyyy</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM" draft="contributed">MMMM y</dateFormatItem>
 					</availableFormats>
@@ -81,7 +59,7 @@
 							<greatestDifference id="d" draft="contributed">d-d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
-							<greatestDifference id="h" draft="unconfirmed">h:mm-h:mm a</greatestDifference>
+							<greatestDifference id="h" draft="contributed">h:mm-h:mm a</greatestDifference>
 							<greatestDifference id="m" draft="contributed">h:mm-h:mm a</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="Hm">
@@ -153,14 +131,12 @@
 				</dateTimeFormats>
 			</calendar>
 		</calendars>
+		<timeZoneNames>
+			<zone type="Europe/Dublin">
+				<short>
+					<daylight>IST</daylight>
+				</short>
+			</zone>
+		</timeZoneNames>
 	</dates>
-	<numbers>
-		<currencyFormats>
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-	</numbers>
 </ldml>

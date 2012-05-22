@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5953 $"/>
-		<generation date="$Date: 2011-07-04 18:22:55 -0500 (Mon, 04 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="kk"/>
 	</identity>
 	<localeDisplayNames>
@@ -1760,13 +1760,13 @@
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<generic>Оңтүстік Африка уақыты</generic>
-					<standard>Оңтүстік Африка стандарт уақыты</standard>
+					<standard>Оңтүстік Африка уақыты</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
-					<standard>Батыс Африка уақыты</standard>
+					<generic>Батыс Африка уақыты</generic>
+					<standard>Батыс Африка стандарт уақыты</standard>
 					<daylight>Батыс Африка жаздық уақыты</daylight>
 				</long>
 			</metazone>
@@ -1807,20 +1807,27 @@
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<standard>Орталық Еуропа уақыты</standard>
+					<generic>Орталық Еуропа уақыты</generic>
+					<standard>Орталық Еуропа стандарт уақыты</standard>
 					<daylight>Орталық Еуропа жаздық уақыты</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<standard>Шығыс Еуропа уақыты</standard>
+					<generic>Шығыс Еуропа уақыты</generic>
+					<standard>Шығыс Еуропа стандарт уақыты</standard>
 					<daylight>Шығыс Еуропа жаздық уақыты</daylight>
 				</long>
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>EET</generic>
+					<standard>EET</standard>
+					<daylight>EEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<standard>Батыс Еуропа уақыты</standard>
+					<generic>Батыс Еуропа уақыты</generic>
+					<standard>Батыс Еуропа стандарт уақыты</standard>
 					<daylight>Батыс Еуропа жаздық уақыты</daylight>
 				</long>
 			</metazone>
@@ -1831,7 +1838,7 @@
 			<decimal>,</decimal>
 			<group> </group>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength type="short">
 				<decimalFormat>
 					<pattern type="1000">0.0 мың</pattern>
@@ -1849,7 +1856,7 @@
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>
@@ -1955,7 +1962,7 @@
 			</currency>
 			<currency type="KZT">
 				<displayName>Қазақстан теңгесі</displayName>
-				<symbol>тңг.</symbol>
+				<symbol>₸</symbol>
 			</currency>
 			<currency type="MXN">
 				<displayName draft="unconfirmed">Мексика пессосы</displayName>

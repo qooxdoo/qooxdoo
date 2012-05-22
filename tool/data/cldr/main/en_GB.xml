@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 6011 $"/>
-		<generation date="$Date: 2011-07-13 14:50:42 -0500 (Wed, 13 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="en"/>
 		<territory type="GB"/>
 	</identity>
@@ -48,11 +48,12 @@
 						<dateFormatItem id="Md">d/M</dateFormatItem>
 						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d/M/y G</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d/M/y G</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">d/M/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM/y G</dateFormatItem>
@@ -110,12 +111,13 @@
 						<dateFormatItem id="Md">d/M</dateFormatItem>
 						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d/M/yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d/M/yyyy</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM y</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM/yyyy</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y</dateFormatItem>
@@ -198,61 +200,6 @@
 				</dateTimeFormats>
 			</calendar>
 			<calendar type="islamic">
-				<months>
-					<default choice="format"/>
-					<monthContext type="format">
-						<default choice="wide"/>
-						<monthWidth type="abbreviated">
-							<month type="1">Muh.</month>
-							<month type="2">Saf.</month>
-							<month type="3">Rab. I</month>
-							<month type="4">Rab. II</month>
-							<month type="5">Jum. I</month>
-							<month type="6">Jum. II</month>
-							<month type="7">Raj.</month>
-							<month type="8">Sha.</month>
-							<month type="9">Ram.</month>
-							<month type="10">Shaw.</month>
-							<month type="11">Dhuʻl-Q.</month>
-							<month type="12">Dhuʻl-H.</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">Muharram</month>
-							<month type="2">Safar</month>
-							<month type="3">Rabiʻ I</month>
-							<month type="4">Rabiʻ II</month>
-							<month type="5">Jumada I</month>
-							<month type="6">Jumada II</month>
-							<month type="7">Rajab</month>
-							<month type="8">Shaʻban</month>
-							<month type="9">Ramadan</month>
-							<month type="10">Shawwal</month>
-							<month type="11">Dhuʻl-Qiʻdah</month>
-							<month type="12">Dhuʻl-Hijjah</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1">1</month>
-							<month type="2">2</month>
-							<month type="3">3</month>
-							<month type="4">4</month>
-							<month type="5">5</month>
-							<month type="6">6</month>
-							<month type="7">7</month>
-							<month type="8">8</month>
-							<month type="9">9</month>
-							<month type="10">10</month>
-							<month type="11">11</month>
-							<month type="12">12</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<eras>
-					<eraAbbr>
-						<era type="0">AH</era>
-					</eraAbbr>
-				</eras>
 				<dateFormats>
 					<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
 					<dateFormatLength type="full">
@@ -282,14 +229,15 @@
 						<dateFormatItem id="Md">d/M</dateFormatItem>
 						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">d/M/y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE, d/M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E, d/M/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E, d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
@@ -324,14 +272,15 @@
 						<dateFormatItem id="Md">d/M</dateFormatItem>
 						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">d/M/y GGGGG</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE, d/M/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E, d/M/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E, d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
@@ -366,33 +315,51 @@
 						<dateFormatItem id="Md">d/M</dateFormatItem>
 						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">d/M/y GGGGG</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE, d/M/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E, d/M/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E, d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
 		</calendars>
 		<timeZoneNames>
+			<zone type="Europe/London">
+				<short>
+					<daylight>BST</daylight>
+				</short>
+			</zone>
 			<metazone type="Europe_Central">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>CET</generic>
+					<standard>CET</standard>
+					<daylight>CEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>EET</generic>
+					<standard>EET</standard>
+					<daylight>EEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Western">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>WET</generic>
+					<standard>WET</standard>
+					<daylight>WEST</daylight>
+				</short>
 			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00</pattern>

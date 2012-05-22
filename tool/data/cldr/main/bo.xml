@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5806 $"/>
-		<generation date="$Date: 2011-05-02 13:42:02 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="bo"/>
 	</identity>
 	<localeDisplayNames>
@@ -456,7 +456,10 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<defaultNumberingSystem draft="unconfirmed">tibt</defaultNumberingSystem>
+		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<otherNumberingSystems>
+			<native>tibt</native>
+		</otherNumberingSystems>
 		<symbols numberSystem="latn">
 			<decimal draft="provisional">.</decimal>
 			<group draft="contributed">,</group>
@@ -465,21 +468,21 @@
 		<symbols numberSystem="tibt">
 			<nan>ཨང་མེན་</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern draft="unconfirmed">#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern draft="contributed">#,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern draft="unconfirmed">¤ #,##0.00</pattern>

@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5981 $"/>
-		<generation date="$Date: 2011-07-07 08:24:47 -0500 (Thu, 07 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="ee"/>
 	</identity>
 	<localeDisplayNames>
@@ -555,7 +555,6 @@
 			<type type="coptic" key="calendar">coptia kalenda</type>
 			<type type="deva" key="numbers">devanagari digitwo</type>
 			<type type="dictionary" key="collation">nuɖoɖo ɖe nyagɔmeɖegbalẽ ƒe ɖoɖomɔ nu</type>
-			<type type="direct" key="collation">nuɖoɖo ɖe ɖoɖomɔ nu</type>
 			<type type="ducet" key="collation">nuɖoɖo ɖe unicode ƒe ɖoɖo nu</type>
 			<type type="ethi" key="numbers">ethiopia numeralwo</type>
 			<type type="ethiopic" key="calendar">ethiopiatɔwo ƒe kalenda</type>
@@ -617,17 +616,17 @@
 		</codePatterns>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[a á à ã b d ɖ e é è ẽ ɛ {ɛ\u0301} {ɛ\u0300} {ɛ\u0303} f ƒ g ɣ h i í ì ĩ k l m n ŋ o ó ò õ ɔ {ɔ\u0301} {ɔ\u0300} {ɔ\u0303} p r s t u ú ù ũ v ʋ w x y z]</exemplarCharacters>
+		<exemplarCharacters>[a á à ã b d ɖ e é è ẽ ɛ {ɛ\u0301} {ɛ\u0300} {ɛ\u0303} f ƒ g ɣ h x i í ì ĩ k l m n ŋ o ó ò õ ɔ {ɔ\u0301} {ɔ\u0300} {ɔ\u0303} p r s t u ú ù ũ v ʋ w y z]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[c j q]</exemplarCharacters>
 		<exemplarCharacters type="currencySymbol" draft="unconfirmed">[a b c č d e f g h i j k l ł m n o º p q r s t ŧ u v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index">[A B C D Ɖ E Ɛ F Ƒ G Ɣ H I J K L M N Ŋ O Ɔ P Q R S T U V Ʋ W X Y Z]</exemplarCharacters>
 		<moreInformation>...</moreInformation>
 	</characters>
 	<delimiters>
-		<quotationStart>'</quotationStart>
-		<quotationEnd>'</quotationEnd>
-		<alternateQuotationStart>“</alternateQuotationStart>
-		<alternateQuotationEnd>“</alternateQuotationEnd>
+		<quotationStart>“</quotationStart>
+		<quotationEnd>”</quotationEnd>
+		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -825,7 +824,13 @@
 							<dayPeriod type="pm" draft="unconfirmed">ɣ</dayPeriod>
 						</dayPeriodWidth>
 						<dayPeriodWidth type="wide">
+							<dayPeriod type="afternoon">ɣetrɔ</dayPeriod>
 							<dayPeriod type="am">ŋdi</dayPeriod>
+							<dayPeriod type="earlyAfternoon">ŋdɔ</dayPeriod>
+							<dayPeriod type="earlyMorning">fɔŋli</dayPeriod>
+							<dayPeriod type="evening">fiẽ</dayPeriod>
+							<dayPeriod type="morning">ŋdi</dayPeriod>
+							<dayPeriod type="night">zã</dayPeriod>
 							<dayPeriod type="pm">ɣetrɔ</dayPeriod>
 						</dayPeriodWidth>
 					</dayPeriodContext>
@@ -911,7 +916,7 @@
 					</dateTimeFormatLength>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
 						<dateFormatItem id="h">a h</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
@@ -929,10 +934,10 @@
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/y</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, M/d/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, M/d/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, MMM d, y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
@@ -2232,7 +2237,6 @@
 				<short>
 					<standard>CAT</standard>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 			<metazone type="Africa_Eastern">
 				<long>
@@ -2241,28 +2245,26 @@
 				<short>
 					<standard>EAT</standard>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<generic>Anyiehe Afrika gaƒoƒome</generic>
-					<standard>Anyiehe Afrika gaƒoƒoɖoanyime</standard>
+					<standard>Anyiehe Afrika gaƒoƒome</standard>
 				</long>
 				<short>
 					<standard>SAST</standard>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
-					<standard>Ɣetoɖoƒe Afrika gaƒoƒome</standard>
+					<generic>Ɣetoɖoƒe Afrika gaƒoƒome</generic>
+					<standard>Ɣetoɖoƒe Afrika gaƒoƒoɖoanyime</standard>
 					<daylight>Ɣetoɖoƒe Afrika dzomeŋɔli gaƒoƒome</daylight>
 				</long>
 				<short>
+					<generic>WAT</generic>
 					<standard>WAT</standard>
 					<daylight>WAST</daylight>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 			<metazone type="America_Central">
 				<long>
@@ -2296,11 +2298,7 @@
 				<long>
 					<generic>Atlantic gaƒoƒome</generic>
 					<standard>Atlantic gaƒoƒoɖoanyime</standard>
-				</long>
-			</metazone>
-			<metazone type="Europe_Western">
-				<long>
-					<daylight draft="unconfirmed">Ɣetodoƒe Europa gaƒoƒome</daylight>
+					<daylight>Atlantic ŋkekeme gaƒoƒome</daylight>
 				</long>
 			</metazone>
 		</timeZoneNames>
@@ -2309,7 +2307,7 @@
 		<symbols numberSystem="latn">
 			<nan>mnn</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength type="short">
 				<decimalFormat>
 					<pattern type="100000">00K</pattern>
@@ -2324,7 +2322,7 @@
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
@@ -3839,4 +3837,3 @@
 		</messages>
 	</posix>
 </ldml>
-

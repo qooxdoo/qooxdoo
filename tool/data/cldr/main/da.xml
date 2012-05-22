@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="da"/>
 	</identity>
 	<fallback draft="contributed">nb nn sv en</fallback>
@@ -687,7 +687,6 @@
 			<territory type="054">Melanesien</territory>
 			<territory type="057">Mikronesien</territory>
 			<territory type="061">Polynesien</territory>
-			<territory type="062">Sydcentralasien</territory>
 			<territory type="142">Asien</territory>
 			<territory type="143">Centralasien</territory>
 			<territory type="145">Vestasien</territory>
@@ -695,7 +694,6 @@
 			<territory type="151">Østeuropa</territory>
 			<territory type="154">Nordeuropa</territory>
 			<territory type="155">Vesteuropa</territory>
-			<territory type="172">Sammenslutningen af uafhængige stater</territory>
 			<territory type="419">Latinamerika</territory>
 			<territory type="AC">Ascensionøen</territory>
 			<territory type="AD">Andorra</territory>
@@ -997,7 +995,6 @@
 			<type type="coptic" key="calendar">Koptisk kalender</type>
 			<type type="deva" key="numbers" draft="contributed">Devanagariske tal</type>
 			<type type="dictionary" key="collation">Sorteringsrækkefølge for ordbog</type>
-			<type type="direct" key="collation">direkte sorteringsrækkefølge</type>
 			<type type="ducet" key="collation">Unicode-standardsortering</type>
 			<type type="ethi" key="numbers">Etiopiske tal</type>
 			<type type="ethiopic" key="calendar">etiopisk kalender</type>
@@ -1067,37 +1064,23 @@
 			<codePattern type="territory">Område: {0}</codePattern>
 		</codePatterns>
 	</localeDisplayNames>
-	<layout>
-		<inList>titlecase-firstword</inList>
-		<inText type="currency">lowercase-words</inText>
-		<inText type="fields">titlecase-firstword</inText>
-		<inText type="keys">titlecase-firstword</inText>
-		<inText type="languages">lowercase-words</inText>
-		<inText type="long">lowercase-words</inText>
-		<inText type="measurementSystemNames">lowercase-words</inText>
-		<inText type="quarterWidth">titlecase-firstword</inText>
-		<inText type="scripts">lowercase-words</inText>
-		<inText type="types">lowercase-words</inText>
-		<inText type="variants">lowercase-words</inText>
-	</layout>
 	<characters>
 		<exemplarCharacters>[a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[á é è ê ë ü ä ö]</exemplarCharacters>
 		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Æ Ø Å]</exemplarCharacters>
-		<exemplarCharacters type="punctuation">[\- ‐ – , ; \: ! ? . … ' ‘ ’ &quot; “ ” ( ) \[ \] @ * / \&amp; # † ′ ″ §]</exemplarCharacters>
+		<exemplarCharacters type="punctuation">[\- ‐ – , ; \: ! ? . … ' ‘ ’ &quot; “ ” ( ) \[ \] § @ * / \&amp; # † ′ ″]</exemplarCharacters>
 		<stopwords>
 			<stopwordList type="collation" draft="provisional">en et den det</stopwordList>
 		</stopwords>
 	</characters>
 	<delimiters>
-		<quotationStart>”</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>”</alternateQuotationStart>
-		<alternateQuotationEnd>”</alternateQuotationEnd>
+		<quotationStart>»</quotationStart>
+		<quotationEnd>«</quotationEnd>
+		<alternateQuotationStart>›</alternateQuotationStart>
+		<alternateQuotationEnd>‹</alternateQuotationEnd>
 	</delimiters>
 	<dates>
-		<dateRangePattern draft="contributed">{0}–{1}</dateRangePattern>
 		<calendars>
 			<calendar type="buddhist">
 				<dateFormats>
@@ -1140,15 +1123,15 @@
 						<dateFormatItem id="MMM">MMM</dateFormatItem>
 						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d. MMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, d. MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d. MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm.ss</dateFormatItem>
 						<dateFormatItem id="y">y G</dateFormatItem>
 						<dateFormatItem id="yM">M/y G</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y G</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE. d/M/y G</dateFormatItem>
+						<dateFormatItem id="yMEd">E. d/M/y G</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yMMMd">d. MMM y G</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE. d. MMM y G</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E. d. MMM y G</dateFormatItem>
 						<dateFormatItem id="yQ">Q y G</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y G</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/y G</dateFormatItem>
@@ -1361,7 +1344,6 @@
 					<availableFormats>
 						<dateFormatItem id="d">d.</dateFormatItem>
 						<dateFormatItem id="Ed">E d.</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="contributed">EEE d</dateFormatItem>
 						<dateFormatItem id="h" draft="unconfirmed">h a</dateFormatItem>
 						<dateFormatItem id="H">HH</dateFormatItem>
 						<dateFormatItem id="hm">h.mm a</dateFormatItem>
@@ -1375,15 +1357,15 @@
 						<dateFormatItem id="MMM">MMM</dateFormatItem>
 						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d. MMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, d. MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d. MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm.ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/y</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE. d/M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E. d/M/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d. MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE. d. MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E. d. MMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q yyyy</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/yy</dateFormatItem>
@@ -1584,7 +1566,7 @@
 						<dateFormatItem id="MMM">MMM</dateFormatItem>
 						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d. MMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, d. MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d. MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm.ss</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/y G</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM y G</dateFormatItem>
@@ -1592,10 +1574,10 @@
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">d/M/y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE. d/M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E. d/M/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d. MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE. d. MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E. d. MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">Q y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
 					</availableFormats>
@@ -1643,7 +1625,7 @@
 						<dateFormatItem id="MMM">MMM</dateFormatItem>
 						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d. MMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, d. MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d. MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm.ss</dateFormatItem>
 						<dateFormatItem id="y">y G</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/y GGGGG</dateFormatItem>
@@ -1652,11 +1634,11 @@
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyM">M/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMd">d/M/y GGGGG</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE. d/M/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E. d/M/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d. MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE. d. MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E. d. MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">Q y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
 					</availableFormats>
@@ -1704,7 +1686,7 @@
 						<dateFormatItem id="MMM">MMM</dateFormatItem>
 						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d. MMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, d. MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d. MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm.ss</dateFormatItem>
 						<dateFormatItem id="y">y G</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/y GGGGG</dateFormatItem>
@@ -1713,11 +1695,11 @@
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyM">M/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMd">d/M/y GGGGG</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE. d/M/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E. d/M/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d. MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE. d. MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E. d. MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">Q y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
 					</availableFormats>
@@ -1852,7 +1834,8 @@
 			</zone>
 			<metazone type="Acre">
 				<long>
-					<standard>Acre-tid</standard>
+					<generic>Acre-tid</generic>
+					<standard>Acre-normaltid</standard>
 					<daylight>Acre-sommertid</daylight>
 				</long>
 			</metazone>
@@ -1863,29 +1846,30 @@
 			</metazone>
 			<metazone type="Africa_Central">
 				<long>
-					<standard>Centralafrikansk normaltid</standard>
+					<standard>Centralafrikansk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Eastern">
 				<long>
-					<standard>Østafrikansk normaltid</standard>
+					<standard>Østafrikansk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<generic>Sydafrikansk tid</generic>
-					<standard>Sydafrikansk normaltid</standard>
+					<standard>Sydafrikansk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
+					<generic>Vestafrikansk tid</generic>
 					<standard>Vestafrikansk normaltid</standard>
 					<daylight>Vestafrikansk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aktyubinsk">
 				<long>
-					<standard>Aktyubinsk-tid</standard>
+					<generic>Aktyubinsk-tid</generic>
+					<standard>Aktyubinsk-normaltid</standard>
 					<daylight>Aktyubinsk-sommertid</daylight>
 				</long>
 			</metazone>
@@ -1905,7 +1889,8 @@
 			</metazone>
 			<metazone type="Almaty">
 				<long>
-					<standard>Almaty-tid</standard>
+					<generic>Almaty-tid</generic>
+					<standard>Almaty-normaltid</standard>
 					<daylight>Almaty-sommertid</daylight>
 				</long>
 			</metazone>
@@ -1946,20 +1931,22 @@
 			</metazone>
 			<metazone type="Anadyr">
 				<long>
-					<generic draft="contributed">Sibirisk (Anadyr) tid</generic>
-					<standard>Anadyr-tid</standard>
+					<generic>Anadyr-tid</generic>
+					<standard>Anadyr-normaltid</standard>
 					<daylight>Anadyr-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aqtau">
 				<long>
-					<standard>Aqtau-tid</standard>
+					<generic>Aqtau-tid</generic>
+					<standard>Aqtau-normaltid</standard>
 					<daylight>Aqtau-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aqtobe">
 				<long>
-					<standard>Aqtobe-tid</standard>
+					<generic>Aqtobe-tid</generic>
+					<standard>Aqtobe-normaltid</standard>
 					<daylight>Aqtobe-sommertid</daylight>
 				</long>
 			</metazone>
@@ -1986,13 +1973,15 @@
 			</metazone>
 			<metazone type="Armenia">
 				<long>
-					<standard>Armensk tid</standard>
+					<generic>Armensk tid</generic>
+					<standard>Armensk normaltid</standard>
 					<daylight>Armensk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Ashkhabad">
 				<long>
-					<standard>Ashkhabad-tid</standard>
+					<generic>Ashkhabad-tid</generic>
+					<standard>Ashkhabad-normaltid</standard>
 					<daylight>Ashkhabad-sommertid</daylight>
 				</long>
 			</metazone>
@@ -2033,24 +2022,28 @@
 			</metazone>
 			<metazone type="Azerbaijan">
 				<long>
+					<generic>Aserbajdsjansk tid</generic>
 					<standard>Aserbajdsjansk normaltid</standard>
 					<daylight>Aserbajdsjansk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Azores">
 				<long>
+					<generic>Azorerne-tid</generic>
 					<standard>Azorerne-normaltid</standard>
 					<daylight>Azorerne-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Baku">
 				<long>
-					<standard>Baku-tid</standard>
+					<generic>Baku-tid</generic>
+					<standard>Baku-normaltid</standard>
 					<daylight>Baku-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bangladesh">
 				<long>
+					<generic>Bangladeshisk tid</generic>
 					<standard>Bangladeshisk normaltid</standard>
 					<daylight>Bangladeshisk sommertid</daylight>
 				</long>
@@ -2064,7 +2057,7 @@
 			</metazone>
 			<metazone type="Bhutan">
 				<long>
-					<standard>Bhutanesisk normaltid</standard>
+					<standard>Bhutanesisk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Bolivia">
@@ -2074,32 +2067,33 @@
 			</metazone>
 			<metazone type="Borneo">
 				<long>
-					<standard>Borneo-tid</standard>
+					<generic>Borneo-tid</generic>
+					<standard>Borneo-normaltid</standard>
 					<daylight>Borneo-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Brasilia">
 				<long>
-					<generic draft="contributed">Brasiliansk (Brasilia) tid</generic>
-					<standard>Brasiliansk tid</standard>
+					<generic>Brasiliansk tid</generic>
+					<standard>Brasiliansk normaltid</standard>
 					<daylight>Brasiliansk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Brunei">
 				<long>
-					<standard>Brunei Darussalam-normaltid</standard>
+					<standard>Brunei Darussalam-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Cape_Verde">
 				<long>
+					<generic>Kapverdisk tid</generic>
 					<standard>Kapverdisk normaltid</standard>
 					<daylight>Kapverdisk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chamorro">
 				<long>
-					<generic>Chamorro-tid</generic>
-					<standard>Chamorro-normaltid</standard>
+					<standard>Chamorro-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Changbai">
@@ -2109,13 +2103,15 @@
 			</metazone>
 			<metazone type="Chatham">
 				<long>
+					<generic>Chatham-tid</generic>
 					<standard>Chatham-normaltid</standard>
 					<daylight>Chatham-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chile">
 				<long>
-					<standard>Chilensk tid</standard>
+					<generic>Chilensk tid</generic>
+					<standard>Chilensk normaltid</standard>
 					<daylight>Chilensk sommertid</daylight>
 				</long>
 			</metazone>
@@ -2128,7 +2124,7 @@
 			</metazone>
 			<metazone type="Choibalsan">
 				<long>
-					<generic draft="contributed">Mongolsk (Choibalsan) tid</generic>
+					<generic>Choibalsan-tid</generic>
 					<standard>Choibalsan-normaltid</standard>
 					<daylight>Choibalsan-sommertid</daylight>
 				</long>
@@ -2145,12 +2141,14 @@
 			</metazone>
 			<metazone type="Colombia">
 				<long>
-					<standard>Colombiansk tid</standard>
+					<generic>Colombiansk tid</generic>
+					<standard>Colombiansk normaltid</standard>
 					<daylight>Colombiansk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Cook">
 				<long>
+					<generic>Cookøerne-tid</generic>
 					<standard>Cookøerne-normaltid</standard>
 					<daylight>Cookøerne-sommertid</daylight>
 				</long>
@@ -2179,7 +2177,8 @@
 			</metazone>
 			<metazone type="Dushanbe">
 				<long>
-					<standard>Dushanbe-tid</standard>
+					<generic>Dushanbe-tid</generic>
+					<standard>Dushanbe-normaltid</standard>
 					<daylight>Dushanbe-sommertid</daylight>
 				</long>
 			</metazone>
@@ -2195,6 +2194,7 @@
 			</metazone>
 			<metazone type="Easter">
 				<long>
+					<generic>Påskeøen-tid</generic>
 					<standard>Påskeøen-normaltid</standard>
 					<daylight>Påskeøen-sommertid</daylight>
 				</long>
@@ -2210,7 +2210,11 @@
 					<standard>Mellemeuropæisk normaltid</standard>
 					<daylight>Mellemeuropæisk sommertid</daylight>
 				</long>
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>CET</generic>
+					<standard>CET</standard>
+					<daylight>CEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
@@ -2218,7 +2222,11 @@
 					<standard>Østeuropæisk normaltid</standard>
 					<daylight>Østeuropæisk sommertid</daylight>
 				</long>
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>EET</generic>
+					<standard>EET</standard>
+					<daylight>EEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
@@ -2226,16 +2234,22 @@
 					<standard>Vesteuropæisk normaltid</standard>
 					<daylight>Vesteuropæisk sommertid</daylight>
 				</long>
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>WET</generic>
+					<standard>WET</standard>
+					<daylight>WEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Falkland">
 				<long>
+					<generic>Falklandsøerne-tid</generic>
 					<standard>Falklandsøerne-normaltid</standard>
 					<daylight>Falklandsøerne-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Fiji">
 				<long>
+					<generic>Fijiansk tid</generic>
 					<standard>Fijiansk normaltid</standard>
 					<daylight>Fijiansk sommertid</daylight>
 				</long>
@@ -2247,18 +2261,19 @@
 			</metazone>
 			<metazone type="French_Southern">
 				<long>
-					<standard>Franske Sydlige og Antarktiske Territorier-normaltid</standard>
+					<standard>Franske Sydlige og Antarktiske Territorier-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Frunze">
 				<long>
-					<standard>Frunze-tid</standard>
+					<generic>Frunze-tid</generic>
+					<standard>Frunze-normaltid</standard>
 					<daylight>Frunze-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Galapagos">
 				<long>
-					<standard>Galapagos-normaltid</standard>
+					<standard>Galapagos-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Gambier">
@@ -2268,46 +2283,44 @@
 			</metazone>
 			<metazone type="Georgia">
 				<long>
+					<generic>Georgiansk tid</generic>
 					<standard>Georgiansk normaltid</standard>
 					<daylight>Georgiansk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Gilbert_Islands">
 				<long>
-					<standard>Gilbertøerne-normaltid</standard>
-				</long>
-			</metazone>
-			<metazone type="GMT">
-				<long>
-					<standard>Greenwich Mean Time</standard>
+					<standard>Gilbertøerne-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Central">
 				<long>
-					<standard>Centralgrønlandsk tid</standard>
+					<generic>Centralgrønlandsk tid</generic>
+					<standard>Centralgrønlandsk normaltid</standard>
 					<daylight>Centralgrønlandsk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Eastern">
 				<long>
-					<standard>Østgrønlandsk tid</standard>
+					<generic>Østgrønlandsk tid</generic>
+					<standard>Østgrønlandsk normaltid</standard>
 					<daylight>Østgrønlandsk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Western">
 				<long>
-					<standard>Vestgrønlandsk tid</standard>
+					<generic>Vestgrønlandsk tid</generic>
+					<standard>Vestgrønlandsk normaltid</standard>
 					<daylight>Vestgrønlandsk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Guam">
 				<long>
-					<standard>Guam, normaltid</standard>
+					<standard>Guam-normaltid</standard>
 				</long>
 			</metazone>
 			<metazone type="Gulf">
 				<long>
-					<generic draft="provisional">Golflandene</generic>
 					<standard>Golflandene-normaltid</standard>
 				</long>
 			</metazone>
@@ -2320,17 +2333,19 @@
 				<long>
 					<generic>Hawaii-Aleutian-tid</generic>
 					<standard>Hawaii-Aleutian-normaltid</standard>
+					<daylight>Hawaii-Aleutian-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hong_Kong">
 				<long>
+					<generic>Hongkong-tid</generic>
 					<standard>Hongkong-normaltid</standard>
 					<daylight>Hongkong-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
-					<generic draft="contributed">Mongolsk (Hovd) tid</generic>
+					<generic>Hovd-tid</generic>
 					<standard>Hovd-normaltid</standard>
 					<daylight>Hovd-sommertid</daylight>
 				</long>
@@ -2352,32 +2367,30 @@
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<generic draft="contributed">Indonesisk centraltid</generic>
-					<standard>Centralindonesisk normaltid</standard>
+					<standard>Centralindonesisk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<generic draft="contributed">Indonesisk tid (øst)</generic>
-					<standard>Østindonesisk normaltid</standard>
+					<standard>Østindonesisk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<generic draft="contributed">Indonesisk tid (vest)</generic>
-					<standard>Vestindonesisk normaltid</standard>
+					<standard>Vestindonesisk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Iran">
 				<long>
+					<generic>Iransk tid</generic>
 					<standard>Iransk normaltid</standard>
 					<daylight>Iransk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Irkutsk">
 				<long>
-					<generic draft="contributed">Russisk (Irkutsk) tid</generic>
-					<standard>Irkutsk</standard>
+					<generic>Irkutsk-tid</generic>
+					<standard>Irkutsk-normaltid</standard>
 					<daylight>Irkutsk-sommertid</daylight>
 				</long>
 			</metazone>
@@ -2397,39 +2410,36 @@
 			</metazone>
 			<metazone type="Kamchatka">
 				<long>
-					<generic draft="contributed">Russisk (Kamchatka) tid</generic>
-					<standard>Petropavlovsk-Kamchatski</standard>
-					<daylight>Petropavlovsk-Kamchatski, sommertid</daylight>
+					<generic>Petropavlovsk-Kamchatski tid</generic>
+					<standard>Petropavlovsk-Kamchatski normaltid</standard>
+					<daylight>Petropavlovsk-Kamchatski sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Karachi">
 				<long>
-					<standard>Karachi</standard>
+					<standard>Karachi-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Kashgar">
 				<long>
-					<standard>Kashgar</standard>
+					<standard>Kashgar-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
-					<generic>Østkasakhstansk tid</generic>
-					<standard>Østkasakhstansk normaltid</standard>
-					<daylight draft="contributed">Kazakhstansk sommertid (øst)</daylight>
+					<standard>Østkasakhstansk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
-					<generic>Vestkasakhstansk tid</generic>
-					<standard>Vestkasakhstansk normaltid</standard>
-					<daylight draft="contributed">Kasakhisk sommertid (vest)</daylight>
+					<standard>Vestkasakhstansk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Kizilorda">
 				<long>
-					<standard>Kizilorda</standard>
-					<daylight>Kizilorda, sommertid</daylight>
+					<generic>Kizilorda-tid</generic>
+					<standard>Kizilorda-normaltid</standard>
+					<daylight>Kizilorda-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Korea">
@@ -2441,45 +2451,46 @@
 			</metazone>
 			<metazone type="Kosrae">
 				<long>
-					<standard>Kosrae-normaltid</standard>
+					<standard>Kosrae-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
-					<generic draft="contributed">Russisk (Krasnoyarsk) tid</generic>
+					<generic>Krasnoyarsk-tid</generic>
 					<standard>Krasnoyarsk-normaltid</standard>
 					<daylight>Krasnoyarsk-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kuybyshev">
 				<long>
-					<standard>Kuybyshev</standard>
-					<daylight draft="provisional">Kuybyshev-sommertid</daylight>
+					<generic>Kuybyshev-tid</generic>
+					<standard>Kuybyshev-normaltid</standard>
+					<daylight>Kuybyshev-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kwajalein">
 				<long>
-					<standard>Kwajalein</standard>
+					<standard>Kwajalein-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Kyrgystan">
 				<long>
-					<standard>Kirgisisk normaltid</standard>
+					<standard>Kirgisisk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Lanka">
 				<long>
-					<standard>Langa</standard>
+					<standard>Langa tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Line_Islands">
 				<long>
-					<standard>Linjeøerne-normaltid</standard>
+					<standard>Linjeøerne-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Long_Shu">
 				<long>
-					<standard>Long-Shu</standard>
+					<standard>Long-Shu-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Lord_Howe">
@@ -2491,49 +2502,51 @@
 			</metazone>
 			<metazone type="Macau">
 				<long>
-					<standard>Macao</standard>
-					<daylight>Macao, sommertid</daylight>
+					<generic>Macao-tid</generic>
+					<standard>Macao-normaltid</standard>
+					<daylight>Macao-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<generic draft="contributed">Australsk (Macquarie) tid</generic>
+					<standard>Macquarie tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
 				<long>
-					<generic draft="contributed">Russisk (Magadan) tid</generic>
+					<generic>Magadan-tid</generic>
 					<standard>Magadan-normaltid</standard>
 					<daylight>Magadan-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Malaya">
 				<long>
-					<standard>Malaja</standard>
+					<standard>Malaja-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Malaysia">
 				<long>
-					<standard>Malaysisk normaltid</standard>
+					<standard>Malaysisk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Maldives">
 				<long>
-					<standard>Maldivisk normaltid</standard>
+					<standard>Maldivisk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Marquesas">
 				<long>
-					<standard>Marquesas-normaltid</standard>
+					<standard>Marquesas-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Marshall_Islands">
 				<long>
-					<standard>Marshalløerne-normaltid</standard>
+					<standard>Marshalløerne-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Mauritius">
 				<long>
+					<generic>Mauritius-tid</generic>
 					<standard>Mauritius-normaltid</standard>
 					<daylight>Mauritius-sommertid</daylight>
 				</long>
@@ -2545,7 +2558,7 @@
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic draft="contributed">Mongolsk tid</generic>
+					<generic>Ulan Bator-tid</generic>
 					<standard>Ulan Bator-normaltid</standard>
 					<daylight>Ulan Bator-sommertid</daylight>
 				</long>
@@ -2559,21 +2572,22 @@
 			</metazone>
 			<metazone type="Myanmar">
 				<long>
-					<standard>Myanmarsk normaltid</standard>
+					<standard>Myanmarsk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Nauru">
 				<long>
-					<standard>Nauru-normaltid</standard>
+					<standard>Nauru-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Nepal">
 				<long>
-					<standard>Nepalesisk normaltid</standard>
+					<standard>Nepalesisk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="New_Caledonia">
 				<long>
+					<generic>Nykaledonsk tid</generic>
 					<standard>Nykaledonsk normaltid</standard>
 					<daylight>Nykaledonsk sommertid</daylight>
 				</long>
@@ -2594,42 +2608,43 @@
 			</metazone>
 			<metazone type="Niue">
 				<long>
-					<standard>Niue-normaltid</standard>
+					<standard>Niue-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Norfolk">
 				<long>
-					<standard>Norfolkøen-normaltid</standard>
+					<standard>Norfolkøen-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Noronha">
 				<long>
-					<generic draft="contributed">Brasiliansk (Noronha) tid</generic>
-					<standard>Fernando de Noronha-tid</standard>
+					<generic>Fernando de Noronha-tid</generic>
+					<standard>Fernando de Noronha-normaltid</standard>
 					<daylight>Fernando de Noronha-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="North_Mariana">
 				<long>
-					<standard>Nordmarianerne</standard>
+					<standard>Nordmarianerne-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
-					<generic draft="contributed">Russisk (Novosibirsk) tid</generic>
+					<generic>Novosibirsk tid</generic>
 					<standard>Novosibirsk normaltid</standard>
 					<daylight>Novosibirsk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
-					<generic draft="contributed">Russisk (Omsk) tid</generic>
+					<generic>Omsk-tid</generic>
 					<standard>Omsk-normaltid</standard>
 					<daylight>Omsk-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Pakistan">
 				<long>
+					<generic>Pakistansk tid</generic>
 					<standard>Pakistansk normaltid</standard>
 					<daylight>Pakistansk sommertid</daylight>
 				</long>
@@ -2641,30 +2656,33 @@
 			</metazone>
 			<metazone type="Papua_New_Guinea">
 				<long>
-					<standard>Papua Ny Guinea-normaltid</standard>
+					<standard>Papua Ny Guinea-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Paraguay">
 				<long>
-					<standard>Paraguayansk tid</standard>
+					<generic>Paraguayansk tid</generic>
+					<standard>Paraguayansk normaltid</standard>
 					<daylight>Paraguayansk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Peru">
 				<long>
-					<standard>Peruviansk tid</standard>
+					<generic>Peruviansk tid</generic>
+					<standard>Peruviansk normaltid</standard>
 					<daylight>Peruviansk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Philippines">
 				<long>
+					<generic>Filippinsk tid</generic>
 					<standard>Filippinsk normaltid</standard>
 					<daylight>Filippinsk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Phoenix_Islands">
 				<long>
-					<standard>Phoenixøen-normaltid</standard>
+					<standard>Phoenixøen-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Pierre_Miquelon">
@@ -2676,23 +2694,24 @@
 			</metazone>
 			<metazone type="Pitcairn">
 				<long>
-					<standard>Pitcairn-normaltid</standard>
+					<standard>Pitcairn-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Ponape">
 				<long>
-					<standard>Ponape-normaltid</standard>
+					<standard>Ponape-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Qyzylorda">
 				<long>
-					<standard>Qyzylorda</standard>
-					<daylight>Qyzylorda, sommertid</daylight>
+					<generic>Qyzylorda-tid</generic>
+					<standard>Qyzylorda-normaltid</standard>
+					<daylight>Qyzylorda-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Reunion">
 				<long>
-					<standard>Reunion-normaltid</standard>
+					<standard>Reunion-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Rothera">
@@ -2702,22 +2721,23 @@
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
-					<generic draft="contributed">Russisk (Sakhalin) tid</generic>
+					<generic>Sakhalin-tid</generic>
 					<standard>Sakhalin-normaltid</standard>
 					<daylight>Sakhalin-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
-					<generic draft="contributed">Russisk (Samara) tid</generic>
-					<standard>Samara</standard>
-					<daylight>Samara, sommertid</daylight>
+					<generic>Samara-tid</generic>
+					<standard>Samara-normaltid</standard>
+					<daylight>Samara-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samarkand">
 				<long>
-					<standard>Samarkand</standard>
-					<daylight>Samarkand, sommertid</daylight>
+					<generic>Samarkand-tid</generic>
+					<standard>Samarkand-normaltid</standard>
+					<daylight>Samarkand-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samoa">
@@ -2727,13 +2747,14 @@
 			</metazone>
 			<metazone type="Seychelles">
 				<long>
-					<standard>Seychellisk normaltid</standard>
+					<standard>Seychellisk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Shevchenko">
 				<long>
-					<standard>Shevchenko</standard>
-					<daylight>Shevchenko, sommertid</daylight>
+					<generic>Shevchenko-tid</generic>
+					<standard>Shevchenko-normaltid</standard>
+					<daylight>Shevchenko-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Singapore">
@@ -2743,12 +2764,12 @@
 			</metazone>
 			<metazone type="Solomon">
 				<long>
-					<standard>Salomonøerne-normaltid</standard>
+					<standard>Salomonøerne-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="South_Georgia">
 				<long>
-					<standard>South Georgia-normaltid</standard>
+					<standard>South Georgia-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Suriname">
@@ -2758,8 +2779,9 @@
 			</metazone>
 			<metazone type="Sverdlovsk">
 				<long>
-					<standard>Sverdlovsk</standard>
-					<daylight>Sverdlovsk, sommertid</daylight>
+					<generic>Sverdlovsk-tid</generic>
+					<standard>Sverdlovsk-normaltid</standard>
+					<daylight>Sverdlovsk-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Syowa">
@@ -2769,7 +2791,7 @@
 			</metazone>
 			<metazone type="Tahiti">
 				<long>
-					<standard>Tahitisk normaltid</standard>
+					<standard>Tahitisk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Taipei">
@@ -2781,79 +2803,88 @@
 			</metazone>
 			<metazone type="Tajikistan">
 				<long>
-					<standard>Tadsjikisk normaltid</standard>
+					<standard>Tadsjikisk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Tashkent">
 				<long>
-					<standard>Tashkent</standard>
-					<daylight>Tashkent, sommertid</daylight>
+					<generic>Tashkent-tid</generic>
+					<standard>Tashkent-normaltid</standard>
+					<daylight>Tashkent-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Tbilisi">
 				<long>
-					<standard>Tbilisi</standard>
-					<daylight>Tbilisi, sommertid</daylight>
+					<generic>Tbilisi-tid</generic>
+					<standard>Tbilisi-normaltid</standard>
+					<daylight>Tbilisi-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Tokelau">
 				<long>
-					<standard>Tokelau-normaltid</standard>
+					<standard>Tokelau-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Tonga">
 				<long>
+					<generic>Tongansk tid</generic>
 					<standard>Tongansk normaltid</standard>
 					<daylight>Tongansk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Truk">
 				<long>
-					<standard>Truk-normaltid</standard>
+					<standard>Truk-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Turkey">
 				<long>
-					<standard draft="provisional">Tyrkisk tid</standard>
-					<daylight draft="provisional">Tyrkisk sommertid</daylight>
+					<generic>Tyrkisk tid</generic>
+					<standard>Tyrkisk normaltid</standard>
+					<daylight>Tyrkisk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Turkmenistan">
 				<long>
+					<generic>Turkmensk tid</generic>
 					<standard>Turkmensk normaltid</standard>
 					<daylight>Turkmensk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Tuvalu">
 				<long>
-					<standard>Tuvalu-normaltid</standard>
+					<standard>Tuvalu-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Uralsk">
 				<long>
-					<standard>Ural'sk</standard>
-					<daylight>Ural'sk, sommertid</daylight>
+					<generic>Ural'sk-tid</generic>
+					<standard>Ural'sk-normaltid</standard>
+					<daylight>Ural'sk-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Uruguay">
 				<long>
-					<standard>Uruguayansk tid</standard>
+					<generic>Uruguayansk tid</generic>
+					<standard>Uruguayansk normaltid</standard>
 					<daylight>Uruguayansk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Urumqi">
 				<long>
-					<standard>Urumqi</standard>
+					<standard>Urumqi-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Uzbekistan">
 				<long>
+					<generic>Usbekisk tid</generic>
 					<standard>Usbekisk normaltid</standard>
 					<daylight>Usbekisk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vanuatu">
 				<long>
+					<generic>Vanuatu-tid</generic>
 					<standard>Vanuatu-normaltid</standard>
 					<daylight>Vanuatu-sommertid</daylight>
 				</long>
@@ -2865,14 +2896,14 @@
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
-					<generic draft="contributed">Russisk (Vladivostok) tid</generic>
+					<generic>Vladivostok-tid</generic>
 					<standard>Vladivostok-normaltid</standard>
 					<daylight>Vladivostok-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
-					<generic draft="contributed">Russisk (Volgograd) tid</generic>
+					<generic>Volgograd-tid</generic>
 					<standard>Volgograd-normaltid</standard>
 					<daylight>Volgograd-sommertid</daylight>
 				</long>
@@ -2884,32 +2915,33 @@
 			</metazone>
 			<metazone type="Wake">
 				<long>
-					<standard>Wakeøen-normaltid</standard>
+					<standard>Wakeøen-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Wallis">
 				<long>
-					<standard>Wallis og Futuna-normaltid</standard>
+					<standard>Wallis og Futuna-tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
-					<generic draft="contributed">Russisk (Yakutsk) tid</generic>
+					<generic>Yakutsk-tid</generic>
 					<standard>Yakutsk-normaltid</standard>
 					<daylight>Yakutsk-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
-					<generic draft="contributed">Russisk (Yekaterinburg) tid</generic>
+					<generic>Yekaterinburgsk tid</generic>
 					<standard>Yekaterinburgsk normaltid</standard>
 					<daylight>Yekaterinburgsk sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yerevan">
 				<long>
-					<standard>Yerevan</standard>
-					<daylight>Yerevan, sommertid</daylight>
+					<generic>Yerevan-tid</generic>
+					<standard>Yerevan-normaltid</standard>
+					<daylight>Yerevan-sommertid</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yukon">
@@ -2934,7 +2966,7 @@
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
@@ -2942,36 +2974,36 @@
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" draft="contributed">0</pattern>
-					<pattern type="10000" draft="contributed">0</pattern>
-					<pattern type="100000" draft="contributed">0</pattern>
-					<pattern type="1000000" draft="contributed">0</pattern>
-					<pattern type="10000000" draft="contributed">0</pattern>
-					<pattern type="100000000" draft="contributed">0</pattern>
-					<pattern type="1000000000" draft="contributed">0</pattern>
-					<pattern type="10000000000" draft="contributed">0</pattern>
-					<pattern type="100000000000" draft="contributed">0</pattern>
-					<pattern type="1000000000000" draft="contributed">0</pattern>
-					<pattern type="10000000000000" draft="contributed">0</pattern>
-					<pattern type="100000000000000" draft="contributed">0</pattern>
+					<pattern type="1000" draft="contributed">0000</pattern>
+					<pattern type="10000" draft="contributed">00000</pattern>
+					<pattern type="100000" draft="contributed">000000</pattern>
+					<pattern type="1000000" draft="contributed">0.0 mio</pattern>
+					<pattern type="10000000" draft="contributed">00 mio</pattern>
+					<pattern type="100000000" draft="contributed">000 mio</pattern>
+					<pattern type="1000000000" draft="contributed">0.0 mia</pattern>
+					<pattern type="10000000000" draft="contributed">00 mia</pattern>
+					<pattern type="100000000000" draft="contributed">000 mia</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0 bill</pattern>
+					<pattern type="10000000000000" draft="contributed">00 bill</pattern>
+					<pattern type="100000000000000" draft="contributed">000 bill</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern>#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##0 %</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>

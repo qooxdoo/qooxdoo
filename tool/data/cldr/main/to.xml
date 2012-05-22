@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="to"/>
 	</identity>
 	<fallback/>
@@ -249,7 +249,6 @@
 			<territory type="054">Melanisia</territory>
 			<territory type="057">Potu fonua Mikolonisia</territory>
 			<territory type="061">Polinīsia</territory>
-			<territory type="062">ʻĒsia tongalotoloto</territory>
 			<territory type="142">ʻĒsia</territory>
 			<territory type="143">ʻĒsia lotoloto</territory>
 			<territory type="145">ʻĒsia hihifo</territory>
@@ -257,7 +256,6 @@
 			<territory type="151">ʻIulope hahake</territory>
 			<territory type="154">ʻIulope tokelau</territory>
 			<territory type="155">ʻIulope hihifo</territory>
-			<territory type="172">Kominiueli</territory>
 			<territory type="419">ʻAmelika fakalatina</territory>
 			<territory type="AC">Motu ʻAsenisini</territory>
 			<territory type="AD">ʻEnitola</territory>
@@ -532,7 +530,6 @@
 		<types>
 			<type type="buddhist" key="calendar">fakaputa</type>
 			<type type="chinese" key="calendar">fakasiaina</type>
-			<type type="direct" key="collation">hangatonu</type>
 			<type type="ducet" key="collation" draft="unconfirmed">fakahokohoko unikoti</type>
 			<type type="gregorian" key="calendar">fakakelekolia</type>
 			<type type="hebrew" key="calendar">fakahepelū</type>
@@ -565,8 +562,8 @@
 	<delimiters>
 		<quotationStart>“</quotationStart>
 		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>«</alternateQuotationStart>
-		<alternateQuotationEnd>»</alternateQuotationEnd>
+		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -751,7 +748,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="EEEd">d EEE</dateFormatItem>
+						<dateFormatItem id="Ed">d E</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">H:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
@@ -767,9 +764,9 @@
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M-yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d/M/yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d/M/yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ">yyyy Q</dateFormatItem>
 						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
@@ -969,13 +966,16 @@
 			</zone>
 			<metazone type="Fiji">
 				<long>
-					<standard>houa fakafisi</standard>
+					<generic>houa fakafisi</generic>
+					<standard>houa fakafisi fakasīpinga</standard>
 					<daylight>houa fakafisi fakamaama</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hawaii_Aleutian">
 				<long>
-					<standard>houa fakahauaʻi</standard>
+					<generic>houa fakahauaʻi</generic>
+					<standard>houa fakahauaʻi fakasīpinga</standard>
+					<daylight>houa fakahauaʻi fakamaama</daylight>
 				</long>
 			</metazone>
 			<metazone type="New_Zealand">
@@ -1007,7 +1007,8 @@
 			</metazone>
 			<metazone type="Tonga">
 				<long>
-					<standard>houa fakatonga</standard>
+					<generic>houa fakatonga</generic>
+					<standard>houa fakatonga fakasīpinga</standard>
 					<daylight>houa fakatonga lotohē</daylight>
 				</long>
 			</metazone>
@@ -1036,28 +1037,28 @@
 			<infinity draft="unconfirmed">∞</infinity>
 			<nan draft="unconfirmed">NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern draft="unconfirmed">#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern draft="unconfirmed">#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern draft="unconfirmed">#,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern draft="unconfirmed">¤ #,##0.00</pattern>
@@ -1143,4 +1144,3 @@
 		</messages>
 	</posix>
 </ldml>
-

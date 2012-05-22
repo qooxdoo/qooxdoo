@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6255 $"/>
+		<generation date="$Date: 2011-11-24 10:07:30 +0100 (Thu, 24 Nov 2011) $"/>
 		<language type="zh"/>
 		<script type="Hant"/>
 		<territory type="MO"/>
@@ -15,13 +15,6 @@
 					<availableFormats>
 						<dateFormatItem id="Md" draft="contributed">M-d</dateFormatItem>
 						<dateFormatItem id="MEd" draft="contributed">M-d（E）</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="chinese">
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="yyyyM" draft="provisional">yyyy/M</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
