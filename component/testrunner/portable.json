@@ -5,7 +5,7 @@
   [
     {
       "path" : "${QOOXDOO_PATH}/tool/data/config/base.json",
-      "as"   : "portable-base"
+      "as"   : "base"
     }
   ],
 
@@ -101,7 +101,7 @@
     {
       "desc"    : "create a source loader (all classes as source files)",
 
-      "extend" : [ "portable-common", "portable-base::cache" ],
+      "extend" : [ "portable-common", "base::cache" ],
       
       "compile-options" :
       {
@@ -127,7 +127,7 @@
     "build-script" :
     {
       "desc"    : "portable testrunner build script",
-      "extend" : [ "portable-common", "portable-base::cache" ],
+      "extend" : [ "portable-common", "base::cache" ],
       
       "environment" :
       {
@@ -163,6 +163,8 @@
     
     "gen-css" :
     {
+      "extend" : ["base::cache"],
+
       "shell" :
       {
         "command" :
@@ -174,7 +176,7 @@
     
     "build-resources" :
     {
-      "extend" : [ "portable-common", "portable-base::build-resources" ]
+      "extend" : [ "portable-common", "base::build-resources" ]
     },
     
     "build" :
