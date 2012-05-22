@@ -250,13 +250,25 @@ def parseString(scanner, sstart):
 def parseRegexp(scanner):
     # leading '/' is already consumed
     rexp = ""
+    in_char_class = False
     token = scanner.next()
     while True:
         rexp += token.value      # accumulate token strings
-        if rexp.endswith("/"):   # check for end of regexp
+
+        # character classes
+        if token.value == "[":
+            if not Scanner.is_last_escaped(rexp):
+                in_char_class = True
+        elif token.value == "]" and in_char_class:
+            if not Scanner.is_last_escaped(rexp):
+                in_char_class = False
+
+        # check end of regexp
+        if rexp.endswith("/") and not in_char_class:
             # make sure "/" is not escaped, ie. preceded by an odd number of "\"
             if not Scanner.is_last_escaped(rexp):
                 break
+
         token = scanner.next()
 
     # regexp modifiers
