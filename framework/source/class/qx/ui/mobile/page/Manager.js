@@ -51,7 +51,11 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      CONSTRUCTOR
   *****************************************************************************
   */
-
+  
+  /**
+   * @param isTablet {boolean} flags which indicates whether the manager runs in a tablet environment or not.
+   * @param root {qx.ui.mobile.core.Widget?} widget which should be used as root for this manager. 
+   */
   construct : function(isTablet, root)
   {
     this.base(arguments);
@@ -70,7 +74,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       this.__masterButton = this._createMasterButton();
       this.__detailContainer.addListener("update", this._onDetailContainerUpdate, this);
 
-      this.__masterButton.addListener("tap", this._onTap, this);
+      this.__masterButton.addListener("tap", this._onMasterButtonTap, this);
 
       this.__portraitMasterContainer = this._createPortraitMasterContainer(this.__masterButton);
       this.__masterDetailContainer.setPortraitMasterContainer(this.__portraitMasterContainer);
@@ -88,7 +92,10 @@ qx.Class.define("qx.ui.mobile.page.Manager",
   
   
   properties : {
-    /* The caption/label of the Master Button and Popup Title. */
+    
+    /**
+     * The caption/label of the Master Button and Popup Title.
+     */
     masterTitle : {
       init : "Master",
       check : "String",
@@ -111,8 +118,13 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     __masterDetailContainer : null,
     __portraitMasterContainer : null,
     __masterButton : null,
-
-
+    
+    
+    /**
+     * Adds an array of NavigationPages to masterContainer, only if this.__isTablet is true.
+     * Otherwise it will be added to detailContainer.
+     * @param pages {qx.ui.mobile.page.NavigationPage[]} Array of NavigationPage.
+     */
     addMaster : function(pages) {
       if (this.__isTablet) {
         this._add(pages, this.__masterContainer);
@@ -122,21 +134,36 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     },
     
     
+    /**
+     * Adds an array of NavigationPage to the detailContainer.
+     * @param pages {qx.ui.mobile.page.NavigationPage[]} Array of NavigationPage.
+     */
     addDetail : function(pages) {
       this._add(pages, this.__detailContainer);
     },
 
-
+    
+    /**
+     * Returns the masterContainer for the portrait mode.
+     */
     getPortraitMasterContainer : function() {
       return this.__portraitMasterContainer;
     },
     
     
+    /**
+     * Returns the button for showing/hiding the masterContainer.
+     */
     getMasterButton : function() {
       return this.__masterButton;
     },
 
-
+    
+    /**
+     * Adds an array of NavigationPage to the target container.
+     * @param pages {qx.ui.mobile.page.NavigationPage[]} Array of NavigationPage.
+     * @param target {qx.ui.mobile.container.Navigation} target navigation container.
+     */
     _add : function(pages, target) {
       for (var i = 0; i < pages.length; i++) {
         var page = pages[i];
@@ -148,7 +175,11 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       }
     },
     
-
+    
+    /**
+     * Called when detailContainer is updated.
+     * @param evt {qx.event.type.Data} source event.
+     */
     _onDetailContainerUpdate : function(evt) {
       var widget = evt.getData();
       var navigationBar = this.__detailContainer.getNavigationBar();
@@ -162,37 +193,55 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       navigationBar.addAt(this.__masterButton,0);
     },
 
-
+    
+    /**
+     * Factory method for the master button, which is responsible for showing/hiding masterContainer.
+     */
     _createMasterButton : function() {
       return new qx.ui.mobile.navigationbar.Button(this.getMasterTitle());
     },
     
     
+     /**
+     * Factory method for detailContainer.
+     */
     _createDetailContainer : function() {
       return new qx.ui.mobile.container.Navigation();
     },
     
-        
+    
+    /**
+    * Factory method for masterContainer.
+    */
     _createMasterContainer : function() {
       return new qx.ui.mobile.container.Navigation();
     },
     
     
-    _createPortraitMasterContainer : function(masterButton) {
+    /**
+    * Factory method for the masterDetailContainer.
+    */
+    _createMasterDetail : function() {
+      return new qx.ui.mobile.container.MasterDetail();
+    },
+    
+    
+    /**
+    * Factory method for masterContainer, when browser/device is in portrait mode.
+    * @param masterContainerAnchor {qx.ui.mobile.core.Widget} anchor of the portraitMasterContainer, expected: masterButton.
+    */
+    _createPortraitMasterContainer : function(masterContainerAnchor) {
       var portraitMasterContainer = new qx.ui.mobile.dialog.Popup();
-      
-      portraitMasterContainer.setAnchor(masterButton);
+      portraitMasterContainer.setAnchor(masterContainerAnchor);
       portraitMasterContainer.addCssClass("master-popup");
       return portraitMasterContainer;
     },
 
-
-    _createMasterDetail : function() {
-      return new qx.ui.mobile.container.MasterDetail();
-    },
-
-
-    _onTap : function() {
+    
+    /**
+    * Called when user taps on masterButton.
+    */
+    _onMasterButtonTap : function() {
       if (this.__portraitMasterContainer.isVisible()) {
         this.__portraitMasterContainer.hide();
       } else {
@@ -200,18 +249,30 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       }
     },
 
-
+    
+    /**
+    * Called when layout of masterDetailContainer changes.
+    * @param evt {qx.event.type.Data} source event.
+    */
     _onLayoutChange : function(evt) {
       this.__toggleMasterButtonVisibility();
     },
     
     
+    /**
+    * Called on property changes of masterTitle.
+    * @param value {String} new title
+    * @param old {String} previous title
+    */
     _applyMasterTitle : function(value, old){
       this.__masterButton.setLabel(value);
       this.__portraitMasterContainer.setTitle(value);
     },
     
-
+    
+    /**
+    * Show/hides master button.
+    */
     __toggleMasterButtonVisibility : function()
     {
       if (qx.bom.Viewport.isPortrait()) {

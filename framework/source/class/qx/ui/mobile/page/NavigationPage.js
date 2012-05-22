@@ -322,7 +322,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     /**
      * Adds a widget, below the NavigationBar.
      *
-     * @param evt {qx.ui.mobile.core.Widget} The Widget to add, after NavigationBar.
+     * @param widget {qx.ui.mobile.core.Widget} The widget to add, after NavigationBar.
      */
     addAfterNavigationBar : function(widget) {
       if(widget && this.__scrollContainer) {
