@@ -422,8 +422,8 @@ def reduceOperation(literalNode):
         resultNode.set("constantType","boolean")
         resultNode.set("value", str(result).lower())
 
-    # logical operators &&, || -- Currently disabled, s. bug#4856
-    elif False and operator in ["AND", "OR"]:
+    # logical operators &&, ||
+    elif operator in ["AND", "OR"]:
         result = None
         otherOperand, otherPosition = getOtherOperand(noperationNode, nliteralNode)
         if operator == "AND":
