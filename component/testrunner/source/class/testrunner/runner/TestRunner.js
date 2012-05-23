@@ -33,6 +33,11 @@ qx.Class.define("testrunner.runner.TestRunner", {
   */
   construct : function()
   {
+    this.TEST_MIXINS  = [qx.dev.unit.MMock, qx.dev.unit.MRequirements];
+    if (qx.core.Environment.get("testrunner.performance")) {
+      this.TEST_MIXINS.push(qx.dev.unit.MMeasure);
+    }
+    
     this.base(arguments);
 
     // Get log appender element from view
