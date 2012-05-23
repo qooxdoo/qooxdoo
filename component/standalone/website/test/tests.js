@@ -22,6 +22,24 @@ testrunner.define({
 });
 
 testrunner.define({
+  classname: "q",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+  
+  testQuerySelector : function() {
+    var test = document.createElement("div");
+    test.id = "foo";
+    document.getElementById("sandbox").appendChild(test);
+    var collection = q("#foo");
+    this.assertInstance(collection, qx.type.BaseArray);
+    this.assertEquals(1, collection.length);
+    this.assertEquals(document.getElementById("foo"), collection[0]);
+  }
+});
+  
+
+testrunner.define({
   classname: "Manipulating",
 
   setUp : testrunner.globalSetup,

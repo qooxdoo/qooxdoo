@@ -79,9 +79,9 @@ qx.Bootstrap.define("q", {
 (function() {
   var Collection = q;
   q = function(selector, context) {
-    if (selector instanceof String) {
+    if (qx.Bootstrap.isString(selector)) {
       selector = qx.bom.Selector.query(selector, context);
-    } else if (!(selector instanceof Array)) {
+    } else if (!(qx.Bootstrap.isArray(selector))) {
       selector = [selector];
     }
     return q.init(selector);
