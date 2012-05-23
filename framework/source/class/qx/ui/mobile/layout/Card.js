@@ -135,7 +135,12 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     {
       this.base(arguments);
       if (widget) {
-        widget.fixSize();
+        // Fix size, only if widget has mixin MResize set.
+        var hasResizeMixin = qx.Class.hasMixin(widget.constructor,qx.ui.mobile.core.MResize)
+        if(hasResizeMixin) {
+           widget.fixSize();
+        }
+       
         widget.addCssClass("layout-card-item");
         widget.addCssClass("boxFlex1");
         widget.exclude();
