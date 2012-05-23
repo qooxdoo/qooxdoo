@@ -69,7 +69,7 @@ qx.Bootstrap.define("qx.bom.client.Device",
     
     /**
      * Determines on what type of device the application is running.
-     * Valid values are: "mobile", "tablet", "tv" or "desktop".
+     * Valid values are: "mobile", "tablet" or "desktop".
      * @return {String} The device type name of determined device.
      */
     getType : function() {
