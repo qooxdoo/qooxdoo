@@ -158,7 +158,7 @@ def parseStream(content, uniqueId=""):
                         token['multiline'] = False
                         token['detail'] = 'inline'
                     else:
-                        print >> sys.stderror, "Inline comment out of context"
+                        print >> sys.stderr, "Inline comment out of context"
                 
                 # comment, multiline
                 elif tok.value == '/*':
@@ -195,7 +195,7 @@ def parseStream(content, uniqueId=""):
                             token['multiline'] = False
 
                     else:
-                        print >> sys.stderror, "Multiline comment out of context"
+                        print >> sys.stderr, "Multiline comment out of context"
                                 
                 # every other operator goes as is
                 else:
@@ -255,17 +255,16 @@ def parseRegexp(scanner):
     while True:
         rexp += token.value      # accumulate token strings
 
+        # -- Check last token
         # character classes
         if token.value == "[":
-            if not Scanner.is_last_escaped(rexp):
+            if not Scanner.is_last_escaped(rexp): # i.e. not preceded by an odd number of "\"
                 in_char_class = True
         elif token.value == "]" and in_char_class:
             if not Scanner.is_last_escaped(rexp):
                 in_char_class = False
-
-        # check end of regexp
-        if rexp.endswith("/") and not in_char_class:
-            # make sure "/" is not escaped, ie. preceded by an odd number of "\"
+        # check for termination of rexp
+        elif rexp[-1] == "/" and not in_char_class:  # rexp[-1] != token.value if token.value == "//"
             if not Scanner.is_last_escaped(rexp):
                 break
 
