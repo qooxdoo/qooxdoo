@@ -145,6 +145,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     /**
      * Returns the masterContainer for the portrait mode.
+     * @return {qx.ui.mobile.dialog.Popup}
      */
     getPortraitMasterContainer : function() {
       return this.__portraitMasterContainer;
@@ -153,6 +154,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     /**
      * Returns the button for showing/hiding the masterContainer.
+     * @return {qx.ui.mobile.navigationbar.Button} 
      */
     getMasterButton : function() {
       return this.__masterButton;
@@ -196,6 +198,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     /**
      * Factory method for the master button, which is responsible for showing/hiding masterContainer.
+     * @return {qx.ui.mobile.navigationbar.Button} 
      */
     _createMasterButton : function() {
       return new qx.ui.mobile.navigationbar.Button(this.getMasterTitle());
@@ -204,6 +207,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
      /**
      * Factory method for detailContainer.
+     * @return {qx.ui.mobile.container.Navigation} 
      */
     _createDetailContainer : function() {
       return new qx.ui.mobile.container.Navigation();
@@ -212,6 +216,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     /**
     * Factory method for masterContainer.
+    * @return {qx.ui.mobile.container.Navigation} 
     */
     _createMasterContainer : function() {
       return new qx.ui.mobile.container.Navigation();
@@ -220,6 +225,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     /**
     * Factory method for the masterDetailContainer.
+    * @return {qx.ui.mobile.container.MasterDetail} 
     */
     _createMasterDetail : function() {
       return new qx.ui.mobile.container.MasterDetail();
@@ -229,6 +235,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     /**
     * Factory method for masterContainer, when browser/device is in portrait mode.
     * @param masterContainerAnchor {qx.ui.mobile.core.Widget} anchor of the portraitMasterContainer, expected: masterButton.
+    * @return {qx.ui.mobile.dialog.Popup}
     */
     _createPortraitMasterContainer : function(masterContainerAnchor) {
       var portraitMasterContainer = new qx.ui.mobile.dialog.Popup();
