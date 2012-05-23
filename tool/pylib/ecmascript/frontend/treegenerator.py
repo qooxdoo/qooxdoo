@@ -1788,8 +1788,6 @@ def statement():
                     advance(',')
                     s.childappend(expression())
         statementEnd()
-        if token.id == "eof" and token.comments:
-            s.childappend(token)  # keep eof for pot. comments
     return s
 
 @method(symbol("(empty)"))
@@ -1840,6 +1838,8 @@ def statements():  # plural!
     s = symbol("statements")(token.get("line"), token.get("column"))
     while True:
         if token.id == "}" or token.id == "eof":
+            if token.id == "eof" and token.comments:
+                s.childappend(token)  # keep eof for pot. comments
             break
         st = statement()
         if st:

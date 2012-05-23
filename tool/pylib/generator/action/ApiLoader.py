@@ -65,10 +65,6 @@ class ApiLoader(object):
         if "variants" in optimize:
             tree_ = self._classesObj[fileId].optimize(tree_, ["variants"], variantSet)
         (data, hasError, attachMap) = api.createDoc(tree_)
-        # debug on
-        #if fileId=="qx.module.Animation":
-        #    import pydb; pydb.debugger()
-        # debug off
         self._console.outdent()
         
         if hasError:
