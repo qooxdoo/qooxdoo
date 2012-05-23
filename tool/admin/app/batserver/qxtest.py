@@ -398,14 +398,11 @@ class QxTest:
         self.logBuildErrors(buildLogFile, target, cmd, err)
         buildLogFile.close()
       
-      buildResult["BuildError"] = "Unknown build error"
-      
-      """Get the last line of batbuild.py's STDERR output which contains
-      the actual error message. """
-      nre = re.compile('[\n\r](.*)$')
-      m = nre.search(err)
-      if m:
-        buildResult["BuildError"] = m.group(1)
+      if err:
+        buildResult["BuildError"] = err
+      else:
+        buildResult["BuildError"] = "Unknown build error"
+
     elif err != "":
       self.log("Warning while building " + target + ", see build log file for details.")
       err = err.rstrip('\n')
