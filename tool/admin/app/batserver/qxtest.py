@@ -455,7 +455,9 @@ class QxTest:
       if status > 0:
         self.logBuildErrors(buildLogFile, target, cmd, err)
         self.buildStatus[target]["BuildError"] = err.rstrip('\n')
-      else:  
+      else:
+        if err:
+          self.buildStatus[target]["BuildWarning"] = err
         # generate the application
         self.log("Generating %s application." %target)
         
@@ -476,7 +478,9 @@ class QxTest:
         elif err != "":
           err = err.rstrip('\n')
           err = err.rstrip('\r')
-          self.buildStatus[target]["BuildWarning"] =  err.rstrip('\n')
+          if not self.buildStatus[target]["BuildWarning"]:
+            self.buildStatus[target]["BuildWarning"] = ""
+          self.buildStatus[target]["BuildWarning"] +=  err.rstrip('\n')
           self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
         else:
           self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
