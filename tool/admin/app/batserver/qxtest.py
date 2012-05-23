@@ -496,6 +496,10 @@ class QxTest:
       "BuildWarning": None
     }
     
+    if not os.path.isdir(workdir):
+      result["BuildError"] = "'%s' is not a directory!" %workdir
+      return result
+    
     startdir = os.getcwd()
     if workdir != startdir:
       os.chdir(workdir)
