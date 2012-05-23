@@ -83,9 +83,11 @@ qx.Class.define("mobileshowcase.Application",
       var dataBinding = new mobileshowcase.page.DataBinding();
       var themeSwitcher = new mobileshowcase.page.ThemeSwitcher();
 
-
+      
+      var isTablet = (qx.core.Environment.get("device.type") == "tablet");
+      
       // Add the pages to the page manager
-      var manager = new qx.ui.mobile.page.Manager();
+      var manager = new qx.ui.mobile.page.Manager(isTablet);
       manager.addMaster([overview]);
       manager.addDetail([
         events,
@@ -102,13 +104,13 @@ qx.Class.define("mobileshowcase.Application",
         themeSwitcher
       ]);
       manager.setMasterTitle("Overview");
-     
-
+      overview.show();
+      
       // Initialize the navigation
       var nm = qx.ui.mobile.navigation.Manager.getInstance();
 
       // TODO: Add env check isTablet, see Bug 6392
-      if (qx.core.Environment.get("device.name") == "ipad" || qx.core.Environment.get("device.name") == "pc") {
+      if (isTablet) {
         nm.onGet("/.*", function(data) {
           overview.show();
         },this);

@@ -191,6 +191,10 @@
  *       <td>device.name</td><td><i>String</i></td><td><code>pc</code></td>
  *       <td>{@link qx.bom.client.Device#getName}</td>
  *     </tr>
+ *     <tr>
+ *       <td>device.type</td><td><i>String</i></td><td><code>mobile</code></td>
+ *       <td>{@link qx.bom.client.Device#getType}</td>
+ *     </tr>
 
  *     <tr>
  *       <td colspan="4"><b>ecmascript</b></td>
@@ -686,6 +690,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "browser.quirksmode"          : "qx.bom.client.Browser.getQuirksMode",
       "runtime.name"                : "qx.bom.client.Runtime.getName",
       "device.name"                 : "qx.bom.client.Device.getName",
+      "device.type"                 : "qx.bom.client.Device.getType",
       "locale"                      : "qx.bom.client.Locale.getLocale",
       "locale.variant"              : "qx.bom.client.Locale.getVariant",
       "os.name"                     : "qx.bom.client.OperatingSystem.getName",

@@ -181,8 +181,8 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 //
 
 .navigationbar {
-  #gradient > .vertical-three(#cdd5df, #8195af, #6d84a2);
-  border-bottom: 1px solid #2d3642;
+    #gradient > .vertical-three(#cdd5df, #8195af, #6d84a2);
+    border-bottom: 1px solid #2d3642;
 }
 
 .navigationbar-button {
@@ -224,6 +224,9 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 
 .navigationbar-backbutton {
   .navigationbar-button();
+  border-left:0;
+  padding-left: 3px;
+  padding-right: 5px;
 }
 
 .navigationbar-backbutton.active {
@@ -231,6 +234,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 }
 
 .navigationbar-backbutton:before {
+  z-index:0;
   background-color: @ios-button-backgroundcolor;
 
   background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, @ios-button-gradient-stop-1), color-stop(50%, @ios-button-gradient-stop-2), color-stop(51%, @ios-button-gradient-stop-3), color-stop(100%, @ios-button-gradient-stop-4));

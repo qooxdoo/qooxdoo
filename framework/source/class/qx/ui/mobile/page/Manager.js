@@ -61,9 +61,9 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     this.base(arguments);
 
     root = root || qx.core.Init.getApplication().getRoot();
-
-    // TODO: Add env check isTablet, see Bug 6392
-    this.__isTablet = (isTablet != null) ? isTablet : (qx.core.Environment.get("device.name") == "ipad" || qx.core.Environment.get("device.name") == "pc");
+    
+    this.__isTablet = (isTablet != null) ? isTablet : (qx.core.Environment.get("device.type") == "tablet");
+    
     this.__detailContainer = this._createDetailContainer();
  
     if (this.__isTablet) {
@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
       this.__toggleMasterButtonVisibility();
     } else {
-      root.add(this.__detailContainer);
+      root.add(this.__detailContainer, {flex:1});
     }
   },
   
@@ -129,6 +129,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       if (this.__isTablet) {
         this._add(pages, this.__masterContainer);
       } else {
+        debugger;
         this.addDetail(pages);
       }
     },
@@ -267,13 +268,15 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     
     /**
-    * Called on property changes of masterTitle.
+    * Called on property changes of masterTitle. 
     * @param value {String} new title
     * @param old {String} previous title
     */
-    _applyMasterTitle : function(value, old){
-      this.__masterButton.setLabel(value);
-      this.__portraitMasterContainer.setTitle(value);
+    _applyMasterTitle : function(value, old) {
+      if(this.__isTablet){
+        this.__masterButton.setLabel(value);
+        this.__portraitMasterContainer.setTitle(value);
+      }
     },
     
     

@@ -75,6 +75,7 @@ qx.Class.define("mobileshowcase.page.Basic",
       var exToggleButton = new qx.ui.mobile.form.ToggleButton(false);
       
       var labelText = "Mobile theme: "+qx.core.Environment.get("qx.theme");
+      labelText += " <br>Device Type: "+qx.core.Environment.get("device.type");
       labelText += " <br>Operation system: "+qx.core.Environment.get("os.name");
       labelText += " <br>OS version: "+qx.core.Environment.get("os.version");
       labelText += " <br>Browser: "+qx.core.Environment.get("browser.name");
