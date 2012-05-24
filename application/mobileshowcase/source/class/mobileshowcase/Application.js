@@ -82,14 +82,15 @@ qx.Class.define("mobileshowcase.Application",
       var dialogs = new mobileshowcase.page.Dialog();
       var dataBinding = new mobileshowcase.page.DataBinding();
       var themeSwitcher = new mobileshowcase.page.ThemeSwitcher();
-
       
       var isTablet = (qx.core.Environment.get("device.type") == "tablet");
+      var isDesktop = (qx.core.Environment.get("device.type") == "desktop");
       
       // Add the pages to the page manager
-      var manager = new qx.ui.mobile.page.Manager(isTablet);
+      var manager = new qx.ui.mobile.page.Manager(isTablet||isDesktop);
       manager.addMaster([overview]);
       manager.addDetail([
+        basic,
         events,
         list,
         tab,
@@ -98,13 +99,10 @@ qx.Class.define("mobileshowcase.Application",
         animation,
         animationLanding,
         atoms,
-        basic,
         dialogs,
         dataBinding,
         themeSwitcher
       ]);
-      manager.setMasterTitle("Overview");
-      overview.show();
       
       // Initialize the navigation
       var nm = qx.ui.mobile.navigation.Manager.getInstance();
