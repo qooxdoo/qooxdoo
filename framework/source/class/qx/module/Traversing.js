@@ -81,6 +81,18 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     /**
+     * Returns a copy of the collection within the given range.
+     * 
+     * @param begin {Number} The index to begin.
+     * @param end {Number} The index to end.
+     * @return {q} A new collection containing a slice of the original collection.
+     */
+    slice : function(begin, end) {
+      return q.$init(Array.prototype.slice.call(this, begin, end));
+    },
+
+
+    /**
      * Gets a set of elements containing the parent of each element in the
      * collection.
      * This set can be filtered with an optional expression that will cause only
@@ -574,6 +586,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "add" : statics.add,
       "getChildren" : statics.getChildren,
       "forEach" : statics.forEach,
+      "slice" : statics.slice,
       "getParents" : statics.getParents,
       "getAncestors" : statics.getAncestors,
       "getAncestorsUntil" : statics.getAncestorsUntil,
