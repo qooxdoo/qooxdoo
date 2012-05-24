@@ -85,6 +85,6 @@ qx.Bootstrap.define("qx.module.event.OrientationHandler", {
   
   defer : function(statics)
   {
-    q.registerEventHook(statics.TYPES, statics.register, statics.unregister);
+    q.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
   }
 });
