@@ -446,6 +446,7 @@ qx.Bootstrap.define("qx.module.Event", {
      * Unregister a hook from the given event types.
      *
      * @attachStatic {q, unregisterEventHooks}
+     * @param types {String[]} List of event types
      * @param registerHook {Function} Hook function to be called on event registration
      * @param unregisterHook {Function?} Hook function to be called on event deregistration
      * @internal
