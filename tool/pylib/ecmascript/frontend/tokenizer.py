@@ -130,15 +130,23 @@ def parseStream(content, uniqueId=""):
             if tok.value in lang.TOKENS:
                 # division, div-assignment, regexp
                 if tok.value in ('/', '/='):
-                    # accumulate regex literals
+                    # get the preceding (real) token
+                    for ptoken in reversed(tokens):
+                        if ptoken['type'] in ('eol', 'white'):
+                            continue
+                        else:
+                            prev_token = ptoken
+                            break
+                    # regex literal
                     if (len(tokens) == 0 or (
-                            (tokens[-1]['type']   != 'number') and
-                            (tokens[-1]['detail'] != 'RP')     and
-                            (tokens[-1]['detail'] != 'RB')     and
-                            (tokens[-1]['type']   != 'name'))):
+                            (prev_token['type']   != 'number') and
+                            (prev_token['detail'] != 'RP')     and
+                            (prev_token['detail'] != 'RB')     and
+                            (prev_token['type']   != 'name'))):
                         regexp = parseRegexp(scanner)
                         token['type'] = 'regexp'
                         token['source'] = tok.value + regexp
+                    # div, div-assign
                     else:
                         token['type'] = 'token'
                         token['detail'] = lang.TOKENS[tok.value]
