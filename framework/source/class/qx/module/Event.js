@@ -86,7 +86,7 @@ qx.Bootstrap.define("qx.module.Event", {
           listener.apply(this, [event]);
         }).bind(ctx);
         bound.original = listener;
-        
+
         // add native listener
         if (qx.bom.Event.supportsEvent(el, type)) {
           qx.bom.Event.addNativeListener(el, type, bound);
@@ -131,7 +131,7 @@ qx.Bootstrap.define("qx.module.Event", {
     off : function(type, listener, context) {
       for (var j=0; j < this.length; j++) {
         var el = this[j];
-        
+
         for (var id in el.__listener[type]) {
           var storedListener = el.__listener[type][id];
           if (storedListener == listener || storedListener.original == listener) {
@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.module.Event", {
             }
           }
         }
-        
+
         // call hooks
         var hooks = qx.module.Event.__hooks.off;
         // generic
@@ -345,12 +345,12 @@ qx.Bootstrap.define("qx.module.Event", {
      * The normalizer will be called with two arguments: The original event
      * object and the element on which the event was triggered
      *
-     * @attachStatic {q, registerEventNormalization}
+     * @attachStatic {q, $registerEventNormalization}
      * @param types {String[]} List of event types to be normalized. Use an
      * asterisk (<code>*</code>) to normalize all event types
      * @param normalizer {Function} Normalizer function
      */
-    registerNormalization : function(types, normalizer)
+    $registerNormalization : function(types, normalizer)
     {
       if (!qx.lang.Type.isArray(types)) {
         types = [types];
@@ -371,11 +371,11 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Unregister a normalization function from the given event types.
      *
-     * @attachStatic {q, unregisterEventNormalization}
+     * @attachStatic {q, $unregisterEventNormalization}
      * @param types {String[]} List of event types
      * @param normalizer {Function} Normalizer function
      */
-    unregisterNormalization : function(types, normalizer)
+    $unregisterNormalization : function(types, normalizer)
     {
       if (!qx.lang.Type.isArray(types)) {
         types = [types];
@@ -393,10 +393,10 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Returns all registered event normalizers
      *
-     * @attachStatic {q, getEventNormalizationRegistry}
+     * @attachStatic {q, $getEventNormalizationRegistry}
      * @return {Map} Map of event types/normalizer functions
      */
-    getRegistry : function()
+    $getRegistry : function()
     {
       return qx.module.Event.__normalizations;
     },
@@ -405,13 +405,13 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Register an event hook for the given event types.
      *
-     * @attachStatic {q, registerEventHook}
+     * @attachStatic {q, $registerEventHook}
      * @param types {String[]} List of event types
      * @param registerHook {Function} Hook function to be called on event registration
      * @param unregisterHook {Function?} Hook function to be called on event deregistration
      * @internal
      */
-    registerEventHook : function(types, registerHook, unregisterHook)
+    $registerEventHook : function(types, registerHook, unregisterHook)
     {
       if (!qx.lang.Type.isArray(types)) {
         types = [types];
@@ -445,13 +445,13 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Unregister a hook from the given event types.
      *
-     * @attachStatic {q, unregisterEventHooks}
+     * @attachStatic {q, $unregisterEventHooks}
      * @param types {String[]} List of event types
      * @param registerHook {Function} Hook function to be called on event registration
      * @param unregisterHook {Function?} Hook function to be called on event deregistration
      * @internal
      */
-    unregisterEventHook : function(types, registerHook, unregisterHook)
+    $unregisterEventHook : function(types, registerHook, unregisterHook)
     {
       if (!qx.lang.Type.isArray(types)) {
         types = [types];
@@ -474,16 +474,16 @@ qx.Bootstrap.define("qx.module.Event", {
         }
       }
     },
-    
+
 
     /**
      * Returns all registered event normalizers
      *
-     * @attachStatic {q, getEventHookRegistry}
+     * @attachStatic {q, $getEventHookRegistry}
      * @return {Map} Map of event types/registration hook functions
      * @internal
      */
-    getHookRegistry : function()
+    $getHookRegistry : function()
     {
       return qx.module.Event.__hooks;
     }
@@ -491,7 +491,7 @@ qx.Bootstrap.define("qx.module.Event", {
 
 
   defer : function(statics) {
-    q.attach({
+    q.$attach({
       "on" : statics.on,
       "off" : statics.off,
       "once" : statics.once,
@@ -500,15 +500,15 @@ qx.Bootstrap.define("qx.module.Event", {
       "copyEventsTo" : statics.copyEventsTo
     });
 
-    q.attachStatic({
+    q.$attachStatic({
       "ready": statics.ready,
-      "registerEventNormalization" : statics.registerNormalization,
-      "unregisterEventNormalization" : statics.unregisterNormalization,
-      "getEventNormalizationRegistry" : statics.getRegistry,
-      
-      "registerEventHook" : statics.registerEventHook,
-      "unregisterEventHook" : statics.unregisterEventHook,
-      "getEventHookRegistry" : statics.getHookRegistry
+      "$registerEventNormalization" : statics.$registerNormalization,
+      "$unregisterEventNormalization" : statics.$unregisterNormalization,
+      "$getEventNormalizationRegistry" : statics.$getRegistry,
+
+      "$registerEventHook" : statics.$registerEventHook,
+      "$unregisterEventHook" : statics.$unregisterEventHook,
+      "$getEventHookRegistry" : statics.$getHookRegistry
     });
   }
 });

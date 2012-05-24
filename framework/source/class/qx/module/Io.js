@@ -97,7 +97,7 @@ qx.Bootstrap.define("qx.module.Io", {
 
 
   defer : function(statics) {
-    q.attachStatic({
+    q.$attachStatic({
       io : {
         xhr : statics.xhr,
         script : statics.script,

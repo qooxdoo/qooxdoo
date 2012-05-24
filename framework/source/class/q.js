@@ -23,13 +23,12 @@ qx.Bootstrap.define("q", {
     /**
      * Internal helper to initialize collections.
      *
-     * @internal
      * @signature function(arg)
      * @param arg {var} An Element or an array of Elements which will
      *   be initialized as {@link q}.
      * @return {q} A new initialized collection.
      */
-    init : null,
+    $init : null,
 
 
     /**
@@ -39,7 +38,7 @@ qx.Bootstrap.define("q", {
      * @signature function(module)
      * @param module {Map} A map containing the methods to attach.
      */
-    attach : null,
+    $attach : null,
 
 
     /**
@@ -49,7 +48,7 @@ qx.Bootstrap.define("q", {
      * @signature function(module)
      * @param module {Map} A map containing the methods to attach.
      */
-    attachStatic : null,
+    $attachStatic : null,
 
 
     /**
@@ -60,7 +59,7 @@ qx.Bootstrap.define("q", {
      * @signature function(init)
      * @param init {Function} The initialization method for a module.
      */
-    attachInit : null,
+    $attachInit : null,
 
 
     /**
@@ -84,12 +83,12 @@ qx.Bootstrap.define("q", {
     } else if (!(qx.Bootstrap.isArray(selector))) {
       selector = [selector];
     }
-    return q.init(selector);
+    return q.$init(selector);
   }
 
   q.__init = [];
 
-  q.init = function(arg) {
+  q.$init = function(arg) {
     var col = qx.lang.Array.cast(arg, Collection);
     for (var i=0; i < q.__init.length; i++) {
       q.__init[i].call(col);
@@ -97,7 +96,7 @@ qx.Bootstrap.define("q", {
     return col;
   };
 
-  q.attach = function(module) {
+  q.$attach = function(module) {
     for (var name in module) {
       if (qx.core.Environment.get("qx.debug")) {
         if (Collection.prototype[name] != undefined && Array.prototype[name] == undefined) {
@@ -108,7 +107,7 @@ qx.Bootstrap.define("q", {
     };
   }
 
-  q.attachStatic = function(module) {
+  q.$attachStatic = function(module) {
     for (var name in module) {
       if (qx.core.Environment.get("qx.debug")) {
         if (Collection.prototype[name] != undefined) {
@@ -119,7 +118,7 @@ qx.Bootstrap.define("q", {
     }
   }
 
-  q.attachInit = function(init) {
+  q.$attachInit = function(init) {
     this.__init.push(init);
   }
 

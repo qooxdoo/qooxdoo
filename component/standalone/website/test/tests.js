@@ -26,7 +26,7 @@ testrunner.define({
 
   setUp : testrunner.globalSetup,
   tearDown : testrunner.globalTeardown,
-  
+
   testQuerySelector : function() {
     var test = document.createElement("div");
     test.id = "foo";
@@ -37,7 +37,7 @@ testrunner.define({
     this.assertEquals(document.getElementById("foo"), collection[0]);
   }
 });
-  
+
 
 testrunner.define({
   classname: "Manipulating",
@@ -216,7 +216,7 @@ testrunner.define({
     q("#sandbox p").after(elements);
     this.assertEquals(2, q("#sandbox p + h2 + h3").length);
   },
-  
+
   testFocus : function()
   {
     var obj = {
@@ -272,7 +272,7 @@ testrunner.define({
 
     this.wait();
   },
-  
+
   "test insertAfter with element" : function()
   {
     q.create('<h1>Foo</h1>').
@@ -280,7 +280,7 @@ testrunner.define({
     q.create('<h2>Bar</h2><h3>Baz</h3>').insertAfter(q("#sandbox h1")[0]);
     this.assertEquals(1, q("#sandbox h1 + h2 + h3").length);
   },
-  
+
   "testInsertAfter with collection" : function()
   {
     q.create('<h1>Foo</h1><h1>Foo</h1>').
@@ -288,7 +288,7 @@ testrunner.define({
     q.create('<h2>Bar</h2><h3>Baz</h3>').insertAfter("#sandbox h1");
     this.assertEquals(2, q("#sandbox h1 + h2 + h3").length);
   },
-  
+
   "test insertBefore with element" : function()
   {
     q.create('<h1>Foo</h1>').
@@ -296,7 +296,7 @@ testrunner.define({
     q.create('<h2>Bar</h2><h3>Baz</h3>').insertBefore(q("#sandbox h1")[0]);
     this.assertEquals(1, q("#sandbox h2 + h3 + h1").length);
   },
-  
+
   "testInsertBefore with collection" : function()
   {
     q.create('<h1>Foo</h1><h1>Foo</h1>').
@@ -759,7 +759,7 @@ testrunner.define({
   {
     this.assertEquals(window, q.getWindow(q("#sandbox")[0]));
   },
-  
+
   testGetDocument : function()
   {
     this.assertEquals(document, q.getDocument(q("#sandbox")[0]));
@@ -1226,7 +1226,7 @@ testrunner.define({
     test.off("mousedown", cb);
     this.assertFalse(test.hasListener("mousedown"));
   },
-  
+
   testContext : function()
   {
     window.temp = null;
@@ -1234,16 +1234,16 @@ testrunner.define({
     .on("focus", function(ev) {
       window.temp = this.getAttribute("id");
     }).appendTo("#sandbox");
-    
+
     window.setTimeout(function() {
       q("#sandbox #one").focus();
     }, 100);
-    
+
     this.wait(200, function() {
       this.assertEquals("one", window.temp);
     }, this);
   },
-  
+
   testReady : function()
   {
     var ctx = {
@@ -1252,11 +1252,11 @@ testrunner.define({
     var callback = function() {
       this.ready++;
     };
-    
+
     window.setTimeout(function() {
       q.ready(callback.bind(ctx));
     }, 100);
-    
+
     this.wait(200, function() {
       this.assertEquals(1, ctx.ready);
     }, this);
@@ -1266,10 +1266,10 @@ testrunner.define({
 
 testrunner.define({
   classname : "event.Normalization",
-  
+
   setUp : testrunner.globalSetup,
   tearDown : testrunner.globalTeardown,
-  
+
     __registerNormalization : function(type, normalizer) {
     var now = new Date().getTime();
     q.define("EventNormalize" + now.toString(), {
@@ -1279,7 +1279,7 @@ testrunner.define({
       },
       defer : function(statics)
       {
-        q.registerEventNormalization(type, statics.normalize);
+        q.$registerEventNormalization(type, statics.normalize);
       }
     });
   },
@@ -1317,7 +1317,7 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     test.on("focus", callback, obj);
 
-    q.unregisterEventNormalization("focus", normalizer1);
+    q.$unregisterEventNormalization("focus", normalizer1);
 
     var that = this;
     window.setTimeout(function() {
@@ -1326,13 +1326,13 @@ testrunner.define({
 
     this.wait(function() {
       this.assert(obj.normalized, "Event was not manipulated!");
-      q.unregisterEventNormalization("focus", normalizer2);
+      q.$unregisterEventNormalization("focus", normalizer2);
     }, 200, this);
   },
 
   tearDownTestNormalization : function()
   {
-    var registry = q.getEventNormalizationRegistry();
+    var registry = q.$getEventNormalizationRegistry();
     delete registry.focus;
   },
 
@@ -1368,7 +1368,7 @@ testrunner.define({
     this.wait(function() {
       this.assert(obj1.normalized, "Event was not manipulated!");
       this.assert(obj2.normalized, "Event was not manipulated!");
-      q.unregisterEventNormalization("*", normalizer);
+      q.$unregisterEventNormalization("*", normalizer);
     }, 200, this);
   },
 
@@ -1414,9 +1414,9 @@ testrunner.define({
   },
 
   tearDownTestNormalizationForMultipleTypes : function() {
-    var registry = q.getEventNormalizationRegistry();
+    var registry = q.$getEventNormalizationRegistry();
     var before = registry["focus"].length + registry["blur"].length;
-    q.unregisterEventNormalization(["focus", "blur"], this.__normalizeFocusBlur);
+    q.$unregisterEventNormalization(["focus", "blur"], this.__normalizeFocusBlur);
     var after = registry["focus"].length + registry["blur"].length;
     this.assertEquals((before - 2), after);
   }
@@ -1495,7 +1495,7 @@ testrunner.define({
   {
     var eventTypes = ["click", "dblclick", "mousedown", "mouseup", "mouseover", "mousemove",
       "mouseout"];
-    var registry = q.getEventNormalizationRegistry();
+    var registry = q.$getEventNormalizationRegistry();
     for (var i=0,l=eventTypes.length; i<l; i++) {
       this.assertKeyInMap(eventTypes[i], registry);
     }
@@ -1503,7 +1503,7 @@ testrunner.define({
 
   testEventMethods : function()
   {
-    var eventMethods = ["getButton", "getViewportLeft", "getViewportTop", 
+    var eventMethods = ["getButton", "getViewportLeft", "getViewportTop",
       "getDocumentLeft", "getDocumentTop", "getScreenLeft", "getScreenTop"];
 
     var test = q.create("<div id='foo'></div>");
@@ -1547,7 +1547,7 @@ testrunner.define({
     var eventTypes = ["keydown", "keypress", "keyup"];
     this.assertArray(eventTypes);
     this.assert(eventTypes.length > 0);
-    var registry = q.getEventNormalizationRegistry();
+    var registry = q.$getEventNormalizationRegistry();
     for (var i=0,l=eventTypes.length; i<l; i++) {
       this.assertKeyInMap(eventTypes[i], registry);
     }
@@ -1583,7 +1583,7 @@ testrunner.define({
     var eventTypes = ["tap", "swipe"];
     this.assertArray(eventTypes);
     this.assert(eventTypes.length > 0);
-    var registry = q.getEventNormalizationRegistry();
+    var registry = q.$getEventNormalizationRegistry();
     for (var i=0,l=eventTypes.length; i<l; i++) {
       this.assertKeyInMap(eventTypes[i], registry);
     }
@@ -1592,10 +1592,10 @@ testrunner.define({
 
 testrunner.define({
   classname : "event.RegistrationHooks",
-  
+
   setUp : testrunner.globalSetup,
   tearDown : testrunner.globalTeardown,
-  
+
   testRegisterHook : function()
   {
     var test = q.create('<div></div>').appendTo(this.sandbox[0]);
@@ -1605,21 +1605,21 @@ testrunner.define({
     var unregisterHook = function(element, type, callback, context) {
       element.hookApplied = false;
     };
-    var hooks = q.getEventHookRegistry();
+    var hooks = q.$getEventHookRegistry();
     var onHookCount = hooks["on"]["foo"] ? hooks["on"]["foo"].length : 0;
-    
-    q.registerEventHook(["foo"], registerHook, unregisterHook);
+
+    q.$registerEventHook(["foo"], registerHook, unregisterHook);
     this.assertArray(hooks["on"]["foo"]);
     this.assertEquals(onHookCount+1, hooks["on"]["foo"].length);
-    
+
     var cb = function() {};
     test.on("foo", cb);
     this.assertTrue(test[0].hookApplied);
-    
+
     test.off("foo", cb);
     this.assertFalse(test[0].hookApplied);
-    
-    q.unregisterEventHook(["foo"], registerHook, unregisterHook);
+
+    q.$unregisterEventHook(["foo"], registerHook, unregisterHook);
     this.assertEquals(onHookCount, hooks["on"]["foo"].length);
   }
 });
@@ -1627,10 +1627,10 @@ testrunner.define({
 
 testrunner.define({
   classname : "event.TouchHandler",
-  
+
   setUp : testrunner.globalSetup,
   tearDown : testrunner.globalTeardown,
-  
+
   testRegister : function()
   {
     var cb = function() {};

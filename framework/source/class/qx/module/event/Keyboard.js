@@ -130,6 +130,6 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
   },
 
   defer : function(statics) {
-    q.registerEventNormalization(qx.module.event.Keyboard.TYPES, statics.normalize);
+    q.$registerEventNormalization(qx.module.event.Keyboard.TYPES, statics.normalize);
   }
 });

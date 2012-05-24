@@ -366,7 +366,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
   defer : function(statics) {
-    q.attach({
+    q.$attach({
       "setStyle" : statics.setStyle,
       "getStyle" : statics.getStyle,
       "setStyles" : statics.setStyles,
@@ -391,7 +391,7 @@ qx.Bootstrap.define("qx.module.Css", {
       "getPosition" : statics.getPosition
     });
 
-    q.attachStatic({
+    q.$attachStatic({
       "includeStylesheet" : statics.includeStylesheet
     });
   }

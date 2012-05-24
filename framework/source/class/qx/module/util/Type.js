@@ -49,7 +49,7 @@ qx.Bootstrap.define("qx.module.util.Type", {
 
 
   defer : function(statics) {
-    q.attachStatic({
+    q.$attachStatic({
       type : {
         get : statics.get
       }

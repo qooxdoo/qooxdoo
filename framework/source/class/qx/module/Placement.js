@@ -224,7 +224,7 @@ q.define("qx.module.Placement", {
 
   defer : function(statics)
   {
-    q.attach({
+    q.$attach({
      "placeTo" : statics.placeTo
     });
   }

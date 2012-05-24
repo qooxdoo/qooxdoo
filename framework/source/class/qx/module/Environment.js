@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.module.Environment", {
     qx.core.Environment.get("engine.name");
     qx.core.Environment.get("engine.version");
 
-    q.attachStatic({
+    q.$attachStatic({
       "env" : {get: statics.get, add: statics.add}
     });
   }

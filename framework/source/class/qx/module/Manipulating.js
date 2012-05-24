@@ -32,7 +32,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {q} Collection of elements
      */
     create : function(html) {
-      return q.init(qx.bom.Html.clean([html]));
+      return q.$init(qx.bom.Html.clean([html]));
     },
 
 
@@ -67,7 +67,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      */
     append : function(html) {
       var arr = qx.bom.Html.clean([html]);
-      var children = q.init(arr);
+      var children = q.$init(arr);
 
       for (var i=0, l=this.length; i < l; i++) {
         for (var j=0, m=children.length; j < m; j++) {
@@ -409,12 +409,12 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
 
   defer : function(statics) {
-    q.attachStatic({
+    q.$attachStatic({
       "create" : statics.create,
       "wrap" : statics.wrap
     });
 
-    q.attach({
+    q.$attach({
       "append" : statics.append,
       "appendTo" : statics.appendTo,
       "remove" : statics.remove,

@@ -231,7 +231,7 @@ q.define("qx.module.Blocker", {
 
   defer : function(statics)
   {
-    q.attach({
+    q.$attach({
       "block" : statics.block,
       "unblock" : statics.unblock
     });

@@ -41,7 +41,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      * for storing animation handles.
      * @internal
      */
-    init : function() {
+    $init : function() {
       this.__animationHandles = [];
     },
 
@@ -282,7 +282,7 @@ qx.Bootstrap.define("qx.module.Animation", {
 
 
   defer : function(statics) {
-    q.attach({
+    q.$attach({
       "animate" : statics.animate,
       "fadeIn" : statics.fadeIn,
       "fadeOut" : statics.fadeOut,
@@ -293,6 +293,6 @@ qx.Bootstrap.define("qx.module.Animation", {
       "isPlaying" : statics.isPlaying
     });
 
-    q.attachInit(statics.init);
+    q.$attachInit(statics.$init);
   }
 });
