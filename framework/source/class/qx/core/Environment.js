@@ -802,6 +802,8 @@ qx.Bootstrap.define("qx.core.Environment",
      * look at the {@link #invalidateCacheKey} function.
      *
      * @param key {String} The name of the check you want to query.
+     * @return {var} The stored value depending on the given key.
+     *   (Details in the class doc)
      */
     get : function(key) {
       // check the cache
