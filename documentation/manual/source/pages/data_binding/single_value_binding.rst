@@ -86,8 +86,8 @@ Options: Conversion and Validation
 ----------------------------------
 The method for binding introduced so far has the same set of arguments. The first three arguments are mostly the same. There is a forth argument called options. This should be a map containing the options itself. In that you can specify three things currently:
   * **converter**: A own converter which is a function with four arguments returning the converted value. (See the API for more details)
-  * **onSetOk**: A key in the options map under which you can add a method. This method will be called on a validation case if the validation was successful.
-  * **onSetFail**: The counterpart to onSetOk which will be called if the validation fails.
+  * **onUpdate**: A key in the options map under which you can add a method. This method will be called on a validation case if the validation was successful.
+  * **onSetFail**: The counterpart to onUpdate which will be called if the validation fails.
 
 In addition there is a built in default conversion which takes care of the default conversion cases automatically. Default cases are, for example, string to number conversion. To get that working it is necessary to know the desired target type. This information is taken from the check key in the property definition of the target property.  
 
