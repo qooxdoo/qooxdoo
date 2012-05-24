@@ -110,7 +110,7 @@ qx.Bootstrap.define("qx.bom.client.Device",
      * @return {Boolean} Flag which indicates whether it is a tablet device.
      */
     detectTabletDevice : function(userAgentString){
-       return !(/Fennec|HTC.Magic|Nexus/i.test(userAgentString)) && (/Android|ipad|Linux|tablet|playbook|silk|kindle|psp/i.test(userAgentString));
+       return !(/Fennec|HTC.Magic|Nexus/i.test(userAgentString)) && (/Android|ipad|tablet|playbook|silk|kindle|psp/i.test(userAgentString));
     },
     
 

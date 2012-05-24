@@ -30,11 +30,21 @@ qx.Class.define("qx.test.mobile.page.Manager",
     },
 
 
-    testAdd : function() {
-      var manager = new qx.ui.mobile.page.Manager();
+    testAddTablet : function() {
+      var manager = new qx.ui.mobile.page.Manager(true);
       var page = new qx.ui.mobile.page.NavigationPage();
       manager.addMaster([page]);
       manager.addDetail([page]);
+      manager.dispose();
+    },
+    
+    
+    testAddMobile : function() {
+      var manager = new qx.ui.mobile.page.Manager(false);
+      var page1 = new qx.ui.mobile.page.NavigationPage();
+      var page2 = new qx.ui.mobile.page.NavigationPage();
+      manager.addMaster([page1]);
+      manager.addMaster([page2]);
       manager.dispose();
     }
   }
