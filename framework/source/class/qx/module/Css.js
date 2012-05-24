@@ -236,7 +236,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Returns the rendered height of the first element in the collection.
      * @attach {q}
-     * @return {Integer} The first item's rendered height
+     * @return {Number} The first item's rendered height
      */
     getHeight : function() {
       var elem = this[0];
@@ -258,7 +258,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Returns the rendered width of the first element in the collection
      * @attach {q}
-     * @return {Integer} The first item's rendered width
+     * @return {Number} The first item's rendered width
      */
     getWidth : function() {
       var elem = this[0];
@@ -302,7 +302,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * This is the maximum height the element can use, excluding borders, 
      * margins, padding or scroll bars.
      * @attach {q}
-     * @return {Integer} Computed content height
+     * @return {Number} Computed content height
      */
     getContentHeight : function()
     {
@@ -320,7 +320,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * This is the maximum width the element can use, excluding borders, 
      * margins, padding or scroll bars.
      * @attach {q}
-     * @return {Integer} Computed content width
+     * @return {Number} Computed content width
      */
     getContentWidth : function()
     {

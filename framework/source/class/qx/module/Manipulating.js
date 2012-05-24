@@ -280,7 +280,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Returns the left scroll position of the first element in the collection.
      *
-     * @return {Integer} Current left scroll position
+     * @return {Number} Current left scroll position
      */
     getScrollLeft : function()
     {
@@ -301,7 +301,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Returns the top scroll position of the first element in the collection.
      *
-     * @return {Integer} Current top scroll position
+     * @return {Number} Current top scroll position
      */
     getScrollTop : function()
     {
@@ -322,7 +322,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Scrolls the elements of the collection to the given coordinate.
      *
-     * @param value {Integer} Left scroll position
+     * @param value {Number} Left scroll position
      * @return {Collection} This collection for chaining
      */
     setScrollLeft : function(value)
@@ -349,7 +349,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Scrolls the elements of the collection to the given coordinate.
      *
-     * @param value {Integer} Top scroll position
+     * @param value {Number} Top scroll position
      * @return {Collection} This collection for chaining
      */
     setScrollTop : function(value)

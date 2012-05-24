@@ -126,7 +126,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      *
      * @attach {q}
      * @param desc {Map} The animations description.
-     * @param duration {Integer?} The duration in milliseconds of the animation
+     * @param duration {Number?} The duration in milliseconds of the animation
      *   which will override the duration given in the description.
      * @return {q} The collection for chaining.
      */
@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      * the {@link #animate} method.
      * @attach {q}
      * @param desc {Map} The animations description.
-     * @param duration {Integer?} The duration in milliseconds of the animation
+     * @param duration {Number?} The duration in milliseconds of the animation
      *   which will override the duration given in the description.
      * @return {q} The collection for chaining.
      */

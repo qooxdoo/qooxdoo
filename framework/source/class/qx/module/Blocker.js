@@ -164,7 +164,7 @@ q.define("qx.module.Blocker", {
      * Removes the given item's blocker element(s) from the DOM
      *
      * @param item {DOMElement} Blocked element
-     * @param index {Integer} index of the item in the collection
+     * @param index {Number} index of the item in the collection
      */
     __detachBlocker : function(item, index)
     {
@@ -189,7 +189,7 @@ q.define("qx.module.Blocker", {
      * @attach {q}
      * @param color {String ? transparent} The color for the blocker element (any CSS color value)
      * @param opacity {Float ? 0} The CSS opacity value for the blocker
-     * @param zIndex {Integer ? 10000} The zIndex value for the blocker
+     * @param zIndex {Number ? 10000} The zIndex value for the blocker
      * @return {q} The collection for chaining
      */
     block : function(color, opacity, zIndex)

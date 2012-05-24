@@ -270,7 +270,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Reduce the set of matched elements to a single element.
      * 
-     * @param index {Integer} The position of the element in the collection
+     * @param index {Number} The position of the element in the collection
      * @return {q} A new collection containing one element
      */
     eq : function(index) {

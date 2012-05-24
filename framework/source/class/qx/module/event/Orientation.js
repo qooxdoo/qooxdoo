@@ -60,7 +60,7 @@ qx.Bootstrap.define("qx.module.event.Orientation", {
      * * <code>90</code>: "Landscape (left, screen turned counterclockwise)"
      * * <code>180</code>: "Portrait (upside-down portrait)"
      *
-     * @return {Integer} The current orientation in degrees
+     * @return {Number} The current orientation in degrees
      */
     getOrientation: function() {
       return this._orientation;

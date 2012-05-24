@@ -104,7 +104,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      * Get the horizontal coordinate at which the event occurred relative
      * to the viewport.
      *
-     * @return {Integer} The horizontal mouse position
+     * @return {Number} The horizontal mouse position
      */
     getViewportLeft : function() {
       return this.clientX;
@@ -115,7 +115,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      * Get the vertical coordinate at which the event occurred relative
      * to the viewport.
      *
-     * @return {Integer} The vertical mouse position
+     * @return {Number} The vertical mouse position
      * @signature function()
      */
     getViewportTop : function() {
@@ -128,7 +128,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      * left of the document. This property takes into account any scrolling of
      * the page.
      *
-     * @return {Integer} The horizontal mouse position in the document.
+     * @return {Number} The horizontal mouse position in the document.
      */
     getDocumentLeft : function()
     {
@@ -146,7 +146,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      * top of the document. This property takes into account any scrolling of
      * the page.
      *
-     * @return {Integer} The vertical mouse position in the document.
+     * @return {Number} The vertical mouse position in the document.
      */
     getDocumentTop : function()
     {
@@ -166,7 +166,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      * Note: This value is usually not very useful unless you want to
      * position a native popup window at this coordinate.
      *
-     * @return {Integer} The horizontal mouse position on the screen.
+     * @return {Number} The horizontal mouse position on the screen.
      */
     getScreenLeft : function() {
       return this.screenX;
@@ -180,7 +180,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      * Note: This value is usually not very useful unless you want to
      * position a native popup window at this coordinate.
      *
-     * @return {Integer} The vertical mouse position on the screen.
+     * @return {Number} The vertical mouse position on the screen.
      */
     getScreenTop : function() {
       return this.screenY;
