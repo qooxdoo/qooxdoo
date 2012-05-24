@@ -5,6 +5,16 @@ q.ready(function() {
   // global storage for the method index
   var data = {};
 
+  // plugin toggle
+  q("#plugintoggle").on("click", function() {
+    var txt = this.getChildren("span");
+    var hide = txt.getHtml() == "show";
+    txt.setHtml(hide ? "hide" : "show");
+    q(".plugin").setStyle("display", hide ? "block" : "none");
+    q("li.plugin").setStyle("display", hide ? "list-item" : "none");
+  });
+
+
   // load API data of q
   q.io.xhr("script/q.json").send().on("loadend", function(xhr) {
     if (xhr.readyState == 4) {

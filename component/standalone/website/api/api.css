@@ -24,6 +24,10 @@
   display: none;
 }
 
+#content .plugin h2 {
+  color: #C00F00;
+}
+
 #content {
   left: 250px;
   padding-right: 20px;
@@ -78,6 +82,15 @@
   position: fixed;
   width: 100%;
   top: 0;
+}
+
+#plugintoggle {
+  float: right;
+  margin-right: 20px;
+  cursor: pointer;
+  color: white;
+  text-decoration: underline;
+  text-align: right;
 }
 
 ul {
