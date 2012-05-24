@@ -82,6 +82,14 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     {
       check : "String",
       init : "slide"
+    },
+    
+    
+    /** Flag which indicates, whether animation is needed, or widgets should only swap. */
+    showAnimation :
+    {
+      check : "Boolean",
+      init : true
     }
   },
 
@@ -184,21 +192,21 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       }
       
       this.__nextWidget = widget;
-    
-      properties = properties || {};
+      if (this.__currentWidget && this.getShowAnimation() && qx.core.Environment.get("css.transform.3d")) {
+        properties = properties || {};
 
-      this.__animation = properties.animation || this.getDefaultAnimation();
+        this.__animation = properties.animation || this.getDefaultAnimation();
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        this.assertNotUndefined(qx.ui.mobile.layout.Card.ANIMATIONS[this.__animation], "Animation " + this.__animation + " is not defined.");
-      }
+        if (qx.core.Environment.get("qx.debug"))
+        {
+          this.assertNotUndefined(qx.ui.mobile.layout.Card.ANIMATIONS[this.__animation], "Animation " + this.__animation + " is not defined.");
+        }
 
-      properties.reverse = properties.reverse == null ? false : properties.reverse;
+        properties.reverse = properties.reverse == null ? false : properties.reverse;
 
-      this.__reverse = properties.fromHistory || properties.reverse;
+        this.__reverse = properties.fromHistory || properties.reverse;
 
-      if (this.__currentWidget && qx.core.Environment.get("css.transform.3d")) {
+      
         this.__startAnimation(widget);
       } else {
         this.__swapWidget();

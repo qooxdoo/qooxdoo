@@ -36,6 +36,7 @@
  *  manager.addMaster([page1]);
  *  manager.addDetail([page2,page3]);
  * 
+ *  page1.show();
  * </pre>
  *
  *
@@ -82,7 +83,11 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
       this.__masterDetailContainer.getMaster().add(this.__masterContainer, {flex:1});
       this.__masterDetailContainer.getDetail().add(this.__detailContainer, {flex:1});
-
+      
+      // On Tablet Mode, no Animation should be shown by default.
+      this.__masterContainer.getLayout().setShowAnimation(false);
+      this.__detailContainer.getLayout().setShowAnimation(false);
+      
       this.__toggleMasterButtonVisibility();
     } else {
       root.add(this.__detailContainer, {flex:1});
@@ -122,16 +127,16 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     /**
      * Adds an array of NavigationPages to masterContainer, only if this.__isTablet is true.
      * Otherwise it will be added to detailContainer.
-     * First page in array will be displayed after initialization.
      * @param pages {qx.ui.mobile.page.NavigationPage[]} Array of NavigationPage.
      */
     addMaster : function(pages) {
       if (this.__isTablet) {
         this._add(pages, this.__masterContainer);
+        
+        // First page title is  default of MasterButton caption and popup title.
         var masterPage = pages[0];
         if(masterPage){
           this.setMasterTitle(masterPage.getTitle());
-          masterPage.show();
         }
       } else {
         this.addDetail(pages);
@@ -141,16 +146,10 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     /**
      * Adds an array of NavigationPage to the detailContainer.
-     * First page in array will be displayed after initialization.
      * @param pages {qx.ui.mobile.page.NavigationPage[]} Array of NavigationPage.
      */
     addDetail : function(pages) {
       this._add(pages, this.__detailContainer);
-      
-      var firstDetailPage = pages[0];
-      if(firstDetailPage){
-        firstDetailPage.show();
-      }
     },
 
     
@@ -302,8 +301,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       }
     }
   },
-
-
 
 
  /*

@@ -100,6 +100,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
   {
     __navigationBar : null,
     __content : null,
+    __layout : null,
  
 
     // overridden
@@ -132,6 +133,15 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     {
       return this.__content;
     },
+    
+    
+    /**
+     * Returns the assigned card layout.
+     * @return {qx.ui.mobile.layout.Card} assigned Card Layout.
+     */
+    getLayout : function(){
+      return this.__layout;
+    },
 
 
     /**
@@ -152,8 +162,9 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
      */
     _createContent : function()
     {
-      var content = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.Card());
-      content.getLayout().addListener("updateLayout", this._onUpdateLayout, this);
+      this.__layout = new qx.ui.mobile.layout.Card();
+      var content = new qx.ui.mobile.container.Composite(this.__layout);
+      this.__layout.addListener("updateLayout", this._onUpdateLayout, this);
       return content;
     },
 
@@ -211,7 +222,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
 
   destruct : function()
   {
-    this._disposeObjects("__navigationBar", "__content");
-    this.__navigationBar = this.__content = null;
+    this._disposeObjects("__navigationBar", "__content","__layout");
+    this.__navigationBar = this.__content = this.__layout = null;
   }
 });
