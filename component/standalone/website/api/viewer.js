@@ -11,12 +11,59 @@ q.ready(function() {
       var ast = JSON.parse(xhr.responseText);
       createData(ast);
       renderList();
-      renderContent()
+      renderContent();
       onContentReady();
     } else {
       console.log("ERROR!"); // TODO
     }
   });
+
+
+  var loadedClasses = [];
+  var loadClass = function(name) {
+    if (loadedClasses.indexOf(name) != -1) {
+      return;
+    }
+    loadedClasses.push(name);
+    loading++;
+    q.io.xhr("script/" + name + ".json").send().on("loadend", function(xhr) {
+      loading--;
+      if (xhr.readyState == 4) {
+        var ast = JSON.parse(xhr.responseText);
+        renderClass(ast);
+      } else {
+        console.log("ERROR!"); // TODO
+      }
+      onContentReady();
+    });
+  }
+
+
+  var renderClass = function(ast) {
+    var module = {"member": [], "static" : []};
+
+    getByType(ast, "methods").children.forEach(function(method) {
+      // skip internal methods
+      if (isInternal(method)) {
+        return;
+      }
+      module.member.push(method);
+    });
+
+    getByType(ast, "methods-static").children.forEach(function(method) {
+      // skip internal methods
+      if (isInternal(method)) {
+        return;
+      }
+      module["static"].push(method);
+    });
+    var name = ast.attributes.name;
+
+    renderListModule(name, module, name + ".");
+    module.desc = getByType(ast, "desc").attributes.text || "";
+
+    renderModule(name, module, name + ".");
+  };
 
 
   /**
@@ -38,7 +85,7 @@ q.ready(function() {
   var attachData = function(ast, type) {
     ast && ast.children.forEach(function(item) {
       // skip internal methods
-      if (item.attributes.isInternal) {
+      if (isInternal(item)) {
         return;
       }
       var module = getModuleName(item.attributes.sourceClass);
@@ -57,23 +104,35 @@ q.ready(function() {
 
   /**
    * LIST
+   * @lint ignoreUndefined(q)
    */
   var renderList = function() {
-    var list = q("#list");
     var keys = getDataKeys();
+    q("#list").append(q.create("<h1>Modules</h1>"));
     for (var i = 0; i < keys.length; i++) {
       var module = keys[i];
-      list.append(q.create("<a href='#" + module + "'><h2>" + module + "</h2></a>"));
-      var ul = q.create("<ul></ul>").appendTo(list);
-      data[module]["static"].forEach(function(ast) {
-        var name = getMethodName(ast);
-        q.template.get("list-item", {name: name + "()", link: name}).appendTo(ul);
-      });
-      data[module]["member"].forEach(function(ast) {
-        var name = getMethodName(ast);
-        q.template.get("list-item", {name: name + "()", link: name}).appendTo(ul);
-      });
+      renderListModule(module, data[module]);
     }
+  };
+
+
+  var renderListModule = function(name, data, prefix) {
+    var list = q("#list");
+    if (prefix) {
+      list.append(q.create("<a href='#" + name + "'><h1>" + name + "</h1></a>"));
+    } else {
+      list.append(q.create("<a href='#" + name + "'><h2>" + name + "</h2></a>"));
+    }
+
+    var ul = q.create("<ul></ul>").appendTo(list);
+    data["static"].forEach(function(ast) {
+      var name = getMethodName(ast, prefix);
+      q.template.get("list-item", {name: name + "()", link: name, plugin: isPluginMethod(name)}).appendTo(ul);
+    });
+    data["member"].forEach(function(ast) {
+      var name = getMethodName(ast, prefix);
+      q.template.get("list-item", {name: name + "()", link: name, plugin: isPluginMethod(name)}).appendTo(ul);
+    });
   };
 
 
@@ -88,24 +147,33 @@ q.ready(function() {
    };
 
 
-   var renderModule = function(name, data, fileName) {
+   var renderModule = function(name, data, prefix) {
      // render module desc
      var module = q.create("<div class='module'>").appendTo("#content");
      module.append(q.create("<h1 id='" + name + "'>" + name + "</h1>"));
-     addClassDoc(data.fileName, module);
 
-     data["static"].forEach(renderMethod);
-     data["member"].forEach(renderMethod);
+     if (data.fileName) {
+       addClassDoc(data.fileName, module);
+     } else if (data.desc) {
+       module.append(parse(data.desc));
+     }
+
+     data["static"].forEach(function(method) {
+       renderMethod(method, prefix);
+     });
+     data["member"].forEach(function(method) {
+       renderMethod(method, prefix);
+     });
    };
 
 
-  var renderMethod = function(method) {
+  var renderMethod = function(method, prefix) {
     // skip internal methods
-    if (method.attributes.isInternal) {
+    if (isInternal(method)) {
       return;
     }
     // add the name
-    var data = {name: getMethodName(method)};
+    var data = {name: getMethodName(method, prefix)};
 
     // module
     data.module = getModuleName(method.attributes.sourceClass);
@@ -119,7 +187,11 @@ q.ready(function() {
       data.returns = {desc: parse(getByType(returnType, "desc").attributes.text || "")};
       data.returns.types = [];
       getByType(returnType, "types").children.forEach(function(item) {
-        data.returns.types.push(item.attributes.type);
+        var type = item.attributes.type;
+        data.returns.types.push(type);
+        if (IGNORE_TYPES.indexOf(type) == -1 && MDC_LINKS[type] == undefined) {
+          loadClass(type);
+        }
       });
     }
     data.returns.printTypes = printTypes;
@@ -142,6 +214,8 @@ q.ready(function() {
     };
     data.printParams = printParams;
 
+    data.plugin = isPluginMethod(data.name);
+
     q("#content").append(q.template.get("method", data));
   }
 
@@ -156,7 +230,6 @@ q.ready(function() {
     loading++;
     q.io.xhr("script/" + name + ".json").send().on("loadend", function(xhr) {
       loading--;
-      onContentReady();
       if (xhr.readyState == 4) {
         var ast = JSON.parse(xhr.responseText);
         var desc = getByType(ast, "desc");
@@ -164,6 +237,7 @@ q.ready(function() {
       } else {
         console.log("ERROR!"); // TODO
       }
+      onContentReady();
     });
   }
 
@@ -285,9 +359,26 @@ q.ready(function() {
   };
 
 
-  var getMethodName = function(item) {
+  var isInternal = function(item) {
+    return item.attributes.isInternal ||
+      item.attributes.access == "private" ||
+      item.attributes.access == "protected";
+  };
+
+
+  var isPluginMethod = function(name) {
+    return name.indexOf(".$") != -1;
+  };
+
+
+  var getMethodName = function(item, prefix) {
     var attachData = getByType(item, "attachStatic");
-    if (item.attributes.isStatic) {
+    if (prefix) {
+      if (!item.attributes.isStatic) {
+        prefix = prefix.toLowerCase();
+      }
+      return prefix + item.attributes.name;
+    } else if (item.attributes.isStatic) {
       return "q." + (attachData.attributes.targetMethod || item.attributes.name);
     } else {
       return "." + item.attributes.name;
@@ -298,13 +389,17 @@ q.ready(function() {
   var addTypeLink = function(type) {
     if (type == "q") {
       return "<a href='#Core'>q</a>";
+    } else if (MDC_LINKS[type]) {
+      return "<a target='_blank' href='" + MDC_LINKS[type] + "'>" + type + "</a>";
+    } else if (IGNORE_TYPES.indexOf(type) == -1) {
+      var name = type.split(".");
+      name = name[name.length -1];
+      return "<a href='#" + name + "'>" + name + "</a>";
     }
-    if (!MDC_LINKS[type]) {
-      return type;
-    }
-    return "<a target='_blank' href='" + MDC_LINKS[type] + "'>" + type + "</a>";
+    return type;
   };
 
+  var IGNORE_TYPES = ["q", "var", "null"];
 
   var MDC_LINKS = {
     "Event" : "https://developer.mozilla.org/en/DOM/event",
@@ -316,6 +411,7 @@ q.ready(function() {
     "Function" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function",
     "Array" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array",
     "Object" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object",
+    "Map" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object",
     "RegExp" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/RegExp",
     "Error" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error",
     "Number" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number",

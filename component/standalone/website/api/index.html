@@ -28,11 +28,11 @@
 
   <!-- TEMPLATES -->
   <script type="text/template" charset="utf-8" id="list-item">
-    <li><a href="#{{link}}">{{name}}</a></li>
+    <li class="{{#plugin}}plugin{{/plugin}}"><a href="#{{link}}">{{name}}</a></li>
   </script>
 
   <script type="text/template" charset="utf-8" id="method">
-  <div id="{{name}}" class="method">
+  <div id="{{name}}" class="method{{#plugin}} plugin{{/plugin}}">
     <h2 class="method-header box">{{name}} ({{{printParams}}}) <span class="returns">{{{returns.printTypes}}}</span></h2>
     {{{desc}}}
     <h4>Parameters</h4>

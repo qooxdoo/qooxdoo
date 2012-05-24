@@ -10,6 +10,20 @@
   padding-top: 8px;
 }
 
+#list h1 {
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 0px;
+}
+
+#list h2 {
+  margin-top: 10px;
+}
+
+.plugin {
+  display: none;
+}
+
 #content {
   left: 250px;
   padding-right: 20px;
@@ -25,7 +39,7 @@
 }
 
 #content h1 {
-  margin-top: 30px;
+  margin-top: 16px;
   font-size: 28px;
 }
 
