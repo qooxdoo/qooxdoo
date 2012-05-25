@@ -295,17 +295,25 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         };
 
         var clazz = qx.event.handler.TouchCore;
+        var eventType;
         if (this.__originalTarget == target
             && Math.abs(deltaCoordinates.x) <= clazz.TAP_MAX_DISTANCE
             && Math.abs(deltaCoordinates.y) <= clazz.TAP_MAX_DISTANCE) {
-          this._fireEvent(domEvent, "tap", target, qx.event.type.Tap);
+          if (qx.event && qx.event.type && qx.event.type.Tap) { 
+            eventType = qx.event.type.Tap;
+          }
+          
+          this._fireEvent(domEvent, "tap", target,eventType);
         }
         else
         {
           var swipe = this.__getSwipeGesture(domEvent, target, deltaCoordinates);
           if (swipe) {
+            if (qx.event && qx.event.type && qx.event.type.Swipe) { 
+              eventType = qx.event.type.Swipe;
+            }
             domEvent.swipe = swipe;
-            this._fireEvent(domEvent, "swipe", target, qx.event.type.Swipe);
+            this._fireEvent(domEvent, "swipe", target, eventType);
           }
         }
       }
