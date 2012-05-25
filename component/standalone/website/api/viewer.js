@@ -71,6 +71,7 @@ q.ready(function() {
 
     renderListModule(name, module, name + ".");
     module.desc = getByType(ast, "desc").attributes.text || "";
+    module.events = getEvents(ast);
 
     renderModule(name, module, name + ".");
   };
@@ -168,6 +169,13 @@ q.ready(function() {
        module.append(parse(data.desc));
      }
 
+     if (data.events) {
+       var eventsEl = renderEvents(data.events);
+       if (eventsEl) {
+         module.append(eventsEl);
+       }
+     }
+
      data["static"].forEach(function(method) {
        renderMethod(method, prefix);
      });
@@ -245,14 +253,42 @@ q.ready(function() {
       loading--;
       if (xhr.readyState == 4) {
         var ast = JSON.parse(xhr.responseText);
+        // class doc
         var desc = getByType(ast, "desc");
         parent.append(parse(desc.attributes.text || ""));
+        var eventsEl = renderEvents(getEvents(ast));
+        if (eventsEl) {
+          parent.append(eventsEl);
+        }
       } else {
         console.log("ERROR!"); // TODO
       }
       onContentReady();
     });
   }
+
+
+  var getEvents = function(ast) {
+    var events = getByType(ast, "events");
+    var data = [];
+    events.children.forEach(function(event) {
+      var name = event.attributes.name;
+      var desc = getByType(event, "desc").attributes.text;
+      var type = getByType(event, "types").children[0].attributes.type;
+      data.push({name: name, type: addTypeLink(type), desc: desc});
+    });
+    return data;
+  };
+
+
+  var renderEvents = function(events) {
+    if (events.length == 0) {
+      return null;
+    }
+    console.log(events);
+    return q.template.get("events", {events: events});
+  };
+
 
   var printParams = function() {
     var params = "";
