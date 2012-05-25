@@ -213,6 +213,9 @@ q.ready(function() {
       var param = params.children[j];
       var paramData = {name: param.attributes.name};
       paramData.desc = parse(getByType(param, "desc").attributes.text || "");
+      if (param.attributes.defaultValue) {
+        paramData.defaultValue = param.attributes.defaultValue;
+      }
       paramData.types = [];
       var types = getByType(param, "types");
       for (var k=0; k < types.children.length; k++) {
