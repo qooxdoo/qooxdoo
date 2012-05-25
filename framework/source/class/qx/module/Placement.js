@@ -35,6 +35,7 @@ q.define("qx.module.Placement", {
      * Moves the first element in the collection, aligning it with the given
      * target.
      *
+     * @attach{q}
      * @param target {Element} Placement target
      * @param position {String} Alignment of the object with the target, any of
      * <code>"top-left"</code>, <code>"top-right"</code>, <code>"bottom-left"</code>,

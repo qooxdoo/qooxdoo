@@ -28,6 +28,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Creates a new collection from the given argument. This can either be an
      * HTML string, a single DOM element or an array of elements
      * 
+     * @attachStatic{q}
      * @param html {String|Element[]} HTML string or DOM element(s)
      * @return {q} Collection of elements
      */
@@ -40,6 +41,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Clones the items in the current collection and returns them in a new set.
      * Event listeners can also be cloned.
      * 
+     * @attach{q}
      * @param events {Boolean} clone event listeners
      * @return {q} New collection with clones
      */
@@ -62,6 +64,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Appends content to each element in the current set. Accepts an HTML string,
      * a single DOM element or an array of elements
      * 
+     * @attach{q}
      * @param html {String|Element[]} HTML string or DOM element(s) to append
      * @return {q} The collection for chaining
      */
@@ -90,6 +93,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * parents are given, the items will be moved to the first parent, while 
      * clones of the items will be appended to subsequent parents.
      * 
+     * @attach{q}
      * @param parent {String|Element[]} Parent selector expression or list of 
      * parent elements
      * @return {q} The collection for chaining
@@ -118,6 +122,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * items are moved before the first target. For subsequent targets, 
      * clones of the collection items are created and inserted.
      * 
+     * @attach{q}
      * @param target {String|Element} Selector expression or DOM element
      * @return {q} The collection for chaining
      */
@@ -147,6 +152,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * items are moved after the first target. For subsequent targets, 
      * clones of the collection items are created and inserted.
      * 
+     * @attach{q}
      * @param target {String|Element} Selector expression or DOM element
      * @return {q} The collection for chaining
      */
@@ -173,6 +179,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Returns an array from a selector expression or a single element
      * 
+     * @attach{q}
      * @param arg {String|Element} Selector expression or DOM element
      * @return {Element[]} Array of elements
      * @internal
@@ -190,6 +197,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Removes each element in the current collection from the DOM
      * 
+     * @attach{q}
      * @return {q} The collection for chaining
      */
     remove : function() {
@@ -203,6 +211,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Removes all content from the elements in the collection
      * 
+     * @attach{q}
      * @return {q} The collection for chaining
      */
     empty : function() {
@@ -217,7 +226,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Inserts content before each element in the collection. This can either
      * be an HTML string, an array of HTML strings, a single DOM element or an
      * array of elements.
-     *
+     * 
+     * @attach{q}
      * @param args {String[]|Element[]} HTML string(s) or DOM element(s)
      * @return {q} The collection for chaining
      */
@@ -250,6 +260,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * be an HTML string, an array of HTML strings, a single DOM element or an 
      * array of elements.
      * 
+     * @attach{q}
      * @param args {String[]|Element[]} HTML string(s) or DOM element(s)
      * @return {q} The collection for chaining
      */
@@ -280,6 +291,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Returns the left scroll position of the first element in the collection.
      *
+     * @attach{q}
      * @return {Number} Current left scroll position
      */
     getScrollLeft : function()
@@ -301,6 +313,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Returns the top scroll position of the first element in the collection.
      *
+     * @attach{q}
      * @return {Number} Current top scroll position
      */
     getScrollTop : function()
@@ -322,6 +335,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Scrolls the elements of the collection to the given coordinate.
      *
+     * @attach{q}
      * @param value {Number} Left scroll position
      * @return {Collection} This collection for chaining
      */
@@ -349,6 +363,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Scrolls the elements of the collection to the given coordinate.
      *
+     * @attach{q}
      * @param value {Number} Top scroll position
      * @return {Collection} This collection for chaining
      */
@@ -376,6 +391,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Focuses the first element in the collection
      * 
+     * @attach{q}
      * @return {q} The collection for chaining
      */
     focus : function()
@@ -392,6 +408,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Blurs each element in the collection
      * 
+     * @attach{q}
      * @return {q} The collection for chaining
      */
     blur : function()
@@ -410,8 +427,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
   defer : function(statics) {
     q.$attachStatic({
-      "create" : statics.create,
-      "wrap" : statics.wrap
+      "create" : statics.create
     });
 
     q.$attach({

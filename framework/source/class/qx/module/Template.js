@@ -41,6 +41,7 @@ qx.Bootstrap.define("qx.module.Template", {
      * as a template, parsed and a new DOM node will be returned containing the
      * parsed data. Keep in mind to have only one root DOM element in the template.
      * 
+     * @attachStatic{q, template.get}
      * @param id {String} The id of the HTML template in the DOM.
      * @param view {Object} The object holding the data to render.
      * @param partials {Object} Object holding parts of a template.
@@ -56,6 +57,7 @@ qx.Bootstrap.define("qx.module.Template", {
      * Original and only template method of mustache.js. For further
      * documentation, please visit https://github.com/janl/mustache.js
      *
+     * @attachStatic{q, template.toHtml}
      * @param template {String} The String containing the template.
      * @param view {Object} The object holding the data to render.
      * @param partials {Object} Object holding parts of a template.
