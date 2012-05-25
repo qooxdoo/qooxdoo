@@ -188,6 +188,8 @@ qx.Class.define("qx.data.marshal.Json",
           if (delegateMixins != null) {
             mixins = [delegateMixins];
           }
+        } else {
+          mixins = delegateMixins;
         }
       }
 
