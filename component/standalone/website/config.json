@@ -234,9 +234,24 @@
       ]
     },
 
+
     "api" :
     {
-      "run" : ["build", "api-data"]
+      "run" : ["build-api", "api-data"]
+    },
+
+
+    "build-api" :
+    {
+      "extend" : ["build"],
+      
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "api/script/q.js"
+        }
+      }
     },
 
 
