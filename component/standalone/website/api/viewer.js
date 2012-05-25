@@ -2,6 +2,9 @@
  * @lint ignoreUndefined(q, samples, hljs)
  */
 q.ready(function() {
+  // remove the warning
+  q("#warning").setStyle("display", "none");
+
   // global storage for the method index
   var data = {};
 
@@ -17,14 +20,17 @@ q.ready(function() {
 
   // load API data of q
   q.io.xhr("script/q.json").send().on("loadend", function(xhr) {
-    if (xhr.readyState == 4) {
+    if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
       var ast = JSON.parse(xhr.responseText);
       createData(ast);
       renderList();
       renderContent();
       onContentReady();
     } else {
-      console.log("ERROR!"); // TODO
+      q("#warning").setStyle("display", "block");
+      if (location.protocol.indexOf("file") == 0) {
+        q("#warning em").setHtml("File protocol not supported. Please load the application via HTTP.");
+      }
     }
   });
 
@@ -38,43 +44,20 @@ q.ready(function() {
     loading++;
     q.io.xhr("script/" + name + ".json").send().on("loadend", function(xhr) {
       loading--;
-      if (xhr.readyState == 4) {
+      if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
         var ast = JSON.parse(xhr.responseText);
         renderClass(ast);
       } else {
-        console.log("ERROR!"); // TODO
+        name = name.split(".");
+        name = name[name.length -1];
+        q("#content").append(
+          q.create("<h1>" + name + "</h1><p style='color: #C00F00'><em>Failed to load " + name + " documentation!</em></p>")
+        );
       }
       onContentReady();
     });
   }
 
-
-  var renderClass = function(ast) {
-    var module = {"member": [], "static" : []};
-
-    getByType(ast, "methods").children.forEach(function(method) {
-      // skip internal methods
-      if (isInternal(method)) {
-        return;
-      }
-      module.member.push(method);
-    });
-
-    getByType(ast, "methods-static").children.forEach(function(method) {
-      // skip internal methods
-      if (isInternal(method)) {
-        return;
-      }
-      module["static"].push(method);
-    });
-    var name = ast.attributes.name;
-
-    renderListModule(name, module, name + ".");
-    module.desc = getByType(ast, "desc").attributes.text || "";
-    module.events = getEvents(ast);
-
-    renderModule(name, module, name + ".");
-  };
 
 
   /**
@@ -251,7 +234,7 @@ q.ready(function() {
     loading++;
     q.io.xhr("script/" + name + ".json").send().on("loadend", function(xhr) {
       loading--;
-      if (xhr.readyState == 4) {
+      if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
         var ast = JSON.parse(xhr.responseText);
         // class doc
         var desc = getByType(ast, "desc");
@@ -261,7 +244,9 @@ q.ready(function() {
           parent.append(eventsEl);
         }
       } else {
-        console.log("ERROR!"); // TODO
+        parent.append(
+          q.create("<p style='color: #C00F00'><em>Failed to load module documentation!</em></p>")
+        );
       }
       onContentReady();
     });
@@ -285,7 +270,6 @@ q.ready(function() {
     if (events.length == 0) {
       return null;
     }
-    console.log(events);
     return q.template.get("events", {events: events});
   };
 
@@ -310,6 +294,34 @@ q.ready(function() {
       }
     }
     return params;
+  };
+
+
+  var renderClass = function(ast) {
+    var module = {"member": [], "static" : []};
+
+    getByType(ast, "methods").children.forEach(function(method) {
+      // skip internal methods
+      if (isInternal(method)) {
+        return;
+      }
+      module.member.push(method);
+    });
+
+    getByType(ast, "methods-static").children.forEach(function(method) {
+      // skip internal methods
+      if (isInternal(method)) {
+        return;
+      }
+      module["static"].push(method);
+    });
+    var name = ast.attributes.name;
+
+    renderListModule(name, module, name + ".");
+    module.desc = getByType(ast, "desc").attributes.text || "";
+    module.events = getEvents(ast);
+
+    renderModule(name, module, name + ".");
   };
 
 
@@ -372,6 +384,7 @@ q.ready(function() {
       }
     });
   };
+
 
   /**
    * HELPERS
