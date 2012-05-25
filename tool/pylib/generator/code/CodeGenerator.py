@@ -62,6 +62,12 @@ class CodeGenerator(object):
 
     def runCompiled(self, script):
 
+        def removeDuplicatLibs(libs):
+            l = []
+            for lib in libs:  # relying on Library.__eq__
+                if lib not in l: l.append(lib)
+            return l
+
         def getOutputFile(compileType):
             filePath = compConf.get("paths/file")
             if not filePath:
@@ -851,6 +857,8 @@ class CodeGenerator(object):
 
         # Read libraries
         libs = self._job.get("library", [])
+        libs = removeDuplicatLibs(libs)  # before generateLibInfoCode() I need to make sure
+                                         # duplicates of a library are removed, so the first wins
 
         # Get translation maps
         locales = compConf.get("code/locales", [])

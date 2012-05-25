@@ -53,6 +53,9 @@ class Library(object):
 
         #self._init_from_manifest(libconfig)
         self._libconfig = libconfig
+        self.manipath = libconfig['manifest'] # init self.manipath for compares
+        if not self.manipath.startswith("contrib://"):
+            self.manipath = context.config.absPath(self.manipath)
 
         #TODO: clean up the others later
         self.assets = {}
@@ -110,6 +113,10 @@ class Library(object):
 
     def __str__(self):
         return repr(self)
+
+
+    def __eq__(self, other):
+        return self.manipath == other.manipath
 
 
     def _download_contrib(self, contribUri):
