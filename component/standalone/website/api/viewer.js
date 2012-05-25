@@ -238,7 +238,10 @@ q.ready(function() {
         var ast = JSON.parse(xhr.responseText);
         // class doc
         var desc = getByType(ast, "desc");
-        parent.append(parse(desc.attributes.text || ""));
+        if (desc && desc.attributes && desc.attributes.text) {
+          parent.append(parse(desc.attributes.text));
+        }
+
         var eventsEl = renderEvents(getEvents(ast));
         if (eventsEl) {
           parent.append(eventsEl);
