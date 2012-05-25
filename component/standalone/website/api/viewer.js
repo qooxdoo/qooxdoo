@@ -217,6 +217,7 @@ q.ready(function() {
       data.params.push(paramData);
     };
     data.printParams = printParams;
+    data.paramsExist = data.params.length > 0;
 
     data.plugin = isPluginMethod(data.name);
 
