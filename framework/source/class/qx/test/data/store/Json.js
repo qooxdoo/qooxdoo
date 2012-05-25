@@ -420,6 +420,53 @@ qx.Class.define("qx.test.data.store.Json",
       this.wait();
     },
 
+    testOwnMixinWithMultiple: function() {
+      // define a test class
+      qx.Mixin.define("qx.test.M1",
+      {
+        members :
+        {
+          a: function() {
+            return true;
+          }
+        }
+      });
+      qx.Mixin.define("qx.test.M2",
+      {
+        members :
+        {
+          b: function() {
+            return true;
+          }
+        }
+      });
+
+
+      var delegate = {
+        getModelMixins : function(properties) {
+          return [qx.test.M1, qx.test.M2];
+        }
+      };
+      this.__store = new qx.data.store.Json(null, delegate);
+
+      this.__store.addListener("loaded", function() {
+        this.resume(function() {
+          var model = this.__store.getModel();
+          this.assertTrue(model.a(), "Mixin not included.");
+          this.assertTrue(model.b(), "Mixin not included.");
+          this.assertNotNull(model.getO(), "The model is not created how it should!");
+          this.assertTrue(model.getO().a(), "Mixin not included.");
+          this.assertEquals("a", model.getO().getA(), "Wrong content of the object.");
+          this.assertEquals("b", model.getO().getB(), "Wrong content of the object.");
+        }, this);
+      }, this);
+
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
+      this.__store.setUrl(url);
+
+      this.wait();
+    },
+
 
     testManipulatePrimitive: function() {
       var delegate = {manipulateData : function(data) {
