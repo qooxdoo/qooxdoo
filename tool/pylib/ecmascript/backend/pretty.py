@@ -1531,6 +1531,7 @@ def _prettyNode(node, optns, result):
 
         # Add comma dividers between statements in these parents
         if node.parent.type in ["array", "params", "expressionList"]:
+            # insert comma
             if not node.isLastChild(True):
                 comma()
 
@@ -1541,6 +1542,10 @@ def _prettyNode(node, optns, result):
                         line()
                     else:
                         space()
+            # terminate expression statements (bug#5944)
+            elif node.parent.type == "expressionList" and node.parent.parent and node.parent.parent.type in ("block", "file"):
+                semicolon()
+                line()
 
         # Semicolon handling
         elif node.type in ["group", "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable", "emptyStatement"]:
