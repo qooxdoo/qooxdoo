@@ -40,6 +40,7 @@ def tokens_2_obj(content):
     scanner = Scanner.Scanner(content).__iter__()
     Token   = Scanner.Token
     arg     = None
+    token   = None
     #for stoken in scanner:
     while True:
         try:
@@ -48,7 +49,7 @@ def tokens_2_obj(content):
             break
         token = Token(stoken)
         arg = (yield token)
-    yield Token(('eof', '', token.spos+token.len, 0))
+    yield Token(('eof', '', token.spos+token.len if token else 0, 0))
 
 
 def scanner_slice(self, a, b):
