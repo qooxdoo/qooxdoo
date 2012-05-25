@@ -2,10 +2,12 @@
 // TOGGLEBUTTON 
 //
 
+@toggleButtonWidth: 60px;
+
 .toggleButton {
   .clickable();
   height:auto;
-  width:60px;
+  width:@toggleButtonWidth;
 
   overflow-y:visible;
   font-size:14px;
@@ -25,19 +27,23 @@ div.checked .toggleButtonSwitch {
 }
 
 div.checked .toggleButtonSwitch:before {
+  display: block;
   position:relative;
   top:-20px;
-  left:10px;
-  content: "ON";
-  width:100%;
+  left:-10px;
+  text-align:center;
+  content: ' 'attr(data-label-checked);
+  width:@toggleButtonWidth;
 }
 
 .toggleButtonSwitch:before {
+  display: block;
   position:relative;
   top:-20px;
-  left:6px;
-  content: "OFF";
-  width:100%;
+  left:-10px;
+  text-align:center;
+  content: ' 'attr(data-label-unchecked);
+  width:@toggleButtonWidth;
 }
 
 .toggleButtonSwitch {

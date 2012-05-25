@@ -2,13 +2,15 @@
 // TOGGLEBUTTON 
 //
 
+@toggleButtonSize:25px;
+
 .toggleButton {
   cursor:pointer;
 
   width: 84px;
   height: 29px;
   display: block;
-  font-size:16px;
+  font-size:15.5px;
   font-weight:bold;
 
   .border-radius(30px);
@@ -31,27 +33,32 @@ div.checked .toggleButtonSwitch {
 
 div.checked .toggleButtonSwitch:before {
   position:absolute;
-  content: "ON";
-  left:-35px;
-  line-height:27px;
+  content: ' 'attr(data-label-checked);
+  width:52px;
+  left:-50px;
+  line-height:25.9px;
   height:26px;
+  text-align:center;
+  overflow:hidden;
 }
 
 .toggleButtonSwitch:after {
   position:absolute;
-  content: "OFF";
-  left: 35px;
-  line-height:27px;
+  content: ' 'attr(data-label-unchecked);
+  left: 25px;
+  line-height:25.9px;
   height:26px;
+  width:52px;
+  text-align:center;
+  overflow:hidden;
 }
 
 .toggleButtonSwitch {
   position:relative;
   
-  @size:25px;
-  height:@size;
-  width:@size;
+  height:@toggleButtonSize;
+  width:@toggleButtonSize;
 
-  .border-radius(@size);
+  .border-radius(@toggleButtonSize);
   
 }

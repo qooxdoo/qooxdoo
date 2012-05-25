@@ -121,8 +121,8 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__info = new qx.ui.mobile.form.TextArea().set({placeholder:"Terms of Service"});
       form.add(this.__info,"Terms of Service: ");
       this.__info.setValue("qooxdoo Licensing Information\n=============================\n\nqooxdoo is dual-licensed under the GNU Lesser General Public License (LGPL) and the Eclipse Public License (EPL). \n");
-
-      this.__save = new qx.ui.mobile.form.ToggleButton();
+      
+      this.__save = new qx.ui.mobile.form.ToggleButton(false,"Agree","Reject",13);
       this.__save.addListener("changeValue", this._enableFormSubmitting, this);
       form.add(this.__save, "Agree? ");
 
