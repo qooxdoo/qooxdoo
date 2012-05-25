@@ -337,7 +337,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      *
      * @attach{q}
      * @param value {Number} Left scroll position
-     * @return {Collection} This collection for chaining
+     * @return {q} The collection for chaining
      */
     setScrollLeft : function(value)
     {
@@ -365,7 +365,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      *
      * @attach{q}
      * @param value {Number} Top scroll position
-     * @return {Collection} This collection for chaining
+     * @return {q} The collection for chaining
      */
     setScrollTop : function(value)
     {
