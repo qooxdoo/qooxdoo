@@ -82,7 +82,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
     /**
      * Returns a copy of the collection within the given range.
-     * 
+     *
      * @param begin {Number} The index to begin.
      * @param end {Number} The index to end.
      * @return {q} A new collection containing a slice of the original collection.
@@ -97,7 +97,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * collection.
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
-     * 
+     *
      * @param selector {String?null} Optional selector to match
      * @return {q} Collection containing the parent elements
      */
