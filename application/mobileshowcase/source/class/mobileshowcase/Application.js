@@ -114,7 +114,6 @@ qx.Class.define("mobileshowcase.Application",
       // Initialize the navigation
       var nm = qx.ui.mobile.navigation.Manager.getInstance();
 
-      // TODO: Add env check isTablet, see Bug 6392
       if (isTablet) {
         nm.onGet("/.*", function(data) {
           overview.show();
