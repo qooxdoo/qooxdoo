@@ -51,7 +51,7 @@ qx.Class.define("mobiletweets.Application",
     {
       check : "String",
       nullable : false,
-      init : null,
+      init : "",
       event : "changeUsername",
       apply : "_applyUsername" // this method will be called when the property is set
     }
@@ -92,19 +92,33 @@ qx.Class.define("mobiletweets.Application",
         Remove or edit the following code to create your application.
       -------------------------------------------------------------------------
       */
-
+      
+      // Create a manager in mobile device context >> "false"
+      var manager = new qx.ui.mobile.page.Manager(false);
+      
       // Create an instance of the Input class and initial show it
       var inputPage = this.__inputPage = new mobiletweets.page.Input();
+      
+      // Add page to manager
+      manager.addDetail([inputPage]);
+      
+      // Display inputPage on start
       inputPage.show();
-
+      
       // Create an instance of the Tweets class and establish data bindings
       var tweetsPage = new mobiletweets.page.Tweets();
       this.bind("tweets", tweetsPage, "tweets");
       this.bind("username", tweetsPage, "title");
+      
+      // Add page to manager
+      manager.addDetail([tweetsPage]);
 
       // Create an instance of the Tweet class
       var tweetPage = new mobiletweets.page.Tweet();
-
+      
+      // Add page to manager
+      manager.addDetail([tweetPage]);
+      
       // Load the tweets and show the tweets page
       inputPage.addListener("requestTweet", function(evt) {
         this.setUsername(evt.getData());

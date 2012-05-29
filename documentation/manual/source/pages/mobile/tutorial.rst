@@ -58,14 +58,25 @@ specialized page that consists of a
 action buttons, and a scrollable content area. In the constructor of the
 class we set the title of the page to “Twitter Client”.
 
-To show the “Input” page, we have to create an instance of the class and to call the
-``show`` method of the page instance. Open the
-“source/class/mobiletweets/Application.js” class file. You will find a comment in the ``main`` method "*Below is your actual
+To show the “Input” page, we have to create an instance of the class and a page manager.
+The manager does the layouting and displays our page on screen.
+Additionally the manager gives us the possibility to use our application in a mobile or tablet device context.
+For our example, we just want to work in a mobile device context. That is why, we construct the manager with
+``false``.
+
+After creation of manager, we have to add the “Input” page into the manager. 
+Then we call ``show`` method of “Input” page, to display this page on start. 
+
+Open the “source/class/mobiletweets/Application.js” class file. You will find a comment in the ``main`` method "*Below is your actual
 application code…*" with example code below. As we don’t need this
 example code, we can safely replace it with the following lines of code:
 ::
+    
+    var manager = new qx.ui.mobile.page.Manager(false);
 
     var inputPage = new mobiletweets.page.Input();
+    manager.addDetail([inputPage]);
+
     inputPage.show();
 
 As we have changed the dependencies of our application, recreate the
@@ -188,6 +199,9 @@ just added:
 
     // New instance of the Tweets page
     var tweetsPage = new mobiletweets.page.Tweets();
+    
+    // Add page to manager
+    manager.addDetail([tweetsPage]);
 
     // Show the tweets page, when the button is pressed
     inputPage.addListener("requestTweet", function(evt) {
@@ -498,6 +512,10 @@ called.
 ::
 
     var tweetPage = new mobiletweets.page.Tweet();
+
+    // Add page to manager
+    manager.addDetail([tweetPage]);
+
     // Return to the Tweets Page
     tweetPage.addListener("back", function(evt) {
       tweetsPage.show({reverse:true});
