@@ -177,10 +177,11 @@ qx.Bootstrap.define("qx.bom.Viewport",
      *
      * @return {Map} Orientation normalizing value
      */
-    __getOrientationNormalizer : function() {
+    __getOrientationNormalizer : function(win) 
+    {
       // Calculate own understanding of orientation (0 = portrait, 90 = landscape)
-      var currentOrientation = this.getWidth() > this.getHeight() ? 90 : 0;
-      var deviceOrientation  = window.orientation;
+      var currentOrientation = this.getWidth(win) > this.getHeight(win) ? 90 : 0;
+      var deviceOrientation  = win.orientation;
       if (deviceOrientation == null || Math.abs( deviceOrientation % 180 ) == currentOrientation) {
         // No device orientation available or device orientation equals own understanding of orientation
         return {
@@ -221,11 +222,13 @@ qx.Bootstrap.define("qx.bom.Viewport",
      * * <code>90</code>: "Landscape"
      * * <code>180</code>: "Portrait"
      *
-     * @param win {Window?window} The window to query
+     * @param win {Window?window.top} The window to query. (Default = top window)
      * @return {Integer} The current orientation in degree
      */
     getOrientation : function(win)
     {
+      // Set window.top as default, because orientationChange event is only fired top window
+      var win = win||window.top;
       // The orientation property of window does not have the same behaviour over all devices
       // iPad has 0degrees = Portrait, Playbook has 90degrees = Portrait, same for Android Honeycomb
       //
@@ -233,13 +236,13 @@ qx.Bootstrap.define("qx.bom.Viewport",
       //
       // The calculation of getWidth and getHeight returns wrong values if you are in an input field
       // on iPad and rotate your device!
-      var orientation = (win||window).orientation;
+      var orientation = win.orientation;
       if (orientation == null) {
         // Calculate orientation from window width and window height
         orientation = this.getWidth(win) > this.getHeight(win) ? 90 : 0;
       } else {
         if (this.__orientationNormalizer == null) {
-          this.__orientationNormalizer = this.__getOrientationNormalizer();
+          this.__orientationNormalizer = this.__getOrientationNormalizer(win);
         }
         // Normalize orientation value
         orientation = this.__orientationNormalizer[orientation];
