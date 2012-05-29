@@ -17,28 +17,18 @@
 /**
  * This view automatically runs all unit tests in the current suite and reports
  * failed tests by sending a HTTP request to the URL defined by the
- * REPORT_SERVER macro. The data is contained in the _ScriptTransport_data
- * parameter. It begins with 'unittest=', followed by a JSON-encoded map
- * containing the following string values:
- *
- * testName : full name of the test method, e.g. qx.test.bom.Blocker:testOpacity<br/>
- * message : error message(s) of any exceptions thrown during test execution<br/>
- * autUri : URI of the unit test application<br/>
- * browserName : value of qx.core.Environment.get("browser.name")<br/>
- * browserVersion : value of qx.core.Environment.get("browser.version")<br/>
- * os : value of qx.core.Environment.get("os.name")
+ * "testrunner.reportServer" envrironment setting.
  *
  */
 qx.Class.define("testrunner.view.Reporter", {
 
   extend : testrunner.view.Console,
+  
+  include : [testrunner.view.MReportResult],
 
   construct : function()
   {
     this.base(arguments);
-    this.__testResultsMap = {};
-    this.__reportServerUrl = qx.core.Environment.get("testrunner.reportServer");
-    this.__autErrors = {};
     var info = document.createElement("div");
     info.id = "info";
     document.body.appendChild(info);
@@ -47,10 +37,7 @@ qx.Class.define("testrunner.view.Reporter", {
 
   members :
   {
-    __testResultsMap : null,
     __testPackages : null,
-    __reportServerUrl : null,
-    __autErrors : null,
     __infoElem : null,
 
     _applyTestSuiteState : function(value, old)
@@ -83,79 +70,6 @@ qx.Class.define("testrunner.view.Reporter", {
       this.fireEvent("runTests");
     },
 
-    /**
-     * Use the AUT's global error logging to catch any uncaught exceptions
-     * triggered by the unit tests
-     */
-    setGlobalErrorHandler : function()
-    {
-      var iframe = this.getIframe();
-      if (!iframe) {
-        return;
-      }
-      var iframeWindow = qx.bom.Iframe.getWindow(iframe);
-      var geh = iframeWindow.qx.core.Environment.get("qx.globalErrorHandling");
-      if (geh) {
-        iframeWindow.qx.event.GlobalError.setErrorHandler(this._handleIframeError, this);
-      }
-    },
-
-    /**
-     * Callback function for qooxdoo's global error handler. Stores the caught
-     * exceptions in a map.
-     *
-     * @param ex {Error} Caught exception
-     */
-    _handleIframeError : function(ex)
-    {
-      var currentTest = qx.core.Init.getApplication().runner.currentTestData.fullName;
-      if (!this.__autErrors[currentTest]) {
-        this.__autErrors[currentTest] = [];
-      }
-      var msg;
-      if (qx.core.Environment.get("browser.name") == "ie" &&
-              qx.core.Environment.get("browser.version") < 9)
-      {
-        msg = ex.toString();
-      }
-      else {
-        msg = ex;
-      }
-      this.__autErrors[currentTest].push(msg);
-    },
-
-    /**
-     * Returns any errors caught in the AUT in a readable format containing the
-     * name of the unit test that triggered the exception, its message and, if
-     * available, the stack trace.
-     *
-     * @return {String[]} Array of error messages
-     */
-    getFormattedAutErrors : function()
-    {
-      var formattedErrors = [];
-      for (var testName in this.__autErrors) {
-        var testErrors = this.__autErrors[testName];
-        for (var i=0, l=testErrors.length; i<l; i++) {
-          var exception = testErrors[i];
-          var message;
-          if (qx.core.Environment.get("browser.name") == "ie" &&
-              qx.core.Environment.get("browser.version") < 9)
-          {
-            message = exception;
-          }
-          else {
-            message = testName + ": " + exception.toString();
-            var trace = qx.dev.StackTrace.getStackTraceFromError(exception);
-            if (trace.length > 0) {
-              message += "<br/>Stack Trace:<br/>" + trace.join("<br/>");
-            }
-          }
-          formattedErrors.push(message);
-        }
-      }
-      return formattedErrors;
-    },
 
     /**
      * Runs the next package from the list of test namespaces.
@@ -208,124 +122,21 @@ qx.Class.define("testrunner.view.Reporter", {
       }
     },
 
+
     // overridden
     _onTestChangeState : function(testResultData)
     {
+      this.saveTestResult(testResultData);
       var testName = testResultData.getFullName();
-      var state = testResultData.getState();
-      var exceptions = testResultData.getExceptions();
-
-      //Update test results map
-      if (!this.__testResultsMap[testName]) {
-        this.__testResultsMap[testName] = {};
-      }
-      this.__testResultsMap[testName].state = state;
-
-      var messages = [];
-      if (exceptions) {
-        for (var i=0,l=exceptions.length; i<l; i++) {
-          var message = exceptions[i].exception.toString() + "<br/>";
-          message += testResultData.getStackTrace(exceptions[i].exception);
-          messages.push(message);
-        }
-        this.__testResultsMap[testName].messages = messages;
-      }
-
+      var state = this.getTestResults()[testName].state;
+      
       this.__infoElem.innerHTML = testName + ": " + state;
-
-      var autUri = qx.bom.Iframe.queryCurrentUrl(this.getIframe());
-      if (autUri.indexOf("?") > 0) {
-        autUri = autUri.substring(0, autUri.indexOf("?"));
+      
+      if ((state == "failure" || state == "error") &&
+        qx.core.Environment.get("testrunner.reportServer"))
+      {
+        this.reportResult(testName);
       }
-
-      if (this.__reportServerUrl) {
-        var data = {
-          testName : testName,
-          message : messages.join("<br/>"),
-          autUri : autUri
-        };
-
-        this.reportResult(data);
-      }
-
-    },
-
-
-    /**
-     * Returns the results of all tests that didn't end with the status "success"
-     * @return {Map} Unsuccessful test results
-     */
-    getUnsuccessfulResults : function()
-    {
-      var failedTests = {};
-      for (var testName in this.__testResultsMap) {
-        var result = this.__testResultsMap[testName];
-        if (result.state !== "success") {
-          failedTests[testName] = result;
-        }
-      }
-      return failedTests;
-    },
-
-    /**
-     * Returns the results of all tests that ended with the status "error" or
-     * "failure". Skipped tests are not included.
-     * @return {Map} Failed test results
-     */
-    getFailedResults : function()
-    {
-      var failedTests = {};
-      for (var testName in this.__testResultsMap) {
-        var result = this.__testResultsMap[testName];
-        if (result.state == "error" || result.state == "failure") {
-          failedTests[testName] = result;
-        }
-      }
-      return failedTests;
-    },
-
-    /**
-     * Returns a JSON serialization of {@link #getFailedResults}
-     *
-     *  @return {String} Failed results map as JSON
-     */
-    getFailedResultsAsJson : function()
-    {
-      return qx.lang.Json.stringify(this.getFailedResults());
-    },
-
-    /**
-     * Adds environment information to a test result map and sends it to the
-     * server.
-     *
-     * @param data {Map} Test result data
-     */
-    reportResult : function(data)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        this.debug("Reporting result");
-      }
-      data["browserName"] = qx.core.Environment.get("browser.name");
-      data["browserVersion"] = qx.core.Environment.get("browser.version");
-      data["os"] = qx.core.Environment.get("os.name");
-
-      var jsonData = qx.lang.Json.stringify(data);
-
-      var req = new qx.io.remote.Request(this.__reportServerUrl, "GET");
-      req.setData("unittest=" + jsonData);
-      req.setCrossDomain(true);
-      req.addListener("failed", function(ev) {
-        this.error("Request failed!");
-      }, this);
-      req.addListener("timeout", function(ev) {
-        this.error("Request timed out!");
-      }, this);
-      req.addListener("completed", function(ev) {
-        if (qx.core.Environment.get("qx.debug")) {
-          this.debug("Request completed.");
-        }
-      }, this);
-      req.send();
     }
   }
 });
