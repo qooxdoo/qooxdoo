@@ -117,11 +117,6 @@ qx.Class.define("feedreader.model.Model",
       );
       userFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
-          "The Mozilla Blog", "http://blog.mozilla.com/feed/", "user"
-        )
-      );
-      userFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
           "Opera Desktop Blog", "http://my.opera.com/desktopteam/xml/rss/blog/", "user"
         )
       );
