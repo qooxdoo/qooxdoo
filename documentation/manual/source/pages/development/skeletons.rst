@@ -91,10 +91,11 @@ Getting started
 
 The 'website' skeleton provides you with the same development model, with additional options. It contains a pre-built version of the Website library. You can just open the contained index.html file in a browser and see the default application running (If this is not the case and you just get an "Application needs generation..." message, just run ``generate.py`` on the shell). Then you start extending it, either in the index.html file directly or by creating other %{JS} files that use it, and include those in the HTML file.
 
-Both approaches (download or skeleton) pretty much match up, with the skeleton giving you a little head start. In both cases you are using a static library file, and take care of organizing your application code yourself. The 'website' skeleton provides you with a few features that go beyond this:
+Both approaches (download or skeleton) pretty much match up, with the skeleton giving you a little head start. In both cases you are using a static library file, and take care of organizing your application code yourself. Beyond that the 'website' skeleton provides you with some additional jobs:
 
-* You can *re-create* the library file (located in *script/*), by running the ``generate.py [build-min]`` job. This is interesting if you e.g. upgrade to a new qooxdoo SDK and want to make sure you are working against the latest code.
-* You can create a *non-optimized* version of the library, if you want to debug into its code. This is achieved by running the ``generate.py build`` job. Mind, though, that you then need to include *q.js* in your HTML code (rather than *q.min.js* which is the minified version).
+* *build-min*: You can re-create the library file (located in *script/*), by running the ``generate.py [build-min]`` job. This is interesting if you e.g. upgrade to a new qooxdoo SDK and want to make sure you are working against the latest code.
+* *build*: You can create a *non-optimized* version of the library, if you want to debug into its code. This is achieved by running the ``generate.py build`` job. Mind, though, that you then need to include *q.js* in your HTML code (rather than *q.min.js* which is the minified version).
+* *test, test-source*: You can write unit tests for your custom code, and generate a local version of the :ref:`Portable Testrunner <pages/frame_apps_testrunner#portable_test_runner>` using ``generate.py test`` or ``generate.py test-source`` (The linked description of the Portable Testrunner refers partly to the ready-built download version, hence it says *"no compile step"*). In order to sensibly test your code, you should put it in its own .js file, rather than inline it in the *index.html*. This way, you can load it both in the application *index.html* as well as in *test/index.html* where the unit tests are applied.
 
 
 Included layers
