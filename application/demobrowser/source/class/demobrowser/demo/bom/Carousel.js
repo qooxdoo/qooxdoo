@@ -80,7 +80,7 @@ qx.Class.define("demobrowser.demo.bom.Carousel",
 
           // to middle item
           if (i == round) {
-            // only fill the 100% frame. The start frame will be calculated
+            frames[0]["background-color"] = baseColor;
             frames[100]["background-color"] = middleColor;
             frames[100].width = middleWidth + "px";
             frames[100].height = middleWidth + "px";
@@ -91,14 +91,13 @@ qx.Class.define("demobrowser.demo.bom.Carousel",
 
           // from middle item
           } else if (i == (round + entries.length -1) % entries.length) {
-            // only fill the 100% frame. The start frame will be calculated
+            frames[0]["background-color"] = middleColor;
             frames[100]["background-color"] = baseColor;
             frames[100].width = width + "px";
             frames[100].height = width + "px";
             frames[100].top = middleOffset + "px";
             frames[100].left = (to + middleOffset) + "px";
 
-            frames[100]["z-index"] = 1;
             qx.bom.element.Style.set(item, "zIndex", 1);
 
           // all default items

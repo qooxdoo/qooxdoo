@@ -400,12 +400,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      * @param styles {Map} A map containing styles and values.
      */
     __applyStyles : function(el, styles) {
-      for (var name in styles) {
-        name = qx.lang.String.camelCase(name);
+      for (var key in styles) {
+        var name = qx.lang.String.camelCase(key);
         if (qx.bom.element.Style) {
-          qx.bom.element.Style.set(el, name, styles[name]);
+          qx.bom.element.Style.set(el, name, styles[key]);
         } else {
-          el.style[name] = styles[name];
+          el.style[name] = styles[key];
         }
       }
     },
