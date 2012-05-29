@@ -130,11 +130,14 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      */
     addMaster : function(pages) {
       if (this.__isTablet) {
-        this._add(pages, this.__masterContainer);
-        
-        // First page title is  default of MasterButton caption and popup title.
-        var masterPage = pages[0];
-        if(masterPage){
+        if(pages){
+          this._add(pages, this.__masterContainer);
+
+          // First page's title is default of MasterButton caption and popup title.
+          var masterPage = pages;
+          if(qx.lang.Type.isArray(pages)){
+            masterPage = pages[0];
+          }
           this.setMasterTitle(masterPage.getTitle());
         }
       } else {
