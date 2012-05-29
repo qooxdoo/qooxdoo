@@ -390,6 +390,11 @@ qx.Class.define("qx.locale.Manager",
      */
     __lookupAndExpand : function(catalog, messageId, args, locale)
     {
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertObject(catalog);
+        this.assertString(messageId);
+        this.assertArray(args);
+      }
       var txt;
 
       if (!catalog) {
