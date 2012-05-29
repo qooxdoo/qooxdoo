@@ -401,6 +401,10 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      */
     __applyStyles : function(el, styles) {
       for (var key in styles) {
+        // ignore undefined values (might be a bad detection)
+        if (styles[key] === undefined) {
+          continue;
+        }
         var name = qx.lang.String.camelCase(key);
         if (qx.bom.element.Style) {
           qx.bom.element.Style.set(el, name, styles[key]);
