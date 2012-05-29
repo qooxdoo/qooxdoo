@@ -83,7 +83,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
     fixSize : function()
     { 
       var parent = this.getLayoutParent();
-      if (parent) {
+      if (parent && parent.getContainerElement()) {
         var height = parent.getContainerElement().offsetHeight;
         var width = parent.getContainerElement().offsetWidth;
         if (!this.getFireDomUpdatedOnResize()) {
