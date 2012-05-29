@@ -15,18 +15,18 @@ qx.Mixin.define("testrunner.view.MReportResult", {
 
   construct : function()
   {
-    this.__testResults = {};
+    this.__results = {};
     this.__autErrors = {};
   },  
   members :
   {
-    __testResults : null,
+    __results : null,
     __autErrors : null,
     
     
     getTestResults : function()
     {
-      return this.__testResults;
+      return this.__results;
     },
     
     
@@ -93,10 +93,10 @@ qx.Mixin.define("testrunner.view.MReportResult", {
       var exceptions = testResultData.getExceptions();
 
       //Update test results map
-      if (!this.__testResults[testName]) {
-        this.__testResults[testName] = {};
+      if (!this.__results[testName]) {
+        this.__results[testName] = {};
       }
-      this.__testResults[testName].state = state;
+      this.__results[testName].state = state;
 
       var messages = [];
       if (exceptions) {
@@ -105,7 +105,7 @@ qx.Mixin.define("testrunner.view.MReportResult", {
           message += testResultData.getStackTrace(exceptions[i].exception);
           messages.push(message);
         }
-        this.__testResults[testName].messages = messages;
+        this.__results[testName].messages = messages;
       }
     },
     
@@ -126,7 +126,7 @@ qx.Mixin.define("testrunner.view.MReportResult", {
       }
       
       data.testName = testName;
-      data.message = this.__testResults[testName].messages;
+      data.message = this.__results[testName].messages;
       data.autUri = autUri;
       data.browserName = qx.core.Environment.get("browser.name");
       data.browserVersion = qx.core.Environment.get("browser.version");
@@ -176,8 +176,8 @@ qx.Mixin.define("testrunner.view.MReportResult", {
     getUnsuccessfulResults : function()
     {
       var failedTests = {};
-      for (var testName in this.__testResults) {
-        var result = this.__testResults[testName];
+      for (var testName in this.__results) {
+        var result = this.__results[testName];
         if (result.state !== "success") {
           failedTests[testName] = result;
         }
@@ -193,8 +193,8 @@ qx.Mixin.define("testrunner.view.MReportResult", {
     getFailedResults : function()
     {
       var failedTests = {};
-      for (var testName in this.__testResults) {
-        var result = this.__testResults[testName];
+      for (var testName in this.__results) {
+        var result = this.__results[testName];
         if (result.state == "error" || result.state == "failure") {
           failedTests[testName] = result;
         }

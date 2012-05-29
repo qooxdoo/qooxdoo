@@ -71,7 +71,7 @@ qx.Class.define("testrunner.view.Html", {
     this.__nativeProfiling = (qx.core.Environment.get("testrunner.performance") &&
       qx.Class.hasMixin(this.constructor, testrunner.view.MPerformance) &&
       typeof console != "undefined" && console.profile);
-
+    
     this._getHeader().appendTo("body");
     $('<div id="main"></div>').appendTo("body");
     this._getMainControls().appendTo("#header-wrapper");
@@ -529,6 +529,13 @@ qx.Class.define("testrunner.view.Html", {
       }
 
       this._markTestInList(testResultData);
+      
+      if (qx.core.Environment.get("testrunner.reportServer")) {
+        this.saveTestResult(testResultData);
+        if (state == "failure" || state == "error") {
+          this.reportResult(testName);
+        }
+      }
     },
 
 

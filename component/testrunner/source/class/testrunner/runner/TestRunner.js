@@ -38,6 +38,11 @@ qx.Class.define("testrunner.runner.TestRunner", {
       this.TEST_MIXINS.push(qx.dev.unit.MMeasure);
     }
     
+    if (qx.core.Environment.get("testrunner.reportServer")) {
+      var viewClass = qx.Class.getByName(qx.core.Environment.get("testrunner.view"));
+      qx.Class.include(viewClass, testrunner.view.MReportResult);
+    }
+    
     this.base(arguments);
 
     // Get log appender element from view
