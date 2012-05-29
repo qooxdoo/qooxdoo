@@ -1859,6 +1859,103 @@ testrunner.define({
 
 
 testrunner.define({
+  classname : "ArrayUtil",
+
+  testCast : function() {
+    var a;
+    var f = (function() {
+      a = q.array.cast(arguments, Array);
+    })(1, 2, 3, 4);
+    this.assertEquals(4, a.length);
+    this.assertEquals([].constructor, a.constructor);
+
+  },
+
+  testEquals : function() {
+    var a = [1, 2, 3, 4];
+    var b = [1, 2, 3, 4];
+    this.assertTrue(q.array.equals(a, b));
+    a.push(5);
+    this.assertFalse(q.array.equals(a, b));
+  },
+
+
+  testExclude : function() {
+    var a = [1, 2, 3, 4];
+    var b = [2, 4];
+    q.array.exclude(a, b);
+    this.assertEquals(1, a[0]);
+    this.assertEquals(3, a[1]);
+  },
+
+
+  testFromArguments : function() {
+    var a;
+    var f = (function() {
+      a = q.array.fromArguments(arguments);
+    })(1, 2, 3, 4);
+    this.assertEquals(4, a.length);
+    this.assertEquals([].constructor, a.constructor);
+  },
+
+
+  testInsertAfter : function() {
+    var a = [1, 2, 4];
+    q.array.insertAfter(a, 3, 2);
+    this.assertEquals(4, a.length);
+    this.assertEquals(3, a[2]);
+  },
+
+
+  testInsertBefore : function() {
+    var a = [1, 2, 4];
+    q.array.insertBefore(a, 3, 4);
+    this.assertEquals(4, a.length);
+    this.assertEquals(3, a[2]);
+  },
+
+
+  testMax : function() {
+    var a = [1, 4, 2, 3];
+    this.assertEquals(4, q.array.max(a));
+  },
+
+
+  testMin : function() {
+    var a = [1, 4, 2, 3];
+    this.assertEquals(1, q.array.min(a));
+  },
+
+
+  testRemove : function() {
+    var a = [1, 2, 'x', 3, 4];
+    q.array.remove(a, 'x');
+    this.assertEquals(4, a.length);
+    this.assertEquals(3, a[2]);
+  },
+
+
+  testRemoveAll : function() {
+    var a = [1, 2, 3, 4];
+    q.array.removeAll(a);
+    this.assertEquals(0, a.length);
+  },
+
+
+  testUnique : function() {
+    var a = [1, 1, 2, 3, 4, 4, 4];
+    var b = q.array.unique(a);
+    this.assertEquals(4, b.length);
+    this.assertEquals(1, b[0]);
+    this.assertEquals(2, b[1]);
+    this.assertEquals(3, b[2]);
+    this.assertEquals(4, b[3]);
+  }
+});
+
+
+
+testrunner.define({
   classname : "StringUtil",
 
   testCamelCase : function() {
@@ -1935,6 +2032,9 @@ testrunner.define({
     this.assertTrue(q.env.get("q.test"));
   }
 });
+
+
+
 
 
 testrunner.define({
