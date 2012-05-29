@@ -22,7 +22,7 @@
 /**
  * Manager class for all boxes.
  */
-qx.Class.define("portal.box.Manager",
+qx.Class.define("demobrowser.demo.bom.portal.box.Manager",
 {
   type : "singleton",
   extend : qx.core.Object,
@@ -68,7 +68,7 @@ qx.Class.define("portal.box.Manager",
     activeBox :
     {
       init  : null,
-      check : "portal.box.Box",
+      check : "demobrowser.demo.bom.portal.box.Box",
       apply : "_applyActiveBox"
     }
   },
@@ -87,8 +87,8 @@ qx.Class.define("portal.box.Manager",
     /**
      * Apply method for "activeBox" property
      *
-     * @param value {portal.box.Box} new active box
-     * @param old {portal.box.Box ? null} old active box or null
+     * @param value {demobrowser.demo.bom.portal.box.Box} new active box
+     * @param old {demobrowser.demo.bom.portal.box.Box ? null} old active box or null
      * @return {void}
      */
     _applyActiveBox : function(value, old)
@@ -112,7 +112,7 @@ qx.Class.define("portal.box.Manager",
     load : function()
     {
       // get the data from the global variable
-      this.__init(window[portal.box.Manager.dataKeyRoot]);
+      this.__init(window[demobrowser.demo.bom.portal.box.Manager.dataKeyRoot]);
 
       // dispatch "loaded" event
       qx.event.Registration.fireEvent(this, "loaded");
@@ -130,8 +130,8 @@ qx.Class.define("portal.box.Manager",
       var groupBox, groupBoxId, groupBoxBoxes, groupBoxData, newBox, boxData;
 
       // information about the groupBoxes and boxes
-      var groupBoxes = boxData[portal.box.Manager.dataKeyGroupBoxes];
-      var boxes      = boxData[portal.box.Manager.dataKeyBoxes];
+      var groupBoxes = boxData[demobrowser.demo.bom.portal.box.Manager.dataKeyGroupBoxes];
+      var boxes      = boxData[demobrowser.demo.bom.portal.box.Manager.dataKeyBoxes];
 
       // iterate over the groupBoxes, store them in an array and create a
       // small lookup array to quickly get the boxes of the groupBox
@@ -158,7 +158,7 @@ qx.Class.define("portal.box.Manager",
           boxData     = boxes[groupBoxBoxes[k]];
           var element = document.getElementById(boxData.id);
 
-          var newBox = new portal.box.Box(boxData, element, null, groupBoxId);
+          var newBox = new demobrowser.demo.bom.portal.box.Box(boxData, element, null, groupBoxId);
 
           this.__members.push(newBox);
           this.__boxLookup[groupBoxId].push(newBox);
@@ -193,7 +193,7 @@ qx.Class.define("portal.box.Manager",
      *
      * @param newGroupBoxId {String} Id of the new groupBox
      * @param oldGroupBoxId {String} Id of the old groupBox
-     * @param box {portal.box.Box} moved box instance
+     * @param box {demobrowser.demo.bom.portal.box.Box} moved box instance
      * @return {void}
      */
     updateGroupBoxMembers : function(newGroupBoxId, oldGroupBoxId, box)

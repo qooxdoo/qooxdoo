@@ -22,12 +22,12 @@
 /**
  * Implementation of a draggable box
  */
-qx.Class.define("portal.box.Draggable",
+qx.Class.define("demobrowser.demo.bom.portal.box.Draggable",
 {
   extend : qx.core.Object,
 
   /**
-   * @param box {portal.box.Box} box instance to decorate
+   * @param box {demobrowser.demo.bom.portal.box.Box} box instance to decorate
    */
   construct : function(box)
   {
@@ -55,7 +55,7 @@ qx.Class.define("portal.box.Draggable",
     /**
      * Return the box
      *
-     * @return {portal.box.Box} box instance
+     * @return {demobrowser.demo.bom.portal.box.Box} box instance
      */
     getBox : function() {
       return this.__box;
@@ -112,7 +112,7 @@ qx.Class.define("portal.box.Draggable",
       }, this.__handle);
 
       qx.bom.Element.addListener(this.__handle, "dragstart", this.__onDragStart, this);
-      qx.bom.Element.addListener(this.__handle, "dragend", portal.dragdrop.Manager.getInstance().stopSession, portal.dragdrop.Manager.getInstance());
+      qx.bom.Element.addListener(this.__handle, "dragend", demobrowser.demo.bom.portal.dragdrop.Manager.getInstance().stopSession, demobrowser.demo.bom.portal.dragdrop.Manager.getInstance());
       qx.bom.Element.addListener(this.__handle, "drag", this.__onDragMove, this);
     },
 
@@ -177,10 +177,10 @@ qx.Class.define("portal.box.Draggable",
       }
       catch (ex) {}
 
-      if (portal.dragdrop.Manager.getInstance().isSessionActive())
+      if (demobrowser.demo.bom.portal.dragdrop.Manager.getInstance().isSessionActive())
       {
         qx.event.Registration.removeListener(document.body, "mousemove", this.__onDragMove, this, true);
-        portal.dragdrop.Manager.getInstance().stopSession();
+        demobrowser.demo.bom.portal.dragdrop.Manager.getInstance().stopSession();
       }
 
       qx.bom.Element.removeListener(document.body, "mouseup", this.__onMouseUp, this, true);
@@ -198,16 +198,16 @@ qx.Class.define("portal.box.Draggable",
       // it may happen that this "dragStart" event is fired even if the drag
       // session is still active - for example the user released the mouse button
       // outside of the viewport
-      if (portal.dragdrop.Manager.getInstance().isSessionActive())
+      if (demobrowser.demo.bom.portal.dragdrop.Manager.getInstance().isSessionActive())
       {
         return;
       }
 
       // set the current box as the active one
-      portal.box.Manager.getInstance().setActiveBox(this.__box);
+      demobrowser.demo.bom.portal.box.Manager.getInstance().setActiveBox(this.__box);
 
       // let the dragDrop manager take control
-      portal.dragdrop.Manager.getInstance().startSession(this.__box);
+      demobrowser.demo.bom.portal.dragdrop.Manager.getInstance().startSession(this.__box);
 
       // add "mousemove" listener
       qx.event.Registration.addListener(document.body, "mousemove", this.__onDragMove, this, true);
@@ -233,7 +233,7 @@ qx.Class.define("portal.box.Draggable",
       {
         this.checkGroupBox(left,parseInt(this.getActiveBox().getData().width));
         this.onDragMove(top, left);
-      }, portal.dragdrop.Manager.getInstance(), 0);
+      }, demobrowser.demo.bom.portal.dragdrop.Manager.getInstance(), 0);
     }
   },
 

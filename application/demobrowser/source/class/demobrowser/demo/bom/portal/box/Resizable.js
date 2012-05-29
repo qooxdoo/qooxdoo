@@ -22,7 +22,7 @@
 /**
  * Decorator to implement resizing of a box
  */
-qx.Class.define("portal.box.Resizable",
+qx.Class.define("demobrowser.demo.bom.portal.box.Resizable",
 {
   extend : qx.core.Object,
 
@@ -30,7 +30,7 @@ qx.Class.define("portal.box.Resizable",
   /**
    * Constructor method
    *
-   * @param box {portal.box.Box} box instance to decorate
+   * @param box {demobrowser.demo.bom.portal.box.Box} box instance to decorate
    * @param options {Map} Map to pass optional settings
    */
   construct : function(box, options)
@@ -88,7 +88,7 @@ qx.Class.define("portal.box.Resizable",
     /**
      * Return the box
      *
-     * @return {portal.box.Box} box instance
+     * @return {demobrowser.demo.bom.portal.box.Box} box instance
      */
     getBox : function() {
       return this.__box;
@@ -231,7 +231,7 @@ qx.Class.define("portal.box.Resizable",
         this.__mouseMoveData.lastCoord.left = e.getDocumentLeft();
         this.__mouseMoveData.lastCoord.top = e.getDocumentTop();
 
-        portal.box.Util.bringToFront(this.__element);
+        demobrowser.demo.bom.portal.box.Util.bringToFront(this.__element);
       }
     },
 
@@ -251,7 +251,7 @@ qx.Class.define("portal.box.Resizable",
         // remove the "mousemove" listener at the end of the resize operation
         qx.event.Registration.removeListener(document, "mousemove", this.__mouseMoveListener, this, true);
 
-        portal.box.Util.sendToBack(this.__element);
+        demobrowser.demo.bom.portal.box.Util.sendToBack(this.__element);
 
         if (this.__options.autoHide)
         {
@@ -322,7 +322,7 @@ qx.Class.define("portal.box.Resizable",
     {
       var Dimension = qx.bom.element.Dimension;
 
-      var groupBox = portal.box.Manager.getInstance().getGroupBoxDataOfBox(this.__box.getId());
+      var groupBox = demobrowser.demo.bom.portal.box.Manager.getInstance().getGroupBoxDataOfBox(this.__box.getId());
       var groupBoxInnerDimensions = Dimension.getContentSize(groupBox.element);
 
       if (mouseCoord.left)

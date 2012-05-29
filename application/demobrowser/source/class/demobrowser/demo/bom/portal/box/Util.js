@@ -22,7 +22,7 @@
 /**
  * Utilty class for DOM elements
  */
-qx.Class.define("portal.box.Util",
+qx.Class.define("demobrowser.demo.bom.portal.box.Util",
 {
   statics :
   {

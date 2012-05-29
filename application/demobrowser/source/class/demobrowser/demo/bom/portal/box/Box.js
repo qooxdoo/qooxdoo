@@ -22,7 +22,7 @@
 /**
  * Base implementation of a box
  */
-qx.Class.define("portal.box.Box",
+qx.Class.define("demobrowser.demo.bom.portal.box.Box",
 {
   extend : qx.core.Object,
 
@@ -70,14 +70,14 @@ qx.Class.define("portal.box.Box",
         handles   : boxData.resizeHandles
       };
 
-      this.__resizableComponent = new portal.box.Resizable(this, options);
+      this.__resizableComponent = new demobrowser.demo.bom.portal.box.Resizable(this, options);
     }
 
     /* Add the draggable feature if available */
     if (boxData.draggable)
     {
       this.setDraggable(true);
-      this.__draggableComponent = new portal.box.Draggable(this);
+      this.__draggableComponent = new demobrowser.demo.bom.portal.box.Draggable(this);
     }
 
     /* add content */
@@ -181,7 +181,7 @@ qx.Class.define("portal.box.Box",
     /**
      * Returns the draggable component if the box is capable of this feature
      *
-     * @return {portal.box.Draggable} draggable instance or null
+     * @return {demobrowser.demo.bom.portal.box.Draggable} draggable instance or null
      */
     getDraggableComponent : function() {
       return this.__draggableComponent;
@@ -191,7 +191,7 @@ qx.Class.define("portal.box.Box",
     /**
      * Returns the resizable component if the box is capable of this feature
      *
-     * @return {portal.box.Resizable} resizable instance or null
+     * @return {demobrowser.demo.bom.portal.box.Resizable} resizable instance or null
      */
     getResizableComponent : function() {
       return this.__resizableComponent;
@@ -248,7 +248,7 @@ qx.Class.define("portal.box.Box",
      * @return {void}
      */
     __onSelect : function(e) {
-      portal.box.Manager.getInstance().setActiveBox(this);
+      demobrowser.demo.bom.portal.box.Manager.getInstance().setActiveBox(this);
     }
   },
 

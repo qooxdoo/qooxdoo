@@ -22,7 +22,7 @@
 /**
  * Manager class for drag and drop of container
  */
-qx.Class.define("portal.dragdrop.Manager",
+qx.Class.define("demobrowser.demo.bom.portal.dragdrop.Manager",
 {
   type : "singleton",
   extend : qx.core.Object,
@@ -45,7 +45,7 @@ qx.Class.define("portal.dragdrop.Manager",
     /** The current active draggable box. This assumes a drag session is starting */
     activeBox :
     {
-      check    : "portal.box.Box",
+      check    : "demobrowser.demo.bom.portal.box.Box",
       init     : null,
       nullable : true
     },
@@ -75,7 +75,7 @@ qx.Class.define("portal.dragdrop.Manager",
     /**
      * Starts a drag and drop session
      *
-     * @param activeBox {portal.box.Box} active box instance
+     * @param activeBox {demobrowser.demo.bom.portal.box.Box} active box instance
      * @return {void}
      */
     startSession : function(activeBox)
@@ -96,7 +96,7 @@ qx.Class.define("portal.dragdrop.Manager",
       if (this.__groupBoxInfos == null)
       {
         this.__groupBoxInfos = {};
-        var groupBoxes = portal.box.Manager.getInstance().getGroupBoxes();
+        var groupBoxes = demobrowser.demo.bom.portal.box.Manager.getInstance().getGroupBoxes();
         for (var i=0, j=groupBoxes.length; i<j; i++)
         {
           this.__groupBoxInfos[groupBoxes[i].element.id] = {
@@ -142,7 +142,7 @@ qx.Class.define("portal.dragdrop.Manager",
       qx.bom.element.Style.set(element, "border", "1px dashed red");
 
       qx.dom.Node.getBodyElement(element).appendChild(this.__ghost);
-      portal.box.Util.bringToFront(this.__ghost);
+      demobrowser.demo.bom.portal.box.Util.bringToFront(this.__ghost);
     },
 
 
@@ -177,7 +177,7 @@ qx.Class.define("portal.dragdrop.Manager",
       var element = activeBox.getElement();
 
       // inform the box manager about the update
-      portal.box.Manager.getInstance().updateGroupBoxMembers(activeBox.getGroupBoxId(), this.__currentGroupBox, activeBox);
+      demobrowser.demo.bom.portal.box.Manager.getInstance().updateGroupBoxMembers(activeBox.getGroupBoxId(), this.__currentGroupBox, activeBox);
 
       // store the new groupBox id
       activeBox.setGroupBoxId(this.__currentGroupBox);
@@ -208,7 +208,7 @@ qx.Class.define("portal.dragdrop.Manager",
         if (activeBox.isActive()) {
           activeBox._applyActive(true);
         } else {
-          portal.box.Manager.getInstance().setActiveBox(activeBox);
+          demobrowser.demo.bom.portal.box.Manager.getInstance().setActiveBox(activeBox);
         }
       }, this);
     },
