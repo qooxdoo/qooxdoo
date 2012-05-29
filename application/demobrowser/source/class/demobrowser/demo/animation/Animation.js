@@ -154,6 +154,13 @@ qx.Class.define("demobrowser.demo.animation.Animation",
         button.className = "button";
         document.body.appendChild(button);
 
+        // check for transforms
+        if (!(qx.core.Environment.get("css.transform")["name"])) {
+          button.style.color = "red";
+          button.style.cursor = "not-allowed";
+          continue;
+        }
+
         // check for 3D animations
         if (test.indexOf("3D") != -1 && !(qx.core.Environment.get("css.transform")["3d"])) {
           button.style.color = "red";
@@ -163,12 +170,21 @@ qx.Class.define("demobrowser.demo.animation.Animation",
         button.addEventListener("click",
           (function(animation, test) {
             return function(e) {
-              qx.bom.element.AnimationJs.animate(e.target, animation, test == "Fast Width" ? 300 : undefined);
+              qx.bom.element.Animation.animate(e.target, animation, test == "Fast Width" ? 300 : undefined);
             }
           })(tests[test], test)
         );
       }
 
+      // print a warning if no transforms are supported
+      if ((qx.core.Environment.get("css.transform")["name"])) {
+        var warning = document.createElement("h1");
+        warning.style.color = "red";
+        warning.style.clear = "both";
+        warning.style["padding-top"] = "20px";
+        warning.innerHTML = "Sorry, no CSS transforms supported";
+        document.body.appendChild(warning);
+      }
     }
   }
 });
