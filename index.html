@@ -24,6 +24,15 @@ body{
   margin: 0;
 }
 
+.header {
+  background-color: #323335;
+  color: white;
+  padding: 10px 40px;
+  font-size: 18px;
+  font-family: 'Lucida Grande', 'Verdana', sans-serif;
+  border-bottom: 4px solid #3d72c9;;
+}
+
 a:link,
 a:visited{
   text-decoration: underline;
@@ -86,31 +95,6 @@ code{
 
 }
 
-.head{
-  background-color: #323335;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), to(#323335));
-  background-image: -webkit-linear-gradient(top, #505154, #323335);
-  background-image: -moz-linear-gradient(top, #505154, #323335);
-  background-image: -o-linear-gradient(to bottom, #505154, #323335);
-  background-image: linear-gradient(to bottom, #505154, #323335);
-  color: white;
-  height: 46px;
-}
-
-.head h1 {
-  padding: 12px 40px;
-}
-
-.decoration {
-  height: 10px;
-  background-color: #3d72c9;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#5583d0), color-stop(1px, #5583d0), color-stop(1px, #5583d0), to(#3d72c9));
-  background-image: -webkit-linear-gradient(top, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
-  background-image: -moz-linear-gradient(top, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
-  background-image: -o-linear-gradient(to bottom, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
-  background-image: linear-gradient(to bottom, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
-}
-
 .main{
   background: #F0F0F0;
   padding: 16px 40px;
@@ -162,13 +146,8 @@ code{
   </script>
 </head>
 <body onload="myOnLoad();">
-  <!--
-  <div class="head">
-    <h1>qooxdoo - Universal JavaScript Framework</h1>
-  </div>
-  <div class="decoration"></div>
-  -->
 
+  <div class="header">qooxdoo - a universal JavaScript framework</div>
   <div class="main">
     <p>
       Welcome to the qooxdoo SDK! It is easy to create your own impressive and

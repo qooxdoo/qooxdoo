@@ -28,27 +28,13 @@ p{
 	display: none;
 }
 
-#demoHead,
-#demoFoot{
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  width: 100%;
-  background: #134275;
-  padding: 5px 8px;
-  color: #DEFF83;
-  font-weight: bold;
-  overflow: hidden;
-  z-index: 1000000000;
-}
-
-#demoHead{
-  top: 0px;
-}
-
-#demoHead span{
-  font-weight: normal;
+.header {
+  background-color: #323335;
   color: white;
+  padding: 10px 40px;
+  font-size: 18px;
+  font-family: 'Lucida Grande', 'Verdana', sans-serif;
+  border-bottom: 4px solid #3d72c9;;
 }
 
 img{
@@ -107,8 +93,7 @@ ul ul{
   </style>
 </head>
 <body>
-  <!-- <div id="demoHead">qooxdoo<span> - Universal JavaScript Framework</span></div> -->
-
+  <div class="header">qooxdoo - a universal JavaScript framework</div>
   <div id="content">
     <div class="block">
       <h1>Desktop</h1>
