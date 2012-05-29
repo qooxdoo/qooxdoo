@@ -61,13 +61,17 @@ qx.Class.define("mobileshowcase.page.Animation",
 
       list.setModel(new qx.data.Array(data));
       list.addListener("changeSelection", function(evt) {
+        // In Tablet Mode, animation should be shown for this showcase part.
+        // On animation landing >> setShowAnimation(false) is called.
+        this.getLayoutParent().getLayout().setShowAnimation(true);
+
         var animation = data[evt.getData()].animation;
         qx.ui.mobile.navigation.Manager.getInstance().executeGet("/animation/" + animation);
       }, this);
       this.getContent().add(list);
     },
-
-
+    
+    
     // overridden
     _back : function()
     {
