@@ -54,6 +54,7 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
            qx.bom.element.Animation.animate(content, {
              duration: duration,
              origin: "top center",
+             keep: 100,
              keyFrames: {
                0: {
                  "padding-bottom": "0px",
