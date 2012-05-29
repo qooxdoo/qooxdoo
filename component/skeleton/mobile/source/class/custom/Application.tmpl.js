@@ -83,7 +83,7 @@ qx.Class.define("${Namespace}.Application",
         page1.show({reverse:true});
       }, this);
       
-       // Add the pages to the page manager.
+      // Add the pages to the page manager.
       var manager = new qx.ui.mobile.page.Manager(false);
       manager.addDetail([
         page1,
