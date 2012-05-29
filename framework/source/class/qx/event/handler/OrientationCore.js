@@ -60,6 +60,7 @@ qx.Bootstrap.define("qx.event.handler.OrientationCore", {
     _window : null,
     _currentOrientation : null,
     __onNativeWrapper : null,
+    __nativeEventType : null,
     
     
     
