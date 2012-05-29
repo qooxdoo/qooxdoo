@@ -245,6 +245,11 @@ qx.Class.define("testrunner.view.Console", {
     },
     
     
+    /**
+     * Returns the aggregated results for this test suite
+     * 
+     * @return {Map} Test suite results
+     */
     getSuiteResults : function()
     {
       return this.__suiteResults;

@@ -1,5 +1,25 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2012 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Daniel Wagner (d_wagner)
+
+************************************************************************ */
+
 /**
- * 
+ * Sends the result of a single unit to the URI configured by the 
+ * "testrunner.reportServer" environment setting. 
  * The data is contained in the _ScriptTransport_data
  * parameter. It begins with 'unittest=', followed by a JSON-encoded map
  * containing the following string values:
@@ -24,12 +44,27 @@ qx.Mixin.define("testrunner.view.MReportResult", {
     __autErrors : null,
     
     
+    /**
+     * Returns the map of results for  the current suite. The keys are fully 
+     * qualified names of test methods. Values are maps with the following keys:
+     * <pre>state</pre> The test's final state<br/>
+     * <pre>messages</pre> Array of error messages
+     * 
+     * @return {Map} Test results map
+     */
     getTestResults : function()
     {
       return this.__results;
     },
     
     
+    /**
+     * Returns the map of uncaught exceptions that occurred during test suite
+     * execution. The keys are fully qualified names of test methods while the
+     * values are arrays of error messages
+     * 
+     * @return {Map} Map of uncaught exceptions
+     */
     getAutErrors : function()
     {
       return this.__autErrors;
@@ -86,6 +121,11 @@ qx.Mixin.define("testrunner.view.MReportResult", {
     },
     
     
+    /**
+     * Adds an entry for a single test to the results map
+     * 
+     * @param testResultData {testrunner.runner.TestItem} Test result object
+     */
     saveTestResult : function(testResultData)
     {
       var testName = testResultData.getFullName();
@@ -110,6 +150,12 @@ qx.Mixin.define("testrunner.view.MReportResult", {
     },
     
     
+    /**
+     * Returns a map containing information about a single test
+     * 
+     * @param testName {String} Fully qualified test method name
+     * @return {Map} Result data
+     */
     getTestResultData : function(testName)
     {
       var data = {};
@@ -137,10 +183,9 @@ qx.Mixin.define("testrunner.view.MReportResult", {
     
     
     /**
-     * Adds environment information to a test result map and sends it to the
-     * server.
+     * Sends a test result to the server
      *
-     * @param data {Map} Test result data
+     * @param testName {String} Fully qualified test method name
      */
     reportResult : function(testName)
     {

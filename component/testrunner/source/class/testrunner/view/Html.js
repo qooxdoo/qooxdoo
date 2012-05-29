@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -194,6 +194,8 @@ qx.Class.define("testrunner.view.Html", {
     
     
     /**
+     * Add listeners to the main Test Runner controls
+     * 
      * @lint ignoreUndefined($)
      */
     _bindMainControls : function()
@@ -238,6 +240,8 @@ qx.Class.define("testrunner.view.Html", {
 
 
     /**
+     * Add listeners to the test list controls
+     * 
      * @lint ignoreUndefined($)
      */
     _bindTestControls : function() {
@@ -542,8 +546,10 @@ qx.Class.define("testrunner.view.Html", {
     __testExceptions : null,
     
     /**
-     * TODOC
-     *
+     * Styles an entry in the results view according to the corresponding test's
+     * state
+     * 
+     * @param testResultData {testrunner.runner.TestItem} Test result object
      * @lint ignoreUndefined($)
      */
     _markTestInList : function(testResultData)
@@ -571,7 +577,8 @@ qx.Class.define("testrunner.view.Html", {
     
     
     /**
-     * TODOC
+     * Returns an ordered list element containing all exceptions from the given
+     * test result object
      * 
      * @param testResultData {testrunner.runner.TestItem} Test data object
      * @return {Element} HTML list element
