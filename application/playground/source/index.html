@@ -40,9 +40,7 @@ page.addListener("initialize", function() {
   }, this);
 },this);
 
-this.getManager().addDetail([
-  page
-]);
+this.getManager().addDetail(page);
 
 page.show();</textarea>
 
@@ -79,9 +77,7 @@ page.addListener("initialize", function() {
   page.getContent().add(list);
 },this);
 
-this.getManager().addDetail([
-  page
-]);
+this.getManager().addDetail(page);
 
 page.show();</textarea>
 
@@ -117,10 +113,7 @@ page2.addListener("back", function() {
   page1.show({reverse:true});
 }, this);
 
-this.getManager().addDetail([
-  page1,
-  page2
-]);
+this.getManager().addDetail([page1,page2]);
 
 page1.show();</textarea>
 
@@ -159,7 +152,7 @@ page.addListener("initialize", function() {
   }, this);
 },this);
 
-this.getManager().addDetail([page]);
+this.getManager().addDetail(page);
 
 page.show();</textarea>
 
@@ -193,7 +186,7 @@ page.addListener("initialize", function()
   page.getContent().add(list);
 },this);
 
-this.getManager().addDetail([page]);
+this.getManager().addDetail(page);
 page.show();</textarea>
 
 

@@ -88,7 +88,7 @@ qx.Class.define("mobileshowcase.Application",
       
       // Add the pages to the page manager
       var manager = new qx.ui.mobile.page.Manager(isTablet||isDesktop);
-      manager.addMaster([overview]);
+      manager.addMaster(overview);
       manager.addDetail([
         basic,
         events,

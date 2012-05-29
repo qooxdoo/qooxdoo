@@ -75,7 +75,7 @@ example code, we can safely replace it with the following lines of code:
     var manager = new qx.ui.mobile.page.Manager(false);
 
     var inputPage = new mobiletweets.page.Input();
-    manager.addDetail([inputPage]);
+    manager.addDetail(inputPage);
 
     inputPage.show();
 
@@ -201,7 +201,7 @@ just added:
     var tweetsPage = new mobiletweets.page.Tweets();
     
     // Add page to manager
-    manager.addDetail([tweetsPage]);
+    manager.addDetail(tweetsPage);
 
     // Show the tweets page, when the button is pressed
     inputPage.addListener("requestTweet", function(evt) {
@@ -514,7 +514,7 @@ called.
     var tweetPage = new mobiletweets.page.Tweet();
 
     // Add page to manager
-    manager.addDetail([tweetPage]);
+    manager.addDetail(tweetPage);
 
     // Return to the Tweets Page
     tweetPage.addListener("back", function(evt) {

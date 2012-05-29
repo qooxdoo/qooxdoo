@@ -100,7 +100,7 @@ qx.Class.define("mobiletweets.Application",
       var inputPage = this.__inputPage = new mobiletweets.page.Input();
       
       // Add page to manager
-      manager.addDetail([inputPage]);
+      manager.addDetail(inputPage);
       
       // Display inputPage on start
       inputPage.show();
@@ -111,13 +111,13 @@ qx.Class.define("mobiletweets.Application",
       this.bind("username", tweetsPage, "title");
       
       // Add page to manager
-      manager.addDetail([tweetsPage]);
+      manager.addDetail(tweetsPage);
 
       // Create an instance of the Tweet class
       var tweetPage = new mobiletweets.page.Tweet();
       
       // Add page to manager
-      manager.addDetail([tweetPage]);
+      manager.addDetail(tweetPage);
       
       // Load the tweets and show the tweets page
       inputPage.addListener("requestTweet", function(evt) {

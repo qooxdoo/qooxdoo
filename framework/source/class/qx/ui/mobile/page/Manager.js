@@ -33,7 +33,7 @@
  *  var page1 = new qx.ui.mobile.page.NavigationPage();
  *  var page2 = new qx.ui.mobile.page.NavigationPage();
  *  var page3 = new qx.ui.mobile.page.NavigationPage();
- *  manager.addMaster([page1]);
+ *  manager.addMaster(page1);
  *  manager.addDetail([page2,page3]);
  * 
  *  page1.show();
@@ -125,9 +125,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     
     /**
-     * Adds an array of NavigationPages to masterContainer, only if this.__isTablet is true.
-     * Otherwise it will be added to detailContainer.
-     * @param pages {qx.ui.mobile.page.NavigationPage[]} Array of NavigationPage.
+     * Adds an array of NavigationPages to masterContainer, if __isTablet is true. Otherwise it will be added to detailContainer.
+     * @param pages {qx.ui.mobile.page.NavigationPage[]|qx.ui.mobile.page.NavigationPage} Array of NavigationPages or single NavigationPage.
      */
     addMaster : function(pages) {
       if (this.__isTablet) {
@@ -146,7 +145,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     /**
      * Adds an array of NavigationPage to the detailContainer.
-     * @param pages {qx.ui.mobile.page.NavigationPage[]} Array of NavigationPage.
+     * @param pages {qx.ui.mobile.page.NavigationPage[]|qx.ui.mobile.page.NavigationPage} Array of NavigationPages or single NavigationPage.
      */
     addDetail : function(pages) {
       this._add(pages, this.__detailContainer);
@@ -173,16 +172,22 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     /**
      * Adds an array of NavigationPage to the target container.
-     * @param pages {qx.ui.mobile.page.NavigationPage[]} Array of NavigationPage.
+     * @param pages {qx.ui.mobile.page.NavigationPage[]|qx.ui.mobile.page.NavigationPage} Array of NavigationPages, or NavigationPage.
      * @param target {qx.ui.mobile.container.Navigation} target navigation container.
      */
     _add : function(pages, target) {
+      if (!qx.lang.Type.isArray(pages)) {
+        pages = [pages];
+      }
+
       for (var i = 0; i < pages.length; i++) {
         var page = pages[i];
+
         if (qx.core.Environment.get("qx.debug"))
         {
           this.assertInstance(page, qx.ui.mobile.page.NavigationPage);
         }
+
         target.add(page);
       }
     },
