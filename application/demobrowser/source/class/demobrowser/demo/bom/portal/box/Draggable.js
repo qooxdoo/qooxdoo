@@ -33,9 +33,9 @@ qx.Class.define("demobrowser.demo.bom.portal.box.Draggable",
   {
     this.base(arguments);
 
-    this.__box          = box;
-    this.__element      = box.getElement();
-    this.__handle       = null;
+    this.__box = box;
+    this.__element = box.getElement();
+    this.__handle = null;
     this.__offsets = null;
 
     this.__prepare();
@@ -73,8 +73,6 @@ qx.Class.define("demobrowser.demo.bom.portal.box.Draggable",
 
     /**
      * Internal preparation (adding handle)
-     *
-     * @return {void}
      */
     __prepare : function()
     {
@@ -85,8 +83,6 @@ qx.Class.define("demobrowser.demo.bom.portal.box.Draggable",
 
     /**
      * Creates the handle to drag the box around.
-     *
-     * @return {void}
      */
     __createHandle : function()
     {
@@ -101,8 +97,6 @@ qx.Class.define("demobrowser.demo.bom.portal.box.Draggable",
 
     /**
      * Internal method to add all needed event listener methods
-     *
-     * @return {void}
      */
     __addListener : function()
     {
@@ -112,7 +106,12 @@ qx.Class.define("demobrowser.demo.bom.portal.box.Draggable",
       }, this.__handle);
 
       qx.bom.Element.addListener(this.__handle, "dragstart", this.__onDragStart, this);
-      qx.bom.Element.addListener(this.__handle, "dragend", demobrowser.demo.bom.portal.dragdrop.Manager.getInstance().stopSession, demobrowser.demo.bom.portal.dragdrop.Manager.getInstance());
+      qx.bom.Element.addListener(
+        this.__handle, 
+        "dragend", 
+        demobrowser.demo.bom.portal.dragdrop.Manager.getInstance().stopSession, 
+        demobrowser.demo.bom.portal.dragdrop.Manager.getInstance()
+      );
       qx.bom.Element.addListener(this.__handle, "drag", this.__onDragMove, this);
     },
 
@@ -122,7 +121,6 @@ qx.Class.define("demobrowser.demo.bom.portal.box.Draggable",
      * Sets the start offset for the drag and drop session
      *
      * @param e {qx.event.type.Mouse} mouse event instance
-     * @return {void}
      */
     __onMouseDown : function(e)
     {
@@ -168,7 +166,6 @@ qx.Class.define("demobrowser.demo.bom.portal.box.Draggable",
      * Removes the "mousemove" event listener
      *
      * @param e {qx.event.type.Mouse} mouse event instance
-     * @return {void}
      */
     __onMouseUp : function(e)
     {
@@ -182,7 +179,6 @@ qx.Class.define("demobrowser.demo.bom.portal.box.Draggable",
         qx.event.Registration.removeListener(document.body, "mousemove", this.__onDragMove, this, true);
         demobrowser.demo.bom.portal.dragdrop.Manager.getInstance().stopSession();
       }
-
       qx.bom.Element.removeListener(document.body, "mouseup", this.__onMouseUp, this, true);
     },
 
@@ -191,15 +187,13 @@ qx.Class.define("demobrowser.demo.bom.portal.box.Draggable",
      * Listener method for "dragStart" event
      *
      * @param e {qx.event.type.Drag} drag event instance
-     * @return {void}
      */
     __onDragStart : function(e)
     {
       // it may happen that this "dragStart" event is fired even if the drag
       // session is still active - for example the user released the mouse button
       // outside of the viewport
-      if (demobrowser.demo.bom.portal.dragdrop.Manager.getInstance().isSessionActive())
-      {
+      if (demobrowser.demo.bom.portal.dragdrop.Manager.getInstance().isSessionActive()) {
         return;
       }
 
@@ -218,7 +212,6 @@ qx.Class.define("demobrowser.demo.bom.portal.box.Draggable",
      * Listener method for all "drag" events
      *
      * @param e {qx.event.type.Drag} drag event instance
-     * @return {void}
      */
     __onDragMove : function(e)
     {

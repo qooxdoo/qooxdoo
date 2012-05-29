@@ -76,7 +76,6 @@ qx.Class.define("demobrowser.demo.bom.portal.dragdrop.Manager",
      * Starts a drag and drop session
      *
      * @param activeBox {demobrowser.demo.bom.portal.box.Box} active box instance
-     * @return {void}
      */
     startSession : function(activeBox)
     {
@@ -111,8 +110,6 @@ qx.Class.define("demobrowser.demo.bom.portal.dragdrop.Manager",
 
     /**
      * Creates the ghost element which is moved during the drag&drop session
-     *
-     * @return {void}
      */
     __createGhostElement : function()
     {
@@ -151,7 +148,6 @@ qx.Class.define("demobrowser.demo.bom.portal.dragdrop.Manager",
      *
      * @param source {Node} source DOM node
      * @param target {Node} target DOM node
-     * @return {void}
      */
     __switchParent : function(source, target)
     {
@@ -166,7 +162,6 @@ qx.Class.define("demobrowser.demo.bom.portal.dragdrop.Manager",
      *
      * @param e {qx.event.type.Drag} Drag event instance
      * @lint ignoreDeprecated(_applyActive)
-     * @return {void}
      */
     stopSession : function(e)
     {
@@ -177,27 +172,24 @@ qx.Class.define("demobrowser.demo.bom.portal.dragdrop.Manager",
       var element = activeBox.getElement();
 
       // inform the box manager about the update
-      demobrowser.demo.bom.portal.box.Manager.getInstance().updateGroupBoxMembers(activeBox.getGroupBoxId(), this.__currentGroupBox, activeBox);
+      demobrowser.demo.bom.portal.box.Manager.getInstance().updateGroupBoxMembers(
+        activeBox.getGroupBoxId(), this.__currentGroupBox, activeBox
+      );
 
       // store the new groupBox id
       activeBox.setGroupBoxId(this.__currentGroupBox);
 
       // animation setup
-      var animMove = new qx.fx.effect.core.Move(this.__ghost);
-      animMove.set(
-      {
-        x : qx.bom.element.Location.getLeft(element),
-        y : qx.bom.element.Location.getTop(element),
-        mode : "absolute",
-        duration : 0.5,
-        transition : "spring"
-      });
-
-      // start the animation
-      animMove.start();
+      var from = {left: qx.bom.element.Location.getLeft(this.__ghost) + "px", top: qx.bom.element.Location.getTop(this.__ghost) + "px"};
+      var to = {left: qx.bom.element.Location.getLeft(element) + "px", top: qx.bom.element.Location.getTop(element) + "px"};
+      var desc = {timing: "ease-out", duration: 300, keep: 100, keyFrames : {
+        0 : from,
+        100 : to
+      }};
+      var handle = qx.bom.element.Animation.animate(this.__ghost, desc);
 
       // listener for animation end
-      animMove.addListener("finish", function()
+      handle.addListener("end", function()
       {
         this.__switchParent(this.__ghost, element);
 
@@ -219,7 +211,6 @@ qx.Class.define("demobrowser.demo.bom.portal.dragdrop.Manager",
      *
      * @param top {Integer} top coordinate of the drag event
      * @param left {Integer} left coordinate of the drag event
-     * @return {void}
      */
     onDragMove : function(top, left)
     {
@@ -367,7 +358,6 @@ qx.Class.define("demobrowser.demo.bom.portal.dragdrop.Manager",
      * groupBox.
      *
      * @param left {Integer} current x coordinate
-     * @return {void}
      */
     checkGroupBox : function(left,width)
     {
