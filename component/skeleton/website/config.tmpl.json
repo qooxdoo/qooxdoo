@@ -4,14 +4,18 @@
   "include" :
   [
     {
-      "path" : "$${QOOXDOO_PATH}/component/standalone/website/config.json"
+      "path" : "$${WEBSITE}/website.json"
     }
   ],
 
   "export" :
   [
+    "api",
+    "api-data",
     "build",
-    "build-min"
+    "build-min",
+    "test",
+    "test-source"
   ],
 
   "default-job" : "build-min",
@@ -25,6 +29,7 @@
   {
     "APPLICATION"  : "${Namespace}",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
+    "WEBSITE"      : "$${QOOXDOO_PATH}/component/standalone/website",
     "CACHE"        : "${Cache}",
     "BUILD_PATH"   : "script",
     "ROOT"         : "."
@@ -35,6 +40,15 @@
 
   "jobs" :
   {
+    "api" :
+    {
+      "run" : ["api-files"]
+    },
+
+    "api-files" :
+    {
+      "extend" : ["cache"]
+    }
   }
 }
 
