@@ -20,35 +20,59 @@
 qx.Bootstrap.define("q", {
   extend : qx.type.BaseArray,
   statics : {
+    // internal storage for all initializers
+    __init : [],
+
     /**
      * Internal helper to initialize collections.
      *
-     * @signature function(arg)
      * @param arg {var} An Element or an array of Elements which will
      *   be initialized as {@link q}.
      * @return {q} A new initialized collection.
      */
-    $init : null,
+    $init : function(arg) {
+      var col = qx.lang.Array.cast(arg, q);
+      for (var i=0; i < q.__init.length; i++) {
+        q.__init[i].call(col);
+      };
+      return col;
+    },
 
 
     /**
      * This is an API for module development and can be used to attach new methods
      * to {@link q}.
      *
-     * @signature function(module)
      * @param module {Map} A map containing the methods to attach.
      */
-    $attach : null,
+    $attach : function(module) {
+      for (var name in module) {
+        if (qx.core.Environment.get("qx.debug")) {
+          if (q.prototype[name] != undefined && Array.prototype[name] == undefined) {
+            throw new Error("Method '" + name + "' already available.");
+          }
+        }
+        q.prototype[name] = module[name];
+      };
+    },
 
 
     /**
      * This is an API for module development and can be used to attach new methods
      * to {@link q}.
      *
-     * @signature function(module)
      * @param module {Map} A map containing the methods to attach.
      */
-    $attachStatic : null,
+    $attachStatic : function(module) {
+      for (var name in module) {
+        if (qx.core.Environment.get("qx.debug")) {
+          if (q.prototype[name] != undefined) {
+            throw new Error("Method '" + name + "' already available as static method.");
+          }
+        }
+        q[name] = module[name];
+      }
+    },
 
 
     /**
@@ -56,10 +80,11 @@ qx.Bootstrap.define("q", {
      * methods to {@link q} which will be called when a new collection is
      * created.
      *
-     * @signature function(init)
      * @param init {Function} The initialization method for a module.
      */
-    $attachInit : null,
+    $attachInit : function(init) {
+      this.__init.push(init);
+    },
 
 
     /**
@@ -71,13 +96,21 @@ qx.Bootstrap.define("q", {
      * @param config {Map ? null} Class definition structure.
      * @return {Function} The defined class.
      */
-    define : null
-  }
-});
+    define : function(name, config) {
+      if (config == undefined) {
+        config = name;
+        name = null;
+      }
+      return qx.Bootstrap.define.call(qx.Bootstrap, name, config);
+    }
+  },
 
-(function() {
-  var Collection = q;
-  q = function(selector, context) {
+
+  construct : function(selector, context) {
+    if (!selector) {
+      return this;
+    }
+
     if (qx.Bootstrap.isString(selector)) {
       selector = qx.bom.Selector.query(selector, context);
     } else if (!(qx.Bootstrap.isArray(selector))) {
@@ -85,48 +118,4 @@ qx.Bootstrap.define("q", {
     }
     return q.$init(selector);
   }
-
-  q.__init = [];
-
-  q.$init = function(arg) {
-    var col = qx.lang.Array.cast(arg, Collection);
-    for (var i=0; i < q.__init.length; i++) {
-      q.__init[i].call(col);
-    };
-    return col;
-  };
-
-  q.$attach = function(module) {
-    for (var name in module) {
-      if (qx.core.Environment.get("qx.debug")) {
-        if (Collection.prototype[name] != undefined && Array.prototype[name] == undefined) {
-          throw new Error("Method '" + name + "' already available.");
-        }
-      }
-      Collection.prototype[name] = module[name];
-    };
-  }
-
-  q.$attachStatic = function(module) {
-    for (var name in module) {
-      if (qx.core.Environment.get("qx.debug")) {
-        if (Collection.prototype[name] != undefined) {
-          throw new Error("Method '" + name + "' already available as static method.");
-        }
-      }
-      q[name] = module[name];
-    }
-  }
-
-  q.$attachInit = function(init) {
-    this.__init.push(init);
-  }
-
-  q.define = function(name, config) {
-    if (config == undefined) {
-      config = name;
-      name = null;
-    }
-    return qx.Bootstrap.define.call(qx.Bootstrap, name, config);
-  }
-})();
+});
