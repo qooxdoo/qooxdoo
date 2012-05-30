@@ -30,6 +30,9 @@
  * "browser.quirksmode"  --> <code>true</code>, if the browser is in quirksmode
  * "browser.documentmode" --> The document mode of the browser
  *
+ * "device.name" --> The name of the device e.G. <code>iPad</code>.
+ * "device.type" --> Either, <code>desktop</code>, <code>table</code> or <code>mobile</code>.
+ *
  * "engine.name" --> The name of the engine
  * "engine.version" --> The version of the engine
  */
