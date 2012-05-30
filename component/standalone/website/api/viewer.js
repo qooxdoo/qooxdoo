@@ -572,4 +572,10 @@ q.ready(function() {
     "Color" : "https://developer.mozilla.org/en/CSS/color"
   };
 
+  // mobile support
+  if (q.env.get("device.type") != "desktop") {
+    q("#list").setStyles({position: "absolute", bottom: "auto"});
+    q("#content").setStyles({position: "absolute", bottom: "auto"});
+    q("#header-wrapper").setStyle("position", "absolute");
+  }
 });
