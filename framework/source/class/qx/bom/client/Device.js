@@ -111,13 +111,13 @@ qx.Bootstrap.define("qx.bom.client.Device",
      */
     detectTabletDevice : function(userAgentString){
        return !(/Fennec|HTC.Magic|Nexus|android.+mobile/i.test(userAgentString)) && (/Android|ipad|tablet|playbook|silk|kindle|psp/i.test(userAgentString));
-    },
+    }
     
-
-    defer : function(statics) {
+  },
+  
+  
+  defer : function(statics) {
       qx.core.Environment.add("device.name", statics.getName);
       qx.core.Environment.add("device.type", statics.getType);
-    }
   }
-  
 });
