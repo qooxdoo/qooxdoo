@@ -96,12 +96,13 @@ Both approaches (download or skeleton) pretty much match up, with the skeleton g
 * *build-min*: You can re-create the library file (located in *script/*), by running the ``generate.py [build-min]`` job. This is interesting if you e.g. upgrade to a new qooxdoo SDK and want to make sure you are working against the latest code.
 * *build*: You can create a *non-optimized* version of the library, if you want to debug into its code. This is achieved by running the ``generate.py build`` job. Mind, though, that you then need to include *q.js* in your HTML code (rather than *q.min.js* which is the minified version).
 * *test, test-source*: You can write unit tests for your custom code, and generate a local version of the :ref:`Portable Testrunner <pages/frame_apps_testrunner#portable_test_runner>` using ``generate.py test`` or ``generate.py test-source`` (The linked description of the Portable Testrunner refers partly to the ready-built download version, hence it says *"no compile step"*). In order to sensibly test your code, you should put it in its own .js file, rather than inline it in the *index.html*. This way, you can load it both in the application *index.html* as well as in *test/index.html* where the unit tests are applied.
+* *api*, *api-data*: These jobs re-create the %{Website} Apiviewer (or just the API data, respectively) in the skeleton. This is useful if you want to have the API documentation close-by.
 
 
 Included layers
 ^^^^^^^^^^^^^^^
 
-* See the :doc:`%{Website} </pages/website>` documentation.
+* See the :doc:`/pages/website` documentation.
 
 .. _pages/development/skeletons#basic:
 
