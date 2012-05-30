@@ -400,6 +400,7 @@ q.ready(function() {
      if (!text) {
        return;
      }
+
      // @links: methods
      text = text.replace(/\{@link .*#(.*?)\}/g, "<code><a href='#.$1'>.$1()</a></code>");
      // @links: core
@@ -465,10 +466,16 @@ q.ready(function() {
    * HELPERS
    */
    var getDataKeys = function() {
-     var keys = Object.keys(data);
+     var keys = [];
+     for (var key in data) {
+       keys.push(key);
+     }
      keys.sort(function(a, b) {
        if (a == "Core") {
          return -1;
+       }
+       if (b == "Core") {
+         return 1;
        }
        return a < b ? -1 : +1;
      });
