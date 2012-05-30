@@ -30,6 +30,11 @@ qx.Bootstrap.define("qx.module.event.Native", {
   statics :
   {
     /**
+     * List of event types to be normalized
+     */
+    TYPES : ["*"],
+
+    /**
      * List of qx.bom.Event methods to be attached to native event objects
      * @type Array
      * @internal
@@ -113,6 +118,6 @@ qx.Bootstrap.define("qx.module.event.Native", {
   },
 
   defer : function(statics) {
-    q.$registerEventNormalization("*", statics.normalize);
+    q.$registerEventNormalization(statics.TYPES, statics.normalize);
   }
 });

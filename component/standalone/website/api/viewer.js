@@ -40,6 +40,38 @@ q.ready(function() {
     }
   });
 
+  // load event normalization modules
+  var norm = q.env.get("q.eventtypes");
+  if (norm) {
+    norm = norm.split(",");
+    norm.forEach(function(name) {
+      loading++;
+      q.io.xhr("script/" + name + ".json").send().on("loadend", function(xhr) {
+        loading--;
+        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
+          var ast = JSON.parse(xhr.responseText);
+          renderEventNorm(ast);
+        } else {
+          console && console.warn("Event normalization '" + name + "' could not be loaded.");
+        }
+      });
+    });
+  }
+
+
+  var eventNormAsts = [];
+  var renderEventNorm = function(ast) {
+    eventNormAsts.push(ast);
+    if (q.env.get("q.eventtypes").split(",").length > eventNormAsts.length) {
+      return;
+    }
+
+    q("#list").append(q.create("<h1>Event Types</h1>"));
+    for (var i=0; i < eventNormAsts.length; i++) {
+      renderClass(eventNormAsts[i], "event.");
+    };
+  };
+
 
   var loadedClasses = [];
   var loadClass = function(name) {
@@ -118,7 +150,7 @@ q.ready(function() {
 
   var renderListModule = function(name, data, prefix) {
     var list = q("#list");
-    if (prefix) {
+    if (prefix && prefix != "event.") {
       list.append(q.create("<a href='#" + name + "'><h1>" + name + "</h1></a>"));
     } else {
       list.append(q.create("<a href='#" + name + "'><h2>" + name + "</h2></a>"));
@@ -163,6 +195,17 @@ q.ready(function() {
        if (eventsEl) {
          module.append(eventsEl);
        }
+     }
+
+     if (data.types) {
+       var types = JSON.parse(data.types);
+       for (var i=0; i < types.length; i++) {
+         if (types[i] == "*") {
+           types[i] = "all";
+         }
+       };
+       var typesEl = renderTypes(types);
+       module.append(typesEl);
      }
 
      data["static"].forEach(function(method) {
@@ -284,6 +327,11 @@ q.ready(function() {
   };
 
 
+  var renderTypes = function(types) {
+    return q.template.get("types", {types: types});
+  };
+
+
   var printParams = function() {
     var params = "";
     for (var i = 0; i < this.params.length; i++) {
@@ -307,7 +355,7 @@ q.ready(function() {
   };
 
 
-  var renderClass = function(ast) {
+  var renderClass = function(ast, prefix) {
     var module = {"member": [], "static" : []};
 
     getByType(ast, "methods").children.forEach(function(method) {
@@ -327,11 +375,21 @@ q.ready(function() {
     });
     var name = ast.attributes.name;
 
-    renderListModule(name, module, name + ".");
+    // event normalization types
+    var constants = getByType(ast, "constants");
+    for (var i=0; i < constants.children.length; i++) {
+      var constant = constants.children[i];
+      if (constant.attributes.name == "TYPES") {
+        module.types = constant.attributes.value;
+        break;
+      }
+    };
+
+    renderListModule(name, module, prefix || name + ".");
     module.desc = getByType(ast, "desc").attributes.text || "";
     module.events = getEvents(ast);
 
-    renderModule(name, module, name + ".");
+    renderModule(name, module, prefix || name + ".");
   };
 
 

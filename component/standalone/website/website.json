@@ -231,7 +231,11 @@
     "build-api" :
     {
       "extend" : ["build"],
-      
+
+      "environment" :
+      {
+        "q.eventtypes" : "qx.module.event.Mouse,qx.module.event.Keyboard,qx.module.event.Native,qx.module.event.Orientation,qx.module.event.Touch"
+      },
       "compile-options" :
       {
         "paths"  :
