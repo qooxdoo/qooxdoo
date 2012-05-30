@@ -28,6 +28,7 @@
 
 import sys, os, re, types
 from collections import deque
+from ecmascript.frontend.SyntaxException import SyntaxException
 
 ##
 # IterObject  -- abstract base class for iterators, making them resettable and
@@ -130,7 +131,7 @@ class Scanner(IterObject):
                 cursor       = mend # when using the 'pos' parameter in re.search, mo.start/end refer to the *entire* underlying string
                 delimiter = (yield (mo_lastgroup, mo.group(mo_lastgroup), mstart, mlength))
             else:
-                raise SyntaxError("Unable to tokenize text starting with: \"%s\"" % inData[cursor:cursor+200])
+                raise SyntaxException("Unable to tokenize text starting with: \"%s\"" % inData[cursor:cursor+200])
 
 
 ##

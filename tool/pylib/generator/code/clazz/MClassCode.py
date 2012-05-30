@@ -64,12 +64,17 @@ class MClassCode(object):
             console.indent()
 
             fileContent = filetool.read(self.path, self.encoding)
-            tokens = tokenizer.parseStream(fileContent, self.id)
+            fileId = self.path if self.path else self.id
+            try:
+                tokens = tokenizer.parseStream(fileContent, self.id)
+            except SyntaxException, e:
+                # add file info
+                e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
+                raise e
             
             console.outdent()
             console.debug("Generating tree: %s..." % self.id)
             console.indent()
-            fileId = self.path if self.path else self.id
             try:
                 tree = treegen.createSyntaxTree(tokens, fileId)
             except SyntaxException, e:

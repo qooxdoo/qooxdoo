@@ -116,8 +116,7 @@ def parseStream(content, uniqueId=""):
             try:
                 token['source'] = parseString(scanner, tok.value)
             except SyntaxException, e:
-                desc = e.args[0] + " starting with %r..." % (tok.value + e.args[1])[:20]
-                raiseSyntaxException(token, desc)
+                raiseSyntaxException(token, e.args[0])
             token['source'] = token['source'][:-1]
             # adapt line number -- this assumes multi-line strings are not generally out
             linecnt = len(re.findall("\n", token['source']))
@@ -177,8 +176,7 @@ def parseStream(content, uniqueId=""):
                         try:
                             commnt = parseCommentM(scanner)
                         except SyntaxException, e:
-                            desc = e.args[0] + " starting with \"%r...\"" % (tok.value + e.args[1])[:20]
-                            raiseSyntaxException(token, desc)
+                            raiseSyntaxException(token, e.args[0])
                         commnt = alignMultiLines(commnt, token['column'])
                         token['source'] = tok.value + commnt
                         token['detail'] = Comment.Comment(token['source']).getFormat()
