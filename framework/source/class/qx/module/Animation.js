@@ -108,7 +108,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      * *keyFrames* is a map of separate frames. Each frame is defined by a
      *   number which is the percentage value of time in the animation. The value
      *   is a map itself which holds css properties or transforms
-     *   {@link qx.bom.element.Transform} (Transforms only for CSS Animations).
+     *   (Transforms only for CSS Animations).
      *
      * *origin* maps to the transform origin {@link qx.bom.element.Transform#setOrigin}
      *   (Only for CSS animations).

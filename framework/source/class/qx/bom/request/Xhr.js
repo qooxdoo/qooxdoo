@@ -30,6 +30,7 @@
  * Hides browser inconsistencies and works around bugs found in popular
  * implementations.
  *
+ * <div class="desktop">
  * Example:
  *
  * <pre class="javascript">
@@ -42,8 +43,7 @@
  *  req.open("GET", url);
  *  req.send();
  * </pre>
- *
- * Implements {@link qx.bom.request.IRequest}.
+ * </div>
  */
 qx.Bootstrap.define("qx.bom.request.Xhr",
 {

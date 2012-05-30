@@ -48,7 +48,6 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
 
     /**
      * Standard mouse button mapping
-     * @type Array
      */
     BUTTONS_DOM2 : {
       0 : "left",
@@ -59,7 +58,6 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
 
     /**
      * Legacy Internet Explorer mouse button mapping
-     * @type 
      */
     BUTTONS_MSHTML : {
       1 : "left",

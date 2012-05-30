@@ -22,9 +22,12 @@
  * <a href="http://www.w3.org/TR/XMLHttpRequest/">XmlHttpRequest</a>.
  *
  * The script loader can be used to load scripts from arbitrary sources.
+ * <span class="desktop">
  * For JSONP requests, consider the {@link qx.bom.request.Jsonp} transport
  * that derives from the script loader.
+ * </span>
  *
+ * <div class="desktop">
  * Example:
  *
  * <pre class="javascript">
@@ -37,8 +40,7 @@
  *  req.open("GET", url);
  *  req.send();
  * </pre>
- *
- * Implements {@link qx.bom.request.IRequest}.
+ * </div>
  */
 
 /* ************************************************************************

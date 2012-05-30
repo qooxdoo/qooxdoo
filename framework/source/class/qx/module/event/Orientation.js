@@ -48,8 +48,8 @@ qx.Bootstrap.define("qx.module.event.Orientation", {
      * @internal
      */
     BIND_METHODS : ["getOrientation", "isLandscape", "isPortrait"],
-    
-    
+
+
     /**
      * Returns the current orientation of the viewport in degrees.
      *
