@@ -98,7 +98,7 @@ q.ready(function() {
 
 
   var sortMethods = function(a, b) {
-    return a.attributes.name > b.attributes.name;
+    return a.attributes.name > b.attributes.name ? 1 : -1;
   };
 
 
