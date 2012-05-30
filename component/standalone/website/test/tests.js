@@ -8,7 +8,12 @@ testrunner.globalTeardown = function() {
 };
 
 testrunner.define({
-  classname: "Basic"
+  classname: "Basic",
+
+  testInstanceOf : function() {
+    var c = q.create("<div>");
+    this.assertTrue(c instanceof q);
+  }
 
   /*
    * These tests will always fail since the Test Runner adds the unwanted classes
