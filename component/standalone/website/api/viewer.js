@@ -31,6 +31,7 @@ q.ready(function() {
       createData(ast);
       renderList();
       renderContent();
+      loadEventNorm();
       onContentReady();
     } else {
       q("#warning").setStyle("display", "block");
@@ -40,24 +41,26 @@ q.ready(function() {
     }
   });
 
-  // load event normalization modules
-  var norm = q.env.get("q.eventtypes");
-  if (norm) {
-    norm = norm.split(",");
-    norm.forEach(function(name) {
-      loading++;
-      q.io.xhr("script/" + name + ".json").send().on("loadend", function(xhr) {
-        loading--;
-        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
-          var ast = JSON.parse(xhr.responseText);
-          renderEventNorm(ast);
-        } else {
-          console && console.warn("Event normalization '" + name + "' could not be loaded.");
-        }
-      });
-    });
-  }
 
+  var loadEventNorm = function() {
+    var norm = q.env.get("q.eventtypes");
+    if (norm) {
+      norm = norm.split(",");
+      norm.forEach(function(name) {
+        loading++;
+        q.io.xhr("script/" + name + ".json").send().on("loadend", function(xhr) {
+          loading--;
+          if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
+            var ast = JSON.parse(xhr.responseText);
+            renderEventNorm(ast);
+          } else {
+            console && console.warn("Event normalization '" + name + "' could not be loaded.");
+          }
+          onContentReady();
+        });
+      });
+    }
+  };
 
   var eventNormAsts = [];
   var renderEventNorm = function(ast) {
