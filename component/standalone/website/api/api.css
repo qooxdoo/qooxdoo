@@ -1,5 +1,5 @@
 #list {
-  width: 230px;
+  width: 250px;
   position: fixed;
   background-color: red;
   bottom: 0;
@@ -29,7 +29,7 @@
 }
 
 #content {
-  left: 250px;
+  left: 270px;
   padding-right: 20px;
   top: 82px;
   position: fixed;
@@ -67,6 +67,7 @@
 
 #list h2, #list ul {
   margin-left: 15px;
+  white-space: nowrap;
 }
 
 #header {
