@@ -104,17 +104,10 @@ qx.Class.define("mobileshowcase.Application",
         themeSwitcher
       ]);
       
-      if(isTablet||isDesktop){
-          overview.show();
-          basic.show();
-      } else {
-          overview.show();
-      }
-      
       // Initialize the navigation
       var nm = qx.ui.mobile.navigation.Manager.getInstance();
 
-      if (isTablet) {
+      if (isTablet||isDesktop) {
         nm.onGet("/.*", function(data) {
           overview.show();
         },this);

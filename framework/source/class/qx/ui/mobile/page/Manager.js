@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
       this.__portraitMasterContainer = this._createPortraitMasterContainer(this.__masterButton);
       this.__masterDetailContainer.setPortraitMasterContainer(this.__portraitMasterContainer);
-
+      
       root.add(this.__masterDetailContainer, {flex:1});
 
       this.__masterDetailContainer.getMaster().add(this.__masterContainer, {flex:1});
@@ -104,6 +104,16 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       init : "Master",
       check : "String",
       apply : "_applyMasterTitle"
+    },
+    
+    
+    /**
+     * The PortraitMasterContainer will have the height of displayed 
+     * MasterPage content + MasterPage Title + portraitMasterScrollOffset
+     */
+    portraitMasterScrollOffset : {
+      init : 5,
+      check : "Integer"
     }
   },
 
@@ -122,6 +132,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     __masterDetailContainer : null,
     __portraitMasterContainer : null,
     __masterButton : null,
+    __masterPages : null,
     
     
     /**
@@ -130,19 +141,57 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      */
     addMaster : function(pages) {
       if (this.__isTablet) {
-        if(pages){
-          this._add(pages, this.__masterContainer);
-
-          // First page's title is default of MasterButton caption and popup title.
-          var masterPage = pages;
-          if(qx.lang.Type.isArray(pages)){
-            masterPage = pages[0];
+        if(pages) {
+          
+          if(!qx.lang.Type.isArray(pages)) {
+            pages = [pages];
+          } 
+          
+          for(var i=0; i<pages.length; i++) {
+            var masterPage = pages[i];
+            qx.event.Registration.addListener(masterPage, "appear", this.__onMasterPageAppear, this);
+            qx.event.Registration.addListener(masterPage, "start", this.__onMasterPageStart, this);
           }
-          this.setMasterTitle(masterPage.getTitle());
+          
+          if(this.__masterPages) {
+            this.__masterPages.concat(pages);
+          } else {
+            this.__masterPages = pages;
+          }
+          
+          this._add(pages, this.__masterContainer);
         }
       } else {
         this.addDetail(pages);
       }
+    },
+    
+    
+    /**
+     * Called when a masterPage reaches lifecycle state "start". Then property masterTitle will be update with masterPage's title.
+     * @param evt {qx.event.type.Event} source event.
+     */
+    __onMasterPageStart : function(evt) {
+      var masterPage = evt.getTarget();
+      var masterPageTitle = masterPage.getTitle();
+      this.setMasterTitle(masterPageTitle);
+    },
+    
+    
+    /**
+     * Sizes the height of the portraitMasterContainer to the content of the masterPage. 
+     * @param evt {qx.event.type.Event} source event.
+     */
+    __onMasterPageAppear: function(evt) {
+      var masterPage = evt.getTarget();
+      var masterPageContentHeight = qx.bom.element.Dimension.getHeight(masterPage.getContent().getContentElement());
+      var portraitMasterTitleHeight = 0;
+      if(this.__portraitMasterContainer.getTitleWidget()){
+        portraitMasterTitleHeight = qx.bom.element.Dimension.getHeight(this.__portraitMasterContainer.getTitleWidget().getContentElement());
+      }
+      var maxHeight = masterPageContentHeight+portraitMasterTitleHeight+this.getPortraitMasterScrollOffset();
+      
+      qx.bom.element.Style.set(this.__portraitMasterContainer.getContentElement(), "max-height", maxHeight+"px");
     },
     
     
@@ -271,7 +320,20 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         this.__portraitMasterContainer.hide();
       } else {
         this.__portraitMasterContainer.show();
+        qx.event.Registration.addListener(this.__detailContainer, "tap", this._onDetailContainerTap, this);
       }
+    },
+    
+    
+    /**
+     * Reacts on tap at __detailContainer.
+     * Hides the __portraitMasterContainer and removes the listener.
+     */
+    _onDetailContainerTap : function(){
+      this.__portraitMasterContainer.hide();
+      
+      // Listener should only be installed, as long as portraitMasterContainer is shown.
+      qx.event.Registration.removeListener(this.__detailContainer, "tap", this._onDetailContainerTap, this);
     },
 
     
@@ -319,7 +381,19 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
   destruct : function()
   {
+    if(this.__masterPages) {
+      for(var i=0; i<this.__masterPages.length;i++) {
+          var masterPage = this.__masterPages[i];
+         
+          qx.event.Registration.removeListener(masterPage, "appear", this.__onMasterPageAppear, this);
+          qx.event.Registration.removeListener(masterPage, "start", this.__onMasterPageStart, this);
+      }
+    }  
+    
+    this.__masterPages = null;
+    
     this._disposeObjects("__detailContainer", "__masterContainer", "__masterDetailContainer",
       "__portraitMasterContainer", "__masterButton");
+    
   }
 });

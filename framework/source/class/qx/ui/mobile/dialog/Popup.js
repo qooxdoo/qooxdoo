@@ -162,7 +162,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       
       if(this.__anchor)
       {
-        // TODO: remove this hack, find another way to compute the anchorPointer location
         var pos = qx.bom.element.Location.getPosition(this.__anchor.getContainerElement());
         var dimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
         var anchorDimension = qx.bom.element.Dimension.getSize(this.__anchor.getContainerElement());
@@ -195,8 +194,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           this.placeTo(pos.left, pos.top);
         }
         else {
-          //this.__anchorPointer._setStyle('marginLeft',(anchorDimension.width/2)+'px');
-          
           var newDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
           this.placeTo(pos.left, pos.top + anchorDimension.height);
           this.addCssClass('popupAnchorPointerTop');
@@ -439,8 +436,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     getTitleWidget : function() {
       return this.__titleWidget;
     },
-
-
+    
+    
     /**
      * This method removes the widget shown in the popup.
      */
