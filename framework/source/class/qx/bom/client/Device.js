@@ -73,7 +73,7 @@ qx.Bootstrap.define("qx.bom.client.Device",
      * @return {String} The device type name of determined device.
      */
     getType : function() {
-      return this.detectDeviceType(navigator.userAgent);
+      return qx.bom.client.Device.detectDeviceType(navigator.userAgent);
     },
     
     
@@ -84,9 +84,9 @@ qx.Bootstrap.define("qx.bom.client.Device",
      * @return {String} The device type name of determined device: "mobile","desktop","tablet"
      */
     detectDeviceType : function(userAgentString) {
-      if(this.detectTabletDevice(userAgentString)){
+      if(qx.bom.client.Device.detectTabletDevice(userAgentString)){
         return "tablet";
-      } else if (this.detectMobileDevice(userAgentString)){
+      } else if (qx.bom.client.Device.detectMobileDevice(userAgentString)){
         return "mobile";
       } 
       
