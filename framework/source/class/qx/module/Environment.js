@@ -72,6 +72,8 @@ qx.Bootstrap.define("qx.module.Environment", {
     qx.core.Environment.get("engine.name");
     qx.core.Environment.get("engine.version");
 
+    qx.core.Environment.get("device.type");
+
     q.$attachStatic({
       "env" : {get: statics.get, add: statics.add}
     });
