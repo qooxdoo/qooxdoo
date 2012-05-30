@@ -183,6 +183,10 @@
         "paths" :
         {
           "file" : "${TEST_SCRIPT_PATH}/q-test-source.js"
+        },
+        "code" :
+        {
+          "except" : ["*"]
         }
       }
     },
