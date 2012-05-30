@@ -36,14 +36,12 @@ qx.Bootstrap.define("qx.module.event.Native", {
 
     /**
      * List of qx.bom.Event methods to be attached to native event objects
-     * @type Array
      * @internal
      */
     FORWARD_METHODS : ["getTarget", "getRelatedTarget"],
 
     /**
      * List of qx.module.event.Native methods to be attached to native event objects
-     * @type Array
      * @internal
      */
     BIND_METHODS : ["preventDefault", "stopPropagation", "getType"],
@@ -103,7 +101,7 @@ qx.Bootstrap.define("qx.module.event.Native", {
 
       var bindMethods = qx.module.event.Native.BIND_METHODS;
       for (var i=0, l=bindMethods.length; i<l; i++) {
-        if (typeof event[bindMethods[i]] != "function") { 
+        if (typeof event[bindMethods[i]] != "function") {
           event[bindMethods[i]] = qx.module.event.Native[bindMethods[i]].bind(event);
         }
       }

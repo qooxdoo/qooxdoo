@@ -423,10 +423,6 @@ q.ready(function() {
     if (loading > 0) {
       return;
     }
-    // jump to the selected item
-    if (location.hash) {
-      location.href = location.href;
-    }
     // enable syntax highlighting
     q('pre').forEach(function(el) {hljs.highlightBlock(el)});
 
@@ -449,6 +445,10 @@ q.ready(function() {
             console && console.warn("Sample could not be attached for '", method, "'.")
           }
         };
+      }
+      // finally, jump to the selected item
+      if (location.hash) {
+        location.href = location.href;
       }
     });
   };

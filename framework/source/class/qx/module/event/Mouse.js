@@ -30,7 +30,6 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
   {
     /**
      * List of event types to be normalized
-     * @type Array 
      */
     TYPES : ["click", "dblclick", "mousedown", "mouseup", "mouseover", "mousemove",
       "mouseout"],
@@ -39,7 +38,6 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
     /**
      * List qx.module.event.Mouse methods to be attached to native mouse event
      * objects
-     * @type Array
      * @internal
      */
     BIND_METHODS : ["getButton", "getViewportLeft", "getViewportTop", 
