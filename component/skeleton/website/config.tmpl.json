@@ -47,7 +47,22 @@
 
     "api-files" :
     {
-      "extend" : ["cache"]
+      "extend" : ["cache"],
+      "copy-files" :
+      {
+        "files" : 
+        [
+          "api.css",
+          "default.highlight.css",
+          "highlight.LICENSE",
+          "highlight.pack.js",
+          "index.html",
+          "samples.js",
+          "viewer.js"
+        ],
+        "source" : "$${WEBSITE}/api",
+        "target" : "api"
+      }
     }
   }
 }
