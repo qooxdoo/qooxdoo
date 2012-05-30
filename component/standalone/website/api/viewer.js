@@ -419,12 +419,16 @@ q.ready(function() {
    * FINALIZE
    */
   var loading = 0;
+  // no highlighting for IE < 9
+  var useHighlighter = !(q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 9);
   var onContentReady = function() {
     if (loading > 0) {
       return;
     }
     // enable syntax highlighting
-    q('pre').forEach(function(el) {hljs.highlightBlock(el)});
+    if (useHighlighter) {
+      q('pre').forEach(function(el) {hljs.highlightBlock(el)});
+    }
 
     loadSamples();
   }
@@ -440,7 +444,10 @@ q.ready(function() {
           sample = sample.substring(sample.indexOf("\n") + 1, sample.length - 2);
           var sampleElement = q(selector);
           if (sampleElement[0]) {
-            hljs.highlightBlock(q.create("<pre>").appendTo(sampleElement).setHtml(sample)[0]);
+            if (useHighlighter) {
+              hljs.highlightBlock(q.create("<pre>").appendTo(sampleElement).setHtml(sample)[0]);
+            }
+
           } else {
             console && console.warn("Sample could not be attached for '", method, "'.")
           }
