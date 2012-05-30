@@ -316,11 +316,8 @@ class Node(object):
 
         if isComplex != None:
             return isComplex
-
         else:
             isComplex = False
-
-
 
         if not self.children:
             isComplex = False

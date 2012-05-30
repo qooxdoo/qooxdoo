@@ -807,10 +807,14 @@ def handleConstantDefinition(item, classNode):
     node = tree.Node("constant")
     node.set("name", name)
 
-    value = None
     if valueNode.hasChild("constant"):
-            node.set("value", valueNode.getChild("constant").get("value"))
-            node.set("type", valueNode.getChild("constant").get("constantType").capitalize())
+        node.set("value", valueNode.getChild("constant").get("value"))
+        node.set("type", valueNode.getChild("constant").get("constantType").capitalize())
+    elif valueNode.hasChild("array"):
+        arrayNode = valueNode.getChild("array")
+        if all([x.type == "constant" for x in arrayNode.children]):
+            node.set("value", arrayNode.toJS())
+            node.set("type", "Array")
 
     commentAttributes = Comment.parseNode(item)
     description = Comment.getAttrib(commentAttributes, "description")
