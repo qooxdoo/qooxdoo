@@ -105,7 +105,14 @@ qx.Bootstrap.define("q", {
     }
   },
 
-
+  /**
+   * TEST DOC
+   *
+   * @param selector {String|Element|Array} Valid selector (CSS3 + extensions)
+   *   or DOM element or Array of DOM Elements.
+   * @param context {Element} Context element
+   *   (result elements must be children of this element).
+   */
   construct : function(selector, context) {
     if (!selector) {
       return this;

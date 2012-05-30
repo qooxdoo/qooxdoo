@@ -22,6 +22,12 @@ q.ready(function() {
   q.io.xhr("script/q.json").send().on("loadend", function(xhr) {
     if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
       var ast = JSON.parse(xhr.responseText);
+
+      // constructor
+      var construct = getByType(ast, "constructor");
+      data["Core"] = {"static" : [], "member": []};
+      data["Core"]["static"].push(getByType(construct, "method"));
+
       createData(ast);
       renderList();
       renderContent();
@@ -444,6 +450,8 @@ q.ready(function() {
         prefix = prefix.toLowerCase();
       }
       return prefix + item.attributes.name;
+    } else if (item.attributes.name == "ctor") {
+      return "q";
     } else if (item.attributes.isStatic) {
       return "q." + (attachData.attributes.targetMethod || item.attributes.name);
     } else {
