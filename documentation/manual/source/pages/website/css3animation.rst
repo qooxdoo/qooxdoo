@@ -3,7 +3,7 @@
 Transforms and Animations (CSS3)
 ********************************
 
-One of the big pieces in the whole new CSS3 world are `animations <http://www.w3.org/TR/css3-animations/>`_ and `transforms <http://www.w3.org/TR/css3-3d-transforms/>`_ with all the hype about 3D, hardware acceleration and the combinations of both of them. But as always, browser vendors introduce these new features not at the same time, not with the same amount of features and not via the same CSS keys.
+One of the big pieces in the whole CSS3 world are `animations <http://www.w3.org/TR/css3-animations/>`_ and `transforms <http://www.w3.org/TR/css3-3d-transforms/>`_ with all the hype about 3D, hardware acceleration and the combinations of both of them. But as always, browser vendors introduce these new features not at the same time, not with the same amount of features and not via the same CSS keys.
 
 In order to address that two classes have been added, one for `transfoms (API) <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.bom.element.Transform>`_ and one for `animations (API) <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.bom.element.Animation>`_. We kept the API close to the CSS spec, thus all of you familiar with it will recognize it quickly. For all of you who have no idea about all that new CSS stuff yet, when you get in touch with the qooxdoo API, you also learn pieces of the spec!
 

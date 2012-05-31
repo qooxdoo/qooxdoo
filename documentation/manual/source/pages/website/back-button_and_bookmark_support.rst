@@ -3,6 +3,12 @@
 Back-Button and Bookmark Support
 ********************************
 
+
+.. note::
+
+    This document is outdated and does not reflect the proposed way of working with %{Website}. The history module is still under development. As soon as the module is ready, this document will be updated as well.
+
+
 .. _pages/back-button_and_bookmark_support#overview:
 
 Overview

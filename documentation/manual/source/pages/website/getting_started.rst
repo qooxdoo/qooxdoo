@@ -14,7 +14,7 @@ It's easy to start using %{Website}. Create an HTML page and ``<script>``-includ
        Hello World!
      </div>
      <script>
-       alert(%{Q}("div")[0].innerHtml);
+       alert(%{Q}("div").getHtml());
      </script>
    </body>
    </html>

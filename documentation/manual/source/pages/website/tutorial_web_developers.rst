@@ -170,4 +170,4 @@ Giving it a try should show both notification messages in sequence. Well done! W
 
 Summary
 -------
-In this tutorial, we have used a small part of the %{Website} API. First, we have seen parts of the Manipulating module with ``q.create`` and ``.appendTo``. After that, we used the CSS module with ``.setStyle`` and ``.addClass`` and the Attributes module with ``.setHtml``. ``.fadeIn`` and ``.fadeOut`` are part of the Animation module and ``.once`` is part of the Event module. There are more method in the named modules as there are a lot of more modules you can experiment with.
+In this tutorial, we have used a small part of the `%{Website} API <http://demo.qooxdoo.org/%{version}/website-api>`__. First, we have seen parts of the Manipulating module with ``q.create`` and ``.appendTo``. After that, we used the CSS module with ``.setStyle`` and ``.addClass`` and the Attributes module with ``.setHtml``. ``.fadeIn`` and ``.fadeOut`` are part of the Animation module and ``.once`` is part of the Event module. There are more method in the named modules as there are a lot of more modules you can experiment with.

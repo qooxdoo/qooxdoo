@@ -5,7 +5,7 @@ From jQuery to qooxdoo
 
 .. note::
 
-  Please note that the features described here are still experimental, so the API may change in the future.
+  Please note that this document referes to the old API and is outdated.
 
 
 

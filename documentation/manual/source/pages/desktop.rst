@@ -10,6 +10,7 @@ qooxdoo Desktop is the component to build rich and interactive, desktop-like app
 
    desktop/ui_overview
 
+
 Widgets Introduction
 ====================
 
@@ -54,6 +55,17 @@ Themes
    desktop/ui_decorators
    desktop/ui_webfonts
    desktop/ui_using_themes_of_contribs
+
+Technical Concepts
+==================
+
+.. toctree::
+   :maxdepth: 1
+
+   desktop/event_layer_impl
+   desktop/html_element_handling
+   desktop/focus_layer_impl
+
 
 Tutorials
 =========

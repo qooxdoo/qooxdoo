@@ -18,7 +18,7 @@ This listing shows the core features of the *%{qooxdoo} %{Server}* package. If y
    * :doc:`Mixins </pages/core/mixins>`
    * :doc:`Interfaces </pages/core/interfaces>`
    * :doc:`Properties </pages/core/understanding_properties>`
-* :doc:`Events </pages/website/event_layer_impl>`
+* :doc:`Events </pages/desktop/event_layer_impl>`
 * :doc:`Single Value Binding </pages/data_binding/single_value_binding>`
 
 Most of the features can be found in %{qooxdoo}'s core layer and should be familiar to %{qooxdoo} developers.

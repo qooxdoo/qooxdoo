@@ -20,18 +20,20 @@ As you can see in the example above, %{Website}'s idea of API design is to have 
 
 Unless noted otherwise, methods return the collection for chaining, such as the setStyle method in the example. It returns the collection created with ``q("#test")`` on which the append method is called.
 
-TODO 
-- statics
-- modular (use only q API)
+``q`` also offers static utility functions. These functions are usually attached to q in its own sub object. Lets take a look at a sample:
 
+::
+
+  q.type.get(123); // returns "Number"
+
+The sub object, which could also be called a namespace, in the sample is ``type`` and contains a function ``get`` to determinate the type of a give argument.
+
+The code base of ``q`` is build in modules, as you can see in the `API viewer for %{Desktop} <http://demo.qooxdoo.org/%{version}/apiviewer#qx.module>`__. Using the generator, you can build your own library containing only the modules you need. The same way, it is possible to include your own modules into a single, optimized file. Take a look at the :ref:`Documentation of the %{Website} skeleton <pages/development/skeletons#website>`.
 
 
 API Documentation
 *****************
-The best documentation is found in the API viewer for %{Website}. It offers a detailed documentation of all available methods, sorted into modules.
-
-TODO Image of the API viewer and Link
-
+The best documentation is found in the `API viewer <http://demo.qooxdoo.org/%{version}/website-api>`__ for %{Website}. It offers a detailed documentation of all available methods, sorted into modules.
 
 
 CSS Selector Support
@@ -49,6 +51,7 @@ Plugins
 
 %{Website} supports a plugin mechanism. All modules are written as %{Website} plugins. For further details about how to write plugins, take a look at the :doc:`plugins documentation </pages/website/plugins>`
 
+.. _pages/website/overview#included_modules:
 
 Included Modules
 ****************

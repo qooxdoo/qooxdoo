@@ -79,7 +79,7 @@ Included layers
 * Runtime Abstraction
 * Low-Level
 
-.. _pages/development/skeletons#bom:
+.. _pages/development/skeletons#website:
 
 Website
 -------
