@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
       toggleButtonSwitch._setAttribute("data-label-unchecked", this.__labelUnchecked);
       
       if(this.__fontSize) {
-        qx.bom.element.Style.set(toggleButtonSwitch._getContentElement(),"font-size",this.__fontSize+"px");
+        qx.bom.element.Style.set(toggleButtonSwitch._getContentElement(),"fontSize",this.__fontSize+"px");
       }
       
       composite.add(toggleButtonSwitch);
