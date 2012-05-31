@@ -184,6 +184,9 @@ Similar to ``.select()``, `qx.core.Environment.filter() <http://demo.qooxdoo.org
 
 Each key is checked, and if its value resolves to a true value, the corresponding map value is added to an array. At the end, this array is returned. That means, ``.filter()`` turns a set of environment keys into a list of corresponding expressions. For the generator, this means that if an environment value is known to be false at compile time, its entry can be safely removed from the filter map. The benefit of this is that code dependencies that are in the map values are removed, again saving dependencies that would never be used at runtime.
 
+.. note::
+   Mind, though, that ``variants`` optimization somewhat conflicts with the ``qx.allowUrlSettings`` environment key. See :ref:`there <pages/core/environment#in_url>` for more information.
+
 whitespace
 -----------
 Whitespace (spaces, tabs, newlines) is removed. Semi-colons are inserted where necessary.
