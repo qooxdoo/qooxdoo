@@ -282,7 +282,13 @@ q.ready(function() {
       var types = getByType(param, "types");
       for (var k=0; k < types.children.length; k++) {
         var type = types.children[k];
-        paramData.types.push(type.attributes.type);
+        var typeString = type.attributes.type;
+        if (type.attributes.dimensions > 0) {
+          for (var i=0; i < type.attributes.dimensions; i++) {
+            typeString += "[]";
+          };
+        }
+        paramData.types.push(typeString);
       };
       paramData.printTypes = printTypes;
       data.params.push(paramData);
@@ -555,6 +561,10 @@ q.ready(function() {
 
 
   var addTypeLink = function(type) {
+    // special case for pseudo typed arrays
+    if (type.indexOf("[]") != -1) {
+      return "<a target='_blank' href='" + MDC_LINKS["Array"] + "'>" + type + "</a>";
+    }
     if (type == "q") {
       return "<a href='#Core'>q</a>";
     } else if (MDC_LINKS[type]) {
