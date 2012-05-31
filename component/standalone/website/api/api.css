@@ -109,6 +109,10 @@ p {
   margin-left: 8px;
 }
 
+.method ul li ul {
+  margin-left: 16px;
+}
+
 .events h2 {
   margin-top: 15px !important;
 }
