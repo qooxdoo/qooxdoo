@@ -700,9 +700,27 @@ class CodeGenerator(object):
             return classList
 
 
+        ##
+        # If variants optimization is done and environment/qx.AllowUrlSettings:true,
+        # overriding other config env keys with URL parameters will not work, as the corresponding
+        # calls in the code are optimized away.
+        def warn_if_qxAllowUrlSettings(jobObj, compConf):
+            env = jobObj.get("environment", {})
+            qxAllowUrlSettings = bool(env.get("qx.allowUrlSettings", False))
+            optimizeVariants   = "variants" in compConf.optimize
+            if qxAllowUrlSettings and optimizeVariants:
+                self._console.warn(
+                    "Doing variants optimization with qx.allowUrlSettings:true is partly contradictory! " +
+                    "You will not be able to URL-override these environment keys:\n%s" % sorted(env.keys())
+                    )
+
+
         def compileClasses(classList, compConf, log_progress=lambda:None):
             num_proc = self._job.get('run-time/num-processes', 0)
             result = []
+            # warn qx.allowUrlSettings - variants optim. conflict (bug#6141)
+            if "variants" in compConf.optimize:
+                warn_if_qxAllowUrlSettings(self._job, compConf)
             # do "statics" optimization out of line
             if "statics" in compConf.optimize:
                 tmp_optimize = compConf.optimize[:]
