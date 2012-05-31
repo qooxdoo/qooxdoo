@@ -54,9 +54,9 @@ q.define("qx.module.Placement", {
      *   the target.
      *   It is guaranteed the the new position attaches the object to one of the
      *   target edges and that it is aligned with a target edge.</li>
-     *   <li>best-fit</li>: If the element is partially outside of the visible
+     *   <li><code>best-fit</code>: If the element is partially outside of the visible
      *   area, it is moved into the view port, ignoring any offset and position
-     *   values.
+     *   values.</li>
      *   </ul>
      * @param modeY {String?"direct"} Vertical placement mode. Accepts the same values as
      *   the 'modeX' argument.

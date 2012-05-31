@@ -18,23 +18,23 @@
 ************************************************************************ */
 /**
  * Module for querying information about the environment / runtime.
- * It adds a <code>env</code> key static to q and offers the given methods.
+ * It adds a static key <code>env</code> to q and offers the given methods.
  *
  * <pre class="javascript">
  * q.env.get("engine.name"); // return "webkit" e.g.
  * </pre>
  *
- * These following values are predefined:
+ * The following values are predefined:
  * "browser.name" --> The name of the browser
  * "browser.version" --> The version of the browser
- * "browser.quirksmode"  --> <code>true</code>, if the browser is in quirksmode
+ * "browser.quirksmode"  --> <code>true</code> if the browser is in quirksmode
  * "browser.documentmode" --> The document mode of the browser
  *
- * "device.name" --> The name of the device e.G. <code>iPad</code>.
- * "device.type" --> Either, <code>desktop</code>, <code>table</code> or <code>mobile</code>.
+ * "device.name" --> The name of the device e.g. <code>iPad</code>.
+ * "device.type" --> Either <code>desktop</code>, <code>tablet</code> or <code>mobile</code>.
  *
- * "engine.name" --> The name of the engine
- * "engine.version" --> The version of the engine
+ * "engine.name" --> The name of the browser engine
+ * "engine.version" --> The version of the browser engine
  */
 qx.Bootstrap.define("qx.module.Environment", {
   statics :

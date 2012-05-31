@@ -28,7 +28,7 @@ qx.Bootstrap.define("qx.module.Cookie", {
      *
      * @attachStatic {q, cookie.get}
      * @param key {String} The key for the saved string value.
-     * @return {null | String} Returns the saved string value if the cookie
+     * @return {String|null} Returns the saved string value if the cookie
      *    contains a value for the key, otherwise <code>null</code>
      * @signature function(key) 
      */

@@ -39,7 +39,7 @@ qx.Bootstrap.define("qx.module.Polyfill", {
 
 
     /**
-     * Removes white space from the left and the right side of a string
+     * Removes white space from the left and right sides of a string
      */
     stringTrim : function() {
       if (typeof String.prototype.trim !== "function") {

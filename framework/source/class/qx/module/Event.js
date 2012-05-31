@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * Event module
+ * Support for native and custom events.
  */
 qx.Bootstrap.define("qx.module.Event", {
   statics :
@@ -42,7 +42,7 @@ qx.Bootstrap.define("qx.module.Event", {
     },
 
     /**
-     * Register a listener for the given event type on each item in the
+     * Registers a listener for the given event type on each item in the
      * collection. This can be either native or custom events.
      *
      * @attach {q}
@@ -119,7 +119,7 @@ qx.Bootstrap.define("qx.module.Event", {
 
 
     /**
-     * Unregister event listeners for the given type from each element in the
+     * Unregisters event listeners for the given type from each element in the
      * collection.
      *
      * @attach {q}
@@ -194,7 +194,7 @@ qx.Bootstrap.define("qx.module.Event", {
 
 
     /**
-     * Attach a listener for the given event that will be executed only once.
+     * Attaches a listener for the given event that will be executed only once.
      *
      * @attach {q}
      * @param type {String} Type of the event to listen for
@@ -338,7 +338,7 @@ qx.Bootstrap.define("qx.module.Event", {
 
 
     /**
-     * Register a normalization function for the given event types. Listener
+     * Registers a normalization function for the given event types. Listener
      * callbacks for these types will be called with the return value of the
      * normalization function instead of the regular event object.
      *
@@ -369,7 +369,7 @@ qx.Bootstrap.define("qx.module.Event", {
 
 
     /**
-     * Unregister a normalization function from the given event types.
+     * Unregisters a normalization function from the given event types.
      *
      * @attachStatic {q, $unregisterEventNormalization}
      * @param types {String[]} List of event types
@@ -403,7 +403,7 @@ qx.Bootstrap.define("qx.module.Event", {
     
     
     /**
-     * Register an event hook for the given event types.
+     * Registers an event hook for the given event types.
      *
      * @attachStatic {q, $registerEventHook}
      * @param types {String[]} List of event types
@@ -443,7 +443,7 @@ qx.Bootstrap.define("qx.module.Event", {
     
     
     /**
-     * Unregister a hook from the given event types.
+     * Unregisters a hook from the given event types.
      *
      * @attachStatic {q, $unregisterEventHooks}
      * @param types {String[]} List of event types
@@ -477,7 +477,7 @@ qx.Bootstrap.define("qx.module.Event", {
 
 
     /**
-     * Returns all registered event normalizers
+     * Returns all registered event hooks
      *
      * @attachStatic {q, $getEventHookRegistry}
      * @return {Map} Map of event types/registration hook functions

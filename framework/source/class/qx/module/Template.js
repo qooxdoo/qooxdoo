@@ -36,10 +36,10 @@ qx.Bootstrap.define("qx.module.Template", {
   statics :
   {
     /**
-     * Helper method which provides you with a direct access to templates 
-     * stored as HTML in the DOM. The DOM node with the given ID will be treated
-     * as a template, parsed and a new DOM node will be returned containing the
-     * parsed data. Keep in mind to have only one root DOM element in the template.
+     * Helper method which provides direct access to templates stored as HTML in
+     * the DOM. The DOM node with the given ID will be treated as a template, 
+     * parsed and a new DOM node will be returned containing the parsed data. 
+     * Keep in mind that templates can only have one root element.
      * 
      * @attachStatic{q, template.get}
      * @param id {String} The id of the HTML template in the DOM.

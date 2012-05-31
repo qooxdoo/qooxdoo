@@ -23,7 +23,7 @@
 ************************************************************************ */
 /**
  * Cross browser animation layer. It uses feature detection to check if CSS
- * animations are available and ready to use or not. If not, a JavaScript based
+ * animations are available and ready to use. If not, a JavaScript-based
  * fallback will be used.
  */
 qx.Bootstrap.define("qx.module.Animation", {
@@ -65,8 +65,8 @@ qx.Bootstrap.define("qx.module.Animation", {
 
 
     /**
-     * Private helper to set styles which checks if the style setting can
-     * be done using the cross browser layer.
+     * Private helper to set styles which checks if the styles can be set
+     * using the cross browser layer.
      * @param el {Element} The element which should get the styles.
      * @param name {String} The name of the style.
      * @param value {String} The value to set.
@@ -116,7 +116,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      * *repeat* is the amount of time the animation should be run in
      *   sequence. You can also use "infinite".
      *
-     * *timing* takes one of the predefined value:
+     * *timing* takes one of these predefined values:
      *   <code>ease</code> | <code>linear</code> | <code>ease-in</code>
      *   | <code>ease-out</code> | <code>ease-in-out</code> |
      *   <code>cubic-bezier(&lt;number&gt;, &lt;number&gt;, &lt;number&gt;, &lt;number&gt;)</code>
@@ -125,8 +125,8 @@ qx.Bootstrap.define("qx.module.Animation", {
      * *alternate* defines if every other animation should be run in reverse order.
      *
      * @attach {q}
-     * @param desc {Map} The animations description.
-     * @param duration {Number?} The duration in milliseconds of the animation
+     * @param desc {Map} The animation's description.
+     * @param duration {Number?} The duration in milliseconds of the animation,
      *   which will override the duration given in the description.
      * @return {q} The collection for chaining.
      */
@@ -155,8 +155,8 @@ qx.Bootstrap.define("qx.module.Animation", {
      * Starts an animation in reversed order. For further details, take a look at
      * the {@link #animate} method.
      * @attach {q}
-     * @param desc {Map} The animations description.
-     * @param duration {Number?} The duration in milliseconds of the animation
+     * @param desc {Map} The animation's description.
+     * @param duration {Number?} The duration in milliseconds of the animation,
      *   which will override the duration given in the description.
      * @return {q} The collection for chaining.
      */
@@ -198,7 +198,7 @@ qx.Bootstrap.define("qx.module.Animation", {
 
     /**
      * Manipulates the play state of the animation.
-     * This can be used to paused an animation when running.
+     * This can be used to pause an animation when running.
      * @attach {q}
      * @return {q} The collection for chaining.
      */
@@ -225,7 +225,7 @@ qx.Bootstrap.define("qx.module.Animation", {
 
 
     /**
-     * Returns weather an animation is running or not.
+     * Returns whether an animation is running or not.
      * @attach {q}
      * @return {Boolean} <code>true</code>, if an animation is running.
      */
@@ -240,7 +240,7 @@ qx.Bootstrap.define("qx.module.Animation", {
 
 
     /**
-     * Returns weather an animation has ended or not.
+     * Returns whether an animation has ended or not.
      * @attach {q}
      * @return {Boolean} <code>true</code>, if an animation has ended.
      */

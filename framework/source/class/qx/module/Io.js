@@ -17,7 +17,8 @@
 
 ************************************************************************ */
 /**
- * Module to offer basic io. It contains three ways to load data acros browsers:
+ * This module provides basic IO functionality. It contains three ways to load 
+ * data:
  *
  * * XMLHttpRequest: {@link #xhr}
  * * Script tag: {@link #script}
@@ -27,16 +28,16 @@ qx.Bootstrap.define("qx.module.Io", {
   statics :
   {
     /**
-     * Method to get a defined XMLHttpRequest. Using the send method will finally
-     * send the request.
+     * Returns a configured XMLHttpRequest object. Using the send method will 
+     * finally send the request.
      *
-     * @param url {String} The mandatory URL to load the data from.
-     * @param settings {Map?} The optional settings map which may contain one of
+     * @param url {String} Mandatory URL to load the data from.
+     * @param settings {Map?} Optional settings map which may contain one of
      *   the following settings:
      *
-     * * <code>method</code> The method of the request which will fallback to 'get'
-     * * <code>async</code> flag to mark the request as async which will be true by default
-     * * <code>header</code> A map of request header.
+     * * <code>method</code> The method of the request. Default: <pre>GET</pre>
+     * * <code>async</code> flag to mark the request as asynchronous. Default: <pre>true</pre>
+     * * <code>header</code> A map of request headers.
      *
      * @attachStatic {q, io.xhr}
      * @return {qx.bom.request.Xhr} The request object.
@@ -58,9 +59,10 @@ qx.Bootstrap.define("qx.module.Io", {
 
 
     /**
-     * Returns a predefined script tag wrapper which can be used to load data.
+     * Returns a predefined script tag wrapper which can be used to load data 
+     * from cross-domain origins.
      *
-     * @param url {String} The mandatory URL to load the data from.
+     * @param url {String} Mandatory URL to load the data from.
      * @attachStatic {q, io.script}
      * @return {qx.bom.request.Script} The request object.
      */
@@ -72,16 +74,16 @@ qx.Bootstrap.define("qx.module.Io", {
 
 
     /**
-     * Returns a predefined script tag wrapper which can be used to load data via JSONP.
+     * Returns a predefined script tag wrapper which can be used to load data 
+     * from cross-domain origins via JSONP.
      *
-     * @param url {String} The mandatory URL to load the data from.
-     * @param settings {Map?} The optional settings map which may contain one of
+     * @param url {String} Mandatory URL to load the data from.
+     * @param settings {Map?} Optional settings map which may contain one of
      *   the following settings:
      *
      * * <code>callbackName</code>: The name of the callback which will
      *      be called by the loaded script.
-     * * <code>callbackParam</code>: The name of the parameter the server expects
-     *      the name of the callback.
+     * * <code>callbackParam</code>: The name of the callback expected by the server
      * @attachStatic {q, io.jsonp}
      * @return {qx.bom.request.Script} The request object.
      */

@@ -115,7 +115,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
 
 
     /**
-     * Returns the values of multiple attributes for each item in the collection
+     * Returns the values of multiple attributes for the first item in the collection
      *
      * @attach {q}
      * @param names {String[]} List of attribute names
@@ -193,7 +193,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
 
 
     /**
-     * Returns the values of multiple properties for each item in the collection
+     * Returns the values of multiple properties for the first item in the collection
      *
      * @attach {q}
      * @param names {String[]} List of property names
@@ -211,8 +211,8 @@ qx.Bootstrap.define("qx.module.Attribute", {
     /**
      * Returns the currently configured value for the first item in the collection.
      * Works with simple input fields as well as with select boxes or option 
-     * elements. Returns an array for select boxes with multi selection In all 
-     * other cases a string is returned.
+     * elements. Returns an array for select boxes with multi selection. In all 
+     * other cases, a string is returned.
      *
      * @attach {q}
      * @return {String|Array}

@@ -236,7 +236,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Gets a new collection containing only those elements that passed the
      * given filter. This can be either a selector expression or a filter
-     * function @see qx.type.BaseArray#filter
+     * function.
      * 
      * @attach {q}
      * @param selector {String|Function} Selector expression or filter function

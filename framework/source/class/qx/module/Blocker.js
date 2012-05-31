@@ -32,7 +32,10 @@
  * native form controls cannot be blocked otherwise.
  *
  * The blocker can also be applied to the entire document, e.g.:
- * <br/><code>q(document).block()</code>
+ * 
+ * <pre class="javascript">
+ * q(document).block();
+ * </pre>
  */
 q.define("qx.module.Blocker", {
   statics :

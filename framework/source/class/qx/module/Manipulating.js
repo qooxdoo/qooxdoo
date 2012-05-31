@@ -42,7 +42,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Event listeners can also be cloned.
      * 
      * @attach{q}
-     * @param events {Boolean} clone event listeners
+     * @param events {Boolean} clone event listeners. Default: <pre>false</pre>
      * @return {q} New collection with clones
      */
     clone : function(events) {

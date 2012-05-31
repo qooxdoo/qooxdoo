@@ -185,7 +185,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
     /**
-     * Toggle the given class name on each item in the collection
+     * Toggles the given class name on each item in the collection
      *
      * @attach {q}
      * @param name {String} Class name
@@ -203,7 +203,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
     /**
-     * Toggle the given list of class names on each item in the collection
+     * Toggles the given list of class names on each item in the collection
      *
      * @attach {q}
      * @param names {String[]} Class names
@@ -218,7 +218,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
     /**
-     * Replace a class name on each element in the collection
+     * Replaces a class name on each element in the collection
      *
      * @attach {q}
      * @param oldName {String} Class name to remove
@@ -278,7 +278,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
     /**
-     * Returns the computed location of the given element in context of the 
+     * Returns the computed location of the given element in the context of the 
      * document dimensions.
      *
      * @attach {q}
@@ -353,7 +353,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
     /**
-     * Include a Stylesheet file
+     * Includes a Stylesheet file
      *
      * @attachStatic {q}
      * @param uri {String} The stylesheet's URI
