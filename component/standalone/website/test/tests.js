@@ -37,7 +37,7 @@ testrunner.define({
     test.id = "foo";
     document.getElementById("sandbox").appendChild(test);
     var collection = q("#foo");
-    this.assertInstance(collection, qx.type.BaseArray);
+    this.assertInstance(collection, q);
     this.assertEquals(1, collection.length);
     this.assertEquals(document.getElementById("foo"), collection[0]);
   }
@@ -1641,7 +1641,7 @@ testrunner.define({
     var cb = function() {};
     var test = q.create('<div></div>').appendTo(this.sandbox[0])
     .on("swipe", cb).on("tap", cb);
-    this.assertInstance(test[0].__touchHandler, qx.event.handler.TouchCore);
+    this.assertEquals("qx.event.handler.TouchCore", test[0].__touchHandler.classname);
     test.off("swipe", cb);
     this.assertNotNull(test[0].__touchHandler);
     test.off("tap", cb)
