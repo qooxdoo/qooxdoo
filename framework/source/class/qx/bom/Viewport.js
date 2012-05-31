@@ -176,6 +176,7 @@ qx.Bootstrap.define("qx.bom.Viewport",
      * Returns an orientation normalizer value that should be added to device orientation
      * to normalize behaviour on different devices.
      *
+     * @param win {Window} The window to query
      * @return {Map} Orientation normalizing value
      */
     __getOrientationNormalizer : function(win) 
