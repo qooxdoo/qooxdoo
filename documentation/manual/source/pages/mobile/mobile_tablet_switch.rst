@@ -20,7 +20,7 @@ How to get device type
 ======================
 
 The device type is accessible by the environment variable ``device.type``.
-It is able to distinct 3 classes:  ``mobile``, ``tablet`` and ``desktop``.
+It is able to detect 3 classes:  ``mobile``, ``tablet`` and ``desktop``.
 
 ::
 
@@ -119,7 +119,7 @@ Used when ``isTablet`` of page manager is ``false``.
 
 All MasterPages and DetailsPages are added to DetailContainer.
 
-.. image:: mobileLayout.png
+.. image:: mobileLayout1.png
    :scale: 10%
    :alt: Mobile Layout
 
