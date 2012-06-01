@@ -346,8 +346,15 @@ qx.Class.define("qx.data.controller.Tree",
     __changeModelChildren: function(ev) {
       // get the stored data
       var children =  ev.getTarget();
-      var treeNode = this.__childrenRef[children.toHashCode()].treeNode;
-      var modelNode = this.__childrenRef[children.toHashCode()].modelNode;
+      var childrenRef = this.__childrenRef[children.toHashCode()];
+      
+      if (childrenRef == null)
+      {
+         return;
+      }
+      
+      var treeNode = childrenRef.treeNode;
+      var modelNode = childrenRef.modelNode;
       // update the subtree
       this.__updateTreeChildren(treeNode, modelNode);
 
