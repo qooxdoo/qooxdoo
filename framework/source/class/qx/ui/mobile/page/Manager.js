@@ -53,7 +53,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
   */
   
   /**
-   * @param isTablet {boolean} flags which indicates whether the manager runs in a tablet environment or not.
+   * @param isTablet {boolean?} flag which triggers the manager to layout for tablet (or big screens/displays) or mobile devices. If parameter is null,
+   * qx.core.Environment.get("device.type") is called for decision.
    * @param root {qx.ui.mobile.core.Widget?} widget which should be used as root for this manager. 
    */
   construct : function(isTablet, root)
@@ -61,8 +62,16 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     this.base(arguments);
 
     root = root || qx.core.Init.getApplication().getRoot();
-    
-    this.__isTablet = (isTablet != null) ? isTablet : (qx.core.Environment.get("device.type") == "tablet");
+
+    if(isTablet) {
+      this.__isTablet = isTablet;
+    } else {
+      // If isTablet is undefined, call environment variable "device.type".
+      // When "tablet" or "desktop" type >> do tablet layouting.
+      this.__isTablet = 
+      qx.core.Environment.get("device.type") == "desktop" || 
+      qx.core.Environment.get("device.type") == "tablet";
+    }
     
     this.__detailContainer = this._createDetailContainer();
  
