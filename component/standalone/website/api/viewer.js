@@ -125,7 +125,7 @@ q.ready(function() {
    */
   var desc = "";
   var createData = function(ast) {
-    desc = ast.attributes.desc || "";
+    desc = getByType(ast, "desc").attributes.text;
     attachData(getByType(ast, "methods-static"), "static");
     attachData(getByType(ast, "methods"), "member");
     // sort all methods
@@ -210,6 +210,8 @@ q.ready(function() {
        addClassDoc(data.fileName, module);
      } else if (data.desc) {
        module.append(parse(data.desc));
+     } else if (name == "Core") {
+       module.append(parse(desc));
      }
 
      if (data.events) {
