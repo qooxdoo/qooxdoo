@@ -51,7 +51,7 @@
  * <tr><td><code> j </code><td> special symbol [Not supported yet]
  * <tr><td><code> m </code><td> minute
  * <tr><td><code> s </code><td> second
- * <tr><td><code> S </code><td> fractal second
+ * <tr><td><code> S </code><td> fractional second
  * <tr><td><code> A </code><td> millisecond in day [Not supported yet]
  * <tr><td><code> z </code><td> time zone, specific non-location format
  * <tr><td><code> Z </code><td> time zone, rfc822/gmt format
@@ -670,16 +670,14 @@ qx.Class.define("qx.util.format.DateFormat",
               replacement = this.__fillNumber(seconds, wildcardSize);
               break;
 
-            case 'S': // Millisecond
-              replacement = ms + "";
-              if (wildcardSize <= replacement.length) {
-                    replacement = replacement.substr(0, wildcardSize);
-                }
-                else {
-                  for (var j = replacement.length; j < wildcardSize; j++) {
-                    replacement = replacement + "0";
-                  };
-                }
+            case 'S': // Fractional second
+              replacement = this.__fillNumber(ms, 3);
+              if (wildcardSize < replacement.length) {
+                replacement = replacement.substr(0, wildcardSize);
+              } else while (wildcardSize > replacement.length) {
+                // if needed, fill the remaining wildcard length with trailing zeros
+                replacement += "0";
+              }
               break;
 
             case 'z': // Time zone
