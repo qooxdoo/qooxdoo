@@ -132,7 +132,9 @@ qx.Class.define("showcase.page.table.Content",
       "showcase.page.table.Content.saveResult";
 
       var loader = new qx.io.ScriptLoader();
-      loader.load(url, function() {
+      var loader = new qx.bom.request.Script();
+      
+      loader.on("load", function() {
         var result = showcase.page.table.Content._result;
 
         var rows = [];
@@ -159,6 +161,8 @@ qx.Class.define("showcase.page.table.Content",
         };
         tableModel.setData(rows);
       });
+      loader.open("GET", url);
+      loader.send();
     }
   }
 });

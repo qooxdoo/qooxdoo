@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Uses qx.io.ScriptLoader to sequentially load a list of URIs.
+ * Uses qx.bom.request.Script to sequentially load a list of URIs.
  */
 
 qx.Class.define("inspector.selenium.QueuedScriptLoader", {
@@ -55,41 +55,56 @@ qx.Class.define("inspector.selenium.QueuedScriptLoader", {
     load : function(uriList)
     {
       this.__queue = this.__queue.concat(uriList);
-      this.__flushQueue("init");
+      this.__results = {
+        "success" : 0,
+        "fail" : 0
+      };
+      this.__flushQueue();
     },
 
     /**
-     * Processes the current URI queue. Fires the "finished" event once the
-     * queue is empty.
-     *
-     * @param status {String} Current processing status
+     * Processes the next entry in the URI queue. Fires the "finished" event 
+     * once the queue is empty.
      */
-    __flushQueue : function(status)
+    __flushQueue : function()
     {
-      switch(status)
-      {
-        case "init":
-          this.__results = {
-            "success" : 0,
-            "fail" : 0
-          };
-          break;
-
-        case "success":
-          this.__results.success++;
-          break;
-
-        case "fail":
-          this.__results.fail++;
-          break;
-      }
       if (this.__queue.length == 0) {
         this.fireDataEvent("finished", this.__results);
         return;
       }
+      
       var uri = this.__queue.shift();
-      var loader = new qx.io.ScriptLoader();
-      loader.load(uri, this.__flushQueue, this);
+      
+      var loader = new qx.bom.request.Script();
+      loader.on("load", this.__onScriptLoad, this);
+      loader.on("error", this.__onScriptError, this);
+      loader.on("timeout", this.__onScriptError, this);
+      loader.open("GET", uri);
+      loader.send();
+    },
+    
+    
+    /**
+     * Callback function for the script request's "load" event
+     * @param request {qx.bom.request.Script} Script request object
+     */
+    __onScriptLoad : function(request)
+    {
+      if (request.status < 400) {
+        this.__results.success++;
+      }
+      this.__flushQueue();
+    },
+    
+    
+    /**
+     * Callback function for the script request's "error" event
+     * @param request {qx.bom.request.Script} Script request object
+     */
+    __onScriptError : function(request)
+    {
+      this.__results.fail++;
+      this.__flushQueue();
     }
   }
 });

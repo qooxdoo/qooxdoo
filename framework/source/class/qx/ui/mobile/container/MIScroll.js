@@ -127,8 +127,10 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         {
           path += "?" + new Date().getTime();
         }
-        var loader = new qx.io.ScriptLoader();
-        loader.load(path, this.__onScrollLoaded, this);
+        var loader = new qx.bom.request.Script();
+        loader.on("load", this.__onScrollLoaded, this);
+        loader.open("GET", path);
+        loader.send();
       } else {
         this._setScroll(this.__createScrollInstance());
       }
@@ -195,12 +197,11 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     /**
      * Load callback. Called when the iScroll script is loaded.
      *
-     * @param status {String} the status of the script loading. See
-     *     {@link qx.io.ScriptLoader#load} for more information.
+     * @param request {qx.bom.request.Script} The Script request object
      */
-    __onScrollLoaded : function(status)
+    __onScrollLoaded : function(request)
     {
-      if (status == "success")
+      if (request.status < 400)
       {
         this._setScroll(this.__createScrollInstance());
       } else {
