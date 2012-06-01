@@ -16,7 +16,17 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-
+/**
+ * The responsibility of <code>q</code> is to query the DOM for elements and offer
+ * these elements as a collection. <code>q</code> itself does not offer any methods to
+ * work with the collection. All methods are added by the modules included.
+ *
+ * The plugin API is also part of <code>q</code> and allows modules to be used either
+ * as static functions on <code>q</code> or as methods on the returned collection.
+ *
+ * For further details, take a look at the documentation in the
+ * <a href='http://manual.qooxdoo.org/${qxversion}/pages/website.html' target='_blank'>user manual</a>.
+ */
 qx.Bootstrap.define("q", {
   extend : qx.type.BaseArray,
   statics : {
@@ -105,13 +115,20 @@ qx.Bootstrap.define("q", {
     }
   },
 
+
   /**
-   * TEST DOC
+   * Accepts a selector string and returns a set of found items. The optional context
+   * element can be used to reduce the amount of found elements to children of the
+   * context element.
+   *
+   * <a href="http://sizzlejs.com/" target="_blank">Sizzle</a> is used as selector engine.
+   * Check out the <a href="https://github.com/jquery/sizzle/wiki/Sizzle-Home" target="_blank">documentation</a>
+   * for more details.
    *
    * @param selector {String|Element|Array} Valid selector (CSS3 + extensions)
    *   or DOM element or Array of DOM Elements.
-   * @param context {Element} Context element
-   *   (result elements must be children of this element).
+   * @param context {Element} Only the children of this element are considered.
+   * @return {q} A collection of DOM elements.
    */
   construct : function(selector, context) {
     if (!selector) {
