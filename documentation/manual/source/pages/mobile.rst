@@ -27,7 +27,8 @@ Development
 
 .. toctree::
    :maxdepth: 2
-
+   
+   mobile/mobile_tablet_switch
    mobile/theming
    mobile/debugging
 

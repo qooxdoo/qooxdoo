@@ -1,108 +1,179 @@
-.. _pages/mobile/theming#theming:
+.. _pages/mobile_tablet_switch/#mobile_tablet_switch:
 
-Theming
-*******
+Mobile and Tablet Switch
+************************
 
-CSS and LESS
-============
+Tablet Support out of the box
+=============================
 
-Theming in qooxdoo mobile is done with `LESS <http://www.lesscss.org/>`_ and CSS. LESS is an extension for CSS to enable style sheets to be more dynamic.
-In LESS you can you use variables, reuse CSS statement inside of CSS file, import CSS files and create mixins.
+On tablet devices you have a bigger screen size and more layout space than on
+mobile devices. An application in a tablet device context may even provide additional/other functions 
+than on mobile device context. 
 
-If you want to extend or change the qooxdoo mobile themes, you always should modify LESS files (\*.less) in folder
-"framework/source/resource/qx/mobile/less". After you modified LESS files, they have to be parsed into CSS.
+%{Mobile} provides mobile and tablet distinction out of the box. It provides a detection of
+device type the application runs on. 
 
-The target CSS artefacts can be found in folder "framework/source/resource/qx/mobile/css". Please notice: You should not change these files.
+Based upon this distinction, you can tell our page manager whether it should layout its
+navigation pages optimized for device class mobile (intended for mobile, 7'' tablets) or device class tablet (tablets or desktop).
 
-Example usage of LESS in qooxdoo mobile
-=======================================
+How to get device type
+======================
 
-When you inspect LESS files of qooxdoo mobile, you will see that there are two main files (android and ios.less).
-These two files consists out of several parts, which are imported with command:
-
-::
-
-    @import "_base";
-
-The files *_android.less* and *_ios.less* both import *_base.less*, which contains *_mixins.less*.
-The *_mixins.less* is a important part, because it contains most important mixins
-used in any LESS file. For example the LESS mixin for border-radius:
+The device type is accessible by the environment variable ``device.type``.
+It is able to distinct 3 classes:  ``mobile``, ``tablet`` and ``desktop``.
 
 ::
 
-    .border-radius() {
-        -webkit-border-radius: @arguments;
-        -moz-border-radius: @arguments;
-        border-radius: @arguments;
-    }
-
-This mixin helps you creating border-radius for most browsers,
-just by writing something like:
-
-::
-
-    .border-radius(4px);
-
-Another mixin example for buttons can be found in file *_android.less*.
-In this case, mixins are used like inheritance classes.
-There is a class with typical look and feel for Android buttons,
-called *.standard-button*.
-
-::
-
-    .standard-button {
-        @button-color: #f4f4f4;
-        @height: 20px;
-
-        .border-radius(4px);
-        cursor: pointer;
-        width: auto;
-        height: 20px;
-        color: #222222;
-        text-align: center;
-
-        // Less "darken method" helps to make use of android-button easier.
-        // It takes button-color and darkens it. No second gradient color
-        // is needed.
-        #gradient > .vertical(@button-color, darken(@button-color, 20%));
-        border: 1px solid #555555;
-        line-height: @height;
-        font-size:12px;
-    }
+   var deviceType = (qx.core.Environment.get("device.type");
 
 
-The toolbar button extends this standard button, and adds some
-special values.
+Device type mapping table :
+---------------------------
+
+The device type is detected by resolving user agent strings.
+Device class mapping is done by searching a specific hardware class, 
+an operation system or a browser type.
+
+**Tablets** (returns ``tablet``)
+
+* Android Tablet
+* iPad
+* Blackberry Playbook
+* Amazon Kindle
+* Silk
+* Sony PSP
+
+**Mobile** (returns ``mobile``)
+
+* Android mobile phones
+* iPhone
+* iPod
+* Bada
+* Maemo
+* Symbian
+* Windows Phone
+* Opera Mobile 
+* Fennec
+
+**Desktop** (returns ``desktop``)
+
+* All other devices
+
+How to enable device-based layouting
+====================================
+
+The device-based layouting is handled by ``qx.ui.mobile.page.Manager``.
+In our examples at mobile playground and the tutorial, we always make usage of this manager to create
+a %{Mobile} application.
 
 ::
+   
+   var isTablet = false;
+   var manager = new qx.ui.mobile.page.Manager(isTablet);
+   var page = new qx.ui.mobile.page.NavigationPage();
+   manager.addDetail(page);
+   page.show();
 
-    .toolbar-button {
-        .standard-button();
-        height: 50px;
-        font-size: 17px;
-    }
+The manager has an optional constructor parameter ``isTablet``.
+It indicates whether the page manager uses the mobile or the tablet layouting mode. In this 
+examples, we deactivated tablet layout mode with ``isTablet=false``.
 
-So you are able to use inheritance directly in LESS file, which might give you a
-better overview than applying multiple CSS classes to one DOM element.
+If parameter ``isTablet`` is not defined at constructor, the page manager always calls environment variable 
+``device.type`` to determine the layout mode. Tablet layout mode is active by default, if environment variable 
+is ``desktop`` or ``tablet``.
 
+How Page Manager arrange pages
+==============================
 
-Parsing LESS files
-==================
+The class ``qx.ui.mobile.page.Manager`` works with instances of ``qx.ui.mobile.page.NavigationPage``.
+The manager arranges the pages on screen, based on flag ``isTablet`` and device orientation.
 
-There are different ways for parsing LESS files into CSS.
+An device/window orientation change is detected by %{Mobile} and fires an ``orientationchange`` event, which is handled by page manager.
 
-* `LESS.js <http://www.lesscss.org/>`_: If you are working on source variant of qooxdoo mobile, you can include less.js and link LESS in the application ``index.html`` file directly. Just uncomment the following lines in the ``index.html`` file:
+MasterPages and DetailPages
+---------------------------
+
+When page manager is on tablet mode, it arranges the NavigationPages in a different order than on 
+mobile mode. For this arrangement it needs to know, whether a NavigationPage is important for application flow, 
+and which are not.
+
+For this arrangement logic the instances of ``qx.ui.mobile.page.NavigationPage`` needs to be added as a MasterPage or a DetailPage.
+
+MasterPages are usually used as navigation. They control the appearance of several DetailPages.
+A MasterPage should always be visible for controlling the application flow.
+
+DetailPages do contain the content, or more precise: they show a detail information. It is not necessary for application flow, that a 
+DetailPage is always visible.
+
+When no tablet support is necessary, every page can be added as a detailPage.
+
+Page Manager Layout Modes
+=========================
+
+There are 3 different layouting modes, used by ``qx.ui.mobile.page.Manager``.
+
+Mobile Layout
+-------------
+
+Used when ``isTablet`` of page manager is ``false``.
+
+All MasterPages and DetailsPages are added to DetailContainer.
+
+.. image:: mobileLayout.png
+   :scale: 10%
+   :alt: Mobile Layout
+
+Tablet Landscape Layout
+-----------------------
+
+Used when ``isTablet`` of page manager is ``true`` and orientation is portrait.
+
+MasterPages are added to ``masterContainer``. DetailPages are added to ``detailContainer``.
+
+.. image:: tabletLayoutLandscape.png
+   :scale: 10%
+   :alt: Tablet Layout in Landscape Mode
+
+Tablet Portrait Layout
+----------------------
+
+Used when ``isTablet`` of page manager is ``true`` and orientation is landscape.
+
+MasterPages are added to a ``PortraitMasterContainer``. This container is hidden after orientation change.
+Visibility of this container can be controlled by MasterButton. The caption of the MasterButton and the title 
+of ``PortraitMasterContainer`` are bound to shown MasterPage's title.
+
+.. image:: tabletLayoutPortrait.png
+   :scale: 10%
+   :alt: Tablet Layout in Portrait Mode
+
+Example for a %{Mobile} application with tablet support
+=======================================================
+
+Now, that you gained this knowledge about %{Mobile} tablet support, you 
+surely want to create an application using this feature.
 
 ::
+   
+   var manager = new qx.ui.mobile.page.Manager();
+   
+   var masterPage = new qx.ui.mobile.page.NavigationPage();
+   var detailPage1 = new qx.ui.mobile.page.NavigationPage();
+   var detailPage2 = new qx.ui.mobile.page.NavigationPage();
+   
+   manager.addMaster(masterPage);
+   manager.addDetail([detailPage1,detailPage2]);
+   
+   masterPage.show();
+   detailPage1.show();
 
-  <!-- Uncomment the following block to use less.js -->
-  <!-- <link rel="stylesheet/less" type="text/css" media="screen" href="../../../framework/source/resource/qx/mobile/less/android.less">
-  <link rel="stylesheet/less" type="text/css" media="screen" href="resource/mobileshowcase/css/styles.css">
-  <script type="text/javascript" src="https://raw.github.com/cloudhead/less.js/master/dist/less-1.1.6.min.js"></script> -->
+In the example above, we first create a page manager. To this manager we add ``masterPage``.
+You could even add multiple MasterPages.
 
+This MasterPage could be used as a menu or overview page to control visibility of DetailPages.
+The DetailPages can be added as an array, for convenience.
 
-* `Guard-LESS <https://github.com/guard/guard-less>`_: A guard extension that compiles .less files to .css files when changed. It listens on folders or a set of LESS files for changes, and triggers re-compiling of CSS files automatically. This should be your choice, if you are familar to guard.
+At last step you have to define which pages are visible at startup.
 
-* `Simpless <http://wearekiss.com/simpless>`_: Similar to functionality of Guard-LESS, but with more easier configuration and usage, because of a graphical user interface. It also compiles LESS to CSS files automatically on file change. Simpless is available for every platform (Windows, Mac OS, Linux).
-
-
+Page manager does not manage startup visibility, because this give you full control 
+about application flow.
