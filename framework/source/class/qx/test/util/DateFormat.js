@@ -45,7 +45,10 @@ qx.Class.define("qx.test.util.DateFormat",
     {'date' : new Date(2011,0,4,0,9,9), 'result' : {'h_hour': 12, 'K_hour': 0, 'H_hour': 0, 'k_hour': 24}},
     {'date' : new Date(2011,0,4,12,9,9), 'result' : {'h_hour': 12, 'K_hour': 0, 'H_hour': 12, 'k_hour': 12}},
     {'date' : new Date(2010,12,4,0,0,0), 'result' : {'h_hour': 12, 'K_hour': 0, 'H_hour': 0, 'k_hour': 24}},
-    {'date' : new Date(-20,10,14), 'result' : {'era': {'abbrev': 'BC', 'fullName': 'Before Christ', 'narrow': 'B'}}}
+    {'date' : new Date(-20,10,14), 'result' : {'era': {'abbrev': 'BC', 'fullName': 'Before Christ', 'narrow': 'B'}}},
+    {'date' : new Date(2012, 4, 24, 11, 49, 57, 1), 'result' : {}},
+    {'date' : new Date(2012, 4, 24, 11, 49, 57, 12), 'result' : {}},
+    {'date' : new Date(2012, 4, 24, 11, 49, 57, 123), 'result' : {}}
 
   ],
 
@@ -638,13 +641,8 @@ qx.Class.define("qx.test.util.DateFormat",
       for(var i=0; i<this.__dates.length; i++)
       {
         var date = this.__dates[i].date;
-        var msec = date.getMilliseconds() + "";
-        if(msec.length<2) {
-          msec = msec + "0";
-        }
-        if(msec.length<3) {
-          msec = msec + "00";
-        }
+        // pad milliseconds to become a fraction of second
+        var msec = this.__fillNumber(date.getMilliseconds(), 3);
 
         df = new qx.util.format.DateFormat("S");
         this.assertEquals(msec.substring(0,1), df.format(date));
@@ -656,6 +654,11 @@ qx.Class.define("qx.test.util.DateFormat",
 
         df = new qx.util.format.DateFormat("SSS");
         this.assertEquals(msec.substring(0,3), df.format(date));
+        df.dispose();
+
+        // check that remaining format specification is padded with zeros
+        df = new qx.util.format.DateFormat("SSSS");
+        this.assertEquals(msec.substring(0, 3) + "0", df.format(date));
         df.dispose();
       }
 
