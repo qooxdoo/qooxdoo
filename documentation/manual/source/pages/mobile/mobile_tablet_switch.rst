@@ -1,9 +1,9 @@
 .. _pages/mobile_tablet_switch/#mobile_tablet_switch:
 
-Mobile and Tablet Switch
+Mobile and tablet switch
 ************************
 
-Tablet Support out of the box
+Tablet support out of the box
 =============================
 
 On tablet devices you have a bigger screen size and more layout space than on
@@ -82,7 +82,7 @@ If parameter ``isTablet`` is not defined at constructor, the page manager always
 ``device.type`` to determine the layout mode. Tablet layout mode is active by default, if environment variable 
 is ``desktop`` or ``tablet``.
 
-How Page Manager arrange pages
+How page manager arrange pages
 ==============================
 
 The class ``qx.ui.mobile.page.Manager`` works with instances of ``qx.ui.mobile.page.NavigationPage``.
@@ -107,7 +107,7 @@ DetailPage is always visible.
 
 When no tablet support is necessary, every page can be added as a detailPage.
 
-Page Manager Layout Modes
+Page manager layout modes
 =========================
 
 There are 3 different layouting modes, used by ``qx.ui.mobile.page.Manager``.
