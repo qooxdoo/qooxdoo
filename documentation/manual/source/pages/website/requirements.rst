@@ -38,4 +38,4 @@ Download the %{Website} component from %{qooxdoo}'s `download page <http://%{qoo
      <script href="<uri_of_%{Website}_download>"/>
      ...
 
-That's it, you are ready do start working against the %{Website} API.
+That's it, you are ready to start working against the %{Website} API.
