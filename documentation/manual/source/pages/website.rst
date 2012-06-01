@@ -32,8 +32,8 @@ Technical Topics
    website/plugins
 
 
-Refering to the qx.bom API
---------------------------
+Referring to the qx.bom API
+-----------------------------
 
 .. toctree::
    :maxdepth: 1
