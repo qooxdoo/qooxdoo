@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
     root = root || qx.core.Init.getApplication().getRoot();
 
-    if(isTablet) {
+    if(isTablet != null) {
       this.__isTablet = isTablet;
     } else {
       // If isTablet is undefined, call environment variable "device.type".
