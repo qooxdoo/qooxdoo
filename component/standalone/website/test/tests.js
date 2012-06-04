@@ -1657,7 +1657,7 @@ testrunner.define({
   tearDown : testrunner.globalTeardown,
 
   testToHtml : function() {
-    var result = q.template.toHtml("{{affe}}", {affe: "george"});
+    var result = q.template.render("{{affe}}", {affe: "george"});
     this.assertEquals("george", result);
   },
 

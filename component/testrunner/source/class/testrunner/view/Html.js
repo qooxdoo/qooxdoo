@@ -881,7 +881,7 @@ qx.Class.define("testrunner.view.Html", {
         var key = this.__simplifyName(testName);
         this.__testNameToId[key] = testName;
 
-        var itemHtml = qx.bom.Template.toHtml(template, {
+        var itemHtml = qx.bom.Template.render(template, {
           id : "cb_" + key,
           name : testName
         });

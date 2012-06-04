@@ -34,7 +34,7 @@ qx.Class.define("qx.test.bom.Template",
     testReplace : function() {
       var template = "{{name}} xyz";
       var view = {name: "abc"};
-      var result = qx.bom.Template.toHtml(template, view);
+      var result = qx.bom.Template.render(template, view);
       var expected = "abc xyz";
 
       this.assertEquals(expected, result);
@@ -44,7 +44,7 @@ qx.Class.define("qx.test.bom.Template",
     testFunc : function() {
       var template = "{{name}} xyz";
       var view = {name: function() {return "abc"}};
-      var result = qx.bom.Template.toHtml(template, view);
+      var result = qx.bom.Template.render(template, view);
       var expected = "abc xyz";
 
       this.assertEquals(expected, result);
@@ -54,7 +54,7 @@ qx.Class.define("qx.test.bom.Template",
     testList : function() {
       var template = "{{#l}}{{.}}{{/l}}";
       var view = {l : ["a", "b", "c"]};
-      var result = qx.bom.Template.toHtml(template, view);
+      var result = qx.bom.Template.render(template, view);
       var expected = "abc";
 
       this.assertEquals(expected, result);
@@ -64,14 +64,14 @@ qx.Class.define("qx.test.bom.Template",
     conditional : function() {
       var template = "{{#b}}yo{{/b}}";
       var view = {b: true};
-      var result = qx.bom.Template.toHtml(template, view);
+      var result = qx.bom.Template.render(template, view);
       var expected = "yo";
 
       this.assertEquals(expected, result);
 
       template = "{{#b}}yo{{/b}}";
       view = {b: false};
-      result = qx.bom.Template.toHtml(template, view);
+      result = qx.bom.Template.render(template, view);
       expected = "";
 
       this.assertEquals(expected, result);
@@ -81,7 +81,7 @@ qx.Class.define("qx.test.bom.Template",
     testObject : function() {
       var template = "{{#o}}{{b}}{{a}}{{/o}}";
       var view = {o: {a: 1, b: 2}};
-      var result = qx.bom.Template.toHtml(template, view);
+      var result = qx.bom.Template.render(template, view);
       var expected = "21";
 
       this.assertEquals(expected, result);
@@ -97,7 +97,7 @@ qx.Class.define("qx.test.bom.Template",
           }
         }
       };
-      var result = qx.bom.Template.toHtml(template, view);
+      var result = qx.bom.Template.render(template, view);
       var expected = "!yo!";
 
       this.assertEquals(expected, result);
@@ -107,7 +107,7 @@ qx.Class.define("qx.test.bom.Template",
     testInvertedSelection : function() {
       var template = "{{^a}}yo{{/a}}";
       var view = {a: []};
-      var result = qx.bom.Template.toHtml(template, view);
+      var result = qx.bom.Template.render(template, view);
       var expected = "yo";
 
       this.assertEquals(expected, result);
@@ -117,14 +117,14 @@ qx.Class.define("qx.test.bom.Template",
     testEscaping : function() {
       var template = "{{a}}";
       var view = {a: "<a>"};
-      var result = qx.bom.Template.toHtml(template, view);
+      var result = qx.bom.Template.render(template, view);
       var expected = "&lt;a&gt;";
 
       this.assertEquals(expected, result);
 
       var template = "{{{a}}}";
       var view = {a: "<a>"};
-      var result = qx.bom.Template.toHtml(template, view);
+      var result = qx.bom.Template.render(template, view);
       var expected = "<a>";
 
       this.assertEquals(expected, result);

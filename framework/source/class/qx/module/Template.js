@@ -25,7 +25,7 @@
  * <pre class="javascript">
  * var template = "Hi, my name is {{name}}!";
  * var view = {name: "qooxdoo"};
- * q.template.toHtml(template, view);
+ * q.template.render(template, view);
  * // return "Hi, my name is qooxdoo!"
  * </pre>
  *
@@ -57,7 +57,7 @@ qx.Bootstrap.define("qx.module.Template", {
      * Original and only template method of mustache.js. For further
      * documentation, please visit https://github.com/janl/mustache.js
      *
-     * @attachStatic{q, template.toHtml}
+     * @attachStatic{q, template.render}
      * @param template {String} The String containing the template.
      * @param view {Object} The object holding the data to render.
      * @param partials {Object} Object holding parts of a template.
@@ -65,14 +65,14 @@ qx.Bootstrap.define("qx.module.Template", {
      * @return {String} The parsed template.
      */
     toHtml : function(template, view, partials, send_fun) {
-      return qx.bom.Template.toHtml(template, view, partials, send_fun);
+      return qx.bom.Template.render(template, view, partials, send_fun);
     }
   },
 
 
   defer : function(statics) {
     q.$attachStatic({
-      "template" : {get: statics.get, toHtml: statics.toHtml}
+      "template" : {get: statics.get, toHtml: statics.render}
     });
   }
 });
