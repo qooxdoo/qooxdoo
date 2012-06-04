@@ -1592,6 +1592,8 @@ class Generator(object):
         def isLocalPath(path):
             return self._config.absPath(path).startswith(self._config.absPath(self._job.get("let/ROOT")))
 
+        # -------------------------------------------
+
         if not self._job.get('clean-files', False):
             return
 

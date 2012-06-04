@@ -492,6 +492,16 @@
       }
     },
 
+    "clean-cache" :
+    {
+      "desc"    : "remove the cache files",
+
+      "cache"   : "${CACHE_KEY}", 
+
+      "clean-files" : {}  // cache files are handled implicitly
+      
+    },
+
 
     "lint" :
     {
