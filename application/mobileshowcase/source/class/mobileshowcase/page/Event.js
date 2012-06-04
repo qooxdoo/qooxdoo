@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,7 +13,8 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Tino Butz (tbtz)
+     * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -27,7 +28,7 @@ qx.Class.define("mobileshowcase.page.Event",
   construct : function()
   {
     this.base(arguments);
-    this.setTitle("Event");
+    this.setTitle("Events");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
   },
@@ -56,11 +57,13 @@ qx.Class.define("mobileshowcase.page.Event",
       container.addListener("touchstart", this._onTouch, this);
       container.addListener("touchmove", this._onTouch, this);
       container.addListener("touchend", this._onTouch, this);
-
+      qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
+      
       var label = this.__label = new qx.ui.mobile.basic.Label("Touch / Tap / Swipe this area");
       container.add(label);
-
-
+      
+      var descriptionText = "<b>Testing Touch Events:</b> Touch / Tap / Swipe the green area</br><b>Testing OrientationChange Event</b>: Rotate your device / change browser size";
+      this.getContent().add(new qx.ui.mobile.basic.Label(descriptionText), {flex:1});
       this.getContent().add(container, {flex:1});
     },
 
@@ -84,6 +87,18 @@ qx.Class.define("mobileshowcase.page.Event",
     _onSwipe : function(evt)
     {
       this.__label.setValue(this.__label.getValue() + " swipe");
+    },
+    
+    
+    /**
+     * Event handler for orientationchange event.
+     */
+    _onOrientationChange : function(evt) {
+      var orientationMode = "Portrait";
+      if(evt.isLandscape()){
+        orientationMode = "Landscape";
+      }
+      this.__label.setValue(" " + evt.getType()+": "+orientationMode);
     },
 
 

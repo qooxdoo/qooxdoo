@@ -133,7 +133,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.getContent().add(showAnchorButton);
       this.getContent().add(showMenuButton);
       this.getContent().add(busyIndicatorButton);
-      this.getContent().add(this.__busypopup);
     },
     
     

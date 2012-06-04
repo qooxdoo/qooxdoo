@@ -46,12 +46,12 @@ qx.Class.define("mobileshowcase.page.Basic",
       this.base(arguments);
       
       // BASIC WIDGET CHANGE MENU
-      this.getContent().add(new qx.ui.mobile.form.Title("Basic Widget Menu"));
+      this.getContent().add(new qx.ui.mobile.form.Title("Widget Modes"));
       
       // TOGGLE BUTTON
-      var toggleEnableButton = new qx.ui.mobile.form.Button("Widget Enabled/Disabled");
+      var toggleEnableButton = new qx.ui.mobile.form.ToggleButton(true,"Enable","Disable", 11);
       
-      toggleEnableButton.addListener("tap", function(e) {
+      toggleEnableButton.addListener("changeValue", function(e) {
         exImage.toggleEnabled();
         exToggleButton.toggleEnabled();
         exLabel.toggleEnabled();
@@ -62,10 +62,10 @@ qx.Class.define("mobileshowcase.page.Basic",
         exAtomBottom.toggleEnabled();
       }, this);
       
+      
       // TOGGLE LABEL WRAP BUTTONT
-      var toggleLabelWrapButton = new qx.ui.mobile.form.Button("Label Wrap ON/OFF");
-       
-      toggleLabelWrapButton.addListener("tap", function(e) {
+      var toggleLabelWrapButton = new qx.ui.mobile.form.ToggleButton(true,"Wrap","Ellipsis", 11);
+      toggleLabelWrapButton.addListener("changeValue", function(e) {
         exLabel.toggleWrap();
       }, this);
       
@@ -74,12 +74,14 @@ qx.Class.define("mobileshowcase.page.Basic",
       
       var exToggleButton = new qx.ui.mobile.form.ToggleButton(false);
       
-      var labelText = "Mobile theme: "+qx.core.Environment.get("qx.theme");
+      var labelText = "qx.Mobile is qooxdoo's mobile framework. It provides specific UI classes for touch devices, handling of mobile events like swiping, and specific styling. It is suitable for various mobile web browsers on iOS and Android platforms.";
+      
+     /* var labelText = "Mobile theme: "+qx.core.Environment.get("qx.theme");
       labelText += " <br>Device Type: "+qx.core.Environment.get("device.type");
       labelText += " <br>Operation system: "+qx.core.Environment.get("os.name");
       labelText += " <br>OS version: "+qx.core.Environment.get("os.version");
       labelText += " <br>Browser: "+qx.core.Environment.get("browser.name");
-      labelText += " <br>Browser version: "+qx.core.Environment.get("browser.version");
+      labelText += " <br>Browser version: "+qx.core.Environment.get("browser.version");*/
       
       var exLabel = new qx.ui.mobile.basic.Label(labelText);
       exLabel.addCssClass("space-top");
