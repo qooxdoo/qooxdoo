@@ -448,7 +448,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Checks if a DirectX Transform filter is supported.
+     * Checks if the given filter is supported.
      * 
      * @param filterClass {String} The name of the filter class
      * @param iniParams {String} Init values for the filter
@@ -462,7 +462,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
       document.body.appendChild(el);
       el.style.filter = value;
 
-      if (el.filters.length > 0 &&
+      if (el.filters && el.filters.length > 0 &&
         el.filters.item(filterClass).enabled == true) 
       {
         supported = true;
