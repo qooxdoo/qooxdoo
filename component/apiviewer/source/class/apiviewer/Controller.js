@@ -439,11 +439,14 @@ qx.Class.define("apiviewer.Controller",
      */
     __getFirstPackage : function(tree)
     {
-       if(tree.type && tree.type == "package") {
-         return tree;
-       } else {
-         return this.__getFirstPackage(tree.children[0]);
-       }
+      for (var i=0, l=tree.children.length; i<l; i++) {
+        var child = tree.children[i];
+        if(child.type && child.type == "package") {
+           return child;
+        } else {
+           return this.__getFirstPackage(child);
+        }
+      }
     }
 
   },
