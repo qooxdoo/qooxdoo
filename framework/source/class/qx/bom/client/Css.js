@@ -288,11 +288,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      */
     getFilterGradient : function() {
-      var value = "progid:DXImageTransform.Microsoft.gradient(" +
-        "startColorStr=#550000FF, endColorStr=#55FFFF00)";
-      var el = document.createElement("div");
-      el.style.filter = value;
-      return el.style.filter == value;
+      return qx.bom.client.Css.__isFilterSupported(
+        "DXImageTransform.Microsoft.Gradient",
+        "startColorStr=#550000FF, endColorStr=#55FFFF00");
     },
 
 
@@ -443,10 +441,35 @@ qx.Bootstrap.define("qx.bom.client.Css",
      */
     getFilterTextShadow : function()
     {
-      var value = "progid:DXImageTransform.Microsoft.Shadow(color=#666666,direction=45);";
+      return qx.bom.client.Css.__isFilterSupported(
+        "DXImageTransform.Microsoft.Shadow",
+        "color=#666666,direction=45");
+    },
+
+
+    /**
+     * Checks if a DirectX Transform filter is supported.
+     * 
+     * @param filterClass {String} The name of the filter class
+     * @param iniParams {String} Init values for the filter
+     * @return {Boolean} <code>true</code> if the given filter is supported
+     */
+    __isFilterSupported : function(filterClass, initParams)
+    {
+      var supported = false;
+      var value = "progid:" + filterClass + "(" + initParams + ");";
       var el = document.createElement("div");
+      document.body.appendChild(el);
       el.style.filter = value;
-      return el.style.filter == value;
+
+      if (el.filters.length > 0 &&
+        el.filters.item(filterClass).enabled == true) 
+      {
+        supported = true;
+      }
+      document.body.removeChild(el);
+
+      return supported;
     }
   },
 
