@@ -674,9 +674,11 @@ qx.Class.define("qx.util.format.DateFormat",
               replacement = this.__fillNumber(ms, 3);
               if (wildcardSize < replacement.length) {
                 replacement = replacement.substr(0, wildcardSize);
-              } else while (wildcardSize > replacement.length) {
-                // if needed, fill the remaining wildcard length with trailing zeros
-                replacement += "0";
+              } else { 
+                while (wildcardSize > replacement.length) {
+                  // if needed, fill the remaining wildcard length with trailing zeros
+                  replacement += "0";
+                }
               }
               break;
 
