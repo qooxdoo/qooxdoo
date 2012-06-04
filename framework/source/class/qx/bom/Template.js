@@ -152,6 +152,7 @@ qx.Bootstrap.define("qx.bom.Template", {
 /**
  * Below is the original mustache.js code. Snapshot date is mentioned in 
  * the head of this file.
+ * @lint ignoreUndefined(module)
  */
  /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
