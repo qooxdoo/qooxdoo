@@ -1,54 +1,69 @@
 //THIS IS A TEMPLATE - ADAPT TO NEED
 
-
-Hi,
-
-here are the proposed test assignments.
-
-The basic idea is that everybody does a full and mini application test.
-
 Mini application tests focus on visual aspects (showcase, widget browser). Overall they should be a lot less time-consuming than full tests. Details about the mini tests will be noted on the test sheets.
 
-DW
-  uses "W8" (1.1.1.1) and own Linux
-  Full application tests: IE8 (XP)
-  Mini application tests: Opera 11.10 (Linux) 
-  Toolchain tests: Cygwin (verify with IE) and contributions
-
-TK
-  uses own Mac and "W7" (1.1.1.1)
-  Full application tests: Chrome Stable (Mac)
-  Mini application tests: FF 3.6 (XP)
-  Toolchain tests: Mac (verify with Chrome)
-
-MW
-  uses own Mac
-  Full application tests: Opera 11.52 (OSX)
-  Mini application tests: FF 4 (OSX)
-  Toolchain tests: Mac (verify with Opera)
-
-TB
-  uses own Mac and "W6" (1.1.1.1)
-  Full application tests: Safari 5.1.1 (OSX)
-  Mini application tests: IE 6
-  Toolchain tests: XP (verify with IE)
-
-CH
-  uses own Windows
-  Full application tests: IE 9 (Win 7)
-  Mini application tests: /
-  Toolchain tests: Win7 (verify with IE)
+Unless otherwise noted, the latest stable version of each browser must be used.
 
 AS
-  uses own Windows (Laptop)
-  Full application tests: FF 8 (Win 7)
-  Mini application tests: IE 10 Platform Preview (Win 7)
-  Toolchain tests: Win7 (verify with IE 10)
+  uses: Own Win7 Laptop
+  Mini application tests:
+    Firefox (Win7)
+    Opera (Win7)
+  Mobile application tests:
+    Chrome dev (Win7)
+  Toolchain tests:
+    Win7 (verify with Opera)
+
+CH
+  uses: Own Macbook, own Win7 PC
+  Full application tests:
+    Safari (OSX)
+  Mini application tests:
+    Chrome (OSX)
+  Mobile application tests:
+    Safari (OSX)
+  Toolchain tests:
+    Cygwin (Win7, verify with IE9)
+
+CZ
+  uses: XP/IE8 testing PC, Galaxy Nexus S
+  Full application tests:
+    IE8 (WinXP)
+  Mobile application tests:
+    Android 4 Browser (Galaxy Nexus S)
+    Chrome dev (Galaxy Nexus S)
+  Toolchain tests:
+    WinXP (verify with IE8)
+
+DW
+  uses: Win7 testing PC, Win8 VM on Testing Server, own Linux PC
+  Full application tests:
+    IE9 (Win7)
+  Mini application tests:
+    IE10 (Win8)
+  Mobile application tests:
+    Firefox (Linux)
+  Toolchain tests:
+    Contribution Skeleton on Win7
+
+MW
+  uses: Own Macbook, XP/IE7 testing PC, iPad
+  Full application tests:
+    Firefox (OSX)
+  Mobile application tests:
+    Safari (iPod)
+  Website tests:
+    IE7 (WinXP)
+  Toolchain tests:
+    OSX (verify with Safari)
 
 TH
-  uses own Linux and "71" (1.1.1.1)
-  Full application tests: Chrome Beta (Linux)
-  Mini application tests: Chrome Dev (Win 7)
-  Toolchain tests: Linux (verify with Chrome)
-
-
+  uses: XP/IE6 testing PC, own Linux PC, iPad
+  Full application tests:
+    Chrome (WinXP)
+  Mini application tests:
+    Chrome (Linux)
+  Mobile application tests:
+    Safari (iPad)
+  Toolchain tests:
+    Linux (verify with Firefox)
