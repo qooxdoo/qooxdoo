@@ -118,13 +118,6 @@ qx.Class.define("playground.view.Editor",
       this.__editor.setVisibility("excluded");
       this.add(this.__editor, { flex : 1 });
 
-
-      // load the CSS files for the code editor
-      var uri = qx.util.ResourceManager.getInstance().toUri("resource/playground/css/editor.css");
-      qx.bom.Stylesheet.includeFile(uri);
-      uri = qx.util.ResourceManager.getInstance().toUri("resource/playground/css/tm.css");
-      qx.bom.Stylesheet.includeFile(uri);
-
       // override the focus border CSS of the editor
       qx.bom.Stylesheet.createElement(
         ".ace_editor {border: 0px solid #9F9F9F !important;}"
@@ -148,14 +141,6 @@ qx.Class.define("playground.view.Editor",
       qx.event.Timer.once(function() {
         var container = this.__editor.getContentElement().getDomElement();
 
-        // HOTFIX for webkit to enable space entering
-        if (qx.core.Environment.get("engine.name") == "webkit") {
-          this.__editor.addListener("click", function(e) {
-            editor.textInput.blur();
-            editor.textInput.focus();
-          }, this);
-        }
-
         // create the editor
         var editor = this.__ace = ace.edit(container);
 
@@ -167,11 +152,6 @@ qx.Class.define("playground.view.Editor",
         var session = editor.getSession();
         session.setUseSoftTabs(true);
         session.setTabSize(2);
-
-        // disable the lint check in opera. Its not working anyway!
-        if (qx.core.Environment.get("browser.name") == "opera") {
-          session.setAnnotations = function() {};
-        }
 
         // copy the inital value
         session.setValue(this.__textarea.getValue() || "");
