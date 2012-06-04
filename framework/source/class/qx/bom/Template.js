@@ -56,6 +56,11 @@
    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ************************************************************************ */
+/* ************************************************************************
+
+#ignore(module)
+
+************************************************************************ */
 
 /**
  * The is a template class which can be used for HTML templating. In fact,
