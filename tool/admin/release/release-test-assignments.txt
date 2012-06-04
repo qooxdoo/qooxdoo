@@ -1,0 +1,56 @@
+//THIS IS A TEMPLATE - ADAPT TO NEED
+
+Mini application tests focus on visual aspects (showcase, widget browser). Overall they should be a lot less time-consuming than full tests. Details about the mini tests will be noted on the test sheets.
+
+Unless otherwise noted, the latest stable version of each browser must be used.
+
+AS
+  uses: iPod, Galaxy Nexus S
+  Mobile application tests:
+    Safari (iPod)
+    Android 4 Browser (Galaxy Nexus S)
+    Chrome dev (Galaxy Nexus S)
+
+CH
+  uses: Win8 VM on Testing Server
+  Mini application tests:
+    IE10 (Win8 VM on Testing Server)
+
+CZ
+  uses: Own Mac Mini and IE6/XP testing PC
+  Full application tests:
+    Safari (OSX)
+  Mini application tests:
+    Chrome (WinXP)
+  Toolchain tests:
+    OSX (including Mobile skeleton; verify with Safari)
+
+DW
+  uses: Win7 testing PC and own Linux PC
+  Full application tests:
+    IE9 (Win7 testing PC)
+  Mini application tests:
+    Firefox (Linux)
+  Toolchain tests:
+    Win7 (including Contribution skeleton; verify with IE9)
+
+MW
+  uses: Own Macbook and XP/IE8 testing PC
+  Full application tests:
+    Chrome (OSX)
+  Mini application tests:
+    IE8 (WinXP)
+  Mobile application tests:
+    Safari (OSX)
+  Toolchain tests:
+    WinXP (verify with Chrome)
+
+TH
+  uses: IE7/XP testing PC, own Linux
+  Full application tests:
+    Firefox (WinXP)
+  Mini application tests:
+    Opera (WinXP)
+  Toolchain tests:
+    Cygwin (WinXP; verify with Opera)
+    Linux (verify with Firefox)
