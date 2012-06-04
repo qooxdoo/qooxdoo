@@ -20,7 +20,6 @@
 qx.Class.define("qx.test.mobile.container.Navigation",
 {
   extend : qx.test.mobile.MobileTestCase,
-  include : qx.ui.mobile.core.MResize,
 
   members :
   {
