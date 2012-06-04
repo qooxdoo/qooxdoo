@@ -2,8 +2,14 @@
   min-height:200px;
   background-color:green;
   color:#ffffff;
+  padding:5px;
+  margin-top:5px;
 }
 
 .marginExpander {
   margin-right: 5px;
+}
+
+.toggleButton {
+  margin-top:2px;
 }

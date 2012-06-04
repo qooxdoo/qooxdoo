@@ -281,4 +281,11 @@
     background-image: -moz-radial-gradient(@x @y, circle, @begin @stop1, @end @stop2);
     background-image: radial-gradient(@x @y, circle, @begin @stop1, @end @stop2);
   }
+
+  // Radial with two stops
+  .ellipse(@x, @y, @begin, @stop1, @end, @stop2) {
+    background-image: -webkit-radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
+    background-image: -moz-radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
+    background-image: radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
+  }
 }

@@ -316,11 +316,7 @@ input[type="checkbox"]:checked {
 //
 
 .popup {
-  #gradient > .radial(100px, -195px, #637396, 215px, #1d3566, 225px);
-  .border-radius(.7em);
-  background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));
-  border: 2px solid white; //#c7d1e3;
-  color: #fff;
+  .dialog();
 }
 
 //
@@ -328,9 +324,9 @@ input[type="checkbox"]:checked {
 //
 
 .dialog {
-  #gradient > .radial(100px, -180px, #637396, 215px, #1d3566, 225px);
+  #gradient > .ellipse(50%, -20px, rgba(99, 115, 150,0.5), 0px, rgb(29, 53, 102,0.5), 175px);
+
   .border-radius(.7em);
-  background: -webkit-gradient(radial, 100 -180, 215, 100 -180, 225, from(#637396), to(#1d3566));
   border: 2px solid #c7d1e3;
   color: #fff;
 }
@@ -403,7 +399,6 @@ div.checked .toggleButtonSwitch:before {
 .selectbox.active {
   .button.active();
 }
-
 
 .selectbox-selected > div > .list-itemlabel {
   color:@selection-foreground-color;
