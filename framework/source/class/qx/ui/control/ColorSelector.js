@@ -515,7 +515,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
      */
     getValue: function()
     {
-      return this.__nullValue ? null : "#" + qx.util.ColorUtil.rgbToHexString(
+      return this.__nullValue ? null : qx.util.ColorUtil.rgbToHexString(
         [this.getRed(), this.getGreen(), this.getBlue()]
       );
     },
@@ -1135,6 +1135,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
       var value = qx.util.ColorUtil.rgbToHexString(
         [this.getRed(),this.getGreen(),this.getBlue()]
       );
+
+      // get rid of the starting '#'
+      value = value.substring(1, value.length);
+
       this.getChildControl("hex-field").setValue(value);
     },
 

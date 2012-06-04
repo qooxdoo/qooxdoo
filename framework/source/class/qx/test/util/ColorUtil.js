@@ -39,6 +39,13 @@ qx.Class.define("qx.test.util.ColorUtil",
     {
       this.assertEquals("#FFFFFF", qx.util.ColorUtil.hex3StringToHex6String("#fff"));
       this.assertEquals("#ffffff", qx.util.ColorUtil.hex3StringToHex6String("#ffffff"));
+    },
+
+
+    testRgbToHexString : function()
+    {
+      this.assertEquals("#FFFFFF", qx.util.ColorUtil.rgbToHexString([255, 255, 255]));
+      this.assertEquals("#000000", qx.util.ColorUtil.rgbToHexString([0, 0, 0]));
     }
   }
 });

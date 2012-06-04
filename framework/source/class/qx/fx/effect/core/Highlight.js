@@ -147,7 +147,7 @@ qx.Class.define("qx.fx.effect.core.Highlight",
         this.__startColor[2] + Math.round(this.__deltaColor[2] * position)
       ];
 
-      var hexColor = "#" + qx.util.ColorUtil.rgbToHexString([color[0].toString(16), color[1].toString(16), color[2].toString(16)]);
+      var hexColor = qx.util.ColorUtil.rgbToHexString([color[0].toString(16), color[1].toString(16), color[2].toString(16)]);
 
       qx.bom.element.Style.set(this._getElement(), "backgroundColor", hexColor);
     },

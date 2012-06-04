@@ -228,7 +228,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
               stepValue[j] = parseInt(value0[j] - range * this.__calculateTiming(timing, i / steps), 10);
             };
 
-            delta[i][name] = "#" + qx.util.ColorUtil.rgbToHexString(stepValue);
+            delta[i][name] = qx.util.ColorUtil.rgbToHexString(stepValue);
 
           } else if (!isNaN(parseInt(nItem, 10))) {
             var unit = nItem.substring((parseInt(nItem, 10)+"").length, nItem.length);

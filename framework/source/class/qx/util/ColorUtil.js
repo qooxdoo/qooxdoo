@@ -277,11 +277,12 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * Converts a RGB array to an hex6 string
      *
      * @param rgb {Array} an array with red, green and blue
-     * @return {String} a hex6 string
+     * @return {String} a hex6 string (#xxxxxx)
      */
     rgbToHexString : function(rgb)
     {
       return (
+        "#" +
         qx.lang.String.pad(rgb[0].toString(16).toUpperCase(), 2) +
         qx.lang.String.pad(rgb[1].toString(16).toUpperCase(), 2) +
         qx.lang.String.pad(rgb[2].toString(16).toUpperCase(), 2)
@@ -452,7 +453,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
     hex3StringToHex6String : function(value)
     {
       if (this.isHex3String(value)) {
-        return "#" + this.rgbToHexString(this.hex3StringToRgb(value));
+        return this.rgbToHexString(this.hex3StringToRgb(value));
       }
       return value;
     },
