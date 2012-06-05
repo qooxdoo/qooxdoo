@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -15,6 +15,7 @@
    Authors:
      * Martin Wittemann (martinwittemann)
      * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 /* ************************************************************************
@@ -40,8 +41,10 @@ qx.Class.define("feedreader.MobileApplication",
 
   members :
   {
-    // private memebers
+    // private members
     __feedFolder : null,
+    __overview : null,
+    
 
 
     /*
@@ -63,12 +66,33 @@ qx.Class.define("feedreader.MobileApplication",
         qx.log.appender.Native;
         qx.log.appender.Console;
       }
+
       var model = new feedreader.model.Model();
       var loader = feedreader.io.FeedLoader.getInstance();
       this.__feedFolder = model.getFeedFolder();
+      
       loader.loadAll(this.__feedFolder);
-
+      
       this.buildUpGui();
+    },
+    
+    
+    /**
+     * Installs listener for "stateModified" on any feed available.
+     */
+    __installStateListeners : function (feedFolder) {
+      // static feeds
+      var staticFeeds = feedFolder.getFeeds().getItem(0).getFeeds();
+      for (var i = 0; i < staticFeeds.length; i++) {
+        var staticFeed = staticFeeds.getItem(i);
+        staticFeed.addListener("stateModified", this.__onStateChanged, this);
+      }
+      // user feeds
+      var userFeeds = feedFolder.getFeeds().getItem(1).getFeeds();
+      for (i = 0; i < userFeeds.length; i++) {
+        var userFeed = userFeeds.getItem(i);
+        staticFeed.addListener("stateModified", this.__onStateChanged, this);
+      }
     },
 
 
@@ -82,16 +106,17 @@ qx.Class.define("feedreader.MobileApplication",
       var feedpage = new feedreader.view.mobile.FeedPage();
       var articlePage = new feedreader.view.mobile.ArticlePage();
       
-      var navigationContainer = new qx.ui.mobile.container.Navigation();
-      navigationContainer.add(overview);
-      navigationContainer.add(feedpage);
-      navigationContainer.add(articlePage);
-      this.getRoot().add(navigationContainer, {flex:1});
+      this.__overview = overview;
+      
+      var manager = new qx.ui.mobile.page.Manager(false,this.getRoot());
+      manager.addDetail([overview,feedpage,articlePage]);
       
       // show the first page and set the feeds
       overview.show();
       overview.setFeeds(this.__feedFolder);
-
+      
+      this.__installStateListeners(this.__feedFolder,overview);
+      
       // connect the back buttons
       feedpage.addListener("back", function() {
         overview.show({reverse: true});
@@ -115,10 +140,20 @@ qx.Class.define("feedreader.MobileApplication",
           feedpage.show();
         }
       });
-
+      
       // bind the data
       overview.bind("selectedFeed", feedpage, "feed");
       feedpage.bind("selectedArticle", articlePage, "article");
+    },
+    
+    
+    /**
+     * Handler for stateChanges on any feed.
+     */
+    __onStateChanged : function() {
+      this.__overview.setFeeds(null);
+      this.__overview.setFeeds(this.__feedFolder);
     }
+    
   }
 });
