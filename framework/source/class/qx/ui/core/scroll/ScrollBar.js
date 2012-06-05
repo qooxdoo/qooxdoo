@@ -79,7 +79,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
     } else {
       this.initOrientation();
     }
-
   },
 
 
@@ -190,6 +189,37 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
   members :
   {
     __offset : 2,
+    __originalMinSize : 0,
+
+
+    // overridden
+    _computeSizeHint : function() {
+      var hint = this.base(arguments);
+      if (this.getOrientation() === "horizontal") {
+        this.__originalMinSize = hint.minWidth;
+        hint.minWidth = 0;
+      } else {
+        this.__originalMinSize = hint.minHeight;
+        hint.minHeight = 0;
+      }
+      return hint;
+    },
+
+
+    // overridden
+    renderLayout : function(left, top, width, height) {
+      var changes = this.base(arguments, left, top, width, height);
+      var horizontal = this.getOrientation() === "horizontal";
+      if (this.__originalMinSize >= (horizontal ? width : height)) {
+        this.getChildControl("button-begin").setVisibility("hidden");
+        this.getChildControl("button-end").setVisibility("hidden");
+      } else {
+        this.getChildControl("button-begin").setVisibility("visible");
+        this.getChildControl("button-end").setVisibility("visible");
+      }
+
+      return changes
+    },
 
     // overridden
     _createChildControlImpl : function(id, hash)
