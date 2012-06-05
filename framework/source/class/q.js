@@ -33,6 +33,9 @@ qx.Bootstrap.define("q", {
     // internal storage for all initializers
     __init : [],
 
+    // internal reference to the used qx namespace
+    $$qx : qx,
+
     /**
      * Internal helper to initialize collections.
      *

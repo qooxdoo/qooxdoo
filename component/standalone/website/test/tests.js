@@ -13,17 +13,16 @@ testrunner.define({
   testInstanceOf : function() {
     var c = q.create("<div>");
     this.assertTrue(c instanceof q);
-  }
+  },
 
-  /*
-   * These tests will always fail since the Test Runner adds the unwanted classes
   testDependencies : function()
   {
-    this.assertUndefined(qx.Class);
-    this.assertUndefined(qx.Interface);
-    this.assertUndefined(qx.Mixin);
+    this.assertUndefined(q.$$qx.Class);
+    this.assertUndefined(q.$$qx.Interface);
+    this.assertUndefined(q.$$qx.Mixin);
+    this.assertUndefined(q.$$qx.core.Assert);
+    this.assertUndefined(q.$$qx.event.Registration);
   }
-  */
 });
 
 testrunner.define({
@@ -746,7 +745,7 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     var res = q(".test li").not(".foo");
     this.assertEquals(3, res.length);
-    this.assertEquals(0, qx.bom.Selector.matches(".foo", res));
+    this.assertEquals(0, q.$$qx.bom.Selector.matches(".foo", res));
     test.remove();
   },
 
@@ -763,7 +762,7 @@ testrunner.define({
       return item.className.indexOf("foo") >=0;
     });
     this.assertEquals(3, res.length);
-    this.assertEquals(0, qx.bom.Selector.matches(".foo", res));
+    this.assertEquals(0, q.$$qx.bom.Selector.matches(".foo", res));
     test.remove();
   },
 
@@ -1829,7 +1828,7 @@ testrunner.define({
 
     var blockerDiv = test[0].__blocker.div;
     this.assertElement(blockerDiv[0]);
-    this.assertTrue(qx.dom.Hierarchy.isRendered(blockerDiv[0]));
+    this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
     var blockerLocation = blockerDiv.getOffset();
     this.assertEquals(styles.top, blockerLocation.top + "px");
     this.assertEquals(styles.left, blockerLocation.left + "px");
@@ -1839,7 +1838,7 @@ testrunner.define({
     if (q.env.get("engine.name") == "mshtml") {
       var blockerIframe = test[0].__blocker.iframe;
       this.assertElement(blockerIframe[0]);
-      this.assertTrue(qx.dom.Hierarchy.isRendered(blockerIframe[0]));
+      this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
       var blockerIframeLocation = blockerIframe.getOffset();
       this.assertEquals(styles.top, blockerIframeLocation.top + "px");
       this.assertEquals(styles.left, blockerIframeLocation.left + "px");
@@ -1850,10 +1849,10 @@ testrunner.define({
     this.assertEquals(1, blockerDiv.getStyle("opacity"));
     this.assertMatch(blockerDiv.getStyle("backgroundColor"), /(rgb.*?0,.*?255.*?0|#00ff00)/i);
     test.unblock();
-    this.assertFalse(qx.dom.Hierarchy.isRendered(blockerDiv[0]));
+    this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
 
     if (q.env.get("engine.name") == "mshtml") {
-      this.assertFalse(qx.dom.Hierarchy.isRendered(blockerIframe[0]));
+      this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
     }
 
     var newStyles = {
@@ -1865,7 +1864,7 @@ testrunner.define({
     test.setStyles(newStyles);
     test.block();
 
-    this.assertTrue(qx.dom.Hierarchy.isRendered(blockerDiv[0]));
+    this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
     var blockerLocation = blockerDiv.getOffset();
     this.assertEquals(newStyles.top, blockerLocation.top + "px");
     this.assertEquals(newStyles.left, blockerLocation.left + "px");
@@ -1873,7 +1872,7 @@ testrunner.define({
     this.assertEquals(newStyles.height, blockerDiv.getHeight() + "px");
 
     if (q.env.get("engine.name") == "mshtml") {
-      this.assertTrue(qx.dom.Hierarchy.isRendered(blockerIframe[0]));
+      this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
       blockerIframeLocation = blockerIframe.getOffset();
       this.assertEquals(newStyles.top, blockerIframeLocation.top + "px");
       this.assertEquals(newStyles.left, blockerIframeLocation.left + "px");
@@ -1886,22 +1885,22 @@ testrunner.define({
   {
     q(document).block();
     var blockerDiv = document.__blocker.div;
-    this.assertTrue(qx.dom.Hierarchy.isRendered(blockerDiv[0]));
+    this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
     this.assertEquals(q(document).getWidth(), blockerDiv.getWidth());
     this.assertEquals(q(document).getHeight(), blockerDiv.getHeight());
 
     if (q.env.get("engine.name") == "mshtml") {
       var blockerIframe = document.__blocker.iframe;
-      this.assertTrue(qx.dom.Hierarchy.isRendered(blockerIframe[0]));
+      this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
       this.assertEquals(q(document).getWidth(), blockerIframe.getWidth());
       this.assertEquals(q(document).getHeight(), blockerIframe.getHeight());
     }
 
     q(document).unblock();
 
-    this.assertFalse(qx.dom.Hierarchy.isRendered(blockerDiv[0]));
+    this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
     if (q.env.get("engine.name") == "mshtml") {
-      this.assertFalse(qx.dom.Hierarchy.isRendered(blockerIframe[0]));
+      this.assertFalse(q.$$dom.Hierarchy.isRendered(blockerIframe[0]));
     }
   }
 });
@@ -2073,7 +2072,7 @@ testrunner.define({
   classname : "Environment",
 
   testGet : function() {
-    this.assertEquals(qx.core.Environment.get("qx.debug"), q.env.get("qx.debug"));
+    this.assertEquals(q.$$qx.core.Environment.get("qx.debug"), q.env.get("qx.debug"));
   },
 
   testAdd : function() {
