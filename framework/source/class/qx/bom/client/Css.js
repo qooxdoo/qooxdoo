@@ -451,7 +451,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * Checks if the given filter is supported.
      * 
      * @param filterClass {String} The name of the filter class
-     * @param iniParams {String} Init values for the filter
+     * @param initParams {String} Init values for the filter
      * @return {Boolean} <code>true</code> if the given filter is supported
      */
     __isFilterSupported : function(filterClass, initParams)
