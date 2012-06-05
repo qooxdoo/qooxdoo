@@ -241,7 +241,7 @@ qx.Bootstrap.define("qx.module.Event", {
      * @param target {Element} Element to attach the copied listeners to
      */
     copyEventsTo : function(target) {
-      var source = this;
+      var source = this.concat();
 
       // get all children of source and target
       for (var i = source.length - 1; i >= 0; i--) {
@@ -250,13 +250,13 @@ qx.Bootstrap.define("qx.module.Event", {
           source.push(descendants[j]);
         };
       }
+
       for (var i = target.length -1; i >= 0; i--) {
         var descendants = target[i].getElementsByTagName("*");
         for (var j=0; j < descendants.length; j++) {
           target.push(descendants[j]);
         };
       }
-
 
       for (var i=0; i < source.length; i++) {
         var el = source[i];

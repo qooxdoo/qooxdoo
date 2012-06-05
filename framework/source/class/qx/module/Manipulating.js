@@ -51,7 +51,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
         clones.push(this[i].cloneNode(true));
       };
 
-      if (events === true) {
+      if (events === true && this.copyEventsTo) {
         this.copyEventsTo(clones);
       }
 
