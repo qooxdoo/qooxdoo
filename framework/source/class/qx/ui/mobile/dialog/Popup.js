@@ -65,6 +65,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 {
   extend : qx.ui.mobile.core.Widget,
 
+
  /*
   *****************************************************************************
      CONSTRUCTOR
@@ -74,27 +75,28 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
   /**
    * @param widget {qx.ui.mobile.core.Widget} the widget the will be shown in the popup
    * @param anchor {qx.ui.mobile.core.Widget?} optional parameter, a widget to attach this popup to
-   *
    */
   construct : function(widget, anchor)
   {
     this.base(arguments);
     this.exclude();
     qx.core.Init.getApplication().getRoot().add(this);
+    
     if(anchor) {
       this.__anchor = anchor;
     }
+    
     if(widget) {
       this._initializeChild(widget);
     }
   },
+
 
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
-
   properties :
   {
     // overridden
@@ -138,7 +140,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
   members :
   {
-
     __isShown : false,
     __childrenContainer : null,
     __left : null,
@@ -155,69 +156,65 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     _updatePosition : function()
     {
       var isInitialized = this.__left != null || this.__top != null;
-      
+
       if(isInitialized) {
         return;
       }
-      
+
       if(this.__anchor)
       {
         var pos = qx.bom.element.Location.getPosition(this.__anchor.getContainerElement());
         var dimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
         var anchorDimension = qx.bom.element.Dimension.getSize(this.__anchor.getContainerElement());
-        
+
         // Reset Anchor.
-         this.removeCssClass('popupAnchorPointerTop');
-         this.removeCssClass('popupAnchorPointerLeft');
-         this.removeCssClass('popupAnchorPointerRight');
-         this.removeCssClass('popupAnchorPointerBottom');
-        
-        var arrowHeight = 10;
-        
+        this.removeCssClass('popupAnchorPointerTop');
+        this.removeCssClass('popupAnchorPointerLeft');
+        this.removeCssClass('popupAnchorPointerRight');
+        this.removeCssClass('popupAnchorPointerBottom');
+
         if(pos.top + dimension.height > qx.bom.Viewport.getHeight()) {
           // Flip position
           pos.top = pos.top - dimension.height - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingBottom'))
-            - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderBottomWidth'));
-          
+          - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderBottomWidth'));
+
           var newDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
           this.placeTo(pos.left, pos.top - (newDimension.height - dimension.height));
-          
+
           this.addCssClass('popupAnchorPointerBottom');
         }
         else if(pos.left + dimension.width > qx.bom.Viewport.getWidth()) {
           // Flip Position
           pos.left = pos.left - dimension.width - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingRight')) 
-            - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderRightWidth'));
-          
+          - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderRightWidth'));
+
           this.addCssClass('popupAnchorPointerRight');
-          
+
           this.placeTo(pos.left, pos.top);
         }
         else {
-          var newDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
           this.placeTo(pos.left, pos.top + anchorDimension.height);
           this.addCssClass('popupAnchorPointerTop');
-        
+
         }
       } else {
         // No Anchor
-      var top = qx.bom.Viewport.getScrollTop(), height = 1;
-      var left = qx.bom.Viewport.getScrollLeft(), width = 1;
-      
-      var viewportWidth = qx.bom.Viewport.getWidth()
-      var viewportHeight = qx.bom.Viewport.getHeight();
-      
-      if(this.__childrenContainer)
-      {
-        var dimension = qx.bom.element.Dimension.getSize(this.__childrenContainer.getContainerElement());
-        width = dimension.width;
-        height = dimension.height;
+        var top = qx.bom.Viewport.getScrollTop(), height = 1;
+        var left = qx.bom.Viewport.getScrollLeft(), width = 1;
+
+        var viewportWidth = qx.bom.Viewport.getWidth()
+        var viewportHeight = qx.bom.Viewport.getHeight();
+
+        if(this.__childrenContainer)
+        {
+          var childDimension = qx.bom.element.Dimension.getSize(this.__childrenContainer.getContainerElement());
+          width = childDimension.width;
+          height = childDimension.height;
+        }
+
+        this._positionTo(left + (viewportWidth - width)/2, top + (viewportHeight-height)/2) ;
       }
 
-      this._positionTo(left + (viewportWidth - width)/2, top + (viewportHeight-height)/2) ;
-        
-      }
-     
     },
 
 
@@ -236,6 +233,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       this.__isShown = true;
     },
 
+
     /**
      * This method positions the popup widget at the coordinates specified.
      * @param left {Integer} - the value the will be set to container's left style property
@@ -247,6 +245,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       this.__top = top;
       this._positionTo(left, top);
     },
+
 
     /**
      * This protected method positions the popup widget at the coordinates specified.
@@ -307,6 +306,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }*/
     },
 
+
     /**
      * This method creates the container where the popup's widget will be placed
      * and adds it to the popup.
@@ -320,10 +320,12 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this.__childrenContainer.setDefaultCssClass("popup-content")
         this._add(this.__childrenContainer);
       }
+      
       if(this._createTitleWidget()) {
         this.__childrenContainer.remove(this._createTitleWidget());
         this.__childrenContainer.add(this._createTitleWidget());
       }
+      
       this.__childrenContainer.add(widget, {flex:1});
       
       // Anchor Arrow Init...
@@ -331,7 +333,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       {
         this.addCssClass('popupAnchorPointerTop');
       }
-      // ...
+
       this.__widget = widget;
     },
 
@@ -406,6 +408,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }
     },
 
+
     /**
      * Adds the widget that will be shown in this popup. This method can be used in the case when you have removed the widget from the popup
      * or you haven't passed it in the constructor.
@@ -457,6 +460,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }
     }
   },
+
 
   /*
   *****************************************************************************
