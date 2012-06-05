@@ -17,11 +17,16 @@ testrunner.define({
 
   testDependencies : function()
   {
-    this.assertUndefined(q.$$qx.Class);
-    this.assertUndefined(q.$$qx.Interface);
-    this.assertUndefined(q.$$qx.Mixin);
-    this.assertUndefined(q.$$qx.core.Assert);
-    this.assertUndefined(q.$$qx.event.Registration);
+    if (q.$$qx.core.Environment.get("qx.debug")) {
+      this.skip("Only in non debug version reasonable.")
+    }
+    this.assertUndefined(q.$$qx.Class, "Class");
+    this.assertUndefined(q.$$qx.Interface, "Interface");
+    this.assertUndefined(q.$$qx.Mixin, "Mixin");
+    this.assertUndefined(q.$$qx.core.Assert, "Assert");
+    if (q.$$qx.event) {
+      this.assertUndefined(q.$$qx.event.Registration, "event.Registration");
+    }
   }
 });
 

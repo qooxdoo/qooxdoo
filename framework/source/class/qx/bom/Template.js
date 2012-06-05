@@ -144,7 +144,7 @@ qx.Bootstrap.define("qx.bom.Template", {
       }
 
       // create a helper to convert the string into DOM nodes
-      var helper = qx.bom.Element.create("div");
+      var helper = qx.dom.Element.create("div");
       helper.innerHTML = inner;
 
       return helper.children[0];
