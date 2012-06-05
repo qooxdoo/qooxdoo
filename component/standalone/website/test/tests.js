@@ -1700,7 +1700,7 @@ testrunner.define({
   setUp : testrunner.globalSetup,
   tearDown : testrunner.globalTeardown,
 
-  testToHtml : function() {
+  testRender : function() {
     var result = q.template.render("{{affe}}", {affe: "george"});
     this.assertEquals("george", result);
   },

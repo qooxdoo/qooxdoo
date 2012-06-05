@@ -61,18 +61,17 @@ qx.Bootstrap.define("qx.module.Template", {
      * @param template {String} The String containing the template.
      * @param view {Object} The object holding the data to render.
      * @param partials {Object} Object holding parts of a template.
-     * @param send_fun {Function?} Callback function for streaming.
      * @return {String} The parsed template.
      */
-    toHtml : function(template, view, partials, send_fun) {
-      return qx.bom.Template.render(template, view, partials, send_fun);
+    render : function(template, view, partials) {
+      return qx.bom.Template.render(template, view, partials);
     }
   },
 
 
   defer : function(statics) {
     q.$attachStatic({
-      "template" : {get: statics.get, toHtml: statics.render}
+      "template" : {get: statics.get, render: statics.render}
     });
   }
 });
