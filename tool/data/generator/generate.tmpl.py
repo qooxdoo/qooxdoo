@@ -27,6 +27,7 @@ import sys, os, re, subprocess, codecs
 
 CMD_PYTHON = sys.executable
 QOOXDOO_PATH = '${REL_QOOXDOO_PATH}'
+QX_PYLIB = "tool/pylib"
 
 # this is from misc.json, duplicated for decoupling
 _eolComment = re.compile(r'(?<![a-zA-Z]:)//.*$$', re.M) # double $$ for string.Template
@@ -46,7 +47,7 @@ def getQxPath():
     elif os.path.exists('config.json'):
         # try json parsing with qx json
         if not path.startswith('$${'): # template macro has been resolved
-            sys.path.insert(0, path)
+            sys.path.insert(0, os.path.join(path, QX_PYLIB))
             try:
                 from misc import json
                 got_json = True
