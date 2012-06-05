@@ -72,7 +72,7 @@
 
     "log-deps" :
     {
-      "extend" : ["build"],
+      "extend" : ["build-min"],
 
       "log" :
       {
@@ -219,7 +219,7 @@
       },
 
       "run" : [
-        "build",
+        "build-min",
         "testrunner-portable::build-script",
         "testrunner-portable::gen-css"
       ]
