@@ -55,7 +55,7 @@ testrunner.define({
     this.assertEquals(1, q.create("<div/>")[0].nodeType);
   },
 
-  testWrap : function() {
+  testWrapElement : function() {
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
     var el = document.getElementById("testdiv");
@@ -308,6 +308,50 @@ testrunner.define({
     appendTo("#sandbox");
     q.create('<h2>Bar</h2><h3>Baz</h3>').insertBefore("#sandbox h1");
     this.assertEquals(2, q("#sandbox h2 + h3 + h1").length);
+  },
+  
+  "test wrap with HTML string" : function()
+  {
+    var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
+    .appendTo("#sandbox");
+    test.wrap('<div class="foo"><p class="bar"/></div>');
+    this.assertEquals(2, q("#sandbox .foo .bar .baz").length);
+  },
+  
+  "test wrap with element" : function()
+  {
+    var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
+    .appendTo("#sandbox");
+    var wrapper = q.create('<div class="foo"><p class="bar"/></div>').appendTo('#sandbox');
+    test.wrap(wrapper[0]);
+    this.assertEquals(2, q("#sandbox .foo .bar .baz").length);
+  },
+  
+  "test wrap with selector" : function()
+  {
+    var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
+    .appendTo('#sandbox');
+    q.create('<div class="foo"><p class="bar"/></div>').appendTo('#sandbox');
+    test.wrap('.foo');
+    this.assertEquals(2, q('#sandbox .foo .bar .baz').length);
+  },
+  
+  "test wrap with list of elements" : function()
+  {
+    var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
+    .appendTo('#sandbox');
+    var wrapper = q.create('<div class="foo"><p class="bar"/></div>').appendTo('#sandbox');
+    test.wrap([wrapper[0]]);
+    this.assertEquals(2, q('#sandbox .foo .bar .baz').length);
+  },
+  
+  "test wrap with collection" : function()
+  {
+    var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
+    .appendTo('#sandbox');
+    var wrapper = q.create('<div class="foo"><p class="bar"/></div>').appendTo('#sandbox');
+    test.wrap(wrapper);
+    this.assertEquals(2, q('#sandbox .foo .bar .baz').length);
   }
 });
 

@@ -195,6 +195,85 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
 
     /**
+     * Wraps each element in the collection in a copy of an HTML structure.
+     * Elements will be appended to the deepest nested element in the structure
+     * as determined by a depth-first search.
+     * 
+     * @attach{q}
+     * @param wrapper {var} Selector expression, HTML string, DOM element or 
+     * list of DOM elements
+     * @return {q} The collection for chaining
+     */
+    wrap : function(wrapper) {
+      var wrapper = qx.module.Manipulating.__getCollectionFromArgument(wrapper);
+      
+      if (wrapper.length == 0 || !qx.dom.Node.isElement(wrapper[0])) {
+        return this;
+      }
+
+      for (var i=0,l=this.length; i < l; i++) {
+        var clonedwrapper = wrapper.eq(0).clone(true);
+        qx.dom.Element.insertAfter(clonedwrapper[0], this[i]);
+        var innermost = qx.module.Manipulating.__getInnermostElement(clonedwrapper[0]);
+        qx.dom.Element.insertEnd(this[i], innermost);
+      }
+
+      return this;
+    },
+
+
+    /**
+     * Creates a new collection from the given argument
+     * @param arg {var} Selector expression, HTML string, DOM element or list of
+     * DOM elements
+     * @return {q} Collection
+     * @internal
+     */
+    __getCollectionFromArgument : function(arg) {
+      var coll;
+      // Collection/array of DOM elements
+      if (qx.lang.Type.isArray(arg)) {
+        coll = q(arg);
+      }
+      // HTML string
+      else {
+        var arr = qx.bom.Html.clean([arg]);
+        if (arr.length > 0 && qx.dom.Node.isElement(arr[0])) {
+          coll = q(arr);
+        }
+        // Selector or single element
+        else {
+          coll = q(arg);
+        }
+      }
+      
+      return coll;
+    },
+    
+    
+    /**
+     * Returns the innermost element of a DOM tree as determined by a simple
+     * depth-first search.
+     * 
+     * @param element {Element} Root element
+     * @return {Element} innermost element
+     * @internal
+     */
+    __getInnermostElement : function(element)
+    {
+      if (element.childNodes.length == 0) {
+        return element;
+      }
+      for (var i=0,l=element.childNodes.length; i<l; i++) {
+        if (element.childNodes[i].nodeType === 1) {
+          return this.__getInnermostElement(element.childNodes[i]);
+        }
+      }
+      return element;
+    },
+    
+
+    /**
      * Removes each element in the current collection from the DOM
      * 
      * @attach{q}
@@ -441,6 +520,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       "after" : statics.after,
       "insertAfter" : statics.insertAfter,
 
+      "wrap" : statics.wrap,
+      
       "clone" : statics.clone,
 
       "getScrollLeft" : statics.getScrollLeft,
