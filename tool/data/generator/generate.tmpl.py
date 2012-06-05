@@ -23,11 +23,43 @@
 # This is a stub proxy for the real generator.py
 ##
 
-import sys, os, re, subprocess, codecs
+import sys, os, re, subprocess, codecs, optparse
 
 CMD_PYTHON = sys.executable
 QOOXDOO_PATH = '${REL_QOOXDOO_PATH}'
 QX_PYLIB = "tool/pylib"
+
+##
+# A derived OptionParser class that ignores unknown options (The parent
+# class raises in those cases, and stops further processing).
+# We need this, as we are only interested in -c/--config on this level, and
+# want to ignore pot. other options.
+#
+class MyOptionParser(optparse.OptionParser):
+    ##
+    # <rargs> is the raw argument list. The original _process_args mutates
+    # rargs, processing options into <values> and copying interspersed args
+    # into <largs>. This overridden version ignores unknown or ambiguous 
+    # options.
+    def _process_args(self, largs, rargs, values):
+        while rargs:
+            try:
+                optparse.OptionParser._process_args(self, largs, rargs, values)
+            except (optparse.BadOptionError, optparse.AmbiguousOptionError):
+                pass
+
+
+def parseArgs():
+    parser = MyOptionParser()
+    parser.add_option(
+        "-c", "--config", dest="config", metavar="CFGFILE", 
+        default="config.json", help="path to configuration file"
+    )
+    (options, args) = parser.parse_args(sys.argv[1:])
+    return options, args
+
+ShellOptions, ShellArgs = parseArgs()
+
 
 # this is from misc.json, duplicated for decoupling
 _eolComment = re.compile(r'(?<![a-zA-Z]:)//.*$$', re.M) # double $$ for string.Template
@@ -44,38 +76,40 @@ def getQxPath():
         path = os.environ["QOOXDOO_PATH"]
 
     # else use QOOXDOO_PATH from config.json
-    elif os.path.exists('config.json'):
-        # try json parsing with qx json
-        if not path.startswith('$${'): # template macro has been resolved
-            sys.path.insert(0, os.path.join(path, QX_PYLIB))
-            try:
-                from misc import json
-                got_json = True
-            except:
-                got_json = False
+    else:
+        config_file = ShellOptions.config
+        if os.path.exists(config_file):
+            # try json parsing with qx json
+            if not path.startswith('$${'): # template macro has been resolved
+                sys.path.insert(0, os.path.join(path, QX_PYLIB))
+                try:
+                    from misc import json
+                    got_json = True
+                except:
+                    got_json = False
 
-        got_path = False
-        if got_json:
-            config_str = codecs.open('config.json', "r", "utf-8").read()
-            config_str = stripComments(config_str)
-            config = json.loads(config_str)
-            p = config.get("let")
-            if p:
-                p = p.get("QOOXDOO_PATH")
+            got_path = False
+            if got_json:
+                config_str = codecs.open(config_file, "r", "utf-8").read()
+                config_str = stripComments(config_str)
+                config = json.loads(config_str)
+                p = config.get("let")
                 if p:
-                    path = p
-                    got_path = True
+                    p = p.get("QOOXDOO_PATH")
+                    if p:
+                        path = p
+                        got_path = True
 
-        # regex parsing - error prone
-        if not got_path:
-            qpathr=re.compile(r'"QOOXDOO_PATH"\s*:\s*"([^"]*)"\s*,?')
-            conffile = open('config.json')
-            aconffile = conffile.readlines()
-            for line in aconffile:
-                mo = qpathr.search(line)
-                if mo:
-                    path = mo.group(1)
-                    break # assume first occurrence is ok
+            # regex parsing - error prone
+            if not got_path:
+                qpathr=re.compile(r'"QOOXDOO_PATH"\s*:\s*"([^"]*)"\s*,?')
+                conffile = codecs.open(config_file, "r", "utf-8")
+                aconffile = conffile.readlines()
+                for line in aconffile:
+                    mo = qpathr.search(line)
+                    if mo:
+                        path = mo.group(1)
+                        break # assume first occurrence is ok
 
     path = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), path))
 
