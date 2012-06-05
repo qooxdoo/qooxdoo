@@ -24,7 +24,7 @@ if (exp) {
   }
 }
 
-window[qx] = undefined;
+window["qx"] = undefined;
 try {
   delete window.qx;
 } catch(e) {}
