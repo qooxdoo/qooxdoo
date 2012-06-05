@@ -78,7 +78,7 @@ The environment setting ``qx.debug`` must be ``true``. The setting ``qx.disposer
     }
 
 
-This snippet is also available at the `Support for finding potential memory leaks <http://qooxdoo.org/documentation/general/snippets#support_for_finding_potential_memory_leaks>`_ .
+This snippet is also available at the `Support for finding potential memory leaks <http://qooxdoo.org/docs/general/snippets#support_for_finding_potential_memory_leaks>`_ .
 
 Log output from these settings could look something like this:
 
