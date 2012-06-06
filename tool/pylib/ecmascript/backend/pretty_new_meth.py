@@ -21,7 +21,7 @@
 
 import sys, os, re, types, string
 
-from ecmascript.frontend.treegenerator import method, symbol, symbol_base, SYMBOLS, identifier_regex
+from ecmascript.frontend.treegenerator import method, symbol, symbol_base, SYMBOLS, identifier_regex, PackerFlags as pp
 from ecmascript.frontend import lang, Comment
 
 # ------------------------------------------------------------------------------
@@ -659,12 +659,12 @@ def toPretty(self, optns, state):
 
 @method(symbol("commentsAfter"))
 def toPretty(self, optns, state):
-    r = self.toJS()
+    r = self.toJS(pp)
     return r
 
 @method(symbol("commentsBefore"))
 def toPretty(self, optns, state):
-    r = self.toJS()
+    r = self.toJS(pp)
     return r
 
 @method(symbol("file"))

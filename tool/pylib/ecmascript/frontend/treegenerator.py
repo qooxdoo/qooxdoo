@@ -358,7 +358,7 @@ class symbol_base(Node):
         return out
 
     # Packer stuff (serialization to JS)
-    def toJS(self):
+    def toJS(self, opts):
         return self.get("value", u'')
 
 
@@ -511,11 +511,11 @@ def infix(id_, bp):
         return self
     symbol(id_, bp).ifix = ifix
 
-    def toJS(self):
+    def toJS(self, opts):
         r = u''
-        r += self.getChild("first").toJS()
+        r += self.getChild("first").toJS(opts)
         r += self.get("value")
-        r += self.getChild("second").toJS()
+        r += self.getChild("second").toJS(opts)
         return r
     symbol(id_).toJS = toJS
 
@@ -525,13 +525,13 @@ def infix(id_, bp):
 def infix_v(id_, bp):
     infix(id_, bp)   # make it a normal infix op
 
-    def toJS(self):  # adapt the output
+    def toJS(self, opts):  # adapt the output
         r = u''
-        r += self.getChild("first").toJS()
+        r += self.getChild("first").toJS(opts)
         r += self.space()
         r += self.get("value")
         r += self.space()
-        r += self.getChild("second").toJS()
+        r += self.getChild("second").toJS(opts)
         return r
     symbol(id_).toJS = toJS
         
@@ -563,10 +563,10 @@ def prefix(id_, bp):
         return self
     symbol(id_, bp).pfix = pfix
 
-    def toJS(self):
+    def toJS(self, opts):
         r = u''
         r += self.get("value")
-        r += self.getChild("first").toJS()
+        r += self.getChild("first").toJS(opts)
         return r
     symbol(id_).toJS = toJS
 
@@ -581,11 +581,11 @@ def prefix_v(id_, bp):
         return self
     symbol(id_, bp).pfix = pfix
 
-    def toJS(self):
+    def toJS(self, opts):
         r = u''
         r += self.get("value")
         r += self.space()
-        r += self.getChild("first").toJS()
+        r += self.getChild("first").toJS(opts)
         return r
     symbol(id_).toJS = toJS
 
@@ -603,15 +603,15 @@ def preinfix(id_, bp):  # pre-/infix operators (+, -)
         return self
     symbol(id_).pfix = pfix
 
-    def toJS(self):  # need to handle pre/infix cases
+    def toJS(self, opts):  # need to handle pre/infix cases
         r = []
-        first = self.getChild("first").toJS()
+        first = self.getChild("first").toJS(opts)
         op = self.get("value")
         prefix = self.get("left", 0)
         if prefix and prefix == "true":
             r = [op, first]
         else:
-            second = self.getChild("second").toJS()
+            second = self.getChild("second").toJS(opts)
             r = [first, op, second]
         return ''.join(r)
     symbol(id_).toJS = toJS
@@ -634,10 +634,10 @@ def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
         return self
     symbol(id_).ifix = ifix
 
-    def toJS(self):
+    def toJS(self, opts):
         r = u''
         operator = self.get("value")
-        operand = self.getChild("first").toJS()
+        operand = self.getChild("first").toJS(opts)
         r += self.get("value")
         if self.get("left", '') == "true":
             r = [operator, operand]
@@ -724,7 +724,7 @@ symbol("eof")
 symbol("constant").pfix = lambda self: self
 
 @method(symbol("constant"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
     if self.get("constantType") == "string":
         if self.get("detail") == "singlequotes":
@@ -748,7 +748,7 @@ def pfix(self):
     return self
 
 @method(symbol("identifier"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
     v = self.get("value", u"")
     if v:
@@ -801,13 +801,13 @@ def ifix(self, left):
 
 
 @method(symbol("?"))
-def toJS(self):
+def toJS(self, opts):
     r = []
-    r.append(self.getChild("first").toJS())
+    r.append(self.getChild("first").toJS(opts))
     r.append('?')
-    r.append(self.getChild("second").toJS())
+    r.append(self.getChild("second").toJS(opts))
     r.append(':')
-    r.append(self.getChild("third").toJS())
+    r.append(self.getChild("third").toJS(opts))
     return ''.join(r)
 
 
@@ -855,10 +855,10 @@ def ifix(self, left):
 symbol("dotaccessor")
 
 @method(symbol("dotaccessor"))
-def toJS(self):
-    r = self.children[0].toJS()
+def toJS(self, opts):
+    r = self.children[0].toJS(opts)
     r += '.'
-    r += self.children[1].toJS()
+    r += self.children[1].toJS(opts)
     return r
 
 ##
@@ -923,8 +923,8 @@ def ifix(self, left):
 symbol("operand")
 
 @method(symbol("operand"))
-def toJS(self):
-    return self.children[0].toJS()
+def toJS(self, opts):
+    return self.children[0].toJS(opts)
 
 
 @method(symbol("("))  # <group>
@@ -943,12 +943,12 @@ def pfix(self):
     return group
 
 @method(symbol("group"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     r.append('(')
     a = []
     for c in self.children:
-        a.append(c.toJS())
+        a.append(c.toJS(opts))
     r.append(','.join(a))
     r.append(')')
     return ''.join(r)
@@ -993,11 +993,11 @@ def pfix(self):
 symbol("accessor")
 
 @method(symbol("accessor"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
-    r += self.children[0].toJS()
+    r += self.children[0].toJS(opts)
     r += '['
-    r += self.children[1].toJS()
+    r += self.children[1].toJS(opts)
     r += ']'
     return r
 
@@ -1005,18 +1005,18 @@ def toJS(self):
 symbol("array")
 
 @method(symbol("array"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     for c in self.children:
-        r.append(c.toJS())
+        r.append(c.toJS(opts))
     return '[' + u','.join(r) + ']'
 
 
 symbol("key")
 
 @method(symbol("key"))
-def toJS(self):
-    return self.children[0].toJS()
+def toJS(self, opts):
+    return self.children[0].toJS(opts)
 
 
 symbol("}")
@@ -1064,24 +1064,24 @@ def std(self):
 symbol("map")
 
 @method(symbol("map"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
     r += self.write("{")
     a = []
     for c in self.children:
-        a.append(c.toJS())
+        a.append(c.toJS(opts))
     r += ','.join(a)
     r += self.write("}")
     return r
 
 @method(symbol("value"))
-def toJS(self):
-    return self.children[0].toJS()
+def toJS(self, opts):
+    return self.children[0].toJS(opts)
 
 symbol("keyvalue")
 
 @method(symbol("keyvalue"))
-def toJS(self):
+def toJS(self, opts):
     key = self.get("key")
     key_quote = self.get("quote", '')
     if key_quote:
@@ -1094,7 +1094,7 @@ def toJS(self):
         quote = '"'
     else:
         quote = ''
-    value = self.getChild("value").toJS()
+    value = self.getChild("value").toJS(opts)
     return quote + key + quote + ':' + value
 
 
@@ -1112,10 +1112,10 @@ def block():
 symbol("block")
 
 @method(symbol("block"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     r.append('{')
-    r.append(self.children[0].toJS())
+    r.append(self.children[0].toJS(opts))
     r.append('}')
     return u''.join(r)
 
@@ -1147,34 +1147,34 @@ def pfix(self):
     return self
 
 @method(symbol("function"))
-def toJS(self):
+def toJS(self, opts):
     r = self.write("function")
     functionName = self.get("name",0)
     if functionName != None:
         r += self.space(result=r)
         r += self.write(functionName)
     # params
-    r += self.getChild("params").toJS()
+    r += self.getChild("params").toJS(opts)
     # body
-    r += self.getChild("body").toJS()
+    r += self.getChild("body").toJS(opts)
     return r
 
 @method(symbol("params"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     r.append('(')
     a = []
     for c in self.children:
-        a.append(c.toJS())
+        a.append(c.toJS(opts))
     r.append(u','.join(a))
     r.append(')')
     return u''.join(r)
 
 
 @method(symbol("body"))
-def toJS(self):
+def toJS(self, opts):
     r = []
-    r.append(self.children[0].toJS())
+    r.append(self.children[0].toJS(opts))
     # 'if', 'while', etc. can have single-statement bodies
     if self.children[0].id != 'block':
         r.append(';')
@@ -1210,19 +1210,19 @@ def pfix(self):
     return self
 
 @method(symbol("var"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     r.append("var")
     r.append(self.space())
     a = []
     for c in self.children:
-        a.append(c.toJS())
+        a.append(c.toJS(opts))
     r.append(','.join(a))
     return ''.join(r)
 
 @method(symbol("definition"))
-def toJS(self):
-    return self.children[0].toJS()
+def toJS(self, opts):
+    return self.children[0].toJS(opts)
 
 ##
 # returns the identifier node of the defined symbol
@@ -1304,7 +1304,7 @@ def std(self):
     return self
 
 @method(symbol("for"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     r.append('for')
     r.append(self.space(False,result=r))
@@ -1312,35 +1312,35 @@ def toJS(self):
     r.append('(')
     # for (in)
     if self.get("forVariant") == "in":
-        r.append(self.children[0].toJS())
+        r.append(self.children[0].toJS(opts))
     # for (;;)
     else:
-        r.append(self.children[0].children[0].toJS())
+        r.append(self.children[0].children[0].toJS(opts))
         r.append(';')
-        r.append(self.children[0].children[1].toJS())
+        r.append(self.children[0].children[1].toJS(opts))
         r.append(';')
-        r.append(self.children[0].children[2].toJS())
+        r.append(self.children[0].children[2].toJS(opts))
     r.append(')')
     # body
-    r.append(self.getChild("body").toJS())
+    r.append(self.getChild("body").toJS(opts))
     return u''.join(r)
 
 @method(symbol("in"))  # of 'for (in)'
-def toJS(self):
+def toJS(self, opts):
     r = u''
-    r += self.getChild("first").toJS()
+    r += self.getChild("first").toJS(opts)
     r += self.space()
     r += 'in'
     r += self.space()
-    r += self.getChild("second").toJS()
+    r += self.getChild("second").toJS(opts)
     return r
 
 
 @method(symbol("expressionList"))
-def toJS(self):  # WARN: this conflicts (and is overwritten) in for(;;).toJS
+def toJS(self, opts):  # WARN: this conflicts (and is overwritten) in for(;;).toJS
     r = []
     for c in self.children:
-        r.append(c.toJS())
+        r.append(c.toJS(opts))
     return ','.join(r)
 
 
@@ -1359,16 +1359,16 @@ def std(self):
     return self
 
 @method(symbol("while"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
     r += self.write("while")
     r += self.space(False,result=r)
     # cond
     r += '('
-    r += self.children[0].toJS()
+    r += self.children[0].toJS(opts)
     r += ')'
     # body
-    r += self.children[1].toJS()
+    r += self.children[1].toJS(opts)
     return r
 
 symbol("do")
@@ -1387,14 +1387,14 @@ def std(self):
     return self
 
 @method(symbol("do"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     r.append("do")
     r.append(self.space())
-    r.append(self.children[0].toJS())
+    r.append(self.children[0].toJS(opts))
     r.append('while')
     r.append('(')
-    r.append(self.children[1].toJS())
+    r.append(self.children[1].toJS(opts))
     r.append(')')
     return ''.join(r)
 
@@ -1414,15 +1414,15 @@ def std(self):
     return self
 
 # the next one - like with other loop types - is *used*, as dispatch is by class, 
-# not obj.type (cf. "loop".toJS())
+# not obj.type (cf. "loop".toJS(opts))
 @method(symbol("with"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     r += ["with"]
     r += ["("]
-    r += [self.children[0].toJS()]
+    r += [self.children[0].toJS(opts)]
     r += [")"]
-    r += [self.children[1].toJS()]
+    r += [self.children[1].toJS(opts)]
     return u''.join(r)
 
 
@@ -1447,7 +1447,7 @@ def std(self):
 
 
 @method(symbol("if"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
     # Additional new line before each loop
     if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
@@ -1463,22 +1463,22 @@ def toJS(self):
     r += self.write("if")
     # condition
     r += self.write("(")
-    r += self.children[0].toJS()
+    r += self.children[0].toJS(opts)
     r += self.write(")")
     # 'then' part
-    r += self.children[1].toJS()
+    r += self.children[1].toJS(opts)
     # (opt) 'else' part
     if len(self.children) == 3:
         r += self.write("else")
         r += self.space()
-        r += self.children[2].toJS()
+        r += self.children[2].toJS(opts)
     r += self.space(False,result=r)
     return r
 
 symbol("loop")
 
 @method(symbol("loop"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
     # Additional new line before each loop
     if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
@@ -1500,14 +1500,14 @@ def toJS(self):
     #    r += self.space(False,result=r)
     #    # condition
     #    r += '('
-    #    r += self.children[0].toJS()
+    #    r += self.children[0].toJS(opts)
     #    r += ')'
     #    # then
-    #    r += self.children[1].toJS()
+    #    r += self.children[1].toJS(opts)
     #    # else
     #    if len(self.children) == 3:
     #        r += self.write("else")
-    #        r += self.children[2].toJS()
+    #        r += self.children[2].toJS(opts)
     #    r += self.space(False,result=r)
 
     elif loopType == "WHILE":
@@ -1542,11 +1542,11 @@ def std(self):
     return self
 
 @method(symbol("break"))
-def toJS(self):
+def toJS(self, opts):
     r = self.write("break")
     if self.children:
         r += self.space(result=r)
-        r += self.write(self.children[0].toJS())
+        r += self.write(self.children[0].toJS(opts))
     return r
 
 
@@ -1561,11 +1561,11 @@ def std(self):
     return self
 
 @method(symbol("continue"))
-def toJS(self):
+def toJS(self, opts):
     r = self.write("continue")
     if self.children:
         r += self.space(result=r)
-        r += self.write(self.children[0].toJS())
+        r += self.write(self.children[0].toJS(opts))
     return r
 
 
@@ -1579,11 +1579,11 @@ def std(self):
     return self
 
 @method(symbol("return"))
-def toJS(self):
+def toJS(self, opts):
     r = ["return"]
     if self.children:
         r.append(self.space())
-        r.append(self.children[0].toJS())
+        r.append(self.children[0].toJS(opts))
     return ''.join(r)
 
 
@@ -1644,41 +1644,41 @@ def case_block():
 
 
 @method(symbol("switch"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     r.append("switch")
     # control
     r.append('(')
-    r.append(self.children[0].toJS())
+    r.append(self.children[0].toJS(opts))
     r.append(')')
     # body
     r.append('{')
     body = self.getChild("body")
     for c in body.children:
-        r.append(c.toJS())
+        r.append(c.toJS(opts))
     r.append('}')
     return ''.join(r)
 
 
 @method(symbol("case"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     r.append('case')
     r.append(self.space())
-    r.append(self.children[0].toJS())
+    r.append(self.children[0].toJS(opts))
     r.append(':')
     if len(self.children) > 1:
-        r.append(self.children[1].toJS())
+        r.append(self.children[1].toJS(opts))
     return ''.join(r)
 
 
 @method(symbol("default"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     r.append('default')
     r.append(':')
     if len(self.children) > 0:
-        r.append(self.children[0].toJS())
+        r.append(self.children[0].toJS(opts))
     return ''.join(r)
 
 
@@ -1703,21 +1703,21 @@ def std(self):
     return self
 
 @method(symbol("try"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     r.append('try')
-    r.append(self.children[0].toJS())
+    r.append(self.children[0].toJS(opts))
     catch = self.getChild("catch", 0)
     if catch:
         r.append('catch')
         r.append('(')
-        r.append(catch.children[0].toJS())
+        r.append(catch.children[0].toJS(opts))
         r.append(')')
-        r.append(catch.children[1].toJS())
+        r.append(catch.children[1].toJS(opts))
     finally_ = self.getChild("finally", 0)
     if finally_:
         r.append('finally')
-        r.append(finally_.children[0].toJS())
+        r.append(finally_.children[0].toJS(opts))
     return ''.join(r)
 
 
@@ -1731,11 +1731,11 @@ def std(self):
     return self
 
 @method(symbol("throw"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
     r += 'throw'
     r += self.space()
-    r += self.children[0].toJS()
+    r += self.children[0].toJS(opts)
     return r
 
 def expression(bind_right=0):
@@ -1791,15 +1791,15 @@ def statement():
     return s
 
 @method(symbol("(empty)"))
-def toJS(self):
+def toJS(self, opts):
     return u''
 
 @method(symbol("label"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     r += [self.get("value")]  # identifier
     r += [":"]
-    r += [self.children[0].toJS()]
+    r += [self.children[0].toJS(opts)]
     return ''.join(r)
 
 
@@ -1825,7 +1825,7 @@ def statementEnd():
 
 
 @method(symbol("eof"))
-def toJS(self):
+def toJS(self, opts):
     return u''
 
 def statementOrBlock(): # for 'if', 'while', etc. bodies
@@ -1848,10 +1848,10 @@ def statements():  # plural!
 
 
 @method(symbol("statements"))
-def toJS(self):
+def toJS(self, opts):
     r = []
     for cld in self.children:
-        c = cld.toJS()
+        c = cld.toJS(opts)
         r.append(c)
         if not c or c[-1] != ';':
             r.append(';')
@@ -1899,28 +1899,29 @@ def argument_list(list):
 symbol("block")
 
 @method(symbol("block"))
-def toJS(self):
+def toJS(self, opts):
     r = '{'
     for c in self.children:
-        r += c.toJS()
+        r += c.toJS(opts)
     r += '}'
-    r += '\n' # TODO: tmp. fix for line breaks
+    if opts.breaks:
+        r += '\n'
     return r
 
 symbol("call")
 
 @method(symbol("call"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
-    r += self.getChild("operand").toJS()
-    r += self.getChild("params").toJS()
+    r += self.getChild("operand").toJS(opts)
+    r += self.getChild("params").toJS(opts)
     return r
 
 
 symbol("comment")
 
 @method(symbol("comment"))
-def toJS(self):
+def toJS(self, opts):
     r = self.get("value")
     if self.get("detail") == "inline":
         r += '\n'  # force newline after inline comment
@@ -1929,14 +1930,14 @@ def toJS(self):
 symbol("commentsAfter")
 
 @method(symbol("commentsAfter"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
     return r
 
 symbol("commentsBefore")
 
 @method(symbol("commentsBefore"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
     return r
 
@@ -1944,42 +1945,42 @@ def toJS(self):
 symbol("file")
 
 @method(symbol("file"))
-def toJS(self):
-    return self.children[0].toJS()
+def toJS(self, opts):
+    return self.children[0].toJS(opts)
 
 
 @method(symbol("first"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
     if self.children:  # could be empty in for(;;)
-        r = self.children[0].toJS()
+        r = self.children[0].toJS(opts)
     return r
 
 @method(symbol("second"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
     if self.children:
-        r = self.children[0].toJS()
+        r = self.children[0].toJS(opts)
     return r
 
 @method(symbol("third"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
     if self.children:
-        r = self.children[0].toJS()
+        r = self.children[0].toJS(opts)
     return r
 
 
 symbol("params")
 
 @method(symbol("params"))
-def toJS(self):
+def toJS(self, opts):
     r = u''
     self.noline()
     r += self.write("(")
     a = []
     for c in self.children:
-        a.append(c.toJS())
+        a.append(c.toJS(opts))
     r += ','.join(a)
     r += self.write(")")
     return r

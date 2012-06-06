@@ -177,7 +177,7 @@ class MClassCode(object):
         # source versions
         if not compOptions.optimize:
             compiled = filetool.read(self.path)
-            if compiled[-1:] != "\n": # assure trailing \n
+            if compOptions.format and compiled[-1:] != "\n": # assure trailing \n
                 compiled += '\n'
         # compiled versions
         else:
@@ -209,7 +209,7 @@ class MClassCode(object):
         else:
             compiled = self.serializeCondensed(tree, format_)
 
-        if compiled[-1:] != "\n":
+        if format_ and compiled[-1:] != "\n":
             compiled += '\n' # assure trailing \n
         return compiled
 

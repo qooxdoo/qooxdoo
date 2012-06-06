@@ -24,6 +24,7 @@
 import re, sys, types
 
 from ecmascript.frontend import tree, treeutil
+from ecmascript.frontend.treegenerator import PackerFlags as pp
 
 ##
 # Run through all the qx.*.define nodes of a tree. This will cover multiple
@@ -142,6 +143,6 @@ if __name__ == "__main__":
     node = treeutil.compileString(cls)
     patch(node)
     
-    print node.toJS()
+    print node.toJS(pp)
     
     

@@ -258,7 +258,7 @@
         },
         "code"   :
         {
-          "format"   : true,
+          "format"   : false,
           "locales"  : "${LOCALES}",
           "except"   : [],
           "optimize" : "${OPTIMIZE}"

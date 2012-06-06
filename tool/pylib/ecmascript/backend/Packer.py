@@ -26,9 +26,9 @@ from ecmascript.frontend.treegenerator import PackerFlags as p
 class Packer(object):
 
     @staticmethod
-    def emit_tree(node):
+    def emit_tree(node, opts):
 
-        return node.toJS()
+        return node.toJS(opts)
 
     # --------------------------------------------------------------------------
     # -- Interface Methods -----------------------------------------------------
@@ -47,6 +47,6 @@ class Packer(object):
         p.afterDivider = False
         p.afterArea    = False
 
-        return [ Packer.emit_tree(node) ]  # caller expects []
+        return [ Packer.emit_tree(node, p) ]  # caller expects []
 
 

@@ -37,6 +37,7 @@ from ecmascript.frontend import tree, Comment, lang
 #from ecmascript.frontend import treeutil_2 as treeutil
 from ecmascript.frontend import treeutil
 from ecmascript.frontend import treegenerator
+from ecmascript.frontend.treegenerator import PackerFlags as pp
 #from ecmascript.transform.optimizer import variantoptimizer_2 as variantoptimizer  # ugly here
 from ecmascript.transform.optimizer import variantoptimizer  # ugly here
 from generator import Context
@@ -74,7 +75,7 @@ def createDoc(syntaxTree, docTree = None):
 
     defineNode = treeutil.findQxDefine(syntaxTree)
     if defineNode != None:
-        variant = treeutil.selectNode(defineNode, "operand").toJS().split(".")[1].lower()  # 'class' in 'qx.Class.define'
+        variant = treeutil.selectNode(defineNode, "operand").toJS(pp).split(".")[1].lower()  # 'class' in 'qx.Class.define'
         handleClassDefinition(docTree, defineNode, variant)
         attachMap = findAttachMethods(docTree)
 
@@ -813,7 +814,7 @@ def handleConstantDefinition(item, classNode):
     elif valueNode.hasChild("array"):
         arrayNode = valueNode.getChild("array")
         if all([x.type == "constant" for x in arrayNode.children]):
-            node.set("value", arrayNode.toJS())
+            node.set("value", arrayNode.toJS(pp))
             node.set("type", "Array")
 
     commentAttributes = Comment.parseNode(item)

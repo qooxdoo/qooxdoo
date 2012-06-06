@@ -27,6 +27,8 @@
 
 import re
 from ecmascript.frontend import tree, tokenizer, treegenerator, Comment
+from ecmascript.frontend.treegenerator import PackerFlags as pp
+
 
 ##
 # Finds the next qx.*.define in the given tree
@@ -401,7 +403,7 @@ def assembleVariable(variableItem):
         raise tree.NodeAccessException("'variableItem' is no variable node", variableItem)
 
     else:
-        return variableItem.toJS(), True
+        return variableItem.toJS(pp), True
     #assembled = ""
     #for child in variableItem.children:
     #    if child.type == "commentsBefore":
@@ -445,9 +447,9 @@ def variableOrArrayNodeToArray(node):
             raise tree.NodeAccessException("node has no children", node)
         for child in node.children:
             if child.isVar():
-                arr.append(child.toJS())
+                arr.append(child.toJS(pp))
     elif node.isVar():
-        arr.append(node.toJS())
+        arr.append(node.toJS(pp))
     else:
         raise tree.NodeAccessException("'node' is no variable or array node", node)
     return arr
@@ -583,7 +585,7 @@ def _checkQxDefineNode(node):
     if node.type == "call":
         qxDefine = selectNode(node, "operand/dotaccessor")
         if qxDefine:
-            qxDefineParts = qxDefine.toJS().split('.')
+            qxDefineParts = qxDefine.toJS(pp).split('.')
         else:
             qxDefineParts = []
     else:

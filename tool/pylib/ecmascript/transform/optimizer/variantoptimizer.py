@@ -24,7 +24,7 @@
 import re, sys, operator as operators, types
 from ecmascript.frontend.treeutil import *
 from ecmascript.frontend          import treeutil
-from ecmascript.frontend.treegenerator  import symbol
+from ecmascript.frontend.treegenerator  import symbol, PackerFlags as pp
 from misc                         import json
 
 global verbose
@@ -62,7 +62,7 @@ def search(node, variantMap, fileId_="", verb=False):
 
     variantNodes = findVariantNodes(node)
     for variantNode in variantNodes:
-        variantMethod = variantNode.toJS().rsplit('.',1)[1]
+        variantMethod = variantNode.toJS(pp).rsplit('.',1)[1]
         if variantMethod in ["select"]:
             modified = processVariantSelect(selectCallNode(variantNode), variantMap) or modified
         elif variantMethod in ["get"]:
@@ -642,7 +642,7 @@ def isEnvironmentCall(callNode):
     if callNode.type != "call":
         return False
     operandNode = treeutil.selectNode(callNode, "operand")
-    operand = operandNode.toJS()
+    operand = operandNode.toJS(pp)
     environParts = operand.rsplit('.',1)
     if len(environParts) != 2:
         return False

@@ -30,7 +30,7 @@ from generator.code.Package     import Package
 from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.Script      import Script
 import generator.resource.Library # just need the .Library type
-from ecmascript.frontend        import treegenerator, treegenerator_2
+from ecmascript.frontend        import tokenizer, treegenerator, treegenerator_2
 from ecmascript.backend         import pretty
 #from ecmascript.backend         import pretty_new as pretty
 from ecmascript.backend.Packer  import Packer
@@ -150,6 +150,12 @@ class CodeGenerator(object):
             except KeyError, e:
                 raise ValueError("Unknown macro used in loader template (%s): '%s'" % 
                                  (templatePath, e.args[0])) 
+
+            # Compress it
+            if False: # - nope; this is taking around 14s on my box, with parsing being 10s  :(
+                resTokens = tokenizer.parseStream(result, templatePath)
+                resTree = treegenerator.createSyntaxTree(resTokens, templatePath)
+                [result] = Packer().serializeNode(resTree, None, None, compConf.get('code/format', False))
 
             return result
 
