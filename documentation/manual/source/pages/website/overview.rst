@@ -1,8 +1,12 @@
+.. _pages/webite_overview#overview:
+
 %{Website} Overview
 ===================
 
 This page is an overview of %{Website}'s capabilities. It does collect the existing documentation and tries to show the big picture.
 
+
+.. _pages/webite_overview#basic:
 
 Basic Concept
 *************
@@ -30,6 +34,8 @@ The sub object, which could also be called a namespace, in the sample is ``type`
 
 The code base of ``q`` is build in modules, as you can see in the `API viewer for %{Desktop} <http://demo.qooxdoo.org/%{version}/apiviewer#qx.module>`__. Using the generator, you can build your own library containing only the modules you need. The same way, it is possible to include your own modules into a single, optimized file. Take a look at the :ref:`Documentation of the %{Website} skeleton <pages/development/skeletons#website>`.
 
+
+.. _pages/webite_overview#api:
 
 API Documentation
 *****************

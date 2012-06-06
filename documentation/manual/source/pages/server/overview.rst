@@ -37,7 +37,7 @@ We currently support two types of runtimes:
 
 Installation
 ============
-See `Requirements </pages/server/requirements>`_ for details on how to obtain and install %{qooxdoo} %{Server}.
+See :doc:`Requirements <requirements>` for details on how to obtain and install %{qooxdoo} %{Server}.
 
 Basic Example
 =============

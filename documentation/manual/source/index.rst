@@ -70,7 +70,7 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 ||mobile|  | **Mobile**                                                                          |
 |          |   * :doc:`Introduction  <pages/mobile/mobile_overview>`                             |
 |          |   * :doc:`Tutorial      <pages/mobile/tutorial>`                                    |
-|          |   * :doc:`Reference     <pages/mobile/mobile_overview>`                             |
+|          |   * :ref:`Reference     <pages/mobile_overview#api>`                                |
 +----------+-------------------------------------------------------------------------------------+
 
 .. rst-class:: toc
@@ -79,7 +79,7 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 ||website| | **Website**                                                                         |
 |          |   * :doc:`Introduction     <pages/website/overview>`                                |
 |          |   * :doc:`Tutorial         </pages/website/tutorial_web_developers>`                |
-|          |   * :doc:`Reference        <pages/website/overview>`                                |
+|          |   * :ref:`Reference        <pages/webite_overview#api>`                             |
 +----------+-------------------------------------------------------------------------------------+
 
 .. rst-class:: toc
@@ -87,8 +87,6 @@ Welcome to the manual of qooxdoo |version|. Here are some highlights of what you
 +----------+-------------------------------------------------------------------------------------+
 ||server|  | **Server**                                                                          |
 |          |   * :doc:`Introduction    <pages/server/overview>`                                  |
-|          |   * :ref:`Tutorial        <pages/server/overview#basic_example>`                    |
-|          |   * :doc:`Reference       <pages/server/overview>`                                  |
 +----------+-------------------------------------------------------------------------------------+
 
 .. rst-class:: toc
