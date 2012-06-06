@@ -29,8 +29,8 @@
  *
  * Base class for all layout managers.
  *
- * Custom layout manager must derive from
- * this class and implement the methods {@link #getCssClasses},
+ * Custom layout managers must derive from
+ * this class and implement the methods {@link #_getCssClasses},
  * {@link #_getSupportedChildLayoutProperties} and {@link #_setLayoutProperty}.
  */
 qx.Class.define("qx.ui.mobile.layout.Abstract",

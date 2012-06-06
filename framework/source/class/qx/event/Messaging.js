@@ -22,7 +22,7 @@
  * Define messages to react on certain channels.
  *
  * The channel names will be used in the {@link #on} method to define handlers which will
- * be called on certain channels and routes. The {@link #execue} methods can be used
+ * be called on certain channels and routes. The {@link #emit} method can be used
  * to execute a given route on a channel. {@link #onAny} defines a handler on any channel.
  *
  * *Example*
@@ -58,12 +58,12 @@ qx.Bootstrap.define("qx.event.Messaging",
 
 
     /**
-     * Adds a route handler for the given channel. The route gets called
-     * when the {@link #emit} method found a match.
+     * Adds a route handler for the given channel. The route is called
+     * if the {@link #emit} method finds a match.
      *
      * @param channel {String} The channel of the message.
      * @param type {String|RegExp} The type, used for checking if the executed path matches.
-     * @param handler {Function} The handler to call, when the route matches with the executed path.
+     * @param handler {Function} The handler to call if the route matches the executed path.
      * @param scope {var ? null} The scope of the handler.
      * @return {String} The id of the route used to remove the route.
      */
@@ -78,7 +78,7 @@ qx.Bootstrap.define("qx.event.Messaging",
      * before all other channels.
      *
      * @param type {String|RegExp} The route, used for checking if the executed path matches
-     * @param handler {Function} The handler to call, when the route matches with the executed path
+     * @param handler {Function} The handler to call if the route matches the executed path
      * @param scope {var ? null} The scope of the handler.
      * @return {String} The id of the route used to remove the route.
      */
@@ -92,7 +92,7 @@ qx.Bootstrap.define("qx.event.Messaging",
      *
      * @param channel {String} The channel the route should be registered for
      * @param type {String|RegExp} The type, used for checking if the executed path matches
-     * @param handler {Function} The handler to call, when the route matches with the executed path
+     * @param handler {Function} The handler to call if the route matches the executed path
      * @param scope {var ? null} The scope of the handler.
      * @return {String} The id of the route used to remove the route.
      */
@@ -133,7 +133,7 @@ qx.Bootstrap.define("qx.event.Messaging",
 
 
     /**
-     * Sends a message on the given channel and informs all matching route handler.
+     * Sends a message on the given channel and informs all matching route handlers.
      *
      * @param channel {String} The channel of the message.
      * @param path {String} The path to execute
