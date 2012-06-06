@@ -103,3 +103,6 @@ msgstr "Rückgängig"
 
 msgid "Week start:"
 msgstr "Wochenanfang:"
+
+msgid "qooxdoo"
+msgstr ""
