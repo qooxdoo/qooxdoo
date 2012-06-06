@@ -77,7 +77,13 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__modaldialogpopup.setTitle("A Modal Dialog");
       
       // ANCHOR POPUP
-      this.__anchorpopup = this.__createAnchorPopup(this._getBackButton());
+      var showAnchorButton = new qx.ui.mobile.form.Button("Show Anchor Popup");
+      showAnchorButton.addListener("tap", function(e) {
+          this._stop();
+          this.__anchorpopup.show();
+      }, this);
+      
+      this.__anchorpopup = this.__createAnchorPopup(showAnchorButton);
       
       // MENU DIALOG
       var menuModel = new qx.data.Array(["Action 1", "Action 2", "Action 3"]);
@@ -104,11 +110,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
           this.__popup.show();
       }, this);
       
-      var showAnchorButton = new qx.ui.mobile.form.Button("Show Anchor Popup");
-      showAnchorButton.addListener("tap", function(e) {
-          this._stop();
-          this.__anchorpopup.show();
-      }, this);
+      
       
       var i = 0;
       var busyIndicatorButton = new qx.ui.mobile.form.Button("Show/Hide Busy Indicator");
@@ -139,7 +141,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
     /**
      * Creates the popup widget to show when backButton is tapped
      */
-    __createAnchorPopup : function(attachedToWidget)
+    __createAnchorPopup : function(anchor)
     {
       if(this.__anchorpopup) {
         return this.__anchorpopup;
@@ -162,7 +164,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
         this.__anchorpopup.hide();
       }, this);
       
-      this.__anchorpopup = new qx.ui.mobile.dialog.Popup(popupWidget, attachedToWidget);
+      this.__anchorpopup = new qx.ui.mobile.dialog.Popup(popupWidget, anchor);
       return this.__anchorpopup;
     },
     

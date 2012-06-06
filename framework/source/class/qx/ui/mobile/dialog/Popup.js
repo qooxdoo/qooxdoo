@@ -142,8 +142,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
   {
     __isShown : false,
     __childrenContainer : null,
-    __left : null,
-    __top : null,
     __percentageTop : null,
     __anchor: null,
     __widget: null,
@@ -157,9 +155,9 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     {
       if(this.__anchor)
       {
-        var pos = qx.bom.element.Location.getPosition(this.__anchor.getContainerElement());
-        var dimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
+        var anchorPosition = qx.bom.element.Location.get(this.__anchor.getContainerElement());
         var anchorDimension = qx.bom.element.Dimension.getSize(this.__anchor.getContainerElement());
+        var dimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
 
         // Reset Anchor.
         this.removeCssClass('popupAnchorPointerTop');
@@ -167,48 +165,33 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this.removeCssClass('popupAnchorPointerRight');
         this.removeCssClass('popupAnchorPointerBottom');
 
-        if(pos.top + dimension.height > qx.bom.Viewport.getHeight()) {
+        if(anchorPosition.top + dimension.height > qx.bom.Viewport.getHeight()) {
+          this.addCssClass('popupAnchorPointerBottom');
+          
           // Flip position
-          pos.top = pos.top - dimension.height - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingBottom'))
+          var topPosition = anchorPosition.top - dimension.height - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingBottom'))
           - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderBottomWidth'));
 
           var newDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
-          this.placeTo(pos.left, pos.top - (newDimension.height - dimension.height));
-
-          this.addCssClass('popupAnchorPointerBottom');
+          this.placeTo(anchorPosition.left, topPosition - (newDimension.height - dimension.height));
         }
-        else if(pos.left + dimension.width > qx.bom.Viewport.getWidth()) {
-          // Flip Position
-          pos.left = pos.left - dimension.width - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingRight')) 
-          - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderRightWidth'));
-
+        else if(anchorPosition.left + dimension.width > qx.bom.Viewport.getWidth()) {
           this.addCssClass('popupAnchorPointerRight');
-
-          this.placeTo(pos.left, pos.top);
+          
+          // Flip Position
+          var leftPosition = anchorPosition.left - dimension.width - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingRight')) 
+          - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderRightWidth'));
+          
+          this.placeTo(leftPosition, anchorPosition.top);
         }
         else {
-          this.placeTo(pos.left, pos.top + anchorDimension.height);
           this.addCssClass('popupAnchorPointerTop');
-
+          this.placeTo(anchorPosition.left, anchorPosition.top + anchorDimension.height);
         }
-      } else {
+      } else if (this.__childrenContainer){
         // No Anchor
-        var top = qx.bom.Viewport.getScrollTop(), height = 1;
-        var left = qx.bom.Viewport.getScrollLeft(), width = 1;
-
-        var viewportWidth = qx.bom.Viewport.getWidth()
-        var viewportHeight = qx.bom.Viewport.getHeight();
-
-        if(this.__childrenContainer)
-        {
-          var childDimension = qx.bom.element.Dimension.getSize(this.__childrenContainer.getContainerElement());
-          width = childDimension.width;
-          height = childDimension.height;
-        }
-
-        this._positionTo(left + (viewportWidth - width)/2, top + (viewportHeight-height)/2) ;
+        this._positionToCenter();
       }
-
     },
 
 
@@ -221,8 +204,16 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       if (!this.__isShown)
       {
         this.__registerEventListener();
-        this._updatePosition();
+        
+        // Move outside of viewport
+        this.placeTo(-1000,-1000);
+        
+        // Needs to be added to screen, before rendering position, for calculating
+        // objects height.
         this.base(arguments);
+        
+        // Now render position.
+        this._updatePosition();
       }
       this.__isShown = true;
     },
@@ -249,8 +240,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     placeTo : function(left, top)
     {
-      this.__left = left;
-      this.__top = top;
       this._positionTo(left, top);
     },
 
@@ -264,6 +253,19 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     _positionTo : function(left, top) {
       this.getContainerElement().style.left = left + "px";
       this.getContainerElement().style.top = top + "px";
+    },
+    
+    
+    /**
+     * Centers this widget to window's center position.
+     */
+    _positionToCenter : function() {
+      var childDimension = qx.bom.element.Dimension.getSize(this.__childrenContainer.getContainerElement());
+      
+      this.getContainerElement().style.left = "50%";
+      this.getContainerElement().style.top = "50%";
+      this.getContainerElement().style.marginLeft = -(childDimension.width/2) + "px";
+      this.getContainerElement().style.marginTop = -(childDimension.height/2) + "px";
     },
 
 
@@ -367,6 +369,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         {
           this.__titleWidget = new qx.ui.mobile.basic.Atom(value, this.getIcon());
           this.__titleWidget.addCssClass('dialogTitleUnderline');
+          
           if(this.__widget) {
             this.__childrenContainer.addBefore(this._createTitleWidget(), this.__widget);
           } else {
@@ -391,6 +394,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         {
           this.__titleWidget = new qx.ui.mobile.basic.Atom(this.getTitle(), value);
           this.__titleWidget.addCssClass('dialogTitleUnderline');
+          
           if(this.__widget) {
             this.__childrenContainer.addBefore(this._createTitleWidget(), this.__widget);
           } else {

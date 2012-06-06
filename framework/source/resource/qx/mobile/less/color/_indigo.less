@@ -10,6 +10,8 @@
 @dark-grey : #888888;
 @light-grey: #F4F4F4;
 
+@shadow-color:black;
+
 //
 // THEME SPECIFIC VARIABLES
 //
@@ -145,6 +147,8 @@ ul li.active {
    #gradient > .vertical-three(@title-background-gradient-1, @title-background-gradient-2, @title-background-gradient-2, 20px);
    border: 2px solid @dark-blue;
    color:@font-color-dark-background;
+
+   .box-shadow(0px 2px 7px 0px lighten(@shadow-color, 50%));
 }
 
 .popup {
@@ -154,6 +158,21 @@ ul li.active {
 // Arrow Up
 .popupAnchorPointerTop:before {
    border-bottom-color:@dark-blue;
+}
+
+.popupAnchorPointerLeft:before
+{
+  border-right-color:@dark-blue;
+}
+
+.popupAnchorPointerRight:after
+{
+  border-left-color:@dark-blue;
+}
+
+.popupAnchorPointerBottom:after
+{
+  border-top-color:@dark-blue;
 }
 
 .dialogTitleUnderline:after {

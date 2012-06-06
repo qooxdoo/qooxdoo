@@ -22,6 +22,8 @@
 
 @shadow-color:black;
 
+@dialog-border-color: #c7d1e3;
+
 //
 // GLOBAL
 // 
@@ -321,6 +323,26 @@ input[type="checkbox"]:checked {
   .dialog();
 }
 
+.popup.popupAnchorPointerTop:before
+{
+  border-bottom-color:@dialog-border-color;
+}
+
+.popup.popupAnchorPointerLeft:before
+{
+  border-right-color:@dialog-border-color;
+}
+
+.popup.popupAnchorPointerRight:after
+{
+  border-left-color:@dialog-border-color;
+}
+
+.popup.popupAnchorPointerBottom:after
+{
+  border-top-color:@dialog-border-color;
+}
+
 //
 // DIALOG
 //
@@ -331,7 +353,7 @@ input[type="checkbox"]:checked {
   .box-shadow(0px 2px 7px 0px lighten(@shadow-color, 50%));
 
   .border-radius(.7em);
-  border: 2px solid #c7d1e3;
+  border: 2px solid @dialog-border-color;
   color: #fff;
 }
 
