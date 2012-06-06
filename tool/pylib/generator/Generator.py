@@ -599,12 +599,8 @@ class Generator(object):
             #classList = classListProducer()
             classList = classListProducer
 
-        self._apiLoader.storeApi(classList, apiPath, variantset)
+        self._apiLoader.storeApi(classList, apiPath, variantset, self._job.get("api/verify", []))
         
-        verify = self._job.get("api/verify", [])
-        if "links" in verify:
-            self._apiLoader.verifyLinks(classList, apiPath)
-
         return
 
 
