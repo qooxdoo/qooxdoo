@@ -149,6 +149,14 @@
 
       "extend" : ["db-common"],
 
+      "config-warnings" :
+      {
+        "environment" : [ 
+          "non-literal-keys",
+          "variants-and-url-settings"
+        ]
+      },
+
       "compile-options" :
       {
         "paths" :

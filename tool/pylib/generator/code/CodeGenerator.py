@@ -714,7 +714,8 @@ class CodeGenerator(object):
             env = jobObj.get("environment", {})
             qxAllowUrlSettings = bool(env.get("qx.allowUrlSettings", False))
             optimizeVariants   = "variants" in compConf.optimize
-            if qxAllowUrlSettings and optimizeVariants:
+            dont_warn_this = "variants-and-url-settings" in jobObj.get("config-warnings/environment", [])
+            if qxAllowUrlSettings and optimizeVariants and not dont_warn_this:
                 self._console.warn(
                     "Doing variants optimization with qx.allowUrlSettings:true is partly contradictory! " +
                     "You will not be able to URL-override these environment keys:\n%s" % sorted(env.keys())

@@ -278,6 +278,11 @@
     
       "extend" : ["tests-common"],
 
+      "config-warnings" :
+      {
+        "environment" : ["variants-and-url-settings"]
+      },
+
       "environment": 
       {
         "qx.debug" : false
