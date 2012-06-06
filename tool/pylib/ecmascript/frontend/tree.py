@@ -452,11 +452,15 @@ class Node(object):
         if mandatory:
             raise NodeAccessException("Node " + self.type + " has no child with attribute " + key + " = " + value, self)
 
-    def getChildByTypeAndAttribute(self, ntype, key, value, mandatory = True):
+    def getChildByTypeAndAttribute(self, ntype, key, value, mandatory = True, recursive = False):
         if self.children:
             for child in self.children:
                 if child.type == ntype and child.get(key,mandatory) == value:
                     return child
+                elif recursive:
+                    found = child.getChildByTypeAndAttribute(ntype, key, value, False, True)
+                    if found:
+                        return found
 
         if mandatory:
             raise NodeAccessException("Node " + self.type + " has no child with type " + ntype + " and attribute " + key + " = " + value, self)

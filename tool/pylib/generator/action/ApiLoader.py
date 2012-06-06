@@ -88,7 +88,7 @@ class ApiLoader(object):
         return node
         
 
-    def storeApi(self, include, apiPath, variantSet):
+    def storeApi(self, include, apiPath, variantSet, verify):
         self._console.info("Generating API data...")
         self._console.indent()
 
@@ -155,7 +155,10 @@ class ApiLoader(object):
         api.connectPackage(docTree, docTree)
 
         self._console.info("Generating search index...")
-        indexContent = self.docTreeToSearchIndex(docTree, "", "", "")
+        index = self.docTreeToSearchIndex(docTree, "", "", "")
+        
+        if verify and "links" in verify:
+            self.verifyLinks(docTree, index)
         
         self._console.info("Saving data...", False)
         self._console.indent()
@@ -188,6 +191,7 @@ class ApiLoader(object):
             
         # writ apiindex.json
         self._console.info("Saving index...")
+        indexContent = json.dumps(index, separators=(',',':'), sort_keys=True) # compact encoding
         filetool.save(os.path.join(apiPath, "apiindex.json"), indexContent)            
 
         self._console.outdent()
@@ -338,165 +342,193 @@ class ApiLoader(object):
         index = { "__types__" : types,
                   "__fullNames__" : fullNames,
                   "__index__" : indexs }
-        asString = json.dumps(index, separators=(',',':'), sort_keys=True) # compact encoding
 
-        return asString
-
+        return index
 
 
-    def verifyLinks(self, include, apiPath):
-        self._console.info("Verifying links...")
+    def verifyLinks(self, docTree, index):
+        def getParentAttrib(node, attrib, type=None):
+            while node:
+              if node.hasParent() and node.parent.hasAttributes():
+                  if attrib in node.parent.attributes:
+                    if type:
+                        if node.parent.type == type:
+                            return node.parent.attributes[attrib]
+                    else:
+                        return node.parent.attributes[attrib]
+              if node.hasParent():
+                  node = node.parent
+              else:
+                  node = None
+            return None
+
+        self._console.info("Verifying internal doc links...", False)
         import re
         self._linkRegExp = re.compile("\{\s*@link\s*([\w#-_\.]*)[\W\w\d\s]*?\}")
-        
-        self._console.indent()
-        self._console.info("Loading class docs...")
-        targets = []
-        links = []
-        mixinUsage = {}
-        
-        # Open APIdata files and get the needed information
-        dirwalker   = os.walk(apiPath)
-        files = []
-        for (path, dirlist, filelist) in dirwalker:
-            for file in filelist:
-                if file[-5:] == ".json" and not "apiindex" in file:
-                    files.append(os.path.join(path,file))
-        
-        for file in files:
-            classDocFile = open(file)
-            doc = json.load(classDocFile)
 
-            try:
-                fullName = doc["attributes"]["fullName"]
-            except KeyError:
-                fullName = "doctree"
-            (classTargets,classLinks,classMixinUsage) = self._getDocNodes(doc, fullName)
-            targets += classTargets
-            links += classLinks
-            mixinUsage.update(classMixinUsage)
-        
-        # Get mixin members and add them to the classes that use them
-        newTargets = []
-        for clazz in mixinUsage:
-            mixinList = mixinUsage[clazz]
-            for mixin in mixinList:
-                for target in targets:
-                    if mixin + "#" in target:
-                        memberName = target[target.find("#"):]
-                        newTargets.append(clazz + memberName)
-        targets += newTargets            
-        
-        self._console.outdent()
-        self._console.info("Checking links...")
-        self._console.indent()  
-        
-        self._checkLinks(links,targets)
-        
-        self._console.outdent()
-        self._console.info("Finished checking links")
-        
+        descNodes = docTree.getAllChildrenOfType("desc")
 
-    def _getDocNodes(self,node, packageName = "", className = "", itemName = "", paramName = "", parentNodeType = ""):
-        targets = []
         links = []
-        mixinUsage = {}
-        
-        nodeType = node["type"]
-          
-        if nodeType == "package":
-            packageName = node["attributes"]["fullName"]
-            if packageName not in targets:
-                targets.append(packageName)
-        
-        elif nodeType == "class":
-            packageName = node["attributes"]["packageName"]
-            className = node["attributes"]["name"]            
-            fullName = "%s.%s" %(packageName,className)
-            targets.append(fullName)
-            if packageName not in targets:
-                targets.append(packageName)
-            
-            if "mixins" in node["attributes"]:
-                mixinUsage[fullName] = node["attributes"]["mixins"].split(",")
-        
-        elif nodeType in ["event", "property", "method", "constant"]:
-            itemName = node["attributes"]["name"]        
-            targets.append("%s.%s#%s" %(packageName,className,itemName))
-        
-        elif nodeType in ["param"]:
-            paramName = node["attributes"]["name"]
-            pass
-          
-        elif nodeType == "desc":
-            if "@link" in node["attributes"]["text"]:
-                match = self._linkRegExp.findall(node["attributes"]["text"])
-                if match:
-                    internalLinks = []
-                    for link in match:
-                        if not "<a" in link:
-                            internalLinks.append(link)
-                    
-                    if len(internalLinks) > 0:
-                      link = {
-                          "nodeType" : parentNodeType,
-                          "packageName" : packageName,
-                          "className" : className,
+        for descNode in descNodes:
+            if "@link" in descNode.attributes["text"]:
+              match = self._linkRegExp.findall(descNode.attributes["text"])
+              if match:
+                  internalLinks = []
+                  for link in match:
+                      if not "<a" in link:
+                          internalLinks.append(link)
+
+                  if len(internalLinks) > 0:
+                      nodeType = descNode.parent.type;
+                      if nodeType == "param":
+                          itemName = getParentAttrib(descNode.parent, "name")
+                          paramName = getParentAttrib(descNode, "name")
+                          paramForType = descNode.parent.parent.parent.type
+                      else:
+                          itemName = getParentAttrib(descNode, "name")
+                          paramName = None
+                          paramForType = None
+
+                      linkData = {
+                          "nodeType" : nodeType,
+                          "packageName" : getParentAttrib(descNode, "packageName"),
+                          "className" : getParentAttrib(descNode, "name", "class"),
                           "itemName" : itemName,
                           "paramName" : paramName,
+                          "paramForType" : paramForType,
                           "links" : internalLinks
                       }
-      
-                      links.append(link)
-        
-        if "children" in node:
-            for child in node["children"]:
-                (childTargets,childLinks,childMixinUsage) = self._getDocNodes(child, packageName, className, itemName, paramName, nodeType)
-                targets += childTargets
-                links += childLinks
-                mixinUsage.update(childMixinUsage)
-        
-        return(targets,links,mixinUsage)
+                      links.append(linkData)
 
-
-    def _checkLinks(self,links,targets):    
-        namespaceReg = re.compile("(.*?)\.[\w\d_\-]+$")
-        
+        brokenLinks = []
+        count = 0
         for link in links:
-            for ref in link["links"]:              
-                # Remove parentheses from method references
-                if ref[-2:] == "()":
-                    ref = ref[:-2]
-                # Get the target's full name for members (starting with '#')
-                if ref[0] == "#":
-                    ref = "%s.%s%s" %(link["packageName"],link["className"],ref)
+            count += 1
+            self._console.progress(count, len(links))
+            result = self._checkLink(link, docTree, index)
+            if result:
+                brokenLinks.append(result)
+
+        self._console.indent()
+        for result in brokenLinks:
+            for ref, link in result.iteritems():
+                if link["nodeType"] == "ctor" or link["itemName"] == "ctor":
+                    type = "constructor"
+                elif link["paramForType"]:
+                    type = link["paramForType"]
+                else:
+                    type = link["nodeType"]
                 
-                # Class references with no namespace point to the current namespace
-                elif not "." in ref:
-                    ref = link["packageName"] + "." + ref                     
-                            
-                if ref not in targets:
-                    nodeType = link["nodeType"]
-                    if nodeType == "package":
-                        #TODO: Fix this
-                        linkNode = link["packageName"]
-                    elif nodeType == "class":
-                        linkNode = "%s.%s" %(link["packageName"],link["className"]) 
-                    elif nodeType == "param":
-                        if link["itemName"] == "ctor":
-                            nodeType = ""
-                            linkNode = "the constructor parameter %s of %s.%s" %(link["paramName"],link["packageName"],link["className"])
-                        else:
-                            nodeType = "parameter"
-                            linkNode = "%s.%s#%s %s" %(link["packageName"],link["className"],link["itemName"],link["paramName"])
-                    elif link["itemName"] == "ctor":
-                        nodeType = "constructor"
-                        linkNode = "%s.%s" %(link["packageName"],link["className"]) 
+                if link["nodeType"] == "ctor" or link["itemName"] == "ctor":
+                    itemName = link["className"]
+                elif link["className"] == link["itemName"]:
+                    itemName = link["itemName"]
+                else:
+                    itemName = link["className"] + "#" + link["itemName"]
+                
+                param = ""
+                if link["paramName"]:
+                    param = "the parameter '%s' of " %link["paramName"]
+                msg = "The documentation for %sthe %s %s.%s contains a broken reference to '%s'" %(param, type, link["packageName"], itemName, ref)
+                self._console.warn(msg)
+        self._console.outdent()
+
+
+    def _checkLink(self, link, docTree, index):
+        brokenLinks = {}
+
+        def getTargetName(ref):
+            targetPackageName = None
+            targetClassName = None
+            targetItemName = None
+
+            classItem = ref.split("#")
+            # internal class item reference
+            if classItem[0] == "":
+                targetPackageName = link["packageName"]
+                targetClassName = link["className"]
+            else:
+                namespace = classItem[0].split(".")
+                targetPackageName = ".".join(namespace[:-1])
+                if targetPackageName == "":
+                    if link["nodeType"] == "package":
+                        targetPackageName = link["packageName"] + "." + link["itemName"]
                     else:
-                        linkNode = "%s.%s#%s" %(link["packageName"],link["className"],link["itemName"])
-                    
-                    self._console.info("The %s documentation for %s contains a broken link to %s" %(nodeType,linkNode,ref))
-            
+                        targetPackageName = link["packageName"]
+                targetClassName = namespace[-1]
+            if len(classItem) == 2:
+                targetItemName = classItem[1]
+
+            return (targetPackageName + "." + targetClassName, targetItemName)
+
+        def isClassInHierarchy(docTree, className, searchFor):
+            targetClass = docTree.getChildByTypeAndAttribute("class", "fullName", className, False, True)
+            if not targetClass:
+                return False
+
+            while targetClass:
+                if targetClass.attributes["fullName"] in searchFor:
+                    return True
+                if "mixins" in targetClass.attributes:
+                    for wanted in searchFor:
+                        if wanted in targetClass.attributes["mixins"]:
+                            return True
+                if "superClass" in targetClass.attributes:
+                    superClassName = targetClass.attributes["superClass"]
+                    targetClass = docTree.getChildByTypeAndAttribute("class", "fullName", superClassName, False, True)
+                else:
+                    targetClass = None
+
+            return False
+
+        for ref in link["links"]:
+          # Remove parentheses from method references
+          if ref[-2:] == "()":
+              ref = ref[:-2]
+
+          # ref is a fully qualified package or class name
+          if ref in index["__fullNames__"]:
+              continue
+
+          name = getTargetName(ref)
+          targetClassName = name[0]
+          targetItemName = name[1]
+
+          # unknown class or package
+          if not targetClassName in index["__fullNames__"]:
+              brokenLinks[ref] = link
+              continue
+
+          # valid package or class ref
+          if not targetItemName:
+              continue
+
+          # unknown class item
+          if not "#" + targetItemName in index["__index__"]:
+              brokenLinks[ref] = link
+              continue
+
+          classHasItem = False
+          classesWithItem = []
+          # get all classes that have an item with the same name as the referenced item
+          for occurrence in index["__index__"]["#" + targetItemName]:
+              className = index["__fullNames__"][occurrence[1]]
+              classesWithItem.append(className)
+              if targetClassName == className:
+                  classHasItem = True
+                  break;
+
+          if classHasItem:
+              continue
+
+          # search for a superclass or included mixin with the referenced item
+          classHasItem = isClassInHierarchy(docTree, targetClassName, classesWithItem)
+          
+          if not classHasItem:
+              brokenLinks[ref] = link
+
+        return brokenLinks
+
 
     ##
     # Apply collected @attach info to a specific class doc
