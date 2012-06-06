@@ -20,6 +20,8 @@
 @ios-button-active-gradient-stop-3: #476489;
 @ios-button-active-gradient-stop-4: #3e5779;
 
+@shadow-color:black;
+
 //
 // GLOBAL
 // 
@@ -152,7 +154,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 .slider > div {
   border: 1px solid #E8E8E8;
 
-  .box-shadow(0 0 2px #000000);
+  .box-shadow(0 0 2px @shadow-color);
 
   background: #cfcfcf; /* Old browsers */
   background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%); /* FF3.6+ */
@@ -325,6 +327,8 @@ input[type="checkbox"]:checked {
 
 .dialog {
   #gradient > .ellipse(50%, -20px, rgba(99, 115, 150,0.5), 0px, rgb(29, 53, 102,0.5), 175px);
+  
+  .box-shadow(0px 2px 7px 0px lighten(@shadow-color, 50%));
 
   .border-radius(.7em);
   border: 2px solid #c7d1e3;

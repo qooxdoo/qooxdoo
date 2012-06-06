@@ -192,18 +192,22 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     _update : function(widget) {
       var navigationBar = this.getNavigationBar();
       navigationBar.removeAll();
+      
       var leftContainer = widget.getLeftContainer();
       if (leftContainer) {
         navigationBar.add(leftContainer);
       }
+      
       var title = widget.getTitleWidget();
       if (title) {
         navigationBar.add(title, {flex:1});
       }
+      
       var rightContainer = widget.getRightContainer();
       if (rightContainer) {
         navigationBar.add(rightContainer);
       }
+      
       this.fireDataEvent("update", widget);
     },
 

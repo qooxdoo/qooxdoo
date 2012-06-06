@@ -31,16 +31,8 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
     this.base(arguments);
     this.setTitle("Animation");
     this.setShowBackButton(true);
+    this.setShowBackButtonOnTablet(true);
     this.setBackButtonText("Back");
-    
-    var isTablet = (qx.core.Environment.get("device.type") == "tablet");
-    var isDesktop = (qx.core.Environment.get("device.type") == "desktop");
-      
-    if(isTablet||isDesktop) {
-        qx.event.Registration.addListener(this, "appear", this.__deactiveAnimation, this);
-        this.__landingText = '<strong>Select "Page Transitions" in Overview for a new animation test.</strong>';
-    }
-    
   },
 
   properties :
@@ -65,6 +57,11 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
       this.base(arguments);
       
       var embed = new qx.ui.mobile.embed.Html(this.__landingText);
+      
+      if(this._isTablet) {
+        qx.event.Registration.addListener(this, "appear", this.__deactiveAnimation, this);
+      }
+      
       this.getContent().add(embed);
     },
     

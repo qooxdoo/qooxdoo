@@ -32,9 +32,8 @@
  * for the navigation between pages.
  *
  * To navigate between two pages, just call the {@link #show} method of the page
- * that should be shown. Depending on the used page manager
- * ({@link qx.ui.mobile.page.manager.Simple} or {@link qx.ui.mobile.page.manager.Animation})
- * a page transition will be animated. There are several animations available. Have
+ * that should be shown. Depending on the used page manager a page transition will be animated. 
+ * There are several animations available. Have
  * a look at the {@link qx.ui.mobile.page.manager.Animation} manager for more information.
  *
  * A page has predefined lifecycle methods that get called by the used page manager

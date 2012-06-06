@@ -71,6 +71,9 @@ qx.Class.define("mobileshowcase.page.Overview",
       list.addListener("changeSelection", function(evt) {
         var path = data[evt.getData()].path;
         qx.core.Init.getApplication().getRouting().executeGet("/"+path);
+        
+        // On click on list item, portraitContainer should hide.
+        this.fireEvent("hidePortraitContainer");
       }, this);
       this.getContent().add(list);
 

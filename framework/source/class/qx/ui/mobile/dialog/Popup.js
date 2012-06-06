@@ -155,12 +155,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     _updatePosition : function()
     {
-      var isInitialized = this.__left != null || this.__top != null;
-
-      if(isInitialized) {
-        return;
-      }
-
       if(this.__anchor)
       {
         var pos = qx.bom.element.Location.getPosition(this.__anchor.getContainerElement());
@@ -227,10 +221,24 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       if (!this.__isShown)
       {
         this.__registerEventListener();
-        this.base(arguments);
         this._updatePosition();
+        this.base(arguments);
       }
       this.__isShown = true;
+    },
+    
+    
+    /**
+     * Hides the popup.
+     */
+    hide : function()
+    {
+      if (this.__isShown)
+      {
+        this.__unregisterEventListener();
+        this.exclude();
+      }
+      this.__isShown = false;
     },
 
 
@@ -256,20 +264,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     _positionTo : function(left, top) {
       this.getContainerElement().style.left = left + "px";
       this.getContainerElement().style.top = top + "px";
-    },
-
-
-    /**
-     * Hides the popup.
-     */
-    hide : function()
-    {
-      if (this.__isShown)
-      {
-        this.__unregisterEventListener();
-        this.exclude();
-      }
-      this.__isShown = false;
     },
 
 
