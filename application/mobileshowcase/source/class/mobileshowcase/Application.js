@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-/* 
+/*
  * If you have added resources to your app remove the leading '*' in the
  * following line to make use of them.
 
@@ -35,6 +35,12 @@ qx.Class.define("mobileshowcase.Application",
 {
   extend : qx.application.Mobile,
 
+  /** Holds the application routing */
+  properties : {
+    routing : {
+      init: null
+    }
+  },
 
   /*
   *****************************************************************************
@@ -82,7 +88,7 @@ qx.Class.define("mobileshowcase.Application",
       var dialogs = new mobileshowcase.page.Dialog();
       var dataBinding = new mobileshowcase.page.DataBinding();
       var themeSwitcher = new mobileshowcase.page.ThemeSwitcher();
-      
+
       // Add the pages to the page manager
       var manager = new qx.ui.mobile.page.Manager();
       manager.addMaster(overview);
@@ -100,18 +106,19 @@ qx.Class.define("mobileshowcase.Application",
         dataBinding,
         themeSwitcher
       ]);
-      
+
       // Initialize the navigation
-      var nm = qx.ui.mobile.navigation.Manager.getInstance();
-      
+      var nm = new qx.application.Routing();
+      this.setRouting(nm);
+
       var isTablet = (qx.core.Environment.get("device.type") == "tablet");
       var isDesktop = (qx.core.Environment.get("device.type") == "desktop");
-      
+
       if (isTablet||isDesktop) {
         nm.onGet("/.*", function(data) {
           overview.show();
         },this);
-        
+
         nm.onGet("/", function(data) {
           basic.show();
         },this);
@@ -120,7 +127,7 @@ qx.Class.define("mobileshowcase.Application",
       nm.onGet("/", function(data) {
         overview.show(data.customData);
       },this);
-      
+
       nm.onGet("/event", function(data)
       {
         events.show();
@@ -155,33 +162,34 @@ qx.Class.define("mobileshowcase.Application",
         animation.show(data.customData);
       },this);
 
-      nm.onGet("/animation/:animation", function(data) {
+      nm.onGet("/animation/{animation}", function(data) {
         var animation = data.params.animation;
         animationLanding.setAnimation(animation);
         animationLanding.show({animation:animation});
       },this);
-      
+
       nm.onGet("/basic", function(data)
       {
         basic.show();
       },this);
-      
+
       nm.onGet("/dialog", function(data)
       {
         dialogs.show();
       },this);
-      
+
       nm.onGet("/databinding", function(data)
       {
         dataBinding.show();
       },this);
-      
+
       nm.onGet("/themeswitcher", function(data)
       {
         themeSwitcher.show();
       },this);
-      
-      
+
+      // start the navigation handling
+      nm.init();
     }
   }
 });

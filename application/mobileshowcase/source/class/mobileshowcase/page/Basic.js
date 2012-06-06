@@ -136,7 +136,7 @@ qx.Class.define("mobileshowcase.page.Basic",
     // overridden
     _back : function()
     {
-     qx.ui.mobile.navigation.Manager.getInstance().executeGet("/", {reverse:true});
+     qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

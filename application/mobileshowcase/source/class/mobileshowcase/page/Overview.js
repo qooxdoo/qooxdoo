@@ -70,7 +70,7 @@ qx.Class.define("mobileshowcase.page.Overview",
       list.setModel(new qx.data.Array(data));
       list.addListener("changeSelection", function(evt) {
         var path = data[evt.getData()].path;
-        qx.ui.mobile.navigation.Manager.getInstance().executeGet("/"+path);
+        qx.core.Init.getApplication().getRouting().executeGet("/"+path);
       }, this);
       this.getContent().add(list);
 

@@ -80,7 +80,7 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
     // overridden
     _back : function()
     {
-     qx.ui.mobile.navigation.Manager.getInstance().executeGet("/animation", {animation:this.getAnimation(), reverse:true});
+     qx.core.Init.getApplication().getRouting().executeGet("/animation", {animation:this.getAnimation(), reverse:true});
     },
     
     

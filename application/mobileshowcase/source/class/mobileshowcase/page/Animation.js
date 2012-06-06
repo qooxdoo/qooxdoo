@@ -66,7 +66,7 @@ qx.Class.define("mobileshowcase.page.Animation",
         this.getLayoutParent().getLayout().setShowAnimation(true);
 
         var animation = data[evt.getData()].animation;
-        qx.ui.mobile.navigation.Manager.getInstance().executeGet("/animation/" + animation);
+        qx.core.Init.getApplication().getRouting().executeGet("/animation/" + animation);
       }, this);
       this.getContent().add(list);
     },
@@ -75,7 +75,7 @@ qx.Class.define("mobileshowcase.page.Animation",
     // overridden
     _back : function()
     {
-     qx.ui.mobile.navigation.Manager.getInstance().executeGet("/", {reverse:true});
+     qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });
