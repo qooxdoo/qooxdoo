@@ -169,7 +169,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     {
       if (action == "visible")
       {
-        this.__showWidget(widget, properties);
+        this._showWidget(widget, properties);
       }
       this.base(arguments, widget, action, properties);
     },
@@ -181,7 +181,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
      * @param widget {qx.ui.mobile.core.Widget} The target widget
      * @param properties {Map} The layout properties to set. Key / value pairs.
      */
-    __showWidget : function(widget, properties)
+    _showWidget : function(widget, properties)
     {
       if (this.__nextWidget == widget) {
         return;
@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       
         this.__startAnimation(widget);
       } else {
-        this.__swapWidget();
+        this._swapWidget();
       }
     },
 
@@ -217,7 +217,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     /**
      * Excludes the current widget and sets the next widget to the current widget.
      */
-    __swapWidget : function() {
+    _swapWidget : function() {
       if (this.__currentWidget) {
         this.__currentWidget.exclude();
       }
@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         qx.bom.element.Class.removeClasses(fromElement, this.__getAnimationClasses("out"));
         qx.bom.element.Class.removeClasses(toElement, this.__getAnimationClasses("in"));
 
-        this.__swapWidget();
+        this._swapWidget();
         this._widget.removeCssClass("animationParent");
         this.__inAnimation = false;
       }
