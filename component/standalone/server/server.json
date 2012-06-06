@@ -36,9 +36,10 @@
       
       "include" : 
       [
-        "qx.Class",
-        "qx.Mixin",
-        "qx.Interface"
+        "qx.Class"
+        ,"qx.Mixin"
+        ,"qx.Interface"
+        ,"qx.data.marshal.Json"
       ],
       
       "exclude" :
