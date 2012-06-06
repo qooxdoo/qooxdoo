@@ -18,7 +18,7 @@
 ************************************************************************ */
 /* ************************************************************************
 
-#ignore(qx.bom.element.Style)
+#require(qx.module.Css)
 
 ************************************************************************ */
 /**
@@ -62,23 +62,6 @@ qx.Bootstrap.define("qx.module.Animation", {
       0: {opacity: 0},
       100: {opacity: 1}
     }},
-
-
-    /**
-     * Private helper to set styles which checks if the styles can be set
-     * using the cross browser layer.
-     * @param el {Element} The element which should get the styles.
-     * @param name {String} The name of the style.
-     * @param value {String} The value to set.
-     */
-    __setStyle : function(el, name, value) {
-      name = qx.lang.String.camelCase(name);
-      if (qx && qx.bom && qx.bom.element && qx.bom.element.Style) {
-        qx.bom.element.Style.set(el, name, value);
-      } else {
-        el.style[name] = value;
-      }
-    },
 
 
     /**
@@ -262,9 +245,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      */
     fadeIn : function(duration) {
       // remove 'display: none' style
-      for (var i=0; i < this.length; i++) {
-        this[i].style.display = "";
-      };
+      this.setStyle("display", "");
       return this.animate(qx.module.Animation._fadeIn, duration);
     },
 
