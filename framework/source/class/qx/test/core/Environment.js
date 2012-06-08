@@ -464,12 +464,12 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("qx.allowUrlVariants"), "2");
       this.assertString(qx.core.Environment.get("qx.application"), "3");
       this.assertBoolean(qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug"), "4");
-      this.assertNumber(qx.core.Environment.get("qx.disposerDebugLevel"), "5");
+      this.assertNumber(qx.core.Environment.get("qx.debug.dispose.level"), "5");
       this.assertBoolean(qx.core.Environment.get("qx.globalErrorHandling"), "6");
-      this.assertBoolean(qx.core.Environment.get("qx.ioRemoteDebug"), "7");
-      this.assertBoolean(qx.core.Environment.get("qx.ioRemoteDebugData"), "8");
+      this.assertBoolean(qx.core.Environment.get("qx.debug.io.remote"), "7");
+      this.assertBoolean(qx.core.Environment.get("qx.debug.io.remote.data"), "8");
       this.assertBoolean(qx.core.Environment.get("qx.nativeScrollBars"), "9");
-      this.assertNumber(qx.core.Environment.get("qx.propertyDebugLevel"), "10");
+      this.assertNumber(qx.core.Environment.get("qx.debug.property.level"), "10");
     },
 
     testOldVariants : function() {

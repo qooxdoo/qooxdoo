@@ -35,15 +35,15 @@ This is taken from a firebug interactive session:
 Memory leaks
 ============
 
-  * Setting ``qx.disposerDebugLevel``
+  * Setting ``qx.debug.dispose.level``
 
 .. _pages/debugging#ajax:
 
 AJAX
 ====
 
-  * Setting ``qx.ioRemoteDebug``
-  * Setting ``qx.ioRemoteDebugData``
+  * Setting ``qx.debug.io.remote``
+  * Setting ``qx.debug.io.remote.data``
 
 .. _pages/debugging#debugging_tools:
 

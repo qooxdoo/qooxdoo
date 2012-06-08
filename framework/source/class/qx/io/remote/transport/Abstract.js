@@ -232,7 +232,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.ioRemoteDebug")) {
+        if (qx.core.Environment.get("qx.debug.io.remote")) {
           this.warn("Aborting...");
         }
       }
@@ -252,7 +252,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.ioRemoteDebug")) {
+        if (qx.core.Environment.get("qx.debug.io.remote")) {
           this.warn("Timeout...");
         }
       }
@@ -272,7 +272,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.ioRemoteDebug")) {
+        if (qx.core.Environment.get("qx.debug.io.remote")) {
           this.warn("Failed...");
         }
       }
@@ -459,7 +459,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.ioRemoteDebug")) {
+        if (qx.core.Environment.get("qx.debug.io.remote")) {
           this.debug("State: " + value);
         }
       }

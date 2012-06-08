@@ -167,7 +167,7 @@ qx.Class.define("qx.io.remote.transport.Script",
       {
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (qx.core.Environment.get("qx.ioRemoteDebug")) {
+          if (qx.core.Environment.get("qx.debug.io.remote")) {
             this.warn("Request finished for an unknown instance (probably aborted or timed out before)");
           }
         }
@@ -263,7 +263,7 @@ qx.Class.define("qx.io.remote.transport.Script",
 
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.ioRemoteDebugData"))
+        if (qx.core.Environment.get("qx.debug.io.remote.data"))
         {
           this.debug("Request: " + vUrl);
         }
@@ -400,7 +400,7 @@ qx.Class.define("qx.io.remote.transport.Script",
       {
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (qx.core.Environment.get("qx.ioRemoteDebug")) {
+          if (qx.core.Environment.get("qx.debug.io.remote")) {
             this.warn("Transfer not complete, ignoring content!");
           }
         }
@@ -410,7 +410,7 @@ qx.Class.define("qx.io.remote.transport.Script",
 
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.ioRemoteDebug")) {
+        if (qx.core.Environment.get("qx.debug.io.remote")) {
           this.debug("Returning content for responseType: " + this.getResponseType());
         }
       }
@@ -423,7 +423,7 @@ qx.Class.define("qx.io.remote.transport.Script",
         case "text/javascript":
           if (qx.core.Environment.get("qx.debug"))
           {
-            if (qx.core.Environment.get("qx.ioRemoteDebugData"))
+            if (qx.core.Environment.get("qx.debug.io.remote.data"))
             {
               this.debug("Response: " + this._responseContent);
             }

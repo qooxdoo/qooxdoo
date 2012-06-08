@@ -571,7 +571,25 @@
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.disposerDebugLevel</td><td><i>Integer</i></td><td><code>0</code></td>
+ *       <td>qx.debug.dispose.level</td><td><i>Integer</i></td><td><code>0</code></td>
+ *       <td><i>default:</i> <code>0</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.debug.io</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
+ *     <tr>
+ *       <td>qx.debug.io.remote</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
+ *     <tr>
+ *       <td>qx.debug.io.remote.data</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.debug.property.level</td><td><i>Integer</i></td><td><code>0</code></td>
  *       <td><i>default:</i> <code>0</code></td>
  *     </tr>
  *     <tr>
@@ -617,10 +635,6 @@
  *     <tr>
  *       <td>qx.optimization.variants</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
- *     </tr>
- *     <tr>
- *       <td>qx.propertyDebugLevel</td><td><i>Integer</i></td><td><code>0</code></td>
- *       <td><i>default:</i> <code>0</code></td>
  *     </tr>
  *     <tr>
  *       <td>qx.revision</td><td><i>String</i></td><td><code>27348</code></td>
@@ -1105,7 +1119,7 @@ qx.Bootstrap.define("qx.core.Environment",
       // old settings
       this.add("qx.allowUrlSettings", function() {return false;});
       this.add("qx.allowUrlVariants", function() {return false;});
-      this.add("qx.propertyDebugLevel", function() {return 0;});
+      this.add("qx.debug.property.level", function() {return 0;});
 
       // old variants
       // make sure to reflect all changes to qx.debug here in the bootstrap class!

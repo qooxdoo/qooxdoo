@@ -281,7 +281,7 @@ qx.Class.define("qx.core.Object",
       // Debug output
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.disposerDebugLevel") > 2) {
+        if (qx.core.Environment.get("qx.debug.dispose.level") > 2) {
           qx.Bootstrap.debug(this, "Disposing " + this.classname + "[" + this.toHashCode() + "]");
         }
       }
@@ -322,7 +322,7 @@ qx.Class.define("qx.core.Object",
       // Additional checks
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.disposerDebugLevel") > 0)
+        if (qx.core.Environment.get("qx.debug.dispose.level") > 0)
         {
           var key, value;
           for (key in this)
@@ -343,12 +343,12 @@ qx.Class.define("qx.core.Object",
               var ie6 = navigator.userAgent.indexOf("MSIE 6.0") != -1;
               // keep the old behavior for IE6 and FF2
               if (ff2 || ie6) {
-                if (value instanceof qx.core.Object || qx.core.Environment.get("qx.disposerDebugLevel") > 1) {
+                if (value instanceof qx.core.Object || qx.core.Environment.get("qx.debug.dispose.level") > 1) {
                   qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
                   delete this[key];
                 }
               } else {
-                if (qx.core.Environment.get("qx.disposerDebugLevel") > 1) {
+                if (qx.core.Environment.get("qx.debug.dispose.level") > 1) {
                   qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
                   delete this[key];
                 }
@@ -444,7 +444,7 @@ qx.Class.define("qx.core.Object",
   */
 
   environment : {
-    "qx.disposerDebugLevel" : 0
+    "qx.debug.dispose.level" : 0
   },
 
 

@@ -55,7 +55,7 @@ The destructor code allows you an in-depth analysis of the destructors and finds
 
 To enable these checks you need to select a variant and configure a setting.
 
-The environment setting ``qx.debug`` must be ``true``. The setting ``qx.disposerDebugLevel`` must be at least at ``1`` to show not disposed qooxdoo objects if they need to be deleted. A setting of ``2`` will additionally show non qooxdoo objects. Higher values mean more output. Don't be alarmed if some qooxdoo internal showing up. Usually there is no need to delete all references. `Garbage collection <http://bugzilla.qooxdoo.org/show_bug.cgi?id=3411#c2>`_ can do much for you here. For a general analysis ``1`` should be enough, a value of ``2`` should be used to be sure you did not miss anything. You can use the following code to adapt your ``config.json``: 
+The environment setting ``qx.debug`` must be ``true``. The setting ``qx.debug.dispose.level`` must be at least at ``1`` to show not disposed qooxdoo objects if they need to be deleted. A setting of ``2`` will additionally show non qooxdoo objects. Higher values mean more output. Don't be alarmed if some qooxdoo internal showing up. Usually there is no need to delete all references. `Garbage collection <http://bugzilla.qooxdoo.org/show_bug.cgi?id=3411#c2>`_ can do much for you here. For a general analysis ``1`` should be enough, a value of ``2`` should be used to be sure you did not miss anything. You can use the following code to adapt your ``config.json``: 
 
 ::
 
@@ -65,13 +65,13 @@ The environment setting ``qx.debug`` must be ``true``. The setting ``qx.disposer
         // existing jobs ...
         "source-disposerDebug" : 
         {
-          "desc" : "source version with 'qx.disposerDebugLevel' for destruct support",
+          "desc" : "source version with 'qx.debug.dispose.level' for destruct support",
           
           "extend" : [ "source" ],
           
           "environment" :
           {
-             "qx.disposerDebugLevel" : "2"
+             "qx.debug.dispose.level" : "2"
           }
         }
       }

@@ -366,7 +366,7 @@ qx.Class.define("simulator.Simulation", {
     {
       if (this.__options.disposerDebug) {
         var getDisposerDebugLevel = simulator.Simulation.AUTWINDOW
-          + ".qx.core.Environment.get('qx.disposerDebugLevel')";
+          + ".qx.core.Environment.get('qx.debug.dispose.level')";
         var disposerDebugLevel = simulator.QxSelenium.getInstance().getEval(getDisposerDebugLevel);
 
         if (parseInt(disposerDebugLevel, 10) > 0 ) {
