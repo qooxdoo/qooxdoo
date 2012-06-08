@@ -172,7 +172,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 .tabBar {
   #gradient > .vertical-four(#232323, #111111, #000000, #000000, 50%, 51%);
   border-top: 1px solid #333333;
-  
+  .box-ordinal-group(2);
 }
 
 .tabButton.active, .tabButton.selected {
@@ -281,24 +281,31 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 // CHECKBOX
 //
 
-input[type="checkbox"] {
-  #gradient > .vertical(#fefefe, #cecece);
-  .border-radius(.5em);
-  background-color: #929292;
-  border: 2px solid #4c4c4c;
+// Mozilla only
+input[type="checkbox"]:checked {
+    background: -moz-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
 }
 
-input[type="checkbox"]:checked {
-  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
-  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
-  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -moz-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
-  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, linear-gradient(to bottom, #353535, #8f8f8f) 0px 0px no-repeat;
+input[type="checkbox"]{
+    #gradient > .vertical(#fefefe, #cecece);
+    .border-radius(.5em);
+    border: 2px solid #4c4c4c;
 }
 
 .disabled input[type="checkbox"]:disabled {
-  #gradient > .vertical(#ffffff, #ebebeb);
-  border: 2px solid #b8b8b8; 
+    #gradient > .vertical(#ffffff, #ebebeb);
+    border: 2px solid #b8b8b8; 
 }
+
+// Webkit only, see BUG #5982: only webkit can style checkboxes.
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  input[type="checkbox"]:checked {
+    background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
+    background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
+    background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, linear-gradient(to bottom, #353535, #8f8f8f) 0px 0px no-repeat;
+  }
+}
+
 
 //
 // TOOLBAR 

@@ -45,16 +45,8 @@ qx.Class.define("mobileshowcase.page.Tab",
       
       var tabBar = this.__createTabBar();
       
-      // Special treatment for iOS theme. TabBar should be below content.
-      if(theme == "ios") 
-      {
-        this.add(tabBar);
-      } 
-      else 
-      {
-        // Default add TabBar after NavigationBar.
-        this.addAfterNavigationBar(tabBar);
-      }
+      // Default add TabBar after NavigationBar.
+      this.addAfterNavigationBar(tabBar);
     },
 
 

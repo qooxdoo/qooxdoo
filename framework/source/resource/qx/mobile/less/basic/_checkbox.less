@@ -2,10 +2,12 @@
 // CHECKBOX
 //
 
-input[type="checkbox"] {
+@checkbox-size:30px;
+
+input[type="checkbox"]{
   cursor:pointer;
-  .border-radius(.3em);
+  width: @checkbox-size;
+  height: @checkbox-size;
   .appearance(none);
-  width: 30px;
-  height: 30px;
 }
+

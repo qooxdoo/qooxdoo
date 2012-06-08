@@ -57,7 +57,7 @@ qx.Class.define("mobileshowcase.page.Overview",
       var data = [
           {title : "Basic Widgets", subtitle : "Atoms, Buttons, Labels, Images...", path:"basic"},
           {title : "Dialog Widgets", subtitle : "Dialogs, Popups, Confirm Dialogs...", path:"dialog"},
-          {title : "Form Elements", subtitle : "TextField, TextArea, ToggleButton, Button...", path:"form"},
+          {title : "Form Elements", subtitle : "TextField, TextArea, Checkboxes...", path:"form"},
           {title : "List", subtitle : "A large list", path:"list"},
           {title : "Tab Bar", subtitle : "Usings tabs to switch views", path:"tab"},
           {title : "Toolbar", subtitle : "toolbar, buttons, separators", path:"toolbar"},
