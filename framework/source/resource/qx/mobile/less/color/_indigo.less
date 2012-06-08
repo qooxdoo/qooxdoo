@@ -6,7 +6,6 @@
 @light-blue: lighten(#5583D0,10%);
 @blue: #5583D0;
 
-@light-black: #222222;
 @dark-grey : #888888;
 @light-grey: #F4F4F4;
 
@@ -16,28 +15,31 @@
 // THEME SPECIFIC VARIABLES
 //
 
-@font-color-dark-background : white;
-@font-color-light-background : #333333;
-@font-title-color : #2446BB;
+@font-color-dark-background: white;
+@font-color-light-background: #333333;
+
 @button-color:@light-grey;
+
 @border-color:#DDDDDD;
-@background-color:@light-grey;
-@border-thickness: 1px;
+
 @title-background-gradient-1:#505154;
 @title-background-gradient-2:#323335;
+
+@border-thickness: 1px;
+@dialog-border-thickness:2px;
 
 //
 // MIXINS
 //
 
 .clickable {
-  color: @light-black;
+  color: @font-color-light-background;
 
   // Less "darken method" helps to make use of gradient-buttons easier. 
   // It takes button-color and darkens it. 
   // No second gradient color is needed.
   #gradient > .vertical(@button-color, darken(@button-color, 20%));
-  border: @border-thickness solid #555555;
+  border: @border-thickness solid darken(@border-color, 40%);
 }
 
 .clickable-active {
@@ -45,18 +47,19 @@
   #gradient > .vertical(@light-blue,@dark-blue);
 }
 
-h2 {
-  color: #2446BB;
-  font-weight:normal;
-  font-size:16px;
-}
 
 //
 // ROOT
 //
 
 .root {
-  background-color: @background-color;
+  background-color: @light-grey;
+}
+
+h2 {
+  color: #2446BB;
+  font-weight:normal;
+  font-size:16px;
 }
 
 //
@@ -111,7 +114,6 @@ ul li.arrow {
 }
 
 ul li.active.arrow, ul li.selected.arrow {
-
   background-image: url("../icon/common/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%,@light-blue), color-stop(100%,@dark-blue));
   background-image: url("../icon/common/arrow_pressed.png"), -webkit-linear-gradient(top, @light-blue, @dark-blue 100%);
   background-image: url("../icon/common/arrow_pressed.png"), -moz-linear-gradient(top, @light-blue, @dark-blue 100%);
@@ -142,10 +144,10 @@ ul li.active {
 //
 
 .dialog {
-   // Fall-Back if no gradient could be set.
+   // Fallback if no gradient could be set.
    background-color:@title-background-gradient-2;
    #gradient > .vertical-three(@title-background-gradient-1, @title-background-gradient-2, @title-background-gradient-2, 20px);
-   border: 2px solid @dark-blue;
+   border: @dialog-border-thickness solid @dark-blue;
    color:@font-color-dark-background;
 
    .box-shadow(0px 2px 7px 0px lighten(@shadow-color, 50%));
@@ -192,21 +194,25 @@ ul li.active {
   
   #gradient > .vertical(lighten(@title-background-gradient-1,20%), lighten(@title-background-gradient-2,20%));
 
-  @tab-button-border :@border-thickness solid lighten(@dark-grey, 10%);  
+  @tab-button-border:@border-thickness solid lighten(@dark-grey, 10%);  
   border-top: @tab-button-border;
   border-left: @tab-button-border;
   border-right: @tab-button-border;
 }
 
 .tabButton.active, .tabButton.selected {
-  
   border: @border-thickness solid @dark-blue;
  
   @highlighted-line:lighten(@dark-blue,20%);
-  background: -moz-linear-gradient(top,  @highlighted-line 2%, @blue 4%, @blue 49%, @dark-blue 53%, @dark-blue 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,@highlighted-line), color-stop(4%,@blue), color-stop(49%,@blue), color-stop(53%,@dark-blue), color-stop(100%,@dark-blue));
-  background: -webkit-linear-gradient(top,  @highlighted-line 2%,@blue 4%,@blue 49%,@dark-blue 53%,@dark-blue 100%);
-  background: linear-gradient(top,  @highlighted-line 2%,@blue 4%,@blue 49%,@dark-blue 53%,@dark-blue 100%);
+  
+  @tab-stop-1: @highlighted-line;
+  @tab-stop-2: @blue;
+  @tab-stop-3: @dark-blue;
+  
+  background: -moz-linear-gradient(top,  @tab-stop-1 2%, @tab-stop-2 4%, @tab-stop-2 49%, @tab-stop-3 53%, @tab-stop-3 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,@tab-stop-1), color-stop(4%,@tab-stop-2), color-stop(49%,@tab-stop-2), color-stop(53%,@tab-stop-3), color-stop(100%,@tab-stop-3));
+  background: -webkit-linear-gradient(top,  @tab-stop-1 2%,@tab-stop-2 4%,@tab-stop-2 49%,@tab-stop-3 53%,@tab-stop-3 100%);
+  background: linear-gradient(top,  @tab-stop-1 2%,@tab-stop-2 4%,@tab-stop-2 49%,@tab-stop-3 53%,@tab-stop-3 100%);
 }
 
 //
@@ -214,44 +220,33 @@ ul li.active {
 //
 
 .slider > div {
- .box-shadow(0 0 2px #000000);
+ .box-shadow(0 0 2px @shadow-color);
   
   border: @border-thickness solid #E8E8E8;
-
-  background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%); 
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfcf), color-stop(100%,#fdfdfd));
-  background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
-  background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
+  
+  #gradient > .vertical(#cfcfcf, #fdfdfd);
 }
 
 .slider {
+  @color-stop-active-1: @dark-blue;
+  @color-stop-active-2: lighten(@dark-blue, 20%);
+  @color-stop-active-3: @color-stop-active-1;
+  @color-stop-active-4: @color-stop-active-2;
+
+  @color-stop-inactive-1:#929292;
+  @color-stop-inactive-2:#bbbbbb;
+  @color-stop-inactive-3:#f6f6f6;
+  @color-stop-inactive-4:#f9f9f9;
+
   border-bottom: @border-thickness solid #d6d6d6;
   border-top: @border-thickness solid #929292;
   border-left: @border-thickness solid #b5b5b5;
   border-right: @border-thickness solid #b5b5b5;
 
-  @color-stop-active-1: @dark-blue;
-  @color-stop-active-2: lighten(@dark-blue, 20%);
-  @color-stop-active-3: @dark-blue;
-  @color-stop-active-4: lighten(@dark-blue, 20%);
-
-  background: -webkit-gradient(linear, left top, left bottom, from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from( @color-stop-active-1), color-stop(0.05,  @color-stop-active-2), color-stop(0.8,  @color-stop-active-3), to( @color-stop-active-4)) 0px 0px no-repeat;
-  background: -webkit-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -webkit-linear-gradient(top,  @color-stop-active-1,  @color-stop-active-2 5%, @color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
-  background: -moz-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -moz-linear-gradient(top, @color-stop-active-1, @color-stop-active-2 5%,@color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
-  background: linear-gradient(to bottom, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, linear-gradient(to bottom, @color-stop-active-1, @color-stop-active-2 5%,@color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
-}
-
-//
-// SELECT BOX
-//
-
-.selectbox {
-  color:@dark-blue;
-  .clickable();
-}
-
-.selectbox:active {
-  .clickable-active();
+  background: -webkit-gradient(linear, left top, left bottom, from(@color-stop-inactive-1), color-stop(0.05, @color-stop-inactive-2), color-stop(0.5, @color-stop-inactive-3), to(@color-stop-inactive-4)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from( @color-stop-active-1), color-stop(0.05,  @color-stop-active-2), color-stop(0.8,  @color-stop-active-3), to( @color-stop-active-4)) 0px 0px no-repeat;
+  background: -webkit-linear-gradient(top, @color-stop-inactive-1, @color-stop-inactive-2 5%,@color-stop-inactive-3 50%, @color-stop-inactive-4) 0px 0px no-repeat, -webkit-linear-gradient(top,  @color-stop-active-1,  @color-stop-active-2 5%, @color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
+  background: -moz-linear-gradient(top, @color-stop-inactive-1, @color-stop-inactive-2 5%,@color-stop-inactive-3 50%, @color-stop-inactive-4) 0px 0px no-repeat, -moz-linear-gradient(top, @color-stop-active-1, @color-stop-active-2 5%,@color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
+  background: linear-gradient(to bottom, @color-stop-inactive-1, @color-stop-inactive-2 5%,@color-stop-inactive-3 50%, @color-stop-inactive-4) 0px 0px no-repeat, linear-gradient(to bottom, @color-stop-active-1, @color-stop-active-2 5%,@color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
 }
 
 //
@@ -266,7 +261,6 @@ ul li.active {
   // Light inset border.
   .box-inset-multi-shadow(0 2px 2px #999, 0 14px 1px #EAEAEA);
   border: @border-thickness solid #9e9e9e ;
-  
 }
 
 .toggleButton > div.checked {
@@ -297,14 +291,14 @@ div.checked .toggleButtonSwitch:before {
   background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
   background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
 
-  // Because of display problems in Safari, 
-  // Animation is disabled.
+  // Because of display problems in Safari, Animation is disabled.
   //.transition(left .15s);
 }
 
 //
 // CHECKBOX
 //
+
 // Webkit only, see BUG #5982
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   input[type="checkbox"] {
@@ -323,26 +317,6 @@ div.checked .toggleButtonSwitch:before {
     background: url(../icon/common/checkbox-green.png) 50% 50% no-repeat, -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
     background: url(../icon/common/checkbox-green.png) 50% 50% no-repeat, linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
   }
-}
-
-//
-// TOOLBAR
-// 
-
-.toolbar-button {
-  .clickable();
-}
-
-.toolbar-button.active {
-  .clickable-active();
-}
-
-//
-// MENU
-//
-
-.item-selected {
-  .clickable-active();
 }
 
 // 
@@ -368,13 +342,12 @@ div.checked .toggleButtonSwitch:before {
 }
 
 .master-detail-master.attached {
-  border-right: @border-thickness solid #555555;
+  border-right: @border-thickness solid darken(@border-color, 40%);
 }
 
 .master-popup .layout-card {
   @corner-color: @border-color;
   background-color: white;
-  
 }
 
 //
@@ -385,3 +358,35 @@ div.checked .toggleButtonSwitch:before {
   background-color: @dark-grey;
 }
 
+//
+// TOOLBAR
+// 
+
+.toolbar-button {
+  .clickable();
+}
+
+.toolbar-button.active {
+  .clickable-active();
+}
+
+//
+// MENU
+//
+
+.item-selected {
+  .clickable-active();
+}
+
+//
+// SELECT BOX
+//
+
+.selectbox {
+  color:@dark-blue;
+  .clickable();
+}
+
+.selectbox:active {
+  .clickable-active();
+}
