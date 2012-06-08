@@ -123,7 +123,7 @@
 #    DEF:framework-tests=nightly_builds.rrd:framework-tests:AVERAGE LINE2:framework-tests#FF00FF:"Framework Testrunner" \
 #    DEF:playground=nightly_builds.rrd:playground:AVERAGE LINE2:playground#555555:Playground \
 #    DEF:apiviewer=nightly_builds.rrd:apiviewer:AVERAGE LINE2:apiviewer#9933FF:Apiviewer \
-#    DEF:portal=nightly_builds.rrd:portal:AVERAGE LINE2:portal#00FFFF:Portal  \
+#    DEF:portal=nightly_builds.rrd:portal:AVERAGE LINE2:portal#00FFFF:Widgetbrowser  \
 #    DEF:inspector=nightly_builds.rrd:inspector:AVERAGE LINE2:inspector#FF9933:Inspector
 #
 #    (For the actual used graph command see the template in the graph()
@@ -336,7 +336,7 @@ def updateRRD(apps, tstamp=None):
         ("framework-tests" , "FrameworkUnitTests"),
         ("playground" , "Playground"),
         ("apiviewer" , "FrameworkAPI"),
-        ("portal" , "Portal"),
+        ("portal" , "Widgetbrowser"),
         ("inspector", "Inspector"),
         )
 
@@ -394,7 +394,7 @@ def graph(args, opts):
     DEF:apiviewer=nightly_builds.rrd:apiviewer:AVERAGE \
     CDEF:mapiviewer=apiviewer,60,/ LINE2:mapiviewer#9933FF:Apiviewer \
     DEF:portal=nightly_builds.rrd:portal:AVERAGE \
-    CDEF:mportal=portal,60,/ LINE2:mportal#00FFFF:Portal  \
+    CDEF:mportal=portal,60,/ LINE2:mportal#00FFFF:Widgetbrowser  \
     DEF:inspector=nightly_builds.rrd:inspector:AVERAGE \
     CDEF:minspector=inspector,60,/ LINE2:minspector#FF9933:Inspector \
     DEF:demobrowser=nightly_builds.rrd:demobrowser:AVERAGE \
