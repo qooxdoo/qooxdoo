@@ -388,7 +388,7 @@ publish-build-components:
 	@( cd component/standalone/website && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) api-data ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) build-min ) || exit 1
-  @( cd component/standalone/website && $(CMD_GENERATOR) test ) || exit 1
+	@( cd component/standalone/website && $(CMD_GENERATOR) test ) || exit 1
 	@( cd component/standalone/server && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/standalone/server && $(CMD_GENERATOR) build-min ) || exit 1
 
