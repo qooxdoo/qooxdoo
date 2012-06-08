@@ -23,6 +23,6 @@
 
 # WebStorm
 /.idea
-/application/mobileshowcase/build-ios/
-/application/mobileshowcase/build-android/
-/application/mobileshowcase/build-indigo/
+
+# Build & test infrastructur
+/build.log
