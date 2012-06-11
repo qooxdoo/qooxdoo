@@ -64,6 +64,7 @@
         "paths" :
         {
           "file" : "${BUILD_PATH}/storage.js",
+          "file-prefix" : "${QOOXDOO_PATH}/tool/data/generator/copyright.include.js",
           "app-root" : ".",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
         },

@@ -60,6 +60,7 @@
       {
         "paths" :
         {
+          "file-prefix" : "${QOOXDOO_PATH}/tool/data/generator/copyright.include.js",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/oo.loader.tmpl.js"
         },
         "uris" :
