@@ -6,103 +6,29 @@
   <script type="text/javascript" src="script/q.min.js"></script>
   <script type="text/javascript" charset="utf-8">
     q.ready(function() {
-      console && console.log("READY!!!!");
+      // render a template
+      var name = "qooxdoo user";
+      q.template.get("hello", {name: name}).appendTo(document.body);
+
+      // style the name
+      q("h1 span").setStyles({
+        "color": "#3D72C9",
+        "cursor": "pointer"
+      });
+
+      // make the name editable
+      q("h1 span").on("click", function() {
+        this.setHtml(prompt("Whats your name?", ""));
+      });
+
+      //crate a message
+      q.create("<p>Have fun coding...</p>").appendTo(document.body).fadeIn(4000);
     });
   </script>
-  <style type="text/css" media="screen">
-    .test {
-      text-decoration: underline;
-    }
-  </style>
 </head>
 <body>
-  <div class="test">
-    CONTENT1
-  </div>
-  <div id="test">
-    CONTENT2
-  </div>
-  <a>A</a>
-  <p>not empty</p>
-  <section id="trav"><p>trav</p></section>
-  <section id="trav2"><p>trav</p></section>
-  <h2>Blink</h2>
-  <script type="template" id="template">
-    <div style="color: {{color}}">{{name}}</div>
-  </script>
-
-  <script type="text/javascript" charset="utf-8">
-    var d = q('div');
-    var a = q('a');
-
-    a.setStyle("color", "#CCC");
-    d.setStyle("color", "#666");
-
-    d.setHtml(d.getStyle("color"));
-    console.log("getHtml", d.getHtml());
-
-    d.setStyles({"font-weight": "bold", "font-size": "20px"});
-    console.log("getStyles", d.getStyles(["font-weight", "font-size"]));
-
-    d.removeClass("test");
-    var test = q.wrap(document.getElementById("test"));
-    test.addClass("test");
-    console.log("hasClass", test.hasClass("test"));
-
-    window.setInterval(function() {
-      test.toggleClass("test");
-    }, 333);
-
-    var h1 = q.create("<h1>H1</h1>");
-    h1.appendTo(document.body);
-
-
-    window.setTimeout(function() {
-      h1.remove();
-      console.log("removed h1");
-    }, 1000);
-
-    q("p").empty();
-
-
-    var input = q.create("<input type='checkbox' alt='text'><span>✔</span>");
-    input.appendTo(document.body);
-    input.setAttribute("checked", true);
-    console.log("getAttributes", input.getAttributes(["checked", "alt"]));
-
-
-    a.setProperty("innerHTML", "link");
-    console.log("getProperty", a.getProperty("innerHTML"));
-
-    a.setProperties({a: 1, b: 2});
-    console.log("getProperties", a.getProperties(["a", "b"]));
-
-
-    <!-- TRAVERSING MODULE -->
-    var add = q("#trav").add(document.getElementById("trav2"));
-    var children = add.getChildren().setHtml("add ok");
-    children.forEach(function(item, i) {item.innerHTML += " " + i});
-    children.getParents().setStyle("color", "red");
-
-
-    <!-- EVENTS MODULE -->
-    q('a').setStyle("cursor", "pointer").on("click", function(e) {alert("click")});
-    input.on("click", function(e) {this.setHtml(e.target.checked ? "✔" : "✖")}, q.wrap(input[1]));
-
-
-    <!-- TEMPLATES -->
-    var templ = q.template.get("template", {name: "hugo", color: "green"});
-    templ.appendTo(document.body);
-
-
-    <!-- ANIMATION -->
-    d.fadeOut().once("end", function() {this.fadeIn();});
-    q("h2").animate({duration: 1000, alternate: true, repeat: "infinite", keyFrames : {
-      0 : {"background-color" : "white"},
-      50 : {"background-color" : "red"},
-    }}).on("click", function() {
-      this.isPlaying() ? this.pause() : this.play();
-    }).pause();
+  <script type="template" id="hello">
+    <h1>Hello <span>{{name}}</span>!</h1>
   </script>
 </body>
 </html>
