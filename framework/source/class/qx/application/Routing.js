@@ -68,12 +68,12 @@
  *   }, this);
  *
  *   // update the address
- *   r.onPost("/address/{id}, function(data) {
+ *   r.onPost("/address/{id}", function(data) {
  *     model.updateAddress(data.params.id);
  *   }, this);
  *
  *   // delete the address and navigate back
- *   r.onDelete("/address/{id}, function(data) {
+ *   r.onDelete("/address/{id}", function(data) {
  *     model.deleteAddress(data.params.id);
  *     r.executeGet("/address", {reverse:true});
  *   }, this);
