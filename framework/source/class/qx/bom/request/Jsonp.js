@@ -17,6 +17,18 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#require(qx.bom.request.Script#open)
+#require(qx.bom.request.Script#on)
+#require(qx.bom.request.Script#onreadystatechange)
+#require(qx.bom.request.Script#onload)
+#require(qx.bom.request.Script#onloadend)
+#require(qx.bom.request.Script#onerror)
+#require(qx.bom.request.Script#onabort)
+#require(qx.bom.request.Script#ontimeout)
+#require(qx.bom.request.Script#send)
+************************************************************************ */
+
 /**
  * A special script loader handling JSONP responses. Automatically
  * provides callbacks and populates responseJson property.

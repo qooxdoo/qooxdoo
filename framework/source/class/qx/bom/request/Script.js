@@ -44,9 +44,8 @@
  */
 
 /* ************************************************************************
-
 #ignore(qx.core.Environment)
-
+#require(qx.bom.request.Script#_success)
 ************************************************************************ */
 
 qx.Bootstrap.define("qx.bom.request.Script",
@@ -181,7 +180,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
           "url: " + url);
       }
 
-      this.__readyStateChange(1);
+      this._readyStateChange(1);
     },
 
     /**
@@ -242,8 +241,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
       // The resource is loaded once the script is in DOM.
       // Assume HEADERS_RECEIVED and LOADING and dispatch async.
       window.setTimeout(function() {
-        that.__readyStateChange(2);
-        that.__readyStateChange(3);
+        that._readyStateChange(2);
+        that._readyStateChange(3);
       });
       return this;
     },
@@ -502,8 +501,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
       }
 
       window.setTimeout(function() {
-        that.__success();
-        that.__readyStateChange(4);
+        that._success();
+        that._readyStateChange(4);
         that._emit("load");
         that._emit("loadend");
       });
@@ -589,7 +588,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
      *
      * @param readyState {Number} The desired readyState
      */
-    __readyStateChange: function(readyState) {
+    _readyStateChange: function(readyState) {
       this.readyState = readyState;
       this._emit("readystatechange");
     },
@@ -597,7 +596,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
     /**
      * Handle success.
      */
-    __success: function() {
+    _success: function() {
       this.__disposeScriptElement();
       this.readyState = 4;
 

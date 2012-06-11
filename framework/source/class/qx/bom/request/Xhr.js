@@ -18,9 +18,16 @@
 ************************************************************************ */
 
 /* ************************************************************************
-
 #ignore(XDomainRequest)
-
+#require(qx.bom.request.Xhr#open)
+#require(qx.bom.request.Xhr#send)
+#require(qx.bom.request.Xhr#on)
+#require(qx.bom.request.Xhr#onreadystatechange)
+#require(qx.bom.request.Xhr#onload)
+#require(qx.bom.request.Xhr#onloadend)
+#require(qx.bom.request.Xhr#onerror)
+#require(qx.bom.request.Xhr#onabort)
+#require(qx.bom.request.Xhr#ontimeout)
 ************************************************************************ */
 
 /**

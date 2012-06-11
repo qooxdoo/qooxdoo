@@ -16,6 +16,9 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
+/* ************************************************************************
+#require(qx.bom.request.Xhr#open)
+************************************************************************ */
 /**
  * This module provides basic IO functionality. It contains three ways to load 
  * data:
