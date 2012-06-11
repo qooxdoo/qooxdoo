@@ -1686,6 +1686,7 @@ testrunner.define({
 
   testRegister : function()
   {
+    this.require(["qx.debug"]);
     var cb = function() {};
     var test = q.create('<div></div>').appendTo(this.sandbox[0])
     .on("swipe", cb).on("tap", cb);
@@ -1820,6 +1821,7 @@ testrunner.define({
   },
 
   testBlocker : function() {
+    this.require(["qx.debug"]);
     var styles = {
       position: "absolute",
       top: "250px",
@@ -1888,6 +1890,7 @@ testrunner.define({
 
   testBlockDocument : function()
   {
+    this.require(["qx.debug"]);
     q(document).block();
     var blockerDiv = document.__blocker.div;
     this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
