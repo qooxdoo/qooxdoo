@@ -2,10 +2,18 @@
 // NAVIGATIONBAR 
 //
 
+@navigationbar-height:45px;
+
 .navigationbar {
-  height: 45px;
+  height: @navigationbar-height;
   padding-left: 10px;
   padding-right: 10px;
+  position:relative;
+}
+
+.navigationbar > .label {
+  height:@navigationbar-height;
+  line-height:@navigationbar-height;
 }
 
 .navigationbar-button, .navigationbar-backbutton {
@@ -30,6 +38,30 @@
   //height: -moz-calc(30px + 6px);
 }
 
+//
+// NAVIGATION
+// 
+
+.navigation {
+  overflow:hidden;
+}
+
 .left-container > * {
   margin-right:4px;
+}
+
+@navigationbar-container-space: 5px;
+
+.left-container {
+  position:absolute;
+  left:@navigationbar-container-space;
+  top:@navigationbar-container-space;
+  width:auto;
+}
+
+.right-container {
+  position:absolute;
+  right:@navigationbar-container-space;
+  top:@navigationbar-container-space;
+  width:auto;
 }
