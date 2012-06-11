@@ -23,7 +23,7 @@
 if ((qx.core.Environment.get("engine.name") == "mshtml")) {
 
 /**
- * Implements an iFrame based history manager for IE6/7.
+ * Implements an iFrame based history manager for IE 6/7/8.
  *
  * Creates a hidden iFrame and uses document.write to store entries in the
  * history browser's stack.
@@ -322,7 +322,7 @@ qx.Class.define("qx.bom.IframeHistory",
       this.__writeStateTimner.dispose();
       this.__writeStateTimner = null;
     }
-    qx.event.Idle.getInstance().addListener("interval", this.__onHashChange, this);
+    qx.event.Idle.getInstance().removeListener("interval", this.__onHashChange, this);
   }
 });
 
