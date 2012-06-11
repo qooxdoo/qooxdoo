@@ -67,6 +67,13 @@
       {
         "qx.version" : "${QOOXDOO_VERSION}",
         "qx.debug"   : false
+      },
+      "compile-options" :
+      {
+        "paths" : 
+        {
+          "file-prefix" : "${QOOXDOO_PATH}/tool/data/generator/copyright.include.js"
+        }
       }
     },
 
@@ -121,7 +128,8 @@
       "compile-options" :
       {
         "code" : {
-          "=optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants", "statics"]
+          "=optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants", "statics", "whitespace"],
+          "format" : false
         },
         "paths"  :
         {
