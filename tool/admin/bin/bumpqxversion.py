@@ -126,6 +126,9 @@ Files = {
         (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         r'"homepage"\s*:\s*"http://manual.qooxdoo.org/(%s)/pages/core.html"' % qxversion_regexp,
         ],
+    "./tool/data/generator/copyright.include.js" : [
+        r'qooxdoo v.(%s) \|' % qxversion_regexp,
+        ],
 }
 
 # - End config -----------------------------------------------------------------

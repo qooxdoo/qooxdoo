@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import os, sys, string, types, re, zlib, time
+import os, sys, string, types, re, zlib, time, codecs
 import urllib, copy
 import graph
 
@@ -769,7 +769,7 @@ class CodeGenerator(object):
         # a common .js file, constructing the URI to this file, or just construct
         # the URI to the source file directly if the class matches a filter.
         # Return the list of constructed URIs.
-        def compileAndWritePackage(package, compConf, allClassVariants):
+        def compileAndWritePackage(package, compConf, allClassVariants, per_file_prefix):
 
             def compileAndAdd(compiled_classes, package_uris, prelude='', wrap=''):
                 compiled = compileClasses(compiled_classes, compOptions, log_progress)
@@ -789,7 +789,7 @@ class CodeGenerator(object):
             ##
             # Write the package data and the compiled class code in so many
             # .js files, skipping source files.
-            def write_uris(package_data, package_classes):
+            def write_uris(package_data, package_classes, per_file_prefix):
                 sourceFilter = ClassMatchList(compConf.get("code/except", []))
                 compiled_classes = []  # to accumulate classes that are compiled and can go into one .js file
                 package_uris = []      # the uri's of the .js files of this package
@@ -801,6 +801,8 @@ class CodeGenerator(object):
 
                         # before processing the source class, cat together data and accumulated classes, if any
                         if package_data or compiled_classes:
+                            if per_file_prefix:
+                                package_data = per_file_prefix + package_data
                             # treat compiled classes so far
                             package_uris = compileAndAdd(compiled_classes, package_uris, package_data)
                             compiled_classes = []  # reset the collection
@@ -824,6 +826,8 @@ class CodeGenerator(object):
                         closureWrap = ''
                         if isClosurePackage(package, bootPackageId(script)):
                             closureWrap = u'''qx.Part.$$notifyLoad("%s", function() {\n%%s\n});''' % package.id
+                        if per_file_prefix:
+                            package_data = per_file_prefix + package_data
                         package_uris = compileAndAdd(compiled_classes, package_uris, package_data, closureWrap)
                 
                 return package_uris
@@ -844,7 +848,7 @@ class CodeGenerator(object):
 
             ##
             # Here's the meat
-            package.files = write_uris(package_data, package_classes)
+            package.files = write_uris(package_data, package_classes, per_file_prefix)
 
             return package
             
@@ -907,6 +911,14 @@ class CodeGenerator(object):
             resourceUri = None
             scriptUri   = None
 
+        # Get prefix content for generated files
+        prefix_file = compConf.get("paths/file-prefix", None)
+        if prefix_file:
+            prefix_file = self._config.absPath(prefix_file)
+            per_file_prefix = codecs.open(prefix_file, "r", "utf-8").read()
+        else:
+            per_file_prefix = u''
+
         # Get global script data (like qxlibraries, qxresources,...)
         globalCodes = {}
         globalCodes["EnvSettings"] = self.generateVariantsCode(script.environment)
@@ -925,7 +937,7 @@ class CodeGenerator(object):
 
         # Potentally create dedicated I18N packages
         if self._job.get("packages/i18n-as-parts", False):
-            script = self.generateI18NParts(script, locales)
+            script = self.generateI18NParts(script, locales, per_file_prefix)
             self.writePackages([p for p in script.packages if getattr(p, "__localeflag", False)], script)
 
         # ---- create script files ---------------------------------------------
@@ -956,7 +968,7 @@ class CodeGenerator(object):
 
             # write packages to disk
             for packageIndex, package in enumerate(packages):
-                package = compileAndWritePackage(package, compConf, allClassVariants)
+                package = compileAndWritePackage(package, compConf, allClassVariants, per_file_prefix)
 
             #self._console.outdent()
             self._console.dotclear()
@@ -974,8 +986,9 @@ class CodeGenerator(object):
                     bcode = filetool.read(bfile)
                 os.unlink(bfile)
             else:
-                bcode = ""
+                bcode = u''
             loaderCode = generateLoader(script, compConf, globalCodes, bcode)
+            loaderCode = per_file_prefix + loaderCode
             fname = self._computeFilePath(script, isLoader=1)
             self.writePackage(loaderCode, fname, script, isLoader=1)
 
@@ -1135,7 +1148,7 @@ class CodeGenerator(object):
     ##
     # collect translation and locale data into dedicated parts and packages,
     # one for each language code
-    def generateI18NParts(self, script, locales):
+    def generateI18NParts(self, script, locales, per_file_prefix):
 
         ##
         # collect translation and locale info from the packages
@@ -1197,6 +1210,7 @@ class CodeGenerator(object):
             # file name and hash code
             hash_, dataS  = intpackage.packageContent()  # TODO: this currently works only for pure data packages
             dataS        = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
+            dataS = per_file_prefix + dataS
             intpackage.compiled.append(dataS)
             intpackage.hash     = hash_
             filepath = self._computeFilePath(script, intpackage.hash, localeCode)

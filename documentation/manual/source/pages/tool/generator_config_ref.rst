@@ -263,6 +263,7 @@ Specify various options for compile (and other) keys. Takes a map.
     "paths" :
     {
       "file"            : "<path>",
+      "file-prefix"     : "<path>",
       "app-root"        : "<path>",            
       "gzip"            : (true|false),
       "loader-template" : "<path>"
@@ -290,6 +291,7 @@ Possible keys are
 * **paths** : paths for the generated output
 
   * **file** : the path to the compile output file; can be relative to the config's directory (default: *<type>/script/<appname>.js*)
+  * **file-prefix** : path to a file containing %{JS} which will be inserted verbatim at the beginning of each generated output file; this could be a comment with copyright headers (default: *undefined*)
   * **app-root** : (*source*) relative (in the above sense) path to the directory containing the app’s HTML page (default: *./source*)
   * **loader-template** : path to a JS file that will be used as an alternative loader template; for possible macros and structure see the default (default: *${QOOXDOO_PATH}/tool/data/generator/loader.tmpl.js*)
   * **gzip** : whether to gzip output file(s) (default: *false*)
