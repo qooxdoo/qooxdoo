@@ -38,7 +38,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
 
     /**
      * Method to apply multiple transforms at once to the given element. It
-     * takes a map containig the transforms you want to apply plus the values
+     * takes a map containing the transforms you want to apply plus the values
      * e.g.<code>{scale: 2, rotate: "5deg"}</code>.
      * The values can be either singular, which means a single value will
      * be added to the CSS. If you give an array, the values will be split up
@@ -73,7 +73,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * Scales the given element by the given value. For further details, take
      * a look at the {@link #transform} method.
      * @param el {Element} The element to apply the transformation.
-     * @param value {Numer|Array} The value to scale.
+     * @param value {Number|Array} The value to scale.
      */
     scale : function(el, value) {
       this.transform(el, {scale: value});
@@ -233,7 +233,12 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      */
     getPerspectiveOrigin : function(el) {
       if (this.__cssKeys != null) {
-        return el.style[this.__cssKeys["perspective-origin"]];
+        var value = el.style[this.__cssKeys["perspective-origin"]];
+        var valueX = el.style[this.__cssKeys["perspective-origin"] + "X"];
+        var valueY = el.style[this.__cssKeys["perspective-origin"] + "Y"];
+        if (value == "" && valueX != "") {
+          return valueX + " " + valueY;
+        }
       }
       return "";
     },

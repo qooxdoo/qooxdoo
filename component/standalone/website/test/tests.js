@@ -2195,3 +2195,62 @@ testrunner.define({
     this.wait();
   }
 });
+
+
+testrunner.define({
+  classname : "Transform",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  // smoke tests
+  testTranslate : function() {
+    this.sandbox.translate("10px");
+  },
+
+  testScale : function() {
+    this.sandbox.scale(2);
+  },
+
+  testSkew : function() {
+    this.sandbox.skew("20deg");
+  },
+
+  testRotate : function() {
+    this.sandbox.rotate("90deg");
+  },
+
+  testTransfrom : function() {
+    this.sandbox.transform({scale: [1,2], rotate: "90deg"});
+  },
+
+
+
+  testTransformStyle : function() {
+    this.sandbox.setTransformStyle("flat");
+    if (q.env.get("css.transform") != null) {
+      this.assertEquals("flat", this.sandbox.getTransformStyle());
+    }
+  },
+
+  testTransformPerspective : function() {
+    this.sandbox.setTransformPerspective(1234);
+    if (q.env.get("css.transform") != null) {
+      this.assertEquals("1234", this.sandbox.getTransformPerspective());
+    }
+  },
+
+  testTransformPerspectiveOrigin : function() {
+    this.sandbox.setTransformPerspectiveOrigin("50% 50%");
+    if (q.env.get("css.transform") != null) {
+      this.assertEquals("50% 50%", this.sandbox.getTransformPerspectiveOrigin());
+    }
+  },
+
+  testTransformBackfaceVisibility : function() {
+    this.sandbox.setTransformBackfaceVisibility(true);
+    if (q.env.get("css.transform") != null) {
+      this.assertEquals(true, this.sandbox.getTransformBackfaceVisibility());
+    }
+  }
+});
