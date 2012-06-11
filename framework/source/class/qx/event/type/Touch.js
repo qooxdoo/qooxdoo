@@ -47,8 +47,13 @@ qx.Class.define("qx.event.type.Touch",
 
         clone.pageX = nativeEvent.pageX;
         clone.pageY = nativeEvent.pageY;
-        clone.layerX = nativeEvent.layerX;
-        clone.layerY = nativeEvent.layerY;
+        clone.offsetX = nativeEvent.offsetX;
+        clone.offsetY = nativeEvent.offsetY;
+        
+        // Workaround for BUG #6491
+        clone.layerX = (nativeEvent.offsetX || nativeEvent.layerX);
+        clone.layerY = (nativeEvent.offsetY || nativeEvent.layerY);
+        
         clone.scale = nativeEvent.scale;
         clone.rotation = nativeEvent.rotation;
         clone.srcElement = nativeEvent.srcElement;
@@ -56,17 +61,17 @@ qx.Class.define("qx.event.type.Touch",
         clone.targetTouches = [];
         for (var i = 0; i < nativeEvent.targetTouches.length; i++) {
           clone.targetTouches[i] = nativeEvent.targetTouches[i];
-        };
+        }
 
         clone.changedTouches = [];
-        for (var i = 0; i < nativeEvent.changedTouches.length; i++) {
+        for (i = 0; i < nativeEvent.changedTouches.length; i++) {
           clone.changedTouches[i] = nativeEvent.changedTouches[i];
-        };
+        }
 
         clone.touches = [];
-        for (var i = 0; i < nativeEvent.touches.length; i++) {
+        for (i = 0; i < nativeEvent.touches.length; i++) {
           clone.touches[i] = nativeEvent.touches[i];
-        };
+        }
 
         return clone;
       },
