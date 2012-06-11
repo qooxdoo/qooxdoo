@@ -388,11 +388,37 @@ qx.Class.define("qx.ui.basic.Label",
       var content = this.getValue() || "A";
       var rich = this.getRich();
 
+      if (this.__webfontListenerId) {
+        this.__fixEllipsis();
+      }
+
       return rich ?
         Label.getHtmlSize(content, styles, width) :
         Label.getTextSize(content, styles);
     },
 
+
+
+    /**
+    * Firefox > 9 on OS X will draw an ellipsis on top of the label content even
+    * though there is enough space for the text. Re-applying the content forces 
+    * a recalculation and fixes the problem. See qx bug #6293
+    */
+    __fixEllipsis : function()
+    {
+      if (qx.core.Environment.get("os.name") == "osx" && 
+        qx.core.Environment.get("engine.name") == "gecko" &&
+        parseInt(qx.core.Environment.get("engine.version"), 10) > 9)
+      {
+        if (!this.getContentElement()) {
+          return;
+        }
+        var domEl = this.getContentElement().getDomElement();
+        if (domEl) {
+          domEl.innerHTML = domEl.innerHTML;
+        }
+      }
+    },
 
 
 
