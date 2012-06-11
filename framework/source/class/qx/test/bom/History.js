@@ -164,16 +164,31 @@ qx.Class.define("qx.test.bom.History", {
     {
       var self = this;
       this.assertEquals("bar", this.__history._readState(), "check2");
-      return;
-      history.back();
       history.back();
       window.setTimeout(function() {
         self.resume(function() {
-          this.assertEquals("affe", this.__history._readState(), "check3");
+          this.assertEquals("foo", this.__history._readState(), "check3");
         }, self);
       }, 200);
       this.wait();
-    }
+    },
     
+    
+    testRequestEvent : function()
+    {
+    	// "request" event just will be fired, if a user goes back or farward in
+    	// the history
+    	var self = this;
+      this.__history.addListenerOnce("request", function() {
+      	self.resume(function() {
+      		// "request" event has been fired
+          this.assertTrue(true);
+        }, self);
+      }, this);
+      
+      this.__history.setState("bar");
+      history.back();
+      this.wait();
+    }
   }
 });

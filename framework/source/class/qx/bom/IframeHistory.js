@@ -48,6 +48,23 @@ qx.Class.define("qx.bom.IframeHistory",
     __iframeReady : false,
     __writeStateTimner : null,
     __dontApplyState : null,
+    __locationState : null,
+    
+    
+    // overridden
+    _setInitialState : function()
+    {
+      this.base(arguments);
+      this.__locationState = this._getHash();
+    },
+    
+    
+    //overridden
+    _setHash : function(value)
+    {
+      this.base(arguments, value);
+      this.__locationState = this._encode(value);
+    },
     
     
     //overridden
@@ -182,7 +199,13 @@ qx.Class.define("qx.bom.IframeHistory",
       // the location only changes if the user manually changes the fragment
       // identifier.
       var currentState = null;
-      currentState = this._readState();
+      var locationState = this._getHash();
+
+      if (!this.__isCurrentLocationState(locationState)) {
+        currentState = this.__storeLocationState(locationState);
+      } else {
+        currentState = this._readState();
+      }
       if (qx.lang.Type.isString(currentState) && currentState != this.getState()) {
         this._onHistoryLoad(currentState);
       }
@@ -201,6 +224,17 @@ qx.Class.define("qx.bom.IframeHistory",
       this._writeState(locationState);
 
       return locationState;
+    },
+
+
+    /**
+     * Checks whether the given location state is the current one.
+     *
+     * @param locationState {String} location state to check
+     * @return {Boolean}
+     */
+    __isCurrentLocationState : function (locationState) {
+      return qx.lang.Type.isString(locationState) && locationState == this.__locationState;
     },
 
 
