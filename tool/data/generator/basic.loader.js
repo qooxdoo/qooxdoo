@@ -24,9 +24,7 @@
     } else if (typeof process !== "undefined") { // Node runtime
       var os = require('os');
       var fs = require('fs');
-      require.paths.push('.');  // add curdir
       if (!navigator.platform) navigator.platform = os.type();
-      
     }
 
     if (!window.setTimeout && environment && environment["java.version"]) {
@@ -128,15 +126,9 @@
             var i, p, s;
             for (i = 0; i < uris.length; i++) {
                 if (typeof process !== "undefined") { // Node
-                  if (uris[i][0] == '.') {
-                    p = '../../' + uris[i];
-                  } else {
-                    p = uris[i];
-                  }
-                  p = require.resolve(p);
-                  s = fs.readFileSync(p, "utf-8");
+                  p = uris[i];
                   try {
-                    eval(s);
+                    require(p);
                   } catch (e) {
                     console.error("Unable to load uri: "+p);
                     throw e;
