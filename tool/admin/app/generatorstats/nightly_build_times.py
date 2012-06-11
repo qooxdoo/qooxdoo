@@ -124,7 +124,7 @@
 #    DEF:playground=nightly_builds.rrd:playground:AVERAGE LINE2:playground#555555:Playground \
 #    DEF:apiviewer=nightly_builds.rrd:apiviewer:AVERAGE LINE2:apiviewer#9933FF:Apiviewer \
 #    DEF:portal=nightly_builds.rrd:portal:AVERAGE LINE2:portal#00FFFF:Widgetbrowser  \
-#    DEF:inspector=nightly_builds.rrd:inspector:AVERAGE LINE2:inspector#FF9933:Inspector
+#    DEF:inspector=nightly_builds.rrd:inspector:AVERAGE LINE2:inspector#FF9933:MobileShowcase
 #
 #    (For the actual used graph command see the template in the graph()
 #    routine).
@@ -337,7 +337,7 @@ def updateRRD(apps, tstamp=None):
         ("playground" , "Playground"),
         ("apiviewer" , "FrameworkAPI"),
         ("portal" , "Widgetbrowser"),
-        ("inspector", "Inspector"),
+        ("inspector", "MobileShowcase"),
         )
 
     rrd_db = "nightly_builds.rrd"
@@ -396,7 +396,7 @@ def graph(args, opts):
     DEF:portal=nightly_builds.rrd:portal:AVERAGE \
     CDEF:mportal=portal,60,/ LINE2:mportal#00FFFF:Widgetbrowser  \
     DEF:inspector=nightly_builds.rrd:inspector:AVERAGE \
-    CDEF:minspector=inspector,60,/ LINE2:minspector#FF9933:Inspector \
+    CDEF:minspector=inspector,60,/ LINE2:minspector#FF9933:MobileShowcase \
     DEF:demobrowser=nightly_builds.rrd:demobrowser:AVERAGE \
     CDEF:mdemobrowser=demobrowser,60,/ LINE2:mdemobrowser#00FF00:Demobrowser \
     '''
