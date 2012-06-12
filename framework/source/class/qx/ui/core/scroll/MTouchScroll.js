@@ -50,6 +50,9 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
   {
     __momentum : false,
     __preventNextTouchEndEvent : false,
+    __impulseTimerId : null,
+    __old : null,
+    
     
     
     /** 
