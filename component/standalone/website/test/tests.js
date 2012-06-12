@@ -2139,6 +2139,7 @@ testrunner.define({
 
   testGetSetDel : function()
   {
+    this.require(["http"]);
     var key1 = "q.test.cookie.Gorilla";
     var key2 = "q.test.cookie.Chimp";
 
