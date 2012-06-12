@@ -234,10 +234,14 @@ qx.Bootstrap.define("qx.bom.element.Transform",
     getPerspectiveOrigin : function(el) {
       if (this.__cssKeys != null) {
         var value = el.style[this.__cssKeys["perspective-origin"]];
-        var valueX = el.style[this.__cssKeys["perspective-origin"] + "X"];
-        var valueY = el.style[this.__cssKeys["perspective-origin"] + "Y"];
-        if (value == "" && valueX != "") {
-          return valueX + " " + valueY;
+        if (value != "") {
+          return value;
+        } else {
+          var valueX = el.style[this.__cssKeys["perspective-origin"] + "X"];
+          var valueY = el.style[this.__cssKeys["perspective-origin"] + "Y"];
+          if (valueX != "") {
+            return valueX + " " + valueY;
+          }
         }
       }
       return "";

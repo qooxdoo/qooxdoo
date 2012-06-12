@@ -396,7 +396,6 @@ qx.Bootstrap.define("qx.application.Routing", {
      */
     dispose : function() {
       this.__navigationHandler.removeListener("changeState", this.__onChangeHash, this);
-      this.__messaging.dispose();
     }
   }
 });
