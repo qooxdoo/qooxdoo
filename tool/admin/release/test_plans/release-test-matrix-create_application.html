@@ -1082,13 +1082,11 @@ running <em>python -m CGIHTTPServer</em> </li>
       <li>Edit the config.json file of the application.
         <ul>
           <li>Add the following job configuration:
-            <pre>    "simulation-run" :<br>    {<br>      "let" :<br>      {<br>        "SIMULATOR_CLASSPATH" : [ "/home/affe/workspace/simulator/selenium-java-client-driver.jar",<br>                                  "/home/affe/workspace/simulator/js.jar" ]<br>      },<br>      <br>      "environment" :<br>      {<br>        "simulator.selServer" : "localhost",<br>        "simulator.selPort" : 4444,<br>        "simulator.testBrowser" : "*firefox3",<br>        "simulator.autHost" : "http://localhost",<br>        "simulator.autPath" : "/home/affe/workspace/myapplication/build/index.html"<br>      }<br>    }<br>          </pre>
+            <pre>    "simulation-run" :<br>    {<br>      "let" :<br>      {<br>        "SIMULATOR_CLASSPATH" : [ "/home/affe/workspace/simulator/selenium-java-client-driver.jar",<br>                                  "/home/affe/workspace/simulator/js.jar" ]<br>      },<br>      <br>      "environment" :<br>      {<br>        "simulator.selServer" : "localhost",<br>        "simulator.selPort" : 4444,<br>        "simulator.testBrowser" : "*firefox",<br>        "simulator.autHost" : "http://localhost",<br>        "simulator.autPath" : "/home/affe/workspace/myapplication/build/index.html"<br>      }<br>    }<br>          </pre>
           </li>
           <li>Use the file system path of the directory where you
 downloaded the files earlier for the two entries in <em>SIMULATOR_CLASSPATH</em>
           </li>
-          <li>If the browser could not be located, add the direct path
-behind *firefox3 seperated by a space. </li>
           <li>Replace the value of <em>simulator.autPath</em> with the
 web server path of your application</li>
         </ul>
@@ -1103,6 +1101,7 @@ and note any warnings (see [a])</li>
           </li>
           <li>Two Firefox windows should open and the test should run.
 The Generator's shell output should list two tests as passed.</li>
+          <li>If the browser could not be located, add the direct path behind *firefox seperated by a space. </li>
         </ul>
       </li>
     </ul>
