@@ -1,0 +1,4 @@
+/**
+ * qx.test.application package
+ *
+ */

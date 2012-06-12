@@ -283,7 +283,12 @@ distclean:
 			(( cd $$F && $(CMD_GENERATOR) distclean ) || ( echo "Unable to distclean $$F"; exit 1 )); \
 		fi; \
 	done
-	@for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
+	@for APPLICATION in $(COMPONENTS); do \
+		F="component/$$APPLICATION"; \
+		if [ -e $$F ]; then \
+			(( cd $$F && $(CMD_GENERATOR) distclean ) || ( echo "Unable to distclean $$f"; exit 1 )); \
+		fi; \
+	done
 	@cd framework && $(CMD_GENERATOR) distclean
 	@$(CMD_REMOVE) application/*.zip
 	@$(CMD_REMOVE) release

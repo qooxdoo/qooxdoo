@@ -1,0 +1,4 @@
+/**
+ * qooxdoo framework root package
+ *
+ */
