@@ -90,7 +90,6 @@ qx.Class.define("feedreader.MobileApplication",
       // user feeds
       var userFeeds = feedFolder.getFeeds().getItem(1).getFeeds();
       for (i = 0; i < userFeeds.length; i++) {
-        var userFeed = userFeeds.getItem(i);
         staticFeed.addListener("stateModified", this.__onStateChanged, this);
       }
     },
