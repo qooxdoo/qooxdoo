@@ -56,7 +56,7 @@ function adjustVersionStrings(){
 function minitests(columns) {
   var slice = Array.prototype.slice;
   var minis = [];
-  slice.call(document.querySelectorAll("tr.full"), 0).forEach(function(tr) {
+  slice.call(document.querySelectorAll("tr:not(.mini)"), 0).forEach(function(tr) {
     columns.forEach(function(column) {
       minis.push(tr.querySelector("td:nth-child(" + column + ")"));
     });
