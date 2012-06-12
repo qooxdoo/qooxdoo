@@ -373,7 +373,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         shadowColor : "shadow",
         shadowBlurRadius : 2,
         shadowLength : 1,
-        insets: [-2, 0, 0, -2]
+        insets: [2, 0, 0, 2]
       }
     },
 
@@ -382,7 +382,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       include : "tooltip-error-css",
 
       style : {
-        insets : [1, 0, 0, 2]
+        insets : [-1, 0, 0, -2]
       }
     },
 
