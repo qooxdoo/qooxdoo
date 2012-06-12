@@ -43,8 +43,9 @@ qx.Class.define("qx.ui.core.queue.Widget",
 
     /**
      * Clears given job of a widget from the internal queue. If no jobs left, the
-     * widget will be removed completely from queue. Normally only used
-     * during interims disposes of one or a few widgets.
+     * widget will be removed completely from queue. If job param is <code>null</code> 
+     * or <code>undefined</code> widget will be removed completely from queue. 
+     * Normally only used during interims disposes of one or a few widgets.
      *
      * @param widget {qx.ui.core.Widget} The widget to clear
      * @param job {String?} Job identifier. If not used, it will be converted to
@@ -59,6 +60,13 @@ qx.Class.define("qx.ui.core.queue.Widget",
       }
 
       var hash = widget.$$hash;
+      
+      // remove widget and all corresponding jobs, if job param is not given.
+      if(job == null) {
+      	 qx.lang.Array.remove(queue, widget);
+      	 delete this.__jobs[hash];
+      	 return;
+      }
 
       if (this.__jobs[hash])
       {
