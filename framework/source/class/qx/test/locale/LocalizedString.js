@@ -20,23 +20,16 @@
 qx.Class.define("qx.test.locale.LocalizedString",
 {
   extend : qx.dev.unit.TestCase,
-  include : qx.locale.MTranslation,
+  include : [qx.locale.MTranslation, qx.dev.unit.MRequirements],
 
   members :
   {
-    setUp : function() {
-    },
-
-
-    tearDown : function() {
-    },
-
-
-    testTranslation : function()
-    {
-      var ls  = new qx.locale.LocalizedString("foo");
-      var ls1 = ls.translate();
+    testTranslation : function() {
+      this.require(["qx.debug"]);
+      this.assertException(function() {
+        var ls  = new qx.locale.LocalizedString("foo", "id", "xyz");
+        ls.translate();
+      });
     }
-
   }
 });
