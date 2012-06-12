@@ -78,6 +78,7 @@ RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 APPLICATIONS = todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor demobrowser
 COMPONENTS = apiviewer testrunner inspector storage server website
 FRAMEWORK_TARGETS = api test
+TUTORIALS = mobiletweets twitter website
 
 
 ################################################################################
@@ -344,6 +345,19 @@ source-apps:
 source-components:
 	@time for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; done
 
+
+################################################################################
+# TUTORIAL TARGETS
+################################################################################
+
+build-tutorials:
+	@for TUTORIAL in $(TUTORIALS); do \
+		echo $$TUTORIAL; \
+		for STEP in $(shell find component/tutorials/$$TUTORIAL -type d -depth 1); do \
+			F=component/$$TUTORIAL/$$STEP; \
+			echo $$STEP; \
+		done; \
+	done;
 
 ################################################################################
 # DOCUMENTATION TARGETS
