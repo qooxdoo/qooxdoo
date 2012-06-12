@@ -2,4 +2,3 @@
 .gitignore export-ignore
 .gitkeep export-ignore
 /.svnauthors.txt export-ignore
-/application/github/ export-ignore
