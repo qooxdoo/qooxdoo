@@ -27,12 +27,12 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
 {
   extend : qx.ui.mobile.container.Composite,
 
+
  /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
-
   construct : function(layout)
   {
     this.base(arguments, layout);
@@ -44,11 +44,9 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
   },
 
 
-
-
- /*
+  /*
   *****************************************************************************
-     PROPERTIES
+      PROPERTIES
   *****************************************************************************
   */
 
@@ -66,17 +64,17 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
   {
 
     /**
-     *
-     * Flag to keep the show/hidden state of the toolbar
-     */
+      * Flag to keep the show/hidden state of the toolbar
+      */
     __hidden: false,
 
+
     /**
-     * Adds a new child widget.
-     *
-     * @param child {Widget} the widget to add.
-     * @param layoutProperties {Map?null} Optional layout data for widget.
-     */
+      * Adds a new child widget.
+      *
+      * @param child {Widget} the widget to add.
+      * @param layoutProperties {Map?null} Optional layout data for widget.
+      */
     add : function(child, layoutProperties)
     {
       if(!(child instanceof qx.ui.mobile.toolbar.Separator))

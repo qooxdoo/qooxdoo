@@ -92,10 +92,12 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
 
     _form : null,
 
+
     // interface implementation
     addItems : function(items, names, title) {
       throw new Error("Abstract method call");
     },
+
 
     // interface implementation
     addButton : function(button) {
