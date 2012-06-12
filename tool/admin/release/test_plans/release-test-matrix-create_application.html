@@ -1085,7 +1085,7 @@ running <em>python -m CGIHTTPServer</em> </li>
             <pre>    "simulation-run" :<br>    {<br>      "let" :<br>      {<br>        "SIMULATOR_CLASSPATH" : [ "/home/affe/workspace/simulator/selenium-java-client-driver.jar",<br>                                  "/home/affe/workspace/simulator/js.jar" ]<br>      },<br>      <br>      "environment" :<br>      {<br>        "simulator.selServer" : "localhost",<br>        "simulator.selPort" : 4444,<br>        "simulator.testBrowser" : "*firefox",<br>        "simulator.autHost" : "http://localhost",<br>        "simulator.autPath" : "/home/affe/workspace/myapplication/build/index.html"<br>      }<br>    }<br>          </pre>
           </li>
           <li>Use the file system path of the directory where you
-downloaded the files earlier for the two entries in <em>SIMULATOR_CLASSPATH</em>
+downloaded the files earlier for the two entries in <em>SIMULATOR_CLASSPATH</em>. Use <strong>forward slashes</strong> as path separators, even on Windows.
           </li>
           <li>Replace the value of <em>simulator.autPath</em> with the
 web server path of your application</li>
