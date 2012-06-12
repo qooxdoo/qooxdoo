@@ -196,13 +196,13 @@
 .box-inset-shadow() {
   -moz-box-shadow: inset @arguments;
   -webkit-box-shadow: inset @arguments;
-  box-shadow: inner @arguments;
+  box-shadow: inset @arguments;
 }
 
 .box-inset-multi-shadow(@arg1, @arg2) {
   -moz-box-shadow: inset @arg1, inset @arg2;
   -webkit-box-shadow: inset @arg1, inset @arg2;
-  box-shadow: inner @arg1, inset @arg2;
+  box-shadow: inset @arg1, inset @arg2;
 }
 
 .background-clip() {
