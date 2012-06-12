@@ -131,9 +131,8 @@ release-sdk-svn-collect:
 	@# libs
 	@for COMPONENT in `echo server website`; do \
 		$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/* $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
-		if [ "$$COMPONENT" == "website"]; then \
-			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/api/*
-			$(RELEASE_SDK)/component/standalone/$$COMPONENT/api; \
+		if [ "$$COMPONENT" == "website" ]; then \
+			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/api/* $(RELEASE_SDK)/component/standalone/$$COMPONENT/api; \
 		fi; \
 	done
 
