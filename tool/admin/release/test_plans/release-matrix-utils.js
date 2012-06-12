@@ -49,6 +49,10 @@ function adjustVersionStrings(){
   }
 }
 
+/*
+ * Go through table rows with class="full" and set the corresponding <columns>
+ * to "N/A" (these tests are skipped in mini-tests)
+ */
 function minitests(columns) {
   var slice = Array.prototype.slice;
   var minis = [];
