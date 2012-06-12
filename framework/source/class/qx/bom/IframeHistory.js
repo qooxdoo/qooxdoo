@@ -20,8 +20,6 @@
 
 ************************************************************************ */
 
-if ((qx.core.Environment.get("engine.name") == "mshtml")) {
-
 /**
  * Implements an iFrame based history manager for IE 6/7/8.
  *
@@ -325,5 +323,3 @@ qx.Class.define("qx.bom.IframeHistory",
     qx.event.Idle.getInstance().removeListener("interval", this.__onHashChange, this);
   }
 });
-
-} // variant select
