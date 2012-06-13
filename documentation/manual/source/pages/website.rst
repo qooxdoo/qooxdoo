@@ -39,7 +39,6 @@ Referring to the qx.bom API
    :maxdepth: 1
 
    website/tech_website_apis
-   website/fromjquery
    website/storage
    website/css3animation
    website/back-button_and_bookmark_support
