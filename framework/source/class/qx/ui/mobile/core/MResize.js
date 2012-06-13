@@ -35,6 +35,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
   {
     // Initial size hint
     qx.event.Registration.addListener(window, "orientationchange", this.fixSize, this);
+    qx.event.Registration.addListener(window, "resize", this.fixSize, this);
     qx.event.Registration.addListener(this, "appear", this._onAppear, this);
     
     this.addListener("domupdated", this.fixSize, this);
