@@ -73,8 +73,10 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
      */
     _onTouchStart : function(e) 
     {
-      clearTimeout(this.__impulseTimerId.x);
-      clearTimeout(this.__impulseTimerId.y);
+      if(this.__impulseTimerId) {
+        clearTimeout(this.__impulseTimerId.x);
+        clearTimeout(this.__impulseTimerId.y);
+      }
       
       this.__old = {"x": 0, "y": 0};
       if  (this.__momentum){
@@ -130,12 +132,15 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
       var show = this._isChildControlVisible("scrollbar-" + dir);
 
       if (show && scrollbar) {
+        var delta = null;
+
         // get the delta for the current direction
         if(this.__old[dir] == 0) {
-          var delta = 0;
+          delta = 0;
         } else {
-          var delta = -(e["getDocument" + docDir]() - this.__old[dir]);
-        };
+          delta = -(e["getDocument" + docDir]() - this.__old[dir]);
+        }
+        
         // save the old value for the current direction
         this.__old[dir] = e["getDocument" + docDir]();
 
