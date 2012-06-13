@@ -350,14 +350,27 @@ source-components:
 # TUTORIAL TARGETS
 ################################################################################
 
-build-tutorials:
-	@for TUTORIAL in $(TUTORIALS); do \
-		echo $$TUTORIAL; \
-		for STEP in $(shell find component/tutorials/$$TUTORIAL -type d -depth 1); do \
-			F=component/$$TUTORIAL/$$STEP; \
-			echo $$STEP; \
+tutorials-build:
+	@paths=""; for TUTORIAL in $(TUTORIALS); do \
+		TUTDIR="component/tutorials/$$TUTORIAL"; \
+		for STEP in `ls $$TUTDIR`; do \
+			F="$$TUTDIR/$$STEP"; \
+			if [ -d $$F ]; then \
+				paths="$$paths $$TUTORIAL/$$STEP"; \
+				if [ "$$TUTORIAL" = "website" ]; then \
+					cp component/standalone/website/script/q.min.js $$F; \
+				else \
+					( cd $$F && $(CMD_GENERATOR) build ) || exit 1; \
+				fi; \
+			fi; \
 		done; \
-	done;
+	done; \
+	echo '<html><body><ul>' > component/tutorials/index.html; \
+	for path in $$paths; do \
+		echo "<li><a href=\"$$path\">$$path</a></li>" >> component/tutorials/index.html; \
+	done; \
+	echo '</ul></body></html>' >> component/tutorials/index.html;
+
 
 ################################################################################
 # DOCUMENTATION TARGETS
@@ -397,7 +410,7 @@ check-docs-pdf:
 # PUBLISH TARGETS
 ################################################################################
 
-publish-build: build-apps publish-build-components build-framework build-docs
+publish-build: build-apps publish-build-components tutorials-build build-framework build-docs
 
 publish-build-components: 
 	@( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
