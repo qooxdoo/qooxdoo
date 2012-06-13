@@ -299,24 +299,34 @@ div.checked .toggleButtonSwitch:before {
 // CHECKBOX
 //
 
-// Webkit only, see BUG #5982
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  input[type="checkbox"] {
-    .border-radius(.3em);
-    border:@border-thickness solid @dark-grey;
-    background-color: #929292;
-    background: url(../icon/common/checkbox-gray.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
-    background: url(../icon/common/checkbox-gray.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-    background: url(../icon/common/checkbox-gray.png) 50% 50% no-repeat, -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-    background: url(../icon/common/checkbox-gray.png) 50% 50% no-repeat, linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-  }
+input[type="checkbox"] + label {
+  position:relative;
+  .border-radius(.3em);
+  border:@border-thickness solid @dark-grey;
+  background-color: #929292;
+  background: -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
+  background: -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+}
 
-  input[type="checkbox"]:checked {
-    background: url(../icon/common/checkbox-green.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
-    background: url(../icon/common/checkbox-green.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-    background: url(../icon/common/checkbox-green.png) 50% 50% no-repeat, -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-    background: url(../icon/common/checkbox-green.png) 50% 50% no-repeat, linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-  }
+input[type="checkbox"] + label:after {
+    opacity: 0;
+    content: '';
+    position: absolute;
+    width: 17px;
+    height: 9px;
+    background: transparent;
+    top: 5px;
+    left: 4px;
+    border: 5px solid @dark-blue;
+    border-top: none;
+    border-right: none;
+    .transform(rotate(-45deg));
+}
+
+input[type="checkbox"]:checked + label:after {
+    opacity: 1;
 }
 
 // 
@@ -389,4 +399,12 @@ div.checked .toggleButtonSwitch:before {
 
 .selectbox:active {
   .clickable-active();
+}
+
+.selectbox-selected > div > .list-itemlabel:after {
+  border-color:@dark-blue;
+}
+
+.selectbox-selected.active > div > .list-itemlabel:after {
+  border-color:white;
 }

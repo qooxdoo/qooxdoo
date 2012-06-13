@@ -26,12 +26,21 @@
 }
 
 .selectbox-selected > div > .list-itemlabel {
-  background-image:url(../icon/common/checkbox-green.png);
-  background-repeat:no-repeat;
-  background-position: right;
-
-  padding-top:3px;
+  position:relative;
   text-indent:4px;
+}
+
+.selectbox-selected > div > .list-itemlabel:after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 8px;
+  background: transparent;
+  right: 4px;
+  border: 4px solid black;
+  border-top: none;
+  border-right: none;
+  .transform(rotate(-45deg));
 }
 
 .selectbox-unselected > div > .list-itemlabel {

@@ -281,29 +281,23 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 // CHECKBOX
 //
 
-// Mozilla only
-input[type="checkbox"]:checked {
-    background: -moz-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
-}
-
-input[type="checkbox"]{
+input[type="checkbox"] + label {
     #gradient > .vertical(#fefefe, #cecece);
     .border-radius(.5em);
     border: 2px solid #4c4c4c;
 }
 
-.disabled input[type="checkbox"]:disabled {
+.disabled input[type="checkbox"]:disabled + label {
     #gradient > .vertical(#ffffff, #ebebeb);
     border: 2px solid #b8b8b8; 
 }
 
 // Webkit only, see BUG #5982: only webkit can style checkboxes.
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  input[type="checkbox"]:checked {
-    background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
-    background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
-    background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, linear-gradient(to bottom, #353535, #8f8f8f) 0px 0px no-repeat;
-  }
+input[type="checkbox"]:checked + label {
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -moz-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, linear-gradient(to bottom, #353535, #8f8f8f) 0px 0px no-repeat;
 }
 
 
@@ -433,20 +427,25 @@ div.checked .toggleButtonSwitch:before {
   .button.active();
 }
 
+//
+// SELECTBOX MENU DIALOG
+//
+
 .selectbox-selected > div > .list-itemlabel {
   color:@selection-foreground-color;
-  background-image:url(../icon/ios/selectbox-check.png);
-  background-repeat:no-repeat;
-  background-position: right -2px; 
+}
 
-  &:hover {
-    color:white;
-  }
+.selectbox-selected > div > .list-itemlabel:after {
+  border-color:@selection-foreground-color;
+
+}
+
+.selectbox-selected.active > div > .list-itemlabel:after {
+  border-color:white;
 }
 
 .selectbox-selected.active > div > .list-itemlabel {
   color:white;
-  background-image:url(../icon/ios/selectbox-check-grey.png);
 }
 
 //

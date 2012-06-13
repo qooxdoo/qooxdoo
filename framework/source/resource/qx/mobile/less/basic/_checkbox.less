@@ -4,10 +4,15 @@
 
 @checkbox-size:30px;
 
-input[type="checkbox"]{
+input[type="checkbox"] {
+  visibility: hidden;
+  position:absolute;
+}
+
+.checkbox-label {
+  display:inline-block;
   cursor:pointer;
-  width: @checkbox-size;
-  height: @checkbox-size;
-  .appearance(none);
+  width:@checkbox-size;
+  height:@checkbox-size;
 }
 
