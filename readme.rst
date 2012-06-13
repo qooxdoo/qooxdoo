@@ -11,10 +11,10 @@ You leverage its integrated tool chain to develop and deploy
 applications of any scale, while taking advantage of modern web 
 technologies like HTML5 and CSS3, its comprehensive feature set and a 
 state-of-the-art GUI toolkit. qooxdoo is open source under liberal 
-licenses, led by the world's largest web host 1&1, with a vibrant 
+licenses, led by one of world's largest web host 1&1, with a vibrant 
 community.
 
-For more information please see http://qooxdoo.org/about
+For more information please see http://qooxdoo.org
 
 
 License
@@ -61,16 +61,16 @@ Learn more
 ==========
 
 * About qooxdoo
-  http://qooxdoo.org/about
+  http://qooxdoo.org
 
 * Online Demos
   http://demo.qooxdoo.org
 
-* Release notes
-  http://qooxdoo.org/about/release_notes
+* Release Notes
+  http://qooxdoo.org/about/release_notes/1.6.1
 
-* User manual
+* User Manual
   http://manual.qooxdoo.org/1.6.1
 
-* API documentation
-  http://api.qooxdoo.org
+* API Documentation
+  http://api.qooxdoo.org/1.6.1
