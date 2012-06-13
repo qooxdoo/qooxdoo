@@ -79,7 +79,7 @@ qx.Bootstrap.define("q", {
     $attachStatic : function(module) {
       for (var name in module) {
         if (qx.core.Environment.get("qx.debug")) {
-          if (q.prototype[name] != undefined) {
+          if (q[name] != undefined) {
             throw new Error("Method '" + name + "' already available as static method.");
           }
         }
