@@ -14,7 +14,6 @@
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
       "block"   : 
       [ 
-        "common",
         "source",
         "source-script",
         "build",

@@ -236,7 +236,7 @@
         "exclude" : "${TEST_EXCLUDE}"  
       },
 
-      "extend"    : [ "libraries" ],
+      "extend"    : [ "common" ],
 
       "let" :
       {
@@ -254,7 +254,7 @@
         }
       ],
 
-      "include" : ["testrunner.TestLoader", "${TEST_INCLUDE}", "${QXTHEME}"],
+      "=include" : ["testrunner.TestLoader", "${TEST_INCLUDE}", "${QXTHEME}"],
       
       "exclude" : ["${TEST_EXCLUDE}"],
 
@@ -263,7 +263,8 @@
         "qx.theme" : "${QXTHEME}",
         "qx.globalErrorHandling" : true,
         "testrunner.testParts" : false,
-        "qx.allowUrlSettings" : true
+        "qx.allowUrlSettings" : true,
+        "qx.application" : "testrunner.TestLoader"
       },
 
       "cache" :
