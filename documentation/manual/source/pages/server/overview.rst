@@ -69,7 +69,15 @@ The following example shows how to use the *%{qooxdoo} %{Server}* package in a n
   dog.bark();
 
 
-The only line which is specific to the server environment is the first one, where you include the %{qooxdoo} package. The rest of the code is plain %{qooxdoo}-style %{JS} which can be run in a browser, too. For more on that take a look at the documentation about :doc:`Object Orientation </pages/core/oo_introduction>`.
+Only two lines in this example are specific to the server environment: The first one, where you include the %{qooxdoo} package and the implementation of the ``bark`` function, which uses node's ``console`` object. To run the example in Rhino, simply change the first line to something like this:
+
+ ::
+ 
+   load(["path/to/qx-oo.js"]);
+
+and replace ``console.log`` with ``print``.
+
+The rest of the code is plain %{qooxdoo}-style %{JS} which can be run in a browser, too. For more information on that topic, take a look at the documentation about :doc:`Object Orientation </pages/core/oo_introduction>`.
 
 
 .. _pages/server/overview#additional_scenarios:
