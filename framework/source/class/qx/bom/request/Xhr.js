@@ -246,7 +246,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // IE < 9 tends to cache overly agressive. This may result in stale
       // representations. Force validating freshness of cached representation.
       if (qx.core.Environment.get("engine.name") === "mshtml" &&
-        qx.core.Environment.get("engine.version") < 9 &&
+        qx.core.Environment.get("browser.documentmode") < 9 &&
         this.__nativeXhr.readyState > 0) {
           this.__nativeXhr.setRequestHeader("If-Modified-Since", "-1");
         }
@@ -768,7 +768,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // BUGFIX: IE
       // IE < 8 fires LOADING and DONE on open() - before send() - when from cache
       if (qx.core.Environment.get("engine.name") == "mshtml" &&
-          qx.core.Environment.get("engine.version") < 8) {
+          qx.core.Environment.get("browser.documentmode") < 8) {
 
         // Detect premature events when async. LOADING and DONE is
         // illogical to happen before request was sent.

@@ -404,7 +404,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       // When handling "readystatechange" event, skip if readyState
       // does not signal loaded script
       if (qx.core.Environment.get("engine.name") === "mshtml" &&
-          qx.core.Environment.get("engine.version") < 9) {
+          qx.core.Environment.get("browser.documentmode") < 9) {
         if (!(/loaded|complete/).test(script.readyState)) {
           return;
         } else {
@@ -563,7 +563,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
      */
     __supportsErrorHandler: function() {
       var isLegacyIe = qx.core.Environment.get("engine.name") === "mshtml" &&
-        qx.core.Environment.get("engine.version") < 9;
+        qx.core.Environment.get("browser.documentmode") < 9;
 
       var isOpera = qx.core.Environment.get("engine.name") === "opera";
 
@@ -586,7 +586,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       // Legacy IEs do not fire the "load" event for script elements.
       // Instead, they support the "readystatechange" event
       if (qx.core.Environment.get("engine.name") === "mshtml" &&
-          qx.core.Environment.get("engine.version") < 9) {
+          qx.core.Environment.get("browser.documentmode") < 9) {
         script.onreadystatechange = this.__onNativeLoadBound;
       }
 
