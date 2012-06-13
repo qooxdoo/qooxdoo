@@ -588,12 +588,12 @@ qx.Class.define("qx.test.bom.request.Script",
 
     isIeBelow: function(version) {
       return qx.core.Environment.get("engine.name") === "mshtml" &&
-             qx.core.Environment.get("engine.version") < version;
+             qx.core.Environment.get("browser.documentmode") < version;
     },
 
     supportsErrorHandler: function() {
       var isLegacyIe = qx.core.Environment.get("engine.name") === "mshtml" &&
-        qx.core.Environment.get("engine.version") < 9;
+        qx.core.Environment.get("browser.documentmode") < 9;
 
       var isOpera = qx.core.Environment.get("engine.name") === "opera";
 

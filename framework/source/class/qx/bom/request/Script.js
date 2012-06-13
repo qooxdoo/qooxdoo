@@ -62,7 +62,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
     this.__headElement = document.head || document.getElementsByTagName( "head" )[0] ||
                          document.documentElement;
 
-   this._emitter = new qx.event.Emitter();
+    this._emitter = new qx.event.Emitter();
 
     // BUGFIX: Browsers not supporting error handler
     // Set default timeout to capture network errors
@@ -466,7 +466,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       // When handling "readystatechange" event, skip if readyState
       // does not signal loaded script
       if (this.__environmentGet("engine.name") === "mshtml" &&
-          this.__environmentGet("engine.version") < 9) {
+          this.__environmentGet("browser.documentmode") < 9) {
         if (!(/loaded|complete/).test(script.readyState)) {
           return;
         } else {
@@ -625,7 +625,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
      */
     __supportsErrorHandler: function() {
       var isLegacyIe = this.__environmentGet("engine.name") === "mshtml" &&
-        this.__environmentGet("engine.version") < 9;
+        this.__environmentGet("browser.documentmode") < 9;
 
       var isOpera = this.__environmentGet("engine.name") === "opera";
 
@@ -648,7 +648,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       // Legacy IEs do not fire the "load" event for script elements.
       // Instead, they support the "readystatechange" event
       if (this.__environmentGet("engine.name") === "mshtml" &&
-          this.__environmentGet("engine.version") < 9) {
+          this.__environmentGet("browser.documentmode") < 9) {
         script.onreadystatechange = this.__onNativeLoadBound;
       }
 
@@ -679,8 +679,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
           return qx.bom.client.Engine.getName();
         }
 
-        if (key === "engine.version") {
-          return qx.bom.client.Engine.getVersion();
+        if (key === "browser.documentmode") {
+          return qx.bom.client.Browser.getDocumentMode();
         }
 
         if (key == "qx.debug.io") {
