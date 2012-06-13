@@ -358,7 +358,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      */
     addAfterNavigationBar : function(widget) {
       if(widget && this.__scrollContainer) {
-        this.addBefore(widget,this.__scrollContainer);
+        this.addBefore(widget, this.__scrollContainer);
       }
     },
 

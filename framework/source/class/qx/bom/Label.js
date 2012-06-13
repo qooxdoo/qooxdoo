@@ -302,7 +302,7 @@ qx.Bootstrap.define("qx.bom.Label",
         qx.core.Environment.get("html.xul"))
       {
         element.firstChild.setAttribute("value", text);
-      } else {
+      } else { 
         qx.bom.element.Attribute.set(element, "text", text);
       }
 
