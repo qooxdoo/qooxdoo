@@ -146,7 +146,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      */
     __normalizeKeyFrames : function(keyFrames, el) {
       // collect all possible keys and its units
-      var units = [];
+      var units = {};
       for (var percent in keyFrames) {
         for (var name in keyFrames[percent]) {
           if (units[name] == undefined) {
