@@ -8,11 +8,3 @@
    server/overview
    server/requirements
    server/requirejs
-
-Tutorials
-=========
-
-.. toctree::
-   :maxdepth: 1
-
-   server/tutorial
