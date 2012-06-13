@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The Slider widget provides horizontal slider.
  *
  * The Slider is the classic widget for controlling a bounded value.

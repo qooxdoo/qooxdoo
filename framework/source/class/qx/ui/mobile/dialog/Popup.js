@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The popup represents a widget that gets shown above other widgets,
  * usually to present more info/details regarding an item in the application.
  *

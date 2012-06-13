@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * SinglePlaceholder is a class used to render forms into a mobile page.
  * It presents a label into the placeholder of the form elements
  *

@@ -19,8 +19,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * A toggle Button widget
  *
  * If the user tap the button, the button toggles between the <code>ON</code>

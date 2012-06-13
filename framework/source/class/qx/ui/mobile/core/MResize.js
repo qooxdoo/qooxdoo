@@ -19,8 +19,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
  * This mixin resizes the container element to the height of the parent element.
  * Use this when the height can not be set by CSS.
  *

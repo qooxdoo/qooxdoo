@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Base class for all box layout managers.
  */
 qx.Class.define("qx.ui.mobile.layout.AbstractBox",

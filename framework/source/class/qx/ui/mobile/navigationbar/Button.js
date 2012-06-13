@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * A navigation bar button widget.
  */
 qx.Class.define("qx.ui.mobile.navigationbar.Button",

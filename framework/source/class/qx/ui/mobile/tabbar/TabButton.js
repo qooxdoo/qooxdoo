@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * A tab button widget.
  *
  * A tab button can be added to the tab bar and is associated with a

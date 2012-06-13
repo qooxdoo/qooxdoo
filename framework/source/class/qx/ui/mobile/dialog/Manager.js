@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Very basic dialog manager. Displays a native alert or confirm dialog if
  * the application is running in a PhoneGap environment. For debugging in a browser
  * it displays the browser <code>alert</code> or <code>confirm</code> dialog. In the near

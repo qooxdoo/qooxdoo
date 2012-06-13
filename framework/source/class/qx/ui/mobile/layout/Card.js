@@ -24,8 +24,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * A card layout.
  *
  * The card layout lays out widgets in a stack. Call show to display a widget. 

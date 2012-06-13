@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * This mixin exposes all basic methods to manage widget children as public methods.
  * It can only be included into instances of {@link Widget}.
  *

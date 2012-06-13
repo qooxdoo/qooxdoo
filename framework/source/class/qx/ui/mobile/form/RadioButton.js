@@ -19,8 +19,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The Radio button for mobile.
  *
  * *Example*

@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * A page is a widget which provides a screen with which users
  * can interact in order to do something. Most times a page provides a single task
  * or a group of related tasks.
@@ -34,7 +32,7 @@
  * To navigate between two pages, just call the {@link #show} method of the page
  * that should be shown. Depending on the used page manager a page transition will be animated. 
  * There are several animations available. Have
- * a look at the {@link qx.ui.mobile.page.manager.Animation} manager for more information.
+ * a look at the {@link qx.ui.mobile.page.Manager} manager or {@link qx.ui.mobile.layout.Card} card layout for more information.
  *
  * A page has predefined lifecycle methods that get called by the used page manager
  * when a page gets shown. Each time another page is requested to be shown the currently shown page

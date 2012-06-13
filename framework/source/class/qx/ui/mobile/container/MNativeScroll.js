@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Mixin for the {@link Scroll} container. Used when the variant
  * <code>qx.mobile.nativescroll</code> is set to "on".
  */

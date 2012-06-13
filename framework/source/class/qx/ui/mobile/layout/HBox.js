@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * A horizontal box layout.
  *
  * The horizontal box layout lays out widgets in a horizontal row, from left

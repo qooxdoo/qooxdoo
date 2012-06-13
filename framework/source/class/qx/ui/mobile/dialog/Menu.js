@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * This widget displays a menu. A dialog menu extends a dialog and contains a 
  * list, which provides the user the possibility to select one value.
  * The selected value is identified through selected index.

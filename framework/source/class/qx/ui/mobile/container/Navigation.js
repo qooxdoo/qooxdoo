@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The navigation controller includes already a {@link qx.ui.mobile.navigationbar.NavigationBar}
  * and a {@link qx.ui.mobile.container.Composite} container with a {@link qx.ui.mobile.layout.Card} layout.
  * All widgets that implement the {@link qx.ui.mobile.container.INavigation} 

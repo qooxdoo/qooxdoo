@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The Checkbox is the mobile correspondent of the html checkbox.
  *
  * *Example*

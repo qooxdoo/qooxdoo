@@ -19,8 +19,6 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Root widget for the mobile application.
  */
 qx.Class.define("qx.ui.mobile.core.Root",

@@ -19,8 +19,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The SelectBox
  *
  * an example, how to use the SelectBox:

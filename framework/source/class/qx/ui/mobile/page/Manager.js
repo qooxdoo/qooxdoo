@@ -19,8 +19,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
  * The page manager decides automatically whether the added pages should be 
  * displayed in a master/detail view (for tablet) or as a plain card layout (for
  * smartphones).

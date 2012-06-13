@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Specialized page. This page includes already a {@link qx.ui.mobile.navigationbar.NavigationBar}
  * and a {@link qx.ui.mobile.container.Scroll} container.
  *

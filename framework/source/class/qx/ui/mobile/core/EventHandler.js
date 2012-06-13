@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Connects the widgets to the browser DOM events.
  */
 qx.Class.define("qx.ui.mobile.core.EventHandler",

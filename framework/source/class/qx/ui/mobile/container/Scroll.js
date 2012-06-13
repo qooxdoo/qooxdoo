@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Container, which allows, depending on the set variant <code>qx.mobile.nativescroll</code>,
  * vertical and horizontal scrolling if the contents is larger than the container.
  *

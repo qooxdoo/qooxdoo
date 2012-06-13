@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The NumberField is a single-line number input field. It uses HTML5 input field type
  * "number".
  */

@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Very basic navigation manager. Still work in progress.
  *
  * Define routes to react on certain GET / POST / DELETE / PUT operations.

@@ -26,8 +26,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Mixin for the {@link Scroll} container. Used when the variant
  * <code>qx.mobile.nativescroll</code> is set to "off". Uses the iScroll script to simulate
  * the CSS position:fixed style. Position fixed is not available in iOS and

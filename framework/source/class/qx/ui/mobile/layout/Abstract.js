@@ -25,8 +25,6 @@
  */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Base class for all layout managers.
  *
  * Custom layout managers must derive from

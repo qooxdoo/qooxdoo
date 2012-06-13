@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * A vertical box layout.
  *
  * The vertical box layout lays out widgets in a vertical row, from top

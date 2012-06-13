@@ -19,8 +19,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * A multi-purpose widget, which combines a label with an icon.
  *
  * The intended purpose of qx.ui.mobile.basic.Atom is to easily align the common icon-text

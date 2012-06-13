@@ -24,8 +24,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * This is the base class for all mobile widgets.
  */
 qx.Class.define("qx.ui.mobile.core.Widget",

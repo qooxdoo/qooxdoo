@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The master/detail container divides an area into two panes, master and detail. The master
  * can be detached when the orientation of the device changes to portrait. 
  * This container can be used for tablet devices.
