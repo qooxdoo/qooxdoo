@@ -321,7 +321,10 @@ qx.Class.define("qx.bom.Font",
 
     // property apply
     _applyColor : function(value, old) {
-      this.__lookupMap.color = value == null ? null : value;
+      this.__lookupMap.color = null;
+      if (value) {
+        this.__lookupMap.color = qx.theme.manager.Color.getInstance().resolve(value);
+      }
     },
 
     // property apply
