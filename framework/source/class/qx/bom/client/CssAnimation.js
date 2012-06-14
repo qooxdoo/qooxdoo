@@ -88,7 +88,8 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
         "MsAnimation" : "MSAnimationEnd",
         "WebkitAnimation" : "webkitAnimationEnd",
         "MozAnimation" : "animationend",
-        "OAnimation" : "oAnimationEnd"
+        "OAnimation" : "oAnimationEnd",
+        "animation" : "animationend"
       }
 
       return mapping[this.getName()];
