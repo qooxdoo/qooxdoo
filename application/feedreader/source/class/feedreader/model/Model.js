@@ -100,11 +100,6 @@ qx.Class.define("feedreader.model.Model",
           "Surfin' Safari", "http://webkit.org/blog/feed/", "static"
         )
       );
-      staticFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
-          "FunctionSource","http://functionsource.com/feeds/entries", "static"
-        )
-      );
 
       // Add user feeds
       var userFeedFolder =
