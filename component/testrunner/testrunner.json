@@ -213,7 +213,8 @@
         "qx.testNameSpace" : "${TEST_NAMESPACE}",
         "testrunner.title" : "${APPLICATION}",
         "testrunner.testParts" : false,
-        "testrunner.reportServer" : "${REPORT_SERVER}"
+        "testrunner.reportServer" : "${REPORT_SERVER}",
+        "testrunner.performance" : false
       },
 
       "cache" :
