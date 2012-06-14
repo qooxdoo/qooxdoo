@@ -272,6 +272,7 @@ qx.Class.define("fce.view.FeatureSelector", {
     __importFeatureSet : function (ev) {
       var data = ev.getData();
       this._saveModifiedData();
+      this.__filterTextField.setValue("");
       this.getChildControl("list").removeAll();
       this.addFeatureSet(data);
       this._restoreModifiedData();
