@@ -727,6 +727,9 @@ qx.Class.define("apiviewer.dao.Class",
       {
         var mixinNode = apiviewer.dao.Class.getClassByName(mixins[mixinIndex]);
         mixinRecurser(mixinNode);
+        if (itemNode) {
+          break;
+        }
       }
       return itemNode;
     },
