@@ -46,7 +46,7 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : ["source", "build-resources", "build-script", "build-files"]
+    "job-shadowing" : ["source", "build-resources", "build-script", "build-files", "api"]
   },
 
   // You only need to edit the remainder of this file, if you want to customize
@@ -188,6 +188,14 @@
     "test-source" :
     {
       "extend" : ["test-basic-source"]
+    },
+
+    "api" :
+    {
+      "let" :
+      {
+        "API_EXCLUDE" : ["qx.test.*", "$${APPLICATION}.test.*"]
+      }
     }
   }
 }
