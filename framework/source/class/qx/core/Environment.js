@@ -36,7 +36,7 @@
  *
  * The following table shows the available checks. If you are
  * interested in more details, check the reference to the implementation of
- * each check. Please do not use those check implementations directly, as the 
+ * each check. Please do not use those check implementations directly, as the
  * Environment class comes with a smart caching feature.
  *
  * <table border="0" cellspacing="10">
@@ -645,7 +645,7 @@
  *     </tr>
  *     <tr>
  *       <td>qx.version</td><td><i>String</i></td><td><code>${qxversion}</code></td>
- *     </tr> 
+ *     </tr>
  *     <tr>
  *       <td>qx.blankpage</td><td><i>String</i></td><td><code>URI to blank.html page</code></td>
  *     </tr>

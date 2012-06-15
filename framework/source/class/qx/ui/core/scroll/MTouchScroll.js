@@ -25,21 +25,21 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
 {
   construct : function()
   {
-    
+
     // touch move listener for touch scrolling
     this.addListener("touchmove", this._onTouchMove, this);
 
     // reset the delta on every touch session
     this.addListener("touchstart", this._onTouchStart, this);
-    
+
     this.addListener("touchend", this._onTouchEnd, this, true);
-    
+
 
     this.__old = {};
     this.__impulseTimerId = {};
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -52,54 +52,54 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
     __preventNextTouchEndEvent : false,
     __impulseTimerId : null,
     __old : null,
-    
-    
-    
-    /** 
+
+
+
+    /**
      * Returns true if touch momentum is currently on progress.
-     * 
+     *
      * @return {Boolean} true if in momentum
      */
     inTouchMomentum : function()
     {
       return this.__momentum;
     },
-    
-    
+
+
     /**
      * Handler for <code>touchstart</code> event. Clears timers and flags.
-     * 
+     *
      * @param e {qx.event.type.Touch} the touch event
      */
-    _onTouchStart : function(e) 
+    _onTouchStart : function(e)
     {
       if(this.__impulseTimerId) {
         clearTimeout(this.__impulseTimerId.x);
         clearTimeout(this.__impulseTimerId.y);
       }
-      
+
       this.__old = {"x": 0, "y": 0};
       if  (this.__momentum){
         this.__preventNextTouchEndEvent = true;
-        this.__momentum = false;  
+        this.__momentum = false;
       }
     },
-    
-    
+
+
     /**
      * Handler for touchend event. Stops event propagation if needed.
-     * 
+     *
      * @param e {qx.event.type.Touch} the touch event
      */
-    _onTouchEnd : function(e) 
+    _onTouchEnd : function(e)
     {
       if(this.__preventNextTouchEndEvent){
         this.__preventNextTouchEndEvent = false;
         e.stop();
       }
     },
-    
-    
+
+
 
     /**
      * Event handler for the touch move.
@@ -110,7 +110,7 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
     {
       this._onTouchMoveDirectional("x", e);
       this._onTouchMoveDirectional("y", e);
-      
+
       this.__momentum = true;
       // Stop bubbling and native event
       e.stop();
@@ -140,7 +140,7 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
         } else {
           delta = -(e["getDocument" + docDir]() - this.__old[dir]);
         }
-        
+
         // save the old value for the current direction
         this.__old[dir] = e["getDocument" + docDir]();
 
@@ -167,7 +167,7 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
      * @param delta {Number} The delta from the last scrolling.
      * @param dir {String} Direction of the scrollbar ('x' or 'y').
      */
-    __handleScrollImpulse : function(delta, dir) 
+    __handleScrollImpulse : function(delta, dir)
     {
       // delete the old timer id
       this.__impulseTimerId[dir] = null;
@@ -199,11 +199,11 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
   },
 
 
-  destruct : function() 
+  destruct : function()
   {
     clearTimeout(this.__impulseTimerId.x);
     clearTimeout(this.__impulseTimerId.y);
-    
+
     this.__impulseTimerId = this.__old = this.__momentum = null;
   }
 });

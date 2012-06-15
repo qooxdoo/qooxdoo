@@ -37,7 +37,7 @@ qx.Bootstrap.define("qx.module.event.Touch", {
     /**
      * Manipulates the native event object, adding methods if they're not
      * already present
-     * 
+     *
      * @param event {Event} Native event object
      * @param element {Element} DOM element the listener was attached to
      * @param type {String} Event type
@@ -53,7 +53,7 @@ qx.Bootstrap.define("qx.module.event.Touch", {
       return event;
     }
   },
-  
+
   defer : function(statics) {
     q.$registerEventNormalization(statics.TYPES, statics.normalize);
   }

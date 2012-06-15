@@ -40,7 +40,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      * objects
      * @internal
      */
-    BIND_METHODS : ["getButton", "getViewportLeft", "getViewportTop", 
+    BIND_METHODS : ["getButton", "getViewportLeft", "getViewportTop",
       "getDocumentLeft", "getDocumentTop", "getScreenLeft", "getScreenTop"],
 
 
@@ -67,8 +67,8 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
     /**
      * Returns the identifier of the mouse button that change state when the
      * event was triggered
-     * 
-     * @return {String} One of <code>left</code>, <code>right</code> or 
+     *
+     * @return {String} One of <code>left</code>, <code>right</code> or
      * <code>middle</code>
      */
     getButton : function()
@@ -186,7 +186,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
     /**
      * Manipulates the native event object, adding methods if they're not
      * already present
-     * 
+     *
      * @param event {Event} Native event object
      * @param element {Element} DOM element the listener was attached to
      * @return {Event} Normalized event object
@@ -199,7 +199,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
       }
       var bindMethods = qx.module.event.Mouse.BIND_METHODS;
       for (var i=0, l=bindMethods.length; i<l; i++) {
-        if (typeof event[bindMethods[i]] != "function") { 
+        if (typeof event[bindMethods[i]] != "function") {
           event[bindMethods[i]] = qx.module.event.Mouse[bindMethods[i]].bind(event);
         }
       }
@@ -207,7 +207,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
       return event;
     }
   },
-  
+
   defer : function(statics) {
     q.$registerEventNormalization(qx.module.event.Mouse.TYPES, statics.normalize);
   }

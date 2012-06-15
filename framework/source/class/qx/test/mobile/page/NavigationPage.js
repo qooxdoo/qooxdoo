@@ -42,15 +42,15 @@ qx.Class.define("qx.test.mobile.page.NavigationPage",
 
       page.setTitle("Affe");
       this.assertEquals("Affe", page.getTitleWidget().getValue());
-      
+
       page.destroy();
     },
-    
-    
+
+
     testBackButton : function()
     {
       var page = new qx.ui.mobile.page.NavigationPage();
-    
+
       page.getLeftContainer();
 
       page.setShowBackButton(true);
@@ -62,12 +62,12 @@ qx.Class.define("qx.test.mobile.page.NavigationPage",
 
       page.destroy();
     },
-    
-    
+
+
     testButton : function()
     {
       var page = new qx.ui.mobile.page.NavigationPage();
-      
+
       page.getRightContainer();
 
       page.setShowButton(true);

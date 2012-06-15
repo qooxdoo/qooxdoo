@@ -227,7 +227,7 @@ qx.Class.define("qx.log.Logger",
      */
     trace : function(object) {
       var trace = qx.dev.StackTrace.getStackTrace();
-      qx.log.Logger.__log("info", 
+      qx.log.Logger.__log("info",
       [(typeof object !== "undefined" ? [object].concat(trace) : trace).join("\n")]);
     },
 

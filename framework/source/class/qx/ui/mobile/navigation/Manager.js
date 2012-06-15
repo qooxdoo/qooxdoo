@@ -316,7 +316,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
       }
     },
 
-    
+
     /**
      * Helper function wich executes the get operation and informs all matching route handler.
      *
@@ -355,7 +355,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      */
     executeGet : function(path, customData)
     {
-      this._executeGet(path, customData); 
+      this._executeGet(path, customData);
     },
 
 
@@ -424,7 +424,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
       var back = this.__back;
       var forward = this.__forward;
       var found = false;
-      
+
       var entry = null;
       var length = back.length;
       for (var i = 0; i < length; i++)
@@ -446,7 +446,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
           action : "back"
         }
       }
-      
+
       var length = forward.length;
       for (var i = 0; i < length; i++)
       {
@@ -460,7 +460,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
           break;
         }
       }
-      
+
       if (entry){
         return {
           data : entry,

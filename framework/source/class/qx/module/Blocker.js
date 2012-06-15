@@ -26,13 +26,13 @@
 ************************************************************************ */
 
 /**
- * Provides a way to block elements so they will no longer receive (native) 
+ * Provides a way to block elements so they will no longer receive (native)
  * events by overlaying them with a div.
- * For Internet Explorer, an additional Iframe element will be overlayed since 
+ * For Internet Explorer, an additional Iframe element will be overlayed since
  * native form controls cannot be blocked otherwise.
  *
  * The blocker can also be applied to the entire document, e.g.:
- * 
+ *
  * <pre class="javascript">
  * q(document).block();
  * </pre>
@@ -78,7 +78,7 @@ q.define("qx.module.Blocker", {
 
     /**
      * Styles the blocker element(s)
-     * 
+     *
      * @param item {DOMElement|DOMDocument} The element to be overlaid with the blocker
      * @param color {String} The color for the blocker element (any CSS color value)
      * @param opacity {Number} The CSS opacity value for the blocker

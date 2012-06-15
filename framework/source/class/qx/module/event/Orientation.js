@@ -36,13 +36,13 @@ qx.Bootstrap.define("qx.module.event.Orientation", {
   {
     /**
      * List of event types to be normalized
-     * @type Array 
+     * @type Array
      */
     TYPES : ["orientationchange"],
 
 
     /**
-     * List of qx.module.event.Orientation methods to be attached to native 
+     * List of qx.module.event.Orientation methods to be attached to native
      * event objects
      * @type Array
      * @internal
@@ -88,12 +88,12 @@ qx.Bootstrap.define("qx.module.event.Orientation", {
     {
       return this._mode == "portrait";
     },
-    
+
 
     /**
      * Manipulates the native event object, adding methods if they're not
      * already present
-     * 
+     *
      * @param event {Event} Native event object
      * @param element {Element} DOM element the listener was attached to
      * @param type {String} Event type
@@ -106,18 +106,18 @@ qx.Bootstrap.define("qx.module.event.Orientation", {
         return event;
       }
       event._type = type;
-      
+
       var bindMethods = qx.module.event.Orientation.BIND_METHODS;
       for (var i=0, l=bindMethods.length; i<l; i++) {
-        if (typeof event[bindMethods[i]] != "function") { 
+        if (typeof event[bindMethods[i]] != "function") {
           event[bindMethods[i]] = qx.module.event.Orientation[bindMethods[i]].bind(event);
         }
       }
-      
+
       return event;
     }
   },
-  
+
   defer : function(statics) {
     q.$registerEventNormalization(statics.TYPES, statics.normalize);
   }

@@ -72,7 +72,7 @@ qx.Class.define("feedreader.view.mobile.OverviewPage",
         {
           item.setTitle(data.getTitle());
           item.setSubtitle(data.getState());
-          
+
           var state = data.getState();
           if(state=="loading") {
             item.setShowArrow(false);
@@ -86,7 +86,7 @@ qx.Class.define("feedreader.view.mobile.OverviewPage",
 
       this.__list.addListener("changeSelection", function(e) {
         var item = this.__predefinedFeeds.getItem(e.getData());
-        
+
         var state = item.getState();
         if(state!="loading") {
           this.setSelectedFeed(item);

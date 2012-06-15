@@ -21,9 +21,9 @@
 qx.Class.define("qx.test.bom.History", {
 
   extend : qx.dev.unit.TestCase,
-  
+
   include : [qx.dev.unit.MRequirements],
-  
+
   members :
   {
     __history : null,
@@ -58,18 +58,18 @@ qx.Class.define("qx.test.bom.History", {
     testAddState : function()
     {
       this.__history.addToHistory("foo", "Title Foo");
-      
+
       var self = this;
       window.setTimeout(function() {
         self.resume(function() {
           this.__checkState();
         }, self);
       }, 200);
-      
+
       this.wait();
     },
-    
-    
+
+
     testNavigateBack : function()
     {
       this.__history.addToHistory("foo", "Title Foo");
@@ -81,8 +81,8 @@ qx.Class.define("qx.test.bom.History", {
       }, 200);
       this.wait();
     },
-    
-    
+
+
     __checkFooAndSetBar : function()
     {
       var self = this;
@@ -95,8 +95,8 @@ qx.Class.define("qx.test.bom.History", {
       }, 200);
       this.wait();
     },
-    
-    
+
+
     __checkBarAndGoBack : function()
     {
       var self = this;
@@ -109,19 +109,19 @@ qx.Class.define("qx.test.bom.History", {
       }, 200);
       this.wait();
     },
-    
-    
+
+
     __checkState : function()
     {
       this.assertEquals("foo", this.__history._readState(), "check3");
       this.assertEquals("Title Foo", this.__history.getTitle());
     },
-    
-    
+
+
     testNavigateBackAfterSetState : function()
     {
       this.__history.setState("affe");
-      
+
       var self = this;
       window.setTimeout(function() {
         self.resume(function() {
@@ -130,8 +130,8 @@ qx.Class.define("qx.test.bom.History", {
       }, 200);
       this.wait();
     },
-    
-    
+
+
     __setState_checkAffeAndSetFoo : function()
     {
       var self = this;
@@ -144,8 +144,8 @@ qx.Class.define("qx.test.bom.History", {
       }, 200);
       this.wait();
     },
-    
-    
+
+
     __setState_checkFooAndSetBar : function()
     {
       var self = this;
@@ -158,8 +158,8 @@ qx.Class.define("qx.test.bom.History", {
       }, 300);
       this.wait();
     },
-    
-    
+
+
     __setState_checkBarAndGoBack : function()
     {
       var self = this;
@@ -172,20 +172,20 @@ qx.Class.define("qx.test.bom.History", {
       }, 200);
       this.wait();
     },
-    
-    
+
+
     testRequestEvent : function()
     {
-    	// "request" event just will be fired, if a user goes back or farward in
-    	// the history
-    	var self = this;
+      // "request" event just will be fired, if a user goes back or farward in
+      // the history
+      var self = this;
       this.__history.addListenerOnce("request", function() {
-      	self.resume(function() {
-      		// "request" event has been fired
+        self.resume(function() {
+          // "request" event has been fired
           this.assertTrue(true);
         }, self);
       }, this);
-      
+
       this.__history.setState("bar");
       history.back();
       this.wait();

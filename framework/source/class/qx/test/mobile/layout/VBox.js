@@ -28,7 +28,7 @@ qx.Class.define("qx.test.mobile.layout.VBox",
       var composite = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
       this.getRoot().add(composite);
 
-      
+
       this.assertTrue(composite.hasCssClass("vbox"));
 
       var widget1 = new qx.ui.mobile.core.Widget();
@@ -59,8 +59,8 @@ qx.Class.define("qx.test.mobile.layout.VBox",
       widget2.destroy();
       composite.destroy();
     },
-    
-    
+
+
     testRemove : function() {
       var composite = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
       this.getRoot().add(composite);
@@ -74,10 +74,10 @@ qx.Class.define("qx.test.mobile.layout.VBox",
       composite.add(widget2, {flex:2});
       composite.remove(widget2);
       this.assertFalse(widget2.hasCssClass("boxFlex2"));
-      
+
       this.getRoot().remove(composite);
       this.assertTrue(composite.hasCssClass("vbox"));
-      
+
       widget1.destroy();
       widget2.destroy();
       composite.destroy();
@@ -90,7 +90,7 @@ qx.Class.define("qx.test.mobile.layout.VBox",
 
       composite.setLayout(null);
       this.assertFalse(composite.hasCssClass("vbox"));
-      
+
       composite.destroy();
     }
   }

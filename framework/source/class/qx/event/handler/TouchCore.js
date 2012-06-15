@@ -32,7 +32,7 @@
 qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
   extend : Object,
-  
+
   statics :
   {
     /** {Integer} The maximum distance of a tap. Only if the x or y distance of
@@ -40,8 +40,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      *      event is fired.
      */
     TAP_MAX_DISTANCE : qx.core.Environment.get("os.name") != "android" ? 10 : 40,
-    
-    
+
+
     /** {Map} The direction of a swipe relative to the axis */
     SWIPE_DIRECTION :
     {
@@ -62,11 +62,11 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      */
     SWIPE_MIN_VELOCITY : 0
   },
-  
-  
+
+
   /**
    * Create a new instance
-   * 
+   *
    * @param target {Element} element on which to listen for native touch events
    * @param emitter {qx.event.Emitter} Event emitter object
    */
@@ -76,21 +76,21 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     this.__emitter = emitter;
     this._initTouchObserver();
   },
-  
-  
+
+
   members :
   {
     __target : null,
     __emitter : null,
     __onTouchEventWrapper : null,
-    
+
     __originalTarget : null,
-    
+
     __startPageX : null,
     __startPageY : null,
     __startTime : null,
     __isSingleTouchGesture : null,
-    
+
     /*
     ---------------------------------------------------------------------------
       OBSERVER INIT
@@ -111,9 +111,9 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       Event.addNativeListener(this.__target, "touchend", this.__onTouchEventWrapper);
       Event.addNativeListener(this.__target, "touchcancel", this.__onTouchEventWrapper);
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       OBSERVER STOP
@@ -132,9 +132,9 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       Event.removeNativeListener(this.__target, "touchend", this.__onTouchEventWrapper);
       Event.removeNativeListener(this.__target, "touchcancel", this.__onTouchEventWrapper);
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       NATIVE EVENT OBSERVERS
@@ -150,8 +150,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     {
       this._commonTouchEventHandler(domEvent);
     },
-    
-    
+
+
     /**
      * Called by an event handler.
      *
@@ -167,9 +167,9 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       this._fireEvent(domEvent, type);
       this.__checkAndFireGesture(domEvent, type);
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       HELPERS
@@ -194,8 +194,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       }
       return target;
     },
-    
-    
+
+
     /**
      * Fire a touch event with the given parameters
      *
@@ -216,8 +216,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         this.__emitter.emit(type, domEvent);
       }
     },
-    
-    
+
+
     /**
      * Checks if a gesture was made and fires the gesture event.
      *
@@ -244,8 +244,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         this.__gestureEnd(domEvent, target);
       }
     },
-    
-    
+
+
     /**
      * Helper method for gesture start.
      *
@@ -260,8 +260,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       this.__startTime = new Date().getTime();
       this.__isSingleTouchGesture = domEvent.changedTouches.length === 1;
     },
-    
-    
+
+
     /**
      * Helper method for gesture change.
      *
@@ -276,7 +276,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       }
     },
 
-    
+
     /**
      * Helper method for gesture end.
      *
@@ -299,17 +299,17 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         if (this.__originalTarget == target
             && Math.abs(deltaCoordinates.x) <= clazz.TAP_MAX_DISTANCE
             && Math.abs(deltaCoordinates.y) <= clazz.TAP_MAX_DISTANCE) {
-          if (qx.event && qx.event.type && qx.event.type.Tap) { 
+          if (qx.event && qx.event.type && qx.event.type.Tap) {
             eventType = qx.event.type.Tap;
           }
-          
+
           this._fireEvent(domEvent, "tap", target,eventType);
         }
         else
         {
           var swipe = this.__getSwipeGesture(domEvent, target, deltaCoordinates);
           if (swipe) {
-            if (qx.event && qx.event.type && qx.event.type.Swipe) { 
+            if (qx.event && qx.event.type && qx.event.type.Swipe) {
               eventType = qx.event.type.Swipe;
             }
             domEvent.swipe = swipe;
@@ -318,8 +318,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         }
       }
     },
-    
-    
+
+
     /**
      * Returns the swipe gesture when the user performed a swipe.
      *
@@ -352,8 +352,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       }
       return swipe;
     },
-    
-    
+
+
     /**
      * Dispose this object
      */

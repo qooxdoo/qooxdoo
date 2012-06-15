@@ -88,8 +88,8 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       var scrollContentElement = this._getScrollContentElement();
       return scrollContentElement || contentElement;
     },
-    
-    
+
+
     /**
      * Calls the refresh function the used scrolling method. Needed to recalculate the
      * scrolling container.

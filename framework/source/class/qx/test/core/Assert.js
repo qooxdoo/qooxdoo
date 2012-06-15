@@ -129,17 +129,17 @@ qx.Class.define("qx.test.core.Assert",
       }, qx.core.AssertionError, null, "4");
 
     },
-    
-    
+
+
     testAssertEventFired : function()
     {
       //  assertEventFired : function(obj, event, invokeFunc, listenerFunc, msg)
       var obj = new qx.core.Object();
-      
+
       this.assertEventFired(obj, "xyz", function() {
         this.fireEvent("xyz");
       });
-      
+
       this.assertException(function() {
         qx.core.Assert.assertEventFired(obj, "xyz", function() {
           this.fireEvent("xyz1");

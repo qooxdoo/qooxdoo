@@ -422,7 +422,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       var             groupName;
       var             objName;
       var             bGroupEmpty;
-      
+
       hash = this.__friendlyToHash[friendlyName];
 
       // Delete references to any groupos this friendly name was in
@@ -432,7 +432,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         {
           groupName = this.__friendlyToGroups[friendlyName][i];
           delete this.__groupToFriendly[groupName][friendlyName];
-          
+
           // Is the group empty now?
           bGroupEmpty = true;
           for (objName in this.__groupToFriendly[groupName])
@@ -441,7 +441,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
             bGroupEmpty = false;
             break;
           }
-          
+
           // If the group is empty...
           if (bGroupEmpty)
           {

@@ -54,7 +54,7 @@ qx.Class.define("qx.fx.queue.Queue",
   construct : function()
   {
     this.base(arguments);
-    qx.log.Logger.deprecatedClassWarning(this.constructor, 
+    qx.log.Logger.deprecatedClassWarning(this.constructor,
       "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
     );
 

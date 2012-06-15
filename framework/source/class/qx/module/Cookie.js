@@ -30,7 +30,7 @@ qx.Bootstrap.define("qx.module.Cookie", {
      * @param key {String} The key for the saved string value.
      * @return {String|null} Returns the saved string value if the cookie
      *    contains a value for the key, otherwise <code>null</code>
-     * @signature function(key) 
+     * @signature function(key)
      */
     get : qx.bom.Cookie.get,
 
@@ -42,12 +42,12 @@ qx.Bootstrap.define("qx.module.Cookie", {
      * @param key {String} The key for the string value.
      * @param value {String} The string value.
      * @param expires {Number?null} Expires directive value in days starting from now,
-     *    or <code>null</code> if the cookie should be deleted when the browser 
+     *    or <code>null</code> if the cookie should be deleted when the browser
      *    is closed.
      * @param path {String?null} Path value.
      * @param domain {String?null} Domain value.
      * @param secure {Boolean?null} Secure flag.
-     * @signature function(key, value, expires, path, domain, secure) 
+     * @signature function(key, value, expires, path, domain, secure)
      */
     set : qx.bom.Cookie.set,
 

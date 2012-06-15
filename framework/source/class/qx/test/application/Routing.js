@@ -68,7 +68,7 @@ qx.Class.define("qx.test.application.Routing",
       this.__r.onPost("/{id}/affe", handler);
       this.__r.executePost("/123456/affe", data, "custom data");
       this.assertCalledOnce(handler);
-      this.assertCalledWith(handler, 
+      this.assertCalledWith(handler,
         {customData: "custom data", params: {id: "123456", data: "test"}, path: "/123456/affe"}
       );
     },

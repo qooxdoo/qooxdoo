@@ -101,7 +101,7 @@ qx.Class.define("demobrowser.demo.widget.Tree",
 
 
     /**
-     * 
+     *
      * @param tree {qx.ui.tree.Tree} Tree
      * @return {qx.ui.groupbox.GroupBox} group box
      * @lint ignoreDeprecated(alert)

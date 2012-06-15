@@ -863,8 +863,8 @@ qx.Class.define("qx.ui.window.Window",
         this.addState("active");
       }
     },
-    
-    
+
+
     // property apply
     _applyModal : function(value, old)
     {

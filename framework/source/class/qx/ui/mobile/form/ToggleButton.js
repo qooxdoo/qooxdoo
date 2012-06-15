@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   construct : function(value, labelChecked, labelUnchecked, fontSize)
   {
     this.base(arguments);
-    
+
     if(labelChecked && labelUnchecked){
        this.__labelUnchecked = labelUnchecked;
        this.__labelChecked = labelChecked;
@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     if(fontSize) {
       this.__fontSize = parseInt(fontSize,10);
     }
-    
+
     this.__child = this._createChild();
     this._add(this.__child);
 
@@ -141,18 +141,18 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      */
     _createChild : function() {
       var composite = new qx.ui.mobile.container.Composite();
-      
+
       var toggleButtonSwitch = new qx.ui.mobile.container.Composite();
       toggleButtonSwitch.addCssClass("toggleButtonSwitch");
       toggleButtonSwitch._setAttribute("data-label-checked", this.__labelChecked);
       toggleButtonSwitch._setAttribute("data-label-unchecked", this.__labelUnchecked);
-      
+
       if(this.__fontSize) {
         qx.bom.element.Style.set(toggleButtonSwitch._getContentElement(),"fontSize",this.__fontSize+"px");
       }
-      
+
       composite.add(toggleButtonSwitch);
-      
+
       return composite;
     },
 
@@ -231,7 +231,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   {
     this.removeListener("tap", this._onTap, this);
     this.removeListener("swipe", this._onSwipe, this);
-    
+
     this._disposeObjects("__child","__labelUnchecked","__labelChecked", "__fontSize");
   }
 });

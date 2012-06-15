@@ -55,8 +55,8 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
       refine : true,
       init : "numberField"
     },
-    
-    
+
+
     /**
      * The minimum text field value (may be negative). This value must be smaller
      * than {@link #minimum}.
@@ -106,8 +106,8 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
     {
       return "number";
     },
-    
-    
+
+
     /**
      * Called when changed the property step.
      * Delegates value change on DOM element.
@@ -115,8 +115,8 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
     _onChangeStep : function(value,old) {
       this._setAttribute("step",value);
     },
-    
-    
+
+
     /**
      * Called when changed the property maximum.
      * Delegates value change on DOM element.
@@ -124,8 +124,8 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
     _onChangeMaximum : function(value,old) {
       this._setAttribute("max",value);
     },
-    
-    
+
+
     /**
      * Called when changed the property minimum.
      * Delegates value change on DOM element.

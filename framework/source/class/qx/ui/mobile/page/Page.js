@@ -30,7 +30,7 @@
  * for the navigation between pages.
  *
  * To navigate between two pages, just call the {@link #show} method of the page
- * that should be shown. Depending on the used page manager a page transition will be animated. 
+ * that should be shown. Depending on the used page manager a page transition will be animated.
  * There are several animations available. Have
  * a look at the {@link qx.ui.mobile.page.Manager} manager or {@link qx.ui.mobile.layout.Card} card layout for more information.
  *
@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
   statics : {
     _currentPage : null,
-    
+
     /**
      * Event handler. Called when the device is ready.
      */
@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
     /** Fired when the lifecycle method {@link #resume} is called */
     "resume" : "qx.event.type.Event",
 
-    /** Fired when the method {@link #back} is called. Data indicating 
+    /** Fired when the method {@link #back} is called. Data indicating
      *  whether the action was triggered by a key event or not.
      */
     "back" : "qx.event.type.Data",
@@ -403,5 +403,5 @@ qx.Class.define("qx.ui.mobile.page.Page",
     {
       qx.bom.Event.addNativeListener(document, "deviceready", statics._onDeviceReady);
     }
-  } 
+  }
 });

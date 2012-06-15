@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * HTML templating module. This is a wrapper for mustache.js which is a 
+ * HTML templating module. This is a wrapper for mustache.js which is a
  * "framework-agnostic way to render logic-free views".
  *
  * Here is a basic example how to use it:
@@ -37,15 +37,15 @@ qx.Bootstrap.define("qx.module.Template", {
   {
     /**
      * Helper method which provides direct access to templates stored as HTML in
-     * the DOM. The DOM node with the given ID will be treated as a template, 
-     * parsed and a new DOM node will be returned containing the parsed data. 
+     * the DOM. The DOM node with the given ID will be treated as a template,
+     * parsed and a new DOM node will be returned containing the parsed data.
      * Keep in mind that templates can only have one root element.
-     * 
+     *
      * @attachStatic{q, template.get}
      * @param id {String} The id of the HTML template in the DOM.
      * @param view {Object} The object holding the data to render.
      * @param partials {Object} Object holding parts of a template.
-     * @return {q} Collection containing a single DOM element with the parsed 
+     * @return {q} Collection containing a single DOM element with the parsed
      * template data.
      */
     get : function(id, view, partials) {

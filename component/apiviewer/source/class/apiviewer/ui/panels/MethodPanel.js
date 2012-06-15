@@ -42,7 +42,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
       } else {
         title = method.getName();
       }
-      
+
       var titleHtml = new qx.util.StringBuilder(apiviewer.ui.panels.InfoPanel.setTitleClass(method, title));
 
       // Add the title (the method signature)

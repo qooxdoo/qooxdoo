@@ -29,7 +29,7 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
   {
     /**
      * List of event types to be normalized
-     * @type Array 
+     * @type Array
      */
     TYPES : ["keydown", "keypress", "keyup"],
 
@@ -96,8 +96,8 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
      */
     getKeyIdentifier : function()
     {
-      if (this.type == "keypress" && 
-      (q.env.get("engine.name") != "gecko" || this.charCode != 0)) 
+      if (this.type == "keypress" &&
+      (q.env.get("engine.name") != "gecko" || this.charCode != 0))
       {
         return qx.event.util.Keyboard.charCodeToIdentifier(this.charCode || this.keyCode)
       }
@@ -108,7 +108,7 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
     /**
      * Manipulates the native event object, adding methods if they're not
      * already present
-     * 
+     *
      * @param event {Event} Native event object
      * @param element {Element} DOM element the listener was attached to
      * @return {Event} Normalized event object
@@ -120,7 +120,7 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
       }
       var bindMethods = qx.module.event.Keyboard.BIND_METHODS;
       for (var i=0, l=bindMethods.length; i<l; i++) {
-        if (typeof event[bindMethods[i]] != "function") { 
+        if (typeof event[bindMethods[i]] != "function") {
           event[bindMethods[i]] = qx.module.event.Keyboard[bindMethods[i]].bind(event);
         }
       }

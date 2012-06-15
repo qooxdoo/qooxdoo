@@ -29,27 +29,27 @@ qx.Class.define("qx.test.mobile.container.Navigation",
       this.getRoot().add(container);
       container.destroy();
     },
-    
-    
+
+
     testAdd : function()
     {
       var container = new qx.ui.mobile.container.Navigation();
       var page = new qx.ui.mobile.page.NavigationPage();
       this.getRoot().add(container);
-      this.assertFalse(container.getContent().hasChildren());      
+      this.assertFalse(container.getContent().hasChildren());
       container.add(page);
       this.assertTrue(container.getContent().hasChildren());
       page.destroy();
       container.destroy();
     },
-    
-    
+
+
     testRemove : function()
     {
       var container = new qx.ui.mobile.container.Navigation();
       var page = new qx.ui.mobile.page.NavigationPage();
       this.getRoot().add(container);
-      this.assertFalse(container.getContent().hasChildren());      
+      this.assertFalse(container.getContent().hasChildren());
       container.add(page);
       this.assertTrue(container.getContent().hasChildren());
       container.remove(page);
@@ -57,24 +57,24 @@ qx.Class.define("qx.test.mobile.container.Navigation",
       page.destroy();
       container.destroy();
     },
-    
-    
+
+
     testUpdateEvent : function() {
       var container = new qx.ui.mobile.container.Navigation();
       var updateEventFired = false;
-      
+
       container.addListener("update", function() {
         updateEventFired = true;
       }, this);
 
-      
+
       var page1 = new qx.ui.mobile.page.NavigationPage();
       var page2 = new qx.ui.mobile.page.NavigationPage();
-      this.getRoot().add(container);     
+      this.getRoot().add(container);
       container.add(page1);
       container.add(page2);
       page2.show();
-      
+
       this.assertTrue(updateEventFired);
 
       page1.destroy();

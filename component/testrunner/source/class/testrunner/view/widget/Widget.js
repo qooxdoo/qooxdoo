@@ -349,13 +349,13 @@ qx.Class.define("testrunner.view.widget.Widget", {
         }
       });
       part3.add(autoReloadToggle);
-      
+
       if (qx.core.Environment.get("testrunner.performance") &&
         qx.Class.hasMixin(this.constructor, testrunner.view.MPerformance) &&
         window.console && window.console.profile)
       {
         var nativeProfilingToggle = new qx.ui.toolbar.CheckBox(this.__app.tr("Native Profiling"), "icon/22/actions/document-open-recent.png");
-        nativeProfilingToggle.setToolTipText("Additionally use the browser's native" 
+        nativeProfilingToggle.setToolTipText("Additionally use the browser's native"
           + " profiling feature (console.profile) for performance tests");
         var nativeProfilingValue = qx.bom.Cookie.get("testrunner.nativeProfiling");
         if (nativeProfilingValue !== null) {
@@ -891,7 +891,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
     },
 
     /**
-     * 
+     *
      * @param value {String} New suite state value
      * @param old {String} Old suite state value
      * @lint ignoreDeprecated(alert)
@@ -1033,8 +1033,8 @@ qx.Class.define("testrunner.view.widget.Widget", {
         this.__runButton.setVisibility("excluded");
       }
     },
-    
-    
+
+
     /**
      * Returns the error message to be displayed if the AUT couldn't be loaded
      * @return {String} error message
@@ -1049,14 +1049,14 @@ qx.Class.define("testrunner.view.widget.Widget", {
         autDebug = false;
       }
       var autSrc = autDebug ? "/html/tests-source.html" : "/html/tests.html";
-      
+
       return "The test suite couldn't be loaded. Make sure the AUT URI is correct, " +
         'e.g. "' + autSrc + '".' +
-        "\n\nAlso check the testclass parameter: This should be \"" + 
+        "\n\nAlso check the testclass parameter: This should be \"" +
         qx.core.Init.getApplication().runner._testNameSpace +
         "\" according to the current configuration.";
     },
-    
+
 
     /**
      * Run the selected tests

@@ -81,16 +81,16 @@ qx.Class.define("feedreader.view.mobile.FeedPage",
         var item = this.__articles.getItem(e.getData());
         this.setSelectedArticle(item);
       }, this);
-      
+
       this.getContent().add(this.__list);
     },
-    
-    
+
+
     // property apply
     _applyFeed : function(value, old)
     {
       if (value != null)
-      { 
+      {
         this.__articles = value.getArticles();
         this.__list.setModel(this.__articles);
         this.setTitle(value.getTitle());

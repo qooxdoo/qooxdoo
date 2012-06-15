@@ -20,7 +20,7 @@
 /**
  * The navigation controller includes already a {@link qx.ui.mobile.navigationbar.NavigationBar}
  * and a {@link qx.ui.mobile.container.Composite} container with a {@link qx.ui.mobile.layout.Card} layout.
- * All widgets that implement the {@link qx.ui.mobile.container.INavigation} 
+ * All widgets that implement the {@link qx.ui.mobile.container.INavigation}
  * interface can be added to the container. The added widget provide the title
  * widget and the left/right container, which will be automatically merged into
  * navigation bar.
@@ -40,8 +40,8 @@
 qx.Class.define("qx.ui.mobile.container.Navigation",
 {
   extend : qx.ui.mobile.container.Composite,
-  
-  
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -56,12 +56,12 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     if (this.__navigationBar) {
       this._add(this.__navigationBar);
     }
-    
+
     this.__content = this._createContent();
     this._add(this.__content, {flex:1});
   },
-  
-  
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     /** Fired when the navigation bar gets updated */
     "update" : "qx.event.type.Data"
   },
-  
+
 
   /*
   *****************************************************************************
@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     __navigationBar : null,
     __content : null,
     __layout : null,
- 
+
 
     // overridden
     add : function(widget) {
@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       {
         this.assertInterface(widget, qx.ui.mobile.container.INavigation);
       }
-      
+
       this.getContent().add(widget);
     },
 
@@ -131,8 +131,8 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     {
       return this.__content;
     },
-    
-    
+
+
     /**
      * Returns the assigned card layout.
      * @return {qx.ui.mobile.layout.Card} assigned Card Layout.
@@ -184,28 +184,28 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
 
     /**
      * Updates the navigation bar depending on the set widget.
-     * 
+     *
      * @param widget {qx.ui.mobile.core.Widget} The widget that should be merged into the navigation bar.
      */
     _update : function(widget) {
       var navigationBar = this.getNavigationBar();
       navigationBar.removeAll();
-      
+
       var leftContainer = widget.getLeftContainer();
       if (leftContainer) {
         navigationBar.add(leftContainer);
       }
-      
+
       var title = widget.getTitleWidget();
       if (title) {
         navigationBar.add(title, {flex:1});
       }
-      
+
       var rightContainer = widget.getRightContainer();
       if (rightContainer) {
         navigationBar.add(rightContainer);
       }
-      
+
       this.fireDataEvent("update", widget);
     },
 

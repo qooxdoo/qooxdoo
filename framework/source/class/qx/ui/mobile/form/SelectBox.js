@@ -70,15 +70,15 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   construct : function()
   {
     this.base(arguments);
-    
+
     // This text node is for compatibility reasons, because Firefox can not
-    // change appearance of select boxes. 
+    // change appearance of select boxes.
     this._setAttribute("type","text");
     this._setAttribute("readonly","readonly");
-    
+
     // Selection dialog creation.
     this.__selectionDialog = this._createSelectionDialog();
-    
+
     // When selectionDialogs changes selection, get chosen selectedIndex from it.
     this.__selectionDialog.addListener("changeSelection", this._onChangeSelection, this);
   },
@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       refine : true,
       init : "selectbox"
     },
-    
+
     // overridden
     activatable :
     {
@@ -138,11 +138,11 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     _createContainerElement : function()
     {
       var containerElement = this.base(arguments);
-      
+
       var showSelectionDialog = qx.lang.Function.bind(this.__showSelectionDialog, this);
       qx.bom.Event.addNativeListener(containerElement, "tap", showSelectionDialog, false);
       qx.bom.Event.addNativeListener(containerElement, "click", showSelectionDialog, false);
-      
+
       var preventDefault = qx.bom.Event.preventDefault;
       qx.bom.Event.addNativeListener(containerElement, "mousedown", preventDefault, false);
       qx.bom.Event.addNativeListener(containerElement, "mouseup", preventDefault, false);
@@ -161,14 +161,14 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      */
     _createSelectionDialog : function() {
       var menu =  new qx.ui.mobile.dialog.Menu();
-      
+
       // Special appearance for select box menu items.
       menu.setSelectedItemClass("selectbox-selected");
       menu.setUnselectedItemClass("selectbox-unselected");
-      
+
       // Hide selectionDialog on tap on blocker.
       menu.setHideOnBlockerClick(true);
-      
+
       return menu;
     },
 
@@ -192,8 +192,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
         this._setAttribute("value", this.getModel().getItem(value));
       }
     },
-    
-    
+
+
     /**
      * Sets the dialog title on the selection dialog.
      * @param title {String} the title to set on selection dialog.
@@ -203,8 +203,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
         this.__selectionDialog.setTitle(title);
       }
     },
-    
-    
+
+
     /**
      * Sets the selected text value of this select box.
      * @param value {String} the text value which should be selected.
@@ -218,10 +218,10 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
         }
       }
     },
-    
-    
+
+
     /**
-     * Get the text value of this 
+     * Get the text value of this
      * It is called by setValue method of qx.ui.mobile.form.MValue mixin.
      * @return value {number} the new selected index of the select box.
      */
@@ -236,19 +236,19 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      */
     _render : function() {
       if(this.getModel() && this.getModel().length > 0) {
-        // Default selected index is 0. 
+        // Default selected index is 0.
         if(!this.__selectedIndex) {
           this.__selectedIndex = 0;
         }
-        
+
         var selectedItem = this.getModel().getItem(this.__selectedIndex);
         this._setAttribute("value", selectedItem);
       }
-      
+
       this._domUpdated();
     },
-    
-    
+
+
     /**
      * Sets the model property to the new value
      * @param value {qx.data.Array}, the new model
@@ -259,11 +259,11 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       if (old != null) {
         old.removeListener("change", this._render, this);
       }
-      
+
       this._render();
     },
-    
-    
+
+
     /**
      * Refreshs selection dialogs model, and shows it.
      */
@@ -273,8 +273,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       this.__selectionDialog.setItems(this.getModel());
       this.__selectionDialog.show();
     },
-    
-    
+
+
     /**
      * Gets the selectedIndex out of change selection event, renders view.
      * @param evt {qx.event.type.Data} data event.

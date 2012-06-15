@@ -60,7 +60,7 @@ qx.Class.define("qx.event.handler.Touch",
     this.__root = this.__window.document;
 
     qx.event.handler.TouchCore.apply(this, [this.__root]);
-    
+
     this._initMouseObserver();
   },
 
@@ -371,8 +371,8 @@ qx.Class.define("qx.event.handler.Touch",
 
       "default" : qx.lang.Function.empty
     }),
-    
-    
+
+
     /**
      * Dispose this object
      */
@@ -382,8 +382,8 @@ qx.Class.define("qx.event.handler.Touch",
       this._stopMouseObserver();
       this.__manager = this.__window = this.__root = null;
     },
-    
-    
+
+
     /**
      * Call overriden method.
      *

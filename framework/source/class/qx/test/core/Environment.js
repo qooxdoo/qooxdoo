@@ -450,7 +450,7 @@ qx.Class.define("qx.test.core.Environment",
     testDevice : function() {
       this.assertString(qx.core.Environment.get("device.name"));
     },
-    
+
     testDeviceType : function() {
       this.assertString(qx.core.Environment.get("device.type"));
     },

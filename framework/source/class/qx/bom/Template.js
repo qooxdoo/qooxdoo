@@ -111,7 +111,7 @@ qx.Bootstrap.define("qx.bom.Template", {
      */
     toHtml : function(template, view, partials) {
       if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
           "Please use the method 'render' instead."
         );
       }
@@ -155,7 +155,7 @@ qx.Bootstrap.define("qx.bom.Template", {
 (function() {
 
 /**
- * Below is the original mustache.js code. Snapshot date is mentioned in 
+ * Below is the original mustache.js code. Snapshot date is mentioned in
  * the head of this file.
  * @lint ignoreUndefined(module)
  */

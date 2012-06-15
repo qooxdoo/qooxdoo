@@ -25,11 +25,11 @@
  *
  * <pre class='javascript'>
  *    var form = new qx.ui.mobile.form.Form();
- *    
+ *
  *    var radio1 = new qx.ui.mobile.form.RadioButton();
  *    var radio2 = new qx.ui.mobile.form.RadioButton();
  *    var radio3 = new qx.ui.mobile.form.RadioButton();
- *    
+ *
  *    var group = new qx.ui.mobile.form.RadioGroup(radio1, radio2, radio3);
 
  *    form.add(radio1, "Germany");
@@ -59,8 +59,8 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
   {
     this.base(arguments);
   },
-  
-  
+
+
   /*
   *****************************************************************************
      EVENTS
@@ -106,8 +106,8 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     {
       return "radio";
     },
-    
-    
+
+
     /**
      * Reacts on click on radio button.
      */
@@ -116,7 +116,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     },
 
 
-    /** 
+    /**
      * The assigned {@link qx.ui.form.RadioGroup} which handles the switching between registered buttons
      * @param value {@link qx.ui.form.RadioGroup} the new radio group to which this radio button belongs.
      * @param old {@link qx.ui.form.RadioGroup} the old radio group of this radio button.
@@ -131,16 +131,16 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
         value.add(this);
       }
     },
-    
-    
+
+
     // overridden
     _createContainerElement : function()
     {
       var containerElement = this.base(arguments);
-      
+
       var onClick = qx.lang.Function.bind(this._onClick, this);
       qx.bom.Event.addNativeListener(containerElement, "click", onClick, false);
-      
+
       return containerElement;
     },
 

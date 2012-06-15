@@ -70,8 +70,8 @@ qx.Class.define("mobileshowcase.page.Animation",
       }, this);
       this.getContent().add(list);
     },
-    
-    
+
+
     // overridden
     _back : function()
     {

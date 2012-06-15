@@ -98,7 +98,7 @@ qx.Class.define("qx.dev.unit.TestCase",
 
     /**
      * Skip this test. Any code after a call to this method will not be executed.
-     * 
+     *
      * @param message {String|null} Optional message (reason why the test was skipped)
      */
     skip : function(message)

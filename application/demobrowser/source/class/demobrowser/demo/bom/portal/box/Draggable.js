@@ -107,9 +107,9 @@ qx.Class.define("demobrowser.demo.bom.portal.box.Draggable",
 
       qx.bom.Element.addListener(this.__handle, "dragstart", this.__onDragStart, this);
       qx.bom.Element.addListener(
-        this.__handle, 
-        "dragend", 
-        demobrowser.demo.bom.portal.dragdrop.Manager.getInstance().stopSession, 
+        this.__handle,
+        "dragend",
+        demobrowser.demo.bom.portal.dragdrop.Manager.getInstance().stopSession,
         demobrowser.demo.bom.portal.dragdrop.Manager.getInstance()
       );
       qx.bom.Element.addListener(this.__handle, "drag", this.__onDragMove, this);

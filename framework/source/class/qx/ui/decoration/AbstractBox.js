@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
       nullable : true,
       apply : "_applyBaseImage"
     },
-    
+
     /** Width of the left slice */
     sliceLeft :
     {
@@ -142,8 +142,8 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
       group : [ "sliceTop", "sliceRight", "sliceBottom", "sliceLeft" ],
       mode  : "shorthand"
     },
-    
-    
+
+
     /** Only used for the CSS3 implementation, see {@link qx.ui.decoration.css3.BorderImage#fill} **/
     fill :
     {

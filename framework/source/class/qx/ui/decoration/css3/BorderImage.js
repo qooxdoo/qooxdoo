@@ -253,9 +253,9 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
         this.getRepeatY()
       ].join(" ")
 
-      var fill = this.getFill() && 
+      var fill = this.getFill() &&
         qx.core.Environment.get("css.borderimage.standardsyntax") ? " fill" : "";
-      
+
       this.__markup = [
         "<div style='",
         qx.bom.element.Style.compile({

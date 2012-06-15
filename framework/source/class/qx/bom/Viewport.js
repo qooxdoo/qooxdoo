@@ -80,7 +80,7 @@
 
 /**
  * Includes library functions to work with the client's viewport (window).
- * Orientation related functions are point to window.top as default. 
+ * Orientation related functions are point to window.top as default.
  */
 qx.Bootstrap.define("qx.bom.Viewport",
 {
@@ -89,7 +89,7 @@ qx.Bootstrap.define("qx.bom.Viewport",
     /**
      * Returns the current width of the viewport (excluding the vertical scrollbar
      * if present).
-     * 
+     *
      * @param win {Window?window} The window to query
      * @return {Integer} The width of the viewable area of the page (excluding scrollbars).
      */
@@ -134,7 +134,7 @@ qx.Bootstrap.define("qx.bom.Viewport",
       if (typeof win.pageXOffset !== "undefined") {
         return win.pageXOffset;
       }
-      
+
       // Firefox is using 'documentElement.scrollLeft' and Chrome is using
       // 'document.body.scrollLeft'. For the other value each browser is returning
       // 0, so we can use this check to get the positive value without using specific
@@ -158,11 +158,11 @@ qx.Bootstrap.define("qx.bom.Viewport",
     getScrollTop : function(win)
     {
       var win = win ? win : window;
-      
+
       if (typeof win.pageYOffeset !== "undefined") {
         return win.pageYOffset;
       }
-      
+
       // Firefox is using 'documentElement.scrollTop' and Chrome is using
       // 'document.body.scrollTop'. For the other value each browser is returning
       // 0, so we can use this check to get the positive value without using specific
@@ -179,7 +179,7 @@ qx.Bootstrap.define("qx.bom.Viewport",
      * @param win {Window} The window to query
      * @return {Map} Orientation normalizing value
      */
-    __getOrientationNormalizer : function(win) 
+    __getOrientationNormalizer : function(win)
     {
       // Calculate own understanding of orientation (0 = portrait, 90 = landscape)
       var currentOrientation = this.getWidth(win) > this.getHeight(win) ? 90 : 0;

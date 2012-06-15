@@ -28,7 +28,7 @@ qx.Class.define("demobrowser.demo.animation.Animation_3d",
 
       // check for annimation support
       if (
-        qx.core.Environment.get("css.animation") == null || 
+        qx.core.Environment.get("css.animation") == null ||
         !qx.core.Environment.get("css.transform.3d")
       ) {
         document.body.innerHTML = "";

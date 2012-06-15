@@ -239,7 +239,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
     /**
      * Processes the dialog buttons. Converts them to PhoneGap compatible strings.
-     * 
+     *
      * @param buttons {String[]} Each text entry of the array represents a button and
      *     its title
      * @return {String} The concatenated, PhoneGap compatible, button string

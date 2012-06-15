@@ -37,12 +37,12 @@ qx.Class.define("testrunner.runner.TestRunner", {
     if (qx.core.Environment.get("testrunner.performance")) {
       this.TEST_MIXINS.push(qx.dev.unit.MMeasure);
     }
-    
+
     if (qx.core.Environment.get("testrunner.reportServer")) {
       var viewClass = qx.Class.getByName(qx.core.Environment.get("testrunner.view"));
       qx.Class.include(viewClass, testrunner.view.MReportResult);
     }
-    
+
     this.base(arguments);
 
     // Get log appender element from view
@@ -71,7 +71,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
     __loadTimer : null,
     __logAppender : null,
     _externalTestClasses : null,
-    
+
     TEST_MIXINS : null,
 
 
@@ -123,8 +123,8 @@ qx.Class.define("testrunner.runner.TestRunner", {
       this._wrapAssertions();
       this._getTestModel();
     },
-    
-    
+
+
     // overridden
     _defineTestClass : function(testClassName, membersMap)
     {

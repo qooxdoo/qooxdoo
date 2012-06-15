@@ -37,11 +37,11 @@
  * Listens for native orientation change events
  */
 qx.Bootstrap.define("qx.event.handler.OrientationCore", {
-  
+
   extend : Object,
-  
+
   /**
-   * 
+   *
    * @param targetWindow {Window} DOM window object
    * @param emitter {qx.event.Emitter} Event emitter object
    */
@@ -51,9 +51,9 @@ qx.Bootstrap.define("qx.event.handler.OrientationCore", {
     this.__emitter = emitter;
     this._initObserver();
   },
-  
-  
-  
+
+
+
   members :
   {
     __emitter : null,
@@ -61,9 +61,9 @@ qx.Bootstrap.define("qx.event.handler.OrientationCore", {
     _currentOrientation : null,
     __onNativeWrapper : null,
     __nativeEventType : null,
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       OBSERVER INIT
@@ -83,13 +83,13 @@ qx.Bootstrap.define("qx.event.handler.OrientationCore", {
       this.__nativeEventType = qx.bom.Event.supportsEvent(this._window, "orientationchange") ?
         "orientationchange" : "resize";
 
-      
+
       qx.bom.Event.addNativeListener(this._window, this.__nativeEventType,
         this.__onNativeWrapper);
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       OBSERVER STOP
@@ -101,12 +101,12 @@ qx.Bootstrap.define("qx.event.handler.OrientationCore", {
      */
     _stopObserver : function()
     {
-      qx.bom.Event.removeNativeListener(this._window, this.__nativeEventType, 
+      qx.bom.Event.removeNativeListener(this._window, this.__nativeEventType,
         this.__onNativeWrapper);
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       NATIVE EVENT OBSERVERS
@@ -127,19 +127,19 @@ qx.Bootstrap.define("qx.event.handler.OrientationCore", {
       {
         this._currentOrientation = orientation;
         var mode = qx.bom.Viewport.isLandscape() ? "landscape" : "portrait";
-        
+
         domEvent._orientation = orientation;
         domEvent._mode = mode;
-        
+
         if (this.__emitter) {
           this.__emitter.emit("orientationchange", domEvent);
         }
       }
     }
   },
-  
-  
-  
+
+
+
   /*
   *****************************************************************************
      DESTRUCTOR
@@ -151,5 +151,5 @@ qx.Bootstrap.define("qx.event.handler.OrientationCore", {
     this._stopObserver();
     this.__manager = this.__emitter = null;
   }
-  
+
 });

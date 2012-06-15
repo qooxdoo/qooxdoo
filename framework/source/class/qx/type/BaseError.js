@@ -98,13 +98,13 @@ qx.Class.define("qx.type.BaseError",
     getComment : function() {
       return this.__comment;
     },
-    
-    
+
+
     /**
      * Workaround for PhantomJS bug http://code.google.com/p/phantomjs/issues/detail?id=335
      * See http://bugzilla.qooxdoo.org/show_bug.cgi?id=6069
      * This can be removed once the issue is fixed
-     * 
+     *
      * @return {String[]} Stack trace
      */
     getStackTrace : function()
@@ -115,7 +115,7 @@ qx.Class.define("qx.type.BaseError",
       else if (this.__sTrace) {
         return this.__sTrace;
       }
-      
+
       return [];
     },
 

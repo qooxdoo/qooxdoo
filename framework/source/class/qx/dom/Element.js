@@ -41,8 +41,8 @@ qx.Bootstrap.define("qx.dom.Element",
       "checked" : true,
       "disabled" : true
     },
-    
-    
+
+
     /**
      * Whether the given <code>child</code> is a child of <code>parent</code>
      *
@@ -339,16 +339,16 @@ qx.Bootstrap.define("qx.dom.Element",
       parent.replaceChild(newNode, oldNode);
       return true;
     },
-    
-    
+
+
     /**
      * Stores helper element for element creation in WebKit
      *
      * @internal
      */
     __helperElement : {},
-    
-    
+
+
     /**
      * Saves whether a helper element is needed for each window.
      *

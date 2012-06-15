@@ -40,7 +40,7 @@ qx.Bootstrap.define("qx.util.placement.KeepAlignAxis",
      * @return {Integer} The computed start position of the object.
      */
     _moveToEdgeAndAlign : qx.util.placement.AbstractAxis._moveToEdgeAndAlign,
-    
+
     /**
      * Whether the object specified by <code>start</code> and <code>size</code>
      * is completely inside of the axis' range..
@@ -51,7 +51,7 @@ qx.Bootstrap.define("qx.util.placement.KeepAlignAxis",
      * @return {Boolean} Whether the object is inside of the axis' range
      */
     _isInRange : qx.util.placement.AbstractAxis._isInRange,
-    
+
     /**
      * Computes the start of the object on the axis
      *

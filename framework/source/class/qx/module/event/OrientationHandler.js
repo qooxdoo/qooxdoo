@@ -33,11 +33,11 @@ qx.Bootstrap.define("qx.module.event.OrientationHandler", {
      * @type Array
      */
     TYPES : ["orientationchange"],
-    
+
     /**
-     * Creates an orientation handler for the given window when an 
+     * Creates an orientation handler for the given window when an
      * orientationchange event listener is attached to it
-     * 
+     *
      * @param element {Window} DOM Window
      */
     register : function(element)
@@ -45,17 +45,17 @@ qx.Bootstrap.define("qx.module.event.OrientationHandler", {
       if (!qx.dom.Node.isWindow(element)) {
         throw new Error("The 'orientationchange' event is only available on window objects!");
       }
-      
+
       if (!element.__orientationHandler) {
         if (!element.__emitter) {
           element.__emitter = new qx.event.Emitter();
         }
-        
+
         element.__orientationHandler = new qx.event.handler.OrientationCore(element, element.__emitter);
       }
     },
-    
-    
+
+
     /**
      * Removes the orientation event handler from the element if there are no more
      * orientationchange event listeners attached to it
@@ -82,7 +82,7 @@ qx.Bootstrap.define("qx.module.event.OrientationHandler", {
       }
     }
   },
-  
+
   defer : function(statics)
   {
     q.$registerEventHook(statics.TYPES, statics.register, statics.unregister);

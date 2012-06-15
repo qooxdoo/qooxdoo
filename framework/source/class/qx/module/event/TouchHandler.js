@@ -34,11 +34,11 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
      * @type Array
      */
     TYPES : ["tap", "swipe"],
-    
+
     /**
      * Creates a touch handler for the given element when a touch event listener
      * is attached to it
-     * 
+     *
      * @param element {Element} DOM element
      */
     register : function(element)
@@ -50,8 +50,8 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
         element.__touchHandler = new qx.event.handler.TouchCore(element, element.__emitter);
       }
     },
-    
-    
+
+
     /**
      * Removes the touch event handler from the element if there are no more
      * touch event listeners attached to it
@@ -78,7 +78,7 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
       }
     }
   },
-  
+
   defer : function(statics)
   {
     q.$registerEventHook(statics.TYPES, statics.register, statics.unregister);

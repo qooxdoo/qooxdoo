@@ -49,11 +49,11 @@ qx.Class.define("qx.event.type.Touch",
         clone.pageY = nativeEvent.pageY;
         clone.offsetX = nativeEvent.offsetX;
         clone.offsetY = nativeEvent.offsetY;
-        
+
         // Workaround for BUG #6491
         clone.layerX = (nativeEvent.offsetX || nativeEvent.layerX);
         clone.layerY = (nativeEvent.offsetY || nativeEvent.layerY);
-        
+
         clone.scale = nativeEvent.scale;
         clone.rotation = nativeEvent.rotation;
         clone.srcElement = nativeEvent.srcElement;

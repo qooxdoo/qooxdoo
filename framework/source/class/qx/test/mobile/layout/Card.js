@@ -27,7 +27,7 @@ qx.Class.define("qx.test.mobile.layout.Card",
     {
       var composite = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.Card());
       this.getRoot().add(composite);
-      
+
       this.assertTrue(composite.hasCssClass("layout-card"));
 
       var widget1 = new qx.ui.mobile.core.Widget();
@@ -42,8 +42,8 @@ qx.Class.define("qx.test.mobile.layout.Card",
       widget2.destroy();
       composite.destroy();
     },
-    
-    
+
+
     testRemove : function() {
       var composite = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.Card());
       this.getRoot().add(composite);
@@ -57,28 +57,28 @@ qx.Class.define("qx.test.mobile.layout.Card",
       composite.add(widget2);
       composite.remove(widget2);
       this.assertFalse(widget2.hasCssClass("layout-card-item"));
-      
-      
+
+
       this.getRoot().remove(composite);
       this.assertTrue(composite.hasCssClass("layout-card"));
-      
+
       widget1.destroy();
       widget2.destroy();
       composite.destroy();
     },
-    
-    
+
+
     testReset : function() {
       var composite = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.Card());
       this.getRoot().add(composite);
 
       composite.setLayout(null);
       this.assertFalse(composite.hasCssClass("layout-card"));
-      
+
       composite.destroy();
     },
-    
-    
+
+
     testShow : function() {
       var composite = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.Card());
       this.getRoot().add(composite);

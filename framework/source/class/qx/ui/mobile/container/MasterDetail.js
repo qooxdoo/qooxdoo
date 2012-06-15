@@ -19,9 +19,9 @@
 
 /**
  * The master/detail container divides an area into two panes, master and detail. The master
- * can be detached when the orientation of the device changes to portrait. 
+ * can be detached when the orientation of the device changes to portrait.
  * This container can be used for tablet devices.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the master/detail container.
@@ -32,16 +32,16 @@
  * container.getMaster().add(new qx.ui.mobile.container.Navigation());
  * container.getMaster().add(new qx.ui.mobile.container.Navigation());
  *
- * </pre> 
+ * </pre>
  */
 qx.Class.define("qx.ui.mobile.container.MasterDetail",
 {
   extend : qx.ui.mobile.container.Composite,
 
   events : {
-    /** 
+    /**
      * Fired when the layout of the master detail is changed. This happens
-     * when the orientation of the device is changed. 
+     * when the orientation of the device is changed.
      */
     "layoutChange" : "qx.event.type.Data"
   },
@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
 
     /**
      * Returns the master container.
-     * 
+     *
      * @return {qx.ui.mobile.container.Composite} The master container
      */
     getMaster : function() {
@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
 
     /**
      * Returns the detail container.
-     * 
+     *
      * @return {qx.ui.mobile.container.Composite} The detail container
      */
     getDetail : function() {
@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
     /**
      * Returns the set container for the portrait mode. The master container will be added and removed
      * automatically to this container when the orientation is changed.
-     * 
+     *
      * @return {qx.ui.mobile.core.Widget} The set master container for the portrait mode.
      */
     getPortraitMasterContainer : function() {
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
     /**
      * Set the container for the portrait mode. The master container will be added and removed
      * automatically to this container when the orientation is changed.
-     * 
+     *
      * @param container {qx.ui.mobile.core.Widget} The set master container for the portrait mode.
      */
     setPortraitMasterContainer : function(container)
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
 
     /**
      * Event handler. Called when the orientation of the device is changed.
-     * 
+     *
      * @param evt {qx.event.type.Orientation} The causing event
      */
     _onOrientationChange : function(evt) {
@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
 
 
     /**
-     * Synchronizes the layout. 
+     * Synchronizes the layout.
      */
     __syncLayout  : function() {
       var isPortrait = qx.bom.Viewport.isPortrait();
@@ -150,9 +150,9 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
         this.__addMasterToOrigin();
       }
       this._applyMasterContainerCss(isPortrait);
-      
+
       var portraitMasterContainer = this.getPortraitMasterContainer();
-      
+
       // Initial hiding of container.
       if (portraitMasterContainer) {
         portraitMasterContainer.hide();
@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
 
     /**
      * Creates the master container.
-     * 
+     *
      * @return {qx.ui.mobile.container.Composite} The created container
      */
     _createMasterContainer : function() {
@@ -197,7 +197,7 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
 
     /**
      * Applies the master container CSS classes.
-     * 
+     *
      * @param isPortrait {Boolean} Whether the orientation is in portrait mode
      */
     _applyMasterContainerCss : function(isPortrait)
@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
 
     /**
      * Creates the detail container.
-     * 
+     *
      * @return {qx.ui.mobile.container.Composite} The created container
      */
     _createDetailContainer : function() {
@@ -223,9 +223,9 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
 
     /**
      * Creates a container.
-     * 
+     *
      * @param cssClass {String} The CSS class that should be set to the container.
-     * 
+     *
      * @return {qx.ui.mobile.container.Composite} The created container
      */
     __createContainer : function(cssClass) {
@@ -234,9 +234,9 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
       return container;
     }
   },
-  
-  
-  
+
+
+
   destruct : function() {
     qx.event.Registration.removeListener(window, "orientationchange", this._onOrientationChange, this);
     this._disposeObjects("__master", "__detail");

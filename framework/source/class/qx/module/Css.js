@@ -45,7 +45,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
     /**
-     * Returns the value of the given style property for the first item in the 
+     * Returns the value of the given style property for the first item in the
      * collection.
      *
      * @attach {q}
@@ -79,7 +79,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
     /**
-     * Returns the values of multiple style properties for each item in the 
+     * Returns the values of multiple style properties for each item in the
      * collection
      *
      * @attach {q}
@@ -278,12 +278,12 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
     /**
-     * Returns the computed location of the given element in the context of the 
+     * Returns the computed location of the given element in the context of the
      * document dimensions.
      *
      * @attach {q}
-     * @return {Map} A map with the keys <code>left<code/>, <code>top<code/>, 
-     * <code>right<code/> and <code>bottom<code/> which contains the distance 
+     * @return {Map} A map with the keys <code>left<code/>, <code>top<code/>,
+     * <code>right<code/> and <code>bottom<code/> which contains the distance
      * of the element relative to the document.
      */
     getOffset : function() {
@@ -299,7 +299,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
     /**
      * Returns the content height of the first element in the collection.
-     * This is the maximum height the element can use, excluding borders, 
+     * This is the maximum height the element can use, excluding borders,
      * margins, padding or scroll bars.
      * @attach {q}
      * @return {Number} Computed content height
@@ -317,7 +317,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
     /**
      * Returns the content width of the first element in the collection.
-     * This is the maximum width the element can use, excluding borders, 
+     * This is the maximum width the element can use, excluding borders,
      * margins, padding or scroll bars.
      * @attach {q}
      * @return {Number} Computed content width

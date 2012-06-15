@@ -139,9 +139,9 @@ qx.Bootstrap.define("qx.bom.element.Style",
     /**
      * Gets the (possibly vendor-prefixed) name of a style property and stores
      * it to avoid multiple checks.
-     * 
+     *
      * @param name {String} Style property name to check
-     * @return {String|null} The client-specific name of the property, or 
+     * @return {String|null} The client-specific name of the property, or
      * <code>null</code> if it's not supported.
      */
     __getStyleName : function(name)

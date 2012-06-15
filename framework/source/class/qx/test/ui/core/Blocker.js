@@ -188,29 +188,29 @@ qx.Class.define("qx.test.ui.core.Blocker",
       this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
       this.assertUndefined(blockerElement.getStyle("zIndex"));
     },
-    
+
     testBlockedEvent : function()
     {
       this.__blockedEventFired = false;
       this.__unblockedEventFired = false;
-      
+
       this.__blocker.addListenerOnce("blocked", function(e){
         this.__blockedEventFired = true;
       }, this);
-      
+
       this.__blocker.addListenerOnce("unblocked", function(e){
         this.__unblockedEventFired = true;
       }, this);
-      
+
       this.__blocker.block();
       this.__blocker.unblock();
-      
+
       this.wait(100, function() {
         this.assertTrue(this.__blockedEventFired, "'blocked' event was not fired, after block() was executed!");
         this.assertTrue(this.__unblockedEventFired, "'unblocked' event was not fired, after unblock() was executed!");
       }, this);
     },
-    
+
     testContentBlockedEvent : function()
     {
       this.__blockedEventFired = false;
@@ -218,14 +218,14 @@ qx.Class.define("qx.test.ui.core.Blocker",
       this.__blocker.addListenerOnce("blocked", function(e){
         this.__blockedEventFired = true;
       }, this);
-      
+
       this.__blocker.addListenerOnce("unblocked", function(e){
         this.__unblockedEventFired = true;
       }, this);
-      
+
       this.__blocker.blockContent(100);
       this.__blocker.unblockContent(100);
-      
+
       this.wait(100, function() {
         this.assertTrue(this.__blockedEventFired, "'blocked' event was not fired, after blockContent() was executed!");
         this.assertTrue(this.__unblockedEventFired, "'unblocked' event was not fired, after unblockContent() was executed!");

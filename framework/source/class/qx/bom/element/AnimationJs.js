@@ -31,7 +31,7 @@
  * (CSS or JavaScript) should be used. Most likely, this implementation should
  * be the one to use.
  */
-qx.Bootstrap.define("qx.bom.element.AnimationJs", 
+qx.Bootstrap.define("qx.bom.element.AnimationJs",
 {
   statics :
   {

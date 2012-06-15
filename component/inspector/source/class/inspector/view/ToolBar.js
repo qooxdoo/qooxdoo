@@ -148,7 +148,7 @@ qx.Class.define("inspector.view.ToolBar",
     __menuItemStore : null,
 
     __overflowMenu : null,
-    
+
     __windowsPart : null,
 
     getTextField : function() {

@@ -24,9 +24,9 @@
 qx.Class.define("qx.dev.unit.MeasurementResult", {
 
   extend : Object,
-  
+
   /**
-   * 
+   *
    * @param message {String} Description
    * @param iterations {Number} Amount of times the tested code was executed
    * @param ownTime {Number} Elapsed JavaScript execution time
@@ -39,17 +39,17 @@ qx.Class.define("qx.dev.unit.MeasurementResult", {
     this.__ownTime = ownTime;
     this.__renderTime = renderTime;
   },
-  
+
   members :
   {
     __message : null,
     __iterations : null,
     __ownTime : null,
     __renderTime : null,
-    
+
     /**
      * Returns a readable summary of this result
-     * 
+     *
      * @return {String} Result summary
      */
     toString : function()

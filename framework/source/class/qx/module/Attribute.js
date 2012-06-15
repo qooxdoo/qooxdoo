@@ -69,7 +69,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
 
 
     /**
-     * Returns the value of the given attribute for the first item in the 
+     * Returns the value of the given attribute for the first item in the
      * collection.
      *
      * @attach {q}
@@ -210,8 +210,8 @@ qx.Bootstrap.define("qx.module.Attribute", {
 
     /**
      * Returns the currently configured value for the first item in the collection.
-     * Works with simple input fields as well as with select boxes or option 
-     * elements. Returns an array for select boxes with multi selection. In all 
+     * Works with simple input fields as well as with select boxes or option
+     * elements. Returns an array for select boxes with multi selection. In all
      * other cases, a string is returned.
      *
      * @attach {q}
@@ -227,12 +227,12 @@ qx.Bootstrap.define("qx.module.Attribute", {
 
     /**
      * Applies the given value to each element in the collection.
-     * Normally the value is given as a string/number value and applied to the 
-     * field content (textfield, textarea) or used to detect whether the field 
+     * Normally the value is given as a string/number value and applied to the
+     * field content (textfield, textarea) or used to detect whether the field
      * is checked (checkbox, radiobutton).
      * Supports array values for selectboxes (multiple selection) and checkboxes
      * or radiobuttons (for convenience).
-     * Please note: To modify the value attribute of a checkbox or radiobutton 
+     * Please note: To modify the value attribute of a checkbox or radiobutton
      * use @link{#set} instead.
      *
      * @attach {q}
@@ -244,7 +244,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
       for (var i=0, l=this.length; i<l; i++) {
         qx.bom.Input.setValue(this[i], value);
       }
-      
+
       return this;
     }
   },
@@ -266,7 +266,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
       "setProperty" : statics.setProperty,
       "getProperties" : statics.getProperties,
       "setProperties" : statics.setProperties,
-      
+
       "getValue" : statics.getValue,
       "setValue" : statics.setValue
     });

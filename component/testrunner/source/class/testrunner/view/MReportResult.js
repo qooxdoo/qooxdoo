@@ -18,8 +18,8 @@
 ************************************************************************ */
 
 /**
- * Sends the result of a single unit to the URI configured by the 
- * "testrunner.reportServer" environment setting. 
+ * Sends the result of a single unit to the URI configured by the
+ * "testrunner.reportServer" environment setting.
  * The data is contained in the _ScriptTransport_data
  * parameter. It begins with 'unittest=', followed by a JSON-encoded map
  * containing the following string values:
@@ -37,40 +37,40 @@ qx.Mixin.define("testrunner.view.MReportResult", {
   {
     this.__results = {};
     this.__autErrors = {};
-  },  
+  },
   members :
   {
     __results : null,
     __autErrors : null,
-    
-    
+
+
     /**
-     * Returns the map of results for  the current suite. The keys are fully 
+     * Returns the map of results for  the current suite. The keys are fully
      * qualified names of test methods. Values are maps with the following keys:
      * <pre>state</pre> The test's final state<br/>
      * <pre>messages</pre> Array of error messages
-     * 
+     *
      * @return {Map} Test results map
      */
     getTestResults : function()
     {
       return this.__results;
     },
-    
-    
+
+
     /**
      * Returns the map of uncaught exceptions that occurred during test suite
      * execution. The keys are fully qualified names of test methods while the
      * values are arrays of error messages
-     * 
+     *
      * @return {Map} Map of uncaught exceptions
      */
     getAutErrors : function()
     {
       return this.__autErrors;
     },
-    
-    
+
+
     /**
      * Use the AUT's global error logging to catch any uncaught exceptions
      * triggered by the unit tests
@@ -88,8 +88,8 @@ qx.Mixin.define("testrunner.view.MReportResult", {
       else {
         win = window;
       }
-      
-      
+
+
       var geh = win.qx.core.Environment.get("qx.globalErrorHandling");
       if (geh) {
         win.qx.event.GlobalError.setErrorHandler(this._handleUncaughtError, this);
@@ -119,11 +119,11 @@ qx.Mixin.define("testrunner.view.MReportResult", {
       }
       this.__autErrors[currentTest].push(msg);
     },
-    
-    
+
+
     /**
      * Adds an entry for a single test to the results map
-     * 
+     *
      * @param testResultData {testrunner.runner.TestItem} Test result object
      */
     saveTestResult : function(testResultData)
@@ -148,11 +148,11 @@ qx.Mixin.define("testrunner.view.MReportResult", {
         this.__results[testName].messages = messages;
       }
     },
-    
-    
+
+
     /**
      * Returns a map containing information about a single test
-     * 
+     *
      * @param testName {String} Fully qualified test method name
      * @return {Map} Result data
      */
@@ -166,22 +166,22 @@ qx.Mixin.define("testrunner.view.MReportResult", {
       else {
         autUri = document.location.href
       }
-     
+
       if (autUri.indexOf("?") > 0) {
         autUri = autUri.substring(0, autUri.indexOf("?"));
       }
-      
+
       data.testName = testName;
       data.message = this.__results[testName].messages;
       data.autUri = autUri;
       data.browserName = qx.core.Environment.get("browser.name");
       data.browserVersion = qx.core.Environment.get("browser.version");
       data.os = qx.core.Environment.get("os.name");
-      
+
       return data;
     },
-    
-    
+
+
     /**
      * Sends a test result to the server
      *
@@ -194,7 +194,7 @@ qx.Mixin.define("testrunner.view.MReportResult", {
       }
 
       var jsonData = qx.lang.Json.stringify(this.getTestResultData(testName));
-      
+
       var req = new qx.io.remote.Request(
         qx.core.Environment.get("testrunner.reportServer"), "GET");
       req.setData("unittest=" + jsonData);
@@ -212,8 +212,8 @@ qx.Mixin.define("testrunner.view.MReportResult", {
       }, this);
       req.send();
     },
-    
-    
+
+
     /**
      * Returns the results of all tests that didn't end with the status "success"
      * @return {Map} Unsuccessful test results
@@ -247,7 +247,7 @@ qx.Mixin.define("testrunner.view.MReportResult", {
       return failedTests;
     },
 
-    
+
     /**
      * Returns a JSON serialization of {@link #getFailedResults}
      *
@@ -257,8 +257,8 @@ qx.Mixin.define("testrunner.view.MReportResult", {
     {
       return qx.lang.Json.stringify(this.getFailedResults());
     },
-    
-    
+
+
     /**
      * Returns any errors caught in the AUT in a readable format containing the
      * name of the unit test that triggered the exception, its message and, if

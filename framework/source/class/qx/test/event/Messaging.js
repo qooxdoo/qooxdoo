@@ -114,7 +114,7 @@ qx.Class.define("qx.test.event.Messaging",
       this.__m.emit("POST", "/123456/affe", data);
       this.assertCalledOnce(handler);
       this.assertCalledOn(handler, ctx);
-      this.assertCalledWith(handler, 
+      this.assertCalledWith(handler,
         {customData: undefined, params: {id: "123456", data: "test"}, path: "/123456/affe"}
       );
     },
@@ -126,7 +126,7 @@ qx.Class.define("qx.test.event.Messaging",
       this.__m.on("POST", "/{id}-{name}/affe", handler);
       this.__m.emit("POST", "/123456-xyz/affe", data);
       this.assertCalledOnce(handler);
-      this.assertCalledWith(handler, 
+      this.assertCalledWith(handler,
         {customData: undefined, params: {id: "123456", name: "xyz", data: "test"}, path: "/123456-xyz/affe"}
       );
     },

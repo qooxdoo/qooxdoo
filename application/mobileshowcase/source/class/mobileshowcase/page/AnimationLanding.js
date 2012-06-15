@@ -50,22 +50,22 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
   members :
   {
     __landingText : '<strong>Tap "back" button for the reverse animation</strong>',
-  
+
     // overridden
     _initialize : function()
     {
       this.base(arguments);
-      
+
       var embed = new qx.ui.mobile.embed.Html(this.__landingText);
-      
+
       if(this._isTablet) {
         qx.event.Registration.addListener(this, "appear", this.__deactiveAnimation, this);
       }
-      
+
       this.getContent().add(embed);
     },
-    
-    
+
+
     /**
      * Deactivates the animation on parentContainer's layout.
      */
@@ -79,8 +79,8 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
     {
      qx.core.Init.getApplication().getRouting().executeGet("/animation", {animation:this.getAnimation(), reverse:true});
     },
-    
-    
+
+
     /*
     *****************************************************************************
       DESTRUCTOR

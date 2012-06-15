@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     __childrenContainer : null,
     __emptyLabel : null,
 
-   
+
         // property apply
     _applyIconPosition : function(value, old) {
         var targetLayout;
@@ -146,15 +146,15 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         } else {
            targetLayout = new qx.ui.mobile.layout.HBox();
         }
-        
+
         var isReverse = ["right", "bottom"].indexOf(value) != -1;
         targetLayout.setReversed(isReverse);
-        
+
         this.__childrenContainer.setLayout(targetLayout);
-        
+
         this.__updateGap(old, null);
         this.__updateGap(value,this.getGap());
-        
+
         this._domUpdated();
     },
 
@@ -183,27 +183,27 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     {
       this.__updateGap(this.getIconPosition(),value);
     },
-    
-    
+
+
     /**
      * Updates the gap between icon and label text.
      * @param iconPosition {String} position of the icon: "left", "bottom", "right", "top".
      * @param value {Integer} size of the gap.
      */
     __updateGap : function (iconPosition, value) {
-     
+
       if(this.__icon)
       {
         // Then set new margin gap.
         var newMarginPosition = this.__getOpposedPosition(iconPosition);
         var newPropKey = 'margin'+qx.lang.String.firstUp(newMarginPosition);
-        
+
         if(value) {
           this.__icon._setStyle(newPropKey, value + 'px');
         } else {
           this.__icon._setStyle(newPropKey, null);
         }
-        
+
       }
     },
 
@@ -297,7 +297,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     {
       var iconWidget = new qx.ui.mobile.basic.Image(iconUrl);
       iconWidget.setAnonymous(true);
-      
+
       return iconWidget;
     },
 
@@ -313,7 +313,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       var labelWidget = new qx.ui.mobile.basic.Label(label);
       labelWidget.setAnonymous(true);
       labelWidget.setWrap(false);
-      
+
       return labelWidget;
     },
 
@@ -336,26 +336,26 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         this.__icon = this._createIconWidget(icon);
         this.setIcon(icon);
       }
-      
+
       var layout;
       var verticalLayout = [ "top", "bottom" ].indexOf(this.getIconPosition()) != -1;
       // If Atom has no Label, only Icon is shown, and should vertically centered.
       var hasNoLabel = !this.__label;
-      
+
       if(verticalLayout || hasNoLabel){
         layout = new qx.ui.mobile.layout.VBox();
       } else {
         layout = new qx.ui.mobile.layout.HBox();
       }
-      
+
       this.__childrenContainer = new qx.ui.mobile.container.Composite(layout);
       this.__childrenContainer.addCssClass("box-centered");
       this.__childrenContainer.setAnonymous(true);
-      
+
       if(this.__icon) {
         this.__childrenContainer.add(this.__icon, {flex : 0});
       }
-      
+
       if(this.__label) {
         // LABEL
         this.__label.addCssClass("box-centered");
@@ -367,7 +367,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         this.__emptyLabel = new qx.ui.mobile.basic.Label(" ");
         this.__childrenContainer.add(this.__emptyLabel);
       }
-      
+
       // Show/Hide Label/Icon
       if(this.getShow() === 'icon' && this.__label) {
         this.__label.exclude();
@@ -375,7 +375,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       if(this.getShow() === 'label' && this.__icon) {
         this.__icon.exclude();
       }
-      
+
       this._add(this.__childrenContainer);
     }
   },
@@ -386,7 +386,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
      DESTRUCTOR
   *****************************************************************************
   */
-  
+
   destruct : function() {
       this._disposeObjects("__label", "__emptyLabel", "__icon", "__childrenContainer");
   }

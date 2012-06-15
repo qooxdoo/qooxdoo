@@ -20,7 +20,7 @@
 qx.Class.define("qx.test.mobile.dialog.Menu",
 {
   extend : qx.test.mobile.MobileTestCase,
-  
+
   members :
   {
     testInit : function()

@@ -18,17 +18,17 @@
 ************************************************************************ */
 
 /**
- * This widget displays a menu. A dialog menu extends a dialog and contains a 
+ * This widget displays a menu. A dialog menu extends a dialog and contains a
  * list, which provides the user the possibility to select one value.
  * The selected value is identified through selected index.
- * 
- * 
- * 
+ *
+ *
+ *
  * *Example*
  * <pre class='javascript'>
- * 
+ *
  * var model = new qx.data.Array(["item1","item2","item3"]);
- * 
+ *
  * var menu = new qx.ui.mobile.dialog.Menu(model);
  * menu.show();
  * menu.addListener("changeSelection", function(evt){
@@ -42,7 +42,7 @@
 qx.Class.define("qx.ui.mobile.dialog.Menu",
 {
   extend : qx.ui.mobile.dialog.Dialog,
-  
+
   /**
    * @param itemsModel {var?null}, The choosable items of the menu.
    */
@@ -53,17 +53,17 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     // Create the list with a delegate that
     // configures the list item.
     this.__selectionList = this._createSelectionList();
-    
+
     if(itemsModel){
       this.__selectionList.setModel(itemsModel);
     }
-    
+
     this.add(this.__selectionList);
-    
+
     this._getBlocker().addListener("tap", this.__onBlockerTap, this);
   },
-  
-  
+
+
   /*
   *****************************************************************************
      EVENTS
@@ -77,8 +77,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      */
     changeSelection : "qx.event.type.Data"
   },
-  
-  
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -93,8 +93,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       refine : true,
       init : "menu"
     },
-    
-    
+
+
     /**
      * Indicates whether the menu should disappear when tap/click on blocker.
      */
@@ -103,8 +103,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       check : "Boolean",
       init : false
     },
-    
-    
+
+
     /**
      *  Class which is assigned to selected items.
      *  Useful for re-styling your menu via LESS.
@@ -113,8 +113,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     {
       init : "item-selected"
     },
-    
-    
+
+
     /**
      * Class which is assigned to unselected items.
      * Useful for re-styling your menu via LESS.
@@ -136,8 +136,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
   {
     __selectionList: null,
     __selectedIndex: null,
-    
-    
+
+
     /**
      * Creates the selection list. Override this to customize the widget.
      *
@@ -166,14 +166,14 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       // Add an changeSelection event
       selectionList.addListener("changeSelection", this.__onListChangeSelection, this);
       selectionList.addListener("click", this.__onListClick, this);
-      
+
       return selectionList;
     },
-    
-    
+
+
     /**
      *  Sets the items in the menu.
-     *  
+     *
      *  @param itemsModel {qx.data.Array}, the model of choosable items in the menu.
      */
     setItems : function (itemsModel) {
@@ -182,8 +182,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
         this.__selectionList.setModel(itemsModel);
       }
     },
-    
-    
+
+
     /**
      * Sets the pre-selected item.
      * Set selectedIndex before model, because changing model triggers rendering of list.
@@ -192,8 +192,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     setSelectedIndex : function (selectedIndex) {
       this.__selectedIndex = selectedIndex;
     },
-    
-    
+
+
     /**
      * Hides the menu, fires an event which contains index and data.
      * @param evt {qx.event.type.Data}, contains the selected index number.
@@ -201,11 +201,11 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     __onListChangeSelection : function (evt) {
       var selectedIndex = evt.getData();
       var selectedItem = this.__selectionList.getModel().getItem(selectedIndex)
-      
+
       this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedItem});
     },
-    
-    
+
+
     /**
      * Reacts on blocker tap.
      */
@@ -215,21 +215,21 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
         this.hide();
       }
     },
-    
-    
+
+
     /**
      * Reacts on selection list click.
      */
     __onListClick : function () {
         // Last event which is fired by tap on List is a click event,
-        // so hide menu, first on click event. 
-        // If menu is hidden before click-event, event will bubble to ui 
+        // so hide menu, first on click event.
+        // If menu is hidden before click-event, event will bubble to ui
         // element which is behind menu, and might cause an unexpected action.
         this.hide();
     }
-    
+
   },
-  
+
   /*
   *****************************************************************************
       DESTRUCTOR

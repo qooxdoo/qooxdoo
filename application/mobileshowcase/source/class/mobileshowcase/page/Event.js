@@ -58,10 +58,10 @@ qx.Class.define("mobileshowcase.page.Event",
       container.addListener("touchmove", this._onTouch, this);
       container.addListener("touchend", this._onTouch, this);
       qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
-      
+
       var label = this.__label = new qx.ui.mobile.basic.Label("Touch / Tap / Swipe this area");
       container.add(label);
-      
+
       var descriptionText = "<b>Testing Touch Events:</b> Touch / Tap / Swipe the green area</br><b>Testing OrientationChange Event</b>: Rotate your device / change browser size";
       this.getContent().add(new qx.ui.mobile.basic.Label(descriptionText), {flex:1});
       this.getContent().add(container, {flex:1});
@@ -88,8 +88,8 @@ qx.Class.define("mobileshowcase.page.Event",
     {
       this.__label.setValue(this.__label.getValue() + " swipe");
     },
-    
-    
+
+
     /**
      * Event handler for orientationchange event.
      */

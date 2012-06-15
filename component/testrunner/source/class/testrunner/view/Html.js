@@ -28,7 +28,7 @@
 
 /**
  * Plain HTML TestRunner view.
- * 
+ *
  * @lint ignoreUndefined($)
  */
 qx.Class.define("testrunner.view.Html", {
@@ -67,25 +67,25 @@ qx.Class.define("testrunner.view.Html", {
       qx.bom.Stylesheet.includeFile(s2);
       qx.bom.Stylesheet.includeFile(s3);
     }
-    
+
     this.__nativeProfiling = (qx.core.Environment.get("testrunner.performance") &&
       qx.Class.hasMixin(this.constructor, testrunner.view.MPerformance) &&
       typeof console != "undefined" && console.profile);
-    
+
     this._getHeader().appendTo("body");
     $('<div id="main"></div>').appendTo("body");
     this._getMainControls().appendTo("#header-wrapper");
     this._bindMainControls();
-    
+
     $('<div id="tests"></div>').appendTo("#main");
     this._getTestControls().appendTo("#tests");
     this._bindTestControls();
     this._getTestList().appendTo("#tests");
-    
+
     $('<div id="frame_log"></div>').appendTo("#main");
-    
+
     this._getFooter().appendTo("body");
-    
+
     this._makeCommands();
 
     this.__testResults = {};
@@ -165,7 +165,7 @@ qx.Class.define("testrunner.view.Html", {
         '<div id="search"><input type="search" placeholder="Filter Tests" id="testfilter"/></div>' +
         '</div>')
       .append('<div class="decoration" />');
-      
+
       return header;
     },
 
@@ -183,19 +183,19 @@ qx.Class.define("testrunner.view.Html", {
       .append('<label for="togglestack">Show stack traces for failed tests</label>')
       .append(qx.bom.Input.create("checkbox", {id: "togglepassed", checked: "checked"}))
       .append('<label for="togglepassed">Show successful tests</label>');
-      
+
       if (this.__nativeProfiling) {
         controls.append(qx.bom.Input.create("checkbox", {id: "nativeprofiling"}))
         .append('<label for="nativeprofiling">Use native console profiling feature for performance tests</label>');
       }
-      
+
       return controls;
     },
-    
-    
+
+
     /**
      * Add listeners to the main Test Runner controls
-     * 
+     *
      * @lint ignoreUndefined($)
      */
     _bindMainControls : function()
@@ -203,7 +203,7 @@ qx.Class.define("testrunner.view.Html", {
       var controls = $("#controls");
       qx.event.Registration.addListener(controls.children("#run")[0], "click", this.__runTests, this);
       qx.event.Registration.addListener(controls.children("#stop")[0], "click", this.__stopTests, this);
-      
+
       qx.event.Registration.addListener(controls.children("#togglestack")[0], "change", function(ev) {
         this.setShowStack(ev.getData());
       }, this);
@@ -211,7 +211,7 @@ qx.Class.define("testrunner.view.Html", {
       qx.event.Registration.addListener(controls.children("#togglepassed")[0], "change", function(ev) {
         this.setShowPassed(ev.getData());
       }, this);
-      
+
       if (this.__nativeProfiling) {
         qx.event.Registration.addListener(controls.children("#nativeprofiling")[0], "change", function(ev) {
           this.setNativeProfiling(ev.getData());
@@ -234,14 +234,14 @@ qx.Class.define("testrunner.view.Html", {
       '</div>');
       testControls.children("div").children("label")
       .before(qx.bom.Input.create("checkbox", {id: "togglealltests", checked: "checked"}))
-      
+
       return testControls;
     },
 
 
     /**
      * Add listeners to the test list controls
-     * 
+     *
      * @lint ignoreUndefined($)
      */
     _bindTestControls : function() {
@@ -346,7 +346,7 @@ qx.Class.define("testrunner.view.Html", {
       if (autFrame.length == 1) {
         return autFrame[0];
       }
-      
+
       var frameContainer = $('<div id="framecontainer">' +
         '<div id="framecontrols" class="controls">' +
           '<h2>Application Under Test</h2>' +
@@ -355,8 +355,8 @@ qx.Class.define("testrunner.view.Html", {
         '</div>')
       .append(qx.bom.Iframe.create({id : "autframe"}))
       .appendTo("#frame_log");
-      
-      qx.event.Registration.addListener($("#setiframesrc")[0], 
+
+      qx.event.Registration.addListener($("#setiframesrc")[0],
         "click", this.__reloadAut, this);
 
       return frameContainer.children("#autframe")[0];
@@ -375,7 +375,7 @@ qx.Class.define("testrunner.view.Html", {
       if (log.length == 1) {
         return log[0];
       }
-      
+
       var logContainer = $('<div id="logcontainer">' +
           '<div id="logcontrols" class="controls">' +
             '<h2>Log</h2>' +
@@ -388,7 +388,7 @@ qx.Class.define("testrunner.view.Html", {
           '</div>' +
           '<div id="log" class="monotype"></div>' +
         '</div>').appendTo("#frame_log");
-      
+
       return logContainer.children("#log")[0];
     },
 
@@ -533,7 +533,7 @@ qx.Class.define("testrunner.view.Html", {
       }
 
       this._markTestInList(testResultData);
-      
+
       if (qx.core.Environment.get("testrunner.reportServer")) {
         this.saveTestResult(testResultData);
         if (state == "failure" || state == "error") {
@@ -544,11 +544,11 @@ qx.Class.define("testrunner.view.Html", {
 
 
     __testExceptions : null,
-    
+
     /**
      * Styles an entry in the results view according to the corresponding test's
      * state
-     * 
+     *
      * @param testResultData {testrunner.runner.TestItem} Test result object
      * @lint ignoreUndefined($)
      */
@@ -557,29 +557,29 @@ qx.Class.define("testrunner.view.Html", {
       if (!this.__testExceptions) {
         this.__testExceptions = {};
       }
-      
+
       var testName = testResultData.getFullName();
       var state = testResultData.getState();
       var key = this.__simplifyName(testName);
-      
+
       var listItem = $("[for=cb_" + key + "]").parent()
       .setAttribute("class", "").addClass("t_" + state);
       listItem.children(".result")[0].innerHTML = state.toUpperCase();
-      
+
       var exList = this._getExceptionsList(testResultData);
-      
+
       this.__testExceptions[key] = exList;
       var that = this;
       window.setTimeout(function() {
         listItem.append(that.__testExceptions[key]);
       }, 150);
     },
-    
-    
+
+
     /**
      * Returns an ordered list element containing all exceptions from the given
      * test result object
-     * 
+     *
      * @param testResultData {testrunner.runner.TestItem} Test data object
      * @return {Element} HTML list element
      * @lint ignoreUndefined($)
@@ -587,22 +587,22 @@ qx.Class.define("testrunner.view.Html", {
     _getExceptionsList : function(testResultData)
     {
       var exceptions =  testResultData.getExceptions();
-      
+
       if (!exceptions  || exceptions.length == 0) {
         return $("");
       }
-      
+
       var list = $("<ol></ol>");
-      
+
       for (var i=0,l=exceptions.length; i<l; i++) {
         var error = exceptions[i].exception;
-        
-        var errorStr = error.toString ? error.toString() : 
+
+        var errorStr = error.toString ? error.toString() :
           error.message ? error.message : "Unknown Error";
         errorStr = errorStr.replace(/\n/g, "<br/>");
-        
+
         var errorItem = $("<li>" + errorStr + "</li>");
-      
+
         var trace = testResultData.getStackTrace(error);
         if (trace.length > 0) {
           var display = this.getShowStack() ? "block" : "none";
@@ -612,7 +612,7 @@ qx.Class.define("testrunner.view.Html", {
         }
         list.append(errorItem);
       }
-      
+
       return list;
     },
 
@@ -803,7 +803,7 @@ qx.Class.define("testrunner.view.Html", {
           }
         }
       }
-      
+
       if (foundTests.length > 0) {
         this.toggleAllTests(false);
         this.__toggleTestsSelected(foundTests, true);
@@ -931,7 +931,7 @@ qx.Class.define("testrunner.view.Html", {
       if (!value || value == old) {
         return;
       }
-      
+
       var iframe = this.getIframe();
       $("#iframesrc")[0].value = value;
       qx.bom.Iframe.setSource(iframe, value);

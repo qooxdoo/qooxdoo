@@ -26,7 +26,7 @@
 /**
  * A card layout.
  *
- * The card layout lays out widgets in a stack. Call show to display a widget. 
+ * The card layout lays out widgets in a stack. Call show to display a widget.
  * Only the widget which show method is called is displayed. All other widgets are excluded.
  *
  *
@@ -42,9 +42,9 @@
  * container.add(label1);
  * var label2 = new qx.ui.mobile.basic.Label("2");
  * container.add(label2);
- * 
+ *
  * label2.show();
- * </pre> 
+ * </pre>
  */
 qx.Class.define("qx.ui.mobile.layout.Card",
 {
@@ -81,8 +81,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       check : "String",
       init : "slide"
     },
-    
-    
+
+
     /** Flag which indicates, whether animation is needed, or widgets should only swap. */
     showAnimation :
     {
@@ -113,8 +113,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       "cube" : true
     }
   },
-  
-  
+
+
  /*
   *****************************************************************************
      MEMBERS
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         if(hasResizeMixin) {
            widget.fixSize();
         }
-       
+
         widget.addCssClass("layout-card-item");
         widget.addCssClass("boxFlex1");
         widget.exclude();
@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
     /**
      * Shows the widget with the given properties.
-     * 
+     *
      * @param widget {qx.ui.mobile.core.Widget} The target widget
      * @param properties {Map} The layout properties to set. Key / value pairs.
      */
@@ -184,11 +184,11 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       if (this.__nextWidget == widget) {
         return;
       }
-      
+
       if (this.__inAnimation) {
         this.__stopAnimation();
       }
-      
+
       this.__nextWidget = widget;
       if (this.__currentWidget && this.getShowAnimation() && qx.core.Environment.get("css.transform.3d")) {
         properties = properties || {};
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
         this.__reverse = properties.fromHistory || properties.reverse;
 
-      
+
         this.__startAnimation(widget);
       } else {
         this._swapWidget();
@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
     /**
      * Starts the animation for the page transition.
-     * 
+     *
      * @param widget {qx.ui.mobile.core.Widget} The target widget
      */
     __startAnimation : function(widget)

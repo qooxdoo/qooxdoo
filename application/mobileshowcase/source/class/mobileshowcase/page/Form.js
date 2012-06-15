@@ -82,7 +82,7 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username"});
       this.__name.setRequired(true);
-      
+
       form.add(this.__name, "Username: ");
       validationManager.add(this.__name, function(value, item){
         var valid = value != null && value.length>3;
@@ -94,14 +94,14 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__password = new qx.ui.mobile.form.PasswordField().set({placeholder:"Password"});
       form.add(this.__password, "Password: ");
-      
+
       // NUMBER FIELD
       this.__numberField = new qx.ui.mobile.form.NumberField();
       this.__numberField.setPlaceholder("0");
       this.__numberField.setMaximum(150);
       this.__numberField.setMinimum(0);
       form.add(this.__numberField,"Enter your age:");
-      
+
       this.__rememberPass = new qx.ui.mobile.form.CheckBox();
       form.add(this.__rememberPass, "Remember password? ");
       this.__rememberPass.setModel("password_reminder");
@@ -111,7 +111,7 @@ qx.Class.define("mobileshowcase.page.Form",
       form.addGroupHeader("Gender: ");
       this.__radio1 = new qx.ui.mobile.form.RadioButton();
       this.__radio2 = new qx.ui.mobile.form.RadioButton();
-      
+
       var radioGroup = new qx.ui.mobile.form.RadioGroup();
       radioGroup.setAllowEmptySelection(true);
       radioGroup.add(this.__radio1, this.__radio2);
@@ -121,7 +121,7 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__info = new qx.ui.mobile.form.TextArea().set({placeholder:"Terms of Service"});
       form.add(this.__info,"Terms of Service: ");
       this.__info.setValue("qooxdoo Licensing Information\n=============================\n\nqooxdoo is dual-licensed under the GNU Lesser General Public License (LGPL) and the Eclipse Public License (EPL). \n");
-      
+
       this.__save = new qx.ui.mobile.form.ToggleButton(false,"Agree","Reject",13);
       this.__save.addListener("changeValue", this._enableFormSubmitting, this);
       form.add(this.__save, "Agree? ");
@@ -134,7 +134,7 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__sel = new qx.ui.mobile.form.SelectBox();
       this.__sel.setDialogTitle(selQuestion);
       this.__sel.setModel(dd);
-      
+
       form.add(this.__sel, selQuestion);
 
       return form;

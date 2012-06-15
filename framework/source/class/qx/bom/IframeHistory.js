@@ -47,24 +47,24 @@ qx.Class.define("qx.bom.IframeHistory",
     __writeStateTimner : null,
     __dontApplyState : null,
     __locationState : null,
-    
-    
+
+
     // overridden
     _setInitialState : function()
     {
       this.base(arguments);
       this.__locationState = this._getHash();
     },
-    
-    
+
+
     //overridden
     _setHash : function(value)
     {
       this.base(arguments, value);
       this.__locationState = this._encode(value);
     },
-    
-    
+
+
     //overridden
     addToHistory : function(state, newTitle)
     {
@@ -82,8 +82,8 @@ qx.Class.define("qx.bom.IframeHistory",
         this.setState(state);
       }
     },
-    
-    
+
+
     //overridden
     _onHistoryLoad : function(state)
     {
@@ -93,10 +93,10 @@ qx.Class.define("qx.bom.IframeHistory",
         this.setTitle(this._titles[state]);
       }
     },
-    
-    
+
+
     /**
-     * Helper function to set state property. This will only be called 
+     * Helper function to set state property. This will only be called
      * by _onHistoryLoad. It determines, that no apply of state will be called.
      * @param state {String} State loaded from history
      */
@@ -106,8 +106,8 @@ qx.Class.define("qx.bom.IframeHistory",
       this.setState(state);
       this.__dontApplyState = false;
     },
-    
-    
+
+
     //overridden
     _applyState : function(value, old)
     {
@@ -116,7 +116,7 @@ qx.Class.define("qx.bom.IframeHistory",
       }
       this._writeState(value);
     },
-    
+
 
     /**
      * Get state from the iframe
@@ -149,21 +149,21 @@ qx.Class.define("qx.bom.IframeHistory",
         return;
       }
       this.__clearWriteSateTimer();
-      
+
       var state = this._encode(state);
-      
+
       // IE8 is sometimes recognizing a hash change as history entry. Cause of sporadic surface of this behavior, we have to prevent setting hash.
       if (qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.version") != 8){
         this._setHash(state);
       }
-      
+
       var doc = this.__iframe.contentWindow.document;
       doc.open();
       doc.write('<html><body><div id="state">' + state + '</div></body></html>');
       doc.close();
     },
-    
-    
+
+
     /**
      * Helper function to clear the write state timer.
      */

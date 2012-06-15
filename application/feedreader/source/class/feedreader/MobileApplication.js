@@ -44,7 +44,7 @@ qx.Class.define("feedreader.MobileApplication",
     // private members
     __feedFolder : null,
     __overview : null,
-    
+
 
 
     /*
@@ -70,13 +70,13 @@ qx.Class.define("feedreader.MobileApplication",
       var model = new feedreader.model.Model();
       var loader = feedreader.io.FeedLoader.getInstance();
       this.__feedFolder = model.getFeedFolder();
-      
+
       loader.loadAll(this.__feedFolder);
-      
+
       this.buildUpGui();
     },
-    
-    
+
+
     /**
      * Installs listener for "stateModified" on any feed available.
      */
@@ -104,18 +104,18 @@ qx.Class.define("feedreader.MobileApplication",
       var overview = new feedreader.view.mobile.OverviewPage();
       var feedpage = new feedreader.view.mobile.FeedPage();
       var articlePage = new feedreader.view.mobile.ArticlePage();
-      
+
       this.__overview = overview;
-      
+
       var manager = new qx.ui.mobile.page.Manager(false,this.getRoot());
       manager.addDetail([overview,feedpage,articlePage]);
-      
+
       // show the first page and set the feeds
       overview.show();
       overview.setFeeds(this.__feedFolder);
-      
+
       this.__installStateListeners(this.__feedFolder,overview);
-      
+
       // connect the back buttons
       feedpage.addListener("back", function() {
         overview.show({reverse: true});
@@ -139,13 +139,13 @@ qx.Class.define("feedreader.MobileApplication",
           feedpage.show();
         }
       });
-      
+
       // bind the data
       overview.bind("selectedFeed", feedpage, "feed");
       feedpage.bind("selectedArticle", articlePage, "article");
     },
-    
-    
+
+
     /**
      * Handler for stateChanges on any feed.
      */
@@ -153,6 +153,6 @@ qx.Class.define("feedreader.MobileApplication",
       this.__overview.setFeeds(null);
       this.__overview.setFeeds(this.__feedFolder);
     }
-    
+
   }
 });

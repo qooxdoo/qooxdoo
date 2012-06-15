@@ -40,7 +40,7 @@ qx.Class.define("testrunner.runner.TestItem", {
       event : "changeState",
       apply : "_applyState"
     },
-    
+
     /**
      * The item's previous state. This is used to preserve the correct state value
      * for asynchronous tests that have an intermediate "wait" value.
@@ -229,7 +229,7 @@ qx.Class.define("testrunner.runner.TestItem", {
 
     /**
      * Save the previous value when the state changes
-     * 
+     *
      * @param newState {String} New state value
      * @param oldState {String} Previous state value
      */

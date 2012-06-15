@@ -34,7 +34,7 @@ qx.Bootstrap.define("qx.module.Event", {
 
     /**
      * Registry of event hooks
-     * @internal 
+     * @internal
      */
     __hooks : {
       on : {},
@@ -315,7 +315,7 @@ qx.Bootstrap.define("qx.module.Event", {
       else {
         // Continually check to see if the document is ready
         var timer = function() {
-          // onWindowLoad already executed 
+          // onWindowLoad already executed
           if (qx.module.Event.__isReady) {
             return;
           }
@@ -400,8 +400,8 @@ qx.Bootstrap.define("qx.module.Event", {
     {
       return qx.module.Event.__normalizations;
     },
-    
-    
+
+
     /**
      * Registers an event hook for the given event types.
      *
@@ -440,8 +440,8 @@ qx.Bootstrap.define("qx.module.Event", {
         }
       }
     },
-    
-    
+
+
     /**
      * Unregisters a hook from the given event types.
      *

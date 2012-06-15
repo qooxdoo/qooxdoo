@@ -27,13 +27,13 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
   {
     /**
      * Repeatedly runs code and measures execution and rendering times
-     * 
+     *
      * @param msg {String} Description of the measured operation
      * @param callback {Function} Callback containing the code to be measured
      * @param finalize {Function} Finalize function called once after measuring,
      * e.g. for cleanup. Will not be measured.
      * @param iterations {Number} Number of times to execute the callback
-     * @param displayIterations {Number?} Iterations to be displayed instead of 
+     * @param displayIterations {Number?} Iterations to be displayed instead of
      * <code>iterations</code>
      */
     measureRepeated : function(msg, callback, finalize, iterations, displayIterations)
@@ -55,12 +55,12 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
     /**
      * Executes a given callback function once and measures JavaScript execution
      * and rendering time
-     * 
+     *
      * @param msg {String} Description of the measured operation
      * @param callback {Function} Callback containing the code to be measured
      * @param finalize {Function} Finalize function called once after measuring,
      * e.g. for cleanup. Will not be measured.
-     * @param displayIterations {Number?} Iterations to be displayed instead of 
+     * @param displayIterations {Number?} Iterations to be displayed instead of
      * <code>iterations</code>
      */
     measure : function(msg, callback, finalize, displayIterations)
@@ -77,7 +77,7 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
         console.profile && typeof console.profile == "function" &&
         console.profileEnd && typeof console.profileEnd == "function"
       );
-      
+
       if (profilingActive) {
         console.profile(msg);
       }
@@ -114,7 +114,7 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
 
     /**
      * Logs a single measurement result
-     * 
+     *
      * @param msg {String} Description of the measured operation
      * @param iterations {Number} Number of iterations
      * @param ownTime {Number} JavaScript execution time in ms
@@ -123,7 +123,7 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
     log : function(msg, iterations, ownTime, renderTime)
     {
       if (qx.core.Environment.get("qx.debug")) {
-        this.debug([msg, "Iterations: " + iterations, "Time: " + ownTime + "ms", 
+        this.debug([msg, "Iterations: " + iterations, "Time: " + ownTime + "ms",
           "Render time: " + renderTime + "ms"].join("; "));
       }
       throw new qx.dev.unit.MeasurementResult(msg, iterations, ownTime, renderTime);

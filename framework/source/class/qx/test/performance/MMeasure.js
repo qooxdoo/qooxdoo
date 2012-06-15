@@ -5,10 +5,10 @@ qx.Mixin.define("qx.test.performance.MMeasure",
 {
   construct : function()
   {
-    qx.log.Logger.deprecatedMixinWarning(qx.test.performance.MMeasure, 
+    qx.log.Logger.deprecatedMixinWarning(qx.test.performance.MMeasure,
       "Please use qx.dev.unit.MMeasure instead.");
   },
-  
+
   members :
   {
     measureRepeated : function(msg, callback, finalize, iterations, displayIterations)
@@ -36,7 +36,7 @@ qx.Mixin.define("qx.test.performance.MMeasure",
         console.profile && typeof console.profile == "function" &&
         console.profileEnd && typeof console.profileEnd == "function"
       );
-      
+
       if (profilingActive) {
         console.profile(msg);
       }

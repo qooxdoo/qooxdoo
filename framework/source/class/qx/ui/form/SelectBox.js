@@ -34,7 +34,7 @@
  * selectBox.addListener("changeSelection", function(e) {
  *   // ...
  * });
- * 
+ *
  * // now the 'changeSelection' event is fired
  * selectBox.add(new qx.ui.form.ListItem("Item 1");
  * </pre>

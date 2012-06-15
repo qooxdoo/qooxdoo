@@ -401,16 +401,16 @@ qx.Class.define("qx.data.Array",
       var oldArray = this.__array.concat();
 
       this.__array.sort.apply(this.__array, arguments);
-      
+
       // prevent changeBubble event if nothing has been changed
       if (qx.lang.Array.equals(this.__array, oldArray) === true){
         return;
       }
-      
+
       this.fireDataEvent("change",
         {start: 0, end: this.length - 1, type: "order", items: null}, null
       );
-            
+
       // fire change bubbles event
       this.fireDataEvent("changeBubble", {
         value: this.__array,

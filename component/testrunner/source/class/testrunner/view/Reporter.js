@@ -23,7 +23,7 @@
 qx.Class.define("testrunner.view.Reporter", {
 
   extend : testrunner.view.Console,
-  
+
   include : [testrunner.view.MReportResult],
 
   construct : function()
@@ -129,9 +129,9 @@ qx.Class.define("testrunner.view.Reporter", {
       this.saveTestResult(testResultData);
       var testName = testResultData.getFullName();
       var state = this.getTestResults()[testName].state;
-      
+
       this.__infoElem.innerHTML = testName + ": " + state;
-      
+
       if ((state == "failure" || state == "error") &&
         qx.core.Environment.get("testrunner.reportServer"))
       {

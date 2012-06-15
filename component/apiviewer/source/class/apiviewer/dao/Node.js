@@ -95,8 +95,8 @@ qx.Class.define("apiviewer.dao.Node", {
 
     /**
      * Get the line number of this item in the source file
-     * 
-     * @return {Integer|null} line number or <code>null</code> if unknown 
+     *
+     * @return {Integer|null} line number or <code>null</code> if unknown
      */
     getLineNumber : function()
     {
@@ -111,7 +111,7 @@ qx.Class.define("apiviewer.dao.Node", {
      */
     isDeprecated : function()
     {
-      if (typeof this._deprecated == "string" 
+      if (typeof this._deprecated == "string"
         || this.getClass && typeof this.getClass()._deprecated == "string"
         || this.getFromProperty && this.getFromProperty() && this.getFromProperty().isDeprecated())
       {

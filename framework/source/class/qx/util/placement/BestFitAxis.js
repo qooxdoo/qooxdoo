@@ -36,7 +36,7 @@ qx.Bootstrap.define("qx.util.placement.BestFitAxis",
      * @return {Boolean} Whether the object is inside of the axis' range
      */
     _isInRange : qx.util.placement.AbstractAxis._isInRange,
-    
+
     /**
      * Computes the start of the object by taking only the attachment and
      * alignment into account. The object by be not fully visible.
@@ -51,7 +51,7 @@ qx.Bootstrap.define("qx.util.placement.BestFitAxis",
      * @return {Integer} The computed start position of the object.
      */
     _moveToEdgeAndAlign : qx.util.placement.AbstractAxis._moveToEdgeAndAlign,
-    
+
     /**
      * Computes the start of the object on the axis
      *

@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
 
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(8));
       this.getRoot().add(container, {top: 10, left: 10});
- 
+
       // create the textfield
       var textfield = new qx.ui.form.TextField();
       textfield.setLiveUpdate(true);

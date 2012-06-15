@@ -1692,7 +1692,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     /**
      * Creates the application header.
-     * 
+     *
      * @lint ignoreUndefined(qxc)
      */
     _createHeader : function()

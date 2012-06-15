@@ -24,7 +24,7 @@
 qx.Bootstrap.define("qx.module.Polyfill", {
 
   statics: {
-    
+
     /**
      * Wraps the given function so that it will be executed in the given context
      */
@@ -50,7 +50,7 @@ qx.Bootstrap.define("qx.module.Polyfill", {
 
 
       /**
-       * Removes white space from the left side of a string 
+       * Removes white space from the left side of a string
        */
       if (typeof String.prototype.trimLeft !== "function") {
         String.prototype.trimLeft = function(context) {
@@ -59,7 +59,7 @@ qx.Bootstrap.define("qx.module.Polyfill", {
       }
 
       /**
-       * Removes white space from the right side of a string 
+       * Removes white space from the right side of a string
        */
       if (typeof String.prototype.trimRight !== "function") {
         String.prototype.trimRight = function(context) {

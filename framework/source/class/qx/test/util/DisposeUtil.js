@@ -26,20 +26,20 @@ qx.Class.define("qx.test.util.DisposeUtil",
     testDestroyContainer : function()
     {
       var self = this;
-      
+
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       var childContainer1 = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       var childContainer2 = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       var childContainer3 = new qx.ui.container.Stack();
-      
+
       var childContainer4 = new qx.ui.container.Stack();
-      
+
       var child1 = new qx.ui.basic.Atom();
       var child2 = new qx.ui.basic.Atom();
       var child3 = new qx.ui.basic.Atom();
       var child4 = new qx.ui.basic.Atom();
       var child5 = new qx.ui.basic.Atom();
-      
+
       childContainer1.add(child1);
       childContainer2.add(child2);
       childContainer3.add(child3);
@@ -49,9 +49,9 @@ qx.Class.define("qx.test.util.DisposeUtil",
       container.add(child4);
       container.add(child5);
       container.add(childContainer4);
-      
+
       qx.util.DisposeUtil.destroyContainer(container);
-      
+
       window.setTimeout(function() {
         self.resume(function() {
           this.assertTrue(container.isDisposed(), "container not disposed!");

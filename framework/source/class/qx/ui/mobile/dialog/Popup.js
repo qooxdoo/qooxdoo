@@ -79,11 +79,11 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     this.base(arguments);
     this.exclude();
     qx.core.Init.getApplication().getRoot().add(this);
-    
+
     if(anchor) {
       this.__anchor = anchor;
     }
-    
+
     if(widget) {
       this._initializeChild(widget);
     }
@@ -165,7 +165,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
         if(anchorPosition.top + dimension.height > qx.bom.Viewport.getHeight()) {
           this.addCssClass('popupAnchorPointerBottom');
-          
+
           // Flip position
           var topPosition = anchorPosition.top - dimension.height - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingBottom'))
           - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderBottomWidth'));
@@ -175,11 +175,11 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         }
         else if(anchorPosition.left + dimension.width > qx.bom.Viewport.getWidth()) {
           this.addCssClass('popupAnchorPointerRight');
-          
+
           // Flip Position
-          var leftPosition = anchorPosition.left - dimension.width - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingRight')) 
+          var leftPosition = anchorPosition.left - dimension.width - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'paddingRight'))
           - parseInt(qx.bom.element.Style.get(this.getContainerElement(), 'borderRightWidth'));
-          
+
           this.placeTo(leftPosition, anchorPosition.top);
         }
         else {
@@ -202,21 +202,21 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       if (!this.__isShown)
       {
         this.__registerEventListener();
-        
+
         // Move outside of viewport
         this.placeTo(-1000,-1000);
-        
+
         // Needs to be added to screen, before rendering position, for calculating
         // objects height.
         this.base(arguments);
-        
+
         // Now render position.
         this._updatePosition();
       }
       this.__isShown = true;
     },
-    
-    
+
+
     /**
      * Hides the popup.
      */
@@ -252,14 +252,14 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       this.getContainerElement().style.left = left + "px";
       this.getContainerElement().style.top = top + "px";
     },
-    
-    
+
+
     /**
      * Centers this widget to window's center position.
      */
     _positionToCenter : function() {
       var childDimension = qx.bom.element.Dimension.getSize(this.__childrenContainer.getContainerElement());
-      
+
       this.getContainerElement().style.left = "50%";
       this.getContainerElement().style.top = "50%";
       this.getContainerElement().style.marginLeft = -(childDimension.width/2) + "px";
@@ -314,14 +314,14 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this.__childrenContainer.setDefaultCssClass("popup-content")
         this._add(this.__childrenContainer);
       }
-      
+
       if(this._createTitleWidget()) {
         this.__childrenContainer.remove(this._createTitleWidget());
         this.__childrenContainer.add(this._createTitleWidget());
       }
-      
+
       this.__childrenContainer.add(widget, {flex:1});
-      
+
       // Anchor Arrow Init...
       if(this.__anchor)
       {
@@ -367,7 +367,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         {
           this.__titleWidget = new qx.ui.mobile.basic.Atom(value, this.getIcon());
           this.__titleWidget.addCssClass('dialogTitleUnderline');
-          
+
           if(this.__widget) {
             this.__childrenContainer.addBefore(this._createTitleWidget(), this.__widget);
           } else {
@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         {
           this.__titleWidget = new qx.ui.mobile.basic.Atom(this.getTitle(), value);
           this.__titleWidget.addCssClass('dialogTitleUnderline');
-          
+
           if(this.__widget) {
             this.__childrenContainer.addBefore(this._createTitleWidget(), this.__widget);
           } else {
@@ -435,8 +435,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     getTitleWidget : function() {
       return this.__titleWidget;
     },
-    
-    
+
+
     /**
      * This method removes the widget shown in the popup.
      */

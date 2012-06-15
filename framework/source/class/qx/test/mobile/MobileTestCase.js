@@ -34,7 +34,7 @@ qx.Class.define("qx.test.mobile.MobileTestCase",
   {
     setUp : function()
     {
-      
+
       if(!this.hasWebkit() && !this.hasGecko()){
           throw new qx.dev.unit.RequirementError("Only Webkit or Gecko engine supported.");
       }

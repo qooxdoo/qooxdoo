@@ -37,7 +37,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
     qx.event.Registration.addListener(window, "orientationchange", this.fixSize, this);
     qx.event.Registration.addListener(window, "resize", this.fixSize, this);
     qx.event.Registration.addListener(this, "appear", this._onAppear, this);
-    
+
     this.addListener("domupdated", this.fixSize, this);
   },
 
@@ -58,7 +58,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
     fireDomUpdatedOnResize : {
       check : "Boolean",
       init : false
-    }    
+    }
   },
 
 
@@ -80,13 +80,13 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
      * Resizes the container element to the height of the parent element.
      */
     fixSize : function()
-    { 
+    {
       var parent = this.getLayoutParent();
-      
+
       if (parent && parent.getContainerElement()) {
         var height = parent.getContainerElement().offsetHeight;
         var width = parent.getContainerElement().offsetWidth;
-        
+
         if (!this.getFireDomUpdatedOnResize()) {
           this._setHeight(height);
           this._setWidth(width);
@@ -99,16 +99,16 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
         }
       }
     },
-    
-    
+
+
     /**
      * Installs a resize listener on layout parent when widget appears.
      */
-    _onAppear : function() 
+    _onAppear : function()
     {
       var layoutParent = this.getLayoutParent();
       qx.event.Registration.addListener(layoutParent, "resize", this.fixSize, this);
-      
+
       // Remove appear listener, because resize listener should only installed once.
       qx.event.Registration.removeListener(this, "appear", this._onAppear, this);
     },
@@ -116,10 +116,10 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
 
     /**
      * Sets the height of the container element.
-     * 
+     *
      * @param height {Integer} The height to set
      */
-    _setHeight : function(height) 
+    _setHeight : function(height)
     {
       var element = this.getContainerElement();
       if (qx.core.Environment.get("qx.mobile.nativescroll"))
@@ -129,15 +129,15 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
         qx.bom.element.Style.set(element, "height", height + "px");
       }
     },
-    
-    
-    
+
+
+
     /**
      * Sets the width of the container element.
-     * 
+     *
      * @param width {Integer} The width to set
      */
-    _setWidth : function(width) 
+    _setWidth : function(width)
     {
       var element = this.getContainerElement();
       if (qx.core.Environment.get("qx.mobile.nativescroll"))
@@ -162,7 +162,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
     qx.event.Registration.removeListener(this, "appear", this._onAppear, this);
     qx.event.Registration.removeListener(this, "appear", this._onAppear, this);
 
-    if(this.getLayoutParent()) 
+    if(this.getLayoutParent())
     {
       qx.event.Registration.removeListener(this.getLayoutParent(), "resize", this.fixSize, this);
     }

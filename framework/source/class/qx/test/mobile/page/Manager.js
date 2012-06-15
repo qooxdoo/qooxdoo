@@ -37,8 +37,8 @@ qx.Class.define("qx.test.mobile.page.Manager",
       manager.addDetail([page]);
       manager.dispose();
     },
-    
-    
+
+
     testAddMobile : function() {
       var manager = new qx.ui.mobile.page.Manager(false);
       var page1 = new qx.ui.mobile.page.NavigationPage();

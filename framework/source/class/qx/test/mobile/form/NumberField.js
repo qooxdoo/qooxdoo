@@ -33,56 +33,56 @@ qx.Class.define("qx.test.mobile.form.NumberField",
       this.assertEventFired(numberField, "changeValue", function() {
         numberField.setValue(15);
       });
-      
+
       this.assertEquals(15,numberField.getValue());
       this.assertEquals(15,qx.bom.element.Attribute.get(numberField.getContainerElement(),'value'));
 
       numberField.destroy();
     },
-    
-    
+
+
     testMinimum : function()
     {
       var numberField = new qx.ui.mobile.form.NumberField();
       this.getRoot().add(numberField);
-      
+
       this.assertEquals('',numberField.getMinimum());
-      
+
       numberField.setMinimum(42);
-      
+
      this.assertEquals(42,numberField.getMinimum());
-      
+
       numberField.destroy();
-      
+
     },
-    
-    
+
+
     testMaximum : function()
     {
       var numberField = new qx.ui.mobile.form.NumberField();
       this.getRoot().add(numberField);
-      
+
       this.assertEquals('',numberField.getMaximum());
-      
+
       numberField.setMaximum(42);
-      
+
       this.assertEquals(42,numberField.getMaximum());
-      
+
       numberField.destroy();
     },
-    
-    
+
+
     testStep : function()
     {
       var numberField = new qx.ui.mobile.form.NumberField();
       this.getRoot().add(numberField);
-      
+
       this.assertEquals('',numberField.getStep());
-      
+
       numberField.setStep(42);
-     
+
       this.assertEquals(42,numberField.getStep());
-      
+
       numberField.destroy();
     },
 

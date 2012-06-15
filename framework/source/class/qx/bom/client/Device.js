@@ -62,11 +62,11 @@ qx.Bootstrap.define("qx.bom.client.Device",
       if (match && match[1]) {
         return qx.bom.client.Device.__ids[match[1]];
       }
-      
+
       return "pc";
     },
-    
-    
+
+
     /**
      * Determines on what type of device the application is running.
      * Valid values are: "mobile", "tablet" or "desktop".
@@ -75,11 +75,11 @@ qx.Bootstrap.define("qx.bom.client.Device",
     getType : function() {
       return qx.bom.client.Device.detectDeviceType(navigator.userAgent);
     },
-    
-    
+
+
     /**
      * Detects the device type, based on given userAgentString.
-     * 
+     *
      * @param userAgentString {String} userAgent parameter, needed for decision.
      * @return {String} The device type name of determined device: "mobile","desktop","tablet"
      */
@@ -88,12 +88,12 @@ qx.Bootstrap.define("qx.bom.client.Device",
         return "tablet";
       } else if (qx.bom.client.Device.detectMobileDevice(userAgentString)){
         return "mobile";
-      } 
-      
+      }
+
       return "desktop";
     },
-    
-    
+
+
     /**
      * Detects if a device is a mobile phone. (Tablets excluded.)
      * @param userAgentString {String} userAgent parameter, needed for decision.
@@ -102,8 +102,8 @@ qx.Bootstrap.define("qx.bom.client.Device",
     detectMobileDevice : function(userAgentString){
         return /android.+mobile|ip(hone|od)|bada\/|blackberry|maemo|opera m(ob|in)i|fennec|NetFront|phone|psp|symbian|windows (ce|phone)|xda/i.test(userAgentString);
     },
-    
-    
+
+
     /**
      * Detects if a device is a tablet device.
      * @param userAgentString {String} userAgent parameter, needed for decision.
@@ -112,10 +112,10 @@ qx.Bootstrap.define("qx.bom.client.Device",
     detectTabletDevice : function(userAgentString){
        return !(/Fennec|HTC.Magic|Nexus|android.+mobile/i.test(userAgentString)) && (/Android|ipad|tablet|playbook|silk|kindle|psp/i.test(userAgentString));
     }
-    
+
   },
-  
-  
+
+
   defer : function(statics) {
       qx.core.Environment.add("device.name", statics.getName);
       qx.core.Environment.add("device.type", statics.getType);

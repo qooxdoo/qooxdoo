@@ -445,9 +445,9 @@ qx.Bootstrap.define("qx.util.ColorUtil",
 
     /**
      * Converts a hex3 (#xxx) string to a hex6 (#xxxxxx) string.
-     * 
+     *
      * @param value {String} a hex3 (#xxx) string
-     * @return {String} The hex6 (#xxxxxx) string or the passed value when the 
+     * @return {String} The hex6 (#xxxxxx) string or the passed value when the
      *   passed value is not an hex3 (#xxx) value.
      */
     hex3StringToHex6String : function(value)

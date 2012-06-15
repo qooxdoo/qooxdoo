@@ -54,8 +54,8 @@ qx.Bootstrap.define("qx.bom.client.Runtime",
       // check for the Node.js runtime
       } else if (typeof process !== "undefined") {
         name = "node.js";
-      } else if (typeof Titanium !== "undefined" && 
-        typeof Titanium.userAgent !== "undefined") 
+      } else if (typeof Titanium !== "undefined" &&
+        typeof Titanium.userAgent !== "undefined")
       {
         name = "titanium";
       } else {

@@ -1103,7 +1103,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         pane.removeListener("cellClick", this._onOpen, this);
       }
     }
-    
+
     if (this.__deferredCall != null)
     {
       this.__deferredCall.cancel();

@@ -26,12 +26,12 @@ qx.Mixin.define("testrunner.view.MPerformance", {
   {
     this.__measurements = [];
   },
-  
+
   properties :
   {
     /**
-     * Whether the browser's built-in profiling capabilities 
-     * (<code>console.profile</code>) should additionally be used for 
+     * Whether the browser's built-in profiling capabilities
+     * (<code>console.profile</code>) should additionally be used for
      * performance tests
      */
     nativeProfiling :
@@ -40,7 +40,7 @@ qx.Mixin.define("testrunner.view.MPerformance", {
       init : false
     }
   },
-  
+
   members :
   {
     __measurements : null,
@@ -57,12 +57,12 @@ qx.Mixin.define("testrunner.view.MPerformance", {
     logMeasurement : function(clazz, msg, iterations, ownTime, renderTime) {
       this.__measurements.push([clazz, msg, iterations, ownTime, renderTime].join("; "));
     },
-    
-    
+
+
     /**
      * Whether the browser's built-in profiling capabilities (console.profile)
      * should (additionally) be used for performance tests
-     * 
+     *
      * @deprecated since 2.0
      * @return {Boolean} <code>true</code> if native profiling should be used
      */

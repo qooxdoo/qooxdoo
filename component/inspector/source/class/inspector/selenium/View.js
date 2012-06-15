@@ -738,8 +738,8 @@ qx.Class.define("inspector.selenium.View", {
         alert("Selenium instance could not be created!");
         return;
       }
-      
-      // make sure a Selenium instance is created. This used to be done 
+
+      // make sure a Selenium instance is created. This used to be done
       // automatically but apparently that's no longer the case in recent
       // Selenium-core versions
       if (!window.selenium) {

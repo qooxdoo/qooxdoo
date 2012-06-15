@@ -115,7 +115,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     isValidKeyIdentifier : function(keyIdentifier)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
         "Use qx.event.util.Keyboard.isValidKeyIdentifier instead.");
       return qx.event.util.Keyboard.isValidKeyIdentifier(keyIdentifier);
     },
@@ -130,7 +130,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     isPrintableKeyIdentifier : function(keyIdentifier)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
         "Use qx.event.util.Keyboard.isPrintableKeyIdentifier instead.");
       return qx.event.util.Keyboard.isPrintableKeyIdentifier(keyIdentifier);
     }
@@ -684,7 +684,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      * @deprecated since 2.0
      */
     _isNonPrintableKeyCode : function(keyCode) {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
         "Use qx.event.util.Keyboard.isNonPrintableKeyCode instead.");
       return qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode);
     },
@@ -699,7 +699,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _isIdentifiableKeyCode : function(keyCode)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
         "Use qx.event.util.Keyboard.isIdentifiableKeyCode instead.");
       return qx.event.util.Keyboard.isIdentifiableKeyCode(keyCode);
     },
@@ -714,7 +714,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _keyCodeToIdentifier : function(keyCode)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
         "Use qx.event.util.Keyboard.keyCodeToIdentifier instead.");
       return qx.event.util.Keyboard.keyCodeToIdentifier(keyCode);
     },
@@ -728,7 +728,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      * @deprecated since 2.0
      */
     _charCodeToIdentifier : function(charCode) {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
         "Use qx.event.util.Keyboard.charCodeToIdentifier instead.");
       return qx.event.util.Keyboard.charCodeToIdentifier(charCode);
     },
@@ -776,7 +776,7 @@ qx.Class.define("qx.event.handler.Keyboard",
   {
     // register at the event handler
     qx.event.Registration.addHandler(statics);
-    
+
     if ((qx.core.Environment.get("engine.name") == "mshtml"))
     {
       members._charCode2KeyCode =

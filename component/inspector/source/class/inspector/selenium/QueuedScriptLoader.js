@@ -63,7 +63,7 @@ qx.Class.define("inspector.selenium.QueuedScriptLoader", {
     },
 
     /**
-     * Processes the next entry in the URI queue. Fires the "finished" event 
+     * Processes the next entry in the URI queue. Fires the "finished" event
      * once the queue is empty.
      */
     __flushQueue : function()
@@ -72,9 +72,9 @@ qx.Class.define("inspector.selenium.QueuedScriptLoader", {
         this.fireDataEvent("finished", this.__results);
         return;
       }
-      
+
       var uri = this.__queue.shift();
-      
+
       var loader = new qx.bom.request.Script();
       loader.on("load", this.__onScriptLoad, this);
       loader.on("error", this.__onScriptError, this);
@@ -82,8 +82,8 @@ qx.Class.define("inspector.selenium.QueuedScriptLoader", {
       loader.open("GET", uri);
       loader.send();
     },
-    
-    
+
+
     /**
      * Callback function for the script request's "load" event
      * @param request {qx.bom.request.Script} Script request object
@@ -95,8 +95,8 @@ qx.Class.define("inspector.selenium.QueuedScriptLoader", {
       }
       this.__flushQueue();
     },
-    
-    
+
+
     /**
      * Callback function for the script request's "error" event
      * @param request {qx.bom.request.Script} Script request object

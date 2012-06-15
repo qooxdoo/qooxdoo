@@ -20,7 +20,7 @@
 #require(qx.bom.request.Xhr#open)
 ************************************************************************ */
 /**
- * This module provides basic IO functionality. It contains three ways to load 
+ * This module provides basic IO functionality. It contains three ways to load
  * data:
  *
  * * XMLHttpRequest: {@link #xhr}
@@ -31,7 +31,7 @@ qx.Bootstrap.define("qx.module.Io", {
   statics :
   {
     /**
-     * Returns a configured XMLHttpRequest object. Using the send method will 
+     * Returns a configured XMLHttpRequest object. Using the send method will
      * finally send the request.
      *
      * @param url {String} Mandatory URL to load the data from.
@@ -62,7 +62,7 @@ qx.Bootstrap.define("qx.module.Io", {
 
 
     /**
-     * Returns a predefined script tag wrapper which can be used to load data 
+     * Returns a predefined script tag wrapper which can be used to load data
      * from cross-domain origins.
      *
      * @param url {String} Mandatory URL to load the data from.
@@ -77,7 +77,7 @@ qx.Bootstrap.define("qx.module.Io", {
 
 
     /**
-     * Returns a predefined script tag wrapper which can be used to load data 
+     * Returns a predefined script tag wrapper which can be used to load data
      * from cross-domain origins via JSONP.
      *
      * @param url {String} Mandatory URL to load the data from.

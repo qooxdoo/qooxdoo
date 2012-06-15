@@ -39,7 +39,7 @@ qx.Bootstrap.define("qx.util.placement.DirectAxis",
      * @return {Integer} The computed start position of the object.
      */
     _moveToEdgeAndAlign : qx.util.placement.AbstractAxis._moveToEdgeAndAlign,
-    
+
     /**
      * Computes the start of the object on the axis
      *

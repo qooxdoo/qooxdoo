@@ -20,8 +20,8 @@
 /* ************************************************************************
 
 #require(qx.log.appender.Util)
-#require(qx.bom.client.Html)  -- defer calls Logger.register which calls 
-                                 Native.process which needs "html.console" 
+#require(qx.bom.client.Html)  -- defer calls Logger.register which calls
+                                 Native.process which needs "html.console"
                                  implementation
 
 ************************************************************************ */

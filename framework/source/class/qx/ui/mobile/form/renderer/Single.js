@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       this.__labels.push(titleLabel);
       this.__rows.push(row);
     },
-    
+
 
     // override
     addButton : function(button) {
@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       this._add(row);
       this.__rows.push(row);
     },
-    
+
 
     // override
     showErrorForItem : function(item) {

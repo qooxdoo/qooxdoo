@@ -211,7 +211,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
         if (qx.lang.Array.contains(items, item)) {
           continue;
         }
-        
+
         // Register listeners
         item.addListener("changeValue", this._onItemChangeChecked, this);
 

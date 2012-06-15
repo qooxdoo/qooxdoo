@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /**
- * Utilities for working with character codes and key identifiers 
+ * Utilities for working with character codes and key identifiers
  */
 qx.Bootstrap.define("qx.event.util.Keyboard", {
 
@@ -48,7 +48,7 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
       27 : "Escape",      // The Escape (Esc) key.
       32 : "Space"        // The Space (Spacebar) key.
     },
-    
+
     /**
      * {Map} maps the keycodes of the numpad keys to the right charcodes
      *
@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
       110 : ",".charCodeAt(0),
       111 : "/".charCodeAt(0)
     },
-    
+
     /**
      * {Map} maps the keycodes of non printable keys to key identifiers
      *
@@ -123,8 +123,8 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
        // The Application key (Windows Context Menu) or right cmd key
        93 : qx.core.Environment.get("os.name") == "osx" ? "cmd" : "Apps"
     },
-    
-    
+
+
     /** char code for capital A */
     charCodeA : "A".charCodeAt(0),
     /** char code for capital Z */
@@ -133,7 +133,7 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
     charCode0 : "0".charCodeAt(0),
     /** char code for 9 */
     charCode9 : "9".charCodeAt(0),
-    
+
     /**
      * converts a keyboard code to the corresponding identifier
      *
@@ -157,8 +157,8 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
         return "Unidentified";
       }
     },
-    
-    
+
+
     /**
      * converts a character code to the corresponding identifier
      *
@@ -168,8 +168,8 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
     charCodeToIdentifier : function(charCode) {
       return this.specialCharCodeMap[charCode] || String.fromCharCode(charCode).toUpperCase();
     },
-    
-    
+
+
     /**
      * Check whether the keycode can be reliably detected in keyup/keydown events
      *
@@ -205,8 +205,8 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
 
       return false;
     },
-    
-    
+
+
     /**
      * Checks whether the keyCode represents a non printable key
      *
@@ -216,8 +216,8 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
     isNonPrintableKeyCode : function(keyCode) {
       return this.keyCodeToIdentifierMap[keyCode] ? true : false;
     },
-    
-    
+
+
     /**
      * Checks whether a given string is a valid keyIdentifier
      *
@@ -254,8 +254,8 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
           return false;
       }
     },
-    
-    
+
+
     /**
      * Checks whether a given string is a printable keyIdentifier.
      *
@@ -271,7 +271,7 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
       }
     }
   },
-  
+
   defer : function(statics, members)
   {
     // construct inverse of keyCodeToIdentifierMap
