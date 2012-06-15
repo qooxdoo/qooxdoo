@@ -343,6 +343,11 @@ qx.Class.define("playground.Application",
         throw new Error("Mode '" + mode + "' not supported");
       }
 
+      // only set new mode if not already set
+      if (this.__mode == mode) {
+        return true;
+      }
+
       // only change the mode if no code gets lost
       if (this.__discardChanges()) {
         return false;
