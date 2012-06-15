@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
       qx.event.Registration.addListener(fromElement, "animationEnd", this._onAnimationEnd, this);
       qx.event.Registration.addListener(toElement, "animationEnd", this._onAnimationEnd, this);
-
+      
       this._widget.addCssClass("animationParent");
       qx.bom.element.Class.addClasses(toElement, toCssClasses);
       qx.bom.element.Class.addClasses(fromElement, fromCssClasses);
