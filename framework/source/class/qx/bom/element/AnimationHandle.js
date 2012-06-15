@@ -18,8 +18,8 @@
 ************************************************************************ */
 
 /**
- * This is a simple handle, which will be returned when an animation is 
- * started using the {@link qx.bom.element.Animation#animate} method. It 
+ * This is a simple handle, which will be returned when an animation is
+ * started using the {@link qx.bom.element.Animation#animate} method. It
  * basically controls the animation.
  */
 qx.Bootstrap.define("qx.bom.element.AnimationHandle",

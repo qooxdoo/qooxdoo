@@ -266,7 +266,7 @@ qx.Class.define("fce.view.FeatureSelector", {
 
     /**
      * Adds imported feature set data
-     * 
+     *
      * @param ev {qx.event.type.Data} Event that holds the imported data
      */
     __importFeatureSet : function (ev) {
@@ -329,7 +329,7 @@ qx.Class.define("fce.view.FeatureSelector", {
 
 
     /**
-     * Saves user-modified data so it can be re-applied after the model has changed 
+     * Saves user-modified data so it can be re-applied after the model has changed
      */
     _saveModifiedData : function()
     {
@@ -371,7 +371,7 @@ qx.Class.define("fce.view.FeatureSelector", {
     /**
      * Finds the first item in the model where the given property has the given
      * value
-     * 
+     *
      * @param property {String} Name of the property
      * @param value {var} Value to search for
      * @return {Object|null} Matching model item
@@ -387,7 +387,7 @@ qx.Class.define("fce.view.FeatureSelector", {
       }
       return null;
     },
-    
+
 
     /**
      * Adds a new feature set to the display. Data must be a map with one key
@@ -430,10 +430,10 @@ qx.Class.define("fce.view.FeatureSelector", {
       this.getChildControl("table").setModel(value);
     },
 
-    
+
     /**
      * Serialize non-primitive values so they can be displayed and edited
-     * 
+     *
      * @param data {Array} Environment data
      */
     __serializeNonPrimitiveValues : function(data)
@@ -448,7 +448,7 @@ qx.Class.define("fce.view.FeatureSelector", {
         }
       }
     },
-    
+
 
     /**
      * Displays the selected data
@@ -493,7 +493,7 @@ qx.Class.define("fce.view.FeatureSelector", {
       var data = {};
       for (var i=0,l=items.length; i<l; i++) {
         var item = items.getItem(i);
-        
+
         if (!qx.Class.hasProperty(item.constructor, valueProperty)) {
           for (var prop in qx.util.PropertyUtil.getAllProperties(item.constructor)) {
             if (prop !== "name" && prop !== "distinctValues") {

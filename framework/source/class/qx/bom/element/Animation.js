@@ -19,7 +19,7 @@
 
 /**
  * This class is responsible for applying CSS3 animations to plain DOM elements.
- * 
+ *
  * The implementation is mostly a cross-browser wrapper for applying the
  * animations, including transforms. If the browser does not support
  * CSS animations, but you have set a keep frame, the keep frame will be applied

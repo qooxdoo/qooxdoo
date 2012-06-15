@@ -107,11 +107,11 @@ qx.Bootstrap.define("qx.io.ImageLoader",
           // If width and height aren't defined, provide some defaults
           var width =
             (entry && qx.lang.Type.isNumber(entry.width)
-             ? entry.width 
+             ? entry.width
              : this.__defaultSize.width);
 
           var height =
-            (entry && qx.lang.Type.isNumber(entry.height) 
+            (entry && qx.lang.Type.isNumber(entry.height)
              ? entry.height
              : this.__defaultSize.height);
 

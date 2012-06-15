@@ -169,18 +169,18 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       this.__searchDialog.setTitle('Search ...');
       return this.__searchDialog;
     },
-    
-    
+
+
     // overridden
     _stop : function() {
       if (this.__deleteDialog) {
-        this.__deleteDialog.hide();  
+        this.__deleteDialog.hide();
       }
       if (this.__areYouSurePopup) {
         this.__areYouSurePopup.hide();
       }
       if (this.__searchPopup) {
-        this.__searchPopup.hide(); 
+        this.__searchPopup.hide();
       }
       if (this.__searchDialog) {
         this.__searchDialog.hide();

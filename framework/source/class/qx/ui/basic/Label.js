@@ -401,12 +401,12 @@ qx.Class.define("qx.ui.basic.Label",
 
     /**
     * Firefox > 9 on OS X will draw an ellipsis on top of the label content even
-    * though there is enough space for the text. Re-applying the content forces 
+    * though there is enough space for the text. Re-applying the content forces
     * a recalculation and fixes the problem. See qx bug #6293
     */
     __fixEllipsis : function()
     {
-      if (qx.core.Environment.get("os.name") == "osx" && 
+      if (qx.core.Environment.get("os.name") == "osx" &&
         qx.core.Environment.get("engine.name") == "gecko" &&
         parseInt(qx.core.Environment.get("engine.version"), 10) > 9)
       {

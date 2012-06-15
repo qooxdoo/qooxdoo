@@ -224,7 +224,7 @@ qx.Class.define("qx.bom.Viewport",
       if (typeof win.pageXOffset !== "undefined") {
         return win.pageXOffset;
       }
-      
+
       // Firefox is using 'documentElement.scrollLeft' and Chrome is using
       // 'document.body.scrollLeft'. For the other value each browser is returning
       // 0, so we can use this check to get the positive value without using specific
@@ -248,11 +248,11 @@ qx.Class.define("qx.bom.Viewport",
     getScrollTop : function(win)
     {
       var win = win ? win : window;
-      
+
       if (typeof win.pageYOffeset !== "undefined") {
         return win.pageYOffset;
       }
-      
+
       // Firefox is using 'documentElement.scrollTop' and Chrome is using
       // 'document.body.scrollTop'. For the other value each browser is returning
       // 0, so we can use this check to get the positive value without using specific

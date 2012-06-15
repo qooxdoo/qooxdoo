@@ -21,13 +21,13 @@ qx.Class.define("qx.test.util.Fsm",
 {
   extend : qx.dev.unit.TestCase,
 
-  members : 
+  members :
   {
     /**
      * Ensure that objects added with fsm.addObject() get cleaned up properly
      * by fsm.removeObject()
      */
-    testAddRemoveObject : function() 
+    testAddRemoveObject : function()
     {
       var             before;
       var             intermediate;
@@ -35,7 +35,7 @@ qx.Class.define("qx.test.util.Fsm",
       var             fsm;
       var             obj;
       var             obj2;
-        
+
       //
       // Simple test: object with no groups
       //
@@ -43,25 +43,25 @@ qx.Class.define("qx.test.util.Fsm",
       // Instantiate a new machine and an object
       fsm = new qx.util.fsm.FiniteStateMachine("testMachine");
       obj = new qx.core.Object();
-      
+
       // Retrieve the internal data of the finite state machine.
       // Convert it to JSON for easy comparison later.
       before = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Add an object
       fsm.addObject("obj", obj);
-      
+
       // Retrieve the internal data of the finite state machine.
       // Convert it to JSON for display later, in case of error
       intermediate = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Remove the object
       fsm.removeObject("obj");
-      
+
       // Retrieve the internal data of the finite state machine
       // Convert it to JSON for easy comparison with the before state
       after = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Ensure that there are no differences in internal state
       this.assertEquals(before,
                         after,
@@ -74,28 +74,28 @@ qx.Class.define("qx.test.util.Fsm",
       // Instantiate a new machine and an object
       fsm = new qx.util.fsm.FiniteStateMachine("testMachine");
       obj = new qx.core.Object();
-      
+
       // Retrieve the internal data of the finite state machine.
       // Convert it to JSON for easy comparison later.
       before = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Add an object
       fsm.addObject("obj", obj, "group1");
-      
+
       // Retrieve the internal data of the finite state machine.
       // Convert it to JSON for display later, in case of error
       intermediate = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Remove the object
       fsm.removeObject("obj");
-      
+
       // Retrieve the internal data of the finite state machine
       // Convert it to JSON for easy comparison with the before state
       after = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Ensure that there are no differences in internal state
       this.assertEquals(before, after, "single group (" + intermediate + ")");
-      
+
       //
       // Multiple groups
       //
@@ -103,29 +103,29 @@ qx.Class.define("qx.test.util.Fsm",
       // Instantiate a new machine and an object
       fsm = new qx.util.fsm.FiniteStateMachine("testMachine");
       obj = new qx.core.Object();
-      
+
       // Retrieve the internal data of the finite state machine.
       // Convert it to JSON for easy comparison later.
       before = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Add an object
       fsm.addObject("obj", obj, [ "group1", "group2" ]);
-      
+
       // Retrieve the internal data of the finite state machine.
       // Convert it to JSON for display later, in case of error
       intermediate = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Remove the object
       fsm.removeObject("obj");
-      
+
       // Retrieve the internal data of the finite state machine
       // Convert it to JSON for easy comparison with the before state
       after = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Ensure that there are no differences in internal state
       this.assertEquals(before, after, "single group (" + intermediate + ")");
-      
-      
+
+
       //
       // Multiple objects in a single group
       //
@@ -134,34 +134,34 @@ qx.Class.define("qx.test.util.Fsm",
       fsm = new qx.util.fsm.FiniteStateMachine("testMachine");
       obj = new qx.core.Object();
       obj2 = new qx.core.Object();
-      
+
       // Retrieve the internal data of the finite state machine.
       // Convert it to JSON for easy comparison later.
       before = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Add an object
       fsm.addObject("obj", obj, "group1");
-      
+
       // Add another object
       fsm.addObject("obj2", obj2, "group1");
-      
+
       // Retrieve the internal data of the finite state machine.
       // Convert it to JSON for display later, in case of error
       intermediate = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Remove the second object
       fsm.removeObject("obj2");
 
       // Remove the object
       fsm.removeObject("obj");
-      
+
       // Retrieve the internal data of the finite state machine
       // Convert it to JSON for easy comparison with the before state
       after = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Ensure that there are no differences in internal state
       this.assertEquals(before, after, "single group (" + intermediate + ")");
-      
+
       //
       // Multiple objects in a single group, ensuring that state is correct
       // after only one object is removed
@@ -171,31 +171,31 @@ qx.Class.define("qx.test.util.Fsm",
       fsm = new qx.util.fsm.FiniteStateMachine("testMachine");
       obj = new qx.core.Object();
       obj2 = new qx.core.Object();
-      
+
       // Add an object
       fsm.addObject("obj", obj, "group1");
-      
+
       // Retrieve the internal data of the finite state machine.
       // Convert it to JSON for easy comparison later.
       before = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Add another object
       fsm.addObject("obj2", obj2, "group1");
-      
+
       // Retrieve the internal data of the finite state machine.
       // Convert it to JSON for display later, in case of error
       intermediate = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Remove the second object
       fsm.removeObject("obj2");
 
       // Retrieve the internal data of the finite state machine
       // Convert it to JSON for easy comparison with the before state
       after = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
-      
+
       // Remove the object
       fsm.removeObject("obj");
-      
+
       // Ensure that there are no differences in internal state
       this.assertEquals(before, after, "single group (" + intermediate + ")");
     }

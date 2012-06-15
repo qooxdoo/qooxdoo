@@ -278,7 +278,7 @@ qx.Class.define("qx.bom.element.Location",
           top : top
         }
       },
-      
+
       "default" : function(elem)
       {
         var doc = qx.dom.Node.getDocument(elem);

@@ -21,10 +21,10 @@
 ************************************************************************ */
 
 /**
- * History manager implementation for IE greater 7. IE reloads iframe 
- * content on history actions even just hash value changed. This 
+ * History manager implementation for IE greater 7. IE reloads iframe
+ * content on history actions even just hash value changed. This
  * implementation forwards history states (hashes) to a helper iframe.
- * 
+ *
  * @internal
  */
 qx.Class.define("qx.bom.HashHistory",
@@ -44,8 +44,8 @@ qx.Class.define("qx.bom.HashHistory",
     __checkOnHashChange : null,
     __iframe : null,
     __iframeReady : false,
-    
-    
+
+
     //overridden
     addToHistory : function(state, newTitle)
     {
@@ -63,8 +63,8 @@ qx.Class.define("qx.bom.HashHistory",
         this.setState(state);
       }
     },
-    
-    
+
+
     /**
      * Initializes the iframe
      *
@@ -74,15 +74,15 @@ qx.Class.define("qx.bom.HashHistory",
     {
       this.__iframe = this.__createIframe();
       document.body.appendChild(this.__iframe);
-      
+
       this.__waitForIFrame(function()
       {
         this._baseUrl = this.__iframe.contentWindow.document.location.href;
         this.__attachListeners();
       }, this);
     },
-    
-    
+
+
     /**
      * IMPORTANT NOTE FOR IE:
      * Setting the source before adding the iframe to the document.
@@ -103,8 +103,8 @@ qx.Class.define("qx.bom.HashHistory",
 
       return iframe;
     },
-    
-    
+
+
     /**
      * Waits for the IFrame being loaded. Once the IFrame is loaded
      * the callback is called with the provided context.
@@ -135,8 +135,8 @@ qx.Class.define("qx.bom.HashHistory",
       this.__iframeReady = true;
       callback.call(context || window);
     },
-    
-    
+
+
     /**
      * Attach hash change listeners
      */
@@ -166,8 +166,8 @@ qx.Class.define("qx.bom.HashHistory",
         this._onHistoryLoad(currentState);
       }
     },
-    
-    
+
+
     /**
      * Browser dependent function to read the current state of the history
      *
@@ -177,8 +177,8 @@ qx.Class.define("qx.bom.HashHistory",
       var hash = !this._getHash() ? "" : this._getHash().substr(1);
       return this._decode(hash);
     },
-    
-    
+
+
     /**
      * Returns the fragment identifier of the top window URL. For gecko browsers we
      * have to use a regular expression to avoid encoding problems.
@@ -204,8 +204,8 @@ qx.Class.define("qx.bom.HashHistory",
     {
       this._setHash(this._encode(state));
     },
-    
-    
+
+
     /**
      * Sets the fragment identifier of the window URL
      *

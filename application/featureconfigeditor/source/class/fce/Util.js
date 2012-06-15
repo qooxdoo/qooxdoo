@@ -34,12 +34,12 @@ qx.Class.define("fce.Util", {
     {
       var temp = {};
       // sort the map by key names. May or may not work depending on JS engine.
-      var sortedKeys = qx.lang.Object.getKeys(data).sort(); 
+      var sortedKeys = qx.lang.Object.getKeys(data).sort();
       for (var i=0,l=sortedKeys.length; i<l; i++) {
         var key = sortedKeys[i];
         //convert non-primitive values that were serialized to allow editing back into objects
-        if (data[key] === "null" || 
-          /^(?:\{|\[)".*(?:\}|\])$/.test(data[key])) 
+        if (data[key] === "null" ||
+          /^(?:\{|\[)".*(?:\}|\])$/.test(data[key]))
         {
           temp[key] = qx.lang.Json.parse(data[key]);
         }

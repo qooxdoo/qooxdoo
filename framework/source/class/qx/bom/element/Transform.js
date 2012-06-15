@@ -113,7 +113,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
       var transformCss = this.__mapToCss(transforms);
       if (this.__cssKeys != null) {
         var style = this.__cssKeys["name"];
-        return qx.lang.String.hyphenate(style) + ":" + transformCss + ";";        
+        return qx.lang.String.hyphenate(style) + ":" + transformCss + ";";
       }
       return "";
     },

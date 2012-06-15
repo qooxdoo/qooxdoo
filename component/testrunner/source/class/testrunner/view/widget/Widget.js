@@ -895,7 +895,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
     },
 
     /**
-     * 
+     *
      * @param value {String} New suite state value
      * @param old {String} Old suite state value
      * @lint ignoreDeprecated(alert)

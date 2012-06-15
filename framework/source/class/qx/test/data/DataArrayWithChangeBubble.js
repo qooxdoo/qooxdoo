@@ -358,13 +358,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
       this.assertCalledOnce(spy);
       this.assertArrayEquals(["C", "B", "A"], this.array.toArray(), "Changes are not applied!");
     },
-    
-    
+
+
     testSortSecondTime : function()
     {
       var that = this;
       var changeBubbleExecutionCounter = 0;
-      
+
       var handler = function(e) {
         that.assertEquals(0, changeBubbleExecutionCounter);
         that.assertArrayEquals(["C", "B", "A"], that.array.toArray(), "Changes are not applied when handler is executed!");
@@ -372,7 +372,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertArrayEquals(["C", "B", "A"], e.getData().value);
         that.assertEquals("data[0-2]", e.getData().name);
         that.assertArrayEquals(["A", "B", "C"], e.getData().old);
-        
+
         changeBubbleExecutionCounter ++;
       }
 
@@ -385,7 +385,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
 
       this.assertCalledOnce(spy);
       this.assertArrayEquals(["C", "B", "A"], this.array.toArray(), "Changes are not applied!");
-      
+
       // Sort array second time with same method
       this.array.sort(function(a, b) {
         return a < b ? 1 : a > b ? -1 : 0;

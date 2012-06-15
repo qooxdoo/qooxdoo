@@ -68,7 +68,7 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
         input.indexOf("iPad") != -1
       ) {
         return "ios";
-        
+
       } else if (
         agent.indexOf("Android") != -1
       ) {

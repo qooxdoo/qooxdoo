@@ -91,7 +91,7 @@ qx.Class.define("fce.ApplicationLowLevel",
         var riaLink = document.createElement("a");
         riaLink.href = "?ria";
         riaLink.innerHTML = "Launch Configuration Editor (may not work on mobile devices)";
-        
+
         var mailTo = document.createElement("a");
         mailTo.innerHTML = "Send feature set data by email";
         var subject = encodeURIComponent(headerText);

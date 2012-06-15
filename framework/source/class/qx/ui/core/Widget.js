@@ -1948,7 +1948,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInstance(child, qx.ui.core.LayoutItem.constructor, "'Child' must be an instance of qx.ui.core.LayoutItem!")
       }
-      
+
       // When moving in the same widget, remove widget first
       if (child.getLayoutParent() == this) {
         qx.lang.Array.remove(this.__widgetChildren, child);
