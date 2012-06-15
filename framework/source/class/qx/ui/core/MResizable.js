@@ -429,7 +429,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __onResizeMouseDown : function(e)
     {
       // Check for active resize
-      if (!this.__resizeActive) {
+      if (!this.__resizeActive || !this.getEnabled()) {
         return;
       }
 
@@ -488,7 +488,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __onResizeMouseUp : function(e)
     {
       // Check for active resize
-      if (!this.hasState("resize")) {
+      if (!this.hasState("resize") || !this.getEnabled()) {
         return;
       }
 
@@ -564,6 +564,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
      */
     __onResizeMouseMove : function(e)
     {
+      if (!this.getEnabled()) {
+        return;
+      }
+
       if (this.hasState("resize"))
       {
         var bounds = this.__computeResizeResult(e);
