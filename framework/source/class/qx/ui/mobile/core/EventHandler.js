@@ -370,6 +370,5 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
     qx.event.Registration.addListener(document, "touchend", statics.__onTouchEnd);
     qx.event.Registration.addListener(document, "touchcancel", statics.__onTouchEnd);
     qx.event.Registration.addListener(document, "touchmove", statics.__onTouchMove);
-    
   }
 });
