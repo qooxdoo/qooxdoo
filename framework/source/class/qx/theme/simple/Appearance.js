@@ -1446,12 +1446,19 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
+        var padding = [3, 5, 3, 5];
+        if (states.lead) {
+          padding = [ 2, 4 , 2, 4];
+        }
+        if (states.dragover) {
+          padding[2] -= 2;
+        }
         return {
-          gap             : 4,
-          padding         : states.lead ? [ 2, 4 ] : [ 3, 5 ],
+          gap : 4,
+          padding : padding,
           backgroundColor : states.selected ? "background-selected" : undefined,
-          textColor       : states.selected ? "text-selected" : undefined,
-          decorator       : states.lead ? "lead-item" : undefined
+          textColor : states.selected ? "text-selected" : undefined,
+          decorator : states.lead ? "lead-item" : states.dragover ? "dragover" : undefined
         };
       }
     },

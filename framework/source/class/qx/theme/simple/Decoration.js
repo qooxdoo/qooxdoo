@@ -88,6 +88,17 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
 
 
+    "dragover" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style : {
+        bottom: [2, "solid", "dark-blue"]
+      }
+    },
+
+
+
     /*
     ---------------------------------------------------------------------------
       BUTTON
