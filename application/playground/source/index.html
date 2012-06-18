@@ -27,7 +27,7 @@
 page.setTitle("Hello World");
 page.addListener("initialize", function() {
   var button = new qx.ui.mobile.form.Button("First Button");
-  page.getContent().add(button);          
+  page.getContent().add(button);
 
   button.addListener("tap", function() {
     alert("Hello World");
@@ -64,7 +64,7 @@ page.addListener("initialize", function() {
   list.addListener("changeSelection", function(evt) {
     alert("Item Selected #" + evt.getData());
   }, this);
-  
+
   page.getContent().add(list);
 },this);
 
@@ -113,24 +113,24 @@ page1.show();</textarea>
 page.setTitle("Login");
 page.addListener("initialize", function() {
   var form = new qx.ui.mobile.form.Form();
-  
+
   // User name
   var user = new qx.ui.mobile.form.TextField();
   user.setRequired(true);
   form.add(user, "Username");
-  
+
   // Password
   var pwd = new qx.ui.mobile.form.PasswordField();
   pwd.setRequired(true);
   form.add(pwd, "Password");
-  
+
   // Use form renderer
   page.getContent().add(new qx.ui.mobile.form.renderer.SinglePlaceholder(form));
-  
+
   // login button
   var button = new qx.ui.mobile.form.Button("Login");
   page.getContent().add(button);
-  
+
   button.addListener("tap", function() {
     if (form.validate()) {  // use form validation
       alert("Loggin in " + user.getValue());
@@ -195,8 +195,8 @@ button1.addListener("execute", function(e) {
 
 <!-- ********************************************************************** -->
 
-<div id="compare_div1" visibility="hidden"></div>
-<div id="compare_div2" visibility="hidden"></div>
+<div id="compare_div1" style="visibility: hidden;"></div>
+<div id="compare_div2" style="visibility: hidden;"></div>
 
 <textarea class="qx_samples" title="Window-ria">var win = new qx.ui.window.Window("First Window");
 win.setWidth(300);
