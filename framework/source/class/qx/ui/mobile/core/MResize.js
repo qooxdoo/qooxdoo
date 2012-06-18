@@ -37,8 +37,6 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
     qx.event.Registration.addListener(window, "orientationchange", this.fixSize, this);
     qx.event.Registration.addListener(window, "resize", this.fixSize, this);
     qx.event.Registration.addListener(this, "appear", this._onAppear, this);
-
-    this.addListener("domupdated", this.fixSize, this);
   },
 
 
@@ -86,7 +84,12 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
       if (parent && parent.getContainerElement()) {
         var height = parent.getContainerElement().offsetHeight;
         var width = parent.getContainerElement().offsetWidth;
-
+        
+        // Only fix size, when value are above zero.
+        if(height == 0 || width == 0) {
+            return;
+        }
+        
         if (!this.getFireDomUpdatedOnResize()) {
           this._setHeight(height);
           this._setWidth(width);
@@ -107,8 +110,12 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
     _onAppear : function()
     {
       var layoutParent = this.getLayoutParent();
+      
       qx.event.Registration.addListener(layoutParent, "resize", this.fixSize, this);
-
+      
+      // Wait till page has rendered items, then fix size of page.
+      qx.event.Timer.once(this.fixSize, this, 1000);
+      
       // Remove appear listener, because resize listener should only installed once.
       qx.event.Registration.removeListener(this, "appear", this._onAppear, this);
     },
