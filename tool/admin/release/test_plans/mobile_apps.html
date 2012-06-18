@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
-<head>
+<html lang="en"><head>
+
+
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Mobile Application Test Matrix</title>
   <style type="text/css">
@@ -28,8 +29,7 @@
 
 	</style>
   <script type="text/javascript" src="utils.js"></script>
-</head>
-<body onload="adjustVersionStrings();autonumbering();">
+</head><body onload="adjustVersionStrings();autonumbering();">
 <div> <em>$Rev$</em>
 </div>
 <div align="center"><b>qooxdoo <span name="versstring">$(qxversion)</span></b></div>
@@ -259,7 +259,9 @@ item select.</td>
     </tr>
     <tr>
       <td name="number" width="2%">2.2</td>
-      <td>Form page loads, form elements can be used. A number field appears on "Enter your age", on mobile/tablet devices. SelectBox works.</td>
+      <td>Form
+page loads, form elements can be used. A number field appears on "Enter
+your age", on mobile/tablet devices. SelectBox works.</td>
       <td><br>
       </td>
       <td><br>
@@ -336,7 +338,9 @@ touch-end (mouse-up) events are recorded. OrientationChange is fired. (See annot
     <tr>
       <td name="number">2.5<br>
       </td>
-      <td style="vertical-align: top;">Data Binding: Label updates on slider move/button clicks. Slider updates on button clicks. List updates on click on "Stop current time".<br>
+      <td style="vertical-align: top;">Data
+Binding: Label updates on slider move/button clicks. Slider updates on
+button clicks. List updates on click on "Stop current time".<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -373,9 +377,32 @@ transition types work (may differ on OS)</td>
       </td>
     </tr>
     <tr>
+      <td name="number" style="vertical-align: top;">2.7<br>
+      </td>
+      <td style="vertical-align: top;">Toolbar page loads<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+<tr>
       <td name="number">2.7<br>
       </td>
-      <td style="vertical-align: top;">Theme Switcher: Application looks ok in all available themes: Android theme (only Android device), iOS theme (only iOS device), Indigo theme (all devices). <br>
+      <td style="vertical-align: top;">Theme
+Switcher: Application looks ok in all available themes: Android theme
+(only Android device), iOS theme (only iOS device), Indigo theme (all
+devices). <br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -394,7 +421,8 @@ transition types work (may differ on OS)</td>
     </tr>
     <tr>
       <td name="number" width="2%">2.8</td>
-      <td>Back button works from all pages (only mobile devices)</td>
+      <td>Back button works from all pages<br>
+</td>
       <td><br>
       </td>
       <td><br>
@@ -403,11 +431,11 @@ transition types work (may differ on OS)</td>
       </td>
       <td><br>
       </td>
-      <td><br>
+      <td>N/A<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">N/A<br>
       </td>
-      <td><br>
+      <td>N/A<br>
       </td>
     </tr>
     <tr>
@@ -432,14 +460,14 @@ adapts</td>
     </tr>
     <tr>
       <td name="number" width="2%">2.10</td>
-      <td>Tablet view on tablet devices and desktop, Mobile view on mobile devices. (See annotations below)</td>
+      <td>Tablet view on tablet devices and desktop (See annotations below)</td>
       <td><br>
       </td>
-      <td><br>
+      <td>N/A<br>
       </td>
-      <td><br>
+      <td>N/A<br>
       </td>
-      <td><br>
+      <td>N/A<br>
       </td>
       <td><br>
       </td>
@@ -452,12 +480,9 @@ adapts</td>
 </table>
 <div> </div>
 <div>
-Legend: <img
- src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">
-&nbsp;Ok &nbsp;&nbsp;&nbsp; (<img
- src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">)
-&nbsp;Mainly Ok &nbsp;&nbsp;&nbsp; <img
- src="http://resources.qooxdoo.org/images/icons/edit-delete.22.png">
+Legend: <img src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">
+&nbsp;Ok &nbsp;&nbsp;&nbsp; (<img src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">)
+&nbsp;Mainly Ok &nbsp;&nbsp;&nbsp; <img src="http://resources.qooxdoo.org/images/icons/edit-delete.22.png">
 &nbsp;Not Ok
 </div>
 <h3>Annotations</h3>
@@ -465,10 +490,14 @@ Legend: <img
   <li>On Desktop, all themes should work. On tablet/mobile devices use the specific OS theme and the Indigo theme.</li>
   <li>Mobile and desktop devices should be connected to "onair" network. </li>
   <li>On iOS you only need to enter credentials. For deletion of your credentials, just disconnect once. </li>
-  <li>On Android you need to enter credentials (identity and password), chose EAP method >> TTLS, and Phase2 authentication >> PAP. After testing on Android, please delete WLAN connection.</li>
+  <li>On
+Android you need to enter credentials (identity and password), chose
+EAP method &gt;&gt; TTLS, and Phase2 authentication &gt;&gt; PAP. After
+testing on Android, please delete WLAN connection.</li>
   <li>Tablet view has 2 NavigationPages on a screen on landscape orientation, and 1 NavigationPage + Popup in portrait mode.</li>
   <li>Mobile view just has one NavigationPage and a "Back" button at NavigationBar.</li>
-  <li>Orientation change can be reached either, by rotating the tablet device by 90 degrees, or resizing the browser windows size to less/above 50:50 ratio</li>
+  <li>Orientation
+change can be reached either, by rotating the tablet device by 90
+degrees, or resizing the browser windows size to less/above 50:50 ratio</li>
 </ul>
-</body>
-</html>
+</body></html>
