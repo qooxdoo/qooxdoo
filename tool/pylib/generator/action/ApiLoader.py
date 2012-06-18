@@ -77,7 +77,8 @@ class ApiLoader(object):
 
     def getPackageApi(self, packageId):
         if not packageId in self._docs:
-            self._console.warn("Missing package docs: %s" % packageId)
+            if packageId:  # don't complain empty root namespace
+                self._console.warn("Missing package docs: %s" % packageId)
             return None
             
         packageEntry = self._docs[packageId]
