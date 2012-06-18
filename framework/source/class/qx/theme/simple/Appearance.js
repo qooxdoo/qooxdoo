@@ -1453,10 +1453,18 @@ qx.Theme.define("qx.theme.simple.Appearance",
         if (states.dragover) {
           padding[2] -= 2;
         }
+
+        var backgroundColor;
+        if (states.selected) {
+          backgroundColor = "background-selected"
+          if (states.disabled) {
+            backgroundColor += "-disabled";
+          }
+        }
         return {
           gap : 4,
           padding : padding,
-          backgroundColor : states.selected ? "background-selected" : undefined,
+          backgroundColor : backgroundColor,
           textColor : states.selected ? "text-selected" : undefined,
           decorator : states.lead ? "lead-item" : states.dragover ? "dragover" : undefined
         };

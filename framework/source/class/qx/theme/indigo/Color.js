@@ -37,6 +37,7 @@ qx.Theme.define("qx.theme.indigo.Color",
 
     // backgrounds
     "background-selected" : "#3D72C9",
+    "background-selected-disabled" : "#CDCDCD",
     "background-selected-dark" : "#323335",
     "background-disabled" : "#F7F7F7",
     "background-disabled-checked" : "#BBBBBB",
