@@ -180,7 +180,7 @@ qx.Class.define("testrunner.view.Html", {
       .append('<input type="submit" title="Run selected tests (Ctrl+R)" id="run" value="Run Tests"></input>' +
       '<input type="submit" title="Stop the test suite (Ctrl+S)" id="stop" value="Stop Tests"></input>')
       .append(qx.bom.Input.create("checkbox", {id: "togglestack", checked: "checked"}))
-      .append('<label for="togglestack">Show stack traces for failed tests</label>')
+      .append('<label for="togglestack">Show stack traces</label>')
       .append(qx.bom.Input.create("checkbox", {id: "togglepassed", checked: "checked"}))
       .append('<label for="togglepassed">Show successful tests</label>');
 
