@@ -87,7 +87,7 @@ qx.Class.define("feedreader.model.Model",
       );
       staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
-          "JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "static"
+          "Google Chrome Releases", "http://feeds.feedburner.com/GoogleChromeReleases?format=xml", "static"
         )
       );
       staticFeedFolder.getFeeds().push(
