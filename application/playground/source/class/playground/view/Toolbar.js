@@ -127,6 +127,7 @@ qx.Class.define("playground.view.Toolbar",
     this.setOverflowHandling(true);
 
     // remove priority for overflow handling
+    this.setRemovePriority(demoBrowserButton, 8);
     this.setRemovePriority(helpButton, 7);
     this.setRemovePriority(apiButton, 6);
     this.setRemovePriority(this.__logCheckButton, 5);
