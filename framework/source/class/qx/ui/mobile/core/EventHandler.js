@@ -16,6 +16,10 @@
      * Tino Butz (tbtz)
 
 ************************************************************************ */
+/* ************************************************************************
+#require(qx.event.handler.Touch)
+#require(qx.event.dispatch.DomBubbling)
+************************************************************************ */
 
 /**
  * Connects the widgets to the browser DOM events.
@@ -181,7 +185,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
       var EventHandler = qx.ui.mobile.core.EventHandler;
 
       var touch = domEvent.getChangedTargetTouches()[0];
-
+      
       var deltaY = touch.screenY - EventHandler.__startY;
 
       if (EventHandler.__activeTarget && Math.abs(deltaY) >= qx.event.handler.TouchCore.TAP_MAX_DISTANCE) {
@@ -366,5 +370,6 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
     qx.event.Registration.addListener(document, "touchend", statics.__onTouchEnd);
     qx.event.Registration.addListener(document, "touchcancel", statics.__onTouchEnd);
     qx.event.Registration.addListener(document, "touchmove", statics.__onTouchMove);
+    
   }
 });
