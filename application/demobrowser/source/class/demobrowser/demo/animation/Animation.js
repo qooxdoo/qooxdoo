@@ -177,7 +177,7 @@ qx.Class.define("demobrowser.demo.animation.Animation",
       }
 
       // print a warning if no transforms are supported
-      if ((qx.core.Environment.get("css.transform")["name"])) {
+      if (!(qx.core.Environment.get("css.transform")["name"])) {
         var warning = document.createElement("h1");
         warning.style.color = "red";
         warning.style.clear = "both";
