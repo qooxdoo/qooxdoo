@@ -1858,7 +1858,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         } else if (states.invalid) {
           backgroundColor = "background-invalid";
         } else if (states.focused) {
-          backgroundColor = "background-light";
+          backgroundColor = "background-focused";
         } else {
           backgroundColor = "background-field";
         }
