@@ -21,6 +21,9 @@
 #ignore($)
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Selector",
 {
   extend : qx.application.Native,

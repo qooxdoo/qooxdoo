@@ -27,6 +27,7 @@
 
 /**
  * @tag test
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.test.Decoration_UseCases",
 {

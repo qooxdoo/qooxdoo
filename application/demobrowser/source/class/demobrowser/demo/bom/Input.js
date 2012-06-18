@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Input",
 {
   extend : qx.application.Native,

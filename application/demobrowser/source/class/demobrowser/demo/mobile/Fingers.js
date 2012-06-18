@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.mobile.Fingers",
 {
   extend : qx.application.Native,

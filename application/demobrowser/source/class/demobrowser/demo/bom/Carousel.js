@@ -16,6 +16,10 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
+
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Carousel",
 {
   extend : qx.application.Native,

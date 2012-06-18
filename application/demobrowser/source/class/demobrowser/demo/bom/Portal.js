@@ -21,6 +21,10 @@
 /* ************************************************************************
 #ignore(boxData)
 ************************************************************************ */
+
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Portal",
 {
   extend : qx.application.Native,

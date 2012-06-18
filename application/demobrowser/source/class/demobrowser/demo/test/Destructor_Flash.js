@@ -22,6 +22,7 @@
  * fixed. The Demo creates five flash movies and destroy them.
 
  * @tag test
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.test.Destructor_Flash",
 {

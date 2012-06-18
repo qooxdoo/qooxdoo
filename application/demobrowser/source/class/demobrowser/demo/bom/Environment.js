@@ -22,6 +22,9 @@
  #use(feature-checks)
  */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Environment",
 {
   extend : qx.application.Native,

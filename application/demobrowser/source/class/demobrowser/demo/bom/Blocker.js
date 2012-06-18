@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Blocker",
 {
   extend : qx.application.Native,

@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Location_StandardMode",
 {
   extend : qx.application.Native,

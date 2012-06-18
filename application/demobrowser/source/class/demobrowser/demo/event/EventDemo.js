@@ -26,6 +26,8 @@
 
 /**
  * Native mouse events
+ *
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.event.EventDemo",
 {

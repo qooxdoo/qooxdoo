@@ -16,6 +16,10 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.animation.Animation_Compare",
 {
   extend : qx.application.Native,

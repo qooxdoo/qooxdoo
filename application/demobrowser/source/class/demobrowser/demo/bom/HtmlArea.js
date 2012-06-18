@@ -31,6 +31,8 @@
 
 /**
  * This is the main application class of your custom application "native"
+ *
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.bom.HtmlArea",
 {

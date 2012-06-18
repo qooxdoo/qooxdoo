@@ -21,6 +21,9 @@
 #use(qx.event.handler.ElementResize)
 */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.event.ElementResize",
 {
   extend : qx.application.Native,
