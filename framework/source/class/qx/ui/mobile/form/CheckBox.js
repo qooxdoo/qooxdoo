@@ -117,18 +117,17 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
      */
     _getValue : function() {
       return this._getAttribute("checked");
-    },
-
-
-    /*
-    *****************************************************************************
-        DESTRUCTOR
-    *****************************************************************************
-    */
-    destruct : function()
-    {
-       qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
     }
+  },
 
+
+  /*
+  *****************************************************************************
+      DESTRUCTOR
+  *****************************************************************************
+  */
+  destruct : function()
+  {
+      qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
   }
 });
