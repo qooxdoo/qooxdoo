@@ -83,6 +83,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       "Float"     : true,
       "Double"    : true,
 
+      "Color"    : true,
+
       "Error"     : true,
       "RegExp"    : true,
 
