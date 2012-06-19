@@ -67,7 +67,7 @@ qx.Class.define("showcase.page.dragdrop.Page",
     __features : null,
 
     __manual : {
-      "pages/gui_toolkit/ui_dragdrop.html" : "Drag &amp; Drop"
+      "pages/desktop/ui_dragdrop.html" : "Drag &amp; Drop"
     },
 
     __demos : {
