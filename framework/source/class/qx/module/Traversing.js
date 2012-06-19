@@ -88,11 +88,17 @@ qx.Bootstrap.define("qx.module.Traversing", {
      *
      * @attach {q}
      * @param begin {Number} The index to begin.
-     * @param end {Number} The index to end.
+     * @param end {Number?} The index to end.
      * @return {q} A new collection containing a slice of the original collection.
      */
     slice : function(begin, end) {
-      return q.$init(Array.prototype.slice.call(this, begin, end));
+      // Old IEs return an empty array if the second argument is undefined
+      if (end) {
+        return q.$init(Array.prototype.slice.call(this, begin, end));
+      }
+      else {
+        return q.$init(Array.prototype.slice.call(this, begin));
+      }
     },
 
 
