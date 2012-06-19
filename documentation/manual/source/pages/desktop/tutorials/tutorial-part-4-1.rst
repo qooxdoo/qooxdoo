@@ -55,9 +55,11 @@ Now it's time to add a form and populate it with a pair of fields:
 ::
 
   var form = new qx.ui.form.Form();
+  
   var username = new qx.ui.form.TextField();
   username.setRequired(true);
   form.add(username, "Username", null, "username");
+  
   var password = new qx.ui.form.PasswordField();
   password.setRequired(true);
   form.add(password, "Password", null, "password");
@@ -79,6 +81,7 @@ The form still needs a "submit" button, so we'll add one, plus a "cancel" button
 
   var loginbutton = new qx.ui.form.Button("Login");
   form.addButton(loginbutton);
+  
   var cancelbutton = new qx.ui.form.Button("Cancel");
   form.addButton(cancelbutton);
   cancelbutton.addListener("execute", function() {
