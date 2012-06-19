@@ -84,6 +84,11 @@
   
     "source" :
     {
+      "compile-options" : 
+      {
+        "code" : { "except" : [ "*" ] }
+      },
+
       "run" : [
         "source-script",
         "source-lowlevel-script"
