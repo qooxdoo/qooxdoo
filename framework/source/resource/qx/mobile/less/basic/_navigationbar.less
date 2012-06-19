@@ -18,6 +18,8 @@
 
 .navigationbar-button, .navigationbar-backbutton {
   .standard-button();
+  
+  display:inline-block;
 
   text-align: center;
   font-family: inherit;
@@ -32,10 +34,6 @@
   line-height: 30px;
 
   min-width: 40px;
-  // Firefox uses border-box for flexbox children,
-  // see http://bugzilla.qooxdoo.org/show_bug.cgi?id=5961.
-  min-width: -moz-calc(40px + 10px);
-  //height: -moz-calc(30px + 6px);
 }
 
 //
