@@ -419,6 +419,8 @@
 
       "extend" : [ "scan-local-lib" ],
 
+      "config-warnings" : { "include" : false },
+
       "include" : [ "=${APPLICATION}.*" ],
 
       "pretty-print" : {}
