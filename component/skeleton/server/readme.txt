@@ -15,14 +15,19 @@ documentation.
 
 Skeleton Usage
 ==============
+
+After running generate.py you can invoke the generated script like this:
+
 # Node.js
-$ node <custom>.js
-or
+$ node source/script/<custom>.js
+
+  or
+
 # Rhino
-$ java -cp js.jar org.mozilla.javascript.tools.shell.Main <custom>.js
+$ cd source/script && java -cp <path_to_rhino>/js.jar org.mozilla.javascript.tools.shell.Main <custom>.js
 
 This of course requires the presence of a Node or Rhino installation on your
-system.
+system. The build version of the application is analogously written to build/script.
 
 
 # The following is only required during execution of 'create-application.py'
