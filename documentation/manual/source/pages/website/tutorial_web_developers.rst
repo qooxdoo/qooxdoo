@@ -8,7 +8,7 @@ Tutorial: Building Notifications
 Introduction
 ============
 
-In this tutorial, we want to show the basic steps using %{Website}. To do so, we'll build a simple notification system for web pages. The system should expose one method which brings up a bubble on the screen containing the notification message. The bubble should go away after a period of time. You might be familiar with `Growl for OSX <http://growl.info/>`__ which offers similar functionality.
+In this tutorial we show some basic steps of using %{Website}. To do so, we build a simple notification system for web pages. The system should expose one method which brings up a bubble on the screen containing the notification message. The bubble should go away after a period of time. You might be familiar with `Growl for OSX <http://growl.info/>`__ which offers similar functionality.
 
 
 .. _pages/tutorial_web_developers#Basics:
@@ -16,7 +16,7 @@ In this tutorial, we want to show the basic steps using %{Website}. To do so, we
 Basics
 ======
 
-Let's get started! As %{Website} is a simple %{JS} file, we first need to `download the script file <http://demo.qooxdoo.org/devel/framework/q.min.js>`__. After that, we're going to create a simple HTML file in the same directory as the downloaded script and include it:
+Let's get started! As %{Website} is a simple %{JS} file, we first need to `download the script file <http://demo.qooxdoo.org/%{version}/framework/q.min.js>`__. After that, we're going to create a simple HTML file in the same directory as the downloaded script and include it:
 
 .. code-block:: html
 
@@ -30,7 +30,9 @@ Let's get started! As %{Website} is a simple %{JS} file, we first need to `downl
     </body>
   </html>
 
-Having done that, you can load the page in your favorite browser and check if the title is there and the %{Website} library has been loaded. Simply open a console in your browser and see if ``q`` is defined. If so, we've completed the first step and can start building the application. Next, we need a script tag to place our code into. To keep it simple, we'll just put it in the head of the HTML page, right below the existing script tag.
+Having done that, you can load the page in your favorite browser and check if the title is there and the %{Website} library has been loaded. For instance, simply open a JavaScript console in your browser and see if ``q`` is defined. If so, we've completed the first step and can start building the application. 
+
+Next, we need a script tag to place our code into. To keep it simple, we'll just put it in the head of the HTML page, right below the existing script tag.
 
 .. code-block:: html
 
@@ -39,7 +41,7 @@ Having done that, you can load the page in your favorite browser and check if th
     console.log("it works");
   </script>
 
-The ``console.log`` statement in the script will show us if it works. Reloading the page should bring up the log message in the browser's console. Now it's time to formulate a simple plan covering the next steps. We should first create the popup we want to show, then we can implement the notify method and finally, we can add some demo code to showcase our work. The following code should be placed in the script tag and can replace the previous content.
+The ``console.log`` statement in the script will show us if it works. Reloading the page should bring up the log message in the browser's console. Now it's time to formulate a simple plan covering the next steps. We should first create the popup we want to show, then we can implement the notify method and finally, we can add some demo code to showcase our work. The following code should be placed in the script tag to replace the previous content.
 
 ::
 
@@ -69,7 +71,7 @@ Let's take care of the popup now. This is where the %{Website} library comes in 
 
   var popup = q.create("<div>").appendTo(document.body);
 
-This line line of code uses two essential methods of %{Website}. First, we create a new DOM element, which is wrapped in a collection. On that object, we call the ``applyTo`` method, which adds the newly created element to ``document.body``. Now, reloading the page... brings up an error!?! Sure, we added our script in the head of the HTML document which means ``document.body`` is not ready yet. We need to wait until the document is ready until we can start and %{Website} offers a way to do that. We just wrap the code we've written in a function and give that to ``q.ready``:
+This line line of code uses two essential methods of %{Website}. First, we create a new DOM element, which is wrapped in a collection. On that object, we call the ``appendTo`` method, which adds the newly created element to ``document.body``. Now, reloading the page... brings up an error!?! Sure, we added our script in the head of the HTML document, which means ``document.body`` is not yet ready when our code gets executed. We need to wait until the document is ready until we can start. %{Website} offers a convenient way to do that. We just wrap the code we've written in a function and give that to ``q.ready``:
 
 ::
 
@@ -96,7 +98,7 @@ Reloading the page, the error is gone but nothing else happens. How can we tell 
     }
   </style>
 
-Now, the only thing missing is to set the CSS class for the popup div. That's as easy as calling another method.
+Now, the only thing missing is to set the CSS class for the popup div. That's as easy as calling another method in our previous code.
 
 ::
 
@@ -151,7 +153,7 @@ Again, we used the native ``console`` API to check if our code works. Running th
     }, delay);
   });
 
-Now we are almost there. The only thing missing is to call the ``callback`` as soon as the fade out ended. Again, we listen to the ``animationEnd`` event and call the callback. But as this should be an optional parameter, we should check its availability before executing.
+Now we are almost there. The only thing missing is to execute the ``callback`` as soon as the fade out has ended. Again, we listen to the ``animationEnd`` event and call the callback. But as this should be an optional parameter, we should check its availability before executing.
 
 ::
 
