@@ -1214,10 +1214,18 @@ qx.Class.define("qx.ui.core.Widget",
       elem.resize(bounds.width, bounds.height);
 
       // Move
-      elem.setStyles({
-        left : bounds.left + "px",
-        top : bounds.top + "px"
-      });
+      var domEl = elem.getDomElement();
+      // use the DOM element because the cache of the qx.html.Element could be 
+      // wrong due to changes made by the decorators which work on the DOM element too
+      if (domEl) {
+        domEl.style.top = bounds.top + "px";
+        domEl.style.left = bounds.left + "px";
+      } else {
+        elem.setStyles({
+          left : bounds.left + "px",
+          top : bounds.top + "px"
+        });
+      }
 
       // Remember element
       if (!this.__separators) {
