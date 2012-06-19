@@ -261,7 +261,7 @@ qx.Bootstrap.define("qx.bom.Viewport",
      *     is currently in landscape mode.
      */
     isLandscape : function(win) {
-      return Math.abs(this.getOrientation(win)) == 90;
+      return this.getWidth(win) >= this.getHeight(win);
     },
 
 
@@ -274,7 +274,7 @@ qx.Bootstrap.define("qx.bom.Viewport",
      */
     isPortrait : function(win)
     {
-      return Math.abs(this.getOrientation(win)) !== 90;
+      return this.getWidth(win) < this.getHeight(win);
     }
   }
 });
