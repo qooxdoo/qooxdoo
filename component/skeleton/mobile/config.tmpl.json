@@ -57,6 +57,7 @@
       "source",
       "build",
       "source-all-script", 
+      "source-hybrid",
       "build-files", 
       "build-script", 
       "source-script"
@@ -91,10 +92,12 @@
         "$${APPLICATION}.Application"
       ],
       
+      "asset-let" : {
+        "qx.mobile.platform" : [ "$${PLATFORM}" ]
+      },
+
       "environment" :
       {
-        "qx.version"     : "${QOOXDOO_VERSION}",
-        "qx.application" : "$${APPLICATION}.Application",
         "qx.mobile.emulatetouch" : true,
         "qx.mobile.nativescroll" : false,
         "qx.theme" : "$${PLATFORM}",
@@ -126,14 +129,25 @@
       "let" : { "PLATFORM" : "android" }
     },
 
-    "source" :
+    "source-script" :
     {
+      "extend" : ["mobile-common"],
       "let" : { 
         "BUILD_PATH" : "$${ROOT}/source"
       },
-      "asset-let" : {
-        "qx.mobile.platform" : [ "$${PLATFORM}" ]
-      }
+      "add-css" : [ 
+        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}.css" },
+        { "uri" : "./resource/$${APPLICATION_CSS}" }
+      ]
+    },
+
+    "source-hybrid" :
+    {
+      "extend" : ["mobile-common"],
+      "add-css" : [ 
+        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}.css" },
+        { "uri" : "./resource/$${APPLICATION_CSS}" }
+      ]
     },
 
 
@@ -148,15 +162,6 @@
       "=run" : ["build-resources", "build-files", "build-script", "minify-css"]
     },
 
-
-    "source-script" :
-    {
-      "extend" : ["mobile-common"],
-      "add-css" : [ 
-        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}.css" },
-        { "uri" : "./resource/$${APPLICATION_CSS}" }
-      ]
-    },
 
     "build-script" :
     {
