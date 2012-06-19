@@ -141,12 +141,6 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     {
       this.base(arguments);
       if (widget) {
-        // Fix size, only if widget has mixin MResize set.
-        var hasResizeMixin = qx.Class.hasMixin(widget.constructor,qx.ui.mobile.core.MResize)
-        if(hasResizeMixin) {
-           widget.fixSize();
-        }
-
         widget.addCssClass("layout-card-item");
         widget.addCssClass("boxFlex1");
         widget.exclude();
@@ -187,6 +181,16 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
       if (this.__inAnimation) {
         this.__stopAnimation();
+      }
+      
+      // Fix size, only if widget has mixin MResize set,
+      // and nextWidget is set.
+      if(this.__nextWidget){
+        var hasResizeMixin = qx.Class.hasMixin(widget.constructor,qx.ui.mobile.core.MResize)
+        if(hasResizeMixin) {
+            // Size has to be fixed for animation.
+            widget.fixSize();
+        }
       }
 
       this.__nextWidget = widget;
