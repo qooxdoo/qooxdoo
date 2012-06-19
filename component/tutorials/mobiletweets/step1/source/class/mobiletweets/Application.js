@@ -169,9 +169,22 @@ qx.Class.define("mobiletweets.Application",
 
       // Some error handling
       store.addListener("error", function(evt) {
-        qx.ui.mobile.dialog.Manager.getInstance().alert("Error", "Error loading the tweets for user " + this.getUsername());
-        this.__inputPage.show({reverse:true});
+        qx.ui.mobile.dialog.Manager.getInstance().alert(
+          "Error",
+          "Error loading the tweets for user " + this.getUsername(),
+          this.__showStartPage,
+          this,
+          "OK"
+        );
       }, this);
+    },
+    
+    
+    /**
+     * Shows the input page of the application.
+     */
+    __showStartPage : function() {
+      this.__inputPage.show({reverse:true});
     }
   }
 });
