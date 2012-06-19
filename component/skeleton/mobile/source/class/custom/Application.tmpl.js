@@ -12,6 +12,7 @@
 
 #asset(${Namespace}/*)
 #asset(qx/mobile/icon/$${qx.mobile.platform}/*)
+#asset(qx/mobile/icon/common/*)
 
 ************************************************************************ */
 
