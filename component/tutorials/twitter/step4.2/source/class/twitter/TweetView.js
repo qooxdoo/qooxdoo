@@ -29,7 +29,7 @@ qx.Class.define("twitter.TweetView",
     appearance :
     {
       refine : true,
-      init : "tweet-view"
+      init : "listitem"
     },
 
     icon :
