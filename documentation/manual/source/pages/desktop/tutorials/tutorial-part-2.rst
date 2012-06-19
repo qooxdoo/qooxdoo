@@ -16,8 +16,8 @@ The first thing we need to do is to set a layout for our window. You can see tha
 ::
 
     // add the layout
-        var layout = new qx.ui.layout.Grid(0, 0);
-        this.setLayout(layout);
+    var layout = new qx.ui.layout.Grid(0, 0);
+    this.setLayout(layout);
 
 But a layout without any content is boring so we should add some content to see if it's working. Lets add the first two elements to the window, the :doc:`toolbar </pages/widget/toolbar>` and the :doc:`list </pages/widget/list>` view.
 
@@ -31,8 +31,8 @@ First, we need to create the toolbar before we can add it. Creating the toolbar 
 ::
 
     // toolbar
-        var toolbar = new qx.ui.toolbar.ToolBar();
-        this.add(toolbar, {row: 0, column: 0});
+    var toolbar = new qx.ui.toolbar.ToolBar();
+    this.add(toolbar, {row: 0, column: 0});
 
 This will add the toolbar to the grid layout of our main window. The only thing you should take care of is the second parameter of .add(). It contains a map with layout properties. You can see the available layout properties in the `API of the layout <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.layout.Grid>`_, in this case of the grid layout. Here, we use only the row and column property to tell the layout that this is the element in the first row and column (rows and columns start at index 0, you guessed it).
 
@@ -46,8 +46,8 @@ Adding the list should look familiar now.
 ::
 
     // list
-        var list = new qx.ui.form.List();
-        this.add(list, {row: 1, column: 0});
+    var list = new qx.ui.form.List();
+    this.add(list, {row: 1, column: 0});
 
 Now its time to see our work in the browser. But again, we have added new class dependencies so we need to invoke the generator with ``./generate.py``. After that, we can see the result in the browser. I guess it's not the way we like it to be. You cannot see any toolbar, the list has too much padding against the window border and doesn't fit the whole window. That's something we should take care of now.
 
@@ -64,7 +64,7 @@ Next, we take care of the size of the list. The layout does not know which colum
 ::
 
     layout.setRowFlex(1, 1);
-        layout.setColumnFlex(0, 1);
+    layout.setColumnFlex(0, 1);
 
 The first line tells the layout to keep the second row (the row for the list) flexible. The second row does the same for the first column.
 
@@ -73,8 +73,8 @@ The last thing we need to fix was the invisible toolbar. If you know the reason 
 ::
 
     // reload button
-        var reloadButton = new qx.ui.toolbar.Button("Reload");
-        toolbar.add(reloadButton);
+    var reloadButton = new qx.ui.toolbar.Button("Reload");
+    toolbar.add(reloadButton);
 
 Now its time to see if all the fixes work. But be sure to run the generator before you reload the browser page because we added (again) another class (the button). Now everything should look the way we want it to be.
 
@@ -88,12 +88,12 @@ After that success, we can got to the next task, adding the text area and "Post"
 ::
 
     // textarea
-        var textarea = new qx.ui.form.TextArea();
-        this.add(textarea, {row: 2, column: 0});
+    var textarea = new qx.ui.form.TextArea();
+    this.add(textarea, {row: 2, column: 0});
 
-        // post button
-        var postButton = new qx.ui.form.Button("Post");
-        this.add(postButton, {row: 2, column: 1});
+    // post button
+    var postButton = new qx.ui.form.Button("Post");
+    this.add(postButton, {row: 2, column: 1});
 
 This time, we have to add the button in the second column to get the button and the text area aligned horizontally. Its time to test this... again generate and reload.
 
@@ -102,8 +102,8 @@ Like the last time, the result is not quite what we want it to be. The list and 
 ::
 
     this.add(toolbar, {row: 0, column: 0, colSpan: 2});
-        // ...
-        this.add(list, {row: 1, column: 0, colSpan: 2});
+    // ...
+    this.add(list, {row: 1, column: 0, colSpan: 2});
 
 This time, we did not add a new class dependency so we can just reload the index file and see the result.
 
@@ -119,10 +119,10 @@ These two events we add to our window. Adding events is a two step process. Firs
 ::
 
     events :
-      {
-        "reload" : "qx.event.type.Event",
-        "post"   : "qx.event.type.Data"
-      },
+    {
+      "reload" : "qx.event.type.Event",
+      "post"   : "qx.event.type.Data"
+    },
 
 As you can see in the snippet here, it ends with a comma. It always depends on what position you copy the section if the comma is necessary. Just take care the the class definition is a valid JavaScript object. But now back to the events. The reload event is a plain event which only notifies the receiver to reload. The post event is a data event which contains the data to post to twitter. That's why there are two different types of events used.
 
@@ -131,8 +131,8 @@ Declaring the events is the first step of the process. The second part is firing
 ::
 
     reloadButton.addListener("execute", function() {
-          this.fireEvent("reload");
-        }, this);
+      this.fireEvent("reload");
+    }, this);
 
 Here we see two things: First, how to add an event listener and second, that firing an event is as easy as a method call. The only parameter to .fireEvent() is the name of the event we have declared in the class definition. Another interesting thing here is the third parameter of the ``addListener`` call, **this**. It sets the context of the callback function to our window instance, so the this in this.fireEvent() is resolved correctly.
 
@@ -141,20 +141,20 @@ The next case is a bit different but also easy.
 ::
 
     postButton.addListener("execute", function() {
-          this.fireDataEvent("post", textarea.getValue());
-        }, this);
+      this.fireDataEvent("post", textarea.getValue());
+    }, this);
 
 This time, we call the ``fireDataEvent`` method to get a data event fired. The second parameter is the data to embed in the event. We simply use the value of the text area. That's it for adding the events. To test both events we add a debug listener for each event in our application code, in the main() method of Application.js:
 
 ::
 
     main.addListener("reload", function() {
-            this.debug("reload");
-          }, this);
+      this.debug("reload");
+    }, this);
 
-          main.addListener("post", function(e) {
-            this.debug("post: " + e.getData());
-          }, this);
+    main.addListener("post", function(e) {
+      this.debug("post: " + e.getData());
+    }, this);
 
 You can see in the event listener functions that we use the qooxdoo debugging function ``debug``. Now it's time to test the whole UI. Open the index file in a browser you like and see the UI. If you want to see the debugging messages you have to open either a the debugging tool of your chosen browser or use the qooxdoo debugging console. Press F7 to get the qooxdoo console visible.
 
@@ -163,11 +163,15 @@ You can see in the event listener functions that we use the qooxdoo debugging fu
 Finishing Touches
 =================
 
-As a last task, we can give the UI some finishing touches. Wouldn't it be nice if the text area had a placeholder text saying you should enter your message here? Easy task!
+As a last task, we can give the UI some finishing touches. Wouldn't it be nice if the text area had a placeholder text saying you should enter your message here and ``ToolTips`` showing some more info to the user? Easy task!
 
 ::
 
+    reloadButton.setToolTipText("Reload the tweets.");
+    //..
     textarea.setPlaceholder("Enter your message here...");
+    //..
+    postButton.setToolTipText("Post this message on twitter.");
 
 Another nice tweak could be a twitter logo in the windows caption bar. Just download this `logo from twitter <http://twitter-badges.s3.amazonaws.com/t_small-c.png>`_ and save it in the ``source/resource/twitter`` folder of your application. Adding the logo is easy because the window has also a property for an icon, which can be set in the constructor. Adding the reference to the icon in the base call should do the job.
 
@@ -188,9 +192,9 @@ The last task is a bit more complicated than the other tweaks before. As you pro
 ::
 
     textarea.addListener("input", function(e) {
-          var value = e.getData();
-          postButton.setEnabled(value.length < 140 && value.length > 0);
-        }, this);
+      var value = e.getData();
+      postButton.setEnabled(value.length < 140 && value.length > 0);
+    }, this);
 
 The event handler has only two rows. The first gets the changed text of the text area from the data event. The second row sets the enabled property of the post button if the length of the message is lower than 140 characters and not 0. Some of you might have a bad feeling about this code because the listener is called every time the user adds a character. But that's not a problem because the qooxdoo property system takes care of that. If the value passed into the setter is the same as the existing value, it is ignored and no event is fired.
 
