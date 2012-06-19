@@ -80,7 +80,7 @@ Tutorials
    /pages/desktop/tutorials/tutorial-part-4-2
    /pages/desktop/tutorials/tutorial-part-4-2-1
    /pages/desktop/tutorials/tutorial-part-4-3
-   /pages/desktop/tutorials/tutorial-part-4-3-1
+   /pages/desktop/tutorials/tutorial-part-4-4
    /pages/desktop/tutorials/tutorial-part-4-4-1
    /pages/desktop/tutorials/tutorial-part-4-5
 
