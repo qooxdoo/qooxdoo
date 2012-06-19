@@ -119,11 +119,8 @@ qx.Class.define("mobileshowcase.page.DataBinding",
     __onStopTimeButtonTap : function ()
     {
       var now = new Date();
-      var hours = now.getHours();
-      var min = now.getMinutes();
-      var sec = now.getSeconds();
+      var date = now.toLocaleTimeString();
 
-      var date = hours+ ":"+min+ ":"+sec;
       this.getListData().push(date);
 
       this.__list.setVisibility("visible");
