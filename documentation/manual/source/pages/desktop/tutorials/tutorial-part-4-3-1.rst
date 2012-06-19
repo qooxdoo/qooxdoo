@@ -1,6 +1,6 @@
 .. _pages/desktop/tutorials/tutorial-part-4-3-1#tutorial_part_4.3.1:_gui_testing:
 
-Tutorial Part 4.3: Automated UI Testing
+Tutorial Part 4.3.1: Automated UI Testing
 ***************************************
 
 Having previously covered :doc:`unit testing </pages/desktop/tutorials/tutorial-part-4-3>`, it's time to take a look at qooxdoo's built-in facilities for automated UI testing. Over the course of this tutorial, we'll set up the required infrastructure and develop a test case that interacts with the Twitter application from the previous tutorials.
