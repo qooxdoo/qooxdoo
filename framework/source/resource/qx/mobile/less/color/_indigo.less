@@ -299,6 +299,12 @@ div.checked .toggleButtonSwitch:before {
 // CHECKBOX
 //
 
+.checkbox-label:before {
+  background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
+  background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
+  .border-radius(.1em);
+}
+
 input[type="checkbox"] + label {
   position:relative;
   .border-radius(.3em);
@@ -311,19 +317,27 @@ input[type="checkbox"] + label {
 }
 
 input[type="checkbox"] + label:after {
+    @checkbox-check-color:@dark-blue;
+
     opacity: 0;
     content: '';
     position: absolute;
-    width: 17px;
-    height: 9px;
-    background: transparent;
-    top: 5px;
-    left: 4px;
-    border: 5px solid @dark-blue;
-    border-top: none;
-    border-right: none;
+    width: 11px;
+    height: 6px;
+    background: 
+    transparent;
+    top: 8px;
+    left: 8px;
+    border: 3.5px solid lighten(@checkbox-check-color,10%);
+    border-top: 0;
+    border-right: 0;
     .transform(rotate(-45deg));
+
+    -webkit-box-shadow:  -1px 1px 1px 0px @checkbox-check-color;
+    -moz-box-shadow: -1px 1px 1px 0px @checkbox-check-color;
+    box-shadow: -1px 1px 1px 0px @checkbox-check-color;
 }
+
 
 input[type="checkbox"]:checked + label:after {
     opacity: 1;
@@ -336,7 +350,6 @@ input[type="checkbox"]:checked + label:after {
 // Border style
 input[type=radio] + label {
     #gradient > .vertical(@button-color, darken(@button-color, 20%));
-
     border: @border-thickness solid darken(@border-color, 40%);
 }
 

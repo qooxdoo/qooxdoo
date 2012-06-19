@@ -239,20 +239,33 @@ input[type="checkbox"] + label {
   .border-radius(.3em);
 }
 
+.checkbox-label:before {
+  background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
+  background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
+  .border-radius(.1em);
+}
+
+
 input[type="checkbox"] + label:after {
-    
+    @checkbox-check-color:@android-orange;
+
     opacity: 0;
     content: '';
     position: absolute;
-    width: 17px;
-    height: 9px;
-    background: transparent;
-    top: 5px;
-    left: 4px;
-    border: 5px solid @android-orange;
-    border-top: none;
-    border-right: none;
+    width: 11px;
+    height: 6px;
+    background: 
+    transparent;
+    top: 8px;
+    left: 8px;
+    border: 3.5px solid lighten(@checkbox-check-color,10%);
+    border-top: 0;
+    border-right: 0;
     .transform(rotate(-45deg));
+
+    -webkit-box-shadow:  -1px 1px 1px 0px @checkbox-check-color;
+    -moz-box-shadow: -1px 1px 1px 0px @checkbox-check-color;
+    box-shadow: -1px 1px 1px 0px @checkbox-check-color;
 }
 
 input[type="checkbox"]:checked + label:after {
@@ -279,13 +292,13 @@ input[type=radio] + label {
 
 // Inner Area
 input[type=radio]+ label:before {
-	-webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-	-moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+      -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+      -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+      box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
 
-	background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
-	background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
-	background: linear-gradient(top, #222 0%, #45484d 100%);
+      background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
+      background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
+      background: linear-gradient(top, #222 0%, #45484d 100%);
 }
 
 
