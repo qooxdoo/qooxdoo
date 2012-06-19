@@ -158,7 +158,12 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           
           if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
             // Remove focus from input elements, so that the keyboard and the mouse cursor is hidden
-            var elements = document.getElementsByTagName("input");
+            var elements = [];
+            var inputElements = qx.lang.Array.toArray(document.getElementsByTagName("input"));
+            var textAreaElements = qx.lang.Array.toArray(document.getElementsByTagName("textarea"));
+            elements = elements.concat(inputElements);
+            elements = elements.concat(textAreaElements);
+
             for (var i=0, length = elements.length; i < length; i++) {
               elements[i].blur();
             }
