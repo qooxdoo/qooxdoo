@@ -1,6 +1,13 @@
 testrunner.globalSetup = function() {
   this.sandbox = q.create("<div id='sandbox'></div>");
   this.sandbox.appendTo(document.body);
+  
+  // CSS metrics should be integer by default in IE10 Release Preview, but
+  // getBoundingClientRect will randomly return float values unless this
+  // feature is explicitly deactivated:
+  if (document.msCSSOMElementFloatMetrics) {
+    document.msCSSOMElementFloatMetrics = null;
+  }
 };
 
 testrunner.globalTeardown = function() {
@@ -18,7 +25,7 @@ testrunner.define({
   testDependencies : function()
   {
     if (q.$$qx.core.Environment.get("qx.debug")) {
-      this.skip("Only in non debug version reasonable.")
+      this.skip("Only reasonable in non-debug version.")
     }
     this.assertUndefined(q.$$qx.Class, "Class");
     this.assertUndefined(q.$$qx.Interface, "Interface");
@@ -1908,7 +1915,7 @@ testrunner.define({
 
     this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
     if (q.env.get("engine.name") == "mshtml") {
-      this.assertFalse(q.$$dom.Hierarchy.isRendered(blockerIframe[0]));
+      this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
     }
   }
 });
