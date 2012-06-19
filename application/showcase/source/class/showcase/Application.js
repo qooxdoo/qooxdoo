@@ -255,6 +255,14 @@ qx.Class.define("showcase.Application",
 
     __fadeIn : function(view)
     {
+      // disabled animation for IE8 because alpha filter and 
+      if (
+        qx.core.Environment.get("browser.name") == "ie" && 
+        parseInt(qx.core.Environment.get("browser.version")) <= 8
+      ) {
+        view.show();
+        return;
+      }
       view.getContentElement().setStyle("opacity", 0, true);
       this.__cancelFade();
 
