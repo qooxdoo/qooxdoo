@@ -1,5 +1,5 @@
 #list {
-  width: 250px;
+  width: 276px;
   position: fixed;
   background-color: red;
   bottom: 0;
@@ -29,7 +29,7 @@
 }
 
 #content {
-  left: 270px;
+  left: 296px;
   padding-right: 20px;
   top: 82px;
   position: fixed;
