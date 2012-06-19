@@ -8,7 +8,7 @@ Tutorial Part 1: The Beginning of a twitter App
 The Missing Manual
 ==================
 
-We have heard it a couple of times: Users are missing a tutorial a bit more complex than the simple :ref:`"Hello World" tutorial <pages/getting_started/helloworld#helloworld>` we already have. Today, we want to close that gap between the first tutorial and the `demo applications <http://qooxdoo.org/demo>`_ included in the framework like the `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_.
+We have heard it a couple of times: Users are missing a tutorial a bit more complex than the simple :ref:`"Hello World" tutorial <pages/getting_started/helloworld#helloworld>` we already have. Today, we want to close that gap between the first tutorial and the `demo applications <http://demo.qooxdoo.org>`_ included in the framework like the `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_.
 
 As you sure have read in the headline, we are building a simple twitter application. `twitter <http://twitter.com>`_ is a well known service for posting public short messages and has a `good API <http://apiwiki.twitter.com>`_ for accessing data. The following mockup shows you how the application should look like at the end.
 
@@ -55,7 +55,7 @@ To test the window, we need to create an instance of it in the main application.
 ::
 
     var main = new twitter.MainWindow();
-          main.open();
+    main.open();
 
 Now its time to test the whole thing in the browser. But before we can do that, we need to run the generator once more because we added the window class as new dependency. So run ``./generate.py`` and open the page in the browser. You should see a window in the top left corner having the name "twitter".
 
@@ -75,17 +75,17 @@ Another thing we should configure are the buttons of the window. The user should
 ::
 
     // hide the window buttons
-        this.setShowClose(false);
-        this.setShowMaximize(false);
-        this.setShowMinimize(false);
+    this.setShowClose(false);
+    this.setShowMaximize(false);
+    this.setShowMinimize(false);
 
 The last thing we could change is the size of the window on startup. Of course the user can resize the window but we should take care of a good looking startup of the application. Changing the size is as easy as hiding the buttons, just tell the window in its constructor:
 
 ::
 
     // adjust size
-        this.setWidth(250);
-        this.setHeight(300);
+    this.setWidth(250);
+    this.setHeight(300);
 
 At this point, your application should look like this. 
 
