@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.data.TreeController",
       // create the tree
       var tree = new qx.ui.tree.Tree();
       tree.setSelectionMode("multi");
-      this.getRoot().add(tree, {left: 10, top: 100});
+      this.getRoot().add(tree, {left: 10, top: 130});
       tree.setWidth(250);
       tree.setHeight(300);
 
@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.data.TreeController",
       // create a list for the selection
       var list = new qx.ui.form.List();
       list.setHeight(300);
-      this.getRoot().add(list, {left: 270, top: 100});
+      this.getRoot().add(list, {left: 270, top: 130});
 
       // bind the list to the selection of the tree
       new qx.data.controller.List(treeController.getSelection(), list, "name2");
@@ -75,7 +75,7 @@ qx.Class.define("demobrowser.demo.data.TreeController",
 
       var addItemButton = new qx.ui.form.Button("Add an item to root");
       addItemButton.setWidth(180);
-      this.getRoot().add(addItemButton, {left: 390, top: 100});
+      this.getRoot().add(addItemButton, {left: 390, top: 130});
       addItemButton.addListener("execute", function() {
         var node = new demobrowser.demo.data.model.Node();
         node.setName("Item " + tree.getItems(true).length);
@@ -85,14 +85,14 @@ qx.Class.define("demobrowser.demo.data.TreeController",
 
       var removeItemButton = new qx.ui.form.Button("Remove an item from root");
       removeItemButton.setWidth(180);
-      this.getRoot().add(removeItemButton, {left: 390, top: 135});
+      this.getRoot().add(removeItemButton, {left: 390, top: 165});
       removeItemButton.addListener("execute", function() {
         nodes[0].getChildren().pop();
       }, this);
 
       var changeNameButton = new qx.ui.form.Button("Change the label binding");
       changeNameButton.setWidth(180);
-      this.getRoot().add(changeNameButton, {left: 390, top: 170});
+      this.getRoot().add(changeNameButton, {left: 390, top: 200});
       changeNameButton.addListener("execute", function() {
         if (treeController.getLabelPath() == "name") {
           treeController.setLabelPath("name2");
@@ -103,7 +103,7 @@ qx.Class.define("demobrowser.demo.data.TreeController",
 
       var logDataButton = new qx.ui.form.Button("Write data to log");
       logDataButton.setWidth(180);
-      this.getRoot().add(logDataButton, {left: 390, top: 205});
+      this.getRoot().add(logDataButton, {left: 390, top: 235});
       logDataButton.addListener("execute", function() {
         // push the data in the consoleListController.html
         this.info(nodes[0].toString());

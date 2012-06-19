@@ -62,7 +62,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
       this.getRoot().add(label,
       {
         left : 20,
-        top  : 25
+        top  : 20
       });
 
       // create a combo box
@@ -105,7 +105,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
       this.getRoot().add(label,
       {
         left : 160,
-        top  : 25
+        top  : 20
       });
 
       // create a combo box
@@ -142,7 +142,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
       this.getRoot().add(label,
       {
         left : 300,
-        top  : 25
+        top  : 20
       });
 
       // create a combo box
@@ -189,7 +189,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
       this.getRoot().add(label,
       {
         left : 20,
-        top  : 285
+        top  : 280
       });
 
       // create a combo box

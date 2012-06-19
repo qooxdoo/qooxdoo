@@ -51,7 +51,7 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
       });
 
       doc.add(myview, {
-        left : 100,
+        left : 120,
         top : 20
       })
 

@@ -145,7 +145,7 @@ qx.Class.define("demobrowser.demo.ui.FormValidator",
       // List Selection sync description
       var notEmptyDescription = new qx.ui.basic.Label();
       notEmptyDescription.setRich(true);
-      notEmptyDescription.setWidth(320);
+      notEmptyDescription.setWidth(400);
       notEmptyDescription.setValue(
         "<b>Client side form validation</b><br/>"
         + "All fields are required. Some by a custom validator, some by a "
