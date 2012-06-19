@@ -14,6 +14,7 @@ systems:
 
 * iOS
 * Android 1.6+
+* BlackBerry 10 OS (on BlackBerry PlayBook)
 
 Supported Desktop Browsers
 ==========================
