@@ -97,7 +97,7 @@ qx.Class.define("mobileshowcase.page.Form",
 
       // NUMBER FIELD
       this.__numberField = new qx.ui.mobile.form.NumberField();
-      this.__numberField.setPlaceholder("0");
+      this.__numberField.setValue("0");
       this.__numberField.setMaximum(150);
       this.__numberField.setMinimum(0);
       form.add(this.__numberField,"Enter your age:");
