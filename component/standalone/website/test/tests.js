@@ -1047,8 +1047,14 @@ testrunner.define({
     this.assertEquals("affe", test[0].getAttribute("id"));
     this.assertEquals("affe", test.getAttribute("id"));
     test.removeAttribute("id");
-    this.assertNull(test[0].getAttribute("id"));
-    this.assertNull(test.getAttribute("id"));
+    if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 9) {
+      this.assertEquals("", test[0].getAttribute("id"));
+      this.assertEquals("", test.getAttribute("id"));
+    }
+    else {
+      this.assertNull(test[0].getAttribute("id"));
+      this.assertNull(test.getAttribute("id"));
+    }
   },
 
   testAttributes : function() {
@@ -1058,7 +1064,14 @@ testrunner.define({
     this.assertEquals("affe", test.getAttributes(["id", "x"]).id);
     this.assertEquals("y", test.getAttributes(["id", "x"]).x);
     test.removeAttributes(["id", "x"]);
-    this.assertNull(test.getAttributes(["id", "x"]).id);
+    
+    // removed attributes have empty string values in old IEs
+    if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 9) {
+      this.assertEquals("", test.getAttributes(["id", "x"]).id);
+    }
+    else {
+      this.assertNull(test.getAttributes(["id", "x"]).id);
+    }
     this.assertNull(test.getAttributes(["id", "x"]).x);
   },
 
@@ -1081,10 +1094,10 @@ testrunner.define({
   {
     q.create('<input type="text" value="affe"/>' +
       '<input type="checkbox" value="affe"/>' +
-      '<select><option value="foo">Foo</option><option selected="selected" value="affe">Affe</option></select>')
+      '<select id="single"><option value="foo">Foo</option><option selected="selected" value="affe">Affe</option></select>')
     .appendTo(this.sandbox[0]);
 
-    q.create('<select multiple="multiple">' +
+    q.create('<select id="multiple" multiple="multiple">' +
         '<option selected="selected" value="foo">Foo</option>' +
         '<option value="bar">Bar</option>' +
         '<option selected="selected" value="baz">Baz</option>' +
@@ -1095,18 +1108,18 @@ testrunner.define({
     this.assertEquals("affe", q("#sandbox input[type=text]").getValue());
     this.assertEquals("affe", q("#sandbox input[type=checkbox]").getValue());
     this.assertEquals("affe", q("#sandbox select").getValue());
-    this.assertArrayEquals(["foo", "baz"], q("#sandbox select[multiple=multiple]").getValue());
-
+    this.assertArrayEquals(["foo", "baz"], q("#multiple").getValue());
+    
     q("#sandbox input").setValue("fnord");
     // setting the same value again sets the 'checked' attribute
     q("#sandbox input[type=checkbox]").setValue("affe");
     q("#sandbox select").setValue("foo");
-    q("#sandbox select[multiple=multiple]").setValue(["bar", "boing"])
+    q("#multiple").setValue(["bar", "boing"])
 
     this.assertEquals("fnord", q("#sandbox input[type=text]").getValue());
     this.assertTrue(q("#sandbox input[type=checkbox]").getAttribute("checked"));
     this.assertEquals("foo", q("#sandbox select").getValue());
-    this.assertArrayEquals(["bar", "boing"], q("#sandbox select[multiple=multiple]").getValue());
+    this.assertArrayEquals(["bar", "boing"], q("#multiple").getValue());
   }
 });
 
