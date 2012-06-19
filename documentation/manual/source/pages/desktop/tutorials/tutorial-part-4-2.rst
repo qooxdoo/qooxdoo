@@ -226,7 +226,7 @@ Just add this line at the beginning of the members section:
 
     _dateFormat : null,
 
-    And the destructor after the members section:
+And the destructor after the members section:
 
     destruct : function() {
       this._dateFormat.dispose();
