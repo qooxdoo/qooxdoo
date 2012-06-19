@@ -329,6 +329,46 @@ input[type="checkbox"]:checked + label:after {
     opacity: 1;
 }
 
+//
+// RADIOBUTTON
+//
+
+// Border style
+input[type=radio] + label {
+    #gradient > .vertical(@button-color, darken(@button-color, 20%));
+
+    border: @border-thickness solid darken(@border-color, 40%);
+}
+
+
+// Inner Area
+input[type=radio]+ label:before {
+      -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+      -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+      box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+
+      background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
+      background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
+      background: linear-gradient(top, #222 0%, #45484d 100%);
+}
+
+
+// Color dot
+input[type=radio] + label:after {
+      background: @dark-blue; 
+
+      @dot-color: @dark-blue;
+      @dot-dark-color: darken(@dot-color, 10%);
+
+      background: -webkit-linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
+      background: -moz-linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
+      background: linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
+
+      -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+      -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+      box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+}
+
 // 
 // MASTER DETAIL
 // 

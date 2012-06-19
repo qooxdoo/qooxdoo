@@ -58,6 +58,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
   construct : function(value)
   {
     this.base(arguments);
+    qx.event.Registration.addListener(this, "appear", this.__onAppear, this);
   },
 
 
@@ -143,6 +144,20 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
 
       return containerElement;
     },
+    
+    
+    /**
+     * Event handler, when CheckBox appears on screen.
+     */
+    __onAppear : function() {
+      var label = qx.dom.Element.create("label");
+      qx.bom.element.Attribute.set(label, "for", this.getId());
+      qx.bom.element.Class.add(label, "radiobutton-label");
+
+      qx.dom.Element.insertAfter(label, this.getContentElement());
+
+      qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
+    },
 
 
     /**
@@ -164,5 +179,16 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
       return this._getAttribute("checked");
     }
 
+  },
+
+
+  /*
+  *****************************************************************************
+      DESTRUCTOR
+  *****************************************************************************
+  */
+  destruct : function()
+  {
+      qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
   }
 });
