@@ -2245,16 +2245,16 @@ testrunner.define({
   },
 
   testTransformPerspective : function() {
-    this.sandbox.setTransformPerspective(1234);
+    this.sandbox.setTransformPerspective("1234px");
     if (q.env.get("css.transform") != null) {
-      this.assertEquals("1234", this.sandbox.getTransformPerspective());
+      this.assertEquals("1234px", this.sandbox.getTransformPerspective());
     }
   },
 
   testTransformPerspectiveOrigin : function() {
-    this.sandbox.setTransformPerspectiveOrigin("50% 50%");
+    this.sandbox.setTransformPerspectiveOrigin("30% 50%");
     if (q.env.get("css.transform") != null) {
-      this.assertEquals("50% 50%", this.sandbox.getTransformPerspectiveOrigin());
+      this.assertEquals("30% 50%", this.sandbox.getTransformPerspectiveOrigin());
     }
   },
 
