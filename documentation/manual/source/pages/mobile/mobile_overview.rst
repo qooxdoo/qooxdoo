@@ -3,12 +3,7 @@
 Overview
 ********
 
-.. note::
-
-    This is an experimental feature. You should use the ``trunk`` version of
-    qooxdoo mobile and this documentation.
-
-This is an introduction into qooxdoo's experimental mobile framework. qooxdoo mobile
+This is an introduction into qooxdoo's mobile framework. qooxdoo mobile
 provides a optimized widget set to build applications for mobile devices.
 
 Supported Mobile Operating Systems
