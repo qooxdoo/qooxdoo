@@ -70,11 +70,15 @@ Instead of the controller use the virtual List:
     // setup list binding
     var list = main.getList();
     list.setItemHeight(68);
+    list.setLabelPath("text");
+    list.setIconPath("user.profile_image_url");
     list.setDelegate({
-      createItem : function() {
-        return new twitter.TweetView();
-      },
-      ...
+      configureItem : function(item) {
+        item.getChildControl("icon").setWidth(48);
+        item.getChildControl("icon").setHeight(48);
+        item.getChildControl("icon").setScale(true);
+        item.setRich(true);
+      }
     });
 
 Now we have replaced the controller with the virtual List and reused the
