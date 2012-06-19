@@ -1104,7 +1104,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
     }
 
-    if (this.__deferredCall != null)
+    if (!qx.core.ObjectRegistry.inShutDown && this.__deferredCall != null)
     {
       this.__deferredCall.cancel();
       this.__deferredCall.dispose();
