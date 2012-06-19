@@ -48,6 +48,94 @@ qx.Class.define("fce.Util", {
         }
       }
       return qx.lang.Json.stringify(temp, null, 2);
+    },
+
+
+    /**
+     * Compares two maps.
+     * 
+     * @param a {Map} First map
+     * @param b {Map} Second map
+     * @return {Boolean} <code>true</code> if the maps have equal values
+     */
+    mapsEqual : function(a, b)
+    {
+      if (qx.lang.Object.getLength(a) !== qx.lang.Object.getLength(b)) {
+        return false;
+      }
+
+      for (var prop in a) {
+        if (typeof b[prop] == "undefined") {
+          return false;
+        }
+      }
+
+      for (var prop in b) {
+        if (typeof a[prop] == "undefined") {
+          return false;
+        }
+      }
+
+      for (var prop in a) {
+        var equal = fce.Util.valuesEqual(a[prop], b[prop]);
+        if (!equal) {
+          return false;
+        }
+      }
+
+      return true;
+    },
+
+
+    /**
+     * Compares two values of any type.
+     * 
+     * @param a {var} First value
+     * @param b {var} Second value
+     * @return {Boolean} <code>true</code> if the values are equal 
+     * (may not be identical)
+     */
+    valuesEqual : function(a, b) {
+      //debugger;
+      if (typeof a !== typeof b) {
+        return false;
+      }
+      // primitives
+      if (typeof a !== "object") {
+        if (a !== b) {
+          return false;
+        }
+      }
+      // reference types
+      else {
+        // types differ
+        if (a instanceof Array && !(b instanceof Array) || 
+          b instanceof Array && !(a instanceof Array))
+        {
+          return false;
+        }
+        // Arrays
+        if (a instanceof Array) {
+          if (a.length !== b.length) {
+            return false;
+          }
+          for (var i=0, l=a.length; i<l; i++) {
+            var equal = fce.Util.valuesEqual(a[i], b[i]);
+            if (!equal) {
+              return false;
+            }
+          }
+        }
+        // Maps
+        else {
+          var equal = fce.Util.mapsEqual(a, b);
+          if (!equal) {
+            return false;
+          }
+        }
+      }
+
+      return true;
     }
   }
 });
