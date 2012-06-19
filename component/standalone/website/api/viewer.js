@@ -24,6 +24,11 @@ q.ready(function() {
   // remove the warning
   q("#warning").setStyle("display", "none");
 
+  var version = q.$$qx.core.Environment.get("qx.version");
+  if (version) {
+    q("h1").setHtml("qx.Website " + version + " API Documentation");
+  }
+
   // global storage for the method index
   var data = {};
 
