@@ -10,7 +10,7 @@
 
 qx.Theme.define("twitter.theme.Font",
 {
-  extend : qx.theme.simple.Font,
+  extend : qx.theme.modern.Font,
 
   fonts :
   {
