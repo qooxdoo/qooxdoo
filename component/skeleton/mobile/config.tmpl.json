@@ -100,8 +100,11 @@
       {
         "qx.mobile.emulatetouch" : true,
         "qx.mobile.nativescroll" : false,
-        "qx.theme" : "$${PLATFORM}",
-        "engine.name" : "webkit"
+        "qx.theme" : "$${PLATFORM}"
+        /* Remove following inline comment if you want to optimize code for webkit browsers.
+         Attention: if webkit engine optimization is enabled, mobile app will not be
+         usable in Firefox. */
+        // ,"engine.name" : "webkit"
       }
     },
     
