@@ -170,7 +170,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     // Back button and bookmark support
     this._history = qx.bom.History.getInstance();
-    this._history.addListener("request", function(e)
+    this._history.addListener("changeState", function(e)
     {
       var newSample = e.getData().replace("~", "/");
 

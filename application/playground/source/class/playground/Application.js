@@ -569,7 +569,7 @@ qx.Class.define("playground.Application",
     __initBookmarkSupport : function()
     {
       this.__history = qx.bom.History.getInstance();
-      this.__history.addListener("request", this.__onHistoryChanged, this);
+      this.__history.addListener("changeState", this.__onHistoryChanged, this);
 
       // Handle bookmarks
       var state = this.__history.getState();
