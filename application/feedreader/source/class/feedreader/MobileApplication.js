@@ -22,6 +22,7 @@
 
 #asset(qx/mobile/icon/android/*)
 #asset(qx/mobile/icon/ios/*)
+#asset(qx/mobile/icon/common/*)
 
 ************************************************************************ */
 
