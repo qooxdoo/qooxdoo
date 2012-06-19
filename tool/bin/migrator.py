@@ -75,9 +75,11 @@ MIGRATION_ORDER = [
     "1.4.1",
     "1.4.2",
     "1.5",
+    "1.5.1",
     "1.6",
 ]
 
+default_old_version = "1.6"
 
 LOGGING_READY = False
 
@@ -796,8 +798,8 @@ def main():
     )
     migrator_options.add_option(
           "--from-version", dest="from_version",
-          metavar="VERSION", default="",
-          help="qooxdoo version used for the project e.g. '0.7.3'"
+          metavar="VERSION", default=str(default_old_version),
+          help="qooxdoo version used for the project e.g. '1.2.2'"
     )
     migrator_options.add_option(
           "--migrate-html",
@@ -840,19 +842,18 @@ def main():
     (options, args) = parser.parse_args()
     pretty.defaultOptions(options)
 
-    default_old_version = "1.5"
-
-    while options.from_version == "":
+    from_version = ""
+    while from_version == "":
         choice = raw_input("""
 NOTE:    To apply only the necessary changes to your project, we
          need to know the qooxdoo version it currently works with.
 
-Please enter your current qooxdoo version [%s] : """ % default_old_version)
+Please enter your current qooxdoo version [%s] : """ % options.from_version)
 
         if choice == "":
-            options.from_version = default_old_version
+            from_version = options.from_version
         elif re.match(r'\d\.\d(\.\d)?', choice):
-            options.from_version = choice
+            from_version = options.from_version = choice
 
     if not isValidVersion(options.from_version):
         print "\nERROR: The version '%s' is not a valid version string!\n" % options.from_version
