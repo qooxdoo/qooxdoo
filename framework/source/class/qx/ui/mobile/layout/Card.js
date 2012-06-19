@@ -183,15 +183,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         this.__stopAnimation();
       }
       
-      // Fix size, only if widget has mixin MResize set,
-      // and nextWidget is set.
-      if(this.__nextWidget){
-        var hasResizeMixin = qx.Class.hasMixin(widget.constructor,qx.ui.mobile.core.MResize)
-        if(hasResizeMixin) {
-            // Size has to be fixed for animation.
-            widget.fixSize();
-        }
-      }
+      this._fixWidgetSize(widget);
 
       this.__nextWidget = widget;
       if (this.__currentWidget && this.getShowAnimation() && qx.core.Environment.get("css.transform.3d")) {
@@ -224,6 +216,25 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         this.__currentWidget.exclude();
       }
       this.__currentWidget = this.__nextWidget;
+      
+      this._fixWidgetSize(this.__currentWidget);
+    },
+    
+    
+    /**
+     * Fix size, only if widget has mixin MResize set,
+     * and nextWidget is set.
+     * 
+     * @param widget {qx.ui.mobile.core.Widget} The target widget, which should have a fixed size.
+     */
+    _fixWidgetSize : function(widget) {
+      if(widget) {
+        var hasResizeMixin = qx.Class.hasMixin(widget.constructor,qx.ui.mobile.core.MResize)
+        if(hasResizeMixin) {
+          // Size has to be fixed for animation.
+          widget.fixSize();
+        }
+      }
     },
 
 
