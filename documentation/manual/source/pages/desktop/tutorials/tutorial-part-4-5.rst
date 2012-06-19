@@ -8,7 +8,7 @@ and use the `virtual List <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.l
 Using the virtual list has a big advantage when we have to render a huge 
 count of items. The virtual list only creates widgets for visible items.
 This saves memory and execution time. As a base we use the already known
-twitter client we built in the :doc:`former tutorials <../getting_started>`.
+twitter client we built in the :doc:`former tutorials <tutorial-part-3>`.
 
 .. image:: tutorial_4_5-1.png
 
@@ -53,11 +53,15 @@ virtual list has its own controller implementation. Open the
 
     // create the controller
     var controller = new qx.data.controller.List(null, main.getList());
+    controller.setLabelPath("text");
+    controller.setIconPath("user.profile_image_url");
     controller.setDelegate({
-      createItem : function() {
-        return new twitter.TweetView();
-      },
-      ...
+      configureItem : function(item) {
+        item.getChildControl("icon").setWidth(48);
+        item.getChildControl("icon").setHeight(48);
+        item.getChildControl("icon").setScale(true);
+        item.setRich(true);
+      }
     });
 
 Instead of the controller use the virtual List:
@@ -107,4 +111,4 @@ Now we only need to run the generator to resolve the new dependencies:
 
 The virtual List supports some more features like grouping, for
 additional details have a look at the `virtual demos <http://demo.qooxdoo.org/%{version}/demobrowser/#virtual~List.html>`_. As always, the
-`code of the tutorial <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/>`_ is on github.
+`code of the tutorial <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.5/>`_ is on github.
