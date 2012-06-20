@@ -33,6 +33,7 @@ from ecmascript.frontend.SyntaxException import SyntaxException
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, commentoptimizer
 from ecmascript.transform.optimizer import stringoptimizer, basecalloptimizer, privateoptimizer
 from ecmascript.transform.optimizer import featureoptimizer
+from generator import Context
 from misc import util, filetool
 
 
@@ -133,7 +134,8 @@ class MClassCode(object):
     #
     def _variantsFromTree(self, node):
         console = self.context['console']
-        config  = self.context['jobconf']
+        #config  = self.context['jobconf'] - TODO: this can yield job 'apiconf::build-resources' when running 'apiconf::build-data'!?
+        config  = Context.jobconf
         warn_non_literal_keys = "non-literal-keys" not in config.get("config-warnings/environment",[])
         classvariants = set()
         for variantNode in variantoptimizer.findVariantNodes(node):
