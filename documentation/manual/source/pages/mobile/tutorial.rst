@@ -584,7 +584,6 @@ mobile applications work on Android and iOS devices.
 .. _tool chain: http://manual.qooxdoo.org/%{version}/pages/tool.html
 .. _object oriented: http://manual.qooxdoo.org/%{version}/pages/core.html
 .. _qooxdoo environment: http://manual.qooxdoo.org/%{version}/pages/getting_started/requirements.html
-.. _trunk: http://qooxdoo.org/documentation/general/checking_out_from_svn
 .. _Chrome: http://www.google.com/chrome/
 .. _Safari: http://www.apple.com/safari/
 .. _requirements: http://manual.qooxdoo.org/%{version}/pages/mobile/mobile_overview.html

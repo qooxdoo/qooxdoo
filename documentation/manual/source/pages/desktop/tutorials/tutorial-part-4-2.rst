@@ -16,7 +16,7 @@ You can see that one tweet consists of a photo, a text and a creation date, but 
 
 .. note::
 
-    The code in this tutorial should also work when you haven't completed the 4.1 tutorial because it doesn't depend on the code changes from tutorial 4.1. But if you have any problems to run the tutorial, you can also checkout the code from tutorial 4.1 on `github <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/desktop/tutorials/twitter/step4.1>`_.
+    The code in this tutorial should also work when you haven't completed the 4.1 tutorial because it doesn't depend on the code changes from tutorial 4.1. But if you have any problems to run the tutorial, you can also checkout the code from tutorial 4.1 on `github <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.1>`_.
 
 .. _pages/desktop/tutorials/tutorial-part-4-2#the_plan:
 

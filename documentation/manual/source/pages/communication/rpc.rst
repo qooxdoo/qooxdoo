@@ -293,4 +293,4 @@ If you think that the standard is missing a feature that should be implemented i
 Extending the standard
 ----------------------
 
-If a server *extends* the standard with a certain optional behavior, please add a detailed description to it on the `JSON-RPC Extensions page <http://qooxdoo.org/documentation/general/rpc/jsonrpc_extensions>`_, with information which server implements this behavior. Please also add a `bug <http://bugzilla.qooxdoo.org/enter_bug.cgi?product=contrib&component=RpcExample>`_, marked as a "extension" so that other server maintainers can discuss the pros and cons of adding the extension to their own servers. 
+If a server *extends* the standard with a certain optional behavior, please add a detailed description to it on the `JSON-RPC Extensions page <http://qooxdoo.org/docs/general/rpc/jsonrpc_extensions>`_, with information which server implements this behavior. Please also add a `bug <http://bugzilla.qooxdoo.org/enter_bug.cgi?product=contrib&component=RpcExample>`_, marked as a "extension" so that other server maintainers can discuss the pros and cons of adding the extension to their own servers. 

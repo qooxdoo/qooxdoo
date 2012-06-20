@@ -16,9 +16,6 @@ General
 
 * Write draft of the `release notes <http://qooxdoo.org/about/release_notes>`_ (look at the git commits since the last release)
 * Inform mailing list
-* Gather patches
-* Fix critical `open bugs <http://bugzilla.qooxdoo.org/buglist.cgi?query_format=specific&order=relevance+desc&bug_status=__open__&product=&contentf=>`_
-* documentation/manual: ``make linkcheck`` (checks external links)
 * Sync top-level ``readme.rst`` text file with `About <http://qooxdoo.org/about>`_
 * Prepare article for `qooxdoo news <http://news.qooxdoo.org/>`_
 * Prepare text for `<http://freshmeat.net>`_ (short; no marketing buzz)
@@ -28,6 +25,7 @@ General
 Customize the code base
 -----------------------
 
+* Fix critical `open bugs <http://bugzilla.qooxdoo.org/buglist.cgi?query_format=specific&order=relevance+desc&bug_status=__open__&product=&contentf=>`_
 * Remove unstable code or code for future releases.
 * ``generate.py fix`` in framework, each application and component (covered by this `bug <http://bugzilla.qooxdoo.org/show_bug.cgi?id=5428>`__).
 * Copy the .po files from the `Translation <http://qooxdoo.org/contrib/project/translation>`_ contrib to their designated places; ``generate.py translation``, commit .po files. (covered by this `bug <http://bugzilla.qooxdoo.org/show_bug.cgi?id=5429>`__).

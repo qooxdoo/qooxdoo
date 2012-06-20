@@ -16,7 +16,7 @@ Normally, JavaScript automatically cleans up. There is a built-in garbage collec
 
 To help the buggy engines to collect the memory correctly it is helpful to dereference complex objects from each other, e.g. instances from maps, arrays and other instances. You don't need to delete primitive types like strings, booleans and numbers.
 
-qooxdoo has solved this issue from the beginning using the included "dispose" methods which could be overridden and extended by each class. qooxdoo 0.7 introduced `a new class declaration <http://qooxdoo.org/documentation/0.7/class_declaration>`_. This class declaration supports real "destructors" as known from other languages. These destructors are part of the class declaration. The new style makes it easier to write custom destructor/disposer methods because there are many new helper methods and the whole process has been streamlined to a great extend.
+qooxdoo has solved this issue from the beginning using the included "dispose" methods which could be overridden and extended by each class. qooxdoo 0.7 introduced `a new class declaration <http://attic.qooxdoo.org/documentation/0.7/class_declaration>`_. This class declaration supports real "destructors" as known from other languages. These destructors are part of the class declaration. The new style makes it easier to write custom destructor/disposer methods because there are many new helper methods and the whole process has been streamlined to a great extend.
 
 .. _pages/memory_management#disposing_an_application:
 
