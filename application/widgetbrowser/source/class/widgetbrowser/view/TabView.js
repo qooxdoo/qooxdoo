@@ -62,7 +62,7 @@ qx.Class.define("widgetbrowser.view.TabView",
 
       // Menu
       classname = "widgetbrowser.pages.ToolBar";
-      controls = {disabled: true, hovered: true, selected: true};
+      controls = {disabled: true, hovered: true, selected: true, hidesome: true};
       var menu = new widgetbrowser.view.TabPage("Toolbar/Menu", classname, controls);
       this.add(menu);
 

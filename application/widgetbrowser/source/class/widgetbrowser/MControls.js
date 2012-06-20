@@ -108,6 +108,18 @@ qx.Mixin.define("widgetbrowser.MControls",
         controls.add(toggleInvalid);
       }
 
+      if (options.hidesome) {
+        var tb = new qx.ui.form.ToggleButton("Hide some");
+        tb.addListener("changeValue", function(e) {
+          widgets.forEach(function(widget, index) {
+            if (widget.canHide) {
+              e.getData() ? widget.exclude() : widget.show();
+            }
+          }, this);
+        });
+        controls.add(tb);
+      }
+
     }
   }
 });
