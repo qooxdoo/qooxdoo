@@ -27,22 +27,6 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
 {
   /*
   *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    // Initial size
-    qx.event.Registration.addListener(window, "orientationchange", this.fixSize, this);
-    qx.event.Registration.addListener(window, "resize", this.fixSize, this);
-    qx.event.Registration.addListener(this, "domupdated", this.fixSize, this);
-    qx.event.Registration.addListener(this, "appear", this._onAppear, this);
-  },
-
-
-  /*
-  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -74,7 +58,21 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
     __lastHeight : null,
     __lastWidth : null,
 
+    
+    /**
+     * Removes fixed size from container.
+     */
+    releaseFixedSize : function() {
+      var parent = this.getLayoutParent();
 
+      if (parent && parent.getContainerElement()) {
+          var element = this.getContainerElement();
+          qx.bom.element.Style.set(element, "height", "auto");
+          qx.bom.element.Style.set(element, "width", "auto");
+      }
+    },
+    
+        
     /**
      * Resizes the container element to the height of the parent element.
      */
@@ -88,7 +86,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
         
         // Only fix size, when value are above zero.
         if(height == 0 || width == 0) {
-            return;
+          return;
         }
         
         if (!this.getFireDomUpdatedOnResize()) {
@@ -103,21 +101,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
         }
       }
     },
-
-
-    /**
-     * Installs a resize listener on layout parent when widget appears.
-     */
-    _onAppear : function()
-    {
-      var layoutParent = this.getLayoutParent();
-      
-      qx.event.Registration.addListener(layoutParent, "resize", this.fixSize, this);
-      
-      // Remove appear listener, because resize listener should only installed once.
-      qx.event.Registration.removeListener(this, "appear", this._onAppear, this);
-    },
-
+        
 
     /**
      * Sets the height of the container element.
@@ -152,23 +136,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
         qx.bom.element.Style.set(element, "width", width + "px");
       }
     }
-  },
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    qx.event.Registration.removeListener(window, "orientationchange", this.fixSize, this);
-    qx.event.Registration.removeListener(window, "resize", this.fixSize, this);
-    qx.event.Registration.removeListener(this, "appear", this._onAppear, this);
-
-    if(this.getLayoutParent())
-    {
-      qx.event.Registration.removeListener(this.getLayoutParent(), "resize", this.fixSize, this);
-    }
   }
+
+  
 })

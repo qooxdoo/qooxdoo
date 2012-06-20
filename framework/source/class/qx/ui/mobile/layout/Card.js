@@ -183,8 +183,6 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         this.__stopAnimation();
       }
       
-      this._fixWidgetSize(widget);
-
       this.__nextWidget = widget;
       if (this.__currentWidget && this.getShowAnimation() && qx.core.Environment.get("css.transform.3d")) {
         properties = properties || {};
@@ -216,8 +214,6 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         this.__currentWidget.exclude();
       }
       this.__currentWidget = this.__nextWidget;
-      
-      this._fixWidgetSize(this.__currentWidget);
     },
     
     
@@ -225,7 +221,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
      * Fix size, only if widget has mixin MResize set,
      * and nextWidget is set.
      * 
-     * @param widget {qx.ui.mobile.core.Widget} The target widget, which should have a fixed size.
+     * @param widget {qx.ui.mobile.core.Widget} The target widget which should have a fixed size.
      */
     _fixWidgetSize : function(widget) {
       if(widget) {
@@ -233,6 +229,23 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         if(hasResizeMixin) {
           // Size has to be fixed for animation.
           widget.fixSize();
+        }
+      }
+    },
+    
+    
+    /**
+     * Releases recently fixed widget size (width/height). This is needed for allowing further
+     * flexbox layouting.
+     * 
+     * @param widget {qx.ui.mobile.core.Widget} The target widget which should have a flexible size.
+     */ 
+    _releaseWidgetSize : function(widget) {
+      if(widget) {
+        var hasResizeMixin = qx.Class.hasMixin(widget.constructor,qx.ui.mobile.core.MResize);
+        if(hasResizeMixin) {
+          // Size has to be released after animation.
+          widget.releaseFixedSize();
         }
       }
     },
@@ -245,6 +258,10 @@ qx.Class.define("qx.ui.mobile.layout.Card",
      */
     __startAnimation : function(widget)
     {
+      // Fix size of current and next widget, then start animation.
+      this._fixWidgetSize(this.__currentWidget);
+      this._fixWidgetSize(this.__nextWidget);
+      
       this.__inAnimation = true;
 
       this.fireDataEvent("animationStart", [this.__currentWidget, widget]);
@@ -276,7 +293,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
 
     /**
-     * Stops the animation for the page transtion.
+     * Stops the animation for the page transition.
      */
     __stopAnimation : function()
     {
@@ -290,7 +307,11 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
         qx.bom.element.Class.removeClasses(fromElement, this.__getAnimationClasses("out"));
         qx.bom.element.Class.removeClasses(toElement, this.__getAnimationClasses("in"));
-
+        
+        // Release fixed widget size, for further layout adaption.
+        this._releaseWidgetSize(this.__currentWidget);
+        this._releaseWidgetSize(this.__nextWidget);
+        
         this._swapWidget();
         this._widget.removeCssClass("animationParent");
         this.__inAnimation = false;

@@ -22,6 +22,7 @@
 #asset(mobiletweets/css/styles.css)
 #asset(qx/mobile/icon/android/*)
 #asset(qx/mobile/icon/ios/*)
+#asset(qx/mobile/icon/common/*)
 
 ************************************************************************ */
 
