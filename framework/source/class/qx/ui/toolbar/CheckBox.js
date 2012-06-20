@@ -71,5 +71,17 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
       refine : true,
       init : false
     }
+  },
+
+  members : {
+    // overridden
+    _applyVisibility : function(value, old) {
+      this.base(arguments, value, old);
+      // trigger a appearance recalculation of the parent
+      var parent = this.getLayoutParent();
+      if (parent && parent instanceof qx.ui.toolbar.PartContainer) {
+        qx.ui.core.queue.Appearance.add(parent);
+      }
+    }
   }
 });
