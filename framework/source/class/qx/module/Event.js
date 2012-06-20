@@ -257,6 +257,10 @@ qx.Bootstrap.define("qx.module.Event", {
           target.push(descendants[j]);
         };
       }
+      // make sure no emitter object has been copied
+      target.forEach(function(el) {
+        el.__emitter = null;
+      });
 
       for (var i=0; i < source.length; i++) {
         var el = source[i];
@@ -265,7 +269,7 @@ qx.Bootstrap.define("qx.module.Event", {
         }
         var storage = el.__emitter.getListeners();
         for (var name in storage) {
-          for (var j=0; j < storage[name].length; j++) {
+          for (var j = storage[name].length - 1; j >= 0; j--) {
             var listener = storage[name][j].listener;
             if (listener.original) {
               listener = listener.original;
