@@ -29,7 +29,7 @@ Code written against the %{Website} API will run in all major web browsers, part
 Installation and Setup
 =======================
 
-Download the %{Website} component from %{qooxdoo}'s `download page <http://%{qooxdoo}.org/download>`_ and place it in a suitable URI reachable from your development environment. Then include this URI with a ``<script>`` tag in the HTML page that you are developing.
+Download the %{Website} component from %{qooxdoo}'s `download page <http://%{qooxdoo}.org/downloads>`_ and place it in a suitable URI reachable from your development environment. Then include this URI with a ``<script>`` tag in the HTML page that you are developing.
 
 .. code-block:: html
 

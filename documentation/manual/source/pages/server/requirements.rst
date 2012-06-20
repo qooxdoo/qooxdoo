@@ -25,7 +25,7 @@ These are the options to get %{qooxdoo} %{Server}.
 
 Manual download
 ---------------
-Download the %{Server} component from %{qooxdoo}'s `download page <http://%{qooxdoo}.org/download>`_ and place it in a suitable path on your machine. Optimized and unoptimized versions are available.
+Download the %{Server} component from %{qooxdoo}'s `download page <http://%{qooxdoo}.org/downloads>`_ and place it in a suitable path on your machine. Optimized and unoptimized versions are available.
 
 Npm
 -------

@@ -10,7 +10,7 @@ SDK Requirements
 
 Python
 ======
-The tool chain only requires a `Python <http://www.python.org>`_ installation. Use a standard **Python 2.x** release, version 2.5 or above. Python 3 is currently `not supported <http://%{qooxdoo}.org/documentation/general/python_3_support>`_. (If in doubt you can query the version of your local Python installation by running the command ``python -V``). As a %{qooxdoo} user you do not need any Python knowledge, it is merely a technology used internally for the tools. Python comes either pre-installed on many systems or it can be installed very easily:
+The tool chain only requires a `Python <http://www.python.org>`_ installation. Use a standard **Python 2.x** release, version 2.5 or above. Python 3 is currently `not supported <http://%{qooxdoo}.org/docs/general/python_3_support>`_. (If in doubt you can query the version of your local Python installation by running the command ``python -V``). As a %{qooxdoo} user you do not need any Python knowledge, it is merely a technology used internally for the tools. Python comes either pre-installed on many systems or it can be installed very easily:
 
 
 |image0| Windows
@@ -48,14 +48,14 @@ Disk Space
 
 The unpacked SDK will require around **%{sdk_unpacked} MB** disk space (a big part of this is due to media files like images).
 
-During runtime the tool chain also uses a subdirectory in your system's ``TMP`` path, to cache intermediate results and downloaded files. Depending on your activities this cache directory can become between **%{cache_average_min}** and **%{cache_average_max} GB** in size. If the `default cache path <http://%{qooxdoo}.org/documentation/general/snippets#finding_your_system-wide_tmp_directory>`__ does not suite you, you can change it in your configuration.
+During runtime the tool chain also uses a subdirectory in your system's ``TMP`` path, to cache intermediate results and downloaded files. Depending on your activities this cache directory can become between **%{cache_average_min}** and **%{cache_average_max} GB** in size. If the `default cache path <http://%{qooxdoo}.org/docs/general/snippets#finding_your_system-wide_tmp_directory>`__ does not suite you, you can change it in your configuration.
 
 .. _pages/tool/requirements#setup:
 
 Installation and Setup
 ======================
 
-Installation of the SDK is just going to the `download section <http://%{qooxdoo}.org/download>`_ and grab the package suitable for your purpose. Choose either the *Desktop* or *Mobile* download, which both come as an SDK archive. Unzip it to a suitable path on your hard disk. The archive contains a single top-level folder, which in turn contains all the SDK's files and sub-folders. 
+Installation of the SDK is just going to the `download section <http://%{qooxdoo}.org/downloads>`_ and grab the package suitable for your purpose. Choose either the *Desktop* or *Mobile* download, which both come as an SDK archive. Unzip it to a suitable path on your hard disk. The archive contains a single top-level folder, which in turn contains all the SDK's files and sub-folders. 
 
 This is all as far as the SDK is concerned. As an additional convenience you might want to add the ``<sdk-root-path>/tool/bin`` directory to your system environment ``PATH`` variable. This is a prerequisite for invoking the executable programs of the tool chain without the need to address them with their path.
 

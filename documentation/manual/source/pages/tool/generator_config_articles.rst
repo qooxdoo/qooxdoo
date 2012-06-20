@@ -115,8 +115,7 @@ Compile cache
 
 The main payload of the :ref:`cache <pages/tool/generator_config_ref#cache>` key is to point to the directory for the compile cache. It is very recommendable to have a system-wide compile cache directory so cache contents can be shared among different projects and libraries. Otherwise, the cache has to be rebuilt in each enviornment anew, costing extra time and space.
 
-The default for the cache directory is beneath the system TMP directory. To find out where this actually is either run ``generate.py info``, or run a build job with the ``-v`` command line flag and look for the *cache* key in the expanded job definition, or use this `snippet <http://qooxdoo.org/docu
-mentation/general/snippets#finding_your_system-wide_tmp_directory>`__.
+The default for the cache directory is beneath the system TMP directory. To find out where this actually is either run ``generate.py info``, or run a build job with the ``-v`` command line flag and look for the *cache* key in the expanded job definition, or use this `snippet <http://qooxdoo.org/docs/general/snippets#finding_your_system-wide_tmp_directory>`__.
 
 The compile cache directory can become very large in terms of contained files, and a count of a couple of thousand files is not unusual. You should take care that your file system is equipped to comply with these demands. Additionally, disk I/O is regularly high on this directory so a fast, local disk is recommendable. Don't use a network drive :-) .
 

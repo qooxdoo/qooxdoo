@@ -28,8 +28,7 @@ Mozilla ("Midas")
 * `Midas specification <http://www.mozilla.org/editor/midas-spec.html>`_
 * `Demo <http://www.mozilla.org/editor/midasdemo/>`_
 * `Migrationguide IE -> Gecko <http://www.mozilla.org/editor/ie2midas.html>`_
-* `Documentation <http://lxr.mozilla.org/seamonkey/source/editor/docs/midas-spec.html>`__
-* `Source code (see list under MidasCommand in nsHTMLDocument.cpp) <http://lxr.mozilla.org/seamonkey/ident?i=MidasCommand>`_
+* `Documentation <http://www-archive.mozilla.org/editor/midas-spec.html>`__
 * `DOM Client Object Cross-Reference <http://developer.mozilla.org/en/docs/DOM_Client_Object_Cross-Reference>`_
 
 .. _pages/ui_html_editing/html_editing_in_general#ie_html_edit:
@@ -38,8 +37,8 @@ IE ("HTML Edit")
 ^^^^^^^^^^^^^^^^
 
 * `MSDN Overview and tutorials <http://msdn2.microsoft.com/en-us/library/aa770039(VS.85).aspx>`_
-* `Documentation <http://msdn.microsoft.com/workshop/author/editing/tutorials/html_editor.asp>`__
-* `Overview of Command Identifiers <http://msdn.microsoft.com/workshop/author/dhtml/reference/commandids.asp>`_
+* `Documentation <http://www.asp.net/ajaxLibrary/AjaxControlToolkitSampleSite/HtmlEditorExtender/HTMLEditorExtender.aspx>`__
+* `Overview of Command Identifiers <http://msdn.microsoft.com/en-us/library/ms533049(v=vs.85).aspx>`_
 * `A Note about the DHTML Editing Control in IE7+ <http://blogs.msdn.com/ie/archive/2006/06/27/648850.aspx>`_
 
 .. _pages/ui_html_editing/html_editing_in_general#opera:

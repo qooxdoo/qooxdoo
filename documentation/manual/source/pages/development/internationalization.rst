@@ -172,7 +172,7 @@ These ``.po`` files are the actual files you - or your translator ;-) - would ha
 Some of the programs that support manipulation of ``.po`` files are:
 
 * `Poedit <http://www.poedit.net/>`_ (Windows, Mac OS X, Linux)
-* `LocFactory Editor <http://www.triplespin.com/en/products/locfactoryeditor.html>`_ (Mac OS X)
+* `LocFactory Editor <http://www.macupdate.com/app/mac/16246/locfactory-editor>`_ (Mac OS X)
 * `Lokalize <http://l10n.kde.org/tools/>`_ (Linux)
 * `Gtranslator <http://projects.gnome.org/gtranslator/>`__ (Linux)
 
