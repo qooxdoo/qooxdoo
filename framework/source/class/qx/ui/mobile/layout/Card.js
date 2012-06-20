@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
     // overridden
     _getCssClasses : function() {
-      return ["layout-card","hbox"];
+      return ["layout-card","vbox"];
     },
 
 
