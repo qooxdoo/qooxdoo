@@ -17,12 +17,14 @@
 
 ************************************************************************ */
 /**
- * The responsibility of <code>q</code> is to query the DOM for elements and offer
- * these elements as a collection. <code>q</code> itself does not offer any methods to
- * work with the collection. All methods are added by the modules included.
+ * The Core module's responsibility is to query the DOM for elements and offer
+ * these elements as a collection. The Core module itself does not offer any methods to
+ * work with the collection. These methods are added by the other included modules,
+ * such as Manipulating or Attributes.
  *
- * The plugin API is also part of <code>q</code> and allows modules to be used either
- * as static functions on <code>q</code> or as methods on the returned collection.
+ * Core also provides the plugin API which allows modules to attach either
+ * static functions to the global <code>q</code> object or define methods on the 
+ * collection it returns.
  *
  * For further details, take a look at the documentation in the
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/website.html' target='_blank'>user manual</a>.
