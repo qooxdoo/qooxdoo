@@ -20,7 +20,7 @@
 /**
  * The master/detail container divides an area into two panes, master and detail. The master
  * can be detached when the orientation of the device changes to portrait.
- * This container can be used for tablet devices.
+ * This container provides an optimized view for tablet and mobile devices.
  *
  * *Example*
  *
@@ -30,7 +30,7 @@
  * var container = new qx.ui.mobile.container.MasterDetail();
  *
  * container.getMaster().add(new qx.ui.mobile.container.Navigation());
- * container.getMaster().add(new qx.ui.mobile.container.Navigation());
+ * container.getDetail().add(new qx.ui.mobile.container.Navigation());
  *
  * </pre>
  */
