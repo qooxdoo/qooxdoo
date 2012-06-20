@@ -182,21 +182,6 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
       return scroll;
     },
     
-      /**
-     * Removes the focus from all input fields in the DOM. Used as on some devices
-     * the mouse cursor is still shown, even when the input field is hidden.
-     */
-    __removeFocusFromInputFields : function()
-    {
-      // Remove focus from input elements, so that the keyboard and the mouse cursor is hidden
-      var elements = target.getElementsByTagName("input");
-      for (var i=0, length = elements.length; i < length; i++) {
-        console.log("blur:"+elements[i]);
-        
-       elements[i].blur();
-      }
-    },
-
 
     /**
      * Registers all needed event listener.
