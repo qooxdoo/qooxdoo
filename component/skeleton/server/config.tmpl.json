@@ -194,7 +194,7 @@
     {
       "let" :
       {
-        "API_INCLUDE" : ["qx.core.BaseInit", "${APPLICATION}.Application"],
+        "API_INCLUDE" : ["qx.core.BaseInit", "$${APPLICATION}.Application"],
         "API_EXCLUDE" : ["qx.test.*", "$${APPLICATION}.test.*", "qx.bom.*", "qx.dom.*"]
       }
     }
