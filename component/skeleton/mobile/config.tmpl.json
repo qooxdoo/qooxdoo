@@ -32,8 +32,10 @@
     "minify-css",
     "source-ios",
     "source-android",
+    "source-indigo",
     "build-ios",
-    "build-android"
+    "build-android",
+    "build-indigo"
   ],
   
   "default-job" : "source-hybrid",
@@ -119,6 +121,12 @@
       "extend" : ["source"],
       "let" : { "PLATFORM" : "android" }
     },
+    
+    "source-indigo" :
+    {
+      "extend" : ["source"],
+      "let" : { "PLATFORM" : "indigo" }
+    },
 
     "build-ios" :
     {
@@ -130,6 +138,12 @@
     {
       "extend" : ["build"],
       "let" : { "PLATFORM" : "android" }
+    },
+    
+    "build-indigo" :
+    {
+      "extend" : ["build"],
+      "let" : { "PLATFORM" : "indigo" }
     },
 
     "source-script" :
