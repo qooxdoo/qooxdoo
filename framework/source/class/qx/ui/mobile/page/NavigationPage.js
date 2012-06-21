@@ -19,13 +19,16 @@
 
 /**
  * Specialized page. This page includes already a {@link qx.ui.mobile.navigationbar.NavigationBar}
- * and a {@link qx.ui.mobile.container.Scroll} container.
- *
+ * and and a {@link qx.ui.mobile.container.Scroll} container. 
+ * The NavigationPage can only be used with a page manager {@link qx.ui.mobile.page.Manager}.
+
  * *Example*
  *
  * Here is a little example of how to use the widget.
  *
  * <pre class='javascript'>
+ *  
+ *  var manager = new qx.ui.mobile.page.Manager();
  *  var page = new qx.ui.mobile.page.NavigationPage();
  *  page.setTitle("Page Title");
  *  page.setShowBackButton(true);
@@ -40,7 +43,8 @@
  *  {
  *    otherPage.show({animation:"cube", reverse:true});
  *  },this);
- *
+ *  
+ *  manager.addDetail(page);
  *  page.show();
  * </pre>
  *
