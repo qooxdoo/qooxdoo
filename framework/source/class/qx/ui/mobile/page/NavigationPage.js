@@ -503,7 +503,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
   destruct : function()
   {
     this._disposeObjects("__leftContainer", "__rightContainer", "__backButton",
-      "__button", "__title","_isTablet");
+      "__button", "__title");
     this.__leftContainer = this.__rightContainer = this.__backButton = this.__button = null;
     this.__title = this.__content = this.__scrollContainer = null;
     this._isTablet = null;
