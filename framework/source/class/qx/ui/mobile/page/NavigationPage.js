@@ -139,8 +139,19 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       init : false,
       apply : "_applyShowButton"
     },
-
-
+    
+    
+    /**
+     * Toggles visibility of NavigationBar in 
+     * wrapping container {@link qx.ui.mobile.container.Navigation}
+     */ 
+    navigationBarHidden:
+    {
+      check : "Boolean",
+      init : false
+    },
+    
+    
     /**
      * The CSS class to add to the content per default.
      */
@@ -374,8 +385,8 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
         this.__backButton.setValue(value);
       }
     },
-
-
+    
+    
     // property apply
     _applyButtonText : function(value, old)
     {
