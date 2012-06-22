@@ -46,7 +46,7 @@ Migration data
 * Grep for deprecation tags in framework code.
 * Extract API changes from git diff against the previous release. 
 * Add migration files and commit these to git (or the empty folder if there are no files needed).
-* Complete the MIGRATION_ORDER in file ``tool/bin/migrator.py`` with newly created directories.
+* Complete the MIGRATION_ORDER in file ``tool/bin/migrator.py`` with newly created directories. (NB: It is common to have the new release version in this list, provided there is a migration step for it!).
 * Look for the place in ``tool/bin/migrator.py`` that sets ``default_old_version`` to a previous (!) release number. Maybe that could be the latest version of the previous stable branch?
 
 (Testing of migration and migration data is covered by the release platform testing, see further).
