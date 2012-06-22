@@ -103,6 +103,9 @@ class QxLint:
 
 
   def runLint(self, workdir):
+    if not os.path.isdir(workdir):
+      raise RuntimeError, "Directory %s does not exist!" %workdir
+
     startdir = os.getcwd()
     print("Changing dir to " + workdir)
     os.chdir(workdir)

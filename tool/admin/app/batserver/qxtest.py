@@ -1477,18 +1477,20 @@ class QxTest:
         if (self.sim):
           self.log("SIMULATION: Starting Lint runner:\n  " + options.workdir)
         else:
-          self.log("Running Lint for " + options.workdir)  
-          qxlint = QxLint(options)
-
-        if "reportServerUrl" in self.testConf:
-          try:
-            if self.qxRevision:
-              revision = self.qxRevision
-            else:
-              revision = ""
-            qxlint.reportResults(self.testConf["reportServerUrl"], target['directory'], revision, self.testConf["qxBranch"])
+          self.log("Running Lint for " + options.workdir)
+          try:  
+            qxlint = QxLint(options)
+            if "reportServerUrl" in self.testConf:
+              try:
+                if self.qxRevision:
+                  revision = self.qxRevision
+                else:
+                  revision = ""
+                qxlint.reportResults(self.testConf["reportServerUrl"], target['directory'], revision, self.testConf["qxBranch"])
+              except Exception, e:
+                self.logError(e, "Error trying to send Lint results to report server")
           except Exception, e:
-            self.logError(e, "Error trying to send Lint results to report server")
+            self.logError(e, "Error running Lint")
 
 
   def logError(self, e, desc=""):
