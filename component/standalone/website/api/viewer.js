@@ -186,14 +186,60 @@ q.ready(function() {
     var ul = q.create("<ul></ul>").appendTo(list);
     data["static"].forEach(function(ast) {
       var name = getMethodName(ast, prefix);
-      q.template.get("list-item", {name: name + "()", link: name, plugin: isPluginMethod(name)}).appendTo(ul);
+      var missing = isMethodMissing(name, data.classname);
+      q.template.get("list-item", {
+        name: name + "()", 
+        missing: missing, 
+        link: name, 
+        plugin: isPluginMethod(name)
+      }).appendTo(ul);
     });
     data["member"].forEach(function(ast) {
       var name = getMethodName(ast, prefix);
-      q.template.get("list-item", {name: name + "()", link: name, plugin: isPluginMethod(name)}).appendTo(ul);
+      var missing = isMethodMissing(name, data.classname);
+      q.template.get("list-item", {
+        name: name + "()",
+        missing: missing,
+        link: name, 
+        plugin: isPluginMethod(name)
+      }).appendTo(ul);
     });
   };
 
+
+  var isMethodMissing = function(name, classname) {
+    name = name.split(".");
+    // static methods attached to q
+    if (name[0] == "q") {
+      var parent = window;
+      for (var i=0; i < name.length; i++) {
+        if (i == name.length - 1) {
+          return q.type.get(parent[name[i]]) !== "Function";
+        }
+        parent = parent[name[i]];
+      };
+    }
+    // member methods of q
+    if (name[0] == "") {
+      return q.type.get(q.create("<div>")[name[1]]) !== "Function";
+    }
+    // additional qooxdoo classes
+    if (classname) {
+      classname = classname.split(".");
+      var parent = q.$$qx;
+      for (var i=1; i < classname.length; i++) {
+        if (i == classname.length - 1) {
+          var missing = q.type.get(parent[classname[i]][name[1]]) !== "Function";
+          if (missing && parent[classname[i]].prototype) {
+            missing = q.type.get(parent[classname[i]].prototype[name[1]]) !== "Function";
+          }
+          return missing;
+        }
+        parent = parent[classname[i]];
+      };
+    }
+    return false;
+  }
 
   /**
    * CONTENT
@@ -420,10 +466,11 @@ q.ready(function() {
       }
     };
 
-    renderListModule(name, module, prefix || name + ".");
     module.desc = getByType(ast, "desc").attributes.text || "";
     module.events = getEvents(ast);
+    module.classname = ast.attributes.fullName;
 
+    renderListModule(name, module, prefix || name + ".");
     renderModule(name, module, prefix || name + ".");
   };
 
