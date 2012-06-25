@@ -257,6 +257,16 @@ q.ready(function() {
      var module = q.create("<div class='module'>").appendTo("#content");
      module.append(q.create("<h1 id='" + name + "'>" + name + "</h1>"));
 
+     if (data.superclass) {
+       var newName = data.superclass.split(".");
+       newName = newName[newName.length -1];
+       module.append(q.create(
+         "<div class='extends'><h2>Extends</h2>" +
+         "<a href='#" + newName + "'>" + newName + "</a>" +
+         "</div>"
+       ));
+     }
+
      if (data.fileName) {
        addClassDoc(data.fileName, module);
      } else if (data.desc) {
@@ -469,6 +479,7 @@ q.ready(function() {
     module.desc = getByType(ast, "desc").attributes.text || "";
     module.events = getEvents(ast);
     module.classname = ast.attributes.fullName;
+    module.superclass= ast.attributes.superClass;
 
     renderListModule(name, module, prefix || name + ".");
     renderModule(name, module, prefix || name + ".");
