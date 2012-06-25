@@ -208,7 +208,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      * default is "callback".
      *
      * @param param {String} Name of the callback parameter.
-     * @return {qx.bom.requests.Jsonp} Self reference for chaining.
+     * @return {qx.bom.request.Jsonp} Self reference for chaining.
      */
     setCallbackParam: function(param) {
       this.__callbackParam = param;
@@ -233,7 +233,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      * if it does not exist before.
      *
      * @param name {String} Name of the callback function.
-     * @return {qx.bom.requests.Jsonp} Self reference for chaining.
+     * @return {qx.bom.request.Jsonp} Self reference for chaining.
      */
     setCallbackName: function(name) {
       this.__callbackName = name;

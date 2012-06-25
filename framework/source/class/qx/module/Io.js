@@ -88,7 +88,7 @@ qx.Bootstrap.define("qx.module.Io", {
      *      be called by the loaded script.
      * * <code>callbackParam</code>: The name of the callback expected by the server
      * @attachStatic {q, io.jsonp}
-     * @return {qx.bom.request.Script} The request object.
+     * @return {qx.bom.request.Jsonp} The request object.
      */
     jsonp : function(url, settings) {
       var script = new qx.bom.request.Jsonp();
