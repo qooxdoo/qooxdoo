@@ -2287,3 +2287,43 @@ testrunner.define({
     }
   }
 });
+
+
+testrunner.define({
+  classname : "Storage",
+  __testKey : "qx_website_test_key",
+
+  testLocalSetGetRemove : function() {
+    q.localStorage.setItem(this.__testKey, {a: 1, b: true});
+    this.assertEquals(1, q.localStorage.getItem(this.__testKey).a);
+    this.assertEquals(true, q.localStorage.getItem(this.__testKey).b);
+    q.localStorage.removeItem(this.__testKey);
+    this.assertNull(q.localStorage.getItem(this.__testKey));
+  },
+
+  testLocalGetLength : function() {
+    q.localStorage.removeItem(this.__testKey);
+    var oldLength = q.localStorage.getLength();
+    q.localStorage.setItem(this.__testKey, "abc");
+    this.assertEquals(oldLength + 1, q.localStorage.getLength());
+    q.localStorage.removeItem(this.__testKey);
+    this.assertEquals(oldLength, q.localStorage.getLength());
+  },
+
+  testSessionSetGetRemove : function() {
+    q.sessionStorage.setItem(this.__testKey, {a: 1, b: true});
+    this.assertEquals(1, q.sessionStorage.getItem(this.__testKey).a);
+    this.assertEquals(true, q.sessionStorage.getItem(this.__testKey).b);
+    q.sessionStorage.removeItem(this.__testKey);
+    this.assertNull(q.sessionStorage.getItem(this.__testKey));
+  },
+
+  testSessionGetLength : function() {
+    q.sessionStorage.removeItem(this.__testKey);
+    var oldLength = q.sessionStorage.getLength();
+    q.sessionStorage.setItem(this.__testKey, "abc");
+    this.assertEquals(oldLength + 1, q.sessionStorage.getLength());
+    q.sessionStorage.removeItem(this.__testKey);
+    this.assertEquals(oldLength, q.sessionStorage.getLength());
+  }
+});

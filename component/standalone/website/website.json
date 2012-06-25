@@ -66,11 +66,12 @@
       "environment" :
       {
         "qx.version" : "${QOOXDOO_VERSION}",
-        "qx.debug"   : false
+        "qx.debug"   : false,
+        "json" : true
       },
       "compile-options" :
       {
-        "paths" : 
+        "paths" :
         {
           "file-prefix" : "${QOOXDOO_PATH}/tool/data/generator/copyright.include.js"
         }
