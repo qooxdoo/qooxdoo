@@ -1051,6 +1051,10 @@ qx.Class.define("qx.ui.core.Widget",
         return null;
       }
 
+      if (qx.lang.Object.isEmpty(changes) && !this._updateInsets) {
+        return null;
+      }
+
       var container = this.getContainerElement();
       var content = this.getContentElement();
       var inner = changes.size || this._updateInsets;
