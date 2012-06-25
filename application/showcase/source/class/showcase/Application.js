@@ -32,14 +32,6 @@ qx.Class.define("showcase.Application",
 
   properties :
   {
-    selectedPage :
-    {
-      check: "showcase.Page",
-      apply: "_applySelectedPage",
-      nullable: true
-    },
-
-
     showLoadIndicator :
     {
       check: "Boolean",
@@ -56,6 +48,7 @@ qx.Class.define("showcase.Application",
     __content : null,
     __effect : null,
     __description : null,
+    __currentPage : null,
 
     /**
      * @lint ignoreUndefined(qxc)
@@ -154,10 +147,27 @@ qx.Class.define("showcase.Application",
         new showcase.page.htmleditor.Page()
       );
 
+      // application routing
+      var routing = new qx.application.Routing();
+      for (var i=0; i < pages.length; i++) {
+        // set up a route for every page
+        routing.on(pages.getItem(i).getName(), function(data) {
+          // find the right page
+          pages.forEach(function(page) {
+            if (page.getName() == data.path) {
+              listController.getSelection().setItem(0, page);
+              this._showPage(page);
+            }
+          }, this);
+        }, this);
+      };
+
       var listController = new qx.data.controller.List(pages, list, "name");
       listController.setIconPath("icon");
-      listController.bind("selection[0]", this, "selectedPage");
       listController.bind("selection[0].description", this.__description, "value");
+      listController.getSelection().addListener("change", function(e) {
+        routing.execute(listController.getSelection().getItem(0).getName());
+      }, this);
 
       listController.bind("selection[0].readyState", this, "showLoadIndicator", {
         converter: function(value) {
@@ -172,26 +182,6 @@ qx.Class.define("showcase.Application",
           });
         }
       });
-
-      // history support
-      var history = qx.bom.History.getInstance();
-      listController.bind("selection[0].part", history, "state");
-
-      var initState = history.getState();
-      if (initState) {
-        var page;
-        for (var i = 0; i < pages.getLength(); i++) {
-          if (pages.getItem(i).getPart() === initState) {
-            page = pages.getItem(i);
-            break;
-          }
-        }
-        if (page) {
-          // opera requires a flush to scroll the selection into view!
-          qx.ui.core.queue.Manager.flush();
-          listController.getSelection().push(page);
-        }
-      }
     },
 
 
@@ -205,51 +195,39 @@ qx.Class.define("showcase.Application",
     },
 
 
-    _applySelectedPage : function(value, old)
-    {
-      if (old) {
-        this._hidePage(old);
-      }
-
-      this._showPage(value);
-    },
-
-
     _hidePage : function(page)
     {
-      if (this.getSelectedPage() !== page) {
-        if (page.getReadyState() == "complete") {
-          page.getContent().getView().hide();
-          this.__cancelFade();
-        }
+      if (page.getReadyState() == "complete") {
+        page.getContent().getView().hide();
+        this.__cancelFade();
       }
     },
 
 
     _showPage : function(page)
     {
+      if (this.__currentPage && this.__currentPage != page) {
+        this._hidePage(this.__currentPage);
+      }
+      this.__currentPage = page;
       this.__description.show();
 
-      page.load(function(page)
-      {
-        if (this.getSelectedPage() == page) {
-          var view = page.getContent().getView();
+      page.load(function(page) {
+        var view = page.getContent().getView();
 
-          this.__content.add(view, {edge: 0});
-          // Opera 12 will sometimes scroll the page down, messing up the header
-          // layout
-          if (qx.core.Environment.get("browser.name") == "opera") {
-            window.setTimeout(function() {
-              view.show();
-            }, 100);
-          }
-          else {
+        this.__content.add(view, {edge: 0});
+        // Opera 12 will sometimes scroll the page down, messing up the header
+        // layout
+        if (qx.core.Environment.get("browser.name") == "opera") {
+          window.setTimeout(function() {
             view.show();
-          }
-          
-
-          this.__fadeIn(view);
+          }, 100);
         }
+        else {
+          view.show();
+        }
+
+        this.__fadeIn(view);
       }, this);
     },
 
@@ -265,9 +243,9 @@ qx.Class.define("showcase.Application",
 
     __fadeIn : function(view)
     {
-      // disabled animation for IE8 because alpha filter and 
+      // disabled animation for IE8 because alpha filter and
       if (
-        qx.core.Environment.get("browser.name") == "ie" && 
+        qx.core.Environment.get("browser.name") == "ie" &&
         parseInt(qx.core.Environment.get("browser.version")) <= 8
       ) {
         view.show();
