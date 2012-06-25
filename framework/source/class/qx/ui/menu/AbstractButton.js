@@ -99,6 +99,16 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       themeable : true,
       nullable : true,
       event: "changeIcon"
+    },
+
+    /** Indicates whether the label for the command (shortcut) should be visible or not. */
+    showCommandLabel :
+    {
+      check : "Boolean",
+      apply : "_applyShowCommandLabel",
+      themeable : true,
+      init : true,
+      event: "changeShowCommandLabel"
     }
   },
 
@@ -139,6 +149,9 @@ qx.Class.define("qx.ui.menu.AbstractButton",
         case "shortcut":
           control = new qx.ui.basic.Label;
           control.setAnonymous(true);
+          if (!this.getShowCommandLabel()) {
+            control.exclude();
+          }
           this._add(control, {column:2});
           break;
 
@@ -325,6 +338,16 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       else
       {
         this._excludeChildControl("arrow");
+      }
+    },
+
+    // property apply
+    _applyShowCommandLabel : function(value, old)
+    {
+      if (value) {
+        this._showChildControl("shortcut");
+      } else { 
+        this._excludeChildControl("shortcut");
       }
     }
   },
