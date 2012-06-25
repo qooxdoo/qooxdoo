@@ -282,6 +282,8 @@ qx.Bootstrap.define("qx.module.Transform",
 
       "setTransformStyle" : statics.setTransformStyle,
       "getTransformStyle" : statics.getTransformStyle,
+      "setTransformOrigin" : statics.setTransformOrigin,
+      "getTransformOrigin" : statics.getTransformOrigin,
       "setTransformPerspective" : statics.setTransformPerspective,
       "getTransformPerspective" : statics.getTransformPerspective,
       "setTransformPerspectiveOrigin" : statics.setTransformPerspectiveOrigin,

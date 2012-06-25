@@ -265,6 +265,7 @@ qx.Bootstrap.define("qx.module.Animation", {
   defer : function(statics) {
     q.$attach({
       "animate" : statics.animate,
+      "animateReverse" : statics.animateReverse,
       "fadeIn" : statics.fadeIn,
       "fadeOut" : statics.fadeOut,
       "play" : statics.play,

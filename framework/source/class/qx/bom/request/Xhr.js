@@ -28,6 +28,9 @@
 #require(qx.bom.request.Xhr#onerror)
 #require(qx.bom.request.Xhr#onabort)
 #require(qx.bom.request.Xhr#ontimeout)
+#require(qx.bom.request.Xhr#setRequestHeader)
+#require(qx.bom.request.Xhr#getAllResponseHeaders)
+#require(qx.bom.request.Xhr#getRequest)
 ************************************************************************ */
 
 /**
