@@ -156,7 +156,7 @@ q.ready(function() {
 
 
   var sortMethods = function(a, b) {
-    return a.attributes.name > b.attributes.name ? 1 : -1;
+    return getMethodName(a) > getMethodName(b) ? 1 : -1;
   };
 
 
