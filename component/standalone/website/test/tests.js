@@ -2191,6 +2191,7 @@ testrunner.define({
     q.io.xhr("tests.js").on("loadend", function(xhr) {
       this.resume(function() {
         this.assertEquals(4, xhr.readyState);
+        xhr.dispose();
       }, this);
     }, this).send();
     this.wait();
@@ -2203,6 +2204,7 @@ testrunner.define({
         this.assertEquals(4, script.readyState);
         this.assertEquals("loaded", window.qTest); // will be set by the test file
         window.qTest = undefined;
+        script.dispose();
       }, this);
     }, this).send();
     this.wait();
@@ -2214,6 +2216,7 @@ testrunner.define({
       this.resume(function() {
         this.assertEquals(4, req.readyState);
         this.assertEquals("test", req.responseJson.data); // comes from the test file
+        req.dispose();
       }, this);
     }, this).send();
     this.wait();
