@@ -113,9 +113,10 @@ p {
   margin-left: 16px;
 }
 
-.events h2 {
+.events h2, .extends h2 {
   margin-top: 15px !important;
 }
+
 
 .method-header {
   font-family: Inconsolata, Consolas, "Courier New", Courier, monotype;
