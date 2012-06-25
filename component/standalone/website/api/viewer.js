@@ -113,8 +113,7 @@ q.ready(function() {
         var ast = JSON.parse(xhr.responseText);
         renderClass(ast);
       } else {
-        name = name.split(".");
-        name = name[name.length -1];
+        name = getModuleNameFromClassName(name);
         q("#content").append(
           q.create("<h1>" + name + "</h1><p style='color: #C00F00'><em>Failed to load " + name + " documentation!</em></p>")
         );
@@ -315,6 +314,13 @@ q.ready(function() {
 
     // add the description
     data.desc = parse(getByType(method, "desc").attributes.text) || "";
+
+    // add link to overridden method
+    if (data.desc == "" && method.attributes.docFrom) {
+      var moduleName = getModuleNameFromClassName(method.attributes.docFrom);
+      var link = q.string.firstLow(moduleName) + "." + method.attributes.name;
+      data.desc = "<p>Overrides method <a href='#" + link + "'>" + link + "</a></p>";
+    }
 
     // add the return type
     var returnType = getByType(method, "return");
@@ -577,12 +583,14 @@ q.ready(function() {
 
 
   var getByType = function(ast, type) {
-    for (var i=0; i < ast.children.length; i++) {
-      var item = ast.children[i];
-      if (item.type == type) {
-        return item;
-      }
-    };
+    if (ast.children) {
+      for (var i=0; i < ast.children.length; i++) {
+        var item = ast.children[i];
+        if (item.type == type) {
+          return item;
+        }
+      };
+    }
     return {attributes: {}, children: []};
   };
 
@@ -595,6 +603,10 @@ q.ready(function() {
    return attach;
   };
 
+  var getModuleNameFromClassName = function(name) {
+    name = name.split(".");
+    return name[name.length -1];
+  }
 
   var isInternal = function(item) {
     return item.attributes.isInternal ||
