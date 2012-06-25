@@ -242,7 +242,7 @@
 
     "build-api" :
     {
-      "extend" : ["build"],
+      "extend" : ["build-min"],
 
       "environment" :
       {
@@ -252,7 +252,7 @@
       {
         "paths"  :
         {
-          "file" : "api/script/q.js"
+          "file" : "api/script/q.min.js"
         }
       }
     },
