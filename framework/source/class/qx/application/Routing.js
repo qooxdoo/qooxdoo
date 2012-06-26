@@ -118,7 +118,7 @@ qx.Bootstrap.define("qx.application.Routing", {
     {
     	if (qx.core.Environment.get("qx.debug")){
         if (route != null) {
-          qx.core.Assert.assertSting(route, "Invalid argument 'route'");
+          qx.core.Assert.assertString(route, "Invalid argument 'route'");
         }
       }
       
