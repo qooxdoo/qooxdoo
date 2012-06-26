@@ -120,7 +120,7 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
           pos.left = currentPos.left < pos.left ? currentPos.left : pos.left;
           pos.top = currentPos.top < pos.top ? currentPos.top : pos.top;
 
-          // use the bigest width and height
+          // use the biggest width and height
           pos.width = currentPos.width > pos.width ? currentPos.width : pos.width;
           pos.height = currentPos.height > pos.height ? currentPos.height : pos.height;
         }
