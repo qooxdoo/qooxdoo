@@ -117,7 +117,8 @@
         },
         "code" :
         {
-          "locales" : "${LOCALES}"
+          "locales" : "${LOCALES}",
+          "code" : { "except" : [ "*" ] }
         }
       },
 
@@ -186,36 +187,6 @@
         "build-script",
         "gen-css"
       ]
-    },
-    
-    "build-basic-portable-script" :
-    {
-      "extend" : ["build-basic-script"],
-      
-      "=include" : [
-        "qx.core.BaseInit",
-        "${TESTRUNNER_MAIN_CLASS}",
-        "${TESTRUNNER_VIEW}"
-      ],
-      
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "file" : "${BUILD_PATH}/script/testrunner-portable-basic.js"
-        }
-      }
-    },
-    
-    "build-basic" :
-    {
-      "let" :
-      {
-        "TESTRUNNER_MAIN_CLASS" : "testrunner.ApplicationBasic",
-        "TESTRUNNER_VIEW" : "testrunner.view.Basic"
-      },
-      
-      "=run" : ["build-basic-portable-script"]
     }
   }
 }
