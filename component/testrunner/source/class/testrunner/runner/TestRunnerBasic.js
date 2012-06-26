@@ -36,7 +36,8 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
      */
     start : function()
     {
-      var runner = qx.core.Init.getApplication().runner;
+      var init = qx.core.Init ? qx.core.Init : qx.core.BaseInit;
+      var runner = init.getApplication().runner;
       runner._loadExternalTests();
       if (typeof runner.view.toggleAllTests == "function") {
         runner.view.toggleAllTests(true);
@@ -181,7 +182,6 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       var origin = qx.core.Environment.get("testrunner.testOrigin");
       switch(origin) {
         case "external":
-          //this._loadExternalTests();
           break;
         default:
           this._loadInlineTests(this._testNameSpace);
