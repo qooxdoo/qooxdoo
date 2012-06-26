@@ -1,10 +1,10 @@
 {
-  "name"    : "todo",
+    "name"    : "todo_q",
 
   "include" :
   [
     {
-      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+      "path" : "${WEBSITE}/website.json"
     }
   ],
 
@@ -13,66 +13,57 @@
     "api",
     "api-data",
     "build",
-    "clean",
-    "distclean",
-    "fix",
-    "info",
-    "lint",
-    "migration",
-    "pretty",
-    "profiling",
-    "source",
-    "source-all",
-    "source-hybrid",
+    "build-min",
     "test",
-    "test-source",
-    "translation"
+    "test-source"
   ],
-  
-  "default-job" : "source",
 
-  "let" :
-  {
-    "APPLICATION"  : "todo",
-    "QOOXDOO_PATH" : "../..",
-    "API_EXCLUDE"  : ["qx.test.*"],
-    "LOCALES"      : [ "en" ],
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "ROOT"         : "."
-  },
+  "default-job" : "build-min",
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["source-all-script", "common", "translation"]
+    "job-shadowing" : ["api"] 
   },
+
+  "let" :
+  {
+    "APPLICATION"  : "todo_q",
+    "QOOXDOO_PATH" : "../..",
+    "WEBSITE"      : "${QOOXDOO_PATH}/component/standalone/website",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "BUILD_PATH"   : "script",
+    "ROOT"         : "."
+  },
+
+  // You only need to edit the remainder of this file, if you want to customize
+  // specific jobs, or add own job definitions.
 
   "jobs" :
   {
-    "common" :
+    "api" :
     {
-      "=include" :
-      [
-        "${APPLICATION}.Application"
-      ],
-      
-      "=environment" :
-      {
-        "qx.version"     : "1.6",
-        "qx.application" : "${APPLICATION}.Application"
-      }
+      "run" : ["api-files"]
     },
 
-    "source-all-script" :
+    "api-files" :
     {
-      "=exclude" : 
-      [
-        "qx.test.*"
-      ]
-    }
-
-    ,"translation" :
-    {
-      "translate" : { "poentry-with-occurrences" : false  }
+      "extend" : ["cache"],
+      "copy-files" :
+      {
+        "files" : 
+        [
+          "api.css",
+          "default.highlight.css",
+          "highlight.LICENSE",
+          "highlight.pack.js",
+          "index.html",
+          "samples.js",
+          "viewer.js"
+        ],
+        "source" : "${WEBSITE}/api",
+        "target" : "api"
+      }
     }
   }
 }
+
