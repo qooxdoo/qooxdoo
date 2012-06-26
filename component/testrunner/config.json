@@ -1,6 +1,6 @@
 {
   "name"    : "testrunner",
-
+  
   "include" :
   [
     {
@@ -23,6 +23,29 @@
         "clean" 
       ]
     }
+  ],
+  
+  "export" :
+  [
+    "api",
+    "api-data",
+    "build",
+    "build-basic",
+    "build-basic-portable",
+    "build-widget",
+    "clean-cache",
+    "distclean",
+    "fix",
+    "info",
+    "lint",
+    "portable-source",
+    "portable-build",
+    "pretty",
+    "source",
+    "source-all",
+    "source-basic",
+    "source-widget",
+    "translation"
   ],
   
   "default-job" : "source",
@@ -56,8 +79,10 @@
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : ".",
+    "TESTRUNNER_ROOT": "${ROOT}",
     "TEST_NAMESPACE" : "${APPLICATION}.test",
-    "TEST_INCLUDE" : "${TEST_NAMESPACE}.*"
+    "TEST_INCLUDE" : "${TEST_NAMESPACE}.*",
+    "BUILD_PATH" : "build"
   },
 
   "jobs" :
@@ -87,6 +112,30 @@
       "let" :
       {
         "TEST_NAMESPACE" : "${APPLICATION}.test.basic"
+      }
+    },
+    
+    "build-basic-portable" :
+    {
+      "extend" : ["build-basic"],
+      
+      "let" :
+      {
+        "TESTRUNNER_ORIGIN" : "external",
+        "TEST_INCLUDE" : ""
+      },
+      
+      "environment" : 
+      {
+        "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
+      },
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "loader-template" : "${TESTRUNNER_ROOT}/tool/portable.basic.loader.tmpl.js"
+        }
       }
     },
 
@@ -134,6 +183,7 @@
     {
       "extend" : ["portable::build"]
     },
+
 
     // -------------------------------------------------------------------------
     // Misc
