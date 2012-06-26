@@ -122,9 +122,9 @@ release-sdk-svn-collect:
 	@for APPLICATION in $(APPLICATIONS); do \
 		$(CMD_MKDIR) $(RELEASE_SDK)/application/$$APPLICATION/source/script; \
 		if [ "$$APPLICATION" = "widgetbrowser" ]; then \
-	    $(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.modern.js; \
+			$(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.modern.js; \
 		else \
-	    $(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.js; \
+			$(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.js; \
 		fi; \
 	done
 	@# showcase
@@ -251,10 +251,10 @@ exec-skeleton-collect:
 	@echo "  * Collecting skeleton files..."
 	@$(CMD_MKDIR) $(SKELETON_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton
 	@for FILE in $(SKELETON_FILES); do \
-    	echo "    - $$FILE"; \
-    	$(CMD_MKDIR) `dirname $(SKELETON_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton/skeleton/$$FILE`; \
-	  	$(CMD_SYNC_OFFLINE) component/skeleton/$$FILE `dirname $(SKELETON_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton/skeleton/$$FILE`; \
-  	done
+			echo "    - $$FILE"; \
+			$(CMD_MKDIR) `dirname $(SKELETON_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton/skeleton/$$FILE`; \
+			$(CMD_SYNC_OFFLINE) component/skeleton/$$FILE `dirname $(SKELETON_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton/skeleton/$$FILE`; \
+		done
 
 exec-skeleton-archive:
 	@echo "  * Cleaning up target folders..."
@@ -283,7 +283,9 @@ distclean:
 	@for APPLICATION in $(APPLICATIONS); do \
 		F="application/$$APPLICATION"; \
 		if [ -e $$F ]; then \
-			(( cd $$F && $(CMD_GENERATOR) distclean ) || ( echo "Unable to distclean $$F"; exit 1 )); \
+			if [ "$$APPLICATION" != "todo" ]; then \
+				(( cd $$F && $(CMD_GENERATOR) distclean ) || ( echo "Unable to distclean $$F"; exit 1 )); \
+			fi; \
 		fi; \
 	done
 	@for APPLICATION in $(COMPONENTS); do \
@@ -301,6 +303,8 @@ build-apps:
 	@time for APPLICATION in $(APPLICATIONS); do \
 		if [ "$$APPLICATION" = "feedreader" ]; then \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build,build-mobile,build-website ) || exit 1; \
+			elif [ "$$APPLICATION" = "todo" ]; then \
+				( cd application/$$APPLICATION && $(CMD_GENERATOR) build-min ) || exit 1; \
 		elif [ "$$APPLICATION" = "mobileshowcase" ]; then \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build-ios,build-android ) || exit 1; \
 		else \
@@ -338,6 +342,7 @@ source-apps:
 	@time for APPLICATION in $(APPLICATIONS); do \
 		if [ "$$APPLICATION" = "feedreader" ]; then \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) source,source-mobile ) || exit 1; \
+		elif [ "$$APPLICATION" = "todo" ]; then \
 		else \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; \
 		fi; \
@@ -438,6 +443,8 @@ check-apps:
 		F="application/$$TARGET/build/script/fce.js"; \
 	elif [ "$$TARGET" = "mobileshowcase" ] ; then \
 		F="application/$$TARGET/build-ios/script/$$TARGET.js"; \
+	elif [ "$$TARGET" = "todo" ] ; then \
+		F="application/$$TARGET/$$TARGET.js"; \
 	else \
 		F="application/$$TARGET/build/script/$$TARGET.js"; \
 	fi; \
@@ -504,6 +511,10 @@ publish-apps:
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-ios/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-ios || exit 1; \
 			echo "    - $$APPLICATION-android..."; \
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-android/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-android || exit 1; \
+		elif [ "$$APPLICATION" = "todo" ]; then \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/script $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/todo.* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/index.html $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		else \
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		fi; \

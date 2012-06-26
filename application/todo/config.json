@@ -10,12 +10,7 @@
 
   "export" :
   [
-    "api",
-    "api-data",
-    "build",
-    "build-min",
-    "test",
-    "test-source"
+    "build-min"
   ],
 
   "default-job" : "build-min",
@@ -33,37 +28,5 @@
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "BUILD_PATH"   : "script",
     "ROOT"         : "."
-  },
-
-  // You only need to edit the remainder of this file, if you want to customize
-  // specific jobs, or add own job definitions.
-
-  "jobs" :
-  {
-    "api" :
-    {
-      "run" : ["api-files"]
-    },
-
-    "api-files" :
-    {
-      "extend" : ["cache"],
-      "copy-files" :
-      {
-        "files" : 
-        [
-          "api.css",
-          "default.highlight.css",
-          "highlight.LICENSE",
-          "highlight.pack.js",
-          "index.html",
-          "samples.js",
-          "viewer.js"
-        ],
-        "source" : "${WEBSITE}/api",
-        "target" : "api"
-      }
-    }
   }
 }
-
