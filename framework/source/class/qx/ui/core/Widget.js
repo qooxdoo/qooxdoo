@@ -2470,8 +2470,8 @@ qx.Class.define("qx.ui.core.Widget",
         // Move out of container by top/left inset
         var insets = elem.getInsets();
         elem.setStyles({
-          left: (-insets.left) + "px",
-          top: (-insets.top) + "px"
+          left: insets.left + "px",
+          top: insets.top + "px"
         });
 
         // Directly update for size when possible
