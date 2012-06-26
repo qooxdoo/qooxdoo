@@ -132,6 +132,11 @@ qx.Bootstrap.define("qx.module.Event", {
       for (var j=0; j < this.length; j++) {
         var el = this[j];
 
+        // continue if no listener are available
+        if (!el.__listener) {
+          continue;
+        }
+
         for (var id in el.__listener[type]) {
           var storedListener = el.__listener[type][id];
           if (storedListener == listener || storedListener.original == listener) {
