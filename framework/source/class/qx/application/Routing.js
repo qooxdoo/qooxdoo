@@ -316,6 +316,16 @@ qx.Bootstrap.define("qx.application.Routing", {
     executeDelete : function(path, params, customData) {
       this.__messaging.emit("delete", path, params, customData);
     },
+    
+    
+    /**
+     * Returns state value (history hash) of the navigation handler.
+     * @return {String} State of history navigation handler
+     */
+    getState : function()
+    {
+    	return this.__navigationHandler.getState();
+    },
 
 
     /**
