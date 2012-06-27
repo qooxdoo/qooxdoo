@@ -1,6 +1,14 @@
 {
   "name"    : "server component include config",
 
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/component/testrunner/testrunner.json",
+      "import" : ["build-basic-portable", "build-basic-script"]
+    }
+  ],
+
   "let" :
   {
     "APPLICATION"  : "server",
