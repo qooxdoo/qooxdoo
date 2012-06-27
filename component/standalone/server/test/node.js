@@ -18,7 +18,7 @@ testrunner.define({
   
   testFoo : function()
   {
-    print("Hello node.js");
+    console.log("Hello node.js");
   }
 });
 
