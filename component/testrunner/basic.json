@@ -116,7 +116,7 @@
         
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/testrunner-basic.js"
+          "file" : "${BUILD_SCRIPT_FILE}"
         },
         
         "uris" : 

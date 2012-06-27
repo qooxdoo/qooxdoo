@@ -80,8 +80,6 @@
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : ".",
     "TESTRUNNER_ROOT": "${ROOT}",
-    "TEST_NAMESPACE" : "${APPLICATION}.test",
-    "TEST_INCLUDE" : "${TEST_NAMESPACE}.*",
     "BUILD_PATH" : "build"
   },
 
@@ -115,29 +113,6 @@
       }
     },
     
-    "build-basic-portable" :
-    {
-      "extend" : ["build-basic"],
-      
-      "let" :
-      {
-        "TESTRUNNER_ORIGIN" : "external",
-        "TEST_INCLUDE" : ""
-      },
-      
-      "environment" : 
-      {
-        "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
-      },
-      
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "loader-template" : "${TESTRUNNER_ROOT}/tool/portable.basic.loader.tmpl.js"
-        }
-      }
-    },
 
     /*
     "source-script-packages" :

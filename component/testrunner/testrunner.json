@@ -475,6 +475,41 @@
         "testrunner.view" : "${TESTRUNNER_VIEW}",
         "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
       }
+    },
+    
+    "build-basic-portable" :
+    {
+      "extend" : ["build-basic"],
+      
+      "=let" :
+      {
+        "TESTRUNNER_ORIGIN" : "external",
+        "TEST_INCLUDE" : ""
+      },
+      
+      "environment" : 
+      {
+        "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
+      },
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "loader-template" : "${TESTRUNNER_ROOT}/tool/portable.basic.loader.tmpl.js"
+        }
+      },
+      
+      "=library" :
+      [
+        {
+          "manifest" : "${TESTRUNNER_ROOT}/Manifest.json"
+        },
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
+        }
+      ]
     }
+
   }
 }
