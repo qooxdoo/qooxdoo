@@ -40,6 +40,7 @@
         ,"qx.Mixin"
         ,"qx.Interface"
         ,"qx.data.marshal.Json"
+        ,"qx.bom.client.Runtime"
       ],
       
       "exclude" :
