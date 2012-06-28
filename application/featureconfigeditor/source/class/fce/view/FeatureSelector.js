@@ -324,7 +324,9 @@ qx.Class.define("fce.view.FeatureSelector", {
               var temp = distinctValues.concat();
               for (var x=0, y=temp.length; x<y; x++) {
                 if (!fce.Util.valuesEqual(setData[keyName], temp[x])) {
-                  distinctValues.push(setData[keyName]);
+                  if (!qx.lang.Array.contains(temp, setData[keyName])) {
+                    distinctValues.push(setData[keyName]);
+                  }
                 }
               }
             }
