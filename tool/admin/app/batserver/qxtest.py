@@ -510,18 +510,16 @@ class QxTest:
     for cmd in commands:
       self.log("Running shell command " + cmd)
       ret,out,err = invokePiped(cmd)
+      err = err.rstrip("\n")
+      err = err.rstrip("\r")
       if ret == 0:
         if err != "":
           if not result["BuildWarning"]:
             result["BuildWarning"] = ""
-          err = err.rstrip("\n")
-          err = err.rstrip("\r")
           result["BuildWarning"] += err + " "
       else:
         if not result["BuildError"]:
             result["BuildError"] = ""
-        err = err.rstrip("\n")
-        err = err.rstrip("\r")
         result["BuildError"] += err + " "
     
     if not result["BuildError"]:
