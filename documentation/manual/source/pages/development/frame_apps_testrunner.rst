@@ -94,8 +94,8 @@ Requirements are defined for individual tests; if one or more aren't satisfied, 
 Using Requirements
 ^^^^^^^^^^^^^^^^^^
 
-To make use of the requirements feature, test classes must include the `MRequirements mixin <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MRequirements>`_.
-The mixin defines a method ``require`` that takes an array of strings: The requirement IDs. This method is either called from the ``setUp`` method or from a test function **before** the actual logic of the test, e.g.:
+To make use of the requirements feature, test classes must include either the `MRequirementsBasic <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MRequirementsBasic>`_ mixin (for tests running in non-browser environments such as node.js or Rhino) or the `MRequirements <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MRequirements>`_ mixin which provides additional requirement checks for browser environments.
+The mixins provide a ``require`` method that takes an array of strings: The requirement IDs. This method is either called from the ``setUp`` method or from a test function **before** the actual logic of the test, e.g.:
 
 ::
 

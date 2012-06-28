@@ -24,6 +24,8 @@ qx.Class.define("${Namespace}.test.DemoTest",
 {
   extend : qx.dev.unit.TestCase,
 
+  include : [qx.dev.unit.MRequirementsBasic],
+
   members :
   {
     /*
@@ -50,6 +52,17 @@ qx.Class.define("${Namespace}.test.DemoTest",
       var b = a;
       this.assertIdentical(a, b, "A rose by any other name is still a rose");
       this.assertInRange(3, 1, 10, "You must be kidding, 3 can never be outside [1,10]!");
+    },
+
+    hasNodeJs : function()
+    {
+      return qx.core.Environment.get("runtime.name") == "node.js";
+    },
+
+    testNodeJs : function()
+    {
+      this.require(["nodeJs"]);
+      // test node stuff
     }
   }
 });
