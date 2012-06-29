@@ -597,7 +597,11 @@ class Generator(object):
         if not classList:
             classList = aClassList
         
-        self._apiLoader.storeApi(classList, apiPath, variantset, self._job.get("api/verify", []))
+        self._apiLoader.storeApi(classList, 
+                                 apiPath, 
+                                 variantset, 
+                                 self._job.get("api/verify", []),
+                                 self._job.get("api/sitemap", {}))
         
         return
 

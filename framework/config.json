@@ -237,10 +237,15 @@
 
     "api-verify" :
     {
-      "desc" : "creates an Apiviewer while checking internal links",
+      "desc" : "creates an Apiviewer while checking internal links. Also creates an XML sitemap with a link for each class",
       "extend" : [ "api" ],
       "api" : {
-        "verify" : [ "links" ]
+        "verify" : [ "links" ],
+        "sitemap" :
+        {
+          "link-uri" : "http://api.qooxdoo.org/#%s",
+          "file" : "api/sitemap.xml"
+        }
       }
     }
   }

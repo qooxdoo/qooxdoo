@@ -36,7 +36,6 @@ from ecmascript.backend import api
 from ecmascript.frontend import tree, treegenerator
 
 
-
 class ApiLoader(object):
     def __init__(self, classesObj, docs, cache, console, job):
         self._classesObj = classesObj
@@ -89,7 +88,7 @@ class ApiLoader(object):
         return node
         
 
-    def storeApi(self, include, apiPath, variantSet, verify):
+    def storeApi(self, include, apiPath, variantSet, verify, sitemap):
         self._console.info("Generating API data...")
         self._console.indent()
 
@@ -179,22 +178,45 @@ class ApiLoader(object):
         for classData in api.classNodeIterator(docTree):
             length += 1
             
+        
+        links = []
+        
         pos = 0
         for classData in api.classNodeIterator(docTree):
             pos += 1
             self._console.progress(pos, length)
             nodeData = tree.getNodeData(classData)
             nodeJson = json.dumps(nodeData)
-            fileName = os.path.join(apiPath, classData.get("fullName") + ".json")
+            className = classData.get("fullName")
+            fileName = os.path.join(apiPath, className + ".json")
             filetool.save(fileName, nodeJson)
+            
+            if sitemap and "link-uri" in sitemap:
+                links.append(sitemap["link-uri"] %className)
+            
+            #import pdb; pdb.set_trace()
+            #for type in ["method", "method-static", "event", "property", "constant"]:
+            #  for item in classData.getAllChildrenOfType(type):
+            #      itemName = className + "~" + item.attributes["name"]
+            #      link = linkPrefix + itemName
             
         self._console.outdent()
             
-        # writ apiindex.json
+        # write apiindex.json
         self._console.info("Saving index...")
         indexContent = json.dumps(index, separators=(',',':'), sort_keys=True) # compact encoding
         filetool.save(os.path.join(apiPath, "apiindex.json"), indexContent)            
 
+        # save sitemap
+        self._console.info("Saving XML sitemap...")
+        if len(links) > 0:
+            sitemapData = self.getSitemap(links)
+            if "file" in sitemap:
+                sitemapFile = sitemap["file"]
+            else:
+                sitemapFile = os.path.join(apiPath, "sitemap.xml")
+            filetool.save(sitemapFile, sitemapData)
+        
         self._console.outdent()
         self._console.info("Done")
 
@@ -570,3 +592,20 @@ class ApiLoader(object):
                     self._console.warn("Attempt to attach already existing method '%s::%s#%s'" % (className, section, method_name))
                 else:
                     add_meth_doc(classAttachInfo[section][method_name], section_node)
+
+
+    def getSitemap(self, links):
+        sitemapTemplate = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  %s
+</urlset>
+"""
+
+        urlTemplate = """  <url>
+    <loc>%s</loc> 
+  </url>"""
+        
+        for i, link in enumerate(links):
+            links[i] = urlTemplate %link
+        
+        return sitemapTemplate %"\n".join(links)
