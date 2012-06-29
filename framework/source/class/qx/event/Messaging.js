@@ -187,7 +187,7 @@ qx.Bootstrap.define("qx.event.Messaging",
     _emitListeners : function(channel, path, listeners, params, customData)
     {
       if (!listeners || qx.lang.Object.isEmpty(listeners)) {
-        return true;
+        return false;
       }
       var listenerMatched = false;
       for (var id in listeners)
