@@ -46,7 +46,8 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      *   "repeat": 1,
      *   "timing": "ease-out",
      *   "alternate": false,
-     *   "reverse": false
+     *   "reverse": false,
+     *   "delay" : 2000
      * }
      * </pre>
      *
@@ -72,6 +73,8 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      *   (cubic-bezier only available for CSS animations)
      *
      * *alternate* defines if every other animation should be run in reverse order.
+     *
+     * *delay* is the time in milliseconds the animation should wait before start.
      *
      * @param el {Element} The element to animate.
      * @param desc {Map} The animations description.

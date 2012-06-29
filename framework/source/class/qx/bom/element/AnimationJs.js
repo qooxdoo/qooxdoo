@@ -134,7 +134,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       handle.initValues = {};
       handle.repeatSteps = this.__applyRepeat(steps, desc.repeat);
 
-      return this.play(handle);
+      var delay = desc.delay || 0;
+      var self = this;
+      window.setTimeout(function() {
+        self.play(handle);
+      }, delay);
+      return handle;
     },
 
 

@@ -134,6 +134,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
           duration + "ms " +
           desc.repeat + " " +
           desc.timing + " " +
+          (desc.delay ? desc.delay + "ms " : "") +
           (desc.alternate ? "alternate" : "");
 
         qx.bom.Event.addNativeListener(el, this.__cssAnimationKeys["start-event"], this.__onAnimationStart);
@@ -288,7 +289,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
     __validateDesc : qx.core.Environment.select("qx.debug", {
       "true" : function(desc) {
         var possibleKeys = [
-          "origin", "duration", "keep", "keyFrames",
+          "origin", "duration", "keep", "keyFrames", "delay",
           "repeat", "timing", "alternate", "reverse"
           //@deprecated since 2.0 (reverse key)
         ];
