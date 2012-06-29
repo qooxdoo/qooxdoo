@@ -251,6 +251,14 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
         toolbar.add(part);
       };
 
+      var radioGroup = new qx.ui.form.RadioGroup();
+      radioGroup.setAllowEmptySelection(true);
+
+      var radioButtons = toolbar.getChildren()[2].getChildren();
+      for (var i=0; i < radioButtons.length; i++) {
+        radioGroup.add(radioButtons[i]);
+      };
+
       return frame;
     },
 
