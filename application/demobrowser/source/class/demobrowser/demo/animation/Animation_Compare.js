@@ -294,6 +294,7 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         button.innerHTML = "0";
         button.className = "button";
         buttons[i] = button;
+        button.style.cursor = "auto";
       }
 
       var onIteration = function(e) {
@@ -319,6 +320,7 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         button.innerHTML = "Waiting 2s";
         button.className = "button";
         buttons[i] = button;
+        button.style.cursor = "auto";
       }
 
       var onStart = function(e) {

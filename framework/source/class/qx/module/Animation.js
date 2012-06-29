@@ -28,9 +28,13 @@
  */
 qx.Bootstrap.define("qx.module.Animation", {
   events : {
-    /**
-     * Fired when an animation has ended.
-     */
+    /** Fired when an animation starts. */
+    "animationStart" : undefined,
+
+    /** Fired when an animation has ended one iteration. */
+    "animationIteration" : undefined,
+
+    /** Fired when an animation has ended. */
     "animationEnd" : undefined
   },
 
@@ -107,6 +111,8 @@ qx.Bootstrap.define("qx.module.Animation", {
      *
      * *alternate* defines if every other animation should be run in reverse order.
      *
+     * *delay* is the time in milliseconds the animation should wait before start.
+     *
      * @attach {q}
      * @param desc {Map} The animation's description.
      * @param duration {Number?} The duration in milliseconds of the animation,
@@ -121,6 +127,17 @@ qx.Bootstrap.define("qx.module.Animation", {
         var handle = qx.bom.element.Animation.animate(this[i], desc, duration);
 
         var self = this;
+        // only register for the first element
+        if (i == 0) {
+          handle.on("start", function() {
+            self.emit("animationStart");
+          }, handle);
+
+          handle.on("iteration", function() {
+            self.emit("animationIteration");
+          }, handle);
+        }
+
         handle.on("end", function() {
           var handles = self.__animationHandles;
           handles.splice(self.indexOf(handle), 1);
