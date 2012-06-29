@@ -136,8 +136,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
           desc.timing + " " +
           (desc.alternate ? "alternate" : "");
 
-        var eventName = this.__cssAnimationKeys["end-event"];
-        qx.bom.Event.addNativeListener(el, eventName, this.__onAnimationEnd);
+        qx.bom.Event.addNativeListener(el, this.__cssAnimationKeys["iteration-event"], this.__onAnimationIteration);
+        qx.bom.Event.addNativeListener(el, this.__cssAnimationKeys["end-event"], this.__onAnimationEnd);
 
         el.style[qx.lang.String.camelCase(this.__cssAnimationKeys["name"])] = style;
       }
@@ -160,6 +160,15 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
       }
 
       return animation;
+    },
+
+
+    /**
+     * Handler for the animation iteration.
+     * @param e {Event} The native event from the browser.
+     */
+    __onAnimationIteration : function(e) {
+      e.target.$$animation.emit("iteration", e.target);
     },
 
 

@@ -34,6 +34,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      * <ul>
      *  <li><code>name</code> The name of the css animation style</li>
      *  <li><code>play-state</code> The name of the play-state style</li>
+     *  <li><code>iternation-event</code> The name of the iternation event</li>
      *  <li><code>end-event</code> The name of the end event</li>
      *  <li><code>keyframes</code> The name of the keyframes selector.</li>
      * </ul>
@@ -48,6 +49,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
         return {
           "name" : name,
           "play-state" : qx.bom.client.CssAnimation.getPlayState(),
+          "iteration-event" : qx.bom.client.CssAnimation.getAnimationIteration(),
           "end-event" : qx.bom.client.CssAnimation.getAnimationEnd(),
           "keyframes" : qx.bom.client.CssAnimation.getKeyFrames()
         };
@@ -75,6 +77,24 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      */
     getName : function() {
       return qx.bom.Style.getPropertyName("animation");
+    },
+
+
+    /**
+     * Checks for the event name of animation end.
+     * @internal
+     * @return {String} The name of the event.
+     */
+    getAnimationIteration : function() {
+      var mapping = {
+        "msAnimation" : "MSAnimationIteration",
+        "WebkitAnimation" : "webkitAnimationIteration",
+        "MozAnimation" : "animationiteration",
+        "OAnimation" : "oAnimationIteration",
+        "animation" : "animationiteration"
+      }
+
+      return mapping[this.getName()];
     },
 
 

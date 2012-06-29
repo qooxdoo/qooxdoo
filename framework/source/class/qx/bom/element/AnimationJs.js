@@ -277,6 +277,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         handle.i++;
         // iteration condition
         if (handle.i % handle.steps == 0) {
+          handle.emit("iteration", handle.el);
           if (handle.desc.alternate) {
             handle.delta.reverse();
           }
