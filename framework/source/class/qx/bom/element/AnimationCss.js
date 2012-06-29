@@ -136,6 +136,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
           desc.timing + " " +
           (desc.alternate ? "alternate" : "");
 
+        qx.bom.Event.addNativeListener(el, this.__cssAnimationKeys["start-event"], this.__onAnimationStart);
         qx.bom.Event.addNativeListener(el, this.__cssAnimationKeys["iteration-event"], this.__onAnimationIteration);
         qx.bom.Event.addNativeListener(el, this.__cssAnimationKeys["end-event"], this.__onAnimationEnd);
 
@@ -160,6 +161,15 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
       }
 
       return animation;
+    },
+
+
+    /**
+     * Handler for the animation start.
+     * @param e {Event} The native event from the browser.
+     */
+    __onAnimationStart : function(e) {
+      e.target.$$animation.emit("start", e.target);
     },
 
 

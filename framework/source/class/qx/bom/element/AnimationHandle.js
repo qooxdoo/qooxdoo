@@ -41,6 +41,9 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
 
 
   events: {
+    /** Fired when the animation started via {@link qx.bom.element.Animation}. */
+    "start" : "Element",
+
     /**
      * Fired when the animation started via {@link qx.bom.element.Animation} has
      * ended.

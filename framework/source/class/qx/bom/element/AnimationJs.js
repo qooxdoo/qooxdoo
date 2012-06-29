@@ -255,6 +255,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      * @return {qx.bom.element.AnimationHandle} The handle for chaining.
      */
     play : function(handle) {
+      handle.emit("start", handle.el);
       var id = window.setInterval(function() {
         handle.repeatSteps--;
         var values = handle.delta[handle.i % handle.steps];
