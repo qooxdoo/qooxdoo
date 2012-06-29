@@ -88,6 +88,7 @@ qx.Class.define("mobileshowcase.Application",
       var dialogs = new mobileshowcase.page.Dialog();
       var dataBinding = new mobileshowcase.page.DataBinding();
       var themeSwitcher = new mobileshowcase.page.ThemeSwitcher();
+      
 
       // Add the pages to the page manager
       var manager = new qx.ui.mobile.page.Manager();

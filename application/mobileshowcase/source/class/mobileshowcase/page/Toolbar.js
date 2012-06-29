@@ -57,6 +57,8 @@ qx.Class.define("mobileshowcase.page.Toolbar",
     __areYouSurePopup: null,
     __searchDialog: null,
     __deleteDialog: null,
+    __toolbarButtonImages: ["mobileshowcase/icon/arrowleft.png","mobileshowcase/icon/camera.png"],
+    
 
     // overridden
     _initialize : function()
@@ -76,7 +78,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       searchDialog.show();
       }, this);
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
-      var goBackBtn = new qx.ui.mobile.toolbar.Button(null,"mobileshowcase/icon/arrowleft.png");
+      var goBackBtn = new qx.ui.mobile.toolbar.Button(null,this.__toolbarButtonImages[0]);
       toolbar.add(goBackBtn);
       goBackBtn.addListener("tap", function(){
         var popup = this.__createAreYouSurePopup(goBackBtn);
@@ -84,7 +86,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       }, this);
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
 
-      var loadButton = new qx.ui.mobile.toolbar.Button("Take a new picture","mobileshowcase/icon/camera.png");
+      var loadButton = new qx.ui.mobile.toolbar.Button("Take a new picture",this.__toolbarButtonImages[1]);
       loadButton.setIconPosition("top");
       loadButton.setGap(0);
       toolbar.add(loadButton);
@@ -112,6 +114,12 @@ qx.Class.define("mobileshowcase.page.Toolbar",
         this.__deleteDialog.destroy();
       }
     },
+    
+    
+    setToolbarButtonImages : function(imageArray) {
+      this.__toolbarButtonImages = imageArray;
+    },
+    
 
     /**
      * Creates the popup widget to show when backButton is tapped

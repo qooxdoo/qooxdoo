@@ -139,10 +139,13 @@ qx.Class.define("mobileshowcase.page.Form",
 
       return form;
     },
+    
 
     _enableFormSubmitting : function(evt) {
       this.__submitButton.setEnabled(evt.getData());
     },
+    
+    
     /**
      * Event handler.
      *

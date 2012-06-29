@@ -455,7 +455,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     _initialize : function()
     {
       this.base(arguments);
-
+      
       this.__scrollContainer = this._createScrollContainer();
       this.__content = this._createContent();
 

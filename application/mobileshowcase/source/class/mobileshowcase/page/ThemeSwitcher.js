@@ -101,6 +101,15 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
         }
       }
     },
+    
+    
+    /**
+     * Adds a new theme data object to the theme switcher.
+     * @param cssFile {String} The css file url.
+     */ 
+    appendTheme : function(themeData) {
+      this.__themes.push(themeData);
+    },
 
 
     // overridden
