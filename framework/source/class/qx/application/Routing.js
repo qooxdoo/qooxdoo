@@ -114,21 +114,19 @@ qx.Bootstrap.define("qx.application.Routing", {
      * Initialization method used to execute the get route for the currently set history path.
      * @param route {String?} Optional route for init.
      */
-    init : function(route) 
+    init : function(route)
     {
-    	if (qx.core.Environment.get("qx.debug")){
+      if (qx.core.Environment.get("qx.debug")) {
         if (route != null) {
           qx.core.Assert.assertString(route, "Invalid argument 'route'");
         }
       }
-      
+
       var path = this.getState();
-      if (path != this.__currentGetPath) {
-        if (path == "" || path == null){
-          path = qx.application.Routing.DEFAULT_PATH;
-        }
-        this._executeGet(route != null ? route : path, null, true);
+      if (path == "" || path == null){
+        path = qx.application.Routing.DEFAULT_PATH;
       }
+      this._executeGet(route != null ? route : path, null, true);
     },
 
 
@@ -245,7 +243,7 @@ qx.Bootstrap.define("qx.application.Routing", {
      * @param fromEvent {var} Determines whether this method was called from history
      *
      */
-    _executeGet : function(path, customData, fromEvent) 
+    _executeGet : function(path, customData, fromEvent)
     {
       this.__currentGetPath = path;
 
@@ -325,15 +323,14 @@ qx.Bootstrap.define("qx.application.Routing", {
     executeDelete : function(path, params, customData) {
       this.__messaging.emit("delete", path, params, customData);
     },
-    
-    
+
+
     /**
      * Returns state value (history hash) of the navigation handler.
      * @return {String} State of history navigation handler
      */
-    getState : function()
-    {
-    	return this.__navigationHandler.getState();
+    getState : function() {
+      return this.__navigationHandler.getState();
     },
 
 

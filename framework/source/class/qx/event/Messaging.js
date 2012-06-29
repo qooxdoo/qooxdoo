@@ -167,7 +167,7 @@ qx.Bootstrap.define("qx.event.Messaging",
       listenerMatched = this._emitListeners(channel, path, listener, params, customData);
 
       if (!listenerMatched && !listenerMatchedAny) {
-        this.info("No listener found for " + path);
+        qx.Bootstrap.info("No listener found for " + path);
       }
     },
 
