@@ -112,9 +112,12 @@ qx.Bootstrap.define("qx.application.Routing", {
 
     /**
      * Initialization method used to execute the get route for the currently set history path.
-     * @param route {String?} Optional route for init.
+     * If no path is set, either the given argument named <code>defaultRoute</code>
+     * or the {@link #DEFAULT_PATH} will be used for initialization.
+     *
+     * @param defaultRoute {String?} Optional default route for initialization.
      */
-    init : function(route)
+    init : function(defaultRoute)
     {
       if (qx.core.Environment.get("qx.debug")) {
         if (route != null) {
@@ -124,9 +127,9 @@ qx.Bootstrap.define("qx.application.Routing", {
 
       var path = this.getState();
       if (path == "" || path == null){
-        path = qx.application.Routing.DEFAULT_PATH;
+        path = defaultRoute || qx.application.Routing.DEFAULT_PATH;
       }
-      this._executeGet(route != null ? route : path, null, true);
+      this._executeGet(path, null, true);
     },
 
 
