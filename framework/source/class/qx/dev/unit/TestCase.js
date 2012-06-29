@@ -82,6 +82,12 @@ qx.Class.define("qx.dev.unit.TestCase",
      * function. Used for asynchronous tests, e.g. in a listener's callback
      * function.
      *
+     * *Important*
+     * 
+     * The used *deferredFunction* is the last function which is executed before
+     * the whole test case is disposed. You have to make sure that this *resume*
+     * function is only used once in the whole test case.
+     *
      * @param deferredFunction {Function?} Function to run
      * @param self {Object?} reference to the ‘this’ variable inside the
      * callback. By default the test instance is used.
