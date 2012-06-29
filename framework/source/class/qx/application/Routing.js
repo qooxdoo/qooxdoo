@@ -115,12 +115,10 @@ qx.Bootstrap.define("qx.application.Routing", {
      */
     init : function() {
       var path = this.__navigationHandler.getState();
-      if (path != this.__currentGetPath) {
-        if (path == "" || path == null){
-          path = qx.application.Routing.DEFAULT_PATH;
-        }
-        this._executeGet(path, null, true);
+      if (path == "" || path == null){
+        path = qx.application.Routing.DEFAULT_PATH;
       }
+      this._executeGet(path, null, true);
     },
 
 
