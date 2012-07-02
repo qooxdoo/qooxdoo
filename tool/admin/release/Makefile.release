@@ -88,7 +88,7 @@ TUTORIALS = mobiletweets twitter website
 release: release-sdk
 
 release-sdk: distclean release-sdk-sans-clean
-release-sdk-sans-clean: release-sdk-info apiviewer showcase build-docs release-sdk-svn-collect release-sdk-archive
+release-sdk-sans-clean: release-sdk-info apiviewer apiviewer-website showcase build-docs release-sdk-svn-collect release-sdk-archive
 
 
 release-sdk-info:
@@ -177,6 +177,9 @@ info-apiviewer:
 
 
 apiviewer: info-apiviewer exec-apiviewer-build
+
+apiviewer-website:
+	@time ( cd component/standalone/website && $(CMD_GENERATOR) api ) || exit 1
 
 exec-apiviewer-build:
 	@time ( cd framework && $(CMD_GENERATOR) api ) || exit 1
