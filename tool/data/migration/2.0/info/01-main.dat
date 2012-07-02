@@ -2,3 +2,6 @@
 \bqx\.fx\.=The 'qx.fx' animation layer is deprecated. Please use qx.bom.element.Animation instead.
 \bqx\.util\.ColorUtil\.rgbToHexString\b=The return value changed. The # is now added to the returned string.
 \bqx\.ui\.mobile\.navigation\.Manager\b=The navigation manager has been replaced with qx.application.Routing.
+
+\bqx\.bom\.storage\.Local\.getInstance\b=The experimental storage implementation has been replaced by 'qx.bom.Storage.getLocal'
+\bqx\.bom\.storage\.Session\.getInstance\b=The experimental storage implementation has been replaced by 'qx.bom.Storage.getSession'
