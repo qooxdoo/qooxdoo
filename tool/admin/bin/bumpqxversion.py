@@ -39,7 +39,7 @@
 
 import sys, os, re, string, types, codecs, functools, subprocess as sub
 
-qxversion_regexp = r'[\w\.-]+'  # rough regexp, to capture a qooxdoo version like '1.4.3' or '1.4-pre'
+qxversion_regexp = r'\d+(?:\.\d+)+(?:-\w+)?'  # rough regexp, to capture a qooxdoo version like '1.4.3' or '1.4-pre'
 vMajor_regexp = r'\d+'
 vMinor_regexp = r'[\w-]+'
 vPatch_regexp = r'[\w-]*'
@@ -130,47 +130,49 @@ Files = {
         r'qooxdoo v.(%s) \|' % qxversion_regexp,
         ],
     "./component/standalone/server/test/rhino.js" : [
-        r'qx-oo-%s.js' % qxversion_regexp,
+        r'qx-oo-(%s).js' % qxversion_regexp,
         ],
     "./component/standalone/server/test/node.js" : [
-        r'qx-oo-%s.js' % qxversion_regexp,
+        r'qx-oo-(%s).js' % qxversion_regexp,
         ],
-    "./admin/release/index.html" : [
-        r'qx-oo-%s.js' % qxversion_regexp,
-        r'qx-oo-%s.min.js' % qxversion_regexp,
-        r'q-%s.js' % qxversion_regexp,
-        r'q-%s.min.js' % qxversion_regexp,
+    "./tool/admin/release/index.html" : [
+        r'qx-oo-(%s).js' % qxversion_regexp,
+        r'qx-oo-(%s).min.js' % qxversion_regexp,
+        r'q-(%s).js' % qxversion_regexp,
+        r'q-(%s).min.js' % qxversion_regexp,
+        r'storage-(%s).js' % qxversion_regexp,
+        r'storage-(%s).require.js' % qxversion_regexp,
         ],
     "./component/skeleton/server/readme.txt" : [
-        r'qx-oo-%s.min.js' % qxversion_regexp,
+        r'qx-oo-(%s).min.js' % qxversion_regexp,
         ],
     "./component/skeleton/website/index.html" : [
-        r'q-%s.min.js' % qxversion_regexp,
+        r'q-(%s).min.js' % qxversion_regexp,
         ],
     "./component/skeleton/website/test/index.tmpl.html" : [
-        r'q-%s.js' % qxversion_regexp,
+        r'q-(%s).js' % qxversion_regexp,
         ],
     "./component/skeleton/website/readme.txt" : [
-        r'q-%s.js' % qxversion_regexp,
-        r'q-%s.min.js' % qxversion_regexp,
+        r'q-(%s).js' % qxversion_regexp,
+        r'q-(%s).min.js' % qxversion_regexp,
         ],
     "./component/standalone/website/index.html" : [
-        r'q-%s.min.js' % qxversion_regexp,
+        r'q-(%s).min.js' % qxversion_regexp,
         ],
     "./component/standalone/website/api/index.html" : [
-        r'q-%s.min.js' % qxversion_regexp,
+        r'q-(%s).min.js' % qxversion_regexp,
         ],
     "./component/standalone/website/test/index.html" : [
-        r'q-%s.min.js' % qxversion_regexp,
+        r'q-(%s).min.js' % qxversion_regexp,
         ],
     "./application/todo/index.html" : [
         r'q-%s.min.js' % qxversion_regexp,
         ],
     "./component/tutorials/website/step1/.gitignore" : [
-        r'q-%s.min.js' % qxversion_regexp,
+        r'q-(%s).min.js' % qxversion_regexp,
         ],
     "./component/tutorials/website/step1/notification.html" : [
-        r'q-%s.min.js' % qxversion_regexp,
+        r'q-(%s).min.js' % qxversion_regexp,
         ],
 }
 
