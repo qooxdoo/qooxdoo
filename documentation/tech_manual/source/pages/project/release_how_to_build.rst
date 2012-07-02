@@ -205,7 +205,7 @@ As soon as you have built and tested the npm package, run ``npm publish`` to upl
 
 * Make sure `node <http://nodejs.org>`_ and `npm <npmjs.org>`_ is installed (tested to work with 0.6.4/1.1.13).
 * Change to ``component/standalone/server``.
-* Make sure the ``qx-oo.js`` has been built (in /script).
+* Make sure the ``qx-oo-%{version}.js`` has been built (in /script).
 * Run ``generate.py npm-package-copy``.
 * Run ``generate.py npm-package-publish`` (needs the qooxdoo user account).
 * Check if it worked in the `online registry <http://search.npmjs.org/>`_.

@@ -73,7 +73,7 @@ Only two lines in this example are specific to the server environment: The first
 
  ::
  
-   load(["path/to/qx-oo.js"]);
+   load(["path/to/qx-oo-%{version}.js"]);
 
 and replace ``console.log`` with ``print``.
 

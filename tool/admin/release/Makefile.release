@@ -364,7 +364,7 @@ tutorials-build:
 			if [ -d $$F ]; then \
 				paths="$$paths $$TUTORIAL/$$STEP"; \
 				if [ "$$TUTORIAL" = "website" ]; then \
-					cp component/standalone/website/script/q.min.js $$F; \
+					cp component/standalone/website/script/q-$(FRAMEWORK_VERSION).min.js $$F; \
 				else \
 					( cd $$F && $(CMD_GENERATOR) build ) || exit 1; \
 				fi; \
@@ -467,14 +467,14 @@ check-components:
 			F="component/standalone/$$TARGET/script/$$TARGET.require.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "website" ]; then \
-			F="component/standalone/$$TARGET/script/q.js"; \
+			F="component/standalone/$$TARGET/script/q-$(FRAMEWORK_VERSION).js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-			F="component/standalone/$$TARGET/script/q.min.js"; \
+			F="component/standalone/$$TARGET/script/q-$(FRAMEWORK_VERSION).min.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "server" ]; then \
-			F="component/standalone/$$TARGET/script/qx-oo.min.js"; \
+			F="component/standalone/$$TARGET/script/qx-oo-$(FRAMEWORK_VERSION).min.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-			F="component/standalone/$$TARGET/script/qx-oo.js"; \
+			F="component/standalone/$$TARGET/script/qx-oo-$(FRAMEWORK_VERSION).js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		fi; \
 	done
@@ -544,13 +544,13 @@ publish-apps:
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$$COMPONENT.require.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		elif [ "$$COMPONENT" = "website" ]; then \
 			echo "    - $$COMPONENT..."; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q.min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/api/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-api || exit 1; \
       $(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/test/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-tests || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo.min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		fi; \
 	done
 
