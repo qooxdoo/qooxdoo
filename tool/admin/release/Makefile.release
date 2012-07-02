@@ -88,7 +88,7 @@ TUTORIALS = mobiletweets twitter website
 release: release-sdk
 
 release-sdk: distclean release-sdk-sans-clean
-release-sdk-sans-clean: release-sdk-info apiviewer apiviewer-website showcase build-docs release-sdk-svn-collect release-sdk-archive
+release-sdk-sans-clean: release-sdk-info apiviewer apiviewer-website website server showcase build-docs release-sdk-svn-collect release-sdk-archive
 
 
 release-sdk-info:
@@ -183,6 +183,40 @@ apiviewer-website:
 
 exec-apiviewer-build:
 	@time ( cd framework && $(CMD_GENERATOR) api ) || exit 1
+
+
+################################################################################
+# WEBSITE TARGETS
+################################################################################
+
+info-website:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING WEBSITE"
+	@echo "****************************************************************************"
+
+
+website: info-website exec-website-build
+
+exec-website-build:
+	@time ( cd component/standalone/website && $(CMD_GENERATOR) build,build-min ) || exit 1
+
+
+################################################################################
+# SERVER TARGETS
+################################################################################
+
+info-server:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING SERVER"
+	@echo "****************************************************************************"
+
+
+server: info-server exec-server-build
+
+exec-server-build:
+	@time ( cd component/standalone/server && $(CMD_GENERATOR) build,build-min ) || exit 1
 
 
 ################################################################################
