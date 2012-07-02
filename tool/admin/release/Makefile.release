@@ -320,7 +320,7 @@ build-components:
 		elif [ "$$COMPONENT" = "website" ]; then \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
-			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) api-data ) || exit 1; \
+			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) api ) || exit 1; \
       ( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) test ) || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
@@ -425,7 +425,7 @@ publish-build-components:
 	@( cd component/standalone/storage && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/standalone/storage && $(CMD_GENERATOR) build-require ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) build ) || exit 1
-	@( cd component/standalone/website && $(CMD_GENERATOR) api-data ) || exit 1
+	@( cd component/standalone/website && $(CMD_GENERATOR) api ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) build-min ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) test ) || exit 1
 	@( cd component/standalone/server && $(CMD_GENERATOR) build ) || exit 1
