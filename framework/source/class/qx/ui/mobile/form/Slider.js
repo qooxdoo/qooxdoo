@@ -122,8 +122,19 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       check : "Integer",
       init : 1,
       event : "changeStep"
+    },
+    
+    
+    /**
+     * Reverses the display direction of the slider knob. If true, the maxium of 
+     * the slider is on the left side and minimum on the right side.
+     */
+    reverseDirection : 
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_updateKnobPosition"
     }
-
   },
 
 
@@ -348,6 +359,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       return this.__value;
     },
 
+
     /**
      * Updates the knob position based on the current value.
      */
@@ -357,8 +369,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       this._setKnobPosition(percent);
       this._setProgressIndicatorPosition(percent);
     },
-
-
+    
+    
     /**
      * Sets the indicator positon based on the give percent value.
      *
@@ -407,7 +419,14 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       var min = this.getMinimum();
       var value = this._limitValue(value);
-      return ((value - min) * 100) / this._getRange();
+      
+      var percent = ((value - min) * 100) / this._getRange();
+      
+      if(this.isReverseDirection()) {
+        return 100-percent;
+      } else {
+        return percent;
+      }
     },
 
 
@@ -420,7 +439,14 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _positionToValue : function(position)
     {
       var value = this.getMinimum() + (Math.round(position / this._pixelPerStep) * this.getStep());
-      return this._limitValue(value);
+      value = this._limitValue(value);
+      if(this.isReverseDirection()) {
+        var center = this.getMinimum() + this._getRange()/2;
+        var dist = center-value;
+        value = center + dist;
+      }
+      
+      return value;
     },
 
 
