@@ -1219,7 +1219,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Move
       var domEl = elem.getDomElement();
-      // use the DOM element because the cache of the qx.html.Element could be 
+      // use the DOM element because the cache of the qx.html.Element could be
       // wrong due to changes made by the decorators which work on the DOM element too
       if (domEl) {
         domEl.style.top = bounds.top + "px";

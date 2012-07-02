@@ -235,8 +235,8 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
       frame.add(toolbar);
 
       var classes = [
-        qx.ui.toolbar.Button, 
-        qx.ui.toolbar.CheckBox, 
+        qx.ui.toolbar.Button,
+        qx.ui.toolbar.CheckBox,
         qx.ui.toolbar.RadioButton,
         qx.ui.toolbar.MenuButton
       ];

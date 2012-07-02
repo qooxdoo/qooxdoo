@@ -53,7 +53,7 @@ qx.Class.define("fce.Util", {
 
     /**
      * Compares two maps.
-     * 
+     *
      * @param a {Map} First map
      * @param b {Map} Second map
      * @return {Boolean} <code>true</code> if the maps have equal values
@@ -89,10 +89,10 @@ qx.Class.define("fce.Util", {
 
     /**
      * Compares two values of any type.
-     * 
+     *
      * @param a {var} First value
      * @param b {var} Second value
-     * @return {Boolean} <code>true</code> if the values are equal 
+     * @return {Boolean} <code>true</code> if the values are equal
      * (may not be identical)
      */
     valuesEqual : function(a, b) {
@@ -109,7 +109,7 @@ qx.Class.define("fce.Util", {
       // reference types
       else {
         // types differ
-        if (a instanceof Array && !(b instanceof Array) || 
+        if (a instanceof Array && !(b instanceof Array) ||
           b instanceof Array && !(a instanceof Array))
         {
           return false;

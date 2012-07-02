@@ -179,8 +179,8 @@ qx.Class.define("mobiletweets.Application",
         );
       }, this);
     },
-    
-    
+
+
     /**
      * Shows the input page of the application.
      */

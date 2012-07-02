@@ -155,7 +155,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           while (target.nodeType != 1) {
             target = target.parentNode;
           }
-          
+
           if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
             // Remove focus from input elements, so that the keyboard and the mouse cursor is hidden
             var elements = [];
@@ -167,10 +167,10 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
             for (var i=0, length = elements.length; i < length; i++) {
               elements[i].blur();
             }
-            
+
             e.preventDefault();
-          } 
-          
+          }
+
           // we also want to alert interested parties that we are starting scrolling
           if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
           {
@@ -181,7 +181,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
       });
       return scroll;
     },
-    
+
 
     /**
      * Registers all needed event listener.

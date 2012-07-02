@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
       var EventHandler = qx.ui.mobile.core.EventHandler;
 
       var touch = domEvent.getChangedTargetTouches()[0];
-      
+
       var deltaY = touch.screenY - EventHandler.__startY;
 
       if (EventHandler.__activeTarget && Math.abs(deltaY) >= qx.event.handler.TouchCore.TAP_MAX_DISTANCE) {

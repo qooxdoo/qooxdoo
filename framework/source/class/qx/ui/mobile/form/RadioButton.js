@@ -144,8 +144,8 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
 
       return containerElement;
     },
-    
-    
+
+
     /**
      * Event handler, when CheckBox appears on screen.
      */
