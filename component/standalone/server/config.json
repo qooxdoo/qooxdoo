@@ -144,7 +144,7 @@
     "test-replace" : 
     {
       "shell" : {
-        "command" : "sed -i s/qx/__qx__/g ${BUILD_SCRIPT_FILE}"
+        "command" : "sed -i -e s/qx/__qx__/g ${BUILD_SCRIPT_FILE}"
       }
     }
   }
