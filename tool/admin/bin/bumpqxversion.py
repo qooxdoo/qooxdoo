@@ -129,6 +129,49 @@ Files = {
     "./tool/data/generator/copyright.include.js" : [
         r'qooxdoo v.(%s) \|' % qxversion_regexp,
         ],
+    "./component/standalone/server/test/rhino.js" : [
+        r'qx-oo-%s.js' % qxversion_regexp,
+        ],
+    "./component/standalone/server/test/node.js" : [
+        r'qx-oo-%s.js' % qxversion_regexp,
+        ],
+    "./admin/release/index.html" : [
+        r'qx-oo-%s.js' % qxversion_regexp,
+        r'qx-oo-%s.min.js' % qxversion_regexp,
+        r'q-%s.js' % qxversion_regexp,
+        r'q-%s.min.js' % qxversion_regexp,
+        ],
+    "./component/skeleton/server/readme.txt" : [
+        r'qx-oo-%s.min.js' % qxversion_regexp,
+        ],
+    "./component/skeleton/website/index.html" : [
+        r'q-%s.min.js' % qxversion_regexp,
+        ],
+    "./component/skeleton/website/test/index.tmpl.html" : [
+        r'q-%s.js' % qxversion_regexp,
+        ],
+    "./component/skeleton/website/readme.txt" : [
+        r'q-%s.js' % qxversion_regexp,
+        r'q-%s.min.js' % qxversion_regexp,
+        ],
+    "./component/standalone/website/index.html" : [
+        r'q-%s.min.js' % qxversion_regexp,
+        ],
+    "./component/standalone/website/api/index.html" : [
+        r'q-%s.min.js' % qxversion_regexp,
+        ],
+    "./component/standalone/website/test/index.html" : [
+        r'q-%s.min.js' % qxversion_regexp,
+        ],
+    "./application/todo/index.html" : [
+        r'q-%s.min.js' % qxversion_regexp,
+        ],
+    "./component/tutorials/website/step1/.gitignore" : [
+        r'q-%s.min.js' % qxversion_regexp,
+        ],
+    "./component/tutorials/website/step1/notification.html" : [
+        r'q-%s.min.js' % qxversion_regexp,
+        ],
 }
 
 # - End config -----------------------------------------------------------------
