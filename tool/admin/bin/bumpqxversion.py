@@ -166,7 +166,7 @@ Files = {
         r'q-(%s).min.js' % qxversion_regexp,
         ],
     "./application/todo/index.html" : [
-        r'q-%s.min.js' % qxversion_regexp,
+        r'q-(%s).min.js' % qxversion_regexp,
         ],
     "./component/tutorials/website/step1/.gitignore" : [
         r'q-(%s).min.js' % qxversion_regexp,
