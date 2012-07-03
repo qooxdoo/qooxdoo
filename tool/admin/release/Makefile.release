@@ -132,7 +132,7 @@ release-sdk-svn-collect:
 	@# libs
 	@for COMPONENT in `echo server website`; do \
 		if [ "$$COMPONENT" == "website" ]; then \
-			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/q.*js $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
+			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/*.js $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
 			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/api/* $(RELEASE_SDK)/component/standalone/$$COMPONENT/api; \
 		else \
 			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/* $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
