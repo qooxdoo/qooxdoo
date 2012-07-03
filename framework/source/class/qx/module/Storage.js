@@ -64,7 +64,7 @@ qx.Bootstrap.define("qx.module.Storage", {
     /**
      * Returns the amount of key-value pairs stored.
      * @attachStatic {q, localStorage.getLength}
-     * @return {Integer} The length of the storage.
+     * @return {Number} The length of the storage.
      */
     getLocalLength : function() {
       return qx.bom.Storage.getLocal().getLength();
@@ -74,7 +74,7 @@ qx.Bootstrap.define("qx.module.Storage", {
     /**
      * Returns the named key at the given index.
      * @attachStatic {q, localStorage.getKey}
-     * @param index {Integer} The index in the storage.
+     * @param index {Number} The index in the storage.
      * @return {String} The key stored at the given index.
      */
     getLocalKey : function(index) {
@@ -142,7 +142,7 @@ qx.Bootstrap.define("qx.module.Storage", {
     /**
      * Returns the amount of key-value pairs stored.
      * @attachStatic {q, sessionStorage.getLength}
-     * @return {Integer} The length of the storage.
+     * @return {Number} The length of the storage.
      */
     getSessionLength : function() {
       return qx.bom.Storage.getSession().getLength();
@@ -152,7 +152,7 @@ qx.Bootstrap.define("qx.module.Storage", {
     /**
      * Returns the named key at the given index.
      * @attachStatic {q, sessionStorage.getKey}
-     * @param index {Integer} The index in the storage.
+     * @param index {Number} The index in the storage.
      * @return {String} The key stored at the given index.
      */
     getSessionKey : function(index) {
