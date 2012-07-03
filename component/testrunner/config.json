@@ -86,7 +86,8 @@
     {
       "let" :
       {
-        "TEST_NAMESPACE" : "${APPLICATION}.test.basic"
+        "TEST_NAMESPACE" : "${APPLICATION}.test.basic",
+        "BUILD_PATH" : "${TESTRUNNER_ROOT}/source"
       }
     },
 

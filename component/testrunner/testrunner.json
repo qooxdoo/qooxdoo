@@ -585,11 +585,18 @@
     "source-basic-script" :
     {
       "extend" : [ "testrunner-basic-common" ],
-      
+
+      "let" :
+      {
+        "BUILD_PATH" : "${TESTRUNNER_ROOT}/source"
+      },
+
       "environment" :
       {
         "qx.debug" : true,
-        "testrunner.view" : "${TESTRUNNER_VIEW}"
+        "testrunner.view" : "${TESTRUNNER_VIEW}",
+        "testrunner.performance" : false,
+        "testrunner.testOrigin" : "internal"
       },
       
       "compile-options" :
@@ -603,7 +610,7 @@
         
         "paths" :
         {
-          "file" : "source/script/testrunner-basic-source.js",
+          "file" : "${BUILD_PATH}/script/testrunner-basic-source.js",
           "app-root" : "source/script"
         }
       },
