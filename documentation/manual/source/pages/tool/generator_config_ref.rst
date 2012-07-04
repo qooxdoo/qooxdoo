@@ -63,7 +63,7 @@ Triggers the generation of a custom Apiviewer application. Takes a map.
   "api" :
   {
     "path"   : "<path>",
-    "verify" : [ "links" ],
+    "verify" : [ "links", "types" ],
     "sitemap" :
     {
       "link-uri" : "<uri>",
@@ -79,6 +79,8 @@ Triggers the generation of a custom Apiviewer application. Takes a map.
 * **verify** : Things to check during generation of API data.
 
   * **links** : Check internal documentation links (@link{...}) for consistency.
+  * **types** : Check if documented parameter and return value types are known classes, valid global objects or built-in types
+
 * **sitemap** : Create an XML sitemap with links for all classes in the API Viewer.
 
   * **link-uri** : URI template for the sitemap entries. `%s` will be replaced with the class name.

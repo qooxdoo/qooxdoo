@@ -33,7 +33,7 @@ from misc import filetool
 from misc import json
 from ecmascript.backend import api
 #from ecmascript.frontend import tree, treegenerator_2 as treegenerator
-from ecmascript.frontend import tree, treegenerator
+from ecmascript.frontend import tree, treegenerator, lang
 
 
 class ApiLoader(object):
@@ -157,8 +157,11 @@ class ApiLoader(object):
         self._console.info("Generating search index...")
         index = self.docTreeToSearchIndex(docTree, "", "", "")
         
-        if verify and "links" in verify:
-            self.verifyLinks(docTree, index)
+        if verify:
+            if "links" in verify:
+                self.verifyLinks(docTree, index)
+            if "types" in verify:
+                self.verifyTypes(docTree, index)
         
         self._console.info("Saving data...", False)
         self._console.indent()
@@ -368,23 +371,71 @@ class ApiLoader(object):
 
         return index
 
+    def getParentAttrib(self, node, attrib, type=None):
+        while node:
+          if node.hasParent() and node.parent.hasAttributes():
+              if attrib in node.parent.attributes:
+                if type:
+                    if node.parent.type == type:
+                        return node.parent.attributes[attrib]
+                else:
+                    return node.parent.attributes[attrib]
+          if node.hasParent():
+              node = node.parent
+          else:
+              node = None
+        return None
+
+
+    def verifyTypes(self, docTree, index):
+        self._console.info("Verifying return types...", False)
+        knownTypes = lang.GLOBALS[:]
+        knownTypes = knownTypes + ["var", "null", "Integer", "Float", 
+                                   "Double", "Map", "Color"]
+
+        count = 0
+        docNodes = docTree.getAllChildrenOfType("return")
+        docNodes = docNodes +  docTree.getAllChildrenOfType("param")
+        total = len(docNodes)
+        brokenLinks = []
+        for docNode in docNodes:
+            count += 1
+            self._console.progress(count, total)
+            for typesNode in docNode.getAllChildrenOfType("types"):
+                for entryNode in typesNode.getAllChildrenOfType("entry"):
+                    unknownTypes = []
+                    entryType = entryNode.get("type")
+                    if not entryType in knownTypes:
+                        unknownTypes.append(entryType)
+                    if len(unknownTypes) > 0:
+                      itemName = self.getParentAttrib(docNode, "name")
+                      packageName = self.getParentAttrib(docNode, "packageName")
+                      className = self.getParentAttrib(docNode, "name", "class")
+                      
+                      linkData = {
+                        "itemName" : itemName,
+                        "packageName" : packageName,
+                        "className" : className,
+                        "nodeType" : docNode.parent.type,
+                        "links" : unknownTypes
+                      }
+                      
+                      docNodeType = ""
+                      if docNode.type == "param":
+                          docNodeType = "Parameter '%s'" %docNode.get("name")
+                      elif docNode.type == "return":
+                          docNodeType = "Return value"
+                      
+                      for ref in self._checkLink(linkData, docTree, index):
+                          brokenLinks.append((docNodeType, "%s.%s#%s" %(packageName, className, itemName), ref))
+
+        self._console.indent()
+        for entry in brokenLinks:
+            self._console.warn("%s of %s is documented as unknown type '%s'" %(entry[0], entry[1], entry[2]))
+        self._console.outdent()
+
 
     def verifyLinks(self, docTree, index):
-        def getParentAttrib(node, attrib, type=None):
-            while node:
-              if node.hasParent() and node.parent.hasAttributes():
-                  if attrib in node.parent.attributes:
-                    if type:
-                        if node.parent.type == type:
-                            return node.parent.attributes[attrib]
-                    else:
-                        return node.parent.attributes[attrib]
-              if node.hasParent():
-                  node = node.parent
-              else:
-                  node = None
-            return None
-
         self._console.info("Verifying internal doc links...", False)
         import re
         self._linkRegExp = re.compile("\{\s*@link\s*([\w#-_\.]*)[\W\w\d\s]*?\}")
@@ -404,18 +455,18 @@ class ApiLoader(object):
                   if len(internalLinks) > 0:
                       nodeType = descNode.parent.type;
                       if nodeType == "param":
-                          itemName = getParentAttrib(descNode.parent, "name")
-                          paramName = getParentAttrib(descNode, "name")
+                          itemName = self.getParentAttrib(descNode.parent, "name")
+                          paramName = self.getParentAttrib(descNode, "name")
                           paramForType = descNode.parent.parent.parent.type
                       else:
-                          itemName = getParentAttrib(descNode, "name")
+                          itemName = self.getParentAttrib(descNode, "name")
                           paramName = None
                           paramForType = None
 
                       linkData = {
                           "nodeType" : nodeType,
-                          "packageName" : getParentAttrib(descNode, "packageName"),
-                          "className" : getParentAttrib(descNode, "name", "class"),
+                          "packageName" : self.getParentAttrib(descNode, "packageName"),
+                          "className" : self.getParentAttrib(descNode, "name", "class"),
                           "itemName" : itemName,
                           "paramName" : paramName,
                           "paramForType" : paramForType,
