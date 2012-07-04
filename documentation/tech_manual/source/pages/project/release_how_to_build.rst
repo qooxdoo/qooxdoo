@@ -1,4 +1,3 @@
-
 .. _pages/project/release_how_to_build.rst#how_to_build_a_release:
 
 How to build a release
@@ -14,11 +13,10 @@ Preparations
 General
 -------
 
-* Write draft of the `release notes <http://qooxdoo.org/about/release_notes>`_ (look at the git commits since the last release)
+* Write draft of the `release notes <http://qooxdoo.org/project/release_notes>`_ (look at the git commits since the last release)
 * Inform mailing list
 * Sync top-level ``readme.rst`` text file with `About <http://qooxdoo.org/about>`_
 * Prepare article for `qooxdoo news <http://news.qooxdoo.org/>`_
-* Prepare text for `<http://freshmeat.net>`_ (short; no marketing buzz)
 
 .. _pages/project/release_how_to_build.rst#customize_the_code_base:
 
@@ -287,10 +285,11 @@ Update Online Site
 Update Wiki
 -----------
 
-* Adjust the `Roadmap <http://qooxdoo.org/about/roadmap>`_.
+* Adjust the `Roadmap <http://qooxdoo.org/project/roadmap>`_.
 * Adjust the `Documentation overview <http://qooxdoo.org/documentation>`_.
 * Adjust the `Demo overview <http://qooxdoo.org/demo>`_.
 * Adjust the `Download page <http://qooxdoo.org/download>`_.
+* Adjust the `Start page <http://qooxdoo.org/>`_. (all 4 sections: download links, gzipped lib sizes) 
 
 .. _pages/project/release_how_to_build.rst#update_contrib:
 
@@ -316,11 +315,11 @@ Nightly Testing
 Announcements
 -------------
 
-* `Release notes <http://qooxdoo.org/about/release_notes>`_ on the homepage
+* `Release notes <http://qooxdoo.org/project/release_notes>`_ on the homepage
 * `News <http://news.qooxdoo.org/wp-admin/post.php>`_
 * Mailing list (qooxdoo-devel)
 * `Freshmeat <http://freshmeat.net/add-release/53996/>`_
 * `Wikipedia <http://en.wikipedia.org/wiki/Qooxdoo>`_ version number update
-* `Email to FunctionSource?! <tips@functionsource.com>`_
+
 
 
