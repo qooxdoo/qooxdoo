@@ -146,7 +146,6 @@ qx.Class.define("qx.io.remote.Exchange",
      *
      * @param vClass {Object} transport class
      * @param vId {String} unique id
-     * @return {void}
      */
     registerType : function(vClass, vId) {
       qx.io.remote.Exchange.typesAvailable[vId] = vClass;
@@ -157,7 +156,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * Initializes the available type of transport classes and
      * checks for the supported ones.
      *
-     * @return {void}
      * @throws {Error} an error if no supported transport type is available
      */
     initTypes : function()
@@ -693,7 +691,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * Force the transport into the aborted ("aborted")
      *  state.
      *
-     * @return {void}
      */
     abort : function()
     {
@@ -727,7 +724,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * Force the transport into the timeout state.
      *
-     * @return {void}
      */
     timeout : function()
     {
@@ -765,7 +761,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * Disables the timer of the request to prevent that the timer is expiring
      * even if the user handler (e.g. "completed") was already called.
      *
-     * @return {void}
      */
     __disableRequestTimeout : function() {
       var vRequest = this.getRequest();
@@ -787,7 +782,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * Event listener for "sending" event.
      *
      * @param e {qx.event.type.Event} event object
-     * @return {void}
      */
     _onsending : function(e) {
       this.setState("sending");
@@ -798,7 +792,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * Event listener for "receiving" event.
      *
      * @param e {qx.event.type.Event} event object
-     * @return {void}
      */
     _onreceiving : function(e) {
       this.setState("receiving");
@@ -809,7 +802,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * Event listener for "completed" event.
      *
      * @param e {qx.event.type.Event} event object
-     * @return {void}
      */
     _oncompleted : function(e) {
       this.setState("completed");
@@ -820,7 +812,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * Event listener for "abort" event.
      *
      * @param e {qx.event.type.Event} event object
-     * @return {void}
      */
     _onabort : function(e) {
       this.setState("aborted");
@@ -831,7 +822,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * Event listener for "failed" event.
      *
      * @param e {qx.event.type.Event} event object
-     * @return {void}
      */
     _onfailed : function(e) {
       this.setState("failed");
@@ -842,7 +832,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * Event listener for "timeout" event.
      *
      * @param e {qx.event.type.Event} event object
-     * @return {void}
      */
     _ontimeout : function(e) {
       this.setState("timeout");

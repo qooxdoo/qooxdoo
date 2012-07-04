@@ -403,7 +403,6 @@ qx.Bootstrap.define("qx.core.Property",
      * @param clazz {Class} Class to attach properties to
      * @param name {String} Name of property
      * @param config {Map} Configuration map of property
-     * @return {void}
      */
     attachMethods : function(clazz, name, config)
     {
@@ -420,7 +419,6 @@ qx.Bootstrap.define("qx.core.Property",
      * @param clazz {Class} Class to attach properties to
      * @param config {Map} Property configuration
      * @param name {String} Name of the property
-     * @return {void}
      */
     __attachGroupMethods : function(clazz, config, name)
     {
@@ -515,7 +513,6 @@ qx.Bootstrap.define("qx.core.Property",
      * @param clazz {Class} Class to attach properties to
      * @param config {Map} Property configuration
      * @param name {String} Name of the property
-     * @return {void}
      */
     __attachPropertyMethods : function(clazz, config, name)
     {

@@ -51,7 +51,6 @@ qx.Class.define("qx.log.appender.Console",
      * Initializes the console, building HTML and pushing last
      * log messages to the output window.
      *
-     * @return {void}
      */
     init : function()
     {
@@ -130,7 +129,6 @@ qx.Class.define("qx.log.appender.Console",
     /**
      * Used by the object registry to dispose this instance e.g. remove listeners etc.
      *
-     * @return {void}
      */
     dispose : function()
     {
@@ -151,7 +149,6 @@ qx.Class.define("qx.log.appender.Console",
     /**
      * Clears the current console output.
      *
-     * @return {void}
      */
     clear : function()
     {
@@ -165,7 +162,6 @@ qx.Class.define("qx.log.appender.Console",
      *
      * @signature function(entry)
      * @param entry {Map} The entry to process
-     * @return {void}
      */
     process : function(entry)
     {
@@ -201,7 +197,6 @@ qx.Class.define("qx.log.appender.Console",
     /**
      * Toggles the visibility of the console between visible and hidden.
      *
-     * @return {void}
      */
     toggle : function()
     {
@@ -223,7 +218,6 @@ qx.Class.define("qx.log.appender.Console",
     /**
      * Shows the console.
      *
-     * @return {void}
      */
     show : function()
     {
@@ -249,7 +243,6 @@ qx.Class.define("qx.log.appender.Console",
     /**
      * Executes the currently given command
      *
-     * @return {void}
      */
     execute : function()
     {
@@ -296,7 +289,6 @@ qx.Class.define("qx.log.appender.Console",
      * Event handler for resize listener
      *
      * @param e {Event} Event object
-     * @return {void}
      */
     __onResize : function(e) {
       this.__log.style.height = (this.__main.clientHeight - this.__main.firstChild.offsetHeight - this.__main.lastChild.offsetHeight) + "px";
@@ -307,7 +299,6 @@ qx.Class.define("qx.log.appender.Console",
      * Event handler for keydown listener
      *
      * @param e {Event} Event object
-     * @return {void}
      */
     __onKeyPress : function(e)
     {

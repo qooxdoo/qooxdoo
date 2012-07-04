@@ -136,7 +136,6 @@ qx.Class.define("qx.event.handler.Window",
     /**
      * Initializes the native mouse event listeners.
      *
-     * @return {void}
      */
     _initWindowObserver : function()
     {
@@ -152,7 +151,6 @@ qx.Class.define("qx.event.handler.Window",
     /**
      * Disconnect the native mouse event listeners.
      *
-     * @return {void}
      */
     _stopWindowObserver : function()
     {

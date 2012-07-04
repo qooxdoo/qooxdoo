@@ -992,7 +992,6 @@ qx.Class.define("qx.io.remote.Rpc",
      *
      * @param handler {Function} a callback function that is called when the
      *                           refresh is complete (or failed).
-     * @return {void}
      */
     refreshSession : function(handler)
     {
@@ -1053,7 +1052,6 @@ qx.Class.define("qx.io.remote.Rpc",
      * @param opaqueCallRef {var} the call reference as returned by
      *                            <code>callAsync</code> or
      *                            <code>callAsyncListeners</code>
-     * @return {void}
      */
     abort : function(opaqueCallRef)
     {

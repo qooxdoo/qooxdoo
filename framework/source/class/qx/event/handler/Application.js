@@ -97,7 +97,6 @@ qx.Class.define("qx.event.handler.Application",
      * exclusively by package loader system.
      *
      * @internal
-     * @return {void}
      */
     onScriptLoaded : function()
     {
@@ -159,7 +158,6 @@ qx.Class.define("qx.event.handler.Application",
     /**
      * Fires a global ready event.
      *
-     * @return {void}
      */
     __fireReady : function()
     {
@@ -212,7 +210,6 @@ qx.Class.define("qx.event.handler.Application",
     /**
      * Initializes the native mouse event listeners.
      *
-     * @return {void}
      */
     _initObserver : function()
     {
@@ -270,7 +267,6 @@ qx.Class.define("qx.event.handler.Application",
     /**
      * Disconnect the native mouse event listeners.
      *
-     * @return {void}
      */
     _stopObserver : function()
     {

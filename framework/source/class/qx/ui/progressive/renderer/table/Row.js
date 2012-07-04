@@ -206,7 +206,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      * @param renderer {@link qx.ui.progressive.renderer.table.cell.Abstract}
      *   The cell renderer for the specified column.
      *
-     * @return {void}
      */
     addRenderer : function(column, renderer)
     {
@@ -229,7 +228,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      * @param column {Integer}
      *   The column for which the cell renderer is to be removed.
      *
-     * @return {void}
      */
     removeRenderer : function(column)
     {
@@ -396,7 +394,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      * @param e {qx.event.type.Event}
      *   Ignored
      *
-     * @return {void}
      */
     _resizeColumns : function(e)
     {

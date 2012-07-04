@@ -44,7 +44,6 @@ qx.Class.define("qx.test.Xml",
     /**
      * TODOC
      *
-     * @return {void}
      */
     testParseSerializeXml : function()
     {
@@ -66,7 +65,6 @@ qx.Class.define("qx.test.Xml",
     /**
      * TODOC
      *
-     * @return {void}
      */
     testFromString : function()
     {
@@ -80,7 +78,6 @@ qx.Class.define("qx.test.Xml",
     /**
      * TODOC
      *
-     * @return {void}
      */
     testCreateDocument : function()
     {
@@ -98,7 +95,6 @@ qx.Class.define("qx.test.Xml",
     /**
      * TODOC
      *
-     * @return {void}
      */
     testXPath : function()
     {
@@ -120,7 +116,6 @@ qx.Class.define("qx.test.Xml",
     /**
      * TODOC
      *
-     * @return {void}
      */
     testXPathNS : function()
     {
@@ -180,7 +175,6 @@ qx.Class.define("qx.test.Xml",
     /**
      * TODOC
      *
-     * @return {void}
      */
     testGetElementsByTagNameNS : function()
     {

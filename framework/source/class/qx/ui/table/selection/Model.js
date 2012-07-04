@@ -356,7 +356,6 @@ qx.Class.define("qx.ui.table.selection.Model",
      *          Gets the current index as parameter.
      * @param object {var ? null} the object to use when calling the handler.
      *          (this object will be available via "this" in the iterator)
-     * @return {void}
      */
     iterateSelection : function(iterator, object)
     {
@@ -374,7 +373,6 @@ qx.Class.define("qx.ui.table.selection.Model",
      *
      * @param fromIndex {Integer} the first index of the selection (including).
      * @param toIndex {Integer} the last index of the selection (including).
-     * @return {void}
      */
     setSelectionInterval : function(fromIndex, toIndex)
     {
@@ -441,7 +439,6 @@ qx.Class.define("qx.ui.table.selection.Model",
      *
      * @param fromIndex {Integer} the first index of the selection (including).
      * @param toIndex {Integer} the last index of the selection (including).
-     * @return {void}
      */
     addSelectionInterval : function(fromIndex, toIndex)
     {
@@ -470,7 +467,6 @@ qx.Class.define("qx.ui.table.selection.Model",
      *
      * @param fromIndex {Integer} the first index of the interval (including).
      * @param toIndex {Integer} the last index of the interval (including).
-     * @return {void}
      */
     removeSelectionInterval : function(fromIndex, toIndex)
     {
@@ -555,7 +551,6 @@ qx.Class.define("qx.ui.table.selection.Model",
      *
      * @param fromIndex {Integer} the first index of the selection (including).
      * @param toIndex {Integer} the last index of the selection (including).
-     * @return {void}
      */
     _addSelectionInterval : function(fromIndex, toIndex)
     {
@@ -613,7 +608,6 @@ qx.Class.define("qx.ui.table.selection.Model",
     /**
      * Logs the current ranges for debug perposes.
      *
-     * @return {void}
      */
     _dumpRanges : function()
     {
@@ -633,7 +627,6 @@ qx.Class.define("qx.ui.table.selection.Model",
      * Fires the "changeSelection" event to all registered listeners. If the selection model
      * currently is in batch mode, only one event will be thrown when batch mode is ended.
      *
-     * @return {void}
      */
     _fireChangeSelection : function()
     {

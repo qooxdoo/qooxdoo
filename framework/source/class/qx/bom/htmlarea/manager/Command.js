@@ -30,7 +30,6 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
    * Constructor
    *
    * @param editorInstance {qx.bom.htmlarea.HtmlArea} editor instance
-   * @return {void}
    */
   construct : function(editorInstance)
   {
@@ -97,7 +96,6 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      * his commands
      *
      * @param doc {Object} contentDocument of the editor instance
-     * @return {void}
      */
     setContentDocument : function(doc) {
       this.__doc = doc;
@@ -126,7 +124,6 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
     /**
      * Populate the internal "commands" object with the available commands and their settings.
      *
-     * @return {void}
      */
     __populateCommandList : function()
     {
@@ -631,7 +628,6 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
        * Gecko inserts a superfluous paragraph despite our own paragraph
        * handling. If detected we remove this element
        *
-       * @return {void}
        * @signature function()
        */
       __hideSuperfluousParagraph : qx.core.Environment.select("engine.name",
@@ -782,7 +778,6 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       * parent hierarchy for any "blockquote" elements and removes them.
       *
       * @param startNode {Node} starting point of the lookup
-      * @return {void}
       */
      __manualOutdent : function(startNode)
      {

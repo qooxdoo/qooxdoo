@@ -375,7 +375,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @param b {Boolean}
      *   <i>true</i> if tree lines should be shown; <i>false</i> otherwise.
      *
-     * @return {void}
      */
     setUseTreeLines : function(b)
     {
@@ -423,7 +422,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *   <i>true</i> if the open/close button should be shown;
      *   <i>false</i> otherwise.
      *
-     * @return {void}
      */
     setAlwaysShowOpenCloseSymbol : function(b)
     {
@@ -456,7 +454,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *   <i>true</i> if first-level tree lines should be disabled;
      *   <i>false</i> for normal operation.
      *
-     * @return {void}
      */
     setExcludeFirstLevelTreeLines : function(b)
     {
@@ -533,7 +530,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *          Allow any selected items, whether contiguous or not.
      *     </pre>
      *
-     * @return {void}
      */
     setSelectionMode : function(mode)
     {
@@ -636,7 +632,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @param evt {Map}
      *   The event.
      *
-     * @return {void}
      */
     _onKeyPress : function(evt)
     {
@@ -821,7 +816,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @param evt {Map}
      *   The event.
      *
-     * @return {void}
      */
     _onSelectionChanged : function(evt)
     {
@@ -887,7 +881,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @param s {String}
      *   Overflow mode.  The only allowable mode is "hidden".
      *
-     * @return {void}
      *
      * @throws {Error}
      *   Error if tree overflow mode is other than "hidden"

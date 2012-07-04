@@ -195,7 +195,6 @@ qx.Class.define("qx.ui.form.RadioButton",
      * Sets the property "checked" to true.
      *
      * @param e {qx.event.type.Event} execute event
-     * @return {void}
      */
     _onExecute : function(e) {
       var grp = this.getGroup();
@@ -214,7 +213,6 @@ qx.Class.define("qx.ui.form.RadioButton",
      * Selects the next RadioButton when pressing "Right" and "Down"
      *
      * @param e {qx.event.type.KeySequence} KeyPress event
-     * @return {void}
      */
     _onKeyPress : function(e)
     {

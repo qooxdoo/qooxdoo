@@ -78,7 +78,6 @@ qx.Class.define("qx.util.DisposeUtil",
      *
      * @param obj {Object} Object which contains the field
      * @param field {String} Name of the field which refers to the array
-     * @return {void}
      */
     disposeArray : function(obj, field)
     {
@@ -124,7 +123,6 @@ qx.Class.define("qx.util.DisposeUtil",
      *
      * @param obj {Object} Object which contains the field
      * @param field {String} Name of the field which refers to the array
-     * @return {void}
      */
     disposeMap : function(obj, field)
     {

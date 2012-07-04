@@ -483,7 +483,6 @@ qx.Mixin.define("qx.ui.core.MResizable",
      * Event handler for the mouse up event
      *
      * @param e {qx.event.type.Mouse} The mouse event instance
-     * @return {void}
      */
     __onResizeMouseUp : function(e)
     {
@@ -560,7 +559,6 @@ qx.Mixin.define("qx.ui.core.MResizable",
      * Event handler for the mouse move event
      *
      * @param e {qx.event.type.Mouse} The mouse event instance
-     * @return {void}
      */
     __onResizeMouseMove : function(e)
     {

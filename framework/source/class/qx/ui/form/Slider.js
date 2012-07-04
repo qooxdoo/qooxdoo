@@ -316,7 +316,6 @@ qx.Class.define("qx.ui.form.Slider",
      * Listener of mousewheel event
      *
      * @param e {qx.event.type.Mouse} Incoming event object
-     * @return {void}
      */
     _onMouseWheel : function(e)
     {
@@ -335,7 +334,6 @@ qx.Class.define("qx.ui.form.Slider",
      * Adds support for arrow keys, page up, page down, home and end keys.
      *
      * @param e {qx.event.type.KeySequence} Incoming keypress event
-     * @return {void}
      */
     _onKeyPress : function(e)
     {
@@ -382,7 +380,6 @@ qx.Class.define("qx.ui.form.Slider",
      * Listener of mousedown event. Initializes drag or tracking mode.
      *
      * @param e {qx.event.type.Mouse} Incoming event object
-     * @return {void}
      */
     _onMouseDown : function(e)
     {
@@ -459,7 +456,6 @@ qx.Class.define("qx.ui.form.Slider",
      * initialized modes.
      *
      * @param e {qx.event.type.Mouse} Incoming event object
-     * @return {void}
      */
     _onMouseUp : function(e)
     {
@@ -539,7 +535,6 @@ qx.Class.define("qx.ui.form.Slider",
      * Listener of mousemove event for the knob. Only used in drag mode.
      *
      * @param e {qx.event.type.Mouse} Incoming event object
-     * @return {void}
      */
     _onMouseMove : function(e)
     {
@@ -567,7 +562,6 @@ qx.Class.define("qx.ui.form.Slider",
      * in tracking sequences.
      *
      * @param e {qx.event.type.Event} Incoming event object
-     * @return {void}
      */
     _onInterval : function(e)
     {
@@ -596,7 +590,6 @@ qx.Class.define("qx.ui.form.Slider",
      * Listener of resize event for both the slider itself and the knob.
      *
      * @param e {qx.event.type.Data} Incoming event object
-     * @return {void}
      */
     _onUpdate : function(e)
     {
@@ -643,7 +636,6 @@ qx.Class.define("qx.ui.form.Slider",
      * the current mouse position.
      *
      * @param e {qx.event.type.Mouse} Incoming mouse event
-     * @return {void}
      */
     __computeTrackingEnd : function(e)
     {
@@ -764,7 +756,6 @@ qx.Class.define("qx.ui.form.Slider",
      * value. Useful on reflows where the dimensions of the slider
      * itself have been modified.
      *
-     * @return {void}
      */
     _updateKnobPosition : function() {
       this._setKnobPosition(this._valueToPosition(this.getValue()));
@@ -776,7 +767,6 @@ qx.Class.define("qx.ui.form.Slider",
      *
      * @param position {Integer} Any valid position (needs to be
      *   greater or equal than zero)
-     * @return {void}
      */
     _setKnobPosition : function(position)
     {
@@ -806,7 +796,6 @@ qx.Class.define("qx.ui.form.Slider",
      * Reconfigures the size of the knob depending on
      * the optionally defined {@link #knobFactor}.
      *
-     * @return {void}
      */
     _updateKnobSize : function()
     {
@@ -843,7 +832,6 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Slides backward to the minimum value
      *
-     * @return {void}
      */
     slideToBegin : function() {
       this.slideTo(this.getMinimum());
@@ -853,7 +841,6 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Slides forward to the maximum value
      *
-     * @return {void}
      */
     slideToEnd : function() {
       this.slideTo(this.getMaximum());
@@ -863,7 +850,6 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Slides forward (right or bottom depending on orientation)
      *
-     * @return {void}
      */
     slideForward : function() {
       this.slideBy(this.getSingleStep());
@@ -873,7 +859,6 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Slides backward (to left or top depending on orientation)
      *
-     * @return {void}
      */
     slideBack : function() {
       this.slideBy(-this.getSingleStep());
@@ -883,7 +868,6 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Slides a page forward (to right or bottom depending on orientation)
      *
-     * @return {void}
      */
     slidePageForward : function() {
       this.slideBy(this.getPageStep());
@@ -893,7 +877,6 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Slides a page backward (to left or top depending on orientation)
      *
-     * @return {void}
      */
     slidePageBack : function() {
       this.slideBy(-this.getPageStep());
@@ -906,7 +889,6 @@ qx.Class.define("qx.ui.form.Slider",
      * This method works with the value, not with the coordinate.
      *
      * @param offset {Integer} Offset to scroll by
-     * @return {void}
      */
     slideBy : function(offset) {
       this.slideTo(this.getValue() + offset);
@@ -920,7 +902,6 @@ qx.Class.define("qx.ui.form.Slider",
      *
      * @param value {Integer} Scroll to a value between the defined
      *   minimum and maximum.
-     * @return {void}
      */
     slideTo : function(value)
     {

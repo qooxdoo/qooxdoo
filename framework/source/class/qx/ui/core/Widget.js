@@ -951,7 +951,6 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param layout {qx.ui.layout.Abstract} The new layout or
      *     <code>null</code> to reset the layout.
-     * @return {void}
      */
     _setLayout : function(layout)
     {
@@ -1582,7 +1581,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Make this widget visible.
      *
-     * @return {void}
      */
     show : function() {
       this.setVisibility("visible");
@@ -1592,7 +1590,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Hide this widget.
      *
-     * @return {void}
      */
     hide : function() {
       this.setVisibility("hidden");
@@ -1602,7 +1599,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Hide this widget and exclude it from the underlying layout.
      *
-     * @return {void}
      */
     exclude : function() {
       this.setVisibility("excluded");
@@ -1973,7 +1969,6 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param child {LayoutItem} the widget to add.
      * @param options {Map?null} Optional layout data for widget.
-     * @return {void}
      */
     _add : function(child, options)
     {
@@ -2036,7 +2031,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @param child {LayoutItem} widget to add
      * @param before {LayoutItem} widget before the new widget will be inserted.
      * @param options {Map?null} Optional layout data for widget.
-     * @return {void}
      */
     _addBefore : function(child, before, options)
     {
@@ -2071,7 +2065,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @param after {LayoutItem} widget, after which the new widget will
      *   be inserted
      * @param options {Map?null} Optional layout data for widget.
-     * @return {void}
      */
     _addAfter : function(child, after, options)
     {
@@ -2103,7 +2096,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Remove the given child widget.
      *
      * @param child {LayoutItem} the widget to remove
-     * @return {void}
      */
     _remove : function(child)
     {
@@ -2683,7 +2675,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Sets a state.
      *
      * @param state {String} The state to add
-     * @return {void}
      */
     addState : function(state)
     {
@@ -2731,7 +2722,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Clears a state.
      *
      * @param state {String} the state to clear.
-     * @return {void}
      */
     removeState : function(state)
     {
@@ -2777,7 +2767,6 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param old {String} Previous state
      * @param value {String} New state
-     * @return {void}
      */
     replaceState : function(old, value)
     {
@@ -3438,7 +3427,6 @@ qx.Class.define("qx.ui.core.Widget",
      * apply states etc. to a focused widget.
      *
      * @internal
-     * @return {void}
      */
     visualizeFocus : function() {
       this.addState("focused");
@@ -3452,7 +3440,6 @@ qx.Class.define("qx.ui.core.Widget",
      * remove states etc. from a previously focused widget.
      *
      * @internal
-     * @return {void}
      */
     visualizeBlur : function() {
       this.removeState("focused");
@@ -3569,7 +3556,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Focus this widget.
      *
-     * @return {void}
      */
     focus : function()
     {
@@ -3584,7 +3570,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Remove focus from this widget.
      *
-     * @return {void}
      */
     blur : function()
     {
@@ -3599,7 +3584,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Activate this widget e.g. for keyboard events.
      *
-     * @return {void}
      */
     activate : function() {
       this.getContainerElement().activate();
@@ -3609,7 +3593,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Deactivate this widget e.g. for keyboard events.
      *
-     * @return {void}
      */
     deactivate : function() {
       this.getContainerElement().deactivate();
@@ -3622,7 +3605,6 @@ qx.Class.define("qx.ui.core.Widget",
      * and should not be used by the application developer.
      *
      * @internal
-     * @return {void}
      */
     tabFocus : function() {
       this.getFocusElement().focus();
@@ -3831,7 +3813,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Dispose all registered controls. This is automatically
      * executed by the widget.
      *
-     * @return {void}
      */
     _disposeChildControls : function()
     {
@@ -3952,7 +3933,6 @@ qx.Class.define("qx.ui.core.Widget",
      * is important. Otherwise please use {@link qx.ui.core.LayoutItem#setUserBounds} instead.
      *
      * @param value {Integer} Left position
-     * @return {void}
      */
     setDomLeft : function(value)
     {
@@ -3974,7 +3954,6 @@ qx.Class.define("qx.ui.core.Widget",
      * is important. Otherwise please use {@link qx.ui.core.LayoutItem#setUserBounds} instead.
      *
      * @param value {Integer} Top position
-     * @return {void}
      */
     setDomTop : function(value)
     {
@@ -3997,7 +3976,6 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param left {Integer} Left position
      * @param top {Integer} Top position
-     * @return {void}
      */
     setDomPosition : function(left, top)
     {
@@ -4028,7 +4006,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Please note that the widget is not disposed synchronously. The
      * real dispose happens after the next queue flush.
      *
-     * @return {void}
      */
     destroy : function()
     {

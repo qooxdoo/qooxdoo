@@ -208,7 +208,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      *   The text value of the column to compare against. If this is null,
      *   comparisons will be against the contents of this cell.
      *
-     * @return {void}
      *
      * @throws {Error} If the condition can not recognized or one of the
      * values is null.

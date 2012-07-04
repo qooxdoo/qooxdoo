@@ -912,7 +912,6 @@ qx.Class.define("qx.util.fsm.State",
      *   An object of class qx.util.fsm.Transition representing a transition
      *   which is to be a part of this state.
      *
-     * @return {void}
      */
     addTransition : function(trans)
     {

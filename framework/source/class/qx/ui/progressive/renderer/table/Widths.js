@@ -71,7 +71,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      *   #setWidth}, {@link #setMinWidth} and {@link #setMaxWidth}
      *   respectively.
      *
-     * @return {void}
      */
     set : function(column, map)
     {
@@ -109,7 +108,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      *   of the inner width of the Table (e.g. "25%"), or a string
      *   representing a flex width (e.g. "1*").
      *
-     * @return {void}
      *
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
@@ -134,7 +132,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      * @param width {Integer}
      *   The minimum width of the specified column.
      *
-     * @return {void}
      *
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
@@ -159,7 +156,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      * @param width {Integer}
      *   The maximum width of the specified column.
      *
-     * @return {void}
      *
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.

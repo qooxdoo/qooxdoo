@@ -67,7 +67,6 @@ qx.Class.define("qx.core.ObjectRegistry",
      * called <code>dispose</code>.
      *
      * @param obj {Object} Any object with a dispose() method
-     * @return {void}
      */
     register : function(obj)
     {
@@ -112,7 +111,6 @@ qx.Class.define("qx.core.ObjectRegistry",
      * Removes the given object from the database.
      *
      * @param obj {Object} Any previously registered object
-     * @return {void}
      */
     unregister : function(obj)
     {
@@ -231,7 +229,6 @@ qx.Class.define("qx.core.ObjectRegistry",
      * Disposing all registered object and cleaning up registry. This is
      * automatically executed at application shutdown.
      *
-     * @return {void}
      */
     shutdown : function()
     {

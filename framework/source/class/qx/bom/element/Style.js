@@ -249,7 +249,6 @@ qx.Bootstrap.define("qx.bom.element.Style",
      *
      * @param element {Element} The DOM element to modify
      * @param value {String} The full CSS string
-     * @return {void}
      */
     setCss : function(element, value)
     {
@@ -370,7 +369,6 @@ qx.Bootstrap.define("qx.bom.element.Style",
      *    and the value is the value to use.
      * @param smart {Boolean?true} Whether the implementation should automatically use
      *    special implementations for some properties
-     * @return {void}
      */
     setStyles : function(element, styles, smart)
     {
@@ -422,7 +420,6 @@ qx.Bootstrap.define("qx.bom.element.Style",
      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
      * @param smart {Boolean?true} Whether the implementation should automatically use
      *    special implementations for some properties
-     * @return {void}
      */
     reset : function(element, name, smart)
     {

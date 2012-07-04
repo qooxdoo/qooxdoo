@@ -105,7 +105,6 @@ qx.Class.define("qx.lang.Generics",
     /**
      * Initialize all generic functions as defined in JavaScript 1.6.
      *
-     * @return {void}
      */
     __init : function()
     {

@@ -194,7 +194,6 @@ qx.Class.define("qx.ui.form.Button",
      * </ul>
      *
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onMouseOver : function(e)
     {
@@ -220,7 +219,6 @@ qx.Class.define("qx.ui.form.Button",
      * </ul>
      *
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onMouseOut : function(e)
     {
@@ -246,7 +244,6 @@ qx.Class.define("qx.ui.form.Button",
      * </ul>
      *
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onMouseDown : function(e)
     {
@@ -274,7 +271,6 @@ qx.Class.define("qx.ui.form.Button",
      *</ul>
      *
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onMouseUp : function(e)
     {
@@ -312,7 +308,6 @@ qx.Class.define("qx.ui.form.Button",
      * for the keys "Enter" or "Space"
      *
      * @param e {Event} Key event
-     * @return {void}
      */
     _onKeyDown : function(e)
     {
@@ -333,7 +328,6 @@ qx.Class.define("qx.ui.form.Button",
      * for the keys "Enter" or "Space"
      *
      * @param e {Event} Key event
-     * @return {void}
      */
     _onKeyUp : function(e)
     {

@@ -187,7 +187,6 @@ qx.Bootstrap.define("qx.lang.Core",
      * @signature function(callback, obj)
      * @param callback {Function} Function to execute for each element.
      * @param obj {Object} Object to use as this when executing callback.
-     * @return {void}
      */
     arrayForEach :
     {

@@ -33,7 +33,6 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
    * @param labelArr {Array}
    *   Array of labels, one for each of the columns.
    *
-   * @return {void}
    */
   construct : function(columnWidths, labelArr)
   {

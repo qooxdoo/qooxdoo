@@ -46,7 +46,6 @@ qx.Class.define("qx.dev.Debug",
      *   The maximum level of recursion.  Objects beyond this level will not
      *   be displayed.
      *
-     * @return {void}
      */
     debugObject : function(obj, initialMessage, maxLevel)
     {

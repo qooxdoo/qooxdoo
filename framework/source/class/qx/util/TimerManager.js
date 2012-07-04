@@ -208,7 +208,6 @@ qx.Class.define("qx.util.TimerManager",
      * @param timerId {Integer}
      *   Id of the timer to be time-ordered
      *
-     * @return {void}
      */
     __insertNewTimer : function(expireAt, timerId)
     {
@@ -257,7 +256,6 @@ qx.Class.define("qx.util.TimerManager",
      * timer is restarted with the recurrent timeout following completion of
      * the callback function.
      *
-     * @return {void}
      */
     __processQueue : function()
     {

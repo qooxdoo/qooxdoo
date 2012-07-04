@@ -229,7 +229,6 @@ qx.Class.define("qx.event.handler.Mouse",
      * Initializes the native mouse button event listeners.
      *
      * @signature function()
-     * @return {void}
      */
     _initButtonObserver : function()
     {
@@ -249,7 +248,6 @@ qx.Class.define("qx.event.handler.Mouse",
      * Initializes the native mouse move event listeners.
      *
      * @signature function()
-     * @return {void}
      */
     _initMoveObserver : function()
     {
@@ -267,7 +265,6 @@ qx.Class.define("qx.event.handler.Mouse",
      * Initializes the native mouse wheel event listeners.
      *
      * @signature function()
-     * @return {void}
      */
     _initWheelObserver : function()
     {
@@ -293,7 +290,6 @@ qx.Class.define("qx.event.handler.Mouse",
      * Disconnects the native mouse button event listeners.
      *
      * @signature function()
-     * @return {void}
      */
     _stopButtonObserver : function()
     {
@@ -311,7 +307,6 @@ qx.Class.define("qx.event.handler.Mouse",
      * Disconnects the native mouse move event listeners.
      *
      * @signature function()
-     * @return {void}
      */
     _stopMoveObserver : function()
     {
@@ -327,7 +322,6 @@ qx.Class.define("qx.event.handler.Mouse",
      * Disconnects the native mouse wheel event listeners.
      *
      * @signature function()
-     * @return {void}
      */
     _stopWheelObserver : function()
     {

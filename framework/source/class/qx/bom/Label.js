@@ -228,7 +228,6 @@ qx.Bootstrap.define("qx.bom.Label",
      *
      * @param element {Element} DOM element to modify.
      * @param value {String} Content to insert.
-     * @return {void}
      */
     setValue : function(element, value)
     {

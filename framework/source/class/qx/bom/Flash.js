@@ -169,7 +169,6 @@ qx.Class.define("qx.bom.Flash",
      *              the flash object or the flash object itself.
      * @param win? {Window} Window that the element, which is to be destroyed,
                     belongs to.
-     * @return {void}
      * @signature function(element, win)
      */
     destroy : qx.core.Environment.select("engine.name",
@@ -208,7 +207,6 @@ qx.Class.define("qx.bom.Flash",
      * Return the flash object element from DOM node.
      *
      * @param element {Element} The element to look.
-     * @return {void}
      */
     __getFlashObject : function(element)
     {

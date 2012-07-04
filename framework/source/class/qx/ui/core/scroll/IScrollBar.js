@@ -72,7 +72,6 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar",
      * the {@link #maximum}.
      *
      * @param position {Integer} Scroll to this position. Must be greater zero.
-     * @return {void}
      */
     scrollTo : function(position) {
       this.assertNumber(position);
@@ -86,7 +85,6 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar",
      * the {@link #maximum}.
      *
      * @param offset {Integer} Scroll by this offset
-     * @return {void}
      */
     scrollBy : function(offset) {
       this.assertNumber(offset);
@@ -100,7 +98,6 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar",
      * the {@link #maximum}.
      *
      * @param steps {Integer} Number of steps
-     * @return {void}
      */
     scrollBySteps : function(steps) {
       this.assertNumber(steps);

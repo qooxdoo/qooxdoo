@@ -50,7 +50,6 @@ qx.Class.define("qx.log.Logger",
      * Configures the minimum log level required for new messages.
      *
      * @param value {String} One of "debug", "info", "warn" or "error".
-     * @return {void}
      */
     setLevel : function(value) {
       this.__level = value;
@@ -72,7 +71,6 @@ qx.Class.define("qx.log.Logger",
      * Configures the number of messages to be kept in the buffer.
      *
      * @param value {Integer} Any positive integer
-     * @return {void}
      */
     setTreshold : function(value) {
       this.__buffer.setMaxMessages(value);
@@ -112,7 +110,6 @@ qx.Class.define("qx.log.Logger",
      *
      * @param appender {Class} A static appender class supporting at
      *   least a <code>process()</code> method to handle incoming messages.
-     * @return {void}
      */
     register : function(appender)
     {
@@ -140,7 +137,6 @@ qx.Class.define("qx.log.Logger",
      * Unregisters the given appender
      *
      * @param appender {Class} A static appender class
-     * @return {void}
      */
     unregister : function(appender)
     {
@@ -170,7 +166,6 @@ qx.Class.define("qx.log.Logger",
      * @param message {var} Any number of arguments supported. An argument may
      *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
-     * @return {void}
      */
     debug : function(object, message) {
       qx.log.Logger.__log("debug", arguments);
@@ -184,7 +179,6 @@ qx.Class.define("qx.log.Logger",
      * @param message {var} Any number of arguments supported. An argument may
      *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
-     * @return {void}
      */
     info : function(object, message) {
       qx.log.Logger.__log("info", arguments);
@@ -198,7 +192,6 @@ qx.Class.define("qx.log.Logger",
      * @param message {var} Any number of arguments supported. An argument may
      *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
-     * @return {void}
      */
     warn : function(object, message) {
       qx.log.Logger.__log("warn", arguments);
@@ -212,7 +205,6 @@ qx.Class.define("qx.log.Logger",
      * @param message {var} Any number of arguments supported. An argument may
      *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
-     * @return {void}
      */
     error : function(object, message) {
       qx.log.Logger.__log("error", arguments);
@@ -223,7 +215,6 @@ qx.Class.define("qx.log.Logger",
      * Prints the current stack trace at level "info"
      *
      * @param object {Object?} Contextual object (either instance or static class)
-     * @return {void}
      */
     trace : function(object) {
       var trace = qx.dev.StackTrace.getStackTrace();
@@ -387,7 +378,6 @@ qx.Class.define("qx.log.Logger",
      * Deletes the current buffer. Does not influence message handling of the
      * connected appenders.
      *
-     * @return {void}
      */
     clear : function() {
       this.__buffer.clearHistory();
@@ -422,7 +412,6 @@ qx.Class.define("qx.log.Logger",
      * @param level {String} One of "debug", "info", "warn" or "error"
      * @param args {Array} List of other arguments, where the first is
      *   taken as the context object.
-     * @return {void}
      */
     __log : function(level, args)
     {

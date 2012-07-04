@@ -43,7 +43,6 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
      *
      * @param href {String} Href value
      * @param doc? {Document} Document to modify
-     * @return {void}
      */
     includeFile : function(href, doc)
     {
@@ -114,7 +113,6 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
      *
      * @param sheet {Object} the Stylesheet
      * @param selector {String} the Selector of the rule to remove
-     * @return {void}
      */
     removeRule : function(sheet, selector)
     {
@@ -147,7 +145,6 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
      * Remove all CSS rules from a stylesheet
      *
      * @param sheet {Object} the stylesheet object
-     * @return {void}
      */
     removeAllRules : function(sheet)
     {
@@ -174,7 +171,6 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
      *
      * @param sheet {Object} the stylesheet object
      * @param url {String} URL of the external stylesheet file
-     * @return {void}
      */
     addImport : function(sheet, url)
     {
@@ -192,7 +188,6 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
      *
      * @param sheet {Object} the stylesheet object
      * @param url {String} URL of the imported CSS file
-     * @return {void}
      */
     removeImport : function(sheet, url)
     {
@@ -227,7 +222,6 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
      * Remove all imports from a stylesheet
      *
      * @param sheet {Object} the stylesheet object
-     * @return {void}
      */
     removeAllImports : function(sheet)
     {

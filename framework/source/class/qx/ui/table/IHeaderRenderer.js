@@ -56,7 +56,6 @@ qx.Interface.define("qx.ui.table.IHeaderRenderer",
      *      create. This map has the same structure as in {@link #createHeaderCell}.
      * @param cellWidget {qx.ui.core.Widget} the widget that renders the header cell. This is
      *      the same widget formally created by {@link #createHeaderCell}.
-     * @return {void}
      */
     updateHeaderCell : function(cellInfo, cellWidget) {
       return true;

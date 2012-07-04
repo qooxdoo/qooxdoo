@@ -200,7 +200,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * </ul>
      *
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onMouseOver : function(e)
     {
@@ -227,7 +226,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * </ul>
      *
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onMouseOut : function(e)
     {
@@ -257,7 +255,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * </ul>
      *
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onMouseDown : function(e)
     {
@@ -285,7 +282,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * </ul>
      *
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onMouseUp : function(e)
     {
@@ -308,7 +304,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * for the keys "Enter" or "Space"
      *
      * @param e {Event} Key event
-     * @return {void}
      */
     _onKeyDown : function(e)
     {
@@ -330,7 +325,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * for the keys "Enter" or "Space". It also toggles the {@link #value} property.
      *
      * @param e {Event} Key event
-     * @return {void}
      */
     _onKeyUp : function(e)
     {

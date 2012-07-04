@@ -695,7 +695,6 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param message {var} Any number of arguments supported. An argument may
      *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
-     * @return {void}
      */
     debug : function(object, message) {
       qx.Bootstrap.$$logs.push(["debug", arguments]);
@@ -709,7 +708,6 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param message {var} Any number of arguments supported. An argument may
      *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
-     * @return {void}
      */
     info : function(object, message) {
       qx.Bootstrap.$$logs.push(["info", arguments]);
@@ -723,7 +721,6 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param message {var} Any number of arguments supported. An argument may
      *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
-     * @return {void}
      */
     warn : function(object, message) {
       qx.Bootstrap.$$logs.push(["warn", arguments]);
@@ -737,7 +734,6 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param message {var} Any number of arguments supported. An argument may
      *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
-     * @return {void}
      */
     error : function(object, message) {
       qx.Bootstrap.$$logs.push(["error", arguments]);

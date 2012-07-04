@@ -290,7 +290,6 @@ qx.Class.define("qx.locale.Manager",
      * @param translationMap {Map} mapping of message identifiers to message strings in the target
      *                             language, e.g. <i>{"greeting_short" : "Hello"}</i>. Plural forms
      *                             are separate keys.
-     * @return {void}
      */
     addTranslation : function(languageCode, translationMap)
     {
@@ -317,7 +316,6 @@ qx.Class.define("qx.locale.Manager",
      * @param localeCode {String} locale code of the translation like <i>de, de_AT, en, en_GB, fr, ...</i>
      * @param localeMap {Map} mapping of locale keys to the target locale values, e.g.
      *                        <i>{"cldr_date_format_short" : "M/d/yy"}</i>.
-     * @return {void}
      */
     addLocale : function(localeCode, localeMap)
     {

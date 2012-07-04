@@ -128,7 +128,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
      * with the newly given one.
      *
      * @param widget {qx.ui.core.Widget?null} The content widget of the pane
-     * @return {void}
      */
     add : function(widget)
     {
@@ -152,7 +151,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
      * afterwards as only one child is supported by the pane.
      *
      * @param widget {qx.ui.core.Widget?null} The content widget of the pane
-     * @return {void}
      */
     remove : function(widget)
     {
@@ -381,7 +379,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
      * Scrolls the element's content to the given left coordinate
      *
      * @param value {Integer} The vertical position to scroll to.
-     * @return {void}
      */
     scrollToX : function(value)
     {
@@ -401,7 +398,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
      * Scrolls the element's content to the given top coordinate
      *
      * @param value {Integer} The horizontal position to scroll to.
-     * @return {void}
      */
     scrollToY : function(value)
     {
@@ -421,7 +417,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
      * Scrolls the element's content horizontally by the given amount.
      *
      * @param x {Integer?0} Amount to scroll
-     * @return {void}
      */
     scrollByX : function(x) {
       this.scrollToX(this.getScrollX() + x);
@@ -432,7 +427,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
      * Scrolls the element's content vertically by the given amount.
      *
      * @param y {Integer?0} Amount to scroll
-     * @return {void}
      */
     scrollByY : function(y) {
       this.scrollToY(this.getScrollY() + y);

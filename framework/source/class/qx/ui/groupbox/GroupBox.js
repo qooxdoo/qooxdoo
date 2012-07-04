@@ -228,7 +228,6 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * valid. Otherwise the legend sub widget get not displayed.
      *
      * @param legend {String} new label of the legend sub widget
-     * @return {void}
      */
     setLegend : function(legend)
     {
@@ -260,7 +259,6 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * Sets the icon of the legend sub widget.
      *
      * @param icon {String} source of the new icon of the legend sub widget
-     * @return {void}
      */
     setIcon : function(icon) {
       this.getChildControl("legend").setIcon(icon);

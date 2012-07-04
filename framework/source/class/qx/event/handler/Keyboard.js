@@ -289,7 +289,6 @@ qx.Class.define("qx.event.handler.Keyboard",
      * Initializes the native key event listeners.
      *
      * @signature function()
-     * @return {void}
      */
     _initKeyObserver : function()
     {
@@ -308,7 +307,6 @@ qx.Class.define("qx.event.handler.Keyboard",
      * Stops the native key event listeners.
      *
      * @signature function()
-     * @return {void}
      */
     _stopKeyObserver : function()
     {
@@ -609,7 +607,6 @@ qx.Class.define("qx.event.handler.Keyboard",
      * @param charCode {String} character code
      * @param eventType {String} type of the event (keydown, keypress, keyup)
      * @param domEvent {Element} DomEvent
-     * @return {void}
      */
     _idealKeyHandler : function(keyCode, charCode, eventType, domEvent)
     {

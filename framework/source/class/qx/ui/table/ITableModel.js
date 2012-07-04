@@ -152,7 +152,6 @@ qx.Interface.define("qx.ui.table.ITableModel",
      *
      * @param columnIndex {Integer} the column to sort by.
      * @param ascending {Boolean} whether to sort ascending.
-     * @return {void}
      */
     sortByColumn : function(columnIndex, ascending) {},
 
@@ -180,7 +179,6 @@ qx.Interface.define("qx.ui.table.ITableModel",
      *
      * @param firstRowIndex {Integer} the index of first row.
      * @param lastRowIndex {Integer} the index of last row.
-     * @return {void}
      */
     prefetchRows : function(firstRowIndex, lastRowIndex) {},
 
@@ -217,7 +215,6 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnIndex {Integer} The index of the column.
      * @param rowIndex {Integer} the index of the row.
      * @param value {var} The new value.
-     * @return {void}
      * @see #setValueById
      */
     setValue : function(columnIndex, rowIndex, value) {},

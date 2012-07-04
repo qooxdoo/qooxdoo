@@ -178,7 +178,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param tree {qx.ui.treevirtual.TreeVirtual}
      *    The tree used to render the data in this model.
      *
-     * @return {void}
      */
     setTree : function(tree)
     {
@@ -201,7 +200,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param editable {Boolean}
      *   Whether all columns are editable.
      *
-     * @return {void}
      */
     setEditable : function(editable)
     {
@@ -225,7 +223,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param editable {Boolean}
      *   Whether the column should be editable.
      *
-     * @return {void}
      */
     setColumnEditable : function(columnIndex, editable)
     {
@@ -310,7 +307,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param columnIndex {Integer}
      *   The index of the column in which the tree should be displayed.
      *
-     * @return {void}
      */
     setTreeColumn : function(columnIndex)
     {
@@ -533,7 +529,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @throws {Error} If the node object or id is not valid.
      *
-     * @return {void}
      */
     prune : function(nodeReference, bSelfAlso)
     {
@@ -598,7 +593,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @throws {Error} If the node object or id is not valid.
      * @throws {Error} If one tries to add a child to a non-existent parent.
      * @throws {Error} If one tries to add a node to a leaf.
-     * @return {void}
      */
     move : function(moveNodeReference,
                     parentNodeReference)
@@ -888,7 +882,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   has completed building or modifying a tree by issuing a series of
      *   calls to {@link #addBranch} and/or {@link #addLeaf}.
      *
-     * @return {void}
      *
      * @throws {Error} If the parameter has the wrong type.
      */
@@ -936,7 +929,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     /**
      * Clears the tree of all nodes
      *
-     * @return {void}
      */
     clearData : function ()
     {
@@ -959,7 +951,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param data {var}
      *   The cell data for the specified column
      *
-     * @return {void}
      */
     setColumnData : function(nodeId, columnIndex, data)
     {
@@ -1001,7 +992,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   to the corresponding property of the node specified by nodeId.
      *
      * @throws {Error} If the node object or id is not valid.
-     * @return {void}
      */
     setState : function(nodeReference, attributes)
     {
@@ -1166,7 +1156,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * selections displayed in the widget, and is intended for internal use,
      * not by users of this class.
      *
-     * @return {void}
      */
     _clearSelections : function()
     {

@@ -32,7 +32,6 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
    * @param labelArr {Array}
    *   Array of labels, one for each of the columns.
    *
-   * @return {void}
    */
   construct : function(columnWidths, labelArr)
   {
@@ -135,7 +134,6 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
      * @param e {qx.event.type.Event}
      *   Ignored.
      *
-     * @return {void}
      */
     _resizeColumns : function(e)
     {

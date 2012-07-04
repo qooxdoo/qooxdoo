@@ -227,7 +227,6 @@ qx.Class.define("qx.ui.container.SlideBar",
      * Scrolls the element's content by the given amount.
      *
      * @param offset {Integer?0} Amount to scroll
-     * @return {void}
      */
     scrollBy : function(offset)
     {
@@ -244,7 +243,6 @@ qx.Class.define("qx.ui.container.SlideBar",
      * Scrolls the element's content to the given coordinate
      *
      * @param value {Integer} The position to scroll to.
-     * @return {void}
      */
     scrollTo : function(value)
     {
@@ -382,7 +380,6 @@ qx.Class.define("qx.ui.container.SlideBar",
      * when the changes modify the visibility of the scroll buttons.
      *
      * @param e {Event} Event object
-     * @return {void}
      */
     _onResize : function(e)
     {
@@ -410,7 +407,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Scroll handler for left scrolling
      *
-     * @return {void}
      */
     _onExecuteBackward : function() {
       this.scrollBy(-this.getScrollStep());
@@ -420,7 +416,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Scroll handler for right scrolling
      *
-     * @return {void}
      */
     _onExecuteForward : function() {
       this.scrollBy(this.getScrollStep());
@@ -489,7 +484,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Show the arrows (Called from resize event)
      *
-     * @return {void}
      */
     _showArrows : function()
     {
@@ -501,7 +495,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Hide the arrows (Called from resize event)
      *
-     * @return {void}
      */
     _hideArrows : function()
     {

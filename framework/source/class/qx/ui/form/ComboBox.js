@@ -453,7 +453,6 @@ qx.Class.define("qx.ui.form.ComboBox",
      *
      * @param start {Integer} start of the selection (zero-based)
      * @param end {Integer} end of the selection
-     * @return {void}
      */
     setTextSelection : function(start, end) {
       this.getChildControl("textfield").setTextSelection(start, end);
@@ -465,7 +464,6 @@ qx.Class.define("qx.ui.form.ComboBox",
      * This method only works if the widget is already created and
      * added to the document.
      *
-     * @return {void}
      */
     clearTextSelection : function() {
       this.getChildControl("textfield").clearTextSelection();
@@ -475,7 +473,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     /**
      * Selects the whole content
      *
-     * @return {void}
      */
     selectAllText : function() {
       this.getChildControl("textfield").selectAllText();
@@ -485,7 +482,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     /**
      * Clear any text selection, then select all text
      *
-     * @return {void}
      */
     resetAllTextSelection: function() {
       this.clearTextSelection();

@@ -196,7 +196,6 @@ qx.Bootstrap.define("qx.bom.element.Clip",
      * @param element {Element} DOM element to modify
      * @param map {Map} A map with one or more of these available keys:
      *   <code>left</code>, <code>top</code>, <code>width</code>, <code>height</code>.
-     * @return {void}
      */
     set : function(element, map)
     {
@@ -243,7 +242,6 @@ qx.Bootstrap.define("qx.bom.element.Clip",
      * Resets the clipping of the given DOM element.
      *
      * @param element {Element} DOM element to modify
-     * @return {void}
      */
     reset : function(element) {
       element.style.clip = "rect(auto, auto, auto, auto)";

@@ -591,7 +591,6 @@ qx.Class.define("qx.bom.Selection",
      * Clears the selection on the given node.
      *
      * @param node {Node} node to clear the selection for
-     * @return {void}
      */
     clear : qx.core.Environment.select("engine.name",
     {

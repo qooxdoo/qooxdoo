@@ -29,7 +29,6 @@ qx.Class.define("qx.log.appender.Util",
      *
      * @signature function(entry)
      * @param entry {Map} The entry to process
-     * @return {void}
      */
     toHtml : function(entry)
     {

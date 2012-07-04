@@ -463,7 +463,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Add the element to the global modification list.
      *
-     * @return {void}
      */
     _scheduleChildrenUpdate : function()
     {
@@ -500,7 +499,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Syncs data of an HtmlElement object to the DOM.
      *
-     * @return {void}
      */
     __flush : function()
     {
@@ -566,7 +564,6 @@ qx.Class.define("qx.html.Element",
      * created. After this initial apply {@link #_syncChildren} is used
      * instead.
      *
-     * @return {void}
      */
     _insertChildren : function()
     {
@@ -606,7 +603,6 @@ qx.Class.define("qx.html.Element",
      * for further runtime updates after the element has been created
      * initially.
      *
-     * @return {void}
      */
     _syncChildren : function()
     {
@@ -705,7 +701,6 @@ qx.Class.define("qx.html.Element",
      *
      * @param fromMarkup {Boolean} Whether the copy should respect styles
      *   given from markup
-     * @return {void}
      */
     _copyData : function(fromMarkup)
     {
@@ -769,7 +764,6 @@ qx.Class.define("qx.html.Element",
      * is the counterpart of {@link #_copyData} and is used for further updates
      * after the element has been created.
      *
-     * @return {void}
      */
     _syncData : function()
     {
@@ -1753,7 +1747,6 @@ qx.Class.define("qx.html.Element",
      * @param x {Integer} Horizontal scroll position
      * @param lazy {Boolean?false} Whether the scrolling should be performed
      *    during element flush.
-     * @return {void}
      */
     scrollToX : function(x, lazy)
     {
@@ -1796,7 +1789,6 @@ qx.Class.define("qx.html.Element",
      * @param y {Integer} Vertical scroll position
      * @param lazy {Boolean?false} Whether the scrolling should be performed
      *    during element flush.
-     * @return {void}
      */
     scrollToY : function(y, lazy)
     {
@@ -1962,7 +1954,6 @@ qx.Class.define("qx.html.Element",
      *
      * @param start {Integer} start of the selection (zero based)
      * @param end {Integer} end of the selection
-     * @return {void}
      */
     setTextSelection : function(start, end)
     {
@@ -1987,7 +1978,6 @@ qx.Class.define("qx.html.Element",
      *
      * This method only works if the underlying DOM element is already created.
      *
-     * @return {void}
      */
     clearTextSelection : function()
     {
@@ -2013,7 +2003,6 @@ qx.Class.define("qx.html.Element",
      *
      * @param action {String} action to queue
      * @param args {Array} optional list of arguments for the action
-     * @return {void}
      */
     __performAction : function(action, args)
     {
@@ -2034,7 +2023,6 @@ qx.Class.define("qx.html.Element",
      * If the underlaying DOM element is not yet created, the
      * focus is queued for processing after the element creation.
      *
-     * @return {void}
      */
     focus : function() {
       this.__performAction("focus");
@@ -2044,7 +2032,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Mark this element to get blurred on the next flush of the queue
      *
-     * @return {void}
      */
     blur : function() {
       this.__performAction("blur");
@@ -2054,7 +2041,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Mark this element to get activated on the next flush of the queue
      *
-     * @return {void}
      */
     activate : function() {
       this.__performAction("activate");
@@ -2064,7 +2050,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Mark this element to get deactivated on the next flush of the queue
      *
-     * @return {void}
      */
     deactivate : function() {
       this.__performAction("deactivate");

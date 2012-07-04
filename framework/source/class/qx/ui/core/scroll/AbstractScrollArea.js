@@ -391,7 +391,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Scrolls the element's content by the given top offset
      *
      * @param value {Integer} The horizontal position to scroll to.
-     * @return {void}
      */
     scrollByY : function(value) {
       // First flush queue before scroll
@@ -426,7 +425,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Event handler for the scroll event of the horizontal scrollbar
      *
      * @param e {qx.event.type.Data} The scroll event object
-     * @return {void}
      */
     _onScrollBarX : function(e) {
       this.getChildControl("pane").scrollToX(e.getData());
@@ -437,7 +435,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Event handler for the scroll event of the vertical scrollbar
      *
      * @param e {qx.event.type.Data} The scroll event object
-     * @return {void}
      */
     _onScrollBarY : function(e) {
       this.getChildControl("pane").scrollToY(e.getData());
@@ -448,7 +445,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Event handler for the horizontal scroll event of the pane
      *
      * @param e {qx.event.type.Data} The scroll event object
-     * @return {void}
      */
     _onScrollPaneX : function(e) {
       this.scrollToX(e.getData());
@@ -459,7 +455,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Event handler for the vertical scroll event of the pane
      *
      * @param e {qx.event.type.Data} The scroll event object
-     * @return {void}
      */
     _onScrollPaneY : function(e) {
       this.scrollToY(e.getData());
@@ -560,7 +555,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Event handler for visibility changes of horizontal scrollbar.
      *
      * @param e {qx.event.type.Event} Property change event
-     * @return {void}
      */
     _onChangeScrollbarXVisibility : function(e)
     {
@@ -579,7 +573,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Event handler for visibility changes of horizontal scrollbar.
      *
      * @param e {qx.event.type.Event} Property change event
-     * @return {void}
      */
     _onChangeScrollbarYVisibility : function(e)
     {
@@ -605,7 +598,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     /**
      * Computes the visibility state for scrollbars.
      *
-     * @return {void}
      */
     _computeScrollbars : function()
     {

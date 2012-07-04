@@ -774,7 +774,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * This element is the container for the editable iframe element.
      *
      * @param element {Element} DOM element to connect to
-     * @return {void}
      */
     __connectToDomElement : function(element)
     {
@@ -833,7 +832,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Adds the "load" listener to the iframe.
      *
-     * @return {void}
      */
     _addIframeLoadListener : function() {
       qx.event.Registration.addListener(this.__iframe, "load", this._loaded, this);
@@ -842,7 +840,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Initial content which is written dynamically into the iframe's document
      *
-     * @return {void}
      */
     __initDocumentSkeletonParts : function()
     {
@@ -896,7 +893,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Setting the value of the editor
      *
      * @param value {String} new content to set
-     * @return {void}
      */
     setValue : function(value)
     {
@@ -1225,7 +1221,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * should be removed if someone find a better way to ensure that the document
      * is ready in IE6
      *
-     * @return {void}
      */
     __waitForDocumentReady : function()
     {
@@ -1266,7 +1261,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Is executed when event "load" is fired
      *
      * @param e {Object} Event object
-     * @return {void}
      */
     _loaded : function(e)
     {
@@ -1306,7 +1300,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * After the successful startup the "ready" event is thrown.
      *
      * @type member
-     * @return {void}
      */
     _onDocumentIsReady : function()
     {
@@ -1524,7 +1517,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Opens a new document and sets the content (if available)
      *
-     * @return {void}
      */
     __renderContent : function()
     {
@@ -1551,7 +1543,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Adds all needed eventlistener
      *
-     * @return {void}
      */
     __addListeners : function()
     {
@@ -1667,7 +1658,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Sets the designMode of the document
      *
      * @param onOrOff {Boolean} Set or unset the design mode on the current document
-     * @return {void}
      */
     __setDesignMode : function (onOrOff)
     {
@@ -1704,7 +1694,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Whether the document is in editable mode
      *
      * @param value {Boolean} Current value
-     * @return {void}
      * @throws {Error} Failed to enable rich edit functionality
      */
     setEditable : function(value)
@@ -1790,7 +1779,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * All keyUp events are delegated to this method
      *
      * @param e {Object} Event object
-     * @return {void}
      */
     _handleKeyUp : function(e)
     {
@@ -1893,7 +1881,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * All keyDown events are delegated to this method
      *
      * @param e {Object} Event object
-     * @return {void}
      */
     _handleKeyDown : qx.core.Environment.select("engine.name",
     {
@@ -1935,7 +1922,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * All keyPress events are delegated to this method
      *
      * @param e {Object} Event object
-     * @return {void}
      */
    _handleKeyPress : function(e)
    {
@@ -2276,7 +2262,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *
      * @param hotkeyIdentifier {String} hotkey identifier for lookup
      * @param preventDefault {Boolean} whether do preventDefault or not
-     * @return {void}
      */
     __executeHotkey : function (hotkeyIdentifier, preventDefault)
     {
@@ -2312,7 +2297,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Eventlistener for focus events
      *
      * @param e {Object} Event object
-     * @return {void}
      */
     _handleFocusEvent : function(e)
     {
@@ -2338,7 +2322,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Eventlistener for blur events
      *
      * @param e {Object} Event object
-     * @return {void}
      */
     _handleBlurEvent : function(e) {
       this.__value = this.getComputedValue();
@@ -2349,7 +2332,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Eventlistener for focusout events - dispatched before "blur"
      *
      * @param e {Object} Event object
-     * @return {void}
      */
     _handleFocusOutEvent : function(e)
     {
@@ -2369,7 +2351,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * on "mouseup" events for all others.
      *
      * @param e {qx.event.type.Mouse} mouse event instance
-     * @return {void}
      */
     _handleMouseUpOnBody : function(e)
     {
@@ -2391,7 +2372,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @param e {qx.event.type.Mouse} mouse event instance
      *
      * @signature function(e)
-     * @return {void}
      */
     _handleMouseUpOnDocument : qx.core.Environment.select("engine.name", {
       "mshtml" : qx.lang.Function.empty,
@@ -2757,7 +2737,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Undo last operation
      *
-     * @return {void}
      */
     undo : function()
     {
@@ -2772,7 +2751,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Redo last undo
      *
-     * @return {void}
      */
     redo : function()
     {
@@ -2793,7 +2771,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Resets the content of the editor
      *
-     * @return {void}
      */
     resetHtml : function()
     {
@@ -3057,7 +3034,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Wrapper method to examine the current context
      *
-     * @return {void}
      */
     __startExamineCursorContext : function()
     {
@@ -3082,7 +3058,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *  1 = cursor is over content which already received that command. Used to to activate the corresponding buttons (e.g. bold/italic/underline etc.)
      *
      * @lint ignoreDeprecated(_processingExamineCursorContext)
-     * @return {void}
      */
     __examineCursorContext : function()
     {
@@ -3356,7 +3331,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Clears the current selection
      *
-     * @return {void}
      */
     clearSelection : qx.core.Environment.select("engine.name",
     {
@@ -3494,7 +3468,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * *NOTE:* the next executed command will reset this range.
      *
      * @signature function()
-     * @return {void}
      */
     saveRange : qx.core.Environment.select("engine.name", {
       "mshtml" : function() {
@@ -3524,7 +3497,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Resets the current saved range.
      *
      * @signature function()
-     * @return {void}
      */
     resetSavedRange : qx.core.Environment.select("engine.name", {
       "mshtml" : function() {
@@ -3618,7 +3590,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
   /**
    * Destructor
    *
-   * @return {void}
    */
   destruct : function()
   {

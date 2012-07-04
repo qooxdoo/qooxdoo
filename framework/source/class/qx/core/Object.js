@@ -216,7 +216,6 @@ qx.Class.define("qx.core.Object",
      *
      * @param key {String} the key
      * @param value {Object} the value of the user data
-     * @return {void}
      */
     setUserData : function(key, value)
     {
@@ -264,7 +263,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Dispose this object
      *
-     * @return {void}
      */
     dispose : function()
     {

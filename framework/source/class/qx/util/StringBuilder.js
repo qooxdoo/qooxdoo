@@ -74,7 +74,6 @@ qx.Class.define("qx.util.StringBuilder",
     /**
      * Removes all content
      *
-     * @return {void}
      */
     clear : function() {
       this.length = 0;
@@ -96,7 +95,6 @@ qx.Class.define("qx.util.StringBuilder",
      *
      * @signature function(varargs)
      * @param varargs {String} The separate strings to add
-     * @return {void}
      */
     add : null,
 

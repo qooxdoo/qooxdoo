@@ -217,7 +217,6 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *
      * @param element {Element} DOM element to modify
      * @param value {String} Any of "visible", "scroll", "hidden", "auto" or ""
-     * @return {void}
      */
     setX : function(element, value)
     {
@@ -239,7 +238,6 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      * Removes the locally configured horizontal overflow property
      *
      * @param element {Element} DOM element to modify
-     * @return {void}
      */
     resetX : function(element)
     {
@@ -281,7 +279,6 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *
      * @param element {Element} DOM element to modify
      * @param value {String} Any of "visible", "scroll", "hidden", "auto" or ""
-     * @return {void}
      */
     setY : function(element, value)
     {
@@ -303,7 +300,6 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      * Removes the locally configured vertical overflow property
      *
      * @param element {Element} DOM element to modify
-     * @return {void}
      */
     resetY : function(element)
     {

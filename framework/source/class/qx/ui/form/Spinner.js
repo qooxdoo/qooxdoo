@@ -603,7 +603,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * Releases the button and disabled the page mode, if necessary.
      *
      * @param e {qx.event.type.KeySequence} keyUp event
-     * @return {void}
      */
     _onKeyUp: function(e)
     {

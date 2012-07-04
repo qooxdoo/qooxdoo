@@ -87,7 +87,6 @@ qx.Bootstrap.define("qx.bom.element.Cursor",
      *
      * @param element {Element} The element to modify
      * @param value {String} New cursor value to set
-     * @return {void}
      */
     set : function(element, value) {
       element.style.cursor = this.__map[value] || value;
@@ -98,7 +97,6 @@ qx.Bootstrap.define("qx.bom.element.Cursor",
      * Removes the local cursor style applied to the element
      *
      * @param element {Element} The element to modify
-     * @return {void}
      */
     reset : function(element) {
       element.style.cursor = "";

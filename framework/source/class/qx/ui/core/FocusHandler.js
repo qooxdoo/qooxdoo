@@ -168,7 +168,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * Internal event handler for activate event.
      *
      * @param e {qx.event.type.Focus} Focus event
-     * @return {void}
      */
     _onActivate : function(e)
     {
@@ -187,7 +186,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * Internal event handler for deactivate event.
      *
      * @param e {qx.event.type.Focus} Focus event
-     * @return {void}
      */
     _onDeactivate : function(e)
     {
@@ -202,7 +200,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * Internal event handler for focusin event.
      *
      * @param e {qx.event.type.Focus} Focus event
-     * @return {void}
      */
     _onFocusIn : function(e)
     {
@@ -219,7 +216,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * Internal event handler for focusout event.
      *
      * @param e {qx.event.type.Focus} Focus event
-     * @return {void}
      */
     _onFocusOut : function(e)
     {
@@ -236,7 +232,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * Internal event handler for TAB key.
      *
      * @param e {qx.event.type.KeySequence} Key event
-     * @return {void}
      */
     __onKeyPress : function(e)
     {
@@ -458,7 +453,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param parent {qx.ui.core.Widget} Parent widget
      * @param widget {qx.ui.core.Widget} Child widget to start with
      * @param result {Array} Result list
-     * @return {void}
      */
     __collectAllAfter : function(parent, widget, result)
     {
@@ -494,7 +488,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param parent {qx.ui.core.Widget} Parent widget
      * @param widget {qx.ui.core.Widget} Child widget to start with
      * @param result {Array} Result list
-     * @return {void}
      */
     __collectAllBefore : function(parent, widget, result)
     {

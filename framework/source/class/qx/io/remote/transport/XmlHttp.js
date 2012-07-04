@@ -170,7 +170,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Implementation for sending the request
      *
-     * @return {void}
      */
     send : function()
     {
@@ -386,7 +385,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * This method should be used only if the requests URI was local
      * access. I.e. it started with "file://".
      *
-     * @return {void}
      */
     failedLocally : function()
     {
@@ -509,7 +507,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *
      * @param vLabel {String} Request header name
      * @param vValue {var} Request header value
-     * @return {void}
      */
     setRequestHeader : function(vLabel, vValue) {
       this.getRequestHeaders()[vLabel] = vValue;
@@ -898,7 +895,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {void}
      */
     _applyState : function(value, old)
     {

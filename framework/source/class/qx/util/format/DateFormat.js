@@ -841,7 +841,6 @@ qx.Class.define("qx.util.format.DateFormat",
      * Helper method for {@link #format()} and {@link #parse()}.
      * Parses the date format.
      *
-     * @return {void}
      */
     __initFormatTree : function()
     {
@@ -1134,7 +1133,6 @@ qx.Class.define("qx.util.format.DateFormat",
     /**
      * Initializes the static parse rules.
      *
-     * @return {void}
      */
     __initParseRules : function()
     {

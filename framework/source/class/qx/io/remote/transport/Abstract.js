@@ -213,7 +213,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * implement it.
      *
      * @abstract
-     * @return {void}
      * @throws the abstract function warning.
      */
     send : function() {
@@ -226,7 +225,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      *
      * Listeners of the "aborted" signal are notified about the event.
      *
-     * @return {void}
      */
     abort : function()
     {
@@ -246,7 +244,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      *
      * Listeners of the "timeout" signal are notified about the event.
      *
-     * @return {void}
      */
     timeout : function()
     {
@@ -266,7 +263,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      *
      * Listeners of the "failed" signal are notified about the event.
      *
-     * @return {void}
      */
     failed : function()
     {
@@ -298,7 +294,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @abstract
      * @param vLabel {String} Request header name
      * @param vValue {var} Value for the header
-     * @return {void}
      * @throws the abstract function warning.
      */
     setRequestHeader : function(vLabel, vValue) {

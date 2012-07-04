@@ -90,7 +90,6 @@ qx.Class.define("qx.util.PropertyUtil",
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @param value {var} The value to set
-    * @return {void}
     */
     setUserValue : function(object, propertyName, value) {
       object["$$user_" + propertyName] = value;
@@ -101,7 +100,6 @@ qx.Class.define("qx.util.PropertyUtil",
     *
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
-    * @return {void}
     */
     deleteUserValue : function(object, propertyName) {
       delete(object["$$user_" + propertyName]);
@@ -131,7 +129,6 @@ qx.Class.define("qx.util.PropertyUtil",
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @param value {var} The value to set
-    * @return {void}
     */
     setInitValue : function(object, propertyName, value) {
       object["$$init_" + propertyName] = value;
@@ -142,7 +139,6 @@ qx.Class.define("qx.util.PropertyUtil",
     *
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
-    * @return {void}
     */
     deleteInitValue : function(object, propertyName) {
       delete(object["$$init_" + propertyName]);
@@ -172,7 +168,6 @@ qx.Class.define("qx.util.PropertyUtil",
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @param value {var} The value to set
-    * @return {void}
     */
     setThemeValue : function(object, propertyName, value) {
       object["$$theme_" + propertyName] = value;
@@ -183,7 +178,6 @@ qx.Class.define("qx.util.PropertyUtil",
     *
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
-    * @return {void}
     */
     deleteThemeValue : function(object, propertyName) {
       delete(object["$$theme_" + propertyName]);
@@ -202,7 +196,6 @@ qx.Class.define("qx.util.PropertyUtil",
      * @param object {Object} The object to access
      * @param propertyName {String} The name of the property
     * @param value {var} The value to set
-     * @return {void}
      */
     setThemed : function(object, propertyName, value)
     {
@@ -215,7 +208,6 @@ qx.Class.define("qx.util.PropertyUtil",
     *
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
-    * @return {void}
     */
     resetThemed : function(object, propertyName)
     {

@@ -735,7 +735,6 @@ qx.Class.define("qx.ui.form.AbstractField",
      *
      * @param start {Integer} start of the selection (zero-based)
      * @param end {Integer} end of the selection
-     * @return {void}
      */
     setTextSelection : function(start, end) {
       this.getContentElement().setTextSelection(start, end);
@@ -747,7 +746,6 @@ qx.Class.define("qx.ui.form.AbstractField",
      * This method only works if the widget is already created and
      * added to the document.
      *
-     * @return {void}
      */
     clearTextSelection : function() {
       this.getContentElement().clearTextSelection();
@@ -757,7 +755,6 @@ qx.Class.define("qx.ui.form.AbstractField",
     /**
      * Selects the whole content
      *
-     * @return {void}
      */
     selectAllText : function() {
       this.setTextSelection(0);

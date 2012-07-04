@@ -135,7 +135,6 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
      *
      * @param element {Element} DOM element to modify
      * @param opacity {Float} A float number between 0 and 1
-     * @return {void}
      * @signature function(element, opacity)
      */
     set : qx.core.Environment.select("engine.name",
@@ -204,7 +203,6 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
      * Resets opacity of given element.
      *
      * @param element {Element} DOM element to modify
-     * @return {void}
      * @signature function(element)
      */
     reset : qx.core.Environment.select("engine.name",

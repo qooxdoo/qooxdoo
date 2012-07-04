@@ -216,7 +216,6 @@ qx.Class.define("qx.bom.Element",
      * Focuses the given element. The element needs to have a positive <code>tabIndex</code> value.
      *
      * @param element {Element} DOM element to focus
-     * @return {void}
      */
     focus : function(element) {
       qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).focus(element);
@@ -227,7 +226,6 @@ qx.Class.define("qx.bom.Element",
      * Blurs the given element
      *
      * @param element {Element} DOM element to blur
-     * @return {void}
      */
     blur : function(element) {
       qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).blur(element);
@@ -238,7 +236,6 @@ qx.Class.define("qx.bom.Element",
      * Activates the given element. The active element receives all key board events.
      *
      * @param element {Element} DOM element to focus
-     * @return {void}
      */
     activate : function(element) {
       qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).activate(element);
@@ -249,7 +246,6 @@ qx.Class.define("qx.bom.Element",
      * Deactivates the given element. The active element receives all key board events.
      *
      * @param element {Element} DOM element to focus
-     * @return {void}
      */
     deactivate : function(element) {
       qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).deactivate(element);
@@ -273,7 +269,6 @@ qx.Class.define("qx.bom.Element",
      * Releases the given element (from a previous {@link #capture} call)
      *
      * @param element {Element} DOM element to release
-     * @return {void}
      */
     releaseCapture : function(element) {
       qx.event.Registration.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).releaseCapture(element);

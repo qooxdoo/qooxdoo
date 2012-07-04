@@ -599,7 +599,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      *
      * @param col {Integer} the column to change the width for.
      * @param width {Integer} the new width.
-     * @return {void}
      */
     setColumnWidth : function(col, width)
     {
@@ -621,7 +620,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the column order has changed.
      *
-     * @return {void}
      */
     onColOrderChanged : function()
     {
@@ -681,7 +679,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the table model meta data has changed.
      *
-     * @return {void}
      */
     onTableModelMetaDataChanged : function()
     {
@@ -825,7 +822,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the horizontal scroll bar moved.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onScrollX : function(e)
     {
@@ -841,7 +837,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the vertical scroll bar moved.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onScrollY : function(e)
     {
@@ -854,7 +849,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the user moved the mouse wheel.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onMousewheel : function(e)
     {
@@ -904,7 +898,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Common column resize logic.
      *
      * @param pageX {Integer} the current mouse x position.
-     * @return {void}
      */
     __handleResizeColumn : function(pageX)
     {
@@ -934,7 +927,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Common column move logic.
      *
      * @param pageX {Integer} the current mouse x position.
-     * @return {void}
      *
      */
     __handleMoveColumn : function(pageX)
@@ -974,7 +966,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the user moved the mouse over the header.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onMousemoveHeader : function(e)
     {
@@ -1037,7 +1028,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the user moved the mouse over the pane.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onMousemovePane : function(e)
     {
@@ -1072,7 +1062,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the user pressed a mouse button over the header.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onMousedownHeader : function(e)
     {
@@ -1108,7 +1097,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      *
      * @param resizeCol {Integer} the column index
      * @param pageX {Integer} x coordinate of the mouse event
-     * @return {void}
      */
     _startResizeHeader : function(resizeCol, pageX)
     {
@@ -1127,7 +1115,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      *
      * @param moveCol {Integer} the column index
      * @param pageX {Integer} x coordinate of the mouse event
-     * @return {void}
      */
     _startMoveHeader : function(moveCol, pageX)
     {
@@ -1144,7 +1131,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the user pressed a mouse button over the pane.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onMousedownPane : function(e)
     {
@@ -1260,7 +1246,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Stop a resize session of the header.
      *
-     * @return {void}
      */
     _stopResizeHeader : function()
     {
@@ -1291,7 +1276,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Stop a move session of the header.
      *
-     * @return {void}
      */
     _stopMoveHeader : function()
     {
@@ -1342,7 +1326,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the user released a mouse button over the pane.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onMouseupPane : function(e)
     {
@@ -1363,7 +1346,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the user released a mouse button over the header.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onMouseupHeader : function(e)
     {
@@ -1391,7 +1373,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the user clicked a mouse button over the header.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onClickHeader : function(e)
     {
@@ -1455,7 +1436,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the user clicked a mouse button over the pane.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onClickPane : function(e)
     {
@@ -1495,7 +1475,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when a context menu is invoked in a cell.
      *
      * @param e {qx.event.type.Mouse} the event.
-     * @return {void}
      */
     _onContextMenu : function(e)
     {
@@ -1565,7 +1544,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the user double clicked a mouse button over the pane.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onDblclickPane : function(e)
     {
@@ -1587,7 +1565,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the mouse moved out.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onMouseout : function(e)
     {
@@ -1620,7 +1597,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      *
      * @param x {Integer} the position where to show the line (in pixels, relative to
      *      the left side of the pane).
-     * @return {void}
      */
     _showResizeLine : function(x)
     {
@@ -1703,7 +1679,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      *
      * @param pageX {Integer} the x position in the page (in pixels).
      * @param pageY {Integer} the y position in the page (in pixels).
-     * @return {void}
      */
     _focusCellAtPagePos : function(pageX, pageY)
     {
@@ -1723,7 +1698,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      *
      * @param col {Integer} the model index of the focused cell's column.
      * @param row {Integer} the model index of the focused cell's row.
-     * @return {void}
      */
     setFocusedCell : function(col, row)
     {
@@ -1764,7 +1738,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      *
      * @param col {Integer} the model index of the column the cell belongs to.
      * @param row {Integer} the model index of the row the cell belongs to.
-     * @return {void}
      */
     scrollCellVisible : function(col, row)
     {
@@ -1998,7 +1971,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the modal window of the cell editor closes.
      *
      * @param e {Map} the event.
-     * @return {void}
      */
     _onCellEditorModalWindowClose : function(e) {
       this.stopEditing();
@@ -2125,7 +2097,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * caller has to dispose it.
      *
      * @param widget {qx.ui.core.Widget} The widget to set. May be null.
-     * @return {void}
      */
     setTopRightWidget : function(widget)
     {
@@ -2375,7 +2346,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Updates the location and the visibility of the focus indicator.
      *
-     * @return {void}
      */
     _updateFocusIndicator : function()
     {

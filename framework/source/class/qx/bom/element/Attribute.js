@@ -286,7 +286,6 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the attribute
      * @param value {var} New value of the attribute
-     * @return {void}
      */
     set : function(element, name, value)
     {
@@ -342,7 +341,6 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
      *
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the attribute
-     * @return {void}
      */
     reset : function(element, name) {
       this.set(element, name, null);

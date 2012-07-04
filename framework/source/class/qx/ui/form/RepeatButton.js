@@ -136,7 +136,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * button with all consequences.
      * <span style='color: red'>Be sure to call the {@link #release} function.</span>
      *
-     * @return {void}
      */
     press : function()
     {
@@ -164,7 +163,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * this function.
      *
      * @param fireExecuteEvent {Boolean?true} flag which signals, if an event should be fired
-     * @return {void}
      */
     release : function(fireExecuteEvent)
     {
@@ -228,7 +226,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * </ul>
      *
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onMouseOver : function(e)
     {
@@ -255,7 +252,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * </ul>
      *
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onMouseOut : function(e)
     {
@@ -282,7 +278,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * state "pressed".
      *
      * @param e {qx.event.type.Mouse} mouseDown event
-     * @return {void}
      */
     _onMouseDown : function(e)
     {
@@ -307,7 +302,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * "execute" method get executed at least one time.
      *
      * @param e {qx.event.type.Mouse} mouseUp event
-     * @return {void}
      */
     _onMouseUp : function(e)
     {
@@ -335,7 +329,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * (same like mouse up).
      *
      * @param e {Event} Key event
-     * @return {void}
      */
     _onKeyUp : function(e)
     {
@@ -366,7 +359,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * the internal timer (same like mousedown).
      *
      * @param e {Event} Key event
-     * @return {void}
      */
     _onKeyDown : function(e)
     {
@@ -390,7 +382,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * Dispatches the "execute" event.
      *
      * @param e {qx.event.type.Event} interval event
-     * @return {void}
      */
     _onInterval : function(e)
     {
@@ -409,7 +400,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * Starts the internal timer which causes firing of execution
      * events in an interval. It also presses the button.
      *
-     * @return {void}
      */
     __startInternalTimer : function()
     {
@@ -432,7 +422,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
     /**
      * Stops the internal timer and releases the button.
      *
-     * @return {void}
      */
     __stopInternalTimer : function()
     {

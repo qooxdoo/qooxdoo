@@ -192,7 +192,6 @@ qx.Class.define("qx.ui.table.model.Abstract",
      *
      *
      * @param columnIdArr {String[]} the IDs of the columns.
-     * @return {void}
      * @see #setColumns
      */
     setColumnIds : function(columnIdArr)
@@ -222,7 +221,6 @@ qx.Class.define("qx.ui.table.model.Abstract",
      *
      *
      * @param columnNameArr {String[]} the names of the columns.
-     * @return {void}
      * @throws {Error} If the amount of given columns is different from the table.
      * @see #setColumnIds
      */
@@ -247,7 +245,6 @@ qx.Class.define("qx.ui.table.model.Abstract",
      *
      * @param columnNameMap {Map} a map containing the column IDs as keys and the
      *          column name as values.
-     * @return {void}
      * @see #setColumnIds
      */
     setColumnNamesById : function(columnNameMap)
@@ -280,7 +277,6 @@ qx.Class.define("qx.ui.table.model.Abstract",
      *
      * @throws {Error} If the amount of given columns is different from the table.
      *
-     * @return {void}
      */
     setColumns : function(columnNameArr, columnIdArr)
     {

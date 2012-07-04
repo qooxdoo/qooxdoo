@@ -361,7 +361,6 @@ qx.Class.define("qx.event.Manager",
      *
      * @param target {Object} Any valid event target
      * @param list {Map} A map where every listener has an unique key.
-     * @return {void}
      */
     importListeners : function(target, list)
     {

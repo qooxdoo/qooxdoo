@@ -302,7 +302,6 @@ qx.Class.define("qx.bom.Window",
      * Closes the given window
      *
      * @param win {Window} Native window object
-     * @return {void}
      */
     close : function(win)
     {
@@ -339,7 +338,6 @@ qx.Class.define("qx.bom.Window",
      * @param win {Window} Native window object
      * @param top {Integer} Y-coordinate
      * @param left {Integer} X-coordinate
-     * @return {void}
      */
     moveTo : function(win, top, left)
     {
@@ -369,7 +367,6 @@ qx.Class.define("qx.bom.Window",
      * @param win {Window} Native window object
      * @param width {Integer} New width
      * @param height {Integer} New height
-     * @return {void}
      */
     resizeTo : function(win, width, height)
     {

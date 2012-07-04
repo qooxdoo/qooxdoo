@@ -97,7 +97,6 @@ qx.Class.define("qx.application.AbstractGui",
     /**
      * Updates the GUI rendering
      *
-     * @return {void}
      */
     render : function() {
       qx.ui.core.queue.Manager.flush();

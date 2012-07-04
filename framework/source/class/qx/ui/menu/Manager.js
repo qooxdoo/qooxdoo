@@ -481,7 +481,6 @@ qx.Class.define("qx.ui.menu.Manager",
      * when any menu is opened.
      *
      * @param e {qx.event.type.KeySequence} Keyboard event
-     * @return {void}
      */
     _onKeyUpDown : function(e)
     {
@@ -506,7 +505,6 @@ qx.Class.define("qx.ui.menu.Manager",
      * <code>Left</code>, <code>Right</code> and <code>Enter</code>.
      *
      * @param e {qx.event.type.KeySequence} Keyboard event
-     * @return {void}
      */
     _onKeyPress : function(e)
     {
@@ -575,7 +573,6 @@ qx.Class.define("qx.ui.menu.Manager",
      * Event handler for <code>Up</code> key
      *
      * @param menu {qx.ui.menu.Menu} The active menu
-     * @return {void}
      */
     _onKeyPressUp : function(menu)
     {
@@ -598,7 +595,6 @@ qx.Class.define("qx.ui.menu.Manager",
      * Event handler for <code>Down</code> key
      *
      * @param menu {qx.ui.menu.Menu} The active menu
-     * @return {void}
      */
     _onKeyPressDown : function(menu)
     {
@@ -620,7 +616,6 @@ qx.Class.define("qx.ui.menu.Manager",
      * Event handler for <code>Left</code> key
      *
      * @param menu {qx.ui.menu.Menu} The active menu
-     * @return {void}
      */
     _onKeyPressLeft : function(menu)
     {
@@ -672,7 +667,6 @@ qx.Class.define("qx.ui.menu.Manager",
      * Event handler for <code>Right</code> key
      *
      * @param menu {qx.ui.menu.Menu} The active menu
-     * @return {void}
      */
     _onKeyPressRight : function(menu)
     {
@@ -781,7 +775,6 @@ qx.Class.define("qx.ui.menu.Manager",
      * @param menu {qx.ui.menu.Menu} The active menu
      * @param button {qx.ui.menu.AbstractButton} The selected button
      * @param e {qx.event.type.KeySequence} The keypress event
-     * @return {void}
      */
     _onKeyPressEnter : function(menu, button, e)
     {
@@ -808,7 +801,6 @@ qx.Class.define("qx.ui.menu.Manager",
      * @param menu {qx.ui.menu.Menu} The active menu
      * @param button {qx.ui.menu.AbstractButton} The selected button
      * @param e {qx.event.type.KeySequence} The keypress event
-     * @return {void}
      */
     _onKeyPressSpace : function(menu, button, e)
     {

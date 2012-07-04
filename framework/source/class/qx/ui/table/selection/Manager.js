@@ -83,7 +83,6 @@ qx.Class.define("qx.ui.table.selection.Manager",
      *
      * @param index {Integer} the index the mouse is pointing at.
      * @param evt {Map} the mouse event.
-     * @return {void}
      */
     handleMouseDown : function(index, evt)
     {
@@ -121,7 +120,6 @@ qx.Class.define("qx.ui.table.selection.Manager",
      *
      * @param index {Integer} the index the mouse is pointing at.
      * @param evt {Map} the mouse event.
-     * @return {void}
      */
     handleMouseUp : function(index, evt)
     {
@@ -136,7 +134,6 @@ qx.Class.define("qx.ui.table.selection.Manager",
      *
      * @param index {Integer} the index the mouse is pointing at.
      * @param evt {Map} the mouse event.
-     * @return {void}
      */
     handleClick : function(index, evt) {},
 
@@ -147,7 +144,6 @@ qx.Class.define("qx.ui.table.selection.Manager",
      *
      * @param index {Integer} the index that is currently focused.
      * @param evt {Map} the key event.
-     * @return {void}
      */
     handleSelectKeyDown : function(index, evt) {
       this._handleSelectEvent(index, evt);
@@ -159,7 +155,6 @@ qx.Class.define("qx.ui.table.selection.Manager",
      *
      * @param index {Integer} the index that is currently focused.
      * @param evt {Map} the key event.
-     * @return {void}
      */
     handleMoveKeyDown : function(index, evt)
     {
@@ -190,7 +185,6 @@ qx.Class.define("qx.ui.table.selection.Manager",
      *
      * @param index {Integer} the index the event is pointing at.
      * @param evt {Map} the mouse event.
-     * @return {void}
      */
     _handleSelectEvent : function(index, evt)
     {

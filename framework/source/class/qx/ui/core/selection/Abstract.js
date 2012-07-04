@@ -174,7 +174,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Selects all items of the managed object.
      *
-     * @return {void}
      */
     selectAll : function()
     {
@@ -196,7 +195,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * items to an existing selection.
      *
      * @param item {Object} Any valid item
-     * @return {void}
      */
     selectItem : function(item)
     {
@@ -221,7 +219,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * the current selection.
      *
      * @param item {Object} Any valid item
-     * @return {void}
      */
     addItem : function(item)
     {
@@ -251,7 +248,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * the whole selection at once.
      *
      * @param item {Object} Any valid item
-     * @return {void}
      */
     removeItem : function(item)
     {
@@ -284,7 +280,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param begin {Object} Item to start with
      * @param end {Object} Item to end at
-     * @return {void}
      */
     selectItemRange : function(begin, end)
     {
@@ -309,7 +304,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * resets the lead and anchor items and their
      * styles.
      *
-     * @return {void}
      */
     clearSelection : function()
     {
@@ -465,7 +459,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * by the user (clicked on etc.)
      *
      * @param value {Object} Any valid item or <code>null</code>
-     * @return {void}
      */
     _setLeadItem : function(value)
     {
@@ -500,7 +493,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * clicked on the last time without any modifier keys pressed.
      *
      * @param value {Object} Any valid item or <code>null</code>
-     * @return {void}
      */
     _setAnchorItem : function(value)
     {
@@ -584,7 +576,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param item {var} Item to modify
      * @param type {String} Any of <code>selected</code>, <code>anchor</code> or <code>lead</code>
      * @param enabled {Boolean} Whether the given style should be added or removed.
-     * @return {void}
      */
     _styleSelectable : function(item, type, enabled) {
       throw new Error("Abstract method call: _styleSelectable()");
@@ -594,7 +585,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Enables capturing of the container.
      *
-     * @return {void}
      */
     _capture : function() {
       throw new Error("Abstract method call: _capture()");
@@ -604,7 +594,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Releases capturing of the container
      *
-     * @return {void}
      */
     _releaseCapture : function() {
       throw new Error("Abstract method call: _releaseCapture()");
@@ -689,7 +678,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param xoff {Integer} Horizontal offset to scroll by
      * @param yoff {Integer} Vertical offset to scroll by
-     * @return {void}
      */
     _scrollBy : function(xoff, yoff) {
       throw new Error("Abstract method call: _scrollBy()");
@@ -700,7 +688,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Scrolls the given item into the view (make it visible)
      *
      * @param item {var} Any item
-     * @return {void}
      */
     _scrollItemIntoView : function(item) {
       throw new Error("Abstract method call: _scrollItemIntoView()");
@@ -785,7 +772,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param lead {var} The current lead item
      * @param up {Boolean?false} Which page key was pressed:
      *   <code>up</code> or <code>down</code>.
-     * @return {void}
      */
     _getPage : function(lead, up) {
       throw new Error("Abstract method call: _getPage()");
@@ -832,7 +818,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * of the managed object.
      *
      * @param event {qx.event.type.Mouse} A valid mouse event
-     * @return {void}
      */
     handleMouseOver : function(event)
     {
@@ -885,7 +870,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * of the managed object.
      *
      * @param event {qx.event.type.Mouse} A valid mouse event
-     * @return {void}
      */
     handleMouseDown : function(event)
     {
@@ -1004,7 +988,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * of the managed object.
      *
      * @param event {qx.event.type.Mouse} A valid mouse event
-     * @return {void}
      */
     handleMouseUp : function(event)
     {
@@ -1055,7 +1038,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * of the managed object.
      *
      * @param event {qx.event.type.Mouse} A valid mouse event
-     * @return {void}
      */
     handleLoseCapture : function(event) {
       this._cleanup();
@@ -1067,7 +1049,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * of the managed object.
      *
      * @param event {qx.event.type.Mouse} A valid mouse event
-     * @return {void}
      */
     handleMouseMove : function(event)
     {
@@ -1150,7 +1131,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * of the managed object.
      *
      * @param e {qx.event.type.Data} The event object
-     * @return {void}
      */
     handleAddItem : function(e)
     {
@@ -1166,7 +1146,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * of the managed object.
      *
      * @param e {qx.event.type.Data} The event object
-     * @return {void}
      */
     handleRemoveItem : function(e) {
       this.removeItem(e.getData());
@@ -1379,7 +1358,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * of the managed object.
      *
      * @param event {qx.event.type.KeySequence} A valid key sequence event
-     * @return {void}
      */
     handleKeyPress : function(event)
     {
@@ -1683,7 +1661,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Replace current selection with given item.
      *
      * @param item {var} Any valid selectable item
-     * @return {void}
      */
     _setSelectedItem : function(item)
     {

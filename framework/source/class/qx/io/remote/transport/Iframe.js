@@ -174,7 +174,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     /**
      * Sends a request with the use of a form.
      *
-     * @return {void}
      */
     send : function()
     {
@@ -345,7 +344,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      *
      * @param vLabel {String} request header name
      * @param vValue {var} request header value
-     * @return {void}
      */
     setRequestHeader : function(vLabel, vValue) {},
 

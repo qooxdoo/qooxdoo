@@ -346,7 +346,6 @@ qx.Class.define("qx.ui.basic.Image",
      * Applies the source to the clipped image instance or preload
      * an image to detect sizes and apply it afterwards.
      *
-     * @return {void}
      */
     _styleSource : function()
     {
@@ -383,7 +382,6 @@ qx.Class.define("qx.ui.basic.Image",
      * with the current settings (scaling, alpha PNG)
      *
      * @param source {String} source of the image
-     * @return {void}
      */
     __checkForContentElementSwitch : qx.core.Environment.select("engine.name",
     {
@@ -429,7 +427,6 @@ qx.Class.define("qx.ui.basic.Image",
      * Checks the current child and replaces it if necessary
      *
      * @param elementToAdd {qx.html.Image} content element to add
-     * @return {void}
      */
     __checkForContentElementReplacement : function(elementToAdd)
     {
@@ -474,7 +471,6 @@ qx.Class.define("qx.ui.basic.Image",
      *
      * @param el {Element} image DOM element
      * @param source {String} source path
-     * @return {void}
      */
     __setManagedImage : function(el, source)
     {
@@ -514,7 +510,6 @@ qx.Class.define("qx.ui.basic.Image",
      *
      * @param el {Element} image DOM element
      * @param source {String} source path
-     * @return {void}
      */
     __setUnmanagedImage : function(el, source)
     {
@@ -535,7 +530,6 @@ qx.Class.define("qx.ui.basic.Image",
      *
      * @param el {Element} image DOM element
      * @param source {String} source path
-     * @return {void}
      */
     __loadUnmanagedImage : function(el, source)
     {
@@ -580,7 +574,6 @@ qx.Class.define("qx.ui.basic.Image",
      *
      * @param source {String} Image source which was loaded
      * @param imageInfo {Map} Dimensions of the loaded image
-     * @return {void}
      */
     __loaderCallback : function(source, imageInfo)
     {
@@ -615,7 +608,6 @@ qx.Class.define("qx.ui.basic.Image",
      *
      * @param width {Integer} width of the image
      * @param height {Integer} height of the image
-     * @return {void}
      */
     __updateContentHint : function(width, height)
     {

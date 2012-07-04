@@ -345,7 +345,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      * the {@link #maximum}.
      *
      * @param position {Integer} Scroll to this position. Must be greater zero.
-     * @return {void}
      */
     scrollTo : function(position) {
       this.getChildControl("slider").slideTo(position);
@@ -359,7 +358,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      * the {@link #maximum}.
      *
      * @param offset {Integer} Scroll by this offset
-     * @return {void}
      */
     scrollBy : function(offset) {
       this.getChildControl("slider").slideBy(offset);
@@ -373,7 +371,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      * the {@link #maximum}.
      *
      * @param steps {Integer} Number of steps
-     * @return {void}
      */
     scrollBySteps : function(steps)
     {
@@ -395,7 +392,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      * Executed when the up/left button is executed (pressed)
      *
      * @param e {qx.event.type.Event} Execute event of the button
-     * @return {void}
      */
     _onExecuteBegin : function(e) {
       this.scrollBy(-this.getSingleStep());
@@ -406,7 +402,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      * Executed when the down/right button is executed (pressed)
      *
      * @param e {qx.event.type.Event} Execute event of the button
-     * @return {void}
      */
     _onExecuteEnd : function(e) {
       this.scrollBy(this.getSingleStep());
@@ -417,7 +412,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      * Change listener for slider value changes.
      *
      * @param e {qx.event.type.Data} The change event object
-     * @return {void}
      */
     _onChangeSliderValue : function(e) {
       this.setPosition(e.getData());

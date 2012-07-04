@@ -163,7 +163,6 @@ qx.Class.define("qx.ui.embed.AbstractIframe",
     * Handle user navigation. Sync actual URL of iframe with source property.
     *
     * @param e {qx.event.type.Data} navigate event
-    * @return {void}
     */
     __onNavigate: function(e) {
       var actualUrl = e.getData();

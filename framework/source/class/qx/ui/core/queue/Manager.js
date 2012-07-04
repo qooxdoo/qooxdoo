@@ -51,7 +51,6 @@ qx.Class.define("qx.ui.core.queue.Manager",
      *
      * @param job {String} The job, which should be performed. Valid values are
      *     <code>layout</code>, <code>decoration</code> and <code>element</code>.
-     * @return {void}
      */
     scheduleFlush : function(job)
     {
@@ -72,7 +71,6 @@ qx.Class.define("qx.ui.core.queue.Manager",
      * Flush all layout queues in the correct order. This function is called
      * deferred if {@link #scheduleFlush} is called.
      *
-     * @return {void}
      */
     flush : function()
     {
