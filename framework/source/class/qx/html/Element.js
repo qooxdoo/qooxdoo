@@ -1579,6 +1579,7 @@ qx.Class.define("qx.html.Element",
       if (this.__element) {
         col.fadeOut().once("animationEnd", function() {
           this.hide();
+          qx.html.Element.flush();
         }, this);
       }
     },
