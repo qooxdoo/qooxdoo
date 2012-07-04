@@ -199,7 +199,6 @@ qx.Class.define("showcase.Application",
     {
       if (page.getReadyState() == "complete") {
         page.getContent().getView().hide();
-        this.__cancelFade();
       }
     },
 
@@ -232,15 +231,6 @@ qx.Class.define("showcase.Application",
     },
 
 
-    __cancelFade : function()
-    {
-      if (this.__effect) {
-        this.__effect.stop();
-        this.__effect = null;
-      }
-    },
-
-
     __fadeIn : function(view)
     {
       // disabled animation for IE8 because alpha filter and
@@ -251,20 +241,7 @@ qx.Class.define("showcase.Application",
         view.show();
         return;
       }
-      view.getContentElement().setStyle("opacity", 0, true);
-      this.__cancelFade();
-
-      qx.event.Timer.once(function() {
-        var element = view.getContentElement().getDomElement();
-        this.__effect = qx.bom.element.Animation.animate(element, {
-          duration: 1000,
-          keep: 100,
-          keyFrames : {
-            0 : {opacity: 0},
-            100 : {opacity: 1, display: "block"}
-          }
-        });
-      }, this, 0);
+      view.fadeIn();
     }
   },
 
