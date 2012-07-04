@@ -142,6 +142,10 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         qx.bom.Event.addNativeListener(el, this.__cssAnimationKeys["end-event"], this.__onAnimationEnd);
 
         el.style[qx.lang.String.camelCase(this.__cssAnimationKeys["name"])] = style;
+        // use the fill mode property if available and suitable
+        if (desc.keep && desc.keep == 100 && this.__cssAnimationKeys["fill-mode"]) {
+          el.style[this.__cssAnimationKeys["fill-mode"]] = "forwards";
+        }
       }
 
       var animation = new qx.bom.element.AnimationHandle();
@@ -216,7 +220,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         qx.bom.element.Transform.setOrigin(el, "");
       }
 
-      if (desc.keep != null) {
+      // only apply the last frame if fill mode has not been set initially
+      if (desc.keep != null && desc.keep != 100 && !this.__cssAnimationKeys["fill-mode"]) {
         qx.bom.element.AnimationCss.__keepFrame(el, desc.keyFrames[desc.keep]);
       }
 

@@ -37,6 +37,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      *  <li><code>start-event</code> The name of the start event</li>
      *  <li><code>iternation-event</code> The name of the iternation event</li>
      *  <li><code>end-event</code> The name of the end event</li>
+     *  <li><code>fill-mode</code> The fill-mode style</li>
      *  <li><code>keyframes</code> The name of the keyframes selector.</li>
      * </ul>
      *
@@ -53,11 +54,24 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
           "start-event" : qx.bom.client.CssAnimation.getAnimationStart(),
           "iteration-event" : qx.bom.client.CssAnimation.getAnimationIteration(),
           "end-event" : qx.bom.client.CssAnimation.getAnimationEnd(),
+          "fill-mode" : qx.bom.client.CssAnimation.getFillMode(),
           "keyframes" : qx.bom.client.CssAnimation.getKeyFrames()
         };
       }
       return null;
     },
+
+
+    /**
+     * Checks for the 'animation-fill-mode' CSS style.
+     * @internal
+     * @return {String|null} The name of the style or null, if the style is
+     *   not supported.
+     */
+    getFillMode : function() {
+      return qx.bom.Style.getPropertyName("AnimationFillMode");
+    },
+
 
 
     /**
