@@ -38,6 +38,13 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
     this.setTitle("Theme Switcher");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
+    
+    this.__preloadThemes();
+  },
+  
+  events :
+  {
+    "themeswitch" : "qx.event.type.Data"
   },
 
 
@@ -47,6 +54,22 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
       {"name":"Indigo","css":"qx/mobile/css/indigo.css"},
       {"name":"Android","css":"qx/mobile/css/android.css"},
       {"name":"iOS","css":"qx/mobile/css/ios.css"}],
+
+    
+    /**
+     * Preloads all css files for preventing flickering on theme switches.
+     */
+    __preloadThemes : function() {
+      for(var i = 0; i < this.__themes.length; i++) {
+          var cssResource = this.__themes[i].css;
+          var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
+          
+          var req = new qx.bom.request.Xhr();
+
+          req.open("GET", cssURI);
+          req.send();
+      }
+    },
 
 
     // overridden
@@ -100,6 +123,8 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
           this.__changeCSS(cssURI,1);
         }
       }
+      
+      this.fireDataEvent("themeswitch",{"theme":chosenValue});
     },
     
     
