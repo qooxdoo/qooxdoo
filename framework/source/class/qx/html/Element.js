@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#require(qx.module.Animation)
+************************************************************************ */
+
 /**
  * High-performance, high-level DOM element creation and management.
  *
@@ -1537,6 +1541,47 @@ qx.Class.define("qx.html.Element",
     },
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ANIMATION SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Fades in the element.
+     */
+    fadeIn : function() {
+      var col = q(this.__element);
+      if (col.isPlaying()) {
+        col.stop();
+      }
+      // create the element right away
+      if (!this.__element) {
+        this.__flush();
+        col[0] = this.__element;
+      }
+      if (this.__element) {
+        col.fadeIn();
+      }
+    },
+
+
+    /**
+     * Fades out the element.
+     */
+    fadeOut : function() {
+      var col = q(this.__element);
+      if (col.isPlaying()) {
+        col.stop();
+      }
+
+      if (this.__element) {
+        col.fadeOut().once("animationEnd", function() {
+          this.hide();
+        }, this);
+      }
+    },
 
 
 

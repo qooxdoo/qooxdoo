@@ -1552,6 +1552,26 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      ANIMATION SUPPORT: USER API
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Fade out this widget.
+     */
+    fadeOut : function() {
+      this.getContainerElement().fadeOut();
+    },
+
+    /**
+     * Fade in the widget.
+     */
+    fadeIn : function() {
+      this.getContainerElement().fadeIn();
+    },
+
 
     /*
     ---------------------------------------------------------------------------
