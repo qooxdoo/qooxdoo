@@ -286,9 +286,9 @@ Update Wiki
 -----------
 
 * Adjust the `Roadmap <http://qooxdoo.org/project/roadmap>`_.
-* Adjust the `Documentation overview <http://qooxdoo.org/documentation>`_.
-* Adjust the `Demo overview <http://qooxdoo.org/demo>`_.
-* Adjust the `Download page <http://qooxdoo.org/download>`_.
+* Adjust the `Documentation overview <http://qooxdoo.org/docs>`_.
+* Adjust the `Demo overview <http://qooxdoo.org/demos>`_.
+* Adjust the `Download page <http://qooxdoo.org/downloads>`_.
 * Adjust the `Start page <http://qooxdoo.org/>`_. (all 4 sections: download links, gzipped lib sizes) 
 
 .. _pages/project/release_how_to_build.rst#update_contrib:
