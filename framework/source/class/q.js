@@ -136,7 +136,7 @@ qx.Bootstrap.define("q", {
    * @return {q} A collection of DOM elements.
    */
   construct : function(selector, context) {
-    if (!selector) {
+    if (!selector && this != window) {
       return this;
     }
 
