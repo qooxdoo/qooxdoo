@@ -1,7 +1,7 @@
 testrunner.globalSetup = function() {
   this.sandbox = q.create("<div id='sandbox'></div>");
   this.sandbox.appendTo(document.body);
-  
+
   // CSS metrics should be integer by default in IE10 Release Preview, but
   // getBoundingClientRect will randomly return float values unless this
   // feature is explicitly deactivated:
@@ -19,6 +19,8 @@ testrunner.define({
 
   testInstanceOf : function() {
     var c = q.create("<div>");
+    this.assertTrue(c instanceof q);
+    c = q();
     this.assertTrue(c instanceof q);
   },
 
