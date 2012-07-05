@@ -2094,6 +2094,11 @@ testrunner.define({
 
   testTrimRight : function() {
     this.assertEquals("    abc", "    abc    ".trimRight());
+  },
+
+
+  testTrim : function() {
+    this.assertEquals("abc", "    abc    ".trim());
   }
 });
 
