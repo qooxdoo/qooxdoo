@@ -171,6 +171,7 @@ qx.Class.define("qx.test.lang.String",
 
     testCamelCase : function()
     {
+      qx.lang.String.hyphenate("padding-top");
       this.assertEquals("paddingTop", qx.lang.String.camelCase("padding-top"));
       this.assertEquals("ILikeCookies", qx.lang.String.camelCase("I-like-cookies"));
       this.assertEquals("iLikeCookies", qx.lang.String.camelCase("i-like-cookies"));
@@ -178,6 +179,7 @@ qx.Class.define("qx.test.lang.String",
 
     testHyphenate : function()
     {
+      qx.lang.String.camelCase("paddingTop");
       this.assertEquals("padding-top", qx.lang.String.hyphenate("paddingTop"));
       this.assertEquals("-i-like-cookies", qx.lang.String.hyphenate("ILikeCookies"));
       this.assertEquals("i-like-cookies", qx.lang.String.hyphenate("iLikeCookies"));
