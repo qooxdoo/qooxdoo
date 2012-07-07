@@ -337,7 +337,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       try {
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (qx.core.Environment.get("qx.ioRemoteDebugData"))
+          if (qx.core.Environment.get("qx.debug.io.remote.data"))
           {
             this.debug("Request: " + this.getData());
           }
@@ -427,7 +427,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         case "timeout":
           if (qx.core.Environment.get("qx.debug"))
           {
-            if (qx.core.Environment.get("qx.ioRemoteDebug")) {
+            if (qx.core.Environment.get("qx.debug.io.remote")) {
               this.warn("Ignore Ready State Change");
             }
           }
@@ -764,7 +764,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       {
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (qx.core.Environment.get("qx.ioRemoteDebug")) {
+          if (qx.core.Environment.get("qx.debug.io.remote")) {
             this.warn("Transfer not complete or failed, ignoring content!");
           }
         }
@@ -774,7 +774,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.ioRemoteDebug")) {
+        if (qx.core.Environment.get("qx.debug.io.remote")) {
           this.debug("Returning content for responseType: " + this.getResponseType());
         }
       }
@@ -785,7 +785,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       {
           if (qx.core.Environment.get("qx.debug"))
           {
-            if (qx.core.Environment.get("qx.ioRemoteDebugData"))
+            if (qx.core.Environment.get("qx.debug.io.remote.data"))
             {
               this.debug("Failed: " + vText);
             }
@@ -800,7 +800,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         case "text/html":
           if (qx.core.Environment.get("qx.debug"))
           {
-            if (qx.core.Environment.get("qx.ioRemoteDebugData"))
+            if (qx.core.Environment.get("qx.debug.io.remote.data"))
             {
               this.debug("Response: " + vText);
             }
@@ -811,7 +811,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         case "application/json":
           if (qx.core.Environment.get("qx.debug"))
           {
-            if (qx.core.Environment.get("qx.ioRemoteDebugData"))
+            if (qx.core.Environment.get("qx.debug.io.remote.data"))
             {
               this.debug("Response: " + vText);
             }
@@ -843,7 +843,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         case "text/javascript":
           if (qx.core.Environment.get("qx.debug"))
           {
-            if (qx.core.Environment.get("qx.ioRemoteDebugData"))
+            if (qx.core.Environment.get("qx.debug.io.remote.data"))
             {
               this.debug("Response: " + vText);
             }
@@ -869,7 +869,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
           if (qx.core.Environment.get("qx.debug"))
           {
-            if (qx.core.Environment.get("qx.ioRemoteDebugData"))
+            if (qx.core.Environment.get("qx.debug.io.remote.data"))
             {
               this.debug("Response: " + vText);
             }
@@ -904,7 +904,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.ioRemoteDebug")) {
+        if (qx.core.Environment.get("qx.debug.io.remote")) {
           this.debug("State: " + value);
         }
       }

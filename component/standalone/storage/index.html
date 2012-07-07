@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>qooxdoo storage library</title>
+    <script type="text/javascript" charset="utf-8" src="script/storage.js"></script>
+  </head>
+  <body>
+    <h1>qooxdoo storage library</h1>
+    <div>Count: <span id="count">0</span> (click number to increment)</div>
+    <script type="text/javascript" charset="utf-8">
+      var countEl = document.getElementById("count");
+      countEl.style.cursor = "pointer";
+
+      // use local storage
+      var storage = storage.getLocal();
+      var key = "demo-count";
+
+      // initialize the count
+      var count = parseInt(storage.getItem(key), 10);
+      if (count) {
+        countEl.innerHTML = count;
+      } else {
+        count = 0;
+      }
+
+      // increment on click
+      var onClick = function() {
+        count++;
+        storage.setItem(key, count);
+        countEl.innerHTML = count;
+      };
+      if (countEl.addEventListener) {
+        countEl.addEventListener("click", onClick, false);
+      } else {
+        countEl.attachEvent("onclick", onClick);
+      }
+    </script>
+  </body>
+</html>

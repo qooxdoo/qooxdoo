@@ -33,7 +33,8 @@
     {
       "config-warnings" : 
       { 
-        "exclude" : ["*"]
+        "exclude" : ["*"],
+        "environment" : [ "variants-and-url-settings" ]
       },
       "include" :     
       [

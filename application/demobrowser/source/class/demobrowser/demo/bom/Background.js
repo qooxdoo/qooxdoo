@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Background",
 {
   extend : qx.application.Native,

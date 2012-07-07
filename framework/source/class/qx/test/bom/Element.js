@@ -39,20 +39,6 @@ qx.Class.define("qx.test.bom.Element",
     },
 
 
-    testCreate : function()
-    {
-      var el = qx.bom.Element.create("div", {name: "juhu"}, window);
-      this.assertElement(el);
-      this.assertEquals("juhu", qx.bom.element.Attribute.get(el, "name"));
-    },
-
-    testEmpty : function()
-    {
-      this._el.innerHTML = "Juhu";
-      qx.bom.Element.empty(this._el);
-      this.assertEquals("", this._el.innerHTML);
-    },
-
     testAddListener : function()
     {
       var listener = function() {};

@@ -25,6 +25,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Video",
 {
   extend : qx.application.Standalone,

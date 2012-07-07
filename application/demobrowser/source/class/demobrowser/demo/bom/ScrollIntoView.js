@@ -18,7 +18,9 @@
 
 ************************************************************************ */
 
-
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.ScrollIntoView",
 {
   extend : qx.application.Native,

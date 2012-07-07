@@ -28,6 +28,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.event.Event_Iframe",
 {
   extend : qx.application.Native,

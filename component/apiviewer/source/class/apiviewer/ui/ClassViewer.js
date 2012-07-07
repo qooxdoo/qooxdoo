@@ -83,6 +83,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       "Float"     : true,
       "Double"    : true,
 
+      "Color"    : true,
+
       "Error"     : true,
       "RegExp"    : true,
 
@@ -122,8 +124,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     },
 
 
-    /** 
-     * {Map} Replacement rules for placeholders in the source view URI. 
+    /**
+     * {Map} Replacement rules for placeholders in the source view URI.
      * Functions will be called with the current @link{apiviewer.dao.Node} as the
      * only parameter and must return a string.
     **/
@@ -133,7 +135,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         var classNode = node.getClass ? node.getClass() : node;
         return classNode.getFullName().replace(/\./gi, "/") + ".js";
       },
-      
+
       lineNumber : function(node) {
         if (node.getLineNumber && typeof node.getLineNumber() == "number") {
           return node.getLineNumber() + "";
@@ -142,9 +144,9 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           return "0";
         }
       },
-      
+
       qxGitBranch : function(node) {
-        return qx.core.Environment.get("qx.revision") ? 
+        return qx.core.Environment.get("qx.revision") ?
           qx.core.Environment.get("qx.revision").split(":")[1] : "master";
       }
     },
@@ -226,14 +228,14 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
 
     /**
-     * Returns the source view URI for a doc node. This is determined by getting 
-     * the value for the "sourceViewUri" key from the library that contains the 
-     * item represented by the node. Placeholders of the form %{key} in the URI 
+     * Returns the source view URI for a doc node. This is determined by getting
+     * the value for the "sourceViewUri" key from the library that contains the
+     * item represented by the node. Placeholders of the form %{key} in the URI
      * are then resolved by applying the rules defined in the
      * @link{#SOURCE_VIEW_MACROS} map.
-     * 
+     *
      * @param node {apiviewer.dao.Node} the documentation node for the title
-     * @return {String|null} Source view URI or <code>null</code> if it couldn't 
+     * @return {String|null} Source view URI or <code>null</code> if it couldn't
      * be determined
      */
     getSourceUri : function(node)
@@ -245,18 +247,18 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       else {
         classNode = node.getClass();
       }
-      
+
       // get the library's top-level namespace
       var libNs = classNode.getFullName().split(".")[0];
       if (!qx.util.LibraryManager.getInstance().has(libNs)) {
         return null;
       }
-      
+
       var sourceViewUri = qx.util.LibraryManager.getInstance().get(libNs, "sourceViewUri");
       if (!sourceViewUri) {
         return null;
       }
-      
+
       var replacements = this.SOURCE_VIEW_MACROS;
       for (var key in replacements) {
         var macro = "%{" + key + "}";
@@ -267,14 +269,14 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           }
         }
       }
-      
+
       if (sourceViewUri.indexOf("%{") >= 0) {
         if (qx.core.Environment.get("qx.debug")) {
           qx.log.Logger.warn("Source View URI contains unresolved macro(s):", sourceViewUri);
         }
         return null;
       }
-      
+
       return sourceViewUri;
     }
 
@@ -330,19 +332,19 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       }
 
       titleHtml.add(objectName, ' </span>');
-      
+
       var className = classNode.getName();
       var sourceUri = this.self(arguments).getSourceUri(classNode);
       if (sourceUri) {
         className = '<a href="' + sourceUri + '" target="_blank" title="View Source">' + className + '<a/>';
       }
-      
+
       titleHtml.add(apiviewer.ui.panels.InfoPanel.setTitleClass(classNode, className));
-      
+
       return titleHtml.get();
     },
-    
-    
+
+
     _getTocHtml : function(classNode)
     {
       var tocHtml = document.createDocumentFragment();
@@ -411,7 +413,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           if(lastTocItem) {
             tocHtml.appendChild(document.createTextNode(' | '));
           }
-          var tocItem = qx.bom.Element.create('span');
+          var tocItem = qx.dom.Element.create('span');
           qx.bom.element.Class.add(tocItem,'tocitem');
 
           // add icon in front of the TOC item
@@ -426,7 +428,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
                 this.togglePanelVisibility(panel);
               }
             };})(panelByName[members[i]],memberList[0]),this,false);
-          var textSpan = qx.bom.Element.create('span');
+          var textSpan = qx.dom.Element.create('span');
           if(members[i] === 'methods-static' && qx.core.Environment.get("engine.name")=='webkit') {
             qx.bom.element.Style.set(textSpan,'margin-left','25px');
           }

@@ -28,7 +28,7 @@ qx.Class.define("qx.test.bom.Blocker",
       this.__blocker = new qx.bom.Blocker();
       this.__blocker.setBlockerZIndex(199);
 
-      this.__blockedElement = qx.bom.Element.create("div");
+      this.__blockedElement = qx.dom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__blockedElement, {
         position: "absolute",
         top: "100px",

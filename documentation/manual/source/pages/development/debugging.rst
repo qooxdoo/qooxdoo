@@ -35,22 +35,22 @@ This is taken from a firebug interactive session:
 Memory leaks
 ============
 
-  * Setting ``qx.disposerDebugLevel``
+  * Setting ``qx.debug.dispose.level``
 
 .. _pages/debugging#ajax:
 
 AJAX
 ====
 
-  * Setting ``qx.ioRemoteDebug``
-  * Setting ``qx.ioRemoteDebugData``
+  * Setting ``qx.debug.io.remote``
+  * Setting ``qx.debug.io.remote.data``
 
 .. _pages/debugging#debugging_tools:
 
 Debugging Tools
 ===============
 
-`Some browser-specific tools <http://qooxdoo.org/documentation/general/debugging_tools>`_ allow for a powerful and often convenient way of debugging applications.
+`Some browser-specific tools <http://qooxdoo.org/docs/general/debugging_tools>`_ allow for a powerful and often convenient way of debugging applications.
 
 .. _pages/debugging#code_instrumentation_idioms:
 

@@ -18,7 +18,9 @@
 
 ************************************************************************ */
 
-
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Viewport_StandardMode",
 {
   extend : qx.application.Native,

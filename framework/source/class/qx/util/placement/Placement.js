@@ -29,7 +29,7 @@ qx.Class.define("qx.util.placement.Placement",
   construct : function()
   {
     this.base(arguments);
-    this.__defaultAxis = new qx.util.placement.DirectAxis();
+    this.__defaultAxis = qx.util.placement.DirectAxis;
   },
 
 
@@ -39,14 +39,14 @@ qx.Class.define("qx.util.placement.Placement",
      * The axis object to use for the horizontal placement
      */
     axisX : {
-      check: "qx.util.placement.AbstractAxis"
+      check: "Class"
     },
 
     /**
      * The axis object to use for the vertical placement
      */
     axisY : {
-      check: "qx.util.placement.AbstractAxis"
+      check: "Class"
     },
 
     /**
@@ -130,7 +130,7 @@ qx.Class.define("qx.util.placement.Placement",
     __bestFit : null,
 
     /**
-     * Get the axis instance for the given mode
+     * Get the axis implementation for the given mode
      *
      * @param mode {String} One of <code>direct</code>, <code>keep-align</code> or
      *   <code>best-fit</code>
@@ -141,15 +141,15 @@ qx.Class.define("qx.util.placement.Placement",
       switch(mode)
       {
         case "direct":
-          this.__direct = this.__direct || new qx.util.placement.DirectAxis();
+          this.__direct = this.__direct || qx.util.placement.DirectAxis;
           return this.__direct;
 
         case "keep-align":
-          this.__keepAlign = this.__keepAlign || new qx.util.placement.KeepAlignAxis();
+          this.__keepAlign = this.__keepAlign || qx.util.placement.KeepAlignAxis;
           return this.__keepAlign;
 
         case "best-fit":
-          this.__bestFit = this.__bestFit || new qx.util.placement.BestFitAxis();
+          this.__bestFit = this.__bestFit || qx.util.placement.BestFitAxis;
           return this.__bestFit;
 
         default:

@@ -48,7 +48,8 @@ class QxTest:
       'seleniumHost'        : 'http://localhost:4444',
       'ieSingleWindow'      : True,
       'trustAllSSLCertificates' : False,
-      'options'             : ""
+      'options'             : "",
+      'serverStartTimeout' : 60
     }
     
     defaultTestConf = {
@@ -178,12 +179,13 @@ class QxTest:
   #
   # @param version {string} name of a subdirectory of seleniumConf["seleniumDir"]
   # @param options {string} command line options, e.g. -singleWindow -trustAllSSLCertificates 
-  def startSeleniumServer(self, version=None, options=""):
+  def startSeleniumServer(self, version=None, jar=None, options=""):
     seleniumVersion = version or self.seleniumConf["seleniumVersion"]
+    seleniumJar = jar or self.seleniumConf["seleniumJar"]
     cmd = self.testConf["javaBin"]
     cmd += " -jar " + self.seleniumConf["seleniumDir"] + "/" 
     cmd += seleniumVersion + "/"
-    cmd += self.seleniumConf["seleniumJar"]
+    cmd += seleniumJar
 
     if (self.sim):
       if "-singleWindow" in options:
@@ -211,8 +213,8 @@ class QxTest:
   
     # check if it's up and running
     if ( not(self.isSeleniumServer()) ):
-      self.log("Selenium server not responding, waiting a little longer...")
-      time.sleep(30)
+      self.log("Selenium server not responding, waiting for %s seconds..." %self.seleniumConf["serverStartTimeout"])
+      time.sleep(self.seleniumConf["serverStartTimeout"])
       if ( not(self.isSeleniumServer()) ):
         self.log("ERROR: Selenium server not responding.")
         sys.exit(1)
@@ -396,14 +398,11 @@ class QxTest:
         self.logBuildErrors(buildLogFile, target, cmd, err)
         buildLogFile.close()
       
-      buildResult["BuildError"] = "Unknown build error"
-      
-      """Get the last line of batbuild.py's STDERR output which contains
-      the actual error message. """
-      nre = re.compile('[\n\r](.*)$')
-      m = nre.search(err)
-      if m:
-        buildResult["BuildError"] = m.group(1)
+      if err:
+        buildResult["BuildError"] = err
+      else:
+        buildResult["BuildError"] = "Unknown build error"
+
     elif err != "":
       self.log("Warning while building " + target + ", see build log file for details.")
       err = err.rstrip('\n')
@@ -456,7 +455,9 @@ class QxTest:
       if status > 0:
         self.logBuildErrors(buildLogFile, target, cmd, err)
         self.buildStatus[target]["BuildError"] = err.rstrip('\n')
-      else:  
+      else:
+        if err:
+          self.buildStatus[target]["BuildWarning"] = err
         # generate the application
         self.log("Generating %s application." %target)
         
@@ -477,7 +478,9 @@ class QxTest:
         elif err != "":
           err = err.rstrip('\n')
           err = err.rstrip('\r')
-          self.buildStatus[target]["BuildWarning"] =  err.rstrip('\n')
+          if not self.buildStatus[target]["BuildWarning"]:
+            self.buildStatus[target]["BuildWarning"] = ""
+          self.buildStatus[target]["BuildWarning"] +=  err.rstrip('\n')
           self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
         else:
           self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
@@ -496,6 +499,10 @@ class QxTest:
       "BuildStarted": time.strftime(self.timeFormat), 
       "BuildWarning": None
     }
+    
+    if not os.path.isdir(workdir):
+      result["BuildError"] = "'%s' is not a directory!" %workdir
+      return result
     
     startdir = os.getcwd()
     if workdir != startdir:
@@ -869,47 +876,57 @@ class QxTest:
     seleniumVersion = self.seleniumConf["seleniumVersion"]
     if 'seleniumVersion' in appConf:
       seleniumVersion = appConf["seleniumVersion"]
+      
+    seleniumJar = self.seleniumConf["seleniumJar"]
+    if 'seleniumJar' in appConf:
+      seleniumJar = appConf["seleniumJar"]
+    
+    seleniumOptions = ""
+    # Use trustAllSSLCertificates option?
+    trustAllCerts = False
+    if self.seleniumConf['trustAllSSLCertificates']:
+      seleniumOptions += " -trustAllSSLCertificates"
+    
+    # Any additional options
+    seleniumOptions += " %s" %self.seleniumConf["options"]
     
     individual = True
     if 'individualServer' in appConf:
-      individual = appConf['individualServer']      
+      individual = appConf['individualServer']
     
     if not individual:
       self.log("individualServer set to False, using one server instance for "
                + "all tests")
-      self.startSeleniumServer(False, seleniumVersion)
+    
+      # Use single window mode if IE is among the browsers to be tested in.
+      # This is necessary due to cross-window/tab JavaScript access restrictions.
+      for browser in appConf['browsers']:
+        browserLauncher = self.browserConf[browser['browserId']]
+        if self.seleniumConf['ieSingleWindow'] and ("iexplore" in browserLauncher or "iepreview" in browserLauncher):
+          seleniumOptions += " -singleWindow"
+          break
+      
+      self.startSeleniumServer(seleniumVersion, seleniumJar, seleniumOptions)
 
     for browser in appConf['browsers']:
-      
-      seleniumOptions = ""
-      # Use single window mode? (Necessary for IE with Selenium 1.*)
-      if self.seleniumConf['ieSingleWindow']:
-        if "iexplore" in self.browserConf[browser['browserId']] or "iepreview" in self.browserConf[browser['browserId']]:
-          seleniumOptions += " -singleWindow"
-      
-      # Use trustAllSSLCertificates option?
-      trustAllCerts = False
-      if self.seleniumConf['trustAllSSLCertificates']:
-        seleniumOptions += " -trustAllSSLCertificates"
-      
-      # Any additional options
-      seleniumOptions += " %s" %self.seleniumConf["options"]
-      
-      seleniumVersion = self.seleniumConf["seleniumVersion"]
-      if 'seleniumVersion' in appConf:
-        seleniumVersion = appConf["seleniumVersion"]
-      
       if "seleniumVersion" in browser:
         seleniumVersion = browser["seleniumVersion"]
+      
+      if "seleniumJar" in browser:
+        seleniumJar = browser["seleniumJar"]
       
       killBrowser = True 
       if "kill" in browser:
         killBrowser = browser['kill'] 
       
       if individual:
+        browserLauncher = self.browserConf[browser['browserId']]
+        if self.seleniumConf['ieSingleWindow'] and ("iexplore" in browserLauncher or "iepreview" in browserLauncher):
+          seleniumOptions += " -singleWindow"
+        
         self.log("individualServer set to True, using one server instance per "
                  + "test run")
-        self.startSeleniumServer(seleniumVersion, seleniumOptions)
+        self.startSeleniumServer(seleniumVersion, seleniumJar, seleniumOptions)
       
       options = False
       if "options" in browser:
@@ -990,27 +1007,25 @@ class QxTest:
     sendReport = True
     if 'sendReport' in appConf:
       sendReport = appConf['sendReport']
-    
-    if not sendReport:
-      return
-    
-    ignore = None
-    if "ignoreLogEntries" in browser:
-      ignore = browser["ignoreLogEntries"]
-    else:
-      if "ignoreLogEntries" in appConf:
-        ignore = appConf["ignoreLogEntries"]
-    
-    if (self.sim):
-      self.log("SIMULATION: Formatting log and sending report.\n")
-    else:        
-      if getReportFrom == 'testLog':
-        self.formatLog(logFile, reportFile, ignore)
-      else:
-        self.formatLog(None, reportFile, ignore)
 
-      self.sendReport(appConf['appName'], reportFile)
-        
+    if sendReport:
+      ignore = None
+      if "ignoreLogEntries" in browser:
+        ignore = browser["ignoreLogEntries"]
+      else:
+        if "ignoreLogEntries" in appConf:
+          ignore = appConf["ignoreLogEntries"]
+
+      if (self.sim):
+        self.log("SIMULATION: Formatting log and sending report.\n")
+      else:
+        if getReportFrom == 'testLog':
+          self.formatLog(logFile, reportFile, ignore)
+        else:
+          self.formatLog(None, reportFile, ignore)
+
+        self.sendReport(appConf['appName'], reportFile)
+
     if "reportServerUrl" in self.testConf:
       if (self.sim):
         self.log("SIMULATION: Sending results to report server.\n")
@@ -1194,9 +1209,12 @@ class QxTest:
   # @param aut {str} The name of the tested application
   def sendReport(self, aut, reportfile):    
     self.log("Preparing to send " + aut + " report: " + reportfile)
-    if ( not(os.path.exists(reportfile)) ):
-      self.log("ERROR: Report file not found, quitting.")
-      sys.exit(1)
+    if not os.path.exists(reportfile):
+      self.log("sendReport: Report file not found!")
+      return
+    if not "mailTo" in self.mailConf:
+      self.log("sendReport: No mail recipient configured!")
+      return
   
     self.mailConf['subject'] = "[qooxdoo-test] " + aut
   
@@ -1459,18 +1477,20 @@ class QxTest:
         if (self.sim):
           self.log("SIMULATION: Starting Lint runner:\n  " + options.workdir)
         else:
-          self.log("Running Lint for " + options.workdir)  
-          qxlint = QxLint(options)
-
-        if "reportServerUrl" in self.testConf:
-          try:
-            if self.qxRevision:
-              revision = self.qxRevision
-            else:
-              revision = ""
-            qxlint.reportResults(self.testConf["reportServerUrl"], target['directory'], revision, self.testConf["qxBranch"])
+          self.log("Running Lint for " + options.workdir)
+          try:  
+            qxlint = QxLint(options)
+            if "reportServerUrl" in self.testConf:
+              try:
+                if self.qxRevision:
+                  revision = self.qxRevision
+                else:
+                  revision = ""
+                qxlint.reportResults(self.testConf["reportServerUrl"], target['directory'], revision, self.testConf["qxBranch"])
+              except Exception, e:
+                self.logError(e, "Error trying to send Lint results to report server")
           except Exception, e:
-            self.logError(e, "Error trying to send Lint results to report server")
+            self.logError(e, "Error running Lint")
 
 
   def logError(self, e, desc=""):

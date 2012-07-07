@@ -1,13 +1,13 @@
 /**
- * qooxdoo event layer; in a standard qooxdoo application these are the events
+ * qooxdoo event layer. In a standard qooxdoo application these are the events
  * you have to deal with.
  *
  * The classes in this namespace provide a cross browser event layer. It
- * normalizes not only the registration API but also normalizes behavior.
- * The event layer is able to support features, which are normally only
- * available in one browser, in all supported browsers.
+ * normalizes not only the registration API but also event behavior.  The event
+ * layer is able to support features in all supported browsers, which are
+ * normally only available in some of them.
  *
- * The following feature are supported in a browser-independent way:
+ * The following features are supported in a browser-independent way:
  * <ul>
  *   <li>Canceling of events <code>stopPropagation</code></li>
  *   <li>Prevention of the browser's default behavior <code>preventDefault</code>
@@ -17,6 +17,6 @@
  *   <li>Support for normalized focus and activation handling</li>
  * </ul>
  *
- * The central class is {@link qx.event.Registration}, which provides the event
+ * The central class is {@link qx.event.Registration} which provides the event
  * registration and de-registration functionality.
  */

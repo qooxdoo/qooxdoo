@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="nn"/>
 	</identity>
 	<fallback>nb da sv en</fallback>
@@ -695,7 +695,6 @@
 			<territory type="054">Melanesia</territory>
 			<territory type="057">Mikronesia</territory>
 			<territory type="061">Polynesia</territory>
-			<territory type="062">Sørlege Sentral-Asia</territory>
 			<territory type="142">Asia</territory>
 			<territory type="143">Sentral-Asia</territory>
 			<territory type="145">Vest-Asia</territory>
@@ -703,9 +702,7 @@
 			<territory type="151">Aust-Europa</territory>
 			<territory type="154">Nord-Europa</territory>
 			<territory type="155">Vest-Europa</territory>
-			<territory type="172">Samveldet av uavhengige statar</territory>
 			<territory type="419">Latin-Amerika</territory>
-			<territory type="830">Kanaløyane</territory>
 			<territory type="AC">Ascension</territory>
 			<territory type="AD">Andorra</territory>
 			<territory type="AE">Dei sameinte arabiske emirata</territory>
@@ -1012,7 +1009,6 @@
 			<type type="big5han" key="collation">tradisjonell kinesisk sortering</type>
 			<type type="buddhist" key="calendar">buddhistisk kalender</type>
 			<type type="chinese" key="calendar">kinesisk kalender</type>
-			<type type="direct" key="collation">direkte sortering</type>
 			<type type="ducet" key="collation">grunnleggjande Unicode-sorteringsrekkjefølgje</type>
 			<type type="ethiopic" key="calendar">etiopisk kalender</type>
 			<type type="ethiopic-amete-alem" key="calendar">etiopisk amete-alem-kalender</type>
@@ -1054,11 +1050,10 @@
 	<delimiters>
 		<quotationStart>«</quotationStart>
 		<quotationEnd>»</quotationEnd>
-		<alternateQuotationStart>“</alternateQuotationStart>
-		<alternateQuotationEnd>”</alternateQuotationEnd>
+		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
-		<dateRangePattern>{0}−{1}</dateRangePattern>
 		<calendars>
 			<calendar type="gregorian">
 				<months>
@@ -1253,7 +1248,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d.</dateFormatItem>
-						<dateFormatItem id="EEEd">EEE d.</dateFormatItem>
+						<dateFormatItem id="Ed">E d.</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
@@ -1267,10 +1262,10 @@
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="yM">M y</dateFormatItem>
 						<dateFormatItem id="yMd">d.M.yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE d.M.yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd">E d.M.yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d. MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE d. MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E d. MMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yyMM">MM.yy</dateFormatItem>
@@ -1478,13 +1473,13 @@
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<generic>sørafrikansk tid</generic>
-					<standard>sørafrikansk standardtid</standard>
+					<standard>sørafrikansk tid</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
-					<standard>vestafrikansk tid</standard>
+					<generic>vestafrikansk tid</generic>
+					<standard>vestafrikansk standardtid</standard>
 					<daylight>vestafrikansk sommartid</daylight>
 				</long>
 			</metazone>
@@ -1518,21 +1513,39 @@
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<standard>sentraleuropeisk tid</standard>
+					<generic>sentraleuropeisk tid</generic>
+					<standard>sentraleuropeisk standardtid</standard>
 					<daylight>sentraleuropeisk sommartid</daylight>
 				</long>
+				<short>
+					<generic>CET</generic>
+					<standard>CET</standard>
+					<daylight>CEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<standard>austeuropeisk tid</standard>
+					<generic>austeuropeisk tid</generic>
+					<standard>austeuropeisk standardtid</standard>
 					<daylight>austeuropeisk sommartid</daylight>
 				</long>
+				<short>
+					<generic>EET</generic>
+					<standard>EET</standard>
+					<daylight>EEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<standard>vesteuropeisk tid</standard>
+					<generic>vesteuropeisk tid</generic>
+					<standard>vesteuropeisk standardtid</standard>
 					<daylight>vesteuropeisk sommartid</daylight>
 				</long>
+				<short>
+					<generic>WET</generic>
+					<standard>WET</standard>
+					<daylight>WEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="GMT">
 				<long>
@@ -1554,28 +1567,28 @@
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern>#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##0 %</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>
@@ -2931,4 +2944,3 @@
 		</messages>
 	</posix>
 </ldml>
-

@@ -57,15 +57,59 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
 
 
     /**
+     * This is the main function to start the animation in reverse mode.
+     * For further details, take a look at the documentation of the wrapper
+     * {@link qx.bom.element.Animation}.
+     * @param el {Element} The element to animate.
+     * @param desc {Map} Animation description.
+     * @param duration {Integer?} The duration of the animation which will
+     *   override the duration given in the description.
+     * @return {qx.bom.element.AnimationHandle} The handle.
+     */
+    animateReverse : function(el, desc, duration) {
+      return this._animate(el, desc, duration, true);
+    },
+
+    /**
      * This is the main function to start the animation. For further details,
      * take a look at the documentation of the wrapper
      * {@link qx.bom.element.Animation}.
      * @param el {Element} The element to animate.
      * @param desc {Map} Animation description.
+     * @param duration {Integer?} The duration of the animation which will
+     *   override the duration given in the description.
      * @return {qx.bom.element.AnimationHandle} The handle.
      */
-    animate : function(el, desc) {
+    animate : function(el, desc, duration) {
+      return this._animate(el, desc, duration, false);
+    },
+
+
+    /**
+     * Internal method to start an animation either reverse or not.
+     * {@link qx.bom.element.Animation}.
+     * @param el {Element} The element to animate.
+     * @param desc {Map} Animation description.
+     * @param duration {Integer?} The duration of the animation which will
+     *   override the duration given in the description.
+     * @param reverse {Boolean} <code>true</code>, if the animation should be
+     *   reversed.
+     * @return {qx.bom.element.AnimationHandle} The handle.
+     */
+    _animate : function(el, desc, duration, reverse) {
       this.__normalizeDesc(desc);
+
+      // @deprecated since 2.0
+      if (desc.hasOwnProperty("reverse")) {
+        reverse = desc.reverse;
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.log.Logger.warn(
+            "The key 'reverse' is deprecated: Please use the method " +
+            "'animateReverse' instead."
+          );
+          qx.log.Logger.trace();
+        }
+      }
 
       // debug validation
       if (qx.core.Environment.get("qx.debug")) {
@@ -77,13 +121,17 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
       }
       var keyFrames = desc.keyFrames;
 
+      if (duration == undefined) {
+        duration = desc.duration;
+      }
+
       // if animations are supported
       if (this.__cssAnimationKeys != null) {
-        var name = this.__addKeyFrames(keyFrames, desc.reverse);
+        var name = this.__addKeyFrames(keyFrames, reverse);
 
         var style =
           name + " " +
-          desc.duration + "ms " +
+          duration + "ms " +
           desc.repeat + " " +
           desc.timing + " " +
           (desc.alternate ? "alternate" : "");
@@ -91,7 +139,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         var eventName = this.__cssAnimationKeys["end-event"];
         qx.bom.Event.addNativeListener(el, eventName, this.__onAnimationEnd);
 
-        el.style[this.__cssAnimationKeys["name"]] = style;
+        el.style[qx.lang.String.camelCase(this.__cssAnimationKeys["name"])] = style;
       }
 
       var animation = new qx.bom.element.AnimationHandle();
@@ -132,7 +180,10 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
 
       if (qx.bom.element.AnimationCss.__cssAnimationKeys != null) {
         // reset the styling
-        el.style[qx.bom.element.AnimationCss.__cssAnimationKeys["name"]] = "";
+        var key = qx.lang.String.camelCase(
+          qx.bom.element.AnimationCss.__cssAnimationKeys["name"]
+        );
+        el.style[key] = "";
 
         qx.bom.Event.removeNativeListener(
           el,
@@ -153,10 +204,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
       animation.el = null;
       animation.ended = true;
 
-      var onEnd = animation.getOnEnd();
-      for (var i=0; i < onEnd.length; i++) {
-        onEnd[i].callback.call(onEnd[i].ctx, el);
-      };
+      animation.emit("end", el);
     },
 
 
@@ -178,7 +226,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
           }
           transforms[style] = endFrame[style];
         } else {
-          el.style[style] = endFrame[style];
+          el.style[qx.lang.String.camelCase(style)] = endFrame[style];
         }
       }
 
@@ -200,9 +248,6 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
       }
       if (!desc.hasOwnProperty("keep")) {
         desc.keep = null;
-      }
-      if (!desc.hasOwnProperty("reverse")) {
-        desc.reverse = false;
       }
       if (!desc.hasOwnProperty("repeat")) {
         desc.repeat = 1;
@@ -226,6 +271,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         var possibleKeys = [
           "origin", "duration", "keep", "keyFrames",
           "repeat", "timing", "alternate", "reverse"
+          //@deprecated since 2.0 (reverse key)
         ];
 
         // check for unknown keys
@@ -235,10 +281,6 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
           }
         };
 
-        // check for mandatory keys
-        if (desc.duration == null || desc.duration <= 0) {
-          qx.Bootstrap.warn("No 'duration' given > 0");
-        }
         if (desc.keyFrames == null) {
           qx.Bootstrap.warn("No 'keyFrames' given > 0");
         } else {

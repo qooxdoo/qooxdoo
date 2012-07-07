@@ -117,7 +117,7 @@ qx.Class.define("todo.Application",
 
 
     /**
-     * Helper to update the clear button which gets disabled if nothing 
+     * Helper to update the clear button which gets disabled if nothing
      * can be cleard.
      * @param model {qx.data.IListData} The model.
      */
@@ -134,7 +134,7 @@ qx.Class.define("todo.Application",
 
 
     /**
-     * Helper to disable the clear button. Removing the listener and changing 
+     * Helper to disable the clear button. Removing the listener and changing
      * the CSS class.
      * @param disabled {Boolean} <code>true</code>, if the buttons shold be disabled
      * @param model {qx.data.IListData} The model object.

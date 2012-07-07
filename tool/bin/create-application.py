@@ -20,8 +20,9 @@
 #
 ################################################################################
 
-import re, os, sys, optparse, shutil, errno, stat, codecs, glob
+import re, os, sys, optparse, shutil, errno, stat, codecs, glob, types
 from string import Template
+from collections import defaultdict
 
 import qxenviron
 from ecmascript.frontend import lang
@@ -32,24 +33,34 @@ from misc import Path
 SCRIPT_DIR    = qxenviron.scriptDir
 FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
 SKELETON_DIR  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton")))
+GENERATE_PY   = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "data", "generator", "generate.tmpl.py")))
 APP_DIRS      = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
 R_ILLEGAL_NS_CHAR = re.compile(r'(?u)[^\.\w]')  # allow unicode, but disallow $
-R_SHORT_DESC      = re.compile(r'(?m)^short:: (.*)$')  # to search "short:: ..." in skeleton's 'readme.txt'
+R_SHORT_DESC      = re.compile(r'(?m)^short::\s*(.*)$')  # to search "short:: ..." in skeleton's 'readme.txt'
+R_COPY_FILE       = re.compile(r'(?m)^copy_file::\s*(.*)$')  # special files to copy from SDK for this skeleton
 QOOXDOO_VERSION   = ''  # will be filled later
 
 
 def getAppInfos():
     appInfos = {}
-    for dir in APP_DIRS:
-        readme = os.path.join(SKELETON_DIR, dir, "readme.txt")
-        appinfo = ""
+    for dir_ in APP_DIRS:
+        readme = os.path.join(SKELETON_DIR, dir_, "readme.txt")
+        appinfo = defaultdict(unicode)
         if os.path.isfile(readme):
-            cont = open(readme, "r").read()
-            mo   = R_SHORT_DESC.search(cont)
-            if mo:
-                appinfo = mo.group(1)
-        appInfos[dir] = appinfo
+            cont = open(readme, "rU").readlines()
+            for line in cont:
+                # short::
+                mo   = R_SHORT_DESC.search(line)
+                if mo:
+                    appinfo['short'] = mo.group(1)
+                # copy_file:: - could be multiple
+                mo   = R_COPY_FILE.search(line)
+                if mo:
+                    if not isinstance(appinfo['copy_file'], types.ListType):
+                        appinfo['copy_file'] = []
+                    appinfo['copy_file'].append(mo.group(1))
+        appInfos[dir_] = appinfo
     return appInfos
 
 APP_INFOS = getAppInfos()
@@ -81,38 +92,70 @@ def createApplication(options):
 
 
     outDir = os.path.join(out, options.name)
+    is_contribution = options.type == "contribution"
+    appDir = os.path.join(outDir, "trunk") if is_contribution else outDir
+    app_infos = APP_INFOS[options.type]
+    demo_suffix = "demo/default" if is_contribution else ''
+
+    # copy the template structure
     copySkeleton(options.skeleton_path, options.type, outDir, options.namespace)
 
+    # individual copies from tool/data
+    # generate.py
+    shutil.copy(GENERATE_PY, appDir)
+    if is_contribution:
+        shutil.copy(GENERATE_PY, os.path.join(appDir, *demo_suffix.split("/")))
+
+    # copy files
+    if isinstance(app_infos['copy_file'], types.ListType):
+        for pair in app_infos['copy_file']:
+            src, dest = pair.split(None, 1)
+            src_path = os.path.join(FRAMEWORK_DIR, src)
+            dst_path = os.path.join(appDir, dest)
+            if os.path.isfile(src_path):
+                if not os.path.isdir(os.path.dirname(dst_path)):
+                    os.makedirs(os.path.dirname(dst_path))
+                shutil.copy(src_path, dst_path)
+            else:
+                print >>sys.stderr, "Warning: Source file \"%s\" not available - please see the skeleton's readme.txt" % src_path
+
+    # rename files
+    rename_folders(appDir, options.namespace)
     if options.type == "contribution":
-        patchSkeleton(os.path.join(outDir, "trunk"), FRAMEWORK_DIR, options)
-    else:
-        patchSkeleton(outDir, FRAMEWORK_DIR, options)
+        rename_folders(os.path.join(appDir, "demo", "default"), options.namespace)
+
+    # clean out unwanted
+    cleanSkeleton(appDir)
+
+    # patch file contents
+    patchSkeleton(appDir, FRAMEWORK_DIR, options)
 
     return
 
+def rename_folders(root_dir, namespace):
+    console.log("Renaming stuff...")
+    # rename name space parts of paths
 
-def copySkeleton(skeleton_path, app_type, dir, namespace):
-    console.log("Copy skeleton into the output directory: %s" % dir)
+    # rename in class path
+    source_dir = os.path.join(root_dir, "source", "class", "custom")
+    out_dir    = os.path.join(root_dir, "source", "class")
+    expand_dir(source_dir, out_dir, namespace)
 
-    def rename_folders(root_dir):
-        # rename name space parts of paths
+    # rename in resource path
+    resource_dir = os.path.join(root_dir, "source", "resource", "custom")
+    out_dir      = os.path.join(root_dir, "source", "resource")
+    expand_dir(resource_dir, out_dir, namespace)
 
-        # rename in class path
-        source_dir = os.path.join(root_dir, "source", "class", "custom")
-        out_dir    = os.path.join(root_dir, "source", "class")
-        expand_dir(source_dir, out_dir, namespace)
+    # rename in script path
+    script_dir   = os.path.join(root_dir, "source", "script")
+    script_files = glob.glob(os.path.join(script_dir, "custom.*js")) 
+    if script_files:
+        for script_file in script_files:
+            os.rename(script_file, script_file.replace("custom", namespace))
 
-        # rename in resource path
-        resource_dir = os.path.join(root_dir, "source", "resource", "custom")
-        out_dir      = os.path.join(root_dir, "source", "resource")
-        expand_dir(resource_dir, out_dir, namespace)
 
-        # rename in script path
-        script_dir   = os.path.join(root_dir, "source", "script")
-        script_files = glob.glob(os.path.join(script_dir, "custom.*js")) 
-        if script_files:
-            for script_file in script_files:
-                os.rename(script_file, script_file.replace("custom", namespace))
+def copySkeleton(skeleton_path, app_type, dir_, namespace):
+    console.log("Copy skeleton into the output directory: %s" % dir_)
 
     template = os.path.join(skeleton_path, app_type)
     if not os.path.isdir(template):
@@ -120,22 +163,14 @@ def copySkeleton(skeleton_path, app_type, dir, namespace):
         sys.exit(1)
 
     try:
-        shutil.copytree(template, dir)
+        shutil.copytree(template, dir_)
     except OSError:
         console.error("Failed to copy skeleton, maybe the directory already exists")
         sys.exit(1)
 
-    if app_type == "contribution":
-        app_dir = os.path.join(dir, "trunk")
-    else:
-        app_dir = dir
-
-    rename_folders(app_dir)
-    if app_type == "contribution":
-        rename_folders(os.path.join(app_dir, "demo", "default"))
-
+def cleanSkeleton(dir_):
     #clean svn directories
-    for root, dirs, files in os.walk(dir, topdown=False):
+    for root, dirs, files in os.walk(dir_, topdown=False):
         if ".svn" in dirs:
             filename = os.path.join(root, ".svn")
             shutil.rmtree(filename, ignore_errors=False, onerror=handleRemoveReadonly)
@@ -154,26 +189,26 @@ def expand_dir(indir, outroot, namespace):
         else:
             os.mkdir(target)
 
-def patchSkeleton(dir, framework_dir, options):
+def patchSkeleton(dir_, framework_dir, options):
     absPath = normalizePath(framework_dir)
     if absPath[-1] == "/":
         absPath = absPath[:-1]
 
     if sys.platform == 'cygwin':
-        if re.match( r'^\.{1,2}\/', dir ):
-            relPath = Path.rel_from_to(normalizePath(dir), framework_dir)
-        elif re.match( r'^/cygdrive\b', dir):
-            relPath = Path.rel_from_to(dir, framework_dir)
+        if re.match( r'^\.{1,2}\/', dir_ ):
+            relPath = Path.rel_from_to(normalizePath(dir_), framework_dir)
+        elif re.match( r'^/cygdrive\b', dir_):
+            relPath = Path.rel_from_to(dir_, framework_dir)
         else:
-            relPath = Path.rel_from_to(normalizePath(dir), normalizePath(framework_dir))
+            relPath = Path.rel_from_to(normalizePath(dir_), normalizePath(framework_dir))
     else:
-        relPath = Path.rel_from_to(normalizePath(dir), normalizePath(framework_dir))
+        relPath = Path.rel_from_to(normalizePath(dir_), normalizePath(framework_dir))
 
     relPath = re.sub(r'\\', "/", relPath)
     if relPath[-1] == "/":
         relPath = relPath[:-1]
 
-    if not os.path.isdir(os.path.join(dir, relPath)):
+    if not os.path.isdir(os.path.join(dir_, relPath)):
         console.error("Relative path to qooxdoo directory is not correct: '%s'" % relPath)
         sys.exit(1)
 
@@ -181,7 +216,7 @@ def patchSkeleton(dir, framework_dir, options):
         relPath = os.path.join(os.pardir, os.pardir, "qooxdoo", QOOXDOO_VERSION)
         relPath = re.sub(r'\\', "/", relPath)
 
-    for root, dirs, files in os.walk(dir):
+    for root, dirs, files in os.walk(dir_):
         for file in files:
             split = file.split(".")
             if len(split) >= 3 and split[-2] == "tmpl":
@@ -206,7 +241,7 @@ def patchSkeleton(dir, framework_dir, options):
                 out.close()
                 os.remove(inFile)
 
-    for root, dirs, files in os.walk(dir):
+    for root, dirs, files in os.walk(dir_):
         for file in [file for file in files if file.endswith(".py")]:
             os.chmod(os.path.join(root, file), (stat.S_IRWXU
                                                |stat.S_IRGRP |stat.S_IXGRP
@@ -281,7 +316,7 @@ def checkNamespace(options):
 def skeletonsHelpString():
     helpString = "Type of the application to create, one of: "
     helpString += str(map(str, sorted(APP_INFOS.keys()))) + "." 
-    helpString += str("; ".join(["'%s' -- %s" % (x, y) for x,y in sorted(APP_INFOS.items())])) 
+    helpString += str("; ".join(["'%s' -- %s" % (x, y) for x,y in sorted([(k,i['short']) for k,i in APP_INFOS.items()])])) 
     helpString += ". (Default: %default)"
     return helpString
 
@@ -312,7 +347,7 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
         help="Applications's top-level namespace. (Default: APPLICATIONNAME)"
     )
     parser.add_option(
-        "-t", "--type", dest="type", metavar="TYPE", default="gui",
+        "-t", "--type", dest="type", metavar="TYPE", default="desktop",
         help=skeletonsHelpString()
      )
     parser.add_option(

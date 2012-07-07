@@ -18,9 +18,19 @@
 ************************************************************************ */
 
 /* ************************************************************************
-
 #ignore(XDomainRequest)
-
+#require(qx.bom.request.Xhr#open)
+#require(qx.bom.request.Xhr#send)
+#require(qx.bom.request.Xhr#on)
+#require(qx.bom.request.Xhr#onreadystatechange)
+#require(qx.bom.request.Xhr#onload)
+#require(qx.bom.request.Xhr#onloadend)
+#require(qx.bom.request.Xhr#onerror)
+#require(qx.bom.request.Xhr#onabort)
+#require(qx.bom.request.Xhr#ontimeout)
+#require(qx.bom.request.Xhr#setRequestHeader)
+#require(qx.bom.request.Xhr#getAllResponseHeaders)
+#require(qx.bom.request.Xhr#getRequest)
 ************************************************************************ */
 
 /**
@@ -30,6 +40,7 @@
  * Hides browser inconsistencies and works around bugs found in popular
  * implementations.
  *
+ * <div class="desktop">
  * Example:
  *
  * <pre class="javascript">
@@ -42,8 +53,7 @@
  *  req.open("GET", url);
  *  req.send();
  * </pre>
- *
- * Implements {@link qx.bom.request.IRequest}.
+ * </div>
  */
 qx.Bootstrap.define("qx.bom.request.Xhr",
 {
@@ -54,6 +64,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     this.__onTimeoutBound = qx.Bootstrap.bind(this.__onTimeout, this);
 
     this.__initNativeXhr();
+    this._emitter = new qx.event.Emitter();
 
     // BUGFIX: IE
     // IE keeps connections alive unless aborted on unload
@@ -72,6 +83,28 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     LOADING: 3,
     DONE: 4
   },
+
+
+  events : {
+    /** Fired at ready state changes. */
+    "readystatechange" : "qx.bom.request.Xhr",
+
+    /** Fired on error. */
+    "error" : "qx.bom.request.Xhr",
+
+    /** Fired at loadend. */
+    "loadend" : "qx.bom.request.Xhr",
+
+    /** Fired on timeouts. */
+    "timeout" : "qx.bom.request.Xhr",
+
+    /** Fired when the request is aborted. */
+    "abort" : "qx.bom.request.Xhr",
+
+    /** Fired on successful retrieval. */
+    "load" : "qx.bom.request.Xhr"
+  },
+
 
   members :
   {
@@ -125,7 +158,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *
      * @lint ignoreUndefined(XDomainRequest)
      *
-     * @param method {String}
+     * @param method {String?"GET"}
      *  The HTTP method to use.
      * @param url {String}
      *  The URL to which to send the request.
@@ -140,8 +173,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__checkDisposed();
 
       // Mimick native behavior
-      if (typeof method === "undefined" || typeof url === "undefined") {
+      if (typeof url === "undefined") {
         throw new Error("Not enough arguments");
+      } else if (typeof method === "undefined") {
+        method = "GET";
       }
 
       // Reset flags that may have been set on previous request
@@ -212,9 +247,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
             this.readyState = 4;
             this.__nativeXhr = new XDomainRequest();
             this.__nativeXhr.onerror = qx.Bootstrap.bind(function() {
-              this.onreadystatechange();
-              this.onerror();
-              this.onloadend();
+              this._emit("readystatechange");
+              this._emit("error");
+              this._emit("loadend");
             }, this);
 
             if (qx.core.Environment.get("qx.debug.io")) {
@@ -234,13 +269,22 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
               return;
             }
             this.readyState = 4;
-            this.onreadystatechange();
-            this.onerror();
-            this.onloadend();
+            this._emit("readystatechange");
+            this._emit("error");
+            this._emit("loadend");
           }, this));
         }
 
       }
+
+      // BUGFIX: IE < 9
+      // IE < 9 tends to cache overly agressive. This may result in stale
+      // representations. Force validating freshness of cached representation.
+      if (qx.core.Environment.get("engine.name") === "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 9 &&
+        this.__nativeXhr.readyState > 0) {
+          this.__nativeXhr.setRequestHeader("If-Modified-Since", "-1");
+        }
 
       // BUGFIX: Firefox
       // Firefox < 4 fails to trigger onreadystatechange OPENED for sync requests
@@ -250,7 +294,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         // Native XHR is already set to readyState DONE. Fake readyState
         // and call onreadystatechange manually.
         this.readyState = qx.bom.request.Xhr.OPENED;
-        this.onreadystatechange();
+        this._emit("readystatechange");
       }
 
     },
@@ -264,6 +308,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *  The name of the header whose value is to be set.
      * @param value {String}
      *  The value to set as the body of the header.
+     * @return {qx.bom.request.Xhr} Self for chaining.
      */
     setRequestHeader: function(key, value) {
       this.__checkDisposed();
@@ -275,6 +320,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       this.__nativeXhr.setRequestHeader(key, value);
+      return this;
     },
 
     /**
@@ -282,6 +328,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *
      * @param data {String|Document?null}
      *  Optional data to send.
+     * @return {qx.bom.request.Xhr} Self for chaining.
      */
     send: function(data) {
       this.__checkDisposed();
@@ -363,13 +410,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       // Set send flag
       this.__send = true;
+      return this;
     },
 
     /**
      * Abort request.
      *
      * Cancels any network activity.
-     *
+     * @return {qx.bom.request.Xhr} Self for chaining.
      */
     abort: function() {
       this.__checkDisposed();
@@ -380,6 +428,17 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       if (this.__nativeXhr) {
         this.readyState = this.__nativeXhr.readyState;
       }
+      return this;
+    },
+
+
+    /**
+     * Helper to emit events and call the callback methods.
+     * @param event {String} The name of the event.
+     */
+    _emit: function(event) {
+      this["on" + event]();
+      this._emitter.emit(event, this);
     },
 
     /**
@@ -430,6 +489,21 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     * Replace with custom method to listen to the "timeout" event.
     */
     ontimeout: function() {},
+
+
+    /**
+     * Add an event listener for the given event name.
+     *
+     * @param name {String} The name of the event to listen to.
+     * @param listener {function} The function to execute when the event is fired
+     * @param ctx {?var} The context of the listener.
+     * @return {qx.bom.request.Xhr} Self for chaining.
+     */
+    on: function(name, listener, ctx) {
+      this._emitter.on(name, listener, ctx);
+      return this;
+    },
+
 
     /**
      * Get a single response header from response.
@@ -534,7 +608,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         return new window.ActiveXObject("Microsoft.XMLHTTP");
       }
 
-      qx.log.Logger.error(this, "No XHR support available.");
+      qx.Bootstrap.error(this, "No XHR support available.");
     },
 
     /**
@@ -759,7 +833,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // BUGFIX: IE
       // IE < 8 fires LOADING and DONE on open() - before send() - when from cache
       if (qx.core.Environment.get("engine.name") == "mshtml" &&
-          qx.core.Environment.get("engine.version") < 8) {
+          qx.core.Environment.get("browser.documentmode") < 8) {
 
         // Detect premature events when async. LOADING and DONE is
         // illogical to happen before request was sent.
@@ -777,10 +851,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
               }
               // Replay previously skipped
               that.readyState = 3;
-              that.onreadystatechange();
+              that._emit("readystatechange");
 
               that.readyState = 4;
-              that.onreadystatechange();
+              that._emit("readystatechange");
               that.__readyStateChangeDone();
             });
             return;
@@ -790,7 +864,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // Always fire "readystatechange"
-      this.onreadystatechange();
+      this._emit("readystatechange");
       if (this.readyState === qx.bom.request.Xhr.DONE) {
         this.__readyStateChangeDone();
       }
@@ -803,13 +877,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __readyStateChangeDone: function() {
       // Fire "timeout" if timeout flag is set
       if (this.__timeout) {
-        this.ontimeout();
+        this._emit("timeout");
 
         // BUGFIX: Opera
         // Since Opera does not fire "error" on network error, fire additional
         // "error" on timeout (may well be related to network error)
         if (qx.core.Environment.get("engine.name") === "opera") {
-          this.onerror();
+          this._emit("error");
         }
 
         this.__timeout = false;
@@ -817,14 +891,19 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // Fire either "abort", "load" or "error"
       } else {
         if (this.__abort) {
-          this.onabort();
-        } else {
-          this.__isNetworkError() ? this.onerror() : this.onload();
+          this._emit("abort");
+        } else{
+          if (this.__isNetworkError()) {
+            this._emit("error");
+          } else {
+            this._emit("load");
+            this._emitter.emit("load");
+          }
         }
       }
 
       // Always fire "onloadend" when DONE
-      this.onloadend();
+      this._emit("loadend");
     },
 
     /**

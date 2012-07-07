@@ -18,8 +18,8 @@
 ************************************************************************ */
 
 /**
- * Wrapper for {@link qx.bom.element.AnimationCSS} and
- * {@link qx.bom.element.AnimationJS}. It offers the pubilc API and decides using
+ * Wrapper for {@link qx.bom.element.AnimationCss} and
+ * {@link qx.bom.element.AnimationJs}. It offers the pubilc API and decides using
  * feature checks either to use CSS animations or JS animations.
  *
  * If you use this class, the restrictions of the JavaScript animations apply.
@@ -68,23 +68,42 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      * *timing* takes one of the predefined value:
      *   <code>ease</code> | <code>linear</code> | <code>ease-in</code>
      *   | <code>ease-out</code> | <code>ease-in-out</code> |
-     *   <code>cubic-bezier(<number>, <number>, <number>, <number>)</number>
+     *   <code>cubic-bezier(&lt;number&gt;, &lt;number&gt;, &lt;number&gt;, &lt;number&gt;)</code>
      *   (cubic-bezier only available for CSS animations)
      *
      * *alternate* defines if every other animation should be run in reverse order.
      *
-     * *reverse* defines if the animation should run in reverse order.
-     *
      * @param el {Element} The element to animate.
      * @param desc {Map} The animations description.
+     * @param duration {Integer?} The duration in milliseconds of the animation
+     *   which will override the duration given in the description.
      * @return {qx.bom.element.AnimationHandle} AnimationHandle instance to control
      *   the animation.
      */
-    animate : function(el, desc) {
+    animate : function(el, desc, duration) {
       if (qx.core.Environment.get("css.animation")) {
-        return qx.bom.element.AnimationCss.animate(el, desc);
+        return qx.bom.element.AnimationCss.animate(el, desc, duration);
       } else {
-        return qx.bom.element.AnimationJs.animate(el, desc);
+        return qx.bom.element.AnimationJs.animate(el, desc, duration);
+      }
+    },
+
+
+    /**
+     * Starts an animation in reversed order. For further details, take a look at
+     * the {@link #animate} method.
+     * @param el {Element} The element to animate.
+     * @param desc {Map} The animations description.
+     * @param duration {Integer?} The duration in milliseconds of the animation
+     *   which will override the duration given in the description.
+     * @return {qx.bom.element.AnimationHandle} AnimationHandle instance to control
+     *   the animation.
+     */
+    animateReverse : function(el, desc, duration) {
+      if (qx.core.Environment.get("css.animation")) {
+        return qx.bom.element.AnimationCss.animateReverse(el, desc, duration);
+      } else {
+        return qx.bom.element.AnimationJs.animateReverse(el, desc, duration);
       }
     }
   }

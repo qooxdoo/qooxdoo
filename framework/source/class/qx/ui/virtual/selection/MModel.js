@@ -303,8 +303,13 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       var managerSelection = this._manager.getSelection();
       var newSelection = [];
 
-      for (var i = 0; i < managerSelection.length; i++) {
-        newSelection.push(this._getDataFromRow(managerSelection[i]));
+      for (var i = 0; i < managerSelection.length; i++)
+      {
+        var item = this._getDataFromRow(managerSelection[i]);
+
+        if (item != null) {
+          newSelection.push(item);
+        }
       }
 
       this.__replaceSelection(newSelection);

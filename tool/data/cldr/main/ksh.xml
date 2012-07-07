@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6610 $"/>
+		<generation date="$Date: 2012-02-27 01:50:26 +0100 (Mon, 27 Feb 2012) $"/>
 		<language type="ksh"/>
 	</identity>
 	<fallback draft="unconfirmed">de_DE nl nds en</fallback>
@@ -85,7 +85,8 @@
 			<language type="km" draft="unconfirmed">Khmer</language>
 			<language type="kn" draft="unconfirmed">Kannada</language>
 			<language type="ko" draft="unconfirmed">Korrejaanesch</language>
-			<language type="ks" draft="unconfirmed">Kschamieresch</language>
+            <language type="ks" draft="unconfirmed">Kschamieresch</language>
+            <language type="ksh" draft="unconfirmed">Kölsch</language>
 			<language type="ku" draft="unconfirmed">Kurdesch</language>
 			<language type="ky" draft="unconfirmed">Kirjiisesch</language>
 			<language type="la" draft="unconfirmed">Lateijnesch</language>
@@ -246,7 +247,6 @@
 			<territory type="054" draft="unconfirmed">Mellaneesije</territory>
 			<territory type="057" draft="unconfirmed">de Rejohn vun Mikroneeseje</territory>
 			<territory type="061" draft="unconfirmed">Polineesije</territory>
-			<territory type="062" draft="unconfirmed">Söd-Meddel-Aasije</territory>
 			<territory type="142" draft="unconfirmed">Aasije</territory>
 			<territory type="143" draft="unconfirmed">Meddelaasije</territory>
 			<territory type="145" draft="unconfirmed">Wäß-Aasije</territory>
@@ -254,7 +254,6 @@
 			<territory type="151" draft="unconfirmed">Oß-Europpa</territory>
 			<territory type="154" draft="unconfirmed">Nood-Europpa</territory>
 			<territory type="155" draft="unconfirmed">Wäß-Europpa</territory>
-			<territory type="172" draft="unconfirmed">dä Kommenwälth</territory>
 			<territory type="419" draft="unconfirmed">Lateinamärrika</territory>
 			<territory type="AC" draft="unconfirmed">Aßension</territory>
 			<territory type="AD" draft="unconfirmed">Andorra</territory>
@@ -574,7 +573,6 @@
 			<type type="coptic" key="calendar" draft="unconfirmed">kopttesche Kaländer</type>
 			<type type="deva" key="numbers" draft="unconfirmed">Devanagari-Zeffere</type>
 			<type type="dictionary" key="collation" draft="unconfirmed">zoteert wi em Wööterbooch</type>
-			<type type="direct" key="collation" draft="unconfirmed">diräk zoteert</type>
 			<type type="ducet" key="collation" draft="unconfirmed">standattmääßesch zoteert nohm Unicode</type>
 			<type type="ethi" key="numbers" draft="unconfirmed">ätejoopesche Zahle</type>
 			<type type="ethiopic" key="calendar" draft="unconfirmed">ätejoopesche Kaländer</type>
@@ -825,7 +823,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d" draft="unconfirmed">d</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="unconfirmed">EEE, 'dä' d.</dateFormatItem>
+						<dateFormatItem id="Ed" draft="unconfirmed">E, 'dä' d.</dateFormatItem>
 						<dateFormatItem id="hm" draft="unconfirmed">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm" draft="unconfirmed">H:mm</dateFormatItem>
 						<dateFormatItem id="hms" draft="unconfirmed">h:mm:ss a</dateFormatItem>
@@ -1131,39 +1129,15 @@
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<generic draft="unconfirmed">Söd-Affrekaanesche Ziggzohn</generic>
-					<standard draft="unconfirmed">Söd-Affrekaanesche Shtandatt-Ziggzohn</standard>
+					<standard draft="unconfirmed">Söd-Affrekaanesche Ziggzohn</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
+					<generic draft="unconfirmed">Wäß-Affrekaanesche Ziggzohn</generic>
 					<standard draft="unconfirmed">Wäß-Affrekaanesche Ziggzohn</standard>
-					<daylight draft="unconfirmed">Söd-Affrekaanesche Sommerzigg</daylight>
+					<daylight draft="unconfirmed">Wäß-Affrekaanesche Sommerzigg</daylight>
 				</long>
-			</metazone>
-			<metazone type="Azores">
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
-			</metazone>
-			<metazone type="Cape_Verde">
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
-			</metazone>
-			<metazone type="Chamorro">
-				<long>
-					<generic draft="unconfirmed">Zick vun de Nood-Marijanne-Enselle</generic>
-				</long>
-				<short>
-					<generic draft="unconfirmed">Zick vun de Nood-Marijanne-Enselle</generic>
-				</short>
-			</metazone>
-			<metazone type="Christmas">
-				<short>
-					<standard draft="unconfirmed">CXZ</standard>
-				</short>
-			</metazone>
-			<metazone type="Cocos">
-				<short>
-					<standard draft="unconfirmed">CCZ</standard>
-				</short>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
@@ -1171,71 +1145,44 @@
 					<daylight draft="unconfirmed">Meddel-Europpa sing Summerzick</daylight>
 				</long>
 				<short>
-					<standard draft="unconfirmed">MEZ</standard>
-					<daylight draft="unconfirmed">MESZ</daylight>
+					<generic>MEZ</generic>
+					<standard>MEZ</standard>
+					<daylight>MESZ</daylight>
 				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
+					<generic draft="unconfirmed">Zick vun Oß-Europpa</generic>
 					<standard draft="unconfirmed">Zick vun Oß-Europpa</standard>
 					<daylight draft="unconfirmed">Summerzick vun Oß-Europpa</daylight>
 				</long>
 				<short>
-					<standard draft="unconfirmed">OEZ</standard>
-					<daylight draft="unconfirmed">OESZ</daylight>
+					<generic>OEZ</generic>
+					<standard>OEZ</standard>
+					<daylight>OESZ</daylight>
 				</short>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
+					<generic draft="unconfirmed">Weß-Europpa sing Zick</generic>
 					<standard draft="unconfirmed">Weß-Europpa sing Zick</standard>
 					<daylight draft="unconfirmed">Weß-Europpa sing Summerzick</daylight>
 				</long>
 				<short>
-					<standard draft="unconfirmed">WEZ</standard>
-					<daylight draft="unconfirmed">WESZ</daylight>
-				</short>
-				<commonlyUsed draft="unconfirmed">true</commonlyUsed>
-			</metazone>
-			<metazone type="French_Southern">
-				<short>
-					<standard draft="unconfirmed">TFZ</standard>
+					<generic>WEZ</generic>
+					<standard>WEZ</standard>
+					<daylight>WESZ</daylight>
 				</short>
 			</metazone>
 			<metazone type="GMT">
 				<long>
 					<standard draft="unconfirmed">Greenwich Standat-Zick</standard>
 				</long>
-				<commonlyUsed draft="unconfirmed">true</commonlyUsed>
 			</metazone>
 			<metazone type="Indian_Ocean">
 				<long>
 					<standard draft="unconfirmed">dem Indische Ozejan sing Zick</standard>
 				</long>
-				<short>
-					<standard draft="unconfirmed">IOZ</standard>
-				</short>
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
-			</metazone>
-			<metazone type="Maldives">
-				<short>
-					<standard draft="unconfirmed">MVZ</standard>
-				</short>
-			</metazone>
-			<metazone type="Mauritius">
-				<short>
-					<standard draft="unconfirmed">MUZ</standard>
-					<daylight draft="unconfirmed">MUSZ</daylight>
-				</short>
-			</metazone>
-			<metazone type="Reunion">
-				<short>
-					<standard draft="unconfirmed">REZ</standard>
-				</short>
-			</metazone>
-			<metazone type="Seychelles">
-				<short>
-					<standard draft="unconfirmed">SCZ</standard>
-				</short>
 			</metazone>
 		</timeZoneNames>
 	</dates>
@@ -1252,28 +1199,28 @@
 			<infinity draft="unconfirmed">∞</infinity>
 			<nan draft="unconfirmed">¤¤¤</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern draft="unconfirmed">#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern draft="unconfirmed">#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern draft="unconfirmed">#,##0 %</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern draft="unconfirmed">#,##0.00 ¤</pattern>

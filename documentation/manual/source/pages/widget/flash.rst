@@ -21,7 +21,7 @@ Preview Image
 Description
 -----------
 
-A flash movie can be controlled in a certain extent directly from JavaScript with a `number of commands <http://www.adobe.com/support/flash/publishexport/scriptingwithflash/scriptingwithflash_03.html>`_.
+A flash movie can be controlled to a certain extent directly from JavaScript with a number of commands.
 
 These commands do not cover all Flash commands, so if you need more functionality you have to fuse an ActionScript with the Flash movie and start using the ExternalInterface to communicate.
 

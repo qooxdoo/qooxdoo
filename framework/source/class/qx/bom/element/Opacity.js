@@ -64,7 +64,7 @@
  * in some browsers). Reduced class dependencies for optimal size and
  * performance.
  */
-qx.Class.define("qx.bom.element.Opacity",
+qx.Bootstrap.define("qx.bom.element.Opacity",
 {
   /*
   *****************************************************************************

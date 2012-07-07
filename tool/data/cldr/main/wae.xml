@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5953 $"/>
-		<generation date="$Date: 2011-07-04 18:22:55 -0500 (Mon, 04 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="wae"/>
 	</identity>
 	<localeDisplayNames>
@@ -724,7 +724,7 @@
 				</dateFormats>
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="EEEd" draft="unconfirmed">EEE d.</dateFormatItem>
+						<dateFormatItem id="Ed" draft="unconfirmed">E d.</dateFormatItem>
 						<dateFormatItem id="h" draft="unconfirmed">h a</dateFormatItem>
 						<dateFormatItem id="hm" draft="unconfirmed">h:mm a</dateFormatItem>
 						<dateFormatItem id="hms" draft="unconfirmed">h:mm:ss a</dateFormatItem>
@@ -735,7 +735,7 @@
 						<dateFormatItem id="MMMEd" draft="unconfirmed">E, d. MMM</dateFormatItem>
 						<dateFormatItem id="yMMM" draft="unconfirmed">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd" draft="unconfirmed">d. MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="unconfirmed">EEE, d. MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="unconfirmed">E, d. MMM y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="unconfirmed">{0} - {1}</intervalFormatFallback>
@@ -1029,28 +1029,42 @@
 					<standard draft="unconfirmed">Atlantiši Standardzit</standard>
 					<daylight draft="unconfirmed">Atlantiši Summerzit</daylight>
 				</long>
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<standard draft="unconfirmed">Mitteleuropäiši Zit</standard>
+					<generic draft="unconfirmed">Mitteleuropäiši Zit</generic>
+					<standard draft="unconfirmed">Mitteleuropäiši Standardzit</standard>
 					<daylight draft="unconfirmed">Mitteleuropäiši Summerzit</daylight>
 				</long>
-				<commonlyUsed draft="unconfirmed">true</commonlyUsed>
+				<short>
+					<generic draft="unconfirmed">MEZ</generic>
+					<standard draft="unconfirmed">MEZ</standard>
+					<daylight draft="unconfirmed">MESZ</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<standard draft="unconfirmed">Ošteuropäiši Zit</standard>
+					<generic draft="unconfirmed">Ošteuropäiši Zit</generic>
+					<standard draft="unconfirmed">Ošteuropäiši Standardzit</standard>
 					<daylight draft="unconfirmed">Ošteuropäiši Summerzit</daylight>
 				</long>
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
+				<short>
+					<generic draft="unconfirmed">OEZ</generic>
+					<standard draft="unconfirmed">OEZ</standard>
+					<daylight draft="unconfirmed">OESZ</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<standard draft="unconfirmed">Wešteuropäiši Zit</standard>
+					<generic draft="unconfirmed">Wešteuropäiši Zit</generic>
+					<standard draft="unconfirmed">Wešteuropäiši Standardzit</standard>
 					<daylight draft="unconfirmed">Wešteuropäiši Summerzit</daylight>
 				</long>
-				<commonlyUsed draft="unconfirmed">false</commonlyUsed>
+				<short>
+					<generic draft="unconfirmed">WEZ</generic>
+					<standard draft="unconfirmed">WEZ</standard>
+					<daylight draft="unconfirmed">WESZ</daylight>
+				</short>
 			</metazone>
 		</timeZoneNames>
 	</dates>
@@ -1059,7 +1073,7 @@
 			<decimal draft="unconfirmed">,</decimal>
 			<group draft="unconfirmed">’</group>
 		</symbols>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<unitPattern count="one" draft="unconfirmed">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>

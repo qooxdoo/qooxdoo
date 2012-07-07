@@ -71,10 +71,10 @@ qx.Class.define("showcase.page.theme.Page",
     },
 
     __manual : {
-      "pages/gui_toolkit/ui_theming.html": "Theming",
-      "pages/gui_toolkit/ui_appearance.html": "Appearance",
-      "pages/gui_toolkit/ui_custom_themes.html": "Custom themes",
-      "pages/gui_toolkit/ui_decorators.html": "Decorators"
+      "pages/desktop/ui_theming.html": "Theming",
+      "pages/desktop/ui_appearance.html": "Appearance",
+      "pages/desktop/ui_custom_themes.html": "Custom themes",
+      "pages/desktop/ui_decorators.html": "Decorators"
     },
 
     __demos : {

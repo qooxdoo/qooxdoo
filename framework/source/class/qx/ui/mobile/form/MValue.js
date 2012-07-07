@@ -23,8 +23,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The mixin contains all functionality to provide a value property for input
  * widgets.
  */

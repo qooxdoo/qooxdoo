@@ -52,9 +52,6 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     this.addListener("click", this._onClick);
     this.addListener("keypress", this._onKeyPress);
 
-    // @deprecated since 1.6: Please use _onClick instead.
-    qx.log.Logger.deprecateMethodOverriding(this, qx.ui.menu.AbstractButton, "_onMouseUp");
-
     // Add command listener
     this.addListener("changeCommand", this._onChangeCommand, this);
   },
@@ -102,6 +99,16 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       themeable : true,
       nullable : true,
       event: "changeIcon"
+    },
+
+    /** Indicates whether the label for the command (shortcut) should be visible or not. */
+    showCommandLabel :
+    {
+      check : "Boolean",
+      apply : "_applyShowCommandLabel",
+      themeable : true,
+      init : true,
+      event: "changeShowCommandLabel"
     }
   },
 
@@ -142,6 +149,9 @@ qx.Class.define("qx.ui.menu.AbstractButton",
         case "shortcut":
           control = new qx.ui.basic.Label;
           control.setAnonymous(true);
+          if (!this.getShowCommandLabel()) {
+            control.exclude();
+          }
           this._add(control, {column:2});
           break;
 
@@ -215,16 +225,6 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Event listener for mouseup event
-     *
-     * @deprecated since 1.6: Please use _onClick instead.
-     * @param e {qx.event.type.Mouse} mouseup event
-     */
-    _onMouseUp : function(e) {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
-    },
 
 
     /**
@@ -338,6 +338,16 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       else
       {
         this._excludeChildControl("arrow");
+      }
+    },
+
+    // property apply
+    _applyShowCommandLabel : function(value, old)
+    {
+      if (value) {
+        this._showChildControl("shortcut");
+      } else { 
+        this._excludeChildControl("shortcut");
       }
     }
   },

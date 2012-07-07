@@ -26,7 +26,7 @@
 qx.Class.define("qx.test.ui.embed.Flash",
 {
   extend : qx.test.ui.LayoutTestCase,
-  include : qx.dev.unit.MMock,
+  include : [qx.dev.unit.MMock, qx.dev.unit.MRequirements],
 
   statics :
   {
@@ -51,6 +51,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
 
     setUp : function()
     {
+      this.require(["plugin.flash"]);
       this.flush();
       this.__params = {
         wmode : "opaque",

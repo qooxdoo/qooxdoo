@@ -86,7 +86,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       widget.focus();
       this.flush();
       this.assertEquals("", this.__getVisibleValueOf(widget), "wrong visible value after focus");
-      this.assertFalse(this.__isPlaceholderVisible(widget));
+      this.assertFalse(this.__isPlaceholderVisible(widget), "1");
 
       // test focus out
       this.getRoot().focus();
@@ -97,12 +97,12 @@ qx.Class.define("qx.test.ui.form.Placeholder",
         this.resume(function() {
           this.getRoot().focus();
           this.flush();
-          this.assertTrue(this.__isPlaceholderVisible(widget));
+          this.assertTrue(this.__isPlaceholderVisible(widget), "2");
           this.assertEquals("abc", this.__getPlaceholderValueOf(widget), "wrong visible value after blur");
           // get rid of the widget
           widget.destroy();
         }, this);
-      }, 0, this, null, 300);
+      }, 0, this, null, 500);
 
       this.wait();
     },
@@ -196,13 +196,14 @@ qx.Class.define("qx.test.ui.form.Placeholder",
         var contentElem;
         if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
           contentElem = widget.getContentElement();
-          return widget.getValue() == null &&
+          return (widget.getValue() == null || widget.getValue() == "") &&
             contentElem.getAttribute("placeholder") != "" &&
             contentElem.getAttribute("placeholder") != null &&
             !qx.ui.core.FocusHandler.getInstance().isFocused(widget);
         } else if (this.__hasTextfieldChildControl(widget)) {
           contentElem = widget.getChildControl("textfield").getContentElement();
-          return widget.getChildControl("textfield").getValue() == null &&
+          return (widget.getChildControl("textfield").getValue() == null ||
+            widget.getChildControl("textfield").getValue() == "") &&
             contentElem.getAttribute("placeholder") != "" &&
             contentElem.getAttribute("placeholder") != null &&
             !qx.ui.core.FocusHandler.getInstance().isFocused(widget);

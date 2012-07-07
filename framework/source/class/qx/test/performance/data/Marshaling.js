@@ -19,7 +19,7 @@
 qx.Class.define("qx.test.performance.data.Marshaling",
 {
   extend : qx.dev.unit.TestCase,
-  include : qx.test.performance.MMeasure,
+  include : qx.dev.unit.MMeasure,
 
   members :
   {

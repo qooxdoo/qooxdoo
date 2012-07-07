@@ -41,7 +41,10 @@ qx.Class.define("mobileshowcase.page.Tab",
     {
       this.base(arguments);
 
-      this.add(this.__createTabBar());
+      var tabBar = this.__createTabBar();
+
+      // Default add TabBar after NavigationBar.
+      this.addAfterNavigationBar(tabBar);
     },
 
 
@@ -53,19 +56,37 @@ qx.Class.define("mobileshowcase.page.Tab",
     __createTabBar : function()
     {
       var tabBar = new qx.ui.mobile.tabbar.TabBar();
-      var tabButton1 = new qx.ui.mobile.tabbar.TabButton("Tab 1");
 
-      tabBar.add(tabButton1);
-      tabButton1.setView(this.__createView("View 1"));
-      var tabButton2 = new qx.ui.mobile.tabbar.TabButton("Tab 2");
-      tabButton2.setView(this.__createView("View 2"));
-      tabBar.add(tabButton2);
-      var tabButton3 = new qx.ui.mobile.tabbar.TabButton("Tab 3");
-      tabButton3.setView(this.__createView("View 3"));
-      tabBar.add(tabButton3);
-      var tabButton4 = new qx.ui.mobile.tabbar.TabButton("Tab 4");
-      tabButton4.setView(this.__createView("View 4"));
+      var view1 = this.__createView("<b>qx.Desktop</b><br/><br/>Create desktop oriented applications. Features a rich and extendable set of widgets. No HTML/CSS knowledge required.");
+      var view2 = this.__createView("<b>qx.Mobile</b><br/><br/>Create mobile apps that run on all major mobile operating systems, without writing any HTML.");
+      var view3 = this.__createView("<b>qx.Server</b><br/><br/>Use the same OOP pattern known from the client side, reuse code and generate files you can deploy in your server environment.");
+      var view4 = this.__createView("<b>qx.Website</b><br/><br/>A cross-browser DOM manipulation library to enhance websites with a rich user experience.");
+
+      view1.addCssClass("view1");
+      view2.addCssClass("view2");
+      view3.addCssClass("view3");
+      view4.addCssClass("view4");
+
+      var tabButton1 = new qx.ui.mobile.tabbar.TabButton("Desktop");
+      tabButton1.setView(view1);
+
+      var tabButton2 = new qx.ui.mobile.tabbar.TabButton("Mobile");
+      tabButton2.setView(view2);
+
+      var tabButton3 = new qx.ui.mobile.tabbar.TabButton("Server");
+      tabButton3.setView(view3);
+
+      var tabButton4 = new qx.ui.mobile.tabbar.TabButton("Website");
+      tabButton4.setView(view4);
+
       tabBar.add(tabButton4);
+      tabBar.add(tabButton2);
+      tabBar.add(tabButton3);
+      tabBar.add(tabButton1);
+
+
+
+
       return tabBar;
     },
 
@@ -87,7 +108,7 @@ qx.Class.define("mobileshowcase.page.Tab",
     // overridden
     _back : function()
     {
-     qx.ui.mobile.navigation.Manager.getInstance().executeGet("/", {reverse:true});
+      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

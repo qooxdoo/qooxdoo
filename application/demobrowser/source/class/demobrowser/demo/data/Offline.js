@@ -103,7 +103,7 @@ qx.Class.define("demobrowser.demo.data.Offline",
        * ********************************************* */
       var description = new qx.ui.basic.Label();
       description.setRich(true);
-      description.setWidth(260);
+      description.setWidth(300);
       description.setValue(
         "<b>Offline data store</b><br/>"
         + "The added data will be keept on reload. Just add or remove strings "

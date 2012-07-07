@@ -1,0 +1,10 @@
+\bqx\.bom\.Element\.getHelperElement\b=qx.dom.Element.getHelperElement
+\bqx\.bom\.Element\.create\b=qx.dom.Element.create
+\bqx\.bom\.Element\.empty\b=qx.dom.Element.empty
+\bqx\.event\.handler\.Keyboard\.isValidKeyIdentifier\b=qx.event.util.Keyboard.isValidKeyIdentifier
+\bqx\.event\.handler\.Keyboard\.isPrintableKeyIdentifier\b=qx.event.util.Keyboard.isPrintableKeyIdentifier
+
+\bqx\.disposerDebugLevel\b=qx.debug.dispose.level
+\bqx\.propertyDebugLevel\b=qx.debug.property.level
+\bqx\.ioRemoteDebug\b=qx.debug.io.remote
+\bqx\.ioRemoteDebugData\b=qx.debug.io.remote.data

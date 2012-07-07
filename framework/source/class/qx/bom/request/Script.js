@@ -22,9 +22,12 @@
  * <a href="http://www.w3.org/TR/XMLHttpRequest/">XmlHttpRequest</a>.
  *
  * The script loader can be used to load scripts from arbitrary sources.
+ * <span class="desktop">
  * For JSONP requests, consider the {@link qx.bom.request.Jsonp} transport
  * that derives from the script loader.
+ * </span>
  *
+ * <div class="desktop">
  * Example:
  *
  * <pre class="javascript">
@@ -37,14 +40,18 @@
  *  req.open("GET", url);
  *  req.send();
  * </pre>
- *
- * Implements {@link qx.bom.request.IRequest}.
+ * </div>
  */
 
 /* ************************************************************************
-
 #ignore(qx.core.Environment)
-
+#require(qx.bom.request.Script#_success)
+#require(qx.bom.request.Script#abort)
+#require(qx.bom.request.Script#dispose)
+#require(qx.bom.request.Script#getAllResponseHeaders)
+#require(qx.bom.request.Script#getResponseHeader)
+#require(qx.bom.request.Script#setDetermineSuccess)
+#require(qx.bom.request.Script#setRequestHeader)
 ************************************************************************ */
 
 qx.Bootstrap.define("qx.bom.request.Script",
@@ -61,12 +68,36 @@ qx.Bootstrap.define("qx.bom.request.Script",
     this.__headElement = document.head || document.getElementsByTagName( "head" )[0] ||
                          document.documentElement;
 
+    this._emitter = new qx.event.Emitter();
+
     // BUGFIX: Browsers not supporting error handler
     // Set default timeout to capture network errors
     //
     // Note: The script is parsed and executed, before a "load" is fired.
     this.timeout = this.__supportsErrorHandler() ? 0 : 15000;
   },
+
+
+  events : {
+    /** Fired at ready state changes. */
+    "readystatechange" : "qx.bom.request.Script",
+
+    /** Fired on error. */
+    "error" : "qx.bom.request.Script",
+
+    /** Fired at loadend. */
+    "loadend" : "qx.bom.request.Script",
+
+    /** Fired on timeouts. */
+    "timeout" : "qx.bom.request.Script",
+
+    /** Fired when the request is aborted. */
+    "abort" : "qx.bom.request.Script",
+
+    /** Fired on successful retrieval. */
+    "load" : "qx.bom.request.Script"
+  },
+
 
   members :
   {
@@ -114,6 +145,21 @@ qx.Bootstrap.define("qx.bom.request.Script",
      */
     __determineSuccess: null,
 
+
+    /**
+     * Add an event listener for the given event name.
+     *
+     * @param name {String} The name of the event to listen to.
+     * @param listener {function} The function to execute when the event is fired
+     * @param ctx {?var} The context of the listener.
+     * @return {qx.bom.request.Script} Self for chaining.
+     */
+    on: function(name, listener, ctx) {
+      this._emitter.on(name, listener, ctx);
+      return this;
+    },
+
+
     /**
      * Initializes (prepares) request.
      *
@@ -140,7 +186,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
           "url: " + url);
       }
 
-      this.__readyStateChange(1);
+      this._readyStateChange(1);
     },
 
     /**
@@ -156,6 +202,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
      *  The name of the header whose value is to be set.
      * @param value {String}
      *  The value to set as the body of the header.
+     * @return {qx.bom.request.Script} Self for chaining.
      */
     setRequestHeader: function(key, value) {
       if (this.__disposed) {
@@ -170,10 +217,12 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
       param[key] = value;
       this.__url = qx.util.Uri.appendParamsToUrl(this.__url, param);
+      return this;
     },
 
     /**
      * Sends request.
+     * @return {qx.bom.request.Script} Self for chaining.
      */
     send: function() {
       if (this.__disposed) {
@@ -198,13 +247,15 @@ qx.Bootstrap.define("qx.bom.request.Script",
       // The resource is loaded once the script is in DOM.
       // Assume HEADERS_RECEIVED and LOADING and dispatch async.
       window.setTimeout(function() {
-        that.__readyStateChange(2);
-        that.__readyStateChange(3);
+        that._readyStateChange(2);
+        that._readyStateChange(3);
       });
+      return this;
     },
 
     /**
      * Aborts request.
+     * @return {qx.bom.request.Script} Self for chaining.
      */
     abort: function() {
       if (this.__disposed) {
@@ -213,8 +264,20 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
       this.__abort = true;
       this.__disposeScriptElement();
-      this.onabort();
+      this._emit("abort");
+      return this;
     },
+
+
+    /**
+     * Helper to emit events and call the callback methods.
+     * @param event {String} The name of the event.
+     */
+    _emit: function(event) {
+      this["on" + event]();
+      this._emitter.emit(event, this);
+    },
+
 
     /**
      * Event handler for an event that fires at every state change.
@@ -291,7 +354,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       }
 
       if (this.__environmentGet("qx.debug")) {
-        qx.log.Logger.debug("Response header cannot be determined for " +
+        qx.Bootstrap.debug("Response header cannot be determined for " +
           "requests made with script transport.");
       }
       return "unknown";
@@ -309,7 +372,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       }
 
       if (this.__environmentGet("qx.debug")) {
-        qx.log.Logger.debug("Response headers cannot be determined for" +
+        qx.Bootstrap.debug("Response headers cannot be determined for" +
           "requests made with script transport.");
       }
 
@@ -326,8 +389,6 @@ qx.Bootstrap.define("qx.bom.request.Script",
      *
      */
     setDetermineSuccess: function(check) {
-      qx.core.Assert.assertFunction(check);
-
       this.__determineSuccess = check;
     },
 
@@ -384,13 +445,13 @@ qx.Bootstrap.define("qx.bom.request.Script",
       this.__failure();
 
       if (!this.__supportsErrorHandler()) {
-        this.onerror();
+        this._emit("error");
       }
 
-      this.ontimeout();
+      this._emit("timeout");
 
       if (!this.__supportsErrorHandler()) {
-        this.onloadend();
+        this._emit("loadend");
       }
     },
 
@@ -411,7 +472,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       // When handling "readystatechange" event, skip if readyState
       // does not signal loaded script
       if (this.__environmentGet("engine.name") === "mshtml" &&
-          this.__environmentGet("engine.version") < 9) {
+          this.__environmentGet("browser.documentmode") < 9) {
         if (!(/loaded|complete/).test(script.readyState)) {
           return;
         } else {
@@ -446,10 +507,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
       }
 
       window.setTimeout(function() {
-        that.__success();
-        that.__readyStateChange(4);
-        that.onload();
-        that.onloadend();
+        that._success();
+        that._readyStateChange(4);
+        that._emit("load");
+        that._emit("loadend");
       });
     },
 
@@ -458,8 +519,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
      */
     _onNativeError: function() {
       this.__failure();
-      this.onerror();
-      this.onloadend();
+      this._emit("error");
+      this._emit("loadend");
     },
 
     /*
@@ -533,15 +594,15 @@ qx.Bootstrap.define("qx.bom.request.Script",
      *
      * @param readyState {Number} The desired readyState
      */
-    __readyStateChange: function(readyState) {
+    _readyStateChange: function(readyState) {
       this.readyState = readyState;
-      this.onreadystatechange();
+      this._emit("readystatechange");
     },
 
     /**
      * Handle success.
      */
-    __success: function() {
+    _success: function() {
       this.__disposeScriptElement();
       this.readyState = 4;
 
@@ -570,7 +631,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
      */
     __supportsErrorHandler: function() {
       var isLegacyIe = this.__environmentGet("engine.name") === "mshtml" &&
-        this.__environmentGet("engine.version") < 9;
+        this.__environmentGet("browser.documentmode") < 9;
 
       var isOpera = this.__environmentGet("engine.name") === "opera";
 
@@ -593,7 +654,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       // Legacy IEs do not fire the "load" event for script elements.
       // Instead, they support the "readystatechange" event
       if (this.__environmentGet("engine.name") === "mshtml" &&
-          this.__environmentGet("engine.version") < 9) {
+          this.__environmentGet("browser.documentmode") < 9) {
         script.onreadystatechange = this.__onNativeLoadBound;
       }
 
@@ -624,8 +685,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
           return qx.bom.client.Engine.getName();
         }
 
-        if (key === "engine.version") {
-          return qx.bom.client.Engine.getVersion();
+        if (key === "browser.documentmode") {
+          return qx.bom.client.Browser.getDocumentMode();
         }
 
         if (key == "qx.debug.io") {

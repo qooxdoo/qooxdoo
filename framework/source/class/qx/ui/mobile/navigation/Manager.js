@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Very basic navigation manager. Still work in progress.
  *
  * Define routes to react on certain GET / POST / DELETE / PUT operations.
@@ -56,6 +54,14 @@
  *     model.loadAddress(data.params.id);
  *   },this);
  *
+ *   // Alternative you can use regExp for a route
+ *   nm.onGet(/address\/(.*)/, function(data)
+ *   {
+ *     addressPage.show();
+ *     model.loadAddress(data.params.0);
+ *   },this);
+ *
+ *
  *   // make sure that the data is always loaded
  *   nm.onGet("/address.*", function(data)
  *   {
@@ -84,7 +90,6 @@
 qx.Class.define("qx.ui.mobile.navigation.Manager",
 {
   extend : qx.core.Object,
-  type : "singleton",
 
 
  /*
@@ -99,14 +104,18 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     this.__routes = {},
     this.__routesIdCount = 0;
     this.__operationToIdMapping = {};
-    this.__history = [];
+    this.__back = [];
+    this.__forward = [];
     this.__currentGetPath = null;
 
 
-    this.__navigationHandler = new qx.ui.mobile.navigation.Handler(qx.ui.mobile.navigation.Manager.DEFAULT_PATH);
-
-    this.__navigationHandler.addListener("changeHash", this.__onChangeHash, this);
-    this.__navigationHandler.setHash(this.__navigationHandler.getLocationHash());
+    this.__navigationHandler = qx.bom.History.getInstance();
+    this.__navigationHandler.addListener("changeState", this.__onChangeHash, this);
+    var path = this.__navigationHandler.getState();
+    if (path == "" || path == null){
+      path = qx.ui.mobile.navigation.Manager.DEFAULT_PATH;
+    }
+    this._executeGet(path, null, true);
   },
 
 
@@ -120,7 +129,23 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
   statics :
   {
-    DEFAULT_PATH : "/"
+
+    DEFAULT_PATH : "/",
+
+
+    /**
+     * Get the singleton instance of the navigation manager.
+     *
+     * @return {History}
+     */
+    getInstance : function()
+    {
+      if (!this.$$instance)
+      {
+        this.$$instance = new qx.ui.mobile.navigation.Manager();
+      }
+      return this.$$instance;
+    }
   },
 
 
@@ -141,7 +166,8 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     __operationToIdMapping : null,
     __currentGetPath : null,
 
-    __history : null,
+    __back : null,
+    __forward : null,
 
 
     /**
@@ -280,13 +306,46 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     __onChangeHash : function(evt)
     {
       var path = evt.getData();
+      if (path == "" || path == null){
+        path = qx.ui.mobile.navigation.Manager.DEFAULT_PATH;
+      }
 
       if (path != this.__currentGetPath)
       {
-        this.executeGet(path, null);
+        this._executeGet(path, null, true);
       }
     },
 
+
+    /**
+     * Helper function wich executes the get operation and informs all matching route handler.
+     *
+     * @param path {String} The path to execute
+     * @param customData {var} The given custom data that should be propagated
+     * @param fromEvent {Boolean} True if called by hashchange event. False if executeGet was called in runtime.
+     */
+    _executeGet : function(path, customData,fromEvent)
+    {
+      this.__currentGetPath = path;
+
+      var history = this.__getFromHistory(path);
+      if (history)
+      {
+        if (!customData)
+        {
+          customData = history.data.customData || {};
+          customData.fromHistory = true;
+          customData.action = history.action;
+          customData.fromEvent = fromEvent;
+        }
+      } else {
+        this.__addToHistory(path, customData);
+        this.__forward = [];
+      }
+
+      this.__navigationHandler.setState(path);
+      this._execute("get", path, null, customData);
+    },
 
     /**
      * Executes the get operation and informs all matching route handler.
@@ -296,23 +355,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      */
     executeGet : function(path, customData)
     {
-      this.__currentGetPath = path;
-
-      var entry = this.__getFromHistory(path);
-      if (entry)
-      {
-        this.debug("Path from history: " + path);
-        if (!customData)
-        {
-          customData = entry.customData || {};
-          customData.fromHistory = true;
-        }
-      } else {
-        this.__addToHistory(path, customData);
-      }
-
-      this.__navigationHandler.setHash(path);
-      this._execute("get", path, null, customData);
+      this._executeGet(path, customData);
     },
 
 
@@ -363,8 +406,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      */
     __addToHistory : function(path, customData)
     {
-      this.debug("Add path " + path + " to history");
-      this.__history.unshift({
+      this.__back.unshift({
         path : path,
         customData :customData
       });
@@ -379,16 +421,50 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      */
     __getFromHistory : function(path)
     {
-      var history = this.__history;
-      var length = history.length;
+      var back = this.__back;
+      var forward = this.__forward;
+      var found = false;
+
       var entry = null;
+      var length = back.length;
       for (var i = 0; i < length; i++)
       {
-        if (history[i].path == path)
+        if (back[i].path == path)
         {
-          entry = history[i];
-          history.splice(0,i);
+          entry = back[i];
+          var toForward = back.splice(0,i);
+          for (var a=0; a<toForward.length; a++){
+            forward.unshift(toForward[a]);
+          }
+          found = true;
           break;
+        }
+      }
+      if (found){
+        return {
+          data : entry,
+          action : "back"
+        }
+      }
+
+      var length = forward.length;
+      for (var i = 0; i < length; i++)
+      {
+        if (forward[i].path == path)
+        {
+          entry = forward[i];
+          var toBack = forward.splice(0,i+1);
+          for (var a=0; a<toBack.length; a++){
+            back.unshift(toBack[a]);
+          }
+          break;
+        }
+      }
+
+      if (entry){
+        return {
+          data : entry,
+          action : "forward"
         }
       }
       return entry;
@@ -408,7 +484,6 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      */
     _execute : function(operation, path, params, customData)
     {
-      this.debug("Execute " + operation + " for path " + path);
       var routeMatchedAny = false;
       var routes = this.__routes["any"];
       routeMatchedAny = this._executeRoutes(operation, path, routes, params, customData);
@@ -473,7 +548,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
         match.shift(); // first match is the whole path
         for (var i=0; i < match.length; i++)
         {
-          value = this._decode(match[i]);
+          value = match[i];
           param = route.params[i];
           if (param) {
             params[param] = value;
@@ -481,34 +556,9 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
             params[i] = value;
           }
         }
-        this.debug("Execute " + operation + " handler for path " + path + " and route " + route.regExp.toString());
         route.handler.call(route.scope, {path:path, params:params, customData:customData});
       }
       return match;
-    },
-
-
-    /**
-     * Encodes a given value.
-     *
-     * @param value {String} The value to encode
-     * @return {String} The encoded value
-     */
-    _encode : function(value)
-    {
-      return encodeURIComponent(value);
-    },
-
-
-    /**
-     * Decodes a given value.
-     *
-     * @param value {String} The value to decode
-     * @return {String} The decoded value
-     */
-    _decode : function(value)
-    {
-      return decodeURIComponent(value);
     },
 
 
@@ -534,8 +584,8 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
   destruct : function()
   {
-    this.__navigationHandler.removeListener("changeHash", this.__onChangeHash, this);
-    this.__history = this.__routes = this.__operationToIdMapping = null;
+    this.__navigationHandler.removeListener("changeState", this.__onChangeHash, this);
+    this.__back = this.__routes = this.__operationToIdMapping = null;
     this._disposeObjects("__navigationHandler");
   }
 });

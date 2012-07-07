@@ -102,3 +102,6 @@ msgstr "Deshacer"
 
 msgid "Week start:"
 msgstr "Inicio de semana:"
+
+msgid "qooxdoo"
+msgstr ""

@@ -46,9 +46,9 @@ qx.Class.define("demobrowser.demo.data.ListController",
       var list3 = new qx.ui.form.List();
 
       // add the widgets to the document
-      this.getRoot().add(list1, {left: 10, top: 80});
-      this.getRoot().add(list2, {left: 130, top: 80});
-      this.getRoot().add(list3, {left: 250, top: 80});
+      this.getRoot().add(list1, {left: 10, top: 110});
+      this.getRoot().add(list2, {left: 130, top: 110});
+      this.getRoot().add(list3, {left: 250, top: 110});
 
 
       // create the controller
@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.demo.data.ListController",
 
       // create a label for the selection
       var selectedLabel = new qx.ui.basic.Label("");
-      this.getRoot().add(selectedLabel, {left: 370, top: 80});
+      this.getRoot().add(selectedLabel, {left: 370, top: 110});
       // bind the label with single value binding to the current selection
       controller3.bind("selection[0]", selectedLabel, "value");
       // style the textfield
@@ -77,21 +77,21 @@ qx.Class.define("demobrowser.demo.data.ListController",
        * ********************************************* */
       var addItemButton = new qx.ui.form.Button("Add an item");
       addItemButton.setWidth(120);
-      this.getRoot().add(addItemButton, {left: 370, top: 110});
+      this.getRoot().add(addItemButton, {left: 370, top: 140});
       addItemButton.addListener("execute", function() {
         data.push("Item " + data.length);
       }, this);
 
       var removeItemButton = new qx.ui.form.Button("Remove an item");
       removeItemButton.setWidth(120);
-      this.getRoot().add(removeItemButton, {left: 370, top: 145});
+      this.getRoot().add(removeItemButton, {left: 370, top: 175});
       removeItemButton.addListener("execute", function() {
         data.pop();
       }, this);
 
       var logDataButton = new qx.ui.form.Button("Write data to log");
       logDataButton.setWidth(120);
-      this.getRoot().add(logDataButton, {left: 370, top: 180});
+      this.getRoot().add(logDataButton, {left: 370, top: 210});
       logDataButton.addListener("execute", function() {
         // open the console
         qx.log.appender.Console.show();

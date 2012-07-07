@@ -34,7 +34,7 @@
       ],
       "asset-let" : {
         "qx.icontheme" : ["Oxygen", "Tango"],
-        "qx.theme"     : ["Classic", "Modern", "Simple"]
+        "qx.theme"     : ["Classic", "Modern", "Simple", "Indigo"]
       },
       "cache" : { "compile" : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache" },
       "environment" : {
@@ -79,6 +79,12 @@
     ,"default-Simple" :
     {
       "let"     : {"DTHEME" : "qx.theme.Simple"},
+      "compile" : { "type"  : "${BUILDTYPE}" }
+    }
+    
+    ,"default-Indigo" :
+    {
+      "let"     : {"DTHEME" : "qx.theme.Indigo"},
       "compile" : { "type"  : "${BUILDTYPE}" }
     }
   }

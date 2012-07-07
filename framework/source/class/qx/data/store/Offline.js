@@ -47,9 +47,9 @@ qx.Class.define("qx.data.store.Offline",
     }
 
     if (storage == "session") {
-      this._storage = qx.bom.storage.Session.getInstance();
+      this._storage = qx.bom.Storage.getSession();
     } else {
-      this._storage = qx.bom.storage.Local.getInstance();
+      this._storage = qx.bom.Storage.getLocal();
     }
 
     this._marshaler = new qx.data.marshal.Json();

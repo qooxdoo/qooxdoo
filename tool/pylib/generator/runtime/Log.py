@@ -49,6 +49,7 @@ class Log(object):
 
         self.filter_pattern = ""
         self._inProgress = False
+        self.progress_indication = True
 
     ##
     # Prevent from getting pickled.
@@ -225,16 +226,18 @@ class Log(object):
     sigils_len = len(sigils)
 
     def dot(self, char='.', i=[0]):
-        self._inProgress = True
-        stream = sys.stdout
-        i[0] = (i[0] + 1) % self.sigils_len
-        stream.write("\b"+self.sigils[i[0]])
-        stream.flush()
+        if self.progress_indication:
+            self._inProgress = True
+            stream = sys.stdout
+            i[0] = (i[0] + 1) % self.sigils_len
+            stream.write("\b"+self.sigils[i[0]])
+            stream.flush()
 
     def dotclear(self, ok=' '):
         self._inProcess = False
         stream = sys.stdout
-        stream.write("\b"+ok)
+        msg = "\b" if self.progress_indication else "\n"
+        stream.write(msg+ok)
         stream.flush()
 
     def dot1(self, char='.'):

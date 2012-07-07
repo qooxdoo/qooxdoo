@@ -35,7 +35,6 @@ qx.Bootstrap.define("qx.bom.client.Device",
       "iPod" : "ipod",
       "iPad" : "ipad",
       "iPhone" : "iPhone",
-
       "PSP" : "psp",
       "PLAYSTATION 3" : "ps3",
       "Nintendo Wii" : "wii",
@@ -57,18 +56,68 @@ qx.Bootstrap.define("qx.bom.client.Device",
       for (var key in this.__ids) {
         str.push(key);
       }
-
       var reg = new RegExp("(" + str.join("|").replace(/\./g, "\.") + ")", "g");
       var match = reg.exec(navigator.userAgent);
 
       if (match && match[1]) {
         return qx.bom.client.Device.__ids[match[1]];
       }
+
       return "pc";
+    },
+
+
+    /**
+     * Determines on what type of device the application is running.
+     * Valid values are: "mobile", "tablet" or "desktop".
+     * @return {String} The device type name of determined device.
+     */
+    getType : function() {
+      return qx.bom.client.Device.detectDeviceType(navigator.userAgent);
+    },
+
+
+    /**
+     * Detects the device type, based on given userAgentString.
+     *
+     * @param userAgentString {String} userAgent parameter, needed for decision.
+     * @return {String} The device type name of determined device: "mobile","desktop","tablet"
+     */
+    detectDeviceType : function(userAgentString) {
+      if(qx.bom.client.Device.detectTabletDevice(userAgentString)){
+        return "tablet";
+      } else if (qx.bom.client.Device.detectMobileDevice(userAgentString)){
+        return "mobile";
+      }
+
+      return "desktop";
+    },
+
+
+    /**
+     * Detects if a device is a mobile phone. (Tablets excluded.)
+     * @param userAgentString {String} userAgent parameter, needed for decision.
+     * @return {Boolean} Flag which indicates whether it is a mobile device.
+     */
+    detectMobileDevice : function(userAgentString){
+        return /android.+mobile|ip(hone|od)|bada\/|blackberry|maemo|opera m(ob|in)i|fennec|NetFront|phone|psp|symbian|windows (ce|phone)|xda/i.test(userAgentString);
+    },
+
+
+    /**
+     * Detects if a device is a tablet device.
+     * @param userAgentString {String} userAgent parameter, needed for decision.
+     * @return {Boolean} Flag which indicates whether it is a tablet device.
+     */
+    detectTabletDevice : function(userAgentString){
+       return !(/Fennec|HTC.Magic|Nexus|android.+mobile/i.test(userAgentString)) && (/Android|ipad|tablet|playbook|silk|kindle|psp/i.test(userAgentString));
     }
+
   },
 
+
   defer : function(statics) {
-    qx.core.Environment.add("device.name", statics.getName);
+      qx.core.Environment.add("device.name", statics.getName);
+      qx.core.Environment.add("device.type", statics.getType);
   }
 });

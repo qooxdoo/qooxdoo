@@ -20,10 +20,10 @@
 /* ************************************************************************
 #ignore(YMap)
 #ignore(YAHOO_MAP_REG)
-#ignore(google.maps.Map)
+#ignore(google.maps)
+#ignore(google.maps)
 #ignore(google.maps.MapTypeId)
 #ignore(google.maps.event)
-#ignore(google.maps.LatLng)
 ************************************************************************ */
 
 /**

@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5905 $"/>
-		<generation date="$Date: 2011-06-15 23:14:13 -0500 (Wed, 15 Jun 2011) $"/>
+		<version number="$Revision: 6450 $"/>
+		<generation date="$Date: 2012-01-26 01:20:54 +0100 (Thu, 26 Jan 2012) $"/>
 		<language type="en"/>
 		<territory type="CA"/>
 	</identity>
@@ -42,9 +42,9 @@
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMMEd">E, d MMMM</dateFormatItem>
 						<dateFormatItem id="yMd">y-M-d</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, y-M-d</dateFormatItem>
+						<dateFormatItem id="yMEd">E, y-M-d</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM, y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM, y</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM-yy</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
@@ -134,7 +134,6 @@
 					<standard>NST</standard>
 					<daylight>NDT</daylight>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 		</timeZoneNames>
 	</dates>

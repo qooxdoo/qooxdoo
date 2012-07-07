@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#ignore(demobrowser.demo.data.store.Twitter)
+#ignore(demobrowser.demo.data.store)
 ************************************************************************ */
 
 /**
@@ -45,7 +45,7 @@ qx.Class.define("demobrowser.demo.data.ModelDebugging",
       embed.setWidth(500);
       embed.setHeight(200);
       embed.setOverflow("auto", "auto");
-      this.getRoot().add(embed, {left: 10, top: 80});
+      this.getRoot().add(embed, {left: 10, top: 110});
 
       // after the data has been loaded
       store.addListener("loaded", function() {

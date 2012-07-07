@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6610 $"/>
+		<generation date="$Date: 2012-02-27 01:50:26 +0100 (Mon, 27 Feb 2012) $"/>
 		<language type="ko"/>
 	</identity>
 	<localeDisplayNames>
@@ -664,7 +664,6 @@
 			<territory type="054">멜라네시아</territory>
 			<territory type="057">미크로네시아 지역</territory>
 			<territory type="061">폴리네시아</territory>
-			<territory type="062">중남 아시아</territory>
 			<territory type="142">아시아</territory>
 			<territory type="143">중앙 아시아</territory>
 			<territory type="145">서아시아</territory>
@@ -672,7 +671,6 @@
 			<territory type="151">동유럽</territory>
 			<territory type="154">북유럽</territory>
 			<territory type="155">서유럽</territory>
-			<territory type="172">독립 국가 연합</territory>
 			<territory type="419">라틴 아메리카</territory>
 			<territory type="AC" draft="contributed">어센션 섬</territory>
 			<territory type="AD">안도라</territory>
@@ -994,7 +992,6 @@
 			<type type="coptic" key="calendar">콥트력</type>
 			<type type="deva" key="numbers">데바나가리 숫자</type>
 			<type type="dictionary" key="collation">사전 정렬순</type>
-			<type type="direct" key="collation">순서</type>
 			<type type="ducet" key="collation">기본 유니코드 정렬 순서</type>
 			<type type="ethi" key="numbers">에티오피아 숫자</type>
 			<type type="ethiopic" key="calendar">에티오피아력</type>
@@ -1074,10 +1071,10 @@
 		<ellipsis type="medial">{0}...{1}</ellipsis>
 	</characters>
 	<delimiters>
-		<quotationStart>‘</quotationStart>
-		<quotationEnd>’</quotationEnd>
-		<alternateQuotationStart>“</alternateQuotationStart>
-		<alternateQuotationEnd>”</alternateQuotationEnd>
+		<quotationStart>“</quotationStart>
+		<quotationEnd>”</quotationEnd>
+		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -1114,7 +1111,8 @@
 					<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
 					<availableFormats>
 						<dateFormatItem id="d">d일</dateFormatItem>
-						<dateFormatItem id="EEEd">d일 (EEE)</dateFormatItem>
+						<dateFormatItem id="Ed">d일 (E)</dateFormatItem>
+						<dateFormatItem id="EEEEd">d일 EEEE</dateFormatItem>
 						<dateFormatItem id="Gy">G y년</dateFormatItem>
 						<dateFormatItem id="h">a h시</dateFormatItem>
 						<dateFormatItem id="H">H시</dateFormatItem>
@@ -1126,6 +1124,7 @@
 						<dateFormatItem id="M">M월</dateFormatItem>
 						<dateFormatItem id="Md">M. d.</dateFormatItem>
 						<dateFormatItem id="MEd">M. d. (E)</dateFormatItem>
+						<dateFormatItem id="MEEEEd">M. d. EEEE</dateFormatItem>
 						<dateFormatItem id="MMdd">MM. dd</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">MMM d일</dateFormatItem>
@@ -1135,14 +1134,14 @@
 						<dateFormatItem id="y">G y년</dateFormatItem>
 						<dateFormatItem id="yM">G y. M.</dateFormatItem>
 						<dateFormatItem id="yMd">G y. M. d.</dateFormatItem>
-						<dateFormatItem id="yMEd">G y. M. d. (EEE)</dateFormatItem>
+						<dateFormatItem id="yMEd">G y. M. d. (E)</dateFormatItem>
 						<dateFormatItem id="yMMM">G y년 MMM</dateFormatItem>
 						<dateFormatItem id="yMMMd">G y년 MMM d일</dateFormatItem>
-						<dateFormatItem id="yMMMEd">G y년 MMM d일 (EEE)</dateFormatItem>
+						<dateFormatItem id="yMMMEd">G y년 MMM d일 (E)</dateFormatItem>
 						<dateFormatItem id="yMMMEEEEd">G y년 MMM d일 EEEE</dateFormatItem>
 						<dateFormatItem id="yQ">G y년 Q분기</dateFormatItem>
 						<dateFormatItem id="yQQQ">G y년 QQQ</dateFormatItem>
-						<dateFormatItem id="yyMM">G YY. M.</dateFormatItem>
+						<dateFormatItem id="yyMM">G yy. M.</dateFormatItem>
 						<dateFormatItem id="yyMMM">G y년 MMM</dateFormatItem>
 						<dateFormatItem id="yyQ">G y년 Q분기</dateFormatItem>
 						<dateFormatItem id="yyyyMM">G y. MM</dateFormatItem>
@@ -1150,13 +1149,125 @@
 				</dateTimeFormats>
 			</calendar>
 			<calendar type="chinese">
+				<cyclicNameSets>
+					<cyclicNameSet type="years">
+						<cyclicNameContext type="format">
+							<cyclicNameWidth type="abbreviated">
+								<cyclicName type="1">갑자</cyclicName>
+								<cyclicName type="2">을축</cyclicName>
+								<cyclicName type="3">병인</cyclicName>
+								<cyclicName type="4">정묘</cyclicName>
+								<cyclicName type="5">무진</cyclicName>
+								<cyclicName type="6">기사</cyclicName>
+								<cyclicName type="7">경오</cyclicName>
+								<cyclicName type="8">신미</cyclicName>
+								<cyclicName type="9">임신</cyclicName>
+								<cyclicName type="10">계유</cyclicName>
+								<cyclicName type="11">갑술</cyclicName>
+								<cyclicName type="12">을해</cyclicName>
+								<cyclicName type="13">병자</cyclicName>
+								<cyclicName type="14">정축</cyclicName>
+								<cyclicName type="15">무인</cyclicName>
+								<cyclicName type="16">기묘</cyclicName>
+								<cyclicName type="17">경진</cyclicName>
+								<cyclicName type="18">신사</cyclicName>
+								<cyclicName type="19">임오</cyclicName>
+								<cyclicName type="20">계미</cyclicName>
+								<cyclicName type="21">갑신</cyclicName>
+								<cyclicName type="22">을유</cyclicName>
+								<cyclicName type="23">병술</cyclicName>
+								<cyclicName type="24">정해</cyclicName>
+								<cyclicName type="25">무자</cyclicName>
+								<cyclicName type="26">기축</cyclicName>
+								<cyclicName type="27">경인</cyclicName>
+								<cyclicName type="28">신묘</cyclicName>
+								<cyclicName type="29">임진</cyclicName>
+								<cyclicName type="30">계사</cyclicName>
+								<cyclicName type="31">갑오</cyclicName>
+								<cyclicName type="32">을미</cyclicName>
+								<cyclicName type="33">병신</cyclicName>
+								<cyclicName type="34">정유</cyclicName>
+								<cyclicName type="35">무술</cyclicName>
+								<cyclicName type="36">기해</cyclicName>
+								<cyclicName type="37">경자</cyclicName>
+								<cyclicName type="38">신축</cyclicName>
+								<cyclicName type="39">임인</cyclicName>
+								<cyclicName type="40">계묘</cyclicName>
+								<cyclicName type="41">갑진</cyclicName>
+								<cyclicName type="42">을사</cyclicName>
+								<cyclicName type="43">병오</cyclicName>
+								<cyclicName type="44">정미</cyclicName>
+								<cyclicName type="45">무신</cyclicName>
+								<cyclicName type="46">기유</cyclicName>
+								<cyclicName type="47">경술</cyclicName>
+								<cyclicName type="48">신해</cyclicName>
+								<cyclicName type="49">임자</cyclicName>
+								<cyclicName type="50">계축</cyclicName>
+								<cyclicName type="51">갑인</cyclicName>
+								<cyclicName type="52">을묘</cyclicName>
+								<cyclicName type="53">병진</cyclicName>
+								<cyclicName type="54">정사</cyclicName>
+								<cyclicName type="55">무오</cyclicName>
+								<cyclicName type="56">기미</cyclicName>
+								<cyclicName type="57">경신</cyclicName>
+								<cyclicName type="58">신유</cyclicName>
+								<cyclicName type="59">임술</cyclicName>
+								<cyclicName type="60">계해</cyclicName>
+							</cyclicNameWidth>
+						</cyclicNameContext>
+					</cyclicNameSet>
+				</cyclicNameSets>
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="contributed">y'x'G-Ml-d EEEE</pattern>
+							<pattern>U년 M월 d일 EEEE</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>U년 M월 d일</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>y. M. d.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>y. M. d.</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="d">d일</dateFormatItem>
+						<dateFormatItem id="Ed">d일 (E)</dateFormatItem>
+						<dateFormatItem id="EEEEd">d일 EEEE</dateFormatItem>
+						<dateFormatItem id="h">a h시</dateFormatItem>
+						<dateFormatItem id="H">H시</dateFormatItem>
+						<dateFormatItem id="hm">a h:mm</dateFormatItem>
+						<dateFormatItem id="hms">a h:mm:ss</dateFormatItem>
+						<dateFormatItem id="Hms">H시 m분 s초</dateFormatItem>
+						<dateFormatItem id="M">M월</dateFormatItem>
+						<dateFormatItem id="Md">M. d.</dateFormatItem>
+						<dateFormatItem id="MEd">M. d. (E)</dateFormatItem>
+						<dateFormatItem id="MEEEEd">M. d. EEEE</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">MMM d일</dateFormatItem>
+						<dateFormatItem id="MMMEd">MMM d일 (E)</dateFormatItem>
+						<dateFormatItem id="y">U년</dateFormatItem>
+						<dateFormatItem id="yM">U. M.</dateFormatItem>
+						<dateFormatItem id="yMd">U. M. d.</dateFormatItem>
+						<dateFormatItem id="yMEd">U. M. d. (E)</dateFormatItem>
+						<dateFormatItem id="yMMM">U년 MMM</dateFormatItem>
+						<dateFormatItem id="yMMMd">U년 MMM d일</dateFormatItem>
+						<dateFormatItem id="yMMMEd">U년 MMM d일 (E)</dateFormatItem>
+						<dateFormatItem id="yMMMEEEEd">U년 MMM d일 EEEE</dateFormatItem>
+						<dateFormatItem id="yQ">U년 Q분기</dateFormatItem>
+						<dateFormatItem id="yQQQ">U년 QQQ</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
 			</calendar>
 			<calendar type="gregorian">
 				<months>
@@ -1333,7 +1444,8 @@
 					</dateTimeFormatLength>
 					<availableFormats>
 						<dateFormatItem id="d">d일</dateFormatItem>
-						<dateFormatItem id="EEEd">d일 (EEE)</dateFormatItem>
+						<dateFormatItem id="Ed">d일 (E)</dateFormatItem>
+						<dateFormatItem id="EEEEd">d일 EEEE</dateFormatItem>
 						<dateFormatItem id="h">a h시</dateFormatItem>
 						<dateFormatItem id="H">H시</dateFormatItem>
 						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
@@ -1344,6 +1456,7 @@
 						<dateFormatItem id="M">M월</dateFormatItem>
 						<dateFormatItem id="Md">M. d.</dateFormatItem>
 						<dateFormatItem id="MEd">M. d. (E)</dateFormatItem>
+						<dateFormatItem id="MEEEEd">M. d. EEEE</dateFormatItem>
 						<dateFormatItem id="MMdd">MM. dd</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">MMM d일</dateFormatItem>
@@ -1353,10 +1466,10 @@
 						<dateFormatItem id="y">y년</dateFormatItem>
 						<dateFormatItem id="yM">yyyy. M.</dateFormatItem>
 						<dateFormatItem id="yMd">yyyy. M. d.</dateFormatItem>
-						<dateFormatItem id="yMEd">yyyy. M. d. (EEE)</dateFormatItem>
+						<dateFormatItem id="yMEd">yyyy. M. d. (E)</dateFormatItem>
 						<dateFormatItem id="yMMM">y년 MMM</dateFormatItem>
 						<dateFormatItem id="yMMMd">y년 MMM d일</dateFormatItem>
-						<dateFormatItem id="yMMMEd">y년 MMM d일 (EEE)</dateFormatItem>
+						<dateFormatItem id="yMMMEd">y년 MMM d일 (E)</dateFormatItem>
 						<dateFormatItem id="yMMMEEEEd">y년 MMM d일 EEEE</dateFormatItem>
 						<dateFormatItem id="yQ">y년 Q분기</dateFormatItem>
 						<dateFormatItem id="yQQQ">y년 QQQ</dateFormatItem>
@@ -1792,7 +1905,8 @@
 					<!-- per cldrbug 2835, added from provisional & gregorian, adjusted for G -->
 					<availableFormats>
 						<dateFormatItem id="d">d일</dateFormatItem>
-						<dateFormatItem id="EEEd">d일 (EEE)</dateFormatItem>
+						<dateFormatItem id="Ed">d일 (E)</dateFormatItem>
+						<dateFormatItem id="EEEEd">d일 EEEE</dateFormatItem>
 						<dateFormatItem id="Gy">G yy년</dateFormatItem>
 						<dateFormatItem id="h">a h시</dateFormatItem>
 						<dateFormatItem id="H">H시</dateFormatItem>
@@ -1804,6 +1918,7 @@
 						<dateFormatItem id="M">M월</dateFormatItem>
 						<dateFormatItem id="Md">M. d.</dateFormatItem>
 						<dateFormatItem id="MEd">M. d. (E)</dateFormatItem>
+						<dateFormatItem id="MEEEEd">M. d. EEEE</dateFormatItem>
 						<dateFormatItem id="MMdd">MM. dd</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">MMM d일</dateFormatItem>
@@ -1811,16 +1926,16 @@
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">G yy년</dateFormatItem>
-						<dateFormatItem id="yyMM">G YY. M.</dateFormatItem>
+						<dateFormatItem id="yyMM">G yy. M.</dateFormatItem>
 						<dateFormatItem id="yyMMM">G yy년 MMM</dateFormatItem>
 						<dateFormatItem id="yyQ">G yy년 Q분기</dateFormatItem>
 						<dateFormatItem id="yyyy">G yy년</dateFormatItem>
 						<dateFormatItem id="yyyyM">G y. M.</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">G y. M. d. (EEE)</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">G y. M. d. (E)</dateFormatItem>
 						<dateFormatItem id="yyyyMM">G y. MM</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">G y년 MMM</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">G yy년 MMM d일</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">G y년 MMM d일 (EEE)</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">G y년 MMM d일 (E)</dateFormatItem>
 						<dateFormatItem id="yyyyMMMEEEEd">G y년 MMM d일 EEEE</dateFormatItem>
 						<dateFormatItem id="yyyyQ">G yy년 Q분기</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">G y년 QQQ</dateFormatItem>
@@ -1860,7 +1975,8 @@
 					<!-- per cldrbug 2835, added from provisional & gregorian, adjusted for G -->
 					<availableFormats>
 						<dateFormatItem id="d">d일</dateFormatItem>
-						<dateFormatItem id="EEEd">d일 (EEE)</dateFormatItem>
+						<dateFormatItem id="Ed">d일 (E)</dateFormatItem>
+						<dateFormatItem id="EEEEd">d일 EEEE</dateFormatItem>
 						<dateFormatItem id="h">a h시</dateFormatItem>
 						<dateFormatItem id="H">H시</dateFormatItem>
 						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
@@ -1871,23 +1987,24 @@
 						<dateFormatItem id="M">M월</dateFormatItem>
 						<dateFormatItem id="Md">M. d.</dateFormatItem>
 						<dateFormatItem id="MEd">M. d. (E)</dateFormatItem>
+						<dateFormatItem id="MEEEEd">M. d. EEEE</dateFormatItem>
 						<dateFormatItem id="MMdd">MM. dd</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">MMM d일</dateFormatItem>
 						<dateFormatItem id="MMMEd">MMM d일 (E)</dateFormatItem>
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="yyMM">G YY. M.</dateFormatItem>
+						<dateFormatItem id="yyMM">G yy. M.</dateFormatItem>
 						<dateFormatItem id="yyMMM">G yy년 MMM</dateFormatItem>
 						<dateFormatItem id="yyQ">G y년 Q분기</dateFormatItem>
 						<dateFormatItem id="yyyy">G yy년</dateFormatItem>
 						<dateFormatItem id="yyyyM">G y. M.</dateFormatItem>
 						<dateFormatItem id="yyyyMd">G y. M. d.</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">G y. M. d. (EEE)</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">G y. M. d. (E)</dateFormatItem>
 						<dateFormatItem id="yyyyMM">G y. MM</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">G y년 MMM</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">G yy년 MMM d일</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">G y년 MMM d일 (EEE)</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">G y년 MMM d일 (E)</dateFormatItem>
 						<dateFormatItem id="yyyyMMMEEEEd">G y년 MMM d일 EEEE</dateFormatItem>
 						<dateFormatItem id="yyyyQ">G y년 Q분기</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">G y년 QQQ</dateFormatItem>
@@ -3112,6 +3229,7 @@
 			</zone>
 			<metazone type="Acre">
 				<long>
+					<generic>아크레 시간</generic>
 					<standard>아크레 표준시</standard>
 					<daylight>아크레 하계 표준시</daylight>
 				</long>
@@ -3133,25 +3251,26 @@
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<generic>남아프리카 시간</generic>
-					<standard>남아프리카 표준시</standard>
+					<standard>남아프리카 시간</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
-					<standard>서아프리카 시간</standard>
+					<generic>서아프리카 시간</generic>
+					<standard>서아프리카 표준시</standard>
 					<daylight>서아프리카 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aktyubinsk">
 				<long>
-					<standard draft="provisional">악튜빈스크 표준 시간</standard>
-					<daylight draft="provisional">악튜빈스크 일광 절약 시간</daylight>
+					<generic draft="provisional">악튜빈스크 시간</generic>
+					<standard draft="provisional">악튜빈스크 표준시</standard>
+					<daylight draft="provisional">악튜빈스크 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Alaska">
 				<long>
-					<generic draft="contributed">알래스카 표준시</generic>
+					<generic>알래스카 시간</generic>
 					<standard>알래스카 표준시</standard>
 					<daylight>알래스카 하계 표준시</daylight>
 				</long>
@@ -3165,7 +3284,8 @@
 			</metazone>
 			<metazone type="Almaty">
 				<long>
-					<standard draft="provisional">알마티 표준 시간</standard>
+					<generic draft="provisional">알마티 표준 시간</generic>
+					<standard draft="provisional">알마티 표준 표준시</standard>
 					<daylight draft="provisional">알마티 일광 절약 시간</daylight>
 				</long>
 			</metazone>
@@ -3178,48 +3298,50 @@
 			</metazone>
 			<metazone type="America_Central">
 				<long>
-					<generic>중부 표준시</generic>
-					<standard>중부 표준시</standard>
+					<generic>미 중부 시간</generic>
+					<standard>미 중부 표준시</standard>
 					<daylight>미 중부 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Eastern">
 				<long>
-					<generic>동부 표준시</generic>
-					<standard>동부 표준시</standard>
+					<generic>미 동부 시간</generic>
+					<standard>미 동부 표준시</standard>
 					<daylight>미 동부 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Mountain">
 				<long>
-					<generic>산지 표준시</generic>
-					<standard>산악 표준시</standard>
+					<generic>미 산지 시간</generic>
+					<standard>미 산악 표준시</standard>
 					<daylight>미 산지 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Pacific">
 				<long>
-					<generic>태평양 표준시</generic>
-					<standard>태평양 표준시</standard>
+					<generic>미 태평양 시간</generic>
+					<standard>미 태평양 표준시</standard>
 					<daylight>미 태평양 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Anadyr">
 				<long>
-					<generic draft="contributed">아나디리 표준시</generic>
+					<generic draft="contributed">아나디리 시간</generic>
 					<standard draft="contributed">아나디리 표준시</standard>
 					<daylight draft="contributed">아나디리 서머 타임</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aqtau">
 				<long>
-					<standard draft="provisional">악타우 표준 시간</standard>
+					<generic draft="provisional">악타우 표준 시간</generic>
+					<standard draft="provisional">악타우 표준 표준시</standard>
 					<daylight draft="provisional">악타우 일광 절약 시간</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aqtobe">
 				<long>
-					<standard draft="provisional">악퇴베 표준 시간</standard>
+					<generic draft="provisional">악퇴베 표준 시간</generic>
+					<standard draft="provisional">악퇴베 표준 표준시</standard>
 					<daylight draft="provisional">악퇴베 일광 절약 시간</daylight>
 				</long>
 			</metazone>
@@ -3240,25 +3362,27 @@
 			<metazone type="Argentina_Western">
 				<long>
 					<generic>아르헨티나 서부 시간</generic>
-					<standard draft="contributed">아르헨티나 서부 표준시</standard>
+					<standard>아르헨티나 서부 표준시</standard>
 					<daylight>아르헨티나 서부 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Armenia">
 				<long>
+					<generic>아르메니아 시간</generic>
 					<standard>아르메니아 표준시</standard>
 					<daylight>아르메니아 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Ashkhabad">
 				<long>
-					<standard draft="provisional">아슈하바트 표준 시간</standard>
+					<generic draft="provisional">아슈하바트 표준 시간</generic>
+					<standard draft="provisional">아슈하바트 표준 표준시</standard>
 					<daylight draft="provisional">아슈하바트 일광 절약 시간</daylight>
 				</long>
 			</metazone>
 			<metazone type="Atlantic">
 				<long>
-					<generic>대서양 표준시</generic>
+					<generic>대서양 시간</generic>
 					<standard>대서양 표준시</standard>
 					<daylight>미 대서양 하계 표준시</daylight>
 				</long>
@@ -3293,24 +3417,28 @@
 			</metazone>
 			<metazone type="Azerbaijan">
 				<long>
+					<generic>아제르바이잔 시간</generic>
 					<standard>아제르바이잔 표준시</standard>
 					<daylight>아제르바이잔 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Azores">
 				<long>
+					<generic>아조레스 시간</generic>
 					<standard>아조레스 표준시</standard>
 					<daylight>아조레스 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Baku">
 				<long>
-					<standard draft="provisional">바쿠 시간</standard>
+					<generic draft="provisional">바쿠 시간</generic>
+					<standard draft="provisional">바쿠 표준시</standard>
 					<daylight draft="provisional">바쿠 일광 절약 시간</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bangladesh">
 				<long>
+					<generic>방글라데시 시간</generic>
 					<standard>방글라데시 표준시</standard>
 					<daylight>방글라데시 하계 표준시</daylight>
 				</long>
@@ -3334,6 +3462,7 @@
 			</metazone>
 			<metazone type="Borneo">
 				<long>
+					<generic draft="provisional">보르네오 시간</generic>
 					<standard draft="provisional">보르네오 표준 시간</standard>
 					<daylight draft="provisional">보르네오 일광 절약 시간</daylight>
 				</long>
@@ -3352,14 +3481,14 @@
 			</metazone>
 			<metazone type="Cape_Verde">
 				<long>
+					<generic>카보 베르데 시간</generic>
 					<standard>카보 베르데 표준시</standard>
 					<daylight>카보 베르데 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chamorro">
 				<long>
-					<generic>차모로 시간</generic>
-					<standard>차모로 표준시</standard>
+					<standard>차모로 시간</standard>
 				</long>
 			</metazone>
 			<metazone type="Changbai">
@@ -3369,12 +3498,14 @@
 			</metazone>
 			<metazone type="Chatham">
 				<long>
+					<generic>채텀 시간</generic>
 					<standard>채텀 표준시</standard>
 					<daylight>채텀 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chile">
 				<long>
+					<generic>칠레 시간</generic>
 					<standard>칠레 표준시</standard>
 					<daylight>칠레 하계 표준시</daylight>
 				</long>
@@ -3405,19 +3536,21 @@
 			</metazone>
 			<metazone type="Colombia">
 				<long>
+					<generic>콜롬비아 시간</generic>
 					<standard>콜롬비아 표준시</standard>
 					<daylight>콜롬비아 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Cook">
 				<long>
+					<generic>쿡제도 시간</generic>
 					<standard>쿡제도 표준시</standard>
 					<daylight>쿡제도 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Cuba">
 				<long>
-					<generic draft="contributed">쿠바 시간</generic>
+					<generic>쿠바 시간</generic>
 					<standard>쿠바 표준시</standard>
 					<daylight>쿠바 하계 표준시</daylight>
 				</long>
@@ -3439,7 +3572,8 @@
 			</metazone>
 			<metazone type="Dushanbe">
 				<long>
-					<standard draft="provisional">두샨베 시간</standard>
+					<generic draft="provisional">두샨베 시간</generic>
+					<standard draft="provisional">두샨베 표준시</standard>
 					<daylight draft="provisional">두샨베 일광 절약 시간</daylight>
 				</long>
 			</metazone>
@@ -3455,6 +3589,7 @@
 			</metazone>
 			<metazone type="Easter">
 				<long>
+					<generic>이스터섬 시간</generic>
 					<standard>이스터섬 표준시</standard>
 					<daylight>이스터섬 하계 표준시</daylight>
 				</long>
@@ -3466,30 +3601,35 @@
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
+					<generic>중부유럽 시간</generic>
 					<standard>중부유럽 표준시</standard>
 					<daylight>중부유럽 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
+					<generic>동부유럽 시간</generic>
 					<standard>동부유럽 표준시</standard>
 					<daylight>동부유럽 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<standard>서부 유럽 시간</standard>
+					<generic>서부 유럽 시간</generic>
+					<standard>서부 유럽 표준시</standard>
 					<daylight>서부 유럽 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Falkland">
 				<long>
+					<generic>포클랜드 시간</generic>
 					<standard>포클랜드 표준시</standard>
 					<daylight>포클랜드 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Fiji">
 				<long>
+					<generic>피지 시간</generic>
 					<standard>피지 표준시</standard>
 					<daylight>피지 하계 표준시</daylight>
 				</long>
@@ -3504,11 +3644,6 @@
 					<standard>프랑스령 남쪽식민지 표준시</standard>
 				</long>
 			</metazone>
-			<metazone type="Frunze">
-				<long>
-					<daylight draft="provisional">프룬제 시간</daylight>
-				</long>
-			</metazone>
 			<metazone type="Galapagos">
 				<long>
 					<standard>갈라파고스 표준시</standard>
@@ -3521,6 +3656,7 @@
 			</metazone>
 			<metazone type="Georgia">
 				<long>
+					<generic>그루지아 시간</generic>
 					<standard>그루지아 표준시</standard>
 					<daylight>그루지아 하계 표준시</daylight>
 				</long>
@@ -3537,18 +3673,21 @@
 			</metazone>
 			<metazone type="Greenland_Central">
 				<long>
-					<standard draft="contributed">그린란드 중부 표준시</standard>
-					<daylight draft="contributed">그린란드 중부 하계 표준시</daylight>
+					<generic>그린란드 중부 시간</generic>
+					<standard>그린란드 중부 표준시</standard>
+					<daylight>그린란드 중부 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Eastern">
 				<long>
+					<generic>그린란드 동부 시간</generic>
 					<standard>그린란드 동부 표준시</standard>
 					<daylight>그린란드 동부 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Western">
 				<long>
+					<generic>그린란드 서부 시간</generic>
 					<standard>그린란드 서부 표준시</standard>
 					<daylight>그린란드 서부 하계 표준시</daylight>
 				</long>
@@ -3560,8 +3699,7 @@
 			</metazone>
 			<metazone type="Gulf">
 				<long>
-					<generic draft="provisional">걸프 시간</generic>
-					<standard draft="provisional">걸프 표준 시간</standard>
+					<standard draft="provisional">걸프 시간</standard>
 				</long>
 			</metazone>
 			<metazone type="Guyana">
@@ -3571,13 +3709,15 @@
 			</metazone>
 			<metazone type="Hawaii_Aleutian">
 				<long>
-					<generic draft="contributed">하와이 알류샨 표준시</generic>
-					<standard draft="provisional">하와이-알류샨 표준 시간</standard>
+					<generic draft="contributed">하와이 알류샨 시간</generic>
+					<standard draft="contributed">하와이 알류샨 표준시</standard>
+					<daylight draft="contributed">하와이 알류샨 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hong_Kong">
 				<long>
-					<standard draft="contributed">홍콩 시간</standard>
+					<generic>홍콩 시간</generic>
+					<standard>홍콩 표준시</standard>
 					<daylight>홍콩 하계 표준시</daylight>
 				</long>
 			</metazone>
@@ -3605,24 +3745,22 @@
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<generic>인도네시아 중부 시간</generic>
-					<standard>인도네시아 중부 표준시</standard>
+					<standard>인도네시아 중부 시간</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<generic>인도네시아 동부 시간</generic>
-					<standard draft="contributed">동인도네시아 시간</standard>
+					<standard>인도네시아 동부 시간</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<generic>인도네시아 서부 시간</generic>
-					<standard draft="contributed">서인도네시아 시간</standard>
+					<standard>인도네시아 서부 시간</standard>
 				</long>
 			</metazone>
 			<metazone type="Iran">
 				<long>
+					<generic>이란 시간</generic>
 					<standard>이란 표준시</standard>
 					<daylight>이란 하계 표준시</daylight>
 				</long>
@@ -3636,21 +3774,21 @@
 			</metazone>
 			<metazone type="Israel">
 				<long>
-					<generic draft="contributed">이스라엘 시간</generic>
+					<generic>이스라엘 시간</generic>
 					<standard>이스라엘 표준시</standard>
 					<daylight>이스라엘 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Japan">
 				<long>
-					<generic draft="contributed">일본 시간</generic>
+					<generic>일본 시간</generic>
 					<standard>일본 표준시</standard>
 					<daylight>일본 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kamchatka">
 				<long>
-					<generic draft="contributed">캄차카 표준시</generic>
+					<generic draft="contributed">페트로파블롭스크-캄차츠키 시간</generic>
 					<standard draft="contributed">페트로파블롭스크-캄차츠키 표준시</standard>
 					<daylight draft="contributed">페트로파블롭스크-캄차츠키 서머 타임</daylight>
 				</long>
@@ -3667,19 +3805,18 @@
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
-					<generic draft="contributed">동부 카자흐스탄 표준시</generic>
-					<standard draft="contributed">동부 카자흐스탄 표준시</standard>
+					<standard draft="contributed">동부 카자흐스탄 시간</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
-					<generic draft="contributed">서부 카자흐스탄 표준시</generic>
-					<standard draft="contributed">서부 카자흐스탄 표준시</standard>
+					<standard draft="contributed">서부 카자흐스탄 시간</standard>
 				</long>
 			</metazone>
 			<metazone type="Kizilorda">
 				<long>
-					<standard draft="provisional">키질로르다 시간</standard>
+					<generic draft="provisional">키질로르다 시간</generic>
+					<standard draft="provisional">키질로르다 표준시</standard>
 					<daylight draft="provisional">키질로르다 일광 절약 시간</daylight>
 				</long>
 			</metazone>
@@ -3704,6 +3841,7 @@
 			</metazone>
 			<metazone type="Kuybyshev">
 				<long>
+					<generic draft="provisional">쿠이비셰프 시간</generic>
 					<standard draft="provisional">쿠이비셰프 표준 시간</standard>
 					<daylight draft="provisional">쿠이비셰프 일광 절약 시간</daylight>
 				</long>
@@ -3742,13 +3880,14 @@
 			</metazone>
 			<metazone type="Macau">
 				<long>
+					<generic draft="provisional">마카오 시간</generic>
 					<standard draft="provisional">마카오 표준 시간</standard>
 					<daylight draft="provisional">마카오 일광 절약 시간</daylight>
 				</long>
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<generic draft="contributed">맥쿼리 표준시</generic>
+					<standard draft="contributed">맥쿼리 표준시</standard>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
@@ -3785,6 +3924,7 @@
 			</metazone>
 			<metazone type="Mauritius">
 				<long>
+					<generic>모리셔스 시간</generic>
 					<standard>모리셔스 표준시</standard>
 					<daylight>모리셔스 하계 표준시</daylight>
 				</long>
@@ -3796,7 +3936,7 @@
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic draft="contributed">몽골 표준시</generic>
+					<generic>울란바토르 시간</generic>
 					<standard>울란바토르 표준시</standard>
 					<daylight>울란바토르 하계 표준시</daylight>
 				</long>
@@ -3825,6 +3965,7 @@
 			</metazone>
 			<metazone type="New_Caledonia">
 				<long>
+					<generic draft="provisional">뉴 칼레도니아 시간</generic>
 					<standard draft="provisional">뉴 칼레도니아 표준 시간</standard>
 					<daylight draft="provisional">뉴 칼레도니아 일광 절약 시간</daylight>
 				</long>
@@ -3838,7 +3979,7 @@
 			</metazone>
 			<metazone type="Newfoundland">
 				<long>
-					<generic>뉴펀들랜드 표준시</generic>
+					<generic>뉴펀들랜드 시간</generic>
 					<standard>뉴펀들랜드 표준시</standard>
 					<daylight>뉴펀들랜드 하계 표준시</daylight>
 				</long>
@@ -3857,7 +3998,7 @@
 				<long>
 					<generic>페르난도 데 노로냐 시간</generic>
 					<standard>페르난도 데 노로냐 표준시</standard>
-					<daylight draft="contributed">페르난도 데 노로냐 하계 표준시</daylight>
+					<daylight>페르난도 데 노로냐 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="North_Mariana">
@@ -3881,6 +4022,7 @@
 			</metazone>
 			<metazone type="Pakistan">
 				<long>
+					<generic>파키스탄 시간</generic>
 					<standard>파키스탄 표준시</standard>
 					<daylight>파키스탄 하계 표준시</daylight>
 				</long>
@@ -3897,18 +4039,21 @@
 			</metazone>
 			<metazone type="Paraguay">
 				<long>
+					<generic>파라과이 시간</generic>
 					<standard>파라과이 표준시</standard>
 					<daylight>파라과이 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Peru">
 				<long>
+					<generic>페루 시간</generic>
 					<standard>페루 표준시</standard>
 					<daylight>페루 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Philippines">
 				<long>
+					<generic>필리핀 시간</generic>
 					<standard>필리핀 표준시</standard>
 					<daylight>필리핀 하계 표준시</daylight>
 				</long>
@@ -3920,7 +4065,7 @@
 			</metazone>
 			<metazone type="Pierre_Miquelon">
 				<long>
-					<generic draft="contributed">피에르 미클롱 시간</generic>
+					<generic>피에르 미클롱 시간</generic>
 					<standard>피에르 미클롱 표준시</standard>
 					<daylight>피에르 미클롱 하계 표준시</daylight>
 				</long>
@@ -3937,6 +4082,7 @@
 			</metazone>
 			<metazone type="Qyzylorda">
 				<long>
+					<generic draft="provisional">키질로르다 시간</generic>
 					<standard draft="provisional">키질로르다 표준 시간</standard>
 					<daylight draft="provisional">키질로르다 일광 절약 시간</daylight>
 				</long>
@@ -3960,13 +4106,14 @@
 			</metazone>
 			<metazone type="Samara">
 				<long>
-					<generic draft="contributed">사마라 표준시</generic>
+					<generic draft="contributed">사마라 시간</generic>
 					<standard draft="contributed">사마라 표준시</standard>
 					<daylight draft="contributed">사마라 서머 타임</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samarkand">
 				<long>
+					<generic draft="provisional">사마르칸트 시간</generic>
 					<standard draft="provisional">사마르칸트 표준 시간</standard>
 					<daylight draft="provisional">사마르칸트 일광 절약 시간</daylight>
 				</long>
@@ -3983,6 +4130,7 @@
 			</metazone>
 			<metazone type="Shevchenko">
 				<long>
+					<generic draft="provisional">솁첸코 시간</generic>
 					<standard draft="provisional">솁첸코 표준 시간</standard>
 					<daylight draft="provisional">솁첸코 일광 절약 시간</daylight>
 				</long>
@@ -4009,6 +4157,7 @@
 			</metazone>
 			<metazone type="Sverdlovsk">
 				<long>
+					<generic draft="provisional">스베르들로프스크 시간</generic>
 					<standard draft="provisional">스베르들로프스크 표준 시간</standard>
 					<daylight draft="provisional">스베르들로프스크 일광 절약 시간</daylight>
 				</long>
@@ -4025,7 +4174,7 @@
 			</metazone>
 			<metazone type="Taipei">
 				<long>
-					<generic draft="contributed">타이베이 시간</generic>
+					<generic>타이베이 시간</generic>
 					<standard>타이베이 표준시</standard>
 					<daylight>타이베이 하계 표준시</daylight>
 				</long>
@@ -4037,12 +4186,14 @@
 			</metazone>
 			<metazone type="Tashkent">
 				<long>
+					<generic draft="provisional">타슈켄트 시간</generic>
 					<standard draft="provisional">타슈켄트 표준 시간</standard>
 					<daylight draft="provisional">타슈켄트 일광 절약 시간</daylight>
 				</long>
 			</metazone>
 			<metazone type="Tbilisi">
 				<long>
+					<generic draft="provisional">트빌리시 시간</generic>
 					<standard draft="provisional">트빌리시 표준 시간</standard>
 					<daylight draft="provisional">트빌리시 일광 절약 시간</daylight>
 				</long>
@@ -4054,6 +4205,7 @@
 			</metazone>
 			<metazone type="Tonga">
 				<long>
+					<generic draft="provisional">통가 시간</generic>
 					<standard draft="provisional">통가 표준 시간</standard>
 					<daylight draft="provisional">통가 일광 절약 시간</daylight>
 				</long>
@@ -4065,12 +4217,14 @@
 			</metazone>
 			<metazone type="Turkey">
 				<long>
-					<standard draft="provisional">터키 시간</standard>
+					<generic draft="provisional">터키 시간</generic>
+					<standard draft="provisional">터키 표준시</standard>
 					<daylight draft="provisional">터키 일광 절약 시간</daylight>
 				</long>
 			</metazone>
 			<metazone type="Turkmenistan">
 				<long>
+					<generic>투르크메니스탄 시간</generic>
 					<standard>투르크메니스탄 표준시</standard>
 					<daylight>투르크메니스탄 하계 표준시</daylight>
 				</long>
@@ -4082,12 +4236,14 @@
 			</metazone>
 			<metazone type="Uralsk">
 				<long>
+					<generic draft="provisional">우랄스크 시간</generic>
 					<standard draft="provisional">우랄스크 표준 시간</standard>
 					<daylight draft="provisional">우랄스크 일광 절약 시간</daylight>
 				</long>
 			</metazone>
 			<metazone type="Uruguay">
 				<long>
+					<generic>우루과이 시간</generic>
 					<standard>우루과이 표준시</standard>
 					<daylight>우루과이 하계 표준시</daylight>
 				</long>
@@ -4099,12 +4255,14 @@
 			</metazone>
 			<metazone type="Uzbekistan">
 				<long>
+					<generic>우즈베키스탄 시간</generic>
 					<standard>우즈베키스탄 표준시</standard>
 					<daylight>우즈베키스탄 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vanuatu">
 				<long>
+					<generic draft="provisional">바누아투 시간</generic>
 					<standard draft="provisional">바누아투 표준 시간</standard>
 					<daylight draft="provisional">바누아투 일광 절약 시간</daylight>
 				</long>
@@ -4116,9 +4274,9 @@
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
-					<generic draft="contributed">블라디보스토크 시간</generic>
+					<generic>블라디보스토크 시간</generic>
 					<standard>블라디보스토크 표준시</standard>
-					<daylight draft="contributed">블라디보스토크 하계 표준시</daylight>
+					<daylight>블라디보스토크 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
@@ -4147,18 +4305,19 @@
 				<long>
 					<generic>야쿠츠크 시간</generic>
 					<standard>야쿠츠크 표준시</standard>
-					<daylight draft="contributed">야쿠츠크 하계 표준시</daylight>
+					<daylight>야쿠츠크 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
 					<generic>예카테린부르크 시간</generic>
 					<standard>예카테린부르크 표준시</standard>
-					<daylight draft="contributed">예카테린부르크 하계 표준시</daylight>
+					<daylight>예카테린부르크 하계 표준시</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yerevan">
 				<long>
+					<generic draft="provisional">예레반 시간</generic>
 					<standard draft="provisional">예레반 표준 시간</standard>
 					<daylight draft="provisional">예레반 일광 절약 시간</daylight>
 				</long>
@@ -4185,7 +4344,7 @@
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
@@ -4193,27 +4352,36 @@
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000000000">0.0B</pattern>
-					<pattern type="10000000000">00B</pattern>
-					<pattern type="100000000000">000B</pattern>
+					<pattern type="1000" draft="contributed">0000</pattern>
+					<pattern type="10000" draft="contributed">0.0만</pattern>
+					<pattern type="100000" draft="contributed">00만</pattern>
+					<pattern type="1000000" draft="contributed">000만</pattern>
+					<pattern type="10000000" draft="contributed">0000만</pattern>
+					<pattern type="100000000" draft="contributed">0.0억</pattern>
+					<pattern type="1000000000" draft="contributed">00억</pattern>
+					<pattern type="10000000000" draft="contributed">000억</pattern>
+					<pattern type="100000000000" draft="contributed">0000억</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0조</pattern>
+					<pattern type="10000000000000" draft="contributed">00조</pattern>
+					<pattern type="100000000000000" draft="contributed">000조</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern>#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern draft="contributed">#,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00</pattern>

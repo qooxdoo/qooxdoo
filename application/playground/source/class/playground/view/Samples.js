@@ -55,9 +55,10 @@ qx.Class.define("playground.view.Samples",
     this.add(this._createList(), {flex: 1});
 
     // toolbar
-    if (qx.core.Environment.get("html.storage.local")) {
-      this.add(this._createToolbar());
-    }
+    this.add(this._createToolbar());
+
+    // make sure we are on a white background
+    this.setBackgroundColor("white");
   },
 
 
@@ -143,7 +144,7 @@ qx.Class.define("playground.view.Samples",
     _createList : function() {
       // create and configure the list
       this.__list = new qx.ui.list.List();
-      this.__list.setDecorator("separator-vertical");
+      this.__list.setAppearance("sample-list");
       this.__list.setLabelPath("name");
 
       // CARFULL: HACK TO GET THE SELECTION PREVENTED
@@ -198,6 +199,7 @@ qx.Class.define("playground.view.Samples",
       // crate and initialize the toolbar
       var toolbar = new qx.ui.toolbar.ToolBar();
       toolbar.setDecorator("separator-vertical");
+      toolbar.setBackgroundColor("white");
 
       // save button
       var saveButton = new qx.ui.toolbar.Button(

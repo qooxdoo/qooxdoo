@@ -25,7 +25,7 @@ qx.Class.define("qx.test.bom.Selector",
   {
     testElementClass : function()
     {
-      var Element = qx.bom.Element;
+      var Element = qx.dom.Element;
       var Attribute = qx.bom.element.Attribute;
 
       for (var i=0; i<250; i++)

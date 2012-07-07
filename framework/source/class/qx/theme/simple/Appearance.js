@@ -1381,7 +1381,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "datefield" : "combobox",
+    "datefield" : "textfield",
 
     "datefield/button" :
     {
@@ -1396,6 +1396,19 @@ qx.Theme.define("qx.theme.simple.Appearance",
           backgroundColor : undefined,
           decorator : undefined,
           width: 19
+        };
+      }
+    },
+
+    "datefield/textfield" : {
+      alias : "textfield",
+      include : "textfield",
+
+      style : function(states)
+      {
+        return {
+          decorator : undefined,
+          padding: 0
         };
       }
     },
@@ -1433,12 +1446,27 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
+        var padding = [3, 5, 3, 5];
+        if (states.lead) {
+          padding = [ 2, 4 , 2, 4];
+        }
+        if (states.dragover) {
+          padding[2] -= 2;
+        }
+
+        var backgroundColor;
+        if (states.selected) {
+          backgroundColor = "background-selected"
+          if (states.disabled) {
+            backgroundColor += "-disabled";
+          }
+        }
         return {
-          gap             : 4,
-          padding         : states.lead ? [ 2, 4 ] : [ 3, 5 ],
-          backgroundColor : states.selected ? "background-selected" : undefined,
-          textColor       : states.selected ? "text-selected" : undefined,
-          decorator       : states.lead ? "lead-item" : undefined
+          gap : 4,
+          padding : padding,
+          backgroundColor : backgroundColor,
+          textColor : states.selected ? "text-selected" : undefined,
+          decorator : states.lead ? "lead-item" : states.dragover ? "dragover" : undefined
         };
       }
     },
@@ -1924,7 +1952,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator : "main"
+          decorator : "main",
+          minWidth: 220
         }
       }
     },
@@ -2277,13 +2306,13 @@ qx.Theme.define("qx.theme.simple.Appearance",
         var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
 
         if (states.barTop) {
-          marginBottom -= 2;
+          marginBottom -= 1;
         } else if (states.barBottom) {
-          marginTop -= 2;
+          marginTop -= 1;
         } else if (states.barRight) {
-          marginLeft -= 2;
+          marginLeft -= 1;
         } else {
-          marginRight -= 2;
+          marginRight -= 1;
         }
 
         return {
@@ -2303,40 +2332,29 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
-        var decorator = "button-box";
-
-        if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "button-box-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "button-box-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "button-box-pressed";
-        }
-
-        if (states.barTop)
-        {
+        if (states.barTop) {
           return {
             marginTop : 4,
             marginBottom: 2,
-            decorator : decorator + "-top-right"
+            decorator : null
           }
         } else if (states.barBottom) {
           return {
             marginTop : 2,
             marginBottom: 4,
-            decorator : decorator + "-bottom-right"
+            decorator : null
           }
         } else if (states.barLeft) {
           return {
             marginLeft : 4,
             marginRight : 2,
-            decorator : decorator + "-bottom-left"
+            decorator : null
           }
         } else {
           return {
             marginLeft : 2,
             marginRight : 4,
-            decorator : decorator + "-bottom-right"
+            decorator : null
           }
         }
       }
@@ -2349,39 +2367,29 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
-        var decorator = "button-box";
-
-        if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "button-box-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "button-box-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "button-box-pressed";
-        }
-
         if (states.barTop) {
           return {
             marginTop : 4,
             marginBottom: 2,
-            decorator : decorator + "-top-left"
+            decorator : null
           }
         } else if (states.barBottom) {
           return {
             marginTop : 2,
             marginBottom: 4,
-            decorator : decorator + "-bottom-left"
+            decorator : null
           }
         } else if (states.barLeft) {
           return {
             marginLeft : 4,
             marginRight : 2,
-            decorator : decorator + "-top-left"
+            decorator : null
           }
         } else {
           return {
             marginLeft : 2,
             marginRight : 4,
-            decorator : decorator + "-top-right"
+            decorator : null
           }
         }
       }
@@ -2393,7 +2401,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           backgroundColor : "background",
-          decorator : "border-blue",
+          decorator : "main",
           padding : 10
         };
       }
@@ -2406,72 +2414,47 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         var decorator;
-        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
 
         // default padding
         if (states.barTop || states.barBottom) {
-          var paddingTop=5, paddingBottom=5, paddingLeft=9, paddingRight=9;
+          var padding = [8, 16, 8, 13];
         } else {
-          var paddingTop=8, paddingBottom=8, paddingLeft=4, paddingRight=4;
+          var padding = [8, 4, 8, 4];
         }
 
         // decorator
-        if (states.barTop || states.barBottom) {
-          decorator = "tabview-page-button-top-bottom";
-        } else if (states.barRight || states.barLeft) {
-          decorator = "tabview-page-button-right-left";
-        }
-
-        // checked padding / margin
         if (states.checked) {
           if (states.barTop) {
-            paddingLeft += 1;
-            paddingRight += 1;
-            paddingTop += 4;
+            decorator = "tabview-page-button-top";
           } else if (states.barBottom) {
-            paddingLeft += 1;
-            paddingRight += 1;
-            paddingTop += 2;
-          } else if (states.barLeft) {
-            paddingTop += 1;
-            paddingBottom += 1;
-            paddingLeft += 4;
-            paddingRight += 2;
+            decorator = "tabview-page-button-bottom"
           } else if (states.barRight) {
-            paddingTop += 1;
-            paddingBottom += 1;
-            paddingLeft += 2;
-            paddingRight += 4;
+            decorator = "tabview-page-button-right";
+          } else if (states.barLeft) {
+            decorator = "tabview-page-button-left";
           }
         } else {
+          for (var i=0; i < padding.length; i++) {
+            padding[i] += 1;
+          };
+          // reduce the size by 1 because we have different decorator border width
           if (states.barTop) {
-            marginBottom += 2;
-            marginTop += 4;
+            padding[2] -= 1;
           } else if (states.barBottom) {
-            marginBottom += 4;
-            marginTop += 2;
-          } else if (states.barLeft) {
-            marginRight += 2;
-            marginLeft += 4;
+            padding[0] -= 1;
           } else if (states.barRight) {
-            marginRight += 4;
-            marginLeft += 2;
+            padding[3] -= 1;
+          } else if (states.barLeft) {
+            padding[1] -= 1;
           }
-        }
-
-        if (states.firstTab && !states.checked) {
-          decorator += "-first";
-        } else if (states.lastTab && !states.checked) {
-          decorator += "-last";
         }
 
         return {
           zIndex : states.checked ? 10 : 5,
-          decorator : states.checked ? undefined : decorator,
-          backgroundColor : states.checked ? "background-selected" : "tabview-unselected",
-          textColor : states.disabled ? states.checked ? "tabview-label-active-disabled" : "text-disabled" : "white",
-          padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
-          margin : [ marginTop, marginRight, marginBottom, marginLeft ]
+          decorator : decorator,
+          textColor : states.disabled ? "text-disabled" : states.checked ? null : "link",
+          padding : padding,
+          cursor: "pointer"
         };
       }
     },
@@ -2621,8 +2604,25 @@ qx.Theme.define("qx.theme.simple.Appearance",
     },
 
     "colorselector/preset-field-set" : "groupbox",
-    "colorselector/input-field-set" : "groupbox",
-    "colorselector/preview-field-set" : "groupbox",
+    "colorselector/input-field-set" : {
+      include : "groupbox",
+      alias : "groupbox",
+      style : function() {
+        return {
+          paddingTop: 12
+        }
+      }
+    },
+
+    "colorselector/preview-field-set" : {
+      include : "groupbox",
+      alias : "groupbox",
+      style : function() {
+        return {
+          paddingTop: 12
+        }
+      }
+    },
 
     "colorselector/hex-field-composite" : "widget",
     "colorselector/hex-field" : "textfield",
@@ -2644,7 +2644,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           decorator : "main-dark",
           width : 50,
-          height : 10
+          height : 25
         }
       }
     },
@@ -2657,7 +2657,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator : "main-dark",
           backgroundColor : "white",
           width : 50,
-          height : 10
+          height : 25
         }
       }
     },

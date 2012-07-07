@@ -35,7 +35,7 @@
  * This class is mainly a convenience wrapper for DOM elements to
  * qooxdoo's event system.
  */
-qx.Class.define("qx.bom.Html",
+qx.Bootstrap.define("qx.bom.Html",
 {
   /*
   *****************************************************************************

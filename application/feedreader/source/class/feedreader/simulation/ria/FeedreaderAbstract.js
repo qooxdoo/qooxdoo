@@ -43,7 +43,7 @@ qx.Class.define("feedreader.simulation.ria.FeedreaderAbstract", {
       feedWindow : 'qxhv=[@classname="feedreader.view.desktop.AddFeedWindow"]',
       feedWindowButton : 'qxh=app:[@caption=".*feed.*"]/qx.ui.form.renderer.SinglePlaceholder/qx.ui.container.Composite/qx.ui.form.Button'
     };
-    
+
     this.locators.buttonItalian = this.locators.preferencesWindow + '/*/[@label="Italiano"]';
     this.locators.buttonOk = this.locators.preferencesWindow + '/*/[@label="OK"]';
   },

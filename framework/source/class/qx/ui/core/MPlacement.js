@@ -548,6 +548,11 @@ qx.Mixin.define("qx.ui.core.MPlacement",
           this.getPlacementModeY()
         );
 
+        // state handling for tooltips e.g.
+        this.removeState("placementLeft");
+        this.removeState("placementRight");
+        this.addState(coords.left < result.left ? "placementRight" : "placementLeft");
+
         this.moveTo(result.left, result.top);
       });
     }

@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import os, sys, time, functools, gc
+import os, sys, time, functools, gc, zlib
 import cPickle as pickle
 from misc import filetool
 from misc.securehash import sha_construct
@@ -29,7 +29,8 @@ from generator.runtime.Log import Log
 
 memcache  = {} # {key: {'content':content, 'time': (time.time()}}
 check_file     = u".cache_check_file"
-CACHE_REVISION = 28985 # increment this when existing caches need clearing
+CACHE_REVISION = 0xb0b9a9c # set this to a unique value (e.g. commit hash prefix)
+                           # when existing caches need clearing
 
 class Cache(object):
 
@@ -168,10 +169,11 @@ class Cache(object):
     # clean up lock files interrupt handler
 
     def _unlock_files(self):
-        for file in self._locked_files:
+        for file_ in self._locked_files:
             try:
-                filetool.unlock(file)
-                self._console.debug("Cleaned up lock for file: %r" % file)
+                filetool.unlock(file_)
+                os.unlink(file_)  # remove file, as write might be corrupted
+                self._console.debug("Cleaned up lock and file: %r" % file_)
             except: # file might not exists since adding to _lock_files and actually locking is not atomic
                 pass   # no sense to do much fancy in an interrupt handler
 
@@ -241,10 +243,8 @@ class Cache(object):
                     filetool.unlock(cacheFile)
                     self._locked_files.remove(cacheFile)
 
-        except (IOError, ):
+        except (IOError, zlib.error):
             self._console.warn("Could not read cache object %s" % cacheFile)
-            filetool.unlock(cacheFile)
-            self._locked_files.remove(cacheFile)
             return None, cacheModTime
 
         try:

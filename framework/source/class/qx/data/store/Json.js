@@ -30,10 +30,6 @@
  * for parsing the loaded javascript objects into qooxdoo objects, the
  * {@link qx.data.marshal.Json} class will be used.
  *
- * Up to qooxdoo 1.4 {@link qx.io.remote.Request} was used as the transport. For
- * backwards-compatibility, qooxdoo ${qxversion} can be configured to use the old
- * transport with {@link #setDeprecatedTransport}.
- *
  * Please note that if you
  *
  * * upgrade from qooxdoo 1.4 or lower
@@ -65,9 +61,6 @@ qx.Class.define("qx.data.store.Json",
     // store the marshaler and the delegate
     this._marshaler = new qx.data.marshal.Json(delegate);
     this._delegate = delegate;
-
-    // use new transport by default
-    this.__deprecatedTransport = false;
 
     if (url != null) {
       this.setUrl(url);
@@ -136,7 +129,6 @@ qx.Class.define("qx.data.store.Json",
     _delegate : null,
 
     __request : null,
-    __deprecatedTransport : null,
 
     // apply function
     _applyUrl: function(value, old) {

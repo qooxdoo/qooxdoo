@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5932 $"/>
-		<generation date="$Date: 2011-06-23 20:34:48 -0500 (Thu, 23 Jun 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="ga"/>
 	</identity>
 	<localeDisplayNames>
@@ -204,7 +204,6 @@
 			<territory type="142">An Áise</territory>
 			<territory type="143">An Áise Láir</territory>
 			<territory type="150">An Eoraip</territory>
-			<territory type="172">Comhlathas na Stát Neamhspleácha</territory>
 			<territory type="419">Meiriceá Laidineach agus an Mhuir Chairib</territory>
 			<territory type="AD">Andóra</territory>
 			<territory type="AE">Aontas na nÉimíríochtaí Arabacha</territory>
@@ -466,7 +465,6 @@
 			<type type="big5han" key="collation" draft="unconfirmed">Ord sórtála Síneach traidisiúnta - Big5</type>
 			<type type="buddhist" key="calendar" draft="unconfirmed">Féilire Búdaíoch</type>
 			<type type="chinese" key="calendar" draft="unconfirmed">Féilire Síneach</type>
-			<type type="direct" key="collation" draft="unconfirmed">Ord sórtála díreach</type>
 			<type type="gb2312han" key="collation" draft="unconfirmed">Ord sórtála Síneach simplithe - GB 2312</type>
 			<type type="gregorian" key="calendar" draft="unconfirmed">Féilire Greagórach</type>
 			<type type="hebrew" key="calendar" draft="unconfirmed">Féilire Eabhrach</type>
@@ -485,7 +483,7 @@
 	</localeDisplayNames>
 	<characters>
 		<exemplarCharacters>[a á b c d e é f g h i í l m n o ó p r s t u ú]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[ḃ ċ ḋ ḟ ġ j k ṁ ṗ q ṡ ṫ v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[å ḃ ċ ḋ ḟ ġ j k ṁ ṗ q ṡ ṫ v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
 	</characters>
 	<dates>
@@ -732,7 +730,7 @@
 			<decimal draft="unconfirmed">.</decimal>
 			<group draft="unconfirmed">,</group>
 		</symbols>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00</pattern>

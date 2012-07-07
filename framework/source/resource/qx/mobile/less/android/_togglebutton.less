@@ -1,0 +1,58 @@
+//
+// TOGGLEBUTTON 
+//
+
+@toggleButtonWidth: 60px;
+
+.toggleButton {
+  .clickable();
+  height:auto;
+  width:@toggleButtonWidth;
+
+  overflow-y:visible;
+  font-size:14px;
+  font-weight:normal;
+
+  .border-radius(0.4em);
+}
+
+.toggleButton > div {
+  padding-top:24px;
+  padding-bottom:10px;
+  height:auto;
+}
+
+div.checked .toggleButtonSwitch {
+  .clickable-active();
+}
+
+div.checked .toggleButtonSwitch:before {
+  display: block;
+  position:relative;
+  top:-25px;
+  line-height:25px;
+  left:-10px;
+  text-align:center;
+  content: ' 'attr(data-label-checked);
+  width:@toggleButtonWidth;
+}
+
+.toggleButtonSwitch:before {
+  display: block;
+  position:relative;
+  top:-25px;
+  line-height:25px;
+  left:-10px;
+  text-align:center;
+  content: ' 'attr(data-label-unchecked);
+  width:@toggleButtonWidth;
+}
+
+.toggleButtonSwitch {
+  .box-inset-shadow(0 1px 1px #999);
+  background-color: #ffffff;
+  .border-radius(7px);
+  height:7px;
+  margin: 0 auto;
+  width:70%;
+}

@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="se"/>
 	</identity>
 	<fallback draft="unconfirmed">nb nn sv en</fallback>
@@ -155,7 +155,6 @@
 			<territory type="054" draft="unconfirmed">Melanesia</territory>
 			<territory type="057" draft="unconfirmed">Mikronesia guovllus</territory>
 			<territory type="061" draft="unconfirmed">Polynesia</territory>
-			<territory type="062" draft="unconfirmed">mátta-gaska-Ásia</territory>
 			<territory type="142" draft="unconfirmed">Ásia</territory>
 			<territory type="143" draft="unconfirmed">gaska-Ásia</territory>
 			<territory type="145" draft="unconfirmed">oarji-Ásia</territory>
@@ -448,7 +447,6 @@
 		<alternateQuotationEnd draft="unconfirmed">’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
-		<dateRangePattern draft="unconfirmed">{0}–{1}</dateRangePattern>
 		<calendars>
 			<calendar type="gregorian">
 				<months>
@@ -628,28 +626,28 @@
 			<infinity draft="unconfirmed">∞</infinity>
 			<nan draft="unconfirmed">¤¤¤</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern draft="unconfirmed">#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern draft="unconfirmed">#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern draft="unconfirmed">#,##0 %</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern draft="unconfirmed">#,##0.00 ¤</pattern>

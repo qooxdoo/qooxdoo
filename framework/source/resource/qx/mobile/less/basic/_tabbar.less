@@ -1,0 +1,30 @@
+//
+// TABBAR   
+//
+.tabBar {
+  padding-top:4px;
+  bottom: 1px;
+}
+
+.tabButton {
+  // This is for equal sizes od the buttons when added in a toolbar or
+  // other container with flex :1
+  width: 0;
+
+  .border-radius-top(6px);
+
+  cursor:pointer;
+
+  height:45px;
+  line-height:45px;
+
+  text-align: center;
+
+  font-size: 15px;
+  .background-clip(padding-box);
+  .box-sizing(border-box);
+  
+  @margin-size:4px;
+  margin-left:@margin-size;
+  margin-right:@margin-size;
+}

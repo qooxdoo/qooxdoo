@@ -118,16 +118,6 @@ qx.Class.define("qx.log.appender.Util",
 
 
     /**
-     * User-defined formatter for stack trace information. If the value is a
-     * function, it will be called with the raw stack trace string as the only
-     * argument. The return value is then appended to the log message.
-     *
-     * @deprecated since 1.6
-     */
-    FORMAT_STACK : null,
-
-
-    /**
      * Escapes the HTML in the given value
      *
      * @param value {String} value to escape

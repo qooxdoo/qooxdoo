@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5884 $"/>
-		<generation date="$Date: 2011-05-10 15:58:32 -0500 (Tue, 10 May 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="es"/>
 		<territory type="CL"/>
 	</identity>
@@ -67,7 +67,7 @@
 						<dateFormatItem id="MEd">E, dd-MM</dateFormatItem>
 						<dateFormatItem id="yM">MM-yy</dateFormatItem>
 						<dateFormatItem id="yMd">dd-MM-yy</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE dd-MM-yy</dateFormatItem>
+						<dateFormatItem id="yMEd">E dd-MM-yy</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="unconfirmed">{0} a el {1}</intervalFormatFallback>
@@ -165,7 +165,7 @@
 			<decimal>,</decimal>
 			<group>.</group>
 		</symbols>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00;¤-#,##0.00</pattern>

@@ -53,7 +53,7 @@ qx.Class.define("qx.type.BaseError",
     // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=6069
     // This can be removed once the issue is fixed
     if (!(inst.stack || inst.stacktrace)) {
-      this.__trace = qx.dev.StackTrace.getStackTraceFromCaller(arguments);
+      this.__sTrace = qx.dev.StackTrace.getStackTraceFromCaller(arguments);
     }
 
     this.__comment = comment || "";
@@ -83,6 +83,7 @@ qx.Class.define("qx.type.BaseError",
 
   members :
   {
+    __sTrace : null,
     __comment : null,
 
     /** {String} Fail message provided by the assertion */
@@ -97,13 +98,13 @@ qx.Class.define("qx.type.BaseError",
     getComment : function() {
       return this.__comment;
     },
-    
-    
+
+
     /**
      * Workaround for PhantomJS bug http://code.google.com/p/phantomjs/issues/detail?id=335
      * See http://bugzilla.qooxdoo.org/show_bug.cgi?id=6069
      * This can be removed once the issue is fixed
-     * 
+     *
      * @return {String[]} Stack trace
      */
     getStackTrace : function()
@@ -111,10 +112,10 @@ qx.Class.define("qx.type.BaseError",
       if (this.stack || this.stacktrace) {
         return qx.dev.StackTrace.getStackTraceFromError(this);
       }
-      else if (this.__trace) {
-        return this.__trace;
+      else if (this.__sTrace) {
+        return this.__sTrace;
       }
-      
+
       return [];
     },
 

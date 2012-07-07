@@ -47,22 +47,13 @@ def mapper(name, checkset):
 def update(node, newname):
 
     if node.type == "identifier":
-        name = node.get("name", False)
-
+        name = node.get("value", False)
         if name != None:
-            node.set("name", newname)
-
-    # Handle variable definition
-    elif node.type == "definition":
-        name = node.get("identifier", False)
-
-        if name != None:
-            node.set("identifier", newname)
+            node.set("value", newname)
 
     # Handle function definition
     elif node.type == "function":
         name = node.get("name", False)
-
         if name != None:
             node.set("name", newname)
 
@@ -96,8 +87,8 @@ def search(node):
     # loop through declared vars of scopes
     for scope in script.iterScopes():
         allvars = scope.arguments + scope.variables
-        for var in allvars:
 
+        for var in allvars:
             if var.name in reservedWords or len(var.name)<2:
                 continue
 

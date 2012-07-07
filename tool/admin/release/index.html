@@ -1,0 +1,232 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>qooxdoo &raquo; Demo</title>
+  <style type="text/css">
+*{
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+  font-size: 12px;
+  line-height: 180%;
+  margin: 0;
+  padding: 0;
+  background: #FFFFFF;
+  color: #262626;
+}
+
+p{
+  margin: 6px 0;
+}
+
+.hide, .publish {
+	display: none;
+}
+
+.header {
+  background-color: #323335;
+  color: white;
+  padding: 10px 40px;
+  font-size: 18px;
+  font-family: 'Lucida Grande', 'Verdana', sans-serif;
+  border-bottom: 4px solid #3d72c9;;
+}
+
+img{
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+}
+
+#content{
+  margin: 20px 20px 0;
+}
+
+h1{
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #3D72C9;
+}
+
+h2{
+  font-size: 12px;
+  color: #000000;
+}
+
+a:link,
+a:visited{
+  text-decoration: underline;
+  color: #444444;
+}
+
+a:hover,
+a:active{
+  text-decoration: underline;
+  color: #3D72C9;
+}
+
+li{
+  margin-left: 16px;
+  list-style: square;
+  margin-bottom: 20px;
+}
+
+p{
+  font-size: 12px;
+}
+
+ul ul{
+  margin-top: 20px;
+}
+
+.block{
+  width: 300px;
+  margin: 16px 40px;
+  margin-top: 40px;
+  float: left;
+}
+
+  </style>
+</head>
+<body>
+  <div class="header">qooxdoo - a universal JavaScript framework</div>
+  <div id="content">
+    <div class="block">
+      <h1>Desktop</h1>
+      <ul>
+        <li>
+          <h2>Showcase</h2>
+          <p>Highlights some of qooxdoo's main features and provides a good overview of what can be achieved.</p>
+          <span class="local"><a href="showcase/build/index.html"><b>Build</b></a> | <a href="showcase/source/index.html">Source (Developer)</a></span>
+          <span class="publish"><a href="showcase/index.html"><b>Open Showcase</b></a></span>
+        </li>
+        <li>
+          <h2>Widget Browser</h2>
+          <p>Shows the widgets and themes available in qooxdoo.</p>
+          <span class="local"><a href="widgetbrowser/build/index.html"><b>Build</b></a> | <a href="widgetbrowser/source/index.html">Source (Developer)</a></span>
+          <span class="publish"><a href="widgetbrowser/index.html"><b>Open Widget Browser</b></a></span>
+        </li>
+        <li>
+          <h2>Demo Browser</h2>
+          <p>Contains many examples and tests for widgets, layouts and other framework functionality.</p>
+          <span class="local"><a href="demobrowser/build/index.html"><b>Build</b></a> | <a href="demobrowser/source/index.html">Source (Developer)</a></span>
+          <span class="publish"><a href="demobrowser/index.html"><b>Open Demo Browser</b></a></span>
+        </li>
+        <li>
+          <h2>Playground</h2>
+          <p>Explore qooxdoo programming interactively: edit qooxdoo code in one pane, and see the result running in another.</p>
+          <span class="local"><a href="playground/build/index.html"><b>Build</b></a> | <a href="playground/source/index.html">Source (Developer)</a></span>
+          <span class="publish"><a href="playground/index.html"><b>Open Playground</b></a></span>
+        </li>
+        <li>
+          <h2>Feed Reader</h2>
+          <p>A hybrid application for displaying RSS feeds, available as a RIA, a website-like application, or a mobile application (see respective sections for the latter two). They all share a common code base.</p>
+          <span class="local"><a href="feedreader/build/index.html"><b>Build</b></a> | <a href="feedreader/source/index.html">Source (Developer)</a></span>
+          <span class="publish"><a href="feedreader/index.html"><b>Open Feed Reader (RIA)</b></a></span>
+        </li>
+      </ul>
+    </div>
+    <div class="block">
+      <h1>Website</h1>
+      <ul>
+        <li>
+          <h2>Feed Reader</h2>
+          <p>A light-weight, website-oriented version of the Feedreader application.</p>
+          <span class="local"><a href="feedreader/build-website/index.html"><b>Build</b></a> | <a href="feedreader/source/index-website.html">Source (Developer)</a></span>
+          <span class="publish"><a href="feedreader-website/index.html"><b>Open Feed Reader (website)</b></a></span>
+        </li>
+        <li>
+          <h2>ToDo</h2>
+          <p>A DOM-oriented application using data binding, offline and templating.</p>
+          <span class="local"><a href="todo/build/index.html"><b>Build</b></a> | <a href="todo/source/index.html">Source (Developer)</a></span>
+          <span class="publish"><a href="todo/index.html"><b>Open ToDo</b></a></span>
+        </li>
+        <li>
+          <h2>Website API Viewer</h2>
+          <p>API reference for the Website component in on document.</p>
+          <span class="local"><a href="standalone/website/api/index.html">Source (Developer)</a></span>
+          <span class="publish"><a href="website-api/index.html"><b>Open API Viewer</b></a></span>
+        </li>
+
+        <li>
+          <h2>Website Lib</h2>
+          <p>The base Website library. (<em>experimental</em>)</p>
+          <span class="local"><a href="component/standalone/website/script/q.js"><b>q.js</b></a> | <a href="component/standalone/website/script/q.min.js"><b>q.min.js</b></a> (compressed)</span>
+          <span class="publish"><a href="framework/q.js"><b>q.js</b></a> | <a href="framework/q.min.js"><b>q.min.js</b></a> (compressed)</span>
+        </li>
+        <li>
+          <h2>Storage Lib</h2>
+          <p>A cross-browser WebStorage API. There is a plain qooxdoo version and one wrapped as a RequireJS module. (<em>experimental</em>)</p>
+          <span class="local"><a href="component/standalone/storage/script/storage.js"><b>storage.js</b></a> | <a href="component/standalone/storage/script/storage.require.js"><b>storage.require.js</b></a> (for RequireJS)</span>
+          <span class="publish"><a href="framework/storage.js"><b>storage.js</b></a> | <a href="framework/storage.require.js"><b>storage.require.js</b></a> (for RequireJS)</span>
+        </li>
+      </ul>
+    </div>
+    <div class="block" style="clear: left">
+      <h1>Mobile</h1>
+      <ul>
+        <li>
+          <h2>Mobile Showcase</h2>
+          <p>An experimental showcase for mobile widgets (Smartphones: Android 1.6+, iOS; Desktop: Safari 5, Chrome 10+).</p>
+          <span class="local"><a href="mobileshowcase/build-ios/index.html"><b>Build</b></a> | <a href="mobileshowcase/source/index.html">Source (Developer)</a></span>
+          <span class="publish"><a href="mobileshowcase-ios/index.html"><b>iOS</b></a> | <a href="mobileshowcase-android/index.html"><b>Android</b></a>
+          </span>
+        </li>
+        <li>
+          <h2>Feed Reader</h2>
+          <p>The mobile version of the Feedreader application (Smartphones: Android 1.6+, iOS; Desktop: Safari 5, Chrome 10+).</p>
+          <span class="local"><a href="feedreader/build-mobile/index.html"><b>Build</b></a> | <a href="feedreader/source/index-mobile.html">Source (Developer)</a></span>
+          <span class="publish"><a href="feedreader-mobile/index.html"><b>Open Feed Reader (mobile)</b></a></span>
+        </li>
+      </ul>
+    </div>
+    <div class="block">
+      <h1>Server</h1>
+      <ul>
+        <li>
+          <h2>qooxdoo OO Layer</h2>
+          <p>Not a demo, but a compact JS package that encapsulates qooxdoo's OO layer, to be downloaded to add qooxdoo classes and properties to e.g. sparse JS environments like Webworkers, Rhino or node.js. (<em>experimental</em>)</p>
+          <span class="local"><a href="component/standalone/server/script/qx-oo.min.js"><b>qx-oo.min.js</b></a> | <a href="component/standalone/server/script/qx-oo.js"><b>qx-oo.js</b></a> (not optimized)</span>
+          <span class="publish"><a href="framework/qx-oo.min.js"><b>qx-oo.min.js</b></a> | <a href="framework/qx-oo.js"><b>qx-oo.js</b></a> (not optimized)</span>
+        </li>
+      </ul>
+    </div>
+    <div class="block" style="clear: left">
+      <h1>Tools</h1>
+      <ul>
+        <li>
+          <h2>API Viewer</h2>
+          <p>Searchable API reference of the entire qooxdoo framework.</p>
+          <span class="local"><a href="apiviewer/build/index.html"><b>Build</b></a> | <a href="apiviewer/source/index.html">Source (Developer)</a></span>
+          <span class="publish"><a href="apiviewer/index.html"><b>Open API Viewer</b></a></span>
+        </li>
+        <li>
+          <h2>Test Runner</h2>
+          <p>Integrated unit testing framework similar to (but not requiring) JSUnit.</p>
+          <span class="local"><a href="testrunner/build/index.html"><b>Build</b></a> | <a href="testrunner/source/index.html">Source (Developer)</a></span>
+          <span class="publish"><a href="testrunner/index.html"><b>Open Test Runner</b></a></span>
+          <span class="local"><br><a href="testrunner/build/script/testrunner-portable.js"><b>Portable Test Runner</b></a></span>
+          <span class="publish"><br><a href="testrunner/script/testrunner-portable.js"><b>Portable Test Runner</b></a></span>
+        </li>
+        <li>
+          <h2>Feature Configuration Editor</h2>
+          <p>A tool that aids developers in creating configurations for feature-based builds.</p>
+          <span class="local"><a href="featureconfigeditor/build/index.html"><b>Build</b></a> | <a href="featureconfigeditor/source/index.html">Source (Developer)</a></span>
+          <span class="publish"><a href="featureconfigeditor/index.html"><b>Open Feature Configuration Editor</b></a></span>
+        </li>
+        <li>
+          <h2>Inspector</h2>
+          <p>A debugging tool to inspect a qooxdoo application, featuring an interactive console, an object and widget finder, and a property editor.</p>
+          <span class="local"><a href="inspector/build/index.html"><b>Build</b></a> | <a href="inspector/source/index.html">Source (Developer)</a></span>
+          <span class="publish"><a href="inspector/index.html"><b>Open Inspector</b></a></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+</html>

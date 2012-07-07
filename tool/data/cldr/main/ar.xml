@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5964 $"/>
-		<generation date="$Date: 2011-07-05 14:13:51 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6472 $"/>
+		<generation date="$Date: 2012-01-28 00:53:35 +0100 (Sat, 28 Jan 2012) $"/>
 		<language type="ar"/>
 	</identity>
 	<localeDisplayNames>
@@ -655,7 +655,6 @@
 			<territory type="054">ميلانيزيا</territory>
 			<territory type="057">الجزر الميكرونيزية</territory>
 			<territory type="061">بولينيزيا</territory>
-			<territory type="062">جنوب وسط آسيا</territory>
 			<territory type="142">آسيا</territory>
 			<territory type="143">وسط آسيا</territory>
 			<territory type="145">غرب آسيا</territory>
@@ -663,7 +662,6 @@
 			<territory type="151">شرق أوروبا</territory>
 			<territory type="154">شمال أوروبا</territory>
 			<territory type="155">غرب أوروبا</territory>
-			<territory type="172">كومنولث الدول المستقلة</territory>
 			<territory type="419">أمريكا اللاتينية</territory>
 			<territory type="AC">جزيرة أسينشيون</territory>
 			<territory type="AD">أندورا</territory>
@@ -965,7 +963,6 @@
 			<type type="coptic" key="calendar">التقويم القبطي</type>
 			<type type="deva" key="numbers">الأرقام الديفانغارية</type>
 			<type type="dictionary" key="collation">ترتيب فرز القاموس</type>
-			<type type="direct" key="collation">ترتيب فرز مباشر</type>
 			<type type="ducet" key="collation">ترتيب تصنيف Unicode الافتراضي</type>
 			<type type="ethi" key="numbers">الأرقام الإثيوبية</type>
 			<type type="ethiopic" key="calendar">التقويم الإثيوبي</type>
@@ -1051,10 +1048,10 @@
 		</stopwords>
 	</characters>
 	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
+		<quotationStart>”</quotationStart>
+		<quotationEnd>“</quotationEnd>
+		<alternateQuotationStart>’</alternateQuotationStart>
+		<alternateQuotationEnd>‘</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -1105,10 +1102,10 @@
 						<dateFormatItem id="y">y G</dateFormatItem>
 						<dateFormatItem id="yM">M‏/y G</dateFormatItem>
 						<dateFormatItem id="yMd">d/‏M/‏y G</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE، d/‏M/‏y G</dateFormatItem>
+						<dateFormatItem id="yMEd">E، d/‏M/‏y G</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM، y G</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE، d MMM، y G</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E، d MMM، y G</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM‏/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM، y G</dateFormatItem>
@@ -1338,10 +1335,10 @@
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M‏/yyyy</dateFormatItem>
 						<dateFormatItem id="yMd">d‏/M‏/yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE، d/‏M/‏yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd">E، d/‏M/‏yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM" draft="contributed">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM، y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE، d MMM، y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E، d MMM، y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ" draft="contributed">yyyy Q</dateFormatItem>
 						<dateFormatItem id="yQQQ" draft="contributed">y QQQ</dateFormatItem>
@@ -1624,7 +1621,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="EEEd">d EEE</dateFormatItem>
+						<dateFormatItem id="Ed">d E</dateFormatItem>
 						<dateFormatItem id="h">h a</dateFormatItem>
 						<dateFormatItem id="H">HH</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
@@ -1636,15 +1633,15 @@
 						<dateFormatItem id="MEd">E، d-M</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E، d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd" draft="contributed">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMMEd" draft="contributed">E، d MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M‏/yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE، d/‏M/‏yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd">E، d/‏M/‏yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE، d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E، d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM" draft="contributed">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
 					</availableFormats>
@@ -1923,7 +1920,7 @@
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d‏/M</dateFormatItem>
-						<dateFormatItem id="MEd">EEE، d‏/M</dateFormatItem>
+						<dateFormatItem id="MEd">E، d‏/M</dateFormatItem>
 						<dateFormatItem id="MMdd">dd‏/MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
@@ -1935,10 +1932,10 @@
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyM">M‏/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">d‏/M‏/y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE، d‏/M‏/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E، d‏/M‏/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM‏/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE، d MMM، y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E، d MMM، y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
@@ -2008,7 +2005,7 @@
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d‏/M</dateFormatItem>
-						<dateFormatItem id="MEd">EEE، d‏/M</dateFormatItem>
+						<dateFormatItem id="MEd">E، d‏/M</dateFormatItem>
 						<dateFormatItem id="MMdd">dd‏/MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
@@ -2020,11 +2017,11 @@
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyM">M‏/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">d‏/M‏/y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE، d‏/M‏/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E، d‏/M‏/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM‏/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM، y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE، d MMM، y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E، d MMM، y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
@@ -3253,7 +3250,9 @@
 			</metazone>
 			<metazone type="Amazon">
 				<long>
-					<generic draft="contributed">توقيت الأمازون</generic>
+					<generic draft="contributed">الأمازون الزمن</generic>
+					<standard draft="contributed">الأمازون الزمن</standard>
+					<daylight draft="contributed">الأمازون التوقيت الصيفي</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Central">
@@ -3357,6 +3356,8 @@
 			<metazone type="Hawaii_Aleutian">
 				<long>
 					<generic draft="contributed">توقيت هاواي أليوتيان</generic>
+					<standard draft="contributed">توقيت هاواي أليوتيان</standard>
+					<daylight draft="contributed">توقيت هاواي أليوتيان الصيفي</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
@@ -3368,17 +3369,17 @@
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<generic draft="contributed">توقيت إندونيسيا المركزي</generic>
+					<standard draft="contributed">توقيت إندونيسيا المركزي</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<generic draft="contributed">التوقيت الشرقي لإندونيسيا</generic>
+					<standard draft="contributed">التوقيت الشرقي لإندونيسيا</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<generic draft="contributed">التوقيت الغربي لإندونيسيا</generic>
+					<standard draft="contributed">التوقيت الغربي لإندونيسيا</standard>
 				</long>
 			</metazone>
 			<metazone type="Irkutsk">
@@ -3425,7 +3426,7 @@
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<generic draft="contributed">توقيت ماكواري</generic>
+					<standard draft="contributed">توقيت ماكواري</standard>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
@@ -3523,6 +3524,9 @@
 	</dates>
 	<numbers>
 		<defaultNumberingSystem>arab</defaultNumberingSystem>
+		<otherNumberingSystems>
+			<native>arab</native>
+		</otherNumberingSystems>
 		<symbols numberSystem="arab">
 			<decimal>٫</decimal>
 			<group>٬</group>
@@ -3547,7 +3551,30 @@
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="arab">
+			<decimalFormatLength>
+				<decimalFormat>
+					<pattern>#0.###;#0.###-</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+			<decimalFormatLength type="short">
+				<decimalFormat>
+					<pattern type="1000" draft="contributed">0.0K</pattern>
+					<pattern type="10000" draft="contributed">00K</pattern>
+					<pattern type="100000" draft="contributed">000K</pattern>
+					<pattern type="1000000" draft="contributed">0.0M</pattern>
+					<pattern type="10000000" draft="contributed">00M</pattern>
+					<pattern type="100000000" draft="contributed">000M</pattern>
+					<pattern type="1000000000" draft="contributed">0.0B</pattern>
+					<pattern type="10000000000" draft="contributed">00B</pattern>
+					<pattern type="100000000000" draft="contributed">000B</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0T</pattern>
+					<pattern type="10000000000000" draft="contributed">00T</pattern>
+					<pattern type="100000000000000" draft="contributed">000T</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+		</decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###;#,##0.###-</pattern>
@@ -3555,22 +3582,35 @@
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" draft="contributed">0.0 أ</pattern>
-					<pattern type="10000" draft="contributed">00 أ</pattern>
-					<pattern type="100000" draft="contributed">000 أ</pattern>
-					<pattern type="1000000" draft="contributed">0.0 م</pattern>
-					<pattern type="10000000" draft="contributed">00 م</pattern>
-					<pattern type="100000000" draft="contributed">000 م</pattern>
-					<pattern type="1000000000" draft="contributed">0.0 ب</pattern>
-					<pattern type="10000000000" draft="contributed">00 ب</pattern>
-					<pattern type="100000000000" draft="contributed">000 ب</pattern>
-					<pattern type="1000000000000" draft="contributed">0.0 ت</pattern>
-					<pattern type="10000000000000" draft="contributed">00 ت</pattern>
-					<pattern type="100000000000000" draft="contributed">000 ت</pattern>
+					<pattern type="1000" draft="contributed">0.0K</pattern>
+					<pattern type="10000" draft="contributed">00K</pattern>
+					<pattern type="100000" draft="contributed">000K</pattern>
+					<pattern type="1000000" draft="contributed">0.0M</pattern>
+					<pattern type="10000000" draft="contributed">00M</pattern>
+					<pattern type="100000000" draft="contributed">000M</pattern>
+					<pattern type="1000000000" draft="contributed">0.0B</pattern>
+					<pattern type="10000000000" draft="contributed">00B</pattern>
+					<pattern type="100000000000" draft="contributed">000B</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0T</pattern>
+					<pattern type="10000000000000" draft="contributed">00T</pattern>
+					<pattern type="100000000000000" draft="contributed">000T</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="arab">
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>¤ #0.00;¤ #0.00-</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+			<unitPattern count="few">{0} {1}</unitPattern>
+			<unitPattern count="many">{0} {1}</unitPattern>
+			<unitPattern count="one">{0} {1}</unitPattern>
+			<unitPattern count="other">{0} {1}</unitPattern>
+			<unitPattern count="two">{0} {1}</unitPattern>
+			<unitPattern count="zero">{0} {1}</unitPattern>
+		</currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤ #,##0.00;¤ #,##0.00-</pattern>

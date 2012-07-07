@@ -46,7 +46,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      *
      * Browser compatibility:
      * <ul>
-     *   <li>In new versions of Gecko, WebKit and Opera, the output of 
+     *   <li>In new versions of Gecko, WebKit and Opera, the output of
      *   {@link #getStackTraceFromError} and {@link #getStackTraceFromCaller} is
      *   combined to generate the richest trace, including line numbers.</li>
      *   <li>For Internet Explorer (and other engines that do not provide stack
@@ -67,7 +67,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
           var errorTrace = qx.dev.StackTrace.getStackTraceFromError(ex);
           var callerTrace = qx.dev.StackTrace.getStackTraceFromCaller(arguments);
           qx.lang.Array.removeAt(errorTrace, 0);
-  
+
           var trace = callerTrace.length > errorTrace.length ? callerTrace : errorTrace;
           for (var i=0; i<Math.min(callerTrace.length, errorTrace.length); i++)
           {
@@ -75,7 +75,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
             if (callerCall.indexOf("anonymous") >= 0) {
               continue;
             }
-  
+
             var methodName;
             var callerArr = callerCall.split(".");
             var mO = /(.*?)\(/.exec(callerArr[callerArr.length - 1]);
@@ -87,7 +87,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
               callerArr.pop();
             }
             var callerClassName = callerArr.join(".");
-  
+
             var errorCall = errorTrace[i];
             var errorArr = errorCall.split(":");
             var errorClassName = errorArr[0];
@@ -96,7 +96,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
             if (errorArr[2]) {
               columnNumber = errorArr[2];
             }
-  
+
             if (qx.Class.getByName(errorClassName)) {
               var className = errorClassName;
             } else {
@@ -115,9 +115,9 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         }
         else {
           trace = this.getStackTraceFromCaller(arguments);
-        }  
+        }
       }
-      
+
       return trace;
     },
 

@@ -26,8 +26,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Mixin for the {@link Scroll} container. Used when the variant
  * <code>qx.mobile.nativescroll</code> is set to "off". Uses the iScroll script to simulate
  * the CSS position:fixed style. Position fixed is not available in iOS and
@@ -42,8 +40,13 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
   *****************************************************************************
   */
 
-  construct : function()
+  /**
+   * @param useTransform {Boolean} Whether iScroll should use transforms or not. Set this to false
+   *    when input fields are used inside the scroll container.
+   */
+  construct : function(useTransform)
   {
+    this.__useTransform = useTransform !== false ?  true : false;
     this.__initScroll();
     this.__registerEventListeners();
   },
@@ -60,6 +63,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
   members :
   {
     __scroll : null,
+    __useTransform : null,
 
     /**
      * Mixin method. Creates the scroll element.
@@ -68,7 +72,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
      */
     _createScrollElement : function()
     {
-      var scroll = qx.bom.Element.create("div");
+      var scroll = qx.dom.Element.create("div");
       qx.bom.element.Class.add(scroll,"iscroll");
       return scroll;
     },
@@ -82,6 +86,22 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     _getScrollContentElement : function()
     {
       return this.getContainerElement().childNodes[0];
+    },
+
+
+   /**
+    * Scrolls the wrapper contents to the x/y coordinates in a given period.
+    *
+    * @param x {Integer} X coordinate to scroll to.
+    * @param y {Integer} Y coordinate to scroll to.
+    * @param time {Integer} Time slice in which scrolling should
+    *              be done.
+    */
+    _scrollTo : function(x, y, time)
+    {
+      if (this.__scroll) {
+        this.__scroll.scrollTo(x, y, time);
+      }
     },
 
 
@@ -105,8 +125,10 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         {
           path += "?" + new Date().getTime();
         }
-        var loader = new qx.io.ScriptLoader();
-        loader.load(path, this.__onScrollLoaded, this);
+        var loader = new qx.bom.request.Script();
+        loader.on("load", this.__onScrollLoaded, this);
+        loader.open("GET", path);
+        loader.send();
       } else {
         this._setScroll(this.__createScrollInstance());
       }
@@ -126,16 +148,29 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         fadeScrollbar:true,
         hScrollbar : false,
         scrollbarClass:"scrollbar",
-        //useTransform: false,
+        useTransform: this.__useTransform,
         onBeforeScrollStart : function(e) {
           // QOOXDOO ENHANCEMENT: Do not prevent default for form elements
           var target = e.target;
           while (target.nodeType != 1) {
             target = target.parentNode;
           }
+          
           if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
+            // Remove focus from input elements, so that the keyboard and the mouse cursor is hidden
+            var elements = [];
+            var inputElements = qx.lang.Array.toArray(document.getElementsByTagName("input"));
+            var textAreaElements = qx.lang.Array.toArray(document.getElementsByTagName("textarea"));
+            elements = elements.concat(inputElements);
+            elements = elements.concat(textAreaElements);
+
+            for (var i=0, length = elements.length; i < length; i++) {
+              elements[i].blur();
+            }
+            
             e.preventDefault();
-          }
+          } 
+          
           // we also want to alert interested parties that we are starting scrolling
           if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
           {
@@ -146,7 +181,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
       });
       return scroll;
     },
-
+    
 
     /**
      * Registers all needed event listener.
@@ -173,12 +208,11 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     /**
      * Load callback. Called when the iScroll script is loaded.
      *
-     * @param status {String} the status of the script loading. See
-     *     {@link qx.io.ScriptLoader#load} for more information.
+     * @param request {qx.bom.request.Script} The Script request object
      */
-    __onScrollLoaded : function(status)
+    __onScrollLoaded : function(request)
     {
-      if (status == "success")
+      if (request.status < 400)
       {
         this._setScroll(this.__createScrollInstance());
       } else {

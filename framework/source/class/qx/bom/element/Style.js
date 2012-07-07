@@ -60,6 +60,34 @@
 #require(qx.lang.String)
 #require(qx.bom.client.Css)
 
+#require(qx.bom.element.Clip#set)
+#require(qx.bom.element.Cursor#set)
+#require(qx.bom.element.Opacity#set)
+#require(qx.bom.element.BoxSizing#set)
+#require(qx.bom.element.Overflow#setY)
+#require(qx.bom.element.Overflow#setX)
+
+#require(qx.bom.element.Clip#get)
+#require(qx.bom.element.Cursor#get)
+#require(qx.bom.element.Opacity#get)
+#require(qx.bom.element.BoxSizing#get)
+#require(qx.bom.element.Overflow#getX)
+#require(qx.bom.element.Overflow#getY)
+
+#require(qx.bom.element.Clip#reset)
+#require(qx.bom.element.Cursor#reset)
+#require(qx.bom.element.Opacity#reset)
+#require(qx.bom.element.BoxSizing#reset)
+#require(qx.bom.element.Overflow#resetX)
+#require(qx.bom.element.Overflow#resetY)
+
+#require(qx.bom.element.Clip#compile)
+#require(qx.bom.element.Cursor#compile)
+#require(qx.bom.element.Opacity#compile)
+#require(qx.bom.element.BoxSizing#compile)
+#require(qx.bom.element.Overflow#compileX)
+#require(qx.bom.element.Overflow#compileY)
+
 ************************************************************************ */
 
 /**
@@ -68,7 +96,7 @@
  * Automatically normalizes cross-browser differences for setting and reading
  * CSS attributes. Optimized for performance.
  */
-qx.Class.define("qx.bom.element.Style",
+qx.Bootstrap.define("qx.bom.element.Style",
 {
   /*
   *****************************************************************************
@@ -105,6 +133,24 @@ qx.Class.define("qx.bom.element.Style",
       }
 
       this.__styleNames = styleNames;
+    },
+
+
+    /**
+     * Gets the (possibly vendor-prefixed) name of a style property and stores
+     * it to avoid multiple checks.
+     *
+     * @param name {String} Style property name to check
+     * @return {String|null} The client-specific name of the property, or
+     * <code>null</code> if it's not supported.
+     */
+    __getStyleName : function(name)
+    {
+      var styleName = qx.bom.Style.getPropertyName(name);
+      if (styleName) {
+        this.__styleNames[name] = styleName;
+      }
+      return styleName;
     },
 
 
@@ -289,7 +335,6 @@ qx.Class.define("qx.bom.element.Style",
      * @param value {var} The value for the given style
      * @param smart {Boolean?true} Whether the implementation should automatically use
      *    special implementations for some properties
-     * @return {void}
      */
     set : function(element, name, value, smart)
     {
@@ -304,7 +349,7 @@ qx.Class.define("qx.bom.element.Style",
 
 
       // normalize name
-      name = this.__styleNames[name] || name;
+      name = this.__styleNames[name] || this.__getStyleName(name) || name;
 
       // special handling for specific properties
       // through this good working switch this part costs nothing when
@@ -348,7 +393,7 @@ qx.Class.define("qx.bom.element.Style",
       for (var key in styles)
       {
         var value = styles[key];
-        var name = styleNames[key] || key;
+        var name = styleNames[key] || this.__getStyleName(key) || key;
 
         if (value === undefined)
         {
@@ -382,7 +427,7 @@ qx.Class.define("qx.bom.element.Style",
     reset : function(element, name, smart)
     {
       // normalize name
-      name = this.__styleNames[name] || name;
+      name = this.__styleNames[name] || this.__getStyleName(name) || name;
 
       // special handling for specific properties
       if (smart!==false && this.__special[name]) {
@@ -424,7 +469,7 @@ qx.Class.define("qx.bom.element.Style",
       "mshtml" : function(element, name, mode, smart)
       {
         // normalize name
-        name = this.__styleNames[name] || name;
+        name = this.__styleNames[name] || this.__getStyleName(name) || name;
 
         // special handling
         if (smart!==false && this.__special[name]) {
@@ -489,7 +534,7 @@ qx.Class.define("qx.bom.element.Style",
       "default" : function(element, name, mode, smart)
       {
         // normalize name
-        name = this.__styleNames[name] || name;
+        name = this.__styleNames[name] || this.__getStyleName(name) || name;
 
         // special handling
         if (smart!==false && this.__special[name]) {

@@ -72,7 +72,7 @@ qx.Class.define("showcase.page.htmleditor.Page",
     },
 
     __manual : {
-      "pages/gui_toolkit/ui_html_editing.html": "Overview HTML Editing"
+      "pages/desktop/ui_html_editing.html": "Overview HTML Editing"
     },
 
     __demos : {

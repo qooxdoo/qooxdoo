@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Shows a title text for {@link Form} or {@link Group}.
  */
 qx.Class.define("qx.ui.mobile.form.Title",

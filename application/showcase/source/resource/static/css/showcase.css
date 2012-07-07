@@ -1,0 +1,37 @@
+#header {
+  display: block !important;
+  position: relative;
+  height: 53px;
+  background-color: #323335;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), to(#323335));
+  background-image: -webkit-linear-gradient(top, #505154, #323335);
+  background-image: -moz-linear-gradient(top, #505154, #323335);
+  background-image: linear-gradient(to bottom, #505154, #323335);
+  z-index: 2;
+}
+
+#header h1 {
+  padding: 11px;
+  color: white;
+  font-size: 22px;
+}
+
+#header #version-label {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  left: auto !important;
+  background-color: transparent !important;
+}
+
+#header .decoration {
+  position: absolute;
+  bottom: 0;
+  height: 10px;
+  width: 100%;
+  background-color: #3d72c9;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#5583d0), color-stop(1px, #5583d0), color-stop(1px, #5583d0), to(#3d72c9));
+  background-image: -webkit-linear-gradient(top, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
+  background-image: -moz-linear-gradient(top, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
+  background-image: linear-gradient(to bottom, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
+}

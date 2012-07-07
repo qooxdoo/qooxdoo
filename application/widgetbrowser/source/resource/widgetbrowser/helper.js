@@ -52,7 +52,7 @@
   function getDataFromLocation()
   {
     var uri = parseUri(location.href);
-    var theme = uri.queryKey["qx.theme"] || "qx.theme.Modern";
+    var theme = uri.queryKey["qx.theme"] || "qx.theme.Indigo";
     theme = theme.split(".").pop().toLowerCase();
 
     jsFileURL = "script/widgetbrowser." + theme + ".js";

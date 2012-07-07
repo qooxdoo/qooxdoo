@@ -24,15 +24,7 @@ qx.Class.define("qx.test.bom.storage.Local",
 
   members: {
     _getStorage: function() {
-      return qx.bom.storage.Local.getInstance();
-    },
-
-    _checkFeature: function() {
-      this.require(["storage"]);
-    },
-
-    hasStorage: function() {
-      return qx.core.Environment.get("html.storage.local");
+      return qx.bom.Storage.getLocal();
     }
   }
 });

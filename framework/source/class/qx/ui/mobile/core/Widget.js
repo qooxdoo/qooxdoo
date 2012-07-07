@@ -24,8 +24,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * This is the base class for all mobile widgets.
  */
 qx.Class.define("qx.ui.mobile.core.Widget",
@@ -598,7 +596,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     */
     _createContainerElement : function()
     {
-      return qx.bom.Element.create(this._getTagName());
+      return qx.dom.Element.create(this._getTagName());
     },
 
 
@@ -695,13 +693,36 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         }
       }
 
-      child.setLayoutParent(this);
-      child.setLayoutProperties(layoutProperties);
+      this._initializeChildLayout(child, layoutProperties);
 
       this.getContentElement().appendChild(child.getContainerElement());
       this.__children.push(child);
 
       this._domUpdated();
+    },
+
+
+    /**
+     * Add a child widget at the specified index
+     *
+     * @param child {Widget} widget to add
+     * @param index {Integer} Index, at which the widget will be inserted
+     * @param options {Map?null} Optional layout data for widget.
+     */
+    _addAt : function(child, index, options)
+    {
+      // When moving in the same widget, remove widget first
+      if (child.getLayoutParent() == this) {
+        qx.lang.Array.remove(this.__children, child);
+      }
+
+      var ref = this.__children[index];
+
+      if (ref) {
+        this._addBefore(child, ref, options);
+      } else {
+        this._add(child, options);
+      }
     },
 
 
@@ -728,8 +749,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         return;
       }
 
-      child.setLayoutParent(this);
-      child.setLayoutProperties(layoutProperties);
+      this._initializeChildLayout(child, layoutProperties);
 
       this.getContentElement().insertBefore(child.getContainerElement(), beforeWidget.getContainerElement());
       qx.lang.Array.insertBefore(this.__children, child, beforeWidget);
@@ -760,8 +780,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         return;
       }
 
-      child.setLayoutParent(this);
-      child.setLayoutProperties(layoutProperties);
+      this._initializeChildLayout(child, layoutProperties);
 
       var length = this._getChildren().length;
       var index = this._indexOf(afterWidget);
@@ -875,6 +894,10 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     {
       qx.lang.Array.remove(this.__children, child);
       this.getContentElement().removeChild(child.getContainerElement());
+      var layout = this._getLayout();
+      if (layout) {
+        layout.disconnectFromChildWidget(child);
+      }
     },
 
 
@@ -933,12 +956,35 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
       if (this.__layoutManager) {
         this.__layoutManager.connectToWidget(null);
+        for (var i=0; i < length; i++) {
+          var child = this._getChildren()[i];
+          this.__layoutManager.disconnectFromChildWidget(child);
+        }
       }
 
       if (layout) {
         layout.connectToWidget(this);
       }
       this.__layoutManager = layout;
+      this._domUpdated();
+    },
+
+
+
+    /**
+     * Initializes the layout of the given child widget.
+     *
+     * @param child {Widget} The child widget
+     * @param layoutProperties {Map?null} Optional layout data for widget
+     */
+    _initializeChildLayout : function(child, layoutProperties)
+    {
+      child.setLayoutParent(this);
+      child.setLayoutProperties(layoutProperties);
+      var layout = this._getLayout();
+      if (layout) {
+        layout.connectToChildWidget(child);
+      }
     },
 
 
@@ -959,9 +1005,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     setLayoutProperties : function(properties)
     {
-      if (properties == null) {
-        return;
-      }
       // Check values through parent
       var parent = this.getLayoutParent();
       if (parent) {
@@ -984,6 +1027,25 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       if (layout) {
         layout.setLayoutProperties(widget, properties);
       }
+      this._domUpdated();
+    },
+
+
+    /**
+     * Updates the layout with the given arguments.
+     *
+     * @param widget {qx.ui.mobile.core.Widget} The target widget
+     * @param action {String} The causing action that triggered the layout update.
+     * @param properties {Map} The animation properties to set. Key / value pairs.
+     *
+     * @internal
+     */
+    updateLayout : function(widget, action, properties) {
+      var layout = this._getLayout();
+      if (layout) {
+        layout.updateLayout(widget, action, properties);
+      }
+      this._domUpdated();
     },
 
 
@@ -1162,6 +1224,20 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
+     * Adds an array of CSS classes to the container element of the widget. Use this method
+     * to enhance the default appearance of the widget.
+     *
+     * @param cssClasses {String[]} The CSS classes to add, wrapped by an array.
+     */
+    addCssClasses : function(cssClasses) {
+      if(cssClasses){
+        qx.bom.element.Class.addClasses(this.getContainerElement(), cssClasses);
+        this._domUpdated();
+      }
+    },
+
+
+    /**
      * Removes a CSS class from the container element of the widget.
      *
      * @param cssClass {String} The CSS class to remove
@@ -1169,6 +1245,33 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     removeCssClass : function(cssClass) {
       qx.bom.element.Class.remove(this.getContainerElement(), cssClass);
       this._domUpdated();
+    },
+
+
+    /**
+     * Removes an array of CSS classes from the container element of the widget.
+     *
+     * @param cssClasses {String[]} The CSS classes to remove from widget.
+     */
+    removeCssClasses : function(cssClasses) {
+       if(cssClasses){
+         qx.bom.element.Class.removeClasses(this.getContainerElement(), cssClasses);
+         this._domUpdated();
+       }
+    },
+
+
+    /**
+     * Toggles the given CSS. Adds or removes the CSS class from the container element of the widget.
+     *
+     * @param cssClass {String} The CSS class to toggle
+     */
+    toggleCssClass : function(cssClass) {
+      if (this.hasCssClass(cssClass)) {
+        this.removeCssClass(cssClass);
+      } else {
+        this.addCssClass(cssClass);
+      }
     },
 
 
@@ -1204,36 +1307,59 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       else if (value == "hidden") {
         this._setStyle("visibility", "hidden");
       }
+      this._domUpdated();
+    },
+
+
+    /**
+     * Sets the visibility of the widget.
+     *
+     * @param action {String} The causing action that triggered the layout update.
+     * @param properties {Map} The animation properties to set. Key / value pairs.
+     */
+    __setVisibility : function(action, properties) {
+      this.setVisibility(action);
+
+      var parent = this.getLayoutParent();
+      if (parent) {
+        parent.updateLayout(this, action, properties);
+      }
     },
 
 
     /**
      * Make this widget visible.
      *
+     * @param properties {Map} The animation properties to set. Key / value pairs.
+     *
      * @return {void}
      */
-    show : function() {
-      this.setVisibility("visible");
+    show : function(properties) {
+      this.__setVisibility("visible", properties);
     },
 
 
     /**
      * Hide this widget.
      *
+     * @param properties {Map} The animation properties to set. Key / value pairs.
+     *
      * @return {void}
      */
-    hide : function() {
-      this.setVisibility("hidden");
+    hide : function(properties) {
+      this.__setVisibility("hidden", properties);
     },
 
 
     /**
      * Hide this widget and exclude it from the underlying layout.
      *
+     * @param properties {Map} The animation properties to set. Key / value pairs.
+     *
      * @return {void}
      */
-    exclude : function() {
-      this.setVisibility("excluded");
+    exclude : function(properties) {
+      this.__setVisibility("excluded", properties);
     },
 
 
@@ -1275,7 +1401,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Detects if the widget and all its parents are visible.
-     * 
+     *
      * Warning: forces rendering of the browser. Do not use this method during
      * animations or performance critical tasks.
      */
@@ -1337,7 +1463,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      *
      * Note: Most times this element points to to the container element.
      * When the widget has a more complex element structure,
-     * the function should return the element that should contain the content.
+     * the function should return a reference of the element that should contain
+     * the content.
      *
      * @return {Element} the content DOM element of the widget
      */

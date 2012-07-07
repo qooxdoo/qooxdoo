@@ -30,14 +30,22 @@
  */
 qx.Bootstrap.define("qx.bom.element.AnimationHandle",
 {
-  extend : Object,
+  extend : qx.event.Emitter,
 
 
   construct : function() {
     var css = qx.core.Environment.get("css.animation");
     this.__playState = css && css["play-state"];
-    this.__onEnd = [];
     this.__playing = true;
+  },
+
+
+  events: {
+    /**
+     * Fired when the animation started via {@link qx.bom.element.Animation} has
+     * ended.
+     */
+    "end" : "Element"
   },
 
 
@@ -46,27 +54,6 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
     __playState : null,
     __playing : false,
     __ended : false,
-    __onEnd : null,
-
-
-    /**
-     * Method to add callbacks to the end event of the animation.
-     * @param onEnd {Function} The end callback.
-     * @param ctx {var?} The context of the handler.
-     */
-    onEnd : function(onEnd, ctx) {
-      this.__onEnd.push({ctx : ctx || this, callback: onEnd});
-    },
-
-
-    /**
-     * Internal helper to get all end callbacks.
-     * @internal
-     * @return {Array} An array of Functions.
-     */
-    getOnEnd : function() {
-      return this.__onEnd;
-    },
 
 
     /**

@@ -70,7 +70,7 @@ qx.Class.define("mobiletweets.page.Tweets",
         configureItem : function(item, value, row) {
           // set the data of the model
           item.setTitle(value.getText());
-          item.setSubTitle(value.getUser().getName() + ", " + dateFormat.format(new Date(value.getCreated_at())));
+          item.setSubtitle(value.getUser().getName() + ", " + dateFormat.format(new Date(value.getCreated_at())));
           item.setImage(value.getUser().getProfile_image_url());
           // we have more data to display, show an arrow
           item.setShowArrow(true);

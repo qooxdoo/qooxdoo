@@ -57,8 +57,6 @@ qx.Class.define("qx.ui.form.Button",
   implement : [qx.ui.form.IExecutable],
 
 
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR

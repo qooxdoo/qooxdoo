@@ -145,6 +145,7 @@ qx.Class.define("playground.Application",
       // mainsplit, contains the editor splitpane and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
       mainContainer.add(mainsplit, { flex : 1 });
+      mainsplit.setAppearance("app-splitpane");
 
       // editor split (left side of main split)
       this.__editorsplit = new qx.ui.splitpane.Pane("horizontal");
@@ -170,23 +171,18 @@ qx.Class.define("playground.Application",
       }, this);
 
       // initialize custom samples
-      if (qx.core.Environment.get("html.storage.local")) {
-        this.__store = new qx.data.store.Offline("qooxdoo-playground-samples");
-        // if the local storage is not empty
-        if (this.__store.getModel() != null) {
-          // use the stored array to initialize the built in samples
-          this.__samples = new playground.Samples(this.__store.getModel());
-        } else {
-          // init the samples and store in the local storage
-          this.__samples = new playground.Samples();
-          this.__store.setModel(this.__samples.getModel());
-        }
-        this.__store.bind("model", this.__samplesPane, "model");
+      this.__store = new qx.data.store.Offline("qooxdoo-playground-samples");
+      // if the local storage is not empty
+      if (this.__store.getModel() != null) {
+        // use the stored array to initialize the built in samples
+        this.__samples = new playground.Samples(this.__store.getModel());
       } else {
-        // just use the samples as model if no local storage is available
+        // init the samples and store in the local storage
         this.__samples = new playground.Samples();
-        this.__samplesPane.setModel(this.__samples.getModel());
+        this.__store.setModel(this.__samples.getModel());
       }
+      this.__store.bind("model", this.__samplesPane, "model");
+
 
       // need to split up the creation process
       this.__editor = new playground.view.Editor();
@@ -199,7 +195,7 @@ qx.Class.define("playground.Application",
       this.__editorsplit.add(this.__editor, 4);
 
       mainsplit.add(this.__editorsplit, 6);
-      mainsplit.add(infosplit, 5);
+      mainsplit.add(infosplit, 3);
 
       this.__playArea = new playground.view.PlayArea();
       this.__playArea.addListener("toggleMaximize", this._onToggleMaximize, this);
@@ -269,10 +265,12 @@ qx.Class.define("playground.Application",
 
     // property apply
     _applyCurrentSample : function(newSample, old) {
-      // ignore wenn the sample is set to null
+      // ignore when the sample is set to null
       if (!newSample) {
         return;
       }
+
+      this.setMode(newSample.getMode());
 
       // need to get the code from the editor in case he changes something
       // in the code
@@ -340,6 +338,11 @@ qx.Class.define("playground.Application",
       // check if the mode is supported
       if (!this.__supportsMode(mode)) {
         throw new Error("Mode '" + mode + "' not supported");
+      }
+
+      // only set new mode if not already set
+      if (this.__mode == mode) {
+        return true;
       }
 
       // only change the mode if no code gets lost
@@ -566,7 +569,7 @@ qx.Class.define("playground.Application",
     __initBookmarkSupport : function()
     {
       this.__history = qx.bom.History.getInstance();
-      this.__history.addListener("request", this.__onHistoryChanged, this);
+      this.__history.addListener("changeState", this.__onHistoryChanged, this);
 
       // Handle bookmarks
       var state = this.__history.getState();

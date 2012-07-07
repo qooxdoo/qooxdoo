@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5905 $"/>
-		<generation date="$Date: 2011-06-15 23:14:13 -0500 (Wed, 15 Jun 2011) $"/>
+		<version number="$Revision: 6144 $"/>
+		<generation date="$Date: 2011-09-15 21:34:45 +0200 (Thu, 15 Sep 2011) $"/>
 		<language type="en"/>
 		<territory type="GU"/>
 	</identity>
@@ -13,7 +13,6 @@
 				<short>
 					<standard>ChST</standard>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 		</timeZoneNames>
 	</dates>

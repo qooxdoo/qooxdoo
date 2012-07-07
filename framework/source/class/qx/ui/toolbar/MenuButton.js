@@ -74,6 +74,12 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
       if (value != "visible" && menu) {
         menu.hide();
       }
+
+      // trigger a appearance recalculation of the parent
+      var parent = this.getLayoutParent();
+      if (parent && parent instanceof qx.ui.toolbar.PartContainer) {
+        qx.ui.core.queue.Appearance.add(parent);
+      }
     },
 
 

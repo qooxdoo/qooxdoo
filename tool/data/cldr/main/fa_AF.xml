@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5886 $"/>
-		<generation date="$Date: 2011-05-10 17:13:33 -0500 (Tue, 10 May 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="fa"/>
 		<territory type="AF"/>
 	</identity>
@@ -201,6 +201,7 @@
 							<month type="4">س</month>
 							<month type="5">ا</month>
 							<month type="6">س</month>
+							<month type="7">م</month>
 							<month type="8">ع</month>
 							<month type="9">ق</month>
 							<month type="10">ج</month>
@@ -218,7 +219,7 @@
 		</calendars>
 	</dates>
 	<numbers>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>'‪'#,##0%'‬'</pattern>
@@ -274,4 +275,3 @@
 		</currencies>
 	</numbers>
 </ldml>
-

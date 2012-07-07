@@ -32,9 +32,13 @@
 #            HTML).
 ##
 
-import sys, os, re
+import sys, os, re, string, copy
 from ecmascript.frontend import tree, Comment, lang
-from ecmascript.frontend.treeutil import *
+#from ecmascript.frontend import treeutil_2 as treeutil
+from ecmascript.frontend import treeutil
+from ecmascript.frontend import treegenerator
+from ecmascript.frontend.treegenerator import PackerFlags as pp
+#from ecmascript.transform.optimizer import variantoptimizer_2 as variantoptimizer  # ugly here
 from ecmascript.transform.optimizer import variantoptimizer  # ugly here
 from generator import Context
 
@@ -55,7 +59,7 @@ class DocException (Exception):
 hasDocError = False
 
 def printDocError(node, msg):
-    (line, column) = getLineAndColumnFromSyntaxItem(node)
+    (line, column) = treeutil.getLineAndColumnFromSyntaxItem(node)
     print "      - Failed: %s, Line: %s, Column: %s" % (
         msg, str(line), str(column)
     )
@@ -67,14 +71,16 @@ def printDocError(node, msg):
 def createDoc(syntaxTree, docTree = None):
     if not docTree:
         docTree = tree.Node("doctree")
+    attachMap = {} # {"targetclass#targetmethod" : method_docnode}
 
-    defineNode = findQxDefine(syntaxTree)
+    defineNode = treeutil.findQxDefine(syntaxTree)
     if defineNode != None:
-        variant = selectNode(defineNode, "operand/variable/2/@name").lower()
+        variant = treeutil.selectNode(defineNode, "operand").toJS(pp).split(".")[1].lower()  # 'class' in 'qx.Class.define'
         handleClassDefinition(docTree, defineNode, variant)
+        attachMap = findAttachMethods(docTree)
 
     global hasDocError
-    ret = (docTree, hasDocError)
+    ret = (docTree, hasDocError, attachMap)
     hasDocError = False
 
     return ret
@@ -114,8 +120,8 @@ def createPackageDoc(text, packageName, docTree = None):
 #
 ########################################################################################
 
-def handleClassDefinition(docTree, item, variant):
-    params = item.getChild("params")
+def handleClassDefinition(docTree, callNode, variant):
+    params = callNode.getChild("params")
     className = params.children[0].get("value")
 
     if len(params.children) > 1:
@@ -123,12 +129,13 @@ def handleClassDefinition(docTree, item, variant):
     else:
         classMap = {}
 
-    commentAttributes = Comment.parseNode(item)
+    cls_cmnt_node = treeutil.findLeftmostChild(callNode.getChild("operand"))
+    commentAttributes = Comment.parseNode(cls_cmnt_node)
 
-    classNode = getClassNode(docTree, className, commentAttributes)
+    classNode = classNodeFromDocTree(docTree, className, commentAttributes)
     if variant == "class":
         classNode.set("type", "class")
-        type = selectNode(params, "2/keyvalue[@key='type']/value/constant/@value")
+        type = treeutil.selectNode(params, "2/keyvalue[@key='type']/value/constant/@value")
         if type == "singleton":
             classNode.set("isSingleton", True)
         elif type == "abstract":
@@ -139,8 +146,8 @@ def handleClassDefinition(docTree, item, variant):
 
     handleDeprecated(classNode, commentAttributes)
     handleAccess(classNode, commentAttributes)
-    handleAppearance(item, classNode, className, commentAttributes)
-    handleChildControls(item, classNode, className, commentAttributes)
+    handleAppearance(callNode, classNode, className, commentAttributes)
+    handleChildControls(callNode, classNode, className, commentAttributes)
 
     try:
         children = classMap.children
@@ -189,13 +196,13 @@ def handleClassDefinition(docTree, item, variant):
     handleSingleton(classNode, docTree)
     
     if not classNode.hasChild("desc"):
-        addError(classNode, "Class documentation is missing.", item)    
+        addError(classNode, "Class documentation is missing.", callNode)    
     
 
 
 def handleClassExtend(valueItem, classNode, docTree, className):
-    superClassName = (assembleVariable(valueItem))[0]
-    superClassNode = getClassNode(docTree, superClassName)
+    superClassName = (treeutil.assembleVariable(valueItem))[0]
+    superClassNode = classNodeFromDocTree(docTree, superClassName)
     childClasses = superClassNode.get("childClasses", False)
 
     if childClasses:
@@ -208,10 +215,10 @@ def handleClassExtend(valueItem, classNode, docTree, className):
 
 
 def handleInterfaceExtend(valueItem, classNode, docTree, className):
-    superInterfaceNames = variableOrArrayNodeToArray(valueItem)
+    superInterfaceNames = treeutil.variableOrArrayNodeToArray(valueItem)
 
     for superInterface in superInterfaceNames:
-        superInterfaceNode = getClassNode(docTree, superInterface)
+        superInterfaceNode = classNodeFromDocTree(docTree, superInterface)
         childInterfaces = superInterfaceNode.get("childClasses", False)
 
         if childInterfaces:
@@ -245,7 +252,7 @@ def handleInterfaceExtend(valueItem, classNode, docTree, className):
 def handleMixins(item, classNode, docTree, className):
     try:
         # direct symbol or list of symbols
-        mixins = variableOrArrayNodeToArray(item)
+        mixins = treeutil.variableOrArrayNodeToArray(item)
     except tree.NodeAccessException:
         try:
             # call to qx.core.Environment.filter
@@ -253,12 +260,13 @@ def handleMixins(item, classNode, docTree, className):
             assert filterMap
             includeSymbols = []
             for key, node in filterMap.items():
-                # only consider true or undefined 
-                #if key not in variants or (key in variants and bool(variants[key]):
-                # map value has to be value/variable
+                # to select the current environment variant, add something like:
+                #  if key not in variants or (key in variants and bool(variants[key]):
+
+                # map value has to be variable
                 variable =  node.children[0]
-                assert variable.type == "variable"
-                symbol, isComplete = assembleVariable(variable)
+                assert variable.isVar()
+                symbol, isComplete = treeutil.assembleVariable(variable)
                 assert isComplete
                 includeSymbols.append(symbol)
             mixins = includeSymbols
@@ -266,7 +274,7 @@ def handleMixins(item, classNode, docTree, className):
             Context.console.warn("Illegal include definition in " + classNode.get("fullName"))
             return
     for mixin in mixins:
-        mixinNode = getClassNode(docTree, mixin)
+        mixinNode = classNodeFromDocTree(docTree, mixin)
         includer = mixinNode.get("includer", False)
         if includer:
             includer += "," + className
@@ -293,7 +301,7 @@ def handleSingleton(classNode, docTree):
  */
 function() {}""" % className
 
-        node = compileString(functionCode)
+        node = treeutil.compileString(functionCode)
         commentAttributes = Comment.parseNode(node)
         docNode = handleFunction(node, "getInstance", commentAttributes, classNode)
 
@@ -304,14 +312,14 @@ function() {}""" % className
 def handleInterfaces(item, classNode, docTree):
     className = classNode.get("fullName")
     try:
-        interfaces = variableOrArrayNodeToArray(item)
+        interfaces = treeutil.variableOrArrayNodeToArray(item)
     except tree.NodeAccessException:
         Context.console.warn("")
         Context.console.warn("Illegal implement definition in " + classNode.get("fullName"))
         return
 
     for interface in interfaces:
-        interfaceNode = getClassNode(docTree, interface)
+        interfaceNode = classNodeFromDocTree(docTree, interface)
         impl = interfaceNode.get("implementations", False)
         if impl:
             impl += "," + className
@@ -331,7 +339,7 @@ def handleConstructor(ctorItem, classNode):
 
 
 def handleStatics(item, classNode):
-    for key, value in mapNodeToMap(item).items():
+    for key, value in treeutil.mapNodeToMap(item).items():
         keyvalue = value.parent
         value = value.getFirstChild()
 
@@ -341,7 +349,7 @@ def handleStatics(item, classNode):
         if value.type != "function":
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
-                    value = compileString(docItem["text"][3:-4] + "{}")
+                    value = treeutil.compileString(docItem["text"][3:-4] + "{}")
 
         # Function
         if value.type == "function":
@@ -359,7 +367,8 @@ def handleStatics(item, classNode):
 
 
 def handleMembers(item, classNode):
-    for key, value in mapNodeToMap(item).items():
+
+    for key, value in treeutil.mapNodeToMap(item).items():
         keyvalue = value.parent
         value = value.getFirstChild()
 
@@ -370,7 +379,7 @@ def handleMembers(item, classNode):
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
                     try:
-                        value = compileString(docItem["text"][3:-4] + "{}")
+                        value = treeutil.compileString(docItem["text"][3:-4] + "{}")
                     except treegenerator.SyntaxException:
                         printDocError(keyvalue, "Invalid signature")
 
@@ -462,7 +471,7 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
     for funcName in generatedMethods:
         funcName = access + funcName + name
         functionCode = propData[funcName]
-        node = compileString(functionCode)
+        node = treeutil.compileString(functionCode)
         commentAttributes = Comment.parseNode(node)
         docNode = handleFunction(node, funcName, commentAttributes, classNode)
         docNode.remove("line")
@@ -563,7 +572,7 @@ def generateGroupPropertyMethod(propertyName, groupMembers, mode, classNode):
         "params" : "\n".join(paramsDef),
         "paramList" : ", ".join(groupMembers)
     })
-    functionNode = compileString(functionCode)
+    functionNode = treeutil.compileString(functionCode)
     commentAttributes = Comment.parseNode(functionNode)
     docNode = handleFunction(functionNode, functionName, commentAttributes, classNode)
 
@@ -590,14 +599,14 @@ def handlePropertyGroup(propName, propDefinition, classNode):
 
 
 def handleProperties(item, classNode):
-    for propName, value in mapNodeToMap(item).items():
+    for propName, value in treeutil.mapNodeToMap(item).items():
         keyvalue = value.parent
         value = value.getFirstChild()
 
         if value.type != "map":
             continue
 
-        propDefinition = mapNodeToMap(value)
+        propDefinition = treeutil.mapNodeToMap(value)
         #print propName, propDefinition
 
         if "group" in propDefinition:
@@ -632,9 +641,10 @@ def handleProperties(item, classNode):
 
 
 def handleEvents(item, classNode):
-    for key, value in mapNodeToMap(item).items():
-        keyvalue = value.parent
-        value = value.getFirstChild(True, True).get("value")
+    for key, value_ in treeutil.mapNodeToMap(item).items():
+        keyvalue = value_.parent
+        value = value_.getFirstChild(True, True).toJavascript()
+        value = string.strip(value, '\'"') # unquote result from .toJavascript; TODO: unnecessary with .toJS!?
 
         node = tree.Node("event")
 
@@ -798,10 +808,14 @@ def handleConstantDefinition(item, classNode):
     node = tree.Node("constant")
     node.set("name", name)
 
-    value = None
     if valueNode.hasChild("constant"):
-            node.set("value", valueNode.getChild("constant").get("value"))
-            node.set("type", valueNode.getChild("constant").get("constantType").capitalize())
+        node.set("value", valueNode.getChild("constant").get("value"))
+        node.set("type", valueNode.getChild("constant").get("constantType").capitalize())
+    elif valueNode.hasChild("array"):
+        arrayNode = valueNode.getChild("array")
+        if all([x.type == "constant" for x in arrayNode.children]):
+            node.set("value", arrayNode.toJS(pp))
+            node.set("type", "Array")
 
     commentAttributes = Comment.parseNode(item)
     description = Comment.getAttrib(commentAttributes, "description")
@@ -817,7 +831,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
     node = tree.Node("method")
     node.set("name", name)
     
-    (line, column) = getLineAndColumnFromSyntaxItem(funcItem)
+    (line, column) = treeutil.getLineAndColumnFromSyntaxItem(funcItem)
     if line:
         node.set("line", line)
 
@@ -829,11 +843,11 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
     params = funcItem.getChild("params", False)
     if params and params.hasChildren():
         for param in params.children:
-            if param.type != "variable":
+            if param.type != "identifier":
                 continue
 
             paramNode = tree.Node("param")
-            paramNode.set("name", param.getFirstChild().get("name"))
+            paramNode.set("name", param.get("value"))
             node.addListChild("params", paramNode)
 
     # Check whether the function is abstract
@@ -863,6 +877,17 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 
             seeNode = tree.Node("see").set("name", attrib["name"])
             node.addChild(seeNode)
+
+        elif attrib["category"] in ("attach", "attachStatic"):
+            if not "targetClass" in attrib:
+                printDocError(funcItem, "Missing target for attach.")
+                continue
+
+            attachNode = tree.Node(attrib["category"]).set("targetClass", attrib["targetClass"])
+            attachNode.set("targetMethod", attrib["targetMethod"])
+            attachNode.set("sourceClass", classNode.get("fullName"))  # these two are interesting for display at the target class
+            attachNode.set("sourceMethod", name)
+            node.addChild(attachNode)
 
         elif attrib["category"] == "param":
             if not "name" in attrib:
@@ -940,10 +965,9 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
                     isAbstract = True
         
         if hasComment and not isInterface and not hasSignatureDef and not isAbstract:
-            #from pydbgr.api import debug
             
             hasReturnValue = False
-            for returnNode in nodeIterator(funcItem, ["return"]):
+            for returnNode in treeutil.nodeIterator(funcItem, ["return"]):
                 if returnNode.hasChild("expression"):
                     hasReturnValue = True
             
@@ -973,19 +997,36 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
     return node
 
 
-
-
-
-
-
-
-
-
 ########################################################################################
 #
 #  COMMON STUFF
 #
 #######################################################################################
+
+
+def findAttachMethods(docTree):
+    attachMap = {}
+    sections = {"attach": "members", "attachStatic" :"statics"}
+
+    for method in methodNodeIterator(docTree):
+        for child in method.children:
+            if child.type in ("attach", "attachStatic"):
+                target_class = child.get("targetClass")
+                if target_class not in attachMap:
+                    attachMap[target_class] = {"statics": {}, "members": {}}
+                target_method = child.get("targetMethod")
+                if not target_method:
+                    target_method = method.get("name")
+                cmethod = attachMap[target_class][sections[child.type]][target_method] = copy.deepcopy(method)  # copy.deepcopy(method)?
+                # patch isStatics in target class
+                if sections[child.type] == "statics":
+                    cmethod.set("isStatic", True)
+                else:
+                    cmethod.set("isStatic", False)
+                cmethod.set("sourceClass", child.get("sourceClass"))
+                cmethod.set("sourceMethod", method.get("name"))
+
+    return attachMap
 
 
 def variableIsClassName(varItem):
@@ -1012,8 +1053,8 @@ def getValue(item):
             value = '"' + item.get("value") + '"'
         else:
             value = item.get("value")
-    elif item.type == "variable":
-        value, isComplete = assembleVariable(item)
+    elif item.isVar():
+        value, isComplete = treeutil.assembleVariable(item)
         if not isComplete:
             value = "[Complex expression]"
     elif item.type == "operation" and item.get("operator") == "SUB":
@@ -1100,7 +1141,7 @@ def addError(node, msg, syntaxItem):
     errorNode = tree.Node("error")
     errorNode.set("msg", msg)
 
-    (line, column) = getLineAndColumnFromSyntaxItem(syntaxItem)
+    (line, column) = treeutil.getLineAndColumnFromSyntaxItem(syntaxItem)
     if line:
         errorNode.set("line", line)
 
@@ -1147,7 +1188,10 @@ def getPackageNode(docTree, namespace):
     return currPackage
 
 
-def getClassNode(docTree, fullClassName, commentAttributes = None):
+##
+# Get (or create) the node for the given class name in the docTree
+#
+def classNodeFromDocTree(docTree, fullClassName, commentAttributes = None):
     if commentAttributes == None:
         commentAttributes = {}
 
@@ -1283,7 +1327,7 @@ def isClassAbstract(docTree, classNode, visitedMethodNames):
     # methods that haven't been overridden
     superClassName = classNode.get("superClass", False)
     if superClassName:
-        superClassNode = getClassNode(docTree, superClassName)
+        superClassNode = classNodeFromDocTree(docTree, superClassName)
         return isClassAbstract(docTree, superClassNode, visitedMethodNames)
 
 
@@ -1304,11 +1348,11 @@ def documentApplyMethod(methodNode, props):
     if methodNode.getChild("desc", False) != None:
         return
 
-    firstParam = selectNode(methodNode, "params/param[1]/@name")
+    firstParam = treeutil.selectNode(methodNode, "params/param[1]/@name")
     if firstParam is None:
         firstParam = "value"
 
-    secondParam = selectNode(methodNode, "params/param[2]/@name")
+    secondParam = treeutil.selectNode(methodNode, "params/param[2]/@name")
     if secondParam is None:
         secondParam = "old"
 
@@ -1354,9 +1398,9 @@ function(%(firstParamName)s, %(secondParamName)s) {}""" % ({
         "propName": methodNode.get("name")
     })
 
-    node = compileString(functionCode)
+    node = treeutil.compileString(functionCode)
     commentAttributes = Comment.parseNode(node)
-    docNode = handleFunction(node, methodNode.get("name"), commentAttributes, selectNode(methodNode, "../.."))
+    docNode = handleFunction(node, methodNode.get("name"), commentAttributes, treeutil.selectNode(methodNode, "../.."))
 
     oldParams = methodNode.getChild("params", False)
     if oldParams:
@@ -1410,13 +1454,13 @@ def dependendClassIterator(docTree, classNode):
     if superClassName:
         directDependencies.append(superClassName)
 
-    for list in ["mixins", "interfaces", "superMixins", "superInterfaces"]:
-        listItems = classNode.get(list, False)
+    for list_ in ["mixins", "interfaces", "superMixins", "superInterfaces"]:
+        listItems = classNode.get(list_, False)
         if listItems:
             directDependencies.extend(listItems.split(","))
 
     for dep in directDependencies:
-        for cls in dependendClassIterator(docTree, getClassNode(docTree, dep)):
+        for cls in dependendClassIterator(docTree, classNodeFromDocTree(docTree, dep)):
             yield cls
 
 
@@ -1439,6 +1483,9 @@ def postWorkItemList(docTree, classNode, listName, overridable):
 
     # Sort the list
     sortByName(classNode, listName)
+
+    #if classNode.get("name")=="Table":
+    #    import pydb; pydb.debugger()
 
     # Post work all items
     listNode = classNode.getChild(listName, False)
@@ -1474,7 +1521,7 @@ def postWorkItemList(docTree, classNode, listName, overridable):
 
             # look for documentation in super classes
             while superClassName and (not overriddenFound or not docFound):
-                superClassNode = getClassNode(docTree, superClassName)
+                superClassNode = classNodeFromDocTree(docTree, superClassName)
                 superItemNode = superClassNode.getListChildByAttribute(listName, "name", name, False)
 
                 if superItemNode:
@@ -1676,3 +1723,23 @@ def classNodeIterator(docTree):
         for child in docTree.children:
             for cls in classNodeIterator(child):
                 yield cls
+
+
+def methodNodeIterator(docTree):
+    if docTree.type == "method":
+        yield docTree
+        return
+
+    if docTree.hasChildren():
+        for child in docTree.children:
+            for method in methodNodeIterator(child):
+                yield method
+
+def docTreeIterator(docTree, type_):
+    if docTree.type == type_:
+        yield docTree
+
+    if docTree.children:
+        for child in docTree.children:
+            for entry in docTreeIterator(child, type_):
+                yield entry

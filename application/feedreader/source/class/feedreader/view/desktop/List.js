@@ -49,6 +49,7 @@ qx.Class.define("feedreader.view.desktop.List",
     // Create the header of the list
     var listHeader = new qx.ui.basic.Label(this.tr("Posts"));
     listHeader.setPadding(5);
+    listHeader.setBackgroundColor("white");
     listHeader.setAllowGrowX(true);
     listHeader.setFont("bold");
     this._add(listHeader);
@@ -67,6 +68,7 @@ qx.Class.define("feedreader.view.desktop.List",
 
     // Create the loading image for the list
     this.__listLoadImage = new qx.ui.container.Composite(new qx.ui.layout.HBox(0, "center"));
+    this.__listLoadImage.setBackgroundColor("white");
     var loadImage = new qx.ui.basic.Image("feedreader/images/loading66.gif");
     loadImage.setAlignY("middle");
     this.__listLoadImage.add(loadImage);

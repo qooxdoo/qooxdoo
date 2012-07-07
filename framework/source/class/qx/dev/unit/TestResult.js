@@ -75,7 +75,14 @@ qx.Class.define("qx.dev.unit.TestResult",
      *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
-    skip : "qx.event.type.Data"
+    skip : "qx.event.type.Data",
+
+    /**
+     * Fired if a performance test returned results.
+     *
+     * Event data: The test {@link qx.dev.unit.TestFunction}
+     */
+    endMeasurement : "qx.event.type.Data"
   },
 
 
@@ -143,6 +150,7 @@ qx.Class.define("qx.dev.unit.TestResult",
         this._timeout[test.getFullName()] = "failed";
         var qxEx = new qx.type.BaseError("Error in asynchronous test", "resume() called before wait()");
         this._createError("failure", [qxEx], test);
+        this.fireDataEvent("endTest", test);
         return;
       }
 
@@ -177,10 +185,11 @@ qx.Class.define("qx.dev.unit.TestResult",
 
           if (ex.classname == "qx.dev.unit.RequirementError") {
             this._createError("skip", [ex], test);
+            this.fireDataEvent("endTest", test);
           }
           else {
-            if (ex instanceof qx.type.BaseError && 
-              ex.message == qx.type.BaseError.DEFAULTMESSAGE) 
+            if (ex instanceof qx.type.BaseError &&
+              ex.message == qx.type.BaseError.DEFAULTMESSAGE)
             {
               ex.message = "setUp failed";
             }
@@ -188,8 +197,9 @@ qx.Class.define("qx.dev.unit.TestResult",
               ex.message = "setUp failed: " + ex.message;
             }
             this._createError("error", [ex], test);
+            this.fireDataEvent("endTest", test);
           }
-          
+
           return;
         }
       }
@@ -224,16 +234,22 @@ qx.Class.define("qx.dev.unit.TestResult",
             this.fireDataEvent("wait", test);
           }
 
+        } else if (ex instanceof qx.dev.unit.MeasurementResult) {
+          error = false;
+          this._createError("endMeasurement", [ex], test);
         } else {
           try {
             this.tearDown(test);
           } catch(except) {}
           if (ex.classname == "qx.core.AssertionError") {
             this._createError("failure", [ex], test);
+            this.fireDataEvent("endTest", test);
           } else if (ex.classname == "qx.dev.unit.RequirementError") {
             this._createError("skip", [ex], test);
+            this.fireDataEvent("endTest", test);
           } else {
             this._createError("error", [ex], test);
+            this.fireDataEvent("endTest", test);
           }
         }
       }
@@ -244,16 +260,17 @@ qx.Class.define("qx.dev.unit.TestResult",
           this.tearDown(test);
           this.fireDataEvent("endTest", test);
         } catch(ex) {
-          if (ex instanceof qx.type.BaseError && 
-            ex.message == qx.type.BaseError.DEFAULTMESSAGE) 
+          if (ex instanceof qx.type.BaseError &&
+            ex.message == qx.type.BaseError.DEFAULTMESSAGE)
           {
             ex.message = "tearDown failed";
           }
           else {
             ex.message = "tearDown failed: " + ex.message;
           }
-          
+
           this._createError("error", [ex], test);
+          this.fireDataEvent("endTest", test);
         }
       }
 
@@ -285,7 +302,6 @@ qx.Class.define("qx.dev.unit.TestResult",
       }
 
       this.fireDataEvent(eventName, errors);
-      this.fireDataEvent("endTest", test);
     },
 
 

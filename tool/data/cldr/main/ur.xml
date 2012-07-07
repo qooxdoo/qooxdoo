@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5969 $"/>
-		<generation date="$Date: 2011-07-05 16:06:02 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="ur"/>
 	</identity>
 	<localeDisplayNames>
@@ -538,7 +538,6 @@
 			<type type="coptic" key="calendar">کاپٹک کیلنڈر</type>
 			<type type="deva" key="numbers">دیوناگری ہندسے</type>
 			<type type="dictionary" key="collation">لغت کی چھٹنی کی ترتیب</type>
-			<type type="direct" key="collation">راست چھٹنی کی ترتیب</type>
 			<type type="ducet" key="collation">ڈیفالٹ یونیکوڈ کی چھٹنی کی ترتیب</type>
 			<type type="ethi" key="numbers">ایتھوپیائی اعداد</type>
 			<type type="ethiopic" key="calendar">ایتھوپیائی کیلنڈر</type>
@@ -622,10 +621,10 @@
 		</stopwords>
 	</characters>
 	<delimiters>
-		<quotationStart>&quot;</quotationStart>
-		<quotationEnd>&quot;</quotationEnd>
-		<alternateQuotationStart>'</alternateQuotationStart>
-		<alternateQuotationEnd>'</alternateQuotationEnd>
+		<quotationStart>”</quotationStart>
+		<quotationEnd>“</quotationEnd>
+		<alternateQuotationStart>’</alternateQuotationStart>
+		<alternateQuotationEnd>‘</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -635,7 +634,7 @@
 						<monthWidth type="wide">
 							<month type="1">جنوری</month>
 							<month type="2">فروری</month>
-							<month type="3">مار چ</month>
+							<month type="3">مارچ</month>
 							<month type="4">اپريل</month>
 							<month type="5">مئ</month>
 							<month type="6">جون</month>
@@ -2035,6 +2034,8 @@
 			<metazone type="Amazon">
 				<long>
 					<generic>امیزن ٹائم</generic>
+					<standard>امیزن اسٹینڈرڈ ٹائم</standard>
+					<daylight>امیزن ڈے لائٹ ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Central">
@@ -2068,14 +2069,14 @@
 			<metazone type="Anadyr">
 				<long>
 					<generic>انیدر ٹائم</generic>
-					<standard>انیدر ٹائم</standard>
+					<standard>انیدر اسٹینڈرڈ ٹائم</standard>
 					<daylight>انیدر سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina">
 				<long>
 					<generic>ارجنٹینا ٹائم</generic>
-					<standard>ارجنٹینا ٹائم</standard>
+					<standard>ارجنٹینا اسٹینڈرڈ ٹائم</standard>
 					<daylight>ارجنٹینا سمر ٹائم</daylight>
 				</long>
 			</metazone>
@@ -2124,76 +2125,74 @@
 			<metazone type="Brasilia">
 				<long>
 					<generic>برازیلیا ٹائم</generic>
-					<standard>برازیلیا ٹائم</standard>
+					<standard>برازیلیا اسٹینڈرڈ ٹائم</standard>
 					<daylight>برازیلیا سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Choibalsan">
 				<long>
 					<generic>کوائبلسان ٹائم</generic>
-					<standard>کوائبلسان ٹائم</standard>
+					<standard>کوائبلسان اسٹینڈرڈ ٹائم</standard>
 					<daylight>کوائبلسان سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hawaii_Aleutian">
 				<long>
 					<generic>ہوائی الیوٹیئن ٹائم</generic>
+					<standard>ہوائی الیوٹیئن اسٹینڈرڈ ٹائم</standard>
+					<daylight>ہوائی الیوٹیئن ڈے لائٹ ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
 					<generic>ہووارڈ ٹائم</generic>
-					<standard>ہووارڈ ٹائم</standard>
+					<standard>ہووارڈ اسٹینڈرڈ ٹائم</standard>
 					<daylight>ہووارڈ سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<generic>انڈونیشیا سنٹرل ٹائم</generic>
+					<standard>انڈونیشیا سنٹرل ٹائم</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<generic>انڈونیشیا ایسٹرن ٹائم</generic>
+					<standard>انڈونیشیا ایسٹرن ٹائم</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<generic>انڈونیشیا ویسٹرن ٹائم</generic>
+					<standard>انڈونیشیا ویسٹرن ٹائم</standard>
 				</long>
 			</metazone>
 			<metazone type="Irkutsk">
 				<long>
 					<generic>ارکتسک ٹائم</generic>
-					<standard>ارکتسک ٹائم</standard>
+					<standard>ارکتسک اسٹینڈرڈ ٹائم</standard>
 					<daylight>ارکتسک سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kamchatka">
 				<long>
-					<generic>کیمچٹکا ٹائم</generic>
-					<standard>پیٹروپاؤلووسک - کیمچسکی ٹائم</standard>
+					<generic>پیٹروپاؤلووسک-کیمچسکی ٹائم</generic>
+					<standard>پیٹروپاؤلووسک-کیمچسکی اسٹینڈرڈ ٹائم</standard>
 					<daylight>پیٹروپاؤلووسک-کیمچسکی سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
-					<generic>ایسٹ قزاخستان ٹائم</generic>
-					<standard>ایسٹ قزاخستان اسٹینڈرڈ ٹائم</standard>
-					<daylight>قزاخستان ایسٹرن سمر ٹائم</daylight>
+					<standard>ایسٹ قزاخستان ٹائم</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
-					<generic>ویسٹ قزاخستان ٹائم</generic>
-					<standard>ویسٹ قزاخستان اسٹینڈرڈ ٹائم</standard>
-					<daylight>قزاخستان ویسٹرن سمر ٹائم</daylight>
+					<standard>ویسٹ قزاخستان ٹائم</standard>
 				</long>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
 					<generic>کریسنویارسک ٹائم</generic>
-					<standard>کریسنویارسک ٹائم</standard>
+					<standard>کریسنویارسک اسٹینڈرڈ ٹائم</standard>
 					<daylight>کریسنویارسک سمر ٹائم</daylight>
 				</long>
 			</metazone>
@@ -2206,20 +2205,20 @@
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<generic>مکؤری ٹائم</generic>
+					<standard>مکؤری ٹائم</standard>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic>میگیدن ٹائم</generic>
-					<standard>میگیدن ٹائم</standard>
+					<standard>میگیدن اسٹینڈرڈ ٹائم</standard>
 					<daylight>میگیدن سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic>منگولیا ٹائم</generic>
-					<standard>یولان بیٹور ٹائم</standard>
+					<generic>یولان بیٹور ٹائم</generic>
+					<standard>یولان بیٹور اسٹینڈرڈ ٹائم</standard>
 					<daylight>یولان بیٹور سمر ٹائم</daylight>
 				</long>
 			</metazone>
@@ -2239,70 +2238,74 @@
 			</metazone>
 			<metazone type="Noronha">
 				<long>
-					<generic>نورونہا ٹائم</generic>
-					<standard>فرنانڈو ڈی نورونہا ٹائم</standard>
+					<generic>فرنانڈو ڈی نورونہا ٹائم</generic>
+					<standard>فرنانڈو ڈی نورونہا اسٹینڈرڈ ٹائم</standard>
 					<daylight>فرنانڈو ڈی نورونہا سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
 					<generic>نوووسِبِرسک ٹائم</generic>
-					<standard>نوووسِبِرسک ٹائم</standard>
+					<standard>نوووسِبِرسک اسٹینڈرڈ ٹائم</standard>
 					<daylight>نوووسِبِرسک سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
 					<generic>اومسک ٹائم</generic>
-					<standard>اومسک ٹائم</standard>
+					<standard>اومسک اسٹینڈرڈ ٹائم</standard>
 					<daylight>اومسک سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
 					<generic>سخالین ٹائم</generic>
-					<standard>سخالین ٹائم</standard>
+					<standard>سخالین اسٹینڈرڈ ٹائم</standard>
 					<daylight>سخالین سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
 					<generic>سمارا ٹائم</generic>
-					<standard>سمارا ٹائم</standard>
+					<standard>سمارا اسٹینڈرڈ ٹائم</standard>
 					<daylight>سمارا سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
 					<generic>ولادی ووستک ٹائم</generic>
-					<standard>ولادی ووستک ٹائم</standard>
+					<standard>ولادی ووستک اسٹینڈرڈ ٹائم</standard>
 					<daylight>ولادی ووستک سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
 					<generic>وولگوگراد ٹائم</generic>
-					<standard>وولگوگراد ٹائم</standard>
+					<standard>وولگوگراد اسٹینڈرڈ ٹائم</standard>
 					<daylight>وولگوگراد سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
 					<generic>یکوتسک ٹائم</generic>
-					<standard>یکوتسک ٹائم</standard>
+					<standard>یکوتسک اسٹینڈرڈ ٹائم</standard>
 					<daylight>یکوتسک سمر ٹائم</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
 					<generic>یکاٹیرِنبرگ ٹائم</generic>
-					<standard>یکاٹیرِنبرگ ٹائم</standard>
+					<standard>یکاٹیرِنبرگ اسٹینڈرڈ ٹائم</standard>
 					<daylight>یکاٹیرِنبرگ سمر ٹائم</daylight>
 				</long>
 			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
+		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<otherNumberingSystems>
+			<native>arabext</native>
+		</otherNumberingSystems>
 		<symbols numberSystem="latn">
 			<decimal>.</decimal>
 			<group>,</group>
@@ -2317,7 +2320,7 @@
 			<nan>NaN</nan>
 			<nan alt="arab" draft="unconfirmed">یہ عدد نہیں</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
@@ -2325,27 +2328,36 @@
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
+					<pattern type="1000" draft="contributed">0.0K</pattern>
+					<pattern type="10000" draft="contributed">00K</pattern>
+					<pattern type="100000" draft="contributed">000K</pattern>
+					<pattern type="1000000" draft="contributed">0.0M</pattern>
+					<pattern type="10000000" draft="contributed">00M</pattern>
+					<pattern type="100000000" draft="contributed">000M</pattern>
 					<pattern type="1000000000">0.0B</pattern>
 					<pattern type="10000000000">00B</pattern>
 					<pattern type="100000000000">000B</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0T</pattern>
+					<pattern type="10000000000000" draft="contributed">00T</pattern>
+					<pattern type="100000000000000" draft="contributed">000T</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern>#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00</pattern>

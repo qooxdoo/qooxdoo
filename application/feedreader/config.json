@@ -8,6 +8,10 @@
     },
     {
       "path" : "image.json"
+    },
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/image.json",
+      "as"   : "image"
     }
   ],
   
@@ -17,14 +21,24 @@
   {
     "APPLICATION"  : "feedreader",
     "QOOXDOO_PATH" : "../..",
-    "QXTHEME"      : "qx.theme.Modern",
+    "QXTHEME"      : "qx.theme.Indigo",
     "LOCALES"      : ["en", "de", "es", "fr", "it", "nl", "sv", "ro"],
     "ROOT"         : "."
   },
   
   "config-warnings" :
   {
-	"job-shadowing" : ["libraries", "common", "simulation-build", "simulation-run", "translation"]
+    "job-shadowing" : 
+    [
+      "common", 
+      "image-combine",
+      "libraries", 
+      "simulation-build", 
+      "simulation-run", 
+      "translation"
+    ],
+    
+    "environment" : [ "non-literal-keys" ]
   },
   
   
@@ -242,6 +256,13 @@
       {
         "SIMULATION_INCLUDE" : "feedreader.simulation.mobile.*"
       }
+    },
+
+    // -- Image Jobs ------------------------------------------------------
+    
+    "image-combine" :
+    {
+      "extend" : ["image::combining"]
     }
   }  
 }

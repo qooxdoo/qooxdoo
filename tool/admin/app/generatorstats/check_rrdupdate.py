@@ -31,7 +31,7 @@ import sys, os, re, string, types
 import datetime, time
 
 def print_appnames():
-    print "Apps:", ["feedreader","demobrowser","showcase","framework-tests","playground","apiviewer","portal","inspector"]
+    print "Apps:", ["feedreader","demobrowser","showcase","framework-tests","playground","apiviewer","widgetbrowser","mobileshowcase"]
 
 print_appnames()
 oneday = datetime.timedelta(days=1)

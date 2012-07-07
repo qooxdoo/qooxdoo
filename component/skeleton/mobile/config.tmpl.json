@@ -32,8 +32,10 @@
     "minify-css",
     "source-ios",
     "source-android",
+    "source-indigo",
     "build-ios",
-    "build-android"
+    "build-android",
+    "build-indigo"
   ],
   
   "default-job" : "source-hybrid",
@@ -57,6 +59,7 @@
       "source",
       "build",
       "source-all-script", 
+      "source-hybrid",
       "build-files", 
       "build-script", 
       "source-script"
@@ -91,13 +94,19 @@
         "$${APPLICATION}.Application"
       ],
       
+      "asset-let" : {
+        "qx.mobile.platform" : [ "$${PLATFORM}" ]
+      },
+
       "environment" :
       {
-        "qx.version"     : "${QOOXDOO_VERSION}",
-        "qx.application" : "$${APPLICATION}.Application",
         "qx.mobile.emulatetouch" : true,
         "qx.mobile.nativescroll" : false,
-        "engine.name" : "webkit"
+        "qx.theme" : "$${PLATFORM}"
+        /* Remove following inline comment if you want to optimize code for webkit browsers.
+         Attention: if webkit engine optimization is enabled, mobile app will not be
+         usable in Firefox. */
+        // ,"engine.name" : "webkit"
       }
     },
     
@@ -112,6 +121,12 @@
       "extend" : ["source"],
       "let" : { "PLATFORM" : "android" }
     },
+    
+    "source-indigo" :
+    {
+      "extend" : ["source"],
+      "let" : { "PLATFORM" : "indigo" }
+    },
 
     "build-ios" :
     {
@@ -124,15 +139,32 @@
       "extend" : ["build"],
       "let" : { "PLATFORM" : "android" }
     },
-
-    "source" :
+    
+    "build-indigo" :
     {
+      "extend" : ["build"],
+      "let" : { "PLATFORM" : "indigo" }
+    },
+
+    "source-script" :
+    {
+      "extend" : ["mobile-common"],
       "let" : { 
         "BUILD_PATH" : "$${ROOT}/source"
       },
-      "asset-let" : {
-        "qx.mobile.platform" : [ "$${PLATFORM}" ]
-      }
+      "add-css" : [ 
+        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}.css" },
+        { "uri" : "./resource/$${APPLICATION_CSS}" }
+      ]
+    },
+
+    "source-hybrid" :
+    {
+      "extend" : ["mobile-common"],
+      "add-css" : [ 
+        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}.css" },
+        { "uri" : "./resource/$${APPLICATION_CSS}" }
+      ]
     },
 
 
@@ -147,15 +179,6 @@
       "=run" : ["build-resources", "build-files", "build-script", "minify-css"]
     },
 
-
-    "source-script" :
-    {
-      "extend" : ["mobile-common"],
-      "add-css" : [ 
-        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}.css" },
-        { "uri" : "./resource/$${APPLICATION_CSS}" }
-      ]
-    },
 
     "build-script" :
     {

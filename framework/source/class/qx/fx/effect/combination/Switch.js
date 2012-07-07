@@ -38,6 +38,7 @@
  * Combination effect "Switch Off"
  *
  * Flickers the element one time and then folds it in.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 
 qx.Class.define("qx.fx.effect.combination.Switch",
@@ -53,6 +54,7 @@ qx.Class.define("qx.fx.effect.combination.Switch",
 
   /**
    * @param element {Object} The DOM element
+   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
    */
   construct : function(element)
   {
@@ -84,6 +86,7 @@ qx.Class.define("qx.fx.effect.combination.Switch",
 
     /**
     * Number of seconds the effect should run.
+    * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
     */
     duration :
     {
@@ -93,6 +96,7 @@ qx.Class.define("qx.fx.effect.combination.Switch",
 
     /**
      * Initial opacity value
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     from :
     {
@@ -102,6 +106,7 @@ qx.Class.define("qx.fx.effect.combination.Switch",
 
     /**
      * Final opacity value
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     to :
     {
@@ -112,6 +117,7 @@ qx.Class.define("qx.fx.effect.combination.Switch",
     /**
      * Flag indicating if the CSS attribute "display"
      * should be modified by effect
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     modifyDisplay :
     {
@@ -122,6 +128,7 @@ qx.Class.define("qx.fx.effect.combination.Switch",
     /**
      * Mode indicating if effect should switch
      * element "on" or "off"
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     mode :
     {

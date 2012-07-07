@@ -1,0 +1,4 @@
+/**
+ * qx.theme.indigo package
+ *
+ */

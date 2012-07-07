@@ -23,3 +23,6 @@
 
 # WebStorm
 /.idea
+
+# Build & test infrastructur
+/build.log

@@ -3,12 +3,7 @@
 Overview
 ********
 
-.. note::
-
-    This is an experimental feature. You should use the ``trunk`` version of
-    qooxdoo mobile and this documentation.
-
-This is an introduction into qooxdoo's experimental mobile framework. qooxdoo mobile
+This is an introduction into qooxdoo's mobile framework. qooxdoo mobile
 provides a optimized widget set to build applications for mobile devices.
 
 Supported Mobile Operating Systems
@@ -19,6 +14,7 @@ systems:
 
 * iOS
 * Android 1.6+
+* BlackBerry 10 OS (on BlackBerry PlayBook)
 
 Supported Desktop Browsers
 ==========================
@@ -27,6 +23,7 @@ qooxdoo mobile was tested with the following desktop browsers:
 
 * Safari 5
 * Chrome 10+
+* Firefox 10 (Experimental)
 
 Features
 ========
@@ -34,7 +31,7 @@ Features
 .. index:: animation, mobile, widget, theme, ios, android, touch, page, scroll, iscroll, phonegap
 
 * `Mobile widget set <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_
-* Theming via CSS
+* :doc:`Theming via CSS and LESS <theming>`
 * iOS theme
 * Android theme
 * Touch events: touchstart, touchmove, touchend, touchcancel 
@@ -43,6 +40,9 @@ Features
 * Touch event emulation for debugging in desktop browsers
 * Fixed toolbars and momentum scrolling via `iScroll <http://cubiq.org/iscroll>`_
 * Basic `PhoneGap <http://www.phonegap.com/>`_ support
+
+
+.. _pages/mobile_overview#api:
 
 API Documentation
 =================
@@ -71,6 +71,49 @@ To learn how to develop a basic mobile application, you should try the :doc:`mob
 If you are new to qooxdoo, make sure you have read the :ref:`getting started <pages/getting_started/helloworld#setup_the_framework>` tutorial to
 understand the basics of qooxdoo.
 
+
+Debugging
+=========
+
+If you want to debug your qooxdoo mobile application on a mobile device, we propose
+using a web remote debugger called "weinre":
+
+`weinre. Web Inspector Remote <http://phonegap.github.com/weinre/>`_
+
+Remote debugging allows a developer to use the browsers developer tools from a desktop computer while inspecting and manipulating the website on the mobile device.
+
+Here are some hints for enabling remote debugging on your qooxdoo mobile application with weinre:
+
+  * Install weinre according to the weinre manual. Create a server.properties file,
+    and change the port number to 8081 or similar.
+
+  * Add the following script tag to the index.html in your qooxdoo mobile application:
+
+    ``<script src="http://[ENTER_YOUR_HOST_IP_HERE]:8081/target/target-script-min.js"></script>``
+
+  * Replace ip placeholder with your desktop computer ip on your "index.html".
+
+  * Start weinre.
+
+  * Call your qooxdoo mobile application from your mobile device.
+
+Important: Please make sure, not having the character "#", behind the "index.html" on your url.
+Weinre uses debug ids, which are appended after the target url, just like "..qooxdoo/foo/../index.html#anonymous".
+On mac computers "anonymous" is the default debug id. Any other debug id, results in a disconnect of 
+target mobile device. 
+
+Unfortunately, there is a clash with qooxdoo mobile navigation logic. Qooxdoo navigation manager uses 
+also the number sign, for navigating through pages:
+
+"../mobileshowcase/source/index.html#/form"
+
+So, if you navigate to a subpage with qooxdoo, and reload the page, weinre interprets
+"#/form" as the debug id "/form". On mac computers, only "anonymous" is allowed, so
+the target device disconnects from debug server.
+
+This means, debugging with weinre works fine, as long as you do not reload a 
+subpage of your qooxdoo mobile page. Your starting point for remote debugging should
+always be the "index.html" without any strings attached.
 
 
 Environment Keys

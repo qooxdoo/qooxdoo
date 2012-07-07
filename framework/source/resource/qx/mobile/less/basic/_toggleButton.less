@@ -1,0 +1,60 @@
+//
+// TOGGLEBUTTON 
+//
+
+@toggleButtonSize:25px;
+
+.toggleButton {
+  cursor:pointer;
+
+  width: 84px;
+  height: 29px;
+  display: block;
+  font-size:15.5px;
+  font-weight:bold;
+
+  .border-radius(30px);
+
+  overflow:hidden;
+}
+
+.toggleButton > div {
+  .border-radius(30px);
+  margin: 0;
+  height: 27px;
+  width: 80px;
+  overflow:hidden;
+}
+
+div.checked .toggleButtonSwitch {
+  position:relative;
+  left: 53px;
+}
+
+div.checked .toggleButtonSwitch:before {
+  position:absolute;
+  content: ' 'attr(data-label-checked);
+  width:52px;
+  left:-51px;
+  line-height:26px;
+  text-align:center;
+}
+
+.toggleButtonSwitch:after {
+  position:absolute;
+  content: ' 'attr(data-label-unchecked);
+  left: 25px;
+  line-height:26px;
+  width:52px;
+  text-align:center;
+}
+
+.toggleButtonSwitch {
+  position:relative;
+  
+  height:@toggleButtonSize;
+  width:@toggleButtonSize;
+
+  .border-radius(@toggleButtonSize);
+  
+}

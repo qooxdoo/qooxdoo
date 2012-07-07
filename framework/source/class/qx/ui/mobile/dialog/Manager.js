@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Very basic dialog manager. Displays a native alert or confirm dialog if
  * the application is running in a PhoneGap environment. For debugging in a browser
  * it displays the browser <code>alert</code> or <code>confirm</code> dialog. In the near
@@ -127,7 +125,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
       {
         var callback = function(index)
         {
-          handler.call(scope, index);
+          handler.call(scope, index-1);
         }
         var buttons = this.__processDialogButtons(buttons);
         return navigator.notification.confirm(text, callback, title, buttons);
@@ -241,7 +239,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
     /**
      * Processes the dialog buttons. Converts them to PhoneGap compatible strings.
-     * 
+     *
      * @param buttons {String[]} Each text entry of the array represents a button and
      *     its title
      * @return {String} The concatenated, PhoneGap compatible, button string

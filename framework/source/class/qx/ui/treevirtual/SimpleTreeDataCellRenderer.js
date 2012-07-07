@@ -719,7 +719,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           }
 
           // Otherwise if this is the first child and is a branch...
-          if (node.bFirstChild && 
+          if (node.bFirstChild &&
               node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH)
           {
             // ... then return a start line.

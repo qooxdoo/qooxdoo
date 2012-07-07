@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Base class for all box layout managers.
  */
 qx.Class.define("qx.ui.mobile.layout.AbstractBox",
@@ -213,12 +211,26 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
     },
 
 
+    // overridden
+    disconnectFromChildWidget : function(widget)
+    {
+      this.base(arguments);
+      // Todo: BoxFlex should be set by style, so that is more flexible than css classes
+      // When this is done we don't need a loop here
+      for (var i = 0; i <= 6; i++) {
+        widget.removeCssClass("boxFlex" +i);
+      }
+    },
+
+
+
     // property apply
     _applyLayoutChange : function(value, old, property)
     {
       if (this._widget)
       {
-        var layoutCss = this.getCssClass();
+        // In this case the layout should only have one main css class.
+        var layoutCss = this._getCssClasses()[0];
         var CSS_MAPPING = qx.ui.mobile.layout.AbstractBox.PROPERTY_CSS_MAPPING[property][layoutCss];
         if (old)
         {

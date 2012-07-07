@@ -1,0 +1,80 @@
+#sidebar ul li ul {
+  margin-bottom: 0;
+}
+
+#sidebar h4,
+.bottom-nav {
+  color: #707070; /* @mediumShade */
+  font-style: normal;
+}
+
+#content a.headerlink,
+#content a.headerlink:hover {
+  display: none;
+  padding-left: 5px;
+  text-decoration: none;
+}
+
+#content h1:hover a.headerlink,
+#content h2:hover a.headerlink,
+#content h3:hover a.headerlink,
+#content h4:hover a.headerlink {
+  display: inline;
+}
+
+#content .note {
+  margin: 1em 0;
+  padding: 10px;
+  background-color: #f0f0f0; /* @lightShade */
+}
+
+#content .note .admonition-title {
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+#content img {
+  max-width: 100%;
+}
+
+#content table.toc {
+  font-size: inherit;
+}
+
+a.reference.internal em {
+  font-style: normal;
+}
+
+ul.search {
+  font-size: 12px;
+  color: #707070; /* @mediumShade */
+  margin-left: 0 !important;
+}
+
+ul.search > li {
+  margin-bottom: 2em;
+}
+
+ul.search > li > a {
+  color: #333; /* @fg */
+}
+
+ul.search .highlighted,
+div.body .highlighted {
+  font-weight: normal;
+  color: #333; /* @fg */
+  background-color: #ffee00; /* @attention */
+}
+
+.bottom-nav {
+  margin-top: 1em;
+}
+
+.bottom-nav .prev,
+.bottom-nav .separator {
+  padding-right: 4px;
+}
+
+.toctree-l1 > a {
+  font-weight: bold;
+}

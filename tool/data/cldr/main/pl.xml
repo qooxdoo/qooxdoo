@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5992 $"/>
-		<generation date="$Date: 2011-07-08 18:40:59 -0500 (Fri, 08 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="pl"/>
 	</identity>
 	<localeDisplayNames>
@@ -676,7 +676,6 @@
 			<territory type="054">Melanezja</territory>
 			<territory type="057">Mikronezja</territory>
 			<territory type="061">Polinezja</territory>
-			<territory type="062">Azja Południowo-Środkowa</territory>
 			<territory type="142">Azja</territory>
 			<territory type="143">Azja Środkowa</territory>
 			<territory type="145">Azja Zachodnia</territory>
@@ -684,9 +683,7 @@
 			<territory type="151">Europa Wschodnia</territory>
 			<territory type="154">Europa Północna</territory>
 			<territory type="155">Europa Zachodnia</territory>
-			<territory type="172">Wspólnota Niezależnych Państw</territory>
 			<territory type="419">Ameryka Łacińska</territory>
-			<territory type="830">Wyspy Normandzkie</territory>
 			<territory type="AC">Wyspa Wniebowstąpienia</territory>
 			<territory type="AD">Andora</territory>
 			<territory type="AE">Zjednoczone Emiraty Arabskie</territory>
@@ -1007,7 +1004,6 @@
 			<type type="coptic" key="calendar">Kalendarz koptyjski</type>
 			<type type="deva" key="numbers">Cyfry dewanagari</type>
 			<type type="dictionary" key="collation">sortowanie słownikowe</type>
-			<type type="direct" key="collation">bezpośredni porządek sortowania</type>
 			<type type="ducet" key="collation">Domyślna kolejność sortowania Unicode</type>
 			<type type="ethi" key="numbers">Cyfry etiopskie</type>
 			<type type="ethiopic" key="calendar">Kalendarz etiopski</type>
@@ -1080,15 +1076,15 @@
 	</localeDisplayNames>
 	<characters>
 		<exemplarCharacters>[a ą b c ć d e ę f g h i j k l ł m n ń o ó p r s ś t u w y z ź ż]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[q v x]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[å q v x]</exemplarCharacters>
 		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="contributed">[A Ą B C Ć D E Ę F G H I J K L Ł M N Ń O Ó P Q R S Ś T U V W X Y Z Ź Ż]</exemplarCharacters>
 	</characters>
 	<delimiters>
-		<quotationStart>‘</quotationStart>
-		<quotationEnd>’</quotationEnd>
-		<alternateQuotationStart>„</alternateQuotationStart>
-		<alternateQuotationEnd>”</alternateQuotationEnd>
+		<quotationStart>„</quotationStart>
+		<quotationEnd>”</quotationEnd>
+		<alternateQuotationStart>«</alternateQuotationStart>
+		<alternateQuotationEnd>»</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -1139,10 +1135,10 @@
 						<dateFormatItem id="y">y G</dateFormatItem>
 						<dateFormatItem id="yM">MM.yyyy G</dateFormatItem>
 						<dateFormatItem id="yMd">d.MM.yyyy G</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d.MM.yyyy G</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d.MM.yyyy G</dateFormatItem>
 						<dateFormatItem id="yMMM" draft="contributed">LLL y G</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM y G</dateFormatItem>
 						<dateFormatItem id="yMMMM">LLLL y G</dateFormatItem>
 						<dateFormatItem id="yQ">G y Q</dateFormatItem>
 						<dateFormatItem id="yQQQ">G y QQQ</dateFormatItem>
@@ -1650,10 +1646,10 @@
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">MM.yyyy</dateFormatItem>
 						<dateFormatItem id="yMd">d.MM.yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d.MM.yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d.MM.yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM">LLL y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM">LLLL y</dateFormatItem>
 						<dateFormatItem id="yQ">yyyy Q</dateFormatItem>
 						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
@@ -2044,7 +2040,6 @@
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E, d</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="contributed">d EEE</dateFormatItem>
 						<dateFormatItem id="h">hh a</dateFormatItem>
 						<dateFormatItem id="H" draft="contributed">HH</dateFormatItem>
 						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
@@ -2062,9 +2057,9 @@
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y" draft="contributed">y</dateFormatItem>
 						<dateFormatItem id="yM" draft="contributed">MM.yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">EEE, d.MM.yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="contributed">E, d.MM.yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM" draft="contributed">LLL y</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="contributed">EEE, d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="contributed">E, d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM" draft="contributed">LLLL y</dateFormatItem>
 						<dateFormatItem id="yQ" draft="contributed">yyyy Q</dateFormatItem>
 						<dateFormatItem id="yQQQ" draft="contributed">y QQQ</dateFormatItem>
@@ -2072,10 +2067,10 @@
 						<dateFormatItem id="yyQ">Q y G</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">dd.MM.yyyy G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE, dd.MM.yyyy G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E, dd.MM.yyyy G</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM.yyyy G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E, d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">LLLL y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">G y Q</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">G y QQQ</dateFormatItem>
@@ -2111,7 +2106,6 @@
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E, d</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="contributed">EEE d</dateFormatItem>
 						<dateFormatItem id="Gy">y G</dateFormatItem>
 						<dateFormatItem id="h">hh a</dateFormatItem>
 						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
@@ -2133,10 +2127,10 @@
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyM">M.y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">dd.MM.y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE, dd.MM.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E, dd.MM.y G</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM.y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E, d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">LLLL y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">G y Q</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">G y QQQ</dateFormatItem>
@@ -2252,7 +2246,6 @@
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E, d</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="contributed">EEE d</dateFormatItem>
 						<dateFormatItem id="Gy">y G</dateFormatItem>
 						<dateFormatItem id="h">hh a</dateFormatItem>
 						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
@@ -2275,10 +2268,10 @@
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyM">M.y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">d.MM.y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE, d.MM.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E, d.MM.y G</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM.yyyy G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E, d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">LLLL y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">G y Q</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">G y QQQ</dateFormatItem>
@@ -3474,87 +3467,90 @@
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<generic draft="contributed">Czas południowoafrykański</generic>
 					<standard draft="contributed">Czas południowoafrykański</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
-					<standard draft="contributed">Czas zachodnioafrykański</standard>
-					<daylight draft="contributed">Letni czas zachodnioafrykański</daylight>
+					<generic draft="contributed">Czas zachodnioafrykański</generic>
+					<standard draft="contributed">Czas standardowy zachodnioafrykański</standard>
+					<daylight draft="contributed">Czas zachodnioafrykański letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Alaska">
 				<long>
-					<generic>Alaska</generic>
-					<standard>Alaska (czas standardowy)</standard>
-					<daylight>Alaska (czas letni)</daylight>
+					<generic>Czas Alaska</generic>
+					<standard>Czas standardowy Alaska</standard>
+					<daylight>Czas Alaska letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Alaska_Hawaii">
 				<long>
 					<generic draft="provisional">Czas alaskańsko-hawajski</generic>
+					<standard draft="provisional">Czas standardowy alaskańsko-hawajski</standard>
 					<daylight draft="provisional">Czas alaskańsko-hawajski letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Amazon">
 				<long>
 					<generic>Czas amazoński</generic>
+					<standard>Czas standardowy amazoński</standard>
+					<daylight>Czas amazoński letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Central">
 				<long>
 					<generic>Czas środkowoamerykański</generic>
-					<standard draft="contributed">Środkowy czas standardowy</standard>
+					<standard>Czas standardowy środkowoamerykański</standard>
 					<daylight>Czas środkowoamerykański letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Eastern">
 				<long>
 					<generic>Czas wschodnioamerykański</generic>
-					<standard draft="contributed">Wschodni czas standardowy</standard>
+					<standard>Czas standardowy wschodnioamerykański</standard>
 					<daylight>Czas wschodnioamerykański letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Mountain">
 				<long>
 					<generic draft="contributed">Czas górski</generic>
-					<standard draft="contributed">Górski czas standardowy</standard>
+					<standard draft="contributed">Czas standardowy górski</standard>
 					<daylight draft="contributed">Czas górski letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Pacific">
 				<long>
 					<generic draft="contributed">Czas pacyficzny</generic>
-					<standard draft="contributed">Czas pacyficzny standardowy</standard>
+					<standard draft="contributed">Czas standardowy pacyficzny</standard>
 					<daylight draft="contributed">Czas pacyficzny letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Anadyr">
 				<long>
-					<generic draft="contributed">Anadyr</generic>
-					<standard draft="contributed">Anadyr</standard>
-					<daylight draft="contributed">Anadyr (czas letni)</daylight>
+					<generic draft="contributed">Czas Anadyr</generic>
+					<standard draft="contributed">Czas standardowy Anadyr</standard>
+					<daylight draft="contributed">Czas Anadyr letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina">
 				<long>
-					<generic draft="contributed">Argentyna</generic>
-					<standard draft="contributed">Argentyna</standard>
-					<daylight draft="contributed">Argentyna (czas letni)</daylight>
+					<generic draft="contributed">Czas Argentyna</generic>
+					<standard draft="contributed">Czas standardowy Argentyna</standard>
+					<daylight draft="contributed">Czas Argentyna letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina_Western">
 				<long>
-					<generic draft="contributed">Argentyna (czas zachodni)</generic>
-					<standard draft="contributed">Argentyna Zachodnia</standard>
-					<daylight draft="contributed">Argentyna (czas zachodni letni)</daylight>
+					<generic draft="contributed">Czas zachodniej Argentyna</generic>
+					<standard draft="contributed">Czas standardowy zachodniej Argentyna</standard>
+					<daylight draft="contributed">Czas zachodniej Argentyna letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Atlantic">
 				<long>
 					<generic>Czas atlantycki</generic>
-					<standard>Czas atlantycki standardowy</standard>
+					<standard>Czas standardowy atlantycki</standard>
 					<daylight>Czas atlantycki letni</daylight>
 				</long>
 			</metazone>
@@ -3588,65 +3584,87 @@
 			</metazone>
 			<metazone type="Azores">
 				<long>
-					<standard draft="provisional">Czas azorski</standard>
+					<generic draft="provisional">Czas azorski</generic>
+					<standard draft="provisional">Czas standardowy azorski</standard>
+					<daylight draft="provisional">Czas azorski letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bering">
 				<long>
 					<generic draft="provisional">Czas Cieśniny Beringa</generic>
+					<standard draft="provisional">Czas standardowy Cieśniny Beringa</standard>
 					<daylight draft="provisional">Czas Cieśniny Beringa letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Brasilia">
 				<long>
-					<generic draft="contributed">Brazylia</generic>
-					<standard draft="contributed">Brazylia</standard>
-					<daylight draft="contributed">Brazylia (czas letni)</daylight>
+					<generic draft="contributed">Czas Brazylia</generic>
+					<standard draft="contributed">Czas standardowy Brazylia</standard>
+					<daylight draft="contributed">Czas Brazylia letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="China">
 				<long>
 					<generic draft="provisional">Czas chiński</generic>
+					<standard draft="provisional">Czas standardowy chiński</standard>
+					<daylight draft="provisional">Czas chiński letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Choibalsan">
 				<long>
-					<generic draft="contributed">Czojbalsan</generic>
-					<standard draft="contributed">Czojbalsan</standard>
-					<daylight draft="contributed">Czojbalsan (czas letni)</daylight>
+					<generic draft="contributed">Czas Czojbalsan</generic>
+					<standard draft="contributed">Czas standardowy Czojbalsan</standard>
+					<daylight draft="contributed">Czas Czojbalsan letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<standard draft="contributed">Czas środkowoeuropejski</standard>
+					<generic draft="contributed">Czas środkowoeuropejski</generic>
+					<standard draft="contributed">Czas standardowy środkowoeuropejski</standard>
 					<daylight draft="contributed">Czas środkowoeuropejski letni</daylight>
 				</long>
-				<commonlyUsed draft="contributed">true</commonlyUsed>
+				<short>
+					<generic>CET</generic>
+					<standard>CET</standard>
+					<daylight>CEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<standard draft="contributed">Czas wschodnioeuropejski</standard>
+					<generic draft="contributed">Czas wschodnioeuropejski</generic>
+					<standard draft="contributed">Czas standardowy wschodnioeuropejski</standard>
 					<daylight draft="contributed">Czas wschodnioeuropejski letni</daylight>
 				</long>
-				<commonlyUsed draft="contributed">true</commonlyUsed>
+				<short>
+					<generic>EET</generic>
+					<standard>EET</standard>
+					<daylight>EEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<standard draft="contributed">Czas zachodnioeuropejski</standard>
+					<generic draft="contributed">Czas zachodnioeuropejski</generic>
+					<standard draft="contributed">Czas standardowy zachodnioeuropejski</standard>
 					<daylight draft="contributed">Czas zachodnioeuropejski letni</daylight>
 				</long>
-				<commonlyUsed draft="contributed">true</commonlyUsed>
+				<short>
+					<generic>WET</generic>
+					<standard>WET</standard>
+					<daylight>WEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Hawaii_Aleutian">
 				<long>
-					<generic draft="contributed">Hawaje (czas aleucki)</generic>
+					<generic draft="contributed">Czas Hawaje-aleucki</generic>
+					<standard draft="contributed">Czas standardowy Hawaje-aleucki</standard>
+					<daylight draft="contributed">Czas Hawaje-aleucki letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
-					<generic draft="contributed">Kobdo</generic>
-					<standard draft="contributed">Kobdo</standard>
-					<daylight draft="contributed">Kobdo (czas letni)</daylight>
+					<generic draft="contributed">Czas Kobdo</generic>
+					<standard draft="contributed">Czas standardowy Kobdo</standard>
+					<daylight draft="contributed">Czas Kobdo letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Indian_Ocean">
@@ -3656,155 +3674,151 @@
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<generic draft="contributed">Indonezja (czas środkowy)</generic>
+					<standard draft="contributed">Czas środkowa Indonezja</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<generic draft="contributed">Indonezja (czas wschodni)</generic>
+					<standard draft="contributed">Czas wschodnia Indonezja</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<generic draft="contributed">Indonezja (czas zachodni)</generic>
+					<standard draft="contributed">Czas zachodniej Indonezja</standard>
 				</long>
 			</metazone>
 			<metazone type="Irkutsk">
 				<long>
-					<generic draft="contributed">Irkuck</generic>
-					<standard draft="contributed">Irkuck</standard>
-					<daylight draft="contributed">Irkuck (czas letni)</daylight>
+					<generic draft="contributed">Czas Irkuck</generic>
+					<standard draft="contributed">Czas standardowy Irkuck</standard>
+					<daylight draft="contributed">Czas Irkuck letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kamchatka">
 				<long>
-					<generic draft="contributed">Kamczatka</generic>
-					<standard draft="contributed">Pietropawłowsk Kamczacki</standard>
-					<daylight draft="contributed">Pietropawłowsk Kamczacki (czas letni)</daylight>
+					<generic draft="contributed">Czas Pietropawłowsk Kamczacki</generic>
+					<standard draft="contributed">Czas standardowy Pietropawłowsk Kamczacki</standard>
+					<daylight draft="contributed">Czas Pietropawłowsk Kamczacki letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
-					<generic draft="contributed">Kazachstan Wschodni</generic>
-					<standard draft="contributed">Kazachstan Wschodni (czas standardowy)</standard>
-					<daylight draft="contributed">Kazachstan (czas wschodni letni)</daylight>
+					<standard draft="contributed">Czas Kazachstan Wschodni</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
-					<generic draft="contributed">Kazachstan Zachodni</generic>
-					<standard draft="contributed">Kazachstan Zachodni (czas standardowy)</standard>
-					<daylight draft="contributed">Kazachstan (czas zachodni letni)</daylight>
+					<standard draft="contributed">Czas Kazachstan Zachodni</standard>
 				</long>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
-					<generic draft="contributed">Krasnojarsk</generic>
-					<standard draft="contributed">Krasnojarsk</standard>
-					<daylight draft="contributed">Krasnojarsk (czas letni)</daylight>
+					<generic draft="contributed">Czas Krasnojarsk</generic>
+					<standard draft="contributed">Czas standardowy Krasnojarsk</standard>
+					<daylight draft="contributed">Czas Krasnojarsk letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Lord_Howe">
 				<long>
-					<generic draft="contributed">Lord Howe</generic>
-					<standard draft="contributed">Lord Howe (czas standardowy)</standard>
-					<daylight draft="contributed">Lord Howe (czas letni)</daylight>
+					<generic draft="contributed">Czas Lord Howe</generic>
+					<standard draft="contributed">Czas standardowy Lord Howe</standard>
+					<daylight draft="contributed">Czas Lord Howe letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<generic draft="contributed">Macquarie</generic>
+					<generic draft="contributed">Czas Macquarie</generic>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
 				<long>
-					<generic draft="contributed">Magadan</generic>
-					<standard draft="contributed">Magadan</standard>
-					<daylight draft="contributed">Magadan (czas letni)</daylight>
+					<generic draft="contributed">Czas Magadan</generic>
+					<standard draft="contributed">Czas standardowy Magadan</standard>
+					<daylight draft="contributed">Czas Magadan letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic draft="contributed">Mongolia</generic>
-					<standard draft="contributed">Ułan Bator</standard>
-					<daylight draft="contributed">Ułan Bator (czas letni)</daylight>
+					<generic draft="contributed">Czas Ułan Bator</generic>
+					<standard draft="contributed">Czas standardowy Ułan Bator</standard>
+					<daylight draft="contributed">Czas Ułan Bator letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Moscow">
 				<long>
 					<generic>Czas moskiewski</generic>
-					<standard draft="contributed">Moskwa (czas standardowy)</standard>
-					<daylight draft="contributed">Moskwa (czas letni)</daylight>
+					<standard draft="contributed">Czas standardowy moskiewski</standard>
+					<daylight draft="contributed">Czas moskiewski letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Newfoundland">
 				<long>
-					<generic draft="contributed">Nowa Funlandia</generic>
-					<standard draft="contributed">Nowa Funlandia (czas standardowy)</standard>
-					<daylight draft="contributed">Nowa Funlandia (czas letni)</daylight>
+					<generic draft="contributed">Czas Nowa Funlandia</generic>
+					<standard draft="contributed">Czas standardowy Nowa Funlandia</standard>
+					<daylight draft="contributed">Czas Nowa Funlandia letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Noronha">
 				<long>
-					<generic draft="contributed">Noronha</generic>
-					<standard draft="contributed">Fernando de Noronha</standard>
-					<daylight draft="contributed">Fernando de Noronha (czas letni)</daylight>
+					<generic draft="contributed">Czas Fernando de Noronha</generic>
+					<standard draft="contributed">Czas standardowy Fernando de Noronha</standard>
+					<daylight draft="contributed">Czas Fernando de Noronha letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
-					<generic draft="contributed">Nowosybirsk</generic>
-					<standard draft="contributed">Nowosybirsk</standard>
-					<daylight draft="contributed">Nowosybirsk (czas letni)</daylight>
+					<generic draft="contributed">Czas Nowosybirsk</generic>
+					<standard draft="contributed">Czas standardowy Nowosybirsk</standard>
+					<daylight draft="contributed">Czas Nowosybirsk letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
-					<generic draft="contributed">Omsk</generic>
-					<standard draft="contributed">Omsk</standard>
-					<daylight draft="contributed">Omsk (czas letni)</daylight>
+					<generic draft="contributed">Czas Omsk</generic>
+					<standard draft="contributed">Czas standardowy Omsk</standard>
+					<daylight draft="contributed">Czas Omsk letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
-					<generic draft="contributed">Sachalin</generic>
-					<standard draft="contributed">Sachalin</standard>
-					<daylight draft="contributed">Sachalin (czas letni)</daylight>
+					<generic draft="contributed">Czas Sachalin</generic>
+					<standard draft="contributed">Czas standardowy Sachalin</standard>
+					<daylight draft="contributed">Czas Sachalin letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
-					<generic draft="contributed">Samara</generic>
-					<standard draft="contributed">Samara</standard>
-					<daylight draft="contributed">Samara (czas letni)</daylight>
+					<generic draft="contributed">Czas Samara</generic>
+					<standard draft="contributed">Czas standardowy Samara</standard>
+					<daylight draft="contributed">Czas Samara letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
-					<generic draft="contributed">Władywostok</generic>
-					<standard draft="contributed">Władywostok</standard>
-					<daylight draft="contributed">Władywostok (czas letni)</daylight>
+					<generic draft="contributed">Czas Władywostok</generic>
+					<standard draft="contributed">Czas standardowy Władywostok</standard>
+					<daylight draft="contributed">Czas Władywostok letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
-					<generic draft="contributed">Wołgograd</generic>
-					<standard draft="contributed">Wołgograd</standard>
-					<daylight draft="contributed">Wołgograd (czas letni)</daylight>
+					<generic draft="contributed">Czas Wołgograd</generic>
+					<standard draft="contributed">Czas standardowy Wołgograd</standard>
+					<daylight draft="contributed">Czas Wołgograd letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
-					<generic draft="contributed">Jakuck</generic>
-					<standard draft="contributed">Jakuck</standard>
-					<daylight draft="contributed">Jakuck (czas letni)</daylight>
+					<generic draft="contributed">Czas Jakuck</generic>
+					<standard draft="contributed">Czas standardowy Jakuck</standard>
+					<daylight draft="contributed">Czas Jakuck letni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
-					<generic draft="contributed">Jekaterynburg</generic>
-					<standard draft="contributed">Jekaterynburg</standard>
-					<daylight draft="contributed">Jekaterynburg (czas letni)</daylight>
+					<generic draft="contributed">Czas Jekaterynburg</generic>
+					<standard draft="contributed">Czas standardowy Jekaterynburg</standard>
+					<daylight draft="contributed">Czas Jekaterynburg letni</daylight>
 				</long>
 			</metazone>
 		</timeZoneNames>
@@ -3822,7 +3836,7 @@
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
@@ -3830,36 +3844,36 @@
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000">0.0 tys'.'</pattern>
-					<pattern type="10000" draft="contributed">00 tys'.'</pattern>
-					<pattern type="100000" draft="contributed">000 tys'.'</pattern>
-					<pattern type="1000000">0.0 mln</pattern>
-					<pattern type="10000000">00 mln</pattern>
-					<pattern type="100000000">000 mln</pattern>
-					<pattern type="1000000000">0.0 mld</pattern>
-					<pattern type="10000000000">00 mld</pattern>
-					<pattern type="100000000000">000 mld</pattern>
-					<pattern type="1000000000000">0.0 bln</pattern>
-					<pattern type="10000000000000">00 bln</pattern>
-					<pattern type="100000000000000">000 bln</pattern>
+					<pattern type="1000" draft="contributed">0000</pattern>
+					<pattern type="10000" draft="contributed">00 tys'.'</pattern>
+					<pattern type="100000" draft="contributed">000 tys'.'</pattern>
+					<pattern type="1000000" draft="contributed">0.0 mln</pattern>
+					<pattern type="10000000" draft="contributed">00 mln</pattern>
+					<pattern type="100000000" draft="contributed">000 mln</pattern>
+					<pattern type="1000000000" draft="contributed">0.0 mld</pattern>
+					<pattern type="10000000000" draft="contributed">00 mld</pattern>
+					<pattern type="100000000000" draft="contributed">000 mld</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0 bln</pattern>
+					<pattern type="10000000000000" draft="contributed">00 bln</pattern>
+					<pattern type="100000000000000" draft="contributed">000 bln</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern>#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>

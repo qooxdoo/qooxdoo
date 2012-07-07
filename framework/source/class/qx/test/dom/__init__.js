@@ -1,0 +1,4 @@
+/**
+ * qx.test.dom package
+ *
+ */

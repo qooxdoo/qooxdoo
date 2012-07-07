@@ -67,7 +67,6 @@ qx.Class.define("widgetbrowser.Application",
       this.__tabs = this._createTabView();
       this.__tabs.set({
         minWidth: 800,
-        minHeight: 800,
         padding: 15
       });
       scroll.add(this.__tabs);
@@ -87,6 +86,7 @@ qx.Class.define("widgetbrowser.Application",
 
     getThemes: function() {
       return ([
+        {"Indigo" : "qx.theme.Indigo"},
         {"Modern" : "qx.theme.Modern"},
         {"Simple" : "qx.theme.Simple"},
         {"Classic" : "qx.theme.Classic"}

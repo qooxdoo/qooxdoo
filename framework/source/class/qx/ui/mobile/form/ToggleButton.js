@@ -14,12 +14,11 @@
 
    Authors:
      * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * A toggle Button widget
  *
  * If the user tap the button, the button toggles between the <code>ON</code>
@@ -28,7 +27,7 @@
  * Here is a little example of how to use the widget.
  *
  * <pre class='javascript'>
- *   var button = new qx.ui.mobile.form.ToggleButton(false);
+ *   var button = new qx.ui.mobile.form.ToggleButton(false,"YES","NO");
  *
  *   button.addListener("changeValue", function(e) {
  *     alert(e.getData());
@@ -62,10 +61,23 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 
   /**
    * @param value {Boolean?null} The value of the button
+   * @param labelChecked {Boolean?"ON"} The value of the text display when toggleButton is active
+   * @param labelUnchecked {Boolean?"OFF"} The value of the text display when toggleButton is inactive
+   * @param fontSize {Integer?} The size of the font in the toggleButton active/inactive labels.
    */
-  construct : function(value)
+  construct : function(value, labelChecked, labelUnchecked, fontSize)
   {
     this.base(arguments);
+
+    if(labelChecked && labelUnchecked){
+       this.__labelUnchecked = labelUnchecked;
+       this.__labelChecked = labelChecked;
+    }
+
+    if(fontSize) {
+      this.__fontSize = parseInt(fontSize,10);
+    }
+
     this.__child = this._createChild();
     this._add(this.__child);
 
@@ -94,9 +106,8 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
       init : "toggleButton"
     }
 
+
   },
-
-
 
 
   /*
@@ -109,6 +120,9 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   {
     __child : null,
     __value : null,
+    __labelUnchecked : "OFF",
+    __labelChecked : "ON",
+    __fontSize : null,
 
 
     /**
@@ -126,7 +140,20 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      * button.
      */
     _createChild : function() {
-      return new qx.ui.mobile.container.Composite();
+      var composite = new qx.ui.mobile.container.Composite();
+
+      var toggleButtonSwitch = new qx.ui.mobile.container.Composite();
+      toggleButtonSwitch.addCssClass("toggleButtonSwitch");
+      toggleButtonSwitch._setAttribute("data-label-checked", this.__labelChecked);
+      toggleButtonSwitch._setAttribute("data-label-unchecked", this.__labelUnchecked);
+
+      if(this.__fontSize) {
+        qx.bom.element.Style.set(toggleButtonSwitch._getContentElement(),"fontSize",this.__fontSize+"px");
+      }
+
+      composite.add(toggleButtonSwitch);
+
+      return composite;
     },
 
 
@@ -204,7 +231,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   {
     this.removeListener("tap", this._onTap, this);
     this.removeListener("swipe", this._onSwipe, this);
-    
-    this._disposeObjects("__child");
+
+    this._disposeObjects("__child","__labelUnchecked","__labelChecked", "__fontSize");
   }
 });

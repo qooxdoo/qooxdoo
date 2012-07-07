@@ -77,13 +77,18 @@
       {
         "code" :
         {
-          "=optimize" : ["basecalls", "variables", "privates", "strings", "comments"]
+          "=optimize" : ["basecalls", "variables", "privates", "strings", "comments", "whitespace"]
         }
       }
     },
   
     "source" :
     {
+      "compile-options" : 
+      {
+        "code" : { "except" : [ "*" ] }
+      },
+
       "run" : [
         "source-script",
         "source-lowlevel-script"
@@ -190,7 +195,7 @@
         
         "code"   :
         {
-          "=optimize" : ["basecalls", "variables", "privates", "strings", "comments"]
+          "=optimize" : ["basecalls", "variables", "privates", "strings", "comments", "whitespace"]
         }
       },
       

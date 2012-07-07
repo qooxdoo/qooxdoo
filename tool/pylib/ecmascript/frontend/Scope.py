@@ -41,16 +41,24 @@ class Scope(object):
     def __init__(self, node, script):
         self.node   = node
         self.script = script
-        self.type   = self._getType()
 
+        # declare (so __str__ doesn't fail in init)
+        self.type = None
+        self.variables = []
+        self.arguments = []
+        self.parentScopeNode = None
+        self.uses = []
+
+        # init
+        self.type   = self._getType()
         if self.type == Scope.EXCEPTION:
             self.variables = self._getExceptionVariables()
         else:
             self.variables = self._getDeclaredVariables()
-
         self.arguments       = self._getArguments()
         self.parentScopeNode = self._getParentScopeNode()
         self.uses            = []
+
         return
 
 
@@ -85,7 +93,7 @@ Function %s(%s):
         elif self.type == Scope.FUNCTION:
             startNode = self.node.getChild("body")
         elif self.type == Scope.EXCEPTION:
-            startNode = self.node.getChild("statement")
+            startNode = self.node.getChild("block")
 
         for (name, node) in Scope.usedVariablesIterator(startNode):
             self.uses.append(VariableUse(name, node, self))
@@ -143,11 +151,9 @@ Function %s(%s):
 
         if paramsNode.hasChildren():
             for child in paramsNode.children:
-                if child.type == "variable":
-                    #name = child.getChild("identifier").get("name")
-                    identifier = child.getChild("identifier")
-                    name       = identifier.get("name")
-                    arguments.append(VariableDefinition(name, identifier, True, self))
+                if child.type == "identifier":
+                    name  = child.get("value")
+                    arguments.append(VariableDefinition(name, child, True, self))
 
         return arguments
 
@@ -156,8 +162,9 @@ Function %s(%s):
     # Return the parameters of a "catch" expression.
 
     def _getExceptionVariables(self):
-        identifier = treeutil.selectNode(self.node, "expression/variable/identifier")
-        return [VariableDefinition(identifier.get("name",None), identifier, False, self)]
+        assert self.node.type == "catch"
+        identifier = self.node.children[0]
+        return [VariableDefinition(identifier.get("value",None), identifier, False, self)]
 
 
     ##
@@ -206,10 +213,11 @@ Function %s(%s):
         if node.hasChildren():
             for child in node.children:
 
-                if child.type == "definitionList":
+                if child.type == "var":
                     for definition in child.children:
                         if definition.type == "definition":
-                            yield (definition.get("identifier"), definition)
+                            definee = definition.getDefinee()
+                            yield (definee.get("value"), definee)
 
                 for (var, node) in Scope.declaredVariablesIterator(child):
                     yield (var, node)
@@ -224,81 +232,27 @@ Function %s(%s):
     @staticmethod
     def usedVariablesIterator(node):
 
-        ##
-        # chainTypes:
-        # These are not all types that can show up in a chained ("a.b.c")
-        # expression, but the ones you come across when going from an identifier
-        # node upwards in the tree.
-        chainTypes = set([
-            "identifier",
-            "accessor",
-            "left", "right",
-            "call", "operand",
-            "variable",
-            ])
-
-        ##
-        # Find the primary identifier for a chained expression (like "a" in
-        # "a.b().c()[0].d()"), starting from any identifier *within* this
-        # expression.
-        def findChainRoot(node):
-            current = node
-
-            while current.parent and current.parent.type in chainTypes:
-                current = current.parent
-
-            return current  # this must be the chain root
-
-        ##
-        # Find the leftmost child of the passed node, assumed to be an
-        # identifier.
-        def findLeftmostIdentifier(node):
-            child = node
-
-            while child.children:
-                c = child.getFirstChild(mandatory=False, ignoreComments=True)
-                if c:
-                    child = c
-                else:
-                    break
-            #assert child.type == "identifier"
-
-            return child
-
-        ##
-        # Check if the given identifier node is the first in a chained
-        # expression ("a.b.c().d[]"); uses findLeftmostIdentifier().
-        def checkFirstChild(node):
-            chainRoot = findChainRoot(node)
-            leftmostIdentifier = findLeftmostIdentifier(chainRoot)
-
-            # compare to current node
-            if leftmostIdentifier == node:
-                return True
-            else:
-                return False
-
-
-        # - Main ---------------------------------------------------------------
-
         # Switch on node context:
         # "function", "catch":
         if node.type in ["function", "catch"]:
             return
 
         # "catch": skip the identifier of catch clauses, e.g. the 'e' in 'catch(e)'
-        if node.type == "expression" and node.parent.type == "catch":
+        # (it belongs to the catch scope)
+        if node.parent and node.parent.type == "catch" and node == node.parent.children[0]:
             return
 
-        # "for-in": treat variables used in for-in loops as used variables
+        # "for-in": treat variables used in for-in loops as used variables (why?)
+        # (undeclared variables are handled by the normal "identifier" rule
+        # further down)
         if (
             node.type == "first" and
             node.parent.type == "operation" and
             node.parent.get("operator") == "IN"
            ):
-            use = treeutil.selectNode(node, "definitionList/definition")
+            use = treeutil.selectNode(node, "var/definition/identifier")
             if use:
-                name = use.get("identifier", False)
+                name = use.get("value", False)
                 yield (name, use)
                 return
 
@@ -307,15 +261,13 @@ Function %s(%s):
             isFirstChild     = False
             isVariableMember = False
 
-            # not sure why the next would be relevant for "accessor" type parents, but the
-            # old code treated it like this, and I keep it that way.
-            if node.parent.type in ("variable", "accessor"):
+            if node.parent.parent.isVar(): # (the old code added "accessor" for the types to check)
                 isVariableMember = True
-                isFirstChild = checkFirstChild(node)
+                isFirstChild = treeutil.checkFirstChainChild(node)
 
-            # inside a variable parent only respect the first member
+            # inside a variable only respect the first member
             if not isVariableMember or isFirstChild:
-                name = node.get("name", False)
+                name = node.get("value", False)
                 if name:
                     yield (name, node)
 

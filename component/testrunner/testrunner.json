@@ -16,7 +16,7 @@
     "TESTS_SCRIPT" : "tests.js",         // output script name
     "BUILD_PATH"   : "build",
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "THEME"        : "qx.theme.Modern"
+    "THEME"        : "qx.theme.Indigo"
   },
 
   "config-warnings" : 
@@ -119,7 +119,7 @@
         },
         "code" :
         {
-          "optimize" : ["variables", "basecalls", "privates", "strings", "variants"],
+          "optimize" : ["variables", "basecalls", "privates", "strings", "variants", "whitespace"],
           "except"   : []
         },
         "uris"   :
@@ -181,6 +181,10 @@
       "library" :
       [
         {
+          "manifest"   : "${QOOXDOO_PATH}/component/library/indigo/Manifest.json"
+        },
+
+        {
           "manifest"   : "${QOOXDOO_PATH}/component/library/logpane/Manifest.json"
         },
 
@@ -213,7 +217,8 @@
         "qx.testNameSpace" : "${TEST_NAMESPACE}",
         "testrunner.title" : "${APPLICATION}",
         "testrunner.testParts" : false,
-        "testrunner.reportServer" : "${REPORT_SERVER}"
+        "testrunner.reportServer" : "${REPORT_SERVER}",
+        "testrunner.performance" : true
       },
 
       "cache" :
@@ -231,7 +236,7 @@
         "exclude" : "${TEST_EXCLUDE}"  
       },
 
-      "extend"    : [ "libraries" ],
+      "extend"    : [ "common" ],
 
       "let" :
       {
@@ -249,7 +254,7 @@
         }
       ],
 
-      "include" : ["testrunner.TestLoader", "${TEST_INCLUDE}", "${QXTHEME}"],
+      "=include" : ["testrunner.TestLoader", "${TEST_INCLUDE}", "${QXTHEME}"],
       
       "exclude" : ["${TEST_EXCLUDE}"],
 
@@ -258,7 +263,8 @@
         "qx.theme" : "${QXTHEME}",
         "qx.globalErrorHandling" : true,
         "testrunner.testParts" : false,
-        "qx.allowUrlSettings" : true
+        "qx.allowUrlSettings" : true,
+        "qx.application" : "testrunner.TestLoader"
       },
 
       "cache" :
@@ -272,6 +278,11 @@
       "desc" : "Generates build version of AUT",
     
       "extend" : ["tests-common"],
+
+      "config-warnings" :
+      {
+        "environment" : ["variants-and-url-settings"]
+      },
 
       "environment": 
       {
@@ -293,7 +304,7 @@
         "code" :
         {
           "locales"  : "${LOCALES}",
-          "optimize" : ["variables", "basecalls", "privates", "strings", "variants"],
+          "optimize" : ["variables", "basecalls", "privates", "strings", "variants", "whitespace"],
           "except"   : [],
           "format"   : true
         }
@@ -543,7 +554,7 @@
         "code" :
         {
           "format"   : true,
-          "optimize" : [ "variables", "basecalls", "privates" ]
+          "optimize" : [ "variables", "basecalls", "privates" , "whitespace"]
         },
         
         "paths" :

@@ -20,7 +20,7 @@
 /**
  * Static helpers for handling requests.
  */
-qx.Class.define("qx.util.Request",
+qx.Bootstrap.define("qx.util.Request",
 {
   statics:
   {

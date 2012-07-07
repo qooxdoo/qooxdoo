@@ -104,12 +104,23 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         var result = this.__dataUrlRegExp.exec(source);
         if (result != null)
         {
+          // If width and height aren't defined, provide some defaults
+          var width =
+            (entry && qx.lang.Type.isNumber(entry.width)
+             ? entry.width
+             : this.__defaultSize.width);
+
+          var height =
+            (entry && qx.lang.Type.isNumber(entry.height)
+             ? entry.height
+             : this.__defaultSize.height);
+
           entry =
             {
               loaded : true,
               format : result[1],
-              width  : entry.width,
-              height : entry.height
+              width  : width,
+              height : height
             };
         }
       }

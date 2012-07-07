@@ -100,3 +100,6 @@ msgstr "Ångra"
 
 msgid "Week start:"
 msgstr "Veckostart:"
+
+msgid "qooxdoo"
+msgstr ""

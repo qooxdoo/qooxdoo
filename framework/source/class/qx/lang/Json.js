@@ -38,7 +38,7 @@
  *
  * If the browser supports native JSON the browser implementation is used.
  */
-qx.Class.define("qx.lang.Json",
+qx.Bootstrap.define("qx.lang.Json",
 {
   statics :
   {

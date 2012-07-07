@@ -33,7 +33,7 @@
  */
 
 // require all needed stuff
-var sys = require('sys'),
+var sys = require('util'),
     fs = require('fs'),
     exec  = require('child_process').exec;
 

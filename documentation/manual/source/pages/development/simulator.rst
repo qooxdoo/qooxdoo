@@ -65,7 +65,7 @@ Unlike other framework components, the Simulator isn't ready to run out of the b
     {
       "SIMULATOR_CLASSPATH" : 
       [
-        "../selenium/selenium-java-2.4.0.jar",
+        "../selenium/selenium-java-2.22.0.jar",
         "../selenium/libs/*",
         "../rhino/js.jar"
       ]
@@ -83,7 +83,7 @@ The following example shows the minimum configuration needed to launch a Simulat
       {
         "SIMULATOR_CLASSPATH" :
         [
-          "../selenium/selenium-java-2.4.0.jar",
+          "../selenium/selenium-java-2.22.0.jar",
           "../selenium/libs/*", 
           "../rhino/js.jar"
         ]
@@ -91,7 +91,7 @@ The following example shows the minimum configuration needed to launch a Simulat
 
       "environment" :
       {
-        "simulator.testBrowser" : "*firefox3",
+        "simulator.testBrowser" : "*firefox",
         "simulator.selServer" : "localhost",
         "simulator.selPort" : 4444,
         "simulator.autHost" : "http://localhost",
@@ -170,7 +170,7 @@ The Selenium server must be started with the *-userExtensions* command line opti
 
 ::
 
-  java -jar selenium-server-standalone.jar -userExtensions <QOOXDOO-TRUNK>/component/simulator/tool/user-extensions/user-extensions.js
+  java -jar selenium-server-standalone-2.22.0.jar -userExtensions <QOOXDOO-TRUNK>/component/simulator/tool/user-extensions/user-extensions.js
 
 .. _pages/development/simulator#running_tests:
 
@@ -213,28 +213,10 @@ General
 
 Since the Simulator uses Selenium RC to start the browser and run tests, the relevant sections from the `Selenium documentation <http://seleniumhq.org/docs/05_selenium_rc.html>`_ apply. Due to the special nature of qooxdoo applications, however, some browsers require additional configuration steps before they can be tested.
 
-Firefox
-=======
+Firefox, Chrome
+===============
 
-The 3.x line of Mozilla Firefox is usually the most reliable option for Simulator tests. Firefox 3.0, 3.5 and 3.6 are all known to work on Windows XP and 7 as well as Linux and OS X.
-
-Firefox 4 is not supported by Selenium 1.0.3 out of the box, but it can be used for testing by starting it with a custom profile. These are the necessary steps:
-
-* Start Firefox 4 with the -P option to bring up the Profile Manager
-* Create a new profile, naming it e.g. "FF4-selenium"
-* Under Options -> Advanced -> Network -> Settings, select Manual Proxy Configuration and enter the host name or IP address and port number of your Selenium server
-* In your application's config.json, use the *\*custom* browser launcher followed by the full path to the Firefox executable and the name of the profile:
-
-::
-
-  "simulation-run" :
-  {
-    "environment" :
-    {
-      "simulator.testBrowser" : "*custom C:/Program Files/Mozilla Firefox/firefox.exe -P FF4-selenium",
-      [...]
-    }
-  }
+Firefox and Chrome are generally well supported by Selenium, just make sure to use a Selenium version that isn't (much) older than the browser you intend to use for testing.
 
 Internet Explorer 6, 7, 8 and 9
 ===============================

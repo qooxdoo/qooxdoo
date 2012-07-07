@@ -27,7 +27,7 @@ qx.Class.define("mobileshowcase.page.Animation",
   construct : function()
   {
     this.base(arguments);
-    this.setTitle("Animation");
+    this.setTitle("Page Transitions");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
   },
@@ -61,8 +61,12 @@ qx.Class.define("mobileshowcase.page.Animation",
 
       list.setModel(new qx.data.Array(data));
       list.addListener("changeSelection", function(evt) {
+        // In Tablet Mode, animation should be shown for this showcase part.
+        // On animation landing >> setShowAnimation(false) is called.
+        this.getLayoutParent().getLayout().setShowAnimation(true);
+
         var animation = data[evt.getData()].animation;
-        qx.ui.mobile.navigation.Manager.getInstance().executeGet("/animation/" + animation);
+        qx.core.Init.getApplication().getRouting().executeGet("/animation/" + animation);
       }, this);
       this.getContent().add(list);
     },
@@ -71,7 +75,7 @@ qx.Class.define("mobileshowcase.page.Animation",
     // overridden
     _back : function()
     {
-     qx.ui.mobile.navigation.Manager.getInstance().executeGet("/", {reverse:true});
+     qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

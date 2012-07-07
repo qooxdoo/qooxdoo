@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5932 $"/>
-		<generation date="$Date: 2011-06-23 20:34:48 -0500 (Thu, 23 Jun 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="kea"/>
 	</identity>
 	<localeDisplayNames>
@@ -372,8 +372,8 @@
 	<delimiters>
 		<quotationStart>“</quotationStart>
 		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>«</alternateQuotationStart>
-		<alternateQuotationEnd>»</alternateQuotationEnd>
+		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -629,7 +629,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="EEEd">EEE, d</dateFormatItem>
+						<dateFormatItem id="Ed">E, d</dateFormatItem>
 						<dateFormatItem id="HHmm">HH:mm</dateFormatItem>
 						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
@@ -639,23 +639,23 @@
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">EEE, d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d 'di' MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">EEE, d 'di' MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E, d 'di' MMMM</dateFormatItem>
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">MM/y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, dd/MM/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, dd/MM/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM 'di' y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d 'di' MMM 'di' y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d 'di' MMM 'di' y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM 'di' y</dateFormatItem>
 						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/yy</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
 						<dateFormatItem id="yyMMMd">d 'de' MMM 'de' yy</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd">EEE, d 'de' MMM 'de' yy</dateFormatItem>
+						<dateFormatItem id="yyMMMEd">E, d 'de' MMM 'de' yy</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM/yyyy</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM 'de' yyyy</dateFormatItem>
@@ -769,13 +769,13 @@
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<generic>Ora di Sul di Afrika</generic>
-					<standard>Ora Padrãu di Sul di Afrika</standard>
+					<standard>Ora di Sul di Afrika</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
-					<standard>Ora di Afrika Osidental</standard>
+					<generic>Ora di Afrika Osidental</generic>
+					<standard>Ora Padrãu di Afrika Osidental</standard>
 					<daylight>Ora di Verão di Afrika Osidental</daylight>
 				</long>
 			</metazone>
@@ -844,19 +844,22 @@
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<standard>Ora di Europa Sentral</standard>
+					<generic>Ora di Europa Sentral</generic>
+					<standard>Ora Padrãu di Europa Sentral</standard>
 					<daylight>Ora di Verãu di Europa Sentral</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<standard>Ora di Europa Oriental</standard>
+					<generic>Ora di Europa Oriental</generic>
+					<standard>Ora Padrãu di Europa Oriental</standard>
 					<daylight>Ora di Verãu di Europa Oriental</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<standard>Ora di Europa Osidental</standard>
+					<generic>Ora di Europa Osidental</generic>
+					<standard>Ora Padrãu di Europa Osidental</standard>
 					<daylight>Ora di Verãu di Europa Osidental</daylight>
 				</long>
 			</metazone>
@@ -867,7 +870,7 @@
 			<decimal>,</decimal>
 			<group>.</group>
 		</symbols>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00¤</pattern>
@@ -1162,4 +1165,3 @@
 		</messages>
 	</posix>
 </ldml>
-

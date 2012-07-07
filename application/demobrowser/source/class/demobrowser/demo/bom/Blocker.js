@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Blocker",
 {
   extend : qx.application.Native,
@@ -54,7 +57,7 @@ qx.Class.define("demobrowser.demo.bom.Blocker",
                                               top: "100px",
                                               width: "200px" });
 
-      var elementToBlock = qx.bom.Element.create("div");
+      var elementToBlock = qx.dom.Element.create("div");
       qx.bom.element.Style.setStyles(elementToBlock, { position: "absolute",
                                                        left: "300px",
                                                        top: "150px",

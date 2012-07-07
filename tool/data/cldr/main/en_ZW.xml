@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5354 $"/>
-		<generation date="$Date: 2011-02-08 06:10:23 -0600 (Tue, 08 Feb 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="en"/>
 		<territory type="ZW"/>
 	</identity>
@@ -41,7 +41,7 @@
 						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
 						<dateFormatItem id="yMEd">E, d/M/y</dateFormatItem>
 						<dateFormatItem id="yMMMd">dd MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, dd MMM, y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, dd MMM, y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="unconfirmed">{0} - {1}</intervalFormatFallback>
@@ -125,21 +125,31 @@
 		</calendars>
 		<timeZoneNames>
 			<metazone type="Africa_Central">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<standard>CAT</standard>
+				</short>
 			</metazone>
 			<metazone type="Africa_Eastern">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<standard>EAT</standard>
+				</short>
 			</metazone>
 			<metazone type="Africa_Southern">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<standard>SAST</standard>
+				</short>
 			</metazone>
 			<metazone type="Africa_Western">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>WAT</generic>
+					<standard>WAT</standard>
+					<daylight>WAST</daylight>
+				</short>
 			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00</pattern>

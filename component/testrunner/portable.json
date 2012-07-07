@@ -1,33 +1,14 @@
 {
-  "name"    : "testrunner-portable",
+  "name"    : "includer for portable testrunner",
 
-  "include" :
+  "include" : 
   [
     {
-      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+      "path" : "${QOOXDOO_PATH}/tool/data/config/base.json",
+      "as"   : "base"
     }
   ],
-  
-  "default-job" : "source",
-  
-  "let" :
-  {
-    "APPLICATION"  : "testrunner",
-    "QOOXDOO_PATH" : "../..",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
-    "LOCALES"      : [ "en" ],
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "ROOT"         : ".",
-    "BUILD_PATH"   : "build",
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    
-    "TESTRUNNER_ROOT" : ".",
-    "TESTRUNNER_ORIGIN" : "external",
-    "TESTRUNNER_MAIN_CLASS" : "testrunner.Application",
-    "TESTRUNNER_VIEW" : "testrunner.view.Html",
-    "TESTRUNNER_SCRIPT" : "testrunner-portable.js"
-  },
-  
+
   "config-warnings" :
   {
     "job-shadowing": [
@@ -46,6 +27,26 @@
     ]
   },
   
+  "let" :
+  {
+    "APPLICATION"  : "testrunner",
+    "ADD_NOCACHE_PARAM" : false,
+    "QOOXDOO_PATH" : "../..",
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "ROOT"         : ".",
+    "BUILD_PATH"   : "build",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    
+    "TESTRUNNER_ROOT" : ".",
+    "TESTRUNNER_ORIGIN" : "external",
+    "TESTRUNNER_MAIN_CLASS" : "testrunner.Application",
+    "TESTRUNNER_VIEW" : "testrunner.view.Html",
+    "TESTRUNNER_SCRIPT" : "testrunner-portable.js",
+    "BUILD_SCRIPT_FILE" : "${BUILD_PATH}/script/${TESTRUNNER_SCRIPT}"
+  },
+  
   "jobs" :
   {
     "portable-common" :
@@ -61,11 +62,16 @@
         "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}",
         "testrunner.title" : "${APPLICATION}",
         "testrunner.testParts" : false,
-        "testrunner.reportServer" : null
+        "testrunner.reportServer" : null,
+        "testrunner.performance" : true
       },
       
       "library" :
       [
+        {
+          "manifest"   : "${QOOXDOO_PATH}/component/library/indigo/Manifest.json"
+        },
+
         {
           "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
         },
@@ -93,7 +99,9 @@
     
     "source-script" :
     {
-      "extend" : [ "portable-common" ],
+      "desc"    : "create a source loader (all classes as source files)",
+
+      "extend" : [ "portable-common", "base::cache" ],
       
       "compile-options" :
       {
@@ -101,39 +109,74 @@
         {
           "app-root" : "source",
           "file" : "source/script/${TESTRUNNER_SCRIPT}",
-          "loader-template" : "tool/portable.loader.tmpl.js"
+          "loader-template" : "${TESTRUNNER_ROOT}/tool/portable.loader.tmpl.js"
+        },
+        "uris" : 
+        {
+          "add-nocache-param" : "${ADD_NOCACHE_PARAM}"
+        },
+        "code" :
+        {
+          "locales" : "${LOCALES}"
         }
-      }
+      },
+
+      "compile" : { "type" : "source" }
     },
     
     "build-script" :
     {
-      "extend" : [ "portable-common" ],
+      "desc"    : "portable testrunner build script",
+      "extend" : [ "portable-common", "base::cache" ],
       
+      "environment" :
+      {
+        "qx.debug" : false,
+        "qx.debug.databinding" : false,
+        "qx.debug.dispose" : false
+      },
+
       "compile-options" :
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/${TESTRUNNER_SCRIPT}",
-          "loader-template" : "tool/portable.loader.tmpl.js"
+          "file" : "${BUILD_SCRIPT_FILE}",
+          "loader-template" : "${TESTRUNNER_ROOT}/tool/portable.loader.tmpl.js",
+          "app-root" : "${BUILD_PATH}"
+        },
+        "uris"   :
+        {
+          "script"   : "script",
+          "add-nocache-param" : false
+        },
+        "code" :
+        {
+          "format"   : true,
+          "locales"  : "${LOCALES}",
+          "except"   : [],
+          "=optimize" : []
         }
-      }
+      }, 
+
+      "compile" : { "type" : "build" }
     },
     
     "gen-css" :
     {
+      "extend" : ["base::cache"],
+
       "shell" :
       {
         "command" :
         [
-          "foo=`cat source/resource/testrunner/view/html/css/testrunner.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py`;sed -i.bak \"s/%{Styles}/$${foo}/\" ${BUILD_PATH}/script/testrunner-portable.js;rm -f ${BUILD_PATH}/script/testrunner-portable.js.bak"
+          "${PYTHON_CMD} ${TESTRUNNER_ROOT}/tool/injectcss.py ${QOOXDOO_PATH}/component/library/indigo/source/resource/indigo/css/reset.css ${QOOXDOO_PATH}/component/library/indigo/source/resource/indigo/css/base.css ${TESTRUNNER_ROOT}/source/resource/testrunner/view/html/css/testrunner.css -t ${BUILD_SCRIPT_FILE} -q ${QOOXDOO_PATH}"
         ]
       }
     },
     
     "build-resources" :
     {
-      "extend" : [ "portable-common" ]
+      "extend" : [ "portable-common", "base::build-resources" ]
     },
     
     "build" :

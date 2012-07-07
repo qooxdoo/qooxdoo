@@ -108,7 +108,7 @@
  *     If a string is given, the string should hold a reference to a member
  *     method.<br>
  *     <code>"<i>methodname</i>"</code> for example
- *     <code>"this.__validateProperty"</code><br>
+ *     <code>"__validateProperty"</code><br>
  *     There are some default validators in the {@link qx.util.Validate} class.
  *     See this documentation for usage examples.
  *   </td></tr>
@@ -430,7 +430,7 @@ qx.Bootstrap.define("qx.core.Property",
 
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.propertyDebugLevel") > 1) {
+        if (qx.core.Environment.get("qx.debug.property.level") > 1) {
           qx.Bootstrap.debug("Generating property group: " + name);
         }
       }
@@ -524,7 +524,7 @@ qx.Bootstrap.define("qx.core.Property",
 
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.propertyDebugLevel") > 1) {
+        if (qx.core.Environment.get("qx.debug.property.level") > 1) {
           qx.Bootstrap.debug("Generating property wrappers: " + name);
         }
       }
@@ -686,7 +686,7 @@ qx.Bootstrap.define("qx.core.Property",
       // Output generate code
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.propertyDebugLevel") > 1) {
+        if (qx.core.Environment.get("qx.debug.property.level") > 1) {
           qx.Bootstrap.debug("Code[" + this.$$method[variant][name] + "]: " + code.join(""));
         }
 
