@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="gl"/>
 	</identity>
 	<localeDisplayNames>
@@ -12,203 +12,203 @@
 			<localeSeparator draft="contributed">, </localeSeparator>
 		</localeDisplayPattern>
 		<languages>
-			<language type="ab">Abkhazo</language>
-			<language type="af" draft="contributed">Afrikaans</language>
-			<language type="afa" draft="contributed">Lingua afro-asiática</language>
-			<language type="alg" draft="contributed">Lingua algonquina</language>
-			<language type="am" draft="contributed">Amárico</language>
-			<language type="an" draft="contributed">Aragonés</language>
-			<language type="apa" draft="contributed">Lingua apache</language>
-			<language type="ar" draft="contributed">Árabe</language>
-			<language type="arc" draft="contributed">Arameo</language>
-			<language type="art" draft="contributed">Lingua artificial</language>
-			<language type="as" draft="contributed">Assamés</language>
-			<language type="ast" draft="contributed">Asturiano</language>
-			<language type="aus" draft="contributed">Lingua australiana</language>
-			<language type="ay">Aimará</language>
-			<language type="az" draft="contributed">Azerbaiano</language>
-			<language type="az" alt="short">Acerbaixano</language>
-			<language type="bat" draft="contributed">Lingua báltica</language>
-			<language type="be" draft="contributed">Bielorruso</language>
-			<language type="bg" draft="contributed">Búlgaro</language>
-			<language type="bh" draft="contributed">Bihariano</language>
-			<language type="bn" draft="contributed">Bengalí</language>
-			<language type="bo">Tibetano</language>
-			<language type="br" draft="contributed">Bretón</language>
-			<language type="bs" draft="contributed">Bosnio</language>
-			<language type="ca" draft="contributed">Catalán</language>
-			<language type="cai" draft="contributed">Lingua india centroamericana</language>
-			<language type="cau" draft="contributed">Lingua caucásica</language>
-			<language type="cel" draft="contributed">Lingua céltica</language>
-			<language type="cs" draft="contributed">Checo</language>
-			<language type="cu" draft="contributed">Eslavo eclesiástico</language>
-			<language type="cy" draft="contributed">Galés</language>
-			<language type="da" draft="contributed">Dinamarqués</language>
-			<language type="de" draft="contributed">Alemán</language>
-			<language type="de_AT" draft="contributed">Alemán de Austria</language>
-			<language type="de_CH">Alto alemán suízo</language>
-			<language type="dv">Divehi</language>
-			<language type="dz">Dzongkha</language>
-			<language type="efi">Ibibio</language>
-			<language type="egy" draft="contributed">Exipcio antigo</language>
-			<language type="el" draft="contributed">Grego</language>
-			<language type="en" draft="contributed">Inglés</language>
-			<language type="en_AU" draft="contributed">Inglés australiano</language>
-			<language type="en_CA" draft="contributed">Inglés canadiano</language>
-			<language type="en_GB" draft="contributed">Inglés británico</language>
-			<language type="en_US" draft="contributed">Inglés americano</language>
-			<language type="eo" draft="contributed">Esperanto</language>
-			<language type="es" draft="contributed">Español</language>
-			<language type="es_419" draft="contributed">Español latinoamericano</language>
-			<language type="es_ES" draft="contributed">Castelán</language>
-			<language type="et" draft="contributed">Estoniano</language>
-			<language type="eu" draft="contributed">Éuscaro</language>
-			<language type="fa" draft="contributed">Persa</language>
-			<language type="fi" draft="contributed">Finés</language>
-			<language type="fil" draft="contributed">Filipino</language>
-			<language type="fiu" draft="contributed">Lingua finno-úgrica</language>
-			<language type="fj">Fixiano</language>
-			<language type="fo" draft="contributed">Faroés</language>
-			<language type="fr" draft="contributed">Francés</language>
-			<language type="fr_CA" draft="contributed">Francés canadiano</language>
-			<language type="fr_CH" draft="contributed">Francés suízo</language>
-			<language type="fy" draft="contributed">Frisón</language>
-			<language type="ga" draft="contributed">Irlandés</language>
-			<language type="gd" draft="contributed">Gaélico escocés</language>
-			<language type="gem" draft="contributed">Lingua xermánica</language>
-			<language type="gl">Galego</language>
-			<language type="gn" draft="contributed">Guaraní</language>
-			<language type="grc" draft="contributed">Grego antigo</language>
-			<language type="gsw">Alemán suízo</language>
-			<language type="gu" draft="contributed">Guxaratiano</language>
-			<language type="ha">Hausa</language>
-			<language type="haw">Hawaiano</language>
-			<language type="he" draft="contributed">Hebreo</language>
-			<language type="hi" draft="contributed">Hindi</language>
-			<language type="hr" draft="contributed">Croata</language>
-			<language type="ht">Haitiano</language>
-			<language type="hu" draft="contributed">Húngaro</language>
-			<language type="hy" draft="contributed">Armenio</language>
-			<language type="ia" draft="contributed">Interlingua</language>
-			<language type="id" draft="contributed">Indonesio</language>
-			<language type="ig">Ibo</language>
-			<language type="inc" draft="contributed">Lingua índica</language>
-			<language type="ine" draft="contributed">Lingua indoeuropea</language>
-			<language type="is" draft="contributed">Islandés</language>
-			<language type="it" draft="contributed">Italiano</language>
-			<language type="ja" draft="contributed">Xaponés</language>
-			<language type="jv" draft="contributed">Xavanés</language>
-			<language type="ka" draft="contributed">Xeorxiano</language>
-			<language type="kk">Casaco</language>
-			<language type="km" draft="contributed">Cambodiano</language>
-			<language type="kn" draft="contributed">Kannada</language>
-			<language type="ko" draft="contributed">Coreano</language>
-			<language type="ks">Cachemir</language>
-			<language type="ku" draft="contributed">Kurdo</language>
-			<language type="ky" draft="contributed">Kyrgiz</language>
-			<language type="la" draft="contributed">Latín</language>
-			<language type="lb">Luxemburgués</language>
-			<language type="ln" draft="contributed">Lingala</language>
-			<language type="lo" draft="contributed">Laotiano</language>
-			<language type="lt" draft="contributed">Lituano</language>
-			<language type="lv" draft="contributed">Letón</language>
-			<language type="mg">Malgaxe</language>
-			<language type="mi">Maorí</language>
-			<language type="mis" draft="contributed">Lingua miscelánea</language>
-			<language type="mk" draft="contributed">Macedonio</language>
-			<language type="ml">Malabar</language>
-			<language type="mn" draft="contributed">Mongol</language>
-			<language type="mr" draft="contributed">Marathi</language>
-			<language type="ms" draft="contributed">Malaio</language>
-			<language type="mt" draft="contributed">Maltés</language>
-			<language type="mul" draft="contributed">Varias linguas</language>
-			<language type="my">Birmano</language>
-			<language type="nai" draft="contributed">Lingua india norteamericana</language>
-			<language type="nb" draft="contributed">Noruegués Bokmal</language>
-			<language type="nd">Ndebele do norte</language>
-			<language type="ne" draft="contributed">Nepalí</language>
-			<language type="nl" draft="contributed">Holandés</language>
-			<language type="nl_BE" draft="contributed">Flamenco</language>
-			<language type="nn" draft="contributed">Noruegués nynorsk</language>
-			<language type="no" draft="contributed">Noruegués</language>
-			<language type="nub" draft="contributed">Lingua nubia</language>
-			<language type="ny">Chewa</language>
-			<language type="oc" draft="contributed">Occitano</language>
-			<language type="or">Oriya</language>
-			<language type="os">Osetio</language>
-			<language type="pa" draft="contributed">Punjabi</language>
-			<language type="phi" draft="contributed">Lingua filipina</language>
-			<language type="pl" draft="contributed">Polaco</language>
-			<language type="ps">Paxtún</language>
-			<language type="ps" alt="variant">Paxtún</language>
-			<language type="pt" draft="contributed">Portugués</language>
-			<language type="pt_BR" draft="contributed">Portugués brasileiro</language>
-			<language type="pt_PT" draft="contributed">Portugués ibérico</language>
-			<language type="qu">Quechua</language>
-			<language type="rm">Romanche</language>
-			<language type="rn">Rundi</language>
-			<language type="ro" draft="contributed">Romanés</language>
-			<language type="roa" draft="contributed">Lingua románica</language>
-			<language type="ru" draft="contributed">Ruso</language>
-			<language type="rw">Ruandés</language>
-			<language type="sa" draft="contributed">Sánscrito</language>
-			<language type="sai" draft="contributed">Lingua india sudamericana</language>
-			<language type="sd" draft="contributed">Sindhi</language>
-			<language type="se">Sami do norte</language>
-			<language type="sem" draft="contributed">Lingua semita</language>
-			<language type="sg">Sango</language>
-			<language type="sgn" draft="contributed">Lingua de signos</language>
-			<language type="sh" draft="contributed">Serbocroata</language>
-			<language type="si">Cingalés</language>
-			<language type="sk" draft="contributed">Eslovaco</language>
-			<language type="sl">Esloveno</language>
-			<language type="sla" draft="contributed">Lingua eslávica</language>
-			<language type="sm">Samoano</language>
-			<language type="sn">Shona</language>
-			<language type="so">Somalí</language>
-			<language type="sq" draft="contributed">Albanés</language>
-			<language type="sr" draft="contributed">Serbio</language>
-			<language type="ss">Swati</language>
-			<language type="ssa" draft="contributed">Lingua do Nilo-Sáhara</language>
-			<language type="st">Sesoto</language>
-			<language type="su">Sondanés</language>
-			<language type="sv" draft="contributed">Sueco</language>
-			<language type="sw">Swahili</language>
-			<language type="ta" draft="contributed">Tamil</language>
-			<language type="te" draft="contributed">Telugu</language>
-			<language type="tet">Tetún</language>
-			<language type="tg">Taxico</language>
-			<language type="th" draft="contributed">Tailandés</language>
-			<language type="ti">Tigriña</language>
-			<language type="tk">Turcomano</language>
-			<language type="tl" draft="contributed">Tagalo</language>
-			<language type="tlh" draft="contributed">Clingon</language>
-			<language type="tn">Tswana</language>
-			<language type="to">Tongano</language>
-			<language type="tpi">Tok Pisin</language>
-			<language type="tr" draft="contributed">Turco</language>
-			<language type="ts">Xitsonga</language>
-			<language type="tt">Tártaro</language>
-			<language type="tut" draft="contributed">Lingua altaica</language>
-			<language type="tw" draft="unconfirmed">Twi</language>
-			<language type="ty">Tahitiano</language>
-			<language type="ug">Uigur</language>
-			<language type="ug" alt="variant">Uigur</language>
-			<language type="uk" draft="contributed">Ucraíno</language>
-			<language type="und" draft="contributed">Lingua descoñecida ou non válida</language>
-			<language type="ur" draft="contributed">Urdú</language>
-			<language type="uz" draft="contributed">Uzbeco</language>
-			<language type="ve">Venda</language>
-			<language type="vi" draft="contributed">Vietnamita</language>
-			<language type="wo">Wólof</language>
-			<language type="xh" draft="contributed">Xhosa</language>
-			<language type="yi" draft="contributed">Yiddish</language>
-			<language type="yo">Ioruba</language>
-			<language type="zh" draft="contributed">Chinés</language>
-			<language type="zh_Hans" draft="contributed">Chinés simplificado</language>
-			<language type="zh_Hant" draft="contributed">Chinés tradicional</language>
-			<language type="zu" draft="contributed">Zulú</language>
-			<language type="zxx" draft="contributed">Sen contido lingüístico</language>
+			<language type="ab">abkhazo</language>
+			<language type="af" draft="contributed">afrikaans</language>
+			<language type="afa" draft="contributed">lingua afro-asiática</language>
+			<language type="alg" draft="contributed">lingua algonquina</language>
+			<language type="am" draft="contributed">amárico</language>
+			<language type="an" draft="contributed">aragonés</language>
+			<language type="apa" draft="contributed">lingua apache</language>
+			<language type="ar" draft="contributed">árabe</language>
+			<language type="arc" draft="contributed">arameo</language>
+			<language type="art" draft="contributed">lingua artificial</language>
+			<language type="as" draft="contributed">assamés</language>
+			<language type="ast" draft="contributed">asturiano</language>
+			<language type="aus" draft="contributed">lingua australiana</language>
+			<language type="ay">aimará</language>
+			<language type="az" draft="contributed">azerbaiano</language>
+			<language type="az" alt="short">acerbaixano</language>
+			<language type="bat" draft="contributed">lingua báltica</language>
+			<language type="be" draft="contributed">bielorruso</language>
+			<language type="bg" draft="contributed">búlgaro</language>
+			<language type="bh" draft="contributed">bihariano</language>
+			<language type="bn" draft="contributed">bengalí</language>
+			<language type="bo">tibetano</language>
+			<language type="br" draft="contributed">bretón</language>
+			<language type="bs" draft="contributed">bosnio</language>
+			<language type="ca" draft="contributed">catalán</language>
+			<language type="cai" draft="contributed">lingua india centroamericana</language>
+			<language type="cau" draft="contributed">lingua caucásica</language>
+			<language type="cel" draft="contributed">lingua céltica</language>
+			<language type="cs" draft="contributed">checo</language>
+			<language type="cu" draft="contributed">eslavo eclesiástico</language>
+			<language type="cy" draft="contributed">galés</language>
+			<language type="da" draft="contributed">dinamarqués</language>
+			<language type="de" draft="contributed">alemán</language>
+			<language type="de_AT" draft="contributed">alemán de austria</language>
+			<language type="de_CH">alto alemán suízo</language>
+			<language type="dv">divehi</language>
+			<language type="dz">dzongkha</language>
+			<language type="efi">ibibio</language>
+			<language type="egy" draft="contributed">exipcio antigo</language>
+			<language type="el" draft="contributed">grego</language>
+			<language type="en" draft="contributed">inglés</language>
+			<language type="en_AU" draft="contributed">inglés australiano</language>
+			<language type="en_CA" draft="contributed">inglés canadiano</language>
+			<language type="en_GB" draft="contributed">inglés británico</language>
+			<language type="en_US" draft="contributed">inglés americano</language>
+			<language type="eo" draft="contributed">esperanto</language>
+			<language type="es" draft="contributed">español</language>
+			<language type="es_419" draft="contributed">español latinoamericano</language>
+			<language type="es_ES" draft="contributed">castelán</language>
+			<language type="et" draft="contributed">estoniano</language>
+			<language type="eu" draft="contributed">éuscaro</language>
+			<language type="fa" draft="contributed">persa</language>
+			<language type="fi" draft="contributed">finés</language>
+			<language type="fil" draft="contributed">filipino</language>
+			<language type="fiu" draft="contributed">lingua finno-úgrica</language>
+			<language type="fj">fixiano</language>
+			<language type="fo" draft="contributed">faroés</language>
+			<language type="fr" draft="contributed">francés</language>
+			<language type="fr_CA" draft="contributed">francés canadiano</language>
+			<language type="fr_CH" draft="contributed">francés suízo</language>
+			<language type="fy" draft="contributed">frisón</language>
+			<language type="ga" draft="contributed">irlandés</language>
+			<language type="gd" draft="contributed">gaélico escocés</language>
+			<language type="gem" draft="contributed">lingua xermánica</language>
+			<language type="gl">galego</language>
+			<language type="gn" draft="contributed">guaraní</language>
+			<language type="grc" draft="contributed">grego antigo</language>
+			<language type="gsw">alemán suízo</language>
+			<language type="gu" draft="contributed">guxaratiano</language>
+			<language type="ha">hausa</language>
+			<language type="haw">hawaiano</language>
+			<language type="he" draft="contributed">hebreo</language>
+			<language type="hi" draft="contributed">hindi</language>
+			<language type="hr" draft="contributed">croata</language>
+			<language type="ht">haitiano</language>
+			<language type="hu" draft="contributed">húngaro</language>
+			<language type="hy" draft="contributed">armenio</language>
+			<language type="ia" draft="contributed">interlingua</language>
+			<language type="id" draft="contributed">indonesio</language>
+			<language type="ig">ibo</language>
+			<language type="inc" draft="contributed">lingua índica</language>
+			<language type="ine" draft="contributed">lingua indoeuropea</language>
+			<language type="is" draft="contributed">islandés</language>
+			<language type="it" draft="contributed">italiano</language>
+			<language type="ja" draft="contributed">xaponés</language>
+			<language type="jv" draft="contributed">xavanés</language>
+			<language type="ka" draft="contributed">xeorxiano</language>
+			<language type="kk">casaco</language>
+			<language type="km" draft="contributed">cambodiano</language>
+			<language type="kn" draft="contributed">kannada</language>
+			<language type="ko" draft="contributed">coreano</language>
+			<language type="ks">cachemir</language>
+			<language type="ku" draft="contributed">kurdo</language>
+			<language type="ky" draft="contributed">kyrgiz</language>
+			<language type="la" draft="contributed">latín</language>
+			<language type="lb">luxemburgués</language>
+			<language type="ln" draft="contributed">lingala</language>
+			<language type="lo" draft="contributed">laotiano</language>
+			<language type="lt" draft="contributed">lituano</language>
+			<language type="lv" draft="contributed">letón</language>
+			<language type="mg">malgaxe</language>
+			<language type="mi">maorí</language>
+			<language type="mis" draft="contributed">lingua miscelánea</language>
+			<language type="mk" draft="contributed">macedonio</language>
+			<language type="ml">malabar</language>
+			<language type="mn" draft="contributed">mongol</language>
+			<language type="mr" draft="contributed">marathi</language>
+			<language type="ms" draft="contributed">malaio</language>
+			<language type="mt" draft="contributed">maltés</language>
+			<language type="mul" draft="contributed">varias linguas</language>
+			<language type="my">birmano</language>
+			<language type="nai" draft="contributed">lingua india norteamericana</language>
+			<language type="nb" draft="contributed">noruegués bokmal</language>
+			<language type="nd">ndebele do norte</language>
+			<language type="ne" draft="contributed">nepalí</language>
+			<language type="nl" draft="contributed">holandés</language>
+			<language type="nl_BE" draft="contributed">flamenco</language>
+			<language type="nn" draft="contributed">noruegués nynorsk</language>
+			<language type="no" draft="contributed">noruegués</language>
+			<language type="nub" draft="contributed">lingua nubia</language>
+			<language type="ny">chewa</language>
+			<language type="oc" draft="contributed">occitano</language>
+			<language type="or">oriya</language>
+			<language type="os">osetio</language>
+			<language type="pa" draft="contributed">punjabi</language>
+			<language type="phi" draft="contributed">lingua filipina</language>
+			<language type="pl" draft="contributed">polaco</language>
+			<language type="ps">paxtún</language>
+			<language type="ps" alt="variant">paxtún</language>
+			<language type="pt" draft="contributed">portugués</language>
+			<language type="pt_BR" draft="contributed">portugués brasileiro</language>
+			<language type="pt_PT" draft="contributed">portugués ibérico</language>
+			<language type="qu">quechua</language>
+			<language type="rm">romanche</language>
+			<language type="rn">rundi</language>
+			<language type="ro" draft="contributed">romanés</language>
+			<language type="roa" draft="contributed">lingua románica</language>
+			<language type="ru" draft="contributed">ruso</language>
+			<language type="rw">ruandés</language>
+			<language type="sa" draft="contributed">sánscrito</language>
+			<language type="sai" draft="contributed">lingua india sudamericana</language>
+			<language type="sd" draft="contributed">sindhi</language>
+			<language type="se">sami do norte</language>
+			<language type="sem" draft="contributed">lingua semita</language>
+			<language type="sg">sango</language>
+			<language type="sgn" draft="contributed">lingua de signos</language>
+			<language type="sh" draft="contributed">serbocroata</language>
+			<language type="si">cingalés</language>
+			<language type="sk" draft="contributed">eslovaco</language>
+			<language type="sl">esloveno</language>
+			<language type="sla" draft="contributed">lingua eslávica</language>
+			<language type="sm">samoano</language>
+			<language type="sn">shona</language>
+			<language type="so">somalí</language>
+			<language type="sq" draft="contributed">albanés</language>
+			<language type="sr" draft="contributed">serbio</language>
+			<language type="ss">swati</language>
+			<language type="ssa" draft="contributed">lingua do nilo-sáhara</language>
+			<language type="st">sesoto</language>
+			<language type="su">sondanés</language>
+			<language type="sv" draft="contributed">sueco</language>
+			<language type="sw">swahili</language>
+			<language type="ta" draft="contributed">tamil</language>
+			<language type="te" draft="contributed">telugu</language>
+			<language type="tet">tetún</language>
+			<language type="tg">taxico</language>
+			<language type="th" draft="contributed">tailandés</language>
+			<language type="ti">tigriña</language>
+			<language type="tk">turcomano</language>
+			<language type="tl" draft="contributed">tagalo</language>
+			<language type="tlh" draft="contributed">clingon</language>
+			<language type="tn">tswana</language>
+			<language type="to">tongano</language>
+			<language type="tpi">tok pisin</language>
+			<language type="tr" draft="contributed">turco</language>
+			<language type="ts">xitsonga</language>
+			<language type="tt">tártaro</language>
+			<language type="tut" draft="contributed">lingua altaica</language>
+			<language type="tw" draft="unconfirmed">twi</language>
+			<language type="ty">tahitiano</language>
+			<language type="ug">uigur</language>
+			<language type="ug" alt="variant">uigur</language>
+			<language type="uk" draft="contributed">ucraíno</language>
+			<language type="und" draft="contributed">lingua descoñecida ou non válida</language>
+			<language type="ur" draft="contributed">urdú</language>
+			<language type="uz" draft="contributed">uzbeco</language>
+			<language type="ve">venda</language>
+			<language type="vi" draft="contributed">vietnamita</language>
+			<language type="wo">wólof</language>
+			<language type="xh" draft="contributed">xhosa</language>
+			<language type="yi" draft="contributed">yiddish</language>
+			<language type="yo">ioruba</language>
+			<language type="zh" draft="contributed">chinés</language>
+			<language type="zh_Hans" draft="contributed">chinés simplificado</language>
+			<language type="zh_Hant" draft="contributed">chinés tradicional</language>
+			<language type="zu" draft="contributed">zulú</language>
+			<language type="zxx" draft="contributed">sen contido lingüístico</language>
 		</languages>
 		<scripts>
 			<script type="Arab" draft="contributed">Árabe</script>
@@ -278,7 +278,6 @@
 			<territory type="054" draft="contributed">Melanesia</territory>
 			<territory type="057" draft="contributed">Rexión da Micronesia</territory>
 			<territory type="061" draft="contributed">Polinesia</territory>
-			<territory type="062" draft="contributed">Asia do Sul-Centro</territory>
 			<territory type="142" draft="contributed">Asia</territory>
 			<territory type="143" draft="contributed">Asia Central</territory>
 			<territory type="145" draft="contributed">Asia Occidental</territory>
@@ -286,7 +285,6 @@
 			<territory type="151" draft="contributed">Europa do Leste</territory>
 			<territory type="154" draft="contributed">Europa Septentrional</territory>
 			<territory type="155" draft="contributed">Europa Occidental</territory>
-			<territory type="172" draft="contributed">Comunidade de Estados Independentes</territory>
 			<territory type="419" draft="contributed">América Latina</territory>
 			<territory type="AC">Illa de Ascensión</territory>
 			<territory type="AD" draft="contributed">Andorra</territory>
@@ -572,7 +570,6 @@
 			<type type="coptic" key="calendar">Calendario cóptico</type>
 			<type type="deva" key="numbers">Díxitos devanagari</type>
 			<type type="dictionary" key="collation">Criterio de ordenación do dicionario</type>
-			<type type="direct" key="collation" draft="contributed">orde alfabética directa</type>
 			<type type="ducet" key="collation">Criterio de ordenación Unicode predeterminado</type>
 			<type type="ethi" key="numbers">Números etíopes</type>
 			<type type="ethiopic" key="calendar">Calendario etíope</type>
@@ -837,7 +834,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d" draft="contributed">d</dateFormatItem>
-						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
 						<dateFormatItem id="Hm" draft="contributed">HH:mm</dateFormatItem>
 						<dateFormatItem id="M" draft="contributed">L</dateFormatItem>
 						<dateFormatItem id="Md" draft="contributed">d-M</dateFormatItem>
@@ -853,10 +850,10 @@
 						<dateFormatItem id="y" draft="contributed">y</dateFormatItem>
 						<dateFormatItem id="yM" draft="contributed">M-yyyy</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">EEE, d-M-yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="contributed">E, d-M-yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM" draft="contributed">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="contributed">EEE, d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="contributed">E, d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM" draft="contributed">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ" draft="contributed">Q yyyy</dateFormatItem>
 						<dateFormatItem id="yQQQ" draft="contributed">QQQ y</dateFormatItem>
@@ -1162,6 +1159,8 @@
 			<metazone type="Amazon">
 				<long>
 					<generic>Horario do Amazonas</generic>
+					<standard>Horario estándar do Amazonas</standard>
+					<daylight>Horario de verán do Amazonas</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Central">
@@ -1195,21 +1194,21 @@
 			<metazone type="Anadyr">
 				<long>
 					<generic>Horario de Anadir</generic>
-					<standard>Horario de Anadir</standard>
+					<standard>Horario estándar de Anadir</standard>
 					<daylight>Horario de verán de Anadir</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina">
 				<long>
 					<generic>Horario de Arxentina</generic>
-					<standard>Horario de Arxentina</standard>
+					<standard>Horario estándar de Arxentina</standard>
 					<daylight>Horario de verán de Arxentina</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina_Western">
 				<long>
 					<generic>Horario de Arxentina Occidental</generic>
-					<standard>Horario de Arxentina Occidental</standard>
+					<standard>Horario estándar de Arxentina Occidental</standard>
 					<daylight>Horario de verán de Arxentina Occidental</daylight>
 				</long>
 			</metazone>
@@ -1251,33 +1250,36 @@
 			<metazone type="Brasilia">
 				<long>
 					<generic>Horario de Brasilia</generic>
-					<standard>Horario de Brasilia</standard>
+					<standard>Horario estándar de Brasilia</standard>
 					<daylight>Horario de verán de Brasilia</daylight>
 				</long>
 			</metazone>
 			<metazone type="Choibalsan">
 				<long>
 					<generic>Horario de Choibalsan</generic>
-					<standard>Horario de Choibalsan</standard>
+					<standard>Horario estándar de Choibalsan</standard>
 					<daylight>Horario de verán de Choibalsan</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<standard draft="contributed">Horario Europeo Central</standard>
-					<daylight draft="contributed">Horario de verán Europeo Central</daylight>
+					<generic draft="contributed">Horario de Europeo Central</generic>
+					<standard draft="contributed">Horario estándar de Europeo Central</standard>
+					<daylight draft="contributed">Horario de verán de Europeo Central</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<standard draft="contributed">Horario Europeo Oriental</standard>
-					<daylight draft="contributed">Horario de verán Europeo Oriental</daylight>
+					<generic draft="contributed">Horario de Europeo Oriental</generic>
+					<standard draft="contributed">Horario estándar de Europeo Oriental</standard>
+					<daylight draft="contributed">Horario de verán de Europeo Oriental</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<standard draft="contributed">Horario Europeo Occidental</standard>
-					<daylight draft="contributed">Horario de verán Europeo Occidental</daylight>
+					<generic draft="contributed">Horario de Europeo Occidental</generic>
+					<standard draft="contributed">Horario estándar de Europeo Occidental</standard>
+					<daylight draft="contributed">Horario de verán de Europeo Occidental</daylight>
 				</long>
 			</metazone>
 			<metazone type="GMT">
@@ -1288,62 +1290,60 @@
 			<metazone type="Hawaii_Aleutian">
 				<long>
 					<generic>Horario de Hawai-Aleutianas</generic>
+					<standard>Horario estándar de Hawai-Aleutianas</standard>
+					<daylight>Horario de verán de Hawai-Aleutianas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
 					<generic>Horario de Hovd</generic>
-					<standard>Horario de Hovd</standard>
+					<standard>Horario estándar de Hovd</standard>
 					<daylight>Horario de verán de Hovd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<generic>Hora central de Indonesia</generic>
+					<standard>Hora central de Indonesia</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<generic>Horario de Indonesia Oriental</generic>
+					<standard>Horario de Indonesia Oriental</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<generic>Horario de Indonesia Occidental</generic>
+					<standard>Horario de Indonesia Occidental</standard>
 				</long>
 			</metazone>
 			<metazone type="Irkutsk">
 				<long>
 					<generic>Horario de Irkutsk</generic>
-					<standard>Horario de Irkutsk</standard>
+					<standard>Horario estándar de Irkutsk</standard>
 					<daylight>Horario de verán de Irkutsk</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kamchatka">
 				<long>
-					<generic>Horario de Kamchatka</generic>
-					<standard>Horario de Petropávlovsk-Kamchatski</standard>
+					<generic>Horario de Petropávlovsk-Kamchatski</generic>
+					<standard>Horario estándar de Petropávlovsk-Kamchatski</standard>
 					<daylight>Horario de verán de Petropávlovsk-Kamchatski</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
-					<generic>Horario do Casaquistán Oriental</generic>
-					<standard>Horario estándar de Casaquistán Oriental</standard>
-					<daylight>Horario de verán do Casaquistán Oriental</daylight>
+					<standard>Horario do Casaquistán Oriental</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
-					<generic>Horario de Casaquistán Occidental</generic>
-					<standard>Horario estándar de Casaquistán Occidental</standard>
-					<daylight>Horario de verán de Casaquistán Occidental</daylight>
+					<standard>Horario de Casaquistán Occidental</standard>
 				</long>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
 					<generic>Horario de Krasnoyarsk</generic>
-					<standard>Horario de Krasnoyarsk</standard>
+					<standard>Horario estándar de Krasnoyarsk</standard>
 					<daylight>Horario de verán de Krasnoyarsk</daylight>
 				</long>
 			</metazone>
@@ -1356,20 +1356,20 @@
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<generic>Horario de Macquarie</generic>
+					<standard>Horario de Macquarie</standard>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic>Horario de Magadán</generic>
-					<standard>Horario de Magadán</standard>
+					<standard>Horario estándar de Magadán</standard>
 					<daylight>Horario de verán de Magadán</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic>Horario de Mongolia</generic>
-					<standard>Horario de Ulán Bátor</standard>
+					<generic>Horario de Ulán Bátor</generic>
+					<standard>Horario estándar de Ulán Bátor</standard>
 					<daylight>Horario de verán de Ulán Bátor</daylight>
 				</long>
 			</metazone>
@@ -1389,64 +1389,64 @@
 			</metazone>
 			<metazone type="Noronha">
 				<long>
-					<generic>Horario de Noronha</generic>
-					<standard>Horario de Fernando de Noronha</standard>
+					<generic>Horario de Fernando de Noronha</generic>
+					<standard>Horario estándar de Fernando de Noronha</standard>
 					<daylight>Horario de verán de Fernando de Noronha</daylight>
 				</long>
 			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
 					<generic>Horario de Novosibirsk</generic>
-					<standard>Horario de Novosibirsk</standard>
+					<standard>Horario estándar de Novosibirsk</standard>
 					<daylight>Horario de verán de Novosibirsk</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
 					<generic>Horario de Omsk</generic>
-					<standard>Horario de Omsk</standard>
+					<standard>Horario estándar de Omsk</standard>
 					<daylight>Horario de verán de Omsk</daylight>
 				</long>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
 					<generic>Horario de Sakhalin</generic>
-					<standard>Horario de Sakhalin</standard>
+					<standard>Horario estándar de Sakhalin</standard>
 					<daylight>Horario de verán de Sakhalin</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
 					<generic>Horario de Samara</generic>
-					<standard>Horario de Samara</standard>
+					<standard>Horario estándar de Samara</standard>
 					<daylight>Horario de verán de Samara</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
 					<generic>Horario de Vladivostok</generic>
-					<standard>Horario de Vladivostok</standard>
+					<standard>Horario estándar de Vladivostok</standard>
 					<daylight>Horario de verán de Vladivostok</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
 					<generic>Horario de Volgogrado</generic>
-					<standard>Horario de Volgogrado</standard>
+					<standard>Horario estándar de Volgogrado</standard>
 					<daylight>Horario de verán de Volgogrado</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
 					<generic>Horario de Iakutsk</generic>
-					<standard>Horario de Iakutsk</standard>
+					<standard>Horario estándar de Iakutsk</standard>
 					<daylight>Horario de verán de Yakutsk</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
 					<generic>Horario de Ekaterimburgo</generic>
-					<standard>Horario de Ekaterimburgo</standard>
+					<standard>Horario estándar de Ekaterimburgo</standard>
 					<daylight>Horario de verán de Ekaterimburgo</daylight>
 				</long>
 			</metazone>
@@ -1465,7 +1465,7 @@
 			<infinity draft="contributed">∞</infinity>
 			<nan draft="contributed">NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern draft="contributed">#,##0.###</pattern>
@@ -1473,36 +1473,36 @@
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000">0</pattern>
-					<pattern type="10000">0</pattern>
-					<pattern type="100000">0</pattern>
-					<pattern type="1000000">0</pattern>
-					<pattern type="10000000">0</pattern>
-					<pattern type="100000000">0</pattern>
-					<pattern type="1000000000">0</pattern>
-					<pattern type="10000000000">0</pattern>
-					<pattern type="100000000000">0</pattern>
-					<pattern type="1000000000000">0</pattern>
-					<pattern type="10000000000000">0</pattern>
-					<pattern type="100000000000000">0</pattern>
+					<pattern type="1000" draft="contributed">0000</pattern>
+					<pattern type="10000" draft="contributed">00k</pattern>
+					<pattern type="100000" draft="contributed">000k</pattern>
+					<pattern type="1000000" draft="contributed">0.0 M</pattern>
+					<pattern type="10000000" draft="contributed">00 M</pattern>
+					<pattern type="100000000" draft="contributed">000 M</pattern>
+					<pattern type="1000000000" draft="contributed">0000 M</pattern>
+					<pattern type="10000000000" draft="contributed">00k M</pattern>
+					<pattern type="100000000000" draft="contributed">000k M</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0 B</pattern>
+					<pattern type="10000000000000" draft="contributed">00 B</pattern>
+					<pattern type="100000000000000" draft="contributed">000 B</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern draft="contributed">#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern draft="contributed">#,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>

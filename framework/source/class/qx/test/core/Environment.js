@@ -393,6 +393,8 @@ qx.Class.define("qx.test.core.Environment",
       this.assert(typeof borderRadius == "string" || borderRadius === null);
       var borderImage = qx.core.Environment.get("css.borderimage");
       this.assert(typeof borderImage == "string" || borderImage === null);
+      var borderImageSyntax = qx.core.Environment.get("css.borderimage.standardsyntax");
+      this.assert(typeof borderImageSyntax == "boolean" || borderImageSyntax === null);
       var textOverflow = qx.core.Environment.get("css.textoverflow");
       this.assert(typeof textOverflow == "string" || textOverflow === null);
       var userSelect = qx.core.Environment.get("css.userselect");
@@ -413,8 +415,10 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("css.overflowxy"));
       var linearGradient = qx.core.Environment.get("css.gradient.linear");
       this.assert(typeof linearGradient == "string" || linearGradient === null);
+      this.assertBoolean(qx.core.Environment.get("css.gradient.filter"));
       var radialGradient = qx.core.Environment.get("css.gradient.radial");
       this.assert(typeof radialGradient == "string" || radialGradient === null);
+      this.assertBoolean(qx.core.Environment.get("css.gradient.legacywebkit"));
     },
 
     testPhoneGap : function() {
@@ -447,6 +451,10 @@ qx.Class.define("qx.test.core.Environment",
       this.assertString(qx.core.Environment.get("device.name"));
     },
 
+    testDeviceType : function() {
+      this.assertString(qx.core.Environment.get("device.type"));
+    },
+
     testJson : function() {
       this.assertBoolean(qx.core.Environment.get("json"));
     },
@@ -456,12 +464,12 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("qx.allowUrlVariants"), "2");
       this.assertString(qx.core.Environment.get("qx.application"), "3");
       this.assertBoolean(qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug"), "4");
-      this.assertNumber(qx.core.Environment.get("qx.disposerDebugLevel"), "5");
+      this.assertNumber(qx.core.Environment.get("qx.debug.dispose.level"), "5");
       this.assertBoolean(qx.core.Environment.get("qx.globalErrorHandling"), "6");
-      this.assertBoolean(qx.core.Environment.get("qx.ioRemoteDebug"), "7");
-      this.assertBoolean(qx.core.Environment.get("qx.ioRemoteDebugData"), "8");
+      this.assertBoolean(qx.core.Environment.get("qx.debug.io.remote"), "7");
+      this.assertBoolean(qx.core.Environment.get("qx.debug.io.remote.data"), "8");
       this.assertBoolean(qx.core.Environment.get("qx.nativeScrollBars"), "9");
-      this.assertNumber(qx.core.Environment.get("qx.propertyDebugLevel"), "10");
+      this.assertNumber(qx.core.Environment.get("qx.debug.property.level"), "10");
     },
 
     testOldVariants : function() {

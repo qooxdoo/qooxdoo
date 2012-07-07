@@ -74,7 +74,7 @@
       "asset-let" :
       {
         "qx.icontheme" : ["Tango", "Oxygen"],
-        "qx.theme"     : ["Modern"]
+        "qx.theme"     : ["Indigo"]
       },
 
       "cache" :
@@ -149,6 +149,14 @@
 
       "extend" : ["db-common"],
 
+      "config-warnings" :
+      {
+        "environment" : [ 
+          "non-literal-keys",
+          "variants-and-url-settings"
+        ]
+      },
+
       "compile-options" :
       {
         "paths" :
@@ -160,7 +168,7 @@
         {
           "format" : true,
           "except" : [],
-          "optimize" : ["basecalls", "variables", "privates", "strings", "variants"]
+          "optimize" : ["basecalls", "variables", "privates", "strings", "variants", "whitespace"]
         }
       },
 
@@ -205,6 +213,7 @@
         "qx.theme.Classic",
         "qx.theme.Simple",
         "qx.theme.Modern",
+        "qx.theme.Indigo",
         "demobrowser.demo.*"
       ],
 

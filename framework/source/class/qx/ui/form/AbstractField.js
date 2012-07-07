@@ -56,8 +56,8 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // shortcut for placeholder feature detection
     this.__useQxPlaceholder = !qx.core.Environment.get("css.placeholder") ||
-      (qx.core.Environment.get("engine.name") == "gecko" &&
-       parseFloat(qx.core.Environment.get("engine.version")) >= 2);
+              (qx.core.Environment.get("engine.name") == "gecko" &&
+               parseFloat(qx.core.Environment.get("engine.version")) >= 2);
 
     if (value != null) {
       this.setValue(value);
@@ -444,6 +444,8 @@ qx.Class.define("qx.ui.form.AbstractField",
 
       // the font will adjust automatically on native placeholders
       if (this.__useQxPlaceholder) {
+        // don't apply the color to the placeholder
+        delete styles["color"];
         // apply the font to the placeholder
         this.__getPlaceholderElement().setStyles(styles);
       }

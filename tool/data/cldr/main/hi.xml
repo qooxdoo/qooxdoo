@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5963 $"/>
-		<generation date="$Date: 2011-07-05 10:29:49 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="hi"/>
 	</identity>
 	<localeDisplayNames>
@@ -682,7 +682,6 @@
 			<territory type="054">मेलानेशिया</territory>
 			<territory type="057">माइक्रोनेशियन रीजन</territory>
 			<territory type="061">पोलीनेशिया</territory>
-			<territory type="062">दक्षिण-मध्य एशिया</territory>
 			<territory type="142">एशिया</territory>
 			<territory type="143">मध्य एशिया</territory>
 			<territory type="145">पश्चिमी ऐशिया</territory>
@@ -690,10 +689,7 @@
 			<territory type="151">पूर्वी यूरोप</territory>
 			<territory type="154">उत्तरी यूरोप</territory>
 			<territory type="155">पश्चिमी यूरोप्</territory>
-			<territory type="172">कॉमनवेल्थ ऑफ इंडिपेंडेंट स्टेट्स</territory>
-			<territory type="200">चेकोस्लवाकिया</territory>
 			<territory type="419">लेटिन अमेरिका और कैरिबियन</territory>
-			<territory type="830">चैनल द्वीपसमूह</territory>
 			<territory type="AC" draft="contributed">असेंशन आइलैंड</territory>
 			<territory type="AD">अन्डोरा</territory>
 			<territory type="AE">संयुक्त अरब अमीरात</territory>
@@ -990,7 +986,6 @@
 			<type type="coptic" key="calendar" draft="contributed">कोप्टिक कैलेंडर</type>
 			<type type="deva" key="numbers" draft="contributed">देवनागरी अंक</type>
 			<type type="dictionary" key="collation" draft="contributed">शब्दकोश क्रम विन्यास</type>
-			<type type="direct" key="collation">प्रत्यक्ष वर्गीकरण</type>
 			<type type="ducet" key="collation" draft="contributed">डिफ़ॉल्ट यूनिकोड क्रम विन्यास</type>
 			<type type="ethi" key="numbers" draft="contributed">इथियोपिक संख्याएं</type>
 			<type type="ethiopic" key="calendar" draft="contributed">इथियोपिक कैलेंडर</type>
@@ -1066,10 +1061,10 @@
 		</stopwords>
 	</characters>
 	<delimiters>
-		<quotationStart>'</quotationStart>
-		<quotationEnd>'</quotationEnd>
-		<alternateQuotationStart>&quot;</alternateQuotationStart>
-		<alternateQuotationEnd>&quot;</alternateQuotationEnd>
+		<quotationStart>“</quotationStart>
+		<quotationEnd>”</quotationEnd>
+		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -1255,15 +1250,15 @@
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M-y</dateFormatItem>
 						<dateFormatItem id="yMd" draft="contributed">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">EEE, d/M/y</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="contributed">E, d/M/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd" draft="contributed">d MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM y</dateFormatItem>
 						<dateFormatItem id="yQ">y Q</dateFormatItem>
 						<dateFormatItem id="yQQQ" draft="contributed">QQQ y</dateFormatItem>
 						<dateFormatItem id="yyMMdd">dd-MM-yy</dateFormatItem>
 						<dateFormatItem id="yyMMMd">d MMM, yy</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd">EEE, d MMM yy</dateFormatItem>
+						<dateFormatItem id="yyMMMEd">E, d MMM yy</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM-yyyy</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y</dateFormatItem>
@@ -2903,6 +2898,8 @@
 			<metazone type="Amazon">
 				<long>
 					<generic draft="contributed">आमेज़न समय</generic>
+					<standard draft="contributed">आमेज़न मानक समय</standard>
+					<daylight draft="contributed">आमेज़न ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Central">
@@ -2936,21 +2933,21 @@
 			<metazone type="Anadyr">
 				<long>
 					<generic draft="contributed">एनाडीयर समय</generic>
-					<standard draft="contributed">एनाडीयर समय</standard>
+					<standard draft="contributed">एनाडीयर मानक समय</standard>
 					<daylight draft="contributed">एनाडीयर ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina">
 				<long>
 					<generic draft="contributed">अर्जेंटीना समय</generic>
-					<standard draft="contributed">अर्जेंटीना समय</standard>
+					<standard draft="contributed">अर्जेंटीना मानक समय</standard>
 					<daylight draft="contributed">अर्जेंटीना ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina_Western">
 				<long>
 					<generic draft="contributed">अर्जेंटीना पश्चिमी समय</generic>
-					<standard draft="contributed">पश्चिम अर्जेंटीना समय</standard>
+					<standard draft="contributed">अर्जेंटीना पश्चिमी मानक समय</standard>
 					<daylight draft="contributed">अर्जेंटीना पश्चिमी ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
@@ -2992,26 +2989,28 @@
 			<metazone type="Brasilia">
 				<long>
 					<generic draft="contributed">ब्राजीलिया समय</generic>
-					<standard draft="contributed">ब्राजीलिया समय</standard>
+					<standard draft="contributed">ब्राजीलिया मानक समय</standard>
 					<daylight draft="contributed">ब्राजीलिया ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Choibalsan">
 				<long>
 					<generic draft="contributed">चौइबाल्सन समय</generic>
-					<standard draft="contributed">चौइबाल्सन समय</standard>
+					<standard draft="contributed">चौइबाल्सन मानक समय</standard>
 					<daylight draft="contributed">चौइबाल्सन ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hawaii_Aleutian">
 				<long>
 					<generic draft="contributed">हवाई एल्युशियन समय</generic>
+					<standard draft="contributed">हवाई एल्युशियन मानक समय</standard>
+					<daylight draft="contributed">हवाई एल्युशियन दिवावलोक समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
 					<generic draft="contributed">हॉड समय</generic>
-					<standard draft="contributed">हॉड समय</standard>
+					<standard draft="contributed">हॉड मानक समय</standard>
 					<daylight draft="contributed">हॉड ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
@@ -3022,55 +3021,50 @@
 				<short>
 					<standard>IST</standard>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<generic draft="contributed">इंडोनेशियाई केंद्रीय समय</generic>
+					<standard draft="contributed">इंडोनेशियाई केंद्रीय समय</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<generic draft="contributed">इंडोनेशियाई पूर्वी समय</generic>
+					<standard draft="contributed">इंडोनेशियाई पूर्वी समय</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<generic draft="contributed">इंडोनेशियाई पश्चिमी समय</generic>
+					<standard draft="contributed">इंडोनेशियाई पश्चिमी समय</standard>
 				</long>
 			</metazone>
 			<metazone type="Irkutsk">
 				<long>
 					<generic draft="contributed">इर्कुत्स्क समय</generic>
-					<standard draft="contributed">इर्कुत्स्क समय</standard>
+					<standard draft="contributed">इर्कुत्स्क मानक समय</standard>
 					<daylight draft="contributed">इर्कुत्स्क ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kamchatka">
 				<long>
-					<generic draft="contributed">कमचाट्का समय</generic>
-					<standard draft="contributed">पेट्रोपेवलास्क-कैमचात्सकी समय</standard>
+					<generic draft="contributed">पेट्रोपेवलास्क-कैमचात्सकी समय</generic>
+					<standard draft="contributed">पेट्रोपेवलास्क-कैमचात्सकी मानक समय</standard>
 					<daylight draft="contributed">पेट्रोपेवलास्क-कैमचात्सकी ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
-					<generic draft="contributed">पूर्व कज़ाक़िस्तान समय</generic>
-					<standard draft="contributed">पूर्व कज़ाक़िस्तान मानक समय</standard>
-					<daylight draft="contributed">कज़ाक़िस्तान पूर्वी ग्रीष्मकालीन समय</daylight>
+					<standard draft="contributed">पूर्व कज़ाक़िस्तान समय</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
-					<generic draft="contributed">पश्चिम कज़ाक़िस्तान समय</generic>
-					<standard draft="contributed">पश्चिम कज़ाक़िस्तान मानक समय</standard>
-					<daylight draft="contributed">कज़ाक़िस्तान पश्चिमी ग्रीष्मकालीन समय</daylight>
+					<standard draft="contributed">पश्चिम कज़ाक़िस्तान समय</standard>
 				</long>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
 					<generic draft="contributed">क्रास्नोयार्स्क समय</generic>
-					<standard draft="contributed">क्रास्नोयार्स्क समय</standard>
+					<standard draft="contributed">क्रास्नोयार्स्क मानक समय</standard>
 					<daylight draft="contributed">क्रास्नोयार्स्क ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
@@ -3083,20 +3077,20 @@
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<generic draft="contributed">मैक्वरी</generic>
+					<standard draft="contributed">मैक्वरी समय</standard>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic draft="contributed">मैगाडन समय</generic>
-					<standard draft="contributed">मैगाडन समय</standard>
+					<standard draft="contributed">मैगाडन मानक समय</standard>
 					<daylight draft="contributed">मैगाडन ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic draft="contributed">मंगोलिया समय</generic>
-					<standard draft="contributed">अलन बटोर समय</standard>
+					<generic draft="contributed">अलन बटोर समय</generic>
+					<standard draft="contributed">अलन बटोर मानक समय</standard>
 					<daylight draft="contributed">अलन बटोर ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
@@ -3116,71 +3110,74 @@
 			</metazone>
 			<metazone type="Noronha">
 				<long>
-					<generic draft="contributed">नोरोन्हा समह</generic>
-					<standard draft="contributed">फ़र्नार्डो डे नोरोन्हा समय</standard>
+					<generic draft="contributed">फ़र्नार्डो डे नोरोन्हा समह</generic>
+					<standard draft="contributed">फ़र्नार्डो डे नोरोन्हा मानक समय</standard>
 					<daylight draft="contributed">फ़र्नार्डो डे नोरोन्हा ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
 					<generic draft="contributed">नोवोसिबिर्स्क समय</generic>
-					<standard draft="contributed">नोवोसिबिर्स्क समय</standard>
+					<standard draft="contributed">नोवोसिबिर्स्क मानक समय</standard>
 					<daylight draft="contributed">नोवोसिबिर्स्क ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
 					<generic draft="contributed">ओम्स्क समय</generic>
-					<standard draft="contributed">ओम्स्क समय</standard>
+					<standard draft="contributed">ओम्स्क मानक समय</standard>
 					<daylight draft="contributed">ओम्स्क ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
 					<generic draft="contributed">सख़ालिन समय</generic>
-					<standard draft="contributed">सख़ालिन समय</standard>
+					<standard draft="contributed">सख़ालिन मानक समय</standard>
 					<daylight draft="contributed">सख़ालिन ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
 					<generic draft="contributed">समारा समय</generic>
-					<standard draft="contributed">समारा समय</standard>
+					<standard draft="contributed">समारा मानक समय</standard>
 					<daylight draft="contributed">समारा ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
 					<generic draft="contributed">व्लादिवोस्तोक समय</generic>
-					<standard draft="contributed">व्लादिवोस्तोक समय</standard>
+					<standard draft="contributed">व्लादिवोस्तोक मानक समय</standard>
 					<daylight draft="contributed">व्लादिवोस्तोक ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
 					<generic draft="contributed">वोल्गोग्राड समय</generic>
-					<standard draft="contributed">वोल्गोग्राड समय</standard>
+					<standard draft="contributed">वोल्गोग्राड मानक समय</standard>
 					<daylight draft="contributed">वोल्गोग्राड ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
 					<generic draft="contributed">याकुत्स्क समय</generic>
-					<standard draft="contributed">याकुत्स्क समय</standard>
+					<standard draft="contributed">याकुत्स्क मानक समय</standard>
 					<daylight draft="contributed">याकुत्स्क ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
 					<generic draft="contributed">येकातेरिनबर्ग समय</generic>
-					<standard draft="contributed">येकातेरिनबर्ग समय</standard>
+					<standard draft="contributed">येकातेरिनबर्ग मानक समय</standard>
 					<daylight draft="contributed">येकातेरिनबर्ग ग्रीष्मकालीन समय</daylight>
 				</long>
 			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<defaultNumberingSystem>deva</defaultNumberingSystem>
+		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<otherNumberingSystems>
+			<native>deva</native>
+		</otherNumberingSystems>
 		<symbols numberSystem="latn">
 			<decimal>.</decimal>
 			<group>,</group>
@@ -3193,7 +3190,7 @@
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##,##0.###</pattern>
@@ -3201,36 +3198,36 @@
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" draft="contributed">0</pattern>
-					<pattern type="10000" draft="contributed">0</pattern>
-					<pattern type="100000" draft="contributed">0</pattern>
-					<pattern type="1000000" draft="contributed">0</pattern>
-					<pattern type="10000000" draft="contributed">0</pattern>
-					<pattern type="100000000" draft="contributed">0</pattern>
-					<pattern type="1000000000" draft="contributed">0</pattern>
-					<pattern type="10000000000" draft="contributed">0</pattern>
-					<pattern type="100000000000" draft="contributed">0</pattern>
-					<pattern type="1000000000000" draft="contributed">0</pattern>
-					<pattern type="10000000000000" draft="contributed">0</pattern>
-					<pattern type="100000000000000" draft="contributed">0</pattern>
+					<pattern type="1000" draft="contributed">0.0K</pattern>
+					<pattern type="10000" draft="contributed">00K</pattern>
+					<pattern type="100000" draft="contributed">000K</pattern>
+					<pattern type="1000000" draft="contributed">0.0M</pattern>
+					<pattern type="10000000" draft="contributed">00M</pattern>
+					<pattern type="100000000" draft="contributed">000M</pattern>
+					<pattern type="1000000000" draft="contributed">0.0B</pattern>
+					<pattern type="10000000000" draft="contributed">00B</pattern>
+					<pattern type="100000000000" draft="contributed">000B</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0T</pattern>
+					<pattern type="10000000000000" draft="contributed">00T</pattern>
+					<pattern type="100000000000000" draft="contributed">000T</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern>#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤ #,##,##0.00</pattern>

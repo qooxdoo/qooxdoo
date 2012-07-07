@@ -37,6 +37,7 @@
 /**
  * Helper class for building combination effects with
  * several effects running consecutively.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.effect.core.Consecutive",
 {
@@ -52,6 +53,7 @@ qx.Class.define("qx.fx.effect.core.Consecutive",
 
   /**
    * @param varargs {varargs} List of effects
+   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
    */
   construct : function(varargs)
   {

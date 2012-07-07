@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="ru"/>
 	</identity>
 	<localeDisplayNames>
@@ -677,7 +677,6 @@
 			<territory type="054">Меланезия</territory>
 			<territory type="057">Микронезия</territory>
 			<territory type="061">Полинезия</territory>
-			<territory type="062">Юг Средней Азии</territory>
 			<territory type="142">Азия</territory>
 			<territory type="143">Средняя Азия</territory>
 			<territory type="145">Ближний и Средний Восток</territory>
@@ -685,9 +684,7 @@
 			<territory type="151">Восточная Европа</territory>
 			<territory type="154">Северная Европа</territory>
 			<territory type="155">Западная Европа</territory>
-			<territory type="172">СНГ</territory>
 			<territory type="419">Латинская Америка</territory>
-			<territory type="830">Нормандские о-ва</territory>
 			<territory type="AC">Остров Вознесения</territory>
 			<territory type="AD">Андорра</territory>
 			<territory type="AE">ОАЭ</territory>
@@ -1008,7 +1005,6 @@
 			<type type="coptic" key="calendar">Коптский календарь</type>
 			<type type="deva" key="numbers">Цифры деванагари</type>
 			<type type="dictionary" key="collation">словарный порядок сортировки</type>
-			<type type="direct" key="collation">прямой порядок</type>
 			<type type="ducet" key="collation">cтандартная сортировка Unicode</type>
 			<type type="ethi" key="numbers">Эфиопские цифры</type>
 			<type type="ethiopic" key="calendar">Эфиопский календарь</type>
@@ -1079,15 +1075,34 @@
 			<codePattern type="territory">Регион: {0}</codePattern>
 		</codePatterns>
 	</localeDisplayNames>
-	<layout>
-		<inList>titlecase-firstword</inList>
-	</layout>
+	<contextTransforms>
+		<contextTransformUsage type="day-format-except-narrow">
+			<contextTransform type="stand-alone">titlecase-firstword</contextTransform>
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="day-standalone-except-narrow">
+			<contextTransform type="stand-alone">titlecase-firstword</contextTransform>
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="languages">
+			<contextTransform type="stand-alone">titlecase-firstword</contextTransform>
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="month-format-except-narrow">
+			<contextTransform type="stand-alone">titlecase-firstword</contextTransform>
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="month-standalone-except-narrow">
+			<contextTransform type="stand-alone">titlecase-firstword</contextTransform>
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+	</contextTransforms>
 	<characters>
 		<exemplarCharacters>[а б в г д е ё ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
 		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index">[А Б В Г Д Е Ё Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ы Э Ю Я]</exemplarCharacters>
-		<exemplarCharacters type="punctuation">[\- ‐ – — , ; \: ! ? . … ' ‘ ‚ &quot; “ „ « » ( ) \[ \] \{ \} @ * / \&amp; # §]</exemplarCharacters>
+		<exemplarCharacters type="punctuation">[\- ‐ – — , ; \: ! ? . … ' ‘ ‚ &quot; “ „ « » ( ) \[ \] \{ \} § @ * / \&amp; #]</exemplarCharacters>
 		<stopwords>
 			<stopwordList type="collation" draft="provisional">–</stopwordList>
 		</stopwords>
@@ -1135,24 +1150,24 @@
 						<dateFormatItem id="Hm">H:mm</dateFormatItem>
 						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">d.M</dateFormatItem>
-						<dateFormatItem id="MEd">E, d.M</dateFormatItem>
+						<dateFormatItem id="Md">dd.MM</dateFormatItem>
+						<dateFormatItem id="MEd">E, dd.MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd.MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">ccc, d MMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y G</dateFormatItem>
-						<dateFormatItem id="yM">M.y G</dateFormatItem>
-						<dateFormatItem id="yMd">d.M.y G</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d.M.y G</dateFormatItem>
+						<dateFormatItem id="yM">MM.y G</dateFormatItem>
+						<dateFormatItem id="yMd">dd.MM.y G</dateFormatItem>
+						<dateFormatItem id="yMEd">E, dd.MM.y G</dateFormatItem>
 						<dateFormatItem id="yMMM">LLL y G</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y G</dateFormatItem>
 						<dateFormatItem id="yMMMEd">E, d MMM y G</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y G</dateFormatItem>
 						<dateFormatItem id="yyMM">MM.yy G</dateFormatItem>
 						<dateFormatItem id="yyMMM">LLL yy G</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd">EEE, d MMM yy G</dateFormatItem>
+						<dateFormatItem id="yyMMMEd">E, d MMM yy G</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy G</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyLLLL">LLLL y G</dateFormatItem>
@@ -1396,18 +1411,18 @@
 				<months>
 					<monthContext type="format">
 						<monthWidth type="abbreviated">
-							<month type="1">янв</month>
-							<month type="2">фев</month>
-							<month type="3">мар</month>
-							<month type="4">апр</month>
+							<month type="1">янв.</month>
+							<month type="2">февр.</month>
+							<month type="3">марта</month>
+							<month type="4">апр.</month>
 							<month type="5">мая</month>
-							<month type="6">июн</month>
-							<month type="7">июл</month>
-							<month type="8">авг</month>
-							<month type="9">сен</month>
-							<month type="10">окт</month>
-							<month type="11">ноя</month>
-							<month type="12">дек</month>
+							<month type="6">июня</month>
+							<month type="7">июля</month>
+							<month type="8">авг.</month>
+							<month type="9">сент.</month>
+							<month type="10">окт.</month>
+							<month type="11">нояб.</month>
+							<month type="12">дек.</month>
 						</monthWidth>
 						<monthWidth type="narrow">
 							<month type="1" draft="contributed">Я</month>
@@ -1640,26 +1655,46 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
+					<default choice="medium"/>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern>{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern>{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern>{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
+						<dateTimeFormat>
+							<pattern>{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
 					<availableFormats>
 						<dateFormatItem id="d" draft="contributed">d</dateFormatItem>
 						<dateFormatItem id="E">ccc</dateFormatItem>
 						<dateFormatItem id="Ed">ccc, d</dateFormatItem>
-						<dateFormatItem id="EEEd">ccc, d</dateFormatItem>
 						<dateFormatItem id="H">H</dateFormatItem>
 						<dateFormatItem id="Hm">H:mm</dateFormatItem>
 						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
 						<dateFormatItem id="M" draft="contributed">L</dateFormatItem>
-						<dateFormatItem id="Md">d.M</dateFormatItem>
-						<dateFormatItem id="MEd" draft="contributed">E, d.M</dateFormatItem>
+						<dateFormatItem id="Md">dd.MM</dateFormatItem>
+						<dateFormatItem id="MEd" draft="contributed">E, dd.MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd.MM</dateFormatItem>
 						<dateFormatItem id="MMM" draft="contributed">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">ccc, d MMM</dateFormatItem>
 						<dateFormatItem id="ms" draft="contributed">mm:ss</dateFormatItem>
 						<dateFormatItem id="y" draft="contributed">y</dateFormatItem>
-						<dateFormatItem id="yM" draft="contributed">M.y</dateFormatItem>
-						<dateFormatItem id="yMd">d.M.y</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">EEE, d.M.y</dateFormatItem>
+						<dateFormatItem id="yM" draft="contributed">MM.y</dateFormatItem>
+						<dateFormatItem id="yMd">dd.MM.y</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="contributed">E, dd.MM.y</dateFormatItem>
 						<dateFormatItem id="yMMM" draft="contributed">LLL y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y 'г'.</dateFormatItem>
 						<dateFormatItem id="yMMMEd" draft="contributed">E, d MMM y</dateFormatItem>
@@ -1667,7 +1702,7 @@
 						<dateFormatItem id="yQQQ" draft="contributed">y QQQ</dateFormatItem>
 						<dateFormatItem id="yyMM" draft="contributed">MM.yy</dateFormatItem>
 						<dateFormatItem id="yyMMM">LLL yy</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd">EEE, d MMM yy</dateFormatItem>
+						<dateFormatItem id="yyMMMEd">E, d MMM yy</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
 						<dateFormatItem id="yyyy">y</dateFormatItem>
 						<dateFormatItem id="yyyyLLLL">LLLL y</dateFormatItem>
@@ -1735,7 +1770,7 @@
 							<greatestDifference id="M" draft="contributed">d MMM - d MMM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d" draft="contributed">ccc, d - EEE, d MMM</greatestDifference>
+							<greatestDifference id="d" draft="contributed">ccc, d - E, d MMM</greatestDifference>
 							<greatestDifference id="M" draft="contributed">ccc, d MMM - ccc, d MMM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MMMM">
@@ -1993,7 +2028,7 @@
 							<month type="9" draft="contributed">Рамадан</month>
 							<month type="10" draft="contributed">Шавваль</month>
 							<month type="11" draft="contributed">Зуль-Каада</month>
-							<month type="12" draft="contributed">Зуль-Каада</month>
+							<month type="12" draft="contributed">Зуль-Хиджжа</month>
 						</monthWidth>
 						<monthWidth type="narrow">
 							<month type="1" draft="contributed">1</month>
@@ -2087,8 +2122,8 @@
 						<dateFormatItem id="Hm">H:mm</dateFormatItem>
 						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">d.M</dateFormatItem>
-						<dateFormatItem id="MEd">E, d.M</dateFormatItem>
+						<dateFormatItem id="Md">dd.MM</dateFormatItem>
+						<dateFormatItem id="MEd">E, dd.MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd.MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
@@ -2096,13 +2131,13 @@
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="yyMM">MM.yy G</dateFormatItem>
 						<dateFormatItem id="yyMMM">LLL yy G</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd">EEE, d MMM yy G</dateFormatItem>
+						<dateFormatItem id="yyMMMEd">E, d MMM yy G</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy G</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyLLLL">LLLL y G</dateFormatItem>
-						<dateFormatItem id="yyyyM">M.y G</dateFormatItem>
-						<dateFormatItem id="yyyyMd">d.M.y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE, d.M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">MM.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMd">dd.MM.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E, dd.MM.y G</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM.yyyy G</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">LLL y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
@@ -2395,8 +2430,8 @@
 						<dateFormatItem id="Hm">H:mm</dateFormatItem>
 						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">d.M</dateFormatItem>
-						<dateFormatItem id="MEd">E, d.M</dateFormatItem>
+						<dateFormatItem id="Md">dd.MM</dateFormatItem>
+						<dateFormatItem id="MEd">E, dd.MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd.MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
@@ -2405,13 +2440,13 @@
 						<dateFormatItem id="y">y G</dateFormatItem>
 						<dateFormatItem id="yyMM">MM.yy G</dateFormatItem>
 						<dateFormatItem id="yyMMM">LLL yy G</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd">EEE, d MMM yy G</dateFormatItem>
+						<dateFormatItem id="yyMMMEd">E, d MMM yy G</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy G</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyLLLL">LLLL y G</dateFormatItem>
-						<dateFormatItem id="yyyyM">M.y G</dateFormatItem>
-						<dateFormatItem id="yyyyMd">d.M.y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE, d.M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">MM.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMd">dd.MM.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E, dd.MM.y G</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM.yyyy G</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">LLL y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
@@ -2535,8 +2570,8 @@
 						<dateFormatItem id="Hm">H:mm</dateFormatItem>
 						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">d.M</dateFormatItem>
-						<dateFormatItem id="MEd">E, d.M</dateFormatItem>
+						<dateFormatItem id="Md">dd.MM</dateFormatItem>
+						<dateFormatItem id="MEd">E, dd.MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd.MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
@@ -2545,13 +2580,13 @@
 						<dateFormatItem id="y">y G</dateFormatItem>
 						<dateFormatItem id="yyMM">MM.yy G</dateFormatItem>
 						<dateFormatItem id="yyMMM">LLL yy G</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd">EEE, d MMM yy G</dateFormatItem>
+						<dateFormatItem id="yyMMMEd">E, d MMM yy G</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy G</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyLLLL">LLLL y G</dateFormatItem>
-						<dateFormatItem id="yyyyM">M.y G</dateFormatItem>
-						<dateFormatItem id="yyyyMd">d.M.y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE, d.M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">MM.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMd">dd.MM.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E, dd.MM.y G</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM.yyyy G</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">LLL y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
@@ -3802,18 +3837,19 @@
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<generic draft="contributed">Южноафриканское</generic>
 					<standard draft="contributed">Южноафриканское время</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
-					<standard draft="contributed">Западноафриканское время</standard>
+					<generic draft="contributed">Западноафриканское время</generic>
+					<standard draft="contributed">Западноафриканское стандартное время</standard>
 					<daylight draft="contributed">Западноафриканское летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aktyubinsk">
 				<long>
+					<generic draft="contributed">Актюбинск время</generic>
 					<standard draft="contributed">Актюбинск стандартное время</standard>
 					<daylight draft="contributed">Актюбинск летнее время</daylight>
 				</long>
@@ -3827,15 +3863,16 @@
 			</metazone>
 			<metazone type="Almaty">
 				<long>
+					<generic draft="contributed">Алма-Ата время</generic>
 					<standard draft="contributed">Алма-Ата стандартное время</standard>
 					<daylight draft="contributed">Алма-Ата летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Amazon">
 				<long>
-					<generic draft="contributed">Время на Амазонке</generic>
-					<standard draft="contributed">Амазонка</standard>
-					<daylight draft="contributed">Амазонка (летнее)</daylight>
+					<generic draft="contributed">Амазонка время</generic>
+					<standard draft="contributed">Амазонка стандартное время</standard>
+					<daylight draft="contributed">Амазонка летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Central">
@@ -3875,12 +3912,14 @@
 			</metazone>
 			<metazone type="Aqtau">
 				<long>
+					<generic draft="contributed">Актау время</generic>
 					<standard draft="contributed">Актау стандартное время</standard>
 					<daylight draft="contributed">Актау летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aqtobe">
 				<long>
+					<generic draft="contributed">Актобе время</generic>
 					<standard draft="contributed">Актобе стандартное время</standard>
 					<daylight draft="contributed">Актобе летнее время</daylight>
 				</long>
@@ -3950,8 +3989,9 @@
 			</metazone>
 			<metazone type="Azores">
 				<long>
-					<standard draft="contributed">Азорское</standard>
-					<daylight draft="contributed">Азорское (летнее)</daylight>
+					<generic draft="contributed">Азорское время</generic>
+					<standard draft="contributed">Азорское стандартное время</standard>
+					<daylight draft="contributed">Азорское летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Brasilia">
@@ -3963,20 +4003,21 @@
 			</metazone>
 			<metazone type="Cape_Verde">
 				<long>
-					<standard draft="contributed">Кабо-Верде</standard>
-					<daylight draft="contributed">Кабо-Верде (летнее)</daylight>
+					<generic draft="contributed">Кабо-Верде время</generic>
+					<standard draft="contributed">Кабо-Верде стандартное время</standard>
+					<daylight draft="contributed">Кабо-Верде летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chamorro">
 				<long>
-					<generic draft="contributed">Чаморро</generic>
-					<standard draft="contributed">Чаморро (стандартное)</standard>
+					<standard draft="contributed">Чаморро время</standard>
 				</long>
 			</metazone>
 			<metazone type="Chatham">
 				<long>
-					<standard draft="contributed">Чатем (стандартное)</standard>
-					<daylight draft="contributed">Чатем (летнее)</daylight>
+					<generic draft="contributed">Чатем время</generic>
+					<standard draft="contributed">Чатем стандартное время</standard>
+					<daylight draft="contributed">Чатем летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="China">
@@ -3987,90 +4028,97 @@
 			<metazone type="Choibalsan">
 				<long>
 					<generic draft="contributed">Время в Чойбалсане</generic>
-					<standard draft="contributed">Время в Чойбалсане</standard>
+					<standard draft="contributed">Стандартное Время в Чойбалсане</standard>
 					<daylight draft="contributed">Летнее время по Чойбалсану</daylight>
 				</long>
 			</metazone>
 			<metazone type="Christmas">
 				<long>
-					<standard draft="contributed">Остров Рождества</standard>
+					<standard draft="contributed">Остров Рождества время</standard>
 				</long>
 			</metazone>
 			<metazone type="Cocos">
 				<long>
-					<standard draft="contributed">Кокосовые о-ва</standard>
+					<standard draft="contributed">Кокосовые о-ва время</standard>
 				</long>
 			</metazone>
 			<metazone type="Cook">
 				<long>
-					<standard draft="contributed">Острова Кука</standard>
-					<daylight draft="contributed">Острова Кука (полулетнее)</daylight>
+					<generic draft="contributed">Острова Кука время</generic>
+					<standard draft="contributed">Острова Кука стандартное время</standard>
+					<daylight draft="contributed">Острова Кука полулетнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Davis">
 				<long>
-					<standard draft="contributed">Дейвис</standard>
+					<standard draft="contributed">Дейвис время</standard>
 				</long>
 			</metazone>
 			<metazone type="DumontDUrville">
 				<long>
-					<standard draft="contributed">Дюмон д'Юрвиль</standard>
+					<standard draft="contributed">Дюмон д'Юрвиль время</standard>
 				</long>
 			</metazone>
 			<metazone type="Easter">
 				<long>
-					<standard draft="contributed">Остров Пасхи</standard>
-					<daylight draft="contributed">Остров Пасхи (летнее)</daylight>
+					<generic draft="contributed">Остров Пасхи время</generic>
+					<standard draft="contributed">Остров Пасхи стандартное время</standard>
+					<daylight draft="contributed">Остров Пасхи летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<standard draft="contributed">Центральноевропейское время</standard>
+					<generic draft="contributed">Центральноевропейское время</generic>
+					<standard draft="contributed">Центральноевропейское стандартное время</standard>
 					<daylight draft="contributed">Центральноевропейское летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<standard draft="contributed">Восточноевропейское время</standard>
+					<generic draft="contributed">Восточноевропейское время</generic>
+					<standard draft="contributed">Восточноевропейское стандартное время</standard>
 					<daylight draft="contributed">Восточноевропейское летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<standard draft="contributed">Западноевропейское</standard>
-					<daylight draft="contributed">Западноевропейское (летнее)</daylight>
+					<generic draft="contributed">Западноевропейское время</generic>
+					<standard draft="contributed">Западноевропейское стандартное время</standard>
+					<daylight draft="contributed">Западноевропейское летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Falkland">
 				<long>
-					<standard draft="contributed">Фолклендское</standard>
-					<daylight draft="contributed">Фолклендское (летнее)</daylight>
+					<generic draft="contributed">Фолклендское время</generic>
+					<standard draft="contributed">Фолклендское стандартное время</standard>
+					<daylight draft="contributed">Фолклендское летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Fiji">
 				<long>
-					<standard draft="contributed">Фиджи</standard>
-					<daylight draft="contributed">Фиджи (летнее)</daylight>
+					<generic draft="contributed">Фиджи время</generic>
+					<standard draft="contributed">Фиджи стандартное время</standard>
+					<daylight draft="contributed">Фиджи летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="French_Southern">
 				<long>
-					<standard draft="contributed">Французское южное и антарктическое</standard>
+					<standard draft="contributed">Французское южное и антарктическое время</standard>
 				</long>
 			</metazone>
 			<metazone type="Galapagos">
 				<long>
-					<standard draft="contributed">Галапагосское</standard>
+					<standard draft="contributed">Галапагосское время</standard>
 				</long>
 			</metazone>
 			<metazone type="Gambier">
 				<long>
-					<standard draft="contributed">Гамбье</standard>
+					<standard draft="contributed">Гамбье время</standard>
 				</long>
 			</metazone>
 			<metazone type="Gilbert_Islands">
 				<long>
-					<standard draft="contributed">Острова Гилберта</standard>
+					<standard draft="contributed">Острова Гилберта время</standard>
 				</long>
 			</metazone>
 			<metazone type="GMT">
@@ -4086,11 +4134,13 @@
 			<metazone type="Hawaii_Aleutian">
 				<long>
 					<generic draft="contributed">Время на Гавайских и Алеутских островах</generic>
-					<standard draft="contributed">Гавайско-алеутское (стандартное)</standard>
+					<standard draft="contributed">Гавайско-алеутское стандартное время</standard>
+					<daylight draft="contributed">Гавайско-алеутское летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hong_Kong">
 				<long>
+					<generic draft="contributed">Гонконгское время</generic>
 					<standard draft="contributed">Гонконгское стандартное время</standard>
 					<daylight draft="contributed">Гонконгское летнее время</daylight>
 				</long>
@@ -4098,7 +4148,7 @@
 			<metazone type="Hovd">
 				<long>
 					<generic draft="contributed">Время по Ховду</generic>
-					<standard draft="contributed">Время по Ховду</standard>
+					<standard draft="contributed">Стандартное время по Ховду</standard>
 					<daylight draft="contributed">Летнее время в Ховде</daylight>
 				</long>
 			</metazone>
@@ -4119,81 +4169,80 @@
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<generic draft="contributed">Время в Центральной Индонезии</generic>
 					<standard draft="contributed">Центральная Индонезия стандартное время</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<generic draft="contributed">Время в Восточной Индонезии</generic>
 					<standard draft="contributed">Восточная Индонезия стандартное время</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<generic draft="contributed">Время в Западной Индонезии</generic>
 					<standard draft="contributed">Западная Индонезия стандартное время</standard>
 				</long>
 			</metazone>
 			<metazone type="Irkutsk">
 				<long>
 					<generic draft="contributed">Время по Иркутску</generic>
-					<standard draft="contributed">Время по Иркутску</standard>
-					<daylight draft="contributed">Летнее время в Иркутске</daylight>
+					<standard draft="contributed">Стандартное время по Иркутску</standard>
+					<daylight draft="contributed">Летнее время по Иркутску</daylight>
 				</long>
 			</metazone>
 			<metazone type="Israel">
 				<long>
+					<generic draft="contributed">Израиль время</generic>
 					<standard draft="contributed">Израиль стандартное время</standard>
 					<daylight draft="contributed">Израиль летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Japan">
 				<long>
+					<generic draft="contributed">Японское время</generic>
 					<standard draft="contributed">Японское стандартное время</standard>
+					<daylight draft="contributed">Японское летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kamchatka">
 				<long>
-					<generic draft="contributed">Время на Камчатке</generic>
-					<standard draft="contributed">Время по Петропавловску-Камчатскому</standard>
+					<generic draft="contributed">Время в Петропавловску-Камчатскому</generic>
+					<standard draft="contributed">Стандартное время в Петропавловску-Камчатскому</standard>
 					<daylight draft="contributed">Летнее время в Петропавловске-Камчатском</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
-					<generic draft="contributed">Время в Восточном Казахстане</generic>
-					<standard draft="contributed">Стандартное время в Восточном Казахстане</standard>
-					<daylight draft="contributed">Летнее время в Восточном Казахстане</daylight>
+					<standard draft="contributed">Время в Восточном Казахстане</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
-					<generic draft="contributed">Время в Западном Казахстане</generic>
-					<standard draft="contributed">Стандартное время в Западном Казахстане</standard>
-					<daylight draft="contributed">Летнее время в Западном Казахстане</daylight>
+					<standard draft="contributed">Время в Западном Казахстане</standard>
 				</long>
 			</metazone>
 			<metazone type="Korea">
 				<long>
+					<generic draft="contributed">Корейское время</generic>
 					<standard draft="contributed">Корейское стандартное время</standard>
+					<daylight draft="contributed">Корейское летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kosrae">
 				<long>
-					<standard draft="contributed">Косраэ</standard>
+					<standard draft="contributed">Косраэ время</standard>
 				</long>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
 					<generic draft="contributed">Время по Красноярску</generic>
-					<standard draft="contributed">Время по Красноярску</standard>
+					<standard draft="contributed">Стандартное время по Красноярску</standard>
 					<daylight draft="contributed">Летнее время по Красноярску</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kuybyshev">
 				<long>
-					<standard draft="contributed">Куйбышевское время</standard>
+					<generic draft="contributed">Куйбышевское время</generic>
+					<standard draft="contributed">Куйбышевское стандартное время</standard>
 					<daylight draft="contributed">Куйбышевское летнее время</daylight>
 				</long>
 			</metazone>
@@ -4204,48 +4253,49 @@
 			</metazone>
 			<metazone type="Line_Islands">
 				<long>
-					<standard draft="contributed">Острова Лайн</standard>
+					<standard draft="contributed">Острова Лайн время</standard>
 				</long>
 			</metazone>
 			<metazone type="Lord_Howe">
 				<long>
-					<generic>Лорд-Хау</generic>
-					<standard>Лорд-Хау (стандартное)</standard>
-					<daylight>Лорд-Хау (летнее)</daylight>
+					<generic>Лорд-Хау время</generic>
+					<standard>Лорд-Хау стандартное время</standard>
+					<daylight>Лорд-Хау летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<generic draft="contributed">Время на Маккуори</generic>
+					<standard draft="contributed">Время на Маккуори</standard>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic draft="contributed">Время по Магадану</generic>
-					<standard draft="contributed">Время по Магадану</standard>
+					<standard draft="contributed">Стандартное время по Магадану</standard>
 					<daylight draft="contributed">Летнее время по Магадану</daylight>
 				</long>
 			</metazone>
 			<metazone type="Maldives">
 				<long>
-					<standard draft="contributed">Мальдивское</standard>
+					<standard draft="contributed">Мальдивское время</standard>
 				</long>
 			</metazone>
 			<metazone type="Mauritius">
 				<long>
-					<standard draft="contributed">Маврикийское</standard>
-					<daylight draft="contributed">Маврикийское (летнее)</daylight>
+					<generic draft="contributed">Маврикийское время</generic>
+					<standard draft="contributed">Маврикийское стандартное время</standard>
+					<daylight draft="contributed">Маврикийское летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mawson">
 				<long>
-					<standard draft="contributed">Моусон</standard>
+					<standard draft="contributed">Моусон время</standard>
 				</long>
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic draft="contributed">Время в Монголии</generic>
-					<standard draft="contributed">Время по Улан-Батору</standard>
+					<generic draft="contributed">Время по Улан-Батору</generic>
+					<standard draft="contributed">Стандартное время по Улан-Батору</standard>
 					<daylight draft="contributed">Летнее время по Улан-Батору</daylight>
 				</long>
 			</metazone>
@@ -4258,9 +4308,9 @@
 			</metazone>
 			<metazone type="New_Zealand">
 				<long>
-					<generic draft="contributed">Новозеландское</generic>
-					<standard draft="contributed">Новозеландское (стандартное)</standard>
-					<daylight draft="contributed">Новозеландское (летнее)</daylight>
+					<generic draft="contributed">Новозеландское время</generic>
+					<standard draft="contributed">Новозеландское стандартное время</standard>
+					<daylight draft="contributed">Новозеландское летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Newfoundland">
@@ -4272,39 +4322,39 @@
 			</metazone>
 			<metazone type="Noronha">
 				<long>
-					<generic draft="contributed">Время в Норонье</generic>
-					<standard draft="contributed">Время на Фернанду-ди-Норонья</standard>
+					<generic draft="contributed">Время на Фернанду-ди-Норонья</generic>
+					<standard draft="contributed">Стандартное время на Фернанду-ди-Норонья</standard>
 					<daylight draft="contributed">Летнее время на Фернанду-ди-Норонья</daylight>
 				</long>
 			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
 					<generic draft="contributed">Время по Новосибирску</generic>
-					<standard draft="contributed">Время по Новосибирску</standard>
+					<standard draft="contributed">Стандартное время по Новосибирску</standard>
 					<daylight draft="contributed">Летнее время по Новосибирску</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
 					<generic draft="contributed">Время по Омску</generic>
-					<standard draft="contributed">Время по Омску</standard>
+					<standard draft="contributed">Стандартное время по Омску</standard>
 					<daylight draft="contributed">Летнее время по Омску</daylight>
 				</long>
 			</metazone>
 			<metazone type="Reunion">
 				<long>
-					<standard draft="contributed">Реюньон</standard>
+					<standard draft="contributed">Реюньон время</standard>
 				</long>
 			</metazone>
 			<metazone type="Rothera">
 				<long>
-					<standard draft="contributed">Ротера</standard>
+					<standard draft="contributed">Ротера время</standard>
 				</long>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
 					<generic draft="contributed">Время на Сахалине</generic>
-					<standard draft="contributed">Время на Сахалине</standard>
+					<standard draft="contributed">Стандартное время на Сахалине</standard>
 					<daylight draft="contributed">Летнее время на Сахалине</daylight>
 				</long>
 			</metazone>
@@ -4317,17 +4367,17 @@
 			</metazone>
 			<metazone type="Seychelles">
 				<long>
-					<standard draft="contributed">Сейшельское</standard>
+					<standard draft="contributed">Сейшельское время</standard>
 				</long>
 			</metazone>
 			<metazone type="South_Georgia">
 				<long>
-					<standard draft="contributed">Южная Георгия</standard>
+					<standard draft="contributed">Южная Георгия время</standard>
 				</long>
 			</metazone>
 			<metazone type="Syowa">
 				<long>
-					<standard draft="contributed">Сёва</standard>
+					<standard draft="contributed">Сёва время</standard>
 				</long>
 			</metazone>
 			<metazone type="Turkey">
@@ -4340,33 +4390,33 @@
 			<metazone type="Vladivostok">
 				<long>
 					<generic draft="contributed">Время по Владивостоку</generic>
-					<standard draft="contributed">Время по Владивостоку</standard>
+					<standard draft="contributed">Стандартное время по Владивостоку</standard>
 					<daylight draft="contributed">Летнее время по Владивостоку</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
 					<generic draft="contributed">Время по Волгограду</generic>
-					<standard draft="contributed">Волгоградское время</standard>
+					<standard draft="contributed">Волгоградское стандартное время</standard>
 					<daylight draft="contributed">Волгоградское летнее время</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vostok">
 				<long>
-					<standard draft="contributed">Восток</standard>
+					<standard draft="contributed">Восток время</standard>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
 					<generic draft="contributed">Время по Якутску</generic>
-					<standard draft="contributed">Время по Якутску</standard>
+					<standard draft="contributed">Стандартное время по Якутску</standard>
 					<daylight draft="contributed">Летнее время по Якутску</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
 					<generic draft="contributed">Время по Екатеринбургу</generic>
-					<standard draft="contributed">Время по Екатеринбургу</standard>
+					<standard draft="contributed">Стандартное время по Екатеринбургу</standard>
 					<daylight draft="contributed">Летнее время в Екатеринбурге</daylight>
 				</long>
 			</metazone>
@@ -4385,7 +4435,7 @@
 			<infinity draft="contributed">∞</infinity>
 			<nan>не число</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
@@ -4393,36 +4443,36 @@
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000">0.0 тыс</pattern>
-					<pattern type="10000">00 тыс</pattern>
-					<pattern type="100000">000 тыс</pattern>
-					<pattern type="1000000">0.0 млн</pattern>
-					<pattern type="10000000">00 млн</pattern>
-					<pattern type="100000000">000 млн</pattern>
-					<pattern type="1000000000">0.0 млрд</pattern>
-					<pattern type="10000000000">00 млрд</pattern>
-					<pattern type="100000000000">000 млрд</pattern>
-					<pattern type="1000000000000">0.0 трлн</pattern>
-					<pattern type="10000000000000">00 трлн</pattern>
-					<pattern type="100000000000000">000 трлн</pattern>
+					<pattern type="1000" draft="contributed">0.0 тыс'.'</pattern>
+					<pattern type="10000" draft="contributed">00 тыс'.'</pattern>
+					<pattern type="100000" draft="contributed">000 тыс'.'</pattern>
+					<pattern type="1000000" draft="contributed">0.0 млн</pattern>
+					<pattern type="10000000" draft="contributed">00 млн</pattern>
+					<pattern type="100000000" draft="contributed">000 млн</pattern>
+					<pattern type="1000000000" draft="contributed">0.0 млрд</pattern>
+					<pattern type="10000000000" draft="contributed">00 млрд</pattern>
+					<pattern type="100000000000" draft="contributed">000 млрд</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0 трлн</pattern>
+					<pattern type="10000000000000" draft="contributed">00 трлн</pattern>
+					<pattern type="100000000000000" draft="contributed">000 трлн</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern>#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##0 %</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>

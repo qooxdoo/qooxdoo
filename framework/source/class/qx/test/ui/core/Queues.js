@@ -140,6 +140,67 @@ qx.Class.define("qx.test.ui.core.Queues",
       this.assertCalledOnce(spy3);
       this.assertCalledOnce(spy4);
       this.assertCallOrder(spy4, spy3, spy2, spy1);
+    },
+
+
+    testWidgetAddJobs : function()
+    {
+      qx.ui.core.queue.Widget.add(this.__widget4, "job4");
+      qx.ui.core.queue.Widget.add(this.__widget3, "job3");
+      qx.ui.core.queue.Widget.add(this.__widget2);
+
+      qx.ui.core.queue.Widget.add(this.__widget1, "job1");
+      qx.ui.core.queue.Widget.add(this.__widget1, "job1");
+      qx.ui.core.queue.Widget.add(this.__widget1, "job3");
+      qx.ui.core.queue.Widget.add(this.__widget1, "job2");
+
+      var spy1 = this.spy(this.__widget1, "syncWidget");
+      var spy2 = this.spy(this.__widget2, "syncWidget");
+      var spy3 = this.spy(this.__widget3, "syncWidget");
+      var spy4 = this.spy(this.__widget4, "syncWidget");
+
+      qx.ui.core.queue.Widget.flush();
+
+      this.assertCalledOnce(spy1, "widgte1");
+      this.assertCalledOnce(spy2, "widget2");
+      this.assertCalledOnce(spy3, "widget3");
+      this.assertCalledOnce(spy4, "widget4");
+      this.assertCallOrder(spy4, spy3, spy2, spy1);
+
+      this.assertTrue(spy1.args[0][0].job1);
+      this.assertTrue(spy1.args[0][0].job2);
+      this.assertTrue(spy1.args[0][0].job3);
+
+      this.assertTrue(spy2.args[0][0]["$$default"]);
+      this.assertTrue(spy3.args[0][0].job3);
+      this.assertTrue(spy4.args[0][0].job4);
+    },
+
+    testWidgetRemoveJobs : function()
+    {
+      qx.ui.core.queue.Widget.add(this.__widget2);
+
+      qx.ui.core.queue.Widget.add(this.__widget1, "job1");
+      qx.ui.core.queue.Widget.add(this.__widget1, "job1");
+      qx.ui.core.queue.Widget.add(this.__widget1, "job3");
+      qx.ui.core.queue.Widget.add(this.__widget1, "job2");
+
+      qx.ui.core.queue.Widget.remove(this.__widget1, "job1");
+
+      var spy1 = this.spy(this.__widget1, "syncWidget");
+      var spy2 = this.spy(this.__widget2, "syncWidget");
+
+      qx.ui.core.queue.Widget.flush();
+
+      this.assertCalledOnce(spy1, "widgte1");
+      this.assertCalledOnce(spy2, "widget2");
+
+      this.assertTrue(spy1.args[0][0].job2);
+      this.assertTrue(spy1.args[0][0].job3);
+      this.assertUndefined(spy1.args[0][0].job1);
+
+      this.assertTrue(spy2.args[0][0]["$$default"]);
+
     }
   }
 });

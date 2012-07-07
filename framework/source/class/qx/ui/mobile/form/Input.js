@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Abstract class for all input fields.
  */
 qx.Class.define("qx.ui.mobile.form.Input",

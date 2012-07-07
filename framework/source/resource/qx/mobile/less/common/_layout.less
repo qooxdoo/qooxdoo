@@ -1,0 +1,150 @@
+// Card Layout
+
+.layout-card {
+  overflow:hidden;
+  position: relative;
+}
+
+.layout-card-item {
+  .box-sizing(border-box);
+  .transform(translate3d(0,0,0) rotate(0) scale(1));
+}
+
+//
+// Box-Layout
+//
+
+.hbox {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+
+  .box-orient(horizontal);
+
+  // Subtract padding and border from content width (100%) to prevent
+  // 100% + X situation.
+  .box-sizing(border-box);
+}
+
+// Firefox only
+@-moz-document url-prefix() {
+    .hbox {
+      // -moz-box elements shrink-wrap by default. The spec states that "a block-level
+      // box placed inside a block level element is positioned and sized as if it were
+      // any other block". This is not true for the (non-standard) implementation in
+      // Firefox.
+      //
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=625694
+      //
+      width: 100%;
+    }
+
+    .vbox { 
+       // See .hbox
+       width: 100%;
+    }
+}
+
+.hbox> * {
+  .box-flex(0);
+}
+
+.vbox {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  
+  .box-orient(vertical);
+  .box-sizing(border-box);
+}
+
+.vbox> * {
+  .box-flex(0);
+}
+
+.box {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+}
+
+.box-centered {
+  .boxPackCenter();
+  .box-align(center);
+}
+
+.content {
+   // Force block formatting context so that elements are laid out
+   // "one after the other", see http://www.w3.org/TR/CSS21/visuren.html#block-formatting
+   //
+   // Fixes clipped content in Firefox.
+  overflow: hidden;
+}
+
+.boxSpacer {
+  .box-flex(1);
+}
+
+.boxReverse {
+  .box-direction(reverse);
+}
+
+.boxAlignStart {
+  .box-align(start);
+}
+
+.boxAlignCenter {
+  .box-align(center);
+}
+
+.boxAlignEnd {
+  .box-align(end);
+}
+
+.boxPackStart {
+  .box-pack(start);
+}
+
+.boxPackCenter {
+  .box-pack(center);
+}
+
+.boxPackEnd {
+  .box-pack(end);
+}
+
+.boxFlex0 {
+  .box-flex(0);
+}
+
+.boxFlex1, .boxFlex {
+  .box-flex(1);
+}
+
+.boxFlex2 {
+  .box-flex(2);
+}
+
+.boxFlex3 {
+  .box-flex(3);
+}
+
+.boxFlex4 {
+  .box-flex(4);
+}
+
+.boxFlex5 {
+  .box-flex(5);
+}
+
+.boxFlex6 {
+  .box-flex(6);
+}
+
+.boxGroup1 {
+  .box-flex-group(1);
+}
+
+.boxGroup2 {
+  .box-flex-group(2);
+}

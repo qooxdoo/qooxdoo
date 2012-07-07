@@ -24,11 +24,11 @@ qx.Class.define("qx.test.util.placement.KeepAlignAxis",
   members :
   {
     setUp : function() {
-      this.axis = new qx.util.placement.KeepAlignAxis();
+      this.axis = qx.util.placement.KeepAlignAxis;
     },
 
     tearDown : function() {
-      this.axis.dispose();
+      delete this.axis;
     },
 
     testEnoughSpace : function()

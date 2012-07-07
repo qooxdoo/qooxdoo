@@ -21,7 +21,7 @@
 ################################################################################
 
 import sys, string, re
-from ecmascript.frontend import lang, Comment
+from ecmascript.frontend import lang, Comment_2 as Comment
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
 

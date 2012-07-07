@@ -33,6 +33,16 @@ qx.Class.define("testrunner.runner.TestRunner", {
   */
   construct : function()
   {
+    this.TEST_MIXINS  = [qx.dev.unit.MMock, qx.dev.unit.MRequirements];
+    if (qx.core.Environment.get("testrunner.performance")) {
+      this.TEST_MIXINS.push(qx.dev.unit.MMeasure);
+    }
+
+    if (qx.core.Environment.get("testrunner.reportServer")) {
+      var viewClass = qx.Class.getByName(qx.core.Environment.get("testrunner.view"));
+      qx.Class.include(viewClass, testrunner.view.MReportResult);
+    }
+
     this.base(arguments);
 
     // Get log appender element from view
@@ -43,11 +53,6 @@ qx.Class.define("testrunner.runner.TestRunner", {
       if (qx.core.Environment.get("testrunner.testOrigin") != "iframe") {
         qx.log.Logger.register(this.__logAppender);
       }
-    }
-    
-    this.TEST_MIXINS  = [qx.dev.unit.MMock, qx.dev.unit.MRequirements];
-    if (qx.core.Environment.get("testrunner.performance")) {
-      this.TEST_MIXINS.push(qx.dev.unit.MMeasure);
     }
   },
 
@@ -66,7 +71,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
     __loadTimer : null,
     __logAppender : null,
     _externalTestClasses : null,
-    
+
     TEST_MIXINS : null,
 
 
@@ -118,18 +123,20 @@ qx.Class.define("testrunner.runner.TestRunner", {
       this._wrapAssertions();
       this._getTestModel();
     },
-    
-    
+
+
     // overridden
     _defineTestClass : function(testClassName, membersMap)
     {
       var qxClass = qx.Class;
-      return qxClass.define(testClassName,
-      {
+      var classDef = {
         extend : qx.dev.unit.TestCase,
-        include : this.TEST_MIXINS,
         members : membersMap
-      });
+      };
+      if (this.TEST_MIXINS) {
+        classDef.include = this.TEST_MIXINS;
+      }
+      return qxClass.define(testClassName, classDef);
     },
 
 

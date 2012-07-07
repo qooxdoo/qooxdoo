@@ -32,7 +32,6 @@ qx.Class.define("inspector.components.AbstractView",
 
     // Creats the toolbar
     this._toolbar = new qx.ui.toolbar.ToolBar();
-    this._toolbar.setAppearance("objects-toolbar");
     this._toolbar._getLayout().setAlignY("middle");
     this.add(this._toolbar);
   },

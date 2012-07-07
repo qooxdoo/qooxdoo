@@ -1,10 +1,11 @@
 body {
+  font-size: 18px;
   background-color: black;
   font-family: Verdana, Arial, sans-serif;
 }
 
 h1 {
-  font-size: 1.6em;
+  font-size: 1.5em;
   color: #FEFEFE;
 }
 
@@ -17,9 +18,9 @@ a {
 #out {
   margin-top: 10px;
   padding: 10px;
-  color: #00FF00;
+  color: #FFF;
   border-top : 1px solid #FEFEFE;
   font-family: monospace;
   font-weight: bold;
-  line-height: 1.5em;
+  line-height: 26px;
 }

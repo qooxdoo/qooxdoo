@@ -24,25 +24,25 @@
 qx.Class.define("simulator.RhinoFile", {
 
   extend : qx.core.Object,
-  
+
   construct : function(fileName)
   {
     if (qx.core.Environment.get("qx.debug")) {
       this.assertString(fileName);
     }
-    
+
     var fstream = new java.io.FileWriter(fileName, true);
     this.__fileHandle = new java.io.BufferedWriter(fstream);
   },
-  
+
   members :
   {
     __fileHandle : null,
-    
-    
+
+
     /**
      * Writes to the file, inserts a newline then flushes the buffer
-     * 
+     *
      * @param msg {String} Text to write
      */
     writeLine : function(msg) {
@@ -53,8 +53,8 @@ qx.Class.define("simulator.RhinoFile", {
       this.__fileHandle.newLine();
       this.__fileHandle.flush();
     },
-    
-    
+
+
     /**
      * Closes the file
      */
@@ -63,7 +63,7 @@ qx.Class.define("simulator.RhinoFile", {
       this.__fileHandle.close();
     }
   },
-  
+
   destruct : function()
   {
     this.close();

@@ -36,24 +36,25 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
          content : feedreader.ArticleBuilder.createHtml(article, false)
        };
 
-       var container = qx.bom.Template.get("article", data);
-       var indicator = container.children[0];
-       var title = container.children[1];
-       var content = container.children[2];
+       var container = q.template.get("article", data);
+       var indicator = container.getChildren().eq(0);
+       var title = container.getChildren().eq(1);
+       var content = container.getChildren().eq(2);
        // calculate aniumation duration (depends on content height)
-       var duration = content.offsetHeight * 2;
+       var duration = content.getAttribute("offsetHeight") * 2;
        duration = Math.max(1000, duration);
        duration = Math.min(200, duration);
 
        // handler for the click on either the title or the indicator
        var onClick = function(e) {
-         if (qx.bom.element.Style.get(content, "display") == "none") {
+         if (content.getStyle("display") == "none") {
 
-           qx.bom.element.Style.set(content, "display", "");
-           qx.bom.element.Transform.scale(content, [null, 0]);
-           qx.bom.element.Animation.animate(content, {
+           content.setStyle("display", "");
+           content.scale([null, 0]);
+           content.animate({
              duration: duration,
              origin: "top center",
+             keep: 100,
              keyFrames: {
                0: {
                  "padding-bottom": "0px",
@@ -68,13 +69,13 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
                  "height": content.offsetHeight-20 + "px"
                 }
              }
-           }).onEnd(function() {
-             qx.bom.element.Transform.scale(content, 1);
-             indicator.innerHTML = "[-]";
+           }).once("animationEnd", function() {
+             content.scale(1);
+             indicator.setHtml("[-]");
            });
 
          } else {
-           qx.bom.element.Animation.animate(content, {
+           content.animate({
              duration: duration,
              origin: "top center",
              keyFrames: {
@@ -91,15 +92,15 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
                  "height": "0px"
                 }
              }
-           }).onEnd(function(el) {
-             qx.bom.element.Style.set(el, "display", "none");
-             indicator.innerHTML = "[+]";
+           }).once("animationEnd", function() {
+             this.setStyle("display", "none");
+             indicator.setHtml("[+]");
            });
          }
        };
 
-       qx.bom.Event.addNativeListener(title, "click", onClick);
-       qx.bom.Event.addNativeListener(indicator, "click", onClick);
+       title.on("click", onClick);
+       indicator.on("click", onClick);
 
        return container;
      },
@@ -112,7 +113,7 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
      * @return {DomNode} The folder DOM node.
      */
     createTreeFolder : function(name) {
-      return qx.bom.Template.get("tree-folder", {name: name});
+      return q.template.get("tree-folder", {name: name});
     },
 
 
@@ -125,14 +126,14 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
      createTreeItem : function(feed) {
        var data = {title : feed.getTitle()};
 
-       var label = qx.bom.Template.get("tree-item", data);
-       label.feed = feed;
+       var label = q.template.get("tree-item", data);
+       label[0].feed = feed;
 
        // listener for the change to sync back the css class
-       qx.bom.Event.addNativeListener(label, "click", function(e) {
-         var newItem = qx.bom.Event.getTarget(e);
-         qx.bom.Collection.query("div[name='feedslabel']").removeClass("selectedFeed");
-         qx.bom.element.Class.add(newItem, "selectedFeed");
+       label.on("click", function(e) {
+         var newItem = e.target;
+         q("div[name='feedslabel']").removeClass("selectedFeed");
+         q(newItem).addClass("selectedFeed");
        });
 
        return label;

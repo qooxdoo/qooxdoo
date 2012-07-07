@@ -37,8 +37,8 @@ qx.Class.define("apiviewer.ui.SearchView",
     this.base(arguments);
 
     var layout = new qx.ui.layout.VBox();
-    layout.setSeparator("separator-vertical");
     this.setLayout(layout);
+    this.setBackgroundColor("white");
 
     this.__initresult = false;
     this.listdata = [];

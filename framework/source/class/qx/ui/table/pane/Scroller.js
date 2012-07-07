@@ -35,7 +35,10 @@
 qx.Class.define("qx.ui.table.pane.Scroller",
 {
   extend : qx.ui.core.Widget,
-  include : qx.ui.core.scroll.MScrollBarFactory,
+  include : qx.core.Environment.filter({
+      "true"        : qx.ui.core.scroll.MScrollBarFactory,
+      "event.touch" : qx.ui.core.scroll.MTouchScroll
+    }),
 
 
 
@@ -459,7 +462,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
         case "scrollbar-x":
           control = this._createScrollBar("horizontal").set({
-            minWidth: 0,
             alignY: "bottom"
           });
           control.addListener("scroll", this._onScrollX, this);
@@ -477,7 +479,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           control.addListener("scroll", this._onScrollY, this);
 
           if (this.__clipperContainer != null) {
-            control.setMinWidth(qx.bom.element.Overflow.DEFAULT_SCROLLBAR_WIDTH);
             this.__clipperContainer.add(control, {right: 0, bottom: 0, top: 0});
           } else {
             this._add(control, {row: 1, column: 1});
@@ -804,8 +805,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler for the scroller's appear event
      */
-    _onAppear : function()
-    {
+    _onAppear : function() {
       // after the Scroller appears we start the interval again
       this._startInterval(this.getScrollTimeout());
     },
@@ -2203,6 +2203,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var verScrollBar = this.__verScrollBar;
       var verBarWidth = verScrollBar.getSizeHint().width
         + verScrollBar.getMarginLeft() + verScrollBar.getMarginRight();
+
       var horScrollBar = this.__horScrollBar;
       var horBarHeight = horScrollBar.getSizeHint().height
         + horScrollBar.getMarginTop() + horScrollBar.getMarginBottom();
@@ -2232,16 +2233,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var horNeeded = false;
       var verNeeded = false;
 
-      if (paneWidth > viewWidth)
-      {
+      if (paneWidth > viewWidth) {
         horNeeded = true;
 
         if (paneHeight > viewHeight - horBarHeight) {
           verNeeded = true;
         }
-      }
-      else if (paneHeight > viewHeight)
-      {
+      } else if (paneHeight > viewHeight) {
         verNeeded = true;
 
         if (!preventVertical && (paneWidth > viewWidth - verBarWidth)) {

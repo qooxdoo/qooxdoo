@@ -492,7 +492,7 @@ qx.Class.define("qx.ui.tree.core.AbstractItem",
 
 
     // overridden
-    syncWidget : function() {
+    syncWidget : function(jobs) {
       this._updateIndent();
     },
 

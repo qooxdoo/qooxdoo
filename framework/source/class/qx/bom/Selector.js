@@ -125,9 +125,9 @@
  *
  * For further usage details also have a look at the wiki page at:
  *
- * * http://wiki.github.com/jeresig/sizzle
+ * * https://github.com/jquery/sizzle/wiki/Sizzle-Home
  */
-qx.Class.define("qx.bom.Selector",
+qx.Bootstrap.define("qx.bom.Selector",
 {
   statics :
   {

@@ -39,7 +39,6 @@ qx.Class.define("inspector.view.ToolBar",
 
     this.__model.addListener("changeInspected", this.__changeInspected, this);
 
-    this.setDecorator("myToolbar");
     this._getLayout().setAlignY("middle");
 
     // create the headline label
@@ -54,6 +53,9 @@ qx.Class.define("inspector.view.ToolBar",
     this.add(inspectorLabel);
 
     this.addSeparator();
+
+    this.__windowsPart = new qx.ui.toolbar.Part();
+    this.add(this.__windowsPart);
 
     // Objects window
     this.__createWindow("Objects", inspector.objects.Window, "_objectsButton");
@@ -147,6 +149,8 @@ qx.Class.define("inspector.view.ToolBar",
 
     __overflowMenu : null,
 
+    __windowsPart : null,
+
     getTextField : function() {
       return this._urlTextField;
     },
@@ -165,7 +169,7 @@ qx.Class.define("inspector.view.ToolBar",
       this.__state.add(win, name.toLowerCase());
 
       var button = this[buttonRef] = new qx.ui.toolbar.CheckBox(name);
-      this.add(button);
+      this.__windowsPart.add(button);
 
       button.addListener("changeValue", function(e) {
         e.getData() ? win.open() : win.close();
@@ -277,6 +281,7 @@ qx.Class.define("inspector.view.ToolBar",
     this._seleniumButton.dispose();
     this._consoleWindow.dispose();
     this.__overflowMenu.dispose();
+    this.__windowsPart.dispose();
 
     this._separator = this._inspectButton = this._selectedWidgetLabel =
       this._urlTextField = this._reloadButton = this._objectsButton =

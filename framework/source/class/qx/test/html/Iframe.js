@@ -54,7 +54,7 @@ qx.Class.define("qx.test.html.Iframe",
       if (window.location.protocol === "file:") {
         this.__destSource = "blank.html";
       } else {
-        this.__destSource = qx.util.ResourceManager.getInstance().toUri("qx/static/blank.html");
+        this.__destSource = qx.util.ResourceManager.getInstance().toUri(qx.core.Environment.get("qx.blankpage"));
       }
     },
 

@@ -1,0 +1,69 @@
+{
+    "name"    : "${Name}",
+
+  "include" :
+  [
+    {
+      "path" : "$${WEBSITE}/website.json"
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "api-data",
+    "build",
+    "build-min",
+    "test",
+    "test-source"
+  ],
+
+  "default-job" : "build-min",
+
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["api"] 
+  },
+
+  "let" :
+  {
+    "APPLICATION"  : "${Namespace}",
+    "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
+    "WEBSITE"      : "$${QOOXDOO_PATH}/component/standalone/website",
+    "CACHE"        : "${Cache}",
+    "BUILD_PATH"   : "script",
+    "ROOT"         : "."
+  },
+
+  // You only need to edit the remainder of this file, if you want to customize
+  // specific jobs, or add own job definitions.
+
+  "jobs" :
+  {
+    "api" :
+    {
+      "run" : ["api-files"]
+    },
+
+    "api-files" :
+    {
+      "extend" : ["cache"],
+      "copy-files" :
+      {
+        "files" : 
+        [
+          "api.css",
+          "default.highlight.css",
+          "highlight.LICENSE",
+          "highlight.pack.js",
+          "index.html",
+          "samples.js",
+          "viewer.js"
+        ],
+        "source" : "$${WEBSITE}/api",
+        "target" : "api"
+      }
+    }
+  }
+}
+

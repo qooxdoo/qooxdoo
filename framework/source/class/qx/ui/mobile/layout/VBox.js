@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * A vertical box layout.
  *
  * The vertical box layout lays out widgets in a vertical row, from top
@@ -65,8 +63,8 @@ qx.Class.define("qx.ui.mobile.layout.VBox",
   members :
   {
     // overridden
-    getCssClass : function(){
-      return "vbox";
+    _getCssClasses : function(){
+      return ["vbox"];
     }
   }
 });

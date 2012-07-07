@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Provides a list item element for a certain row and its data.
  * Uses the {@link qx.ui.mobile.list.renderer.Default} list item renderer as a
  * default renderer when no other renderer is given by the {@link qx.ui.mobile.list.List#delegate}.

@@ -129,7 +129,7 @@ qx.Class.define("demobrowser.demo.virtual.ListWithFilter",
         "<b>Filtered List</b><br/>"
         + "List showing numbered items, bound to a data array."
       );
-      this.getRoot().add(description, {left: 20, top: 10});
+      this.getRoot().add(description, {left: 10, top: 10});
     }
   }
 });

@@ -1,0 +1,28 @@
+//
+// CHECKBOX
+//
+
+@checkbox-size:30px;
+
+input[type="checkbox"] {
+  visibility: hidden;
+  position:absolute;
+}
+
+.checkbox-label {
+  display:inline-block;
+  cursor:pointer;
+  width:@checkbox-size;
+  height:@checkbox-size;
+}
+
+.checkbox-label:before {
+  content:'';
+  display:block;
+  position:absolute;
+  width:22px;
+  height:22px;
+  top:4px;
+  left:4px;
+}
+

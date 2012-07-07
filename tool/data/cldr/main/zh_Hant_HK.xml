@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5966 $"/>
-		<generation date="$Date: 2011-07-05 14:30:30 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="zh"/>
 		<script type="Hant"/>
 		<territory type="HK"/>
@@ -104,13 +104,6 @@
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
-			<calendar type="chinese">
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="yMEd" draft="contributed">y年M月d日，E</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
 			<calendar type="gregorian">
 				<dateFormats>
 					<dateFormatLength type="full">
@@ -173,7 +166,7 @@
 						</dateTimeFormat>
 					</dateTimeFormatLength>
 					<availableFormats>
-						<dateFormatItem id="EEEd" draft="contributed">d EEE</dateFormatItem>
+						<dateFormatItem id="Ed" draft="contributed">d E</dateFormatItem>
 						<dateFormatItem id="Md" draft="contributed">M-d</dateFormatItem>
 						<dateFormatItem id="MEd" draft="contributed">E, M-d</dateFormatItem>
 						<dateFormatItem id="yyyyM" draft="provisional">yyyy/M</dateFormatItem>
@@ -327,55 +320,10 @@
 			<zone type="Africa/Lusaka">
 				<exemplarCity draft="contributed">盧薩卡</exemplarCity>
 			</zone>
-			<metazone type="Hawaii_Aleutian">
-				<long>
-					<generic draft="contributed">夏威夷阿留申時間</generic>
-				</long>
-			</metazone>
-			<metazone type="Irkutsk">
-				<long>
-					<generic draft="contributed">伊爾庫茨克時間</generic>
-				</long>
-			</metazone>
-			<metazone type="Kamchatka">
-				<long>
-					<generic draft="contributed">堪察加時間</generic>
-				</long>
-			</metazone>
-			<metazone type="Kazakhstan_Eastern">
-				<long>
-					<daylight draft="contributed">哈薩克斯坦東部夏令時間</daylight>
-				</long>
-			</metazone>
-			<metazone type="Kazakhstan_Western">
-				<long>
-					<daylight draft="contributed">哈薩克斯坦西部夏令時間</daylight>
-				</long>
-			</metazone>
-			<metazone type="Macquarie">
-				<long>
-					<generic draft="contributed">麥格理時間</generic>
-				</long>
-			</metazone>
-			<metazone type="Noronha">
-				<long>
-					<generic draft="contributed">諾羅尼亞時間</generic>
-				</long>
-			</metazone>
-			<metazone type="Omsk">
-				<long>
-					<generic draft="contributed">鄂木斯克時間</generic>
-				</long>
-			</metazone>
-			<metazone type="Sakhalin">
-				<long>
-					<generic draft="contributed">薩哈林時間</generic>
-				</long>
-			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>

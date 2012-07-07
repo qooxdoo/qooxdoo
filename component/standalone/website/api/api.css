@@ -1,0 +1,150 @@
+#list {
+  width: 276px;
+  position: fixed;
+  background-color: red;
+  bottom: 0;
+  top: 82px;
+  background-color: #F6F6F6;
+  border-right: 1px solid #DDD;
+  overflow-y: auto;
+  padding-top: 8px;
+}
+
+#list h1 {
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 0px;
+}
+
+#list h2 {
+  margin-top: 10px;
+}
+
+.plugin {
+  display: none;
+}
+
+#content .plugin h2 {
+  color: #C00F00;
+}
+
+#content {
+  left: 296px;
+  padding-right: 20px;
+  top: 82px;
+  position: fixed;
+  overflow-y: auto;
+  bottom: 0;
+  right: 0;
+}
+
+#content * {
+  /*margin-left: 8px;*/
+}
+
+#content h1 {
+  padding-top: 16px;
+  font-size: 28px;
+}
+
+#content h2 {
+  margin-top: 30px;
+  margin-bottom: 0;
+}
+
+#content div {
+  margin-bottom: 20px;
+}
+
+#content a {
+  text-decoration: underline;
+}
+
+#content a:hover {
+  color: #366AC1;
+}
+
+
+#list h2, #list ul {
+  margin-left: 15px;
+  white-space: nowrap;
+}
+
+#header {
+  width: auto;
+  padding-left: 15px;
+}
+
+#header h1 {
+  width: auto;
+}
+
+#header-wrapper {
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
+
+#plugintoggle {
+  float: right;
+  margin-right: 20px;
+  cursor: pointer;
+  color: white;
+  text-decoration: underline;
+  text-align: right;
+}
+
+ul {
+  list-style: square;
+  list-style-position: inside;
+}
+
+p {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.method > h2, .method > p, .method > h4, .method > ul, .method > ul > li, .method > div, .method > pre, .method > code, 
+.module > h1, .module > p, .module > pre, .module > ul , .module > code, .module > div, .module .events {
+  margin-left: 8px;
+}
+
+.method ul li ul {
+  margin-left: 16px;
+}
+
+.events h2, .extends h2 {
+  margin-top: 15px !important;
+}
+
+
+.method-header {
+  font-family: Inconsolata, Consolas, "Courier New", Courier, monotype;
+  font-size: 14px;
+  margin-left: 0px !important;
+}
+
+.box, .javascript {
+  background-color: #F6F6F6;
+  border: 1px solid #DDD;
+  border-radius: 3px;
+  padding: 3px 7px;
+  margin-right: 8px;
+}
+
+.method ul li p, .inline * {
+  display: inline;
+  margin-left: 0;
+}
+
+.return-desc {
+  margin-left: 28px !important;
+}
+
+.returns {
+  float: right;
+}
+
+.desktop {
+  display: none;
+}

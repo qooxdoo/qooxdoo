@@ -1,0 +1,67 @@
+//
+// COMMON
+//
+// This stylesheet contains all styles, which are necessary/useful for ALL themes.
+//
+//
+
+* {
+  .tap-highlight-color(rgba(0,0,0,0));
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height:100%;
+  overflow:hidden;
+}
+
+input {
+  line-height:1;
+  vertical-align:middle;
+}
+
+.selectable, input, textarea {
+  .user-select(auto);
+}
+
+.no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.exclude {
+  display:none !important;
+}
+
+.space-top {
+  margin-top:4px;
+}
+
+a:hover, a:active {
+  outline: none;
+}
+
+.root {
+  .user-select(none);
+  .text-size-adjust(none);
+  overflow-x: hidden;
+  
+  height:100%;
+  width:100%;
+}
+
+// WEBKIT ONLY
+
+input::-webkit-input-placeholder {
+  line-height:normal;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+

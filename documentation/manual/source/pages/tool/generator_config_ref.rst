@@ -175,6 +175,7 @@ Triggers the creation of combined image files that contain various other images.
 
   "combine-images" :
   {
+    "montage-cmd" : "<string_template>",
     "images" :
     {
       "<output_image>" :
@@ -199,6 +200,13 @@ Triggers the creation of combined image files that contain various other images.
 .. note::
 
   Unless you are generating a base64 combined image, this key requires an external program (ImageMagic) to run successfully.
+
+* **montage-cmd** *(experimental)*: command line for the ImageMagick `montage` command. If you create a binary combined image (e.g. .png, .gif), the *montage* command line utility will be invoked. This command template will be used to invoke it, and is exposed here so you can adjust it to your local ImageMagick installation. If you tweak this template and shuffle things around, make sure the placholders ``%(<name>)s`` remain intact. Example values are:
+
+  * ``"montage @%(tempfile)s -geometry +0+0 -gravity NorthWest -tile %(orientation)s -background None %(combinedfile)s"`` *(for ImageMagick v6.x)*
+  * ``"montage -geometry +0+0 -gravity NorthWest -tile %(orientation)s -background None @%(tempfile)s %(combinedfile)s``" *(for ImageMagick v5.x)*
+
+  (default: *""*)
 
 * **images** : map with combine entries
 
@@ -255,10 +263,10 @@ Specify various options for compile (and other) keys. Takes a map.
     "paths" :
     {
       "file"            : "<path>",
+      "file-prefix"     : "<path>",
       "app-root"        : "<path>",            
       "gzip"            : (true|false),
-      "loader-template" : "<path>",
-      "scripts-add-hash": (true|false)
+      "loader-template" : "<path>"
     },
     "uris" :
     {
@@ -270,7 +278,7 @@ Specify various options for compile (and other) keys. Takes a map.
     {
       "format"          : (true|false),
       "locales"         : ["de", "en"],
-      "optimize"        : ["basecalls", "comments", "privates", "strings", "variables", "variants"],
+      "optimize"        : ["basecalls", "comments", "privates", "strings", "variables", "variants", "whitespace"],
       "decode-uris-plug"  : "<path>",
       "except"          : ["myapp.classA", "myapp.util.*"]
     }
@@ -283,22 +291,22 @@ Possible keys are
 * **paths** : paths for the generated output
 
   * **file** : the path to the compile output file; can be relative to the config's directory (default: *<type>/script/<appname>.js*)
+  * **file-prefix** : path to a file containing %{JS} which will be inserted verbatim at the beginning of each generated output file; this could be a comment with copyright headers (default: *undefined*)
   * **app-root** : (*source*) relative (in the above sense) path to the directory containing the app’s HTML page (default: *./source*)
   * **loader-template** : path to a JS file that will be used as an alternative loader template; for possible macros and structure see the default (default: *${QOOXDOO_PATH}/tool/data/generator/loader.tmpl.js*)
   * **gzip** : whether to gzip output file(s) (default: *false*)
-  * **scripts-add-hash** : whether the file name of generated script files should contain the script's hash code; the primary compile output file (see above) is exempted even if set to true (default: *false*)
 
 * **uris** : URIs used to reference code and resources
 
   * **script** : (*build*) URI from application root to code directory (default: *"script"*)
   * **resource** : (*build*) URI from application root to resource directory (default: *"resource"*)
-  * **add-nocache-param** : (*source*) whether to add a ``?nocache=<random_number>`` parameter to the URI, to overrule browser caching when loading the application (default: *true*)
+  * **add-nocache-param** : (*source*) whether to add a ``?nocache=<random_number>`` parameter to the URI, to overrule browser caching when loading the application; use the :doc:`ADD_NOCACHE_PARAM <generator_config_macros>` macro to tweak this setting for *source* builds (default: *false*)
 
 * **code** : code options
 
   * **format** : (*build*) whether to apply simple output formatting (it adds some sensible line breaks to the output code) (default: *false*)
   * **locales** : (*build*) a list of locales to include (default: *["C"]*)
-  * **optimize** : list of dimensions for optimization, max. ["basecalls", "comments", "privates", "strings", "variables", "variants"] (default: *[]*) :ref:`special section <pages/tool/generator_config_articles#optimize_key>`
+  * **optimize** : list of dimensions for optimization, max. ["basecalls", "comments", "privates", "strings", "variables", "variants", "whitespace"] (default: *[<all>]*) :ref:`special section <pages/tool/generator_config_articles#optimize_key>`
   * **decode-uris-plug** : path to a file containing JS code, which will be plugged into the loader script, into the ``qx.$$loader.decodeUris()`` method. This allows you to post-process script URIs, e.g. through pattern matching. The current produced script URI is available and can be modified in the variable ``euri``.
   * **except** : (*hybrid*) exclude the classes specified in the class pattern list from compilation when creating a :ref:`hybrid <pages/tool/generator_config_ref#compile>` version of the application
 
@@ -331,9 +339,10 @@ Turn off warnings printed by the generator to the console for specific configura
 
   * **exclude** : *[]* List of class patterns in the *exclude* key that the generator should not warn about.
 
-  * **environment** : *[]* This key has specific sub-keys:
+  * **environment** : *[]* The key recognizes specific elements in its list value:
 
     * **non-literal-keys** : Don't warn if calls to `qx.core.Environment` use non-literal keys (e.g. *"qx.core.Environment.get(foo)"* where *foo* is a variable).
+    * **variants-and-url-settings** : Don't warn if the `qx.allowUrlSettings:true` environment is set while at the same time `variants` optimization is on (the two sort of contradict each other).
 
 
 .. _pages/tool/generator_config_ref#copy-files:
@@ -1049,6 +1058,7 @@ Triggers cutting images into regions. Takes a map.
 
   "slice-images" :
   {
+    "convert-cmd" : "<string_template>",
     "images" : 
     {
       "<input_image>" :
@@ -1063,6 +1073,16 @@ Triggers cutting images into regions. Takes a map.
 .. note::
 
   peer-keys: :ref:`pages/tool/generator_config_ref#cache`
+
+.. note::
+
+  This key requires an external program (ImageMagic) to run successfully.
+
+* **convert-cmd** *(experimental)*: command line for the ImageMagick `convert` command. If you create clippings of an image, the *convert* command line utility will be invoked. This command template will be used to invoke it, and is exposed here so you can adjust it to your local ImageMagick installation. If you tweak this template and shuffle things around, make sure the placholders ``%(<name>)s`` remain intact. Example value:
+
+  * ``"convert %(infile)s -crop %(xoff)sx%(yoff)s+%(xorig)s+%(yorig)s +repage %(outfile)s"`` *(for ImageMagick v5.x, v6.x)*
+
+  (default: *""*)
 
 * **images** : map with slice entries.
 

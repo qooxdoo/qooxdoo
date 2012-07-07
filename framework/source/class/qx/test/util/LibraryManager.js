@@ -24,10 +24,10 @@ qx.Class.define("qx.test.util.LibraryManager",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.__mgr = qx.util.LibraryManager.getInstance();
     this.libKeys = ["sourceUri", "resourceUri"];
-    
+
     this.__qxBackup = {};
     for (var key in qx.$$libraries.qx) {
       if (qx.$$libraries.qx.hasOwnProperty(key)) {
@@ -35,19 +35,19 @@ qx.Class.define("qx.test.util.LibraryManager",
       }
     }
   },
-  
+
   members :
   {
     __mgr : null,
     __qxBackup : null,
     libKeys : null,
-    
+
     testHas : function()
     {
       this.assert(this.__mgr.has("qx"));
       this.assertFalse(this.__mgr.has("foo"));
     },
-    
+
     testGet : function()
     {
       for (var i=0, l=this.libKeys.length; i<l; i++) {
@@ -55,7 +55,7 @@ qx.Class.define("qx.test.util.LibraryManager",
         this.assertEquals(qx.$$libraries.qx[key], this.__mgr.get("qx", key));
       }
     },
-    
+
     testSet : function()
     {
       for (var i=0, l=this.libKeys.length; i<l; i++) {
@@ -64,7 +64,7 @@ qx.Class.define("qx.test.util.LibraryManager",
         this.assertEquals("foo", qx.$$libraries.qx[key]);
       }
     },
-    
+
     tearDownTestSet : function()
     {
       for (var key in this.__qxBackup) {

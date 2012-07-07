@@ -346,6 +346,7 @@ qx.Class.define("qx.data.Array",
       if (removed || added) {
         if (this.__array.length > oldLength) {
           var type = "add";
+          items = qx.lang.Array.fromArguments(arguments, 2);
         } else if (this.__array.length < oldLength) {
           var type = "remove";
           items = returnArray;
@@ -385,8 +386,9 @@ qx.Class.define("qx.data.Array",
 
 
     /**
-     * Sorts the array. If a sort function is given, this will be used to
-     * compare the items.
+     * Sorts the array. If a function is given, this will be used to
+     * compare the items. <code>changeBubble</code> event will only be fired,
+     * if sorting result differs from original array.
      *
      * @param func {Function} A compare function comparing two parameters and
      *   should return a number.
@@ -399,6 +401,12 @@ qx.Class.define("qx.data.Array",
       var oldArray = this.__array.concat();
 
       this.__array.sort.apply(this.__array, arguments);
+
+      // prevent changeBubble event if nothing has been changed
+      if (qx.lang.Array.equals(this.__array, oldArray) === true){
+        return;
+      }
+
       this.fireDataEvent("change",
         {start: 0, end: this.length - 1, type: "order", items: null}, null
       );
@@ -761,7 +769,7 @@ qx.Class.define("qx.data.Array",
      * Check whether the given array has the same content as this.
      * Checks only the equality of the arrays' content.
      *
-     * @param array {Array} The array to check.
+     * @param array {qx.data.Array} The array to check.
      * @return {Boolean} Whether the two arrays are equal.
      */
     equals : function(array)

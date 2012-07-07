@@ -28,6 +28,7 @@
 
 import sys, os, re, types
 from collections import deque
+from ecmascript.frontend.SyntaxException import SyntaxException
 
 ##
 # IterObject  -- abstract base class for iterators, making them resettable and
@@ -130,7 +131,7 @@ class Scanner(IterObject):
                 cursor       = mend # when using the 'pos' parameter in re.search, mo.start/end refer to the *entire* underlying string
                 delimiter = (yield (mo_lastgroup, mo.group(mo_lastgroup), mstart, mlength))
             else:
-                raise SyntaxError("Unable to tokenize text starting with: \"%s\"" % inData[cursor:cursor+200])
+                raise SyntaxException("Unable to tokenize text starting with: \"%s\"" % inData[cursor:cursor+200])
 
 
 ##
@@ -216,6 +217,24 @@ class LQueue(object):
             if len(self.queue) == 0:
                 self.queue.append(self.iterator.next())  # let self.iterator's StopIteration propagate
             yield self.queue.popleft()
+
+
+##
+# LimLQueue   -- limited queue that only allows adding from the "Left"
+#
+# Elements can be added from the left, and accessed with their index (like an array).
+# If more than <limit> elements are added to the left, elements are dropped from the right.
+#
+class LimLQueue(deque):
+
+    def __init__(self, limit=10, iterable=[]):
+        self._limit = limit
+        deque.__init__(self, iterable)
+
+    def appendleft(self, elem):
+        if len(self) >= self._limit:
+            self.pop()
+        deque.appendleft(self, elem)
 
 
 

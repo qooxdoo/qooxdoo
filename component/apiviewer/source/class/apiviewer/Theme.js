@@ -27,9 +27,9 @@ qx.Theme.define("apiviewer.Theme",
 
   meta :
   {
-    color : qx.theme.modern.Color,
-    decoration : qx.theme.modern.Decoration,
-    font : qx.theme.modern.Font,
+    color : qx.theme.indigo.Color,
+    decoration : qx.theme.indigo.Decoration,
+    font : qx.theme.indigo.Font,
     appearance : apiviewer.Appearance,
     icon : qx.theme.icon.Tango
   }

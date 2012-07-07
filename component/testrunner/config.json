@@ -7,10 +7,13 @@
       "path" : "testrunner.json"  
     },
     {
+      "path" : "portable.json",
+      "as"   : "portable"
+    },
+    {
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
       "block"   : 
       [ 
-        "common",
         "source",
         "source-script",
         "build",
@@ -32,7 +35,16 @@
       "testrunner::source-tests-script",
       "testrunner::build-basic",
       "testrunner::source-basic",
+      "portable::build-script",
       "translation"
+    ],
+
+    "exclude" : [
+      "testrunner.view.widget.*",
+      "testrunner.TestLoader",
+      "testrunner.TestLoaderInline",
+      "testrunner.TestLoaderNative",
+      "qx.dev.unit.TestLoaderInline"
     ]
   },
 
@@ -78,11 +90,6 @@
       }
     },
 
-    "translation" :
-    {
-      "translate" : { "poentry-with-occurrences" : false  }
-    }
-
     /*
     "source-script-packages" :
     {
@@ -113,5 +120,29 @@
       }
     },
     */
+
+    // -------------------------------------------------------------------------
+    // Portable Testrunner Jobs
+    // -------------------------------------------------------------------------
+
+    "portable-source" :
+    {
+      "extend" : ["portable::source-script"]
+    },
+
+    "portable-build" : 
+    {
+      "extend" : ["portable::build"]
+    },
+
+    // -------------------------------------------------------------------------
+    // Misc
+    // -------------------------------------------------------------------------
+
+    "translation" :
+    {
+      "translate" : { "poentry-with-occurrences" : false  }
+    }
+
   }
 }

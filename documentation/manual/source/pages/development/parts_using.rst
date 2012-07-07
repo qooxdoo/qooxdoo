@@ -94,7 +94,7 @@ The first argument to the *require* method is a list containing the parts you wa
 
 This section also shows that you cannot run the same application with and without parts. In order to use parts, you have to "instrument" your application code with calls to *qx.io.PartLoader.require*, and currently there is no way these calls can fail gracefully. You have to make a decision. 
 
-These are the essential ingredients to set up and use parts in your application. For full details on the *packages* configuration key, see the :ref:`configuration reference <pages/tool/generator_config_ref#packages>`. For some additional usage information relating to this key, see this :ref:`article <pages/tool/generator_config_articles#packages_key>`. For a complete application that uses parts, check the `Feedreader sources <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_%{versionU}/qooxdoo/application/feedreader/>`_.
+These are the essential ingredients to set up and use parts in your application. For full details on the *packages* configuration key, see the :ref:`configuration reference <pages/tool/generator_config_ref#packages>`. For some additional usage information relating to this key, see this :ref:`article <pages/tool/generator_config_articles#packages_key>`. For a complete application that uses parts, check the `Feedreader sources <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/application/feedreader/>`_.
 
 
 

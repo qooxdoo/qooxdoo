@@ -55,18 +55,25 @@ qx.Class.define("mobileshowcase.page.Overview",
       });
 
       var data = [
-          {title : "Form Elements", subtitle : "TextField, TextArea, ToggleButton, Button...", path:"form"},
+          {title : "Basic Widgets", subtitle : "Atoms, Buttons, Labels, Images...", path:"basic"},
+          {title : "Dialog Widgets", subtitle : "Dialogs, Popups, Confirm Dialogs...", path:"dialog"},
+          {title : "Form Elements", subtitle : "TextField, TextArea, Checkboxes...", path:"form"},
           {title : "List", subtitle : "A large list", path:"list"},
           {title : "Tab Bar", subtitle : "Usings tabs to switch views", path:"tab"},
           {title : "Toolbar", subtitle : "toolbar, buttons, separators", path:"toolbar"},
           {title : "Events", subtitle : "Touch, Tap, Swipe...", path:"event"},
-          {title : "Page Transitions", subtitle : "Slide, Fade, Cube...", path:"animation"}
+          {title : "Data Binding", subtitle : "See how data binding works", path:"databinding"},
+          {title : "Page Transitions", subtitle : "Slide, Fade, Cube...", path:"animation"},
+          {title : "Theme Switcher", subtitle : "Switch between our themes...", path:"themeswitcher"}
       ];
 
       list.setModel(new qx.data.Array(data));
       list.addListener("changeSelection", function(evt) {
         var path = data[evt.getData()].path;
-        qx.ui.mobile.navigation.Manager.getInstance().executeGet("/"+path);
+        qx.core.Init.getApplication().getRouting().executeGet("/"+path);
+
+        // On click on list item, portraitContainer should hide.
+        this.fireEvent("hidePortraitContainer");
       }, this);
       this.getContent().add(list);
 

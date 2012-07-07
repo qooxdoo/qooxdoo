@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The Checkbox is the mobile correspondent of the html checkbox.
  *
  * *Example*
@@ -60,7 +58,7 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   construct : function(value)
   {
     this.base(arguments);
-
+    qx.event.Registration.addListener(this, "appear", this.__onAppear, this);
   },
 
   /*
@@ -88,6 +86,21 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
       return "checkbox";
     },
 
+
+    /**
+     * Event handler, when CheckBox appears on screen.
+     */
+    __onAppear : function() {
+      var label = qx.dom.Element.create("label");
+      qx.bom.element.Attribute.set(label, "for", this.getId());
+      qx.bom.element.Class.add(label, "checkbox-label");
+
+      qx.dom.Element.insertAfter(label, this.getContentElement());
+
+      qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
+    },
+
+
     /**
      * Sets the value [true/false] of this checkbox.
      * It is called by setValue method of qx.ui.mobile.form.MValue mixin
@@ -105,6 +118,16 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
     _getValue : function() {
       return this._getAttribute("checked");
     }
+  },
 
+
+  /*
+  *****************************************************************************
+      DESTRUCTOR
+  *****************************************************************************
+  */
+  destruct : function()
+  {
+      qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
   }
 });

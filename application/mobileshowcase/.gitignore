@@ -1,6 +1,9 @@
 # .gitignore template for skeleton-based apps
 /api/
 /build/
+/build-ios/
+/build-android/
+/build-indigo/
 /inspector/
 /simulator/
 /test/

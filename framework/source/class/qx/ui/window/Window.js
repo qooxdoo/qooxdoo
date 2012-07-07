@@ -254,7 +254,8 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : false,
-      event : "changeModal"
+      event : "changeModal",
+      apply : "_applyModal"
     },
 
 
@@ -422,7 +423,8 @@ qx.Class.define("qx.ui.window.Window",
     {
       active : true,
       maximized : true,
-      showStatusbar : true
+      showStatusbar : true,
+      modal : true
     },
 
 
@@ -859,6 +861,17 @@ qx.Class.define("qx.ui.window.Window",
         this.removeState("active");
       } else {
         this.addState("active");
+      }
+    },
+
+
+    // property apply
+    _applyModal : function(value, old)
+    {
+      if (old) {
+        this.removeState("modal");
+      } else {
+        this.addState("modal");
       }
     },
 

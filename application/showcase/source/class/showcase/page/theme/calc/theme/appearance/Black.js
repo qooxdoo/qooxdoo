@@ -28,7 +28,6 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
         return {
           backgroundColor : "black-window-bg",
           decorator : "calc-window",
-          shadow : "shadow-window",
           contentPadding : [6, 8, 8 ,8]
         };
       }

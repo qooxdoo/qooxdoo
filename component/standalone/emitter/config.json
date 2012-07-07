@@ -1,0 +1,195 @@
+{
+  "include" : 
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
+      "import" :
+      [
+        "cache",
+        "distclean",
+        "info",
+        "log-dependencies"
+      ]
+    }
+  ],
+
+  "default-job" : "build",
+
+  "config-warnings" :
+  {
+    "job-shadowing" : ["distclean"]
+  },
+
+  "let" :
+  {
+    "APPLICATION"  : "emitter",
+    "QOOXDOO_PATH" : "../../..",
+    "BUILD_PATH"   : "script",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
+  },
+
+
+  "jobs" :
+  {
+    "emitter-common" :
+    {
+      "extend" : ["cache"],
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
+        }
+      ],
+
+      "include" : [
+        "qx.event.Emitter"
+      ],
+
+      "environment" :
+      {
+        "qx.version"     : "${QOOXDOO_VERSION}",
+        "qx.revision"    : "${QOOXDOO_REVISION}",
+        "qx.debug" : false,
+        "qx.aspects" : false,
+        "qx.globalErrorHandling" : false,
+        "qx.theme" : null,
+        "qx.export" : {"emitter" : "qx.event.Emitter"}
+      },
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/emitter.js",
+          "file-prefix" : "${QOOXDOO_PATH}/tool/data/generator/copyright.include.js",
+          "app-root" : ".",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
+        },
+        "uris" :
+        {
+          "script"   : ".",
+          "resource" : "."
+        }
+      }
+    },
+
+
+    "build-min" :
+    {
+      "extend" : ["emitter-common"],
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/emitter.min.js"
+        },
+        "code" :
+        {
+          "format"   : false,
+          "optimize" : [ "variants", "basecalls", "strings", "privates", "variables" , "statics", "whitespace"],
+          "except"   : []
+        }
+      },
+
+      "compile" : { "type" : "build" }
+    },
+
+    "build" :
+    {
+      "extend" : ["build-min"],
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/emitter.js"
+        },
+        "code" :
+        {
+          "format"   : true,
+          "=optimize" : [ "variants", "static" ]
+        }
+      }
+    },
+
+
+
+    "source" :
+    {
+      "extend" : ["emitter-common"],
+
+      "environment" :
+      {
+        "qx.debug" : true
+      },
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/emitter.src.js"
+        }
+      },
+
+      "compile" : { "type" : "source" }
+    },
+
+
+    "deps-logging" : 
+    {
+      "log" : {
+        "filter" : { "debug" : [ "generator.code.DependencyLoader.*" ] },
+        "dependencies" : {
+          "include-transitive-load-deps" : true,
+          "force-fresh-deps" : true,
+          "type" : "using",
+          "phase" : null,
+          "format" : "dot",
+          "dot" : {
+            "root" : "qx.event.Emitter"
+          }
+        }
+      }
+    },
+
+
+    "build-deps" :
+    {
+      "extend" : ["build", "deps-logging"]
+    },
+
+
+    "build-require-min" :
+    {
+      "extend" : ["build-min"],
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/emitter.require.min.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/require.loader.tmpl.js"
+        }
+      }
+    },
+
+    "build-require" :
+    {
+      "extend" : ["build-require-min"],
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/emitter.require.js"
+        },
+        "code" :
+        {
+          "format"   : true,
+          "=optimize" : [ "variants", "static" ]
+        }
+      }
+    }
+  }
+}

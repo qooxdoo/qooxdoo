@@ -35,6 +35,22 @@ qx.Class.define("qx.ui.core.Blocker",
 {
   extend : qx.core.Object,
 
+
+  events :
+  {
+    /**
+     * Fires after {@link #block} or {@link #blockContent} executed.
+     */
+    blocked : "qx.event.type.Event",
+
+
+    /**
+     * Fires after {@link #unblock} or {@link #unblockContent} executed.
+     */
+    unblocked : "qx.event.type.Event"
+  },
+
+
   /**
    * Creates a blocker for the passed widget.
    *
@@ -293,6 +309,8 @@ qx.Class.define("qx.ui.core.Blocker",
         blocker.addListener("keypress", this.__stopTabEvent, this);
         blocker.addListener("keydown", this.__stopTabEvent, this);
         blocker.addListener("keyup", this.__stopTabEvent, this);
+
+        this.fireEvent("blocked", qx.event.type.Event);
       }
     },
 
@@ -354,6 +372,8 @@ qx.Class.define("qx.ui.core.Blocker",
       blocker.removeListener("keydown", this.__stopTabEvent, this);
       blocker.removeListener("keyup", this.__stopTabEvent, this);
       blocker.exclude();
+
+      this.fireEvent("unblocked", qx.event.type.Event);
     },
 
 
@@ -404,6 +424,7 @@ qx.Class.define("qx.ui.core.Blocker",
           this.__timer.start();
           this.__syncBlocker();
         }
+        this.fireEvent("blocked", qx.event.type.Event);
       }
     },
 
@@ -471,6 +492,7 @@ qx.Class.define("qx.ui.core.Blocker",
       if (this._isPageRoot) {
         this.__timer.stop();
       }
+      this.fireEvent("unblocked", qx.event.type.Event);
     },
 
 

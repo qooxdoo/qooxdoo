@@ -25,13 +25,15 @@
 
 import sys, os, types, re, string, copy
 from ecmascript.backend.Packer      import Packer
-from ecmascript.backend             import pretty
+#from ecmascript.backend             import pretty
+from ecmascript.backend             import pretty_new_meth as pretty
 from ecmascript.frontend import treeutil, tokenizer
 from ecmascript.frontend import treegenerator
-#from ecmascript.frontend import treegenerator_new_ast as treegenerator
+from ecmascript.frontend.SyntaxException import SyntaxException
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, commentoptimizer
 from ecmascript.transform.optimizer import stringoptimizer, basecalloptimizer, privateoptimizer
 from ecmascript.transform.optimizer import featureoptimizer
+from generator import Context
 from misc import util, filetool
 
 
@@ -63,12 +65,23 @@ class MClassCode(object):
             console.indent()
 
             fileContent = filetool.read(self.path, self.encoding)
-            tokens = tokenizer.parseStream(fileContent, self.id)
+            fileId = self.path if self.path else self.id
+            try:
+                tokens = tokenizer.parseStream(fileContent, self.id)
+            except SyntaxException, e:
+                # add file info
+                e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
+                raise e
             
             console.outdent()
             console.debug("Generating tree: %s..." % self.id)
             console.indent()
-            tree = treegen.createSyntaxTree(tokens)  # allow exceptions to propagate
+            try:
+                tree = treegen.createSyntaxTree(tokens, fileId)
+            except SyntaxException, e:
+                # add file info
+                e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
+                raise e
 
             # store unoptimized tree
             #print "Caching %s" % cacheId
@@ -121,7 +134,8 @@ class MClassCode(object):
     #
     def _variantsFromTree(self, node):
         console = self.context['console']
-        config  = self.context['jobconf']
+        #config  = self.context['jobconf'] - TODO: this can yield job 'apiconf::build-resources' when running 'apiconf::build-data'!?
+        config  = Context.jobconf
         warn_non_literal_keys = "non-literal-keys" not in config.get("config-warnings/environment",[])
         classvariants = set()
         for variantNode in variantoptimizer.findVariantNodes(node):
@@ -129,7 +143,7 @@ class MClassCode(object):
             if firstParam:
                 if treeutil.isStringLiteral(firstParam):
                     classvariants.add(firstParam.get("value"))
-                elif firstParam.type == "variable":
+                elif firstParam.isVar():
                     if warn_non_literal_keys:
                         console.warn("qx.core.Environment call with non-literal key (%s:%s)" % (self.id, variantNode.get("line", False)))
                 elif firstParam.type == "map": # e.g. .filter() method
@@ -165,14 +179,13 @@ class MClassCode(object):
         # source versions
         if not compOptions.optimize:
             compiled = filetool.read(self.path)
-            if compiled[-1:] != "\n": # assure trailing \n
+            if compOptions.format and compiled[-1:] != "\n": # assure trailing \n
                 compiled += '\n'
         # compiled versions
         else:
-
-            optimize          = compOptions.optimize
-            variants          = compOptions.variantset
-            format_           = compOptions.format
+            optimize  = compOptions.optimize
+            variants  = compOptions.variantset
+            format_   = compOptions.format
             classVariants     = self.classVariants()
             # relevantVariants is the intersection between the variant set of this job
             # and the variant keys actually used in the class
@@ -181,24 +194,26 @@ class MClassCode(object):
             optimizeId        = self._optimizeId(optimize)
             cache             = self.context["cache"]
 
-            # Caution: Sharing cache id with TreeCompiler
             cacheId = "compiled-%s-%s-%s-%s" % (self.path, variantsId, optimizeId, format_)
             compiled, _ = cache.read(cacheId, self.path)
 
             if compiled == None:
                 tree = self.optimize(None, optimize, variants, featuremap)
-                if optimize == ["comments"]:
-                    compiled = self.serializeFormatted(tree)
-                    if compiled[-1:] != "\n": # assure trailing \n
-                        compiled += '\n'
-                else:
-                    compiled = self.serializeCondensed(tree, format_)
-
+                compiled = self.serializeTree(tree, optimize, format_)
                 if not "statics" in optimize:
                     cache.write(cacheId, compiled)
 
         return compiled
 
+    def serializeTree(self, tree, optimize, format_=False):
+        if not "whitespace" in optimize:
+            compiled = self.serializeFormatted(tree)
+        else:
+            compiled = self.serializeCondensed(tree, format_)
+
+        if format_ and compiled[-1:] != "\n":
+            compiled += '\n' # assure trailing \n
+        return compiled
 
     ##
     # Interface to ecmascript.backend
@@ -245,8 +260,7 @@ class MClassCode(object):
         def optimizeTree(tree):
 
             try:
-                if ["comments"] == optimize:
-                    # do a mere comment stripping
+                if "comments" in optimize:
                     commentoptimizer.patch(tree)
 
                 # "variants" prunes parts of the tree, so all subsequent optimizations benefit
@@ -330,13 +344,16 @@ class MClassCode(object):
 
 
     def _stringOptimizer(self, tree):
-        stringMap = stringoptimizer.search(tree)
+        # string optimization works over a list of statements,
+        # so extract the <file>'s <statements> node
+        statementsNode = tree.getChild("statements")
+        stringMap = stringoptimizer.search(statementsNode)
 
         if len(stringMap) == 0:
             return tree
 
         stringList = stringoptimizer.sort(stringMap)
-        stringoptimizer.replace(tree, stringList)
+        stringoptimizer.replace(statementsNode, stringList)
 
         # Build JS string fragments
         stringStart = "(function(){"
@@ -347,14 +364,15 @@ class MClassCode(object):
         wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop, self.id + "||stringopt")
 
         # Reorganize structure
-        funcBody = wrapperNode.getChild("operand").getChild("group").getChild("function").getChild("body").getChild("block")
-        if tree.hasChildren():
-            for child in copy.copy(tree.children):
-                tree.removeChild(child)
-                funcBody.addChild(child)
+        funcStatements = (wrapperNode.getChild("operand").getChild("group").getChild("function")
+                    .getChild("body").getChild("block").getChild("statements"))
+        if statementsNode.hasChildren():
+            for child in statementsNode.children[:]:
+                statementsNode.removeChild(child)
+                funcStatements.addChild(child)
 
-        # Add wrapper to tree
-        tree.addChild(wrapperNode)
+        # Add wrapper to now empty statements node
+        statementsNode.addChild(wrapperNode)
 
         return tree
 

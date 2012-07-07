@@ -2,7 +2,7 @@
 
 Image clipping and combining
 ****************************
-qooxdoo integrates the support for clipping and combining images in the framework and both features are heavily used within the framework mainly in the different themes like :doc:`appearance or decoration theme </pages/gui_toolkit/ui_theming>`.
+qooxdoo integrates the support for clipping and combining images in the framework and both features are heavily used within the framework mainly in the different themes like :doc:`appearance or decoration theme </pages/desktop/ui_theming>`.
 
 .. _pages/image_clipping_and_combining#setup:
 
@@ -11,7 +11,7 @@ Setup
 
 .. note::
 
-    To be able to use image clipping and combining you need an installed :doc:`ImageMagick </pages/introduction/third_party_components>` package.
+    To be able to use image clipping and combining you need an installed :doc:`ImageMagick </pages/introduction/third_party_components>` package. The latest version known to work is 6.6.1.
 
 
 To use the two features you have to create a config file which can be used by the generator to clip or combine images. Altough it is possible to integrate the jobs for clipping and combining in your ``config.json`` file of your application, **the better way** is to create an own config file for the image manipuations to separate it from the application configuration. 

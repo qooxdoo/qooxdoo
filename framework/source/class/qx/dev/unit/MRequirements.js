@@ -111,19 +111,6 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
     },
 
 
-    /**
-     * Checks if the application has been loaded over HTTPS.
-     *
-     * @return {Boolean} Whether SSL is currently used
-     * @deprecated since 1.6
-     */
-    hasSsl : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-      "use require([\"io.ssl\"]) instead.");
-      return this.require(["io.ssl"]);
-    },
-
 
     /**
      * Checks if the application has been loaded over HTTP.
@@ -217,35 +204,6 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
       } catch(ex) {
         return false;
       }
-    },
-
-
-    /**
-     * Checks if the device running the application is touch-enabled
-     *
-     * @return {Boolean} Whether the application is running on a touch-enabled
-     * device
-     * @deprecated since 1.6
-     */
-    hasTouch : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-      "use require([\"event.touch\"]) instead.");
-      return this.require(["event.touch"]);
-    },
-
-
-    /**
-     * Checks if the browser running the application has a Flash plugin
-     *
-     * @return {Boolean} Whether the browser has a Flash plugin
-     * @deprecated since 1.6
-     */
-    hasFlash : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-      "use require([\"plugin.flash\"]) instead.");
-      return this.require(["plugin.flash"]);
     },
 
 

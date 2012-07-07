@@ -85,12 +85,11 @@ qx.Class.define("widgetbrowser.pages.Misc",
       this.__vbox.add(slideBar);
 
       // Pop-Up
-      label = new qx.ui.basic.Label("Pop-Up");
+      label = new qx.ui.basic.Label("Tooltip");
       var popup = new qx.ui.popup.Popup(new qx.ui.layout.Canvas()).set({
-        backgroundColor: "#FFFAD3",
-        padding: [2, 4],
         offset : 3,
-        offsetBottom : 20
+        offsetBottom : 20,
+        appearance: "tooltip"
       });
       popup.set({
         allowStretchX: false,

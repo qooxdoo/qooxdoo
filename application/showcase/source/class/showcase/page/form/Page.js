@@ -70,7 +70,7 @@ qx.Class.define("showcase.page.form.Page",
     },
 
     __manual : {
-      "pages/gui_toolkit/ui_form_handling.html": "Form handling"
+      "pages/desktop/ui_form_handling.html": "Form handling"
     },
 
     __demos : {

@@ -1,0 +1,202 @@
+{
+  "name"    : "${Name}",
+
+  "include" :
+  [
+    {
+      "path" : "$${QOOXDOO_PATH}/tool/data/config/application.json",
+      "block" : ["test", "test-source"]
+    },
+    {
+      "path" : "$${QOOXDOO_PATH}/component/standalone/server/server.json",
+      "as"   : "server"
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "api-data",
+    "build",
+    "clean",
+    "distclean",
+    "fix",
+    "info",
+    "lint",
+    "library",
+    "migration",
+    "pretty",
+    "profiling",
+    "source",
+    "test",
+    "test-source",
+    "translation"
+  ],
+  
+  "default-job" : "source",
+
+  "let" :
+  {
+    "APPLICATION"  : "${Namespace}",
+    "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${Cache}",
+    "ROOT"         : "."
+  },
+
+  "config-warnings" :
+  {
+    "job-shadowing" : ["source", "build-resources", "build-script", "build-files", "api"]
+  },
+
+  // You only need to edit the remainder of this file, if you want to customize
+  // specific jobs, or add own job definitions.
+
+  "jobs" :
+  {
+    "basic-common" :
+    {
+      "config-warnings" :
+      {
+        "exclude" :
+        [
+          "qx.event.GlobalError",
+          "qx.core.Init"
+        ]
+      },
+
+      "library" :
+      [
+        {
+          "manifest" : "$${QOOXDOO_PATH}/framework/Manifest.json"
+        }
+      ],
+
+      "extend" : [ "cache" ],
+      
+      "=include" : 
+      [
+        //"qx.Class",
+        //"qx.Mixin",
+        //"qx.Interface",
+        "qx.core.BaseInit",
+        "$${APPLICATION}.Application"
+      ],
+      
+      "exclude" :
+      [
+        "qx.event.GlobalError",
+        "qx.core.Init"
+      ],
+
+      "environment" :
+      {
+        "qx.aspects" : false,
+        "qx.globalErrorHandling" : false
+      },
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "app-root" : ".",
+          "loader-template" : "$${QOOXDOO_PATH}/tool/data/generator/basic.loader.js"
+        },
+        "uris" :
+        {
+          "script"   : ".",
+          "resource" : "."
+        }
+      }
+    },
+
+
+    "source" :
+    {
+      "desc" : "create source version of current application",
+      "extend" : [ "basic-common" ],
+      "environment" :
+      {
+        "qx.debug" : true
+      },
+      "compile-options" :
+      {
+        "paths" : { "app-root" : "source/script" }
+      }
+    },
+
+
+    "build-script" :
+    {
+      "extend" : [ "basic-common" ],
+      "environment" :
+      {
+        "qx.debug" : false
+      },
+      "compile-options" :
+      {
+        "uris" : 
+        { 
+          "script" : "." 
+        }
+      }
+    },
+
+
+    "build-resources":
+    {
+      "extend" : [ "basic-common" ]
+    },
+
+
+    "build-files" : 
+    {
+      "extend" : [ "basic-common" ]
+    },
+
+    "library" : 
+    {
+      "desc" : "create a local 'server' library",
+      "extend" : ["server::build-min"],
+      "let" : {
+        "BUILD_PATH" : "./script"
+      }
+    },
+
+    "run" : 
+    {
+      "shell" : {
+        "command" : "java -cp js.jar org.mozilla.javascript.tools.shell.Main $${BUILD}/script/${Namespace}.js"
+      }
+    },
+
+    "run-source" : {
+      "extend" : ["run"],
+      "let"    : { "BUILD" : "source" }
+    },
+
+    "run-build" : {
+      "extend" : ["run"],
+      "let"    : { "BUILD" : "build" }
+    },
+
+    "test" :
+    {
+      "extend" : ["test-basic"]
+    },
+
+    "test-source" :
+    {
+      "extend" : ["test-basic-source"]
+    },
+
+    "api" :
+    {
+      "let" :
+      {
+        "API_INCLUDE" : ["qx.core.BaseInit", "$${APPLICATION}.Application"],
+        "API_EXCLUDE" : ["qx.test.*", "$${APPLICATION}.test.*", "qx.bom.*", "qx.dom.*"]
+      }
+    }
+  }
+}

@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6610 $"/>
+		<generation date="$Date: 2012-02-27 01:50:26 +0100 (Mon, 27 Feb 2012) $"/>
 		<language type="fr"/>
 	</identity>
 	<localeDisplayNames>
@@ -699,7 +699,6 @@
 			<territory type="054">Mélanésie</territory>
 			<territory type="057">région micronésienne</territory>
 			<territory type="061">Polynésie</territory>
-			<territory type="062">Asie centrale et du Sud</territory>
 			<territory type="142">Asie</territory>
 			<territory type="143">Asie centrale</territory>
 			<territory type="145">Asie occidentale</territory>
@@ -707,9 +706,7 @@
 			<territory type="151">Europe orientale</territory>
 			<territory type="154">Europe septentrionale</territory>
 			<territory type="155">Europe occidentale</territory>
-			<territory type="172">Communauté des États indépendants</territory>
 			<territory type="419">Amérique latine</territory>
-			<territory type="830">Îles Anglo-normandes</territory>
 			<territory type="AC">Île de l'Ascension</territory>
 			<territory type="AD">Andorre</territory>
 			<territory type="AE">Émirats arabes unis</territory>
@@ -1034,7 +1031,6 @@
 			<type type="coptic" key="calendar">Calendrier copte</type>
 			<type type="deva" key="numbers" draft="contributed">chiffres devanagaris</type>
 			<type type="dictionary" key="collation">Ordre du dictionnaire</type>
-			<type type="direct" key="collation">Ordre direct</type>
 			<type type="ducet" key="collation">table d'ordonnancement par défaut d'Unicode</type>
 			<type type="ethi" key="numbers" draft="contributed">chiffres éthiopiens</type>
 			<type type="ethiopic" key="calendar">Calendrier éthiopien</type>
@@ -1105,12 +1101,26 @@
 			<codePattern type="territory">région : {0}</codePattern>
 		</codePatterns>
 	</localeDisplayNames>
+	<contextTransforms>
+		<contextTransformUsage type="day-format-except-narrow">
+			<contextTransform type="stand-alone">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="day-standalone-except-narrow">
+			<contextTransform type="stand-alone">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="month-format-except-narrow">
+			<contextTransform type="stand-alone">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="month-standalone-except-narrow">
+			<contextTransform type="stand-alone">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+	</contextTransforms>
 	<characters>
 		<exemplarCharacters>[a à â æ b c ç d e é è ê ë f g h i î ï j k l m n o ô œ p q r s t u ù û ü v w x y ÿ z]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[á å ä ã ā ē í ì ī ñ ó ò ö ø ú ǔ]</exemplarCharacters>
 		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="contributed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
-		<exemplarCharacters type="punctuation">[\- ‐ – — , ; \: ! ? . … ’ « » ( ) \[ \] @ * / \&amp; # † ‡ §]</exemplarCharacters>
+		<exemplarCharacters type="punctuation">[\- ‐ – — , ; \: ! ? . … ’ « » ( ) \[ \] § @ * / \&amp; # † ‡]</exemplarCharacters>
 		<ellipsis type="final" draft="contributed">{0}...</ellipsis>
 		<ellipsis type="initial" draft="contributed">...{0}</ellipsis>
 		<ellipsis type="medial" draft="contributed">{0}...{1}</ellipsis>
@@ -1119,13 +1129,12 @@
 		</stopwords>
 	</characters>
 	<delimiters>
-		<quotationStart>«</quotationStart>
-		<quotationEnd>»</quotationEnd>
-		<alternateQuotationStart>“</alternateQuotationStart>
-		<alternateQuotationEnd>”</alternateQuotationEnd>
+        <quotationStart>“</quotationStart>
+        <quotationEnd>”</quotationEnd>
+        <alternateQuotationStart>«</alternateQuotationStart>
+        <alternateQuotationEnd>»</alternateQuotationEnd>
 	</delimiters>
 	<dates>
-		<dateRangePattern>{0} – {1}</dateRangePattern>
 		<calendars>
 			<calendar type="buddhist">
 				<eras>
@@ -1169,33 +1178,32 @@
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="contributed">EEE d</dateFormatItem>
 						<dateFormatItem id="Gy">y G</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">EEE d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E d/M</dateFormatItem>
 						<dateFormatItem id="MMd">d/MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMdd">dd MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">EEE d MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y G</dateFormatItem>
 						<dateFormatItem id="yM">M/y G</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y G</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE d/M/y G</dateFormatItem>
+						<dateFormatItem id="yMEd">E d/M/y G</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y G</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE d MMM y G</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E d MMM y G</dateFormatItem>
 						<dateFormatItem id="yQ">'T'Q y G</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y G</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/y G</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd">EEE d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyMMMEd">E d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyQ">'T'Q y G</dateFormatItem>
 						<dateFormatItem id="yyQQQQ">QQQQ y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
@@ -1238,49 +1246,43 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">EEEE d MMMMl y'x'G</pattern>
+							<pattern>EEEE d MMMM U</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="unconfirmed">d MMMMl y'x'G</pattern>
+							<pattern>d MMMM U</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="unconfirmed">d MMMl y'x'G</pattern>
+							<pattern>d MMM U</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern draft="unconfirmed">d/Ml/y'x'G</pattern>
+							<pattern>d/M/y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="M" draft="unconfirmed">Ml</dateFormatItem>
-						<dateFormatItem id="Md" draft="unconfirmed">d/Ml</dateFormatItem>
-						<dateFormatItem id="MEd" draft="unconfirmed">EEE d/Ml</dateFormatItem>
-						<dateFormatItem id="MMd" draft="unconfirmed">d/MMl</dateFormatItem>
-						<dateFormatItem id="MMdd" draft="unconfirmed">dd/MMl</dateFormatItem>
-						<dateFormatItem id="MMM" draft="unconfirmed">MMMl</dateFormatItem>
-						<dateFormatItem id="MMMd" draft="unconfirmed">d MMMl</dateFormatItem>
-						<dateFormatItem id="MMMdd" draft="unconfirmed">dd MMMl</dateFormatItem>
-						<dateFormatItem id="MMMEd" draft="unconfirmed">E d MMMl</dateFormatItem>
-						<dateFormatItem id="ms" draft="unconfirmed">m:ss</dateFormatItem>
-						<dateFormatItem id="y" draft="unconfirmed">y'x'G</dateFormatItem>
-						<dateFormatItem id="yM" draft="unconfirmed">Ml/y'x'G</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="unconfirmed">EEE d/Ml/y'x'G</dateFormatItem>
-						<dateFormatItem id="yMMM" draft="unconfirmed">MMMl y'x'G</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="unconfirmed">EEE d MMMl y'x'G</dateFormatItem>
-						<dateFormatItem id="yQ" draft="unconfirmed">'T'Q y'x'G</dateFormatItem>
-						<dateFormatItem id="yQQQ" draft="unconfirmed">QQQ y'x'G</dateFormatItem>
-						<dateFormatItem id="yyMM" draft="unconfirmed">MMl/y'x'G</dateFormatItem>
-						<dateFormatItem id="yyMMM" draft="unconfirmed">MMMl yy</dateFormatItem>
-						<dateFormatItem id="yyMMMd" draft="unconfirmed">d MMMl yy</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd" draft="unconfirmed">EEE d MMMl yy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMMl y'x'G</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E d/M</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">U</dateFormatItem>
+						<dateFormatItem id="yM">M/y</dateFormatItem>
+						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E d/M/y</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM U</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM U</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E d MMM U</dateFormatItem>
+						<dateFormatItem id="yQ">'T'Q U</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ U</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -1637,35 +1639,34 @@
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="contributed">EEE d</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">EEE d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E d/M</dateFormatItem>
 						<dateFormatItem id="MMd">d/MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMdd">dd MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">EEE d MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/yyyy</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE d/M/yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd">E d/M/yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
 						<dateFormatItem id="yQ">'T'Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/yy</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
 						<dateFormatItem id="yyMMMd">d MMM yy</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd">EEE d MMM yy</dateFormatItem>
+						<dateFormatItem id="yyMMMEd">E d MMM yy</dateFormatItem>
 						<dateFormatItem id="yyQ">'T'Q yy</dateFormatItem>
 						<dateFormatItem id="yyQQQQ">QQQQ yy</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y</dateFormatItem>
@@ -2019,28 +2020,28 @@
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">EEE d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E d/M</dateFormatItem>
 						<dateFormatItem id="MMd">d/MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMdd">dd MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">EEE d MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/y G</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd">EEE d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyMMMEd">E d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyQ">'T'Q y G</dateFormatItem>
 						<dateFormatItem id="yyQQQQ">QQQQ y G</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">d/M/y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE d/M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E d/M/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">'T'Q y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
@@ -2076,35 +2077,34 @@
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="contributed">EEE d</dateFormatItem>
 						<dateFormatItem id="Gy">y G</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">EEE d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E d/M</dateFormatItem>
 						<dateFormatItem id="MMd">d/MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMdd">dd MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">EEE d MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y G</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd">EEE d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyMMMEd">E d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyQ">'T'Q y G</dateFormatItem>
 						<dateFormatItem id="yyQQQQ">QQQQ y G</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyM">M/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMd">d/M/y GGGGG</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE d/M/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E d/M/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">'T'Q y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
@@ -2146,35 +2146,34 @@
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="contributed">EEE d</dateFormatItem>
 						<dateFormatItem id="Gy">y G</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">EEE d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E d/M</dateFormatItem>
 						<dateFormatItem id="MMd">d/MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMdd">dd MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">EEE d MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y G</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd">EEE d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyMMMEd">E d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyQ">'T'Q y G</dateFormatItem>
 						<dateFormatItem id="yyQQQQ">QQQQ y G</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyM">M/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMd">d/M/y GGGGG</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE d/M/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E d/M/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">EEE d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">'T'Q y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
@@ -2726,14 +2725,14 @@
 			<metazone type="Acre">
 				<long>
 					<generic>heure de l’Acre</generic>
-					<standard>heure de l’Acre</standard>
+					<standard>heure normale de l’Acre</standard>
 					<daylight>heure avancée de l’Acre</daylight>
 				</long>
 			</metazone>
 			<metazone type="Afghanistan">
 				<long>
 					<generic>heure d’Afghanistan</generic>
-					<standard>heure d’Afghanistan</standard>
+					<standard>heure normale d’Afghanistan</standard>
 					<daylight>heure avancée d’Afghanistan</daylight>
 				</long>
 			</metazone>
@@ -2803,7 +2802,7 @@
 			<metazone type="Amazon">
 				<long>
 					<generic>heure de l’Amazonie</generic>
-					<standard>heure de l’Amazonie</standard>
+					<standard>heure normale de l’Amazonie</standard>
 					<daylight>heure avancée de l’Amazonie</daylight>
 				</long>
 			</metazone>
@@ -2813,11 +2812,6 @@
 					<standard>heure normale du Centre</standard>
 					<daylight>heure avancée du Centre</daylight>
 				</long>
-				<short>
-					<generic>HC</generic>
-					<standard>HNC</standard>
-					<daylight>HAC</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Eastern">
 				<long>
@@ -2825,11 +2819,6 @@
 					<standard>heure normale de l’Est</standard>
 					<daylight>heure avancée de l’Est</daylight>
 				</long>
-				<short>
-					<generic>HE</generic>
-					<standard>HNE</standard>
-					<daylight>HAE</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Mountain">
 				<long>
@@ -2837,11 +2826,6 @@
 					<standard>heure normale des Rocheuses</standard>
 					<daylight>heure avancée des Rocheuses</daylight>
 				</long>
-				<short>
-					<generic>HR</generic>
-					<standard>HNR</standard>
-					<daylight>HAR</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Pacific">
 				<long>
@@ -2849,30 +2833,25 @@
 					<standard>heure normale du Pacifique</standard>
 					<daylight>heure avancée du Pacifique</daylight>
 				</long>
-				<short>
-					<generic>HP</generic>
-					<standard>HNP</standard>
-					<daylight>HAP</daylight>
-				</short>
 			</metazone>
 			<metazone type="Anadyr">
 				<long>
 					<generic>heure d’Anadyr</generic>
-					<standard>heure d’Anadyr</standard>
+					<standard>heure normale d’Anadyr</standard>
 					<daylight>heure avancée d’Anadyr</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aqtau">
 				<long>
 					<generic>heure d’Aktaou</generic>
-					<standard>heure d’Aktaou</standard>
+					<standard>heure normale d’Aktaou</standard>
 					<daylight>heure avancée d’Aktaou</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aqtobe">
 				<long>
 					<generic>heure d’Aqtöbe</generic>
-					<standard>heure d’Aqtöbe</standard>
+					<standard>heure normale d’Aqtöbe</standard>
 					<daylight>heure avancé d’Aqtöbe</daylight>
 				</long>
 			</metazone>
@@ -2885,29 +2864,29 @@
 			</metazone>
 			<metazone type="Argentina">
 				<long>
-					<generic>heure de l’Est argentin</generic>
-					<standard>heure d’Argentine</standard>
-					<daylight>heure avancée de l’Est argentin</daylight>
+					<generic>heure de l’Argentine</generic>
+					<standard>heure normale d’Argentine</standard>
+					<daylight>heure avancée de l’Argentine</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina_Western">
 				<long>
 					<generic>heure de l’Ouest argentin</generic>
-					<standard>heure de l’Ouest argentin</standard>
+					<standard>heure normale de l’Ouest argentin</standard>
 					<daylight>heure avancée de l’Ouest argentin</daylight>
 				</long>
 			</metazone>
 			<metazone type="Armenia">
 				<long>
 					<generic>heure d’Arménie</generic>
-					<standard>heure d’Arménie</standard>
+					<standard>heure normale d’Arménie</standard>
 					<daylight>heure avancée d’Arménie</daylight>
 				</long>
 			</metazone>
 			<metazone type="Ashkhabad">
 				<long>
 					<generic>heure d’Achgabat</generic>
-					<standard>heure d’Achgabat</standard>
+					<standard>heure normale d’Achgabat</standard>
 					<daylight>heure avancée d’Achgabat</daylight>
 				</long>
 			</metazone>
@@ -2917,11 +2896,6 @@
 					<standard>heure normale de l’Atlantique</standard>
 					<daylight>heure avancée de l’Atlantique</daylight>
 				</long>
-				<short>
-					<generic>HA</generic>
-					<standard>HNA</standard>
-					<daylight>HAA</daylight>
-				</short>
 			</metazone>
 			<metazone type="Australia_Central">
 				<long>
@@ -2954,28 +2928,28 @@
 			<metazone type="Azerbaijan">
 				<long>
 					<generic>heure d’Azerbaïdjan</generic>
-					<standard>heure d’Azerbaïdjan</standard>
+					<standard>heure normale d’Azerbaïdjan</standard>
 					<daylight>heure avancée d’Azerbaïdjan</daylight>
 				</long>
 			</metazone>
 			<metazone type="Azores">
 				<long>
 					<generic>heure des Açores</generic>
-					<standard>heure des Açores</standard>
+					<standard>heure normale des Açores</standard>
 					<daylight>heure avancée des Açores</daylight>
 				</long>
 			</metazone>
 			<metazone type="Baku">
 				<long>
 					<generic>heure de Bakou</generic>
-					<standard>heure de Bakou</standard>
+					<standard>heure normale de Bakou</standard>
 					<daylight>heure avancée de Bakou</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bangladesh">
 				<long>
 					<generic>heure du Bangladesh</generic>
-					<standard draft="contributed">heure du Bangladesh</standard>
+					<standard>heure normale du Bangladesh</standard>
 					<daylight>heure avancée du Bangladesh</daylight>
 				</long>
 			</metazone>
@@ -2988,78 +2962,61 @@
 			</metazone>
 			<metazone type="Bhutan">
 				<long>
-					<generic>heure du Bhoutan</generic>
-					<standard draft="contributed">heure du Bhoutan</standard>
-					<daylight>heure avancée du Bhoutan</daylight>
+					<standard>heure du Bhoutan</standard>
 				</long>
 			</metazone>
 			<metazone type="Bolivia">
 				<long>
-					<generic>heure de Bolivie</generic>
 					<standard>heure de Bolivie</standard>
-					<daylight>heure avancée de Bolivie</daylight>
 				</long>
 			</metazone>
 			<metazone type="Borneo">
 				<long>
 					<generic>heure de Bornéo</generic>
-					<standard draft="contributed">heure de Bornéo</standard>
+					<standard>heure normale de Bornéo</standard>
 					<daylight>heure avancée de Bornéo</daylight>
 				</long>
 			</metazone>
 			<metazone type="Brasilia">
 				<long>
 					<generic>heure de Brasilia</generic>
-					<standard>heure de Brasilia</standard>
+					<standard>heure normale de Brasilia</standard>
 					<daylight>heure avancée de Brasilia</daylight>
-				</long>
-			</metazone>
-			<metazone type="British">
-				<long>
-					<generic>heure du Royaume-Uni</generic>
-					<standard>heure normale du Royaume-Uni</standard>
-					<daylight>heure avancée du Royaume-Uni</daylight>
 				</long>
 			</metazone>
 			<metazone type="Brunei">
 				<long>
-					<generic>heure du Brunéi</generic>
-					<standard draft="contributed">heure du Brunéi</standard>
-					<daylight>heure avancée du Brunéi</daylight>
+					<standard>heure du Brunéi</standard>
 				</long>
 			</metazone>
 			<metazone type="Cape_Verde">
 				<long>
 					<generic>heure du Cap-Vert</generic>
-					<standard>heure du Cap-Vert</standard>
+					<standard>heure normale du Cap-Vert</standard>
 					<daylight>heure avancée du Cap-Vert</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chamorro">
 				<long>
-					<generic>heure des Chamorro</generic>
-					<standard>heure normale des Chamorro</standard>
-					<daylight>heure avancée des Chamorro</daylight>
+					<standard>heure des Chamorro</standard>
 				</long>
 			</metazone>
 			<metazone type="Changbai">
 				<long>
-					<generic>heure du Changbai</generic>
-					<standard draft="contributed">heure du Changbai</standard>
-					<daylight>heure avancée du Changbai</daylight>
+					<standard>heure du Changbai</standard>
 				</long>
 			</metazone>
 			<metazone type="Chatham">
 				<long>
 					<generic>heure des îles Chatham</generic>
-					<standard>heure des îles Chatham</standard>
+					<standard>heure normale des îles Chatham</standard>
 					<daylight>heure avancée des îles Chatham</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chile">
 				<long>
 					<generic>heure du Chili</generic>
-					<standard>heure du Chili</standard>
+					<standard>heure normale du Chili</standard>
 					<daylight>heure avancée du Chili</daylight>
 				</long>
 			</metazone>
@@ -3073,35 +3030,31 @@
 			<metazone type="Choibalsan">
 				<long>
 					<generic>heure de Choibalsan</generic>
-					<standard draft="contributed">heure de Choibalsan</standard>
-					<daylight>heure d'été de Choibalsan</daylight>
+					<standard>heure normale de Choibalsan</standard>
+					<daylight>heure avancée de Choibalsan</daylight>
 				</long>
 			</metazone>
 			<metazone type="Christmas">
 				<long>
-					<generic>heure de l’île Christmas</generic>
 					<standard>heure de l’île Christmas</standard>
-					<daylight>heure avancée de l’île Christmas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Cocos">
 				<long>
-					<generic>heure des îles Cocos - Keeling</generic>
 					<standard>heure des îles Cocos</standard>
-					<daylight>heure avancée des îles Cocos - Keeling</daylight>
 				</long>
 			</metazone>
 			<metazone type="Colombia">
 				<long>
 					<generic>heure de Colombie</generic>
-					<standard>heure de Colombie</standard>
+					<standard>heure normale de Colombie</standard>
 					<daylight>heure avancée de Colombie</daylight>
 				</long>
 			</metazone>
 			<metazone type="Cook">
 				<long>
 					<generic>heure des îles Cook</generic>
-					<standard>heure des îles Cook</standard>
+					<standard>heure normale des îles Cook</standard>
 					<daylight>heure avancée des îles Cook</daylight>
 				</long>
 			</metazone>
@@ -3114,64 +3067,47 @@
 			</metazone>
 			<metazone type="Dacca">
 				<long>
-					<generic>heure de Dhâkâ</generic>
 					<standard>heure de Dhâkâ</standard>
-					<daylight>heure avancée de Dhâkâ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Davis">
 				<long>
-					<generic>heure de Davis</generic>
 					<standard>heure de Davis</standard>
-					<daylight>heure avancée de Davis</daylight>
-				</long>
-			</metazone>
-			<metazone type="Dominican">
-				<long>
-					<generic>heure de République dominicaine</generic>
-					<standard>heure normale de République dominicaine</standard>
-					<daylight>heure avancée de République dominicaine</daylight>
 				</long>
 			</metazone>
 			<metazone type="DumontDUrville">
 				<long>
-					<generic>heure de Dumont-d’Urville</generic>
 					<standard>heure de Dumont-d’Urville</standard>
-					<daylight>heure avancée de Dumont-d’Urville</daylight>
 				</long>
 			</metazone>
 			<metazone type="Dushanbe">
 				<long>
 					<generic>heure de Duchanbé</generic>
-					<standard draft="contributed">heure de Duchanbé</standard>
+					<standard>heure normale de Duchanbé</standard>
 					<daylight>heure avancée de Duchanbé</daylight>
 				</long>
 			</metazone>
 			<metazone type="Dutch_Guiana">
 				<long>
-					<generic>heure de Guyane néerlandaise</generic>
 					<standard>heure de Guyane néerlandaise</standard>
-					<daylight>heure avancée de Guyane néerlandaise</daylight>
 				</long>
 			</metazone>
 			<metazone type="East_Timor">
 				<long>
-					<generic>heure du Timor oriental</generic>
-					<standard draft="contributed">heure du Timor oriental</standard>
-					<daylight>heure avancée du Timor oriental</daylight>
+					<standard>heure du Timor oriental</standard>
 				</long>
 			</metazone>
 			<metazone type="Easter">
 				<long>
 					<generic>heure de l’île de Pâques</generic>
-					<standard>heure de l’île de Pâques</standard>
+					<standard>heure normale de l’île de Pâques</standard>
 					<daylight>heure avancée de l’île de Pâques</daylight>
 				</long>
 			</metazone>
 			<metazone type="Ecuador">
 				<long>
 					<generic>heure d’Équateur</generic>
-					<standard>heure d’Équateur</standard>
+					<standard>heure normale d’Équateur</standard>
 					<daylight>heure avancée d’Équateur</daylight>
 				</long>
 			</metazone>
@@ -3181,50 +3117,32 @@
 					<standard>heure normale de l’Europe centrale</standard>
 					<daylight>heure avancée d’Europe centrale</daylight>
 				</long>
-				<short>
-					<generic>HEC</generic>
-					<standard>HNEC</standard>
-					<daylight>HAEC</daylight>
-				</short>
-				<commonlyUsed>false</commonlyUsed>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<generic draft="contributed">heure d’Europe de l’Est</generic>
+					<generic>heure d’Europe de l’Est</generic>
 					<standard>heure normale de l’Europe de l’Est</standard>
 					<daylight>heure avancée d’Europe de l’Est</daylight>
 				</long>
-				<short>
-					<generic>HEE</generic>
-					<standard>HNEE</standard>
-					<daylight>HAEE</daylight>
-				</short>
-				<commonlyUsed>false</commonlyUsed>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
 					<generic>heure d’Europe de l’Ouest</generic>
-					<standard>heure d’Europe de l’Ouest</standard>
+					<standard>heure normale d’Europe de l’Ouest</standard>
 					<daylight>heure avancée d’Europe de l’Ouest</daylight>
 				</long>
-				<short>
-					<generic>HEO</generic>
-					<standard>HNEO</standard>
-					<daylight>HAEO</daylight>
-				</short>
-				<commonlyUsed>false</commonlyUsed>
 			</metazone>
 			<metazone type="Falkland">
 				<long>
 					<generic>heure des îles Malouines</generic>
-					<standard>heure des îles Malouines</standard>
+					<standard>heure normale des îles Malouines</standard>
 					<daylight>heure avancée des îles Malouines</daylight>
 				</long>
 			</metazone>
 			<metazone type="Fiji">
 				<long>
 					<generic>heure des îles Fidji</generic>
-					<standard>heure des îles Fidji</standard>
+					<standard>heure normale des îles Fidji</standard>
 					<daylight>heure avancée des îles Fidji</daylight>
 				</long>
 			</metazone>
@@ -3237,44 +3155,36 @@
 			</metazone>
 			<metazone type="French_Southern">
 				<long>
-					<generic>heure des Terres australes françaises</generic>
 					<standard>heure des Terres australes françaises</standard>
-					<daylight>heure avancée des Terres australes françaises</daylight>
 				</long>
 			</metazone>
 			<metazone type="Frunze">
 				<long>
 					<generic>heure de Frounzé</generic>
-					<standard>heure de Frounzé</standard>
+					<standard>heure normale de Frounzé</standard>
 					<daylight>heure avancée de Frounzé</daylight>
 				</long>
 			</metazone>
 			<metazone type="Galapagos">
 				<long>
-					<generic>heure des îles Galápagos</generic>
 					<standard>heure des îles Galápagos</standard>
-					<daylight>heure avancée des îles Galápagos</daylight>
 				</long>
 			</metazone>
 			<metazone type="Gambier">
 				<long>
-					<generic>heure des îles Gambier</generic>
 					<standard>heure des îles Gambier</standard>
-					<daylight>heure avancée des îles Gambier</daylight>
 				</long>
 			</metazone>
 			<metazone type="Georgia">
 				<long>
 					<generic>heure de Géorgie</generic>
-					<standard draft="contributed">heure de Géorgie</standard>
+					<standard>heure normale de Géorgie</standard>
 					<daylight>heure avancée de Géorgie</daylight>
 				</long>
 			</metazone>
 			<metazone type="Gilbert_Islands">
 				<long>
-					<generic>heure des îles Gilbert</generic>
 					<standard>heure des îles Gilbert</standard>
-					<daylight>heure avancée des îles Gilbert</daylight>
 				</long>
 			</metazone>
 			<metazone type="GMT">
@@ -3292,43 +3202,37 @@
 			<metazone type="Greenland_Central">
 				<long>
 					<generic>heure du Centre du Groenland</generic>
-					<standard>heure du Centre du Groenland</standard>
+					<standard>heure normale du Centre du Groenland</standard>
 					<daylight>heure avancée du Centre du Groenland</daylight>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Eastern">
 				<long>
 					<generic>heure de l’Est du Groenland</generic>
-					<standard>heure de l’Est du Groenland</standard>
+					<standard>heure normale de l’Est du Groenland</standard>
 					<daylight>heure avancée de l’Est du Groenland</daylight>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Western">
 				<long>
 					<generic>heure de l’Ouest du Groenland</generic>
-					<standard>heure de l’Ouest du Groenland</standard>
+					<standard>heure normale de l’Ouest du Groenland</standard>
 					<daylight>heure avancée de l’Ouest du Groenland</daylight>
 				</long>
 			</metazone>
 			<metazone type="Guam">
 				<long>
-					<generic>heure de Guam</generic>
 					<standard>heure de Guam</standard>
-					<daylight>heure avancée de Guam</daylight>
 				</long>
 			</metazone>
 			<metazone type="Gulf">
 				<long>
-					<generic>heure du Golfe</generic>
-					<standard>heure normale du Golfe</standard>
-					<daylight>heure avancée du Golfe</daylight>
+					<standard>heure du Golfe</standard>
 				</long>
 			</metazone>
 			<metazone type="Guyana">
 				<long>
-					<generic>heure du Guyana</generic>
 					<standard>heure du Guyana</standard>
-					<daylight>heure avancée du Guyana</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hawaii_Aleutian">
@@ -3341,57 +3245,45 @@
 			<metazone type="Hong_Kong">
 				<long>
 					<generic>heure de Hong Kong</generic>
-					<standard>heure de Hong Kong</standard>
+					<standard>heure normale de Hong Kong</standard>
 					<daylight>heure avancée de Hong Kong</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
 					<generic>heure de Hovd</generic>
-					<standard>heure de Hovd</standard>
+					<standard>heure normale de Hovd</standard>
 					<daylight>heure avancée de Hovd</daylight>
 				</long>
 			</metazone>
 			<metazone type="India">
 				<long>
-					<generic>heure de l’Inde</generic>
 					<standard>heure normale de l’Inde</standard>
-					<daylight>heure avancée de l’Inde</daylight>
 				</long>
 			</metazone>
 			<metazone type="Indian_Ocean">
 				<long>
-					<generic>heure du Territoire britannique de l’océan Indien</generic>
 					<standard>heure du Territoire britannique de l’océan Indien</standard>
-					<daylight>heure avancée du Territoire britannique de l’océan Indien</daylight>
 				</long>
 			</metazone>
 			<metazone type="Indochina">
 				<long>
-					<generic>heure d’Indochine</generic>
 					<standard>heure d’Indochine</standard>
-					<daylight>heure avancée d’Indochine</daylight>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<generic>heure du Centre indonésien</generic>
-					<standard>heure normale du Centre indonésien</standard>
-					<daylight>heure avancée du Centre indonésien</daylight>
+					<standard>heure du Centre indonésien</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<generic>heure de l’Est indonésien</generic>
-					<standard>heure normale de l’Est indonésien</standard>
-					<daylight>heure avancée de l’Est indonésien</daylight>
+					<standard>heure de l’Est indonésien</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<generic>heure de l’Ouest indonésien</generic>
-					<standard>heure normale de l’Ouest indonésien</standard>
-					<daylight>heure avancée de l’Ouest indonésien</daylight>
+					<standard>heure de l’Ouest indonésien</standard>
 				</long>
 			</metazone>
 			<metazone type="Iran">
@@ -3411,7 +3303,7 @@
 			<metazone type="Irkutsk">
 				<long>
 					<generic>heure d’Irkoutsk</generic>
-					<standard>heure d’Irkoutsk</standard>
+					<standard>heure normale d’Irkoutsk</standard>
 					<daylight>heure avancée d’Irkoutsk</daylight>
 				</long>
 			</metazone>
@@ -3432,42 +3324,34 @@
 			<metazone type="Kamchatka">
 				<long>
 					<generic>heure de Petropavlovsk-Kamchatski</generic>
-					<standard>heure de Petropavlovsk-Kamchatski</standard>
+					<standard>heure normale de Petropavlovsk-Kamchatski</standard>
 					<daylight>heure avancée de Petropavlovsk-Kamchatski</daylight>
 				</long>
 			</metazone>
 			<metazone type="Karachi">
 				<long>
-					<generic>heure de Karâchi</generic>
 					<standard>heure de Karâchi</standard>
-					<daylight>heure avancée de Karâchi</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kashgar">
 				<long>
-					<generic>heure de Kachgar</generic>
 					<standard>heure de Kachgar</standard>
-					<daylight>heure avancée de Kachgar</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
-					<generic>heure de l’Est kazakh</generic>
-					<standard>heure normale de l’Est kazakh</standard>
-					<daylight>heure avancée de l’Est kazakh</daylight>
+					<standard>heure de l’Est kazakh</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
-					<generic>heure de l’Ouest kazakh</generic>
-					<standard>heure normale de l’Ouest kazakh</standard>
-					<daylight>heure avancée de l’Ouest kazakh</daylight>
+					<standard>heure de l’Ouest kazakh</standard>
 				</long>
 			</metazone>
 			<metazone type="Kizilorda">
 				<long>
 					<generic>heure de Kyzylorda</generic>
-					<standard>heure de Kyzylorda</standard>
+					<standard>heure normale de Kyzylorda</standard>
 					<daylight>heure avancée de Kyzylorda</daylight>
 				</long>
 			</metazone>
@@ -3480,44 +3364,38 @@
 			</metazone>
 			<metazone type="Kosrae">
 				<long>
-					<generic>heure de Kosrae</generic>
 					<standard>heure de Kosrae</standard>
-					<daylight>heure avancée de Kosrae</daylight>
 				</long>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
 					<generic>heure de Krasnoïarsk</generic>
-					<standard>heure de Krasnoïarsk</standard>
+					<standard>heure normale de Krasnoïarsk</standard>
 					<daylight>heure avancée de Krasnoïarsk</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kuybyshev">
 				<long>
 					<generic>heure de Kouïbychev</generic>
-					<standard>heure de Kouïbychev</standard>
+					<standard>heure normale de Kouïbychev</standard>
 					<daylight>heure avancée de Kouïbychev</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kwajalein">
 				<long>
-					<generic>heure de Kwajalein</generic>
 					<standard>heure de Kwajalein</standard>
-					<daylight>heure avancée de Kwajalein</daylight>
 				</long>
 			</metazone>
 			<metazone type="Line_Islands">
 				<long>
-					<generic>heure des îles de la Ligne</generic>
-					<standard draft="contributed">heure normale des îles de la Ligne</standard>
-					<daylight>heure avancée des îles de la Ligne</daylight>
+					<standard>heure des îles de la Ligne</standard>
 				</long>
 			</metazone>
 			<metazone type="Lord_Howe">
 				<long>
 					<generic>heure de Lord Howe</generic>
-					<standard draft="contributed">heure standard de Lord Howe</standard>
-					<daylight>heure d'été de Lord Howe</daylight>
+					<standard>heure normale de Lord Howe</standard>
+					<daylight>heure avancée de Lord Howe</daylight>
 				</long>
 			</metazone>
 			<metazone type="Macquarie">
@@ -3527,30 +3405,24 @@
 			</metazone>
 			<metazone type="Magadan">
 				<long>
-					<generic draft="contributed">heure de Magadan</generic>
-					<standard draft="contributed">heure de Magadan</standard>
-					<daylight draft="contributed">heure d'été de Magadan</daylight>
+					<generic>heure de Magadan</generic>
+					<standard>heure normale de Magadan</standard>
+					<daylight>heure avancée de Magadan</daylight>
 				</long>
 			</metazone>
 			<metazone type="Maldives">
 				<long>
-					<generic>heure des Maldives</generic>
-					<standard>heure normale des Maldives</standard>
-					<daylight>heure avancée des Maldives</daylight>
+					<standard>heure des Maldives</standard>
 				</long>
 			</metazone>
 			<metazone type="Marquesas">
 				<long>
-					<generic>heure des îles Marquises</generic>
-					<standard>heure normale des îles Marquises</standard>
-					<daylight>heure avancée des îles Marquises</daylight>
+					<standard>heure des îles Marquises</standard>
 				</long>
 			</metazone>
 			<metazone type="Marshall_Islands">
 				<long>
-					<generic>heure des îles Marshall</generic>
-					<standard>heure normale des îles Marshall</standard>
-					<daylight>heure avancée des îles Marshall</daylight>
+					<standard>heure des îles Marshall</standard>
 				</long>
 			</metazone>
 			<metazone type="Mauritius">
@@ -3562,9 +3434,9 @@
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic draft="contributed">heure de Mongolie</generic>
-					<standard draft="contributed">heure de Oulan-Bator</standard>
-					<daylight draft="contributed">heure d'été de Oulan-Bator</daylight>
+					<generic>heure de Oulan-Bator</generic>
+					<standard>heure normale de Oulan-Bator</standard>
+					<daylight>heure avancée de Oulan-Bator</daylight>
 				</long>
 			</metazone>
 			<metazone type="Moscow">
@@ -3576,9 +3448,7 @@
 			</metazone>
 			<metazone type="Nauru">
 				<long>
-					<generic>heure de Nauru</generic>
-					<standard>heure normale de Nauru</standard>
-					<daylight>heure avancée de Nauru</daylight>
+					<standard>heure de Nauru</standard>
 				</long>
 			</metazone>
 			<metazone type="New_Caledonia">
@@ -3601,130 +3471,100 @@
 					<standard>heure normale de Terre-Neuve</standard>
 					<daylight>heure avancée de Terre-Neuve</daylight>
 				</long>
-				<short>
-					<generic>HT</generic>
-					<standard>HNT</standard>
-					<daylight>HAT</daylight>
-				</short>
-				<commonlyUsed>false</commonlyUsed>
 			</metazone>
 			<metazone type="Niue">
 				<long>
-					<generic>heure de Nioué</generic>
-					<standard>heure normale de Nioué</standard>
-					<daylight>heure avancée de Nioué</daylight>
+					<standard>heure de Nioué</standard>
 				</long>
 			</metazone>
 			<metazone type="Norfolk">
 				<long>
-					<generic>heure de Norfolk</generic>
-					<standard>heure normale de Norfolk</standard>
-					<daylight>heure avancée de Norfolk</daylight>
+					<standard>heure de Norfolk</standard>
 				</long>
 			</metazone>
 			<metazone type="Noronha">
 				<long>
-					<generic>heure de Noronha</generic>
-					<standard>heure de Fernando de Noronha</standard>
-					<daylight>heure d'été de Fernando de Noronha</daylight>
+					<generic>heure de Fernando de Noronha</generic>
+					<standard>heure normale de Fernando de Noronha</standard>
+					<daylight>heure avancée de Fernando de Noronha</daylight>
 				</long>
 			</metazone>
 			<metazone type="North_Mariana">
 				<long>
-					<generic>heure des îles Mariannes du Nord</generic>
-					<standard>heure normale des îles Mariannes du Nord</standard>
-					<daylight>heure avancée des îles Mariannes du Nord</daylight>
+					<standard>heure des îles Mariannes du Nord</standard>
 				</long>
 			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
 					<generic draft="contributed">heure de Novossibirsk</generic>
-					<standard draft="contributed">heure de Novossibirsk</standard>
-					<daylight draft="contributed">heure d'été de Novossibirsk</daylight>
+					<standard draft="contributed">heure normale de Novossibirsk</standard>
+					<daylight draft="contributed">heure avancée de Novossibirsk</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
-					<generic draft="contributed">heure de Omsk</generic>
-					<standard draft="contributed">heure d'Omsk</standard>
-					<daylight draft="contributed">heure d'été de Omsk</daylight>
+					<generic>heure de Omsk</generic>
+					<standard>heure normale de Omsk</standard>
+					<daylight>heure avancée de Omsk</daylight>
 				</long>
 			</metazone>
 			<metazone type="Palau">
 				<long>
-					<generic>heure de Palaos</generic>
-					<standard>heure normale de Palaos</standard>
-					<daylight>heure avancée de Palaos</daylight>
+					<standard>heure de Palaos</standard>
 				</long>
 			</metazone>
 			<metazone type="Papua_New_Guinea">
 				<long>
-					<generic>heure de Papouasie-Nouvelle-Guinée</generic>
-					<standard>heure normale de Papouasie-Nouvelle-Guinée</standard>
-					<daylight>heure avancée de Papouasie-Nouvelle-Guinée</daylight>
+					<standard>heure de Papouasie-Nouvelle-Guinée</standard>
 				</long>
 			</metazone>
 			<metazone type="Phoenix_Islands">
 				<long>
-					<generic>heure des îles Phoenix</generic>
-					<standard>heure normale des îles Phoenix</standard>
-					<daylight>heure avancée des îles Phoenix</daylight>
+					<standard>heure des îles Phoenix</standard>
 				</long>
 			</metazone>
 			<metazone type="Pitcairn">
 				<long>
-					<generic>heure de Pitcairn</generic>
-					<standard>heure normale de Pitcairn</standard>
-					<daylight>heure avancée de Pitcairn</daylight>
+					<standard>heure de Pitcairn</standard>
 				</long>
 			</metazone>
 			<metazone type="Ponape">
 				<long>
-					<generic>heure de Ponape</generic>
-					<standard>heure normale de Ponape</standard>
-					<daylight>heure avancée de Ponape</daylight>
+					<standard>heure de Ponape</standard>
 				</long>
 			</metazone>
 			<metazone type="Reunion">
 				<long>
-					<generic>heure de la Réunion</generic>
-					<standard>heure normale de la Réunion</standard>
-					<daylight>heure avancée de la Réunion</daylight>
+					<standard>heure de la Réunion</standard>
 				</long>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
-					<generic draft="contributed">heure de Sakhalin</generic>
-					<standard draft="contributed">heure de Sakhalin</standard>
-					<daylight draft="contributed">heure d'été de Sakhalin</daylight>
+					<generic>heure de Sakhalin</generic>
+					<standard>heure normale de Sakhalin</standard>
+					<daylight>heure avancée de Sakhalin</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
 					<generic>heure de Samara</generic>
-					<standard>heure de Samara</standard>
+					<standard>heure normale de Samara</standard>
 					<daylight>heure avancée de Samara</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samoa">
 				<long>
-					<generic>heure de Samoa</generic>
-					<standard>heure normale de Samoa</standard>
-					<daylight>heure avancée de Samoa</daylight>
+					<standard>heure de Samoa</standard>
 				</long>
 			</metazone>
 			<metazone type="Seychelles">
 				<long>
-					<generic>heure des Seychelles</generic>
-					<standard>heure normale des Seychelles</standard>
-					<daylight>heure avancée des Seychelles</daylight>
+					<standard>heure des Seychelles</standard>
 				</long>
 			</metazone>
 			<metazone type="Solomon">
 				<long>
-					<generic>heure des îles Salomon</generic>
-					<standard>heure normale des îles Salomon</standard>
-					<daylight>heure avancée des îles Salomon</daylight>
+					<standard>heure des îles Salomon</standard>
 				</long>
 			</metazone>
 			<metazone type="South_Georgia">
@@ -3734,44 +3574,36 @@
 			</metazone>
 			<metazone type="Tahiti">
 				<long>
-					<generic>heure de Tahiti</generic>
-					<standard>heure normale de Tahiti</standard>
-					<daylight>heure avancée de Tahiti</daylight>
+					<standard>heure de Tahiti</standard>
 				</long>
 			</metazone>
 			<metazone type="Tokelau">
 				<long>
-					<generic>heure de Tokelau</generic>
-					<standard>heure normale de Tokelau</standard>
-					<daylight>heure avancée de Tokelau</daylight>
+					<standard>heure de Tokelau</standard>
 				</long>
 			</metazone>
 			<metazone type="Tonga">
 				<long>
 					<generic>heure de Tonga</generic>
 					<standard>heure normale de Tonga</standard>
-					<daylight draft="unconfirmed">heure avancée de Tonga</daylight>
+					<daylight>heure avancée de Tonga</daylight>
 				</long>
 			</metazone>
 			<metazone type="Truk">
 				<long>
-					<generic>heure de Truk</generic>
-					<standard>heure normale de Truk</standard>
-					<daylight>heure avancée de Truk</daylight>
+					<standard>heure de Truk</standard>
 				</long>
 			</metazone>
 			<metazone type="Turkey">
 				<long>
 					<generic>heure de Turquie</generic>
-					<standard>heure de Turquie</standard>
+					<standard>heure normale de Turquie</standard>
 					<daylight>heure avancée de Turquie</daylight>
 				</long>
 			</metazone>
 			<metazone type="Tuvalu">
 				<long>
-					<generic>heure des Tuvalu</generic>
-					<standard draft="unconfirmed">heure normale des Tuvalu</standard>
-					<daylight>heure avancée des Tuvalu</daylight>
+					<standard>heure des Tuvalu</standard>
 				</long>
 			</metazone>
 			<metazone type="Vanuatu">
@@ -3783,44 +3615,40 @@
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
-					<generic draft="contributed">heure de Vladivostok</generic>
-					<standard draft="contributed">heure de Vladivostok</standard>
-					<daylight draft="contributed">heure d'été de Vladivostok</daylight>
+					<generic>heure de Vladivostok</generic>
+					<standard>heure normale de Vladivostok</standard>
+					<daylight>heure avancée de Vladivostok</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
 					<generic>heure de Volgograd</generic>
-					<standard>heure de Volgograd</standard>
+					<standard>heure normale de Volgograd</standard>
 					<daylight>heure avancée de Volgograd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Wake">
 				<long>
-					<generic>heure de l’île Wake</generic>
-					<standard draft="unconfirmed">heure normale de l’île Wake</standard>
-					<daylight>heure avancée de l’île Wake</daylight>
+					<standard>heure de l’île Wake</standard>
 				</long>
 			</metazone>
 			<metazone type="Wallis">
 				<long>
-					<generic>heure de Wallis-et-Futuna</generic>
-					<standard draft="unconfirmed">heure normale de Wallis-et-Futuna</standard>
-					<daylight>heure avancée de Wallis-et-Futuna</daylight>
+					<standard>heure de Wallis-et-Futuna</standard>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
-					<generic draft="contributed">heure de Iakutsk</generic>
-					<standard draft="contributed">heure de Iakutsk</standard>
-					<daylight draft="contributed">heure d'été de Iakutsk</daylight>
+					<generic>heure de Iakutsk</generic>
+					<standard>heure normale de Iakutsk</standard>
+					<daylight>heure avancée de Iakutsk</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
-					<generic draft="contributed">heure de Ekaterinbourg</generic>
-					<standard draft="contributed">heure de Ekaterinbourg</standard>
-					<daylight draft="contributed">heure d'été de Ekaterinbourg</daylight>
+					<generic>heure de Ekaterinbourg</generic>
+					<standard>heure normale de Ekaterinbourg</standard>
+					<daylight>heure avancée de Ekaterinbourg</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yukon">
@@ -3845,7 +3673,7 @@
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
@@ -3853,36 +3681,36 @@
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" draft="contributed">0.0 k</pattern>
-					<pattern type="10000" draft="contributed">00 k</pattern>
-					<pattern type="100000" draft="contributed">000 k</pattern>
+					<pattern type="1000" draft="contributed">0000</pattern>
+					<pattern type="10000" draft="contributed">00000</pattern>
+					<pattern type="100000" draft="contributed">000000</pattern>
 					<pattern type="1000000">0.0 M</pattern>
 					<pattern type="10000000">00 M</pattern>
 					<pattern type="100000000">000 M</pattern>
-					<pattern type="1000000000">0.0 G</pattern>
-					<pattern type="10000000000">00 G</pattern>
-					<pattern type="100000000000">000 G</pattern>
-					<pattern type="1000000000000">0.0 T</pattern>
-					<pattern type="10000000000000">00 T</pattern>
-					<pattern type="100000000000000">000 T</pattern>
+					<pattern type="1000000000" draft="contributed">0.0 Md</pattern>
+					<pattern type="10000000000" draft="contributed">00 Mds</pattern>
+					<pattern type="100000000000" draft="contributed">000 Mds</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0 Bn</pattern>
+					<pattern type="10000000000000" draft="contributed">00 Bn</pattern>
+					<pattern type="100000000000000" draft="contributed">000 Bn</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern>#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##0 %</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>

@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="mk"/>
 	</identity>
 	<localeDisplayNames>
@@ -581,7 +581,6 @@
 			<territory type="054">Меланезија</territory>
 			<territory type="057">Микронезиски регион</territory>
 			<territory type="061">Полинезија</territory>
-			<territory type="062">Јужно-централна Азија</territory>
 			<territory type="142">Азија</territory>
 			<territory type="143">Централна Азија</territory>
 			<territory type="145">Западна Азија</territory>
@@ -589,7 +588,6 @@
 			<territory type="151">Источна Европа</territory>
 			<territory type="154">Северна Европа</territory>
 			<territory type="155">Западна Европа</territory>
-			<territory type="172">Комонвелт на независни држави</territory>
 			<territory type="419">Латинска Америка</territory>
 			<territory type="AC">Остров Асенсион</territory>
 			<territory type="AD">Андора</territory>
@@ -870,7 +868,6 @@
 			<type type="buddhist" key="calendar">Будистички календар</type>
 			<type type="chinese" key="calendar">Кинески календар</type>
 			<type type="coptic" key="calendar">Коптски календар</type>
-			<type type="direct" key="collation">Директно сортирање</type>
 			<type type="ethiopic" key="calendar">Етиопски календар</type>
 			<type type="ethiopic-amete-alem" key="calendar">Етиопски Амет Алем календар</type>
 			<type type="gb2312han" key="collation">Поедноставено кинеско сортирање</type>
@@ -903,6 +900,12 @@
 		<exemplarCharacters type="currencySymbol">[a b c č d e f g h i j k l ł m n o º p q r s t u v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index">[А Б В Г Д Ѓ Е Ж З Ѕ И Ј К Л Љ М Н Њ О П Р С Т Ќ У Ф Х Ц Ч Џ Ш]</exemplarCharacters>
 	</characters>
+	<delimiters>
+		<quotationStart>„</quotationStart>
+		<quotationEnd>“</quotationEnd>
+		<alternateQuotationStart>‚</alternateQuotationStart>
+		<alternateQuotationEnd>‘</alternateQuotationEnd>
+	</delimiters>
 	<dates>
 		<calendars>
 			<calendar type="gregorian">
@@ -1072,7 +1075,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="EEEd">d EEE</dateFormatItem>
+						<dateFormatItem id="Ed">d E</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
@@ -1090,9 +1093,9 @@
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">y-M</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, y-M-d</dateFormatItem>
+						<dateFormatItem id="yMEd">E, y-M-d</dateFormatItem>
 						<dateFormatItem id="yMMM">y MMM</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, y MMM d</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, y MMM d</dateFormatItem>
 						<dateFormatItem id="yMMMM">y MMMM</dateFormatItem>
 						<dateFormatItem id="yQ">y Q</dateFormatItem>
 						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
@@ -1763,7 +1766,8 @@
 			</zone>
 			<metazone type="Acre">
 				<long>
-					<standard>Акре време</standard>
+					<generic>Акре време</generic>
+					<standard>Акре стандардно време</standard>
 					<daylight>Акре летно сметање на времето</daylight>
 				</long>
 			</metazone>
@@ -1779,19 +1783,20 @@
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<generic>Јужно-африканско време</generic>
-					<standard>Јужно-африканско стандардно време</standard>
+					<standard>Јужно-африканско време</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
-					<standard>Западно-африканско време</standard>
+					<generic>Западно-африканско време</generic>
+					<standard>Западно-африканско стандардно време</standard>
 					<daylight>Западно-африканско летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Amazon">
 				<long>
-					<standard>Амазон време</standard>
+					<generic>Амазон време</generic>
+					<standard>Амазон стандардно време</standard>
 					<daylight>Амазон летно сметање на времето</daylight>
 				</long>
 			</metazone>
@@ -1825,20 +1830,23 @@
 			</metazone>
 			<metazone type="Argentina">
 				<long>
-					<standard>Аргентина време</standard>
+					<generic>Аргентина време</generic>
+					<standard>Аргентина стандардно време</standard>
 					<daylight>Аргентина летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina_Western">
 				<long>
-					<standard>Западна Аргентина време</standard>
+					<generic>Западна Аргентина време</generic>
+					<standard>Западна Аргентина стандардно време</standard>
+					<daylight>Западна Аргентина летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Atlantic">
 				<long>
 					<generic>Атлантско време</generic>
 					<standard>Атлантско стандардно време</standard>
-					<daylight>Атлантско дневно време</daylight>
+					<daylight>Атлантско летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bering">
@@ -1855,13 +1863,15 @@
 			</metazone>
 			<metazone type="Brasilia">
 				<long>
-					<standard>Бразилија време</standard>
+					<generic>Бразилија време</generic>
+					<standard>Бразилија стандардно време</standard>
 					<daylight>Бразилија летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chile">
 				<long>
-					<standard>Чиле време</standard>
+					<generic>Чиле време</generic>
+					<standard>Чиле стандардно време</standard>
 					<daylight>Чиле летно сметање на времето</daylight>
 				</long>
 			</metazone>
@@ -1877,7 +1887,8 @@
 			</metazone>
 			<metazone type="Colombia">
 				<long>
-					<standard>Колумбија време</standard>
+					<generic>Колумбија време</generic>
+					<standard>Колумбија стандардно време</standard>
 					<daylight>Колумбија летно сметање на времето</daylight>
 				</long>
 			</metazone>
@@ -1910,24 +1921,39 @@
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<standard>Средноевропско време</standard>
-					<daylight>Средноевропско летно време</daylight>
+					<generic>Средноевропско време</generic>
+					<standard>Средноевропско стандардно време</standard>
+					<daylight>Средноевропско летно сметање на времето</daylight>
 				</long>
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>CET</generic>
+					<standard>CET</standard>
+					<daylight>CEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<standard>Источноевропско време</standard>
-					<daylight>Источноевропско летно време</daylight>
+					<generic>Источноевропско време</generic>
+					<standard>Источноевропско стандардно време</standard>
+					<daylight>Источноевропско летно сметање на времето</daylight>
 				</long>
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>EET</generic>
+					<standard>EET</standard>
+					<daylight>EEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<standard>Западноевропско време</standard>
-					<daylight>Западноевропско летно време</daylight>
+					<generic>Западноевропско време</generic>
+					<standard>Западноевропско стандардно време</standard>
+					<daylight>Западноевропско летно сметање на времето</daylight>
 				</long>
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>WET</generic>
+					<standard>WET</standard>
+					<daylight>WEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="French_Guiana">
 				<long>
@@ -1946,19 +1972,22 @@
 			</metazone>
 			<metazone type="Greenland_Central">
 				<long>
-					<standard>Централен Гренланд време</standard>
-					<daylight>Централен Гренланд - летно сметање на времето</daylight>
+					<generic>Централен Гренланд време</generic>
+					<standard>Централен Гренланд стандардно време</standard>
+					<daylight>Централен Гренланд летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Eastern">
 				<long>
-					<standard>Источен Гренланд време</standard>
-					<daylight>Источен Гренланд - летно сметање на времето</daylight>
+					<generic>Источен Гренланд време</generic>
+					<standard>Источен Гренланд стандардно време</standard>
+					<daylight>Источен Гренланд летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Western">
 				<long>
-					<standard>Западен Гренланд време</standard>
+					<generic>Западен Гренланд време</generic>
+					<standard>Западен Гренланд стандардно време</standard>
 					<daylight>Западен Гренланд летно сметање на времето</daylight>
 				</long>
 			</metazone>
@@ -1974,8 +2003,9 @@
 			</metazone>
 			<metazone type="Kuybyshev">
 				<long>
-					<standard>Кујбишев</standard>
-					<daylight>Летно време во Кујбишев</daylight>
+					<generic>Кујбишев време</generic>
+					<standard>Кујбишев стандардно време</standard>
+					<daylight>Кујбишев летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Maldives">
@@ -1996,9 +2026,9 @@
 			</metazone>
 			<metazone type="Moscow">
 				<long>
-					<generic>Москва</generic>
-					<standard>Стандардно време во Москва</standard>
-					<daylight>Летно време во Москва</daylight>
+					<generic>Москва време</generic>
+					<standard>Москва стандардно време</standard>
+					<daylight>Москва летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Newfoundland">
@@ -2010,19 +2040,22 @@
 			</metazone>
 			<metazone type="Noronha">
 				<long>
-					<standard>Фернандо де Нороња време</standard>
+					<generic>Фернандо де Нороња време</generic>
+					<standard>Фернандо де Нороња стандардно време</standard>
 					<daylight>Фернандо де Нороња летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Paraguay">
 				<long>
-					<standard>Парагвајско време</standard>
+					<generic>Парагвајско време</generic>
+					<standard>Парагвајско стандардно време</standard>
 					<daylight>Парагвајско летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Peru">
 				<long>
-					<standard>Перу време</standard>
+					<generic>Перу време</generic>
+					<standard>Перу стандардно време</standard>
 					<daylight>Перу летно сметање на времето</daylight>
 				</long>
 			</metazone>
@@ -2045,8 +2078,9 @@
 			</metazone>
 			<metazone type="Samara">
 				<long>
-					<standard>Самара</standard>
-					<daylight>Летно време во Самара</daylight>
+					<generic>Самара време</generic>
+					<standard>Самара стандардно време</standard>
+					<daylight>Самара летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Seychelles">
@@ -2061,13 +2095,15 @@
 			</metazone>
 			<metazone type="Turkey">
 				<long>
-					<standard>Турција</standard>
-					<daylight>Летно време во Турција</daylight>
+					<generic>Турција време</generic>
+					<standard>Турција стандардно време</standard>
+					<daylight>Турција летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Uruguay">
 				<long>
-					<standard>Уругвај време</standard>
+					<generic>Уругвај време</generic>
+					<standard>Уругвај стандардно време</standard>
 					<daylight>Уругвај летно сметање на времето</daylight>
 				</long>
 			</metazone>
@@ -2078,8 +2114,9 @@
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
-					<standard>Волгоград</standard>
-					<daylight>Летно време во Волгоград</daylight>
+					<generic>Волгоград време</generic>
+					<standard>Волгоград стандардно време</standard>
+					<daylight>Волгоград летно сметање на времето</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vostok">
@@ -2101,7 +2138,7 @@
 			<decimal>,</decimal>
 			<group>.</group>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
@@ -2712,4 +2749,3 @@
 		</messages>
 	</posix>
 </ldml>
-

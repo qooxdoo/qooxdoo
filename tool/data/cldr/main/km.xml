@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5798 $"/>
-		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="km"/>
 	</identity>
 	<localeDisplayNames>
@@ -93,7 +93,6 @@
 			<language type="qu">ភាសាកេទ្ជូអា</language>
 			<language type="rn">ភាសារូន្ឌី</language>
 			<language type="ro">ភាសារូម៉ានី</language>
-			<language type="ru">ភាសាรัរូស្ស៉ី</language>
 			<language type="sa">ភាសាសំស្ក្រឹត</language>
 			<language type="sd">ភាសាស៉ីន្ដី</language>
 			<language type="sh" draft="unconfirmed">សើបូក្រូទៀន</language>
@@ -313,9 +312,9 @@
 		</territories>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[\u17CC \u17CE \u17CF \u17D1 \u17D0 ៈ \u17CB \u17C9 \u17CA \u17CD ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ {អា} ឥ ឦ ឧ {ឧក} ឪ ឩ ឯ ឰ ឱ ឲ ឳ ា \u17B7 \u17B8 \u17B9 \u17BA \u17BB \u17BC \u17BD ើ ឿ ៀ េ ែ ៃ ោ ៅ \u17C6 ះ \u17D2]</exemplarCharacters>
+		<exemplarCharacters>[\u17CC \u17CE \u17CF \u17D1 \u17D0 ៈ \u17CB \u17C9 \u17CA \u17CD ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឲ ឪ {អា} ឥ ឦ ឧ {ឧក} ឩ ឯ ឰ ឱ ឳ ា \u17B7 \u17B8 \u17B9 \u17BA \u17BB \u17BC \u17BD ើ ឿ ៀ េ ែ ៃ ោ ៅ \u17C6 ះ \u17D2]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[\u17B4\u17B5\u200B ឝ ឞ]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឥ ឦ ឧ ឪ ឩ ឯ ឰ ឱ ឳ]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="unconfirmed">[ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឪ ឥ ឦ ឧ ឩ ឯ ឰ ឱ ឳ]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart draft="unconfirmed">'</quotationStart>
@@ -578,11 +577,15 @@
 		</calendars>
 	</dates>
 	<numbers>
+		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<otherNumberingSystems>
+			<native>khmr</native>
+		</otherNumberingSystems>
 		<symbols numberSystem="latn">
 			<decimal>,</decimal>
 			<group>.</group>
 		</symbols>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00¤</pattern>
@@ -597,3 +600,4 @@
 		</currencies>
 	</numbers>
 </ldml>
+

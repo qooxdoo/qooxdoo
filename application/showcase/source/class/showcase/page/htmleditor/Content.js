@@ -365,28 +365,28 @@ qx.Class.define("showcase.page.htmleditor.Content",
      * @lint ignoreDeprecated(alert)
      */
     debugRadio : function(e) {
-      alert("This command is not yet implemented!");
+      alert("This command is not implemented!");
     },
 
     /**
      * @lint ignoreDeprecated(alert)
      */
     debugCommand : function(e) {
-      alert("This command is not yet implemented!");
+      alert("This command is not implemented!");
     },
 
     /**
      * @lint ignoreDeprecated(alert)
      */
     debugButton : function(e) {
-      alert("This command is not yet implemented!");
+      alert("This command is not implemented!");
     },
 
     /**
      * @lint ignoreDeprecated(alert)
      */
     debugCheckBox : function(e) {
-      alert("This command is not yet implemented!");
+      alert("This command is not implemented!");
     },
 
 
@@ -426,7 +426,6 @@ qx.Class.define("showcase.page.htmleditor.Content",
 
       var menubar = new qx.ui.menubar.MenuBar().set({
         decorator: new qx.ui.decoration.Single().set({
-          backgroundImage  : "decoration/menu/bar-background.png",
           backgroundRepeat : "scale",
           bottom: [1, "solid", "border-separator"]
         })

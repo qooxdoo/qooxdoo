@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
 
 
     // overridden
-    syncWidget : function()
+    syncWidget : function(jobs)
     {
       // return if the layer is not yet rendered
       // it will rendered in the appear event

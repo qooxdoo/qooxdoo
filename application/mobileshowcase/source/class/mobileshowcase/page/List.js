@@ -63,10 +63,27 @@ qx.Class.define("mobileshowcase.page.List",
       for (var i=0; i < 100; i++) {
         data.push({title:"Item" + i, subtitle:"Subtitle for Item #" + i});
       }
+      
+      var closePopupButton = new qx.ui.mobile.form.Button("OK");
 
+      var label = new qx.ui.mobile.basic.Label("labelText");
+      var popupContent = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
+      popupContent.add(label);
+      popupContent.add(closePopupButton);
+      
+      var popup = new qx.ui.mobile.dialog.Dialog(popupContent);
+      popup.setTitle("Selection");
+      
+      closePopupButton.addListener("tap", function() {
+        popup.hide();
+      }, this);
+      
       list.setModel(new qx.data.Array(data));
       list.addListener("changeSelection", function(evt) {
-        alert("Item Selected #" + evt.getData());
+        var itemNumber = evt.getData();
+        
+        label.setValue("You selected Item #" + itemNumber);
+        popup.show();
       }, this);
       this.getContent().add(list);
     },
@@ -75,7 +92,7 @@ qx.Class.define("mobileshowcase.page.List",
     // overridden
     _back : function()
     {
-     qx.ui.mobile.navigation.Manager.getInstance().executeGet("/", {reverse:true});
+     qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

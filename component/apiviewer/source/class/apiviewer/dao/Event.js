@@ -37,7 +37,7 @@ qx.Class.define("apiviewer.dao.Event", {
           type: this._type
         }]
       } else {
-        return null;
+        return [];
       }
     },
 

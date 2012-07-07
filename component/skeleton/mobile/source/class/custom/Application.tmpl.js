@@ -12,6 +12,7 @@
 
 #asset(${Namespace}/*)
 #asset(qx/mobile/icon/$${qx.mobile.platform}/*)
+#asset(qx/mobile/icon/common/*)
 
 ************************************************************************ */
 
@@ -82,7 +83,15 @@ qx.Class.define("${Namespace}.Application",
       page2.addListener("back", function() {
         page1.show({reverse:true});
       }, this);
-
+      
+      // Add the pages to the page manager.
+      var manager = new qx.ui.mobile.page.Manager(false);
+      manager.addDetail([
+        page1,
+        page2
+      ]);
+      
+      // Page1 will be shown at start
       page1.show();
     }
   }

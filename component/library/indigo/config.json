@@ -1,0 +1,31 @@
+{
+  "name"    : "indigo",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" : [],
+  
+  "default-job" : "lint",
+
+  "let" :
+  {
+    "APPLICATION"  : "indigo",
+    "QOOXDOO_PATH" : "../../..",
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.test.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "ROOT"         : "."
+  },
+
+  // You only need to edit the remainder of this file, if you want to customize
+  // specific jobs, or add own job definitions.
+
+  "jobs" :
+  {
+  }
+}

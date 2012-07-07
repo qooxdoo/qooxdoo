@@ -24,7 +24,9 @@
 
 ************************************************************************ */
 
-
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Window",
 {
   extend : qx.application.Native,
@@ -33,6 +35,9 @@ qx.Class.define("demobrowser.demo.bom.Window",
   {
     __urls : null,
 
+    /**
+     * @lint ignoreDeprecated(alert)
+     */
     main : function()
     {
       this.base(arguments);

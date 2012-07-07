@@ -115,8 +115,7 @@ Compile cache
 
 The main payload of the :ref:`cache <pages/tool/generator_config_ref#cache>` key is to point to the directory for the compile cache. It is very recommendable to have a system-wide compile cache directory so cache contents can be shared among different projects and libraries. Otherwise, the cache has to be rebuilt in each enviornment anew, costing extra time and space.
 
-The default for the cache directory is beneath the system TMP directory. To find out where this actually is either run ``generate.py info``, or run a build job with the ``-v`` command line flag and look for the *cache* key in the expanded job definition, or use this `snippet <http://qooxdoo.org/docu
-mentation/general/snippets#finding_your_system-wide_tmp_directory>`__.
+The default for the cache directory is beneath the system TMP directory. To find out where this actually is either run ``generate.py info``, or run a build job with the ``-v`` command line flag and look for the *cache* key in the expanded job definition, or use this `snippet <http://qooxdoo.org/docs/general/snippets#finding_your_system-wide_tmp_directory>`__.
 
 The compile cache directory can become very large in terms of contained files, and a count of a couple of thousand files is not unusual. You should take care that your file system is equipped to comply with these demands. Additionally, disk I/O is regularly high on this directory so a fast, local disk is recommendable. Don't use a network drive :-) .
 
@@ -320,14 +319,14 @@ The :ref:`pages/tool/generator_config_ref#library` key of a configuration holds 
 Manifest files
 --------------
 
-Manifest files serve to provide meta information for a library in a structured way. Their syntax is again JSON, and part of them is read by the generator, particularly the ``provides`` section. See :doc:`here </pages/getting_started/manifest>` for more information about manifest files.
+Manifest files serve to provide meta information for a library in a structured way. Their syntax is again JSON, and part of them is read by the generator, particularly the ``provides`` section. See :ref:`here <pages/application_structure/manifest#manifest.json>` for more information about manifest files.
 
 .. _pages/tool/generator_config_articles#contrib_libraries:
 
 Contrib libraries
 -----------------
 
-Contributions can be included in a configuration like any other libraries: You add an appropriate entry in the ``library`` array of your configuration. Like other libraries, the contribution must provide a :doc:`Manifest.json </pages/getting_started/manifest>` file with appropriate contents.
+Contributions can be included in a configuration like any other libraries: You add an appropriate entry in the ``library`` array of your configuration. Like other libraries, the contribution must provide a :ref:`Manifest.json <pages/application_structure/manifest#manifest.json>` file with appropriate contents.
 
 If the contribution resides on your local file system, there is actually no difference to any other library. Specify the relative path to its Manifest file and you're basically set. The really new part comes when the contribution resides online, in the `qooxdoo-contrib <http://qooxdoo.org/contrib>`_ repository. Then you use a special syntax to specify the location of the Manifest file. It is URL-like with a ``contrib`` scheme and will usually look like this:
 
@@ -448,7 +447,7 @@ to produce the final URI
 These general parts have the following meaning:
 
 * **[1]** : URI path to the library root (as will be valid when running the app in the browser). If you specify the :ref:`uri <pages/tool/generator_config_ref#library>` parameter of the library's entry in your config, this is what gets used here.
-* **[2]** : Path segment within the specific library. This is taken from the library's :doc:`Manifest.json </pages/getting_started/manifest>`. The consumer of the library has no influence on it.
+* **[2]** : Path segment within the specific library. This is taken from the library's :ref:`Manifest.json <pages/application_structure/manifest#manifest.json>`. The consumer of the library has no influence on it.
 * **[3]** : Path segment leading to the specific resource. This is the path of the resource as found under the library's resource directory.
 
 .. _pages/tool/generator_config_articles#library_base_uris_in_the_source_version:

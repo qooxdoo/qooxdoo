@@ -196,11 +196,11 @@ class Generator(object):
         ##
         # Invoke the DependencyLoader to calculate the list of required classes
         # from include/exclude settings
-        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, variants, verifyDeps=False, script=None):
+        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, script, verifyDeps=False):
             self._console.info("Collecting classes   ", feed=False)
             self._console.indent()
-            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, [], variants, verifyDeps, script)
-            #buildType = script.buildType if script else ""
+            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, [], script, verifyDeps)
+            # with generator.code.ClassList(): 
             #classList = ClassList(self._libraries, includeWithDeps, includeNoDeps, excludeWithDeps, variants, buildType)
             #classList = classList.calculate(verifyDeps)
             self._console.outdent()
@@ -543,7 +543,7 @@ class Generator(object):
 
                 # get current class list
                 script.classes = computeClassList(includeWithDeps, excludeWithDeps, 
-                                   includeNoDeps, script.variants, script=script, verifyDeps=True)
+                                   includeNoDeps, script, verifyDeps=True)
                 # keep the list of class objects in sync
                 script.classesObj = [self._classesObj[id] for id in script.classes]
 
@@ -559,11 +559,6 @@ class Generator(object):
 
                 # Execute real tasks
                 if "api" in jobTriggers:
-                    # class list with no variants (all-encompassing)
-                    classListProducer = functools.partial(#args are complete, but invocation shall be later
-                               computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
-                               {}, verifyDeps=True, script=Script())
-                    #self.runApiData(classListProducer, variantset)
                     self.runApiData(script.classes, variantset)
                 if "copy-resources" in jobTriggers:
                     self.runResources(script)
@@ -596,18 +591,14 @@ class Generator(object):
             return
 
         apiPath         = self._config.absPath(apiPath)
-        self._apiLoader = ApiLoader(self._classesObj, self._docs, self._cache, self._console, )
+        self._apiLoader = ApiLoader(self._classesObj, self._docs, self._cache, self._console, self._job)
 
         classList = self._job.get("let/ARGS", [])
         if not classList:
             classList = aClassList
-
-        self._apiLoader.storeApi(classList, apiPath, variantset)
         
-        verify = self._job.get("api/verify", [])
-        if "links" in verify:
-            self._apiLoader.verifyLinks(classList, apiPath)
-
+        self._apiLoader.storeApi(classList, apiPath, variantset, self._job.get("api/verify", []))
+        
         return
 
 
@@ -1269,7 +1260,7 @@ class Generator(object):
         self._console.indent()
         for namespace in namespaces:
             lib = [x for x in self._libraries if x.namespace == namespace][0]
-            self._locale.updateTranslations(namespace, lib.translationPath, locales)
+            self._locale.updateTranslations(namespace, lib.translationPathSuffix(), locales)
 
         self._console.outdent()
 
@@ -1325,17 +1316,16 @@ class Generator(object):
             self._console.info("Kit looks OK: %s" % os.path.isfile(classFile) )
 
         self._console.info("Looking for generated versions...")
+        self._console.indent()
         try:
-            console.indent()
             expandedjobs = self._config.resolveExtendsAndRuns(["build-script", "source-script"])
             self._config.includeSystemDefaults(expandedjobs)
             self._config.resolveMacros(expandedjobs)
-            console.outdent()
         except Exception:
+            self._console.outdent()  # TODO: clean-up from the try block; fix this where the exception occurrs
             expandedjobs = []
         
         if expandedjobs:
-          
             # make sure we're working with Job() objects (bug#5896)
             expandedjobs = [self._config.getJob(x) for x in expandedjobs]
 
@@ -1350,31 +1340,35 @@ class Generator(object):
             if sourceScriptFile:
                 sourceScriptFilePath = self._config.absPath(sourceScriptFile)
                 self._console.info("Source version generated: %s" % os.path.isfile(sourceScriptFilePath) )
+        else:
+            self._console.info("nope")
+        console.outdent()
 
-            # check cache path
-            cacheCfg = expandedjobs[0].get("cache", None)  # TODO: this might be better taken from self._cache?!
-            if cacheCfg:
-                if 'compile' in cacheCfg:
-                    compDir = self._config.absPath(cacheCfg['compile'])
-                    self._console.info("Compile cache path is: %s" % compDir )
-                    self._console.indent()
-                    isDir = os.path.isdir(compDir)
-                    self._console.info("Existing directory: %s" % isDir)
-                    if isDir:
-                        self._console.info("Cache file revision: %d" % self._cache.getCacheFileVersion())
-                        self._console.info("Elements in cache: %d" % len(os.listdir(compDir)))
-                    self._console.outdent()
-                if 'downloads' in cacheCfg:
-                    downDir = self._config.absPath(cacheCfg['downloads'])
-                    self._console.info("Download cache path is: %s" % downDir )
-                    self._console.indent()
-                    isDir = os.path.isdir(downDir)
-                    self._console.info("Existing directory: %s" % isDir)
-                    if isDir:
-                        self._console.info("Elements in cache: %d" % len(os.listdir(downDir)))
-                    self._console.outdent()
-                    
-
+        # check cache path
+        cacheCfg = self._job.get("cache", None)
+        if cacheCfg:
+            self._console.info("Cache settings")
+            self._console.indent()
+            if 'compile' in cacheCfg:
+                compDir = self._config.absPath(cacheCfg['compile'])
+                self._console.info("Compile cache path is: %s" % compDir )
+                self._console.indent()
+                isDir = os.path.isdir(compDir)
+                self._console.info("Existing directory: %s" % isDir)
+                if isDir:
+                    self._console.info("Cache file revision: %d" % self._cache.getCacheFileVersion())
+                    self._console.info("Elements in cache: %d" % len(os.listdir(compDir)))
+                self._console.outdent()
+            if 'downloads' in cacheCfg:
+                downDir = self._config.absPath(cacheCfg['downloads'])
+                self._console.info("Download cache path is: %s" % downDir )
+                self._console.indent()
+                isDir = os.path.isdir(downDir)
+                self._console.info("Existing directory: %s" % isDir)
+                if isDir:
+                    self._console.info("Elements in cache: %d" % len(os.listdir(downDir)))
+                self._console.outdent()
+            self._console.outdent()
         
         self._console.outdent()
             
@@ -1452,7 +1446,7 @@ class Generator(object):
         if not self._job.get("slice-images", False):
             return
 
-        self._imageClipper   = ImageClipping(self._console, self._cache)
+        self._imageClipper   = ImageClipping(self._console, self._cache, self._job)
 
         images = self._job.get("slice-images/images", {})
         for image, imgspec in images.iteritems():
@@ -1523,7 +1517,7 @@ class Generator(object):
 
         self._console.info("Combining images...")
         self._console.indent()
-        self._imageClipper   = ImageClipping(self._console, self._cache)
+        self._imageClipper   = ImageClipping(self._console, self._cache, self._job)
 
         images = self._job.get("combine-images/images", {})
         for image, imgspec in images.iteritems():
@@ -1593,6 +1587,8 @@ class Generator(object):
 
         def isLocalPath(path):
             return self._config.absPath(path).startswith(self._config.absPath(self._job.get("let/ROOT")))
+
+        # -------------------------------------------
 
         if not self._job.get('clean-files', False):
             return

@@ -59,7 +59,7 @@ qx.Class.define("qx.core.Assert",
       var msg = "";
       for (var i=1, l=arguments.length; i<l; i++)
       {
-        msg = msg + this.__toString(arguments[i]);
+        msg = msg + this.__toString(arguments[i] === undefined ? "'undefined'" : arguments[i]);
       }
 
       var fullComment = "";
@@ -380,7 +380,7 @@ qx.Class.define("qx.core.Assert",
       var id;
       try {
         id = obj.addListener(event, listener, obj);
-        invokeFunc.call();
+        invokeFunc.call(obj);
       } catch (ex) {
         throw ex;
       } finally {

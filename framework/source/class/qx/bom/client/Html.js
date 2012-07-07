@@ -311,13 +311,19 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
 
     /**
-     * Checks if VML could be used
+     * Checks if VML is supported
      *
      * @internal
      * @return {Boolean} <code>true</code> if VML is supported.
      */
     getVml : function() {
-      return qx.bom.client.Engine.getName() == "mshtml";
+      var el = document.createElement("div");
+      document.body.appendChild(el);
+      el.innerHTML = '<v:shape id="vml_flag1" adj="1" />';
+      el.firstChild.style.behavior = "url(#default#VML)";
+      var hasVml = typeof el.firstChild.adj == "object";
+      document.body.removeChild(el);
+      return hasVml;
     },
 
 

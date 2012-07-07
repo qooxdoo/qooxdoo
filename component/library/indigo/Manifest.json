@@ -1,0 +1,39 @@
+{
+  "info" : 
+  {
+    "name" : "indigo",
+
+    "summary" : "Indigo Web Resources",
+    "description" : "Indigo style resources (CSS, images, etc.)",
+    
+    "homepage" : "http://qooxdoo.org/",
+
+    "license" : "LGPL/EPL",
+    "authors" : 
+    [
+      {
+        "name" : "Tristan Koch (trkoch)",
+        "email" : "tristan DOT koch AT 1und1 DOT de"
+      },
+      
+      {
+        "name" : "Daniel Wagner (danielwagner)",
+        "email" : "daniel DOT wagner AT 1und1 DOT de"
+      }
+    ],
+
+    "version" : "trunk",
+    "qooxdoo-versions": ["2.0"]
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "indigo",
+    "encoding"    : "utf-8",
+    "resource"    : "source/resource",
+    "class"       : "source/class",
+    "translation" : "source/translation",
+    "type"        : "library"
+  }
+}
+

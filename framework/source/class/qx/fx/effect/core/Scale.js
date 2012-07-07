@@ -38,6 +38,7 @@
  * Core effect "Scale"
  *
  * This effect scales the specified element (and its content, optionally) by given percentages.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.effect.core.Scale",
 {
@@ -63,6 +64,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
     /**
      * Flag indicating if element's width should be scaled.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     scaleX :
     {
@@ -72,6 +74,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
     /**
      * Flag indicating if element's height should be scaled.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     scaleY :
     {
@@ -81,6 +84,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
     /**
      * Flag indicating if element's content (font size) should be scaled.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     scaleContent :
     {
@@ -91,6 +95,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
     /**
      * Flag indicating if element should be scaled
      * from center (upper left corner otherwise).
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     scaleFromCenter :
     {
@@ -100,6 +105,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
     /**
      * Percentage the elements dimensions should be scaled from.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     scaleFrom :
     {
@@ -109,6 +115,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
     /**
      * Percentage the elements dimensions should be scaled to.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     scaleTo :
     {
@@ -119,6 +126,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
     /**
      * Flag indicating if element's original dimensions should be restored
      * after effect's runtime.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     restoreAfterFinish :
     {
@@ -128,6 +136,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
     /**
      * Array containing sizes which will instead of element's dimensions, if filled.
+     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
      */
     alternateDimensions : {
       init : [],
@@ -273,6 +282,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
     * moves it to scale centered.
     * @param width {Number} Width in pixels
     * @param height {Number} Height in pixels
+    * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
     */
    _setDimensions : function(width, height)
    {

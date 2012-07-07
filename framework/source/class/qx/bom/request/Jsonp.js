@@ -17,6 +17,18 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#require(qx.bom.request.Script#open)
+#require(qx.bom.request.Script#on)
+#require(qx.bom.request.Script#onreadystatechange)
+#require(qx.bom.request.Script#onload)
+#require(qx.bom.request.Script#onloadend)
+#require(qx.bom.request.Script#onerror)
+#require(qx.bom.request.Script#onabort)
+#require(qx.bom.request.Script#ontimeout)
+#require(qx.bom.request.Script#send)
+************************************************************************ */
+
 /**
  * A special script loader handling JSONP responses. Automatically
  * provides callbacks and populates responseJson property.
@@ -134,7 +146,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
           };
         } else {
           if (qx.core.Environment.get("qx.debug.io")) {
-            qx.log.Logger.debug(qx.bom.request.Jsonp, "Callback " +
+            qx.Bootstrap.debug(qx.bom.request.Jsonp, "Callback " +
               this.__callbackName + " already exists");
           }
         }
@@ -196,10 +208,13 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      * default is "callback".
      *
      * @param param {String} Name of the callback parameter.
+     * @return {qx.bom.request.Jsonp} Self reference for chaining.
      */
     setCallbackParam: function(param) {
       this.__callbackParam = param;
+      return this;
     },
+
 
     /**
      * Set callback name.
@@ -218,13 +233,15 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      * if it does not exist before.
      *
      * @param name {String} Name of the callback function.
+     * @return {qx.bom.request.Jsonp} Self reference for chaining.
      */
     setCallbackName: function(name) {
       this.__callbackName = name;
+      return this;
     },
 
-    dispose: function() {
 
+    dispose: function() {
       // In case callback was not called
       this.__deleteCustomCallback();
 

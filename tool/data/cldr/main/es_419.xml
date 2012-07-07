@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5905 $"/>
-		<generation date="$Date: 2011-06-15 23:14:13 -0500 (Wed, 15 Jun 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="es"/>
 		<territory type="419"/>
 	</identity>
@@ -80,6 +80,19 @@
 	<dates>
 		<calendars>
 			<calendar type="gregorian">
+				<days>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun">D</day>
+							<day type="mon">L</day>
+							<day type="tue">M</day>
+							<day type="wed">M</day>
+							<day type="thu">J</day>
+							<day type="fri">V</day>
+							<day type="sat">S</day>
+						</dayWidth>
+					</dayContext>
+				</days>
 				<quarters>
 					<quarterContext type="format">
 						<quarterWidth type="narrow">
@@ -111,70 +124,32 @@
 		</calendars>
 		<timeZoneNames>
 			<metazone type="America_Central">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>CT</generic>
+					<standard>CST</standard>
+					<daylight>CDT</daylight>
+				</short>
 			</metazone>
 			<metazone type="America_Eastern">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>ET</generic>
+					<standard>EST</standard>
+					<daylight>EDT</daylight>
+				</short>
 			</metazone>
 			<metazone type="America_Mountain">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>MT</generic>
+					<standard>MST</standard>
+					<daylight>MDT</daylight>
+				</short>
 			</metazone>
 			<metazone type="America_Pacific">
-				<commonlyUsed>true</commonlyUsed>
-			</metazone>
-			<metazone type="Anadyr">
-				<long>
-					<daylight draft="contributed">Hora de Verano de Anadyr</daylight>
-				</long>
-			</metazone>
-			<metazone type="Argentina_Western">
-				<long>
-					<generic draft="contributed">Hora del Oeste de Argentina</generic>
-					<daylight draft="contributed">Hora de verano en el oeste de Argentina</daylight>
-				</long>
-			</metazone>
-			<metazone type="Indonesia_Central">
-				<long>
-					<generic draft="contributed">Hora central de Indonesia</generic>
-				</long>
-			</metazone>
-			<metazone type="Indonesia_Eastern">
-				<long>
-					<generic draft="contributed">Hora del Este de Indonesia</generic>
-				</long>
-			</metazone>
-			<metazone type="Indonesia_Western">
-				<long>
-					<generic draft="contributed">Indonesia, hora del oeste</generic>
-				</long>
-			</metazone>
-			<metazone type="Kamchatka">
-				<long>
-					<standard draft="contributed">Hora de Petropávlovsk-Kamchatski</standard>
-					<daylight draft="contributed">Hora de verano de Petropávlovsk-Kamchatski</daylight>
-				</long>
-			</metazone>
-			<metazone type="Kazakhstan_Eastern">
-				<long>
-					<generic draft="contributed">Hora del Este de Kazajistán</generic>
-					<daylight draft="contributed">Hora de verano en el este de Kazajistán</daylight>
-				</long>
-			</metazone>
-			<metazone type="Kazakhstan_Western">
-				<long>
-					<generic draft="contributed">Hora del Oeste de Kazajistán</generic>
-					<daylight draft="contributed">Hora de Verano en el oeste de Kazajistán</daylight>
-				</long>
-			</metazone>
-			<metazone type="Omsk">
-				<long>
-					<daylight draft="contributed">Hora de Verano de Omsk</daylight>
-				</long>
-			</metazone>
-			<metazone type="Sakhalin">
-				<long>
-					<daylight draft="contributed">Hora de Verano de Sajalín</daylight>
-				</long>
+				<short>
+					<generic>PT</generic>
+					<standard>PST</standard>
+					<daylight>PDT</daylight>
+				</short>
 			</metazone>
 		</timeZoneNames>
 	</dates>
@@ -183,7 +158,25 @@
 			<decimal>.</decimal>
 			<group>,</group>
 		</symbols>
-		<currencyFormats>
+		<decimalFormats numberSystem="latn">
+			<decimalFormatLength type="short">
+				<decimalFormat>
+					<pattern type="1000" draft="contributed">0000</pattern>
+					<pattern type="10000" draft="contributed">00k</pattern>
+					<pattern type="100000" draft="contributed">000k</pattern>
+					<pattern type="1000000" draft="contributed">0.0 M</pattern>
+					<pattern type="10000000" draft="contributed">00 M</pattern>
+					<pattern type="100000000" draft="contributed">000 M</pattern>
+					<pattern type="1000000000" draft="contributed">0.0k M</pattern>
+					<pattern type="10000000000" draft="contributed">00k M</pattern>
+					<pattern type="100000000000" draft="contributed">000k M</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0 B</pattern>
+					<pattern type="10000000000000" draft="contributed">00 B</pattern>
+					<pattern type="100000000000000" draft="contributed">000 B</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+		</decimalFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern draft="contributed">¤#,##0.00</pattern>

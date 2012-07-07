@@ -24,34 +24,13 @@ qx.Class.define("qx.test.mobile.page.Page",
 
   members :
   {
-    setUp : function()
-    {
-      this.base(arguments);
-      var manager = qx.ui.mobile.page.Page.getManager();
-      if (manager)
-      {
-        qx.ui.mobile.page.Page.setManager(null);
-        manager.dispose();
-      }
-      qx.ui.mobile.page.Page.setManager(new qx.ui.mobile.page.manager.Simple());
-    },
-
-
-    tearDown : function()
-    {
-      this.base(arguments);
-      var manager = qx.ui.mobile.page.Page.getManager();
-      qx.ui.mobile.page.Page.setManager(null);
-      manager.dispose();
-    },
-
-
     testLifecycle : function()
     {
       var initializedEvent = false;
       var startEvent = false;
 
       var page = new qx.ui.mobile.page.Page();
+      this.getRoot().add(page);
 
       page.addListener("initialize", function() {
         this.assertFalse(startEvent);
@@ -67,6 +46,40 @@ qx.Class.define("qx.test.mobile.page.Page",
 
       this.assertTrue(initializedEvent);
       this.assertTrue(startEvent);
+      page.destroy();
+    },
+
+
+    testBack : function() {
+      var page = new qx.ui.mobile.page.Page();
+      this.getRoot().add(page);
+
+      var eventFired = false;
+
+      page.addListener("back", function() {
+        eventFired = true;
+      }, this);
+      page.back();
+
+      this.assertTrue(eventFired);
+
+      page.destroy();
+    },
+
+
+    testMenu : function() {
+      var page = new qx.ui.mobile.page.Page();
+     this.getRoot().add(page);
+
+      var eventFired = false;
+
+      page.addListener("menu", function() {
+        eventFired = true;
+      }, this);
+      page.menu();
+
+      this.assertTrue(eventFired);
+
       page.destroy();
     }
   }

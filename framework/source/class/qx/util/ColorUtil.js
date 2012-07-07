@@ -15,19 +15,22 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Christian Hagendorn (cs)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
-#ignore(qx.theme.manager.Color)
+#ignore(qx.theme.*)
+#ignore(qx.theme)
+#ignore(qx.Class)
 
 ************************************************************************ */
 
 /**
  * Methods to convert colors between different color spaces.
  */
-qx.Class.define("qx.util.ColorUtil",
+qx.Bootstrap.define("qx.util.ColorUtil",
 {
   statics :
   {
@@ -139,7 +142,10 @@ qx.Class.define("qx.util.ColorUtil",
      * @return {Boolean} <code>true</code> when color theme support is ready.
      **/
     supportsThemes : function() {
-      return qx.Class.isDefined("qx.theme.manager.Color");
+      if (qx.Class) {
+        return qx.Class.isDefined("qx.theme.manager.Color");
+      }
+      return false;
     },
 
 
@@ -155,7 +161,10 @@ qx.Class.define("qx.util.ColorUtil",
         return false;
       }
 
-      return qx.theme.manager.Color.getInstance().isDynamic(value);
+      if (qx.theme && qx.theme.manager && qx.theme.manager.Color) {
+        return qx.theme.manager.Color.getInstance().isDynamic(value);
+      }
+      return false;
     },
 
 
@@ -268,11 +277,12 @@ qx.Class.define("qx.util.ColorUtil",
      * Converts a RGB array to an hex6 string
      *
      * @param rgb {Array} an array with red, green and blue
-     * @return {String} a hex6 string
+     * @return {String} a hex6 string (#xxxxxx)
      */
     rgbToHexString : function(rgb)
     {
       return (
+        "#" +
         qx.lang.String.pad(rgb[0].toString(16).toUpperCase(), 2) +
         qx.lang.String.pad(rgb[1].toString(16).toUpperCase(), 2) +
         qx.lang.String.pad(rgb[2].toString(16).toUpperCase(), 2)
@@ -430,6 +440,22 @@ qx.Class.define("qx.util.ColorUtil",
       }
 
       throw new Error("Invalid hex3 value: " + value);
+    },
+
+
+    /**
+     * Converts a hex3 (#xxx) string to a hex6 (#xxxxxx) string.
+     *
+     * @param value {String} a hex3 (#xxx) string
+     * @return {String} The hex6 (#xxxxxx) string or the passed value when the
+     *   passed value is not an hex3 (#xxx) value.
+     */
+    hex3StringToHex6String : function(value)
+    {
+      if (this.isHex3String(value)) {
+        return this.rgbToHexString(this.hex3StringToRgb(value));
+      }
+      return value;
     },
 
 

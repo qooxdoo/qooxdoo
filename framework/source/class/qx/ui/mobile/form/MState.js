@@ -1,6 +1,4 @@
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The mixin contains all functionality to provide methods
  * for form elements to manipulate their state. [usually "valid" and "invalid"]
  *

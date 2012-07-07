@@ -25,7 +25,7 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
   {
     setUp : function()
     {
-      var root = qx.bom.Element.create("div", {id: "root"});
+      var root = qx.dom.Element.create("div", {id: "root"});
       document.body.appendChild(root);
 
       // root

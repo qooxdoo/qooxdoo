@@ -1,0 +1,4 @@
+/**
+ * qx.module.util package
+ *
+ */

@@ -44,8 +44,8 @@ class SkipList(object):
 
     def __init__(self,lst):
         self._skip_elements   = lst
-        self._skip_relist     = [re.compile(e, re.I) for e in lst]
-        self._skip_expression = re.compile(r'%s' % '|'.join(lst),re.I)
+        self._skip_relist     = [re.compile(e) for e in lst]
+        self._skip_expression = re.compile(r'%s' % '|'.join(lst))
 
     def __contains__(self, e):
         return bool(self._skip_expression.match(e))
@@ -200,9 +200,10 @@ copy file or directory SOURCE to directory TARGET'''
         self.__source = os.path.abspath(args[0])
         self.__targetDir = os.path.abspath(args[1])
         self.__synchronize = options.synchronize
-        self.__exclude = options.exclude
+        self.__exclude = SkipList(options.exclude)
         self.__create = options.create
         self.__update = options.update
+
 
 
 def main():

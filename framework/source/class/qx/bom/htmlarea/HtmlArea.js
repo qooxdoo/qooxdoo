@@ -69,7 +69,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
   {
     this.base(arguments);
 
-    var uri = source || qx.util.ResourceManager.getInstance().toUri("qx/static/blank.html");
+    var uri = source || qx.util.ResourceManager.getInstance().toUri(qx.core.Environment.get("qx.blankpage"));
 
     this.__connectToDomElement(element);
     this.__initDocumentSkeletonParts();
@@ -84,40 +84,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     // Check content
     if (qx.lang.Type.isString(value)) {
       this.__value = value;
-    }
-
-    /*
-     * "Fix" Keycode to identifier mapping in opera to suit the needs
-     * of the editor component
-     */
-    if ((qx.core.Environment.get("engine.name") == "opera"))
-    {
-      /*
-       * To correct the broken key handling in Opera "fix" the meanings of
-       * the several keyCodes manually to the desired Identifiers
-       *
-       * However for these keys it is bit more complicated:
-       *
-       * KEY   RESULT   POSSIBLE SOLUTION
-       * ************************************
-       * $     "Home"   SHIFT + "Home"  -> $
-       * (     "Down"   SHIFT + "Down"  -> (
-       * '     "Right"  SHIFT + "Right" -> '
-       *
-       */
-      var contentWindow = qx.dom.Node.getWindow(element);
-      var keyEventHandler = qx.event.Registration.getManager(contentWindow).getHandler(qx.event.handler.Keyboard);
-
-      /*
-       * fix mapping for the keys "#", "-", "P", "S", "X"
-       * for other keys there maybe also a problem with the wrong identifier,
-       * but here are only these keys fixed which are needed for the smiley handling
-       */
-      keyEventHandler._keyCodeToIdentifierMap[35]  = "#";
-      keyEventHandler._keyCodeToIdentifierMap[45]  = "-";
-      keyEventHandler._keyCodeToIdentifierMap[112] = "P";
-      keyEventHandler._keyCodeToIdentifierMap[115] = "S";
-      keyEventHandler._keyCodeToIdentifierMap[120] = "X";
     }
 
     /*

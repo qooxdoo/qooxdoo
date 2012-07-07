@@ -16,7 +16,7 @@
 
 /**
  * View for performance tests.
- * 
+ *
  * @deprecated since 2.0
  */
 qx.Class.define("testrunner.view.Performance", {
@@ -38,7 +38,7 @@ qx.Class.define("testrunner.view.Performance", {
 
   construct : function()
   {
-    qx.log.Logger.deprecatedClassWarning(this, "Performance measuring is now " 
+    qx.log.Logger.deprecatedClassWarning(this, "Performance measuring is now "
      + "integrated in the HTML and Widget views if the testrunner.performance "
      + "environment setting is active.");
     this.base(arguments);

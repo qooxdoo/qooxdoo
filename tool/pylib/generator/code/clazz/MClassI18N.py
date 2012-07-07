@@ -79,8 +79,8 @@ class MClassI18N(object):
         if node.type == "call":
             oper = node.getChild("operand", False)
             if oper:
-                var = oper.getChild("variable", False)
-                if var:
+                var = oper.getFirstChild()
+                if var.isVar():
                     varname = (treeutil.assembleVariable(var))[0]
                     for entry in [ ".tr", ".trn", ".trc", ".marktr" ]:
                         if varname.endswith(entry):

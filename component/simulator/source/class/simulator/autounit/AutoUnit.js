@@ -26,30 +26,30 @@
 qx.Class.define("simulator.autounit.AutoUnit", {
 
   extend : simulator.unit.TestCase,
-  
+
   statics :
   {
-    GET_SUITE_STATE : simulator.Simulation.AUTWINDOW + "." + 
-                      simulator.Simulation.QXAPPLICATION + 
+    GET_SUITE_STATE : simulator.Simulation.AUTWINDOW + "." +
+                      simulator.Simulation.QXAPPLICATION +
                       ".runner.getTestSuiteState()",
-                      
+
     SUITE_LOAD_TIMEOUT : 120000,
-    
-    RUN_SUITE : simulator.Simulation.AUTWINDOW + "." + 
-                simulator.Simulation.QXAPPLICATION + 
+
+    RUN_SUITE : simulator.Simulation.AUTWINDOW + "." +
+                simulator.Simulation.QXAPPLICATION +
                 ".runner.view.run()",
-    
+
     ACCESS_INTERVAL : 5000,
-    
-    GET_SUITE_RESULTS : simulator.Simulation.AUTWINDOW + 
-                        ".qx.lang.Json.stringify(" + 
-                        simulator.Simulation.AUTWINDOW + "." + 
-                        simulator.Simulation.QXAPPLICATION + 
+
+    GET_SUITE_RESULTS : simulator.Simulation.AUTWINDOW +
+                        ".qx.lang.Json.stringify(" +
+                        simulator.Simulation.AUTWINDOW + "." +
+                        simulator.Simulation.QXAPPLICATION +
                         ".runner.view.getSuiteResults())",
 
     GET_HOST_NAME : simulator.Simulation.AUTWINDOW + ".location.hostname"
   },
-  
+
   members :
   {
     _getTestSuiteState : function()
@@ -57,8 +57,8 @@ qx.Class.define("simulator.autounit.AutoUnit", {
       var getSuiteState = this.self(arguments).GET_SUITE_STATE;
       return String(simulator.QxSelenium.getInstance().getEval(getSuiteState));
     },
-    
-    
+
+
     _isTestSuiteReady : function()
     {
       var condition = this.self(arguments).GET_SUITE_STATE + " !== \"loading\"";
@@ -72,16 +72,16 @@ qx.Class.define("simulator.autounit.AutoUnit", {
         return false;
       }
     },
-    
-    
+
+
     _runTestSuite : function()
     {
       var runSuite = this.self(arguments).RUN_SUITE;
       simulator.QxSelenium.getInstance().getEval(runSuite);
     },
-    
+
     /**
-     * 
+     * @lint ignoreDeprecated(eval)
      * @return {}
      */
     _getSuiteResults : function()
@@ -90,22 +90,22 @@ qx.Class.define("simulator.autounit.AutoUnit", {
       var resultsString = String(simulator.QxSelenium.getInstance().getEval(getSuiteResults));
       var results;
       eval("results=" + resultsString);
-      
+
       var getHostName = this.self(arguments).GET_HOST_NAME;
       var hostName = String(simulator.QxSelenium.getInstance().getEval(getHostName));
       results.hostname = hostName;
-      
+
       return results;
     },
-    
-    
+
+
     setUp : function()
     {
       if (!this._isTestSuiteReady()) {
         var errMsg = "The test suite did not finish loading before the timeout was reached!";
         throw new Error(this.classname + "#setUp failed: " + errMsg);
       }
-      
+
       var suiteState = this._getTestSuiteState();
       switch(suiteState) {
         case "error":
@@ -121,22 +121,22 @@ qx.Class.define("simulator.autounit.AutoUnit", {
           this.warn("Unexpected test suite state: '" + suiteState + "'");
       }
     },
-    
-    
+
+
     _logResults : function()
     {
       this.info("Retrieving unit test results...");
       var results = this._getSuiteResults();
       this.assertMap(results, "Couldn't get unit test results map!");
-      
+
       this.info("");
       this.info("BEGIN UNIT TEST RESULTS");
-      
+
       if (!results.tests) {
         this.warn("No test results found!");
         return;
       }
-      
+
       for (var testName in results.tests) {
         var result = results.tests[testName];
         var logLevel;
@@ -152,9 +152,9 @@ qx.Class.define("simulator.autounit.AutoUnit", {
           default:
             logLevel = "warn";
         }
-        
+
         this[logLevel](testName + " " + result.state);
-        
+
         if (result.exceptions && result.exceptions.length > 0) {
           for (var i=0, l=result.exceptions.length; i<l; i++) {
             var err = result.exceptions[i];
@@ -164,14 +164,14 @@ qx.Class.define("simulator.autounit.AutoUnit", {
           }
         }
       }
-      
+
       this.info("");
       this.info("END UNIT TEST RESULTS");
       this.info("");
-      
+
       var ju = new simulator.autounit.JunitLog(results);
       var res = ju.getResultsXmlString();
-      
+
       var startedAt = new Date(results.startedAt);
       var dateFormat = new qx.util.format.DateFormat("YYYY-MM-dd_HH-mm-ss");
       var formattedDate = dateFormat.format(startedAt)
@@ -179,18 +179,18 @@ qx.Class.define("simulator.autounit.AutoUnit", {
       if (qx.core.Environment.get("simulator.autounit.logpath")) {
         fileName = qx.core.Environment.get("simulator.autounit.logpath") + "/" + fileName;
       }
-      
+
       this.info("Storing test suite results in file " + fileName);
       var logFile = new simulator.RhinoFile(fileName);
       logFile.writeLine(res);
       logFile.close();
     },
-    
-    
+
+
     testUnitTests : function()
     {
       this._runTestSuite();
-      
+
       while(true) {
         simulator.Simulation.getInstance().wait(this.self(arguments).ACCESS_INTERVAL);
         var suiteState = this._getTestSuiteState();

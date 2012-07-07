@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * This class provides the <code>domupdated</code> event. The event is
  * delegated to all widget instances that have a
  * listener for the <code>domupdated</code> event registered.

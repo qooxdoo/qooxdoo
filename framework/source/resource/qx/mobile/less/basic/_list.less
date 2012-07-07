@@ -1,0 +1,35 @@
+//
+// LIST
+//
+
+ul {
+  .background-clip(padding-box);
+  padding: 0;
+  font: bold 17px Helvetica;
+  .border-radius(.4em);
+
+  cursor:pointer;
+}
+
+ul li {
+  list-style-type: none;
+  padding: 10px 25px 10px 10px;
+}
+
+ul li.active .subtitle {
+}
+
+ul li .subtitle {
+  font-weight: normal;
+  font-size: 0.8em;
+}
+
+li:first-child, li:first-child a {
+  border-top: 0;
+  .border-radius-top(.4em);
+}
+
+
+li:last-child, li:last-child a {
+  .border-radius-bottom(.4em);
+}

@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.AttributeStyle_2",
 {
   extend : qx.application.Native,
@@ -28,7 +31,7 @@ qx.Class.define("demobrowser.demo.bom.AttributeStyle_2",
     {
       this.base(arguments);
 
-      var chk = qx.bom.Element.create("input", {
+      var chk = qx.dom.Element.create("input", {
         type : "checkbox",
         checked : true,
         id : "chk"
@@ -36,7 +39,7 @@ qx.Class.define("demobrowser.demo.bom.AttributeStyle_2",
 
       document.body.appendChild(chk);
 
-      var lab = qx.bom.Element.create("label", {
+      var lab = qx.dom.Element.create("label", {
         "for" : "chk"
       });
 

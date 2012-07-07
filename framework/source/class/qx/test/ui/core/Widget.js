@@ -24,7 +24,7 @@
 qx.Class.define("qx.test.ui.core.Widget",
 {
   extend : qx.test.ui.LayoutTestCase,
-  include : [qx.dev.unit.MMock],
+  include : [qx.dev.unit.MMock, qx.dev.unit.MRequirements],
 
   members :
   {
@@ -392,6 +392,48 @@ qx.Class.define("qx.test.ui.core.Widget",
       var hint = w._computeSizeHint();
 
       this.assertEquals(200, hint.maxHeight);
+      w.dispose();
+    },
+
+
+    testAddUndefined : function() {
+      this.require(["qx.debug"]);
+
+      var w = new qx.ui.core.Widget();
+
+      this.assertException(function(){
+        w._add(undefined);
+      },
+      qx.core.AssertionError.constructor,
+      /Expected value to be instanceof 'qx.ui.core.LayoutItem'/
+      );
+
+      w.dispose();
+    },
+
+
+    testAddNoWidget : function() {
+      this.require(["qx.debug"]);
+
+      var w = new qx.ui.core.Widget();
+
+      this.assertException(function(){
+        w._add(new qx.bom.Font());
+      },
+      qx.core.AssertionError.constructor,
+      /Expected value to be instanceof 'qx.ui.core.LayoutItem'/
+      );
+
+      w.dispose();
+    },
+
+
+    testAddWidget : function() {
+      this.require(["qx.debug"]);
+
+      var w = new qx.ui.core.Widget();
+      w._add(new qx.ui.container.Composite());
+
       w.dispose();
     }
   }

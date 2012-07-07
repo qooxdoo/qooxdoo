@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5953 $"/>
-		<generation date="$Date: 2011-07-04 18:22:55 -0500 (Mon, 04 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="tr"/>
 	</identity>
 	<localeDisplayNames>
@@ -680,7 +680,6 @@
 			<territory type="054">Melanezya</territory>
 			<territory type="057">Mikronezya</territory>
 			<territory type="061">Polinezya</territory>
-			<territory type="062">Güney Orta Asya</territory>
 			<territory type="142">Asya</territory>
 			<territory type="143">Orta Asya</territory>
 			<territory type="145">Batı Asya</territory>
@@ -688,9 +687,7 @@
 			<territory type="151">Doğu Avrupa</territory>
 			<territory type="154">Kuzey Avrupa</territory>
 			<territory type="155">Batı Avrupa</territory>
-			<territory type="172">Bağımsız Devletler Topluluğu</territory>
 			<territory type="419">Latin Amerika</territory>
-			<territory type="830">Kanal Adaları</territory>
 			<territory type="AC">Ascension Adası</territory>
 			<territory type="AD">Andorra</territory>
 			<territory type="AE">Birleşik Arap Emirlikleri</territory>
@@ -1011,7 +1008,6 @@
 			<type type="coptic" key="calendar">Kıpti Takvim</type>
 			<type type="deva" key="numbers">Devanagari Rakamları</type>
 			<type type="dictionary" key="collation">Sözlük Sıralama Düzeni</type>
-			<type type="direct" key="collation">Düz Sıralama</type>
 			<type type="ducet" key="collation">Saptanmış Unicode Sıralaması</type>
 			<type type="ethi" key="numbers">Etiyopik Rakamlar</type>
 			<type type="ethiopic" key="calendar">Etiyopik Takvim</type>
@@ -1087,7 +1083,7 @@
 		<exemplarCharacters type="auxiliary">[á à ă â å ä ā æ é è ĕ ê ë ē í ì ĭ î ï ī ñ ó ò ŏ ô ø ō œ q ú ù ŭ û ū w x ÿ]</exemplarCharacters>
 		<exemplarCharacters type="currencySymbol">[a b c č d e f g h i j k l ł m n o º p q r s t u v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index">[A B C Ç D E F G H I İ J K L M N O Ö P Q R S Ş T U Ü V W X Y Z]</exemplarCharacters>
-		<exemplarCharacters type="punctuation">[\- ‐ – — , ; \: ! ? . … ' ‘ ’ &quot; “ ” ( ) \[ \] @ * / \&amp; # † ‡ ′ ″ §]</exemplarCharacters>
+		<exemplarCharacters type="punctuation">[\- ‐ – — , ; \: ! ? . … ' ‘ ’ &quot; “ ” ( ) \[ \] § @ * / \&amp; # † ‡ ′ ″]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>“</quotationStart>
@@ -1131,24 +1127,24 @@
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">dd/MM</dateFormatItem>
-						<dateFormatItem id="MEd">dd/MM E</dateFormatItem>
+						<dateFormatItem id="Md">dd.MM</dateFormatItem>
+						<dateFormatItem id="MEd">dd.MM E</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">dd MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">dd MMM E</dateFormatItem>
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y G</dateFormatItem>
-						<dateFormatItem id="yM">M/y G</dateFormatItem>
+						<dateFormatItem id="yM">MM.y G</dateFormatItem>
 						<dateFormatItem id="yMd">dd.MM.y G</dateFormatItem>
-						<dateFormatItem id="yMEd">dd.MM.y G EEE</dateFormatItem>
+						<dateFormatItem id="yMEd">dd.MM.y G E</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yMMMd">dd MMM y G</dateFormatItem>
-						<dateFormatItem id="yMMMEd">dd MMM y G EEE</dateFormatItem>
+						<dateFormatItem id="yMMMEd">dd MMM y G E</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y G</dateFormatItem>
 						<dateFormatItem id="yQ">Q y G</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y G</dateFormatItem>
-						<dateFormatItem id="yyMM">MM/yy G</dateFormatItem>
+						<dateFormatItem id="yyMM">MM.yy G</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM yy G</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy G</dateFormatItem>
 						<dateFormatItem id="yyQQQQ">QQQQ yy G</dateFormatItem>
@@ -1451,15 +1447,14 @@
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">d E</dateFormatItem>
-						<dateFormatItem id="EEEd">d EEE</dateFormatItem>
 						<dateFormatItem id="H">HH</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">dd/MM</dateFormatItem>
-						<dateFormatItem id="MEd">dd/MM E</dateFormatItem>
+						<dateFormatItem id="Md">dd.MM</dateFormatItem>
+						<dateFormatItem id="MEd">dd.MM E</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">d MMMM E</dateFormatItem>
@@ -1468,16 +1463,16 @@
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">MM/yy</dateFormatItem>
+						<dateFormatItem id="yM">MM.yy</dateFormatItem>
 						<dateFormatItem id="yMd">dd.MM.yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd">dd.MM.yyyy EEE</dateFormatItem>
+						<dateFormatItem id="yMEd">dd.MM.yyyy E</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">dd MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">d MMM y EEE</dateFormatItem>
+						<dateFormatItem id="yMMMEd">d MMM y E</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ">y-Q</dateFormatItem>
 						<dateFormatItem id="yQQQ">y-QQQ</dateFormatItem>
-						<dateFormatItem id="yyMM">MM/yy</dateFormatItem>
+						<dateFormatItem id="yyMM">MM.yy</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
 						<dateFormatItem id="yyQQQQ">QQQQ yy</dateFormatItem>
@@ -1528,12 +1523,12 @@
 							<greatestDifference id="M">MM - MM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="Md">
-							<greatestDifference id="d">dd/MM - dd/MM</greatestDifference>
-							<greatestDifference id="M">dd/MM - dd/MM</greatestDifference>
+							<greatestDifference id="d">dd.MM - dd.MM</greatestDifference>
+							<greatestDifference id="M">dd.MM - dd.MM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MEd">
-							<greatestDifference id="d">dd/MM E - dd/MM E</greatestDifference>
-							<greatestDifference id="M">dd/MM E - dd/MM E</greatestDifference>
+							<greatestDifference id="d">dd.MM E - dd.MM E</greatestDifference>
+							<greatestDifference id="M">dd.MM E - dd.MM E</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MMM">
 							<greatestDifference id="M">MMM-MMM</greatestDifference>
@@ -1550,18 +1545,18 @@
 							<greatestDifference id="y">y-y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yM">
-							<greatestDifference id="M">MM/yy - MM/yy</greatestDifference>
-							<greatestDifference id="y">MM/yy - MM/yy</greatestDifference>
+							<greatestDifference id="M">MM.yy - MM.yy</greatestDifference>
+							<greatestDifference id="y">MM.yy - MM.yy</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">dd/MM/yy - dd/MM/yy</greatestDifference>
-							<greatestDifference id="M">dd/MM/yy - dd/MM/yy</greatestDifference>
-							<greatestDifference id="y">dd/MM/yy - dd/MM/yy</greatestDifference>
+							<greatestDifference id="d">dd.MM.yy - dd.MM.yy</greatestDifference>
+							<greatestDifference id="M">dd.MM.yy - dd.MM.yy</greatestDifference>
+							<greatestDifference id="y">dd.MM.yy - dd.MM.yy</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">dd/MM/yy E - dd/MM/yy E</greatestDifference>
-							<greatestDifference id="M">dd/MM/yy E - dd/MM/yy E</greatestDifference>
-							<greatestDifference id="y">dd/MM/yy E - dd/MM/yy E</greatestDifference>
+							<greatestDifference id="d">dd.MM.yy E - dd.MM.yy E</greatestDifference>
+							<greatestDifference id="M">dd.MM.yy E - dd.MM.yy E</greatestDifference>
+							<greatestDifference id="y">dd.MM.yy E - dd.MM.yy E</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
 							<greatestDifference id="M">MMM-MMM y</greatestDifference>
@@ -1706,24 +1701,24 @@
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">dd/MM</dateFormatItem>
-						<dateFormatItem id="MEd">dd/MM E</dateFormatItem>
+						<dateFormatItem id="Md">dd.MM</dateFormatItem>
+						<dateFormatItem id="MEd">dd.MM E</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">dd MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">dd MMM E</dateFormatItem>
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="yyMM">MM/yy G</dateFormatItem>
+						<dateFormatItem id="yyMM">MM.yy G</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM yy G</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy G</dateFormatItem>
 						<dateFormatItem id="yyQQQQ">QQQQ yy G</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
-						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">MM.y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">dd.MM.y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">dd.MM.y G EEE</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">dd.MM.y G E</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">dd MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">dd MMM y G EEE</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">dd MMM y G E</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">Q y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
@@ -1764,25 +1759,25 @@
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">dd/MM</dateFormatItem>
-						<dateFormatItem id="MEd">dd/MM E</dateFormatItem>
+						<dateFormatItem id="Md">dd.MM</dateFormatItem>
+						<dateFormatItem id="MEd">dd.MM E</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">dd MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">dd MMM E</dateFormatItem>
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y G</dateFormatItem>
-						<dateFormatItem id="yyMM">MM/yy G</dateFormatItem>
+						<dateFormatItem id="yyMM">MM.yy G</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM yy G</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy G</dateFormatItem>
 						<dateFormatItem id="yyQQQQ">QQQQ yy G</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
-						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">MM.y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">dd.MM.y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">dd.MM.y G EEE</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">dd.MM.y G E</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">dd MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">dd MMM y G EEE</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">dd MMM y G E</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">Q y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
@@ -1842,25 +1837,25 @@
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">dd/MM</dateFormatItem>
-						<dateFormatItem id="MEd">dd/MM E</dateFormatItem>
+						<dateFormatItem id="Md">dd.MM</dateFormatItem>
+						<dateFormatItem id="MEd">dd.MM E</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">dd MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">dd MMM E</dateFormatItem>
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y G</dateFormatItem>
-						<dateFormatItem id="yyMM">MM/yy G</dateFormatItem>
+						<dateFormatItem id="yyMM">MM.yy G</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM yy G</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy G</dateFormatItem>
 						<dateFormatItem id="yyQQQQ">QQQQ yy G</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
-						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">MM.y G</dateFormatItem>
 						<dateFormatItem id="yyyyMd">dd.MM.y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">dd.MM.y G EEE</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">dd.MM.y G E</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">dd MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEd">dd MMM y G EEE</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">dd MMM y G E</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">Q y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
@@ -2260,7 +2255,8 @@
 			</zone>
 			<metazone type="Acre">
 				<long>
-					<standard>Acre Saati</standard>
+					<generic>Acre Saati</generic>
+					<standard>Acre Standart Saati</standard>
 					<daylight>Acre Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2281,19 +2277,20 @@
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<generic>Güney Afrika Saati</generic>
 					<standard>Güney Afrika Standart Saati</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
-					<standard>Batı Afrika Saati</standard>
+					<generic>Batı Afrika Saati</generic>
+					<standard>Batı Afrika Standart Saati</standard>
 					<daylight>Batı Afrika Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aktyubinsk">
 				<long>
-					<standard>Aktyubinsk Saati</standard>
+					<generic>Aktyubinsk Saati</generic>
+					<standard>Aktyubinsk Standart Saati</standard>
 					<daylight>Aktyubinsk Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2313,14 +2310,15 @@
 			</metazone>
 			<metazone type="Almaty">
 				<long>
-					<standard>Almatı Saati</standard>
+					<generic>Almatı Saati</generic>
+					<standard>Almatı Standart Saati</standard>
 					<daylight>Almatı Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Amazon">
 				<long>
 					<generic>Amazon Saati</generic>
-					<standard>Amazon Saati</standard>
+					<standard>Amazon Standart Saati</standard>
 					<daylight>Amazon Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2355,19 +2353,21 @@
 			<metazone type="Anadyr">
 				<long>
 					<generic>Anadyr Saati</generic>
-					<standard>Anadır Saati</standard>
+					<standard>Anadır Standart Saati</standard>
 					<daylight>Anadır Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aqtau">
 				<long>
-					<standard>Aktav Saati</standard>
+					<generic>Aktav Saati</generic>
+					<standard>Aktav Standart Saati</standard>
 					<daylight>Aktav Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aqtobe">
 				<long>
-					<standard>Aktöbe Saati</standard>
+					<generic>Aktöbe Saati</generic>
+					<standard>Aktöbe Standart Saati</standard>
 					<daylight>Aktöbe Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2381,26 +2381,28 @@
 			<metazone type="Argentina">
 				<long>
 					<generic>Arjantin Saati</generic>
-					<standard>Arjantin Saati</standard>
+					<standard>Arjantin Standart Saati</standard>
 					<daylight>Arjantin Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina_Western">
 				<long>
-					<generic>Arjantin Batı Saati</generic>
-					<standard>Batı Arjantin Saati</standard>
-					<daylight>Arjantin Batı Yaz Saati</daylight>
+					<generic>Batı Arjantin Saati</generic>
+					<standard>Batı Arjantin Standart Saati</standard>
+					<daylight>Batı Arjantin Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Armenia">
 				<long>
-					<standard>Ermenistan Saati</standard>
+					<generic>Ermenistan Saati</generic>
+					<standard>Ermenistan Standart Saati</standard>
 					<daylight>Ermenistan Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Ashkhabad">
 				<long>
-					<standard>Aşkabat Saati</standard>
+					<generic>Aşkabat Saati</generic>
+					<standard>Aşkabat Standart Saati</standard>
 					<daylight>Aşkabat Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2441,25 +2443,29 @@
 			</metazone>
 			<metazone type="Azerbaijan">
 				<long>
-					<standard>Azerbaycan Saati</standard>
+					<generic>Azerbaycan Saati</generic>
+					<standard>Azerbaycan Standart Saati</standard>
 					<daylight>Azerbaycan Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Azores">
 				<long>
-					<standard>Azor Adaları Saati</standard>
+					<generic>Azor Adaları Saati</generic>
+					<standard>Azor Adaları Standart Saati</standard>
 					<daylight>Azor Adaları Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Baku">
 				<long>
-					<standard>Bakü Saati</standard>
+					<generic>Bakü Saati</generic>
+					<standard>Bakü Standart Saati</standard>
 					<daylight>Bakü Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bangladesh">
 				<long>
-					<standard>Bangladeş Saati</standard>
+					<generic>Bangladeş Saati</generic>
+					<standard>Bangladeş Standart Saati</standard>
 					<daylight>Bangladeş Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2482,14 +2488,15 @@
 			</metazone>
 			<metazone type="Borneo">
 				<long>
-					<standard>Borneo Saati</standard>
+					<generic>Borneo Saati</generic>
+					<standard>Borneo Standart Saati</standard>
 					<daylight>Borneo Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Brasilia">
 				<long>
 					<generic>Brasilia Saati</generic>
-					<standard>Brasilia Saati</standard>
+					<standard>Brasilia Standart Saati</standard>
 					<daylight>Brasilia Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2500,13 +2507,13 @@
 			</metazone>
 			<metazone type="Cape_Verde">
 				<long>
-					<standard>Cape Verde Saati</standard>
+					<generic>Cape Verde Saati</generic>
+					<standard>Cape Verde Standart Saati</standard>
 					<daylight>Cape Verde Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chamorro">
 				<long>
-					<generic>Chamorro Saati</generic>
 					<standard>Chamorro Standart Saati</standard>
 				</long>
 			</metazone>
@@ -2517,13 +2524,15 @@
 			</metazone>
 			<metazone type="Chatham">
 				<long>
+					<generic>Chatham Saati</generic>
 					<standard>Chatham Standart Saati</standard>
 					<daylight>Chatham Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chile">
 				<long>
-					<standard>Şili Saati</standard>
+					<generic>Şili Saati</generic>
+					<standard>Şili Standart Saati</standard>
 					<daylight>Şili Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2537,7 +2546,7 @@
 			<metazone type="Choibalsan">
 				<long>
 					<generic>Choibalsan Saati</generic>
-					<standard>Çoybalsan Saati</standard>
+					<standard>Çoybalsan Standart Saati</standard>
 					<daylight>Çoybalsan Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2553,13 +2562,15 @@
 			</metazone>
 			<metazone type="Colombia">
 				<long>
-					<standard>Kolombiya Saati</standard>
+					<generic>Kolombiya Saati</generic>
+					<standard>Kolombiya Standart Saati</standard>
 					<daylight>Kolombiya Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Cook">
 				<long>
-					<standard>Cook Adaları Saati</standard>
+					<generic>Cook Adaları Saati</generic>
+					<standard>Cook Adaları Standart Saati</standard>
 					<daylight>Cook Adaları Yarı Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2587,7 +2598,8 @@
 			</metazone>
 			<metazone type="Dushanbe">
 				<long>
-					<standard>Duşanbe Saati</standard>
+					<generic>Duşanbe Saati</generic>
+					<standard>Duşanbe Standart Saati</standard>
 					<daylight>Duşanbe Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2603,7 +2615,8 @@
 			</metazone>
 			<metazone type="Easter">
 				<long>
-					<standard>Easter Adası Saati</standard>
+					<generic>Easter Adası Saati</generic>
+					<standard>Easter Adası Standart Saati</standard>
 					<daylight>Easter Adası Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2614,31 +2627,36 @@
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<standard>Orta Avrupa Saati</standard>
+					<generic>Orta Avrupa Saati</generic>
+					<standard>Orta Avrupa Standart Saati</standard>
 					<daylight>Orta Avrupa Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<standard>Doğu Avrupa Saati</standard>
+					<generic>Doğu Avrupa Saati</generic>
+					<standard>Doğu Avrupa Standart Saati</standard>
 					<daylight>Doğu Avrupa Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<standard>Batı Avrupa Saati</standard>
+					<generic>Batı Avrupa Saati</generic>
+					<standard>Batı Avrupa Standart Saati</standard>
 					<daylight>Batı Avrupa Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Falkland">
 				<long>
-					<standard>Falkland Adaları Saati</standard>
+					<generic>Falkland Adaları Saati</generic>
+					<standard>Falkland Adaları Standart Saati</standard>
 					<daylight>Falkland Adaları Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Fiji">
 				<long>
-					<standard>Fiji Saati</standard>
+					<generic>Fiji Saati</generic>
+					<standard>Fiji Standart Saati</standard>
 					<daylight>Fiji Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2654,7 +2672,8 @@
 			</metazone>
 			<metazone type="Frunze">
 				<long>
-					<standard>Bişkek Saati</standard>
+					<generic>Bişkek Saati</generic>
+					<standard>Bişkek Standart Saati</standard>
 					<daylight>Bişkek Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2670,7 +2689,8 @@
 			</metazone>
 			<metazone type="Georgia">
 				<long>
-					<standard>Gürcistan Saati</standard>
+					<generic>Gürcistan Saati</generic>
+					<standard>Gürcistan Standart Saati</standard>
 					<daylight>Gürcistan Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2686,19 +2706,22 @@
 			</metazone>
 			<metazone type="Greenland_Central">
 				<long>
-					<standard>Orta Grönland Saati</standard>
+					<generic>Orta Grönland Saati</generic>
+					<standard>Orta Grönland Standart Saati</standard>
 					<daylight>Orta Grönland Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Eastern">
 				<long>
-					<standard>Doğu Grönland Saati</standard>
+					<generic>Doğu Grönland Saati</generic>
+					<standard>Doğu Grönland Standart Saati</standard>
 					<daylight>Doğu Grönland Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Western">
 				<long>
-					<standard>Batı Grönland Saati</standard>
+					<generic>Batı Grönland Saati</generic>
+					<standard>Batı Grönland Standart Saati</standard>
 					<daylight>Batı Grönland Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2709,7 +2732,6 @@
 			</metazone>
 			<metazone type="Gulf">
 				<long>
-					<generic>Körfez Saati</generic>
 					<standard>Körfez Standart Saati</standard>
 				</long>
 			</metazone>
@@ -2722,18 +2744,20 @@
 				<long>
 					<generic>Hawaii Aleutian Saati</generic>
 					<standard>Hawaii-Aleutian Standart Saati</standard>
+					<daylight>Hawaii-Aleutian Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hong_Kong">
 				<long>
-					<standard>Hong Kong Saati</standard>
+					<generic>Hong Kong Saati</generic>
+					<standard>Hong Kong Standart Saati</standard>
 					<daylight>Hong Kong Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
 					<generic>Hovd Saati</generic>
-					<standard>Kobdo Saati</standard>
+					<standard>Kobdo Standart Saati</standard>
 					<daylight>Kobdo Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2754,24 +2778,22 @@
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<generic>Endonezya Merkez Saati</generic>
 					<standard>Orta Endonezya Saati</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<generic>Endonezya Doğu Saati</generic>
 					<standard>Doğu Endonezya Saati</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<generic>Endonezye Batı Saati</generic>
 					<standard>Batı Endonezya Saati</standard>
 				</long>
 			</metazone>
 			<metazone type="Iran">
 				<long>
+					<generic>İran Saati</generic>
 					<standard>İran Standart Saati</standard>
 					<daylight>İran Yaz Saati</daylight>
 				</long>
@@ -2779,7 +2801,7 @@
 			<metazone type="Irkutsk">
 				<long>
 					<generic>Irkutsk Saati</generic>
-					<standard>İrkutsk Saati</standard>
+					<standard>İrkutsk Standart Saati</standard>
 					<daylight>İrkutsk Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2799,8 +2821,8 @@
 			</metazone>
 			<metazone type="Kamchatka">
 				<long>
-					<generic>Kamçatka Saati</generic>
-					<standard>Petropavlovsk-Kamçatski Saati</standard>
+					<generic>Petropavlovsk-Kamçatski Saati</generic>
+					<standard>Petropavlovsk-Kamçatski Standart Saati</standard>
 					<daylight>Petropavlovsk-Kamçatski Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2816,21 +2838,18 @@
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
-					<generic>Doğu Kazakistan Saati</generic>
-					<standard>Doğu Kazakistan Standart Saati</standard>
-					<daylight>Kazakistan Doğu Yaz Saati</daylight>
+					<standard>Doğu Kazakistan Saati</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
-					<generic>Batı Kazakistan Saati</generic>
-					<standard>Batı Kazakistan Standart Saati</standard>
-					<daylight>Kazakistan Batı Yaz Saati</daylight>
+					<standard>Batı Kazakistan Saati</standard>
 				</long>
 			</metazone>
 			<metazone type="Kizilorda">
 				<long>
-					<standard>Kızılorda Saati</standard>
+					<generic>Kızılorda Saati</generic>
+					<standard>Kızılorda Standart Saati</standard>
 					<daylight>Kızılorda Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2849,13 +2868,14 @@
 			<metazone type="Krasnoyarsk">
 				<long>
 					<generic>Krasnoyarsk Saati</generic>
-					<standard>Krasnoyarsk Saati</standard>
+					<standard>Krasnoyarsk Standart Saati</standard>
 					<daylight>Krasnoyarsk Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kuybyshev">
 				<long>
-					<standard>Kuybişev Saati</standard>
+					<generic>Kuybişev Saati</generic>
+					<standard>Kuybişev Standart Saati</standard>
 					<daylight>Kuybişev Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2893,19 +2913,20 @@
 			</metazone>
 			<metazone type="Macau">
 				<long>
-					<standard>Makao Saati</standard>
+					<generic>Makao Saati</generic>
+					<standard>Makao Standart Saati</standard>
 					<daylight>Makao Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<generic>Macquarie Saati</generic>
+					<standard>Macquarie Saati</standard>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic>Magadan Saati</generic>
-					<standard>Magadan Saati</standard>
+					<standard>Magadan Standart Saati</standard>
 					<daylight>Magadan Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2936,7 +2957,8 @@
 			</metazone>
 			<metazone type="Mauritius">
 				<long>
-					<standard>Mauritius Saati</standard>
+					<generic>Mauritius Saati</generic>
+					<standard>Mauritius Standart Saati</standard>
 					<daylight>Mauritius Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2947,8 +2969,8 @@
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic>Moğolistan Saati</generic>
-					<standard>Ulan Batur Saati</standard>
+					<generic>Ulan Batur Saati</generic>
+					<standard>Ulan Batur Standart Saati</standard>
 					<daylight>Ulan Batur Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -2976,7 +2998,8 @@
 			</metazone>
 			<metazone type="New_Caledonia">
 				<long>
-					<standard>Yeni Kaledonya Saati</standard>
+					<generic>Yeni Kaledonya Saati</generic>
+					<standard>Yeni Kaledonya Standart Saati</standard>
 					<daylight>Yeni Kaledonya Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3006,8 +3029,8 @@
 			</metazone>
 			<metazone type="Noronha">
 				<long>
-					<generic>Noronha Saati</generic>
-					<standard>Fernando de Noronha Saati</standard>
+					<generic>Fernando de Noronha Saati</generic>
+					<standard>Fernando de Noronha Standart Saati</standard>
 					<daylight>Fernando de Noronha Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3019,20 +3042,21 @@
 			<metazone type="Novosibirsk">
 				<long>
 					<generic>Novosibirsk Saati</generic>
-					<standard>Novosibirsk Saati</standard>
+					<standard>Novosibirsk Standart Saati</standard>
 					<daylight>Novosibirsk Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
 					<generic>Omsk Saati</generic>
-					<standard>Omsk Saati</standard>
+					<standard>Omsk Standart Saati</standard>
 					<daylight>Omsk Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Pakistan">
 				<long>
-					<standard>Pakistan Saati</standard>
+					<generic>Pakistan Saati</generic>
+					<standard>Pakistan Standart Saati</standard>
 					<daylight>Pakistan Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3048,19 +3072,22 @@
 			</metazone>
 			<metazone type="Paraguay">
 				<long>
-					<standard>Paraguay Saati</standard>
+					<generic>Paraguay Saati</generic>
+					<standard>Paraguay Standart Saati</standard>
 					<daylight>Paraguay Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Peru">
 				<long>
-					<standard>Peru Saati</standard>
+					<generic>Peru Saati</generic>
+					<standard>Peru Standart Saati</standard>
 					<daylight>Peru Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Philippines">
 				<long>
-					<standard>Filipinler Saati</standard>
+					<generic>Filipinler Saati</generic>
+					<standard>Filipinler Standart Saati</standard>
 					<daylight>Filipinler Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3088,7 +3115,8 @@
 			</metazone>
 			<metazone type="Qyzylorda">
 				<long>
-					<standard>Kızılorda Saati</standard>
+					<generic>Kızılorda Saati</generic>
+					<standard>Kızılorda Standart Saati</standard>
 					<daylight>Kızılorda Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3105,20 +3133,21 @@
 			<metazone type="Sakhalin">
 				<long>
 					<generic>Sakhalin Saati</generic>
-					<standard>Sakhalin Saati</standard>
+					<standard>Sakhalin Standart Saati</standard>
 					<daylight>Sakhalin Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
 					<generic>Samara Saati</generic>
-					<standard>Samara Saati</standard>
+					<standard>Samara Standart Saati</standard>
 					<daylight>Samara Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samarkand">
 				<long>
-					<standard>Semerkand Saati</standard>
+					<generic>Semerkand Saati</generic>
+					<standard>Semerkand Standart Saati</standard>
 					<daylight>Semerkand Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3134,7 +3163,8 @@
 			</metazone>
 			<metazone type="Shevchenko">
 				<long>
-					<standard>Şevçenko Saati</standard>
+					<generic>Şevçenko Saati</generic>
+					<standard>Şevçenko Standart Saati</standard>
 					<daylight>Şevçenko Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3160,7 +3190,8 @@
 			</metazone>
 			<metazone type="Sverdlovsk">
 				<long>
-					<standard>Sverdlovsk Saati</standard>
+					<generic>Sverdlovsk Saati</generic>
+					<standard>Sverdlovsk Standart Saati</standard>
 					<daylight>Sverdlovsk Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3188,13 +3219,15 @@
 			</metazone>
 			<metazone type="Tashkent">
 				<long>
-					<standard>Taşkent Saati</standard>
+					<generic>Taşkent Saati</generic>
+					<standard>Taşkent Standart Saati</standard>
 					<daylight>Taşkent Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Tbilisi">
 				<long>
-					<standard>Tiflis Saati</standard>
+					<generic>Tiflis Saati</generic>
+					<standard>Tiflis Standart Saati</standard>
 					<daylight>Tiflis Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3205,7 +3238,8 @@
 			</metazone>
 			<metazone type="Tonga">
 				<long>
-					<standard>Tonga Saati</standard>
+					<generic>Tonga Saati</generic>
+					<standard>Tonga Standart Saati</standard>
 					<daylight>Tonga Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3216,13 +3250,15 @@
 			</metazone>
 			<metazone type="Turkey">
 				<long>
-					<standard>Türkiye Saati</standard>
+					<generic>Türkiye Saati</generic>
+					<standard>Türkiye Standart Saati</standard>
 					<daylight>Türkiye Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Turkmenistan">
 				<long>
-					<standard>Türkmenistan Saati</standard>
+					<generic>Türkmenistan Saati</generic>
+					<standard>Türkmenistan Standart Saati</standard>
 					<daylight>Türkmenistan Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3233,13 +3269,15 @@
 			</metazone>
 			<metazone type="Uralsk">
 				<long>
-					<standard>Oral Saati</standard>
+					<generic>Oral Saati</generic>
+					<standard>Oral Standart Saati</standard>
 					<daylight>Oral Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Uruguay">
 				<long>
-					<standard>Uruguay Saati</standard>
+					<generic>Uruguay Saati</generic>
+					<standard>Uruguay Standart Saati</standard>
 					<daylight>Uruguay Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3250,13 +3288,15 @@
 			</metazone>
 			<metazone type="Uzbekistan">
 				<long>
-					<standard>Özbekistan Saati</standard>
+					<generic>Özbekistan Saati</generic>
+					<standard>Özbekistan Standart Saati</standard>
 					<daylight>Özbekistan Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vanuatu">
 				<long>
-					<standard>Vanuatu Saati</standard>
+					<generic>Vanuatu Saati</generic>
+					<standard>Vanuatu Standart Saati</standard>
 					<daylight>Vanuatu Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3268,14 +3308,14 @@
 			<metazone type="Vladivostok">
 				<long>
 					<generic>Vladivostok Saati</generic>
-					<standard>Vladivostok Saati</standard>
+					<standard>Vladivostok Standart Saati</standard>
 					<daylight>Vladivostok Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
 					<generic>Volgograd Saati</generic>
-					<standard>Volgograd Saati</standard>
+					<standard>Volgograd Standart Saati</standard>
 					<daylight>Volgograd Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3297,20 +3337,21 @@
 			<metazone type="Yakutsk">
 				<long>
 					<generic>Yakutsk Saati</generic>
-					<standard>Yakutsk Saati</standard>
+					<standard>Yakutsk Standart Saati</standard>
 					<daylight>Yakutsk Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
 					<generic>Yekaterinburg Saati</generic>
-					<standard>Yekaterinburg Saati</standard>
+					<standard>Yekaterinburg Standart Saati</standard>
 					<daylight>Yekaterinburg Yaz Saati</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yerevan">
 				<long>
-					<standard>Erivan Saati</standard>
+					<generic>Erivan Saati</generic>
+					<standard>Erivan Standart Saati</standard>
 					<daylight>Erivan Yaz Saati</daylight>
 				</long>
 			</metazone>
@@ -3336,7 +3377,7 @@
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
@@ -3344,36 +3385,36 @@
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000">0.0 bin</pattern>
-					<pattern type="10000">00 bin</pattern>
-					<pattern type="100000">000 bin</pattern>
-					<pattern type="1000000">0.0Mln</pattern>
-					<pattern type="10000000">00Mln</pattern>
-					<pattern type="100000000">000Mln</pattern>
-					<pattern type="1000000000">0.0Mly</pattern>
-					<pattern type="10000000000">00Mly</pattern>
-					<pattern type="100000000000">000Mly</pattern>
-					<pattern type="1000000000000">0.0Tln</pattern>
-					<pattern type="10000000000000">00Tln</pattern>
-					<pattern type="100000000000000">000Tln</pattern>
+					<pattern type="1000" draft="contributed">0000</pattern>
+					<pattern type="10000" draft="contributed">00 B</pattern>
+					<pattern type="100000" draft="contributed">000 B</pattern>
+					<pattern type="1000000" draft="contributed">0.0 Mn</pattern>
+					<pattern type="10000000" draft="contributed">00 Mn</pattern>
+					<pattern type="100000000" draft="contributed">000 Mn</pattern>
+					<pattern type="1000000000" draft="contributed">0.0 Mr</pattern>
+					<pattern type="10000000000" draft="contributed">00 Mr</pattern>
+					<pattern type="100000000000" draft="contributed">000 Mr</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0 T</pattern>
+					<pattern type="10000000000000" draft="contributed">00 T</pattern>
+					<pattern type="100000000000000" draft="contributed">000 T</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern>#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>%#,##0</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>

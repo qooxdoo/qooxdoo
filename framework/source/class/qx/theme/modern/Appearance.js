@@ -1793,19 +1793,50 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         var useCSS = qx.core.Environment.get("css.borderradius") &&
           qx.core.Environment.get("css.boxshadow");
+
+        var shadow = "tooltip-error";
+        if (useCSS) {
+           shadow += "-css";
+           if (states.placementLeft) {
+             shadow += "-left";
+           }
+        }
+        var decorator = "tooltip-error-arrow";
+        if (states.placementLeft) {
+          decorator = "tooltip-error-arrow-left";
+          if (useCSS) {
+            decorator += "-css";
+          }
+        }
+        // padding
+        if (useCSS) {
+          if (states.placementLeft) {
+            var padding = [9, 20, 3, 6];
+          } else {
+            var padding = [6, 6, 7, -8];
+          }
+        } else {
+          if (states.placementLeft) {
+            var padding = [6, 20, 3, 4];
+          } else {
+            var padding = [6, 4, 3, -5];
+          }
+        }
+
         return {
           textColor: "text-selected",
           backgroundColor : undefined,
           placeMethod: "widget",
-          offset: [0, 0, 0, 14],
+          offset: [0, 14, 0, 14],
           marginTop: -2,
           position: "right-top",
           showTimeout: 100,
           hideTimeout: 10000,
-          decorator: useCSS ? "tooltip-error-css" : "tooltip-error",
-          shadow: "tooltip-error-arrow",
+          shadow: shadow,
+          decorator: decorator,
           font: "bold",
-          padding: useCSS ? 3 : undefined
+          padding: padding,
+          maxWidth: 333
         };
       }
     },
@@ -2643,8 +2674,26 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
     "colorselector/preset-field-set" : "groupbox",
-    "colorselector/input-field-set" : "groupbox",
-    "colorselector/preview-field-set" : "groupbox",
+    "colorselector/input-field-set" : {
+      include : "groupbox",
+      alias : "groupbox",
+      style : function() {
+        return {
+          paddingTop: 20
+        }
+      }
+    },
+
+    "colorselector/preview-field-set" : {
+      include : "groupbox",
+      alias : "groupbox",
+      style : function() {
+        return {
+          paddingTop: 20
+        }
+      }
+    },
+
 
     "colorselector/hex-field-composite" : "widget",
     "colorselector/hex-field" : "textfield",

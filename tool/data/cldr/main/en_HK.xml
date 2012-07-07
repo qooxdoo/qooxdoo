@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5962 $"/>
-		<generation date="$Date: 2011-07-05 00:24:38 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6610 $"/>
+		<generation date="$Date: 2012-02-27 01:50:26 +0100 (Mon, 27 Feb 2012) $"/>
 		<language type="en"/>
 		<territory type="HK"/>
 	</identity>
@@ -34,16 +34,12 @@
 				</dateFormats>
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d/M/y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM, y</dateFormatItem>
+						<dateFormatItem id="yM">M/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yMd">d/M/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d/M/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM, y G</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM, y G</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -94,16 +90,11 @@
 				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMMEd">E, d MMMM</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d/M/yyyy</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM, y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM, y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatItem id="Md">
@@ -186,14 +177,11 @@
 				</dateFormats>
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y GGGGG</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d/M/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d/M/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM, y G</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM, y G</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM, y G</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -222,9 +210,6 @@
 				</dateFormats>
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
@@ -232,13 +217,25 @@
 		</calendars>
 		<timeZoneNames>
 			<metazone type="Europe_Central">
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<generic>∅∅∅</generic>
+					<standard>∅∅∅</standard>
+					<daylight>∅∅∅</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<generic>∅∅∅</generic>
+					<standard>∅∅∅</standard>
+					<daylight>∅∅∅</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Western">
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<generic>∅∅∅</generic>
+					<standard>∅∅∅</standard>
+					<daylight>∅∅∅</daylight>
+				</short>
 			</metazone>
 			<metazone type="Hong_Kong">
 				<short>
@@ -246,12 +243,11 @@
 					<standard>HKT</standard>
 					<daylight>HKST</daylight>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>

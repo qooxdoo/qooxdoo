@@ -80,130 +80,40 @@
 
 /**
  * Includes library functions to work with the client's viewport (window).
+ * Orientation related functions are point to window.top as default.
  */
-qx.Class.define("qx.bom.Viewport",
+qx.Bootstrap.define("qx.bom.Viewport",
 {
   statics :
   {
     /**
-     * Returns the current width of the viewport (excluding an eventually visible scrollbar).
+     * Returns the current width of the viewport (excluding the vertical scrollbar
+     * if present).
      *
-     * <code>clientWidth</code> is the inner width of an element in pixels. It includes padding
-     * but not the vertical scrollbar (if present, if rendered), border or margin.
-     *
-     * The property <code>innerWidth</code> is not useable as defined by the standard as it includes the scrollbars
-     * which is not the indented behavior of this method. We can decrement the size by the scrollbar
-     * size but there are easier possibilities to work around this.
-     *
-     * Safari 2 and 3 beta (3.0.2) do not correctly implement <code>clientWidth</code> on documentElement/body,
-     * but <code>innerWidth</code> works there. Interesting is that webkit do not correctly implement
-     * <code>innerWidth</code>, too. It calculates the size excluding the scroll bars and this
-     * differs from the behavior of all other browsers - but this is exactly what we want to have
-     * in this case.
-     *
-     * Opera less then 9.50 only works well using <code>body.clientWidth</code>.
-     *
-     * Verified to correctly work with:
-     *
-     * * Mozilla Firefox 2.0.0.4
-     * * Opera 9.2.1
-     * * Safari 3.0 beta (3.0.2)
-     * * Internet Explorer 7.0
-     *
-     * @signature function(win)
      * @param win {Window?window} The window to query
-     * @return {Integer} The width of the viewable area of the page (excludes scrollbars).
+     * @return {Integer} The width of the viewable area of the page (excluding scrollbars).
      */
-    getWidth : qx.core.Environment.select("engine.name",
+    getWidth : function(win)
     {
-      "opera" : function(win) {
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 9.5) {
-          return (win||window).document.body.clientWidth;
-        }
-        else
-        {
-          var doc = (win||window).document;
-          return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientWidth : doc.body.clientWidth;
-        }
-      },
-
-      "webkit" : function(win) {
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 523.15) { // Version < 3.0.4
-          return (win||window).innerWidth;
-        }
-        else
-        {
-          var doc = (win||window).document;
-          return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientWidth : doc.body.clientWidth;
-        }
-      },
-
-      "default" : function(win)
-      {
-        var doc = (win||window).document;
-        return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientWidth : doc.body.clientWidth;
-      }
-    }),
+      var win = win || window;
+      var doc = win.document;
+      return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientWidth : doc.body.clientWidth;
+    },
 
 
     /**
-     * Returns the current height of the viewport (excluding an eventually visible scrollbar).
+     * Returns the current height of the viewport (excluding the horizontal scrollbar
+     * if present).
      *
-     * <code>clientHeight</code> is the inner height of an element in pixels. It includes padding
-     * but not the vertical scrollbar (if present, if rendered), border or margin.
-     *
-     * The property <code>innerHeight</code> is not useable as defined by the standard as it includes the scrollbars
-     * which is not the indented behavior of this method. We can decrement the size by the scrollbar
-     * size but there are easier possibilities to work around this.
-     *
-     * Safari 2 and 3 beta (3.0.2) do not correctly implement <code>clientHeight</code> on documentElement/body,
-     * but <code>innerHeight</code> works there. Interesting is that webkit do not correctly implement
-     * <code>innerHeight</code>, too. It calculates the size excluding the scroll bars and this
-     * differs from the behavior of all other browsers - but this is exactly what we want to have
-     * in this case.
-     *
-     * Opera less then 9.50 only works well using <code>body.clientHeight</code>.
-     *
-     * Verified to correctly work with:
-     *
-     * * Mozilla Firefox 2.0.0.4
-     * * Opera 9.2.1
-     * * Safari 3.0 beta (3.0.2)
-     * * Internet Explorer 7.0
-     *
-     * @signature function(win)
      * @param win {Window?window} The window to query
-     * @return {Integer} The Height of the viewable area of the page (excludes scrollbars).
+     * @return {Integer} The Height of the viewable area of the page (excluding scrollbars).
      */
-    getHeight : qx.core.Environment.select("engine.name",
+    getHeight : function(win)
     {
-      "opera" : function(win) {
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 9.5) {
-          return (win||window).document.body.clientHeight;
-        }
-        else
-        {
-          var doc = (win||window).document;
-          return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientHeight : doc.body.clientHeight;
-        }
-      },
-
-      "webkit" : function(win) {
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 523.15) { // Version < 3.0.4
-          return (win||window).innerHeight;
-        }
-        else {
-          var doc = (win||window).document;
-          return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientHeight : doc.body.clientHeight;
-        }
-      },
-
-      "default" : function(win)
-      {
-        var doc = (win||window).document;
-        return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientHeight : doc.body.clientHeight;
-      }
-    }),
+      var win = win || window;
+      var doc = win.document;
+      return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientHeight : doc.body.clientHeight;
+    },
 
 
     /**
@@ -215,13 +125,22 @@ qx.Class.define("qx.bom.Viewport",
      * use a one-time environment check to decide which property to use.
      *
      * @param win {Window?window} The window to query
-     * @return {Integer} Scroll position from left edge, always a positive integer
+     * @return {Integer} Scroll position in pixels from left edge, always a positive integer or zero
      */
     getScrollLeft : function(win)
     {
-      var doc = (win||window).document;
-      return (win||window).pageXOffset || doc.documentElement.scrollLeft ||
-      doc.body.scrollLeft;
+      var win = win ? win : window;
+
+      if (typeof win.pageXOffset !== "undefined") {
+        return win.pageXOffset;
+      }
+
+      // Firefox is using 'documentElement.scrollLeft' and Chrome is using
+      // 'document.body.scrollLeft'. For the other value each browser is returning
+      // 0, so we can use this check to get the positive value without using specific
+      // browser checks.
+      var doc = win.document;
+      return doc.documentElement.scrollLeft || doc.body.scrollLeft;
     },
 
 
@@ -234,13 +153,22 @@ qx.Class.define("qx.bom.Viewport",
      * use a one-time environment check to decide which property to use.
      *
      * @param win {Window?window} The window to query
-     * @return {Integer} Scroll position from top edge, always a positive integer
+     * @return {Integer} Scroll position in pixels from top edge, always a positive integer or zero
      */
     getScrollTop : function(win)
     {
-      var doc = (win||window).document;
-      return (win||window).pageYOffset || doc.documentElement.scrollTop ||
-      doc.body.scrollTop;
+      var win = win ? win : window;
+
+      if (typeof win.pageYOffeset !== "undefined") {
+        return win.pageYOffset;
+      }
+
+      // Firefox is using 'documentElement.scrollTop' and Chrome is using
+      // 'document.body.scrollTop'. For the other value each browser is returning
+      // 0, so we can use this check to get the positive value without using specific
+      // browser checks.
+      var doc = win.document;
+      return doc.documentElement.scrollTop || doc.body.scrollTop;
     },
 
 
@@ -248,12 +176,14 @@ qx.Class.define("qx.bom.Viewport",
      * Returns an orientation normalizer value that should be added to device orientation
      * to normalize behaviour on different devices.
      *
+     * @param win {Window} The window to query
      * @return {Map} Orientation normalizing value
      */
-    __getOrientationNormalizer : function() {
+    __getOrientationNormalizer : function(win)
+    {
       // Calculate own understanding of orientation (0 = portrait, 90 = landscape)
-      var currentOrientation = this.getWidth() > this.getHeight() ? 90 : 0;
-      var deviceOrientation  = window.orientation;
+      var currentOrientation = this.getWidth(win) > this.getHeight(win) ? 90 : 0;
+      var deviceOrientation  = win.orientation;
       if (deviceOrientation == null || Math.abs( deviceOrientation % 180 ) == currentOrientation) {
         // No device orientation available or device orientation equals own understanding of orientation
         return {
@@ -294,11 +224,13 @@ qx.Class.define("qx.bom.Viewport",
      * * <code>90</code>: "Landscape"
      * * <code>180</code>: "Portrait"
      *
-     * @param win {Window?window} The window to query
+     * @param win {Window?window.top} The window to query. (Default = top window)
      * @return {Integer} The current orientation in degree
      */
     getOrientation : function(win)
     {
+      // Set window.top as default, because orientationChange event is only fired top window
+      var win = win||window.top;
       // The orientation property of window does not have the same behaviour over all devices
       // iPad has 0degrees = Portrait, Playbook has 90degrees = Portrait, same for Android Honeycomb
       //
@@ -306,11 +238,14 @@ qx.Class.define("qx.bom.Viewport",
       //
       // The calculation of getWidth and getHeight returns wrong values if you are in an input field
       // on iPad and rotate your device!
-      var orientation = (win||window).orientation;
+      var orientation = win.orientation;
       if (orientation == null) {
         // Calculate orientation from window width and window height
         orientation = this.getWidth(win) > this.getHeight(win) ? 90 : 0;
       } else {
+        if (this.__orientationNormalizer == null) {
+          this.__orientationNormalizer = this.__getOrientationNormalizer(win);
+        }
         // Normalize orientation value
         orientation = this.__orientationNormalizer[orientation];
       }
@@ -326,7 +261,7 @@ qx.Class.define("qx.bom.Viewport",
      *     is currently in landscape mode.
      */
     isLandscape : function(win) {
-      return Math.abs(this.getOrientation(win)) == 90;
+      return this.getWidth(win) >= this.getHeight(win);
     },
 
 
@@ -339,12 +274,7 @@ qx.Class.define("qx.bom.Viewport",
      */
     isPortrait : function(win)
     {
-      return Math.abs(this.getOrientation(win)) !== 90;
+      return this.getWidth(win) < this.getHeight(win);
     }
-  },
-
-
-  defer : function(statics) {
-    statics.__orientationNormalizer = statics.__getOrientationNormalizer();
   }
 });

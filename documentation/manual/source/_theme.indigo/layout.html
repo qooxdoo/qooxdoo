@@ -1,0 +1,251 @@
+{% extends "basic/layout.html" %}
+
+{% set assets_host = "http://resources.qooxdoo.org" %}
+{% set css_files = [assets_host + "/stylesheets/reset.css", assets_host + "/stylesheets/base.css", assets_host + "/stylesheets/layout.css"] + css_files %}
+{% set script_files = [assets_host + "/javascripts/html5shiv.js", assets_host + "/javascripts/q.js", assets_host + "/javascripts/q.placeholder.js", assets_host + "/javascripts/q.sticky.js", assets_host + "/javascripts/application.js"] + script_files %}
+
+{%- macro breadcrumb() %}
+  <a href="http://qooxdoo.org">Home</a>{{ reldelim1 }}
+  {%- block rootrellink %}
+    <a href="{{ pathto(master_doc) }}">{{ shorttitle|e }}</a>{{ reldelim1 }}
+  {%- endblock %}
+  {%- for parent in parents %}
+    {%- if parent.title != "Table of Contents" %}
+    <a href="{{ parent.link|e }}" {% if loop.last %}{{ accesskey("U") }}{% endif %}>{{ parent.title }}</a>
+    {{ reldelim1 }}
+    {%- endif %}
+  {%- endfor %}
+  <a href="">{{ title }}</a>
+{%- endmacro %}
+
+{%- block doctype %}
+<!doctype html>
+{% endblock %}
+
+{%- block header %}
+<div id="main-wrapper" class="sphinx">
+<div id="header-wrapper">
+  <section id="header">
+    <h1><a href="http://qooxdoo.org/">qooxdoo</a></h1>
+    <nav>
+      <ul>
+        <!--
+        <li>
+          <a class="" href="http://qooxdoo.org/">home</a>
+        </li>
+        -->
+        <li>
+          <a href="http://news.qooxdoo.org">blog</a>
+        </li>
+        <li>
+          <a class="" href="http://qooxdoo.org/demos">demos</a>
+        </li>
+        <li>
+          <a class="" href="http://qooxdoo.org/downloads">downloads</a>
+        </li>
+        <li>
+          <a class="active" href="http://qooxdoo.org/docs">docs</a>
+        </li>
+        <li>
+          <a class="" href="http://qooxdoo.org/community">community</a>
+        </li>
+      </ul>
+    </nav>
+    <script type="template" id="search-options-template">
+      <select>
+        <option value="site">Site</option>
+        <option value="manual">Manual</option>
+        <option value="blog">Blog</option>
+        <option value="bugs">Bugs</option>
+      </select>
+    </script>
+    <script type="template" id="search-site-template">
+      <form action="http://qooxdoo.org/" id="search-form">
+        <input type="hidden" name="do" value="search">
+        <input type="search" name="id" placeholder="Search"></input>
+      </form>
+    </script>
+    <script type="template" id="search-blog-template">
+      <form method="get" id="searchform" action="http://news.qooxdoo.org/" id="search-form">
+        <input type="search" class="field" name="s" id="s" placeholder="Search">
+      </form>
+    </script>
+    <script type="template" id="search-manual-template">
+      <form action="{{ pathto('search') }}" id="search-form">
+        <input type="search" name="q" placeholder="Search"></input>
+      </form>
+    </script>
+    <script type="template" id="search-bugs-template">
+      <form action="http://bugs.qooxdoo.org/buglist.cgi" id="search-form">
+        <input type="search" name="quicksearch" placeholder="Search"></input>
+      </form>
+    </script>
+    <div id="search">
+    </div>
+  </section>
+<div class="decoration"></div>
+</div>
+{% endblock %}
+
+{%- block extrahead %}
+<link rel="shortcut icon" href="http://resources.qooxdoo.org/images/qx-favicon.png" />
+{% endblock %}
+
+{%- block content %}
+<section id="main">
+  {%- block document %}
+  <section id="breadcrumb">
+      {{ breadcrumb() }}
+    </section>
+    <section id="content">
+      <div class="body">
+        {% block body %} {% endblock %}
+      </div>
+      <div class="bottom-nav">
+        {%- if prev %}
+          <a class="prev" href="{{ prev.link|e }}"
+             title="{{ _('previous chapter') }}">« {{ prev.title }}</a>
+          <span class="separator">|</span>
+        {%- endif %}
+        {%- if next %}
+          <a class="next" href="{{ next.link|e }}"
+             title="{{ _('next chapter') }}">{{ next.title }} »</a>
+        {%- endif %}
+      </div>
+    </section>
+    <section id="sidebar">
+      {%- block sidebar1 %}{{ sidebar() }}{% endblock %}
+  </section>
+  {%- endblock %}
+</section>
+</div>
+{%- endblock %}
+
+
+{%- block relbar1 %} {% endblock %}
+{%- block relbar2 %} {% endblock %}
+
+{%- block footer %}
+<div id="footer-wrapper">
+  <footer id="footer">
+    <div id="supported-by">
+      <a href="http://1and1.com">
+        <img src="http://resources.qooxdoo.org/images/1and1.png">
+      </a>
+      <p class="claim">
+        Brought to you by <a href="http://1and1.com">1&amp;1</a>, one of the world's leading web hosts
+      </p>
+      <p class="legal">
+        © 1&amp;1 Internet AG<br>
+        <a href="http://qooxdoo.org/legal">Legal notice</a>
+      </a>
+    </div>
+    <div id="sitemap">
+      <div>
+        <h3><a href="http://qooxdoo.org/">Home</a></h3>
+        <ul>
+          <li>
+            <a href="http://qooxdoo.org/demos">Demos</a>
+          </li>
+          <li>
+            <a href="http://qooxdoo.org/download">Download</a>
+          </li>
+          <li>
+            <a href="http://news.qooxdoo.org">Blog</a>
+          </li>
+          <li>
+            <a href="http://bugs.qooxdoo.org">Bugs</a>
+          </li>
+          <li>
+            <a href="http://qooxdoo.org/license">License</a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h3><a href="http://qooxdoo.org/docs">Docs</a></h3>
+        <ul>
+          <li>
+            {# {{version}} macro is referencing conf.py:html_context["version"] #}
+            <a href="http://manual.qooxdoo.org/{{version}}/pages/introduction/about.html">About</a>
+          </li>
+          <li>
+            <a href="http://manual.qooxdoo.org/{{version}}/pages/getting_started.html">Getting Started</a>
+          </li>
+          <li>
+            <a href="http://manual.qooxdoo.org/{{version}}/pages/website.html">Website</a>
+          </li>
+          <li>
+            <a href="http://manual.qooxdoo.org/{{version}}/pages/mobile.html">Mobile</a>
+          </li>
+          <li>
+            <a href="http://manual.qooxdoo.org/{{version}}/pages/desktop.html">Desktop</a>
+          </li>
+          <li>
+            <a href="http://manual.qooxdoo.org/{{version}}/pages/server.html">Server</a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h3><a href="http://qooxdoo.org/community">Community</a></h3>
+        <ul>
+          <li>
+            <a href="http://qooxdoo.org/community/contribution">Get Involved</a>
+          </li>
+          <li>
+            <a href="http://qooxdoo.org/community/mailing_lists">Mailing List</a>
+          </li>
+          <li>
+            <a href="http://qooxdoo.org/community/real_life_examples">Real Life Examples</a>
+          </li>
+          <li>
+            <a href="http://qooxdoo.org/community/events">Events</a>
+          </li>
+          <li>
+            <a href="http://qooxdoo.org/community/jobs_services">Jobs &amp; Services</a>
+          </li>
+          <li>
+            <a href="http://qooxdoo.org/contrib">Contributions</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="meta">
+      <div class="social">
+        <a href="http://twitter.com/qooxdoo">
+          <img src="http://resources.qooxdoo.org/images/twitter.png">
+        </a>
+        <a href="https://www.facebook.com/pages/qooxdoo/187101324711780">
+          <img src="http://resources.qooxdoo.org/images/facebook.png">
+        </a>
+        <a href="http://feeds.feedburner.com/qooxdoo/news/content">
+          <img src="http://resources.qooxdoo.org/images/feed.png">
+        </a>
+      </div>
+      <div class="notice">
+        <p class="source">
+          {%- if show_source and has_source and sourcename %}
+          <strong>
+            <a href="{{ pathto('_sources/' + sourcename, true)|e }}" rel="nofollow">{{ _('Show Source') }}</a>
+          </strong>
+          {%- endif %}
+        </p>
+        <p class="page">
+          {%- if show_copyright %}
+            {%- if hasdoc('copyright') %}
+              {% trans path=pathto('copyright'), copyright=copyright|e %}&copy; <a href="{{ path }}">Copyright</a> {{ copyright }}.{% endtrans %}
+            {%- else %}
+              {% trans copyright=copyright|e %}&copy; Copyright {{ copyright }}.{% endtrans %}
+            {%- endif %}
+          {%- endif %}
+          {%- if last_updated %}
+            {% trans last_updated=last_updated|e %}Last updated on {{ last_updated }}.{% endtrans %}
+          {%- endif %}
+          {%- if show_sphinx %}
+            {% trans sphinx_version=sphinx_version|e %}Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> {{ sphinx_version }}.{% endtrans %}
+          {%- endif %}
+        </p>
+      </div>
+    </div>
+  </footer>
+</div>
+{% endblock %}

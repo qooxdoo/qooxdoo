@@ -53,7 +53,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     // Basic
     //
 
-    "test: GET": function() {
+    "test: GET with event attribute handler": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.txt");
       req.open("GET", this.noCache(url));
@@ -66,6 +66,25 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
           });
         }
       };
+      req.send();
+
+      this.wait();
+    },
+
+    "test: GET with event": function() {
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/sample.txt");
+      req.open("GET", this.noCache(url));
+
+      var that = this;
+      var onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume(function() {
+            that.assertEquals(req.responseText, "SAMPLE");
+          });
+        }
+      };
+      req.on("readystatechange", onreadystatechange);
       req.send();
 
       this.wait();
@@ -167,29 +186,6 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.assertIdentical(1, req.readyState);
     },
 
-    //
-    // var req = this.req,
-    //     count = 0,
-    //     url = this.getUrl("qx/test/xmlhttp/sample.html");
-    //
-    // var that = this;
-    //
-    // req.onload = function() {
-    //   // From cache with new request
-    //   var req = new qx.bom.request.Xhr();
-    //   req.open("GET", url);
-    //   req.send();
-    //   req.onload = function() {
-    //     that.resume();
-    //   };
-    // };
-    //
-    // // Prime cache
-    // req.open("GET", url);
-    // req.send();
-    //
-    // this.wait();
-
     "test: abort pending request": function() {
       this.require(["php"]);
 
@@ -221,6 +217,36 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       };
       req.send();
 
+      this.wait();
+    },
+
+    "test: validate freshness": function() {
+      this.require(["php"]);
+
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/time.php");
+
+      var send = function() {
+        req.open("GET", url);
+        req.send();
+      };
+
+      var that = this;
+      var count = 0;
+      var results = [];
+      req.onload = function() {
+        count += 1;
+        results.push(req.responseText);
+        if (count < 2) {
+          send();
+        } else {
+          that.resume(function() {
+            that.assertNotEquals(results[0], results[1], "Response must differ");
+          });
+        }
+      };
+
+      send();
       this.wait();
     },
 

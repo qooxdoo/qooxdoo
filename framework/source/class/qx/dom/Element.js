@@ -21,10 +21,28 @@
  * Manages children structures of an element. Easy and convenient APIs
  * to insert, remove and replace children.
  */
-qx.Class.define("qx.dom.Element",
+qx.Bootstrap.define("qx.dom.Element",
 {
   statics :
   {
+    /**
+     * {Map} A list of all attributes which needs to be part of the initial element to work correctly
+     *
+     * @internal
+     */
+    __initialAttributes :
+    {
+      "onload" : true,
+      "onpropertychange" : true,
+      "oninput" : true,
+      "onchange" : true,
+      "name" : true,
+      "type" : true,
+      "checked" : true,
+      "disabled" : true
+    },
+
+
     /**
      * Whether the given <code>child</code> is a child of <code>parent</code>
      *
@@ -320,6 +338,168 @@ qx.Class.define("qx.dom.Element",
 
       parent.replaceChild(newNode, oldNode);
       return true;
+    },
+
+
+    /**
+     * Stores helper element for element creation in WebKit
+     *
+     * @internal
+     */
+    __helperElement : {},
+
+
+    /**
+     * Saves whether a helper element is needed for each window.
+     *
+     * @internal
+     */
+    __allowMarkup : {},
+
+    /**
+     * Detects if the DOM support a <code>document.createElement</code> call with a
+     * <code>String</code> as markup like:
+     *
+     * <pre class="javascript">
+     * document.createElement("<INPUT TYPE='RADIO' NAME='RADIOTEST' VALUE='Second Choice'>");
+     * </pre>
+     *
+     * Element creation with markup is not standard compatible with Document Object Model (Core) Level 1, but
+     * Internet Explorer supports it. With an exception that IE9 in IE9 standard mode is standard compatible and
+     * doesn't support element creation with markup.
+     *
+     * @param win {Window?} Window to check for
+     * @return {Boolean} <code>true</code> if the DOM supports it, <code>false</code> otherwise.
+     */
+    _allowCreationWithMarkup : function(win) {
+      if (!win) {
+        win = window;
+      }
+
+      // key is needed to allow using different windows
+      var key = win.location.href;
+      if (qx.dom.Element.__allowMarkup[key] == undefined)
+      {
+        try {
+          win.document.createElement("<INPUT TYPE='RADIO' NAME='RADIOTEST' VALUE='Second Choice'>");
+          qx.dom.Element.__allowMarkup[key] = true;
+        } catch(e) {
+          qx.dom.Element.__allowMarkup[key] = false;
+        }
+      }
+
+      return qx.dom.Element.__allowMarkup[key];
+    },
+
+
+        /**
+     * Creates and returns a DOM helper element.
+     *
+     * @param win {Window?} Window to create the element for
+     * @return {Element} The created element node
+     */
+    getHelperElement : function (win)
+    {
+      if (!win) {
+        win = window;
+      }
+
+      // key is needed to allow using different windows
+      var key = win.location.href;
+
+      if (!qx.dom.Element.__helperElement[key])
+      {
+        var helper = qx.dom.Element.__helperElement[key] = win.document.createElement("div");
+
+        // innerHTML will only parsed correctly if element is appended to document
+        if (qx.core.Environment.get("engine.name") == "webkit")
+        {
+          helper.style.display = "none";
+
+          win.document.body.appendChild(helper);
+        }
+      }
+
+      return qx.dom.Element.__helperElement[key];
+    },
+
+
+    /**
+     * Creates a DOM element.
+     *
+     * Attributes may be given directly with this call. This is critical
+     * for some attributes e.g. name, type, ... in many clients.
+     *
+     * Depending on the kind of attributes passed, <code>innerHTML</code> may be
+     * used internally to assemble the element. Please make sure you understand
+     * the security implications. See {@link qx.bom.Html#clean}.
+     *
+     * @param name {String} Tag name of the element
+     * @param attributes {Map?} Map of attributes to apply
+     * @param win {Window?} Window to create the element for
+     * @return {Element} The created element node
+     */
+    create : function(name, attributes, win)
+    {
+      if (!win) {
+        win = window;
+      }
+
+      if (!name) {
+        throw new Error("The tag name is missing!");
+      }
+
+      var initial = this.__initialAttributes;
+      var attributesHtml = "";
+
+      for (var key in attributes)
+      {
+        if (initial[key]) {
+          attributesHtml += key + "='" + attributes[key] + "' ";
+        }
+      }
+
+      var element;
+
+      // If specific attributes are defined we need to process
+      // the element creation in a more complex way.
+      if (attributesHtml != "")
+      {
+        if (qx.dom.Element._allowCreationWithMarkup(win)) {
+          element = win.document.createElement("<" + name + " " + attributesHtml + ">");
+        }
+        else
+        {
+          var helper = qx.dom.Element.getHelperElement(win);
+
+          helper.innerHTML = "<" + name + " " + attributesHtml + "></" + name + ">";
+          element = helper.firstChild;
+        }
+      }
+      else
+      {
+        element = win.document.createElement(name);
+      }
+
+      for (var key in attributes)
+      {
+        if (!initial[key]) {
+          qx.bom.element.Attribute.set(element, key, attributes[key]);
+        }
+      }
+
+      return element;
+    },
+
+
+    /**
+     * Removes all content from the given element
+     *
+     * @param element {Element} element to clean
+     * @return {String} empty string (new HTML content)
+     */
+    empty : function(element) {
+      return element.innerHTML = "";
     }
   }
 });

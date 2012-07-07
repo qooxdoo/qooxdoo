@@ -38,7 +38,7 @@ import qxenviron
 
 from misc.ExtendAction import ExtendAction
 from ecmascript.backend.Packer      import Packer
-from ecmascript.backend             import pretty
+from ecmascript.backend             import pretty_new_meth as pretty
 from ecmascript.frontend import tokenizer, treeutil
 from ecmascript.frontend import treegenerator
 #from ecmascript.frontend import treegenerator_new_ast as treegenerator

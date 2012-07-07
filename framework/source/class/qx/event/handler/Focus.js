@@ -765,23 +765,6 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeMouseDown : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
-      "gecko" : function(domEvent)
-      {
-        var target = qx.bom.Event.getTarget(domEvent);
-        var focusTarget = this.__findFocusableElement(target);
-        if (!focusTarget)
-        {
-          // focus is not allowed, so prevent the event
-          // This is mainly for supporting the keepFocus attribute.
-          qx.bom.Event.preventDefault(domEvent);
-        }
-        // Bug #3771: No blur event is fired on the previously focused element
-        // unless we explicitly focus the body
-        else if (focusTarget === this._body) {
-          this.setFocus(focusTarget);
-        }
-      },
-
       "mshtml" : function(domEvent)
       {
         var target = qx.bom.Event.getTarget(domEvent);
@@ -826,7 +809,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "webkit" : function(domEvent) {
+      "webkit|gecko" : function(domEvent) {
         var target = qx.bom.Event.getTarget(domEvent);
         var focusTarget = this.__findFocusableElement(target);
 

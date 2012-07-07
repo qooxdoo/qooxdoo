@@ -1,0 +1,64 @@
+input[type="radio"] {
+  visibility: hidden;
+  position:absolute;
+}
+
+.radiobutton-label {
+  visibility: visible;
+  display:inline-block;
+}
+
+
+input[type=radio] + label {
+      content:'';
+      width: 28px;
+      height: 28px;
+
+      position: relative;
+      
+      z-index:10;
+      
+      margin: 5px auto;
+
+      .border-radius(50px);
+}
+
+
+input[type=radio]+ label:before {
+      content:'';
+      cursor: pointer;
+
+      position: absolute;
+      left: 4px;
+      top: 4px;
+
+      width: 20px;
+      height: 20px;
+
+      z-index:10;
+
+      .border-radius(50px);
+}
+
+
+// Color dot
+input[type=radio] + label:after {
+    opacity: 0;
+    content: '';
+    position: absolute;
+
+    z-index:11;
+
+    width: 16px;
+    height: 16px;
+
+    .border-radius(50px);
+
+    top: 6px;
+    left: 6px;
+}
+
+
+input[type=radio]:checked + label:after {
+	opacity: 1;
+}

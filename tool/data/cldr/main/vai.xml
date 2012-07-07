@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5799 $"/>
-		<generation date="$Date: 2011-05-02 01:19:45 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 6708 $"/>
+		<generation date="$Date: 2012-03-16 07:58:36 +0100 (Fri, 16 Mar 2012) $"/>
 		<language type="vai"/>
 	</identity>
 	<localeDisplayNames>
@@ -286,10 +286,10 @@
 		<exemplarCharacters>[꘠-꘩ ꔀ-ꔌ ꘓ ꔍ-ꔞ ꘔ ꔟ-ꔳ ꘕ ꔴ-ꕇ ꘖ ꕈ-ꕒ ꘗ ꕓ-ꕘ ꘐ ꘘ ꕙ ꕚ ꘙ ꕛ-ꕠ ꘚ ꕡ-ꕪ ꘑ ꕫ-ꕮ ꘪ ꕯ-ꖅ ꘛ ꖆ ꖇ ꘒ ꖈ-ꖴ ꘜ ꖵ-ꗋ ꘝ ꗌ-ꗑ ꘫ ꘞ ꗒ-ꗘ ꘟ ꗙ-ꘌ]</exemplarCharacters>
 	</characters>
 	<delimiters>
-		<quotationStart>‘</quotationStart>
-		<quotationEnd>’</quotationEnd>
-		<alternateQuotationStart>“</alternateQuotationStart>
-		<alternateQuotationEnd>”</alternateQuotationEnd>
+		<quotationStart>“</quotationStart>
+		<quotationEnd>”</quotationEnd>
+		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -386,9 +386,9 @@
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">yyyy</dateFormatItem>
 						<dateFormatItem id="yM">M/yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, M/d/yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd">E, M/d/yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM yyyy</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, MMM d, yyyy</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, MMM d, yyyy</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM yyyy</dateFormatItem>
 						<dateFormatItem id="yQ">Q yyyy</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ yyyy</dateFormatItem>
@@ -422,26 +422,27 @@
 					<field type="second">
 						<displayName>ꕧꕃꕧꕪ</displayName>
 					</field>
-					<field type="zone">
-						<displayName/>
-					</field>
 				</fields>
 			</calendar>
 		</calendars>
 	</dates>
 	<numbers>
+		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<otherNumberingSystems>
+			<native>vaii</native>
+		</otherNumberingSystems>
 		<symbols numberSystem="latn">
 			<decimal>.</decimal>
 			<group>,</group>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>

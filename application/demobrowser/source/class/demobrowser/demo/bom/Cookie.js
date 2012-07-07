@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Cookie",
 {
   extend : qx.application.Standalone,

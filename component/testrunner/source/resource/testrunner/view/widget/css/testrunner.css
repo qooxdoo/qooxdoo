@@ -37,27 +37,32 @@
 
 .testResult{
   font-family: "Consolas", "Courier New", monospace;
-	font-size: 11px;
-	margin: 4px;
-	padding-top:4px;
-	background-color:lime;
+  font-size: 11px;
+  margin: 4px;
+  padding-top: 4px;
+  background-color:lime;
+}
+
+.testResult * {
+  padding-left: 20px;
+}
+
+.testResult strong {
+  display: block;
 }
 
 .testResult h3{
   font-size: 11px;
   font-weight: bold;
   color: #134275;
-  padding-left:4px;
+  margin-left: 0px !important;
   margin: 0;
   white-space: nowrap;
+  padding-left: 10px !important;
 }
 
 .resultPane {
   min-width: 100%;
-}
-
-.trace{
-  display: inline;
 }
 
 .hiddenST{
@@ -66,13 +71,13 @@
 
 .error,
 .failure{
-	background-color: #FEF4F4;
-	border-left: 3px solid #9D1111;
+  background-color: #FEF4F4;
+  border-left: 3px solid #9D1111;
 }
 
 .success{
-	background-color: #FAFFED;
-	border-left: 3px solid #DEFF83;
+  background-color: #FAFFED;
+  border-left: 3px solid #DEFF83;
 }
 
 .skip {

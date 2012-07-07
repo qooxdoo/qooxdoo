@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +14,7 @@
 
    Authors:
      * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -30,6 +31,7 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
     this.base(arguments);
     this.setTitle("Animation");
     this.setShowBackButton(true);
+    this.setShowBackButtonOnTablet(true);
     this.setBackButtonText("Back");
   },
 
@@ -47,20 +49,45 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
 
   members :
   {
+    __landingText : '<strong>Tap "back" button for the reverse animation</strong>',
+
     // overridden
     _initialize : function()
     {
       this.base(arguments);
 
-      var embed = new qx.ui.mobile.embed.Html('<strong>Tap "back" button for the reverse animation</strong>');
+      var embed = new qx.ui.mobile.embed.Html(this.__landingText);
+
+      if(this._isTablet) {
+        qx.event.Registration.addListener(this, "appear", this.__deactiveAnimation, this);
+      }
+
       this.getContent().add(embed);
+    },
+
+
+    /**
+     * Deactivates the animation on parentContainer's layout.
+     */
+    __deactiveAnimation : function() {
+      this.getLayoutParent().getLayout().setShowAnimation(false);
     },
 
 
     // overridden
     _back : function()
     {
-     qx.ui.mobile.navigation.Manager.getInstance().executeGet("/animation", {animation:this.getAnimation(), reverse:true});
+     qx.core.Init.getApplication().getRouting().executeGet("/animation", {animation:this.getAnimation(), reverse:true});
+    },
+
+
+    /*
+    *****************************************************************************
+      DESTRUCTOR
+    *****************************************************************************
+    */
+    destruct : function() {
+       this._disposeObjects("__landingText");
     }
   }
 });

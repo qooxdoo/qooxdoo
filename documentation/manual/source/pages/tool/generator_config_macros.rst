@@ -13,6 +13,9 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
       - Description 
       - Default value
   
+    * - ADD_NOCACHE_PARAM
+      - turn :ref:`compile-options/uris/add-nocache-param <pages/tool/generator_config_ref#compile-options>`  on/off for *source* builds
+      - false
     * - API_EXCLUDE 
       - list of class pattern to exclude from the api documentation
       - []
@@ -54,8 +57,8 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
       - [ "en" ] 
   
     * - OPTIMIZE 
-      - list of optimization options for build version 
-      - ["basecalls", "comments", "privates", "strings", "variables", "variants"]
+      - list of :ref:`optimization options <pages/tool/generator_config_ref#compile-options>` for build version 
+      - ["basecalls", "comments", "privates", "strings", "variables", "variants", "whitespace"]
   
     * - QOOXDOO_PATH 
       - path to the qooxdoo installation root dir 

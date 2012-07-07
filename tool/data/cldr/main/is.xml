@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="is"/>
 	</identity>
 	<fallback draft="unconfirmed">nn sv nb da en</fallback>
@@ -648,7 +648,6 @@
 			<territory type="054" draft="contributed">Melanesía</territory>
 			<territory type="057" draft="contributed">Míkrónesía</territory>
 			<territory type="061" draft="contributed">Pólýnesía</territory>
-			<territory type="062" draft="contributed">Syðri-Mið-Asía</territory>
 			<territory type="142" draft="contributed">Asía</territory>
 			<territory type="143" draft="contributed">Mið-Asía</territory>
 			<territory type="145">Vestur-Asía</territory>
@@ -656,9 +655,7 @@
 			<territory type="151" draft="contributed">Austur-Evrópa</territory>
 			<territory type="154" draft="contributed">Norður-Evrópa</territory>
 			<territory type="155">Vestur-Evrópa</territory>
-			<territory type="172" draft="contributed">Samveldi sjálfstæðra ríkja</territory>
 			<territory type="419" draft="contributed">Latín-Ameríka</territory>
-			<territory type="830" draft="contributed">Ermasundseyjar</territory>
 			<territory type="AC">Ascension-eyja</territory>
 			<territory type="AD">Andorra</territory>
 			<territory type="AE">Sameinuðu arabísku furstadæmin</territory>
@@ -949,7 +946,6 @@
 			<type type="coptic" key="calendar">Koptískt tímatal</type>
 			<type type="deva" key="numbers">Tölur í devanagari</type>
 			<type type="dictionary" key="collation">Orðabókarröð</type>
-			<type type="direct" key="collation">Bein röðun</type>
 			<type type="ducet" key="collation">Sjálfgefin Unicode-röð</type>
 			<type type="ethi" key="numbers">Eþíópískir tölustafir</type>
 			<type type="ethiopic" key="calendar">Eþíópískt tímatal</type>
@@ -1020,9 +1016,6 @@
 			<codePattern type="territory" draft="contributed">svæði: {0}</codePattern>
 		</codePatterns>
 	</localeDisplayNames>
-	<layout>
-		<inText type="languages">lowercase-words</inText>
-	</layout>
 	<characters>
 		<exemplarCharacters>[a á b d ð e é f g h i í j k l m n o ó p r s t u ú v y ý þ æ ö]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[c q w x z]</exemplarCharacters>
@@ -1039,7 +1032,6 @@
 		<alternateQuotationEnd draft="contributed">‘</alternateQuotationEnd>
 	</delimiters>
 	<dates>
-		<dateRangePattern draft="unconfirmed">{0}–{1}</dateRangePattern>
 		<calendars>
 			<calendar type="gregorian">
 				<months>
@@ -1257,7 +1249,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d" draft="contributed">d</dateFormatItem>
-						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
 						<dateFormatItem id="h">h a</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm" draft="contributed">HH:mm</dateFormatItem>
@@ -1275,10 +1267,10 @@
 						<dateFormatItem id="y" draft="contributed">y</dateFormatItem>
 						<dateFormatItem id="yM" draft="contributed">M. yyyy</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">EEE d.M.yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="contributed">E d.M.yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM" draft="contributed">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="contributed">EEE d. MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="contributed">E d. MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM" draft="contributed">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ" draft="contributed">Q. yyyy</dateFormatItem>
 						<dateFormatItem id="yQQQ" draft="contributed">QQQ y</dateFormatItem>
@@ -1706,6 +1698,8 @@
 			<metazone type="Amazon">
 				<long>
 					<generic>Tími á Amasónsvæðinu</generic>
+					<standard>Staðaltími á Amasónsvæðinu</standard>
+					<daylight>Sumartími á Amasónsvæðinu</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Central">
@@ -1739,21 +1733,21 @@
 			<metazone type="Anadyr">
 				<long>
 					<generic>Tími í Anadyr</generic>
-					<standard>Tími í Anadyr</standard>
+					<standard>Staðaltími í Anadyr</standard>
 					<daylight>Sumartími í Anadyr</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina">
 				<long>
 					<generic>Tími í Argentínu</generic>
-					<standard>Tími í Argentínu</standard>
+					<standard>Staðaltími í Argentínu</standard>
 					<daylight>Sumartími í Argentínu</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina_Western">
 				<long>
 					<generic>Tími í Vestur-Argentínu</generic>
-					<standard>Tími í Vestur-Argentínu</standard>
+					<standard>Staðaltími í Vestur-Argentínu</standard>
 					<daylight>Sumartími í Vestur-Argentínu</daylight>
 				</long>
 			</metazone>
@@ -1802,37 +1796,42 @@
 			<metazone type="Choibalsan">
 				<long>
 					<generic>Tími í Choibalsan</generic>
-					<standard>Tími í Choibalsan</standard>
+					<standard>Staðaltími í Choibalsan</standard>
 					<daylight>Sumartími í Choibalsan</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<standard draft="contributed">Mið-Evróputími</standard>
+					<generic draft="contributed">Mið-Evróputími</generic>
+					<standard draft="contributed">Staðaltími Mið-Evrópu</standard>
 					<daylight draft="contributed">Sumartími Mið-Evrópu</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<standard draft="contributed">Austur-Evróputími</standard>
+					<generic draft="contributed">Austur-Evróputími</generic>
+					<standard draft="contributed">Staðaltími Austur-Evrópu</standard>
 					<daylight draft="contributed">Sumartími Austur-Evrópu</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<standard draft="unconfirmed">Vestur-Evróputími</standard>
+					<generic draft="unconfirmed">Vestur-Evróputími</generic>
+					<standard draft="unconfirmed">Staðaltími Vestur-Evrópu</standard>
 					<daylight draft="unconfirmed">Sumartími Vestur-Evrópu</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hawaii_Aleutian">
 				<long>
 					<generic>Tími á Hawaí og Aleútaeyjum</generic>
+					<standard>Staðaltími á Hawaí og Aleútaeyjum</standard>
+					<daylight>Sumartími á Hawaí og Aleútaeyjum</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
 					<generic>Tími í Hovd</generic>
-					<standard>Tími í Hovd</standard>
+					<standard>Staðaltími í Hovd</standard>
 					<daylight>Sumartími í Hovd</daylight>
 				</long>
 			</metazone>
@@ -1854,35 +1853,31 @@
 			<metazone type="Irkutsk">
 				<long>
 					<generic>Tími í Irkutsk</generic>
-					<standard>Tími í Irkutsk</standard>
+					<standard>Staðaltími í Irkutsk</standard>
 					<daylight>Sumartími í Irkutsk</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kamchatka">
 				<long>
-					<generic>Tími í Kamchatka</generic>
-					<standard>Tími í Petropavlovsk-Kamchatski</standard>
+					<generic>Tími í Petropavlovsk-Kamchatski</generic>
+					<standard>Staðaltími í Petropavlovsk-Kamchatski</standard>
 					<daylight>Sumartími í Petropavlovsk-Kamchatski</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
-					<generic>Tími í Austur-Kasakstan</generic>
-					<standard>Staðaltími í Austur-Kasakstan</standard>
-					<daylight>Sumartími í Austur-Kasakstan</daylight>
+					<standard>Tími í Austur-Kasakstan</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
-					<generic>Tími í Vestur-Kasakstan</generic>
-					<standard>Staðaltími í Vestur-Kasakstan</standard>
-					<daylight>Sumartími í Vestur-Kasakstan</daylight>
+					<standard>Tími í Vestur-Kasakstan</standard>
 				</long>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
 					<generic>Tími í Krasnoyarsk</generic>
-					<standard>Tími í Krasnoyarsk</standard>
+					<standard>Staðaltími í Krasnoyarsk</standard>
 					<daylight>Sumartími í Krasnoyarsk</daylight>
 				</long>
 			</metazone>
@@ -1895,20 +1890,20 @@
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<generic>Tími í Macquarie</generic>
+					<standard>Tími í Macquarie</standard>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic>Tími í Magadan</generic>
-					<standard>Tími í Magadan</standard>
+					<standard>Staðaltími í Magadan</standard>
 					<daylight>Sumartími í Magadan</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic>Tími í Mongólíu</generic>
-					<standard>Tími í Úlan Bator</standard>
+					<generic>Tími í Úlan Bator</generic>
+					<standard>Staðaltími í Úlan Bator</standard>
 					<daylight>Sumartími í Úlan Bator</daylight>
 				</long>
 			</metazone>
@@ -1928,64 +1923,64 @@
 			</metazone>
 			<metazone type="Noronha">
 				<long>
-					<generic>Tími í Noronha</generic>
-					<standard>Tími í Fernando de Noronha</standard>
+					<generic>Tími í Fernando de Noronha</generic>
+					<standard>Staðaltími í Fernando de Noronha</standard>
 					<daylight>Sumartími í Fernando de Noronha</daylight>
 				</long>
 			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
 					<generic>Tími í Novosibirsk</generic>
-					<standard>Tími í Novosibirsk</standard>
+					<standard>Staðaltími í Novosibirsk</standard>
 					<daylight>Sumartími í Novosibirsk</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
 					<generic>Tími í Omsk</generic>
-					<standard>Tími í Omsk</standard>
+					<standard>Staðaltími í Omsk</standard>
 					<daylight>Sumartími í Omsk</daylight>
 				</long>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
 					<generic>Tími í Sakhalin</generic>
-					<standard>Tími í Sakhalin</standard>
+					<standard>Staðaltími í Sakhalin</standard>
 					<daylight>Sumartími í Sakhalin</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
 					<generic>Tími í Samara</generic>
-					<standard>Tími í Samara</standard>
+					<standard>Staðaltími í Samara</standard>
 					<daylight>Sumartími í Samara</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
 					<generic>Tími í Vladivostok</generic>
-					<standard>Tími í Vladivostok</standard>
+					<standard>Staðaltími í Vladivostok</standard>
 					<daylight>Sumartími í Vladivostok</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
 					<generic>Tími í Volgograd</generic>
-					<standard>Tími í Volgograd</standard>
+					<standard>Staðaltími í Volgograd</standard>
 					<daylight>Sumartími í Volgograd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
 					<generic>Tími í Yakutsk</generic>
-					<standard>Tími í Yakutsk</standard>
+					<standard>Staðaltími í Yakutsk</standard>
 					<daylight>Sumartími í Yakutsk</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
 					<generic>Tími í Yekaterinburg</generic>
-					<standard>Tími í Yekaterinburg</standard>
+					<standard>Staðaltími í Yekaterinburg</standard>
 					<daylight>Sumartími í Yekaterinburg</daylight>
 				</long>
 			</metazone>
@@ -2004,7 +1999,7 @@
 			<infinity draft="contributed">∞</infinity>
 			<nan draft="contributed">EiTa</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern draft="contributed">#,##0.###</pattern>
@@ -2012,27 +2007,36 @@
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000000000">0.0B</pattern>
-					<pattern type="10000000000">00B</pattern>
-					<pattern type="100000000000">000B</pattern>
+					<pattern type="1000" draft="contributed">0.0 þ'.'</pattern>
+					<pattern type="10000" draft="contributed">00 þ'.'</pattern>
+					<pattern type="100000" draft="contributed">000 þ'.'</pattern>
+					<pattern type="1000000" draft="contributed">0.0 m'.'</pattern>
+					<pattern type="10000000" draft="contributed">00 m'.'</pattern>
+					<pattern type="100000000" draft="contributed">000 m'.'</pattern>
+					<pattern type="1000000000" draft="contributed">0.0 ma'.'</pattern>
+					<pattern type="10000000000" draft="contributed">00 ma'.'</pattern>
+					<pattern type="100000000000" draft="contributed">000 ma'.'</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0 tr'.'</pattern>
+					<pattern type="10000000000000" draft="contributed">00 tr'.'</pattern>
+					<pattern type="100000000000000" draft="contributed">000 tr'.'</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern draft="contributed">#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern draft="contributed">#,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>

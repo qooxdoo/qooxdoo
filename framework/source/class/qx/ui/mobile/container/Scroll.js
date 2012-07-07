@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Container, which allows, depending on the set variant <code>qx.mobile.nativescroll</code>,
  * vertical and horizontal scrolling if the contents is larger than the container.
  *
@@ -44,8 +42,7 @@
  */
 qx.Class.define("qx.ui.mobile.container.Scroll",
 {
-  extend : qx.ui.mobile.core.Widget,
-  include : [ qx.ui.mobile.core.MChildrenHandling ],
+  extend : qx.ui.mobile.container.Composite,
 
 
   /*
@@ -63,9 +60,6 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       init : "scroll"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -93,11 +87,34 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       var contentElement = this.base(arguments);
       var scrollContentElement = this._getScrollContentElement();
       return scrollContentElement || contentElement;
-    }
+    },
+
+
+    /**
+     * Calls the refresh function the used scrolling method. Needed to recalculate the
+     * scrolling container.
+     */
+    refresh : function() {
+      if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
+      {
+        this._refresh();
+      }
+    },
+
+
+    /**
+     * Scrolls the wrapper contents to the x/y coordinates in a given period.
+     *
+     * @param x {Integer} X coordinate to scroll to.
+     * @param y {Integer} Y coordinate to scroll to.
+     * @param time {Integer} Time slice in which scrolling should
+     *              be done.
+     */
+     scrollTo : function(x, y, time)
+     {
+       this._scrollTo(x, y, time);
+     }
   },
-
-
-
 
   /*
   *****************************************************************************

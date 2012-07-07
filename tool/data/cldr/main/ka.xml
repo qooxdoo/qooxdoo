@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5953 $"/>
-		<generation date="$Date: 2011-07-04 18:22:55 -0500 (Mon, 04 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="ka"/>
 	</identity>
 	<localeDisplayNames>
@@ -235,7 +235,6 @@
 			<territory type="054" draft="contributed">მელანეზია</territory>
 			<territory type="057" draft="contributed">მირონეზია</territory>
 			<territory type="061">პოლინეზია</territory>
-			<territory type="062">სამხრეთ-ცენტრალური აზია</territory>
 			<territory type="142">აზია</territory>
 			<territory type="143">ცენტრალური აზია</territory>
 			<territory type="145">დასავლეთი აზია</territory>
@@ -243,7 +242,6 @@
 			<territory type="151">აღმოსავლეთი ევროპა</territory>
 			<territory type="154">ჩრდილოეთი ევროპა</territory>
 			<territory type="155">დასავლეთი ევროპა</territory>
-			<territory type="172">დამოუკიდებელ სახელმწიფოთა თანამეგობრობა</territory>
 			<territory type="419" draft="contributed">ლათინური ამერიკა და კარიბი</territory>
 			<territory type="AD">ანდორა</territory>
 			<territory type="AE">არაბეთის გაერთიანებული ემირატები</territory>
@@ -493,7 +491,6 @@
 			<type type="big5han" key="collation">ტრადიციული ჩინური</type>
 			<type type="buddhist" key="calendar">ბუდისტური კალენდარი</type>
 			<type type="chinese" key="calendar">ჩინური კალენდარი</type>
-			<type type="direct" key="collation">პირდაპირი მიმდევრობა</type>
 			<type type="gb2312han" key="collation">გამარტივებული ჩინური</type>
 			<type type="gregorian" key="calendar">გრიგორიანული კალენდარი</type>
 			<type type="hebrew" key="calendar">ებრაული კალენდარი</type>
@@ -516,10 +513,10 @@
 		<exemplarCharacters type="index">[ა ბ გ დ ე ვ ზ თ ი კ ლ მ ნ ო პ ჟ რ ს ტ უ ფ ქ ღ ყ შ ჩ ც ძ წ ჭ ხ ჯ ჰ]</exemplarCharacters>
 	</characters>
 	<delimiters>
-		<quotationStart draft="contributed">“</quotationStart>
-		<quotationEnd draft="contributed">”</quotationEnd>
-		<alternateQuotationStart draft="contributed">‘</alternateQuotationStart>
-		<alternateQuotationEnd draft="contributed">’</alternateQuotationEnd>
+		<quotationStart draft="contributed">„</quotationStart>
+		<quotationEnd draft="contributed">“</quotationEnd>
+		<alternateQuotationStart draft="contributed">‚</alternateQuotationStart>
+		<alternateQuotationEnd draft="contributed">‘</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -707,8 +704,8 @@
 						<dateFormatItem id="Md">d.M.</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="yM">M.y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d.M.y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d.M.y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatItem id="M">
@@ -1557,6 +1554,11 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
+		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<otherNumberingSystems>
+			<native>latn</native>
+			<traditional>geor</traditional>
+		</otherNumberingSystems>
 		<symbols numberSystem="latn">
 			<decimal draft="contributed">,</decimal>
 			<group draft="contributed">.</group>
@@ -1569,21 +1571,21 @@
 			<infinity draft="contributed">∞</infinity>
 			<nan draft="contributed">NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##0 %</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>
@@ -2215,4 +2217,3 @@
 		</messages>
 	</posix>
 </ldml>
-

@@ -74,18 +74,21 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
 
 
       // create the third group box
-      var box3Helper = new qx.ui.container.Composite(new qx.ui.layout.VBox(4));
+      var box3Helper = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       container.add(box3Helper);
 
       var radioButton1 = new qx.ui.form.RadioButton("Default Settings");
-      radioButton1.setMarginLeft(4);
+      radioButton1.setMarginLeft(9);
       box3Helper.add(radioButton1);
 
       var radioButton2 = new qx.ui.form.RadioButton("Custom Settings");
-      radioButton2.setMarginLeft(4);
+      radioButton2.setMarginLeft(9);
       box3Helper.add(radioButton2);
 
       var box3 = new qx.ui.groupbox.RadioGroupBox("Advanced Settings");
+      box3.getChildControl("legend").setMarginTop(0);
+      box3.getChildControl("legend").setPaddingTop(0);
+      box3.getChildControl("frame").setMarginTop(14);
       box3.setLayout(new qx.ui.layout.HBox(12));
       box3Helper.add(box3);
 

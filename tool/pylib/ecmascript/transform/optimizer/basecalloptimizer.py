@@ -24,6 +24,7 @@
 import re, sys, types
 
 from ecmascript.frontend import tree, treeutil
+from ecmascript.frontend.treegenerator import PackerFlags as pp
 
 ##
 # Run through all the qx.*.define nodes of a tree. This will cover multiple
@@ -36,7 +37,7 @@ def patch(node):
     classDefNodes = list(treeutil.findQxDefineR(node))
 
     for classDefNode in classDefNodes:
-        patchCount += optimize(classDefNode, classDefNodes,)
+        patchCount += optimize(classDefNode, classDefNodes)
 
     return patchCount
 
@@ -56,7 +57,7 @@ def optimize(classDefine, classDefNodes):
     if not "extend" in classMap:
         return 0
       
-    if classMap["extend"].type == "variable":
+    if classMap["extend"].isVar():
         superClass = treeutil.assembleVariable(classMap["extend"])[0]
     else:
         return 0  # interfaces can have a list-valued "extend", but we currently don't optimize those
@@ -91,7 +92,7 @@ def optimizeConstruct(node, superClass, methodName, classDefNodes):
     if node in classDefNodes:
         return 0
 
-    elif node.type == "variable" and node.hasParentContext("call/operand"):
+    elif node.isVar() and node.hasParentContext("call/operand"):
 
         varName, complete = treeutil.assembleVariable(node)
         if not (complete and varName == "this.base"):
@@ -100,7 +101,7 @@ def optimizeConstruct(node, superClass, methodName, classDefNodes):
         call = node.parent.parent
 
         try:
-            firstArgName = treeutil.selectNode(call, "params/1/identifier/@name")
+            firstArgName = treeutil.selectNode(call, "params/1/@value")
         except tree.NodeAccessException:
             return 0
 
@@ -114,7 +115,7 @@ def optimizeConstruct(node, superClass, methodName, classDefNodes):
         else:
             newCall = treeutil.compileString("%s.prototype.%s.call()" % (superClass, methodName))
         newCall.replaceChild(newCall.getChild("params"), call.getChild("params")) # replace with old arglist
-        treeutil.selectNode(newCall, "params/1/identifier").set("name", "this")   # arguments -> this
+        treeutil.selectNode(newCall, "params/1").set("value", "this")   # arguments -> this
         call.parent.replaceChild(call, newCall)
         patchCount += 1
 
@@ -142,6 +143,6 @@ if __name__ == "__main__":
     node = treeutil.compileString(cls)
     patch(node)
     
-    print node.toJavascript()
+    print node.toJS(pp)
     
     

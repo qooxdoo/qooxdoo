@@ -1,0 +1,297 @@
+.tap-highlight-color() {
+	-webkit-tap-highlight-color: @arguments;
+	-moz-tap-highlight-color: @arguments;
+	tap-highlight-color: @arguments;
+}
+
+.user-select() {
+	-webkit-user-select: @arguments;
+	-moz-user-select: @arguments;
+	user-select: @arguments;
+}
+
+.text-size-adjust() {
+	-webkit-text-size-adjust: @arguments;
+	-moz-text-size-adjust: @arguments;
+        text-size-adjust: @arguments;
+}
+
+.transform() {
+	-webkit-transform: @arguments;
+	-moz-transform: @arguments;
+	transform: @arguments;
+}
+
+.box-sizing() {
+	-webkit-box-sizing: @arguments;
+	-moz-box-sizing: @arguments;
+	box-sizing: @arguments;
+}
+
+.perspective() {
+	-webkit-perspective: @arguments;
+	-moz-perspective: @arguments;
+	perspective: @arguments;
+}
+
+.transform-style() {
+	-webkit-transform-style: @arguments;
+  -moz-transform-style: @arguments;
+  transform-style: @arguments;
+}
+
+.transition() {
+  -webkit-transition: @arguments;
+  -moz-transition: @arguments;
+  transition: @arguments;
+}
+
+.backface-visibility() {
+	-webkit-backface-visibility: @arguments;
+  -moz-backface-visibility: @arguments;
+  backface-visibility: @arguments;
+}
+
+.animation-timing-function() {
+	-webkit-animation-timing-function: @arguments;
+	-moz-animation-timing-function: @arguments;
+	animation-timing-function: @arguments;
+}
+
+.animation-duration() {
+	-webkit-animation-duration: @arguments;
+	-moz-animation-duration: @arguments;
+  animation-duration: @arguments;
+}
+
+.animation-fill-mode() {
+	-webkit-animation-fill-mode: @arguments;
+	-moz-animation-fill-mode: @arguments;
+	animation-fill-mode: @arguments;
+}
+
+.animation-name() {
+	-webkit-animation-name: @arguments;
+	-moz-animation-name: @arguments;
+	animation-name: @arguments;
+}
+
+.animation-iteration-count() {
+  -webkit-animation-iteration-count: @arguments;
+  -moz-animation-iteration-count: @arguments;
+  animation-iteration-count: @arguments;
+}
+
+.transform-origin() {
+	-webkit-transform-origin: @arguments;
+	-moz-transform-origin: @arguments;
+	transform-origin: @arguments;
+}
+
+.box-orient() {
+  -webkit-box-orient: @arguments;
+  -moz-box-orient: @arguments;
+  box-orient: @arguments;
+}
+
+.box-align() {
+  -webkit-box-align: @arguments;
+  -moz-box-align: @arguments;
+  box-align: @arguments;
+}
+
+.box-flex() {
+  -webkit-box-flex: @arguments;
+  -moz-box-flex: @arguments;
+  box-flex: @arguments;
+}
+
+.box-direction() {
+  -webkit-box-direction: @arguments;
+  -moz-box-direction: @arguments;
+  box-direction: @arguments;
+}
+
+.box-pack() {
+  -webkit-box-pack: @arguments;
+  -moz-box-pack: @arguments;
+  box-pack: @arguments;
+}
+
+.box-flex-group() {
+  -webkit-box-flex-group: @arguments;
+  -moz-box-flex-group: @arguments;
+  box-flex-group: @arguments;
+}
+
+.box-ordinal-group() {
+  -moz-box-ordinal-group:@arguments;
+  -webkit-box-ordinal-group:@arguments; 
+  box-ordinal-group:@arguments;
+}
+
+.border-radius() {
+  -webkit-border-radius: @arguments;
+  -moz-border-radius: @arguments;
+  border-radius: @arguments;
+}
+
+.border-radius-top() {
+  -moz-border-radius-topleft:@arguments;
+  -moz-border-radius-topright:@arguments;
+  
+  -webkit-border-radius-topleft:@arguments;
+  -webkit-border-radius-topright:@arguments;
+
+  border-top-right-radius: @arguments;
+  border-top-left-radius: @arguments;
+}
+
+.border-radius-right() {
+  -moz-border-radius-bottomright:@arguments;
+  -moz-border-radius-topright:@arguments;
+  
+  -webkit-border-radius-bottomright:@arguments;
+  -webkit-border-radius-topright:@arguments;
+
+  border-top-right-radius: @arguments;
+  border-bottom-right-radius: @arguments;
+}
+
+.border-radius-left() {
+  -moz-border-radius-bottomleft:@arguments;
+  -moz-border-radius-topleft:@arguments;
+  
+  -webkit-border-radius-bottomleft:@arguments;
+  -webkit-border-radius-topleft:@arguments;
+
+  border-top-left-radius: @arguments;
+  border-bottom-left-radius: @arguments;
+}
+
+.border-radius-bottom() {
+  -moz-border-radius-bottomleft:@arguments;
+  -moz-border-radius-bottomright:@arguments;
+  
+  -webkit-border-radius-bottomleft:@arguments;
+  -webkit-border-radius-bottomright:@arguments;
+
+  border-bottom-right-radius: @arguments;
+  border-bottom-left-radius: @arguments;
+}
+
+.border-radius-bottom-left() {
+  -moz-border-radius-bottomleft:@arguments;
+  -webkit-border-radius-bottomleft:@arguments;
+  border-bottom-left-radius: @arguments;
+}
+
+.border-image() {
+  -webkit-border-image: @arguments;
+  -moz-border-image: @arguments;
+  // Implementation seems to differ
+  // border-image: @arguments;
+}
+
+.box-shadow() {
+  -webkit-box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  box-shadow: @arguments;
+}
+
+.box-inset-shadow() {
+  -moz-box-shadow: inset @arguments;
+  -webkit-box-shadow: inset @arguments;
+  box-shadow: inset @arguments;
+}
+
+.box-inset-multi-shadow(@arg1, @arg2) {
+  -moz-box-shadow: inset @arg1, inset @arg2;
+  -webkit-box-shadow: inset @arg1, inset @arg2;
+  box-shadow: inset @arg1, inset @arg2;
+}
+
+.background-clip() {
+  -webkit-background-clip: @arguments;
+  -moz-background-clip: @arguments;
+  background-clip: @arguments;
+}
+
+.appearance() {
+  -webkit-appearance: @arguments;
+  -moz-appearance: @arguments;
+  appearance: @arguments;
+}
+
+#gradient {
+
+  // From top to bottom
+  .vertical(@begin, @end) {
+      background-image: -webkit-gradient(linear, center top, center bottom, from(@begin), to(@end)); /* Safari 4+, Chrome 2+ */
+      background-image: -webkit-linear-gradient(top, @begin, @end); /* Safari 5.1+, Chrome 10+ */
+      background-image: -moz-linear-gradient(top, @begin, @end); /* FF 3.6+ */
+      background-image: linear-gradient(to bottom, @begin, @end); /* Standard (in flux) */
+  }
+
+  // From top to bottom with intermediate color
+  .vertical-three(@begin, @mid, @end, @stop: 50%) {
+    background-image: -webkit-gradient(linear, center top, center bottom, from(@begin), color-stop(@stop, @mid), to(@end));
+    background-image: -webkit-linear-gradient(top, @begin, @mid @stop, @end);
+    background-image: -moz-linear-gradient(top, @begin, @mid @stop, @end);
+    background-image: linear-gradient(to bottom, @begin, @mid @stop, @end);
+  }
+
+  // From top to bottom with two intermediate colors
+  .vertical-four(@begin, @mid1, @mid2, @end, @stop1: 33%, @stop2: 66%) {
+    background-image: -webkit-gradient(linear, center top, center bottom, from(@begin), color-stop(@stop1, @mid1), color-stop(@stop2, @mid2), to(@end));
+    background-image: -webkit-linear-gradient(top, @begin, @mid1 @stop1, @mid2 @stop2, @end);
+    background-image: -moz-linear-gradient(top, @begin, @mid1 @stop1, @mid2 @stop2, @end);
+    background-image: linear-gradient(to bottom, @begin, @mid1 @stop1, @mid2 @stop2, @end);
+  }
+
+  // From left to right
+  .horizontal(@begin, @end) {
+    background-image: -webkit-gradient(linear, center left, center right, from(@begin), to(@end));
+    background-image: -webkit-linear-gradient(left, @begin, @end);
+    background-image: -moz-linear-gradient(left, @begin, @end);
+    background-image: linear-gradient(to right, @begin, @end);
+  }
+
+  // From left to right with intermediate color
+  .horizontal-three(@begin, @mid, @end, @stop: 50%) {
+    background-image: -webkit-gradient(linear, center left, center bottom, from(@begin), color-stop(@stop, @mid), to(@end));
+    background-image: -webkit-linear-gradient(left, @begin, @mid @stop, @end);
+    background-image: -moz-linear-gradient(left, @begin, @mid @stop, @end);
+    background-image: linear-gradient(to right, @begin, @mid @stop, @end);
+  }
+
+  // From left to right with two intermediate colors
+  .horizontal-four(@begin, @mid1, @mid2, @end, @stop1: 33%, @stop2: 66%) {
+    background-image: -webkit-gradient(
+      linear,
+      left bottom,
+      right top,
+      from(@begin),
+      color-stop(@stop1, @mid1),
+      color-stop(@stop2, @mid2),
+      to(@end)
+    );
+    background-image: -webkit-linear-gradient(left, @begin, @mid1 @stop1, @mid2 @stop2, @end);
+    background-image: -moz-linear-gradient(left, @begin, @mid1 @stop1, @mid2 @stop2, @end);
+    background-image: linear-gradient(to right, @begin, @mid1 @stop1, @mid2 @stop2, @end);
+  }
+
+  // Radial with two stops
+  .radial(@x, @y, @begin, @stop1, @end, @stop2) {
+    background-image: -webkit-radial-gradient(@x @y, circle, @begin @stop1, @end @stop2);
+    background-image: -moz-radial-gradient(@x @y, circle, @begin @stop1, @end @stop2);
+    background-image: radial-gradient(@x @y, circle, @begin @stop1, @end @stop2);
+  }
+
+  // Radial with two stops
+  .ellipse(@x, @y, @begin, @stop1, @end, @stop2) {
+    background-image: -webkit-radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
+    background-image: -moz-radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
+    background-image: radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
+  }
+}

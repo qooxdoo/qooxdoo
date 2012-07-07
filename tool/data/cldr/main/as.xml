@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5963 $"/>
-		<generation date="$Date: 2011-07-05 10:29:49 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="as"/>
 	</identity>
 	<localeDisplayNames>
@@ -43,7 +43,6 @@
 			<type type="big5han" key="collation" draft="contributed">পৰম্পৰাগত চীনা শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম - Big5</type>
 			<type type="buddhist" key="calendar" draft="contributed">বৌদ্ধ পঞ্জিকা</type>
 			<type type="chinese" key="calendar" draft="contributed">চীনা পঞ্জিকা</type>
-			<type type="direct" key="collation" draft="contributed">পোনপটীয়াকৈ শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম</type>
 			<type type="gb2312han" key="collation" draft="contributed">সৰল চীনা শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম - GB2312</type>
 			<type type="gregorian" key="calendar" draft="contributed">গ্ৰিগোৰীয় পঞ্জিকা</type>
 			<type type="hebrew" key="calendar" draft="contributed">হীব্ৰু পঞ্জিকা</type>
@@ -232,27 +231,29 @@
 				<short>
 					<standard>ভা. স.</standard>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<defaultNumberingSystem>beng</defaultNumberingSystem>
-		<decimalFormats>
+		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<otherNumberingSystems>
+			<native>beng</native>
+		</otherNumberingSystems>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤ #,##,##0.00</pattern>

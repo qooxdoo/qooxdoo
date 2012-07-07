@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * AbstractRenderer is an abstract class used to encapsulate
  * behaviours of how a form can be rendered into a mobile page.
  * Its subclasses can extend it and override {@link #addItems} and {@link #addButton}
@@ -92,10 +90,12 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
 
     _form : null,
 
+
     // interface implementation
     addItems : function(items, names, title) {
       throw new Error("Abstract method call");
     },
+
 
     // interface implementation
     addButton : function(button) {

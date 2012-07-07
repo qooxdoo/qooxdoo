@@ -72,7 +72,7 @@ For synchronous calls, the first parameter is the method name. After that, one o
 
 Asynchronous calls work similarly. The only difference is an additional first parameter that specifies a handler function. This function is called when the result of the method call is available or when an exception occurred.
 
-You can also use qooxdoo event listeners for asynchronous calls - just use ``callAsyncListeners`` instead of ``callAsync``. More details can be found in the `API documentation <http://api.qooxdoo.org/#qx.io.Remote.Rpc>`_.
+You can also use qooxdoo event listeners for asynchronous calls - just use ``callAsyncListeners`` instead of ``callAsync``. More details can be found in the `API documentation <http://api.qooxdoo.org/#qx.io.remote.Rpc>`_.
 
 One difference between the qooxdoo RPC and other RPC implementations are client stubs. These are small wrapper classes that provide the same methods as the corresponding server classes, so they can be called like ordinary JavaScript methods. In qooxdoo, there are no such stubs by default, so you have to provide the method name as a string. The advantage is that there's no additional build step for generating stubs, and it's also not necessary to "register" your server classes at runtime (which would be a prerequisite for dynamic stub generation). If you really want or need client stubs, you currently have to write the stubs (or a generator for them) yourself. Future qooxdoo versions may include such a generator.
 
@@ -293,4 +293,4 @@ If you think that the standard is missing a feature that should be implemented i
 Extending the standard
 ----------------------
 
-If a server *extends* the standard with a certain optional behavior, please add a detailed description to it on the `JSON-RPC Extensions page <http://qooxdoo.org/documentation/general/rpc/jsonrpc_extensions>`_, with information which server implements this behavior. Please also add a `bug <http://bugzilla.qooxdoo.org/enter_bug.cgi?product=contrib&component=RpcExample>`_, marked as a "extension" so that other server maintainers can discuss the pros and cons of adding the extension to their own servers. 
+If a server *extends* the standard with a certain optional behavior, please add a detailed description to it on the `JSON-RPC Extensions page <http://qooxdoo.org/docs/general/rpc/jsonrpc_extensions>`_, with information which server implements this behavior. Please also add a `bug <http://bugzilla.qooxdoo.org/enter_bug.cgi?product=contrib&component=RpcExample>`_, marked as a "extension" so that other server maintainers can discuss the pros and cons of adding the extension to their own servers. 

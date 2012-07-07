@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5963 $"/>
-		<generation date="$Date: 2011-07-05 10:29:49 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="bn"/>
 	</identity>
 	<localeDisplayNames>
@@ -682,7 +682,6 @@
 			<territory type="054">ম্যালেনেশিয়া</territory>
 			<territory type="057" draft="contributed">ম্যালেনিশা অঞ্চল</territory>
 			<territory type="061">পলিনেশিয়া</territory>
-			<territory type="062">দক্ষিন মধ্য এশিয়া</territory>
 			<territory type="142">এশিয়া</territory>
 			<territory type="143">মধ্য এশিয়া</territory>
 			<territory type="145" draft="contributed">পশ্চিমাঞ্চলীয় এশিয়া</territory>
@@ -690,10 +689,7 @@
 			<territory type="151">পূর্ব ইউরোপ</territory>
 			<territory type="154" draft="contributed">উত্তরাঞ্চলীয় ইউরোপ</territory>
 			<territory type="155" draft="contributed">পশ্চিমাঞ্চলীয় ইউরোপ</territory>
-			<territory type="172">স্বাধীন রাষ্ট্রের কমনওয়েলথ</territory>
-			<territory type="200">চেকোস্লোভাকিয়া</territory>
 			<territory type="419">ল্যাটিন আমেরিকা এবং ক্যারাবিয়ান</territory>
-			<territory type="830">চ্যানেল দ্বীপপুঞ্জ</territory>
 			<territory type="AC" draft="contributed">অ্যাসসেনশন আইল্যান্ড</territory>
 			<territory type="AD">এ্যান্ডোরা</territory>
 			<territory type="AE" draft="contributed">সংযুক্ত আরব আমিরাত</territory>
@@ -982,7 +978,6 @@
 			<type type="coptic" key="calendar" draft="contributed">কপটিক ক্যালেন্ডার</type>
 			<type type="deva" key="numbers" draft="contributed">দেবনাগরি শংখ্যা</type>
 			<type type="dictionary" key="collation" draft="contributed">অভিধান বাছাই বিন্যাস</type>
-			<type type="direct" key="collation">প্রত্যক্ষ সজ্জাক্রম</type>
 			<type type="ducet" key="collation" draft="contributed">ডিফল্ট ইউনিকোড বাছাই বিন্যাস</type>
 			<type type="ethi" key="numbers" draft="contributed">ইথীয়োপিক সংখ্যা</type>
 			<type type="ethiopic" key="calendar" draft="contributed">ইথিওপিক ক্যালেন্ডার</type>
@@ -1054,8 +1049,8 @@
 		</codePatterns>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[৺ অ আ ই ঈ উ ঊ ঋ ৠ ঌ ৡ এ ঐ ও ঔ \u09BC ং ঃ \u0981 ক {ক\u09CDষ} খ গ ঘ ঙ চ ছ জ ঝ ঞ ট ঠ ড {ড\u09BC} ঢ {ঢ\u09BC} ণ ৎ ত থ দ ধ ন প ফ ব ভ ম য {য\u09BC} র ল শ ষ স হ ঽ া ি ী \u09C1 \u09C2 \u09C3 \u09C4 \u09E2 \u09E3 ে ৈ ো ৌ \u09CD ৗ]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[\u200C\u200D ৸ ৹ ৲ ৳ ৰ ৱ ৴ ৵ ৶ ৷]</exemplarCharacters>
+		<exemplarCharacters>[\u09BC ৺ অ আ ই ঈ উ ঊ ঋ ৠ ঌ ৡ এ ঐ ও ঔ ং ঃ \u0981 ক {ক\u09CDষ} খ গ ঘ ঙ চ ছ জ ঝ ঞ ট ঠ ড {ড\u09BC} ঢ {ঢ\u09BC} ণ ত ৎ থ দ ধ ন প ফ ব ভ ম য {য\u09BC} র ল শ ষ স হ ঽ া ি ী \u09C1 \u09C2 \u09C3 \u09C4 \u09E2 \u09E3 ে ৈ ো ৌ \u09CD ৗ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[\u200C\u200D ৲ ৳ ৴ ৵ ৶ ৷ ৸ ৹ ৰ ৱ]</exemplarCharacters>
 		<exemplarCharacters type="currencySymbol">[৳]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="contributed">[অ আ ই ঈ উ ঊ ঋ এ ঐ ও ঔ ক {ক\u09CDষ} খ গ ঘ ঙ চ ছ জ ঝ ঞ ট ঠ ড ঢ ণ ত থ দ ধ ন প ফ ব ভ ম য র ল শ ষ স হ]</exemplarCharacters>
 		<stopwords>
@@ -1235,7 +1230,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="EEEd">d EEE</dateFormatItem>
+						<dateFormatItem id="Ed">d E</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
@@ -1250,10 +1245,10 @@
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/yyyy</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d/M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d/M/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM, y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM, y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
@@ -2694,7 +2689,8 @@
 			</zone>
 			<metazone type="Acre">
 				<long>
-					<standard draft="provisional">একর সময়</standard>
+					<generic draft="provisional">একর সময়</generic>
+					<standard draft="provisional">একর মানক সময়</standard>
 					<daylight draft="provisional">একর গ্রীষ্মকাল সময়</daylight>
 				</long>
 			</metazone>
@@ -2715,13 +2711,13 @@
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<generic draft="provisional">দক্ষিণ আফ্রিকা সময়</generic>
 					<standard draft="provisional">দক্ষিণ আফ্রিকা মান সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
-					<standard draft="provisional">পশ্চিম আফ্রিকা সময়</standard>
+					<generic draft="provisional">পশ্চিম আফ্রিকা সময়</generic>
+					<standard draft="provisional">পশ্চিম আফ্রিকা মানক সময়</standard>
 					<daylight draft="provisional">পশ্চিম আফ্রিকা গ্রীষ্মকাল সময়</daylight>
 				</long>
 			</metazone>
@@ -3178,7 +3174,6 @@
 				<short>
 					<standard>IST</standard>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 			<metazone type="Indian_Ocean">
 				<long>
@@ -3762,7 +3757,10 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<defaultNumberingSystem>beng</defaultNumberingSystem>
+		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<otherNumberingSystems>
+			<native>beng</native>
+		</otherNumberingSystems>
 		<symbols numberSystem="beng">
 			<nan>সংখ্যা না</nan>
 		</symbols>
@@ -3778,7 +3776,7 @@
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##,##0.###</pattern>
@@ -3786,36 +3784,36 @@
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" draft="contributed">0</pattern>
-					<pattern type="10000" draft="contributed">0</pattern>
-					<pattern type="100000" draft="contributed">0</pattern>
-					<pattern type="1000000" draft="contributed">0</pattern>
-					<pattern type="10000000" draft="contributed">0</pattern>
-					<pattern type="100000000" draft="contributed">0</pattern>
-					<pattern type="1000000000" draft="contributed">0</pattern>
-					<pattern type="10000000000" draft="contributed">0</pattern>
-					<pattern type="100000000000" draft="contributed">0</pattern>
-					<pattern type="1000000000000" draft="contributed">0</pattern>
-					<pattern type="10000000000000" draft="contributed">0</pattern>
-					<pattern type="100000000000000" draft="contributed">0</pattern>
+					<pattern type="1000" draft="contributed">0.0K</pattern>
+					<pattern type="10000" draft="contributed">00K</pattern>
+					<pattern type="100000" draft="contributed">000K</pattern>
+					<pattern type="1000000" draft="contributed">0.0M</pattern>
+					<pattern type="10000000" draft="contributed">00M</pattern>
+					<pattern type="100000000" draft="contributed">000M</pattern>
+					<pattern type="1000000000" draft="contributed">0.0B</pattern>
+					<pattern type="10000000000" draft="contributed">00B</pattern>
+					<pattern type="100000000000" draft="contributed">000B</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0T</pattern>
+					<pattern type="10000000000000" draft="contributed">00T</pattern>
+					<pattern type="100000000000000" draft="contributed">000T</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern>#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##,##0.00¤;(#,##,##0.00¤)</pattern>

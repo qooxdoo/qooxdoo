@@ -23,6 +23,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.WebWorker",
 {
   extend : qx.application.Standalone,

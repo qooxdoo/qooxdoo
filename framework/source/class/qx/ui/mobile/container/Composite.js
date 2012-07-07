@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The Composite is a generic container widget.
  *
  * It exposes all methods to set layouts and to manage child widgets

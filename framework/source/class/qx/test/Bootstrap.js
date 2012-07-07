@@ -35,6 +35,17 @@ qx.Class.define("qx.test.Bootstrap",
 
   members :
   {
+    testDefineAnonymous : function() {
+      var clazz = qx.Bootstrap.define(null, {statics : {
+        test : function() {
+          return true;
+        }
+      }});
+
+      this.assertTrue(clazz.test());
+    },
+
+
     "test: define class with contructor" : function()
     {
       var c = qx.Bootstrap.define("qx.test.Construct",

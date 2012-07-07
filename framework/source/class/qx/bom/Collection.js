@@ -1366,7 +1366,6 @@
         if (scripts)
         {
           var script;
-          var Loader = qx.io.ScriptLoader;
           var Func = qx.lang.Function;
 
           for (var i=0, l=scripts.length; i<l; i++)
@@ -1375,7 +1374,9 @@
 
             // Executing script code or loading source depending on element configuration
             if (script.src) {
-              (new Loader()).load(script.src);
+              var loader = new qx.bom.request.Script();
+              loader.open("GET", script.src);
+              loader.send();
             } else {
               Func.globalEval(script.text || script.textContent || script.innerHTML || "");
             }

@@ -14,7 +14,7 @@ state-of-the-art GUI toolkit. qooxdoo is open source under liberal
 licenses, led by the world's largest web host 1&1, with a vibrant 
 community.
 
-For more information please see http://qooxdoo.org/about
+For more information please see http://qooxdoo.org
 
 
 License
@@ -36,7 +36,7 @@ Quick start
 ===========
 
 It is easy to get started with qooxdoo. For detailed information please
-see http://manual.qooxdoo.org/2.0/pages/getting_started.html
+see http://manual.qooxdoo.org/2.1/pages/getting_started.html
 
 For the impatient, here is a short version:
 
@@ -61,16 +61,16 @@ Learn more
 ==========
 
 * About qooxdoo
-  http://qooxdoo.org/about
+  http://qooxdoo.org
 
 * Online Demos
   http://demo.qooxdoo.org
 
-* Release notes
-  http://qooxdoo.org/about/release_notes
+* Release Notes
+  http://qooxdoo.org/project/release_notes/2.0
 
-* User manual
-  http://manual.qooxdoo.org/2.0
+* User Manual
+  http://manual.qooxdoo.org/2.1
 
-* API documentation
-  http://api.qooxdoo.org
+* API Documentation
+  http://api.qooxdoo.org/2.0

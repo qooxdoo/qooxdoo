@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5912 $"/>
-		<generation date="$Date: 2011-06-19 11:53:49 -0500 (Sun, 19 Jun 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="uz"/>
 		<script type="Arab"/>
 	</identity>
@@ -153,6 +153,9 @@
 	</dates>
 	<numbers>
 		<defaultNumberingSystem>arabext</defaultNumberingSystem>
+		<otherNumberingSystems>
+			<native>arabext</native>
+		</otherNumberingSystems>
 		<symbols numberSystem="arabext">
 			<decimal>٫</decimal>
 			<group>٬</group>
@@ -164,7 +167,7 @@
 			<group>.</group>
 			<minusSign>−</minusSign>
 		</symbols>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern draft="unconfirmed">#,##0.00 ¤</pattern>

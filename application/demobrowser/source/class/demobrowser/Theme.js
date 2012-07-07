@@ -5,9 +5,9 @@ qx.Theme.define("demobrowser.Theme",
 
   meta :
   {
-    color : qx.theme.modern.Color,
-    decoration : qx.theme.modern.Decoration,
-    font : qx.theme.modern.Font,
+    color : qx.theme.indigo.Color,
+    decoration : qx.theme.indigo.Decoration,
+    font : qx.theme.indigo.Font,
     icon : qx.theme.icon.Tango,
     appearance : demobrowser.Appearance
   }

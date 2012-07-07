@@ -40,6 +40,7 @@ def tokens_2_obj(content):
     scanner = Scanner.Scanner(content).__iter__()
     Token   = Scanner.Token
     arg     = None
+    token   = None
     #for stoken in scanner:
     while True:
         try:
@@ -48,7 +49,7 @@ def tokens_2_obj(content):
             break
         token = Token(stoken)
         arg = (yield token)
-    yield Token(('eof', '', token.spos+token.len, 0))
+    yield Token(('eof', '', token.spos+token.len if token else 0, 0))
 
 
 def scanner_slice(self, a, b):
@@ -115,8 +116,7 @@ def parseStream(content, uniqueId=""):
             try:
                 token['source'] = parseString(scanner, tok.value)
             except SyntaxException, e:
-                desc = e.args[0] + " starting with %r..." % (tok.value + e.args[1])[:20]
-                raiseSyntaxException(token, desc)
+                raiseSyntaxException(token, e.args[0])
             token['source'] = token['source'][:-1]
             # adapt line number -- this assumes multi-line strings are not generally out
             linecnt = len(re.findall("\n", token['source']))
@@ -130,15 +130,23 @@ def parseStream(content, uniqueId=""):
             if tok.value in lang.TOKENS:
                 # division, div-assignment, regexp
                 if tok.value in ('/', '/='):
-                    # accumulate regex literals
+                    # get the preceding (real) token
+                    for ptoken in reversed(tokens):
+                        if ptoken['type'] in ('eol', 'white'):
+                            continue
+                        else:
+                            prev_token = ptoken
+                            break
+                    # regex literal
                     if (len(tokens) == 0 or (
-                            (tokens[-1]['type']   != 'number') and
-                            (tokens[-1]['detail'] != 'RP')     and
-                            (tokens[-1]['detail'] != 'RB')     and
-                            (tokens[-1]['type']   != 'name'))):
+                            (prev_token['type']   != 'number') and
+                            (prev_token['detail'] != 'RP')     and
+                            (prev_token['detail'] != 'RB')     and
+                            (prev_token['type']   != 'name'))):
                         regexp = parseRegexp(scanner)
                         token['type'] = 'regexp'
                         token['source'] = tok.value + regexp
+                    # div, div-assign
                     else:
                         token['type'] = 'token'
                         token['detail'] = lang.TOKENS[tok.value]
@@ -157,7 +165,7 @@ def parseStream(content, uniqueId=""):
                         token['multiline'] = False
                         token['detail'] = 'inline'
                     else:
-                        print >> sys.stderror, "Inline comment out of context"
+                        print >> sys.stderr, "Inline comment out of context"
                 
                 # comment, multiline
                 elif tok.value == '/*':
@@ -168,8 +176,7 @@ def parseStream(content, uniqueId=""):
                         try:
                             commnt = parseCommentM(scanner)
                         except SyntaxException, e:
-                            desc = e.args[0] + " starting with \"%r...\"" % (tok.value + e.args[1])[:20]
-                            raiseSyntaxException(token, desc)
+                            raiseSyntaxException(token, e.args[0])
                         commnt = alignMultiLines(commnt, token['column'])
                         token['source'] = tok.value + commnt
                         token['detail'] = Comment.Comment(token['source']).getFormat()
@@ -194,7 +201,7 @@ def parseStream(content, uniqueId=""):
                             token['multiline'] = False
 
                     else:
-                        print >> sys.stderror, "Multiline comment out of context"
+                        print >> sys.stderr, "Multiline comment out of context"
                                 
                 # every other operator goes as is
                 else:
@@ -249,13 +256,24 @@ def parseString(scanner, sstart):
 def parseRegexp(scanner):
     # leading '/' is already consumed
     rexp = ""
+    in_char_class = False
     token = scanner.next()
     while True:
         rexp += token.value      # accumulate token strings
-        if rexp.endswith("/"):   # check for end of regexp
-            # make sure "/" is not escaped, ie. preceded by an odd number of "\"
+
+        # -- Check last token
+        # character classes
+        if token.value == "[":
+            if not Scanner.is_last_escaped(rexp): # i.e. not preceded by an odd number of "\"
+                in_char_class = True
+        elif token.value == "]" and in_char_class:
+            if not Scanner.is_last_escaped(rexp):
+                in_char_class = False
+        # check for termination of rexp
+        elif rexp[-1] == "/" and not in_char_class:  # rexp[-1] != token.value if token.value == "//"
             if not Scanner.is_last_escaped(rexp):
                 break
+
         token = scanner.next()
 
     # regexp modifiers

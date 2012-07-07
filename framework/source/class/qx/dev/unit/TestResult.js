@@ -76,7 +76,7 @@ qx.Class.define("qx.dev.unit.TestResult",
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
     skip : "qx.event.type.Data",
-    
+
     /**
      * Fired if a performance test returned results.
      *
@@ -188,8 +188,8 @@ qx.Class.define("qx.dev.unit.TestResult",
             this.fireDataEvent("endTest", test);
           }
           else {
-            if (ex instanceof qx.type.BaseError && 
-              ex.message == qx.type.BaseError.DEFAULTMESSAGE) 
+            if (ex instanceof qx.type.BaseError &&
+              ex.message == qx.type.BaseError.DEFAULTMESSAGE)
             {
               ex.message = "setUp failed";
             }
@@ -199,7 +199,7 @@ qx.Class.define("qx.dev.unit.TestResult",
             this._createError("error", [ex], test);
             this.fireDataEvent("endTest", test);
           }
-          
+
           return;
         }
       }
@@ -260,15 +260,15 @@ qx.Class.define("qx.dev.unit.TestResult",
           this.tearDown(test);
           this.fireDataEvent("endTest", test);
         } catch(ex) {
-          if (ex instanceof qx.type.BaseError && 
-            ex.message == qx.type.BaseError.DEFAULTMESSAGE) 
+          if (ex instanceof qx.type.BaseError &&
+            ex.message == qx.type.BaseError.DEFAULTMESSAGE)
           {
             ex.message = "tearDown failed";
           }
           else {
             ex.message = "tearDown failed: " + ex.message;
           }
-          
+
           this._createError("error", [ex], test);
           this.fireDataEvent("endTest", test);
         }

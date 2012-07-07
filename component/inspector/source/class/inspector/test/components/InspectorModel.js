@@ -161,9 +161,9 @@ qx.Class.define("inspector.test.components.InspectorModel",
         var root = new qx.ui.root.Application(document);
         var objects = {
           o1 : {},
-          o2 : new qx.ui.root.Inline(qx.bom.Element.create("div")),
+          o2 : new qx.ui.root.Inline(qx.dom.Element.create("div")),
           o3 : {},
-          o4 : new qx.ui.root.Inline(qx.bom.Element.create("div"))
+          o4 : new qx.ui.root.Inline(qx.dom.Element.create("div"))
         };
 
         var windowMock = this.__createMock(root, objects);

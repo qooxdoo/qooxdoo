@@ -140,7 +140,7 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
 
     _getNewTableDiv : function(width)
     {
-      var div = qx.bom.Element.create("div");
+      var div = qx.dom.Element.create("div");
       qx.bom.element.Style.setStyles(div, {
         position : "absolute",
         left: this._tableLeft + "px",

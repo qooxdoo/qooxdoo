@@ -1,0 +1,48 @@
+//
+// TOOLBAR IOS 
+//
+
+.toolbar {
+  .transition(bottom .65s);
+
+  padding: 2px;
+  height: 55px;
+  height: -moz-calc(55px + 4px);
+  .box-align(stretch);
+
+  // This is for equal sizes of the buttons when added in a toolbar or other container
+  // with flex unfortunately, this can be used only in the case where the buttons are
+  // similar in size, and the text is small if we will have a button with 100 characters
+  // text and a button with 2 characters text the one with 100 characters gets clipped
+  width: 0;
+
+  cursor:pointer;
+}
+
+.toolbar-button {
+  font-size: 14px;
+  overflow: hidden;
+}
+
+.toolbar-button.active {
+  font-weight: bolder;
+}
+
+.toolbar-button img {
+  vertical-align: middle;
+}
+
+.toolbar-button .label {
+  height: auto;
+  padding-top:2px;
+  text-align:center;
+  // For displaying ellipsis correctly.
+  max-width:100%;
+}
+
+
+
+.toolbar-separator {
+  width: 5px;
+}
+

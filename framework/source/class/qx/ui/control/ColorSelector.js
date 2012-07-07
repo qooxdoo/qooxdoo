@@ -260,7 +260,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           break;
 
         case "control-pane":
-          control = new qx.ui.container.Composite(new qx.ui.layout.VBox(12));
+          control = new qx.ui.container.Composite(new qx.ui.layout.VBox(0));
           control.add(this.getChildControl("preset-field-set"));
           control.add(this.getChildControl("input-field-set"));
           control.add(this.getChildControl("preview-field-set"), {flex: 1});
@@ -515,7 +515,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
      */
     getValue: function()
     {
-      return this.__nullValue ? null : "#" + qx.util.ColorUtil.rgbToHexString(
+      return this.__nullValue ? null : qx.util.ColorUtil.rgbToHexString(
         [this.getRed(), this.getGreen(), this.getBlue()]
       );
     },
@@ -1135,6 +1135,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
       var value = qx.util.ColorUtil.rgbToHexString(
         [this.getRed(),this.getGreen(),this.getBlue()]
       );
+
+      // get rid of the starting '#'
+      value = value.substring(1, value.length);
+
       this.getChildControl("hex-field").setValue(value);
     },
 

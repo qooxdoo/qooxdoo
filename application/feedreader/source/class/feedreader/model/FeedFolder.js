@@ -76,8 +76,7 @@ qx.Class.define("feedreader.model.FeedFolder",
     {
       check : ["new", "loading", "loaded", "error"],
       init : "null",
-      event : "stateModified",
-      apply: "_applyState"
+      event : "stateModified"
     }
   }
 });

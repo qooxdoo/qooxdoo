@@ -1,0 +1,60 @@
+//
+// TOOLBAR
+//
+
+.toolbar-button {
+  .standard-button();
+  .hbox();
+  .background-clip(padding-box);
+  cursor: pointer;
+  font-weight: bold;
+  
+  width:0;
+
+  @padding:4px;
+  padding-left:@padding;
+  padding-right:@padding;
+  
+  overflow: hidden;
+
+  
+  font-size: 12px;
+  
+  line-height:normal;
+}
+
+.toolbar-separator {
+  width: 4px;
+}
+
+.toolbar {
+  z-index: 1;
+  padding: 2px;
+  height: 55px;
+  height: -moz-calc(55px + 4px);
+  .box-align(stretch);
+}
+
+.toolbar-button img {
+  vertical-align: middle;
+}
+
+.toolbar-button > div {
+  .boxFlex();
+}
+
+.toolbar-button .label {
+  height: auto;
+  padding-top:2px;
+  text-align:center;
+  // For displaying ellipsis correctly.
+  max-width:100%;
+}
+
+.toolbar-separator {
+  width: 5px;
+}
+
+.list-itemimage {
+  margin-right: 7px;
+}

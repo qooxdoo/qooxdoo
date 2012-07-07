@@ -16,6 +16,7 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
+
 /**
  * This is a cross browser storage implementation. The API is aligned with the
  * API of the HTML web storage (http://www.w3.org/TR/webstorage/) which is also
@@ -55,7 +56,7 @@ qx.Bootstrap.define("qx.bom.Storage", {
       // as fallback,use the userdata storage for IE5.5 - 8
     } else if (qx.core.Environment.get("html.storage.userdata")) { // IE <8 fallback
       statics.__impl = qx.bom.storage.UserData;
-      // als last fallback, use a in memory storage (this one is not persisten)
+      // as last fallback, use a in memory storage (this one is not persistent)
     } else {
       statics.__impl = qx.bom.storage.Memory;
     }

@@ -53,7 +53,7 @@ qx.Class.define("inspector.console.ConsoleView",
 
     // inputfield
     var inputComposite = new qx.ui.container.Composite();
-    inputComposite.setDecorator("input");
+    inputComposite.setDecorator("inset");
     var layout = new qx.ui.layout.HBox();
     layout.setAlignY("middle");
     inputComposite.setLayout(layout);

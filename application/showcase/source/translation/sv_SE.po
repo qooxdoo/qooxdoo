@@ -100,3 +100,6 @@ msgstr ""
 
 msgid "Week start:"
 msgstr ""
+
+msgid "qooxdoo"
+msgstr ""

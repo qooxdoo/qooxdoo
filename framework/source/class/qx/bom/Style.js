@@ -41,7 +41,11 @@ qx.Bootstrap.define("qx.bom.Style",
     getPropertyName : function(propertyName)
     {
       var style = document.documentElement.style;
-      
+
+      if (style[propertyName] !== undefined) {
+        return propertyName;
+      }
+
       for (var i=0, l=this.VENDOR_PREFIXES.length; i<l; i++) {
         var prefixedProp = this.VENDOR_PREFIXES[i] +
           qx.lang.String.firstUp(propertyName);
@@ -49,11 +53,7 @@ qx.Bootstrap.define("qx.bom.Style",
           return prefixedProp;
         }
       }
-      
-      if (style[propertyName] !== undefined) {
-        return propertyName;
-      }
-      
+
       return null;
     },
 

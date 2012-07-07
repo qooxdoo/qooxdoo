@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5953 $"/>
-		<generation date="$Date: 2011-07-04 18:22:55 -0500 (Mon, 04 Jul 2011) $"/>
+		<version number="$Revision: 6472 $"/>
+		<generation date="$Date: 2012-01-28 00:53:35 +0100 (Sat, 28 Jan 2012) $"/>
 		<language type="ne"/>
 	</identity>
 	<localeDisplayNames>
@@ -256,7 +256,6 @@
 			<territory type="054" draft="contributed">मेलानेसिया</territory>
 			<territory type="057" draft="contributed">माइक्रोनेसियाली क्षेत्र</territory>
 			<territory type="061" draft="contributed">पोलिनेशिया</territory>
-			<territory type="062" draft="contributed">दक्षिण मध्य एशिया</territory>
 			<territory type="142" draft="contributed">एशिया</territory>
 			<territory type="143" draft="contributed">केन्द्रीय एशिया</territory>
 			<territory type="145" draft="contributed">पश्चिमी एशिया</territory>
@@ -264,7 +263,6 @@
 			<territory type="151" draft="contributed">पूर्वी युरोप</territory>
 			<territory type="154" draft="contributed">उत्तरी युरोप</territory>
 			<territory type="155" draft="contributed">पश्चिमी युरोप</territory>
-			<territory type="172" draft="contributed">कमनवेल्थका स्वतन्त्र राज्यहरू</territory>
 			<territory type="419" draft="contributed">ल्याटिन अमेरिका तथा क्यारिबियन</territory>
 			<territory type="AD" draft="contributed">अन्डोर्रा</territory>
 			<territory type="AE" draft="contributed">संयुक्त अरब इमिराट्स</territory>
@@ -530,7 +528,6 @@
 			<type type="big5han" key="collation" draft="contributed">परम्परागत चिनिँया क्रमबद्धता पद्दति - बिग फाइभ</type>
 			<type type="buddhist" key="calendar" draft="contributed">बुद्धिष्ट पात्रो</type>
 			<type type="chinese" key="calendar" draft="contributed">चिनिँया पात्रो</type>
-			<type type="direct" key="collation" draft="contributed">प्रत्यक्ष क्रमबद्धता पद्दति</type>
 			<type type="gb2312han" key="collation" draft="contributed">सरलिकृत चिनियाँ क्रमबद्धता पद्दति-गीबीटुथ्रीवानटु</type>
 			<type type="gregorian" key="calendar" draft="contributed">ग्रेगोरियन पात्रो</type>
 			<type type="hebrew" key="calendar" draft="contributed">हिब्रु पात्रो</type>
@@ -551,10 +548,10 @@
 		<exemplarCharacters type="index" draft="unconfirmed">[अ आ इ ई उ ऊ ऋ ए ऐ ओ औ क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह]</exemplarCharacters>
 	</characters>
 	<delimiters>
-		<quotationStart draft="contributed">'</quotationStart>
-		<quotationEnd draft="contributed">'</quotationEnd>
-		<alternateQuotationStart draft="contributed">&quot;</alternateQuotationStart>
-		<alternateQuotationEnd draft="contributed">&quot;</alternateQuotationEnd>
+		<quotationStart draft="contributed">“</quotationStart>
+		<quotationEnd draft="contributed">”</quotationEnd>
+		<alternateQuotationStart draft="contributed">‘</alternateQuotationStart>
+		<alternateQuotationEnd draft="contributed">’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -1232,14 +1229,16 @@
 			</zone>
 			<metazone type="Africa_Central">
 				<long>
-					<generic>मोजाम्बिक समय[</generic>
 					<standard>केन्द्रीय अफ्रिकी समय</standard>
 				</long>
 			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<defaultNumberingSystem>deva</defaultNumberingSystem>
+		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<otherNumberingSystems>
+			<native>deva</native>
+		</otherNumberingSystems>
 		<symbols numberSystem="latn">
 			<decimal draft="contributed">.</decimal>
 			<group draft="contributed">,</group>
@@ -1322,4 +1321,3 @@
 		</unit>
 	</units>
 </ldml>
-

@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5798 $"/>
-		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 6465 $"/>
+		<generation date="$Date: 2012-01-27 18:47:35 +0100 (Fri, 27 Jan 2012) $"/>
 		<language type="en"/>
 		<territory type="MT"/>
 	</identity>
@@ -32,28 +32,6 @@
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="Md">dd/MM</dateFormatItem>
@@ -62,7 +40,7 @@
 						<dateFormatItem id="yMd">dd/MM/yyyy</dateFormatItem>
 						<dateFormatItem id="yMEd">E, dd/MM/yyyy</dateFormatItem>
 						<dateFormatItem id="yMMMd">dd MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, dd MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, dd MMM y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="unconfirmed">{0} - {1}</intervalFormatFallback>
@@ -156,13 +134,6 @@
 		</calendars>
 	</dates>
 	<numbers>
-		<currencyFormats>
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
 		<currencies>
 			<currency type="GBP">
 				<symbol>GB£</symbol>
