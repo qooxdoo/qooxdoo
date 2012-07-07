@@ -31,9 +31,6 @@ qx.Class.define("twitter.Application",
 
   members :
   {
-    __loginWindow : null,
-
-
     /**
      * This method contains the initial application code and gets called
      * during startup of the application
@@ -80,36 +77,20 @@ qx.Class.define("twitter.Application",
 
       // post handling
       main.addListener("post", function(e) {
-        var msg = e.getData();
-        service.post(msg);
+        service.post(e.getData());
       }, this);
 
       // setup list binding
       var list = main.getList();
       list.setItemHeight(68);
+      list.setLabelPath("text");
+      list.setIconPath("user.profile_image_url");
       list.setDelegate({
-        createItem : function() {
-          return new twitter.TweetView();
-        },
-
-        bindItem : function(controller, item, id) {
-          controller.bindProperty("text", "post", null, item, id);
-          controller.bindProperty("user.profile_image_url", "icon", null, item, id);
-          controller.bindProperty("created_at", "time", {
-            converter: function(data) {
-              if (qx.core.Environment.get("browser.name") == "ie") {
-                data = Date.parse(data.replace(/( \+)/, " UTC$1"));
-              }
-              return new Date(data);
-            }
-          }, item, id);
-        },
-
         configureItem : function(item) {
           item.getChildControl("icon").setWidth(48);
           item.getChildControl("icon").setHeight(48);
           item.getChildControl("icon").setScale(true);
-          item.setMinHeight(52);
+          item.setRich(true);
         }
       });
       service.bind("tweets", list, "model", {
@@ -118,6 +99,7 @@ qx.Class.define("twitter.Application",
         }
       });
 
+      // start the loading on startup
       service.fetchTweets();
     }
   }

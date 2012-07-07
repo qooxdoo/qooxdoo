@@ -1,0 +1,65 @@
+//
+// NAVIGATIONBAR 
+//
+
+@navigationbar-height:45px;
+
+.navigationbar {
+  height: @navigationbar-height;
+  padding-left: 10px;
+  padding-right: 10px;
+  position:relative;
+}
+
+.navigationbar > .label {
+  height:@navigationbar-height;
+  line-height:@navigationbar-height;
+}
+
+.navigationbar-button, .navigationbar-backbutton {
+  .standard-button();
+  
+  display:inline-block;
+
+  text-align: center;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  text-overflow: ellipsis;
+
+  .background-clip(padding-box);
+
+  height: 30px;
+  line-height: 30px;
+
+  min-width: 40px;
+}
+
+//
+// NAVIGATION
+// 
+
+.navigation {
+  overflow:hidden;
+}
+
+.left-container > * {
+  margin-right:4px;
+}
+
+@navigationbar-container-space: 5px;
+
+.left-container {
+  position:absolute;
+  left:@navigationbar-container-space;
+  top:@navigationbar-container-space;
+  width:auto;
+}
+
+.right-container {
+  position:absolute;
+  right:@navigationbar-container-space;
+  top:@navigationbar-container-space;
+  width:auto;
+}

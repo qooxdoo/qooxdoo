@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5799 $"/>
-		<generation date="$Date: 2011-05-02 01:19:45 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 6708 $"/>
+		<generation date="$Date: 2012-03-16 07:58:36 +0100 (Fri, 16 Mar 2012) $"/>
 		<language type="vai"/>
 		<script type="Latn"/>
 	</identity>
@@ -288,10 +288,10 @@
 		<exemplarCharacters type="index">[A B Ɓ C D Ɗ E Ɛ F G H I J K L M N Ŋ O Ɔ P Q R S T U V W X Y Z]</exemplarCharacters>
 	</characters>
 	<delimiters>
-		<quotationStart>‘</quotationStart>
-		<quotationEnd>’</quotationEnd>
-		<alternateQuotationStart>“</alternateQuotationStart>
-		<alternateQuotationEnd>”</alternateQuotationEnd>
+		<quotationStart>“</quotationStart>
+		<quotationEnd>”</quotationEnd>
+		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -374,7 +374,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
@@ -389,10 +389,10 @@
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/y</dateFormatItem>
 						<dateFormatItem id="yMd">M/d/y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, M/d/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, M/d/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">MMM d y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, MMM d, y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
 						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 					</availableFormats>
@@ -430,18 +430,22 @@
 		</calendars>
 	</dates>
 	<numbers>
+		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<otherNumberingSystems>
+			<native>vaii</native>
+		</otherNumberingSystems>
 		<symbols numberSystem="latn">
 			<decimal>.</decimal>
 			<group>,</group>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
@@ -618,4 +622,3 @@
 		</messages>
 	</posix>
 </ldml>
-

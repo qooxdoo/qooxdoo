@@ -25,7 +25,7 @@ qx.Class.define("showcase.ui.Description",
   construct : function()
   {
     this.base(arguments);
-    this.__loadCss();
+    // this.__loadCss();
 
     this.setRich(true);
     this.setSelectable(true);

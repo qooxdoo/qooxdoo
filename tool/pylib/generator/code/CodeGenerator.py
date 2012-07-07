@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import os, sys, string, types, re, zlib, time
+import os, sys, string, types, re, zlib, time, codecs
 import urllib, copy
 import graph
 
@@ -30,7 +30,7 @@ from generator.code.Package     import Package
 from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.Script      import Script
 import generator.resource.Library # just need the .Library type
-from ecmascript.frontend        import treegenerator, treegenerator_new_ast
+from ecmascript.frontend        import tokenizer, treegenerator, treegenerator_2
 from ecmascript.backend         import pretty
 #from ecmascript.backend         import pretty_new as pretty
 from ecmascript.backend.Packer  import Packer
@@ -61,6 +61,12 @@ class CodeGenerator(object):
 
 
     def runCompiled(self, script):
+
+        def removeDuplicatLibs(libs):
+            l = []
+            for lib in libs:  # relying on Library.__eq__
+                if lib not in l: l.append(lib)
+            return l
 
         def getOutputFile(compileType):
             filePath = compConf.get("paths/file")
@@ -144,6 +150,12 @@ class CodeGenerator(object):
             except KeyError, e:
                 raise ValueError("Unknown macro used in loader template (%s): '%s'" % 
                                  (templatePath, e.args[0])) 
+
+            # Compress it
+            if False: # - nope; this is taking around 14s on my box, with parsing being 10s  :(
+                resTokens = tokenizer.parseStream(result, templatePath)
+                resTree = treegenerator.createSyntaxTree(resTokens, templatePath)
+                [result] = Packer().serializeNode(resTree, None, None, compConf.get('code/format', False))
 
             return result
 
@@ -694,9 +706,28 @@ class CodeGenerator(object):
             return classList
 
 
+        ##
+        # If variants optimization is done and environment/qx.AllowUrlSettings:true,
+        # overriding other config env keys with URL parameters will not work, as the corresponding
+        # calls in the code are optimized away.
+        def warn_if_qxAllowUrlSettings(jobObj, compConf):
+            env = jobObj.get("environment", {})
+            qxAllowUrlSettings = bool(env.get("qx.allowUrlSettings", False))
+            optimizeVariants   = "variants" in compConf.optimize
+            dont_warn_this = "variants-and-url-settings" in jobObj.get("config-warnings/environment", [])
+            if qxAllowUrlSettings and optimizeVariants and not dont_warn_this:
+                self._console.warn(
+                    "Doing variants optimization with qx.allowUrlSettings:true is partly contradictory! " +
+                    "You will not be able to URL-override these environment keys:\n%s" % sorted(env.keys())
+                    )
+
+
         def compileClasses(classList, compConf, log_progress=lambda:None):
             num_proc = self._job.get('run-time/num-processes', 0)
             result = []
+            # warn qx.allowUrlSettings - variants optim. conflict (bug#6141)
+            if "variants" in compConf.optimize:
+                warn_if_qxAllowUrlSettings(self._job, compConf)
             # do "statics" optimization out of line
             if "statics" in compConf.optimize:
                 tmp_optimize = compConf.optimize[:]
@@ -707,8 +738,7 @@ class CodeGenerator(object):
                 # do the rest
                 for clazz in classList:
                     tree = clazz.optimize(clazz._tmp_tree, tmp_optimize)
-                    code = clazz.serializeCondensed(tree, compConf.format)
-                    if code[-1:] != '\n': code += '\n'
+                    code = clazz.serializeTree(tree, tmp_optimize, compConf.format)
                     result.append(code)
                     #clazz._tmp_tree = None # reset _tmp_tree
                     log_progress()
@@ -739,13 +769,7 @@ class CodeGenerator(object):
         # a common .js file, constructing the URI to this file, or just construct
         # the URI to the source file directly if the class matches a filter.
         # Return the list of constructed URIs.
-        def compileAndWritePackage(package, compConf, allClassVariants):
-
-            def compiledFilename(compiled):
-                hash_ = sha.getHash(compiled)[:12]
-                fname = self._resolveFileName(script.baseScriptPath, script.variants, {}, "")
-                fname = self._fileNameWithHash(fname, hash_)
-                return fname
+        def compileAndWritePackage(package, compConf, allClassVariants, per_file_prefix):
 
             def compileAndAdd(compiled_classes, package_uris, prelude='', wrap=''):
                 compiled = compileClasses(compiled_classes, compOptions, log_progress)
@@ -753,7 +777,7 @@ class CodeGenerator(object):
                     compiled = wrap % compiled
                 if prelude:
                     compiled = prelude + compiled
-                filename = compiledFilename(compiled)
+                filename = self._computeFilePath(script, sha.getHash(compiled)[:12])
                 self.writePackage(compiled, filename, script)
                 filename = OsPath(os.path.basename(filename))
                 shortUri = Uri(filename.toUri())
@@ -765,7 +789,7 @@ class CodeGenerator(object):
             ##
             # Write the package data and the compiled class code in so many
             # .js files, skipping source files.
-            def write_uris(package_data, package_classes):
+            def write_uris(package_data, package_classes, per_file_prefix):
                 sourceFilter = ClassMatchList(compConf.get("code/except", []))
                 compiled_classes = []  # to accumulate classes that are compiled and can go into one .js file
                 package_uris = []      # the uri's of the .js files of this package
@@ -777,6 +801,8 @@ class CodeGenerator(object):
 
                         # before processing the source class, cat together data and accumulated classes, if any
                         if package_data or compiled_classes:
+                            if per_file_prefix:
+                                package_data = per_file_prefix + package_data
                             # treat compiled classes so far
                             package_uris = compileAndAdd(compiled_classes, package_uris, package_data)
                             compiled_classes = []  # reset the collection
@@ -800,6 +826,8 @@ class CodeGenerator(object):
                         closureWrap = ''
                         if isClosurePackage(package, bootPackageId(script)):
                             closureWrap = u'''qx.Part.$$notifyLoad("%s", function() {\n%%s\n});''' % package.id
+                        if per_file_prefix:
+                            package_data = per_file_prefix + package_data
                         package_uris = compileAndAdd(compiled_classes, package_uris, package_data, closureWrap)
                 
                 return package_uris
@@ -820,7 +848,7 @@ class CodeGenerator(object):
 
             ##
             # Here's the meat
-            package.files = write_uris(package_data, package_classes)
+            package.files = write_uris(package_data, package_classes, per_file_prefix)
 
             return package
             
@@ -858,6 +886,8 @@ class CodeGenerator(object):
 
         # Read libraries
         libs = self._job.get("library", [])
+        libs = removeDuplicatLibs(libs)  # before generateLibInfoCode() I need to make sure
+                                         # duplicates of a library are removed, so the first wins
 
         # Get translation maps
         locales = compConf.get("code/locales", [])
@@ -881,6 +911,14 @@ class CodeGenerator(object):
             resourceUri = None
             scriptUri   = None
 
+        # Get prefix content for generated files
+        prefix_file = compConf.get("paths/file-prefix", None)
+        if prefix_file:
+            prefix_file = self._config.absPath(prefix_file)
+            per_file_prefix = codecs.open(prefix_file, "r", "utf-8").read()
+        else:
+            per_file_prefix = u''
+
         # Get global script data (like qxlibraries, qxresources,...)
         globalCodes = {}
         globalCodes["EnvSettings"] = self.generateVariantsCode(script.environment)
@@ -899,7 +937,7 @@ class CodeGenerator(object):
 
         # Potentally create dedicated I18N packages
         if self._job.get("packages/i18n-as-parts", False):
-            script = self.generateI18NParts(script, locales)
+            script = self.generateI18NParts(script, locales, per_file_prefix)
             self.writePackages([p for p in script.packages if getattr(p, "__localeflag", False)], script)
 
         # ---- create script files ---------------------------------------------
@@ -930,7 +968,7 @@ class CodeGenerator(object):
 
             # write packages to disk
             for packageIndex, package in enumerate(packages):
-                package = compileAndWritePackage(package, compConf, allClassVariants)
+                package = compileAndWritePackage(package, compConf, allClassVariants, per_file_prefix)
 
             #self._console.outdent()
             self._console.dotclear()
@@ -948,10 +986,11 @@ class CodeGenerator(object):
                     bcode = filetool.read(bfile)
                 os.unlink(bfile)
             else:
-                bcode = ""
+                bcode = u''
             loaderCode = generateLoader(script, compConf, globalCodes, bcode)
-            fname = self._resolveFileName(script.baseScriptPath, script.variants, {}, "")
-            self.writePackage(loaderCode, fname, script)
+            loaderCode = per_file_prefix + loaderCode
+            fname = self._computeFilePath(script, isLoader=1)
+            self.writePackage(loaderCode, fname, script, isLoader=1)
 
 
         self._console.outdent()
@@ -996,7 +1035,7 @@ class CodeGenerator(object):
         numClasses = len(classesObj)
         for pos, classId in enumerate(classesObj):
             self._console.progress(pos+1, numClasses)
-            tree = classesObj[classId].tree()
+            tree = classesObj[classId].tree(treegenerator_2)
             result = [u'']
             result = pretty.prettyNode(tree, options, result)
             compiled = u''.join(result)
@@ -1022,24 +1061,34 @@ class CodeGenerator(object):
         return settings
 
 
-    def _resolveFileName(self, fileName, variants=None, settings=None, packageId=""):
+    def _computeFilePath(self, script, hash_=None, packageId="", isLoader=0):
+
+        filepath = script.baseScriptPath
+        variants = script.variants
+
+        # replace environment placeholders
         if variants:
             for key in variants:
                 pattern = "{%s}" % key
-                fileName = fileName.replace(pattern, str(variants[key]))
+                filepath = filepath.replace(pattern, str(variants[key]))
 
+        # insert a package id
         if packageId != "":
-            fileName = fileName.replace(".js", "-%s.js" % packageId)
+            filepath = filepath.replace(".js", "-%s.js" % packageId)
 
-        return fileName
+        # hash component
+        #if hash_ and self._job.get("compile-options/paths/scripts-add-hash", False):
+        if hash_ :
+            filebase, fileext = os.path.splitext(filepath)
+            filepath = filebase
+            filepath += "." + hash_
+            filepath += fileext
 
+        # gzip component
+        if script.scriptCompress and not isLoader:
+            filepath += ".gz"
 
-    def _fileNameWithHash(self, fname, hash):
-        filebase, fileext = os.path.splitext(fname)
-        filename = filebase
-        filename += "." + hash if hash else ""
-        filename += fileext
-        return filename
+        return filepath
 
 
     def _computeContentSize(self, content):
@@ -1099,7 +1148,7 @@ class CodeGenerator(object):
     ##
     # collect translation and locale data into dedicated parts and packages,
     # one for each language code
-    def generateI18NParts(self, script, locales):
+    def generateI18NParts(self, script, locales, per_file_prefix):
 
         ##
         # collect translation and locale info from the packages
@@ -1161,12 +1210,11 @@ class CodeGenerator(object):
             # file name and hash code
             hash_, dataS  = intpackage.packageContent()  # TODO: this currently works only for pure data packages
             dataS        = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
+            dataS = per_file_prefix + dataS
             intpackage.compiled.append(dataS)
             intpackage.hash     = hash_
-            fPath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode)
-            intpackage.file = os.path.basename(fPath)
-            if self._job.get("compile-options/paths/scripts-add-hash", False):
-                intpackage.file = self._fileNameWithHash(intpackage.file, intpackage.hash)
+            filepath = self._computeFilePath(script, intpackage.hash, localeCode)
+            intpackage.file = os.path.basename(filepath)
             intpackage.files = ["%s:%s" % ("__out__", intpackage.file)]
             setattr(intpackage,"__localeflag", True)   # TODO: temp. hack for writeI18NPackages()
 
@@ -1302,9 +1350,9 @@ class CodeGenerator(object):
         return
 
     
-    def writePackage(self, content, filePath, script):
+    def writePackage(self, content, filePath, script, isLoader=0):
         console.debug("Writing script file %s" % filePath)
-        if script.scriptCompress:
+        if script.scriptCompress and not isLoader:
             filetool.gzip(filePath, content)
         else:
             filetool.save(filePath, content)

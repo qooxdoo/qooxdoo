@@ -50,7 +50,7 @@ R_BLOCK_COMMENT_TIGHT_END = re.compile("\S+\*/$")
 R_BLOCK_COMMENT_PURE_START = re.compile("^/\*")
 R_BLOCK_COMMENT_PURE_END = re.compile("\*/$")
 
-R_ATTRIBUTE = re.compile('[^{]@(\w+)\s*')
+R_ATTRIBUTE = re.compile(r'[^{]@(\w+)\b')
 R_JAVADOC_STARS = re.compile(r'^\s*\*')
 
 
@@ -327,28 +327,37 @@ class Comment(object):
                 remain = match.group(2)
 
             if remain != None:
-                defIndex = remain.rfind("?")
-                if defIndex != -1:
-                    attrib["defaultValue"] = remain[defIndex+1:].strip()
-                    remain = remain[0:defIndex].strip()
-                    #print ">>> DEFAULT: %s" % attrib["defaultValue"]
+                if attrib["category"] in ("attach", "attachStatic"):
+                    defIndex = remain.find(",")
+                    if defIndex == -1:  # @attach {q}
+                        attrib["targetClass"] = remain.strip()
+                        attrib["targetMethod"] = ""
+                    else:              # @attach {q,m}
+                        attrib["targetClass"] = remain[:defIndex].strip()
+                        attrib["targetMethod"] = remain[defIndex+1:].strip()
+                else:
+                    defIndex = remain.rfind("?")
+                    if defIndex != -1:
+                        attrib["defaultValue"] = remain[defIndex+1:].strip()
+                        remain = remain[0:defIndex].strip()
+                        #print ">>> DEFAULT: %s" % attrib["defaultValue"]
 
-                typValues = []
-                for typ in remain.split("|"):
-                    typValue = typ.strip()
-                    arrayIndex = typValue.find("[")
+                    typValues = []
+                    for typ in remain.split("|"):
+                        typValue = typ.strip()
+                        arrayIndex = typValue.find("[")
 
-                    if arrayIndex != -1:
-                        arrayValue = (len(typValue) - arrayIndex) / 2
-                        typValue = typValue[0:arrayIndex]
-                    else:
-                        arrayValue = 0
+                        if arrayIndex != -1:
+                            arrayValue = (len(typValue) - arrayIndex) / 2
+                            typValue = typValue[0:arrayIndex]
+                        else:
+                            arrayValue = 0
 
-                    typValues.append({ "type" : typValue, "dimensions" : arrayValue })
+                        typValues.append({ "type" : typValue, "dimensions" : arrayValue })
 
-                if len(typValues) > 0:
-                    attrib["type"] = typValues
-                    #print ">>> TYPE: %s" % attrib["type"]
+                    if len(typValues) > 0:
+                        attrib["type"] = typValues
+                        #print ">>> TYPE: %s" % attrib["type"]
 
         if format:
             attrib["text"] = self.formatText(text)
@@ -493,10 +502,8 @@ class Text(object):
     # @param indent {Int} number of spaces to remove
     #
     def outdent(self, indent):
-        return re.compile("\n\s{%s}" % indent).sub("\n", self.string)
-
-    #def indent(self, source, indent):
-    #  return re.compile("\n").sub("\n" + (" " * indent), source)
+        #return re.compile(r"\n\s{%s}" % indent).sub("\n", self.string)
+        return re.compile(r"^\s{%s}" % indent, re.M).sub("", self.string)
 
     ##
     # Insert <indent> at the beginning of each line in text
@@ -621,7 +628,39 @@ def findComment(node):
         return findCommentBefore(node)  
 
 
+##
+# Takes the last doc comment from the commentsBefore child, parses it and
+# returns a Node representing the doc comment
+#
 def parseNode(node):
+
+    # the intended meaning of <node> is "the node that has comments preceding
+    # it"; in the ast, this might not be <node> itself, but the lexically first
+    # token that got the comment attached; look for that
+    commentsNode = findAssociatedComment(node)
+
+    if commentsNode and commentsNode.comments:
+        # check for a suitable comment, from the back so that the closer wins
+        for comment in commentsNode.comments[::-1]:
+            if comment.get("detail") in ["javadoc", "qtdoc"]:
+                return Comment(comment.get("value", "")).parse()
+    return []
+
+
+def findAssociatedComment(node):
+    # traverse <node> tree left-most, looking for comments
+    from ecmascript.frontend import treeutil # ugly here, but due to import cycle
+
+    if node.comments:
+        return node
+    else:
+        if node.children:
+            left_most = treeutil.findLeftmostChild(node)
+            return findAssociatedComment(left_most)
+    return None
+
+
+def parseNode_2(node):
     """Takes the last doc comment from the commentsBefore child, parses it and
     returns a Node representing the doc comment"""
 

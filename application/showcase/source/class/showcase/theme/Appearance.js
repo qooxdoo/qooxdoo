@@ -19,7 +19,7 @@
 ************************************************************************ */
 qx.Theme.define("showcase.theme.Appearance",
 {
-  extend : qx.theme.modern.Appearance,
+  extend : qx.theme.indigo.Appearance,
 
   include : [
     showcase.page.theme.calc.theme.appearance.Black,
@@ -34,7 +34,6 @@ qx.Theme.define("showcase.theme.Appearance",
       {
         return {
           backgroundColor: "white",
-          textColor       : "text-label",
           font            : "default"
         };
       }
@@ -50,8 +49,8 @@ qx.Theme.define("showcase.theme.Appearance",
       {
         return {
           iconPosition: "top",
-          padding: [-10, -6, 8, -6],
-          gap: -20,
+          padding: 6,
+          backgroundColor : states.selected ? "#dddddd" : undefined,
           decorator: null,
           cursor: "pointer"
         };
@@ -66,13 +65,13 @@ qx.Theme.define("showcase.theme.Appearance",
       style : function(states)
       {
         return {
-          textColor: states.selected ? "#444444" : "#F3FFD1",
-          padding: [6, 15],
+          textColor: "#333333",
+          padding: 0,
           height: 35,
-          decorator: states.selected ? "group" : null,
+          // decorator: states.selected ? "group" : null,
           font: qx.bom.Font.fromConfig({
-            size: 20,
-            family: ["Trebuchet MS", "Lucida Grande", "Verdana", "sans-serif"]
+            size: 16,
+            family: ["Lucida Grande", "Verdana", "sans-serif"]
           }),
           zIndex: 50
         };
@@ -85,15 +84,9 @@ qx.Theme.define("showcase.theme.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor: "#134275",
-          decorator : new qx.ui.decoration.Single().set({
-            bottom: [1, "solid", "black"],
-            backgroundImage : "showcase/images/headerback.png",
-            backgroundRepeat : "scale"
-          }),
-          shadow : "shadow-window",
+          backgroundColor: "#f0f0f0",
           zIndex : 111,
-          padding: 5
+          padding: 0
         };
       }
     },
@@ -121,7 +114,7 @@ qx.Theme.define("showcase.theme.Appearance",
       {
         return {
           decorator: new qx.ui.decoration.HBox("showcase/images/tag-hor.png"),
-          opacity: qx.core.Environment.get("engine.name") == "mshtml" ? 1 : (states.hovered ? 1 : 0.6),
+          opacity: qx.core.Environment.get("engine.name") == "mshtml" ? 1 : (states.hovered ? 0.2 : 0.1),
           height: 12
         };
       }
@@ -173,12 +166,7 @@ qx.Theme.define("showcase.theme.Appearance",
         return {
           width: 300,
           zIndex: 122,
-          shadow: "shadow-window",
-          padding: 7,
-          decorator: new qx.ui.decoration.Background().set({
-            backgroundImage : "showcase/images/contentbackground.gif",
-            backgroundRepeat : "repeat-y"
-          })
+          padding: 7
         };
       }
     },
@@ -192,7 +180,6 @@ qx.Theme.define("showcase.theme.Appearance",
       {
         return {
           padding   : [1, 0, 1, 4],
-          textColor : states.invalid ? "invalid" : "text-title",
           font      : "legend"
         };
       }

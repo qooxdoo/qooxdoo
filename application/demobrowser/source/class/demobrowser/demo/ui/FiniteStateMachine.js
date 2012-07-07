@@ -97,7 +97,7 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
       o = new qx.ui.basic.Label(description);
       o.set(
         {
-          width : 600,
+          width : 700,
           rich : true,
           wrap : true
         });

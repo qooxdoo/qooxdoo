@@ -25,7 +25,7 @@ qx.Class.define("qx.test.bom.HtmlArea",
   {
     setUp : function()
     {
-      this.__htmlAreaContainer = qx.bom.Element.create("div");
+      this.__htmlAreaContainer = qx.dom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__htmlAreaContainer, { width: "840px",
                                                                  height: "350px",
                                                                  border: "1px solid #AAA",

@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Base class for all list item renderer.
  */
 qx.Class.define("qx.ui.mobile.list.renderer.Abstract",

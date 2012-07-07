@@ -1,0 +1,501 @@
+//
+// iOS theme.
+//
+
+//
+// SETTINGS
+//
+
+@ios-button-bordercolor: #2d3f57;
+@ios-button-backgroundcolor: #50709a;
+@ios-button-gradient-stop-1: #7c97bb;
+@ios-button-gradient-stop-2: #5a7caa;
+@ios-button-gradient-stop-3: #476999;
+@ios-button-gradient-stop-4: #4A6C9B;
+
+@ios-button-active-bordercolor: #243346;
+@ios-button-active-backgroundcolor: #476489;
+@ios-button-active-gradient-stop-1: #6b89b2;
+@ios-button-active-gradient-stop-2: #50709a;
+@ios-button-active-gradient-stop-3: #476489;
+@ios-button-active-gradient-stop-4: #3e5779;
+
+@shadow-color:black;
+
+@dialog-border-color: #c7d1e3;
+
+//
+// GLOBAL
+// 
+
+.root {
+  background: rgb(197,204,211) url(../icon/ios/pinstripes.png);
+  color : #666;
+}
+
+h1 {
+  color: #fff;
+  text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
+}
+
+h2 {
+  text-shadow: rgba(255,255,255,.2) 0 1px 1px;
+  color: rgb(76, 86, 108);
+}
+
+.page {
+  background: rgb(197,204,211) url(../icon/ios/pinstripes.png);
+}
+
+.fontNormal {
+  color: #666;
+}
+
+a, a:active, a:visited {
+  color: rgb(76, 86, 108);
+}
+
+a:hover {
+  color: rgb(76, 86, 108);
+}
+
+//
+// LIST
+//
+
+ul {
+  .border-radius(.4em);
+  color: black;
+  background: #fff;
+  border: 1px solid #B4B4B4;
+}
+
+ul li {
+  color: #666;
+  border-top: 1px solid #B4B4B4;
+}
+
+ul li.arrow {
+  background: url("../icon/common/arrow.png") no-repeat right center;
+}
+
+ul li.active.arrow,  ul li.selected.arrow {
+  background: url("../icon/common/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, from(#4583fd), to(#194ae4));
+  background: url("../icon/common/arrow_pressed.png") no-repeat right center, -webkit-linear-gradient(top, #4583fd, #194ae4);
+  background: url("../icon/common/arrow_pressed.png") no-repeat right center, -moz-linear-gradient(top, #4583fd, #194ae4);
+  background: url("../icon/common/arrow_pressed.png") no-repeat right center, linear-gradient(to bottom, #4583fd, #194ae4);
+}
+
+ul li.active,  ul li.selected {
+  #gradient > .vertical(#4583fd, #194ae4);
+  color: #fff;
+}
+
+
+ul li.active .subtitle {
+  color : #fff;
+}
+
+ul li .subtitle {
+  color : #585858;
+}
+
+//
+// BUTTON
+//
+
+.button {
+  .border-radius(8px);
+  border: 1px solid #B4B4B4;
+  background-color: #fff;
+  color: #666666;
+}
+
+.button.active {
+  #gradient > .vertical(#4583fd, #194ae4);
+  color: #fff;
+}
+
+//
+// FORM
+//
+
+input[type="text"]:not(.selectbox), input[type="password"], input[type="number"], textarea {
+  color: #777;
+  background: #fff;
+  border: 0;
+  font: normal 17px Helvetica;
+  padding: 0;
+  display: inline-block;
+  margin-left: 0px;
+  text-indent:0px;
+}
+
+//
+// SLIDER
+//
+
+.slider {
+  border-bottom: 1px solid #d6d6d6;
+  border-top: 1px solid #929292;
+  border-left: 1px solid #b5b5b5;
+  border-right: 1px solid #b5b5b5;
+  height: 15px;
+
+  @color-stop-active-1: #007FEA;
+  @color-stop-active-2: #6db5f3;
+  @color-stop-active-3: #007FEA;
+  @color-stop-active-4: #0056A1;
+
+  background: -webkit-gradient(linear, left top, left bottom, from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from( @color-stop-active-1), color-stop(0.05,  @color-stop-active-2), color-stop(0.8,  @color-stop-active-3), to( @color-stop-active-4)) 0px 0px no-repeat;
+  background: -webkit-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -webkit-linear-gradient(top,  @color-stop-active-1,  @color-stop-active-2 5%, @color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
+  background: -moz-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -moz-linear-gradient(top, @color-stop-active-1, @color-stop-active-2 5%,@color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
+  background: linear-gradient(to bottom, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, linear-gradient(to bottom, @color-stop-active-1, @color-stop-active-2 5%,@color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
+}
+
+.slider > div {
+  border: 1px solid #E8E8E8;
+
+  .box-shadow(0 0 2px @shadow-color);
+
+  background: #cfcfcf; /* Old browsers */
+  background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfcf), color-stop(100%,#fdfdfd)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* Chrome10+,Safari5.1+ */
+  background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* W3C */
+}
+
+//
+// TABBAR
+//
+
+.tabBar {
+  #gradient > .vertical-four(#232323, #111111, #000000, #000000, 50%, 51%);
+  border-top: 1px solid #333333;
+  .box-ordinal-group(2);
+}
+
+.tabButton.active, .tabButton.selected {
+  #gradient > .vertical-four(#393939, #292929, #1d1d1d, #1c1c1c, 50%, 51%);
+  color:#ffffff;
+}
+
+//
+// NAVIGATIONBAR 
+//
+
+.navigationbar {
+    #gradient > .vertical-three(#cdd5df, #8195af, #6d84a2);
+    border-bottom: 1px solid #2d3642;
+}
+
+.navigationbar-button {
+    .border-radius-right(5px);
+    .border-radius-left(4px);
+    
+    color: #ffffff;
+
+    text-shadow: #3e5779 0 -1px 0;
+
+    -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+    -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+    box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+
+    border: 1px solid @ios-button-bordercolor;
+
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, @ios-button-gradient-stop-1), color-stop(50%, @ios-button-gradient-stop-2), color-stop(51%, @ios-button-gradient-stop-3), color-stop(100%, @ios-button-gradient-stop-4));
+    background-image: -webkit-linear-gradient(top, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
+    background-image: -moz-linear-gradient(top, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%,@ios-button-gradient-stop-4);
+    background-image: linear-gradient(top, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
+  
+}
+
+.navigationbar-button.active {
+    border-color: @ios-button-active-bordercolor;
+    background-color: @ios-button-active-backgroundcolor;
+
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, @ios-button-active-gradient-stop-1), color-stop(50%, @ios-button-active-gradient-stop-2), color-stop(51%, @ios-button-active-gradient-stop-3), color-stop(100%, @ios-button-active-gradient-stop-4));
+    background-image: -webkit-linear-gradient(top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
+    background-image: -moz-linear-gradient(top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
+    background-image: linear-gradient(top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
+
+    text-shadow: #364b68 0 -1px 0;
+}
+
+//
+// NAVIGATIONBAR Backbutton
+//
+
+.navigationbar-backbutton {
+  .navigationbar-button();
+  border-left:0;
+  padding-left: 3px;
+  padding-right: 5px;
+}
+
+.navigationbar-backbutton.active {
+  .navigationbar-button.active();
+}
+
+.navigationbar-backbutton:before {
+  z-index:0;
+  background-color: @ios-button-backgroundcolor;
+
+  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, @ios-button-gradient-stop-1), color-stop(50%, @ios-button-gradient-stop-2), color-stop(51%, @ios-button-gradient-stop-3), color-stop(100%, @ios-button-gradient-stop-4));
+  background-image: -webkit-linear-gradient(top left,@ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
+  background-image: -moz-linear-gradient(top left, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
+  background-image: linear-gradient(top left, @ios-button-gradient-stop-1, @ios-button-gradient-stop-2 50%, @ios-button-gradient-stop-3 51%, @ios-button-gradient-stop-4);
+
+  -webkit-border-radius: 0 0 0 2px;
+  -moz-border-radius: 0 0 0 2px;
+  border-radius: 0 0 0 2px;
+
+  border-left: 1px solid @ios-button-bordercolor;
+  border-bottom: 1px solid @ios-button-bordercolor;
+
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 1px 0 0 inset, rgba(0, 0, 0, 0.2) 0 -1px 0 inset;
+}
+
+.navigationbar-backbutton.active:before {
+  // Arrowhead active
+  background-color: @ios-button-active-backgroundcolor;
+  border-color: @ios-button-active-bordercolor;
+
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, @ios-button-active-gradient-stop-1), color-stop(50%, @ios-button-active-gradient-stop-2), color-stop(51%, @ios-button-active-gradient-stop-3), color-stop(100%, @ios-button-active-gradient-stop-4));
+  background-image: -webkit-linear-gradient(left top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
+  background-image: -moz-linear-gradient(left top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
+  background-image: linear-gradient(left top, @ios-button-active-gradient-stop-1, @ios-button-active-gradient-stop-2 50%, @ios-button-active-gradient-stop-3 51%, @ios-button-active-gradient-stop-4);
+}
+
+//
+// SCROLLBAR
+//
+
+.scrollbarV > div {
+  #gradient > .horizontal(#62666a, #65696c);
+}
+
+//
+// CHECKBOX
+//
+
+input[type="checkbox"] + label {
+    #gradient > .vertical(#fefefe, #cecece);
+    .border-radius(.5em);
+    border: 2px solid #4c4c4c;
+}
+
+.disabled input[type="checkbox"]:disabled + label {
+    #gradient > .vertical(#ffffff, #ebebeb);
+    border: 2px solid #b8b8b8; 
+}
+
+// Webkit only, see BUG #5982: only webkit can style checkboxes.
+input[type="checkbox"]:checked + label {
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -moz-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
+  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, linear-gradient(to bottom, #353535, #8f8f8f) 0px 0px no-repeat;
+}
+
+
+//
+// TOOLBAR 
+//
+
+.toolbar-button {
+  .border-radius(8px);
+  background-color: none;
+  color: #ffffff;
+}
+
+.toolbar {
+  border-top: 1px solid #2d3642;
+  #gradient > .vertical-three(#cdd5df, #8195af, #6d84a2);
+}
+
+//
+// POPUP
+//
+
+.popup {
+  .dialog();
+}
+
+.popup.popupAnchorPointerTop:before
+{
+  border-bottom-color:@dialog-border-color;
+}
+
+.popup.popupAnchorPointerLeft:before
+{
+  border-right-color:@dialog-border-color;
+}
+
+.popup.popupAnchorPointerRight:after
+{
+  border-left-color:@dialog-border-color;
+}
+
+.popup.popupAnchorPointerBottom:after
+{
+  border-top-color:@dialog-border-color;
+}
+
+//
+// DIALOG
+//
+
+.dialog {
+  #gradient > .ellipse(50%, -20px, rgba(99, 115, 150,0.5), 0px, rgb(29, 53, 102,0.5), 175px);
+  
+  .box-shadow(0px 2px 7px 0px lighten(@shadow-color, 50%));
+
+  .border-radius(.7em);
+  border: 2px solid @dialog-border-color;
+  color: #fff;
+}
+
+.dialogTitleUnderline:after {
+  display: none;
+}
+
+//
+// TOGGLEBUTTON
+//
+
+.toggleButton > div {
+  // Light inset border.
+  .box-inset-multi-shadow(0 2px 2px #999, 0 14px 1px #EAEAEA);
+  
+  border: 1px solid #9e9e9e ;
+  background-color: white;
+}
+
+.toggleButton > div.checked {
+  // Light inset border.
+  .box-inset-multi-shadow(0 3px 2px #0056A1, 0 14px 0px #007FEA);
+  
+  // Background for checked toggle button
+  background: #2591ed; 
+  background: -moz-linear-gradient(top,  #2591ed 0%, #2591ed 56%, #6db5f3 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2591ed), color-stop(56%,#2591ed), color-stop(100%,#6db5f3));
+  background: -webkit-linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); 
+  background: linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); 
+}
+
+div.checked .toggleButtonSwitch {
+  .box-shadow(-1px 0 2px #4b4b4b);
+}
+
+div.checked .toggleButtonSwitch:before {
+  color: #ffffff;
+}
+
+.toggleButtonSwitch:after {
+  color: #888888;
+}
+
+.toggleButtonSwitch {
+  border: 1px solid #E8E8E8;
+
+  .box-shadow(1px 0 2px #4b4b4b);
+
+  background: #cfcfcf; /* Old browsers */
+  background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfcf), color-stop(100%,#fdfdfd)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* Chrome10+,Safari5.1+ */
+  background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* W3C */
+}
+
+//
+// SELECTBOX
+//
+
+@selection-foreground-color:#2a4880;
+
+.selectbox {
+  color:@selection-foreground-color;
+  background-color:transparent;
+  border:none;
+  .border-radius(4px);
+}
+
+.selectbox.active {
+  .button.active();
+}
+
+//
+// SELECTBOX MENU DIALOG
+//
+
+.selectbox-selected > div > .list-itemlabel {
+  color:@selection-foreground-color;
+}
+
+.selectbox-selected > div > .list-itemlabel:after {
+  border-color:@selection-foreground-color;
+
+}
+
+.selectbox-selected.active > div > .list-itemlabel:after {
+  border-color:white;
+}
+
+.selectbox-selected.active > div > .list-itemlabel {
+  color:white;
+}
+
+//
+// MASTER DETAIL
+//
+
+@master-popup-border-color:@ios-button-active-gradient-stop-4;
+
+.master-detail-master.attached {
+  border-right: 1px solid #2d3642;
+}
+
+.master-popup * {
+  background: none;
+  border: none;
+}
+
+.master-popup {
+  #gradient > .vertical-three(@ios-button-gradient-stop-1, @ios-button-gradient-stop-3,@ios-button-gradient-stop-3, 20px);
+  border:1px solid @master-popup-border-color;
+}
+
+.master-popup ul li:not(:first-child) {
+  border-top: 1px solid #B4B4B4;
+}
+
+.master-popup .page {
+  .border-radius(0);
+  border: 1px solid @master-popup-border-color;
+}
+
+.master-popup ul li:first-child, .master-popup ul li:first-child a {
+  border-top: 0;
+  .border-radius(0);
+}
+
+.master-popup ul li:last-child {
+  .border-radius(0);
+}
+
+.master-popup .layout-card {
+  background-color: white;
+}
+
+// 
+// MASTER PARENT CONTAINER ARROWS
+//
+.master-popup.popupAnchorPointerTop:before,
+{
+  border-bottom-color:@master-popup-border-color;
+}
+
+

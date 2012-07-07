@@ -1,0 +1,463 @@
+//
+// COLORS
+//
+
+@dark-blue : #3D72C9;
+@light-blue: lighten(#5583D0,10%);
+@blue: #5583D0;
+
+@dark-grey : #888888;
+@light-grey: #F4F4F4;
+
+@shadow-color:black;
+
+//
+// THEME SPECIFIC VARIABLES
+//
+
+@font-color-dark-background: white;
+@font-color-light-background: #333333;
+
+@button-color:@light-grey;
+
+@border-color:#DDDDDD;
+
+@title-background-gradient-1:#505154;
+@title-background-gradient-2:#323335;
+
+@border-thickness: 1px;
+@dialog-border-thickness:2px;
+
+//
+// MIXINS
+//
+
+.clickable {
+  color: @font-color-light-background;
+
+  // Less "darken method" helps to make use of gradient-buttons easier. 
+  // It takes button-color and darkens it. 
+  // No second gradient color is needed.
+  #gradient > .vertical(@button-color, darken(@button-color, 20%));
+  border: @border-thickness solid darken(@border-color, 40%);
+}
+
+.clickable-active {
+  color:@font-color-dark-background;
+  #gradient > .vertical(@light-blue,@dark-blue);
+}
+
+
+//
+// ROOT
+//
+
+.root {
+  background-color: @light-grey;
+}
+
+h2 {
+  color: #2446BB;
+  font-weight:normal;
+  font-size:16px;
+}
+
+//
+// INPUT FIELDS
+//
+input[type="text"], input[type="password"],input[type="number"], textarea {
+  border: @border-thickness solid @border-color;
+  color:@font-color-light-background;
+}
+
+//
+// NAVIGATIONBAR
+//
+
+.navigationbar {
+   #gradient > .vertical(@title-background-gradient-1, @title-background-gradient-2);
+   color:@font-color-dark-background;
+}
+
+.navigationbar-button, .navigationbar-backbutton {
+  .clickable();
+}
+
+.navigationbar-button.active, .navigationbar-backbutton.active {
+  .clickable-active();
+}
+
+//
+// LIST
+//
+
+ul {
+  border: @border-thickness solid @border-color;
+  background-color:white;
+}
+
+ul li {
+  color:@font-color-light-background;
+  border-top: @border-thickness solid @border-color;
+}
+
+ul li .subtitle {
+  color: @dark-blue;
+}
+
+ul li.active * {
+  color: @font-color-dark-background;
+}
+
+ul li.arrow {
+  background: url("../icon/common/arrow.png") no-repeat right center;
+}
+
+ul li.active.arrow, ul li.selected.arrow {
+  background-image: url("../icon/common/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%,@light-blue), color-stop(100%,@dark-blue));
+  background-image: url("../icon/common/arrow_pressed.png"), -webkit-linear-gradient(top, @light-blue, @dark-blue 100%);
+  background-image: url("../icon/common/arrow_pressed.png"), -moz-linear-gradient(top, @light-blue, @dark-blue 100%);
+  background-image: url("../icon/common/arrow_pressed.png"), linear-gradient(to bottom, @light-blue, @dark-blue 100%);
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+ul li.active {
+  .clickable-active();
+}
+
+//
+// BUTTON
+//
+
+.button {
+  .clickable();
+  color:@font-color-light-background;
+}
+
+.button.active{
+  .clickable-active();
+}
+
+//
+// DIALOG
+//
+
+.dialog {
+   // Fallback if no gradient could be set.
+   background-color:@title-background-gradient-2;
+   #gradient > .vertical-three(@title-background-gradient-1, @title-background-gradient-2, @title-background-gradient-2, 20px);
+   border: @dialog-border-thickness solid @dark-blue;
+   color:@font-color-dark-background;
+
+   .box-shadow(0px 2px 7px 0px lighten(@shadow-color, 50%));
+}
+
+.popup {
+  .dialog();
+}
+
+// Arrow Up
+.popupAnchorPointerTop:before {
+   border-bottom-color:@dark-blue;
+}
+
+.popupAnchorPointerLeft:before
+{
+  border-right-color:@dark-blue;
+}
+
+.popupAnchorPointerRight:after
+{
+  border-left-color:@dark-blue;
+}
+
+.popupAnchorPointerBottom:after
+{
+  border-top-color:@dark-blue;
+}
+
+.dialogTitleUnderline:after {
+  display: none;
+}
+
+//
+// TAB BAR
+//
+
+.tabBar {
+  border-bottom: 3px solid @dark-blue;
+}
+
+.tabButton {
+  color:@light-grey;
+  
+  #gradient > .vertical(lighten(@title-background-gradient-1,20%), lighten(@title-background-gradient-2,20%));
+
+  @tab-button-border:@border-thickness solid lighten(@dark-grey, 10%);  
+  border-top: @tab-button-border;
+  border-left: @tab-button-border;
+  border-right: @tab-button-border;
+}
+
+.tabButton.active, .tabButton.selected {
+  border: @border-thickness solid @dark-blue;
+ 
+  @highlighted-line:lighten(@dark-blue,20%);
+  
+  @tab-stop-1: @highlighted-line;
+  @tab-stop-2: @blue;
+  @tab-stop-3: @dark-blue;
+  
+  background: -moz-linear-gradient(top,  @tab-stop-1 2%, @tab-stop-2 4%, @tab-stop-2 49%, @tab-stop-3 53%, @tab-stop-3 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,@tab-stop-1), color-stop(4%,@tab-stop-2), color-stop(49%,@tab-stop-2), color-stop(53%,@tab-stop-3), color-stop(100%,@tab-stop-3));
+  background: -webkit-linear-gradient(top,  @tab-stop-1 2%,@tab-stop-2 4%,@tab-stop-2 49%,@tab-stop-3 53%,@tab-stop-3 100%);
+  background: linear-gradient(top,  @tab-stop-1 2%,@tab-stop-2 4%,@tab-stop-2 49%,@tab-stop-3 53%,@tab-stop-3 100%);
+}
+
+//
+// SLIDER
+//
+
+.slider > div {
+ .box-shadow(0 0 2px @shadow-color);
+  
+  border: @border-thickness solid #E8E8E8;
+  
+  #gradient > .vertical(#cfcfcf, #fdfdfd);
+}
+
+.slider {
+  @color-stop-active-1: @dark-blue;
+  @color-stop-active-2: lighten(@dark-blue, 20%);
+  @color-stop-active-3: @color-stop-active-1;
+  @color-stop-active-4: @color-stop-active-2;
+
+  @color-stop-inactive-1:#929292;
+  @color-stop-inactive-2:#bbbbbb;
+  @color-stop-inactive-3:#f6f6f6;
+  @color-stop-inactive-4:#f9f9f9;
+
+  border-bottom: @border-thickness solid #d6d6d6;
+  border-top: @border-thickness solid #929292;
+  border-left: @border-thickness solid #b5b5b5;
+  border-right: @border-thickness solid #b5b5b5;
+
+  background: -webkit-gradient(linear, left top, left bottom, from(@color-stop-inactive-1), color-stop(0.05, @color-stop-inactive-2), color-stop(0.5, @color-stop-inactive-3), to(@color-stop-inactive-4)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from( @color-stop-active-1), color-stop(0.05,  @color-stop-active-2), color-stop(0.8,  @color-stop-active-3), to( @color-stop-active-4)) 0px 0px no-repeat;
+  background: -webkit-linear-gradient(top, @color-stop-inactive-1, @color-stop-inactive-2 5%,@color-stop-inactive-3 50%, @color-stop-inactive-4) 0px 0px no-repeat, -webkit-linear-gradient(top,  @color-stop-active-1,  @color-stop-active-2 5%, @color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
+  background: -moz-linear-gradient(top, @color-stop-inactive-1, @color-stop-inactive-2 5%,@color-stop-inactive-3 50%, @color-stop-inactive-4) 0px 0px no-repeat, -moz-linear-gradient(top, @color-stop-active-1, @color-stop-active-2 5%,@color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
+  background: linear-gradient(to bottom, @color-stop-inactive-1, @color-stop-inactive-2 5%,@color-stop-inactive-3 50%, @color-stop-inactive-4) 0px 0px no-repeat, linear-gradient(to bottom, @color-stop-active-1, @color-stop-active-2 5%,@color-stop-active-3 90%, @color-stop-active-4) 0px 0px no-repeat;
+}
+
+//
+// TOGGLEBUTTON
+//
+
+.togglebutton {
+  background-color: white;
+}
+
+.toggleButton > div {
+  // Light inset border.
+  .box-inset-multi-shadow(0 2px 2px #999, 0 14px 1px #EAEAEA);
+  border: @border-thickness solid #9e9e9e ;
+}
+
+.toggleButton > div.checked {
+  .box-inset-multi-shadow(0px 3px 2px darken(@dark-blue,20%), 0px 14px 0px @dark-blue);
+  background-color:lighten(@dark-blue,10%);
+}
+
+div.checked .toggleButtonSwitch {
+  .box-shadow(-1px 0 2px #4b4b4b);
+}
+
+div.checked .toggleButtonSwitch:before {
+  color:@font-color-dark-background;
+}
+
+.toggleButtonSwitch:after {
+  color: #888888;
+}
+
+.toggleButtonSwitch {
+  border: @border-thickness solid #E8E8E8;
+
+  .box-shadow(1px 0 2px #4b4b4b);
+
+  background: #cfcfcf;
+  background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfcf), color-stop(100%,#fdfdfd)); 
+  background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
+  background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
+
+  // Because of display problems in Safari, Animation is disabled.
+  //.transition(left .15s);
+}
+
+//
+// CHECKBOX
+//
+
+.checkbox-label:before {
+  background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
+  background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
+  .border-radius(.1em);
+}
+
+input[type="checkbox"] + label {
+  position:relative;
+  .border-radius(.3em);
+  border:@border-thickness solid @dark-grey;
+  background-color: #929292;
+  background: -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
+  background: -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background: linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+}
+
+input[type="checkbox"] + label:after {
+    @checkbox-check-color:@dark-blue;
+
+    opacity: 0;
+    content: '';
+    position: absolute;
+    width: 11px;
+    height: 6px;
+    background: 
+    transparent;
+    top: 8px;
+    left: 8px;
+    border: 3.5px solid lighten(@checkbox-check-color,10%);
+    border-top: 0;
+    border-right: 0;
+    .transform(rotate(-45deg));
+
+    -webkit-box-shadow:  -1px 1px 1px 0px @checkbox-check-color;
+    -moz-box-shadow: -1px 1px 1px 0px @checkbox-check-color;
+    box-shadow: -1px 1px 1px 0px @checkbox-check-color;
+}
+
+
+input[type="checkbox"]:checked + label:after {
+    opacity: 1;
+}
+
+//
+// RADIOBUTTON
+//
+
+// Border style
+input[type=radio] + label {
+    #gradient > .vertical(@button-color, darken(@button-color, 20%));
+    border: @border-thickness solid darken(@border-color, 40%);
+}
+
+
+// Inner Area
+input[type=radio]+ label:before {
+      -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+      -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+      box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+
+      background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
+      background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
+      background: linear-gradient(top, #222 0%, #45484d 100%);
+}
+
+
+// Color dot
+input[type=radio] + label:after {
+      background: @dark-blue; 
+
+      @dot-color: @dark-blue;
+      @dot-dark-color: darken(@dot-color, 10%);
+
+      background: -webkit-linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
+      background: -moz-linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
+      background: linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
+
+      -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+      -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+      box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+}
+
+// 
+// MASTER DETAIL
+// 
+
+.master-popup * {
+  border:none;
+  background:none;
+}
+
+.master-popup ul li:not(:first-child) {
+  border-top: @border-thickness solid @border-color;
+}
+
+.master-popup ul li:first-child, .master-popup ul li:first-child a {
+  border-top: 0;
+  .border-radius-top(0);
+}
+
+.master-popup ul li:last-child, .master-popup ul li:last-child a {
+  .border-radius-bottom(0);
+}
+
+.master-detail-master.attached {
+  border-right: @border-thickness solid darken(@border-color, 40%);
+}
+
+.master-popup .layout-card {
+  @corner-color: @border-color;
+  background-color: white;
+}
+
+//
+// SCROLLBAR
+//
+
+.scrollbarV > div {
+  background-color: @dark-grey;
+}
+
+//
+// TOOLBAR
+// 
+
+.toolbar-button {
+  .clickable();
+}
+
+.toolbar-button.active {
+  .clickable-active();
+}
+
+//
+// MENU
+//
+
+.item-selected {
+  .clickable-active();
+}
+
+//
+// SELECT BOX
+//
+
+.selectbox {
+  color:@dark-blue;
+  .clickable();
+}
+
+.selectbox:active {
+  .clickable-active();
+}
+
+.selectbox-selected > div > .list-itemlabel:after {
+  border-color:@dark-blue;
+}
+
+.selectbox-selected.active > div > .list-itemlabel:after {
+  border-color:white;
+}

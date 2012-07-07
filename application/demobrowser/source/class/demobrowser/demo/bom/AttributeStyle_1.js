@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.AttributeStyle_1",
 {
   extend : qx.application.Native,

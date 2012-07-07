@@ -21,6 +21,10 @@
 
 #ignore(qx.log.Logger)
 #ignore(qx.log)
+#ignore(qx.ui.container.Composite)
+#ignore(qx.ui.container.Scroll)
+#ignore(qx.ui.container.SlideBar)
+#ignore(qx.ui.container.Stack)
 
 ************************************************************************ */
 
@@ -170,6 +174,79 @@ qx.Class.define("qx.util.DisposeUtil",
         triggerDispose.call(trigger);
         disposeMe.dispose();
       }
+    },
+
+
+    /**
+     * Destroys a container and all of its children recursivly.
+     * @param container {qx.ui.container.Composite || qx.ui.container.Scroll ||
+     *   qx.ui.container.SlideBar || qx.ui.container.Stack} Container to be destroyed
+     */
+    destroyContainer : function(container)
+    {
+      if(qx.core.Environment.get("qx.debug"))
+      {
+        qx.core.Assert.assertQxWidget(container, "First argument must be a container widget!");
+        qx.core.Assert.assertTrue(this.__isChildrenContainer(container),
+          "Container must be a instance of qx.ui.container.Composite or " +
+          "qx.ui.container.Scroll or qx.ui.container.Resizer or " +
+          "qx.ui.container.SlideBar or qx.ui.container.Stack!");
+      }
+
+      var arr=[];
+      this._collectContainerChildren(container, arr);
+
+      var len = arr.length;
+      for(var i=len-1; i>=0; i--)
+      {
+        arr[i].destroy();
+      }
+      container.destroy();
+    },
+
+
+    /**
+     * Helper function to collect all children widgets of an container recursivly.
+     * @param container {qx.ui.container.Composite || qx.ui.container.Scroll || qx.ui.container.SlideBar || qx.ui.container.Stack} Container to be destroyed
+     * @param arr {Array} Array wich holds all children widgets
+     */
+    _collectContainerChildren : function(container, arr)
+    {
+      var children = container.getChildren();
+
+      for(var i=0; i<children.length; i++)
+      {
+        var item = children[i];
+        arr.push(item);
+
+        if (this.__isChildrenContainer(item)) {
+          this._collectContainerChildren(item, arr);
+        }
+      }
+    },
+
+
+    /**
+     * Checks if the given object is a qx container widget
+     *
+     * @param obj {Object} The object to check
+     * @return {Boolean} <code>true</code> if the object is a container for
+     * child widgets
+     */
+    __isChildrenContainer : function(obj)
+    {
+      var classes = [qx.ui.container.Composite, qx.ui.container.Scroll,
+      qx.ui.container.SlideBar, qx.ui.container.Stack];
+
+      for (var i=0,l=classes.length; i<l; i++) {
+        if (typeof classes[i] !== "undefined" &&
+          qx.Class.isSubClassOf(obj.constructor, classes[i]))
+        {
+          return true;
+        }
+      }
+
+      return false;
     }
   }
 });

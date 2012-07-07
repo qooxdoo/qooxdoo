@@ -25,31 +25,70 @@
     "simulation-run",
     "source",
     "source-all",
+    "source-hybrid",
     "test",
     "test-source",
     "translation",
-    "minify-css"
+    "minify-css",
+    "source-ios",
+    "source-android",
+    "source-indigo",
+    "build-ios",
+    "build-android",
+    "build-indigo"
   ],
   
-  "default-job" : "source",
+  "default-job" : "source-hybrid",
 
   "let" :
   {
     "APPLICATION"  : "mobileshowcase",
-    "QOOXDOO_PATH" : "../..",
+    "APPLICATION_CSS" : "${APPLICATION}/css/styles.css",  // resource id of custom css
+    "QOOXDOO_PATH" : "../../",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "THEME"        : "ios",  // provide a default
+    "CSS_COMB_URI" : "./resource/${APPLICATION}/css/${THEME}-style-min.css",
+    "CSS_COMBINED" : "${BUILD_PATH}/${CSS_COMB_URI}",
     "ROOT"         : "."
   },
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["source-all-script", "build-files", "common", "simulation-run", "translation"]
+    "job-shadowing" : [
+      "source",
+      "build",
+      "source-all-script", 
+      "build-files", 
+      "build-script", 
+      "source-script"
+    ],
+    
+    "environment" : [ "non-literal-keys" ]
   },
+
+  // You only need to edit the remainder of this file, if you want to customize
+  // specific jobs, or add own job definitions.
 
   "jobs" :
   {
-    "common" :
+    // Uncomment the following entry to add a contrib or library to your
+    // project; make sure to adapt the path to the Manifest.json; if you are
+    // using a contrib: library, it will be downloaded into the path specified
+    // by the 'cache/downloads' config key
+    /*
+    , "libraries" : 
+    {
+      "library" :
+      [
+        {
+          "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json"
+        }
+      ]
+    },
+    */
+
+    "mobile-common" :
     {
       "=include" :
       [
@@ -58,77 +97,159 @@
       
       "environment" :
       {
-        "qx.version"     : "${QOOXDOO_VERSION}",
+        "qx.version"     : "${APPLICATION}",
         "qx.application" : "${APPLICATION}.Application",
         "qx.mobile.emulatetouch" : true,
-        "qx.mobile.nativescroll" : false
+        "qx.mobile.nativescroll" : false,
+        "qx.theme" : "${THEME}"
+      }
+    },
+    
+    "source-ios" :
+    {
+      "extend" : ["source"],
+      "let" : { "THEME" : "ios" }
+    },
+
+    "source-android" :
+    {
+      "extend" : ["source"],
+      "let" : { "THEME" : "android" }
+    },
+    
+    "source-indigo" :
+    {
+      "extend" : ["source"],
+      "let" : { "THEME" : "indigo" }
+    },
+    
+    "build-ios" :
+    {
+      "extend" : ["build"],
+      "let" : { "THEME" : "ios" }
+    },
+
+    "build-android" :
+    {
+      "extend" : ["build"],
+      "let" : { "THEME" : "android" }
+    },
+    
+    "build-indigo" :
+    {
+      "extend" : ["build"],
+      "let" : { "THEME" : "indigo" }
+    },
+
+    "source" :
+    {
+      "let" : { 
+        "BUILD_PATH" : "${ROOT}/source"
+      },
+      "asset-let" : {
+        "qx.mobile.platform" : [ "${THEME}" ]
       }
     },
 
 
+    "build" :
+    {
+      "let" : { 
+        "BUILD_PATH" : "${ROOT}/build-${THEME}" 
+      },
+      "asset-let" : {
+        "qx.mobile.platform" : [ "${THEME}" ]
+      },
+      "=run" : ["build-resources", "build-files", "build-script", "minify-css"]
+    },
+
+
+    "source-script" :
+    {
+      "extend" : ["mobile-common"],
+      "add-css" : [ 
+        { "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}.css" },
+        { "uri" : "./resource/${APPLICATION_CSS}" }
+      ]
+    },
+
+    "build-script" :
+    {
+      "extend" : ["mobile-common"],
+      //"add-css" : [ { "uri" : "${CSS_COMB_URI}" } ]
+      "add-css" : [ 
+        { "uri" : "./resource/qx/mobile/css/${THEME}.css" },
+        { "uri" : "./resource/${APPLICATION_CSS}" }
+      ]
+    },
+
     "build-files" :
     {
-      "run" : ["minify-css"],
-      
       "copy-files" :
       {
         "files" :
         [
-          "index-ios.html",
           "index.html"
         ],
 
         "source" : "${ROOT}/source/resource",
         "target" : "${BUILD_PATH}"
       }
-      },
+    },
 
 
     "source-all-script" :
     {
+      "extend" : ["mobile-common"],
       "=exclude" : 
       [
         "qx.test.*",
-        "${APPLICATION}.test.*"
+        "${APPLICATION}.test.*",
+        "${APPLICATION}.simulation.*"
+      ],
+      "asset-let" : {
+        "qx.mobile.platform" : [ "${THEME}" ]
+      },
+      "add-css" : [ 
+        { "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}.css" },
+        { "uri" : "./resource/${APPLICATION_CSS}" }
       ]
     },
 
-    "minify-css" :
+    "minify-combine-css" :
     {
+      "extend" : ["cache"],
       "let" :
       {
-        "BUILD_PATH"  : "${ROOT}/build",
-        "CATCMD" : "cat"
+        "CATCMD"     : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/cat.py",
+        "CSSMIN_CMD" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/cssmin.py"
       },
 
       "shell" :
       {
         "command" :
         [
-          "${CATCMD} ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/android.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py > ${BUILD_PATH}/resource/qx/mobile/css/android.min.css",
-          "${CATCMD} ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/ios.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py > ${BUILD_PATH}/resource/qx/mobile/css/ios.min.css"
+          "${CATCMD} ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}/${THEME}.css ${ROOT}/source/resource/${APPLICATION_CSS} | ${QOOXDOO_PATH}/tool/bin/cssmin.py > ${CSS_COMBINED}"
         ]
       }
-
     },
 
-    "simulation-run" :
+    "minify-css" :
     {
-      "environment" :
+      "extend" : ["cache"],
+      "let" :
       {
-        "simulator.selServer"   : "${SELENIUM_SERVER}",
-        "simulator.selPort"     : "${SELENIUM_PORT}",
-        "simulator.testBrowser" : "${SELENIUM_BROWSER}",
-        "simulator.autHost"     : "${AUT_HOST}",
-        "simulator.autPath"     : "${AUT_PATH}",
-        "simulator.applicationLog" : true,
-        "simulator.globalErrorLogging" : true
-      }
-    },
+        "CATCMD"     : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/cat.py",
+        "CSSMIN_CMD" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/cssmin.py"
+      },
 
-    "translation" :
-    {
-      "translate" : { "poentry-with-occurrences" : false  }
-    }
+      "shell" :
+      {
+        "command" :
+        [
+          "${CATCMD} ${ROOT}/source/resource/${APPLICATION_CSS} | ${CSSMIN_CMD} > ${BUILD_PATH}/resource/${APPLICATION_CSS}"
+        ]
+      }
+    } 
   }
 }

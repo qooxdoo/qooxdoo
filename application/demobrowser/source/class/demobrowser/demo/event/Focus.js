@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.event.Focus",
 {
   extend : qx.application.Native,

@@ -27,6 +27,12 @@
  * * Firefox 3.6+
  * * Opera 11.1+
  * * IE 10+
+ * * IE 5.5+ (with limitations)
+ *
+ * For IE 5.5 to IE 9,this class uses the filter rules to create the gradient. This
+ * has some limitations: The start and end position property can not be used. For
+ * more details, see the original documentation:
+ * http://msdn.microsoft.com/en-us/library/ms532997(v=vs.85).aspx
  */
 qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 {
@@ -81,14 +87,14 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
     },
 
 
-    /** Property group to set the start color inluding its start position. */
+    /** Property group to set the start color including its start position. */
     gradientStart :
     {
       group : ["startColor", "startColorPosition"],
       mode : "shorthand"
     },
 
-    /** Property group to set the end color inluding its end position. */
+    /** Property group to set the end color including its end position. */
     gradientEnd :
     {
       group : ["endColor", "endColorPosition"],
@@ -107,17 +113,9 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
      * @param styles {Map} A map to add the styles.
      */
     _styleLinearBackgroundGradient : function(styles) {
-      if (qx.core.Environment.get("qx.theme"))
-      {
-        var Color = qx.theme.manager.Color.getInstance();
-        var startColor = Color.resolve(this.getStartColor());
-        var endColor = Color.resolve(this.getEndColor());
-      }
-      else
-      {
-        var startColor = this.getStartColor();
-        var endColor = this.getEndColor();
-      }
+      var colors = this.__getColors();
+      var startColor = colors.start;
+      var endColor = colors.end;
 
       var unit = this.getColorPositionUnit();
 
@@ -141,9 +139,18 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         var value = "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")";
         styles["background"] = value;
 
+      } else if (qx.core.Environment.get("css.gradient.filter") &&
+        !qx.core.Environment.get("css.gradient.linear")) {
+
+        // make sure the overflow is hidden for border radius usage [BUG #6318]
+        styles["overflow"] = "hidden";
       // spec like syntax
       } else {
         var deg = this.getOrientation() == "horizontal" ? 0 : 270;
+        // Bugfix for IE10 which seems to use the deg values wrong [BUG #6513]
+        if (qx.core.Environment.get("browser.name") == "ie") {
+          deg = deg - 90;
+        }
         var start = startColor + " " + this.getStartColorPosition() + unit;
         var end = endColor + " " + this.getEndColorPosition() + unit;
 
@@ -151,6 +158,59 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         styles["background-image"] =
           prefixedName + "(" + deg + "deg, " + start + "," + end + ")";
       }
+    },
+
+
+    /**
+     * Helper to get start and end color.
+     * @return {Map} A map containing start and end color.
+     */
+    __getColors : function() {
+      if (qx.core.Environment.get("qx.theme"))
+      {
+        var Color = qx.theme.manager.Color.getInstance();
+        var startColor = Color.resolve(this.getStartColor());
+        var endColor = Color.resolve(this.getEndColor());
+      }
+      else
+      {
+        var startColor = this.getStartColor();
+        var endColor = this.getEndColor();
+      }
+      return {start: startColor, end: endColor};
+    },
+
+
+    /**
+     * Helper for IE which applies the filter used for the gradient to a separate
+     * DIV element which will be put into the decorator. This is necessary in case
+     * the decorator has rounded corners.
+     * @return {String} The HTML for the inner gradient DIV.
+     */
+    _getContent : function() {
+      // IE filter syntax
+      // http://msdn.microsoft.com/en-us/library/ms532997(v=vs.85).aspx
+      // It needs to be wrapped in a separate div bug #6318
+      if (qx.core.Environment.get("css.gradient.filter") &&
+        !qx.core.Environment.get("css.gradient.linear")) {
+
+        var colors = this.__getColors();
+        var type = this.getOrientation() == "horizontal" ? 1 : 0;
+
+        // convert all hex3 to hex6
+        var startColor = qx.util.ColorUtil.hex3StringToHex6String(colors.start);
+        var endColor = qx.util.ColorUtil.hex3StringToHex6String(colors.end);
+
+        // get rid of the starting '#'
+        startColor = startColor.substring(1, startColor.length);
+        endColor = endColor.substring(1, endColor.length);
+
+        return "<div style=\"position: absolute; width: 100%; height: 100%; filter:progid:DXImageTransform.Microsoft.Gradient" +
+          "(GradientType=" + type + ", " +
+          "StartColorStr='#FF" + startColor + "', " +
+          "EndColorStr='#FF" + endColor + "';)\"></div>";
+      }
+      return "";
     },
 
 

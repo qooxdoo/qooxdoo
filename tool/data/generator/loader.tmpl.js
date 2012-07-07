@@ -65,7 +65,7 @@ function loadScript(uri, callback) {
   };
 
   if (isLoadParallel) {
-    elem.async = false;
+    elem.async = null;
   }
 
   var head = document.getElementsByTagName("head")[0];

@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
         throw new Error("Added widget not supported.");
       }
       // check for the data type
-      if (this.__supportsSingleSelection(formItem)) {
+      if (this.__supportsSingleSelection(formItem) && !formItem.getValue) {
         // check for a validator
         if (validator != null) {
           throw new Error("Widgets supporting selection can only be validated " +
@@ -495,6 +495,24 @@ qx.Class.define("qx.ui.form.validation.Manager",
       }
 
       return messages;
+    },
+
+
+    /**
+     * Selects invalid form items
+     *
+     * @return {Array} invalid form items
+     */
+    getInvalidFormItems : function() {
+      var res = [];
+      for (var i = 0; i < this.__formItems.length; i++) {
+        var formItem = this.__formItems[i].item;
+        if (!formItem.getValid()) {
+          res.push(formItem);
+        }
+      }
+
+      return res;
     },
 
 

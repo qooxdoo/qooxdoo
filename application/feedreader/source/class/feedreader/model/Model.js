@@ -87,7 +87,7 @@ qx.Class.define("feedreader.model.Model",
       );
       staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
-          "JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "static"
+          "Google Chrome Releases", "http://feeds.feedburner.com/GoogleChromeReleases?format=xml", "static"
         )
       );
       staticFeedFolder.getFeeds().push(
@@ -98,11 +98,6 @@ qx.Class.define("feedreader.model.Model",
       staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
           "Surfin' Safari", "http://webkit.org/blog/feed/", "static"
-        )
-      );
-      staticFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
-          "FunctionSource","http://functionsource.com/feeds/entries", "static"
         )
       );
 
@@ -118,11 +113,6 @@ qx.Class.define("feedreader.model.Model",
       userFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
           "IEBlog", "http://blogs.msdn.com/ie/rss.xml", "user"
-        )
-      );
-      userFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
-          "The Mozilla Blog", "http://blog.mozilla.com/feed/", "user"
         )
       );
       userFeedFolder.getFeeds().push(

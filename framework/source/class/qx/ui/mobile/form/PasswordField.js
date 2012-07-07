@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The PasswordField is a single-line password input field.
  */
 qx.Class.define("qx.ui.mobile.form.PasswordField",

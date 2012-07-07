@@ -38,6 +38,8 @@ qx.Class.define("playground.view.PlayArea",
 
     this.add(this.__riaArea);
     this.add(this.__mobileArea);
+
+    this.setBackgroundColor("white");
   },
 
 

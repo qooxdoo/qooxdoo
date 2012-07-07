@@ -31,9 +31,6 @@ qx.Class.define("twitter.Application",
 
   members :
   {
-    __loginWindow : null,
-
-
     /**
      * This method contains the initial application code and gets called
      * during startup of the application
@@ -113,6 +110,7 @@ qx.Class.define("twitter.Application",
       });
       service.bind("tweets", controller, "model");
 
+      // start the loading on startup
       service.fetchTweets();
     }
   }

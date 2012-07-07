@@ -19,8 +19,6 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The Html widget embeds plain HTML code into the application
  *
  * *Example*

@@ -55,6 +55,14 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
       apply : "_applyBoxShadow"
     },
 
+    /** The spread radius of the shadow. */
+    shadowSpreadRadius :
+    {
+      nullable : true,
+      check : "Integer",
+      apply : "_applyBoxShadow"
+    },
+
     /** The color of the shadow. */
     shadowColor :
     {
@@ -63,6 +71,13 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
       apply : "_applyBoxShadow"
     },
 
+    /** Inset shadows are drawn inside the border. */
+    inset :
+    {
+      init : false,
+      check : "Boolean",
+      apply : "_applyBoxShadow"
+    },
 
     /** Property group to set the shadow length. */
     shadowLength :
@@ -93,11 +108,14 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
         var color = this.getShadowColor();
       }
 
-      if (color != null) {
+      if (color != null)
+      {
         var vLength = this.getShadowVerticalLength() || 0;
         var hLength = this.getShadowHorizontalLength() || 0;
         var blur = this.getShadowBlurRadius() || 0;
-        var value = hLength + "px " + vLength + "px " + blur + "px " + color;
+        var spread = this.getShadowSpreadRadius() || 0;
+        var inset = this.getInset() ? "inset " : "";
+        var value = inset + hLength + "px " + vLength + "px " + blur + "px " + spread + "px " + color;
 
         styles["-moz-box-shadow"] = value;
         styles["-webkit-box-shadow"] = value;

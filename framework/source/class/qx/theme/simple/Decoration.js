@@ -53,7 +53,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         width : 1,
-        color : "background-selected"
+        color : "border-main"
       }
     },
 
@@ -86,6 +86,17 @@ qx.Theme.define("qx.theme.simple.Decoration",
         shadowColor : "shadow"
       }
     },
+
+
+    "dragover" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style : {
+        bottom: [2, "solid", "dark-blue"]
+      }
+    },
+
 
 
     /*
@@ -951,7 +962,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         width : 1,
-        color : "background-selected",
+        color : "border-main",
         radius : 3,
         backgroundColor : "white"
       }
@@ -1037,75 +1048,50 @@ qx.Theme.define("qx.theme.simple.Decoration",
     ---------------------------------------------------------------------------
     */
 
-    "tabview-page-button-top-bottom" :
+    "tabview-page-button-top" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MBackgroundColor
+      ],
 
       style :
       {
-        width : [0, 1],
-        color : "tabview-button-border"
+        width : [1, 1, 0, 1],
+        backgroundColor: "background",
+        color : "border-main",
+        radius : [3, 3, 0, 0]
       }
     },
 
-    "tabview-page-button-top-bottom-first" :
-    {
-      include : "tabview-page-button-top-bottom",
+    "tabview-page-button-bottom" : {
+      include : "tabview-page-button-top",
 
       style :
       {
-        color : [
-          "tabview-button-border", "tabview-button-border",
-          "tabview-button-border", "tabview-unselected"
-        ]
+        radius : [0, 0, 3, 3],
+        width : [0, 1, 1, 1]
       }
     },
 
-    "tabview-page-button-top-bottom-last" :
-    {
-      include : "tabview-page-button-top-bottom",
+    "tabview-page-button-left" : {
+      include : "tabview-page-button-top",
 
       style :
       {
-        color : [
-          "tabview-button-border", "tabview-unselected",
-          "tabview-button-border", "tabview-button-border"
-        ]
+        radius : [3, 0, 0, 3],
+        width : [1, 0, 1, 1]
       }
     },
 
-    "tabview-page-button-right-left" :
-    {
-      decorator : qx.ui.decoration.Single,
+    "tabview-page-button-right" : {
+      include : "tabview-page-button-top",
 
       style :
       {
-        width : [1, 0],
-        color : "tabview-button-border"
-      }
-    },
-
-    "tabview-page-button-right-left-first" :
-    {
-      include : "tabview-page-button-right-left",
-
-      style : {
-        color : [
-          "tabview-unselected", "tabview-button-border",
-          "tabview-button-border", "tabview-button-border"
-        ]
-      }
-    },
-
-    "tabview-page-button-right-left-last" :
-    {
-      include : "tabview-page-button-right-left",
-
-      style : {
-        color : [
-          "tabview-button-border", "tabview-button-border",
-          "tabview-unselected", "tabview-button-border"
-        ]
+        radius : [0, 3, 3, 0],
+        width : [1, 1, 1, 0]
       }
     },
 

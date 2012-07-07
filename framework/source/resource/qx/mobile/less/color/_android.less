@@ -1,0 +1,419 @@
+//
+// ANDROID THEME
+//
+
+@android-orange: #e89c00;
+@android-light-orange: #ffdb66;
+@android-light-orange-2: #fdd824;
+@android-dark-grey: #636363;
+
+@button-color: #f4f4f4;
+@border-color: #6b6d6b;
+@background-color:#181818;
+
+@dialog-background-color: #424242;
+
+@highlighted-text-color: @android-orange;
+
+//
+// ANDROID CLICKABLE STYLE
+//
+
+.clickable {
+  color: #222222;
+
+  // Less "darken method" helps to make use of gradient-buttons easier. 
+  // It takes button-color and darkens it. 
+  // No second gradient color is needed.
+  #gradient > .vertical(@button-color, darken(@button-color, 20%));
+  border: 1px solid #555555;
+}
+
+.clickable-active {
+  color:black;
+  #gradient > .vertical-three(@android-light-orange, @android-orange, @android-light-orange-2);
+}
+
+//
+// GLOBAL
+//
+
+.fontNormal {
+  color: #ffffff;
+}
+
+.page {
+  background: @background-color;
+}
+
+.root {
+  background: @background-color;
+  color: #ffffff;
+}
+
+a, a:active, a:visited {
+  color: @android-orange;
+}
+
+a:hover {
+  color: @android-orange;
+}
+
+h1 {
+  color: #fff;
+  text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
+}
+
+h2 {
+  text-shadow: rgba(255,255,255,.2) 0 1px 1px;
+  color: #bdbebd;
+  background-color: #212021;
+  border-bottom: 1px solid #313431;
+}
+
+//
+// BUTTON
+//
+
+.button {
+  .clickable();
+}
+
+.button.active{
+  .clickable-active();
+}
+
+//
+// LIST
+//
+
+li:first-child, li:first-child a {
+  .border-radius-top(0px);
+}
+
+
+li:last-child, li:last-child a {
+  .border-radius-bottom(0px);
+}
+
+ul {
+  background-color:@background-color;
+  //border:1px solid @border-color;
+  .border-radius(0);
+}
+
+ul li {
+  color: #ffffff;
+  border-top: 1px #313431 solid;
+}
+
+ul li.arrow {
+  background: url("../icon/android/arrow.png") no-repeat right center;
+}
+
+ul li.active.arrow, ul li.selected.arrow {
+  background-image: url("../icon/android/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%,@android-light-orange), color-stop(50%,@android-orange),color-stop(100%,@android-light-orange-2));
+  background-image: url("../icon/android/arrow_pressed.png"), -webkit-linear-gradient(top, @android-light-orange, @android-orange 50%, @android-light-orange-2);
+  background-image: url("../icon/android/arrow_pressed.png"), -moz-linear-gradient(top, @android-light-orange, @android-orange 50%, @android-light-orange-2);
+  background-image: url("../icon/android/arrow_pressed.png"), linear-gradient(to bottom, @android-light-orange, @android-orange 50%, @android-light-orange-2);
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+ul li.active, ul li.selected{
+  .clickable-active();
+}
+
+ul li .subtitle {
+  color: #949a94;
+}
+
+ul li.active .subtitle {
+  color: #313429;
+}
+
+//
+// FORM 
+//
+
+input[type="text"]:not(.selectbox),input[type="number"], input[type="password"], textarea {
+  #gradient > .vertical(#e2e0e2, #f8f5f8);
+  color: #222222;
+  border: 1px solid #242424;
+}
+
+// OVERRIDDEN
+ul.form li {
+  @ul-padding:5px;
+  padding: @ul-padding @ul-padding @ul-padding @ul-padding;
+}
+
+//
+// SLIDER 
+//
+
+.slider {
+  /* Background left and right from slider, position set in JavaScript */
+  background: -webkit-gradient(linear,left top,left bottom,from(#9EA09D), color-stop(0.85, #5B5D5A), color-stop(0.95, #5F615E), to(#757774)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from(#ecd343), color-stop(0.85, #fab907), color-stop(0.95, #f0b705), to(#f8ce2e));
+  background: -webkit-linear-gradient(top, #9EA09D, #5B5D5A 85%, #5F615E 95%, #757774) 0px 0px no-repeat, -webkit-linear-gradient(top, #ecd343, #fab907 85%,#f0b705 95%, #f8ce2e) 0px 0px no-repeat;
+  background: -moz-linear-gradient(top, #9EA09D, #5B5D5A 85%, #5F615E 95%, #757774) 0px 0px no-repeat, -moz-linear-gradient(top, #ecd343, #fab907 85%,#f0b705 95%, #f8ce2e) 0px 0px no-repeat;
+  background: linear-gradient(to bottom, #9EA09D, #5B5D5A 85%, #5F615E 95%, #757774) 0px 0px no-repeat, linear-gradient(to bottom, #ecd343, #fab907 85%,#f0b705 95%, #f8ce2e) 0px 0px no-repeat;
+}
+
+.slider > div {
+  #gradient > .vertical(@button-color, #c4c4c4);
+  .box-shadow(0 0 2px 1px #4A4A4A);
+  
+  // OVERRIDDEN
+  .border-radius(0.4em);
+  width:50px;
+}
+
+//
+// TABBAR   
+//
+
+.tabBar {
+  border-bottom: 3px solid @android-orange;
+}
+
+.tabButton {
+  color:white;
+
+  background: @android-dark-grey;
+  background: -moz-linear-gradient(top,  @android-dark-grey 83%, #444444 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(83%,@android-dark-grey), color-stop(100%,#444444));
+  background: -webkit-linear-gradient(top,  @android-dark-grey 83%,#444444 100%);
+  background: linear-gradient(top,  @android-dark-grey 83%,#444444 100%);
+
+  border: 1px solid lighten(@android-dark-grey, 10%);
+}
+
+
+.tabButton.active, .tabButton.selected {
+  background: #ffffff;
+  background: -moz-linear-gradient(top,  #ffffff 2%, @android-light-orange 4%, @android-light-orange-2 49%, @android-orange 53%, @android-orange 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,#ffffff), color-stop(4%,@android-light-orange), color-stop(49%,@android-light-orange-2), color-stop(53%,@android-orange), color-stop(100%,@android-orange));
+  background: -webkit-linear-gradient(top,  #ffffff 2%,@android-light-orange 4%,@android-light-orange-2 49%,@android-orange 53%,@android-orange 100%);
+  background: linear-gradient(top,  #ffffff 2%,@android-light-orange 4%,@android-light-orange-2 49%,@android-orange 53%,@android-orange 100%);
+
+  color:black;
+  border: 1px solid @android-orange;
+}
+
+//
+// NAVIGATIONBAR 
+//
+
+.navigationbar {
+  #gradient > .vertical(#9a9a9a, #7c7e7c);
+  border-bottom: 1px solid #2d3642;
+}
+
+.navigationbar-button, .navigationbar-backbutton {
+  .clickable();
+}
+
+.navigationbar-button.active, .navigationbar-backbutton.active {
+  .clickable-active();
+}
+
+//
+// SCROLLBAR 
+//
+
+.scrollbarV > div {
+  #gradient > .vertical(#b5b6b5, #949294);
+  border: 1px solid #000;
+}
+
+//
+// CHECKBOX
+//
+
+
+input[type="checkbox"] + label {
+  position:relative;
+  .clickable();
+
+  .border-radius(.3em);
+}
+
+.checkbox-label:before {
+  background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
+  background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
+  .border-radius(.1em);
+}
+
+
+input[type="checkbox"] + label:after {
+    @checkbox-check-color:@android-orange;
+
+    opacity: 0;
+    content: '';
+    position: absolute;
+    width: 11px;
+    height: 6px;
+    background: 
+    transparent;
+    top: 8px;
+    left: 8px;
+    border: 3.5px solid lighten(@checkbox-check-color,10%);
+    border-top: 0;
+    border-right: 0;
+    .transform(rotate(-45deg));
+
+    -webkit-box-shadow:  -1px 1px 1px 0px @checkbox-check-color;
+    -moz-box-shadow: -1px 1px 1px 0px @checkbox-check-color;
+    box-shadow: -1px 1px 1px 0px @checkbox-check-color;
+}
+
+input[type="checkbox"]:checked + label:after {
+    opacity: 1;
+}
+
+
+//
+// RADIOBUTTON
+//
+
+// Border style
+input[type=radio] + label {
+      background: #fcfff4;
+      background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+      background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+      background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+
+      -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+      -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+      box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+}
+
+
+// Inner Area
+input[type=radio]+ label:before {
+      -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+      -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+      box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+
+      background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
+      background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
+      background: linear-gradient(top, #222 0%, #45484d 100%);
+}
+
+
+// Color dot
+input[type=radio] + label:after {
+      background: @android-orange;
+
+      @dot-color: @android-orange;
+      @dot-dark-color: darken(@dot-color, 10%);
+
+      background: -webkit-linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
+      background: -moz-linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
+      background: linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
+
+      -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+      -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+      box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+}
+
+
+//
+// DIALOG 
+//
+
+.popup {
+  background-color: @dialog-background-color;
+  border: 2px solid #ffffff;
+}
+
+.dialog { 
+  background-color: @dialog-background-color;
+  border: 2px solid #ffffff;
+}
+
+
+//
+// TOOLBAR
+// 
+
+.toolbar-button {
+  .clickable();
+}
+
+.toolbar-button.active {
+  .clickable-active();
+}
+
+//
+// SELECTBOX
+//
+
+.selectbox {
+  color:@highlighted-text-color;
+  background-color:transparent;
+}
+
+.selectbox.active {
+  #gradient > .vertical-three(@android-light-orange, @android-orange, @android-light-orange-2);
+  color:#000000;
+}
+
+.selectbox-selected > div > .list-itemlabel:after {
+  border-color: @android-orange;
+}
+
+.selectbox-selected.active > div > .list-itemlabel:after {
+  border-color:black;
+}
+
+.selectbox-selected.active > div > .list-itemlabel {
+  color:black;
+}
+
+//
+// MENU
+//
+
+.item-selected {
+  .clickable-active();
+}
+
+.menu ul {
+  border: 1px solid @border-color;
+}
+
+//
+// MASTER DETAIL
+// 
+
+@master-popup-border-color:white;
+
+.master-popup * {
+  background: none;
+}
+
+.master-detail-master.attached {
+  border-right: 1px solid @border-color;
+}
+
+.master-popup {
+  //#gradient > .vertical-three(@ios-button-gradient-stop-1, @ios-button-gradient-stop-3,@ios-button-gradient-stop-3, 20px);
+  border:2px solid @master-popup-border-color;
+}
+
+.master-popup .page {
+  border: 1px solid @border-color;
+}
+
+.master-popup .layout-card {
+  background-color: @background-color;
+}
+
+// 
+// MASTER PARENT CONTAINER ARROWS
+//
+.master-popup.popupAnchorPointerTop:before  {
+  border-bottom-color:@master-popup-border-color;
+}

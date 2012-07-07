@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5962 $"/>
-		<generation date="$Date: 2011-07-05 00:24:38 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6465 $"/>
+		<generation date="$Date: 2012-01-27 18:47:35 +0100 (Fri, 27 Jan 2012) $"/>
 		<language type="en"/>
 		<territory type="NZ"/>
 	</identity>
@@ -63,7 +63,7 @@
 						<dateFormatItem id="yMd">d/MM/yy</dateFormatItem>
 						<dateFormatItem id="yMEd">E, dd/MM/yyyy</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM y</dateFormatItem>
 						<dateFormatItem id="yyyyMM" draft="contributed">MM/yyyy</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM" draft="contributed">MMMM y</dateFormatItem>
 					</availableFormats>
@@ -148,17 +148,40 @@
 			</calendar>
 		</calendars>
 		<timeZoneNames>
+			<metazone type="Atlantic">
+				<short>
+					<generic>∅∅∅</generic>
+					<standard>∅∅∅</standard>
+					<daylight>∅∅∅</daylight>
+				</short>
+			</metazone>
 			<metazone type="Australia_Central">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>ACT</generic>
+					<standard>ACST</standard>
+					<daylight>ACDT</daylight>
+				</short>
 			</metazone>
 			<metazone type="Australia_CentralWestern">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>ACWT</generic>
+					<standard>ACWST</standard>
+					<daylight>ACWDT</daylight>
+				</short>
 			</metazone>
 			<metazone type="Australia_Eastern">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>AET</generic>
+					<standard>AEST</standard>
+					<daylight>AEDT</daylight>
+				</short>
 			</metazone>
 			<metazone type="Australia_Western">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>AWT</generic>
+					<standard>AWST</standard>
+					<daylight>AWDT</daylight>
+				</short>
 			</metazone>
 			<metazone type="Chatham">
 				<short>
@@ -166,30 +189,45 @@
 					<standard>CHAST</standard>
 					<daylight>CHADT</daylight>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 			<metazone type="Europe_Central">
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<generic>∅∅∅</generic>
+					<standard>∅∅∅</standard>
+					<daylight>∅∅∅</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<generic>∅∅∅</generic>
+					<standard>∅∅∅</standard>
+					<daylight>∅∅∅</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Western">
-				<commonlyUsed>false</commonlyUsed>
+				<short>
+					<generic>∅∅∅</generic>
+					<standard>∅∅∅</standard>
+					<daylight>∅∅∅</daylight>
+				</short>
+			</metazone>
+			<metazone type="Lord_Howe">
+				<short>
+					<generic>LHT</generic>
+					<standard>LHST</standard>
+					<daylight>LHDT</daylight>
+				</short>
 			</metazone>
 			<metazone type="New_Zealand">
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>NZT</generic>
+					<standard>NZST</standard>
+					<daylight>NZDT</daylight>
+				</short>
 			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<currencyFormats>
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
 		<currencies>
 			<currency type="NZD">
 				<symbol>$</symbol>

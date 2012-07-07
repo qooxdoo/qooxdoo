@@ -21,5 +21,10 @@ if (exp) {
     window[name] = root;
   }
 }
-delete window.qx;
+
+window["qx"] = undefined;
+try {
+  delete window.qx;
+} catch(e) {}
+
 })();

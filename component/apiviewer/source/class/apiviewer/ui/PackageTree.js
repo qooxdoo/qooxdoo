@@ -34,6 +34,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
     this.base(arguments, "Documentation");
 
     this.setDecorator(null);
+    this.setPadding(0);
 
     this.__root = new qx.ui.tree.TreeFolder("Packages");
     this.__root.setOpen(true);

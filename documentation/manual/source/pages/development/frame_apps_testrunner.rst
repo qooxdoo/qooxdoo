@@ -1,6 +1,6 @@
 .. _pages/frame_apps_testrunner#the_qooxdoo_test_runner:
 
-The qooxdoo Test Runner
+Test Runner
 ***********************
 
 "Test Runner" is a `unit testing <http://en.wikipedia.org/wiki/Unit_test>`_ framework that fully supports testing qooxdoo classes. It is similar to but does not require JSUnit or any other JavaScript unit testing framework. If you look at the component section of a qooxdoo distribution under ``component/testrunner/``, you will find the Test Runner sources, together with a mockup test class. In the ``framework/`` section you can create a Test Runner instance with all test classes from the qooxdoo framework by running:
@@ -324,6 +324,8 @@ The following URI parameters can be used to modify the Test Runner's behavior:
 * **testclass** Restrict the tests to be loaded. Takes a fully qualified class name or namespace that is a subset of the classes included in the test application, e.g. *custom.test.gui* or *custom.test.gui.PreferencesDialog*
 * **autorun** Automatically execute all selected tests as soon as the suite is loaded. Takes any parameter, e.g. *1*.
 
+.. _pages/frame_apps_testrunner#portable_test_runner:
+
 Portable Test Runner
 ====================
 
@@ -335,7 +337,7 @@ Example
 -------
 The fictional non-qooxdoo JavaScript library ``foo.js`` provides a ``Bar`` class, with a constructor that takes a string parameter. This test checks if the ``getName`` method returns that string:
 
-::
+.. code-block:: html
 
     <!DOCTYPE html>
     <head>
@@ -369,7 +371,7 @@ The ``classname`` key is optional. If present, its value will be used as the nam
 
 The Portable Test Runner can be downloaded from the Demo section of the qooxdoo website, or generated from within the SDK:
 
-::
+.. code-block:: bash
 
   cd component/testrunner
-  python generate.py -c portable.json build
+  generate.py portable-build

@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import sys, os, optparse, string, types, pprint
+import sys, os, string, types, pprint
 import qxenviron
 from misc.ExtendAction import ExtendAction
 from generator import Context
@@ -122,6 +122,9 @@ def main():
         console.setFilter(["generator.config.*"])
     else:
         console.setLevel("info")
+
+    # Show progress indicator?
+    console.progress_indication = options.show_progress_indicator
 
     # Initial user feedback
     appname = ((os.path.dirname(os.path.abspath(options.config)).split(os.sep)))[-1]

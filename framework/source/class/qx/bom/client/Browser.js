@@ -48,6 +48,10 @@
 ************************************************************************ */
 
 /**
+#require(qx.bom.client.OperatingSystem#getVersion)
+*/
+
+/**
  * Basic browser detection for qooxdoo.
  *
  * This class is used by {@link qx.core.Environment} and should not be used

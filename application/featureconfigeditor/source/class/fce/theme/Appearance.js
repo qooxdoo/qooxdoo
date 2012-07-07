@@ -10,7 +10,7 @@
 
 qx.Theme.define("fce.theme.Appearance",
 {
-  extend : qx.theme.simple.Appearance,
+  extend : qx.theme.indigo.Appearance,
 
   appearances :
   {

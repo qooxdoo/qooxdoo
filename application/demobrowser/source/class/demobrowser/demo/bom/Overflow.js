@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Overflow",
 {
   extend : qx.application.Native,

@@ -20,6 +20,7 @@
 
 /**
  * @tag test
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.test.io_ImageLoader",
 {

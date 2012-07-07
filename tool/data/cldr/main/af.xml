@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5953 $"/>
-		<generation date="$Date: 2011-07-04 18:22:55 -0500 (Mon, 04 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="af"/>
 	</identity>
 	<fallback/>
@@ -293,7 +293,6 @@
 			<territory type="151">Oos-Europa</territory>
 			<territory type="154">Noord-Europa</territory>
 			<territory type="155">Wes-Europa</territory>
-			<territory type="172">Gemenebes van Onafhanklike State</territory>
 			<territory type="419">Latyns Amerika</territory>
 			<territory type="AC">Ascension-eiland</territory>
 			<territory type="AD">Andorra</territory>
@@ -586,7 +585,6 @@
 			<type type="coptic" key="calendar">Koptiese kalender</type>
 			<type type="deva" key="numbers">Devanagari syfers</type>
 			<type type="dictionary" key="collation">Woordeboek-sorteervolgorde</type>
-			<type type="direct" key="collation">Direkte sorteervolgorde</type>
 			<type type="ducet" key="collation">Verstek Unicode-sorteervolgorde</type>
 			<type type="ethi" key="numbers">Ethiopiese syfers</type>
 			<type type="ethiopic" key="calendar">Etiopiese kalender</type>
@@ -670,7 +668,7 @@
 		<quotationStart>“</quotationStart>
 		<quotationEnd>”</quotationEnd>
 		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>”</alternateQuotationEnd>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -862,10 +860,10 @@
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/y</dateFormatItem>
 						<dateFormatItem id="yMd">M/d/y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, y-M-d</dateFormatItem>
+						<dateFormatItem id="yMEd">E, y-M-d</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, MMM d, y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
@@ -1027,27 +1025,23 @@
 				<short>
 					<standard>CAT</standard>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 			<metazone type="Africa_Eastern">
 				<short>
 					<standard>EAT</standard>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 			<metazone type="Africa_Southern">
 				<short>
-					<generic>SAT</generic>
 					<standard>SAST</standard>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 			<metazone type="Africa_Western">
 				<short>
+					<generic>WAT</generic>
 					<standard>WAT</standard>
 					<daylight>WAST</daylight>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
 			</metazone>
 			<metazone type="Alaska">
 				<long>
@@ -1059,6 +1053,8 @@
 			<metazone type="Amazon">
 				<long>
 					<generic>Amasone-tyd</generic>
+					<standard>Amasone-tyd</standard>
+					<daylight>Amasone-somertyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Central">
@@ -1162,6 +1158,8 @@
 			<metazone type="Hawaii_Aleutian">
 				<long>
 					<generic>Hawaii Aleutiese tyd</generic>
+					<standard>Hawaii Aleutiese standaardtyd</standard>
+					<daylight>Hawaii Aleutiese dagligtyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
@@ -1173,17 +1171,17 @@
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<generic>Indonesië-sentraal-tyd</generic>
+					<standard>Indonesië-sentraal-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<generic>Indonesiese Oostelike tyd</generic>
+					<standard>Indonesiese Oostelike tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<generic>Indonesiese Westelike tyd</generic>
+					<standard>Indonesiese Westelike tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Irkutsk">
@@ -1230,7 +1228,7 @@
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<generic>Macquarie-tyd</generic>
+					<standard>Macquarie-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
@@ -1339,7 +1337,7 @@
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
@@ -1347,27 +1345,36 @@
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000000000">0.0B</pattern>
-					<pattern type="10000000000">00B</pattern>
-					<pattern type="100000000000">000B</pattern>
+					<pattern type="1000" draft="contributed">0000</pattern>
+					<pattern type="10000" draft="contributed">00000</pattern>
+					<pattern type="100000" draft="contributed">000000</pattern>
+					<pattern type="1000000" draft="contributed">0.0 mil</pattern>
+					<pattern type="10000000" draft="contributed">00 mil</pattern>
+					<pattern type="100000000" draft="contributed">000 mil</pattern>
+					<pattern type="1000000000" draft="contributed">0.0 mjd</pattern>
+					<pattern type="10000000000" draft="contributed">00 mjd</pattern>
+					<pattern type="100000000000" draft="contributed">000 mjd</pattern>
+					<pattern type="1000000000000" draft="contributed">0.0 bil</pattern>
+					<pattern type="10000000000000" draft="contributed">00 bil</pattern>
+					<pattern type="100000000000000" draft="contributed">000 bil</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern>#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00</pattern>

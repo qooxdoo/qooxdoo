@@ -22,12 +22,12 @@ qx.Class.define("qx.test.dev.unit.TestCase", {
   extend : qx.dev.unit.TestCase,
 
   members : {
-    
+
     testSkip : function()
     {
       this.skip();
       this.fail("Executed code after calling skip()!");
     }
-    
+
   }
 });

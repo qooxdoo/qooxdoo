@@ -52,8 +52,8 @@ qx.Class.define("showcase.page.virtuallist.messenger.Roster",
     // configure row colors
     var rowLayer = list.getChildControl("row-layer");
     rowLayer.set({
-      colorEven: "white",
-      colorOdd: "rgb(238, 243, 255)"
+      colorEven: "progressive-table-row-background-even",
+      colorOdd: "progressive-table-row-background-odd"
     });
 
     // Creates the prefetch behavior

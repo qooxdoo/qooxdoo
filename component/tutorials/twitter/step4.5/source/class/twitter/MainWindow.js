@@ -27,27 +27,11 @@ qx.Class.define("twitter.MainWindow",
     this.add(toolbar, {row: 0, column: 0, colSpan: 2});
 
     // reload button
-    var reloadButton = new qx.ui.toolbar.Button(this.tr("Reload"));
+    var reloadButton = new qx.ui.toolbar.Button("Reload");
     toolbar.add(reloadButton);
-    reloadButton.setToolTipText(this.tr("Reload the tweets."));
+    reloadButton.setToolTipText("Reload the tweets.");
     reloadButton.addListener("execute", function() {
       this.fireEvent("reload");
-    }, this);
-
-    // spacer
-    toolbar.addSpacer();
-
-    // settings button
-    var settingsWindow = null;
-    var settingsButton = new qx.ui.toolbar.Button(this.tr("Preferences"));
-    toolbar.add(settingsButton);
-    settingsButton.setToolTipText(this.tr("Change the applications settings."));
-    settingsButton.addListener("execute", function() {
-      if (!settingsWindow) {
-        settingsWindow = new twitter.SettingsWindow();
-        settingsWindow.moveTo(320,30);
-      }
-      settingsWindow.open();
     }, this);
 
     // list
@@ -57,20 +41,20 @@ qx.Class.define("twitter.MainWindow",
     // textarea
     this.__textarea = new qx.ui.form.TextArea();
     this.add(this.__textarea, {row: 2, column: 0});
-    this.__textarea.setPlaceholder(this.tr("Enter your message here..."));
+    this.__textarea.setPlaceholder("Enter your message here...");
     this.__textarea.addListener("input", function(e) {
       var value = e.getData();
       postButton.setEnabled(value.length < 140 && value.length > 0);
     }, this);
 
     // post button
-    var postButton = new qx.ui.form.Button(this.tr("Post"));
+    var postButton = new qx.ui.form.Button("Post");
     this.add(postButton, {row: 2, column: 1});
-    postButton.setToolTipText(this.tr("Post this message on twitter."));
+    postButton.setToolTipText("Post this message on twitter.");
     postButton.addListener("execute", function() {
       this.fireDataEvent("post", this.__textarea.getValue());
     }, this);
-    postButton.setMinWidth(60);
+    postButton.setWidth(60);
     postButton.setEnabled(false);
   },
 

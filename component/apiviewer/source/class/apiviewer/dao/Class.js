@@ -313,6 +313,10 @@ qx.Class.define("apiviewer.dao.Class",
         var superClass = this.getSuperClass();
         while (superClass)
         {
+          // superClass might be a built-in type
+          if (typeof superClass.getConstructor == "undefined") {
+            break;
+          }
           var superConstructor = superClass.getConstructor();
           if (superConstructor)
           {
@@ -727,6 +731,9 @@ qx.Class.define("apiviewer.dao.Class",
       {
         var mixinNode = apiviewer.dao.Class.getClassByName(mixins[mixinIndex]);
         mixinRecurser(mixinNode);
+        if (itemNode) {
+          break;
+        }
       }
       return itemNode;
     },

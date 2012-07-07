@@ -1,0 +1,30 @@
+//
+// SLIDER
+//
+
+.slider {
+  .background-clip(padding-box);
+  position: relative;
+  overflow: visible;
+  
+  margin-top:8px;
+  margin-bottom:8px;
+
+  .border-radius(.6em);
+  height: 15px;
+}
+
+.slider > div {
+  .background-clip(padding-box);
+  position: absolute;
+  background-color:#fff;
+
+  position:relative;
+  top: -6px;
+  left: 0%;  
+
+  @size:25px;
+  height:@size;
+  width:@size;
+  .border-radius(@size);
+}

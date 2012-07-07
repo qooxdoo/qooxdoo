@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2011-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -28,10 +28,18 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
     {
       var dd = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
       var selectBox = new qx.ui.mobile.form.SelectBox();
+
       selectBox.setModel(dd);
       this.assertEquals("Item 1",selectBox.getValue());
-      selectBox.setSelection("Item 3");
+
+      selectBox.setValue("Item 3");
+      this.assertEquals(2, selectBox.getSelection());
       this.assertEquals("Item 3",selectBox.getValue());
+
+      // Nothing is change because unknown value.
+      selectBox.setValue("Item 4");
+      this.assertEquals("Item 3",selectBox.getValue());
+
       selectBox.destroy();
       dd.dispose();
       dd = null;
@@ -39,16 +47,33 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
 
     testSelection : function()
     {
-      var dd = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
+      var model = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
       var selectBox = new qx.ui.mobile.form.SelectBox();
-      selectBox.setModel(dd);
-      this.assertEquals("Item 1",selectBox.getSelection());
-      selectBox.setSelection("Item 3");
-      this.assertEquals("Item 3",selectBox.getSelection());
-      this.assertEquals(2, selectBox.getContainerElement().selectedIndex);
+      selectBox.setModel(model);
+
+      // Default value of selectedIndex after setting model is 0.
+      this.assertEquals(0, selectBox.getSelection());
+
+      // Set selection success
+      selectBox.setSelection(2);
+      this.assertEquals(2, selectBox.getSelection());
+      this.assertEquals("Item 3", selectBox.getValue());
+
+      // Set selection failure
+      // Nothing is changed because, invalid selectedIndex value.
+      selectBox.setSelection(4);
+      this.assertEquals(2, selectBox.getSelection());
+      this.assertEquals("Item 3", selectBox.getValue());
+
+      // Negative values are not allowed. Nothing is changed.
+      selectBox.setSelection(-1);
+      this.assertEquals(2, selectBox.getSelection());
+      this.assertEquals("Item 3", selectBox.getValue());
+
+      // After
       selectBox.destroy();
-      dd.dispose();
-      dd = null;
+      model.dispose();
+      model = null;
     }
 
   }

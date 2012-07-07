@@ -1,0 +1,33 @@
+{
+  "name"    : "website local config - thin local wrapper around website.json, to add 'export' job",
+
+  "include" :
+  [
+    {
+      "path" : "website.json"
+    }
+  ],
+
+  "export" :
+  [
+    "build-min",
+    "build",
+    "source",
+    "test-source",
+    "test",
+    "log-deps",
+    "api-data",
+    "api"
+  ],
+
+  "config-warnings" :
+  {
+    "job-shadowing" : [ "common" ],
+
+    "environment" : [ "non-literal-keys" ]
+  },
+
+  "jobs" :
+  {
+  }
+}

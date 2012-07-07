@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5905 $"/>
-		<generation date="$Date: 2011-06-15 23:14:13 -0500 (Wed, 15 Jun 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="be"/>
 	</identity>
 	<localeDisplayNames>
@@ -226,7 +226,6 @@
 			<territory type="039">Паўднёвая Еўропа</territory>
 			<territory type="053">Аўстралія і Новая Зэландыя</territory>
 			<territory type="061">Палінезія</territory>
-			<territory type="062">Паўднёва-Цэнтральная Азія</territory>
 			<territory type="142">Азія</territory>
 			<territory type="143">Цэнтральная Азія</territory>
 			<territory type="145">Заходняя Азія</territory>
@@ -234,7 +233,6 @@
 			<territory type="151">Усходняя Еўропа</territory>
 			<territory type="154">Паўночная Еўропа</territory>
 			<territory type="155">Заходняя Еўропа</territory>
-			<territory type="172">Садружнасць Незалежных Дзяржаў</territory>
 			<territory type="AD">Андора</territory>
 			<territory type="AE">Аб'яднаныя Арабскія Эміраты</territory>
 			<territory type="AF">Афганістан</territory>
@@ -497,9 +495,6 @@
 			<codePattern type="territory" draft="contributed">Рэгіён: {0}</codePattern>
 		</codePatterns>
 	</localeDisplayNames>
-	<layout>
-		<inText type="languages" draft="contributed">lowercase-words</inText>
-	</layout>
 	<characters>
 		<exemplarCharacters>[а б в г д {дж} {дз} е ё ж з і й к л м н о п р с т у ў ф х ц ч ш ы ь э ю я]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
@@ -507,10 +502,10 @@
 		<exemplarCharacters type="index" draft="contributed">[А Б В Г Д Е Ж З І Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Ы Э Ю Я]</exemplarCharacters>
 	</characters>
 	<delimiters>
-		<quotationStart draft="contributed">„</quotationStart>
-		<quotationEnd draft="contributed">”</quotationEnd>
-		<alternateQuotationStart draft="contributed">«</alternateQuotationStart>
-		<alternateQuotationEnd draft="contributed">»</alternateQuotationEnd>
+		<quotationStart draft="contributed">«</quotationStart>
+		<quotationEnd draft="contributed">»</quotationEnd>
+		<alternateQuotationStart draft="contributed">‹</alternateQuotationStart>
+		<alternateQuotationEnd draft="contributed">›</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -540,7 +535,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="EEEd">EEE, d</dateFormatItem>
+						<dateFormatItem id="Ed">E, d</dateFormatItem>
 						<dateFormatItem id="Gy">G y</dateFormatItem>
 						<dateFormatItem id="hm">h.mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH.mm</dateFormatItem>
@@ -551,14 +546,14 @@
 						<dateFormatItem id="MEd">E, d.M</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">EEE, d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
 						<dateFormatItem id="y">G y</dateFormatItem>
 						<dateFormatItem id="yM">M.yy</dateFormatItem>
 						<dateFormatItem id="yMd">d.M.yy</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d.M.yy</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d.M.yy</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM y G</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -752,10 +747,10 @@
 						<dateFormatItem id="y" draft="contributed">y</dateFormatItem>
 						<dateFormatItem id="yM" draft="contributed">MM/yyyy</dateFormatItem>
 						<dateFormatItem id="yMd">d.M.yy</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">EEE, dd/MM/yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="contributed">E, dd/MM/yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM" draft="contributed">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="contributed">EEE, d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="contributed">E, d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM" draft="contributed">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ" draft="contributed">Q 'кв'. y</dateFormatItem>
 						<dateFormatItem id="yQQQ" draft="contributed">QQQ y</dateFormatItem>
@@ -970,18 +965,21 @@
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
+					<generic draft="contributed">Цэнтральнаэўрапейскі час</generic>
 					<standard draft="contributed">Цэнтральнаэўрапейскі час</standard>
 					<daylight draft="contributed">Цэнтральнаэўрапейскі летні час</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
+					<generic draft="contributed">Усходнеэўрапейскі час</generic>
 					<standard draft="contributed">Усходнеэўрапейскі час</standard>
 					<daylight draft="contributed">Усходнеэўрапейскі летні час</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
+					<generic draft="contributed">Заходнеэўрапейскі час</generic>
 					<standard draft="contributed">Заходнеэўрапейскі час</standard>
 					<daylight draft="contributed">Заходнеэўрапейскі летні час</daylight>
 				</long>
@@ -998,28 +996,28 @@
 			<decimal>,</decimal>
 			<group> </group>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern draft="contributed">#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern draft="contributed">#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern draft="contributed">#,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00</pattern>

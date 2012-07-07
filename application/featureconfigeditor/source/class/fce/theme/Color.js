@@ -10,7 +10,7 @@
 
 qx.Theme.define("fce.theme.Color",
 {
-  extend : qx.theme.simple.Color,
+  extend : qx.theme.indigo.Color,
 
   colors :
   {

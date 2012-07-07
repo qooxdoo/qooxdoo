@@ -72,7 +72,8 @@ qx.Class.define("showcase.page.table.Content",
         width: 540,
         height: 400,
         decorator : null,
-        headerCellHeight : null
+        headerCellHeight : null,
+        showCellFocusIndicator: false
       });
 
       table.getSelectionModel().setSelectionMode(
@@ -130,8 +131,9 @@ qx.Class.define("showcase.page.table.Content",
       "env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=" +
       "showcase.page.table.Content.saveResult";
 
-      var loader = new qx.io.ScriptLoader();
-      loader.load(url, function() {
+      var loader = new qx.bom.request.Script();
+
+      loader.on("load", function() {
         var result = showcase.page.table.Content._result;
 
         var rows = [];
@@ -158,6 +160,8 @@ qx.Class.define("showcase.page.table.Content",
         };
         tableModel.setData(rows);
       });
+      loader.open("GET", url);
+      loader.send();
     }
   }
 });

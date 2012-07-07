@@ -24,7 +24,7 @@
 # Miscellaneous Helper Functions
 ##
 
-import time, datetime, math
+import time, datetime, math, types
 from warnings import warn
 
 ##
@@ -188,3 +188,4 @@ def numberSequence(c=0):
         c += 1
 
 
+FinSequenceTypes = (types.ListType, types.TupleType)

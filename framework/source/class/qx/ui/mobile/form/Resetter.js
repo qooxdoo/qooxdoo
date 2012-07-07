@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
-* EXPERIMENTAL - NOT READY FOR PRODUCTION
-* 
 * The resetter is responsible for managing a set of items and resetting these
 * items on a {@link qx.ui.form.Resetter#reset} call.
 */

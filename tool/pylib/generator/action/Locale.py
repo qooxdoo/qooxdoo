@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import os, sys, re
+import os, sys, re, collections
 import time, datetime
 import cPickle as pickle
 
@@ -159,6 +159,8 @@ class Locale(object):
                 if poentry.msgid.find(r'\\') > -1:
                     poentry.msgid = self.recoverBackslashEscapes(poentry.msgid)
 
+        # ----------------------------------------------------------------------
+
         self._console.info("Updating namespace: %s" % namespace)
         self._console.indent()
         
@@ -170,7 +172,7 @@ class Locale(object):
                 classList.append(classId)
                     
         self._console.debug("Compiling filter...")
-        pot = self.getPotFile(classList)  # pot: source code => POFile object
+        pot = self.getPotFile(classList)  # pot: translation keys from the source code
         pot.sort()
 
         allLocales = self._translation[namespace]
@@ -215,7 +217,41 @@ class Locale(object):
         return s.replace(r'\\', '\\')
 
 
+    ##
+    # Takes a list of classes and target locales, returns a map of those locales to translation
+    # maps, which contain the keys used in the classes and the translation in that locale.
+    #
     def getTranslationData(self, clazzList, variants, targetLocales, addUntranslatedEntries=False):
+
+        ##
+        # Collect the namespaces from classes in clazzlist
+        def namespacesFromClasses(clazzlist):
+            return set([clazz.library.namespace for clazz in clazzlist])
+            
+        ##
+        # Collect all .po files for a given locale across libraries
+        def localesToPofiles(libnames, targetlocales):
+            LocalesToPofiles = collections.defaultdict(list)
+            for libname in libnames:
+                liblocales = self._translation[libname]  # {"en": <translationEntry>, ...}
+                for locale in (lcl for lcl in targetlocales if lcl in liblocales):
+                    LocalesToPofiles[locale].append(liblocales[locale]["path"])
+            return LocalesToPofiles
+
+        ##
+        # Adding translation entries from <pofiles> to <pot>
+        def translationsFromPofiles(pofiles, pot):
+            for path in pofiles:
+                self._console.debug("Reading file: %s" % path)
+
+                # .po files are only read-accessed
+                cacheId = "pofile-%s" % path
+                po, _ = self._cache.read(cacheId, path, memory=True)
+                if po == None:
+                    po = polib.pofile(path)
+                    self._cache.write(cacheId, po, memory=True)
+                extractTranslations(pot, po)
+            return pot
 
         def extractTranslations(pot, po):
             po.getIdIndex()
@@ -232,65 +268,37 @@ class Locale(object):
 
         # -------------------------------------------------------------------------
 
-        # Find all influenced namespaces
-        libnames = {}
+        # Get the actually used translation keys from the code
+        langToTranslationMap = {}
         classList = [x.id for x in clazzList]
-        for clazz in clazzList:
-            ns = clazz.library.namespace
-            libnames[ns] = True
+        mainpot = self.getPotFile(classList, variants)  # pot file for this package, represents translation keys in the code
 
-        # Create a map of locale => [pofiles]
-        PoFiles = {}
-        for libname in libnames:
-            liblocales = self._translation[libname]  # {"en": <translationEntry>, ...}
-
-            for locale in targetLocales:
-                if locale in liblocales:
-                    if not locale in PoFiles:
-                        PoFiles[locale] = []
-                    PoFiles[locale].append(liblocales[locale]["path"]) # collect all .po files for a given locale across libraries
+        #if len(mainpot) == 0: # Early exit
+        #    return langToTranslationMap
+        libnames = namespacesFromClasses(clazzList) # Find all influenced namespaces
+        LocalesToPofiles = localesToPofiles(libnames, targetLocales)  # Create a map of locale => [pofiles]
+        mainpotS = pickle.dumps(mainpot)  # create a string-backup of mainpot
 
         # Load po files and process their content
-        blocks = {}
-        mainpot = self.getPotFile(classList, variants)  # pot file for this package
-        mainpotS = pickle.dumps(mainpot)
-        # loop through locales
-        for locale in PoFiles:
-            # ----------------------------------------------------------------------
+        for locale in LocalesToPofiles:
             # Generate POT file to filter PO files
             self._console.debug("Compiling filter...")
-            # need a fresh pot, as it will be modified
-            pot = pickle.loads(mainpotS)  # copy.deepcopy(mainpot) chokes on overridden Array.append
-
-            if len(pot) == 0:
-                return {}
-                
+            pot = pickle.loads(mainpotS)  # need a fresh pot, as it will be modified
+                                          # copy.deepcopy(mainpot) chokes on overridden Array.append
             self._console.debug("Processing translation: %s" % locale)
             self._console.indent()
 
-            result = {}
-            # loop through .po files
-            for path in PoFiles[locale]:
-                self._console.debug("Reading file: %s" % path)
-
-                # .po files are only read-accessed
-                cacheId = "pofile-%s" % path
-                po, _ = self._cache.read(cacheId, path, memory=True)
-                if po == None:
-                    po = polib.pofile(path)
-                    self._cache.write(cacheId, po, memory=True)
-                extractTranslations(pot, po)
-
+            # Get relevant entries from po files for this locale, and convert to dict
+            pot = translationsFromPofiles(LocalesToPofiles[locale], pot) # loop through .po files, updating pot
             poentries = pot.translated_entries()
             if addUntranslatedEntries:
                 poentries.extend(pot.untranslated_entries())
-            result.update(self.entriesToDict(poentries))
+            transdict = self.entriesToDict(poentries)
+            langToTranslationMap[locale] = transdict
 
-            self._console.debug("Formatting %s entries" % len(result))
-            blocks[locale] = result
             self._console.outdent()
 
-        return blocks
+        return langToTranslationMap
 
 
 

@@ -18,25 +18,25 @@
 ************************************************************************ */
 
 /**
- * Provides read/write access to library-specific information such as 
+ * Provides read/write access to library-specific information such as
  * source/resource URIs.
  */
 qx.Class.define("qx.util.LibraryManager", {
-  
+
   extend : qx.core.Object,
-  
+
   type : "singleton",
-  
+
   statics :
   {
     /** {Map} The libraries used by this application */
     __libs : qx.$$libraries || {}
   },
-  
+
   members :
   {
     /**
-     * Checks whether the library with the given namespace is known to the 
+     * Checks whether the library with the given namespace is known to the
      * application.
      * @param namespace {String} The library's namespace
      * @return {Boolean} <code>true</code> if the given library is known
@@ -51,18 +51,18 @@ qx.Class.define("qx.util.LibraryManager", {
      * Returns the value of an attribute of the given library
      * @param namespace {String} The library's namespace
      * @param key {String} Name of the attribute
-     * @return {var|null} The attribute's value or <code>null</code> if it's not defined 
+     * @return {var|null} The attribute's value or <code>null</code> if it's not defined
      */
     get : function(namespace, key)
     {
-      return this.self(arguments).__libs[namespace][key] ? 
+      return this.self(arguments).__libs[namespace][key] ?
         this.self(arguments).__libs[namespace][key] : null;
     },
 
 
     /**
      * Sets an attribute on the given library.
-     * 
+     *
      * @param namespace {String} The library's namespace
      * @param key {String} Name of the attribute
      * @param value {var} Value of the attribute

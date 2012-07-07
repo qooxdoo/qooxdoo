@@ -1,0 +1,65 @@
+//
+// FORM 
+//
+
+ul.form {
+  margin-bottom: 10px;
+}
+
+ul.form li {
+  padding: 10px 10px 10px 10px;
+}
+
+ul.form ul li.error {
+    border: 2px solid red;
+}
+
+ul.form li.error + li.error {
+    border-top: 0;
+}
+
+ul.form li * {
+    white-space: normal;
+    text-overflow: ellipsis;
+}
+
+input[type="text"]:not(.selectbox),input[type="number"], input[type="password"], textarea {
+  .border-radius(.4em);
+  .background-clip(padding-box);
+  text-indent:4px;
+  height:1.7em;
+}
+
+input, select {
+  vertical-align: middle;
+}
+
+input, select, textarea {
+  font-family: Helvetica;
+  font-size: 0.9em;
+}
+
+input[type="text"], input[type="password"],input[type="number"], textarea {
+  .appearance(textarea);
+  width: 100%;
+  outline: none;
+}
+
+input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
+  border: 1px solid red;
+}
+
+input[type="checkbox"], input[type="radio"] {
+  margin: 0;
+  padding: 10px 10px;
+}
+
+textarea {
+  height: 120px;
+  resize: none;
+  padding-top:4px;
+}
+
+.formElementError {
+  color: red;
+}

@@ -276,7 +276,7 @@ qx.Class.define("apiviewer.Controller",
      */
     __bindHistory : function()
     {
-      this._history.addListener("request", function(evt) {
+      this._history.addListener("changeState", function(evt) {
         var item = this.__decodeState(evt.getData());
         if (item) {
           this.__selectItem(item);
@@ -439,11 +439,14 @@ qx.Class.define("apiviewer.Controller",
      */
     __getFirstPackage : function(tree)
     {
-       if(tree.type && tree.type == "package") {
-         return tree;
-       } else {
-         return this.__getFirstPackage(tree.children[0]);
-       }
+      for (var i=0, l=tree.children.length; i<l; i++) {
+        var child = tree.children[i];
+        if(child.type && child.type == "package") {
+           return child;
+        } else {
+           return this.__getFirstPackage(child);
+        }
+      }
     }
 
   },

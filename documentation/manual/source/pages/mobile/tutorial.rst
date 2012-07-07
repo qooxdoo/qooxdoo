@@ -6,45 +6,13 @@ with the new `qooxdoo mobile`_ widgets. The client should display all
 tweets of a certain user. When a tweet is selected, the details of the
 tweet should be shown. You can find the tutorial code `here`_.
 
-Requirements
-~~~~~~~~~~~~
+Requirements + Getting Started
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Although this should be a basic tutorial, you should be at least
-familiar with the `tool chain`_ and the basic `object oriented`_
-principles of qooxdoo. A working `qooxdoo environment`_ is mandatory. As
-qooxdoo is based on web technologies, you will need a running instance
-of Google `Chrome`_ or Apple `Safari`_ browser on your system to run the
-application (see qooxdoo mobile `requirements`_). An iOS or Android
-device is not necessarily required.
+Please visit the getting started section, and follow the introduction, which
+describes how to create a %{Mobile} Application.
 
-Getting Started
-~~~~~~~~~~~~~~~
-
-Lets start with our new application. The first step is to create a
-mobile skeleton, by calling the ``create-applicaton.py`` script from the
-command line. Navigate to the qooxdoo folder and execute the following
-command:
-::
-
-    ./tool/bin/create-application.py --type=mobile --name=mobiletweets --out=..
-
-A new folder “mobiletweets” will be created next to the qooxdoo folder,
-containing the mobile skeleton application. Right now the application is
-pretty useless, until we create the ``source`` version of it. Navigate
-to the created folder and call the qooxdoo generator with the following
-command:
-::
-
-    ./generate.py
-
-After a few seconds the generator has analyzed all class dependencies
-and created a source version of the application. You can test the
-application by opening the ``source/index.html`` file in your Chrome /
-Safari browser. You should see a page “Page 1” with a button “Next
-Page”. When you click on the button, the next page “Page 2”, with a
-“Back” button in the upper left corner, is displayed. 
-
-Congratulations, you have just created your first qooxdoo mobile application!
+:doc:`%{Mobile} Getting Started <getting_started>`
 
 Creating your first Page
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -60,6 +28,7 @@ But first of all we have to define what a page is:
     single task or a group of related tasks. A qooxdoo mobile
     application is usually composed of one or more loosely bound pages.
     Typically there is one page that presents the “main” view.*
+
 
 Open the “mobiletweets” folder in your favorite IDE, so that you can
 edit all the files. Navigate to the “source/class/mobiletweets” folder,
@@ -89,14 +58,25 @@ specialized page that consists of a
 action buttons, and a scrollable content area. In the constructor of the
 class we set the title of the page to “Twitter Client”.
 
-To show the “Input” page, we have to create an instance of the class and to call the
-``show`` method of the page instance. Open the
-“source/class/mobiletweets/Application.js” class file. You will find a comment in the ``main`` method "*Below is your actual
+To show the “Input” page, we have to create an instance of the class and a page manager.
+The manager does the layouting and displays our page on screen.
+Additionally the manager gives us the possibility to use our application in a mobile or tablet device context.
+For our example, we just want to work in a mobile device context. That is why, we construct the manager with
+``false``.
+
+After creation of manager, we have to add the “Input” page into the manager. 
+Then we call ``show`` method of “Input” page, to display this page on start. 
+
+Open the “source/class/mobiletweets/Application.js” class file. You will find a comment in the ``main`` method "*Below is your actual
 application code…*" with example code below. As we don’t need this
 example code, we can safely replace it with the following lines of code:
 ::
+    
+    var manager = new qx.ui.mobile.page.Manager(false);
 
     var inputPage = new mobiletweets.page.Input();
+    manager.addDetail(inputPage);
+
     inputPage.show();
 
 As we have changed the dependencies of our application, recreate the
@@ -219,6 +199,9 @@ just added:
 
     // New instance of the Tweets page
     var tweetsPage = new mobiletweets.page.Tweets();
+    
+    // Add page to manager
+    manager.addDetail(tweetsPage);
 
     // Show the tweets page, when the button is pressed
     inputPage.addListener("requestTweet", function(evt) {
@@ -319,7 +302,7 @@ section of the “Application” class:
 
 Now the username has to be retrieved from the user input. To do so, we
 have to create an input form. The usage of the form classes should be
-familiar to you when you have used the RIA widget set. Open the “Input”
+familiar to you if you have used the RIA widget set before. Open the “Input”
 class again and place the following code, before the button instance in
 the ``_initialize`` method:
 ::
@@ -405,7 +388,7 @@ method to the members section of the “Tweets” page.
             // set the data of the model
             item.setTitle(value.getText());
             // we use the dataFormat instance to format the data value of the twitter API
-            item.setSubTitle(value.getUser().getName() + ", " + dateFormat.format(new Date(value.getCreated_at())));
+            item.setSubtitle(value.getUser().getName() + ", " + dateFormat.format(new Date(value.getCreated_at())));
             item.setImage(value.getUser().getProfile_image_url());
             // we have more data to display, show an arrow
             item.setShowArrow(true);
@@ -432,7 +415,7 @@ It has three parameters:
 
 In this case the list item renderer is the
 ``qx.ui.mobile.list.renderer.Default``. This renderer has a ``title``,
-``subTitle`` and a ``icon`` property, which can be set individually per
+``subtitle`` and a ``image`` property, which can be set individually per
 row. In addition to those properties, the ``showArrow`` property shows
 an arrow on the left corner of the row, indicating that we have more
 data to display.
@@ -453,7 +436,7 @@ the ``member`` section:
 
 There are only two tasks left:
 
-#. Bind the ``tweets`` property form the “Application” to the ``tweets``
+#. Bind the ``tweets`` property from the “Application” to the ``tweets``
    property of the “Tweets” page instance.
 #. Bind the ``username`` property form the “Application” to the
    ``title`` property of the “Tweets” page instance.
@@ -529,6 +512,10 @@ called.
 ::
 
     var tweetPage = new mobiletweets.page.Tweet();
+
+    // Add page to manager
+    manager.addDetail(tweetPage);
+
     // Return to the Tweets Page
     tweetPage.addListener("back", function(evt) {
       tweetsPage.show({reverse:true});
@@ -586,19 +573,17 @@ After you have finished this tutorial, you have learned the basics of
 qooxdoo mobile. You have seen how easy it is to develop qooxdoo mobile
 applications when you are familiar with qooxdoo. There are only some new
 concepts (e.g. Pages) to learn and you are good to go. All qooxdoo
-mobile applications work on Android and iOS devices. Just have a look on
-the great `PhoneGap`_ project, which will enable you to deploy native
-applications, that run the qooxdoo mobile JavaScript code in an wrapped
-native browser, in the App Stores or directly on your mobile device.
+mobile applications work on Android and iOS devices. 
 
+
+:doc:`%{Mobile} Deployment with Apache Cordova <deployment>`
 
 .. _Twitter: http://twitter.com/
 .. _qooxdoo mobile: http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile
-.. _here: https://github.com/qooxdoo/qooxdoo/tree/master/component/tutorials/mobiletweets
+.. _here: https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/mobiletweets
 .. _tool chain: http://manual.qooxdoo.org/%{version}/pages/tool.html
 .. _object oriented: http://manual.qooxdoo.org/%{version}/pages/core.html
 .. _qooxdoo environment: http://manual.qooxdoo.org/%{version}/pages/getting_started/requirements.html
-.. _trunk: http://qooxdoo.org/documentation/general/checking_out_from_svn
 .. _Chrome: http://www.google.com/chrome/
 .. _Safari: http://www.apple.com/safari/
 .. _requirements: http://manual.qooxdoo.org/%{version}/pages/mobile/mobile_overview.html

@@ -1051,6 +1051,10 @@ qx.Class.define("qx.ui.core.Widget",
         return null;
       }
 
+      if (qx.lang.Object.isEmpty(changes) && !this._updateInsets) {
+        return null;
+      }
+
       var container = this.getContainerElement();
       var content = this.getContentElement();
       var inner = changes.size || this._updateInsets;
@@ -1214,10 +1218,18 @@ qx.Class.define("qx.ui.core.Widget",
       elem.resize(bounds.width, bounds.height);
 
       // Move
-      elem.setStyles({
-        left : bounds.left + "px",
-        top : bounds.top + "px"
-      });
+      var domEl = elem.getDomElement();
+      // use the DOM element because the cache of the qx.html.Element could be 
+      // wrong due to changes made by the decorators which work on the DOM element too
+      if (domEl) {
+        domEl.style.top = bounds.top + "px";
+        domEl.style.left = bounds.left + "px";
+      } else {
+        elem.setStyles({
+          left : bounds.left + "px",
+          top : bounds.top + "px"
+        });
+      }
 
       // Remember element
       if (!this.__separators) {
@@ -1945,6 +1957,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _add : function(child, options)
     {
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertInstance(child, qx.ui.core.LayoutItem.constructor, "'Child' must be an instance of qx.ui.core.LayoutItem!")
+      }
+
       // When moving in the same widget, remove widget first
       if (child.getLayoutParent() == this) {
         qx.lang.Array.remove(this.__widgetChildren, child);
@@ -2465,6 +2481,13 @@ qx.Class.define("qx.ui.core.Widget",
           var shadowWidth = bounds.width + insets.left + insets.right;
           var shadowHeight = bounds.height + insets.top + insets.bottom;
 
+          // remove the old insets if given
+          if (old) {
+            var oldInsets = pool.getDecoratorElement(old).getInsets();
+            shadowWidth = shadowWidth - oldInsets.left - oldInsets.right;
+            shadowHeight = shadowHeight - oldInsets.top - oldInsets.bottom;
+          }
+
           elem.resize(shadowWidth, shadowHeight);
         }
 
@@ -2841,7 +2864,6 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Query current selector
       var newData = manager.styleFrom(selector, states, null, this.getAppearance());
-
       if (newData)
       {
         if (oldData)
@@ -2960,8 +2982,10 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * This method is called during the flush of the
      * {@link qx.ui.core.queue.Widget widget queue}.
+     *
+     * @param jobs {Map} A map of jobs.
      */
-    syncWidget : function() {
+    syncWidget : function(jobs) {
       // empty implementation
     },
 

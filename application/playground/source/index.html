@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>qooxdoo &raquo; Playground</title>
   <style type="text/css">
     .qx_samples { display:none }
+    .vbox {
+      /* Solves Firefox bug on playground.*/
+      height:100%;
+    }
+
   </style>
   <script src="resource/playground/editor/ace.js" type="text/javascript" charset="utf-8"></script>
   <script src="resource/playground/editor/theme-eclipse.js" type="text/javascript" charset="utf-8"></script>
@@ -23,16 +28,19 @@
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="Hello World-mobile">var page = new qx.ui.mobile.page.NavigationPage();
+<textarea class="qx_samples" title="Hello World-mobile">
+var page = new qx.ui.mobile.page.NavigationPage();
 page.setTitle("Hello World");
 page.addListener("initialize", function() {
   var button = new qx.ui.mobile.form.Button("First Button");
-  page.getContent().add(button);          
+  page.getContent().add(button);
 
   button.addListener("tap", function() {
     alert("Hello World");
   }, this);
 },this);
+
+this.getManager().addDetail(page);
 
 page.show();</textarea>
 
@@ -40,7 +48,8 @@ page.show();</textarea>
 <!-- ********************************************************************** -->
 
 
-<textarea class="qx_samples" title="List-mobile">var page = new qx.ui.mobile.page.NavigationPage();
+<textarea class="qx_samples" title="List-mobile">
+var page = new qx.ui.mobile.page.NavigationPage();
 page.setTitle("List");
 page.addListener("initialize", function() {
   // List creation
@@ -48,7 +57,7 @@ page.addListener("initialize", function() {
     configureItem : function(item, data, row) {
       item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
       item.setTitle(row<4 ? ("Selectable " + data.title) : data.title);
-      item.setSubTitle(data.subTitle);
+      item.setSubtitle(data.subTitle);
       item.setSelectable(row<4);
       item.setShowArrow(row<4);
     }
@@ -64,9 +73,11 @@ page.addListener("initialize", function() {
   list.addListener("changeSelection", function(evt) {
     alert("Item Selected #" + evt.getData());
   }, this);
-  
+
   page.getContent().add(list);
 },this);
+
+this.getManager().addDetail(page);
 
 page.show();</textarea>
 
@@ -102,6 +113,8 @@ page2.addListener("back", function() {
   page1.show({reverse:true});
 }, this);
 
+this.getManager().addDetail([page1,page2]);
+
 page1.show();</textarea>
 
 
@@ -109,28 +122,29 @@ page1.show();</textarea>
 <!-- ********************************************************************** -->
 
 
-<textarea class="qx_samples" title="Form-mobile">var page = new qx.ui.mobile.page.NavigationPage();
+<textarea class="qx_samples" title="Form-mobile">
+var page = new qx.ui.mobile.page.NavigationPage();
 page.setTitle("Login");
 page.addListener("initialize", function() {
   var form = new qx.ui.mobile.form.Form();
-  
+
   // User name
   var user = new qx.ui.mobile.form.TextField();
   user.setRequired(true);
   form.add(user, "Username");
-  
+
   // Password
   var pwd = new qx.ui.mobile.form.PasswordField();
   pwd.setRequired(true);
   form.add(pwd, "Password");
-  
+
   // Use form renderer
   page.getContent().add(new qx.ui.mobile.form.renderer.SinglePlaceholder(form));
-  
+
   // login button
   var button = new qx.ui.mobile.form.Button("Login");
   page.getContent().add(button);
-  
+
   button.addListener("tap", function() {
     if (form.validate()) {  // use form validation
       alert("Loggin in " + user.getValue());
@@ -138,13 +152,16 @@ page.addListener("initialize", function() {
   }, this);
 },this);
 
+this.getManager().addDetail(page);
+
 page.show();</textarea>
 
 
 <!-- ********************************************************************** -->
 
 
-<textarea class="qx_samples" title="YQL Binding-mobile">// Data model
+<textarea class="qx_samples" title="YQL Binding-mobile">
+// Data model
 var query = "select * from feed where url='http://feeds.feedburner.com/qooxdoo/news/content'";
 
 var delegate = {manipulateData : function(data) {
@@ -161,7 +178,7 @@ page.addListener("initialize", function()
     configureItem : function(item, data, row)
     {
       item.setTitle(data.getTitle());
-      item.setSubTitle(data.getPubDate());
+      item.setSubtitle(data.getPubDate());
     }
   });
 
@@ -169,6 +186,7 @@ page.addListener("initialize", function()
   page.getContent().add(list);
 },this);
 
+this.getManager().addDetail(page);
 page.show();</textarea>
 
 
@@ -195,8 +213,8 @@ button1.addListener("execute", function(e) {
 
 <!-- ********************************************************************** -->
 
-<div id="compare_div1" visibility="hidden"></div>
-<div id="compare_div2" visibility="hidden"></div>
+<div id="compare_div1" style="visibility: hidden;"></div>
+<div id="compare_div2" style="visibility: hidden;"></div>
 
 <textarea class="qx_samples" title="Window-ria">var win = new qx.ui.window.Window("First Window");
 win.setWidth(300);

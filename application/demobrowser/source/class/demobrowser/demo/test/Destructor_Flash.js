@@ -22,6 +22,7 @@
  * fixed. The Demo creates five flash movies and destroy them.
 
  * @tag test
+ * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.test.Destructor_Flash",
 {
@@ -53,7 +54,7 @@ qx.Class.define("demobrowser.demo.test.Destructor_Flash",
       for (var i = 0; i < 5; i++)
       {
         // Create div for flash object
-        var flash = qx.bom.Element.create("div");
+        var flash = qx.dom.Element.create("div");
         qx.bom.element.Style.set(flash , "width", "400px");
         qx.bom.element.Style.set(flash , "height", "300px");
         document.body.appendChild(flash);

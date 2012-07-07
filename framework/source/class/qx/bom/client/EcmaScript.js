@@ -30,19 +30,6 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
   statics :
   {
     /**
-     * Checks if the ECMAScript object count could be used:
-     * https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object#Properties_2
-     *
-     * @internal
-     * @return {Boolean} <code>true</code> if the count is available.
-     * @deprecated since 1.6
-     */
-    getObjectCount : function() {
-      return (({}).__count__ == 0);
-    },
-
-
-    /**
      * Returns the name of the Error object property that holds stack trace
      * information or null if the client does not provide any.
      *
@@ -52,13 +39,16 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      */
     getStackTrace : function()
     {
-      var e = new Error();
-      return e.stacktrace ? "stacktrace" : e.stack ? "stack" : null;
+      // only thrown errors have the stack property in IE10
+      try {
+        throw new Error();
+      } catch(e) {
+        return e.stacktrace ? "stacktrace" : e.stack ? "stack" : null;
+      }
     }
   },
 
   defer : function(statics) {
-    qx.core.Environment.add("ecmascript.objectcount", statics.getObjectCount);
     qx.core.Environment.add("ecmascript.stacktrace", statics.getStackTrace);
   }
 });

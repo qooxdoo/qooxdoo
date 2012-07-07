@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>test q</title>
+  <script type="text/javascript" src="script/q.min.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    q.ready(function() {
+      // render a template
+      var name = "qooxdoo user";
+      q.template.get("hello", {name: name}).appendTo(document.body);
+
+      // style the name
+      q("h1 span").setStyles({
+        "color": "#3D72C9",
+        "cursor": "pointer"
+      });
+
+      // make the name editable
+      q("h1 span").on("click", function() {
+        this.setHtml(prompt("Whats your name?", ""));
+      });
+
+      //crate a message
+      q.create("<p>Have fun coding...</p>").appendTo(document.body).fadeIn(4000);
+    });
+  </script>
+</head>
+<body>
+  <script type="template" id="hello">
+    <h1>Hello <span>{{name}}</span>!</h1>
+  </script>
+</body>
+</html>

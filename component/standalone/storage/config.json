@@ -1,0 +1,200 @@
+{
+  "include" : 
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
+      "import" :
+      [
+        "cache",
+        "distclean",
+        "info",
+        "log-dependencies"
+      ]
+    }
+  ],
+
+  "default-job" : "build",
+
+  "config-warnings" :
+  {
+    "job-shadowing" : ["distclean"]
+  },
+
+  "let" :
+  {
+    "APPLICATION"  : "library",
+    "QOOXDOO_PATH" : "../../..",
+    "BUILD_PATH"   : "script",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
+  },
+
+  "jobs" :
+  {
+    "storage-common" :
+    {
+      "extend" : ["cache"],
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
+        }
+      ],
+
+      "include" : [
+        "qx.bom.Storage"
+      ],
+
+      "exclude" : [
+        "qx.event.GlobalError"
+      ],
+
+      "environment" :
+      {
+        "qx.version"     : "${QOOXDOO_VERSION}",
+        "qx.revision"    : "${QOOXDOO_REVISION}",
+        "qx.debug" : false,
+        "qx.aspects" : false,
+        "qx.globalErrorHandling" : false,
+        "qx.theme" : null,
+        "qx.export" : {"storage" : "qx.bom.Storage"}
+      },
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/storage.js",
+          "file-prefix" : "${QOOXDOO_PATH}/tool/data/generator/copyright.include.js",
+          "app-root" : ".",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
+        },
+        "uris" :
+        {
+          "script"   : ".",
+          "resource" : "."
+        }
+      }
+    },
+
+
+    "build-min" :
+    {
+      "extend" : ["storage-common"],
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/storage.min.js"
+        },
+        "code" :
+        {
+          "format"   : false,
+          "optimize" : [ "variants", "basecalls", "strings", "privates", "variables", "whitespace"],
+          "except"   : []
+        }
+      },
+
+      "compile" : { "type" : "build" }
+    },
+
+
+    "build" :
+    {
+      "extend" : ["build-min"],
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/storage.js"
+        },
+        "code" :
+        {
+          "format"   : true,
+          "=optimize" : [ "variants", "static" ]
+        }
+      }
+    },
+
+
+
+    "source" :
+    {
+      "extend" : ["storage-common"],
+
+      "environment" :
+      {
+        "qx.debug" : true
+      },
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/storage.js"
+        }
+      },
+
+      "compile" : { "type" : "source" }
+    },
+
+
+    "deps-logging" : 
+    {
+      "log" : {
+        "filter" : { "debug" : [ "generator.code.DependencyLoader.*" ] },
+        "dependencies" : {
+          "include-transitive-load-deps" : true,
+          "force-fresh-deps" : true,
+          "type" : "using",
+          "phase" : null,
+          "format" : "dot",
+          "dot" : {
+            "root" : "qx.bom.Storage"
+          }
+        }
+      }
+    },
+
+
+    "build-deps" : 
+    {
+      "extend" : ["build", "deps-logging"]
+    },
+
+
+    "build-require-min" :
+    {
+      "extend" : ["build-min"],
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/storage.require.min.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/require.loader.tmpl.js"
+        }
+      }
+    },
+
+    "build-require" :
+    {
+      "extend" : ["build-require-min"],
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/storage.require.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/require.loader.tmpl.js"
+        },
+        "code" :
+        {
+          "format"   : true,
+          "=optimize" : [ "variants", "static" ]
+        }
+      }
+    }
+  }
+}

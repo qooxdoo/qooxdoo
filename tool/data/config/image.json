@@ -1,0 +1,22 @@
+{
+  "name": "(includer) Common image job settings (like ImageMagick command templates)",
+
+  "jobs":
+  {
+    "clipping" :
+    {
+      "slice-images" :
+      {
+        "convert-cmd" : "convert %(infile)s -crop %(xoff)sx%(yoff)s+%(xorig)s+%(yorig)s +repage %(outfile)s"
+      }
+    },
+
+    "combining" :
+    {
+      "combine-images" :
+      {
+        "montage-cmd" : "montage @%(tempfile)s -geometry +0+0 -gravity NorthWest -tile %(orientation)s -background None %(combinedfile)s"
+      }
+    }
+  }
+}

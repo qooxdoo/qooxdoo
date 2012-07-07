@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5859 $"/>
-		<generation date="$Date: 2011-05-07 04:18:01 -0500 (Sat, 07 May 2011) $"/>
+		<version number="$Revision: 6708 $"/>
+		<generation date="$Date: 2012-03-16 07:58:36 +0100 (Fri, 16 Mar 2012) $"/>
 		<language type="ps"/>
 	</identity>
 	<fallback>fa_AF</fallback>
@@ -345,7 +345,7 @@
 			<minusSign>−</minusSign>
 			<exponential>E</exponential>
 		</symbols>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>

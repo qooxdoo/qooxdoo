@@ -1,5 +1,12 @@
+.. _pages/application#standard_applications:
+
 Standard Applications
 *********************
+
+qooxdoo comes with a set of web applications that showcase various features of qooxdoo, cover different application types and scenarios, or provide helpful tools for application development.
+
+
+.. _pages/application#demo_applications:
 
 Demo Applications
 =================
@@ -85,6 +92,8 @@ Demo Applications
 
   `Online demo <http://demo.qooxdoo.org/%{version}/widgetbrowser>`__
 
+
+.. _pages/application#developer_tools:
 
 Developer Tools
 ===============

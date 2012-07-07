@@ -29,10 +29,7 @@
     "test-source",
     "test-performance",
     "test-performance-source",
-    "translation",
-    "qxoo-build",
-    "qxoo-noopt",
-    "qxoo-api"
+    "translation"
   ],
 
 
@@ -76,119 +73,6 @@
   "jobs":
   {
 
-    "qxoo" : 
-    {
-      "config-warnings" :
-      {
-        "exclude" : ["qx.event.GlobalError"] 
-      },
-
-      "library" :
-      [
-        {
-          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json",
-          "uri" : ".."          
-        }
-      ],
-
-      "extend" : [ "cache" ],
-      
-      "include" : 
-      [
-        "qx.Class",
-        "qx.Mixin",
-        "qx.Interface"
-      ],
-      
-      "exclude" :
-      [
-        "qx.event.GlobalError"
-      ],
-
-      "environment" :
-      {
-        "qx.debug" : false,
-        "qx.debug.dispose" : false,
-        "qx.debug.databinding" : false,
-        "qx.aspects" : false,
-        "qx.globalErrorHandling" : false
-      },
-
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "loader-template" : "../tool/data/generator/oo.loader.tmpl.js"
-        },
-        "uris" :
-        {
-          "script"   : ".",
-          "resource" : "."
-        }
-      }
-    },
-
-
-    "qxoo-build" : 
-    {
-      "desc" : "a basic qooxdoo OO library",
-      "extend" : [ "qxoo" ],
-      
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "file" : "build/script/qx-oo.js",
-          "app-root" : "."
-        },
-        "code" :
-        {
-          "format"   : true,
-          "except"   : [],
-          "optimize" : [ "variables", "basecalls", "privates", "strings", "variants" ]
-        }
-      },
-      "compile" : { "type" : "build" }
-    },
-    
-    
-    "qxoo-noopt" : 
-    {
-      "desc" : "a basic qooxdoo OO library (non-optimized)",
-      "extend" : [ "qxoo" ],
-      
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "file" : "build/script/qx-oo-noopt.js",
-          "app-root" : "."
-        },
-        "code" :
-        {
-          "format"   : true,
-          "except"   : [],
-          "optimize" : [ ]
-        }
-      },
-      "compile" : { "type" : "build" }
-    },
-
-
-    "qxoo-api" :
-    {
-      "desc" : "create api doc for qxoo",
-      "extend" : [ "apiconf::build" ],
-      "let" :
-      {
-        "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/component/apiviewer",
-        "BUILD_PATH"     : "${ROOT}/qxoo_api",
-        "API_INCLUDE"    : ["qx.Class", "qx.Mixin", "qx.Interface"],
-        "API_EXCLUDE"    : ["qx.test.*", "qx.event.GlobalError"]
-      }
-    },
-    
-    
     "build-all" :
     {
       "library" :
@@ -220,7 +104,7 @@
         {
           "format"   : "on",
           "except"   : [],
-          "optimize" : ["basecalls", "variables", "privates", "strings"]
+          "optimize" : ["basecalls", "variables", "privates", "strings", "whitespace"]
         }
       },
       

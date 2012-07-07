@@ -194,6 +194,9 @@ qx.Class.define("demobrowser.demo.widget.Flash",
       this.__messageFromFlash.setValue(message);
     },
 
+    /**
+     * @lint ignoreDeprecated(alert)
+     */
     initFlash : function()
     {
       if (this.__flash.getFlashElement().setup)

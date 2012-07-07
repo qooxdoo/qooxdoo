@@ -127,7 +127,7 @@ qx.Class.define("demobrowser.demo.data.ExtendedList",
          + "This list display a set of persons in a list as checkbox. Every "
          + "person does have a name as label and an online status as checkbox."
        );
-       this.getRoot().add(syncListDescription, {left: 20, top: 10});
+       this.getRoot().add(syncListDescription, {left: 10, top: 10});
     }
   }
 });

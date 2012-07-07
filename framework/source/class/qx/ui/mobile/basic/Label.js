@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The label widget displays a text or HTML content.
  * *Example*
  *
@@ -131,10 +129,6 @@ qx.Class.define("qx.ui.mobile.basic.Label",
       } else {
         this.addCssClass("no-wrap");
       }
-    },
-    
-    setDisplay : function(value) {
-        this._setStyle('display', value);
     }
   }
 });

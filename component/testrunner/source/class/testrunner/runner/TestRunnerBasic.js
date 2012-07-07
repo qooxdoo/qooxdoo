@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -31,9 +31,16 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
 
   statics :
   {
+    /**
+     * Load test suite defined by testrunner.define()
+     */
     start : function()
     {
-      qx.core.Init.getApplication().runner._loadExternalTests();
+      var runner = qx.core.Init.getApplication().runner;
+      runner._loadExternalTests();
+      if (typeof runner.view.toggleAllTests == "function") {
+        runner.view.toggleAllTests(true);
+      }
     }
   },
 
@@ -52,11 +59,11 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     this.__testsInView = [];
     var viewSetting = qx.core.Environment.get("testrunner.view");
     var viewClass = qx.Class.getByName(viewSetting);
-    
+
     if (qx.core.Environment.get("testrunner.performance")) {
       qx.Class.include(viewClass, testrunner.view.MPerformance);
     }
-    
+
     this.view = new viewClass();
 
     // Connect view and controller
@@ -140,12 +147,35 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     _externalTestClasses : 0,
 
 
+    /**
+     * Returns the configured base namespace of the current test suite
+     * @return {String} Test namespace
+     */
     _getTestNameSpace : function()
     {
       return qx.core.Environment.get("qx.testNameSpace");
     },
 
 
+    /**
+     * Deletes the current test suite so a new one can be loaded
+     */
+    _resetSuite : function()
+    {
+      if (this.loader) {
+        this.loader.dispose();
+        this.loader = null;
+      }
+
+      this._externalTestClasses = 0;
+      this.setTestModel(null);
+      this.__testsInView = [];
+    },
+
+
+    /**
+     * Loads the test suite
+     */
     _loadTests : function()
     {
       var origin = qx.core.Environment.get("testrunner.testOrigin");
@@ -183,10 +213,10 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
         qx.core.Assert.assertMap(membersMap);
       }
       this.setTestSuiteState("loading");
-      
+
       this._externalTestClasses += 1;
       var testNameSpace = this._testNameSpace || "test";
-      
+
       var testClassName;
       if (membersMap.classname) {
         testClassName = membersMap.classname;
@@ -196,9 +226,8 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
         delete membersMap.classname;
       }
       else {
-        testClassName = testNameSpace + ".Test" + (this._externalTestClasses); 
+        testClassName = testNameSpace + ".Test" + (this._externalTestClasses);
       }
-      
       var testClass = this._defineTestClass(testClassName, membersMap);
 
       if (this.loader) {
@@ -208,11 +237,11 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
         this.loader = new qx.dev.unit.TestLoaderBasic(testNameSpace);
       }
     },
-    
-    
+
+
     /**
      * Creates a test class from the given members map
-     * 
+     *
      * @param testClassName {String} Fully qualified name for the test class
      * @param membersMap {map} Map containing the class members (test methods etc.)
      * @return {qx.Class} Configured test class
@@ -228,6 +257,11 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     },
 
 
+    /**
+     * Create a test class from the given definition and add it to the model
+     *
+     * @param membersMap {Map} "members" section for the new test class
+     */
     define : function(membersMap)
     {
       this._addTestClass(membersMap);
@@ -235,14 +269,18 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     },
 
     /**
-     * TODOC
+     * Create a new test suite from the class definitions in
+     * window.testrunner.testDefinitions
      */
     _loadExternalTests : function()
     {
+      this._resetSuite();
+
       if (window.testrunner.testDefinitions instanceof Array) {
         for (var i=0,l=testrunner.testDefinitions.length; i<l; i++) {
           this._addTestClass(testrunner.testDefinitions[i]);
         }
+        window.testrunner.testDefinitions = [];
         if (this.loader) {
           //FIXME: Assertion wrapping causes weird errors
           //this._wrapAssertions();
@@ -350,6 +388,9 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     },
 
 
+    /**
+     * Run the selected tests
+     */
     _runTests : function() {
       if (this.getTestSuiteState() === "aborted") {
         this.setTestSuiteState("ready");
@@ -357,6 +398,10 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       this.runTests();
     },
 
+
+    /**
+     * Stop executing tests
+     */
     _stopTests : function() {
       this.setTestSuiteState("aborted");
     },
@@ -425,6 +470,11 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     },
 
 
+    /**
+     * Returns a new instance of the class that executes the tests
+     *
+     * @return {qx.dev.unit.TestResult} TestResult instance
+     */
     _getTestResult : function()
     {
       return new qx.dev.unit.TestResult();
@@ -444,7 +494,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
 
         if (this.currentTestData && this.currentTestData.fullName === test.getFullName()
           && this.currentTestData.getState() == "wait") {
-          this.currentTestData.setState("start");
+          this.currentTestData.setState(this.currentTestData.getPreviousState() || "start");
           return;
         }
 
@@ -463,19 +513,29 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       testResult.addListener("skip", this._onTestSkip, this);
 
       testResult.addListener("endTest", this._onTestEnd, this);
-      
+
       testResult.addListener("endMeasurement", this._onTestEndMeasurement, this);
 
       return testResult;
     },
 
 
+    /**
+     * Sets the "wait" state for async tests
+     *
+     * @param ev {qx.event.type.Data} "wait" event
+     */
     _onTestWait : function(ev)
     {
       this.currentTestData.setState("wait");
     },
 
 
+    /**
+     * Records any (assertion) exceptions that caused a test to fail
+     *
+     * @param ev {qx.event.type.Data} "failure" event
+     */
     _onTestFailure : function(ev)
     {
       this.__addExceptions(this.currentTestData, ev.getData());
@@ -487,6 +547,11 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     },
 
 
+    /**
+     * Records any unexpected exceptions that occurred during test execution
+     *
+     * @param ev {qx.event.type.Data} "error" event
+     */
     _onTestError : function(ev)
     {
       this.__addExceptions(this.currentTestData, ev.getData());
@@ -498,6 +563,11 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     },
 
 
+    /**
+     * Records any exceptions that caused a test to be skipped
+     *
+     * @param ev {qx.event.type.Data} "skip" event
+     */
     _onTestSkip : function(ev)
     {
       this.__addExceptions(this.currentTestData, ev.getData());
@@ -509,6 +579,11 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     },
 
 
+    /**
+     * Starts the next test
+     *
+     * @param ev {qx.event.type.Data} "endTest" event
+     */
     _onTestEnd : function(ev)
     {
       var state = this.currentTestData.getState();
@@ -518,7 +593,13 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
 
       qx.event.Timer.once(this.runTests, this, 0);
     },
-    
+
+
+    /**
+     * Records any exceptions that occurred during a performance test
+     *
+     * @param ev {qx.event.type.Data} "endMeasurement" event
+     */
     _onTestEndMeasurement : function(ev)
     {
       this.__addExceptions(this.currentTestData, ev.getData());

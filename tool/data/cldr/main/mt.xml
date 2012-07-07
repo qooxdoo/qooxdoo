@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5968 $"/>
-		<generation date="$Date: 2011-07-05 15:52:21 -0500 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="mt"/>
 	</identity>
 	<localeDisplayNames>
@@ -526,9 +526,7 @@
 			<territory type="151">Ewropa tal-Lvant</territory>
 			<territory type="154">Ewropa ta’ Fuq</territory>
 			<territory type="155">Ewropa tal-Punent</territory>
-			<territory type="172">Commonwealth tal-Istati Independenti</territory>
 			<territory type="419">Amerika Latina</territory>
-			<territory type="830">Gżejjer tal-Kanal Ingliż</territory>
 			<territory type="AD">Andorra</territory>
 			<territory type="AE">Emirati Għarab Maqgħuda</territory>
 			<territory type="AF">Afganistan</territory>
@@ -787,7 +785,6 @@
 			<type type="big5han" key="collation">Ordni Ċiniż Tradizzjonali (Big5)</type>
 			<type type="buddhist" key="calendar">Kalendarju Buddist</type>
 			<type type="chinese" key="calendar">Kalendarju Ċiniż</type>
-			<type type="direct" key="collation">Ordni Diretta</type>
 			<type type="gb2312han" key="collation">Ordni Ċiniż Sempliċi (GB2312)</type>
 			<type type="gregorian" key="calendar">Kalendarju Gregorjan</type>
 			<type type="hebrew" key="calendar">Kalendarju Ebrajk</type>
@@ -1127,10 +1124,15 @@
 			</zone>
 			<metazone type="Europe_Central">
 				<long>
-					<standard>Ħin Ċentrali Ewropew</standard>
+					<generic>Ħin Ċentrali Ewropew</generic>
+					<standard>Ħin Ċentrali Ewropew istandard</standard>
 					<daylight>Ħin Ċentrali Ewropew tas-Sajf</daylight>
 				</long>
-				<commonlyUsed>true</commonlyUsed>
+				<short>
+					<generic>CET</generic>
+					<standard>CET</standard>
+					<daylight>CEST</daylight>
+				</short>
 			</metazone>
 		</timeZoneNames>
 	</dates>
@@ -1139,7 +1141,7 @@
 			<decimal>.</decimal>
 			<group>,</group>
 		</symbols>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00</pattern>

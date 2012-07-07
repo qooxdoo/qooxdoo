@@ -108,7 +108,7 @@ qx.Class.define("qx.event.handler.Orientation",
     __manager : null,
     __window : null,
     __nativeEventType : null,
-    __currentOrientation : null,
+    _currentOrientation : null,
     __onNativeWrapper : null,
 
 
@@ -191,12 +191,12 @@ qx.Class.define("qx.event.handler.Orientation",
     _onNative : qx.event.GlobalError.observeMethod(function(domEvent)
     {
       var Viewport = qx.bom.Viewport;
-      var orientation = Viewport.getOrientation();
+      var orientation = Viewport.getOrientation(domEvent.target);
 
-      if (this.__currentOrientation != orientation)
+      if (this._currentOrientation != orientation)
       {
-        this.__currentOrientation = orientation;
-        var mode = Viewport.isLandscape() ? "landscape" : "portrait";
+        this._currentOrientation = orientation;
+        var mode = Viewport.isLandscape(domEvent.target) ? "landscape" : "portrait";
         qx.event.Registration.fireEvent(
             this.__window,
             "orientationchange",

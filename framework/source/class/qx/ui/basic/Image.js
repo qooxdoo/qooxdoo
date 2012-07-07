@@ -461,10 +461,10 @@ qx.Class.define("qx.ui.basic.Image",
 
           elementToAdd.setStyles(styles, true);
           elementToAdd.setSelectable(this.getSelectable());
-        }
 
-        container.removeAt(0);
-        container.addAt(elementToAdd, 0);
+          container.removeAt(0);
+          container.addAt(elementToAdd, 0);
+        }
       }
     },
 

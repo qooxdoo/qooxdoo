@@ -78,6 +78,12 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
       label = new qx.ui.basic.Label("MenuBar & Menu");
       this.add(label, {left: 0, top: 210});
       this.add(this.getMenuBar(), {left: 0, top: 230});
+
+      // Toolbar for exclude
+      label = new qx.ui.basic.Label("ToolBar Part (Button, CheckBox, RadioButton, MenuButton)");
+      this.add(label, {left: 0, top: 280});
+      this.add(this.getToolBarExclude(), {left: 0, top: 300});
+
     },
 
     getToolBar : function()
@@ -218,6 +224,36 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
 
       return frame;
     },
+
+
+    getToolBarExclude : function()
+    {
+      var frame = new qx.ui.container.Composite(new qx.ui.layout.Grow);
+      frame.setDecorator("main");
+
+      var toolbar = new qx.ui.toolbar.ToolBar;
+      frame.add(toolbar);
+
+      var classes = [
+        qx.ui.toolbar.Button, 
+        qx.ui.toolbar.CheckBox, 
+        qx.ui.toolbar.RadioButton,
+        qx.ui.toolbar.MenuButton
+      ];
+      for (var j=0; j < classes.length; j++) {
+        var part = new qx.ui.toolbar.Part();
+        for (var i=0; i < 5; i++) {
+          var button = new classes[j](i + "");
+          this._widgets.push(button);
+          button.canHide = i % 2 == 0;
+          part.add(button);
+        };
+        toolbar.add(part);
+      };
+
+      return frame;
+    },
+
 
     // Menu (with slidebar)
     //

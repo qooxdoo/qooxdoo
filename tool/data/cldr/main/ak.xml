@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5806 $"/>
-		<generation date="$Date: 2011-05-02 13:42:02 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="ak"/>
 	</identity>
 	<localeDisplayNames>
@@ -288,10 +288,10 @@
 		<exemplarCharacters type="index">[A B C D E Ɛ F G H I J K L M N O Ɔ P Q R S T U V W X Y Z]</exemplarCharacters>
 	</characters>
 	<delimiters>
-		<quotationStart>‘</quotationStart>
-		<quotationEnd>’</quotationEnd>
-		<alternateQuotationStart>“</alternateQuotationStart>
-		<alternateQuotationEnd>”</alternateQuotationEnd>
+		<quotationStart>“</quotationStart>
+		<quotationEnd>”</quotationEnd>
+		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>
@@ -441,9 +441,9 @@
 						<dateFormatItem id="y">yyyy</dateFormatItem>
 						<dateFormatItem id="yM">M/yyyy</dateFormatItem>
 						<dateFormatItem id="yMd">y/M/d</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, M/d/yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd">E, M/d/yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM yyyy</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, MMM d, yyyy</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, MMM d, yyyy</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM yyyy</dateFormatItem>
 						<dateFormatItem id="yQ">Q yyyy</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ yyyy</dateFormatItem>
@@ -495,7 +495,7 @@
 		<symbols numberSystem="latn">
 			<group> </group>
 		</symbols>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00</pattern>
@@ -674,4 +674,3 @@
 		</messages>
 	</posix>
 </ldml>
-

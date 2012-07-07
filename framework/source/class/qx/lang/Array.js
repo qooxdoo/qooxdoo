@@ -123,7 +123,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Convert an arguments object into an array
+     * Convert an arguments object into an array.
      *
      * @param args {arguments} arguments object
      * @param offset {Integer?0} position to start from
@@ -221,7 +221,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Insert an element into the array before a given second element
+     * Insert an element into the array before a given second element.
      *
      * @param arr {Array} the array
      * @param obj {var} object to be inserted
@@ -243,7 +243,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Insert an element into the array after a given second element
+     * Insert an element into the array after a given second element.
      *
      * @param arr {Array} the array
      * @param obj {var} object to be inserted
@@ -344,7 +344,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Remove an element from the array
+     * Remove an element from the array.
      *
      * @param arr {Array} the array
      * @param obj {var} element to be removed from the array

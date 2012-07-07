@@ -659,7 +659,7 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     // overridden
-    syncWidget : function()
+    syncWidget : function(jobs)
     {
       this.getChildControl("slidebar");
       if (this.__onAfterSlideBarAdd)

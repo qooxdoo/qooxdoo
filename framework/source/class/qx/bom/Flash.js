@@ -157,7 +157,7 @@ qx.Class.define("qx.bom.Flash",
      *
      * Note: Removing the flash object like this:
      * <pre>
-     *  var div = qx.bom.Element.create("div");
+     *  var div = qx.dom.Element.create("div");
      *  document.body.appendChild(div);
      *
      *  var flashObject = qx.bom.Flash.create(div, { movie : "Flash.swf", id : "id" });
@@ -322,14 +322,14 @@ qx.Class.define("qx.bom.Flash",
         delete attributes.classid;
         delete params.movie;
 
-        var swf = qx.bom.Element.create("object", attributes, win);
+        var swf = qx.dom.Element.create("object", attributes, win);
         swf.setAttribute("type", "application/x-shockwave-flash");
 
         // Add parameters
         var param;
         for (var name in params)
         {
-          param = qx.bom.Element.create("param", {}, win);
+          param = qx.dom.Element.create("param", {}, win);
           param.setAttribute("name", name);
           param.setAttribute("value", params[name]);
           swf.appendChild(param);

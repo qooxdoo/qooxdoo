@@ -61,7 +61,7 @@ class Packer(object):
                             str += Packer.semicolon(str)
 
                 # Semicolon handling
-                elif node.type in ["group", "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable", "emptyStatement"]:
+                elif node.type in ["group", "block", "assignment", "call", "operation", "var", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable", "emptyStatement"]:
 
                     # Default semicolon handling
                     if node.parent.type in ["block", "file"]:
@@ -339,7 +339,7 @@ class Packer(object):
         @method(symbol("definition"))
         def opening(s, node):
             r = u''
-            if node.parent.type != "definitionList":
+            if node.parent.type != "var":
                 r += cls.write("var")
                 r += cls.space(result=r)
             r += cls.write(node.get("identifier"))
@@ -348,20 +348,20 @@ class Packer(object):
         @method(symbol("definition"))
         def closing(s, node):
             r = u''
-            if node.hasParent() and node.parent.type == "definitionList" and not node.isLastChild(True):
+            if node.hasParent() and node.parent.type == "var" and not node.isLastChild(True):
                 r += cls.comma(r)
             return r
 
 
-        symbol("definitionList")
+        symbol("var")
 
-        @method(symbol("definitionList"))
+        @method(symbol("var"))
         def opening(s, node):
             r = cls.write("var")
             r += cls.space(result=r)
             return r
 
-        @method(symbol("definitionList"))
+        @method(symbol("var"))
         def closing(s, node):
             return u""
 

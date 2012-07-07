@@ -21,7 +21,7 @@
 /**
  * A wrapper for Cookie handling.
  */
-qx.Class.define("qx.bom.Cookie",
+qx.Bootstrap.define("qx.bom.Cookie",
 {
   /*
   *****************************************************************************

@@ -104,7 +104,7 @@ qx.Class.define("demobrowser.demo.test.Table_RowRenderer",
     _rowTop : 0,
     _createRowElement : function(parent, width, height)
     {
-      var div = qx.bom.Element.create("div");
+      var div = qx.dom.Element.create("div");
       qx.bom.element.Style.setStyles(div, {
         position : "relative",
         width: width + "px",

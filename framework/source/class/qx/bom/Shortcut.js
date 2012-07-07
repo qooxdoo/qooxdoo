@@ -363,10 +363,10 @@ qx.Class.define("qx.bom.Shortcut",
      */
     __normalizeKeyIdentifier : function(keyName)
     {
-      var KeyHandler = qx.event.handler.Keyboard;
+      var kbUtil = qx.event.util.Keyboard;
       var keyIdentifier = "Unidentified";
 
-      if (KeyHandler.isValidKeyIdentifier(keyName)) {
+      if (kbUtil.isValidKeyIdentifier(keyName)) {
         return keyName;
       }
 
@@ -377,7 +377,7 @@ qx.Class.define("qx.bom.Shortcut",
       keyName = keyName.toLowerCase();
       var keyIdentifier = this.__oldKeyNameToKeyIdentifierMap[keyName] || qx.lang.String.firstUp(keyName);
 
-      if (KeyHandler.isValidKeyIdentifier(keyIdentifier)) {
+      if (kbUtil.isValidKeyIdentifier(keyIdentifier)) {
         return keyIdentifier;
       } else {
         return "Unidentified";

@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5798 $"/>
-		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 6355 $"/>
+		<generation date="$Date: 2012-01-14 06:15:06 +0100 (Sat, 14 Jan 2012) $"/>
 		<language type="rw"/>
 	</identity>
 	<localeDisplayNames>
@@ -125,10 +125,10 @@
 		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
 	</characters>
 	<delimiters>
-		<quotationStart>‘</quotationStart>
-		<quotationEnd>’</quotationEnd>
-		<alternateQuotationStart>«</alternateQuotationStart>
-		<alternateQuotationEnd>»</alternateQuotationEnd>
+		<quotationStart>«</quotationStart>
+		<quotationEnd>»</quotationEnd>
+		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<calendars>

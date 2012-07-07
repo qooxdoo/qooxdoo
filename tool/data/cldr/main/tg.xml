@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5806 $"/>
-		<generation date="$Date: 2011-05-02 13:42:02 -0500 (Mon, 02 May 2011) $"/>
+		<version number="$Revision: 6610 $"/>
+		<generation date="$Date: 2012-02-27 01:50:26 +0100 (Mon, 27 Feb 2012) $"/>
 		<language type="tg"/>
 	</identity>
 	<localeDisplayNames>
@@ -57,7 +57,8 @@
 			<language type="pt_BR" draft="unconfirmed">Португалӣ (Бразилия)</language>
 			<language type="ro" draft="unconfirmed">Руминӣ</language>
 			<language type="ru" draft="unconfirmed">Русӣ</language>
-			<language type="sv" draft="unconfirmed">Шведӣ</language>
+            <language type="sv" draft="unconfirmed">Шведӣ</language>
+            <language type="tg" draft="unconfirmed">Тоҷикӣ</language>
 			<language type="ug" draft="unconfirmed">Ӯйғурӣ</language>
 			<language type="uk" draft="unconfirmed">Украинӣ</language>
 			<language type="ur" draft="unconfirmed">Урду</language>

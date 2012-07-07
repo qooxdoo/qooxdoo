@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+ #ignore(environment)
+ ************************************************************************ */
+
 /**
  * Automated GUI test of a qooxdoo application using QxSelenium. Provides access
  * to the AUT's log messages and any exceptions caught by qooxdoo's global error
@@ -366,7 +370,7 @@ qx.Class.define("simulator.Simulation", {
     {
       if (this.__options.disposerDebug) {
         var getDisposerDebugLevel = simulator.Simulation.AUTWINDOW
-          + ".qx.core.Environment.get('qx.disposerDebugLevel')";
+          + ".qx.core.Environment.get('qx.debug.dispose.level')";
         var disposerDebugLevel = simulator.QxSelenium.getInstance().getEval(getDisposerDebugLevel);
 
         if (parseInt(disposerDebugLevel, 10) > 0 ) {

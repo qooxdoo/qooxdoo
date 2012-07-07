@@ -20,11 +20,11 @@
 /**
  * Abstract class to compute the position of an object on one axis.
  */
-qx.Class.define("qx.util.placement.AbstractAxis",
+qx.Bootstrap.define("qx.util.placement.AbstractAxis",
 {
-  extend : qx.core.Object,
+  extend : Object,
 
-  members :
+  statics :
   {
     /**
      * Computes the start of the object on the axis

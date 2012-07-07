@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.form.Resetter",
       if (this._supportsValue(item)) {
         return item.getValue();
       } else if (
-        this.__supportsSingleSelection(item) || 
+        this.__supportsSingleSelection(item) ||
         this.__supportsDataBindingSelection(item)
       ) {
         return item.getSelection();

@@ -70,11 +70,11 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     // Create form element with textarea as conduit for request data.
     // The target of the form is the hidden iframe, which means the response
     // coming back from the server is written into the iframe.
-    this.__form = qx.bom.Element.create("form", {id: vFormName, name: vFormName, target: vFrameName});
+    this.__form = qx.dom.Element.create("form", {id: vFormName, name: vFormName, target: vFrameName});
     qx.bom.element.Style.set(this.__form, "display", "none");
     qx.dom.Element.insertEnd(this.__form, qx.dom.Node.getBodyElement(document));
 
-    this.__data = qx.bom.Element.create("textarea", {id: "_data_", name: "_data_"});
+    this.__data = qx.dom.Element.create("textarea", {id: "_data_", name: "_data_"});
     qx.dom.Element.insertEnd(this.__data, this.__form);
 
     // Finally, attach iframe to DOM and add listeners
@@ -511,7 +511,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       {
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (qx.core.Environment.get("qx.ioRemoteDebug")) {
+          if (qx.core.Environment.get("qx.debug.io.remote")) {
             this.warn("Transfer not complete, ignoring content!");
           }
         }
@@ -521,7 +521,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.ioRemoteDebug")) {
+        if (qx.core.Environment.get("qx.debug.io.remote")) {
           this.debug("Returning content for responseType: " + this.getResponseType());
         }
       }
@@ -533,7 +533,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
         case "text/plain":
           if (qx.core.Environment.get("qx.debug"))
           {
-            if (qx.core.Environment.get("qx.ioRemoteDebugData"))
+            if (qx.core.Environment.get("qx.debug.io.remote.data"))
             {
               this.debug("Response: " + this._responseContent);
             }
@@ -545,7 +545,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
           vText = this.getIframeHtmlContent();
           if (qx.core.Environment.get("qx.debug"))
           {
-            if (qx.core.Environment.get("qx.ioRemoteDebugData"))
+            if (qx.core.Environment.get("qx.debug.io.remote.data"))
             {
               this.debug("Response: " + this._responseContent);
             }
@@ -557,7 +557,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
           vText = this.getIframeHtmlContent();
           if (qx.core.Environment.get("qx.debug"))
           {
-            if (qx.core.Environment.get("qx.ioRemoteDebugData"))
+            if (qx.core.Environment.get("qx.debug.io.remote.data"))
             {
               this.debug("Response: " + this._responseContent);
             }
@@ -573,7 +573,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
           vText = this.getIframeHtmlContent();
           if (qx.core.Environment.get("qx.debug"))
           {
-            if (qx.core.Environment.get("qx.ioRemoteDebugData"))
+            if (qx.core.Environment.get("qx.debug.io.remote.data"))
             {
               this.debug("Response: " + this._responseContent);
             }
@@ -589,7 +589,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
           vText = this.getIframeDocument();
           if (qx.core.Environment.get("qx.debug"))
           {
-            if (qx.core.Environment.get("qx.ioRemoteDebugData"))
+            if (qx.core.Environment.get("qx.debug.io.remote.data"))
             {
               this.debug("Response: " + this._responseContent);
             }

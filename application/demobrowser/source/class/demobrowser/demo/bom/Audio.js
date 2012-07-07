@@ -25,6 +25,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.bom.Audio",
 {
   extend : qx.application.Standalone,

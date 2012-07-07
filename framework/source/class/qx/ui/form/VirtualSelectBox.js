@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
 
     // overridden
-    syncWidget : function()
+    syncWidget : function(jobs)
     {
       this._removeBindings();
       this._addBindings();

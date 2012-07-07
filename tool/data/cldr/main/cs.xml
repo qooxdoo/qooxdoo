@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5984 $"/>
-		<generation date="$Date: 2011-07-07 16:27:19 -0500 (Thu, 07 Jul 2011) $"/>
+		<version number="$Revision: 6546 $"/>
+		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
 		<language type="cs"/>
 	</identity>
 	<localeDisplayNames>
@@ -611,7 +611,6 @@
 			<territory type="054">Melanésie</territory>
 			<territory type="057">Mikronésie oblast</territory>
 			<territory type="061">Polynésie</territory>
-			<territory type="062">Jižní a střední Asie</territory>
 			<territory type="142">Asie</territory>
 			<territory type="143">Střední Asie</territory>
 			<territory type="145">Západní Asie</territory>
@@ -619,10 +618,7 @@
 			<territory type="151">Východní Evropa</territory>
 			<territory type="154">Severní Evropa</territory>
 			<territory type="155">Západní Evropa</territory>
-			<territory type="172" draft="contributed">Společenství nezávislých států</territory>
-			<territory type="200">Československo</territory>
 			<territory type="419">Latinská Amerika</territory>
-			<territory type="830">Normanské ostrovy</territory>
 			<territory type="AC">Ostrov Ascension</territory>
 			<territory type="AD">Andorra</territory>
 			<territory type="AE">Spojené arabské emiráty</territory>
@@ -911,7 +907,6 @@
 			<type type="coptic" key="calendar">Koptský kalendář</type>
 			<type type="deva" key="numbers">Číslice písma dévanágarí</type>
 			<type type="dictionary" key="collation">Slovníkové řazení</type>
-			<type type="direct" key="collation">Přímé řazení</type>
 			<type type="ducet" key="collation">Výchozí řazení Unicode</type>
 			<type type="ethi" key="numbers">Etiopské číslice</type>
 			<type type="ethiopic" key="calendar">Etiopský kalendář</type>
@@ -982,10 +977,24 @@
 			<codePattern type="territory">Region: {0}</codePattern>
 		</codePatterns>
 	</localeDisplayNames>
-	<layout>
-		<inList>titlecase-firstword</inList>
-		<inText type="languages">lowercase-words</inText>
-	</layout>
+	<contextTransforms>
+		<contextTransformUsage type="day-format-except-narrow">
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="day-standalone-except-narrow">
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="languages">
+			<contextTransform type="stand-alone">titlecase-firstword</contextTransform>
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="month-format-except-narrow">
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="month-standalone-except-narrow">
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+	</contextTransforms>
 	<characters>
 		<exemplarCharacters>[a á b c č d ď e é ě f g h {ch} i í j k l m n ň o ó p q r ř s š t ť u ú ů v w x y ý z ž]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary" draft="contributed">[à â ä ã æ ç è ê ë ì î ï ĺ ñ ò ô ö ø œ ù û ü ÿ]</exemplarCharacters>
@@ -1026,16 +1035,16 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d" draft="contributed">d.</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="contributed">EEE, d.</dateFormatItem>
+						<dateFormatItem id="Ed" draft="contributed">E, d.</dateFormatItem>
 						<dateFormatItem id="Md" draft="contributed">d. M.</dateFormatItem>
 						<dateFormatItem id="MEd" draft="contributed">E, d. M.</dateFormatItem>
 						<dateFormatItem id="MMMd" draft="contributed">d. M.</dateFormatItem>
 						<dateFormatItem id="MMMEd" draft="contributed">E, d. M.</dateFormatItem>
 						<dateFormatItem id="y" draft="contributed">y G</dateFormatItem>
 						<dateFormatItem id="yM" draft="contributed">LLLL y GGGGG</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">EEE, d. M. y GGGGG</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="contributed">E, d. M. y GGGGG</dateFormatItem>
 						<dateFormatItem id="yMMM" draft="contributed">LLLL y G</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="contributed">EEE, d. M. y G</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="contributed">E, d. M. y G</dateFormatItem>
 						<dateFormatItem id="yQ" draft="contributed">Q., y GGGGG</dateFormatItem>
 						<dateFormatItem id="yQQQ" draft="contributed">QQQ, y G</dateFormatItem>
 					</availableFormats>
@@ -1045,22 +1054,22 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>EEEE, d. Ml. y'x'G</pattern>
+							<pattern>EEEE, d. M. y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern>d. Ml. y'x'G</pattern>
+							<pattern>d. M. y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern>d. Ml. y'x'G</pattern>
+							<pattern>d. M. y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>d. Ml. y'x'G</pattern>
+							<pattern>d. M. y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -1287,7 +1296,7 @@
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern>d.M.yyyy</pattern>
+							<pattern>d. M. yyyy</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -1321,20 +1330,20 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d.</dateFormatItem>
-						<dateFormatItem id="EEEd">EEE, d.</dateFormatItem>
+						<dateFormatItem id="Ed">E, d.</dateFormatItem>
 						<dateFormatItem id="H">H</dateFormatItem>
 						<dateFormatItem id="Hm">H:mm</dateFormatItem>
 						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
-						<dateFormatItem id="Md">d.M</dateFormatItem>
-						<dateFormatItem id="MEd">E, d.M</dateFormatItem>
+						<dateFormatItem id="Md">d. M.</dateFormatItem>
+						<dateFormatItem id="MEd">E, d. M.</dateFormatItem>
 						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, d. MMM</dateFormatItem>
 						<dateFormatItem id="yM">M.y</dateFormatItem>
-						<dateFormatItem id="yMd">d.M.y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d.M.y</dateFormatItem>
+						<dateFormatItem id="yMd">d. M. y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d. M. y</dateFormatItem>
 						<dateFormatItem id="yMMM">LLL y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d. MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d. MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d. MMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q yyyy</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
@@ -1491,15 +1500,15 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d" draft="contributed">d.</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="contributed">EEE, d.</dateFormatItem>
+						<dateFormatItem id="Ed" draft="contributed">E, d.</dateFormatItem>
 						<dateFormatItem id="Md" draft="contributed">d. M.</dateFormatItem>
 						<dateFormatItem id="MEd" draft="contributed">E, d. M.</dateFormatItem>
 						<dateFormatItem id="MMMd" draft="contributed">d. MMM.</dateFormatItem>
 						<dateFormatItem id="MMMEd" draft="contributed">E, d. MMM.</dateFormatItem>
 						<dateFormatItem id="yM" draft="contributed">MM/y</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">EEE, d. M. y</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="contributed">E, d. M. y</dateFormatItem>
 						<dateFormatItem id="yMMM" draft="contributed">LLL y</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="contributed">EEE, d. MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="contributed">E, d. MMM y</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -1529,7 +1538,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d" draft="contributed">d.</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="contributed">EEE, d.</dateFormatItem>
+						<dateFormatItem id="Ed" draft="contributed">E, d.</dateFormatItem>
 						<dateFormatItem id="Md" draft="contributed">d. M.</dateFormatItem>
 						<dateFormatItem id="MEd" draft="contributed">E, d. M.</dateFormatItem>
 						<dateFormatItem id="MMMd" draft="contributed">d. M.</dateFormatItem>
@@ -1569,7 +1578,7 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d" draft="contributed">d.</dateFormatItem>
-						<dateFormatItem id="EEEd" draft="contributed">EEE, d.</dateFormatItem>
+						<dateFormatItem id="Ed" draft="contributed">E, d.</dateFormatItem>
 						<dateFormatItem id="Md" draft="contributed">d. M.</dateFormatItem>
 						<dateFormatItem id="MEd" draft="contributed">E, d. M.</dateFormatItem>
 						<dateFormatItem id="MMMd" draft="contributed">d. M.</dateFormatItem>
@@ -2727,40 +2736,42 @@
 			</zone>
 			<metazone type="Alaska">
 				<long>
-					<generic draft="contributed">Aljašský čas</generic>
+					<generic>Aljašský čas</generic>
 					<standard>Aljašský standardní čas</standard>
 					<daylight>Aljašský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Amazon">
 				<long>
-					<generic draft="contributed">Amazonský čas</generic>
+					<generic>Amazonský čas</generic>
+					<standard>Amazonský standardní čas</standard>
+					<daylight>Amazonský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Central">
 				<long>
-					<generic draft="contributed">Centrální čas</generic>
+					<generic>Centrální čas</generic>
 					<standard>Centrální standardní čas</standard>
 					<daylight>Centrální letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Eastern">
 				<long>
-					<generic draft="contributed">Východní čas</generic>
-					<standard draft="contributed">Východní standardní čas</standard>
-					<daylight draft="contributed">Východní letní čas</daylight>
+					<generic>Východní čas</generic>
+					<standard>Východní standardní čas</standard>
+					<daylight>Východní letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Mountain">
 				<long>
-					<generic draft="contributed">Horské časové pásmo</generic>
+					<generic>Horský čas</generic>
 					<standard>Horský standardní čas</standard>
 					<daylight>Horský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Pacific">
 				<long>
-					<generic draft="contributed">Tichomořský čas</generic>
+					<generic>Pacifický čas</generic>
 					<standard>Pacifický standardní čas</standard>
 					<daylight>Pacifický letní čas</daylight>
 				</long>
@@ -2768,27 +2779,27 @@
 			<metazone type="Anadyr">
 				<long>
 					<generic draft="contributed">Anadyrský čas</generic>
-					<standard draft="contributed">Anadyrský čas</standard>
+					<standard draft="contributed">Anadyrský standardní čas</standard>
 					<daylight draft="contributed">Anadyrský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina">
 				<long>
 					<generic draft="contributed">Argentinský čas</generic>
-					<standard draft="contributed">Argentinský čas</standard>
+					<standard draft="contributed">Argentinský standardní čas</standard>
 					<daylight draft="contributed">Argentinský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina_Western">
 				<long>
 					<generic draft="contributed">Západoargentinský čas</generic>
-					<standard draft="contributed">Západoargentinský čas</standard>
+					<standard draft="contributed">Západoargentinský standardní čas</standard>
 					<daylight draft="contributed">Západoargentinský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Atlantic">
 				<long>
-					<generic draft="contributed">Atlantický čas</generic>
+					<generic>Atlantický čas</generic>
 					<standard>Atlantický standardní čas</standard>
 					<daylight>Atlantický letní čas</daylight>
 				</long>
@@ -2823,31 +2834,35 @@
 			</metazone>
 			<metazone type="Brasilia">
 				<long>
-					<generic draft="contributed">Čas města Brasilia</generic>
-					<standard draft="contributed">Čas města Brasilia</standard>
-					<daylight draft="contributed">Brasilia – letní čas</daylight>
+					<generic draft="contributed">Brasilia čas</generic>
+					<standard draft="contributed">Brasilia standardní čas</standard>
+					<daylight draft="contributed">Brasilia letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="China">
 				<long>
+					<generic>Čínský čas</generic>
 					<standard>Čínský standardní čas</standard>
+					<daylight>Čínský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Choibalsan">
 				<long>
 					<generic draft="contributed">Čojbalsanský čas</generic>
-					<standard draft="contributed">Čojbalsanský čas</standard>
+					<standard draft="contributed">Čojbalsanský standardní čas</standard>
 					<daylight draft="contributed">Čojbalsanský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
+					<generic>Středoevropský čas</generic>
 					<standard>Středoevropský standardní čas</standard>
 					<daylight>Středoevropský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
+					<generic>Východoevropský čas</generic>
 					<standard>Východoevropský standardní čas</standard>
 					<daylight>Východoevropský letní čas</daylight>
 				</long>
@@ -2860,12 +2875,14 @@
 			<metazone type="Hawaii_Aleutian">
 				<long>
 					<generic draft="contributed">Havajsko-aleutský čas</generic>
+					<standard draft="contributed">Havajsko-aleutský standardní čas</standard>
+					<daylight draft="contributed">Havajsko-aleutský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
 					<generic draft="contributed">Hovdský čas</generic>
-					<standard draft="contributed">Hovdský čas</standard>
+					<standard draft="contributed">Hovdský standardní čas</standard>
 					<daylight draft="contributed">Hovdský letní čas</daylight>
 				</long>
 			</metazone>
@@ -2887,18 +2904,20 @@
 			<metazone type="Irkutsk">
 				<long>
 					<generic draft="contributed">Irkutský čas</generic>
-					<standard draft="contributed">Irkutský čas</standard>
+					<standard draft="contributed">Irkutský standardní čas</standard>
 					<daylight draft="contributed">Irkutský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Israel">
 				<long>
+					<generic>Izraelský čas</generic>
 					<standard>Izraelský standardní čas</standard>
 					<daylight>Izraelský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Japan">
 				<long>
+					<generic>Japonský čas</generic>
 					<standard>Japonský standardní čas</standard>
 					<daylight>Japonský letní čas</daylight>
 				</long>
@@ -2906,28 +2925,24 @@
 			<metazone type="Kamchatka">
 				<long>
 					<generic draft="contributed">Kamčatský čas</generic>
-					<standard draft="contributed">Petropavlovsk-kamčatský čas</standard>
-					<daylight draft="contributed">Petropavlovsk-kamčatský – letní čas</daylight>
+					<standard draft="contributed">Petropavlovsk-kamčatský standardní čas</standard>
+					<daylight draft="contributed">Petropavlovsk-kamčatský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
-					<generic draft="contributed">Východokazachstánský čas</generic>
-					<standard draft="contributed">Východokazachstánský standardní čas</standard>
-					<daylight draft="contributed">Východokazachstánský letní čas</daylight>
+					<standard draft="contributed">Východokazachstánský čas</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
-					<generic draft="contributed">Západokazachstánský čas</generic>
-					<standard draft="contributed">Západokazachstánský standardní čas</standard>
-					<daylight draft="contributed">Západokazachstánský letní čas</daylight>
+					<standard draft="contributed">Západokazachstánský čas</standard>
 				</long>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
 					<generic draft="contributed">Krasnojarský čas</generic>
-					<standard draft="contributed">Krasnojarský čas</standard>
+					<standard draft="contributed">Krasnojarský standardní čas</standard>
 					<daylight draft="contributed">Krasnojarský letní čas</daylight>
 				</long>
 			</metazone>
@@ -2946,14 +2961,14 @@
 			<metazone type="Magadan">
 				<long>
 					<generic draft="contributed">Magadanský čas</generic>
-					<standard draft="contributed">Magadanský čas</standard>
+					<standard draft="contributed">Magadanský standardní čas</standard>
 					<daylight draft="contributed">Magadanský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic draft="contributed">Mongolský čas</generic>
-					<standard draft="contributed">Ulánbátarský čas</standard>
+					<generic draft="contributed">Ulánbátarský čas</generic>
+					<standard draft="contributed">Ulánbátarský standardní čas</standard>
 					<daylight draft="contributed">Ulánbátarský letní čas</daylight>
 				</long>
 			</metazone>
@@ -2966,71 +2981,71 @@
 			</metazone>
 			<metazone type="Newfoundland">
 				<long>
-					<generic draft="contributed">Newfoundlandský čas</generic>
+					<generic>Newfoundlandský čas</generic>
 					<standard>Newfoundlandský standardní čas</standard>
 					<daylight>Newfoundlandský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Noronha">
 				<long>
-					<generic draft="contributed">Noronhský čas</generic>
-					<standard draft="contributed">Čas na ostrově Fernando de Noronha</standard>
+					<generic draft="contributed">Čas na ostrově Fernando de Noronha</generic>
+					<standard draft="contributed">Standardní čas na ostrově Fernando de Noronha</standard>
 					<daylight draft="contributed">Letní čas na ostrově Fernando de Noronha</daylight>
 				</long>
 			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
 					<generic draft="contributed">Novosibirský čas</generic>
-					<standard draft="contributed">Novosibirský čas</standard>
+					<standard draft="contributed">Novosibirský standardní čas</standard>
 					<daylight draft="contributed">Novosibirský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
 					<generic draft="contributed">Omský čas</generic>
-					<standard draft="contributed">Omský čas</standard>
+					<standard draft="contributed">Omský standardní čas</standard>
 					<daylight draft="contributed">Omský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
 					<generic draft="contributed">Sachalinský čas</generic>
-					<standard draft="contributed">Sachalinský čas</standard>
+					<standard draft="contributed">Sachalinský standardní čas</standard>
 					<daylight draft="contributed">Sachalinský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
 					<generic draft="contributed">Samarský čas</generic>
-					<standard draft="contributed">Samarský čas</standard>
+					<standard draft="contributed">Samarský standardní čas</standard>
 					<daylight draft="contributed">Samarský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
 					<generic draft="contributed">Vladivostocký čas</generic>
-					<standard draft="contributed">Vladivostocký čas</standard>
+					<standard draft="contributed">Vladivostocký standardní čas</standard>
 					<daylight draft="contributed">Vladivostocký letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
 					<generic draft="contributed">Volgogradský čas</generic>
-					<standard draft="contributed">Volgogradský čas</standard>
+					<standard draft="contributed">Volgogradský standardní čas</standard>
 					<daylight draft="contributed">Volgogradský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
 					<generic draft="contributed">Jakutský čas</generic>
-					<standard draft="contributed">Jakutský čas</standard>
+					<standard draft="contributed">Jakutský standardní čas</standard>
 					<daylight draft="contributed">Jakutský letní čas</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
 					<generic draft="contributed">Jekatěrinburgský čas</generic>
-					<standard draft="contributed">Jekatěrinburgský čas</standard>
+					<standard draft="contributed">Jekatěrinburgský standardní čas</standard>
 					<daylight draft="contributed">Jekatěrinburgský letní čas</daylight>
 				</long>
 			</metazone>
@@ -3049,7 +3064,7 @@
 			<infinity draft="contributed">∞</infinity>
 			<nan draft="contributed">NaN</nan>
 		</symbols>
-		<decimalFormats>
+		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern>#,##0.###</pattern>
@@ -3072,21 +3087,21 @@
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats>
+		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
 					<pattern>#E0</pattern>
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats>
+		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
 					<pattern>#,##0 %</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats>
+		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>

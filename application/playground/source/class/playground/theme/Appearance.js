@@ -21,7 +21,7 @@
  */
 qx.Theme.define("playground.theme.Appearance",
 {
-  extend : qx.theme.modern.Appearance,
+  extend : qx.theme.indigo.Appearance,
 
   appearances :
   {
@@ -30,39 +30,43 @@ qx.Theme.define("playground.theme.Appearance",
       style : function(states)
       {
         return {
-          font : "header",
+          font : "headline",
           textColor : "text-selected",
-          padding : [6, 12, 0, 12],
-          decorator : "app-header"
+          backgroundColor: "background-selected-dark",
+          decorator: "app-header",
+          padding : [10, 10, 0, 10]
         };
       }
     },
 
     "modeButton" :
     {
-      include : "button",
-      alias : "button",
+      include : "tabview-page/button",
+      alias : "tabview-page/button",
 
       style : function(states, superStyles)
       {
-        var decorator;
-        if (states.checked) {
-          decorator = "button";
-        }  else {
-          decorator = "button-checked";
-        }
-
-        // feature detect if we should use the CSS decorators
-        if (qx.core.Environment.get("css.borderradius") &&
-          qx.core.Environment.get("css.gradient.linear")) {
-            decorator += "-css";
-        }
         return {
           font: states.checked ? "bold" : "default",
-          textColor: "black",
-          decorator : decorator,
-          padding: [3, 35, 22, 35],
-          marginBottom: -20
+          textColor: "white",
+          decorator : states.checked ? "mode-select-tab" : null,
+          padding: [2, 15, 6, 15],
+          marginBottom: -5,
+          marginTop: 8
+        };
+      }
+    },
+
+
+    "sample-list" :
+    {
+      include : "list",
+      alias : "list",
+
+      style : function(states) {
+        return {
+          decorator: "separator-vertical",
+          padding : 0
         };
       }
     }

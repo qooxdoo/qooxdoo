@@ -25,7 +25,7 @@ qx.Class.define("qx.test.ui.root.Inline",
   {
     setUp : function()
     {
-      this.__inlineIsleElement = qx.bom.Element.create("div");
+      this.__inlineIsleElement = qx.dom.Element.create("div");
       var inlineStyle = "position:absolute;top:50px;left:50px;width:200px;height:200px";
       qx.bom.element.Style.setCss(this.__inlineIsleElement, inlineStyle);
 

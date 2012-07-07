@@ -26,7 +26,7 @@
 import sys, os, types, re, string, time
 from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.Script     import Script
-from ecmascript.frontend.tree       import Node, NodeAccessException
+from ecmascript.frontend.tree       import Node, NODE_VARIABLE_TYPES
 from ecmascript.transform.optimizer import variantoptimizer
 from generator.code.DependencyItem  import DependencyItem
 from misc import util
@@ -279,12 +279,12 @@ class MClassDependencies(object):
 
     # ----------------------------------------------------------------------------------
     # -- all methods below this line up to _analyzeClassDepsNode() are only used by that
-    
+
     ##
     # Only applies to qx.*.define calls, checks for a 'defer' child in class map
     def checkDeferNode(self, assembled, node):
         deferNode = None
-        if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define" or assembled == "qx.List.define":
+        if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define" or assembled == "q.define":
             if node.hasParentContext("call/operand"):
                 deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
         return deferNode
@@ -292,7 +292,7 @@ class MClassDependencies(object):
 
     def isUnknownClass(self, assembled, node, fileId):
         # check name in 'new ...' position
-        if (node.hasParentContext("instantiation/*/*/operand")
+        if (treeutil.isNEWoperand(node)
         # check name in "'extend' : ..." position
         or (node.hasParentContext("keyvalue/*") and node.parent.parent.get('key') == 'extend')):
             # skip built-in classes (Error, document, RegExp, ...)
@@ -308,7 +308,7 @@ class MClassDependencies(object):
         
 
     ##
-    # Checks if the required class is known, and the reference to is in a
+    # Checks if the required class is known, and the reference to it is in a
     # context that is executed at load-time
     def followCallDeps(self, node, fileId, depClassName, inLoadContext):
         
@@ -316,10 +316,8 @@ class MClassDependencies(object):
             pchn = node.getParentChain()
             pchain = "/".join(pchn)
             return (
-                #pchain.endswith("keyvalue/value/call/operand")               # limited version
-                #or pchain.endswith("instantiation/expression/call/operand")  # limited version
-                pchain.endswith("call/operand")                 # it's a function call
-                or pchain.endswith("instantiation/expression")  # like "new Date" (no parenthesies, but constructor called anyway)
+                pchain.endswith("call/operand")  # it's a function call
+                or treeutil.isNEWoperand(node)   # it's a 'new' operation
                 )
 
         if (inLoadContext
@@ -346,7 +344,7 @@ class MClassDependencies(object):
     # - <recurse> seems artificial, and should be removed when cleaning up dependencies1()
     def _analyzeClassDepsNode(self, node, depsList, inLoadContext, inDefer=False):
 
-        if node.type == "variable":
+        if node.isVar():
             if node.dep:
                 depsList.append(node.dep)
                 return
@@ -370,14 +368,17 @@ class MClassDependencies(object):
                     className = self.id
                 elif inDefer and className in DEFER_ARGS:
                     className = self.id
+                #if self.id=="feedreader.model.FeedFolder" and className=="qx.data.Array":
+                #    import pydb; pydb.debugger()
                 if not classAttribute:  # see if we have to provide 'construct'
-                    if node.hasParentContext("instantiation/*/*/operand"): # 'new ...' position
+                    if treeutil.isNEWoperand(node):
                         classAttribute = 'construct'
                 # Can't do the next; it's catching too many occurrences of 'getInstance' that have
                 # nothing to do with the singleton 'getInstance' method (just grep in the framework)
                 #elif classAttribute == 'getInstance':  # erase 'getInstance' and introduce 'construct' dependency
                 #    classAttribute = 'construct'
-                depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1), inLoadContext)
+                line = node.get('line',0)
+                depsItem = DependencyItem(className, classAttribute, self.id, line if line else -1, inLoadContext)
                 #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
                 if node.hasParentContext("call/operand"): # it's a function call
                     depsItem.isCall = True  # interesting when following transitive deps
@@ -447,27 +448,51 @@ class MClassDependencies(object):
 
     def _isInterestingReference(self, assembled, node, fileId, inDefer):
 
+        ##
+        # try to qualify the syntactical context of the given variable node (call, instantiation,
+        # ...); also, filter for the "head" symbol of a complex var expression (like 'a.b.c').
         def checkNodeContext(node):
-            context = 'interesting' # every context is interesting, mybe we get more specific
-            #context = ''
+            context = 'interesting' # every context is interesting, maybe we get more specific or reset to ''
 
-            # filter out the occurrences like 'c' in a.b().c
-            myFirst = node.getFirstChild(mandatory=False, ignoreComments=True)
-            if not treeutil.checkFirstChainChild(myFirst): # see if myFirst is the first identifier in a chain
-                context = ''
+            # don't treat label references
+            if node.parent.type in ("break", "continue"):
+                return ''
 
-            # filter out variable in lval position -- Nope! (qx.ui.form.ListItem.prototype.setValue = 
-            # function(..){...};)
-            #elif (node.hasParentContext("assignment/left")):
+            # as _isInterestingReference is run on *any* var node while
+            # traversing the tree intermediate occurrences var nodes like
+            # in 'a.b().c[d].e' are run through it as well; but it is enough to treat
+            # the longest left-most expression, so we restrict ourself to the "head" var
+            # expression like 'a.b' here, and skip other occurrences (like 'c', 'd'
+            # and 'e' in the example)
+            #myFirst = node.getFirstChild(mandatory=False, ignoreComments=True)
+            #if not treeutil.checkFirstChainChild(myFirst): # see if myFirst is the first identifier in a chain
             #    context = ''
 
-            # fitler out a.b[c] -- Nope! E.g. foo.ISO_8601_FORMAT might carry further dependencies
-            # (like 'new qx.util.format.DateFormat("yyyy-MM-dd")')
-            elif (treeutil.selectNode(node, "accessor")):
-                context = 'accessor'
+            leftmostChild = treeutil.findLeftmostChild(node)  # works for leafs too
+
+            # get the top-most dotaccessor of this identifier/constant
+            if leftmostChild.hasParentContext("dotaccessor/*"): # operand of a dotaccessor
+                localTop = leftmostChild.parent.parent.getHighestPureDotParent()
+            else:
+                localTop = leftmostChild 
+            
+            # testing for the 'a.b' in 'a.b().c[d].e'; bare 'a' in 'a' is also caught
+            if localTop != node:
+                context = ''
+
+            # '/^\s*$/.test(value)' or '[].push' or '{}.toString'
+            elif leftmostChild.type in ("constant", "array", "map"):
+                context = ''
+
+            ## testing for the 'a' in 'a.b().c[d].e'
+            #elif not treeutil.checkFirstChainChild(treeutil.findLeftmostChild(localTop)):
+            #    context = ''
 
             # check name in 'new ...' position
-            elif (node.hasParentContext("instantiation/*/*/operand")):
+            elif ((node.hasParentContext("operation/first") and node.parent.parent.get("operator",0) == "new")
+                or (node.hasParentContext("operation/first/call/operand") and
+                    node.parent.parent.parent.parent.get("operator",0) == "new") # WISH: hasParentContext("operation[@operator='new']/...")
+                ):
                 context = 'new'
 
             # check name in call position
@@ -490,7 +515,7 @@ class MClassDependencies(object):
             if GlobalSymbolsCombinedPatt.search(assembled):
                 return False
             firstDot = assembled.find(".")
-            if firstDot:
+            if firstDot > -1:
                 firstElement = assembled[:firstDot]
             else:
                 firstElement = assembled
@@ -705,7 +730,7 @@ class MClassDependencies(object):
         includeVal = classMap.get('include', None)
         if includeVal:
             # 'include' value according to Class spec.
-            if includeVal.type in ('variable', 'array'):
+            if includeVal.type in NODE_VARIABLE_TYPES + ('array',):
                 includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
             
             # assume qx.core.Environment.filter() call
@@ -717,7 +742,7 @@ class MClassDependencies(object):
                     #if key not in variants or (key in variants and bool(variants[key]):
                     # map value has to be value/variable
                     variable =  node.children[0]
-                    assert variable.type == "variable"
+                    assert variable.isVar()
                     symbol, isComplete = treeutil.assembleVariable(variable)
                     assert isComplete
                     includeSymbols.append(symbol)

@@ -1,8 +1,28 @@
 {
-  // FRAMEWORK IMAGE CLIPPING AND COMBINING JOBS
+  "name" : "FRAMEWORK IMAGE CLIPPING AND COMBINING JOBS",
+  
+  "include" : 
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/image.json",
+      "as"   : "image"
+    }
+  ],
+
+  "let"  :
+  {
+    "QOOXDOO_PATH" : ".."
+  },
+
+  "export": 
+  [
+    "image-clipping",
+    "image-combine"
+  ],
+
   "jobs" :
   {
-    "common" :
+    "image-common" :
     {
       "let" :
       {
@@ -20,7 +40,7 @@
 
     "image-clipping" :
     {
-      "extend" : ["common"],
+      "extend" : ["image-common", "image::clipping"],
 
       "slice-images" :
       {
@@ -203,7 +223,7 @@
 
     "image-combine" :
     {
-      "extend" : ["common"],
+      "extend" : ["image-common", "image::combining"],
 
       "combine-images" :
       {

@@ -1,6 +1,8 @@
 Development
 ***********
 
+This section touches on various aspects and tools related to development activities with qooxdoo. Topics range from the various qooxdoo application types, over discussions of performance, unit testing and debugging, to internationalization and parts, a specific means to partition and lazily load application components.
+
 Application Creation
 ====================
 
@@ -40,6 +42,15 @@ Testing
    development/frame_apps_testrunner
    development/simulator
    development/simulator_locators
+
+
+Code Organisation
+=================
+
+.. toctree::
+   :maxdepth: 1
+
+   development/library_custom
 
 
 Parts

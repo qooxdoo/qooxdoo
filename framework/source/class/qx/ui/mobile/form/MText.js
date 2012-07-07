@@ -23,8 +23,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The mixin contains all functionality to provide common properties for
  * text fields.
  */

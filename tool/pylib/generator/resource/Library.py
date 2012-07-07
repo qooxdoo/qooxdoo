@@ -23,7 +23,6 @@
 import os, re, sys, unicodedata as unidata
 
 from misc                         import filetool, Path
-from misc.NameSpace               import NameSpace
 from ecmascript.frontend          import lang, treeutil
 from generator.code.Class         import Class
 from generator.code.qcEnvClass    import qcEnvClass
@@ -54,12 +53,15 @@ class Library(object):
 
         #self._init_from_manifest(libconfig)
         self._libconfig = libconfig
+        self.manipath = libconfig['manifest'] # init self.manipath for compares
+        if not self.manipath.startswith("contrib://"):
+            self.manipath = context.config.absPath(self.manipath)
 
         #TODO: clean up the others later
-        self.categories = {}
-        self.categories["classes"] = {}
-        self.categories["translations"] = {}
-        self.categories["resources"] = {}
+        self.assets = {}
+        self.assets["classes"] = {}
+        self.assets["translations"] = {}
+        self.assets["resources"] = {}
         
         self.__youngest = (None, None) # to memoize youngest file in lib
 
@@ -88,26 +90,33 @@ class Library(object):
         self.encoding = manifest.encoding
         self.classPath = manifest.classpath
         self.classUri  = manifest.classpath # TODO: ???
-        self.translationPath = manifest.translation
         self.resourcePath = manifest.resource
         self.namespace = manifest.namespace
 
-        self.categories["classes"]["path"]  = self.classPath
-        self.categories["translations"]["path"]  = self.translationPath
-        self.categories["resources"]["path"] = self.resourcePath
+        self.assets["classes"]["path"]  = self.classPath
+        self.assets["translations"]["path"]  = manifest.translation
+        self.assets["resources"]["path"] = self.resourcePath
 
         if not self.namespace: 
             raise RuntimeError
-        self._checkNamespace()
+
+        # ensure translation dir
+        transPath = os.path.join(self.path, self.assets['translations']["path"])
+        if not os.path.isdir(transPath):
+            os.makedirs(transPath)
 
 
     def __repr__(self):
         return "<Library:%s>" % ((
-            self.manifest if hasattr(self, 'manifest')
+            self.manifest.path if hasattr(self, 'manifest')
             else self._libconfig['manifest']),)
 
     def __str__(self):
         return repr(self)
+
+
+    def __eq__(self, other):
+        return self.manipath == other.manipath
 
 
     def _download_contrib(self, contribUri):
@@ -161,18 +170,18 @@ class Library(object):
 
         youngFiles = {} # {timestamp: "filepath"}
         # for each interesting library part
-        for category in self.categories:
-            catPath = os.path.join(self.path, self.categories[category]["path"])
-            if category == "translation" and not os.path.isdir(catPath):
+        for category in self.assets:
+            catPath = os.path.join(self.path, self.assets[category]["path"])
+            if category == "translations" and not os.path.isdir(catPath):
                 continue
             # find youngest file
             file_, mtime = filetool.findYoungest(catPath)
             youngFiles[mtime] = file_
-            
+
         # also check the Manifest file
         file_, mtime = filetool.findYoungest(self.manipath)
         youngFiles[mtime] = file_
-        
+
         # and return the maximum of those
         youngest = sorted(youngFiles.keys())[-1]
         self.__youngest = (youngFiles[youngest], youngest) # ("filepath", mtime)
@@ -180,7 +189,7 @@ class Library(object):
         return self.__youngest
 
 
-    _codeExpr = re.compile(r'''qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["']((?u)[^"']+)["']''', re.M)
+    _codeExpr = re.compile(r'''(q|(qx.Bootstrap|qx.Class|qx.Mixin|qx.Interface|qx.Theme)).define\s*\(\s*["']((?u)[^"']+)["']''', re.M)
     _illegalIdentifierExpr = re.compile(lang.IDENTIFIER_ILLEGAL_CHARS)
     _ignoredDirEntries = re.compile(r'%s' % '|'.join(filetool.VERSIONCONTROL_DIR_PATTS), re.I)
     _docFilename = "__init__.js"
@@ -195,6 +204,9 @@ class Library(object):
     def getTranslations(self):
         return self._translations
 
+    def translationPathSuffix(self):
+        return self.assets['translations']['path']
+
     def getNamespace(self):
         return self.namespace
 
@@ -208,7 +220,7 @@ class Library(object):
         scanres = self._scanClassPath(timeOfLastScan)
         self._classes = scanres[0]
         self._docs    = scanres[1]
-        self._scanTranslationPath(os.path.join(self.path, self.translationPath))
+        self._scanTranslationPath(os.path.join(self.path, self.assets['translations']['path']))
         self._scanResourcePath(os.path.join(self.path, self.resourcePath))
 
         self._console.outdent()
@@ -241,8 +253,9 @@ class Library(object):
         return className
 
 
-    def _checkNamespace(self, ):
-        path = os.path.join(self.path, self.classPath)
+    def _checkNamespace(self, path=''):
+        if not path:
+            path = os.path.join(self.path, self.classPath)
         if not os.path.exists(path):
             raise ValueError("The given path does not contain a class folder: %s" % path)
 
@@ -263,31 +276,7 @@ class Library(object):
         if ns == None:
             raise ValueError("Namespace could not be detected!")
 
-
-    def _detectNamespace(self, path):
-        if not os.path.exists(path):
-            raise ValueError("The given path does not contain a class folder: %s" % path)
-
-        ns = None
-        files = os.listdir(path)
-
-        for entry in files:
-            if entry.startswith(".") or self._ignoredDirEntries.match(entry):
-                continue
-
-            full = os.path.join(path, entry)
-            if os.path.isdir(full):
-                if ns != None:
-                    raise ValueError("Multiple namespaces per library are not supported (%s,%s)" % (full, ns))
-
-                ns = entry
-
-        if ns == None:
-            raise ValueError("Namespace could not be detected!")
-
-        self._console.debug("Detected namespace: %s" % ns)
-        self.namespace = ns
-
+        return ns
 
 
     def scanResourcePath(self):
@@ -334,6 +323,9 @@ class Library(object):
 
                 self.resources.add(res)
 
+        self._console.indent()
+        self._console.debug("Found %s resources" % len(self.resources))
+        self._console.outdent()
         return
 
 
@@ -359,10 +351,10 @@ class Library(object):
         ##
         # check single subdirectory from class path
         def check_multiple_namespaces(classRoot):
-            for root, dirs, files in filetool.walk(classRoot):
-                if len(dirs) != 1:
-                    self._console.warn ("The class path should contain exactly one namespace: '%s'" % (classRoot,))
-                break
+            try:
+                self._checkNamespace(classRoot)
+            except ValueError:
+                self._console.warn ("The class path should contain exactly one namespace: '%s'" % (classRoot,))
 
         ##
         # check manifest namespace is on file system
@@ -490,6 +482,7 @@ class Library(object):
 
 
     def _scanTranslationPath(self, path):
+        self._translations = {}  # reset
         if not os.path.exists(path):
             self._console.warn("The given path does not contain a translation folder: %s" % path)
 
@@ -504,7 +497,7 @@ class Library(object):
 
             # Searching for files
             for fileName in files:
-                # Ignore non-script and dot files
+                # Ignore non-po and dot files
                 if os.path.splitext(fileName)[-1] != ".po" or fileName.startswith("."):
                     continue
 

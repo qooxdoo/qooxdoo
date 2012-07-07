@@ -20,6 +20,14 @@
 
 #asset(feedreader/css/website.css)
 
+#require(qx.module.Attribute)
+#require(qx.module.Animation)
+#require(qx.module.Event)
+#require(qx.module.Template)
+#require(qx.module.Manipulating)
+#require(qx.module.Traversing)
+#require(qx.module.Transform)
+
 ************************************************************************ */
 
 /**
@@ -28,19 +36,6 @@
 qx.Class.define("feedreader.WebsiteApplication",
 {
   extend : qx.application.Native,
-
-
-  statics : {
-    fadeOut : {duration : 300, keep: 100, keyFrames : {
-      0: {opacity: 1},
-      100: {opacity: 0}
-    }},
-
-    fadeIn : {duration : 300, keep: 100, keyFrames : {
-      0: {opacity: 0},
-      100: {opacity: 1}
-    }}
-  },
 
   members :
   {
@@ -63,7 +58,7 @@ qx.Class.define("feedreader.WebsiteApplication",
 
 
       // set the qooxdoo version
-      qx.bom.Collection.id("qxTag").setAttribute(
+      q("#qxTag").setAttribute(
         "html", "qooxdoo " + qx.core.Environment.get("qx.version")
       );
 
@@ -71,20 +66,20 @@ qx.Class.define("feedreader.WebsiteApplication",
       var model = new feedreader.model.Model();
 
       // get list and tree
-      var tree = qx.bom.Collection.id("tree");
-      var list = qx.bom.Collection.id("list");
+      var tree = q("#tree");
+      var list = q("#list");
       // fill the tree with the feeds
       this.fillTree(tree, model);
 
       // add a listener to the tree to change the selected feed
       var self = this;
-      qx.bom.Event.addNativeListener(tree[0], "click", function(e) {
-        var feed = qx.bom.Event.getTarget(e).feed;
+      tree.on("click", function(e) {
+        var feed = e.target.feed;
         // if the selected feed is loaded
         if (feed.getState() == "loaded") {
           self.fillList(list, feed);
         } else if (feed.getState() == "error") {
-          qx.bom.Collection.id("list").setAttribute("html", "Sorry, unable to load the feed.");
+          list.setAttribute("html", "Sorry, unable to load the feed.");
         } else {
           // if not loaded, add a listener
           feed.addListener("stateModified", function(e) {
@@ -104,15 +99,13 @@ qx.Class.define("feedreader.WebsiteApplication",
     /**
      * Fills the given list with the data of the given feed.
      *
-     * @param col {qx.bom.Collection} A collection which will be filled.
+     * @param col {q} A collection which will be filled.
      * @param feed {qx.core.Object} The model for the feed.
      */
     fillList : function(col, feed) {
-      var fadeOut = feedreader.WebsiteApplication.fadeOut;
-      var fadeIn = feedreader.WebsiteApplication.fadeIn;
-      qx.bom.element.Animation.animate(col[0], fadeOut).onEnd(function() {
+      col.fadeOut().once("animationEnd", function() {
         // delete the current content
-        col[0].innerHTML = "";
+        col.setHtml("");
 
         /// putt all articles in the list
         var articles = feed.getArticles();
@@ -120,7 +113,7 @@ qx.Class.define("feedreader.WebsiteApplication",
           var article = articles.getItem(i);
           col.append(feedreader.view.website.Factory.createArticleView(article));
         };
-        qx.bom.element.Animation.animate(col[0], fadeIn);
+        col.fadeIn();
       });
     },
 
@@ -128,15 +121,13 @@ qx.Class.define("feedreader.WebsiteApplication",
     /**
      * Fills the given tree with the data of the given model.
      *
-     * @param col {qx.bom.Collection} The collection which will be filled.
+     * @param col {q} The collection which will be filled.
      * @param model {qx.core.Object} The model to take the data from.
      */
     fillTree : function(col, model) {
-      var fadeOut = feedreader.WebsiteApplication.fadeOut;
-      var fadeIn = feedreader.WebsiteApplication.fadeIn;
-      qx.bom.element.Animation.animate(col[0], fadeOut).onEnd(function() {
+      col.fadeOut().once("animationEnd", function() {
         // empty loading text
-        col[0].innerHTML = "";
+        col.setHtml("");
 
         // take both folders
         var folders = [model.getStaticFeedFolder(), model.getUserFeedFolder()];
@@ -154,15 +145,15 @@ qx.Class.define("feedreader.WebsiteApplication",
             // special handling for the initial selection
             if (i === 0 && j === 0) {
               // mark the first one as selected by default
-              qx.bom.element.Class.add(item, "selectedFeed");
+              q(item).addClass("selectedFeed");
               // if the selected feed is loaded
               if (feed.getState() === "loaded") {
-                this.fillList(qx.bom.Collection.id("list"), feed);
+                this.fillList(q("#list"), feed);
               } else {
                 // if not loaded, add a listener
                 feed.addListener("stateModified", function(e) {
                   if (e.getData() == "loaded") {
-                    this.fillList(qx.bom.Collection.id("list"), e.getTarget());
+                    this.fillList(q("#list"), e.getTarget());
                   }
                 }, this);
               }
@@ -170,7 +161,7 @@ qx.Class.define("feedreader.WebsiteApplication",
             col.append(item);
           };
         };
-        qx.bom.element.Animation.animate(col[0], fadeIn);
+        col.fadeIn();
       }, this);
     }
   }

@@ -95,6 +95,6 @@ qx.Class.define("feedreader.view.mobile.FeedPage",
         this.__list.setModel(this.__articles);
         this.setTitle(value.getTitle());
       }
+      }
     }
-  }
 });

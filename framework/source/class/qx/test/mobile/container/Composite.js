@@ -90,6 +90,31 @@ qx.Class.define("qx.test.mobile.container.Composite",
     },
 
 
+    testAddAt : function()
+    {
+      var composite = new qx.ui.mobile.container.Composite();
+      this.getRoot().add(composite);
+
+      var widget1 = new qx.ui.mobile.core.Widget();
+      composite.add(widget1);
+
+      var widget2 = new qx.ui.mobile.core.Widget();
+      composite.add(widget2);
+
+      var widget3 = new qx.ui.mobile.core.Widget();
+      composite.addAt(widget3, 1);
+
+      this.assertEquals(composite.indexOf(widget3), 1);
+
+      this.assertEquals(composite.getContentElement().childNodes[1], widget3.getContainerElement());
+
+      widget1.destroy();
+      widget2.destroy();
+      widget3.destroy();
+      composite.destroy();
+    },
+
+
     testAddBefore : function()
     {
       var composite = new qx.ui.mobile.container.Composite();

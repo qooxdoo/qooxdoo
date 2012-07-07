@@ -9,6 +9,6 @@ If you look at the component section of a qooxdoo distribution, you will find th
 
 But the Test Runner framework can be deployed for your *own application*. It provides a GUI, a layer of infrastructure and a certain interface for arbitrary test classes. You can write your own test classes and take advantage of the Test Runner environment.
 
-* `Test Tools <http://qooxdoo.org/documentation/general/test_tools>`_ – an overview over test tools and approaches
+* `Test Tools <http://qooxdoo.org/docs/general/test_tools>`_ – an overview over test tools and approaches
 * :doc:`frame_apps_testrunner`  – how to deploy the Testrunner component for your own application
 

@@ -18,16 +18,17 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
- * Specialiced page. This page includes already a {@link qx.ui.mobile.navigationbar.NavigationBar}
- * and a {@link qx.ui.mobile.container.Scroll} container.
- *
+ * Specialized page. This page includes already a {@link qx.ui.mobile.navigationbar.NavigationBar}
+ * and and a {@link qx.ui.mobile.container.Scroll} container. 
+ * The NavigationPage can only be used with a page manager {@link qx.ui.mobile.page.Manager}.
+
  * *Example*
  *
  * Here is a little example of how to use the widget.
  *
  * <pre class='javascript'>
+ *  
+ *  var manager = new qx.ui.mobile.page.Manager();
  *  var page = new qx.ui.mobile.page.NavigationPage();
  *  page.setTitle("Page Title");
  *  page.setShowBackButton(true);
@@ -42,7 +43,8 @@
  *  {
  *    otherPage.show({animation:"cube", reverse:true});
  *  },this);
- *
+ *  
+ *  manager.addDetail(page);
  *  page.show();
  * </pre>
  *
@@ -52,6 +54,7 @@
 qx.Class.define("qx.ui.mobile.page.NavigationPage",
 {
   extend : qx.ui.mobile.page.Page,
+  implement : qx.ui.mobile.container.INavigation,
 
 
   /*
@@ -63,10 +66,11 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
   events :
   {
     /** Fired when the user tapped on the navigation button */
-    action : "qx.event.type.Event"
+    action : "qx.event.type.Event",
+
+    /** Fired when parent portrait container should hide. **/
+    hidePortraitContainer : "qx.event.type.Event"
   },
-
-
 
 
   /*
@@ -82,7 +86,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     {
       check : "String",
       init : "",
-      nullable : true,
+      event : "changeTitle",
       apply : "_applyTitle"
     },
 
@@ -117,6 +121,16 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
 
     /**
+     * Indicates whether the back button should be shown on tablet.
+     */
+    showBackButtonOnTablet:
+    {
+      check : "Boolean",
+      init : false
+    },
+
+
+    /**
      * Whether to show the action button.
      */
     showButton:
@@ -125,8 +139,19 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       init : false,
       apply : "_applyShowButton"
     },
-
-
+    
+    
+    /**
+     * Toggles visibility of NavigationBar in 
+     * wrapping container {@link qx.ui.mobile.container.Navigation}
+     */ 
+    navigationBarHidden:
+    {
+      check : "Boolean",
+      init : false
+    },
+    
+    
     /**
      * The CSS class to add to the content per default.
      */
@@ -148,12 +173,135 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
   members :
   {
-    __navigationBar : null,
-    __title : null,
+    _isTablet : false,
     __backButton : null,
     __button : null,
     __content : null,
     __scrollContainer : null,
+    __title : null,
+    __leftContainer : null,
+    __rightContainer : null,
+
+
+    // interface implementation
+    getTitleWidget : function() {
+      if (!this.__title) {
+        this.__title = this._createTitleWidget();
+      }
+      return this.__title;
+    },
+
+
+    /**
+     * Creates the navigation bar title.
+     *
+     * @return {qx.ui.mobile.navigationbar.Title} The created title widget
+     */
+    _createTitleWidget : function()
+    {
+      return new qx.ui.mobile.navigationbar.Title(this.getTitle());
+    },
+
+
+    // property apply
+    _applyTitle : function(value, old) {
+      if (this.__title) {
+        this.__title.setValue(value);
+      }
+    },
+
+
+    // interface implementation
+    getLeftContainer : function() {
+      if (!this.__leftContainer) {
+        this.__leftContainer = this._createLeftContainer();
+      }
+      return this.__leftContainer;
+    },
+
+
+    // interface implementation
+    getRightContainer : function() {
+      if (!this.__rightContainer) {
+        this.__rightContainer = this._createRightContainer();
+      }
+      return this.__rightContainer;
+    },
+
+
+    /**
+     * Creates the left container for the navigation bar.
+     *
+     * @return {qx.ui.mobile.container.Composite} Creates the left container for the navigation bar.
+     */
+    _createLeftContainer : function() {
+      var layout =new qx.ui.mobile.layout.HBox();
+      var container = new qx.ui.mobile.container.Composite(layout);
+      container.addCssClass("left-container");
+      this.__backButton = this._createBackButton();
+      this.__backButton.addListener("tap", this._onBackButtonTap, this);
+      this._showBackButton();
+      container.add(this.__backButton);
+      return container;
+    },
+
+
+    /**
+     * Creates the right container for the navigation bar.
+     *
+     * @return {qx.ui.mobile.container.Composite} Creates the right container for the navigation bar.
+     */
+    _createRightContainer : function() {
+      var layout =new qx.ui.mobile.layout.HBox();
+      var container = new qx.ui.mobile.container.Composite(layout);
+      container.addCssClass("right-container");
+      this.__button = this._createButton();
+      this.__button.addListener("tap", this._onButtonTap, this);
+      this._showButton();
+      container.add(this.__button);
+      return container;
+    },
+
+
+    /**
+      * Creates the navigation bar back button.
+      * Creates the scroll container.
+      *
+      * @return {qx.ui.mobile.navigationbar.BackButton} The created back button widget
+      * @return {qx.ui.mobile.container.Scroll} The created scroll container
+      */
+    _createBackButton : function() {
+      return new qx.ui.mobile.navigationbar.BackButton(this.getBackButtonText());
+    },
+
+
+
+    /**
+      * Creates the navigation bar button.
+      * Creates the content container.
+      *
+      * @return {qx.ui.mobile.navigationbar.Button} The created button widget
+      * @return {qx.ui.mobile.container.Composite} The created content container
+      */
+    _createButton : function() {
+     return new qx.ui.mobile.navigationbar.Button(this.getButtonText());
+    },
+
+
+    /**
+    * Scrolls the wrapper contents to the x/y coordinates in a given
+    * period.
+    *
+    * @param x {Integer} X coordinate to scroll to.
+    * @param y {Integer} Y coordinate to scroll to.
+    * @param time {Integer} Time slice in which scrolling should
+    *              be done.
+    *
+    */
+    scrollTo : function(x, y, time)
+    {
+      this.__scrollContainer.scrollTo(x, y, time);
+    },
 
 
     /**
@@ -164,28 +312,6 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     getContent : function()
     {
       return this.__content;
-    },
-
-
-    /**
-     * Returns the title widget.
-     *
-     * @return {qx.ui.mobile.navigationbar.Title} The title widget
-     */
-    _getTitle : function()
-    {
-      return this.__title;
-    },
-
-
-    /**
-     * Returns the navigation bar widget.
-     *
-     * @return {qx.ui.mobile.navigationbar.NavigationBar} The navigation bar widget
-     */
-    _getNavigationBar : function()
-    {
-      return this.__navigationBar;
     },
 
 
@@ -212,6 +338,24 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
 
     /**
+     * Sets the isTablet flag.
+     * @param isTablet {Boolean} value of the isTablet flag.
+     */
+    setIsTablet : function (isTablet) {
+      this._isTablet = isTablet
+    },
+
+
+    /**
+     * Returns the isTablet flag.
+     * @return {Boolean} the isTablet flag of this page.
+     */
+    isTablet : function() {
+      return this._isTablet;
+    },
+
+
+    /**
      * Returns the scroll container.
      *
      * @return {qx.ui.mobile.container.Scroll} The scroll container
@@ -222,11 +366,14 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
-    // property apply
-    _applyTitle : function(value, old)
-    {
-      if (this.__title) {
-        this.__title.setValue(value);
+    /**
+     * Adds a widget, below the NavigationBar.
+     *
+     * @param widget {qx.ui.mobile.core.Widget} The widget to add, after NavigationBar.
+     */
+    addAfterNavigationBar : function(widget) {
+      if(widget && this.__scrollContainer) {
+        this.addBefore(widget, this.__scrollContainer);
       }
     },
 
@@ -238,8 +385,8 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
         this.__backButton.setValue(value);
       }
     },
-
-
+    
+    
     // property apply
     _applyButtonText : function(value, old)
     {
@@ -280,9 +427,9 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       if (this.__backButton)
       {
         if (this.getShowBackButton()) {
-            this.__backButton.show();
+          this.__backButton.show();
         } else {
-          this.__backButton.hide();
+          this.__backButton.exclude();
         }
       }
     },
@@ -298,7 +445,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
         if (this.getShowButton()) {
           this.__button.show();
         } else {
-          this.__button.hide();
+          this.__button.exclude();
         }
       }
     },
@@ -309,14 +456,10 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     {
       this.base(arguments);
 
-      this.__navigationBar = this._createNavigationBar();
-      if (this.__navigationBar) {
-        this.add(this.__navigationBar);
-      }
       this.__scrollContainer = this._createScrollContainer();
       this.__content = this._createContent();
+
       if (this.__content) {
-        this.__scrollContainer._setLayout(new qx.ui.mobile.layout.VBox());
         this.__scrollContainer.add(this.__content, {flex :1});
       }
       if (this.__scrollContainer) {
@@ -350,74 +493,6 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
 
     /**
-     * Creates the navigation bar.
-     *
-     * @return {qx.ui.mobile.navigationbar.NavigationBar} The created navigation bar
-     */
-    _createNavigationBar : function()
-    {
-      var bar = new qx.ui.mobile.navigationbar.NavigationBar();
-
-      this.__backButton = this._createBackButton();
-      if (this.__backButton)
-      {
-        this.__backButton.addListener("tap", this._onBackButtonTap, this);
-        this.__backButton.setValue(this.getBackButtonText());
-        this._showBackButton()
-        bar.add(this.__backButton);
-      }
-
-
-      this.__title = this._createTitle();
-      if (this.__title) {
-        bar.add(this.__title, {flex:1});
-      }
-
-      this.__button = this._createButton();
-      if (this.__button)
-      {
-        this.__button.addListener("tap", this._onButtonTap, this);
-        this.__button.setValue(this.getButtonText());
-        this._showButton()
-        bar.add(this.__button);
-      }
-
-      return bar;
-    },
-
-
-    /**
-     * Creates the navigation bar title.
-     *
-     * @return {qx.ui.mobile.navigationbar.Title} The created title widget
-     */
-    _createTitle : function()
-    {
-      return new qx.ui.mobile.navigationbar.Title(this.getTitle());
-    },
-
-
-    /**
-     * Creates the navigation bar back button.
-     *
-     * @return {qx.ui.mobile.navigationbar.BackButton} The created back button widget
-     */
-    _createBackButton : function() {
-      return new qx.ui.mobile.navigationbar.BackButton();
-    },
-
-
-    /**
-     * Creates the navigation bar button.
-     *
-     * @return {qx.ui.mobile.navigationbar.Button} The created button widget
-     */
-    _createButton : function() {
-      return new qx.ui.mobile.navigationbar.Button();
-    },
-
-
-    /**
      * Event handler. Called when the tap event occurs on the back button.
      *
      * @param evt {qx.event.type.Tap} The tap event
@@ -442,6 +517,10 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
   destruct : function()
   {
-    this.__navigationBar = this.__title = this.__backButton = this.__button = this.__content = this.__scrollContainer = null;
+    this._disposeObjects("__leftContainer", "__rightContainer", "__backButton",
+      "__button", "__title");
+    this.__leftContainer = this.__rightContainer = this.__backButton = this.__button = null;
+    this.__title = this.__content = this.__scrollContainer = null;
+    this._isTablet = null;
   }
 });

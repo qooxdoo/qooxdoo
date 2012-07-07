@@ -20,7 +20,7 @@
 /**
  * Basic node creation and type detection
  */
-qx.Class.define("qx.dom.Node",
+qx.Bootstrap.define("qx.dom.Node",
 {
   /*
   *****************************************************************************

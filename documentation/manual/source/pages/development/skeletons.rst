@@ -5,16 +5,18 @@ Application Skeletons
 
 qooxdoo comes with several different application templates or *skeletons*. Each is meant for a specific usage scenario and includes a different subset of the qooxdoo framework (see the :ref:`architecture diagram<pages/architecture#architecture>` for reference).
 
-When creating a new application using :ref:`create-application.py<pages/getting_started/helloworld#hello_world>`, the *-t* or *--type* parameter specifies the type of skeleton to be used, e.g.
+When creating a new application using :doc:`create-application.py </pages/tool/create_application>`, the *-t* or *--type* parameter specifies the type of skeleton to be used, e.g.
 
 ::
 
   qooxdoo-%{version}-sdk/tool/bin/create-application.py --name=custom --type=mobile
 
-The following skeletons are available:
+The following skeletons are available (The application types are in fact all lower-case, but are capitalized in the following headings for better readability):
 
-Gui
----
+.. _pages/development/skeletons#gui:
+
+Desktop
+-------
 For a GUI application that looks & feels like a native desktop application (often called “RIA” – Rich Internet Application).
 
 Such a stand-alone application typically creates and updates all content dynamically. Often it is called a “single-page application”, since the document itself is never reloaded or changed.
@@ -47,6 +49,8 @@ Included layers
 * Low-Level
 * GUI Toolit
 
+.. _pages/development/skeletons#mobile:
+
 Mobile
 ------
 For a :ref:`mobile application <pages/mobile/mobile_overview#overview>` running in a WebKit-based browser on iOS or Android (and also on desktop machines). Supports the `mobile widget set <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_. 
@@ -60,7 +64,7 @@ Included layers
 * Runtime Abstraction
 * Mobile UI
 
-.. _pages/development/skeletons#Native:
+.. _pages/development/skeletons#native:
 
 Native
 ------
@@ -75,27 +79,45 @@ Included layers
 * Runtime Abstraction
 * Low-Level
 
-Bom
----
+.. _pages/development/skeletons#website:
 
-Pre-configured :ref:`low-level library <pages/setup_a_low-level_library#setup_a_low-level_library>`.
+Website
+-------
+
+This is an alternative to working with the :doc:`Website </pages/website>` library directly, which is a single-file download containing all the %{Website} API. If you deploy the download you use its API in your own code in a way that suits you, e.g. by adding custom code in an HTML page that also loads the library.
+
+Getting started
+^^^^^^^^^^^^^^^
+
+The 'website' skeleton provides you with the same development model, with additional options. It contains a pre-built version of the Website library. You can just open the contained index.html file in a browser and see the default application running (If this is not the case and you just get an "Application needs generation..." message, just run ``generate.py`` on the shell). Then you start extending it, either in the index.html file directly or by creating other %{JS} files that use it, and include those in the HTML file.
+
+Both approaches (download or skeleton) pretty much match up, with the skeleton giving you a little head start. In both cases you are using a static library file, and take care of organizing your application code yourself. Beyond that the 'website' skeleton provides you with some additional jobs:
+
+* *build-min*: You can re-create the library file (located in *script/*), by running the ``generate.py [build-min]`` job. This is interesting if you e.g. upgrade to a new qooxdoo SDK and want to make sure you are working against the latest code.
+* *build*: You can create a *non-optimized* version of the library, if you want to debug into its code. This is achieved by running the ``generate.py build`` job. Mind, though, that you then need to include *q.js* in your HTML code (rather than *q.min.js* which is the minified version).
+* *test, test-source*: You can write unit tests for your custom code, and generate a local version of the :ref:`Portable Testrunner <pages/frame_apps_testrunner#portable_test_runner>` using ``generate.py test`` or ``generate.py test-source`` (The linked description of the Portable Testrunner refers partly to the ready-built download version, hence it says *"no compile step"*). In order to sensibly test your code, you should put it in its own .js file, rather than inline it in the *index.html*. This way, you can load it both in the application *index.html* as well as in *test/index.html* where the unit tests are applied.
+* *api*, *api-data*: These jobs re-create the %{Website} Apiviewer (or just the API data, respectively) in the skeleton. This is useful if you want to have the API documentation close-by.
+
 
 Included layers
 ^^^^^^^^^^^^^^^
 
-* Runtime Abstraction (partially)
-* Low-Level (partially)
+* See the :doc:`/pages/website` documentation.
 
-Basic
------
-For applications running in "browserless" or server-side environments such as node.js and Rhino. 
+.. _pages/development/skeletons#basic:
 
-Inherits from `qx.application.Basic <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Basic>`_
+Server
+------
+For applications running in "browserless" or server-side environments such as node.js and Rhino. The skeleton follows the normal qooxdoo development model, so you have a *source/* folder with classes and resources, and can create *source* and *build* versions of your app. It also supports other development jobs like *"test"*, *"api"* or *"lint"*. The special job *"library"* allows you to re-create the %{Server} library locally.
 
-Included layers
+Inherits from `qx.application.Basic <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Basic>`_.
+
+Getting started
 ^^^^^^^^^^^^^^^
+ 
+This skeleton depends on a generated Server library, located in *script/*. If this was not delivered with your SDK you can create it locally, by running ``generate.py library``. (If you intend to create multiple 'server' skeletons, you might want to change to *${QOOXDOO_PATH}/component/standalone/server* and invoke ``generate.py build``. This will generate the library for further 'server' skeletons).
 
-* Core
+The library will be used together with the application code to make up the final application. You need to generate the application first, e.g. by running ``generate.py source``.  The generated source file is saved under *source/script/<custom>.js*, the build file (with ``generate.py build``) under *build/script/<custom>.js*. Those files can then be executed.
 
 Invoking the application
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -114,6 +136,13 @@ or like this for Rhino:
    $ java -cp path/to/js.jar org.mozilla.javascript.tools.shell.Main foo.js
 
 
+Included layers
+^^^^^^^^^^^^^^^
+
+* See the :doc:`%{Server} </pages/server>` documentation.
+
+
+.. _pages/development/skeletons#contribution:
 
 Contribution
 ------------

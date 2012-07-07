@@ -36,6 +36,7 @@
 
 /**
  * Basic class for all core and combination effects.
+ * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.Base",
 {
@@ -50,10 +51,15 @@ qx.Class.define("qx.fx.Base",
 
   /**
    * @param element {Object} The DOM element
+   * @deprecated since 2.0
    */
   construct : function(element)
   {
     this.base(arguments);
+
+    qx.log.Logger.deprecatedClassWarning(this.constructor,
+      "qx.fx.* is deprecated. Please use qx.bom.element.Animation instead."
+    );
 
     this.setQueue( qx.fx.queue.Manager.getInstance().getDefaultQueue() );
     this.__state = qx.fx.Base.EffectState.IDLE;
@@ -72,16 +78,19 @@ qx.Class.define("qx.fx.Base",
    {
      /**
       * This event is fired when effect starts.
+      * @deprecated since 2.0
       */
      "setup"  : "qx.event.type.Event",
 
      /**
       * This event is fired every time a frame is rendered.
+      * @deprecated since 2.0
       */
      "update" : "qx.event.type.Event",
 
      /**
       * This event is fired when effect ends.
+      * @deprecated since 2.0
       */
       "finish" : "qx.event.type.Event"
    },
@@ -96,6 +105,7 @@ qx.Class.define("qx.fx.Base",
   {
      /**
       * Number of seconds the effect should run.
+      * @deprecated since 2.0
       */
      duration :
      {
@@ -106,6 +116,7 @@ qx.Class.define("qx.fx.Base",
 
      /**
       * Number frames per seconds the effect should be rendered with.
+      * @deprecated since 2.0
       */
      fps :
      {
@@ -115,6 +126,7 @@ qx.Class.define("qx.fx.Base",
 
      /**
       * Flag indicating if effect should run parallel with others.
+      * @deprecated since 2.0
       */
      sync :
      {
@@ -124,6 +136,7 @@ qx.Class.define("qx.fx.Base",
 
      /**
       * Initial value of effect-specific property (color, opacity, position, etc.).
+      * @deprecated since 2.0
       */
      from :
      {
@@ -133,6 +146,7 @@ qx.Class.define("qx.fx.Base",
 
      /**
       * End value of effect-specific property. When this value is reached, the effect will end.
+      * @deprecated since 2.0
       */
      to :
      {
@@ -142,6 +156,7 @@ qx.Class.define("qx.fx.Base",
 
      /**
       * Number of seconds the effect should wait before start.
+      * @deprecated since 2.0
       */
      delay :
      {
@@ -151,6 +166,7 @@ qx.Class.define("qx.fx.Base",
 
      /**
       * Name of queue the effect should run in.
+      * @deprecated since 2.0
       */
      queue :
      {
@@ -161,6 +177,7 @@ qx.Class.define("qx.fx.Base",
      /**
       * Function which modifies the effect-specific property during the transition
       * between "from" and "to" value.
+      * @deprecated since 2.0
       */
      transition :
      {
@@ -183,6 +200,7 @@ qx.Class.define("qx.fx.Base",
 
     /**
      * State in which each effect can be
+     * @deprecated since 2.0
      */
     EffectState :
     {
@@ -216,6 +234,7 @@ qx.Class.define("qx.fx.Base",
     /**
      * Returns the effect's DOM element
      * @return {Object} the element
+     * @deprecated since 2.0
      */
     _getElement : function() {
       return this.__element;
@@ -224,6 +243,7 @@ qx.Class.define("qx.fx.Base",
     /**
      * Sets the element to be animated.
      * @param element {Object} the element
+     * @deprecated since 2.0
      */
     _setElement : function(element) {
       this.__element = element;
@@ -233,12 +253,14 @@ qx.Class.define("qx.fx.Base",
      * Apply method for duration. Should be overwritten if needed.
      * @param value {Number} Current value
      * @param old {Number} Previous value
+     * @deprecated since 2.0
      **/
     _applyDuration : function(value, old){},
 
     /**
      * This internal function is used to update
      * properties before the effect starts.
+     * @deprecated since 2.0
      */
     init : function()
     {
@@ -255,12 +277,14 @@ qx.Class.define("qx.fx.Base",
      * This internal function is called before
      * "beforeFinished" and before the effect
      * actually ends.
+     * @deprecated since 2.0
      */
     beforeFinishInternal : function(){},
 
     /**
      * This internal function is called before
      * the effect actually ends.
+     * @deprecated since 2.0
      */
     beforeFinish : function(){},
 
@@ -268,12 +292,14 @@ qx.Class.define("qx.fx.Base",
      * This internal function is called before
      * "afterFinished" and after the effect
      * actually has ended.
+     * @deprecated since 2.0
      */
     afterFinishInternal : function(){},
 
     /**
      * This internal function is called after
      * the effect actually has ended.
+     * @deprecated since 2.0
      */
     afterFinish : function(){},
 
@@ -281,12 +307,14 @@ qx.Class.define("qx.fx.Base",
      * This internal function is called before
      * "beforeSetup" and before the effect's
      * "setup" method gets called.
+     * @deprecated since 2.0
      */
     beforeSetupInternal : function(){},
 
     /**
      * This internal function is called before
      * the effect's "setup" method gets called.
+     * @deprecated since 2.0
      */
     beforeSetup : function(){},
 
@@ -294,12 +322,14 @@ qx.Class.define("qx.fx.Base",
      * This internal function is called before
      * "afterSetup" and after the effect's
      * "setup" method has been called.
+     * @deprecated since 2.0
      */
     afterSetupInternal : function(){},
 
     /**
      * This internal function is called after
      * the effect's "setup" method has been called.
+     * @deprecated since 2.0
      */
     afterSetup : function(){},
 
@@ -308,12 +338,14 @@ qx.Class.define("qx.fx.Base",
      * This internal function is called before
      * "beforeUpdateInternal" and each time before
      * the effect's "update" method is called.
+     * @deprecated since 2.0
      */
     beforeUpdateInternal : function(){},
 
     /**
      * This internal function is each time before
      * the effect's "update" method is called.
+     * @deprecated since 2.0
      */
     beforeUpdate : function(){},
 
@@ -321,12 +353,14 @@ qx.Class.define("qx.fx.Base",
      * This internal function is called before
      * "afterUpdate" and each time after
      * the effect's "update" method is called.
+     * @deprecated since 2.0
      */
     afterUpdateInternal : function(){},
 
     /**
      * This internal function is called
      * each time after the effect's "update" method is called.
+     * @deprecated since 2.0
      */
     afterUpdate : function(){},
 
@@ -334,12 +368,14 @@ qx.Class.define("qx.fx.Base",
      * This internal function is called before
      * "beforeStartInternal" and before the effect
      * actually starts.
+     * @deprecated since 2.0
      */
     beforeStartInternal : function(){},
 
     /**
      * This internal function is called
      * before the effect actually starts.
+     * @deprecated since 2.0
      */
      beforeStart : function(){},
 
@@ -351,6 +387,7 @@ qx.Class.define("qx.fx.Base",
     *
     * Fires "setup" event.
     *
+    * @deprecated since 2.0
     */
     setup : function() {
       this.fireEvent("setup");
@@ -369,6 +406,7 @@ qx.Class.define("qx.fx.Base",
      * @param position {Number} Animation setup
      * as Number between 0 and 1.
      *
+     * @deprecated since 2.0
      */
     update : function(position)
     {
@@ -381,6 +419,7 @@ qx.Class.define("qx.fx.Base",
      *
      * Fires "finish" event.
      *
+     * @deprecated since 2.0
      */
     finish : function()
     {
@@ -390,6 +429,7 @@ qx.Class.define("qx.fx.Base",
 
     /**
      * Starts the effect
+     * @deprecated since 2.0
      */
     start : function()
     {
@@ -414,6 +454,7 @@ qx.Class.define("qx.fx.Base",
 
     /**
      * Ends the effect
+     * @deprecated since 2.0
      */
     end : function()
     {
@@ -439,6 +480,7 @@ qx.Class.define("qx.fx.Base",
      * is, the lower is each step.
      *
      * Fires "update" event.
+     * @deprecated since 2.0
      */
     render : function(pos)
     {
@@ -484,6 +526,7 @@ qx.Class.define("qx.fx.Base",
      * @param timePos {Number} Effect's step on duration between
      * 0 (just started) and 1 (finished). The longer the duration
      * is, the lower is each step.
+     * @deprecated since 2.0
      */
     loop : function(timePos)
     {
@@ -512,6 +555,7 @@ qx.Class.define("qx.fx.Base",
 
     /**
     * Removes effect from queue and sets state to finished.
+    * @deprecated since 2.0
     */
     cancel : function()
     {
@@ -524,6 +568,7 @@ qx.Class.define("qx.fx.Base",
 
     /**
     * Resets the state to default.
+    * @deprecated since 2.0
     */
     resetState : function() {
       this.__state = qx.fx.Base.EffectState.IDLE;
@@ -534,6 +579,7 @@ qx.Class.define("qx.fx.Base",
      * Returns whether the effect is active
      *
      * @return {Boolean} Whether the effect is active.
+     * @deprecated since 2.0
      */
     isActive : function() {
       return this.__state === qx.fx.Base.EffectState.RUNNING ||

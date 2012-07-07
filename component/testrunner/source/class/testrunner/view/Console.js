@@ -145,7 +145,7 @@ qx.Class.define("testrunner.view.Console", {
     {
       var testName = testResultData.getFullName();
       var state = testResultData.getState();
-      
+
       var exceptions = testResultData.getExceptions();
 
       //Update test results map
@@ -153,30 +153,30 @@ qx.Class.define("testrunner.view.Console", {
         this.__suiteResults.tests[testName] = {};
       }
       this.__suiteResults.tests[testName].state = state;
-      
+
       if (exceptions) {
         this.__suiteResults.tests[testName].exceptions = [];
         for (var i=0,l=exceptions.length; i<l; i++) {
           var ex = exceptions[i].exception;
           var type = ex.classname || ex.type || "Error";
-          
-          var message = ex.toString ? ex.toString() : 
+
+          var message = ex.toString ? ex.toString() :
             ex.message ? ex.message : "Unknown Error";
-          
+
           var stacktrace;
           if (!(ex.classname && ex.classname == "qx.dev.unit.MeasurementResult")) {
             stacktrace = testResultData.getStackTrace(ex);
           }
-          
+
           var serializedEx = {
             type : type,
             message : message
           };
-          
+
           if (stacktrace) {
             serializedEx.stacktrace = stacktrace;
           }
-          
+
           this.__suiteResults.tests[testName].exceptions.push(serializedEx);
         }
       }
@@ -236,15 +236,20 @@ qx.Class.define("testrunner.view.Console", {
               }
               messages.push(message);
             }
-            
+
             readableResults[key].messages = messages;
           }
         }
       }
       return readableResults;
     },
-    
-    
+
+
+    /**
+     * Returns the aggregated results for this test suite
+     *
+     * @return {Map} Test suite results
+     */
     getSuiteResults : function()
     {
       return this.__suiteResults;

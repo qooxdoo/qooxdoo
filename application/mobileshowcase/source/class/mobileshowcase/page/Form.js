@@ -62,8 +62,8 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__submitButton.setEnabled(false);
       this.getContent().add(this.__submitButton);
 
-      var title = new qx.ui.mobile.form.Title("Registration Result");
-      this.getContent().add(title);
+      var title2 = new qx.ui.mobile.form.Title("Registration Result");
+      this.getContent().add(title2);
       this.__result = new qx.ui.mobile.embed.Html();
       this.getContent().add(this.__result);
     },
@@ -82,6 +82,7 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username"});
       this.__name.setRequired(true);
+
       form.add(this.__name, "Username: ");
       validationManager.add(this.__name, function(value, item){
         var valid = value != null && value.length>3;
@@ -94,25 +95,34 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__password = new qx.ui.mobile.form.PasswordField().set({placeholder:"Password"});
       form.add(this.__password, "Password: ");
 
+      // NUMBER FIELD
+      this.__numberField = new qx.ui.mobile.form.NumberField();
+      this.__numberField.setValue("0");
+      this.__numberField.setMaximum(150);
+      this.__numberField.setMinimum(0);
+      form.add(this.__numberField,"Enter your age:");
+
       this.__rememberPass = new qx.ui.mobile.form.CheckBox();
       form.add(this.__rememberPass, "Remember password? ");
       this.__rememberPass.setModel("password_reminder");
       this.__rememberPass.bind("model",this.__password,"value");
       this.__password.bind("value",this.__rememberPass,"model");
 
-
-      form.addGroupHeader("Gender");
+      form.addGroupHeader("Gender: ");
       this.__radio1 = new qx.ui.mobile.form.RadioButton();
       this.__radio2 = new qx.ui.mobile.form.RadioButton();
-      //var radioGroup = new qx.ui.form.RadioGroup(this.__radio1, this.__radio2);
+
+      var radioGroup = new qx.ui.mobile.form.RadioGroup();
+      radioGroup.setAllowEmptySelection(true);
+      radioGroup.add(this.__radio1, this.__radio2);
       form.add(this.__radio1, "Male");
       form.add(this.__radio2, "Female");
 
       this.__info = new qx.ui.mobile.form.TextArea().set({placeholder:"Terms of Service"});
       form.add(this.__info,"Terms of Service: ");
-      this.__info.setValue("qooxdoo Licensing Information\n=============================\n\nqooxdoo may be used under the terms of either the\n\n  * GNU Lesser General Public License (LGPL)\n    http://www.gnu.org/licenses/lgpl.html\n\nor the\n\n  * Eclipse Public License (EPL)\n    http://www.eclipse.org/org/documents/epl-v10.php\n\nAs a recipient of qooxdoo, you may choose which license to receive the code \nunder. Certain files or entire directories may not be covered by this \ndual license, but are subject to licenses compatible to both LGPL and EPL.\nLicense exceptions are explicitly declared in all relevant files or in a \n\nLICENSE file in the relevant directories.");
+      this.__info.setValue("qooxdoo Licensing Information\n=============================\n\nqooxdoo is dual-licensed under the GNU Lesser General Public License (LGPL) and the Eclipse Public License (EPL). \n");
 
-      this.__save = new qx.ui.mobile.form.ToggleButton();
+      this.__save = new qx.ui.mobile.form.ToggleButton(false,"Agree","Reject",13);
       this.__save.addListener("changeValue", this._enableFormSubmitting, this);
       form.add(this.__save, "Agree? ");
 
@@ -120,12 +130,14 @@ qx.Class.define("mobileshowcase.page.Form",
       form.add(this.__slide,"Are you human? Drag the slider to prove it.");
 
       var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad"]);
+      var selQuestion = "How did you hear about us ?";
       this.__sel = new qx.ui.mobile.form.SelectBox();
+      this.__sel.setDialogTitle(selQuestion);
       this.__sel.setModel(dd);
-      form.add(this.__sel, "How did you hear about us ?");
+
+      form.add(this.__sel, selQuestion);
 
       return form;
-
     },
 
     _enableFormSubmitting : function(evt) {
@@ -154,7 +166,7 @@ qx.Class.define("mobileshowcase.page.Form",
     // overridden
     _back : function()
     {
-      qx.ui.mobile.navigation.Manager.getInstance().executeGet("/", {reverse:true});
+      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

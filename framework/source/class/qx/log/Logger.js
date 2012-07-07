@@ -222,11 +222,13 @@ qx.Class.define("qx.log.Logger",
     /**
      * Prints the current stack trace at level "info"
      *
-     * @param object {Object} Contextual object (either instance or static class)
+     * @param object {Object?} Contextual object (either instance or static class)
      * @return {void}
      */
     trace : function(object) {
-      qx.log.Logger.__log("info", [object, qx.dev.StackTrace.getStackTrace().join("\n")]);
+      var trace = qx.dev.StackTrace.getStackTrace();
+      qx.log.Logger.__log("info",
+      [(typeof object !== "undefined" ? [object].concat(trace) : trace).join("\n")]);
     },
 
 

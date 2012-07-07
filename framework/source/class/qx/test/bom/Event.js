@@ -25,14 +25,14 @@ qx.Class.define("qx.test.bom.Event",
   {
     testSupportsEvent : function()
     {
-      var el = qx.bom.Element.create("div", {name: "vanillebaer"}, window);
+      var el = qx.dom.Element.create("div", {name: "vanillebaer"}, window);
       qx.bom.Event.addNativeListener(el, "click", function(e) {
         qx.log.Logger.info("clicked");
       });
       this.assertTrue(qx.bom.Event.supportsEvent(el, "click"));
 
 
-      var el2 = qx.bom.Element.create("div", {name: "schokobaer"}, window);
+      var el2 = qx.dom.Element.create("div", {name: "schokobaer"}, window);
       this.assertFalse(qx.bom.Event.supportsEvent(el2, "click2"));
     }
   }

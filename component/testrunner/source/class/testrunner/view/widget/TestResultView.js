@@ -116,14 +116,14 @@ qx.Class.define("testrunner.view.widget.TestResultView",
         var exceptArr = testResult.getExceptions();
         for (var i=0,l=exceptArr.length; i<l; i++) {
           var error = exceptArr[i].exception;
-          var errorStr = error.toString ? error.toString() : 
+          var errorStr = error.toString ? error.toString() :
             error.message ? error.message : "Unknown Error";
-          
+
           var prefix = error.classname && error.classname == "qx.dev.unit.MeasurementResult" ? "" :
             "Error message is: <br />"
-          
+
           html.add("<strong>", prefix, qx.bom.String.escape(errorStr).replace(/\n/g, "<br/>"), "</strong><br />");
-          
+
           var trace = testResult.getStackTrace(exceptArr[i].exception);
           if (trace && trace.length > 0) {
             html.add("<div class='trace");

@@ -36,7 +36,7 @@
  *
  * The following table shows the available checks. If you are
  * interested in more details, check the reference to the implementation of
- * each check. Please do not use those check implementations directly, as the 
+ * each check. Please do not use those check implementations directly, as the
  * Environment class comes with a smart caching feature.
  *
  * <table border="0" cellspacing="10">
@@ -89,6 +89,10 @@
  *       <td>{@link qx.bom.client.Css#getBorderImage}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.borderimage.standardsyntax</td><td><i>Boolean</i> or <i>null</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getBorderImageSyntax}</td>
+ *     </tr>
+ *     <tr>
  *       <td>css.boxmodel</td><td><i>String</i></td><td><code>content</code></td>
  *       <td>{@link qx.bom.client.Css#getBoxModel}</td>
  *     </tr>
@@ -97,16 +101,20 @@
  *       <td>{@link qx.bom.client.Css#getBoxShadow}</td>
  *     </tr>
  *     <tr>
- *       <td>css.gradients</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>{@link qx.bom.client.Css#getLinearGradient}</td>
- *     </tr>
- *     <tr>
  *       <td>css.gradient.linear</td><td><i>String</i> or <i>null</i></td><td><code>-moz-linear-gradient</code></td>
  *       <td>{@link qx.bom.client.Css#getLinearGradient}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.gradient.filter</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getFilterGradient}</td>
+ *     </tr>
+ *     <tr>
  *       <td>css.gradient.radial</td><td><i>String</i> or <i>null</i></td><td><code>-moz-radial-gradient</code></td>
  *       <td>{@link qx.bom.client.Css#getRadialGradient}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.gradient.legacywebkit</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Css#getLegacyWebkitGradient}</td>
  *     </tr>
  *     <tr>
  *       <td>css.placeholder</td><td><i>Boolean</i></td><td><code>true</code></td>
@@ -115,10 +123,6 @@
  *     <tr>
  *       <td>css.textoverflow</td><td><i>String</i> or <i>null</i></td><td><code>textOverflow</code></td>
  *       <td>{@link qx.bom.client.Css#getTextOverflow}</td>
- *     </tr>
- *     <tr>
- *       <td>css.translate3d</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>{@link qx.bom.client.CssTransform#get3D}</td>
  *     </tr>
  *     <tr>
  *       <td>css.rgba</td><td><i>Boolean</i></td><td><code>true</code></td>
@@ -173,19 +177,27 @@
  *       <td>{@link qx.bom.client.Css#getOverflowXY}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.textShadow</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getTextShadow}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.textShadow.filter</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getFilterTextShadow}</td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><b>device</b></td>
  *     </tr>
  *     <tr>
  *       <td>device.name</td><td><i>String</i></td><td><code>pc</code></td>
  *       <td>{@link qx.bom.client.Device#getName}</td>
  *     </tr>
+ *     <tr>
+ *       <td>device.type</td><td><i>String</i></td><td><code>mobile</code></td>
+ *       <td>{@link qx.bom.client.Device#getType}</td>
+ *     </tr>
 
  *     <tr>
  *       <td colspan="4"><b>ecmascript</b></td>
- *     </tr>
- *     <tr>
- *       <td>ecmascript.objectcount</td><td><i>Boolean</i></td><td><code>false</code></td>
- *       <td>{@link qx.bom.client.EcmaScript#getObjectCount}</td>
  *     </tr>
  *     <tr>
  *       <td>ecmascript.stacktrace</td><td><i>String</i> or <i>null</i></td><td><code>stack</code></td>
@@ -559,7 +571,25 @@
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.disposerDebugLevel</td><td><i>Integer</i></td><td><code>0</code></td>
+ *       <td>qx.debug.dispose.level</td><td><i>Integer</i></td><td><code>0</code></td>
+ *       <td><i>default:</i> <code>0</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.debug.io</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
+ *     <tr>
+ *       <td>qx.debug.io.remote</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
+ *     <tr>
+ *       <td>qx.debug.io.remote.data</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.debug.property.level</td><td><i>Integer</i></td><td><code>0</code></td>
  *       <td><i>default:</i> <code>0</code></td>
  *     </tr>
  *     <tr>
@@ -607,10 +637,6 @@
  *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
- *       <td>qx.propertyDebugLevel</td><td><i>Integer</i></td><td><code>0</code></td>
- *       <td><i>default:</i> <code>0</code></td>
- *     </tr>
- *     <tr>
  *       <td>qx.revision</td><td><i>String</i></td><td><code>27348</code></td>
  *     </tr>
  *     <tr>
@@ -619,6 +645,9 @@
  *     </tr>
  *     <tr>
  *       <td>qx.version</td><td><i>String</i></td><td><code>${qxversion}</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.blankpage</td><td><i>String</i></td><td><code>URI to blank.html page</code></td>
  *     </tr>
 
  *     <tr>
@@ -675,6 +704,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "browser.quirksmode"          : "qx.bom.client.Browser.getQuirksMode",
       "runtime.name"                : "qx.bom.client.Runtime.getName",
       "device.name"                 : "qx.bom.client.Device.getName",
+      "device.type"                 : "qx.bom.client.Device.getType",
       "locale"                      : "qx.bom.client.Locale.getLocale",
       "locale.variant"              : "qx.bom.client.Locale.getVariant",
       "os.name"                     : "qx.bom.client.OperatingSystem.getName",
@@ -703,7 +733,6 @@ qx.Bootstrap.define("qx.core.Environment",
       "event.pointer"               : "qx.bom.client.Event.getPointer",
       "event.help"                  : "qx.bom.client.Event.getHelp",
       "event.hashchange"            : "qx.bom.client.Event.getHashChange",
-      "ecmascript.objectcount"      : "qx.bom.client.EcmaScript.getObjectCount", // @deprecated since 1.6
       "ecmascript.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",
       "html.webworker"              : "qx.bom.client.Html.getWebWorker",
       "html.filereader"             : "qx.bom.client.Html.getFileReader",
@@ -744,10 +773,12 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.placeholder"             : "qx.bom.client.Css.getPlaceholder",
       "css.borderradius"            : "qx.bom.client.Css.getBorderRadius",
       "css.borderimage"             : "qx.bom.client.Css.getBorderImage",
+      "css.borderimage.standardsyntax" : "qx.bom.client.Css.getBorderImageSyntax",
       "css.boxshadow"               : "qx.bom.client.Css.getBoxShadow",
-      "css.gradients"               : "qx.bom.client.Css.getGradients",  // @deprecated since 1.6
       "css.gradient.linear"         : "qx.bom.client.Css.getLinearGradient",
+      "css.gradient.filter"         : "qx.bom.client.Css.getFilterGradient",
       "css.gradient.radial"         : "qx.bom.client.Css.getRadialGradient",
+      "css.gradient.legacywebkit"   : "qx.bom.client.Css.getLegacyWebkitGradient",
       "css.boxmodel"                : "qx.bom.client.Css.getBoxModel",
       "css.rgba"                    : "qx.bom.client.Css.getRgba",
       "css.userselect"              : "qx.bom.client.Css.getUserSelect",
@@ -756,13 +787,14 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.appearance"              : "qx.bom.client.Css.getAppearance",
       "css.float"                   : "qx.bom.client.Css.getFloat",
       "css.boxsizing"               : "qx.bom.client.Css.getBoxSizing",
-      "css.translate3d"             : "qx.bom.client.CssTransform.get3D", // @deprecated since 1.6
       "css.animation" : "qx.bom.client.CssAnimation.getSupport",
       "css.transform" : "qx.bom.client.CssTransform.getSupport",
       "css.transform.3d" : "qx.bom.client.CssTransform.get3D",
       "css.inlineblock" : "qx.bom.client.Css.getInlineBlock",
       "css.opacity" : "qx.bom.client.Css.getOpacity",
       "css.overflowxy" : "qx.bom.client.Css.getOverflowXY",
+      "css.textShadow" : "qx.bom.client.Css.getTextShadow",
+      "css.textShadow.filter" : "qx.bom.client.Css.getFilterTextShadow",
       "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
       "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification",
       "xml.implementation"          : "qx.bom.client.Xml.getImplementation",
@@ -789,24 +821,10 @@ qx.Bootstrap.define("qx.core.Environment",
      * look at the {@link #invalidateCacheKey} function.
      *
      * @param key {String} The name of the check you want to query.
+     * @return {var} The stored value depending on the given key.
+     *   (Details in the class doc)
      */
     get : function(key) {
-      if (qx.Bootstrap.DEBUG) {
-        var deprecated = {
-          "css.translate3d" : "css.transform.3d",
-          "css.gradients" : "css.gradient.linear",
-          "ecmascript.objectcount" : null
-        };
-        if (key in deprecated) {
-          qx.Bootstrap.warn(
-            "The key '" + key + "' is deprecated." +
-            (deprecated[key] ?
-              " Please use '" + deprecated[key] + "' instead."
-            : "")
-          );
-        }
-      }
-
       // check the cache
       if (this.__cache[key] != undefined) {
         return this.__cache[key];
@@ -1095,10 +1113,13 @@ qx.Bootstrap.define("qx.core.Environment",
      * Initializer for the default values of the framework settings.
      */
     _initDefaultQxValues : function() {
+      // an always-true key (e.g. for use in qx.core.Environment.filter() calls)
+      this.add("true", function() {return true;});
+
       // old settings
       this.add("qx.allowUrlSettings", function() {return false;});
       this.add("qx.allowUrlVariants", function() {return false;});
-      this.add("qx.propertyDebugLevel", function() {return 0;});
+      this.add("qx.debug.property.level", function() {return 0;});
 
       // old variants
       // make sure to reflect all changes to qx.debug here in the bootstrap class!
@@ -1107,6 +1128,7 @@ qx.Bootstrap.define("qx.core.Environment",
       this.add("qx.dynlocale", function() {return true;});
       this.add("qx.mobile.emulatetouch", function() {return false;});
       this.add("qx.mobile.nativescroll", function() {return false;});
+      this.add("qx.blankpage", function() { return "qx/static/blank.html";});
 
       this.add("qx.dynamicmousewheel", function() {return true;});
       this.add("qx.debug.databinding", function() {return false;});

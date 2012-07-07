@@ -20,7 +20,7 @@
 /**
  * Contains methods to control and query the element's overflow properties.
  */
-qx.Class.define("qx.bom.element.Overflow",
+qx.Bootstrap.define("qx.bom.element.Overflow",
 {
   /*
   *****************************************************************************

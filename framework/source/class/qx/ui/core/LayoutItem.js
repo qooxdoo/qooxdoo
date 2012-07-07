@@ -68,6 +68,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     width :
     {
       check : "Integer",
+      event : "changeWidth",
       nullable : true,
       apply : "_applyDimension",
       init : null,
@@ -115,6 +116,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     height :
     {
       check : "Integer",
+      event : "changeHeight",
       nullable : true,
       apply : "_applyDimension",
       init : null,

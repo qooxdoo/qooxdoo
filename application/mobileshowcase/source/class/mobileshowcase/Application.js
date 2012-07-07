@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
+/*
  * If you have added resources to your app remove the leading '*' in the
  * following line to make use of them.
 
@@ -35,6 +35,12 @@ qx.Class.define("mobileshowcase.Application",
 {
   extend : qx.application.Mobile,
 
+  /** Holds the application routing */
+  properties : {
+    routing : {
+      init: null
+    }
+  },
 
   /*
   *****************************************************************************
@@ -78,10 +84,46 @@ qx.Class.define("mobileshowcase.Application",
       var animation = new mobileshowcase.page.Animation();
       var animationLanding = new mobileshowcase.page.AnimationLanding();
       var atoms = new mobileshowcase.page.Atom();
+      var basic = new mobileshowcase.page.Basic();
+      var dialogs = new mobileshowcase.page.Dialog();
+      var dataBinding = new mobileshowcase.page.DataBinding();
+      var themeSwitcher = new mobileshowcase.page.ThemeSwitcher();
 
+      // Add the pages to the page manager
+      var manager = new qx.ui.mobile.page.Manager();
+      manager.addMaster(overview);
+      manager.addDetail([
+        basic,
+        events,
+        list,
+        tab,
+        toolbar,
+        form,
+        animation,
+        animationLanding,
+        atoms,
+        dialogs,
+        dataBinding,
+        themeSwitcher
+      ]);
 
-      // Navigation
-      var nm = qx.ui.mobile.navigation.Manager.getInstance();
+      // Initialize the navigation
+      var nm = new qx.application.Routing();
+      this.setRouting(nm);
+
+      var isTablet = (qx.core.Environment.get("device.type") == "tablet");
+      var isDesktop = (qx.core.Environment.get("device.type") == "desktop");
+
+      if (isTablet||isDesktop) {
+        nm.onGet("/.*", function(data) {
+          overview.show();
+        },this);
+
+        nm.onGet("/", function(data) {
+          basic.show();
+        },this);
+      }
+
       nm.onGet("/", function(data) {
         overview.show(data.customData);
       },this);
@@ -120,12 +162,34 @@ qx.Class.define("mobileshowcase.Application",
         animation.show(data.customData);
       },this);
 
-      nm.onGet("/animation/:animation", function(data) {
+      nm.onGet("/animation/{animation}", function(data) {
         var animation = data.params.animation;
         animationLanding.setAnimation(animation);
         animationLanding.show({animation:animation});
       },this);
 
+      nm.onGet("/basic", function(data)
+      {
+        basic.show();
+      },this);
+
+      nm.onGet("/dialog", function(data)
+      {
+        dialogs.show();
+      },this);
+
+      nm.onGet("/databinding", function(data)
+      {
+        dataBinding.show();
+      },this);
+
+      nm.onGet("/themeswitcher", function(data)
+      {
+        themeSwitcher.show();
+      },this);
+
+      // start the navigation handling
+      nm.init();
     }
   }
 });

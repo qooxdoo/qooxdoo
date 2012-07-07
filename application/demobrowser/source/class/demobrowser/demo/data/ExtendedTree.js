@@ -99,13 +99,13 @@ qx.Class.define("demobrowser.demo.data.ExtendedTree",
        * ********************************************* */
       var description = new qx.ui.basic.Label();
       description.setRich(true);
-      description.setWidth(250);
+      description.setWidth(300);
       description.setValue(
         "<b>A tree configures with bindItem</b><br/>"
         + "The tree has bound its label to the name of the modeln and its "
         + "textColor to some random colors."
       );
-      this.getRoot().add(description, {left: 20, top: 10});
+      this.getRoot().add(description, {left: 10, top: 10});
     }
   }
 });

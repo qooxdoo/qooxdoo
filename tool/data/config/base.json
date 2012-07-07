@@ -15,9 +15,18 @@
     },
     "QXTHEME"      : "qx.theme.Modern",
     "QXICONTHEME"  : ["Tango"],
-    "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings", "variants", "comments"],
+    "OPTIMIZE"     : [
+       "basecalls",
+       "comments",
+       "privates",
+       "strings",
+       "variables",
+       "variants",
+       "whitespace"
+    ],
     "LOCALES"      : [ "en" ],
     "APPLICATION_MAIN_CLASS" : "${APPLICATION}.Application",
+    "ADD_NOCACHE_PARAM"      : false,
     "BUILD_PATH"   : "${ROOT}/build"
   },
 
@@ -108,7 +117,7 @@
         },
         "uris" : 
         {
-          "add-nocache-param" : false
+          "add-nocache-param" : "${ADD_NOCACHE_PARAM}"
         },
         "code" :
         {
@@ -179,7 +188,7 @@
         },
         "uris" : 
         {
-          "add-nocache-param" : false
+          "add-nocache-param" : "${ADD_NOCACHE_PARAM}"
         },
         "code" :
         {
@@ -249,7 +258,7 @@
         },
         "code"   :
         {
-          "format"   : true,
+          "format"   : false,
           "locales"  : "${LOCALES}",
           "except"   : [],
           "optimize" : "${OPTIMIZE}"
@@ -324,7 +333,7 @@
       ,"let" :
       {
         "PROVIDER_ROOT" : "./provider",
-        "PROVIDER_OPTIMIZE" : ["variables", "basecalls", "strings"] 
+        "PROVIDER_OPTIMIZE" : ["variables", "basecalls", "strings", "whitespace"] 
       }
       
       ,"run" : [
@@ -410,6 +419,8 @@
 
       "extend" : [ "scan-local-lib" ],
 
+      "config-warnings" : { "include" : false },
+
       "include" : [ "=${APPLICATION}.*" ],
 
       "pretty-print" : {}
@@ -481,6 +492,16 @@
         ]
         */
       }
+    },
+
+    "clean-cache" :
+    {
+      "desc"    : "remove the cache files",
+
+      "cache"   : "${CACHE_KEY}", 
+
+      "clean-files" : {}  // cache files are handled implicitly
+      
     },
 
 

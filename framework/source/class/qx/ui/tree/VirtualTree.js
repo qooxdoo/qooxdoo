@@ -352,7 +352,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     // overridden
-    syncWidget : function()
+    syncWidget : function(jobs)
     {
       var firstRow = this._layer.getFirstRow();
       var rowSize = this._layer.getRowSizes().length;
@@ -364,7 +364,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
           this.__itemWidth = Math.max(this.__itemWidth, widget.getSizeHint().width);
         }
       }
-      var paneWidth = this.getPane().getBounds().width;
+      var paneWidth = this.getPane().getInnerSize().width;
       this.getPane().getColumnConfig().setItemSize(0, Math.max(this.__itemWidth, paneWidth));
     },
 
@@ -892,8 +892,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this._provider.removeBindings();
       this.__lookupTable.removeAll();
       this.__lookupTable.append(lookupTable);
-      this._updateSelection();
       this.__updateRowCount();
+      this._updateSelection();
     },
 
 
@@ -1104,11 +1104,18 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
     }
 
+    if (!qx.core.ObjectRegistry.inShutDown && this.__deferredCall != null)
+    {
+      this.__deferredCall.cancel();
+      this.__deferredCall.dispose();
+    }
+
     this._layer.removeListener("updated", this._onUpdated, this);
     this._layer.destroy();
     this._provider.dispose();
     this.__lookupTable.dispose();
 
-    this._layer = this._provider = this.__lookupTable = this.__openNodes = null;
+    this._layer = this._provider = this.__lookupTable = this.__openNodes =
+      this.__deferredCall = null;
   }
 });

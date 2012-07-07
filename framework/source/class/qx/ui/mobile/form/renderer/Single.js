@@ -18,11 +18,8 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Single is a class used to render forms into a mobile page.
  * It presents a label above each form element
- *
  *
  */
 qx.Class.define("qx.ui.mobile.form.renderer.Single",
@@ -52,16 +49,18 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
     /**
      * A collection of error containers used to keep the error messages
-     * resulted after  form validation.
+     * resulted after form validation.
      * Also useful to clear them when the validation passes.
      */
     __errorMessageContainers : null,
+
 
     // override
     _getTagName : function()
     {
       return "ul";
     },
+
 
     // override
     addItems : function(items, names, title) {
@@ -100,17 +99,19 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       this.__rows.push(row);
     },
 
+
     // override
     addButton : function(button) {
-        var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
-        row.add(button, {flex:1});
-        this._add(row);
-        this.__rows.push(row);
+      var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
+      row.add(button, {flex:1});
+      this._add(row);
+      this.__rows.push(row);
     },
+
 
     // override
     showErrorForItem : function(item) {
-      var errorNode = qx.bom.Element.create('div');
+      var errorNode = qx.dom.Element.create('div');
       errorNode.innerHTML = item.getInvalidMessage();
       qx.bom.element.Class.add(errorNode, 'formElementError');
       qx.dom.Element.insertAfter(errorNode, item.getContainerElement());

@@ -16,6 +16,11 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
+/* ************************************************************************
+
+#ignore(qx.bom.element.Style)
+
+************************************************************************ */
 
 /**
  * This class offers the same API as the CSS3 animation layer in
@@ -26,11 +31,20 @@
  * (CSS or JavaScript) should be used. Most likely, this implementation should
  * be the one to use.
  */
-qx.Bootstrap.define("qx.bom.element.AnimationJs", 
+qx.Bootstrap.define("qx.bom.element.AnimationJs",
 {
   statics :
   {
+    /**
+     * The maximal time a frame should take.
+     */
     __maxStepTime : 30,
+
+    /**
+     * The supported CSS units.
+     */
+    __units : ["%", "in", "cm", "mm", "em", "ex", "pt", "pc", "px"],
+
 
     /**
      * This is the main function to start the animation. For further details,
@@ -38,23 +52,73 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      * {@link qx.bom.element.Animation}.
      * @param el {Element} The element to animate.
      * @param desc {Map} Animation description.
+     * @param duration {Integer?} The duration of the animation which will
+     *   override the duration given in the description.
      * @return {qx.bom.element.AnimationHandle} The handle.
      */
-    animate : function(el, desc) {
+    animate : function(el, desc, duration) {
+      return this._animate(el, desc, duration, false);
+    },
+
+
+    /**
+     * This is the main function to start the animation in reversed mode.
+     * For further details, take a look at the documentation of the wrapper
+     * {@link qx.bom.element.Animation}.
+     * @param el {Element} The element to animate.
+     * @param desc {Map} Animation description.
+     * @param duration {Integer?} The duration of the animation which will
+     *   override the duration given in the description.
+     * @return {qx.bom.element.AnimationHandle} The handle.
+     */
+    animateReverse : function(el, desc, duration) {
+      return this._animate(el, desc, duration, true);
+    },
+
+
+    /**
+     * Helper to start the animation, either in reversed order or not.
+     *
+     * @param el {Element} The element to animate.
+     * @param desc {Map} Animation description.
+     * @param duration {Integer?} The duration of the animation which will
+     *   override the duration given in the description.
+     * @param reverse {Boolean} <code>true</code>, if the animation should be
+     *   reversed.
+     * @return {qx.bom.element.AnimationHandle} The handle.
+     */
+    _animate : function(el, desc, duration, reverse) {
       // stop if an animation is already running
       if (el.$$animation) {
         return;
       }
 
-      var duration = desc.duration;
+      // @deprecated since 2.0
+      if (desc.hasOwnProperty("reverse")) {
+        reverse = desc.reverse;
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.log.Logger.warn(
+            "The key 'reverse' is deprecated: Please use the method " +
+            "'animateReverse' instead."
+          );
+          qx.log.Logger.trace();
+        }
+      }
+
+      if (duration == undefined) {
+        duration = desc.duration;
+      }
+
       var keyFrames = desc.keyFrames;
 
       var keys = this.__getOrderedKeys(keyFrames);
       var stepTime = this.__getStepTime(duration, keys);
       var steps = parseInt(duration / stepTime, 10);
 
+      this.__normalizeKeyFrames(keyFrames, el);
+
       var delta = this.__calculateDelta(steps, stepTime, keys, keyFrames, duration, desc.timing);
-      if (desc.reverse) {
+      if (reverse) {
         delta.reverse();
       }
 
@@ -71,6 +135,48 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       handle.repeatSteps = this.__applyRepeat(steps, desc.repeat);
 
       return this.play(handle);
+    },
+
+
+    /**
+     * Try to normalize the keyFrames by adding the default / set values of the
+     * element.
+     * @param keyFrames {Map} The map of key frames.
+     * @param el {Element} The element to animate.
+     */
+    __normalizeKeyFrames : function(keyFrames, el) {
+      // collect all possible keys and its units
+      var units = {};
+      for (var percent in keyFrames) {
+        for (var name in keyFrames[percent]) {
+          if (units[name] == undefined) {
+            var item = keyFrames[percent][name];
+            if (typeof item == "string") {
+              units[name] = item.substring((parseInt(item, 10)+"").length, item.length);
+            } else {
+              units[name] = "";
+            }
+          }
+        };
+      }
+      // add all missing keys
+      for (var percent in keyFrames) {
+        var frame = keyFrames[percent];
+        for (var name in units) {
+          if (frame[name] == undefined) {
+            // get the computed style if possible
+            if (window.getComputedStyle) {
+              frame[name] = getComputedStyle(el, null)[name];
+            } else {
+              frame[name] = el.style[name];
+            }
+            // if its a unit we know, set 0 as fallback
+            if (frame[name] == "" && this.__units.indexOf(units[name]) != -1) {
+              frame[name] = "0" + units[name];
+            }
+          }
+        };
+      };
     },
 
 
@@ -106,10 +212,10 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         }
 
         delta[i] = {};
+
         // for every property
         for (var name in next) {
           var nItem = next[name] + "";
-
           // color values
           if (nItem.charAt(0) == "#") {
             // get the two values from the frames as RGB arrays
@@ -119,15 +225,17 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
             // calculate every color chanel
             for (var j=0; j < value0.length; j++) {
               var range = value0[j] - value1[j];
-              stepValue[j] = parseInt(value0[j] - range * this.__calculateTiming(timing, i / steps));
+              stepValue[j] = parseInt(value0[j] - range * this.__calculateTiming(timing, i / steps), 10);
             };
 
-            delta[i][name] = "#" + qx.util.ColorUtil.rgbToHexString(stepValue);
+            delta[i][name] = qx.util.ColorUtil.rgbToHexString(stepValue);
 
-          } else {
-            var unit = nItem.substring((parseInt(nItem, 10)+"").length, nItem.length)
-            var range = parseFloat(nItem, 10) - parseFloat(last[name], 10);
+          } else if (!isNaN(parseInt(nItem, 10))) {
+            var unit = nItem.substring((parseInt(nItem, 10)+"").length, nItem.length);
+            var range = parseFloat(nItem) - parseFloat(last[name]);
             delta[i][name] = (parseFloat(last[name]) + range * this.__calculateTiming(timing, i / steps)) + unit;
+          } else {
+            delta[i][name] = last[name] + "";
           }
 
         };
@@ -147,7 +255,6 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      * @return {qx.bom.element.AnimationHandle} The handle for chaining.
      */
     play : function(handle) {
-      var self = this;
       var id = window.setInterval(function() {
         handle.repeatSteps--;
         var values = handle.delta[handle.i % handle.steps];
@@ -155,11 +262,17 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         if (handle.i == 0) {
           for (var name in values) {
             if (handle.initValues[name] == undefined) {
-              handle.initValues[name] = handle.el.style[name];
+              if (qx.bom.element.Style) {
+                handle.initValues[name] = qx.bom.element.Style.get(
+                  handle.el, qx.lang.String.camelCase(name)
+                );
+              } else {
+                handle.initValues[name] = handle.el.style[qx.lang.String.camelCase(name)];
+              }
             }
           }
         }
-        self.__applyStyles(handle.el, values);
+        qx.bom.element.AnimationJs.__applyStyles(handle.el, values);
 
         handle.i++;
         // iteration condition
@@ -170,7 +283,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         }
         // end condition
         if (handle.repeatSteps < 0) {
-          self.stop(handle);
+          qx.bom.element.AnimationJs.stop(handle);
         }
       }, handle.stepTime);
 
@@ -222,15 +335,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       handle.ended = true;
       handle.animationId = null;
 
-      var onEnd = handle.getOnEnd();
-      for (var j=0; j < onEnd.length; j++) {
-        onEnd[j].callback.call(onEnd[j].ctx, el);
-      };
+      handle.emit("end", el);
     },
 
 
     /**
-     * Calculation of the predefined timing functions. Aproximitations of the real
+     * Calculation of the predefined timing functions. Approximations of the real
      * bezier curves has ben used for easier calculation. This is good and close
      * enough for the predefined functions like <code>ease</code> or
      * <code>linear</code>.
@@ -290,8 +400,17 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      * @param styles {Map} A map containing styles and values.
      */
     __applyStyles : function(el, styles) {
-      for (var name in styles) {
-        el.style[name] = styles[name];
+      for (var key in styles) {
+        // ignore undefined values (might be a bad detection)
+        if (styles[key] === undefined) {
+          continue;
+        }
+        var name = qx.lang.String.camelCase(key);
+        if (qx.bom.element.Style) {
+          qx.bom.element.Style.set(el, name, styles[key]);
+        } else {
+          el.style[name] = styles[key];
+        }
       }
     },
 
@@ -327,7 +446,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       for (var i=0; i < keys.length; i++) {
         keys[i] = parseInt(keys[i], 10);
       };
-      keys.sort(function(a,b) {return a>b;});
+      keys.sort(function(a,b) {return a-b;});
       return keys;
     }
   }

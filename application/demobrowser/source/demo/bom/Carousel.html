@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script type="text/javascript" src="../helper.js"></script>
+
+  <title>q Carousel</title>
+  <style type="text/css" media="screen">
+  .entry {
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    background-color: red;
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    z-index: 1;
+  }
+
+  #carousel {
+    position: relative;
+    height: 50px;
+    width: 150px;
+    overflow: hidden;
+  }
+
+  </style>
+</head>
+<body>
+
+  <div id="carousel"></div>
+
+  <script type="template" id="carousel-entry">
+    <div><center>{{data}}</center></div>
+  </script>
+</body>
+</html>

@@ -100,3 +100,6 @@ msgstr "Desfă"
 
 msgid "Week start:"
 msgstr "Începutul săptămânii:"
+
+msgid "qooxdoo"
+msgstr ""

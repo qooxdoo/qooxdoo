@@ -20,12 +20,9 @@
 #
 ################################################################################
 
-import sys, os, copy
+import sys, os, copy, re
 
-# reconfigure path to import own modules from modules subfolder
-#sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "../"))
-
-import simplejson
+from misc import util
 
 
 ##
@@ -61,6 +58,7 @@ class NodeAccessException (Exception):
         Exception.__init__(self, msg)
         self.node = node
 
+NODE_VARIABLE_TYPES = ("dotaccessor", "identifier")
 
 class Node(object):
 
@@ -128,12 +126,12 @@ class Node(object):
     # "call" type, ie. it's a function being called; the wildcard '*' is allowed
     # to indicate any type on a particular level, like "value/*/operand"
     def hasParentContext(self, contextPath):
-        parents = contextPath.split('/')
+        path_elems = contextPath.split('/')
 
         currNode = self
-        for parent in reversed(parents):
+        for path_elem in reversed(path_elems):
             if currNode.parent:
-                if parent == '*' or currNode.parent.type == parent:
+                if ( path_elem == '*' or currNode.parent.type == path_elem ):
                     currNode = currNode.parent
                 else:
                     return False
@@ -210,7 +208,7 @@ class Node(object):
         if isinstance(ntype, basestring):
             if self.type == ntype:
                 return True
-        elif isinstance(ntype, list):
+        elif isinstance(ntype, util.FinSequenceTypes):
             if self.type in ntype:
                 return True
 
@@ -318,11 +316,8 @@ class Node(object):
 
         if isComplex != None:
             return isComplex
-
         else:
             isComplex = False
-
-
 
         if not self.children:
             isComplex = False
@@ -457,11 +452,15 @@ class Node(object):
         if mandatory:
             raise NodeAccessException("Node " + self.type + " has no child with attribute " + key + " = " + value, self)
 
-    def getChildByTypeAndAttribute(self, ntype, key, value, mandatory = True):
+    def getChildByTypeAndAttribute(self, ntype, key, value, mandatory = True, recursive = False):
         if self.children:
             for child in self.children:
                 if child.type == ntype and child.get(key,mandatory) == value:
                     return child
+                elif recursive:
+                    found = child.getChildByTypeAndAttribute(ntype, key, value, False, True)
+                    if found:
+                        return found
 
         if mandatory:
             raise NodeAccessException("Node " + self.type + " has no child with type " + ntype + " and attribute " + key + " = " + value, self)
@@ -471,9 +470,7 @@ class Node(object):
             for child in self.children:
                 if ignoreComments and child.type in ["comment", "commentsBefore", "commentsAfter"]:
                     continue
-
                 return child
-
         if mandatory:
             raise NodeAccessException("Node " + self.type + " has no children", self)
 
@@ -542,6 +539,9 @@ class Node(object):
             return False
 
         return self.parent.getLastChild(False, ignoreComments) == self
+
+    def isVar(self):
+        return self.type in NODE_VARIABLE_TYPES
 
     def addListChild(self, listName, childNode):
         listNode = self.getChild(listName, False)
@@ -630,8 +630,18 @@ def nodeToXmlStringNR(node, prefix="", encoding="utf-8"):
 
 
 def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
+    asString = u''
     hasText = False
-    asString = prefix + "<" + node.type
+
+    # comments
+    if node.comments:
+        cmtStrings = []
+        for comment in node.comments:
+            cmtStrings.append(nodeToXmlString(comment, prefix, childPrefix, newLine, encoding))
+        asString += u''.join(cmtStrings)
+
+    # own str repr
+    asString += prefix + "<" + node.type
     #if node.hasAttributes():
     if True:
         for key in node.attributes:

@@ -19,28 +19,48 @@
 ################################################################################
 
 ##
-# Reads CSS from a source file, minifies it and injects it into a target file,
-# replacing the macro %{Styles}
+# Reads CSS from one or more source files, minifies it and injects it into a 
+# target file, # replacing the macro %{Styles}
 ##
 
-import sys, os, re
+import sys, os, re, optparse
+
+parser = optparse.OptionParser()
+
+parser.add_option(
+    "-q", "--qooxdoo-dir", dest="qooxdooDir", default="../..", type="string",
+    help="qooxdoo framework directory"
+)
+
+parser.add_option(
+    "-t", "--inject-target", dest="target", default=None, type="string",
+    help="File to inject optimized CSS into"
+)
+
+(options, args) = parser.parse_args()
 
 try:
   from cssmin import cssmin
 except ImportError, e:
-  sys.path.append("../../tool/pylib/cssmin")
+  modulePath = os.path.join(options.qooxdooDir, "tool/pylib/cssmin")
+  sys.path.append(modulePath)
   import cssmin
 
-sourceFileName = sys.argv[1]
-targetFileName = sys.argv[2]
+if len(args) < 2:
+  print "At least two arguments needed"
+  sys.exit(1)
 
-css = open(sourceFileName, "r").read()
-minifiedCss = cssmin.cssmin(css)
-targetFile = open(targetFileName, "r")
+minifiedCss = ""
+for sourceFileName in args:
+  css = open(sourceFileName, "r").read()
+  minifiedCss += cssmin.cssmin(css)
+
+targetFile = open(options.target, "r")
 targetFileContent = targetFile.read()
 targetFile.close()
 
-targetFile = open(targetFileName, "w+")
+minifiedCss = minifiedCss.replace("'", r"\'")
 replaced = re.sub("%{Styles}", minifiedCss, targetFileContent)
+targetFile = open(options.target, "w+")
 targetFile.write(replaced)
 targetFile.close()
