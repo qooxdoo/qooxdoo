@@ -67,7 +67,7 @@ Learn more
   http://demo.qooxdoo.org
 
 * Release Notes
-  http://qooxdoo.org/project/release_notes/2.0
+  http://qooxdoo.org/project/release_notes/2.1
 
 * User Manual
   http://manual.qooxdoo.org/2.1
