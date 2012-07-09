@@ -220,10 +220,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         qx.bom.element.Transform.setOrigin(el, "");
       }
 
-      // only apply the last frame if fill mode has not been set initially
-      if (desc.keep != null && desc.keep != 100 && !this.__cssAnimationKeys["fill-mode"]) {
-        qx.bom.element.AnimationCss.__keepFrame(el, desc.keyFrames[desc.keep]);
-      }
+      qx.bom.element.AnimationCss.__keepFrame(el, desc.keyFrames[desc.keep]);
 
       el.$$animation = null;
       animation.el = null;
