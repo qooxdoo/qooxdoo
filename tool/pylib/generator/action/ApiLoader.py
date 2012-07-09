@@ -395,7 +395,8 @@ class ApiLoader(object):
 
         count = 0
         docNodes = docTree.getAllChildrenOfType("return")
-        docNodes = docNodes +  docTree.getAllChildrenOfType("param")
+        docNodes = docNodes + docTree.getAllChildrenOfType("param")
+        docNodes = docNodes + docTree.getAllChildrenOfType("childControl")
         total = len(docNodes)
         brokenLinks = []
         for docNode in docNodes:
@@ -425,6 +426,8 @@ class ApiLoader(object):
                           docNodeType = "Parameter '%s'" %docNode.get("name")
                       elif docNode.type == "return":
                           docNodeType = "Return value"
+                      elif docNode.type == "childControl":
+                          docNodeType = "Child control '%s'" %docNode.get("name")
                       
                       for ref in self._checkLink(linkData, docTree, index):
                           brokenLinks.append((docNodeType, "%s.%s#%s" %(packageName, className, itemName), ref))
