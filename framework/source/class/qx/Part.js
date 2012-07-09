@@ -164,24 +164,6 @@ qx.Bootstrap.define("qx.Part",
 
 
     /**
-     * Internal addListener for closure packages.
-     *
-     * @internal
-     * @param pkg {qx.io.part.ClosurePackage} The closure package to listen
-     *   for.
-     * @param callback {Function} The method to call when the package is loaded.
-     */
-    addClosurePackageListener : function(pkg, callback)
-    {
-      var key = pkg.getId();
-      if (!this.__packageClosureListeners[key]) {
-        this.__packageClosureListeners[key] = [];
-      }
-      this.__packageClosureListeners[key].push(callback);
-    },
-
-
-    /**
      * Internal helper method to save the closure and notify that the load.
      *
      * @internal
