@@ -390,8 +390,14 @@ class ApiLoader(object):
     def verifyTypes(self, docTree, index):
         self._console.info("Verifying return types...", False)
         knownTypes = lang.GLOBALS[:]
-        knownTypes = knownTypes + ["var", "null", "Integer", "Float", 
-                                   "Double", "Map", "Color"]
+        knownTypes = knownTypes + ["var", "null", 
+                                   # additional types supported by the property system:
+                                   "Integer", "PositiveInteger", "PositiveNumber",
+                                   "Float", "Double", "Map", 
+                                   "Node", "Element", "Document", "Window",
+                                   "Event", "Class", "Mixin", "Interface", "Theme",
+                                   "Color", "Decorator", "Font"
+                                  ]
 
         count = 0
         docNodes = docTree.getAllChildrenOfType("return")
@@ -406,7 +412,7 @@ class ApiLoader(object):
                 for entryNode in typesNode.getAllChildrenOfType("entry"):
                     unknownTypes = []
                     entryType = entryNode.get("type")
-                    if not entryType in knownTypes:
+                    if (not entryType in knownTypes) and not ("value" in entryType and re.search("[\<\>\=]", entryType)):
                         unknownTypes.append(entryType)
                     if len(unknownTypes) > 0:
                       itemName = self.getParentAttrib(docNode, "name")
