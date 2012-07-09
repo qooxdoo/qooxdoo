@@ -388,7 +388,7 @@ class ApiLoader(object):
 
 
     def verifyTypes(self, docTree, index):
-        self._console.info("Verifying return types...", False)
+        self._console.info("Verifying types...", False)
         knownTypes = lang.GLOBALS[:]
         knownTypes = knownTypes + ["var", "null", 
                                    # additional types supported by the property system:
