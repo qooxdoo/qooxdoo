@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
     /**
      * Get the DOM stylesheet element
      *
-     * @return {Stylesheet} The DOM stylesheet element
+     * @return {StyleSheet} The DOM stylesheet element
      */
     getStylesheet : function() {
       return this.__stylesheet;

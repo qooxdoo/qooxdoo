@@ -65,7 +65,7 @@ qx.Bootstrap.define("qx.bom.Style",
      * (possibly vendor-prefixed) value if successful or <code>null</code> if
      * the property and/or value are not supported.
      *
-     * @param element {DOMelement} element to be used for the detection
+     * @param element {Element} element to be used for the detection
      * @param propertyName {String} the style property to be tested
      * @param value {String} style property value to be tested
      * @param prefixed {Boolean?} try to determine the appropriate vendor prefix

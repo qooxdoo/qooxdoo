@@ -359,7 +359,7 @@ qx.Class.define("qx.data.controller.Tree",
     /**
      * Handler function taking care of the changes of the children array itself.
      *
-     * @param e {qx.event.Type.Data} Change event for the children property.
+     * @param e {qx.event.type.Data} Change event for the children property.
      */
     __changeChildrenArray: function(e) {
       var children = e.getData();

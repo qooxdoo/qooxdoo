@@ -271,7 +271,7 @@ qx.Class.define("qx.bom.webfonts.Validator", {
      * font-family value and appends it to the DOM
      *
      * @param fontFamily {String} font-family string
-     * @return {DOMElement} the created DOM element
+     * @return {Element} the created DOM element
      */
     _getHelperElement : function(fontFamily)
     {

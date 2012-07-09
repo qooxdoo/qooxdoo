@@ -116,7 +116,7 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
      * This method should be called within the asynchronous callback to tell the
      * validator the result of the validation.
      *
-     * @param valid {boolean} The boolean state of the validation.
+     * @param valid {Boolean} The boolean state of the validation.
      * @param message {String?} The invalidMessage of the validation.
      */
     setValid: function(valid, message) {

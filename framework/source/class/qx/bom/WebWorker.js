@@ -133,7 +133,7 @@ qx.Class.define("qx.bom.WebWorker",
 
     /**
      * Message handler
-     * @param e {object} message event
+     * @param e {Event} message event
      */
     _handleMessage: function(e) {
       this.fireDataEvent("message", e.data);
@@ -142,7 +142,7 @@ qx.Class.define("qx.bom.WebWorker",
 
     /**
      * Error handler
-     * @param e {object} error event
+     * @param e {Event} error event
      */
     _handleError: function(e) {
       this.fireDataEvent("error", e.message);

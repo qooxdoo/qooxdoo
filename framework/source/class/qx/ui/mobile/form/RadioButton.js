@@ -119,8 +119,8 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
 
     /**
      * The assigned {@link qx.ui.form.RadioGroup} which handles the switching between registered buttons
-     * @param value {@link qx.ui.form.RadioGroup} the new radio group to which this radio button belongs.
-     * @param old {@link qx.ui.form.RadioGroup} the old radio group of this radio button.
+     * @param value {qx.ui.form.RadioGroup} the new radio group to which this radio button belongs.
+     * @param old {qx.ui.form.RadioGroup} the old radio group of this radio button.
      */
     _applyGroup : function(value, old)
     {

@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
      * @param target {String}
      *    The text value of the column to compare against.
      *
-     * @param ignorecase {boolean}
+     * @param ignorecase {Boolean}
      *    If true, the regular expression will ignore case.
      *
      *
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
      * @param target {String}
      *    The text value of the column to compare against.
      *
-     * @param ignorecase {boolean}
+     * @param ignorecase {Boolean}
      *    If true, the regular expression will ignore case.
      *
      *

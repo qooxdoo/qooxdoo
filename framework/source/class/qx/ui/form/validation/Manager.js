@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * has ended. The result of the validation can then be accessed with the
      * {@link #getValid} method.
      *
-     * @return {Boolean | void} The validation result, if available.
+     * @return {Boolean|undefined} The validation result, if available.
      */
     validate : function() {
       var valid = true;
@@ -395,7 +395,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * Helper function which checks, if the given validator is synchronous
      * or asynchronous.
      *
-     * @param validator {Function||qx.ui.form.validation.Asyncvalidator}
+     * @param validator {Function||qx.ui.form.validation.AsyncValidator}
      *   The validator to check.
      * @return {Boolean} True, if the given validator is asynchronous.
      */
@@ -415,7 +415,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * interface.
      *
      * @param formItem {qx.core.Object} The item to check.
-     * @return {boolean} true, if the given item implements the
+     * @return {Boolean} true, if the given item implements the
      *   necessary interface.
      */
     __supportsInvalid : function(formItem) {
@@ -429,7 +429,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * {@link qx.ui.core.ISingleSelection} interface.
      *
      * @param formItem {qx.core.Object} The item to check.
-     * @return {boolean} true, if the given item implements the
+     * @return {Boolean} true, if the given item implements the
      *   necessary interface.
      */
     __supportsSingleSelection : function(formItem) {

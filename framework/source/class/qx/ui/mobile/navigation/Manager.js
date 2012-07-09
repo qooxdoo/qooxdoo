@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     /**
      * Get the singleton instance of the navigation manager.
      *
-     * @return {History}
+     * @return {qx.ui.mobile.navigation.Manager}
      */
     getInstance : function()
     {

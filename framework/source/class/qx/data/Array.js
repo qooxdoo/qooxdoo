@@ -569,7 +569,7 @@ qx.Class.define("qx.data.Array",
      * Check if the given item is in the current array.
      *
      * @param item {var} The item which is possibly in the array.
-     * @return {boolean} true, if the array contains the given item.
+     * @return {Boolean} true, if the array contains the given item.
      */
     contains: function(item) {
       return this.__array.indexOf(item) !== -1;

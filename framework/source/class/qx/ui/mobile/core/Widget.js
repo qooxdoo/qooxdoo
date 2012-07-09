@@ -863,7 +863,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Internal method. Sets the layout parent.
      *
-     * @param parent {qx.ui.mobile.Widget} The parent widget
+     * @param parent {qx.ui.mobile.core.Widget} The parent widget
      *
      * @internal
      */

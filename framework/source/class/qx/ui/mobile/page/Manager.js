@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
   */
 
   /**
-   * @param isTablet {boolean?} flag which triggers the manager to layout for tablet (or big screens/displays) or mobile devices. If parameter is null,
+   * @param isTablet {Boolean?} flag which triggers the manager to layout for tablet (or big screens/displays) or mobile devices. If parameter is null,
    * qx.core.Environment.get("device.type") is called for decision.
    * @param root {qx.ui.mobile.core.Widget?} widget which should be used as root for this manager.
    */

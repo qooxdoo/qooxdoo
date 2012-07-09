@@ -415,7 +415,7 @@ qx.Class.define("qx.util.fsm.Transition",
     /**
      * If given a function, bind it to a specified context.
      *
-     * @param f {Function|Any}
+     * @param f {Function|var}
      *   The (possibly) function to be bound to the specified context.
      *
      * @param context

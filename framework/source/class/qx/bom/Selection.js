@@ -87,7 +87,7 @@ qx.Class.define("qx.bom.Selection",
      * Returns the length of the selection
      *
      * @signature function(node)
-     * @param node {node} Form node or document/window to check.
+     * @param node {Node} Form node or document/window to check.
      * @return {Integer|null} length of the selection or null
      */
     getLength : qx.core.Environment.select("engine.name",
@@ -364,7 +364,7 @@ qx.Class.define("qx.bom.Selection",
     /**
      * Utility method to check for an input or textarea element
      *
-     * @param node {node} node to check
+     * @param node {Node} node to check
      * @return {Boolean} Whether the given nodt is an input or textarea element
      */
     __isInputOrTextarea : function(node) {

@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
     /**
      * Returns the selected index of the element
-     * @return value {number} the selected index value
+     * @return value {Number} the selected index value
      */
     getSelection : function() {
       return this.__selectedIndex;
@@ -184,7 +184,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
     /**
      * Sets the selected index of the element.
-     * @param value {number} the index of the selection
+     * @param value {Number} the index of the selection
      */
     setSelection : function(value) {
       if(this.getModel() && this.getModel().length > value && value > -1){

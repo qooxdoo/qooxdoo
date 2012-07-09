@@ -258,7 +258,7 @@ qx.Bootstrap.define("qx.dev.Profile",
      * @param fcn {Function} Function to time.
      * @param type {String} Function type as in parameter with same name to
      *                      {@link qx.core.Aspect#addAdvice}
-     * @param args {Arguments} The arguments passed to the wrapped function
+     * @param args {arguments} The arguments passed to the wrapped function
      */
     profileBefore : function(fullName, fcn, type, args)
     {
@@ -285,7 +285,7 @@ qx.Bootstrap.define("qx.dev.Profile",
      * @param fcn {Function} Function to time.
      * @param type {String} Function type as in parameter with same name to
      *                      {@link qx.core.Aspect#addAdvice}
-     * @param args {Arguments} The arguments passed to the wrapped function
+     * @param args {arguments} The arguments passed to the wrapped function
      * @param returnValue {var} return value of the wrapped function.
      */
     profileAfter : function(fullName, fcn, type, args, returnValue)

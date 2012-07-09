@@ -1033,7 +1033,7 @@ qx.Class.define("qx.html.Element",
     /**
      * Append all given children at the end of this element.
      *
-     * @param varargs {qx.html.Element...} elements to insert
+     * @param varargs {qx.html.Element} elements to insert
      * @return {qx.html.Element} this object (for chaining support)
      */
     add : function(varargs)
@@ -1079,7 +1079,7 @@ qx.Class.define("qx.html.Element",
     /**
      * Removes all given children
      *
-     * @param childs {qx.html.Element...} children to remove
+     * @param childs {qx.html.Element} children to remove
      * @return {qx.html.Element} this object (for chaining support)
      */
     remove : function(childs)

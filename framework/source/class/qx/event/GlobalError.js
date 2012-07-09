@@ -148,7 +148,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
     /**
      * Delegates every given exception to the registered error handler
      *
-     * @param ex {qx.core.WindowError|exception} Exception to delegate
+     * @param ex {qx.core.WindowError|Error} Exception to delegate
      */
     handleError : function(ex)
     {

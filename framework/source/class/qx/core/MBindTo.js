@@ -55,7 +55,7 @@ qx.Mixin.define("qx.core.MBindTo",
      * @param func {Function}
      *   The function to be bound
      *
-     * @param varargs {Any?}
+     * @param varargs {var?}
      *   Optional arguments to be passed to the function.
      *
      * @return {Function}

@@ -510,7 +510,7 @@ qx.Bootstrap.define("qx.Theme",
     /**
      * Helper method to check for an invalid theme
      *
-     * @param mixinTheme {qx,Theme?null} theme to check
+     * @param mixinTheme {qx.Theme?null} theme to check
      * @throws an error if the theme is not valid
      */
     __checkForInvalidTheme: function(mixinTheme)

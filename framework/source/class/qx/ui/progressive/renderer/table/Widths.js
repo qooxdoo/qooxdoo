@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      * @param column {Integer}
      *   The column number whose attributes are being set.
      *
-     * @param map {map}
+     * @param map {Map}
      *   An object with any or all of the three members, "width", "minWidth",
      *   "maxWidth".  The property values are as described for {@link
      *   #setWidth}, {@link #setMinWidth} and {@link #setMaxWidth}
@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      *
      * @param column {Integer} The column whose width is to be set
      *
-     * @param width {Integer, String}
+     * @param width {Integer|String}
      *   The width of the specified column.  The width may be specified as
      *   integer number of pixels (e.g. 100), a string representing percentage
      *   of the inner width of the Table (e.g. "25%"), or a string

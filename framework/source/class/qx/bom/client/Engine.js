@@ -162,7 +162,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
 
     /**
      * Internal helper for checking for opera.
-     * @return {boolean} true, if its opera.
+     * @return {Boolean} true, if its opera.
      */
     __isOpera : function() {
       return window.opera &&
@@ -172,7 +172,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
 
     /**
      * Internal helper for checking for webkit.
-     * @return {boolean} true, if its webkit.
+     * @return {Boolean} true, if its webkit.
      */
     __isWebkit : function() {
       return window.navigator.userAgent.indexOf("AppleWebKit/") != -1;
@@ -183,7 +183,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      * Internal helper for checking for Maple .
      * Maple is used in Samsung SMART TV 2010-2011 models. It's based on Gecko
      * engine 1.8.1.11.
-     * @return {boolean} true, if its maple.
+     * @return {Boolean} true, if its maple.
      */
     __isMaple : function() {
       return window.navigator.userAgent.indexOf("Maple") != -1;
@@ -192,7 +192,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
 
     /**
      * Internal helper for checking for gecko.
-     * @return {boolean} true, if its gecko.
+     * @return {Boolean} true, if its gecko.
      */
     __isGecko : function() {
       return window.controllers && window.navigator.product === "Gecko" &&
@@ -202,7 +202,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
 
     /**
      * Internal helper to check for MSHTML.
-     * @return {boolean} true, if its MSHTML.
+     * @return {Boolean} true, if its MSHTML.
      */
     __isMshtml : function() {
       return window.navigator.cpuClass &&

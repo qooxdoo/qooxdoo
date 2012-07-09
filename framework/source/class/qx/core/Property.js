@@ -302,7 +302,7 @@ qx.Bootstrap.define("qx.core.Property",
     /**
      * Generate optimized refresh method and  attach it to the class' prototype
      *
-     * @param clazz {Clazz} clazz to which the refresher should be added
+     * @param clazz {Class} clazz to which the refresher should be added
      */
     __executeOptimizedRefresh : function(clazz)
     {
@@ -321,7 +321,7 @@ qx.Bootstrap.define("qx.core.Property",
     /**
      * Get the names of all inheritable properties of the given class
      *
-     * @param clazz {Clazz} class to get the inheritable properties of
+     * @param clazz {Class} class to get the inheritable properties of
      * @return {String[]} List of property names
      */
     __getInheritablesOfClass : function(clazz)
@@ -385,7 +385,7 @@ qx.Bootstrap.define("qx.core.Property",
     /**
      * Attach $$refreshInheritables method stub to the given class
      *
-     * @param clazz {Clazz} clazz to which the refresher should be added
+     * @param clazz {Class} clazz to which the refresher should be added
      */
     attachRefreshInheritables : function(clazz)
     {

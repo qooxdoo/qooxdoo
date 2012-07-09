@@ -150,8 +150,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
      * Add an event listener for the given event name.
      *
      * @param name {String} The name of the event to listen to.
-     * @param listener {function} The function to execute when the event is fired
-     * @param ctx {?var} The context of the listener.
+     * @param listener {Function} The function to execute when the event is fired
+     * @param ctx {var?} The context of the listener.
      * @return {qx.bom.request.Script} Self for chaining.
      */
     on: function(name, listener, ctx) {

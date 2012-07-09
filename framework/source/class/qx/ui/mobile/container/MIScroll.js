@@ -138,7 +138,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     /**
      * Creates the iScroll instance.
      *
-     * @return {iScroll} The iScroll instance
+     * @return {Object} The iScroll instance
      * @lint ignoreUndefined(iScroll)
      */
     __createScrollInstance : function()
@@ -227,7 +227,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     /**
      * Setter for the scroll instance.
      *
-     * @param scroll {iScroll} iScroll instance.
+     * @param scroll {Object} iScroll instance.
      */
     _setScroll : function(scroll)
     {

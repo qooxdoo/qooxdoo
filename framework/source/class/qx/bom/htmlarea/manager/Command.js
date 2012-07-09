@@ -178,7 +178,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      * Executes the given command
      *
      * @param command {String} Command to execute
-     * @param value {String ? Integer ? null} Value of the command (if any)
+     * @param value {String|Integer?null} Value of the command (if any)
      * @return {Boolean} Result of operation
      */
     execute : function(command, value)
@@ -287,7 +287,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      *
      * @param command {String} command to execute
      * @param ui {Boolean} Whether to show an ui when executing a command. Default is false.
-     * @param value {String ? Integer ? null} value of the command
+     * @param value {String|Integer|null} value of the command
      * @return {Boolean} Success of operation
      */
     __executeCommand : function(command, ui, value)

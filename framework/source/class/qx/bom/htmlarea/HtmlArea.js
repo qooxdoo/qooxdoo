@@ -285,7 +285,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @param root {Node} Root node (starting point)
      * @param outputRoot {Boolean} Controls whether the root node is also added to the output
      * @param skipHtmlEncoding {Boolean ? false} whether the html encoding of text nodes should be skipped
-     * @param postProcess {function} optional function to call which is executed with every element processing
+     * @param postProcess {Function} optional function to call which is executed with every element processing
      * @return {String} Content of current node
      */
     __getHtml : function(root, outputRoot, skipHtmlEncoding, postProcess)
@@ -873,7 +873,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Returns the iframe object which is used to render the content
      *
-     * @return {Iframe} iframe DOM element
+     * @return {Element} iframe DOM element
      */
     getIframeObject : function() {
       return this.__iframe;
@@ -882,7 +882,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Getter for command manager.
      *
-     * @return {qx.bom.htmlarea.manager.Command?qx.bom.htmlarea.manager.UndoRedo} manager instance
+     * @return {qx.bom.htmlarea.manager.Command|qx.bom.htmlarea.manager.UndoRedo} manager instance
      */
     getCommandManager : function() {
       return this.__commandManager;
@@ -3284,7 +3284,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Browser-specific implementation to get the current range contents
      *
-     * @param range {Range object} Native range object
+     * @param range {Range} Native range object
      *
      * @signature function(range)
      * @return {String} range contents

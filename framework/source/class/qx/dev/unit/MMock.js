@@ -285,7 +285,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     *
     * See http://sinonjs.org/docs/#useFakeXMLHttpRequest.
     *
-    * @return {Xhr}
+    * @return {Object}
     */
     useFakeXMLHttpRequest: function() {
       return this.__fakeXhr = this.__sandbox.useFakeXMLHttpRequest();
@@ -316,7 +316,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * the original host method run <code>this.getSandbox().restore()</code>
     * in your <code>tearDown()</code> method.
     *
-    * @return {Server}
+    * @return {Object}
     */
     useFakeServer: function() {
       return this.__fakeXhr = this.__sandbox.useFakeServer();
@@ -354,7 +354,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
      * belong to the prototype chain.
      *
      * @param object {Object} Object to stub deeply.
-     * @return {Stub} A stub.
+     * @return {Object} A stub.
      */
     deepStub: function(object) {
       this.__getOwnProperties(object).forEach(function(prop) {
@@ -395,8 +395,8 @@ qx.Mixin.define("qx.dev.unit.MMock",
      * @param object {Object} Namespace to hold factory, e.g. qx.html.
      * @param property {String} Property as string that functions as
      *  constructor, e.g. "Element".
-     * @param customStub {Stub?} Stub to inject.
-     * @return {Stub} Injected stub.
+     * @param customStub {Object?} Stub to inject.
+     * @return {Object} Injected stub.
      */
     injectStub: function(object, property, customStub) {
       var stub = customStub || this.deepStub(new object[property]);
@@ -418,7 +418,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
      * @param property {String} Property as string that functions as
      *  constructor, e.g. "Element".
      * @param customObject {Object?} Object to inject.
-     * @return {Mock} Mock of the object built.
+     * @return {Object} Mock of the object built.
      */
     revealMock: function(object, property, customObject) {
       var source = customObject ||

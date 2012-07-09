@@ -836,7 +836,7 @@ qx.Class.define("qx.io.remote.Request",
      *   of strings (for setting multiple parameter values with the same
      *   parameter name).
      *
-     * @param bAsData {Boolean | false}
+     * @param bAsData {Boolean}
      *   If <i>false</i>, add the parameter to the URL.  If <i>true</i> then
      *   instead the parameters added by calls to this method will be combined
      *   into a string added as the request data, as if the entire set of

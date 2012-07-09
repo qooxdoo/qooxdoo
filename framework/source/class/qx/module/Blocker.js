@@ -44,7 +44,7 @@ q.define("qx.module.Blocker", {
      * Attaches a blocker div (and additionally a blocker Iframe for IE) to the
      * given element.
      *
-     * @param item {DOMElement|DOMDocument} The element to be overlaid with the blocker
+     * @param item {Element|Document} The element to be overlaid with the blocker
      * @param color {String} The color for the blocker element (any CSS color value)
      * @param opacity {Number} The CSS opacity value for the blocker
      * @param zIndex {Number} The zIndex value for the blocker
@@ -79,7 +79,7 @@ q.define("qx.module.Blocker", {
     /**
      * Styles the blocker element(s)
      *
-     * @param item {DOMElement|DOMDocument} The element to be overlaid with the blocker
+     * @param item {Element|Document} The element to be overlaid with the blocker
      * @param color {String} The color for the blocker element (any CSS color value)
      * @param opacity {Number} The CSS opacity value for the blocker
      * @param zIndex {Number} The zIndex value for the blocker
@@ -123,7 +123,7 @@ q.define("qx.module.Blocker", {
      * Creates an iframe element used as a blocker in IE
      *
      * @param win {Window} The parent window of the item to be blocked
-     * @return {Iframe} Iframe blocker
+     * @return {Element} Iframe blocker
      */
     __getIframeElement : function(win)
     {
@@ -166,7 +166,7 @@ q.define("qx.module.Blocker", {
     /**
      * Removes the given item's blocker element(s) from the DOM
      *
-     * @param item {DOMElement} Blocked element
+     * @param item {Element} Blocked element
      * @param index {Number} index of the item in the collection
      */
     __detachBlocker : function(item, index)

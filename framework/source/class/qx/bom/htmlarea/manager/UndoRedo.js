@@ -31,7 +31,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
   /**
    * Constructor
    *
-   * @param commandManager {htmlarea.command.Manager} command manager instance
+   * @param commandManager {qx.bom.htmlarea.manager.Command} command manager instance
    * @param editorInstance {qx.ui.embed.HtmlArea} editor instance
    * @lint ignoreDeprecated(_commands)
    */
@@ -133,7 +133,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Executes the given command and collects (if necessary) undo information.
      *
      * @param command {String} Command to execute
-     * @param value {String ? Integer ? null} Value of the command (if any)
+     * @param value {String|Integer|null} Value of the command (if any)
      * @return {Boolean} Result of operation
      */
     execute : function(command, value)
@@ -216,8 +216,8 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * given actionType to undo/redo the change.
      *
      * @param actionType {String} actionType to react on with undo and redo methods
-     * @param undoHandler {function} undo method
-     * @param redoHandler {function} redo method
+     * @param undoHandler {Function} undo method
+     * @param redoHandler {Function} redo method
      * @param context {Object} In this context the methods are called. When no
      *               context is given the context is the UndoManager itself.
      *
@@ -1065,7 +1065,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Key press handler for the undo manager. Only acts on specific events which
      * are important to the undo manager.
      *
-     * @param e {qx.event.type.Key} key event instance
+     * @param e {qx.event.type.KeySequence} key event instance
      */
     _handleKeyPress : function(e)
     {

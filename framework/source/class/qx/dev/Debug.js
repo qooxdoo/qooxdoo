@@ -39,7 +39,7 @@ qx.Class.define("qx.dev.Debug",
      * @param obj {Object}
      *   The object to be recursively displayed
      *
-     * @param initialMessage {String, null}
+     * @param initialMessage {String|null}
      *   The initial message to be displayed.
      *
      * @param maxLevel {Integer ? 10}
@@ -64,7 +64,7 @@ qx.Class.define("qx.dev.Debug",
      * @param obj {Object}
      *   The object to be recursively displayed
      *
-     * @param initialMessage {String, null}
+     * @param initialMessage {String|null}
      *   The initial message to be displayed.
      *
      * @param maxLevel {Integer ? 10}

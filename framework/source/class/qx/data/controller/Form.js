@@ -354,7 +354,7 @@ qx.Class.define("qx.data.controller.Form",
      *
      * @param item {qx.ui.form.IForm} The form item to check.
      *
-     * @return {true} true, if given item fits.
+     * @return {Boolean} true, if given item fits.
      */
     __isModelSelectable : function(item) {
       return qx.Class.hasInterface(item.constructor, qx.ui.core.ISingleSelection) &&

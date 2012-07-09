@@ -281,7 +281,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
 
     /**
      * Helper-method returning true, if the target supports multi selection.
-     * @return {boolean} true, if the target supports multi selection.
+     * @return {Boolean} true, if the target supports multi selection.
      */
     __targetSupportsMultiSelection: function() {
       var targetClass = this.getTarget().constructor;
@@ -291,7 +291,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
 
     /**
      * Helper-method returning true, if the target supports single selection.
-     * @return {boolean} true, if the target supports single selection.
+     * @return {Boolean} true, if the target supports single selection.
      */
     __targetSupportsSingleSelection: function() {
       var targetClass = this.getTarget().constructor;

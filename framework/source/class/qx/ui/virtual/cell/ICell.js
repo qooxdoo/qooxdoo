@@ -39,7 +39,7 @@ qx.Interface.define("qx.ui.virtual.cell.ICell",
      * two-dimensional array.</li>
      * </ul>
      *
-     * @param data {Var} Data needed for the cell to render.
+     * @param data {var} Data needed for the cell to render.
      * @param states {Map} The states set on the cell (e.g. <i>selected</i>,
      * <i>focused</i>, <i>editable</i>).
      *

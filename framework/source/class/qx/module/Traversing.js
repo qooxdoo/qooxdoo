@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      *
      * @attach {q}
      * @param fn {Function} Callback function
-     * @param ctx {Obj} Context object
+     * @param ctx {Object} Context object
      * @return {q} The collection for chaining
      */
     forEach : function(fn, ctx) {

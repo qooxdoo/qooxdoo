@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
      *
      * @param columnIndex {Integer} index of the column
      * @param rowIndex {Integer} index of the row
-     * @param value {Var} Value to be set
+     * @param value {var} Value to be set
      *
      * @throws {Error} An error if this method is called.
      */

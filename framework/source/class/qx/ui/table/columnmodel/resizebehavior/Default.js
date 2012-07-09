@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      *
      * @param col {Integer} The column whose width is to be set
      *
-     * @param width {Integer, String}
+     * @param width {Integer|String}
      *   The width of the specified column.  The width may be specified as
      *   integer number of pixels (e.g. 100), a string representing percentage
      *   of the inner width of the Table (e.g. "25%"), or a string

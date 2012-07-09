@@ -447,7 +447,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * @param parameters {Array}
      *   An array containing the arguments to the called method.
      *
-     * @param serverData {Any}
+     * @param serverData {var}
      *   "Out-of-band" data to be provided to the server.
      *
      * @return {Object}

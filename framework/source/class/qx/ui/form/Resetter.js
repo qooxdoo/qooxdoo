@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.form.Resetter",
      * {@link qx.ui.core.ISingleSelection} interface.
      *
      * @param formItem {qx.core.Object} The item to check.
-     * @return {boolean} true, if the given item implements the
+     * @return {Boolean} true, if the given item implements the
      *   necessary interface.
      */
     __supportsSingleSelection : function(formItem) {
@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.form.Resetter",
      * {@link qx.data.controller.ISelection} interface.
      *
      * @param formItem {qx.core.Object} The item to check.
-     * @return {boolean} true, if the given item implements the
+     * @return {Boolean} true, if the given item implements the
      *   necessary interface.
      */
     __supportsDataBindingSelection : function(formItem) {
@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.form.Resetter",
      * Returns true, if the value property is supplied by the form item.
      *
      * @param formItem {qx.core.Object} The item to check.
-     * @return {boolean} true, if the given item implements the
+     * @return {Boolean} true, if the given item implements the
      *   necessary interface.
      */
     _supportsValue : function(formItem) {

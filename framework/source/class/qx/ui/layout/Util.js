@@ -372,7 +372,7 @@ qx.Class.define("qx.ui.layout.Util",
      *
      * @param children {qx.ui.core.LayoutItem[]} List of children
      * @param spacing {Integer} Configured spacing
-     * @param separator {Separator} Separator to render
+     * @param separator {Decorator} Separator to render
      * @return {Integer} Sum of gaps
      */
     computeHorizontalSeparatorGaps : function(children, spacing, separator)
@@ -399,7 +399,7 @@ qx.Class.define("qx.ui.layout.Util",
      *
      * @param children {qx.ui.core.LayoutItem[]} List of children
      * @param spacing {Integer} Configured spacing
-     * @param separator {Separator} Separator to render
+     * @param separator {Decorator} Separator to render
      * @return {Integer} Sum of gaps
      */
     computeVerticalSeparatorGaps : function(children, spacing, separator)

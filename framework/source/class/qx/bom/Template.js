@@ -128,7 +128,7 @@ qx.Bootstrap.define("qx.bom.Template", {
      * @param id {String} The id of the HTML template in the DOM.
      * @param view {Object} The object holding the data to render.
      * @param partials {Object} Object holding parts of a template.
-     * @return {DomNode} A DOM element holding the parsed template data.
+     * @return {Element} A DOM element holding the parsed template data.
      */
     get : function(id, view, partials) {
       // get the content stored in the DOM

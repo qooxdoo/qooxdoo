@@ -393,7 +393,7 @@ qx.Class.define("qx.io.remote.Exchange",
      * Status code to string conversion
      *
      * @param vStatusCode {Integer} request status code
-     * @return {string} String presentation of status code
+     * @return {String} String presentation of status code
      */
     statusCodeToString : function(vStatusCode)
     {

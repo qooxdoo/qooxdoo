@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      * @param column {Integer}
      *   The column number for which the cell renderer applies
      *
-     * @param renderer {@link qx.ui.progressive.renderer.table.cell.Abstract}
+     * @param renderer {qx.ui.progressive.renderer.table.cell.Abstract}
      *   The cell renderer for the specified column.
      *
      */

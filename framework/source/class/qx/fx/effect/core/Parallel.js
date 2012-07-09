@@ -52,7 +52,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
 
 
   /**
-   * @param varargs {varargs} List of effects
+   * @param varargs {var} List of effects
    * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
    */
   construct : function(varargs)

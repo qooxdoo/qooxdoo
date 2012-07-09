@@ -635,7 +635,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      * Getter for command manager.
      *
-     * @return {htmlarea.manager.Manager?htmlarea.manager.UndoManager?null} manager instance
+     * @return {qx.bom.htmlarea.manager.Command|qx.bom.htmlarea.manager.UndoRedo?null} manager instance
      * or null if the editor is not initialized
      */
     getCommandManager : function() {

@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.layout.Abstract",
     /**
      * Renders a separator between two children
      *
-     * @param separator {Separator} The separator to render
+     * @param separator {Decorator} The separator to render
      * @param bounds {Map} Contains the left and top coordinate and the width and height
      *    of the separator to render.
      */

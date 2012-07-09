@@ -24,7 +24,7 @@
  *
  * EXPERIMENTAL!
  *
- * @childControl row-layer {qx.ui.virtual.Row} layer for all rows
+ * @childControl row-layer {qx.ui.virtual.layer.Row} layer for all rows
  * @childControl grid-lines {qx.ui.virtual.layer.GridLines} show the grid lines
  *
  * @deprecated This 'qx.ui.virtual.form.List' is deprecated use 'qx.ui.list.List'

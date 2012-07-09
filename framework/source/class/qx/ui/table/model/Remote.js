@@ -889,7 +889,7 @@ qx.Class.define("qx.ui.table.model.Remote",
      * for appearance reason), but the sorting of the data will be done in
      * another step.
      *
-     * @param sortAscending {boolean} whether the sorting direction is ascending
+     * @param sortAscending {Boolean} whether the sorting direction is ascending
      *        (true) or not (false).
      */
     setSortAscendingWithoutSortingData : function (sortAscending)

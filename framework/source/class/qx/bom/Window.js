@@ -144,7 +144,7 @@ qx.Class.define("qx.bom.Window",
      * @param listener {Function ?} listener function for onload event on the new window
      * @param self {Object ?} Reference to the 'this' variable inside
      *         the event listener. When not given, 'this' variable will be the new window
-     * @return {win} native window object
+     * @return {Window} native window object
      */
     open : function(url, name, options, modal, useNativeModalDialog, listener, self)
     {

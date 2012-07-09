@@ -45,7 +45,7 @@ qx.Class.define("qx.type.Array",
    * * <code>length</code>: The initial length of the array.
    * * <code>item1, item2. .. itemN</code>:  the items that will make up the newly created array
    *
-   * @param length_or_items {Integer|varargs?null} The initial size of the collection
+   * @param length_or_items {Integer|var?null} The initial size of the collection
    *        OR an argument list of elements.
    */
   construct : function(length_or_items) {

@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     /**
      * Returns all elements which are selectable.
      *
-     * @param all {boolean} true for all selectables, false for the
+     * @param all {Boolean} true for all selectables, false for the
      *   selectables the user can interactively select
      * @return {qx.ui.core.Widget[]} The contained items.
      */
