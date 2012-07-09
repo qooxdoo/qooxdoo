@@ -33,6 +33,21 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
   members :
   {
     /**
+     * Gives the possibility to ignore parts of the marshaled data and store the
+     * original data.
+     *
+     * @param properties {String} A sorted order of propertynames
+     *   separated by ".
+     * @param parentProperty {String|null} If there is a named parent property, the
+     *   name is given here. This might be null in case of arrays and the root data.
+     * @param depth {Number} The depth level of the data.
+     * @return {String} The new which should be used for that property in
+     *   the model.
+     */
+    ignore : function(properties, parentProperty, depth) {},
+
+
+    /**
      * Gives the possibility to change the names given in the data to convert
      * to something different.
      *

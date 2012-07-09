@@ -794,6 +794,72 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertTrue(model.getBbb());
 
       model.dispose();
+    },
+
+
+    testIgnoreParent: function() {
+      var delegate = {ignore : function(properties, parentProperty, depth) {
+        return parentProperty == "b";
+      }};
+
+      this.__marshaler.dispose();
+      this.__marshaler = new qx.data.marshal.Json(delegate);
+
+      var data = {a: [], b: {x: 1}, c: {y: 2}};
+
+      this.__marshaler.toClass(data);
+      var model = this.__marshaler.toModel(data);
+
+      this.assertInstance(model.getA(), qx.data.Array);
+      this.assertEquals(1, model.getB().x);
+      this.assertInstance(model.getC(), qx.core.Object);
+      this.assertEquals(2, model.getC().getY());
+
+      model.dispose();
+    },
+
+
+    testIgnoreDepth: function() {
+      var delegate = {ignore : function(properties, parentProperty, depth) {
+        return depth >= 1;
+      }};
+
+      this.__marshaler.dispose();
+      this.__marshaler = new qx.data.marshal.Json(delegate);
+
+      var data = {a: [0], b: {x: 1}, c: {y: 2}};
+
+      this.__marshaler.toClass(data);
+      var model = this.__marshaler.toModel(data);
+
+      this.assertEquals(0, model.getA()[0]);
+      this.assertEquals(1, model.getB().x);
+      this.assertEquals(2, model.getC().y);
+
+      model.dispose();
+    },
+
+
+
+    testIgnoreProperties: function() {
+      var delegate = {ignore : function(properties, parentProperty, depth) {
+        return properties == "x";
+      }};
+
+      this.__marshaler.dispose();
+      this.__marshaler = new qx.data.marshal.Json(delegate);
+
+      var data = {a: [], b: {x: 1}, c: {y: 2}};
+
+      this.__marshaler.toClass(data);
+      var model = this.__marshaler.toModel(data);
+
+      this.assertInstance(model.getA(), qx.data.Array);
+      this.assertEquals(1, model.getB().x);
+      this.assertInstance(model.getC(), qx.core.Object);
+      this.assertEquals(2, model.getC().getY());
+
+      model.dispose();
     }
   }
 });
