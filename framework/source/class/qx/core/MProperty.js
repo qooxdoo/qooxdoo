@@ -49,13 +49,8 @@ qx.Mixin.define("qx.core.MProperty",
             return this;
           }
 
-          if (qx.core.Environment.get("qx.debug"))
-          {
-            qx.Bootstrap.error(new Error("No such property: " + data));
-            return this;
-          }
+          throw new Error("No such property: " + data);
         }
-
 
         return this[setter[data]](value);
       }
@@ -70,11 +65,7 @@ qx.Mixin.define("qx.core.MProperty",
               continue;
             }
 
-            if (qx.core.Environment.get("qx.debug"))
-            {
-              qx.Bootstrap.error(new Error("No such property: " + prop));
-              return this;
-            }
+            throw new Error("No such property: " + prop);
           }
 
           this[setter[prop]](data[prop]);
@@ -103,11 +94,7 @@ qx.Mixin.define("qx.core.MProperty",
           return this["get" + qx.Bootstrap.firstUp(prop)]();
         }
 
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          qx.Bootstrap.error(new Error("No such property: " + prop));
-          return this;
-        }
+        throw new Error("No such property: " + prop);
       }
 
 
@@ -133,11 +120,7 @@ qx.Mixin.define("qx.core.MProperty",
           return;
         }
 
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          qx.Bootstrap.error(new Error("No such property: " + prop));
-          return;
-        }
+        throw new Error("No such property: " + prop);
       }
 
 
