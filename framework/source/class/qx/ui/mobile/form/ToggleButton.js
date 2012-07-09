@@ -105,8 +105,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
       refine : true,
       init : "toggleButton"
     }
-
-
   },
 
 

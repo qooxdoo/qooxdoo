@@ -31,7 +31,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
 
   construct : function()
   {
-    this.base(arguments);
+    this.base(arguments,false);
     this.setTitle("Toolbar");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");

@@ -63,8 +63,24 @@ h2 {
 }
 
 //
+// GROUP
+//
+
+.group {
+  margin:10px;
+}
+
+.bordered {
+  border: @border-thickness solid @border-color;
+  background-color:white;
+  .border-radius(.4em);
+  padding:10px;
+}
+
+//
 // INPUT FIELDS
 //
+
 input[type="text"], input[type="password"],input[type="number"], textarea {
   border: @border-thickness solid @border-color;
   color:@font-color-light-background;
@@ -286,10 +302,7 @@ div.checked .toggleButtonSwitch:before {
   .box-shadow(1px 0 2px #4b4b4b);
 
   background: #cfcfcf;
-  background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfcf), color-stop(100%,#fdfdfd)); 
-  background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
-  background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); 
+  #gradient > .vertical (#cfcfcf,#fdfdfd);
 
   // Because of display problems in Safari, Animation is disabled.
   //.transition(left .15s);
@@ -300,20 +313,20 @@ div.checked .toggleButtonSwitch:before {
 //
 
 .checkbox-label:before {
-  background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
-  background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
+  #gradient > .vertical (#222,#45484d);
+
   .border-radius(.1em);
 }
 
 input[type="checkbox"] + label {
-  position:relative;
-  .border-radius(.3em);
-  border:@border-thickness solid @dark-grey;
-  background-color: #929292;
-  background: -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
-  background: -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-  background: -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-  background: linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+    position:relative;
+    .border-radius(.3em);
+    border:@border-thickness solid @dark-grey;
+    background-color: #929292;
+    background: -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
+    background: -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+    background: -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+    background: linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
 }
 
 input[type="checkbox"] + label:after {
@@ -333,9 +346,7 @@ input[type="checkbox"] + label:after {
     border-right: 0;
     .transform(rotate(-45deg));
 
-    -webkit-box-shadow:  -1px 1px 1px 0px @checkbox-check-color;
-    -moz-box-shadow: -1px 1px 1px 0px @checkbox-check-color;
-    box-shadow: -1px 1px 1px 0px @checkbox-check-color;
+    .box-shadow(-1px 1px 1px 0px @checkbox-check-color);
 }
 
 
@@ -356,30 +367,26 @@ input[type=radio] + label {
 
 // Inner Area
 input[type=radio]+ label:before {
-      -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-      -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-      box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+    -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+    -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
 
-      background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
-      background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
-      background: linear-gradient(top, #222 0%, #45484d 100%);
+    #gradient > .vertical (#222,#45484d);
 }
 
 
 // Color dot
 input[type=radio] + label:after {
-      background: @dark-blue; 
+    background: @dark-blue; 
 
-      @dot-color: @dark-blue;
-      @dot-dark-color: darken(@dot-color, 10%);
+    @dot-color: @dark-blue;
+    @dot-dark-color: darken(@dot-color, 10%);
 
-      background: -webkit-linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
-      background: -moz-linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
-      background: linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
+    #gradient > .vertical (@dot-color,@dot-dark-color);
 
-      -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-      -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-      box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+    -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+    box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
 }
 
 // 
@@ -454,10 +461,13 @@ input[type=radio] + label:after {
   .clickable-active();
 }
 
+// Tick
 .selectbox-selected > div > .list-itemlabel:after {
   border-color:@dark-blue;
+  .box-shadow(-1px 1px 1px 0px @dark-grey);
 }
 
+// Active Tick
 .selectbox-selected.active > div > .list-itemlabel:after {
   border-color:white;
 }

@@ -79,7 +79,7 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
 
 
       this.getContent().add(new qx.ui.mobile.form.Title("Select your theme"));
-
+      
       for(var i = 0; i < this.__themes.length; i++) {
          var label = this.__themes[i].name;
          var switchButton = new qx.ui.mobile.form.Button(label);

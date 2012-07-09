@@ -27,7 +27,7 @@ qx.Class.define("mobileshowcase.page.Event",
 
   construct : function()
   {
-    this.base(arguments);
+    this.base(arguments, false);
     this.setTitle("Events");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
@@ -63,8 +63,12 @@ qx.Class.define("mobileshowcase.page.Event",
       container.add(label);
 
       var descriptionText = "<b>Testing Touch Events:</b> Touch / Tap / Swipe the green area</br><b>Testing OrientationChange Event</b>: Rotate your device / change browser size";
-      this.getContent().add(new qx.ui.mobile.basic.Label(descriptionText), {flex:1});
-      this.getContent().add(container, {flex:1});
+      var descriptionLabel = new qx.ui.mobile.basic.Label(descriptionText);
+     
+      var descriptionGroup = new qx.ui.mobile.form.Group([descriptionLabel]);
+      var containerGroup = new qx.ui.mobile.form.Group([container]);
+      this.getContent().add(descriptionGroup, {flex:1});
+      this.getContent().add(containerGroup, {flex:1});
     },
 
 

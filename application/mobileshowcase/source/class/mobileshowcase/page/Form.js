@@ -56,12 +56,12 @@ qx.Class.define("mobileshowcase.page.Form",
       this.getContent().add(title);
       this.__form = this.__createForm();
       this.getContent().add(new qx.ui.mobile.form.renderer.Single(this.__form));
-
+      
       this.__submitButton = new qx.ui.mobile.form.Button("Submit");
       this.__submitButton.addListener("tap", this._onButtonTap, this);
       this.__submitButton.setEnabled(false);
       this.getContent().add(this.__submitButton);
-
+      
       var title2 = new qx.ui.mobile.form.Title("Registration Result");
       this.getContent().add(title2);
       this.__result = new qx.ui.mobile.embed.Html();

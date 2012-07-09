@@ -56,7 +56,26 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
   extend : qx.ui.mobile.page.Page,
   implement : qx.ui.mobile.container.INavigation,
 
+  
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+ 
+  /**
+   * @param wrapContentByGroup {Boolean} Defines whether a group box should wrap the content. This can be used for defining a page margin.
+   * @param layout {qx.ui.mobile.layout.Abstract} The layout of this page.
+   */
+  construct : function(wrapContentByGroup, layout)
+  {
+    this.base(arguments);
 
+    if(wrapContentByGroup != null) {
+      this._wrapContentByGroup = wrapContentByGroup;
+    }
+  },
+  
   /*
   *****************************************************************************
      EVENTS
@@ -174,6 +193,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
   members :
   {
     _isTablet : false,
+    _wrapContentByGroup : true,
     __backButton : null,
     __button : null,
     __content : null,
@@ -488,6 +508,11 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     {
       var content = new qx.ui.mobile.container.Composite();
       content.setDefaultCssClass(this.getContentCssClass());
+      
+      if(this._wrapContentByGroup==true) {
+        content.addCssClass("group");
+      }
+      
       return content;
     },
 

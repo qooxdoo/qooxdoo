@@ -83,6 +83,10 @@ h2 {
   .clickable-active();
 }
 
+.content.group > .button {
+  margin:5px;
+}
+
 //
 // LIST
 //
@@ -130,6 +134,18 @@ ul li .subtitle {
 
 ul li.active .subtitle {
   color: #313429;
+}
+
+//
+// GROUP
+//
+
+.group:not(.content){
+  margin:5px;
+}
+
+.bordered {
+  
 }
 
 //
@@ -240,8 +256,7 @@ input[type="checkbox"] + label {
 }
 
 .checkbox-label:before {
-  background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
-  background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
+  #gradient > .vertical(darken(@button-color, 60%),darken(@button-color, 40%));
   .border-radius(.1em);
 }
 
@@ -279,26 +294,24 @@ input[type="checkbox"]:checked + label:after {
 
 // Border style
 input[type=radio] + label {
-      background: #fcfff4;
-      background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-      background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-      background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    background: #fcfff4;
+    background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
 
-      -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-      -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-      box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+    -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+    box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
 }
 
 
 // Inner Area
 input[type=radio]+ label:before {
-      -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-      -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-      box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-
-      background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
-      background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
-      background: linear-gradient(top, #222 0%, #45484d 100%);
+    -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+    -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+    
+    #gradient > .vertical(darken(@button-color, 60%),darken(@button-color, 40%));
 }
 
 

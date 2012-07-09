@@ -28,7 +28,7 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
 
   construct : function()
   {
-    this.base(arguments);
+    this.base(arguments, false);
     this.setTitle("Animation");
     this.setShowBackButton(true);
     this.setShowBackButtonOnTablet(true);
@@ -61,8 +61,9 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
       if(this._isTablet) {
         qx.event.Registration.addListener(this, "appear", this.__deactiveAnimation, this);
       }
-
-      this.getContent().add(embed);
+      
+      var textGroup = new qx.ui.mobile.form.Group([embed]);
+      this.getContent().add(textGroup);
     },
 
 

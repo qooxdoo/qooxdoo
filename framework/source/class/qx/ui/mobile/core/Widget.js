@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     this.base(arguments);
 
     this._setContainerElement(this._createContainerElement());
-
+    
     // Init member variables
 
     this.__children = [];

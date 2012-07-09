@@ -75,6 +75,7 @@ qx.Class.define("mobileshowcase.page.Overview",
         // On click on list item, portraitContainer should hide.
         this.fireEvent("hidePortraitContainer");
       }, this);
+      
       this.getContent().add(list);
 
     }
