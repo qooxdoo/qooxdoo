@@ -96,7 +96,7 @@ GLOBALS = BUILTIN + [
           'atob', 'btoa', 'frameElement', 'removeEventListener', 'dispatchEvent',
           'getComputedStyle', 'sessionStorage', 'globalStorage', 'localStorage',
           'CanvasRenderingContext2D', 'DocumentFragment', 'history', 'Selection',
-          'Storage', 'StyleSheet', 'File'
+          'Storage', 'StyleSheet', 'File',
   
           # Language
           "eval", "decodeURI", "encodeURI", "decodeURIComponent", "encodeURIComponent",
