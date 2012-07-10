@@ -36,21 +36,16 @@ qx.Bootstrap.define("qx.bom.element.Cursor",
     {
       "mshtml" :
       {
-        "cursor" : "hand",
-        "ew-resize" : "e-resize",
-        "ns-resize" : "n-resize",
-        "nesw-resize" : "ne-resize",
-        "nwse-resize" : "nw-resize"
+        "ew-resize" : "e-resize",  // < 8
+        "ns-resize" : "n-resize",  // < 8
+        "nesw-resize" : "ne-resize",  // < 9
+        "nwse-resize" : "nw-resize"  // < 9
       },
 
       "opera" :
       {
-        "col-resize" : "e-resize",
-        "row-resize" : "n-resize",
-        "ew-resize" : "e-resize",
-        "ns-resize" : "n-resize",
-        "nesw-resize" : "ne-resize",
-        "nwse-resize" : "nw-resize"
+        "nesw-resize" : "ne-resize", // < 12
+        "nwse-resize" : "nw-resize" // < 12
       },
 
       "default" : {}
