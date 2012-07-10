@@ -276,9 +276,6 @@ Update Online Site
   
   * Adjust the appropriate ``<major>.<minor>.x`` and ``current`` symbolic links to link to the new version.
   * For a release of the current devel version, make a deep copy of the new version with the next devel target (e.g. with ``cp -R --preserve 1.6 1.7``), and link the ``devel`` symbolic link to it (so the next devel update doesn't overwrite the released version).
-* **/wiki**
-  
-  * Adjust ``wiki/inc/html.php#html_search``, which will add the new version to the drop-down menu on the search web page (in the .php file look for the string ``'Homepage only'``).
 
 .. _pages/project/release_how_to_build.rst#update_wiki:
 
