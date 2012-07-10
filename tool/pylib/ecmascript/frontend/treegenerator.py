@@ -323,7 +323,7 @@ class symbol_base(Node):
         raise SyntaxException("Syntax error %r (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
 
     def ifix(self, left):
-        raise SyntaxException("Unknown operator %r (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
+        raise SyntaxException("Unknown operator %r in infix position (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
 
     def isVar(self):
         return self.type in ("dotaccessor", "identifier")
