@@ -326,7 +326,8 @@ qx.Bootstrap.define("qx.Bootstrap",
         - Store base constructor to constructor-
         - Store reference to extend class
       */
-      construct.base = clazz.superclass = superClass;
+      construct.base = superClass;
+      clazz.superclass = superClass;
 
       /*
         - Store statics/constructor onto constructor/prototype
