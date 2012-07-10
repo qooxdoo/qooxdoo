@@ -64,29 +64,21 @@
 #require(qx.bom.element.Cursor#set)
 #require(qx.bom.element.Opacity#set)
 #require(qx.bom.element.BoxSizing#set)
-#require(qx.bom.element.Overflow#setY)
-#require(qx.bom.element.Overflow#setX)
 
 #require(qx.bom.element.Clip#get)
 #require(qx.bom.element.Cursor#get)
 #require(qx.bom.element.Opacity#get)
 #require(qx.bom.element.BoxSizing#get)
-#require(qx.bom.element.Overflow#getX)
-#require(qx.bom.element.Overflow#getY)
 
 #require(qx.bom.element.Clip#reset)
 #require(qx.bom.element.Cursor#reset)
 #require(qx.bom.element.Opacity#reset)
 #require(qx.bom.element.BoxSizing#reset)
-#require(qx.bom.element.Overflow#resetX)
-#require(qx.bom.element.Overflow#resetY)
 
 #require(qx.bom.element.Clip#compile)
 #require(qx.bom.element.Cursor#compile)
 #require(qx.bom.element.Opacity#compile)
 #require(qx.bom.element.BoxSizing#compile)
-#require(qx.bom.element.Overflow#compileX)
-#require(qx.bom.element.Overflow#compileY)
 
 ************************************************************************ */
 
@@ -180,19 +172,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
       clip : qx.bom.element.Clip,
       cursor : qx.bom.element.Cursor,
       opacity : qx.bom.element.Opacity,
-      boxSizing : qx.bom.element.BoxSizing,
-      overflowX : {
-        set : qx.lang.Function.bind(qx.bom.element.Overflow.setX, qx.bom.element.Overflow),
-        get : qx.lang.Function.bind(qx.bom.element.Overflow.getX, qx.bom.element.Overflow),
-        reset : qx.lang.Function.bind(qx.bom.element.Overflow.resetX, qx.bom.element.Overflow),
-        compile : qx.lang.Function.bind(qx.bom.element.Overflow.compileX, qx.bom.element.Overflow)
-      },
-      overflowY : {
-        set : qx.lang.Function.bind(qx.bom.element.Overflow.setY, qx.bom.element.Overflow),
-        get : qx.lang.Function.bind(qx.bom.element.Overflow.getY, qx.bom.element.Overflow),
-        reset : qx.lang.Function.bind(qx.bom.element.Overflow.resetY, qx.bom.element.Overflow),
-        compile : qx.lang.Function.bind(qx.bom.element.Overflow.compileY, qx.bom.element.Overflow)
-      }
+      boxSizing : qx.bom.element.BoxSizing
     },
 
 
