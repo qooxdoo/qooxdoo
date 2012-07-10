@@ -23,7 +23,7 @@
  * such as Manipulating or Attributes.
  *
  * Core also provides the plugin API which allows modules to attach either
- * static functions to the global <code>q</code> object or define methods on the 
+ * static functions to the global <code>q</code> object or define methods on the
  * collection it returns.
  *
  * For further details, take a look at the documentation in the
@@ -49,7 +49,7 @@ qx.Bootstrap.define("q", {
       var col = qx.lang.Array.cast(arg, q);
       for (var i=0; i < q.__init.length; i++) {
         q.__init[i].call(col);
-      };
+      }
       return col;
     },
 
@@ -68,7 +68,7 @@ qx.Bootstrap.define("q", {
           }
         }
         q.prototype[name] = module[name];
-      };
+      }
     },
 
 
