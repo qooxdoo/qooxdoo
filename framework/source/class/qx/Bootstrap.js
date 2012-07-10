@@ -311,9 +311,9 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       // Use helper function/class to save the unnecessary constructor call while
       // setting up inheritance.
-      var helper = new Function;
+      var helper = new Function();
       helper.prototype = superproto;
-      var proto = new helper;
+      var proto = new helper();
 
       // Apply prototype to new helper instance
       clazz.prototype = proto;

@@ -155,7 +155,7 @@ qx.Bootstrap.define("qx.Class",
     define : function(name, config)
     {
       if (!config) {
-        var config = {};
+        config = {};
       }
 
       // Normalize include to array
@@ -288,7 +288,7 @@ qx.Bootstrap.define("qx.Class",
         } else {
           break;
         }
-      };
+      }
     },
 
 
@@ -677,7 +677,7 @@ qx.Bootstrap.define("qx.Class",
       if (!this.$$instance)
       {
         this.$$allowconstruct = true;
-        this.$$instance = new this;
+        this.$$instance = new this();
         delete this.$$allowconstruct;
       }
 
@@ -941,7 +941,7 @@ qx.Bootstrap.define("qx.Class",
       }
       else
       {
-        var clazz = {};
+        clazz = {};
 
         if (extend)
         {
@@ -1149,7 +1149,7 @@ qx.Bootstrap.define("qx.Class",
           if (!qx.core.Environment.get("module.events")) {
             throw new Error("Events module not enabled.");
           }
-          var event = {}
+          var event = {};
           event[config.event] = "qx.event.type.Data";
           this.__addEvents(clazz, event, patch);
         }
@@ -1275,7 +1275,6 @@ qx.Bootstrap.define("qx.Class",
     {
       var proto = clazz.prototype;
       var key, member;
-
       qx.Bootstrap.setDisplayNames(members, clazz.classname + ".prototype");
 
       for (var i=0, a=qx.Bootstrap.getKeys(members), l=a.length; i<l; i++)
@@ -1345,7 +1344,7 @@ qx.Bootstrap.define("qx.Class",
           var retval = member.apply(this, arguments);
           member.base = oldBase;
           return retval;
-        }
+        };
       }
       else
       {
@@ -1365,7 +1364,7 @@ qx.Bootstrap.define("qx.Class",
       if (qx.core.Environment.get("qx.debug"))
       {
         if (!clazz || !iface) {
-          throw new Error("Incomplete parameters!")
+          throw new Error("Incomplete parameters!");
         }
 
         // This differs from mixins, we only check if the interface is already
@@ -1405,7 +1404,7 @@ qx.Bootstrap.define("qx.Class",
      */
     __retrospectWrapConstruct : function(clazz)
     {
-      var name = clazz.classname
+      var name = clazz.classname;
       var wrapper = this.__wrapConstructor(clazz, name, clazz.$$classtype);
 
       // copy all keys from the wrapped constructor to the wrapper
@@ -1476,7 +1475,7 @@ qx.Bootstrap.define("qx.Class",
       if (qx.core.Environment.get("qx.debug"))
       {
         if (!clazz || !mixin) {
-          throw new Error("Incomplete parameters!")
+          throw new Error("Incomplete parameters!");
         }
       }
 
