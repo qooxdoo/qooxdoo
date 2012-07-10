@@ -70,7 +70,7 @@ qx.Class.define("qx.bom.element.Scroll",
       while (parent && parent != stop)
       {
         // "overflow" is always visible for both: document.body and document.documentElement
-        if (parent.scrollWidth > parent.clientWidth && (parent === body || qx.bom.element.Overflow.getY(parent) != "visible"))
+        if (parent.scrollWidth > parent.clientWidth && (parent === body || qx.bom.element.Style.get(parent, "overflowY") != "visible"))
         {
           // console.debug("Process: " + parent.$$hash);
 
@@ -194,7 +194,7 @@ qx.Class.define("qx.bom.element.Scroll",
       while (parent && parent != stop)
       {
         // "overflow" is always visible for both: document.body and document.documentElement
-        if (parent.scrollHeight > parent.clientHeight && (parent === body || qx.bom.element.Overflow.getY(parent) != "visible"))
+        if (parent.scrollHeight > parent.clientHeight && (parent === body || qx.bom.element.Style.get(parent, "overflowY") != "visible"))
         {
           // console.debug("Process: " + parent.$$hash);
 

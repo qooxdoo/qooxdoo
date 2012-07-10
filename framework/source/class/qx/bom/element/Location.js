@@ -377,12 +377,12 @@ qx.Bootstrap.define("qx.bom.element.Location",
         // which may be higher than the outer width/height when the element has scrollbars.
         if (mode == "padding" || mode == "scroll")
         {
-          var overX = qx.bom.element.Overflow.getX(elem);
+          var overX = qx.bom.element.Style.get(elem, "overflowX");
           if (overX == "scroll" || overX == "auto") {
             right += elem.scrollWidth - elem.offsetWidth + this.__num(elem, "borderLeftWidth") + this.__num(elem, "borderRightWidth");
           }
 
-          var overY = qx.bom.element.Overflow.getY(elem);
+          var overY = qx.bom.element.Style.get(elem, "overflowY");
           if (overY == "scroll" || overY == "auto") {
             bottom += elem.scrollHeight - elem.offsetHeight + this.__num(elem, "borderTopWidth") + this.__num(elem, "borderBottomWidth");
           }
