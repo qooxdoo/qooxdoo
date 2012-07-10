@@ -1760,34 +1760,40 @@ def statement():
         advance()
         advance(":")
         s.childappend(statement())
-    # normal statement
+    # normal SourceElement
     else:
         n = token
-        s = None
-        if getattr(token, 'std', None):
+        s = None 
+        # function declaration, doesn't need statementEnd
+        if token.id == 'function' and tokenStream.peek(1).type == 'identifier':
             advance()
-            s = n.std()
-        elif token.id == ';': # empty statement
-            s = symbol("(empty)")()
-        elif token.type != 'eol': # it's not an empty line
-            s = expression()
-            # Crockford's too tight here
-            #if not (s.id == "=" or s.id == "("):
-            #    raise SyntaxException("Bad expression statement (pos %r)" % ((token.get("line"), token.get("column")),))
+            s = n.pfix()
+        # statement
+        else:
+            if getattr(token, 'std', None):
+                advance()
+                s = n.std()
+            elif token.id == ';': # empty statement
+                s = symbol("(empty)")()
+            elif token.type != 'eol': # it's not an empty line
+                s = expression()
+                # Crockford's too tight here
+                #if not (s.id == "=" or s.id == "("):
+                #    raise SyntaxException("Bad expression statement (pos %r)" % ((token.get("line"), token.get("column")),))
 
-            # handle expression lists
-            # (REFAC: somewhat ugly here, expression lists should be treated generically,
-            # but there is this conflict between ',' as an operator ('infix(",", 5)')
-            # and a stock symbol("infix",0) that terminates every expression() parse, like for
-            # arrays, maps, etc.).
-            if token.id == ',':
-                s1 = symbol("expressionList")(token.get("line"), token.get("column"))
-                s1.childappend(s)
-                s = s1
-                while token.id == ',':
-                    advance(',')
-                    s.childappend(expression())
-        statementEnd()
+                # handle expression lists
+                # (REFAC: somewhat ugly here, expression lists should be treated generically,
+                # but there is this conflict between ',' as an operator infix(",", 5)
+                # and a stock symbol(",", 0) that terminates every expression() parse, like for
+                # arrays, maps, etc.).
+                if token.id == ',':
+                    s1 = symbol("expressionList")(token.get("line"), token.get("column"))
+                    s1.childappend(s)
+                    s = s1
+                    while token.id == ',':
+                        advance(',')
+                        s.childappend(expression())
+            statementEnd()
     return s
 
 @method(symbol("(empty)"))
