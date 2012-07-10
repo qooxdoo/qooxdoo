@@ -1,0 +1,9 @@
+\bqx\.bom\.element\.Overflow\.getX\((.*)\)=qx.bom.element.Style.get($1, 'overflowX')
+\bqx\.bom\.element\.Overflow\.setX\((.*), (.*)\)=qx.bom.element.Style.set($1, 'overflowX', $2)
+\bqx\.bom\.element\.Overflow\.resetX\((.*)\)=qx.bom.element.Style.reset($1, 'overflowX')
+\bqx\.bom\.element\.Overflow\.compileX\((.*)\)=qx.bom.element.Style.get({'overflowX' : $1})
+
+\bqx\.bom\.element\.Overflow\.getY\((.*)\)=qx.bom.element.Style.get($1, 'overflowY')
+\bqx\.bom\.element\.Overflow\.setY\((.*), (.*)\)=qx.bom.element.Style.set($1, 'overflowY', $2)
+\bqx\.bom\.element\.Overflow\.resetY\((.*)\)=qx.bom.element.Style.reset($1, 'overflowY')
+\bqx\.bom\.element\.Overflow\.compileY\((.*)\)=qx.bom.element.Style.get({'overflowY' : $1})

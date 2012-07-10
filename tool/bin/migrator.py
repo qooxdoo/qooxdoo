@@ -78,6 +78,7 @@ MIGRATION_ORDER = [
     "1.5.1",
     "1.6",
     "2.0",
+    "2.1",
 ]
 
 default_old_version = "1.6"
