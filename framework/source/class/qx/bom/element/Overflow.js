@@ -136,6 +136,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      * @param prop {String} Property name (overflowX or overflowY)
      * @param value {String} Overflow value for the given axis
      * @return {String} CSS string
+     * @deprecated since 2.1
      */
     _compile : function(prop, value) {
       return prop + ":" + value + ";";
@@ -147,8 +148,16 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *
      * @param value {String} Overflow value
      * @return {String} CSS string
+     * @deprecated since 2.1
      */
     compileX : function(value) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, 
+          "Use qx.bom.element.Style.compile({'overflowX': value}) instead."
+        );
+      }
+
       return this._compile("overflow-x", value);
     },
 
@@ -158,8 +167,16 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *
      * @param value {String} Overflow value
      * @return {String} CSS string
+     * @deprecated since 2.1
      */
     compileY : function(value) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, 
+          "Use qx.bom.element.Style.compile({'overflowY': value}) instead."
+        );
+      }
+
       return this._compile("overflow-y", value);
     },
 
@@ -172,8 +189,16 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}.
      *   The computed mode is the default one.
      * @return {String} computed overflow value
+     * @deprecated since 2.1
      */
     getX : function(element, mode) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, 
+          "Use qx.bom.element.Style.get(element, 'overflowX', mode) instead."
+        );
+      }
+
       if (qx.core.Environment.get("css.overflowxy")) {
         return qx.bom.element.Style.get(element, "overflowX", mode, false);
       }
@@ -187,8 +212,16 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *
      * @param element {Element} DOM element to modify
      * @param value {String} Any of "visible", "scroll", "hidden", "auto" or ""
+     * @deprecated since 2.1
      */
     setX : function(element, value) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, 
+          "Use qx.bom.element.Style.set(element, 'overflowX', value) instead."
+        );
+      }
+
       if (qx.core.Environment.get("css.overflowxy")) {
         element.style.overflowX = value;
       } else {
@@ -201,9 +234,17 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      * Removes the locally configured horizontal overflow property
      *
      * @param element {Element} DOM element to modify
+     * @deprecated since 2.1
      */
     resetX : function(element)
     {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, 
+          "Use qx.bom.element.Style.reset(element, 'overflowX') instead."
+        );
+      }
+
       if (qx.core.Environment.get("css.overflowxy")) {
         element.style.overflowX = "";
       } else {
@@ -220,9 +261,17 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}.
      *   The computed mode is the default one.
      * @return {String} computed overflow value
+     * @deprecated since 2.1
      */
     getY : function(element, mode)
     {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, 
+          "Use qx.bom.element.Style.get(element, 'overflowY', mode) instead."
+        );
+      }
+
       if (qx.core.Environment.get("css.overflowxy")) {
         return qx.bom.element.Style.get(element, "overflowY", mode, false);
       }
@@ -236,9 +285,16 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *
      * @param element {Element} DOM element to modify
      * @param value {String} Any of "visible", "scroll", "hidden", "auto" or ""
+     * @deprecated since 2.1
      */
     setY : function(element, value)
     {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, 
+          "Use qx.bom.element.Style.set(element, 'overflowY', value) instead."
+        );
+      }
       if (qx.core.Environment.get("css.overflowxy")) {
         element.style.overflowY = value;
       } else {
@@ -251,9 +307,16 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      * Removes the locally configured vertical overflow property
      *
      * @param element {Element} DOM element to modify
+     * @deprecated since 2.1
      */
     resetY : function(element)
     {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, 
+          "Use qx.bom.element.Style.reset(element, 'overflowY') instead."
+        );
+      }
       if (qx.core.Environment.get("css.overflowxy")) {
         element.style.overflowY = "";
       } else {
