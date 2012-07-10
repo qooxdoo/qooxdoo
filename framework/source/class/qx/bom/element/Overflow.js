@@ -137,17 +137,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      * @param value {String} Overflow value for the given axis
      * @return {String} CSS string
      */
-    _compile : function(prop, value)
-    {
-      if (!qx.core.Environment.get("css.overflowxy")) {
-        prop = "overflow:"
-        if (qx.core.Environment.get("engine.name") === "gecko" &&
-          value == "hidden")
-        {
-          value = "-moz-scrollbars-none";
-        }
-      }
-
+    _compile : function(prop, value) {
       return prop + ":" + value + ";";
     },
 
@@ -174,20 +164,6 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     },
 
 
-    // Mozilla notes (http://developer.mozilla.org/en/docs/Mozilla_CSS_Extensions):
-    // -moz-scrollbars-horizontal: Indicates that horizontal scrollbars should
-    //    always appear and vertical scrollbars should never appear.
-    // -moz-scrollbars-vertical: Indicates that vertical scrollbars should
-    //    always appear and horizontal scrollbars should never appear.
-    // -moz-scrollbars-none: Indicates that no scrollbars should appear but
-    //    the element should be scrollable from script. (This is the same as
-    //    hidden, and has been since Mozilla 1.6alpha.)
-    //
-    // Also a lot of interesting bugs:
-    // * https://bugzilla.mozilla.org/show_bug.cgi?id=42676
-    // * https://bugzilla.mozilla.org/show_bug.cgi?id=47710
-    // * https://bugzilla.mozilla.org/show_bug.cgi?id=235524
-
     /**
      * Returns the computed value of the horizontal overflow
      *
@@ -197,18 +173,12 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *   The computed mode is the default one.
      * @return {String} computed overflow value
      */
-    getX : function(element, mode)
-    {
+    getX : function(element, mode) {
       if (qx.core.Environment.get("css.overflowxy")) {
         return qx.bom.element.Style.get(element, "overflowX", mode, false);
       }
 
-      var overflow =  qx.bom.element.Style.get(element, "overflow", mode, false);
-      if (overflow === "-moz-scrollbars-none") {
-        overflow = "hidden";
-      }
-
-      return overflow;
+      return qx.bom.element.Style.get(element, "overflow", mode, false);
     },
 
 
@@ -218,17 +188,10 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      * @param element {Element} DOM element to modify
      * @param value {String} Any of "visible", "scroll", "hidden", "auto" or ""
      */
-    setX : function(element, value)
-    {
+    setX : function(element, value) {
       if (qx.core.Environment.get("css.overflowxy")) {
         element.style.overflowX = value;
-      }
-      else {
-        if (value === "hidden" && qx.core.Environment.get("engine.name") === "gecko"
-          && parseFloat(qx.core.Environment.get("engine.version")) < 1.8)
-        {
-          value = "-moz-scrollbars-none";
-        }
+      } else {
         element.style.overflow = value;
       }
     },
@@ -243,8 +206,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     {
       if (qx.core.Environment.get("css.overflowxy")) {
         element.style.overflowX = "";
-      }
-      else {
+      } else {
         element.style.overflow = "";
       }
     },
@@ -265,12 +227,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
         return qx.bom.element.Style.get(element, "overflowY", mode, false);
       }
 
-      var overflow = qx.bom.element.Style.get(element, "overflow", mode, false);
-      if (overflow === "-moz-scrollbars-none") {
-        overflow = "hidden";
-      }
-
-      return overflow;
+      return qx.bom.element.Style.get(element, "overflow", mode, false);
     },
 
 
@@ -284,13 +241,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     {
       if (qx.core.Environment.get("css.overflowxy")) {
         element.style.overflowY = value;
-      }
-      else {
-        if (value === "hidden" && qx.core.Environment.get("engine.name") === "gecko"
-          && parseFloat(qx.core.Environment.get("engine.version")) < 1.8)
-        {
-          value = "-moz-scrollbars-none";
-        }
+      } else {
         element.style.overflow = value;
       }
     },
@@ -305,8 +256,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     {
       if (qx.core.Environment.get("css.overflowxy")) {
         element.style.overflowY = "";
-      }
-      else {
+      } else {
         element.style.overflow = "";
       }
     }
