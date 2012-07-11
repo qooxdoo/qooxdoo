@@ -173,7 +173,7 @@
  *       <td>{@link qx.bom.client.Css#getOpacity}</td>
  *     </tr>
  *     <tr>
- *       <td>css.overflowxy</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>@deprecated since 2.1: css.overflowxy</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getOverflowXY}</td>
  *     </tr>
  *     <tr>
@@ -792,7 +792,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.transform.3d" : "qx.bom.client.CssTransform.get3D",
       "css.inlineblock" : "qx.bom.client.Css.getInlineBlock",
       "css.opacity" : "qx.bom.client.Css.getOpacity",
-      "css.overflowxy" : "qx.bom.client.Css.getOverflowXY",
+      "css.overflowxy" : "qx.bom.client.Css.getOverflowXY",    // @deprecated since 2.1
       "css.textShadow" : "qx.bom.client.Css.getTextShadow",
       "css.textShadow.filter" : "qx.bom.client.Css.getFilterTextShadow",
       "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
@@ -825,6 +825,12 @@ qx.Bootstrap.define("qx.core.Environment",
      *   (Details in the class doc)
      */
     get : function(key) {
+      if (qx.Bootstrap.DEBUG) {
+        // @deprecated since 2.1
+        if (key == "css.overflowxy") {
+          qx.Bootstrap.warn("The environment key 'css.overflowxy' is deprecated.");
+        }
+      }
       // check the cache
       if (this.__cache[key] != undefined) {
         return this.__cache[key];

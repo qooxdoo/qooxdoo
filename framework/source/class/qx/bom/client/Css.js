@@ -409,6 +409,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      * @return {Boolean} <code>true</code> if overflow-x and overflow-y can be
      * used
+     * @deprecated since 2.1
      */
     getOverflowXY : function() {
       return (typeof document.documentElement.style.overflowX == "string") &&
