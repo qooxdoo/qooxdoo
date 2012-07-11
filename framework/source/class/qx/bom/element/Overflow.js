@@ -19,6 +19,7 @@
 
 /**
  * Contains methods to control and query the element's overflow properties.
+ * @deprecated since 2.1
  */
 qx.Bootstrap.define("qx.bom.element.Overflow",
 {
@@ -38,95 +39,19 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     DEFAULT_SCROLLBAR_WIDTH : 14,
 
 
-    /** {Integer} The typical native scrollbar size in the environment */
-    __scrollbarSize : null,
-
     /**
      * Get the typical native scrollbar size in the environment
      *
      * @return {Integer} The native scrollbar size
      */
-    getScrollbarWidth : function()
-    {
-      if (this.__scrollbarSize !== null) {
-        return this.__scrollbarSize;
+    getScrollbarWidth : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, 
+          "Use qx.bom.element.Style.compile({'overflowX': value}) instead."
+        );
       }
-
-      var Style = qx.bom.element.Style;
-
-      var getStyleSize = function(el, propertyName) {
-        return parseInt(Style.get(el, propertyName), 10) || 0;
-      };
-
-      var getBorderRight = function(el)
-      {
-        return (
-          Style.get(el, "borderRightStyle") == "none"
-          ? 0
-          : getStyleSize(el, "borderRightWidth")
-        );
-      };
-
-      var getBorderLeft = function(el)
-      {
-        return (
-          Style.get(el, "borderLeftStyle") == "none"
-          ? 0
-          : getStyleSize(el, "borderLeftWidth")
-        );
-      };
-
-      var getInsetRight = qx.core.Environment.select("engine.name",
-      {
-        "mshtml" : function(el)
-        {
-          if (
-            Style.get(el, "overflowY") == "hidden" ||
-            el.clientWidth == 0
-          ) {
-            return getBorderRight(el);
-          }
-
-          return Math.max(0, el.offsetWidth - el.clientLeft - el.clientWidth);
-        },
-
-          "default" : function(el)
-        {
-          // Alternative method if clientWidth is unavailable
-          // clientWidth == 0 could mean both: unavailable or really 0
-          if (el.clientWidth == 0)
-          {
-            var ov = Style.get(el, "overflow");
-            var sbv = (
-              ov == "scroll" ||
-              ov == "-moz-scrollbars-vertical" ? 16 : 0
-            );
-            return Math.max(0, getBorderRight(el) + sbv);
-          }
-
-          return Math.max(
-            0,
-            (el.offsetWidth - el.clientWidth - getBorderLeft(el))
-          );
-        }
-      });
-
-      var getScrollBarSizeRight = function(el) {
-        return getInsetRight(el) - getBorderRight(el);
-      };
-
-      var t = document.createElement("div");
-      var s = t.style;
-
-      s.height = s.width = "100px";
-      s.overflow = "scroll";
-
-      document.body.appendChild(t);
-      var c = getScrollBarSizeRight(t);
-      this.__scrollbarSize = c;
-      document.body.removeChild(t);
-
-      return this.__scrollbarSize;
+      return qx.bom.element.Scroll.getScrollbarWidth();
     },
 
 

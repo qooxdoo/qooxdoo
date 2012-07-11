@@ -169,7 +169,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     // overridden
     _getContentHint : function()
     {
-      var scrollbarWidth = qx.bom.element.Overflow.getScrollbarWidth();
+      var scrollbarWidth = qx.bom.element.Scroll.getScrollbarWidth();
       return {
         width: this.__isHorizontal ? 100 : scrollbarWidth,
         maxWidth: this.__isHorizontal ? null : scrollbarWidth,

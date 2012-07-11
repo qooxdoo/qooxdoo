@@ -38,7 +38,7 @@ qx.Bootstrap.define("qx.bom.client.Scroll",
      *   positioned on top of the content.
      */
     scrollBarOverlayed : function() {
-      var scrollBarWidth = qx.bom.element.Overflow.getScrollbarWidth();
+      var scrollBarWidth = qx.bom.element.Scroll.getScrollbarWidth();
       var osx = qx.bom.client.OperatingSystem.getName() === "osx";
       var nativeScrollBars = qx.core.Environment.get("qx.nativeScrollBars");
 

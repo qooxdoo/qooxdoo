@@ -400,7 +400,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       var pane = this.__progressive.getStructure().getPane();
 
       var width =
-        pane.getBounds().width - qx.bom.element.Overflow.getScrollbarWidth();
+        pane.getBounds().width - qx.bom.element.Scroll.getScrollbarWidth();
 
       // Get the style sheet rule name for this row
       var stylesheet = ".qx-progressive-" + this.__hash + "-row";

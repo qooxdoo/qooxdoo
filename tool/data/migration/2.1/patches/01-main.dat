@@ -9,3 +9,4 @@
 \bqx\.bom\.element\.Overflow\.compileY\((.*)\)=qx.bom.element.Style.get({'overflowY' : $1})
 
 \bqx\.bom\.element\.Overflow\.DEFAULT_SCROLLBAR_WIDTH\b=qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH
+\bqx\.bom\.element\.Overflow\.getScrollbarWidth\b=qx.bom.element.Scroll.getScrollbarWidth
