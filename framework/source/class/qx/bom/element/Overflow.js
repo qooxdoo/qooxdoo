@@ -33,6 +33,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     /**
      * The default width which is used for the width of the scroll bar if
      * overlayed.
+     * @deprecated since 2.1
      */
     DEFAULT_SCROLLBAR_WIDTH : 14,
 
@@ -325,3 +326,9 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     }
   }
 });
+// @deprecated since 2.1
+qx.log.Logger.deprecatedConstantWarning(
+  qx.bom.element.Overflow,
+  "DEFAULT_SCROLLBAR_WIDTH",
+  "Please use 'qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH' instead."
+);

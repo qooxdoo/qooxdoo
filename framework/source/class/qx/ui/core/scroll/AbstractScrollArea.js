@@ -39,6 +39,23 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
   /*
   *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    /**
+     * The default width which is used for the width of the scroll bar if
+     * overlaid.
+     */
+    DEFAULT_SCROLLBAR_WIDTH : 14
+  },
+
+
+
+  /*
+  *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
@@ -208,7 +225,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
           control.addListener("changeVisibility", this._onChangeScrollbarXVisibility, this);
 
           if (qx.core.Environment.get("os.scrollBarOverlayed")) {
-            control.setMinHeight(qx.bom.element.Overflow.DEFAULT_SCROLLBAR_WIDTH);
+            control.setMinHeight(qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH);
             this._add(control, {bottom: 0, right: 0, left: 0});
           } else {
             this._add(control, {row: 1, column: 0});
@@ -226,7 +243,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
 
           if (qx.core.Environment.get("os.scrollBarOverlayed")) {
-            control.setMinWidth(qx.bom.element.Overflow.DEFAULT_SCROLLBAR_WIDTH);
+            control.setMinWidth(qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH);
             this._add(control, {right: 0, bottom: 0, top: 0});
           } else {
             this._add(control, {row: 0, column: 1});

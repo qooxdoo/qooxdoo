@@ -467,7 +467,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           control.addListener("scroll", this._onScrollX, this);
 
           if (this.__clipperContainer != null) {
-            control.setMinHeight(qx.bom.element.Overflow.DEFAULT_SCROLLBAR_WIDTH);
+            control.setMinHeight(qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH);
             this.__clipperContainer.add(control, {bottom: 0, right: 0, left: 0});
           } else {
             this._add(control, {row: 2, column: 0});
