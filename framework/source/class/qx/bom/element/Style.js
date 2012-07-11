@@ -213,7 +213,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
     {
       var html = [];
       var special = this.__special;
-      var names = this.__cssNames;
+      var cssNames = this.__cssNames;
       var name, value;
 
       for (name in map)
@@ -225,13 +225,16 @@ qx.Bootstrap.define("qx.bom.element.Style",
         }
 
         // normalize name
-        name = names[name] || name;
+        name = this.__styleNames[name] || this.__getStyleName(name) || name;
 
         // process special properties
         if (special[name]) {
           html.push(special[name].compile(value));
         } else {
-          html.push(qx.lang.String.hyphenate(name), ":", value, ";");
+          if (!cssNames[name]) {
+            cssNames[name] = qx.lang.String.hyphenate(name);
+          }
+          html.push(cssNames[name], ":", value, ";");
         }
       }
 
