@@ -66,13 +66,15 @@ qx.Class.define("demobrowser.demo.ui.Cursor",
         "sw-resize",
         "w-resize",
         "nw-resize",
+        "nesw-resize",
+        "nwse-resize",
         "text",
         "wait",
         "help "
       ];
 
       var i=0;
-      for (var i=0; i<15; i++)
+      for (var i=0; i<cursors.length; i++)
       {
         container.add(new qx.ui.basic.Label(cursors[i]).set({
           decorator: "main",

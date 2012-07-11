@@ -564,6 +564,8 @@ qx.Class.define("qx.ui.core.Widget",
      * <li>sw-resize</li>
      * <li>w-resize</li>
      * <li>nw-resize</li>
+     * <li>nesw-resize</li>
+     * <li>nwse-resize</li>
      * <li>text</li>
      * <li>wait</li>
      * <li>help </li>
