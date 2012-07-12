@@ -87,6 +87,7 @@ qx.Class.define("mobileshowcase.Application",
       var basic = new mobileshowcase.page.Basic();
       var dialogs = new mobileshowcase.page.Dialog();
       var dataBinding = new mobileshowcase.page.DataBinding();
+      var maps = new mobileshowcase.page.Maps();
       var themeSwitcher = new mobileshowcase.page.ThemeSwitcher();
       
 
@@ -105,6 +106,7 @@ qx.Class.define("mobileshowcase.Application",
         atoms,
         dialogs,
         dataBinding,
+        maps,
         themeSwitcher
       ]);
 
@@ -182,6 +184,11 @@ qx.Class.define("mobileshowcase.Application",
       nm.onGet("/databinding", function(data)
       {
         dataBinding.show();
+      },this);
+      
+      nm.onGet("/maps", function(data)
+      {
+        maps.show();
       },this);
 
       nm.onGet("/themeswitcher", function(data)
