@@ -19,17 +19,24 @@
 
 /* ************************************************************************
 
-#require(qx.bom.Collection)
-#ignore($)
 #asset(testrunner/view/html/*)
 #asset(indigo/css/*)
+#require(q)
+#require(qx.module.Polyfill)
+#require(qx.module.Traversing)
+#require(qx.module.Manipulating)
+#require(qx.module.Attribute)
+#require(qx.module.Event)
+#require(qx.module.event.Native)
+#require(qx.module.Css)
+#require(qx.module.Cookie)
+#require(qx.module.Template)
 
 ************************************************************************ */
 
 /**
  * Plain HTML TestRunner view.
  *
- * @lint ignoreUndefined($)
  */
 qx.Class.define("testrunner.view.Html", {
 
@@ -47,7 +54,6 @@ qx.Class.define("testrunner.view.Html", {
   /**
    * @param rootElement {DOMElement?} DOM Element in which the result view
    * should be created. Default: document.body
-   * @lint ignoreUndefined($)
    */
   construct : function(rootElement)
   {
@@ -73,16 +79,16 @@ qx.Class.define("testrunner.view.Html", {
       typeof console != "undefined" && console.profile);
 
     this._getHeader().appendTo("body");
-    $('<div id="main"></div>').appendTo("body");
+    q.create('<div id="main"></div>').appendTo("body");
     this._getMainControls().appendTo("#header-wrapper");
     this._bindMainControls();
 
-    $('<div id="tests"></div>').appendTo("#main");
+    q.create('<div id="tests"></div>').appendTo("#main");
     this._getTestControls().appendTo("#tests");
     this._bindTestControls();
     this._getTestList().appendTo("#tests");
 
-    $('<div id="frame_log"></div>').appendTo("#main");
+    q.create('<div id="frame_log"></div>').appendTo("#main");
 
     this._getFooter().appendTo("body");
 
@@ -160,7 +166,7 @@ qx.Class.define("testrunner.view.Html", {
      */
     _getHeader : function()
     {
-      var header = $('<div id="header-wrapper"></div>')
+      var header = q.create('<div id="header-wrapper"></div>')
       .append('<div id="header"><h1>qooxdoo Test Runner</h1>' +
         '<div id="search"><input type="search" placeholder="Filter Tests" id="testfilter"/></div>' +
         '</div>')
@@ -176,16 +182,16 @@ qx.Class.define("testrunner.view.Html", {
      */
     _getMainControls : function()
     {
-      var controls = $('<div id="controls"></div>')
+      var controls = q.create('<div id="controls"></div>')
       .append('<input type="submit" title="Run selected tests (Ctrl+R)" id="run" value="Run Tests"></input>' +
       '<input type="submit" title="Stop the test suite (Ctrl+S)" id="stop" value="Stop Tests"></input>')
-      .append(qx.bom.Input.create("checkbox", {id: "togglestack", checked: "checked"}))
+      .append(q.create('<input type="checkbox>').setAttributes({id: "togglestack", checked : "checked"}))
       .append('<label for="togglestack">Show stack traces</label>')
-      .append(qx.bom.Input.create("checkbox", {id: "togglepassed", checked: "checked"}))
+      .append(q.create('<input type="checkbox">').setAttributes({id: "togglepassed", checked: "checked"}))
       .append('<label for="togglepassed">Show successful tests</label>');
 
       if (this.__nativeProfiling) {
-        controls.append(qx.bom.Input.create("checkbox", {id: "nativeprofiling"}))
+        controls.append(q.create('<input type="checkbox">').setAttributes({id: "nativeprofiling"}))
         .append('<label for="nativeprofiling">Use native console profiling feature for performance tests</label>');
       }
 
@@ -200,21 +206,21 @@ qx.Class.define("testrunner.view.Html", {
      */
     _bindMainControls : function()
     {
-      var controls = $("#controls");
-      qx.event.Registration.addListener(controls.children("#run")[0], "click", this.__runTests, this);
-      qx.event.Registration.addListener(controls.children("#stop")[0], "click", this.__stopTests, this);
+      var controls = q("#controls");
+      controls.getChildren("#run").on("click", this.__runTests, this);
+      controls.getChildren("#stop").on("click", this.__stopTests, this);
 
-      qx.event.Registration.addListener(controls.children("#togglestack")[0], "change", function(ev) {
-        this.setShowStack(ev.getData());
+      controls.getChildren("#togglestack").on("change", function(ev) {
+        this.setShowStack(ev.getTarget().checked);
       }, this);
 
-      qx.event.Registration.addListener(controls.children("#togglepassed")[0], "change", function(ev) {
-        this.setShowPassed(ev.getData());
+      controls.getChildren("#togglepassed").on("change", function(ev) {
+        this.setShowPassed(ev.getTarget().checked);
       }, this);
 
       if (this.__nativeProfiling) {
-        qx.event.Registration.addListener(controls.children("#nativeprofiling")[0], "change", function(ev) {
-          this.setNativeProfiling(ev.getData());
+        controls.getChildren("#nativeprofiling").on("change", function(ev) {
+          this.setNativeProfiling(ev.getTarget().checked);
         }, this);
       }
     },
@@ -226,14 +232,14 @@ qx.Class.define("testrunner.view.Html", {
      */
     _getTestControls : function()
     {
-      var testControls = $('<div id="testcontrols" class="controls">' +
+      var testControls = q.create('<div id="testcontrols" class="controls">' +
       '  <h2>Test Suite</h2>' +
       '  <div>' +
       '    <label for="togglealltests">Select/deselect all listed tests</label>' +
       '  </div>' +
       '</div>');
-      testControls.children("div").children("label")
-      .before(qx.bom.Input.create("checkbox", {id: "togglealltests", checked: "checked"}))
+      testControls.getChildren("div").getChildren("label")
+      .before(q.create('<input type="checkbox">').setAttributes({id: "togglealltests", checked: "checked"}));
 
       return testControls;
     },
@@ -245,19 +251,18 @@ qx.Class.define("testrunner.view.Html", {
      * @lint ignoreUndefined($)
      */
     _bindTestControls : function() {
-      qx.event.Registration.addListener($("#togglealltests")[0], "change", function(ev) {
-        var checked = ev.getTarget().checked;
-        this.toggleAllTests(checked, true);
+      q("#togglealltests").on("change", function(ev) {
+        this.toggleAllTests(ev.getTarget().checked, true);
       }, this);
 
       this.__filterTimer = new qx.event.Timer(500);
       this.__filterTimer.addListener("interval", function(ev) {
-        var filter = $("#testfilter")[0].value;
+        var filter = q("#testfilter").getValue();
         this.__filterTimer.stop();
         this.filterTests(filter);
       }, this);
 
-      qx.event.Registration.addListener($("#testfilter")[0], "input", function(ev) {
+      q("#testfilter").on("input", function(ev) {
         this.__filterTimer.restart();
       }, this);
     },
@@ -269,7 +274,7 @@ qx.Class.define("testrunner.view.Html", {
      */
     _getTestList : function()
     {
-      return $('<ul id="testlist"></ul>');
+      return q.create('<ul id="testlist"></ul>');
     },
 
 
@@ -279,7 +284,7 @@ qx.Class.define("testrunner.view.Html", {
      */
     _getFooter : function()
     {
-      return $('<div id="footer"><span id="status"></span></div>');
+      return q.create('<div id="footer"><span id="status"></span></div>');
     },
 
 
@@ -290,8 +295,8 @@ qx.Class.define("testrunner.view.Html", {
      */
     clearResults : function()
     {
-      $("#testlist ul").destroy();
-      $("#testlist li label").setAttribute("class", "")
+      q("#testlist ul").remove();
+      q("#testlist li label").setAttribute("class", "")
     },
 
     /**
@@ -300,7 +305,7 @@ qx.Class.define("testrunner.view.Html", {
      */
     clearTestList : function()
     {
-      $("#testlist")[0].innerHTML = "";
+      q("#testlist")[0].innerHTML = "";
     },
 
     /**
@@ -328,7 +333,7 @@ qx.Class.define("testrunner.view.Html", {
      */
     __reloadAut : function()
     {
-      var src = $("#iframesrc").getValue();
+      var src = q("#iframesrc").getValue();
       this.resetAutUri();
       this.setAutUri(src);
     },
@@ -342,24 +347,23 @@ qx.Class.define("testrunner.view.Html", {
      */
     getIframe : function()
     {
-      var autFrame = $("#autframe");
+      var autFrame = q("#autframe");
       if (autFrame.length == 1) {
         return autFrame[0];
       }
 
-      var frameContainer = $('<div id="framecontainer">' +
+      var frameContainer = q.create('<div id="framecontainer">' +
         '<div id="framecontrols" class="controls">' +
           '<h2>Application Under Test</h2>' +
           '<input type="submit" title="Reload the test suite (Ctrl+Shift+R)" id="setiframesrc" value="Reload"></input>' +
           '<input type="text" id="iframesrc"></input>' +
         '</div>')
-      .append(qx.bom.Iframe.create({id : "autframe"}))
+      .append(q.create('<iframe onload="qx.event.handler.Iframe.onevent(this)" id="autframe">'))
       .appendTo("#frame_log");
 
-      qx.event.Registration.addListener($("#setiframesrc")[0],
-        "click", this.__reloadAut, this);
+      q("#setiframesrc").on("click", this.__reloadAut, this);
 
-      return frameContainer.children("#autframe")[0];
+      return frameContainer.getChildren("#autframe")[0];
     },
 
     /**
@@ -371,12 +375,12 @@ qx.Class.define("testrunner.view.Html", {
      */
     getLogAppenderElement : function()
     {
-      var log = $("#log");
+      var log = q("#log");
       if (log.length == 1) {
         return log[0];
       }
 
-      var logContainer = $('<div id="logcontainer">' +
+      var logContainer = q.create('<div id="logcontainer">' +
           '<div id="logcontrols" class="controls">' +
             '<h2>Log</h2>' +
 //            '<div>' +
@@ -389,7 +393,7 @@ qx.Class.define("testrunner.view.Html", {
           '<div id="log" class="monotype"></div>' +
         '</div>').appendTo("#frame_log");
 
-      return logContainer.children("#log")[0];
+      return logContainer.getChildren("#log")[0];
     },
 
 
@@ -405,7 +409,7 @@ qx.Class.define("testrunner.view.Html", {
     toggleAllTests : function(selected, onlyVisible)
     {
       var testsToModify = [];
-      var boxes = $("#testlist input[type=checkbox]");
+      var boxes = q("#testlist input[type=checkbox]");
       for (var i=0,l=boxes.length; i<l; i++) {
         if (boxes[i].type == "checkbox" && boxes[i].id.indexOf("cb_") == 0) {
           if (onlyVisible && boxes[i].parentNode.style.display == "none") {
@@ -444,16 +448,16 @@ qx.Class.define("testrunner.view.Html", {
         for (var i=0,l=matches.length; i<l; i++) {
           var key = this.__simplifyName(matches[i]);
           var checkboxId = "cb_" + key;
-          var box = $("#" + checkboxId);
-          box.parent().setStyle("display", "block");
-          if ($("#togglealltests")[0].checked) {
+          var box = q("#" + checkboxId);
+          box.getParents().setStyle("display", "block");
+          if (q("#togglealltests")[0].checked) {
             box.setAttribute("checked", "checked");
             testsToModify.push(matches[i]);
           }
         }
         this.__toggleTestsSelected(testsToModify, true);
       }
-      qx.bom.Cookie.set("testFilter", term);
+      q.cookie.set("testFilter", term);
     },
 
 
@@ -463,7 +467,7 @@ qx.Class.define("testrunner.view.Html", {
      */
     hideAllTestListEntries : function()
     {
-      $("#testlist").children("li").setStyle("display", "none");
+      q("#testlist").getChildren("li").setStyle("display", "none");
     },
 
 
@@ -562,9 +566,9 @@ qx.Class.define("testrunner.view.Html", {
       var state = testResultData.getState();
       var key = this.__simplifyName(testName);
 
-      var listItem = $("[for=cb_" + key + "]").parent()
+      var listItem = q("[for=cb_" + key + "]").getParents()
       .setAttribute("class", "").addClass("t_" + state);
-      listItem.children(".result")[0].innerHTML = state.toUpperCase();
+      listItem.getChildren(".result")[0].innerHTML = state.toUpperCase();
 
       var exList = this._getExceptionsList(testResultData);
 
@@ -589,10 +593,10 @@ qx.Class.define("testrunner.view.Html", {
       var exceptions =  testResultData.getExceptions();
 
       if (!exceptions  || exceptions.length == 0) {
-        return $("");
+        return q("");
       }
 
-      var list = $("<ol></ol>");
+      var list = q.create("<ol></ol>");
 
       for (var i=0,l=exceptions.length; i<l; i++) {
         var error = exceptions[i].exception;
@@ -601,12 +605,12 @@ qx.Class.define("testrunner.view.Html", {
           error.message ? error.message : "Unknown Error";
         errorStr = errorStr.replace(/\n/g, "<br/>");
 
-        var errorItem = $("<li>" + errorStr + "</li>");
+        var errorItem = q.create("<li>" + errorStr + "</li>");
 
         var trace = testResultData.getStackTrace(error);
         if (trace.length > 0) {
           var display = this.getShowStack() ? "block" : "none";
-          var stack = $('<div class="stacktrace monotype">' + 'Stack Trace:<br/>' + trace + '</div>')
+          var stack = q.create('<div class="stacktrace monotype">' + 'Stack Trace:<br/>' + trace + '</div>')
           .setStyle("display", display);
           errorItem.append(stack);
         }
@@ -668,7 +672,7 @@ qx.Class.define("testrunner.view.Html", {
       for (var i=0,l=selected.length; i<l; i++) {
         names.push(selected.getItem(i).getFullName());
       }
-      qx.bom.Cookie.set("selectedTests", names.join("#"));
+      q.cookie.set("selectedTests", names.join("#"));
     },
 
 
@@ -690,7 +694,7 @@ qx.Class.define("testrunner.view.Html", {
         return;
       }
 
-      $("#status")[0].innerHTML = value;
+      q("#status")[0].innerHTML = value;
     },
 
 
@@ -712,20 +716,20 @@ qx.Class.define("testrunner.view.Html", {
           break;
         case "loading" :
           this.setStatus("Loading tests...");
-          $("#testfilter,#togglealltests,#run,#stop").setAttribute("disabled", "disabled");
+          q("#testfilter,#togglealltests,#run,#stop").setAttribute("disabled", "disabled");
           break;
         case "ready" :
           this.setStatus("Test suite ready");
-          var filterFromCookie = qx.bom.Cookie.get("testFilter");
+          var filterFromCookie = q.cookie.get("testFilter");
           if (filterFromCookie) {
-            $("#testfilter").setValue(filterFromCookie);
+            q("#testfilter").setValue(filterFromCookie);
             this.filterTests(filterFromCookie);
           }
           else {
             this._applyTestCount(this.getTestCount());
           }
-          $("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
-          $("#stop").setAttribute("disabled", "disabled")
+          q("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
+          q("#stop").setAttribute("disabled", "disabled")
           this.setFailedTestCount(0);
           this.setSuccessfulTestCount(0);
           if (this.getAutoRun()) {
@@ -734,8 +738,8 @@ qx.Class.define("testrunner.view.Html", {
           break;
         case "running" :
           this.setStatus("Running tests...");
-          $("#testfilter,#togglealltests,#run").setAttribute("disabled", "disabled");
-          $("#stop").setAttribute("disabled", "");
+          q("#testfilter,#togglealltests,#run").setAttribute("disabled", "disabled");
+          q("#stop").setAttribute("disabled", "");
           break;
         case "finished" :
           var statusText = "Test suite finished. ";
@@ -743,18 +747,18 @@ qx.Class.define("testrunner.view.Html", {
           statusText += " Failed: " + this.getFailedTestCount();
           statusText += " Skipped: " + this.getSkippedTestCount();
           this.setStatus(statusText);
-          $("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
-          $("#stop").setAttribute("disabled", "disabled");
+          q("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
+          q("#stop").setAttribute("disabled", "disabled");
           break;
         case "aborted" :
           this.setStatus("Test run stopped");
-          $("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
-          $("#stop").setAttribute("disabled", "disabled");
+          q("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
+          q("#stop").setAttribute("disabled", "disabled");
           break;
         case "error" :
           this.setStatus("Invalid test file selected!");
-          $("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
-          $("#stop").setAttribute("disabled", "disabled");
+          q("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
+          q("#stop").setAttribute("disabled", "disabled");
           break;
       };
     },
@@ -792,7 +796,7 @@ qx.Class.define("testrunner.view.Html", {
      */
     _applyCookieSelection : function()
     {
-      var cookieSelection = qx.bom.Cookie.get("selectedTests");
+      var cookieSelection = q.cookie.get("selectedTests");
       var foundTests = [];
       if (cookieSelection) {
         var cookieSelection = cookieSelection.split("#");
@@ -829,7 +833,7 @@ qx.Class.define("testrunner.view.Html", {
     {
       var value = checked ? "checked" : "";
       var target = testName ? "#cb_" + this.__simplifyName(testName) : "input";
-      $("#testlist " + target).setAttribute("checked", value);
+      q("#testlist " + target).setAttribute("checked", value);
     },
 
     /**
@@ -881,16 +885,16 @@ qx.Class.define("testrunner.view.Html", {
         var key = this.__simplifyName(testName);
         this.__testNameToId[key] = testName;
 
-        var itemHtml = qx.bom.Template.render(template, {
+        var itemHtml = q.template.render(template, {
           id : "cb_" + key,
           name : testName
         });
-        $("#testlist")[0].innerHTML += itemHtml;
+        q("#testlist")[0].innerHTML += itemHtml;
       }
 
-      $("#testlist input:checkbox")
-      .resetAttribute("checked")
-      .addListener("change", this.__onToggleTest, this);
+      q("#testlist input:checkbox")
+      .setAttribute("checked", null)
+      .on("change", this.__onToggleTest, this);
     },
 
 
@@ -932,9 +936,8 @@ qx.Class.define("testrunner.view.Html", {
         return;
       }
 
-      var iframe = this.getIframe();
-      $("#iframesrc")[0].value = value;
-      qx.bom.Iframe.setSource(iframe, value);
+      q("#iframesrc").setAttribute("value", value);
+      q(this.getIframe()).setAttribute("src", value);
     },
 
 
@@ -952,7 +955,7 @@ qx.Class.define("testrunner.view.Html", {
         return;
       }
 
-      $(".stacktrace").setStyle("display", value ? "block" : "none");
+      q(".stacktrace").setStyle("display", value ? "block" : "none");
     },
 
 
@@ -969,7 +972,7 @@ qx.Class.define("testrunner.view.Html", {
       if (value === null || value === old) {
         return;
       }
-      $(".t_success").setStyle("display", value ? "block" : "none");
+      q(".t_success").setStyle("display", value ? "block" : "none");
     },
 
     /**
