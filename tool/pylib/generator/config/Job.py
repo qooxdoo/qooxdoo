@@ -21,7 +21,6 @@
 ################################################################################
 
 import os, sys, re, types, string, copy
-import simplejson
 
 from misc.ExtMap import ExtMap
 from generator.config.Lang import Key
