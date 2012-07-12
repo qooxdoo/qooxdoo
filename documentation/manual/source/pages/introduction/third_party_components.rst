@@ -26,7 +26,7 @@ These are components that are integrated into the %{JS} class code.
     - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
 
   * - `mustache.js <https://github.com/janl/mustache.js/>`_
-    - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
+    - `MIT`_
 
   * - `SWFFix <http://code.google.com/p/swffix/>`_
     - `MIT`_
@@ -102,6 +102,9 @@ These are the Python modules we use that are not self-written, nor part of a van
    * - `cssmin <http://pypi.python.org/pypi/cssmin/>`_
      - `BSD-compat <https://github.com/zacharyvoase/cssmin/blob/master/LICENSE>`_
  
+   * - `demjson <http://deron.meranda.us/python/demjson/>`_
+     - `LGPL 3 <http://www.gnu.org/licenses/lgpl-3.0.html>`_
+
    * - `elementtree <http://effbot.org/zone/element-index.htm>`_
      - `old-style Python <http://effbot.org/zone/copyright.htm>`_ `(HPND) <http://www.opensource.org/licenses/historical.php>`_
  
