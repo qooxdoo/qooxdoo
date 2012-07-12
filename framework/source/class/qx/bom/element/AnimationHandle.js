@@ -81,6 +81,15 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
 
 
     /**
+     * Accessor of the paused state.
+     * @return {Boolean} <code>true</code>, if the animations is paused.
+     */
+    isPaused : function() {
+      return this.el.style[this.__playState] == "paused";
+    },
+
+
+    /**
      * Pauses the animation, if running. If not running, it will be ignored.
      */
     pause : function() {
@@ -97,6 +106,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
 
     /**
      * Resumes an animation. This does not start the animation once it has ended.
+     * You need to create start a new Animation if you want to restart the animation.
      */
     play : function() {
       if (this.el) {
@@ -114,7 +124,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
      * Stops the animation if running.
      */
     stop : function() {
-      if (this.el && qx.core.Environment.get("css.animation")) {
+      if (this.el && qx.core.Environment.get("css.animation") && !this.animationId) {
         this.el.style[this.__playState] = "";
         this.el.style[qx.core.Environment.get("css.animation").name] = "";
         this.el.$$animation.__playing = false;
