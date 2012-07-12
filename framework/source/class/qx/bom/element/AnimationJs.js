@@ -118,11 +118,13 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       this.__normalizeKeyFrames(keyFrames, el);
 
       var delta = this.__calculateDelta(steps, stepTime, keys, keyFrames, duration, desc.timing);
+      var handle = new qx.bom.element.AnimationHandle();
+
       if (reverse) {
         delta.reverse();
+        handle.reverse = true;
       }
 
-      var handle = new qx.bom.element.AnimationHandle();
       handle.desc = desc;
       handle.el = el;
       handle.delta = delta;
@@ -331,8 +333,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       window.clearInterval(handle.animationId);
 
       // if we should keep a frame
-      if (desc.keep != undefined) {
-        this.__applyStyles(el, desc.keyFrames[desc.keep]);
+      var keep = desc.keep;
+      if (keep != undefined) {
+        if (handle.reverse || (desc.alternate && desc.repeat && desc.repeat % 2 == 0)) {
+          keep = 100 - keep;
+        }
+        this.__applyStyles(el, desc.keyFrames[keep]);
       } else {
         this.__applyStyles(el, initValues);
       }

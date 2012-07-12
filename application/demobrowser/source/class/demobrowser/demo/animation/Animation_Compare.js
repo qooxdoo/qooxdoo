@@ -107,10 +107,10 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         100 : {"left" : "0px", "top": "0px"}
       }};
 
-      var keep = {duration: 1000, keep : [70], keyFrames : {
-        0 : {"width" : "30px"},
-        70 : {"width" : "100px"},
-        100 : {"width": "50px"}
+      var keep = {duration: 1000, keep : 70, keyFrames : {
+        0 : {"top" : "0px"},
+        70 : {"top" : "5px"},
+        100 : {"top": "30px"}
       }};
 
 
@@ -173,6 +173,24 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         100 : {}
       }};
 
+
+      var keepAlternate = {duration: 500, alternate: true, repeat: 2, keep : 100, keyFrames : {
+        0 : {"top" : "0px"},
+        100 : {"top": "50px"}
+      }};
+
+
+      var keepReverse = {duration: 1000, keep : 100, keyFrames : {
+        0 : {"top" : "0px"},
+        100 : {"top": "50px"}
+      }};
+
+      var keepAlternateReverse = {duration: 500, alternate: true, repeat: 3, keep : 100, keyFrames : {
+        0 : {"top" : "0px"},
+        100 : {"top": "20px"}
+      }};
+
+
       var tests = {
         "Width" : width,
         "Height" : height,
@@ -183,6 +201,9 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         "Dance" : dance,
         "Dance Reverse" : dance,
         "Keep" : keep,
+        "Keep (Alt.)": keepAlternate,
+        "Keep (Reverse)"  : keepReverse,
+        "Keep (Reverse/Alt)"  : keepAlternateReverse,
         "Font-Size": em,
         "Line Height" : lineHeight,
         "Percent Width" : percent,

@@ -54,6 +54,8 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      * *duration* is the time in milliseconds one animation cycle should take.
      *
      * *keep* is the key frame to apply at the end of the animation. (optional)
+     *   Keep in mind that the keep key is reversed in case you use an reverse
+     *   animation or set the alternate key and a even repeat count.
      *
      * *keyFrames* is a map of separate frames. Each frame is defined by a
      *   number which is the percentage value of time in the animation. The value
