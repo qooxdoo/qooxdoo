@@ -40,7 +40,7 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : [ "common" ],
+    "job-shadowing" : [ "common", "testrunner-portable::build-script" ],
 
     "environment" : [ "non-literal-keys" ]
   },
@@ -200,26 +200,6 @@
       }
     },
 
-    /*
-    "testrunner-portable::build-script" :
-    {
-      "library" :
-      [
-        {
-          "manifest"   : "${QOOXDOO_PATH}/component/library/indigo/Manifest.json"
-        },
-
-        {
-          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
-        },
-
-        {
-          "manifest" : "${TESTRUNNER_ROOT}/Manifest.json"
-        }
-      ]
-    },
-    */
-
     "test" :
     {
       "let" :
@@ -232,6 +212,12 @@
         "testrunner-portable::build-script",
         "testrunner-portable::gen-css"
       ]
+    },
+
+
+    "testrunner-portable::build-script" :
+    {
+      "exclude" : "${Q_INCLUDES}"
     },
 
 
