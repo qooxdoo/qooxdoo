@@ -116,6 +116,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         this.__validateDesc(desc);
       }
 
+      // reverse the keep property if the animation is reverse as well
+      var keep = desc.keep;
+      if (keep != null && (reverse || (desc.alternate && desc.repeat % 2 == 0))) {
+        keep = 100 - keep;
+      }
+
       if (!this.__sheet) {
         this.__sheet = qx.bom.Stylesheet.createElement();
       }
@@ -140,11 +146,16 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         qx.bom.Event.addNativeListener(el, eventName, this.__onAnimationEnd);
 
         el.style[qx.lang.String.camelCase(this.__cssAnimationKeys["name"])] = style;
+        // use the fill mode property if available and suitable
+        if (keep && keep == 100 && this.__cssAnimationKeys["fill-mode"]) {
+          el.style[this.__cssAnimationKeys["fill-mode"]] = "forwards";
+        }
       }
 
       var animation = new qx.bom.element.AnimationHandle();
       animation.desc = desc;
       animation.el = el;
+      animation.keep = keep;
       el.$$animation = animation;
 
       // additional transform keys
@@ -196,9 +207,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         qx.bom.element.Transform.setOrigin(el, "");
       }
 
-      if (desc.keep != null) {
-        qx.bom.element.AnimationCss.__keepFrame(el, desc.keyFrames[desc.keep]);
-      }
+      qx.bom.element.AnimationCss.__keepFrame(el, desc.keyFrames[animation.keep]);
 
       el.$$animation = null;
       animation.el = null;
