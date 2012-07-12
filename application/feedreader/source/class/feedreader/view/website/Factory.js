@@ -66,7 +66,7 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
                  "padding-bottom": "10px",
                  "padding-top": "10px",
                  "scale": [null, 1],
-                 "height": content.offsetHeight-20 + "px"
+                 "height": content.getProperty("offsetHeight")-20 + "px"
                 }
              }
            }).once("animationEnd", function() {
@@ -83,7 +83,7 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
                  "padding-bottom": "10px",
                  "padding-top": "10px",
                  "scale": [null, 1],
-                 "height": content.offsetHeight-20 + "px"
+                 "height": content.getProperty("offsetHeight")-20 + "px"
                 },
                100: {
                  "padding-bottom": "0px",
