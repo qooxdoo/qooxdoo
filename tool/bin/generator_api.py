@@ -48,7 +48,7 @@ def pyapi2json(pyfile):
     return apijson
 
 
-class MyJsonSerializer(json.json.JSONEncoder):
+class MyJsonSerializer(json.sjson.JSONEncoder):
     def default(self, s):
         if isinstance(s, types.StringTypes):
             return JSONEncoder.default(self, s.replace('"',r'\"'))

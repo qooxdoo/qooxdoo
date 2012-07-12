@@ -95,7 +95,7 @@ def getQxPath():
             got_path = False
             if got_json:
                 config_str = codecs.open(config_file, "r", "utf-8").read()
-                config_str = stripComments(config_str)
+                #config_str = stripComments(config_str)  # not necessary under demjson
                 config = json.loads(config_str)
                 p = config.get("let")
                 if p:
