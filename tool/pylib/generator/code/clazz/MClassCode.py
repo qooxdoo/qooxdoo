@@ -88,15 +88,11 @@ class MClassCode(object):
 
             # annotate with scopes
             console.outdent()
-            console.info("Calculating scopes: %s..." % self.id)
+            console.debug("Calculating scopes: %s..." % self.id)
             console.indent()
-            #try:
             if True:
                 tree = scopes.create_scopes(tree)
-            #except Exception, e:
-            #    e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
-            #    raise e
-            tree.scope.prrnt()
+                tree.scope.prrnt()
 
             # store unoptimized tree
             #print "Caching %s" % cacheId
