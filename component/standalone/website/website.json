@@ -217,7 +217,12 @@
 
     "testrunner-portable::build-script" :
     {
-      "exclude" : "${Q_INCLUDES}"
+      "exclude" : "${Q_INCLUDES}",
+
+      "config-warnings" :
+      {
+        "exclude" : "${Q_INCLUDES}"
+      }
     },
 
 
