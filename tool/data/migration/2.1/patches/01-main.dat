@@ -10,3 +10,5 @@
 
 \bqx\.bom\.element\.Overflow\.DEFAULT_SCROLLBAR_WIDTH\b=qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH
 \bqx\.bom\.element\.Overflow\.getScrollbarWidth\b=qx.bom.element.Scroll.getScrollbarWidth
+
+\bqx\.bom\.element\.Opacity\.SUPPORT_CSS3_OPACITY\b=qx.core.Environment.get('css.opacity')
