@@ -38,6 +38,8 @@ qx.Class.define("mobileshowcase.page.Maps",
     this.setTitle("Maps");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
+    
+    this._geolocationEnabled = qx.core.Environment.get("html.geolocation");
   },
   
 
@@ -47,14 +49,38 @@ qx.Class.define("mobileshowcase.page.Maps",
     _map : null,
     _markers : null,
     _myPositionMarker : null,
+    _mapnikLayer : null,
+    _geolocationEnabled : false,
+    _showMyPositionButton : null,
+    
     
     // overridden
     _initialize : function()
     {
       this.base(arguments);
-      this._initGeoLocation();
+      
+      if(this._geolocationEnabled) {
+        this._initGeoLocation();
+      }
+      
       this._loadMapLibrary();
+      
+      // Listens on window orientation change, and triggers redraw of map.
+      // Needed for triggering OpenLayers to use a bigger area, and draw more tiles.
+      qx.event.Registration.addListener(window, "orientationchange", this._redrawMap, this);
     },
+    
+    
+    /**
+     * Used the Mapnik Layer for redrawing. Needed after orientationChange event
+     * and drawing markers.
+     */
+    _redrawMap : function () {
+      if(this._mapnikLayer!= null){
+        this._mapnikLayer.redraw();
+      }
+    },
+    
     
     /**
      * Prepares GeoLocation, and installs needed listeners.
@@ -62,19 +88,44 @@ qx.Class.define("mobileshowcase.page.Maps",
     _initGeoLocation : function() {
       var geo = qx.bom.GeoLocation.getInstance();
       var self = this;
-      geo.addListener("position", function(position) {
-        var latitude = position.getLatitude();
-        var longitude = position.getLongitude();
-        
-        var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
-        var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-        var mapPosition = new OpenLayers.LonLat(longitude,latitude).transform( fromProjection, toProjection);
-        var zoom = 15; 
- 
-        self._map.setCenter(mapPosition, zoom );
-        self._setMarkerOnMap(self._map,mapPosition);
-      })
+      geo.addListener("position", this._onGeolocationSuccess,this) 
+      geo.addListener("error", this._onGeolocationError,this);
     },
+    
+    
+    /**
+     * Callback function when Geolocation did work.
+     */
+    _onGeolocationSuccess : function(position) {
+      var latitude = position.getLatitude();
+      var longitude = position.getLongitude();
+
+      var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+      var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+      var mapPosition = new OpenLayers.LonLat(longitude,latitude).transform( fromProjection, toProjection);
+      var zoom = 15; 
+
+      this._map.setCenter(mapPosition, zoom);
+      this._setMarkerOnMap(this._map,mapPosition);
+
+      this._redrawMap();
+    },
+    
+    
+    /**
+     * Callback function when Geolocation returned an error.
+     */
+    _onGeolocationError : function() {
+      this._showMyPositionButton.setEnabled(false);
+      
+      var buttons = [];
+      buttons.push(qx.locale.Manager.tr("OK"));
+      var title = "Problem with Geolocation";
+      var text = "Please activate location services on your browser and device."
+      qx.ui.mobile.dialog.Manager.getInstance().confirm(title, text, function(index) {
+      }, this, buttons);
+    },
+    
     
     /**
      * Retreives GeoPosition out of qx.bom.Geolocation and zooms to this point on map.
@@ -107,15 +158,18 @@ qx.Class.define("mobileshowcase.page.Maps",
        menuContainer.setId("mapMenu");
        
        // LABEL
-       var descriptionLabel = new qx.ui.mobile.basic.Label("Fullscreen");
+       var descriptionLabel = new qx.ui.mobile.basic.Label("Page Title");
        descriptionLabel.addCssClass("osmMapLabel");
        
        // TOGGLE BUTTON
-       var toggleNaviButton = new qx.ui.mobile.form.ToggleButton(false);
+       var toggleNaviButton = new qx.ui.mobile.form.ToggleButton(true,"Show","Hide",12);
        
        // SHOW MY POSITION BUTTON
-       var showMyPositionButton = new qx.ui.mobile.form.Button("Find me!");
-       showMyPositionButton.addListener("tap", this._getGeoPosition, this);
+       this._showMyPositionButton = new qx.ui.mobile.form.Button("Find me!");
+       this._showMyPositionButton.addListener("tap", this._getGeoPosition, this);
+       
+       // Button is disabled, when Geolocation is not possible.
+       this._showMyPositionButton.setEnabled(this._geolocationEnabled);
        
        toggleNaviButton.addListener("changeValue", function() {
         var newNavBarState = !this.isNavigationBarHidden();
@@ -123,14 +177,14 @@ qx.Class.define("mobileshowcase.page.Maps",
         this.show();
        },this);
        
-       var group1 = new qx.ui.mobile.form.Group([showMyPositionButton],false);
-       var group2 = new qx.ui.mobile.form.Group([descriptionLabel,toggleNaviButton],true);
+       var groupPosition = new qx.ui.mobile.form.Group([this._showMyPositionButton],false);
+       var groupFullScreen = new qx.ui.mobile.form.Group([descriptionLabel,toggleNaviButton],true);
        
-       showMyPositionButton.addCssClass("map-shadow");
-       group2.addCssClass("map-shadow");
+       this._showMyPositionButton.addCssClass("map-shadow");
+       groupFullScreen.addCssClass("map-shadow");
        
-       menuContainer.add(group1);
-       menuContainer.add(group2);
+       menuContainer.add(groupFullScreen);
+       menuContainer.add(groupPosition);
        
        return menuContainer;
     },
@@ -146,14 +200,29 @@ qx.Class.define("mobileshowcase.page.Maps",
       
       req.onload = function() {
         self._map = new OpenLayers.Map("osmMap");
-        var mapnik = new OpenLayers.Layer.OSM("mapnik",null,{});
+        self._mapnikLayer = new OpenLayers.Layer.OSM("mapnik",null,{});
         
-        self._map.addLayer(mapnik);
-        self._getGeoPosition();
+        self._map.addLayer(self._mapnikLayer);
+        
+        self._zoomMapToDefaultPosition();
       }
       
       req.open("GET", this._mapUri);
       req.send();
+    },
+    
+    
+    /**
+     * Zooms the map to a default position.
+     * In this case: Berlin, Germany.
+     */ 
+    _zoomMapToDefaultPosition : function() {
+      var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+      var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+      var mapPosition = new OpenLayers.LonLat(13.41,52.52).transform( fromProjection, toProjection);
+      var zoom = 15; 
+
+      this._map.setCenter(mapPosition, zoom);
     },
     
     
@@ -194,7 +263,7 @@ qx.Class.define("mobileshowcase.page.Maps",
     */
     destruct : function()
     {
-      this._disposeObjects("_mapUri","_map","_myPositionMarker","_markers");
+      this._disposeObjects("_mapUri","_map","_myPositionMarker","_markers","_showMyPositionButton","_mapnikLayer");
     }
   }
 });
