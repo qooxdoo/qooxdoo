@@ -108,16 +108,6 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
         }
       },
 
-      "gecko" : function(opacity)
-      {
-        // Animations look better when not using 1.0 in gecko
-        if (opacity >= 1) {
-          opacity = 0.999999;
-        }
-
-        return "opacity:" + opacity + ";";
-      },
-
       "default" : function(opacity)
       {
         if (opacity >= 1) {
@@ -174,20 +164,6 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
         }
       },
 
-      "gecko" : function(element, opacity)
-      {
-        // Animations look better when not using 1.0 in gecko
-        if (opacity >= 1) {
-          opacity = 0.999999;
-        }
-
-        if (!qx.bom.element.Opacity.SUPPORT_CSS3_OPACITY) {
-          element.style.MozOpacity = opacity;
-        } else {
-          element.style.opacity = opacity;
-        }
-      },
-
       "default" : function(element, opacity)
       {
         if (opacity >= 1) {
@@ -220,15 +196,6 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
 
           // Remove old alpha filter
           element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "");
-        }
-      },
-
-      "gecko" : function(element)
-      {
-        if (!qx.bom.element.Opacity.SUPPORT_CSS3_OPACITY) {
-          element.style.MozOpacity = "";
-        } else {
-          element.style.opacity = "";
         }
       },
 
@@ -278,21 +245,6 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
 
           return 1.0;
         }
-      },
-
-      "gecko" : function(element, mode)
-      {
-        var opacity = qx.bom.element.Style.get(element, !qx.bom.element.Opacity.SUPPORT_CSS3_OPACITY ? "MozOpacity" : "opacity", mode, false);
-
-        if (opacity == 0.999999) {
-          opacity = 1.0;
-        }
-
-        if (opacity != null) {
-          return parseFloat(opacity);
-        }
-
-        return 1.0;
       },
 
       "default" : function(element, mode)
