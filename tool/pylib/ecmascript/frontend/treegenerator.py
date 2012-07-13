@@ -1144,6 +1144,8 @@ def pfix(self):
         body.childappend(block())
     else:
         body.childappend(statement())
+    # scope object
+    self.scope = Scope(self)
     return self
 
 @method(symbol("function"))
@@ -2009,6 +2011,19 @@ class TreeGenerator(object):
 
 
 
+# - Scope class ---------------------------------------------------------------
+
+class Scope(object):
+    def __init__(self, node):
+        self.parent = None
+        self.node = node
+        self.vars = {}   # {"<varname>" : ScopeVar() }
+
+
+class ScopeVar(object):
+    def __init__(self):
+        self.decl = None  # var decl node
+        self.uses = []    # var occurrences
 # - Interface -----------------------------------------------------------------
 
 def createSyntaxTree(tokenArr, fileId=''):
