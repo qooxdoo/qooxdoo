@@ -683,3 +683,14 @@ def isNEWoperand(node):
     return operation and operation.type=="operation" and operation.get("operator",0)=="NEW"
 
 
+##
+# NodeVisitor class
+#
+class NodeVisitor(object):
+
+    def visit(self, node):
+        if hasattr(self, "visit_"+node.type):
+            getattr(self, "visit_"+node.type)(node)
+        else:
+            for child in node.children:
+                self.visit(child)

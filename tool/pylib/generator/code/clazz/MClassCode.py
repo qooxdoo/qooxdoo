@@ -27,6 +27,7 @@ import sys, os, types, re, string, copy
 from ecmascript.backend.Packer      import Packer
 #from ecmascript.backend             import pretty
 from ecmascript.backend             import pretty_new_meth as pretty
+from ecmascript.transform.check     import scopes
 from ecmascript.frontend import treeutil, tokenizer
 from ecmascript.frontend import treegenerator
 from ecmascript.frontend.SyntaxException import SyntaxException
@@ -64,6 +65,7 @@ class MClassCode(object):
             console.debug("Parsing file: %s..." % self.id)
             console.indent()
 
+            # tokenize
             fileContent = filetool.read(self.path, self.encoding)
             fileId = self.path if self.path else self.id
             try:
@@ -73,6 +75,7 @@ class MClassCode(object):
                 e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
                 raise e
             
+            # parse
             console.outdent()
             console.debug("Generating tree: %s..." % self.id)
             console.indent()
@@ -82,6 +85,18 @@ class MClassCode(object):
                 # add file info
                 e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
                 raise e
+
+            # annotate with scopes
+            console.outdent()
+            console.info("Calculating scopes: %s..." % self.id)
+            console.indent()
+            #try:
+            if True:
+                tree = scopes.create_scopes(tree)
+            #except Exception, e:
+            #    e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
+            #    raise e
+            tree.scope.prrnt()
 
             # store unoptimized tree
             #print "Caching %s" % cacheId
