@@ -66,17 +66,12 @@
  */
 qx.Bootstrap.define("qx.bom.element.Opacity",
 {
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
     /**
      * {Boolean} <code>true</code> when the style attribute "opacity" is supported,
      * <code>false</code> otherwise.
+     * @deprecated since 2.1: Please use qx.core.Environment.get("css.opacity") instead.
      */
     SUPPORT_CSS3_OPACITY : false,
 
@@ -101,7 +96,7 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
           opacity = 0;
         }
 
-        if (qx.bom.element.Opacity.SUPPORT_CSS3_OPACITY) {
+        if (qx.core.Environment.get("css.opacity")) {
           return "opacity:" + opacity + ";";
         } else {
           return "zoom:1;filter:alpha(opacity=" + (opacity * 100) + ");";
@@ -131,21 +126,17 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
     {
       "mshtml" : function(element, opacity)
       {
-        if (qx.bom.element.Opacity.SUPPORT_CSS3_OPACITY)
-        {
+        if (qx.core.Environment.get("css.opacity")) {
           if (opacity >= 1) {
             opacity = "";
           }
 
           element.style.opacity = opacity;
-        }
-        else
-        {
+        } else {
           // Read in computed filter
           var filter = qx.bom.element.Style.get(element, "filter", qx.bom.element.Style.COMPUTED_MODE, false);
 
-          if (opacity >= 1)
-          {
+          if (opacity >= 1) {
             opacity = 1;
           }
 
@@ -164,8 +155,7 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
         }
       },
 
-      "default" : function(element, opacity)
-      {
+      "default" : function(element, opacity) {
         if (opacity >= 1) {
           opacity = "";
         }
@@ -185,12 +175,10 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
     {
       "mshtml" : function(element)
       {
-        if (qx.bom.element.Opacity.SUPPORT_CSS3_OPACITY)
+        if (qx.core.Environment.get("css.opacity"))
         {
           element.style.opacity = "";
-        }
-        else
-        {
+        } else {
           // Read in computed filter
           var filter = qx.bom.element.Style.get(element, "filter", qx.bom.element.Style.COMPUTED_MODE, false);
 
@@ -220,7 +208,7 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
     {
       "mshtml" : function(element, mode)
       {
-        if (qx.bom.element.Opacity.SUPPORT_CSS3_OPACITY)
+        if (qx.core.Environment.get("css.opacity"))
         {
           var opacity = qx.bom.element.Style.get(element, "opacity", mode, false);
 
@@ -260,7 +248,15 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
     })
   },
 
+  // @deprecated since 2.1
   defer : function(statics) {
     statics.SUPPORT_CSS3_OPACITY = qx.core.Environment.get("css.opacity");
   }
 });
+
+// @deprecated since 2.1
+qx.log.Logger.deprecatedConstantWarning(
+  qx.bom.element.Opacity,
+  "SUPPORT_CSS3_OPACITY",
+  "Please use 'qx.core.Environment.get(\"css.opacity\")' instead."
+);
