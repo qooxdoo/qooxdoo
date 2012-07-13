@@ -5,7 +5,7 @@
    #  http://qooxdoo.org
    #
    #  Copyright:
-   #    2006-2011 1&1 Internet AG, Germany, http://www.1und1.de
+   #    2006-2012 1&1 Internet AG, Germany, http://www.1und1.de
    #
    #  License:
    #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -18,8 +18,8 @@
    ################################################################################
 
 
-qooxdoo Manual
-**************
+qooxdoo Manual v%{version}
+***************************
 
 .. toctree::
    :maxdepth: 1
@@ -36,7 +36,7 @@ qooxdoo Manual
 .. |tooling| image:: _static/tooling.png
 .. |refer| image:: _static/references.png
 
-Welcome to the manual of qooxdoo |version|. Here are some highlights of what you can find here. The main entries are the qooxdoo components *Core*, *Website*, *Desktop*, *Mobile* and *Server*. For a full overview proceed to the :doc:`table of contents <toc>`.
+Welcome to the manual of qooxdoo. Here are some highlights of what you can find here. The main entries are the qooxdoo components *Core*, *Website*, *Desktop*, *Mobile* and *Server*. For a full overview proceed to the :doc:`table of contents <toc>`.
 
 .. rst-class:: toc
 
