@@ -28,31 +28,37 @@ from ecmascript.frontend import treeutil
 class CreateScopesVisitor(treeutil.NodeVisitor):
 
     def __init__(self, root_node):
+        super(CreateScopesVisitor, self).__init__(self)
         self.root_node = root_node
         self.global_scope = Scope(root_node)
         root_node.scope = self.global_scope
         self.curr_scope = self.global_scope
 
     def visit_function(self, node):
-        #print "function visitor", node
+        print "function visitor", node
         self._new_scope(node)
 
     def visit_catch(self, node):
-        #print "catch visitor", node
+        print "catch visitor", node
+        import pydb; pydb.debugger()
         self._new_scope(node)
 
     def _new_scope(self, node):  # function, catch
         # create a new scope
         node.scope = Scope(node)
         node.scope.parent = self.curr_scope
+        self.curr_scope.children.append(node.scope)
         # switch to new scope and recurse
         old_scope = self.curr_scope
-        old_scope.children.append(node.scope)
         self.curr_scope = node.scope
         for chld in node.children:
             self.visit(chld)
         # restore old scope
         self.curr_scope = old_scope
+
+    def visit_params(self, node): # formal params are like local decls
+        #print "params visitor", node
+        self.visit_var(node)  # can use this method, as it utilizes treeutil.nodeIterator("identifier")
 
     def visit_var(self, node):  # var declaration
         #print "var decl visitor", node

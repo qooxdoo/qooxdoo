@@ -297,19 +297,6 @@ def toPretty(self, optns, state):
     r += self.getChild("body").toPretty(optns, state)
     return r
 
-@method(symbol("params"))
-def toPretty(self, optns, state):
-    r = self.commentsPretty(optns, state)
-    r = [r]
-    r.append('(')
-    a = []
-    for c in self.children:
-        a.append(c.toPretty(optns, state))
-    r.append(u','.join(a))
-    r.append(')')
-    return u''.join(r)
-
-
 @method(symbol("body"))
 def toPretty(self, optns, state):
     r = self.commentsPretty(optns, state)
@@ -646,7 +633,7 @@ def toPretty(self, optns, state):
 def toPretty(self, optns, state):
     r = self.commentsPretty(optns, state)
     r += self.getChild("operand").toPretty(optns, state)
-    r += self.getChild("params").toPretty(optns, state)
+    r += self.getChild("arguments").toPretty(optns, state)
     return r
 
 @method(symbol("comment"))
@@ -702,9 +689,11 @@ def toPretty(self, optns, state):
     a = []
     for c in self.children:
         a.append(c.toPretty(optns, state))
-    r += ', '.join(a)
+    r += u', '.join(a)
     r += self.write(")")
     return r
+
+symbol("arguments").toPretty = toPretty
 
 # ------------------------------------------------------------------------------
 # Interface functions

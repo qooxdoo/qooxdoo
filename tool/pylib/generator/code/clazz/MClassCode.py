@@ -87,12 +87,14 @@ class MClassCode(object):
                 raise e
 
             # annotate with scopes
-            console.outdent()
-            console.debug("Calculating scopes: %s..." % self.id)
-            console.indent()
             if True:
+                console.outdent()
+                console.debug("Calculating scopes: %s..." % self.id)
+                console.indent()
                 tree = scopes.create_scopes(tree)
-                tree.scope.prrnt()
+                if self.id == "gui.Application":
+                    import pydb; pydb.debugger()
+                #tree.scope.prrnt()
 
             # store unoptimized tree
             #print "Caching %s" % cacheId

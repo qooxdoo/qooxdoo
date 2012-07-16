@@ -688,9 +688,16 @@ def isNEWoperand(node):
 #
 class NodeVisitor(object):
 
+    def __init__(self, debug=True):
+        self.debug = debug
+        
     def visit(self, node):
         if hasattr(self, "visit_"+node.type):
+            if self.debug:
+                print "visiting:", node.type
             getattr(self, "visit_"+node.type)(node)
         else:
             for child in node.children:
+                if self.debug:
+                    print "visiting:", child.type
                 self.visit(child)

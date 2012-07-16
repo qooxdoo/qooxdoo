@@ -110,7 +110,7 @@ class MClassI18N(object):
         if method == "trn" or method == "trc": minArgc=2
         else: minArgc=1
 
-        params = node.getChild("params", False)
+        params = node.getChild("arguments", False)
         if not params or not params.hasChildren():
             raise NameError("Invalid param data for localizable string method at line %s!" % node.get("line"))
 

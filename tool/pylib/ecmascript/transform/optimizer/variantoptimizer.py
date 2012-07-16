@@ -97,7 +97,7 @@ def processVariantSelect(callNode, variantMap):
     if callNode.type != "call":
         return False
         
-    params = callNode.getChild("params")
+    params = callNode.getChild("arguments")
     if len(params.children) != 2:
         log("Warning", "Expecting exactly two arguments for qx.core.Environment.select. Ignoring this occurrence.", params)
         return False
@@ -171,7 +171,7 @@ def processVariantGet(callNode, variantMap):
     treeModified = False
 
     # Simple sanity checks
-    params = callNode.getChild("params")
+    params = callNode.getChild("arguments")
     if len(params.children) != 1:
         log("Warning", "Expecting exactly one argument for qx.core.Environment.get. Ignoring this occurrence.", params)
         return treeModified
@@ -523,7 +523,7 @@ def getSelectParams(callNode):
     if callNode.type != "call":
         return result
         
-    params = callNode.getChild("params")
+    params = callNode.getChild("arguments")
     if len(params.children) != 2:
         log("Warning", "Expecting exactly two arguments for qx.core.Environment.select. Ignoring this occurrence.", params)
         return result
@@ -559,7 +559,7 @@ def processVariantFilter(callNode, variantMap):
     if callNode.type != "call":
         return changed
 
-    params = callNode.getChild("params")
+    params = callNode.getChild("arguments")
     if len(params.children) != 1:
         log("Warning", "Expecting exactly one argument for qx.core.Environment.filter. Ignoring this occurrence.", params)
         return changed
@@ -606,7 +606,7 @@ def getFilterMap(callNode, fileId_):
         log("Warning", "Can only work on qx.core.Environment.filter call. Ignoring this occurrence.", operand)
         return result
 
-    params = callNode.getChild("params")
+    params = callNode.getChild("arguments")
     if len(params.children) != 1:
         log("Warning", "Expecting exactly one argument for qx.core.Environment.filter. Ignoring this occurrence.", params)
         return result

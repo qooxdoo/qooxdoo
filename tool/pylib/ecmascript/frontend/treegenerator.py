@@ -903,7 +903,7 @@ constant("false")
 
 # bracket expressions
 
-symbol("("), symbol(")")
+symbol("("), symbol(")"), symbol("arguments")
 
 @method(symbol("("))  # <call>
 def ifix(self, left):
@@ -913,7 +913,7 @@ def ifix(self, left):
     call.childappend(operand)
     operand.childappend(left)
     # params - parse as group
-    params = symbol("params")(token.get("line"), token.get("column"))
+    params = symbol("arguments")(token.get("line"), token.get("column"))
     call.childappend(params)
     group = self.pfix()
     for c in group.children:
@@ -1136,7 +1136,7 @@ def pfix(self):
     group = expression()  # group parsing as helper
     for c in group.children:
         params.childappend(c)
-    params.children = group.children
+    #params.children = group.children  # -- retains group as parent!
     # body
     body = symbol("body")(token.get("line"), token.get("column"))
     self.childappend(body)
@@ -1170,6 +1170,7 @@ def toJS(self, opts):
     r.append(')')
     return u''.join(r)
 
+symbol("arguments").toJS = toJS  # same here
 
 @method(symbol("body"))
 def toJS(self, opts):
@@ -1691,9 +1692,18 @@ def std(self):
         catch = token
         self.childappend(catch)
         advance("catch")
-        advance("(")
-        catch.childappend(expression(0))
-        advance(")")
+        #advance("(")
+        #catch.childappend(expression(0))
+        #advance(")")
+
+        # insert "params" node, par. to function.pfix
+        assert token.id == "("
+        params = symbol("params")(token.get("line"), token.get("column"))
+        catch.childappend(params)
+        group = expression()  # group parsing as helper
+        for c in group.children:
+            params.childappend(c)  # to have params as parent of group's children
+
         catch.childappend(block())
     if token.id == "finally":
         finally_ = token
@@ -1710,9 +1720,9 @@ def toJS(self, opts):
     catch = self.getChild("catch", 0)
     if catch:
         r.append('catch')
-        r.append('(')
+        #r.append('(')
         r.append(catch.children[0].toJS(opts))
-        r.append(')')
+        #r.append(')')
         r.append(catch.children[1].toJS(opts))
     finally_ = self.getChild("finally", 0)
     if finally_:
@@ -1768,6 +1778,8 @@ def statement():
         if token.id == 'function' and tokenStream.peek(1).type == 'identifier':
             advance()
             s = n.pfix()
+            if token.id == ';':  # consume dangling semi
+                advance()
         # statement
         else:
             if getattr(token, 'std', None):
@@ -1920,7 +1932,7 @@ symbol("call")
 def toJS(self, opts):
     r = u''
     r += self.getChild("operand").toJS(opts)
-    r += self.getChild("params").toJS(opts)
+    r += self.getChild("arguments").toJS(opts)
     return r
 
 

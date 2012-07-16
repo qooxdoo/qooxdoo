@@ -52,7 +52,7 @@ class Packer(object):
             if node.hasParent() and not node.type in ["comment", "commentsBefore", "commentsAfter"]:
 
                 # Add comma dividers between statements in these parents
-                if node.parent.type in ["array", "params", "expressionList"]:
+                if node.parent.type in ["array", "params", "arguments", "expressionList"]:
                     if not node.isLastChild(True):
                         str += Packer.comma(str)
                     else:
@@ -753,10 +753,13 @@ class Packer(object):
             r += cls.write("(")
             return r
 
+        symbol("arguments").opening = opening
+
         @method(symbol("params"))
         def closing(s, node):
             return cls.write(")")
 
+        symbol("arguments").closing = closing
 
         symbol("return")
 

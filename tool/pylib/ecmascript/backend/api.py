@@ -121,7 +121,7 @@ def createPackageDoc(text, packageName, docTree = None):
 ########################################################################################
 
 def handleClassDefinition(docTree, callNode, variant):
-    params = callNode.getChild("params")
+    params = callNode.getChild("arguments")
     className = params.children[0].get("value")
 
     if len(params.children) > 1:
@@ -840,7 +840,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
         return node
 
     # Read the parameters
-    params = funcItem.getChild("params", False)
+    params = funcItem.getChild("arguments", False)
     if params and params.hasChildren():
         for param in params.children:
             if param.type != "identifier":

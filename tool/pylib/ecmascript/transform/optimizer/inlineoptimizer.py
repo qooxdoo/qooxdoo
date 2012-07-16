@@ -76,7 +76,7 @@ def analyseFunction(name, defined):
             
 
 def inlineFunction(callNode, funcNode):
-    params = funcNode.getChild("params")
+    params = funcNode.getChild("arguments")
     body = copy.copy(funcNode.getChild("body"))
     
     # Without params is a lot easier

@@ -114,7 +114,7 @@ def optimizeConstruct(node, superClass, methodName, classDefNodes):
         # "member"
         else:
             newCall = treeutil.compileString("%s.prototype.%s.call()" % (superClass, methodName))
-        newCall.replaceChild(newCall.getChild("params"), call.getChild("params")) # replace with old arglist
+        newCall.replaceChild(newCall.getChild("arguments"), call.getChild("arguments")) # replace with old arglist
         treeutil.selectNode(newCall, "params/1").set("value", "this")   # arguments -> this
         call.parent.replaceChild(call, newCall)
         patchCount += 1

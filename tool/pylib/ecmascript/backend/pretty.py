@@ -749,7 +749,7 @@ def _prettyNode(node, optns, result):
     # OPEN: PARAMS
     ##################################
 
-    elif node.type == "params":
+    elif node.type in ("params", "arguments"):
         noline()
         write("(")
 
@@ -1280,7 +1280,7 @@ def _prettyNode(node, optns, result):
     # CLOSE: PARAMS
     ##################################
 
-    elif node.type == "params":
+    elif node.type in ("params", "arguments"):
         write(")")
 
 
@@ -1378,7 +1378,7 @@ def _prettyNode(node, optns, result):
                 if node.parent.type == "body" and node.parent.parent.type == "function":
 
                     # But only when this isn't a function block inside a assignment
-                    if node.parent.parent.parent.type in ["right", "params"]:
+                    if node.parent.parent.parent.type in ["right", "params", "arguments"]:
                         pass
 
                     elif node.parent.parent.parent.type == "value" and node.parent.parent.parent.parent.type == "keyvalue":
@@ -1530,7 +1530,7 @@ def _prettyNode(node, optns, result):
     if node.hasParent() and not node.type in ["comment", "commentsBefore", "commentsAfter"]:
 
         # Add comma dividers between statements in these parents
-        if node.parent.type in ["array", "params", "expressionList"]:
+        if node.parent.type in ["array", "params", "arguments", "expressionList"]:
             if not node.isLastChild(True):
                 comma()
 

@@ -272,12 +272,12 @@ def toPretty(self, optns, state):
         r += self.space(result=r)
         r += self.write(functionName)
     # params
-    r += self.getChild("params").toPretty(optns, state)
+    r += self.getChild("arguments").toPretty(optns, state)
     # body
     r += self.getChild("body").toPretty(optns, state)
     return r
 
-@method(symbol("params"))
+@method(symbol("arguments"))
 def toPretty(self, optns, state):
     r = []
     r.append('(')
@@ -582,7 +582,7 @@ def toPretty(self, optns, state):
 def toPretty(self, optns, state):
     r = u''
     r += self.getChild("operand").toPretty(optns, state)
-    r += self.getChild("params").toPretty(optns, state)
+    r += self.getChild("arguments").toPretty(optns, state)
     return r
 
 @method(symbol("comment"))
@@ -625,7 +625,7 @@ def toPretty(self, optns, state):
         r = self.children[0].toPretty(optns, state)
     return r
 
-@method(symbol("params"))
+@method(symbol("arguments"))
 def toPretty(self, optns, state):
     r = u''
     self.noline()
