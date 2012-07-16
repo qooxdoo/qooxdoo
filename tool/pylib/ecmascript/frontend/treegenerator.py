@@ -1159,7 +1159,6 @@ def toJS(self, opts):
     r += self.getChild("body").toJS(opts)
     return r
 
-@method(symbol("params"))
 def toJS(self, opts):
     r = []
     r.append('(')
@@ -1170,6 +1169,7 @@ def toJS(self, opts):
     r.append(')')
     return u''.join(r)
 
+symbol("params").toJS = toJS
 symbol("arguments").toJS = toJS  # same here
 
 @method(symbol("body"))

@@ -75,8 +75,8 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
         #print "var use visitor", node
         if treeutil.checkFirstChainChild(node):  # only treat leftmost identifier (e.g. in a dotaccessor expression)
             var_name = node.get('value')
-            print var_name
-            import pydb; pydb.debugger()
+            #print var_name
+            #import pydb; pydb.debugger()
             # lookup var
             var_scope = self.curr_scope.lookup(var_name)
             if not var_scope: # it's a global reference

@@ -89,7 +89,7 @@ def isQxDefineParent(node):
             return False, None, ""
 
         if variableName in [x+".define" for x in DefiningClasses]:
-            className = selectNode(node, "params/1")
+            className = selectNode(node, "arguments/1")
             if className and className.type == "constant":
                 className = className.get("value", None)
             return True, className, variableName
@@ -565,7 +565,7 @@ def getClassMap(classNode):
     _checkQxDefineNode(classNode)
 
     # get top-level class map
-    mapNode = selectNode(classNode, "params/map")
+    mapNode = selectNode(classNode, "arguments/map")
 
     if not mapNode or mapNode.type != "map":
         raise tree.NodeAccessException("Expected a map node!", mapNode)
@@ -613,7 +613,7 @@ def getClassName(classNode):
     _checkQxDefineNode(classNode)
 
     # get top-level class map
-    nameNode = selectNode(classNode, "params/constant")
+    nameNode = selectNode(classNode, "arguments/constant")
 
     if not nameNode or nameNode.type != "constant":
         raise tree.NodeAccessException("Expected a constant node!", nameNode)
