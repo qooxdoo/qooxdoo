@@ -25,24 +25,24 @@
   "jobs" :
   {
 
-    "qxoo-common" : 
+    "qxoo-common" :
     {
       "config-warnings" :
       {
-        "exclude" : ["qx.event.GlobalError"] 
+        "exclude" : ["qx.event.GlobalError"]
       },
 
       "library" :
       [
         {
           "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json",
-          "uri" : ".."          
+          "uri" : ".."
         }
       ],
 
       "extend" : [ "cache" ],
-      
-      "include" : 
+
+      "include" :
       [
         "qx.Class"
         ,"qx.Mixin"
@@ -50,7 +50,7 @@
         ,"qx.data.marshal.Json"
         ,"qx.bom.client.Runtime"
       ],
-      
+
       "exclude" :
       [
         "qx.event.GlobalError"
@@ -81,11 +81,11 @@
     },
 
 
-    "build-min" : 
+    "build-min" :
     {
       "desc" : "a basic qooxdoo OO library",
       "extend" : [ "qxoo-common" ],
-      
+
       "compile-options" :
       {
         "paths" :
@@ -102,13 +102,13 @@
       },
       "compile" : { "type" : "build" }
     },
-    
-    
-    "build" : 
+
+
+    "build" :
     {
       "desc" : "a basic qooxdoo OO library (non-optimized)",
       "extend" : [ "qxoo-common" ],
-      
+
       "compile-options" :
       {
         "paths" :
