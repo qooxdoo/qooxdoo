@@ -311,8 +311,6 @@ qx.Class.define("qx.util.Validate",
     {
       return function(value)
       {
-        console.log("value", value, errorMessage);
-
         var message = errorMessage ||
           qx.locale.Manager.tr("%1 does not fit %2.", value, reg);
 
