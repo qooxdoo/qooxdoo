@@ -39,12 +39,20 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      */
     getStackTrace : function()
     {
+      var e;
       // only thrown errors have the stack property in IE10
-      try {
-        throw new Error();
-      } catch(e) {
-        return e.stacktrace ? "stacktrace" : e.stack ? "stack" : null;
+      if (qx.core.Environment.get("engine.name") == "mshtml") {
+        try {
+          throw new Error();
+        } catch(ex) {
+          e = ex;
+        }
       }
+      else {
+        e = new Error();
+      }
+
+      return e.stacktrace ? "stacktrace" : e.stack ? "stack" : null;
     }
   },
 
