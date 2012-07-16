@@ -1,9 +1,9 @@
 // Platform-agnostic tests for qx-oo
 
 testrunner.define({
-  
+
   classname : "Core",
-  
+
   testFeatures : function()
   {
     this.assertObject(qx.Class);

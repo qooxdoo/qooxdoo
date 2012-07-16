@@ -7,7 +7,7 @@ load(['tests-common.js']);
 testrunner.define({
 
   classname : "Rhino",
-  
+
   setUp : function()
   {
     var envName = qx.core.Environment.get("runtime.name");
@@ -15,7 +15,7 @@ testrunner.define({
       this.skip("Skipping test: Expected runtime.name to be 'rhino' but found " + envName);
     }
   },
-  
+
   testFoo : function()
   {
     print("Hello Rhino");

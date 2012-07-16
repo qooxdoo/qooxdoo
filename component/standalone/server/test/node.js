@@ -7,7 +7,7 @@ require('./tests-common.js');
 testrunner.define({
 
   classname : "NodeJs",
-  
+
   setUp : function()
   {
     var envName = qx.core.Environment.get("runtime.name");
@@ -15,7 +15,7 @@ testrunner.define({
       this.skip("Skipping test: Expected runtime.name to be 'node.js' but found " + envName);
     }
   },
-  
+
   testFoo : function()
   {
     console.log("Hello node.js");
