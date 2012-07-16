@@ -18,5 +18,5 @@
   "description": "OO programming with classes, mixins, interfaces and dynamic getters/setters",
   "keywords" : ["oop", "class", "inheritance", "object-oriented"],
   "homepage": "http://manual.qooxdoo.org/2.0.2/pages/core.html",
-  "main": "qx-oo"
+  "main": "qx-oo-2.0.2"
 }

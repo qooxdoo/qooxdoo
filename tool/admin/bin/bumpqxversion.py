@@ -124,6 +124,7 @@ Files = {
         ],
     "./component/standalone/server/npm/package.json" : [
         (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        r'"main"\s*:\s*"qx-oo-(%s)"' % qxversion_regexp,
         r'"homepage"\s*:\s*"http://manual.qooxdoo.org/(%s)/pages/core.html"' % qxversion_regexp,
         ],
     "./tool/data/generator/copyright.include.js" : [
