@@ -311,8 +311,7 @@ qx.Class.define("qx.ui.embed.Iframe",
         } catch (e) {
           if (qx.core.Environment.get("qx.debug")) {
             this.warn(
-              "Unable to set 'nativeHelp' property. " +
-              "This might be failed due to security restrictions"
+              "Unable to set 'nativeHelp' property, possibly due to security restrictions"
             );
           }
         }
