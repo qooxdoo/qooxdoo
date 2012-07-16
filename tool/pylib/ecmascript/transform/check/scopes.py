@@ -28,19 +28,18 @@ from ecmascript.frontend import treeutil
 class CreateScopesVisitor(treeutil.NodeVisitor):
 
     def __init__(self, root_node):
-        super(CreateScopesVisitor, self).__init__(self)
+        super(CreateScopesVisitor, self).__init__()
         self.root_node = root_node
         self.global_scope = Scope(root_node)
         root_node.scope = self.global_scope
         self.curr_scope = self.global_scope
 
     def visit_function(self, node):
-        print "function visitor", node
+        #print "function visitor", node
         self._new_scope(node)
 
     def visit_catch(self, node):
-        print "catch visitor", node
-        import pydb; pydb.debugger()
+        #print "catch visitor", node
         self._new_scope(node)
 
     def _new_scope(self, node):  # function, catch
@@ -76,14 +75,16 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
         #print "var use visitor", node
         if treeutil.checkFirstChainChild(node):  # only treat leftmost identifier (e.g. in a dotaccessor expression)
             var_name = node.get('value')
+            print var_name
+            import pydb; pydb.debugger()
             # lookup var
             var_scope = self.curr_scope.lookup(var_name)
-            if not var_scope:
-                var_scope = self.global_scope
-            # attach scope
-            node.scope = var_scope
-            # add var_use
-            var_scope.add_use(var_name, node)
+            if not var_scope: # it's a global reference
+                self.curr_scope.add_use(var_name, node)
+                node.scope = self.curr_scope
+            else: # it's a scoped variable
+                var_scope.add_use(var_name, node)
+                node.scope = var_scope
         # pass on everything else
 
 
@@ -94,7 +95,9 @@ class Scope(object):
         self.parent = None
         self.node = node
         self.children = []  # nested scopes
-        self.vars = {}   # {"<varname>" : ScopeVar() }
+        self.vars = {}   # vars used in this scope, {"<varname>" : ScopeVar() }
+                         # either locally declared, or global (.decl==None)
+                         # missing: those of a parent scope that are referenced here
 
     def add_use(self, name, node):
         if name not in self.vars:
@@ -107,6 +110,12 @@ class Scope(object):
             self.vars[name] = ScopeVar()
         self.vars[name].add_decl(node)
         return self.vars[name]
+
+    def add_global(self, name, node):
+        if name not in self.globals:
+            self.globals[name] = ScopeVar()
+        self.globals[name].add_use(node)
+        return self.globals[name]
 
     def lookup(self, name):
         if name in self.vars:
@@ -121,10 +130,19 @@ class Scope(object):
         for cld in self.children:
             cld.prrnt(indent=indent+'  ')
 
+    def globals(self):
+        return dict([(x,y) for x,y in self.vars.items() if y.decl==None])
+
+##
+# A variable occurring in a scope has several places where it is mentioned ('uses'),
+# and among those mentionings potentially one where it is declared.
+#
+# (If it is declared multiple times in the scope, the last of those will be recorded).
+#
 class ScopeVar(object):
     def __init__(self):
         self.decl = None  # var decl node
-        self.uses = []    # var occurrences
+        self.uses = []    # var occurrences; includes the decl occurrence
 
     def add_use(self, node):
         self.uses.append(node)
