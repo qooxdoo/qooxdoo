@@ -240,9 +240,9 @@ qx.Class.define("qx.util.Validate",
       try {
         qx.util.ColorUtil.stringToRgb(value);
       } catch (e) {
-        errorMessage = errorMessage ||
+        var message = errorMessage ||
           qx.locale.Manager.tr("%1 is not a color! %2", value, e);
-        throw new qx.core.ValidationError("Validation Error", errorMessage);
+        throw new qx.core.ValidationError("Validation Error", message);
       }
     },
 
@@ -264,11 +264,11 @@ qx.Class.define("qx.util.Validate",
     {
       return function(value)
       {
-        errorMessage = errorMessage ||
+        var message = errorMessage ||
           qx.locale.Manager.tr("%1 is not in the range from [%2, %3].", value, from, to);
 
         if (value < from || value > to) {
-          throw new qx.core.ValidationError("Validation Error", errorMessage);
+          throw new qx.core.ValidationError("Validation Error", message);
         }
       }
     },
@@ -287,11 +287,11 @@ qx.Class.define("qx.util.Validate",
     {
       return function(value)
       {
-        errorMessage = errorMessage ||
+        var message = errorMessage ||
           qx.locale.Manager.tr("%1 is not in %2", value, array);
 
         if (array.indexOf(value) === -1) {
-          throw new qx.core.ValidationError("Validation Error", errorMessage);
+          throw new qx.core.ValidationError("Validation Error", message);
         }
       }
     },
@@ -311,16 +311,15 @@ qx.Class.define("qx.util.Validate",
     {
       return function(value)
       {
-        errorMessage = errorMessage ||
+        console.log("value", value, errorMessage);
+
+        var message = errorMessage ||
           qx.locale.Manager.tr("%1 does not fit %2.", value, reg);
 
         if (!reg.test(value)) {
-          throw new qx.core.ValidationError("Validation Error", errorMessage);
+          throw new qx.core.ValidationError("Validation Error", message);
         }
       }
     }
   }
 });
-
-
-
