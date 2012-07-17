@@ -38,7 +38,7 @@ import qxenviron
 
 from misc.ExtendAction import ExtendAction
 from ecmascript.backend.Packer      import Packer
-from ecmascript.backend             import pretty_new_meth as pretty
+from ecmascript.backend             import formatter
 from ecmascript.frontend import tokenizer, treeutil
 from ecmascript.frontend import treegenerator
 #from ecmascript.frontend import treegenerator_new_ast as treegenerator
@@ -220,9 +220,9 @@ def _compileTree(tree, prettyFlag):
     if prettyFlag:
         # Set options
         def optns(): pass
-        optns = pretty.defaultOptions(optns)
+        optns = formatter.defaultOptions(optns)
         #optns.prettypCommentsBlockAdd = False
-        result = pretty.prettyNode(tree, optns, result)
+        result = formatter.formatNode(tree, optns, result)
     else:
         result =  Packer().serializeNode(tree, None, result, True)
 
