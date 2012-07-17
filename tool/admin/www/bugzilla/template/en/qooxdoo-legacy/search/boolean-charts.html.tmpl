@@ -1,0 +1,136 @@
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #%]
+
+[% PROCESS "global/field-descs.none.tmpl" %]
+  
+[% types = [
+  "noop",
+  "equals",
+  "notequals",
+  "anyexact",
+  "substring",
+  "casesubstring",
+  "notsubstring",
+  "anywordssubstr",
+  "allwordssubstr",
+  "nowordssubstr",
+  "regexp",
+  "notregexp",
+  "lessthan",
+  "greaterthan",
+  "anywords",
+  "allwords",
+  "nowords",
+  "changedbefore",
+  "changedafter",
+  "changedfrom",
+  "changedto",
+  "changedby",
+  "matches",
+  "notmatches",
+] %]
+
+  <p>
+    <strong>
+      <a name="chart">Advanced Searching Using Boolean Charts</a>:
+    </strong>
+  </p>
+
+[%# Whoever wrote the original version of boolean charts had a seriously twisted mind %]
+
+[% jsmagic = "onclick=\"this.form.action='query.cgi#chart'; this.form.method='POST'; return 1;\"" %]
+
+[% FOREACH chart = default.charts %]
+  [% chartnum = loop.count - 1 %]
+  <table>
+    <tr>
+      <td>
+        <input type="checkbox" id="negate[% chartnum FILTER html %]"
+             name="negate[% chartnum FILTER html %]" value="1"
+            [%+ "checked" IF chart.negate %]>
+        <label for="negate[% chartnum FILTER html %]">
+          Not (negate this whole chart)
+        </label>
+      </td>
+    </tr>
+  [% FOREACH row = chart.rows %]
+    [% rownum = loop.count - 1 %]
+    <tr>
+    [% FOREACH col = row %]
+      [% colnum = loop.count - 1 %]
+      <td>
+        <select name="[% "field${chartnum}-${rownum}-${colnum}" %]">
+          [% FOREACH field = fields %]
+            <option value="[% field.name %]" [% "selected" IF field.name == col.field %]>
+              [% field_descs.${field.name} || field.description FILTER html %]
+            </option>
+          [% END %]
+        </select>
+
+        [% INCLUDE "search/type-select.html.tmpl"
+           name = "type${chartnum}-${rownum}-${colnum}",
+           types = types, selected = col.type %]
+
+        <input name="[% "value${chartnum}-${rownum}-${colnum}" %]" 
+               value="[% col.value FILTER html %]"> 
+      </td>
+      
+      [% UNLESS loop.last %]
+        <td align="center"> 
+          Or 
+        </td>    
+      </tr>
+      <tr>
+      [% ELSE %]
+        <td>
+          [% newor = colnum + 1 %]
+          <input type="submit" value="Or" [% jsmagic %]
+                 name="cmd-add[% "${chartnum}-${rownum}-${newor}" %]"
+                 id="cmd-add[% "${chartnum}-${rownum}-${newor}" %]">
+        </td>
+      [% END %]
+      
+    [% END %]
+    </tr>
+    
+    [% UNLESS loop.last %]
+    <tr>
+      <td>And</td>
+    </tr>    
+    [% ELSE %]
+    <tr>
+      <td>
+        [% newand = rownum + 1; newchart = chartnum + 1 %]
+        <input type="submit" value="And" [% jsmagic %]
+               name="cmd-add[% "${chartnum}-${newand}-0" %]"
+               id="cmd-add[% "${chartnum}-${newand}-0" %]">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="submit" value="Add another boolean chart" [% jsmagic %]
+               name="cmd-add[% newchart %]-0-0"
+               id="cmd-add[% newchart %]-0-0">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </td>
+    </tr>   
+    [% END %]
+    
+  [% END %]
+  </table>
+  <hr>
+[% END %]

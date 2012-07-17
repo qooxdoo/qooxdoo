@@ -1,1 +1,2 @@
 \b"css\.overflowxy"\b=The envionment key "css.overflowxy" is deprecated.
+\bqx\.ui\.mobile\.navigation\.Manager\b=The class 'qx.ui.mobile.navigation.Manager' has been replaced with 'qx.application.Routing' including some minor API changes (added an init method).

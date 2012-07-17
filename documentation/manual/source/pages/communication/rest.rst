@@ -3,8 +3,6 @@ REST (Representational State Transfer)
 
 .. note::
 
-  This is an experimental feature.
-
 ``qx.io.rest.Resource`` allows to encapsulate the specifics of a REST interface. Rather than requesting URLs with a specific HTTP method manually, a resource representing the remote resource is instantiated and **actions** are invoked on this resource. A resource with its actions can be configured declaratively or programatically.
 
 Configuring actions

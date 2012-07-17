@@ -255,8 +255,10 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
 });
 
 // @deprecated since 2.1
-qx.log.Logger.deprecatedConstantWarning(
-  qx.bom.element.Opacity,
-  "SUPPORT_CSS3_OPACITY",
-  "Please use 'qx.core.Environment.get(\"css.opacity\")' instead."
-);
+if (qx.core.Environment.get("qx.debug")) {
+  qx.log.Logger.deprecatedConstantWarning(
+    qx.bom.element.Opacity,
+    "SUPPORT_CSS3_OPACITY",
+    "Please use 'qx.core.Environment.get(\"css.opacity\")' instead."
+  );
+}

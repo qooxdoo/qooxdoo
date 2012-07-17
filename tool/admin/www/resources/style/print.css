@@ -1,0 +1,128 @@
+body, html, td, th, input, textarea, button{
+  font-family: Candara, Tahoma, Verdana, "Bitstream Vera Sans", "Lucida Grande", sans-serif;
+  font-size: 11pt;
+}
+
+body{
+  background: #FFFFFF;
+  margin: 2%;
+}
+
+acronym{
+  border-bottom: 0 none;
+  cursor: default;
+}
+
+
+
+
+
+#header,
+#footer,
+#teaser,
+#meta,
+#badbehavior,
+.secedit{
+  display: none !important;
+}
+
+
+
+
+
+#frame{
+  position: static;
+  background: #fff;
+  margin: 0;
+  left: auto;
+  width: auto;
+  border: 0 none;
+  padding: 0;
+}
+
+
+
+
+
+#breadcrumb{
+  padding: 0;
+  font-size: 10pt;
+  line-height: 11pt;
+  margin-bottom: 16px;
+  color: #000;
+}
+
+#breadcrumb h2{
+  display: block;
+  font-size: 13px;
+  color: #83B325;
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+#breadcrumb a{
+  text-decoration: none !important;
+  color: #000;
+}
+
+
+
+
+
+#content{
+  float: none;
+  position: static;
+  width: auto;
+  margin: 0;
+}
+
+#content a:link:after,
+#content a:visited:after{
+  content: " (" attr(href) ")";
+  font-size: 10pt;
+  color: #A7A6AA;
+}
+
+
+
+
+
+
+#toc{
+  border: 0 none;
+  -moz-border-radius: 0px;
+  float: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  min-width: 0px;
+  max-width: none;
+  margin-bottom: 35px;
+  font-size: 10pt;
+  line-height: 11pt;
+  background: none;
+}
+
+#toc a:link:after,
+#toc a:visited:after{
+  content: "";
+}
+
+
+
+
+
+
+#metaprint{
+  display: block;
+  margin-bottom: 16px;
+  font-size: 10pt;
+  line-height: 11pt;
+}
+
+#metaprint h2{
+  font-size: 13px;
+  color: #83B325;
+  margin-top: 0;
+  margin-bottom: 4px;
+}

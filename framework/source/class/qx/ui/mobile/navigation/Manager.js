@@ -86,6 +86,7 @@
  *
  * This example defines different routes to handle navigation events.
  *
+ * @deprecated since 2.1: Please use qx.application.Routing instead.
  */
 qx.Class.define("qx.ui.mobile.navigation.Manager",
 {
@@ -116,6 +117,15 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
       path = qx.ui.mobile.navigation.Manager.DEFAULT_PATH;
     }
     this._executeGet(path, null, true);
+
+    // @depreacated since 2.1
+    if (qx.core.Environment.get("qx.debug")) {
+      qx.log.Logger.deprecatedClassWarning(
+        qx.ui.mobile.navigation.Manager,
+        "The class 'qx.ui.mobile.navigation.Manager' is depreacted. Please use the class " +
+        "'qx.application.Routing' instead."
+      );
+    }
   },
 
 

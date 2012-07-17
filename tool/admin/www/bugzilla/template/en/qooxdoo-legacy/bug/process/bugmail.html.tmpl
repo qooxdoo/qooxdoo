@@ -1,0 +1,60 @@
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Bradley Baetz <bbaetz@student.usyd.edu.au>
+  #                 J. Paul Reed <preed@sigkill.com>
+  #%]
+
+[%# INTERFACE:
+  # mailing_bugid: The bug ID that email is being sent for.
+  # sent_bugmail: The results of Bugzilla::BugMail::Send().
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+<dl>
+[% PROCESS emails
+   description = "Email sent to"
+   names = sent_bugmail.sent
+%]
+
+[% PROCESS emails
+   description = "Excluding"
+   names = sent_bugmail.excluded
+%]
+</dl>
+
+[%############################################################################%]
+[%# Block for a set of email addresses                                       #%]
+[%############################################################################%]
+
+[% BLOCK emails %]
+  <dt>[% description FILTER html %]:</dt>
+  <dd>
+  [% IF user.can_see_bug(mailing_bugid) %]
+    [% IF names.size > 0 %]
+      [%+ FOREACH name = names %]
+        <code>[% name FILTER html %]</code>[% ", " UNLESS loop.last() %]
+      [% END %]
+    [% ELSE %]
+      no one
+    [% END %]
+  [% ELSE %]
+    (list of e-mails not available)
+  [% END %]
+  </dd>
+[% END %]

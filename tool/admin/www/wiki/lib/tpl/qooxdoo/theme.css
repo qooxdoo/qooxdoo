@@ -1,0 +1,138 @@
+/* Control buttons */
+#control {
+  padding: 5px 0;
+  overflow: hidden;
+  background-color: #f6f6f6;
+}
+
+#control input, #control button {
+  float: right;
+  margin: 3px;
+}
+
+#control a {
+  font-size: 10px;
+}
+
+/* Breadcrumb */
+#breadcrumb .bchead, #breadcrumb .bcsep {
+  display: none;
+}
+
+#start .show #breadcrumb, #start .login #breadcrumb {
+  display: none;
+}
+
+.index #breadcrumb, .search #breadcrumb {
+  display: none;
+}
+
+.toolbar img {
+  width: 12px;
+}
+
+/* Edit action */
+#main.edit, #main.preview {
+  padding-top: 65.2px !important; /*  @line * 3 - 5px */
+}
+
+#main.edit #content, #main.preview #content {
+  width: 725px; /* .columns(21) */
+}
+
+#main.preview #sidebar {
+  display: none;
+}
+
+/* Table of contents */
+
+#toc__header {
+ display: none;
+}
+
+/* Edit buttons */
+
+#content .editbutton_section input {
+  clear: right;
+  float: right;
+}
+
+#content .btn_secedit input[type=submit] {
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  font-size: inherit;
+  color: #333;
+  font-size: 11px;
+}
+
+#content .btn_secedit input[type=submit]:hover {
+  cursor: pointer;
+  color: #3d72c9; /* @spot */
+}
+
+/* Textarea */
+
+textarea[name=wikitext] {
+  font-family: Monaco, monospace;
+  width: 715px;
+  padding: 5px;
+  font-size: 12px;
+}
+
+/* Ace */
+
+.ace-doku .ace_editor {
+  font-family: Monaco, monospace;
+  font-size: 12px;
+}
+
+/* Table */
+
+td.col0, th.col0 {
+  padding-left: 0;
+}
+
+/* Content */
+
+#content div.highlight{
+  padding: 6px 8px;
+  display: inline;
+}
+
+#content div.highlight a{
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Search */
+
+.search_snippet {
+  margin-bottom: 2em;
+  font-size: 12px;
+  color: #555;
+}
+
+.search_snippet .search_hit {
+  font-weight: normal;
+  color: #111; /* @fg */
+  background-color: #ffee00; /* @attention */
+}
+
+/* Login */
+
+#dw__login label.block span {
+  display: inline-block;
+  width: 80px;
+}
+
+/* Highlighting */
+
+#content .noteclassic,
+#content .highlight {
+  background-color: #f0f0f0; /* @lightShade */
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  margin-left: 0;
+  margin-right: 0;
+}

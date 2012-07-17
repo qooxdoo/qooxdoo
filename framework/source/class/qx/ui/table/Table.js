@@ -799,9 +799,16 @@ qx.Class.define("qx.ui.table.Table",
     {
       var scrollerArr = this._getPaneScrollerArr();
 
-      for (var i=0; i<scrollerArr.length; i++)
-      {
-        scrollerArr[i]._excludeChildControl("header");
+      for (var i=0; i<scrollerArr.length; i++) {
+        if (value) {
+          scrollerArr[i]._showChildControl("header");
+        } else {
+          scrollerArr[i]._excludeChildControl("header");
+        }
+      }
+      // also hide the column visibility button
+      if(this.getColumnVisibilityButtonVisible()) {
+        this._applyColumnVisibilityButtonVisible(value);
       }
     },
 

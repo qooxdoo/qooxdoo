@@ -1,0 +1,619 @@
+/*
+==========================================================
+  Frame
+==========================================================
+*/
+
+#frame{
+  background: #FFFFFF url(http://resources.qooxdoo.org/images/contentbackground.gif) top left repeat-y;
+
+  border: 1px solid black;
+  border-top: 0 none;
+
+  width: 900px;
+  margin-left:  auto;
+  margin-right: auto;
+}
+
+body.light #frame{
+  background: #fff;
+}
+
+
+
+
+
+/*
+==========================================================
+  Header
+==========================================================
+*/
+
+#header{
+  background: #134275 url(http://resources.qooxdoo.org/images/colorstrip.gif) top left repeat-x;
+  border-bottom: 6px solid #134275;
+}
+
+#headcenter{
+  padding-top: 40px;
+  padding-bottom: 25px;
+  text-align: center;
+}
+
+#logo{
+  width: 272px;
+  height: 81px;
+}
+
+#headline{
+  display: none;
+}
+
+#subline{
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #F3FFD1;
+  margin-top: -14px;
+  letter-spacing: 1px;
+  word-spacing: 4px;
+}
+
+
+
+
+
+
+/*
+==========================================================
+  Navigation
+==========================================================
+*/
+
+#navigation{
+  font-size: 12px;
+  line-height: 180%;
+
+  background: black;
+  color: white;
+
+  border-top: 1px solid #F3FFD1;
+  border-bottom: 1px solid #F3FFD1;
+}
+
+#navigation ul{
+  float: left;
+  padding-left: 16px;
+}
+
+#navigation li{
+  list-style: none;
+
+  float: left;
+  position: relative;
+
+  margin: 0 4px;
+}
+
+#navigation li a{
+  display: block;
+  padding: 0 5px;
+}
+
+#navigation li a:link,
+#navigation li a:visited{
+  text-decoration: none;
+  color: white;
+}
+
+#navigation li a:hover,
+#navigation li a:active{
+  color: #DEFF83;
+}
+
+#navigation li.current a{
+  padding: 0 4px;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
+}
+
+#navigation li.current a:link,
+#navigation li.current a:visited{
+  background: #444444;
+  color: #DEFF83;
+}
+
+#navigation li.current a:hover,
+#navigation li.current a:active{
+  background: #DEFF83;
+  color: #444444;
+}
+
+
+
+
+
+
+/*
+==========================================================
+  Breadcrumb
+==========================================================
+*/
+
+#breadcrumb{
+  font-size: 11px;
+  color: #A7A6AA;
+  padding: 25px;
+  padding-bottom: 12px;
+  width: 540px;
+}
+
+#breadcrumb a{
+  color: #A7A6AA;
+}
+
+#breadcrumb h2{
+  display: none;
+}
+
+
+
+
+
+
+
+/*
+==========================================================
+  Content Frame
+==========================================================
+*/
+
+#content{
+  float: left;
+  position: relative;
+
+  width: 540px;
+  margin-left: 25px;
+  margin-bottom: 25px;
+
+  min-height: 600px;
+}
+
+body.light #content{
+  width: auto;
+  float: none;
+  margin-right: 25px;
+}
+
+#content #topicaction{
+  margin-top: 40px;
+  font-size: 11px;
+}
+
+#content h1 a,
+#content h2 a,
+#content h3 a,
+#content h4 a,
+#content h5 a,
+#content h6 a{
+  text-decoration: none;
+}
+
+#content h1,
+#content h2,
+#content h1 a,
+#content h2 a{
+  color: #134275;
+}
+
+#content h3,
+#content h3 a{
+  color: #1D65B3;
+}
+
+#content h4,
+#content h5,
+#content h6,
+#content h4 a,
+#content h5 a,
+#content h6 a{
+  color: #888;
+}
+
+#content h1{
+  font-size: 24px;
+  line-height: 130%;
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+#content h2{
+  font-size: 20px;
+  line-height: 130%;
+  margin-top: 36px;
+  margin-bottom: 4px;
+}
+
+#content h3{
+  font-size: 18px;
+  line-height: 130%;
+  margin-top: 30px;
+}
+
+#content h4{
+  font-size: 15px;
+  line-height: 130%;
+  margin-top: 25px;
+}
+
+#content h5,
+#content h6{
+  font-size: 13px;
+  line-height: 130%;
+  margin-top: 20px;
+}
+
+#content ul{
+  padding-left: 16px;
+  margin-bottom: 14px;
+  list-style: square;
+}
+
+#content ul ul{
+  margin-bottom: 0;
+}
+
+#content ol{
+  margin-left: 25px;
+  margin-bottom: 14px;
+}
+
+#content li{
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+#content p{
+  margin-top: 2px;
+  margin-bottom: 14px;
+}
+
+#content p+ul{
+  margin-top: -12px;
+}
+
+#content table.inline{
+  width: 100%;
+  margin-top: 12px;
+}
+
+#content table.inline td,
+#content table.inline th{
+  font-size: 11px;
+  line-height: 140%;
+}
+
+#content table.inline th{
+  border-bottom: 1px solid #1D65B3;
+}
+
+/* Reset Interwiki styling */
+#content a.interwiki {
+  background: none;
+  padding: 0;
+}
+
+
+
+
+
+
+/*
+==========================================================
+  TOC
+==========================================================
+*/
+
+/*
+ * #toc and .toc for compatibility reasons 
+ */
+#toc, div.toc{
+  padding-left: 25px;
+  padding-bottom: 25px;
+
+  min-width: 180px;
+  max-width: 240px; 
+  
+  float:right;  
+  background: #fff;
+}
+
+#toc .innertoc, .toc .innertoc{
+  color: #444444;
+
+  font-size: 11px;
+  /* 
+   Relative to element's computed font size which 
+   apparently is dependent on text content. Use pixel
+   value instead.
+   
+   line-height: 140%;
+  */
+  line-height: 16px;
+
+  background: #F3FFD1;
+
+  padding: 10px;
+  padding-bottom: 2px;
+
+  border: 1px solid #F3FFD1;
+  -moz-border-radius: 5px;
+}
+
+#toc a:link,
+#toc a:visited,
+.toc a:link,
+.toc a:visited{
+  text-decoration: none;
+}
+
+#toc a:hover,
+#toc a:active,
+.toc a:hover,
+.toc a:active{
+  text-decoration: underline;
+}
+
+#toc h2, .toc h2{
+  font-size: 13px;
+  color: #83B325;
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+#toc #toc__toggle {
+  float: left;
+  padding-right: 5px;
+  color: #83B325;
+}
+
+
+
+
+
+/*
+==========================================================
+  Teaser
+==========================================================
+*/
+
+#teaser{
+  color: #444444;
+
+  margin-right: 25px;
+
+  font-size: 11px;
+  line-height: 140%;
+
+  float: right;
+  width: 250px;
+
+  display: block;
+}
+
+#teaser div{
+  margin-bottom: 20px;
+}
+
+#teaser div.box{
+  padding: 10px;
+  background: #DEFF83;
+  border: 1px solid #DEFF83;
+  -moz-border-radius: 5px;
+  margin-bottom: 12px;
+}
+
+#teaser div.divider{
+  margin: 10px 0;
+}
+
+#teaser div div{
+  margin: 0;
+}
+
+#teaser div.col{
+  float: left;
+  width: 50%;
+}
+
+#teaser h1,
+#teaser h2{
+  color: #83B300;
+  font-size: 13px;
+}
+
+#teaser h2 a:link,
+#teaser h2 a:visited{
+  color: #83B300;
+  text-decoration: none;
+}
+
+#teaser h2 a:active,
+#teaser h2 a:hover{
+  color: #83B300;
+}
+
+#teaser ul{
+  color: #83B300;
+  margin-left: 14px;
+  list-style: square;
+}
+
+#teaser ul a:link,
+#teaser ul a:visited{
+  text-decoration: none;
+}
+
+#teaser ul a:active,
+#teaser ul a:hover{
+  text-decoration: underline;
+}
+
+#teaser ul li p{
+  color: #444444;
+}
+
+#teaser p + p{
+  margin-top: 4px;
+}
+
+#teaser #quote{
+  background: none;
+  border: 0 none;
+  padding: 0;
+}
+
+#teaser #quote a{
+  text-decoration: none;
+  color: #A7A6AA;
+}
+
+#teaser #quote a:hover{
+  text-decoration: none;
+  color: #A7A6AA;
+}
+
+#teaser #quote cite{
+  font-size: 16px;
+  line-height: 130%;
+  color: #134275;
+  font-family: Georgia, Constantia, "Bitstream Vera Serif", "Times New Roman";
+  display: block;
+  margin-bottom: 2px;
+}
+
+#teaser #quote p{
+  color: #A7A6AA;
+  margin: 0;
+}
+
+#teaser .edit{
+  border: 1px solid #F3FFD1;
+  border-right-color: #ABC507;
+  border-bottom-color: #ABC507;
+  margin-right: 2px;
+  width: 115px;
+  vertical-align: middle;
+}
+
+#teaser .image{
+  vertical-align: middle;
+}
+
+
+
+
+
+
+
+/*
+==========================================================
+  Meta Area
+==========================================================
+*/
+
+#meta{
+  font-size: 11px;
+  line-height: 120%;
+  margin-top: 40px;
+  padding: 10px;
+  background: #F1F1F1;
+  border: 1px solid #F1F1F1;
+  -moz-border-radius: 5px;
+}
+
+#meta div.col{
+  width: 245px;
+}
+
+#meta div.colleft{
+  float: left;
+}
+
+#meta div.colright{
+  float: right;
+}
+
+#meta a:link,
+#meta a:visited{
+  text-decoration: none;
+}
+
+#meta a:active,
+#meta a:hover{
+  text-decoration: underline;
+}
+
+#meta ul{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#meta p+ul{
+  margin-top: 0px;
+}
+
+#meta h2{
+  color: #83B300;
+  font-size: 13px;
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+#metaprint{
+  display: none;
+}
+
+
+
+
+
+
+
+
+
+/*
+==========================================================
+  Footer
+==========================================================
+*/
+
+#footer{
+  margin-top: 20px;
+  border-top: 4px solid #134275;
+
+  background: black;
+  color: #ECECEC;
+
+  text-transform: uppercase;
+  line-height: 200%;
+  padding: 0 1em;
+}
+
+#footer p{
+  font-size: 10px;
+}
+
+#footer p.designedby{
+  float: left;
+}
+
+#footer p.copyright{
+  float: right;
+}
+
+#footer a:link,
+#footer a:visited,
+#footer a:active,
+#footer a:hover{
+  color: #ECECEC;
+}

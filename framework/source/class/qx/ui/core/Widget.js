@@ -1561,16 +1561,20 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Fade out this widget.
+     * @return {qx.bom.element.AnimationHandle} The animation handle to react for
+     *   the fade animation.
      */
     fadeOut : function() {
-      this.getContainerElement().fadeOut();
+      return this.getContainerElement().fadeOut();
     },
 
     /**
      * Fade in the widget.
+     * @return {qx.bom.element.AnimationHandle} The animation handle to react for
+     *   the fade animation.
      */
     fadeIn : function() {
-      this.getContainerElement().fadeIn();
+      return this.getContainerElement().fadeIn();
     },
 
 

@@ -1,0 +1,117 @@
+/* The contents of this file are subject to the Mozilla Public
+  * License Version 1.1 (the "License"); you may not use this file
+  * except in compliance with the License. You may obtain a copy of
+  * the License at http://www.mozilla.org/MPL/
+  *
+  * Software distributed under the License is distributed on an "AS
+  * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  * implied. See the License for the specific language governing
+  * rights and limitations under the License.
+  *
+  * The Original Code is the Bugzilla Bug Tracking System.
+  *
+  * The Initial Developer of the Original Code is Netscape Communications
+  * Corporation. Portions created by Netscape are
+  * Copyright (C) 1998 Netscape Communications Corporation. All
+  * Rights Reserved.
+  *
+  * Contributor(s): Myk Melez <myk@mozilla.org>
+  */
+
+.search_description {
+  margin: .5em 0;
+  padding: 0;
+}
+.search_description li {
+  list-style-type: none;
+  display: inline;
+  margin-right: 2em;
+}
+
+.zero_results, .zero_result_links {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.bz_buglist_header th {
+  text-align: left;
+}
+
+.bz_sort_order_primary,
+.bz_sort_order_secondary {
+    display: inline-block;
+    padding-left: .2em;
+    text-decoration: none;
+}
+.bz_sort_order_primary   { color: black; }
+.bz_sort_order_secondary { color: #777;  }
+
+
+.bz_id_column {
+}
+
+.bz_row_odd {
+    background-color: #F7F7F7;
+    color: #000000;
+}
+
+.bz_row_even {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+/* Style bug rows according to severity. */
+.bz_blocker { color: red; font-weight: bold; }
+.bz_critical { color: red; }
+.bz_enhancement { color: #666; background-color: white; }
+
+/* Align columns in the "change multiple bugs" form to the right. */
+table#form tr th { text-align: right; }
+
+table.bz_buglist td, table.bz_buglist th { 
+}
+
+/* we use a first-child class and not the pseudo-class because IE
+ * doesn't support it :-( */
+tr.bz_secure td.first-child { 
+  background-image: url("../../images/padlock.png");
+  background-position: center left;
+  background-repeat: no-repeat;
+  background-color: inherit;
+}
+
+th.first-child, td.first-child {
+  padding-left: 20px;
+}
+
+tr.bz_secure_mode_implied td.first-child {
+}
+
+tr.bz_secure_mode_manual td.first-child {
+}
+
+td.bz_estimated_time_column,
+td.bz_remaining_time_column,
+td.bz_actual_time_column,
+td.bz_percentage_complete_column {
+    text-align: right;
+}
+
+td.bz_total_label {
+    font-weight: bold;
+}
+
+td.bz_total {
+    border-top-style: solid;
+    border-top-color: #929bb1;
+    border-top-width: 3px;
+    text-align: right;
+}
+
+#commit, #action {
+  margin-top: .25em;
+}
+
+.bz_query_explain {
+    text-align: left;
+}

@@ -1,0 +1,308 @@
+/*
+==========================================================
+  Core Styling
+==========================================================
+*/
+
+td, th{
+  padding: 1px 2px;
+}
+
+dd hr{
+  height: 12px;
+}
+
+
+
+
+
+
+/*
+==========================================================
+  Header Area (h1-h3)
+==========================================================
+*/
+
+#bugzillaheader{
+  margin-bottom: 30px;
+}
+
+#bugzillaheader h1,
+#bugzillaheader h2,
+#bugzillaheader h3{
+  margin: 0;
+}
+
+
+
+
+
+
+/*
+==========================================================
+  Meta Area (between nearly every page with links to most-used things)
+==========================================================
+*/
+
+#meta{
+  margin-bottom: 40px;
+}
+
+#useful-links div{
+  margin-bottom: 12px;
+}
+
+#useful-links div div{
+  border: 0 none;
+  margin: 0;
+}
+
+
+
+
+
+
+/*
+==========================================================
+  Page Index: small yellow overview on homepage
+==========================================================
+*/
+
+#page-index{
+  padding: 10px;
+  background: #DEFF83;
+  border: 1px solid #DEFF83;
+  -moz-border-radius: 5px;
+  margin-bottom: 12px;
+}
+
+#page-index ul{
+  float: left;
+  width: 400px;
+  margin-bottom: 0;
+}
+
+#page-index form{
+  float: left;
+  width: 250px;
+  margin-left: 20px;
+}
+
+
+
+
+
+/*
+==========================================================
+  Tab View (search: between simple and advanced)
+==========================================================
+*/
+
+.tabview{
+  margin-bottom: 40px;
+  border-bottom: 1px solid #ABC507;
+  padding-left: 2px;
+}
+
+.tab{
+  background: #FAFFEB;
+  color: #444;
+  float: left;
+  margin-right: 4px;
+  border-left: 1px solid #ECECEC;
+  border-right: 1px solid #ABC507;
+  border-top: 1px solid #ABC507;
+  -moz-border-radius-topright: 5px;
+}
+
+.tab a,
+.tab-selected{
+  padding: 8px 25px;
+  display: block;
+}
+
+.tab a{
+  text-decoration: none;
+}
+
+.tab-selected{
+  background: #DEFF83;
+  color: #ABC507;
+  font-weight: bold;
+}
+
+
+
+
+
+/*
+==========================================================
+  Parameter overview
+==========================================================
+*/
+
+#menu{
+  width: 200px;
+  background: #F1F1F1;
+}
+
+
+
+
+
+/*
+==========================================================
+  Bug Listings
+==========================================================
+*/
+
+.bz_buglist{
+  margin-bottom: 50px;
+  width: 100%;
+  border-bottom: 1px solid #F1F1F1;
+  border-right: 1px solid #F1F1F1;
+}
+
+.bz_buglist td,
+.bz_buglist th{
+  padding: 2px 4px;
+  font-size: 11px;
+}
+
+.bz_buglist th{
+  border-left: 1px solid #fff;
+  background: #134275;
+}
+
+.bz_buglist th a:link,
+.bz_buglist th a:visited,
+.bz_buglist th a:hover,
+.bz_buglist th a:active{
+  color: white;
+}
+
+.bz_buglist td{
+  border-left: 1px solid #F1F1F1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+td.first-child a:link,
+td.first-child a:visited,
+td.first-child a:hover,
+td.first-child a:active{
+  color: white;
+  font-weight: bold;
+}
+
+.bz_row_odd{
+  background: #FBFBFB;
+}
+
+
+
+
+.bz_P1 td.first-child{
+  background: #FF1F00;
+}
+
+.bz_P2 td.first-child{
+  background: #FF6A05;
+}
+
+.bz_P3 td.first-child{
+  background: #FF9F00;
+}
+
+.bz_P4 td.first-child{
+  background: #FFD600;
+}
+
+.bz_P5 td.first-child{
+  background: #C7D600;
+}
+
+
+
+
+
+
+.bz_P1:hover{
+  background: #FF1F00;
+  color: white !important;
+}
+
+.bz_P2:hover{
+  background: #FF6A05;
+  color: white !important;
+}
+
+.bz_P3:hover{
+  background: #FF9F00;
+  color: white !important;
+}
+
+.bz_P4:hover{
+  background: #FFD600;
+  color: white !important;
+}
+
+.bz_P5:hover{
+  background: #C7D600;
+  color: white !important;
+}
+
+
+
+
+
+
+.bz_P1:hover td.first-child{
+  color: #FF1F00;
+  background: #134275;
+}
+
+.bz_P2:hover td.first-child{
+  color: #FF6A05;
+  background: #134275;
+}
+
+.bz_P3:hover td.first-child{
+  color: #FF9F00;
+  background: #134275;
+}
+
+.bz_P4:hover td.first-child{
+  color: #FFD600;
+  background: #134275;
+}
+
+.bz_P5:hover td.first-child{
+  color: #C7D600;
+  background: #134275;
+}
+
+
+
+
+
+
+.bz_enhancement{
+  color: #666;
+}
+
+.bz_major{
+  color: #711E05;
+}
+
+.bz_critical{
+  color: red;
+  font-weight: bold;
+}
+
+
+
+.bz_obsolete, .bz_inactive, .bz_closed, .bz_CLOSED td {
+  text-decoration: line-through !important;
+}

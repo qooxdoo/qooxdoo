@@ -52,6 +52,18 @@ qx.Bootstrap.define("qx.module.Animation", {
 
 
     /**
+     * Returns the stored animation handles. The handles are only
+     * available while an animation is running.
+     *
+     * @internal
+     * @return {Array} An array of animation handles.
+     */
+    getAnimationHandles : function() {
+      return this.__animationHandles;
+    },
+
+
+    /**
      * Animation description used in {@link #fadeOut}.
      */
     _fadeOut : {duration: 700, timing: "ease-out", keep: 100, keyFrames : {
@@ -290,7 +302,8 @@ qx.Bootstrap.define("qx.module.Animation", {
       "pause" : statics.pause,
       "stop" : statics.stop,
       "isEnded" : statics.isEnded,
-      "isPlaying" : statics.isPlaying
+      "isPlaying" : statics.isPlaying,
+      "getAnimationHandles" : statics.getAnimationHandles
     });
 
     q.$attachInit(statics.$init);

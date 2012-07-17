@@ -1,0 +1,410 @@
+/*
+Theme Name: qooxdoo
+Theme URI: http://qooxdoo.org
+Author: the qooxdoo team
+Author URI: http://qooxdoo.org/
+Description: News section of qooxdoo.org
+Version: 1.0
+License: GNU General Public License
+License URI: license.txt
+Tags: qooxdoo, javascript
+Template: twentyeleven
+*/
+
+#nav-above,
+#nav-single {
+  display: none;
+}
+
+.comments-link {
+  display: none;
+}
+
+.entry-meta .comments-link {
+  display: inline;
+}
+
+.comment .reply a:hover {
+  color: inherit !important;
+}
+
+.entry-meta,
+.logged-in-as,
+.form-allowed-tags code,
+.comment-meta {
+  font-size: 11px; /* @fontSize - 2px */
+  color: #707070; /* @mediumShade */
+}
+
+.entry-meta a {
+  color: #707070 !important; /* @mediumShade */
+}
+
+.entry-header {
+  margin-bottom: 1em;
+}
+
+#content > article {
+  margin-bottom: 3em;
+}
+
+.comment-form-comment label {
+  display: block;
+}
+
+.comment-form-comment textarea {
+  width: 400px;
+}
+
+#comments {
+  margin-right: -105px; /* @gridWidth */
+}
+
+#comments-title {
+  margin-bottom: 1em;
+}
+
+.nopassword,
+.nocomments {
+	color: #aaa;
+	font-size: 24px;
+	font-weight: 100;
+	margin: 26px 0;
+	text-align: center;
+}
+
+#main .commentlist {
+	list-style: none;
+	margin: 0 0 0 100px;
+}
+
+.content .commentlist,
+.page-template-sidebar-page-php .commentlist {
+	width: 100%; /* reset the width for the one-column and sidebar page layout */
+}
+
+.commentlist > li.comment {
+	background: #f6f6f6;
+	border: 1px solid #ddd;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	margin: 0 0 1.25em;
+	padding: 1.25em;
+	position: relative;
+}
+
+.commentlist .pingback {
+	margin: 0 0 1.625em;
+	padding: 0 1.625em;
+}
+
+.commentlist .children {
+	list-style: none;
+	margin: 0;
+}
+
+.commentlist .children li.comment {
+	background: #fff;
+	border-left: 1px solid #ddd;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+	margin: 1.625em 0 0;
+	padding: 1.625em;
+	position: relative;
+}
+
+.commentlist .children li.comment .fn {
+	display: block;
+}
+
+.comment-meta .fn {
+	font-style: normal;
+}
+
+.comment-author {
+  margin-bottom: 1em;
+}
+
+.commentlist .children li.comment .comment-meta {
+	line-height: 1.625em;
+	margin-left: 50px;
+}
+
+.commentlist .children li.comment .comment-content {
+	margin: 1.625em 0 0;
+}
+
+.comment-meta a {
+	font-weight: bold;
+}
+
+.comment-meta a:focus,
+.comment-meta a:active,
+.comment-meta a:hover {
+}
+
+.commentlist .avatar {
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 1px 2px #ccc;
+	-moz-box-shadow: 0 1px 2px #ccc;
+	box-shadow: 0 1px 2px #ccc;
+	left: -102px;
+	padding: 0;
+	position: absolute;
+	top: 0;
+}
+
+.commentlist > li:before {
+	content: url(images/comment-arrow.png);
+	left: -21px;
+	position: absolute;
+}
+
+.commentlist > li.pingback:before {
+	content: '';
+}
+
+.commentlist .children .avatar {
+	background: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	left: 2.2em;
+	padding: 0;
+	top: 2.2em;
+}
+
+a.comment-reply-link {
+	background: #eee;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	color: #666;
+	display: inline-block;
+	font-size: 12px;
+	padding: 0 8px;
+	text-decoration: none;
+}
+
+a.comment-reply-link:hover,
+a.comment-reply-link:focus,
+a.comment-reply-link:active {
+	background: #888;
+	color: #fff;
+}
+
+a.comment-reply-link > span {
+	display: inline-block;
+	position: relative;
+	top: -1px;
+}
+
+/* Post author highlighting */
+.commentlist > li.bypostauthor {
+	background: #ddd;
+	border-color: #d3d3d3;
+}
+
+.commentlist > li.bypostauthor .comment-meta {
+	color: #575757;
+}
+
+.commentlist > li.bypostauthor .comment-meta a:focus,
+.commentlist > li.bypostauthor .comment-meta a:active,
+.commentlist > li.bypostauthor .comment-meta a:hover {
+}
+
+.commentlist > li.bypostauthor:before {
+	content: url(images/comment-arrow-bypostauthor.png);
+}
+
+/* Post Author threaded comments */
+.commentlist .children > li.bypostauthor {
+	background: #ddd;
+	border-color: #d3d3d3;
+}
+
+/* sidebar-page.php comments */
+/* Make sure we have room for our comment avatars */
+.page-template-sidebar-page-php .commentlist > li.comment,
+.page-template-sidebar-page-php.commentlist .pingback {
+	margin-left: 102px;
+	width: auto;
+}
+
+/* And a full-width comment form */
+.page-template-sidebar-page-php #respond {
+	width: auto;
+}
+
+/* Comment Form */
+#respond {
+	background: #ddd;
+	border: 1px solid #d3d3d3;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	margin: 0 auto 1.625em;
+	padding: 1.625em;
+	position: relative;
+}
+
+#respond input[type="text"],
+#respond textarea {
+	background: #fff;
+	position: relative;
+	padding: 10px;
+}
+
+#respond .comment-form-author,
+#respond .comment-form-email,
+#respond .comment-form-url,
+#respond .comment-form-comment {
+	position: relative;
+}
+
+/*
+#respond .comment-form-author label,
+#respond .comment-form-email label,
+#respond .comment-form-url label,
+#respond .comment-form-comment label {
+	background: #eee;
+	-webkit-box-shadow: 1px 2px 2px rgba(204,204,204,0.8);
+	-moz-box-shadow: 1px 2px 2px rgba(204,204,204,0.8);
+	box-shadow: 1px 2px 2px rgba(204,204,204,0.8);
+  color: #323335;
+	display: inline-block;
+	left: 4px;
+	min-width: 60px;
+	padding: 4px 10px;
+	position: relative;
+	top: 40px;
+	z-index: 1;
+}
+*/
+
+#respond input[type="text"]:focus,
+#respond textarea:focus {
+	text-indent: 0;
+	z-index: 1;
+}
+
+#respond textarea {
+	resize: vertical;
+	width: 97%;
+}
+
+#respond .comment-form-author .required,
+#respond .comment-form-email .required {
+  position: relative;
+  top: 2px;
+	color: #bd3500;
+	font-size: 1.5em;
+	font-weight: bold;
+	z-index: 1;
+}
+
+#respond p {
+	margin: 10px 0;
+}
+
+#respond .form-submit {
+	float: right;
+	margin: -20px 0 10px;
+}
+
+#respond input#submit {
+  position: absolute;
+  right: 1.625em;
+  margin-top: 1em;
+}
+
+#respond input#submit:active {
+	background: #1982d1;
+	color: #bfddf3;
+}
+
+#respond #cancel-comment-reply-link {
+	color: #666;
+	margin-left: 10px;
+	text-decoration: none;
+}
+
+#respond .logged-in-as a:hover,
+#respond #cancel-comment-reply-link:hover {
+	text-decoration: underline;
+}
+
+#respond .comment-notes,
+#respond .logged-in-as {
+  font-size: 11px; /* @fontSize - 2px */
+  color: #323335; /* @darkShade */
+}
+
+.commentlist #respond {
+	margin: 1.625em 0 0;
+	width: auto;
+}
+
+#cancel-comment-reply-link {
+	color: #888;
+	display: block;
+	font-size: 10px;
+	font-weight: normal;
+	line-height: 2.2em;
+	letter-spacing: 0.05em;
+	position: absolute;
+	right: 1.625em;
+	text-decoration: none;
+	text-transform: uppercase;
+	top: 1.1em;
+}
+
+#cancel-comment-reply-link:focus,
+#cancel-comment-reply-link:active,
+#cancel-comment-reply-link:hover {
+	color: #ff4b33;
+}
+
+#respond label {
+	line-height: 2.2em;
+}
+
+#respond input[type=text] {
+	display: block;
+}
+
+p.comment-form-comment {
+	margin: 0;
+}
+
+.form-allowed-tags {
+	display: none;
+}
+
+#content .wp_syntax {
+  border-style: none;
+  margin: 0 0 1em 0;
+  background-color: transparent;
+}
+
+#content .wp_syntax div.code {
+  padding: 0;
+}
+
+#footer-sidebar-1 h3.widget-title,
+#footer-sidebar-1 a[href="http://wordpress.org/"] {
+  display: none;
+}
+
+h1.page-title {
+  margin-bottom: 1em;
+}
+
+.nav-next,
+.nav-previous {
+  display: inline;
+}
+
+.nav-previous {
+  margin-right: 5px;
+}

@@ -1,0 +1,183 @@
+[%# -*- mode: html -*- %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Terry Weissman <terry@mozilla.org>
+  #                 Jacob Steenhagen <jake@bugzilla.org>
+  #                 Vitaly Harisov  <vitaly@rathedg.com>
+  #                 Guy Pyrzak <guy.pyrzak@gmail.com>
+  #%]
+
+[%# INTERFACE:
+  # release: a hash containing data about new releases, if any.
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+
+[% PROCESS global/header.html.tmpl
+   title = "$terms.Bugzilla Main Page"
+   header = "Main Page" 
+   header_addl_info = "version $constants.BUGZILLA_VERSION"
+   style_urls = [ 'skins/standard/index.css' ]
+%]
+
+
+<script type="text/javascript">
+<!--
+function onLoadActions() {
+  quicksearchHelpText('quicksearch_main', 'show');
+  if( window.external.AddSearchProvider ){
+    YAHOO.util.Dom.removeClass('quicksearch_plugin', 'bz_default_hidden');
+  }
+  document.getElementById('quicksearch_top').focus();
+}
+function addSidebar() {
+  var sidebarname=window.location.host;
+  if (!/bug/i.test(sidebarname))
+    sidebarname="[% terms.Bugzilla %] "+sidebarname;
+  window.sidebar.addPanel (sidebarname, "[% urlbase FILTER html %]sidebar.cgi", "");
+}
+var quicksearch_message = "Enter [% terms.abug %] # or some search terms";
+
+function checkQuicksearch( form ) {
+  if (form.quicksearch.value == '' || form.quicksearch.value == quicksearch_message ) { 
+    alert('Please enter one or more search terms first.');
+    return false; 
+  }
+  return true;         
+}
+
+function quicksearchHelpText(el_id, action){
+  var el = document.getElementById(el_id);
+  if ( action == "show") {
+    if( el.value == "" ) {
+      el.value = quicksearch_message
+      YAHOO.util.Dom.addClass(el, "quicksearch_help_text");
+    }
+  } else {
+    if( el.value == quicksearch_message ) {
+      el.value = "";
+      YAHOO.util.Dom.removeClass(el, "quicksearch_help_text");
+    }
+  }
+}
+YAHOO.util.Event.onDOMReady(onLoadActions);
+//-->
+</script>
+
+[% IF release %]
+  <div id="new_release">
+    [% IF release.data %]
+      [% IF release.deprecated %]
+        <p>[% terms.Bugzilla %] [%+ release.deprecated FILTER html %] is no longer
+        supported. You are highly encouraged to upgrade in order to keep your
+        system secure.</p>
+      [% END %]
+
+      <p>A new [% terms.Bugzilla %] version ([% release.data.latest_ver FILTER html %])
+      is available at
+      <a href="[% release.data.url FILTER html %]">[% release.data.url FILTER html %]</a>.<br>
+      Release date: [% release.data.date FILTER html %]</p>
+
+      <p class="notice">This message is only shown to logged in users with admin privs.
+      You can configure this notification from the
+      <a href="editparams.cgi?section=general#upgrade_notification">Parameters</a> page.</p>
+    [% ELSIF release.error == "cannot_download" %]
+      <p>The local XML file '[% release.xml_file FILTER html %]' cannot be created.
+      Please make sure the web server can write in this directory and that you can access
+      the web. If you are behind a proxy, set the
+      <a href="editparams.cgi?section=advanced#proxy_url">proxy_url</a> parameter correctly.</p>
+    [% ELSIF release.error == "no_update" %]
+      <p>The local XML file '[% release.xml_file FILTER html %]' cannot be updated.
+      Please make sure the web server can edit this file.</p>
+    [% ELSIF release.error == "no_access" %]
+      <p>The local XML file '[% release.xml_file FILTER html %]' cannot be read.
+      Please make sure this file has the correct rights set on it.</p>
+    [% ELSIF release.error == "corrupted" %]
+      <p>The local XML file '[% release.xml_file FILTER html %]' has an invalid XML format.
+      Please delete it and try accessing this page again.</p>
+    [% ELSIF release.error == "unknown_parameter" %]
+      <p>'[% Param("upgrade_notification") FILTER html %]' is not a valid notification
+      parameter. Please check this parameter in the
+      <a href="editparams.cgi?section=general#upgrade_notification">Parameters</a> page.</p>
+    [% END %]
+  </div>
+[% END %]
+
+<div id="page-index">
+  <table>
+    <tr>
+      <td>
+        <h1 id="welcome"> Welcome to [% terms.Bugzilla %]</h1>
+        <div class="intro">[% Hook.process('intro') %]</div>
+        <a id="enter_bug" class="bz_common_actions"
+           href="enter_bug.cgi"><span>File [% terms.aBug %]</span></a>
+      
+        <a id="query" class="bz_common_actions" 
+           href="query.cgi"><span>Search</span></a>
+      
+        <a id="account" class="bz_common_actions"
+          [% IF user.id %]
+            href="userprefs.cgi"><span>User Preferences</span></a>
+          [% ELSIF Param('createemailregexp')
+                   && user.authorizer.user_can_create_account 
+          %]
+            href="createaccount.cgi"><span>Open a New Account</span></a>
+          [% ELSE %]
+            href="?GoAheadAndLogIn=1"><span>Log In</span></a>
+          [% END %]
+
+        <form id="quicksearchForm" name="quicksearchForm" action="buglist.cgi"
+              onsubmit="return checkQuicksearch(this);">
+          <div>
+            <input id="quicksearch_main" type="text" name="quicksearch"
+              onfocus="quicksearchHelpText(this.id, 'hide');"
+              onblur="quicksearchHelpText(this.id, 'show');"
+            >
+            <input id="find" type="submit" value="Quick Search">
+            <ul class="additional_links" id="quicksearch_links">
+              <li>
+                <a href="page.cgi?id=quicksearch.html">Quick Search help</a>
+              </li>
+              <li class="bz_default_hidden" id="quicksearch_plugin">
+                |
+                <a href="javascript:window.external.AddSearchProvider('[% urlbase FILTER html %]search_plugin.cgi')">
+                 Install the Quick Search plugin
+                </a>
+              </li>
+            </ul>
+            <ul class="additional_links">
+              <li>
+                <a href="[% docs_urlbase FILTER html %]using.html">
+                  [%- terms.Bugzilla %] User's Guide</a>
+              </li>
+              <li>
+                |
+                <a href="page.cgi?id=release-notes.html">Release Notes</a>
+              </li>
+              [% Hook.process('additional_links') %]
+            </ul>
+          </div>
+        </form>
+        <div class="outro">[% Hook.process('outro') %]</div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+[% PROCESS global/footer.html.tmpl %]

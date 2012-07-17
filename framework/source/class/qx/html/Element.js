@@ -1544,6 +1544,8 @@ qx.Class.define("qx.html.Element",
     */
     /**
      * Fades in the element.
+     * @return {qx.bom.element.AnimationHandle} The animation handle to react for
+     *   the fade animation.
      */
     fadeIn : function() {
       var col = q(this.__element);
@@ -1557,12 +1559,15 @@ qx.Class.define("qx.html.Element",
       }
       if (this.__element) {
         col.fadeIn();
+        return col.getAnimationHandles()[0];
       }
     },
 
 
     /**
      * Fades out the element.
+     * @return {qx.bom.element.AnimationHandle} The animation handle to react for
+     *   the fade animation.
      */
     fadeOut : function() {
       var col = q(this.__element);
@@ -1575,6 +1580,7 @@ qx.Class.define("qx.html.Element",
           this.hide();
           qx.html.Element.flush();
         }, this);
+        return col.getAnimationHandles()[0];
       }
     },
 

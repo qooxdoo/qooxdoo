@@ -1,0 +1,260 @@
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Myk Melez <myk@mozilla.org>
+  #                 Jesse Clark <jjclark1982@gmail.com>
+  #%]
+
+[%############################################################################%]
+[%# Initialization                                                           #%]
+[%############################################################################%]
+
+[%# Don't display the table or do any processing if there are no bugs 
+  # to display %]
+[% RETURN IF !bugs.size %]
+
+[%# Columns whose titles or values should be abbreviated to make the list
+  # more compact.  For columns whose titles should be abbreviated,
+  # the shortened title is included.  For columns whose values should be
+  # abbreviated, a maximum length is provided along with the ellipsis that
+  # should be added to an abbreviated value, if any.
+  # wrap is set if a column's contents should be allowed to be word-wrapped
+  # by the browser.
+  #%]
+
+[% PROCESS "global/field-descs.none.tmpl" %]
+[% field_descs.short_short_desc     = field_descs.short_desc  %]
+[% field_descs.assigned_to_realname = field_descs.assigned_to %]
+[% field_descs.reporter_realname    = field_descs.reporter    %]
+[% field_descs.qa_contact_realname  = field_descs.qa_contact  %]
+
+[% abbrev = 
+  {
+    "bug_severity"         => { maxlength => 3 , title => "Sev" } , 
+    "priority"             => { maxlength => 3 , title => "Pri" } , 
+    "rep_platform"         => { maxlength => 3 , title => "Plt" } , 
+    "bug_status"           => { maxlength => 4 } , 
+    "assigned_to"          => { maxlength => 30 , ellipsis => "..." } , 
+    "assigned_to_realname" => { maxlength => 20 , ellipsis => "..." } , 
+    "reporter"             => { maxlength => 30 , ellipsis => "..." } , 
+    "reporter_realname"    => { maxlength => 20 , ellipsis => "..." } , 
+    "qa_contact"           => { maxlength => 30 , ellipsis => "..." , title => "QAContact" } , 
+    "qa_contact_realname"  => { maxlength => 20 , ellipsis => "..." , title => "QAContact" } , 
+    "resolution"        => { maxlength => 4 } , 
+    "short_desc"        => { wrap => 1 } ,
+    "short_short_desc"  => { maxlength => 60 , ellipsis => "..." , wrap => 1 } ,
+    "status_whiteboard" => { title => "Whiteboard" , wrap => 1 } , 
+    "keywords"          => { wrap => 1 } ,
+    "flagtypes.name"    => { wrap => 1 } ,
+    "component"         => { maxlength => 8 , title => "Comp" } , 
+    "product"           => { maxlength => 8 } , 
+    "version"           => { maxlength => 5 , title => "Vers" } , 
+    "op_sys"            => { maxlength => 4 } , 
+    "target_milestone"  => { title => "TargetM" } , 
+    "percentage_complete" => { format_value => "%d %%" } , 
+  }
+%]
+
+[% PROCESS bug/time.html.tmpl %]
+
+[% Hook.process("before_table") %]
+
+[%############################################################################%]
+[%# Table Header                                                             #%]
+[%############################################################################%]
+
+[% tableheader = BLOCK %]
+  <table class="bz_buglist" cellspacing="0" cellpadding="4" width="100%">
+    <tr class="bz_buglist_header bz_first_buglist_header">
+      [% IF dotweak %]
+      <th>&nbsp;</th>
+      [% END %]
+      <th colspan="[% splitheader ? 2 : 1 %]" class="first-child">
+        <a href="buglist.cgi?
+                  [% urlquerypart FILTER html %]&amp;order=
+                  [% PROCESS new_order id='bug_id' %]
+                  [%-#%]&amp;query_based_on=
+                  [% defaultsavename OR searchname FILTER url_quote %]">ID
+          [% PROCESS order_arrow id='bug_id' ~%]
+        </a>
+      </th>
+
+      [% IF splitheader %]
+
+        [% FOREACH id = displaycolumns %]
+          [% NEXT UNLESS loop.count() % 2 == 0 %]
+          [% column = columns.$id %]
+          [% PROCESS columnheader %]
+        [% END %]
+
+        </tr><tr class="bz_buglist_header">
+        [% IF dotweak %]
+          <th>&nbsp;</th>
+        [% END %]
+        <th>&nbsp;</th>
+
+        [% FOREACH id = displaycolumns %]
+          [% NEXT IF loop.count() % 2 == 0 %]
+          [% column = columns.$id %]
+          [% PROCESS columnheader %]
+        [% END %]
+
+      [% ELSE %]
+
+        [% FOREACH id = displaycolumns %]
+          [% column = columns.$id %]
+          [% PROCESS columnheader %]
+        [% END %]
+
+      [% END %]
+
+    </tr>
+[% END %]
+
+[% BLOCK columnheader %]
+  <th colspan="[% splitheader ? 2 : 1 %]">
+    <a href="buglist.cgi?[% urlquerypart FILTER html %]&amp;order=
+      [% PROCESS new_order %]
+      [%-#%]&amp;query_based_on=
+      [% defaultsavename OR searchname FILTER url_quote %]">
+        [%- abbrev.$id.title || field_descs.$id || column.title -%]
+        [% PROCESS order_arrow ~%]
+    </a>
+  </th>
+[% END %]
+
+[% BLOCK new_order %]
+  [% desc = '' %]
+  [% IF (om = order.match("\\b$id( DESC)?")) %]
+    [% desc = ' DESC' IF NOT om.0 %]
+  [% END %]
+  [% id _ desc FILTER url_quote %]
+  [% IF id != 'bug_id' AND order %]
+    [% ',' _ order.remove("\\b$id( DESC)?(,\\s*|\$)") FILTER url_quote %]
+  [% END %]
+[% END %]
+
+[% BLOCK order_arrow %]
+  [% IF order.match("^$id DESC") %]
+    <span class="bz_sort_order_primary">&#x25BC;</span>
+  [% ELSIF order.match("^$id(,\\s*|\$)") %]
+    <span class="bz_sort_order_primary">&#x25B2;</span>
+  [% ELSIF order.match("\\b$id DESC") %]
+    <span class="bz_sort_order_secondary">&#x25BC;</span>
+  [% ELSIF order.match("\\b$id(,\\s*|\$)") %]
+    <span class="bz_sort_order_secondary">&#x25B2;</span>
+  [% END %]
+[% END %]
+
+[%############################################################################%]
+[%# Bug Table                                                                #%]
+[%############################################################################%]
+
+[% tableheader %]
+
+[% FOREACH bug = bugs %]
+  [% count = loop.count() %]
+
+  <tr class="bz_bugitem
+             bz_[% bug.bug_severity FILTER css_class_quote -%]
+             bz_[% bug.priority FILTER css_class_quote -%]
+             bz_[% bug.bug_status FILTER css_class_quote -%]
+             [%+ "bz_$bug.resolution" FILTER css_class_quote IF bug.resolution -%]
+             [%+ "bz_secure" IF bug.secure_mode -%]
+             [%+ "bz_secure_mode_$bug.secure_mode" FILTER css_class_quote IF bug.secure_mode -%]
+             [%+ count % 2 == 1 ? "bz_row_odd" : "bz_row_even" -%]
+             ">
+
+    [% IF dotweak %]
+    <td class="bz_checkbox_column">
+      <input type="checkbox" name="id_[% bug.bug_id %]">
+    </td>
+    [% END %]
+    <td class="first-child bz_id_column">
+      <a name="b[% bug.bug_id %]"
+         href="show_bug.cgi?id=[% bug.bug_id %]">[% bug.bug_id %]</a>
+      <span style="display: none">[%+ '[SEC]' IF bug.secure_mode %]</span>
+    </td>
+
+    [% FOREACH column = displaycolumns %]
+    <td [% 'style="white-space: nowrap"' IF NOT abbrev.$column.wrap %]
+        class="bz_[% column FILTER css_class_quote %]_column">
+      [% IF abbrev.$column.maxlength %]
+        <span title="[%- display_value(column, bug.$column) FILTER html %]">
+      [% END %]
+      [% IF abbrev.$column.format_value %] 
+        [%- bug.$column FILTER format(abbrev.$column.format_value) FILTER html -%] 
+      [% ELSIF column == 'actual_time' ||
+               column == 'remaining_time' ||
+               column == 'estimated_time' %]
+        [% PROCESS formattimeunit time_unit=bug.$column %] 
+      [%# Display the login name of the user if their real name is empty. %]
+      [% ELSIF column.match('_realname$') && bug.$column == '' %]
+        [% SET login_column = column.remove('_realname$') %]
+        [% bug.${login_column}.truncate(abbrev.$column.maxlength, 
+                                        abbrev.$column.ellipsis) FILTER html %]
+
+      [% ELSE %]
+        [%- display_value(column, bug.$column).truncate(abbrev.$column.maxlength, abbrev.$column.ellipsis) FILTER html -%]
+      [% END %]
+      [% IF abbrev.$column.maxlength %]
+        </span>
+      [% END %]
+    </td>
+    [% END %]
+
+  </tr>
+
+  [% IF loop.last() && time_info.time_present == 1 %]
+    [% PROCESS time_summary_line %]
+  [% END %]
+
+[% END %]
+
+</table>
+
+[% BLOCK time_summary_line %]
+  <tr class="bz_time_summary_line">
+    [% columns_to_span = 1 %]  [%# bugID %]
+    [% IF dotweak %]
+      [% columns_to_span = columns_to_span + 1 %]
+    [% END %]
+    [% FOREACH column = displaycolumns %]
+      [% IF column == 'actual_time' ||
+            column == 'remaining_time' ||
+            column == 'estimated_time' ||
+            column == 'percentage_complete' %]
+        [% IF columns_to_span > 0 %]
+          <td class="bz_total bz_total_label" colspan="
+              [%- columns_to_span FILTER html %]"><b>Totals</b></td>
+          [% columns_to_span = 0 %]
+        [% END %]
+        [% IF column == 'percentage_complete' %]
+          <td class="bz_total">[% time_info.percentage_complete
+              FILTER format(abbrev.$column.format_value) FILTER html %]</td>
+        [% ELSE %]
+          <td class="bz_total">
+            [%- PROCESS formattimeunit time_unit=time_info.$column %]</td>
+        [% END %]
+      [% ELSIF columns_to_span == 0 %] [%# A column following the first total %]
+        <td class="bz_total">&nbsp;</td>
+      [% ELSE %] [%# We haven't gotten to a time column yet, keep computing span %]
+        [% columns_to_span = columns_to_span + 1 %]
+      [% END %]
+    [% END %]
+  </tr>
+[% END %]

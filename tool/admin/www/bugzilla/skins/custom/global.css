@@ -1,0 +1,153 @@
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #FFFFFF;
+  height: 100%;
+}
+
+#container {
+  min-height: 100%;
+}
+
+#bugzilla-nav {
+  background-color: #F6F6F6;
+  padding: 5px;
+}
+
+#bugzilla-nav ul.links {
+  margin: 0 auto;
+  width: 830px;
+}
+
+#bugzilla-nav ul.links a {
+  text-decoration: underline;
+}
+
+#bugzilla-body {
+  color: inherit;
+  background-color: transparent;
+  font-size: inherit;
+  padding-left: 0;
+  padding-top: 20px;
+  padding-bottom: 106px; /* 86px (footer) + 20px (additional space) */
+  border-top: none;
+  border-bottom: none;
+}
+
+#tab_specific {
+  border-bottom: 1px solid #f8f8f8;
+}
+
+#header > *,
+#main > * {
+  border: none;
+}
+
+#main {
+  padding-top: 0 !important;
+}
+
+#header a,
+#footer a {
+ color: inherit;
+}
+
+#header a:hover,
+#footer a:hover {
+  text-decoration: inherit;
+}
+
+#footer-wrapper {
+  height: 293px !important;
+  border-top: 1px solid #F6F6F6 !important;
+}
+
+#bugzilla-footer {
+  background-color: #F6F6F6; 
+  border: none;
+  padding-top: 1em;
+  padding-bottom: 0.5em;
+  border-radius: 0;
+}
+
+#bugzilla-footer #footer-inner {
+  width: 830px;
+  margin: 0 auto;
+}
+
+#footer {
+  clear: none;
+  margin-top: 0;
+  width: auto;
+  background: inherit;
+  border: none;
+}
+
+/* WTF? */
+#footer::after {
+  display: none !important;
+}
+
+#page-index h1 {
+  text-align: left;
+}
+
+#page-index #quicksearchForm {
+  text-align: left;
+}
+
+#page-index ul#quicksearch_links {
+  margin-bottom: 0;
+}
+
+#page-index .bz_common_actions {
+  width: 160px;
+  height: 160px;
+  margin: 0 0 2em 0;
+}
+
+.bz_comment {
+  background-color: #f8f8f8;
+}
+
+form#Create .comment {
+  color: inherit; 
+}
+
+input.required, select.required, span.required_explanation {
+  /* background-color: #e7ebf2; */
+  background-color: #fefce7;
+}
+
+#admin_table {
+  border: 1px solid #888;
+  border-collapse: collapse;
+}
+
+#admin_table th {
+  background-color: #3d72c9;
+  color: #eee;
+}
+
+.bz_query_head {
+  display: none;
+}
+
+.bz_buglist_header + .bz_bugitem td {
+  border-top: 1px solid #AEAEAE;
+}
+
+tr.bz_bugitem:hover {
+  background-color: #e7ebf2;
+}
+
+#rep_platform,
+#field_label_rep_platform,
+#field_container_rep_platform {
+  display: none;
+  height: 0;
+}

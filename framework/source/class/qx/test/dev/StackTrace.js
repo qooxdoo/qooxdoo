@@ -29,18 +29,16 @@ qx.Class.define("qx.test.dev.StackTrace",
 
     testGetStackTraceFromError : function()
     {
+      if (!qx.core.Environment.get("ecmascript.stacktrace")) {
+        this.skip("Test skipped since the client doesn't provide stack traces");
+      }
       var trace = [];
       try {
         throw new Error("Expected exception");
       } catch(ex) {
         trace = qx.dev.StackTrace.getStackTraceFromError(ex);
       }
-      if (qx.core.Environment.get("engine.name") == "mshtml") {
-        // Can't get stack trace for IE
-        qx.core.Assert.assertEquals(0, trace.length, "Got stack trace information for IE!");
-      } else {
-        qx.core.Assert.assertNotEquals(0, trace.length, "No stack trace information returned!");
-      }
+      qx.core.Assert.assertNotEquals(0, trace.length, "No stack trace information returned!");
     },
 
 
@@ -60,8 +58,13 @@ qx.Class.define("qx.test.dev.StackTrace",
         else {
           e = new cls();
         }
-        var trace = qx.dev.StackTrace.getStackTraceFromError(e);
-        this.assertNotIdentical(0, trace.length, "Didn't get stack trace from " + cls.toString());
+        try {
+          throw e;
+        }
+        catch(ex) {
+          var trace = qx.dev.StackTrace.getStackTraceFromError(ex);
+          this.assertNotIdentical(0, trace.length, "Didn't get stack trace from " + cls.toString());
+        }
       }
     },
 

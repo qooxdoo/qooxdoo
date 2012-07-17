@@ -1,0 +1,7 @@
+# activate after initial check-in
+
+# these are overwritten by lessc
+/base.css
+/layout.css
+/pages.css
+/reset.css

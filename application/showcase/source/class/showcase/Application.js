@@ -182,6 +182,8 @@ qx.Class.define("showcase.Application",
           });
         }
       });
+
+      routing.init();
     },
 
 
@@ -212,6 +214,9 @@ qx.Class.define("showcase.Application",
       this.__description.show();
 
       page.load(function(page) {
+        if (this.__currentPage != page) {
+          return;
+        }
         var view = page.getContent().getView();
 
         this.__content.add(view, {edge: 0});

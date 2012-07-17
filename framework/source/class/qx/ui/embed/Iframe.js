@@ -309,8 +309,12 @@ qx.Class.define("qx.ui.embed.Iframe",
             qx.bom.Event.addNativeListener(document, "help", qx.lang.Function.returnFalse);
           }
         } catch (e) {
-          // this may fail due to security restrictions
-        };
+          if (qx.core.Environment.get("qx.debug")) {
+            this.warn(
+              "Unable to set 'nativeHelp' property, possibly due to security restrictions"
+            );
+          }
+        }
       }
     },
 
