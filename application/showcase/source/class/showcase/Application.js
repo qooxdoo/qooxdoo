@@ -182,6 +182,8 @@ qx.Class.define("showcase.Application",
           });
         }
       });
+
+      routing.init();
     },
 
 
