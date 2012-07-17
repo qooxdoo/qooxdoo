@@ -25,8 +25,7 @@
 
 import sys, os, types, re, string, copy
 from ecmascript.backend.Packer      import Packer
-#from ecmascript.backend             import pretty
-from ecmascript.backend             import pretty_new_meth as pretty
+from ecmascript.backend             import formatter
 from ecmascript.frontend import treeutil, tokenizer
 from ecmascript.frontend import treegenerator
 from ecmascript.frontend.SyntaxException import SyntaxException
@@ -225,11 +224,11 @@ class MClassCode(object):
     def serializeFormatted(self, tree):
         # provide minimal pretty options
         def options(): pass
-        pretty.defaultOptions(options)
+        formatter.defaultOptions(options)
         options.prettypCommentsBlockAdd = False  # turn off comment filling
 
         result = [u'']
-        result = pretty.prettyNode(tree, options, result)
+        result = formatter.formatNode(tree, options, result)
 
         return u''.join(result)
 

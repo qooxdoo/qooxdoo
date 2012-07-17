@@ -29,16 +29,16 @@ from ecmascript.frontend import lang, Comment
 # ------------------------------------------------------------------------------
 
 # fall-back in symbol_base
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r += self.get("value", u'')
     return r
-symbol_base.toPretty = toPretty
+symbol_base.format = format
 
 def commentsPretty(self, optns, state):
     comments = []
     for i,comment in enumerate(self.comments):
-        commentStr = comment.toPretty(optns, state)
+        commentStr = comment.format(optns, state)
         comments.append(commentStr)
         # handle additional line breaks between comments
         if i>0:
@@ -53,15 +53,15 @@ symbol_base.commentsPretty = commentsPretty
 
 
 def infix(id_):
-    def toPretty(self, optns, state):
+    def format(self, optns, state):
         r = self.commentsPretty(optns, state)
-        r += self.getChild("first").toPretty(optns, state)
+        r += self.getChild("first").format(optns, state)
         r += ' '
         r += self.get("value")
         r += ' '
-        r += self.getChild("second").toPretty(optns, state)
+        r += self.getChild("second").format(optns, state)
         return r
-    symbol(id_).toPretty = toPretty
+    symbol(id_).format = format
 
 for sym in SYMBOLS['infix']+SYMBOLS['infix_r']:
     infix(sym)
@@ -69,15 +69,15 @@ for sym in SYMBOLS['infix']+SYMBOLS['infix_r']:
 ##
 # infix "verb" operators, i.e. that need a space around themselves (like 'instanceof', 'in')
 def infix_v(id_):
-    def toPretty(self, optns, state):  # adapt the output
+    def format(self, optns, state):  # adapt the output
         r = self.commentsPretty(optns, state)
-        r += self.getChild("first").toPretty(optns, state)
+        r += self.getChild("first").format(optns, state)
         r += self.space()
         r += self.get("value")
         r += self.space()
-        r += self.getChild("second").toPretty(optns, state)
+        r += self.getChild("second").format(optns, state)
         return r
-    symbol(id_).toPretty = toPretty
+    symbol(id_).format = format
         
 for sym in SYMBOLS['infix_v']:
     infix_v(sym)
@@ -85,12 +85,12 @@ for sym in SYMBOLS['infix_v']:
 ##
 # prefix "sigil" operators, like '!', '~', ...
 def prefix(id_):
-    def toPretty(self, optns, state):
+    def format(self, optns, state):
         r = self.commentsPretty(optns, state)
         r += self.get("value")
-        r += self.getChild("first").toPretty(optns, state)
+        r += self.getChild("first").format(optns, state)
         return r
-    symbol(id_).toPretty = toPretty
+    symbol(id_).format = format
 
 for sym in SYMBOLS['prefix']:
     prefix(sym)
@@ -98,54 +98,54 @@ for sym in SYMBOLS['prefix']:
 ##
 # prefix "verb" operators, i.e. that need a space before their operand like 'delete'
 def prefix_v(id_):
-    def toPretty(self, optns, state):
+    def format(self, optns, state):
         r = self.commentsPretty(optns, state)
         r += self.get("value")
         r += self.space()
-        r += self.getChild("first").toPretty(optns, state)
+        r += self.getChild("first").format(optns, state)
         return r
-    symbol(id_).toPretty = toPretty
+    symbol(id_).format = format
 
 for sym in SYMBOLS['prefix_v']:
     prefix_v(sym)
 
 def preinfix(id_):  # pre-/infix operators (+, -)
-    def toPretty(self, optns, state):  # need to handle pre/infix cases
+    def format(self, optns, state):  # need to handle pre/infix cases
         r = self.commentsPretty(optns, state)
         r = [r]
-        first = self.getChild("first").toPretty(optns, state)
+        first = self.getChild("first").format(optns, state)
         op = self.get("value")
         prefix = self.get("left", 0)
         if prefix and prefix == "true":
             r = [op, first]
         else:
-            second = self.getChild("second").toPretty(optns, state)
+            second = self.getChild("second").format(optns, state)
             r = [first, ' ', op, ' ', second]
         return ''.join(r)
-    symbol(id_).toPretty = toPretty
+    symbol(id_).format = format
 
 for sym in SYMBOLS['preinfix']:
     preinfix(sym)
 
 def prepostfix(id_):  # pre-/post-fix operators (++, --)
-    def toPretty(self, optns, state):
+    def format(self, optns, state):
         r = self.commentsPretty(optns, state)
         operator = self.get("value")
-        operand = self.getChild("first").toPretty(optns, state)
+        operand = self.getChild("first").format(optns, state)
         r += self.get("value")
         if self.get("left", '') == "true":
             r = [operator, operand]
         else:
             r = [operand, operator]
         return u''.join(r)
-    symbol(id_).toPretty = toPretty
+    symbol(id_).format = format
 
 for sym in SYMBOLS['prepostfix']:
     prepostfix(sym)
 
 
 @method(symbol("constant"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     if self.get("constantType") == "string":
         if self.get("detail") == "singlequotes":
@@ -163,7 +163,7 @@ def toPretty(self, optns, state):
 
 
 @method(symbol("identifier"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     v = self.get("value", u"")
     if v:
@@ -171,78 +171,78 @@ def toPretty(self, optns, state):
     return r
 
 @method(symbol("?"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
-    r.append(self.getChild("first").toPretty(optns, state))
+    r.append(self.getChild("first").format(optns, state))
     r.append(' ')
     r.append('?')
     r.append(' ')
-    r.append(self.getChild("second").toPretty(optns, state))
+    r.append(self.getChild("second").format(optns, state))
     r.append(' ')
     r.append(':')
     r.append(' ')
-    r.append(self.getChild("third").toPretty(optns, state))
+    r.append(self.getChild("third").format(optns, state))
     return ''.join(r)
 
 @method(symbol("dotaccessor"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
-    r += self.children[0].toPretty(optns, state)
+    r += self.children[0].format(optns, state)
     r += '.'
-    r += self.children[1].toPretty(optns, state)
+    r += self.children[1].format(optns, state)
     return r
 
 @method(symbol("operand"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
-    r += self.children[0].toPretty(optns, state)
+    r += self.children[0].format(optns, state)
     return r
 
 @method(symbol("group"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
     r.append('(')
     a = []
     for c in self.children:
-        a.append(c.toPretty(optns, state))
+        a.append(c.format(optns, state))
     r.append(', '.join(a))
     r.append(')')
     return ''.join(r)
 
 @method(symbol("accessor"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
-    r += self.children[0].toPretty(optns, state)
+    r += self.children[0].format(optns, state)
     r += '['
-    r += self.children[1].toPretty(optns, state)
+    r += self.children[1].format(optns, state)
     r += ']'
     return r
 
 @method(symbol("array"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     cmnts = self.commentsPretty(optns, state)
     r = []
     for c in self.children:
-        r.append(c.toPretty(optns, state))
+        r.append(c.format(optns, state))
     return cmnts + '[' + u', '.join(r) + ']'
 
 @method(symbol("key"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
-    r += self.children[0].toPretty(optns, state)
+    r += self.children[0].format(optns, state)
     return r
 
 @method(symbol("map"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r += self.write("{\n")
     state.indentLevel += 1
     indent = indentString(optns, state)
     a = []
     for c in self.children:
-        a.append(indent + c.toPretty(optns, state))
+        a.append(indent + c.format(optns, state))
     r += (',\n').join(a)
     state.indentLevel -= 1
     if len(self.children):
@@ -251,13 +251,13 @@ def toPretty(self, optns, state):
     return r
 
 @method(symbol("value"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
-    r += self.children[0].toPretty(optns, state)
+    r += self.children[0].format(optns, state)
     return r
 
 @method(symbol("keyvalue"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     key = self.get("key")
     key_quote = self.get("quote", '')
@@ -271,20 +271,20 @@ def toPretty(self, optns, state):
         quote = '"'
     else:
         quote = ''
-    value = self.getChild("value").toPretty(optns, state)
+    value = self.getChild("value").format(optns, state)
     return r + quote + key + quote + ' : ' + value
 
 @method(symbol("block"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
     r.append('{')
-    r.append(self.children[0].toPretty(optns, state))
+    r.append(self.children[0].format(optns, state))
     r.append('}')
     return u''.join(r)
 
 @method(symbol("function"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r += self.write("function")
     functionName = self.get("name",0)
@@ -292,54 +292,54 @@ def toPretty(self, optns, state):
         r += self.space(result=r)
         r += self.write(functionName)
     # params
-    r += self.getChild("params").toPretty(optns, state)
+    r += self.getChild("params").format(optns, state)
     # body
-    r += self.getChild("body").toPretty(optns, state)
+    r += self.getChild("body").format(optns, state)
     return r
 
 @method(symbol("params"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
     r.append('(')
     a = []
     for c in self.children:
-        a.append(c.toPretty(optns, state))
+        a.append(c.format(optns, state))
     r.append(u','.join(a))
     r.append(')')
     return u''.join(r)
 
 
 @method(symbol("body"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
-    r.append(self.children[0].toPretty(optns, state))
+    r.append(self.children[0].format(optns, state))
     # 'if', 'while', etc. can have single-statement bodies
     if self.children[0].id != 'block':
         r.append(';')
     return u''.join(r)
 
 @method(symbol("var"))  # this is what becomes of "var"
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
     r.append("var")
     r.append(self.space())
     a = []
     for c in self.children:
-        a.append(c.toPretty(optns, state))
+        a.append(c.format(optns, state))
     r.append(','.join(a))
     return ''.join(r)
 
 @method(symbol("definition"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
-    r += self.children[0].toPretty(optns, state)
+    r += self.children[0].format(optns, state)
     return r
 
 @method(symbol("for"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
     r.append('for')
@@ -348,77 +348,77 @@ def toPretty(self, optns, state):
     r.append('(')
     # for (in)
     if self.get("forVariant") == "in":
-        r.append(self.children[0].toPretty(optns, state))
+        r.append(self.children[0].format(optns, state))
     # for (;;)
     else:
-        r.append(self.children[0].children[0].toPretty(optns, state))
+        r.append(self.children[0].children[0].format(optns, state))
         r.append(';')
-        r.append(self.children[0].children[1].toPretty(optns, state))
+        r.append(self.children[0].children[1].format(optns, state))
         r.append(';')
-        r.append(self.children[0].children[2].toPretty(optns, state))
+        r.append(self.children[0].children[2].format(optns, state))
     r.append(')')
     # body
-    r.append(self.getChild("body").toPretty(optns, state))
+    r.append(self.getChild("body").format(optns, state))
     return u''.join(r)
 
 @method(symbol("in"))  # of 'for (in)'
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
-    r += self.getChild("first").toPretty(optns, state)
+    r += self.getChild("first").format(optns, state)
     r += self.space()
     r += 'in'
     r += self.space()
-    r += self.getChild("second").toPretty(optns, state)
+    r += self.getChild("second").format(optns, state)
     return r
 
 @method(symbol("expressionList"))
-def toPretty(self, optns, state):  # WARN: this conflicts (and is overwritten) in for(;;).toPretty
+def format(self, optns, state):  # WARN: this conflicts (and is overwritten) in for(;;).format
     cmnts = self.commentsPretty(optns, state)
     r = []
     for c in self.children:
-        r.append(c.toPretty(optns, state))
+        r.append(c.format(optns, state))
     return cmnts + ','.join(r)
 
 @method(symbol("while"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r += self.write("while")
     r += self.space(False,result=r)
     # cond
     r += '('
-    r += self.children[0].toPretty(optns, state)
+    r += self.children[0].format(optns, state)
     r += ')'
     # body
-    r += self.children[1].toPretty(optns, state)
+    r += self.children[1].format(optns, state)
     return r
 
 @method(symbol("with"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
     r.append("with")
     r.append(self.space())
     r.append('(')
-    r.append(self.children[0].toPretty(optns, state))
+    r.append(self.children[0].format(optns, state))
     r.append(')')
-    r.append(self.children[1].toPretty(optns, state))
+    r.append(self.children[1].format(optns, state))
     return ''.join(r)
 
 @method(symbol("do"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
     r.append("do")
     r.append(self.space())
-    r.append(self.children[0].toPretty(optns, state))
+    r.append(self.children[0].format(optns, state))
     r.append('while')
     r.append('(')
-    r.append(self.children[1].toPretty(optns, state))
+    r.append(self.children[1].format(optns, state))
     r.append(')')
     return ''.join(r)
 
 @method(symbol("if"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     # Additional new line before each loop
     if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
@@ -434,21 +434,21 @@ def toPretty(self, optns, state):
     r += self.write("if")
     # condition
     r += self.write("(")
-    r += self.children[0].toPretty(optns, state)
+    r += self.children[0].format(optns, state)
     r += self.write(")")
     # 'then' part
-    r += self.children[1].toPretty(optns, state)
+    r += self.children[1].format(optns, state)
     # (opt) 'else' part
     if len(self.children) == 3:
         r += self.space()
         r += self.write("else")
         r += self.space()
-        r += self.children[2].toPretty(optns, state)
+        r += self.children[2].format(optns, state)
     r += self.space(False,result=r)
     return r
 
 @method(symbol("loop"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     # Additional new line before each loop
     if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
@@ -470,14 +470,14 @@ def toPretty(self, optns, state):
     #    r += self.space(False,result=r)
     #    # condition
     #    r += '('
-    #    r += self.children[0].toPretty(optns, state)
+    #    r += self.children[0].format(optns, state)
     #    r += ')'
     #    # then
-    #    r += self.children[1].toPretty(optns, state)
+    #    r += self.children[1].format(optns, state)
     #    # else
     #    if len(self.children) == 3:
     #        r += self.write("else")
-    #        r += self.children[2].toPretty(optns, state)
+    #        r += self.children[2].format(optns, state)
     #    r += self.space(False,result=r)
 
     elif loopType == "WHILE":
@@ -501,124 +501,124 @@ def toPretty(self, optns, state):
     return r
 
 @method(symbol("break"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r += self.write("break")
     if self.children:
         r += self.space(result=r)
-        r += self.write(self.children[0].toPretty(optns, state))
+        r += self.write(self.children[0].format(optns, state))
     return r
 
 @method(symbol("continue"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r += self.write("continue")
     if self.children:
         r += self.space(result=r)
-        r += self.write(self.children[0].toPretty(optns, state))
+        r += self.write(self.children[0].format(optns, state))
     return r
 
 @method(symbol("return"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = [self.commentsPretty(optns, state)]
     r += ["return"]
     if self.children:
         r.append(self.space())
-        r.append(self.children[0].toPretty(optns, state))
+        r.append(self.children[0].format(optns, state))
     return ''.join(r)
 
 @method(symbol("switch"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
     r.append("switch")
     # control
     r.append('(')
-    r.append(self.children[0].toPretty(optns, state))
+    r.append(self.children[0].format(optns, state))
     r.append(')')
     # body
     r.append('{')
     body = self.getChild("body")
     for c in body.children:
-        r.append(c.toPretty(optns, state))
+        r.append(c.format(optns, state))
     r.append('}')
     return ''.join(r)
 
 
 @method(symbol("case"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
     r.append('case')
     r.append(self.space())
-    r.append(self.children[0].toPretty(optns, state))
+    r.append(self.children[0].format(optns, state))
     r.append(':')
     if len(self.children) > 1:
-        r.append(self.children[1].toPretty(optns, state))
+        r.append(self.children[1].format(optns, state))
     return ''.join(r)
 
 
 @method(symbol("default"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
     r.append('default')
     r.append(':')
     if len(self.children) > 0:
-        r.append(self.children[0].toPretty(optns, state))
+        r.append(self.children[0].format(optns, state))
     return ''.join(r)
 
 @method(symbol("try"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
     r.append("try")
-    r.append(self.children[0].toPretty(optns, state))
+    r.append(self.children[0].format(optns, state))
     catch = self.getChild("catch", 0)
     if catch:
         r.append(self.space())
         r.append("catch")
         r.append('(')
-        r.append(catch.children[0].toPretty(optns, state))
+        r.append(catch.children[0].format(optns, state))
         r.append(')')
         r.append(self.space())
-        r.append(catch.children[1].toPretty(optns, state))
+        r.append(catch.children[1].format(optns, state))
     finally_ = self.getChild("finally", 0)
     if finally_:
         r.append("finally")
-        r.append(finally_.children[0].toPretty(optns, state))
+        r.append(finally_.children[0].format(optns, state))
     return ''.join(r)
 
 @method(symbol("throw"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r += 'throw'
     r += self.space()
-    r += self.children[0].toPretty(optns, state)
+    r += self.children[0].format(optns, state)
     return r
 
 @method(symbol("(empty)"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     return r
 
 @method(symbol("label"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
     r += [self.get("value")]  # identifier
     r += [":"]
-    r += [self.children[0].toPretty(optns, state)]
+    r += [self.children[0].format(optns, state)]
     return ''.join(r)
 
 @method(symbol("statements"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
     indent = indentString(optns, state)
     for cld in self.children:
         l = [indent]
-        c = cld.toPretty(optns, state)
+        c = cld.format(optns, state)
         l.append(c)
         if not c or c[-1] != ';':
             l.append(';')
@@ -626,13 +626,13 @@ def toPretty(self, optns, state):
     return u'\n'.join(r)
 
 @method(symbol("block"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r += self.write("{\n")
     state.indentLevel += 1
     a = []
     for c in self.children: # should be just "statements"
-        a.append(c.toPretty(optns, state))
+        a.append(c.format(optns, state))
     a_ = u''.join(a)
     r += a_
     if a_:
@@ -643,14 +643,14 @@ def toPretty(self, optns, state):
     return r
 
 @method(symbol("call"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
-    r += self.getChild("operand").toPretty(optns, state)
-    r += self.getChild("params").toPretty(optns, state)
+    r += self.getChild("operand").format(optns, state)
+    r += self.getChild("params").format(optns, state)
     return r
 
 @method(symbol("comment"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.get("value")
     r = Comment.Text(r).indent(indentString(optns, state))
     r += '\n'  # 'inline' needs terminating newline anyway
@@ -658,50 +658,50 @@ def toPretty(self, optns, state):
     return r
 
 @method(symbol("commentsAfter"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.toJS(pp)
     return r
 
 @method(symbol("commentsBefore"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.toJS(pp)
     return r
 
 @method(symbol("file"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
-    r += self.children[0].toPretty(optns, state)
+    r += self.children[0].format(optns, state)
     return r
 
 @method(symbol("first"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     if self.children:  # could be empty in for(;;)
-        r = self.children[0].toPretty(optns, state)
+        r = self.children[0].format(optns, state)
     return r
 
 @method(symbol("second"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     if self.children:
-        r = self.children[0].toPretty(optns, state)
+        r = self.children[0].format(optns, state)
     return r
 
 @method(symbol("third"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     if self.children:
-        r += self.children[0].toPretty(optns, state)
+        r += self.children[0].format(optns, state)
     return r
 
 @method(symbol("params"))
-def toPretty(self, optns, state):
+def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     self.noline()
     r += self.write("(")
     a = []
     for c in self.children:
-        a.append(c.toPretty(optns, state))
+        a.append(c.format(optns, state))
     r += ', '.join(a)
     r += self.write(")")
     return r
@@ -710,10 +710,10 @@ def toPretty(self, optns, state):
 # Interface functions
 # ------------------------------------------------------------------------------
 
-def prettyNode(tree, options, result):
+def formatNode(tree, options, result):
     def state(): pass
     dstate = defaultState(state, options)
-    return [tree.toPretty(options, dstate)]
+    return [tree.format(options, dstate)]
 
 
 def defaultOptions(optns):
