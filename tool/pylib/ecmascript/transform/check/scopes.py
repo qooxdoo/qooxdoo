@@ -40,20 +40,29 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
 
     def visit_catch(self, node):
         #print "catch visitor", node
-        self._new_scope(node)
+        # create a scope solely for the execption param
+        node.scope = Scope(node)
+        node.scope.parent = self.curr_scope
+        self.curr_scope.children.append(node.scope)
+        self.curr_scope = node.scope
+        # visit only the param
+        self.visit(node.getChild("params"))
+        # restore old scope and visit body
+        # (i think that's contradicting ECMA262, but is how js engines are implementing it)
+        self.curr_scope = node.scope.parent
+        self.visit(node.getChild("block"))
 
-    def _new_scope(self, node):  # function, catch
+    def _new_scope(self, node):  # function
         # create a new scope
         node.scope = Scope(node)
         node.scope.parent = self.curr_scope
         self.curr_scope.children.append(node.scope)
         # switch to new scope and recurse
-        old_scope = self.curr_scope
         self.curr_scope = node.scope
         for chld in node.children:
             self.visit(chld)
         # restore old scope
-        self.curr_scope = old_scope
+        self.curr_scope = node.scope.parent
 
     def visit_params(self, node): # formal params are like local decls
         #print "params visitor", node
@@ -62,7 +71,7 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
 
     def visit_var(self, node):  # var declaration
         #print "var decl visitor", node
-        # go through the identifiers
+        # go through the definitions
         for def_node in treeutil.nodeIterator(node, ["definition"]):
             if def_node.hasChild("identifier"):
                 self._new_var(def_node.getChild("identifier"))

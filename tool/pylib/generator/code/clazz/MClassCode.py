@@ -92,6 +92,8 @@ class MClassCode(object):
                 console.debug("Calculating scopes: %s..." % self.id)
                 console.indent()
                 tree = scopes.create_scopes(tree)
+                #if self.id == "gui.Application":
+                #    import pydb; pydb.debugger()
                 #tree.scope.prrnt()
 
             # store unoptimized tree
