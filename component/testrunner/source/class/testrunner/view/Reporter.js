@@ -105,7 +105,6 @@ qx.Class.define("testrunner.view.Reporter", {
           var packageName = pkg.fullName;
           if (packageName == "qx.test.ui") {
             for (var j=0,m=pkg.getChildren().length; j<m; j++) {
-              console.log(pkg.getChildren().getItem(j).getFullName());
               this.__testPackages.push(pkg.getChildren().getItem(j).getFullName());
             }
           }
