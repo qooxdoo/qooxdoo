@@ -261,6 +261,7 @@ input[type="checkbox"] + label {
 }
 
 
+// The tick of the checkbox.
 input[type="checkbox"] + label:after {
     @checkbox-check-color:@android-orange;
 
@@ -278,9 +279,7 @@ input[type="checkbox"] + label:after {
     border-right: 0;
     .transform(rotate(-45deg));
 
-    -webkit-box-shadow:  -1px 1px 1px 0px @checkbox-check-color;
-    -moz-box-shadow: -1px 1px 1px 0px @checkbox-check-color;
-    box-shadow: -1px 1px 1px 0px @checkbox-check-color;
+    .box-shadow(-1px 1px 1px 0px @checkbox-check-color);
 }
 
 input[type="checkbox"]:checked + label:after {
@@ -295,9 +294,7 @@ input[type="checkbox"]:checked + label:after {
 // Border style
 input[type=radio] + label {
     background: #fcfff4;
-    background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-    background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-    background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    #gradient > .vertical-three(#fcfff4, #dfe5d7, #b3bead, 40%);
 
     -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
     -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
@@ -373,12 +370,8 @@ input[type=radio] + label:after {
   color:#000000;
 }
 
-.selectbox-selected > div > .list-itemlabel:after {
-  border-color: @android-orange;
-}
-
-.selectbox-selected.active > div > .list-itemlabel:after {
-  border-color:black;
+.selectbox-selected {
+  .clickable-active();
 }
 
 .selectbox-selected.active > div > .list-itemlabel {
