@@ -1,0 +1,67 @@
+<?php
+  function is_active($page, $current) {
+    $sections = split(":", $current);
+    if($sections[0] == $page) {
+      print "active";
+    }
+  }
+?>
+<?php html_msgarea()?>
+<section id="header">
+  <h1><a href="/">qooxdoo</a></h1>
+  <nav>
+    <ul>
+      <!-- <li>
+        <a class="<?php is_active("start", $INFO['id']) ?>" href="/">home</a>
+      </li> -->
+      <li>
+        <a href="http://news.qooxdoo.org">blog</a>
+      </li>
+      <li>
+        <a class="<?php is_active("demos", $INFO['id']) ?>" href="/demos">demos</a>
+      </li>
+      <li>
+        <a class="<?php is_active("downloads", $INFO['id']) ?>" href="/downloads">downloads</a>
+      </li>
+      <li>
+        <a class="<?php is_active("docs", $INFO['id']) ?>" href="/docs">docs</a>
+      </li>
+      <li>
+        <a class="<?php is_active("community", $INFO['id']) ?>" href="/community">community</a>
+      </li>
+    </ul>
+  </nav>
+  <script type="template" id="search-options-template">
+    <select>
+      <option value="site">Site</option>
+      <option value="manual">Manual</option>
+      <option value="blog">Blog</option>
+      <option value="bugs">Bugs</option>
+    </select>
+  </script>
+  <script type="template" id="search-site-template">
+    <form action="/" id="search-form">
+      <input type="hidden" name="do" value="search">
+      <input type="search" name="id" placeholder="Search"></input>
+    </form>
+  </script>
+  <script type="template" id="search-blog-template">
+    <form method="get" id="searchform" action="http://news.qooxdoo.org/" id="search-form">
+      <input type="search" class="field" name="s" id="s" placeholder="Search">
+    </form>
+  </script>
+  <script type="template" id="search-manual-template">
+    <form action="http://manual.qooxdoo.org/devel/search.html" id="search-form">
+      <input type="search" name="q" placeholder="Search"></input>
+    </form>
+  </script>
+  <script type="template" id="search-bugs-template">
+      <form action="http://bugs.qooxdoo.org/buglist.cgi" id="search-form">
+        <input type="search" name="quicksearch" placeholder="Search"></input>
+      </form>
+  </script>
+  <div id="search">
+  </div>
+</section>
+<div class="decoration">
+</div>

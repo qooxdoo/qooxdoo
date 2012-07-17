@@ -1,0 +1,145 @@
+ /* The contents of this file are subject to the Mozilla Public
+  * License Version 1.1 (the "License"); you may not use this file
+  * except in compliance with the License. You may obtain a copy of
+  * the License at http://www.mozilla.org/MPL/
+  *
+  * Software distributed under the License is distributed on an "AS
+  * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  * implied. See the License for the specific language governing
+  * rights and limitations under the License.
+  *
+  * The Original Code is the Bugzilla Bug Tracking System.
+  *
+  * Contributor(s): Myk Melez <myk@mozilla.org>
+  *                 Joel Peshkin <bugreport@peshkin.net>
+  *                 Erik Stambaugh <erik@dasbistro.com>
+  *                 Marc Schumann <wurblzap@gmail.com>
+  */
+
+table.attachment_entry th {
+    text-align: right;
+    vertical-align: baseline;
+    white-space: nowrap;
+}
+
+table.attachment_entry td {
+    text-align: left;
+    vertical-align: baseline;
+    padding-bottom: 5px;
+}
+
+table#flags th,
+table#flags td {
+    text-align: left;
+    vertical-align: baseline;
+    font-size: small;
+}
+
+/* Rules used to view patches in diff mode. */
+
+.file_head {
+  font-weight: bold;
+  font-size: 1em;
+  background-color: #c3c3c3;
+  border: 1px solid black;
+}
+
+.file_head a {
+  text-decoration: none;
+  font-family: monospace;
+  font-size: 1.1em;
+}
+
+.file_collapse {
+  display: none;
+}
+
+.section_head {
+  background-color: #f0f0f0;
+  border: 1px solid black;
+  text-align: left;
+}
+
+table.file_table {
+  table-layout: fixed;
+  width: 100%;
+  empty-cells: show;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  /* draw border below last open context section in listing */
+  border-bottom: 1px solid black;
+}
+
+tbody.file pre {
+  display: inline;
+  white-space: pre-wrap; /* CSS 3 & CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Gecko < 1.9.1 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  font-size: 0.9em;
+}
+
+tbody.file pre:empty {
+  display: block;
+}
+
+.changed {
+  background-color: lightblue;
+}
+
+.added {
+  background-color: lightgreen;
+}
+
+.removed {
+  background-color: #FFCC99;
+}
+
+.num {
+  background-color: #ffe9ae;
+  text-align:right;
+  padding: 0 0.3em;
+  width: 3em;
+}
+
+.warning {
+  color: red
+}
+
+table.attachment_info th {
+    text-align: right;
+    vertical-align: top;
+}
+
+table.attachment_info td {
+    text-align: left;
+    vertical-align: top;
+}
+
+/* Text displayed when the attachment is not viewable by the web browser */
+#noview {
+    text-align: left;
+    vertical-align: middle;
+}
+
+#attachment_attributes {
+    width: 25%;
+}
+
+#attachment_attributes div {
+    padding-bottom: 0.4em;
+}
+
+#attachment_attributes label,
+#attachment_attributes span.label,
+#attachment_actions span.label
+{
+    font-weight: bold;
+}
+
+#attachment_attributes .block {
+    display: block;
+}
+
+#attachment_attributes table#flags {
+    padding-top: 1em;
+}

@@ -1,0 +1,274 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  background: #FFFFFF url(http://resources.qooxdoo.org/images/pattern.gif) top left repeat;
+  color: black;
+}
+
+body, html, td, th{
+  font-family: Verdana, "Bitstream Vera Sans", "Lucida Grande", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 160%;
+}
+
+input, textarea, button{
+  font-family: Verdana, "Bitstream Vera Sans", "Lucida Grande", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
+  font-size: 11px;
+  padding: 2px 3px 3px;
+}
+
+input.image,
+input[type=image]{
+  padding: 0;
+  border: 0 none;
+}
+
+img, table, td, th{
+  border: 0 none;
+}
+
+img{
+  vertical-align: top;
+}
+
+a:link,
+a:visited{
+  text-decoration: underline;
+  color: #444444;
+}
+
+a:hover,
+a:active{
+  text-decoration: underline;
+  color: #83B300;
+}
+
+h1, h2, h3, h4, h5, h6, dt{
+  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+}
+
+td, th{
+  vertical-align: top;
+  text-align: left;
+}
+
+td.right,
+th.right{
+  text-align: right;
+}
+
+pre,
+code{
+  font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace;
+  font-size: 11px;
+  line-height: 140%;
+  background: #E9F2FB;
+}
+
+pre{
+  border: 1px solid #E9F2FB;
+  border-left: 5px solid #134275;
+
+  -moz-border-radius-topright: 12px;
+
+  overflow: -moz-scrollbars-horizontal;
+  overflow-x: auto;
+
+  margin: 12px 0 20px;
+  padding: 4px 8px;
+}
+
+code{
+  padding: 1px 3px;
+}
+
+
+cite{
+  text-style: italic;
+}
+
+acronym{
+  cursor: help;
+}
+
+b,
+strong,
+th,
+thead,
+dt{
+  font-weight: bold;
+  color: #1D65B3;
+}
+
+b a:link,
+strong a:link,
+th a:link,
+thead a:link,
+b a:visited,
+strong a:visited,
+th a:visited,
+thead a:visited{
+  color: #1D65B3;
+}
+
+b a:hover,
+strong a:hover,
+th a:hover,
+thead a:hover,
+b a:active,
+strong a:active,
+th a:active,
+thead a:active{
+  color: #83B300;
+}
+
+i,
+em{
+  text-style: italic;
+}
+
+fieldset{
+  padding: 16px;
+  border: 1px solid #AAA;
+}
+
+legend{
+  padding: 2px 4px;
+  border: 1px solid #AAA;
+}
+
+small{
+  font-size: 11px;
+}
+
+select{
+  min-width: 100px;
+}
+
+hr{
+  border: 0 none;
+  height: 50px;
+}
+
+dl{
+  margin-left: 20px;
+}
+
+dt{
+  font-size: 14px;
+}
+
+dd{
+
+}
+
+.accesskey{
+  text-decoration: underline;
+}
+
+/* http://www.positioniseverything.net/easyclearing.html */
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+
+
+
+
+
+input.edit{
+  border: 1px solid #AAA;
+}
+
+input[disabled]{
+  background: #F1F1F1;
+}
+
+button,
+input.button{
+  border: 1px solid #444444;
+  color: #444444;
+  background: #F9F9F9;
+  text-transform: capitalize;
+}
+
+button:hover,
+input.button:hover{
+  background: #FAFFEB;
+}
+
+h1:target,
+h2:target,
+h3:target,
+h4:target{
+  font-style: italic;
+  margin-left: -14px;
+}
+
+h1:target:before,
+h2:target:before,
+h3:target:before,
+h4:target:before{
+  content: "\00bb  "
+}
+
+img.icon{
+  vertical-align: middle;
+}
+
+img.icon-left{
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
+img.icon-right{
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+img.feed-icon{
+  width: 12px;
+  height: 12px;
+  vertical-align: middle;
+}
+
+
+div.notewarning,
+div.noteclassic{
+  font-size: 11px;
+  line-height: 140%;
+  padding: 4px 8px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+
+  -moz-border-radius-topright: 12px;
+}
+
+div.noteclassic{
+  border: 1px solid #F3FFD1;
+  border-left: 5px solid #ABC507;
+  background: #F3FFD1;
+}
+
+div.notewarning{
+  border: 1px solid #F0CFC8;
+  border-left: 5px solid #B04830;
+  background: #F0CFC8;
+}
+
+div.noteclassic p,
+div.nodewarning p,
+div.noteclassic ul,
+div.nodewarning ul,
+div.noteclassic ol,
+div.nodewarning ol{
+  margin-top: 2px;
+  margin-bottom: 2px !important;
+}

@@ -1,0 +1,25 @@
+/*
+ * Custom rules for index.css.
+ * The rules you put here override rules in that stylesheet.
+ */
+    
+    div#page-index .outro 
+    {
+        clear:both;
+    }
+
+    #enter_bug 
+    {
+        background: url(index/bug.png) no-repeat;
+    }
+    
+    #query
+    {
+        background: url(index/search.png) no-repeat;
+    }
+    
+    #account
+    {
+        background: url(index/account.png) no-repeat;
+    }
+    

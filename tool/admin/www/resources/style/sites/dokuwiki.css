@@ -1,0 +1,603 @@
+/*
+  ===============================
+    Hide 'home' title from homepage
+  ===============================
+*/
+
+body.home #content h1{
+  display: none;
+}
+
+
+
+
+
+
+/*
+  ===============================
+    System Messages
+  ===============================
+*/
+
+div.success{
+  padding: 10px;
+  background: #DEFF83;
+  border: 1px solid #DEFF83;
+  -moz-border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+div.error{
+  padding: 10px;
+  background: #F2083B;
+  border: 1px solid #F2083B;
+  -moz-border-radius: 5px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+div.info{
+  padding: 10px;
+  background: #DEFF83;
+  border: 1px solid #DEFF83;
+  -moz-border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+
+
+
+
+
+
+/*
+  ===============================
+    Index
+  ===============================
+*/
+
+ul.idx{
+  font-size: 11px;
+}
+
+ul.idx a.idx_dir{
+  font-weight: bold;
+  font-size: 12px;
+}
+
+ul.idx a.idx_dir{
+  text-transform: capitalize;
+}
+
+ul.idx span.curid a{
+  color: #134275;
+  font-weight: bold;
+  font-style: italic;
+}
+
+
+
+
+
+
+
+/*
+  ===============================
+    Edit Links for Parts
+  ===============================
+*/
+
+.secedit{
+  float: right;
+  margin-top: -20px;
+}
+
+.secedit a{
+  font-size: 10px;
+  color: #A7A6AA;
+}
+
+/* 
+ * Updated Dokuwiki renders buttons instead of links.
+ * Fake those buttons (and only those) to look like links.
+ */
+div.secedit form.button input.button {
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  display: block;
+  cursor: pointer;
+  font-size: 10px;
+  color: #A7A6AA;
+  margin-top: 5px;
+}
+
+
+
+
+
+/*
+  ===============================
+    Wiki Links
+  ===============================
+*/
+
+.wikilink1{
+
+}
+
+.wikilink2{
+  color: red !important;
+}
+
+
+
+
+
+
+/*
+  ===============================
+    Edit Form
+  ===============================
+*/
+
+#dw__editform{
+
+}
+
+#wiki__text{
+  width: 530px;
+}
+
+#dw__editform .toolbar{
+  padding: 2px 4px;
+  background: #A7A6AA;
+}
+
+#dw__editform .toolbutton{
+  padding: 1px;
+  margin-right: 2px;
+  border: 1px solid #FFF;
+  border-right-color: #444;
+  border-bottom-color: #444;
+}
+
+
+
+
+
+
+
+/*
+  ===============================
+    Syntax Highlighting
+  ===============================
+*/
+
+.code .br0{
+  color: #66cc66;
+}
+
+.code .co1{
+  color: #808080;
+  font-style: italic;
+}
+
+.code .co2{
+  color: #808080;
+  font-style: italic;
+}
+
+.code .coMULTI  {
+  color: #808080;
+  font-style: italic;
+}
+
+.code .es0{
+  color: #000099;
+  font-weight: bold;
+}
+
+.code .kw1{
+  color: #b1b100;
+}
+
+.code .kw2{
+  color: #000000;
+  font-weight: bold;
+}
+
+.code .kw3{
+  color: #000066;
+}
+
+.code .kw4{
+  color: #993333;
+}
+
+.code .kw5{
+  color: #0000ff;
+}
+
+.code .me0{
+  color: #006600;
+}
+
+.code .nu0{
+  color: #cc66cc;
+}
+
+.code .re0{
+  color: #0000ff;
+}
+
+.code .re1{
+  color: #0000ff;
+}
+
+.code .re2{
+  color: #0000ff;
+}
+
+.code .re4{
+  color: #009999;
+}
+
+.code .sc0{
+  color: #00bbdd;
+}
+
+.code .sc1{
+  color: #ddbb00;
+}
+
+.code .sc2{
+  color: #009900;
+}
+
+.code .st0{
+  color: #ff0000;
+}
+
+
+
+
+
+
+
+/*
+  ===============================
+    Search Results
+  ===============================
+*/
+
+.search_hit{
+  font-weight: bold;
+  color: #ABC507;
+}
+
+.search_result{
+  background: #F3FFD1;
+
+  padding: 10px;
+  margin-bottom: 5px;
+
+  border: 1px solid #F3FFD1;
+  -moz-border-radius: 5px;
+}
+
+.search_snippet{
+  color: #444;
+
+  font-size: 11px;
+  line-height: 140%;
+}
+
+.search_cnt{
+  font-style: italic;
+}
+
+
+
+
+
+
+
+/*
+  ===============================
+    Feedblock
+  ===============================
+*/
+
+.feedblock p{
+  margin: 0;
+}
+
+.feedblock li{
+  margin-bottom: 4px;
+}
+
+.feedblock span.headline{
+  /* Emulate content h3 */
+  font-size: 14px;
+  line-height: 130%;
+  color: #1D65B3;
+  font-weight: bold;
+  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+}
+
+.feedblock span.headline a{
+  color: #1D65B3;
+  text-decoration: none;
+}
+
+.compact-feedblock span.headline{
+  font-size: 12px;
+  line-height: 130%;
+  color: #444;
+  font-weight: normal;
+}
+
+.compact-feedblock span.headline a{
+  color: #444;
+  text-decoration: underline;
+}
+
+.feedblock p.more{
+  margin-top: -4px;
+  font-size: 11px;
+  padding-left: 16px;
+}
+
+.feedblock p.more img{
+  vertical-align: middle;
+  margin-right: 20px;
+}
+
+.feedblock #creditfooter{
+  display: none;
+}
+
+
+
+
+
+
+
+
+/*
+==========================================================
+  Quote Listing Page
+==========================================================
+*/
+
+#content ul.quotes{
+  list-style: none;
+  padding-left: 0;
+}
+
+#content ul.quotes li{
+  margin-bottom: 16px;
+}
+
+#content ul.quotes cite{
+  font-size: 14px;
+  line-height: 130%;
+  color: #134275;
+  font-family: Georgia, Constantia, "Bitstream Vera Serif", "Times New Roman";
+  display: block;
+  margin-bottom: 2px;
+}
+
+#content ul.quotes p{
+  color: #A7A6AA;
+  margin: 0;
+}
+
+
+
+
+
+
+
+/*
+==========================================================
+  Recent Changes (Wiki)
+==========================================================
+*/
+
+#content table.changelist{
+  width: 100%;
+  table-layout: fixed;
+  border-bottom: 1px solid #F1F1F1;
+  border-right: 1px solid #F1F1F1;
+}
+
+#content table.changelist tr.odd{
+  background: #FBFBFB;
+}
+
+#content table.changelist td,
+#content table.changelist th{
+  padding: 2px 4px;
+}
+
+#content table.changelist th{
+  border-left: 1px solid #fff;
+  background: #134275;
+  color: white;
+}
+
+#content table.changelist td{
+  font-size: 11px;
+  border-left: 1px solid #F1F1F1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#content table.changelist tr.minor td,
+#content table.changelist tr.minor td a{
+  color: #AAA;
+}
+
+#content table.changelist .author,
+#content table.changelist .date,
+#content table.changelist .previous{
+  width: 110px;
+}
+
+#content table.changelist .revisions,
+#content table.changelist .diff{
+  width: 16px;
+}
+
+
+
+
+
+
+
+
+/*
+==========================================================
+  Bad Behavior Styling
+==========================================================
+*/
+
+#badbehavior{
+  font-size: 11px;
+  line-height: 120%;
+  padding: 0 25px;
+  color: #A7A6AA;
+}
+
+#badbehavior a,
+#badbehavior strong{
+  color: #A7A6AA;
+}
+
+
+
+
+
+
+
+
+/*
+==========================================================
+  Diff View
+==========================================================
+*/
+
+#content table.diff{
+  table-layout: fixed;
+  width: 100%;
+  border-bottom: 1px solid #F1F1F1;
+  border-right: 1px solid #F1F1F1;
+}
+
+#content table.diff td,
+#content table.diff th{
+  padding: 2px 4px;
+  overflow: hidden;
+}
+
+#content table.diff th{
+  border-left: 1px solid #fff;
+  background: #134275;
+  color: white;
+}
+
+#content table.diff th a{
+  color: white;
+  text-decoration: none;
+}
+
+#content table.diff td{
+  font-size: 11px;
+  border-left: 1px solid #F1F1F1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#content table.diff td.diff-blockheader {
+  font-weight: bold;
+  background: #F1F1F1;
+  color: #444;
+}
+
+#content table.diff th{
+  font-weight: normal;
+  text-align: left;
+}
+
+#content table.diff td.diff-addedline,
+#content table.diff td.diff-deletedline,
+#content table.diff td.diff-context{
+  font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace;
+  font-size: 11px;
+  line-height: 140%;
+  width: 45%;
+}
+
+#content table.diff td.diff-addedline{
+  background: #F3FFD1;
+}
+
+#content table.diff td.diff-deletedline{
+  background: #F8E2E5;
+}
+
+#content table.diff td.diff-context{
+
+}
+
+#content table.diff span.diffchange{
+  color: red;
+}
+
+
+
+
+
+
+
+
+/*
+==========================================================
+  Pager
+==========================================================
+*/
+
+#content div.pagenav{
+  font-size: 11px;
+  margin-top: 20px;
+}
+
+#content div.pagenav div.pagenav-prev{
+  float: left;
+}
+
+#content div.pagenav div.pagenav-next{
+  float: right;
+}
+
+
+
+
+
+
+
+
+
+
+/*
+==========================================================
+  Fixes working around changes in upstream
+==========================================================
+*/
+
+#teaser a.action.edit {
+  border: 0;
+}

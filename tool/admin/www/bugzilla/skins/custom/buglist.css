@@ -1,0 +1,79 @@
+/* The contents of this file are subject to the Mozilla Public
+  * License Version 1.1 (the "License"); you may not use this file
+  * except in compliance with the License. You may obtain a copy of
+  * the License at http://www.mozilla.org/MPL/
+  *
+  * Software distributed under the License is distributed on an "AS
+  * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  * implied. See the License for the specific language governing
+  * rights and limitations under the License.
+  *
+  * The Original Code is the Bugzilla Bug Tracking System.
+  *
+  * The Initial Developer of the Original Code is Mike Schrag.
+  * Portions created by Marc Schumann are Copyright (c) 2007 Mike Schrag.
+  * All rights reserved.
+  *
+  * Contributor(s): Mike Schrag <mschrag@pobox.com>
+  *                 Byron Jones <bugzilla@glob.com.au>
+  *                 Marc Schumann <wurblzap@gmail.com>
+  */
+
+.bz_closed,
+.bz_CLOSED td {
+    color: #999999;
+    text-decoration: none;
+}
+
+.bz_buglist td {
+    border-bottom: 1px solid #AEAEAE;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+tr.bz_P1 {
+    color: #BC2C2F;
+    font-weight: bold;
+}
+
+tr.bz_P2 {
+    color: #EF5D0E;
+}
+
+tr.bz_P3 {
+    color: #5C9748;
+}
+
+tr.bz_P4 {
+    color: #2D588B;
+}
+
+tr.bz_P5 {
+    color: #6F3C79;
+}
+
+
+
+tr.bz_blocker {
+    background-color: #E1E1E1;
+}
+
+tr.bz_major {
+    background-color: #E6E6E6;
+}
+
+tr.bz_normal {
+    background-color: #EAEAEA;
+}
+
+tr.bz_minor {
+    background-color: #F0F0F0;
+}
+
+tr.bz_trivial {
+    background-color: #F4F4F4;
+}
+
+tr.bz_enhancement {
+    background-color: #F9F9F9
+}

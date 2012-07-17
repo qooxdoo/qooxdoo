@@ -1,0 +1,104 @@
+<footer id="footer">
+  <div id="supported-by">
+    <a href="http://1and1.com">
+      <img src="<?php print $conf['assetshost'] ?>/images/1and1.png">
+    </a>
+    <p class="claim">
+      Brought to you by <a href="http://1and1.com">1&amp;1</a>, one of the world's leading web hosts
+    </p>
+    <p class="legal">
+      © 1&amp;1 Internet AG<br>
+      <a href="/legal">Legal notice</a>
+    </a>
+  </div>
+  <div id="sitemap">
+    <div>
+      <h3><a href="/">Home</a></h3>
+      <ul>
+        <li>
+          <a href="/demos">Demos</a>
+        </li>
+        <li>
+          <a href="/downloads">Downloads</a>
+        </li>
+        <li>
+          <a href="http://news.qooxdoo.org">Blog</a>
+        </li>
+        <li>
+          <a href="http://bugs.qooxdoo.org">Bugs</a>
+        </li>
+        <li>
+          <a href="/license">License</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3><a href="/docs">Docs</a></h3>
+      <ul>
+        <li>
+          <a href="http://manual.qooxdoo.org/current/pages/introduction/about.html">About</a>
+        </li>
+        <li>
+          <a href="http://manual.qooxdoo.org/current/pages/getting_started.html">Getting Started</a>
+        </li>
+        <li>
+          <a href="http://manual.qooxdoo.org/current/pages/website.html">Website</a>
+        </li>
+        <li>
+          <a href="http://manual.qooxdoo.org/current/pages/mobile.html">Mobile</a>
+        </li>
+        <li>
+          <a href="http://manual.qooxdoo.org/current/pages/desktop.html">Desktop</a>
+        </li>
+        <li>
+          <a href="http://manual.qooxdoo.org/current/pages/server.html">Server</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3><a href="/community">Community</a></h3>
+      <ul>
+        <li>
+          <a href="/community/contribution">Get Involved</a>
+        </li>
+        <li>
+          <a href="/community/mailing_lists">Mailing List</a>
+        </li>
+        <li>
+          <a href="/community/real_life_examples">Real Life Examples</a>
+        </li>
+        <li>
+          <a href="/community/events">Events</a>
+        </li>
+        <li>
+          <a href="/community/jobs_services">Jobs &amp; Services</a>
+        </li>
+        <li>
+          <a href="/contrib">Contributions</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div id="meta">
+    <div class="social">
+      <a href="http://twitter.com/qooxdoo">
+        <img src="<?php print $conf['assetshost'] ?>/images/twitter.png">
+      </a>
+      <a href="https://www.facebook.com/pages/qooxdoo/187101324711780">
+        <img src="<?php print $conf['assetshost'] ?>/images/facebook.png">
+      </a>
+      <a href="http://feeds.feedburner.com/qooxdoo/news/content">
+        <img src="<?php print $conf['assetshost'] ?>/images/feed.png">
+      </a>
+    </div>
+    <div class="notice">
+      <p class="page">
+        <?php tpl_pageinfo() ?>
+      </p>
+      <p class="user">
+        <?php tpl_userinfo() ?>
+        <?php tpl_button('login')?>
+      </p>
+    </div>
+  </div>
+</footer>

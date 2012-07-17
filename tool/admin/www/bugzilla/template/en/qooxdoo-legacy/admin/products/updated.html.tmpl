@@ -1,0 +1,185 @@
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gavin Shelley <bugzilla@chimpychompy.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #%]
+
+[%# INTERFACE:
+  # product : Bugzilla::Product Object; new product.
+  # classification: Bugzilla::Classification Object; The product classification (may be empty or missing)
+  # changes: hashref with all changes made to the product. Each key is an edited field,
+  #          and its value is an arrayref of the form [old values, new values].
+  #%]
+
+[% IF classification %]
+  [% classification_text = BLOCK %]
+    of classification '[% classification.name FILTER html %]'
+  [% END %]
+[% END %]
+
+[% title = BLOCK %]Updating Product '[% product.name FILTER html %]' 
+                   [% classification_text FILTER none %][% END %]
+[% PROCESS global/header.html.tmpl
+  title = title
+  style_urls = ['skins/standard/admin.css']
+%]
+
+[% PROCESS "global/field-descs.none.tmpl" %]
+
+[% IF changes.name.defined %]
+  <p>
+  Updated product name from '[% changes.name.0 FILTER html %]' to
+  '<a href="editproducts.cgi?action=edit&amp;product=
+  [%- product.name FILTER url_quote %]">[% product.name FILTER html %]</a>'.
+  </p>
+[% END %]
+
+
+[% IF changes.description.defined %]
+  <p>
+    Updated description to:
+  </p>
+  <p style="margin: 1em 3em 1em 3em">[% product.description FILTER html_light %]</p>
+[% END %]
+
+[% IF changes.isactive.defined %]
+  <p>
+  Product is now
+  [% IF product.is_active %]
+    open for
+  [% ELSE %]
+    closed to 
+  [% END %]
+  new [% terms.bugs %].
+  </p>
+[% END %]
+
+[% IF changes.defaultmilestone.defined %]
+  <p>
+  Updated default milestone from '[% changes.defaultmilestone.0 FILTER html %]' to
+  '[% product.default_milestone FILTER html %]'.
+  </p>
+[% END %]
+  
+[% IF changes.votesperuser.defined %]
+  <p>
+  Updated votes per user from
+  [%+ changes.votesperuser.0 FILTER html %] to
+  [%+ product.votes_per_user FILTER html %].
+  </p>
+  [% checkvotes = 1 %]
+[% END %]
+
+[% IF changes.maxvotesperbug.defined %]
+  <p>
+  Updated maximum votes per [% terms.bug %] from 
+  [%+ changes.maxvotesperbug.0 FILTER html %] to
+  [%+ product.max_votes_per_bug FILTER html %].
+  </p>
+  [% checkvotes = 1 %]
+[% END %]
+
+[% IF changes.votestoconfirm.defined %]
+  <p>
+  Updated number of votes needed to confirm a [% terms.bug %] from
+  [%+ changes.votestoconfirm.0 FILTER html %] to
+  [%+ product.votes_to_confirm FILTER html %].
+  </p>
+  [% checkvotes = 1 %]
+[% END %]
+
+[% IF changes.allows_unconfirmed.defined %]
+  <p>
+  [% IF product.allows_unconfirmed %]
+    The product now allows the 
+    [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %] status.
+  [% ELSE %]
+    The product no longer allows the 
+    [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %] status.
+    Note that any 
+    <a href="buglist.cgi?product=
+            [%- product.name FILTER url_quote %]&amp;bug_status=UNCONFIRMED"> 
+    [%- terms.bugs %] that currently have the 
+    [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %] status</a>
+    will remain in that status until they are edited.
+  [% END %]
+  </p>
+[% END %]
+
+[% IF !changes.keys.size %]
+  <p>Nothing changed for product '[% product.name FILTER html %]'.</p>
+[% END %]
+
+[%# Note that this display of changed votes and/or confirmed bugs is
+    not very scalable. We could have a _lot_, and we just list them all.
+    One day we should limit this perhaps, or have a more scalable display %]
+
+
+[% IF checkvotes %]
+  <hr>
+
+  <p>Checking existing votes in this product for anybody who now
+  has too many votes for [% terms.abug %]...<br>
+  [% IF changes.too_many_votes.size %]
+    [% FOREACH detail = changes.too_many_votes %]
+      &rarr;removed votes for [% terms.bug %] <a href="show_bug.cgi?id=
+     [%- detail.id FILTER url_quote %]">
+     [%- detail.id FILTER html %]</a> from [% detail.name FILTER html %]<br>
+    [% END %]
+  [% ELSE %]
+    &rarr;there were none.
+  [% END %]
+  </p>
+
+  <p>Checking existing votes in this product for anybody
+  who now has too many total votes...<br>
+  [% IF changes.too_many_total_votes.size %]
+    [% FOREACH detail = changes.too_many_total_votes %]
+      &rarr;removed votes for [% terms.bug %] <a href="show_bug.cgi?id=
+     [%- detail.id FILTER url_quote %]">
+     [%- detail.id FILTER html %]</a> from [% detail.name FILTER html %]<br>
+    [% END %]
+  [% ELSE %]
+    &rarr;there were none.
+  [% END %]
+  </p>
+
+  <p>Checking unconfirmed [% terms.bugs %] in this product for any which now have
+  sufficient votes...<br>
+  [% IF changes.confirmed_bugs.size %]
+    [% FOREACH id = changes.confirmed_bugs %]
+
+      [%# This is INCLUDED instead of PROCESSED to avoid variables getting
+          overwritten, which happens otherwise %]
+      [% INCLUDE bug/process/results.html.tmpl
+        type = 'votes'
+        header_done = 1
+        sent_bugmail = changes.confirmed_bugs_sent_bugmail.$id
+        id = id
+      %]
+    [% END %]
+  [% ELSE %]
+    &rarr;there were none.
+  [% END %]
+  </p>
+
+[% END %]
+
+[% PROCESS admin/products/footer.html.tmpl %]
+
+[% PROCESS global/footer.html.tmpl %]

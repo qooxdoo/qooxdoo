@@ -1,0 +1,218 @@
+img.avatar {
+  float:left; margin-right:5px;
+}
+
+
+div.commentavatar {
+  float:left;
+  margin-top:60px;
+  margin-left:-66px;
+}
+
+/*
+==========================================================
+  Post formatting
+==========================================================
+*/
+
+#content div.post{
+  margin-bottom: 40px;
+}
+
+#content div.post p.postinfo{
+  font-size: 11px;
+  line-height: 140%;
+  color: #A7A6AA;
+  margin-top: -10px;
+}
+
+#content div.post p.postinfo a{
+  color: #A7A6AA;
+}
+
+
+
+
+
+
+/*
+==========================================================
+  Comment list
+==========================================================
+*/
+
+#content #commentlist{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#content #commentlist li{
+  width: 100%;
+}
+
+#content #commentlist .commentnumber{
+  float: left;
+  width: 50px;
+  padding: 16px 8px;
+
+  font-size: 24px;
+  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+  font-weight: bold;
+
+  background: #DEFF83;
+  color: #ABC507;
+
+  -moz-border-radius-topleft: 12px;
+}
+
+#content #commentlist .commentnumber a{
+  text-decoration: none;
+  color: #ABC507;
+}
+
+#content #commentlist .commentcontent{
+  margin-left: 76px;
+
+  background: #F3FFD1;
+  padding: 8px 16px 1px;
+
+  -moz-border-radius-bottomright: 12px;
+}
+
+#content #commentlist :target .commentnumber{
+  background: #ABC507;
+}
+
+#content #commentlist :target .commentnumber a{
+  color: #DEFF83;
+}
+
+#content #commentlist :target .commentcontent{
+  background: #ABC507;  
+}
+
+
+
+
+
+/*
+==========================================================
+  Comment info
+==========================================================
+*/
+
+#content .commentinfo,
+#content .commenttime{
+  font-size: 11px;
+  line-height: 120%;
+  color: #444444;
+}
+
+#content .commentinfo{
+  border-bottom: 1px dotted #ABC507;
+  padding-bottom: 4px;
+}
+
+#content .commenttime{
+  border-top: 1px dotted #ABC507;
+  padding-top: 4px;
+  text-align: right;
+}
+
+#content #comment{
+  width: 510px;
+  height: 150px;
+}
+
+
+
+
+
+
+
+/*
+==========================================================
+  Comment form
+==========================================================
+*/
+
+#content #commentform{
+  font-size: 11px;
+  line-height: 120%;
+  padding: 10px;
+  padding-bottom: 0;
+  background: #F1F1F1;
+  border: 1px solid #F1F1F1;
+  -moz-border-radius: 5px;
+}
+
+#content #commentinteract{
+  padding: 8px;
+
+  background: #DEFF83;
+  color: #ABC507;
+
+  font-size: 11px;
+
+  -moz-border-radius-topleft: 12px;
+}
+
+#content #commentinteract ul{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#content #commentinteract a:link,
+#content #commentinteract a:visited{
+  text-decoration: none;
+}
+
+#content #commentinteract a:hover,
+#content #commentinteract a:active{
+  text-decoration: underline;
+}
+
+
+
+
+
+/*
+==========================================================
+  Spam Karma II Styling
+==========================================================
+*/
+
+#sk2-footer{
+  font-size: 11px;
+  line-height: 120%;
+  padding: 0 25px;
+  color: #A7A6AA;
+}
+
+#sk2-footer a,
+#sk2-footer strong{
+  color: #A7A6AA;
+}
+
+
+
+
+
+/*
+==========================================================
+  Bad Behavior Styling
+==========================================================
+*/
+
+#badbehavior{
+  font-size: 11px;
+  line-height: 120%;
+  padding: 0 25px;
+  color: #A7A6AA;
+}
+
+#badbehavior a,
+#badbehavior strong{
+  color: #A7A6AA;
+}

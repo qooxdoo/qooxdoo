@@ -1,0 +1,133 @@
+ /* The contents of this file are subject to the Mozilla Public
+  * License Version 1.1 (the "License"); you may not use this file
+  * except in compliance with the License. You may obtain a copy of
+  * the License at http://www.mozilla.org/MPL/
+  *
+  * Software distributed under the License is distributed on an "AS
+  * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  * implied. See the License for the specific language governing
+  * rights and limitations under the License.
+  *
+  * The Original Code is the Bugzilla Bug Tracking System.
+  *
+  * Contributor(s): Vitaly Harisov <vitaly@rathedg.com>
+  *                 Guy Pyrzak <guy.pyrzak@gmail.com> 
+  */
+
+/* index page (begin) */
+
+    #page-index
+    {
+        padding: 0.2em 0.2em 0.15em 0.2em;
+    }
+
+    /* By default these contain nothing, but these CSS rules make things
+       easier on customizers. */
+    .intro, .outro {
+        text-align: center;
+        width: 50em;
+    }
+
+    /* Hide from NN4 */
+
+    #new_release
+    {
+        border: 2px solid red;
+        padding: 0.5em 1em;
+        margin: 1em;
+        font-weight: bold;
+    }
+
+    #new_release .notice
+    {
+        font-size: 80%;
+        font-weight: normal;
+    }
+
+    #welcome-admin a
+    {
+        font-weight: bold;
+    }
+    
+    .bz_common_actions {
+        display: block;
+        height: 190px;
+        width: 195px;
+        float: left;
+        margin: 0 3ex 3em 0;
+        text-align: center;
+    }
+    .bz_common_actions span {
+        position: relative;
+        top: 95%;
+        font-weight: bold;
+    }
+    
+    .bz_common_actions,
+    .bz_common_actions:visited,
+    .bz_common_actions:hover
+    {
+        text-decoration: none;
+    }
+
+    #enter_bug { background: url(index/bug.gif)     no-repeat; }
+    #query     { background: url(index/search.gif)  no-repeat; }
+    #account   { background: url(index/account.gif) no-repeat; }
+    
+    #quicksearchForm
+    {
+        clear: both;
+        text-align: center;
+        margin-bottom: 2em;
+    }
+    
+    #quicksearchForm #quicksearch_main
+    {
+        width: 25em;
+    }
+    
+    #quicksearchForm
+    {
+        margin: 0;
+        padding: 0;
+    }
+    
+    #page-index table{
+        border-collapse: collapse;
+    }
+    
+    #welcome
+    {
+        font-size: x-large;
+        font-weight: bold;
+        text-align: center;
+        margin: 0 0 0.8em 0;
+        padding: 0;
+    }
+    
+    ul.additional_links 
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    
+    ul#quicksearch_links{
+        margin-bottom: 1em;
+    }
+    
+    ul.additional_links li
+    {
+        display: inline;
+    }
+    
+    ul.additional_links li.bz_default_hidden
+    {
+        display: none;
+    }
+    
+    input.quicksearch_help_text
+    {
+        color: #ccc;
+    }
+/* index page (end) */

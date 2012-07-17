@@ -1,0 +1,289 @@
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Myk Melez <myk@mozilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[%# Define strings that will serve as the title and header of this page %]
+[% title = BLOCK %]
+  Attachment [% attachment.id %] Details for [% terms.Bug %] [%+ attachment.bug_id %]
+[% END %]
+[% header = BLOCK %]
+  Attachment [% attachment.id %] Details for
+  [%+ "$terms.Bug ${attachment.bug_id}" FILTER bug_link(attachment.bug_id) FILTER none %]
+[% END %]
+[% subheader = BLOCK %][% attachment.bug.short_desc FILTER html %][% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = title
+  header = header
+  subheader = subheader
+  doc_section = "attachments.html"
+  javascript_urls = ['js/attachment.js']
+  style_urls = ['skins/standard/create_attachment.css']
+%]
+
+[%# No need to display the Diff button and iframe if the attachment is not a patch. %]
+[% use_patchviewer = (feature_enabled('patch_viewer') && attachment.ispatch) %]
+[% can_edit = attachment.validate_can_edit %]
+[% editable_or_hide = can_edit ? "" : " bz_hidden_option" %]
+
+<form method="post" action="attachment.cgi" onsubmit="normalizeComments();">
+  <input type="hidden" name="id" value="[% attachment.id %]">
+  <input type="hidden" name="action" value="update">
+  <input type="hidden" name="contenttypemethod" value="manual">
+  <input type="hidden" name="delta_ts" value="[% attachment.modification_time FILTER html %]">
+  [% IF user.id %]
+    <input type="hidden" name="token" value="[% issue_hash_token([attachment.id, attachment.modification_time]) FILTER html %]">
+  [% END %]
+
+  <table class="attachment_info" width="100%">
+
+    <tr>
+      <td id="attachment_attributes">
+        <div id="attachment_description">
+          <label for="description">Description:</label>
+          [% INCLUDE global/textarea.html.tmpl
+            id             = 'description'
+            name           = 'description'
+            minrows        = 3
+            cols           = 25
+            wrap           = 'soft'
+            classes        = 'block' _ editable_or_hide
+            defaultcontent = attachment.description
+          %]
+          [% IF !can_edit %]
+            [%+ attachment.description FILTER wrap_comment(25) FILTER html %]
+          [% END %]
+        </div>
+
+        [% IF attachment.isurl %]
+            <input type="hidden" name="filename"
+                   value="[% attachment.filename FILTER html %]">
+            <input type="hidden" name="contenttypeentry"
+                   value="[% attachment.contenttype FILTER html %]">
+        [% ELSE %]
+          <div id="attachment_filename">
+            <label for="filename">Filename:</label>
+            <input type="text" size="20"  class="block[% editable_or_hide %]"
+                   id="filename" name="filename"
+                   value="[% attachment.filename FILTER html %]">
+            [% IF !can_edit %]
+              [%+ attachment.filename FILTER truncate(25) FILTER html %]
+            [% END %]
+          </div>
+
+          <div id="attachment_mimetype">
+            <label for="contenttypeentry">MIME Type:</label>
+            <input type="text" size="20" class="block[% editable_or_hide %]"
+                   id="contenttypeentry" name="contenttypeentry"
+                   value="[% attachment.contenttype FILTER html %]">
+            [% IF !can_edit %]
+              [%+ attachment.contenttype FILTER truncate(25) FILTER html %]
+            [% END %]
+          </div>
+
+          <div id="attachment_size">
+            <span class="label">Size:</span>
+            [% IF attachment.datasize %]
+              [%+ attachment.datasize FILTER unitconvert %]
+            [% ELSE %]
+              <em>deleted</em>
+            [% END %]
+          </div>
+
+          <div id="attachment_creator">
+            <span class="label">Creator:</span>
+            [%+ INCLUDE global/user.html.tmpl who = attachment.attacher %]
+          </div>
+
+          <div id="attachment_ispatch">
+            <input type="checkbox" id="ispatch" name="ispatch" value="1"
+                   [%+ IF !can_edit %]class="bz_hidden_option"[% END %]
+                   [%+ 'checked="checked"' IF attachment.ispatch %]>
+            [% IF can_edit %]
+              <label for="ispatch">patch</label>
+            [% ELSE %]
+              <span class="label">Is Patch:</span>
+              [%+ attachment.ispatch ? "yes" : "no" %]
+            [% END %]
+          </div>
+        [% END %]
+
+        <div id="attachment_isobsolete">
+          <input type="checkbox" id="isobsolete" name="isobsolete" value="1"
+                 [%+ IF !can_edit %]class="bz_hidden_option"[% END %]
+                 [%+ 'checked="checked"' IF attachment.isobsolete %]>
+          [% IF can_edit %]
+            <label for="isobsolete">obsolete</label>
+          [% ELSE %]
+            <span class="label">Is Obsolete:</span>
+            [%+ attachment.isobsolete ? "yes" : "no" %]
+          [% END %]
+        </div>
+
+        [% IF user.is_insider %]
+          <div id="attachment_isprivate">
+            <input type="checkbox" id="isprivate" name="isprivate" value="1"
+                   [%+ IF !can_edit %]class="bz_hidden_option"[% END %]
+                   [%+ 'checked="checked"' IF attachment.isprivate %]>
+            [% IF can_edit %]
+              <label for="isprivate">private (only visible to
+                <strong>[% Param('insidergroup') FILTER html %]</strong>)
+              </label>
+            [% ELSE %]
+              <span class="label">Is Private:</span>
+              [%+ attachment.isprivate ? "yes" : "no" %]
+            [% END %]
+          </div>
+        [% END %]
+
+        [% IF attachment.flag_types.size > 0 %]
+          <div id="attachment_flags">
+            [% PROCESS "flag/list.html.tmpl" bug_id = attachment.bug_id
+                                             attach_id = attachment.id
+                                             flag_types = attachment.flag_types
+                                             read_only_flags = !can_edit
+            %]
+          </div>
+        [% END %]
+
+        [% IF user.id %]
+          <div id="smallCommentFrame">
+            <label for="comment">Comment (on the [% terms.bug %]):</label>
+            [% INCLUDE global/textarea.html.tmpl
+              id      = 'comment'
+              name    = 'comment'
+              minrows = 5
+              cols    = 25
+              wrap    = 'soft'
+              classes = 'block'
+            %]
+          </div>
+
+          <input type="submit" value="Submit" id="update"><br><br>
+        [% END %]
+      </td>
+
+      [% IF !attachment.datasize %]
+        <td width="75%"><b>The content of this attachment has been deleted.</b></td>
+      [% ELSIF attachment.isurl %]
+        <td width="75%">
+          <a href="[% attachment.data FILTER html %]">
+            [% IF attachment.datasize < 120 %]
+              [% attachment.data FILTER html %]
+            [% ELSE %]
+              [% attachment.data FILTER truncate(80) FILTER html %]
+              &nbsp;...
+              [% attachment.data.match(".*(.{20})$").0 FILTER html %]
+            [% END %]
+          </a>
+        </td>
+      [% ELSIF !Param("allow_attachment_display") %]
+        <td id="view_disabled" width="50%">
+          <p><b>
+            The attachment is not viewable in your browser due to security
+            restrictions enabled by [% terms.Bugzilla %].
+          </b></p>
+          <p><b>
+            In order to view the attachment, you first have to
+            <a href="attachment.cgi?id=[% attachment.id %]">download it</a>.
+          </b></p>
+        </td>
+      [% ELSIF attachment.is_viewable %]
+        <td width="75%">
+          [% INCLUDE global/textarea.html.tmpl
+            id      = 'editFrame'
+            name    = 'comment'
+            style   = 'height: 400px; width: 100%; display: none'
+            minrows = 10
+            cols    = 80
+            wrap    = 'soft'
+            defaultcontent = (attachment.contenttype.match('^text\/')) ?
+                               attachment.data.replace('(.*\n|.+)', '>$1') : undef
+          %]
+          <iframe id="viewFrame" src="attachment.cgi?id=[% attachment.id %]" style="height: 400px; width: 100%;">
+            <b>You cannot view the attachment while viewing its details because your browser does not support IFRAMEs.
+            <a href="attachment.cgi?id=[% attachment.id %]">View the attachment on a separate page</a>.</b>
+          </iframe>
+          <script type="text/javascript">
+            <!--
+            var patchviewerinstalled = 0;
+            var attachment_id = [% attachment.id %];
+            if (typeof document.getElementById == "function") {
+[% IF use_patchviewer %]
+              var patchviewerinstalled = 1;
+              document.write('<iframe id="viewDiffFrame" style="height: 400px; width: 100%; display: none;"><\/iframe>');
+[% END %]
+              document.write('<button type="button" id="editButton" onclick="editAsComment(patchviewerinstalled);">Edit Attachment As Comment<\/button>');
+              document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment(patchviewerinstalled);" style="display: none;">Undo Edit As Comment<\/button>');
+              document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment(patchviewerinstalled);" style="display: none;">Redo Edit As Comment<\/button>');
+[% IF use_patchviewer %]
+              document.write('<button type="button" id="viewDiffButton" onclick="viewDiff(attachment_id, patchviewerinstalled);">View Attachment As Diff<\/button>');
+[% END %]
+              document.write('<button type="button" id="viewRawButton" onclick="viewRaw(patchviewerinstalled);" style="display: none;">View Attachment As Raw<\/button>');
+            }
+            //-->
+          </script>
+        </td>
+      [% ELSE %]
+        <td id="noview" width="50%">
+          <p><b>
+            Attachment is not viewable in your browser because its MIME type 
+            ([% attachment.contenttype FILTER html %]) is not one that your browser is 
+            able to display.
+          </b></p>
+          <p><b>
+            <a href="attachment.cgi?id=[% attachment.id %]">Download the attachment</a>.
+          </b></p>
+        </td>
+      [% END %]
+    </tr>
+  </table>
+</form>
+
+<div id="attachment_actions">
+  <span class="label">Actions:</span>
+  <a href="attachment.cgi?id=[% attachment.id %]">View</a>
+  [% IF use_patchviewer %]
+    | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=diff">Diff</a>
+  [% END %]
+  [% IF Param("allow_attachment_deletion")
+        && user.in_group('admin')
+        && attachment.datasize > 0 %]
+    | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=delete">Delete</a>
+  [% END %]
+</div>
+
+<div id="attachment_list">
+  Attachments on [% "$terms.bug ${attachment.bug_id}" FILTER bug_link(attachment.bug_id) FILTER none %]:
+  [% FOREACH a = attachments %]
+    [% IF a == attachment.id %]
+      [%+ a %]
+    [% ELSE %]
+      <a href="attachment.cgi?id=[% a %]&amp;action=edit">[% a %]</a>
+    [% END %]
+    [% " |" UNLESS loop.last() %]
+  [% END %]
+</div>
+
+[% Hook.process('end') %]
+
+[% PROCESS global/footer.html.tmpl %]
