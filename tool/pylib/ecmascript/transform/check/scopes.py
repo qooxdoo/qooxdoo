@@ -57,19 +57,27 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
 
     def visit_params(self, node): # formal params are like local decls
         #print "params visitor", node
-        self.visit_var(node)  # can use this method, as it utilizes treeutil.nodeIterator("identifier")
+        for id_node in treeutil.nodeIterator(node, ["identifier"]):
+            self._new_var(id_node)
 
     def visit_var(self, node):  # var declaration
         #print "var decl visitor", node
         # go through the identifiers
-        for id_node in treeutil.nodeIterator(node, ["identifier"]):
-            # new decl
-            var_name = id_node.get('value')
-            scopeVar = self.curr_scope.add_decl(var_name, id_node)
-            # attach scope
-            node.scope = self.curr_scope
-            # add var_use
-            scopeVar.add_use(id_node)
+        for def_node in treeutil.nodeIterator(node, ["definition"]):
+            if def_node.hasChild("identifier"):
+                self._new_var(def_node.getChild("identifier"))
+            elif def_node.hasChild("assignment"):
+                self._new_var(treeutil.selectNode(def_node, "assignment/first/identifier"))  # the first is the declared var
+                self.visit(treeutil.selectNode(def_node, "assignment/second")) # the rest could contain var uses
+
+    ##
+    # Register a scoped symbol with current scope.
+    #
+    def _new_var(self, id_node):
+        var_name = id_node.get('value')
+        scopeVar = self.curr_scope.add_decl(var_name, id_node)  # returns the corresp. ScopeVariable()
+        id_node.scope = self.curr_scope
+        scopeVar.add_use(id_node)
 
     def visit_identifier(self, node):  # var reference
         #print "var use visitor", node
@@ -78,7 +86,7 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
             #print var_name
             #import pydb; pydb.debugger()
             # lookup var
-            var_scope = self.curr_scope.lookup(var_name)
+            var_scope = self.curr_scope.lookup_decl(var_name)
             if not var_scope: # it's a global reference
                 self.curr_scope.add_use(var_name, node)
                 node.scope = self.curr_scope
@@ -117,11 +125,11 @@ class Scope(object):
         self.globals[name].add_use(node)
         return self.globals[name]
 
-    def lookup(self, name):
-        if name in self.vars:
+    def lookup_decl(self, name):
+        if name in self.vars and self.vars[name].decl:
             return self
         elif self.parent:
-            return self.parent.lookup(name)
+            return self.parent.lookup_decl(name)
         else:
             return None
 
@@ -132,6 +140,22 @@ class Scope(object):
 
     def globals(self):
         return dict([(x,y) for x,y in self.vars.items() if y.decl==None])
+
+    ##
+    # Return all nested scopes
+    def scope_iterator(self):
+        yield self
+        for cld in self.children:
+            for scope in cld.scope_iterator():
+                yield scope
+
+    ##
+    # Return all the .vars members of nested scopes
+    def vars_iterator(self):
+        yield self.vars
+        for cld in self.children:
+            for vars_ in cld.vars_iterator():
+                yield vars_
 
 ##
 # A variable occurring in a scope has several places where it is mentioned ('uses'),
