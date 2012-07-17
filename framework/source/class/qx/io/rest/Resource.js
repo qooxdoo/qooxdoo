@@ -557,10 +557,12 @@ qx.Class.define("qx.io.rest.Resource",
      * @param action {String} Action to poll.
      * @param interval {Number} Interval in ms.
      * @param params {Map?} Map of parameters. See {@link #invoke}.
+     * @param immediately {Boolean?false} <code>true</code>, if the poll should
+     *   invoke a call immediately.
      * @return {qx.event.Timer} Timer that periodically invokes action. Use to
      *  stop or resume. Is automatically disposed on disposal of object.
      */
-    poll: function(action, interval, params) {
+    poll: function(action, interval, params, immediately) {
       // Dispose timer previously created for action
       if (this.__pollTimers[action]) {
         this.__pollTimers[action].dispose();
@@ -572,11 +574,17 @@ qx.Class.define("qx.io.rest.Resource",
       }
 
       // Invoke immediately
-      this.invoke(action, params);
+      if (immediately) {
+        this.invoke(action, params);
+      }
 
       var timer = this.__pollTimers[action] = new qx.event.Timer(interval);
       timer.addListener("interval", function intervalListener() {
         var req = this.__requests[action][0];
+        if (!immediately && !req) {
+          this.invoke(action, params);
+          return;
+        }
         if (req.isDone() || req.isDisposed()) {
           this.refresh(action);
         }
