@@ -101,7 +101,17 @@ qx.Class.define("testrunner.view.Reporter", {
         this.__testPackages = [];
         var packages = value.getChildren().getItem(0).getChildren();
         for (var i=0,l=packages.length; i<l; i++) {
-          this.__testPackages.push(packages.getItem(i).fullName);
+          var pkg = packages.getItem(i);
+          var packageName = pkg.fullName;
+          if (packageName == "qx.test.ui") {
+            for (var j=0,m=pkg.getChildren().length; j<m; j++) {
+              console.log(pkg.getChildren().getItem(j).getFullName());
+              this.__testPackages.push(pkg.getChildren().getItem(j).getFullName());
+            }
+          }
+          else {
+            this.__testPackages.push(packageName);
+          }
         }
       }
     },
