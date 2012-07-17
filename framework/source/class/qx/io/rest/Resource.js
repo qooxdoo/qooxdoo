@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Client-side wrapper of a REST resource.
  *
  * Each instance represents a resource in terms of REST. A number of actions
