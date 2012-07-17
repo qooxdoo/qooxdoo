@@ -288,8 +288,8 @@ qx.Bootstrap.define("qx.bom.element.Location",
         {
           var rect = elem.getBoundingClientRect();
 
-          var left = rect.left;
-          var top = rect.top;
+          var left = Math.round(rect.left);
+          var top = Math.round(rect.top);
         }
         else
         {
