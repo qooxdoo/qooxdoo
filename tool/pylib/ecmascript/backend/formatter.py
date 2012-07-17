@@ -681,7 +681,6 @@ def format(self, optns, state):
         r += self.children[0].format(optns, state)
     return r
 
-@method(symbol("params"))
 def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     self.noline()
@@ -693,6 +692,7 @@ def format(self, optns, state):
     r += self.write(")")
     return r
 
+symbol("params").format = format
 symbol("arguments").format = format
 
 # ------------------------------------------------------------------------------

@@ -143,7 +143,7 @@ Function %s(%s):
     # Return the parameter ("arguments") of a function scope.
 
     def _getArguments(self):
-        paramsNode = self.node.getChild("arguments", False)
+        paramsNode = self.node.getChild("params", False)
         if not paramsNode:
             return []
 
