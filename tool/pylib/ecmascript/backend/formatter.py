@@ -693,7 +693,7 @@ def format(self, optns, state):
     r += self.write(")")
     return r
 
-symbol("arguments").toPretty = toPretty
+symbol("arguments").format = format
 
 # ------------------------------------------------------------------------------
 # Interface functions
