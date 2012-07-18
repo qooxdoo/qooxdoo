@@ -556,7 +556,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         themeMenu.add(t3);
 
         var themeButton = new qx.ui.toolbar.MenuButton(this.tr("Theme"), "icon/22/apps/utilities-color-chooser.png", themeMenu);
-        this.__themePart = themeButton;
+        this.__themePart = menuPart;
         themeButton.setToolTipText("Choose theme");
         menuPart.add(themeButton);
       }
