@@ -634,7 +634,7 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encodin
     hasText = False
 
     # comments
-    if node.comments:
+    if hasattr(node, 'comments') and node.comments:
         cmtStrings = []
         for comment in node.comments:
             cmtStrings.append(nodeToXmlString(comment, prefix, childPrefix, newLine, encoding))

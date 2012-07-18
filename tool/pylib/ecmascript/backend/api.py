@@ -840,7 +840,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
         return node
 
     # Read the parameters
-    params = funcItem.getChild("arguments", False)
+    params = funcItem.getChild("params", False)
     if params and params.hasChildren():
         for param in params.children:
             if param.type != "identifier":
