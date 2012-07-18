@@ -563,8 +563,6 @@ def format(self, optns, state):
     r.append(self.children[0].format(optns, state))
     catch = self.getChild("catch", 0)
     if catch:
-        #import pydb; pydb.debugger()
-        print "in 'catch' formatting"
         r.append(self.space())
         r.append("catch")
         r.append(catch.children[0].format(optns, state))
