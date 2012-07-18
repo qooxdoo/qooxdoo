@@ -89,7 +89,6 @@ qx.Class.define("mobileshowcase.page.Maps",
      */
     _initGeoLocation : function() {
       var geo = qx.bom.GeoLocation.getInstance();
-      var self = this;
       geo.addListener("position", this._onGeolocationSuccess,this) 
       geo.addListener("error", this._onGeolocationError,this);
     },
@@ -124,7 +123,7 @@ qx.Class.define("mobileshowcase.page.Maps",
       buttons.push(qx.locale.Manager.tr("OK"));
       var title = "Problem with Geolocation";
       var text = "Please activate location services on your browser and device."
-      qx.ui.mobile.dialog.Manager.getInstance().confirm(title, text, function(index) {
+      qx.ui.mobile.dialog.Manager.getInstance().confirm(title, text, function() {
       }, this, buttons);
     },
     

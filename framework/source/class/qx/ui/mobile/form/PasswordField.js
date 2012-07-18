@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.mobile.form.PasswordField",
     // overridden
     _getType : function()
     {
-      return "password";
+      return "text";
     }
   }
 });

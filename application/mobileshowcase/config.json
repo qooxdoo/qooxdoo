@@ -101,6 +101,7 @@
         "qx.application" : "${APPLICATION}.Application",
         "qx.mobile.emulatetouch" : true,
         "qx.mobile.nativescroll" : false,
+        "qx.mobile.usetransform" : false,
         "qx.theme" : "${THEME}"
       }
     },

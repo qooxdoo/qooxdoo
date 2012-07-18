@@ -153,9 +153,12 @@ ul li.active .subtitle {
 //
 
 input[type="text"]:not(.selectbox),input[type="number"], input[type="password"], textarea {
-  #gradient > .vertical(#e2e0e2, #f8f5f8);
-  color: #222222;
-  border: 1px solid #242424;
+  //#gradient > .vertical(#e2e0e2, #f8f5f8);
+  //color: #222222;
+  border: 0px solid #242424;
+  .border-radius(0);
+
+  //.transform(translate3d(0,0,0));
 }
 
 // OVERRIDDEN
@@ -376,6 +379,10 @@ input[type=radio] + label:after {
 
 .selectbox-selected.active > div > .list-itemlabel {
   color:black;
+}
+
+.selectbox-selected > div > .list-itemlabel:after {
+  border: 0px solid transparent;
 }
 
 //

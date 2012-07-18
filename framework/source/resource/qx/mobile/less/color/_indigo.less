@@ -463,11 +463,11 @@ input[type=radio] + label:after {
 
 // Tick
 .selectbox-selected > div > .list-itemlabel:after {
-  border-color:@dark-blue;
-  .box-shadow(-1px 1px 1px 0px @dark-grey);
+  border: 0px solid transparent;
 }
 
-// Active Tick
-.selectbox-selected.active > div > .list-itemlabel:after {
-  border-color:white;
+.selectbox-selected {
+  .clickable-active();
 }
+
+
