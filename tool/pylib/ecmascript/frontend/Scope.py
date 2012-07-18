@@ -163,7 +163,8 @@ Function %s(%s):
 
     def _getExceptionVariables(self):
         assert self.node.type == "catch"
-        identifier = self.node.children[0]
+        identifier = treeutil.selectNode(self.node, "params/identifier")
+        assert identifier and identifier.type=="identifier", "Unable to retrieve 'catch' parameter"
         return [VariableDefinition(identifier.get("value",None), identifier, False, self)]
 
 
