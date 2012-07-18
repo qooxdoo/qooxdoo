@@ -29,3 +29,10 @@ Project
    pages/project/release_how_to_build
    pages/project/qooxdoo_website
 
+Framework
+-------
+
+.. toctree::
+   :maxdepth: 1
+
+   pages/framework/deprecation
