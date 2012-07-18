@@ -350,7 +350,7 @@ qx.Class.define("qx.core.Assert",
       (argCount >= minCount && argCount <= maxCount) || this.__fail(
         msg || "",
         "Wrong number of arguments given. Expected '", minCount, "' to '",
-        maxCount, "' arguments but found '", arguments.length, "' arguments."
+        maxCount, "' arguments but found '", argCount, "' arguments."
       )
     },
 

@@ -130,6 +130,15 @@ qx.Class.define("qx.test.core.Assert",
 
     },
 
+    testAssertArgumentsCount : function() {
+      this.assertException(function() {
+        var f = function(a, b) {
+          qx.core.Assert.assertArgumentsCount(arguments, 2, 2);
+        }
+        f("1", "2", "3", "4", "5");
+      }, qx.core.AssertionError, /but found '5' arguments\./g);
+    },
+
 
     testAssertEventFired : function()
     {
