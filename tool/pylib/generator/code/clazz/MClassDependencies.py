@@ -402,6 +402,8 @@ class MClassDependencies(object):
                 if className:
                     depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1), inLoadContext)
                     depsItem.isCall = True  # treat as if actual call, to collect recursive deps
+                    if inLoadContext:
+                        depsItem.needsRecursion = True
                     depsList.append(depsItem)
                     node.dep = depsItem
 
