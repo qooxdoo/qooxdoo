@@ -449,7 +449,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style : {
         baseImage : "decoration/shadow/shadow.png",
-        insets    : [ 4, 8, 8, 4 ]
+        insets    : [ 0, 8, 8, 0 ]
       }
     },
 
