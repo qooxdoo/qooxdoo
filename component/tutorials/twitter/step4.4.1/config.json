@@ -37,7 +37,6 @@
     "QXTHEME"      : "twitter.theme.Theme",
     "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" , "de" , "fr", "ro" ],
-    "CACHE"        : "${TMPDIR}/cache",
     "ROOT"         : "."
   },
 

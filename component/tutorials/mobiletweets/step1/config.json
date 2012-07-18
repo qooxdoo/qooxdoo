@@ -44,7 +44,6 @@
     "APPLICATION_CSS" : "${APPLICATION}/css/styles.css",  // resource id of custom css
     "QOOXDOO_PATH" : "../../../../",
     "LOCALES"      : [ "en" ],
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "PLATFORM"     : "ios",  // provide a default
     "CSS_COMB_URI" : "./resource/${APPLICATION}/css/${PLATFORM}-style-min.css",
     "CSS_COMBINED" : "${BUILD_PATH}/${CSS_COMB_URI}",
