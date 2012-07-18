@@ -1,12 +1,36 @@
 #!/usr/bin/env python
-
-# requires: pyparsing, pandoc (ext.program)
-# syntax:
+##
+# NAME
+#  wiki2rst.py  -- convert Dokuwiki page syntax to reStructured Text
+# 
+# REQUIRES
+#  pandoc (ext.program)
+# 
+# SYNTAX
 #  wiki2rst.py pages pages/tutorials/tutorial-part-4-2.txt (single file)
 #  wiki2rst.py pages  (directory tree)
+#
+# DESCRIPTION
+#  wiki2rst.py takes .txt files with Dokuwiki syntax, and converts them to
+#  corresponding .rst markup. You either run it on a single file or an entire
+#  directory tree. In the single-file invocation output is written to STDOUT,
+#  for directory trees, .rst files will be created corresponding to the input
+#  file paths. The first argument to the script is always a root directory
+#  from which e.g. internal links are calculated.
+#  For embedded HTML in Dokuwiki files it relies on the pandoc [1] program to
+#  convert it to reST.
+# 
+# CAVEATS
+#  After the conversion the resulting .rst markup most likely needs some
+#  finishing touches to get the desired rendering.
+#  There is probably some legacy junk code in it, stemming from the time when we
+#  ported the entire manual from Dokuwiki to reST.
+# 
+#  [1] http://www.johnmacfarlane.net/pandoc/
+##
 
 import sys, os, re, codecs
-from pyparsing import *
+from pyparse.pyparsing import *
 
 # -- transform stuff ------------------------
 
@@ -403,7 +427,7 @@ if __name__ == "__main__":
           __This is also in italics.__
           **This is in bold!**
           ***This is in bold italics!***
-          Here's a URL to [[http://pyparsing.wikispaces.com|Pyparsing's Wiki Page]]
+          Here's a URL to [[http://qooxdoo.org|qooxdoo's homepage]]
         """
 
     if wikiInput:
