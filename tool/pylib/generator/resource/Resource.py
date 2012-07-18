@@ -39,7 +39,7 @@ class Resource(object):
 
     def set_id(self, id):
         self.id = unidata.normalize("NFC", id)
-        self.hash = hash(self.id)
+        #self.hash = hash(self.id)
 
     def __str__(self):
         return self.id
@@ -55,7 +55,11 @@ class Resource(object):
     ##
     # make the .id significant for set() operations
     def __hash__(self):
-        return self.hash
+        #return self.hash
+        if hasattr(self, 'id'):
+            return hash(self.id)
+        else:
+            return hash(self)
     
     def toResinfo(self):
         return self.library.namespace

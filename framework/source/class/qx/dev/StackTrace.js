@@ -68,7 +68,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
           var callerTrace = qx.dev.StackTrace.getStackTraceFromCaller(arguments);
           qx.lang.Array.removeAt(errorTrace, 0);
 
-          var trace = callerTrace.length > errorTrace.length ? callerTrace : errorTrace;
+          trace = callerTrace.length > errorTrace.length ? callerTrace : errorTrace;
           for (var i=0; i<Math.min(callerTrace.length, errorTrace.length); i++)
           {
             var callerCall = callerTrace[i];
@@ -76,7 +76,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
               continue;
             }
 
-            var methodName;
+            var methodName = null;
             var callerArr = callerCall.split(".");
             var mO = /(.*?)\(/.exec(callerArr[callerArr.length - 1]);
             if (mO && mO.length == 2) {
@@ -97,16 +97,17 @@ qx.Bootstrap.define("qx.dev.StackTrace",
               columnNumber = errorArr[2];
             }
 
+            var className = null;
             if (qx.Class.getByName(errorClassName)) {
-              var className = errorClassName;
+              className = errorClassName;
             } else {
               className = callerClassName;
             }
-            var line = className + ".";
+            var line = className;
             if (methodName) {
-              line += methodName + ":";
+              line += "." + methodName;
             }
-            line += lineNumber;
+            line += ":" + lineNumber;
             if (columnNumber) {
               line += ":" + columnNumber;
             }
