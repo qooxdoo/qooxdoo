@@ -1790,7 +1790,7 @@ qx.Class.define("qx.util.format.DateFormat",
 // @deprecated since 2.1
 if (qx.core.Environment.get("qx.debug")) {
   qx.log.Logger.deprecatedConstantWarning(
-    qx.bom.element.Overflow,
+    qx.util.format.DateFormat,
     "LOGGING_DATE_TIME__format",
     "The constant 'LOGGING_DATE_TIME__format' will be removed (hasn't been used anyway!)"
   );
