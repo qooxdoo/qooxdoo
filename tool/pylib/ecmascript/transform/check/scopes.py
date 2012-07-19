@@ -184,6 +184,25 @@ class ScopeVar(object):
         self.decl = node
 
 
+##
+# NodeVisitor class
+#
+class NodeVisitor(object):
+
+    def __init__(self, debug=False):
+        self.debug = debug
+        
+    def visit(self, scope_node):
+        if hasattr(self, "visit_"+scope_node.type):
+            if self.debug:
+                print "visiting:", scope_node.type
+            getattr(self, "visit_"+scope_node.type)(scope_node)
+        else:
+            for child in scope_node.children:
+                if self.debug:
+                    print "visiting:", child.type
+                self.visit(child)
+
 # - ---------------------------------------------------------------------------
 
 def create_scopes(node):

@@ -223,6 +223,14 @@ def nodeIterator(node, nodetypes):
         for fcn in nodeIterator(child, nodetypes):
             yield fcn
 
+##
+# Generator for nodes of a certain type and attribute values
+#
+def findNode(node, nodetypes, attribs): # attribs=[(key,val),...]
+    for node in nodeIterator(node, nodetypes):
+        if all([(node.get(key,False)==val) for key,val in attribs]):
+            yield node
+
 
 from collections import deque
 

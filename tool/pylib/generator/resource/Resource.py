@@ -33,7 +33,7 @@ class Resource(object):
     
     def __init__(self, path=None):
         self.path   = path
-        self.set_id(unicode(id(self)))
+        self.set_id(unicode(id(self)))  # this is just a default, to have something
         self.library= None
         self.m_time_= None  # last-modified time stamp
 

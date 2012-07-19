@@ -25,6 +25,7 @@ import sys, string, re
 
 from ecmascript.frontend import tree
 from generator import Context as context
+from pyparse import pyparsing as py
 from textile import textile
 
 ##
@@ -257,6 +258,35 @@ class Comment(object):
         return res
 
 
+    ##
+    # Returns comment attributes ("commentAttributes") for a comment e.g.
+    # 
+    #  /**
+    #   * Checks if a class is compatible to the given mixin (no conflicts)
+    #   *
+    #   * @param mixin {Mixin} mixin to check
+    #   * @param clazz {Class} class to check
+    #   * @throws an exception when the given mixin is incompatible to the class
+    #   * @return {Boolean} true if the mixin is compatible to the given class
+    #   */    
+    #
+    # like this:
+    #  [{'category': 'description',
+    #    'text': u'<p>Checks if a class is compatible to the given mixin (no conflicts)</p>'},
+    #   {'category': u'param',
+    #    'name': u'mixin',
+    #    'text': u'<p>mixin to check</p>',
+    #    'type': [{'dimensions': 0, 'type': u'Mixin'}]},
+    #   {'category': u'param',
+    #    'name': u'clazz',
+    #    'text': u'<p>class to check</p>',
+    #    'type': [{'dimensions': 0, 'type': u'Class'}]},
+    #   {'category': u'throws',
+    #    'text': u'<p>an exception when the given mixin is incompatible to the class</p>'},
+    #   {'category': u'return',
+    #    'text': u'<p>true if the mixin is compatible to the given class</p>',
+    #      'type': [{'dimensions': 0, 'type': u'Boolean'}]}]
+    #
     def parse(self, format=True):
         # print "Parse: " + intext
 
@@ -310,9 +340,12 @@ class Comment(object):
 
     def parseDetail(self, attrib, format=True):
         text = attrib["text"]
+        match = None
 
         if attrib["category"] in ["param", "event", "see", "state", "appearance", "childControl"]:
             match = R_NAMED_TYPE.search(text)
+        elif attrib["category"] in ["lint"]:
+            self.parseDetail_Term(attrib)
         else:
             match = R_SIMPLE_TYPE.search(text)
 
@@ -366,6 +399,15 @@ class Comment(object):
 
         if attrib["text"] == "":
             del attrib["text"]
+
+
+    def parseDetail_Term(self, attrib):
+        text = attrib['text'] # "ignoreUnused(a,b)"
+        identi = py.Word(py.alphas, py.alphanums+'_')
+        term = identi + py.Suppress('(') + py.delimitedList(py.Word(py.alphanums)) + py.Suppress(')')
+        a = term.parseString(text)
+        attrib['functor'] = a[0]  # "ignoreUnused"
+        attrib['arguments'] = a[1:] # ["a", "b"]
 
 
     def cleanupText(self, text):
