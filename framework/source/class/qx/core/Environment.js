@@ -173,7 +173,7 @@
  *       <td>{@link qx.bom.client.Css#getOpacity}</td>
  *     </tr>
  *     <tr>
- *       <td>@deprecated since 2.1: css.overflowxy</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>deprecated since 2.1: css.overflowxy</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getOverflowXY}</td>
  *     </tr>
  *     <tr>
