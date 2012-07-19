@@ -286,7 +286,7 @@ class MClassDependencies(object):
         deferNode = None
         if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define" or assembled == "q.define":
             if node.hasParentContext("call/operand"):
-                deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
+                deferNode = treeutil.selectNode(node, "../../arguments/2/keyvalue[@key='defer']/value/function/body/block")
         return deferNode
 
 
@@ -392,7 +392,7 @@ class MClassDependencies(object):
                     depsItem.needsRecursion = True
 
         # check e.g. qx.core.Environment.get("runtime.name")
-        elif node.type == "constant" and node.hasParentContext("call/params"):
+        elif node.type == "constant" and node.hasParentContext("call/arguments"):
             if node.dep:
                 depsList.append(node.dep)
                 return

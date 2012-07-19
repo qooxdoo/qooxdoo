@@ -150,7 +150,7 @@ class MClassCode(object):
         warn_non_literal_keys = "non-literal-keys" not in config.get("config-warnings/environment",[])
         classvariants = set()
         for variantNode in variantoptimizer.findVariantNodes(node):
-            firstParam = treeutil.selectNode(variantNode, "../../params/1")
+            firstParam = treeutil.selectNode(variantNode, "../../arguments/1")
             if firstParam:
                 if treeutil.isStringLiteral(firstParam):
                     classvariants.add(firstParam.get("value"))

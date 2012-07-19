@@ -260,7 +260,7 @@ class Lint:
         if not define:
             return {}
 
-        classMapNode = treeutil.selectNode(define, "params/2")
+        classMapNode = treeutil.selectNode(define, "arguments/2")
         if classMapNode is None:
             return {}
 
@@ -316,7 +316,7 @@ class Lint:
         # check whether this is a qooxdoo class and extract the top level namespace
         define = treeutil.findQxDefine(self.tree)
         if define:
-            className = treeutil.selectNode(define, "params/1").get("value")
+            className = treeutil.selectNode(define, "arguments/1").get("value")
             globals.append(className.split(".")[0])        
         
         globalScope = self.script.getGlobalScope()

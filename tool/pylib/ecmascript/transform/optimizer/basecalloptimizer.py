@@ -101,7 +101,7 @@ def optimizeConstruct(node, superClass, methodName, classDefNodes):
         call = node.parent.parent
 
         try:
-            firstArgName = treeutil.selectNode(call, "params/1/@value")
+            firstArgName = treeutil.selectNode(call, "arguments/1/@value")
         except tree.NodeAccessException:
             return 0
 
@@ -115,7 +115,7 @@ def optimizeConstruct(node, superClass, methodName, classDefNodes):
         else:
             newCall = treeutil.compileString("%s.prototype.%s.call()" % (superClass, methodName))
         newCall.replaceChild(newCall.getChild("arguments"), call.getChild("arguments")) # replace with old arglist
-        treeutil.selectNode(newCall, "params/1").set("value", "this")   # arguments -> this
+        treeutil.selectNode(newCall, "arguments/1").set("value", "this")   # arguments -> this
         call.parent.replaceChild(call, newCall)
         patchCount += 1
 

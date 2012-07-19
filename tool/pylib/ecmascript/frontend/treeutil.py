@@ -64,7 +64,7 @@ def isQxDefine(node):
 
         if variableName in [x+".define" for x in DefiningClasses]:
             if node.hasParentContext("call/operand"):
-                className = selectNode(node, "../../params/1")
+                className = selectNode(node, "../../arguments/1")
                 if className and className.type == "constant":
                     className = className.get("value", None)
                 return True, className, variableName

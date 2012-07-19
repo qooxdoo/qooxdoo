@@ -36,8 +36,8 @@ from ecmascript.frontend import tree, treeutil
 def patch(tree):
     qxnode = treeutil.findQxDefine(tree)
     
-    processBlock(treeutil.selectNode(qxnode, "params/map/keyvalue[@key='statics']/value/map"))
-    processBlock(treeutil.selectNode(qxnode, "params/map/keyvalue[@key='members']/value/map"))
+    processBlock(treeutil.selectNode(qxnode, "arguments/map/keyvalue[@key='statics']/value/map"))
+    processBlock(treeutil.selectNode(qxnode, "arguments/map/keyvalue[@key='members']/value/map"))
 
             
 def processBlock(block):
