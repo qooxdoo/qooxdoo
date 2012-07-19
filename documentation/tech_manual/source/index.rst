@@ -30,7 +30,7 @@ Project
    pages/project/qooxdoo_website
 
 Framework
--------
+---------
 
 .. toctree::
    :maxdepth: 1
