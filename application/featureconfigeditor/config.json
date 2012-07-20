@@ -236,6 +236,7 @@
       "environment" :
       {
         "qx.allowUrlSettings" : true,
+        "qx.mobile.nativescroll" : true,
         "fce.reportServerHost" : null,
         "fce.reportServerGetUrl" : "/reports/features/get",
         "fce.reportServerAddUrl" : "/reports/features/add"
