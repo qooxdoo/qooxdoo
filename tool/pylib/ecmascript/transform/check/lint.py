@@ -61,13 +61,6 @@ class LintChecker(treeutil.NodeVisitor):
 
     # - ---------------------------------------------------------------------------
 
-    DEPRECATED_IDENTIFIER = set([
-        "alert",
-        "confirm",
-        "debugger",
-        "eval"
-    ])
-
     def function_used_deprecated(self, funcnode):
         # take advantage of Scope() objects
         scope = funcnode.scope
@@ -78,7 +71,7 @@ class LintChecker(treeutil.NodeVisitor):
                 full_name = (treeutil.assembleVariable(var_node))[0]
                 ok = True
                 if (full_name in lang.GLOBALS # JS built-ins ('alert' etc.)
-                    and full_name in self.DEPRECATED_IDENTIFIER
+                    and full_name in lang.DEPRECATED
                     ):
                     ok = False
                     # check full_name against @ignore hints

@@ -290,23 +290,6 @@ class MClassDependencies(object):
         return deferNode
 
 
-    def isUnknownClass(self, assembled, node, fileId):
-        # check name in 'new ...' position
-        if (treeutil.isNEWoperand(node)
-        # check name in "'extend' : ..." position
-        or (node.hasParentContext("keyvalue/*") and node.parent.parent.get('key') == 'extend')):
-            # skip built-in classes (Error, document, RegExp, ...)
-            if (assembled in lang.BUILTIN + ['clazz'] or re.match(r'this\b', assembled)):
-               return False
-            # skip scoped vars - expensive, therefore last test
-            elif self._isScopedVar(assembled, node, fileId):
-                return False
-            else:
-                return True
-
-        return False
-        
-
     ##
     # Checks if the required class is known, and the reference to it is in a
     # context that is executed at load-time
@@ -319,6 +302,8 @@ class MClassDependencies(object):
                 pchain.endswith("call/operand")  # it's a function call
                 or treeutil.isNEWoperand(node)   # it's a 'new' operation
                 )
+
+        # ----------------------------------------------------------------
 
         if (inLoadContext
             and depClassName
@@ -368,8 +353,6 @@ class MClassDependencies(object):
                     className = self.id
                 elif inDefer and className in DEFER_ARGS:
                     className = self.id
-                #if self.id=="feedreader.model.FeedFolder" and className=="qx.data.Array":
-                #    import pydb; pydb.debugger()
                 if not classAttribute:  # see if we have to provide 'construct'
                     if treeutil.isNEWoperand(node):
                         classAttribute = 'construct'

@@ -105,6 +105,13 @@ GLOBALS = BUILTIN + [
           "this", "arguments", "undefined", "NaN", "Infinity"
           ]
 
+DEPRECATED = [
+          "alert",
+          "confirm",
+          "debugger",
+          "eval",
+          ]
+
 TOKENS = {
     "." : "DOT",
     "," : "COMMA",
