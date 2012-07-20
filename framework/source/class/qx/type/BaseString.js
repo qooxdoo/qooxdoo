@@ -28,7 +28,7 @@
 ************************************************************************ */
 
 /**
- * This class extends the built-in JavaScript String class. It can be used as
+ * This class emulates the built-in JavaScript String class. It can be used as
  * base class for classes, which need to derive from String.
  *
  * Instances of this class can be used in any place a JavaScript string can.
