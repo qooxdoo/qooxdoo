@@ -51,6 +51,12 @@
           "manifest" : "${QOOXDOO_PATH}/component/library/indigo/Manifest.json"
         }
       ],
+      
+      "environment" :
+      {
+        "qx.mobile.nativescroll" : true
+      },
+      
       "packages" : 
       {
         "parts" : 
