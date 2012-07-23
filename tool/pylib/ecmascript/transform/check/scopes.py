@@ -86,7 +86,6 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
         var_name = id_node.get('value')
         scopeVar = self.curr_scope.add_decl(var_name, id_node)  # returns the corresp. ScopeVariable()
         id_node.scope = self.curr_scope
-        scopeVar.add_use(id_node)
 
     def visit_identifier(self, node):  # var reference
         #print "var use visitor", node
@@ -146,7 +145,7 @@ class Scope(object):
             cld.prrnt(indent=indent+'  ')
 
     def globals(self):
-        return dict([(x,y) for x,y in self.vars.items() if y.decl==None])
+        return dict([(x,y) for x,y in self.vars.items() if not y.decl])
 
     ##
     # Return all nested scopes
@@ -168,18 +167,21 @@ class Scope(object):
 # A variable occurring in a scope has several places where it is mentioned ('uses'),
 # and among those mentionings potentially one where it is declared.
 #
-# (If it is declared multiple times in the scope, the last of those will be recorded).
+# (If it is declared multiple times in the scope, .decl will contain multiple entries).
 #
 class ScopeVar(object):
     def __init__(self):
-        self.decl = None  # var decl node
-        self.uses = []    # var occurrences; includes the decl occurrence
+        self.decl = []    # var decl node(s)
+        self.uses = []    # var occurrences (excluding decl occurrence(s))
 
     def add_use(self, node):
         self.uses.append(node)
 
     def add_decl(self, node):
-        self.decl = node
+        self.decl.append[node]
+
+    def occurrences(self):
+        return self.decl + self.uses
 
 
 ##

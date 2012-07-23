@@ -43,11 +43,23 @@ class LintChecker(treeutil.NodeVisitor):
         for cld in node.children:
             self.visit(cld)
 
+    def visit_loop(self, node):
+        #print "visiting", node.type
+        self.loop_body_block(node.getChild("body")) # all "loops" have at least one body
+        if node.get("loopType")=="IF" and len(node.children)>2:  # there is an "else"
+            self.loop_body_block(node.children[2])
+
+        # recurse
+        for cld in node.children:
+            self.visit(cld)
+        
     def visit_function(self, node):
         #print "visiting", node.type
         self.function_known_globals(node)
         self.function_unused_vars(node)
         self.function_used_deprecated(node)
+        self.function_multiple_var_decls(node)
+        self.function_vars_unused(node)
         # recurse
         for cld in node.children:
             self.visit(cld)
@@ -131,6 +143,9 @@ class LintChecker(treeutil.NodeVisitor):
             if not ok:
                 warn("Unused local variable: %s" % var_name, self.file_name, scopeVar.decl)
 
+    ##
+    # Check if a map only has unique keys.
+    #
     def map_unique_keys(self, node):
         # all children are .type "keyvalue", with .get(key) = <identifier>
         entries = [(keyval.get("key"), keyval) for keyval in node.children]
@@ -140,10 +155,37 @@ class LintChecker(treeutil.NodeVisitor):
                 warn("Duplicate use of map key", self.file_name, keyval)
             seen.add(key)
 
+    def function_multiple_var_decls(self, node):
+        scope_node = node.scope
+        for id_, var_node in scope_node.vars.items():
+            if self.multiple_var_decls(var_node):
+                warn("Multiple declarations of variable '%s' (%r)" % (
+                    id_, [(n.get("line",0) or -1) for n in var_node.decl]), self.file_name, None)
+
+    def function_vars_unused(self, node):
+        scope_node = node.scope
+        for id_, var_node in scope_node.vars.items():
+            if self.var_unused(var_node):
+                warn("Declared but unused variable '%s'" % id_, self.file_name, 
+                    var_node.decl[0])
+
+    def multiple_var_decls(self, scopeVar):
+        return len(scopeVar.decl) > 1
+
+    def var_unused(self, scopeVar):
+        return len(scopeVar.uses) == 0
+
+    def loop_body_block(self, body_node):
+        if not body_node.get("block",0):
+            warn("Loop or condition statement without a block as body", self.file_name, body_node)
+
 # - ---------------------------------------------------------------------------
 
 def warn(msg, fname, node):
-    emsg = "%s (%s:%s,%s)" % (msg, fname, node.get("line"), node.get("column"))
+    if node:
+        emsg = "%s (%s,%s): %s" % (fname, node.get("line"), node.get("column"), msg)
+    else:
+        emsg = "%s: %s" % (fname, msg)
     if console:
         console.warn(emsg)
     else:
