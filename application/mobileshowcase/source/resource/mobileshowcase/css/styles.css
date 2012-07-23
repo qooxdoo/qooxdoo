@@ -1,8 +1,10 @@
 .eventcontainer {
   min-height:200px;
-  background-color:green;
   color:#ffffff;
   padding:5px;
+  
+  background-color: #2F2727;
+  background-repeat: no-repeat;
 }
 
 .marginExpander {

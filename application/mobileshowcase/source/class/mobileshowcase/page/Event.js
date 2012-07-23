@@ -62,7 +62,7 @@ qx.Class.define("mobileshowcase.page.Event",
       var label = this.__label = new qx.ui.mobile.basic.Label("Touch / Tap / Swipe this area");
       container.add(label);
 
-      var descriptionText = "<b>Testing Touch Events:</b> Touch / Tap / Swipe the green area</br><b>Testing OrientationChange Event</b>: Rotate your device / change browser size";
+      var descriptionText = "<b>Testing Touch Events:</b> Touch / Tap / Swipe the area</br><b>Testing OrientationChange Event</b>: Rotate your device / change browser size";
       var descriptionLabel = new qx.ui.mobile.basic.Label(descriptionText);
      
       var descriptionGroup = new qx.ui.mobile.form.Group([descriptionLabel]);
@@ -104,6 +104,31 @@ qx.Class.define("mobileshowcase.page.Event",
       }
       this.__label.setValue(" " + evt.getType()+": "+orientationMode);
     },
+    
+    
+    /**
+     * Reacts on touch events and updates the event container background.
+     */
+    __updateContainerBackground : function(evt) {
+      
+      var containerElement = this.__container.getContentElement();
+      var viewportLeft = evt.getViewportLeft();
+      var viewportTop = evt.getViewportTop();
+      var containerLeft = qx.bom.element.Location.getLeft(this.__container.getContentElement(), "scroll");
+      var containerTop = qx.bom.element.Location.getTop(this.__container.getContentElement(), "scroll");
+      
+      var touchLeft = viewportLeft-containerLeft;
+      var touchTop = viewportTop-containerTop;
+      
+      var isFirefox = qx.core.Environment.get("browser.name")=="firefox";
+      if(isFirefox) {
+        // Firefox
+        qx.bom.element.Style.set(containerElement,"background","-moz-radial-gradient("+touchLeft+"px "+touchTop+"px, cover, #1a82f7, #2F2727)");
+      } else {
+        // Chrome
+        qx.bom.element.Style.set(containerElement,"background","-webkit-radial-gradient("+touchLeft+"px "+touchTop+"px, cover, #1a82f7, #2F2727)");
+      }
+    },
 
 
     /**
@@ -113,6 +138,8 @@ qx.Class.define("mobileshowcase.page.Event",
      */
     _onTouch : function(evt)
     {
+      this.__updateContainerBackground(evt);
+       
       var type = evt.getType();
       if (type == "touchstart") {
         // Disable iScroll before
