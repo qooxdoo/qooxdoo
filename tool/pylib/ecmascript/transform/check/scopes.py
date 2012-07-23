@@ -203,7 +203,18 @@ class NodeVisitor(object):
                     print "visiting:", child.type
                 self.visit(child)
 
-# - ---------------------------------------------------------------------------
+# - Utilities -----------------------------------------------------------------
+
+def find_enclosing(node):
+    scope = None
+    if hasattr(node, 'scope'):
+        scope = node.scope
+    else:
+        if node.parent:
+            return find_enclosing(node.parent)
+    return scope
+
+# - Interface function --------------------------------------------------------
 
 def create_scopes(node):
     scoper = CreateScopesVisitor(node)

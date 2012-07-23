@@ -25,6 +25,7 @@
 
 import os, sys, re, types
 from ecmascript.frontend import treeutil, lang, Comment
+from ecmascript.transform.check import scopes
 from generator.Context import console
 
 class LintChecker(treeutil.NodeVisitor):
@@ -35,10 +36,13 @@ class LintChecker(treeutil.NodeVisitor):
         self.file_name = file_name  # it's a warning module, so i need a proper file name
         self.opts = opts
 
+    def visit_file(self, node):  # this is good to check class maps
+        for class_defn in treeutil.findQxDefineR(node):
+            self.class_declared_privates(class_defn)
+
     def visit_map(self, node):
         #print "visiting", node.type
         self.map_unique_keys(node)
-
         # recurse
         for cld in node.children:
             self.visit(cld)
@@ -48,7 +52,6 @@ class LintChecker(treeutil.NodeVisitor):
         self.loop_body_block(node.getChild("body")) # all "loops" have at least one body
         if node.get("loopType")=="IF" and len(node.children)>2:  # there is an "else"
             self.loop_body_block(node.children[2])
-
         # recurse
         for cld in node.children:
             self.visit(cld)
@@ -178,6 +181,57 @@ class LintChecker(treeutil.NodeVisitor):
     def loop_body_block(self, body_node):
         if not body_node.get("block",0):
             warn("Loop or condition statement without a block as body", self.file_name, body_node)
+
+    ##
+    # Check that no privates are used in code that are not declared as a class member
+    #
+    this_aliases = ('this', 'that', 'self')
+    reg_privs = re.compile(r'\b__')
+
+    def class_declared_privates(self, class_def_node):
+        class_map = treeutil.getClassMap(class_def_node)
+
+        # statics
+        private_keys = set()
+        # collect all privates
+        for key in class_map['statics']:
+            if self.reg_privs.match(key):
+                private_keys.add(key)
+        # go through uses of 'this' and 'that' that reference a private
+        for key,val in class_map['statics']:
+            if val.type == 'function':
+                function_privs = self.function_uses_local_privs(val)
+                for priv, node in function_privs:
+                    if priv not in private_keys:
+                        warn("Using an undeclared private class feature: '%s'" % priv, self.file_name, node)
+        
+        # members
+        private_keys = set()
+        # collect all privates
+        for key in class_map['members']:
+            if self.reg_privs.match(key):
+                private_keys.add(key)
+        # go through uses of 'this' and 'that' that reference a private
+        for key,val in class_map['members']:
+            if val.type == 'function':
+                function_privs = self.function_uses_local_privs(val)
+                for priv, node in function_privs:
+                    if priv not in private_keys:
+                        warn("Using an undeclared private class feature: '%s'" % priv, self.file_name, node)
+
+
+    def function_uses_local_privs(self, func_node):
+        function_privs = set()
+        reg_this_aliases = re.compile(r'\b%s' % "|".join(self.this_aliases))
+        scope = func_node.scope
+        for id_,scopeVar in scope.vars.items():
+            if reg_this_aliases.match(id_):
+                for var_use in scopeVar.uses:
+                    full_name = treeutil.assembleVariable(var_use)[0]
+                    name_parts = full_name.split(".")
+                    if len(name_parts) > 1 and self.reg_privs.match(name_parts[1]):
+                        function_privs.add(var_use)
+        return function_privs
 
 # - ---------------------------------------------------------------------------
 

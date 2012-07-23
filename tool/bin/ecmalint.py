@@ -226,6 +226,8 @@ class Lint:
                 elif not field in restricted:
                     self.log(node, "Implicit declaration of %s field '%s'. You should list this field in the members section." % (prot, field))
 
+        # ----------------------------------------------------------------------
+
         classMap   = self._getClassMap()
         #print self.tree.toXml()
         if len(classMap) == 0:
