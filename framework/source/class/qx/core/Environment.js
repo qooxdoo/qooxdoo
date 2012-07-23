@@ -157,6 +157,10 @@
  *       <td>{@link qx.bom.client.CssAnimation#getSupport}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.animation.requestframe</td><td><i>String</i> or <i>null</i></td><td><code>mozRequestAnimationFrame</code></td>
+ *       <td>{@link qx.bom.client.CssAnimation#getRequestAnimationFrame}</td>
+ *     </tr>
+ *     <tr>
  *       <td>css.transform</td><td><i>Object</i> or <i>null</i></td><td><code>{3d: true, origin: "WebkitTransformOrigin", name: "WebkitTransform", style: "WebkitTransformStyle", perspective: "WebkitPerspective", perspective-origin: "WebkitPerspectiveOrigin", backface-visibility: "WebkitBackfaceVisibility"}</code></td>
  *       <td>{@link qx.bom.client.CssTransform#getSupport}</td>
  *     </tr>
@@ -788,6 +792,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.float"                   : "qx.bom.client.Css.getFloat",
       "css.boxsizing"               : "qx.bom.client.Css.getBoxSizing",
       "css.animation" : "qx.bom.client.CssAnimation.getSupport",
+      "css.animation.requestframe" : "qx.bom.client.CssAnimation.getRequestAnimationFrame",
       "css.transform" : "qx.bom.client.CssTransform.getSupport",
       "css.transform.3d" : "qx.bom.client.CssTransform.get3D",
       "css.inlineblock" : "qx.bom.client.Css.getInlineBlock",
