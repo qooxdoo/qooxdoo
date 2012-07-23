@@ -136,6 +136,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
   {
     __isHorizontal : null,
     __scrollPaneElement : null,
+    __requestId : null,
 
     /**
      * Get the scroll pane html element.
@@ -289,22 +290,46 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
 
 
     // interface implementation
-    scrollTo : function(position) {
-      this.setPosition(Math.max(0, Math.min(this.getMaximum(), position)));
+    scrollTo : function(position, duration) {
+      if (duration) {
+        // finish old animation before starting a new one
+        if (this.__requestId) {
+          return;
+        }
+
+        var start = +(new Date());
+        var from = this.getPosition();
+
+        var clb = function(time) {
+          // final call
+          if (time >= start + duration) {
+            this.setPosition(Math.max(0, Math.min(this.getMaximum(), position)));
+            this.__requestId = null;
+          } else {
+            var timePassed = time - start;
+            var newPos = parseInt(timePassed/duration * (position - from) + from);
+            this.setPosition(Math.max(0, Math.min(this.getMaximum(), newPos)));
+            qx.bom.AnimationFrame.request(clb, this);
+          }
+        };
+        qx.bom.AnimationFrame.request(clb, this);
+      } else {
+        this.setPosition(Math.max(0, Math.min(this.getMaximum(), position)));
+      }
     },
 
 
     // interface implementation
-    scrollBy : function(offset) {
-      this.scrollTo(this.getPosition() + offset)
+    scrollBy : function(offset, duration) {
+      this.scrollTo(this.getPosition() + offset, duration)
     },
 
 
     // interface implementation
-    scrollBySteps : function(steps)
+    scrollBySteps : function(steps, duration)
     {
       var size = this.getSingleStep();
-      this.scrollBy(steps * size);
+      this.scrollBy(steps * size, duration);
     },
 
 
