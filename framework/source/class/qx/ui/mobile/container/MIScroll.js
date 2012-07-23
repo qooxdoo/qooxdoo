@@ -233,6 +233,27 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     {
       this.__scroll = scroll;
     },
+    
+    
+    /**
+     * Delegation method for iScroll. Disabled the iScroll objects.
+     * Prevents any further scrolling of this container.
+     */
+    disable : function() {
+      if(this.__scroll) {
+        this.__scroll.disable();
+      }
+    },
+    
+    
+    /**
+     * Delegation method for iScroll. Enables the iScroll object.
+     */
+    enable : function() {
+      if(this.__scroll) {
+        this.__scroll.enable();
+      }
+    },
 
 
     /**

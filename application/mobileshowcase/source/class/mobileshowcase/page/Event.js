@@ -50,7 +50,7 @@ qx.Class.define("mobileshowcase.page.Event",
         alignX : "center",
         alignY : "middle"
       }));
-
+      
       container.addCssClass("eventcontainer");
       container.addListener("tap", this._onTap, this);
       container.addListener("swipe", this._onSwipe, this);
@@ -115,12 +115,22 @@ qx.Class.define("mobileshowcase.page.Event",
     {
       var type = evt.getType();
       if (type == "touchstart") {
+        // Disable iScroll before
+        if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
+          this._getScrollContainer().disable();
+        }
         this.__label.setValue("");
+      } else if (type == "touchend") {
+        // Re-enable iScroll after touchend event
+        if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
+          this._getScrollContainer().enable();
+        }
       }
+      
       this.__label.setValue(this.__label.getValue() + " " + evt.getType());
     },
-
-
+    
+    
     // overridden
     _back : function()
     {
