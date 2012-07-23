@@ -72,8 +72,9 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar",
      * the {@link #maximum}.
      *
      * @param position {Integer} Scroll to this position. Must be greater zero.
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    scrollTo : function(position) {
+    scrollTo : function(position, duration) {
       this.assertNumber(position);
     },
 
@@ -85,8 +86,9 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar",
      * the {@link #maximum}.
      *
      * @param offset {Integer} Scroll by this offset
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    scrollBy : function(offset) {
+    scrollBy : function(offset, duration) {
       this.assertNumber(offset);
     },
 
@@ -98,8 +100,9 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar",
      * the {@link #maximum}.
      *
      * @param steps {Integer} Number of steps
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    scrollBySteps : function(steps) {
+    scrollBySteps : function(steps, duration) {
       this.assertNumber(steps);
     }
   }
