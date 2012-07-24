@@ -147,10 +147,6 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       // spec like syntax
       } else {
         var deg = this.getOrientation() == "horizontal" ? 0 : 270;
-        // Bugfix for IE10 which seems to use the deg values wrong [BUG #6513]
-        if (qx.core.Environment.get("browser.name") == "ie") {
-          deg = deg - 90;
-        }
         var start = startColor + " " + this.getStartColorPosition() + unit;
         var end = endColor + " " + this.getEndColorPosition() + unit;
 
