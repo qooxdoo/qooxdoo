@@ -16,7 +16,52 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-
+/**
+ * This class takes care of the normalization of the native 'Array' object.
+ * Therefore it checks the availability of the following methods and appends
+ * it, if not available. This means you can use the methods during
+ * development in every browser. For usage samples, check out the attached links.
+ *
+ * *indexOf*:
+ * <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf">MDN documentation</a> |
+ * <a href="http://es5.github.com/#x15.4.4.14">Annotated ES5 Spec</a>
+ *
+ * *lastIndexOf*:
+ * <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/lastIndexOf">MDN documentation</a> |
+ * <a href="http://es5.github.com/#x15.4.4.15">Annotated ES5 Spec</a>
+ *
+ * *forEach*:
+ * <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/forEach">MDN documentation</a> |
+ * <a href="http://es5.github.com/#x15.4.4.18">Annotated ES5 Spec</a>
+ *
+ * *filter*:
+ * <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/filter">MDN documentation</a> |
+ * <a href="http://es5.github.com/#x15.4.4.20">Annotated ES5 Spec</a>
+ *
+ * *map*:
+ * <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/map">MDN documentation</a> |
+ * <a href="http://es5.github.com/#x15.4.4.19">Annotated ES5 Spec</a>
+ *
+ * *some*:
+ * <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/some">MDN documentation</a> |
+ * <a href="http://es5.github.com/#x15.4.4.17">Annotated ES5 Spec</a>
+ *
+ * *every*:
+ * <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/every">MDN documentation</a> |
+ * <a href="http://es5.github.com/#x15.4.4.16">Annotated ES5 Spec</a>
+ *
+ * *reduce*:
+ * <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/reduce">MDN documentation</a> |
+ * <a href="http://es5.github.com/#x15.4.4.21">Annotated ES5 Spec</a>
+ *
+ * *reduceRight*:
+ * <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/reduceRight">MDN documentation</a> |
+ * <a href="http://es5.github.com/#x15.4.4.22">Annotated ES5 Spec</a>
+ *
+ * Here is a little sample of how to use <code>indexOf</code> e.g.
+ * <pre class="javascript">var a = ["a", "b", "c"];
+ * a.indexOf("b"); // returns 1</pre>
+ */
 qx.Bootstrap.define("qx.lang.normalize.Array", {
 
   defer : function() {
