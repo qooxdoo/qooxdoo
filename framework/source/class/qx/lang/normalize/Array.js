@@ -165,13 +165,47 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
 
     // reduce
     if (!qx.core.Environment.get("ecmascript.array.reduce")) {
-      
+      Array.prototype.reduce = function(callback, init) {
+        if(typeof callback !== "function") {
+          throw new TypeError("First argument is not callable");
+        }
+
+        if (init === undefined && this.length === 0) {
+          throw new TypeError("Length is 0 and no second argument given");
+        }
+
+        var ret = init === undefined ? this[0] : init;
+        for (var i = init === undefined ? 1 : 0; i < this.length; i++) {
+          if (i in this) {
+            ret = callback.call(undefined, ret, this[i], i, this);
+          }
+        }
+
+        return ret;
+      };
     }
 
 
     // reduceRight
     if (!qx.core.Environment.get("ecmascript.array.reduceright")) {
-      
+      Array.prototype.reduceRight = function(callback, init) {
+        if(typeof callback !== "function") {
+          throw new TypeError("First argument is not callable");
+        }
+
+        if (init === undefined && this.length === 0) {
+          throw new TypeError("Length is 0 and no second argument given");
+        }
+
+        var ret = init === undefined ? this[this.length - 1] : init;
+        for (var i = init === undefined ? this.length - 2 : this.length - 1; i >= 0; i--) {
+          if (i in this) {
+            ret = callback.call(undefined, ret, this[i], i, this);
+          }
+        }
+
+        return ret;
+      };
     }
   }
 });
