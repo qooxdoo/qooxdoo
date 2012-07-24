@@ -204,7 +204,7 @@
  *       <td colspan="4"><b>ecmascript</b></td>
  *     </tr>
  *     <tr>
- *       <td>ecmascript.stacktrace</td><td><i>String</i> or <i>null</i></td><td><code>stack</code></td>
+ *       <td>ecmascript.error.stacktrace</td><td><i>String</i> or <i>null</i></td><td><code>stack</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getStackTrace}</td>
  *     </tr>
  *     <tr>
@@ -796,7 +796,8 @@ qx.Bootstrap.define("qx.core.Environment",
       "event.pointer"               : "qx.bom.client.Event.getPointer",
       "event.help"                  : "qx.bom.client.Event.getHelp",
       "event.hashchange"            : "qx.bom.client.Event.getHashChange",
-      "ecmascript.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",
+      "ecmascript.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace", // @deprecated since 2.1
+      "ecmascript.error.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",
       "ecmascript.array.indexof" : "qx.bom.client.EcmaScript.getArrayIndexOf",
       "ecmascript.array.lastindexof" : "qx.bom.client.EcmaScript.getArrayLastIndexOf",
       "ecmascript.array.foreach" : "qx.bom.client.EcmaScript.getArrayForEach",
@@ -907,6 +908,11 @@ qx.Bootstrap.define("qx.core.Environment",
         // @deprecated since 2.1
         if (key == "css.overflowxy") {
           qx.Bootstrap.warn("The environment key 'css.overflowxy' is deprecated.");
+        }
+        // @deprecated since 2.1
+        if (key == "ecmascript.stacktrace") {
+          qx.Bootstrap.warn("The environment key 'ecmascript.stacktrace' is now 'ecmascript.error.stacktrace'.");
+          key = "ecmascript.error.stacktrace";
         }
       }
       // check the cache

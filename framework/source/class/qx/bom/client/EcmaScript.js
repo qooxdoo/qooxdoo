@@ -210,8 +210,6 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
 
   defer : function(statics) {
-    qx.core.Environment.add("ecmascript.stacktrace", statics.getStackTrace);
-
     // array polyfill
     qx.core.Environment.add("ecmascript.array.indexof", statics.getArrayIndexOf);
     qx.core.Environment.add("ecmascript.array.lastindexof", statics.getArrayLastIndexOf);
@@ -235,5 +233,6 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
     // error bugfix
     qx.core.Environment.add("ecmascript.error.toString", statics.getErrorToStringBug);
+    qx.core.Environment.add("ecmascript.error.stacktrace", statics.getStackTrace);
   }
 });

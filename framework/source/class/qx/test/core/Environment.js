@@ -434,7 +434,7 @@ qx.Class.define("qx.test.core.Environment",
     },
 
     testEcmaScript : function() {
-      var stackTrace = qx.core.Environment.get("ecmascript.stacktrace");
+      var stackTrace = qx.core.Environment.get("ecmascript.error.stacktrace");
       this.assert(typeof stackTrace == "string" || stackTrace === null);
 
       this.assertBoolean(qx.core.Environment.get("ecmascript.array.indexof"));

@@ -12,3 +12,5 @@
 \bqx\.bom\.element\.Overflow\.getScrollbarWidth\b=qx.bom.element.Scroll.getScrollbarWidth
 
 \bqx\.bom\.element\.Opacity\.SUPPORT_CSS3_OPACITY\b=qx.core.Environment.get('css.opacity')
+
+\becmascript\.stacktrace\b=ecmascript.error.stacktrace
