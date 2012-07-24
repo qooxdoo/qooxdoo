@@ -207,7 +207,62 @@
  *       <td>ecmascript.stacktrace</td><td><i>String</i> or <i>null</i></td><td><code>stack</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getStackTrace}</td>
  *     </tr>
-
+ *     <tr>
+ *       <td>ecmascript.array.indexof<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayIndexOf}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.lastindexof<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayLastIndexOf}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.foreach<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayForEach}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.filter<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayFilter}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.map<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayMap}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.some<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArraySome}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.every<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayEvery}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.reduce<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayReduce}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.reduceright<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayReduceRight}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.function.bind<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getFunctionBind}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.object.keys<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getObjectKeys}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.object.getprototypeof<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getObjectPrototypeOf}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.date.now<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getDateNow}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.error.toString</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getErrorToStringBug}</td>
+ *     </tr>
  *     <tr>
  *       <td colspan="4"><b>engine</b></td>
  *     </tr>
@@ -742,6 +797,20 @@ qx.Bootstrap.define("qx.core.Environment",
       "event.help"                  : "qx.bom.client.Event.getHelp",
       "event.hashchange"            : "qx.bom.client.Event.getHashChange",
       "ecmascript.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",
+      "ecmascript.array.indexof" : "qx.bom.client.EcmaScript.getArrayIndexOf",
+      "ecmascript.array.lastindexof" : "qx.bom.client.EcmaScript.getArrayLastIndexOf",
+      "ecmascript.array.foreach" : "qx.bom.client.EcmaScript.getArrayForEach",
+      "ecmascript.array.filter" : "qx.bom.client.EcmaScript.getArrayFilter",
+      "ecmascript.array.map" : "qx.bom.client.EcmaScript.getArrayMap",
+      "ecmascript.array.some" : "qx.bom.client.EcmaScript.getArraySome",
+      "ecmascript.array.every" : "qx.bom.client.EcmaScript.getArrayEvery",
+      "ecmascript.array.reduce" : "qx.bom.client.EcmaScript.getArrayReduce",
+      "ecmascript.array.reduceright" : "qx.bom.client.EcmaScript.getArrayReduceRight",
+      "ecmascript.function.bind" : "qx.bom.client.EcmaScript.getFunctionBind",
+      "ecmascript.object.keys" : "qx.bom.client.EcmaScript.getObjectKeys",
+      "ecmascript.object.getprototypeof" : "qx.bom.client.EcmaScript.getObjectPrototypeOf",
+      "ecmascript.date.now" : "qx.bom.client.EcmaScript.getDateNow",
+      "ecmascript.error.toString" : "qx.bom.client.EcmaScript.getErrorToStringBug",
       "html.webworker"              : "qx.bom.client.Html.getWebWorker",
       "html.filereader"             : "qx.bom.client.Html.getFileReader",
       "html.geolocation"            : "qx.bom.client.Html.getGeoLocation",

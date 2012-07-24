@@ -436,6 +436,21 @@ qx.Class.define("qx.test.core.Environment",
     testEcmaScript : function() {
       var stackTrace = qx.core.Environment.get("ecmascript.stacktrace");
       this.assert(typeof stackTrace == "string" || stackTrace === null);
+
+      this.assertBoolean(qx.core.Environment.get("ecmascript.array.indexof"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.array.lastindexof"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.array.foreach"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.array.filter"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.array.map"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.array.some"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.array.every"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.array.reduce"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.array.reduceright"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.function.bind"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.object.keys"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.object.getprototypeof"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.date.now"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.error.toString"));
     },
 
     testDataUrl : function() {
