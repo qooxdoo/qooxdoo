@@ -20,6 +20,7 @@
 ************************************************************************ */
 /* ************************************************************************
 #require(qx.lang.normalize.Array)
+#require(qx.lang.normalize.Error)
 ************************************************************************ */
 
 /**
@@ -48,7 +49,8 @@
  * * Array.some()
  * * Array.every()
  * * String.quote()
- * @deprecated since 2.1: please use the native methods
+ * @deprecated since 2.1: please use the native methods or include one of
+ *   the classes out of 'qx.lang.normalize'
  */
 qx.Bootstrap.define("qx.lang.Core",
 {
@@ -355,6 +357,7 @@ qx.Bootstrap.define("qx.lang.Core",
      * Natively supported in Gecko since version 1.8.
      * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:some
      *
+     * @signature function(callback, obj)
      * @param callback {Function} Function to test for each element.
      * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
      * @return {Boolean} Returns <code>true</code> whether some element in the
@@ -470,16 +473,6 @@ qx.Bootstrap.define("qx.lang.Core",
     }[String.prototype.quote ? "native" : "emulated"]
   }
 });
-
-/*
----------------------------------------------------------------------------
-  FEATURE EXTENSION OF NATIVE ERROR OBJECT
----------------------------------------------------------------------------
-*/
-
-if (!Error.prototype.toString || Error.prototype.toString() == "[object Error]") {
-  Error.prototype.toString = qx.lang.Core.errorToString;
-}
 
 
 
