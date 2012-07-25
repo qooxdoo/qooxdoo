@@ -25,9 +25,9 @@
  * The list controller is responsible for synchronizing every list like widget
  * with a data array. It does not matter if the array contains atomic values
  * like strings of complete objects where one property holds the value for
- * the label and another property holds the icon url. You can even use converts
- * the make the label show a text corresponding to the icon by binding both,
- * label and icon to the same model property and converting one.
+ * the label and another property holds the icon url. You can even use converters
+ * that make the label show a text corresponding to the icon, by binding both
+ * label and icon to the same model property and converting one of them.
  *
  * *Features*
  *
