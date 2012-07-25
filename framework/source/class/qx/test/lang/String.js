@@ -186,6 +186,13 @@ qx.Class.define("qx.test.lang.String",
         cleanStr = "a b c d evf g h i";
       }
       this.assertEquals(cleanStr, qx.lang.String.clean(str));
+    },
+
+    testQuote : function()
+    {
+      this.assertEquals('"abc \\"defg\\" hij"', qx.lang.String.quote('abc "defg" hij'));
+      this.assertEquals('"abc \\\\defg\\\\ hij"', qx.lang.String.quote('abc \\defg\\ hij'));
+      this.assertEquals('"abc \\"defg\\\\ hij"', qx.lang.String.quote('abc "defg\\ hij'));
     }
   }
 });

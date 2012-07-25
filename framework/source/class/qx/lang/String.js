@@ -374,6 +374,16 @@ qx.Bootstrap.define("qx.lang.String",
       }
 
       return text;
+    },
+
+
+    /**
+     * Quotes the given string.
+     * @param str {String} String to quote.
+     * @return {String} The quoted string.
+     */
+    quote : function(str) {
+      return '"' + str.replace(/\\/g, "\\\\").replace(/\"/g, "\\\"") + '"';
     }
   }
 });

@@ -459,6 +459,12 @@ qx.Bootstrap.define("qx.lang.Core",
       "native" : String.prototype.quote,
 
       "emulated" : function() {
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.Bootstrap.warn(
+            "The polyfill for 'quote' is deprecated. This is not part of the spec." +
+            "Please use 'qx.lang.String.quote()' instead."
+          );
+        }
         return '"' + this.replace(/\\/g, "\\\\").replace(/\"/g, "\\\"") + '"';
       }
     }[String.prototype.quote ? "native" : "emulated"]

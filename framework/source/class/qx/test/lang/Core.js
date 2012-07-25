@@ -181,13 +181,6 @@ qx.Class.define("qx.test.lang.Core",
       // Apply a function simultaneously against two values of the array
       // (from right-to-left) as to reduce it to a single value.
       this.warn("Implement method!");
-    },
-
-    testStringQuote : function()
-    {
-      this.assertEquals('"abc \\"defg\\" hij"', 'abc "defg" hij'.quote());
-      this.assertEquals('"abc \\\\defg\\\\ hij"', 'abc \\defg\\ hij'.quote());
-      this.assertEquals('"abc \\"defg\\\\ hij"', 'abc "defg\\ hij'.quote());
     }
   }
 });
