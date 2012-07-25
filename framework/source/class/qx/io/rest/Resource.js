@@ -44,11 +44,20 @@
  * <pre class="javascript">
  * var description = {
  *  "get": { method: "GET", url: "/photo/{id}" },
- *  "put": { method: "PUT", url: "/photo/{id}"}
+ *  "put": { method: "PUT", url: "/photo/{id}"},
+ *  "post": { method: "POST", url: "/photos/"}
  * };
  * var photo = new qx.io.rest.Resource(description);
- * photo.get({id: 1}); // Can also be written: photo.invoke("get", {id: 1});
- * photo.put({id: 1}, {title: "Monkey"}); // Additionally sets request data
+ * // Can also be written: photo.invoke("get", {id: 1});
+ * photo.get({id: 1});
+ * 
+ * // Additionally sets request data 
+ * // In a RESTful environment this creates a new resource with the given 'id'
+ * photo.put({id: 1}, {title: "Monkey"});
+ *
+ * // Additionally sets request data
+ * // In a RESTful environment this adds a new resource to the resource collection 'photos'
+ * photo.post(null, {title: "Monkey"});
  * </pre>
  *
  * To check for existence of URL parameters or constrain them to a certain format, you
