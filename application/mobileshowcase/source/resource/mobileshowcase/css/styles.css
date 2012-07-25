@@ -1,4 +1,6 @@
 .eventcontainer {
+  cursor:default;
+  
   min-height:400px;
   color:#ffffff;
   padding:5px;
