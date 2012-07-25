@@ -19,15 +19,10 @@
   width:70px;
   height:70px;
   
-  border:5px solid white;
-  
-  opacity:0;
+  border:4px solid white;
   
   -moz-border-radius: 70px;  
   -webkit-border-radius: 70px; 
-  
-  -webkit-transition: opacity 0.5s ease-in-out;
-  -moz-transition: opacity 0.5s ease-in-out;
 }
 
 .marginExpander {

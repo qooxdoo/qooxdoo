@@ -65,9 +65,11 @@ qx.Class.define("mobileshowcase.page.Event",
       for(var i=0;i<15;i++) {
         var touchPoint = new qx.ui.mobile.container.Composite();
         touchPoint.addCssClass("touch");
+        
         this.__touchPoints.push(touchPoint);
 
         container.add(touchPoint);
+        touchPoint.exclude();
       }
       
       var label = this.__label = new qx.ui.mobile.basic.Label("Touch / Tap / Swipe this area");
@@ -150,18 +152,17 @@ qx.Class.define("mobileshowcase.page.Event",
         } else {
           // Multi-touch. Touchs are surrounded by a bordered circle.
           // Background gradient is centered.
-          var currentOpacity = qx.bom.element.Style.get(targetElement,"opacity",1);
-
-          if(currentOpacity ==0) {
-            qx.bom.element.Style.set(targetElement,"opacity","0.6");
+          if(!touchPoint.isVisible()) {
+            touchPoint.show();
           }
-
+          
+          // Update position of touch circle.
           qx.bom.element.Style.set(targetElement,"left",touchLeft-offset+"px");
           qx.bom.element.Style.set(targetElement,"top",touchTop-offset+"px");
         }
       }
 
-      // Reset background gradient, when no touch are available.
+      // Reset background gradient, when no touches are available.
       if(touches.length == 0) {
         if(isFirefox) {
           // Firefox
@@ -205,15 +206,13 @@ qx.Class.define("mobileshowcase.page.Event",
 
         // On any touchEnd first hide all touch point marker.
         for(var i=0;i<this.__touchPoints.length;i++) {
-          var targetElement = this.__touchPoints[i].getContentElement();
-          qx.bom.element.Style.set(targetElement,"opacity","0");
+          this.__touchPoints[i].exclude();
         }
 
-        // Then show again touch circle, when are any available.
+        // Then show again touch circles when any touches are available.
         for(i=0;i<touches.length;i++) {
           var touch = touches[i];
-          targetElement = touch.getContentElement();
-          qx.bom.element.Style.set(targetElement,"opacity","0.6");
+          touch.show();
         }
 
         // Re-enable iScroll after touchend event
