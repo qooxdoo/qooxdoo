@@ -39,6 +39,8 @@ qx.Class.define("mobileshowcase.page.Event",
     __container : null,
     __label : null,
     __inMove : null,
+    __touchPoints : [],
+    __lastEventType :"",
 
 
     // overridden
@@ -58,11 +60,20 @@ qx.Class.define("mobileshowcase.page.Event",
       container.addListener("touchmove", this._onTouch, this);
       container.addListener("touchend", this._onTouch, this);
       qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
+      
+      // TOUCH VISUALISATION CIRCLES
+      for(var i=0;i<15;i++) {
+        var touchPoint = new qx.ui.mobile.container.Composite();
+        touchPoint.addCssClass("touch");
+        this.__touchPoints.push(touchPoint);
 
+        container.add(touchPoint);
+      }
+      
       var label = this.__label = new qx.ui.mobile.basic.Label("Touch / Tap / Swipe this area");
       container.add(label);
 
-      var descriptionText = "<b>Testing Touch Events:</b> Touch / Tap / Swipe the area</br><b>Testing OrientationChange Event</b>: Rotate your device / change browser size";
+      var descriptionText = "<b>Testing Touch Events:</b> Touch / Tap / Swipe the area</br><b>Testing Multi-touch Events:</b> Touch the area with multiple fingers</br><b>Testing OrientationChange Event</b>: Rotate your device / change browser size";
       var descriptionLabel = new qx.ui.mobile.basic.Label(descriptionText);
      
       var descriptionGroup = new qx.ui.mobile.form.Group([descriptionLabel]);
@@ -107,26 +118,67 @@ qx.Class.define("mobileshowcase.page.Event",
     
     
     /**
-     * Reacts on touch events and updates the event container background.
+     * Reacts on touch events and updates the event container background and touch markers.
      */
-    __updateContainerBackground : function(evt) {
-      
+    __updateTouchVisualisation : function(evt) {
       var containerElement = this.__container.getContentElement();
-      var viewportLeft = evt.getViewportLeft();
-      var viewportTop = evt.getViewportTop();
       var containerLeft = qx.bom.element.Location.getLeft(this.__container.getContentElement(), "scroll");
       var containerTop = qx.bom.element.Location.getTop(this.__container.getContentElement(), "scroll");
-      
-      var touchLeft = viewportLeft-containerLeft;
-      var touchTop = viewportTop-containerTop;
-      
+
+      var offset = 50;
+
+      var touches = evt.getAllTouches();
+
       var isFirefox = qx.core.Environment.get("browser.name")=="firefox";
-      if(isFirefox) {
-        // Firefox
-        qx.bom.element.Style.set(containerElement,"background","-moz-radial-gradient("+touchLeft+"px "+touchTop+"px, cover, #1a82f7, #2F2727)");
-      } else {
-        // Chrome
-        qx.bom.element.Style.set(containerElement,"background","-webkit-radial-gradient("+touchLeft+"px "+touchTop+"px, cover, #1a82f7, #2F2727)");
+
+      for(var i=0;i<touches.length;i++) {
+        var touchLeft = touches[i].clientX-containerLeft;
+        var touchTop = touches[i].clientY-containerTop;
+
+        var touchPoint =this.__touchPoints[i];
+        var targetElement = touchPoint.getContentElement();
+
+        // If just one touch is present, the background follows the touch.
+        if(touches.length==1){
+          if(isFirefox) {
+            // Firefox
+            qx.bom.element.Style.set(containerElement,"background","-moz-radial-gradient("+touchLeft+"px "+touchTop+"px, cover, #1a82f7, #2F2727)");
+          } else {
+            // Chrome
+            qx.bom.element.Style.set(containerElement,"background","-webkit-radial-gradient("+touchLeft+"px "+touchTop+"px, cover, #1a82f7, #2F2727)");
+          }
+        } else {
+          // Multi-touch. Touchs are surrounded by a bordered circle.
+          // Background gradient is centered.
+          var currentOpacity = qx.bom.element.Style.get(targetElement,"opacity",1);
+
+          if(currentOpacity ==0) {
+            qx.bom.element.Style.set(targetElement,"opacity","0.6");
+          }
+
+          qx.bom.element.Style.set(targetElement,"left",touchLeft-offset+"px");
+          qx.bom.element.Style.set(targetElement,"top",touchTop-offset+"px");
+        }
+      }
+
+      // Reset background gradient, when no touch are available.
+      if(touches.length == 0) {
+        if(isFirefox) {
+          // Firefox
+          qx.bom.element.Style.set(containerElement,"background","-moz-linear-gradient(top, #000000 0%,#555555 100%)");
+        } else {
+          // Chrome
+          qx.bom.element.Style.set(containerElement,"background","-webkit-linear-gradient(top, #000000 0%,#555555 100%)");
+        }
+      } else if (touches.length>1) {
+        // Center background gradient, when multiple touches are available.
+        if(isFirefox) {
+          // Firefox
+          qx.bom.element.Style.set(containerElement,"background","-moz-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
+        } else {
+          // Chrome
+          qx.bom.element.Style.set(containerElement,"background","-webkit-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
+        }
       }
     },
 
@@ -138,7 +190,7 @@ qx.Class.define("mobileshowcase.page.Event",
      */
     _onTouch : function(evt)
     {
-      this.__updateContainerBackground(evt);
+      this.__updateTouchVisualisation(evt);
        
       var type = evt.getType();
       if (type == "touchstart") {
@@ -148,13 +200,33 @@ qx.Class.define("mobileshowcase.page.Event",
         }
         this.__label.setValue("");
       } else if (type == "touchend") {
+
+        var touches = evt.getAllTouches();
+
+        // On any touchEnd first hide all touch point marker.
+        for(var i=0;i<this.__touchPoints.length;i++) {
+          var targetElement = this.__touchPoints[i].getContentElement();
+          qx.bom.element.Style.set(targetElement,"opacity","0");
+        }
+
+        // Then show again touch circle, when are any available.
+        for(i=0;i<touches.length;i++) {
+          var touch = touches[i];
+          targetElement = touch.getContentElement();
+          qx.bom.element.Style.set(targetElement,"opacity","0.6");
+        }
+
         // Re-enable iScroll after touchend event
         if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
           this._getScrollContainer().enable();
         }
       }
-      
-      this.__label.setValue(this.__label.getValue() + " " + evt.getType());
+
+      if(this.__lastEventType != evt.getType()) {
+        this.__label.setValue(this.__label.getValue() + " " + evt.getType());
+      }
+
+      this.__lastEventType = evt.getType();
     },
     
     
