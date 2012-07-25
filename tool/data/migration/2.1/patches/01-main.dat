@@ -14,3 +14,5 @@
 \bqx\.bom\.element\.Opacity\.SUPPORT_CSS3_OPACITY\b=qx.core.Environment.get('css.opacity')
 
 \becmascript\.stacktrace\b=ecmascript.error.stacktrace
+
+\bqx\.lang\.Date\.now\b=Date.now

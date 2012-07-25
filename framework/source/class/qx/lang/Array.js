@@ -45,11 +45,8 @@
  * methods like <code>remove</code> or <code>contains</code>.
  *
  * The native JavaScript Array is not modified by this class. However,
- * there are modifications to the native Array in {@link qx.lang.Core} for
- * browsers that do not support certain JavaScript 1.6 features natively .
- *
- * The string/array generics introduced in JavaScript 1.6 are supported by
- * {@link qx.lang.Generics}.
+ * there are modifications to the native Array in {@link qx.lang.normalize.Array} for
+ * browsers that do not support certain JavaScript features natively .
  */
 qx.Bootstrap.define("qx.lang.Array",
 {

@@ -51,11 +51,8 @@
  * String helper functions
  *
  * The native JavaScript String is not modified by this class. However,
- * there are modifications to the native String in {@link qx.lang.Core} for
+ * there are modifications to the native String in {@link qx.lang.normlaize.String} for
  * browsers that do not support certain features.
- *
- * The string/array generics introduced in JavaScript 1.6 are supported by
- * {@link qx.lang.Generics}.
  */
 qx.Bootstrap.define("qx.lang.String",
 {
