@@ -362,7 +362,6 @@ qx.Bootstrap.define("qx.Bootstrap",
     /**
      * Get the number of objects in the map
      *
-     * @signature function(map)
      * @param map {Object} the map
      * @return {Integer} number of objects in the map
      */
@@ -417,6 +416,7 @@ qx.Bootstrap.define("qx.Bootstrap",
       "toLocaleString",
       "toString",
       "valueOf",
+      "propertyIsEnumerable",
       "constructor"
     ],
 
