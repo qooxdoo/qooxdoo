@@ -20,6 +20,7 @@ if [ $? -eq 0 ]; then
     echo $update >> $logdir/update.log
     cd $logdir
     git commit -am"[BUG #4514] updated stats log"
+    sleep 3
     git push
     cd $generatorstats
 else
