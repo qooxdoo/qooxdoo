@@ -22,9 +22,11 @@
 
 #require(qx.Interface)
 #require(qx.Mixin)
-#require(qx.lang.Core)
 
-#use(qx.lang.Generics)
+#require(qx.lang.normalize.Array)
+#require(qx.lang.normalize.Date)
+#require(qx.lang.normalize.Error)
+#require(qx.lang.normalize.Function)
 
 ************************************************************************ */
 

@@ -17,26 +17,15 @@
      * Daniel Wagner (danielwagner)
 
 ************************************************************************ */
-
+/* ************************************************************************
+#require(qx.lang.normalize.Function);
+************************************************************************ */
 /**
  * Adds JavaScript features that may not be supported by all clients.
  */
 qx.Bootstrap.define("qx.module.Polyfill", {
 
   statics: {
-
-    /**
-     * Wraps the given function so that it will be executed in the given context
-     */
-    functionBind : function() {
-      if (typeof Function.prototype.bind !== "function") {
-        Function.prototype.bind = function(context) {
-          var args = Array.prototype.slice.call(arguments, 1);
-          return qx.Bootstrap.bind.apply(null, [this, context].concat(args));
-        };
-      }
-    },
-
 
     /**
      * Removes white space from the left and right sides of a string
@@ -69,9 +58,7 @@ qx.Bootstrap.define("qx.module.Polyfill", {
     }
   },
 
-  defer : function(statics)
-  {
-    statics.functionBind();
+  defer : function(statics) {
     statics.stringTrim();
   }
 });

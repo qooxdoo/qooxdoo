@@ -299,6 +299,15 @@ qx.Bootstrap.define("qx.lang.Function",
     /**
      * Returns a function whose "this" is altered.
      *
+     *
+     * *Native way*
+     *
+     * This is also a feature of JavaScript 1.8.5 and will be supplied
+     * by modern browsers. Including {@link qx.lang.normalize.Function}
+     * will supply a cross browser normalization of the native
+     * implementation. We like to encourage you to use the native function!
+     *
+     *
      * *Syntax*
      *
      * <pre class='javascript'>qx.lang.Function.bind(myFunction, [self, [varargs...]]);</pre>
