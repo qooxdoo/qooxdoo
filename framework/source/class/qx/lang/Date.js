@@ -35,6 +35,7 @@
  * Helper functions for dates.
  *
  * The native JavaScript Date is not modified by this class.
+ * @deprecated since 2.1
  */
 qx.Bootstrap.define("qx.lang.Date",
 {
@@ -46,6 +47,9 @@ qx.Bootstrap.define("qx.lang.Date",
      * @return {Integer} Time in ms from 1970.
      */
     now : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.Bootstrap.warn("qx.lang.Date is deprecated. Please use the native 'Date.now()' instead.");
+      }
       return +new Date;
     }
   }

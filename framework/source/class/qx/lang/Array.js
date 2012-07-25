@@ -36,6 +36,7 @@
 
 #ignore(qx.data.IListData)
 #ignore(qx.Class)
+#require(qx.lang.normalize.Date)
 
 ************************************************************************ */
 
@@ -485,7 +486,7 @@ qx.Bootstrap.define("qx.lang.Array",
     {
       var ret=[], doneStrings={}, doneNumbers={}, doneObjects={};
       var value, count=0;
-      var key = "qx" + qx.lang.Date.now();
+      var key = "qx" + Date.now();
       var hasNull=false, hasFalse=false, hasTrue=false;
 
       // Rebuild array and omit duplicates
