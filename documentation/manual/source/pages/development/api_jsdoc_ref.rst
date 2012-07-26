@@ -66,15 +66,15 @@ Within a doc comment the following attributes are supported:
 
 **Scope**
 
-  methods, constructors
+  functions
 
 **Description**
 
-  Describes a parameter. ``@param`` is followed by the name of the parameter. Following that is the type in curly brackets (Example: ``{Integer}``), followed by the description text. Types are described more in detail in the next section.
+  Describes a parameter. ``@param`` is followed by the name of the parameter. Following that is the type in curly brackets (Example: ``{Integer}``), followed by the description text.
 
 **Syntax**
 
-  ``@param <name> {<type>} <description>``
+  ``@param <name> { <type> } <description>``
 
 **Parameters**
 
@@ -95,17 +95,71 @@ Within a doc comment the following attributes are supported:
 
 @return
 ---------------------------
-*(only for methods)*
 
-Describes the return value. After the ``@return`` comes the type in curly brackets followed by the description text.
+**Scope**
+
+  functions
+
+**Description**
+
+  Describes the return value.
+
+**Syntax**
+
+  ``@return { <type> } <description>``
+
+**Parameters**
+
+    .. list-table::
+      :stub-columns: 1
+      :widths: 30 70
+
+      * - type
+        - The type of the return value.
+      * - description
+        - Descriptive text
+
+**Example**
+
+  ::
+
+    @return {Integer} The sum of the arguments
+
+
 
 .. _pages/api_jsdoc_ref#throws:
 
 @throws
 --------------------------------------------
-*(only for methods and constructors)*
 
-Describes in which cases an exception is thrown.
+**Scope**
+
+  Functions
+
+**Description**
+
+  Describes in which cases an exception is thrown.
+
+**Syntax**
+
+  ``@throws { <type> } <description>``
+
+**Parameters**
+
+  .. list-table::
+    :stub-columns: 1
+    :widths: 30 70
+
+    * - type
+      - The type of the exception [Not Implemented!]
+    * - description
+      - Descriptive text under which circumstances this exception is thrown.
+
+**Example**
+
+  ::
+
+    @throws {Error} If the parameter 'X' is out of range.
 
 .. _pages/api_jsdoc_ref#see:
 
