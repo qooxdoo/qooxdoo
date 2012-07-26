@@ -137,8 +137,6 @@ qx.Class.define("qx.core.Object",
         }
       }
 
-
-
       if (arguments.length === 1) {
         return args.callee.base.call(this);
       } else {
