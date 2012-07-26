@@ -2033,7 +2033,8 @@ def createSyntaxTree(tokenArr, fileId=''):
 # quick high-level frontend
 def parse(string_):
     ts = tokenizer.parseStream(string_)
-    return TreeGenerator().parse(ts)
+    #return TreeGenerator().parse(ts)
+    return createSyntaxTree(ts)
 
 # - Main ----------------------------------------------------------------------
 

@@ -178,7 +178,7 @@ class ScopeVar(object):
         self.uses.append(node)
 
     def add_decl(self, node):
-        self.decl.append[node]
+        self.decl.append(node)
 
     def occurrences(self):
         return self.decl + self.uses

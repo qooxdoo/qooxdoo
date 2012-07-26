@@ -24,8 +24,8 @@
 ##
 
 import os, sys, re, types
+from collections import defaultdict
 from ecmascript.frontend import treeutil, lang, Comment
-from ecmascript.transform.check import scopes
 from generator.Context import console
 
 class LintChecker(treeutil.NodeVisitor):
@@ -36,9 +36,19 @@ class LintChecker(treeutil.NodeVisitor):
         self.file_name = file_name  # it's a warning module, so i need a proper file name
         self.opts = opts
 
-    def visit_file(self, node):  # this is good to check class maps
+    def visit_file(self, node):
+        # we can run the basic scope checks as with function nodes
+        self.function_known_globals(node)
+        self.function_unused_vars(node)
+        self.function_used_deprecated(node)
+        self.function_multiple_var_decls(node)
+        # this is also good to check class map integrity
         for class_defn in treeutil.findQxDefineR(node):
             self.class_declared_privates(class_defn)
+            self.class_reference_fields(class_defn)
+        # recurse
+        for cld in node.children:
+            self.visit(cld)
 
     def visit_map(self, node):
         #print "visiting", node.type
@@ -62,7 +72,6 @@ class LintChecker(treeutil.NodeVisitor):
         self.function_unused_vars(node)
         self.function_used_deprecated(node)
         self.function_multiple_var_decls(node)
-        self.function_vars_unused(node)
         # recurse
         for cld in node.children:
             self.visit(cld)
@@ -86,18 +95,11 @@ class LintChecker(treeutil.NodeVisitor):
                 full_name = (treeutil.assembleVariable(var_node))[0]
                 ok = True
                 if (full_name in lang.GLOBALS # JS built-ins ('alert' etc.)
-                    and full_name in lang.DEPRECATED
-                    ):
+                        and full_name in lang.DEPRECATED):
                     ok = False
-                    # check full_name against @ignore hints
-                    at_hints = get_at_hints(funcnode)
+                    at_hints = get_at_hints(funcnode) # check full_name against @ignore hints
                     if at_hints:
-                        if ( 'lint' in at_hints and 
-                             'ignoreDeprecated' in at_hints['lint'] and
-                             full_name in at_hints['lint']['ignoreDeprecated']
-                            ):
-                            ok = True
-
+                        ok = not self.is_name_lint_filtered(full_name, at_hints, "ignoreDeprecated")
                 if not ok:
                     warn("Unknown global symbol used: %s" % full_name, self.file_name, var_node)
                     
@@ -114,37 +116,38 @@ class LintChecker(treeutil.NodeVisitor):
                     ok = True
                 if full_name in self.opts.library_classes: # known classes (classList)
                     ok = True
-                # check full_name against @ignore hints
-                at_hints = get_at_hints(funcnode)
+                at_hints = get_at_hints(funcnode) # check full_name against @ignore hints
                 if at_hints:
-                    if ( 'lint' in at_hints and 
-                         'ignoreUndefined' in at_hints['lint'] and
-                         full_name in at_hints['lint']['ignoreUndefined']
-                        ):
-                        ok = True
-
+                    ok = not self.is_name_lint_filtered(full_name, at_hints, "ignoreUndefined")
                 if not ok:
                     warn("Unknown global symbol used: %s" % full_name, self.file_name, var_node)
                     
     def function_unused_vars(self, funcnode):
         scope = funcnode.scope
-        unused_vars = dict([(id_, scopeVar) for id_, scopeVar in scope.vars.items() if (
-            scopeVar.decl # it's a var declared in this scope
-            and len(scopeVar.uses)==1 # .uses has only the decl
-        )])
+        unused_vars = dict([(id_, scopeVar) for id_, scopeVar in scope.vars.items() 
+                                if self.var_unused(scopeVar)])
+
         for var_name,scopeVar in unused_vars.items():
-            ok = False
-            # check @ignore hints
-            if funcnode.comments:
-                at_hints = get_at_hints(funcnode)
-                if at_hints:
-                    if ( 'lint' in at_hints and 
-                         'ignoreUnused' in at_hints['lint'] and
-                         var_name in at_hints['lint']['ignoreUnused']
-                        ):
-                        ok = True
-            if not ok:
-                warn("Unused local variable: %s" % var_name, self.file_name, scopeVar.decl)
+            should_print = True
+            at_hints = get_at_hints(funcnode) # check @ignore hints
+            if at_hints:
+                should_print = not self.is_name_lint_filtered(var_name, at_hints, "ignoreUnused")
+            if should_print:
+                warn("Declared but unused variable or parameter '%s'" % var_name, self.file_name, scopeVar.decl[0])
+
+    ##
+    # Checks the @lint hints in <at_hints> if the given <var_name> is filtered
+    # under the <filter_key> (e.g. "ignoreUndefined" in *@lint ignoreUndefined(<var_name>))
+    #
+    def is_name_lint_filtered(var_name, at_hints, filter_key):
+        filtered = False
+        if at_hints:
+            filtered = ( 'lint' in at_hints and 
+                filter_key in at_hints['lint'] and
+                var_name in at_hints['lint'][filter_key]
+            )
+        return filtered
+
 
     ##
     # Check if a map only has unique keys.
@@ -165,27 +168,20 @@ class LintChecker(treeutil.NodeVisitor):
                 warn("Multiple declarations of variable '%s' (%r)" % (
                     id_, [(n.get("line",0) or -1) for n in var_node.decl]), self.file_name, None)
 
-    def function_vars_unused(self, node):
-        scope_node = node.scope
-        for id_, var_node in scope_node.vars.items():
-            if self.var_unused(var_node):
-                warn("Declared but unused variable '%s'" % id_, self.file_name, 
-                    var_node.decl[0])
-
     def multiple_var_decls(self, scopeVar):
         return len(scopeVar.decl) > 1
 
     def var_unused(self, scopeVar):
-        return len(scopeVar.uses) == 0
+        return len(scopeVar.decl) > 0 and len(scopeVar.uses) == 0
 
     def loop_body_block(self, body_node):
-        if not body_node.get("block",0):
+        if not body_node.getChild("block",0):
             warn("Loop or condition statement without a block as body", self.file_name, body_node)
 
     ##
     # Check that no privates are used in code that are not declared as a class member
     #
-    this_aliases = ('this', 'that', 'self')
+    this_aliases = ('this', 'that')
     reg_privs = re.compile(r'\b__')
 
     def class_declared_privates(self, class_def_node):
@@ -198,7 +194,7 @@ class LintChecker(treeutil.NodeVisitor):
             if self.reg_privs.match(key):
                 private_keys.add(key)
         # go through uses of 'this' and 'that' that reference a private
-        for key,val in class_map['statics']:
+        for key,val in class_map['statics'].items():
             if val.type == 'function':
                 function_privs = self.function_uses_local_privs(val)
                 for priv, node in function_privs:
@@ -212,12 +208,26 @@ class LintChecker(treeutil.NodeVisitor):
             if self.reg_privs.match(key):
                 private_keys.add(key)
         # go through uses of 'this' and 'that' that reference a private
-        for key,val in class_map['members']:
+        for key,val in class_map['members'].items():
             if val.type == 'function':
                 function_privs = self.function_uses_local_privs(val)
                 for priv, node in function_privs:
                     if priv not in private_keys:
                         warn("Using an undeclared private class feature: '%s'" % priv, self.file_name, node)
+
+
+    ##
+    # Warn about reference types in map values, as they are shared across instances.
+    #
+    def class_reference_fields(self, class_def_node):
+        class_map = treeutil.getClassMap(class_def_node)
+        # only check members
+        members_map = class_map['members'] if 'members' in class_map else {}
+
+        for key, value in members_map.items():
+            if (value.type in ("map", "array") or
+               (value.type == "operation" and value.get("operator")=="NEW")):
+               warn("Reference values are shared across all instances: '%s'" % key, self.file_name, value)
 
 
     def function_uses_local_privs(self, func_node):
@@ -230,7 +240,7 @@ class LintChecker(treeutil.NodeVisitor):
                     full_name = treeutil.assembleVariable(var_use)[0]
                     name_parts = full_name.split(".")
                     if len(name_parts) > 1 and self.reg_privs.match(name_parts[1]):
-                        function_privs.add(var_use)
+                        function_privs.add((name_parts[1],var_use))
         return function_privs
 
 # - ---------------------------------------------------------------------------
@@ -249,11 +259,9 @@ def warn(msg, fname, node):
 # Get the JSDoc comments in a nested dict structure
 def get_at_hints(node):
     commentAttributes = Comment.parseNode(node)  # searches comment "around" this node
-    at_hints = {}
+    at_hints = defaultdict(dict)
     for entry in commentAttributes:
         cat = entry['category']
-        if cat not in at_hints:
-            at_hints[cat] = {}
         if cat=='lint':
              # {'arguments': ['a', 'b'],
              #  'category': u'lint',
