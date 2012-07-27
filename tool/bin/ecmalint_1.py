@@ -404,35 +404,26 @@ misspelled identifier and missing 'var' statements. You can use the '-g' flag to
     checkAll = "ALL" in options.actions or len(options.actions) == 0
 
     for filename in args[1:]:
-        import codecs
-        from ecmascript.frontend import treegenerator
-        from ecmascript.transform.check import scopes, lint
-        def opts():pass
-        opts.library_classes = []
-        tree_ = treegenerator.parse(codecs.open(filename, "r", "utf-8").read())
-        tree_ = scopes.create_scopes(tree_)
-        lint.lint_check(tree_, filename, opts)
+        lint = Lint(filename)
 
-        #lint = Lint(filename)
+        if checkAll or "undefined_variables" in options.actions:
+            lint.checkUndefinedVariables(globals)
 
-        #if checkAll or "undefined_variables" in options.actions:
-        #    lint.checkUndefinedVariables(globals)
+        if checkAll or "unused_variables" in options.actions:
+            lint.checkUnusedVariables()
 
-        #if checkAll or "unused_variables" in options.actions:
-        #    lint.checkUnusedVariables()
+        if "multidefined_variables" in options.actions:
+            lint.checkMultiDefinedVariables()
 
-        #if "multidefined_variables" in options.actions:
-        #    lint.checkMultiDefinedVariables()
+        if checkAll or "maps" in options.actions:
+            lint.checkMaps()
 
-        #if checkAll or "maps" in options.actions:
-        #    lint.checkMaps()
+        if checkAll or "blocks" in options.actions:
+            lint.checkRequiredBlocks()
 
-        #if checkAll or "blocks" in options.actions:
-        #    lint.checkRequiredBlocks()
-
-        #if checkAll or "fields" in options.actions:
-        #    lint.checkFields()
-        #    lint.checkReferenceFields()
+        if checkAll or "fields" in options.actions:
+            lint.checkFields()
+            lint.checkReferenceFields()
 
 
 
