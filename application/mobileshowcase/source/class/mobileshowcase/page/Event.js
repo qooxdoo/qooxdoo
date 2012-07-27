@@ -37,11 +37,20 @@ qx.Class.define("mobileshowcase.page.Event",
   members :
   {
     __container : null,
+    __gestureTarget : null,
+    __gestureTargetWrap : null,
     __label : null,
     __inMove : null,
     __touchPoints : [],
     __lastEventType :"",
-
+    __initialScale : 1,
+    __initialRotation : 0,
+    __currentRotation : 0,
+    __currentScale : 0,
+    __maxScale : 1.5,
+    __minScale : 0.3,
+    __lastMultiTouchEventTime : null,
+    
 
     // overridden
     _initialize : function()
@@ -61,6 +70,21 @@ qx.Class.define("mobileshowcase.page.Event",
       container.addListener("touchend", this._onTouch, this);
       qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
       
+      // GESTURE TARGET OBJECT
+      this.__gestureTargetWrap = new qx.ui.mobile.container.Composite();
+      this.__gestureTargetWrap.addCssClass("gesture-target-wrap");
+      
+      this.__gestureTarget = new qx.ui.mobile.basic.Image("mobileshowcase/icon/HTML5_Badge_512.png");
+      
+      this.__gestureTarget.addCssClass("gesture-target");
+      this.__gestureTarget.addListener("touchmove", this._onGestureTouchMove, this);
+      this.__gestureTarget.addListener("touchend", this._onGestureTouchEnd, this);
+      
+      this.__gestureTarget.setDraggable(false);
+      
+      this.__gestureTargetWrap.add(this.__gestureTarget);
+      container.add(this.__gestureTargetWrap);
+      
       // TOUCH VISUALISATION CIRCLES
       for(var i=0;i<15;i++) {
         var touchPoint = new qx.ui.mobile.container.Composite();
@@ -75,13 +99,65 @@ qx.Class.define("mobileshowcase.page.Event",
       var label = this.__label = new qx.ui.mobile.basic.Label("Touch / Tap / Swipe this area");
       container.add(label);
 
-      var descriptionText = "<b>Testing Touch Events:</b> Touch / Tap / Swipe the area</br><b>Testing Multi-touch Events:</b> Touch the area with multiple fingers</br><b>Testing OrientationChange Event</b>: Rotate your device / change browser size";
+      var descriptionText = "<b>Testing Touch Events:</b> Touch / Tap / Swipe the area</br>\n\
+      <b>Testing Multi-touch Events:</b> Touch the area with multiple fingers</br>\n\
+      <b>Testing Pinch/Zoom Gesture:</b> Touch HTML5 logo with two fingers</br>\n\
+      <b>Testing OrientationChange Event</b>: Rotate your device / change browser size";
       var descriptionLabel = new qx.ui.mobile.basic.Label(descriptionText);
      
       var descriptionGroup = new qx.ui.mobile.form.Group([descriptionLabel]);
       var containerGroup = new qx.ui.mobile.form.Group([container]);
       this.getContent().add(descriptionGroup, {flex:1});
       this.getContent().add(containerGroup, {flex:1});
+    },
+    
+    
+    _onGestureTouchMove : function(evt) {
+      var gestureTargetElement = this.__gestureTarget.getContentElement();
+      var gestureTargetWrapElement = this.__gestureTargetWrap.getContentElement();
+      
+      var offset = 256;
+     
+      var containerElement = this.__container.getContentElement();
+      var containerLeft = qx.bom.element.Location.getLeft(containerElement, "scroll");
+      var containerTop = qx.bom.element.Location.getTop(containerElement, "scroll");
+      
+      if (evt.isMultiTouch())
+      {
+        this.__currentRotation = Math.round(evt.getRotation()) + Math.round(this.__initialRotation);
+        this.__currentScale = evt.getScale() * this.__initialScale;
+        
+        // Scale Range verification.
+        if(this.__currentScale<this.__minScale){
+          this.__currentScale = this.__minScale;
+        } else if ( this.__currentScale > this.__maxScale) {
+          this.__currentScale = this.__maxScale;
+        }
+         
+        qx.bom.element.Style.set(gestureTargetElement,"-webkit-transform","rotate(" + this.__currentRotation + "deg) scale(" + this.__currentScale + ")");
+        
+        this.__lastMultiTouchEventTime = new Date().getTime();
+      }
+      else
+      {
+        var timeSinceMultiTouch = new Date().getTime() - this.__lastMultiTouchEventTime; 
+        if(timeSinceMultiTouch>500){
+          var touchLeft = evt.getAllTouches()[0].clientX;
+          var touchTop = evt.getAllTouches()[0].clientY;
+
+          var left = touchLeft-containerLeft-offset;
+          var top = touchTop-containerTop-offset;
+
+          qx.bom.element.Style.set(gestureTargetWrapElement,"left", left + "px");
+          qx.bom.element.Style.set(gestureTargetWrapElement,"top", top + "px");
+        }
+      }
+    },
+    
+    
+    _onGestureTouchEnd : function() {
+      this.__initialRotation = this.__currentRotation;
+      this.__initialScale = this.__currentScale;
     },
 
 
@@ -128,7 +204,7 @@ qx.Class.define("mobileshowcase.page.Event",
       var containerTop = qx.bom.element.Location.getTop(this.__container.getContentElement(), "scroll");
 
       var offset = 50;
-
+      
       var touches = evt.getAllTouches();
 
       var isFirefox = qx.core.Environment.get("browser.name")=="firefox";
@@ -183,7 +259,7 @@ qx.Class.define("mobileshowcase.page.Event",
       }
     },
 
-
+    
     /**
      * Event handler.
      *
@@ -201,30 +277,29 @@ qx.Class.define("mobileshowcase.page.Event",
         }
         this.__label.setValue("");
       } else if (type == "touchend") {
-
+        
         var touches = evt.getAllTouches();
-
+        
         // On any touchEnd first hide all touch point marker.
         for(var i=0;i<this.__touchPoints.length;i++) {
           this.__touchPoints[i].exclude();
         }
-
+        
         // Then show again touch circles when any touches are available.
         for(i=0;i<touches.length;i++) {
-          var touch = touches[i];
-          touch.show();
+            this.__touchPoints[i].show();
         }
-
+        
         // Re-enable iScroll after touchend event
         if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
           this._getScrollContainer().enable();
         }
       }
 
+      // Text output of event
       if(this.__lastEventType != evt.getType()) {
         this.__label.setValue(this.__label.getValue() + " " + evt.getType());
       }
-
       this.__lastEventType = evt.getType();
     },
     

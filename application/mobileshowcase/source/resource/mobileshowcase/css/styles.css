@@ -27,6 +27,17 @@
   -webkit-border-radius: 70px; 
 }
 
+.gesture-target-wrap {
+  position:absolute;
+  left:-130px;
+  top:-130px;
+}
+
+.gesture-target {
+  -webkit-transform: scale(0.3) rotate(-15deg);
+  -moz-transform: scale(0.3) rotate(-15deg);
+}
+
 .marginExpander {
   margin-right: 5px;
 }
