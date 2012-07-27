@@ -264,6 +264,10 @@
  *       <td>{@link qx.bom.client.EcmaScript#getErrorToStringBug}</td>
  *     </tr>
  *     <tr>
+ *       <td>ecmascript.string.trim</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getStringTrim}</td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><b>engine</b></td>
  *     </tr>
  *     <tr>
@@ -812,6 +816,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "ecmascript.object.getprototypeof" : "qx.bom.client.EcmaScript.getObjectPrototypeOf",
       "ecmascript.date.now" : "qx.bom.client.EcmaScript.getDateNow",
       "ecmascript.error.toString" : "qx.bom.client.EcmaScript.getErrorToStringBug",
+      "ecmascript.string.trim" : "qx.bom.client.EcmaScript.getStringTrim",
       "html.webworker"              : "qx.bom.client.Html.getWebWorker",
       "html.filereader"             : "qx.bom.client.Html.getFileReader",
       "html.geolocation"            : "qx.bom.client.Html.getGeoLocation",

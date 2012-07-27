@@ -204,8 +204,16 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      */
     getDateNow : function() {
       return !!Date.now;
-    }
+    },
 
+    /**
+     * Checks if 'trim' is supported on the String object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getStringTrim : function() {
+      return typeof String.prototype.trim === "function";
+    }
   },
 
 
@@ -221,6 +229,13 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     qx.core.Environment.add("ecmascript.array.reduce", statics.getArrayReduce);
     qx.core.Environment.add("ecmascript.array.reduceright", statics.getArrayReduceRight);
 
+    // date polyfill
+    qx.core.Environment.add("ecmascript.date.now", statics.getDateNow);
+
+    // error bugfix
+    qx.core.Environment.add("ecmascript.error.toString", statics.getErrorToStringBug);
+    qx.core.Environment.add("ecmascript.error.stacktrace", statics.getStackTrace);
+
     // function polyfill
     qx.core.Environment.add("ecmascript.function.bind", statics.getFunctionBind);
 
@@ -228,11 +243,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     qx.core.Environment.add("ecmascript.object.keys", statics.getObjectKeys);
     qx.core.Environment.add("ecmascript.object.getprototypeof", statics.getObjectPrototypeOf);
 
-    // date polyfill
-    qx.core.Environment.add("ecmascript.date.now", statics.getDateNow);
-
-    // error bugfix
-    qx.core.Environment.add("ecmascript.error.toString", statics.getErrorToStringBug);
-    qx.core.Environment.add("ecmascript.error.stacktrace", statics.getStackTrace);
+    // string polyfill
+    qx.core.Environment.add("ecmascript.string.trim", statics.getStringTrim);
   }
 });
