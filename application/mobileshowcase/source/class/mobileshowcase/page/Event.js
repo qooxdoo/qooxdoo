@@ -31,6 +31,11 @@ qx.Class.define("mobileshowcase.page.Event",
     this.setTitle("Events");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
+    
+    this.__isFirefox = qx.core.Environment.get("browser.name")=="firefox";
+    if(this.__isFirefox==true) {
+      this.__vendorPrefix="moz";
+    }
   },
 
 
@@ -49,7 +54,9 @@ qx.Class.define("mobileshowcase.page.Event",
     __currentScale : 0,
     __maxScale : 1.5,
     __minScale : 0.3,
-    __lastMultiTouchEventTime : null,
+    __lastMultiTouchEventTime : 0,
+    __isFirefox:false,
+    __vendorPrefix:"webkit",
     
 
     // overridden
@@ -133,25 +140,42 @@ qx.Class.define("mobileshowcase.page.Event",
         } else if ( this.__currentScale > this.__maxScale) {
           this.__currentScale = this.__maxScale;
         }
-         
-        qx.bom.element.Style.set(gestureTargetElement,"-webkit-transform","rotate(" + this.__currentRotation + "deg) scale(" + this.__currentScale + ")");
+        var transitionKey = "-"+this.__vendorPrefix+"-transform";
+        var transitionValue = "rotate(" + (this.__currentRotation) + "deg) scale(" + (this.__currentScale) + ")";
+        
+        qx.bom.element.Style.set(gestureTargetElement,transitionKey, transitionValue);
         
         this.__lastMultiTouchEventTime = new Date().getTime();
       }
       else
       {
         var timeSinceMultiTouch = new Date().getTime() - this.__lastMultiTouchEventTime; 
-        if(timeSinceMultiTouch>500){
+        if(timeSinceMultiTouch>500) {
           var touchLeft = evt.getAllTouches()[0].clientX;
           var touchTop = evt.getAllTouches()[0].clientY;
 
           var left = touchLeft-containerLeft-offset;
           var top = touchTop-containerTop-offset;
-
-          qx.bom.element.Style.set(gestureTargetWrapElement,"left", left + "px");
-          qx.bom.element.Style.set(gestureTargetWrapElement,"top", top + "px");
+          
+          this.__moveElement(gestureTargetWrapElement,left,top);
         }
       }
+    },
+    
+    
+    /**
+     * Moves an HTML element by left and top value.
+     * Uses transform3d for smooth transitions.
+     */
+    __moveElement : function(element,left,top) {
+      var transformKey = "-webkit-transform";
+      var transformValue = "translate3d("+(left)+"px"+","+(top)+"px,0px)";
+      if(this.__isFirefox==true) {
+        transformKey = "transform";
+      }
+      
+      qx.bom.element.Style.set(element,transformKey, transformValue);
+      qx.bom.element.Style.set(element,"transform", transformValue);
     },
     
     
@@ -206,56 +230,35 @@ qx.Class.define("mobileshowcase.page.Event",
       var offset = 50;
       
       var touches = evt.getAllTouches();
-
-      var isFirefox = qx.core.Environment.get("browser.name")=="firefox";
-
+      
       for(var i=0;i<touches.length;i++) {
         var touchLeft = touches[i].clientX-containerLeft;
         var touchTop = touches[i].clientY-containerTop;
 
         var touchPoint =this.__touchPoints[i];
         var targetElement = touchPoint.getContentElement();
-
-        // If just one touch is present, the background follows the touch.
-        if(touches.length==1){
-          if(isFirefox) {
-            // Firefox
-            qx.bom.element.Style.set(containerElement,"background","-moz-radial-gradient("+touchLeft+"px "+touchTop+"px, cover, #1a82f7, #2F2727)");
-          } else {
-            // Chrome
-            qx.bom.element.Style.set(containerElement,"background","-webkit-radial-gradient("+touchLeft+"px "+touchTop+"px, cover, #1a82f7, #2F2727)");
-          }
-        } else {
-          // Multi-touch. Touchs are surrounded by a bordered circle.
-          // Background gradient is centered.
-          if(!touchPoint.isVisible()) {
-            touchPoint.show();
-          }
-          
-          // Update position of touch circle.
-          qx.bom.element.Style.set(targetElement,"left",touchLeft-offset+"px");
-          qx.bom.element.Style.set(targetElement,"top",touchTop-offset+"px");
+        
+        if(!touchPoint.isVisible()) {
+          touchPoint.show();
         }
+          
+        // Update position of touch circle.
+        var touchCircleLeft = (touchLeft-offset);
+        var touchCircleTop = (touchTop-offset);
+        this.__moveElement(targetElement,touchCircleLeft,touchCircleTop);
+        
+        // If just one touch is present, the background follows the touch.
+        if(touches.length==1) {
+          qx.bom.element.Style.set(containerElement,"background","-"+this.__vendorPrefix+"-radial-gradient("+touchLeft+"px "+touchTop+"px, cover, #1a82f7, #2F2727)");
+        } 
       }
 
       // Reset background gradient, when no touches are available.
       if(touches.length == 0) {
-        if(isFirefox) {
-          // Firefox
-          qx.bom.element.Style.set(containerElement,"background","-moz-linear-gradient(top, #000000 0%,#555555 100%)");
-        } else {
-          // Chrome
-          qx.bom.element.Style.set(containerElement,"background","-webkit-linear-gradient(top, #000000 0%,#555555 100%)");
-        }
+        qx.bom.element.Style.set(containerElement,"background","-"+this.__vendorPrefix+"-linear-gradient(top, #000000 0%,#555555 100%)");
       } else if (touches.length>1) {
         // Center background gradient, when multiple touches are available.
-        if(isFirefox) {
-          // Firefox
-          qx.bom.element.Style.set(containerElement,"background","-moz-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
-        } else {
-          // Chrome
-          qx.bom.element.Style.set(containerElement,"background","-webkit-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
-        }
+        qx.bom.element.Style.set(containerElement,"background","-"+this.__vendorPrefix+"-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
       }
     },
 
@@ -277,7 +280,6 @@ qx.Class.define("mobileshowcase.page.Event",
         }
         this.__label.setValue("");
       } else if (type == "touchend") {
-        
         var touches = evt.getAllTouches();
         
         // On any touchEnd first hide all touch point marker.

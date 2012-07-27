@@ -23,19 +23,21 @@
   
   border:4px solid white;
   
+  border-radius: 70px;  
   -moz-border-radius: 70px;  
   -webkit-border-radius: 70px; 
 }
 
 .gesture-target-wrap {
   position:absolute;
-  left:-130px;
-  top:-130px;
+  
+  -webkit-transform: translate3d(-130px,-130px,0px);
+  transform: translate3d(-130px,-130px,0px);
 }
 
 .gesture-target {
-  -webkit-transform: scale(0.3) rotate(-15deg);
-  -moz-transform: scale(0.3) rotate(-15deg);
+  -webkit-transform: scale(0.5) rotate(-15deg);
+  -moz-transform: scale(0.5) rotate(-15deg);
 }
 
 .marginExpander {
