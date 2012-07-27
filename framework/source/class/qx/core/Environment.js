@@ -597,6 +597,10 @@
  *       <td><i>default:</i> <code>0</code></td>
  *     </tr>
  *     <tr>
+ *       <td>qx.debug.ui.queue</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>true</code></td>
+ *     </tr>
+ *     <tr>
  *       <td>qx.dynamicmousewheel</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
@@ -1135,6 +1139,7 @@ qx.Bootstrap.define("qx.core.Environment",
       // old variants
       // make sure to reflect all changes to qx.debug here in the bootstrap class!
       this.add("qx.debug", function() {return true;});
+      this.add("qx.debug.ui.queue", function() {return true;});
       this.add("qx.aspects", function() {return false;});
       this.add("qx.dynlocale", function() {return true;});
       this.add("qx.mobile.emulatetouch", function() {return false;});
