@@ -247,11 +247,11 @@ Function %s(%s):
         # (undeclared variables are handled by the normal "identifier" rule
         # further down)
         if (
-            node.type == "first" and
+            node.type == "var" and
             node.parent.type == "operation" and
             node.parent.get("operator") == "IN"
            ):
-            use = treeutil.selectNode(node, "var/definition/identifier")
+            use = node.getChild("definition").getDefinee()
             if use:
                 name = use.get("value", False)
                 yield (name, use)

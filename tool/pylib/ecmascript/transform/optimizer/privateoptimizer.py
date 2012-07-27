@@ -100,15 +100,13 @@ def lookup(id, node, privates, globalPrivs):
         name = node.get("key", False)
         
     elif node.type == "assignment":
-        left = node.getChild("first", False)
-        if left:
-            lval = left.children[0]
-            if lval.isVar():
-                if lval.type == "identifier":
-                    name = lval.get("value")
-                elif lval.type == "dotaccessor":
-                    last = lval.getRightmostOperand()
-                    name = last.get("value")
+        lval = node.children[0]
+        if lval.isVar():
+            if lval.type == "identifier":
+                name = lval.get("value")
+            elif lval.type == "dotaccessor":
+                last = lval.getRightmostOperand()
+                name = last.get("value")
         
     if name and name.startswith("__") and not name in privates:
         privates[name] = crypt(id, name, globalPrivs)

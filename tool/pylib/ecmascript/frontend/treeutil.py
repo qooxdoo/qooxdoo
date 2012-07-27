@@ -643,7 +643,6 @@ def getClassName(classNode):
 # node upwards in the tree.
 ChainParentTypes = set([
     "accessor", "dotaccessor",
-    "first", "second",
     "call", "operand",
     ])
 
@@ -662,7 +661,7 @@ def findChainRoot(node):
 # Find the root <dotaccessor> of a dotted variable expression
 # ("a.b.c"), starting from any variable expression within this tree.
 def findVarRoot(node):
-    assert node.isVar()
+    # node can be var or constant ('{}.toString')
     current = node
     while current.parent and current.parent.isVar():
         current = current.parent
@@ -694,9 +693,9 @@ def checkFirstChainChild(node):
 
 def isNEWoperand(node):
     operation = None
-    if node.hasParentContext("operation/first/call/operand"):
+    if node.hasParentContext("operation/call/operand"):
         operation = node.parent.parent.parent.parent
-    elif node.hasParentContext("operation/first"):
+    elif node.hasParentContext("operation"):
         operation = node.parent.parent
     return operation and operation.type=="operation" and operation.get("operator",0)=="NEW"
 

@@ -740,9 +740,9 @@ def fill(node):
             assignType = "function"
 
         # move to hook operation
-        while target.parent.type in ["first", "second", "third"] and target.parent.parent.type == "operation" and target.parent.parent.get("operator") == "HOOK":
+        while target.parent.type == "operation" and target.parent.get("operator") == "HOOK":
             alternative = True
-            target = target.parent.parent
+            target = target.parent
 
         # move comment to assignment
         while target.parent.type == "right" and target.parent.parent.type == "assignment":

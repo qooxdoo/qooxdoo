@@ -1059,7 +1059,7 @@ def getValue(item):
             value = "[Complex expression]"
     elif item.type == "operation" and item.get("operator") == "SUB":
         # E.g. "-1" or "-Infinity"
-        value = "-" + getValue(item.getChild("first").getFirstChild())
+        value = "-" + getValue(item.getFirstChild())
     if value == None:
         value = "[Unsupported item type: " + item.type + "]"
 

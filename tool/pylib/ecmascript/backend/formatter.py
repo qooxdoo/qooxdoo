@@ -55,7 +55,7 @@ symbol_base.commentsPretty = commentsPretty
 def infix(id_):
     def format(self, optns, state):
         r = self.commentsPretty(optns, state)
-        r += self.getChild("first").format(optns, state)
+        r += self.getChild(0).format(optns, state)
         r += ' '
         r += self.get("value")
         r += ' '
@@ -71,7 +71,7 @@ for sym in SYMBOLS['infix']+SYMBOLS['infix_r']:
 def infix_v(id_):
     def format(self, optns, state):  # adapt the output
         r = self.commentsPretty(optns, state)
-        r += self.getChild("first").format(optns, state)
+        r += self.getChild(0).format(optns, state)
         r += self.space()
         r += self.get("value")
         r += self.space()
@@ -88,7 +88,7 @@ def prefix(id_):
     def format(self, optns, state):
         r = self.commentsPretty(optns, state)
         r += self.get("value")
-        r += self.getChild("first").format(optns, state)
+        r += self.getChild(0).format(optns, state)
         return r
     symbol(id_).format = format
 
@@ -102,7 +102,7 @@ def prefix_v(id_):
         r = self.commentsPretty(optns, state)
         r += self.get("value")
         r += self.space()
-        r += self.getChild("first").format(optns, state)
+        r += self.getChild(0).format(optns, state)
         return r
     symbol(id_).format = format
 
@@ -113,13 +113,13 @@ def preinfix(id_):  # pre-/infix operators (+, -)
     def format(self, optns, state):  # need to handle pre/infix cases
         r = self.commentsPretty(optns, state)
         r = [r]
-        first = self.getChild("first").format(optns, state)
+        first = self.getChild(0).format(optns, state)
         op = self.get("value")
         prefix = self.get("left", 0)
         if prefix and prefix == "true":
             r = [op, first]
         else:
-            second = self.getChild("second").format(optns, state)
+            second = self.getChild(1).format(optns, state)
             r = [first, ' ', op, ' ', second]
         return ''.join(r)
     symbol(id_).format = format
@@ -131,7 +131,7 @@ def prepostfix(id_):  # pre-/post-fix operators (++, --)
     def format(self, optns, state):
         r = self.commentsPretty(optns, state)
         operator = self.get("value")
-        operand = self.getChild("first").format(optns, state)
+        operand = self.getChild(0).format(optns, state)
         r += self.get("value")
         if self.get("left", '') == "true":
             r = [operator, operand]
@@ -174,15 +174,15 @@ def format(self, optns, state):
 def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r = [r]
-    r.append(self.getChild("first").format(optns, state))
+    r.append(self.getChild(0).format(optns, state))
     r.append(' ')
     r.append('?')
     r.append(' ')
-    r.append(self.getChild("second").format(optns, state))
+    r.append(self.getChild(1).format(optns, state))
     r.append(' ')
     r.append(':')
     r.append(' ')
-    r.append(self.getChild("third").format(optns, state))
+    r.append(self.getChild(2).format(optns, state))
     return ''.join(r)
 
 @method(symbol("dotaccessor"))
@@ -351,11 +351,11 @@ def format(self, optns, state):
 @method(symbol("in"))  # of 'for (in)'
 def format(self, optns, state):
     r = self.commentsPretty(optns, state)
-    r += self.getChild("first").format(optns, state)
+    r += self.getChild(0).format(optns, state)
     r += self.space()
     r += 'in'
     r += self.space()
-    r += self.getChild("second").format(optns, state)
+    r += self.getChild(1).format(optns, state)
     return r
 
 @method(symbol("expressionList"))

@@ -73,11 +73,9 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
         #print "var decl visitor", node
         # go through the definitions
         for def_node in treeutil.nodeIterator(node, ["definition"]):
-            if def_node.hasChild("identifier"):
-                self._new_var(def_node.getChild("identifier"))
-            elif def_node.hasChild("assignment"):
-                self._new_var(treeutil.selectNode(def_node, "assignment/first/identifier"))  # the first is the declared var
-                self.visit(treeutil.selectNode(def_node, "assignment/second")) # the rest could contain var uses
+            self._new_var(def_node.getDefinee())
+            if def_node.getInitialization():
+                self.visit(def_node.getInitialization())  # init expr could contain var uses
 
     ##
     # Register a scoped symbol with current scope.

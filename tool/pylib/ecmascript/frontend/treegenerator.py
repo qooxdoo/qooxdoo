@@ -489,20 +489,16 @@ def symbol(id_, bind_left=0):
 
 def infix(id_, bp):
     def ifix(self, left):
-        s = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(left)
-        s = symbol("second")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(expression(bp))
+        self.childappend(left)
+        self.childappend(expression(bp))
         return self
     symbol(id_, bp).ifix = ifix
 
     def toJS(self, opts):
         r = u''
-        r += self.getChild("first").toJS(opts)
+        r += self.children[0].toJS(opts)
         r += self.get("value")
-        r += self.getChild("second").toJS(opts)
+        r += self.children[1].toJS(opts)
         return r
     symbol(id_).toJS = toJS
 
@@ -514,11 +510,11 @@ def infix_v(id_, bp):
 
     def toJS(self, opts):  # adapt the output
         r = u''
-        r += self.getChild("first").toJS(opts)
+        r += self.children[0].toJS(opts)
         r += self.space()
         r += self.get("value")
         r += self.space()
-        r += self.getChild("second").toJS(opts)
+        r += self.children[1].toJS(opts)
         return r
     symbol(id_).toJS = toJS
         
@@ -530,12 +526,8 @@ def infix_r(id_, bp):
     infix(id_, bp)
 
     def ifix(self, left):
-        s = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(left)
-        s = symbol("second")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(expression(bp-1))
+        self.childappend(left)
+        self.childappend(expression(bp-1))
         return self
     symbol(id_, bp).ifix = ifix
 
@@ -544,16 +536,14 @@ def infix_r(id_, bp):
 # prefix "sigil" operators, like '!', '~', ...
 def prefix(id_, bp):
     def pfix(self):
-        s = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(expression(bp-1)) # right-associative
+        self.childappend(expression(bp-1)) # right-associative
         return self
     symbol(id_, bp).pfix = pfix
 
     def toJS(self, opts):
         r = u''
         r += self.get("value")
-        r += self.getChild("first").toJS(opts)
+        r += self.children[0].toJS(opts)
         return r
     symbol(id_).toJS = toJS
 
@@ -562,9 +552,7 @@ def prefix(id_, bp):
 # prefix "verb" operators, i.e. that need a space before their operand like 'delete'
 def prefix_v(id_, bp):
     def pfix(self):
-        s = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(expression(bp-1)) # right-associative
+        self.childappend(expression(bp-1)) # right-associative
         return self
     symbol(id_, bp).pfix = pfix
 
@@ -572,7 +560,7 @@ def prefix_v(id_, bp):
         r = u''
         r += self.get("value")
         r += self.space()
-        r += self.getChild("first").toJS(opts)
+        r += self.children[0].toJS(opts)
         return r
     symbol(id_).toJS = toJS
 
@@ -584,21 +572,19 @@ def preinfix(id_, bp):  # pre-/infix operators (+, -)
     # give them a pfix() for prefix pos
     def pfix(self):
         self.set("left", "true")  # mark prefix position
-        first = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(first)
-        first.childappend(expression(130)) # need to use prefix rbp!
+        self.childappend(expression(130)) # need to use prefix rbp!
         return self
     symbol(id_).pfix = pfix
 
     def toJS(self, opts):  # need to handle pre/infix cases
         r = []
-        first = self.getChild("first").toJS(opts)
+        first = self.children[0].toJS(opts)
         op = self.get("value")
         prefix = self.get("left", 0)
         if prefix and prefix == "true":
             r = [op, first]
         else:
-            second = self.getChild("second").toJS(opts)
+            second = self.children[1].toJS(opts)
             r = [first, op, second]
         return ''.join(r)
     symbol(id_).toJS = toJS
@@ -607,26 +593,22 @@ def preinfix(id_, bp):  # pre-/infix operators (+, -)
 def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
     def pfix(self):  # prefix
         self.set("left", "true")
-        s = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(expression())  # overgenerating! only lvals allowed
+        self.childappend(expression())  # overgenerating! only lvals allowed
         return self
     symbol(id_, bp).pfix = pfix
 
     def ifix(self, left): # postfix
         # assert(left, lval)
-        s = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(left)
+        self.childappend(left)
         return self
     symbol(id_).ifix = ifix
 
     def toJS(self, opts):
         r = u''
         operator = self.get("value")
-        operand = self.getChild("first").toJS(opts)
+        operand = self.children[0].toJS(opts)
         r += self.get("value")
-        if self.get("left", '') == "true":
+        if self.get("left", 0) == "true":
             r = [operator, operand]
         else:
             r = [operand, operator]
@@ -772,29 +754,23 @@ def pfix(self):
 @method(symbol("?"))
 def ifix(self, left):
     # first
-    first = symbol("first")(token.get("line"), token.get("column"))
-    first.childappend(left)
-    self.childappend(first)
+    self.childappend(left)
     # second
-    second = symbol("second")(token.get("line"), token.get("column"))
-    second.childappend(expression())
-    self.childappend(second)
+    self.childappend(expression())
     advance(":")
     # third
-    third = symbol("third")(token.get("line"), token.get("column"))
-    third.childappend(expression())
-    self.childappend(third)
+    self.childappend(expression())
     return self
 
 
 @method(symbol("?"))
 def toJS(self, opts):
     r = []
-    r.append(self.getChild("first").toJS(opts))
+    r.append(self.children[0].toJS(opts))
     r.append('?')
-    r.append(self.getChild("second").toJS(opts))
+    r.append(self.children[1].toJS(opts))
     r.append(':')
-    r.append(self.getChild("third").toJS(opts))
+    r.append(self.children[2].toJS(opts))
     return ''.join(r)
 
 
@@ -817,22 +793,9 @@ def toJS(self, opts):
 def ifix(self, left):
     if token.id != "identifier":
         SyntaxException("Expected an attribute name (pos %r)." % ((token.get("line"), token.get("column")),))
-    #variable = symbol("variable")(token.get("line"), token.get("column"))
-    #variable.childappend(left.getChild("identifier")) # unwrap from <variable/>
-    #variable.childappend(left)
-    #while True:
-    #    #variable.childappend(expression().getChildByPosition(0)) # unwrap from <variable/>
-    #    variable.childappend(expression())
-    #    if token.id != ".":
-    #        break
-    #    advance(".")
     accessor = symbol("dotaccessor")(token.get("line"), token.get("column"))
-    s = symbol("first")(token.get("line"), token.get("column"))
-    accessor.childappend(s)
-    s.childappend(left)
-    s = symbol("second")(token.get("line"), token.get("column"))
-    accessor.childappend(s)
-    s.childappend(expression(symbol(".").bind_left)) 
+    accessor.childappend(left)
+    accessor.childappend(expression(symbol(".").bind_left)) 
         # i'm providing the rbp to expression() here explicitly, so "foo.bar(baz)" gets parsed
         # as (call (dotaccessor ...) (param baz)), and not (dotaccessor foo
         # (call bar (param baz))).
@@ -852,7 +815,7 @@ def toJS(self, opts):
 # walk down to find the "left-most" identifier ('a' in 'a.b().c')
 @method(symbol("dotaccessor"))
 def getLeftmostOperand(self):
-    ident = self.getChild("first")
+    ident = self.children[0]
     while ident.type not in ("identifier", "constant"):  # e.g. 'dotaccessor', 'first', 'call', 'accessor', ...
         ident =ident.children[0]
     return ident
@@ -861,19 +824,8 @@ def getLeftmostOperand(self):
 # walk down to find the "right-most" identifier ('c' in a.b.c)
 @method(symbol("dotaccessor"))
 def getRightmostOperand(self):
-    ident = self.getChild("second").children[0]
-    return ident # "left-leaning syntax tree (. (. a b) c)
-
-
-##
-# get the highest (in the tree) dotaccessor parent of a pure '.' expression
-@method(symbol("dotaccessor"))
-def getHighestPureDotParent(self):
-    highestDot = self
-    while highestDot.hasParentContext("dotaccessor/*"):
-        highestDot = highestDot.parent.parent
-    return highestDot
-
+    ident = self.children[1]
+    return ident # "left-leaning" syntax tree (. (. a b) c)
 
 # constants
 
@@ -1214,16 +1166,27 @@ def toJS(self, opts):
 
 ##
 # returns the identifier node of the defined symbol
+#
 @method(symbol("definition"))
 def getDefinee(self):
-    dfn = self.children[0]
+    dfn = self.children[0]  # (definition (identifier a)) or (definition (assignment (identifier a)(const 3)))
     if dfn.type == "identifier":
         return dfn
     elif dfn.type == "assignment":
-        return dfn.getChild("first").children[0]
+        return dfn.children[0]
     else:
         raise SyntaxTreeError("Child of a 'definition' symbol must be in ('identifier', 'assignment')")
 
+##
+# returns the initialization of the defined symbol, if any
+#
+@method(symbol("definition"))
+def getInitialization(self):
+    dfn = self.children[0]
+    if dfn.type == "assignment":
+        return dfn.children[1]
+    else:
+        return None
 
 symbol("for"); symbol("in")
 
@@ -1303,11 +1266,11 @@ def toJS(self, opts):
         r.append(self.children[0].toJS(opts))
     # for (;;)
     else:
-        r.append(self.children[0].children[0].toJS(opts))
+        r.append(self.children[0].getChild("first").toJS(opts))
         r.append(';')
-        r.append(self.children[0].children[1].toJS(opts))
+        r.append(self.children[0].getChild("second").toJS(opts))
         r.append(';')
-        r.append(self.children[0].children[2].toJS(opts))
+        r.append(self.children[0].getChild("third").toJS(opts))
     r.append(')')
     # body
     r.append(self.getChild("body").toJS(opts))
@@ -1316,11 +1279,11 @@ def toJS(self, opts):
 @method(symbol("in"))  # of 'for (in)'
 def toJS(self, opts):
     r = u''
-    r += self.getChild("first").toJS(opts)
+    r += self.children[0].toJS(opts)
     r += self.space()
     r += 'in'
     r += self.space()
-    r += self.getChild("second").toJS(opts)
+    r += self.children[1].toJS(opts)
     return r
 
 
@@ -1577,14 +1540,12 @@ def toJS(self, opts):
 
 @method(symbol("new"))  # need to treat 'new' explicitly, for the awkward 'new Foo()' "call" syntax
 def pfix(self):
-    s = symbol("first")(token.get("line"), token.get("column"))
-    self.childappend(s)
     arg = expression(self.bind_left-1)  # first, parse a normal expression (this excludes '()')
     if token.id == '(':  # if the next token indicates a call
         t = token
         advance("(")
         arg = t.ifix(left=arg)   # invoke '('.ifix, with class name as <left> arg
-    s.childappend(arg)
+    self.childappend(arg)
     return self
 
 
