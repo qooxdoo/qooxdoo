@@ -136,7 +136,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         useIcon = true;
       }
 
-      linkText = qx.lang.String.trim(linkText);
+      linkText = linkText.trim();
 
       if (linkText.charAt(0) == '"' || linkText.charAt(0) == '<')
       {
@@ -203,7 +203,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
                 var parenPos = cleanItemName.indexOf("(");
 
                 if (parenPos != -1) {
-                  cleanItemName = qx.lang.String.trim(cleanItemName.substring(0, parenPos));
+                  cleanItemName = cleanItemName.substring(0, parenPos).trim();
                 }
                 itemNode = this.__getItemFromClassHierarchy(cleanItemName,classNode);
                 if(!itemNode && apiviewer.UiModel.getInstance().getShowIncluded())

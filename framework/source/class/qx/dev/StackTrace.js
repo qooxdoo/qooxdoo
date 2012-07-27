@@ -16,6 +16,9 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
+/* ************************************************************************
+#require(qx.lang.normalize.String)
+************************************************************************ */
 
 /**
  * Methods to get information about the JavaScript call stack.
@@ -275,7 +278,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       }
       else if (error.message && error.message.indexOf("Backtrace:") >= 0) {
         // Some old Opera versions append the trace to the message property
-        var traceString = qx.lang.String.trim(error.message.split("Backtrace:")[1]);
+        var traceString = error.message.split("Backtrace:")[1].trim();
         var lines = traceString.split("\n");
         for (var i=0; i<lines.length; i++)
         {

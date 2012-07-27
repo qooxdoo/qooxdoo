@@ -27,6 +27,7 @@
 #require(qx.lang.normalize.Date)
 #require(qx.lang.normalize.Error)
 #require(qx.lang.normalize.Function)
+#require(qx.lang.normalize.String)
 
 ************************************************************************ */
 

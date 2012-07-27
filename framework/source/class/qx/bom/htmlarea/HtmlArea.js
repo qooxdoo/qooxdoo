@@ -25,6 +25,7 @@
 /* ************************************************************************
 
 #asset(qx/static/blank.html)
+#require(qx.lang.normalize.String)
 
 ************************************************************************ */
 
@@ -266,8 +267,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
           continue;
         }
 
-        var name =  qx.lang.String.trim(style.substring(0, sep));
-        var value = qx.lang.String.trim(style.substring(sep+1, style.length));
+        var name =  style.substring(0, sep).trim();
+        var value = style.substring(sep+1, style.length).trim();
 
         if (name && value) {
           map[name] = value;
