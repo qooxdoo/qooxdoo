@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2012 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,14 +14,23 @@
 
    Authors:
      * Martin Wittemann (wittemann)
-     * Daniel Wagner (danielwagner)
 
 ************************************************************************ */
 /* ************************************************************************
-#require(qx.lang.normalize.Function);
-#require(qx.lang.normalize.String);
+#require(qx.lang.normalize.String)
 ************************************************************************ */
-/**
- * Adds JavaScript features that may not be supported by all clients.
- */
-qx.Bootstrap.define("qx.module.Polyfill", {});
+qx.Class.define("qx.test.lang.normalize.String",
+{
+  extend : qx.dev.unit.TestCase,
+  include : [qx.dev.unit.MMock],
+
+
+  members :
+  {
+    testTrim : function() {
+      this.assertEquals("y", "   y".trim());
+      this.assertEquals("y", "y   ".trim());
+      this.assertEquals("y", " y  ".trim());
+    }
+  }
+});

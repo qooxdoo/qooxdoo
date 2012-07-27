@@ -16,3 +16,4 @@
 \becmascript\.stacktrace\b=ecmascript.error.stacktrace
 
 \bqx\.lang\.Date\.now\b=Date.now
+\bqx\.lang\.String\.trim\((.*)\)=$1.trim()

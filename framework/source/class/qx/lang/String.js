@@ -189,10 +189,14 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * removes white space from the left and the right side of a string
      *
+     * @deprecated since 2.1: please use the native trim method.
      * @param str {String} the string to trim
      * @return {String} the trimmed string
      */
     trim : function(str) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.Bootstrap.warn("'qx.lang.String.trim' is deprecated. Please use the native .trim method on String objects.");
+      }
       return str.replace(/^\s+|\s+$/g, "");
     },
 
