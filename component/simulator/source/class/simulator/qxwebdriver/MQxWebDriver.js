@@ -102,6 +102,17 @@ qx.Mixin.define("simulator.qxwebdriver.MQxWebDriver", {
     },
 
     /**
+     * Initialize this QxWebDriver instance
+     *
+     * @return {webdriver.promise.Promise} At promise that will be resolved
+     * when initialization is done
+     */
+    init : function()
+    {
+      return this.defineFunction(simulator.qxwebdriver.Util.toSafeValue, "toSafeValue");
+    },
+
+    /**
      * Defines a JavaScript function that will be available in the AUT's
      * context. See the documentation of webdriver.WebDriver.executeScript
      * for details on capabilities and limitations.
