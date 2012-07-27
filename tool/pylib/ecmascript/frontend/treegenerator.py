@@ -461,19 +461,6 @@ class symbol_base(Node):
         return s
 
 
-    def inForLoop(self):
-        while node:
-            if self.type in ["first", "second", "third"] and self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
-                return True
-
-            if not self.hasParent():
-                return False
-
-            node = self.parent
-
-        return False
-
-
     # end: symbol_base(Node)
 
 

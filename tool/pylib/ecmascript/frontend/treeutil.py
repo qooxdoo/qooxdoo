@@ -659,6 +659,16 @@ def findChainRoot(node):
     return current  # this must be the chain root
 
 ##
+# Find the root <dotaccessor> of a dotted variable expression
+# ("a.b.c"), starting from any variable expression within this tree.
+def findVarRoot(node):
+    assert node.isVar()
+    current = node
+    while current.parent and current.parent.isVar():
+        current = current.parent
+    return current
+        
+##
 # Find the leftmost child downward the tree of the passed node
 # 
 def findLeftmostChild(node):

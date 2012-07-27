@@ -29,7 +29,7 @@ import graph
 
 from misc                            import filetool, textutil, util, Path, json, copytool
 from ecmascript.transform.optimizer  import privateoptimizer
-from ecmascript.transform.check.lint import LintChecker
+from ecmascript.transform.check      import lint
 from misc.ExtMap                     import ExtMap
 from generator.code.Class            import Class, CompileOptions
 from generator.code.DependencyLoader import DependencyLoader
@@ -1642,34 +1642,27 @@ class Generator(object):
             classesFiltered = (c for c in classes if incRegex.search(c) and not excRegex.search(c))
             return classesFiltered
 
+        # ----------------------------------------------------------------------
+
         if not self._job.get('lint-check', False):
             return
 
         classes = classes.keys()
         self._console.info("Checking Javascript source code...")
         self._console.indent()
-        self._shellCmd  = ShellCmd()
 
-        qxPath = self._job.get('let',{})
-        if 'QOOXDOO_PATH' in qxPath:
-            qxPath = qxPath['QOOXDOO_PATH']
-        else:
-            raise RuntimeError, "Need QOOXDOO_PATH setting to run lint command"
-        lintCommand    = os.path.join(qxPath, 'tool', 'bin', "ecmalint.py")
         lintJob        = self._job
-        allowedGlobals = lintJob.get('lint-check/allowed-globals', [])
-        includePatt    = lintJob.get('include', [])  # this is for future use
-        excludePatt    = lintJob.get('exclude', [])
+        def opts(): pass
+        opts.allowed_globals = lintJob.get('lint-check/allowed-globals', [])
+        opts.include_patts    = lintJob.get('include', [])  # this is for future use
+        opts.exclude_patts    = lintJob.get('exclude', [])
+        opts.library_classes  = []  # no compare set for classes (?!)
 
-        #self._actionLib.lint(classes)
-        lint_opts = "".join(map(lambda x: " -g"+x, allowedGlobals))
-        classesToCheck = getFilteredClassList(classes, includePatt, excludePatt)
-        lintChecker = LintChecker()
+        classesToCheck = getFilteredClassList(classes, opts.include_patts, opts.exclude_patts)
         for pos, classId in enumerate(classesToCheck):
             self._console.debug("Checking %s" % classId)
-            #self._shellCmd.execute('%s "%s" %s "%s"' % (sys.executable, lintCommand, lint_opts, self._classesObj[classId].path))
             tree = self._classesObj[classId].tree()
-            lintChecker.visit(tree)
+            lint.lint_check(tree, classId, opts)
 
         self._console.outdent()
 
