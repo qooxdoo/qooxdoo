@@ -136,7 +136,7 @@ Within a doc comment the following attributes are supported:
 
   Functions
 
-**Description**
+  **Description**
 
   Describes in which cases an exception is thrown.
 
@@ -166,7 +166,13 @@ Within a doc comment the following attributes are supported:
 @see
 -----
 
-Adds a cross reference to another structure (class, property, method or constant). The text is structured as follows: At first comes the full name of the class to link to. If you want to link to a property, method or constant, then a ``#`` comes, followed by the name of the property, method or constant.
+**Description**
+
+  Adds a cross reference to another structure (class, property, method or constant).
+  
+
+  
+  The text is structured as follows: At first comes the full name of the class to link to. If you want to link to a property, method or constant, then a ``#`` comes, followed by the name of the property, method or constant.
 
 If you refer to a structure within the same class, then the class name may be omitted. If you refer to a class in the same package, then the package name before the class may be omitted. In all other cases you have to specify the fully qualified class name (e.g. ``qx.ui.table.Table``).
 
