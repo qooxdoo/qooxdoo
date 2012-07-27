@@ -335,6 +335,8 @@ class MClassDependencies(object):
                 return
                 
             assembled = (treeutil.assembleVariable(node))[0]
+            #if self.id == "qx.log.Logger" and node.toJS(None)=="clazz" and node.parent.type=="dotaccessor":
+            #    import pydb; pydb.debugger()
 
             # treat dependencies in defer as requires
             deferNode = self.checkDeferNode(assembled, node)
@@ -437,57 +439,96 @@ class MClassDependencies(object):
         # try to qualify the syntactical context of the given variable node (call, instantiation,
         # ...); also, filter for the "head" symbol of a complex var expression (like 'a.b.c').
         def checkNodeContext(node):
+
+            ##
+            # Getting the longest left-most dotaccessor in the expression <node>
+            # is in, e.g. the 'a.b' in 'a.b().c.d[0].e'.
+            #
+            # The idea is to only treat 'a.b' as interesting, and ignore all
+            # other vars in such an expression. So the check is to see whether
+            # <node> represents 'a.b'.
+            #
+            # To get this we 
+            # (a) use the leftmostChild of <node> ("downwards")
+            #     (If <node> represents 'a.b', this should be 'a', but would
+            #     be 'c' if in 'c.d'). The leftmostChild is also used
+            #     elsewhere, so it is passed in as a param.
+            # (b) from that search upwards the tree to get the highest enclosing
+            #     dotaccessor node.
+            # If this is identical to <node>, <node> is interesting.
+            #
+            def is_leftmost_and_highest_pure_dotaccessor(node, leftmost_child):
+
+                res = False
+
+                # as _isInterestingReference is run on *any* var node while
+                # traversing the tree intermediate occurrences var nodes like
+                # in 'a.b().c[d].e' are run through it as well; but it is enough to treat
+                # the longest left-most expression, so we restrict ourself to the "head" var
+                # expression like 'a.b' here, and skip other occurrences (like 'c', 'd'
+                # and 'e' in the example)
+                #myFirst = node.getFirstChild(mandatory=False, ignoreComments=True)
+                #if not treeutil.checkFirstChainChild(myFirst): # see if myFirst is the first identifier in a chain
+                #    context = ''
+
+
+                # get the top-most dotaccessor of this identifier/constant(?)
+                ##localTop = treeutil.findVarRoot(leftmostChild)
+                
+                # testing for the 'a.b' in 'a.b().c[d].e'; bare 'a' in 'a' is also caught
+                ##if localTop != node:
+                ##    context = ''
+
+                # ----------------------------------------------------
+
+                # assumption: not is_right_dot_operand(node), so
+                # we're on the 'left' axis of the (left-leaning) expression
+                var_root = treeutil.findVarRoot(leftmost_child) # get the highest pur dotaccessor above it
+                res = var_root == node
+
+                return res
+
+            def is_right_dot_operand(node):
+                return node.parent.type == "dotaccessor" and node.parent.getChild(1) == node
+
+            # ------------------------------------------------------------------
+
             context = 'interesting' # every context is interesting, maybe we get more specific or reset to ''
+
+            #if self.id=="qx.Bootstrap" and assembled=="__classToTypeMap":
+            #    import pydb; pydb.debugger()
 
             # don't treat label references
             if node.parent.type in ("break", "continue"):
-                return ''
+                context = ''
 
-            # as _isInterestingReference is run on *any* var node while
-            # traversing the tree intermediate occurrences var nodes like
-            # in 'a.b().c[d].e' are run through it as well; but it is enough to treat
-            # the longest left-most expression, so we restrict ourself to the "head" var
-            # expression like 'a.b' here, and skip other occurrences (like 'c', 'd'
-            # and 'e' in the example)
-            #myFirst = node.getFirstChild(mandatory=False, ignoreComments=True)
-            #if not treeutil.checkFirstChainChild(myFirst): # see if myFirst is the first identifier in a chain
-            #    context = ''
+            # skip right dot operands (the 'b' in 'a.b')
+            elif is_right_dot_operand(node):
+                context = ''
 
-            leftmostChild = treeutil.findLeftmostChild(node)  # works for leafs too
-
-            # get the top-most dotaccessor of this identifier/constant
-            if leftmostChild.hasParentContext("dotaccessor/*"): # operand of a dotaccessor
-                localTop = leftmostChild.parent.parent.getHighestPureDotParent()
             else:
-                localTop = leftmostChild 
-            
-            # testing for the 'a.b' in 'a.b().c[d].e'; bare 'a' in 'a' is also caught
-            if localTop != node:
-                context = ''
+                leftmost_child = treeutil.findLeftmostChild(node) # get left-most child
 
-            # '/^\s*$/.test(value)' or '[].push' or '{}.toString'
-            elif leftmostChild.type in ("constant", "array", "map"):
-                context = ''
+                # skip inner parts of a complex dotaccessor chain ('.c' in 'a.b().c.d[3].f')
+                if not is_leftmost_and_highest_pure_dotaccessor(node, leftmost_child):
+                    context = ''
 
-            ## testing for the 'a' in 'a.b().c[d].e'
-            #elif not treeutil.checkFirstChainChild(treeutil.findLeftmostChild(localTop)):
-            #    context = ''
+                # '/^\s*$/.test(value)' or '[].push' or '{}.toString'
+                elif leftmost_child.type in ("constant", "array", "map"):
+                    context = ''
 
-            # check name in 'new ...' position
-            elif ((node.hasParentContext("operation/first") and node.parent.parent.get("operator",0) == "new")
-                or (node.hasParentContext("operation/first/call/operand") and
-                    node.parent.parent.parent.parent.get("operator",0) == "new") # WISH: hasParentContext("operation[@operator='new']/...")
-                ):
-                context = 'new'
+                # check name in 'new ...' position
+                elif treeutil.isNEWoperand(node):
+                    context = 'new'
 
-            # check name in call position
-            elif (node.hasParentContext("call/operand")):
-                context = 'call'
+                # check name in call position
+                elif (node.hasParentContext("call/operand")):
+                    context = 'call'
 
-            # check name in "'extend' : ..." position
-            elif (node.hasParentContext("keyvalue/*") and node.parent.parent.get('key') in ['extend']): #, 'include']):
-                #print "-- found context: %s" % node.parent.parent.get('key')
-                context = 'extend'
+                # check name in "'extend' : ..." position
+                elif (node.hasParentContext("keyvalue/*") and node.parent.parent.get('key') in ['extend']): #, 'include']):
+                    #print "-- found context: %s" % node.parent.parent.get('key')
+                    context = 'extend'
 
             return context
 

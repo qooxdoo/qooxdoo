@@ -449,11 +449,11 @@ def reduceOperation(literalNode):
 
     # hook ?: operator
     elif operator in ["HOOK"]:
-        if ngParent.type == "first": # optimize a literal condition
+        if ngParent == noperationNode.children[0]: # optimize a literal condition
             if bool(literalValue):
-                resultNode = treeutil.selectNode(noperationNode, "second/1", True)
+                resultNode = noperationNode.children[1]
             else:
-                resultNode = treeutil.selectNode(noperationNode, "third/1", True)
+                resultNode = noperationNode.children[2]
 
     # unsupported operation
     else:

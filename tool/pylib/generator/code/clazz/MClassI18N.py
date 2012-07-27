@@ -125,7 +125,7 @@ class MClassI18N(object):
             elif child.type == "constant" and child.get("constantType") == "string":
                 strings.append(child.get("value"))
 
-            elif child.type == "operation":
+            elif child.type == "operation": # must be "foo" + "bar"
                 strings.append(self._concatOperation(child))
 
             elif len(strings) < minArgc:
@@ -157,14 +157,14 @@ class MClassI18N(object):
 
     def _concatOperation(self, node):
         result = ""
-        console = self.context['console']
+        assert node.type=="operation" and node.get("operator")=="ADD", "Can only process concatenation of string literals"
 
         try:
-            first = node.getChild("first").getChildByTypeAndAttribute("constant", "constantType", "string")
+            first = node.getChildByPosition(0).getChildByTypeAndAttribute("constant", "constantType", "string")
             result += first.get("value")
 
-            second = node.getChild("second").getFirstChild(True, True)
-            if second.type == "operation":
+            second = node.getChildByPosition(1).getFirstChild(True, True)
+            if second.type == "operation" and second.get("operator")=="ADD":
                 result += self._concatOperation(second)
             else:
                 result += second.get("value")

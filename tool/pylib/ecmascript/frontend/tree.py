@@ -196,13 +196,16 @@ class Node(object):
             newChild.parent = self
             self.children.remove(oldChild)
 
-    def getChild(self, ntype, mandatory = True):
+    ##
+    # Get child by type or position
+    #
+    def getChild(self, spec, mandatory = True):
         if self.children:
-            for child in self.children:
-                if child.type == ntype:
+            for pos,child in enumerate(self.children):
+                if pos==spec or child.type==spec:
                     return child
         if mandatory:
-            raise NodeAccessException("Node " + self.type + " has no child with type " + ntype, self)
+            raise NodeAccessException("Node " + self.type + " has no child with type or position" + spec, self)
 
     def hasChildRecursive(self, ntype):
         if isinstance(ntype, basestring):
