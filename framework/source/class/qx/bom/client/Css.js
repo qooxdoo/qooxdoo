@@ -146,7 +146,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
         {
           standard : true,
           syntax : 'url("foo.png") 4 4 4 4 fill stretch',
-          regEx : /foo\.png.*?4.*?fill.*?stretch/
+          regEx : /foo\.png.*?4.*?fill/
         },
         {
           standard : false,
