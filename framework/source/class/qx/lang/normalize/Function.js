@@ -58,6 +58,16 @@
      commit  9f539abd9aa9950e1d907077a4be7f5133a00e52
 
 ************************************************************************ */
+/**
+ * This class takes care of the normalization of the native 'Function' object.
+ * Therefore it checks the availability of the following methods and appends
+ * it, if not available. This means you can use the methods during
+ * development in every browser. For usage samples, check out the attached links.
+ *
+ * *bind*:
+ * <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind">MDN documentation</a> |
+ * <a href="http://es5.github.com/#x15.3.4.5">Annotated ES5 Spec</a>
+ */
 qx.Bootstrap.define("qx.lang.normalize.Function", {
 
   defer : function() {
