@@ -1,23 +1,32 @@
 .eventcontainer {
-  cursor:default;
+  position:relative;
+  overflow:hidden;
   
-  min-height:400px;
-  color:#ffffff;
-  padding:5px;
-  
-  background-color: #555555;
-  
+  max-height:400px;
+}
+
+.container-touch-area{
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#000000), color-stop(100%,#555555));
   background: -webkit-linear-gradient(top, #000000 0%,#555555 100%);
   background: -moz-linear-gradient(top, #000000 0%,#555555 100%);
   
   background-repeat: no-repeat;
-  overflow:hidden;
-  position:relative;
+  
+  min-height:400px;
+  color:#ffffff;
+  padding:5px;
+  
+  cursor:default;
+  
+  background-color: #555555;
+  
+  width:100%;
 }
 
 .touch {
   position:absolute;
+  top:0px;
+  left:0px;
   width:70px;
   height:70px;
   
@@ -26,18 +35,19 @@
   border-radius: 70px;  
   -moz-border-radius: 70px;  
   -webkit-border-radius: 70px; 
-}
-
-.gesture-target-wrap {
-  position:absolute;
   
-  -webkit-transform: translate3d(-130px,-130px,0px);
-  transform: translate3d(-130px,-130px,0px);
+  margin-left:-35px;
+  margin-top:-35px;
+  z-index:5000;
 }
 
 .gesture-target {
-  -webkit-transform: scale(0.5) rotate(-15deg);
-  -moz-transform: scale(0.5) rotate(-15deg);
+  transform: scale(0.5);
+  
+  z-index:1000;
+  position:absolute;
+  top:0px;
+  left:0px;
 }
 
 .marginExpander {

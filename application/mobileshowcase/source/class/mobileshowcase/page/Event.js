@@ -42,6 +42,7 @@ qx.Class.define("mobileshowcase.page.Event",
   members :
   {
     __container : null,
+    __showcaseContainer : null,
     __gestureTarget : null,
     __gestureTargetWrap : null,
     __label : null,
@@ -49,14 +50,20 @@ qx.Class.define("mobileshowcase.page.Event",
     __touchPoints : [],
     __lastEventType :"",
     __initialScale : 1,
-    __initialRotation : 0,
+    __initialRotation : -15,
     __currentRotation : 0,
-    __currentScale : 0,
+    __currentScale : 0.4,
     __maxScale : 1.5,
     __minScale : 0.3,
     __lastMultiTouchEventTime : 0,
     __isFirefox:false,
     __vendorPrefix:"webkit",
+    __logoLeft:-130,
+    __logoTop:-130,
+    __touchCircleLeft:[-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000],
+    __touchCircleTop:[-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000],
+    __touchCount:0,
+    
     
 
     // overridden
@@ -64,22 +71,28 @@ qx.Class.define("mobileshowcase.page.Event",
     {
       this.base(arguments);
 
-      var container = this.__container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({
+      var container =  this.__showcaseContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({
         alignX : "center",
         alignY : "middle"
       }));
-      
       container.addCssClass("eventcontainer");
-      container.addListener("tap", this._onTap, this);
-      container.addListener("swipe", this._onSwipe, this);
-      container.addListener("touchstart", this._onTouch, this);
-      container.addListener("touchmove", this._onTouch, this);
-      container.addListener("touchend", this._onTouch, this);
-      qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
       
+      // CONTAINER TOUCH AREA 
+      var containerTouchArea = this.__container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({
+        alignX : "center",
+        alignY : "middle"
+      }));
+      containerTouchArea.addCssClass("container-touch-area");
+     
+      containerTouchArea.addListener("tap", this._onTap, this);
+      containerTouchArea.addListener("swipe", this._onSwipe, this);
+      containerTouchArea.addListener("touchstart", this._onTouch, this);
+      containerTouchArea.addListener("touchmove", this._onTouch, this);
+      containerTouchArea.addListener("touchend", this._onTouch, this);
+      qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
+      container.add(containerTouchArea);
+
       // GESTURE TARGET OBJECT
-      this.__gestureTargetWrap = new qx.ui.mobile.container.Composite();
-      this.__gestureTargetWrap.addCssClass("gesture-target-wrap");
       
       this.__gestureTarget = new qx.ui.mobile.basic.Image("mobileshowcase/icon/HTML5_Badge_512.png");
       
@@ -89,8 +102,7 @@ qx.Class.define("mobileshowcase.page.Event",
       
       this.__gestureTarget.setDraggable(false);
       
-      this.__gestureTargetWrap.add(this.__gestureTarget);
-      container.add(this.__gestureTargetWrap);
+      container.add(this.__gestureTarget);
       
       // TOUCH VISUALISATION CIRCLES
       for(var i=0;i<15;i++) {
@@ -99,12 +111,11 @@ qx.Class.define("mobileshowcase.page.Event",
         
         this.__touchPoints.push(touchPoint);
 
-        container.add(touchPoint);
-        touchPoint.exclude();
+        containerTouchArea.add(touchPoint);
       }
       
       var label = this.__label = new qx.ui.mobile.basic.Label("Touch / Tap / Swipe this area");
-      container.add(label);
+      containerTouchArea.add(label);
 
       var descriptionText = "<b>Testing Touch Events:</b> Touch / Tap / Swipe the area</br>\n\
       <b>Testing Multi-touch Events:</b> Touch the area with multiple fingers</br>\n\
@@ -116,34 +127,33 @@ qx.Class.define("mobileshowcase.page.Event",
       var containerGroup = new qx.ui.mobile.form.Group([container]);
       this.getContent().add(descriptionGroup, {flex:1});
       this.getContent().add(containerGroup, {flex:1});
+      
+      // Start rendering
+      qx.bom.AnimationFrame.request(this._render, this);
     },
     
     
     _onGestureTouchMove : function(evt) {
-      var gestureTargetElement = this.__gestureTarget.getContentElement();
-      var gestureTargetWrapElement = this.__gestureTargetWrap.getContentElement();
+      if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
+          this._getScrollContainer().disable();
+      }
       
       var offset = 256;
      
-      var containerElement = this.__container.getContentElement();
-      var containerLeft = qx.bom.element.Location.getLeft(containerElement, "scroll");
-      var containerTop = qx.bom.element.Location.getTop(containerElement, "scroll");
-      
+      var containerElement = this.__showcaseContainer.getContentElement();
+      var containerLeft = qx.bom.element.Location.getLeft(containerElement, "padding");
+      var containerTop = qx.bom.element.Location.getTop(containerElement, "padding");
       if (evt.isMultiTouch())
       {
         this.__currentRotation = Math.round(evt.getRotation()) + Math.round(this.__initialRotation);
         this.__currentScale = evt.getScale() * this.__initialScale;
         
-        // Scale Range verification.
-        if(this.__currentScale<this.__minScale){
+        // Scale Range bounding
+        if(this.__currentScale<this.__minScale) {
           this.__currentScale = this.__minScale;
         } else if ( this.__currentScale > this.__maxScale) {
           this.__currentScale = this.__maxScale;
         }
-        var transitionKey = "-"+this.__vendorPrefix+"-transform";
-        var transitionValue = "rotate(" + (this.__currentRotation) + "deg) scale(" + (this.__currentScale) + ")";
-        
-        qx.bom.element.Style.set(gestureTargetElement,transitionKey, transitionValue);
         
         this.__lastMultiTouchEventTime = new Date().getTime();
       }
@@ -154,11 +164,21 @@ qx.Class.define("mobileshowcase.page.Event",
           var touchLeft = evt.getAllTouches()[0].clientX;
           var touchTop = evt.getAllTouches()[0].clientY;
 
-          var left = touchLeft-containerLeft-offset;
-          var top = touchTop-containerTop-offset;
-          
-          this.__moveElement(gestureTargetWrapElement,left,top);
+          this.__logoLeft = touchLeft-containerLeft-offset;
+          this.__logoTop = touchTop-containerTop-offset;
         }
+      }
+      
+      qx.bom.AnimationFrame.request(this._render, this);
+    },
+    
+    
+    _onGestureTouchEnd : function() {
+      this.__initialRotation = this.__currentRotation;
+      this.__initialScale = this.__currentScale;
+      
+      if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
+         this._getScrollContainer().enable();
       }
     },
     
@@ -168,20 +188,10 @@ qx.Class.define("mobileshowcase.page.Event",
      * Uses transform3d for smooth transitions.
      */
     __moveElement : function(element,left,top) {
-      var transformKey = "-webkit-transform";
+      var transformKey = "transform";
       var transformValue = "translate3d("+(left)+"px"+","+(top)+"px,0px)";
-      if(this.__isFirefox==true) {
-        transformKey = "transform";
-      }
       
       qx.bom.element.Style.set(element,transformKey, transformValue);
-      qx.bom.element.Style.set(element,"transform", transformValue);
-    },
-    
-    
-    _onGestureTouchEnd : function() {
-      this.__initialRotation = this.__currentRotation;
-      this.__initialScale = this.__currentScale;
     },
 
 
@@ -223,42 +233,18 @@ qx.Class.define("mobileshowcase.page.Event",
      * Reacts on touch events and updates the event container background and touch markers.
      */
     __updateTouchVisualisation : function(evt) {
-      var containerElement = this.__container.getContentElement();
-      var containerLeft = qx.bom.element.Location.getLeft(this.__container.getContentElement(), "scroll");
-      var containerTop = qx.bom.element.Location.getTop(this.__container.getContentElement(), "scroll");
+      var containerLeft = qx.bom.element.Location.getLeft(this.__container.getContentElement(), "padding");
+      var containerTop = qx.bom.element.Location.getTop(this.__container.getContentElement(), "padding");
 
-      var offset = 50;
-      
       var touches = evt.getAllTouches();
+      
+      this.__touchCount = touches.length;
       
       for(var i=0;i<touches.length;i++) {
         var touchLeft = touches[i].clientX-containerLeft;
         var touchTop = touches[i].clientY-containerTop;
-
-        var touchPoint =this.__touchPoints[i];
-        var targetElement = touchPoint.getContentElement();
-        
-        if(!touchPoint.isVisible()) {
-          touchPoint.show();
-        }
-          
-        // Update position of touch circle.
-        var touchCircleLeft = (touchLeft-offset);
-        var touchCircleTop = (touchTop-offset);
-        this.__moveElement(targetElement,touchCircleLeft,touchCircleTop);
-        
-        // If just one touch is present, the background follows the touch.
-        if(touches.length==1) {
-          qx.bom.element.Style.set(containerElement,"background","-"+this.__vendorPrefix+"-radial-gradient("+touchLeft+"px "+touchTop+"px, cover, #1a82f7, #2F2727)");
-        } 
-      }
-
-      // Reset background gradient, when no touches are available.
-      if(touches.length == 0) {
-        qx.bom.element.Style.set(containerElement,"background","-"+this.__vendorPrefix+"-linear-gradient(top, #000000 0%,#555555 100%)");
-      } else if (touches.length>1) {
-        // Center background gradient, when multiple touches are available.
-        qx.bom.element.Style.set(containerElement,"background","-"+this.__vendorPrefix+"-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
+        this.__touchCircleLeft[i] = touchLeft;
+        this.__touchCircleTop[i] = touchTop;
       }
     },
 
@@ -271,7 +257,6 @@ qx.Class.define("mobileshowcase.page.Event",
     _onTouch : function(evt)
     {
       this.__updateTouchVisualisation(evt);
-       
       var type = evt.getType();
       if (type == "touchstart") {
         // Disable iScroll before
@@ -280,16 +265,10 @@ qx.Class.define("mobileshowcase.page.Event",
         }
         this.__label.setValue("");
       } else if (type == "touchend") {
-        var touches = evt.getAllTouches();
-        
-        // On any touchEnd first hide all touch point marker.
-        for(var i=0;i<this.__touchPoints.length;i++) {
-          this.__touchPoints[i].exclude();
-        }
-        
-        // Then show again touch circles when any touches are available.
-        for(i=0;i<touches.length;i++) {
-            this.__touchPoints[i].show();
+        // Remove all touches out of visible area
+        for(var i=0;i<this.__touchCircleLeft.length;i++) {
+          this.__touchCircleLeft[i] = -1000;
+          this.__touchCircleTop[i] = -1000;
         }
         
         // Re-enable iScroll after touchend event
@@ -297,12 +276,47 @@ qx.Class.define("mobileshowcase.page.Event",
           this._getScrollContainer().enable();
         }
       }
-
+      
       // Text output of event
       if(this.__lastEventType != evt.getType()) {
         this.__label.setValue(this.__label.getValue() + " " + evt.getType());
       }
       this.__lastEventType = evt.getType();
+      
+      qx.bom.AnimationFrame.request(this._render, this);
+    },
+    
+    
+    _render : function() {
+       // Render HTML5 logo: rotation and scale.
+      var gestureTargetElement = this.__gestureTarget.getContentElement();
+     
+      var transitionKey = "transform";
+      
+      var transitionValue1 = " translate3d("+(this.__logoLeft)+"px"+","+(this.__logoTop)+"px,0px) ";
+      var transitionValue2 = "rotate(" + (this.__currentRotation) + "deg) scale(" + (this.__currentScale) + ")";
+      qx.bom.element.Style.set(gestureTargetElement, transitionKey, transitionValue1+transitionValue2);
+
+      // Touch Circle Visualization
+      for(var i=0;i<this.__touchCircleLeft.length;i++) {
+        var touchPoint = this.__touchPoints[i];
+        var targetElement = touchPoint.getContentElement();
+        this.__moveElement(targetElement, this.__touchCircleLeft[i], this.__touchCircleTop[i]);
+      }
+      
+      // Background Handling
+      // Reset background gradient, when no touches are available.
+      var containerElement = this.__container.getContentElement();
+      if(this.__touchCount == 0) {
+        qx.bom.element.Style.set(containerElement,"background","-"+this.__vendorPrefix+"-linear-gradient(top, #000000 0%,#555555 100%)");
+      } 
+      else if(this.__touchCount == 1) {
+        // If just one touch is present, the background follows the touch.
+        qx.bom.element.Style.set(containerElement,"background","-"+this.__vendorPrefix+"-radial-gradient("+ this.__touchCircleLeft[0]+"px "+this.__touchCircleTop[0]+"px, cover, #1a82f7, #2F2727)");
+      } else if (this.__touchCount > 1) {
+        // Center background gradient, when multiple touches are available.
+        qx.bom.element.Style.set(containerElement,"background","-"+this.__vendorPrefix+"-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
+      }
     },
     
     
