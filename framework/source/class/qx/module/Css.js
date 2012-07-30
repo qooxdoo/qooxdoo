@@ -41,7 +41,7 @@ qx.Bootstrap.define("qx.module.Css", {
       }
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Style.set(this[i], name, value);
-      };
+      }
       return this;
     },
 
@@ -92,7 +92,7 @@ qx.Bootstrap.define("qx.module.Css", {
       var styles = {};
       for (var i=0; i < names.length; i++) {
         styles[names[i]] = this.getStyle(names[i]);
-      };
+      }
       return styles;
     },
 
@@ -107,7 +107,7 @@ qx.Bootstrap.define("qx.module.Css", {
     addClass : function(name) {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Class.add(this[i], name);
-      };
+      }
       return this;
     },
 
@@ -122,7 +122,7 @@ qx.Bootstrap.define("qx.module.Css", {
     addClasses : function(names) {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Class.addClasses(this[i], names);
-      };
+      }
       return this;
     },
 
@@ -137,7 +137,7 @@ qx.Bootstrap.define("qx.module.Css", {
     removeClass : function(name) {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Class.remove(this[i], name);
-      };
+      }
       return this;
     },
 
@@ -152,7 +152,7 @@ qx.Bootstrap.define("qx.module.Css", {
     removeClasses : function(names) {
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Class.removeClasses(this[i], names);
-      };
+      }
       return this;
     },
 
@@ -363,6 +363,87 @@ qx.Bootstrap.define("qx.module.Css", {
      */
     includeStylesheet : function(uri, doc) {
       qx.bom.Stylesheet.includeFile(uri, doc);
+    },
+
+
+    /**
+     * Hides all elements in the collection by setting their "display"
+     * style to "none". The previous value is stored so it can be re-applied
+     * when {@link #show} is called.
+     *
+     * @attach {q}
+     * @return {q} The collection for chaining
+     */
+    hide : function() {
+      for (var i=0, l=this.length; i<l; i++) {
+        var item = this.eq(i);
+        var prevStyle = item.getStyle("display");
+        if (prevStyle !== "none") {
+          item[0].$$qPrevDisp = prevStyle;
+          item.setStyle("display", "none");
+        }
+      }
+      return this;
+    },
+
+
+    /**
+     * Shows any elements with "display: none" in the collection. If an element
+     * was hidden by using the {@link #hide} method, its previous
+     * "display" style value will be re-applied. Otherwise, the
+     * default "display" value for the element type will be applied.
+     *
+     * @attach {q}
+     * @return {q} The collection for chaining
+     */
+    show : function() {
+      for (var i=0, l=this.length; i<l; i++) {
+        var item = this.eq(i);
+        var currentVal = item.getStyle("display");
+        var prevVal = item[0].$$qPrevDisp;
+        var newVal;
+        if (currentVal == "none") {
+          if (prevVal && prevVal != "none") {
+            newVal = prevVal;
+          }
+          else {
+            var doc = q.getDocument(item[0]);
+            newVal = qx.module.Css.__getDisplayDefault(item[0].tagName, doc);
+          }
+          item.setStyle("display", newVal);
+          item[0].$$qPrevDisp = "none";
+        }
+      }
+      return this;
+    },
+
+
+    /**
+     * Maps HTML elements to their default "display" style values.
+     */
+    __displayDefaults : {},
+
+
+    /**
+     * Attempts tp determine the default "display" style value for
+     * elements with the given tag name.
+     *
+     * @param tagName {String} Tag name
+     * @param  doc {Document?} Document element. Default: The current document
+     * @return {String} The default "display" value, e.g. <code>inline</code>
+     * or <code>block</code>
+     */
+    __getDisplayDefault : function(tagName, doc)
+    {
+      var defaults = qx.module.Css.__displayDefaults;
+      if (!defaults[tagName]) {
+        var docu = doc || document;
+        var tempEl = q(docu.createElement(tagName)).appendTo(doc.body);
+        defaults[tagName] = tempEl.getStyle("display");
+        tempEl.remove();
+      }
+
+      return defaults[tagName] || "";
     }
   },
 
@@ -390,7 +471,10 @@ qx.Bootstrap.define("qx.module.Css", {
       "getContentHeight" : statics.getContentHeight,
       "getContentWidth" : statics.getContentWidth,
 
-      "getPosition" : statics.getPosition
+      "getPosition" : statics.getPosition,
+
+      "hide" : statics.hide,
+      "show" : statics.show
     });
 
     q.$attachStatic({

@@ -322,7 +322,7 @@ testrunner.define({
     q.create('<h2>Bar</h2><h3>Baz</h3>').insertBefore("#sandbox h1");
     this.assertEquals(2, q("#sandbox h2 + h3 + h1").length);
   },
-  
+
   "test wrap with HTML string" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -330,7 +330,7 @@ testrunner.define({
     test.wrap('<div class="foo"><p class="bar"/></div>');
     this.assertEquals(2, q("#sandbox .foo .bar .baz").length);
   },
-  
+
   "test wrap with element" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -339,7 +339,7 @@ testrunner.define({
     test.wrap(wrapper[0]);
     this.assertEquals(2, q("#sandbox .foo .bar .baz").length);
   },
-  
+
   "test wrap with selector" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -348,7 +348,7 @@ testrunner.define({
     test.wrap('.foo');
     this.assertEquals(2, q('#sandbox .foo .bar .baz').length);
   },
-  
+
   "test wrap with list of elements" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -357,7 +357,7 @@ testrunner.define({
     test.wrap([wrapper[0]]);
     this.assertEquals(2, q('#sandbox .foo .bar .baz').length);
   },
-  
+
   "test wrap with collection" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -860,7 +860,7 @@ testrunner.define({
     this.assertEquals("15px", result["margin-bottom"]);
     test.remove();
   },
-  
+
   testSpecialProperties : function() {
     var props = {
       "css.appearance" : ["appearance", "searchfield"],
@@ -870,7 +870,7 @@ testrunner.define({
       "css.usermodify" : ["userModify", "read-only"],
       "css.boxsizing" : ["boxSizing", "border-box"]
     }
-    
+
     for (var envKey in props) {
       var style = props[envKey][0];
       var envVal = q.env.get(envKey);
@@ -880,7 +880,7 @@ testrunner.define({
       var value = props[envKey][1];
       var test = q.create("<div>affe</div>").appendTo(this.sandbox[0])
       .setStyle(style, value);
-      
+
       this.assertEquals(value, test.getStyle(style));
     }
   },
@@ -1049,6 +1049,22 @@ testrunner.define({
     }, 250);
 
     this.wait(500);
+  },
+
+  testHideShow : function()
+  {
+    var test = q.create('<div style="display: inline">Yoohoo</div>')
+    .appendTo(this.sandbox[0]);
+    test.hide();
+    this.assertEquals("none", test.getStyle("display"));
+    test.show();
+    this.assertEquals("inline", test.getStyle("display"));
+
+    // no previous value:
+    var test2 = q.create('<span style="display: none">Yoohoo</span>')
+    .appendTo(this.sandbox[0]);
+    test2.show();
+    this.assertEquals("inline", test2.getStyle("display"));
   }
 });
 
@@ -1090,7 +1106,7 @@ testrunner.define({
     this.assertEquals("affe", test.getAttributes(["id", "x"]).id);
     this.assertEquals("y", test.getAttributes(["id", "x"]).x);
     test.removeAttributes(["id", "x"]);
-    
+
     // removed attributes have empty string values in old IEs
     if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 8) {
       this.assertEquals("", test.getAttributes(["id", "x"]).id);
@@ -1135,7 +1151,7 @@ testrunner.define({
     this.assertEquals("affe", q("#sandbox input[type=checkbox]").getValue());
     this.assertEquals("affe", q("#sandbox select").getValue());
     this.assertArrayEquals(["foo", "baz"], q("#multiple").getValue());
-    
+
     q("#sandbox input").setValue("fnord");
     // setting the same value again sets the 'checked' attribute
     q("#sandbox input[type=checkbox]").setValue("affe");
