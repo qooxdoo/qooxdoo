@@ -1977,12 +1977,14 @@ def createSyntaxTree(tokenArr, fileId=''):
     fileNode.childappend(TreeGenerator().parse(tokenArr))
     return fileNode
 
+def createSyntaxTree_from_string(string_, fileId=''):
+    ts = tokenizer.parseStream(string_)
+    return createSyntaxTree(ts, fileId)
 
 # quick high-level frontend
 def parse(string_):
     ts = tokenizer.parseStream(string_)
-    #return TreeGenerator().parse(ts)
-    return createSyntaxTree(ts)
+    return TreeGenerator().parse(ts)
 
 # - Main ----------------------------------------------------------------------
 
