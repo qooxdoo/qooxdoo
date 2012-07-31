@@ -262,7 +262,7 @@ Function %s(%s):
             isFirstChild     = False
             isVariableMember = False
 
-            if node.parent.parent.isVar(): # (the old code added "accessor" for the types to check)
+            if node.parent.isVar(): # (the old code added "accessor" for the types to check)
                 isVariableMember = True
                 isFirstChild = treeutil.checkFirstChainChild(node)
 
