@@ -49,22 +49,6 @@ qx.Class.define("qx.test.lang.Object",
     },
 
 
-    testHasMinLength : function()
-    {
-      var object = {};
-      this.assertTrue(qx.lang.Object.hasMinLength(object, 0));
-      this.assertFalse(qx.lang.Object.hasMinLength(object, 1));
-
-      var object = {a: 1};
-      this.assertTrue(qx.lang.Object.hasMinLength(object, 1));
-      this.assertFalse(qx.lang.Object.hasMinLength(object, 2));
-
-      var object = {a:undefined, b: null, c: 1};
-      this.assertTrue(qx.lang.Object.hasMinLength(object, 3));
-      this.assertFalse(qx.lang.Object.hasMinLength(object, 4));
-    },
-
-
     testGetLength : function()
     {
       var object = {};

@@ -31,3 +31,6 @@
 \bqx\.lang\.Array\.toArray\((.*)\);=qx.lang.Array.cast($1, Array);
 \bqx\.lang\.Array\.toArray\((.*)\s*,\s*(.*)\);=qx.lang.Array.cast($1, Array, $2);
 \bqx\.lang\.Array\.fromCollection\((.*)\);=Array.prototype.slice.call($1, 0);
+
+\bqx\.lang\.Object\.hasMinLength\((.*)\s*,\s*(.*)\)=($1.length >= $2)
+
