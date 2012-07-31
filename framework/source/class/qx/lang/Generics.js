@@ -70,6 +70,8 @@
  * * substr
  * * concat
  * * slice
+ *
+ * @depreacted since 2.1. Please check other classes in qx.lang to get the same features.
  */
 qx.Class.define("qx.lang.Generics",
 {
