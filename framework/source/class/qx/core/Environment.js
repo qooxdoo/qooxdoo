@@ -252,10 +252,6 @@
  *       <td>{@link qx.bom.client.EcmaScript#getObjectKeys}</td>
  *     </tr>
  *     <tr>
- *       <td>ecmascript.object.getprototypeof<td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>{@link qx.bom.client.EcmaScript#getObjectPrototypeOf}</td>
- *     </tr>
- *     <tr>
  *       <td>ecmascript.date.now<td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getDateNow}</td>
  *     </tr>
@@ -813,7 +809,6 @@ qx.Bootstrap.define("qx.core.Environment",
       "ecmascript.array.reduceright" : "qx.bom.client.EcmaScript.getArrayReduceRight",
       "ecmascript.function.bind" : "qx.bom.client.EcmaScript.getFunctionBind",
       "ecmascript.object.keys" : "qx.bom.client.EcmaScript.getObjectKeys",
-      "ecmascript.object.getprototypeof" : "qx.bom.client.EcmaScript.getObjectPrototypeOf",
       "ecmascript.date.now" : "qx.bom.client.EcmaScript.getDateNow",
       "ecmascript.error.toString" : "qx.bom.client.EcmaScript.getErrorToStringBug",
       "ecmascript.string.trim" : "qx.bom.client.EcmaScript.getStringTrim",

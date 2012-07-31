@@ -188,16 +188,6 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
 
     /**
-     * Checks if 'getPrototypeOf' is supported on the Object object.
-     * @internal
-     * @return {Boolean} <code>true</code>, if the method is available.
-     */
-    getObjectPrototypeOf : function() {
-      return !!Object.getPrototypeOf;
-    },
-
-
-    /**
      * Checks if 'now' is supported on the Date object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
@@ -241,7 +231,6 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
     // object polyfill
     qx.core.Environment.add("ecmascript.object.keys", statics.getObjectKeys);
-    qx.core.Environment.add("ecmascript.object.getprototypeof", statics.getObjectPrototypeOf);
 
     // string polyfill
     qx.core.Environment.add("ecmascript.string.trim", statics.getStringTrim);
