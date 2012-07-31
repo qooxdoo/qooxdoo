@@ -27,3 +27,6 @@
 \bqx\.lang\.Function\.returnNull=(function() {return null;})
 \bqx\.lang\.Function\.returnThis=(function() {return this;})
 \bqx\.lang\.Function\.returnZero=(function() {return 0;})
+
+\bqx\.lang\.Array\.toArray\((.*)\);=qx.lang.Array.cast($1, Array);
+\bqx\.lang\.Array\.toArray\((.*)\s*,\s*(.*)\);=qx.lang.Array.cast($1, Array, $2);
