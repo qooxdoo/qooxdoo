@@ -194,7 +194,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * Simply return 0.
-     *
+     * @deprecated since 2.1: Please use a custom function.
      * @return {Number} Always returns 0.
      */
     returnZero : function() {

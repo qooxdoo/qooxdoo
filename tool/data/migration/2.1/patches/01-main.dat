@@ -26,3 +26,4 @@
 \bqx\.lang\.Function\.returnFalse=(function() {return false;})
 \bqx\.lang\.Function\.returnNull=(function() {return null;})
 \bqx\.lang\.Function\.returnThis=(function() {return this;})
+\bqx\.lang\.Function\.returnZero=(function() {return 0;})
