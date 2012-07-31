@@ -24,3 +24,4 @@
 \bqx\.lang\.Function\.empty=(function() {})
 \bqx\.lang\.Function\.returnTrue=(function() {return true;})
 \bqx\.lang\.Function\.returnFalse=(function() {return false;})
+\bqx\.lang\.Function\.returnNull=(function() {return null;})

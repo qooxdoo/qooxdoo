@@ -174,7 +174,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * Simply return null.
-     *
+     * @deprecated since 2.1: Please use a custom function.
      * @return {var} Always returns null.
      */
     returnNull : function() {
