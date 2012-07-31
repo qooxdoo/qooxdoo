@@ -184,7 +184,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * Return "this".
-     *
+     * @deprecated since 2.1: Please use a custom function.
      * @return {Object} Always returns "this".
      */
     returnThis : function() {

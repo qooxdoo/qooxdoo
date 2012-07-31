@@ -25,3 +25,4 @@
 \bqx\.lang\.Function\.returnTrue=(function() {return true;})
 \bqx\.lang\.Function\.returnFalse=(function() {return false;})
 \bqx\.lang\.Function\.returnNull=(function() {return null;})
+\bqx\.lang\.Function\.returnThis=(function() {return this;})
