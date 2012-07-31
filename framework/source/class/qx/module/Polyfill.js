@@ -18,8 +18,11 @@
 
 ************************************************************************ */
 /* ************************************************************************
-#require(qx.lang.normalize.Function);
-#require(qx.lang.normalize.String);
+#require(qx.lang.normalize.Function)
+#require(qx.lang.normalize.String)
+#require(qx.lang.normalize.Date)
+#require(qx.lang.normalize.Array)
+#require(qx.lang.normalize.Error)
 ************************************************************************ */
 /**
  * Adds JavaScript features that may not be supported by all clients.
