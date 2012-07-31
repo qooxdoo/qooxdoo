@@ -51,7 +51,7 @@ qx.Class.define("qx.test.Part",
 
       // get the parts
       var parts = partLoader.getParts();
-      this.assertEquals(2, qx.lang.Object.getKeys(parts).length);
+      this.assertEquals(2, Object.keys(parts).length);
       var juhu = parts["juhu"];
       var kinners = parts["kinners"];
 

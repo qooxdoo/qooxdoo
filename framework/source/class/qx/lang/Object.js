@@ -17,7 +17,9 @@
      * Andreas Ecker (ecker)
 
 ************************************************************************ */
-
+/* ************************************************************************
+#require(qx.lang.normalize.Object)
+************************************************************************ */
 /**
  * Helper functions to handle Object as a Hash map.
  */
@@ -112,6 +114,7 @@ qx.Bootstrap.define("qx.lang.Object",
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
      *
+     * @deprecated since 2.1. Please use Object.keys instead.
      * @signature function(map)
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
@@ -143,7 +146,7 @@ qx.Bootstrap.define("qx.lang.Object",
       }
 
       var arr = [];
-      var keys = this.getKeys(map);
+      var keys = Object.keys(map);
 
       for (var i=0, l=keys.length; i<l; i++) {
         arr.push(map[keys[i]]);

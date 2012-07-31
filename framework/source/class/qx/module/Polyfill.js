@@ -23,6 +23,7 @@
 #require(qx.lang.normalize.Date)
 #require(qx.lang.normalize.Array)
 #require(qx.lang.normalize.Error)
+#require(qx.lang.normalize.Object)
 ************************************************************************ */
 /**
  * Adds JavaScript features that may not be supported by all clients.

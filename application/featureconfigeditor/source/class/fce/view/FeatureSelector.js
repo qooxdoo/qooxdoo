@@ -426,7 +426,7 @@ qx.Class.define("fce.view.FeatureSelector", {
         this.__serializeNonPrimitiveValues(data);
         var model = qx.data.marshal.Json.createModel(data, true);
         this.setModel(model);
-        //this._getSetsMenu(qx.lang.Object.getKeys(value));
+        //this._getSetsMenu(Object.keys(value));
       }
     },
 

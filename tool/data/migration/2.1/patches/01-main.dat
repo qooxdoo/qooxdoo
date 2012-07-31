@@ -17,3 +17,6 @@
 
 \bqx\.lang\.Date\.now\b=Date.now
 \bqx\.lang\.String\.trim\((.*)\)=$1.trim()
+
+\bqx\.Bootstrap\.getKeys\((.*)\)=Object.keys($1)
+\bqx\.lang\.Object\.getKeys\((.*)\)=Object.keys($1)

@@ -87,13 +87,13 @@ qx.Class.define("qx.test.lang.Object",
       }
       this.assertArrayEquals(
         ["a", "b", "c"].sort(),
-        qx.lang.Object.getKeys(object).sort()
+        Object.keys(object).sort()
       );
 
       var object = {}
       this.assertArrayEquals(
         [],
-        qx.lang.Object.getKeys(object)
+        Object.keys(object)
       );
 
       var object = {
@@ -111,7 +111,7 @@ qx.Class.define("qx.test.lang.Object",
           "toString",
           "valueOf"
         ].sort(),
-        qx.lang.Object.getKeys(object).sort()
+        Object.keys(object).sort()
       );
     },
 

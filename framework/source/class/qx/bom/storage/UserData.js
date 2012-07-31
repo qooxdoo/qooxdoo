@@ -126,7 +126,7 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
      * @return {Integer} The length of the storage.
      */
     getLength : function() {
-      return qx.Bootstrap.getKeys(this.__storage).length;
+      return Object.keys(this.__storage).length;
     },
 
 
@@ -225,7 +225,7 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
      * @return {String} The key stored at the given index.
      */
     getKey : function(index) {
-      return qx.Bootstrap.getKeys(this.__storage)[index];
+      return Object.keys(this.__storage)[index];
     },
 
 

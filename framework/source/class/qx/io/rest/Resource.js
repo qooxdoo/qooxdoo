@@ -428,7 +428,7 @@ qx.Class.define("qx.io.rest.Resource",
           qx.core.Assert.assertObject(check, "Check must be object with params as keys");
         }
 
-        qx.lang.Object.getKeys(check).forEach(function(param) {
+        Object.keys(check).forEach(function(param) {
 
           // Warn about invalid check
           if (qx.core.Environment.get("qx.debug")) {
@@ -741,7 +741,7 @@ qx.Class.define("qx.io.rest.Resource",
      * @param description {Map} Map that defines the routes.
      */
     __mapFromDescription: function(description) {
-      qx.lang.Object.getKeys(description).forEach(function(action) {
+      Object.keys(description).forEach(function(action) {
         var route = description[action],
             method = route.method,
             url = route.url,

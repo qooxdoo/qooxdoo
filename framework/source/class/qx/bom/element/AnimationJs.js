@@ -455,7 +455,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      * @return {Array} An orderd list of kyes.
      */
     __getOrderedKeys : function(keyFrames) {
-      var keys = qx.Bootstrap.getKeys(keyFrames);
+      var keys = Object.keys(keyFrames);
       for (var i=0; i < keys.length; i++) {
         keys[i] = parseInt(keys[i], 10);
       };
