@@ -142,11 +142,19 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Convert a (node) collection into an array
      *
+     * @deprecated since 2.1: Please use the native slice of Array.
      * @param coll {var} node collection
      * @return {Array} a newly created array (copy) with the content of the node collection.
      */
     fromCollection : function(coll)
     {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.Bootstrap.warn(
+          "'qx.lang.Array.fromCollection' is deprecared. " +
+          "Please use 'Array.prototype.slice.call(coll, 0);' instead."
+        );
+      }
+
       // Some collection is mshtml are not able to be sliced.
       // This lines are a special workaround for this client.
       if ((qx.core.Environment.get("engine.name") == "mshtml"))

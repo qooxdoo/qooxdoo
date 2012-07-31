@@ -158,7 +158,7 @@ qx.Bootstrap.define("qx.bom.Html",
         }
       }
 
-      return qx.lang.Array.fromCollection(div.childNodes);
+      return Array.prototype.slice.call(div.childNodes, 0);
     },
 
 

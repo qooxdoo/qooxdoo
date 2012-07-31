@@ -340,7 +340,7 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @return {Array} list of all found elements
      */
     getDescendants : function(element) {
-      return qx.lang.Array.fromCollection(element.getElementsByTagName("*"));
+      return Array.prototype.slice.call(element.getElementsByTagName("*"), 0);
     },
 
 

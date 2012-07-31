@@ -276,7 +276,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     getContents : function() {
       var found = [];
       for (var i=0; i < this.length; i++) {
-        found = found.concat(qx.lang.Array.fromCollection(this[i].childNodes));
+        found = found.concat(Array.prototype.slice.call(this[i].childNodes), 0);
       }
       return q.$init(found);
     },
