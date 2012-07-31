@@ -1099,7 +1099,7 @@ qx.Bootstrap.define("qx.core.Environment",
       {
         throw new Error('No match for variant "' + key +
           '" (' + (typeof key) + ' type)' +
-          ' in variants [' + qx.Bootstrap.getKeysAsString(values) +
+          ' in variants [' + qx.Bootstrap.keys(values) +
           '] found, and no default ("default") given');
       }
     },

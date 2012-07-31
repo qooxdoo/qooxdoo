@@ -128,6 +128,7 @@ qx.Bootstrap.define("qx.lang.Object",
      *
      * @signature function(map)
      * @param map {Object} the map
+     * @deprecated since 2.1: Object.keys(map).join().
      * @return {String} String of the keys of the map
      *         The keys are separated by ", "
      */

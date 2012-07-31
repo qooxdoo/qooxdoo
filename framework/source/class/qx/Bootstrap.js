@@ -506,11 +506,18 @@ qx.Bootstrap.define("qx.Bootstrap",
      * Get the keys of a map as string
      *
      * @param map {Object} the map
+     * @deprecated since 2.1: Object.keys(map).join('\", "').
      * @return {String} String of the keys of the map
      *         The keys are separated by ", "
      */
     getKeysAsString : function(map)
     {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.Bootstrap.warn(
+          "'qx.Bootstrap.getKeysAsString' is deprecared. " +
+          "Please use 'Object.keys(map).join()' instead."
+        );
+      }
       var keys = qx.Bootstrap.keys(map);
       if (keys.length == 0) {
         return "";

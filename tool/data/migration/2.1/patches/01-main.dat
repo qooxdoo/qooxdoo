@@ -33,4 +33,6 @@
 \bqx\.lang\.Array\.fromCollection\((.*)\);=Array.prototype.slice.call($1, 0);
 
 \bqx\.lang\.Object\.hasMinLength\((.*)\s*,\s*(.*)\)=($1.length >= $2)
+\bqx\.Bootstrap\.getKeysAsString\((.*)\)=('"' + qx.Bootstrap.keys($1).join('\", "') + '"')
+\bqx\.lang\.object\.getKeysAsString\((.*)\)=('"' + qx.Bootstrap.keys($1).join('\", "') + '"')
 

@@ -100,38 +100,6 @@ qx.Class.define("qx.test.lang.Object",
     },
 
 
-    testGetKeysAsString : function()
-    {
-      var object = {
-        a: undefined,
-        b: null,
-        c: 1
-      }
-      this.assertEquals(
-        '"a", "b", "c"',
-        qx.lang.Object.getKeysAsString(object)
-      );
-
-      var object = {}
-      this.assertEquals(
-        '',
-        qx.lang.Object.getKeysAsString(object)
-      );
-
-      var object = {
-        "isPrototypeOf": 1,
-        "hasOwnProperty": 1,
-        "toLocaleString": 1,
-        "toString": 1,
-        "valueOf": 1
-      };
-      this.assertEquals(
-        '"isPrototypeOf", "hasOwnProperty", "toLocaleString", "toString", "valueOf"',
-        qx.lang.Object.getKeysAsString(object)
-      );
-    },
-
-
     testGetValues : function()
     {
       var object = {
