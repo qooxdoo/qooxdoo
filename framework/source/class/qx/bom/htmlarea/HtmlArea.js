@@ -2836,7 +2836,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         return (doc.body.innerHTML == "<P>&nbsp;</P>");
       },
 
-      "default" : qx.lang.Function.returnFalse
+      "default" : (function() {return false;})
     }),
 
 

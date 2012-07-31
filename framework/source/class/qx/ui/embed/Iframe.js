@@ -302,11 +302,11 @@ qx.Class.define("qx.ui.embed.Iframe",
         try
         {
           if (old === false) {
-            qx.bom.Event.removeNativeListener(document, "help", qx.lang.Function.returnFalse);
+            qx.bom.Event.removeNativeListener(document, "help", (function() {return false;}));
           }
 
           if (value === false) {
-            qx.bom.Event.addNativeListener(document, "help", qx.lang.Function.returnFalse);
+            qx.bom.Event.addNativeListener(document, "help", (function() {return false;}));
           }
         } catch (e) {
           if (qx.core.Environment.get("qx.debug")) {
