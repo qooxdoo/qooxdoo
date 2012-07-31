@@ -303,14 +303,10 @@ def __variantMatchKey(key, variantValue):
 #
 
 ##
-# 1. pass:
-# replace qx.c.Env.get(key) with its value, qx.core.Environment.get("foo") => 3
-# handles parent relation
-def reduceCall(callNode, value):
-    # construct the value node
-    valueNode = symbol("constant")(
-            callNode.get("line"), callNode.get("column"))
-    valueNode.set("value", str(value))
+# Take a Python value and init a constant node with it, setting the node's "constantType"
+#
+def set_node_type_from_value(valueNode, value):
+    valueNode.set("value", str(value))  # init value attrib
     if isinstance(value, types.StringTypes):
         valueNode.set("constantType","string")
         valueNode.set("detail", "doublequotes")
@@ -329,6 +325,17 @@ def reduceCall(callNode, value):
         valueNode.set("value", "null")
     else:
         raise ValueError("Illegal value for JS constant: %s" % str(value))
+    return valueNode
+
+##
+# 1. pass:
+# replace qx.c.Env.get(key) with its value, qx.core.Environment.get("foo") => 3
+# handles parent relation
+def reduceCall(callNode, value):
+    # construct the value node
+    valueNode = symbol("constant")(
+            callNode.get("line"), callNode.get("column"))
+    valueNode = set_node_type_from_value(valueNode, value)
     # put it in place of the callNode
     #print "optimizing: .get()"
     callNode.parent.replaceChild(callNode, valueNode)
@@ -361,8 +368,7 @@ def reduceOperation(literalNode):
         # create replacement
         resultNode = symbol("constant")(
             operationNode.get("line"), operationNode.get("column"))
-        resultNode.set("constantType","boolean")
-        resultNode.set("value", str(operationNode.evaluated).lower())
+        resultNode = set_node_type_from_value(resultNode, operationNode.evaluated)
         # modify tree
         operationNode.parent.replaceChild(operationNode, resultNode)
         treeModified = True
