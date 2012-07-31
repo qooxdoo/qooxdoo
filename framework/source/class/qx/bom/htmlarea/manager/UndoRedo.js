@@ -765,7 +765,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
         }
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     }),
 
 

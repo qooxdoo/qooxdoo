@@ -321,7 +321,7 @@ qx.Class.define("qx.io.rest.Resource",
       if (typeof this[action] !== "undefined" && this[action].action !== true) {
 
         // Unless the method is an empty function
-        if (this[action] !== qx.lang.Function.empty) {
+        if (this[action] !== (function() {})) {
           throw new Error("Method with name of action (" +
             action + ") already exists");
         }

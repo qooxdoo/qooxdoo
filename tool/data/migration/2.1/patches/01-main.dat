@@ -20,3 +20,6 @@
 
 \bqx\.Bootstrap\.getKeys\((.*)\)=Object.keys($1)
 \bqx\.lang\.Object\.getKeys\((.*)\)=Object.keys($1)
+
+\bqx\.lang\.Function\.empty=(function() {})
+\bqx\.lang\.Function\.returnTrue=(function() {return true;})

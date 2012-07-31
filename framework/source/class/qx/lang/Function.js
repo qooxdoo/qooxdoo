@@ -147,6 +147,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * empty function
+     * @deprecated since 2.1: Please use a new empty function.
      */
     empty : function() {},
 

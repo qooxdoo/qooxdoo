@@ -218,7 +218,7 @@ qx.Class.define("qx.event.handler.Touch",
         return type;
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     }),
 
 
@@ -241,7 +241,7 @@ qx.Class.define("qx.event.handler.Touch",
         return domEvent.button == buttonIndex;
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     }),
 
 
@@ -271,7 +271,7 @@ qx.Class.define("qx.event.handler.Touch",
         };
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     }),
 
 
@@ -300,7 +300,7 @@ qx.Class.define("qx.event.handler.Touch",
           Event.addNativeListener(this.__root, "mouseup", this.__onMouseEventWrapper);
         }
       },
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     }),
 
 
@@ -327,7 +327,7 @@ qx.Class.define("qx.event.handler.Touch",
           Event.removeNativeListener(this.__root, "mouseup", this.__onMouseEventWrapper);
         }
       },
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     }),
 
 
@@ -369,7 +369,7 @@ qx.Class.define("qx.event.handler.Touch",
         }
       }),
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     }),
 
 

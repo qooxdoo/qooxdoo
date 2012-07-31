@@ -1383,7 +1383,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         }
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     }),
 
 
@@ -2375,7 +2375,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @signature function(e)
      */
     _handleMouseUpOnDocument : qx.core.Environment.select("engine.name", {
-      "mshtml" : qx.lang.Function.empty,
+      "mshtml" : (function() {}),
 
       "default" : function(e)
       {

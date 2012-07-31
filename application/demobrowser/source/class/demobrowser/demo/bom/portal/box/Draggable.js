@@ -157,7 +157,7 @@ qx.Class.define("demobrowser.demo.bom.portal.box.Draggable",
         var bound = qx.lang.Function.bind(this.__onMouseUp, that);
         document.getElementsByTagName("html")[0].onmouseleave = bound;
       },
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     }),
 
 

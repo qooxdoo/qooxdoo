@@ -550,7 +550,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
         this.__editorInstance.insertHtml("<p style='" + elementStyleString + "'><br class='webkit-block-placeholder' />");
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
       }),
 
       /**
@@ -681,7 +681,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
           }
         },
 
-        "default" : qx.lang.Function.empty
+        "default" : (function() {})
       }),
 
 

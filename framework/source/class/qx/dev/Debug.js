@@ -355,7 +355,7 @@ qx.Class.define("qx.dev.Debug",
         this.__nextHashFirst = qx.core.ObjectRegistry.getNextHash();
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     }),
 
 
@@ -434,7 +434,7 @@ qx.Class.define("qx.dev.Debug",
         return undisposedObjects;
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     })
   }
 });
