@@ -59,7 +59,7 @@ def infix(id_):
         r += ' '
         r += self.get("value")
         r += ' '
-        r += self.getChild("second").format(optns, state)
+        r += self.getChild(1).format(optns, state)
         return r
     symbol(id_).format = format
 
@@ -75,7 +75,7 @@ def infix_v(id_):
         r += self.space()
         r += self.get("value")
         r += self.space()
-        r += self.getChild("second").format(optns, state)
+        r += self.getChild(1).format(optns, state)
         return r
     symbol(id_).format = format
         

@@ -25,8 +25,6 @@ import re, sys, operator as operators, types
 from ecmascript.frontend.treeutil import *
 from ecmascript.frontend          import treeutil
 from ecmascript.frontend.treegenerator  import symbol, PackerFlags as pp
-from ecmascript.transform.evaluate  import evaluate
-from ecmascript.transform.optimizer import reducer
 from misc                         import json
 
 global verbose
@@ -61,9 +59,6 @@ def search(node, variantMap, fileId_="", verb=False):
     verbose = verb
     fileId = fileId_
     modified = False
-
-    #if fileId == "qx.data.marshal.Json":
-    #    import pydb; pydb.debugger()
 
     variantNodes = findVariantNodes(node)
     for variantNode in variantNodes:
@@ -178,11 +173,21 @@ def processVariantGet(callNode, variantMap):
     # Simple sanity checks
     params = callNode.getChild("arguments")
     if len(params.children) != 1:
+        log("Warning", "Expecting exactly one argument for qx.core.Environment.get. Ignoring this occurrence.", params)
         return treeModified
 
     firstParam = params.getChildByPosition(0)
     if not isStringLiteral(firstParam):
+        # warning is currently covered in parsing code
+        #log("Warning", "First argument must be a string literal! Ignoring this occurrence.", firstParam)
         return treeModified
+
+    # skipping "relative" calls like "a.b.qx.core.Environment.get()"
+    #(with the new ast and the isEnvironmentCall check, this cannot happen anymore)
+    #qxIdentifier = treeutil.selectNode(callNode, "operand/variable/identifier[1]")
+    #if not treeutil.checkFirstChainChild(qxIdentifier):
+    #    log("Warning", "Skipping relative qx.core.Environment.get call. Ignoring this occurrence ('%s')." % treeutil.findChainRoot(qxIdentifier).toJavascript())
+    #    return treeModified
 
     variantKey = firstParam.get("value");
     if variantKey in variantMap:
@@ -190,6 +195,8 @@ def processVariantGet(callNode, variantMap):
     else:
         return treeModified
 
+    if variantKey =="qx.debug.databinding" and fileId == "qx.data.marshal.Json":
+        import pydb; pydb.debugger()
     # Replace the .get() with its value
     resultNode = reduceCall(callNode, confValue)
     treeModified = True
@@ -239,6 +246,8 @@ def nextNongroupParent(node, stopnode=None):
 
 
 def getOtherOperand(opNode, oneOperand):
+    if fileId == "qx.data.marshal.Json":
+        import pydb; pydb.debugger()
     operands = opNode.getChildren(True)
     #if operands[0] == oneOperand.parent: # switch between "first" and "second"
     if operands[0] == oneOperand: # switch between "first" and "second"
@@ -341,12 +350,14 @@ def reduceCall(callNode, value):
 # arithmetic ("3+4" => "7"), logical ("true && false" => false)
 def reduceOperation(literalNode): 
 
-    resultNode = literalNode
+    resultNode = None
     treeModified = False
 
     # can only reduce with constants
     if literalNode.type != "constant":
         return literalNode, False
+    else:
+        literalValue = constNodeToPyValue(literalNode)
 
     # check if we're in an operation
     ngParent = nextNongroupParent(literalNode) # could be operand in ops
@@ -354,21 +365,116 @@ def reduceOperation(literalNode):
         return literalNode, False
     else:
         operationNode = ngParent
+    # get operator
+    operator = operationNode.get("operator")
 
-    # try to evaluate expr
-    operationNode = evaluate.evaluate(operationNode)
-    if operationNode.evaluated != (): # we have a value
-        # create replacement
+    # normalize expression
+    noperationNode = normalizeExpression(operationNode)
+    # re-gain knownn literal node
+    for node in treeutil.nodeIterator(noperationNode, [literalNode.type]):
+        if literalNode.attributes == node.attributes:
+            nliteralNode = node
+            break
+
+    # equal, unequal
+    if operator in ["EQ", "SHEQ", "NE", "SHNE"]:
+        otherOperand, _ = getOtherOperand(noperationNode, nliteralNode)
+        if otherOperand.type != "constant":
+            return literalNode, False
+        if operator in ["EQ", "SHEQ"]:
+            cmpFcn = operators.eq
+        elif operator in ["NE", "SHNE"]:
+            cmpFcn = operators.ne
+
+        operands = [literalValue]
+        otherVal = constNodeToPyValue(otherOperand)
+        operands.append(otherVal)
+         
+        result = cmpFcn(operands[0],operands[1])
         resultNode = symbol("constant")(
-            operationNode.get("line"), operationNode.get("column"))
+            noperationNode.get("line"), noperationNode.get("column"))
         resultNode.set("constantType","boolean")
-        resultNode.set("value", str(operationNode.evaluated).lower())
-        # modify tree
+        resultNode.set("value", str(result).lower())
+
+    # order compares <, =<, ...
+    elif operator in ["LT", "LE", "GT", "GE"]:
+        otherOperand, otherPosition = getOtherOperand(noperationNode, nliteralNode)
+        if otherOperand.type != "constant":
+            return literalNode, False
+        if operator == "LT":
+            cmpFcn = operators.lt
+        elif operator == "LE":
+            cmpFcn = operators.le
+        elif operator == "GT":
+            cmpFcn = operators.gt
+        elif operator == "GE":
+            cmpFcn = operators.ge
+
+        operands = {}
+        operands[1 - otherPosition] = literalValue
+        otherVal = constNodeToPyValue(otherOperand)
+        operands[otherPosition] = otherVal
+
+        result = cmpFcn(operands[0], operands[1])
+        resultNode = symbol("constant")(
+            noperationNode.get("line"), noperationNode.get("column"))
+        resultNode.set("constantType","boolean")
+        resultNode.set("value", str(result).lower())
+
+    # logical ! (not)
+    elif operator in ["NOT"]:
+        result = not literalValue
+        resultNode = symbol("constant")(
+            noperationNode.get("line"), noperationNode.get("column"))
+        resultNode.set("constantType","boolean")
+        resultNode.set("value", str(result).lower())
+
+    # logical operators &&, ||
+    elif operator in ["AND", "OR"]:
+        result = None
+        otherOperand, otherPosition = getOtherOperand(noperationNode, nliteralNode)
+        if operator == "AND":
+            #if otherPosition==1 and not literalValue:  # short circuit
+            #    result = False
+            #else:
+            cmpFcn = (lambda x,y: x and y)
+        elif operator == "OR":
+            #if otherPosition==1 and literalValue:  # short circuit
+            #    result = True
+            #else:
+            cmpFcn = (lambda x,y: x or y)
+
+        if result == None:
+            if otherOperand.type != "constant":
+                return literalNode, False
+            operands = {}
+            operands[1 - otherPosition] = literalValue
+            otherVal = constNodeToPyValue(otherOperand)
+            operands[otherPosition] = otherVal
+            result = cmpFcn(operands[0], operands[1])
+            resultNode = {literalValue:literalNode, otherVal:otherOperand}[result]
+
+    # hook ?: operator
+    elif operator in ["HOOK"]:
+        if ngParent == noperationNode.children[0]: # optimize a literal condition
+            if bool(literalValue):
+                resultNode = noperationNode.children[1]
+            else:
+                resultNode = noperationNode.children[2]
+
+    # unsupported operation
+    else:
+        pass
+
+    if resultNode != None:
+        #print "optimizing: operation"
         operationNode.parent.replaceChild(operationNode, resultNode)
         treeModified = True
+    else:
+        resultNode = literalNode
+        treeModified = False
 
     return resultNode, treeModified
-
 
 
 ##
@@ -378,9 +484,14 @@ def reduceLoop(startNode):
     treeModified = False
     conditionNode = None
 
-    # find the loop's condition node
+    # Can only reduce constant condition expression
+    if startNode.type != "constant":
+        return treeModified
+
+    # Can only reduce a condition expression
+    # of a loop context
     node = startNode
-    while(node):
+    while(node):  # find the loop's condition node
         if node.parent and node.parent.type == "loop" and node.parent.getFirstChild(ignoreComments=True)==node:
             conditionNode = node
             break
@@ -391,9 +502,16 @@ def reduceLoop(startNode):
     # handle "if" statements
     if conditionNode.parent.get("loopType") == "IF":
         loopNode = conditionNode.parent
-        evaluate.evaluate(conditionNode)
-        if conditionNode.evaluated!=():
-            reducer.reduce(loopNode)
+        # startNode must be only condition
+        if startNode==conditionNode or isDirectDescendant(startNode, conditionNode):
+            value = startNode.get("value")
+            if startNode.get("constantType") == 'string':
+                value = '"' + value + '"'
+            # re-parse into an internal value
+            value = json.loads(value)
+            condValue = bool(value)
+            #print "optimizing: if"
+            treeutil.inlineIfStatement(loopNode, condValue)
             treeModified = True
 
     return treeModified

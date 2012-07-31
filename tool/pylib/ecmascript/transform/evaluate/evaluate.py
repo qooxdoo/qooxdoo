@@ -156,3 +156,4 @@ class OperationEvaluator(treeutil.NodeVisitor):
 def evaluate(node):
     evaluator = OperationEvaluator(node)
     evaluator.visit(node)
+    return node
