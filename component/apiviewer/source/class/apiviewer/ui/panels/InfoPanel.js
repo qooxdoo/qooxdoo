@@ -953,9 +953,8 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      * @param node {apiviewer.dao.ClassItem} the doc node of the item.
      * @param currentClassDocNode {apiviewer.dao.Class} the doc node of the currently displayed class
      * @return {Boolean} whether the class item has details.
-     * @signature function(node, currentClassDocNode)
      */
-    itemHasDetails : qx.lang.Function.returnTrue,
+    itemHasDetails : function(node, currentClassDocNode) {return true;},
 
 
     __encodeObject : function(object)

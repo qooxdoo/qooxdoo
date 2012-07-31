@@ -154,7 +154,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * Simply return true.
-     *
+     * @deprecated since 2.1: Please use a custom function.
      * @return {Boolean} Always returns true.
      */
     returnTrue : function() {
