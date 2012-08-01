@@ -178,6 +178,7 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param target {Object} target object
      * @param source {Object} object to be merged
      * @return {Object} target with merged values from source
+     * @deprecated since 2.1: please use mergeWith instead with override set to false
      */
     carefullyMergeWith : function(target, source)
     {
@@ -185,6 +186,10 @@ qx.Bootstrap.define("qx.lang.Object",
       {
         qx.core.Assert && qx.core.Assert.assertMap(target, "Invalid argument 'target'");
         qx.core.Assert && qx.core.Assert.assertMap(source, "Invalid argument 'source'");
+        qx.Bootstrap.warn(
+          "'qx.lang.Object.carefullyMergeWith' is deprecated." +
+          " Please use 'qx.lang.Object.mergeWith' with override set to false instead"
+        );
       }
 
       return qx.lang.Object.mergeWith(target, source, false);

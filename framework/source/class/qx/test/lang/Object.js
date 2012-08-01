@@ -144,11 +144,11 @@ qx.Class.define("qx.test.lang.Object",
     },
 
 
-    testCarefullyMergeWith : function() {
+    testMergeWithCarefully : function() {
       var original = {a: 0};
       var o1 = {a: 2, b: 1};
 
-      qx.lang.Object.carefullyMergeWith(original, o1);
+      qx.lang.Object.mergeWith(original, o1, false);
 
       // check the original
       this.assertEquals(0, original.a);
