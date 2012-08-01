@@ -172,7 +172,7 @@ Example:
          * @return {Boolean} returns true
          * @signature function()
          */
-        sayTrue: qx.lang.Function.returnTrue;
+        sayTrue: function() {return true;}
       }
 
 You can also add individual parameter names to the signature, but then need to provide ``@param`` entries for each of them::
