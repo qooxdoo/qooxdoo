@@ -360,20 +360,13 @@ qx.Bootstrap.define("qx.Bootstrap",
     */
 
     /**
-     * Get the number of objects in the map
+     * Get the number of own properties in the object.
      *
      * @param map {Object} the map
      * @return {Integer} number of objects in the map
      */
-    objectGetLength : function(map)
-    {
-      var length = 0;
-
-      for (var key in map) {
-        length++;
-      }
-
-      return length;
+    objectGetLength : function(map) {
+      return qx.Bootstrap.keys(map).length;
     },
 
 
