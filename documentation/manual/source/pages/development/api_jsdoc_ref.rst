@@ -54,12 +54,29 @@ There is limited support for HTML markup. You should be able to use all of the c
 
 .. _pages/api_jsdoc_ref#supported_attributes:
 
-Supported attributes
+Supported sections
 ====================
 
-Within a doc comment the following attributes are supported:
+A JSDoc comment consists of different sections, where a section is either a leading text, the description, or an entry starting with an ``@`` attribute. Here is a complete list of the supported sections.
+
+.. _pages/api_jsdoc_ref#description:
+
+.. rst-class:: api-ref
+
+Description
+------------
+
+**Description**
+
+  General description of the item the JSDoc comment refers to. 
+
+**Syntax**
+
+  Free text, without any leading ``@`` attribute, containing HTML and/or markup, and some ``@`` attributes that may be embedded in text (see further). If given must be the first section in the doc comment.
 
 .. _pages/api_jsdoc_ref#param:
+
+.. rst-class:: api-ref
 
 @param
 -------------------------------------------
@@ -92,6 +109,8 @@ Within a doc comment the following attributes are supported:
 
 
 .. _pages/api_jsdoc_ref#return:
+
+.. rst-class:: api-ref
 
 @return
 ---------------------------
@@ -129,6 +148,8 @@ Within a doc comment the following attributes are supported:
 
 .. _pages/api_jsdoc_ref#throws:
 
+.. rst-class:: api-ref
+
 @throws
 --------------------------------------------
 
@@ -136,7 +157,7 @@ Within a doc comment the following attributes are supported:
 
   Functions
 
-  **Description**
+**Description**
 
   Describes in which cases an exception is thrown.
 
@@ -163,6 +184,8 @@ Within a doc comment the following attributes are supported:
 
 .. _pages/api_jsdoc_ref#see:
 
+.. rst-class:: api-ref
+
 @see
 -----
 
@@ -170,28 +193,41 @@ Within a doc comment the following attributes are supported:
 
   Adds a cross reference to another structure (class, property, method or constant).
   
+**Syntax**
 
-  
-  The text is structured as follows: At first comes the full name of the class to link to. If you want to link to a property, method or constant, then a ``#`` comes, followed by the name of the property, method or constant.
+  ``@see <class_item> [<description>]``
 
-If you refer to a structure within the same class, then the class name may be omitted. If you refer to a class in the same package, then the package name before the class may be omitted. In all other cases you have to specify the fully qualified class name (e.g. ``qx.ui.table.Table``).
+**Parameters**
 
-Some examples:
+  .. list-table::
+     :stub-columns: 1
+     :widths: 30 70
 
-* ``qx.ui.form.Button`` refers to the class ``Button`` in the package ``qx.ui.form``.
-* ``qx.constant.Type#NUMBER`` links to the constant ``NUMBER`` of the class ``qx.constant.Type``.
-* ``qx.core.Init#defineMain`` refers to the method ``defineMain`` in the class ``qx.core.Init``
+     * - class_item
+       - A class item is either a class name, or a class name followed by a ``#``, followed by the name of a class attribute like property, method or constant. If you refer to a structure within the same class, then the class name may be omitted. If you refer to a class in the same package, then the package name before the class may be omitted. In all other cases you have to specify the fully qualified class name (e.g. ``qx.ui.table.Table``). Some examples:
 
-After this target description an alternative text may follow. If missing the target description is shown.
+         * ``qx.ui.form.Button`` refers to the class ``Button`` in the package ``qx.ui.form``.
+         * ``qx.constant.Type#NUMBER`` links to the constant ``NUMBER`` of the class ``qx.constant.Type``.
+         * ``qx.core.Init#defineMain`` refers to the method ``defineMain`` in the class ``qx.core.Init``
+     * - description
+       - An optional display text for the link. If missing ``<class_item>`` is shown.
 
 .. _pages/api_jsdoc_ref#link:
+
+.. rst-class:: api-ref
 
 @link
 ------
 
+**Scope**
+
+  Embedded in descriptive text, `Description`_.
+
 The ``@link`` attribute is similar to the ``@see`` attribute, but it is used for linking to other structures within description texts. Unlike the other attributes, the ``@link`` attribute is not standalone, but in curly brackets and within the main description text or a description text of another attribute.
 
 .. _pages/api_jsdoc_ref#signature:
+
+.. rst-class:: api-ref
 
 @signature
 -----------
@@ -235,6 +271,8 @@ You can also add individual parameter names to the signature, but then need to p
       }
 
 .. _pages/api_jsdoc_ref#lint:
+
+.. rst-class:: api-ref
 
 @lint
 -------------------------------------------

@@ -1,3 +1,8 @@
+.api-ref>h3 {
+  /* background-color: #EAFCFC; */
+  /* border: 1px solid #3D72C9; */
+}
+
 #sidebar ul li ul {
   margin-bottom: 0;
 }
