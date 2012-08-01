@@ -36,3 +36,5 @@
 \bqx\.Bootstrap\.getKeysAsString\((.*)\)=('"' + qx.Bootstrap.keys($1).join('\", "') + '"')
 \bqx\.lang\.object\.getKeysAsString\((.*)\)=('"' + qx.Bootstrap.keys($1).join('\", "') + '"')
 
+\bqx\.lang\.RingBuffer\b=qx.util.RingBuffer
+
