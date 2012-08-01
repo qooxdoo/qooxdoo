@@ -1434,7 +1434,6 @@ testrunner.define({
 
     q.$unregisterEventNormalization("focus", normalizer1);
 
-    var that = this;
     window.setTimeout(function() {
       test[0].focus();
     }, 100);
@@ -1473,8 +1472,6 @@ testrunner.define({
     test.on("focus", callback, obj1);
     test.on("blur", callback, obj2);
 
-
-    var that = this;
     window.setTimeout(function() {
       test[0].focus();
       test[0].blur();
@@ -1511,7 +1508,6 @@ testrunner.define({
     test.on("focus", callback, obj1);
     test.on("blur", callback, obj2);
 
-    var that = this;
     window.setTimeout(function() {
       test[0].focus();
     }, 100);
@@ -1558,7 +1554,6 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     test.on("focus", callback, obj);
 
-    var that = this;
     window.setTimeout(function() {
       test[0].focus();
     }, 100);
@@ -1587,7 +1582,6 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     test.on("focus", callback, obj);
 
-    var that = this;
     window.setTimeout(function() {
       test[0].focus();
     }, 100);
@@ -1981,7 +1975,7 @@ testrunner.define({
 
   testCast : function() {
     var a;
-    var f = (function() {
+    (function() {
       a = q.array.cast(arguments, Array);
     })(1, 2, 3, 4);
     this.assertEquals(4, a.length);
@@ -2009,7 +2003,7 @@ testrunner.define({
 
   testFromArguments : function() {
     var a;
-    var f = (function() {
+    (function() {
       a = q.array.fromArguments(arguments);
     })(1, 2, 3, 4);
     this.assertEquals(4, a.length);
@@ -2119,11 +2113,6 @@ testrunner.define({
   testEscapeRegexpChars : function() {
     // also escape the \ in the expected
     this.assertEquals("\\.\\.\\.", q.string.escapeRegexpChars("..."));
-  },
-
-
-  testTrim : function() {
-    this.assertEquals("abc", "    abc    ".trim());
   },
 
 
