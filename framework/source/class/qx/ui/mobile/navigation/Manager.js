@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     if (qx.core.Environment.get("qx.debug")) {
       qx.log.Logger.deprecatedClassWarning(
         qx.ui.mobile.navigation.Manager,
-        "The class 'qx.ui.mobile.navigation.Manager' is depreacted. Please use the class " +
+        "The class 'qx.ui.mobile.navigation.Manager' is deprecated. Please use the class " +
         "'qx.application.Routing' instead."
       );
     }

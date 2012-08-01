@@ -46,6 +46,9 @@
        * Steven Levithan
 
 ************************************************************************ */
+/* ************************************************************************
+#require(qx.lang.normalize.String)
+************************************************************************ */
 
 /**
  * String helper functions
@@ -160,7 +163,7 @@ qx.Bootstrap.define("qx.lang.String",
      * @return {String} Cleaned up string
      */
     clean: function(str){
-      return this.trim(str.replace(/\s+/g, ' '));
+      return str.replace(/\s+/g, ' ').trim();
     },
 
 
