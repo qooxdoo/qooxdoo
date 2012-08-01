@@ -21,8 +21,8 @@ An example:
     *
     * @param dragSource {qx.bla.DragSource} the drag source that was dropped.
     * @param targetElement {Element} the target element the drop aims to.
-    * @param dropType {Integer ? null} the drop type. This is the same type as used in
-    *        {@link qx.bla.DragEvent}.
+    * @param dropType {Integer ? null} the drop type. This is the same type
+    *        as used in {@link qx.bla.DragEvent}.
     * @return {Boolean} whether the event was handled.
     * @throws if the targetElement is no child of this drop target.
     *
@@ -80,6 +80,30 @@ Section Reference
 ====================
 
 A JSDoc comment consists of different sections, where a section is either a leading text, the description, or an entry starting with an ``@`` attribute. Here is a complete list of the supported sections.
+
+.. .. contents:: **Overview**
+   :local:
+
+**Overview**
+
+.. list-table::
+   :widths: 60 40
+
+   * - API Documentation
+     - * `Description`_ 
+       * `@param`_ 
+       * `@return`_ 
+       * `@throws`_
+       * `@see`_ 
+       * `@link`_
+       * `@signature`_
+   * - Lint Checking
+     - * `@lint`_
+   * - Compile-time Hints
+     - * `@require`_
+       * `@use`_
+       * `@ignore`_
+
 
 .. _pages/api_jsdoc_ref#description:
 
@@ -379,4 +403,101 @@ Description
     @lint ignoreUndefined(foo)
 
 
+.. _pages/api_jsdoc_ref#require:
+
+.. rst-class:: api-ref
+
+@require
+-------------------------------------------
+
+**Scope**
+
+  File
+
+**Description**
+
+  Enforce the inclusion of a required class *before* the current code. Use this only if the generator cannot determine the dependency automatically.
+
+**Syntax**
+
+  ``@require ( <name> ,... )``
+
+**Parameters**
+
+    .. list-table::
+      :stub-columns: 1
+      :widths: 30 70
+
+      * - name
+        - Class name to include.
+
+**Example**
+
+  ``@require(qx.core.Object)``
+
+
+.. _pages/api_jsdoc_ref#use:
+
+.. rst-class:: api-ref
+
+@use
+-------------------------------------------
+
+**Scope**
+
+  File
+
+**Description**
+
+  Enforce the inclusion of a required class. Use this only if the generator cannot determine the dependency automatically.
+
+**Syntax**
+
+  ``@use ( <name> ,... )``
+
+**Parameters**
+
+    .. list-table::
+      :stub-columns: 1
+      :widths: 30 70
+
+      * - name
+        - Class name to include.
+
+**Example**
+
+  ``@use(qx.core.Object)``
+
+
+.. _pages/api_jsdoc_ref#ignore:
+
+.. rst-class:: api-ref
+
+@ignore
+-------------------------------------------
+
+**Scope**
+
+  File, class, function
+
+**Description**
+
+  Ignore the occurrence of global symbols. Do not try to include them in the build.
+
+**Syntax**
+
+  ``@ignore ( <name> ,... )``
+
+**Parameters**
+
+    .. list-table::
+      :stub-columns: 1
+      :widths: 30 70
+
+      * - name
+        - Class name to include. The name can include trailing wildcards, to ignore entire namespaces, e.g. ``qx.dev.*``.
+
+**Example**
+
+  ``@ignore(qx.dev.unit.TestSuite)``
 
