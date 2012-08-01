@@ -36,6 +36,42 @@ qx.Class.define("qx.test.util.Uri",
       this.assertEquals(expected, result);
     },
 
+
+    testToParameter : function()
+    {
+      var obj = {affe: true, maus: false};
+      var str = qx.util.Uri.toParameter(obj);
+      this.assertEquals("affe=true&maus=false", str);
+    },
+
+    testToParameterUmlauts : function()
+    {
+      var obj = {"äffe": "jøah", "maüs": "nö"};
+      var str = qx.util.Uri.toParameter(obj);
+      this.assertEquals("%C3%A4ffe=j%C3%B8ah&ma%C3%BCs=n%C3%B6", str);
+    },
+
+    testToParameterSpaces : function()
+    {
+      var obj = {"a f f e": true};
+      var str = qx.util.Uri.toParameter(obj);
+      this.assertEquals("a%20f%20f%20e=true", str);
+    },
+
+    testToParameterSpacesPost : function()
+    {
+      var obj = {"a f  f e": "j a"};
+      var str = qx.util.Uri.toParameter(obj, true);
+      this.assertEquals("a+f++f+e=j+a", str);
+    },
+
+    testToParameterArray : function() {
+      var obj = {id: [1,2,3]};
+      var str = qx.util.Uri.toParameter(obj);
+      this.assertEquals("id=1&id=2&id=3", str);
+    },
+
+
     "test: appendParamsToUrl() with string when existing query": function() {
       var url = "http://example.com/path?giraffe=true",
           params = "affe=true&maus=false",

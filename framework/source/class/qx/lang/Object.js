@@ -375,6 +375,7 @@ qx.Bootstrap.define("qx.lang.Object",
       return obj;
     },
 
+
     /**
      * Serializes an object to URI parameters (also known as query string).
      *
@@ -390,45 +391,15 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param post {Boolean} Whether spaces should be encoded with "+".
      * @return {String}      Serialized object. Safe to append to URIs or send as
      *                       URL encoded string.
-     *
+     * @deprecated since 2.1: Please use qx.util.Uri.toParameter instead.
      */
-    toUriParameter: function(obj, post)
-    {
-      var key,
-          parts = [];
-
-      for (key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          var value = obj[key];
-          if (value instanceof Array) {
-            for (var i=0; i<value.length; i++) {
-              this.__toUriParameter(key, value[i], parts, post);
-            }
-          } else {
-            this.__toUriParameter(key, value, parts, post);
-          }
-        }
+    toUriParameter: function(obj, post) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.Bootstrap.warn(
+          "'qx.util.Uri.toParameter' has been moved to 'qx.util.Uri.toParameter'."
+        );
       }
-
-      return parts.join("&");
-    },
-
-    /**
-     * Encodes key/value to URI safe string and pushes to given array.
-     *
-     * @param key {String} Key.
-     * @param value {String} Value.
-     * @param parts {Array} Array to push to.
-     * @param post {Boolean} Whether spaces should be encoded with "+".
-     */
-    __toUriParameter : function(key, value, parts, post) {
-      var encode = window.encodeURIComponent;
-      if (post) {
-        parts.push(encode(key).replace(/%20/g, "+") + "=" +
-          encode(value).replace(/%20/g, "+"));
-      } else {
-        parts.push(encode(key) + "=" + encode(value));
-      }
+      return qx.util.Uri.toParameter(obj, post);
     }
   }
 });

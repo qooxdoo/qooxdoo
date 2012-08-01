@@ -260,40 +260,6 @@ qx.Class.define("qx.test.lang.Object",
       this.assertNotIdentical(("Juhu").constructor, objConstructor);
       this.assertNotIdentical((/abc/).constructor, objConstructor);
       qxObj.dispose();
-    },
-
-    testToUriParameter : function()
-    {
-      var obj = {affe: true, maus: false};
-      var str = qx.lang.Object.toUriParameter(obj);
-      this.assertEquals("affe=true&maus=false", str);
-    },
-
-    testToUriParameterUmlauts : function()
-    {
-      var obj = {"äffe": "jøah", "maüs": "nö"};
-      var str = qx.lang.Object.toUriParameter(obj);
-      this.assertEquals("%C3%A4ffe=j%C3%B8ah&ma%C3%BCs=n%C3%B6", str);
-    },
-
-    testToUriParameterSpaces : function()
-    {
-      var obj = {"a f f e": true};
-      var str = qx.lang.Object.toUriParameter(obj);
-      this.assertEquals("a%20f%20f%20e=true", str);
-    },
-
-    testToUriParameterSpacesPost : function()
-    {
-      var obj = {"a f  f e": "j a"};
-      var str = qx.lang.Object.toUriParameter(obj, true);
-      this.assertEquals("a+f++f+e=j+a", str);
-    },
-
-    testToUriParameterArray : function() {
-      var obj = {id: [1,2,3]};
-      var str = qx.lang.Object.toUriParameter(obj);
-      this.assertEquals("id=1&id=2&id=3", str);
     }
   }
 });

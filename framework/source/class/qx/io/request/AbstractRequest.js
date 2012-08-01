@@ -834,7 +834,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
       }
 
       if (qx.lang.Type.isObject(data)) {
-        return qx.lang.Object.toUriParameter(data, isPost);
+        return qx.util.Uri.toParameter(data, isPost);
       }
     }
   },

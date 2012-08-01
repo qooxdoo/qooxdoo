@@ -90,7 +90,7 @@ qx.Bootstrap.define("qx.util.Uri",
       }
 
       if (qx.lang.Type.isObject(params)) {
-        params = qx.lang.Object.toUriParameter(params);
+        params = qx.util.Uri.toParameter(params);
       }
 
       if (!params) {
@@ -98,6 +98,63 @@ qx.Bootstrap.define("qx.util.Uri",
       }
 
       return url += (/\?/).test(url) ? "&" + params : "?" + params;
+    },
+
+
+    /**
+     * Serializes an object to URI parameters (also known as query string).
+     *
+     * Escapes characters that have a special meaning in URIs as well as
+     * umlauts. Uses the global function encodeURIComponent, see
+     * https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/encodeURIComponent
+     *
+     * Note: For URI parameters that are to be sent as
+     * application/x-www-form-urlencoded (POST), spaces should be encoded
+     * with "+".
+     *
+     * @param obj {Object}   Object to serialize.
+     * @param post {Boolean} Whether spaces should be encoded with "+".
+     * @return {String}      Serialized object. Safe to append to URIs or send as
+     *                       URL encoded string.
+     */
+    toParameter: function(obj, post)
+    {
+      var key,
+          parts = [];
+
+      for (key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          var value = obj[key];
+          if (value instanceof Array) {
+            for (var i=0; i<value.length; i++) {
+              this.__toParameterPair(key, value[i], parts, post);
+            }
+          } else {
+            this.__toParameterPair(key, value, parts, post);
+          }
+        }
+      }
+
+      return parts.join("&");
+    },
+
+
+    /**
+     * Encodes key/value to URI safe string and pushes to given array.
+     *
+     * @param key {String} Key.
+     * @param value {String} Value.
+     * @param parts {Array} Array to push to.
+     * @param post {Boolean} Whether spaces should be encoded with "+".
+     */
+    __toParameterPair : function(key, value, parts, post) {
+      var encode = window.encodeURIComponent;
+      if (post) {
+        parts.push(encode(key).replace(/%20/g, "+") + "=" +
+          encode(value).replace(/%20/g, "+"));
+      } else {
+        parts.push(encode(key) + "=" + encode(value));
+      }
     },
 
 
