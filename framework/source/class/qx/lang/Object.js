@@ -202,11 +202,16 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param target {Object} target object
      * @param varargs {Object} variable number of objects to merged with target
      * @return {Object} target with merged values from the other objects
+     * @deprecated since 2.1: Please use mergeWith instead.
      */
     merge : function(target, varargs)
     {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertMap(target, "Invalid argument 'target'");
+        qx.Bootstrap.warn(
+          "'qx.lang.Object.merge' is deprecated." +
+          " Please use 'qx.lang.Object.mergeWith' several times instead"
+        );
       }
 
       var len = arguments.length;

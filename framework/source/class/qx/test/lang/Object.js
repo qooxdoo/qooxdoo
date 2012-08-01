@@ -156,20 +156,6 @@ qx.Class.define("qx.test.lang.Object",
     },
 
 
-    testMerge : function() {
-      var original = {a: 0};
-      var o1 = {b: 1};
-      var o2 = {c: 2};
-
-      qx.lang.Object.merge(original, o1, o2);
-
-      // check the original
-      this.assertEquals(0, original.a);
-      this.assertEquals(1, original.b);
-      this.assertEquals(2, original.c);
-    },
-
-
     testClone : function() {
       var original = {a: 12, b: true, c: "affe"};
       var clone = qx.lang.Object.clone(original);
