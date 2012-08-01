@@ -1,4 +1,5 @@
-# activate after initial check-in
+# CAUTION: .css files have been updated without changing the corresponding .less file!!
+# before activating .gitignore, make sure changes are reflected back to .less!
 
 # these are overwritten by lessc
 /base.css
