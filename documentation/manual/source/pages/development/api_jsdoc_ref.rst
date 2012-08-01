@@ -52,9 +52,31 @@ HTML
 
 There is limited support for HTML markup. You should be able to use all of the character-level tags, like ``<a>`` or ``<code>``, as well as paragraph-level tags like ``<p>`` or ``<ul>``. ``<pre>`` is particularly suited for code snippets, as it allows you to add syntax highlighting for %{JS} with ``<pre class="javascript">``.
 
+.. _pages/api_jsdoc_ref#handling_of_data_types:
+
+Handling of Data Types
+======================
+
+Because JavaScript has no strong typing, the types of the parameters accepted by a method may not be read from the method's definition. For showing the accepted types in the API documentation the data type may be specified in the doc attributes ``@param`` and ``@return``.
+
+The following type indicators are accepted:
+
+.. list-table::
+  :stub-columns: 1
+  :widths: 30 70
+
+  * - Primitive
+    - ``var``, ``void``, ``undefined``
+  * - Builtin classes
+    - ``Object``, ``Boolean``, ``String``, ``Number``, ``Integer``, ``Float``, ``Double``, ``Regexp``, ``Function``, ``Error``, ``Map``, ``Date``, ``Element``
+  * - Other classes
+    - Here the full qualified name is specified (e.g. ``qx.ui.core.Widget``). If the referenced class is in the same package as the currently documented class, the plain class name is sufficient (e.g. ``Widget``).
+  * - Lists
+    - Homogenous lists are indicated by adding one or more ``[]`` to the type, e.g. ``String[]``, ``Integer[][]``.
+
 .. _pages/api_jsdoc_ref#supported_attributes:
 
-Supported sections
+Section Reference
 ====================
 
 A JSDoc comment consists of different sections, where a section is either a leading text, the description, or an entry starting with an ``@`` attribute. Here is a complete list of the supported sections.
@@ -195,7 +217,7 @@ Description
   
 **Syntax**
 
-  ``@see <class_item> [<description>]``
+  ``@see <class_item> [<link_text>]``
 
 **Parameters**
 
@@ -209,8 +231,12 @@ Description
          * ``qx.ui.form.Button`` refers to the class ``Button`` in the package ``qx.ui.form``.
          * ``qx.constant.Type#NUMBER`` links to the constant ``NUMBER`` of the class ``qx.constant.Type``.
          * ``qx.core.Init#defineMain`` refers to the method ``defineMain`` in the class ``qx.core.Init``
-     * - description
+     * - link_text
        - An optional display text for the link. If missing ``<class_item>`` is shown.
+
+**Example**
+
+  ``@see qx.constant.Type#NUMBER the NUMBER types``
 
 .. _pages/api_jsdoc_ref#link:
 
@@ -223,7 +249,21 @@ Description
 
   Embedded in descriptive text, `Description`_.
 
-The ``@link`` attribute is similar to the ``@see`` attribute, but it is used for linking to other structures within description texts. Unlike the other attributes, the ``@link`` attribute is not standalone, but in curly brackets and within the main description text or a description text of another attribute.
+**Description**
+  
+  The ``@link`` attribute is similar to the `@see`_ attribute, but it is used for linking within description texts. Unlike the other attributes, the ``@link`` attribute is not standalone, but in curly brackets and within the main description text or a description text of another attribute.
+
+**Syntax**
+
+  ``{ @link <class_item> [<link_text>] }``
+
+**Parameters**
+
+  See `@see`_.
+
+**Example**
+
+  ``You will find more information about NUMBER types {@link qx.constant.Type#NUMBER here}.``
 
 .. _pages/api_jsdoc_ref#signature:
 
@@ -232,43 +272,60 @@ The ``@link`` attribute is similar to the ``@see`` attribute, but it is used for
 @signature
 -----------
 
-Sometimes the API documentation generator is not able to extract the method signature from the source code. This for example is the case when the method is defined using a ``qx.core.Environment`` selection, or if the method is assigned from a method constant like ``qx.lang.Function.returnTrue``.
+**Scope**
 
-In these cases the method signature can be declared inside the documentation comment using the ``@signature`` attribute.
+  Functions
 
-Example:
+**Description**
 
-::
+  Sometimes the API documentation generator is not able to extract the method signature from the source code. This for example is the case when the method is defined using a ``qx.core.Environment`` selection, or if the method is assigned from a method constant like ``qx.lang.Function.returnTrue``. In these cases the method signature can be declared inside the documentation comment using the ``@signature`` attribute.  You can also add individual parameter names to the signature, but then need to provide ``@param`` entries for each of them.
 
-    members :
-      {
-        /**
-         * Always returns true
-         *
-         * @return {Boolean} returns true
-         * @signature function()
-         */
-        sayTrue: qx.lang.Function.returnTrue;
-      }
+**Syntax**
 
-You can also add individual parameter names to the signature, but then need to provide ``@param`` entries for each of them::
+  ``@signature function ( <param>, ... )``
 
-    members :
-      {
-        /**
-         * Always returns false, but takes some parameters.
-         *
-         * @return {Boolean} returns false
-         *
-         * @signature function(foo, bar, baz)
-         * @param foo {String} ...
-         * @param bar {Integer} ...
-         * @param baz {Map} ...
-         */
-        sayFalse: function() {
-          ...
+**Parameters**
+
+  .. list-table::
+    :stub-columns: 1
+    :widths: 30 70
+
+    * - param
+      - Names for parameters; must match potential ``@param`` sections.
+
+**Example**
+
+  ::
+
+      members :
+        {
+          /**
+           * Always returns true
+           *
+           * @return {Boolean} returns true
+           * @signature function()
+           */
+          sayTrue: qx.lang.Function.returnTrue;
         }
-      }
+
+  With parameters::
+
+      members :
+        {
+          /**
+           * Always returns false, but takes some parameters.
+           *
+           * @return {Boolean} returns false
+           *
+           * @signature function(foo, bar, baz)
+           * @param foo {String} ...
+           * @param bar {Integer} ...
+           * @param baz {Map} ...
+           */
+          sayFalse: function() {
+            ...
+          }
+        }
 
 .. _pages/api_jsdoc_ref#lint:
 
@@ -322,19 +379,4 @@ You can also add individual parameter names to the signature, but then need to p
     @lint ignoreUndefined(foo)
 
 
-
-.. _pages/api_jsdoc_ref#handling_of_data_types:
-
-Handling of data types
-======================
-
-Because JavaScript has no strong typing, the types of the parameters accepted by a method may not be read from the method's definition. For showing the accepted types in the API documentation the data type may be specified in the doc attributes ``@param`` and ``@return``.
-
-The following types are accepted:
-
-* Primitive: ``var``, "void", "undefined"
-* Builtin classes: ``Object``, ``Boolean``, ``String``, ``Number``, ``Integer``, ``Float``, ``Double``, ``Regexp``, ``Function``, ``Error``, ``Map``, ``Date`` and ``Element``
-* Other classes: Here the full qualified name is specified (e.g. ``qx.ui.core.Widget``). If the referenced class is in the same package as the currently documented class, the plain class name is sufficient (e.g. ``Widget``).
-
-Arrays are specified by appending one or more ``[]`` to the type. E.g.: ``String[]`` or ``Integer[][]``.
 
