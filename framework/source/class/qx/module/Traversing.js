@@ -84,25 +84,6 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     /**
-     * Returns a copy of the collection within the given range.
-     *
-     * @attach {q}
-     * @param begin {Number} The index to begin.
-     * @param end {Number?} The index to end.
-     * @return {q} A new collection containing a slice of the original collection.
-     */
-    slice : function(begin, end) {
-      // Old IEs return an empty array if the second argument is undefined
-      if (end) {
-        return q.$init(Array.prototype.slice.call(this, begin, end));
-      }
-      else {
-        return q.$init(Array.prototype.slice.call(this, begin));
-      }
-    },
-
-
-    /**
      * Gets a set of elements containing the parent of each element in the
      * collection.
      * This set can be filtered with an optional expression that will cause only
@@ -240,33 +221,6 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     /**
-     * Gets a new collection containing only those elements that passed the
-     * given filter. This can be either a selector expression or a filter
-     * function.
-     *
-     * @attach {q}
-     * @param selector {String|Function} Selector expression or filter function
-     * @return {q} New collection containing the elements that passed the filter
-     */
-    filter : function(selector) {
-      if (qx.lang.Type.isFunction(selector)) {
-        return Array.prototype.filter.call(this, selector);
-      }
-      /*
-       * This works but isn't currently needed:
-      if (qx.dom.Node.isElement(selector)) {
-        for (var i=0; i < this.length; i++) {
-          if (this[i] == selector) {
-            return q.$init([this[i]]);
-          }
-        }
-      }
-      */
-      return q.$init(qx.bom.Selector.matches(selector, this));
-    },
-
-
-    /**
      * Gets a new set of elements containing the child nodes of each item in the
      * current set.
      *
@@ -276,7 +230,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     getContents : function() {
       var found = [];
       for (var i=0; i < this.length; i++) {
-        found = found.concat(Array.prototype.slice.call(this[i].childNodes), 0);
+        found = found.concat(Array.prototype.slice.call(this[i].childNodes, 0));
       }
       return q.$init(found);
     },
@@ -624,14 +578,12 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "add" : statics.add,
       "getChildren" : statics.getChildren,
       "forEach" : statics.forEach,
-      "slice" : statics.slice,
       "getParents" : statics.getParents,
       "getAncestors" : statics.getAncestors,
       "getAncestorsUntil" : statics.getAncestorsUntil,
       "__getAncestors" : statics.__getAncestors,
       "getClosest" : statics.getClosest,
       "find" : statics.find,
-      "filter" : statics.filter,
       "getContents" : statics.getContents,
       "is" : statics.is,
       "eq" : statics.eq,

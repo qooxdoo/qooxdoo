@@ -30,7 +30,7 @@
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/website.html' target='_blank'>user manual</a>.
  */
 qx.Bootstrap.define("q", {
-  extend : qx.type.BaseArray,
+  extend : Array,
   statics : {
     // internal storage for all initializers
     __init : [],
@@ -146,5 +146,88 @@ qx.Bootstrap.define("q", {
       selector = [selector];
     }
     return q.$init(selector);
+  },
+
+
+  members : {
+    /**
+     * Gets a new collection containing only those elements that passed the
+     * given filter. This can be either a selector expression or a filter
+     * function.
+     *
+     * @param selector {String|Function} Selector expression or filter function
+     * @return {q} New collection containing the elements that passed the filter
+     */
+    filter : function(selector) {
+      if (qx.lang.Type.isFunction(selector)) {
+        return q.$init(Array.prototype.filter.call(this, selector));
+      }
+      return q.$init(qx.bom.Selector.matches(selector, this));
+    },
+
+
+    /**
+     * Returns a copy of the collection within the given range.
+     *
+     * @param begin {Number} The index to begin.
+     * @param end {Number?} The index to end.
+     * @return {q} A new collection containing a slice of the original collection.
+     */
+    slice : function(begin, end) {
+      // Old IEs return an empty array if the second argument is undefined
+      if (end) {
+        return q.$init(Array.prototype.slice.call(this, begin, end));
+      }
+      else {
+        return q.$init(Array.prototype.slice.call(this, begin));
+      }
+    },
+
+
+    /**
+     * Removes the given number of items and returns the removed items as a new collection.
+     * This method can also add items. Take a look at the
+     * <a href='https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/splice' target='_blank'>documentation of MDN</a> for more details.
+     *
+     * @param index {Number} The index to begin.
+     * @param howMany {Number} the amount of items to remove.
+     * @param varargs {var} As many items as you want to add.
+     * @return {q} A new collection containing the removed items.
+     */
+    splice : function(index , howMany, varargs) {
+      return q.$init(Array.prototype.splice.apply(this, arguments));
+    },
+
+
+    /**
+     * Returns a new collection containing the modified elements. For more details, check out the
+     * <a href='https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/map' target='_blank'>MDN documentation</a>.
+     *
+     * @param callback {Function} Function which produces the new element.
+     * @param thisarg {var} Context of the callback.
+     * @return {q} New collection containing the elements that passed the filter
+     */
+    map : function(callback, thisarg) {
+      return q.$init(Array.prototype.map.apply(this, arguments));
+    },
+
+
+    /**
+     * Returns a copy of the collection including the given elements.
+     *
+     * @param varargs {var} As many items as you want to add.
+     * @return {q} A new collection containing all items.
+     */
+    concat : function(varargs) {
+      var clone = Array.prototype.slice.call(this, 0);
+      for (var i=0; i < arguments.length; i++) {
+        if (arguments[i] instanceof q) {
+          clone = clone.concat(Array.prototype.slice.call(arguments[i], 0));
+        } else {
+          clone.push(arguments[i]);
+        }
+      };
+      return q.$init(clone);
+    }
   }
 });

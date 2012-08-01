@@ -1,4 +1,13 @@
+var initAttached = false;
 testrunner.globalSetup = function() {
+  if (!initAttached) {
+    // attach a custom init function
+    q.$attachInit(function() {
+      this.testInit = true;
+    });
+    initAttached = true;
+  }
+
   this.sandbox = q.create("<div id='sandbox'></div>");
   this.sandbox.appendTo(document.body);
 
@@ -17,11 +26,39 @@ testrunner.globalTeardown = function() {
 testrunner.define({
   classname: "Basic",
 
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
   testInstanceOf : function() {
     var c = q.create("<div>");
     this.assertTrue(c instanceof q);
     c = q();
     this.assertTrue(c instanceof q);
+  },
+
+  testInit : function() {
+    // add a second element
+    this.sandbox.push(q.create("<div>")[0]);
+
+    this.assertTrue(this.sandbox.testInit);
+    this.assertEquals(2, this.sandbox.length);
+
+    this.assertTrue(this.sandbox.filter(function() {return true;}).testInit);
+    this.assertEquals(2, this.sandbox.filter(function() {return true;}).length);
+
+    this.assertTrue(this.sandbox.concat().testInit);
+    this.assertEquals(2, this.sandbox.concat().length);
+    this.assertEquals(4, this.sandbox.concat(this.sandbox.concat()).length);
+
+    this.assertTrue(this.sandbox.slice(0).testInit);
+    this.assertEquals(2, this.sandbox.slice(0).length);
+
+    var clone = this.sandbox.clone().splice(0, 2);
+    this.assertTrue(clone.testInit);
+    this.assertEquals(2, clone.length);
+
+    this.assertTrue(this.sandbox.map(function(i) {return i;}).testInit);
+    this.assertEquals(2, this.sandbox.map(function(i) {return i;}).length);
   },
 
   testDependencies : function()
