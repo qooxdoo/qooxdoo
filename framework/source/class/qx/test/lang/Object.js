@@ -235,11 +235,6 @@ qx.Class.define("qx.test.lang.Object",
     },
 
 
-    testSelect : function() {
-      this.assertEquals("affe", qx.lang.Object.select("affe", {affe: "affe"}));
-    },
-
-
     testFromArray : function() {
       var array = ["a", "b"];
       var obj = qx.lang.Object.fromArray(array);

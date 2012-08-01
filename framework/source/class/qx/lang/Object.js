@@ -324,11 +324,15 @@ qx.Bootstrap.define("qx.lang.Object",
     * @param key {String} name of the key to get the value from
     * @param map {Object} map to get the value from
     * @return {var} value for the given key from the map
+    * @deprecated since 2.1
     */
     select: function(key, map)
     {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+      }
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.Bootstrap.warn("'qx.lang.Object.select()' is deprecated. Please use map[key] instead.");
       }
       return map[key];
     },

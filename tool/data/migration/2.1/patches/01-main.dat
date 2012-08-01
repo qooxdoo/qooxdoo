@@ -34,7 +34,8 @@
 
 \bqx\.lang\.Object\.hasMinLength\((.*)\s*,\s*(.*)\)=($1.length >= $2)
 \bqx\.Bootstrap\.getKeysAsString\((.*)\)=('"' + qx.Bootstrap.keys($1).join('\", "') + '"')
-\bqx\.lang\.object\.getKeysAsString\((.*)\)=('"' + qx.Bootstrap.keys($1).join('\", "') + '"')
+\bqx\.lang\.Object\.getKeysAsString\((.*)\)=('"' + qx.Bootstrap.keys($1).join('\", "') + '"')
+\bqx\.lang\.Object\.select\((.*)\s*,\s*(.*)\)=$2[$1]
 
 \bqx\.lang\.RingBuffer\b=qx.util.RingBuffer
 
