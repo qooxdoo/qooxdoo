@@ -68,7 +68,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
     /**
      * Executes the provided callback function once for each item in the
-     * collection. @see qx.type.BaseArray#forEach
+     * collection.
      *
      * @attach {q}
      * @param fn {Function} Callback function
@@ -250,7 +250,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      */
     filter : function(selector) {
       if (qx.lang.Type.isFunction(selector)) {
-        return qx.type.BaseArray.prototype.filter.call(this, selector);
+        return Array.prototype.filter.call(this, selector);
       }
       /*
        * This works but isn't currently needed:
@@ -285,7 +285,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Checks if at least one element in the collection passes the provided
      * filter. This can be either a selector expression or a filter
-     * function @see qx.type.BaseArray#filter
+     * function
      *
      * @attach {q}
      * @param selector {String|Function} Selector expression or filter function
@@ -492,7 +492,6 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Remove elements from the collection that do not pass the given filter.
      * This can be either a selector expression or a filter function
-     * @see qx.type.BaseArray#filter
      *
      * @attach {q}
      * @param selector {String|Function} Selector or filter function
