@@ -62,27 +62,19 @@ def search(node, variantMap, fileId_="", verb=False):
     fileId = fileId_
     modified = False
 
-    #if fileId == "qx.data.marshal.Json":
-    #    import pydb; pydb.debugger()
-
     variantNodes = findVariantNodes(node)
     for variantNode in variantNodes:
         variantMethod = variantNode.toJS(pp).rsplit('.',1)[1]
+        callNode = treeutil.selectNode(variantNode, "../..")
         if variantMethod in ["select"]:
-            modified = processVariantSelect(selectCallNode(variantNode), variantMap) or modified
+            modified = processVariantSelect(callNode, variantMap) or modified
         elif variantMethod in ["get"]:
-            modified = processVariantGet(selectCallNode(variantNode), variantMap) or modified
+            modified = processVariantGet(callNode, variantMap) or modified
         elif variantMethod in ["filter"]:
-            modified = processVariantFilter(selectCallNode(variantNode), variantMap) or modified
+            modified = processVariantFilter(callNode, variantMap) or modified
 
     return modified
 
-
-def selectCallNode(variableNode):
-    # the call node is usually two levels up from the variable node that holds
-    # the function name ("call/operator/variable")
-    callNode = selectNode(variableNode, "../..")
-    return callNode
 
 ##
 # Processes qx.core.Environment.select blocks
@@ -205,27 +197,6 @@ def processVariantGet(callNode, variantMap):
     return treeModified
 
 
-##
-# 
-def isDirectDescendant(child, ancestor):
-    result = False
-    p = nextNongroupParent(child, ancestor)
-    if p == ancestor:
-        result = True
-    return result
-
-def isComparisonOperand(callNode, conditionNode, capture):
-    result = None
-    capture[0] = None
-    callParent = nextNongroupParent(callNode, conditionNode)
-    if callParent.parent.type == "operation":   # e.g. callParent is operation/first
-        operNode = callParent.parent
-        operParent = nextNongroupParent(operNode, conditionNode)
-        if operParent == conditionNode:
-            result = operNode
-            capture[0] = operNode
-    return result
-
 def nextNongroupParent(node, stopnode=None):
     result = stopnode
     n = node.parent
@@ -236,60 +207,6 @@ def nextNongroupParent(node, stopnode=None):
         else:
             n = n.parent
     return result
-
-
-def getOtherOperand(opNode, oneOperand):
-    operands = opNode.getChildren(True)
-    #if operands[0] == oneOperand.parent: # switch between "first" and "second"
-    if operands[0] == oneOperand: # switch between "first" and "second"
-        #otherOperand = operands[1].getFirstChild(ignoreComments=True)
-        otherOperand = operands[1]
-        otherPosition   = 1
-    else:
-        #otherOperand = operands[0].getFirstChild(ignoreComments=True)
-        otherOperand = operands[0]
-        otherPosition   = 0
-    return otherOperand, otherPosition
-
-##
-# As we are potentially optimizing this expression, we can strip non-essential
-# things like comments, spurious groups etc., on a copy
-def normalizeExpression(node):
-    simplified = node.clone()
-    simplified.children = [] # fresh children
-    simplified.parent = None # reset parent
-    for child in node.children:
-        if child.type in ["comment", "commentsBefore", "commentsAfter"]:
-            continue
-        child = normalizeExpression(child)
-        child.parent = simplified
-        simplified.children.append(child)
-    if simplified.type == "group" and len(simplified.children) == 1:
-        simplified = simplified.children[0]
-    return simplified
-
-
-def constNodeToPyValue(node):
-    if node.type != "constant":
-        raise ValueError("Can only intern a constant node's value")
-    constvalue = node.get("value")
-    consttype = node.get("constantType")
-    if consttype == "number":
-        constdetail = node.get("detail")
-        if constdetail == "int":
-            value = int(constvalue)
-        elif constdetail == "float":
-            value = float(constvalue)
-    elif consttype == "string":
-        value = constvalue
-    elif consttype == "boolean":
-        value = {"true":True, "false":False}[constvalue]
-    elif consttype == "null":
-        value = None
-
-    return value
- 
-
 
 def __variantMatchKey(key, variantValue):
     for keyPart in key.split("|"):
@@ -374,7 +291,6 @@ def reduceOperation(literalNode):
         treeModified = True
 
     return resultNode, treeModified
-
 
 
 ##
