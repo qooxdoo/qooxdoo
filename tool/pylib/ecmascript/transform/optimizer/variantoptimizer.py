@@ -22,12 +22,10 @@
 ################################################################################
 
 import re, sys, operator as operators, types
-from ecmascript.frontend.treeutil import *
 from ecmascript.frontend          import treeutil
 from ecmascript.frontend.treegenerator  import symbol, PackerFlags as pp
 from ecmascript.transform.evaluate  import evaluate
 from ecmascript.transform.optimizer import reducer
-from misc                         import json
 
 global verbose
 
@@ -101,7 +99,7 @@ def processVariantSelect(callNode, variantMap):
 
     # Get the variant key from the select() call
     firstParam = params.getChildByPosition(0)
-    if not isStringLiteral(firstParam):
+    if not treeutil.isStringLiteral(firstParam):
         # warning is currently covered in parsing code
         #log("Warning", "First argument must be a string literal constant! Ignoring this occurrence.", firstParam)
         return False
@@ -173,7 +171,7 @@ def processVariantGet(callNode, variantMap):
         return treeModified
 
     firstParam = params.getChildByPosition(0)
-    if not isStringLiteral(firstParam):
+    if not treeutil.isStringLiteral(firstParam):
         return treeModified
 
     variantKey = firstParam.get("value");
@@ -341,7 +339,7 @@ def getSelectParams(callNode):
 
     # Get the variant key from the select() call
     firstParam = params.getChildByPosition(0)
-    if not isStringLiteral(firstParam):
+    if not treeutil.isStringLiteral(firstParam):
         # warning is currently covered in parsing code
         #log("Warning", "First argument must be a string literal constant! Ignoring this occurrence.", firstParam)
         return result
