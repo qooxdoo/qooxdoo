@@ -169,6 +169,31 @@ qx.Class.define("simulator.qxwebdriver.Util", {
         clazz = clazz.superclass;
       }
       return hierarchy;
+    },
+
+    /**
+     * Returns the labels of a widget's model items.
+     * @return {Array} List of model item labels
+     */
+    getModelItemLabels : function()
+    {
+      var labels = [];
+      var widget = qx.core.ObjectRegistry.fromHashCode('QXHASH');
+      var model = widget.getModel();
+      var labelPath = widget.getLabelPath();
+      for (var i=0, l= model.length; i<l; i++) {
+        var label;
+        var item = model.getItem(i);
+        if (item instanceof qx.core.Object && labelPath) {
+          //TODO: Resolve multi-part property path (bug #6685)
+          label = item.get(labelPath);
+        }
+        else {
+          label = item.toString();
+        }
+        labels.push(label);
+      }
+      return labels;
     }
   }
 
