@@ -407,8 +407,7 @@ misspelled identifier and missing 'var' statements. You can use the '-g' flag to
         import codecs
         from ecmascript.frontend import treegenerator
         from ecmascript.transform.check import scopes, lint
-        def opts():pass
-        opts.library_classes = []
+        opts = lint.defaultOptions()
         tree_ = treegenerator.parse(codecs.open(filename, "r", "utf-8").read())
         tree_ = scopes.create_scopes(tree_)
         lint.lint_check(tree_, filename, opts)
@@ -433,7 +432,6 @@ misspelled identifier and missing 'var' statements. You can use the '-g' flag to
         #if checkAll or "fields" in options.actions:
         #    lint.checkFields()
         #    lint.checkReferenceFields()
-
 
 
 if __name__ == "__main__":

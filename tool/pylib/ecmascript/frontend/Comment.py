@@ -23,7 +23,7 @@
 
 import sys, string, re
 
-from ecmascript.frontend import tree
+from ecmascript.frontend import tree, lang
 from generator import Context as context
 from pyparse import pyparsing as py
 from textile import textile
@@ -403,7 +403,8 @@ class Comment(object):
 
     def parseDetail_Term(self, attrib):
         text = attrib['text'] # "ignoreUnused(a,b)"
-        identi = py.Word(py.alphas+'_$', py.alphanums+'_$')
+        #identi = py.Word(py.alphas+'_$', py.alphanums+'_$')
+        identi = py.Word(u''.join(lang.IDENTIFIER_CHARS_START), u''.join(lang.IDENTIFIER_CHARS_BODY))
         term = identi + py.Suppress('(') + py.delimitedList(identi) + py.Suppress(')')
         a = term.parseString(text)
         attrib['functor'] = a[0]  # "ignoreUnused"

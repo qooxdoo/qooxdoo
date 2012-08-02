@@ -274,6 +274,13 @@ def get_at_hints(node):
             at_hints['lint'][functor].update(entry['arguments'])
     return at_hints
 
+
+def defaultOptions():
+    class C(object): pass
+    opts = C()
+    opts.library_classes = []
+    return opts
+
 # - ---------------------------------------------------------------------------
 
 def lint_check(node, file_name, opts):
