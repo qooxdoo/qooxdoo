@@ -34,7 +34,7 @@
  */
 qx.Class.define("qx.util.StringBuilder",
 {
-  extend : Array,
+  extend : qx.type.BaseArray,
 
 
   /*
@@ -59,7 +59,9 @@ qx.Class.define("qx.util.StringBuilder",
    * @param length_or_items {Integer|var?null} The initial length of the StringBuilder
    *        OR an argument list of values.
    */
-  construct : function(length_or_items) {},
+  construct : function(length_or_items) {
+    qx.type.BaseArray.apply(this, arguments);
+  },
 
   /*
   *****************************************************************************
@@ -128,7 +130,7 @@ qx.Class.define("qx.util.StringBuilder",
 
   defer : function(statics, members)
   {
-    members.add = Array.prototype.push;
+    members.add = members.push;
     members.toString = members.get;
     members.valueOf = members.get;
   }
