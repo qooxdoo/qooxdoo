@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * The purpose of this class is to contain all checks for PhoneGap.
+ * The purpose of this class is to contain all checks for PhoneGap/Cordova.
  *
  * This class is used by {@link qx.core.Environment} and should not be used
  * directly. Please check its class comment for details how to use it.
@@ -30,12 +30,12 @@ qx.Bootstrap.define("qx.bom.client.PhoneGap",
   statics :
   {
     /**
-     * Checks if PhoneGap is available.
+     * Checks if PhoneGap/Cordova is available.
      * @return {Boolean} <code>true</code>, if it could be used.
      * @internal
      */
     getPhoneGap : function() {
-      return "PhoneGap" in window;
+      return ("cordova" in window || "Cordova" in window || "PhoneGap" in window);
     },
 
 
