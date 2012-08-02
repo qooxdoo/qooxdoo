@@ -54,7 +54,7 @@
  * String helper functions
  *
  * The native JavaScript String is not modified by this class. However,
- * there are modifications to the native String in {@link qx.lang.normlaize.String} for
+ * there are modifications to the native String in {@link qx.lang.normalize.String} for
  * browsers that do not support certain features.
  */
 qx.Bootstrap.define("qx.lang.String",

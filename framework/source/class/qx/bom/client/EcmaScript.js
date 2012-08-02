@@ -168,16 +168,6 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
 
     /**
-     * Checks if 'trim' is supported on the String object.
-     * @internal
-     * @return {Boolean} <code>true</code>, if the method is available.
-     */
-    getStringTrim : function() {
-      return typeof String.prototype.trim === "function";
-    },
-
-
-    /**
      * Checks if 'keys' is supported on the Object object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
