@@ -97,6 +97,9 @@ class OperationEvaluator(treeutil.NodeVisitor):
         self.visit(node.children[0])
         node.evaluated = node.children[0].evaluated
 
+    ##
+    # Convert a 'constant' tree node to it's (primitive) Python value.
+    #
     def visit_constant(self, node):
         constvalue = node.get("value")
         consttype = node.get("constantType")
@@ -127,8 +130,8 @@ class OperationEvaluator(treeutil.NodeVisitor):
         self.visit(op2)
         self.visit(op3)
         # to evaluate HOOK, it is enough to evaluate the condition
-        if operator == "HOOK" and op1.evaluated != ():
-            node.evaluated = self.operations[operator](op1.evaluated, op2, op3)
+        if operator == "HOOK" and all([(op.evaluated != ()) for op in (op1,op2,op3)]):
+            node.evaluated = self.operations[operator](op1.evaluated, op2.evaluated, op3.evaluated)
         else:
             node.evaluated = ()
 

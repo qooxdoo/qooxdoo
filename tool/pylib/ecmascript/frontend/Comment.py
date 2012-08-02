@@ -403,8 +403,8 @@ class Comment(object):
 
     def parseDetail_Term(self, attrib):
         text = attrib['text'] # "ignoreUnused(a,b)"
-        identi = py.Word(py.alphas, py.alphanums+'_')
-        term = identi + py.Suppress('(') + py.delimitedList(py.Word(py.alphanums)) + py.Suppress(')')
+        identi = py.Word(py.alphas+'_$', py.alphanums+'_$')
+        term = identi + py.Suppress('(') + py.delimitedList(identi) + py.Suppress(')')
         a = term.parseString(text)
         attrib['functor'] = a[0]  # "ignoreUnused"
         attrib['arguments'] = a[1:] # ["a", "b"]

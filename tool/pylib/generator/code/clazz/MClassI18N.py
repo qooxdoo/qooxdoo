@@ -26,6 +26,7 @@
 import sys, os, types, re, string
 from ecmascript.frontend import treeutil
 from ecmascript.frontend.tree import NodeAccessException
+from ecmascript.transform.evaluate import evaluate
 from misc import util
 
 class MClassI18N(object):
@@ -156,6 +157,19 @@ class MClassI18N(object):
 
 
     def _concatOperation(self, node):
+        result = ""
+        assert node.type=="operation" and node.get("operator")=="ADD", "Can only process concatenation of string literals"
+
+        evaluate.evaluate(node)
+        if node.evaluated != ():
+            result = node.evaluated
+        else:
+            console.warn("Unknown expression as argument to translation method (%s:%s)" % (treeutil.getFileFromSyntaxItem(node), node.get("line"),))
+
+        return result
+
+
+    def _concatOperation_1(self, node):
         result = ""
         assert node.type=="operation" and node.get("operator")=="ADD", "Can only process concatenation of string literals"
 
