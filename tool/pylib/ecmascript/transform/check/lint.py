@@ -26,6 +26,8 @@
 import os, sys, re, types
 from collections import defaultdict
 from ecmascript.frontend import treeutil, lang, Comment
+from ecmascript.frontend import treegenerator
+from ecmascript.transform.optimizer import variantoptimizer
 from generator.Context import console
 
 class LintChecker(treeutil.NodeVisitor):
@@ -46,6 +48,8 @@ class LintChecker(treeutil.NodeVisitor):
         for class_defn in treeutil.findQxDefineR(node):
             self.class_declared_privates(class_defn)
             self.class_reference_fields(class_defn)
+        # check all qx.core.Environment calls
+        self.environment_check_calls(node)
         # recurse
         for cld in node.children:
             self.visit(cld)
@@ -242,6 +246,89 @@ class LintChecker(treeutil.NodeVisitor):
                     if len(name_parts) > 1 and self.reg_privs.match(name_parts[1]):
                         function_privs.add((name_parts[1],var_use))
         return function_privs
+
+    def environment_check_calls(self, node):
+        for env_call in variantoptimizer.findVariantNodes(node):
+            variantMethod = env_call.toJS(treegenerator.PackerFlags).rsplit('.',1)[1]
+            callNode = treeutil.selectNode(env_call, "../..")
+            if variantMethod in ["select"]:
+                self.environment_check_select(callNode)
+            elif variantMethod in ["get"]:
+                self.environment_check_get(callNode)
+            elif variantMethod in ["filter"]:
+                self.environment_check_filter(callNode)
+
+    def environment_check_select(self, select_call):
+        if select_call.type != "call":
+            return False
+            
+        params = select_call.getChild("arguments")
+        if len(params.children) != 2:
+            log("Warning", "Expecting exactly two arguments for qx.core.Environment.select. Ignoring this occurrence.", params)
+            return False
+
+        # Get the variant key from the select() call
+        firstParam = params.getChildByPosition(0)
+        if not treeutil.isStringLiteral(firstParam):
+            # warning is currently covered in parsing code
+            #log("Warning", "First argument must be a string literal constant! Ignoring this occurrence.", firstParam)
+            return False
+
+        variantKey = firstParam.get("value");
+        # is this key covered by the current variant map?
+        if variantKey in variantMap:
+            variantValue = variantMap[variantKey]
+        else:
+            return False
+
+        # Get the resolution map, keyed by possible variant key values (or value expressions)
+        secondParam = params.getChildByPosition(1)
+        default = None
+        found = False
+        if secondParam.type == "map":
+            # map keys are always JS strings -> simulate a JS .toString() conversion
+            if isinstance(variantValue, types.BooleanType):
+                # this has to come first, as isinstance(True, types.IntType) is also true!
+                variantValue = str(variantValue).lower()
+            elif isinstance(variantValue, (types.IntType, types.FloatType)):
+                variantValue = str(variantValue)
+            elif variantValue == None:
+                variantValue = "null"
+
+            for node in secondParam.children:
+                if node.type != "keyvalue":
+                    continue
+
+                mapkey   = node.get("key")
+                mapvalue = node.getChild("value").getFirstChild()
+                keys = mapkey.split("|")
+
+                # Go through individual key constants
+                for key in keys:
+                    if (key == variantValue):
+                        select_call.parent.replaceChild(select_call, mapvalue)
+                        found = True
+                        break
+                    if key == "default":
+                        default = mapvalue
+                        
+            if not found:
+                if default != None:
+                    select_call.parent.replaceChild(select_call, default)
+                else:
+                    raise RuntimeError(makeLogMessage("Error",
+                        "Variantoptimizer: No matching case found for variant
+                        (%s:%s) at" % (variantKey, variantValue), select_call))
+            return True
+
+        log("Warning", "The second parameter of qx.core.Environment.select must be a map or a string literal. Ignoring this occurrence.", secondParam)
+
+
+    def environment_check_get(self, get_call):
+        pass
+
+    def environment_check_filter(self, filter_call):
+        pass
 
 # - ---------------------------------------------------------------------------
 
