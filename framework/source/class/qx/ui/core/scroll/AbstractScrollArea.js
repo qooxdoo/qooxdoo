@@ -94,6 +94,13 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
   },
 
 
+  events : {
+    /** Fired as soon as the scroll animation in X direction ends. */
+    scrollAnimationXEnd: 'qx.event.type.Event',
+
+    /** Fired as soon as the scroll animation in X direction ends. */
+    scrollAnimationYEnd: 'qx.event.type.Event'
+  },
 
 
 
@@ -223,6 +230,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
           control.exclude();
           control.addListener("scroll", this._onScrollBarX, this);
           control.addListener("changeVisibility", this._onChangeScrollbarXVisibility, this);
+          control.addListener("scrollAnimationEnd", this._onScrollAnimationEnd.bind(this, "X"));
 
           if (qx.core.Environment.get("os.scrollBarOverlayed")) {
             control.setMinHeight(qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH);
@@ -240,7 +248,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
           control.exclude();
           control.addListener("scroll", this._onScrollBarY, this);
           control.addListener("changeVisibility", this._onChangeScrollbarYVisibility, this);
-
+          control.addListener("scrollAnimationEnd", this._onScrollAnimationEnd.bind(this, "Y"));
 
           if (qx.core.Environment.get("os.scrollBarOverlayed")) {
             control.setMinWidth(qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH);
@@ -441,6 +449,14 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
+    /**
+     * Event handler for the scroll animation end event for both scroll bars.
+     *
+     * @param direction {String} Either "X" or "Y".
+     */
+    _onScrollAnimationEnd : function(direction) {
+      this.fireEvent("scrollAnimation" + direction + "End");
+    },
 
     /**
      * Event handler for the scroll event of the horizontal scrollbar

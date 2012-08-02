@@ -25,7 +25,9 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar",
   events :
   {
     /** Fired if the user scroll */
-    "scroll" : "qx.event.type.Data"
+    "scroll" : "qx.event.type.Data",
+    /** Fired as soon as the scroll animation ended. */
+    "scrollAnimationEnd": 'qx.event.type.Event'
   },
 
 

@@ -52,12 +52,17 @@ qx.Class.define("demobrowser.demo.ui.ScrollContainer",
       });
       this.getRoot().add(scroll, {left: 110, top: 10});
 
+
       // animate button
       var ani = new qx.ui.form.Button("Animate down");
       ani.addListener("execute", function() {
         scrollContainer.scrollByY(150, 300);
+        ani.setEnabled(false);
       });
       this.getRoot().add(ani, {left: 210, top: 10});
+      scrollContainer.addListener("scrollAnimationYEnd", function() {
+        ani.setEnabled(true);
+      });
 
     },
 

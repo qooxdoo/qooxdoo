@@ -82,6 +82,10 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
   },
 
 
+  events : {
+    /** Change event for the value. */
+    "scrollAnimationEnd": "qx.event.type.Event"
+  },
 
 
 
@@ -233,6 +237,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
           control.setPageStep(100);
           control.setFocusable(false);
           control.addListener("changeValue", this._onChangeSliderValue, this);
+          control.addListener("slideAnimationEnd", this._onSlideAnimationEnd, this);
           this._add(control, {flex: 1});
           break;
 
@@ -405,6 +410,14 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      */
     _onExecuteEnd : function(e) {
       this.scrollBy(this.getSingleStep(), 50);
+    },
+
+
+    /**
+     * Change listener for slider animation end.
+     */
+    _onSlideAnimationEnd : function() {
+      this.fireEvent("scrollAnimationEnd");
     },
 
 

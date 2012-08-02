@@ -75,6 +75,14 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
   },
 
 
+  events : {
+    /**
+     * Fired as soon as the scroll animation ended.
+     */
+    scrollAnimationEnd: 'qx.event.type.Event'
+  },
+
+
   properties :
   {
     // overridden
@@ -305,6 +313,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
           if (time >= start + duration) {
             this.setPosition(Math.max(0, Math.min(this.getMaximum(), position)));
             this.__requestId = null;
+            this.fireEvent("scrollAnimationEnd");
           } else {
             var timePassed = time - start;
             var newPos = parseInt(timePassed/duration * (position - from) + from);

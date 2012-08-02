@@ -115,7 +115,10 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Change event for the value.
      */
-    changeValue: 'qx.event.type.Data'
+    changeValue: 'qx.event.type.Data',
+
+    /** Fired as soon as the slide animation ended. */
+    slideAnimationEnd: 'qx.event.type.Event'
   },
 
 
@@ -934,6 +937,7 @@ qx.Class.define("qx.ui.form.Slider",
         if (time >= start + duration) {
           this.setValue(to);
           this.__requestId = null;
+          this.fireEvent("slideAnimationEnd");
         } else {
           var timePassed = time - start;
           this.setValue(parseInt(timePassed/duration * (to - from) + from));
