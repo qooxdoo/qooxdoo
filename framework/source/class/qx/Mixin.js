@@ -43,7 +43,7 @@ qx.Bootstrap.define("qx.Mixin",
      * <pre class='javascript'>
      * qx.Mixin.define("name",
      * {
-     *   includes: [SuperMixins],
+     *   include: [SuperMixins],
      *
      *   properties: {
      *     tabIndex: {type: "number", init: -1}
