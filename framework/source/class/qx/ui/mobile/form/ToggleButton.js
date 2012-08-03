@@ -121,6 +121,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     __labelUnchecked : "OFF",
     __labelChecked : "ON",
     __fontSize : null,
+    __lastToggleTimestamp : 0,
 
 
     /**
@@ -182,11 +183,17 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
       return this.__value;
     },
 
+
     /**
      * Toggles the value of the button.
      */
     toggle : function() {
-      this.setValue(!this.getValue());
+      var elapsedTime = new Date().getTime() - this.__lastToggleTimestamp; 
+      
+      if(elapsedTime>500){
+        this.setValue(!this.getValue());
+        this.__lastToggleTimestamp = new Date().getTime();
+      }
     },
 
 
@@ -230,6 +237,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     this.removeListener("tap", this._onTap, this);
     this.removeListener("swipe", this._onSwipe, this);
 
-    this._disposeObjects("__child","__labelUnchecked","__labelChecked", "__fontSize");
+    this._disposeObjects("__child","__lastToggleTimestamp","__labelUnchecked","__labelChecked", "__fontSize");
   }
 });
