@@ -87,6 +87,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 
     this.addListener("tap", this._onTap, this);
     this.addListener("swipe", this._onSwipe, this);
+    this.addListener("touchmove", this._onTouch, this);
 
   },
 
@@ -117,7 +118,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   members :
   {
     __child : null,
-    __value : null,
+    __value : false,
     __labelUnchecked : "OFF",
     __labelChecked : "ON",
     __fontSize : null,
@@ -207,18 +208,37 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     {
       this.toggle();
     },
-
+    
+    
+     /**
+     * Event handler. Called when the touchmove event occurs.
+     * Prevents bubbling, because on swipe no scrolling of outer container is wanted.
+     *
+     * @param evt {qx.event.type.Touch} The touch event.
+     */
+    _onTouch : function(evt){
+      evt.stopPropagation();
+    },
 
 
     /**
      * Event handler. Called when the swipe event occurs.
-     * Toggles the button.
-     *
+     * Toggles the button, when.
+     * 
      * @param evt {qx.event.type.Swipe} The swipe event.
      */
     _onSwipe : function(evt)
     {
-      this.toggle();
+      var direction = evt.getDirection();
+      if(direction == "left") {
+        if(this.__value == true) {
+          this.toggle();
+        }
+      } else {
+         if(this.__value == false) {
+          this.toggle(); 
+        }
+      }
     }
 
   },
