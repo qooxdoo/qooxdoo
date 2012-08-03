@@ -42,7 +42,7 @@ qx.Class.define("qx.core.Object",
   include : qx.core.Environment.filter({
     "module.databinding" : qx.data.MBinding,
     "module.logger" : qx.core.MLogging,
-    "module.events" : qx.core.MEvents,
+    "module.events" : qx.core.MEvent,
     "module.property" : qx.core.MProperty,
     "qx.debug" : qx.core.MAssert
   }),

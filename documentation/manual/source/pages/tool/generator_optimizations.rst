@@ -175,7 +175,7 @@ Similar to ``.select()``, `qx.core.Environment.filter() <http://demo.qooxdoo.org
     include : qx.core.Environment.filter({
       "module.databinding" : qx.data.MBinding,
       "module.logger"      : qx.core.MLogging,
-      "module.events"      : qx.core.MEvents,
+      "module.events"      : qx.core.MEvent,
       "module.property"    : qx.core.MProperty,
       "qx.debug"           : qx.core.MAssert
     }),

@@ -41,3 +41,5 @@
 
 \bqx\.lang\.RingBuffer\b=qx.util.RingBuffer
 
+\bqx\.core\.MEvents\b=qx.core.MEvent
+
