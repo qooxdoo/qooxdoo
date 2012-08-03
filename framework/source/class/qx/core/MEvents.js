@@ -24,7 +24,7 @@
  */
 qx.Mixin.define("qx.core.MEvents",
 {
-  extend : qx.core.MEvent
+  includes : [qx.core.MEvent]
 });
 if (qx.core.Environment.get("qx.debug")) {
   qx.log.Logger.deprecatedMixinWarning(

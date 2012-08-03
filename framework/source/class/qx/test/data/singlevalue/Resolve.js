@@ -22,7 +22,7 @@
  */
 qx.Class.define("qx.test.data.singlevalue.Resolve",
 {
-  extend : qx.dev.unit.testResolveCase,
+  extend : qx.dev.unit.TestCase,
 
   members :
   {
