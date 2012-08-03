@@ -20,7 +20,7 @@
 /**
  * testResolve-Class for testResolveing the single value binding
  */
-qx.Class.define("qx.testResolve.data.singlevalue.Resolve",
+qx.Class.define("qx.test.data.singlevalue.Resolve",
 {
   extend : qx.dev.unit.testResolveCase,
 
