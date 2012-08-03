@@ -18,7 +18,7 @@
 ************************************************************************ */
 /**
  * This is a cross browser wrapper for requestAnimationFrame. For further information,
- * take a look at spec: http://www.w3.org/TR/animation-timing/#cancelAnimationFrame
+ * take a look at spec: http://www.w3.org/TR/animation-timing/
  *
  * Here is a sample usage:
  * <pre class='javascript'>var start = +(new Date());
