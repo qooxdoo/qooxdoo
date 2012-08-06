@@ -509,11 +509,14 @@
     {
       "desc"    : "check the source code of the .js files of the current library",
 
-      "extend" : [ "scan-local-lib" ],
+      "extend" : [ "cache", "libraries" ],
+
+      "include": ["${APPLICATION}.*"],
 
       "lint-check" :
       {
-        "allowed-globals" : [ "qx", "qxsettings", "qxvariants", "${APPLICATION}" ]
+        //"allowed-globals" : [ "qx", "qxsettings", "qxvariants", "${APPLICATION}" ]
+        "allowed-globals" : []
       }
     },
 

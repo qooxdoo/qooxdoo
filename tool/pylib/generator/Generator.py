@@ -410,7 +410,7 @@ class Generator(object):
             return
 
 
-        def prepareGenerator1():
+        def prepareGenerator():
             # scanning given library paths
             (self._namespaces,
              self._classesObj,
@@ -483,7 +483,7 @@ class Generator(object):
         if jobTriggers:
 
             # -- Process job triggers that require a class list (and some)
-            prepareGenerator1()
+            prepareGenerator()
 
             # Preprocess include/exclude lists
             includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
@@ -1647,21 +1647,24 @@ class Generator(object):
         if not self._job.get('lint-check', False):
             return
 
-        classes = classes.keys()
+        lib_class_names = classes.keys()
         self._console.info("Checking Javascript source code...")
         self._console.indent()
 
         lintJob        = self._job
-        def opts(): pass
+        opts = lint.defaultOptions()
         opts.allowed_globals = lintJob.get('lint-check/allowed-globals', [])
         opts.include_patts    = lintJob.get('include', [])  # this is for future use
         opts.exclude_patts    = lintJob.get('exclude', [])
-        opts.library_classes  = []  # no compare set for classes (?!)
 
-        classesToCheck = getFilteredClassList(classes, opts.include_patts, opts.exclude_patts)
+        classesToCheck = list(getFilteredClassList(lib_class_names, opts.include_patts, opts.exclude_patts))
+        opts.library_classes  = lib_class_names
         for pos, classId in enumerate(classesToCheck):
             self._console.debug("Checking %s" % classId)
             tree = self._classesObj[classId].tree()
+            if classId == "feedreader.simulation.ria.FeedreaderAbstract":
+                #import pydb; pydb.debugger()
+                pass
             lint.lint_check(tree, classId, opts)
 
         self._console.outdent()

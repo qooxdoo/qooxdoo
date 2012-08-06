@@ -390,6 +390,8 @@ Description
                - References to global symbols that are not known to the generator (ie. are not in any known library or known built-ins).
              * - ignoreReferenceField
                - A class map member that is initialized with a reference value (object, array, map, ...), as those will be shared among class instances.
+             * - environmentNonLiteralKey
+               - Don't warn about calls to `qx.core.Environment <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Environment>`_ methods without a literal key argument (as such calls cannot be optimized). Takes no argument.
       * - name
         - The identifier in the source code which the lint subkey should be applied to.
   

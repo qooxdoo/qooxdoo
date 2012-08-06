@@ -264,7 +264,7 @@ PARANTHESIS_BEFORE = ["ELSE", "FINALLY", "CATCH", "WHILE"]
 # These are not really chars, but char regexp's
 IDENTIFIER_CHARS          = r'(?u)[\.\w$]'
 IDENTIFIER_ILLEGAL_CHARS  = r'(?u)[^\.\w$]'
-IDENTIFIER_REGEXP         = r'(?u)^(?:[^\W\d]|\$)[\.\w$]*'
+IDENTIFIER_REGEXP         = r'(?u)(?:[^\W\d]|\$)[\.\w$]*'
 
 # These are really chars (sets)
 # Inspired by http://boshi.inimino.org/3box/PanPG/grammars/ECMAScript_5.peg

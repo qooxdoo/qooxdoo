@@ -204,12 +204,24 @@ class NodeVisitor(object):
 # - Utilities -----------------------------------------------------------------
 
 def find_enclosing(node):
+    # recurse upwards to enclosing function/root scope
+    def get_enclosing_scope(node):
+        scope = None
+        if hasattr(node, 'scope'):
+            scope = node.scope
+        elif node.parent:
+            scope = get_enclosing_scope(node.parent)
+        return scope
+    # ---------------------------------------------
+    # have to distinguish if i need recursion
     scope = None
     if hasattr(node, 'scope'):
-        scope = node.scope
+        if node.isVar():  # scope-referencing nodes (vardecl, varuse)
+            scope = node.scope
+        else:  # scope-defining nodes (function, catch, ...)
+            scope = node.scope.parent
     else:
-        if node.parent:
-            return find_enclosing(node.parent)
+        scope = get_enclosing_scope(node)
     return scope
 
 # - Interface function --------------------------------------------------------

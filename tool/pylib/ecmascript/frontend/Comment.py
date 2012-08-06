@@ -333,7 +333,7 @@ class Comment(object):
 
         # parse details
         for attrib in attribs:
-            self.parseDetail(attrib, format)
+            self.parseDetail(attrib, False)
 
         return attribs
 
@@ -403,8 +403,10 @@ class Comment(object):
 
     def parseDetail_Term(self, attrib):
         text = attrib['text'] # "ignoreUnused(a,b)"
-        #identi = py.Word(py.alphas+'_$', py.alphanums+'_$')
-        identi = py.Word(u''.join(lang.IDENTIFIER_CHARS_START), u''.join(lang.IDENTIFIER_CHARS_BODY))
+        # the next would be close to the spec (but huge!)
+        #identi = py.Word(u''.join(lang.IDENTIFIER_CHARS_START), u''.join(lang.IDENTIFIER_CHARS_BODY))
+        # but using regex, to be consistent with the parser
+        identi = py.Regex(lang.IDENTIFIER_REGEXP)
         term = identi + py.Suppress('(') + py.delimitedList(identi) + py.Suppress(')')
         a = term.parseString(text)
         attrib['functor'] = a[0]  # "ignoreUnused"
@@ -694,13 +696,19 @@ def findAssociatedComment(node):
     # traverse <node> tree left-most, looking for comments
     from ecmascript.frontend import treeutil # ugly here, but due to import cycle
 
+    res = None
     if node.comments:
-        return node
+        res = node
     else:
+        # e.g. comment preceding "qx.Class.define(...)"
         if node.children:
             left_most = treeutil.findLeftmostChild(node)
-            return findAssociatedComment(left_most)
-    return None
+            res = findAssociatedComment(left_most)
+        # e.g. comment preceding "key : function () {...}"
+        if res is None:
+            if node.hasParentContext("keyvalue/value"):
+                res = findAssociatedComment(node.parent.parent)
+    return res
 
 
 def parseNode_2(node):

@@ -596,7 +596,7 @@ class MClassDependencies(object):
 
 
     ##
-    # this supersedes reduceAssembled(), improving the return value
+    # 
     def _splitQxClass(self, assembled):
         className = classAttribute = ''
         if assembled in ClassesAll:  # short cut
