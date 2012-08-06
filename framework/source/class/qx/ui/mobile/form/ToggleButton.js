@@ -189,12 +189,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      * Toggles the value of the button.
      */
     toggle : function() {
-      var elapsedTime = new Date().getTime() - this.__lastToggleTimestamp; 
-      
-      if(elapsedTime>500){
         this.setValue(!this.getValue());
-        this.__lastToggleTimestamp = new Date().getTime();
-      }
     },
 
 
@@ -206,7 +201,9 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      */
     _onTap : function(evt)
     {
-      this.toggle();
+      if(this._checkLastTouchTime()) {
+        this.toggle();
+      }
     },
     
     
@@ -216,7 +213,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      *
      * @param evt {qx.event.type.Touch} The touch event.
      */
-    _onTouch : function(evt){
+    _onTouch : function(evt) {
       evt.stopPropagation();
     },
 
@@ -229,21 +226,31 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      */
     _onSwipe : function(evt)
     {
-      var direction = evt.getDirection();
-      if(direction == "left") {
-        if(this.__value == true) {
-          this.toggle();
-        }
-      } else {
-         if(this.__value == false) {
-          this.toggle(); 
+      if(this._checkLastTouchTime()) {
+        var direction = evt.getDirection();
+        if(direction == "left") {
+          if(this.__value == true) {
+            this.toggle();
+          }
+        } else {
+          if(this.__value == false) {
+            this.toggle(); 
+          }
         }
       }
+    },
+    
+    
+    /**
+     * Checks if last touch event (swipe,tap) is more than 500ms ago.
+     * Bugfix for several simulator/emulator, when tap is immediately followed by a swipe.
+     */
+    _checkLastTouchTime : function() {
+      var elapsedTime = new Date().getTime() - this.__lastToggleTimestamp; 
+      this.__lastToggleTimestamp = new Date().getTime();
+      return elapsedTime>500;
     }
-
   },
-
-
 
 
  /*
@@ -257,6 +264,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     this.removeListener("tap", this._onTap, this);
     this.removeListener("swipe", this._onSwipe, this);
 
-    this._disposeObjects("__child","__lastToggleTimestamp","__labelUnchecked","__labelChecked", "__fontSize");
+    this._disposeObjects("__child","__labelUnchecked","__labelChecked", "__fontSize");
   }
 });
