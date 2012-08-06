@@ -23,9 +23,9 @@
 ************************************************************************ */
 
 /**
- * Common interactions used for different types of widgets
+ * Common interactions for widgets that inherit from {@link qx.core.Object}
  */
-qx.Class.define("simulator.qxwebdriver.interaction.Core", {
+qx.Class.define("simulator.qxwebdriver.interaction.core.Object", {
 
   statics :
   {
@@ -56,19 +56,6 @@ qx.Class.define("simulator.qxwebdriver.interaction.Core", {
       .then(function(value) {
         return value;
       });
-    },
-
-    /**
-     * Returns the selectable child widgets
-     * {@see qx.ui.core.ISingleSelection#getSelectables}
-     * @return {qx.ui.core.Widget[]} Selectable child widgets
-     */
-    getSelectables : function()
-    {
-      var widget = qx.core.ObjectRegistry.fromHashCode(this.qxHash);
-      var selectables = widget.getSelectables();
-
-      return selectables;
     }
   },
 
@@ -76,7 +63,5 @@ qx.Class.define("simulator.qxwebdriver.interaction.Core", {
   {
     simulator.qxwebdriver.Interaction.register("qx.core.Object",
       "get", statics.get);
-    simulator.qxwebdriver.Interaction.register("qx.ui.core.ISingleSelection",
-      "getSelectables", statics.getSelectables);
   }
 });

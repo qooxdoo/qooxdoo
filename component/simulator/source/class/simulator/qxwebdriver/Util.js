@@ -100,7 +100,7 @@ qx.Class.define("simulator.qxwebdriver.Util", {
     {
       var str = func.toString();
       for (var key in replacements) {
-        str = str.replace(key, replacements[key]);
+        str = str.replace(new RegExp(key, "g"), replacements[key]);
       }
       return str;
     },
@@ -186,7 +186,7 @@ qx.Class.define("simulator.qxwebdriver.Util", {
         var item = model.getItem(i);
         if (item instanceof qx.core.Object && labelPath) {
           //TODO: Resolve multi-part property path (bug #6685)
-          label = item.get(labelPath);
+          label = qx.data.SingleValueBinding.resolvePropertyChain(item, labelPath);
         }
         else {
           label = item.toString();

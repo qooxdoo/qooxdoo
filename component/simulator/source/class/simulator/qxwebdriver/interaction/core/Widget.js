@@ -17,15 +17,22 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(simulator.qxwebdriver.interaction.Core)
-#require(simulator.qxwebdriver.interaction.Form)
-************************************************************************ */
-
 /**
- * Base class for tests using QxWebDriver
+ * Interactions for widgets extending {@link qx.ui.core.Widget}
  */
-qx.Class.define("simulator.qxwebdriver.Application", {
+qx.Class.define("simulator.qxwebdriver.interaction.core.Widget", {
 
-  extend : qx.application.Basic
+  statics :
+  {
+    /**
+     * AUT-side function that returns the DOM element of the specified child control
+     * @return {Element} The child control's DOM element
+     * @internal
+     */
+    getChildControl : function()
+    {
+      var parent = qx.core.ObjectRegistry.fromHashCode('QXHASH');
+      return parent.getChildControl('CHILDCONTROL').getContentElement().getDomElement();
+    }
+  }
 });

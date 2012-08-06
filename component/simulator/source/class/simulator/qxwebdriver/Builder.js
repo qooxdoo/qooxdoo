@@ -18,8 +18,8 @@
 ************************************************************************ */
 /* ************************************************************************
 #ignore(require)
-#ignore(simulator.webdriver
-#asset(simulator/webdriver/webdriver.js))
+#ignore(simulator.webdriver)
+#asset(simulator/webdriver/webdriver.js)
 ************************************************************************ */
 
 /**
@@ -39,8 +39,9 @@ qx.Class.define("simulator.qxwebdriver.Builder", {
     }
     //TODO: Figure out why this won't work:
     //var qwdPath = qx.util.ResourceManager.getInstance().toUri("simulator/webdriver/webdriver.js");
-    var qwdPath = "../../../resource/simulator/webdriver/webdriver.js";
-    simulator.webdriver = require(qwdPath);
+    //var qwdPath = "../../../resource/simulator/webdriver/webdriver.js";
+    //simulator.webdriver = require(qwdPath);
+    simulator.webdriver = require("selenium-webdriverjs");
 
     this.__builder = new simulator.webdriver.Builder();
   },
