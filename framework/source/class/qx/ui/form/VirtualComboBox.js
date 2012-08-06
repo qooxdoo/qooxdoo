@@ -406,7 +406,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       var result = null;
 
       if (labelPath != null) {
-        result = qx.data.SingleValueBinding.getValueFromObject(modelItem, labelPath);
+        result = qx.data.SingleValueBinding.resolvePropertyChain(modelItem, labelPath);
       } else if (qx.lang.Type.isString(modelItem)) {
         result = modelItem;
       }
