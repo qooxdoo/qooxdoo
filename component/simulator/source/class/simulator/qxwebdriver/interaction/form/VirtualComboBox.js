@@ -32,6 +32,7 @@ qx.Class.define("simulator.qxwebdriver.interaction.form.VirtualComboBox", {
      * Selects an entry from the drop-down list of a {@link qx.ui.form.ComboBox}.
      * @param itemLocator {webdriver.Locator} Locator strategy to find the
      * target list item
+     * @param item {String|Integer} The index or label of the list item to click
      * @return {webdriver.Promise} A promise that will be resolved when the
      * target item is selected
      */

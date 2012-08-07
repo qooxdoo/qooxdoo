@@ -25,7 +25,7 @@
 /**
  * A WebDriver client with support for qx.Desktop applications.
  *
- * The most important interface for test authors is {@link findWidget}, which
+ * The most important interface for test authors is {@link #findWidget}, which
  * is called with a Locator parameter just like WebDriver.findElement and also
  * returns a webdriver.WebElement.
  * If the locator finds a DOM element that is part of a qooxdoo widget, special
@@ -49,6 +49,9 @@ qx.Class.define("simulator.qxwebdriver.WebDriver",
 
   statics :
   {
+    /** Default timeout value for {@link #waitForQxApplication} */
+    AUT_LOAD_TIMEOUT : 10000,
+
     /**
      * Creates a new WebDriver client for an existing session.
      * @param executor {webdriver.CommandExecutor} Command executor to use when
@@ -158,7 +161,8 @@ qx.Class.define("simulator.qxwebdriver.WebDriver",
 
     /**
      * Wait until the qooxdoo application under test is initialized
-     * @param timeout {Integer} Time to wait in ms
+     * @param timeout {Integer?} Optional amount of time to wait in ms. Default:
+     * {@link #AUT_LOAD_TIMEOUT}
      * @return {webdriver.promise.Promise} A promise that will be resolved when
      * the qx application is ready
      */
@@ -177,7 +181,30 @@ qx.Class.define("simulator.qxwebdriver.WebDriver",
         };
         ready = driver.executeScript(isQxReady);
         return ready;
-      }, timeout || 5000);
+      }, timeout || simulator.qxwebdriver.WebDriver.AUT_LOAD_TIMEOUT);
+    },
+
+    /**
+     * Opens the given URL in the browser, waits until the qooxdoo application
+     * to finish loading and initializes the AUT-side helpers.
+     * @param url {String} The AUT's URL
+     * @param timeout {Integer?} Optional timeout value for {@link #waitForQxApplication}
+     * @return {webdriver.promise.Promise} A promise that will be resolved when
+     * the environment is ready for testing.
+     */
+    getQx : function(url, timeout)
+    {
+      var wait = function() {
+        return this.waitForQxApplication(timeout);
+      };
+
+      var init = function() {
+        return this.init()
+        .then(wait.bind(this));
+      };
+
+     return this.get(url)
+     .then(init.bind(this));
     },
 
     /**
@@ -196,7 +223,7 @@ qx.Class.define("simulator.qxwebdriver.WebDriver",
      * context. See the documentation of webdriver.WebDriver.executeScript
      * for details on capabilities and limitations.
      *
-     * Use {@link executeFunction} to call the function.
+     * Use {@link #executeFunction} to call the function.
      *
      * @param func {Function} Function object
      * @param name {String} function name
@@ -212,7 +239,7 @@ qx.Class.define("simulator.qxwebdriver.WebDriver",
     },
 
     /**
-     * Executes a function defined by {@link defineFunction}.
+     * Executes a function defined by {@link #defineFunction}.
      *
      * @param name {String} The function's name
      * @param args {Array} Array of arguments for the function

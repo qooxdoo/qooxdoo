@@ -28,6 +28,13 @@ qx.Class.define("simulator.qxwebdriver.interaction.form.ComboBox", {
 
   statics :
   {
+    /**
+     * Simulates a user clicking the ComboBox button and then clicking an item
+     * from the popup list
+     * @param item {String|Integer} The index or label of the list item to click
+     * @return {webdriver.promise.Promise} A promise that will be resolved when
+     * the specified list item has been selected
+     */
     selectItem : function(item)
     {
       var getButton = simulator.qxwebdriver.interaction.core.Widget.getChildControl;
