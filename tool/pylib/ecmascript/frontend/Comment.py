@@ -51,7 +51,7 @@ R_BLOCK_COMMENT_TIGHT_END = re.compile("\S+\*/$")
 R_BLOCK_COMMENT_PURE_START = re.compile("^/\*")
 R_BLOCK_COMMENT_PURE_END = re.compile("\*/$")
 
-R_ATTRIBUTE = re.compile(r'[^{]@(\w+)\b')
+R_ATTRIBUTE = re.compile(r'(?<!{)@(\w+)\b')
 R_JAVADOC_STARS = re.compile(r'^\s*\*')
 
 
