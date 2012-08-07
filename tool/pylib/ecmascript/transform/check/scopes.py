@@ -66,13 +66,13 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
 
     def visit_params(self, node): # formal params are like local decls
         #print "params visitor", node
-        for id_node in treeutil.nodeIterator(node, ["identifier"]):
+        for id_node in node.children:
             self._new_var(id_node)
 
     def visit_var(self, node):  # var declaration
         #print "var decl visitor", node
         # go through the definitions
-        for def_node in treeutil.nodeIterator(node, ["definition"]):
+        for def_node in node.children:
             self._new_var(def_node.getDefinee())
             if def_node.getInitialization():
                 self.visit(def_node.getInitialization())  # init expr could contain var uses
