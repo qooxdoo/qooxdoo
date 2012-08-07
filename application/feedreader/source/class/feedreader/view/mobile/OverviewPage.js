@@ -97,7 +97,10 @@ qx.Class.define("feedreader.view.mobile.OverviewPage",
     },
 
 
-    // property apply
+    /**
+     * property apply
+     * @lint ignoreUnused(old) 
+     */
     _applyFeeds : function(value, old) {
       if(value != null){
         this.__predefinedFeeds = value.getFeeds().getItem(0).getFeeds();

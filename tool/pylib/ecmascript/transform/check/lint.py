@@ -131,6 +131,8 @@ class LintChecker(treeutil.NodeVisitor):
                         if at_hints:
                             ok = self.is_name_lint_filtered(full_name, at_hints, "ignoreUndefined")
                     if not ok:
+                        #if self.file_name == "feedreader.simulation.ria.FeedreaderAbstract" and full_name == "treeLocator":
+                        #    import pydb; pydb.debugger()
                         warn("Unknown global symbol used: %s" % full_name, self.file_name, var_node)
                     
     ##
@@ -206,7 +208,14 @@ class LintChecker(treeutil.NodeVisitor):
 
     def loop_body_block(self, body_node):
         if not body_node.getChild("block",0):
-            warn("Loop or condition statement without a block as body", self.file_name, body_node)
+            ok = False
+            scope_node = scopes.find_enclosing(body_node)
+            if scope_node:
+                at_hints = get_at_hints(scope_node.node)
+                if at_hints and 'lint' in at_hints and 'ignoreNoLoopBlock' in at_hints['lint']:
+                    ok = True
+            if not ok:
+                warn("Loop or condition statement without a block as body", self.file_name, body_node)
 
     ##
     # Check that no privates are used in code that are not declared as a class member

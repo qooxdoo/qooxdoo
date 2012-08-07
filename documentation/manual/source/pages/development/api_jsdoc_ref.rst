@@ -382,16 +382,18 @@ Description
              :stub-columns: 1
              :widths: 30 70
 
-             * - ignoreUnused
-               - Scoped variables (parameters or declared with ``var``) which are never used.
-             * - ignoreDeprecated
-               - Use of deprecated globals (like ``alert``).
-             * - ignoreUndefined
-               - References to global symbols that are not known to the generator (ie. are not in any known library or known built-ins).
-             * - ignoreReferenceField
-               - A class map member that is initialized with a reference value (object, array, map, ...), as those will be shared among class instances.
              * - environmentNonLiteralKey
                - Don't warn about calls to `qx.core.Environment <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Environment>`_ methods without a literal key argument (as such calls cannot be optimized). Takes no argument.
+             * - ignoreDeprecated
+               - Use of deprecated globals (like ``alert``).
+             * - ignoreNoLoopBlock
+               - Don't warn about loop or condition statements which don't have a block (``{...}``) as body. Takes no argument.
+             * - ignoreReferenceField
+               - A class map member that is initialized with a reference value (object, array, map, ...), as those will be shared among class instances.
+             * - ignoreUndefined
+               - References to global symbols that are not known to the generator (ie. are not in any known library or known built-ins).
+             * - ignoreUnused
+               - Scoped variables (parameters or declared with ``var``) which are never used.
       * - name
         - The identifier in the source code which the lint subkey should be applied to.
   

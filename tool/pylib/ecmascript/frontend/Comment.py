@@ -407,7 +407,7 @@ class Comment(object):
         #identi = py.Word(u''.join(lang.IDENTIFIER_CHARS_START), u''.join(lang.IDENTIFIER_CHARS_BODY))
         # but using regex, to be consistent with the parser
         identi = py.Regex(lang.IDENTIFIER_REGEXP)
-        term = identi + py.Suppress('(') + py.delimitedList(identi) + py.Suppress(')')
+        term = identi + py.Suppress('(') + py.Optional(py.delimitedList(identi)) + py.Suppress(')')
         a = term.parseString(text)
         attrib['functor'] = a[0]  # "ignoreUnused"
         attrib['arguments'] = a[1:] # ["a", "b"]
