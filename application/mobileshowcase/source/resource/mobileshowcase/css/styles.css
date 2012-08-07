@@ -58,6 +58,51 @@
   margin-top:2px;
 }
 
+
+.carousel-page {
+  font-size:2.5em;
+  height:300px;
+}
+
+.carousel-page * {
+  padding:10px;
+  font-family:helvetica;
+  font-weight:bold;
+}
+
+.carousel-example-1 {
+  background-color:#0C2550;
+  color: white ;
+}
+
+.carousel-example-2 {
+  background-color:#A3D0C1;
+  font-size:2.5em;
+  height:300px;
+  color:#222222;
+}
+
+.carousel-example-3 {
+  background-color:#FDF6DD;
+  font-size:2.5em;
+  height:300px;
+  color:#222222;
+}
+
+.carousel-example-4 {
+  background-color:#FEE406;
+  font-size:2.5em;
+  height:300px;
+  color:#222222;
+}
+
+.carousel-example-5 {
+  background-color:#F4651C;
+  font-size:2.5em;
+  height:300px;
+  color:#222222;
+}
+
 .view1 {
   border:1px solid #aaaaaa;
   background-color:white;

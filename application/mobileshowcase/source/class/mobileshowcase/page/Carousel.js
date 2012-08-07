@@ -1,0 +1,85 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Christopher Zuendorf (czuendorf)
+
+************************************************************************ */
+
+/**
+ * Mobile page showing the "Carousel" showcase.
+ */
+qx.Class.define("mobileshowcase.page.Carousel",
+{
+  extend : qx.ui.mobile.page.NavigationPage,
+
+  construct : function()
+  {
+    this.base(arguments);
+    this.setTitle("Carousel");
+    this.setShowBackButton(true);
+    this.setBackButtonText("Back");
+  },
+
+
+  members :
+  {
+    // overridden
+    _initialize : function()
+    {
+      this.base(arguments);
+      
+      var carousel = new qx.ui.mobile.container.Carousel(0.3);
+      
+      var page1 = new qx.ui.mobile.container.CarouselPage();
+      page1.addCssClass("carousel-example-1");
+      
+      var page1Label =new qx.ui.mobile.basic.Label("This is a carousel. Please swipe left.");
+      page1Label.addCssClass("carousel-label-1");
+      page1.add(page1Label);
+      
+      var page2 = new qx.ui.mobile.container.CarouselPage();
+      page2.addCssClass("carousel-example-2");
+      page2.add(new qx.ui.mobile.basic.Label("It contains multiple carousel pages."));
+      
+      var page3 = new qx.ui.mobile.container.CarouselPage();
+      page3.addCssClass("carousel-example-3");
+      page3.add(new qx.ui.mobile.basic.Label("These carousel pages contain widgets like labels, images, buttons etc."));
+      
+      var page4 = new qx.ui.mobile.container.CarouselPage();
+      page4.addCssClass("carousel-example-4");
+      page4.add(new qx.ui.mobile.basic.Label("The carousel snaps on every page."));
+      
+      var page5 = new qx.ui.mobile.container.CarouselPage();
+      page5.addCssClass("carousel-example-5");
+      page5.add(new qx.ui.mobile.basic.Label("Previous page is shown when you swipe right."),{flex:1});
+      
+      carousel.addPage(page1);
+      carousel.addPage(page2); 
+      carousel.addPage(page3);
+      carousel.addPage(page4); 
+      carousel.addPage(page5); 
+      
+      this.getContent().add(carousel);
+    },
+  
+
+
+    // overridden
+    _back : function()
+    {
+     qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
+    }
+  }
+});
