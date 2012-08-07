@@ -26,7 +26,7 @@
 import os, sys, re, types
 from collections import defaultdict
 from ecmascript.frontend import treeutil, lang, Comment
-from ecmascript.frontend import treegenerator
+from ecmascript.frontend import tree, treegenerator
 from ecmascript.transform.optimizer import variantoptimizer
 from ecmascript.transform.evaluate  import evaluate
 from ecmascript.transform.check  import scopes
@@ -224,7 +224,10 @@ class LintChecker(treeutil.NodeVisitor):
     reg_privs = re.compile(r'\b__')
 
     def class_declared_privates(self, class_def_node):
-        class_map = treeutil.getClassMap(class_def_node)
+        try:
+            class_map = treeutil.getClassMap(class_def_node)
+        except tree.NodeAccessException:
+            return
 
         # statics
         private_keys = set()
@@ -261,7 +264,10 @@ class LintChecker(treeutil.NodeVisitor):
     # Warn about reference types in map values, as they are shared across instances.
     #
     def class_reference_fields(self, class_def_node):
-        class_map = treeutil.getClassMap(class_def_node)
+        try:
+            class_map = treeutil.getClassMap(class_def_node)
+        except tree.NodeAccessException:
+            return
         # only check members
         members_map = class_map['members'] if 'members' in class_map else {}
 
@@ -330,12 +336,12 @@ class LintChecker(treeutil.NodeVisitor):
         # Simple sanity checks
         params = get_call.getChild("arguments")
         if len(params.children) != 1:
-            warn("qx.core.Environment.get: takes exactly one arguments.", self.file_name, select_call)
+            warn("qx.core.Environment.get: takes exactly one arguments.", self.file_name, get_call)
             return False
 
         firstParam = params.getChildByPosition(0)
         if not treeutil.isStringLiteral(firstParam):
-            warn("qx.core.Environment.get: first argument is not a string literal.", self.file_name, select_call)
+            warn("qx.core.Environment.get: first argument is not a string literal.", self.file_name, get_call)
             return False
 
         # we could try to verify the key, like in variantoptimizer
