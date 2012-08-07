@@ -16,85 +16,56 @@
      * Daniel Wagner (danielwagner)
 
 ************************************************************************ */
+
 /* ************************************************************************
-#ignore(require)
 #ignore(simulator.webdriver)
-#asset(simulator/webdriver/webdriver.js)
+#ignore(simulator.webdriver.*)
+#require(simulator.qxwebdriver.WebDriverLoader)
 ************************************************************************ */
 
 /**
- * Thin wrapper around webdriver.Builder that returns a customized WebDriver
- * instance.
+ * Overrides <code>webdriver.Builder.build</code> so that it returns a
+ * {@link simulator.qxwebdriver.WebDriver} object.
  */
-qx.Class.define("simulator.qxwebdriver.Builder", {
+qx.Class.define("simulator.qxwebdriver.Builder",
+{
+  extend : simulator.webdriver.Builder,
 
-  extend : Object,
-
-  /**
-   * @lint ignoreUndefined(require)
-   */
-  construct : function() {
-    if (qx.core.Environment.get("runtime.name") !== "node.js") {
-      throw new Error("QxWebdriver applications must run in node.js!");
-    }
-    //TODO: Figure out why this won't work:
-    //var qwdPath = qx.util.ResourceManager.getInstance().toUri("simulator/webdriver/webdriver.js");
-    //var qwdPath = "../../../resource/simulator/webdriver/webdriver.js";
-    //simulator.webdriver = require(qwdPath);
-    simulator.webdriver = require("selenium-webdriverjs");
-
-    this.__builder = new simulator.webdriver.Builder();
+  construct : function()
+  {
+    simulator.webdriver.Builder.apply(this);
   },
 
-  members : {
-
-    __builder : null,
-
+  members :
+  {
     /**
-     * Sets the Selenium server URL.
-     * @param url {String} The Selenium server's URL
-     * @return {simulator.qxwebdriver.Builder} Builder instance for chaining
-     */
-    usingServer : function(url)
-    {
-      this.__builder.serverUrl_ = url;
-      return this;
-    },
-
-    /**
-     * Sets the Selenium session ID.
-     * @param id {String} The Selenium session ID
-     * @return {simulator.qxwebdriver.Builder} Builder instance for chaining
-     */
-    usingSession : function(id) {
-      this.__builder.sessionId_ = id;
-      return this;
-    },
-
-    /**
-     * Sets the desired WebDriver capabilities.
-     * @param capabilities {Map} Desired capabilities
-     * @return {simulator.qxwebdriver.Builder} Builder instance for chaining
-     */
-    withCapabilities : function(capabilities)
-    {
-      this.__builder.capabilities_ = capabilities;
-      return this;
-    },
-
-    /**
-     * Builds a new webdriver.WebDriver instance using this builder's
-     * current configuration and adds qooxdoo-specific methods.
-     * @return {webdriver.WebDriver} A new WebDriver client.
+     * Builds a new {@link simulator.qxwebdriver.WebDriver} instance using this
+     * builder's current configuration.
+     * @return {simulator.qxwebdriver.WebDriver} A new WebDriver client.
      */
     build : function()
     {
-      var driver = this.__builder.build();
-      var mixin = simulator.qxwebdriver.MQxWebDriver;
-      for (var methodName in mixin.$$members) {
-        driver[methodName] = mixin.$$members[methodName].bind(driver);
+      var executor;
+      if (simulator.webdriver.FirefoxDomExecutor.isAvailable()) {
+        executor = new simulator.webdriver.FirefoxDomExecutor();
+        return simulator.qxwebdriver.WebDriver.createSession(executor, this.capabilities_);
+      } else {
+        var clientCtor = simulator.webdriver.process.isNative() ?
+          simulator.webdriver.node.HttpClient :
+          simulator.webdriver.http.CorsClient;
+
+        var client = new clientCtor(this.serverUrl_);
+        executor = new simulator.webdriver.http.Executor(client);
+
+        if (this.sessionId_) {
+          return simulator.qxwebdriver.WebDriver.attachToSession(executor, this.sessionId_);
+        } else if (simulator.webdriver.process.isNative()) {
+          return simulator.qxwebdriver.WebDriver.createSession(executor, this.capabilities_);
+        } else {
+          throw new Error('Unable to create a new client for this browser. The ' +
+            'WebDriver session ID has not been defined.');
+        }
       }
-      return driver;
     }
   }
 });

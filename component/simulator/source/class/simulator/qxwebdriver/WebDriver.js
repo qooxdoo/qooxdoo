@@ -18,13 +18,92 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#ignore(simulator.webdriver.promise.Application)
+#ignore(simulator.webdriver)
+#ignore(simulator.webdriver.*)
 ************************************************************************ */
 
 /**
- * qooxdoo-specific extension methods added to webdriver.WebDriver
+ * A WebDriver client with support for qx.Desktop applications.
+ *
+ * The most important interface for test authors is {@link findWidget}, which
+ * is called with a Locator parameter just like WebDriver.findElement and also
+ * returns a webdriver.WebElement.
+ * If the locator finds a DOM element that is part of a qooxdoo widget, special
+ * methods called 'interactions' will be added to the returned WebElement.
+ *
  */
-qx.Mixin.define("simulator.qxwebdriver.MQxWebDriver", {
+qx.Class.define("simulator.qxwebdriver.WebDriver",
+{
+  extend : simulator.webdriver.WebDriver,
+
+  /**
+   * @param session {webdriver.Session|webdriver.promise.Promise} Either a
+   * known session or a promise that will be resolved to a session.
+   * @param executor {webdriver.CommandExecutor} The executor to use when
+   * sending commands to the browser.
+   */
+  construct : function(session, executor)
+  {
+    simulator.webdriver.WebDriver.call(this, session, executor);
+  },
+
+  statics :
+  {
+    /**
+     * Creates a new WebDriver client for an existing session.
+     * @param executor {webdriver.CommandExecutor} Command executor to use when
+     * querying for session details.
+     * @param sessionId {String} ID of the session to attach to.
+     * @return {simulator.qxwebdriver.WebDriver} A new client for the specified session.
+     */
+    attachToSession : function(executor, sessionId) {
+      return simulator.qxwebdriver.WebDriver.acquireSession_(executor,
+        new simulator.webdriver.Command(simulator.webdriver.CommandName.DESCRIBE_SESSION)
+        .setParameter('sessionId', sessionId),
+          'WebDriver.attachToSession()');
+    },
+
+    /**
+     * Creates a new WebDriver session.
+     * @param executor {webdriver.CommandExecutor} The executor to create the new
+     * session with.
+     * @param desiredCapabilities {Map} The desired capabilities for the new
+     * session.
+     * @return {simulator.qxwebdriver.WebDriver} The driver for the newly created session.
+     */
+    createSession : function(executor, desiredCapabilities)
+    {
+      return simulator.qxwebdriver.WebDriver.acquireSession_(executor,
+        new simulator.webdriver.Command(simulator.webdriver.CommandName.NEW_SESSION)
+        .setParameter('desiredCapabilities', desiredCapabilities),
+          'WebDriver.createSession()');
+    },
+
+    /**
+     * Sends a command to the server that is expected to return the details for a
+     * <code>webdriver.Session</code>. This may either be an existing session, or a
+     * newly created one.
+     * @param executor {webdriver.CommandExecutor} Command executor to use when
+     * querying for session details.
+     * @param command {webdriver.Command} The command to send to fetch the session
+     * details.
+     * @param description {String} A descriptive debug label for this action.
+     * @return {simulator.qxwebdriver.WebDriver} A new WebDriver client for the session.
+     */
+    acquireSession_ : function(executor, command, description)
+    {
+      var fn = executor.execute.bind(executor, command);
+      var session = simulator.webdriver.promise.Application.getInstance().schedule(
+        description, function() {
+          return simulator.webdriver.promise.checkedNodeCall(fn).then(function(response) {
+            //bot.response.checkResponse(response);
+            return new simulator.webdriver.Session(response['sessionId'],
+                                         response['value']);
+          });
+        });
+      return new simulator.qxwebdriver.WebDriver(session, executor);
+    }
+  },
 
   members :
   {
@@ -102,7 +181,7 @@ qx.Mixin.define("simulator.qxwebdriver.MQxWebDriver", {
     },
 
     /**
-     * Initialize this QxWebDriver instance
+     * Initialize this simulator.qxwebdriver instance
      *
      * @return {webdriver.promise.Promise} At promise that will be resolved
      * when initialization is done
@@ -147,5 +226,4 @@ qx.Mixin.define("simulator.qxwebdriver.MQxWebDriver", {
       return this.executeScript(script, args);
     }
   }
-
 });
