@@ -30,8 +30,6 @@ qx.Class.define("simulator.qxwebdriver.interaction.form.VirtualComboBox", {
   {
     /**
      * Selects an entry from the drop-down list of a {@link qx.ui.form.ComboBox}.
-     * @param itemLocator {webdriver.Locator} Locator strategy to find the
-     * target list item
      * @param item {String|Integer} The index or label of the list item to click
      * @return {webdriver.Promise} A promise that will be resolved when the
      * target item is selected
@@ -62,6 +60,12 @@ qx.Class.define("simulator.qxwebdriver.interaction.form.VirtualComboBox", {
       }.bind(this));
     },
 
+    /**
+     * Simulates typing in the text field of a {@link qx.ui.form.VirtualComboBox}
+     * @param value {String} The characters to type
+     * @return {webdriver.promise.Promise} A promise that will be resolved when typing
+     * is finished
+     */
     type : simulator.qxwebdriver.interaction.form.ComboBox.type
   },
 
