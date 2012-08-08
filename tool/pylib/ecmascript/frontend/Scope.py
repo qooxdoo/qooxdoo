@@ -206,9 +206,9 @@ Function %s(%s):
     @staticmethod
     def declaredVariablesIterator(node):
         if node.type == "function":
-            name = node.get("name", False)
+            name = node.getChild("identifier", False)
             if name:
-                yield (name, node)
+                yield (name.get("value"), node)
             return
 
         if node.hasChildren():

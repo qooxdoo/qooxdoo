@@ -135,7 +135,7 @@ def detectCallName(node):
             if nameFound:
                 return False
 
-            iden = child.get("name")
+            iden = child.get("value")
             
             if iden == "this":
                 thisFound = True

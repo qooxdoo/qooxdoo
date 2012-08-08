@@ -601,8 +601,8 @@ def _prettyNode(node, optns, result):
     elif node.type == "function":
         write("function")
 
-        functionName = node.get("name", False)
-        if functionName != None:
+        if node.getChild("identifier", False):
+            functionName = node.getChild("identifier", False).get("value")
             space()
             write(functionName)
 
@@ -612,7 +612,7 @@ def _prettyNode(node, optns, result):
     ##################################
 
     elif node.type == "identifier":
-        name = node.get("name", False)
+        name = node.get("value", False)
         if name != None:
             write(name)
 

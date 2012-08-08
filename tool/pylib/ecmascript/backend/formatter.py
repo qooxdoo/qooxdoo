@@ -287,8 +287,8 @@ def format(self, optns, state):
 def format(self, optns, state):
     r = self.commentsPretty(optns, state)
     r += self.write("function")
-    functionName = self.get("name",0)
-    if functionName != None:
+    if self.getChild("identifier",0):
+        functionName = self.getChild("identifier").get("value")
         r += self.space(result=r)
         r += self.write(functionName)
     # params

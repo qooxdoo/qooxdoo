@@ -53,8 +53,8 @@ def update(node, newname):
 
     # Handle function definition
     elif node.type == "function":
-        name = node.get("name", False)
-        if name != None:
+        if node.getChild("identifier",0):
+            name = node.getChild("identifier", False).get('value')
             node.set("name", newname)
 
 

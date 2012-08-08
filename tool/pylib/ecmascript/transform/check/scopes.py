@@ -36,7 +36,31 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
 
     def visit_function(self, node):
         #print "function visitor", node
-        self._new_scope(node)
+        #self._new_scope(node)
+        node.scope = Scope(node)
+        node.scope.parent = self.curr_scope
+        self.curr_scope.children.append(node.scope)
+
+        # handle pot. function name
+        if node.getChild("identifier",0):
+            name_node = node.getChild("identifier")
+            fname = name_node.get("value")
+            # if in a statement context, name goes to the parent scope
+            if node.parent == "statement":
+                node.scope.parent.add_decl(fname, name_node)
+                name_node.scope = node.scope.parent
+            # name goes to the function scope (for recursive calls)
+            else:
+                node.scope.add_decl(fname, name_node)
+                name_node.scope = node.scope
+
+        # handle params
+        self.visit(node.getChild("params"))
+        # handle body
+        self.visit(node.getChild("body"))
+
+        # and restore old scope
+        self.curr_scope = node.scope.parent
 
     def visit_catch(self, node):
         #print "catch visitor", node
@@ -45,12 +69,23 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
         node.scope.parent = self.curr_scope
         self.curr_scope.children.append(node.scope)
         self.curr_scope = node.scope
-        # visit only the param
+        # Now this is tricky (and i think it violates ECMA262, but is how JS
+        # engines are implementing it): Only the catch param is locally scoped,
+        # all other 'var's leak into the parent scope.
+
+        # visit only the param, to get its id_
         self.visit(node.getChild("params"))
-        # restore old scope and visit body
-        # (i think that's contradicting ECMA262, but is how js engines are implementing it)
-        self.curr_scope = node.scope.parent
+        catch_param_id = self.curr_scope.vars.keys()[0]  # must be exactly one
+        # visit the catch block
+        #import pydb; pydb.debugger()
         self.visit(node.getChild("block"))
+        # now move scopeVars up the scope chain
+        for id_, scopeVar in self.curr_scope.vars.items():
+            if id_ != catch_param_id:
+                node.scope.parent.add_scope_var(id_, scopeVar)
+
+        # restore old scope and visit body
+        self.curr_scope = node.scope.parent
 
     def _new_scope(self, node):  # function
         # create a new scope
@@ -123,11 +158,12 @@ class Scope(object):
         self.vars[name].add_decl(node)
         return self.vars[name]
 
-    def add_global(self, name, node):
-        if name not in self.globals:
-            self.globals[name] = ScopeVar()
-        self.globals[name].add_use(node)
-        return self.globals[name]
+    def add_scope_var(self, name, scopeVar):
+        assert scopeVar is not None
+        if name not in self.vars:
+            self.vars[name] = scopeVar
+        else:
+            self.vars[name] = self.vars[name].merge(scopeVar)
 
     def lookup_decl(self, name):
         if name in self.vars and self.vars[name].decl:
@@ -180,6 +216,15 @@ class ScopeVar(object):
 
     def occurrences(self):
         return self.decl + self.uses
+
+    def merge(self, other):
+        for decl in other.decl:
+            if decl not in self.decl:
+                self.decl.append(decl)
+        for use in other.uses:
+            if use not in self.uses:
+                self.uses.append(use)
+        return self
 
 
 ##

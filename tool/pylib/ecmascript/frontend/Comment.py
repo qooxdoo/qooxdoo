@@ -609,7 +609,7 @@ def getReturns(node, found):
             if expr.hasChild("variable"):
                 var = expr.getChild("variable")
                 if var.getChildrenLength(True) == 1 and var.hasChild("identifier"):
-                    val = nameToType(var.getChild("identifier").get("name"))
+                    val = nameToType(var.getChild("identifier").get("value"))
                 else:
                     val = "var"
 
@@ -737,8 +737,8 @@ def fill(node):
     if node.hasParent():
         target = node
 
-        if node.type == "function":
-            name = node.get("name", False)
+        if node.type == "function" and node.getChild("identifier",0):
+            name = node.getChild("identifier", False).get("value")
         else:
             name = ""
 
@@ -762,14 +762,14 @@ def fill(node):
                     var = left.getChild("variable")
                     last = var.getLastChild(False, True)
                     if last and last.type == "identifier":
-                        name = last.get("name")
+                        name = last.get("value")
                         assignType = "object"
 
                     for child in var.children:
                         if child.type == "identifier":
-                            if child.get("name") in ["prototype", "Proto"]:
+                            if child.get("value") in ["prototype", "Proto"]:
                                 assignType = "member"
-                            elif child.get("name") in ["class", "base", "Class"]:
+                            elif child.get("value") in ["class", "base", "Class"]:
                                 assignType = "static"
 
             elif target.parent.type == "definition":
@@ -942,7 +942,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
     if params.hasChildren():
         for child in params.children:
             if child.type == "variable":
-                newName = child.getChild("identifier").get("name")
+                newName = child.getChild("identifier").get("value")
                 newType = newTypeText = nameToType(newName)
                 newDefault = ""
                 newText = nameToDescription(newName)

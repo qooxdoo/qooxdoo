@@ -1063,10 +1063,12 @@ symbol("function")
 @method(symbol("function"))
 def pfix(self):
     # optional name
+    opt_name = None
     if token.id == "identifier":
         #self.childappend(token.get("value"))
         #self.childappend(token)
-        self.set("name", token.get("value"))
+        #self.set("name", token.get("value"))
+        opt_name = token
         advance()
     # params
     assert token.id == "("
@@ -1083,13 +1085,16 @@ def pfix(self):
         body.childappend(block())
     else:
         body.childappend(statement())
+    # add optional name as last child
+    if opt_name:
+        self.childappend(opt_name)
     return self
 
 @method(symbol("function"))
 def toJS(self, opts):
     r = self.write("function")
-    functionName = self.get("name",0)
-    if functionName != None:
+    if self.getChild("identifier",0):
+        functionName = self.getChild("identifier",0).get("value")
         r += self.space(result=r)
         r += self.write(functionName)
     # params

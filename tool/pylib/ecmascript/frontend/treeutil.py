@@ -468,8 +468,8 @@ def getFunctionName(fcnNode):
     if not fcnNode.hasParent() or not fcnNode.parent.hasParent():
         return "global"
 
-    if fcnNode.type == "function" and fcnNode.get("name", False):
-        return fcnNode.get("name", False)
+    if fcnNode.type == "function" and fcnNode.getChild("identifier", False):
+        return fcnNode.get("identifier", False).get("value")
 
     if fcnNode.parent.parent.type == "keyvalue":
         return fcnNode.parent.parent.get("key")
