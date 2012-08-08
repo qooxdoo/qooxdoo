@@ -124,7 +124,8 @@ class LintChecker(treeutil.NodeVisitor):
                     var_top = treeutil.findVarRoot(var_node)
                     full_name = (treeutil.assembleVariable(var_top))[0]
                     ok = False
-                    if self.in_class_list(full_name, self.opts.library_classes): # known classes (classList)
+                    if extension_match_in(full_name, self.opts.library_classes + 
+                        self.opts.class_namespaces): # known classes (classList + their namespaces)
                         ok = True
                     else:
                         at_hints = get_at_hints(funcnode) # check full_name against @ignore hints
@@ -135,23 +136,6 @@ class LintChecker(treeutil.NodeVisitor):
                         #    import pydb; pydb.debugger()
                         warn("Unknown global symbol used: %s" % full_name, self.file_name, var_node)
                     
-    ##
-    # Check if a name is in a list, or the name without its last element.
-    #
-    # (This is a simplified version of MClassDependencies.attemptSplitIdentifier).
-    #
-    def in_class_list(self, name, name_list):
-        if name in name_list:
-            return True
-        else:
-            lastDot = name.rfind(".")
-            if lastDot > -1:
-                # try without last element
-                prefix = name[:lastDot]
-                if prefix in name_list:
-                    return True
-        return False
-
     def function_unused_vars(self, funcnode):
         scope = funcnode.scope
         unused_vars = dict([(id_, scopeVar) for id_, scopeVar in scope.vars.items() 
@@ -413,8 +397,36 @@ def defaultOptions():
     class C(object): pass
     opts = C()
     opts.library_classes = []
+    opts.class_namespaces = []
     opts.allowed_globals = []
     return opts
+
+##
+# Check if a name is in a list, or is a (dot-exact) extension of any of the
+# names in the list (i.e. extension_match_in("foo.bar.baz", ["foo.bar"]) ==
+# True).
+#
+# (This is a copy of MClassDependencies._splitQxClass).
+#
+def extension_match_in(name, name_list):
+    res_name = ''
+    res_attribute = ''
+    if name in name_list:
+        res_name = name
+    # see if name is a (dot-exact) prefix of any of name_list
+    elif "." in name:
+        for list_name in name_list:
+            if name.startswith(list_name) and re.match(r'%s\b' % list_name, name):
+                if len(list_name) > len(res_name): # take the longest match
+                    res_name = list_name
+                    ## compute the 'attribute' suffix
+                    #res_attribute = name[ len(list_name) +1:]  # skip list_name + '.'
+                    ## see if res_attribute is chained, too
+                    #dotidx = res_attribute.find(".")
+                    #if dotidx > -1:
+                    #    res_attribute = res_attribute[:dotidx]    # only use the first component
+
+    return res_name
 
 # - ---------------------------------------------------------------------------
 

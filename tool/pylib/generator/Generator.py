@@ -1659,6 +1659,7 @@ class Generator(object):
 
         classesToCheck = list(getFilteredClassList(lib_class_names, opts.include_patts, opts.exclude_patts))
         opts.library_classes  = lib_class_names
+        opts.class_namespaces = [x[:x.rfind(".")] for x in opts.library_classes if x.find(".")>-1]
         for pos, classId in enumerate(classesToCheck):
             self._console.debug("Checking %s" % classId)
             tree = self._classesObj[classId].tree()

@@ -516,7 +516,6 @@
       "lint-check" :
       {
         "allowed-globals" : [ "q", "qxsettings", "qxvariants" ]
-        //"allowed-globals" : []
       }
     },
 
