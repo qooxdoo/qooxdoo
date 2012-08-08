@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(qx.bom.element.AnimationJs)
+************************************************************************ */
+
 /**
  * DOM manipulation module
  */
@@ -411,14 +415,76 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     },
 
 
+    /** Default animation descriptions for animated scrolling **/
+    _animationDescription: {
+      scrollLeft : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
+        0: {scrollLeft: 0},
+        100: {scrollLeft: 1}
+      }},
+
+      scrollTop : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
+        0: {scrollRight: 0},
+        100: {scrollRight: 1}
+      }}
+    },
+
+
+    /**
+     * Listener for the animation handle's "start" event
+     */
+    __onAnimationStart : function()
+    {
+      this.emit("animationStart");
+    },
+
+
+    /**
+     * Listener for the animation handle's "iteration" event
+     */
+    __onAnimationIteration : function()
+    {
+      this.emit("animationIteration");
+    },
+
+
+    /**
+     * Listener for the animation handle's "end" event
+     */
+    __onAnimationEnd : function()
+    {
+      this.emit("animationEnd");
+    },
+
+
+    /**
+     * Performs animated scrolling
+     *
+     * @param el {Element} Element to be scrolled
+     * @param property {String} Element property to animate: <code>scrollLeft</code>
+     * or <code>scrollTop</code>
+     * @param value {Number} Final scroll position
+     * @param duration {Number} The animation's duration in ms
+     */
+    __animateScroll : function(el, property, value, duration)
+    {
+      var desc = qx.lang.Object.clone(qx.module.Manipulating._animationDescription[property]);
+      desc.keyFrames[0][property] = this["get" + qx.lang.String.firstUp(property)](el);
+      desc.keyFrames[100][property] = value;
+      var handle = qx.bom.element.AnimationJs.animate(el, desc, duration);
+      handle.on("start", qx.module.Manipulating.__onAnimationStart, this);
+      handle.on("iteration", qx.module.Manipulating.__onAnimationIteration, this);
+      handle.on("end", qx.module.Manipulating.__onAnimationEnd, this);
+    },
+
     /**
      * Scrolls the elements of the collection to the given coordinate.
      *
      * @attach{q}
      * @param value {Number} Left scroll position
+     * @param duration {Number?} Optional: Duration in ms for animated scrolling
      * @return {q} The collection for chaining
      */
-    setScrollLeft : function(value)
+    setScrollLeft : function(value, duration)
     {
       var Node = qx.dom.Node;
 
@@ -427,7 +493,13 @@ qx.Bootstrap.define("qx.module.Manipulating", {
         obj = this[i];
 
         if (Node.isElement(obj)) {
-          obj.scrollLeft = value;
+          if (duration && qx.bom.element && qx.bom.element.AnimationJs) {
+            qx.module.Manipulating.__animateScroll.bind(this, obj, "scrollLeft",
+              value, duration)();
+          }
+          else {
+            obj.scrollLeft = value;
+          }
         } else if (Node.isWindow(obj)) {
           obj.scrollTo(value, this.getScrollTop(obj));
         } else if (Node.isDocument(obj)) {
@@ -444,9 +516,10 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      *
      * @attach{q}
      * @param value {Number} Top scroll position
+     * @param duration {Number?} Optional: Duration in ms for animated scrolling
      * @return {q} The collection for chaining
      */
-    setScrollTop : function(value)
+    setScrollTop : function(value, duration)
     {
       var Node = qx.dom.Node;
 
@@ -455,7 +528,13 @@ qx.Bootstrap.define("qx.module.Manipulating", {
         obj = this[i];
 
         if (Node.isElement(obj)) {
-          obj.scrollTop = value;
+          if (duration && qx.bom.element && qx.bom.element.AnimationJs) {
+            qx.module.Manipulating.__animateScroll.bind(this, obj, "scrollTop",
+              value, duration)();
+          }
+          else {
+            obj.scrollTop = value;
+          }
         } else if (Node.isWindow(obj)) {
           obj.scrollTo(this.getScrollLeft(obj), value);
         } else if (Node.isDocument(obj)) {

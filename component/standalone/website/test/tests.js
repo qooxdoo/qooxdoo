@@ -222,6 +222,40 @@ testrunner.define({
     this.assertEquals(50, q("#test").getScrollTop());
   },
 
+  testAnimateScrollLeft : function()
+  {
+    var t = q.create('<div id="test" style="overflow:auto; width:50px; height:50px;"><div style="width:150px; height:150px;">AAAAA</div></div>');
+    t.appendTo(this.sandbox[0]);
+    q("#test").on("animationEnd", function() {
+      this.resume(function() {
+        this.assertEquals(50, q("#test").getScrollLeft());
+      }, this);
+    }, this);
+
+    setTimeout(function() {
+      q("#test").setScrollLeft(50, 500);
+    }, 100);
+
+    this.wait(1500);
+  },
+
+  testAnimateScrollTop : function()
+  {
+    var t = q.create('<div id="test" style="overflow:auto; width:50px; height:50px;"><div style="width:150px; height:150px;">AAAAA</div></div>');
+    t.appendTo(this.sandbox[0]);
+    q("#test").on("animationEnd", function() {
+      this.resume(function() {
+        this.assertEquals(50, q("#test").getScrollTop());
+      }, this);
+    }, this);
+
+    setTimeout(function() {
+      q("#test").setScrollTop(50, 500);
+    }, 100);
+
+    this.wait(1500);
+  },
+
   "test before with HTML string": function()
   {
     var test = q.create('<p>Affe</p><p>Affe</p>');

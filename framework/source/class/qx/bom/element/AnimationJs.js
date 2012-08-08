@@ -267,10 +267,15 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         handle.repeatSteps--;
         var values = handle.delta[handle.i % handle.steps];
         // save the init values
-        if (handle.i == 0) {
+        if (handle.i === 0) {
           for (var name in values) {
-            if (handle.initValues[name] == undefined) {
-              if (qx.bom.element.Style) {
+            if (handle.initValues[name] === undefined) {
+              // animate element property
+              if (handle.el[name] !== undefined) {
+                handle.initValues[name] = handle.el[name];
+              }
+              // animate CSS property
+              else if (qx.bom.element.Style) {
                 handle.initValues[name] = qx.bom.element.Style.get(
                   handle.el, qx.lang.String.camelCase(name)
                 );
@@ -410,7 +415,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
 
 
     /**
-     * Central method to apply css styles.
+     * Central method to apply css styles and element properties.
      * @param el {Element} The DOM element to apply the styles.
      * @param styles {Map} A map containing styles and values.
      */
@@ -420,6 +425,13 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         if (styles[key] === undefined) {
           continue;
         }
+
+        // apply element property value
+        if (key in el) {
+          el[key] = styles[key];
+          continue;
+        }
+
         var name = qx.lang.String.camelCase(key);
         if (qx.bom.element.Style) {
           qx.bom.element.Style.set(el, name, styles[key]);
