@@ -474,11 +474,10 @@ input[type=radio] + label:after {
 // CAROUSEL
 //
 
-@pagination-label-size:18px;
+@pagination-label-size:8px;
 
 .carousel-pagination-label {
-  .box-shadow(0px 0px 1px white);
-  border:1px solid white;
+  border: 1px solid white;
   opacity:0.6;
   background-color:@dark-grey;
 
@@ -486,15 +485,9 @@ input[type=radio] + label:after {
   height:@pagination-label-size;
   text-align:center;
   line-height:@pagination-label-size;
-  .border-radius(@pagination-label-size);
+  .border-radius(15px);
 
-  color:white;
-
-  margin-left:10px;
-  margin-right:10px;
-
-  font-size:0.8em;
-  font-weight:bold;
+  font-size:0px;
 }
 
 .carousel-pagination-label.active {
@@ -503,7 +496,7 @@ input[type=radio] + label:after {
 }
 
 .carousel-pagination {
-  top: -(@pagination-label-size+10px);
+  top: -(@pagination-label-size+15px);
 }
 
 

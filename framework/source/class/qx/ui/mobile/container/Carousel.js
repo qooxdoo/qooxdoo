@@ -94,6 +94,13 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     defaultCssClass : {
       refine : true,
       init : "carousel"
+    },
+    
+    // Property for setting the visibility of pagination indicator.
+    showPagination : {
+      check : "Boolean",
+      init : true,
+      apply : "_applyShowPagination"
     }
   },
 
@@ -139,10 +146,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       var paginationLabel = new qx.ui.mobile.container.Composite();
       var paginationLabelText = new qx.ui.mobile.basic.Label(""+paginationIndex);
       paginationLabel.add(paginationLabelText);
-      
+
       paginationLabel.addCssClass("carousel-pagination-label");
       paginationLabel.addListener("tap",this._onPaginationLabelTap,{self:this,targetIndex:paginationIndex-1});
-      
+
       this.__paginationLabels.push(paginationLabel);
       this.__pagination.add(paginationLabel);
       
@@ -221,6 +228,19 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       
       this._updatePagination(oldIndex,this.__shownPageIndex);
       this._updateCarouselLayout();
+    },
+    
+    
+    /**
+     * Called when showPagination property is changed.
+     * Manages show(), hide() of pagination container.
+     */
+    _applyShowPagination : function(value, old) {
+      if(value) {
+        this.__pagination.show();
+      } else {
+        this.__pagination.hide();
+      }
     },
     
     
