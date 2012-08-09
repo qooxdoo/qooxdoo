@@ -858,8 +858,7 @@ def main():
 
 if __name__ == '__main__':
   try:
-    #main()
-    print sys.path
+    main()
 
   except KeyboardInterrupt:
     print
