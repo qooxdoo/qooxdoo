@@ -123,6 +123,9 @@ class LintChecker(treeutil.NodeVisitor):
                 for var_node in scopeVar.uses:
                     var_top = treeutil.findVarRoot(var_node)
                     full_name = (treeutil.assembleVariable(var_top))[0]
+                    #if self.file_name == "qx.ui.treevirtual.SelectionManager" \
+                    #        and full_name == "handleButtonClick":
+                    #    import pydb; pydb.debugger()
                     ok = False
                     if extension_match_in(full_name, self.opts.library_classes + 
                         self.opts.class_namespaces): # known classes (classList + their namespaces)

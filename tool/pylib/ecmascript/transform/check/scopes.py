@@ -45,8 +45,10 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
         if node.getChild("identifier",0):
             name_node = node.getChild("identifier")
             fname = name_node.get("value")
+            #if fname == "handleButtonClick":
+            #    import pydb; pydb.debugger()
             # if in a statement context, name goes to the parent scope
-            if node.parent == "statement":
+            if node.parent.type in ["statements", "block"]:
                 node.scope.parent.add_decl(fname, name_node)
                 name_node.scope = node.scope.parent
             # name goes to the function scope (for recursive calls)
@@ -54,11 +56,12 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
                 node.scope.add_decl(fname, name_node)
                 name_node.scope = node.scope
 
+        # switch to function scope
+        self.curr_scope = node.scope
         # handle params
         self.visit(node.getChild("params"))
         # handle body
         self.visit(node.getChild("body"))
-
         # and restore old scope
         self.curr_scope = node.scope.parent
 
