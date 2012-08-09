@@ -428,7 +428,7 @@ qx.Bootstrap.define("qx.Bootstrap",
           "Please use the native 'Object.keys()' instead."
         );
       }
-      return this.keys(map);
+      return qx.Bootstrap.keys(map);
     },
 
 
