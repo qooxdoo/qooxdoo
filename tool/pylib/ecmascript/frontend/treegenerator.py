@@ -1759,7 +1759,13 @@ def statement():
                         advance(',')
                         s.childappend(expression())
             statementEnd()
-    return s
+    stmt = symbol("statement")(s.get("line"), s.get("column")) # insert <statement> for better finding comments later
+    stmt.childappend(s)
+    return stmt
+
+@method(symbol("statement"))
+def toJS(self, opts):
+    return self.children[0].toJS(opts)
 
 @method(symbol("(empty)"))
 def toJS(self, opts):

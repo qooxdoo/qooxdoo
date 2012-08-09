@@ -680,6 +680,31 @@ def findLeftmostChild(node):
             break
     return child
 
+
+##
+# Find the closest ancestor of <node> with type in <node_types> and in distance
+# <radius>.
+#
+def findAncestor(node, node_types=[], radius=1):
+    res = None
+    if node.parent:
+        lnode = node.parent
+        dist = 0
+        while True:
+            if radius > 0 and dist >= radius:
+                break
+            elif node_types and lnode.type in node_types:
+                res = lnode
+                break
+            else:
+                dist += 1
+                if lnode.parent:
+                    lnode = lnode.parent
+                else:
+                    break
+    return res
+
+
 ##
 # Check if the given identifier node is the first in a chained
 # expression ("a" in "a.b.c()[0].d()")

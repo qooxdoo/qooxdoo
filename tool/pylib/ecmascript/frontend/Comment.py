@@ -682,7 +682,9 @@ def parseNode(node):
     # the intended meaning of <node> is "the node that has comments preceding
     # it"; in the ast, this might not be <node> itself, but the lexically first
     # token that got the comment attached; look for that
+    # in the AST this translates to the left-most child for statements and expressions
     commentsNode = findAssociatedComment(node)
+
 
     if commentsNode and commentsNode.comments:
         # check for a suitable comment, from the back so that the closer wins
@@ -700,14 +702,26 @@ def findAssociatedComment(node):
     if node.comments:
         res = node
     else:
-        # e.g. comment preceding "qx.Class.define(...)"
-        if node.children:
-            left_most = treeutil.findLeftmostChild(node)
-            res = findAssociatedComment(left_most)
-        # e.g. comment preceding "key : function () {...}"
-        if res is None:
-            if node.hasParentContext("keyvalue/value"):
-                res = findAssociatedComment(node.parent.parent)
+        # look down left-most
+        left_most = treeutil.findLeftmostChild(node) # this might return <node> itself
+        if left_most.comments:
+            res = left_most
+        # look upwards, then left-most
+        else:
+            next_root = treeutil.findAncestor(node, ["statement", "keyvalue"], radius=5)
+            if next_root:
+                left_most = treeutil.findLeftmostChild(next_root)
+                if left_most.comments:
+                    res = left_most
+
+        ## e.g. comment preceding "qx.Class.define(...)"
+        #if node.children:
+        #    left_most = treeutil.findLeftmostChild(node)
+        #    res = findAssociatedComment(left_most)
+        ## e.g. comment preceding "key : function () {...}"
+        #if res is None:
+        #    if node.hasParentContext("keyvalue/value"):
+        #        res = findAssociatedComment(node.parent.parent)
     return res
 
 

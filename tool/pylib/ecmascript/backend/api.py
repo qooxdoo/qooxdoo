@@ -349,7 +349,7 @@ def handleStatics(item, classNode):
         if value.type != "function":
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
-                    value = treeutil.compileString(docItem["text"][3:-4] + "{}")
+                    value = treeutil.compileString(docItem["text"] + "{}")
 
         # Function
         if value.type == "function":
@@ -379,7 +379,7 @@ def handleMembers(item, classNode):
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
                     try:
-                        value = treeutil.compileString(docItem["text"][3:-4] + "{}")
+                        value = treeutil.compileString(docItem["text"] + "{}")
                     except treegenerator.SyntaxException:
                         printDocError(keyvalue, "Invalid signature")
 
