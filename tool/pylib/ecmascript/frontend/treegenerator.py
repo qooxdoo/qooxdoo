@@ -1759,9 +1759,7 @@ def statement():
                         advance(',')
                         s.childappend(expression())
             statementEnd()
-    stmt = symbol("statement")(s.get("line"), s.get("column")) # insert <statement> for better finding comments later
-    stmt.childappend(s)
-    return stmt
+    return s
 
 @method(symbol("statement"))
 def toJS(self, opts):
@@ -1820,6 +1818,8 @@ def statements():  # plural!
             break
         st = statement()
         if st:
+            #stmt = symbol("statement")(st.get("line"), st.get("column")) # insert <statement> for better finding comments later
+            #stmt.childappend(st)
             s.childappend(st)
     return s
 
