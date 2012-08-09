@@ -64,7 +64,7 @@
   height:300px;
 }
 
-.carousel-page * {
+.carousel-page > .label {
   padding:10px;
   font-family:helvetica;
   font-weight:bold;
@@ -102,6 +102,11 @@
   height:300px;
   color:#222222;
 }
+
+.example-button {
+  width:100px;
+}
+
 
 .view1 {
   border:1px solid #aaaaaa;

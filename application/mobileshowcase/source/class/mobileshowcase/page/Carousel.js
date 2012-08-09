@@ -38,9 +38,9 @@ qx.Class.define("mobileshowcase.page.Carousel",
     // overridden
     _initialize : function()
     {
-      this.base(arguments);
+      this.base(arguments, new qx.ui.mobile.layout.VBox());
       
-      var carousel = new qx.ui.mobile.container.Carousel(0.3);
+      var carousel = new qx.ui.mobile.container.Carousel(0.5);
       
       var page1 = new qx.ui.mobile.container.CarouselPage();
       page1.addCssClass("carousel-example-1");
@@ -55,7 +55,20 @@ qx.Class.define("mobileshowcase.page.Carousel",
       
       var page3 = new qx.ui.mobile.container.CarouselPage();
       page3.addCssClass("carousel-example-3");
-      page3.add(new qx.ui.mobile.basic.Label("These carousel pages contain widgets like labels, images, buttons etc."));
+      var page3label = new qx.ui.mobile.basic.Label("Carousel pages may contain any widgets like labels, images, buttons etc.");
+      page3.add(page3label);
+      
+      var nextButton = new qx.ui.mobile.form.Button("Next Page");
+      nextButton.addCssClass("example-button");
+      nextButton.addListener("tap",carousel.nextPage,carousel);
+      
+      var previousButton = new qx.ui.mobile.form.Button("Previous Page");
+      previousButton.addCssClass("example-button");
+      previousButton.addListener("tap",carousel.previousPage,carousel);
+      
+      var page3group = new qx.ui.mobile.form.Group([previousButton,nextButton],false);
+      page3group.setLayout(new qx.ui.mobile.layout.HBox());
+      page3.add(page3group);
       
       var page4 = new qx.ui.mobile.container.CarouselPage();
       page4.addCssClass("carousel-example-4");

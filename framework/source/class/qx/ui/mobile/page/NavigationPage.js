@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      * @return {qx.ui.mobile.container.Composite} Creates the right container for the navigation bar.
      */
     _createRightContainer : function() {
-      var layout =new qx.ui.mobile.layout.HBox();
+      var layout = new qx.ui.mobile.layout.HBox();
       var container = new qx.ui.mobile.container.Composite(layout);
       container.addCssClass("right-container");
       this.__button = this._createButton();
