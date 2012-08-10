@@ -53,11 +53,13 @@ qx.Class.define("simulator.qxwebdriver.interaction.form.ComboBox", {
 
       return this.driver_.executeScript(findButton)
       .then(function(button) {
-        button.click();
-        return this.findElement(simulator.webdriver.By.js(findItem))
-        .then(function(element) {
-          element.click();
-        });
+        button.click()
+        .then(function() {
+          return this.findElement(simulator.webdriver.By.js(findItem))
+          .then(function(element) {
+            return element.click();
+          });
+        }.bind(this));
       }.bind(this));
     },
 
@@ -83,7 +85,8 @@ qx.Class.define("simulator.qxwebdriver.interaction.form.ComboBox", {
 
       return this.driver_.executeScript(getTextField)
       .then(function(textField) {
-        textField.sendKeys(value);
+        console.log("typeInCombo");
+        return textField.sendKeys(value);
       });
     }
   },

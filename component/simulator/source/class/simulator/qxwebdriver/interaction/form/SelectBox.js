@@ -36,6 +36,7 @@ qx.Class.define("simulator.qxwebdriver.interaction.form.SelectBox", {
      */
     selectItem : function(item)
     {
+      var promise = simulator.webdriver.promise.Application.getInstance();
       var getItem = simulator.qxwebdriver.interaction.core.ISingleSelection.getItemFromSelectables;
 
       var script = simulator.qxwebdriver.Util.functionToString(getItem, {
@@ -45,12 +46,15 @@ qx.Class.define("simulator.qxwebdriver.interaction.form.SelectBox", {
 
       script = 'return (' + script + ')()';
 
-      this.click();
-
-      this.findElement(simulator.webdriver.By.js(script)).
-      then(function(element) {
-        element.click();
-      });
+      return promise.schedule("click SelectBox button", function() {
+        return this.click()
+        .then(function() {
+          return this.findElement(simulator.webdriver.By.js(script)).
+          then(function(element) {
+            return element.click();
+          });
+        }.bind(this));
+      }.bind(this));
     },
 
 

@@ -38,7 +38,7 @@ qx.Class.define("simulator.qxwebdriver.interaction.form.AbstractField", {
         ".getContentElement().getDomElement()";
       return this.driver_.executeScript(getDomElement, this)
       .then(function(contentEl) {
-        contentEl.sendKeys(value);
+        return contentEl.sendKeys(value);
       });
     }
   },
