@@ -42,18 +42,18 @@ qx.Class.define("mobileshowcase.page.Carousel",
       
       var carousel = new qx.ui.mobile.container.Carousel(0.5);
       
-      var page1 = new qx.ui.mobile.container.CarouselPage();
+      var page1 = new qx.ui.mobile.container.Composite();
       page1.addCssClass("carousel-example-1");
       
       var page1Label =new qx.ui.mobile.basic.Label("This is a carousel. Please swipe left.");
       page1Label.addCssClass("carousel-label-1");
       page1.add(page1Label);
       
-      var page2 = new qx.ui.mobile.container.CarouselPage();
+      var page2 = new qx.ui.mobile.container.Composite();
       page2.addCssClass("carousel-example-2");
       page2.add(new qx.ui.mobile.basic.Label("It contains multiple carousel pages."));
       
-      var page3 = new qx.ui.mobile.container.CarouselPage();
+      var page3 = new qx.ui.mobile.container.Composite();
       page3.addCssClass("carousel-example-3");
       var page3label = new qx.ui.mobile.basic.Label("Carousel pages may contain any widgets like labels, images, buttons etc.");
       page3.add(page3label);
@@ -70,19 +70,19 @@ qx.Class.define("mobileshowcase.page.Carousel",
       page3group.setLayout(new qx.ui.mobile.layout.HBox());
       page3.add(page3group);
       
-      var page4 = new qx.ui.mobile.container.CarouselPage();
+      var page4 = new qx.ui.mobile.container.Composite();
       page4.addCssClass("carousel-example-4");
       page4.add(new qx.ui.mobile.basic.Label("The carousel snaps on every page."));
       
-      var page5 = new qx.ui.mobile.container.CarouselPage();
+      var page5 = new qx.ui.mobile.container.Composite();
       page5.addCssClass("carousel-example-5");
       page5.add(new qx.ui.mobile.basic.Label("Previous page is shown when you swipe right."),{flex:1});
       
-      carousel.addPage(page1);
-      carousel.addPage(page2); 
-      carousel.addPage(page3);
-      carousel.addPage(page4); 
-      carousel.addPage(page5); 
+      carousel.add(page1);
+      carousel.add(page2); 
+      carousel.add(page3);
+      carousel.add(page4); 
+      carousel.add(page5); 
 
       this.getContent().add(carousel);
     },
