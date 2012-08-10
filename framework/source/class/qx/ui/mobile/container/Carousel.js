@@ -78,9 +78,9 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     var carouselScroller = this.__carouselScroller = new qx.ui.mobile.container.Composite();
     carouselScroller.addCssClass("carousel-scroller");
     
-    this.addListener("touchstart", this._onTouchStart, this);
-    this.addListener("touchmove", this._onTouchMove, this);
-    this.addListener("swipe", this._onSwipe, this);
+    carouselScroller.addListener("touchstart", this._onTouchStart, this);
+    carouselScroller.addListener("touchmove", this._onTouchMove, this);
+    carouselScroller.addListener("swipe", this._onSwipe, this);
     
     this.addListener("appear", this._onContainerUpdate, this);
     
@@ -278,8 +278,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Updates the layout of the carousel the carousel scroller and its pages.
      */
     _updateCarouselLayout : function() {
-      this.fixSize();
-      
       var carouselWidth = this._getStyle("width");
       carouselWidth = carouselWidth.substring(0, carouselWidth.length-2);
       carouselWidth = parseInt(carouselWidth,10);

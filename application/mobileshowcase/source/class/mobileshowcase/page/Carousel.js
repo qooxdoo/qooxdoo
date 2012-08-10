@@ -38,7 +38,7 @@ qx.Class.define("mobileshowcase.page.Carousel",
     // overridden
     _initialize : function()
     {
-      this.base(arguments, new qx.ui.mobile.layout.VBox());
+      this.base(arguments);
       
       var carousel = new qx.ui.mobile.container.Carousel(0.5);
       
