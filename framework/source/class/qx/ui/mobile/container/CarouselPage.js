@@ -18,6 +18,27 @@
 ************************************************************************ */
 
 /**
+ * A {@link  qx.ui.mobile.container.Carousel} contains multiple {@link  qx.ui.mobile.container.CarouselPage}.
+ * CarouselPages can be simply added/removed to a carousel and may contain any widget.
+ * 
+ * Pagination indicator of carousel updates automatically when a carouselPage is added or removed.
+ * 
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *  
+ *  var carousel = new qx.ui.mobile.container.Carousel(0.3);
+ *  var carouselPage1 = new qx.ui.mobile.container.CarouselPage();
+ *  var carouselPage2 = new qx.ui.mobile.container.CarouselPage();
+ *     
+ *  carouselPage1.add(new qx.ui.mobile.basic.Label("This is a carousel. Please swipe left."));
+ *  carouselPage2.add(new qx.ui.mobile.basic.Label("Now swipe right."));
+ *     
+ *  carousel.addPage(carouselPage1);
+ *  carousel.addPage(carouselPage2);
+ * </pre>
  */
 qx.Class.define("qx.ui.mobile.container.CarouselPage",
 {
@@ -28,7 +49,7 @@ qx.Class.define("qx.ui.mobile.container.CarouselPage",
      CONSTRUCTOR
   *****************************************************************************
   */
-  construct : function(width)
+  construct : function()
   {
     this.base(arguments);
   },
@@ -47,16 +68,6 @@ qx.Class.define("qx.ui.mobile.container.CarouselPage",
       refine : true,
       init : "carousel-page"
     }
-  },
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
   }
 
 });

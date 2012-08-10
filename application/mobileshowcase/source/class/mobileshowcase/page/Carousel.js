@@ -83,7 +83,7 @@ qx.Class.define("mobileshowcase.page.Carousel",
       carousel.addPage(page3);
       carousel.addPage(page4); 
       carousel.addPage(page5); 
-      
+
       this.getContent().add(carousel);
     },
   
