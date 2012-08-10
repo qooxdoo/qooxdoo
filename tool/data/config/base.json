@@ -516,6 +516,16 @@
       "lint-check" :
       {
         "allowed-globals" : [ "q", "qxsettings", "qxvariants" ]
+        ,"ignore-deprecated-symbols" : false
+        ,"ignore-environment-nonlit-key" : false
+        ,"ignore-multiple-mapkeys" : false
+        ,"ignore-multiple-vardecls": true
+        ,"ignore-no-loop-block" : false
+        ,"ignore-reference-fields" : false
+        ,"ignore-undeclared-privates" : false
+        ,"ignore-undefined-globals" : false
+        ,"ignore-unused-parameter" : true
+        ,"ignore-unused-variables" : false
       }
     },
 

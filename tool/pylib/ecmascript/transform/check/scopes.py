@@ -53,6 +53,9 @@ class ScopesVisitor(object):
         # handle params
         paramCollector = AssignScopeVarsVisitor(scopeNode)
         paramCollector.visit(node.getChild("params"))
+        # mark as params (true params and pot. internal function name)
+        for scopeVar in scopeNode.vars.values():
+            scopeVar.is_param = True
         # handle body
         bodyCollector = AssignScopeVarsVisitor(scopeNode)
         bodyCollector.visit(node.getChild("body"))
@@ -70,6 +73,8 @@ class ScopesVisitor(object):
         paramCollector = AssignScopeVarsVisitor(scopeNode)
         paramCollector.visit(astNode.getChild("params"))
         catch_param_id = scopeNode.vars.keys()[0]  # must be exactly one
+        catch_param = scopeNode.vars[catch_param_id]
+        catch_param.is_param = True
         # handle body, first collecting into catch scope (so catch param is recognized as scoped)
         bodyCollector = AssignScopeVarsVisitor(scopeNode)
         bodyCollector.visit(astNode.getChild("block"))
@@ -257,6 +262,7 @@ class ScopeVar(object):
     def __init__(self):
         self.decl = []    # var decl node(s)
         self.uses = []    # var occurrences (excluding decl occurrence(s))
+        self.is_param = False # is var decl'ed as parameter?
 
     def add_use(self, node):
         self.uses.append(node)

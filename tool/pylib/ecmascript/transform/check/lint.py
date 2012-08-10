@@ -42,14 +42,19 @@ class LintChecker(treeutil.NodeVisitor):
 
     def visit_file(self, node):
         # we can run the basic scope checks as with function nodes
-        self.function_unknown_globals(node)
+        if not self.opts.ignore_undefined_globals:
+            self.function_unknown_globals(node)
         self.function_unused_vars(node)
-        self.function_used_deprecated(node)
-        self.function_multiple_var_decls(node)
+        if not self.opts.ignore_deprecated_symbols:
+            self.function_used_deprecated(node)
+        if not self.opts.ignore_multiple_vardecls:
+            self.function_multiple_var_decls(node)
         # this is also good to check class map integrity
         for class_defn in treeutil.findQxDefineR(node):
-            self.class_declared_privates(class_defn)
-            self.class_reference_fields(class_defn)
+            if not self.opts.ignore_undeclared_privates:
+                self.class_declared_privates(class_defn)
+            if not self.opts.ignore_reference_fields:
+                self.class_reference_fields(class_defn)
         # check all qx.core.Environment calls
         self.environment_check_calls(node)
         # recurse
@@ -58,37 +63,35 @@ class LintChecker(treeutil.NodeVisitor):
 
     def visit_map(self, node):
         #print "visiting", node.type
-        self.map_unique_keys(node)
+        if not self.opts.ignore_multiple_mapkeys:
+            self.map_unique_keys(node)
         # recurse
         for cld in node.children:
             self.visit(cld)
 
     def visit_loop(self, node):
         #print "visiting", node.type
-        self.loop_body_block(node.getChild("body")) # all "loops" have at least one body
-        if node.get("loopType")=="IF" and len(node.children)>2:  # there is an "else"
-            self.loop_body_block(node.children[2])
+        if not self.opts.ignore_no_loop_block:
+            self.loop_body_block(node.getChild("body")) # all "loops" have at least one body
+            if node.get("loopType")=="IF" and len(node.children)>2:  # there is an "else"
+                self.loop_body_block(node.children[2])
         # recurse
         for cld in node.children:
             self.visit(cld)
         
     def visit_function(self, node):
         #print "visiting", node.type
-        self.function_unknown_globals(node)
-        self.function_unused_vars(node)
-        self.function_used_deprecated(node)
-        self.function_multiple_var_decls(node)
+        if not self.opts.ignore_undefined_globals:
+            self.function_unknown_globals(node)
+        self.function_unused_vars(node)  # self.opts are applied in the function
+        if not self.opts.ignore_deprecated_symbols:
+            self.function_used_deprecated(node)
+        if not self.opts.ignore_multiple_vardecls:
+            self.function_multiple_var_decls(node)
         # recurse
         for cld in node.children:
             self.visit(cld)
         
-    def visit_TEMPLATE(self, node):
-        #print "visiting", node.type
-        # recurse
-        for cld in node.children:
-            self.visit(cld)
-        
-
     # - ---------------------------------------------------------------------------
 
     def function_used_deprecated(self, funcnode):
@@ -123,8 +126,6 @@ class LintChecker(treeutil.NodeVisitor):
                 for var_node in scopeVar.uses:
                     var_top = treeutil.findVarRoot(var_node)
                     full_name = (treeutil.assembleVariable(var_top))[0]
-                    #if self.file_name == "qx.bom.Template" and full_name == "module":
-                    #    import pydb; pydb.debugger()
                     ok = False
                     if extension_match_in(full_name, self.opts.library_classes + 
                         self.opts.class_namespaces): # known classes (classList + their namespaces)
@@ -143,9 +144,14 @@ class LintChecker(treeutil.NodeVisitor):
 
         for var_name,scopeVar in unused_vars.items():
             ok = False
-            at_hints = get_at_hints(funcnode) # check @ignore hints
-            if at_hints:
-                ok = self.is_name_lint_filtered(var_name, at_hints, "ignoreUnused")
+            if scopeVar.is_param and self.opts.ignore_unused_parameter:
+                ok = True
+            elif not scopeVar.is_param and self.opts.ignore_unused_variables:
+                ok = True
+            else:
+                at_hints = get_at_hints(funcnode) # check @ignore hints
+                if at_hints:
+                    ok = self.is_name_lint_filtered(var_name, at_hints, "ignoreUnused")
             if not ok:
                 warn("Declared but unused variable or parameter '%s'" % var_name, self.file_name, scopeVar.decl[0])
 
@@ -191,13 +197,27 @@ class LintChecker(treeutil.NodeVisitor):
         return len(scopeVar.decl) > 0 and len(scopeVar.uses) == 0
 
     def loop_body_block(self, body_node):
+        def is_else_body(body_node):
+            return  (len(body_node.parent.children)==3  # parent loop has an 'else' part
+                and body_node == body_node.parent.children[2] # the current node is the 'else' part
+            )
+        def child_is_if(body_node):
+            return (body_node.children[0].type == "loop"
+                and body_node.children[0].get("loopType") == "IF"
+            )
+
         if not body_node.getChild("block",0):
             ok = False
-            scope_node = scopes.find_enclosing(body_node)
-            if scope_node:
-                at_hints = get_at_hints(scope_node.node)
-                if at_hints and 'lint' in at_hints and 'ignoreNoLoopBlock' in at_hints['lint']:
-                    ok = True
+            # allow "else if"
+            if is_else_body(body_node) and child_is_if(body_node):
+                ok = True
+            else:
+                # check @hints
+                scope_node = scopes.find_enclosing(body_node)
+                if scope_node:
+                    at_hints = get_at_hints(scope_node.node)
+                    if at_hints and 'lint' in at_hints and 'ignoreNoLoopBlock' in at_hints['lint']:
+                        ok = True
             if not ok:
                 warn("Loop or condition statement without a block as body", self.file_name, body_node)
 
@@ -300,7 +320,8 @@ class LintChecker(treeutil.NodeVisitor):
         #firstValue = firstParam.evaluated
         #if firstValue == () or not isinstance(firstValue, types.StringTypes):
         if not treeutil.isStringLiteral(firstParam):
-            warn("qx.core.Environment.select: first argument is not a string literal.", self.file_name, select_call)
+            if not self.opts.ignore_environment_nonlit_key:
+                warn("qx.core.Environment.select: first argument is not a string literal.", self.file_name, select_call)
             return False
 
         # Get the resolution map, keyed by possible variant key values (or value expressions)
@@ -325,7 +346,8 @@ class LintChecker(treeutil.NodeVisitor):
 
         firstParam = params.getChildByPosition(0)
         if not treeutil.isStringLiteral(firstParam):
-            warn("qx.core.Environment.get: first argument is not a string literal.", self.file_name, get_call)
+            if not self.opts.ignore_environment_nonlit_key:
+                warn("qx.core.Environment.get: first argument is not a string literal.", self.file_name, get_call)
             return False
 
         # we could try to verify the key, like in variantoptimizer
@@ -387,7 +409,6 @@ def get_at_hints(node, at_hints=None):
             at_hints['lint'][functor].update(entry['arguments']) 
     # include @hints of parent scopes
     scope = scopes.find_enclosing(node)
-    #import pydb; pydb.debugger()
     if scope:
         at_hints = get_at_hints(scope.node, at_hints)
     return at_hints
@@ -399,6 +420,17 @@ def defaultOptions():
     opts.library_classes = []
     opts.class_namespaces = []
     opts.allowed_globals = []
+    opts.ignore_deprecated_symbols = False
+    opts.ignore_environment_nonlit_key = False
+    opts.ignore_multiple_mapkeys = False
+    opts.ignore_multiple_vardecls= False
+    opts.ignore_no_loop_block = False
+    opts.ignore_reference_fields = False
+    opts.ignore_undeclared_privates = False
+    opts.ignore_undefined_globals = False
+    opts.ignore_unused_parameter = False
+    opts.ignore_unused_variables = False
+  
     return opts
 
 ##

@@ -1651,21 +1651,22 @@ class Generator(object):
         self._console.info("Checking Javascript source code...")
         self._console.indent()
 
+        # Options
         lintJob        = self._job
         opts = lint.defaultOptions()
-        opts.allowed_globals = lintJob.get('lint-check/allowed-globals', [])
         opts.include_patts    = lintJob.get('include', [])  # this is for future use
         opts.exclude_patts    = lintJob.get('exclude', [])
 
         classesToCheck = list(getFilteredClassList(lib_class_names, opts.include_patts, opts.exclude_patts))
         opts.library_classes  = lib_class_names
         opts.class_namespaces = [x[:x.rfind(".")] for x in opts.library_classes if x.find(".")>-1]
+        # the next requires that the config keys and option attributes be identical (modulo "-"_")
+        for option, value in lintJob.get("lint-check").items():
+            setattr(opts, option.replace("-","_"), value)
+
         for pos, classId in enumerate(classesToCheck):
             self._console.debug("Checking %s" % classId)
             tree = self._classesObj[classId].tree()
-            if classId == "feedreader.simulation.ria.FeedreaderAbstract":
-                #import pydb; pydb.debugger()
-                pass
             lint.lint_check(tree, classId, opts)
 
         self._console.outdent()
