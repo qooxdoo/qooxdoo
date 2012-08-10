@@ -59,6 +59,7 @@ class NodeAccessException (Exception):
         self.node = node
 
 NODE_VARIABLE_TYPES = ("dotaccessor", "identifier")
+NODE_STATEMENT_CONTAINERS = ("statements", "block")
 
 class Node(object):
 
@@ -545,6 +546,9 @@ class Node(object):
 
     def isVar(self):
         return self.type in NODE_VARIABLE_TYPES
+
+    def isStatement(self):
+        return self.parent and self.parent.type in NODE_STATEMENT_CONTAINERS
 
     def addListChild(self, listName, childNode):
         listNode = self.getChild(listName, False)

@@ -123,21 +123,18 @@ class LintChecker(treeutil.NodeVisitor):
                 for var_node in scopeVar.uses:
                     var_top = treeutil.findVarRoot(var_node)
                     full_name = (treeutil.assembleVariable(var_top))[0]
-                    #if self.file_name == "qx.ui.treevirtual.SelectionManager" \
-                    #        and full_name == "handleButtonClick":
+                    #if self.file_name == "qx.bom.Template" and full_name == "module":
                     #    import pydb; pydb.debugger()
                     ok = False
                     if extension_match_in(full_name, self.opts.library_classes + 
                         self.opts.class_namespaces): # known classes (classList + their namespaces)
                         ok = True
                     else:
-                        at_hints = get_at_hints(funcnode) # check full_name against @ignore hints
+                        at_hints = get_at_hints(var_node) # check full_name against @ignore hints
                         if at_hints:
                             ok = self.is_name_lint_filtered(full_name, at_hints, "ignoreUndefined")
                     if not ok:
-                        #if self.file_name == "feedreader.simulation.ria.FeedreaderAbstract" and full_name == "treeLocator":
-                        #    import pydb; pydb.debugger()
-                        warn("Unknown global symbol used: %s" % full_name, self.file_name, var_node)
+                        warn("Unknown global symbol used: %s" % var_node.get("value"), self.file_name, var_node)
                     
     def function_unused_vars(self, funcnode):
         scope = funcnode.scope
@@ -157,13 +154,13 @@ class LintChecker(treeutil.NodeVisitor):
     # under the <filter_key> (e.g. "ignoreUndefined" in *@lint ignoreUndefined(<var_name>))
     #
     def is_name_lint_filtered(self, var_name, at_hints, filter_key):
-        def matches(name, prefix):
+        def extension_match(name, prefix):
             return re.match(r"%s\b" % prefix, name)
         filtered = False
         if at_hints:
             if ( 'lint' in at_hints and 
                 filter_key in at_hints['lint']):
-                if any([matches(var_name, x) for x in at_hints['lint'][filter_key]]):
+                if any([extension_match(var_name, x) for x in at_hints['lint'][filter_key]]):
                     filtered = True
         return filtered
 

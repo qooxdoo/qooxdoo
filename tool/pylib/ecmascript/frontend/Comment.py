@@ -689,7 +689,8 @@ def parseNode(node):
     if commentsNode and commentsNode.comments:
         # check for a suitable comment, from the back so that the closer wins
         for comment in commentsNode.comments[::-1]:
-            if comment.get("detail") in ["javadoc", "qtdoc"]:
+            #if comment.get("detail") in ["javadoc", "qtdoc"]:
+            if comment.get("detail") in ["javadoc"]:
                 return Comment(comment.get("value", "")).parse()
     return []
 
@@ -708,20 +709,23 @@ def findAssociatedComment(node):
             res = left_most
         # look upwards, then left-most
         else:
-            next_root = treeutil.findAncestor(node, ["statement", "keyvalue"], radius=5)
+            next_root = treeutil.findAncestor(node, ["keyvalue"], radius=5)
             if next_root:
-                left_most = treeutil.findLeftmostChild(next_root)
-                if left_most.comments:
-                    res = left_most
-
-        ## e.g. comment preceding "qx.Class.define(...)"
-        #if node.children:
-        #    left_most = treeutil.findLeftmostChild(node)
-        #    res = findAssociatedComment(left_most)
-        ## e.g. comment preceding "key : function () {...}"
-        #if res is None:
-        #    if node.hasParentContext("keyvalue/value"):
-        #        res = findAssociatedComment(node.parent.parent)
+                if next_root.comments:
+                    res = next_root
+            # look upwards to statement level
+            else:
+                # find a statement-level ancestor
+                lnode = node
+                next_root = None
+                while True:
+                    if lnode.isStatement():
+                        next_root = lnode
+                        break
+                    elif lnode.parent: lnode = lnode.parent
+                    else: break
+                if next_root and next_root.comments:
+                    res = next_root
     return res
 
 

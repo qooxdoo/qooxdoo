@@ -25,82 +25,86 @@
 
 from ecmascript.frontend import treeutil
 
-class CreateScopesVisitor(treeutil.NodeVisitor):
+##
+# Scope visitor that goes through a tree of Scope()'s, invoking an AST visitor on
+# corresponding AST nodes.
+#
+class ScopesVisitor(object):
 
-    def __init__(self, root_node):
-        super(CreateScopesVisitor, self).__init__()
-        self.root_node = root_node
-        self.global_scope = Scope(root_node)
-        root_node.scope = self.global_scope
-        self.curr_scope = self.global_scope
+    def visit(self, scopeNode):
+        scope_type = scopeNode.node.type
+        if hasattr(self, "visit_"+scope_type):
+            getattr(self, "visit_"+scope_type)(scopeNode)
+        else:
+            varsCollector = AssignScopeVarsVisitor(scopeNode)
+            varsCollector.visit(scopeNode.node)
+            for child in scopeNode.children:
+                self.visit(child)
 
-    def visit_function(self, node):
-        #print "function visitor", node
-        #self._new_scope(node)
-        node.scope = Scope(node)
-        node.scope.parent = self.curr_scope
-        self.curr_scope.children.append(node.scope)
-
-        # handle pot. function name
-        if node.getChild("identifier",0):
+    def visit_function(self, scopeNode):
+        node = scopeNode.node
+        # handle pot. function name that goes into the function scope
+        if node.getChild("identifier",0) and not node.isStatement():
             name_node = node.getChild("identifier")
             fname = name_node.get("value")
-            #if fname == "handleButtonClick":
-            #    import pydb; pydb.debugger()
-            # if in a statement context, name goes to the parent scope
-            if node.parent.type in ["statements", "block"]:
-                node.scope.parent.add_decl(fname, name_node)
-                name_node.scope = node.scope.parent
-            # name goes to the function scope (for recursive calls)
-            else:
-                node.scope.add_decl(fname, name_node)
-                name_node.scope = node.scope
+            scopeNode.add_decl(fname, name_node)
+            name_node.scope = scopeNode
 
-        # switch to function scope
-        self.curr_scope = node.scope
         # handle params
-        self.visit(node.getChild("params"))
+        paramCollector = AssignScopeVarsVisitor(scopeNode)
+        paramCollector.visit(node.getChild("params"))
         # handle body
-        self.visit(node.getChild("body"))
-        # and restore old scope
-        self.curr_scope = node.scope.parent
+        bodyCollector = AssignScopeVarsVisitor(scopeNode)
+        bodyCollector.visit(node.getChild("body"))
 
-    def visit_catch(self, node):
-        #print "catch visitor", node
-        # create a scope solely for the execption param
-        node.scope = Scope(node)
-        node.scope.parent = self.curr_scope
-        self.curr_scope.children.append(node.scope)
-        self.curr_scope = node.scope
+        for child in scopeNode.children:
+            self.visit(child)
+
+    def visit_catch(self, scopeNode):
+        astNode = scopeNode.node
         # Now this is tricky (and i think it violates ECMA262, but is how JS
         # engines are implementing it): Only the catch param is locally scoped,
         # all other 'var's leak into the parent scope.
 
-        # visit only the param, to get its id_
-        self.visit(node.getChild("params"))
-        catch_param_id = self.curr_scope.vars.keys()[0]  # must be exactly one
-        # visit the catch block
-        #import pydb; pydb.debugger()
-        self.visit(node.getChild("block"))
-        # now move scopeVars up the scope chain
-        for id_, scopeVar in self.curr_scope.vars.items():
+        # handle params
+        paramCollector = AssignScopeVarsVisitor(scopeNode)
+        paramCollector.visit(astNode.getChild("params"))
+        catch_param_id = scopeNode.vars.keys()[0]  # must be exactly one
+        # handle body, first collecting into catch scope (so catch param is recognized as scoped)
+        bodyCollector = AssignScopeVarsVisitor(scopeNode)
+        bodyCollector.visit(astNode.getChild("block"))
+
+        # now move scopeVars up the scope chain (realizing the "leak")
+        for id_, scopeVar in scopeNode.vars.items():
             if id_ != catch_param_id:
-                node.scope.parent.add_scope_var(id_, scopeVar)
+                scopeNode.parent.add_scope_var(id_, scopeVar)
 
         # restore old scope and visit body
-        self.curr_scope = node.scope.parent
+        for child in scopeNode.children:
+            self.visit(child)
 
-    def _new_scope(self, node):  # function
-        # create a new scope
-        node.scope = Scope(node)
-        node.scope.parent = self.curr_scope
-        self.curr_scope.children.append(node.scope)
-        # switch to new scope and recurse
-        self.curr_scope = node.scope
-        for chld in node.children:
-            self.visit(chld)
-        # restore old scope
-        self.curr_scope = node.scope.parent
+
+##
+# AST visitor that assigns vardecl and varuses to a given Scope (and pot. its 
+# parents), but doesn't descend into subscopes ("breadth-only search").
+#
+class AssignScopeVarsVisitor(treeutil.NodeVisitor):
+
+    def __init__(self, curr_scope):
+        super(AssignScopeVarsVisitor, self).__init__()
+        self.curr_scope = curr_scope
+
+    def visit_function(self, node):
+        # handle pot. function name that goes into this scope
+        if node.getChild("identifier",0) and node.isStatement():
+            name_node = node.getChild("identifier")
+            fname = name_node.get("value")
+            self.curr_scope.add_decl(fname, name_node)
+            name_node.scope = self.curr_scope
+        # that's it, don't recurse here ("breadth-only")
+
+    def visit_catch(self, node):
+        return
 
     def visit_params(self, node): # formal params are like local decls
         #print "params visitor", node
@@ -128,6 +132,8 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
         if treeutil.checkFirstChainChild(node):  # only treat leftmost identifier (e.g. in a dotaccessor expression)
             var_name = node.get('value')
             # lookup var
+            #if var_name == "Stack":
+            #    import pydb; pydb.debugger()
             var_scope = self.curr_scope.lookup_decl(var_name)
             if not var_scope: # it's a global reference
                 self.curr_scope.add_use(var_name, node)
@@ -136,6 +142,47 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
                 var_scope.add_use(var_name, node)
                 node.scope = var_scope
         # pass on everything else
+
+
+##
+# AST visitor that only creates the Scope() tree for this AST, but doesn't
+# assign var occurrences to scopes.
+#
+class CreateScopesVisitor(treeutil.NodeVisitor):
+
+    def __init__(self, root_node):
+        super(CreateScopesVisitor, self).__init__()
+        self.root_node = root_node
+        self.global_scope = Scope(root_node)
+        root_node.scope = self.global_scope
+        self.curr_scope = self.global_scope
+
+    def visit_function(self, node):
+        #print "function visitor", node
+        node.scope = Scope(node)
+        node.scope.parent = self.curr_scope
+        self.curr_scope.children.append(node.scope)
+
+        # switch to function scope and get nested scopes
+        self.curr_scope = node.scope
+        for child in node.children:
+            self.visit(child)
+        # and restore old scope
+        self.curr_scope = node.scope.parent
+
+    def visit_catch(self, node):
+        #print "catch visitor", node
+        # create a scope solely for the execption param
+        node.scope = Scope(node)
+        node.scope.parent = self.curr_scope
+        self.curr_scope.children.append(node.scope)
+
+        # switch to function scope and get nested scopes
+        self.curr_scope = node.scope
+        for child in node.children:
+            self.visit(child)
+        # restore old scope
+        self.curr_scope = node.scope.parent
 
 
 # - Scope class ---------------------------------------------------------------
@@ -230,25 +277,6 @@ class ScopeVar(object):
         return self
 
 
-##
-# NodeVisitor class
-#
-class NodeVisitor(object):
-
-    def __init__(self, debug=False):
-        self.debug = debug
-        
-    def visit(self, scope_node):
-        if hasattr(self, "visit_"+scope_node.type):
-            if self.debug:
-                print "visiting:", scope_node.type
-            getattr(self, "visit_"+scope_node.type)(scope_node)
-        else:
-            for child in scope_node.children:
-                if self.debug:
-                    print "visiting:", child.type
-                self.visit(child)
-
 # - Utilities -----------------------------------------------------------------
 
 def find_enclosing(node):
@@ -275,6 +303,16 @@ def find_enclosing(node):
 # - Interface function --------------------------------------------------------
 
 def create_scopes(node):
-    scoper = CreateScopesVisitor(node)
-    scoper.visit(node)
+    #scoper = CreateScopesVisitor(node)
+    #root_scope = scoper.get_scopes(node)
+    #scoper.visit(root_scope)
+    #scoper.visit(node)
+
+    # create only the scope tree for this ast
+    scopeCollector = CreateScopesVisitor(node)
+    scopeCollector.visit(node)
+    # now go through the scopes and collect vars into it
+    varCollector = ScopesVisitor()
+    varCollector.visit(node.scope)
+
     return node
