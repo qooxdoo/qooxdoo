@@ -34,8 +34,8 @@ qx.Class.define("qx.test.mobile.container.Carousel",
     testAddCarouselPage : function() 
     {
       var carousel = new qx.ui.mobile.container.Carousel();
-      var carouselPage = new qx.ui.mobile.container.CarouselPage();
-      carousel.addPage(carouselPage);
+      var carouselPage = new qx.ui.mobile.container.Composite();
+      carousel.add(carouselPage);
       
       this.getRoot().add(carousel);
       
@@ -47,9 +47,9 @@ qx.Class.define("qx.test.mobile.container.Carousel",
     testRemoveCarouselPage : function() 
     {
       var carousel = new qx.ui.mobile.container.Carousel();
-      var carouselPage = new qx.ui.mobile.container.CarouselPage();
+      var carouselPage = new qx.ui.mobile.container.Composite();
       
-      carousel.addPage(carouselPage);
+      carousel.add(carouselPage);
       
       carousel.removePageByIndex(0);
       
@@ -63,11 +63,11 @@ qx.Class.define("qx.test.mobile.container.Carousel",
     testPageSwitch : function() 
     {
       var carousel = new qx.ui.mobile.container.Carousel();
-      var carouselPage1 = new qx.ui.mobile.container.CarouselPage();
-      carousel.addPage(carouselPage1);
+      var carouselPage1 = new qx.ui.mobile.container.Composite();
+      carousel.add(carouselPage1);
       
-      var carouselPage2 = new qx.ui.mobile.container.CarouselPage();
-      carousel.addPage(carouselPage2);
+      var carouselPage2 = new qx.ui.mobile.container.Composite();
+      carousel.add(carouselPage2);
       
       this.getRoot().add(carousel);
       
@@ -96,11 +96,11 @@ qx.Class.define("qx.test.mobile.container.Carousel",
     testScrollToPage : function() 
     {
       var carousel = new qx.ui.mobile.container.Carousel();
-      var carouselPage1 = new qx.ui.mobile.container.CarouselPage();
-      carousel.addPage(carouselPage1);
+      var carouselPage1 = new qx.ui.mobile.container.Composite();
+      carousel.add(carouselPage1);
       
-      var carouselPage2 = new qx.ui.mobile.container.CarouselPage();
-      carousel.addPage(carouselPage2);
+      var carouselPage2 = new qx.ui.mobile.container.Composite();
+      carousel.add(carouselPage2);
       
       this.getRoot().add(carousel);
       

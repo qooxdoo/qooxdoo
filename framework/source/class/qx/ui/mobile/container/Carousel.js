@@ -19,7 +19,7 @@
 
 /**
  * Creates a Carousel widget. 
- * A carousel is a widget which can switch between several sub pages {@link  qx.ui.mobile.container.CarouselPage}.
+ * A carousel is a widget which can switch between several sub pages {@link  qx.ui.mobile.container.Composite}.
  * A page switch is triggered by a swipe to left, for next page, or a swipe to right for 
  * previous page. 
  * 
@@ -32,15 +32,15 @@
  *
  * <pre class='javascript'>
  *  
- *  var carousel = new qx.ui.mobile.container.Carousel(0.3);
- *  var carouselPage1 = new qx.ui.mobile.container.CarouselPage();
- *  var carouselPage2 = new qx.ui.mobile.container.CarouselPage();
+ *  var carousel = new qx.ui.mobile.container.Carousel();
+ *  var carouselPage1 = new qx.ui.mobile.container.Composite();
+ *  var carouselPage2 = new qx.ui.mobile.container.Composite();
  *     
  *  carouselPage1.add(new qx.ui.mobile.basic.Label("This is a carousel. Please swipe left."));
  *  carouselPage2.add(new qx.ui.mobile.basic.Label("Now swipe right."));
  *     
- *  carousel.addPage(carouselPage1);
- *  carousel.addPage(carouselPage2);
+ *  carousel.add(carouselPage1);
+ *  carousel.add(carouselPage2);
  * </pre> 
  * 
  */
@@ -139,15 +139,20 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     __swipeVelocityLimit : 1.5,
 
     
+    // overridden
     /**
      * Adds a page to the end of the carousel.
-     * @param page {qx.ui.mobile.container.CarouselPage} The carousel page which should be added to the end of carousel.
+     * @param page {qx.ui.mobile.container.Composite} The composite which should be added as a page to the end of carousel.
      */
-    addPage : function(page) {
+    add : function(page) {
       if (qx.core.Environment.get("qx.debug"))
       {
-        this.assertEquals(page.name, "qx.ui.mobile.container.CarouselPage");
+        if (!page instanceof qx.ui.mobile.container.Composite) {
+          throw new Error("Page is expected to be an instance of qx.ui.mobile.container.Composite.");
+        }
       }
+       
+      page.addCssClass("carousel-page");
        
       this.__pages.push(page);
       this.__carouselScroller.add(page);
@@ -159,7 +164,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       paginationLabel.add(paginationLabelText);
 
       paginationLabel.addCssClass("carousel-pagination-label");
-      paginationLabel.addListener("tap",this._onPaginationLabelTap,{self:this,targetIndex:paginationIndex-1});
+      paginationLabel.addListener("tap",this._onPaginationLabelTap,{self: this,targetIndex:paginationIndex-1});
 
       this.__paginationLabels.push(paginationLabel);
       this.__pagination.add(paginationLabel);
@@ -246,7 +251,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     
     /**
      * Returns the current visible page index.
-     * @return {Integer} page index of the {@link  qx.ui.mobile.container.CarouselPage} which is shown.
+     * @return {Integer} page index of the {@link  qx.ui.mobile.container.Composite} which is shown.
      */
     getShownPageIndex : function() {
       return this.__shownPageIndex;
