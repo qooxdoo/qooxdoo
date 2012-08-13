@@ -152,8 +152,9 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getErrorToStringBug : function() {
-      return !Error.prototype.toString || Error.prototype.toString() == "[object Error]";
+    getErrorToString : function() {
+      return typeof Error.prototype.toString == "function" &&
+        Error.prototype.toString() !== "[object Error]";
     },
 
 
@@ -213,7 +214,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     qx.core.Environment.add("ecmascript.date.now", statics.getDateNow);
 
     // error bugfix
-    qx.core.Environment.add("ecmascript.error.toString", statics.getErrorToStringBug);
+    qx.core.Environment.add("ecmascript.error.toString", statics.getErrorToString);
     qx.core.Environment.add("ecmascript.error.stacktrace", statics.getStackTrace);
 
     // function polyfill

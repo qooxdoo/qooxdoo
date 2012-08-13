@@ -25,13 +25,25 @@
  * <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error/toString">MDN documentation</a> |
  * <a href="http://es5.github.com/#x15.11.4.4">Annotated ES5 Spec</a>
  */
-qx.Bootstrap.define("qx.lang.normalize.Error", 
+qx.Bootstrap.define("qx.lang.normalize.Error",
 {
   defer : function() {
     // toString
     if (!qx.core.Environment.get("ecmascript.error.toString")) {
       Error.prototype.toString = function() {
-        return this.message;
+        var name = this.name || "Error";
+        var message = this.message || "";
+
+        if (name === "" && message === "") {
+          return "Error";
+        }
+        if (name === "") {
+          return message;
+        }
+        if (message === "") {
+          return name;
+        }
+        return name + ": " + message;
       };
     }
   }
