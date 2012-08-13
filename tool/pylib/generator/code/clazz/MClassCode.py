@@ -79,7 +79,7 @@ class MClassCode(object):
             console.debug("Generating tree: %s..." % self.id)
             console.indent()
             try:
-                tree = treegen.createSyntaxTree(tokens, fileId)
+                tree = treegen.createFileTree(tokens, fileId)
             except SyntaxException, e:
                 # add file info
                 e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
