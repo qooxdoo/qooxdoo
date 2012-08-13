@@ -369,7 +369,8 @@ def setupLogging(verbose=False):
 
 def entryCompiler(line):
     # protect escaped equal symbols
-    line = line.replace("\=", "----EQUAL----")
+    eq_sym = "----EQUAL----"
+    line = line.replace("\=", eq_sym)
 
     splitLine = line.split("=", 1)
 
@@ -383,8 +384,8 @@ def entryCompiler(line):
     #print "%s :: %s" % (orig, value)
 
     # recover protected equal symbols
-    orig = orig.replace("----EQUAL----", "=")
-    repl = repl.replace("----EQUAL----", "=")
+    orig = orig.replace(eq_sym, "=")
+    repl = repl.replace(eq_sym, "=")
 
     return {"expr":re.compile(orig, re.M), "orig":orig, "repl":repl}
 
