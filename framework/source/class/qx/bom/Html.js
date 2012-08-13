@@ -31,6 +31,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(q)
+************************************************************************ */
+
 /**
  * This class is mainly a convenience wrapper for DOM elements to
  * qooxdoo's event system.
@@ -215,7 +219,8 @@ qx.Bootstrap.define("qx.bom.Html",
         // Append or merge depending on type
         if (obj.nodeType) {
           ret.push(obj);
-        } else if (obj instanceof qx.type.BaseArray) {
+        } else if (obj instanceof qx.type.BaseArray ||
+            (typeof q !== "undefined" && obj instanceof q)) {
           ret.push.apply(ret, Array.prototype.slice.call(obj, 0));
         } else if (obj.toElement) {
           ret.push(obj.toElement());
