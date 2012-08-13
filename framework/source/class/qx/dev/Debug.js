@@ -77,6 +77,8 @@ qx.Class.define("qx.dev.Debug",
      *
      * @return {String}
      *   The string containing the recursive display of the object
+     *
+     * @lint ignoreUnused(prop)
      */
     debugObjectToString : function(obj, initialMessage, maxLevel, bHtml)
     {

@@ -51,6 +51,7 @@ qx.Bootstrap.define("qx.lang.Object",
      * @signature function(map)
      * @param map {Object} the map to check
      * @return {Boolean} whether the map has any keys
+     * @lint ignoreUnused(key)
      */
     isEmpty : function(map)
     {
@@ -73,6 +74,7 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param map {Object} the map to check
      * @param minLength {Integer} minimum number of objects in the map
      * @return {Boolean} whether the map contains at least "length" objects.
+     * @lint ignoreUnused(key)
      */
     hasMinLength : function(map, minLength)
     {

@@ -46,6 +46,7 @@ qx.Mixin.define("qx.dev.unit.MRequirementsBasic", {
      * @throws if no valid check was found for a feature.
      *
      * @param featureList {String[]} List of infrastructure requirements
+     * @lint environmentNonLiteralKey(feature)
      */
     require : function(featureList) {
 

@@ -365,6 +365,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @signature function(map)
      * @param map {Object} the map
      * @return {Integer} number of objects in the map
+     * @lint ignoreUnused(key)
      */
     objectGetLength : function(map)
     {
