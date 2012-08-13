@@ -320,7 +320,17 @@ class LintChecker(treeutil.NodeVisitor):
         #firstValue = firstParam.evaluated
         #if firstValue == () or not isinstance(firstValue, types.StringTypes):
         if not treeutil.isStringLiteral(firstParam):
-            if not self.opts.ignore_environment_nonlit_key:
+            ok = False
+            if self.opts.ignore_environment_nonlit_key:
+                ok = True
+            else:
+                lint_key = "environmentNonLiteralKey"
+                at_hints = get_at_hints(select_call)
+                if at_hints:
+                    if ((lint_key in at_hints['lint'] and not len(at_hints['lint'][lint_key]))     # environmentNonLiteralKey()
+                        or self.is_name_lint_filtered(firstParam.toJS(None), at_hints, lint_key)): # environmentNonLiteralKey(foo)
+                        ok = True
+            if not ok:
                 warn("qx.core.Environment.select: first argument is not a string literal.", self.file_name, select_call)
             return False
 
@@ -346,7 +356,17 @@ class LintChecker(treeutil.NodeVisitor):
 
         firstParam = params.getChildByPosition(0)
         if not treeutil.isStringLiteral(firstParam):
-            if not self.opts.ignore_environment_nonlit_key:
+            ok = False
+            if self.opts.ignore_environment_nonlit_key:
+                ok = True
+            else:
+                lint_key = "environmentNonLiteralKey"
+                at_hints = get_at_hints(get_call)
+                if at_hints:
+                    if ((lint_key in at_hints['lint'] and not len(at_hints['lint'][lint_key]))     # environmentNonLiteralKey()
+                        or self.is_name_lint_filtered(firstParam.toJS(None), at_hints, lint_key)): # environmentNonLiteralKey(foo)
+                        ok = True
+            if not ok:
                 warn("qx.core.Environment.get: first argument is not a string literal.", self.file_name, get_call)
             return False
 

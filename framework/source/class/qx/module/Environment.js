@@ -45,6 +45,7 @@ qx.Bootstrap.define("qx.module.Environment", {
      * @attachStatic {q, env.get}
      * @param key {String} The key to check for.
      * @return {var} The value stored for the given key.
+     * @lint environmentNonLiteralKey(key)
      */
     get : function(key) {
       return qx.core.Environment.get(key);

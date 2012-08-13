@@ -379,7 +379,7 @@ Description
         - The following subkeys are supported:
              * **environmentNonLiteralKey**
 
-               Don't warn about calls to `qx.core.Environment <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Environment>`_ methods without a literal key argument (as such calls cannot be optimized). Takes no argument.
+               Don't warn about calls to `qx.core.Environment <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Environment>`_ methods without a literal key argument (as such calls cannot be optimized). With no argument, applies to all calls to *qx.core.Environment.(get|select)* in the scope. If given arguments, only the calls using the corresponding variables as keys are exempted.
              * **ignoreDeprecated**
 
                Use of deprecated globals (like ``alert``).
@@ -403,9 +403,21 @@ Description
 
   To turn off warnings for a global symbol ``foo`` that is not known to the generator, but will be available at runtime of the code, use
 
-  .. code-block:: javascript
+  ::
 
     @lint ignoreUndefined(foo)
+
+  To silence warnings for non-literal key arguments in Environment calls use
+
+  ::
+
+    @lint environmentNonLiteralKey()
+
+  To apply this only to calls using a specific key argument ``foo`` use
+
+  ::
+
+    @lint environmentNonLiteralKey(foo)
 
 
 .. _pages/api_jsdoc_ref#require:
