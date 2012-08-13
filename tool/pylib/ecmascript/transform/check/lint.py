@@ -242,8 +242,8 @@ class LintChecker(treeutil.NodeVisitor):
                     private_keys.add(key)
             # go through uses of 'this' and 'that' that reference a private
             for key,val in class_map['statics'].items():
-                if val.type == 'function':
-                    function_privs = self.function_uses_local_privs(val)
+                if val.children[0].type == 'function':
+                    function_privs = self.function_uses_local_privs(val.children[0])
                     for priv, node in function_privs:
                         if priv not in private_keys:
                             warn("Using an undeclared private class feature: '%s'" % priv, self.file_name, node)
@@ -257,8 +257,8 @@ class LintChecker(treeutil.NodeVisitor):
                     private_keys.add(key)
             # go through uses of 'this' and 'that' that reference a private
             for key,val in class_map['members'].items():
-                if val.type == 'function':
-                    function_privs = self.function_uses_local_privs(val)
+                if val.children[0].type == 'function':
+                    function_privs = self.function_uses_local_privs(val.children[0])
                     for priv, node in function_privs:
                         if priv not in private_keys:
                             warn("Using an undeclared private class feature: '%s'" % priv, self.file_name, node)
@@ -275,7 +275,8 @@ class LintChecker(treeutil.NodeVisitor):
         # only check members
         members_map = class_map['members'] if 'members' in class_map else {}
 
-        for key, value in members_map.items():
+        for key, val in members_map.items():
+            value = val.children[0]
             if (value.type in ("map", "array") or
                (value.type == "operation" and value.get("operator")=="NEW")):
                warn("Reference values are shared across all instances: '%s'" % key, self.file_name, value)
@@ -443,12 +444,12 @@ def defaultOptions():
     opts.ignore_deprecated_symbols = False
     opts.ignore_environment_nonlit_key = False
     opts.ignore_multiple_mapkeys = False
-    opts.ignore_multiple_vardecls= False
+    opts.ignore_multiple_vardecls= True
     opts.ignore_no_loop_block = False
     opts.ignore_reference_fields = False
     opts.ignore_undeclared_privates = False
     opts.ignore_undefined_globals = False
-    opts.ignore_unused_parameter = False
+    opts.ignore_unused_parameter = True
     opts.ignore_unused_variables = False
   
     return opts
