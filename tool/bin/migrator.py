@@ -371,7 +371,7 @@ def entryCompiler(line):
     # protect escaped equal symbols
     line = line.replace("\=", "----EQUAL----")
 
-    splitLine = line.split("=")
+    splitLine = line.split("=", 1)
 
     if len(splitLine) < 2:
         logging.error("        - Malformed entry: %s" % line)
