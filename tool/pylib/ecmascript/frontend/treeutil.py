@@ -411,7 +411,8 @@ def assembleVariable(variableItem):
         raise tree.NodeAccessException("'variableItem' is no variable node", variableItem)
 
     else:
-        return variableItem.toJS(pp), True
+        varRoot = findVarRoot(variableItem)
+        return varRoot.toJS(pp), True
     #assembled = ""
     #for child in variableItem.children:
     #    if child.type == "commentsBefore":
