@@ -39,7 +39,8 @@ class ConditionReducer(treeutil.NodeVisitor):
         if loop_type == "IF":
             cond_node = node.children[0]
             if hasattr(cond_node, "evaluated") and cond_node.evaluated!=():
-                self._rewrite_if(node, bool(cond_node.evaluated))
+                #self._rewrite_if(node, bool(cond_node.evaluated))
+                treeutil.inlineIfStatement(node, bool(cond_node.evaluated))
         for child in node.children:
             self.visit(child)
 
@@ -56,7 +57,12 @@ class ConditionReducer(treeutil.NodeVisitor):
     def _rewrite_if(self, if_node, cond_val):
         if cond_val:
             # use then branch
-            replacement = if_node.children[1]
+            replacement = if_node.children[1] 
+            # rescue vardecl's from else branch, so these vars don't become global
+            # if used elsewhere, but *don't* rescue their init's.
+            if len(if_node.children) == 3:
+                extracted_vars = extract_vars(if_node.children[2])
+                add_vars(replacement, extracted_vars)
         else:
             # use else branch or empty
             if len(if_node.children) == 3:
@@ -64,6 +70,9 @@ class ConditionReducer(treeutil.NodeVisitor):
             else:
                 # don't leave single-statement parent loops empty (if_node.parent.type not in ("block", "file")
                 replacement = treegenerator.symbol("block")(if_node.get("line"), if_node.get("column"))
+            # rescue vardecl's from then branch
+            extracted_vars = extract_vars(if_node.children[1])
+            add_vars(replacement, extracted_vars)
         if_node.parent.replaceChild(if_node, replacement)
 
     def _rewrite_hook(self, hook_node, cond_val):
