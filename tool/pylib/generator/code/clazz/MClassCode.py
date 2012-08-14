@@ -25,11 +25,11 @@
 
 import sys, os, types, re, string, copy
 from ecmascript.backend.Packer      import Packer
-from ecmascript.transform.check     import scopes
 from ecmascript.backend             import formatter
 from ecmascript.frontend import treeutil, tokenizer
 from ecmascript.frontend import treegenerator
 from ecmascript.frontend.SyntaxException import SyntaxException
+from ecmascript.transform.check     import scopes, lint
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, commentoptimizer
 from ecmascript.transform.optimizer import stringoptimizer, basecalloptimizer, privateoptimizer
 from ecmascript.transform.optimizer import featureoptimizer
@@ -95,6 +95,15 @@ class MClassCode(object):
                 #    import pydb; pydb.debugger()
                 #tree.scope.prrnt()
 
+            # lint check
+            if False:
+                console.outdent()
+                console.debug("Checking JavaScript source code: %s..." % self.id)
+                console.indent()
+                # construct parse-level check options
+                opts = lint.defaultOptions()
+                lint.lint_check(tree, self.id, opts)
+
             # store unoptimized tree
             cache.write(cacheId, tree, memory=tradeSpaceForSpeed)
 
@@ -154,14 +163,15 @@ class MClassCode(object):
             if firstParam:
                 if treeutil.isStringLiteral(firstParam):
                     classvariants.add(firstParam.get("value"))
-                elif firstParam.isVar():
-                    if warn_non_literal_keys:
-                        console.warn("qx.core.Environment call with non-literal key (%s:%s)" % (self.id, variantNode.get("line", False)))
+                #elif firstParam.isVar():
+                #    if warn_non_literal_keys:
+                #        console.warn("qx.core.Environment call with non-literal key (%s:%s)" % (self.id, variantNode.get("line", False)))
                 elif firstParam.type == "map": # e.g. .filter() method
                     mapMap = treeutil.mapNodeToMap(firstParam)
                     classvariants.update(mapMap.keys())
                 else:
-                    console.warn("qx.core.Environment call with alien first argument (%s:%s)" % (self.id, variantNode.get("line", False)))
+                    #console.warn("qx.core.Environment call with alien first argument (%s:%s)" % (self.id, variantNode.get("line", False)))
+                    pass
         return classvariants
 
 

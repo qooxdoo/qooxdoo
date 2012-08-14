@@ -28,7 +28,9 @@ from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.Script     import Script
 from ecmascript.frontend.tree       import Node, NODE_VARIABLE_TYPES
 from ecmascript.transform.optimizer import variantoptimizer
+from ecmascript.transform.check     import lint
 from generator.code.DependencyItem  import DependencyItem
+from generator.code.ClassList       import ClassList
 from misc import util
 
 ClassesAll = None # {'cid':generator.code.Class}
@@ -107,6 +109,19 @@ class MClassDependencies(object):
                     tree = self.optimize(None, ["variants"], variantSet)
                 else:
                     tree = self.tree()
+
+            # do lint checking here, as we have a classList ("ClassesAll") to check globals against
+            if True:
+                # construct parse-level lint options
+                opts = lint.defaultOptions()
+                opts.library_classes = ClassesAll.keys()
+                opts.class_namespaces = ClassList.namespaces_from_classnames(opts.library_classes)
+                #opts.allowed_globals = []  # these could be filled from config.json, but woul be ugly to pass them down here
+                opts.ignore_no_loop_block = True
+                opts.ignore_reference_fields = True
+                opts.ignore_undeclared_privates = True
+                opts.ignore_unused_variables = True
+                lint.lint_check(tree, self.id, opts)
 
             # analyze tree
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
