@@ -82,12 +82,10 @@ qx.Class.define("qx.ui.form.CheckBox",
     }
   },
 
-  /**
-   * @lint ignoreReferenceField(_forwardStates,_bindableProperties)
-   */
   members :
   {
     // overridden
+    /** @lint ignoreReferenceField(_forwardStates,_bindableProperties) */
     _forwardStates :
     {
       invalid : true,
@@ -99,6 +97,7 @@ qx.Class.define("qx.ui.form.CheckBox",
 
 
     // overridden (from MExecutable to keet the icon out of the binding)
+    /** @lint ignoreReferenceField(_bindableProperties) */
     _bindableProperties :
     [
       "enabled",

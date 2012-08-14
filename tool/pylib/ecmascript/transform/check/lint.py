@@ -233,35 +233,20 @@ class LintChecker(treeutil.NodeVisitor):
         except tree.NodeAccessException:
             return
 
-        # statics
-        private_keys = set()
-        # collect all privates
-        if 'statics' in class_map:
-            for key in class_map['statics']:
-                if self.reg_privs.match(key):
-                    private_keys.add(key)
-            # go through uses of 'this' and 'that' that reference a private
-            for key,val in class_map['statics'].items():
-                if val.children[0].type == 'function':
-                    function_privs = self.function_uses_local_privs(val.children[0])
-                    for priv, node in function_privs:
-                        if priv not in private_keys:
-                            warn("Using an undeclared private class feature: '%s'" % priv, self.file_name, node)
-        
-        # members
-        private_keys = set()
-        # collect all privates
-        if 'members' in class_map:
-            for key in class_map['members']:
-                if self.reg_privs.match(key):
-                    private_keys.add(key)
-            # go through uses of 'this' and 'that' that reference a private
-            for key,val in class_map['members'].items():
-                if val.children[0].type == 'function':
-                    function_privs = self.function_uses_local_privs(val.children[0])
-                    for priv, node in function_privs:
-                        if priv not in private_keys:
-                            warn("Using an undeclared private class feature: '%s'" % priv, self.file_name, node)
+        for category in ('statics', 'members'):
+            # collect all privates
+            if category in class_map:
+                private_keys = set()
+                for key in class_map[category]:
+                    if self.reg_privs.match(key):
+                        private_keys.add(key)
+                # go through uses of 'this' and 'that' that reference a private
+                for key,val in class_map[category].items():
+                    if val.children[0].type == 'function':
+                        function_privs = self.function_uses_local_privs(val.children[0])
+                        for priv, node in function_privs:
+                            if priv not in private_keys:
+                                warn("Using an undeclared private class feature: '%s'" % priv, self.file_name, node)
 
 
     ##
@@ -276,10 +261,15 @@ class LintChecker(treeutil.NodeVisitor):
         members_map = class_map['members'] if 'members' in class_map else {}
 
         for key, val in members_map.items():
-            value = val.children[0]
-            if (value.type in ("map", "array") or
-               (value.type == "operation" and value.get("operator")=="NEW")):
-               warn("Reference values are shared across all instances: '%s'" % key, self.file_name, value)
+            value_node = val.children[0]
+            if (value_node.type in ("map", "array") or
+                (value_node.type == "operation" and value_node.get("operator")=="NEW")):
+                ok = False
+                at_hints = get_at_hints(value_node)
+                if at_hints:
+                    ok = self.is_name_lint_filtered(key, at_hints, "ignoreReferenceField")
+                if not ok:
+                    warn("Reference values are shared across all instances: '%s'" % key, self.file_name, value_node)
 
 
     def function_uses_local_privs(self, func_node):
