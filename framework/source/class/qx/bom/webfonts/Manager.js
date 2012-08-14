@@ -456,7 +456,8 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      */
     __fixCssText : function(cssText)
     {
-      return cssText.replace("'eot)", "'eot')");
+      return cssText.replace("'eot)", "'eot')")
+        .replace("('embedded-opentype)", "('embedded-opentype')");
     }
 
   },
