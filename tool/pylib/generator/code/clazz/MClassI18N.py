@@ -26,6 +26,7 @@
 import sys, os, types, re, string
 from ecmascript.frontend import treeutil
 from ecmascript.frontend.tree import NodeAccessException
+from ecmascript.transform.evaluate import evaluate
 from misc import util
 
 class MClassI18N(object):
@@ -110,7 +111,7 @@ class MClassI18N(object):
         if method == "trn" or method == "trc": minArgc=2
         else: minArgc=1
 
-        params = node.getChild("params", False)
+        params = node.getChild("arguments", False)
         if not params or not params.hasChildren():
             raise NameError("Invalid param data for localizable string method at line %s!" % node.get("line"))
 
@@ -125,7 +126,7 @@ class MClassI18N(object):
             elif child.type == "constant" and child.get("constantType") == "string":
                 strings.append(child.get("value"))
 
-            elif child.type == "operation":
+            elif child.type == "operation": # must be "foo" + "bar"
                 strings.append(self._concatOperation(child))
 
             elif len(strings) < minArgc:
@@ -157,14 +158,27 @@ class MClassI18N(object):
 
     def _concatOperation(self, node):
         result = ""
-        console = self.context['console']
+        assert node.type=="operation" and node.get("operator")=="ADD", "Can only process concatenation of string literals"
+
+        evaluate.evaluate(node)
+        if node.evaluated != ():
+            result = node.evaluated
+        else:
+            console.warn("Unknown expression as argument to translation method (%s:%s)" % (treeutil.getFileFromSyntaxItem(node), node.get("line"),))
+
+        return result
+
+
+    def _concatOperation_1(self, node):
+        result = ""
+        assert node.type=="operation" and node.get("operator")=="ADD", "Can only process concatenation of string literals"
 
         try:
-            first = node.getChild("first").getChildByTypeAndAttribute("constant", "constantType", "string")
+            first = node.getChildByPosition(0).getChildByTypeAndAttribute("constant", "constantType", "string")
             result += first.get("value")
 
-            second = node.getChild("second").getFirstChild(True, True)
-            if second.type == "operation":
+            second = node.getChildByPosition(1).getFirstChild(True, True)
+            if second.type == "operation" and second.get("operator")=="ADD":
                 result += self._concatOperation(second)
             else:
                 result += second.get("value")

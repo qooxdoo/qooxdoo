@@ -186,7 +186,7 @@ def patch(id, node):
                 lastIdentifier = var.getLastChild(False, True)
                 if lastIdentifier.type == "identifier":
                     name = lastIdentifier.get("name")
-                    params = child.getChild("params")
+                    params = child.getChild("arguments")
 
                     if name in [ "addProperty", "changeProperty", "addCachedProperty", "addFastProperty", "addPropertyGroup" ]:
                         definition = params.getFirstChild(False, True)
@@ -387,7 +387,7 @@ def createVariable(l):
 def createClassDefineCore(id):
     call = tree.Node("call")
     oper = tree.Node("operand")
-    para = tree.Node("params")
+    para = tree.Node("arguments")
     con = createConstant("string", id)
     args = tree.Node("map")
 

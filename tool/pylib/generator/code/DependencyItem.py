@@ -30,8 +30,8 @@ class DependencyItem(object):
         self.attribute      = attribute  # "methodA"   [dependency to (class.attribute)]
         self.requestor      = requestor  # "gui.Application" [the one depending on this item]
         self.line           = line       # 147        [source line in dependent's file]
-        self.isLoadDep      = isLoadDep  # True       [load or run dependency]
-        self.needsRecursion = False      # this is a load-time dep that draws in external deps recursively
+        self.isLoadDep      = isLoadDep  # True       [static load or run dependency]
+        self.needsRecursion = False      # draws transitive deps (could be static load-deps *or* run-deps)
         self.isCall         = False      # whether the reference is a function call
     def __repr__(self):
         return "<DepItem>:" + self.name + "#" + self.attribute

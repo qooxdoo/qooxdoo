@@ -96,13 +96,13 @@ qx.Class.define("qx.ui.root.Application",
     __doc : null,
 
     // overridden
+    /**
+     * @lint ignoreDeprecated(alert)
+     */
     _createContainerElement : function()
     {
       var doc = this.__doc;
 
-      /**
-       * @lint ignoreDeprecated(alert)
-       */
       if ((qx.core.Environment.get("engine.name") == "webkit"))
       {
         // In the "DOMContentLoaded" event of WebKit (Safari, Chrome) no body

@@ -601,6 +601,7 @@ qx.Class.define("qx.io.remote.Exchange",
      * Sends the request.
      *
      * @return {var | Boolean} Returns true if the request was sent.
+     * @lint ignoreUnused(field)
      */
     send : function()
     {

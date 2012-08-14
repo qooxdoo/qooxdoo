@@ -52,10 +52,12 @@ def update(node, newname):
             node.set("value", newname)
 
     # Handle function definition
+    # TODO: the new scopes attach the vardecl directly to the function's
+    # (identifier) child, so this would be covered by the above clause
     elif node.type == "function":
-        name = node.get("name", False)
-        if name != None:
-            node.set("name", newname)
+        if node.getChild("identifier",0):
+            id_node = node.getChild("identifier")
+            id_node.set("value", newname)
 
 
 # -- Interface function --------------------------------------------------------

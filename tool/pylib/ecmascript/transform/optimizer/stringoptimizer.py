@@ -81,7 +81,7 @@ def check(node, verbose=True):
         all_ = cu.getAllChildrenOfType("identifier")
 
         for ch in all_:
-            if ch.get("name", False) in ["debug", "info", "warn", "error", "fatal", "Error", "alert"]:
+            if ch.get("value", False) in ["debug", "info", "warn", "error", "fatal", "Error", "alert"]:
                 if verbose:
                     print "      - Ignore output statement at line: %s" % ch.get("line")
                 return False
@@ -95,7 +95,7 @@ def check(node, verbose=True):
             if var != None:
                 last = var.getLastChild()
 
-                if last.type == "identifier" and last.get("name").isupper():
+                if last.type == "identifier" and last.get("value").isupper():
                     if verbose:
                         print "      - Ignore constant assignment at line: %s" % last.get("line")
                     return False

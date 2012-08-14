@@ -29,6 +29,7 @@ import graph
 
 from misc                            import filetool, textutil, util, Path, json, copytool
 from ecmascript.transform.optimizer  import privateoptimizer
+from ecmascript.transform.check      import lint
 from misc.ExtMap                     import ExtMap
 from generator.code.Class            import Class, CompileOptions
 from generator.code.DependencyLoader import DependencyLoader
@@ -409,7 +410,7 @@ class Generator(object):
             return
 
 
-        def prepareGenerator1():
+        def prepareGenerator():
             # scanning given library paths
             (self._namespaces,
              self._classesObj,
@@ -482,7 +483,7 @@ class Generator(object):
         if jobTriggers:
 
             # -- Process job triggers that require a class list (and some)
-            prepareGenerator1()
+            prepareGenerator()
 
             # Preprocess include/exclude lists
             includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
@@ -492,7 +493,8 @@ class Generator(object):
             if takeout(jobTriggers, "fix-files"):
                 self.runFix(self._classesObj)
             if takeout(jobTriggers, "lint-check"):
-                self.runLint(self._classesObj)
+                #self.runLint(self._classesObj)
+                self.runLint_1(self._classesObj)
             if takeout(jobTriggers, "translate"):
                 self.runUpdateTranslation()
             if takeout(jobTriggers, "pretty-print"):
@@ -1613,6 +1615,59 @@ class Generator(object):
             self._cache.cleanDownloadCache()
         # Clean up other files
         self._actionLib.clean(self._job.get('clean-files'))
+
+        self._console.outdent()
+
+
+    def runLint_1(self, classes):
+
+        def getFilteredClassList(classes, includePatt_, excludePatt_):
+            # Although lint-check doesn't work with dependencies, we allow
+            # '=' in class pattern for convenience; stripp those now
+            intelli, explicit = self._splitIncludeExcludeList(includePatt_)
+            includePatt = intelli + explicit
+            intelli, explicit = self._splitIncludeExcludeList(excludePatt_)
+            excludePatt = intelli + explicit
+            if len(includePatt):
+                incRegex = map(textutil.toRegExpS, includePatt)
+                incRegex = re.compile("|".join(incRegex))
+            else:
+                incRegex = re.compile(".")  # catch-all
+            if len(excludePatt):
+                excRegex = map(textutil.toRegExpS, excludePatt)
+                excRegex = re.compile("|".join(excRegex))
+            else:
+                excRegex = re.compile("^$")  # catch-none
+
+            classesFiltered = (c for c in classes if incRegex.search(c) and not excRegex.search(c))
+            return classesFiltered
+
+        # ----------------------------------------------------------------------
+
+        if not self._job.get('lint-check', False):
+            return
+
+        lib_class_names = classes.keys()
+        self._console.info("Checking Javascript source code...")
+        self._console.indent()
+
+        # Options
+        lintJob        = self._job
+        opts = lint.defaultOptions()
+        opts.include_patts    = lintJob.get('include', [])  # this is for future use
+        opts.exclude_patts    = lintJob.get('exclude', [])
+
+        classesToCheck = list(getFilteredClassList(lib_class_names, opts.include_patts, opts.exclude_patts))
+        opts.library_classes  = lib_class_names
+        opts.class_namespaces = [x[:x.rfind(".")] for x in opts.library_classes if x.find(".")>-1]
+        # the next requires that the config keys and option attributes be identical (modulo "-"_")
+        for option, value in lintJob.get("lint-check").items():
+            setattr(opts, option.replace("-","_"), value)
+
+        for pos, classId in enumerate(classesToCheck):
+            self._console.debug("Checking %s" % classId)
+            tree = self._classesObj[classId].tree()
+            lint.lint_check(tree, classId, opts)
 
         self._console.outdent()
 

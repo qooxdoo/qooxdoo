@@ -564,7 +564,7 @@ def migrateFile(
     if hasPatchModule and fileId is not None:
 
         import patch
-        tree = treegenerator.createSyntaxTree(tokenizer.parseStream(fileContent))
+        tree = treegenerator.createFileTree(tokenizer.parseStream(fileContent))
 
         # If there were any changes, compile the result
         if patch.patch(fileId, tree):

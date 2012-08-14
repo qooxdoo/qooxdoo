@@ -95,6 +95,15 @@
       }
     },
 
+    // "Common" job is too late for these
+    "build-script" :
+    {
+      "compile-options" :
+      {
+        //"code" : { "format" : true }
+      }
+    },
+
     "translation" :
     {
       "translate" : { "poentry-with-occurrences" : false  }

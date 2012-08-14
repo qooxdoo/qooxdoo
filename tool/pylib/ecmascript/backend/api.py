@@ -121,7 +121,7 @@ def createPackageDoc(text, packageName, docTree = None):
 ########################################################################################
 
 def handleClassDefinition(docTree, callNode, variant):
-    params = callNode.getChild("params")
+    params = callNode.getChild("arguments")
     className = params.children[0].get("value")
 
     if len(params.children) > 1:
@@ -349,7 +349,7 @@ def handleStatics(item, classNode):
         if value.type != "function":
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
-                    value = treeutil.compileString(docItem["text"][3:-4] + "{}")
+                    value = treeutil.compileString(docItem["text"] + "{}")
 
         # Function
         if value.type == "function":
@@ -379,7 +379,7 @@ def handleMembers(item, classNode):
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
                     try:
-                        value = treeutil.compileString(docItem["text"][3:-4] + "{}")
+                        value = treeutil.compileString(docItem["text"] + "{}")
                     except treegenerator.SyntaxException:
                         printDocError(keyvalue, "Invalid signature")
 
@@ -1059,7 +1059,7 @@ def getValue(item):
             value = "[Complex expression]"
     elif item.type == "operation" and item.get("operator") == "SUB":
         # E.g. "-1" or "-Infinity"
-        value = "-" + getValue(item.getChild("first").getFirstChild())
+        value = "-" + getValue(item.getFirstChild())
     if value == None:
         value = "[Unsupported item type: " + item.type + "]"
 

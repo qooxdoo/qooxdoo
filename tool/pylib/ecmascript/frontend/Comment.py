@@ -23,8 +23,9 @@
 
 import sys, string, re
 
-from ecmascript.frontend import tree
+from ecmascript.frontend import tree, lang
 from generator import Context as context
+from pyparse import pyparsing as py
 from textile import textile
 
 ##
@@ -50,7 +51,7 @@ R_BLOCK_COMMENT_TIGHT_END = re.compile("\S+\*/$")
 R_BLOCK_COMMENT_PURE_START = re.compile("^/\*")
 R_BLOCK_COMMENT_PURE_END = re.compile("\*/$")
 
-R_ATTRIBUTE = re.compile(r'[^{]@(\w+)\b')
+R_ATTRIBUTE = re.compile(r'(?<!{)@(\w+)\b')
 R_JAVADOC_STARS = re.compile(r'^\s*\*')
 
 
@@ -257,6 +258,35 @@ class Comment(object):
         return res
 
 
+    ##
+    # Returns comment attributes ("commentAttributes") for a comment e.g.
+    # 
+    #  /**
+    #   * Checks if a class is compatible to the given mixin (no conflicts)
+    #   *
+    #   * @param mixin {Mixin} mixin to check
+    #   * @param clazz {Class} class to check
+    #   * @throws an exception when the given mixin is incompatible to the class
+    #   * @return {Boolean} true if the mixin is compatible to the given class
+    #   */    
+    #
+    # like this:
+    #  [{'category': 'description',
+    #    'text': u'<p>Checks if a class is compatible to the given mixin (no conflicts)</p>'},
+    #   {'category': u'param',
+    #    'name': u'mixin',
+    #    'text': u'<p>mixin to check</p>',
+    #    'type': [{'dimensions': 0, 'type': u'Mixin'}]},
+    #   {'category': u'param',
+    #    'name': u'clazz',
+    #    'text': u'<p>class to check</p>',
+    #    'type': [{'dimensions': 0, 'type': u'Class'}]},
+    #   {'category': u'throws',
+    #    'text': u'<p>an exception when the given mixin is incompatible to the class</p>'},
+    #   {'category': u'return',
+    #    'text': u'<p>true if the mixin is compatible to the given class</p>',
+    #      'type': [{'dimensions': 0, 'type': u'Boolean'}]}]
+    #
     def parse(self, format=True):
         # print "Parse: " + intext
 
@@ -303,16 +333,19 @@ class Comment(object):
 
         # parse details
         for attrib in attribs:
-            self.parseDetail(attrib, format)
+            self.parseDetail(attrib, False)
 
         return attribs
 
 
     def parseDetail(self, attrib, format=True):
         text = attrib["text"]
+        match = None
 
         if attrib["category"] in ["param", "event", "see", "state", "appearance", "childControl"]:
             match = R_NAMED_TYPE.search(text)
+        elif attrib["category"] in ["lint"]:
+            self.parseDetail_Term(attrib)
         else:
             match = R_SIMPLE_TYPE.search(text)
 
@@ -366,6 +399,18 @@ class Comment(object):
 
         if attrib["text"] == "":
             del attrib["text"]
+
+
+    def parseDetail_Term(self, attrib):
+        text = attrib['text'] # "ignoreUnused(a,b)"
+        # the next would be close to the spec (but huge!)
+        #identi = py.Word(u''.join(lang.IDENTIFIER_CHARS_START), u''.join(lang.IDENTIFIER_CHARS_BODY))
+        # but using regex, to be consistent with the parser
+        identi = py.Regex(lang.IDENTIFIER_REGEXP)
+        term = identi + py.Suppress('(') + py.Optional(py.delimitedList(identi)) + py.Suppress(')')
+        a = term.parseString(text)
+        attrib['functor'] = a[0]  # "ignoreUnused"
+        attrib['arguments'] = a[1:] # ["a", "b"]
 
 
     def cleanupText(self, text):
@@ -564,7 +609,7 @@ def getReturns(node, found):
             if expr.hasChild("variable"):
                 var = expr.getChild("variable")
                 if var.getChildrenLength(True) == 1 and var.hasChild("identifier"):
-                    val = nameToType(var.getChild("identifier").get("name"))
+                    val = nameToType(var.getChild("identifier").get("value"))
                 else:
                     val = "var"
 
@@ -637,12 +682,15 @@ def parseNode(node):
     # the intended meaning of <node> is "the node that has comments preceding
     # it"; in the ast, this might not be <node> itself, but the lexically first
     # token that got the comment attached; look for that
+    # in the AST this translates to the left-most child for statements and expressions
     commentsNode = findAssociatedComment(node)
+
 
     if commentsNode and commentsNode.comments:
         # check for a suitable comment, from the back so that the closer wins
         for comment in commentsNode.comments[::-1]:
-            if comment.get("detail") in ["javadoc", "qtdoc"]:
+            #if comment.get("detail") in ["javadoc", "qtdoc"]:
+            if comment.get("detail") in ["javadoc"]:
                 return Comment(comment.get("value", "")).parse()
     return []
 
@@ -651,13 +699,34 @@ def findAssociatedComment(node):
     # traverse <node> tree left-most, looking for comments
     from ecmascript.frontend import treeutil # ugly here, but due to import cycle
 
+    res = None
     if node.comments:
-        return node
+        res = node
     else:
-        if node.children:
-            left_most = treeutil.findLeftmostChild(node)
-            return findAssociatedComment(left_most)
-    return None
+        # look down left-most
+        left_most = treeutil.findLeftmostChild(node) # this might return <node> itself
+        if left_most.comments:
+            res = left_most
+        # look upwards, then left-most
+        else:
+            next_root = treeutil.findAncestor(node, ["keyvalue"], radius=5)
+            if next_root:
+                if next_root.comments:
+                    res = next_root
+            # look upwards to statement level
+            else:
+                # find a statement-level ancestor
+                lnode = node
+                next_root = None
+                while True:
+                    if lnode.isStatement():
+                        next_root = lnode
+                        break
+                    elif lnode.parent: lnode = lnode.parent
+                    else: break
+                if next_root and next_root.comments:
+                    res = next_root
+    return res
 
 
 def parseNode_2(node):
@@ -686,8 +755,8 @@ def fill(node):
     if node.hasParent():
         target = node
 
-        if node.type == "function":
-            name = node.get("name", False)
+        if node.type == "function" and node.getChild("identifier",0):
+            name = node.getChild("identifier", False).get("value")
         else:
             name = ""
 
@@ -698,9 +767,9 @@ def fill(node):
             assignType = "function"
 
         # move to hook operation
-        while target.parent.type in ["first", "second", "third"] and target.parent.parent.type == "operation" and target.parent.parent.get("operator") == "HOOK":
+        while target.parent.type == "operation" and target.parent.get("operator") == "HOOK":
             alternative = True
-            target = target.parent.parent
+            target = target.parent
 
         # move comment to assignment
         while target.parent.type == "right" and target.parent.parent.type == "assignment":
@@ -711,14 +780,14 @@ def fill(node):
                     var = left.getChild("variable")
                     last = var.getLastChild(False, True)
                     if last and last.type == "identifier":
-                        name = last.get("name")
+                        name = last.get("value")
                         assignType = "object"
 
                     for child in var.children:
                         if child.type == "identifier":
-                            if child.get("name") in ["prototype", "Proto"]:
+                            if child.get("value") in ["prototype", "Proto"]:
                                 assignType = "member"
-                            elif child.get("name") in ["class", "base", "Class"]:
+                            elif child.get("value") in ["class", "base", "Class"]:
                                 assignType = "static"
 
             elif target.parent.type == "definition":
@@ -891,7 +960,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
     if params.hasChildren():
         for child in params.children:
             if child.type == "variable":
-                newName = child.getChild("identifier").get("name")
+                newName = child.getChild("identifier").get("value")
                 newType = newTypeText = nameToType(newName)
                 newDefault = ""
                 newText = nameToDescription(newName)

@@ -26,7 +26,7 @@ def patch(tree, id):
     if define == None:
         return
         
-    mainChildren = define.getChild("params").children
+    mainChildren = define.getChild("arguments").children
     
     if len(mainChildren) <= 1:
         return

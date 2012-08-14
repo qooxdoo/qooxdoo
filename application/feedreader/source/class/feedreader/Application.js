@@ -231,6 +231,7 @@ qx.Class.define("feedreader.Application",
     /**
      * Converter function which converts the state of a feed to a icon url.
      * @param value {String} The loading state of the request.
+     * @lint ignoreNoLoopBlock()
      */
     _state2iconConverter : function(value) {
       if (value == "new" || value == "loading") {

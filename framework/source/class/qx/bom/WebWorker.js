@@ -84,6 +84,7 @@ qx.Class.define("qx.bom.WebWorker",
     /**
      * Initialize the fake worker
      * @param src {String} The path to worker as an URL
+     * @lint ignoreDeprecated(eval)
      */
     __initFake: function(src) {
       var that = this;

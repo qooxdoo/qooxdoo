@@ -103,7 +103,7 @@ def main():
     
     if not options.quiet:
         print ">>> Creating tree..."
-    tree = treegenerator.createSyntaxTree(tokens)
+    tree = treegenerator.createFileTree(tokens)
     
     
     #

@@ -59,6 +59,7 @@ class NodeAccessException (Exception):
         self.node = node
 
 NODE_VARIABLE_TYPES = ("dotaccessor", "identifier")
+NODE_STATEMENT_CONTAINERS = ("statements", "block")
 
 class Node(object):
 
@@ -196,13 +197,16 @@ class Node(object):
             newChild.parent = self
             self.children.remove(oldChild)
 
-    def getChild(self, ntype, mandatory = True):
+    ##
+    # Get child by type or position
+    #
+    def getChild(self, spec, mandatory = True):
         if self.children:
-            for child in self.children:
-                if child.type == ntype:
+            for pos,child in enumerate(self.children):
+                if pos==spec or child.type==spec:
                     return child
         if mandatory:
-            raise NodeAccessException("Node " + self.type + " has no child with type " + ntype, self)
+            raise NodeAccessException("Node " + self.type + " has no child with type or position" + spec, self)
 
     def hasChildRecursive(self, ntype):
         if isinstance(ntype, basestring):
@@ -543,6 +547,9 @@ class Node(object):
     def isVar(self):
         return self.type in NODE_VARIABLE_TYPES
 
+    def isStatement(self):
+        return self.parent and self.parent.type in NODE_STATEMENT_CONTAINERS
+
     def addListChild(self, listName, childNode):
         listNode = self.getChild(listName, False)
         if not listNode:
@@ -634,7 +641,7 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encodin
     hasText = False
 
     # comments
-    if node.comments:
+    if hasattr(node, 'comments') and node.comments:
         cmtStrings = []
         for comment in node.comments:
             cmtStrings.append(nodeToXmlString(comment, prefix, childPrefix, newLine, encoding))

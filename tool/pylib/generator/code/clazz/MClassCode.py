@@ -25,6 +25,7 @@
 
 import sys, os, types, re, string, copy
 from ecmascript.backend.Packer      import Packer
+from ecmascript.transform.check     import scopes
 from ecmascript.backend             import formatter
 from ecmascript.frontend import treeutil, tokenizer
 from ecmascript.frontend import treegenerator
@@ -63,6 +64,7 @@ class MClassCode(object):
             console.debug("Parsing file: %s..." % self.id)
             console.indent()
 
+            # tokenize
             fileContent = filetool.read(self.path, self.encoding)
             fileId = self.path if self.path else self.id
             try:
@@ -72,18 +74,28 @@ class MClassCode(object):
                 e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
                 raise e
             
+            # parse
             console.outdent()
             console.debug("Generating tree: %s..." % self.id)
             console.indent()
             try:
-                tree = treegen.createSyntaxTree(tokens, fileId)
+                tree = treegen.createFileTree(tokens, fileId)
             except SyntaxException, e:
                 # add file info
                 e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
                 raise e
 
+            # annotate with scopes
+            if True:
+                console.outdent()
+                console.debug("Calculating scopes: %s..." % self.id)
+                console.indent()
+                tree = scopes.create_scopes(tree)
+                #if self.id == "gui.Application":
+                #    import pydb; pydb.debugger()
+                #tree.scope.prrnt()
+
             # store unoptimized tree
-            #print "Caching %s" % cacheId
             cache.write(cacheId, tree, memory=tradeSpaceForSpeed)
 
             console.outdent()
@@ -138,7 +150,7 @@ class MClassCode(object):
         warn_non_literal_keys = "non-literal-keys" not in config.get("config-warnings/environment",[])
         classvariants = set()
         for variantNode in variantoptimizer.findVariantNodes(node):
-            firstParam = treeutil.selectNode(variantNode, "../../params/1")
+            firstParam = treeutil.selectNode(variantNode, "../../arguments/1")
             if firstParam:
                 if treeutil.isStringLiteral(firstParam):
                     classvariants.add(firstParam.get("value"))
@@ -258,38 +270,35 @@ class MClassCode(object):
 
         def optimizeTree(tree):
 
-            try:
-                if "comments" in optimize:
-                    commentoptimizer.patch(tree)
+            if "comments" in optimize:
+                commentoptimizer.patch(tree)
 
-                # "variants" prunes parts of the tree, so all subsequent optimizations benefit
-                if "variants" in optimize:
-                    variantoptimizer.search(tree, variantSet, self.id)
+            # "variants" prunes parts of the tree, so all subsequent optimizations benefit
+            if "variants" in optimize:
+                variantoptimizer.search(tree, variantSet, self.id)
 
-                # 'statics' has to come before 'privates', as it needs the original key names in tree
-                # if features should be removed recursively, this has to be controlled on the calling
-                # level.
-                if "statics" in optimize:
-                    if not featureMap:
-                        console.warn("Empty feature map passed to static methods optimization; skipping")
-                    elif self.type == 'static' and self.id in featureMap:
-                        featureoptimizer.patch(tree, self, featureMap)
+            # 'statics' has to come before 'privates', as it needs the original key names in tree
+            # if features should be removed recursively, this has to be controlled on the calling
+            # level.
+            if "statics" in optimize:
+                if not featureMap:
+                    console.warn("Empty feature map passed to static methods optimization; skipping")
+                elif self.type == 'static' and self.id in featureMap:
+                    featureoptimizer.patch(tree, self, featureMap)
 
-                if "basecalls" in optimize:
-                    basecalloptimizer.patch(tree)
+            if "basecalls" in optimize:
+                basecalloptimizer.patch(tree)
 
-                if "privates" in optimize:
-                    privatesMap = load_privates()
-                    privateoptimizer.patch(tree, id, privatesMap)
-                    write_privates(privatesMap)
+            if "privates" in optimize:
+                privatesMap = load_privates()
+                privateoptimizer.patch(tree, id, privatesMap)
+                write_privates(privatesMap)
 
-                if "strings" in optimize:
-                    tree = self._stringOptimizer(tree)
+            if "strings" in optimize:
+                tree = self._stringOptimizer(tree)
 
-                if "variables" in optimize:
-                    variableoptimizer.search(tree)
-            except Exception, e:
-                raise RuntimeError("Problem optimizing %s; probably a syntax problem?!" % self.id)
+            if "variables" in optimize:
+                variableoptimizer.search(tree)
 
             return tree
 

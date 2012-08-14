@@ -671,16 +671,51 @@ Check Javscript source code with a lint-like utility. Takes a map.
 
   "lint-check" :
   {
-    "allowed-globals" : [ "qx", "${APPLICATION}" ]
+    "allowed-globals" : [ "qx", "${APPLICATION}" ],
+    "ignore-deprecated-symbols"     : (true|false),
+    "ignore-environment-nonlit-key" : (true|false),
+    "ignore-multiple-mapkeys"       : (true|false),
+    "ignore-multiple-vardecls"      : (true|false),
+    "ignore-no-loop-block"          : (true|false),
+    "ignore-reference-fields"       : (true|false),
+    "ignore-undeclared-privates"    : (true|false),
+    "ignore-undefined-globals"      : (true|false),
+    "ignore-unused-parameter"       : (true|false),
+    "ignore-unused-variables"       : (true|false)
   }
 
 .. note::
 
   peer-keys: :ref:`pages/tool/generator_config_ref#library`, :ref:`pages/tool/generator_config_ref#include`
 
+The general idea of the *ignore-\** options is to say that the lint checking will check as much issues as it can, and you can turn off certain checks by setting their *ignore-\** option to true. A few that are considered too picky are also true in the default config. Those can of course be enabled by setting them to false in your own configuration.
+
 Keys are:
 
 * **allowed-globals** : list of names that are not to be reported as bad use of globals
+* **ignore-deprecated-symbols** *(experimental)*     : 
+      Ignore built-in symbols that are considered bad use, like *alert* or *eval*. *(default: false)*
+* **ignore-environment-nonlit-key** *(experimental)* :
+      Ignore calls to *qx.core.Environment.(get|select)* with a non-literal key (Those calls cannot be optimized). *(default: false)*
+* **ignore-multiple-mapkeys** *(experimental)*       : 
+      Ignore using the same key in a map multiple times (Only the last occurrence will persist). *(default: false)*
+* **ignore-multiple-vardecls** *(experimental)*      : 
+      Ignore multiple declarations of the same variable (Ie. multiple 'var' statements for the same identifier). *(default: true)*
+* **ignore-no-loop-block** *(experimental)*          : 
+      Ignore bodies of loops or conditions that are not enclosed in ``{`` and ``}``. *(default: false)*
+* **ignore-reference-fields** *(experimental)*       : 
+      Ignore reference data types in :ref:`class member attributes <pages/classes#instance_members>` (Those values will be shared across all instances of the class). *(default: false)*
+* **ignore-undeclared-privates** *(experimental)*    : 
+      Ignore use of :ref:`private members <pages/classes#access>` in class code without them being declared in the class map. *(default: false)*
+* **ignore-undefined-globals** *(experimental)*      : 
+      Ignore symbols that belong to the global scope, and are not recognized as known built-in symbols or class names (You usually want to avoid those). With this option set to *false*, i.e. those globals being warned about, you can still silence the warning for symbols given in the ``allowed-globals`` option. *(default: false)*
+* **ignore-unused-parameter** *(experimental)*       : 
+      Ignore parameters of functions or catch statements that are not used in their respective body. *(default: true)*
+* **ignore-unused-variables** *(experimental)*       : 
+      Ignore variables that are declared in a scope but not used. *(default: false)*
+
+
+
 
 .. _pages/tool/generator_config_ref#log:
 

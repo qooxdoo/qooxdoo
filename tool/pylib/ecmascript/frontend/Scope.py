@@ -163,7 +163,8 @@ Function %s(%s):
 
     def _getExceptionVariables(self):
         assert self.node.type == "catch"
-        identifier = self.node.children[0]
+        identifier = treeutil.selectNode(self.node, "params/identifier")
+        assert identifier and identifier.type=="identifier", "Unable to retrieve 'catch' parameter"
         return [VariableDefinition(identifier.get("value",None), identifier, False, self)]
 
 
@@ -205,9 +206,9 @@ Function %s(%s):
     @staticmethod
     def declaredVariablesIterator(node):
         if node.type == "function":
-            name = node.get("name", False)
+            name = node.getChild("identifier", False)
             if name:
-                yield (name, node)
+                yield (name.get("value"), node)
             return
 
         if node.hasChildren():
@@ -246,11 +247,11 @@ Function %s(%s):
         # (undeclared variables are handled by the normal "identifier" rule
         # further down)
         if (
-            node.type == "first" and
+            node.type == "var" and
             node.parent.type == "operation" and
             node.parent.get("operator") == "IN"
            ):
-            use = treeutil.selectNode(node, "var/definition/identifier")
+            use = node.getChild("definition").getDefinee()
             if use:
                 name = use.get("value", False)
                 yield (name, use)
@@ -261,7 +262,7 @@ Function %s(%s):
             isFirstChild     = False
             isVariableMember = False
 
-            if node.parent.parent.isVar(): # (the old code added "accessor" for the types to check)
+            if node.parent.isVar(): # (the old code added "accessor" for the types to check)
                 isVariableMember = True
                 isFirstChild = treeutil.checkFirstChainChild(node)
 
