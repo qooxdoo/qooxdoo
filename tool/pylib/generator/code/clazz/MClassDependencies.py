@@ -31,6 +31,7 @@ from ecmascript.transform.optimizer import variantoptimizer
 from ecmascript.transform.check     import lint
 from generator.code.DependencyItem  import DependencyItem
 from generator.code.ClassList       import ClassList
+from generator                      import Context
 from misc import util
 
 ClassesAll = None # {'cid':generator.code.Class}
@@ -116,11 +117,15 @@ class MClassDependencies(object):
                 opts = lint.defaultOptions()
                 opts.library_classes = ClassesAll.keys()
                 opts.class_namespaces = ClassList.namespaces_from_classnames(opts.library_classes)
-                #opts.allowed_globals = []  # these could be filled from config.json, but woul be ugly to pass them down here
+                # some sensible settings (deviating from defaultOptions)
                 opts.ignore_no_loop_block = True
                 opts.ignore_reference_fields = True
                 opts.ignore_undeclared_privates = True
                 opts.ignore_unused_variables = True
+                # override from config
+                jobConf = Context.jobconf
+                for option, value in jobConf.get("lint-check", {}).items():
+                    setattr(opts, option.replace("-","_"), value)
                 lint.lint_check(tree, self.id, opts)
 
             # analyze tree
