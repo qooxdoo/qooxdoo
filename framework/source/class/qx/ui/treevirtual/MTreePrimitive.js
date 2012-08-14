@@ -67,11 +67,11 @@ qx.Mixin.define("qx.ui.treevirtual.MTreePrimitive",
      *   may be added, and determines the default icons to use.  This
      *   parameter must be one of the following values:
      *   <dl>
-     *     <dt>qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH</dt>
+     *     <dt>qx.ui.treevirtual.MTreePrimitive.Type.BRANCH</dt>
      *     <dd>
      *       This node is a branch.  A branch node may have children.
      *     </dd>
-     *     <dt>qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF</dt>
+     *     <dt>qx.ui.treevirtual.MTreePrimitive.Type.LEAF</dt>
      *     <dd>
      *       This node is a leaf, and may not have children
      *     </dd>
@@ -130,7 +130,7 @@ qx.Mixin.define("qx.ui.treevirtual.MTreePrimitive",
         }
 
         // Ensure parent isn't a leaf
-        if (parentNode.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
+        if (parentNode.type == qx.ui.treevirtual.MTreePrimitive.Type.LEAF)
         {
           throw new Error("Sorry, a LEAF may not have children.");
         }
@@ -143,7 +143,7 @@ qx.Mixin.define("qx.ui.treevirtual.MTreePrimitive",
       }
 
       // If this is a leaf, we don't present open/close icon
-      if (type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
+      if (type == qx.ui.treevirtual.MTreePrimitive.Type.LEAF)
       {
         // mask off the opened bit but retain the hide open/close button bit
         bOpened = false;
