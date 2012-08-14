@@ -58,7 +58,7 @@ top-level 'index.html' file next to this readme).
 
 
 Learn more
-==========
+===========
 
 * About qooxdoo
   http://qooxdoo.org
