@@ -30,7 +30,7 @@ from ecmascript.frontend import tree, treegenerator
 from ecmascript.transform.optimizer import variantoptimizer
 from ecmascript.transform.evaluate  import evaluate
 from ecmascript.transform.check  import scopes
-from generator.Context import console
+from generator import Context
 
 class LintChecker(treeutil.NodeVisitor):
 
@@ -395,8 +395,8 @@ def warn(msg, fname, node):
         emsg = "%s (%s,%s): %s" % (fname, node.get("line"), node.get("column"), msg)
     else:
         emsg = "%s: %s" % (fname, msg)
-    if console:
-        console.warn(emsg)
+    if Context.console:
+        Context.console.warn(emsg)
     else:
         print >>sys.stderr, emsg
 
