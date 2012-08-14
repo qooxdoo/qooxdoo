@@ -87,6 +87,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 
     this.addListener("tap", this._onTap, this);
     this.addListener("swipe", this._onSwipe, this);
+    this.addListener("touchmove", this._onTouch, this);
 
   },
 
@@ -117,10 +118,11 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   members :
   {
     __child : null,
-    __value : null,
+    __value : false,
     __labelUnchecked : "OFF",
     __labelChecked : "ON",
     __fontSize : null,
+    __lastToggleTimestamp : 0,
 
 
     /**
@@ -182,11 +184,12 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
       return this.__value;
     },
 
+
     /**
      * Toggles the value of the button.
      */
     toggle : function() {
-      this.setValue(!this.getValue());
+        this.setValue(!this.getValue());
     },
 
 
@@ -198,25 +201,56 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      */
     _onTap : function(evt)
     {
-      this.toggle();
+      if(this._checkLastTouchTime()) {
+        this.toggle();
+      }
     },
-
+    
+    
+     /**
+     * Event handler. Called when the touchmove event occurs.
+     * Prevents bubbling, because on swipe no scrolling of outer container is wanted.
+     *
+     * @param evt {qx.event.type.Touch} The touch event.
+     */
+    _onTouch : function(evt) {
+      evt.stopPropagation();
+    },
 
 
     /**
      * Event handler. Called when the swipe event occurs.
-     * Toggles the button.
-     *
+     * Toggles the button, when.
+     * 
      * @param evt {qx.event.type.Swipe} The swipe event.
      */
     _onSwipe : function(evt)
     {
-      this.toggle();
+      if(this._checkLastTouchTime()) {
+        var direction = evt.getDirection();
+        if(direction == "left") {
+          if(this.__value == true) {
+            this.toggle();
+          }
+        } else {
+          if(this.__value == false) {
+            this.toggle(); 
+          }
+        }
+      }
+    },
+    
+    
+    /**
+     * Checks if last touch event (swipe,tap) is more than 500ms ago.
+     * Bugfix for several simulator/emulator, when tap is immediately followed by a swipe.
+     */
+    _checkLastTouchTime : function() {
+      var elapsedTime = new Date().getTime() - this.__lastToggleTimestamp; 
+      this.__lastToggleTimestamp = new Date().getTime();
+      return elapsedTime>500;
     }
-
   },
-
-
 
 
  /*

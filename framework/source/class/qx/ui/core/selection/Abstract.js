@@ -1670,7 +1670,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         var current = this.__selection;
         var hash = this._selectableToHashCode(item);
 
-        if (!current[hash] || qx.lang.Object.hasMinLength(current, 2))
+        if (!current[hash] || (current.length >= 2))
         {
           this._clearSelection();
           this._addToSelection(item);

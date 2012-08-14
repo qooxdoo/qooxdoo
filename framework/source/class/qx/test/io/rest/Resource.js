@@ -172,7 +172,7 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req;
 
       // For documentation purposes
-      res.get = qx.lang.Function.empty;
+      res.get = (function() {});
 
       res.map("get", "GET", "/photos/popular");
     },

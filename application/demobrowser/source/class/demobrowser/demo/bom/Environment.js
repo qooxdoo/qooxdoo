@@ -20,6 +20,7 @@
 
 /*
  #use(feature-checks)
+ #require(qx.lang.normalize.Object)
  */
 
 /**
@@ -45,7 +46,7 @@ qx.Class.define("demobrowser.demo.bom.Environment",
 
       // this should not be used directly. Its just to show all added checks
       var checks = qx.core.Environment.getChecks();
-      var keys = qx.lang.Object.getKeys(checks);
+      var keys = Object.keys(checks);
       keys.sort();
 
       var lastPrefix = "";
@@ -73,7 +74,7 @@ qx.Class.define("demobrowser.demo.bom.Environment",
       // this should not be used directly. Its just to show all added checks
       checks = qx.core.Environment.getAsyncChecks();
       var numberOfChecks = qx.lang.Object.getLength(checks);
-      keys = qx.lang.Object.getKeys(checks);
+      keys = Object.keys(checks);
 
       if (numberOfChecks)
       {

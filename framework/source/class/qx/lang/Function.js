@@ -147,13 +147,14 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * empty function
+     * @deprecated since 2.1: Please use a new empty function.
      */
     empty : function() {},
 
 
     /**
      * Simply return true.
-     *
+     * @deprecated since 2.1: Please use a custom function.
      * @return {Boolean} Always returns true.
      */
     returnTrue : function() {
@@ -163,7 +164,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * Simply return false.
-     *
+     * @deprecated since 2.1: Please use a custom function.
      * @return {Boolean} Always returns false.
      */
     returnFalse : function() {
@@ -173,7 +174,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * Simply return null.
-     *
+     * @deprecated since 2.1: Please use a custom function.
      * @return {var} Always returns null.
      */
     returnNull : function() {
@@ -183,7 +184,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * Return "this".
-     *
+     * @deprecated since 2.1: Please use a custom function.
      * @return {Object} Always returns "this".
      */
     returnThis : function() {
@@ -193,7 +194,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * Simply return 0.
-     *
+     * @deprecated since 2.1: Please use a custom function.
      * @return {Number} Always returns 0.
      */
     returnZero : function() {
@@ -298,6 +299,15 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * Returns a function whose "this" is altered.
+     *
+     *
+     * *Native way*
+     *
+     * This is also a feature of JavaScript 1.8.5 and will be supplied
+     * by modern browsers. Including {@link qx.lang.normalize.Function}
+     * will supply a cross browser normalization of the native
+     * implementation. We like to encourage you to use the native function!
+     *
      *
      * *Syntax*
      *

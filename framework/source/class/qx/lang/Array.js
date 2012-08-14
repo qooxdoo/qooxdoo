@@ -36,6 +36,7 @@
 
 #ignore(qx.data.IListData)
 #ignore(qx.Class)
+#require(qx.lang.normalize.Date)
 
 ************************************************************************ */
 
@@ -44,11 +45,8 @@
  * methods like <code>remove</code> or <code>contains</code>.
  *
  * The native JavaScript Array is not modified by this class. However,
- * there are modifications to the native Array in {@link qx.lang.Core} for
- * browsers that do not support certain JavaScript 1.6 features natively .
- *
- * The string/array generics introduced in JavaScript 1.6 are supported by
- * {@link qx.lang.Generics}.
+ * there are modifications to the native Array in {@link qx.lang.normalize.Array} for
+ * browsers that do not support certain JavaScript features natively .
  */
 qx.Bootstrap.define("qx.lang.Array",
 {
@@ -60,11 +58,18 @@ qx.Bootstrap.define("qx.lang.Array",
      * or extended array objects like <code>qx.type.BaseArray</code> to an
      * native Array instance.
      *
+     * @deprecated since 2.1: Please use cast with 'Array' as constructor.
      * @param object {var} any array like object
      * @param offset {Integer?0} position to start from
      * @return {Array} New array with the content of the incoming object
      */
     toArray : function(object, offset) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.Bootstrap.warn(
+          "'qx.lang.Array.toArray' is deprecared. " +
+          "Please use 'qx.lang.Array.cast' instead."
+        );
+      }
       return this.cast(object, Array, offset);
     },
 
@@ -142,8 +147,8 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     fromCollection : function(coll)
     {
-      // Some collection is mshtml are not able to be sliced.
-      // This lines are a special workaround for this client.
+      // The native Array.slice cannot be used with some Array-like objects
+      // including NodeLists in older IEs
       if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         if (coll.item)
@@ -485,7 +490,7 @@ qx.Bootstrap.define("qx.lang.Array",
     {
       var ret=[], doneStrings={}, doneNumbers={}, doneObjects={};
       var value, count=0;
-      var key = "qx" + qx.lang.Date.now();
+      var key = "qx" + Date.now();
       var hasNull=false, hasFalse=false, hasTrue=false;
 
       // Rebuild array and omit duplicates

@@ -159,8 +159,8 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
             // Remove focus from input elements, so that the keyboard and the mouse cursor is hidden
             var elements = [];
-            var inputElements = qx.lang.Array.toArray(document.getElementsByTagName("input"));
-            var textAreaElements = qx.lang.Array.toArray(document.getElementsByTagName("textarea"));
+            var inputElements = qx.lang.Array.cast(document.getElementsByTagName("input"), Array);
+            var textAreaElements = qx.lang.Array.cast(document.getElementsByTagName("textarea"), Array);
             elements = elements.concat(inputElements);
             elements = elements.concat(textAreaElements);
 
@@ -232,6 +232,27 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     _setScroll : function(scroll)
     {
       this.__scroll = scroll;
+    },
+    
+    
+    /**
+     * Delegation method for iScroll. Disabled the iScroll objects.
+     * Prevents any further scrolling of this container.
+     */
+    disable : function() {
+      if(this.__scroll) {
+        this.__scroll.disable();
+      }
+    },
+    
+    
+    /**
+     * Delegation method for iScroll. Enables the iScroll object.
+     */
+    enable : function() {
+      if(this.__scroll) {
+        this.__scroll.enable();
+      }
     },
 
 

@@ -79,7 +79,7 @@ qx.Class.define("qx.data.marshal.Json",
      * @return {String} The hash representation of the given JavaScript object.
      */
     __jsonToHash: function(data) {
-      return qx.Bootstrap.getKeys(data).sort().join('"');
+      return Object.keys(data).sort().join('"');
     },
 
 

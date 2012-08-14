@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2007-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,25 +13,21 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-
-qx.Class.define("qx.test.lang.Core",
+/* ************************************************************************
+#require(qx.lang.normalize.Array)
+************************************************************************ */
+qx.Class.define("qx.test.lang.normalize.Array",
 {
   extend : qx.dev.unit.TestCase,
+  include : [qx.dev.unit.MMock],
+
 
   members :
   {
-    testErrorToString : function()
-    {
-      var msg = "Dummer Fehler";
-      var error = new Error(msg);
-      this.assertTrue(qx.lang.String.contains(error.toString(), msg));
-    },
-
-
-    testArrayIndexOf : function()
+    testIndexOf : function()
     {
       var obj = {};
       var arr = [1, obj, "str", 1];
@@ -42,8 +38,7 @@ qx.Class.define("qx.test.lang.Core",
       this.assertEquals(-1, arr.indexOf(0));
     },
 
-    testArrayLastIndexOf : function()
-    {
+    testLastIndexOf : function() {
       var obj = {};
       var arr = [1, obj, "str", 1];
 
@@ -53,8 +48,7 @@ qx.Class.define("qx.test.lang.Core",
       this.assertEquals(-1, arr.lastIndexOf(0));
     },
 
-    testArrayForEach : function()
-    {
+    testForEach : function() {
       var obj = {};
       var arr = [1, obj, "str", 1];
       arr[10] = 12;
@@ -71,8 +65,7 @@ qx.Class.define("qx.test.lang.Core",
       this.assertArrayEquals([0, 1, 2, 3, 10], indexes);
     },
 
-    testArrayFilter : function()
-    {
+    testFilter : function() {
       var arr = [1, 2, 3, 4];
       arr[10] = 11;
 
@@ -91,8 +84,7 @@ qx.Class.define("qx.test.lang.Core",
       this.assertArrayEquals([2, 4], odd);
     },
 
-    testArrayMap : function()
-    {
+    testMap : function() {
       var arr = [1, 2, 3, 4];
       arr[10] = 11;
 
@@ -114,8 +106,7 @@ qx.Class.define("qx.test.lang.Core",
       this.assertArrayEquals([0, 1, 2, 3, 10], indexes);
     },
 
-    testArraySome : function()
-    {
+    testSome : function() {
       var arr = [1, 2, 3, 4];
       arr[10] = 11;
 
@@ -140,8 +131,7 @@ qx.Class.define("qx.test.lang.Core",
       }));
     },
 
-    testArrayEvery : function()
-    {
+    testEvery : function() {
       var arr = [1, 2, 3, 4];
       arr[10] = 11;
 
@@ -167,27 +157,26 @@ qx.Class.define("qx.test.lang.Core",
       }));
     },
 
-    testArrayReduce : function()
-    {
-      // reduce Requires JavaScript 1.8
-      // Apply a function simultaneously against two values of the array
-      // (from left-to-right) as to reduce it to a single value.
-      this.warn("Implement method!");
+    testReduce : function() {
+      this.assertEquals(10, [].reduce(function() {}, 10));
+      var spy = this.spy();
+      [1].reduce(spy, 10);
+      this.assertCalledWith(spy, 10, 1, 0, [1]);
+      this.assertEquals(6, [1,2,3].reduce(function(a, b) {return a + b;}, 0));
+      this.assertArrayEquals([0,1,2,3,4], [[1,2], [3,4]].reduce(
+        function(a, b) {return a.concat(b);}, [0]
+      ));
     },
 
-    testArrayReduceRight : function()
-    {
-      // reduceRight Requires JavaScript 1.8
-      // Apply a function simultaneously against two values of the array
-      // (from right-to-left) as to reduce it to a single value.
-      this.warn("Implement method!");
-    },
-
-    testStringQuote : function()
-    {
-      this.assertEquals('"abc \\"defg\\" hij"', 'abc "defg" hij'.quote());
-      this.assertEquals('"abc \\\\defg\\\\ hij"', 'abc \\defg\\ hij'.quote());
-      this.assertEquals('"abc \\"defg\\\\ hij"', 'abc "defg\\ hij'.quote());
+    testReduceRight : function() {
+      this.assertEquals(10, [].reduceRight(function() {}, 10));
+      var spy = this.spy();
+      [1].reduceRight(spy, 10);
+      this.assertCalledWith(spy, 10, 1, 0, [1]);
+      this.assertEquals(6, [1,2,3].reduceRight(function(a, b) {return a + b;}, 0));
+      this.assertArrayEquals([0, 3,4,1,2], [[1,2], [3,4]].reduceRight(
+        function(a, b) {return a.concat(b);}, [0]
+      ));
     }
   }
 });

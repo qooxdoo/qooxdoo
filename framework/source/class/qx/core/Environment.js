@@ -157,6 +157,10 @@
  *       <td>{@link qx.bom.client.CssAnimation#getSupport}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.animation.requestframe</td><td><i>String</i> or <i>null</i></td><td><code>mozRequestAnimationFrame</code></td>
+ *       <td>{@link qx.bom.client.CssAnimation#getRequestAnimationFrame}</td>
+ *     </tr>
+ *     <tr>
  *       <td>css.transform</td><td><i>Object</i> or <i>null</i></td><td><code>{3d: true, origin: "WebkitTransformOrigin", name: "WebkitTransform", style: "WebkitTransformStyle", perspective: "WebkitPerspective", perspective-origin: "WebkitPerspectiveOrigin", backface-visibility: "WebkitBackfaceVisibility"}</code></td>
  *       <td>{@link qx.bom.client.CssTransform#getSupport}</td>
  *     </tr>
@@ -173,7 +177,7 @@
  *       <td>{@link qx.bom.client.Css#getOpacity}</td>
  *     </tr>
  *     <tr>
- *       <td>@deprecated since 2.1: css.overflowxy</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>deprecated since 2.1: css.overflowxy</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getOverflowXY}</td>
  *     </tr>
  *     <tr>
@@ -200,10 +204,65 @@
  *       <td colspan="4"><b>ecmascript</b></td>
  *     </tr>
  *     <tr>
- *       <td>ecmascript.stacktrace</td><td><i>String</i> or <i>null</i></td><td><code>stack</code></td>
+ *       <td>ecmascript.error.stacktrace</td><td><i>String</i> or <i>null</i></td><td><code>stack</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getStackTrace}</td>
  *     </tr>
-
+ *     <tr>
+ *       <td>ecmascript.array.indexof<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayIndexOf}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.lastindexof<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayLastIndexOf}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.foreach<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayForEach}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.filter<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayFilter}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.map<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayMap}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.some<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArraySome}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.every<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayEvery}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.reduce<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayReduce}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.reduceright<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayReduceRight}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.function.bind<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getFunctionBind}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.object.keys<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getObjectKeys}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.date.now<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getDateNow}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.error.toString</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getErrorToString}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.string.trim</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getStringTrim}</td>
+ *     </tr>
  *     <tr>
  *       <td colspan="4"><b>engine</b></td>
  *     </tr>
@@ -593,6 +652,10 @@
  *       <td><i>default:</i> <code>0</code></td>
  *     </tr>
  *     <tr>
+ *       <td>qx.debug.ui.queue</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>true</code></td>
+ *     </tr>
+ *     <tr>
  *       <td>qx.dynamicmousewheel</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
@@ -733,7 +796,22 @@ qx.Bootstrap.define("qx.core.Environment",
       "event.pointer"               : "qx.bom.client.Event.getPointer",
       "event.help"                  : "qx.bom.client.Event.getHelp",
       "event.hashchange"            : "qx.bom.client.Event.getHashChange",
-      "ecmascript.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",
+      "ecmascript.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace", // @deprecated since 2.1
+      "ecmascript.error.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",
+      "ecmascript.array.indexof" : "qx.bom.client.EcmaScript.getArrayIndexOf",
+      "ecmascript.array.lastindexof" : "qx.bom.client.EcmaScript.getArrayLastIndexOf",
+      "ecmascript.array.foreach" : "qx.bom.client.EcmaScript.getArrayForEach",
+      "ecmascript.array.filter" : "qx.bom.client.EcmaScript.getArrayFilter",
+      "ecmascript.array.map" : "qx.bom.client.EcmaScript.getArrayMap",
+      "ecmascript.array.some" : "qx.bom.client.EcmaScript.getArraySome",
+      "ecmascript.array.every" : "qx.bom.client.EcmaScript.getArrayEvery",
+      "ecmascript.array.reduce" : "qx.bom.client.EcmaScript.getArrayReduce",
+      "ecmascript.array.reduceright" : "qx.bom.client.EcmaScript.getArrayReduceRight",
+      "ecmascript.function.bind" : "qx.bom.client.EcmaScript.getFunctionBind",
+      "ecmascript.object.keys" : "qx.bom.client.EcmaScript.getObjectKeys",
+      "ecmascript.date.now" : "qx.bom.client.EcmaScript.getDateNow",
+      "ecmascript.error.toString" : "qx.bom.client.EcmaScript.getErrorToString",
+      "ecmascript.string.trim" : "qx.bom.client.EcmaScript.getStringTrim",
       "html.webworker"              : "qx.bom.client.Html.getWebWorker",
       "html.filereader"             : "qx.bom.client.Html.getFileReader",
       "html.geolocation"            : "qx.bom.client.Html.getGeoLocation",
@@ -788,6 +866,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.float"                   : "qx.bom.client.Css.getFloat",
       "css.boxsizing"               : "qx.bom.client.Css.getBoxSizing",
       "css.animation" : "qx.bom.client.CssAnimation.getSupport",
+      "css.animation.requestframe" : "qx.bom.client.CssAnimation.getRequestAnimationFrame",
       "css.transform" : "qx.bom.client.CssTransform.getSupport",
       "css.transform.3d" : "qx.bom.client.CssTransform.get3D",
       "css.inlineblock" : "qx.bom.client.Css.getInlineBlock",
@@ -829,6 +908,11 @@ qx.Bootstrap.define("qx.core.Environment",
         // @deprecated since 2.1
         if (key == "css.overflowxy") {
           qx.Bootstrap.warn("The environment key 'css.overflowxy' is deprecated.");
+        }
+        // @deprecated since 2.1
+        if (key == "ecmascript.stacktrace") {
+          qx.Bootstrap.warn("The environment key 'ecmascript.stacktrace' is now 'ecmascript.error.stacktrace'.");
+          key = "ecmascript.error.stacktrace";
         }
       }
       // check the cache
@@ -1015,7 +1099,7 @@ qx.Bootstrap.define("qx.core.Environment",
       {
         throw new Error('No match for variant "' + key +
           '" (' + (typeof key) + ' type)' +
-          ' in variants [' + qx.Bootstrap.getKeysAsString(values) +
+          ' in variants [' + qx.Bootstrap.keys(values) +
           '] found, and no default ("default") given');
       }
     },
@@ -1130,6 +1214,7 @@ qx.Bootstrap.define("qx.core.Environment",
       // old variants
       // make sure to reflect all changes to qx.debug here in the bootstrap class!
       this.add("qx.debug", function() {return true;});
+      this.add("qx.debug.ui.queue", function() {return true;});
       this.add("qx.aspects", function() {return false;});
       this.add("qx.dynlocale", function() {return true;});
       this.add("qx.mobile.emulatetouch", function() {return false;});

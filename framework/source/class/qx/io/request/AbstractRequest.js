@@ -433,12 +433,15 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * @return {Map} All request headers.
      */
     _getAllRequestHeaders: function() {
-      var requestHeaders = qx.lang.Object.merge(
-        {},                                   // Merged into
-        this._getConfiguredRequestHeaders(),  // Transport specific headers
-        this.__getAuthRequestHeaders(),       // Authentication delegate
-        this.__requestHeadersDeprecated,      // User-defined, requestHeaders property (deprecated)
-        this.__requestHeaders);               // User-defined
+      var requestHeaders = {};
+      // Transport specific headers
+      qx.lang.Object.mergeWith(requestHeaders, this._getConfiguredRequestHeaders());
+      // Authentication delegate
+      qx.lang.Object.mergeWith(requestHeaders, this.__getAuthRequestHeaders());
+      // User-defined, requestHeaders property (deprecated)
+      qx.lang.Object.mergeWith(requestHeaders, this.__requestHeadersDeprecated);
+      // User-defined
+      qx.lang.Object.mergeWith(requestHeaders, this.__requestHeaders);
 
       return requestHeaders;
     },
@@ -834,7 +837,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
       }
 
       if (qx.lang.Type.isObject(data)) {
-        return qx.lang.Object.toUriParameter(data, isPost);
+        return qx.util.Uri.toParameter(data, isPost);
       }
     }
   },

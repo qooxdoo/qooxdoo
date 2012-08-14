@@ -185,7 +185,7 @@ qx.Class.define("testrunner.view.Html", {
       var controls = q.create('<div id="controls"></div>')
       .append('<input type="submit" title="Run selected tests (Ctrl+R)" id="run" value="Run Tests"></input>' +
       '<input type="submit" title="Stop the test suite (Ctrl+S)" id="stop" value="Stop Tests"></input>')
-      .append(q.create('<input type="checkbox>').setAttributes({id: "togglestack", checked : "checked"}))
+      .append(q.create('<input type="checkbox">').setAttributes({id: "togglestack", checked : "checked"}))
       .append('<label for="togglestack">Show stack traces</label>')
       .append(q.create('<input type="checkbox">').setAttributes({id: "togglepassed", checked: "checked"}))
       .append('<label for="togglepassed">Show successful tests</label>');

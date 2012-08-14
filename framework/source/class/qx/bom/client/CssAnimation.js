@@ -180,11 +180,36 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
       };
 
       return null;
+    },
+
+
+    /**
+     * Checks for the requestAnimationFrame method and return the prefixed name.
+     * @internal
+     * @return {String|null} A string the method name or null, if the method
+     *   is not supported.
+     */
+    getRequestAnimationFrame : function() {
+      var choices = [
+        "requestAnimationFrame", 
+        "msRequestAnimationFrame", 
+        "webkitRequestAnimationFrame", 
+        "mozRequestAnimationFrame", 
+        "oRequestAnmiationFrame" // not available currently to I guess the name!
+      ];
+      for (var i=0; i < choices.length; i++) {
+        if (window[choices[i]] != undefined) {
+          return choices[i];
+        }
+      };
+
+      return null;
     }
   },
 
 
   defer : function(statics) {
     qx.core.Environment.add("css.animation", statics.getSupport);
+    qx.core.Environment.add("css.animation.requestframe", statics.getRequestAnimationFrame);
   }
 });

@@ -16,6 +16,9 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
+/* ************************************************************************
+#require(qx.lang.normalize.String)
+************************************************************************ */
 
 /**
  * Methods to get information about the JavaScript call stack.
@@ -63,7 +66,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         throw new Error();
       }
       catch(ex) {
-        if (qx.core.Environment.get("ecmascript.stacktrace")) {
+        if (qx.core.Environment.get("ecmascript.error.stacktrace")) {
           var errorTrace = qx.dev.StackTrace.getStackTraceFromError(ex);
           var callerTrace = qx.dev.StackTrace.getStackTraceFromCaller(arguments);
           qx.lang.Array.removeAt(errorTrace, 0);
@@ -195,7 +198,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
     {
       var trace = [];
 
-      if (qx.core.Environment.get("ecmascript.stacktrace") === "stack") {
+      if (qx.core.Environment.get("ecmascript.error.stacktrace") === "stack") {
         if (!error.stack) {
           return trace;
         }
@@ -238,7 +241,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
           }
         }
       }
-      else if (qx.core.Environment.get("ecmascript.stacktrace") === "stacktrace") {
+      else if (qx.core.Environment.get("ecmascript.error.stacktrace") === "stacktrace") {
         // Opera
         var stacktrace = error.stacktrace;
         if (!stacktrace) {
@@ -275,7 +278,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       }
       else if (error.message && error.message.indexOf("Backtrace:") >= 0) {
         // Some old Opera versions append the trace to the message property
-        var traceString = qx.lang.String.trim(error.message.split("Backtrace:")[1]);
+        var traceString = error.message.split("Backtrace:")[1].trim();
         var lines = traceString.split("\n");
         for (var i=0; i<lines.length; i++)
         {

@@ -996,8 +996,8 @@ class QxTest:
         if 'sendReport' in appConf:
             sendReport = appConf['sendReport']
 
+        ignore = None
         if sendReport:
-            ignore = None
             if "ignoreLogEntries" in browser:
                 ignore = browser["ignoreLogEntries"]
             else:

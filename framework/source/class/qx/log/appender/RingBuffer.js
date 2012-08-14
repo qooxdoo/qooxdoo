@@ -32,7 +32,7 @@
  */
 qx.Class.define("qx.log.appender.RingBuffer",
 {
-  extend : qx.lang.RingBuffer,
+  extend : qx.util.RingBuffer,
 
   /**
    * @param maxMessages {Integer?50} Maximum number of messages in the buffer

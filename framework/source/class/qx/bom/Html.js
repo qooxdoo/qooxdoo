@@ -227,7 +227,7 @@ qx.Bootstrap.define("qx.bom.Html",
       // Append to fragment and filter out scripts... or...
       if (fragment)
       {
-        var scripts=[], LArray=qx.lang.Array, elem, temp;
+        var scripts=[], elem, temp;
         for (var i=0; ret[i]; i++)
         {
           elem = ret[i];
@@ -247,7 +247,7 @@ qx.Bootstrap.define("qx.bom.Html",
             if (elem.nodeType === 1)
             {
               // Recursively search for scripts and append them to the list of elements to process
-              temp = LArray.fromCollection(elem.getElementsByTagName("script"));
+              temp = Array.prototype.slice.call(elem.getElementsByTagName("script"), 0);
               ret.splice.apply(ret, [i+1, 0].concat(temp));
             }
 

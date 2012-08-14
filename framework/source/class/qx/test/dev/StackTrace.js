@@ -29,7 +29,7 @@ qx.Class.define("qx.test.dev.StackTrace",
 
     testGetStackTraceFromError : function()
     {
-      if (!qx.core.Environment.get("ecmascript.stacktrace")) {
+      if (!qx.core.Environment.get("ecmascript.error.stacktrace")) {
         this.skip("Test skipped since the client doesn't provide stack traces");
       }
       var trace = [];
@@ -44,7 +44,7 @@ qx.Class.define("qx.test.dev.StackTrace",
 
     testGetStackTraceFromErrorQx : function()
     {
-      if (!qx.core.Environment.get("ecmascript.stacktrace")) {
+      if (!qx.core.Environment.get("ecmascript.error.stacktrace")) {
         this.skip("Test skipped since the client doesn't provide stack traces");
       }
       var qxErrorClasses = [qx.type.BaseError, qx.core.GlobalError,

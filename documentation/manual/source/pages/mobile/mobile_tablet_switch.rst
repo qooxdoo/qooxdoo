@@ -24,7 +24,7 @@ It is able to detect 3 classes:  ``mobile``, ``tablet`` and ``desktop``.
 
 ::
 
-   var deviceType = (qx.core.Environment.get("device.type");
+   var deviceType = qx.core.Environment.get("device.type");
 
 
 Device type mapping table :

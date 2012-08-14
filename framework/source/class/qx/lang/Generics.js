@@ -20,7 +20,8 @@
 
 /* ************************************************************************
 
-#require(qx.lang.Core)
+#require(qx.lang.normalize.Array)
+#require(qx.lang.normalize.Error)
 
 ************************************************************************ */
 
@@ -70,6 +71,8 @@
  * * substr
  * * concat
  * * slice
+ *
+ * @deprecated since 2.1. Please check other classes in qx.lang to get the same features.
  */
 qx.Class.define("qx.lang.Generics",
 {

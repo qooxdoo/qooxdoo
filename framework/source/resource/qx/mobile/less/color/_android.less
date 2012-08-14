@@ -153,9 +153,12 @@ ul li.active .subtitle {
 //
 
 input[type="text"]:not(.selectbox),input[type="number"], input[type="password"], textarea {
-  #gradient > .vertical(#e2e0e2, #f8f5f8);
-  color: #222222;
-  border: 1px solid #242424;
+  //#gradient > .vertical(#e2e0e2, #f8f5f8);
+  //color: #222222;
+  border: 0px solid #242424;
+  .border-radius(0);
+
+  //.transform(translate3d(0,0,0));
 }
 
 // OVERRIDDEN
@@ -261,6 +264,7 @@ input[type="checkbox"] + label {
 }
 
 
+// The tick of the checkbox.
 input[type="checkbox"] + label:after {
     @checkbox-check-color:@android-orange;
 
@@ -278,9 +282,7 @@ input[type="checkbox"] + label:after {
     border-right: 0;
     .transform(rotate(-45deg));
 
-    -webkit-box-shadow:  -1px 1px 1px 0px @checkbox-check-color;
-    -moz-box-shadow: -1px 1px 1px 0px @checkbox-check-color;
-    box-shadow: -1px 1px 1px 0px @checkbox-check-color;
+    .box-shadow(-1px 1px 1px 0px @checkbox-check-color);
 }
 
 input[type="checkbox"]:checked + label:after {
@@ -295,9 +297,7 @@ input[type="checkbox"]:checked + label:after {
 // Border style
 input[type=radio] + label {
     background: #fcfff4;
-    background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-    background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-    background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    #gradient > .vertical-three(#fcfff4, #dfe5d7, #b3bead, 40%);
 
     -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
     -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
@@ -373,16 +373,16 @@ input[type=radio] + label:after {
   color:#000000;
 }
 
-.selectbox-selected > div > .list-itemlabel:after {
-  border-color: @android-orange;
-}
-
-.selectbox-selected.active > div > .list-itemlabel:after {
-  border-color:black;
+.selectbox-selected {
+  .clickable-active();
 }
 
 .selectbox-selected.active > div > .list-itemlabel {
   color:black;
+}
+
+.selectbox-selected > div > .list-itemlabel:after {
+  border: 0px solid transparent;
 }
 
 //
@@ -429,4 +429,33 @@ input[type=radio] + label:after {
 //
 .master-popup.popupAnchorPointerTop:before  {
   border-bottom-color:@master-popup-border-color;
+}
+
+
+//
+// CAROUSEL
+//
+
+@pagination-label-size:8px;
+
+.carousel-pagination-label {
+  .box-shadow(0px 0px 2px rgba(0,0,0,0.5));
+  opacity:0.4;
+  background-color:white;
+
+  width:@pagination-label-size;
+  height:@pagination-label-size;
+  text-align:center;
+  line-height:@pagination-label-size;
+  .border-radius(15px);
+
+  font-size:0px;
+}
+
+.carousel-pagination-label.active {
+  opacity:1.0;
+}
+
+.carousel-pagination {
+  top: -(@pagination-label-size+15px);
 }

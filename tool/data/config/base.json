@@ -7,7 +7,7 @@
     "ROOT"         : ".",
     "QOOXDOO_PATH" : "../../..",
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "CACHE_KEY"    : 
+    "CACHE_KEY"    :
     {
       "compile"      : "${CACHE}",
       "downloads"    : "${CACHE}/downloads",
@@ -67,7 +67,7 @@
 
     "cache"  :
     {
-      "cache"   : "${CACHE_KEY}"  
+      "cache"   : "${CACHE_KEY}"
     },
 
     "includes"  :
@@ -92,7 +92,7 @@
         "qx.theme"       : "${QXTHEME}",
         "qx.application" : "${APPLICATION_MAIN_CLASS}"
       },
-      
+
       "asset-let" :
       {
         "qx.icontheme" : "${QXICONTHEME}"
@@ -115,7 +115,7 @@
           "file" : "${ROOT}/source/script/${APPLICATION}.js",
           "app-root" : "source"
         },
-        "uris" : 
+        "uris" :
         {
           "add-nocache-param" : "${ADD_NOCACHE_PARAM}"
         },
@@ -133,7 +133,7 @@
     {
       "desc"    : "create source version of current application",
 
-      "compile-options" : 
+      "compile-options" :
       {
         "code" : { "except" : [ "*" ] }
       },
@@ -167,7 +167,7 @@
       },
 
       // include all (relevant) sources
-      "include" :     
+      "include" :
       [
         "${APPLICATION}.*",
         "qx.*"
@@ -186,7 +186,7 @@
           "file" : "${ROOT}/source/script/${APPLICATION}.js",
           "app-root" : "source"
         },
-        "uris" : 
+        "uris" :
         {
           "add-nocache-param" : "${ADD_NOCACHE_PARAM}"
         },
@@ -196,7 +196,7 @@
           "except"  : ["*"]
         }
       },
-      
+
       "compile" : { "type" : "source" }
     },
 
@@ -211,16 +211,16 @@
       ]
     },
 
-    "source-hybrid" : 
+    "source-hybrid" :
     {
       "desc"    : "create a hybrid application (application classes as individual files, others catenated)",
 
-      "compile-options" : 
+      "compile-options" :
       {
         "code" : { "except" : [ "${APPLICATION}.*" ] }
       },
 
-      "run" : 
+      "run" :
       [
         "source-script"
       ]
@@ -240,7 +240,8 @@
       {
         "qx.debug" : false,
         "qx.debug.databinding" : false,
-        "qx.debug.dispose" : false
+        "qx.debug.dispose" : false,
+        "qx.debug.ui.queue" : false
       },
 
       "compile-options" :
@@ -264,7 +265,7 @@
           "optimize" : "${OPTIMIZE}"
         }
       },
-      
+
       "compile" : { "type" : "build" }
     },
 
@@ -298,7 +299,8 @@
       {
         "qx.debug" : false,
         "qx.debug.databinding" : false,
-        "qx.debug.dispose" : false
+        "qx.debug.dispose" : false,
+        "qx.debug.ui.queue" : false
       },
 
       "copy-resources" :
@@ -333,14 +335,14 @@
       ,"let" :
       {
         "PROVIDER_ROOT" : "./provider",
-        "PROVIDER_OPTIMIZE" : ["variables", "basecalls", "strings", "whitespace"] 
+        "PROVIDER_OPTIMIZE" : ["variables", "basecalls", "strings", "whitespace"]
       }
-      
+
       ,"run" : [
         "provider-classes",
         "provider-deps"
       ]
-      
+
     },
 
     "provider-deps":
@@ -352,11 +354,11 @@
       ,"include" : [ "=${APPLICATION}.*" ]
       ,"exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
 
-      ,"log" : 
-      { 
-        "dependencies" : 
-        { 
-          "type" : "using", 
+      ,"log" :
+      {
+        "dependencies" :
+        {
+          "type" : "using",
           "format" : "provider",
           "json" : {"pretty" : true, "file" : "${PROVIDER_ROOT}/dependencies.json"}
         }
@@ -369,9 +371,9 @@
       "config-warnings" : {
         "exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
       }
-      ,"compile-options" : 
+      ,"compile-options" :
       {
-        "code" : 
+        "code" :
         {
           "locales"  : "${LOCALES}",
           "format"   : false,
@@ -386,10 +388,11 @@
       {
         "qx.debug" : false,
         "qx.debug.databinding" : false,
-        "qx.debug.dispose" : false
+        "qx.debug.dispose" : false,
+        "qx.debug.ui.queue" : false
       }
 
-      ,"provider" : 
+      ,"provider" :
       {
         "app-root" : "${PROVIDER_ROOT}",
         "include"  : ["${APPLICATION}.*"],
@@ -457,7 +460,7 @@
     {
       "desc"    : "remove the cache and all generated artefacts of this library (source, build, ...)",
 
-      "cache"   : "${CACHE_KEY}", 
+      "cache"   : "${CACHE_KEY}",
 
       "clean-files" :
       {
@@ -498,10 +501,10 @@
     {
       "desc"    : "remove the cache files",
 
-      "cache"   : "${CACHE_KEY}", 
+      "cache"   : "${CACHE_KEY}",
 
       "clean-files" : {}  // cache files are handled implicitly
-      
+
     },
 
 
@@ -565,14 +568,14 @@
 
       "fix-files" : {}
     },
-    
-    
-    "info" : 
+
+
+    "info" :
     {
       "desc" : "collects environment information like the qooxdoo version etc., and prints it out",
 
       "cache" : "${CACHE_KEY}",
-      
+
       "collect-environment-info" : {}
     },
 
@@ -595,7 +598,7 @@
     },
 
 
-    "log-parts" : 
+    "log-parts" :
     {
       "desc" : "includer job, to filter verbose messages for part building (with -v)",
 
@@ -603,23 +606,23 @@
     },
 
 
-    "log-dependencies" : 
+    "log-dependencies" :
     {
       "desc" : "includer job, to print dependency information with a job (use -v)",
 
-      "log"  : 
-      { 
+      "log"  :
+      {
         "filter" : { "debug" : [ "generator.code.DependencyLoader.*" ] },
         "dependencies" : { "type" : "using" }
       }
     },
 
-    "log-dependencies-dot" : 
+    "log-dependencies-dot" :
     {
       "desc" : "includer job, to generate a dot file for dependencies",
 
-      "log"  : 
-      { 
+      "log"  :
+      {
         "dependencies" :
         {
           "type"   : "using"

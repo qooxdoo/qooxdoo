@@ -494,12 +494,12 @@ qx.Class.define("qx.log.Logger",
       {
         if (value.nodeType) {
           return "node";
+        } else if (value instanceof Error) {
+          return "error";
         } else if (value.classname) {
           return "instance";
         } else if (value instanceof Array) {
           return "array";
-        } else if (value instanceof Error) {
-          return "error";
         } else if (value instanceof Date) {
           return "date";
         } else {
@@ -583,7 +583,8 @@ qx.Class.define("qx.log.Logger",
 
         case "error":
           trace = qx.dev.StackTrace.getStackTraceFromError(value);
-          text = value.toString();
+          text = (value.basename ? value.basename + ": " : "") +
+                 value.toString();
           break;
 
         case "array":

@@ -9,9 +9,9 @@
     
   .hbox();
   .border-radius(4px);
-  border:none;
   .boxAlignCenter();
   
+  border:none;
   cursor:pointer;
 
   vertical-align:middle;
@@ -19,16 +19,11 @@
   
   background-color:transparent;
 
-
   font-weight:normal;
   font-size:15px;
   text-indent: 4px;
 }
 
-.selectbox-selected > div > .list-itemlabel {
-  position:relative;
-  text-indent:4px;
-}
 
 .selectbox-selected > div > .list-itemlabel:after {
   content: '';
@@ -38,12 +33,13 @@
   background: transparent;
   right: 4px;
   border: 4px solid black;
-  border-top: none;
-  border-right: none;
+  border-top: 0;
+  border-right: 0;
   .transform(rotate(-45deg));
 }
 
-.selectbox-unselected > div > .list-itemlabel {
+.selectbox-selected > div > .list-itemlabel {
+  position:relative;
   text-indent:4px;
 }
 

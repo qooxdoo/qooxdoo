@@ -344,7 +344,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
         if (this.getLabelPath() != null)
         {
-          value = qx.data.SingleValueBinding.getValueFromObject(item,
+          value = qx.data.SingleValueBinding.resolvePropertyChain(item,
             this.getLabelPath());
 
           var labelOptions = this.getLabelOptions();

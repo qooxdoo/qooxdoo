@@ -87,7 +87,7 @@ qx.Class.define("qx.event.type.Native",
      */
     _cloneNativeEvent : function(nativeEvent, clone)
     {
-      clone.preventDefault = qx.lang.Function.empty;
+      clone.preventDefault = (function() {});
       return clone;
     },
 

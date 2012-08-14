@@ -17,7 +17,9 @@
      * Andreas Ecker (ecker)
 
 ************************************************************************ */
-
+/* ************************************************************************
+#require(qx.lang.normalize.Object)
+************************************************************************ */
 /**
  * Helper functions to handle Object as a Hash map.
  */
@@ -73,6 +75,7 @@ qx.Bootstrap.define("qx.lang.Object",
      * @signature function(map, minLength)
      * @param map {Object} the map to check
      * @param minLength {Integer} minimum number of objects in the map
+     * @deprecated since 2.1: Please use a check and 'qx.lang.Object.getLength'.
      * @return {Boolean} whether the map contains at least "length" objects.
      * @lint ignoreUnused(key)
      */
@@ -114,6 +117,7 @@ qx.Bootstrap.define("qx.lang.Object",
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
      *
+     * @deprecated since 2.1. Please use Object.keys instead.
      * @signature function(map)
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
@@ -126,6 +130,7 @@ qx.Bootstrap.define("qx.lang.Object",
      *
      * @signature function(map)
      * @param map {Object} the map
+     * @deprecated since 2.1: Object.keys(map).join().
      * @return {String} String of the keys of the map
      *         The keys are separated by ", "
      */
@@ -145,7 +150,7 @@ qx.Bootstrap.define("qx.lang.Object",
       }
 
       var arr = [];
-      var keys = this.getKeys(map);
+      var keys = Object.keys(map);
 
       for (var i=0, l=keys.length; i<l; i++) {
         arr.push(map[keys[i]]);
@@ -175,6 +180,7 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param target {Object} target object
      * @param source {Object} object to be merged
      * @return {Object} target with merged values from source
+     * @deprecated since 2.1: please use mergeWith instead with override set to false
      */
     carefullyMergeWith : function(target, source)
     {
@@ -182,6 +188,10 @@ qx.Bootstrap.define("qx.lang.Object",
       {
         qx.core.Assert && qx.core.Assert.assertMap(target, "Invalid argument 'target'");
         qx.core.Assert && qx.core.Assert.assertMap(source, "Invalid argument 'source'");
+        qx.Bootstrap.warn(
+          "'qx.lang.Object.carefullyMergeWith' is deprecated." +
+          " Please use 'qx.lang.Object.mergeWith' with override set to false instead"
+        );
       }
 
       return qx.lang.Object.mergeWith(target, source, false);
@@ -194,11 +204,16 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param target {Object} target object
      * @param varargs {Object} variable number of objects to merged with target
      * @return {Object} target with merged values from the other objects
+     * @deprecated since 2.1: Please use mergeWith instead.
      */
     merge : function(target, varargs)
     {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertMap(target, "Invalid argument 'target'");
+        qx.Bootstrap.warn(
+          "'qx.lang.Object.merge' is deprecated." +
+          " Please use 'qx.lang.Object.mergeWith' several times instead"
+        );
       }
 
       var len = arguments.length;
@@ -321,11 +336,15 @@ qx.Bootstrap.define("qx.lang.Object",
     * @param key {String} name of the key to get the value from
     * @param map {Object} map to get the value from
     * @return {var} value for the given key from the map
+    * @deprecated since 2.1
     */
     select: function(key, map)
     {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+      }
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.Bootstrap.warn("'qx.lang.Object.select()' is deprecated. Please use map[key] instead.");
       }
       return map[key];
     },
@@ -368,6 +387,7 @@ qx.Bootstrap.define("qx.lang.Object",
       return obj;
     },
 
+
     /**
      * Serializes an object to URI parameters (also known as query string).
      *
@@ -383,45 +403,15 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param post {Boolean} Whether spaces should be encoded with "+".
      * @return {String}      Serialized object. Safe to append to URIs or send as
      *                       URL encoded string.
-     *
+     * @deprecated since 2.1: Please use qx.util.Uri.toParameter instead.
      */
-    toUriParameter: function(obj, post)
-    {
-      var key,
-          parts = [];
-
-      for (key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          var value = obj[key];
-          if (value instanceof Array) {
-            for (var i=0; i<value.length; i++) {
-              this.__toUriParameter(key, value[i], parts, post);
-            }
-          } else {
-            this.__toUriParameter(key, value, parts, post);
-          }
-        }
+    toUriParameter: function(obj, post) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.Bootstrap.warn(
+          "'qx.util.Uri.toParameter' has been moved to 'qx.util.Uri.toParameter'."
+        );
       }
-
-      return parts.join("&");
-    },
-
-    /**
-     * Encodes key/value to URI safe string and pushes to given array.
-     *
-     * @param key {String} Key.
-     * @param value {String} Value.
-     * @param parts {Array} Array to push to.
-     * @param post {Boolean} Whether spaces should be encoded with "+".
-     */
-    __toUriParameter : function(key, value, parts, post) {
-      var encode = window.encodeURIComponent;
-      if (post) {
-        parts.push(encode(key).replace(/%20/g, "+") + "=" +
-          encode(value).replace(/%20/g, "+"));
-      } else {
-        parts.push(encode(key) + "=" + encode(value));
-      }
+      return qx.util.Uri.toParameter(obj, post);
     }
   }
 });

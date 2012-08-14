@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.lang.RingBuffer",
+qx.Class.define("qx.test.util.RingBuffer",
 {
   extend : qx.dev.unit.TestCase,
 
@@ -26,7 +26,7 @@ qx.Class.define("qx.test.lang.RingBuffer",
     testAdd : function()
     {
       var max = 3;
-      var buf = new qx.lang.RingBuffer(max);
+      var buf = new qx.util.RingBuffer(max);
 
       buf.addEntry(1);
       this.assertEquals(1, buf.getAllEntries().length);
@@ -51,7 +51,7 @@ qx.Class.define("qx.test.lang.RingBuffer",
     testAddMany : function()
     {
       var max = 3;
-      var buf = new qx.lang.RingBuffer(max);
+      var buf = new qx.util.RingBuffer(max);
 
       for (var i=0; i<=1003; i++){
          buf.addEntry(i);
@@ -69,7 +69,7 @@ qx.Class.define("qx.test.lang.RingBuffer",
     testGet : function()
     {
       var max = 7;
-      var buf = new qx.lang.RingBuffer(max);
+      var buf = new qx.util.RingBuffer(max);
 
       buf.addEntry(1);
       buf.addEntry(2);
@@ -94,7 +94,7 @@ qx.Class.define("qx.test.lang.RingBuffer",
     testMark : function()
     {
       var max = 3;
-      var buf = new qx.lang.RingBuffer(max);
+      var buf = new qx.util.RingBuffer(max);
 
       buf.addEntry(1);
       buf.addEntry(2);
@@ -113,7 +113,7 @@ qx.Class.define("qx.test.lang.RingBuffer",
     testClear : function()
     {
       var max = 3;
-      var buf = new qx.lang.RingBuffer(max);
+      var buf = new qx.util.RingBuffer(max);
 
       buf.addEntry(1);
       buf.addEntry(2);
@@ -131,7 +131,7 @@ qx.Class.define("qx.test.lang.RingBuffer",
     testDataTypes : function()
     {
       var max = 6;
-      var buf = new qx.lang.RingBuffer(max);
+      var buf = new qx.util.RingBuffer(max);
 
       buf.addEntry(1);
       buf.addEntry(2);

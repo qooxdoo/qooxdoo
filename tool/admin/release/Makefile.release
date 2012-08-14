@@ -52,7 +52,7 @@ ifeq ($(DO_RELEASE),)
 # --------  DEVELOPMENT SETTINGS --------------------------------------
 # these settings are used during development time
 OPT_GENERATOR = -m QOOXDOO_REVISION:$(FRAMEWORK_GITINFO)
-QOOXDOO_RELEASE = 
+QOOXDOO_RELEASE =
 else
 # --------  RELEASE SETTINGS ------------------------------------------
 # activate from the command line with: make DO_RELEASE=1 ...
@@ -343,7 +343,7 @@ build-apps:
 			elif [ "$$APPLICATION" = "todo" ]; then \
 				( cd application/$$APPLICATION && $(CMD_GENERATOR) build-min ) || exit 1; \
 		elif [ "$$APPLICATION" = "mobileshowcase" ]; then \
-			( cd application/$$APPLICATION && $(CMD_GENERATOR) build-ios,build-android ) || exit 1; \
+			( cd application/$$APPLICATION && $(CMD_GENERATOR) build-indigo ) || exit 1; \
 		else \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
 		fi; \
@@ -455,7 +455,7 @@ check-docs-pdf:
 
 publish-build: build-apps publish-build-components tutorials-build build-framework build-docs
 
-publish-build-components: 
+publish-build-components:
 	@( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/testrunner && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/testrunner && $(CMD_GENERATOR) portable-build ) || exit 1;
@@ -479,7 +479,7 @@ check-apps:
 	if [ "$$TARGET" = "featureconfigeditor" ] ; then \
 		F="application/$$TARGET/build/script/fce.js"; \
 	elif [ "$$TARGET" = "mobileshowcase" ] ; then \
-		F="application/$$TARGET/build-ios/script/$$TARGET.js"; \
+		F="application/$$TARGET/build-indigo/script/$$TARGET.js"; \
 	elif [ "$$TARGET" = "todo" ] ; then \
 		F="application/$$TARGET/$$TARGET.js"; \
 	else \
@@ -532,7 +532,7 @@ publish-index:
 	@$(CMD_REMOVE) temp
 
 # Putting components after framework, to be able to add to testrunner/script/testrunner-portable.js
-# to save:	ssh $(STAGING_HOST) $(CMD_MKDIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION/script/; 
+# to save:	ssh $(STAGING_HOST) $(CMD_MKDIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION/script/;
 publish-apps:
 	@echo "  * Syncing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
@@ -544,10 +544,7 @@ publish-apps:
 			echo "    - $$APPLICATION-website..."; \
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-website/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-website || exit 1; \
 		elif [ "$$APPLICATION" = "mobileshowcase" ]; then \
-			echo "    - $$APPLICATION-ios..."; \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-ios/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-ios || exit 1; \
-			echo "    - $$APPLICATION-android..."; \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-android/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-android || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-indigo/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		elif [ "$$APPLICATION" = "todo" ]; then \
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/script $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/todo.* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \

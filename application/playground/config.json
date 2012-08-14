@@ -7,7 +7,7 @@
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
     }
   ],
-  
+
   "default-job" : "source",
 
   "let" :
@@ -19,29 +19,29 @@
     "ROOT"         : "."
   },
 
-  "config-warnings" : 
+  "config-warnings" :
   {
     "job-shadowing" : ["source", "source-hybrid", "build-resources", "build-script", "translation"],
-    
+
     "environment" : [ "non-literal-keys" ]
   },
-  
+
   "jobs" :
   {
     // this one so that source, build-script and build-resources use common settings
     "playground-compile" :
     {
-      "config-warnings" : 
-      { 
+      "config-warnings" :
+      {
         "exclude" : ["*"],
         "environment" : [ "variants-and-url-settings" ]
       },
-      "include" :     
+      "include" :
       [
         "${APPLICATION}.*",
         "qx.*"
       ],
-      "library" : 
+      "library" :
       [
         {
           "manifest" : "${QOOXDOO_PATH}/component/library/logpane/Manifest.json"
@@ -60,6 +60,7 @@
       "environment" :
       {
         "qx.debug" : true,
+        "qx.debug.ui.queue" : true,
         "qx.nativeScrollBars" : true,
         "qx.allowUrlSettings" : true,
         "qx.mobile.emulatetouch" : true
@@ -83,7 +84,7 @@
       "extend" : [ "playground-compile" ]
     },
 
-    
+
     "source" :
     {
       "extend" : [ "playground-compile" ],

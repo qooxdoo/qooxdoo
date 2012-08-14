@@ -156,7 +156,7 @@ qx.Class.define("fce.Reporter", {
 
       req.addListener("success", function(ev) {
         var serverData = ev.getTarget().getResponse();
-        if (qx.lang.Object.getKeys(serverData).length == 0) {
+        if (Object.keys(serverData).length == 0) {
           // Server doesn't know about this client yet
           this.debug("Sending this client's environment data to the server");
           this._sendReport(this.__foundData);

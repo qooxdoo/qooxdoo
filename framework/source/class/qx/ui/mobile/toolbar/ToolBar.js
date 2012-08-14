@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
       if(!(child instanceof qx.ui.mobile.toolbar.Separator))
       {
         layoutProperties = layoutProperties ? layoutProperties : {};
-        qx.lang.Object.carefullyMergeWith(layoutProperties, {flex: 1});
+        qx.lang.Object.mergeWith(layoutProperties, {flex: 1}, false);
       }
       this.base(arguments, child, layoutProperties);
     }

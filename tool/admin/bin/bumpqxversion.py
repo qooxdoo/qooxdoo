@@ -169,9 +169,6 @@ Files = {
     "./application/todo/index.html" : [
         r'q-(%s).min.js' % qxversion_regexp,
         ],
-    "./component/tutorials/website/step1/.gitignore" : [
-        r'q-(%s).min.js' % qxversion_regexp,
-        ],
     "./component/tutorials/website/step1/notification.html" : [
         r'q-(%s).min.js' % qxversion_regexp,
         ],

@@ -128,7 +128,7 @@ qx.Class.define("qx.io.remote.Response",
       var lowerHeaders = {};
 
       if (value !== null) {
-        qx.lang.Object.getKeys(value).forEach(function(key) {
+        Object.keys(value).forEach(function(key) {
           lowerHeaders[key.toLowerCase()] = value[key];
         });
         this.__lowerHeaders = lowerHeaders;

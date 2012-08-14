@@ -54,6 +54,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         m.getItem(0).setB("affee");
       }, function(e) {
         self.assertEquals("[0].b", e.getData().name);
+        self.assertString(e.getData().name, "name is not a String.");
         self.assertEquals(m.getItem(0), e.getData().item);
       });
       m.dispose();

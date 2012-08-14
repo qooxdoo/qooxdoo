@@ -30,33 +30,4 @@ Utility methods
 Extending the native array's prototype
 ======================================
 
-* `qx.lang.Core <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.lang.Core>`_: Adds some methods to array to lift every browser to the same level. The methods are:
-
-  * indexOf
-  * lastIndexOf
-  * forEach
-  * filter
-  * map
-  * some
-  * every
-
-* `qx.lang.Generics <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.lang.Generics>`_ : Support `string/array generics <http://developer.mozilla.org/en/docs/New_in_JavaScript_1.6#Array_and_String_generics>`_ as introduced with JavaScript 1.6 for all browsers. 
-
-  * join
-  * reverse
-  * sort
-  * push
-  * pop
-  * shift
-  * unshift
-  * splice
-  * concat
-  * slice
-  * indexOf
-  * lastIndexOf
-  * forEach
-  * map
-  * filter
-  * some
-  * every
-
+* `qx.lang.normalize.Array <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.lang.normalize.Array>`_: Adds some methods to array to lift every browser to the same level. Check out the API doc for more details.

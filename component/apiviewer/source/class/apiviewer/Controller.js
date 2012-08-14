@@ -378,7 +378,7 @@ qx.Class.define("apiviewer.Controller",
         var parenPos = itemName.indexOf("(");
 
         if (parenPos != -1) {
-          itemName = qx.lang.String.trim(itemName.substring(0, parenPos));
+          itemName = itemName.substring(0, parenPos).trim();
         }
       }
 

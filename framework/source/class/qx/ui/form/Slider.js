@@ -115,7 +115,10 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Change event for the value.
      */
-    changeValue: 'qx.event.type.Data'
+    changeValue: 'qx.event.type.Data',
+
+    /** Fired as soon as the slide animation ended. */
+    slideAnimationEnd: 'qx.event.type.Event'
   },
 
 
@@ -252,6 +255,8 @@ qx.Class.define("qx.ui.form.Slider",
     __lastValueEvent: null,
     __dragValue: null,
 
+    __requestId : null,
+
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
@@ -352,19 +357,19 @@ qx.Class.define("qx.ui.form.Slider",
           break;
 
         case "PageDown":
-          this.slidePageForward();
+          this.slidePageForward(100);
           break;
 
         case "PageUp":
-          this.slidePageBack();
+          this.slidePageBack(100);
           break;
 
         case "Home":
-          this.slideToBegin();
+          this.slideToBegin(200);
           break;
 
         case "End":
-          this.slideToEnd();
+          this.slideToEnd(200);
           break;
 
         default:
@@ -777,18 +782,6 @@ qx.Class.define("qx.ui.form.Slider",
       } else {
         container.setStyle("top", position+"px", true);
       }
-
-      // Alternative: Use layout system
-      // Not used because especially in IE7/Firefox2 the
-      // direct element manipulation is a lot faster
-
-      /*
-      if (this.__isHorizontal) {
-        this.getChildControl("knob").setLayoutProperties({left:position});
-      } else {
-        this.getChildControl("knob").setLayoutProperties({top:position});
-      }
-      */
     },
 
 
@@ -831,19 +824,19 @@ qx.Class.define("qx.ui.form.Slider",
 
     /**
      * Slides backward to the minimum value
-     *
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    slideToBegin : function() {
-      this.slideTo(this.getMinimum());
+    slideToBegin : function(duration) {
+      this.slideTo(this.getMinimum(), duration);
     },
 
 
     /**
      * Slides forward to the maximum value
-     *
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    slideToEnd : function() {
-      this.slideTo(this.getMaximum());
+    slideToEnd : function(duration) {
+      this.slideTo(this.getMaximum(), duration);
     },
 
 
@@ -867,19 +860,19 @@ qx.Class.define("qx.ui.form.Slider",
 
     /**
      * Slides a page forward (to right or bottom depending on orientation)
-     *
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    slidePageForward : function() {
-      this.slideBy(this.getPageStep());
+    slidePageForward : function(duration) {
+      this.slideBy(this.getPageStep(), duration);
     },
 
 
     /**
      * Slides a page backward (to left or top depending on orientation)
-     *
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    slidePageBack : function() {
-      this.slideBy(-this.getPageStep());
+    slidePageBack : function(duration) {
+      this.slideBy(-this.getPageStep(), duration);
     },
 
 
@@ -889,9 +882,10 @@ qx.Class.define("qx.ui.form.Slider",
      * This method works with the value, not with the coordinate.
      *
      * @param offset {Integer} Offset to scroll by
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    slideBy : function(offset) {
-      this.slideTo(this.getValue() + offset);
+    slideBy : function(offset, duration) {
+      this.slideTo(this.getValue() + offset, duration);
     },
 
 
@@ -902,8 +896,9 @@ qx.Class.define("qx.ui.form.Slider",
      *
      * @param value {Integer} Scroll to a value between the defined
      *   minimum and maximum.
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    slideTo : function(value)
+    slideTo : function(value, duration)
     {
       // Bring into allowed range or fix to single step grid
       if (value < this.getMinimum()) {
@@ -914,11 +909,43 @@ qx.Class.define("qx.ui.form.Slider",
         value = this.getMinimum() + Math.round((value - this.getMinimum()) / this.getSingleStep()) * this.getSingleStep()
       }
 
-      // Sync with property
-      this.setValue(value);
+      if (duration) {
+        this.__animateTo(value, duration);
+      } else {
+        // Sync with property directly
+        this.setValue(value);
+      }
     },
 
 
+    /**
+     * Animation helper which takes care of the animated slide.
+     * @param to {Number} The target value.
+     * @param duration {Number} The time in milliseconds the slide to should take.
+     */
+    __animateTo : function(to, duration) {
+      // finish old animation before starting a new one
+      if (this.__requestId) {
+        return;
+      }
+
+      var start = +(new Date());
+      var from = this.getValue();
+
+      var clb = function(time) {
+        // final call
+        if (time >= start + duration) {
+          this.setValue(to);
+          this.__requestId = null;
+          this.fireEvent("slideAnimationEnd");
+        } else {
+          var timePassed = time - start;
+          this.setValue(parseInt(timePassed/duration * (to - from) + from));
+          qx.bom.AnimationFrame.request(clb, this);
+        }
+      };
+      qx.bom.AnimationFrame.request(clb, this);
+    },
 
 
     /*

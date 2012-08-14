@@ -49,22 +49,6 @@ qx.Class.define("qx.test.lang.Object",
     },
 
 
-    testHasMinLength : function()
-    {
-      var object = {};
-      this.assertTrue(qx.lang.Object.hasMinLength(object, 0));
-      this.assertFalse(qx.lang.Object.hasMinLength(object, 1));
-
-      var object = {a: 1};
-      this.assertTrue(qx.lang.Object.hasMinLength(object, 1));
-      this.assertFalse(qx.lang.Object.hasMinLength(object, 2));
-
-      var object = {a:undefined, b: null, c: 1};
-      this.assertTrue(qx.lang.Object.hasMinLength(object, 3));
-      this.assertFalse(qx.lang.Object.hasMinLength(object, 4));
-    },
-
-
     testGetLength : function()
     {
       var object = {};
@@ -87,13 +71,13 @@ qx.Class.define("qx.test.lang.Object",
       }
       this.assertArrayEquals(
         ["a", "b", "c"].sort(),
-        qx.lang.Object.getKeys(object).sort()
+        Object.keys(object).sort()
       );
 
       var object = {}
       this.assertArrayEquals(
         [],
-        qx.lang.Object.getKeys(object)
+        Object.keys(object)
       );
 
       var object = {
@@ -111,39 +95,7 @@ qx.Class.define("qx.test.lang.Object",
           "toString",
           "valueOf"
         ].sort(),
-        qx.lang.Object.getKeys(object).sort()
-      );
-    },
-
-
-    testGetKeysAsString : function()
-    {
-      var object = {
-        a: undefined,
-        b: null,
-        c: 1
-      }
-      this.assertEquals(
-        '"a", "b", "c"',
-        qx.lang.Object.getKeysAsString(object)
-      );
-
-      var object = {}
-      this.assertEquals(
-        '',
-        qx.lang.Object.getKeysAsString(object)
-      );
-
-      var object = {
-        "isPrototypeOf": 1,
-        "hasOwnProperty": 1,
-        "toLocaleString": 1,
-        "toString": 1,
-        "valueOf": 1
-      };
-      this.assertEquals(
-        '"isPrototypeOf", "hasOwnProperty", "toLocaleString", "toString", "valueOf"',
-        qx.lang.Object.getKeysAsString(object)
+        Object.keys(object).sort()
       );
     },
 
@@ -192,29 +144,15 @@ qx.Class.define("qx.test.lang.Object",
     },
 
 
-    testCarefullyMergeWith : function() {
+    testMergeWithCarefully : function() {
       var original = {a: 0};
       var o1 = {a: 2, b: 1};
 
-      qx.lang.Object.carefullyMergeWith(original, o1);
+      qx.lang.Object.mergeWith(original, o1, false);
 
       // check the original
       this.assertEquals(0, original.a);
       this.assertEquals(1, original.b);
-    },
-
-
-    testMerge : function() {
-      var original = {a: 0};
-      var o1 = {b: 1};
-      var o2 = {c: 2};
-
-      qx.lang.Object.merge(original, o1, o2);
-
-      // check the original
-      this.assertEquals(0, original.a);
-      this.assertEquals(1, original.b);
-      this.assertEquals(2, original.c);
     },
 
 
@@ -283,11 +221,6 @@ qx.Class.define("qx.test.lang.Object",
     },
 
 
-    testSelect : function() {
-      this.assertEquals("affe", qx.lang.Object.select("affe", {affe: "affe"}));
-    },
-
-
     testFromArray : function() {
       var array = ["a", "b"];
       var obj = qx.lang.Object.fromArray(array);
@@ -313,40 +246,6 @@ qx.Class.define("qx.test.lang.Object",
       this.assertNotIdentical(("Juhu").constructor, objConstructor);
       this.assertNotIdentical((/abc/).constructor, objConstructor);
       qxObj.dispose();
-    },
-
-    testToUriParameter : function()
-    {
-      var obj = {affe: true, maus: false};
-      var str = qx.lang.Object.toUriParameter(obj);
-      this.assertEquals("affe=true&maus=false", str);
-    },
-
-    testToUriParameterUmlauts : function()
-    {
-      var obj = {"äffe": "jøah", "maüs": "nö"};
-      var str = qx.lang.Object.toUriParameter(obj);
-      this.assertEquals("%C3%A4ffe=j%C3%B8ah&ma%C3%BCs=n%C3%B6", str);
-    },
-
-    testToUriParameterSpaces : function()
-    {
-      var obj = {"a f f e": true};
-      var str = qx.lang.Object.toUriParameter(obj);
-      this.assertEquals("a%20f%20f%20e=true", str);
-    },
-
-    testToUriParameterSpacesPost : function()
-    {
-      var obj = {"a f  f e": "j a"};
-      var str = qx.lang.Object.toUriParameter(obj, true);
-      this.assertEquals("a+f++f+e=j+a", str);
-    },
-
-    testToUriParameterArray : function() {
-      var obj = {id: [1,2,3]};
-      var str = qx.lang.Object.toUriParameter(obj);
-      this.assertEquals("id=1&id=2&id=3", str);
     }
   }
 });

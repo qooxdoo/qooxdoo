@@ -463,11 +463,40 @@ input[type=radio] + label:after {
 
 // Tick
 .selectbox-selected > div > .list-itemlabel:after {
-  border-color:@dark-blue;
-  .box-shadow(-1px 1px 1px 0px @dark-grey);
+  border: 0px solid transparent;
 }
 
-// Active Tick
-.selectbox-selected.active > div > .list-itemlabel:after {
-  border-color:white;
+.selectbox-selected {
+  .clickable-active();
 }
+
+//
+// CAROUSEL
+//
+
+@pagination-label-size:8px;
+
+.carousel-pagination-label {
+  border: 1px solid white;
+  opacity:0.6;
+  background-color:@dark-grey;
+
+  width:@pagination-label-size;
+  height:@pagination-label-size;
+  text-align:center;
+  line-height:@pagination-label-size;
+  .border-radius(15px);
+
+  font-size:0px;
+}
+
+.carousel-pagination-label.active {
+  background-color:@dark-blue;
+  opacity:1.0;
+}
+
+.carousel-pagination {
+  top: -(@pagination-label-size+15px);
+}
+
+

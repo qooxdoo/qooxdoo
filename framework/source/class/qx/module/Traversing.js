@@ -68,7 +68,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
     /**
      * Executes the provided callback function once for each item in the
-     * collection. @see qx.type.BaseArray#forEach
+     * collection.
      *
      * @attach {q}
      * @param fn {Function} Callback function
@@ -80,25 +80,6 @@ qx.Bootstrap.define("qx.module.Traversing", {
         fn.call(ctx, this[i], i, this);
       };
       return this;
-    },
-
-
-    /**
-     * Returns a copy of the collection within the given range.
-     *
-     * @attach {q}
-     * @param begin {Number} The index to begin.
-     * @param end {Number?} The index to end.
-     * @return {q} A new collection containing a slice of the original collection.
-     */
-    slice : function(begin, end) {
-      // Old IEs return an empty array if the second argument is undefined
-      if (end) {
-        return q.$init(Array.prototype.slice.call(this, begin, end));
-      }
-      else {
-        return q.$init(Array.prototype.slice.call(this, begin));
-      }
     },
 
 
@@ -240,33 +221,6 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     /**
-     * Gets a new collection containing only those elements that passed the
-     * given filter. This can be either a selector expression or a filter
-     * function.
-     *
-     * @attach {q}
-     * @param selector {String|Function} Selector expression or filter function
-     * @return {q} New collection containing the elements that passed the filter
-     */
-    filter : function(selector) {
-      if (qx.lang.Type.isFunction(selector)) {
-        return qx.type.BaseArray.prototype.filter.call(this, selector);
-      }
-      /*
-       * This works but isn't currently needed:
-      if (qx.dom.Node.isElement(selector)) {
-        for (var i=0; i < this.length; i++) {
-          if (this[i] == selector) {
-            return q.$init([this[i]]);
-          }
-        }
-      }
-      */
-      return q.$init(qx.bom.Selector.matches(selector, this));
-    },
-
-
-    /**
      * Gets a new set of elements containing the child nodes of each item in the
      * current set.
      *
@@ -285,7 +239,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Checks if at least one element in the collection passes the provided
      * filter. This can be either a selector expression or a filter
-     * function @see qx.type.BaseArray#filter
+     * function
      *
      * @attach {q}
      * @param selector {String|Function} Selector expression or filter function
@@ -492,7 +446,6 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Remove elements from the collection that do not pass the given filter.
      * This can be either a selector expression or a filter function
-     * @see qx.type.BaseArray#filter
      *
      * @attach {q}
      * @param selector {String|Function} Selector or filter function
@@ -625,14 +578,12 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "add" : statics.add,
       "getChildren" : statics.getChildren,
       "forEach" : statics.forEach,
-      "slice" : statics.slice,
       "getParents" : statics.getParents,
       "getAncestors" : statics.getAncestors,
       "getAncestorsUntil" : statics.getAncestorsUntil,
       "__getAncestors" : statics.__getAncestors,
       "getClosest" : statics.getClosest,
       "find" : statics.find,
-      "filter" : statics.filter,
       "getContents" : statics.getContents,
       "is" : statics.is,
       "eq" : statics.eq,

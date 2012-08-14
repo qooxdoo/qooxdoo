@@ -22,9 +22,15 @@
 
 #require(qx.Interface)
 #require(qx.Mixin)
-#require(qx.lang.Core)
 
-#use(qx.lang.Generics)
+#require(qx.lang.normalize.Array)
+#require(qx.lang.normalize.Date)
+#require(qx.lang.normalize.Error)
+#require(qx.lang.normalize.Function)
+#require(qx.lang.normalize.String)
+#require(qx.lang.normalize.Object)
+
+#use(qx.lang.Generics) // deprecated since 2.1
 
 ************************************************************************ */
 
@@ -426,7 +432,7 @@ qx.Bootstrap.define("qx.Class",
       while (clazz)
       {
         if (clazz.$$properties) {
-          list.push.apply(list, qx.Bootstrap.getKeys(clazz.$$properties));
+          list.push.apply(list, Object.keys(clazz.$$properties));
         }
 
         clazz = clazz.superclass;
@@ -971,7 +977,7 @@ qx.Bootstrap.define("qx.Class",
 
           var key;
 
-          for (var i=0, a=qx.Bootstrap.getKeys(statics), l=a.length; i<l; i++)
+          for (var i=0, a=Object.keys(statics), l=a.length; i<l; i++)
           {
             key = a[i];
             var staticValue = statics[key];
@@ -1277,7 +1283,7 @@ qx.Bootstrap.define("qx.Class",
       var key, member;
       qx.Bootstrap.setDisplayNames(members, clazz.classname + ".prototype");
 
-      for (var i=0, a=qx.Bootstrap.getKeys(members), l=a.length; i<l; i++)
+      for (var i=0, a=Object.keys(members), l=a.length; i<l; i++)
       {
         key = a[i];
         member = members[key];
@@ -1408,7 +1414,7 @@ qx.Bootstrap.define("qx.Class",
       var wrapper = this.__wrapConstructor(clazz, name, clazz.$$classtype);
 
       // copy all keys from the wrapped constructor to the wrapper
-      for (var i=0, a=qx.Bootstrap.getKeys(clazz), l=a.length; i<l; i++)
+      for (var i=0, a=Object.keys(clazz), l=a.length; i<l; i++)
       {
         key = a[i];
         wrapper[key] = clazz[key];
@@ -1419,7 +1425,7 @@ qx.Bootstrap.define("qx.Class",
 
       // fix self references in members
       var members = clazz.prototype;
-      for (var i=0, a=qx.Bootstrap.getKeys(members), l=a.length; i<l; i++)
+      for (var i=0, a=Object.keys(members), l=a.length; i<l; i++)
       {
         key = a[i];
         var method = members[key];

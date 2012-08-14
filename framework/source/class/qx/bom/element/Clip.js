@@ -16,7 +16,9 @@
      * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
-
+/* ************************************************************************
+#require(qx.lang.normalize.String)
+************************************************************************ */
 
 /**
  * Contains methods to control and query the element's clip property
@@ -100,7 +102,7 @@ qx.Bootstrap.define("qx.bom.element.Clip",
 
       if (typeof clip === "string" && clip !== "auto" && clip !== "")
       {
-        clip = qx.lang.String.trim(clip);
+        clip = clip.trim();
 
         // Do not use "global" here. This will break Firefox because of
         // an issue that the lastIndex will not be resetted on separate calls.
@@ -119,10 +121,10 @@ qx.Bootstrap.define("qx.bom.element.Clip",
             var split = result.split(" ");
           }
 
-          top = qx.lang.String.trim(split[0]);
-          right = qx.lang.String.trim(split[1]);
-          bottom = qx.lang.String.trim(split[2]);
-          left = qx.lang.String.trim(split[3]);
+          top = split[0].trim();
+          right = split[1].trim();
+          bottom = split[2].trim();
+          left = split[3].trim();
 
           // Normalize "auto" to null
           if (left === "auto") {

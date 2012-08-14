@@ -1,8 +1,53 @@
 .eventcontainer {
-  min-height:200px;
-  background-color:green;
+  position:relative;
+  overflow:hidden;
+  
+  max-height:400px;
+}
+
+.container-touch-area{
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#000000), color-stop(100%,#555555));
+  background: -webkit-linear-gradient(top, #000000 0%,#555555 100%);
+  background: -moz-linear-gradient(top, #000000 0%,#555555 100%);
+  
+  background-repeat: no-repeat;
+  
+  min-height:400px;
   color:#ffffff;
   padding:5px;
+  
+  cursor:default;
+  
+  background-color: #555555;
+  
+  width:100%;
+}
+
+.touch {
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:70px;
+  height:70px;
+  
+  border:4px solid white;
+  
+  border-radius: 70px;  
+  -moz-border-radius: 70px;  
+  -webkit-border-radius: 70px; 
+  
+  margin-left:-35px;
+  margin-top:-35px;
+  z-index:5000;
+}
+
+.gesture-target {
+  transform: scale(0.5);
+  
+  z-index:1000;
+  position:absolute;
+  top:0px;
+  left:0px;
 }
 
 .marginExpander {
@@ -12,6 +57,56 @@
 .toggleButton {
   margin-top:2px;
 }
+
+
+.carousel-page {
+  font-size:2.5em;
+  height:300px;
+}
+
+.carousel-page > .label {
+  padding:10px;
+  font-family:helvetica;
+  font-weight:bold;
+}
+
+.carousel-example-1 {
+  background-color:#0C2550;
+  color: white ;
+}
+
+.carousel-example-2 {
+  background-color:#A3D0C1;
+  font-size:2.5em;
+  height:300px;
+  color:#222222;
+}
+
+.carousel-example-3 {
+  background-color:#FDF6DD;
+  font-size:2.5em;
+  height:300px;
+  color:#222222;
+}
+
+.carousel-example-4 {
+  background-color:#FEE406;
+  font-size:2.5em;
+  height:300px;
+  color:#222222;
+}
+
+.carousel-example-5 {
+  background-color:#F4651C;
+  font-size:2.5em;
+  height:300px;
+  color:#222222;
+}
+
+.example-button {
+  width:100px;
+}
+
 
 .view1 {
   border:1px solid #aaaaaa;

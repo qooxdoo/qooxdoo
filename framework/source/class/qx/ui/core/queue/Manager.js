@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
           {
             delete jobs.widget;
 
-            if (qx.core.Environment.get("qx.debug")) {
+            if (qx.core.Environment.get("qx.debug.ui.queue")) {
               try {
                 qx.ui.core.queue.Widget.flush();
               } catch (e) {
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
           {
             delete jobs.visibility;
 
-            if (qx.core.Environment.get("qx.debug")) {
+            if (qx.core.Environment.get("qx.debug.ui.queue")) {
               try {
                 qx.ui.core.queue.Visibility.flush();
               } catch (e) {
@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
           {
             delete jobs.appearance;
 
-            if (qx.core.Environment.get("qx.debug")) {
+            if (qx.core.Environment.get("qx.debug.ui.queue")) {
               try {
                 qx.ui.core.queue.Appearance.flush();
               } catch (e) {
@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
           {
             delete jobs.layout;
 
-            if (qx.core.Environment.get("qx.debug")) {
+            if (qx.core.Environment.get("qx.debug.ui.queue")) {
               try {
                 qx.ui.core.queue.Layout.flush();
               } catch (e) {
@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
         {
           delete jobs.dispose;
 
-          if (qx.core.Environment.get("qx.debug")) {
+          if (qx.core.Environment.get("qx.debug.ui.queue")) {
             try {
               qx.ui.core.queue.Dispose.flush();
             } catch (e) {

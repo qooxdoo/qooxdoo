@@ -96,7 +96,7 @@ qx.Class.define("qx.dev.unit.TestCase",
     {
       this.getTestResult().run(
         this.getTestFunc(),
-        deferredFunction || qx.lang.Function.empty,
+        deferredFunction || (function() {}),
         self || this,
         true
       );
