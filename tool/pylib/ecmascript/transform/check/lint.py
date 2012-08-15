@@ -78,7 +78,7 @@ class LintChecker(treeutil.NodeVisitor):
         # recurse
         for cld in node.children:
             self.visit(cld)
-        
+
     def visit_function(self, node):
         #print "visiting", node.type
         if not self.opts.ignore_undefined_globals:
@@ -91,14 +91,14 @@ class LintChecker(treeutil.NodeVisitor):
         # recurse
         for cld in node.children:
             self.visit(cld)
-        
+
     # - ---------------------------------------------------------------------------
 
     def function_used_deprecated(self, funcnode):
         # take advantage of Scope() objects
         scope = funcnode.scope
         for id_, scopeVar in scope.globals().items():
-            # id_ might be an incomplete class id, like "qx" 
+            # id_ might be an incomplete class id, like "qx"
             # let's look at the var uses
             for var_node in scopeVar.uses:
                 full_name = (treeutil.assembleVariable(var_node))[0]
@@ -110,8 +110,8 @@ class LintChecker(treeutil.NodeVisitor):
                     if at_hints:
                         ok = self.is_name_lint_filtered(full_name, at_hints, "ignoreDeprecated")
                 if not ok:
-                    warn("Deprecated global symbol used: %s" % full_name, self.file_name, var_node)
-                    
+                    warn("Deprecated global symbol used: '%s'" % full_name, self.file_name, var_node)
+
     def function_unknown_globals(self, funcnode):
         # take advantage of Scope() objects
         scope = funcnode.scope
@@ -120,14 +120,14 @@ class LintChecker(treeutil.NodeVisitor):
                 continue
             elif id_ in lang.GLOBALS: # JS built-ins ('alert' etc.)
                 continue
-            else:  
+            else:
                 # we want to be more specific than just the left-most symbol,
                 # like "qx", so let's look at the var uses
                 for var_node in scopeVar.uses:
                     var_top = treeutil.findVarRoot(var_node)
                     full_name = (treeutil.assembleVariable(var_top))[0]
                     ok = False
-                    if extension_match_in(full_name, self.opts.library_classes + 
+                    if extension_match_in(full_name, self.opts.library_classes +
                         self.opts.class_namespaces): # known classes (classList + their namespaces)
                         ok = True
                     else:
@@ -135,11 +135,11 @@ class LintChecker(treeutil.NodeVisitor):
                         if at_hints:
                             ok = self.is_name_lint_filtered(full_name, at_hints, "ignoreUndefined")
                     if not ok:
-                        warn("Unknown global symbol used: %s" % var_node.get("value"), self.file_name, var_node)
-                    
+                        warn("Unknown global symbol used: '%s'" % var_node.get("value"), self.file_name, var_node)
+
     def function_unused_vars(self, funcnode):
         scope = funcnode.scope
-        unused_vars = dict([(id_, scopeVar) for id_, scopeVar in scope.vars.items() 
+        unused_vars = dict([(id_, scopeVar) for id_, scopeVar in scope.vars.items()
                                 if self.var_unused(scopeVar)])
 
         for var_name,scopeVar in unused_vars.items():
@@ -153,7 +153,7 @@ class LintChecker(treeutil.NodeVisitor):
                 if at_hints:
                     ok = self.is_name_lint_filtered(var_name, at_hints, "ignoreUnused")
             if not ok:
-                warn("Declared but unused variable or parameter '%s'" % var_name, self.file_name, scopeVar.decl[0])
+                warn("Declared but unused variable or parameter: '%s'" % var_name, self.file_name, scopeVar.decl[0])
 
     ##
     # Checks the @lint hints in <at_hints> if the given <var_name> is filtered
@@ -164,7 +164,7 @@ class LintChecker(treeutil.NodeVisitor):
             return re.match(r"%s\b" % prefix, name)
         filtered = False
         if at_hints:
-            if ( 'lint' in at_hints and 
+            if ( 'lint' in at_hints and
                 filter_key in at_hints['lint']):
                 if any([extension_match(var_name, x) for x in at_hints['lint'][filter_key]]):
                     filtered = True
@@ -187,7 +187,7 @@ class LintChecker(treeutil.NodeVisitor):
         scope_node = node.scope
         for id_, var_node in scope_node.vars.items():
             if self.multiple_var_decls(var_node):
-                warn("Multiple declarations of variable '%s' (%r)" % (
+                warn("Multiple declarations of variable: '%s' (%r)" % (
                     id_, [(n.get("line",0) or -1) for n in var_node.decl]), self.file_name, None)
 
     def multiple_var_decls(self, scopeVar):
@@ -299,7 +299,7 @@ class LintChecker(treeutil.NodeVisitor):
     def environment_check_select(self, select_call):
         if select_call.type != "call":
             return False
-            
+
         params = select_call.getChild("arguments")
         if len(params.children) != 2:
             warn("qx.core.Environment.select: takes exactly two arguments.", self.file_name, select_call)
@@ -334,7 +334,7 @@ class LintChecker(treeutil.NodeVisitor):
             # like in variantoptimzier - deferred
             pass
         else:
-            warn("qx.core.Environment.select: second parameter not a map.", self.file_name, select_call)
+            warn("qx.core.Environment.select: second parameter is not a map.", self.file_name, select_call)
 
 
     def environment_check_get(self, get_call):
@@ -342,7 +342,7 @@ class LintChecker(treeutil.NodeVisitor):
         # Simple sanity checks
         params = get_call.getChild("arguments")
         if len(params.children) != 1:
-            warn("qx.core.Environment.get: takes exactly one arguments.", self.file_name, get_call)
+            warn("qx.core.Environment.get: takes exactly one argument.", self.file_name, get_call)
             return False
 
         firstParam = params.getChildByPosition(0)
@@ -375,7 +375,7 @@ class LintChecker(treeutil.NodeVisitor):
 
         params = filter_call.getChild("arguments")
         if len(params.children) != 1:
-            warn("qx.core.Environment.filter: takes exactly one arguments.", self.file_name, filter_call)
+            warn("qx.core.Environment.filter: takes exactly one argument.", self.file_name, filter_call)
             return complete
 
         # Get the map from the filter call
@@ -417,7 +417,7 @@ def get_at_hints(node, at_hints=None):
             functor = entry['functor']
             if functor not in at_hints['lint']:
                 at_hints['lint'][functor] = set()
-            at_hints['lint'][functor].update(entry['arguments']) 
+            at_hints['lint'][functor].update(entry['arguments'])
     # include @hints of parent scopes
     scope = scopes.find_enclosing(node)
     if scope:
@@ -441,7 +441,7 @@ def defaultOptions():
     opts.ignore_undefined_globals = False
     opts.ignore_unused_parameter = True
     opts.ignore_unused_variables = False
-  
+
     return opts
 
 ##
