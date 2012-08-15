@@ -720,9 +720,9 @@ def checkFirstChainChild(node):
 def isNEWoperand(node):
     operation = None
     if node.hasParentContext("operation/call/operand"):
-        operation = node.parent.parent.parent.parent
+        operation = node.parent.parent.parent
     elif node.hasParentContext("operation"):
-        operation = node.parent.parent
+        operation = node.parent
     return operation and operation.type=="operation" and operation.get("operator",0)=="NEW"
 
 
