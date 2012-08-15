@@ -903,10 +903,10 @@ class Generator(object):
 
             # transform dep keys ("qx.Class" -> "qx/Class.js")
             for key, val in classToDeps.items():
-                newkey = key.replace(".", "/")
-                #newkey += ".js"
-                classToDeps[newkey] = classToDeps[key]
-                del classToDeps[key]
+                if key.find(".")>-1:
+                    newkey = key.replace(".", "/")
+                    classToDeps[newkey] = classToDeps[key]
+                    del classToDeps[key]
 
             # sort information for each class (for stable output)
             for classvals in classToDeps.values():
