@@ -206,6 +206,19 @@
       }
     },
 
+    "provider-classes" :
+    {
+      "provider" :
+      {
+        "include" : ["q"]
+      }
+    },
+
+    "provider-deps" :
+    {
+      "include" : [ "q" ]
+    },
+
     "images" :
     {
       "run" : [ "image-clipping", "image-combine" ]
