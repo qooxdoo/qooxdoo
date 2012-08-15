@@ -502,7 +502,7 @@ Description
   Ignore the occurrence of global symbols. This @ hint has two implications:
 
   * Don't warn about if the symbol is unknown (i.e. is not in any known library or a known built-in), i.e. it influences the lint system.
-  * Don't include the symbol in the build, i.e. it influences the compiler system, doesn't follow the symbol's dependencies.
+  * Don't include the symbol in the build, i.e. it influences the compiler system, which also doesn't follow the symbol's dependencies.
 
 **Syntax**
 
