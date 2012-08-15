@@ -154,6 +154,12 @@ Description
       * - description
         - Descriptive text of the parameter
   
+**Example**
+
+  ::
+
+    @param foo {Integer} The main factor
+
 
 
 .. _pages/api_jsdoc_ref#return:

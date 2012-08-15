@@ -288,55 +288,58 @@ class Comment(object):
     #      'type': [{'dimensions': 0, 'type': u'Boolean'}]}]
     #
     def parse(self, format=True):
-        # print "Parse: " + intext
 
-        # Strip "/**", "/*!" and "*/"
-        intext = self.string[3:-2]
+        hint_sign = re.compile(r'^(?<!{)@(\w+)')
 
-        # Strip leading stars in every line
-        text = ""
-        for line in intext.split("\n"):
-            text += R_JAVADOC_STARS.sub("", line) + "\n"
+        def remove_decoration(text):
+            # Strip "/**", "/*!" and "*/"
+            intext = self.string[3:-2]
+            # Strip leading stars in every line
+            text = []
+            for line in intext.split("\n"):
+                text.append(R_JAVADOC_STARS.sub("", line))
+            # Autodent
+            #text = Text(text).autoOutdent()
+            return text
 
-        # Autodent
-        text = Text(text).autoOutdent()
-
-        # Search for attributes
-        desc = { "category" : "description", "text" : "" }
-        attribs = [desc]
-        pos = 0
-
-        while True:
-            # this is necessary to match ^ at the beginning of a line
-            if pos > 0 and  text[pos-1] == "\n": pos -= 1
-            match = R_ATTRIBUTE.search(text, pos)
-
-            if match == None:
-                prevText = text[pos:].rstrip()
-
-                if len(attribs) == 0:
-                    desc["text"] = prevText
+        def lines_to_sections(comment_lines):
+            # compact sections
+            section_lines = ['']  # add a fake empty description
+            for line in comment_lines:
+                line = line.strip()
+                if hint_sign.search(line):
+                    section_lines.append(line)  # new section
                 else:
-                    attribs[-1]["text"] = prevText
+                    section_lines[-1] += ' ' + line # concat to previous
+            return section_lines
 
-                break
+        # ----------------------------------------------------------------------
 
-            prevText = text[pos:match.start(0)].rstrip()
-            pos = match.end(0)
+        # remove '*' etc.
+        comment_lines = remove_decoration(self.string)
 
-            if len(attribs) == 0:
-                desc["text"] = prevText
-            else:
-                attribs[-1]["text"] = prevText
+        # turn into one line for each: description, @hint1, @hint2, ...
+        section_lines = lines_to_sections(comment_lines)
 
-            attribs.append({ "category" : match.group(1), "text" : "" })
+        attribs = []
+        for line in section_lines:
+            mo = hint_sign.search(line)
+            if mo:
+                hint_key = mo.group(1)
+                if hasattr(self, "parse_at_"+hint_key):
+                    entry = getattr(self, "parse_at_"+hint_key)(line)
+                else:
+                    raise Exception("Unknown '@' hint in JSDoc comment: " + hint_key)
+                attribs.append(entry)
+            else: # description
+                attribs.append({
+                   "category" : "description", 
+                   "text" : line
+                })
 
-        # parse details
-        for attrib in attribs:
-            self.parseDetail(attrib, False)
-
+        from pprint import pprint
+        pprint( attribs)
         return attribs
-
 
     def parseDetail(self, attrib, format=True):
         text = attrib["text"]
@@ -401,17 +404,142 @@ class Comment(object):
             del attrib["text"]
 
 
+    # the next would be close to the spec (but huge!)
+    #identi = py.Word(u''.join(lang.IDENTIFIER_CHARS_START), u''.join(lang.IDENTIFIER_CHARS_BODY))
+    # but using regex, to be consistent with the parser
+    py_js_identifier = py.Regex(lang.IDENTIFIER_REGEXP)
+
     def parseDetail_Term(self, attrib):
         text = attrib['text'] # "ignoreUnused(a,b)"
-        # the next would be close to the spec (but huge!)
-        #identi = py.Word(u''.join(lang.IDENTIFIER_CHARS_START), u''.join(lang.IDENTIFIER_CHARS_BODY))
-        # but using regex, to be consistent with the parser
-        identi = py.Regex(lang.IDENTIFIER_REGEXP)
-        term = identi + py.Suppress('(') + py.Optional(py.delimitedList(identi)) + py.Suppress(')')
+        term = self.py_js_identifier + py.Suppress('(') + \
+            py.Optional(py.delimitedList(self.py_js_identifier)) + py.Suppress(')')
         a = term.parseString(text)
         attrib['functor'] = a[0]  # "ignoreUnused"
         attrib['arguments'] = a[1:] # ["a", "b"]
 
+
+    def parse_at_ignore(self, line):
+        grammar = py.Suppress('@') + py.Literal('ignore') + py.Suppress('(') + \
+            py.delimitedList(self.py_js_identifier).setResultsName('arguments') + py.Suppress(')')
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'ignore',
+            'arguments': presult.arguments.asList()  # 'arguments'=(['foo','bar'],{})!?
+        }
+        return res
+
+    def parse_at_return(self, line):
+        grammar = py.Suppress('@') + py.Literal('return') + py.Suppress('{') + \
+            py.Word(py.alphanums).setResultsName("type") + py.Suppress('}') + py.restOfLine("text")
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'return',
+            'type' : presult.type,  # TODO: [{'dimensions': 0, 'type': u'Boolean'}]
+            'text' : presult.text
+        }
+        return res
+        
+    def parse_at_throws(self, line):
+        grammar = py.Suppress('@') + py.Literal('throws') + py.restOfLine("text")
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'throws',
+            'text' : presult.text
+        }
+        return res
+        
+    def parse_at_param(self, line):
+        grammar = py.Suppress('@') + py.Literal('param') + self.py_js_identifier.copy().setResultsName("name") + \
+            py.Suppress('{') + py.Word(py.alphanums).setResultsName("type") + py.Suppress('}') + py.restOfLine("text")
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'param',
+            'name' : presult.name,
+            'type' : presult.type,# TODO: [{'dimensions': 0, 'type': u'Boolean'}]
+            'text' : presult.text # TODO: mark-up, u'<p>mixin to check</p>'
+        }
+        return res
+        
+    def parse_at_see(self, line):
+        grammar = py.Suppress('@') + py.Literal('see') + py.Regex(r'\S+').setResultsName("name") + \
+            py.Optional(py.restOfLine("text"))
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'see',
+            'name' : presult.name,
+            'text' : presult.text
+        }
+        return res
+        
+    def parse_at_signature(self, line):
+        grammar = py.Suppress('@') + py.Literal('signature') + py.Literal('function') + \
+            py.Suppress('(') + py.Optional(py.delimitedList(self.py_js_identifier)).setResultsName('arguments') + \
+            py.Suppress(')')
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'signature',
+            'text' : '(' + ",".join(presult[2:]) + ')', # TODO: this should be removed in favor of 'arguments'
+            'arguments' : presult.arguments.asList()
+        }
+        return res
+        
+    py_comment_term = py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') + \
+        py.Optional(py.delimitedList(py_js_identifier)).setResultsName('t_arguments') + py.Suppress(')')
+
+    def parse_at_lint(self, line):
+        grammar = py.Suppress('@') + py.Literal('lint') + self.py_comment_term
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'lint',
+            'functor' : presult.t_functor,
+            'arguments' : presult.t_arguments.asList()
+        }
+        return res
+        
+    def parse_at_attach(self, line):
+        grammar = py.Suppress('@') + py.Literal('attach') + py.Suppress('{') + \
+            self.py_js_identifier.copy().setResultsName('clazz') + \
+            py.Optional(py.Suppress(',')+self.py_js_identifier).setResultsName('method') + \
+            py.Suppress('}')
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'attach',
+            'targetClass'  : presult.clazz,
+            'targetMethod' : presult.method,
+        }
+        return res
+        
+    def parse_at_attachStatic(self, line):
+        grammar = py.Suppress('@') + py.Literal('attachStatic') + py.Suppress('{') + \
+            self.py_js_identifier.copy().setResultsName('clazz') + \
+            py.Optional(py.Suppress(',')+self.py_js_identifier).setResultsName('method') + \
+            py.Suppress('}')
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'attachStatic',
+            'targetClass'  : presult.clazz,
+            'targetMethod' : presult.method,
+        }
+        return res
+        
+    def parse_at_require(self, line):
+        grammar = py.Suppress('@') + self.py_comment_term
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'require',
+            'arguments' : presult.t_arguments.asList(),
+        }
+        return res
+        
+    def parse_at_use(self, line):
+        grammar = py.Suppress('@') + self.py_comment_term
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'use',
+            'arguments' : presult.t_arguments.asList(),
+        }
+        return res
+        
 
     def cleanupText(self, text):
         #print "============= INTEXT ========================="
