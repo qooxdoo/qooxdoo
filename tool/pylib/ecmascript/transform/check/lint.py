@@ -133,7 +133,8 @@ class LintChecker(treeutil.NodeVisitor):
                     else:
                         at_hints = get_at_hints(var_node) # check full_name against @ignore hints
                         if at_hints:
-                            ok = self.is_name_lint_filtered(full_name, at_hints, "ignoreUndefined")
+                            ok = ( self.is_name_ignore_filtered(full_name, at_hints)
+                                or self.is_name_lint_filtered(full_name, at_hints, "ignoreUndefined")) # /**deprecated*/
                     if not ok:
                         warn("Unknown global symbol used: %s" % var_node.get("value"), self.file_name, var_node)
                     
@@ -169,6 +170,13 @@ class LintChecker(treeutil.NodeVisitor):
                 if any([extension_match(var_name, x) for x in at_hints['lint'][filter_key]]):
                     filtered = True
         return filtered
+
+
+    ##
+    # Checks @ignore(...)
+    #
+    def is_name_ignore_filtered(self, var_name, at_hints):
+        return 'ignore' in at_hints and var_name in at_hints['ignore']
 
 
     ##
@@ -407,17 +415,21 @@ def get_at_hints(node, at_hints=None):
         at_hints = defaultdict(dict)
     commentAttributes = Comment.parseNode(node)  # searches comment "around" this node
     for entry in commentAttributes:
+         # {'arguments': ['a', 'b'],
+         #  'category': u'lint',
+         #  'functor': u'ignoreReferenceField',
+         #  'text': u'<p>ignoreReferenceField(a,b)</p>'
+         # }
         cat = entry['category']
         if cat=='lint':
-             # {'arguments': ['a', 'b'],
-             #  'category': u'lint',
-             #  'functor': u'ignoreReferenceField',
-             #  'text': u'<p>ignoreReferenceField(a,b)</p>'
-             # }
             functor = entry['functor']
-            if functor not in at_hints['lint']:
-                at_hints['lint'][functor] = set()
-            at_hints['lint'][functor].update(entry['arguments']) 
+            if functor not in at_hints[cat]:
+                at_hints[cat][functor] = set()
+            at_hints[cat][functor].update(entry['arguments']) 
+        elif cat=="ignore":
+            if cat not in at_hints:
+                at_hints[cat] = set()
+            at_hints[cat].update(entry['arguments'])
     # include @hints of parent scopes
     scope = scopes.find_enclosing(node)
     if scope:

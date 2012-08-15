@@ -391,7 +391,7 @@ Description
                A class map member that is initialized with a reference value (object, array, map, ...), as those will be shared among class instances.
              * **ignoreUndefined**
                
-               References to global symbols that are not known to the generator (ie. are not in any known library or known built-ins).
+               *(Deprecated)* This key is deprecated for the more general :ref:`@ignore <pages/api_jsdoc_ref#ignore>` hint.
              * **ignoreUnused**
                
                Scoped variables (parameters or declared with ``var``) which are never used.
@@ -499,7 +499,10 @@ Description
 
 **Description**
 
-  Ignore the occurrence of global symbols. Do not try to include them in the build.
+  Ignore the occurrence of global symbols. This @ hint has two implications:
+
+  * Don't warn about if the symbol is unknown (i.e. is not in any known library or a known built-in), i.e. it influences the lint system.
+  * Don't include the symbol in the build, i.e. it influences the compiler system, doesn't follow the symbol's dependencies.
 
 **Syntax**
 
