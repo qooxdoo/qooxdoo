@@ -323,7 +323,9 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       var desc = handle.desc;
       var el = handle.el;
       var initValues = handle.initValues;
-      window.clearInterval(handle.animationId);
+      if (handle.animationId) {
+        window.clearInterval(handle.animationId);
+      }
 
       // if we should keep a frame
       var keep = desc.keep;

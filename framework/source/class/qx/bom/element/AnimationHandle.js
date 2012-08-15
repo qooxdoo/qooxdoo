@@ -115,7 +115,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
         this.el.$$animation.__ended = true;
       }
       // in case the animation is based on JS
-      if (this.animationId && qx.bom.element.AnimationJs) {
+      if (qx.bom.element.AnimationJs) {
         qx.bom.element.AnimationJs.stop(this);
       }
     }
