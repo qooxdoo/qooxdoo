@@ -100,9 +100,11 @@ A JSDoc comment consists of different sections, where a section is either a lead
    * - Lint Checking
      - * `@lint`_
    * - Compile-time Hints
-     - * `@require`_
-       * `@use`_
+     - * `@attach`_
+       * `@attachStatic`_
        * `@ignore`_
+       * `@require`_
+       * `@use`_
 
 
 .. _pages/api_jsdoc_ref#description:
@@ -418,6 +420,80 @@ Description
   ::
 
     @lint environmentNonLiteralKey(foo)
+
+
+.. _pages/api_jsdoc_ref#attach:
+
+.. rst-class:: api-ref
+
+@attach
+-------------------------------------------
+
+**Scope**
+
+  Function
+
+**Description**
+
+  Attach the function to the *members* section of the given class, using the opt. second parameter as the member name.
+
+**Syntax**
+
+  ``@attach { <class> , [<feature_name>] }``
+
+**Parameters**
+
+    .. list-table::
+      :stub-columns: 1
+      :widths: 30 70
+
+      * - class
+        - Class ID where the function should be attached.
+      * - feature_name *(opt)*
+        - Feature name under which the function should be attached; if missing, the original function name is used.
+
+**Example**
+
+  ``@attach{foo.MyClass, bar}``
+
+  This will attach the given function to the class ``foo.MyClass`` as a member function, under the name ``bar``, so you can call it like ``f=new foo.MyClass(); f.bar()``.
+
+
+.. _pages/api_jsdoc_ref#attachStatic:
+
+.. rst-class:: api-ref
+
+@attachStatic
+-------------------------------------------
+
+**Scope**
+
+  Function
+
+**Description**
+
+  As with `@attach`_ above, but attach the function to the *statics* section of the given class, using the opt. second parameter as the statics' name.
+
+**Syntax**
+
+  ``@attachStatic { <class> , [<feature_name>] }``
+
+**Parameters**
+
+    .. list-table::
+      :stub-columns: 1
+      :widths: 30 70
+
+      * - class
+        - Class ID where the function should be attached.
+      * - feature_name *(opt)*
+        - Feature name under which the function should be attached; if missing, the original function name is used.
+
+**Example**
+
+  ``@attachStatic{foo.MyClass, bar}``
+
+  This will attach the given function to the class ``foo.MyClass`` as a static function, under the name ``bar``, so you can call it like ``foo.MyClass.bar()``.
 
 
 .. _pages/api_jsdoc_ref#require:
