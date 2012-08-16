@@ -39,7 +39,7 @@
     "QOOXDOO_PATH" : "..",
     "API_EXCLUDE"  : ["qx.test.*"],
     "TEST_INCLUDE" : "qx.test.*",
-    "LOCALES"      : [ 
+    "LOCALES"      : [
        "de",
        "en",
        "es",
@@ -57,11 +57,13 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : 
+    "job-shadowing" :
     [
       "api",
       "common",
       "lint",
+      "provider-deps",
+      "provider-classes",
       "test",
       "test-source",
       "test-inline",
@@ -107,7 +109,7 @@
           "optimize" : ["basecalls", "variables", "privates", "strings", "whitespace"]
         }
       },
-      
+
       "compile" : { "type" : "build" },
 
       "copy-resources" :
@@ -120,7 +122,7 @@
     // -- Test Jobs ------------------------------------------------------------
 
     // This one is used in all jobs relating to the generated AUT
-    "testrunner::tests-common" : 
+    "testrunner::tests-common" :
     {
       "environment" :
       {
@@ -142,7 +144,7 @@
         "TEST_EXCLUDE" : "qx.test.performance.*"
       }
     },
-    
+
     "test-inline" :
     {
       "run" : ["test-copy-files"],
@@ -175,13 +177,13 @@
         "TEST_EXCLUDE" : "qx.test.performance.*"
       }
     },
-    
+
     "test-performance" :
     {
       "desc" : "Create a Performance Test Runner for the qx.test.performance namespace",
-      
+
       "extend" : ["testrunner::build"],
-      
+
       "let" :
       {
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
@@ -190,13 +192,13 @@
         "BUILD_PATH"      : "${ROOT}/test-performance"
       }
     },
-    
+
     "test-performance-source" :
     {
       "desc" : "Create a Performance Test Runner for the qx.test.performance namespace",
-      
+
       "extend" : ["testrunner::build-with-tests-source"],
-      
+
       "let" :
       {
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
@@ -239,7 +241,7 @@
       "=include": ["qx.*"],
       "translate" : { "poentry-with-occurrences" : false  }
     },
-    
+
     "api" :
     {
       "config-warnings" :
