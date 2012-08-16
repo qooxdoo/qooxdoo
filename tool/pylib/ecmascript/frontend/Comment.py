@@ -287,7 +287,7 @@ class Comment(object):
     #    'text': u'<p>true if the mixin is compatible to the given class</p>',
     #      'type': [{'dimensions': 0, 'type': u'Boolean'}]}]
     #
-    def parse(self, format=True):
+    def parse(self, format_=True):
 
         hint_sign = re.compile(r'^(?<!{)@(\w+)')
 
@@ -334,9 +334,17 @@ class Comment(object):
             else: # description
                 attribs.append({
                    "category" : "description", 
-                   "text" : line
+                   "text" : line.strip()
                 })
 
+        # format texts
+        for entry in attribs:
+            if 'text' in entry and len(entry['text'])>0:
+                if format_:
+                    entry["text"] = self.formatText(entry["text"])
+                else:
+                    entry["text"] = self.cleanupText(entry["text"])
+ 
         from pprint import pprint
         pprint( attribs)
         return attribs
@@ -435,16 +443,20 @@ class Comment(object):
         res = {
             'category' : 'return',
             'type' : presult.type,  # TODO: [{'dimensions': 0, 'type': u'Boolean'}]
-            'text' : presult.text
+            'text' : presult.text.strip()
         }
         return res
         
     def parse_at_throws(self, line):
         grammar = py.Suppress('@') + py.Literal('throws') + py.restOfLine("text")
+        # FUTURE:
+        #grammar = py.Suppress('@') + py.Literal('throws') + \
+        #   py.Suppress('{') + self.py_js_identifier.copy().setResultsName('exception_type') +\
+        #   py.Suppress('}') + py.restOfLine("text")
         presult = grammar.parseString(line)
         res = {
             'category' : 'throws',
-            'text' : presult.text
+            'text' : presult.text.strip()
         }
         return res
         
@@ -456,7 +468,7 @@ class Comment(object):
             'category' : 'param',
             'name' : presult.name,
             'type' : presult.type,# TODO: [{'dimensions': 0, 'type': u'Boolean'}]
-            'text' : presult.text # TODO: mark-up, u'<p>mixin to check</p>'
+            'text' : presult.text.strip()
         }
         return res
         
@@ -467,7 +479,7 @@ class Comment(object):
         res = {
             'category' : 'see',
             'name' : presult.name,
-            'text' : presult.text
+            'text' : presult.text.strip()
         }
         return res
         
@@ -478,7 +490,7 @@ class Comment(object):
         presult = grammar.parseString(line)
         res = {
             'category' : 'signature',
-            'text' : '(' + ",".join(presult[2:]) + ')', # TODO: this should be removed in favor of 'arguments'
+            'text' : ('(' + ",".join(presult[2:]) + ')').strip(), # TODO: this should be removed in favor of 'arguments'
             'arguments' : presult.arguments.asList()
         }
         return res
@@ -505,7 +517,7 @@ class Comment(object):
         res = {
             'category' : 'attach',
             'targetClass'  : presult.clazz,
-            'targetMethod' : presult.method,
+            'targetMethod' : presult.method[0], # why [0]?!
         }
         return res
         
@@ -518,7 +530,7 @@ class Comment(object):
         res = {
             'category' : 'attachStatic',
             'targetClass'  : presult.clazz,
-            'targetMethod' : presult.method,
+            'targetMethod' : presult.method[0],
         }
         return res
         
