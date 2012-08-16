@@ -15,7 +15,7 @@ Test Runner provides a convenient interface to test classes that have been writt
 
 .. note::
 
-    See the Test Runner in action in the `online demo <http://demo.qooxdoo.org/%{version}/testrunner/>`_. 
+    See the Test Runner in action in the `online demo <http://demo.qooxdoo.org/%{version}/testrunner/>`_.
 
 The Test Runner framework can also be deployed for *your own* application. It provides a GUI, a layer of infrastructure and a certain interface for arbitrary test classes. So now you can write your own test classes and take advantage of the Test Runner environment.
 
@@ -41,7 +41,7 @@ Writing Test Classes
   * To model your test method behaviour, you can use the methods inherited from ``qx.dev.unit.TestCase`` which encapsulate exceptions in the form of assertions:
 
     * ``assert``, ``assertFalse``, ``assertEquals``, ``assertNumber``, ... - These functions take values which are compared (either among each other or to some predefined value) and a message string, and raise an exception if the comparison fails.
-    * A similar list of methods of the form ``assert*DebugOn`` is available, which are only evaluated if the debug environment setting ``qx.debug`` is on (see :doc:`Environment </pages/core/environment>`). 
+    * A similar list of methods of the form ``assert*DebugOn`` is available, which are only evaluated if the debug environment setting ``qx.debug`` is on (see :doc:`Environment </pages/core/environment>`).
     * See the documentation for the `qx.dev.unit.TestCase <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.TestCase>`_ class for more information on the available assertions.
 
 .. _pages/frame_apps_testrunner#generic_setup_teardown:
@@ -104,7 +104,7 @@ The mixins provide a ``require`` method that takes an array of strings: The requ
       this.require(["backend"]);
       // test code goes here
     }
-    
+
 ``require`` then searches the current test instance for a method that verifies the listed requirements: The naming convention is "has" + the requirement ID with the first letter capitalized, e.g. ``hasBackend``. This method is the called with the requirement ID as the only parameter. If it returns ``true``, the test code will be executed. Otherwise a `RequirementError <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.RequirementError>`_ is thrown. The Test Runner will catch these and mark the test as "skipped" in the results list. Any test code after the ``require`` call will not be executed.
 
 If no "has" method for a given feature is found, `qx.core.Environment <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Environment>`_ will be checked for a key that matches the feature name. This way, any Environment key that has a boolean value can be used as a test requirement, e.g.:
@@ -256,11 +256,11 @@ Create the Test Application
 ---------------------------
 
 * Run ``generate.py test`` from the top-level directory of your application. This will generate the appropriate test application for you, which will be available in the subfolder ``test`` as ``test/index.html``. Open this file in your browser and run your tests.
-* Equally, you can invoke ``generate.py test-source``. This will generate the test application, but allows you to use the *source* version of your application to run the tests on. In doing so the test application links directly into the source tree of your application. This allows for `test-driven development <http://en.wikipedia.org/wiki/Test-driven_development>`_ where you simultaneously develop your source classes, the test classes and run the tests. All you need to do is to change the URL of the "test backend application" (the textfield in the upper middle of the Test Runner frame) from ``tests.html`` (which is the default) to ``tests-source.html``. (Caveat: If ``generate.py test-source`` is the first thing you do, you might get an error when Test Runner starts, since the default tests.html has not been built; just change the URL and continue). For example, the resulting URL will look something like this: 
+* Equally, you can invoke ``generate.py test-source``. This will generate the test application, but allows you to use the *source* version of your application to run the tests on. In doing so the test application links directly into the source tree of your application. This allows for `test-driven development <http://en.wikipedia.org/wiki/Test-driven_development>`_ where you simultaneously develop your source classes, the test classes and run the tests. All you need to do is to change the URL of the "test backend application" (the textfield in the upper middle of the Test Runner frame) from ``tests.html`` (which is the default) to ``tests-source.html``. (Caveat: If ``generate.py test-source`` is the first thing you do, you might get an error when Test Runner starts, since the default tests.html has not been built; just change the URL and continue). For example, the resulting URL will look something like this:
 
   ::
 
-    html/tests-source.html?testclass=<your_app_name> 
+    html/tests-source.html?testclass=<your_app_name>
 
   After that, you just reload the backend application by hitting the reload button to the right to see and test your changes in the Test Runner.
 * If you're working on an application based on qx.application.Native or qx.application.Inline (e.g. by starting with an Inline skeleton), you can run ``generate.py test-native`` or ``generate.py test-inline`` to create a test application of the same type as your actual application. The Test Runner's index file will be called ``index-native.html`` or ``index-inline.html``, respectively.
@@ -271,13 +271,13 @@ Create the Test Application
 Test Runner Views
 -----------------
 
-The Test Runner architecture is split between the logic that executes tests and the view that displays the results and allows the user to select which tests to run. 
+The Test Runner architecture is split between the logic that executes tests and the view that displays the results and allows the user to select which tests to run.
 Views are selected by overriding the ``TESTRUNNER_VIEW`` configuration macro, specifying the desired view class. For example, to build the Test Runner using the HTML view, use the following shell command:
 
 ::
 
   ./generate.py test -m TESTRUNNER_VIEW:testrunner.view.Console
- 
+
 Several views are included with the Test Runner:
 
 Widget
@@ -298,13 +298,6 @@ Console
 .. image:: /pages/development/testrunner_console.png
 
 Even more bare-bones than the HTML view, the Console view features no visual elements other than the Iframe containing the test application. Tests are started using the browser's JavaScript console. This is mostly intended as a base for specialized views.
-
-Performance
-^^^^^^^^^^^
-
-.. image:: /pages/development/testrunner_performance.png
-
-This view visualizes the results of performance tests using the `qx.test.performance.MMeasure <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.test.performance.MMeasure>`_ mixin. Take a look at the tests in the qx.test.performance namespace and the ``test-performance`` job in framework/config.json to see how you can implement performance tests measuring JavaScript execution and HTML rendering time for your application.
 
 Reporter
 ^^^^^^^^
@@ -348,13 +341,13 @@ The fictional non-qooxdoo JavaScript library ``foo.js`` provides a ``Bar`` class
       <script type="text/javascript">
       testrunner.define({
         classname : "foo.Bar",
-        
+
         __bar : null,
-     
+
         setUp : function() {
           this.__bar = new foo.Bar("baz");
         },
-     
+
         testName : function() {
           this.assertEquals("baz", this.__bar.getName());
         }
@@ -375,3 +368,48 @@ The Portable Test Runner can be downloaded from the Demo section of the qooxdoo 
 
   cd component/testrunner
   generate.py portable-build
+
+"Headless" Automated Unit Testing
+=================================
+
+In a Continuous Integration (CI) scenario, it can be very helpful to run unit tests automatically, perhaps as one step in an automated build process that is triggered either manually, in set intervals, or by changes to the project's sources. If any tests fail, the build could be marked as failed by the CI server and notifications sent to the developers.
+
+It's possible to achieve this using a tool like WebDriver to remotely control a browser which runs the tests, but this would be a fairly complex task.
+Fortunately, there is a much simple solution: `PhantomJS <http://phantomjs.org/>`_ is a "headless" WebKit browser that can be controlled through a JavaScript API. The `qx-phantom <https://github.com/qooxdoo/qx-phantom>`_ Git repository provides a small script that loads the Test Runner in PhantomJS, gathers the results of the test suite, and logs them to the console.
+
+The status code returned by the PhantomJS process on exit is the number of tests that failed. This is especially interesting if you are planning to integrate unit testing into a CI setup using `Jenkins <http://jenkins-ci.org/>`_, or some other kind of automated workflow, such as commit hooks or reports.
+
+Setup
+-----
+
+(1) Download or compile PhantomJS and add the binary to your path.
+
+(2) Get the script that drives PhantomJS by cloning the Git repository:
+
+.. code-block:: bash
+
+  $ git clone https://github.com/qooxdoo/qx-phantom
+
+(3) Build the Test Runner for your project (named ``myproject`` in this example):
+
+.. code-block:: bash
+
+  $ cd myproject
+  $ ./generate.py test -m TESTRUNNER_VIEW:testrunner.view.Console
+
+Running the tests
+-----------------
+
+Call the PhantomJS binary with the following arguments:
+
+* The script from the Git repository (qx-phantom.js)
+* The namespace of the tests you want to run
+* The URL of the Test Runner. This can be an absolute URL if you're running a web server, or a file system path
+
+.. code-block:: bash
+
+  $ phantomjs ../qx-phantom/qx-phantom.js myproject.test test/index.html
+
+Debugging
+---------
+To adjust the verbosity of the script, change the settings found at the top of the qx-phantom.js script. If you encounter any problems, set CONSOLE=true.
