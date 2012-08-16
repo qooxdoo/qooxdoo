@@ -74,6 +74,24 @@ The following type indicators are accepted:
   * - Lists
     - Homogenous lists are indicated by adding one or more ``[]`` to the type, e.g. ``String[]``, ``Integer[][]``.
 
+Syntax of a Type Specification
+--------------------------------
+
+Here is the full syntax for a type specification as used in concrete doc attributes::
+
+  `{` [ Type1 `|` Type2 `|` ... [ `?` [<default_value]]  ] `}`
+
+That is, between curly braces an optional list of type indicators (as described above), separated by ``|``, following an optional ``?`` to indicate the entire parameter is optional, followed by an optional default value (the last two for ``@param`` attributes).
+
+For a parameter description the meaning is: The expected parameter can be of Type1 or Type2 or ..., is optional, i.e. can be left out, and will default to *<default_value>*.
+
+**Example**
+
+  ::
+  
+    {String|Integer ? null}
+
+
 .. _pages/api_jsdoc_ref#supported_attributes:
 
 Section Reference
@@ -97,6 +115,8 @@ A JSDoc comment consists of different sections, where a section is either a lead
        * `@see`_ 
        * `@link`_
        * `@signature`_
+       * `@internal`_
+       * `@deprecated`_
    * - Lint Checking
      - * `@lint`_
    * - Compile-time Hints
@@ -358,6 +378,67 @@ Description
             ...
           }
         }
+
+.. _pages/api_jsdoc_ref#internal:
+
+.. rst-class:: api-ref
+
+@internal
+-------------------------------------------
+
+**Scope**
+
+  Class, function
+
+**Description**
+
+  Mark the given entity as internal, i.e. not part of the library's public API. A method marked internal will be hidden in the Apiviewer. A class marked internal is still shown in the Apiviewer, but is highlighted as internal. Classes marked internal should not be instantiated in code using the library, internal methods should not be called from outside of it.
+
+**Syntax**
+
+  ``@internal``
+
+**Example**
+
+  ::
+
+    @internal
+
+
+.. _pages/api_jsdoc_ref#deprecated:
+
+.. rst-class:: api-ref
+
+@deprecated
+-------------------------------------------
+
+**Scope**
+
+  Class, function
+
+**Description**
+
+  Mark the given entity as deprecated, i.e. library users should no longer use this entry. It will be removed over time.
+
+**Syntax**
+
+  ``@deprecated <description>``
+
+**Parameters**
+
+    .. list-table::
+      :stub-columns: 1
+      :widths: 30 70
+
+      * - description
+        - Descriptive text of the deprecation
+  
+**Example**
+
+  ::
+
+    @deprecated since 2.1. Please use Object.keys instead
+
 
 .. _pages/api_jsdoc_ref#lint:
 

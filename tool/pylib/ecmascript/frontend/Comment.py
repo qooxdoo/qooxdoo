@@ -328,8 +328,15 @@ class Comment(object):
                 hint_key = mo.group(1)
                 if hasattr(self, "parse_at_"+hint_key):
                     entry = getattr(self, "parse_at_"+hint_key)(line)
+                elif hint_key in ( # temporary, to see what we have in the framework
+                        'author',
+                        'license',
+                        'deprecated',
+                    ):
+                    continue
                 else:
                     raise Exception("Unknown '@' hint in JSDoc comment: " + hint_key)
+                    #entry = self.parse_at_unknown(line)
                 attribs.append(entry)
             else: # description
                 attribs.append({
@@ -349,73 +356,31 @@ class Comment(object):
         pprint( attribs)
         return attribs
 
-    def parseDetail(self, attrib, format=True):
-        text = attrib["text"]
-        match = None
 
-        if attrib["category"] in ["param", "event", "see", "state", "appearance", "childControl"]:
-            match = R_NAMED_TYPE.search(text)
-        elif attrib["category"] in ["lint"]:
-            self.parseDetail_Term(attrib)
-        else:
-            match = R_SIMPLE_TYPE.search(text)
-
-        if match:
-            text = text[match.end(0):]
-
-            if attrib["category"] in ["param", "event", "see", "state", "appearance", "childControl"]:
-                attrib["name"] = match.group(1)
-                #print ">>> NAME: %s" % match.group(1)
-                remain = match.group(3)
-            else:
-                remain = match.group(2)
-
-            if remain != None:
-                if attrib["category"] in ("attach", "attachStatic"):
-                    defIndex = remain.find(",")
-                    if defIndex == -1:  # @attach {q}
-                        attrib["targetClass"] = remain.strip()
-                        attrib["targetMethod"] = ""
-                    else:              # @attach {q,m}
-                        attrib["targetClass"] = remain[:defIndex].strip()
-                        attrib["targetMethod"] = remain[defIndex+1:].strip()
-                else:
-                    defIndex = remain.rfind("?")
-                    if defIndex != -1:
-                        attrib["defaultValue"] = remain[defIndex+1:].strip()
-                        remain = remain[0:defIndex].strip()
-                        #print ">>> DEFAULT: %s" % attrib["defaultValue"]
-
-                    typValues = []
-                    for typ in remain.split("|"):
-                        typValue = typ.strip()
-                        arrayIndex = typValue.find("[")
-
-                        if arrayIndex != -1:
-                            arrayValue = (len(typValue) - arrayIndex) / 2
-                            typValue = typValue[0:arrayIndex]
-                        else:
-                            arrayValue = 0
-
-                        typValues.append({ "type" : typValue, "dimensions" : arrayValue })
-
-                    if len(typValues) > 0:
-                        attrib["type"] = typValues
-                        #print ">>> TYPE: %s" % attrib["type"]
-
-        if format:
-            attrib["text"] = self.formatText(text)
-        else:
-            attrib["text"] = self.cleanupText(text)
-
-        if attrib["text"] == "":
-            del attrib["text"]
-
+    def parse_at_unknown(self, line):
+        grammar = py.Suppress('@') + py.Word(py.alphas).setResultsName('category') + \
+            py.restOfLine("text")
+        presult = grammar.parseString(line)
+        res = {
+            'category' : presult.category,
+            'text' : presult.text.strip(),
+        }
+        return res
 
     # the next would be close to the spec (but huge!)
     #identi = py.Word(u''.join(lang.IDENTIFIER_CHARS_START), u''.join(lang.IDENTIFIER_CHARS_BODY))
     # but using regex, to be consistent with the parser
     py_js_identifier = py.Regex(lang.IDENTIFIER_REGEXP)
+
+    py_single_type = py_js_identifier.copy().setResultsName('type_name') + \
+        py.ZeroOrMore('[]').setResultsName('type_dimensions')
+
+    # mirror: {Foo|Bar? 34}
+    py_type_expression = py.Suppress('{') + py.Optional(
+            py.delimitedList(py_single_type, delim='|')("texp_types") +  # Foo|Bar
+            py.Optional(py.Literal('?')("texp_optional") +               # ?
+                py.Optional(py.Regex(r'[^}]+'))("texp_defval"))           # 34
+        ) + py.Suppress('}')
 
     def parseDetail_Term(self, attrib):
         text = attrib['text'] # "ignoreUnused(a,b)"
@@ -437,16 +402,23 @@ class Comment(object):
         return res
 
     def parse_at_return(self, line):
-        grammar = py.Suppress('@') + py.Literal('return') + py.Suppress('{') + \
-            py.Word(py.alphanums).setResultsName("type") + py.Suppress('}') + py.restOfLine("text")
+        grammar = py.Suppress('@') + py.Literal('return')  + \
+            self.py_type_expression.copy().setResultsName("type") + py.restOfLine("text")
         presult = grammar.parseString(line)
+        types = self._typedim_list_to_typemaps(presult.texp_types.asList())
         res = {
             'category' : 'return',
-            'type' : presult.type,  # TODO: [{'dimensions': 0, 'type': u'Boolean'}]
+            'type' : types,  #  [{'dimensions': 0, 'type': u'Boolean'}]
             'text' : presult.text.strip()
         }
         return res
         
+    def parse_at_internal(self, line):
+        res = {
+            'category' : 'internal',
+        }
+        return res
+
     def parse_at_throws(self, line):
         grammar = py.Suppress('@') + py.Literal('throws') + py.restOfLine("text")
         # FUTURE:
@@ -460,14 +432,24 @@ class Comment(object):
         }
         return res
         
+    def _typedim_list_to_typemaps(self, typedim_list):
+        types = []
+        for el in typedim_list: # e.g. ['String', '[]', 'Integer', '[]', '[]']
+            if el != '[]':  # a type name
+                types.append ({'type': el, 'dimensions': 0})
+            else:
+                types[-1]['dimensions'] += 1
+        return types
+
     def parse_at_param(self, line):
         grammar = py.Suppress('@') + py.Literal('param') + self.py_js_identifier.copy().setResultsName("name") + \
-            py.Suppress('{') + py.Word(py.alphanums).setResultsName("type") + py.Suppress('}') + py.restOfLine("text")
+            self.py_type_expression + py.restOfLine("text")
         presult = grammar.parseString(line)
+        types = self._typedim_list_to_typemaps(presult.texp_types.asList())
         res = {
             'category' : 'param',
             'name' : presult.name,
-            'type' : presult.type,# TODO: [{'dimensions': 0, 'type': u'Boolean'}]
+            'type' : types, # [{'dimensions': 0, 'type': u'Boolean'}]
             'text' : presult.text.strip()
         }
         return res
@@ -490,8 +472,8 @@ class Comment(object):
         presult = grammar.parseString(line)
         res = {
             'category' : 'signature',
-            'text' : ('(' + ",".join(presult[2:]) + ')').strip(), # TODO: this should be removed in favor of 'arguments'
-            'arguments' : presult.arguments.asList()
+            #'text' : ('(' + ",".join(presult[2:]) + ')').strip(), # TODO: this should be removed in favor of 'arguments'
+            'arguments' : presult.arguments.asList() if presult.arguments else []
         }
         return res
         
