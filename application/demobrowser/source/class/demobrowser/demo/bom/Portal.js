@@ -31,6 +31,9 @@ qx.Class.define("demobrowser.demo.bom.Portal",
 
   members :
   {
+    /**
+     * @lint ignoreUndefined(boxData)
+     */
     main : function()
     {
       this.base(arguments);
