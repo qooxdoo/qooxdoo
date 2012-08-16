@@ -251,7 +251,6 @@ qx.Bootstrap.define("qx.Mixin",
     /**
      * Determine if mixin exists
      *
-     * @name isDefined
      * @param name {String} mixin name to check
      * @return {Boolean} true if mixin exists
      */
