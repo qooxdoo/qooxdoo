@@ -23,9 +23,8 @@
 /**
  * Class to implement different edit distance ideas.
  *
- * {@link http://en.wikipedia.org/wiki/Edit_distance}
- * {@link http://en.wikipedia.org/wiki/Levenshtein_distance}
- * {@link http://ad.informatik.uni-freiburg.de/lehre/ws9900/algorithmentheorie/vorlesung/folien/dynamische-programmierung-2/dynamische-programmierung-2.pdf}
+ * <a href="http://en.wikipedia.org/wiki/Edit_distance">Edit distance on Wikipedia</a>
+ * <a href="http://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein distance on Wikipedia</a>
  */
 qx.Class.define("qx.util.EditDistance",
 {

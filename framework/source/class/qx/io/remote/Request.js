@@ -784,7 +784,7 @@ qx.Class.define("qx.io.remote.Request",
      * that HTTP 1.1 header names are case-insensitive, so your server backend
      * should be case-agnostic when dealing with request headers.
      *
-     * [1]{@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2}
+     * [1]<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2">RFC 2616: HTTP Message Headers</a>
      *
      * @param vId {String} The identifier to use for this added header
      * @param vValue {String} The value to use for this added header
