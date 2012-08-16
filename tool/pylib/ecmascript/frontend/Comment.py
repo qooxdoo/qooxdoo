@@ -329,14 +329,19 @@ class Comment(object):
                 if hasattr(self, "parse_at_"+hint_key):
                     entry = getattr(self, "parse_at_"+hint_key)(line)
                 elif hint_key in ( # temporary, to see what we have in the framework
-                        'author',
+                        'TODO', # ignore this permanently!
+                        'author',  # parse_at__default_
                         'license',
-                        'deprecated',
+                        'deprecated', # parse_at__default_
+                        'protected', # @protected
+                        'abstract', # @abstract
+                        'type', # @type Map -- should be: @type {Map}
+                        'state',  # parse_at__default_
                     ):
                     continue
                 else:
                     raise Exception("Unknown '@' hint in JSDoc comment: " + hint_key)
-                    #entry = self.parse_at_unknown(line)
+                    #entry = self.parse_at__default_(line)
                 attribs.append(entry)
             else: # description
                 attribs.append({
@@ -357,7 +362,10 @@ class Comment(object):
         return attribs
 
 
-    def parse_at_unknown(self, line):
+    ##
+    # Generic "@<hint> <text>" parsing
+    #
+    def parse_at__default_(self, line):
         grammar = py.Suppress('@') + py.Word(py.alphas).setResultsName('category') + \
             py.restOfLine("text")
         presult = grammar.parseString(line)
@@ -402,10 +410,12 @@ class Comment(object):
         return res
 
     def parse_at_return(self, line):
-        grammar = py.Suppress('@') + py.Literal('return')  + \
-            self.py_type_expression.copy().setResultsName("type") + py.restOfLine("text")
+        grammar = (py.Suppress('@') + py.Literal('return')  + 
+            py.Optional(self.py_type_expression.copy()).setResultsName("type") +   # TODO: remove leading py.Optional
+            py.restOfLine("text")
+        )
         presult = grammar.parseString(line)
-        types = self._typedim_list_to_typemaps(presult.texp_types.asList())
+        types = self._typedim_list_to_typemaps(presult.texp_types.asList() if presult.texp_types else [])
         res = {
             'category' : 'return',
             'type' : types,  #  [{'dimensions': 0, 'type': u'Boolean'}]
@@ -441,13 +451,39 @@ class Comment(object):
                 types[-1]['dimensions'] += 1
         return types
 
+    ##
+    # @param-like, "@hint <name> {<type_spec>} <text>"
+    #
     def parse_at_param(self, line):
-        grammar = py.Suppress('@') + py.Literal('param') + self.py_js_identifier.copy().setResultsName("name") + \
-            self.py_type_expression + py.restOfLine("text")
+        grammar = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
+            self.py_js_identifier.copy().setResultsName("name") + 
+            self.py_type_expression + 
+            py.restOfLine("text")
+        )
         presult = grammar.parseString(line)
-        types = self._typedim_list_to_typemaps(presult.texp_types.asList())
+        types = self._typedim_list_to_typemaps(presult.texp_types.asList() if presult.texp_types else [])
         res = {
-            'category' : 'param',
+            'category' : presult.category,
+            'name' : presult.name,
+            'type' : types, # [{'dimensions': 0, 'type': u'Boolean'}]
+            'text' : presult.text.strip()
+        }
+        return res
+        
+    ##
+    # The only difference to parse_at_param is that <name> can be an arbitrary string
+    # (e.g. containing "-").
+    #
+    def parse_at_childControl(self, line):
+        grammar = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
+            py.Regex(r'\S+')("name") +   # accept "-" for childControl names
+            self.py_type_expression + 
+            py.restOfLine("text")
+        )
+        presult = grammar.parseString(line)
+        types = self._typedim_list_to_typemaps(presult.texp_types.asList() if presult.texp_types else [])
+        res = {
+            'category' : presult.category,
             'name' : presult.name,
             'type' : types, # [{'dimensions': 0, 'type': u'Boolean'}]
             'text' : presult.text.strip()
@@ -499,7 +535,7 @@ class Comment(object):
         res = {
             'category' : 'attach',
             'targetClass'  : presult.clazz,
-            'targetMethod' : presult.method[0], # why [0]?!
+            'targetMethod' : presult.method[0] if presult.method else '', # why [0]?!
         }
         return res
         
@@ -512,7 +548,7 @@ class Comment(object):
         res = {
             'category' : 'attachStatic',
             'targetClass'  : presult.clazz,
-            'targetMethod' : presult.method[0],
+            'targetMethod' : presult.method[0] if presult.method else '',
         }
         return res
         

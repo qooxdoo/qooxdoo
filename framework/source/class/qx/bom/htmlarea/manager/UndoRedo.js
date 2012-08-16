@@ -1140,7 +1140,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Currently only implemented for IE.
      * Used to track internal changes like resizing an image or a table element.
      *
-     * @param e {DOM event} mouse event instance
+     * @param e {DOMevent} mouse event instance
      */
     _handleMouseDown : qx.core.Environment.select("engine.name", {
       "mshtml" : function(e)
@@ -1168,7 +1168,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Mouse up handler method.
      * Used to track internal changes like resizing an image or a table element.
      *
-     * @param e {DOM event} mouse event instance
+     * @param e {DOMevent} mouse event instance
      */
     _handleMouseUp : qx.core.Environment.select("engine.name",
     {

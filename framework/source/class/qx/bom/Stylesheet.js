@@ -42,7 +42,7 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
      * valid URI to be used with this method.
      *
      * @param href {String} Href value
-     * @param doc? {Document} Document to modify
+     * @param doc {Document?} Document to modify
      */
     includeFile : function(href, doc)
     {
@@ -63,7 +63,7 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
     /**
      * Create a new Stylesheet node and append it to the document
      *
-     * @param text? {String} optional string of css rules
+     * @param text {String?} optional string of css rules
      * @return {Stylesheet} the generates stylesheet element
      */
     createElement : function(text)

@@ -185,7 +185,7 @@ qx.Bootstrap.define("qx.module.Event", {
      *
      * @attach {q}
      * @param type {String} Event type
-     * @param data {?var} Optional data that will be passed to the listener
+     * @param data {var?} Optional data that will be passed to the listener
      * callback function.
      * @return {q} The collection for chaining
      */

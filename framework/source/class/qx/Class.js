@@ -1272,7 +1272,7 @@ qx.Bootstrap.define("qx.Class",
      * @param clazz {Class} clazz to add members to
      * @param members {Map} The map of members to attach
      * @param patch {Boolean ? false} Enable patching of
-     * @param base (Boolean ? true) Attach base flag to mark function as members
+     * @param base {Boolean ? true} Attach base flag to mark function as members
      *     of this class
      * @param wrap {Boolean ? false} Whether the member method should be wrapped.
      *     this is needed to allow base calls in patched mixin members.

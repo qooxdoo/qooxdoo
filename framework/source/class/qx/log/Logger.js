@@ -348,7 +348,7 @@ qx.Class.define("qx.log.Logger",
      * @param object {qx.core.Object} Instance to check for overriding.
      * @param baseclass {Class} The baseclass as starting point.
      * @param methodName {String} The method name which is deprecated for overriding.
-     * @param msg {String|?} Optional message to be printed.
+     * @param msg {String?} Optional message to be printed.
      */
     deprecateMethodOverriding : function(object, baseclass, methodName, msg)
     {

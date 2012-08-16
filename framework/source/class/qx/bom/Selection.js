@@ -36,8 +36,8 @@ qx.Class.define("qx.bom.Selection",
     /**
      * Returns the native selection object.
      *
-     * @signature documentNode {document} Document node to retrieve the connected selection
-     * @param documentNode {Object} The document node
+     * @signature function(documentNode)
+     * @param documentNode {document} Document node to retrieve the connected selection from
      * @return {Selection} native selection object
      */
     getSelectionObject : qx.core.Environment.select("engine.name",

@@ -395,7 +395,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * Helper function which checks, if the given validator is synchronous
      * or asynchronous.
      *
-     * @param validator {Function||qx.ui.form.validation.AsyncValidator}
+     * @param validator {Function|qx.ui.form.validation.AsyncValidator}
      *   The validator to check.
      * @return {Boolean} True, if the given validator is asynchronous.
      */

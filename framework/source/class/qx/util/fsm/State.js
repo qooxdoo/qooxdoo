@@ -883,7 +883,7 @@ qx.Class.define("qx.util.fsm.State",
      * @param f {Function|var}
      *   The (possibly) function to be bound to the specified context.
      *
-     * @param context
+     * @param context {Object}
      *   The context to bind the function to.
      *
      * @return

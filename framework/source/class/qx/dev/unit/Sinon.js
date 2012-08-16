@@ -52,6 +52,9 @@
 
 ************************************************************************ */
 
+/**
+ */
+
 
 /**
  *
@@ -62,6 +65,8 @@
  * and use the wrappers provided.
  *
  * @internal
+ * ____@ignore(module, require)
+ * ____@lint ignoreUndefined(module, require)
  *
  */
 qx.Class.define("qx.dev.unit.Sinon",

@@ -42,7 +42,6 @@ qx.Class.define("qx.html.Root",
   /**
    * Creates a root element
    *
-   * @constructor
    * @param elem {Element?null} DOM element to use
    */
   construct : function(elem)

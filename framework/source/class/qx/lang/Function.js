@@ -210,7 +210,7 @@ qx.Bootstrap.define("qx.lang.Function",
      * <pre class='javascript'>var createdFunction = qx.lang.Function.create(myFunction, [options]);</pre>
      *
      * @param func {Function} Original function to wrap
-     * @param options? {Map} Map of options
+     * @param options {Map?} Map of options
      * <ul>
      * <li><strong>self</strong>: The object that the "this" of the function will refer to. Default is the same as the wrapper function is called.</li>
      * <li><strong>args</strong>: An array of arguments that will be passed as arguments to the function when called.

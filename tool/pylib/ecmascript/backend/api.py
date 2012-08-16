@@ -528,7 +528,16 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
         elif check.type == "function":
             node.set("check", "Custom check function.")
         elif check.type == "constant":
-            node.set("check", check.get("value"))
+            # this can mean: qx built-in check(?), type name, or check expression
+            # test by parsing it
+            check_value = check.get("value")
+            check_tree = treegenerator.parse(check_value)
+            if check_tree.isVar:  # type name
+                node.set("check", check_value)
+            elif check_tree.type == 'operation': # expression
+                node.set("check", "Custom check function.")
+            elif check_tree.type == 'identifier': # built-in check; TODO: 'identifier'
+                node.set("check", "Custom check function.")  # TODO: better 'check' value
             #checkBasic = check.get("value")
         else:
             printDocError(check, "Unknown check value")

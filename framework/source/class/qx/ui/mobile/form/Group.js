@@ -48,8 +48,8 @@ qx.Class.define("qx.ui.mobile.form.Group",
   */
  
   /**
-   * @param widgets array of {qx.ui.mobile.core.Widget[]}
-   * @param showBorder initial value of the property showBorder.
+   * @param widgets {qx.ui.mobile.core.Widget[]}
+   * @param showBorder {Boolean?} initial value of the property showBorder.
    */
   construct : function(widgets, showBorder)
   {

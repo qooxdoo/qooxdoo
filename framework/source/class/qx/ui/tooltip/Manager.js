@@ -290,7 +290,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
     /**
      * Explicitly show tooltip for particular form item.
      *
-     * @param target {Object || null} widget to show tooltip for
+     * @param target {Object | null} widget to show tooltip for
      */
     showToolTip : function(target) {
       if (!target){
