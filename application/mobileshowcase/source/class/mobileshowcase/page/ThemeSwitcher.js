@@ -38,15 +38,17 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
     this.setTitle("Theme Switcher");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
+    this.__themes = [
+      {"name":"Indigo","css":"qx/mobile/css/indigo.css"},
+      {"name":"Android","css":"qx/mobile/css/android.css"},
+      {"name":"iOS","css":"qx/mobile/css/ios.css"}
+    ];
   },
 
 
   members :
   {
-    __themes : [
-      {"name":"Indigo","css":"qx/mobile/css/indigo.css"},
-      {"name":"Android","css":"qx/mobile/css/android.css"},
-      {"name":"iOS","css":"qx/mobile/css/ios.css"}],
+    __themes : null,
 
 
     // overridden
