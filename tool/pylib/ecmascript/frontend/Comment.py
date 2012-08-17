@@ -343,9 +343,12 @@ class Comment(object):
                         'state',  # parse_at__default_
                     ):
                     continue
+                elif hint_key in (
+                        'tag',  # @tag foo; in Demobrowser
+                    ):
+                    entry = self.parse_at__default_(line)
                 else:
                     raise Exception("Unknown '@' hint in JSDoc comment: " + hint_key)
-                    #entry = self.parse_at__default_(line)
                 attribs.append(entry)
             else: # description
                 attribs.append({
