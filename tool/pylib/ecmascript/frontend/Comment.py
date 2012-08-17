@@ -361,8 +361,8 @@ class Comment(object):
                 else:
                     entry["text"] = self.cleanupText(entry["text"])
  
-        from pprint import pprint
-        pprint( attribs)
+        #from pprint import pprint
+        #pprint( attribs)
         return attribs
 
 

@@ -524,7 +524,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      * @param typeNode {apiviewer.dao.ClassItem} the doc node to show the type for.
      * @param defaultType {String} the type name to use if <code>typeNode</code> is
      *          <code>null</code> or defines no type.
-     * @param useShortName {Boolean,true} whether to use short class names
+     * @param useShortName {Boolean?true} whether to use short class names
      *          (without package).
      * @return {String} the HTML showing the type.
      */
