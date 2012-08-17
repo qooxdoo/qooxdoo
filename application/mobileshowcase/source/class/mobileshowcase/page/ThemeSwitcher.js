@@ -38,10 +38,15 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
     this.setTitle("Theme Switcher");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
-    
+    this.__themes = [
+      {"name":"Indigo","css":"qx/mobile/css/indigo.css"},
+      {"name":"Android","css":"qx/mobile/css/android.css"},
+      {"name":"iOS","css":"qx/mobile/css/ios.css"}
+    ];
+
     this.__preloadThemes();
   },
-  
+
   events :
   {
     "themeswitch" : "qx.event.type.Data"
@@ -50,12 +55,9 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
 
   members :
   {
-    __themes : [
-      {"name":"Indigo","css":"qx/mobile/css/indigo.css"},
-      {"name":"Android","css":"qx/mobile/css/android.css"},
-      {"name":"iOS","css":"qx/mobile/css/ios.css"}],
+    __themes : null,
 
-    
+
     /**
      * Preloads all css files for preventing flickering on theme switches.
      */
@@ -63,7 +65,7 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
       for(var i = 0; i < this.__themes.length; i++) {
           var cssResource = this.__themes[i].css;
           var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
-          
+
           var req = new qx.bom.request.Xhr();
 
           req.open("GET", cssURI);
@@ -79,7 +81,7 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
 
 
       this.getContent().add(new qx.ui.mobile.form.Title("Select your theme"));
-      
+
       for(var i = 0; i < this.__themes.length; i++) {
          var label = this.__themes[i].name;
          var switchButton = new qx.ui.mobile.form.Button(label);
@@ -123,15 +125,15 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
           this.__changeCSS(cssURI,1);
         }
       }
-      
+
       this.fireDataEvent("themeswitch",{"theme":chosenValue});
     },
-    
-    
+
+
     /**
      * Adds a new theme data object to the theme switcher.
      * @param cssFile {String} The css file url.
-     */ 
+     */
     appendTheme : function(themeData) {
       this.__themes.push(themeData);
     },
