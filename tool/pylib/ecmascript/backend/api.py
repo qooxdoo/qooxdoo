@@ -519,7 +519,6 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
         itemNode.set("type", "qx.event.type.Data")
         classNode.addListChild("events", event)
 
-    #checkBasic = None
     if "check" in propDefinition:
         check = propDefinition["check"].getFirstChild()
         if check.type == "array":
@@ -528,17 +527,15 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
         elif check.type == "function":
             node.set("check", "Custom check function.")
         elif check.type == "constant":
-            # this can mean: qx built-in check(?), type name, or check expression
+            # this can mean: type name or check expression
             # test by parsing it
             check_value = check.get("value")
             check_tree = treegenerator.parse(check_value)
-            if check_tree.isVar:  # type name
+            if check_tree.isVar():  # type name
                 node.set("check", check_value)
-            elif check_tree.type == 'operation': # expression
-                node.set("check", "Custom check function.")
-            elif check_tree.type == 'identifier': # built-in check; TODO: 'identifier'
-                node.set("check", "Custom check function.")  # TODO: better 'check' value
-            #checkBasic = check.get("value")
+            else:  # don't dare to be more specific
+            #elif check_tree.type in ('operation', 'call'): # "value<=100", "qx.util.Validate.range(0,100)"
+                node.set("check", "Custom check function.")  # that's good enough so the param type is set to 'var'
         else:
             printDocError(check, "Unknown check value")
             return node

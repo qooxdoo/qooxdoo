@@ -172,7 +172,7 @@ qx.Class.define("qx.event.type.Touch",
        * left of the document. This property takes into account any scrolling of
        * the page.
        *
-       * @param touchIndex {Integer ? 0) The index of the Touch object
+       * @param touchIndex {Integer ? 0} The index of the Touch object
        * @return {Integer} The horizontal position of the touch in the document.
        */
       getDocumentLeft : function(touchIndex) {
@@ -185,7 +185,7 @@ qx.Class.define("qx.event.type.Touch",
        * top of the document. This property takes into account any scrolling of
        * the page.
        *
-       * @param touchIndex {Integer ? 0) The index of the Touch object
+       * @param touchIndex {Integer ? 0} The index of the Touch object
        * @return {Integer} The vertical position of the touch in the document.
        */
       getDocumentTop : function(touchIndex) {
@@ -197,7 +197,7 @@ qx.Class.define("qx.event.type.Touch",
        * Get the horizontal coordinate at which the event occurred relative to
        * the origin of the screen coordinate system.
        *
-       * @param touchIndex {Integer ? 0) The index of the Touch object
+       * @param touchIndex {Integer ? 0} The index of the Touch object
        * @return {Integer} The horizontal position of the touch
        */
       getScreenLeft : function(touchIndex) {
@@ -209,7 +209,7 @@ qx.Class.define("qx.event.type.Touch",
        * Get the vertical coordinate at which the event occurred relative to
        * the origin of the screen coordinate system.
        *
-       * @param touchIndex {Integer ? 0) The index of the Touch object
+       * @param touchIndex {Integer ? 0} The index of the Touch object
        * @return {Integer} The vertical position of the touch
        */
       getScreenTop: function(touchIndex) {
@@ -221,7 +221,7 @@ qx.Class.define("qx.event.type.Touch",
        * Get the the horizontal coordinate at which the event occurred relative
        * to the viewport.
        *
-       * @param touchIndex {Integer ? 0) The index of the Touch object
+       * @param touchIndex {Integer ? 0} The index of the Touch object
        * @return {Integer} The horizontal position of the touch
        */
       getViewportLeft : function(touchIndex) {
@@ -233,7 +233,7 @@ qx.Class.define("qx.event.type.Touch",
        * Get the vertical coordinate at which the event occurred relative
        * to the viewport.
        *
-       * @param touchIndex {Integer ? 0) The index of the Touch object
+       * @param touchIndex {Integer ? 0} The index of the Touch object
        * @return {Integer} The vertical position of the touch
        */
       getViewportTop : function(touchIndex) {
@@ -244,7 +244,7 @@ qx.Class.define("qx.event.type.Touch",
       /**
        * Returns the unique identifier for a certain touch object.
        *
-       * @param touchIndex {Integer ? 0) The index of the Touch object
+       * @param touchIndex {Integer ? 0} The index of the Touch object
        * @return {Integer} Unique identifier of the touch object
        */
       getIdentifier : function(touchIndex) {
@@ -257,7 +257,7 @@ qx.Class.define("qx.event.type.Touch",
        * used as the "touchend" event only offers Touch objects in the
        * changedTouches array.
        *
-       * @param touchIndex {Integer ? 0) The index of the Touch object to
+       * @param touchIndex {Integer ? 0} The index of the Touch object to
        *     retrieve
        * @return {Object} A native Touch object
        */
