@@ -18,6 +18,7 @@ Tooling
 
    pages/tool/astlets.rst
    pages/tool/create_application.rst
+   pages/tool/migration_data.rst
 
 
 Project
