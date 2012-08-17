@@ -289,7 +289,7 @@ class Comment(object):
     #
     def parse(self, format_=True):
 
-        hint_sign = re.compile(r'^(?<!{)@(\w+)')
+        hint_sign = re.compile(r'^\s*@(\w+)')
 
         def remove_decoration(text):
             # Strip "/**", "/*!" and "*/"
@@ -299,18 +299,22 @@ class Comment(object):
             for line in intext.split("\n"):
                 text.append(R_JAVADOC_STARS.sub("", line))
             # Autodent
-            #text = Text(text).autoOutdent()
+            text = Text(text).autoOutdent_list()
             return text
 
         def lines_to_sections(comment_lines):
             # compact sections
             section_lines = ['']  # add a fake empty description
+            in_hint = 0
             for line in comment_lines:
-                line = line.strip()
                 if hint_sign.search(line):
                     section_lines.append(line)  # new section
-                else:
+                    in_hint = 1
+                elif in_hint:
+                    line = line.strip()
                     section_lines[-1] += ' ' + line # concat to previous
+                else:
+                    section_lines[-1] += '\n' + line # concat to previous
             return section_lines
 
         # ----------------------------------------------------------------------
@@ -363,8 +367,7 @@ class Comment(object):
 
 
     ##
-    # Generic "@<hint> <text>" parsing
-    #
+    # "@<hint> text" 
     def parse_at__default_(self, line):
         grammar = py.Suppress('@') + py.Word(py.alphas).setResultsName('category') + \
             py.restOfLine("text")
@@ -390,15 +393,8 @@ class Comment(object):
                 py.Optional(py.Regex(r'[^}]+'))("texp_defval"))           # 34
         ) + py.Suppress('}')
 
-    def parseDetail_Term(self, attrib):
-        text = attrib['text'] # "ignoreUnused(a,b)"
-        term = self.py_js_identifier + py.Suppress('(') + \
-            py.Optional(py.delimitedList(self.py_js_identifier)) + py.Suppress(')')
-        a = term.parseString(text)
-        attrib['functor'] = a[0]  # "ignoreUnused"
-        attrib['arguments'] = a[1:] # ["a", "b"]
-
-
+    ##
+    # "@ignore(foo,bar)"
     def parse_at_ignore(self, line):
         grammar = py.Suppress('@') + py.Literal('ignore') + py.Suppress('(') + \
             py.delimitedList(self.py_js_identifier).setResultsName('arguments') + py.Suppress(')')
@@ -409,6 +405,8 @@ class Comment(object):
         }
         return res
 
+    ##
+    # "@return {Type} msg"
     def parse_at_return(self, line):
         grammar = (py.Suppress('@') + py.Literal('return')  + 
             py.Optional(self.py_type_expression.copy()).setResultsName("type") +   # TODO: remove leading py.Optional
@@ -423,12 +421,16 @@ class Comment(object):
         }
         return res
         
+    ##
+    # "@internal"
     def parse_at_internal(self, line):
         res = {
             'category' : 'internal',
         }
         return res
 
+    ##
+    # "@throws text"
     def parse_at_throws(self, line):
         grammar = py.Suppress('@') + py.Literal('throws') + py.restOfLine("text")
         # FUTURE:
@@ -452,8 +454,7 @@ class Comment(object):
         return types
 
     ##
-    # @param-like, "@hint <name> {<type_spec>} <text>"
-    #
+    # @param foo {Type} text"
     def parse_at_param(self, line):
         grammar = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
             self.py_js_identifier.copy().setResultsName("name") + 
@@ -471,9 +472,10 @@ class Comment(object):
         return res
         
     ##
-    # The only difference to parse_at_param is that <name> can be an arbitrary string
-    # (e.g. containing "-").
+    # "@childControl foo-bar {Type} text"
     #
+    # (The only difference to parse_at_param is that <name> can be an arbitrary string
+    # (e.g. containing "-")).
     def parse_at_childControl(self, line):
         grammar = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
             py.Regex(r'\S+')("name") +   # accept "-" for childControl names
@@ -490,6 +492,8 @@ class Comment(object):
         }
         return res
         
+    ##
+    # "@see qx.core.Object#CONSTANT text"
     def parse_at_see(self, line):
         grammar = py.Suppress('@') + py.Literal('see') + py.Regex(r'\S+').setResultsName("name") + \
             py.Optional(py.restOfLine("text"))
@@ -501,6 +505,8 @@ class Comment(object):
         }
         return res
         
+    ##
+    # "@signature function(parm1, parm2)"
     def parse_at_signature(self, line):
         grammar = py.Suppress('@') + py.Literal('signature') + py.Literal('function') + \
             py.Suppress('(') + py.Optional(py.delimitedList(self.py_js_identifier)).setResultsName('arguments') + \
@@ -516,6 +522,8 @@ class Comment(object):
     py_comment_term = py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') + \
         py.Optional(py.delimitedList(py_js_identifier)).setResultsName('t_arguments') + py.Suppress(')')
 
+    ##
+    # "@lint ignoreUndefined(foo)"
     def parse_at_lint(self, line):
         grammar = py.Suppress('@') + py.Literal('lint') + self.py_comment_term
         presult = grammar.parseString(line)
@@ -526,6 +534,8 @@ class Comment(object):
         }
         return res
         
+    ##
+    # "@attach {q, bar}"
     def parse_at_attach(self, line):
         grammar = py.Suppress('@') + py.Literal('attach') + py.Suppress('{') + \
             self.py_js_identifier.copy().setResultsName('clazz') + \
@@ -539,6 +549,8 @@ class Comment(object):
         }
         return res
         
+    ##
+    # "@attachStatic {q, bar}"
     def parse_at_attachStatic(self, line):
         grammar = py.Suppress('@') + py.Literal('attachStatic') + py.Suppress('{') + \
             self.py_js_identifier.copy().setResultsName('clazz') + \
@@ -552,6 +564,8 @@ class Comment(object):
         }
         return res
         
+    ##
+    # "@require(foo, bar)"
     def parse_at_require(self, line):
         grammar = py.Suppress('@') + self.py_comment_term
         presult = grammar.parseString(line)
@@ -561,6 +575,8 @@ class Comment(object):
         }
         return res
         
+    ##
+    # "@use(foo,bar)"
     def parse_at_use(self, line):
         grammar = py.Suppress('@') + self.py_comment_term
         presult = grammar.parseString(line)
@@ -716,6 +732,24 @@ class Text(object):
     def indent(self, indent):
         return re.compile("\n").sub("\n" + indent, self.string)
 
+
+    def autoOutdent_list(self):
+        lines = self.string # needs to be [], actually :)
+        result = []
+        if len(lines) == 0:
+            return lines
+        elif len(lines) ==1:
+            result.append(lines[0].strip())
+            return result
+        else:
+            for line in lines:
+                if len(line) and line[0] != " ":
+                    return lines
+            for line in lines:
+                result.append(line[1:])
+            return result
+
+            
 
     def autoOutdent(self):
         text = self.string
