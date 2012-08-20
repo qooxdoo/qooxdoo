@@ -24,6 +24,7 @@
 
 /**
  * @tag noPlayground
+ * @ignore(boxData)
  */
 qx.Class.define("demobrowser.demo.bom.Portal",
 {

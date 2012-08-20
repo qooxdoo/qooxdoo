@@ -25,6 +25,7 @@
 
 /**
  * @tag noPlayground
+ * @lint environmentNonLiteralKey(key)
  */
 qx.Class.define("demobrowser.demo.bom.Environment",
 {

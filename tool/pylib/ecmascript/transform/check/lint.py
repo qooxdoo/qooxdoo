@@ -106,7 +106,7 @@ class LintChecker(treeutil.NodeVisitor):
                 if (full_name in lang.GLOBALS # JS built-ins ('alert' etc.)
                         and full_name in lang.DEPRECATED):
                     ok = False
-                    at_hints = get_at_hints(funcnode) # check full_name against @ignore hints
+                    at_hints = get_at_hints(var_node) # check full_name against @ignore hints
                     if at_hints:
                         ok = self.is_name_lint_filtered(full_name, at_hints, "ignoreDeprecated")
                 if not ok:
@@ -133,8 +133,6 @@ class LintChecker(treeutil.NodeVisitor):
                     else:
                         at_hints = get_at_hints(var_node) # check full_name against @ignore hints
                         if at_hints:
-                            #if full_name == "$":
-                            #    import pydb; pydb.debugger()
                             ok = ( self.is_name_ignore_filtered(full_name, at_hints)
                                 or self.is_name_lint_filtered(full_name, at_hints, "ignoreUndefined")) # /**deprecated*/
                     if not ok:
@@ -252,7 +250,11 @@ class LintChecker(treeutil.NodeVisitor):
                     if self.reg_privs.match(key):
                         private_keys.add(key)
                 # go through uses of 'this' and 'that' that reference a private
-                for key,val in class_map[category].items():
+                items = class_map[category].items()
+                if category == "members" and 'construct' in class_map: # add checking constructor
+                    items.insert(0, ('construct', class_map['construct'].parent  # to recover (value ...)
+                        ))
+                for key,val in items:
                     if val.children[0].type == 'function':
                         function_privs = self.function_uses_local_privs(val.children[0])
                         for priv, node in function_privs:

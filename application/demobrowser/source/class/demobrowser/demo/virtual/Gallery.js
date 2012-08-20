@@ -275,6 +275,8 @@ qx.Class.define("demobrowser.demo.virtual.WidgetGallery",
 
   members :
   {
+    __cell : null,
+
     _createScroller : function()
     {
       var scroller = new qx.ui.virtual.core.Scroller(
