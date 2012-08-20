@@ -53,10 +53,6 @@
 ************************************************************************ */
 
 /**
- */
-
-
-/**
  *
  * Exposes Sinon.JS to qooxdoo.
  *
@@ -65,8 +61,8 @@
  * and use the wrappers provided.
  *
  * @internal
- * ____@ignore(module, require)
- * ____@lint ignoreUndefined(module, require)
+ * @ignore(module, require, global)
+ * @lint ignoreDeprecated(eval)
  *
  */
 qx.Class.define("qx.dev.unit.Sinon",
@@ -88,6 +84,9 @@ qx.Class.define("qx.dev.unit.Sinon",
 });
 
 
+/** 
+ * @ignore(module, require, global)
+ */
 (function() {
 
 /**
