@@ -133,6 +133,8 @@ class LintChecker(treeutil.NodeVisitor):
                     else:
                         at_hints = get_at_hints(var_node) # check full_name against @ignore hints
                         if at_hints:
+                            #if full_name == "$":
+                            #    import pydb; pydb.debugger()
                             ok = ( self.is_name_ignore_filtered(full_name, at_hints)
                                 or self.is_name_lint_filtered(full_name, at_hints, "ignoreUndefined")) # /**deprecated*/
                     if not ok:
@@ -162,7 +164,8 @@ class LintChecker(treeutil.NodeVisitor):
     #
     def is_name_lint_filtered(self, var_name, at_hints, filter_key):
         def extension_match(name, prefix):
-            return re.match(r"%s\b" % prefix, name)
+            # "a" is a prefix match for "a" and "a.b", but not "ab"
+            return re.match(r"%s(?:\.|$)" % re.escape(prefix), name)
         filtered = False
         if at_hints:
             if ( 'lint' in at_hints and
