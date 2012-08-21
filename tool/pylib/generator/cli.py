@@ -142,7 +142,7 @@ def run_jobs(config, console, context, level, jobs):
         generatorObj.run()
 
 
-def exec_generator(argv, config=None, extra_config=None):
+def exec_generator(argv, config=None, extra_config=None, appname=None):
     """Run the generator command line interface.
 
     If ``config`` is a dict, it will be used as the main configuration
@@ -152,6 +152,9 @@ def exec_generator(argv, config=None, extra_config=None):
     If the dict ``extra_config`` is given, it will be used as an additional
     set of configuration values and will be merged after the user's custom
     configuration.
+
+    ``appname`` is the name used in the console output; it is normally
+    read from the directory in which ``config.json`` is located.
     """
     global options
     parser = GeneratorArguments(
@@ -185,10 +188,15 @@ def exec_generator(argv, config=None, extra_config=None):
     console.progress_indication = options.show_progress_indicator
 
     # Initial user feedback
-    appname = ((os.path.dirname(os.path.abspath(options.config)).split(os.sep)))[-1]
-    console.head(u"Initializing: %s" % appname.decode('utf-8'), True)
+    if not appname and hasattr(options, 'config'):
+        appname = ((os.path.dirname(os.path.abspath(options.config)).split(os.sep)))[-1]
+    if appname:
+        console.head(u"Initializing: %s" % appname.decode('utf-8'), True)
+    else:
+        console.head(u"Initializing", True)
     console.info(u"Processing configuration")
-    console.debug(u"    file: %s" % options.config)
+    if hasattr(options, 'config'):
+        console.debug(u"    file: %s" % options.config)
 
     # Load application configuration
     if config:
