@@ -711,7 +711,8 @@ class Config(object):
         if os.path.isabs(path):
             return path
         elif not self.getConfigDir():
-            raise RuntimeError, "Cannot absolutize path without a config file path."
+            raise RuntimeError, \
+                "Cannot absolutize path without a config file path: %s" % path
         else:
             p = os.path.normpath(os.path.abspath(
                     os.path.join(self.getConfigDir(), path)))
