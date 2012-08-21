@@ -149,6 +149,9 @@ def exec_generator(argv, config=None, extra_config=None, appname=None):
     file. If it is not given, a -c command line switch is available which
     defaults to loading a file named ``config.json``.
 
+    .. note:
+        If a ``config`` dict is given, all paths in it need to be absolute.
+
     If the dict ``extra_config`` is given, it will be used as an additional
     set of configuration values and will be merged after the user's custom
     configuration.
