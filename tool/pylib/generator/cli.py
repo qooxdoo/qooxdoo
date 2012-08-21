@@ -199,7 +199,7 @@ def exec_generator(argv, config=None, extra_config=None, appname=None):
         console.debug(u"    file: %s" % options.config)
 
     # Load application configuration
-    if config:
+    if config is not None:
         config = Config(console, config, **options.letmacros)
     else:
         config = Config(console, options.config, **options.letmacros)
