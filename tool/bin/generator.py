@@ -95,16 +95,75 @@ def getAdditonalArgs(config, args):
     return config
 
 
-def main():
+def run_jobs(config, console, context, level, jobs):
+    """Given a configuration and an output object (``console``), run
+    the given jobs.
+    """
+    # Resolve "extend"- and "run"-Keys
+    expandedjobs = config.resolveExtendsAndRuns(jobs[:])
+
+    # Include system defaults
+    config.includeSystemDefaults(expandedjobs)
+
+    # Resolve "let"-Keys
+    config.resolveMacros(expandedjobs)
+
+    # Resolve libs/Manifests
+    config.resolveLibs(expandedjobs)
+
+    # To see fully expanded config:
+    #console.info(pprint.pformat(config.get(".")))
+
+    # Do some config schema checking
+    config.checkSchema(expandedjobs, checkJobTypes=True)
+
+    # Clean-up config
+    config.cleanUpJobs(expandedjobs)
+
+    # Reset console level
+    # TODO: Why is this necessary? It would be preferable not to have
+    # to pass ``level`` to this function.
+    console.setLevel(level)
+    console.resetFilter()
+
+    # Processing jobs...
+    for job in expandedjobs:
+        console.head("Executing: %s" % job.name, True)
+        if options.config_verbose:
+            console.setLevel("debug")
+            console.debug("Expanded job config:")
+            console.debug(pprint.pformat(config.getJob(job).getData()))
+            console.setLevel(level)
+
+        ctx = context.copy()
+        ctx['jobconf'] = config.getJob(job)
+        Context.jobconf = ctx['jobconf']
+
+        generatorObj = Generator(ctx)
+        generatorObj.run()
+
+
+def exec_generator(argv, config=None, extra_config=None):
+    """Run the generator command line interface.
+
+    If ``config`` is a dict, it will be used as the main configuration
+    file. If it is not given, a -c command line switch is available which
+    defaults to loading a file named ``config.json``.
+
+    If the dict ``extra_config`` is given, it will be used as an additional
+    set of configuration values and will be merged after the user's custom
+    configuration.
+    """
     global options
-    (options, args) = GeneratorArguments(option_class=ExtendAction).parse_args(sys.argv[1:])
+    parser = GeneratorArguments(
+        option_class=ExtendAction, add_configfile_arg=(config is None))
+    (options, args) = parser.parse_args(argv[1:])
 
     if args:
         options.jobs = args[0].split(',')
     else:
         options.jobs = []
 
-        
     # Initialize console
     if options.verbose:
         level = "debug"
@@ -133,10 +192,18 @@ def main():
     console.debug(u"    file: %s" % options.config)
 
     # Load application configuration
-    config = Config(console, options.config, **options.letmacros)
+    if config:
+        config = Config(console, config, **options.letmacros)
+    else:
+        config = Config(console, options.config, **options.letmacros)
 
     # Load user configuration (preferences)
     config = getUserConfig(config)
+
+    # Custom dict the caller may have given
+    # Should this support the =-based merge feature?
+    if extra_config:
+        config.data.update(extra_config)
 
     # Insert remaining command line args
     config = getAdditonalArgs(config, args[1:])
@@ -174,46 +241,8 @@ def main():
 
     # CLI mode
     if not options.daemon:
-        # Resolve "extend"- and "run"-Keys
-        expandedjobs = config.resolveExtendsAndRuns(options.jobs[:])
-
-        # Include system defaults
-        config.includeSystemDefaults(expandedjobs)
-        
-        # Resolve "let"-Keys
-        config.resolveMacros(expandedjobs)
-
-        # Resolve libs/Manifests
-        config.resolveLibs(expandedjobs)
-
-        # To see fully expanded config:
-        #console.info(pprint.pformat(config.get(".")))
-
-        # Do some config schema checking
-        config.checkSchema(expandedjobs, checkJobTypes=True)
-
-        # Clean-up config
-        config.cleanUpJobs(expandedjobs)
-
-        # Reset console level
-        console.setLevel(level)
-        console.resetFilter()
-
-        # Processing jobs...
-        for job in expandedjobs:
-            console.head("Executing: %s" % job.name, True)
-            if options.config_verbose:
-                console.setLevel("debug")
-                console.debug("Expanded job config:")
-                console.debug(pprint.pformat(config.getJob(job).getData()))
-                console.setLevel(level)
-
-            ctx = context.copy()
-            ctx['jobconf'] = config.getJob(job)
-            Context.jobconf = ctx['jobconf']
-
-            generatorObj = Generator(ctx)
-            generatorObj.run()
+        # TOOD: context already contains config and console, run_jobs signature can be slimmed down
+        return run_jobs(config, console, context, level, options.jobs[:])
 
     # Daemon mode
     else: 
@@ -226,11 +255,11 @@ def main():
         generatord.serve()
 
 
-if __name__ == '__main__':
+def main(argv):
     options = None
     try:
         #sys.settrace(stacktrace)
-        main()
+        exec_generator(argv)
 
     except KeyboardInterrupt:
         print
@@ -249,3 +278,7 @@ if __name__ == '__main__':
             else:
                 print >> sys.stderr, "Terminating on terminal exception (%r)" % e
             sys.exit(1)
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv) or 0)

@@ -28,6 +28,7 @@ import optparse
 class GeneratorArguments(optparse.OptionParser):
 
     def __init__(self, *args, **kwargs):
+        add_configfile_arg = kwargs.pop('add_configfile_arg', True)
         optparse.OptionParser.__init__(self, *args, **kwargs)
 
         usage_str = '''%prog [options] job,...
@@ -41,7 +42,8 @@ Arguments:
 
 
         # Common options
-        self.add_option("-c", "--config", dest="config", metavar="CFGFILE", default="config.json", help="path to configuration file containing job definitions (default: %default)")
+        if add_configfile_arg:
+            self.add_option("-c", "--config", dest="config", metavar="CFGFILE", default="config.json", help="path to configuration file containing job definitions (default: %default)")
         self.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="quiet output mode (extra quiet)")
         self.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode of job processing")
         self.add_option("-w", "--config-verbose", action="store_true", dest="config_verbose", default=False, help="verbose output mode of configuration processing")
