@@ -93,8 +93,7 @@ def getAdditonalArgs(config, args):
 
     return config
 
-
-def run_jobs(config, console, context, level, jobs):
+def runJobs(config, console, context, level, jobs):
     """Given a configuration and an output object (``console``), run
     the given jobs.
     """
@@ -142,7 +141,7 @@ def run_jobs(config, console, context, level, jobs):
         generatorObj.run()
 
 
-def exec_generator(argv, config=None, extra_config=None, appname=None):
+def execGenerator(argv, config=None, extra_config=None, appname=None):
     """Run the generator command line interface.
 
     If ``config`` is a dict, it will be used as the main configuration
@@ -252,7 +251,7 @@ def exec_generator(argv, config=None, extra_config=None, appname=None):
     # CLI mode
     if not options.daemon:
         # TOOD: context already contains config and console, run_jobs signature can be slimmed down
-        return run_jobs(config, console, context, level, options.jobs[:])
+        return runJobs(config, console, context, level, options.jobs[:])
 
     # Daemon mode
     else:
@@ -269,7 +268,7 @@ def main(argv):
     options = None
     try:
         #sys.settrace(stacktrace)
-        exec_generator(argv)
+        execGenerator(argv)
 
     except KeyboardInterrupt:
         print
