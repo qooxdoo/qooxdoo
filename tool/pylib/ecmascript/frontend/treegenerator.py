@@ -268,6 +268,7 @@ class TokenStream(IterObject):
                 self.outData.appendleft(s)
                 # handle comments
                 if self.comments:
+                    #import pydb; pydb.debugger()
                     s.comments = self.comments
                     self.comments = []
                 yield s
@@ -868,8 +869,16 @@ def toJS(self, opts):
 
 @method(symbol("("))  # <group>
 def pfix(self):
-    comma = False
-    group = symbol("group")(token.get("line"), token.get("column"))
+    # There is sometimes a one-to-one replacement of the symbol instance from
+    # <token> and a different symbol created in the parsing method (here
+    # "symbol-(" vs. "symbol-group"). But there are a lot of attributes you want to
+    # retain from the token, like "line", "column", .comments, and maybe others.
+    # The reason for not retaining the token itself is that the replacement is
+    # more specific (as here "(" which could be "group", "call" etc.). Just
+    # re-writing .type would be enough for most tree traversing routines. But
+    # the parsing methods themselves are class-based.
+    group = symbol("group")()
+    self.patch(group) # for "line", "column", .comments, etc.
     if token.id != ")":
         while True:
             if token.id == ")":
@@ -897,7 +906,8 @@ symbol("]")
 
 @method(symbol("["))             # "foo[0]", "foo[bar]", "foo['baz']"
 def ifix(self, left):
-    accessor = symbol("accessor")(token.get("line"), token.get("column"))
+    accessor = symbol("accessor")
+    self.patch(accessor)
     # identifier
     accessor.childappend(left)
     # selector
