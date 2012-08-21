@@ -906,7 +906,7 @@ symbol("]")
 
 @method(symbol("["))             # "foo[0]", "foo[bar]", "foo['baz']"
 def ifix(self, left):
-    accessor = symbol("accessor")
+    accessor = symbol("accessor")()
     self.patch(accessor)
     # identifier
     accessor.childappend(left)
@@ -919,7 +919,8 @@ def ifix(self, left):
 
 @method(symbol("["))
 def pfix(self):
-    arr = symbol("array")(token.get("line"), token.get("column"))
+    arr = symbol("array")()
+    self.patch(arr)
     if token.id != "]":
         is_after_comma = 0
         while True:
@@ -972,7 +973,8 @@ symbol("}")
 
 @method(symbol("{"))                    # object literals
 def pfix(self):
-    mmap = symbol("map")(token.get("line"), token.get("column"))
+    mmap = symbol("map")()
+    self.patch(mmap)
     if token.id != "}":
         is_after_comma = 0
         while True:
@@ -1054,7 +1056,8 @@ def toJS(self, opts):
 def block():
     t = token
     advance("{")
-    s = symbol("block")(token.get("line"), token.get("column"))
+    s = symbol("block")()
+    t.patch(s)
     s.childappend(t.std())  # the "{".std takes care of closing "}"
     return s
 
@@ -1082,14 +1085,16 @@ def pfix(self):
         advance()
     # params
     assert token.id == "("
-    params = symbol("params")(token.get("line"), token.get("column"))
+    params = symbol("params")()
+    token.patch(params)
     self.childappend(params)
     group = expression()  # group parsing as helper
     for c in group.children:
         params.childappend(c)
-    #params.children = group.children  # -- retains group as parent!
+    #params.children = group.children retains group as parent!
     # body
-    body = symbol("body")(token.get("line"), token.get("column"))
+    body = symbol("body")()
+    token.patch(body)
     self.childappend(body)
     if token.id == "{":
         body.childappend(block())

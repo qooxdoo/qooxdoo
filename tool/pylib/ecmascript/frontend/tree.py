@@ -123,7 +123,11 @@ class Node(object):
     # (this might not be entirely in sync with treegenerator.symbol())
     def patch(self, other):
         for attr, val in vars(self).items():
-            if attr == "type": # preserve other.type
+            if attr in (
+                "type", "id",  # preserve other's classification
+                "children", # don't adopt existing children (what would their .parent be?!)
+                "parent", # avoid tree relations
+                ):
                 continue
             setattr(other, attr, val)
         # keep .attributes non-shared
