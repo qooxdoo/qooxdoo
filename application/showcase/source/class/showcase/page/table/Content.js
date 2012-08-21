@@ -134,10 +134,16 @@ qx.Class.define("showcase.page.table.Content",
       var loader = new qx.bom.request.Script();
 
       loader.on("load", function() {
-        var result = showcase.page.table.Content._result;
+        var result = showcase.page.table.Content._result.query.results;
 
         var rows = [];
-        var rawData = result.query.results.Track;
+        if (result == null) {
+          var rawData = [];
+          rows.push([0, "Failed to load the data", "---", 0, false]);
+        } else {
+          var rawData = result.Track;
+        }
+
         for (var i = 0; i < rawData.length; i++) {
           var row = [];
           row.push(parseInt(rawData[i].ItemInfo.ChartPosition["this"]));
@@ -152,7 +158,12 @@ qx.Class.define("showcase.page.table.Content",
             };
             row.push(artists);
           } else {
-            row.push(rawData[i].Artist.name || "");
+            if (rawData[i].Artist) {
+              row.push(rawData[i].Artist.name || "");
+            } else {
+              row.push("---");
+            }
+
           }
           row.push(parseInt(rawData[i].releaseYear));
           row.push(rawData[i].explicit !== "0");
