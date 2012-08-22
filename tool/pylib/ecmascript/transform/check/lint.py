@@ -157,18 +157,25 @@ class LintChecker(treeutil.NodeVisitor):
                 warn("Declared but unused variable or parameter: '%s'" % var_name, self.file_name, scopeVar.decl[0])
 
     ##
+    # <name> is an extension match of <prefix> .iff. <prefix> is a prefix of <name>
+    #
+    # taking object boundaries (".") into account, i.e.
+    # "a" is a prefix match of "a" and "a.b", but not of "ab"
+    #
+    @staticmethod
+    def extension_match(name, prefix):
+        return re.match(r"%s(?:\.|$)" % re.escape(prefix), name)
+
+    ##
     # Checks the @lint hints in <at_hints> if the given <var_name> is filtered
     # under the <filter_key> (e.g. "ignoreUndefined" in *@lint ignoreUndefined(<var_name>))
     #
     def is_name_lint_filtered(self, var_name, at_hints, filter_key):
-        def extension_match(name, prefix):
-            # "a" is a prefix match for "a" and "a.b", but not "ab"
-            return re.match(r"%s(?:\.|$)" % re.escape(prefix), name)
         filtered = False
         if at_hints:
             if ( 'lint' in at_hints and
                 filter_key in at_hints['lint']):
-                if any([extension_match(var_name, x) for x in at_hints['lint'][filter_key]]):
+                if any([self.extension_match(var_name, x) for x in at_hints['lint'][filter_key]]):
                     filtered = True
         return filtered
 
@@ -177,7 +184,8 @@ class LintChecker(treeutil.NodeVisitor):
     # Checks @ignore(...)
     #
     def is_name_ignore_filtered(self, var_name, at_hints):
-        return 'ignore' in at_hints and var_name in at_hints['ignore']
+        return ('ignore' in at_hints and 
+            any([self.extension_match(var_name, x) for x in at_hints['ignore']]))
 
 
     ##
