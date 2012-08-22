@@ -99,6 +99,13 @@ class LintChecker(treeutil.NodeVisitor):
         for cld in node.children:
             self.visit(cld)
 
+    def visit_finally(self, node):
+        if not self.opts.ignore_finally_without_catch:
+            self.finally_without_catch(node)
+        # recurse
+        for cld in node.children:
+            self.visit(cld)
+
     # - ---------------------------------------------------------------------------
 
     def function_used_deprecated(self, funcnode):
@@ -427,9 +434,17 @@ class LintChecker(treeutil.NodeVisitor):
         if catch_param:
             higher_scope = catch_param.scope.parent.lookup(catch_param.get("value")) # want to look at scopes *above* the catch scope
             if higher_scope: # "e" has been registered with a higher scope, either as decl'ed or global
-                warn("Shadowing scoped var with catch parameter (problematic in older IE): %s" % 
+                warn("Shadowing scoped var with catch parameter (bug#1207): %s" % 
                     catch_param.get("value"), self.file_name, catch_param)
             
+    ##
+    # Check for try-finally without 'catch' block (issue in older IE, s. bug#3688)
+    #
+    def finally_without_catch(self, finally_node):
+        try_node = finally_node.parent
+        if not try_node.getChild("catch", 0):
+            warn("A finally clause without a catch might not be run (bug#3688)",
+                self.file_name, finally_node)
             
 
 # - ---------------------------------------------------------------------------
@@ -482,6 +497,7 @@ def defaultOptions():
     opts.ignore_catch_param = False
     opts.ignore_deprecated_symbols = False
     opts.ignore_environment_nonlit_key = False
+    opts.ignore_finally_without_catch = False
     opts.ignore_multiple_mapkeys = False
     opts.ignore_multiple_vardecls= True
     opts.ignore_no_loop_block = False
