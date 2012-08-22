@@ -368,7 +368,7 @@ As an alternative to the custom check *function*, you may also define a *string*
       }
     }
 
-This is more efficient, particularly for checks involving rather small tests, as it omits the function call that would be needed in the variant above.
+This is more efficient, particularly for checks involving rather small tests, as it omits the function call that would be needed in the variant above. But make sure the identifier you are using is named **value**, otherwise you will not be checking the incoming property value.
 
 .. _pages/defining_properties#transforming_incoming_values:
 
