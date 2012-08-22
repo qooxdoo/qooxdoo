@@ -43,7 +43,7 @@ class ScopesVisitor(object):
 
     def visit_function(self, scopeNode):
         node = scopeNode.node
-        # handle pot. function name that goes into the function scope
+        # handle function name that goes into the function scope
         if node.getChild("identifier",0) and not node.isStatement():
             name_node = node.getChild("identifier")
             fname = name_node.get("value")
@@ -53,7 +53,7 @@ class ScopesVisitor(object):
         # handle params
         paramCollector = AssignScopeVarsVisitor(scopeNode)
         paramCollector.visit(node.getChild("params"))
-        # mark as params (true params and pot. internal function name)
+        # mark as params (true params and internal function name (the latter re. bug#5759)
         for scopeVar in scopeNode.vars.values():
             scopeVar.is_param = True
         # handle body
