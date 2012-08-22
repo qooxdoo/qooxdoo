@@ -220,11 +220,6 @@ Example for a fully extended doc comment:
       ...
     };
 
-This comment is shown in the API viewer like this:
-
-|Example output of the API viewer|
-
-.. |Example output of the API viewer| image:: /pages/development/apiviewer-example.png
 
 .. _pages/write_api_documentation#handling_of_data_types:
 
