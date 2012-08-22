@@ -92,6 +92,13 @@ class LintChecker(treeutil.NodeVisitor):
         for cld in node.children:
             self.visit(cld)
 
+    def visit_catch(self, node):
+        if not self.opts.ignore_catch_param:
+            self.catch_param_shadowing(node)
+        # recurse
+        for cld in node.children:
+            self.visit(cld)
+
     # - ---------------------------------------------------------------------------
 
     def function_used_deprecated(self, funcnode):
@@ -406,8 +413,24 @@ class LintChecker(treeutil.NodeVisitor):
             return complete
 
         # we could now try to verify the keys in the map - deferred
-
         return True
+
+    ##
+    # Check if catch param ("e") shadows another variable in the current
+    # scope (bug#1207, with IE)
+    def catch_param_shadowing(self, catch_node):
+        catch_param = catch_node.getChild("params")
+        if catch_param.children and catch_param.children[0].type == 'identifier':
+            catch_param = catch_param.children[0]
+        else:
+            catch_param = None  # this would be against spec
+        if catch_param:
+            higher_scope = catch_param.scope.parent.lookup(catch_param.get("value")) # want to look at scopes *above* the catch scope
+            if higher_scope: # "e" has been registered with a higher scope, either as decl'ed or global
+                warn("Shadowing scoped var with catch parameter (problematic in older IE): %s" % 
+                    catch_param.get("value"), self.file_name, catch_param)
+            
+            
 
 # - ---------------------------------------------------------------------------
 
@@ -451,11 +474,12 @@ def get_at_hints(node, at_hints=None):
 
 
 def defaultOptions():
-    class C(object): pass
-    opts = C()
+    class LintOptions(object): pass
+    opts = LintOptions()
     opts.library_classes = []
     opts.class_namespaces = []
     opts.allowed_globals = []
+    opts.ignore_catch_param = False
     opts.ignore_deprecated_symbols = False
     opts.ignore_environment_nonlit_key = False
     opts.ignore_multiple_mapkeys = False

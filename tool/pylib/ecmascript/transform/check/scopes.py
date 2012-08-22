@@ -228,6 +228,14 @@ class Scope(object):
         else:
             return None
 
+    def lookup(self, name):
+        if name in self.vars:
+            return self
+        elif self.parent:
+            return self.parent.lookup(name)
+        else:
+            return None
+
     def prrnt(self, indent='  '):
         print indent, self
         for cld in self.children:
