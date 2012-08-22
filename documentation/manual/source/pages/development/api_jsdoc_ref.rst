@@ -92,6 +92,33 @@ For a parameter description the meaning is: The expected parameter can be of Typ
     {String|Integer ? null}
 
 
+.. _pages/api_jsdoc_ref#symbol_matching:
+
+Matching of Variable Names
+===========================
+
+Several of the JSDoc keys take some sort of symbol names as parameters, e.g. the ``foo`` in ``@ignore(foo)``, which are then matched against names found in the code. These parameters include names of global variables, built-in functions, formal arguments, namespaces, and the like. It is important that you are aware of the semantics of those parameters, i.e. the way they are used to establish a match with a name actually found in the code.
+
+* **Exact Match**
+
+  Some keys restrict themselves to exact matches, e.g. the ``alert`` in ``@lint ignoreDeprecated(alert)`` will only match the global symbol ``alert`` in the code, neither ``aler`` nor ``alerty`` nor ``alert.foo``.
+
+  The next two match types include exact match, but also allow other kinds of matches.
+* **Prefix Match**
+
+  Some keys regard the name from the code as a prefix of the parameter. This is usually restricted to object boundaries (not just simple string prefixes), so a name of ``foo`` in the code will match a parameter of ``foo.bar``, but not ``foozy.bar``.
+  A good example is ``@ignore(foo)``. If you want to ignore the name ``foo`` in your code, it probably makes sense to ignore names nested on ``foo`` as well, like ``foo.bar``, so this key effectively uses prefix matching.
+* **Extension Match**
+
+  Some keys regard the parameter as a prefix of the name from the code, again usually restricting it to object boundaries. In that case, a name ``foo.bar`` will match a parameter of ``foo``, while the name ``foozy`` will not.
+* **Wildcard Match**
+
+  Some keys need an explicit, glob-style wildcard at the end to support extension matches. In that case you need to provide a hint like ``@somehint somekey(foo.*)``, in order to match a name of ``foo.bar`` from the code with this key. Again, a match has to honor object boundaries. (Mind that in the case of a parameter like ``foo.*``, simply ``foo`` with **not** match; the dot is part of the pattern and has to be present in order for the match to succeed).
+
+The individual keys should make it clear which of those match semantics they use when checking actual code names. Many keys will allow not only one parameter, but a list of parameters. Matching is then applied to each parameter in turn, and if one matches, the key applies.
+
+
+
 .. _pages/api_jsdoc_ref#supported_attributes:
 
 Section Reference
