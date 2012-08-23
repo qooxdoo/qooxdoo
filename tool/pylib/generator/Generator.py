@@ -1695,7 +1695,9 @@ class Generator(object):
             classesFiltered = (c for c in classes if incRegex.search(c) and not excRegex.search(c))
             return classesFiltered
 
-        if not self._job.get('lint-check', False):
+        # ----------------------------------------------------------------------
+
+        if not self._job.get('lint-check', False) or not self._job.get('lint-check/run', False):
             return
 
         classes = classes.keys()

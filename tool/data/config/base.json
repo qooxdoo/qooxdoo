@@ -531,6 +531,7 @@
         ,"ignore-undefined-globals" : false
         ,"ignore-unused-parameter" : true
         ,"ignore-unused-variables" : false
+        ,"run" : true
       }
     },
 
