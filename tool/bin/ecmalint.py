@@ -17,6 +17,7 @@
 #
 #  Authors:
 #    * Fabian Jakobs (fjakobs)
+#    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 

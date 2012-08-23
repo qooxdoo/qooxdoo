@@ -684,7 +684,8 @@ Check Javscript source code with a lint-like utility. Takes a map.
     "ignore-undefined-globals"      : (true|false),
     "ignore-unused-parameter"       : (true|false),
     "ignore-unused-variables"       : (true|false),
-    "run"                           : (true|false)
+    "run"                           : (true|false),
+    "warn-unknown-jsdoc-keys"       : (true|false)
   }
 
 .. note::
@@ -735,6 +736,8 @@ Keys are:
 
 * **run** *(experimental)* :
     When set to *true* the actual lint checking will be performed. This key allows you to carry lint options in jobs without actually triggering the lint action. *(default: false)*
+
+* **warn-unknown-jsdoc-keys** *(experimental)* :
 
 
 .. _pages/tool/generator_config_ref#log:
