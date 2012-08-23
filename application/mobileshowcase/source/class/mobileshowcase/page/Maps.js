@@ -29,6 +29,8 @@
 
 /**
  * Mobile page showing a OpenStreetMap map.
+ *
+ * @ignore(OpenLayers)
  */
 qx.Class.define("mobileshowcase.page.Maps",
 {
