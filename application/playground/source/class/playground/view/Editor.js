@@ -83,7 +83,8 @@ qx.Class.define("playground.view.Editor",
         font       : "bold",
         padding    : 5,
         allowGrowX : true,
-        allowGrowY : true
+        allowGrowY : true,
+        backgroundColor: "white"
       });
       this.add(caption);
 

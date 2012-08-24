@@ -49,43 +49,48 @@ qx.Class.define("tutorial.Application",
       }, this);
 
       // Create main layout
-      var dockLayout = new qx.ui.layout.Dock();
-      var dockLayoutComposite = new qx.ui.container.Composite(dockLayout);
-      this.getRoot().add(dockLayoutComposite, {edge:0});
+      var mainComposite = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+      this.getRoot().add(mainComposite, {edge:0});
 
       // Create header
       this.__header = new tutorial.view.Header();
-      dockLayoutComposite.add(this.__header, {edge: "north"});
+      mainComposite.add(this.__header);
+
+      // create the content
+      var content = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
+      content.setAppearance("app-splitpane");
+      content.setPaddingTop(10);
+      mainComposite.add(content, {flex: 1});
 
       var description = new tutorial.view.Description();
-      dockLayoutComposite.add(description, {edge: "west", width: "50%"});
+      description.addListener("run", this.run, this);
+      content.add(description, {width: "50%"});
 
       var actionArea = new qx.ui.container.Composite();
-      actionArea.setLayout(new qx.ui.layout.VBox());
+      actionArea.setLayout(new qx.ui.layout.VBox(10));
 
       this.__editor = new playground.view.Editor();
       actionArea.add(this.__editor, {height: "50%"});
 
       this.__playArea = new playground.view.RiaPlayArea();
+      this.__playArea.setBackgroundColor("white");
       this.__playArea.addListener("appear", function() {
         this.__playArea.init();
       }, this);
 
-      actionArea.add(this.__playArea, {height: "50%"});
+      actionArea.add(this.__playArea, {flex: 1});
       this.__playArea.updateCaption("Step 1");
       this.__playArea.addListener("toggleMaximize", function(e) {
         if (!this.__editor.isExcluded()) {
           this.__editor.exclude();
           description.exclude();
-          actionArea.setLayoutProperties({"width": "100%"});
         } else {
           this.__editor.show();
           description.show();
-          actionArea.setLayoutProperties({"width": "50%"});
         }
-      });
+      }, this);
 
-      dockLayoutComposite.add(actionArea, {edge: "east", width: "50%"});
+      content.add(actionArea, {flex: 1});
     },
 
 
@@ -105,8 +110,12 @@ qx.Class.define("tutorial.Application",
       } catch(ex) {
         var exc = ex;
       }
-
-      console.log(exc);
+      if (exc) {
+        this.__editor.setBackgroundColor("#FFF0F0");
+        this.error(exc);
+      } else {
+        this.__editor.setBackgroundColor("white");
+      }
     },
 
 
