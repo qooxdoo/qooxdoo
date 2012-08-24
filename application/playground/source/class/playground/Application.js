@@ -193,7 +193,6 @@ qx.Class.define("playground.Application",
 
       this.__editorsplit.add(this.__samplesPane, 1);
       this.__editorsplit.add(this.__editor, 4);
-
       mainsplit.add(this.__editorsplit, 6);
       mainsplit.add(infosplit, 3);
 
@@ -795,7 +794,7 @@ qx.Class.define("playground.Application",
         qx.ui.core.queue.Manager.flush();
         this.__beforeReg = qx.lang.Object.clone(qx.core.ObjectRegistry.getRegistry());
 
-        // run the aplpication
+        // run the application
         this.fun.call(this.__playArea.getApp());
         qx.ui.core.queue.Manager.flush();
         this.__afterReg = qx.lang.Object.clone(qx.core.ObjectRegistry.getRegistry());
