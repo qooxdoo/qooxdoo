@@ -86,7 +86,8 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      *   the animation.
      */
     animate : function(el, desc, duration) {
-      if (qx.core.Environment.get("css.animation")) {
+      var onlyCssKeys = qx.bom.element.Animation.__hasOnlyCssKeys(el, desc.keyFrames);
+      if (qx.core.Environment.get("css.animation") && onlyCssKeys) {
         return qx.bom.element.AnimationCss.animate(el, desc, duration);
       } else {
         return qx.bom.element.AnimationJs.animate(el, desc, duration);
@@ -105,11 +106,39 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      *   the animation.
      */
     animateReverse : function(el, desc, duration) {
-      if (qx.core.Environment.get("css.animation")) {
+      var onlyCssKeys = qx.bom.element.Animation.__hasOnlyCssKeys(el, desc.keyFrames);
+      if (qx.core.Environment.get("css.animation") && onlyCssKeys) {
         return qx.bom.element.AnimationCss.animateReverse(el, desc, duration);
       } else {
         return qx.bom.element.AnimationJs.animateReverse(el, desc, duration);
       }
+    },
+
+
+    /**
+     * Detection helper which detects if only CSS keys are in
+     * the animations key frames.
+     * @param el {Element} The element to check for the styles.
+     * @param keyFrames {Map} The keyFrames of the animation.
+     * @return {Boolean} <code>true</code> if only css properties are included.
+     */
+    __hasOnlyCssKeys : function(el, keyFrames) {
+      var keys = [];
+      for (var nr in keyFrames) {
+        var frame = keyFrames[nr];
+        for (var key in frame) {
+          if (keys.indexOf(key) == -1) {
+            keys.push(key);
+          }
+        }
+      }
+
+      for (var i=0; i < keys.length; i++) {
+        if (!(keys[i] in el.style)) {
+          return false;
+        }
+      };
+      return true;
     }
   }
 });
