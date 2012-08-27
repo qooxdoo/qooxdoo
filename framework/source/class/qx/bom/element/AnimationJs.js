@@ -171,14 +171,18 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         var frame = keyFrames[percent];
         for (var name in units) {
           if (frame[name] == undefined) {
-            // get the computed style if possible
-            if (window.getComputedStyle) {
-              frame[name] = getComputedStyle(el, null)[name];
+            if (name in el.style) {
+              // get the computed style if possible
+              if (window.getComputedStyle) {
+                frame[name] = getComputedStyle(el, null)[name];
+              } else {
+                frame[name] = el.style[name];
+              }
             } else {
-              frame[name] = el.style[name];
+              frame[name] = el[name];
             }
             // if its a unit we know, set 0 as fallback
-            if (frame[name] == "" && this.__units.indexOf(units[name]) != -1) {
+            if (frame[name] === "" && this.__units.indexOf(units[name]) != -1) {
               frame[name] = "0" + units[name];
             }
           }
