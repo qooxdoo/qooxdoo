@@ -886,7 +886,7 @@ qx.Class.define("qx.util.fsm.State",
      * @param context {Object}
      *   The context to bind the function to.
      *
-     * @return
+     * @return {Function}
      *   If f was a function, the return value is f wrapped such that it will
      *   be called in the specified context. Otherwise, f is returned
      *   unaltered.

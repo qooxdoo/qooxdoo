@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     /**
      * Gets the value [true/false] of this toggle button.
      * It is called by getValue method of qx.ui.mobile.form.MValue mixin
-     * @return value {Boolean} the value of the toggle button
+     * @return {Boolean} the value of the toggle button
      */
     _getValue : function() {
       return this.__value;

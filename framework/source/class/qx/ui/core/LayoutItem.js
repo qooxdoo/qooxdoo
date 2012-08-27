@@ -609,7 +609,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     /**
      * Computes the size hint of the layout item.
      *
-     * @return The map with the preferred width/height and the allowed
+     * @return {Map} The map with the preferred width/height and the allowed
      *   minimum and maximum values.
      */
     _computeSizeHint : function()
