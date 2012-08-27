@@ -42,7 +42,7 @@
  * will show it using the “display” property.
  * You can toggle this behavior using the "modifyDisplay" property:
  * {@link qx.fx.effect.core.Fade#modifyDisplay}.
- * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+ * @deprecated {2.0} Please use qx.bom.element.Animation instead.
  */
 
 qx.Class.define("qx.fx.effect.core.Fade",
@@ -62,7 +62,7 @@ qx.Class.define("qx.fx.effect.core.Fade",
       /**
        * Flag indicating if the CSS attribute "display"
        * should be modified by effect
-       * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+       * @deprecated {2.0} Please use qx.bom.element.Animation instead.
        */
       modifyDisplay :
       {
@@ -72,7 +72,7 @@ qx.Class.define("qx.fx.effect.core.Fade",
 
       /**
        * Initial opacity value.
-       * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+       * @deprecated {2.0} Please use qx.bom.element.Animation instead.
        */
       from :
       {
@@ -82,7 +82,7 @@ qx.Class.define("qx.fx.effect.core.Fade",
 
       /**
        * Final opacity value.
-       * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+       * @deprecated {2.0} Please use qx.bom.element.Animation instead.
        */
       to :
       {

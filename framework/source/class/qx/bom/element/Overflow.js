@@ -19,7 +19,7 @@
 
 /**
  * Contains methods to control and query the element's overflow properties.
- * @deprecated since 2.1
+ * @deprecated {2.1}
  */
 qx.Bootstrap.define("qx.bom.element.Overflow",
 {
@@ -34,7 +34,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     /**
      * The default width which is used for the width of the scroll bar if
      * overlayed.
-     * @deprecated since 2.1
+     * @deprecated {2.1}
      */
     DEFAULT_SCROLLBAR_WIDTH : 14,
 
@@ -62,7 +62,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      * @param prop {String} Property name (overflowX or overflowY)
      * @param value {String} Overflow value for the given axis
      * @return {String} CSS string
-     * @deprecated since 2.1
+     * @deprecated {2.1}
      */
     _compile : function(prop, value) {
       return prop + ":" + value + ";";
@@ -74,7 +74,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *
      * @param value {String} Overflow value
      * @return {String} CSS string
-     * @deprecated since 2.1
+     * @deprecated {2.1}
      */
     compileX : function(value) {
       if (qx.core.Environment.get("qx.debug")) {
@@ -93,7 +93,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *
      * @param value {String} Overflow value
      * @return {String} CSS string
-     * @deprecated since 2.1
+     * @deprecated {2.1}
      */
     compileY : function(value) {
       if (qx.core.Environment.get("qx.debug")) {
@@ -115,7 +115,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}.
      *   The computed mode is the default one.
      * @return {String} computed overflow value
-     * @deprecated since 2.1
+     * @deprecated {2.1}
      */
     getX : function(element, mode) {
       if (qx.core.Environment.get("qx.debug")) {
@@ -138,7 +138,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *
      * @param element {Element} DOM element to modify
      * @param value {String} Any of "visible", "scroll", "hidden", "auto" or ""
-     * @deprecated since 2.1
+     * @deprecated {2.1}
      */
     setX : function(element, value) {
       if (qx.core.Environment.get("qx.debug")) {
@@ -160,7 +160,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      * Removes the locally configured horizontal overflow property
      *
      * @param element {Element} DOM element to modify
-     * @deprecated since 2.1
+     * @deprecated {2.1}
      */
     resetX : function(element)
     {
@@ -187,7 +187,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}.
      *   The computed mode is the default one.
      * @return {String} computed overflow value
-     * @deprecated since 2.1
+     * @deprecated {2.1}
      */
     getY : function(element, mode)
     {
@@ -211,7 +211,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      *
      * @param element {Element} DOM element to modify
      * @param value {String} Any of "visible", "scroll", "hidden", "auto" or ""
-     * @deprecated since 2.1
+     * @deprecated {2.1}
      */
     setY : function(element, value)
     {
@@ -233,7 +233,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
      * Removes the locally configured vertical overflow property
      *
      * @param element {Element} DOM element to modify
-     * @deprecated since 2.1
+     * @deprecated {2.1}
      */
     resetY : function(element)
     {
@@ -251,7 +251,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     }
   }
 });
-// @deprecated since 2.1
+// @deprecated {2.1}
 qx.log.Logger.deprecatedConstantWarning(
   qx.bom.element.Overflow,
   "DEFAULT_SCROLLBAR_WIDTH",

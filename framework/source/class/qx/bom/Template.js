@@ -102,7 +102,7 @@ qx.Bootstrap.define("qx.bom.Template", {
      * Original and only template method of mustache.js. For further
      * documentation, please visit https://github.com/janl/mustache.js
      *
-     * @deprecated since 2.0
+     * @deprecated {2.0}
      * @signature function(template, view, partials)
      * @param template {String} The String containing the template.
      * @param view {Object} The object holding the data to render.

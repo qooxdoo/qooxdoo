@@ -58,7 +58,7 @@ qx.Bootstrap.define("qx.lang.Array",
      * or extended array objects like <code>qx.type.BaseArray</code> to an
      * native Array instance.
      *
-     * @deprecated since 2.1: Please use cast with 'Array' as constructor.
+     * @deprecated {2.1} Please use cast with 'Array' as constructor.
      * @param object {var} any array like object
      * @param offset {Integer?0} position to start from
      * @return {Array} New array with the content of the incoming object

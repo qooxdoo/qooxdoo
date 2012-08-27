@@ -796,7 +796,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "event.pointer"               : "qx.bom.client.Event.getPointer",
       "event.help"                  : "qx.bom.client.Event.getHelp",
       "event.hashchange"            : "qx.bom.client.Event.getHashChange",
-      "ecmascript.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace", // @deprecated since 2.1
+      "ecmascript.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace", // @deprecated {2.1}
       "ecmascript.error.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",
       "ecmascript.array.indexof" : "qx.bom.client.EcmaScript.getArrayIndexOf",
       "ecmascript.array.lastindexof" : "qx.bom.client.EcmaScript.getArrayLastIndexOf",
@@ -871,7 +871,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.transform.3d" : "qx.bom.client.CssTransform.get3D",
       "css.inlineblock" : "qx.bom.client.Css.getInlineBlock",
       "css.opacity" : "qx.bom.client.Css.getOpacity",
-      "css.overflowxy" : "qx.bom.client.Css.getOverflowXY",    // @deprecated since 2.1
+      "css.overflowxy" : "qx.bom.client.Css.getOverflowXY",    // @deprecated {2.1}
       "css.textShadow" : "qx.bom.client.Css.getTextShadow",
       "css.textShadow.filter" : "qx.bom.client.Css.getFilterTextShadow",
       "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
@@ -905,11 +905,11 @@ qx.Bootstrap.define("qx.core.Environment",
      */
     get : function(key) {
       if (qx.Bootstrap.DEBUG) {
-        // @deprecated since 2.1
+        // @deprecated {2.1}
         if (key == "css.overflowxy") {
           qx.Bootstrap.warn("The environment key 'css.overflowxy' is deprecated.");
         }
-        // @deprecated since 2.1
+        // @deprecated {2.1}
         if (key == "ecmascript.stacktrace") {
           qx.Bootstrap.warn("The environment key 'ecmascript.stacktrace' is now 'ecmascript.error.stacktrace'.");
           key = "ecmascript.error.stacktrace";

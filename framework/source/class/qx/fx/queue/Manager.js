@@ -36,7 +36,7 @@
 
 /**
  * Manager for access to effect queues.
- * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+ * @deprecated {2.0} Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.queue.Manager",
 {
@@ -67,7 +67,7 @@ qx.Class.define("qx.fx.queue.Manager",
      * Returns existing queue by name or creates a new queue object and returns it.
      * @param queueName {String} Name of queue.
      * @return {Class} The queue object.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     getQueue : function(queueName)
     {
@@ -81,7 +81,7 @@ qx.Class.define("qx.fx.queue.Manager",
     /**
      * Returns existing default queue or creates a new queue object and returns it.
      * @return {Class} The queue object.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     getDefaultQueue : function() {
       return this.getQueue("__default");

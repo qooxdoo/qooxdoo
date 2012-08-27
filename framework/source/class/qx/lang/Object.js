@@ -117,7 +117,7 @@ qx.Bootstrap.define("qx.lang.Object",
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
      *
-     * @deprecated since 2.1. Please use Object.keys instead.
+     * @deprecated {2.1.} Please use Object.keys instead.
      * @signature function(map)
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
@@ -130,7 +130,7 @@ qx.Bootstrap.define("qx.lang.Object",
      *
      * @signature function(map)
      * @param map {Object} the map
-     * @deprecated since 2.1: Object.keys(map).join().
+     * @deprecated {2.1} Object.keys(map).join().
      * @return {String} String of the keys of the map
      *         The keys are separated by ", "
      */
@@ -180,7 +180,7 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param target {Object} target object
      * @param source {Object} object to be merged
      * @return {Object} target with merged values from source
-     * @deprecated since 2.1: please use mergeWith instead with override set to false
+     * @deprecated {2.1} please use mergeWith instead with override set to false
      */
     carefullyMergeWith : function(target, source)
     {
@@ -204,7 +204,7 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param target {Object} target object
      * @param varargs {Object} variable number of objects to merged with target
      * @return {Object} target with merged values from the other objects
-     * @deprecated since 2.1: Please use mergeWith instead.
+     * @deprecated {2.1} Please use mergeWith instead.
      */
     merge : function(target, varargs)
     {
@@ -336,7 +336,7 @@ qx.Bootstrap.define("qx.lang.Object",
     * @param key {String} name of the key to get the value from
     * @param map {Object} map to get the value from
     * @return {var} value for the given key from the map
-    * @deprecated since 2.1
+    * @deprecated {2.1}
     */
     select: function(key, map)
     {
@@ -403,7 +403,7 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param post {Boolean} Whether spaces should be encoded with "+".
      * @return {String}      Serialized object. Safe to append to URIs or send as
      *                       URL encoded string.
-     * @deprecated since 2.1: Please use qx.util.Uri.toParameter instead.
+     * @deprecated {2.1} Please use qx.util.Uri.toParameter instead.
      */
     toUriParameter: function(obj, post) {
       if (qx.core.Environment.get("qx.debug")) {

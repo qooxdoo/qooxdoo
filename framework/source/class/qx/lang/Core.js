@@ -49,7 +49,7 @@
  * * Array.some()
  * * Array.every()
  * * String.quote()
- * @deprecated since 2.1: please use the native methods or include one of
+ * @deprecated {2.1} please use the native methods or include one of
  *   the classes out of 'qx.lang.normalize'
  */
 qx.Bootstrap.define("qx.lang.Core",

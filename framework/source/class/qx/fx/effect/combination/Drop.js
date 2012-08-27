@@ -38,7 +38,7 @@
  * Combination effect "Drop Out"
  *
  * Moves the element to the given direction while fading it out.
- * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+ * @deprecated {2.0} Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.effect.combination.Drop",
 {
@@ -54,7 +54,7 @@ qx.Class.define("qx.fx.effect.combination.Drop",
 
   /**
    * @param element {Object} The DOM element
-   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+   * @deprecated {2.0} Please use qx.bom.element.Animation instead.
    */
   construct : function(element)
   {
@@ -79,7 +79,7 @@ qx.Class.define("qx.fx.effect.combination.Drop",
   {
     /**
      * Direction in which the element should drop out.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     direction :
     {
@@ -89,7 +89,7 @@ qx.Class.define("qx.fx.effect.combination.Drop",
 
     /**
      * Amount of pixel the element should move horizontally while fading out.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     xAmount :
     {
@@ -99,7 +99,7 @@ qx.Class.define("qx.fx.effect.combination.Drop",
 
     /**
      * Amount of pixel the element should move vertically while fading out.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     yAmount :
     {
@@ -109,7 +109,7 @@ qx.Class.define("qx.fx.effect.combination.Drop",
 
     /**
      * String indicating if element should drop in or out
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     mode :
     {
@@ -120,7 +120,7 @@ qx.Class.define("qx.fx.effect.combination.Drop",
     /**
      * Flag indicating if the CSS attribute "display"
      * should be modified by effect
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     modifyDisplay :
     {

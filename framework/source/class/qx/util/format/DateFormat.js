@@ -194,7 +194,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
     /**
      * {String} The date format used for logging.
-     * @deprecated since 2.1
+     * @deprecated {2.1}
      */
     LOGGING_DATE_TIME__format : "yyyy-MM-dd HH:mm:ss",
 
@@ -1787,7 +1787,7 @@ qx.Class.define("qx.util.format.DateFormat",
   }
 });
 
-// @deprecated since 2.1
+// @deprecated {2.1}
 if (qx.core.Environment.get("qx.debug")) {
   qx.log.Logger.deprecatedConstantWarning(
     qx.util.format.DateFormat,

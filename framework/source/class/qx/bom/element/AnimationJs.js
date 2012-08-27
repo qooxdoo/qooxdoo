@@ -93,7 +93,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         return;
       }
 
-      // @deprecated since 2.0
+      // @deprecated {2.0}
       if (desc.hasOwnProperty("reverse")) {
         reverse = desc.reverse;
         if (qx.core.Environment.get("qx.debug")) {

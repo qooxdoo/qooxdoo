@@ -112,7 +112,7 @@
 
 /**
  * Static class containing all transition functions.
- * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+ * @deprecated {2.0} Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.Transition",
 {
@@ -128,7 +128,7 @@ qx.Class.define("qx.fx.Transition",
      * @param functionName {String} Name off the function.
      * @return {Function|Boolean} Function belonging to the name or false,
      * function does not exist
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     get : function(functionName)
     {
@@ -149,7 +149,7 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     linear : function(pos)
     {
@@ -169,7 +169,7 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     easeInQuad : function (pos)
     {
@@ -189,7 +189,7 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     easeOutQuad : function (pos)
     {
@@ -209,7 +209,7 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     sinodial : function(pos)
     {
@@ -229,7 +229,7 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     reverse: function(pos)
     {
@@ -251,7 +251,7 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     flicker : function(pos)
     {
@@ -272,7 +272,7 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     wobble : function(pos)
     {
@@ -295,7 +295,7 @@ qx.Class.define("qx.fx.Transition",
      * @param pos {Number} Effect position in duration
      * @param pulses {Number} Amount of pulses
      * @return {Number} Modified effect position
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     pulse : function(pos, pulses)
     {
@@ -322,7 +322,7 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     spring : function(pos)
     {
@@ -341,7 +341,7 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     none : function(pos)
     {
@@ -361,7 +361,7 @@ qx.Class.define("qx.fx.Transition",
      *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     full : function(pos)
     {
