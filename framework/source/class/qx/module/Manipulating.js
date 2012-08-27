@@ -418,62 +418,30 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /** Default animation descriptions for animated scrolling **/
     _animationDescription: {
       scrollLeft : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
-        0: {scrollLeft: 0},
+        0: {},
         100: {scrollLeft: 1}
       }},
 
       scrollTop : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
-        0: {scrollRight: 0},
-        100: {scrollRight: 1}
+        0: {},
+        100: {scrollTop: 1}
       }}
-    },
-
-
-    /**
-     * Listener for the animation handle's "start" event
-     */
-    __onAnimationStart : function()
-    {
-      this.emit("animationStart");
-    },
-
-
-    /**
-     * Listener for the animation handle's "iteration" event
-     */
-    __onAnimationIteration : function()
-    {
-      this.emit("animationIteration");
-    },
-
-
-    /**
-     * Listener for the animation handle's "end" event
-     */
-    __onAnimationEnd : function()
-    {
-      this.emit("animationEnd");
     },
 
 
     /**
      * Performs animated scrolling
      *
-     * @param el {Element} Element to be scrolled
      * @param property {String} Element property to animate: <code>scrollLeft</code>
      * or <code>scrollTop</code>
      * @param value {Number} Final scroll position
      * @param duration {Number} The animation's duration in ms
      */
-    __animateScroll : function(el, property, value, duration)
+    __animateScroll : function(property, value, duration)
     {
-      var desc = qx.lang.Object.clone(qx.module.Manipulating._animationDescription[property]);
-      desc.keyFrames[0][property] = this["get" + qx.lang.String.firstUp(property)](el);
+      var desc = qx.lang.Object.clone(qx.module.Manipulating._animationDescription[property], true);
       desc.keyFrames[100][property] = value;
-      var handle = qx.bom.element.AnimationJs.animate(el, desc, duration);
-      handle.on("start", qx.module.Manipulating.__onAnimationStart, this);
-      handle.on("iteration", qx.module.Manipulating.__onAnimationIteration, this);
-      handle.on("end", qx.module.Manipulating.__onAnimationEnd, this);
+      return this.animate(desc, duration);
     },
 
     /**
@@ -488,16 +456,17 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     {
       var Node = qx.dom.Node;
 
+      if (duration && qx.bom.element && qx.bom.element.AnimationJs) {
+        qx.module.Manipulating.__animateScroll.bind(this, "scrollLeft",
+          value, duration)();
+      }
+
       for (var i=0, l=this.length, obj; i<l; i++)
       {
         obj = this[i];
 
         if (Node.isElement(obj)) {
-          if (duration && qx.bom.element && qx.bom.element.AnimationJs) {
-            qx.module.Manipulating.__animateScroll.bind(this, obj, "scrollLeft",
-              value, duration)();
-          }
-          else {
+          if (!(duration && qx.bom.element && qx.bom.element.AnimationJs)) {
             obj.scrollLeft = value;
           }
         } else if (Node.isWindow(obj)) {
@@ -523,16 +492,17 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     {
       var Node = qx.dom.Node;
 
+      if (duration && qx.bom.element && qx.bom.element.AnimationJs) {
+        qx.module.Manipulating.__animateScroll.bind(this, "scrollTop",
+           value, duration)();
+      }
+
       for (var i=0, l=this.length, obj; i<l; i++)
       {
         obj = this[i];
 
         if (Node.isElement(obj)) {
-          if (duration && qx.bom.element && qx.bom.element.AnimationJs) {
-            qx.module.Manipulating.__animateScroll.bind(this, obj, "scrollTop",
-              value, duration)();
-          }
-          else {
+          if (!(duration && qx.bom.element && qx.bom.element.AnimationJs)) {
             obj.scrollTop = value;
           }
         } else if (Node.isWindow(obj)) {
