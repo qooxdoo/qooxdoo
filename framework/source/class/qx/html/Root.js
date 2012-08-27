@@ -70,7 +70,7 @@ qx.Class.define("qx.html.Root",
      * like a normal displayed element in the document's body.
      *
      * @param elem {Element} the dom element to set
-     * @throws an exception if the element is assigned again
+     * @throws {Error} if the element is assigned again
      */
     useElement : function(elem)
     {

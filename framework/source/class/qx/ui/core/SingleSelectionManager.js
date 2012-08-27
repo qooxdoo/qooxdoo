@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
      * Selects the passed element.
      *
      * @param item {qx.ui.core.Widget} Element to select.
-     * @throws Error if the element is not a child element.
+     * @throws {Error} if the element is not a child element.
      */
     setSelected : function(item) {
       if (!this.__isChildElement(item)) {
@@ -155,7 +155,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
      * @param item {qx.ui.core.Widget} Element to check if selected.
      * @return {Boolean} <code>true</code> if passed element is selected,
      *    <code>false</code> otherwise.
-     * @throws Error if the element is not a child element.
+     * @throws {Error} if the element is not a child element.
      */
     isSelected : function(item) {
       if (!this.__isChildElement(item)) {

@@ -175,7 +175,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      *
      * @param str {String} any string
      * @return {Array} returns an array of red, green, blue on a successful transformation
-     * @throws an error if the string could not be parsed
+     * @throws {Error} if the string could not be parsed
      */
     stringToRgb : function(str)
     {
@@ -214,7 +214,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      *
      * @param str {String} any string
      * @return {Array} returns an array of red, green, blue on a successful transformation
-     * @throws an error if the string could not be parsed
+     * @throws {Error} if the string could not be parsed
      */
     cssStringToRgb : function(str)
     {
@@ -255,7 +255,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      *
      * @param str {String} any string
      * @return {String} a RGB string
-     * @throws an error if the string could not be parsed
+     * @throws {Error} if the string could not be parsed
      */
     stringToRgbString : function(str) {
       return this.rgbToRgbString(this.stringToRgb(str));

@@ -201,7 +201,7 @@ qx.Class.define("qx.ui.table.model.Remote",
      * was an error.
      *
      * @abstract
-     * @throws the abstract function warning.
+     * @throws {Error} the abstract function warning.
      */
     _loadRowCount : function() {
       throw new Error("_loadRowCount is abstract");
@@ -485,7 +485,7 @@ qx.Class.define("qx.ui.table.model.Remote",
      * @abstract
      * @param firstRow {Integer} The index of the first row to load.
      * @param lastRow {Integer} The index of the last row to load.
-     * @throws the abstract function warning.
+     * @throws {Error} the abstract function warning.
      */
     _loadRowData : function(firstRow, lastRow) {
       throw new Error("_loadRowCount is abstract");

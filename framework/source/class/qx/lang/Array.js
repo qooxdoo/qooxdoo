@@ -300,7 +300,7 @@ qx.Bootstrap.define("qx.lang.Array",
      * @param arr1 {Array} the array
      * @param arr2 {Array} the elements of this array will be appended to other one
      * @return {Array} The modified array.
-     * @throws an exception if one of the arguments is not an array
+     * @throws {Error} if one of the arguments is not an array
      */
     append : function(arr1, arr2)
     {
@@ -324,7 +324,7 @@ qx.Bootstrap.define("qx.lang.Array",
      * @param arr1 {Array} the array
      * @param arr2 {Array} the elements of this array will be excluded from the other one
      * @return {Array} The modified array.
-     * @throws an exception if one of the arguments is not an array
+     * @throws {Error} if one of the arguments is not an array
      */
     exclude : function(arr1, arr2)
     {

@@ -273,7 +273,7 @@ Description
     :widths: 30 70
 
     * - type
-      - The type of the exception [Not Implemented!]
+      - The type of the exception
     * - description
       - Descriptive text under which circumstances this exception is thrown.
 
@@ -449,7 +449,7 @@ Description
 
 **Syntax**
 
-  ``@deprecated <description>``
+  ``@deprecated { <since_version> } <description>``
 
 **Parameters**
 
@@ -457,6 +457,8 @@ Description
       :stub-columns: 1
       :widths: 30 70
 
+      * - since_version
+        - qooxdoo version with which the corresponding item was deprecated
       * - description
         - Descriptive text of the deprecation
   
@@ -464,7 +466,7 @@ Description
 
   ::
 
-    @deprecated since 2.1. Please use Object.keys instead
+    @deprecated {2.1} Please use Object.keys instead
 
 
 .. _pages/api_jsdoc_ref#lint:

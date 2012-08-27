@@ -240,7 +240,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param name {String} The complete namespace to create. Typically, the last part is the class name itself
      * @param object {Object} The object to attach to the namespace
      * @return {Object} last part of the namespace (typically the class name)
-     * @throws an exception when the given object already exists.
+     * @throws {Error} when the given object already exists.
      */
     createNamespace : qx.Bootstrap.createNamespace,
 

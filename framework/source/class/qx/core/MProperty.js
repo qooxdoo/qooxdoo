@@ -34,7 +34,7 @@ qx.Mixin.define("qx.core.MProperty",
      * @param data {Map | String} a map of property values. The key is the name of the property.
      * @param value {var?} the value, only used when <code>data</code> is a string.
      * @return {Object} this instance.
-     * @throws an Exception if a property defined does not exist
+     * @throws {Error} if a property defined does not exist
      */
     set : function(data, value)
     {
@@ -82,7 +82,7 @@ qx.Mixin.define("qx.core.MProperty",
      *
      * @param prop {String} Name of the property.
      * @return {var} The value of the value
-     * @throws an Exception if a property defined does not exist
+     * @throws {Error} if a property defined does not exist
      */
     get : function(prop)
     {
@@ -107,7 +107,7 @@ qx.Mixin.define("qx.core.MProperty",
      * found, a handwritten resetter will be invoked, if available.
      *
      * @param prop {String} Name of the property.
-     * @throws an Exception if a property defined does not exist
+     * @throws {Error} if a property defined does not exist
      */
     reset : function(prop)
     {

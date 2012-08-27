@@ -339,7 +339,6 @@ class Comment(object):
                         context.console.warn("Unable to parse '@%s' JSDoc entry: %s" % (hint_key,line))
                         continue
                 elif hint_key in ( # temporarily, to see what we have in the framework
-                        'deprecated', # should: @deprecated {Version} text; bug#
                         'type', # @type Map -- should be: @type {Map}; bug#
                     ):
                     continue

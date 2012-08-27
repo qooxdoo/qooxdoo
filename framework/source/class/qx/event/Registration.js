@@ -377,7 +377,7 @@ qx.Class.define("qx.event.Registration",
      * Register an event handler.
      *
      * @param handler {qx.event.IEventHandler} Event handler to add
-     * @throws an error if the handler does not have the IEventHandler interface.
+     * @throws {Error} if the handler does not have the IEventHandler interface.
      */
     addHandler : function(handler)
     {
@@ -425,7 +425,7 @@ qx.Class.define("qx.event.Registration",
      * {@link qx.event.Registration#PRIORITY_FIRST},
      * {@link qx.event.Registration#PRIORITY_NORMAL}
      *       or {@link qx.event.Registration#PRIORITY_LAST}.
-     * @throws an error if the dispatcher does not have the IEventHandler interface.
+     * @throws {Error} if the dispatcher does not have the IEventHandler interface.
      */
     addDispatcher : function(dispatcher, priority)
     {

@@ -423,7 +423,7 @@ qx.Class.define("qx.event.Manager",
      *         to attach the event handler to the bubbling phase.
      * @return {String} An opaque ID, which can be used to remove the event listener
      *         using the {@link #removeListenerById} method.
-     * @throws an error if the parameters are wrong
+     * @throws {Error} if the parameters are wrong
      */
     addListener : function(target, type, listener, self, capture)
     {
@@ -579,7 +579,7 @@ qx.Class.define("qx.event.Manager",
      * @param type {String} event type
      * @param capture {Boolean} Whether to attach the event to the
      *         capturing phase or the bubbling phase of the event.
-     * @throws an error if there is no handler for the event
+     * @throws {Error} if there is no handler for the event
      */
     __registerAtHandler : function(target, type, capture)
     {
@@ -613,7 +613,7 @@ qx.Class.define("qx.event.Manager",
      * @param capture {Boolean ? false} Whether to remove the event listener of
      *         the bubbling or of the capturing phase.
      * @return {Boolean} Whether the event was removed successfully (was existend)
-     * @throws an error if the parameters are wrong
+     * @throws {Error} if the parameters are wrong
      */
     removeListener : function(target, type, listener, self, capture)
     {
@@ -786,7 +786,7 @@ qx.Class.define("qx.event.Manager",
      * @param type {String} event type
      * @param capture {Boolean} Whether to attach the event to the
      *         capturing phase or the bubbling phase of the event.
-     * @throws an error if there is no handler for the event
+     * @throws {Error} if there is no handler for the event
      */
     __unregisterAtHandler : function(target, type, capture)
     {
@@ -829,7 +829,7 @@ qx.Class.define("qx.event.Manager",
      *     and initialized using {@link qx.event.type.Event#init}.
      * @return {Boolean} whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
-     * @throws an error if there is no dispatcher for the event
+     * @throws {Error} if there is no dispatcher for the event
      */
     dispatchEvent : function(target, event)
     {

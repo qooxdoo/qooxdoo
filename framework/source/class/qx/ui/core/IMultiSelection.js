@@ -47,7 +47,7 @@ qx.Interface.define("qx.ui.core.IMultiSelection",
      * Adds the given item to the existing selection.
      *
      * @param item {qx.ui.core.Widget} Any valid item
-     * @throws an exception if the item is not a child element.
+     * @throws {Error} if the item is not a child element.
      */
     addToSelection : function(item) {
       return arguments.length == 1;
@@ -60,7 +60,7 @@ qx.Interface.define("qx.ui.core.IMultiSelection",
      * want to clear the whole selection at once.
      *
      * @param item {qx.ui.core.Widget} Any valid item
-     * @throws an exception if the item is not a child element.
+     * @throws {Error} if the item is not a child element.
      */
     removeFromSelection : function(item) {
       return arguments.length == 1;
