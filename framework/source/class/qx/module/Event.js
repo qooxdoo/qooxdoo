@@ -29,7 +29,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Event normalization registry
      *
-     * @type Map
+     * @type {Map}
      * @internal
      */
     __normalizations : {},

@@ -218,7 +218,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Formats the style information. If the styleInformation was passed
      * in as a map it gets converted to a string.
      *
-     * @type static
      * @param styleInformation {Map} CSS styles which should be applied at startup of the editor
      * @return {String}
      */
@@ -249,7 +248,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Example:
      * qx.bom.htmlarea.HtmlArea.__parseStyle("text-align: left; text-weight: bold;");
      *
-     * @type static
      * @param str {String} String that contain valid style informations separated by ";"
      * @return {Map} Map of style names and it's values
      */
@@ -282,7 +280,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Get html content (own recursive method)
      *
-     * @type static
      * @param root {Node} Root node (starting point)
      * @param outputRoot {Boolean} Controls whether the root node is also added to the output
      * @param skipHtmlEncoding {Boolean ? false} whether the html encoding of text nodes should be skipped
@@ -555,7 +552,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Checks if given element needs a closing tag
      *
-     * @type static
      * @param el {Element} Element to check
      * @return {Boolean} Closing tag needed or not
      */
@@ -567,7 +563,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Encodes given string with HTML-Entities
      *
-     * @type static
      * @param s {String} String to encode
      * @return {String} Encoded string
      */
@@ -588,7 +583,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Checks if the given node is a block node
      *
-     * @type static
      * @param node {Node} Node
      * @return {Boolean} whether it is a block node
      */
@@ -1072,7 +1066,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Returns all the words that are contained in a node.
      *
-     * @type member
      * @param node {Object} the node element where the text should be retrieved from.
      * @return {String[]} all the words.
      */
@@ -1299,8 +1292,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * the content and adds a needed event listeners when the document is ready
      * for it.
      * After the successful startup the "ready" event is thrown.
-     *
-     * @type member
      */
     _onDocumentIsReady : function()
     {

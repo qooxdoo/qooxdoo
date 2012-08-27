@@ -121,7 +121,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Inserts a paragraph when hitting the "enter" key.
      * Delegates to the real command manager instance.
      *
-     * @type member
      * @return {Boolean} whether the key event should be stopped or not
      */
     insertParagraphOnLinebreak : function() {
@@ -414,7 +413,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
     /**
      * Checks the next undo step with specific conditions
      *
-     * @type member
      * @param command {String} command name
      * @param value {String} command value
      * @return {Boolean} Whether a next undo step is available
@@ -436,7 +434,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Sometimes it's necessary to perform two undo steps. Helper method to
      * to keep the stacks in correct state.
      *
-     * @type member
      */
     __executeExtraUndoStep : function()
     {
@@ -663,7 +660,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
     /**
      * Checks the next redo step with specific conditions
      *
-     * @type member
      * @param command {String} command name
      * @param value {String} command value
      * @return {Boolean} Whether a next redo step is available
@@ -726,8 +722,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
 
     /**
      * Sometimes it is necessary to perform two redo steps at once. Helper method.
-     *
-     * @type member
      */
     __executeExtraRedoStep : function()
     {

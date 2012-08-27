@@ -340,7 +340,6 @@ class Comment(object):
                         continue
                 elif hint_key in ( # temporarily, to see what we have in the framework
                         'protected', # ?
-                        'type', # @type Map -- should be: @type {Map}; bug#
                     ):
                     continue
                 # known tag with default parsing
@@ -392,6 +391,8 @@ class Comment(object):
     # but using regex, to be consistent with the parser
     py_js_identifier = py.Regex(lang.IDENTIFIER_REGEXP)
 
+    py_simple_type = py.Suppress('{') + py_js_identifier.copy()('type_name') + py.Suppress('}')
+
     py_single_type = py_js_identifier.copy().setResultsName('type_name') + \
         py.ZeroOrMore('[]').setResultsName('type_dimensions')
 
@@ -402,10 +403,22 @@ class Comment(object):
                 py.Optional(py.Regex(r'[^}]+'))("texp_defval"))           # 34
         ) + py.Suppress('}')
 
-    gr_at_ignore = ( py.Suppress('@') + py.Literal('ignore') + py.Suppress('(') + 
-        py.delimitedList(py_js_identifier)('arguments') + py.Suppress(')') )
+    ##
+    # "@type {Map}
+    gr_at_type = py.Suppress('@') + py.Literal('type') + py_simple_type
+    def parse_at_type(self, line):
+        grammar = self.gr_at_type
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'type',
+            'type' : presult.type_name,
+        }
+        return res
+
     ##
     # "@ignore(foo,bar)"
+    gr_at_ignore = ( py.Suppress('@') + py.Literal('ignore') + py.Suppress('(') + 
+        py.delimitedList(py_js_identifier)('arguments') + py.Suppress(')') )
     def parse_at_ignore(self, line):
         grammar = self.gr_at_ignore
         presult = grammar.parseString(line)
@@ -415,11 +428,11 @@ class Comment(object):
         }
         return res
 
+    ##
+    # "@return {Type} msg"
     gr_at_return = ( py.Suppress('@') + py.Literal('return')  + 
         py.Optional(py_type_expression.copy())("type") +   # TODO: remove leading py.Optional
         py.restOfLine("text") )
-    ##
-    # "@return {Type} msg"
     def parse_at_return(self, line):
         grammar = self.gr_at_return
         presult = grammar.parseString(line)

@@ -139,14 +139,15 @@ A JSDoc comment consists of different sections, where a section is either a lead
 
    * - API Documentation
      - * `Description`_ 
+       * `@deprecated`_
+       * `@internal`_
+       * `@link`_
        * `@param`_ 
        * `@return`_ 
-       * `@throws`_
        * `@see`_ 
-       * `@link`_
        * `@signature`_
-       * `@internal`_
-       * `@deprecated`_
+       * `@throws`_
+       * `@type`_
    * - Lint Checking
      - * `@lint`_
    * - Compile-time Hints
@@ -209,6 +210,42 @@ Description
   ::
 
     @param foo {Integer} The main factor
+
+
+
+.. _pages/development/api_jsdoc_ref#type:
+
+.. rst-class:: api-ref
+
+@type
+---------------------------
+
+**Scope**
+
+  Data
+
+**Description**
+
+  ``@type`` is usually used to document data items, esp. when the type is not immediately apparent in the code. This is for example the case when a class member is initialized with ``null`` and a map value is assigned in the constructor, so as to not share a single map accross multiple instances.
+
+**Syntax**
+
+  ``@type { <type> }``
+
+**Parameters**
+
+    .. list-table::
+      :stub-columns: 1
+      :widths: 30 70
+
+      * - type
+        - A :ref:`type indicator <pages/development/api_jsdoc_ref#handling_of_data_types>` like ``Map``
+  
+**Example**
+
+  ::
+
+    @type {Map}
 
 
 
