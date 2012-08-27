@@ -48,10 +48,10 @@ qx.Class.define("sd3.command.GroupManager",
 
 
     /**
-     * Activates a registered command group.
+     * Activates a command group and deactiveted all others.
      * @param group {qx.ui.command.Group} Command group
      */
-    activate : function(group)
+    setActiveGroup : function(group)
     {
       // TODO: Assertion check
       if (!this.hasGroup(group)){
@@ -70,6 +70,16 @@ qx.Class.define("sd3.command.GroupManager",
         item.setActive(false);
       }
     },
+    
+    
+    /**
+     * Returns active command group.
+     * @return {qx.ui.command.Group} Active command group
+     */
+    getActiveGroup : function()
+    {
+      return this.__activeGroup;
+    },
 
 
     /**
@@ -81,16 +91,6 @@ qx.Class.define("sd3.command.GroupManager",
         var item = this.__groups[i];
         item.setActive(false);
       }
-    },
-
-
-    /**
-     * Returns active command group.
-     * @return {qx.ui.command.Group} Active command group
-     */
-    getActiveGroup : function()
-    {
-      return this.__activeGroup;
     },
 
 
