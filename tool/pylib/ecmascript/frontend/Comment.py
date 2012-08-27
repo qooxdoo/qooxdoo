@@ -328,29 +328,35 @@ class Comment(object):
         attribs = []
         for line in section_lines:
             mo = hint_sign.search(line)
+            # @<hint> entry
             if mo:
                 hint_key = mo.group(1)
+                # specific parsing
                 if hasattr(self, "parse_at_"+hint_key):
-                    entry = getattr(self, "parse_at_"+hint_key)(line)
-                elif hint_key in ( # temporary, to see what we have in the framework
-                        'TODO', # ignore this permanently!
-                        'author',  # parse_at__default_
-                        'license',
-                        'deprecated', # parse_at__default_
-                        'protected', # @protected
-                        'abstract', # @abstract
-                        'type', # @type Map -- should be: @type {Map}
-                        'state',  # parse_at__default_
+                    try:
+                        entry = getattr(self, "parse_at_"+hint_key)(line)
+                    except py.ParseException, e:
+                        context.console.warn("Unable to parse '@%s' JSDoc entry: %s" % (hint_key,line))
+                        continue
+                elif hint_key in ( # temporarily, to see what we have in the framework
+                        'deprecated', # should: @deprecated {Version} text; bug#
+                        'type', # @type Map -- should be: @type {Map}; bug#
                     ):
                     continue
+                # known tag with default parsing
                 elif hint_key in (
+                        'abstract', # @abstract; pend. bug#6738
                         'tag',  # @tag foo; in Demobrowser
                     ):
                     entry = self.parse_at__default_(line)
+                # unknown tag
                 else:
-                    raise Exception("Unknown '@' hint in JSDoc comment: " + hint_key)
+                    #raise Exception("Unknown '@' hint in JSDoc comment: " + hint_key)
+                    context.console.warn("Unknown '@' hint in JSDoc comment: " + hint_key)
+                    entry = self.parse_at__default_(line)
                 attribs.append(entry)
-            else: # description
+            # description
+            else:
                 attribs.append({
                    "category" : "description", 
                    "text" : line.strip()
@@ -433,13 +439,27 @@ class Comment(object):
         }
         return res
 
+    ##
+    # "@deprecated {2.1} use X instead"
+    gr_at_deprecated = ( py.Suppress('@') + py.Literal('deprecated') + 
+        py.QuotedString('{', endQuoteChar='}', unquoteResults=True)("since") + py.restOfLine("text") )
+    def parse_at_deprecated(self, line):
+        grammar = self.gr_at_deprecated
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'deprecated',
+            'since' : presult.since,
+            'text' : presult.text.strip()
+        }
+        return res
+
+    ##
+    # "@throws text"
     gr_at_throws = py.Suppress('@') + py.Literal('throws') + py.restOfLine("text")
     # FUTURE:
     #gr_at_throws = ( py.Suppress('@') + py.Literal('throws') + \
     #   py.Suppress('{') + py_js_identifier.copy()('exception_type') +\
     #   py.Suppress('}') + py.restOfLine("text") )
-    ##
-    # "@throws text"
     def parse_at_throws(self, line):
         grammar = self.gr_at_throws
         presult = grammar.parseString(line)

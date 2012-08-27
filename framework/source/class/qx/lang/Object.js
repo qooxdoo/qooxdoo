@@ -75,7 +75,7 @@ qx.Bootstrap.define("qx.lang.Object",
      * @signature function(map, minLength)
      * @param map {Object} the map to check
      * @param minLength {Integer} minimum number of objects in the map
-     * @deprecated since 2.1: Please use a check and 'qx.lang.Object.getLength'.
+     * @deprecated {2.1} Please use a check and 'qx.lang.Object.getLength'.
      * @return {Boolean} whether the map contains at least "length" objects.
      * @lint ignoreUnused(key)
      */
