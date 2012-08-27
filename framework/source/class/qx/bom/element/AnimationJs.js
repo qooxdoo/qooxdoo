@@ -105,6 +105,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         }
       }
 
+      desc = qx.lang.Object.clone(desc, true);
+
       if (duration == undefined) {
         duration = desc.duration;
       }
