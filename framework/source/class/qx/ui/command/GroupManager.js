@@ -10,7 +10,7 @@
 ************************************************************************ */
 
 /**
- * Registrar for command groups to able to active or deactive them.
+ * Registrar for command groups to be able to active or deactive them.
  */
 qx.Class.define("sd3.command.GroupManager",
 {
