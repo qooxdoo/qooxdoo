@@ -339,6 +339,7 @@ class Comment(object):
                         context.console.warn("Unable to parse '@%s' JSDoc entry: %s" % (hint_key,line))
                         continue
                 elif hint_key in ( # temporarily, to see what we have in the framework
+                        'protected', # ?
                         'type', # @type Map -- should be: @type {Map}; bug#
                     ):
                     continue
@@ -454,16 +455,15 @@ class Comment(object):
 
     ##
     # "@throws text"
-    gr_at_throws = py.Suppress('@') + py.Literal('throws') + py.restOfLine("text")
-    # FUTURE:
-    #gr_at_throws = ( py.Suppress('@') + py.Literal('throws') + \
-    #   py.Suppress('{') + py_js_identifier.copy()('exception_type') +\
-    #   py.Suppress('}') + py.restOfLine("text") )
+    gr_at_throws = ( py.Suppress('@') + py.Literal('throws') + 
+       py.Suppress('{') + py_js_identifier.copy()('exception_type') +
+       py.Suppress('}') + py.restOfLine("text") )
     def parse_at_throws(self, line):
         grammar = self.gr_at_throws
         presult = grammar.parseString(line)
         res = {
             'category' : 'throws',
+            'type' : presult.exception_type,
             'text' : presult.text.strip()
         }
         return res

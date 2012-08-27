@@ -3,7 +3,7 @@ JSDoc Reference
 
 The declarative language used in JSDoc-like comments in %{qooxdoo} has grown including specific extensions, maybe in some cases deviating from the `official implementation <http://code.google.com/p/jsdoc-toolkit/>`_, so it makes sense to summarize the supported constructs.
 
-.. _pages/api_jsdoc_ref#the_structure_of_a_documentation_comment:
+.. _pages/development/api_jsdoc_ref#the_structure_of_a_documentation_comment:
 
 Overall JSDoc Structure
 ========================================
@@ -35,7 +35,7 @@ An example:
 
 
 
-.. _pages/api_jsdoc_ref#inline_markup:
+.. _pages/development/api_jsdoc_ref#inline_markup:
 
 Inline Markup
 =============
@@ -52,7 +52,7 @@ HTML
 
 There is limited support for HTML markup. You should be able to use all of the character-level tags, like ``<a>`` or ``<code>``, as well as paragraph-level tags like ``<p>`` or ``<ul>``. ``<pre>`` is particularly suited for code snippets, as it allows you to add syntax highlighting for %{JS} with ``<pre class="javascript">``.
 
-.. _pages/api_jsdoc_ref#handling_of_data_types:
+.. _pages/development/api_jsdoc_ref#handling_of_data_types:
 
 Handling of Data Types
 ======================
@@ -74,6 +74,9 @@ The following type indicators are accepted:
   * - Lists
     - Homogenous lists are indicated by adding one or more ``[]`` to the type, e.g. ``String[]``, ``Integer[][]``.
 
+
+.. _pages/development/api_jsdoc_ref#types_syntax:
+
 Syntax of a Type Specification
 --------------------------------
 
@@ -92,7 +95,7 @@ For a parameter description the meaning is: The expected parameter can be of Typ
     {String|Integer ? null}
 
 
-.. _pages/api_jsdoc_ref#symbol_matching:
+.. _pages/development/api_jsdoc_ref#symbol_matching:
 
 Matching of Variable Names
 ===========================
@@ -119,7 +122,7 @@ The individual keys should make it clear which of those match semantics they use
 
 
 
-.. _pages/api_jsdoc_ref#supported_attributes:
+.. _pages/development/api_jsdoc_ref#supported_attributes:
 
 Section Reference
 ====================
@@ -154,7 +157,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
        * `@use`_
 
 
-.. _pages/api_jsdoc_ref#description:
+.. _pages/development/api_jsdoc_ref#description:
 
 .. rst-class:: api-ref
 
@@ -169,7 +172,7 @@ Description
 
   Free text, without any leading ``@`` attribute, containing HTML and/or markup, and some ``@`` attributes that may be embedded in text (see further). If given must be the first section in the doc comment.
 
-.. _pages/api_jsdoc_ref#param:
+.. _pages/development/api_jsdoc_ref#param:
 
 .. rst-class:: api-ref
 
@@ -197,7 +200,7 @@ Description
       * -  name
         -  Name of formal parameter to function
       * - type
-        - Type of parameter. When the parameter is optional, the curly brackets include the default value in addition to the type. The default value implies the value that has to be passed in, in order to get the same effect as when omitting the parameter. Example: ``{Boolean ? true}``. You can also define multiple possible types. Example: ``{Boolean | Integer ? 0}``
+        - A :ref:`type specification <pages/development/api_jsdoc_ref#types_syntax>` like ``{Boolean | Integer ? 0}``
       * - description
         - Descriptive text of the parameter
   
@@ -209,7 +212,7 @@ Description
 
 
 
-.. _pages/api_jsdoc_ref#return:
+.. _pages/development/api_jsdoc_ref#return:
 
 .. rst-class:: api-ref
 
@@ -247,7 +250,7 @@ Description
 
 
 
-.. _pages/api_jsdoc_ref#throws:
+.. _pages/development/api_jsdoc_ref#throws:
 
 .. rst-class:: api-ref
 
@@ -283,7 +286,7 @@ Description
 
     @throws {Error} If the parameter 'X' is out of range.
 
-.. _pages/api_jsdoc_ref#see:
+.. _pages/development/api_jsdoc_ref#see:
 
 .. rst-class:: api-ref
 
@@ -317,7 +320,7 @@ Description
 
   ``@see qx.constant.Type#NUMBER the NUMBER types``
 
-.. _pages/api_jsdoc_ref#link:
+.. _pages/development/api_jsdoc_ref#link:
 
 .. rst-class:: api-ref
 
@@ -344,7 +347,7 @@ Description
 
   ``You will find more information about NUMBER types {@link qx.constant.Type#NUMBER here}.``
 
-.. _pages/api_jsdoc_ref#signature:
+.. _pages/development/api_jsdoc_ref#signature:
 
 .. rst-class:: api-ref
 
@@ -406,7 +409,7 @@ Description
           }
         }
 
-.. _pages/api_jsdoc_ref#internal:
+.. _pages/development/api_jsdoc_ref#internal:
 
 .. rst-class:: api-ref
 
@@ -432,7 +435,7 @@ Description
     @internal
 
 
-.. _pages/api_jsdoc_ref#deprecated:
+.. _pages/development/api_jsdoc_ref#deprecated:
 
 .. rst-class:: api-ref
 
@@ -469,7 +472,7 @@ Description
     @deprecated {2.1} Please use Object.keys instead
 
 
-.. _pages/api_jsdoc_ref#lint:
+.. _pages/development/api_jsdoc_ref#lint:
 
 .. rst-class:: api-ref
 
@@ -509,7 +512,7 @@ Description
                A class map member that is initialized with a reference value (object, array, map, ...), as those will be shared among class instances.
              * **ignoreUndefined**
                
-               *(Deprecated)* This key is deprecated for the more general :ref:`@ignore <pages/api_jsdoc_ref#ignore>` hint.
+               *(Deprecated)* This key is deprecated for the more general :ref:`@ignore <pages/development/api_jsdoc_ref#ignore>` hint.
              * **ignoreUnused**
                
                Scoped variables (parameters or declared with ``var``) which are never used.
@@ -538,7 +541,7 @@ Description
     @lint environmentNonLiteralKey(foo)
 
 
-.. _pages/api_jsdoc_ref#attach:
+.. _pages/development/api_jsdoc_ref#attach:
 
 .. rst-class:: api-ref
 
@@ -575,7 +578,7 @@ Description
   This will attach the given function to the class ``foo.MyClass`` as a member function, under the name ``bar``, so you can call it like ``f=new foo.MyClass(); f.bar()``.
 
 
-.. _pages/api_jsdoc_ref#attachStatic:
+.. _pages/development/api_jsdoc_ref#attachStatic:
 
 .. rst-class:: api-ref
 
@@ -612,7 +615,7 @@ Description
   This will attach the given function to the class ``foo.MyClass`` as a static function, under the name ``bar``, so you can call it like ``foo.MyClass.bar()``.
 
 
-.. _pages/api_jsdoc_ref#require:
+.. _pages/development/api_jsdoc_ref#require:
 
 .. rst-class:: api-ref
 
@@ -645,7 +648,7 @@ Description
   ``@require(qx.core.Object)``
 
 
-.. _pages/api_jsdoc_ref#use:
+.. _pages/development/api_jsdoc_ref#use:
 
 .. rst-class:: api-ref
 
@@ -678,7 +681,7 @@ Description
   ``@use(qx.core.Object)``
 
 
-.. _pages/api_jsdoc_ref#ignore:
+.. _pages/development/api_jsdoc_ref#ignore:
 
 .. rst-class:: api-ref
 
