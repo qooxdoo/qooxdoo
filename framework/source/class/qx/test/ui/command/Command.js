@@ -298,6 +298,8 @@ qx.Class.define("qx.test.ui.command.Command",
       cmd.setActive(true);
       cmd.execute();
       this.assertCallCount(handler, 1);
+      
+      cmd.dispose();
     }
   }
 });
