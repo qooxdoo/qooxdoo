@@ -36,12 +36,17 @@ qx.Class.define("qx.ui.command.GroupManager",
      */
     addGroup : function(group)
     {
-      //TODO: Assertion check
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");
+      }
+      
       if (qx.lang.Array.contains(this.__groups, group)){
-        throw new Error("Command group is already registered!");
+        this.debug("Group is already added!");
+        return;
       }
 
       this.__groups.push(group);
+      
       // deactivate added group to prevent collusions
       group.setActive(false);
     },
@@ -53,9 +58,13 @@ qx.Class.define("qx.ui.command.GroupManager",
      */
     setActiveGroup : function(group)
     {
-      // TODO: Assertion check
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");
+      }
+      
       if (!this.hasGroup(group)){
-        throw new Error("Command Manager is not registered! You have to register it before activating!");
+        this.debug("Group was not added before! You have to use 'addCommand()' method before activating!");
+        return;
       }
       
       // iterate through all groups and deactivate all expect the given one
@@ -85,7 +94,7 @@ qx.Class.define("qx.ui.command.GroupManager",
     /**
      * Deactives all command groups, even the active one.
      */
-    deactivateAll : function()
+    blockAll : function()
     {
       for (var i=0; i<this.__groups.length; i++){
         var item = this.__groups[i];
@@ -133,9 +142,13 @@ qx.Class.define("qx.ui.command.GroupManager",
     /**
      * Whether a command manager was added.
      */
-    hasGroup : function(manager)
+    hasGroup : function(group)
     {
-      return (this._getGroup(manager) == null) ? false : true;
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");
+      }
+      
+      return (this._getGroup(group) == null) ? false : true;
     }
   },
 
