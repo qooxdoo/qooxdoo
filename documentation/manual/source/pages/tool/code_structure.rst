@@ -39,6 +39,8 @@ Details
     * **auto-require** : Ignore all *require* dependencies detected by the automatic analysis; they will not be added to the class' load dependencies
     * **auto-use** : Ignore all *use* dependencies detected by the automatic analysis; they will not be added to the class' run dependencies
 
+    You are also allowed to use ``*`` as a wildcard character, to ignore entire namespaces and nested namespaces therein: ``#ignore(foo.*)`` will ignore any symbol starting with "foo.".
+
   * **#asset**\ *(resourcepattern)* : Resources that are used by this class (required if the class uses resources such as icons)
   * **#cldr** : Indicates that this class requires CLDR data at runtime
 
