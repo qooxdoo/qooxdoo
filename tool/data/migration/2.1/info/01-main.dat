@@ -6,3 +6,4 @@
 \bqx\.lang\.Object\.getLength\b='qx.lang.Object.getLength' has changed. It ignores attributes from the prototype now.
 \bqx\.Bootstrap\.objectGetLength\b='qx.lang.Object.getLength' has changed. It ignores attributes from the prototype now.
 \bqx\.bom\.Collection\b='qx.bom.Collection' is deprecated. Please check out the class qxWeb instead.
+\bqx\.ui\.core\.Command\b=qx.ui.core.Command was moved to qx.ui.command.Command. Behavior of execute() method has been changed. Please see release notes.

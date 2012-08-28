@@ -21,3 +21,5 @@
 \bqx\.core\.MEvents\b=qx.core.MEvent
 
 _addLocaleChangeLeistener=_addLocaleChangeListener
+
+\bqx\.ui\.core\.Command=qx.ui.command.Command
