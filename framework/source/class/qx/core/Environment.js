@@ -566,6 +566,10 @@
  *       <td>{@link qx.bom.client.Plugin#getActiveX}</td>
  *     </tr>
  *     <tr>
+ *       <td>plugin.skype</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Plugin#getSkype}</td>
+ *     </tr>
+ *     <tr>
  *       <td>plugin.pdf</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Plugin#getPdf}</td>
  *     </tr>
@@ -775,6 +779,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "os.scrollBarOverlayed"       : "qx.bom.client.Scroll.scrollBarOverlayed",
       "plugin.gears"                : "qx.bom.client.Plugin.getGears",
       "plugin.activex"              : "qx.bom.client.Plugin.getActiveX",
+      "plugin.skype"                : "qx.bom.client.Plugin.getSkype",
       "plugin.quicktime"            : "qx.bom.client.Plugin.getQuicktime",
       "plugin.quicktime.version"    : "qx.bom.client.Plugin.getQuicktimeVersion",
       "plugin.windowsmedia"         : "qx.bom.client.Plugin.getWindowsMedia",
