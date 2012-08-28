@@ -493,8 +493,7 @@ class Generator(object):
             if takeout(jobTriggers, "fix-files"):
                 self.runFix(self._classesObj)
             if takeout(jobTriggers, "lint-check"):
-                #self.runLint(self._classesObj)
-                self.runLint_1(self._classesObj)
+                self.runLint(self._classesObj)
             if takeout(jobTriggers, "translate"):
                 self.runUpdateTranslation()
             if takeout(jobTriggers, "pretty-print"):
@@ -1619,7 +1618,7 @@ class Generator(object):
         self._console.outdent()
 
 
-    def runLint_1(self, classes):
+    def runLint(self, classes):
 
         def getFilteredClassList(classes, includePatt_, excludePatt_):
             # Although lint-check doesn't work with dependencies, we allow
@@ -1668,60 +1667,6 @@ class Generator(object):
             self._console.debug("Checking %s" % classId)
             tree = self._classesObj[classId].tree()
             lint.lint_check(tree, classId, opts)
-
-        self._console.outdent()
-
-
-    def runLint(self, classes):
-
-        def getFilteredClassList(classes, includePatt_, excludePatt_):
-            # Although lint-check doesn't work with dependencies, we allow
-            # '=' in class pattern for convenience; stripp those now
-            intelli, explicit = self._splitIncludeExcludeList(includePatt_)
-            includePatt = intelli + explicit
-            intelli, explicit = self._splitIncludeExcludeList(excludePatt_)
-            excludePatt = intelli + explicit
-            if len(includePatt):
-                incRegex = map(textutil.toRegExpS, includePatt)
-                incRegex = re.compile("|".join(incRegex))
-            else:
-                incRegex = re.compile(".")  # catch-all
-            if len(excludePatt):
-                excRegex = map(textutil.toRegExpS, excludePatt)
-                excRegex = re.compile("|".join(excRegex))
-            else:
-                excRegex = re.compile("^$")  # catch-none
-
-            classesFiltered = (c for c in classes if incRegex.search(c) and not excRegex.search(c))
-            return classesFiltered
-
-        # ----------------------------------------------------------------------
-
-        if not self._job.get('lint-check', False) or not self._job.get('lint-check/run', False):
-            return
-
-        classes = classes.keys()
-        self._console.info("Checking Javascript source code...")
-        self._console.indent()
-        self._shellCmd  = ShellCmd()
-
-        qxPath = self._job.get('let',{})
-        if 'QOOXDOO_PATH' in qxPath:
-            qxPath = qxPath['QOOXDOO_PATH']
-        else:
-            raise RuntimeError, "Need QOOXDOO_PATH setting to run lint command"
-        lintCommand    = os.path.join(qxPath, 'tool', 'bin', "ecmalint.py")
-        lintJob        = self._job
-        allowedGlobals = lintJob.get('lint-check/allowed-globals', [])
-        includePatt    = lintJob.get('include', [])  # this is for future use
-        excludePatt    = lintJob.get('exclude', [])
-
-        #self._actionLib.lint(classes)
-        lint_opts = "".join(map(lambda x: " -g"+x, allowedGlobals))
-        classesToCheck = getFilteredClassList(classes, includePatt, excludePatt)
-        for pos, classId in enumerate(classesToCheck):
-            self._console.debug("Checking %s" % classId)
-            self._shellCmd.execute('%s "%s" %s "%s"' % (sys.executable, lintCommand, lint_opts, self._classesObj[classId].path))
 
         self._console.outdent()
 
