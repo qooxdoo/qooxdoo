@@ -685,7 +685,8 @@ Check Javscript source code with a lint-like utility. Takes a map.
     "ignore-unused-parameter"       : (true|false),
     "ignore-unused-variables"       : (true|false),
     "run"                           : (true|false),
-    "warn-unknown-jsdoc-keys"       : (true|false)
+    "warn-unknown-jsdoc-keys"       : (true|false),
+    "warn-jsdoc-key-syntax"         : (true|false)
   }
 
 .. note::
@@ -738,6 +739,10 @@ Keys are:
     When set to *true* the actual lint checking will be performed. This key allows you to carry lint options in jobs without actually triggering the lint action. *(default: false)*
 
 * **warn-unknown-jsdoc-keys** *(experimental)* :
+    Unknown JSDoc @ keys are generally accepted (i.e. keys not listed in :doc:`/pages/development/api_jsdoc_ref`); setting this option to *true* will issue a warnings about them. *(default: false)*
+
+* **warn-jsdoc-key-syntax** *(experimental)* :
+    Warn if a known @ key is encountered that does not comply to the parsing rules (as given in :doc:`/pages/development/api_jsdoc_ref`); setting this option to *false* will disable warnings about them. *(default: true)*
 
 
 .. _pages/tool/generator_config_ref#log:

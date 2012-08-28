@@ -553,8 +553,11 @@ Description
              * **ignoreUnused**
                
                Scoped variables (parameters or declared with ``var``) which are never used.
+             * **ignoreJsdocKey** *[Not yet implemented]*
+               
+               JSDoc @ keys which are either unknown (i.e. not documented on this page) or do not comply with the syntax given here.
       * - name
-        - The identifier in the source code which the lint subkey should be applied to.
+        - The identifier which the lint subkey should be applied to.
   
 
 **Example**

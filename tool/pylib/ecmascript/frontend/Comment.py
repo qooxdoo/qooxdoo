@@ -317,7 +317,16 @@ class Comment(object):
                     section_lines[-1] += '\n' + line # concat to previous
             return section_lines
 
+        def getOpts():
+            class COpts(object): pass
+            opts = COpts()
+            opts.warn_unknown_jsdoc_keys = context.jobconf.get("lint-check/warn-unknown-jsdoc-keys", [None])
+            opts.warn_jsdoc_key_syntax = context.jobconf.get("lint-check/warn-jsdoc-key-syntax", True)
+            return opts
+
         # ----------------------------------------------------------------------
+
+        opts = getOpts()
 
         # remove '*' etc.
         comment_lines = remove_decoration(self.string)
@@ -336,7 +345,8 @@ class Comment(object):
                     try:
                         entry = getattr(self, "parse_at_"+hint_key)(line)
                     except py.ParseException, e:
-                        context.console.warn("Unable to parse '@%s' JSDoc entry: %s" % (hint_key,line))
+                        if opts.warn_jsdoc_key_syntax:
+                            context.console.warn("Unable to parse '@%s' JSDoc entry: %s" % (hint_key,line))
                         continue
                 elif hint_key in ( # temporarily, to see what we have in the framework
                         'protected', # ?
@@ -351,7 +361,8 @@ class Comment(object):
                 # unknown tag
                 else:
                     #raise Exception("Unknown '@' hint in JSDoc comment: " + hint_key)
-                    context.console.warn("Unknown '@' hint in JSDoc comment: " + hint_key)
+                    if opts.warn_unknown_jsdoc_keys==[] or hint_key in opts.warn_unknown_jsdoc_keys:
+                        context.console.warn("Unknown '@' hint in JSDoc comment: " + hint_key)
                     entry = self.parse_at__default_(line)
                 attribs.append(entry)
             # description
