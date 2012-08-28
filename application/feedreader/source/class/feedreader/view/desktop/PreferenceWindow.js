@@ -93,6 +93,7 @@ qx.Class.define("feedreader.view.desktop.PreferenceWindow",
 
       // Create the radio buttons for the languages
       var languages = { "en" : "English",
+                        "cs" : "Češka",
                         "de" : "Deutsch",
                         "es" : "Español",
                         "fr" : "Français",

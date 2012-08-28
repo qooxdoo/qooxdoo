@@ -52,6 +52,40 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
       return (typeof window.ActiveXObject === "function");
     },
 
+    /**
+     * Checks for Skypes 'Click to call' availability.
+     *
+     * @internal
+     * @return {Boolean} <code>true</code> if the plugin is available.
+     */
+    getSkype : function()
+    {
+      // IE Support
+      if (qx.bom.client.Plugin.getActiveX()) {
+       try {
+         new ActiveXObject("Skype.Detection");
+         return true;
+       } catch (e) {}
+      }
+
+      var mimeTypes = navigator.mimeTypes;
+      if (mimeTypes) {
+        // FF support
+        if ("application/x-skype" in mimeTypes) {
+          return true;
+        }
+        // webkit support
+        for (var i=0; i < mimeTypes.length; i++) {
+          var desc = mimeTypes[i];
+          if (desc.type.indexOf("skype.click2call") != -1) {
+            return true;
+          }
+        };
+      }
+
+      return false;
+    },
+
 
     /**
      * Database of supported features.
@@ -344,5 +378,6 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
     qx.core.Environment.add("plugin.pdf", statics.getPdf);
     qx.core.Environment.add("plugin.pdf.version", statics.getPdfVersion);
     qx.core.Environment.add("plugin.activex", statics.getActiveX);
+    qx.core.Environment.add("plugin.skype", statics.getSkype);
   }
 });
