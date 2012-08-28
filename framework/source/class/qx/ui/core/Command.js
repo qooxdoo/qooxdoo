@@ -22,7 +22,7 @@
  * widgets. It is possible to use the same Command in a MenuButton and
  * ToolBarButton for example.
  * 
- * @deprecated since 2.1
+ * @deprecated since 2.1: Please use qx.ui.command.Command instead. 
  */
 qx.Class.define("qx.ui.core.Command",
 {
@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.core.Command",
   {
     this.base(arguments);
     qx.log.Logger.deprecatedMethodWarning(
-      arguments.callee, "qx.ui.core.Command was moved to qx.ui.command.Command."
+      arguments.callee, "Please use qx.ui.command.Command instead."
     );
     
     this._shortcut = new qx.bom.Shortcut(shortcut);
