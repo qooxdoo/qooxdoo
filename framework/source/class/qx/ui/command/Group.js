@@ -65,10 +65,19 @@ qx.Class.define("qx.ui.command.Group",
      */
     addCommand : function(key, command)
     {
-      // TODO: Assertion check
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertArgumentsCount(arguments, 2, 2, 
+          "Given parameter count mismatch! Please provide a key as string " + 
+          "and a command intsance."
+        );
+        this.assertString(key, "Key parameter must be a string.");
+        this.assertInstance(command, qx.ui.command.Command, 
+          "Given command is not an instance of qx.ui.command.Command"
+        );
+      }
       
       if (this.getCommand(key)){
-        throw new Error("Command with key: " + key +  " allready exists!");
+        throw new Error("Command with key: '" + key +  "' allready exists!");
         return;
       }
       
@@ -83,12 +92,14 @@ qx.Class.define("qx.ui.command.Group",
      */
     getCommand : function(key)
     {
-      // TODO: Assertion check.
-      if (key == null){
-        return null;
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertString(key, "Key parameter must be a string.");
       }
+      
       var cmd = this._cmds[key];
-      if (cmd == null){
+      if (cmd == null) {
+        this.debug("The key: '" + key + "' was not added before. Please use " +
+        "'addCommand()' method to add the command.");
         return null;
       }
       return cmd;
@@ -96,18 +107,20 @@ qx.Class.define("qx.ui.command.Group",
     
     
     /**
-     * Removes a command by key. Returns the command.
+     * Removes a command by key from group. Returns the command.
      * @param key {String} Key which adresses the command.
      * @return {qx.ui.command.Command} Command
      */
     removeCommand : function(key)
     {
-      // TODO: Assertion check.
-      if (key == null){
-        return null;
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertString(key, "Key parameter must be a string.");
       }
+      
       var cmd = this._cmds[key];
       if (cmd == null){
+        this.debug("The key: '" + key + "' was not added before. Please use " +
+        "'addCommand()' method to add the command.");
         return null;
       }
       
