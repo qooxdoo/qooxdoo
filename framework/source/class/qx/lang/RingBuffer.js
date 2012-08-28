@@ -29,7 +29,7 @@
  * after the marked time. This is useful if data from the buffer is extracted
  * and processed. Whenever this happens, a mark() call can be used so that the
  * next extraction will only get new data.
- * @deprecated since 2.1: Plase use qx.util.RingBuffer instead.
+ * @deprecated {2.1} Plase use qx.util.RingBuffer instead.
  */
 qx.Class.define("qx.lang.RingBuffer",
 {

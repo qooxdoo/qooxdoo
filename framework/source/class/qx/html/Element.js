@@ -878,7 +878,7 @@ qx.Class.define("qx.html.Element",
      * Internal helper for all children addition needs
      *
      * @param child {var} the element to add
-     * @throws an exception if the given element is already a child
+     * @throws {Error} if the given element is already a child
      *     of this element
      */
     __addChildHelper : function(child)
@@ -915,7 +915,7 @@ qx.Class.define("qx.html.Element",
      * Internal helper for all children removal needs
      *
      * @param child {qx.html.Element} the removed element
-     * @throws an exception if the given element is not a child
+     * @throws {Error} if the given element is not a child
      *     of this element
      */
     __removeChildHelper : function(child)
@@ -938,7 +938,7 @@ qx.Class.define("qx.html.Element",
      * Internal helper for all children move needs
      *
      * @param child {qx.html.Element} the moved element
-     * @throws an exception if the given element is not a child
+     * @throws {Error} if the given element is not a child
      *     of this element
      */
     __moveChildHelper : function(child)
@@ -1243,7 +1243,7 @@ qx.Class.define("qx.html.Element",
      *
      * @param index {Integer} the index (starts at 0 for the first child)
      * @return {qx.html.Element} this object (for chaining support)
-     * @throws an exception when the given element is not child
+     * @throws {Error} when the given element is not child
      *      of this element.
      */
     moveTo : function(index)

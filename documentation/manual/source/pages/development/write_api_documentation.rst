@@ -105,11 +105,6 @@ Here is a more advanced example of a method documentation block that uses more `
       ...
     };
 
-This comment is shown in the API viewer like this:
-
-|Example output of the API viewer|
-
-.. |Example output of the API viewer| image:: /pages/development/apiviewer-example.png
 
 As mentioned above the :doc:`JSDoc reference </pages/development/api_jsdoc_ref>` has the complete list of possible section keys and markup possiblities.
 

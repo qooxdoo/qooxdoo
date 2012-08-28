@@ -38,7 +38,7 @@
  * Combination effect "Fold"
  *
  * Shrinks the element in width and height until it gets invisible.
- * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+ * @deprecated {2.0} Please use qx.bom.element.Animation instead.
  */
 
 qx.Class.define("qx.fx.effect.combination.Fold",
@@ -54,7 +54,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 
   /**
    * @param element {Object} The DOM element
-   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+   * @deprecated {2.0} Please use qx.bom.element.Animation instead.
    */
   construct : function(element)
   {
@@ -74,7 +74,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
       /**
        * Flag indicating if the CSS attribute "display"
        * should be modified by effect
-       * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+       * @deprecated {2.0} Please use qx.bom.element.Animation instead.
        */
       modifyDisplay :
       {
@@ -84,7 +84,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 
       /**
        * String indicating if element should fold in or out
-       * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+       * @deprecated {2.0} Please use qx.bom.element.Animation instead.
        */
       mode :
       {
@@ -201,7 +201,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
     /**
      * Restores style properties of animated element
      * after effect has finished.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     _cleanUp : function()
     {
@@ -225,7 +225,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 
     /**
      * Retrieves style properties from element.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     _getStyle : function()
     {

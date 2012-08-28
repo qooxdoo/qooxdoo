@@ -240,7 +240,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param name {String} The complete namespace to create. Typically, the last part is the class name itself
      * @param object {Object} The object to attach to the namespace
      * @return {Object} last part of the namespace (typically the class name)
-     * @throws an exception when the given object already exists.
+     * @throws {Error} when the given object already exists.
      */
     createNamespace : qx.Bootstrap.createNamespace,
 
@@ -418,7 +418,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
      *
-     * @deprecated since 2.1. Please use Object.keys instead.
+     * @deprecated {2.1.} Please use Object.keys instead.
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
@@ -500,7 +500,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * Get the keys of a map as string
      *
      * @param map {Object} the map
-     * @deprecated since 2.1: Object.keys(map).join('\", "').
+     * @deprecated {2.1} Object.keys(map).join('\", "').
      * @return {String} String of the keys of the map
      *         The keys are separated by ", "
      */

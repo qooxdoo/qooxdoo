@@ -39,7 +39,7 @@
  * Changes the background color of an element to a given initial. After that the
  * effects waits a given amount of time before it modifies to background color
  * back to the initial value.
- * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+ * @deprecated {2.0} Please use qx.bom.element.Animation instead.
  */
 
 qx.Class.define("qx.fx.effect.combination.ColorFlow",
@@ -55,7 +55,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
   /**
    * @param element {Object} The DOM element
-   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+   * @deprecated {2.0} Please use qx.bom.element.Animation instead.
    */
   construct : function(element)
   {
@@ -80,7 +80,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
     /**
      * Initial background color value.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     startColor :
     {
@@ -91,7 +91,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
     /**
      * Final background color value.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     endColor :
     {
@@ -102,7 +102,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
     /**
      * Function for transition between start color and end color
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     forwardTransition :
     {
@@ -115,7 +115,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
     /**
      * Function for transition between end color and start color
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     backwardTransition :
     {
@@ -128,7 +128,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
     /**
      * Number of seconds the first transition should
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     forwardDuration :
     {
@@ -139,7 +139,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
     /**
      * Number of seconds the second transition should
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     backwardDuration :
     {
@@ -150,7 +150,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
     /**
      * Number of seconds the end color should be visible
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     delayBetween :
     {
@@ -161,7 +161,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
     /**
      * Flag indicating if element's background color or image should be restored.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     restoreBackground :
     {
@@ -173,7 +173,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
     /**
      * Flag indicating if element's background image should consists during effect.
      * Useful for no-repeating background images.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     keepBackgroundImage :
     {

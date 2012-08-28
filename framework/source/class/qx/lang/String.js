@@ -192,7 +192,7 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * removes white space from the left and the right side of a string
      *
-     * @deprecated since 2.1: please use the native trim method.
+     * @deprecated {2.1} please use the native trim method.
      * @param str {String} the string to trim
      * @return {String} the trimmed string
      */

@@ -676,7 +676,7 @@ qx.Class.define("qx.util.fsm.State",
      *
      * @param value {var} Value passed to setter
      * @return {var} the final value
-     * @throws when an invalid value is detected
+     * @throws {Error} when an invalid value is detected
      */
     __transformName : function(value)
     {
@@ -695,7 +695,7 @@ qx.Class.define("qx.util.fsm.State",
      *
      * @param value {var} Current value
      * @return {var} the final value
-     * @throws when an invalid value is detected
+     * @throws {Error} when an invalid value is detected
      */
     __transformOnentry : function(value)
     {
@@ -721,7 +721,7 @@ qx.Class.define("qx.util.fsm.State",
      *
      * @param value {var} Current value
      * @return {var} the final value
-     * @throws when an invalid value is detected
+     * @throws {Error} when an invalid value is detected
      */
     __transformOnexit : function(value)
     {
@@ -748,7 +748,7 @@ qx.Class.define("qx.util.fsm.State",
      *
      * @param value {var} Current value
      * @return {var} the final value
-     * @throws when an invalid value is detected
+     * @throws {Error} when an invalid value is detected
      */
     __transformEvents : function(value)
     {
@@ -886,7 +886,7 @@ qx.Class.define("qx.util.fsm.State",
      * @param context {Object}
      *   The context to bind the function to.
      *
-     * @return
+     * @return {Function}
      *   If f was a function, the return value is f wrapped such that it will
      *   be called in the specified context. Otherwise, f is returned
      *   unaltered.

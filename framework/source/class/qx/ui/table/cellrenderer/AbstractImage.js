@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
      *           <li>"imageHeight": (type int) the height of the image in pixels.</li>
      *           <li>"tooltip": (type string) must be the image tooltip text.</li>
      *           </ul>
-     * @throws the abstract function warning.
+     * @throws {Error} the abstract function warning.
      */
     _identifyImage : function(cellInfo) {
       throw new Error("_identifyImage is abstract");

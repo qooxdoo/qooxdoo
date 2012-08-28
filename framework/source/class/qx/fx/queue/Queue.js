@@ -36,7 +36,7 @@
 
 /**
  * This queue manages ordering and rendering of effects.
- * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+ * @deprecated {2.0} Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.queue.Queue",
 {
@@ -72,7 +72,7 @@ qx.Class.define("qx.fx.queue.Queue",
    {
       /**
        * Maximal number of effects that can run simultaneously.
-       * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+       * @deprecated {2.0} Please use qx.bom.element.Animation instead.
        */
       limit :
       {
@@ -98,7 +98,7 @@ qx.Class.define("qx.fx.queue.Queue",
     /**
      * This method adds the given effect to the queue and starts the timer (if necessary).
      * @param effect {Object} The effect.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     add : function(effect)
     {
@@ -121,7 +121,7 @@ qx.Class.define("qx.fx.queue.Queue",
     /**
      * This method removes the given effect from the queue.
      * @param effect {Object} The effect.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     remove : function(effect)
     {
@@ -136,7 +136,7 @@ qx.Class.define("qx.fx.queue.Queue",
 
     /**
      * This method executes all effects in queue.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     loop: function()
     {

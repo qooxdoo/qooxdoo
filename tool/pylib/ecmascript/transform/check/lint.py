@@ -92,6 +92,20 @@ class LintChecker(treeutil.NodeVisitor):
         for cld in node.children:
             self.visit(cld)
 
+    def visit_catch(self, node):
+        if not self.opts.ignore_catch_param:
+            self.catch_param_shadowing(node)
+        # recurse
+        for cld in node.children:
+            self.visit(cld)
+
+    def visit_finally(self, node):
+        if not self.opts.ignore_finally_without_catch:
+            self.finally_without_catch(node)
+        # recurse
+        for cld in node.children:
+            self.visit(cld)
+
     # - ---------------------------------------------------------------------------
 
     def function_used_deprecated(self, funcnode):
@@ -106,7 +120,7 @@ class LintChecker(treeutil.NodeVisitor):
                 if (full_name in lang.GLOBALS # JS built-ins ('alert' etc.)
                         and full_name in lang.DEPRECATED):
                     ok = False
-                    at_hints = get_at_hints(funcnode) # check full_name against @ignore hints
+                    at_hints = get_at_hints(var_node) # check full_name against @ignore hints
                     if at_hints:
                         ok = self.is_name_lint_filtered(full_name, at_hints, "ignoreDeprecated")
                 if not ok:
@@ -157,17 +171,25 @@ class LintChecker(treeutil.NodeVisitor):
                 warn("Declared but unused variable or parameter: '%s'" % var_name, self.file_name, scopeVar.decl[0])
 
     ##
+    # <name> is an extension match of <prefix> .iff. <prefix> is a prefix of <name>
+    #
+    # taking object boundaries (".") into account, i.e.
+    # "a" is a prefix match of "a" and "a.b", but not of "ab"
+    #
+    @staticmethod
+    def extension_match(name, prefix):
+        return re.match(r"%s(?:\.|$)" % re.escape(prefix), name)
+
+    ##
     # Checks the @lint hints in <at_hints> if the given <var_name> is filtered
     # under the <filter_key> (e.g. "ignoreUndefined" in *@lint ignoreUndefined(<var_name>))
     #
     def is_name_lint_filtered(self, var_name, at_hints, filter_key):
-        def extension_match(name, prefix):
-            return re.match(r"%s\b" % prefix, name)
         filtered = False
         if at_hints:
             if ( 'lint' in at_hints and
                 filter_key in at_hints['lint']):
-                if any([extension_match(var_name, x) for x in at_hints['lint'][filter_key]]):
+                if any([self.extension_match(var_name, x) for x in at_hints['lint'][filter_key]]):
                     filtered = True
         return filtered
 
@@ -176,7 +198,8 @@ class LintChecker(treeutil.NodeVisitor):
     # Checks @ignore(...)
     #
     def is_name_ignore_filtered(self, var_name, at_hints):
-        return 'ignore' in at_hints and var_name in at_hints['ignore']
+        return ('ignore' in at_hints and 
+            any([self.extension_match(var_name, x) for x in at_hints['ignore']]))
 
 
     ##
@@ -249,7 +272,11 @@ class LintChecker(treeutil.NodeVisitor):
                     if self.reg_privs.match(key):
                         private_keys.add(key)
                 # go through uses of 'this' and 'that' that reference a private
-                for key,val in class_map[category].items():
+                items = class_map[category].items()
+                if category == "members" and 'construct' in class_map: # add checking constructor
+                    items.insert(0, ('construct', class_map['construct'].parent  # to recover (value ...)
+                        ))
+                for key,val in items:
                     if val.children[0].type == 'function':
                         function_privs = self.function_uses_local_privs(val.children[0])
                         for priv, node in function_privs:
@@ -393,8 +420,32 @@ class LintChecker(treeutil.NodeVisitor):
             return complete
 
         # we could now try to verify the keys in the map - deferred
-
         return True
+
+    ##
+    # Check if catch param ("e") shadows another variable in the current
+    # scope (bug#1207, with IE)
+    def catch_param_shadowing(self, catch_node):
+        catch_param = catch_node.getChild("params")
+        if catch_param.children and catch_param.children[0].type == 'identifier':
+            catch_param = catch_param.children[0]
+        else:
+            catch_param = None  # this would be against spec
+        if catch_param:
+            higher_scope = catch_param.scope.parent.lookup(catch_param.get("value")) # want to look at scopes *above* the catch scope
+            if higher_scope: # "e" has been registered with a higher scope, either as decl'ed or global
+                warn("Shadowing scoped var with catch parameter (bug#1207): %s" % 
+                    catch_param.get("value"), self.file_name, catch_param)
+            
+    ##
+    # Check for try-finally without 'catch' block (issue in older IE, s. bug#3688)
+    #
+    def finally_without_catch(self, finally_node):
+        try_node = finally_node.parent
+        if not try_node.getChild("catch", 0):
+            warn("A finally clause without a catch might not be run (bug#3688)",
+                self.file_name, finally_node)
+            
 
 # - ---------------------------------------------------------------------------
 
@@ -438,13 +489,15 @@ def get_at_hints(node, at_hints=None):
 
 
 def defaultOptions():
-    class C(object): pass
-    opts = C()
+    class LintOptions(object): pass
+    opts = LintOptions()
     opts.library_classes = []
     opts.class_namespaces = []
     opts.allowed_globals = []
+    opts.ignore_catch_param = False
     opts.ignore_deprecated_symbols = False
     opts.ignore_environment_nonlit_key = False
+    opts.ignore_finally_without_catch = False
     opts.ignore_multiple_mapkeys = False
     opts.ignore_multiple_vardecls= True
     opts.ignore_no_loop_block = False

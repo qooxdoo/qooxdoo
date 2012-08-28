@@ -99,7 +99,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
     _animate : function(el, desc, duration, reverse) {
       this.__normalizeDesc(desc);
 
-      // @deprecated since 2.0
+      // @deprecated {2.0}
       if (desc.hasOwnProperty("reverse")) {
         reverse = desc.reverse;
         if (qx.core.Environment.get("qx.debug")) {
@@ -300,7 +300,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         var possibleKeys = [
           "origin", "duration", "keep", "keyFrames", "delay",
           "repeat", "timing", "alternate", "reverse"
-          //@deprecated since 2.0 (reverse key)
+          //@deprecated {2.0} (reverse key)
         ];
 
         // check for unknown keys

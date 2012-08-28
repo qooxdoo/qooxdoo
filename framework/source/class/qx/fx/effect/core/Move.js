@@ -38,7 +38,7 @@
  * Core effect "Move"
  *
  * Moves to element to the given coordinates.
- * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+ * @deprecated {2.0} Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.effect.core.Move",
 {
@@ -57,7 +57,7 @@ qx.Class.define("qx.fx.effect.core.Move",
     /**
      * String indicating if the coordinates are relative
      * to element's position or absolute.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     mode :
     {
@@ -67,7 +67,7 @@ qx.Class.define("qx.fx.effect.core.Move",
 
     /**
      * X coordinate the element should be moved to.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     x :
     {
@@ -77,7 +77,7 @@ qx.Class.define("qx.fx.effect.core.Move",
 
     /**
      * Y coordinate the element should be moved to.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     y :
     {

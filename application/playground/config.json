@@ -15,7 +15,7 @@
     "APPLICATION"  : "playground",
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "playground.theme.Theme",
-    "LOCALES"      : [ "en", "de", "ro", "sv"],
+    "LOCALES"      : [ "en", "de", "ro", "sv", "cs"],
     "ROOT"         : "."
   },
 

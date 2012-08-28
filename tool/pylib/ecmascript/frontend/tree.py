@@ -109,12 +109,30 @@ class Node(object):
         if len(self.attributes) == 0:
             del self.attributes
 
+    ##
+    # Make a default copy of self (this includes instanceof)
     def clone(self):
         clone_ = copy.copy(self)
-        #if hasattr(self, "attributes"):
+        # keep .attributes non-shared
         if True:
             clone_.attributes = copy.copy(self.attributes)
         return clone_
+
+    ##
+    # Copy the properties of self into other
+    # (this might not be entirely in sync with treegenerator.symbol())
+    def patch(self, other):
+        for attr, val in vars(self).items():
+            if attr in (
+                "type", "id",  # preserve other's classification
+                "children", # don't adopt existing children (what would their .parent be?!)
+                "parent", # avoid tree relations
+                ):
+                continue
+            setattr(other, attr, val)
+        # keep .attributes non-shared
+        if hasattr(self, "attributes"):
+            other.attributes = copy.copy(self.attributes)
 
     def hasParent(self):
         return self.parent

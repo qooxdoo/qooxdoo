@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *
      * @abstract
      * @param numColumns {Integer} The numbrer of columns in use.
-     * @throws the abstract function warning.
+     * @throws {Error} the abstract function warning.
      */
     _setNumColumns : function(numColumns) {
       throw new Error("_setNumColumns is abstract");
@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * @abstract
      * @param event {var} The <i>onappear</i> event object.
      * @param forceRefresh {Boolean?false} Whether a refresh should be forced
-     * @throws the abstract function warning.
+     * @throws {Error} the abstract function warning.
      */
     onAppear : function(event, forceRefresh) {
       throw new Error("onAppear is abstract");
@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *
      * @abstract
      * @param event {var} The <i>tableWidthChanged</i> event object.
-     * @throws the abstract function warning.
+     * @throws {Error} the abstract function warning.
      */
     onTableWidthChanged : function(event) {
       throw new Error("onTableWidthChanged is abstract");
@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * @param event {var} The <i>verticalScrollBarChanged</i> event object.  This event has data,
      *     obtained via event.getValue(), which is a boolean indicating whether a
      *     vertical scroll bar is now present.
-     * @throws the abstract function warning.
+     * @throws {Error} the abstract function warning.
      */
     onVerticalScrollBarChanged : function(event) {
       throw new Error("onVerticalScrollBarChanged is abstract");
@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *     event.getValue(), which is an object with three properties: the column
      *     which changed width (data.col), the old width (data.oldWidth) and the new
      *     width (data.newWidth).
-     * @throws the abstract function warning.
+     * @throws {Error} the abstract function warning.
      */
     onColumnWidthChanged : function(event) {
       throw new Error("onColumnWidthChanged is abstract");
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *     via event.getValue(), which is an object with two properties: the column
      *     which changed width (data.col) and the new visibility of the column
      *     (data.visible).
-     * @throws the abstract function warning.
+     * @throws {Error} the abstract function warning.
      */
     onVisibilityChanged : function(event) {
       throw new Error("onVisibilityChanged is abstract");

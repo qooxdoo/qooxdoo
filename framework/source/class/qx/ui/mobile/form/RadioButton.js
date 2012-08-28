@@ -173,7 +173,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     /**
      * Gets the value [true/false] of this radio button.
      * It is called by getValue method of qx.ui.mobile.form.MValue mixin
-     * @return value {Boolean} the value of the radio button
+     * @return {Boolean} the value of the radio button
      */
     _getValue : function() {
       return this._getAttribute("checked");

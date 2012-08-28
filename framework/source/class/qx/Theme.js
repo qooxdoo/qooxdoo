@@ -351,7 +351,7 @@ qx.Bootstrap.define("qx.Theme",
      * @signature function(name, config)
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
-     * @throws An error if the given config is not valid (e.g. wrong key or wrong key value)
+     * @throws {Error} if the given config is not valid (e.g. wrong key or wrong key value)
      */
     __validateConfig : qx.core.Environment.select("qx.debug",
     {
@@ -511,7 +511,7 @@ qx.Bootstrap.define("qx.Theme",
      * Helper method to check for an invalid theme
      *
      * @param mixinTheme {qx.Theme?null} theme to check
-     * @throws an error if the theme is not valid
+     * @throws {Error} if the theme is not valid
      */
     __checkForInvalidTheme: function(mixinTheme)
     {

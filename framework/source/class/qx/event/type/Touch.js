@@ -147,7 +147,7 @@ qx.Class.define("qx.event.type.Touch",
        * < 1.0, pinch close / zoom out.
        * > 1.0, pinch open / to zoom in.
        *
-       * @return The scale distance between two fingers
+       * @return {Float} The scale distance between two fingers
        */
       getScale : function() {
         return this._native.scale;

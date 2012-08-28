@@ -41,6 +41,8 @@ qx.Bootstrap.define("qx.module.Animation", {
 
   statics :
   {
+    __animationHandles : null,
+
     /**
      * Internal initializer to make sure we always have a plain array
      * for storing animation handles.

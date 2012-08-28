@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     /**
      * Creates the selection list. Override this to customize the widget.
      *
-     * @return value {qx.ui.mobile.list.List} The selection list
+     * @return {qx.ui.mobile.list.List} The selection list
      */
     _createSelectionList : function() {
       var self = this;

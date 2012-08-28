@@ -1,3 +1,8 @@
 four_week_stats.png
 one_year_stats.png
-nightly_builds.rrd
+# The next is tracked, but changes are ignored with
+# 'git update-index --assume-unchanged'
+# You can still git add changes of the file. To undo the ignore action, issue
+# 'git update-index --no-assume-unchanged' (but maybe that's only relevant on
+# the staging host).
+#nightly_builds.rrd

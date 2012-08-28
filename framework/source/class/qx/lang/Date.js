@@ -35,7 +35,7 @@
  * Helper functions for dates.
  *
  * The native JavaScript Date is not modified by this class.
- * @deprecated since 2.1
+ * @deprecated {2.1}
  */
 qx.Bootstrap.define("qx.lang.Date",
 {

@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.lang.normalize.Array)
+
+************************************************************************ */
+
 /**
  * This class is used to define mixins (similar to mixins in Ruby).
  *
@@ -169,7 +175,7 @@ qx.Bootstrap.define("qx.Mixin",
      * Check compatibility between mixins (including their includes)
      *
      * @param mixins {Mixin[]} an array of mixins
-     * @throws an exception when there is a conflict between the mixins
+     * @throws {Error} when there is a conflict between the mixins
      */
     checkCompatibility : function(mixins)
     {
@@ -226,7 +232,7 @@ qx.Bootstrap.define("qx.Mixin",
      *
      * @param mixin {Mixin} mixin to check
      * @param clazz {Class} class to check
-     * @throws an exception when the given mixin is incompatible to the class
+     * @throws {Error} when the given mixin is incompatible to the class
      * @return {Boolean} true if the mixin is compatible to the given class
      */
     isCompatible : function(mixin, clazz)

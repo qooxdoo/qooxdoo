@@ -672,8 +672,10 @@ Check Javscript source code with a lint-like utility. Takes a map.
   "lint-check" :
   {
     "allowed-globals" : [ "qx", "${APPLICATION}" ],
+    "ignore-catch-param"            : (true|false),
     "ignore-deprecated-symbols"     : (true|false),
     "ignore-environment-nonlit-key" : (true|false),
+    "ignore-finally-without-catch"  : (true|false),
     "ignore-multiple-mapkeys"       : (true|false),
     "ignore-multiple-vardecls"      : (true|false),
     "ignore-no-loop-block"          : (true|false),
@@ -681,7 +683,9 @@ Check Javscript source code with a lint-like utility. Takes a map.
     "ignore-undeclared-privates"    : (true|false),
     "ignore-undefined-globals"      : (true|false),
     "ignore-unused-parameter"       : (true|false),
-    "ignore-unused-variables"       : (true|false)
+    "ignore-unused-variables"       : (true|false),
+    "run"                           : (true|false),
+    "warn-unknown-jsdoc-keys"       : (true|false)
   }
 
 .. note::
@@ -693,28 +697,47 @@ The general idea of the *ignore-\** options is to say that the lint checking wil
 Keys are:
 
 * **allowed-globals** : list of names that are not to be reported as bad use of globals
+
+* **ignore-catch-param** *(experimental)*     : 
+    Don't check whether the exception parameter of a *catch* clause might overwrite an existing variable binding (s. `bug#1207 <%{bug}1207>`__). *(default: false)*
+
 * **ignore-deprecated-symbols** *(experimental)*     : 
-      Ignore built-in symbols that are considered bad use, like *alert* or *eval*. *(default: false)*
+    Ignore built-in symbols that are considered bad use, like *alert* or *eval*. *(default: false)*
+
 * **ignore-environment-nonlit-key** *(experimental)* :
-      Ignore calls to *qx.core.Environment.(get|select)* with a non-literal key (Those calls cannot be optimized). *(default: false)*
+    Ignore calls to *qx.core.Environment.(get|select)* with a non-literal key (Those calls cannot be optimized). *(default: false)*
+
+* **ignore-finally-without-catch** *(experimental)*  :
+    Ignore if *try* statement has a *finally* clause, but no *catch* clause, as the *finally* clause might not be run in some browsers (s. `bug#3688 <%{bug}3688>`__). *(default: false)*
+
 * **ignore-multiple-mapkeys** *(experimental)*       : 
-      Ignore using the same key in a map multiple times (Only the last occurrence will persist). *(default: false)*
+    Ignore using the same key in a map multiple times (Only the last occurrence will persist). *(default: false)*
+
 * **ignore-multiple-vardecls** *(experimental)*      : 
-      Ignore multiple declarations of the same variable (Ie. multiple 'var' statements for the same identifier). *(default: true)*
+    Ignore multiple declarations of the same variable (Ie. multiple 'var' statements for the same identifier). *(default: true)*
+
 * **ignore-no-loop-block** *(experimental)*          : 
-      Ignore bodies of loops or conditions that are not enclosed in ``{`` and ``}``. *(default: false)*
+    Ignore bodies of loops or conditions that are not enclosed in ``{`` and ``}``. *(default: false)*
+
 * **ignore-reference-fields** *(experimental)*       : 
-      Ignore reference data types in :ref:`class member attributes <pages/classes#instance_members>` (Those values will be shared across all instances of the class). *(default: false)*
+    Ignore reference data types in :ref:`class member attributes <pages/classes#instance_members>` (Those values will be shared across all instances of the class). *(default: false)*
+
 * **ignore-undeclared-privates** *(experimental)*    : 
-      Ignore use of :ref:`private members <pages/classes#access>` in class code without them being declared in the class map. *(default: false)*
+    Ignore use of :ref:`private members <pages/classes#access>` in class code without them being declared in the class map. *(default: false)*
+
 * **ignore-undefined-globals** *(experimental)*      : 
-      Ignore symbols that belong to the global scope, and are not recognized as known built-in symbols or class names (You usually want to avoid those). With this option set to *false*, i.e. those globals being warned about, you can still silence the warning for symbols given in the ``allowed-globals`` option. *(default: false)*
+    Ignore symbols that belong to the global scope, and are not recognized as known built-in symbols or class names (You usually want to avoid those). With this option set to *false*, i.e. those globals being warned about, you can still silence the warning for symbols given in the ``allowed-globals`` option. *(default: false)*
+
 * **ignore-unused-parameter** *(experimental)*       : 
-      Ignore parameters of functions or catch statements that are not used in their respective body. *(default: true)*
+    Ignore parameters of functions or catch statements that are not used in their respective body. *(default: true)*
+
 * **ignore-unused-variables** *(experimental)*       : 
-      Ignore variables that are declared in a scope but not used. *(default: false)*
+    Ignore variables that are declared in a scope but not used. *(default: false)*
 
+* **run** *(experimental)* :
+    When set to *true* the actual lint checking will be performed. This key allows you to carry lint options in jobs without actually triggering the lint action. *(default: false)*
 
+* **warn-unknown-jsdoc-keys** *(experimental)* :
 
 
 .. _pages/tool/generator_config_ref#log:

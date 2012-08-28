@@ -353,7 +353,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     /**
      * Gets the value [true/false] of this slider.
      * It is called by getValue method of qx.ui.mobile.form.MValue mixin
-     * @return value {Integer} the value of the slider
+     * @return {Integer} the value of the slider
      */
     _getValue : function() {
       return this.__value;

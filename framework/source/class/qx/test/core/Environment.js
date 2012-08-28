@@ -272,6 +272,11 @@ qx.Class.define("qx.test.core.Environment",
       qx.core.Environment.get("plugin.quicktime.version");
     },
 
+    testSkype : function() {
+      // just make sure the call is working
+      this.assertBoolean(qx.core.Environment.get("plugin.skype"));
+    },
+
     testWmv : function() {
       // just make sure the call is working
       this.assertBoolean(qx.core.Environment.get("plugin.windowsmedia"));

@@ -57,7 +57,7 @@ You see, the read and write access needs to be done with the designated methods 
 Importance of events
 --------------------
 
-The two sections above explained how models look and why. The most mentioned reason is the need for change events, which gives them also an important role in the data binding. They are responsible for notifying every connected view (which can be more than one) to update their representation of the data stored in the model. You can see the events as a nervous system for your data bound app.
+The two sections above explained how models look and why. The most mentioned reason is the need for change events, which gives them also an important role in the data binding. Check out the :doc:`separate page about events in data binding<events>`.
 
 
 .. _pages/data_binding/models#disposing:
@@ -65,7 +65,7 @@ The two sections above explained how models look and why. The most mentioned rea
 Disposing
 ---------
 
-Those of you familiar with qooxdoo and its objects should know, that disposing is necessary. This is also true for model objects and data arrays. The model objects do have one special thing, the do a deep disposing, when created with the marshaler, which we get to know in the following section. 
+Those of you familiar with qooxdoo and its objects should know, that disposing is necessary. This is also true for model objects and data arrays. The model objects do have one special thing, the do a deep disposing, when created with the marshaler, which we get to know in the following section.
 
 
 .. _pages/data_binding/models#json_marshaler:

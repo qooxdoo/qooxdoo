@@ -58,7 +58,7 @@ qx.Bootstrap.define("qx.lang.Array",
      * or extended array objects like <code>qx.type.BaseArray</code> to an
      * native Array instance.
      *
-     * @deprecated since 2.1: Please use cast with 'Array' as constructor.
+     * @deprecated {2.1} Please use cast with 'Array' as constructor.
      * @param object {var} any array like object
      * @param offset {Integer?0} position to start from
      * @return {Array} New array with the content of the incoming object
@@ -300,7 +300,7 @@ qx.Bootstrap.define("qx.lang.Array",
      * @param arr1 {Array} the array
      * @param arr2 {Array} the elements of this array will be appended to other one
      * @return {Array} The modified array.
-     * @throws an exception if one of the arguments is not an array
+     * @throws {Error} if one of the arguments is not an array
      */
     append : function(arr1, arr2)
     {
@@ -324,7 +324,7 @@ qx.Bootstrap.define("qx.lang.Array",
      * @param arr1 {Array} the array
      * @param arr2 {Array} the elements of this array will be excluded from the other one
      * @return {Array} The modified array.
-     * @throws an exception if one of the arguments is not an array
+     * @throws {Error} if one of the arguments is not an array
      */
     exclude : function(arr1, arr2)
     {

@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.table.selection.Model",
      *
      * @param batchMode {Boolean} true to activate batch mode, false to deactivate
      * @return {Boolean} true if batch mode is active, false otherwise
-     * @throws Error if batch mode is turned off once more than it has been turned on
+     * @throws {Error} if batch mode is turned off once more than it has been turned on
      */
     setBatchMode : function(batchMode)
     {

@@ -180,7 +180,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      * Checks if the given node is a block node
      *
-     * @type static
      * @param node {Node} Node
      * @return {Boolean} whether it is a block node
      */

@@ -932,7 +932,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
               child.set("text", attrib["text"])
 
               if "type" in attrib:
-                child.set("type", attrib["type"][0]["type"])
+                child.set("type", attrib["type"])
 
               throwsNode.addChild(child) 
               node.addChild(throwsNode)

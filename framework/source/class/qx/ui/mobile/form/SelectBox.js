@@ -157,7 +157,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     /**
      * Creates the menu dialog. Override this to customize the widget.
      *
-     * @return value {qx.ui.mobile.dialog.Menu} A dialog, containing a selection list.
+     * @return {qx.ui.mobile.dialog.Menu} A dialog, containing a selection list.
      */
     _createSelectionDialog : function() {
       var menu =  new qx.ui.mobile.dialog.Menu();
@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
     /**
      * Returns the selected index of the element
-     * @return value {Number} the selected index value
+     * @return {Number} the selected index value
      */
     getSelection : function() {
       return this.__selectedIndex;
@@ -223,7 +223,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     /**
      * Get the text value of this
      * It is called by setValue method of qx.ui.mobile.form.MValue mixin.
-     * @return value {number} the new selected index of the select box.
+     * @return {number} the new selected index of the select box.
      */
     _getValue : function() {
       return this._getAttribute("value");

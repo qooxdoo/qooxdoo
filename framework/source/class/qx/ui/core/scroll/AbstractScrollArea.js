@@ -365,7 +365,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Scrolls the element's content to the given left coordinate
      *
      * @param value {Integer} The vertical position to scroll to.
-     * @param duration {Number} The time in milliseconds the scroll to should take.
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
     scrollToX : function(value, duration) {
       // First flush queue before scroll
@@ -379,7 +379,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Scrolls the element's content by the given left offset
      *
      * @param value {Integer} The vertical position to scroll to.
-     * @param duration {Number} The time in milliseconds the scroll to should take.
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
     scrollByX : function(value, duration) {
       // First flush queue before scroll
@@ -405,7 +405,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Scrolls the element's content to the given top coordinate
      *
      * @param value {Integer} The horizontal position to scroll to.
-     * @param duration {Number} The time in milliseconds the scroll to should take.
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
     scrollToY : function(value, duration) {
       // First flush queue before scroll
@@ -419,7 +419,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Scrolls the element's content by the given top offset
      *
      * @param value {Integer} The horizontal position to scroll to.
-     * @param duration {Number} The time in milliseconds the scroll to should take.
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
     scrollByY : function(value, duration) {
       // First flush queue before scroll

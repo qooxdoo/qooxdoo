@@ -147,7 +147,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      *
      * @param item {qx.ui.core.Widget} Any valid selectable item.
      * @return {Boolean} Whether the item is selected.
-     * @throws an exception if the item is not a child element.
+     * @throws {Error} if the item is not a child element.
      */
     isSelected : function(item) {
       if (!qx.ui.core.Widget.contains(this, item)) {
@@ -166,7 +166,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      * the current selection.
      *
      * @param item {qx.ui.core.Widget} Any valid item.
-     * @throws an exception if the item is not a child element.
+     * @throws {Error} if the item is not a child element.
      */
     addToSelection : function(item) {
       if (!qx.ui.core.Widget.contains(this, item)) {
@@ -185,7 +185,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      * the whole selection at once.
      *
      * @param item {qx.ui.core.Widget} Any valid item
-     * @throws an exception if the item is not a child element.
+     * @throws {Error} if the item is not a child element.
      */
     removeFromSelection : function(item) {
       if (!qx.ui.core.Widget.contains(this, item)) {
@@ -222,7 +222,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      * Replaces current selection with the given items.
      *
      * @param items {qx.ui.core.Widget[]} Items to select.
-     * @throws an exception if one of the items is not a child element and if
+     * @throws {Error} if one of the items is not a child element and if
      *    the mode is set to <code>single</code> or <code>one</code> and
      *    the items contains more than one item.
      */

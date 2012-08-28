@@ -328,29 +328,34 @@ class Comment(object):
         attribs = []
         for line in section_lines:
             mo = hint_sign.search(line)
+            # @<hint> entry
             if mo:
                 hint_key = mo.group(1)
+                # specific parsing
                 if hasattr(self, "parse_at_"+hint_key):
-                    entry = getattr(self, "parse_at_"+hint_key)(line)
-                elif hint_key in ( # temporary, to see what we have in the framework
-                        'TODO', # ignore this permanently!
-                        'author',  # parse_at__default_
-                        'license',
-                        'deprecated', # parse_at__default_
-                        'protected', # @protected
-                        'abstract', # @abstract
-                        'type', # @type Map -- should be: @type {Map}
-                        'state',  # parse_at__default_
+                    try:
+                        entry = getattr(self, "parse_at_"+hint_key)(line)
+                    except py.ParseException, e:
+                        context.console.warn("Unable to parse '@%s' JSDoc entry: %s" % (hint_key,line))
+                        continue
+                elif hint_key in ( # temporarily, to see what we have in the framework
+                        'protected', # ?
                     ):
                     continue
+                # known tag with default parsing
                 elif hint_key in (
+                        'abstract', # @abstract; pend. bug#6738
                         'tag',  # @tag foo; in Demobrowser
                     ):
                     entry = self.parse_at__default_(line)
+                # unknown tag
                 else:
-                    raise Exception("Unknown '@' hint in JSDoc comment: " + hint_key)
+                    #raise Exception("Unknown '@' hint in JSDoc comment: " + hint_key)
+                    context.console.warn("Unknown '@' hint in JSDoc comment: " + hint_key)
+                    entry = self.parse_at__default_(line)
                 attribs.append(entry)
-            else: # description
+            # description
+            else:
                 attribs.append({
                    "category" : "description", 
                    "text" : line.strip()
@@ -369,11 +374,11 @@ class Comment(object):
         return attribs
 
 
+    gr_at__default_ = ( py.Suppress('@') + py.Word(py.alphas)('category') + py.restOfLine("text") )
     ##
     # "@<hint> text" 
     def parse_at__default_(self, line):
-        grammar = py.Suppress('@') + py.Word(py.alphas).setResultsName('category') + \
-            py.restOfLine("text")
+        grammar = self.gr_at__default_
         presult = grammar.parseString(line)
         res = {
             'category' : presult.category,
@@ -386,6 +391,8 @@ class Comment(object):
     # but using regex, to be consistent with the parser
     py_js_identifier = py.Regex(lang.IDENTIFIER_REGEXP)
 
+    py_simple_type = py.Suppress('{') + py_js_identifier.copy()('type_name') + py.Suppress('}')
+
     py_single_type = py_js_identifier.copy().setResultsName('type_name') + \
         py.ZeroOrMore('[]').setResultsName('type_dimensions')
 
@@ -397,10 +404,23 @@ class Comment(object):
         ) + py.Suppress('}')
 
     ##
+    # "@type {Map}
+    gr_at_type = py.Suppress('@') + py.Literal('type') + py_simple_type
+    def parse_at_type(self, line):
+        grammar = self.gr_at_type
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'type',
+            'type' : presult.type_name,
+        }
+        return res
+
+    ##
     # "@ignore(foo,bar)"
+    gr_at_ignore = ( py.Suppress('@') + py.Literal('ignore') + py.Suppress('(') + 
+        py.delimitedList(py_js_identifier)('arguments') + py.Suppress(')') )
     def parse_at_ignore(self, line):
-        grammar = py.Suppress('@') + py.Literal('ignore') + py.Suppress('(') + \
-            py.delimitedList(self.py_js_identifier).setResultsName('arguments') + py.Suppress(')')
+        grammar = self.gr_at_ignore
         presult = grammar.parseString(line)
         res = {
             'category' : 'ignore',
@@ -410,11 +430,11 @@ class Comment(object):
 
     ##
     # "@return {Type} msg"
+    gr_at_return = ( py.Suppress('@') + py.Literal('return')  + 
+        py.Optional(py_type_expression.copy())("type") +   # TODO: remove leading py.Optional
+        py.restOfLine("text") )
     def parse_at_return(self, line):
-        grammar = (py.Suppress('@') + py.Literal('return')  + 
-            py.Optional(self.py_type_expression.copy()).setResultsName("type") +   # TODO: remove leading py.Optional
-            py.restOfLine("text")
-        )
+        grammar = self.gr_at_return
         presult = grammar.parseString(line)
         types = self._typedim_list_to_typemaps(presult.texp_types.asList() if presult.texp_types else [])
         res = {
@@ -433,16 +453,30 @@ class Comment(object):
         return res
 
     ##
+    # "@deprecated {2.1} use X instead"
+    gr_at_deprecated = ( py.Suppress('@') + py.Literal('deprecated') + 
+        py.QuotedString('{', endQuoteChar='}', unquoteResults=True)("since") + py.restOfLine("text") )
+    def parse_at_deprecated(self, line):
+        grammar = self.gr_at_deprecated
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'deprecated',
+            'since' : presult.since,
+            'text' : presult.text.strip()
+        }
+        return res
+
+    ##
     # "@throws text"
+    gr_at_throws = ( py.Suppress('@') + py.Literal('throws') + 
+       py.Suppress('{') + py_js_identifier.copy()('exception_type') +
+       py.Suppress('}') + py.restOfLine("text") )
     def parse_at_throws(self, line):
-        grammar = py.Suppress('@') + py.Literal('throws') + py.restOfLine("text")
-        # FUTURE:
-        #grammar = py.Suppress('@') + py.Literal('throws') + \
-        #   py.Suppress('{') + self.py_js_identifier.copy().setResultsName('exception_type') +\
-        #   py.Suppress('}') + py.restOfLine("text")
+        grammar = self.gr_at_throws
         presult = grammar.parseString(line)
         res = {
             'category' : 'throws',
+            'type' : presult.exception_type,
             'text' : presult.text.strip()
         }
         return res
@@ -456,14 +490,14 @@ class Comment(object):
                 types[-1]['dimensions'] += 1
         return types
 
+    gr_at_param = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
+            py_js_identifier.copy()("name") + 
+            py_type_expression + 
+            py.restOfLine("text") )
     ##
     # @param foo {Type} text"
     def parse_at_param(self, line):
-        grammar = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
-            self.py_js_identifier.copy().setResultsName("name") + 
-            self.py_type_expression + 
-            py.restOfLine("text")
-        )
+        grammar = self.gr_at_param
         presult = grammar.parseString(line)
         types = self._typedim_list_to_typemaps(presult.texp_types.asList() if presult.texp_types else [])
         res = {
@@ -474,17 +508,17 @@ class Comment(object):
         }
         return res
         
+    gr_at_childControl = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
+        py.Regex(r'\S+')("name") +   # accept "-" for childControl names
+        py_type_expression + 
+        py.restOfLine("text"))
     ##
     # "@childControl foo-bar {Type} text"
     #
     # (The only difference to parse_at_param is that <name> can be an arbitrary string
     # (e.g. containing "-")).
     def parse_at_childControl(self, line):
-        grammar = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
-            py.Regex(r'\S+')("name") +   # accept "-" for childControl names
-            self.py_type_expression + 
-            py.restOfLine("text")
-        )
+        grammar = self.gr_at_childControl
         presult = grammar.parseString(line)
         types = self._typedim_list_to_typemaps(presult.texp_types.asList() if presult.texp_types else [])
         res = {
@@ -495,11 +529,12 @@ class Comment(object):
         }
         return res
         
+    gr_at_see = ( py.Suppress('@') + py.Literal('see') + py.Regex(r'\S+')("name") + 
+        py.Optional(py.restOfLine("text")) )
     ##
     # "@see qx.core.Object#CONSTANT text"
     def parse_at_see(self, line):
-        grammar = py.Suppress('@') + py.Literal('see') + py.Regex(r'\S+').setResultsName("name") + \
-            py.Optional(py.restOfLine("text"))
+        grammar = self.gr_at_see
         presult = grammar.parseString(line)
         res = {
             'category' : 'see',
@@ -508,12 +543,13 @@ class Comment(object):
         }
         return res
         
+    gr_at_signature = ( py.Suppress('@') + py.Literal('signature') + py.Literal('function') + 
+        py.Suppress('(') + py.Optional(py.delimitedList(py_js_identifier))('arguments') + 
+        py.Suppress(')') )
     ##
     # "@signature function(parm1, parm2)"
     def parse_at_signature(self, line):
-        grammar = py.Suppress('@') + py.Literal('signature') + py.Literal('function') + \
-            py.Suppress('(') + py.Optional(py.delimitedList(self.py_js_identifier)).setResultsName('arguments') + \
-            py.Suppress(')')
+        grammar = self.gr_at_signature
         presult = grammar.parseString(line)
         res = {
             'category' : 'signature',
@@ -525,10 +561,11 @@ class Comment(object):
     py_comment_term = py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') + \
         py.Optional(py.delimitedList(py_js_identifier)).setResultsName('t_arguments') + py.Suppress(')')
 
+    gr_at_lint = py.Suppress('@') + py.Literal('lint') + py_comment_term
     ##
     # "@lint ignoreUndefined(foo)"
     def parse_at_lint(self, line):
-        grammar = py.Suppress('@') + py.Literal('lint') + self.py_comment_term
+        grammar = self.gr_at_lint
         presult = grammar.parseString(line)
         res = {
             'category' : 'lint',
@@ -537,13 +574,14 @@ class Comment(object):
         }
         return res
         
+    gr_at_attach = ( py.Suppress('@') + py.Literal('attach') + py.Suppress('{') + 
+        py_js_identifier.copy()('clazz') + 
+        py.Optional(py.Suppress(',') + py_js_identifier)('method') + 
+        py.Suppress('}') )
     ##
     # "@attach {q, bar}"
     def parse_at_attach(self, line):
-        grammar = py.Suppress('@') + py.Literal('attach') + py.Suppress('{') + \
-            self.py_js_identifier.copy().setResultsName('clazz') + \
-            py.Optional(py.Suppress(',')+self.py_js_identifier).setResultsName('method') + \
-            py.Suppress('}')
+        grammar = self.gr_at_attach
         presult = grammar.parseString(line)
         res = {
             'category' : 'attach',
@@ -552,13 +590,14 @@ class Comment(object):
         }
         return res
         
+    gr_at_attachStatic = ( py.Suppress('@') + py.Literal('attachStatic') + py.Suppress('{') + 
+        py_js_identifier.copy()('clazz') + 
+        py.Optional(py.Suppress(',') + py_js_identifier)('method') + 
+        py.Suppress('}') )
     ##
     # "@attachStatic {q, bar}"
     def parse_at_attachStatic(self, line):
-        grammar = py.Suppress('@') + py.Literal('attachStatic') + py.Suppress('{') + \
-            self.py_js_identifier.copy().setResultsName('clazz') + \
-            py.Optional(py.Suppress(',')+self.py_js_identifier).setResultsName('method') + \
-            py.Suppress('}')
+        grammar = self.gr_at_attachStatic
         presult = grammar.parseString(line)
         res = {
             'category' : 'attachStatic',
@@ -567,10 +606,11 @@ class Comment(object):
         }
         return res
         
+    gr_at_require = py.Suppress('@') + py_comment_term
     ##
     # "@require(foo, bar)"
     def parse_at_require(self, line):
-        grammar = py.Suppress('@') + self.py_comment_term
+        grammar = self.gr_at_require
         presult = grammar.parseString(line)
         res = {
             'category' : 'require',
@@ -581,7 +621,7 @@ class Comment(object):
     ##
     # "@use(foo,bar)"
     def parse_at_use(self, line):
-        grammar = py.Suppress('@') + self.py_comment_term
+        grammar = self.gr_at_require
         presult = grammar.parseString(line)
         res = {
             'category' : 'use',

@@ -39,7 +39,7 @@
  *
  * Resizes the element from zero to the original size of the element and fades
  * it in at the same time.
- * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+ * @deprecated {2.0} Please use qx.bom.element.Animation instead.
  */
 qx.Class.define("qx.fx.effect.combination.Puff",
 {
@@ -54,7 +54,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
 
   /**
    * @param element {Object} The DOM element
-   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+   * @deprecated {2.0} Please use qx.bom.element.Animation instead.
    */
   construct : function(element)
   {
@@ -78,7 +78,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
       /**
        * Flag indicating if the CSS attribute "display"
        * should be modified by effect
-       * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+       * @deprecated {2.0} Please use qx.bom.element.Animation instead.
        */
       modifyDisplay :
       {

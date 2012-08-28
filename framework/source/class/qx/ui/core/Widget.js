@@ -3751,7 +3751,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param id {String} ID of the child control
      * @return {qx.ui.core.Widget} The created control
-     * @throws when the control was created before
+     * @throws {Error} when the control was created before
      */
     _createChildControl : function(id)
     {

@@ -147,14 +147,14 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * empty function
-     * @deprecated since 2.1: Please use a new empty function.
+     * @deprecated {2.1} Please use a new empty function.
      */
     empty : function() {},
 
 
     /**
      * Simply return true.
-     * @deprecated since 2.1: Please use a custom function.
+     * @deprecated {2.1} Please use a custom function.
      * @return {Boolean} Always returns true.
      */
     returnTrue : function() {
@@ -164,7 +164,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * Simply return false.
-     * @deprecated since 2.1: Please use a custom function.
+     * @deprecated {2.1} Please use a custom function.
      * @return {Boolean} Always returns false.
      */
     returnFalse : function() {
@@ -174,7 +174,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * Simply return null.
-     * @deprecated since 2.1: Please use a custom function.
+     * @deprecated {2.1} Please use a custom function.
      * @return {var} Always returns null.
      */
     returnNull : function() {
@@ -184,7 +184,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * Return "this".
-     * @deprecated since 2.1: Please use a custom function.
+     * @deprecated {2.1} Please use a custom function.
      * @return {Object} Always returns "this".
      */
     returnThis : function() {
@@ -194,7 +194,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
     /**
      * Simply return 0.
-     * @deprecated since 2.1: Please use a custom function.
+     * @deprecated {2.1} Please use a custom function.
      * @return {Number} Always returns 0.
      */
     returnZero : function() {
@@ -244,7 +244,7 @@ qx.Bootstrap.define("qx.lang.Function",
       {
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (qx.core && qx.core.Object && options.self && options.self instanceof qx.core.Object)
+          if (qx.core && qx.core.Object && options.self && qx.Bootstrap.isObject(options.self) && options.self instanceof qx.core.Object)
           {
             qx.core.Assert && qx.core.Assert.assertFalse(
               options.self.isDisposed(),

@@ -268,6 +268,7 @@ class TokenStream(IterObject):
                 self.outData.appendleft(s)
                 # handle comments
                 if self.comments:
+                    #import pydb; pydb.debugger()
                     s.comments = self.comments
                     self.comments = []
                 yield s
@@ -868,8 +869,16 @@ def toJS(self, opts):
 
 @method(symbol("("))  # <group>
 def pfix(self):
-    comma = False
-    group = symbol("group")(token.get("line"), token.get("column"))
+    # There is sometimes a one-to-one replacement of the symbol instance from
+    # <token> and a different symbol created in the parsing method (here
+    # "symbol-(" vs. "symbol-group"). But there are a lot of attributes you want to
+    # retain from the token, like "line", "column", .comments, and maybe others.
+    # The reason for not retaining the token itself is that the replacement is
+    # more specific (as here "(" which could be "group", "call" etc.). Just
+    # re-writing .type would be enough for most tree traversing routines. But
+    # the parsing methods themselves are class-based.
+    group = symbol("group")()
+    self.patch(group) # for "line", "column", .comments, etc.
     if token.id != ")":
         while True:
             if token.id == ")":
@@ -897,7 +906,8 @@ symbol("]")
 
 @method(symbol("["))             # "foo[0]", "foo[bar]", "foo['baz']"
 def ifix(self, left):
-    accessor = symbol("accessor")(token.get("line"), token.get("column"))
+    accessor = symbol("accessor")()
+    self.patch(accessor)
     # identifier
     accessor.childappend(left)
     # selector
@@ -909,7 +919,8 @@ def ifix(self, left):
 
 @method(symbol("["))
 def pfix(self):
-    arr = symbol("array")(token.get("line"), token.get("column"))
+    arr = symbol("array")()
+    self.patch(arr)
     if token.id != "]":
         is_after_comma = 0
         while True:
@@ -962,7 +973,8 @@ symbol("}")
 
 @method(symbol("{"))                    # object literals
 def pfix(self):
-    mmap = symbol("map")(token.get("line"), token.get("column"))
+    mmap = symbol("map")()
+    self.patch(mmap)
     if token.id != "}":
         is_after_comma = 0
         while True:
@@ -1044,7 +1056,8 @@ def toJS(self, opts):
 def block():
     t = token
     advance("{")
-    s = symbol("block")(token.get("line"), token.get("column"))
+    s = symbol("block")()
+    t.patch(s)
     s.childappend(t.std())  # the "{".std takes care of closing "}"
     return s
 
@@ -1072,14 +1085,16 @@ def pfix(self):
         advance()
     # params
     assert token.id == "("
-    params = symbol("params")(token.get("line"), token.get("column"))
+    params = symbol("params")()
+    token.patch(params)
     self.childappend(params)
     group = expression()  # group parsing as helper
     for c in group.children:
         params.childappend(c)
-    #params.children = group.children  # -- retains group as parent!
+    #params.children = group.children retains group as parent!
     # body
-    body = symbol("body")(token.get("line"), token.get("column"))
+    body = symbol("body")()
+    token.patch(body)
     self.childappend(body)
     if token.id == "{":
         body.childappend(block())

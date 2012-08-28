@@ -149,7 +149,7 @@ qx.Class.define("qx.type.Array",
      *
      * @param arr {Array} the elements of this array will be appended to other one
      * @return {Array} The modified array.
-     * @throws an exception if one of the arguments is not an array
+     * @throws {Error} if one of the arguments is not an array
      */
     append : function(arr)
     {
@@ -164,7 +164,7 @@ qx.Class.define("qx.type.Array",
      *
      * @param arr {Array} The elements of this array will be prepended to other one
      * @return {Array} The modified array.
-     * @throws an exception if one of the arguments is not an array
+     * @throws {Error} if one of the arguments is not an array
      */
     prepend : function(arr)
     {

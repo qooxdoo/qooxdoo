@@ -87,7 +87,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
      * Replaces current selection with the given items.
      *
      * @param items {qx.ui.core.Widget[]} Items to select.
-     * @throws an exception if one of the items is not a child element and if
+     * @throws {Error} if one of the items is not a child element and if
      *    items contains more than one elements.
      */
     setSelection : function(items) {
@@ -117,7 +117,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
      *
      * @param item {qx.ui.core.Widget} Any valid selectable item.
      * @return {Boolean} Whether the item is selected.
-     * @throws an exception if one of the items is not a child element.
+     * @throws {Error} if one of the items is not a child element.
      */
     isSelected : function(item) {
       return this.__getManager().isSelected(item);
