@@ -31,8 +31,9 @@ from generator.runtime.Log import Log
 
 def main(argv=None):
 
-    # init a console
+    # init Context module
     Context.console = Log()
+    Context.jobconf = {}
 
     if argv is None:
         argv = sys.argv
