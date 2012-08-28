@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +14,7 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Mustafa Sak (msak)
 
 ************************************************************************ */
 /**
@@ -55,7 +56,9 @@ qx.Class.define("qx.ui.command.Command",
 
   properties :
   {
-    /** whether the command should be activated */
+    /** Whether the command should be activated. If 'false' execute event 
+     * wouldn't fire. This proprty will be used by command groups when 
+     * activating/deactivating all commands of the group.*/
     active :
     {
       init : true,
@@ -65,7 +68,10 @@ qx.Class.define("qx.ui.command.Command",
     },
     
     
-    /** whether the command should be respected/enabled */
+    /** Whether the command should be respected/enabled. If 'false' execute event 
+     * wouldn't fire. If value of property {@link qx.ui.command.Command#active} 
+     * is 'false', enabled value can be set but has no effect until 
+     * {@link qx.ui.command.Command#active} will be set to 'true'.*/
     enabled :
     {
       init : true,
