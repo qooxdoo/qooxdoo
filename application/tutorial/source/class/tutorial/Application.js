@@ -64,6 +64,7 @@ qx.Class.define("tutorial.Application",
 
       var description = new tutorial.view.Description();
       description.addListener("run", this.run, this);
+      description.addListener("update", this.updateEditor, this);
       content.add(description, {width: "50%"});
 
       var actionArea = new qx.ui.container.Composite();
@@ -93,6 +94,13 @@ qx.Class.define("tutorial.Application",
       content.add(actionArea, {flex: 1});
     },
 
+    updateEditor : function(e) {
+      var func = e.getData().toString();
+      var code = func.substring(func.indexOf("{") + 2, func.lastIndexOf("}") - 9);
+      code = code.replace(/ {10}/g, "");
+      this.__editor.setCode(code);
+      this.run();
+    },
 
     run : function() {
       var code = this.__editor.getCode();

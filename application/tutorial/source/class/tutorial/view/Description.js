@@ -45,17 +45,54 @@ qx.Class.define("tutorial.view.Description",
     this.setDecorator("main");
     this.setBackgroundColor("white");
 
-    this.add(new qx.ui.container.Stack(), {flex: 1});
+    this.__embed = new qx.ui.embed.Html();
+    this.__embed.setMargin(10);
+    this.__embed.setOverflow("auto", "auto");
+    this.add(this.__embed, {flex: 1});
 
     this.add(this.__createButtonContainer());
+
+    this.updateView();
   },
 
 
   events : {
-    "run" : "qx.event.type.Event"
+    "run" : "qx.event.type.Event",
+    "update" : "qx.event.type.Data"
   },
 
+
+  properties : {
+    tutorial : {
+      apply : "_applyTutorial",
+      init : tutorial.tutorial.HelloWorld
+    },
+
+    step : {
+      check : "Number",
+      apply : "_applyStep",
+      event : "changeStep",
+      init: 0
+    }
+  },
+
+
   members : {
+    __embed : null, 
+
+    _applyTutorial : function(value) {
+      this.setStep(0);
+    },
+
+    _applyStep : function(value) {
+      this.updateView();
+    },
+
+    updateView : function() {
+      this.__embed.setHtml(this.getTutorial().steps[this.getStep()].text);
+    },
+
+
     __createButtonContainer : function() {
       var pref = new qx.ui.toolbar.Button("Pref", "icon/22/actions/media-skip-backward.png");
       var update = new qx.ui.toolbar.Button("Update", "icon/22/actions/media-eject.png");
@@ -68,9 +105,29 @@ qx.Class.define("tutorial.view.Description",
       run.addState("middle");
       next.addState("right");
 
-      // events
+      // enabled for next / pref
+      var self = this;
+      this.bind("step", pref, "enabled", {converter : function(data) {
+        return data > 0;
+      }});
+      this.bind("step", next, "enabled", {converter : function(data) {
+        return data < self.getTutorial().steps.length - 1;
+      }});
+
+      // next, pref control
+      pref.addListener("execute", function() {
+        this.setStep(this.getStep() - 1);
+      }, this);
+      next.addListener("execute", function() {
+        this.setStep(this.getStep() + 1);
+      }, this);
+
+      // run / update events
       run.addListener("execute", function() {
         this.fireEvent("run");
+      }, this);
+      update.addListener("execute", function() {
+        this.fireDataEvent("update", this.getTutorial().steps[this.getStep()].code);
       }, this);
 
       // container
