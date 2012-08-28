@@ -72,7 +72,7 @@ Events should be declared as deprecated in the comment section of the event. Thi
 
   /**
    * ...
-   * @deprecated since <upcomming version>
+   * @deprecated {<upcomming version>} ... (describing text)
    */
 
 This will force the generated API to include a deprecation note. Additionally you should throw a warning at runtime similar to deprecated methods. But you need to throw a warning if someone //registers// for that event. To do that, you can override the ''addListener()'' function in your current class.
