@@ -21,6 +21,8 @@
  * also be used to assign an execution of a command sequence to multiple
  * widgets. It is possible to use the same Command in a MenuButton and
  * ToolBarButton for example.
+ * 
+ * @deprecated since 2.1
  */
 qx.Class.define("qx.ui.core.Command",
 {
@@ -37,7 +39,10 @@ qx.Class.define("qx.ui.core.Command",
   construct : function(shortcut)
   {
     this.base(arguments);
-
+    qx.log.Logger.deprecatedMethodWarning(
+      arguments.callee, "qx.ui.core.Command was moved to qx.ui.command.Command."
+    );
+    
     this._shortcut = new qx.bom.Shortcut(shortcut);
     this._shortcut.addListener("execute", this.execute, this);
 
