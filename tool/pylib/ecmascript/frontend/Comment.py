@@ -945,33 +945,46 @@ def findAssociatedComment(node):
     # traverse <node> tree left-most, looking for comments
     from ecmascript.frontend import treeutil # ugly here, but due to import cycle
 
+    ##
+    # For every <start_node> find the enclosing statement node, and from that
+    # the node of the first token (as this will carry a pot. comment) 
+    def statement_head_from(start_node):
+        # 1. find enclosing statement node
+        tnode = start_node
+        stmt_node = None
+        while True:  # this will always terminate, as every JS node is a child of a statement
+            if tnode.isStatement():
+                stmt_node = tnode
+                break
+            elif tnode.parent: 
+                tnode = tnode.parent
+            else: 
+                break
+        # 2. go down to lexically first token
+        head_token_node = treeutil.findLeftmostChild(stmt_node)
+        return head_token_node
+
+    # --------------------------------------------------------------------------
+
     res = None
     if node.comments:
         res = node
     else:
-        # look down left-most
+        # above current expression
         left_most = treeutil.findLeftmostChild(node) # this might return <node> itself
         if left_most.comments:
             res = left_most
-        # look upwards, then left-most
         else:
+            # above key : value in maps
             next_root = treeutil.findAncestor(node, ["keyvalue"], radius=5)
             if next_root:
                 if next_root.comments:
                     res = next_root
-            # look upwards to statement level
             else:
-                # find a statement-level ancestor
-                lnode = node
-                next_root = None
-                while True:
-                    if lnode.isStatement():
-                        next_root = lnode
-                        break
-                    elif lnode.parent: lnode = lnode.parent
-                    else: break
-                if next_root and next_root.comments:
-                    res = next_root
+                # above current statement
+                stmt_head = statement_head_from(node)
+                if stmt_head and stmt_head.comments:
+                    res = stmt_head
     return res
 
 
