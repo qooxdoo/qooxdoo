@@ -1643,7 +1643,7 @@ class Generator(object):
 
         # ----------------------------------------------------------------------
 
-        if not self._job.get('lint-check', False):
+        if not self._job.get('lint-check', False) or not self._job.get('lint-check/run', False):
             return
 
         lib_class_names = classes.keys()
