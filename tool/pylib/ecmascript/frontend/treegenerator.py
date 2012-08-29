@@ -159,6 +159,9 @@ class TokenStream(IterObject):
         return tok['type'] in ['white', 'comment', 'eol']
 
 
+    ##
+    # Main transformer function, consuming a scanner token and producing a tree
+    # node.
     def _symbolFromToken(self, tok):
         s = None
 
@@ -222,6 +225,9 @@ class TokenStream(IterObject):
                 s.set('constantType', 'null')
         elif tok.name in ('name', 'builtin'):
             s = symbol_table["identifier"]()
+            # debug hook
+            if 0 and tok.value == "pydb":  # to activate, enter "pydb;" in JS code
+                import pydb; pydb.debugger()
         else:
             # TODO: token, reserved
             # name or operator
