@@ -19,7 +19,6 @@
 /* ************************************************************************
 #asset(qx/icon/Tango/22/actions/media-skip-backward.png)
 #asset(qx/icon/Tango/22/actions/media-playback-start.png)
-#asset(qx/icon/Tango/22/actions/media-eject.png)
 #asset(qx/icon/Tango/22/actions/media-skip-forward.png)
 ************************************************************************ */
 
@@ -94,16 +93,29 @@ qx.Class.define("tutorial.view.Description",
 
 
     __createButtonContainer : function() {
-      var pref = new qx.ui.toolbar.Button("Pref", "icon/22/actions/media-skip-backward.png");
-      var update = new qx.ui.toolbar.Button("Update", "icon/22/actions/media-eject.png");
+      var pref = new qx.ui.toolbar.Button(null, "icon/22/actions/media-skip-backward.png");
+      var update = new qx.ui.toolbar.Button("Help me out");
       var run = new qx.ui.toolbar.Button("Run", "icon/22/actions/media-playback-start.png");
-      var next = new qx.ui.toolbar.Button("Next", "icon/22/actions/media-skip-forward.png");
+      var next = new qx.ui.toolbar.Button(null, "icon/22/actions/media-skip-forward.png");
 
       // states
       pref.addState("left");
       update.addState("middle");
       run.addState("middle");
       next.addState("right");
+      next.setIconPosition("right");
+
+      // constant width for all buttons
+      pref.setWidth(100);
+      update.setWidth(100);
+      run.setWidth(100);
+      next.setWidth(100);
+
+      // align text middle
+      pref.setCenter(true);
+      update.setCenter(true);
+      run.setCenter(true);
+      next.setCenter(true);
 
       // enabled for next / pref
       var self = this;
@@ -140,6 +152,7 @@ qx.Class.define("tutorial.view.Description",
       container.add(update);
       container.add(run);
       container.add(next);
+
       return container;
     }
   }
