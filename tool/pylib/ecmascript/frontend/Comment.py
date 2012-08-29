@@ -930,15 +930,17 @@ def parseNode(node):
     # token that got the comment attached; look for that
     # in the AST this translates to the left-most child for statements and expressions
     commentsNode = findAssociatedComment(node)
-
+    result = []  # [[{}], ...]
 
     if commentsNode and commentsNode.comments:
         # check for a suitable comment, from the back so that the closer wins
-        for comment in commentsNode.comments[::-1]:
+        for comment in commentsNode.comments:
             #if comment.get("detail") in ["javadoc", "qtdoc"]:
             if comment.get("detail") in ["javadoc"]:
-                return Comment(comment.get("value", "")).parse()
-    return []
+                result.append( Comment(comment.get("value", "")).parse() )
+    if not result:
+        result = [[]]  # to always have a result[-1] element in caller
+    return result
 
 
 def findAssociatedComment(node):

@@ -130,7 +130,7 @@ def handleClassDefinition(docTree, callNode, variant):
         classMap = {}
 
     cls_cmnt_node = treeutil.findLeftmostChild(callNode.getChild("operand"))
-    commentAttributes = Comment.parseNode(cls_cmnt_node)
+    commentAttributes = Comment.parseNode(cls_cmnt_node)[-1]
 
     classNode = classNodeFromDocTree(docTree, className, commentAttributes)
     if variant == "class":
@@ -302,7 +302,7 @@ def handleSingleton(classNode, docTree):
 function() {}""" % className
 
         node = treeutil.compileString(functionCode)
-        commentAttributes = Comment.parseNode(node)
+        commentAttributes = Comment.parseNode(node)[-1]
         docNode = handleFunction(node, "getInstance", commentAttributes, classNode)
 
         docNode.set("isStatic", True)
@@ -332,7 +332,7 @@ def handleInterfaces(item, classNode, docTree):
 
 def handleConstructor(ctorItem, classNode):
     if ctorItem and ctorItem.type == "function":
-        commentAttributes = Comment.parseNode(ctorItem.parent.parent)
+        commentAttributes = Comment.parseNode(ctorItem.parent.parent)[-1]
         ctor = handleFunction(ctorItem, "ctor", commentAttributes, classNode, reportMissingDesc=False)
         ctor.set("isCtor", True)
         classNode.addListChild("constructor", ctor)
@@ -343,7 +343,7 @@ def handleStatics(item, classNode):
         keyvalue = value.parent
         value = value.getFirstChild()
 
-        commentAttributes = Comment.parseNode(keyvalue)
+        commentAttributes = Comment.parseNode(keyvalue)[-1]
 
         # handle @signature
         if value.type != "function":
@@ -373,7 +373,7 @@ def handleMembers(item, classNode):
         keyvalue = value.parent
         value = value.getFirstChild()
 
-        commentAttributes = Comment.parseNode(keyvalue)
+        commentAttributes = Comment.parseNode(keyvalue)[-1]
 
         # handle @signature
         if value.type != "function":
@@ -474,7 +474,7 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
         funcName = access + funcName + name
         functionCode = propData[funcName]
         node = treeutil.compileString(functionCode)
-        commentAttributes = Comment.parseNode(node)
+        commentAttributes = Comment.parseNode(node)[-1]
         docNode = handleFunction(node, funcName, commentAttributes, classNode)
         docNode.remove("line")
         docNode.set("fromProperty", propertyName)
@@ -581,7 +581,7 @@ def generateGroupPropertyMethod(propertyName, groupMembers, mode, classNode):
         "paramList" : ", ".join(groupMembers)
     })
     functionNode = treeutil.compileString(functionCode)
-    commentAttributes = Comment.parseNode(functionNode)
+    commentAttributes = Comment.parseNode(functionNode)[-1]
     docNode = handleFunction(functionNode, functionName, commentAttributes, classNode)
 
     docNode.set("fromProperty", propertyName)
@@ -637,7 +637,7 @@ def handleProperties(item, classNode):
 
         # If the description has a type specified then take this type
         # (and not the one extracted from the paramsMap)
-        commentAttributes = Comment.parseNode(keyvalue)
+        commentAttributes = Comment.parseNode(keyvalue)[-1]
         addTypeInfo(node, Comment.getAttrib(commentAttributes, "description"), item)
         handleDeprecated(node, commentAttributes)
         handleAccess(node, commentAttributes)
@@ -656,7 +656,7 @@ def handleEvents(item, classNode):
 
         node = tree.Node("event")
 
-        commentAttributes = Comment.parseNode(keyvalue)
+        commentAttributes = Comment.parseNode(keyvalue)[-1]
         try:
             desc = commentAttributes[0]["text"]
         except (IndexError, KeyError):
@@ -825,7 +825,7 @@ def handleConstantDefinition(item, classNode):
             node.set("value", arrayNode.toJS(pp))
             node.set("type", "Array")
 
-    commentAttributes = Comment.parseNode(item)
+    commentAttributes = Comment.parseNode(item)[-1]
     description = Comment.getAttrib(commentAttributes, "description")
     addTypeInfo(node, description, item)
 
@@ -1407,7 +1407,7 @@ function(%(firstParamName)s, %(secondParamName)s) {}""" % ({
     })
 
     node = treeutil.compileString(functionCode)
-    commentAttributes = Comment.parseNode(node)
+    commentAttributes = Comment.parseNode(node)[-1]
     docNode = handleFunction(node, methodNode.get("name"), commentAttributes, treeutil.selectNode(methodNode, "../.."))
 
     oldParams = methodNode.getChild("params", False)

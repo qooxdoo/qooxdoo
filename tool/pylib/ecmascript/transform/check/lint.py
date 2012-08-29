@@ -464,23 +464,24 @@ def warn(msg, fname, node):
 def get_at_hints(node, at_hints=None):
     if at_hints is None:
         at_hints = defaultdict(dict)
-    commentAttributes = Comment.parseNode(node)  # searches comment "around" this node
-    for entry in commentAttributes:
-         # {'arguments': ['a', 'b'],
-         #  'category': u'lint',
-         #  'functor': u'ignoreReferenceField',
-         #  'text': u'<p>ignoreReferenceField(a,b)</p>'
-         # }
-        cat = entry['category']
-        if cat=='lint':
-            functor = entry['functor']
-            if functor not in at_hints[cat]:
-                at_hints[cat][functor] = set()
-            at_hints[cat][functor].update(entry['arguments']) 
-        elif cat=="ignore":
-            if cat not in at_hints:
-                at_hints[cat] = set()
-            at_hints[cat].update(entry['arguments'])
+    commentsArray = Comment.parseNode(node)  # searches comment "around" this node
+    for commentAttributes in commentsArray:
+        for entry in commentAttributes:
+             # {'arguments': ['a', 'b'],
+             #  'category': u'lint',
+             #  'functor': u'ignoreReferenceField',
+             #  'text': u'<p>ignoreReferenceField(a,b)</p>'
+             # }
+            cat = entry['category']
+            if cat=='lint':
+                functor = entry['functor']
+                if functor not in at_hints[cat]:
+                    at_hints[cat][functor] = set()
+                at_hints[cat][functor].update(entry['arguments']) 
+            elif cat=="ignore":
+                if cat not in at_hints:
+                    at_hints[cat] = set()
+                at_hints[cat].update(entry['arguments'])
     # include @hints of parent scopes
     scope = scopes.find_enclosing(node)
     if scope:
