@@ -552,7 +552,7 @@ Description
                *(Deprecated)* This key is deprecated for the more general :ref:`@ignore <pages/development/api_jsdoc_ref#ignore>` hint.
              * **ignoreUnused**
                
-               Scoped variables (parameters or declared with ``var``) which are never used.
+               Scoped variables (function parameters, function expression's identifier, or variables declared with ``var``) which are never used.
              * **ignoreJsdocKey** *[Not yet implemented]*
                
                JSDoc @ keys which are either unknown (i.e. not documented on this page) or do not comply with the syntax given here.
