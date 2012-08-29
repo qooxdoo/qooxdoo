@@ -296,7 +296,6 @@ def handleSingleton(classNode, docTree):
  * This method has been added by setting the "type" key in the class definition
  * ({@link qx.Class#define}) to "singleton".
  *
- * @type static
  * @return {%s} The singleton instance of this class.
  */
 function() {}""" % className
