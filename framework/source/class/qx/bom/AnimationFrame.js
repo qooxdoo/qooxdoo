@@ -48,7 +48,7 @@
  * frame.on("frame", function(timePassed) {
  *   // ... calculate the current step and apply it
  * }, this);
- * frame.start(duration);
+ * frame.startSequence(duration);
  * </pre>
  */
 qx.Bootstrap.define("qx.bom.AnimationFrame", 

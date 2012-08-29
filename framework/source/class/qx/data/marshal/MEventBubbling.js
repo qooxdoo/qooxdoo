@@ -83,6 +83,15 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
      */
     _registerEventChaining : function(value, old, name)
     {
+      // if an old value is given, remove the old listener if possible
+      if (old != null && old.getUserData && old.getUserData("idBubble-" + this.$$hash) != null) {
+        var listeners = old.getUserData("idBubble-" + this.$$hash);
+        for (var i = 0; i < listeners.length; i++) {
+          old.removeListenerById(listeners[i]);
+        }
+        old.setUserData("idBubble-" + this.$$hash, null);
+      }
+
       // if the child supports chaining
       if ((value instanceof qx.core.Object)
         && qx.Class.hasMixin(value.constructor, qx.data.marshal.MEventBubbling)
@@ -100,14 +109,6 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
           value.setUserData("idBubble-" + this.$$hash, listeners);
         }
         listeners.push(id);
-      }
-      // if an old value is given, remove the old listener if possible
-      if (old != null && old.getUserData && old.getUserData("idBubble-" + this.$$hash) != null) {
-        var listeners = old.getUserData("idBubble-" + this.$$hash);
-        for (var i = 0; i < listeners.length; i++) {
-          old.removeListenerById(listeners[i]);
-        }
-        old.setUserData("idBubble-" + this.$$hash, null);
       }
     },
 

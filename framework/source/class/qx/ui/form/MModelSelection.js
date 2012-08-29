@@ -80,7 +80,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
           this.setModelSelection(modelSelection);
         } catch (e) {
           throw new Error(
-            "Could not set the model selection. Maybe your models are not unique?"
+            "Could not set the model selection. Maybe your models are not unique? " + e
           );
         }
       }
