@@ -103,6 +103,9 @@ qx.Class.define("tutorial.Application",
     },
 
     run : function() {
+      // reset the play area
+      this.__playArea.reset({}, {});
+
       var code = this.__editor.getCode();
       // try to create a function
       try {
@@ -110,7 +113,6 @@ qx.Class.define("tutorial.Application",
       } catch(ex) {
         var exc = ex;
       }
-
       // run the code
       try {
         // run the application
