@@ -468,6 +468,127 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
 
       this.assertCalledOnce(spy);
       this.assertArrayEquals(["D", "A", "B", "C"], this.array.toArray(), "Changes are not applied!");
+    },
+
+
+    testShiftAndSet : function()
+    {
+      // [BUG #6406]
+      var model = qx.data.marshal.Json.createModel(
+        [{ foo : "one" }, { foo : "two" }, { foo : "three" }], true
+      );
+      // first do a shift operation
+      model.shift();
+
+      var that = this;
+      var handler = function(e) {
+        // check the data
+        that.assertEquals("zwei", e.getData().value);
+        that.assertEquals("[0].foo", e.getData().name);
+        that.assertEquals("two", e.getData().old);
+      }
+
+      var spy = this.spy(handler);
+      model.addListener("changeBubble", spy, this);
+
+      model.getItem(0).setFoo("zwei");
+    },
+
+
+    testReverseAndSet : function()
+    {
+      // [BUG #6406]
+      var model = qx.data.marshal.Json.createModel(
+        [{ foo : "one" }, { foo : "two" }, { foo : "three" }], true
+      );
+      // first do a shift operation
+      model.reverse();
+
+      var that = this;
+      var handler = function(e) {
+        // check the data
+        that.assertEquals("drei", e.getData().value);
+        that.assertEquals("[0].foo", e.getData().name);
+        that.assertEquals("three", e.getData().old);
+      }
+
+      var spy = this.spy(handler);
+      model.addListener("changeBubble", spy, this);
+
+      model.getItem(0).setFoo("drei");
+    },
+
+
+    testUnshiftAndSet : function()
+    {
+      // [BUG #6406]
+      var model = qx.data.marshal.Json.createModel(
+        [{ foo : "one" }, { foo : "two" }, { foo : "three" }], true
+      );
+      // first do a shift operation
+      model.unshift(qx.data.marshal.Json.createModel({foo: "zero"}, true));
+
+      var that = this;
+      var handler = function(e) {
+        // check the data
+        that.assertEquals("eins", e.getData().value);
+        that.assertEquals("[1].foo", e.getData().name);
+        that.assertEquals("one", e.getData().old);
+      }
+
+      var spy = this.spy(handler);
+      model.addListener("changeBubble", spy, this);
+
+      model.getItem(1).setFoo("eins");
+    },
+
+    testSortAndSet : function()
+    {
+      // [BUG #6406]
+      var model = qx.data.marshal.Json.createModel(
+        [{ foo : "one" }, { foo : "two" }, { foo : "three" }], true
+      );
+      // first do a shift operation
+      model.sort(function(a, b) {
+        return a.foo !== "two";
+      });
+
+      var that = this;
+      var handler = function(e) {
+        // check the data
+        that.assertEquals("drei", e.getData().value);
+        that.assertEquals("[0].foo", e.getData().name);
+        that.assertEquals("three", e.getData().old);
+      }
+
+      var spy = this.spy(handler);
+      model.addListener("changeBubble", spy, this);
+
+      model.getItem(0).setFoo("drei");
+    },
+
+
+    testSpliceAndSet : function()
+    {
+      // [BUG #6406]
+      var model = qx.data.marshal.Json.createModel(
+        [{ foo : "one" }, { foo : "two" }, { foo : "three" }], true
+      );
+      // first do a shift operation
+      model.splice(0, 0, qx.data.marshal.Json.createModel({foo: "zero"}, true));
+
+      var that = this;
+      var handler = function(e) {
+        // check the data
+        that.assertEquals("eins", e.getData().value);
+        that.assertEquals("[1].foo", e.getData().name);
+        that.assertEquals("one", e.getData().old);
+      }
+
+      var spy = this.spy(handler);
+      model.addListener("changeBubble", spy, this);
+
+      model.getItem(1).setFoo("eins");
     }
   }
 });
