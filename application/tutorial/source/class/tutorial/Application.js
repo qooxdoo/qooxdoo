@@ -140,10 +140,12 @@ qx.Class.define("tutorial.Application",
         }
         var res = list.shift();
         var uri = qx.util.ResourceManager.getInstance().toUri(res);
-        var loader = new qx.io.ScriptLoader();
-        loader.load(uri, function() {
+        var loader = new qx.bom.request.Script();
+        loader.onload = function() {
           load(list);
-        });
+        };
+        loader.open("GET", uri);
+        loader.send();
       }
       load(resource);
     }
