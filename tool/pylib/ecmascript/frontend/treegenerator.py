@@ -88,6 +88,8 @@ ASSIGN_OPERATORS = ["ASSIGN", "ASSIGN_ADD", "ASSIGN_SUB", "ASSIGN_MUL", \
 
 LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
 
+STATEMENT_NODE_TYPES = "loop var continue break return switch throw try".split()
+
 StmntTerminatorTokens = ("eol", ";", "}", "eof")
 
 SYMBOLS = {
@@ -274,7 +276,6 @@ class TokenStream(IterObject):
                 self.outData.appendleft(s)
                 # handle comments
                 if self.comments:
-                    #import pydb; pydb.debugger()
                     s.comments = self.comments
                     self.comments = []
                 yield s
@@ -334,6 +335,10 @@ class symbol_base(Node):
 
     def isVar(self):
         return self.type in ("dotaccessor", "identifier")
+
+    def isPrefixOp(self):
+        return ( self.type in STATEMENT_NODE_TYPES or
+            ( self.type == "operation" and self.get("left", False)=="true"))
 
     def __repr__(self):
         if self.id == "identifier" or self.id == "constant":

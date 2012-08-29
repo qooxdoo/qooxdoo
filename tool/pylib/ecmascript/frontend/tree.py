@@ -562,8 +562,8 @@ class Node(object):
 
         return self.parent.getLastChild(False, ignoreComments) == self
 
-    def isVar(self):
-        return self.type in NODE_VARIABLE_TYPES
+    #def isVar(self):
+    #    return self.type in NODE_VARIABLE_TYPES
 
     def isStatement(self):
         return self.parent and self.parent.type in NODE_STATEMENT_CONTAINERS

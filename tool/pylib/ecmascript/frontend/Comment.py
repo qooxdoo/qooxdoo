@@ -347,6 +347,7 @@ class Comment(object):
                     except py.ParseException, e:
                         if opts.warn_jsdoc_key_syntax:
                             context.console.warn("Unable to parse '@%s' JSDoc entry: %s" % (hint_key,line))
+                            import pydb; pydb.debugger()
                         continue
                 elif hint_key in ( # temporarily, to see what we have in the framework
                         'protected', # ?
@@ -962,8 +963,11 @@ def findAssociatedComment(node):
                 tnode = tnode.parent
             else: 
                 break
-        # 2. go down to lexically first token
-        head_token_node = treeutil.findLeftmostChild(stmt_node)
+        # 2. determine left-most token
+        if stmt_node.isPrefixOp():
+            head_token_node = stmt_node
+        else:
+            head_token_node = treeutil.findLeftmostChild(stmt_node)
         return head_token_node
 
     # --------------------------------------------------------------------------
