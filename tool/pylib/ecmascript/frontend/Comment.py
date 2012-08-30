@@ -347,7 +347,6 @@ class Comment(object):
                     except py.ParseException, e:
                         if opts.warn_jsdoc_key_syntax:
                             context.console.warn("Unable to parse '@%s' JSDoc entry: %s" % (hint_key,line))
-                            import pydb; pydb.debugger()
                         continue
                 elif hint_key in ( # temporarily, to see what we have in the framework
                         'protected', # ?

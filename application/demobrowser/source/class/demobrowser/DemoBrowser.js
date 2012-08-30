@@ -1203,7 +1203,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
             try {
               this.__logView.fetch(fwindow.qx.log.Logger);
-            } catch (e) {
+            } catch (ex) {
               // if the logger is not available, ignore it
               return;
             }

@@ -356,7 +356,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
             request["_onaborted"](event);
           }
         }
-        catch(ex)
+        catch(ex1)
         {
         }
       }

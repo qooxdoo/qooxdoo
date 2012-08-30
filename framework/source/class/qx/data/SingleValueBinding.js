@@ -926,17 +926,17 @@ qx.Class.define("qx.data.SingleValueBinding",
             options.onUpdate(sourceObject, targetObject, data);
           }
 
-        } catch (e) {
-          if (! (e instanceof qx.core.ValidationError)) {
-            throw e;
+        } catch (ex) {
+          if (! (ex instanceof qx.core.ValidationError)) {
+            throw ex;
           }
 
           if (options && options.onSetFail) {
-            options.onSetFail(e);
+            options.onSetFail(ex);
           } else {
             qx.log.Logger.warn(
               "Failed so set value " + data + " on " + targetObject
-               + ". Error message: " + e
+               + ". Error message: " + ex
             );
           }
         }
