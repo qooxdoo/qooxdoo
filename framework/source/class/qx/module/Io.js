@@ -92,12 +92,13 @@ qx.Bootstrap.define("qx.module.Io", {
      */
     jsonp : function(url, settings) {
       var script = new qx.bom.request.Jsonp();
-      if (settings.callbackName) {
+      if (settings && settings.callbackName) {
         script.setCallbackName(settings.callbackName);
       }
-      if (settings.callbackParam) {
+      if (settings && settings.callbackParam) {
         script.setCallbackParam(settings.callbackParam);
       }
+      script.setPrefix("q.$$"); // needed in case no callback name is given
       script.open("get", url);
       return script;
     }
