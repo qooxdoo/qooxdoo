@@ -2168,7 +2168,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
                         if (!this.isSelectionCollapsed()) {
                           sel.collapseToStart();
                         }
-                      } catch(e) {}
+                      } catch(ex) {}
 
                       // We have found the correct text node, leave loop here
                       break;
