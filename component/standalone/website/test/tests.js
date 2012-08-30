@@ -2199,6 +2199,15 @@ testrunner.define({
     this.wait();
   },
 
+  testXhrWithHeader : function() {
+    q.io.xhr("tests.js", {header: {"Content-Type": "application/json"}}).on("loadend", function(xhr) {
+      this.resume(function() {
+        this.assertEquals(4, xhr.readyState);
+        xhr.dispose();
+      }, this);
+    }, this).send();
+    this.wait();
+  },
 
   testBasicScript : function() {
     q.io.script("scriptload.js").on("loadend", function(script) {
