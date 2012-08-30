@@ -86,6 +86,7 @@ qx.Class.define("qx.dev.unit.Sinon",
 
 /** 
  * @ignore(module, require, global)
+ * @lint ignoreUnused(alen, requestMethod)
  */
 (function() {
 
