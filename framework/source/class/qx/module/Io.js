@@ -50,13 +50,13 @@ qx.Bootstrap.define("qx.module.Io", {
         settings = {};
       }
       var xhr = new qx.bom.request.Xhr();
+      xhr.open(settings.method, url, settings.async);
       if (settings.header) {
         var header = settings.header;
         for (var key in header) {
           xhr.setRequestHeader(key, header[key]);
         }
       }
-      xhr.open(settings.method, url, settings.async);
       return xhr;
     },
 
