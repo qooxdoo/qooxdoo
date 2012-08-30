@@ -930,6 +930,7 @@ def parseNode(node):
     # token that got the comment attached; look for that
     # in the AST this translates to the left-most child for statements and expressions
     commentsNode = findAssociatedComment(node)
+    #print "comments node:", str(commentsNode)
     result = []  # [[{}], ...]
 
     if commentsNode and commentsNode.comments:
@@ -963,10 +964,11 @@ def findAssociatedComment(node):
             else: 
                 break
         # 2. determine left-most token
-        if stmt_node.isPrefixOp():
-            head_token_node = stmt_node
-        else:
-            head_token_node = treeutil.findLeftmostChild(stmt_node)
+        #if stmt_node.isPrefixOp():
+        #    head_token_node = stmt_node
+        #else:
+        #    head_token_node = treeutil.findLeftmostChild(stmt_node)
+        head_token_node = stmt_node.toListG().next()
         return head_token_node
 
     # --------------------------------------------------------------------------

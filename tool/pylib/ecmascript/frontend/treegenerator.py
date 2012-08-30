@@ -44,7 +44,7 @@
 #   nud => pfix
 ##
 
-import sys, os, re, types, string
+import sys, os, re, types, string, itertools as itert
 from ecmascript.frontend.SyntaxException import SyntaxException
 from ecmascript.frontend.tree            import Node
 from ecmascript.frontend.Scanner         import IterObject, LQueue, LimLQueue, is_last_escaped
@@ -373,6 +373,11 @@ class symbol_base(Node):
     def toJS(self, opts):
         return self.get("value", u'')
 
+    # serialization to list of nodes
+    def toListG(self):
+        for e in itert.chain([self], *[c.toListG() for c in self.children]):
+            yield e
+
 
     def compileToken(self, name, compact=False):
         s = u''
@@ -514,6 +519,11 @@ def infix(id_, bp):
         return r
     symbol(id_).toJS = toJS
 
+    def toListG(self):
+        for e in itert.chain(self.children[0].toListG(), [self], self.children[1].toListG()):
+            yield e
+    symbol(id_).toListG = toListG
+
 
 ##
 # infix "verb" operators, i.e. that need a space around themselves (like 'instanceof', 'in')
@@ -559,6 +569,11 @@ def prefix(id_, bp):
         return r
     symbol(id_).toJS = toJS
 
+    def toListG(self):
+        for e in itert.chain([self], self.children[0].toListG()):
+            yield e
+    symbol(id_).toListG = toListG
+
 
 ##
 # prefix "verb" operators, i.e. that need a space before their operand like 'delete'
@@ -601,6 +616,16 @@ def preinfix(id_, bp):  # pre-/infix operators (+, -)
         return ''.join(r)
     symbol(id_).toJS = toJS
 
+    def toListG(self):
+        prefix = self.get("left",0)
+        if prefix and prefix == 'true':
+            r = [[self], self.children[0].toListG()]
+        else:
+            r = [self.children[0].toListG(), [self], self.children[1].toListG()]
+        for e in itert.chain(*r):
+            yield e
+    symbol(id_).toListG = toListG
+
 
 def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
     def pfix(self):  # prefix
@@ -616,16 +641,23 @@ def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
     symbol(id_).ifix = ifix
 
     def toJS(self, opts):
-        r = u''
         operator = self.get("value")
         operand = self.children[0].toJS(opts)
-        r += self.get("value")
         if self.get("left", 0) == "true":
             r = [operator, operand]
         else:
             r = [operand, operator]
         return u''.join(r)
     symbol(id_).toJS = toJS
+
+    def toListG(self):
+        if self.get("left",0) == 'true':
+            r = [[self], self.children[0].toListG()]
+        else:
+            r = [self.children[0].toListG(), [self]]
+        for e in itert.chain(*r):
+            yield e
+    symbol(id_).toListG = toListG
 
 
 def advance(id_=None):
@@ -721,6 +753,9 @@ def toJS(self, opts):
         r += self.write(self.get("value"))
     return r
 
+@method(symbol("constant"))
+def toListG(self):
+    yield self
 
 symbol("identifier")
 
@@ -735,6 +770,10 @@ def toJS(self, opts):
     if v:
         r = self.write(v)
     return r
+
+@method(symbol("identifier"))
+def toListG(self):
+    yield self
 
 
 @method(symbol("/"))   # regexp literals
@@ -785,6 +824,11 @@ def toJS(self, opts):
     r.append(self.children[2].toJS(opts))
     return ''.join(r)
 
+@method(symbol("?"))
+def toListG(self):
+    for e in itert.chain(self.children[0].toListG(), [self], self.children[1].toListG(), self.children[2].toListG()):
+        yield e
+
 
 ##
 # The case of <variable>:
@@ -822,6 +866,11 @@ def toJS(self, opts):
     r += '.'
     r += self.children[1].toJS(opts)
     return r
+
+@method(symbol("dotaccessor"))
+def toListG(self):
+    for e in itert.chain(self.children[0].toListG(), [self], self.children[1].toListG()):
+        yield e
 
 ##
 # walk down to find the "left-most" identifier ('a' in 'a.b().c')
@@ -877,6 +926,11 @@ symbol("operand")
 def toJS(self, opts):
     return self.children[0].toJS(opts)
 
+@method(symbol("operand"))
+def toListG(self):
+    for e in self.children[0].toListG():
+        yield e
+
 
 @method(symbol("("))  # <group>
 def pfix(self):
@@ -911,6 +965,11 @@ def toJS(self, opts):
     r.append(','.join(a))
     r.append(')')
     return ''.join(r)
+
+@method(symbol("group"))
+def toListG(self):
+    for e in itert.chain([self], [c.toListG() for c in self.children]):
+        yield e
 
 
 symbol("]")
@@ -962,6 +1021,11 @@ def toJS(self, opts):
     r += ']'
     return r
 
+@method(symbol("accessor"))
+def toListG(self):
+    for e in itert.chain(self.children[0].toListG(), [self], self.children[1].toListG()):
+        yield e
+
 
 symbol("array")
 
@@ -972,12 +1036,23 @@ def toJS(self, opts):
         r.append(c.toJS(opts))
     return '[' + u','.join(r) + ']'
 
+@method(symbol("array"))
+def toListG(self):
+    for c in self.children:
+        for e in c.toListG():
+            yield e
+
 
 symbol("key")
 
 @method(symbol("key"))
 def toJS(self, opts):
     return self.children[0].toJS(opts)
+
+@method(symbol("key"))
+def toListG(self):
+    for e in self.children[0].toListG():
+        yield e
 
 
 symbol("}")
@@ -1036,9 +1111,19 @@ def toJS(self, opts):
     r += self.write("}")
     return r
 
+@method(symbol("map"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 @method(symbol("value"))
 def toJS(self, opts):
     return self.children[0].toJS(opts)
+
+@method(symbol("value"))
+def toListG(self):
+    for e in self.children[0].toListG():
+        yield e
 
 symbol("keyvalue")
 
@@ -1058,6 +1143,11 @@ def toJS(self, opts):
         quote = ''
     value = self.getChild("value").toJS(opts)
     return quote + key + quote + ':' + value
+
+@method(symbol("keyvalue"))
+def toListG(self):
+    for e in itert.chain([self], self.children[0].toListG()):
+        yield e
 
 
 ##
@@ -1081,6 +1171,11 @@ def toJS(self, opts):
     r.append(self.children[0].toJS(opts))
     r.append('}')
     return u''.join(r)
+
+@method(symbol("block"))
+def toListG(self):
+    for e in itert.chain([self], self.children[0].toListG()):
+        yield e
 
 symbol("function")
 
@@ -1129,6 +1224,11 @@ def toJS(self, opts):
     r += self.getChild("body").toJS(opts)
     return r
 
+@method(symbol("function"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 def toJS(self, opts):
     r = []
     r.append('(')
@@ -1142,6 +1242,13 @@ def toJS(self, opts):
 symbol("params").toJS = toJS
 symbol("arguments").toJS = toJS  # same here
 
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
+symbol("params").toListG = toListG
+symbol("arguments").toListG = toListG  # same here
+
 @method(symbol("body"))
 def toJS(self, opts):
     r = []
@@ -1150,6 +1257,11 @@ def toJS(self, opts):
     if self.children[0].id != 'block':
         r.append(';')
     return u''.join(r)
+
+@method(symbol("body"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
 
 
 # -- statements ------------------------------------------------------------
@@ -1191,9 +1303,19 @@ def toJS(self, opts):
     r.append(','.join(a))
     return ''.join(r)
 
+@method(symbol("var"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 @method(symbol("definition"))
 def toJS(self, opts):
     return self.children[0].toJS(opts)
+
+@method(symbol("definition"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
 
 ##
 # returns the identifier node of the defined symbol
@@ -1307,6 +1429,11 @@ def toJS(self, opts):
     r.append(self.getChild("body").toJS(opts))
     return u''.join(r)
 
+@method(symbol("for"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 @method(symbol("in"))  # of 'for (in)'
 def toJS(self, opts):
     r = u''
@@ -1317,6 +1444,11 @@ def toJS(self, opts):
     r += self.children[1].toJS(opts)
     return r
 
+@method(symbol("in"))
+def toListG(self):
+    for e in itert.chain(self.children[0].toListG(), [self], self.children[1].toListG()):
+        yield e
+
 
 @method(symbol("expressionList"))
 def toJS(self, opts):  # WARN: this conflicts (and is overwritten) in for(;;).toJS
@@ -1324,6 +1456,11 @@ def toJS(self, opts):  # WARN: this conflicts (and is overwritten) in for(;;).to
     for c in self.children:
         r.append(c.toJS(opts))
     return ','.join(r)
+
+@method(symbol("expressionList"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
 
 
 symbol("while")
@@ -1353,6 +1490,11 @@ def toJS(self, opts):
     r += self.children[1].toJS(opts)
     return r
 
+@method(symbol("while"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 symbol("do")
 
 @method(symbol("do"))
@@ -1380,6 +1522,11 @@ def toJS(self, opts):
     r.append(')')
     return ''.join(r)
 
+@method(symbol("do"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 
 symbol("with")
 
@@ -1406,6 +1553,11 @@ def toJS(self, opts):
     r += [")"]
     r += [self.children[1].toJS(opts)]
     return u''.join(r)
+
+@method(symbol("with"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
 
 
 symbol("if"); symbol("else")
@@ -1457,8 +1609,15 @@ def toJS(self, opts):
     r += self.space(False,result=r)
     return r
 
+@method(symbol("if"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 symbol("loop")
 
+##
+# TODO: Is this code used?!
 @method(symbol("loop"))
 def toJS(self, opts):
     r = u''
@@ -1478,19 +1637,6 @@ def toJS(self, opts):
 
     if loopType == "IF":
         pass
-    #    r += self.write("if")
-    #    r += self.space(False,result=r)
-    #    # condition
-    #    r += '('
-    #    r += self.children[0].toJS(opts)
-    #    r += ')'
-    #    # then
-    #    r += self.children[1].toJS(opts)
-    #    # else
-    #    if len(self.children) == 3:
-    #        r += self.write("else")
-    #        r += self.children[2].toJS(opts)
-    #    r += self.space(False,result=r)
 
     elif loopType == "WHILE":
         r += self.write("while")
@@ -1531,6 +1677,11 @@ def toJS(self, opts):
         r += self.write(self.children[0].toJS(opts))
     return r
 
+@method(symbol("break"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 
 symbol("continue")
 
@@ -1550,6 +1701,11 @@ def toJS(self, opts):
         r += self.write(self.children[0].toJS(opts))
     return r
 
+@method(symbol("continue"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 
 symbol("return")
 
@@ -1567,6 +1723,11 @@ def toJS(self, opts):
         r.append(self.space())
         r.append(self.children[0].toJS(opts))
     return ''.join(r)
+
+@method(symbol("return"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
 
 
 @method(symbol("new"))  # need to treat 'new' explicitly, for the awkward 'new Foo()' "call" syntax
@@ -1639,6 +1800,11 @@ def toJS(self, opts):
     r.append('}')
     return ''.join(r)
 
+@method(symbol("switch"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 
 @method(symbol("case"))
 def toJS(self, opts):
@@ -1651,6 +1817,11 @@ def toJS(self, opts):
         r.append(self.children[1].toJS(opts))
     return ''.join(r)
 
+@method(symbol("case"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 
 @method(symbol("default"))
 def toJS(self, opts):
@@ -1660,6 +1831,11 @@ def toJS(self, opts):
     if len(self.children) > 0:
         r.append(self.children[0].toJS(opts))
     return ''.join(r)
+
+@method(symbol("default"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
 
 
 symbol("try"); symbol("catch"); symbol("finally")
@@ -1708,6 +1884,11 @@ def toJS(self, opts):
         r.append('finally')
         r.append(finally_.children[0].toJS(opts))
     return ''.join(r)
+
+@method(symbol("try"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
 
 
 symbol("throw")
@@ -1919,6 +2100,11 @@ def toJS(self, opts):
     r += self.getChild("operand").toJS(opts)
     r += self.getChild("arguments").toJS(opts)
     return r
+
+@method(symbol("call"))
+def toListG(self):
+    for e in itert.chain(*[c.toListG() for c in self.children]):
+        yield e
 
 
 symbol("comment")
