@@ -1,6 +1,6 @@
 .. _pages/data_binding/changebubble#data_binding_events:
 
-Data Binding Events
+Events
 *******************
 
 Events are a key concept of data binding. They are responsible for notifying every connected view (which can be more than one) to update their representation of the data stored in the model. You can see the events as a nervous system for your data bound app. In general, there are two different kinds of events.
