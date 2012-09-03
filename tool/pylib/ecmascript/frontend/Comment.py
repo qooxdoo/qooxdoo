@@ -952,11 +952,17 @@ def findAssociatedComment(node):
     # For every <start_node> find the enclosing statement node, and from that
     # the node of the first token (as this will carry a pot. comment) 
     def statement_head_from(start_node):
-        # 1. find enclosing statement node
+        # 1. find enclosing "local root" node
+        # (e.g. the enclosing statement or file node)
         tnode = start_node
         stmt_node = None
         while True:  # this will always terminate, as every JS node is a child of a statement
             if tnode.isStatement():
+                stmt_node = tnode
+                break
+            elif tnode.type == 'file': 
+                # TODO: (bug#6765) why does/n't it crash without this?!
+                #       are file-level comments being picked up correctly?!
                 stmt_node = tnode
                 break
             elif tnode.parent: 
