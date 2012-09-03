@@ -136,7 +136,7 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__sel = new qx.ui.mobile.form.SelectBox();
       this.__sel.setDialogTitle(selQuestion);
       this.__sel.setModel(dd);
-
+      
       form.add(this.__sel, selQuestion);
 
       return form;
