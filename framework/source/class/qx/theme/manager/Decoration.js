@@ -225,9 +225,8 @@ qx.Class.define("qx.theme.manager.Decoration",
         }
       }
 
-      if (!value) {
-        this.__dynamic = {};
-      }
+      this._disposeMap("__dynamic");
+      this.__dynamic = {};
     }
   },
 
