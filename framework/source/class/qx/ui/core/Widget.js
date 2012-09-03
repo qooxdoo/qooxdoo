@@ -1026,8 +1026,15 @@ qx.Class.define("qx.ui.core.Widget",
 
       var manager = qx.theme.manager.Decoration.getInstance();
 
-      var first = manager.resolve(a).getInsets();
-      var second = manager.resolve(b).getInsets();
+      var first = manager.resolve(a);
+      var second = manager.resolve(b);
+
+      if (!first || !second) {
+        return true;
+      }
+
+      first = first.getInsets();
+      second = second.getInsets();
 
       if (first.top != second.top ||
           first.right != second.right ||
