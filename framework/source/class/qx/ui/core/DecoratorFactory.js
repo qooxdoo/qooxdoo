@@ -31,6 +31,11 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
   {
     this.base(arguments);
     this.__pool = {};
+
+    // dynamic theme switch
+    qx.theme.manager.Appearance.getInstance().addListener(
+      "changeTheme", this.invalidatePool, this
+    );
   },
 
 
@@ -132,6 +137,18 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
     },
 
 
+    /**
+     * Empties the pool in case its invalid.
+     */
+    invalidatePool : function() {
+      var pool = this.__pool;
+      for (var key in pool) {
+        qx.util.DisposeUtil.disposeArray(pool, key);
+      }
+      this.__pool = {};
+    },
+
+
     toString : qx.core.Environment.select("qx.debug",
     {
       "true" : function()
@@ -158,14 +175,13 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
 
   destruct : function()
   {
-    if (!qx.core.ObjectRegistry.inShutDown)
-    {
-      var pool = this.__pool;
-      for (var key in pool) {
-        qx.util.DisposeUtil.disposeArray(pool, key);
-      }
-    }
+    if (!qx.core.ObjectRegistry.inShutDown) {
+      this.invalidatePool();
 
-    this.__pool = null;
+      // dynamic theme switch
+      qx.theme.manager.Appearance.getInstance().removeListener(
+        "changeTheme", this.invalidatePool, this
+      );
+    }
   }
 });
