@@ -3896,8 +3896,11 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
+      // empty the pool after the reset of the decorator and the shadow properties
+      qx.ui.core.Widget.__decoratorPool.invalidatePool();
+      qx.ui.core.Widget.__shadowPool.invalidatePool();
+
       // update the appearance
-      this.__updateSelector = true;
       this.syncAppearance();
     },
 

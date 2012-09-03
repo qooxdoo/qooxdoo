@@ -31,11 +31,6 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
   {
     this.base(arguments);
     this.__pool = {};
-
-    // dynamic theme switch
-    qx.theme.manager.Appearance.getInstance().addListener(
-      "changeTheme", this.invalidatePool, this
-    );
   },
 
 
@@ -177,11 +172,6 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
   {
     if (!qx.core.ObjectRegistry.inShutDown) {
       this.invalidatePool();
-
-      // dynamic theme switch
-      qx.theme.manager.Appearance.getInstance().removeListener(
-        "changeTheme", this.invalidatePool, this
-      );
     }
   }
 });
