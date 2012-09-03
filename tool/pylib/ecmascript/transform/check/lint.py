@@ -34,11 +34,13 @@ from generator import Context
 
 class LintChecker(treeutil.NodeVisitor):
 
-    def __init__(self, root_node, file_name, opts):
+    def __init__(self, root_node, file_name_, opts):
         super(LintChecker, self).__init__()
         self.root_node = root_node
-        self.file_name = file_name  # it's a warning module, so i need a proper file name
+        self.file_name = file_name_  # it's a warning module, so i need a proper file name
         self.opts = opts
+        global file_name
+        file_name = file_name_
 
     def visit_file(self, node):
         # we can run the basic scope checks as with function nodes
@@ -485,6 +487,7 @@ def get_at_hints(node, at_hints=None):
     # include @hints of parent scopes
     scope = scopes.find_enclosing(node)
     if scope:
+        if 0: print "debug:", file_name, node, scope.node
         at_hints = get_at_hints(scope.node, at_hints)
     return at_hints
 
