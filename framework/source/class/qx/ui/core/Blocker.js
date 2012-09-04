@@ -196,6 +196,13 @@ qx.Class.define("qx.ui.core.Blocker",
     },
 
 
+    // overridden
+    _onChangeTheme : function() {
+      this.base(arguments);
+      this._applyColor(this.getColor());
+    },
+
+
     /**
      * Set the style to all blockers (blocker and content blocker).
      *

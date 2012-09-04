@@ -2665,6 +2665,43 @@ qx.Class.define("qx.ui.core.Widget",
       // update the appearance
       this.updateAppearance();
 
+      // DECORATOR //
+      // if its a user value and a string which should be resolved
+      var value = qx.util.PropertyUtil.getUserValue(this, "decorator");
+      if (qx.lang.Type.isString(value)) {
+        // make sure to update the decorator
+        this._applyDecorator(null, value);
+        qx.ui.core.Widget.__decoratorPool.invalidatePool();
+        this._applyDecorator(value);
+      }
+
+      // SHADOW //
+      // if its a user value and a string which should be resolved
+      value = qx.util.PropertyUtil.getUserValue(this, "shadow");
+      if (qx.lang.Type.isString(value)) {
+        // make sure to update the shadow
+        this._applyShadow(null, value);
+        qx.ui.core.Widget.__shadowPool.invalidatePool();
+        this._applyShadow(value);
+      }
+
+      // FONT //
+      value = this.getFont();
+      if (qx.lang.Type.isString(value)) {
+        this._applyFont(value, value);
+      }
+
+      // TEXT COLOR //
+      value = this.getTextColor();
+      if (qx.lang.Type.isString(value)) {
+        this._applyTextColor(value, value);
+      }
+
+      // BACKGROUND COLOR //
+      value = this.getBackgroundColor();
+      if (qx.lang.Type.isString(value)) {
+        this._applyBackgroundColor(value, value);
+      }
     },
 
 
