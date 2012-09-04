@@ -84,9 +84,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      */
     __preloadImages : function()
     {
-      // Ensure that the theme is initialized
-      qx.theme.manager.Meta.getInstance().initialize();
-
       var STDCR = qx.ui.treevirtual.SimpleTreeDataCellRenderer;
 
       var ImageLoader = qx.io.ImageLoader;
