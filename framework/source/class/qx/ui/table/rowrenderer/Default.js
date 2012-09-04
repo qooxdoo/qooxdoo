@@ -40,24 +40,12 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   {
     this.base(arguments);
 
-    this.__fontStyleString = "";
-    this.__fontStyleString = {};
+    this.initThemeValues();
 
-    this._colors = {};
-
-    // link to font theme
-    this._renderFont(qx.theme.manager.Font.getInstance().resolve("default"));
-
-    // link to color theme
-    var colorMgr = qx.theme.manager.Color.getInstance();
-    this._colors.bgcolFocusedSelected = colorMgr.resolve("table-row-background-focused-selected");
-    this._colors.bgcolFocused = colorMgr.resolve("table-row-background-focused");
-    this._colors.bgcolSelected = colorMgr.resolve("table-row-background-selected");
-    this._colors.bgcolEven = colorMgr.resolve("table-row-background-even");
-    this._colors.bgcolOdd = colorMgr.resolve("table-row-background-odd");
-    this._colors.colSelected = colorMgr.resolve("table-row-selected");
-    this._colors.colNormal = colorMgr.resolve("table-row");
-    this._colors.horLine = colorMgr.resolve("table-row-line");
+    // dynamic theme switch
+    qx.theme.manager.Appearance.getInstance().addListener(
+      "changeTheme", this.initThemeValues, this
+    );
   },
 
 
@@ -92,6 +80,31 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     _colors : null,
     __fontStyle : null,
     __fontStyleString : null,
+
+    /**
+     * Initializes the colors from the color theme.
+     * @internal
+     */
+    initThemeValues : function() {
+      this.__fontStyleString = "";
+      this.__fontStyleString = {};
+
+      this._colors = {};
+
+      // link to font theme
+      this._renderFont(qx.theme.manager.Font.getInstance().resolve("default"));
+
+      // link to color theme
+      var colorMgr = qx.theme.manager.Color.getInstance();
+      this._colors.bgcolFocusedSelected = colorMgr.resolve("table-row-background-focused-selected");
+      this._colors.bgcolFocused = colorMgr.resolve("table-row-background-focused");
+      this._colors.bgcolSelected = colorMgr.resolve("table-row-background-selected");
+      this._colors.bgcolEven = colorMgr.resolve("table-row-background-even");
+      this._colors.bgcolOdd = colorMgr.resolve("table-row-background-odd");
+      this._colors.colSelected = colorMgr.resolve("table-row-selected");
+      this._colors.colNormal = colorMgr.resolve("table-row");
+      this._colors.horLine = colorMgr.resolve("table-row-line");
+    },
 
 
     /**
@@ -250,5 +263,10 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
   destruct : function() {
     this._colors = this.__fontStyle = this.__fontStyleString = null;
+
+    // remove dynamic theme listener
+    qx.theme.manager.Appearance.getInstance().removeListener(
+      "changeTheme", this.initThemeValues, this
+    );
   }
 });
