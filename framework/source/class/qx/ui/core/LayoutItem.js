@@ -27,6 +27,15 @@ qx.Class.define("qx.ui.core.LayoutItem",
   type : "abstract",
   extend : qx.core.Object,
 
+  construct : function() {
+    this.base(arguments);
+
+    // dynamic theme switch
+    qx.theme.manager.Appearance.getInstance().addListener(
+      "changeTheme", this._onChangeTheme, this
+    );
+  },
+
 
 
   /*
@@ -322,6 +331,36 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      DYNAMIC THEME SWITCH SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    _onChangeTheme : function() {
+      // reset all themeabled properties
+      var props = qx.util.PropertyUtil.getAllProperties(this.constructor);
+      for (var name in props) {
+        var desc = props[name];
+        // only themable properties not having a user value
+        if (desc.themeable && qx.util.PropertyUtil.getUserValue(this, name) == null) {
+          qx.util.PropertyUtil.resetThemed(this, name);
+        }
+      }
+
+      // empty the pool after the reset of the decorator and the shadow properties
+      qx.ui.core.Widget.__decoratorPool.invalidatePool();
+      qx.ui.core.Widget.__shadowPool.invalidatePool();
+
+      // update the appearance
+      if (this instanceof qx.ui.core.Widget) {
+        this.updateAppearance();
+      }
+    },
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT PROCESS
@@ -991,6 +1030,11 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
   destruct : function()
   {
+    // remove dynamic theme listener
+    qx.theme.manager.Appearance.getInstance().removeListener(
+      "changeTheme", this._onChangeTheme, this
+    );
+
     this.$$parent = this.$$subparent = this.__layoutProperties =
       this.__computedLayout = this.__userBounds = this.__sizeHint = null;
   }

@@ -83,11 +83,6 @@ qx.Class.define("qx.ui.core.Widget",
     this.initFocusable();
     this.initSelectable();
     this.initNativeContextMenu();
-
-    // dynamic theme switch
-    qx.theme.manager.Appearance.getInstance().addListener(
-      "changeTheme", this._onChangeTheme, this
-    );
   },
 
 
@@ -3880,35 +3875,6 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      DYNAMIC THEME SWITCH SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
-    _onChangeTheme : function() {
-
-      // reset all themeabled properties
-      var props = qx.util.PropertyUtil.getAllProperties(this.constructor);
-      for (var name in props) {
-        var desc = props[name];
-        // only themable properties not having a user value
-        if (desc.themeable && qx.util.PropertyUtil.getUserValue(this, name) == null) {
-          qx.util.PropertyUtil.resetThemed(this, name);
-        }
-      }
-
-      // empty the pool after the reset of the decorator and the shadow properties
-      qx.ui.core.Widget.__decoratorPool.invalidatePool();
-      qx.ui.core.Widget.__shadowPool.invalidatePool();
-
-      // update the appearance
-      this.syncAppearance();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       LOWER LEVEL ACCESS
     ---------------------------------------------------------------------------
     */
@@ -4132,11 +4098,6 @@ qx.Class.define("qx.ui.core.Widget",
       qx.ui.core.queue.Layout.remove(this);
       qx.ui.core.queue.Visibility.remove(this);
       qx.ui.core.queue.Widget.remove(this);
-
-      // remove dynamic theme listener
-      qx.theme.manager.Appearance.getInstance().removeListener(
-        "changeTheme", this._onChangeTheme, this
-      );
     }
 
     if (this.getContextMenu()) {
