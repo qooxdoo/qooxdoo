@@ -342,19 +342,13 @@ qx.Class.define("qx.ui.core.LayoutItem",
       var props = qx.util.PropertyUtil.getAllProperties(this.constructor);
       for (var name in props) {
         var desc = props[name];
-        // only themable properties not having a user value
-        if (desc.themeable && qx.util.PropertyUtil.getUserValue(this, name) == null) {
-          qx.util.PropertyUtil.resetThemed(this, name);
+        // only themeable properties not having a user value
+        if (desc.themeable) {
+          var userValue = qx.util.PropertyUtil.getUserValue(this, name);
+          if (userValue == null) {
+            qx.util.PropertyUtil.resetThemed(this, name);
+          }
         }
-      }
-
-      // empty the pool after the reset of the decorator and the shadow properties
-      qx.ui.core.Widget.__decoratorPool.invalidatePool();
-      qx.ui.core.Widget.__shadowPool.invalidatePool();
-
-      // update the appearance
-      if (this instanceof qx.ui.core.Widget) {
-        this.updateAppearance();
       }
     },
 

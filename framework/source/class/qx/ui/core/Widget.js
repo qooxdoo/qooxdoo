@@ -2648,7 +2648,24 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      DYNAMIC THEME SWITCH SUPPORT
+    ---------------------------------------------------------------------------
+    */
 
+    // overridden
+    _onChangeTheme : function() {
+      this.base(arguments);
+
+      // empty the pool after the reset of the decorator and the shadow properties
+      qx.ui.core.Widget.__decoratorPool.invalidatePool();
+      qx.ui.core.Widget.__shadowPool.invalidatePool();
+
+      // update the appearance
+      this.updateAppearance();
+
+    },
 
 
 
