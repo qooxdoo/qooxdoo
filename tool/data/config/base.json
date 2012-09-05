@@ -27,7 +27,8 @@
     "LOCALES"      : [ "en" ],
     "APPLICATION_MAIN_CLASS" : "${APPLICATION}.Application",
     "ADD_NOCACHE_PARAM"      : false,
-    "BUILD_PATH"   : "${ROOT}/build"
+    "BUILD_PATH"   : "${ROOT}/build",
+    "SOURCE_PATH"  : "${ROOT}/source"
   },
 
 
@@ -112,7 +113,7 @@
       {
         "paths" :
         {
-          "file" : "${ROOT}/source/script/${APPLICATION}.js",
+          "file" : "${SOURCE_PATH}/script/${APPLICATION}.js",
           "app-root" : "source"
         },
         "uris" :
@@ -183,7 +184,7 @@
       {
         "paths" :
         {
-          "file" : "${ROOT}/source/script/${APPLICATION}.js",
+          "file" : "${SOURCE_PATH}/script/${APPLICATION}.js",
           "app-root" : "source"
         },
         "uris" :
@@ -444,7 +445,7 @@
         ],
         "Cleaning up source" :
         [
-          "${ROOT}/source/script/${APPLICATION}*.js"
+          "${SOURCE_PATH}/script/${APPLICATION}*.js"
         ]
         /*
         ,"Deleting local cache" :
@@ -470,7 +471,7 @@
         ],
         "Cleaning up source" :
         [
-          "${ROOT}/source/script"
+          "${SOURCE_PATH}/script"
         ],
         "Deleting api folder" :
         [
