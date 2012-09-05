@@ -304,13 +304,14 @@ class QxLint:
             for messageDetails in self.data[message]:
                 flatMessage = {
                     "message": message,
-                    "member": messageDetails["member"],
                     "path": messageDetails["path"],
                     "line": messageDetails["line"],
                     "target": target,
                     "revision": revision,
                     "branch": branch
                 }
+                if "member" in messageDetails:
+                    flatMessage["member"] = messageDetails["member"]
                 flatData.append(flatMessage)
 
         postdata = urllib.urlencode({"lintRun": self.getJson(flatData)})
