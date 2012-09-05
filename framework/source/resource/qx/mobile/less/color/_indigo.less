@@ -81,7 +81,7 @@ h2 {
 // INPUT FIELDS
 //
 
-input[type="text"], input[type="password"],input[type="number"], textarea {
+input[type="text"], input[type="password"], input[type="number"], textarea {
   border: @border-thickness solid @border-color;
   color:@font-color-light-background;
 }
@@ -140,6 +140,45 @@ ul li.active.arrow, ul li.selected.arrow {
 
 ul li.active {
   .clickable-active();
+}
+
+//
+// FORM RENDERING
+//
+
+.formSeparationRow {
+  background-color: @border-color;
+}
+
+.formRowGroupTitle {
+  color: #2446BB;
+  font-weight:normal;
+  font-size:16px;
+
+  margin-bottom:10px;
+  border:none;
+
+  padding-bottom:0px;
+}
+
+.formRowContent, .formElementError{
+  background-color:white;
+  border-left:1px solid @border-color;
+  border-right:1px solid @border-color;
+}
+
+.formRowGroupFirstItem {
+  border-top:1px solid @border-color;
+  .border-radius-top(.4em);
+}
+
+.formRowGroupLastItem {
+  border-bottom:1px solid @border-color;
+  .border-radius-bottom(.4em);
+}
+
+.formRowGroupTitle:nth-child(n+2) {
+   margin-top:20px;
 }
 
 //

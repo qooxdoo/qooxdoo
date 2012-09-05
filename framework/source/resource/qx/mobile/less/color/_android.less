@@ -161,10 +161,35 @@ input[type="text"]:not(.selectbox),input[type="number"], input[type="password"],
   //.transform(translate3d(0,0,0));
 }
 
-// OVERRIDDEN
-ul.form li {
+.formRowContent {
   @ul-padding:5px;
-  padding: @ul-padding @ul-padding @ul-padding @ul-padding;
+  padding: @ul-padding @ul-padding*2 @ul-padding @ul-padding*2;
+}
+
+//
+// FORM RENDERING
+//
+
+.formSeparationRow {
+  background-color: @border-color;
+}
+
+.formRowGroupTitle {
+  text-shadow: rgba(255,255,255,.2) 0 1px 1px;
+  color: #bdbebd;
+  background-color: #212021;
+  font-size: 0.8em;
+  padding: 0px 10px 0px 10px;
+}
+
+.formRowGroupHeader {
+  height:0px;
+}
+
+.formRowGroupFooter {
+  height:0px;
+  background-color:red;
+  border-top:none;
 }
 
 //

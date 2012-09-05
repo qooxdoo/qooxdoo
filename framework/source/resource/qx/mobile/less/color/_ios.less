@@ -39,8 +39,8 @@ h1 {
 }
 
 h2 {
-  text-shadow: rgba(255,255,255,.2) 0 1px 1px;
-  color: rgb(76, 86, 108);
+  text-shadow: rgba(255,255,255,.4) 0 1px 1px;
+  color: #4C566C;
 }
 
 .page {
@@ -138,12 +138,49 @@ ul li .subtitle {
 input[type="text"]:not(.selectbox), input[type="password"], input[type="number"], textarea {
   color: #777;
   background: #fff;
-  border: 0;
+  border: 1px solid #B4B4B4;
   font: normal 17px Helvetica;
-  padding: 0;
   display: inline-block;
   margin-left: 0px;
-  text-indent:0px;
+  min-width:75px;
+}
+
+//
+// FORM RENDERING
+//
+
+.formSeparationRow {
+  background-color: #B4B4B4;
+}
+
+.formRowGroupTitle {
+  text-shadow: rgba(255,255,255,.4) 0 1px 1px;
+  color: #4C566C;
+
+  margin-bottom:10px;
+  border:none;
+
+  padding-bottom:0px;
+}
+
+.formRowContent, .formElementError{
+  background-color:white;
+  border-left:1px solid #B4B4B4;
+  border-right:1px solid #B4B4B4;
+}
+
+.formRowGroupFirstItem {
+  border-top:1px solid #B4B4B4;
+  .border-radius-top(.4em);
+}
+
+.formRowGroupLastItem {
+  border-bottom:1px solid #B4B4B4;
+  .border-radius-bottom(.4em);
+}
+
+.formRowGroupTitle:nth-child(n+2) {
+   margin-top:20px;
 }
 
 //
