@@ -254,7 +254,7 @@ class QxLint:
                 html += '        <tr>\n'
                 html += '            <td>' + entry["path"] + '</td>\n'
                 html += '            <td>' + entry["line"] + '</td>\n'
-                if (entry["member"]):
+                if ("member" in entry):
                     html += '            <td>' + entry["member"] + '</td>\n'
                 #if (entry["hint"]):
                 #    html += '            <td>' + entry["hint"] + '</td>\n'
