@@ -2718,6 +2718,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
           paddingTop : 5
         }
       }
+    },
+
+
+    "app-splitpane" : {
+      alias : "splitpane",
+      style : function(states) {
+        return {
+          padding: [0, 10, 10, 10],
+          backgroundColor: "light-background"
+        }
+      }
     }
   }
 });
