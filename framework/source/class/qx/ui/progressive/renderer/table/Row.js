@@ -47,14 +47,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     this.__progressive = null;
 
     this.__colors = {};
-
-    // link to color theme
-    var colorMgr = qx.theme.manager.Color.getInstance();
-    this.__colors.bgcol = [];
-    this.__colors.bgcol[0] =
-      colorMgr.resolve("progressive-table-row-background-even");
-    this.__colors.bgcol[1] =
-      colorMgr.resolve("progressive-table-row-background-odd");
+    this.__linkColors();
 
     // This layout is not connected to a widget but to this class. This class
     // must implement the method "getLayoutChildren", which must return all
@@ -65,6 +58,11 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     // as in the widget code.
     this.__layout = new qx.ui.layout.HBox();
     this.__layout.connectToWidget(this);
+
+    // dynamic theme switch
+    qx.theme.manager.Appearance.getInstance().addListener(
+      "changeTheme", this.__linkColors, this
+    );
   },
 
 
@@ -132,6 +130,21 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     __defaultCellRenderer : null,
     __colors : null,
     __layout : null,
+
+
+    /**
+     * Helper to link the theme colors to the current class
+     */
+    __linkColors : function() {
+      // link to color theme
+      var colorMgr = qx.theme.manager.Color.getInstance();
+      this.__colors.bgcol = [];
+      this.__colors.bgcol[0] =
+        colorMgr.resolve("progressive-table-row-background-even");
+      this.__colors.bgcol[1] =
+        colorMgr.resolve("progressive-table-row-background-odd");
+    },
+
 
     // overridden
     join : function(progressive, name)
@@ -549,5 +562,12 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       "__layout",
       "__defaultCellRenderer",
       "__columnData");
+  },
+
+  destruct : function() {
+    // remove dynamic theme listener
+    qx.theme.manager.Appearance.getInstance().removeListener(
+      "changeTheme", this.__linkColors, this
+    );
   }
 });

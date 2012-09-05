@@ -44,18 +44,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
 
     this.__colors = {};
 
-    // link to color theme
-    var colorMgr = qx.theme.manager.Color.getInstance();
-    this.__colors.background =
-      colorMgr.resolve("progressive-progressbar-background");
-    this.__colors.indicatorDone =
-      colorMgr.resolve("progressive-progressbar-indicator-done");
-    this.__colors.indicatorUndone =
-      colorMgr.resolve("progressive-progressbar-indicator-undone");
-    this.__colors.percentBackground =
-      colorMgr.resolve("progressive-progressbar-percent-background");
-    this.__colors.percentText =
-      colorMgr.resolve("progressive-progressbar-percent-text");
+    this.__linkColors();
 
     this.set(
     {
@@ -99,6 +88,32 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     __colors : null,
     __progressBar : null,
     __percentDone : null,
+
+    // overridden
+    _onChangeTheme : function() {
+      this.base(arguments);
+      this.__linkColors();
+    },
+
+
+    /**
+     * Helper to link the theme colors to the current class.
+     */
+    __linkColors : function() {
+      // link to color theme
+      var colorMgr = qx.theme.manager.Color.getInstance();
+      this.__colors.background =
+        colorMgr.resolve("progressive-progressbar-background");
+      this.__colors.indicatorDone =
+        colorMgr.resolve("progressive-progressbar-indicator-done");
+      this.__colors.indicatorUndone =
+        colorMgr.resolve("progressive-progressbar-indicator-undone");
+      this.__colors.percentBackground =
+        colorMgr.resolve("progressive-progressbar-percent-background");
+      this.__colors.percentText =
+        colorMgr.resolve("progressive-progressbar-percent-text");
+    },
+
 
     // overridden
     join : function(progressive)
