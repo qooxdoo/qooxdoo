@@ -245,7 +245,7 @@ class QxLint:
             html += '        <tr>\n'
             html += '            <th>File</th>\n'
             html += '            <th>Line/Column</th>\n'
-            if (v[0]["member"] and v[0]["member"] != "{}"):
+            if ("member" in v[0] and v[0]["member"] != "{}"):
                 html += '            <th>Member</th>\n'
             #if (v[0]["hint"]):
             #    html += '            <th>Hint</th>\n'
