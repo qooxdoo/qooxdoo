@@ -907,9 +907,11 @@ class CodeGenerator(object):
             resourceUri = Path.posifyPath(resourceUri)
         else:
             # source version needs place where the app HTML ("index.html") lives
-            self.approot = self._config.absPath(compConf.get("paths/app-root", ""))
+            self.approot = compConf.get("paths/app-root", "")
+            if self.approot is not None:
+                self.approot = self._config.absPath(self.approot)
             resourceUri = None
-            scriptUri   = None
+            scriptUri = None
 
         # Get prefix content for generated files
         prefix_file = compConf.get("paths/file-prefix", None)
@@ -929,8 +931,12 @@ class CodeGenerator(object):
         # add synthetic output lib
         if scriptUri: out_sourceUri= scriptUri
         else:
-            out_sourceUri = self._computeResourceUri({'class': ".", 'path': os.path.dirname(script.baseScriptPath)}, OsPath(""), rType="class", appRoot=self.approot)
-            out_sourceUri = out_sourceUri.encodedValue()
+            out_sourceUri = compConf.get('uris/script', None)
+            if out_sourceUri is not None:
+                out_sourceUri = Path.posifyPath(out_sourceUri)
+            else:
+                out_sourceUri = self._computeResourceUri({'class': ".", 'path': os.path.dirname(script.baseScriptPath)}, OsPath(""), rType="class", appRoot=self.approot)
+                out_sourceUri = out_sourceUri.encodedValue()
         globalCodes["Libinfo"]['__out__'] = { 'sourceUri': out_sourceUri }
         self.packagesResourceInfo(script) # attach resource info to packages
         self.packagesI18NInfo(script)     # attach I18N info to packages
