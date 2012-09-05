@@ -43,11 +43,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
       this._createStyleSheet();
 
       // add dynamic theme listener
-      this.__changeThemeId = qx.theme.manager.Appearance.getInstance().addListener(
-        "changeTheme", function() {
-          qx.bom.Stylesheet.removeAllRules(cr.__clazz.stylesheet);
-          this._createStyleSheet();
-        }, this
+      qx.theme.manager.Appearance.getInstance().addListener(
+        "changeTheme", this._onChangeTheme, this
       );
     }
   },
@@ -70,7 +67,12 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 
   members :
   {
-    __changeThemeId : null,
+    _onChangeTheme : function() {
+      qx.bom.Stylesheet.removeAllRules(
+        qx.ui.table.cellrenderer.Abstract.__clazz.stylesheet
+      );
+      this._createStyleSheet();
+    },
 
 
     /**
@@ -227,8 +229,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 
   destruct : function() {
     // remove dynamic theme listener
-    if (this.__changeThemeId) {
-      qx.theme.manager.Appearance.getInstance().removeListenerById(this.__changeThemeId);
-    }
+    qx.theme.manager.Appearance.getInstance().removeListener(
+      "changeTheme", this._onChangeTheme, this
+    );
   }
 });

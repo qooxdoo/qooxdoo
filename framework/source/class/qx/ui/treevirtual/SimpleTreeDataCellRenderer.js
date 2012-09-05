@@ -179,6 +179,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     __tm : null,
     __rm : null,
 
+
+    // overridden
+    _onChangeTheme : function() {
+      this.base(arguments);
+      qx.ui.treevirtual.SimpleTreeDataCellRenderer.__preloadImages();
+    },
+
+
     // overridden
     _getCellStyle : function(cellInfo)
     {
