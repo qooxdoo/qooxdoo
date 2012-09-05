@@ -337,6 +337,9 @@ qx.Class.define("qx.ui.core.LayoutItem",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Handler for the dynamic theme change.
+     */
     _onChangeTheme : function() {
       // reset all themeabled properties
       var props = qx.util.PropertyUtil.getAllProperties(this.constructor);

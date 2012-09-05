@@ -75,6 +75,11 @@ qx.Class.define("qx.ui.core.Blocker",
       this.setKeepBlockerActive(true);
     }
 
+    // dynamic theme switch
+    qx.theme.manager.Appearance.getInstance().addListener(
+      "changeTheme", this._onChangeTheme, this
+    );
+
     this.__activeElements = [];
     this.__focusElements = [];
     this.__contentBlockerCount = [];
@@ -196,9 +201,10 @@ qx.Class.define("qx.ui.core.Blocker",
     },
 
 
-    // overridden
+    /**
+     * Handler for the theme change.
+     */
     _onChangeTheme : function() {
-      this.base(arguments);
       this._applyColor(this.getColor());
     },
 
@@ -550,6 +556,10 @@ qx.Class.define("qx.ui.core.Blocker",
 
   destruct : function()
   {
+    // remove dynamic theme listener
+    qx.theme.manager.Appearance.getInstance().removeListener(
+      "changeTheme", this._onChangeTheme, this
+    );
     if (this._isPageRoot) {
       this._widget.removeListener("resize", this.__onResize, this);
     }

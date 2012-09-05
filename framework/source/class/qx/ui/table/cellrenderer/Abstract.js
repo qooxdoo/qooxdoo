@@ -67,6 +67,9 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 
   members :
   {
+    /**
+     * Handler for the theme change.
+     */
     _onChangeTheme : function() {
       qx.bom.Stylesheet.removeAllRules(
         qx.ui.table.cellrenderer.Abstract.__clazz.stylesheet
