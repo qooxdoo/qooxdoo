@@ -20,6 +20,11 @@
 /*
  * The next is to inform resource copying
  #asset(widgetbrowser/helper.js)
+
+ #require(qx.theme.Modern)
+ #require(qx.theme.Simple)
+ #require(qx.theme.Indigo)
+ #require(qx.theme.Classic)
  */
 
 qx.Class.define("widgetbrowser.Application",

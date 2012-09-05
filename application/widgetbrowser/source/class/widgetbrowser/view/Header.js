@@ -80,8 +80,9 @@ qx.Class.define("widgetbrowser.view.Header",
 
     select.addListener("changeSelection", function(evt) {
       var selected = evt.getData()[0];
-      var url = "index.html?qx.theme=" + selected.getUserData("value");
-      window.location = url;
+      qx.theme.manager.Meta.getInstance().setTheme(
+        qx.Theme.getByName(selected.getUserData("value"))
+      );
     });
 
     // Finally assemble header
