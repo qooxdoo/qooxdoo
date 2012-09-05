@@ -199,7 +199,7 @@ qx.Class.define("inspector.Application",
           this._loadedWindow.qx.core.Init.getApplication().getRoot();
 
           return true;
-        } catch (ex) {
+        } catch (ex1) {
           qx.event.Timer.once(this.__initInspector, this, 500);
 
           // check if inspect fails because of security restrictions
@@ -210,7 +210,7 @@ qx.Class.define("inspector.Application",
             // if we get here, there are no security restrictions - try again
             return false;
 
-          } catch(ex) {
+          } catch(ex2) {
             if (window.location.protocol == "file:" && !this.__frameUnsafeAttempt) {
               alert("Failed to inspect application loaded from the file system.\n\n" +
                     "The security settings of your browser may prohibit to access " +
@@ -223,7 +223,7 @@ qx.Class.define("inspector.Application",
           }
 
         }
-      } catch (ex) {
+      } catch (ex3) {
         // signal that the inspector is not working
         this._toolbar.getSelectedWidgetLabel().setValue(
           " Can not access the javascript in the iframe!"

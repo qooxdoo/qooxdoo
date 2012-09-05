@@ -120,6 +120,9 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
 
   members :
   {
+    __frame : null,
+
+
     /*
     ---------------------------------------------------------------------------
       CONTENT MANAGEMENT

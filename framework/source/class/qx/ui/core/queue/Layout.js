@@ -31,6 +31,10 @@ qx.Class.define("qx.ui.core.queue.Layout",
     __queue : {},
 
 
+    /** Nesting level cache **/
+    __nesting : {},
+
+
     /**
      * Clears the widget from the internal queue. Normally only used
      * during interims disposes of one or a few widgets.
