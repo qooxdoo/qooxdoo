@@ -92,7 +92,7 @@ qx.Class.define("qx.theme.manager.Decoration",
         return resolved;
       }
 
-      var entry = theme.decorations[value];
+      var entry = qx.lang.Object.clone(theme.decorations[value], true);
       if (!entry) {
         return null;
       }
@@ -108,14 +108,14 @@ qx.Class.define("qx.theme.manager.Decoration",
         currentEntry = theme.decorations[currentEntry.include];
         // decoration key
         if (!entry.decorator && currentEntry.decorator) {
-          entry.decorator = currentEntry.decorator;
+          entry.decorator = qx.lang.Object.clone(currentEntry.decorator);
         }
 
         // styles key
         if (currentEntry.style) {
           for (var key in currentEntry.style) {
             if (entry.style[key] == undefined) {
-              entry.style[key] = currentEntry.style[key];
+              entry.style[key] = qx.lang.Object.clone(currentEntry.style[key], true);
             }
           }
         }
