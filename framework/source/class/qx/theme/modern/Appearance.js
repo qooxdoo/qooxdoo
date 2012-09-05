@@ -3132,8 +3132,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       alias : "splitpane",
       style : function(states) {
         return {
-          padding: [0, 10, 10, 10],
-          backgroundColor: "light-background"
+          padding: 0
         }
       }
     },
