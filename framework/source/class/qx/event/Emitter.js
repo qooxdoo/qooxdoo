@@ -162,11 +162,12 @@ qx.Bootstrap.define("qx.event.Emitter",
      */
     emit : function(name, data) {
       var storage = this.__getStorage(name);
-      for (var i = storage.length - 1; i >= 0; i--) {
+      for (var i = 0; i < storage.length; i++) {
         var entry = storage[i];
         entry.listener.call(entry.ctx, data);
         if (entry.once) {
           storage.splice(i, 1);
+          i--;
         }
       };
       // call on any

@@ -164,6 +164,21 @@ qx.Class.define("qx.test.event.Emitter",
       this.__ee.on("test", spy);
       this.__ee.emit("test", 123);
       this.assertCalledWith(spy, 123);
+    },
+
+
+    testEmitOrder : function() {
+      var i = 0;
+      this.__ee.on("test", function() {
+        i++;
+        this.assertEquals(1, i);
+      }, this);
+      this.__ee.on("test", function() {
+        i++;
+        this.assertEquals(2, i);
+      }, this);
+      this.__ee.emit("test");
+      this.assertEquals(2, i);
     }
   }
 });
