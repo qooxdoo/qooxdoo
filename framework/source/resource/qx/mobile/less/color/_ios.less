@@ -209,12 +209,8 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   border: 1px solid #E8E8E8;
 
   .box-shadow(0 0 2px @shadow-color);
-
-  background: #cfcfcf; /* Old browsers */
-  background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfcf), color-stop(100%,#fdfdfd)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* Chrome10+,Safari5.1+ */
-  background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* W3C */
+  
+  #gradient > .vertical(#cfcfcf,#fdfdfd);
 }
 
 //
@@ -407,6 +403,7 @@ input[type="checkbox"]:checked + label {
 
   .border-radius(.7em);
   border: 2px solid @dialog-border-color;
+
   color: #fff;
 }
 
@@ -431,7 +428,10 @@ input[type="checkbox"]:checked + label {
   .box-inset-multi-shadow(0 3px 2px #0056A1, 0 14px 0px #007FEA);
   
   // Background for checked toggle button
+  
+
   background: #2591ed; 
+  
   background: -moz-linear-gradient(top,  #2591ed 0%, #2591ed 56%, #6db5f3 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2591ed), color-stop(56%,#2591ed), color-stop(100%,#6db5f3));
   background: -webkit-linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); 
@@ -454,12 +454,8 @@ div.checked .toggleButtonSwitch:before {
   border: 1px solid #E8E8E8;
 
   .box-shadow(1px 0 2px #4b4b4b);
-
-  background: #cfcfcf; /* Old browsers */
-  background: -moz-linear-gradient(top,  #cfcfcf 0%, #fdfdfd 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfcf), color-stop(100%,#fdfdfd)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* Chrome10+,Safari5.1+ */
-  background: linear-gradient(top,  #cfcfcf 0%,#fdfdfd 100%); /* W3C */
+  
+  #gradient > .vertical(#cfcfcf,#fdfdfd);
 }
 
 //
@@ -470,13 +466,32 @@ div.checked .toggleButtonSwitch:before {
 
 .selectbox {
   color:@selection-foreground-color;
-  background-color:transparent;
-  border:none;
-  .border-radius(4px);
+
+  .border-radius(8px);
+  border: 1px solid #B4B4B4;
+  text-indent:8px;
+  display:block;
+
+  #gradient > .vertical(#fff,#fff);
+  .box-inset-multi-shadow(0 2px 2px rgba(0,0,0,0.3), 0 14px 1px rgba(0,0,0,0.05));
+
+  .appearance(none);
+  
 }
 
 .selectbox.active {
-  .button.active();
+  //.button.active();
+  
+  //.box-inset-multi-shadow(0 2px 2px transparent, 0 14px 1px transparent);
+  .box-inset-multi-shadow(0 3px 2px #0056A1, 0 14px 0px #007FEA);
+
+  background: -moz-linear-gradient(top,  #2591ed 0%, #2591ed 56%, #6db5f3 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2591ed), color-stop(56%,#2591ed), color-stop(100%,#6db5f3));
+  background: -webkit-linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); 
+  background: linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); 
+
+  color:white;
+
 }
 
 //
@@ -489,7 +504,6 @@ div.checked .toggleButtonSwitch:before {
 
 .selectbox-selected > div > .list-itemlabel:after {
   border-color:@selection-foreground-color;
-
 }
 
 .selectbox-selected.active > div > .list-itemlabel:after {

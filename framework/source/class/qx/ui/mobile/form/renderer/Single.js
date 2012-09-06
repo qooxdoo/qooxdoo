@@ -114,6 +114,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * Adds a label and the widgets in two separate lines (rows).
      * @param item {qx.ui.mobile.core.Widget} A form item to render.
      * @param name {String} A name for the form item.
+     * @param isFirstItem {Boolean} Flag whether item is the first item of the group.
+     * @param isLastItem {Boolean} Flag whether item is the last item of the group.
      */
     _addInSeparateLines : function(item, name, isFirstItem, isLastItem) {
         var labelRow = new qx.ui.mobile.form.Row();
@@ -149,6 +151,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * Adds a label and it according widget in one line (row).
      * @param item {qx.ui.mobile.core.Widget} A form item to render.
      * @param name {String} A name for the form item.
+     * @param isFirstItem {Boolean} Flag whether item is the first item of the group.
+     * @param isLastItem {Boolean} Flag whether item is the last item of the group.
      */
     _addInOneLine : function(item, name, isFirstItem, isLastItem) {
         var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
