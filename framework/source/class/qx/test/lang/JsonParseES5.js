@@ -81,7 +81,7 @@ qx.Class.define("qx.test.lang.JsonParseES5",
         '\u30001234',
         '\u20281234',
         '\u20291234'
-      ]
+      ];
 
       for  (var i=0; i<strings.length; i++)
       {
@@ -166,7 +166,7 @@ qx.Class.define("qx.test.lang.JsonParseES5",
     "test: A JSONString must both begin and end with double quotes." : function()
     {
       try {
-        this.JSON.parse('"ab'+"c'")
+        this.JSON.parse('"ab'+"c'");
       } catch (e) {
         return;
       }
@@ -176,7 +176,7 @@ qx.Class.define("qx.test.lang.JsonParseES5",
 
     // 15.12.1.1-g2-5
     "test: A JSONStrings can contain no JSONStringCharacters (Empty JSONStrings)." : function() {
-      this.assertEquals("", this.JSON.parse('""'))
+      this.assertEquals("", this.JSON.parse('""'));
     },
 
 
@@ -212,7 +212,7 @@ qx.Class.define("qx.test.lang.JsonParseES5",
     "SKIP_test: A JSONStringCharacter UnicodeEscape may not have fewer than 4 hex characters." : function()
     {
       try {
-        this.JSON.parse('"\\u005"')
+        this.JSON.parse('"\\u005"');
       } catch (e) {
         this.assertEquals("SyntaxError", e.name);
       }
@@ -224,7 +224,7 @@ qx.Class.define("qx.test.lang.JsonParseES5",
     "SKIP_test: A JSONStringCharacter UnicodeEscape may not include any non hex characters." : function()
     {
       try {
-        this.JSON.parse('"\\u0X50"')
+        this.JSON.parse('"\\u0X50"');
       } catch (e) {
         this.assertEquals("SyntaxError", e.name);
       }
@@ -239,7 +239,7 @@ qx.Class.define("qx.test.lang.JsonParseES5",
 
 
     // 15.12.1.1-g6-2
-    "test: The JSON lexical grammer allows '/' as a JSONEscapeCharacter after '\\' in a JSONString." : function() {
+    "test: The JSON lexical grammer allows '/' as a JSONEscapeCharacter after '\\' in a JSONString" : function() {
       this.assertEquals("\\", this.JSON.parse('"\\\\"'));
     },
 

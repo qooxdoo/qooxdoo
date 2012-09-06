@@ -77,7 +77,13 @@ qx.Class.define("qx.ui.mobile.form.Form",
       this.__renderer = renderer;
     },
 
-    // override
+    /**
+     * Validates the form using the
+     * {@link qx.ui.form.validation.Manager#validate} method.
+     * @lint ignoreDeprecated(alert)
+     *
+     * @return {Boolean | null} The validation result.
+     */
     validate : function()
     {
       var validateResult = this.base(arguments);

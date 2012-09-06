@@ -174,6 +174,9 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     },
 
 
+    /**
+     * @lint ignoreDeprecated(aeval)
+     */
     assertWidgetDispose : function(clazz, args, msg)
     {
       this.assertDestroy(function()

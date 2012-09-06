@@ -39,6 +39,9 @@ qx.Class.define("qx.test.bom.Collection",
       this.assertArrayEquals([], result, "ID selector on a non-existing ID does returns the whole document!");
     },
 
+    /**
+     * @lint ignoreUnknown($)
+     */
     "test find element by using the Id with the $ shortcut" : function()
     {
       var element = document.createElement("div");
