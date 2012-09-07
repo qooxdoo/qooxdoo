@@ -322,6 +322,24 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     {
       this.__scrollContainer.scrollTo(x, y, time);
     },
+    
+    
+    /**
+    * Scrolls the wrapper contents to the widgets coordinates in a given
+    * period.
+    *
+    * @param widget {qx.ui.mobile.core.Widget} the widget, the scroll container should scroll to.
+    * @param time {Integer} Time slice in which scrolling should
+    *              be done.
+    *
+    */
+    scrollToWidget : function(widget, time)
+    {
+      if(widget) {
+        var widgetId = "#"+widget.getId();
+        this.__scrollContainer.scrollToElement(widgetId, time);
+      }
+    },
 
 
     /**

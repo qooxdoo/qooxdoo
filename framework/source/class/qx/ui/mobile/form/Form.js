@@ -48,6 +48,7 @@ qx.Class.define("qx.ui.mobile.form.Form",
   construct : function()
   {
     this.base(arguments);
+    this.__invalidItems = [];
   },
 
   members :
@@ -55,9 +56,13 @@ qx.Class.define("qx.ui.mobile.form.Form",
 
     /**
      * the renderer this form uses to be displayed
-     *
      */
     __renderer : null,
+    
+    /**
+     * Contains all invalid items.
+     */
+    __invalidItems : null,
 
 
     // overridden
@@ -87,6 +92,9 @@ qx.Class.define("qx.ui.mobile.form.Form",
     validate : function()
     {
       var validateResult = this.base(arguments);
+      
+      this.__invalidItems = [];
+      
       if(this.__renderer != null) {
         this.__renderer.resetForm();
       }
@@ -99,6 +107,8 @@ qx.Class.define("qx.ui.mobile.form.Form",
           var item = group.items[j];
           if(!item.isValid())
           {
+            this.__invalidItems.push(item);
+            
             if(this.__renderer != null)
             {
               this.__renderer.showErrorForItem(item);
@@ -116,6 +126,16 @@ qx.Class.define("qx.ui.mobile.form.Form",
       }
 
       return validateResult;
+    },
+  
+  
+    /**
+    * Returns the invalid items of the form, which were determined by {@link qx.ui.mobile.form.Form#validate} before.
+    * It returns an empty array if no items are invalid.
+    * @return {qx.ui.mobile.core.Widget[]} The invalid items of the form.
+    */
+    getInvalidItems : function() {
+      return this.__invalidItems;
     }
   }
 

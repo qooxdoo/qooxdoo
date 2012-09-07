@@ -90,23 +90,25 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         this._addGroupHeader(title);
       }
       
+      this._addGroupHeaderRow();
       for(var i=0, l=items.length; i<l; i++)
       {
         var item = items[i];
         var name = names[i];
-        var isFirstItem = (i==0);
         var isLastItem = (i==items.length-1);
         
         if(this._isOneLineWidget(item)) {
-          this._addInOneLine(item, name, isFirstItem, isLastItem);
+          this._addInOneLine(item, name);
         } else {
-          this._addInSeparateLines(item, name, isFirstItem, isLastItem);
+          this._addInSeparateLines(item, name);
         }
         
         if(!isLastItem) {
           this._addSeparationRow();
         }
       }
+      
+       this._addGroupFooterRow();
     },
     
     
@@ -114,21 +116,13 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * Adds a label and the widgets in two separate lines (rows).
      * @param item {qx.ui.mobile.core.Widget} A form item to render.
      * @param name {String} A name for the form item.
-     * @param isFirstItem {Boolean} Flag whether item is the first item of the group.
-     * @param isLastItem {Boolean} Flag whether item is the last item of the group.
      */
-    _addInSeparateLines : function(item, name, isFirstItem, isLastItem) {
+    _addInSeparateLines : function(item, name) {
         var labelRow = new qx.ui.mobile.form.Row();
         labelRow.addCssClass("formRowContent");
         
         var itemRow = new qx.ui.mobile.form.Row();
         itemRow.addCssClass("formRowContent");
-        if(isFirstItem && name) {
-          labelRow.addCssClass("formRowGroupFirstItem");
-        }
-        if(isLastItem) {
-          itemRow.addCssClass("formRowGroupLastItem");
-        }
         
         if(name) {
           var label = new qx.ui.mobile.form.Label(name);
@@ -151,18 +145,10 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * Adds a label and it according widget in one line (row).
      * @param item {qx.ui.mobile.core.Widget} A form item to render.
      * @param name {String} A name for the form item.
-     * @param isFirstItem {Boolean} Flag whether item is the first item of the group.
-     * @param isLastItem {Boolean} Flag whether item is the last item of the group.
      */
-    _addInOneLine : function(item, name, isFirstItem, isLastItem) {
+    _addInOneLine : function(item, name) {
         var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
         row.addCssClass("formRowContent");
-        if(isFirstItem) {
-          row.addCssClass("formRowGroupFirstItem");
-        }
-        if(isLastItem) {
-          row.addCssClass("formRowGroupLastItem");
-        }
         
         if(name != null) {
           var label = new qx.ui.mobile.form.Label(name);
@@ -184,6 +170,24 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       row.addCssClass("formSeparationRow")
       this._add(row);
       this.__rows.push(row);
+    },
+    
+    
+    _addGroupHeaderRow : function() {
+      var row = new qx.ui.mobile.form.Row();
+      row.addCssClass("formRowGroupFirstItem")
+      this._add(row);
+      this.__rows.push(row);
+      
+    },
+    
+    
+    _addGroupFooterRow : function() {
+      var row = new qx.ui.mobile.form.Row();
+      row.addCssClass("formRowGroupLastItem")
+      this._add(row);
+      this.__rows.push(row);
+      
     },
     
     
@@ -220,7 +224,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       errorNode.innerHTML = item.getInvalidMessage();
       qx.bom.element.Class.add(errorNode, 'formElementError');
       qx.dom.Element.insertAfter(errorNode, item.getLayoutParent().getContainerElement());
-      qx.bom.Element.focus(item.getContainerElement());
+      //qx.bom.Element.focus(item.getContainerElement());
       this.__errorMessageContainers.push(errorNode);
     },
 
