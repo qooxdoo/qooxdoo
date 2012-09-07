@@ -146,15 +146,19 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         styles["overflow"] = "hidden";
       // spec like syntax
       } else {
+        // WebKit, Opera and Gecko interpret 0deg as "to right"
         var deg = this.getOrientation() == "horizontal" ? 0 : 270;
-        // Bugfix for IE10 which seems to use the deg values wrong [BUG #6513]
-        if (qx.core.Environment.get("browser.name") == "ie") {
-          deg = deg - 90;
-        }
+
         var start = startColor + " " + this.getStartColorPosition() + unit;
         var end = endColor + " " + this.getEndColorPosition() + unit;
 
         var prefixedName = qx.core.Environment.get("css.gradient.linear");
+        // Browsers supporting the unprefixed implementation interpret 0deg as
+        // "to top" as defined by the spec [BUG #6513]
+        if (prefixedName === "linear-gradient") {
+          deg = deg - 90;
+        }
+
         styles["background-image"] =
           prefixedName + "(" + deg + "deg, " + start + "," + end + ")";
       }
