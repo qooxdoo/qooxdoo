@@ -33,13 +33,13 @@ qx.Class.define("qx.test.mobile.form.Form",
       this.getRoot().add(renderer);
       this.assertFalse(form.validate());
       
-      this.assertEquals(2, renderer._getChildren()[0].getChildren().length);
-      this.assertTrue(qx.bom.element.Class.has(renderer._getChildren()[0].getChildren()[1].getContainerElement(), 'invalid'));
+      this.assertEquals(2, renderer._getChildren()[1].getChildren().length);
+      this.assertTrue(qx.bom.element.Class.has(renderer._getChildren()[1].getChildren()[1].getContainerElement(), 'invalid'));
 
       this.__username.setValue('myusername');
       this.assertTrue(form.validate());
-      this.assertEquals(2, renderer._getChildren()[0].getChildren().length);
-      this.assertFalse(qx.bom.element.Class.has(renderer._getChildren()[0]._getChildren()[1].getContainerElement(), 'invalid'));
+      this.assertEquals(2, renderer._getChildren()[1].getChildren().length);
+      this.assertFalse(qx.bom.element.Class.has(renderer._getChildren()[1]._getChildren()[1].getContainerElement(), 'invalid'));
       
       this.__username.dispose();
       renderer.dispose();

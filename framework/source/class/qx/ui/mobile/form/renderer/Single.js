@@ -173,21 +173,25 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
     },
     
     
+    /**
+     * Adds an row group header.
+     */
     _addGroupHeaderRow : function() {
       var row = new qx.ui.mobile.form.Row();
       row.addCssClass("formRowGroupFirstItem")
       this._add(row);
       this.__rows.push(row);
-      
     },
     
     
+    /**
+     * Adds an row group footer.
+     */
     _addGroupFooterRow : function() {
       var row = new qx.ui.mobile.form.Row();
       row.addCssClass("formRowGroupLastItem")
       this._add(row);
       this.__rows.push(row);
-      
     },
     
     
