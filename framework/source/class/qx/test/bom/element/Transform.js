@@ -105,9 +105,9 @@ qx.Class.define("qx.test.bom.element.Transform",
      */
 
     testOrigin : function() {
-      qx.bom.element.Transform.setOrigin(this.__el, "affe");
-      this.assertEquals("affe", this.__el.style[this.__keys["origin"]]);
-      this.assertEquals("affe", qx.bom.element.Transform.getOrigin(this.__el));
+      qx.bom.element.Transform.setOrigin(this.__el, "30% 20%");
+      this.assertEquals("30% 20%", this.__el.style[this.__keys["origin"]]);
+      this.assertEquals("30% 20%", qx.bom.element.Transform.getOrigin(this.__el));
     },
 
     testStyle : function() {

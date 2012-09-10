@@ -2264,9 +2264,9 @@ testrunner.define({
 
 
   testTransformOrigin : function() {
-    this.sandbox.setTransformOrigin("30% 50%");
+    this.sandbox.setTransformOrigin("30% 20%");
     if (q.env.get("css.transform") != null) {
-      this.assertEquals("30% 50%", this.sandbox.getTransformOrigin());
+      this.assertEquals("30% 20%", this.sandbox.getTransformOrigin());
     }
   },
 
