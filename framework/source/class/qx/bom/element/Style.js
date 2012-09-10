@@ -98,6 +98,10 @@ qx.Bootstrap.define("qx.bom.element.Style",
 
   statics :
   {
+    __styleNames : null,
+
+    __cssNames : null,
+
     /**
      * Detect vendor specific properties.
      */

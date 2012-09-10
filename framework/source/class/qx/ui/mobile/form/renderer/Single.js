@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,12 +14,13 @@
 
    Authors:
      * Gabriel Munteanu (gabios)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
 /**
- * Single is a class used to render forms into a mobile page.
- * It presents a label above each form element
+ * Single renderer is a class used to render forms into a mobile page.
+ * It displays a label above or next to each form element.
  *
  */
 qx.Class.define("qx.ui.mobile.form.renderer.Single",
@@ -53,12 +54,32 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * Also useful to clear them when the validation passes.
      */
     __errorMessageContainers : null,
-
-
+    
+    
+    
     // override
     _getTagName : function()
     {
       return "ul";
+    },
+    
+    
+     /**
+     * Determines whether the given item can be display in one line
+     * or whether a separate line for the text label is needed.
+     * @param item {qx.ui.mobile.core.Widget} the widget which should be added.
+     * @return {Boolean} it indicates whether the widget can be displayed
+     *  in same line as the label.
+     */
+    _isOneLineWidget : function(item) {
+      return (
+        item instanceof qx.ui.mobile.form.ToggleButton ||
+        item instanceof qx.ui.mobile.form.RadioButton ||
+        item instanceof qx.ui.mobile.form.TextField ||
+        item instanceof qx.ui.mobile.form.PasswordField || 
+        item instanceof qx.ui.mobile.form.NumberField || 
+        item instanceof qx.ui.mobile.form.CheckBox
+      );
     },
 
 
@@ -66,32 +87,124 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
     addItems : function(items, names, title) {
       if(title != null)
       {
-        this._showGroupHeader(title);
+        this._addGroupHeader(title);
       }
+      
+      this._addGroupHeaderRow();
       for(var i=0, l=items.length; i<l; i++)
       {
-        var row = new qx.ui.mobile.form.Row();
-        if(names[i] != null) {
-          var label = new qx.ui.mobile.basic.Label(names[i]);
-          label._setStyle('marginBottom', '7px');
-          row.add(label);
+        var item = items[i];
+        var name = names[i];
+        var isLastItem = (i==items.length-1);
+        
+        if(this._isOneLineWidget(item)) {
+          this._addInOneLine(item, name);
+        } else {
+          this._addInSeparateLines(item, name);
+        }
+        
+        if(!isLastItem) {
+          this._addSeparationRow();
+        }
+      }
+      
+       this._addGroupFooterRow();
+    },
+    
+    
+    /**
+     * Adds a label and the widgets in two separate lines (rows).
+     * @param item {qx.ui.mobile.core.Widget} A form item to render.
+     * @param name {String} A name for the form item.
+     */
+    _addInSeparateLines : function(item, name) {
+        var labelRow = new qx.ui.mobile.form.Row();
+        labelRow.addCssClass("formRowContent");
+        
+        var itemRow = new qx.ui.mobile.form.Row();
+        itemRow.addCssClass("formRowContent");
+        
+        if(name) {
+          var label = new qx.ui.mobile.form.Label(name);
+          label.setLabelFor(item.getId());
+          
+          labelRow.add(label);
+          this.__labels.push(label);
+          
+          this._add(labelRow);
+          this.__rows.push(labelRow);
+        }
+        
+        itemRow.add(item);
+        this._add(itemRow);
+        this.__rows.push(itemRow);
+    },
+    
+    
+    /**
+     * Adds a label and it according widget in one line (row).
+     * @param item {qx.ui.mobile.core.Widget} A form item to render.
+     * @param name {String} A name for the form item.
+     */
+    _addInOneLine : function(item, name) {
+        var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
+        row.addCssClass("formRowContent");
+        
+        if(name != null) {
+          var label = new qx.ui.mobile.form.Label(name);
+          label.setLabelFor(item.getId());
+          row.add(label, {flex:1});
           this.__labels.push(label);
         }
-        row.add(items[i]);
+        row.add(item);
         this._add(row);
         this.__rows.push(row);
-      }
     },
-
+    
+    
+    /**
+     * Adds a separation line into the form.
+     */
+    _addSeparationRow : function() {
+      var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
+      row.addCssClass("formSeparationRow")
+      this._add(row);
+      this.__rows.push(row);
+    },
+    
+    
+    /**
+     * Adds an row group header.
+     */
+    _addGroupHeaderRow : function() {
+      var row = new qx.ui.mobile.form.Row();
+      row.addCssClass("formRowGroupFirstItem")
+      this._add(row);
+      this.__rows.push(row);
+    },
+    
+    
+    /**
+     * Adds an row group footer.
+     */
+    _addGroupFooterRow : function() {
+      var row = new qx.ui.mobile.form.Row();
+      row.addCssClass("formRowGroupLastItem")
+      this._add(row);
+      this.__rows.push(row);
+    },
+    
+    
     /**
      * Adds a row with the name of a group of elements
      * When you want to group certain form elements, this methods implements
      * the way the header of that group is presented.
      * @param title {String} the title shown in the group header
      */
-    _showGroupHeader : function(title)
+    _addGroupHeader : function(title)
     {
       var row = new qx.ui.mobile.form.Row();
+      row.addCssClass("formRowGroupTitle");
       var titleLabel = new qx.ui.mobile.basic.Label(title);
       row.add(titleLabel);
       this._add(row);
@@ -114,17 +227,17 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       var errorNode = qx.dom.Element.create('div');
       errorNode.innerHTML = item.getInvalidMessage();
       qx.bom.element.Class.add(errorNode, 'formElementError');
-      qx.dom.Element.insertAfter(errorNode, item.getContainerElement());
-      qx.bom.Element.focus(item.getContainerElement());
+      qx.dom.Element.insertAfter(errorNode, item.getLayoutParent().getContainerElement());
+      //qx.bom.Element.focus(item.getContainerElement());
       this.__errorMessageContainers.push(errorNode);
     },
+
 
     // override
     resetForm : function() {
       for(var i=0; i<this.__errorMessageContainers.length; i++) {
         qx.dom.Element.remove(this.__errorMessageContainers[i]);
       }
-
     }
   },
 

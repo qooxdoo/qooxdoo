@@ -537,7 +537,7 @@ q.ready(function() {
   var loadSamples = function() {
     q.io.script("samples.js").send().on("loadend", function() {
       for (var method in samples) {
-        var selector = "#" + method.replace(".", "\\.");
+        var selector = "#" + method.replace(/\./g, "\\.");
         q(selector).append(q.create("<h4>Examples</h4>"));
         for (var i=0; i < samples[method].length; i++) {
           var sample = samples[method][i].toString();

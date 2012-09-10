@@ -244,7 +244,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      * Toggles the visibility of this popup.
      */
     toggleVisibility : function() {
-      if(this.__isShown) {
+      if(this.__isShown == true) {
         this.hide();
       } else {
         this.show();

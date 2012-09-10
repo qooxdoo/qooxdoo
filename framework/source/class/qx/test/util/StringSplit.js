@@ -40,6 +40,9 @@ qx.Class.define("qx.test.util.StringSplit",
 
   members :
   {
+    /**
+     * @lint ignoreDeprecated(eval)
+     */
     testSplit : function()
     {
       var testCode = [

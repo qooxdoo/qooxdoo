@@ -82,8 +82,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     // When selectionDialogs changes selection, get chosen selectedIndex from it.
     this.__selectionDialog.addListener("changeSelection", this._onChangeSelection, this);
   },
-  
-  
+
+
   /*
   *****************************************************************************
      EVENTS
@@ -237,7 +237,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     /**
      * Get the text value of this
      * It is called by setValue method of qx.ui.mobile.form.MValue mixin.
-     * @return {number} the new selected index of the select box.
+     * @return {Number} the new selected index of the select box.
      */
     _getValue : function() {
       return this._getAttribute("value");
@@ -298,7 +298,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       var evtItem = evt.getData().item;
       this.__selectedIndex = evtIndex;
       this._render();
-      
+
       // Bubbling event. For making it possible to listen on changeSelection event fired by SelectBox.
       this.fireDataEvent("changeSelection", {index: evtIndex, item: evtItem});
     }

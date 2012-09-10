@@ -38,6 +38,8 @@ qx.Class.define("qx.xml.Element",
 {
   statics :
   {
+    __xpe : null,
+
     /**
      * {Boolean} <code>true</code> if the native XMLSerializer should be used,
      * <code>false</code> otherwise.

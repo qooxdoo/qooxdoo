@@ -93,7 +93,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__menu.setTitle("Menu");
       
       // ANCHORED MENU DIALOG
-      var showAnchorMenuButton = new qx.ui.mobile.form.Button("Show Anchored Menu");
+      var showAnchorMenuButton = new qx.ui.mobile.form.Button("Show Anchor Menu");
       showAnchorMenuButton.addListener("tap", function(e) {
           this._stop();
           this.__anchorMenu.show();
@@ -118,8 +118,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
       var busyIndicatorButton = new qx.ui.mobile.form.Button("Show/Hide Busy Indicator");
       busyIndicatorButton.addListener("tap", function(e) {
-        this._stop();
-        
         this.__busypopup.toggleVisibility();
       }, this);
 

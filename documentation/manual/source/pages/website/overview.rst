@@ -201,3 +201,25 @@ in memory storage is returned which means you can always use the same API.
 
   var value = q.localStorage.get("my_custom_key");
 
+
+
+Transform
+---------
+The transform module offers a cross browser convenience API for CSS transforms. This includes scaling, skewing, rotating and translating.
+
+::
+
+  q("#myId").rotate("45deg");
+
+
+
+Messaging
+---------
+The messaging module offers a message bus. It offers a separation by channel and type and also offers a way to react on types for every channel.
+
+::
+
+  q.messaging.on("CHANNEL-X", "test", function() {
+    // do something clever
+  });
+  q.messaging.emit("CHANNEL-X", "test");

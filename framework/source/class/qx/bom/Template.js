@@ -124,6 +124,10 @@ qx.Bootstrap.define("qx.bom.Template", {
      * as a template, parsed and a new DOM node will be returned containing the
      * parsed data. Keep in mind to have only one root DOM element in the the
      * template.
+     * Additionally, you should not put the template into a regular, hidden
+     * DOM element because the template may not be valid HTML due to the containing
+     * mustache tags. We suggest to put it into a script tag with the type
+     * <code>text/template</code>.
      *
      * @param id {String} The id of the HTML template in the DOM.
      * @param view {Object} The object holding the data to render.
