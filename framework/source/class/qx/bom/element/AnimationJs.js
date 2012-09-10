@@ -327,6 +327,11 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         window.clearInterval(handle.animationId);
       }
 
+      // check if animation is already stopped
+      if (el == undefined) {
+        return;
+      }
+
       // if we should keep a frame
       var keep = desc.keep;
       if (keep != undefined) {
