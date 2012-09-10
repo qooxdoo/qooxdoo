@@ -24,7 +24,6 @@ import os, sys, re, types, string, copy
 
 from misc.ExtMap import ExtMap
 from generator.config.Lang import Key
-from generator.config.Defaults import Defaults
 from generator.config.Lang import Let
 
 console = None
@@ -290,10 +289,10 @@ class Job(object):
         # so default let macros can take effect
 
         # add default let macros
-        defaultLet = Defaults.let
-        if defaultLet:
+        defaults = self.getConfig().defaults
+        if defaults and defaults.let:
             mylet = self.getFeature(Key.LET_KEY, {})
-            mylet = self.mergeValues(defaultLet, mylet) # existing values in mylet will take precedence
+            mylet = self.mergeValues(defaults.let, mylet) # existing values in mylet will take precedence
             self.setFeature(Key.LET_KEY, mylet)
 
 
