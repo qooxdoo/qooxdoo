@@ -105,6 +105,23 @@ qx.Class.define("testrunner.runner.TestRunner", {
         case "external":
           this._loadExternalTests();
           break;
+        case "push":
+          var req = new qx.io.request.Xhr("../build/script/tests.js");
+          req.addListener("success", function(e) {
+            var test = req.getResponse();
+            this.__iframe = this.view.getIframe();
+            var doc = qx.bom.Iframe.getDocument(this.__iframe);
+            var el =doc.createElement("script");
+            el.text = test;
+            doc.getElementsByTagName("head")[0].appendChild(el);
+
+            this.loader = qx.bom.Iframe.getWindow(this.__iframe).testrunner.TestLoader.getInstance();
+            this.loader.setTestNamespace(this._testNameSpace);
+            this._wrapAssertions(this.frameWindow);
+            this._getTestModel();
+
+          }, this);
+          req.send();
       }
     },
 
