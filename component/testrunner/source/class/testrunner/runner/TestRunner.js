@@ -50,7 +50,8 @@ qx.Class.define("testrunner.runner.TestRunner", {
       this.__logAppender = new qx.log.appender.Element();
       qx.log.Logger.unregister(this.__logAppender);
       this.__logAppender.setElement(this.view.getLogAppenderElement());
-      if (qx.core.Environment.get("testrunner.testOrigin") != "iframe") {
+
+      if (this._origin != "iframe") {
         qx.log.Logger.register(this.__logAppender);
       }
     }
@@ -65,6 +66,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
 
   members :
   {
+    origin : null,
     __iframe : null,
     frameWindow : null,
     __loadAttempts : null,
@@ -88,8 +90,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
 
     _loadTests : function()
     {
-      var origin = qx.core.Environment.get("testrunner.testOrigin");
-      switch(origin) {
+      switch(this._origin) {
         case "iframe":
           // Load the tests from a standalone AUT
           this.__iframe = this.view.getIframe();
@@ -106,22 +107,44 @@ qx.Class.define("testrunner.runner.TestRunner", {
           this._loadExternalTests();
           break;
         case "push":
-          var req = new qx.io.request.Xhr("../build/script/tests.js");
-          req.addListener("success", function(e) {
-            var test = req.getResponse();
+          var pushType = "code";
+          //var pushType = "uri";
+
+          if (pushType == "uri") {
             this.__iframe = this.view.getIframe();
-            var doc = qx.bom.Iframe.getDocument(this.__iframe);
-            var el =doc.createElement("script");
-            el.text = test;
-            doc.getElementsByTagName("head")[0].appendChild(el);
+            this.frameWindow = qx.bom.Iframe.getWindow(this.__iframe);
 
-            this.loader = qx.bom.Iframe.getWindow(this.__iframe).testrunner.TestLoader.getInstance();
-            this.loader.setTestNamespace(this._testNameSpace);
-            this._wrapAssertions(this.frameWindow);
-            this._getTestModel();
+            var evtFunc = function(event) {
+              // Load the tests from a standalone AUT
+              qx.event.Registration.addListener(this.__iframe, "load", this._onLoadIframe, this);
+              var src = event.data + "?testclass=" + this._testNameSpace;
+              this.setTestSuiteState("loading");
+              this.view.setAutUri(src);
+            };
 
-          }, this);
-          req.send();
+            var boundEvtFunc = evtFunc.bind(this);
+
+            window.setTimeout(function() {
+              boundEvtFunc({data : "html/tests-source.html"});
+            }, 1000);
+          }
+          else if (pushType == "code") {
+            var req = new qx.io.request.Xhr("../build/script/tests.js");
+            req.addListener("success", function(e) {
+              var test = req.getResponse();
+              this.__iframe = this.view.getIframe();
+              var doc = qx.bom.Iframe.getDocument(this.__iframe);
+              var el =doc.createElement("script");
+              el.text = test;
+              doc.getElementsByTagName("head")[0].appendChild(el);
+
+              this.loader = qx.bom.Iframe.getWindow(this.__iframe).testrunner.TestLoader.getInstance();
+              this.loader.setTestNamespace(this._testNameSpace);
+              this._wrapAssertions(this.frameWindow);
+              this._getTestModel();
+            }, this);
+            req.send();
+          }
       }
     },
 
@@ -167,7 +190,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
 
     _getTestResult : function()
     {
-      if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
+      if (this._origin == "iframe" || this._origin == "push") {
         var frameWindow = qx.bom.Iframe.getWindow(this.__iframe);
         var testResult = new frameWindow.qx.dev.unit.TestResult();
 
@@ -179,7 +202,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
 
 
     _onTestEnd : function(ev) {
-      if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
+      if (this._origin == "iframe" || this._origin == "push") {
         if (this.__logAppender) {
           this.__fetchIframeLog();
         }

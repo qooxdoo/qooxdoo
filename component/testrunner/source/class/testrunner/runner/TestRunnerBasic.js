@@ -76,6 +76,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     this.bind("testModel", this.view, "testModel");
     qx.data.SingleValueBinding.bind(this.view, "selectedTests", this, "selectedTests");
 
+    this._origin = qx.core.Environment.get("testrunner.testOrigin");
     this._testNameSpace = this._getTestNameSpace();
 
     this._loadTests();
@@ -141,6 +142,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
 
   members :
   {
+    _origin : null,
     loader : null,
     _testParts : null,
     __testsInView : null,
