@@ -59,7 +59,6 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   {
     this.base(arguments);
     qx.event.Registration.addListener(this, "appear", this.__onAppear, this);
-    qx.event.Registration.addListener(this, "click", this.__onClick, this);
   },
 
   /*
@@ -81,9 +80,6 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
 
   members :
   {
-    __lastChangedTimestamp : 0,
-    
-    
     // overridden
     _getType : function()
     {
@@ -121,36 +117,6 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
      */
     _getValue : function() {
       return this._getAttribute("checked");
-    },
-    
-    
-     /**
-     * Checks if last  event (click) is more than 500ms ago.
-     * Bugfix for double fired events.
-     */
-    _checkLastChangedTime : function() {
-      var elapsedTime = new Date().getTime() - this.__lastChangedTimestamp; 
-      this.__lastChangedTimestamp = new Date().getTime();
-      return elapsedTime>500;
-    },
-    
-    
-    /**
-     * Handles the click event of this checkbox.
-     * @param evt {Event} the click event.
-     */
-    __onClick : function(evt) {
-      /**
-       * Workaround for Android newer than version 4.0. JellyBean and later is 
-       * able to fire a native click event. Other version or platforms might be not able:
-       * that is why qooxdoo emulates a native event. Native and qooxdoo click event prevents checkbox
-       * from changing its state. (1. CLICK >> ON - 2. CLICK >> OFF).
-       * Check if a click event was recently fired.
-       */ 
-      if(!this._checkLastChangedTime()) {
-        evt.stopPropagation();
-        evt.preventDefault();
-      }
     }
   },
 
