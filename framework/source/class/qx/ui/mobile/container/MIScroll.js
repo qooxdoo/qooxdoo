@@ -151,12 +151,15 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         useTransform: this.__useTransform,
         onBeforeScrollStart : function(e) {
           // QOOXDOO ENHANCEMENT: Do not prevent default for form elements
+          /* When updating iScroll, please check out that doubleTapTimer is not active (commented out) 
+           * in code. DoubleTapTimer creates a fake click event. Android 4.1. and newer  
+           * is able to fire native events, which  create side effect with the fake event of iScroll. */
           var target = e.target;
           while (target.nodeType != 1) {
             target = target.parentNode;
           }
-
-          if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
+          
+          if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'LABEL') {
             // Remove focus from input elements, so that the keyboard and the mouse cursor is hidden
             var elements = [];
             var inputElements = qx.lang.Array.toArray(document.getElementsByTagName("input"));
