@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
       // Add an changeSelection event
       selectionList.addListener("changeSelection", this.__onListChangeSelection, this);
-      selectionList.addListener("click", this.__onListClick, this);
+      selectionList.addListener("tap", this.__onListTap, this);
 
       return selectionList;
     },
@@ -223,7 +223,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     /**
      * Reacts on selection list click.
      */
-    __onListClick : function () {
+    __onListTap : function () {
         // Last event which is fired by tap on List is a click event,
         // so hide menu, first on click event.
         // If menu is hidden before click-event, event will bubble to ui
