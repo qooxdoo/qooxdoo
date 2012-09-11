@@ -203,8 +203,10 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      */
     __onListChangeSelection : function (evt) {
       var selectedIndex = evt.getData();
-      var selectedItem = this.__selectionList.getModel().getItem(selectedIndex)
-
+      var selectedItem = this.__selectionList.getModel().getItem(selectedIndex);
+      this.setSelectedIndex(selectedIndex);
+      this._render();
+      
       this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedItem});
     },
 
@@ -228,9 +230,18 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
         // so hide menu, first on click event.
         // If menu is hidden before click-event, event will bubble to ui
         // element which is behind menu, and might cause an unexpected action.
-        this.hide();
+        qx.event.Timer.once(this.hide, this, 500);
+    },
+    
+    
+    /**
+     * Triggers (re-)rendering of menu items.
+     */
+    _render : function() {
+        var tmpModel = this.__selectionList.getModel();
+        this.__selectionList.setModel(null);
+        this.__selectionList.setModel(tmpModel);
     }
-
   },
 
   /*
