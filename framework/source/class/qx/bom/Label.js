@@ -349,7 +349,6 @@ qx.Bootstrap.define("qx.bom.Label",
       }
       // Chrome since version 22 also has the already known missing pixel [BUG #6799]
       if (qx.core.Environment.get("browser.name") == "chrome" && parseFloat(qx.core.Environment.get("browser.version")) >= 22) {
-        console.log("bad chrome");
         size.width++;
       }
 
