@@ -1,2 +1,2 @@
-load(['../script/qx-oo-2.0.2.js']);
+load(['../script/qx-oo-2.0.3.js']);
 load(['./npm/test.js']);
