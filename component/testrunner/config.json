@@ -1,10 +1,10 @@
 {
   "name"    : "testrunner",
-  
+
   "include" :
   [
     {
-      "path" : "testrunner.json"  
+      "path" : "testrunner.json"
     },
     {
       "path" : "portable.json",
@@ -12,19 +12,19 @@
     },
     {
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
-      "block"   : 
-      [ 
+      "block"   :
+      [
         "source",
         "source-script",
         "build",
         "build-script",
         "build-resources",
         "build-files",
-        "clean" 
+        "clean"
       ]
     }
   ],
-  
+
   "export" :
   [
     "api",
@@ -45,11 +45,12 @@
     "source-all",
     "source-basic",
     "source-widget",
-    "translation"
+    "translation",
+    "mobile-source"
   ],
-  
+
   "default-job" : "source",
-  
+
   "config-warnings": {
     "job-shadowing": [
       "source-tests-script",
@@ -85,7 +86,7 @@
 
   "jobs" :
   {
-    "source-tests-script" : 
+    "source-tests-script" :
     {
       "compile-options" :
       {
@@ -112,13 +113,13 @@
         "TEST_NAMESPACE" : "${APPLICATION}.test.basic"
       }
     },
-    
+
 
     /*
     "source-script-packages" :
     {
       "extend" : ["source-script"],
-      
+
       "packages" :
       {
         "parts"  :
@@ -137,7 +138,7 @@
           }
         }
       },
-      
+
       "environment" :
       {
         "testrunner.testParts" : ["${TEST_NAMESPACE}.ui", "${TEST_NAMESPACE}.data"]
@@ -154,9 +155,39 @@
       "extend" : ["portable::source-script"]
     },
 
-    "portable-build" : 
+    "portable-build" :
     {
       "extend" : ["portable::build"]
+    },
+
+
+    "mobile-source" :
+    {
+      "extend" : ["source"],
+
+      "let" :
+      {
+        "TESTRUNNER_ORIGIN" : "push",
+        "TESTRUNNER_VIEW" : "testrunner.view.Mobile",
+        "TESTRUNNER_MAIN_CLASS" : "testrunner.MobileApplication",
+        "PLATFORM": "ios"
+      },
+
+      "run" :
+      [
+        "build-tests-script",
+        "build-tests-resources",
+        "build-tests-files"
+      ],
+
+      "asset-let" : {
+        "qx.mobile.platform" : [ "${PLATFORM}" ]
+      },
+      "add-css" : [
+        { "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${PLATFORM}.css" }
+        //,
+        //{ "uri" : "./resource/${APPLICATION_CSS}" }
+      ]
     },
 
 
