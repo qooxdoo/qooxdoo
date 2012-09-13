@@ -12,6 +12,7 @@ qx.Class.define("testrunner.view.Mobile", {
     __mainPage : null,
     __iframe : null,
     __testList : null,
+    __testRows : null,
 
     /**
      * Tells the TestRunner to run all configured tests.
@@ -37,7 +38,7 @@ qx.Class.define("testrunner.view.Mobile", {
 
     _initPage : function()
     {
-      this.__testItems = {};
+      this.__testRows = {};
       var mainPage = this.__mainPage = new qx.ui.mobile.page.NavigationPage();
       mainPage.setTitle("qooxdoo Test Runner");
       mainPage.addListener("initialize", function()
@@ -55,14 +56,58 @@ qx.Class.define("testrunner.view.Mobile", {
         mainPage.addAfterNavigationBar(buttonGroup);
 
         var self = this;
+        this.__testRows = {};
         var list = this.__testList = new qx.ui.mobile.list.List({
           configureItem : function(item, data, row)
           {
+            if (!data) {
+              return;
+            }
+            self.__testRows[data.getFullName()] = row;
             // This doesn't work since property changes on the item don't trigger
             // re-rendering of the list
             //data.bind("state", item, "subtitle");
-            item.setSubtitle(data.getState());
+
+            var testState = data.getState();
+
+            var textColor, selectable;
+            var subtitle = testState;
+            switch(testState) {
+              case "start":
+                textColor = "#333";
+                selectable = false;
+                //subtitle = "";
+                break;
+              case "success":
+                textColor = "#009100";
+                selectable = false;
+                break;
+              case "skip":
+                textColor = "#969696";
+                selectable = true;
+                break;
+              case "error":
+              case "failure":
+                textColor = "#CE0000";
+                selectable = true;
+                break;
+              default:
+                textColor = "#000000";
+                selectable = false;
+            }
+
+            item.getContentElement().style.color = textColor;
+            item.setSelectable(selectable);
+            item.setShowArrow(selectable);
+            item.setSubtitle(subtitle);
+
             item.setTitle(data.getFullName());
+            data.addListener("changeState", function(ev) {
+              var idx = self.__testRows[this.getFullName()];
+              // Force the list to update
+              self.__testList.getModel().setItem(idx, null);
+              self.__testList.getModel().setItem(idx, data);
+            });
             /*
             item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
             item.setSelectable(row<4);
@@ -182,10 +227,7 @@ qx.Class.define("testrunner.view.Mobile", {
       }
       var testList = testrunner.runner.ModelUtil.getItemsByProperty(value, "type", "test");
       testList = new qx.data.Array(testList);
-      testList.addListener("changeBubble", function() {
-        console.log("MODELCHANGE");
-      });
-      this.__testList.setModel(testList);
+      this.__testList.setModel(testList.concat());
       this.setSelectedTests(testList);
     },
 
