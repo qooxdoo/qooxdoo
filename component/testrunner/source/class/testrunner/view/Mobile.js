@@ -4,19 +4,73 @@ qx.Class.define("testrunner.view.Mobile", {
 
   construct : function()
   {
-    this._renderUi();
+    this._initPage();
   },
 
   members :
   {
+    __mainPage : null,
     __iframe : null,
+    __testList : null,
 
-    _renderUi : function()
+    /**
+     * Tells the TestRunner to run all configured tests.
+     */
+    run : function()
     {
-      var mainPage = new qx.ui.mobile.page.NavigationPage();
+      this.__suiteResults = {
+        startedAt : new Date().getTime(),
+        finishedAt : null,
+        tests : {}
+      };
+
+      this.fireEvent("runTests");
+    },
+
+    /**
+     * Tells the TestRunner to stop running any pending tests.
+     */
+    stop : function()
+    {
+      this.fireEvent("stopTests");
+    },
+
+    _initPage : function()
+    {
+      this.__testItems = {};
+      var mainPage = this.__mainPage = new qx.ui.mobile.page.NavigationPage();
       mainPage.setTitle("qooxdoo Test Runner");
       mainPage.addListener("initialize", function()
       {
+        var runButton = new qx.ui.mobile.form.Button("Run Tests");
+        runButton.addListener("tap", this.run, this);
+        var stopButton = new qx.ui.mobile.form.Button("Stop Tests");
+        stopButton.addListener("tap", this.stop, this);
+        var buttonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+        buttonContainer.add(runButton);
+        buttonContainer.add(stopButton);
+
+        var buttonGroup = new qx.ui.mobile.form.Group([buttonContainer]);
+        buttonGroup.setShowBorder(false);
+        mainPage.addAfterNavigationBar(buttonGroup);
+
+        var self = this;
+        var list = this.__testList = new qx.ui.mobile.list.List({
+          configureItem : function(item, data, row)
+          {
+            // This doesn't work since property changes on the item don't trigger
+            // re-rendering of the list
+            //data.bind("state", item, "subtitle");
+            item.setSubtitle(data.getState());
+            item.setTitle(data.getFullName());
+            /*
+            item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
+            item.setSelectable(row<4);
+            item.setShowArrow(row<4);
+            */
+          }
+        });
+        mainPage.getContent().add(list);
         /*
         var button = new qx.ui.mobile.form.Button("Next Page");
         mainPage.getContent().add(button);
@@ -42,10 +96,12 @@ qx.Class.define("testrunner.view.Mobile", {
       if (!this.__iframe) {
         this.__iframe = qx.bom.Iframe.create({
           onload: "qx.event.handler.Iframe.onevent(this)",
-          id: "autframe"
+          id: "autframe",
+          width: "0px",
+          height: "0px"
         });
 
-        document.body.appendChild(this.__iframe);
+        this.__mainPage.getContentElement().appendChild(this.__iframe);
       }
 
       return this.__iframe;
@@ -125,7 +181,12 @@ qx.Class.define("testrunner.view.Mobile", {
         return;
       }
       var testList = testrunner.runner.ModelUtil.getItemsByProperty(value, "type", "test");
-      this.setSelectedTests(new qx.data.Array(testList));
+      testList = new qx.data.Array(testList);
+      testList.addListener("changeBubble", function() {
+        console.log("MODELCHANGE");
+      });
+      this.__testList.setModel(testList);
+      this.setSelectedTests(testList);
     },
 
 

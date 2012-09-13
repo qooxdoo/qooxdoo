@@ -173,6 +173,11 @@
         "PLATFORM": "ios"
       },
 
+      "environment" :
+      {
+        "qx.mobile.emulatetouch" : true
+      },
+
       "run" :
       [
         "build-tests-script",
@@ -183,8 +188,12 @@
       "asset-let" : {
         "qx.mobile.platform" : [ "${PLATFORM}" ]
       },
+
       "add-css" : [
-        { "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${PLATFORM}.css" }
+        {
+          //"uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${PLATFORM}.css"
+          "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/indigo.css"
+        }
         //,
         //{ "uri" : "./resource/${APPLICATION_CSS}" }
       ]
