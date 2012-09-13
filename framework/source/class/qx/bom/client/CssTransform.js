@@ -71,7 +71,7 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
      *   not supported.
      */
     getStyle : function() {
-      return qx.bom.Style.getPropertyName("TransformStyle");
+      return qx.bom.Style.getPropertyName("transformStyle");
     },
 
 
@@ -82,7 +82,7 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
      *   not supported.
      */
     getPerspective : function() {
-      return qx.bom.Style.getPropertyName("Perspective");
+      return qx.bom.Style.getPropertyName("perspective");
     },
 
 
@@ -93,7 +93,7 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
      *   not supported.
      */
     getPerspectiveOrigin : function() {
-      return qx.bom.Style.getPropertyName("PerspectiveOrigin");
+      return qx.bom.Style.getPropertyName("perspectiveOrigin");
     },
 
 
@@ -104,7 +104,7 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
      *   not supported.
      */
     getBackFaceVisibility : function() {
-      return qx.bom.Style.getPropertyName("BackfaceVisibility");
+      return qx.bom.Style.getPropertyName("backfaceVisibility");
     },
 
 
@@ -115,7 +115,7 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
      *   not supported.
      */
     getOrigin : function() {
-      return qx.bom.Style.getPropertyName("TransformOrigin");
+      return qx.bom.Style.getPropertyName("transformOrigin");
     },
 
 
@@ -126,7 +126,7 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
      *   not supported.
      */
     getName : function() {
-      return qx.bom.Style.getPropertyName("Transform");
+      return qx.bom.Style.getPropertyName("transform");
     },
 
 
@@ -136,14 +136,7 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
      * @return {Boolean} <code>true</code>, if 3D transformations are supported
      */
     get3D : function() {
-      var div = document.createElement('div');
-      var ret = false;
-      var properties = ["perspectiveProperty", "WebkitPerspective", "MozPerspective"];
-      for (var i = properties.length - 1; i >= 0; i--){
-        ret = ret ? ret : div.style[properties[i]] != undefined;
-      };
-
-      return ret;
+      return qx.bom.client.CssTransform.getPerspective() != null;
     }
   },
 
