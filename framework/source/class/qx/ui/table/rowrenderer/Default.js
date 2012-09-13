@@ -40,10 +40,9 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   {
     this.base(arguments);
 
-    this.__fontStyleString = "";
-    this.__fontStyleString = {};
-
     this._colors = {};
+    this.__fontStyle = {};
+    this.__fontStyleString = "";
 
     // link to font theme
     this._renderFont(qx.theme.manager.Font.getInstance().resolve("default"));
@@ -116,8 +115,8 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       }
       else
       {
-        this.__fontStyleString = "";
         this.__fontStyle = qx.bom.Font.getDefaultStyles();
+        this.__fontStyleString = "";
       }
     },
 
