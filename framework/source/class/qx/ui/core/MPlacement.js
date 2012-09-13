@@ -232,6 +232,9 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
       // Add bounds of the widget itself
       bounds = widget.getBounds();
+      if (!bounds) {
+    	return null;
+      }
       left = bounds.left;
       top = bounds.top;
 
@@ -373,7 +376,8 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       }
 
       var coords = target.getContainerLocation() || this.getLayoutLocation(target);
-      this.__place(coords);
+      if (coords != null)
+    	this.__place(coords);
     },
 
     /**
