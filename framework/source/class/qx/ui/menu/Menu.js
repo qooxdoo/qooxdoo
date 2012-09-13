@@ -282,11 +282,14 @@ qx.Class.define("qx.ui.menu.Menu",
     {
       if (this.getOpener() != null)
       {
-        this.placeToWidget(this.getOpener());
-        this.__updateSlideBar();
-        this.show();
+        if (!this.placeToWidget(this.getOpener())) {
+          this.warn("Could not open menu instance because 'opener' widget is not visible");
+        } else {
+          this.__updateSlideBar();
+          this.show();
 
-        this._placementTarget = this.getOpener();
+          this._placementTarget = this.getOpener();
+        }
       } else {
         this.warn("The menu instance needs a configured 'opener' widget!");
       }

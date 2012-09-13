@@ -376,8 +376,11 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       }
 
       var coords = target.getContainerLocation() || this.getLayoutLocation(target);
-      if (coords != null)
+      if (coords != null) {
     	this.__place(coords);
+    	return true;
+      }
+      return false;
     },
 
     /**
