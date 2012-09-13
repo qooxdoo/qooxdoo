@@ -200,6 +200,19 @@
       }
     },
 
+    "build-min-test" :
+    {
+      "extend" : ["build-min"],
+
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "=file" : "${TEST_SCRIPT_PATH}/q-${QOOXDOO_VERSION}.min.js"
+        }
+      }
+    },
+
     "test" :
     {
       "let" :
@@ -208,7 +221,7 @@
       },
 
       "run" : [
-        "build-min",
+        "build-min-test",
         "testrunner-portable::build-script",
         "testrunner-portable::gen-css"
       ]
