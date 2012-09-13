@@ -117,9 +117,9 @@ qx.Class.define("qx.test.bom.element.Transform",
     },
 
     testPerspective : function() {
-      qx.bom.element.Transform.setPerspective(this.__el, "affe");
-      this.assertEquals("affe", this.__el.style[this.__keys["perspective"]]);
-      this.assertEquals("affe", qx.bom.element.Transform.getPerspective(this.__el));
+      qx.bom.element.Transform.setPerspective(this.__el, 123);
+      this.assertEquals("123px", this.__el.style[this.__keys["perspective"]]);
+      this.assertEquals("123px", qx.bom.element.Transform.getPerspective(this.__el));
     },
 
     testPerspectiveOrigin : function() {

@@ -2278,7 +2278,7 @@ testrunner.define({
   },
 
   testTransformPerspective : function() {
-    this.sandbox.setTransformPerspective("1234px");
+    this.sandbox.setTransformPerspective(1234);
     if (q.env.get("css.transform") != null) {
       this.assertEquals("1234px", this.sandbox.getTransformPerspective());
     }
