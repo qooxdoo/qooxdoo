@@ -133,8 +133,13 @@ qx.Bootstrap.define("qx.bom.element.Animation",
         }
       }
 
+      var transformKeys = ["scale", "rotate", "skew", "translate"];
       for (var i=0; i < keys.length; i++) {
         if (!(keys[i] in el.style)) {
+          // check for transform keys
+          if (transformKeys.indexOf(keys[i]) != -1) {
+            continue;
+          }
           return false;
         }
       };
