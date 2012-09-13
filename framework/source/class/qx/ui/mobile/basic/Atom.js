@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -133,7 +133,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     __label : null,
     __icon : null,
     __childrenContainer : null,
-    __emptyLabel : null,
 
 
         // property apply
@@ -241,12 +240,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       else
       {
         this.__label = this._createLabelWidget(value);
-
-        if(this.__emptyLabel) {
-          this.__childrenContainer.addAfter(this.__label, this.__emptyLabel);
-          this.__emptyLabel.destroy();
-          this.__emptyLabel = null;
-        }
       }
     },
 
@@ -275,7 +268,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     },
 
 
-
     /**
      * Returns the label widget.
      *
@@ -284,7 +276,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     getLabelWidget : function() {
       return this.__label;
     },
-
 
 
     /**
@@ -326,14 +317,16 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
      *
      */
     __createChildren : function(label, icon) {
+     
+      this.__label = this._createLabelWidget(label);
       if(label)
-      {
-        this.__label = this._createLabelWidget(label);
+      {  
         this.setLabel(label);
       }
+      
+      this.__icon = this._createIconWidget(icon);
       if(icon)
-      {
-        this.__icon = this._createIconWidget(icon);
+      {  
         this.setIcon(icon);
       }
 
@@ -357,15 +350,8 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       }
 
       if(this.__label) {
-        // LABEL
         this.__label.addCssClass("box-centered");
         this.__childrenContainer.add(this.__label, {flex : 0});
-      }
-      else if(!this.__icon)
-      {
-        // NO LABEL, NO ICON
-        this.__emptyLabel = new qx.ui.mobile.basic.Label(" ");
-        this.__childrenContainer.add(this.__emptyLabel);
       }
 
       // Show/Hide Label/Icon
@@ -388,7 +374,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
   */
 
   destruct : function() {
-      this._disposeObjects("__label", "__emptyLabel", "__icon", "__childrenContainer");
+      this._disposeObjects("__label", "__icon", "__childrenContainer");
   }
 
 });
