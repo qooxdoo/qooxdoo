@@ -1,3 +1,30 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2012 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Daniel Wagner (d_wagner)
+
+************************************************************************ */
+
+/* ************************************************************************
+#asset(qx/icon/Tango/22/actions/media-playback-start.png)
+#asset(qx/icon/Tango/22/actions/media-playback-stop.png)
+************************************************************************ */
+
+/**
+ * Test Runner mobile view
+ */
 qx.Class.define("testrunner.view.Mobile", {
 
   extend : testrunner.view.Abstract,
@@ -10,31 +37,32 @@ qx.Class.define("testrunner.view.Mobile", {
   members :
   {
     __mainPage : null,
+    __detailPage : null,
+    __runButton : null,
     __iframe : null,
+    __testList : null,
     __testListWidget : null,
     __testRows : null,
     __statusLabel : null,
+    __suiteResults : null,
 
     /**
      * Tells the TestRunner to run all configured tests.
      */
-    run : function()
+    _onRunButtonTap : function()
     {
-      this.__suiteResults = {
-        startedAt : new Date().getTime(),
-        finishedAt : null,
-        tests : {}
-      };
-
-      this.fireEvent("runTests");
-    },
-
-    /**
-     * Tells the TestRunner to stop running any pending tests.
-     */
-    stop : function()
-    {
-      this.fireEvent("stopTests");
+      var suiteState = this.getTestSuiteState();
+      if (suiteState == "ready") {
+        this.__suiteResults = {
+          startedAt : new Date().getTime(),
+          finishedAt : null,
+          tests : {}
+        };
+        this.fireEvent("runTests");
+      }
+      else if (suiteState == "finished") {
+        this.fireEvent("stopTests");
+      }
     },
 
     _initPage : function()
@@ -53,14 +81,6 @@ qx.Class.define("testrunner.view.Mobile", {
         });
         list.addListener("changeSelection", this._onListChangeSelection, this);
         mainPage.getContent().add(list);
-        /*
-        var button = new qx.ui.mobile.form.Button("Next Page");
-        mainPage.getContent().add(button);
-
-        button.addListener("tap", function() {
-          page2.show();
-        }, this);
-         */
 
         var statusBar = this._getStatusBar();
         mainPage.add(statusBar);
@@ -102,7 +122,6 @@ qx.Class.define("testrunner.view.Mobile", {
         case "start":
           cssClass = "start";
           selectable = false;
-          //subtitle = "";
           break;
         case "success":
           cssClass = "success";
@@ -136,22 +155,15 @@ qx.Class.define("testrunner.view.Mobile", {
         self.__testListWidget.getModel().setItem(idx, null);
         self.__testListWidget.getModel().setItem(idx, data);
       });
-      /*
-      item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
-      item.setSelectable(row<4);
-      item.setShowArrow(row<4);
-      */
     },
 
     _getButtonGroup : function()
     {
-      var runButton = new qx.ui.mobile.form.Button("Run Tests");
-      runButton.addListener("tap", this.run, this);
-      var stopButton = new qx.ui.mobile.form.Button("Stop Tests");
-      stopButton.addListener("tap", this.stop, this);
+      var runButton = this.__runButton = new qx.ui.mobile.form.Button();
+      runButton.addListener("tap", this._onRunButtonTap, this);
       var buttonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
       buttonContainer.add(runButton);
-      buttonContainer.add(stopButton);
+      //buttonContainer.add(new qx.ui.mobile.toolbar.Separator(), {flex: 1});
 
       var buttonGroup = new qx.ui.mobile.form.Group([buttonContainer]);
       buttonGroup.setShowBorder(false);
@@ -231,15 +243,20 @@ qx.Class.define("testrunner.view.Mobile", {
           break;
         case "loading" :
           this.setStatus("Loading tests...");
+          this.__runButton.setEnabled(false);
           break;
         case "ready" :
           this.setStatus(this.getSelectedTests().length + " tests ready to run.");
+          this.__runButton.setEnabled(true);
+          this.__runButton.setValue("Run Tests");
           break;
         case "error" :
           this.setStatus("Couldn't load test suite!");
+          this.__runButton.setEnabled(false);
           break;
         case "running" :
           this.setStatus("Running tests...");
+          this.__runButton.setValue("Stop Tests");
           break;
         case "finished" :
           this.__suiteResults.finishedAt = new Date().getTime();
@@ -247,6 +264,7 @@ qx.Class.define("testrunner.view.Mobile", {
           //re-apply selection so the same suite can be executed again
           this.setSelectedTests(new qx.data.Array());
           this.setSelectedTests(this.__testList);
+          this.__runButton.setValue("Run Tests");
           break;
         case "aborted" :
           this.setStatus("Test run aborted");
@@ -354,9 +372,9 @@ qx.Class.define("testrunner.view.Mobile", {
         }
       }
 
-      return "<span class='summary failure'>" + fail + "</span>" + " failed, " +
-             "<span class='summary success'>" + pass + "</span>" + " passed, " +
-             "<span class='summary skip'>" + skip + "</span>" + " skipped.";
+      return "<span class='failure'>" + fail + "</span>" + " failed, " +
+             "<span class='success'>" + pass + "</span>" + " passed, " +
+             "<span class='skip'>" + skip + "</span>" + " skipped.";
     },
 
     _onListChangeSelection : function(ev)
