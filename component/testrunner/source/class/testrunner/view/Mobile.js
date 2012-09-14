@@ -13,6 +13,7 @@ qx.Class.define("testrunner.view.Mobile", {
     __iframe : null,
     __testList : null,
     __testRows : null,
+    __statusLabel : null,
 
     /**
      * Tells the TestRunner to run all configured tests.
@@ -43,77 +44,12 @@ qx.Class.define("testrunner.view.Mobile", {
       mainPage.setTitle("qooxdoo Test Runner");
       mainPage.addListener("initialize", function()
       {
-        var runButton = new qx.ui.mobile.form.Button("Run Tests");
-        runButton.addListener("tap", this.run, this);
-        var stopButton = new qx.ui.mobile.form.Button("Stop Tests");
-        stopButton.addListener("tap", this.stop, this);
-        var buttonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
-        buttonContainer.add(runButton);
-        buttonContainer.add(stopButton);
-
-        var buttonGroup = new qx.ui.mobile.form.Group([buttonContainer]);
-        buttonGroup.setShowBorder(false);
+        var buttonGroup = this._getButtonGroup();
         mainPage.addAfterNavigationBar(buttonGroup);
 
-        var self = this;
         this.__testRows = {};
         var list = this.__testList = new qx.ui.mobile.list.List({
-          configureItem : function(item, data, row)
-          {
-            if (!data) {
-              return;
-            }
-            self.__testRows[data.getFullName()] = row;
-            // This doesn't work since property changes on the item don't trigger
-            // re-rendering of the list
-            //data.bind("state", item, "subtitle");
-
-            var testState = data.getState();
-
-            var textColor, selectable;
-            var subtitle = testState;
-            switch(testState) {
-              case "start":
-                textColor = "#333";
-                selectable = false;
-                //subtitle = "";
-                break;
-              case "success":
-                textColor = "#009100";
-                selectable = false;
-                break;
-              case "skip":
-                textColor = "#969696";
-                selectable = true;
-                break;
-              case "error":
-              case "failure":
-                textColor = "#CE0000";
-                selectable = true;
-                break;
-              default:
-                textColor = "#000000";
-                selectable = false;
-            }
-
-            item.getContentElement().style.color = textColor;
-            item.setSelectable(selectable);
-            item.setShowArrow(selectable);
-            item.setSubtitle(subtitle);
-
-            item.setTitle(data.getFullName());
-            data.addListener("changeState", function(ev) {
-              var idx = self.__testRows[this.getFullName()];
-              // Force the list to update
-              self.__testList.getModel().setItem(idx, null);
-              self.__testList.getModel().setItem(idx, data);
-            });
-            /*
-            item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
-            item.setSelectable(row<4);
-            item.setShowArrow(row<4);
-            */
-          }
+          configureItem : this._configureListItem.bind(this)
         });
         mainPage.getContent().add(list);
         /*
@@ -124,6 +60,9 @@ qx.Class.define("testrunner.view.Mobile", {
           page2.show();
         }, this);
          */
+
+        var statusBar = this._getStatusBar();
+        mainPage.add(statusBar);
       }, this);
 
       // Add the pages to the page manager.
@@ -134,6 +73,88 @@ qx.Class.define("testrunner.view.Mobile", {
 
       // mainPage will be shown at start
       mainPage.show();
+    },
+
+    _configureListItem : function(item, data, row)
+    {
+      if (!data) {
+        return;
+      }
+      this.__testRows[data.getFullName()] = row;
+      // This doesn't work since property changes on the item don't trigger
+      // re-rendering of the list
+      //data.bind("state", item, "subtitle");
+
+      var testState = data.getState();
+
+      var textColor, selectable;
+      var subtitle = testState;
+      switch(testState) {
+        case "start":
+          textColor = "#333";
+          selectable = false;
+          //subtitle = "";
+          break;
+        case "success":
+          textColor = "#009100";
+          selectable = false;
+          break;
+        case "skip":
+          textColor = "#969696";
+          selectable = true;
+          break;
+        case "error":
+        case "failure":
+          textColor = "#CE0000";
+          selectable = true;
+          break;
+        default:
+          textColor = "#000000";
+          selectable = false;
+      }
+
+      item.getContentElement().style.color = textColor;
+      item.setSelectable(selectable);
+      item.setShowArrow(selectable);
+      item.setSubtitle(subtitle);
+
+      item.setTitle(data.getFullName());
+      var self = this;
+      data.addListener("changeState", function(ev) {
+        var idx = self.__testRows[this.getFullName()];
+        // Force the list to update
+        self.__testList.getModel().setItem(idx, null);
+        self.__testList.getModel().setItem(idx, data);
+      });
+      /*
+      item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
+      item.setSelectable(row<4);
+      item.setShowArrow(row<4);
+      */
+    },
+
+    _getButtonGroup : function()
+    {
+      var runButton = new qx.ui.mobile.form.Button("Run Tests");
+      runButton.addListener("tap", this.run, this);
+      var stopButton = new qx.ui.mobile.form.Button("Stop Tests");
+      stopButton.addListener("tap", this.stop, this);
+      var buttonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+      buttonContainer.add(runButton);
+      buttonContainer.add(stopButton);
+
+      var buttonGroup = new qx.ui.mobile.form.Group([buttonContainer]);
+      buttonGroup.setShowBorder(false);
+      return buttonGroup;
+    },
+
+    _getStatusBar : function()
+    {
+      var statusBar = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+      var statusGroup = new qx.ui.mobile.form.Group([statusBar]);
+      this.__statusLabel = new qx.ui.mobile.basic.Label("AFFENKOPF");
+      statusBar.add(this.__statusLabel);
+      return statusGroup;
     },
 
     getIframe : function()
@@ -181,7 +202,7 @@ qx.Class.define("testrunner.view.Mobile", {
         return;
       }
 
-      this.info(value);
+      this.__statusLabel.setValue(value);
     },
 
 
@@ -202,7 +223,7 @@ qx.Class.define("testrunner.view.Mobile", {
           this.setStatus("Loading tests...");
           break;
         case "ready" :
-          this.setStatus(this.getSelectedTests().length + " tests ready. Call qx.core.Init.getApplication().runner.view.run() to start.");
+          this.setStatus(this.getSelectedTests().length + " tests ready to run.");
           break;
         case "error" :
           this.setStatus("Couldn't load test suite!");
@@ -212,7 +233,7 @@ qx.Class.define("testrunner.view.Mobile", {
           break;
         case "finished" :
           this.__suiteResults.finishedAt = new Date().getTime();
-          this.setStatus("Test suite finished. Call qx.core.Init.getApplication().runner.view.getTestResults() to get the results.");
+          this.setStatus("Test suite finished.");
           break;
         case "aborted" :
           this.setStatus("Test run aborted");
