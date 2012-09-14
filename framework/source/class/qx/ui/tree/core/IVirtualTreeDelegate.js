@@ -82,6 +82,6 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
      * @param data {var} The data which will be checked.
      * @return {Boolean} True, if the data passes the filter, false otherwise.
      */
-    filter : function(data) {},
+    filter : function(data) {}
   }
 });
