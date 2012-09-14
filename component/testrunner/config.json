@@ -170,7 +170,8 @@
         "TESTRUNNER_ORIGIN" : "push",
         "TESTRUNNER_VIEW" : "testrunner.view.Mobile",
         "TESTRUNNER_MAIN_CLASS" : "testrunner.MobileApplication",
-        "PLATFORM": "ios"
+        "PLATFORM": "ios",
+        "APPLICATION_CSS" : "${APPLICATION}/view/mobile/css/styles.css"
       },
 
       "environment" :
@@ -193,9 +194,10 @@
         {
           //"uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${PLATFORM}.css"
           "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/indigo.css"
+        },
+        {
+          "uri" : "./resource/${APPLICATION_CSS}"
         }
-        //,
-        //{ "uri" : "./resource/${APPLICATION_CSS}" }
       ]
     },
 

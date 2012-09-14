@@ -1,0 +1,20 @@
+.start {
+  color: #333;
+}
+
+.success {
+  color: #007F00;
+}
+
+.failure {
+  color: #9E0000;
+}
+
+.skip {
+  color: #666666;
+}
+
+.summary {
+  font-weight: bold;
+  font-size: 1.25em;
+}

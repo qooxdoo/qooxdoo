@@ -11,7 +11,7 @@ qx.Class.define("testrunner.view.Mobile", {
   {
     __mainPage : null,
     __iframe : null,
-    __testList : null,
+    __testListWidget : null,
     __testRows : null,
     __statusLabel : null,
 
@@ -48,7 +48,7 @@ qx.Class.define("testrunner.view.Mobile", {
         mainPage.addAfterNavigationBar(buttonGroup);
 
         this.__testRows = {};
-        var list = this.__testList = new qx.ui.mobile.list.List({
+        var list = this.__testListWidget = new qx.ui.mobile.list.List({
           configureItem : this._configureListItem.bind(this)
         });
         mainPage.getContent().add(list);
@@ -85,35 +85,38 @@ qx.Class.define("testrunner.view.Mobile", {
       // re-rendering of the list
       //data.bind("state", item, "subtitle");
 
+      var el = item.getContentElement();
+      qx.bom.element.Class.removeClasses(el, ["start", "success", "failure", "skip"]);
       var testState = data.getState();
 
-      var textColor, selectable;
+      var cssClass, selectable;
       var subtitle = testState;
       switch(testState) {
         case "start":
-          textColor = "#333";
+          cssClass = "start";
           selectable = false;
           //subtitle = "";
           break;
         case "success":
-          textColor = "#009100";
+          cssClass = "success";
           selectable = false;
           break;
         case "skip":
-          textColor = "#969696";
+          cssClass = "skip";
           selectable = true;
           break;
         case "error":
         case "failure":
-          textColor = "#CE0000";
+          cssClass = "failure";
           selectable = true;
           break;
         default:
-          textColor = "#000000";
           selectable = false;
       }
 
-      item.getContentElement().style.color = textColor;
+      if (cssClass) {
+        qx.bom.element.Class.add(el, cssClass);
+      }
       item.setSelectable(selectable);
       item.setShowArrow(selectable);
       item.setSubtitle(subtitle);
@@ -123,8 +126,8 @@ qx.Class.define("testrunner.view.Mobile", {
       data.addListener("changeState", function(ev) {
         var idx = self.__testRows[this.getFullName()];
         // Force the list to update
-        self.__testList.getModel().setItem(idx, null);
-        self.__testList.getModel().setItem(idx, data);
+        self.__testListWidget.getModel().setItem(idx, null);
+        self.__testListWidget.getModel().setItem(idx, data);
       });
       /*
       item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
@@ -152,7 +155,7 @@ qx.Class.define("testrunner.view.Mobile", {
     {
       var statusBar = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
       var statusGroup = new qx.ui.mobile.form.Group([statusBar]);
-      this.__statusLabel = new qx.ui.mobile.basic.Label("AFFENKOPF");
+      this.__statusLabel = new qx.ui.mobile.basic.Label("Loading...");
       statusBar.add(this.__statusLabel);
       return statusGroup;
     },
@@ -202,7 +205,7 @@ qx.Class.define("testrunner.view.Mobile", {
         return;
       }
 
-      this.__statusLabel.setValue(value);
+      this.__statusLabel.getContentElement().innerHTML = value;
     },
 
 
@@ -233,7 +236,10 @@ qx.Class.define("testrunner.view.Mobile", {
           break;
         case "finished" :
           this.__suiteResults.finishedAt = new Date().getTime();
-          this.setStatus("Test suite finished.");
+          this.setStatus("Test suite finished. " + this._getSummary());
+          //re-apply selection so the same suite can be executed again
+          this.setSelectedTests(new qx.data.Array());
+          this.setSelectedTests(this.__testList);
           break;
         case "aborted" :
           this.setStatus("Test run aborted");
@@ -246,10 +252,10 @@ qx.Class.define("testrunner.view.Mobile", {
       if (!value) {
         return;
       }
-      var testList = testrunner.runner.ModelUtil.getItemsByProperty(value, "type", "test");
-      testList = new qx.data.Array(testList);
-      this.__testList.setModel(testList.concat());
-      this.setSelectedTests(testList);
+      this.__testList = testrunner.runner.ModelUtil.getItemsByProperty(value, "type", "test");
+      this.__testList = new qx.data.Array(this.__testList);
+      this.__testListWidget.setModel(this.__testList.concat());
+      this.setSelectedTests(this.__testList);
     },
 
 
@@ -320,6 +326,31 @@ qx.Class.define("testrunner.view.Mobile", {
       if (state == "error" && exceptions) {
         this.error(exceptions);
       }
+    },
+
+
+    _getSummary : function()
+    {
+      var pass = 0;
+      var fail = 0;
+      var skip = 0;
+      for (var test in this.__suiteResults.tests) {
+        switch (this.__suiteResults.tests[test].state) {
+          case "success":
+            pass++;
+            break;
+          case "error":
+          case "failure":
+            fail++;
+            break;
+          case "skip":
+            skip++;
+        }
+      }
+
+      return "<span class='summary failure'>" + fail + "</span>" + " failed, " +
+             "<span class='summary success'>" + pass + "</span>" + " passed, " +
+             "<span class='summary skip'>" + skip + "</span>" + " skipped.";
     }
   }
 });
