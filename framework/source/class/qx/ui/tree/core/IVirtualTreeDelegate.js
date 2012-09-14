@@ -73,8 +73,8 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
      * @param item {qx.ui.core.Widget} Item to modify.
      */
     onPool : function(item) {},
-    
-    
+
+
     /**
      * Filter checks the current data and returns a boolean if the data should
      * appear in the filtered data set or not.
