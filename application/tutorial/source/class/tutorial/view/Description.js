@@ -64,7 +64,7 @@ qx.Class.define("tutorial.view.Description",
   properties : {
     tutorial : {
       apply : "_applyTutorial",
-      init : tutorial.tutorial.HelloWorld
+      nullable : true
     },
 
     step : {
@@ -88,7 +88,10 @@ qx.Class.define("tutorial.view.Description",
     },
 
     updateView : function() {
-      this.__embed.setHtml(this.getTutorial().steps[this.getStep()].text);
+      if (!this.getTutorial()) {
+        return;
+      }
+      this.__embed.setHtml(this.getTutorial().steps[this.getStep()]);
     },
 
 
@@ -123,7 +126,7 @@ qx.Class.define("tutorial.view.Description",
         return data > 0;
       }});
       this.bind("step", next, "enabled", {converter : function(data) {
-        return data < self.getTutorial().steps.length - 1;
+        return !!self.getTutorial() && data < self.getTutorial().steps.length - 1;
       }});
 
       // next, pref control
@@ -139,7 +142,7 @@ qx.Class.define("tutorial.view.Description",
         this.fireEvent("run");
       }, this);
       update.addListener("execute", function() {
-        this.fireDataEvent("update", this.getTutorial().steps[this.getStep()].code);
+        this.fireDataEvent("update", this.getTutorial().code[this.getStep()]);
       }, this);
 
       // container

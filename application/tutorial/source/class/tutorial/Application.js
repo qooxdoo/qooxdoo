@@ -16,6 +16,14 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
+
+/* ************************************************************************
+#asset(tutorial/*)
+#require(qx.module.Manipulating)
+#require(qx.module.Attribute)
+#require(qx.module.Traversing)
+************************************************************************ */
+
 /**
  * This is the main application class of your custom application "tutorial"
  */
@@ -23,12 +31,14 @@ qx.Class.define("tutorial.Application",
 {
   extend : qx.application.Standalone,
 
+
   members :
   {
     __header : null,
     __playArea : null,
     __editor : null,
 
+    tutorials_desktop : ["Hello_World"],
 
     main : function()
     {
@@ -62,10 +72,10 @@ qx.Class.define("tutorial.Application",
       content.setPaddingTop(10);
       mainComposite.add(content, {flex: 1});
 
-      var description = new tutorial.view.Description();
-      description.addListener("run", this.run, this);
-      description.addListener("update", this.updateEditor, this);
-      content.add(description, {width: "50%"});
+      this.__description = new tutorial.view.Description();
+      this.__description.addListener("run", this.run, this);
+      this.__description.addListener("update", this.updateEditor, this);
+      content.add(this.__description, {width: "50%"});
 
       var actionArea = new qx.ui.container.Composite();
       actionArea.setLayout(new qx.ui.layout.VBox(10));
@@ -84,20 +94,23 @@ qx.Class.define("tutorial.Application",
       this.__playArea.addListener("toggleMaximize", function(e) {
         if (!this.__editor.isExcluded()) {
           this.__editor.exclude();
-          description.exclude();
+          this.__description.exclude();
         } else {
           this.__editor.show();
-          description.show();
+          this.__description.show();
         }
       }, this);
 
       content.add(actionArea, {flex: 1});
+
+      // load initial tutorial
+      this.loadTutorial("Hello_World", "desktop");
     },
 
     updateEditor : function(e) {
-      var func = e.getData().toString();
-      var code = func.substring(func.indexOf("{") + 2, func.lastIndexOf("}") - 9);
-      code = code.replace(/ {10}/g, "");
+      var code = e.getData().toString();
+      code = code.substring(5, code.length -3);
+      code = code.replace(/ {4}/g, "");
       this.__editor.setCode(code);
       this.run();
     },
@@ -128,6 +141,35 @@ qx.Class.define("tutorial.Application",
       }
     },
 
+
+    loadTutorial : function(name, type) {
+      var htmlFileName = qx.util.ResourceManager.getInstance().toUri(
+        "tutorial/" + type + "/" + name + ".html"
+      );
+      var req = new qx.io.request.Xhr(htmlFileName);
+      req.addListener("success", function(e) {
+        var req = e.getTarget();
+        var tutorial = this.parseTutorial(name, type, req.getResponse());
+        this.__description.setTutorial(tutorial);
+      }, this);
+      req.send();
+    },
+
+
+    parseTutorial : function(name, type, html) {
+      var tutorial = {
+        name : name,
+        type : type,
+        steps : [],
+        code : []
+      };
+      var div = q.create("<div>").setHtml(html);
+      div.getChildren().forEach(function(item) {
+        tutorial.steps.push(q(item).getHtml());
+        tutorial.code.push(q(item).getChildren("[class=sample]").getHtml());
+      });
+      return tutorial;
+    },
 
     loadAce : function(clb, ctx) {
       var resource = [
