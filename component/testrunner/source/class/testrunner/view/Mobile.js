@@ -332,25 +332,6 @@ qx.Class.define("testrunner.view.Mobile", {
           this.__suiteResults.tests[testName].exceptions.push(serializedEx);
         }
       }
-
-      var level;
-      switch(state) {
-        case "skip":
-          level = "warn";
-          break;
-        case "error":
-        case "failure":
-          level = "error";
-          break;
-        default:
-          level = "info";
-      }
-
-      this[level](testName + " : " + state);
-
-      if (state == "error" && exceptions) {
-        this.error(exceptions);
-      }
     },
 
     _getSummary : function()
