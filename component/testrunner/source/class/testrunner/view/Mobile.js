@@ -51,6 +51,7 @@ qx.Class.define("testrunner.view.Mobile", {
         var list = this.__testListWidget = new qx.ui.mobile.list.List({
           configureItem : this._configureListItem.bind(this)
         });
+        list.addListener("changeSelection", this._onListChangeSelection, this);
         mainPage.getContent().add(list);
         /*
         var button = new qx.ui.mobile.form.Button("Next Page");
@@ -65,11 +66,17 @@ qx.Class.define("testrunner.view.Mobile", {
         mainPage.add(statusBar);
       }, this);
 
+      var detailPage = this.__detailPage = new qx.ui.mobile.page.NavigationPage();
+      detailPage.setShowBackButton(true);
+      detailPage.setBackButtonText("Back");
+      detailPage.setTitle("Result Details");
+      detailPage.addListener("back", function() {
+        mainPage.show({animation:"slide", reverse:true});
+      },this);
+
       // Add the pages to the page manager.
       var manager = new qx.ui.mobile.page.Manager(false);
-      manager.addDetail([
-        mainPage
-      ]);
+      manager.addDetail([mainPage, detailPage]);
 
       // mainPage will be shown at start
       mainPage.show();
@@ -194,7 +201,7 @@ qx.Class.define("testrunner.view.Mobile", {
     },
 
     /**
-     * Writes a status message to the browser's logging console.
+     * Writes a message to the status bar
      *
      * @param value {String} New status value
      * @param old {String} Previous status value
@@ -328,7 +335,6 @@ qx.Class.define("testrunner.view.Mobile", {
       }
     },
 
-
     _getSummary : function()
     {
       var pass = 0;
@@ -351,6 +357,34 @@ qx.Class.define("testrunner.view.Mobile", {
       return "<span class='summary failure'>" + fail + "</span>" + " failed, " +
              "<span class='summary success'>" + pass + "</span>" + " passed, " +
              "<span class='summary skip'>" + skip + "</span>" + " skipped.";
+    },
+
+    _onListChangeSelection : function(ev)
+    {
+      var testName = qx.lang.Object.getKeyFromValue(this.__testRows, ev.getData());
+      for (var i=0,l=this.__testList.length; i<l; i++) {
+        if (this.__testList.getItem(i).getFullName() == testName) {
+          var exceptions = this.__testList.getItem(i).getExceptions();
+          for (var x=0,y=exceptions.length; x<y; x++) {
+            var ex = exceptions[x].exception;
+            var msg = ex.toString ? ex.toString() : ex.message;
+            var stack = ex.getStackTrace ? ex.getStackTrace() : qx.dev.StackTrace.getStackTraceFromError(ex);
+            var msgLabel = new qx.ui.mobile.basic.Label(msg);
+            msgLabel.setWrap(true);
+            var stackLabel = new qx.ui.mobile.basic.Label(stack.join("<br/>"));
+            stackLabel.setWrap(true);
+            this.__detailPage.removeAll();
+            var detailContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
+            detailContainer.add(msgLabel);
+            detailContainer.add(stackLabel);
+            var detailGroup = new qx.ui.mobile.form.Group([detailContainer]);
+            this.__detailPage.add(detailGroup);
+            this.__detailPage.show();
+          }
+
+          break;
+        }
+      }
     }
   }
 });
