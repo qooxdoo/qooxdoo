@@ -46,7 +46,8 @@
     "source-basic",
     "source-widget",
     "translation",
-    "mobile-source"
+    "mobile-source",
+    "mobile-build"
   ],
 
   "default-job" : "source",
@@ -161,10 +162,8 @@
     },
 
 
-    "mobile-source" :
+    "mobile-common" :
     {
-      "extend" : ["source"],
-
       "let" :
       {
         "TESTRUNNER_ORIGIN" : "push",
@@ -201,6 +200,25 @@
       ]
     },
 
+    "mobile-source" :
+    {
+      "extend" : ["source", "mobile-common"]
+    },
+
+    "mobile-build" :
+    {
+      "extend" : ["build", "mobile-common"],
+
+      "=add-css" : [
+        {
+          //"uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${PLATFORM}.css"
+          "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/indigo.css"
+        },
+        {
+          "uri" : "../source/resource/${APPLICATION_CSS}"
+        }
+      ]
+    },
 
     // -------------------------------------------------------------------------
     // Misc
