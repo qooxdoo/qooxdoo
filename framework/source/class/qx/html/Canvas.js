@@ -68,7 +68,7 @@ qx.Class.define("qx.html.Canvas",
     /**
      * Get the canvas element [<a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas.html#canvas">W3C-HMTL5</a>]
      *
-     * @return {HTMLCanvasElement} The canvas DOM element.
+     * @return {Element} The canvas DOM element.
      */
     getCanvas : function() {
       return this.__canvas;

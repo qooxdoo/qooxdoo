@@ -242,7 +242,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      * Replaces current selection with the given items.
      *
      * @param items {qx.ui.core.Widget[]} Items to select.
-     * @throws an exception if the item is not a child element.
+     * @throws {Error} if the item is not a child element.
      */
     setSelection : function(items) {
       return this.__radioGroup.setSelection(items);
@@ -262,7 +262,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      *
      * @param item {qx.ui.core.Widget} Any valid selectable item
      * @return {Boolean} Whether the item is selected.
-     * @throws an exception if the item is not a child element.
+     * @throws {Error} if the item is not a child element.
      */
     isSelected : function(item) {
       return this.__radioGroup.isSelected(item);
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     /**
      * Returns all elements which are selectable.
      *
-     * @param all {boolean} true for all selectables, false for the
+     * @param all {Boolean} true for all selectables, false for the
      *   selectables the user can interactively select
      * @return {qx.ui.core.Widget[]} The contained items.
      */

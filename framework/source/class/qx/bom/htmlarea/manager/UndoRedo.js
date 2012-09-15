@@ -31,10 +31,9 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
   /**
    * Constructor
    *
-   * @param commandManager {htmlarea.command.Manager} command manager instance
+   * @param commandManager {qx.bom.htmlarea.manager.Command} command manager instance
    * @param editorInstance {qx.ui.embed.HtmlArea} editor instance
    * @lint ignoreDeprecated(_commands)
-   * @return {void}
    */
   construct : function(commandManager, editorInstance)
   {
@@ -99,7 +98,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Set the document instance on which the UndoManager should perform his actions.
      *
      * @param doc {Document} document node to work on
-     * @return {void}
      */
     setContentDocument : function(doc)
     {
@@ -123,7 +121,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Inserts a paragraph when hitting the "enter" key.
      * Delegates to the real command manager instance.
      *
-     * @type member
      * @return {Boolean} whether the key event should be stopped or not
      */
     insertParagraphOnLinebreak : function() {
@@ -135,7 +132,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Executes the given command and collects (if necessary) undo information.
      *
      * @param command {String} Command to execute
-     * @param value {String ? Integer ? null} Value of the command (if any)
+     * @param value {String|Integer|null} Value of the command (if any)
      * @return {Boolean} Result of operation
      */
     execute : function(command, value)
@@ -206,7 +203,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * @param value {String} value of command
      * @param commandObject {Object} Info object about command
      *
-     * @return {void}
      */
     addUndoStep : function(command, value, commandObject) {
       this.__collectUndoInfo(command, value, commandObject);
@@ -219,12 +215,11 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * given actionType to undo/redo the change.
      *
      * @param actionType {String} actionType to react on with undo and redo methods
-     * @param undoHandler {function} undo method
-     * @param redoHandler {function} redo method
+     * @param undoHandler {Function} undo method
+     * @param redoHandler {Function} redo method
      * @param context {Object} In this context the methods are called. When no
      *               context is given the context is the UndoManager itself.
      *
-     * @return {void}
      *
      */
     registerHandler : function(actionType, undoHandler, redoHandler, context)
@@ -418,7 +413,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
     /**
      * Checks the next undo step with specific conditions
      *
-     * @type member
      * @param command {String} command name
      * @param value {String} command value
      * @return {Boolean} Whether a next undo step is available
@@ -440,8 +434,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Sometimes it's necessary to perform two undo steps. Helper method to
      * to keep the stacks in correct state.
      *
-     * @type member
-     * @return {void}
      */
     __executeExtraUndoStep : function()
     {
@@ -668,7 +660,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
     /**
      * Checks the next redo step with specific conditions
      *
-     * @type member
      * @param command {String} command name
      * @param value {String} command value
      * @return {Boolean} Whether a next redo step is available
@@ -731,9 +722,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
 
     /**
      * Sometimes it is necessary to perform two redo steps at once. Helper method.
-     *
-     * @type member
-     * @return {void}
      */
     __executeExtraRedoStep : function()
     {
@@ -747,7 +735,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Gecko does position the caret at the wrong position after redo commands.
      * Helper method to correct this wrong behaviour.
      *
-     * @return {void}
      */
     __correctCaretPositionAfterRedo : qx.core.Environment.select("engine.name", {
       "gecko" : function(currentParagraph)
@@ -772,7 +759,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
         }
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     }),
 
 
@@ -836,7 +823,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * which commands are passed through (without added to the undo/redo
      * history).
      *
-     * @return {void}
      */
     __populateCommandList : function()
     {
@@ -870,7 +856,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * @param command {String} command to execute
      * @param value {String ? Integer ? null} Value of the command (if any)
      * @param commandObject {Object} internal commandObject
-     * @return {void}
      */
     __collectUndoInfo : qx.core.Environment.select("engine.name", {
       "mshtml|webkit" : function(command, value, commandObject)
@@ -973,7 +958,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
       *
       * @param changeInfo {Object ? String} Infos of the change.
       *                                     Either a map containing details or null for change through a command identifier
-      * @return {void}
       */
      __updateUndoStack : function(changeInfo)
      {
@@ -1039,7 +1023,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
       * Utility method to add an entry to the undoStack.
       *
       * @param changeInfo {Object} Infos of the change
-      * @return {void}
       */
      __addToUndoStack : function(changeInfo)
      {
@@ -1058,7 +1041,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
       * Utility method to add an entry to the redoStack.
       *
       * @param changeInfo {Object} Infos of the change
-      * @return {void}
       */
     __addToRedoStack : function(changeInfo)
     {
@@ -1077,8 +1059,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Key press handler for the undo manager. Only acts on specific events which
      * are important to the undo manager.
      *
-     * @param e {qx.event.type.Key} key event instance
-     * @return {void}
+     * @param e {qx.event.type.KeySequence} key event instance
      */
     _handleKeyPress : function(e)
     {
@@ -1125,7 +1106,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
     /**
      * A content change which is handled as separate undo step is marked.
      *
-     * @return {void}
      */
     __markContentChange : function()
     {
@@ -1154,8 +1134,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Currently only implemented for IE.
      * Used to track internal changes like resizing an image or a table element.
      *
-     * @param e {DOM event} mouse event instance
-     * @return {void}
+     * @param e {DOMevent} mouse event instance
      */
     _handleMouseDown : qx.core.Environment.select("engine.name", {
       "mshtml" : function(e)
@@ -1183,8 +1162,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * Mouse up handler method.
      * Used to track internal changes like resizing an image or a table element.
      *
-     * @param e {DOM event} mouse event instance
-     * @return {void}
+     * @param e {DOMevent} mouse event instance
      */
     _handleMouseUp : qx.core.Environment.select("engine.name",
     {
@@ -1307,7 +1285,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
     /**
      * Adds an internal undo step to the undo stack.
      *
-     * @return {void}
      */
     __addInternalUndoStep : qx.core.Environment.select("engine.name", {
       "mshtml|webkit" : function() {
@@ -1330,7 +1307,6 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * The event itself is fired from the HtmlArea instance and with a
      * timeout to not interfere with the current key event.
      *
-     * @return {void}
      */
     __fireUndoRedoStateEvent : function()
     {

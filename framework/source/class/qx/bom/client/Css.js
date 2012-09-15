@@ -142,31 +142,28 @@ qx.Bootstrap.define("qx.bom.client.Css",
         return null;
       }
 
-      var variants = [
-        {
-          standard : true,
-          syntax : 'url("foo.png") 4 4 4 4 fill stretch',
-          regEx : /foo\.png.*?4.*?fill.*?stretch/
-        },
-        {
-          standard : false,
-          syntax : 'url("foo.png") 4 4 4 4 stretch',
-          regEx : /foo\.png.*?4 4 4 4 stretch/
-        }
-      ];
+      var el = document.createElement("div");
 
-      for (var i=0,l=variants.length; i<l; i++) {
-        var el = document.createElement("div");
-        el.style[styleName] = variants[i].syntax;
-        if (variants[i].regEx.exec(el.style[styleName]) ||
-          // Chrome 19 does not apply any value to the shorthand borderImage
-          // property, only the individual properties like borderImageSlice
-          el.style.borderImageSlice && el.style.borderImageSlice == "4 fill")
+      if (styleName === "borderImage") {
+        // unprefixed implementation: check individual properties
+        el.style[styleName] = 'url("foo.png") 4 4 4 4 fill stretch';
+        if (el.style.borderImageSource.indexOf("foo.png") >= 0 &&
+            el.style.borderImageSlice.indexOf("4 fill") >= 0 &&
+            el.style.borderImageRepeat.indexOf("stretch") >= 0)
         {
-          return variants[i].standard;
+          return true;
+        }
+      }
+      else {
+        // prefixed implementation, assume no support for "fill"
+        el.style[styleName] = 'url("foo.png") 4 4 4 4 stretch';
+        // serialized value is unreliable, so just a simple check
+        if (el.style[styleName].indexOf("foo.png") >= 0) {
+          return false;
         }
       }
 
+      // unable to determine syntax
       return null;
     },
 
@@ -409,6 +406,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      * @return {Boolean} <code>true</code> if overflow-x and overflow-y can be
      * used
+     * @deprecated {2.1}
      */
     getOverflowXY : function() {
       return (typeof document.documentElement.style.overflowX == "string") &&

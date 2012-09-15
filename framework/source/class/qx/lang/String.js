@@ -46,16 +46,16 @@
        * Steven Levithan
 
 ************************************************************************ */
+/* ************************************************************************
+#require(qx.lang.normalize.String)
+************************************************************************ */
 
 /**
  * String helper functions
  *
  * The native JavaScript String is not modified by this class. However,
- * there are modifications to the native String in {@link qx.lang.Core} for
+ * there are modifications to the native String in {@link qx.lang.normalize.String} for
  * browsers that do not support certain features.
- *
- * The string/array generics introduced in JavaScript 1.6 are supported by
- * {@link qx.lang.Generics}.
  */
 qx.Bootstrap.define("qx.lang.String",
 {
@@ -163,7 +163,7 @@ qx.Bootstrap.define("qx.lang.String",
      * @return {String} Cleaned up string
      */
     clean: function(str){
-      return this.trim(str.replace(/\s+/g, ' '));
+      return str.replace(/\s+/g, ' ').trim();
     },
 
 
@@ -192,10 +192,14 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * removes white space from the left and the right side of a string
      *
+     * @deprecated {2.1} please use the native trim method.
      * @param str {String} the string to trim
      * @return {String} the trimmed string
      */
     trim : function(str) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.Bootstrap.warn("'qx.lang.String.trim' is deprecated. Please use the native .trim method on String objects.");
+      }
       return str.replace(/^\s+|\s+$/g, "");
     },
 
@@ -374,6 +378,16 @@ qx.Bootstrap.define("qx.lang.String",
       }
 
       return text;
+    },
+
+
+    /**
+     * Quotes the given string.
+     * @param str {String} String to quote.
+     * @return {String} The quoted string.
+     */
+    quote : function(str) {
+      return '"' + str.replace(/\\/g, "\\\\").replace(/\"/g, "\\\"") + '"';
     }
   }
 });

@@ -29,6 +29,7 @@ import graph
 
 from misc                            import filetool, textutil, util, Path, json, copytool
 from ecmascript.transform.optimizer  import privateoptimizer
+from ecmascript.transform.check      import lint
 from misc.ExtMap                     import ExtMap
 from generator.code.Class            import Class, CompileOptions
 from generator.code.DependencyLoader import DependencyLoader
@@ -409,7 +410,7 @@ class Generator(object):
             return
 
 
-        def prepareGenerator1():
+        def prepareGenerator():
             # scanning given library paths
             (self._namespaces,
              self._classesObj,
@@ -482,7 +483,7 @@ class Generator(object):
         if jobTriggers:
 
             # -- Process job triggers that require a class list (and some)
-            prepareGenerator1()
+            prepareGenerator()
 
             # Preprocess include/exclude lists
             includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
@@ -597,7 +598,11 @@ class Generator(object):
         if not classList:
             classList = aClassList
         
-        self._apiLoader.storeApi(classList, apiPath, variantset, self._job.get("api/verify", []))
+        self._apiLoader.storeApi(classList, 
+                                 apiPath, 
+                                 variantset, 
+                                 self._job.get("api/verify", []),
+                                 self._job.get("api/sitemap", {}))
         
         return
 
@@ -897,10 +902,10 @@ class Generator(object):
 
             # transform dep keys ("qx.Class" -> "qx/Class.js")
             for key, val in classToDeps.items():
-                newkey = key.replace(".", "/")
-                #newkey += ".js"
-                classToDeps[newkey] = classToDeps[key]
-                del classToDeps[key]
+                if key.find(".")>-1:
+                    newkey = key.replace(".", "/")
+                    classToDeps[newkey] = classToDeps[key]
+                    del classToDeps[key]
 
             # sort information for each class (for stable output)
             for classvals in classToDeps.values():
@@ -1636,31 +1641,32 @@ class Generator(object):
             classesFiltered = (c for c in classes if incRegex.search(c) and not excRegex.search(c))
             return classesFiltered
 
-        if not self._job.get('lint-check', False):
+        # ----------------------------------------------------------------------
+
+        if not self._job.get('lint-check', False) or not self._job.get('lint-check/run', False):
             return
 
-        classes = classes.keys()
+        lib_class_names = classes.keys()
         self._console.info("Checking Javascript source code...")
         self._console.indent()
-        self._shellCmd  = ShellCmd()
 
-        qxPath = self._job.get('let',{})
-        if 'QOOXDOO_PATH' in qxPath:
-            qxPath = qxPath['QOOXDOO_PATH']
-        else:
-            raise RuntimeError, "Need QOOXDOO_PATH setting to run lint command"
-        lintCommand    = os.path.join(qxPath, 'tool', 'bin', "ecmalint.py")
+        # Options
         lintJob        = self._job
-        allowedGlobals = lintJob.get('lint-check/allowed-globals', [])
-        includePatt    = lintJob.get('include', [])  # this is for future use
-        excludePatt    = lintJob.get('exclude', [])
+        opts = lint.defaultOptions()
+        opts.include_patts    = lintJob.get('include', [])  # this is for future use
+        opts.exclude_patts    = lintJob.get('exclude', [])
 
-        #self._actionLib.lint(classes)
-        lint_opts = "".join(map(lambda x: " -g"+x, allowedGlobals))
-        classesToCheck = getFilteredClassList(classes, includePatt, excludePatt)
+        classesToCheck = list(getFilteredClassList(lib_class_names, opts.include_patts, opts.exclude_patts))
+        opts.library_classes  = lib_class_names
+        opts.class_namespaces = [x[:x.rfind(".")] for x in opts.library_classes if x.find(".")>-1]
+        # the next requires that the config keys and option attributes be identical (modulo "-"_")
+        for option, value in lintJob.get("lint-check").items():
+            setattr(opts, option.replace("-","_"), value)
+
         for pos, classId in enumerate(classesToCheck):
             self._console.debug("Checking %s" % classId)
-            self._shellCmd.execute('%s "%s" %s "%s"' % (sys.executable, lintCommand, lint_opts, self._classesObj[classId].path))
+            tree = self._classesObj[classId].tree()
+            lint.lint_check(tree, classId, opts)
 
         self._console.outdent()
 

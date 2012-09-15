@@ -154,7 +154,7 @@ class CodeGenerator(object):
             # Compress it
             if False: # - nope; this is taking around 14s on my box, with parsing being 10s  :(
                 resTokens = tokenizer.parseStream(result, templatePath)
-                resTree = treegenerator.createSyntaxTree(resTokens, templatePath)
+                resTree = treegenerator.createFileTree(resTokens, templatePath)
                 [result] = Packer().serializeNode(resTree, None, None, compConf.get('code/format', False))
 
             return result

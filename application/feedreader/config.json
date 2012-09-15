@@ -14,7 +14,7 @@
       "as"   : "image"
     }
   ],
-  
+
   "default-job" : "source",
 
   "let" :
@@ -22,29 +22,30 @@
     "APPLICATION"  : "feedreader",
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "qx.theme.Indigo",
-    "LOCALES"      : ["en", "de", "es", "fr", "it", "nl", "sv", "ro"],
+    "LOCALES"      : ["en", "de", "es", "fr", "it", "nl", "sv", "ro", "cs"],
     "ROOT"         : "."
   },
-  
+
   "config-warnings" :
   {
-    "job-shadowing" : 
+    "job-shadowing" :
     [
-      "common", 
+      "common",
+      "build-script",
       "image-combine",
-      "libraries", 
-      "simulation-build", 
-      "simulation-run", 
+      "libraries",
+      "simulation-build",
+      "simulation-run",
       "translation"
     ],
-    
+
     "environment" : [ "non-literal-keys" ]
   },
-  
-  
+
+
   "jobs" :
   {
-    "libraries" : 
+    "libraries" :
     {
       "library" :
       [
@@ -53,45 +54,54 @@
         }
       ]
     },
-    
+
     "common" :
     {
       "environment" :
       {
         "qx.nativeScrollBars" : true
       },
-      
+
       "compile-options" :
       {
         "paths" : { "scripts-add-hash" : true },
         "uris"  : { "add-nocache-param": false }
       },
 
-      "packages" : 
+      "packages" :
       {
         "separate-loader"  : true,
         "i18n-as-parts"    : true,
-        "parts" : 
-        {          
-          "boot": 
+        "parts" :
+        {
+          "boot":
           {
             "include" : ["${QXTHEME}", "feedreader.Application"]
           },
-          "settings": 
+          "settings":
           {
             "include" : ["feedreader.view.desktop.PreferenceWindow"]
             //,"expected-load-order" : 1
           },
-          "addfeed": 
+          "addfeed":
           {
             "include" : ["feedreader.view.desktop.AddFeedWindow"]
             //,"expected-load-order" : 1
           }
         },
-        "sizes" : 
+        "sizes" :
         {
           "min-package" : 10
-        } 
+        }
+      }
+    },
+
+    // "Common" job is too late for these
+    "build-script" :
+    {
+      "compile-options" :
+      {
+        //"code" : { "format" : true }
       }
     },
 
@@ -99,7 +109,7 @@
     {
       "translate" : { "poentry-with-occurrences" : false  }
     },
-    
+
     // A logging example job
 
     "source-with-dot" :
@@ -111,10 +121,10 @@
 
     // -- Website App -----------------------------------------------------------
 
-    "source-website" : 
+    "source-website" :
     {
       "extend" : ["source"],
-      "let" : 
+      "let" :
       {
         "APPLICATION_MAIN_CLASS" : "${APPLICATION}.WebsiteApplication"
       },
@@ -128,7 +138,7 @@
     },
 
 
-    "build-website" : 
+    "build-website" :
     {
       "extend" : ["build"],
       "let" :
@@ -139,7 +149,7 @@
 
       "compile-options" :
       {
-        "paths" : { 
+        "paths" : {
           "file" : "build-website/script/${APPLICATION}.js",
           "scripts-add-hash" : false
         }
@@ -163,14 +173,14 @@
 
     // -- Mobile App -----------------------------------------------------------
 
-    "source-mobile" : 
+    "source-mobile" :
     {
       "extend" : ["source"],
-      "let" : 
+      "let" :
       {
         "APPLICATION_MAIN_CLASS" : "${APPLICATION}.MobileApplication"
       },
-      
+
       "environment" :
       {
         "qx.mobile.emulatetouch" : true
@@ -185,7 +195,7 @@
     },
 
 
-    "build-mobile" : 
+    "build-mobile" :
     {
       "extend" : ["build"],
       "let" :
@@ -201,7 +211,7 @@
 
       "compile-options" :
       {
-        "paths" : { 
+        "paths" : {
           "file" : "build-mobile/script/${APPLICATION}.js",
           "scripts-add-hash" : false
         }
@@ -239,7 +249,7 @@
         "simulator.globalErrorLogging" : true
       }
     },
-    
+
     "simulation-build" :
     {
       "let" :
@@ -247,11 +257,11 @@
         "SIMULATION_INCLUDE" : "feedreader.simulation.ria.*"
       }
     },
-    
+
     "simulation-build-mobile" :
     {
       "extend" : ["simulation-build"],
-    
+
       "let" :
       {
         "SIMULATION_INCLUDE" : "feedreader.simulation.mobile.*"
@@ -259,10 +269,10 @@
     },
 
     // -- Image Jobs ------------------------------------------------------
-    
+
     "image-combine" :
     {
       "extend" : ["image::combining"]
     }
-  }  
+  }
 }

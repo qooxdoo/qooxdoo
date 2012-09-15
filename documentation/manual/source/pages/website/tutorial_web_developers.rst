@@ -16,7 +16,7 @@ In this tutorial we show some basic steps of using %{Website}. To do so, we buil
 Basics
 ======
 
-Let's get started! As %{Website} is a simple %{JS} file, we first need to `download the script file <http://demo.qooxdoo.org/%{version}/framework/q.min.js>`__. After that, we're going to create a simple HTML file in the same directory as the downloaded script and include it:
+Let's get started! As %{Website} is a simple %{JS} file, we first need to `download the script file <http://demo.qooxdoo.org/%{version}/framework/q-%{version}.min.js>`__. After that, we're going to create a simple HTML file in the same directory as the downloaded script and include it:
 
 .. code-block:: html
 
@@ -24,7 +24,7 @@ Let's get started! As %{Website} is a simple %{JS} file, we first need to `downl
   <html>
     <head>
       <title>%{Website} tutorial</title>
-      <script type="text/javascript" src="q.min.js"></script>
+      <script type="text/javascript" src="q-%{version}.min.js"></script>
     </head>
     <body>
     </body>

@@ -70,7 +70,6 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
      *
      * @param index {Integer} the index the event is pointing at.
      * @param evt {Map} the mouse event.
-     * @return {void}
      */
     _handleSelectEvent : function(index, evt)
     {

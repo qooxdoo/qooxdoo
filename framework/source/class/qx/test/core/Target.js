@@ -30,7 +30,6 @@ qx.Class.define("qx.test.core.Target",
     /**
      * TODOC
      *
-     * @return {void}
      */
     testEvents : function()
     {

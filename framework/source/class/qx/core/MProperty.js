@@ -34,7 +34,7 @@ qx.Mixin.define("qx.core.MProperty",
      * @param data {Map | String} a map of property values. The key is the name of the property.
      * @param value {var?} the value, only used when <code>data</code> is a string.
      * @return {Object} this instance.
-     * @throws an Exception if a property defined does not exist
+     * @throws {Error} if a property defined does not exist
      */
     set : function(data, value)
     {
@@ -49,13 +49,8 @@ qx.Mixin.define("qx.core.MProperty",
             return this;
           }
 
-          if (qx.core.Environment.get("qx.debug"))
-          {
-            qx.Bootstrap.error(new Error("No such property: " + data));
-            return this;
-          }
+          throw new Error("No such property: " + data);
         }
-
 
         return this[setter[data]](value);
       }
@@ -70,11 +65,7 @@ qx.Mixin.define("qx.core.MProperty",
               continue;
             }
 
-            if (qx.core.Environment.get("qx.debug"))
-            {
-              qx.Bootstrap.error(new Error("No such property: " + prop));
-              return this;
-            }
+            throw new Error("No such property: " + prop);
           }
 
           this[setter[prop]](data[prop]);
@@ -91,7 +82,7 @@ qx.Mixin.define("qx.core.MProperty",
      *
      * @param prop {String} Name of the property.
      * @return {var} The value of the value
-     * @throws an Exception if a property defined does not exist
+     * @throws {Error} if a property defined does not exist
      */
     get : function(prop)
     {
@@ -103,11 +94,7 @@ qx.Mixin.define("qx.core.MProperty",
           return this["get" + qx.Bootstrap.firstUp(prop)]();
         }
 
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          qx.Bootstrap.error(new Error("No such property: " + prop));
-          return this;
-        }
+        throw new Error("No such property: " + prop);
       }
 
 
@@ -120,7 +107,7 @@ qx.Mixin.define("qx.core.MProperty",
      * found, a handwritten resetter will be invoked, if available.
      *
      * @param prop {String} Name of the property.
-     * @throws an Exception if a property defined does not exist
+     * @throws {Error} if a property defined does not exist
      */
     reset : function(prop)
     {
@@ -133,11 +120,7 @@ qx.Mixin.define("qx.core.MProperty",
           return;
         }
 
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          qx.Bootstrap.error(new Error("No such property: " + prop));
-          return;
-        }
+        throw new Error("No such property: " + prop);
       }
 
 

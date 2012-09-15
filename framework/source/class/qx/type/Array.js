@@ -45,7 +45,7 @@ qx.Class.define("qx.type.Array",
    * * <code>length</code>: The initial length of the array.
    * * <code>item1, item2. .. itemN</code>:  the items that will make up the newly created array
    *
-   * @param length_or_items {Integer|varargs?null} The initial size of the collection
+   * @param length_or_items {Integer|var?null} The initial size of the collection
    *        OR an argument list of elements.
    */
   construct : function(length_or_items) {
@@ -149,7 +149,7 @@ qx.Class.define("qx.type.Array",
      *
      * @param arr {Array} the elements of this array will be appended to other one
      * @return {Array} The modified array.
-     * @throws an exception if one of the arguments is not an array
+     * @throws {Error} if one of the arguments is not an array
      */
     append : function(arr)
     {
@@ -164,7 +164,7 @@ qx.Class.define("qx.type.Array",
      *
      * @param arr {Array} The elements of this array will be prepended to other one
      * @return {Array} The modified array.
-     * @throws an exception if one of the arguments is not an array
+     * @throws {Error} if one of the arguments is not an array
      */
     prepend : function(arr)
     {

@@ -121,7 +121,7 @@ qx.Class.define("mobileshowcase.page.DataBinding",
       var now = new Date();
       var date = now.toLocaleTimeString();
 
-      this.getListData().push(date);
+      this.getListData().insertAt(0,date);
 
       this.__list.setVisibility("visible");
     },
@@ -203,15 +203,13 @@ qx.Class.define("mobileshowcase.page.DataBinding",
      * Creates a list and returns it.
      */
     __createListDataBindings : function() {
+      var self = this;
+      
       var list = new qx.ui.mobile.list.List({
       configureItem : function(item, data, row)
         {
-          if(!row){
-            row = 1;
-          }else {
-            row++;
-          }
-          item.setTitle("Stop #"+row);
+          var stopCount = self.getListData().getLength()-row;
+          item.setTitle("Stop #"+stopCount);
           item.setSubtitle(data);
         }
       });

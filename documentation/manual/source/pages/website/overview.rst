@@ -189,3 +189,37 @@ Sometimes it can be necessary to place an element right beside another one. Thin
 ::
 
   q("#test").placeTo(target, "top-right");
+
+
+Storage
+-------
+The storage module offers a cross browser way to store data offline. For that, it uses
+the HTML web storage API (http://www.w3.org/TR/webstorage/). If thats not available i.e. in IE < 8, a fallback is used. If non of the storage API is available, a non persistent
+in memory storage is returned which means you can always use the same API. Check out the separate :doc:`page about storage </pages/website/storage>` for more details.
+
+::
+
+  var value = q.localStorage.get("my_custom_key");
+
+
+
+Transform
+---------
+The transform module offers a cross browser convenience API for CSS transforms. This includes scaling, skewing, rotating and translating.
+
+::
+
+  q("#myId").rotate("45deg");
+
+
+
+Messaging
+---------
+The messaging module offers a message bus. It offers a separation by channel and type and also offers a way to react on types for every channel.
+
+::
+
+  q.messaging.on("CHANNEL-X", "test", function() {
+    // do something clever
+  });
+  q.messaging.emit("CHANNEL-X", "test");

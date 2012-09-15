@@ -103,6 +103,22 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         this.__scroll.scrollTo(x, y, time);
       }
     },
+    
+    
+    /* Scrolls the wrapper contents to the widgets coordinates in a given
+    * period.
+    *
+    * @param elementId {String} the elementId, the scroll container should scroll to.
+    * @param time {Integer} Time slice in which scrolling should
+    *              be done (in seconds).
+    *
+    */
+    _scrollToElement : function(elementId, time)
+    {
+      if (this.__scroll) {
+        this.__scroll.scrollToElement(elementId, time);
+      }
+    },
 
 
     /**
@@ -138,7 +154,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     /**
      * Creates the iScroll instance.
      *
-     * @return {iScroll} The iScroll instance
+     * @return {Object} The iScroll instance
      * @lint ignoreUndefined(iScroll)
      */
     __createScrollInstance : function()
@@ -151,16 +167,19 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         useTransform: this.__useTransform,
         onBeforeScrollStart : function(e) {
           // QOOXDOO ENHANCEMENT: Do not prevent default for form elements
+          /* When updating iScroll, please check out that doubleTapTimer is not active (commented out) 
+           * in code. DoubleTapTimer creates a fake click event. Android 4.1. and newer  
+           * is able to fire native events, which  create side effect with the fake event of iScroll. */
           var target = e.target;
           while (target.nodeType != 1) {
             target = target.parentNode;
           }
           
-          if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
+          if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'LABEL') {
             // Remove focus from input elements, so that the keyboard and the mouse cursor is hidden
             var elements = [];
-            var inputElements = qx.lang.Array.toArray(document.getElementsByTagName("input"));
-            var textAreaElements = qx.lang.Array.toArray(document.getElementsByTagName("textarea"));
+            var inputElements = qx.lang.Array.cast(document.getElementsByTagName("input"), Array);
+            var textAreaElements = qx.lang.Array.cast(document.getElementsByTagName("textarea"), Array);
             elements = elements.concat(inputElements);
             elements = elements.concat(textAreaElements);
 
@@ -227,11 +246,32 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     /**
      * Setter for the scroll instance.
      *
-     * @param scroll {iScroll} iScroll instance.
+     * @param scroll {Object} iScroll instance.
      */
     _setScroll : function(scroll)
     {
       this.__scroll = scroll;
+    },
+    
+    
+    /**
+     * Delegation method for iScroll. Disabled the iScroll objects.
+     * Prevents any further scrolling of this container.
+     */
+    disable : function() {
+      if(this.__scroll) {
+        this.__scroll.disable();
+      }
+    },
+    
+    
+    /**
+     * Delegation method for iScroll. Enables the iScroll object.
+     */
+    enable : function() {
+      if(this.__scroll) {
+        this.__scroll.enable();
+      }
     },
 
 

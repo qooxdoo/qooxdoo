@@ -68,7 +68,6 @@ qx.Class.define("qx.bom.HashHistory",
     /**
      * Initializes the iframe
      *
-     * @return {void}
      */
     __initIframe : function()
     {
@@ -88,7 +87,7 @@ qx.Class.define("qx.bom.HashHistory",
      * Setting the source before adding the iframe to the document.
      * Otherwise IE will bring up a "Unsecure items ..." warning in SSL mode
      *
-     * @return {IframeElement}
+     * @return {Element}
      */
     __createIframe : function ()
     {
@@ -198,7 +197,6 @@ qx.Class.define("qx.bom.HashHistory",
      * Save a state into the browser history.
      *
      * @param state {String} state to save
-     * @return {void}
      */
     _writeState : function(state)
     {

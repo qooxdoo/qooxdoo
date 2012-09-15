@@ -705,7 +705,6 @@ qx.Class.define("qx.ui.menu.Menu",
      * Event listener for mouseover event.
      *
      * @param e {qx.event.type.Mouse} mouseover event
-     * @return {void}
      */
     _onMouseOver : function(e)
     {
@@ -760,7 +759,6 @@ qx.Class.define("qx.ui.menu.Menu",
      * Event listener for mouseout event.
      *
      * @param e {qx.event.type.Mouse} mouseout event
-     * @return {void}
      */
     _onMouseOut : function(e)
     {

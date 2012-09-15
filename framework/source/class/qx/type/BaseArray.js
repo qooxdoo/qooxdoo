@@ -42,8 +42,8 @@
 
 /* ************************************************************************
 
-#require(qx.lang.Core)
 #require(qx.bom.client.Engine)
+#require(qx.lang.normalize.Array)
 
 ************************************************************************ */
 
@@ -89,7 +89,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
    * values as its elements, and the array's length property is set to the
    * number of arguments.
    *
-   * @param length_or_items {Integer|varargs?null} The initial length of the array
+   * @param length_or_items {Integer|var?null} The initial length of the array
    *        OR an argument list of values.
    */
   construct : function(length_or_items) {},
@@ -495,14 +495,14 @@ function createStackConstructor(stack)
 
 
   // Add JS 1.6 Array features
-  Stack.prototype.indexOf = qx.lang.Core.arrayIndexOf;
-  Stack.prototype.lastIndexOf = qx.lang.Core.arrayLastIndexOf;
-  Stack.prototype.forEach = qx.lang.Core.arrayForEach;
-  Stack.prototype.some = qx.lang.Core.arraySome;
-  Stack.prototype.every = qx.lang.Core.arrayEvery;
+  Stack.prototype.indexOf = Array.prototype.indexOf;
+  Stack.prototype.lastIndexOf = Array.prototype.lastIndexOf;
+  Stack.prototype.forEach = Array.prototype.forEach;
+  Stack.prototype.some = Array.prototype.some;
+  Stack.prototype.every = Array.prototype.every;
 
-  var filter = qx.lang.Core.arrayFilter;
-  var map = qx.lang.Core.arrayMap;
+  var filter = Array.prototype.filter;
+  var map = Array.prototype.map;
 
 
   // Fix methods which generates a new instance

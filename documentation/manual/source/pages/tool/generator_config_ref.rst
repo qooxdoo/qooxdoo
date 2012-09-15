@@ -63,7 +63,12 @@ Triggers the generation of a custom Apiviewer application. Takes a map.
   "api" :
   {
     "path"   : "<path>",
-    "verify" : [ "links" ]
+    "verify" : [ "links", "types" ],
+    "sitemap" :
+    {
+      "link-uri" : "<uri>",
+      "file" : "<path>"
+    }
   }
 
 .. note::
@@ -74,6 +79,12 @@ Triggers the generation of a custom Apiviewer application. Takes a map.
 * **verify** : Things to check during generation of API data.
 
   * **links** : Check internal documentation links (@link{...}) for consistency.
+  * **types** : Check if documented parameter and return value types are known classes, valid global objects or built-in types
+
+* **sitemap** : Create an XML sitemap with links for all classes in the API Viewer.
+
+  * **link-uri** : URI template for the sitemap entries. `%s` will be replaced with the class name.
+  * **file** : File path for the sitemap. Default: `<api/path>/sitemap.xml`
 
 .. _pages/tool/generator_config_ref#asset-let:
 
@@ -333,11 +344,15 @@ Taylor configuration warnings. This key can appear both at the config top-level,
 Turn off warnings printed by the generator to the console for specific configuration issues. The key is honored both at the top level of the configuration map, and within individual jobs, but some of the sub-keys are only sensible if used at the top-level (This is indicated with the individual key in the list below). Warnings are on by default (equivalent to assigning e.g. *["\*"]* to the corresponding key). Like with the global *let*, a top-level *config-warnings* key is inherited by every job in the config, so its settings are like job defaults. If a given key is not applicable in its context, it is ignored. To turn off **all** warnings for a single generator run (independent of settings given in this key) use the generator ``-q`` :ref:`command line option <pages/tool/generator_usage#command-line_options>`. 
 
 * **job-shadowing** *(top-level)* : Job names listed here are not warned about if the current config has a job of this name, and shadows another job of the same name from an included configuration.
-* **tl-unknown-keys** *(top-level)* : List of config keys on the top-level configuration map which are unknown to the generator, but should not be warned about.
 * **job-unknown-keys** : List of config keys within a job which are unknown to the generator, but should not be warned about.
+* **tl-unknown-keys** *(top-level)* : List of config keys on the top-level configuration map which are unknown to the generator, but should not be warned about.
 * **<config_key>** : This is a generic form, where *<config_key>* has to be a legal job-level configuration key (Unknown keys, as stated above, are silently skipped). Currently supported keys are ``exclude``, but more keys (like "let", "packages", ...) might follow. The usual value is a list, where the empty list *[]* means that config warnings for this key are generally on (none exempted), and *["\*"]* means they are generally off (all exempted). The interpretation of the value is key dependent.
 
   * **exclude** : *[]* List of class patterns in the *exclude* key that the generator should not warn about.
+
+  * **include** : *true/false* Warn about classes which are included without their dependencies.
+
+  * **combine-images** : *true/false* Warn about missing or incorrect prefix spec for the images that go into the combined image.
 
   * **environment** : *[]* The key recognizes specific elements in its list value:
 
@@ -656,16 +671,79 @@ Check Javscript source code with a lint-like utility. Takes a map.
 
   "lint-check" :
   {
-    "allowed-globals" : [ "qx", "${APPLICATION}" ]
+    "allowed-globals" : [ "qx", "${APPLICATION}" ],
+    "ignore-catch-param"            : (true|false),
+    "ignore-deprecated-symbols"     : (true|false),
+    "ignore-environment-nonlit-key" : (true|false),
+    "ignore-finally-without-catch"  : (true|false),
+    "ignore-multiple-mapkeys"       : (true|false),
+    "ignore-multiple-vardecls"      : (true|false),
+    "ignore-no-loop-block"          : (true|false),
+    "ignore-reference-fields"       : (true|false),
+    "ignore-undeclared-privates"    : (true|false),
+    "ignore-undefined-globals"      : (true|false),
+    "ignore-unused-parameter"       : (true|false),
+    "ignore-unused-variables"       : (true|false),
+    "run"                           : (true|false),
+    "warn-unknown-jsdoc-keys"       : (true|false),
+    "warn-jsdoc-key-syntax"         : (true|false)
   }
 
 .. note::
 
   peer-keys: :ref:`pages/tool/generator_config_ref#library`, :ref:`pages/tool/generator_config_ref#include`
 
+The general idea of the *ignore-\** options is to say that the lint checking will check as much issues as it can, and you can turn off certain checks by setting their *ignore-\** option to true. A few that are considered too picky are also true in the default config. Those can of course be enabled by setting them to false in your own configuration.
+
 Keys are:
 
 * **allowed-globals** : list of names that are not to be reported as bad use of globals
+
+* **ignore-catch-param** *(experimental)*     : 
+    Don't check whether the exception parameter of a *catch* clause might overwrite an existing variable binding (s. `bug#1207 <%{bug}1207>`__). *(default: false)*
+
+* **ignore-deprecated-symbols** *(experimental)*     : 
+    Ignore built-in symbols that are considered bad use, like *alert* or *eval*. *(default: false)*
+
+* **ignore-environment-nonlit-key** *(experimental)* :
+    Ignore calls to *qx.core.Environment.(get|select)* with a non-literal key (Those calls cannot be optimized). *(default: false)*
+
+* **ignore-finally-without-catch** *(experimental)*  :
+    Ignore if *try* statement has a *finally* clause, but no *catch* clause, as the *finally* clause might not be run in some browsers (s. `bug#3688 <%{bug}3688>`__). *(default: false)*
+
+* **ignore-multiple-mapkeys** *(experimental)*       : 
+    Ignore using the same key in a map multiple times (Only the last occurrence will persist). *(default: false)*
+
+* **ignore-multiple-vardecls** *(experimental)*      : 
+    Ignore multiple declarations of the same variable (Ie. multiple 'var' statements for the same identifier). *(default: true)*
+
+* **ignore-no-loop-block** *(experimental)*          : 
+    Ignore bodies of loops or conditions that are not enclosed in ``{`` and ``}``. *(default: false)*
+
+* **ignore-reference-fields** *(experimental)*       : 
+    Ignore reference data types in :ref:`class member attributes <pages/classes#instance_members>` (Those values will be shared across all instances of the class). *(default: false)*
+
+* **ignore-undeclared-privates** *(experimental)*    : 
+    Ignore use of :ref:`private members <pages/classes#access>` in class code without them being declared in the class map. *(default: false)*
+
+* **ignore-undefined-globals** *(experimental)*      : 
+    Ignore symbols that belong to the global scope, and are not recognized as known built-in symbols or class names (You usually want to avoid those). With this option set to *false*, i.e. those globals being warned about, you can still silence the warning for symbols given in the ``allowed-globals`` option. *(default: false)*
+
+* **ignore-unused-parameter** *(experimental)*       : 
+    Ignore parameters of functions or catch statements that are not used in their respective body. *(default: true)*
+
+* **ignore-unused-variables** *(experimental)*       : 
+    Ignore variables that are declared in a scope but not used. *(default: false)*
+
+* **run** *(experimental)* :
+    When set to *true* the actual lint checking will be performed. This key allows you to carry lint options in jobs without actually triggering the lint action. *(default: false)*
+
+* **warn-unknown-jsdoc-keys** *(experimental)* :
+    Unknown JSDoc @ keys are generally accepted (i.e. keys not listed in :doc:`/pages/development/api_jsdoc_ref`); setting this option to *true* will issue a warnings about them. *(default: false)*
+
+* **warn-jsdoc-key-syntax** *(experimental)* :
+    Warn if a known @ key is encountered that does not comply to the parsing rules (as given in :doc:`/pages/development/api_jsdoc_ref`); setting this option to *false* will disable warnings about them. *(default: true)*
+
 
 .. _pages/tool/generator_config_ref#log:
 

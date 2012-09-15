@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>ToDo</title>
+  <script type="text/javascript" src="script/q-2.1.min.js"></script>
+  <script type="text/javascript" src="todo.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    q.ready(function() {
+      q.startTodo();
+    });
+  </script>
+  <link href='http://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
+  <link href='todo.css' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div id="todo">
+    <h1>ToDo</h1>
+    <div class="button" id="add">Add</div>
+    <div class="button" id="clear">Clear</div>
+    <ul id="tasks">Loading...</ul>
+  </div>
+
+  <script type="template" id="task">
+    <li>
+      <input id="{{id}}" type="checkbox" {{#done}}checked{{/done}}>
+      <label for="{{id}}">{{name}}</label>
+    </li>
+  </script>
+
+</body>
+</html>

@@ -80,6 +80,14 @@ Application Wizard
    tool/create_application
 
 
+Migration
+==========
+
+.. toctree::
+   :maxdepth: 1
+
+   tool/migration/migration_guide
+
 Other Tools
 ====================
 

@@ -102,7 +102,7 @@ qx.Bootstrap.define("qx.bom.Template", {
      * Original and only template method of mustache.js. For further
      * documentation, please visit https://github.com/janl/mustache.js
      *
-     * @deprecated since 2.0
+     * @deprecated {2.0}
      * @signature function(template, view, partials)
      * @param template {String} The String containing the template.
      * @param view {Object} The object holding the data to render.
@@ -124,11 +124,15 @@ qx.Bootstrap.define("qx.bom.Template", {
      * as a template, parsed and a new DOM node will be returned containing the
      * parsed data. Keep in mind to have only one root DOM element in the the
      * template.
+     * Additionally, you should not put the template into a regular, hidden
+     * DOM element because the template may not be valid HTML due to the containing
+     * mustache tags. We suggest to put it into a script tag with the type
+     * <code>text/template</code>.
      *
      * @param id {String} The id of the HTML template in the DOM.
      * @param view {Object} The object holding the data to render.
      * @param partials {Object} Object holding parts of a template.
-     * @return {DomNode} A DOM element holding the parsed template data.
+     * @return {Element} A DOM element holding the parsed template data.
      */
     get : function(id, view, partials) {
       // get the content stored in the DOM

@@ -79,7 +79,6 @@ qx.Mixin.define("qx.core.MLogging",
     /**
      * Prints the current stack trace
      *
-     * @return {void}
      */
     trace : function() {
       this.__Logger.trace(this);

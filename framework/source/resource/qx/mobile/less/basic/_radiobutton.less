@@ -10,34 +10,34 @@ input[type="radio"] {
 
 
 input[type=radio] + label {
-      content:'';
-      width: 28px;
-      height: 28px;
+    content:'';
+    width: 28px;
+    height: 28px;
 
-      position: relative;
-      
-      z-index:10;
-      
-      margin: 5px auto;
+    position: relative;
 
-      .border-radius(50px);
+    z-index:10;
+
+    margin: 2px auto;
+
+    .border-radius(50px);
 }
 
 
 input[type=radio]+ label:before {
-      content:'';
-      cursor: pointer;
+    content:'';
+    cursor: pointer;
 
-      position: absolute;
-      left: 4px;
-      top: 4px;
+    position: absolute;
+    left: 4px;
+    top: 4px;
 
-      width: 20px;
-      height: 20px;
+    width: 20px;
+    height: 20px;
 
-      z-index:10;
+    z-index:10;
 
-      .border-radius(50px);
+    .border-radius(50px);
 }
 
 
@@ -60,5 +60,5 @@ input[type=radio] + label:after {
 
 
 input[type=radio]:checked + label:after {
-	opacity: 1;
+    opacity: 1;
 }

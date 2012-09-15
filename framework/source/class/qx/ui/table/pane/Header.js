@@ -96,7 +96,6 @@ qx.Class.define("qx.ui.table.pane.Header",
     /**
      * Event handler. Called the column order has changed.
      *
-     * @return {void}
      */
     onColOrderChanged : function() {
       this._updateContent(true);
@@ -114,7 +113,6 @@ qx.Class.define("qx.ui.table.pane.Header",
     /**
      * Event handler. Called when the table model meta data has changed.
      *
-     * @return {void}
      */
     onTableModelMetaDataChanged : function() {
       this._updateContent();
@@ -134,7 +132,6 @@ qx.Class.define("qx.ui.table.pane.Header",
      *   <i>true</i> if the column width is being changed as a result of a
      *   mouse drag in the header; false or undefined otherwise.
      *
-     * @return {void}
      */
     setColumnWidth : function(col, width, isMouseAction)
     {
@@ -151,7 +148,6 @@ qx.Class.define("qx.ui.table.pane.Header",
      *
      * @param col {Integer} the model index of the column the mouse is currently over or
      *      null if the mouse is over no column.
-     * @return {void}
      */
     setMouseOverColumn : function(col)
     {
@@ -194,7 +190,6 @@ qx.Class.define("qx.ui.table.pane.Header",
      * @param col {Integer} the model index of the column to show the move feedback for.
      * @param x {Integer} the x position the left side of the feeback should have
      *      (in pixels, relative to the left side of the header).
-     * @return {void}
      */
     showColumnMoveFeedback : function(col, x)
     {
@@ -267,7 +262,6 @@ qx.Class.define("qx.ui.table.pane.Header",
      *
      * @param completeUpdate {Boolean} if true a complete update is performed. On a
      *      complete update all header widgets are recreated.
-     * @return {void}
      */
     _updateContent : function(completeUpdate)
     {
@@ -349,7 +343,6 @@ qx.Class.define("qx.ui.table.pane.Header",
     /**
      * Cleans up all header cells.
      *
-     * @return {void}
      */
     _cleanUpCells : function()
     {

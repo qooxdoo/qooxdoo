@@ -16,6 +16,9 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
+/* ************************************************************************
+#require(qx.lang.normalize.String)
+************************************************************************ */
 
 /**
  * Methods to get information about the JavaScript call stack.
@@ -63,12 +66,12 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         throw new Error();
       }
       catch(ex) {
-        if (qx.core.Environment.get("ecmascript.stacktrace")) {
+        if (qx.core.Environment.get("ecmascript.error.stacktrace")) {
           var errorTrace = qx.dev.StackTrace.getStackTraceFromError(ex);
           var callerTrace = qx.dev.StackTrace.getStackTraceFromCaller(arguments);
           qx.lang.Array.removeAt(errorTrace, 0);
 
-          var trace = callerTrace.length > errorTrace.length ? callerTrace : errorTrace;
+          trace = callerTrace.length > errorTrace.length ? callerTrace : errorTrace;
           for (var i=0; i<Math.min(callerTrace.length, errorTrace.length); i++)
           {
             var callerCall = callerTrace[i];
@@ -76,7 +79,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
               continue;
             }
 
-            var methodName;
+            var methodName = null;
             var callerArr = callerCall.split(".");
             var mO = /(.*?)\(/.exec(callerArr[callerArr.length - 1]);
             if (mO && mO.length == 2) {
@@ -97,16 +100,17 @@ qx.Bootstrap.define("qx.dev.StackTrace",
               columnNumber = errorArr[2];
             }
 
+            var className = null;
             if (qx.Class.getByName(errorClassName)) {
-              var className = errorClassName;
+              className = errorClassName;
             } else {
               className = callerClassName;
             }
-            var line = className + ".";
+            var line = className;
             if (methodName) {
-              line += methodName + ":";
+              line += "." + methodName;
             }
-            line += lineNumber;
+            line += ":" + lineNumber;
             if (columnNumber) {
               line += ":" + columnNumber;
             }
@@ -194,7 +198,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
     {
       var trace = [];
 
-      if (qx.core.Environment.get("ecmascript.stacktrace") === "stack") {
+      if (qx.core.Environment.get("ecmascript.error.stacktrace") === "stack") {
         if (!error.stack) {
           return trace;
         }
@@ -237,7 +241,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
           }
         }
       }
-      else if (qx.core.Environment.get("ecmascript.stacktrace") === "stacktrace") {
+      else if (qx.core.Environment.get("ecmascript.error.stacktrace") === "stacktrace") {
         // Opera
         var stacktrace = error.stacktrace;
         if (!stacktrace) {
@@ -274,7 +278,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       }
       else if (error.message && error.message.indexOf("Backtrace:") >= 0) {
         // Some old Opera versions append the trace to the message property
-        var traceString = qx.lang.String.trim(error.message.split("Backtrace:")[1]);
+        var traceString = error.message.split("Backtrace:")[1].trim();
         var lines = traceString.split("\n");
         for (var i=0; i<lines.length; i++)
         {

@@ -11,7 +11,8 @@
         "build-script",
         "build-resources",
         "source",
-        "source-script"
+        "source-script",
+        "test"
       ]
     },
     {
@@ -71,7 +72,7 @@
       {
         "command" : [
           "mkdir -p npm/build",
-          "cp script/qx-oo.js npm/build",
+          "cp script/qx-oo-${QOOXDOO_VERSION}.js npm/build",
           "cp npm/package.json npm/build"
         ]
       }
@@ -123,6 +124,28 @@
     "apiconf::build-data" : {
       "extend" : ["qxoo-common"],
       "compile-options": { "code" : { "optimize" : ["variants"] }}
+    },
+    
+    "test" :
+    {
+      "let" :
+      {
+        "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
+        "BUILD_SCRIPT_FILE" : "test/script/testrunner.js"
+      },
+      
+      "run" :
+      [
+        "build-basic-portable",
+        "test-replace"
+      ]
+    },
+    
+    "test-replace" : 
+    {
+      "shell" : {
+        "command" : "sed -i -e s/qx/__qx__/g ${BUILD_SCRIPT_FILE}"
+      }
     }
   }
 }

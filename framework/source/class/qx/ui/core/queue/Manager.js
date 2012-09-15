@@ -51,7 +51,6 @@ qx.Class.define("qx.ui.core.queue.Manager",
      *
      * @param job {String} The job, which should be performed. Valid values are
      *     <code>layout</code>, <code>decoration</code> and <code>element</code>.
-     * @return {void}
      */
     scheduleFlush : function(job)
     {
@@ -72,7 +71,6 @@ qx.Class.define("qx.ui.core.queue.Manager",
      * Flush all layout queues in the correct order. This function is called
      * deferred if {@link #scheduleFlush} is called.
      *
-     * @return {void}
      */
     flush : function()
     {
@@ -105,7 +103,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
           {
             delete jobs.widget;
 
-            if (qx.core.Environment.get("qx.debug")) {
+            if (qx.core.Environment.get("qx.debug.ui.queue")) {
               try {
                 qx.ui.core.queue.Widget.flush();
               } catch (e) {
@@ -120,7 +118,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
           {
             delete jobs.visibility;
 
-            if (qx.core.Environment.get("qx.debug")) {
+            if (qx.core.Environment.get("qx.debug.ui.queue")) {
               try {
                 qx.ui.core.queue.Visibility.flush();
               } catch (e) {
@@ -135,7 +133,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
           {
             delete jobs.appearance;
 
-            if (qx.core.Environment.get("qx.debug")) {
+            if (qx.core.Environment.get("qx.debug.ui.queue")) {
               try {
                 qx.ui.core.queue.Appearance.flush();
               } catch (e) {
@@ -155,7 +153,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
           {
             delete jobs.layout;
 
-            if (qx.core.Environment.get("qx.debug")) {
+            if (qx.core.Environment.get("qx.debug.ui.queue")) {
               try {
                 qx.ui.core.queue.Layout.flush();
               } catch (e) {
@@ -187,7 +185,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
         {
           delete jobs.dispose;
 
-          if (qx.core.Environment.get("qx.debug")) {
+          if (qx.core.Environment.get("qx.debug.ui.queue")) {
             try {
               qx.ui.core.queue.Dispose.flush();
             } catch (e) {
@@ -286,8 +284,8 @@ qx.Class.define("qx.ui.core.queue.Manager",
     __onUserAction : function(e)
     {
       var statics = qx.ui.core.queue.Manager;
-      // pospone the flush for 500ms due to the fact that iOS stops firing
-      // events if the dom gets changed during the vent chain [BUG #4033]
+      // postpone the flush for 500ms due to the fact that iOS stops firing
+      // events if the DOM gets changed during the vent chain [BUG #4033]
       if (e.getData() == "touchend")
       {
         statics.PAUSE = true;

@@ -36,8 +36,8 @@ qx.Class.define("qx.bom.Selection",
     /**
      * Returns the native selection object.
      *
-     * @signature documentNode {document} Document node to retrieve the connected selection
-     * @param documentNode {Object} The document node
+     * @signature function(documentNode)
+     * @param documentNode {document} Document node to retrieve the connected selection from
      * @return {Selection} native selection object
      */
     getSelectionObject : qx.core.Environment.select("engine.name",
@@ -87,7 +87,7 @@ qx.Class.define("qx.bom.Selection",
      * Returns the length of the selection
      *
      * @signature function(node)
-     * @param node {node} Form node or document/window to check.
+     * @param node {Node} Form node or document/window to check.
      * @return {Integer|null} length of the selection or null
      */
     getLength : qx.core.Environment.select("engine.name",
@@ -364,7 +364,7 @@ qx.Class.define("qx.bom.Selection",
     /**
      * Utility method to check for an input or textarea element
      *
-     * @param node {node} node to check
+     * @param node {Node} node to check
      * @return {Boolean} Whether the given nodt is an input or textarea element
      */
     __isInputOrTextarea : function(node) {
@@ -591,7 +591,6 @@ qx.Class.define("qx.bom.Selection",
      * Clears the selection on the given node.
      *
      * @param node {Node} node to clear the selection for
-     * @return {void}
      */
     clear : qx.core.Environment.select("engine.name",
     {

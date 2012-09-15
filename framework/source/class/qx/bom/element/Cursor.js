@@ -32,29 +32,7 @@ qx.Bootstrap.define("qx.bom.element.Cursor",
   statics :
   {
     /** Internal helper structure to map cursor values to supported ones */
-    __map : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" :
-      {
-        "cursor" : "hand",
-        "ew-resize" : "e-resize",
-        "ns-resize" : "n-resize",
-        "nesw-resize" : "ne-resize",
-        "nwse-resize" : "nw-resize"
-      },
-
-      "opera" :
-      {
-        "col-resize" : "e-resize",
-        "row-resize" : "n-resize",
-        "ew-resize" : "e-resize",
-        "ns-resize" : "n-resize",
-        "nesw-resize" : "ne-resize",
-        "nwse-resize" : "nw-resize"
-      },
-
-      "default" : {}
-    }),
+    __map : {},
 
 
     /**
@@ -87,7 +65,6 @@ qx.Bootstrap.define("qx.bom.element.Cursor",
      *
      * @param element {Element} The element to modify
      * @param value {String} New cursor value to set
-     * @return {void}
      */
     set : function(element, value) {
       element.style.cursor = this.__map[value] || value;
@@ -98,10 +75,39 @@ qx.Bootstrap.define("qx.bom.element.Cursor",
      * Removes the local cursor style applied to the element
      *
      * @param element {Element} The element to modify
-     * @return {void}
      */
     reset : function(element) {
       element.style.cursor = "";
+    }
+  },
+
+
+  defer : function(statics) {
+    // < IE 9
+    if (qx.core.Environment.get("engine.name") == "mshtml" &&
+         ((parseFloat(qx.core.Environment.get("engine.version")) < 9 ||
+          qx.core.Environment.get("browser.documentmode") < 9) &&
+          !qx.core.Environment.get("browser.quirksmode"))
+    ) {
+      statics.__map["nesw-resize"] = "ne-resize";
+      statics.__map["nwse-resize"] = "nw-resize";
+
+      // < IE 8
+      if (((parseFloat(qx.core.Environment.get("engine.version")) < 8 ||
+          qx.core.Environment.get("browser.documentmode") < 8) &&
+          !qx.core.Environment.get("browser.quirksmode"))
+      ) {
+        statics.__map["ew-resize"] = "e-resize";
+        statics.__map["ns-resize"] = "n-resize";
+      }
+
+    // Opera < 12
+    } else if (
+      qx.core.Environment.get("engine.name") == "opera" && 
+      parseInt(qx.core.Environment.get("engine.version")) < 12
+    ) {
+      statics.__map["nesw-resize"] = "ne-resize";
+      statics.__map["nwse-resize"] = "nw-resize";
     }
   }
 });

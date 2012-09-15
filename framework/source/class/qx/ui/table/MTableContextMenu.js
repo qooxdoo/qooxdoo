@@ -149,7 +149,6 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
      *   If not provided, the {@link qx.ui.table.Table} object this mixin is
      *   applied to is used.
      *
-     * @return {void}
      */
     setContextMenuHandler : function(col, handler, context)
     {

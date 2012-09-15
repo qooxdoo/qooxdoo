@@ -52,7 +52,7 @@ ifeq ($(DO_RELEASE),)
 # --------  DEVELOPMENT SETTINGS --------------------------------------
 # these settings are used during development time
 OPT_GENERATOR = -m QOOXDOO_REVISION:$(FRAMEWORK_GITINFO)
-QOOXDOO_RELEASE = 
+QOOXDOO_RELEASE =
 else
 # --------  RELEASE SETTINGS ------------------------------------------
 # activate from the command line with: make DO_RELEASE=1 ...
@@ -88,7 +88,7 @@ TUTORIALS = mobiletweets twitter website
 release: release-sdk
 
 release-sdk: distclean release-sdk-sans-clean
-release-sdk-sans-clean: release-sdk-info apiviewer showcase build-docs release-sdk-svn-collect release-sdk-archive
+release-sdk-sans-clean: release-sdk-info apiviewer apiviewer-website website server showcase build-docs release-sdk-svn-collect release-sdk-archive
 
 
 release-sdk-info:
@@ -122,9 +122,9 @@ release-sdk-svn-collect:
 	@for APPLICATION in $(APPLICATIONS); do \
 		$(CMD_MKDIR) $(RELEASE_SDK)/application/$$APPLICATION/source/script; \
 		if [ "$$APPLICATION" = "widgetbrowser" ]; then \
-	    $(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.modern.js; \
+			$(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.modern.js; \
 		else \
-	    $(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.js; \
+			$(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.js; \
 		fi; \
 	done
 	@# showcase
@@ -178,8 +178,45 @@ info-apiviewer:
 
 apiviewer: info-apiviewer exec-apiviewer-build
 
+apiviewer-website:
+	@time ( cd component/standalone/website && $(CMD_GENERATOR) api ) || exit 1
+
 exec-apiviewer-build:
 	@time ( cd framework && $(CMD_GENERATOR) api ) || exit 1
+
+
+################################################################################
+# WEBSITE TARGETS
+################################################################################
+
+info-website:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING WEBSITE"
+	@echo "****************************************************************************"
+
+
+website: info-website exec-website-build
+
+exec-website-build:
+	@time ( cd component/standalone/website && $(CMD_GENERATOR) build,build-min ) || exit 1
+
+
+################################################################################
+# SERVER TARGETS
+################################################################################
+
+info-server:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING SERVER"
+	@echo "****************************************************************************"
+
+
+server: info-server exec-server-build
+
+exec-server-build:
+	@time ( cd component/standalone/server && $(CMD_GENERATOR) build,build-min ) || exit 1
 
 
 ################################################################################
@@ -251,10 +288,10 @@ exec-skeleton-collect:
 	@echo "  * Collecting skeleton files..."
 	@$(CMD_MKDIR) $(SKELETON_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton
 	@for FILE in $(SKELETON_FILES); do \
-    	echo "    - $$FILE"; \
-    	$(CMD_MKDIR) `dirname $(SKELETON_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton/skeleton/$$FILE`; \
-	  	$(CMD_SYNC_OFFLINE) component/skeleton/$$FILE `dirname $(SKELETON_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton/skeleton/$$FILE`; \
-  	done
+			echo "    - $$FILE"; \
+			$(CMD_MKDIR) `dirname $(SKELETON_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton/skeleton/$$FILE`; \
+			$(CMD_SYNC_OFFLINE) component/skeleton/$$FILE `dirname $(SKELETON_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton/skeleton/$$FILE`; \
+		done
 
 exec-skeleton-archive:
 	@echo "  * Cleaning up target folders..."
@@ -283,7 +320,9 @@ distclean:
 	@for APPLICATION in $(APPLICATIONS); do \
 		F="application/$$APPLICATION"; \
 		if [ -e $$F ]; then \
-			(( cd $$F && $(CMD_GENERATOR) distclean ) || ( echo "Unable to distclean $$F"; exit 1 )); \
+			if [ "$$APPLICATION" != "todo" ]; then \
+				(( cd $$F && $(CMD_GENERATOR) distclean ) || ( echo "Unable to distclean $$F"; exit 1 )); \
+			fi; \
 		fi; \
 	done
 	@for APPLICATION in $(COMPONENTS); do \
@@ -296,13 +335,47 @@ distclean:
 	@$(CMD_REMOVE) application/*.zip
 	@$(CMD_REMOVE) release
 
+lint: lint-apps lint-components lint-framework
+
+lint-framework:
+	@( cd framework && $(CMD_GENERATOR) lint ) || exit 1
+
+lint-apps:
+	@for APPLICATION in $(APPLICATIONS); do \
+		( cd application/$$APPLICATION && $(CMD_GENERATOR) lint ) \
+	done
+
+##
+# The next contains a near copy of build-tutorials
+lint-components:
+	@for COMPONENT in $(COMPONENTS); do \
+		if [[ "$$COMPONENT" = "apiviewer" || "$$COMPONENT" = "testrunner" || "$$COMPONENT" = "inspector" ]]; then \
+			( cd component/$$COMPONENT && $(CMD_GENERATOR) lint ) \
+		fi; \
+	done
+	@paths=""; for TUTORIAL in $(TUTORIALS); do \
+		TUTDIR="component/tutorials/$$TUTORIAL"; \
+		for STEP in `ls $$TUTDIR`; do \
+			F="$$TUTDIR/$$STEP"; \
+			if [ -d $$F ]; then \
+				paths="$$paths $$TUTORIAL/$$STEP"; \
+				if [ "$$TUTORIAL" != "website" ]; then \
+					( cd $$F && $(CMD_GENERATOR) lint ); \
+				fi; \
+			fi; \
+		done; \
+	done
+		
+
 build: build-apps build-components
 build-apps:
 	@time for APPLICATION in $(APPLICATIONS); do \
 		if [ "$$APPLICATION" = "feedreader" ]; then \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build,build-mobile,build-website ) || exit 1; \
+			elif [ "$$APPLICATION" = "todo" ]; then \
+				( cd application/$$APPLICATION && $(CMD_GENERATOR) build-min ) || exit 1; \
 		elif [ "$$APPLICATION" = "mobileshowcase" ]; then \
-			( cd application/$$APPLICATION && $(CMD_GENERATOR) build-ios,build-android ) || exit 1; \
+			( cd application/$$APPLICATION && $(CMD_GENERATOR) build-indigo ) || exit 1; \
 		else \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
 		fi; \
@@ -316,7 +389,7 @@ build-components:
 		elif [ "$$COMPONENT" = "website" ]; then \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
-			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) api-data ) || exit 1; \
+			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) api ) || exit 1; \
       ( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) test ) || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
@@ -338,6 +411,7 @@ source-apps:
 	@time for APPLICATION in $(APPLICATIONS); do \
 		if [ "$$APPLICATION" = "feedreader" ]; then \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) source,source-mobile ) || exit 1; \
+		elif [ "$$APPLICATION" = "todo" ]; then \
 		else \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; \
 		fi; \
@@ -359,7 +433,7 @@ tutorials-build:
 			if [ -d $$F ]; then \
 				paths="$$paths $$TUTORIAL/$$STEP"; \
 				if [ "$$TUTORIAL" = "website" ]; then \
-					cp component/standalone/website/script/q.min.js $$F; \
+					cp component/standalone/website/script/q-$(FRAMEWORK_VERSION).min.js $$F; \
 				else \
 					( cd $$F && $(CMD_GENERATOR) build ) || exit 1; \
 				fi; \
@@ -413,14 +487,14 @@ check-docs-pdf:
 
 publish-build: build-apps publish-build-components tutorials-build build-framework build-docs
 
-publish-build-components: 
+publish-build-components:
 	@( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/testrunner && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/testrunner && $(CMD_GENERATOR) portable-build ) || exit 1;
 	@( cd component/standalone/storage && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/standalone/storage && $(CMD_GENERATOR) build-require ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) build ) || exit 1
-	@( cd component/standalone/website && $(CMD_GENERATOR) api-data ) || exit 1
+	@( cd component/standalone/website && $(CMD_GENERATOR) api ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) build-min ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) test ) || exit 1
 	@( cd component/standalone/server && $(CMD_GENERATOR) build ) || exit 1
@@ -437,7 +511,9 @@ check-apps:
 	if [ "$$TARGET" = "featureconfigeditor" ] ; then \
 		F="application/$$TARGET/build/script/fce.js"; \
 	elif [ "$$TARGET" = "mobileshowcase" ] ; then \
-		F="application/$$TARGET/build-ios/script/$$TARGET.js"; \
+		F="application/$$TARGET/build-indigo/script/$$TARGET.js"; \
+	elif [ "$$TARGET" = "todo" ] ; then \
+		F="application/$$TARGET/$$TARGET.js"; \
 	else \
 		F="application/$$TARGET/build/script/$$TARGET.js"; \
 	fi; \
@@ -455,19 +531,19 @@ check-components:
 			F="component/testrunner/build/script/$$TARGET-portable.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "storage" ]; then \
-			F="component/standalone/$$TARGET/script/$$TARGET.js"; \
+			F="component/standalone/$$TARGET/script/$$TARGET-$(FRAMEWORK_VERSION).js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-			F="component/standalone/$$TARGET/script/$$TARGET.require.js"; \
+			F="component/standalone/$$TARGET/script/$$TARGET-$(FRAMEWORK_VERSION).require.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "website" ]; then \
-			F="component/standalone/$$TARGET/script/q.js"; \
+			F="component/standalone/$$TARGET/script/q-$(FRAMEWORK_VERSION).js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-			F="component/standalone/$$TARGET/script/q.min.js"; \
+			F="component/standalone/$$TARGET/script/q-$(FRAMEWORK_VERSION).min.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "server" ]; then \
-			F="component/standalone/$$TARGET/script/qx-oo.min.js"; \
+			F="component/standalone/$$TARGET/script/qx-oo-$(FRAMEWORK_VERSION).min.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-			F="component/standalone/$$TARGET/script/qx-oo.js"; \
+			F="component/standalone/$$TARGET/script/qx-oo-$(FRAMEWORK_VERSION).js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		fi; \
 	done
@@ -488,7 +564,7 @@ publish-index:
 	@$(CMD_REMOVE) temp
 
 # Putting components after framework, to be able to add to testrunner/script/testrunner-portable.js
-# to save:	ssh $(STAGING_HOST) $(CMD_MKDIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION/script/; 
+# to save:	ssh $(STAGING_HOST) $(CMD_MKDIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION/script/;
 publish-apps:
 	@echo "  * Syncing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
@@ -500,10 +576,11 @@ publish-apps:
 			echo "    - $$APPLICATION-website..."; \
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-website/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-website || exit 1; \
 		elif [ "$$APPLICATION" = "mobileshowcase" ]; then \
-			echo "    - $$APPLICATION-ios..."; \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-ios/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-ios || exit 1; \
-			echo "    - $$APPLICATION-android..."; \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-android/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-android || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-indigo/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+		elif [ "$$APPLICATION" = "todo" ]; then \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/script $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/todo.* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/index.html $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		else \
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		fi; \
@@ -529,17 +606,17 @@ publish-apps:
 			$(CMD_SYNC_ONLINE) component/testrunner/build/script/$$COMPONENT-portable.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT/script/$$COMPONENT-portable.js || exit 1; \
 		elif [ "$$COMPONENT" = "storage" ]; then \
 			echo "    - $$COMPONENT..."; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$$COMPONENT.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$$COMPONENT.require.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$$COMPONENT-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$$COMPONENT-$(FRAMEWORK_VERSION).require.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		elif [ "$$COMPONENT" = "website" ]; then \
 			echo "    - $$COMPONENT..."; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q.min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/api/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-api || exit 1; \
       $(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/test/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-tests || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo.min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		fi; \
 	done
 

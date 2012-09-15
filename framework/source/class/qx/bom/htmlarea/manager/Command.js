@@ -30,7 +30,6 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
    * Constructor
    *
    * @param editorInstance {qx.bom.htmlarea.HtmlArea} editor instance
-   * @return {void}
    */
   construct : function(editorInstance)
   {
@@ -97,7 +96,6 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      * his commands
      *
      * @param doc {Object} contentDocument of the editor instance
-     * @return {void}
      */
     setContentDocument : function(doc) {
       this.__doc = doc;
@@ -126,7 +124,6 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
     /**
      * Populate the internal "commands" object with the available commands and their settings.
      *
-     * @return {void}
      */
     __populateCommandList : function()
     {
@@ -181,7 +178,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      * Executes the given command
      *
      * @param command {String} Command to execute
-     * @param value {String ? Integer ? null} Value of the command (if any)
+     * @param value {String|Integer?null} Value of the command (if any)
      * @return {Boolean} Result of operation
      */
     execute : function(command, value)
@@ -290,7 +287,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      *
      * @param command {String} command to execute
      * @param ui {Boolean} Whether to show an ui when executing a command. Default is false.
-     * @param value {String ? Integer ? null} value of the command
+     * @param value {String|Integer|null} value of the command
      * @return {Boolean} Success of operation
      */
     __executeCommand : function(command, ui, value)
@@ -553,7 +550,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
         this.__editorInstance.insertHtml("<p style='" + elementStyleString + "'><br class='webkit-block-placeholder' />");
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
       }),
 
       /**
@@ -631,7 +628,6 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
        * Gecko inserts a superfluous paragraph despite our own paragraph
        * handling. If detected we remove this element
        *
-       * @return {void}
        * @signature function()
        */
       __hideSuperfluousParagraph : qx.core.Environment.select("engine.name",
@@ -685,7 +681,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
           }
         },
 
-        "default" : qx.lang.Function.empty
+        "default" : (function() {})
       }),
 
 
@@ -782,7 +778,6 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       * parent hierarchy for any "blockquote" elements and removes them.
       *
       * @param startNode {Node} starting point of the lookup
-      * @return {void}
       */
      __manualOutdent : function(startNode)
      {

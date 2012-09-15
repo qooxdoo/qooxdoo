@@ -180,7 +180,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      * Checks if the given node is a block node
      *
-     * @type static
      * @param node {Node} Node
      * @return {Boolean} whether it is a block node
      */
@@ -483,7 +482,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      * Adds the "appear" listener for correct startup
      *
-     * @return {void}
      */
     __addAppearListener : function() {
       this.addListenerOnce("appear", this.__setupEditorComponent);
@@ -514,7 +512,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      * Applies the postponed properties to the editor component
      *
-     * @return {void}
      */
     __applyPostPonedProperties : function()
     {
@@ -548,7 +545,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      * developers listen to the widget instance.
      *
      * @param e {qx.event.type.Event} event instance
-     * @return {void}
      */
     __delegateEvent : function(e)
     {
@@ -562,7 +558,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      * developers listen to the widget instance.
      *
      * @param e {qx.event.type.Data} event instance
-     * @return {void}
      */
     __delegateDataEvent : function(e)
     {
@@ -639,7 +634,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      * Getter for command manager.
      *
-     * @return {htmlarea.manager.Manager?htmlarea.manager.UndoManager?null} manager instance
+     * @return {qx.bom.htmlarea.manager.Command|qx.bom.htmlarea.manager.UndoRedo?null} manager instance
      * or null if the editor is not initialized
      */
     getCommandManager : function() {
@@ -651,7 +646,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      * Setting the value of the editor if it's initialized
      *
      * @param value {String} new content to set
-     * @return {void}
      */
     setValue : function(value)
     {
@@ -807,7 +801,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      * Whether the document is in editable mode
      *
      * @param value {Boolean} whether the component should be editable
-     * @return {void}
      */
     setEditable : function(value) {
       if (this.__editorComponent != null) {
@@ -1118,7 +1111,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      * Undo last operation
      *
-     * @return {void}
      */
     undo : function() {
       return this.__editorComponent != null ? this.__editorComponent.undo() : false;
@@ -1128,7 +1120,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      * Redo last undo
      *
-     * @return {void}
      */
     redo : function() {
       return this.__editorComponent != null ? this.__editorComponent.redo() : false;
@@ -1144,7 +1135,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      * Resets the content of the editor
      *
-     * @return {void}
      */
     resetHtml : function()
     {
@@ -1233,7 +1223,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      * Clears the current selection
      *
-     * @return {void}
      */
     clearSelection : function()
     {
@@ -1267,7 +1256,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      *
      * *NOTE:* the next executed command will reset this range.
      *
-     * @return {void}
      */
     saveRange : function() {
       this.__editorComponent.saveRange();
@@ -1287,7 +1275,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      * Resets the current saved range.
      *
-     * @return {void}
      */
     resetSavedRange : function() {
       this.__editorComponent.resetSavedRange();
@@ -1389,7 +1376,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
   /**
    * Destructor
    *
-   * @return {void}
    */
   destruct : function()
   {

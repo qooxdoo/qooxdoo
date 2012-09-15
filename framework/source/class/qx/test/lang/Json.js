@@ -207,7 +207,7 @@ qx.Class.define("qx.test.lang.Json",
       // check keys
       this.assertEquals(
         ["juhu", "foo", "age"].sort().toString(),
-        qx.lang.Object.getKeys(data).sort().toString()
+        Object.keys(data).sort().toString()
       );
 
       // check values

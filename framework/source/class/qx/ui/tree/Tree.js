@@ -280,11 +280,11 @@ qx.Class.define("qx.ui.tree.Tree",
     /**
      * Get the tree item following the given item in the tree hierarchy.
      *
-     * @param treeItem {AbstractTreeItem} The tree item to get the item after
+     * @param treeItem {qx.ui.tree.core.AbstractTreeItem} The tree item to get the item after
      * @param invisible {Boolean?true} Whether invisible/closed tree items
      *     should be returned as well.
      *
-     * @return {AbstractTreeItem?null} The item after the given item. May be
+     * @return {qx.ui.tree.core.AbstractTreeItem?null} The item after the given item. May be
      *     <code>null</code> if the item is the last item.
      */
     getNextNodeOf : function(treeItem, invisible)
@@ -316,11 +316,11 @@ qx.Class.define("qx.ui.tree.Tree",
     /**
      * Get the tree item preceding the given item in the tree hierarchy.
      *
-     * @param treeItem {AbstractTreeItem} The tree item to get the item before
+     * @param treeItem {qx.ui.tree.core.AbstractTreeItem} The tree item to get the item before
      * @param invisible {Boolean?true} Whether invisible/closed tree items
      *     should be returned as well.
      *
-     * @return {AbstractTreeItem?null} The item before the given item. May be
+     * @return {qx.ui.tree.core.AbstractTreeItem?null} The item before the given item. May be
      *     <code>null</code> if the given item is the tree's root.
      */
     getPreviousNodeOf : function(treeItem, invisible)
@@ -368,10 +368,10 @@ qx.Class.define("qx.ui.tree.Tree",
     /**
      * Get the tree item's next sibling.
      *
-     * @param treeItem {AbstractTreeItem} The tree item to get the following
+     * @param treeItem {qx.ui.tree.core.AbstractTreeItem} The tree item to get the following
      * sibling of.
      *
-     * @return {AbstractTreeItem?null} The item following the given item. May be
+     * @return {qx.ui.tree.core.AbstractTreeItem?null} The item following the given item. May be
      *     <code>null</code> if the given item is the last in it's nesting
      *     level.
      */
@@ -396,10 +396,10 @@ qx.Class.define("qx.ui.tree.Tree",
     /**
      * Get the tree item's previous sibling.
      *
-     * @param treeItem {AbstractTreeItem} The tree item to get the previous
+     * @param treeItem {qx.ui.tree.core.AbstractTreeItem} The tree item to get the previous
      * sibling of.
      *
-     * @return {AbstractTreeItem?null} The item preceding the given item. May be
+     * @return {qx.ui.tree.core.AbstractTreeItem?null} The item preceding the given item. May be
      *     <code>null</code> if the given item is the first in it's nesting
      *     level.
      */
@@ -428,7 +428,7 @@ qx.Class.define("qx.ui.tree.Tree",
      *     included
      * @param invisible {Boolean ? true} whether invisible children should be
      *     included
-     * @return {AbstractTreeItem[]} list of children
+     * @return {qx.ui.tree.core.AbstractTreeItem[]} list of children
      */
     getItems : function(recursive, invisible) {
       if (this.getRoot() != null) {
@@ -443,7 +443,7 @@ qx.Class.define("qx.ui.tree.Tree",
     /**
      * Returns the tree's only "external" child, namely the root node.
      *
-     * @return {AbstractTreeItem[]} Array containing the root node
+     * @return {qx.ui.tree.core.AbstractTreeItem[]} Array containing the root node
      */
     getChildren : function() {
       if (this.getRoot() != null) {
@@ -467,7 +467,7 @@ qx.Class.define("qx.ui.tree.Tree",
      *
      * @param widget {qx.ui.core.Widget} The widget to get the containing tree
      *   item for.
-     * @return {AbstractTreeItem|null} The tree item containing the widget. If the
+     * @return {qx.ui.tree.core.AbstractTreeItem|null} The tree item containing the widget. If the
      *     widget is not inside of any tree item <code>null</code> is returned.
      */
     getTreeItem : function(widget)

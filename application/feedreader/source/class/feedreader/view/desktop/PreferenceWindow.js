@@ -93,6 +93,7 @@ qx.Class.define("feedreader.view.desktop.PreferenceWindow",
 
       // Create the radio buttons for the languages
       var languages = { "en" : "English",
+                        "cs" : "Češka",
                         "de" : "Deutsch",
                         "es" : "Español",
                         "fr" : "Français",
@@ -107,7 +108,7 @@ qx.Class.define("feedreader.view.desktop.PreferenceWindow",
       if (qx.core.Environment.get("qx.debug"))
       {
         var availableLocales = localeManager.getAvailableLocales(true).sort().join(", ");
-        var usedLocales = qx.lang.Object.getKeys(languages).sort().join(", ");
+        var usedLocales = Object.keys(languages).sort().join(", ");
 
         if(availableLocales !== usedLocales)
         {

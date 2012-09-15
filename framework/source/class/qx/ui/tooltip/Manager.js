@@ -279,7 +279,6 @@ qx.Class.define("qx.ui.tooltip.Manager",
      * set as {@link #current}
      *
      * @param e {qx.event.type.Mouse} mouseOver event
-     * @return {void}
      */
     __onMouseOverRoot : function(e)
     {
@@ -291,7 +290,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
     /**
      * Explicitly show tooltip for particular form item.
      *
-     * @param target {Object || null} widget to show tooltip for
+     * @param target {Object | null} widget to show tooltip for
      */
     showToolTip : function(target) {
       if (!target){
@@ -358,7 +357,6 @@ qx.Class.define("qx.ui.tooltip.Manager",
      * tooltip and no new one is created.
      *
      * @param e {qx.event.type.Mouse} mouseOut event
-     * @return {void}
      */
     __onMouseOutRoot : function(e)
     {
@@ -411,7 +409,6 @@ qx.Class.define("qx.ui.tooltip.Manager",
      * current tooltip is the tooltip of the target widget.
      *
      * @param e {qx.event.type.Focus} blur event
-     * @return {void}
      */
     __onFocusOutRoot : function(e)
     {

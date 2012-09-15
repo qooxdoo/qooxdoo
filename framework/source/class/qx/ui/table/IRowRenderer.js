@@ -41,7 +41,7 @@ qx.Interface.define("qx.ui.table.IRowRenderer",
      * @abstract
      * @param rowInfo {Map} A map containing the information about the row to
      *      update.
-     * @param rowElement {element} the DOM element that renders the data row.
+     * @param rowElement {Element} the DOM element that renders the data row.
      */
     updateDataRowElement : function(rowInfo, rowElement) {},
 

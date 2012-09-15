@@ -40,7 +40,7 @@ qx.Class.define("qx.data.controller.website.List",
   extend : qx.core.Object,
 
   /**
-   * @param model {qx.data.IListData||Array?} The mode which can either be a
+   * @param model {qx.data.IListData|Array?} The mode which can either be a
    *   native array or a qooxdoo data list. Maps to the model property.
    * @param target {Element?} A DOM element which should is the target for
    *   the generation.

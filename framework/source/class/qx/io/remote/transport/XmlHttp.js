@@ -170,7 +170,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Implementation for sending the request
      *
-     * @return {void}
      */
     send : function()
     {
@@ -386,7 +385,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * This method should be used only if the requests URI was local
      * access. I.e. it started with "file://".
      *
-     * @return {void}
      */
     failedLocally : function()
     {
@@ -509,7 +507,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *
      * @param vLabel {String} Request header name
      * @param vValue {var} Request header value
-     * @return {void}
      */
     setRequestHeader : function(vLabel, vValue) {
       this.getRequestHeaders()[vLabel] = vValue;
@@ -536,7 +533,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * states that HTTP 1.1 header names are case-insensitive, so your
      * application should be case-agnostic when dealing with response headers.
      *
-     * [1]{@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2}
+     * [1]<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2">RFC 2616: HTTP Message Headers</a>
      *
      * @param vLabel {String} Response header name
      * @return {String|null} Response header value
@@ -898,7 +895,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {void}
      */
     _applyState : function(value, old)
     {
@@ -982,7 +978,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       // Note that for IE the proper way to do this is to set it to a
       // dummy function, not null (Google on "onreadystatechange dummy IE unhook")
       // http://groups.google.com/group/Google-Web-Toolkit-Contributors/browse_thread/thread/7e7ee67c191a6324
-      vRequest.onreadystatechange = qx.lang.Function.empty;
+      vRequest.onreadystatechange = (function() {});
       // Aborting
       switch(vRequest.readyState)
       {

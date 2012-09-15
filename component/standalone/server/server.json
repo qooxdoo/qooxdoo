@@ -1,6 +1,14 @@
 {
   "name"    : "server component include config",
 
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/component/testrunner/testrunner.json",
+      "import" : ["build-basic-portable", "build-basic-script"]
+    }
+  ],
+
   "let" :
   {
     "APPLICATION"  : "server",
@@ -17,31 +25,32 @@
   "jobs" :
   {
 
-    "qxoo-common" : 
+    "qxoo-common" :
     {
       "config-warnings" :
       {
-        "exclude" : ["qx.event.GlobalError"] 
+        "exclude" : ["qx.event.GlobalError"]
       },
 
       "library" :
       [
         {
           "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json",
-          "uri" : ".."          
+          "uri" : ".."
         }
       ],
 
       "extend" : [ "cache" ],
-      
-      "include" : 
+
+      "include" :
       [
         "qx.Class"
         ,"qx.Mixin"
         ,"qx.Interface"
         ,"qx.data.marshal.Json"
+        ,"qx.bom.client.Runtime"
       ],
-      
+
       "exclude" :
       [
         "qx.event.GlobalError"
@@ -72,16 +81,16 @@
     },
 
 
-    "build-min" : 
+    "build-min" :
     {
       "desc" : "a basic qooxdoo OO library",
       "extend" : [ "qxoo-common" ],
-      
+
       "compile-options" :
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/qx-oo.min.js",
+          "file" : "${BUILD_PATH}/qx-oo-${QOOXDOO_VERSION}.min.js",
           "app-root" : "."
         },
         "code" :
@@ -93,18 +102,18 @@
       },
       "compile" : { "type" : "build" }
     },
-    
-    
-    "build" : 
+
+
+    "build" :
     {
       "desc" : "a basic qooxdoo OO library (non-optimized)",
       "extend" : [ "qxoo-common" ],
-      
+
       "compile-options" :
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/qx-oo.js",
+          "file" : "${BUILD_PATH}/qx-oo-${QOOXDOO_VERSION}.js",
           "app-root" : "."
         },
         "code" :

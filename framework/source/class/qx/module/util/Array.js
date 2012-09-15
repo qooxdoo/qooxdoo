@@ -33,7 +33,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
       *
       * @param object {var} any array-like object
       * @param constructor {Function} constructor of the new instance
-      * @param offset {Integer?0} position to start from
+      * @param offset {Number?0} position to start from
       * @return {Array} the converted array
       */
     cast : qx.lang.Array.cast,

@@ -44,7 +44,7 @@
 #   nud => pfix
 ##
 
-import sys, os, re, types, string
+import sys, os, re, types, string, itertools as itert
 from ecmascript.frontend.SyntaxException import SyntaxException
 from ecmascript.frontend.tree            import Node
 from ecmascript.frontend.Scanner         import IterObject, LQueue, LimLQueue, is_last_escaped
@@ -87,6 +87,8 @@ ASSIGN_OPERATORS = ["ASSIGN", "ASSIGN_ADD", "ASSIGN_SUB", "ASSIGN_MUL", \
     "ASSIGN_LSH", "ASSIGN_RSH", "ASSIGN_URSH"]
 
 LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
+
+STATEMENT_NODE_TYPES = "loop var continue break return switch throw try".split()
 
 StmntTerminatorTokens = ("eol", ";", "}", "eof")
 
@@ -159,6 +161,9 @@ class TokenStream(IterObject):
         return tok['type'] in ['white', 'comment', 'eol']
 
 
+    ##
+    # Main transformer function, consuming a scanner token and producing a tree
+    # node.
     def _symbolFromToken(self, tok):
         s = None
 
@@ -222,6 +227,9 @@ class TokenStream(IterObject):
                 s.set('constantType', 'null')
         elif tok.name in ('name', 'builtin'):
             s = symbol_table["identifier"]()
+            # debug hook
+            if 0 and tok.value == "pydb":  # to activate, enter "pydb;" in JS code
+                import pydb; pydb.debugger()
         else:
             # TODO: token, reserved
             # name or operator
@@ -323,10 +331,14 @@ class symbol_base(Node):
         raise SyntaxException("Syntax error %r (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
 
     def ifix(self, left):
-        raise SyntaxException("Unknown operator %r (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
+        raise SyntaxException("Unknown operator %r in infix position (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
 
     def isVar(self):
         return self.type in ("dotaccessor", "identifier")
+
+    def isPrefixOp(self):
+        return ( self.type in STATEMENT_NODE_TYPES or
+            ( self.type == "operation" and self.get("left", False)=="true"))
 
     def __repr__(self):
         if self.id == "identifier" or self.id == "constant":
@@ -360,6 +372,11 @@ class symbol_base(Node):
     # Packer stuff (serialization to JS)
     def toJS(self, opts):
         return self.get("value", u'')
+
+    # serialization to list of nodes
+    def toListG(self):
+        for e in itert.chain([self], *[c.toListG() for c in self.children]):
+            yield e
 
 
     def compileToken(self, name, compact=False):
@@ -461,19 +478,6 @@ class symbol_base(Node):
         return s
 
 
-    def inForLoop(self):
-        while node:
-            if self.type in ["first", "second", "third"] and self.parent.type == "loop" and self.parent.get("loopType") == "FOR":
-                return True
-
-            if not self.hasParent():
-                return False
-
-            node = self.parent
-
-        return False
-
-
     # end: symbol_base(Node)
 
 
@@ -502,22 +506,23 @@ def symbol(id_, bind_left=0):
 
 def infix(id_, bp):
     def ifix(self, left):
-        s = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(left)
-        s = symbol("second")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(expression(bp))
+        self.childappend(left)
+        self.childappend(expression(bp))
         return self
     symbol(id_, bp).ifix = ifix
 
     def toJS(self, opts):
         r = u''
-        r += self.getChild("first").toJS(opts)
+        r += self.children[0].toJS(opts)
         r += self.get("value")
-        r += self.getChild("second").toJS(opts)
+        r += self.children[1].toJS(opts)
         return r
     symbol(id_).toJS = toJS
+
+    def toListG(self):
+        for e in itert.chain(self.children[0].toListG(), [self], self.children[1].toListG()):
+            yield e
+    symbol(id_).toListG = toListG
 
 
 ##
@@ -527,11 +532,11 @@ def infix_v(id_, bp):
 
     def toJS(self, opts):  # adapt the output
         r = u''
-        r += self.getChild("first").toJS(opts)
+        r += self.children[0].toJS(opts)
         r += self.space()
         r += self.get("value")
         r += self.space()
-        r += self.getChild("second").toJS(opts)
+        r += self.children[1].toJS(opts)
         return r
     symbol(id_).toJS = toJS
         
@@ -543,12 +548,8 @@ def infix_r(id_, bp):
     infix(id_, bp)
 
     def ifix(self, left):
-        s = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(left)
-        s = symbol("second")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(expression(bp-1))
+        self.childappend(left)
+        self.childappend(expression(bp-1))
         return self
     symbol(id_, bp).ifix = ifix
 
@@ -557,27 +558,28 @@ def infix_r(id_, bp):
 # prefix "sigil" operators, like '!', '~', ...
 def prefix(id_, bp):
     def pfix(self):
-        s = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(expression(bp-1)) # right-associative
+        self.childappend(expression(bp-1)) # right-associative
         return self
     symbol(id_, bp).pfix = pfix
 
     def toJS(self, opts):
         r = u''
         r += self.get("value")
-        r += self.getChild("first").toJS(opts)
+        r += self.children[0].toJS(opts)
         return r
     symbol(id_).toJS = toJS
+
+    def toListG(self):
+        for e in itert.chain([self], self.children[0].toListG()):
+            yield e
+    symbol(id_).toListG = toListG
 
 
 ##
 # prefix "verb" operators, i.e. that need a space before their operand like 'delete'
 def prefix_v(id_, bp):
     def pfix(self):
-        s = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(expression(bp-1)) # right-associative
+        self.childappend(expression(bp-1)) # right-associative
         return self
     symbol(id_, bp).pfix = pfix
 
@@ -585,7 +587,7 @@ def prefix_v(id_, bp):
         r = u''
         r += self.get("value")
         r += self.space()
-        r += self.getChild("first").toJS(opts)
+        r += self.children[0].toJS(opts)
         return r
     symbol(id_).toJS = toJS
 
@@ -597,54 +599,65 @@ def preinfix(id_, bp):  # pre-/infix operators (+, -)
     # give them a pfix() for prefix pos
     def pfix(self):
         self.set("left", "true")  # mark prefix position
-        first = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(first)
-        first.childappend(expression(130)) # need to use prefix rbp!
+        self.childappend(expression(130)) # need to use prefix rbp!
         return self
     symbol(id_).pfix = pfix
 
     def toJS(self, opts):  # need to handle pre/infix cases
         r = []
-        first = self.getChild("first").toJS(opts)
+        first = self.children[0].toJS(opts)
         op = self.get("value")
         prefix = self.get("left", 0)
         if prefix and prefix == "true":
             r = [op, first]
         else:
-            second = self.getChild("second").toJS(opts)
+            second = self.children[1].toJS(opts)
             r = [first, op, second]
         return ''.join(r)
     symbol(id_).toJS = toJS
+
+    def toListG(self):
+        prefix = self.get("left",0)
+        if prefix and prefix == 'true':
+            r = [[self], self.children[0].toListG()]
+        else:
+            r = [self.children[0].toListG(), [self], self.children[1].toListG()]
+        for e in itert.chain(*r):
+            yield e
+    symbol(id_).toListG = toListG
 
 
 def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
     def pfix(self):  # prefix
         self.set("left", "true")
-        s = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(expression())  # overgenerating! only lvals allowed
+        self.childappend(expression())  # overgenerating! only lvals allowed
         return self
     symbol(id_, bp).pfix = pfix
 
     def ifix(self, left): # postfix
         # assert(left, lval)
-        s = symbol("first")(token.get("line"), token.get("column"))
-        self.childappend(s)
-        s.childappend(left)
+        self.childappend(left)
         return self
     symbol(id_).ifix = ifix
 
     def toJS(self, opts):
-        r = u''
         operator = self.get("value")
-        operand = self.getChild("first").toJS(opts)
-        r += self.get("value")
-        if self.get("left", '') == "true":
+        operand = self.children[0].toJS(opts)
+        if self.get("left", 0) == "true":
             r = [operator, operand]
         else:
             r = [operand, operator]
         return u''.join(r)
     symbol(id_).toJS = toJS
+
+    def toListG(self):
+        if self.get("left",0) == 'true':
+            r = [[self], self.children[0].toListG()]
+        else:
+            r = [self.children[0].toListG(), [self]]
+        for e in itert.chain(*r):
+            yield e
+    symbol(id_).toListG = toListG
 
 
 def advance(id_=None):
@@ -740,6 +753,9 @@ def toJS(self, opts):
         r += self.write(self.get("value"))
     return r
 
+@method(symbol("constant"))
+def toListG(self):
+    yield self
 
 symbol("identifier")
 
@@ -754,6 +770,10 @@ def toJS(self, opts):
     if v:
         r = self.write(v)
     return r
+
+@method(symbol("identifier"))
+def toListG(self):
+    yield self
 
 
 @method(symbol("/"))   # regexp literals
@@ -785,30 +805,29 @@ def pfix(self):
 @method(symbol("?"))
 def ifix(self, left):
     # first
-    first = symbol("first")(token.get("line"), token.get("column"))
-    first.childappend(left)
-    self.childappend(first)
+    self.childappend(left)
     # second
-    second = symbol("second")(token.get("line"), token.get("column"))
-    second.childappend(expression())
-    self.childappend(second)
+    self.childappend(expression())
     advance(":")
     # third
-    third = symbol("third")(token.get("line"), token.get("column"))
-    third.childappend(expression())
-    self.childappend(third)
+    self.childappend(expression())
     return self
 
 
 @method(symbol("?"))
 def toJS(self, opts):
     r = []
-    r.append(self.getChild("first").toJS(opts))
+    r.append(self.children[0].toJS(opts))
     r.append('?')
-    r.append(self.getChild("second").toJS(opts))
+    r.append(self.children[1].toJS(opts))
     r.append(':')
-    r.append(self.getChild("third").toJS(opts))
+    r.append(self.children[2].toJS(opts))
     return ''.join(r)
+
+@method(symbol("?"))
+def toListG(self):
+    for e in itert.chain(self.children[0].toListG(), [self], self.children[1].toListG(), self.children[2].toListG()):
+        yield e
 
 
 ##
@@ -830,22 +849,9 @@ def toJS(self, opts):
 def ifix(self, left):
     if token.id != "identifier":
         SyntaxException("Expected an attribute name (pos %r)." % ((token.get("line"), token.get("column")),))
-    #variable = symbol("variable")(token.get("line"), token.get("column"))
-    #variable.childappend(left.getChild("identifier")) # unwrap from <variable/>
-    #variable.childappend(left)
-    #while True:
-    #    #variable.childappend(expression().getChildByPosition(0)) # unwrap from <variable/>
-    #    variable.childappend(expression())
-    #    if token.id != ".":
-    #        break
-    #    advance(".")
     accessor = symbol("dotaccessor")(token.get("line"), token.get("column"))
-    s = symbol("first")(token.get("line"), token.get("column"))
-    accessor.childappend(s)
-    s.childappend(left)
-    s = symbol("second")(token.get("line"), token.get("column"))
-    accessor.childappend(s)
-    s.childappend(expression(symbol(".").bind_left)) 
+    accessor.childappend(left)
+    accessor.childappend(expression(symbol(".").bind_left)) 
         # i'm providing the rbp to expression() here explicitly, so "foo.bar(baz)" gets parsed
         # as (call (dotaccessor ...) (param baz)), and not (dotaccessor foo
         # (call bar (param baz))).
@@ -861,11 +867,16 @@ def toJS(self, opts):
     r += self.children[1].toJS(opts)
     return r
 
+@method(symbol("dotaccessor"))
+def toListG(self):
+    for e in itert.chain(self.children[0].toListG(), [self], self.children[1].toListG()):
+        yield e
+
 ##
 # walk down to find the "left-most" identifier ('a' in 'a.b().c')
 @method(symbol("dotaccessor"))
 def getLeftmostOperand(self):
-    ident = self.getChild("first")
+    ident = self.children[0]
     while ident.type not in ("identifier", "constant"):  # e.g. 'dotaccessor', 'first', 'call', 'accessor', ...
         ident =ident.children[0]
     return ident
@@ -874,19 +885,8 @@ def getLeftmostOperand(self):
 # walk down to find the "right-most" identifier ('c' in a.b.c)
 @method(symbol("dotaccessor"))
 def getRightmostOperand(self):
-    ident = self.getChild("second").children[0]
-    return ident # "left-leaning syntax tree (. (. a b) c)
-
-
-##
-# get the highest (in the tree) dotaccessor parent of a pure '.' expression
-@method(symbol("dotaccessor"))
-def getHighestPureDotParent(self):
-    highestDot = self
-    while highestDot.hasParentContext("dotaccessor/*"):
-        highestDot = highestDot.parent.parent
-    return highestDot
-
+    ident = self.children[1]
+    return ident # "left-leaning" syntax tree (. (. a b) c)
 
 # constants
 
@@ -903,7 +903,7 @@ constant("false")
 
 # bracket expressions
 
-symbol("("), symbol(")")
+symbol("("), symbol(")"), symbol("arguments")
 
 @method(symbol("("))  # <call>
 def ifix(self, left):
@@ -913,7 +913,7 @@ def ifix(self, left):
     call.childappend(operand)
     operand.childappend(left)
     # params - parse as group
-    params = symbol("params")(token.get("line"), token.get("column"))
+    params = symbol("arguments")(token.get("line"), token.get("column"))
     call.childappend(params)
     group = self.pfix()
     for c in group.children:
@@ -926,11 +926,24 @@ symbol("operand")
 def toJS(self, opts):
     return self.children[0].toJS(opts)
 
+@method(symbol("operand"))
+def toListG(self):
+    for e in self.children[0].toListG():
+        yield e
+
 
 @method(symbol("("))  # <group>
 def pfix(self):
-    comma = False
-    group = symbol("group")(token.get("line"), token.get("column"))
+    # There is sometimes a one-to-one replacement of the symbol instance from
+    # <token> and a different symbol created in the parsing method (here
+    # "symbol-(" vs. "symbol-group"). But there are a lot of attributes you want to
+    # retain from the token, like "line", "column", .comments, and maybe others.
+    # The reason for not retaining the token itself is that the replacement is
+    # more specific (as here "(" which could be "group", "call" etc.). Just
+    # re-writing .type would be enough for most tree traversing routines. But
+    # the parsing methods themselves are class-based.
+    group = symbol("group")()
+    self.patch(group) # for "line", "column", .comments, etc.
     if token.id != ")":
         while True:
             if token.id == ")":
@@ -953,12 +966,18 @@ def toJS(self, opts):
     r.append(')')
     return ''.join(r)
 
+@method(symbol("group"))
+def toListG(self):
+    for e in itert.chain([self], [c.toListG() for c in self.children]):
+        yield e
+
 
 symbol("]")
 
 @method(symbol("["))             # "foo[0]", "foo[bar]", "foo['baz']"
 def ifix(self, left):
-    accessor = symbol("accessor")(token.get("line"), token.get("column"))
+    accessor = symbol("accessor")()
+    self.patch(accessor)
     # identifier
     accessor.childappend(left)
     # selector
@@ -970,7 +989,8 @@ def ifix(self, left):
 
 @method(symbol("["))
 def pfix(self):
-    arr = symbol("array")(token.get("line"), token.get("column"))
+    arr = symbol("array")()
+    self.patch(arr)
     if token.id != "]":
         is_after_comma = 0
         while True:
@@ -1001,6 +1021,11 @@ def toJS(self, opts):
     r += ']'
     return r
 
+@method(symbol("accessor"))
+def toListG(self):
+    for e in itert.chain(self.children[0].toListG(), [self], self.children[1].toListG()):
+        yield e
+
 
 symbol("array")
 
@@ -1011,6 +1036,12 @@ def toJS(self, opts):
         r.append(c.toJS(opts))
     return '[' + u','.join(r) + ']'
 
+@method(symbol("array"))
+def toListG(self):
+    for c in self.children:
+        for e in c.toListG():
+            yield e
+
 
 symbol("key")
 
@@ -1018,12 +1049,18 @@ symbol("key")
 def toJS(self, opts):
     return self.children[0].toJS(opts)
 
+@method(symbol("key"))
+def toListG(self):
+    for e in self.children[0].toListG():
+        yield e
+
 
 symbol("}")
 
 @method(symbol("{"))                    # object literals
 def pfix(self):
-    mmap = symbol("map")(token.get("line"), token.get("column"))
+    mmap = symbol("map")()
+    self.patch(mmap)
     if token.id != "}":
         is_after_comma = 0
         while True:
@@ -1074,9 +1111,19 @@ def toJS(self, opts):
     r += self.write("}")
     return r
 
+@method(symbol("map"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 @method(symbol("value"))
 def toJS(self, opts):
     return self.children[0].toJS(opts)
+
+@method(symbol("value"))
+def toListG(self):
+    for e in self.children[0].toListG():
+        yield e
 
 symbol("keyvalue")
 
@@ -1097,6 +1144,11 @@ def toJS(self, opts):
     value = self.getChild("value").toJS(opts)
     return quote + key + quote + ':' + value
 
+@method(symbol("keyvalue"))
+def toListG(self):
+    for e in itert.chain([self], self.children[0].toListG()):
+        yield e
+
 
 ##
 # The next is a shallow wrapper around "{".std, to have a more explicit rule to
@@ -1105,7 +1157,8 @@ def toJS(self, opts):
 def block():
     t = token
     advance("{")
-    s = symbol("block")(token.get("line"), token.get("column"))
+    s = symbol("block")()
+    t.patch(s)
     s.childappend(t.std())  # the "{".std takes care of closing "}"
     return s
 
@@ -1119,38 +1172,50 @@ def toJS(self, opts):
     r.append('}')
     return u''.join(r)
 
+@method(symbol("block"))
+def toListG(self):
+    for e in itert.chain([self], self.children[0].toListG()):
+        yield e
+
 symbol("function")
 
 @method(symbol("function"))
 def pfix(self):
     # optional name
+    opt_name = None
     if token.id == "identifier":
         #self.childappend(token.get("value"))
         #self.childappend(token)
-        self.set("name", token.get("value"))
+        #self.set("name", token.get("value"))
+        opt_name = token
         advance()
     # params
     assert token.id == "("
-    params = symbol("params")(token.get("line"), token.get("column"))
+    params = symbol("params")()
+    token.patch(params)
     self.childappend(params)
     group = expression()  # group parsing as helper
     for c in group.children:
         params.childappend(c)
-    params.children = group.children
+    #params.children = group.children retains group as parent!
     # body
-    body = symbol("body")(token.get("line"), token.get("column"))
+    body = symbol("body")()
+    token.patch(body)
     self.childappend(body)
     if token.id == "{":
         body.childappend(block())
     else:
         body.childappend(statement())
+    # add optional name as last child
+    if opt_name:
+        self.childappend(opt_name)
     return self
 
 @method(symbol("function"))
 def toJS(self, opts):
     r = self.write("function")
-    functionName = self.get("name",0)
-    if functionName != None:
+    if self.getChild("identifier",0):
+        functionName = self.getChild("identifier",0).get("value")
         r += self.space(result=r)
         r += self.write(functionName)
     # params
@@ -1159,7 +1224,11 @@ def toJS(self, opts):
     r += self.getChild("body").toJS(opts)
     return r
 
-@method(symbol("params"))
+@method(symbol("function"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 def toJS(self, opts):
     r = []
     r.append('(')
@@ -1170,6 +1239,15 @@ def toJS(self, opts):
     r.append(')')
     return u''.join(r)
 
+symbol("params").toJS = toJS
+symbol("arguments").toJS = toJS  # same here
+
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
+symbol("params").toListG = toListG
+symbol("arguments").toListG = toListG  # same here
 
 @method(symbol("body"))
 def toJS(self, opts):
@@ -1179,6 +1257,11 @@ def toJS(self, opts):
     if self.children[0].id != 'block':
         r.append(';')
     return u''.join(r)
+
+@method(symbol("body"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
 
 
 # -- statements ------------------------------------------------------------
@@ -1220,22 +1303,43 @@ def toJS(self, opts):
     r.append(','.join(a))
     return ''.join(r)
 
+@method(symbol("var"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 @method(symbol("definition"))
 def toJS(self, opts):
     return self.children[0].toJS(opts)
 
+@method(symbol("definition"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 ##
 # returns the identifier node of the defined symbol
+#
 @method(symbol("definition"))
 def getDefinee(self):
-    dfn = self.children[0]
+    dfn = self.children[0]  # (definition (identifier a)) or (definition (assignment (identifier a)(const 3)))
     if dfn.type == "identifier":
         return dfn
     elif dfn.type == "assignment":
-        return dfn.getChild("first").children[0]
+        return dfn.children[0]
     else:
         raise SyntaxTreeError("Child of a 'definition' symbol must be in ('identifier', 'assignment')")
 
+##
+# returns the initialization of the defined symbol, if any
+#
+@method(symbol("definition"))
+def getInitialization(self):
+    dfn = self.children[0]
+    if dfn.type == "assignment":
+        return dfn.children[1]
+    else:
+        return None
 
 symbol("for"); symbol("in")
 
@@ -1315,25 +1419,35 @@ def toJS(self, opts):
         r.append(self.children[0].toJS(opts))
     # for (;;)
     else:
-        r.append(self.children[0].children[0].toJS(opts))
+        r.append(self.children[0].getChild("first").toJS(opts))
         r.append(';')
-        r.append(self.children[0].children[1].toJS(opts))
+        r.append(self.children[0].getChild("second").toJS(opts))
         r.append(';')
-        r.append(self.children[0].children[2].toJS(opts))
+        r.append(self.children[0].getChild("third").toJS(opts))
     r.append(')')
     # body
     r.append(self.getChild("body").toJS(opts))
     return u''.join(r)
 
+@method(symbol("for"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 @method(symbol("in"))  # of 'for (in)'
 def toJS(self, opts):
     r = u''
-    r += self.getChild("first").toJS(opts)
+    r += self.children[0].toJS(opts)
     r += self.space()
     r += 'in'
     r += self.space()
-    r += self.getChild("second").toJS(opts)
+    r += self.children[1].toJS(opts)
     return r
+
+@method(symbol("in"))
+def toListG(self):
+    for e in itert.chain(self.children[0].toListG(), [self], self.children[1].toListG()):
+        yield e
 
 
 @method(symbol("expressionList"))
@@ -1342,6 +1456,11 @@ def toJS(self, opts):  # WARN: this conflicts (and is overwritten) in for(;;).to
     for c in self.children:
         r.append(c.toJS(opts))
     return ','.join(r)
+
+@method(symbol("expressionList"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
 
 
 symbol("while")
@@ -1371,6 +1490,11 @@ def toJS(self, opts):
     r += self.children[1].toJS(opts)
     return r
 
+@method(symbol("while"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 symbol("do")
 
 @method(symbol("do"))
@@ -1398,6 +1522,11 @@ def toJS(self, opts):
     r.append(')')
     return ''.join(r)
 
+@method(symbol("do"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 
 symbol("with")
 
@@ -1424,6 +1553,11 @@ def toJS(self, opts):
     r += [")"]
     r += [self.children[1].toJS(opts)]
     return u''.join(r)
+
+@method(symbol("with"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
 
 
 symbol("if"); symbol("else")
@@ -1475,8 +1609,15 @@ def toJS(self, opts):
     r += self.space(False,result=r)
     return r
 
+@method(symbol("if"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 symbol("loop")
 
+##
+# TODO: Is this code used?!
 @method(symbol("loop"))
 def toJS(self, opts):
     r = u''
@@ -1496,19 +1637,6 @@ def toJS(self, opts):
 
     if loopType == "IF":
         pass
-    #    r += self.write("if")
-    #    r += self.space(False,result=r)
-    #    # condition
-    #    r += '('
-    #    r += self.children[0].toJS(opts)
-    #    r += ')'
-    #    # then
-    #    r += self.children[1].toJS(opts)
-    #    # else
-    #    if len(self.children) == 3:
-    #        r += self.write("else")
-    #        r += self.children[2].toJS(opts)
-    #    r += self.space(False,result=r)
 
     elif loopType == "WHILE":
         r += self.write("while")
@@ -1549,6 +1677,11 @@ def toJS(self, opts):
         r += self.write(self.children[0].toJS(opts))
     return r
 
+@method(symbol("break"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 
 symbol("continue")
 
@@ -1568,6 +1701,11 @@ def toJS(self, opts):
         r += self.write(self.children[0].toJS(opts))
     return r
 
+@method(symbol("continue"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 
 symbol("return")
 
@@ -1586,17 +1724,20 @@ def toJS(self, opts):
         r.append(self.children[0].toJS(opts))
     return ''.join(r)
 
+@method(symbol("return"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 
 @method(symbol("new"))  # need to treat 'new' explicitly, for the awkward 'new Foo()' "call" syntax
 def pfix(self):
-    s = symbol("first")(token.get("line"), token.get("column"))
-    self.childappend(s)
     arg = expression(self.bind_left-1)  # first, parse a normal expression (this excludes '()')
     if token.id == '(':  # if the next token indicates a call
         t = token
         advance("(")
         arg = t.ifix(left=arg)   # invoke '('.ifix, with class name as <left> arg
-    s.childappend(arg)
+    self.childappend(arg)
     return self
 
 
@@ -1659,6 +1800,11 @@ def toJS(self, opts):
     r.append('}')
     return ''.join(r)
 
+@method(symbol("switch"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 
 @method(symbol("case"))
 def toJS(self, opts):
@@ -1671,6 +1817,11 @@ def toJS(self, opts):
         r.append(self.children[1].toJS(opts))
     return ''.join(r)
 
+@method(symbol("case"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
+
 
 @method(symbol("default"))
 def toJS(self, opts):
@@ -1680,6 +1831,11 @@ def toJS(self, opts):
     if len(self.children) > 0:
         r.append(self.children[0].toJS(opts))
     return ''.join(r)
+
+@method(symbol("default"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
 
 
 symbol("try"); symbol("catch"); symbol("finally")
@@ -1691,9 +1847,18 @@ def std(self):
         catch = token
         self.childappend(catch)
         advance("catch")
-        advance("(")
-        catch.childappend(expression(0))
-        advance(")")
+        #advance("(")
+        #catch.childappend(expression(0))
+        #advance(")")
+
+        # insert "params" node, par. to function.pfix
+        assert token.id == "("
+        params = symbol("params")(token.get("line"), token.get("column"))
+        catch.childappend(params)
+        group = expression()  # group parsing as helper
+        for c in group.children:
+            params.childappend(c)  # to have params as parent of group's children
+
         catch.childappend(block())
     if token.id == "finally":
         finally_ = token
@@ -1710,15 +1875,20 @@ def toJS(self, opts):
     catch = self.getChild("catch", 0)
     if catch:
         r.append('catch')
-        r.append('(')
+        #r.append('(')
         r.append(catch.children[0].toJS(opts))
-        r.append(')')
+        #r.append(')')
         r.append(catch.children[1].toJS(opts))
     finally_ = self.getChild("finally", 0)
     if finally_:
         r.append('finally')
         r.append(finally_.children[0].toJS(opts))
     return ''.join(r)
+
+@method(symbol("try"))
+def toListG(self):
+    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+        yield e
 
 
 symbol("throw")
@@ -1760,35 +1930,47 @@ def statement():
         advance()
         advance(":")
         s.childappend(statement())
-    # normal statement
+    # normal SourceElement
     else:
         n = token
-        s = None
-        if getattr(token, 'std', None):
+        s = None 
+        # function declaration, doesn't need statementEnd
+        if token.id == 'function' and tokenStream.peek(1).type == 'identifier':
             advance()
-            s = n.std()
-        elif token.id == ';': # empty statement
-            s = symbol("(empty)")()
-        elif token.type != 'eol': # it's not an empty line
-            s = expression()
-            # Crockford's too tight here
-            #if not (s.id == "=" or s.id == "("):
-            #    raise SyntaxException("Bad expression statement (pos %r)" % ((token.get("line"), token.get("column")),))
+            s = n.pfix()
+            if token.id == ';':  # consume dangling semi
+                advance()
+        # statement
+        else:
+            if getattr(token, 'std', None):
+                advance()
+                s = n.std()
+            elif token.id == ';': # empty statement
+                s = symbol("(empty)")()
+            elif token.type != 'eol': # it's not an empty line
+                s = expression()
+                # Crockford's too tight here
+                #if not (s.id == "=" or s.id == "("):
+                #    raise SyntaxException("Bad expression statement (pos %r)" % ((token.get("line"), token.get("column")),))
 
-            # handle expression lists
-            # (REFAC: somewhat ugly here, expression lists should be treated generically,
-            # but there is this conflict between ',' as an operator ('infix(",", 5)')
-            # and a stock symbol("infix",0) that terminates every expression() parse, like for
-            # arrays, maps, etc.).
-            if token.id == ',':
-                s1 = symbol("expressionList")(token.get("line"), token.get("column"))
-                s1.childappend(s)
-                s = s1
-                while token.id == ',':
-                    advance(',')
-                    s.childappend(expression())
-        statementEnd()
+                # handle expression lists
+                # (REFAC: somewhat ugly here, expression lists should be treated generically,
+                # but there is this conflict between ',' as an operator infix(",", 5)
+                # and a stock symbol(",", 0) that terminates every expression() parse, like for
+                # arrays, maps, etc.).
+                if token.id == ',':
+                    s1 = symbol("expressionList")(token.get("line"), token.get("column"))
+                    s1.childappend(s)
+                    s = s1
+                    while token.id == ',':
+                        advance(',')
+                        s.childappend(expression())
+            statementEnd()
     return s
+
+@method(symbol("statement"))
+def toJS(self, opts):
+    return self.children[0].toJS(opts)
 
 @method(symbol("(empty)"))
 def toJS(self, opts):
@@ -1843,6 +2025,8 @@ def statements():  # plural!
             break
         st = statement()
         if st:
+            #stmt = symbol("statement")(st.get("line"), st.get("column")) # insert <statement> for better finding comments later
+            #stmt.childappend(st)
             s.childappend(st)
     return s
 
@@ -1914,8 +2098,13 @@ symbol("call")
 def toJS(self, opts):
     r = u''
     r += self.getChild("operand").toJS(opts)
-    r += self.getChild("params").toJS(opts)
+    r += self.getChild("arguments").toJS(opts)
     return r
+
+@method(symbol("call"))
+def toListG(self):
+    for e in itert.chain(*[c.toListG() for c in self.children]):
+        yield e
 
 
 symbol("comment")
@@ -1993,7 +2182,7 @@ class TreeGenerator(object):
     ##
     # To pass a tokenArr rather than a text string is due to the current usage
     # in the generator, which does the tokenization on its own, and then calls
-    # 'createSyntaxTree'.
+    # 'createFileTree'.
     def parse(self, tokenArr):
         global token, next, tokenStream
         tokenStream = TokenStream(tokenArr) # TODO: adapt TokenStream to token array arg
@@ -2002,16 +2191,18 @@ class TreeGenerator(object):
         return statements()
 
 
-
 # - Interface -----------------------------------------------------------------
 
-def createSyntaxTree(tokenArr, fileId=''):
+def createFileTree(tokenArr, fileId=''):
     fileNode = symbol("file")(0,0)
     fileNode.set("file", fileId)
     fileNode.set("treegenerator_tag", tag)
     fileNode.childappend(TreeGenerator().parse(tokenArr))
     return fileNode
 
+def createFileTree_from_string(string_, fileId=''):
+    ts = tokenizer.parseStream(string_)
+    return createFileTree(ts, fileId)
 
 # quick high-level frontend
 def parse(string_):

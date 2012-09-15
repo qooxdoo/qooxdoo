@@ -85,7 +85,7 @@ qx.Interface.define("qx.data.IListData",
      * Check if the given item is in the current data structure.
      *
      * @param item {var} The item which is possibly in the data structure.
-     * @return {boolean} true, if the array contains the given item.
+     * @return {Boolean} true, if the array contains the given item.
      */
     contains : function(item) {},
 

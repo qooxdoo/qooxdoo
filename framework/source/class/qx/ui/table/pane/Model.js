@@ -162,7 +162,6 @@ qx.Class.define("qx.ui.table.pane.Model",
      * Event handler. Called when the visibility of a column has changed.
      *
      * @param evt {Map} the event.
-     * @return {void}
      */
     _onColVisibilityChanged : function(evt)
     {
@@ -179,7 +178,6 @@ qx.Class.define("qx.ui.table.pane.Model",
      * Event handler. Called when the cell renderer of a column has changed.
      *
      * @param evt {Map} the event.
-     * @return {void}
      */
     _onHeaderCellRendererChanged : function(evt)
     {

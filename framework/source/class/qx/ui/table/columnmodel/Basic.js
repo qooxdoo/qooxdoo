@@ -244,7 +244,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *   <i>true</i> if the column width is being changed as a result of a
      *   mouse drag in the header; false or undefined otherwise.
      *
-     * @return {void}
      */
     setColumnWidth : function(col, width, isMouseAction)
     {
@@ -297,7 +296,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param col {Integer} the model index of the column.
      * @param renderer {qx.ui.table.IHeaderRenderer} the new header renderer the column
      *      should get.
-     * @return {void}
      */
     setHeaderCellRenderer : function(col, renderer)
     {
@@ -388,7 +386,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *
      * @param col {Integer} the model index of the column.
      * @param factory {qx.ui.table.ICellEditorFactory} the new cell editor factory the column should get.
-     * @return {void}
      */
     setCellEditorFactory : function(col, factory)
     {
@@ -564,7 +561,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *
      * @param col {Integer} the model index of the column.
      * @param visible {Boolean} whether the column should be visible.
-     * @return {void}
      */
     setColumnVisible : function(col, visible)
     {

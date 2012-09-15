@@ -33,8 +33,7 @@ from misc import filetool
 from misc import json
 from ecmascript.backend import api
 #from ecmascript.frontend import tree, treegenerator_2 as treegenerator
-from ecmascript.frontend import tree, treegenerator
-
+from ecmascript.frontend import tree, treegenerator, lang
 
 
 class ApiLoader(object):
@@ -89,7 +88,7 @@ class ApiLoader(object):
         return node
         
 
-    def storeApi(self, include, apiPath, variantSet, verify):
+    def storeApi(self, include, apiPath, variantSet, verify, sitemap):
         self._console.info("Generating API data...")
         self._console.indent()
 
@@ -158,8 +157,11 @@ class ApiLoader(object):
         self._console.info("Generating search index...")
         index = self.docTreeToSearchIndex(docTree, "", "", "")
         
-        if verify and "links" in verify:
-            self.verifyLinks(docTree, index)
+        if verify:
+            if "links" in verify:
+                self.verifyLinks(docTree, index)
+            if "types" in verify:
+                self.verifyTypes(docTree, index)
         
         self._console.info("Saving data...", False)
         self._console.indent()
@@ -179,22 +181,45 @@ class ApiLoader(object):
         for classData in api.classNodeIterator(docTree):
             length += 1
             
+        
+        links = []
+        
         pos = 0
         for classData in api.classNodeIterator(docTree):
             pos += 1
             self._console.progress(pos, length)
             nodeData = tree.getNodeData(classData)
             nodeJson = json.dumps(nodeData)
-            fileName = os.path.join(apiPath, classData.get("fullName") + ".json")
+            className = classData.get("fullName")
+            fileName = os.path.join(apiPath, className + ".json")
             filetool.save(fileName, nodeJson)
+            
+            if sitemap and "link-uri" in sitemap:
+                links.append(sitemap["link-uri"] %className)
+            
+            #import pdb; pdb.set_trace()
+            #for type in ["method", "method-static", "event", "property", "constant"]:
+            #  for item in classData.getAllChildrenOfType(type):
+            #      itemName = className + "~" + item.attributes["name"]
+            #      link = linkPrefix + itemName
             
         self._console.outdent()
             
-        # writ apiindex.json
+        # write apiindex.json
         self._console.info("Saving index...")
         indexContent = json.dumps(index, separators=(',',':'), sort_keys=True) # compact encoding
         filetool.save(os.path.join(apiPath, "apiindex.json"), indexContent)            
 
+        # save sitemap
+        self._console.info("Saving XML sitemap...")
+        if len(links) > 0:
+            sitemapData = self.getSitemap(links)
+            if "file" in sitemap:
+                sitemapFile = sitemap["file"]
+            else:
+                sitemapFile = os.path.join(apiPath, "sitemap.xml")
+            filetool.save(sitemapFile, sitemapData)
+        
         self._console.outdent()
         self._console.info("Done")
 
@@ -346,23 +371,80 @@ class ApiLoader(object):
 
         return index
 
+    def getParentAttrib(self, node, attrib, type=None):
+        while node:
+          if node.hasParent() and node.parent.hasAttributes():
+              if attrib in node.parent.attributes:
+                if type:
+                    if node.parent.type == type:
+                        return node.parent.attributes[attrib]
+                else:
+                    return node.parent.attributes[attrib]
+          if node.hasParent():
+              node = node.parent
+          else:
+              node = None
+        return None
+
+
+    def verifyTypes(self, docTree, index):
+        self._console.info("Verifying types...", False)
+        knownTypes = lang.GLOBALS[:]
+        knownTypes = knownTypes + ["var", "null", 
+                                   # additional types supported by the property system:
+                                   "Integer", "PositiveInteger", "PositiveNumber",
+                                   "Float", "Double", "Map", 
+                                   "Node", "Element", "Document", "Window",
+                                   "Event", "Class", "Mixin", "Interface", "Theme",
+                                   "Color", "Decorator", "Font"
+                                  ]
+
+        count = 0
+        docNodes = docTree.getAllChildrenOfType("return")
+        docNodes = docNodes + docTree.getAllChildrenOfType("param")
+        docNodes = docNodes + docTree.getAllChildrenOfType("childControl")
+        total = len(docNodes)
+        brokenLinks = []
+        for docNode in docNodes:
+            count += 1
+            self._console.progress(count, total)
+            for typesNode in docNode.getAllChildrenOfType("types"):
+                for entryNode in typesNode.getAllChildrenOfType("entry"):
+                    unknownTypes = []
+                    entryType = entryNode.get("type")
+                    if (not entryType in knownTypes) and not ("value" in entryType and re.search("[\<\>\=]", entryType)):
+                        unknownTypes.append(entryType)
+                    if len(unknownTypes) > 0:
+                      itemName = self.getParentAttrib(docNode, "name")
+                      packageName = self.getParentAttrib(docNode, "packageName")
+                      className = self.getParentAttrib(docNode, "name", "class")
+                      
+                      linkData = {
+                        "itemName" : itemName,
+                        "packageName" : packageName,
+                        "className" : className,
+                        "nodeType" : docNode.parent.type,
+                        "links" : unknownTypes
+                      }
+                      
+                      docNodeType = ""
+                      if docNode.type == "param":
+                          docNodeType = "Parameter '%s'" %docNode.get("name")
+                      elif docNode.type == "return":
+                          docNodeType = "Return value"
+                      elif docNode.type == "childControl":
+                          docNodeType = "Child control '%s'" %docNode.get("name")
+                      
+                      for ref in self._checkLink(linkData, docTree, index):
+                          brokenLinks.append((docNodeType, "%s.%s#%s" %(packageName, className, itemName), ref))
+
+        self._console.indent()
+        for entry in brokenLinks:
+            self._console.warn("%s of %s is documented as unknown type '%s'" %(entry[0], entry[1], entry[2]))
+        self._console.outdent()
+
 
     def verifyLinks(self, docTree, index):
-        def getParentAttrib(node, attrib, type=None):
-            while node:
-              if node.hasParent() and node.parent.hasAttributes():
-                  if attrib in node.parent.attributes:
-                    if type:
-                        if node.parent.type == type:
-                            return node.parent.attributes[attrib]
-                    else:
-                        return node.parent.attributes[attrib]
-              if node.hasParent():
-                  node = node.parent
-              else:
-                  node = None
-            return None
-
         self._console.info("Verifying internal doc links...", False)
         import re
         self._linkRegExp = re.compile("\{\s*@link\s*([\w#-_\.]*)[\W\w\d\s]*?\}")
@@ -382,18 +464,18 @@ class ApiLoader(object):
                   if len(internalLinks) > 0:
                       nodeType = descNode.parent.type;
                       if nodeType == "param":
-                          itemName = getParentAttrib(descNode.parent, "name")
-                          paramName = getParentAttrib(descNode, "name")
+                          itemName = self.getParentAttrib(descNode.parent, "name")
+                          paramName = self.getParentAttrib(descNode, "name")
                           paramForType = descNode.parent.parent.parent.type
                       else:
-                          itemName = getParentAttrib(descNode, "name")
+                          itemName = self.getParentAttrib(descNode, "name")
                           paramName = None
                           paramForType = None
 
                       linkData = {
                           "nodeType" : nodeType,
-                          "packageName" : getParentAttrib(descNode, "packageName"),
-                          "className" : getParentAttrib(descNode, "name", "class"),
+                          "packageName" : self.getParentAttrib(descNode, "packageName"),
+                          "className" : self.getParentAttrib(descNode, "name", "class"),
                           "itemName" : itemName,
                           "paramName" : paramName,
                           "paramForType" : paramForType,
@@ -570,3 +652,20 @@ class ApiLoader(object):
                     self._console.warn("Attempt to attach already existing method '%s::%s#%s'" % (className, section, method_name))
                 else:
                     add_meth_doc(classAttachInfo[section][method_name], section_node)
+
+
+    def getSitemap(self, links):
+        sitemapTemplate = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  %s
+</urlset>
+"""
+
+        urlTemplate = """  <url>
+    <loc>%s</loc> 
+  </url>"""
+        
+        for i, link in enumerate(links):
+            links[i] = urlTemplate %link
+        
+        return sitemapTemplate %"\n".join(links)

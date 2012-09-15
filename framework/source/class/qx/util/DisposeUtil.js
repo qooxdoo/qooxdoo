@@ -78,7 +78,6 @@ qx.Class.define("qx.util.DisposeUtil",
      *
      * @param obj {Object} Object which contains the field
      * @param field {String} Name of the field which refers to the array
-     * @return {void}
      */
     disposeArray : function(obj, field)
     {
@@ -124,7 +123,6 @@ qx.Class.define("qx.util.DisposeUtil",
      *
      * @param obj {Object} Object which contains the field
      * @param field {String} Name of the field which refers to the array
-     * @return {void}
      */
     disposeMap : function(obj, field)
     {
@@ -179,8 +177,8 @@ qx.Class.define("qx.util.DisposeUtil",
 
     /**
      * Destroys a container and all of its children recursivly.
-     * @param container {qx.ui.container.Composite || qx.ui.container.Scroll ||
-     *   qx.ui.container.SlideBar || qx.ui.container.Stack} Container to be destroyed
+     * @param container {qx.ui.container.Composite | qx.ui.container.Scroll |
+     *   qx.ui.container.SlideBar | qx.ui.container.Stack} Container to be destroyed
      */
     destroyContainer : function(container)
     {
@@ -207,7 +205,7 @@ qx.Class.define("qx.util.DisposeUtil",
 
     /**
      * Helper function to collect all children widgets of an container recursivly.
-     * @param container {qx.ui.container.Composite || qx.ui.container.Scroll || qx.ui.container.SlideBar || qx.ui.container.Stack} Container to be destroyed
+     * @param container {qx.ui.container.Composite | qx.ui.container.Scroll | qx.ui.container.SlideBar | qx.ui.container.Stack} Container to be destroyed
      * @param arr {Array} Array wich holds all children widgets
      */
     _collectContainerChildren : function(container, arr)

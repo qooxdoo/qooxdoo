@@ -121,7 +121,7 @@ def createPackageDoc(text, packageName, docTree = None):
 ########################################################################################
 
 def handleClassDefinition(docTree, callNode, variant):
-    params = callNode.getChild("params")
+    params = callNode.getChild("arguments")
     className = params.children[0].get("value")
 
     if len(params.children) > 1:
@@ -130,7 +130,7 @@ def handleClassDefinition(docTree, callNode, variant):
         classMap = {}
 
     cls_cmnt_node = treeutil.findLeftmostChild(callNode.getChild("operand"))
-    commentAttributes = Comment.parseNode(cls_cmnt_node)
+    commentAttributes = Comment.parseNode(cls_cmnt_node)[-1]
 
     classNode = classNodeFromDocTree(docTree, className, commentAttributes)
     if variant == "class":
@@ -296,13 +296,12 @@ def handleSingleton(classNode, docTree):
  * This method has been added by setting the "type" key in the class definition
  * ({@link qx.Class#define}) to "singleton".
  *
- * @type static
  * @return {%s} The singleton instance of this class.
  */
 function() {}""" % className
 
         node = treeutil.compileString(functionCode)
-        commentAttributes = Comment.parseNode(node)
+        commentAttributes = Comment.parseNode(node)[-1]
         docNode = handleFunction(node, "getInstance", commentAttributes, classNode)
 
         docNode.set("isStatic", True)
@@ -332,7 +331,7 @@ def handleInterfaces(item, classNode, docTree):
 
 def handleConstructor(ctorItem, classNode):
     if ctorItem and ctorItem.type == "function":
-        commentAttributes = Comment.parseNode(ctorItem.parent.parent)
+        commentAttributes = Comment.parseNode(ctorItem.parent.parent)[-1]
         ctor = handleFunction(ctorItem, "ctor", commentAttributes, classNode, reportMissingDesc=False)
         ctor.set("isCtor", True)
         classNode.addListChild("constructor", ctor)
@@ -343,13 +342,14 @@ def handleStatics(item, classNode):
         keyvalue = value.parent
         value = value.getFirstChild()
 
-        commentAttributes = Comment.parseNode(keyvalue)
+        commentAttributes = Comment.parseNode(keyvalue)[-1]
 
         # handle @signature
         if value.type != "function":
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
-                    value = treeutil.compileString(docItem["text"][3:-4] + "{}")
+                    js_string = 'function('+ ",".join(docItem['arguments']) + '){}'
+                    value = treeutil.compileString(js_string)
 
         # Function
         if value.type == "function":
@@ -372,14 +372,15 @@ def handleMembers(item, classNode):
         keyvalue = value.parent
         value = value.getFirstChild()
 
-        commentAttributes = Comment.parseNode(keyvalue)
+        commentAttributes = Comment.parseNode(keyvalue)[-1]
 
         # handle @signature
         if value.type != "function":
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
                     try:
-                        value = treeutil.compileString(docItem["text"][3:-4] + "{}")
+                        js_string = 'function('+ ",".join(docItem['arguments']) + '){}'
+                        value = treeutil.compileString(js_string)
                     except treegenerator.SyntaxException:
                         printDocError(keyvalue, "Invalid signature")
 
@@ -472,7 +473,7 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
         funcName = access + funcName + name
         functionCode = propData[funcName]
         node = treeutil.compileString(functionCode)
-        commentAttributes = Comment.parseNode(node)
+        commentAttributes = Comment.parseNode(node)[-1]
         docNode = handleFunction(node, funcName, commentAttributes, classNode)
         docNode.remove("line")
         docNode.set("fromProperty", propertyName)
@@ -517,7 +518,6 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
         itemNode.set("type", "qx.event.type.Data")
         classNode.addListChild("events", event)
 
-    #checkBasic = None
     if "check" in propDefinition:
         check = propDefinition["check"].getFirstChild()
         if check.type == "array":
@@ -526,8 +526,15 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
         elif check.type == "function":
             node.set("check", "Custom check function.")
         elif check.type == "constant":
-            node.set("check", check.get("value"))
-            #checkBasic = check.get("value")
+            # this can mean: type name or check expression
+            # test by parsing it
+            check_value = check.get("value")
+            check_tree = treegenerator.parse(check_value)
+            if check_tree.isVar():  # type name
+                node.set("check", check_value)
+            else:  # don't dare to be more specific
+            #elif check_tree.type in ('operation', 'call'): # "value<=100", "qx.util.Validate.range(0,100)"
+                node.set("check", "Custom check function.")  # that's good enough so the param type is set to 'var'
         else:
             printDocError(check, "Unknown check value")
             return node
@@ -573,7 +580,7 @@ def generateGroupPropertyMethod(propertyName, groupMembers, mode, classNode):
         "paramList" : ", ".join(groupMembers)
     })
     functionNode = treeutil.compileString(functionCode)
-    commentAttributes = Comment.parseNode(functionNode)
+    commentAttributes = Comment.parseNode(functionNode)[-1]
     docNode = handleFunction(functionNode, functionName, commentAttributes, classNode)
 
     docNode.set("fromProperty", propertyName)
@@ -629,7 +636,7 @@ def handleProperties(item, classNode):
 
         # If the description has a type specified then take this type
         # (and not the one extracted from the paramsMap)
-        commentAttributes = Comment.parseNode(keyvalue)
+        commentAttributes = Comment.parseNode(keyvalue)[-1]
         addTypeInfo(node, Comment.getAttrib(commentAttributes, "description"), item)
         handleDeprecated(node, commentAttributes)
         handleAccess(node, commentAttributes)
@@ -648,7 +655,7 @@ def handleEvents(item, classNode):
 
         node = tree.Node("event")
 
-        commentAttributes = Comment.parseNode(keyvalue)
+        commentAttributes = Comment.parseNode(keyvalue)[-1]
         try:
             desc = commentAttributes[0]["text"]
         except (IndexError, KeyError):
@@ -817,7 +824,7 @@ def handleConstantDefinition(item, classNode):
             node.set("value", arrayNode.toJS(pp))
             node.set("type", "Array")
 
-    commentAttributes = Comment.parseNode(item)
+    commentAttributes = Comment.parseNode(item)[-1]
     description = Comment.getAttrib(commentAttributes, "description")
     addTypeInfo(node, description, item)
 
@@ -924,7 +931,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
               child.set("text", attrib["text"])
 
               if "type" in attrib:
-                child.set("type", attrib["type"][0]["type"])
+                child.set("type", attrib["type"])
 
               throwsNode.addChild(child) 
               node.addChild(throwsNode)
@@ -1059,7 +1066,7 @@ def getValue(item):
             value = "[Complex expression]"
     elif item.type == "operation" and item.get("operator") == "SUB":
         # E.g. "-1" or "-Infinity"
-        value = "-" + getValue(item.getChild("first").getFirstChild())
+        value = "-" + getValue(item.getFirstChild())
     if value == None:
         value = "[Unsupported item type: " + item.type + "]"
 
@@ -1399,7 +1406,7 @@ function(%(firstParamName)s, %(secondParamName)s) {}""" % ({
     })
 
     node = treeutil.compileString(functionCode)
-    commentAttributes = Comment.parseNode(node)
+    commentAttributes = Comment.parseNode(node)[-1]
     docNode = handleFunction(node, methodNode.get("name"), commentAttributes, treeutil.selectNode(methodNode, "../.."))
 
     oldParams = methodNode.getChild("params", False)

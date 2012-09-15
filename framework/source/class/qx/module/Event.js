@@ -17,7 +17,9 @@
      * Daniel Wagner (danielwagner)
 
 ************************************************************************ */
-
+/* ************************************************************************
+#require(qx.module.Polyfill)
+************************************************************************ */
 /**
  * Support for native and custom events.
  */
@@ -27,7 +29,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Event normalization registry
      *
-     * @type Map
+     * @type {Map}
      * @internal
      */
     __normalizations : {},
@@ -69,7 +71,7 @@ qx.Bootstrap.define("qx.module.Event", {
           typeHooks[j](el, type, listener, context);
         }
 
-        var bound = (function(event) {
+        var bound = function(event) {
           // apply normalizations
           var registry = qx.module.Event.__normalizations;
           // generic
@@ -84,7 +86,7 @@ qx.Bootstrap.define("qx.module.Event", {
           }
           // call original listener with normalized event
           listener.apply(this, [event]);
-        }).bind(ctx);
+        }.bind(ctx);
         bound.original = listener;
 
         // add native listener
@@ -132,6 +134,11 @@ qx.Bootstrap.define("qx.module.Event", {
       for (var j=0; j < this.length; j++) {
         var el = this[j];
 
+        // continue if no listener are available
+        if (!el.__listener) {
+          continue;
+        }
+
         for (var id in el.__listener[type]) {
           var storedListener = el.__listener[type][id];
           if (storedListener == listener || storedListener.original == listener) {
@@ -178,7 +185,7 @@ qx.Bootstrap.define("qx.module.Event", {
      *
      * @attach {q}
      * @param type {String} Event type
-     * @param data {?var} Optional data that will be passed to the listener
+     * @param data {var?} Optional data that will be passed to the listener
      * callback function.
      * @return {q} The collection for chaining
      */

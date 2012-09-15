@@ -77,10 +77,21 @@ qx.Class.define("demobrowser.demo.showcase.Maps",
       });
 
       isle.addListenerOnce("appear", function() {
-        var map = new YMap(isle.getContentElement().getDomElement());
-        map.addTypeControl();
-        map.setMapType(YAHOO_MAP_REG);
-        map.drawZoomAndCenter("Karlsruhe", 5);
+        try {
+          var map = new YMap(isle.getContentElement().getDomElement());
+          map.addTypeControl();
+          map.setMapType(YAHOO_MAP_REG);
+          map.drawZoomAndCenter("Karlsruhe", 5);
+        } catch(ex) {
+          var msg;
+          if (qx.core.Environment.get("engine.name") == "mshtml" &&
+            qx.core.Environment.get("browser.documentmode") > 9) {
+            msg = "IE 10 is not yet supported by Yahoo maps.";
+          } else {
+            msg = "Could not create Yahoo map!<br/>" + ex.toString();
+          }
+          this.getContentElement().getDomElement().innerHTML += msg;
+        }
       });
       return isle;
     },
@@ -98,23 +109,28 @@ qx.Class.define("demobrowser.demo.showcase.Maps",
       isle.setDecorator("main");
 
       isle.addListenerOnce("appear", function() {
-        var map = new google.maps.Map(isle.getContentElement().getDomElement(), {
-            zoom: 13,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        });
+        try {
+          var map = new google.maps.Map(isle.getContentElement().getDomElement(), {
+              zoom: 13,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+          });
 
-        // Fix for [BUG #4178]
-        // Make sure zIndex of map element is higher than zIndex of decorator
-        // (Maps apparently resets zIndex on init)
-        google.maps.event.addListenerOnce(map, "center_changed", function() {
-          // Wait for DOM
-          window.setTimeout(function() {
-            var zIndex = isle.getContentElement().getStyle('zIndex');
-            isle.getContentElement().getDomElement().style.zIndex = zIndex;
-          }, 500);
-        });
+          // Fix for [BUG #4178]
+          // Make sure zIndex of map element is higher than zIndex of decorator
+          // (Maps apparently resets zIndex on init)
+          google.maps.event.addListenerOnce(map, "center_changed", function() {
+            // Wait for DOM
+            window.setTimeout(function() {
+              var zIndex = isle.getContentElement().getStyle('zIndex');
+              isle.getContentElement().getDomElement().style.zIndex = zIndex;
+            }, 500);
+          });
 
-        map.setCenter(new google.maps.LatLng(49.011899,8.403311));
+          map.setCenter(new google.maps.LatLng(49.011899,8.403311));
+        } catch(ex) {
+          var msg = "Could not create Google map!<br/>" + ex.toString();
+          this.getContentElement().getDomElement().innerHTML += msg;
+        }
       });
       return isle;
     }

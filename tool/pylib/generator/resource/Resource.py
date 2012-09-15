@@ -33,13 +33,13 @@ class Resource(object):
     
     def __init__(self, path=None):
         self.path   = path
-        self.set_id(unicode(id(self)))
+        self.set_id(unicode(id(self)))  # this is just a default, to have something
         self.library= None
         self.m_time_= None  # last-modified time stamp
 
     def set_id(self, id):
         self.id = unidata.normalize("NFC", id)
-        self.hash = hash(self.id)
+        #self.hash = hash(self.id)
 
     def __str__(self):
         return self.id
@@ -55,7 +55,11 @@ class Resource(object):
     ##
     # make the .id significant for set() operations
     def __hash__(self):
-        return self.hash
+        #return self.hash
+        if hasattr(self, 'id'):
+            return hash(self.id)
+        else:
+            return hash(self)
     
     def toResinfo(self):
         return self.library.namespace

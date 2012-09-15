@@ -26,9 +26,21 @@ qx.Class.define("qx.test.bom.client.Css",
     testBorderImageSyntax : function()
     {
       var styleName = qx.core.Environment.get("css.borderimage");
+      if (typeof styleName!== "string") {
+        throw new qx.dev.unit.RequirementError("css.borderimage");
+      }
+
       var standardSyntax = qx.core.Environment.get("css.borderimage.standardsyntax");
-      if (typeof styleName === "string") {
-        this.assertBoolean(standardSyntax, "Browser supports borderImage but syntax type was not detected!");
+      this.assertBoolean(standardSyntax, "Browser supports borderImage but " +
+        "syntax type was not detected!");
+
+      if (styleName == "borderImage") {
+        this.assertTrue(standardSyntax, "Browser supports unprefixed borderImage " +
+          "but syntax type detected as non-standard!");
+      }
+      else {
+        this.assertFalse(standardSyntax, "Browser supports prefixed borderImage " +
+          "but syntax type detected as standard!");
       }
     }
   }

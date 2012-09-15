@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
     /**
      * This method shows the popup.
-     * First it updates the position, then registers the event handlers, and the shows it.
+     * First it updates the position, then registers the event handlers, and shows it.
      */
     show : function()
     {
@@ -228,6 +228,27 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this.exclude();
       }
       this.__isShown = false;
+    },
+    
+    
+    /**
+     * Returns the shown state of this popup.
+     * @return {Boolean} whether the popup is shown or not.
+     */
+    isShown : function() {
+      return this.__isShown;
+    },
+    
+    
+    /**
+     * Toggles the visibility of this popup.
+     */
+    toggleVisibility : function() {
+      if(this.__isShown == true) {
+        this.hide();
+      } else {
+        this.show();
+      }
     },
 
 

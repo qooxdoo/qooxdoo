@@ -27,7 +27,7 @@
  * themes.
  *
  * For more details, take a look at the
- * <a href='http://manual.qooxdoo.org/${qxversion}/pages/gui_toolkit/ui_theming.html' target='_blank'>
+ * <a href='http://manual.qooxdoo.org/${qxversion}/pages/desktop/ui_theming.html' target='_blank'>
  * documentation of the theme system in the qooxdoo manual.</a>
  */
 qx.Bootstrap.define("qx.Theme",
@@ -68,7 +68,6 @@ qx.Bootstrap.define("qx.Theme",
      *
      * @param name {String} name of the mixin
      * @param config {Map} config structure
-     * @return {void}
      */
     define : function(name, config)
     {
@@ -352,8 +351,7 @@ qx.Bootstrap.define("qx.Theme",
      * @signature function(name, config)
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
-     * @return {void}
-     * @throws An error if the given config is not valid (e.g. wrong key or wrong key value)
+     * @throws {Error} if the given config is not valid (e.g. wrong key or wrong key value)
      */
     __validateConfig : qx.core.Environment.select("qx.debug",
     {
@@ -512,8 +510,8 @@ qx.Bootstrap.define("qx.Theme",
     /**
      * Helper method to check for an invalid theme
      *
-     * @param mixinTheme {qx,Theme?null} theme to check
-     * @throws an error if the theme is not valid
+     * @param mixinTheme {qx.Theme?null} theme to check
+     * @throws {Error} if the theme is not valid
      */
     __checkForInvalidTheme: function(mixinTheme)
     {

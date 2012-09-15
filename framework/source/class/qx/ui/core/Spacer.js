@@ -107,7 +107,6 @@ qx.Class.define("qx.ui.core.Spacer",
      * Please note that the widget is not disposed synchronously. The
      * real dispose happens after the next queue flush.
      *
-     * @return {void}
      */
     destroy : function()
     {

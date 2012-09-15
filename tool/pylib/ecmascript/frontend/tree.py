@@ -59,6 +59,7 @@ class NodeAccessException (Exception):
         self.node = node
 
 NODE_VARIABLE_TYPES = ("dotaccessor", "identifier")
+NODE_STATEMENT_CONTAINERS = ("statements", "block")
 
 class Node(object):
 
@@ -108,12 +109,30 @@ class Node(object):
         if len(self.attributes) == 0:
             del self.attributes
 
+    ##
+    # Make a default copy of self (this includes instanceof)
     def clone(self):
         clone_ = copy.copy(self)
-        #if hasattr(self, "attributes"):
+        # keep .attributes non-shared
         if True:
             clone_.attributes = copy.copy(self.attributes)
         return clone_
+
+    ##
+    # Copy the properties of self into other
+    # (this might not be entirely in sync with treegenerator.symbol())
+    def patch(self, other):
+        for attr, val in vars(self).items():
+            if attr in (
+                "type", "id",  # preserve other's classification
+                "children", # don't adopt existing children (what would their .parent be?!)
+                "parent", # avoid tree relations
+                ):
+                continue
+            setattr(other, attr, val)
+        # keep .attributes non-shared
+        if hasattr(self, "attributes"):
+            other.attributes = copy.copy(self.attributes)
 
     def hasParent(self):
         return self.parent
@@ -196,13 +215,16 @@ class Node(object):
             newChild.parent = self
             self.children.remove(oldChild)
 
-    def getChild(self, ntype, mandatory = True):
+    ##
+    # Get child by type or position
+    #
+    def getChild(self, spec, mandatory = True):
         if self.children:
-            for child in self.children:
-                if child.type == ntype:
+            for pos,child in enumerate(self.children):
+                if pos==spec or child.type==spec:
                     return child
         if mandatory:
-            raise NodeAccessException("Node " + self.type + " has no child with type " + ntype, self)
+            raise NodeAccessException("Node " + self.type + " has no child with type or position" + spec, self)
 
     def hasChildRecursive(self, ntype):
         if isinstance(ntype, basestring):
@@ -540,8 +562,11 @@ class Node(object):
 
         return self.parent.getLastChild(False, ignoreComments) == self
 
-    def isVar(self):
-        return self.type in NODE_VARIABLE_TYPES
+    #def isVar(self):
+    #    return self.type in NODE_VARIABLE_TYPES
+
+    def isStatement(self):
+        return self.parent and self.parent.type in NODE_STATEMENT_CONTAINERS
 
     def addListChild(self, listName, childNode):
         listNode = self.getChild(listName, False)
@@ -634,7 +659,7 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encodin
     hasText = False
 
     # comments
-    if node.comments:
+    if hasattr(node, 'comments') and node.comments:
         cmtStrings = []
         for comment in node.comments:
             cmtStrings.append(nodeToXmlString(comment, prefix, childPrefix, newLine, encoding))

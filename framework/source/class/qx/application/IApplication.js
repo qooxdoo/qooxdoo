@@ -27,7 +27,6 @@ qx.Interface.define("qx.application.IApplication",
     /**
      * Called when the application relevant classes are loaded and ready.
      *
-     * @return {void}
      */
     main : function() {},
 
@@ -36,7 +35,6 @@ qx.Interface.define("qx.application.IApplication",
      * Called when the application's main method was executed to handle
      * "final" tasks like rendering or retrieving data.
      *
-     * @return {void}
      */
     finalize : function() {},
 
@@ -54,7 +52,6 @@ qx.Interface.define("qx.application.IApplication",
     /**
      * This method contains the last code which is run inside the page and may contain cleanup code.
      *
-     * @return {void}
      */
     terminate : function() {}
   }

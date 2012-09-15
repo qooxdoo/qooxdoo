@@ -1,7 +1,16 @@
+var initAttached = false;
 testrunner.globalSetup = function() {
+  if (!initAttached) {
+    // attach a custom init function
+    q.$attachInit(function() {
+      this.testInit = true;
+    });
+    initAttached = true;
+  }
+
   this.sandbox = q.create("<div id='sandbox'></div>");
   this.sandbox.appendTo(document.body);
-  
+
   // CSS metrics should be integer by default in IE10 Release Preview, but
   // getBoundingClientRect will randomly return float values unless this
   // feature is explicitly deactivated:
@@ -17,9 +26,39 @@ testrunner.globalTeardown = function() {
 testrunner.define({
   classname: "Basic",
 
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
   testInstanceOf : function() {
     var c = q.create("<div>");
     this.assertTrue(c instanceof q);
+    c = q();
+    this.assertTrue(c instanceof q);
+  },
+
+  testInit : function() {
+    // add a second element
+    this.sandbox.push(q.create("<div>")[0]);
+
+    this.assertTrue(this.sandbox.testInit);
+    this.assertEquals(2, this.sandbox.length);
+
+    this.assertTrue(this.sandbox.filter(function() {return true;}).testInit);
+    this.assertEquals(2, this.sandbox.filter(function() {return true;}).length);
+
+    this.assertTrue(this.sandbox.concat().testInit);
+    this.assertEquals(2, this.sandbox.concat().length);
+    this.assertEquals(4, this.sandbox.concat(this.sandbox.concat()).length);
+
+    this.assertTrue(this.sandbox.slice(0).testInit);
+    this.assertEquals(2, this.sandbox.slice(0).length);
+
+    var clone = this.sandbox.clone().splice(0, 2);
+    this.assertTrue(clone.testInit);
+    this.assertEquals(2, clone.length);
+
+    this.assertTrue(this.sandbox.map(function(i) {return i;}).testInit);
+    this.assertEquals(2, this.sandbox.map(function(i) {return i;}).length);
   },
 
   testDependencies : function()
@@ -183,6 +222,40 @@ testrunner.define({
     this.assertEquals(50, q("#test").getScrollTop());
   },
 
+  testAnimateScrollLeft : function()
+  {
+    var t = q.create('<div id="test" style="overflow:auto; width:50px; height:50px;"><div style="width:150px; height:150px;">AAAAA</div></div>');
+    t.appendTo(this.sandbox[0]);
+    q("#test").on("animationEnd", function() {
+      this.resume(function() {
+        this.assertEquals(50, q("#test").getScrollLeft());
+      }, this);
+    }, this);
+
+    setTimeout(function() {
+      q("#test").setScrollLeft(50, 500);
+    }, 100);
+
+    this.wait(1500);
+  },
+
+  testAnimateScrollTop : function()
+  {
+    var t = q.create('<div id="test" style="overflow:auto; width:50px; height:50px;"><div style="width:150px; height:150px;">AAAAA</div></div>');
+    t.appendTo(this.sandbox[0]);
+    q("#test").on("animationEnd", function() {
+      this.resume(function() {
+        this.assertEquals(50, q("#test").getScrollTop());
+      }, this);
+    }, this);
+
+    setTimeout(function() {
+      q("#test").setScrollTop(50, 500);
+    }, 100);
+
+    this.wait(1500);
+  },
+
   "test before with HTML string": function()
   {
     var test = q.create('<p>Affe</p><p>Affe</p>');
@@ -320,7 +393,7 @@ testrunner.define({
     q.create('<h2>Bar</h2><h3>Baz</h3>').insertBefore("#sandbox h1");
     this.assertEquals(2, q("#sandbox h2 + h3 + h1").length);
   },
-  
+
   "test wrap with HTML string" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -328,7 +401,7 @@ testrunner.define({
     test.wrap('<div class="foo"><p class="bar"/></div>');
     this.assertEquals(2, q("#sandbox .foo .bar .baz").length);
   },
-  
+
   "test wrap with element" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -337,7 +410,7 @@ testrunner.define({
     test.wrap(wrapper[0]);
     this.assertEquals(2, q("#sandbox .foo .bar .baz").length);
   },
-  
+
   "test wrap with selector" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -346,7 +419,7 @@ testrunner.define({
     test.wrap('.foo');
     this.assertEquals(2, q('#sandbox .foo .bar .baz').length);
   },
-  
+
   "test wrap with list of elements" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -355,7 +428,7 @@ testrunner.define({
     test.wrap([wrapper[0]]);
     this.assertEquals(2, q('#sandbox .foo .bar .baz').length);
   },
-  
+
   "test wrap with collection" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -859,6 +932,30 @@ testrunner.define({
     test.remove();
   },
 
+  testSpecialProperties : function() {
+    var props = {
+      "css.appearance" : ["appearance", "searchfield"],
+      "css.textoverflow" : ["textOverflow", "ellipsis"],
+      "css.userselect" : ["userSelect", q.env.get("css.userselect.none")],
+      "css.float" : ["float", "right"],
+      "css.usermodify" : ["userModify", "read-only"],
+      "css.boxsizing" : ["boxSizing", "border-box"]
+    }
+
+    for (var envKey in props) {
+      var style = props[envKey][0];
+      var envVal = q.env.get(envKey);
+      if (!envVal) {
+        continue;
+      }
+      var value = props[envKey][1];
+      var test = q.create("<div>affe</div>").appendTo(this.sandbox[0])
+      .setStyle(style, value);
+
+      this.assertEquals(value, test.getStyle(style));
+    }
+  },
+
   testClass : function() {
     var test = q.create("<div/><div/>");
     test.addClass("test");
@@ -1023,6 +1120,22 @@ testrunner.define({
     }, 250);
 
     this.wait(500);
+  },
+
+  testHideShow : function()
+  {
+    var test = q.create('<div style="display: inline">Yoohoo</div>')
+    .appendTo(this.sandbox[0]);
+    test.hide();
+    this.assertEquals("none", test.getStyle("display"));
+    test.show();
+    this.assertEquals("inline", test.getStyle("display"));
+
+    // no previous value:
+    var test2 = q.create('<span style="display: none">Yoohoo</span>')
+    .appendTo(this.sandbox[0]);
+    test2.show();
+    this.assertEquals("inline", test2.getStyle("display"));
   }
 });
 
@@ -1064,7 +1177,7 @@ testrunner.define({
     this.assertEquals("affe", test.getAttributes(["id", "x"]).id);
     this.assertEquals("y", test.getAttributes(["id", "x"]).x);
     test.removeAttributes(["id", "x"]);
-    
+
     // removed attributes have empty string values in old IEs
     if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 8) {
       this.assertEquals("", test.getAttributes(["id", "x"]).id);
@@ -1109,7 +1222,7 @@ testrunner.define({
     this.assertEquals("affe", q("#sandbox input[type=checkbox]").getValue());
     this.assertEquals("affe", q("#sandbox select").getValue());
     this.assertArrayEquals(["foo", "baz"], q("#multiple").getValue());
-    
+
     q("#sandbox input").setValue("fnord");
     // setting the same value again sets the 'checked' attribute
     q("#sandbox input[type=checkbox]").setValue("affe");
@@ -1392,7 +1505,6 @@ testrunner.define({
 
     q.$unregisterEventNormalization("focus", normalizer1);
 
-    var that = this;
     window.setTimeout(function() {
       test[0].focus();
     }, 100);
@@ -1431,8 +1543,6 @@ testrunner.define({
     test.on("focus", callback, obj1);
     test.on("blur", callback, obj2);
 
-
-    var that = this;
     window.setTimeout(function() {
       test[0].focus();
       test[0].blur();
@@ -1469,7 +1579,6 @@ testrunner.define({
     test.on("focus", callback, obj1);
     test.on("blur", callback, obj2);
 
-    var that = this;
     window.setTimeout(function() {
       test[0].focus();
     }, 100);
@@ -1516,7 +1625,6 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     test.on("focus", callback, obj);
 
-    var that = this;
     window.setTimeout(function() {
       test[0].focus();
     }, 100);
@@ -1545,7 +1653,6 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     test.on("focus", callback, obj);
 
-    var that = this;
     window.setTimeout(function() {
       test[0].focus();
     }, 100);
@@ -1939,7 +2046,7 @@ testrunner.define({
 
   testCast : function() {
     var a;
-    var f = (function() {
+    (function() {
       a = q.array.cast(arguments, Array);
     })(1, 2, 3, 4);
     this.assertEquals(4, a.length);
@@ -1967,7 +2074,7 @@ testrunner.define({
 
   testFromArguments : function() {
     var a;
-    var f = (function() {
+    (function() {
       a = q.array.fromArguments(arguments);
     })(1, 2, 3, 4);
     this.assertEquals(4, a.length);
@@ -2082,16 +2189,6 @@ testrunner.define({
 
   testTrim : function() {
     this.assertEquals("abc", "    abc    ".trim());
-  },
-
-
-  testTrimLeft : function() {
-    this.assertEquals("abc    ", "    abc    ".trimLeft());
-  },
-
-
-  testTrimRight : function() {
-    this.assertEquals("    abc", "    abc    ".trimRight());
   }
 });
 
@@ -2197,6 +2294,15 @@ testrunner.define({
     this.wait();
   },
 
+  testXhrWithHeader : function() {
+    q.io.xhr("tests.js", {header: {"Content-Type": "application/json"}}).on("loadend", function(xhr) {
+      this.resume(function() {
+        this.assertEquals(4, xhr.readyState);
+        xhr.dispose();
+      }, this);
+    }, this).send();
+    this.wait();
+  },
 
   testBasicScript : function() {
     q.io.script("scriptload.js").on("loadend", function(script) {
@@ -2252,6 +2358,12 @@ testrunner.define({
   },
 
 
+  testTransformOrigin : function() {
+    this.sandbox.setTransformOrigin("30% 10%");
+    if (q.env.get("css.transform") != null) {
+      this.assertEquals("30% 10%", this.sandbox.getTransformOrigin());
+    }
+  },
 
   testTransformStyle : function() {
     this.sandbox.setTransformStyle("flat");
@@ -2261,7 +2373,7 @@ testrunner.define({
   },
 
   testTransformPerspective : function() {
-    this.sandbox.setTransformPerspective("1234px");
+    this.sandbox.setTransformPerspective(1234);
     if (q.env.get("css.transform") != null) {
       this.assertEquals("1234px", this.sandbox.getTransformPerspective());
     }
@@ -2279,5 +2391,107 @@ testrunner.define({
     if (q.env.get("css.transform") != null) {
       this.assertEquals(true, this.sandbox.getTransformBackfaceVisibility());
     }
+  }
+});
+
+
+testrunner.define({
+  classname : "Storage",
+  __testKey : "qx_website_test_key",
+
+  testLocalSetGetRemove : function() {
+    q.localStorage.setItem(this.__testKey, {a: 1, b: true});
+    this.assertEquals(1, q.localStorage.getItem(this.__testKey).a);
+    this.assertEquals(true, q.localStorage.getItem(this.__testKey).b);
+    q.localStorage.removeItem(this.__testKey);
+    this.assertNull(q.localStorage.getItem(this.__testKey));
+  },
+
+  testLocalGetLength : function() {
+    q.localStorage.removeItem(this.__testKey);
+    var oldLength = q.localStorage.getLength();
+    q.localStorage.setItem(this.__testKey, "abc");
+    this.assertEquals(oldLength + 1, q.localStorage.getLength());
+    q.localStorage.removeItem(this.__testKey);
+    this.assertEquals(oldLength, q.localStorage.getLength());
+  },
+
+  testSessionSetGetRemove : function() {
+    q.sessionStorage.setItem(this.__testKey, {a: 1, b: true});
+    this.assertEquals(1, q.sessionStorage.getItem(this.__testKey).a);
+    this.assertEquals(true, q.sessionStorage.getItem(this.__testKey).b);
+    q.sessionStorage.removeItem(this.__testKey);
+    this.assertNull(q.sessionStorage.getItem(this.__testKey));
+  },
+
+  testSessionGetLength : function() {
+    q.sessionStorage.removeItem(this.__testKey);
+    var oldLength = q.sessionStorage.getLength();
+    q.sessionStorage.setItem(this.__testKey, "abc");
+    this.assertEquals(oldLength + 1, q.sessionStorage.getLength());
+    q.sessionStorage.removeItem(this.__testKey);
+    this.assertEquals(oldLength, q.sessionStorage.getLength());
+  }
+});
+
+
+testrunner.define({
+  classname : "Messaging",
+
+  testOn : function() {
+    var called = 0;
+    var id = q.messaging.on("X", "test", function() {
+      called = called + 1;
+    });
+    q.messaging.emit("X", "test");
+    this.assertEquals(1, called);
+    q.messaging.emit("X", "test");
+    this.assertEquals(2, called);
+    q.messaging.remove(id);
+
+    q.messaging.emit("X", "test");
+    this.assertEquals(2, called);
+  },
+
+
+  testOnAny : function() {
+    // counter for every handler
+    var called = 0;
+    var called2 = 0;
+    var calledAny = 0;
+    // attach 3 handler
+    var id = q.messaging.on("X", "test", function() {
+      called = called + 1;
+    });
+    var id2 = q.messaging.on("Y", "test", function() {
+      called2 = called2 + 1;
+    });
+    var idAny = q.messaging.onAny("test", function() {
+      calledAny = calledAny + 1;
+    });
+
+    // emit test
+    q.messaging.emit("X", "test");
+    this.assertEquals(1, called);
+    this.assertEquals(0, called2);
+    this.assertEquals(1, calledAny);
+
+    // emit test2
+    q.messaging.emit("Y", "test");
+    this.assertEquals(1, called);
+    this.assertEquals(1, called2);
+    this.assertEquals(2, calledAny);
+
+    // remove all handler
+    q.messaging.remove(id);
+    q.messaging.remove(id2);
+    q.messaging.remove(idAny);
+
+    // emit all events and check if the removal worked
+    q.messaging.emit("X", "test");
+    q.messaging.emit("X", "test2");
+    this.assertEquals(1, called);
+    this.assertEquals(1, called2);
+    this.assertEquals(2, calledAny);
   }
 });

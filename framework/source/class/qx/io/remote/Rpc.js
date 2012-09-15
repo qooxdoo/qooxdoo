@@ -77,15 +77,15 @@
  * <p>
  * You may also find the server writer's guide helpful:
  *   http://manual.qooxdoo.org/${qxversion}/pages/communication/rpc_server_writer_guide.html
- */
+*/
 
- /**
+/* ************************************************************************
   #ignore(qx.core.ServerSettings)
   #ignore(qx.core.ServerSettings.serverPathSuffix)
   #ignore(qx.core.ServerSettings.serverPathPrefix)
   #ignore(qx.core.ServerSettings.lastSessionRefresh)
   #ignore(qx.core.ServerSettings.sessionTimeoutInSeconds)
-  */
+************************************************************************ */
 
 qx.Class.define("qx.io.remote.Rpc",
 {
@@ -447,7 +447,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * @param parameters {Array}
      *   An array containing the arguments to the called method.
      *
-     * @param serverData {Any}
+     * @param serverData {var}
      *   "Out-of-band" data to be provided to the server.
      *
      * @return {Object}
@@ -992,7 +992,6 @@ qx.Class.define("qx.io.remote.Rpc",
      *
      * @param handler {Function} a callback function that is called when the
      *                           refresh is complete (or failed).
-     * @return {void}
      */
     refreshSession : function(handler)
     {
@@ -1053,7 +1052,6 @@ qx.Class.define("qx.io.remote.Rpc",
      * @param opaqueCallRef {var} the call reference as returned by
      *                            <code>callAsync</code> or
      *                            <code>callAsyncListeners</code>
-     * @return {void}
      */
     abort : function(opaqueCallRef)
     {

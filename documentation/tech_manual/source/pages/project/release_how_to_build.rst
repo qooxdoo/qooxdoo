@@ -1,4 +1,3 @@
-
 .. _pages/project/release_how_to_build.rst#how_to_build_a_release:
 
 How to build a release
@@ -14,11 +13,10 @@ Preparations
 General
 -------
 
-* Write draft of the `release notes <http://qooxdoo.org/about/release_notes>`_ (look at the git commits since the last release)
+* Write draft of the `release notes <http://qooxdoo.org/project/release_notes>`_ (look at the git commits since the last release)
 * Inform mailing list
 * Sync top-level ``readme.rst`` text file with `About <http://qooxdoo.org/about>`_
 * Prepare article for `qooxdoo news <http://news.qooxdoo.org/>`_
-* Prepare text for `<http://freshmeat.net>`_ (short; no marketing buzz)
 
 .. _pages/project/release_how_to_build.rst#customize_the_code_base:
 
@@ -205,7 +203,7 @@ As soon as you have built and tested the npm package, run ``npm publish`` to upl
 
 * Make sure `node <http://nodejs.org>`_ and `npm <npmjs.org>`_ is installed (tested to work with 0.6.4/1.1.13).
 * Change to ``component/standalone/server``.
-* Make sure the ``qx-oo.js`` has been built (in /script).
+* Make sure the ``qx-oo-%{version}.js`` has been built (in /script).
 * Run ``generate.py npm-package-copy``.
 * Run ``generate.py npm-package-publish`` (needs the qooxdoo user account).
 * Check if it worked in the `online registry <http://search.npmjs.org/>`_.
@@ -278,19 +276,17 @@ Update Online Site
   
   * Adjust the appropriate ``<major>.<minor>.x`` and ``current`` symbolic links to link to the new version.
   * For a release of the current devel version, make a deep copy of the new version with the next devel target (e.g. with ``cp -R --preserve 1.6 1.7``), and link the ``devel`` symbolic link to it (so the next devel update doesn't overwrite the released version).
-* **/wiki**
-  
-  * Adjust ``wiki/inc/html.php#html_search``, which will add the new version to the drop-down menu on the search web page (in the .php file look for the string ``'Homepage only'``).
 
 .. _pages/project/release_how_to_build.rst#update_wiki:
 
 Update Wiki
 -----------
 
-* Adjust the `Roadmap <http://qooxdoo.org/about/roadmap>`_.
-* Adjust the `Documentation overview <http://qooxdoo.org/documentation>`_.
-* Adjust the `Demo overview <http://qooxdoo.org/demo>`_.
-* Adjust the `Download page <http://qooxdoo.org/download>`_.
+* Adjust the `Roadmap <http://qooxdoo.org/project/roadmap>`_.
+* Adjust the `Documentation overview <http://qooxdoo.org/docs>`_.
+* Adjust the `Demo overview <http://qooxdoo.org/demos>`_.
+* Adjust the `Download page <http://qooxdoo.org/downloads>`_.
+* Adjust the `Start page <http://qooxdoo.org/>`_. (all 4 sections: download links, gzipped lib sizes) 
 
 .. _pages/project/release_how_to_build.rst#update_contrib:
 
@@ -316,11 +312,11 @@ Nightly Testing
 Announcements
 -------------
 
-* `Release notes <http://qooxdoo.org/about/release_notes>`_ on the homepage
+* `Release notes <http://qooxdoo.org/project/release_notes>`_ on the homepage
 * `News <http://news.qooxdoo.org/wp-admin/post.php>`_
 * Mailing list (qooxdoo-devel)
 * `Freshmeat <http://freshmeat.net/add-release/53996/>`_
 * `Wikipedia <http://en.wikipedia.org/wiki/Qooxdoo>`_ version number update
-* `Email to FunctionSource?! <tips@functionsource.com>`_
+
 
 

@@ -64,8 +64,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
      * @param name {String} The class name to add
      * @return {String} The added classname (if so)
      */
-    add : qx.lang.Object.select(qx.core.Environment.get("html.classlist") ? "native" : "default",
-    {
+    add :{
       "native" : function(element, name)
       {
         element.classList.add(name)
@@ -80,7 +79,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
 
         return name;
       }
-    }),
+    }[qx.core.Environment.get("html.classlist") ? "native" : "default"],
 
 
     /**
@@ -91,8 +90,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
      * @param classes {String[]} List of classes to add.
      * @return {String} The resulting class name which was applied
      */
-    addClasses : qx.lang.Object.select(qx.core.Environment.get("html.classlist") ? "native" : "default",
-    {
+    addClasses :{
       "native" : function(element, classes)
       {
         for (var i=0; i<classes.length; i++) {
@@ -127,7 +125,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
 
         return element.className = result.join(" ");
       }
-    }),
+    }[qx.core.Environment.get("html.classlist") ? "native" : "default"],
 
 
     /**
@@ -174,8 +172,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
      * @param name {String} The class name to check for
      * @return {Boolean} true when the element has the given classname
      */
-    has : qx.lang.Object.select(qx.core.Environment.get("html.classlist") ? "native" : "default",
-    {
+    has : {
       "native" : function(element, name) {
         return element.classList.contains(name);
       },
@@ -185,7 +182,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
         var regexp = new RegExp("(^|\\s)" + name + "(\\s|$)");
         return regexp.test(element.className);
       }
-    }),
+    }[qx.core.Environment.get("html.classlist") ? "native" : "default"],
 
 
     /**
@@ -196,8 +193,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
      * @param name {String} The class name to remove
      * @return {String} The removed class name
      */
-    remove : qx.lang.Object.select(qx.core.Environment.get("html.classlist") ? "native" : "default",
-    {
+    remove : {
       "native" : function(element, name)
       {
         element.classList.remove(name);
@@ -211,7 +207,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
 
         return name;
       }
-    }),
+    }[qx.core.Environment.get("html.classlist") ? "native" : "default"],
 
 
     /**
@@ -222,8 +218,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
      * @param classes {String[]} List of classes to remove.
      * @return {String} The resulting class name which was applied
      */
-    removeClasses : qx.lang.Object.select(qx.core.Environment.get("html.classlist") ? "native" : "default",
-    {
+    removeClasses : {
       "native" : function(element, classes)
       {
         for (var i=0; i<classes.length; i++) {
@@ -237,7 +232,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
         var reg = new RegExp("\\b" + classes.join("\\b|\\b") + "\\b", "g");
         return element.className = element.className.replace(reg, "").replace(this.__trim, "").replace(this.__splitter, " ");
       }
-    }),
+    }[qx.core.Environment.get("html.classlist") ? "native" : "default"],
 
 
     /**
@@ -265,8 +260,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
      *    the parameter an automatic toggling would happen.
      * @return {String} The class name
      */
-    toggle : qx.lang.Object.select(qx.core.Environment.get("html.classlist") ? "native" : "default",
-    {
+    toggle : {
       "native" : function(element, name, toggle)
       {
         if (toggle === undefined) {
@@ -286,6 +280,6 @@ qx.Bootstrap.define("qx.bom.element.Class",
         toggle ? this.add(element, name) : this.remove(element, name);
         return name;
       }
-    })
+    }[qx.core.Environment.get("html.classlist") ? "native" : "default"]
   }
 });

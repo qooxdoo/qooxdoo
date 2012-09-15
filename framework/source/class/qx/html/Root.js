@@ -42,7 +42,6 @@ qx.Class.define("qx.html.Root",
   /**
    * Creates a root element
    *
-   * @constructor
    * @param elem {Element?null} DOM element to use
    */
   construct : function(elem)
@@ -71,8 +70,7 @@ qx.Class.define("qx.html.Root",
      * like a normal displayed element in the document's body.
      *
      * @param elem {Element} the dom element to set
-     * @return {void}
-     * @throws an exception if the element is assigned again
+     * @throws {Error} if the element is assigned again
      */
     useElement : function(elem)
     {

@@ -1,5 +1,5 @@
 /**
- * @deprecated since 2.0
+ * @deprecated {2.0}
  */
 qx.Mixin.define("qx.test.performance.MMeasure",
 {

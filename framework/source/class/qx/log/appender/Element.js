@@ -81,7 +81,6 @@ qx.Class.define("qx.log.appender.Element",
      * Configures the DOM element to use.
      *
      * @param element {Element} DOM element to log to
-     * @return {void}
      */
     setElement : function(element)
     {
@@ -101,7 +100,6 @@ qx.Class.define("qx.log.appender.Element",
     /**
      * Clears the current output.
      *
-     * @return {void}
      */
     clear : function()
     {
@@ -119,7 +117,6 @@ qx.Class.define("qx.log.appender.Element",
      *
      * @signature function(entry)
      * @param entry {Map} The entry to process
-     * @return {void}
      */
     process : function(entry)
     {

@@ -57,6 +57,7 @@ qx.Class.define("mobileshowcase.page.Overview",
       var data = [
           {title : "Basic Widgets", subtitle : "Atoms, Buttons, Labels, Images...", path:"basic"},
           {title : "Dialog Widgets", subtitle : "Dialogs, Popups, Confirm Dialogs...", path:"dialog"},
+          {title : "Carousel", subtitle : "A carousel container", path:"carousel"},
           {title : "Form Elements", subtitle : "TextField, TextArea, Checkboxes...", path:"form"},
           {title : "List", subtitle : "A large list", path:"list"},
           {title : "Tab Bar", subtitle : "Usings tabs to switch views", path:"tab"},
@@ -64,6 +65,7 @@ qx.Class.define("mobileshowcase.page.Overview",
           {title : "Events", subtitle : "Touch, Tap, Swipe...", path:"event"},
           {title : "Data Binding", subtitle : "See how data binding works", path:"databinding"},
           {title : "Page Transitions", subtitle : "Slide, Fade, Cube...", path:"animation"},
+          {title : "Maps", subtitle : "Geolocation on a fullscreen map", path:"maps"},
           {title : "Theme Switcher", subtitle : "Switch between our themes...", path:"themeswitcher"}
       ];
 
@@ -75,6 +77,7 @@ qx.Class.define("mobileshowcase.page.Overview",
         // On click on list item, portraitContainer should hide.
         this.fireEvent("hidePortraitContainer");
       }, this);
+      
       this.getContent().add(list);
 
     }

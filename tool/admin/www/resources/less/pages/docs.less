@@ -1,0 +1,105 @@
+body.docs {
+
+  #main #content {
+    position: relative;
+    .columns(24);
+    .first();
+  }
+
+  code {
+    font-family: monospace;
+    white-space: pre;
+    display: block;
+  }
+
+  h1, h2, h3, h4, h5 {
+
+    .headerlink {
+      visibility: hidden;
+    }
+
+    &:hover {
+      .headerlink {
+        visibility: visible;
+      }
+    }
+  }
+
+  #boxes {
+    position: relative;
+    padding-top: @line * 1;
+    .columns(20);
+    .first();
+
+    #versions-hint {
+      position: absolute;
+      top: -(@line * 0.5);
+      right: 0;
+
+      a {
+        display: inline-block;
+        cursor: pointer;
+
+        &:hover {
+          color: @spot;
+        }
+
+        &.active {
+          cursor: default;
+          text-decoration: none;
+        }
+      }
+    }
+
+    .versions {
+      display: none;
+      color: @mediumShade;
+
+      &:hover {
+        color: @fg;
+        cursor: pointer;
+
+        a {
+          color: @fg;
+        }
+      }
+
+      &.show {
+        display: inline;
+      }
+
+      a {
+        color: @mediumShade;
+        padding: 0 1px;
+
+        &:hover {
+          color: @spot;
+        }
+      }
+    }
+
+    .teaser {
+      .columns(10);
+      background-color: @lightShade;
+      margin-bottom: @gridGutterWidth;
+      height: @line * 10;
+
+      & > div {
+        padding: 10px;
+      }
+
+      h2 {
+        margin-top: 5px;
+      }
+
+      &.row {
+        clear: both;
+        .first();
+      }
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

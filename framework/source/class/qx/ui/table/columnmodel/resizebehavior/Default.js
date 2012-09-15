@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      *
      * @param col {Integer} The column whose width is to be set
      *
-     * @param width {Integer, String}
+     * @param width {Integer|String}
      *   The width of the specified column.  The width may be specified as
      *   integer number of pixels (e.g. 100), a string representing percentage
      *   of the inner width of the Table (e.g. "25%"), or a string
@@ -186,7 +186,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      * @param width {Integer}
      *   The minimum width of the specified column.
      *
-     * @return {void}
      *
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
@@ -214,7 +213,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      * @param width {Integer}
      *   The maximum width of the specified column.
      *
-     * @return {void}
      *
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
@@ -245,7 +243,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      *   {@link #setWidth}, {@link #setMinWidth} and {@link #setMaxWidth}
      *   respectively.
      *
-     * @return {void}
      *
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
@@ -359,7 +356,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     /**
      * Computes the width of all flexible children.
      *
-     * @return {void}
      */
     _computeColumnsFlexWidth : function()
     {
@@ -428,7 +424,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      * @param event {qx.event.type.Data}
      *   The event object.
      *
-     * @return {void}
      */
     _extendNextColumn : function(event)
     {
@@ -500,7 +495,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      * @param event {qx.event.type.Data}
      *   The event object.
      *
-     * @return {void}
      */
     _extendLastColumn : function(event)
     {

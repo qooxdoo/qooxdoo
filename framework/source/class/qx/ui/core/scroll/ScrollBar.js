@@ -82,6 +82,10 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
   },
 
 
+  events : {
+    /** Change event for the value. */
+    "scrollAnimationEnd": "qx.event.type.Event"
+  },
 
 
 
@@ -233,6 +237,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
           control.setPageStep(100);
           control.setFocusable(false);
           control.addListener("changeValue", this._onChangeSliderValue, this);
+          control.addListener("slideAnimationEnd", this._onSlideAnimationEnd, this);
           this._add(control, {flex: 1});
           break;
 
@@ -345,10 +350,10 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      * the {@link #maximum}.
      *
      * @param position {Integer} Scroll to this position. Must be greater zero.
-     * @return {void}
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    scrollTo : function(position) {
-      this.getChildControl("slider").slideTo(position);
+    scrollTo : function(position, duration) {
+      this.getChildControl("slider").slideTo(position, duration);
     },
 
 
@@ -359,10 +364,10 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      * the {@link #maximum}.
      *
      * @param offset {Integer} Scroll by this offset
-     * @return {void}
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    scrollBy : function(offset) {
-      this.getChildControl("slider").slideBy(offset);
+    scrollBy : function(offset, duration) {
+      this.getChildControl("slider").slideBy(offset, duration);
     },
 
 
@@ -373,15 +378,12 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      * the {@link #maximum}.
      *
      * @param steps {Integer} Number of steps
-     * @return {void}
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    scrollBySteps : function(steps)
-    {
+    scrollBySteps : function(steps, duration) {
       var size = this.getSingleStep();
-      this.getChildControl("slider").slideBy(steps * size);
+      this.getChildControl("slider").slideBy(steps * size, duration);
     },
-
-
 
 
 
@@ -395,10 +397,9 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      * Executed when the up/left button is executed (pressed)
      *
      * @param e {qx.event.type.Event} Execute event of the button
-     * @return {void}
      */
     _onExecuteBegin : function(e) {
-      this.scrollBy(-this.getSingleStep());
+      this.scrollBy(-this.getSingleStep(), 50);
     },
 
 
@@ -406,10 +407,17 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      * Executed when the down/right button is executed (pressed)
      *
      * @param e {qx.event.type.Event} Execute event of the button
-     * @return {void}
      */
     _onExecuteEnd : function(e) {
-      this.scrollBy(this.getSingleStep());
+      this.scrollBy(this.getSingleStep(), 50);
+    },
+
+
+    /**
+     * Change listener for slider animation end.
+     */
+    _onSlideAnimationEnd : function() {
+      this.fireEvent("scrollAnimationEnd");
     },
 
 
@@ -417,7 +425,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      * Change listener for slider value changes.
      *
      * @param e {qx.event.type.Data} The change event object
-     * @return {void}
      */
     _onChangeSliderValue : function(e) {
       this.setPosition(e.getData());

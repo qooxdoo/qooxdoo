@@ -64,7 +64,6 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   represented either by the node object, or the node id (as would have
      *   been returned by addBranch(), addLeaf(), etc.)
      *
-     * @return {void}
      */
     nodeToggleOpened : function(nodeReference)
     {
@@ -103,7 +102,6 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   the properties described in
      *   {@link qx.ui.treevirtual.SimpleTreeDataModel}
      *
-     * @return {void}
      */
     nodeSetState : function(nodeReference, attributes)
     {
@@ -137,7 +135,6 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @param label {String}
      *   The new label for the specified node
      *
-     * @return {void}
      */
     nodeSetLabel : function(nodeReference, label)
     {
@@ -174,7 +171,6 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @param b {Boolean}
      *   The new selected state for the specified node.
      *
-     * @return {void}
      */
     nodeSetSelected : function(nodeReference, b)
     {
@@ -212,7 +208,6 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @param b {Boolean}
      *   The new opened state for the specified node.
      *
-     * @return {void}
      */
     nodeSetOpened : function(nodeReference, b)
     {
@@ -269,7 +264,6 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @param b {Boolean}
      *   The new hideOpenClose state for the specified node.
      *
-     * @return {void}
      */
     nodeSetHideOpenClose : function(nodeReference, b)
     {
@@ -306,7 +300,6 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @param path {String}
      *   The path to the icon to be used when the node is not selected
      *
-     * @return {void}
      */
     nodeSetIcon : function(nodeReference, path)
     {
@@ -355,7 +348,6 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @param path {String}
      *   The path to the icon to be used when the node is selected
      *
-     * @return {void}
      */
     nodeSetSelectedIcon : function(nodeReference, path)
     {
@@ -396,7 +388,6 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   if a style has been previously provided (i.e. not using the default
      *   style).
      *
-     * @return {void}
      */
     nodeSetCellStyle : function(nodeReference, style)
     {
@@ -433,7 +424,6 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @param style {String}
      *   The CSS style to be applied for the label for this node.
      *
-     * @return {void}
      */
     nodeSetLabelStyle : function(nodeReference, style)
     {

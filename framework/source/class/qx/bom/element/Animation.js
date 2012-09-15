@@ -46,13 +46,16 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      *   "repeat": 1,
      *   "timing": "ease-out",
      *   "alternate": false,
-     *   "reverse": false
+     *   "reverse": false,
+     *   "delay" : 2000
      * }
      * </pre>
      *
      * *duration* is the time in milliseconds one animation cycle should take.
      *
      * *keep* is the key frame to apply at the end of the animation. (optional)
+     *   Keep in mind that the keep key is reversed in case you use an reverse
+     *   animation or set the alternate key and a even repeat count.
      *
      * *keyFrames* is a map of separate frames. Each frame is defined by a
      *   number which is the percentage value of time in the animation. The value
@@ -73,6 +76,8 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      *
      * *alternate* defines if every other animation should be run in reverse order.
      *
+     * *delay* is the time in milliseconds the animation should wait before start.
+     *
      * @param el {Element} The element to animate.
      * @param desc {Map} The animations description.
      * @param duration {Integer?} The duration in milliseconds of the animation
@@ -81,7 +86,8 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      *   the animation.
      */
     animate : function(el, desc, duration) {
-      if (qx.core.Environment.get("css.animation")) {
+      var onlyCssKeys = qx.bom.element.Animation.__hasOnlyCssKeys(el, desc.keyFrames);
+      if (qx.core.Environment.get("css.animation") && onlyCssKeys) {
         return qx.bom.element.AnimationCss.animate(el, desc, duration);
       } else {
         return qx.bom.element.AnimationJs.animate(el, desc, duration);
@@ -100,11 +106,44 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      *   the animation.
      */
     animateReverse : function(el, desc, duration) {
-      if (qx.core.Environment.get("css.animation")) {
+      var onlyCssKeys = qx.bom.element.Animation.__hasOnlyCssKeys(el, desc.keyFrames);
+      if (qx.core.Environment.get("css.animation") && onlyCssKeys) {
         return qx.bom.element.AnimationCss.animateReverse(el, desc, duration);
       } else {
         return qx.bom.element.AnimationJs.animateReverse(el, desc, duration);
       }
+    },
+
+
+    /**
+     * Detection helper which detects if only CSS keys are in
+     * the animations key frames.
+     * @param el {Element} The element to check for the styles.
+     * @param keyFrames {Map} The keyFrames of the animation.
+     * @return {Boolean} <code>true</code> if only css properties are included.
+     */
+    __hasOnlyCssKeys : function(el, keyFrames) {
+      var keys = [];
+      for (var nr in keyFrames) {
+        var frame = keyFrames[nr];
+        for (var key in frame) {
+          if (keys.indexOf(key) == -1) {
+            keys.push(key);
+          }
+        }
+      }
+
+      var transformKeys = ["scale", "rotate", "skew", "translate"];
+      for (var i=0; i < keys.length; i++) {
+        if (!(keys[i] in el.style)) {
+          // check for transform keys
+          if (transformKeys.indexOf(keys[i]) != -1) {
+            continue;
+          }
+          return false;
+        }
+      };
+      return true;
     }
   }
 });

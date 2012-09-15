@@ -201,8 +201,7 @@ qx.Class.define("qx.ui.table.model.Remote",
      * was an error.
      *
      * @abstract
-     * @return {void}
-     * @throws the abstract function warning.
+     * @throws {Error} the abstract function warning.
      */
     _loadRowCount : function() {
       throw new Error("_loadRowCount is abstract");
@@ -215,7 +214,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      * Has to be called by {@link #_loadRowCount}.
      *
      * @param rowCount {Integer} the number of rows in this model or null if loading.
-     * @return {void}
      */
     _onRowCountLoaded : function(rowCount)
     {
@@ -248,7 +246,6 @@ qx.Class.define("qx.ui.table.model.Remote",
     /**
      * Reloads the model and clears the local cache.
      *
-     * @return {void}
      */
     reloadData : function()
     {
@@ -284,7 +281,6 @@ qx.Class.define("qx.ui.table.model.Remote",
     /**
      * Clears the cache.
      *
-     * @return {void}
      */
     clearCache : function()
     {
@@ -387,7 +383,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      *
      * @param iterator {Function} The iterator function to call.
      * @param object {Object} context of the iterator
-     * @return {void}
      */
     iterateCachedRows : function(iterator, object)
     {
@@ -490,8 +485,7 @@ qx.Class.define("qx.ui.table.model.Remote",
      * @abstract
      * @param firstRow {Integer} The index of the first row to load.
      * @param lastRow {Integer} The index of the last row to load.
-     * @return {void}
-     * @throws the abstract function warning.
+     * @throws {Error} the abstract function warning.
      */
     _loadRowData : function(firstRow, lastRow) {
       throw new Error("_loadRowCount is abstract");
@@ -504,7 +498,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      * Has to be called by {@link #_loadRowData}.
      *
      * @param rowDataArr {Map[]} the loaded row data or null if there was an error.
-     * @return {void}
      */
     _onRowDataLoaded : function(rowDataArr)
     {
@@ -564,7 +557,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      *
      * @param block {Integer} the index of the block.
      * @param rowDataArr {var[][]} the data to set.
-     * @return {void}
      */
     _setRowBlockData : function(block, rowDataArr)
     {
@@ -611,7 +603,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      * Removes a row from the model.
      *
      * @param rowIndex {Integer} the index of the row to remove.
-     * @return {void}
      */
     removeRow : function(rowIndex)
     {
@@ -783,7 +774,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      * Sets all columns editable or not editable.
      *
      * @param editable {Boolean} whether all columns are editable.
-     * @return {void}
      */
     setEditable : function(editable)
     {
@@ -802,7 +792,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      *
      * @param columnIndex {Integer} the column of which to set the editable state.
      * @param editable {Boolean} whether the column should be editable.
-     * @return {void}
      */
     setColumnEditable : function(columnIndex, editable)
     {
@@ -831,7 +820,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      *
      * @param columnIndex {Integer} the column of which to set the sortable state.
      * @param sortable {Boolean} whether the column should be sortable.
-     * @return {void}
      */
     setColumnSortable : function(columnIndex, sortable)
     {
@@ -889,7 +877,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      * in another step.
      *
      * @param sortColumnIndex {Integer} the column, which shall be marked as the sorted column.
-     * @return {void}
      */
     setSortColumnIndexWithoutSortingData : function(sortColumnIndex)
     {
@@ -902,9 +889,8 @@ qx.Class.define("qx.ui.table.model.Remote",
      * for appearance reason), but the sorting of the data will be done in
      * another step.
      *
-     * @param sortAscending {boolean} whether the sorting direction is ascending
+     * @param sortAscending {Boolean} whether the sorting direction is ascending
      *        (true) or not (false).
-     * @return {void}
      */
     setSortAscendingWithoutSortingData : function (sortAscending)
     {

@@ -31,6 +31,10 @@ qx.Class.define("qx.ui.core.queue.Layout",
     __queue : {},
 
 
+    /** Nesting level cache **/
+    __nesting : {},
+
+
     /**
      * Clears the widget from the internal queue. Normally only used
      * during interims disposes of one or a few widgets.
@@ -49,7 +53,6 @@ qx.Class.define("qx.ui.core.queue.Layout",
      * Should only be used by {@link qx.ui.core.Widget}.
      *
      * @param widget {qx.ui.core.Widget} Widget to add.
-     * @return {void}
      */
     add : function(widget)
     {
@@ -74,7 +77,6 @@ qx.Class.define("qx.ui.core.queue.Layout",
      *
      * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
      *
-     * @return {void}
      */
     flush : function()
     {

@@ -324,7 +324,9 @@ qx.Class.define("fce.view.FeatureSelector", {
               var temp = distinctValues.concat();
               for (var x=0, y=temp.length; x<y; x++) {
                 if (!fce.Util.valuesEqual(setData[keyName], temp[x])) {
-                  distinctValues.push(setData[keyName]);
+                  if (!qx.lang.Array.contains(temp, setData[keyName])) {
+                    distinctValues.push(setData[keyName]);
+                  }
                 }
               }
             }
@@ -424,7 +426,7 @@ qx.Class.define("fce.view.FeatureSelector", {
         this.__serializeNonPrimitiveValues(data);
         var model = qx.data.marshal.Json.createModel(data, true);
         this.setModel(model);
-        //this._getSetsMenu(qx.lang.Object.getKeys(value));
+        //this._getSetsMenu(Object.keys(value));
       }
     },
 

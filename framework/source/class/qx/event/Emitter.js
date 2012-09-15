@@ -43,8 +43,8 @@ qx.Bootstrap.define("qx.event.Emitter",
      * listen to all events emitted by the event emitter.
      *
      * @param name {String} The name of the event to listen to.
-     * @param listener {function} The function execute on {@link #emit}.
-     * @param ctx {?var} The context of the listener.
+     * @param listener {Function} The function execute on {@link #emit}.
+     * @param ctx {var?} The context of the listener.
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
     on : function(name, listener, ctx) {
@@ -60,8 +60,8 @@ qx.Bootstrap.define("qx.event.Emitter",
      * <code>'*'</code> will listen to all events emitted by the event emitter.
      *
      * @param name {String} The name of the event to listen to.
-     * @param listener {function} The function execute on {@link #emit}.
-     * @param ctx {?var} The context of the listener.
+     * @param listener {Function} The function execute on {@link #emit}.
+     * @param ctx {var?} The context of the listener.
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
     once : function(name, listener, ctx) {
@@ -76,8 +76,8 @@ qx.Bootstrap.define("qx.event.Emitter",
      * will define the type of event.
      *
      * @param name {String} The name of the event to listen to.
-     * @param listener {function} The function execute on {@link #emit}.
-     * @param ctx {?var} The context of the listener.
+     * @param listener {Function} The function execute on {@link #emit}.
+     * @param ctx {var?} The context of the listener.
      * @return {Integer|null} The listener's id if it was removed or
      * <code>null</code> if it wasn't found
      */
@@ -111,8 +111,8 @@ qx.Bootstrap.define("qx.event.Emitter",
     /**
      * Alternative for {@link #on}.
      * @param name {String} The name of the event to listen to.
-     * @param listener {function} The function execute on {@link #emit}.
-     * @param ctx {?var} The context of the listener.
+     * @param listener {Function} The function execute on {@link #emit}.
+     * @param ctx {var?} The context of the listener.
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
     addListener : function(name, listener, ctx) {
@@ -123,8 +123,8 @@ qx.Bootstrap.define("qx.event.Emitter",
     /**
      * Alternative for {@link #once}.
      * @param name {String} The name of the event to listen to.
-     * @param listener {function} The function execute on {@link #emit}.
-     * @param ctx {?var} The context of the listener.
+     * @param listener {Function} The function execute on {@link #emit}.
+     * @param ctx {var?} The context of the listener.
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
     addListenerOnce : function(name, listener, ctx) {
@@ -135,8 +135,8 @@ qx.Bootstrap.define("qx.event.Emitter",
     /**
      * Alternative for {@link #off}.
      * @param name {String} The name of the event to listen to.
-     * @param listener {function} The function execute on {@link #emit}.
-     * @param ctx {?var} The context of the listener.
+     * @param listener {Function} The function execute on {@link #emit}.
+     * @param ctx {var?} The context of the listener.
      */
     removeListener : function(name, listener, ctx) {
       this.off(name, listener, ctx);
@@ -158,15 +158,16 @@ qx.Bootstrap.define("qx.event.Emitter",
      * Emits an event with the given name. The data will be passed
      * to the listener.
      * @param name {String} The name of the event to emit.
-     * @param data {?var} The data which should be passed to the listener.
+     * @param data {var?} The data which should be passed to the listener.
      */
     emit : function(name, data) {
       var storage = this.__getStorage(name);
-      for (var i = storage.length - 1; i >= 0; i--) {
+      for (var i = 0; i < storage.length; i++) {
         var entry = storage[i];
         entry.listener.call(entry.ctx, data);
         if (entry.once) {
           storage.splice(i, 1);
+          i--;
         }
       };
       // call on any

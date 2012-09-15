@@ -58,7 +58,7 @@ top-level 'index.html' file next to this readme).
 
 
 Learn more
-==========
+===========
 
 * About qooxdoo
   http://qooxdoo.org
@@ -67,10 +67,10 @@ Learn more
   http://demo.qooxdoo.org
 
 * Release Notes
-  http://qooxdoo.org/project/release_notes/2.0
+  http://qooxdoo.org/project/release_notes/2.1
 
 * User Manual
   http://manual.qooxdoo.org/2.1
 
 * API Documentation
-  http://api.qooxdoo.org/2.0
+  http://api.qooxdoo.org/2.1

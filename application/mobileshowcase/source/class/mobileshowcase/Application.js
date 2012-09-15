@@ -77,6 +77,7 @@ qx.Class.define("mobileshowcase.Application",
       // Create the pages
       var overview = new mobileshowcase.page.Overview();
       var events = new mobileshowcase.page.Event();
+      var carousel = new mobileshowcase.page.Carousel();
       var list = new mobileshowcase.page.List();
       var tab = new mobileshowcase.page.Tab();
       var toolbar = new mobileshowcase.page.Toolbar();
@@ -87,7 +88,9 @@ qx.Class.define("mobileshowcase.Application",
       var basic = new mobileshowcase.page.Basic();
       var dialogs = new mobileshowcase.page.Dialog();
       var dataBinding = new mobileshowcase.page.DataBinding();
+      var maps = new mobileshowcase.page.Maps();
       var themeSwitcher = new mobileshowcase.page.ThemeSwitcher();
+      
 
       // Add the pages to the page manager
       var manager = new qx.ui.mobile.page.Manager();
@@ -95,6 +98,7 @@ qx.Class.define("mobileshowcase.Application",
       manager.addDetail([
         basic,
         events,
+        carousel,
         list,
         tab,
         toolbar,
@@ -104,6 +108,7 @@ qx.Class.define("mobileshowcase.Application",
         atoms,
         dialogs,
         dataBinding,
+        maps,
         themeSwitcher
       ]);
 
@@ -177,10 +182,20 @@ qx.Class.define("mobileshowcase.Application",
       {
         dialogs.show();
       },this);
+      
+      nm.onGet("/carousel", function(data)
+      {
+        carousel.show();
+      },this);
 
       nm.onGet("/databinding", function(data)
       {
         dataBinding.show();
+      },this);
+      
+      nm.onGet("/maps", function(data)
+      {
+        maps.show();
       },this);
 
       nm.onGet("/themeswitcher", function(data)

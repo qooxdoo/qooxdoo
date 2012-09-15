@@ -18,6 +18,7 @@ Tooling
 
    pages/tool/astlets.rst
    pages/tool/create_application.rst
+   pages/tool/migration_data.rst
 
 
 Project
@@ -29,3 +30,10 @@ Project
    pages/project/release_how_to_build
    pages/project/qooxdoo_website
 
+Framework
+---------
+
+.. toctree::
+   :maxdepth: 1
+
+   pages/framework/deprecation

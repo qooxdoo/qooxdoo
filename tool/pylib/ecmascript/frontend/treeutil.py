@@ -64,7 +64,7 @@ def isQxDefine(node):
 
         if variableName in [x+".define" for x in DefiningClasses]:
             if node.hasParentContext("call/operand"):
-                className = selectNode(node, "../../params/1")
+                className = selectNode(node, "../../arguments/1")
                 if className and className.type == "constant":
                     className = className.get("value", None)
                 return True, className, variableName
@@ -89,7 +89,7 @@ def isQxDefineParent(node):
             return False, None, ""
 
         if variableName in [x+".define" for x in DefiningClasses]:
-            className = selectNode(node, "params/1")
+            className = selectNode(node, "arguments/1")
             if className and className.type == "constant":
                 className = className.get("value", None)
             return True, className, variableName
@@ -222,6 +222,14 @@ def nodeIterator(node, nodetypes):
     for child in node.children[:]: # using a copy in case nodes are removed by the caller
         for fcn in nodeIterator(child, nodetypes):
             yield fcn
+
+##
+# Generator for nodes of a certain type and attribute values
+#
+def findNode(node, nodetypes, attribs): # attribs=[(key,val),...]
+    for node in nodeIterator(node, nodetypes):
+        if all([(node.get(key,False)==val) for key,val in attribs]):
+            yield node
 
 
 from collections import deque
@@ -403,7 +411,8 @@ def assembleVariable(variableItem):
         raise tree.NodeAccessException("'variableItem' is no variable node", variableItem)
 
     else:
-        return variableItem.toJS(pp), True
+        varRoot = findVarRoot(variableItem)
+        return varRoot.toJS(pp), True
     #assembled = ""
     #for child in variableItem.children:
     #    if child.type == "commentsBefore":
@@ -432,7 +441,7 @@ def compileString(jsString, uniqueId=""):
     """
     Compile a string containing a JavaScript fragment into a syntax tree.
     """
-    return treegenerator.createSyntaxTree(tokenizer.parseStream(jsString, uniqueId)).getFirstChild().getFirstChild()  # strip (file (statements ...) nodes
+    return treegenerator.createFileTree(tokenizer.parseStream(jsString, uniqueId)).getFirstChild().getFirstChild()  # strip (file (statements ...) nodes
 
 
 def variableOrArrayNodeToArray(node):
@@ -460,8 +469,8 @@ def getFunctionName(fcnNode):
     if not fcnNode.hasParent() or not fcnNode.parent.hasParent():
         return "global"
 
-    if fcnNode.type == "function" and fcnNode.get("name", False):
-        return fcnNode.get("name", False)
+    if fcnNode.type == "function" and fcnNode.getChild("identifier", False):
+        return fcnNode.get("identifier", False).get("value")
 
     if fcnNode.parent.parent.type == "keyvalue":
         return fcnNode.parent.parent.get("key")
@@ -565,7 +574,7 @@ def getClassMap(classNode):
     _checkQxDefineNode(classNode)
 
     # get top-level class map
-    mapNode = selectNode(classNode, "params/map")
+    mapNode = selectNode(classNode, "arguments/map")
 
     if not mapNode or mapNode.type != "map":
         raise tree.NodeAccessException("Expected a map node!", mapNode)
@@ -613,7 +622,7 @@ def getClassName(classNode):
     _checkQxDefineNode(classNode)
 
     # get top-level class map
-    nameNode = selectNode(classNode, "params/constant")
+    nameNode = selectNode(classNode, "arguments/constant")
 
     if not nameNode or nameNode.type != "constant":
         raise tree.NodeAccessException("Expected a constant node!", nameNode)
@@ -635,7 +644,6 @@ def getClassName(classNode):
 # node upwards in the tree.
 ChainParentTypes = set([
     "accessor", "dotaccessor",
-    "first", "second",
     "call", "operand",
     ])
 
@@ -651,6 +659,16 @@ def findChainRoot(node):
     return current  # this must be the chain root
 
 ##
+# Find the root <dotaccessor> of a dotted variable expression
+# ("a.b.c"), starting from any variable expression within this tree.
+def findVarRoot(node):
+    # node can be var or constant ('{}.toString')
+    current = node
+    while current.parent and current.parent.isVar():
+        current = current.parent
+    return current
+        
+##
 # Find the leftmost child downward the tree of the passed node
 # 
 def findLeftmostChild(node):
@@ -662,6 +680,31 @@ def findLeftmostChild(node):
         else:
             break
     return child
+
+
+##
+# Find the closest ancestor of <node> with type in <node_types> and in distance
+# <radius>.
+#
+def findAncestor(node, node_types=[], radius=1):
+    res = None
+    if node.parent:
+        lnode = node.parent
+        dist = 0
+        while True:
+            if radius > 0 and dist >= radius:
+                break
+            elif node_types and lnode.type in node_types:
+                res = lnode
+                break
+            else:
+                dist += 1
+                if lnode.parent:
+                    lnode = lnode.parent
+                else:
+                    break
+    return res
+
 
 ##
 # Check if the given identifier node is the first in a chained
@@ -676,10 +719,28 @@ def checkFirstChainChild(node):
 
 def isNEWoperand(node):
     operation = None
-    if node.hasParentContext("operation/first/call/operand"):
-        operation = node.parent.parent.parent.parent
-    elif node.hasParentContext("operation/first"):
-        operation = node.parent.parent
+    if node.hasParentContext("operation/call/operand"):
+        operation = node.parent.parent.parent
+    elif node.hasParentContext("operation"):
+        operation = node.parent
     return operation and operation.type=="operation" and operation.get("operator",0)=="NEW"
 
 
+##
+# NodeVisitor class
+#
+class NodeVisitor(object):
+
+    def __init__(self, debug=False):
+        self.debug = debug
+        
+    def visit(self, node):
+        if hasattr(self, "visit_"+node.type):
+            if self.debug:
+                print "visiting:", node.type
+            getattr(self, "visit_"+node.type)(node)
+        else:
+            for child in node.children:
+                if self.debug:
+                    print "visiting:", child.type
+                self.visit(child)

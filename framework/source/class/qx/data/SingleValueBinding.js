@@ -490,7 +490,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       sourceObject, sourcePropertyChain, targetObject, targetPropertyChain, options
     )
     {
-      var value = this.getValueFromObject(sourceObject, sourcePropertyChain);
+      var value = this.resolvePropertyChain(sourceObject, sourcePropertyChain);
 
       // convert the data before setting
       value = qx.data.SingleValueBinding.__convertValue(
@@ -508,10 +508,8 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param propertyChain {String} The property chain which represents
      *   the source property.
      * @return {var?undefined} Returns the set value if defined.
-     *
-     * @internal
      */
-    getValueFromObject : function(o, propertyChain) {
+    resolvePropertyChain : function(o, propertyChain) {
       var source = this.__getTargetFromChain(o, propertyChain);
 
       var value;
@@ -928,17 +926,17 @@ qx.Class.define("qx.data.SingleValueBinding",
             options.onUpdate(sourceObject, targetObject, data);
           }
 
-        } catch (e) {
-          if (! (e instanceof qx.core.ValidationError)) {
-            throw e;
+        } catch (ex) {
+          if (! (ex instanceof qx.core.ValidationError)) {
+            throw ex;
           }
 
           if (options && options.onSetFail) {
-            options.onSetFail(e);
+            options.onSetFail(ex);
           } else {
             qx.log.Logger.warn(
               "Failed so set value " + data + " on " + targetObject
-               + ". Error message: " + e
+               + ". Error message: " + ex
             );
           }
         }

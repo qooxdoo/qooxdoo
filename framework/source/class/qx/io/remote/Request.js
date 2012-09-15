@@ -396,7 +396,6 @@ qx.Class.define("qx.io.remote.Request",
      * The request is added to the singleton class qx.io.remote.RequestQueue's
      * list of pending requests.
      *
-     * @return {void}
      */
     send : function() {
       qx.io.remote.RequestQueue.getInstance().add(this);
@@ -410,7 +409,6 @@ qx.Class.define("qx.io.remote.Request",
      * list of pending events. If the request haven't been scheduled this
      * method is a noop.
      *
-     * @return {void}
      */
     abort : function() {
       qx.io.remote.RequestQueue.getInstance().abort(this);
@@ -420,7 +418,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Abort sending this request if it has not already been aborted.
      *
-     * @return {void}
      */
     reset : function()
     {
@@ -553,7 +550,6 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the queued state.
      *
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void}
      */
     _onqueued : function(e)
     {
@@ -569,7 +565,6 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the sending state.
      *
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void}
      */
     _onsending : function(e)
     {
@@ -585,7 +580,6 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the receiving state.
      *
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void}
      */
     _onreceiving : function(e)
     {
@@ -601,7 +595,6 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the completed state.
      *
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void}
      */
     _oncompleted : function(e)
     {
@@ -620,7 +613,6 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the aborted state.
      *
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void}
      */
     _onaborted : function(e)
     {
@@ -639,7 +631,6 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the timeout state.
      *
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void}
      */
     _ontimeout : function(e)
     {
@@ -672,7 +663,6 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the failed state.
      *
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void}
      */
     _onfailed : function(e)
     {
@@ -784,11 +774,10 @@ qx.Class.define("qx.io.remote.Request",
      * that HTTP 1.1 header names are case-insensitive, so your server backend
      * should be case-agnostic when dealing with request headers.
      *
-     * [1]{@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2}
+     * [1]<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2">RFC 2616: HTTP Message Headers</a>
      *
      * @param vId {String} The identifier to use for this added header
      * @param vValue {String} The value to use for this added header
-     * @return {void}
      */
     setRequestHeader : function(vId, vValue) {
       this.__requestHeaders[vId] = vValue;
@@ -799,7 +788,6 @@ qx.Class.define("qx.io.remote.Request",
      * Remove a previously-added request header
      *
      * @param vId {String} The id of the header to be removed
-     * @return {void}
      */
     removeRequestHeader : function(vId) {
       delete this.__requestHeaders[vId];
@@ -848,7 +836,7 @@ qx.Class.define("qx.io.remote.Request",
      *   of strings (for setting multiple parameter values with the same
      *   parameter name).
      *
-     * @param bAsData {Boolean | false}
+     * @param bAsData {Boolean}
      *   If <i>false</i>, add the parameter to the URL.  If <i>true</i> then
      *   instead the parameters added by calls to this method will be combined
      *   into a string added as the request data, as if the entire set of
@@ -860,7 +848,6 @@ qx.Class.define("qx.io.remote.Request",
      * Note: Some transports, e.g. Script, do not support passing parameters
      *       as data.
      *
-     * @return {void}
      */
     setParameter : function(vId, vValue, bAsData)
     {
@@ -886,7 +873,6 @@ qx.Class.define("qx.io.remote.Request",
      *   If <i>true</i> then remove it from the list of parameters to be sent
      *   as request data.
      *
-     * @return {void}
      */
     removeParameter : function(vId, bFromData)
     {
@@ -967,7 +953,6 @@ qx.Class.define("qx.io.remote.Request",
      *
      * @param vId {String} String identifier of the form field to add.
      * @param vValue {String} Value of form field
-     * @return {void}
      */
     setFormField : function(vId, vValue) {
       this.__formFields[vId] = vValue;
@@ -978,7 +963,6 @@ qx.Class.define("qx.io.remote.Request",
      * Remove a form field from the POST request.
      *
      * @param vId {String} Identifier of the form field to remove.
-     * @return {void}
      */
     removeFormField : function(vId) {
       delete this.__formFields[vId];

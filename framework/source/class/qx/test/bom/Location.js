@@ -410,6 +410,11 @@ qx.Class.define("qx.test.bom.Location",
 
     testDivFixed : function()
     {
+      if (qx.core.Environment.get("browser.name") === "ie" &&
+          parseInt(qx.core.Environment.get("browser.version"), 10) < 7)
+      {
+        this.skip("position: fixed not supported in IE 6");
+      }
       document.body.innerHTML =
       '<div style="position: absolute; left: 0px; top: 0px; width: 20px; height: 1000px;"></div>' +
       '<div id="test" style="position: fixed; width: 300px; height: 600px; top: 50px;"></div>';

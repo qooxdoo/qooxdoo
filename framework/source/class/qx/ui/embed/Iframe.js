@@ -302,15 +302,19 @@ qx.Class.define("qx.ui.embed.Iframe",
         try
         {
           if (old === false) {
-            qx.bom.Event.removeNativeListener(document, "help", qx.lang.Function.returnFalse);
+            qx.bom.Event.removeNativeListener(document, "help", (function() {return false;}));
           }
 
           if (value === false) {
-            qx.bom.Event.addNativeListener(document, "help", qx.lang.Function.returnFalse);
+            qx.bom.Event.addNativeListener(document, "help", (function() {return false;}));
           }
         } catch (e) {
-          // this may fail due to security restrictions
-        };
+          if (qx.core.Environment.get("qx.debug")) {
+            this.warn(
+              "Unable to set 'nativeHelp' property, possibly due to security restrictions"
+            );
+          }
+        }
       }
     },
 

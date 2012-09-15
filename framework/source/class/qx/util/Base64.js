@@ -103,8 +103,7 @@ qx.Class.define("qx.util.Base64", {
      *
      * @param characterCode {Integer} the code of the character
      * @param output {Array} the array of bytes to be filled
-     * @param is8bit {boolean} specifies whether we should not treat the array as a multi byte string
-     * @return {void}
+     * @param is8bit {Boolean} specifies whether we should not treat the array as a multi byte string
      */
     __translateUTF8 : function(characterCode, output, is8bit)
     {
@@ -150,7 +149,7 @@ qx.Class.define("qx.util.Base64", {
      * if the bytes are UTF-8 bytes (http://en.wikipedia.org/wiki/UTF8)
      *
      * @param bytes {Array} the byte array [8it integers]
-     * @param is8bit {boolean} specifies whether we should not treat the array as a multi byte string
+     * @param is8bit {Boolean} specifies whether we should not treat the array as a multi byte string
      * @return {String} the string backed by the byte array
      */
     __getUTF8StringFromBytes : function(bytes, is8bit)

@@ -172,7 +172,7 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req;
 
       // For documentation purposes
-      res.get = qx.lang.Function.empty;
+      res.get = (function() {});
 
       res.map("get", "GET", "/photos/popular");
     },
@@ -597,7 +597,7 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       res.poll("get", 10);
       this.respond();
-      sandbox.clock.tick(10);
+      sandbox.clock.tick(20);
 
       this.assertCalledWith(res.refresh, "get");
       this.assertCalledOnce(res.refresh);
@@ -611,7 +611,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.spy(res, "refresh");
 
       res.poll("get", 10);
-      sandbox.clock.tick(10);
+      sandbox.clock.tick(20);
 
       this.assertNotCalled(res.refresh);
     },
@@ -620,7 +620,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res;
 
       this.spy(res, "invoke");
-      res.poll("get", 10);
+      res.poll("get", 10, undefined, true);
       this.assertCalled(res.invoke);
     },
 
@@ -630,7 +630,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.map("get", "GET", "/photos/{id}");
       this.stub(res, "invoke");
 
-      res.poll("get", 10, {id: "1"});
+      res.poll("get", 10, {id: "1"}, true);
       this.assertCalledWith(res.invoke, "get", {id: "1"});
     },
 
@@ -656,7 +656,7 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       res.poll("get", 10);
       this.respond();
-      sandbox.clock.tick(10);
+      sandbox.clock.tick(20);
 
       res.poll("get", 100);
       this.respond();
@@ -682,7 +682,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.poll("get", 10);
       res.poll("post", 10);
       this.respond();
-      sandbox.clock.tick(10);
+      sandbox.clock.tick(20);
 
       this.assertCalledOnce(get);
       this.assertCalledOnce(post);
@@ -703,11 +703,12 @@ qx.Class.define("qx.test.io.rest.Resource",
       timer = res.poll("get", 10);
       this.respond();
 
-      sandbox.clock.tick(10);
+      // 10ms invoke, 20ms refresh, 30ms refresh
+      sandbox.clock.tick(30);
       timer.stop();
       sandbox.clock.tick(100);
 
-      this.assertCalledOnce(res.refresh);
+      this.assertCalledTwice(res.refresh);
     },
 
     "test: end poll action does not end polling of other action": function() {
@@ -722,7 +723,7 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       res.poll("get", 10);
       timer = res.poll("post", 10);
-      sandbox.clock.tick(10);
+      sandbox.clock.tick(20);
       timer.stop();
       sandbox.clock.tick(10);
 

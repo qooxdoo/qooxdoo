@@ -36,8 +36,8 @@ from ecmascript.frontend import tree, treeutil
 def patch(tree):
     qxnode = treeutil.findQxDefine(tree)
     
-    processBlock(treeutil.selectNode(qxnode, "params/map/keyvalue[@key='statics']/value/map"))
-    processBlock(treeutil.selectNode(qxnode, "params/map/keyvalue[@key='members']/value/map"))
+    processBlock(treeutil.selectNode(qxnode, "arguments/map/keyvalue[@key='statics']/value/map"))
+    processBlock(treeutil.selectNode(qxnode, "arguments/map/keyvalue[@key='members']/value/map"))
 
             
 def processBlock(block):
@@ -76,7 +76,7 @@ def analyseFunction(name, defined):
             
 
 def inlineFunction(callNode, funcNode):
-    params = funcNode.getChild("params")
+    params = funcNode.getChild("arguments")
     body = copy.copy(funcNode.getChild("body"))
     
     # Without params is a lot easier
@@ -135,7 +135,7 @@ def detectCallName(node):
             if nameFound:
                 return False
 
-            iden = child.get("name")
+            iden = child.get("value")
             
             if iden == "this":
                 thisFound = True

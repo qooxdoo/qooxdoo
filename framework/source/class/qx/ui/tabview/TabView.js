@@ -374,8 +374,8 @@ qx.Class.define("qx.ui.tabview.TabView",
      * It also sets the states to all buttons so they know the
      * position of the bar.
      *
-     * @param value {boolean} The new value.
-     * @param old {boolean} The old value.
+     * @param value {Boolean} The new value.
+     * @param old {Boolean} The old value.
      */
     _applyBarPosition : function(value, old)
     {
@@ -460,7 +460,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      * Replaces current selection with the given items.
      *
      * @param items {qx.ui.tabview.Page[]} Items to select.
-     * @throws an exception if one of the items is not a child element and if
+     * @throws {Error} if one of the items is not a child element and if
      *    items contains more than one elements.
      */
     setSelection : function(items) {
@@ -484,7 +484,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      *
      * @param item {qx.ui.tabview.Page} Any valid selectable item.
      * @return {Boolean} Whether the item is selected.
-     * @throws an exception if one of the items is not a child element.
+     * @throws {Error} if one of the items is not a child element.
      */
     isSelected : function(item) {
       var button = item.getChildControl("button");
@@ -505,7 +505,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      * Returns all elements which are selectable.
      *
      * @return {qx.ui.tabview.Page[]} The contained items.
-     * @param all {boolean} true for all selectables, false for the
+     * @param all {Boolean} true for all selectables, false for the
      *   selectables the user can interactively select
      */
     getSelectables: function(all) {

@@ -228,7 +228,6 @@ qx.Class.define("qx.bom.Iframe",
     * Remember actual URL of iframe.
     *
     * @param iframe {Element} DOM element of the iframe.
-    * @return {void}
     */
     __rememberUrl: function(iframe)
     {

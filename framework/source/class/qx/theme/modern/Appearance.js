@@ -1797,10 +1797,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var shadow = "tooltip-error";
         if (useCSS) {
            shadow += "-css";
-           if (states.placementLeft) {
-             shadow += "-left";
-           }
         }
+        if (states.placementLeft) {
+          shadow += "-left";
+        }
+
         var decorator = "tooltip-error-arrow";
         if (states.placementLeft) {
           decorator = "tooltip-error-arrow-left";
@@ -1808,6 +1809,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
             decorator += "-css";
           }
         }
+
         // padding
         if (useCSS) {
           if (states.placementLeft) {
@@ -1819,8 +1821,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
           if (states.placementLeft) {
             var padding = [6, 20, 3, 4];
           } else {
-            var padding = [6, 4, 3, -5];
+            var padding = [6, 10, 6, -10];
           }
+        }
+
+        // disable the right arrow in case of non CSS and alpah image loader
+        if (
+          !useCSS &&
+          states.placementLeft &&
+          qx.core.Environment.get("engine.name") == "mshtml" &&
+          qx.core.Environment.get("browser.documentmode") < 9
+        ) {
+          decorator = undefined;
+          padding = [5, 10];
         }
 
         return {

@@ -38,7 +38,7 @@
  * Combination effect "Grow"
  *
  * Resizes the element from initial dimensions to final dimensions.
- * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+ * @deprecated {2.0} Please use qx.bom.element.Animation instead.
  */
 
 qx.Class.define("qx.fx.effect.combination.Grow",
@@ -55,7 +55,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
   /**
    * @param element {Object} The DOM element
-   * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+   * @deprecated {2.0} Please use qx.bom.element.Animation instead.
    */
   construct : function(element)
   {
@@ -78,7 +78,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
     /**
      * Direction in which the element should grow.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     direction :
     {
@@ -88,7 +88,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
     /**
      * Transition function to modify the scaling process.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     scaleTransition :
     {
@@ -100,7 +100,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
     /**
      * Transition function to modify the movement process.
-     * @deprecated since 2.0: Please use qx.bom.element.Animation instead.
+     * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     moveTransition :
     {

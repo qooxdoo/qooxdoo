@@ -84,9 +84,6 @@ qx.Class.define("mobileshowcase.page.Tab",
       tabBar.add(tabButton3);
       tabBar.add(tabButton1);
 
-
-
-
       return tabBar;
     },
 

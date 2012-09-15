@@ -39,7 +39,7 @@
 
 import sys, os, re, string, types, codecs, functools, subprocess as sub
 
-qxversion_regexp = r'[\w\.-]+'  # rough regexp, to capture a qooxdoo version like '1.4.3' or '1.4-pre'
+qxversion_regexp = r'\d+(?:\.\d+)+(?:-\w+)?'  # rough regexp, to capture a qooxdoo version like '1.4.3' or '1.4-pre'
 vMajor_regexp = r'\d+'
 vMinor_regexp = r'[\w-]+'
 vPatch_regexp = r'[\w-]*'
@@ -102,13 +102,22 @@ Files = {
         r'var qxversion = "(%s)"'    % qxversion_regexp
         ],
     "./readme.rst"  : [ 
-        r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp 
+        r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp,
+        r'api.qooxdoo.org/(%s)\b' % qxversion_regexp 
         ],
     "./framework/Manifest.json" : [
         r'"version"\s*:\s*"(%s)"'              % qxversion_regexp,
         r'"qooxdoo-versions"\s*:\s*\["(%s)"\]' % qxversion_regexp,
         ],
     "./documentation/manual/source/conf.py" : [
+        r'^\s*version\s*=\s*[\'"](%s)[\'"]' % qxversion_regexp,
+        r'^\s*release\s*=\s*[\'"](%s)[\'"]' % qxversion_regexp,
+        (r'^\s*vMajor\s*=\s*[\'"](%s)[\'"]' % vMajor_regexp, 0),  # number will be used as an index into vers_parts
+        (r'^\s*vMinor\s*=\s*[\'"](%s)[\'"]' % vMinor_regexp, 1),
+        (r'^\s*vPatch\s*=\s*[\'"](%s)[\'"]' % vPatch_regexp, 2),
+        (r'^\s*git_branch\s*=\s*[\'"](%s)[\'"]' % git_branch_regexp, git_branch),
+        ],
+    "./documentation/tech_manual/source/conf.py" : [
         r'^\s*version\s*=\s*[\'"](%s)[\'"]' % qxversion_regexp,
         r'^\s*release\s*=\s*[\'"](%s)[\'"]' % qxversion_regexp,
         (r'^\s*vMajor\s*=\s*[\'"](%s)[\'"]' % vMajor_regexp, 0),  # number will be used as an index into vers_parts
@@ -124,10 +133,53 @@ Files = {
         ],
     "./component/standalone/server/npm/package.json" : [
         (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        r'"main"\s*:\s*"qx-oo-(%s)"' % qxversion_regexp,
         r'"homepage"\s*:\s*"http://manual.qooxdoo.org/(%s)/pages/core.html"' % qxversion_regexp,
         ],
     "./tool/data/generator/copyright.include.js" : [
         r'qooxdoo v.(%s) \|' % qxversion_regexp,
+        ],
+    "./component/standalone/server/test/rhino.js" : [
+        r'qx-oo-(%s).js' % qxversion_regexp,
+        ],
+    "./component/standalone/server/test/node.js" : [
+        r'qx-oo-(%s).js' % qxversion_regexp,
+        ],
+    "./tool/admin/release/index.html" : [
+        r'qx-oo-(%s).js' % qxversion_regexp,
+        r'qx-oo-(%s).min.js' % qxversion_regexp,
+        r'q-(%s).js' % qxversion_regexp,
+        r'q-(%s).min.js' % qxversion_regexp,
+        r'storage-(%s).js' % qxversion_regexp,
+        r'storage-(%s).require.js' % qxversion_regexp,
+        ],
+    "./component/skeleton/server/readme.txt" : [
+        r'qx-oo-(%s).min.js' % qxversion_regexp,
+        ],
+    "./component/skeleton/website/index.html" : [
+        r'q-(%s).min.js' % qxversion_regexp,
+        ],
+    "./component/skeleton/website/test/index.tmpl.html" : [
+        r'q-(%s).js' % qxversion_regexp,
+        ],
+    "./component/skeleton/website/readme.txt" : [
+        r'q-(%s).js' % qxversion_regexp,
+        r'q-(%s).min.js' % qxversion_regexp,
+        ],
+    "./component/standalone/website/index.html" : [
+        r'q-(%s).min.js' % qxversion_regexp,
+        ],
+    "./component/standalone/website/api/index.html" : [
+        r'q-(%s).min.js' % qxversion_regexp,
+        ],
+    "./component/standalone/website/test/index.html" : [
+        r'q-(%s).min.js' % qxversion_regexp,
+        ],
+    "./application/todo/index.html" : [
+        r'q-(%s).min.js' % qxversion_regexp,
+        ],
+    "./component/tutorials/website/step1/notification.html" : [
+        r'q-(%s).min.js' % qxversion_regexp,
         ],
 }
 

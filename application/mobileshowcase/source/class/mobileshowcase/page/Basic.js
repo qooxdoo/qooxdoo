@@ -31,7 +31,7 @@ qx.Class.define("mobileshowcase.page.Basic",
 
   construct : function()
   {
-    this.base(arguments);
+    this.base(arguments,false);
     this.setTitle("Basic Widgets");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
@@ -109,27 +109,36 @@ qx.Class.define("mobileshowcase.page.Basic",
       exAtomBottom.addCssClass("space-top");
 
       // BUILD VIEW
-      this.getContent().add(toggleEnableButton);
-      this.getContent().add(toggleLabelWrapButton);
+      
+      var menuGroup = new qx.ui.mobile.form.Group([toggleEnableButton,toggleLabelWrapButton]);
+      this.getContent().add(menuGroup);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Button"));
-      this.getContent().add(exButton);
-
+      var buttonGroup = new qx.ui.mobile.form.Group([exButton],false);
+      this.getContent().add(buttonGroup);
+      
       this.getContent().add(new qx.ui.mobile.form.Title("ToggleButton"));
-      this.getContent().add(exToggleButton);
+      
+      var toggleButtonGroup = new qx.ui.mobile.form.Group;
+      toggleButtonGroup.add(exToggleButton);
+      this.getContent().add(toggleButtonGroup);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Label"));
-
-      this.getContent().add(exLabel);
+      
+      var labelGroup = new qx.ui.mobile.form.Group();
+      labelGroup.add(exLabel);
+      this.getContent().add(labelGroup);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Image"));
-      this.getContent().add(exImage);
+      
+      var imageGroup = new qx.ui.mobile.form.Group;
+      imageGroup.add(exImage);
+      this.getContent().add(imageGroup);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Atoms"));
-      this.getContent().add(exAtomLeft);
-      this.getContent().add(exAtomTop);
-      this.getContent().add(exAtomRight);
-      this.getContent().add(exAtomBottom);
+      
+      var atomGroup = new qx.ui.mobile.form.Group([exAtomLeft,exAtomTop,exAtomRight,exAtomBottom]);
+      this.getContent().add(atomGroup);
     },
 
 

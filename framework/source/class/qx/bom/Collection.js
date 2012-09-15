@@ -205,7 +205,7 @@
    * * <code>length</code>: The initial size of the collection of elements.
    * * <code>elem1, elem2. .. elemN</code>:  the elements that will compose the newly created collection
    *
-   * @param length_or_items {Integer|varargs?null} The initial size of the collection
+   * @param length_or_items {Integer|var?null} The initial size of the collection
    *        OR an argument list of elements.
    */
   construct : function(length_or_items) {

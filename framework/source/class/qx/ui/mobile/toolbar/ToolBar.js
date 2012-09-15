@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
     /**
       * Adds a new child widget.
       *
-      * @param child {Widget} the widget to add.
+      * @param child {qx.ui.mobile.core.Widget} the widget to add.
       * @param layoutProperties {Map?null} Optional layout data for widget.
       */
     add : function(child, layoutProperties)
@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
       if(!(child instanceof qx.ui.mobile.toolbar.Separator))
       {
         layoutProperties = layoutProperties ? layoutProperties : {};
-        qx.lang.Object.carefullyMergeWith(layoutProperties, {flex: 1});
+        qx.lang.Object.mergeWith(layoutProperties, {flex: 1}, false);
       }
       this.base(arguments, child, layoutProperties);
     }

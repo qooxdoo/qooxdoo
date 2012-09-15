@@ -237,7 +237,6 @@ qx.Class.define("qx.ui.layout.Flow",
      *
      * @param availWidth {Integer} Final width available for the content (in pixel)
      * @param availHeight {Integer} Final height available for the content (in pixel)
-     * @return {void}
      */
     renderLayout : function(availWidth, availHeight)
     {

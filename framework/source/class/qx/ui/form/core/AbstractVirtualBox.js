@@ -330,7 +330,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
      * <code>Alt</code>.
      *
      * @param event {qx.event.type.KeySequence} The keyboard event.
-     * @return {Boolen} <code>True</code> when a modifier key is pressed,
+     * @return {Boolean} <code>True</code> when a modifier key is pressed,
      *   <code>false</code> otherwise.
      */
     _isModifierPressed : function(event)

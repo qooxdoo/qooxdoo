@@ -111,7 +111,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      *
      * @param keyIdentifier {String} The key identifier.
      * @return {Boolean} whether the given string is a valid keyIdentifier
-     * @deprecated since 2.0
+     * @deprecated {2.0}
      */
     isValidKeyIdentifier : function(keyIdentifier)
     {
@@ -126,7 +126,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      *
      * @param keyIdentifier {String} The key identifier.
      * @return {Boolean} whether the given string is a printable keyIdentifier.
-     * @deprecated since 2.0
+     * @deprecated {2.0}
      */
     isPrintableKeyIdentifier : function(keyIdentifier)
     {
@@ -289,7 +289,6 @@ qx.Class.define("qx.event.handler.Keyboard",
      * Initializes the native key event listeners.
      *
      * @signature function()
-     * @return {void}
      */
     _initKeyObserver : function()
     {
@@ -308,7 +307,6 @@ qx.Class.define("qx.event.handler.Keyboard",
      * Stops the native key event listeners.
      *
      * @signature function()
-     * @return {void}
      */
     _stopKeyObserver : function()
     {
@@ -609,7 +607,6 @@ qx.Class.define("qx.event.handler.Keyboard",
      * @param charCode {String} character code
      * @param eventType {String} type of the event (keydown, keypress, keyup)
      * @param domEvent {Element} DomEvent
-     * @return {void}
      */
     _idealKeyHandler : function(keyCode, charCode, eventType, domEvent)
     {
@@ -681,7 +678,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      *
      * @param keyCode {String} key code to check.
      * @return {Boolean} Whether the keyCode represents a non printable key.
-     * @deprecated since 2.0
+     * @deprecated {2.0}
      */
     _isNonPrintableKeyCode : function(keyCode) {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee,
@@ -695,7 +692,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      *
      * @param keyCode {String} key code to check.
      * @return {Boolean} Whether the keycode can be reliably detected in keyup/keydown events.
-     * @deprecated since 2.0
+     * @deprecated {2.0}
      */
     _isIdentifiableKeyCode : function(keyCode)
     {
@@ -710,7 +707,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      *
      * @param keyCode {Integer} key code
      * @return {String} key identifier
-     * @deprecated since 2.0
+     * @deprecated {2.0}
      */
     _keyCodeToIdentifier : function(keyCode)
     {
@@ -725,7 +722,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      *
      * @param charCode {String} character code
      * @return {String} key identifier
-     * @deprecated since 2.0
+     * @deprecated {2.0}
      */
     _charCodeToIdentifier : function(charCode) {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee,

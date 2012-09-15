@@ -4,23 +4,32 @@
 
 ul.form {
   margin-bottom: 10px;
+  background-color:transparent;
+  border:none;
 }
 
-ul.form li {
-  padding: 10px 10px 10px 10px;
+
+ul.form li.formSeparationRow:last-child {
+  background-color:transparent;
+  margin-bottom:0px;
 }
 
 ul.form ul li.error {
-    border: 2px solid red;
+  border: 2px solid red;
 }
 
 ul.form li.error + li.error {
-    border-top: 0;
+  border-top: 0;
 }
 
 ul.form li * {
-    white-space: normal;
-    text-overflow: ellipsis;
+  white-space: normal;
+  text-overflow: ellipsis;
+}
+
+ul.form input[type="text"]:not(.selectbox), ul.form input[type="number"], ul.form input[type="password"] {
+  display:block;
+  width:50%;
 }
 
 input[type="text"]:not(.selectbox),input[type="number"], input[type="password"], textarea {
@@ -60,6 +69,31 @@ textarea {
   padding-top:4px;
 }
 
+//
+// RENDERING
+//
+
 .formElementError {
   color: red;
+  text-align:right;
+   border-top:0;
+  padding: 0px 10px 10px 10px;
 }
+
+.formSeparationRow, .formRowGroupHeader, .formRowGroupFooter {
+  padding:0px;
+}
+
+.formSeparationRow {
+  height:1px;
+}
+
+.formRowContent {
+  border-top:0;
+  padding: 10px 10px 10px 10px;
+}
+
+.formRowContent + .formRowContent {
+  padding-top:0px;
+}
+

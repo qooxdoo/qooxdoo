@@ -260,7 +260,7 @@ qx.Class.define("apiviewer.ui.SearchView",
     _searchResult : function(svalue)
     {
       // Trim search string
-      var svalue = qx.lang.String.trim(svalue);
+      var svalue = svalue.trim();
 
       // Hide the note if text is typed into to search field.
       //      if (svalue.length > 0) {
@@ -374,7 +374,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       var fullNames = this.apiindex.__fullNames__;
       var types = this.apiindex.__types__;
 
-      var namespaceFilter = this.namespaceTextField.getValue() != null ? qx.lang.String.trim(this.namespaceTextField.getValue()) : "";
+      var namespaceFilter = this.namespaceTextField.getValue() != null ? this.namespaceTextField.getValue().trim() : "";
       var namespaceRegexp = new RegExp(".*");
       if(namespaceFilter.length > 0)
       {
@@ -629,7 +629,7 @@ qx.Class.define("apiviewer.ui.SearchView",
     __handleNote : function(e)
     {
       if (this.__note) {
-        if (qx.lang.String.trim(this.sinput.getValue() || "").length == 0) {
+        if ((this.sinput.getValue() || "").trim().length == 0) {
           this.__note.show();
         }
       } else {

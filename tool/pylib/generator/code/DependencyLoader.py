@@ -293,9 +293,9 @@ class DependencyLoader(object):
                 continue # not interested in bare class names
             classnamespace = classid[:nsindex]
             ignored_names.add(classnamespace)
-        for dep in warn_deps:
-            if dep.name not in ignored_names:
-                self._console.warn("Hint: Unknown global symbol referenced: %s (%s:%s)" % (dep.name, dep.requestor, dep.line))
+        #for dep in warn_deps:
+        #    if dep.name not in ignored_names:
+        #        self._console.warn("Hint: Unknown global symbol referenced: %s (%s:%s)" % (dep.name, dep.requestor, dep.line))
 
 
         return result

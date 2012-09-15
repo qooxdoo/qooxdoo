@@ -424,7 +424,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
       }
 
       var appearance = this.getAppearance();
-      var statesKey = appearance + "-" + qx.lang.Object.getKeys(states).sort().join(" ");
+      var statesKey = appearance + "-" + Object.keys(states).sort().join(" ");
       if (this.__statesKey == statesKey) {
         return;
       }

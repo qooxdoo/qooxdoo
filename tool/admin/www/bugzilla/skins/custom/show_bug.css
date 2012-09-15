@@ -1,0 +1,12 @@
+/*
+ * Custom rules for show_bug.css.
+ * The rules you put here override rules in that stylesheet.
+ */
+
+.bz_bug .edit_form .text_input {
+   min-width: 17em;
+}
+
+.bz_alias_short_desc_container {
+  border-radius: 0;
+}

@@ -36,7 +36,6 @@ qx.Class.define("qx.ui.table.pane.Clipper",
      * Scrolls the element's content to the given left coordinate
      *
      * @param value {Integer} The vertical position to scroll to.
-     * @return {void}
      */
     scrollToX : function(value) {
       this.getContentElement().scrollToX(value, false);
@@ -47,7 +46,6 @@ qx.Class.define("qx.ui.table.pane.Clipper",
      * Scrolls the element's content to the given top coordinate
      *
      * @param value {Integer} The horizontal position to scroll to.
-     * @return {void}
      */
     scrollToY : function(value) {
       this.getContentElement().scrollToY(value, true);

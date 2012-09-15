@@ -31,7 +31,7 @@ qx.Class.define("qx.util.Permutation",
      */
     permute : function(options, callback, context)
     {
-      var keys = qx.lang.Object.getKeys(options);
+      var keys = Object.keys(options);
 
       // init
       var map = {};

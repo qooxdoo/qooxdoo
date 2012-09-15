@@ -203,10 +203,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      * @param column {Integer}
      *   The column number for which the cell renderer applies
      *
-     * @param renderer {@link qx.ui.progressive.renderer.table.cell.Abstract}
+     * @param renderer {qx.ui.progressive.renderer.table.cell.Abstract}
      *   The cell renderer for the specified column.
      *
-     * @return {void}
      */
     addRenderer : function(column, renderer)
     {
@@ -229,7 +228,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      * @param column {Integer}
      *   The column for which the cell renderer is to be removed.
      *
-     * @return {void}
      */
     removeRenderer : function(column)
     {
@@ -396,14 +394,13 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      * @param e {qx.event.type.Event}
      *   Ignored
      *
-     * @return {void}
      */
     _resizeColumns : function(e)
     {
       var pane = this.__progressive.getStructure().getPane();
 
       var width =
-        pane.getBounds().width - qx.bom.element.Overflow.getScrollbarWidth();
+        pane.getBounds().width - qx.bom.element.Scroll.getScrollbarWidth();
 
       // Get the style sheet rule name for this row
       var stylesheet = ".qx-progressive-" + this.__hash + "-row";

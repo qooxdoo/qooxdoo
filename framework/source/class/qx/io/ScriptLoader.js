@@ -76,7 +76,6 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
      * @param url {String} URL of the script
      * @param callback {Function} Callback to execute
      * @param context {Object?window} Context in which the function should be executed
-     * @return {void}
      */
     load : function(url, callback, context)
     {
@@ -136,7 +135,6 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
     /**
      * Aborts a currently running process.
      *
-     * @return {void}
      */
     abort : function()
     {
@@ -151,7 +149,6 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
      * or failed loading attempt.
      *
      * @param status {String} Any of success, fail or abort.
-     * @return {void}
      */
     dispose : function(status)
     {

@@ -75,7 +75,7 @@ qx.Class.define("showcase.Page",
   {
     load : function(callback, context)
     {
-      var callback = callback || qx.lang.Function.empty;
+      var callback = callback || (function() {});
       var context = context || this;
 
       var state = this.getReadyState();

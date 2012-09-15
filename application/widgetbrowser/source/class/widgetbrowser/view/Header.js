@@ -51,7 +51,7 @@ qx.Class.define("widgetbrowser.view.Header",
     // Build select-box
     var select = new qx.ui.form.SelectBox("Theme");
     qx.core.Init.getApplication().getThemes().forEach(function(theme) {
-      var name = qx.Bootstrap.getKeys(theme)[0];
+      var name = Object.keys(theme)[0];
       var item = new qx.ui.form.ListItem(name + " Theme");
       item.setUserData("value", theme[name]);
       select.add(item);

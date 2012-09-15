@@ -1,78 +1,32 @@
 {
-  "name"    : "todo",
+    "name"    : "todo_q",
 
   "include" :
   [
     {
-      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+      "path" : "${WEBSITE}/website.json"
     }
   ],
 
   "export" :
   [
-    "api",
-    "api-data",
-    "build",
-    "clean",
-    "distclean",
-    "fix",
-    "info",
-    "lint",
-    "migration",
-    "pretty",
-    "profiling",
-    "source",
-    "source-all",
-    "source-hybrid",
-    "test",
-    "test-source",
-    "translation"
+    "build-min"
   ],
-  
-  "default-job" : "source",
 
-  "let" :
-  {
-    "APPLICATION"  : "todo",
-    "QOOXDOO_PATH" : "../..",
-    "API_EXCLUDE"  : ["qx.test.*"],
-    "LOCALES"      : [ "en" ],
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "ROOT"         : "."
-  },
+  "default-job" : "build-min",
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["source-all-script", "common", "translation"]
+    "job-shadowing" : ["api"] 
   },
 
-  "jobs" :
+  "let" :
   {
-    "common" :
-    {
-      "=include" :
-      [
-        "${APPLICATION}.Application"
-      ],
-      
-      "=environment" :
-      {
-        "qx.version"     : "1.6",
-        "qx.application" : "${APPLICATION}.Application"
-      }
-    },
-
-    "source-all-script" :
-    {
-      "=exclude" : 
-      [
-        "qx.test.*"
-      ]
-    }
-
-    ,"translation" :
-    {
-      "translate" : { "poentry-with-occurrences" : false  }
-    }
+    "APPLICATION"  : "todo_q",
+    "QOOXDOO_PATH" : "../..",
+    "WEBSITE"      : "${QOOXDOO_PATH}/component/standalone/website",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "BUILD_PATH"   : "script",
+    "ROOT"         : "."
   }
 }

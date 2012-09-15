@@ -99,7 +99,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
     _animate : function(el, desc, duration, reverse) {
       this.__normalizeDesc(desc);
 
-      // @deprecated since 2.0
+      // @deprecated {2.0}
       if (desc.hasOwnProperty("reverse")) {
         reverse = desc.reverse;
         if (qx.core.Environment.get("qx.debug")) {
@@ -114,6 +114,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
       // debug validation
       if (qx.core.Environment.get("qx.debug")) {
         this.__validateDesc(desc);
+      }
+
+      // reverse the keep property if the animation is reverse as well
+      var keep = desc.keep;
+      if (keep != null && (reverse || (desc.alternate && desc.repeat % 2 == 0))) {
+        keep = 100 - keep;
       }
 
       if (!this.__sheet) {
@@ -134,17 +140,24 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
           duration + "ms " +
           desc.repeat + " " +
           desc.timing + " " +
+          (desc.delay ? desc.delay + "ms " : "") +
           (desc.alternate ? "alternate" : "");
 
-        var eventName = this.__cssAnimationKeys["end-event"];
-        qx.bom.Event.addNativeListener(el, eventName, this.__onAnimationEnd);
+        qx.bom.Event.addNativeListener(el, this.__cssAnimationKeys["start-event"], this.__onAnimationStart);
+        qx.bom.Event.addNativeListener(el, this.__cssAnimationKeys["iteration-event"], this.__onAnimationIteration);
+        qx.bom.Event.addNativeListener(el, this.__cssAnimationKeys["end-event"], this.__onAnimationEnd);
 
         el.style[qx.lang.String.camelCase(this.__cssAnimationKeys["name"])] = style;
+        // use the fill mode property if available and suitable
+        if (keep && keep == 100 && this.__cssAnimationKeys["fill-mode"]) {
+          el.style[this.__cssAnimationKeys["fill-mode"]] = "forwards";
+        }
       }
 
       var animation = new qx.bom.element.AnimationHandle();
       animation.desc = desc;
       animation.el = el;
+      animation.keep = keep;
       el.$$animation = animation;
 
       // additional transform keys
@@ -160,6 +173,24 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
       }
 
       return animation;
+    },
+
+
+    /**
+     * Handler for the animation start.
+     * @param e {Event} The native event from the browser.
+     */
+    __onAnimationStart : function(e) {
+      e.target.$$animation.emit("start", e.target);
+    },
+
+
+    /**
+     * Handler for the animation iteration.
+     * @param e {Event} The native event from the browser.
+     */
+    __onAnimationIteration : function(e) {
+      e.target.$$animation.emit("iteration", e.target);
     },
 
 
@@ -196,9 +227,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         qx.bom.element.Transform.setOrigin(el, "");
       }
 
-      if (desc.keep != null) {
-        qx.bom.element.AnimationCss.__keepFrame(el, desc.keyFrames[desc.keep]);
-      }
+      qx.bom.element.AnimationCss.__keepFrame(el, desc.keyFrames[animation.keep]);
 
       el.$$animation = null;
       animation.el = null;
@@ -269,9 +298,9 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
     __validateDesc : qx.core.Environment.select("qx.debug", {
       "true" : function(desc) {
         var possibleKeys = [
-          "origin", "duration", "keep", "keyFrames",
+          "origin", "duration", "keep", "keyFrames", "delay",
           "repeat", "timing", "alternate", "reverse"
-          //@deprecated since 2.0 (reverse key)
+          //@deprecated {2.0} (reverse key)
         ];
 
         // check for unknown keys

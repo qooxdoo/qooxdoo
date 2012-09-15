@@ -67,6 +67,7 @@ qxmacros = {
    ,"Desktop"  : "qx.Desktop"
    ,"Mobile"   : "qx.Mobile"
    ,"Q"        : "q"
+   ,"bug"      : "http://bugzilla.qooxdoo.org/show_bug.cgi?id="
    # following are some technical values about qooxdoo that might need adaption
    # from time to time (not necessarily with every release)
    ,"sdk_unpacked" : "110"   # disk requirements for unpacked SDK, in MB

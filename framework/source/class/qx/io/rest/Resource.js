@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Client-side wrapper of a REST resource.
  *
  * Each instance represents a resource in terms of REST. A number of actions
@@ -46,11 +44,20 @@
  * <pre class="javascript">
  * var description = {
  *  "get": { method: "GET", url: "/photo/{id}" },
- *  "put": { method: "PUT", url: "/photo/{id}"}
+ *  "put": { method: "PUT", url: "/photo/{id}"},
+ *  "post": { method: "POST", url: "/photos/"}
  * };
  * var photo = new qx.io.rest.Resource(description);
- * photo.get({id: 1}); // Can also be written: photo.invoke("get", {id: 1});
- * photo.put({id: 1}, {title: "Monkey"}); // Additionally sets request data
+ * // Can also be written: photo.invoke("get", {id: 1});
+ * photo.get({id: 1});
+ * 
+ * // Additionally sets request data 
+ * // In a RESTful environment this creates a new resource with the given 'id'
+ * photo.put({id: 1}, {title: "Monkey"});
+ *
+ * // Additionally sets request data
+ * // In a RESTful environment this adds a new resource to the resource collection 'photos'
+ * photo.post(null, {title: "Monkey"});
  * </pre>
  *
  * To check for existence of URL parameters or constrain them to a certain format, you
@@ -314,7 +321,7 @@ qx.Class.define("qx.io.rest.Resource",
       if (typeof this[action] !== "undefined" && this[action].action !== true) {
 
         // Unless the method is an empty function
-        if (this[action] !== qx.lang.Function.empty) {
+        if (this[action] !== (function() {})) {
           throw new Error("Method with name of action (" +
             action + ") already exists");
         }
@@ -421,7 +428,7 @@ qx.Class.define("qx.io.rest.Resource",
           qx.core.Assert.assertObject(check, "Check must be object with params as keys");
         }
 
-        qx.lang.Object.getKeys(check).forEach(function(param) {
+        Object.keys(check).forEach(function(param) {
 
           // Warn about invalid check
           if (qx.core.Environment.get("qx.debug")) {
@@ -557,10 +564,12 @@ qx.Class.define("qx.io.rest.Resource",
      * @param action {String} Action to poll.
      * @param interval {Number} Interval in ms.
      * @param params {Map?} Map of parameters. See {@link #invoke}.
+     * @param immediately {Boolean?false} <code>true</code>, if the poll should
+     *   invoke a call immediately.
      * @return {qx.event.Timer} Timer that periodically invokes action. Use to
      *  stop or resume. Is automatically disposed on disposal of object.
      */
-    poll: function(action, interval, params) {
+    poll: function(action, interval, params, immediately) {
       // Dispose timer previously created for action
       if (this.__pollTimers[action]) {
         this.__pollTimers[action].dispose();
@@ -572,11 +581,17 @@ qx.Class.define("qx.io.rest.Resource",
       }
 
       // Invoke immediately
-      this.invoke(action, params);
+      if (immediately) {
+        this.invoke(action, params);
+      }
 
       var timer = this.__pollTimers[action] = new qx.event.Timer(interval);
       timer.addListener("interval", function intervalListener() {
         var req = this.__requests[action][0];
+        if (!immediately && !req) {
+          this.invoke(action, params);
+          return;
+        }
         if (req.isDone() || req.isDisposed()) {
           this.refresh(action);
         }
@@ -726,7 +741,7 @@ qx.Class.define("qx.io.rest.Resource",
      * @param description {Map} Map that defines the routes.
      */
     __mapFromDescription: function(description) {
-      qx.lang.Object.getKeys(description).forEach(function(action) {
+      Object.keys(description).forEach(function(action) {
         var route = description[action],
             method = route.method,
             url = route.url,

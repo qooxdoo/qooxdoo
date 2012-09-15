@@ -16,7 +16,9 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-
+/* ************************************************************************
+#require(qx.bom.Stylesheet)
+************************************************************************ */
 /**
  * Responsible for checking all relevant animation properties.
  *
@@ -34,7 +36,10 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      * <ul>
      *  <li><code>name</code> The name of the css animation style</li>
      *  <li><code>play-state</code> The name of the play-state style</li>
+     *  <li><code>start-event</code> The name of the start event</li>
+     *  <li><code>iternation-event</code> The name of the iternation event</li>
      *  <li><code>end-event</code> The name of the end event</li>
+     *  <li><code>fill-mode</code> The fill-mode style</li>
      *  <li><code>keyframes</code> The name of the keyframes selector.</li>
      * </ul>
      *
@@ -48,12 +53,27 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
         return {
           "name" : name,
           "play-state" : qx.bom.client.CssAnimation.getPlayState(),
+          "start-event" : qx.bom.client.CssAnimation.getAnimationStart(),
+          "iteration-event" : qx.bom.client.CssAnimation.getAnimationIteration(),
           "end-event" : qx.bom.client.CssAnimation.getAnimationEnd(),
+          "fill-mode" : qx.bom.client.CssAnimation.getFillMode(),
           "keyframes" : qx.bom.client.CssAnimation.getKeyFrames()
         };
       }
       return null;
     },
+
+
+    /**
+     * Checks for the 'animation-fill-mode' CSS style.
+     * @internal
+     * @return {String|null} The name of the style or null, if the style is
+     *   not supported.
+     */
+    getFillMode : function() {
+      return qx.bom.Style.getPropertyName("AnimationFillMode");
+    },
+
 
 
     /**
@@ -75,6 +95,42 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      */
     getName : function() {
       return qx.bom.Style.getPropertyName("animation");
+    },
+
+
+    /**
+     * Checks for the event name of animation start.
+     * @internal
+     * @return {String} The name of the event.
+     */
+    getAnimationStart : function() {
+      var mapping = {
+        "msAnimation" : "MSAnimationStart",
+        "WebkitAnimation" : "webkitAnimationStart",
+        "MozAnimation" : "animationstart",
+        "OAnimation" : "oAnimationStart",
+        "animation" : "animationstart"
+      }
+
+      return mapping[this.getName()];
+    },
+
+
+    /**
+     * Checks for the event name of animation end.
+     * @internal
+     * @return {String} The name of the event.
+     */
+    getAnimationIteration : function() {
+      var mapping = {
+        "msAnimation" : "MSAnimationIteration",
+        "WebkitAnimation" : "webkitAnimationIteration",
+        "MozAnimation" : "animationiteration",
+        "OAnimation" : "oAnimationIteration",
+        "animation" : "animationiteration"
+      }
+
+      return mapping[this.getName()];
     },
 
 
@@ -124,11 +180,36 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
       };
 
       return null;
+    },
+
+
+    /**
+     * Checks for the requestAnimationFrame method and return the prefixed name.
+     * @internal
+     * @return {String|null} A string the method name or null, if the method
+     *   is not supported.
+     */
+    getRequestAnimationFrame : function() {
+      var choices = [
+        "requestAnimationFrame", 
+        "msRequestAnimationFrame", 
+        "webkitRequestAnimationFrame", 
+        "mozRequestAnimationFrame", 
+        "oRequestAnmiationFrame" // not available currently to I guess the name!
+      ];
+      for (var i=0; i < choices.length; i++) {
+        if (window[choices[i]] != undefined) {
+          return choices[i];
+        }
+      };
+
+      return null;
     }
   },
 
 
   defer : function(statics) {
     qx.core.Environment.add("css.animation", statics.getSupport);
+    qx.core.Environment.add("css.animation.requestframe", statics.getRequestAnimationFrame);
   }
 });

@@ -145,9 +145,9 @@ qx.Class.define("qx.test.core.Object",
       }
 
       var emitter = new qx.test.core.EventEmitterDummy();
-      emitter.addListener("plain", qx.lang.Function.empty);
-      emitter.addListener("error", qx.lang.Function.empty);
-      emitter.addListener("data", qx.lang.Function.empty);
+      emitter.addListener("plain", (function() {}));
+      emitter.addListener("error", (function() {}));
+      emitter.addListener("data", (function() {}));
 
       // store error logger
       var oldError = qx.log.Logger.error;

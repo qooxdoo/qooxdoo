@@ -56,7 +56,26 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
   extend : qx.ui.mobile.page.Page,
   implement : qx.ui.mobile.container.INavigation,
 
+  
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+ 
+  /**
+   * @param wrapContentByGroup {Boolean} Defines whether a group box should wrap the content. This can be used for defining a page margin.
+   * @param layout {qx.ui.mobile.layout.Abstract} The layout of this page.
+   */
+  construct : function(wrapContentByGroup, layout)
+  {
+    this.base(arguments);
 
+    if(wrapContentByGroup != null) {
+      this._wrapContentByGroup = wrapContentByGroup;
+    }
+  },
+  
   /*
   *****************************************************************************
      EVENTS
@@ -174,6 +193,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
   members :
   {
     _isTablet : false,
+    _wrapContentByGroup : true,
     __backButton : null,
     __button : null,
     __content : null,
@@ -252,7 +272,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      * @return {qx.ui.mobile.container.Composite} Creates the right container for the navigation bar.
      */
     _createRightContainer : function() {
-      var layout =new qx.ui.mobile.layout.HBox();
+      var layout = new qx.ui.mobile.layout.HBox();
       var container = new qx.ui.mobile.container.Composite(layout);
       container.addCssClass("right-container");
       this.__button = this._createButton();
@@ -301,6 +321,24 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     scrollTo : function(x, y, time)
     {
       this.__scrollContainer.scrollTo(x, y, time);
+    },
+    
+    
+    /**
+    * Scrolls the wrapper contents to the widgets coordinates in a given
+    * period.
+    *
+    * @param widget {qx.ui.mobile.core.Widget} the widget, the scroll container should scroll to.
+    * @param time {Integer} Time slice in which scrolling should
+    *              be done.
+    *
+    */
+    scrollToWidget : function(widget, time)
+    {
+      if(widget) {
+        var widgetId = "#"+widget.getId();
+        this.__scrollContainer.scrollToElement(widgetId, time);
+      }
     },
 
 
@@ -455,7 +493,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     _initialize : function()
     {
       this.base(arguments);
-
+      
       this.__scrollContainer = this._createScrollContainer();
       this.__content = this._createContent();
 
@@ -475,7 +513,18 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      */
     _createScrollContainer : function()
     {
-      return new qx.ui.mobile.container.Scroll();
+      // If OS is Android and browser is native browser,
+      // quirks mode for Android should be active.
+      // This means that iScroll does not use transform3d, because 
+      // this causes layout problems with input fields.
+      var osName =qx.core.Environment.get("os.name");
+      var isAndroidQuirksMode = (osName =="android");
+      
+      if(isAndroidQuirksMode==true) {
+        return new qx.ui.mobile.container.Scroll(false);
+      } else {
+        return new qx.ui.mobile.container.Scroll();
+      }
     },
 
 
@@ -488,6 +537,11 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     {
       var content = new qx.ui.mobile.container.Composite();
       content.setDefaultCssClass(this.getContentCssClass());
+      
+      if(this._wrapContentByGroup==true) {
+        content.addCssClass("group");
+      }
+      
       return content;
     },
 

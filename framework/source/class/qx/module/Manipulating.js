@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(qx.bom.element.AnimationJs)
+************************************************************************ */
+
 /**
  * DOM manipulation module
  */
@@ -411,23 +415,60 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     },
 
 
+    /** Default animation descriptions for animated scrolling **/
+    _animationDescription: {
+      scrollLeft : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
+        0: {},
+        100: {scrollLeft: 1}
+      }},
+
+      scrollTop : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
+        0: {},
+        100: {scrollTop: 1}
+      }}
+    },
+
+
+    /**
+     * Performs animated scrolling
+     *
+     * @param property {String} Element property to animate: <code>scrollLeft</code>
+     * or <code>scrollTop</code>
+     * @param value {Number} Final scroll position
+     * @param duration {Number} The animation's duration in ms
+     */
+    __animateScroll : function(property, value, duration)
+    {
+      var desc = qx.lang.Object.clone(qx.module.Manipulating._animationDescription[property], true);
+      desc.keyFrames[100][property] = value;
+      return this.animate(desc, duration);
+    },
+
     /**
      * Scrolls the elements of the collection to the given coordinate.
      *
      * @attach{q}
      * @param value {Number} Left scroll position
+     * @param duration {Number?} Optional: Duration in ms for animated scrolling
      * @return {q} The collection for chaining
      */
-    setScrollLeft : function(value)
+    setScrollLeft : function(value, duration)
     {
       var Node = qx.dom.Node;
+
+      if (duration && qx.bom.element && qx.bom.element.AnimationJs) {
+        qx.module.Manipulating.__animateScroll.bind(this, "scrollLeft",
+          value, duration)();
+      }
 
       for (var i=0, l=this.length, obj; i<l; i++)
       {
         obj = this[i];
 
         if (Node.isElement(obj)) {
-          obj.scrollLeft = value;
+          if (!(duration && qx.bom.element && qx.bom.element.AnimationJs)) {
+            obj.scrollLeft = value;
+          }
         } else if (Node.isWindow(obj)) {
           obj.scrollTo(value, this.getScrollTop(obj));
         } else if (Node.isDocument(obj)) {
@@ -444,18 +485,26 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      *
      * @attach{q}
      * @param value {Number} Top scroll position
+     * @param duration {Number?} Optional: Duration in ms for animated scrolling
      * @return {q} The collection for chaining
      */
-    setScrollTop : function(value)
+    setScrollTop : function(value, duration)
     {
       var Node = qx.dom.Node;
+
+      if (duration && qx.bom.element && qx.bom.element.AnimationJs) {
+        qx.module.Manipulating.__animateScroll.bind(this, "scrollTop",
+           value, duration)();
+      }
 
       for (var i=0, l=this.length, obj; i<l; i++)
       {
         obj = this[i];
 
         if (Node.isElement(obj)) {
-          obj.scrollTop = value;
+          if (!(duration && qx.bom.element && qx.bom.element.AnimationJs)) {
+            obj.scrollTop = value;
+          }
         } else if (Node.isWindow(obj)) {
           obj.scrollTo(this.getScrollLeft(obj), value);
         } else if (Node.isDocument(obj)) {

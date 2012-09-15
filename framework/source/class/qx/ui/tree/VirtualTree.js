@@ -919,11 +919,20 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       if (children == null) {
         return visible;
       }
-
+      
+      var delegate = this.getDelegate();
+      if (delegate != null) {
+        var filter = delegate.filter;
+      }
+      
       for (var i = 0; i < children.getLength(); i++)
       {
         var child = children.getItem(i);
-
+        
+        if (filter && !filter(child)) {
+          continue;
+        }
+        
         if (this.isNode(child))
         {
           this.__nestingLevel.push(nestedLevel);

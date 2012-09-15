@@ -134,7 +134,17 @@ qx.Class.define("qx.ui.container.SlideBar",
   },
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
 
+  events :
+  {
+    /** Fired on scroll animation end invoked by 'scroll*' methods. */
+    scrollAnimationEnd : "qx.event.type.Event"
+  },
 
 
   /*
@@ -199,6 +209,7 @@ qx.Class.define("qx.ui.container.SlideBar",
           control.addListener("update", this._onResize, this);
           control.addListener("scrollX", this._onScroll, this);
           control.addListener("scrollY", this._onScroll, this);
+          control.addListener("scrollAnimationEnd", this._onScrollAnimationEnd, this);
           break;
       }
 
@@ -227,15 +238,15 @@ qx.Class.define("qx.ui.container.SlideBar",
      * Scrolls the element's content by the given amount.
      *
      * @param offset {Integer?0} Amount to scroll
-     * @return {void}
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
-    scrollBy : function(offset)
+    scrollBy : function(offset, duration)
     {
       var pane = this.getChildControl("scrollpane");
       if (this.getOrientation() === "horizontal") {
-        pane.scrollByX(offset);
+        pane.scrollByX(offset, duration);
       } else {
-        pane.scrollByY(offset);
+        pane.scrollByY(offset, duration);
       }
     },
 
@@ -244,15 +255,15 @@ qx.Class.define("qx.ui.container.SlideBar",
      * Scrolls the element's content to the given coordinate
      *
      * @param value {Integer} The position to scroll to.
-     * @return {void}
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
-    scrollTo : function(value)
+    scrollTo : function(value, duration)
     {
       var pane = this.getChildControl("scrollpane");
       if (this.getOrientation() === "horizontal") {
-        pane.scrollToX(value);
+        pane.scrollToX(value, duration);
       } else {
-        pane.scrollToY(value);
+        pane.scrollToY(value, duration);
       }
     },
 
@@ -377,12 +388,19 @@ qx.Class.define("qx.ui.container.SlideBar",
 
 
     /**
+     * Handler to fire the 'scrollAnimationEnd' event.
+     */
+    _onScrollAnimationEnd : function() {
+      this.fireEvent("scrollAnimationEnd");
+    },
+
+
+    /**
      * Listener for resize event. This event is fired after the
      * first flush of the element which leads to another queuing
      * when the changes modify the visibility of the scroll buttons.
      *
      * @param e {Event} Event object
-     * @return {void}
      */
     _onResize : function(e)
     {
@@ -410,7 +428,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Scroll handler for left scrolling
      *
-     * @return {void}
      */
     _onExecuteBackward : function() {
       this.scrollBy(-this.getScrollStep());
@@ -420,7 +437,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Scroll handler for right scrolling
      *
-     * @return {void}
      */
     _onExecuteForward : function() {
       this.scrollBy(this.getScrollStep());
@@ -489,7 +505,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Show the arrows (Called from resize event)
      *
-     * @return {void}
      */
     _showArrows : function()
     {
@@ -501,7 +516,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Hide the arrows (Called from resize event)
      *
-     * @return {void}
      */
     _hideArrows : function()
     {

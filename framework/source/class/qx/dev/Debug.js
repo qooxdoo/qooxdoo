@@ -39,14 +39,13 @@ qx.Class.define("qx.dev.Debug",
      * @param obj {Object}
      *   The object to be recursively displayed
      *
-     * @param initialMessage {String, null}
+     * @param initialMessage {String|null}
      *   The initial message to be displayed.
      *
      * @param maxLevel {Integer ? 10}
      *   The maximum level of recursion.  Objects beyond this level will not
      *   be displayed.
      *
-     * @return {void}
      */
     debugObject : function(obj, initialMessage, maxLevel)
     {
@@ -65,7 +64,7 @@ qx.Class.define("qx.dev.Debug",
      * @param obj {Object}
      *   The object to be recursively displayed
      *
-     * @param initialMessage {String, null}
+     * @param initialMessage {String|null}
      *   The initial message to be displayed.
      *
      * @param maxLevel {Integer ? 10}
@@ -78,6 +77,8 @@ qx.Class.define("qx.dev.Debug",
      *
      * @return {String}
      *   The string containing the recursive display of the object
+     *
+     * @lint ignoreUnused(prop)
      */
     debugObjectToString : function(obj, initialMessage, maxLevel, bHtml)
     {
@@ -356,7 +357,7 @@ qx.Class.define("qx.dev.Debug",
         this.__nextHashFirst = qx.core.ObjectRegistry.getNextHash();
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     }),
 
 
@@ -435,7 +436,7 @@ qx.Class.define("qx.dev.Debug",
         return undisposedObjects;
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     })
   }
 });

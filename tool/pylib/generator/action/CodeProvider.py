@@ -41,9 +41,9 @@ def runProvider(script, generator):
     _handleResources(script, generator, filtered=False)
     # generate translation and CLDR files
     _handleI18N(script, generator)
+    # writing the dependencies.json is a runLogDependencies job
 
     return
-
 
 
 ##

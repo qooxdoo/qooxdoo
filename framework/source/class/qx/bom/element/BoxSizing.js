@@ -118,7 +118,6 @@ qx.Bootstrap.define("qx.bom.element.BoxSizing",
      *
      * @param element {Element} The element to modify
      * @param value {String} New box sizing value to set
-     * @return {void}
      */
     set : function(element, value)
     {
@@ -144,7 +143,6 @@ qx.Bootstrap.define("qx.bom.element.BoxSizing",
      * Removes the local box sizing applied to the element
      *
      * @param element {Element} The element to modify
-     * @return {void}
      */
     reset : function(element) {
       this.set(element, "");

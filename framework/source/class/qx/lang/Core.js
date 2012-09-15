@@ -18,6 +18,10 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
+/* ************************************************************************
+#require(qx.lang.normalize.Array)
+#require(qx.lang.normalize.Error)
+************************************************************************ */
 
 /**
  * The intention of this class is to add features to native JavaScript
@@ -45,6 +49,8 @@
  * * Array.some()
  * * Array.every()
  * * String.quote()
+ * @deprecated {2.1} please use the native methods or include one of
+ *   the classes out of 'qx.lang.normalize'
  */
 qx.Bootstrap.define("qx.lang.Core",
 {
@@ -187,7 +193,6 @@ qx.Bootstrap.define("qx.lang.Core",
      * @signature function(callback, obj)
      * @param callback {Function} Function to execute for each element.
      * @param obj {Object} Object to use as this when executing callback.
-     * @return {void}
      */
     arrayForEach :
     {
@@ -352,6 +357,7 @@ qx.Bootstrap.define("qx.lang.Core",
      * Natively supported in Gecko since version 1.8.
      * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:some
      *
+     * @signature function(callback, obj)
      * @param callback {Function} Function to test for each element.
      * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
      * @return {Boolean} Returns <code>true</code> whether some element in the
@@ -456,56 +462,18 @@ qx.Bootstrap.define("qx.lang.Core",
       "native" : String.prototype.quote,
 
       "emulated" : function() {
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.Bootstrap.warn(
+            "The polyfill for 'quote' is deprecated. This is not part of the spec." +
+            "Please use 'qx.lang.String.quote()' instead."
+          );
+        }
         return '"' + this.replace(/\\/g, "\\\\").replace(/\"/g, "\\\"") + '"';
       }
     }[String.prototype.quote ? "native" : "emulated"]
   }
 });
 
-/*
----------------------------------------------------------------------------
-  FEATURE EXTENSION OF NATIVE ERROR OBJECT
----------------------------------------------------------------------------
-*/
-
-if (!Error.prototype.toString || Error.prototype.toString() == "[object Error]") {
-  Error.prototype.toString = qx.lang.Core.errorToString;
-}
-
-
-/*
----------------------------------------------------------------------------
-  FEATURE EXTENSION OF NATIVE ARRAY OBJECT
----------------------------------------------------------------------------
-*/
-
-if (!Array.prototype.indexOf) {
-  Array.prototype.indexOf = qx.lang.Core.arrayIndexOf;
-}
-
-if (!Array.prototype.lastIndexOf) {
- Array.prototype.lastIndexOf = qx.lang.Core.arrayLastIndexOf;
-}
-
-if (!Array.prototype.forEach) {
-  Array.prototype.forEach = qx.lang.Core.arrayForEach;
-}
-
-if (!Array.prototype.filter) {
- Array.prototype.filter = qx.lang.Core.arrayFilter;
-}
-
-if (!Array.prototype.map) {
- Array.prototype.map = qx.lang.Core.arrayMap;
-}
-
-if (!Array.prototype.some) {
- Array.prototype.some = qx.lang.Core.arraySome;
-}
-
-if (!Array.prototype.every) {
-  Array.prototype.every = qx.lang.Core.arrayEvery;
-}
 
 
 /*
@@ -516,4 +484,12 @@ if (!Array.prototype.every) {
 
 if (!String.prototype.quote) {
   String.prototype.quote = qx.lang.Core.stringQuote;
+}
+
+
+if (qx.core.Environment.get("qx.debug")) {
+  qx.Bootstrap.warn(
+    "The class '"+ qx.lang.Core +"' is deprecated: " +
+    "Please use the native methods instead."
+  );
 }

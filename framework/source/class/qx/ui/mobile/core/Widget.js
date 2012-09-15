@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     this.base(arguments);
 
     this._setContainerElement(this._createContainerElement());
-
+    
     // Init member variables
 
     this.__children = [];
@@ -732,7 +732,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * @param child {Widget} widget to add
      * @param beforeWidget {Widget} widget before the new widget will be inserted.
      * @param layoutProperties {Map?null} Optional layout data for widget.
-     * @return {void}
      */
     _addBefore : function(child, beforeWidget, layoutProperties)
     {
@@ -864,7 +863,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Internal method. Sets the layout parent.
      *
-     * @param parent {qx.ui.mobile.Widget} The parent widget
+     * @param parent {qx.ui.mobile.core.Widget} The parent widget
      *
      * @internal
      */
@@ -1332,7 +1331,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      *
      * @param properties {Map} The animation properties to set. Key / value pairs.
      *
-     * @return {void}
      */
     show : function(properties) {
       this.__setVisibility("visible", properties);
@@ -1344,7 +1342,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      *
      * @param properties {Map} The animation properties to set. Key / value pairs.
      *
-     * @return {void}
      */
     hide : function(properties) {
       this.__setVisibility("hidden", properties);
@@ -1356,7 +1353,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      *
      * @param properties {Map} The animation properties to set. Key / value pairs.
      *
-     * @return {void}
      */
     exclude : function(properties) {
       this.__setVisibility("excluded", properties);

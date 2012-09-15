@@ -22,9 +22,15 @@
 
 #require(qx.Interface)
 #require(qx.Mixin)
-#require(qx.lang.Core)
 
-#use(qx.lang.Generics)
+#require(qx.lang.normalize.Array)
+#require(qx.lang.normalize.Date)
+#require(qx.lang.normalize.Error)
+#require(qx.lang.normalize.Function)
+#require(qx.lang.normalize.String)
+#require(qx.lang.normalize.Object)
+
+#use(qx.lang.Generics) // deprecated since 2.1
 
 ************************************************************************ */
 
@@ -155,7 +161,7 @@ qx.Bootstrap.define("qx.Class",
     define : function(name, config)
     {
       if (!config) {
-        var config = {};
+        config = {};
       }
 
       // Normalize include to array
@@ -288,7 +294,7 @@ qx.Bootstrap.define("qx.Class",
         } else {
           break;
         }
-      };
+      }
     },
 
 
@@ -426,7 +432,7 @@ qx.Bootstrap.define("qx.Class",
       while (clazz)
       {
         if (clazz.$$properties) {
-          list.push.apply(list, qx.Bootstrap.getKeys(clazz.$$properties));
+          list.push.apply(list, Object.keys(clazz.$$properties));
         }
 
         clazz = clazz.superclass;
@@ -677,7 +683,7 @@ qx.Bootstrap.define("qx.Class",
       if (!this.$$instance)
       {
         this.$$allowconstruct = true;
-        this.$$instance = new this;
+        this.$$instance = new this();
         delete this.$$allowconstruct;
       }
 
@@ -941,7 +947,7 @@ qx.Bootstrap.define("qx.Class",
       }
       else
       {
-        var clazz = {};
+        clazz = {};
 
         if (extend)
         {
@@ -971,7 +977,7 @@ qx.Bootstrap.define("qx.Class",
 
           var key;
 
-          for (var i=0, a=qx.Bootstrap.getKeys(statics), l=a.length; i<l; i++)
+          for (var i=0, a=Object.keys(statics), l=a.length; i<l; i++)
           {
             key = a[i];
             var staticValue = statics[key];
@@ -1149,7 +1155,7 @@ qx.Bootstrap.define("qx.Class",
           if (!qx.core.Environment.get("module.events")) {
             throw new Error("Events module not enabled.");
           }
-          var event = {}
+          var event = {};
           event[config.event] = "qx.event.type.Data";
           this.__addEvents(clazz, event, patch);
         }
@@ -1266,7 +1272,7 @@ qx.Bootstrap.define("qx.Class",
      * @param clazz {Class} clazz to add members to
      * @param members {Map} The map of members to attach
      * @param patch {Boolean ? false} Enable patching of
-     * @param base (Boolean ? true) Attach base flag to mark function as members
+     * @param base {Boolean ? true} Attach base flag to mark function as members
      *     of this class
      * @param wrap {Boolean ? false} Whether the member method should be wrapped.
      *     this is needed to allow base calls in patched mixin members.
@@ -1275,10 +1281,9 @@ qx.Bootstrap.define("qx.Class",
     {
       var proto = clazz.prototype;
       var key, member;
-
       qx.Bootstrap.setDisplayNames(members, clazz.classname + ".prototype");
 
-      for (var i=0, a=qx.Bootstrap.getKeys(members), l=a.length; i<l; i++)
+      for (var i=0, a=Object.keys(members), l=a.length; i<l; i++)
       {
         key = a[i];
         member = members[key];
@@ -1345,7 +1350,7 @@ qx.Bootstrap.define("qx.Class",
           var retval = member.apply(this, arguments);
           member.base = oldBase;
           return retval;
-        }
+        };
       }
       else
       {
@@ -1365,7 +1370,7 @@ qx.Bootstrap.define("qx.Class",
       if (qx.core.Environment.get("qx.debug"))
       {
         if (!clazz || !iface) {
-          throw new Error("Incomplete parameters!")
+          throw new Error("Incomplete parameters!");
         }
 
         // This differs from mixins, we only check if the interface is already
@@ -1405,11 +1410,11 @@ qx.Bootstrap.define("qx.Class",
      */
     __retrospectWrapConstruct : function(clazz)
     {
-      var name = clazz.classname
+      var name = clazz.classname;
       var wrapper = this.__wrapConstructor(clazz, name, clazz.$$classtype);
 
       // copy all keys from the wrapped constructor to the wrapper
-      for (var i=0, a=qx.Bootstrap.getKeys(clazz), l=a.length; i<l; i++)
+      for (var i=0, a=Object.keys(clazz), l=a.length; i<l; i++)
       {
         key = a[i];
         wrapper[key] = clazz[key];
@@ -1420,7 +1425,7 @@ qx.Bootstrap.define("qx.Class",
 
       // fix self references in members
       var members = clazz.prototype;
-      for (var i=0, a=qx.Bootstrap.getKeys(members), l=a.length; i<l; i++)
+      for (var i=0, a=Object.keys(members), l=a.length; i<l; i++)
       {
         key = a[i];
         var method = members[key];
@@ -1476,7 +1481,7 @@ qx.Bootstrap.define("qx.Class",
       if (qx.core.Environment.get("qx.debug"))
       {
         if (!clazz || !mixin) {
-          throw new Error("Incomplete parameters!")
+          throw new Error("Incomplete parameters!");
         }
       }
 

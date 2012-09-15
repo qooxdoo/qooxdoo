@@ -7,7 +7,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2012 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -24,12 +24,16 @@
 ##
 
 import sys, os, re, string, types, codecs
-import simplejson as json
+import simplejson as sjson
+import demjson as djson
 
-dumps = json.dumps
-dump = json.dump
-loads = json.loads
-load = json.load
+dumps = sjson.dumps
+dump = sjson.dump
+#loads = sjson.loads
+loads = djson.decode
+def load(path, **kwargs):
+    s = codecs.open(path, "r", "utf-8").read()
+    return loads(s, **kwargs)
 
 
 ##
@@ -46,10 +50,13 @@ def dumpsPretty(data, **kwargs):
 _eolComment = re.compile(r'(?<![a-zA-Z]:)//.*$', re.M)
 _mulComment = re.compile(r'/\*.*?\*/', re.S)
 
-def loadsStripComments(s, **kwargs):
+def loadsStripComments_1(s, **kwargs):
     b = _eolComment.sub('',s)
     b = _mulComment.sub('',b)
-    return loads(b, **kwargs)
+    return sjson.loads(b, **kwargs)
+
+def loadsStripComments(s, **kwargs):
+    return djson.decode(s, **kwargs)
 
 def loadStripComments(path, **kwargs):
     s = codecs.open(path, "r", "utf-8").read()

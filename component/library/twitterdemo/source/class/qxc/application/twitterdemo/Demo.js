@@ -105,6 +105,23 @@ qx.Class.define("qxc.application.twitterdemo.Demo", {
 
 
 
+       /* ***********************************************
+        * ERROR HANDLING
+        * ********************************************* */
+       var error = new qx.ui.basic.Label("... service unavailable!");
+       error.setTextColor("invalid");
+       error.hide();
+       this.add(error, {left: 290, top: 75});
+
+       // react on error
+       store.addListener("error", function() {
+         error.show();
+         controlsBox.setEnabled(false);
+         list.setEnabled(false);
+         detailsBox.setEnabled(false);
+       }, this);
+
+
       /* ***********************************************
        * DETAIL VIEW
        * ********************************************* */

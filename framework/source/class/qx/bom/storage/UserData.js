@@ -16,6 +16,17 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
+
+/* ************************************************************************
+#require(qx.bom.storage.UserData#getLength)
+#require(qx.bom.storage.UserData#setItem)
+#require(qx.bom.storage.UserData#getItem)
+#require(qx.bom.storage.UserData#removeItem)
+#require(qx.bom.storage.UserData#clear)
+#require(qx.bom.storage.UserData#getKey)
+#require(qx.bom.storage.UserData#forEach)
+************************************************************************ */
+
 /**
  * Fallback storage implementation usable in IE browsers. It is recommended to use
  * these implementation only in IE < 8 because IE >= 8 supports
@@ -115,7 +126,7 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
      * @return {Integer} The length of the storage.
      */
     getLength : function() {
-      return qx.Bootstrap.getKeys(this.__storage).length;
+      return Object.keys(this.__storage).length;
     },
 
 
@@ -214,7 +225,7 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
      * @return {String} The key stored at the given index.
      */
     getKey : function(index) {
-      return qx.Bootstrap.getKeys(this.__storage)[index];
+      return Object.keys(this.__storage)[index];
     },
 
 

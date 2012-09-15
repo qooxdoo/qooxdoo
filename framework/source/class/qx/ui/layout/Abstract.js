@@ -62,7 +62,6 @@ qx.Class.define("qx.ui.layout.Abstract",
      * Invalidate all layout relevant caches. Automatically deletes the size hint.
      *
      * @abstract
-     * @return {void}
      */
     invalidateLayoutCache : function() {
       this.__sizeHint = null;
@@ -75,7 +74,6 @@ qx.Class.define("qx.ui.layout.Abstract",
      * @abstract
      * @param availWidth {Integer} Final width available for the content (in pixel)
      * @param availHeight {Integer} Final height available for the content (in pixel)
-     * @return {void}
      */
     renderLayout : function(availWidth, availHeight) {
       this.warn("Missing renderLayout() implementation!");
@@ -142,7 +140,6 @@ qx.Class.define("qx.ui.layout.Abstract",
      * whenever the layout data of a child is changed. The method should be used
      * to clear any children relevant cached data.
      *
-     * @return {void}
      */
     invalidateChildrenCache : function() {
       this._invalidChildrenCache = true;
@@ -186,7 +183,7 @@ qx.Class.define("qx.ui.layout.Abstract",
     /**
      * Renders a separator between two children
      *
-     * @param separator {Separator} The separator to render
+     * @param separator {Decorator} The separator to render
      * @param bounds {Map} Contains the left and top coordinate and the width and height
      *    of the separator to render.
      */

@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #ignore(qx.bom.element.Style)
+#use(qx.bom.element.AnimationJs#play)
 
 ************************************************************************ */
 
@@ -93,7 +94,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         return;
       }
 
-      // @deprecated since 2.0
+      // @deprecated {2.0}
       if (desc.hasOwnProperty("reverse")) {
         reverse = desc.reverse;
         if (qx.core.Environment.get("qx.debug")) {
@@ -104,6 +105,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
           qx.log.Logger.trace();
         }
       }
+
+      desc = qx.lang.Object.clone(desc, true);
 
       if (duration == undefined) {
         duration = desc.duration;
@@ -118,11 +121,13 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       this.__normalizeKeyFrames(keyFrames, el);
 
       var delta = this.__calculateDelta(steps, stepTime, keys, keyFrames, duration, desc.timing);
+      var handle = new qx.bom.element.AnimationHandle();
+
       if (reverse) {
         delta.reverse();
+        handle.reverse = true;
       }
 
-      var handle = new qx.bom.element.AnimationHandle();
       handle.desc = desc;
       handle.el = el;
       handle.delta = delta;
@@ -134,7 +139,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       handle.initValues = {};
       handle.repeatSteps = this.__applyRepeat(steps, desc.repeat);
 
-      return this.play(handle);
+      var delay = desc.delay || 0;
+      var self = this;
+      window.setTimeout(function() {
+        self.play(handle);
+      }, delay);
+      return handle;
     },
 
 
@@ -164,14 +174,18 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         var frame = keyFrames[percent];
         for (var name in units) {
           if (frame[name] == undefined) {
-            // get the computed style if possible
-            if (window.getComputedStyle) {
-              frame[name] = getComputedStyle(el, null)[name];
+            if (name in el.style) {
+              // get the computed style if possible
+              if (window.getComputedStyle) {
+                frame[name] = getComputedStyle(el, null)[name];
+              } else {
+                frame[name] = el.style[name];
+              }
             } else {
-              frame[name] = el.style[name];
+              frame[name] = el[name];
             }
             // if its a unit we know, set 0 as fallback
-            if (frame[name] == "" && this.__units.indexOf(units[name]) != -1) {
+            if (frame[name] === "" && this.__units.indexOf(units[name]) != -1) {
               frame[name] = "0" + units[name];
             }
           }
@@ -225,7 +239,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
             // calculate every color chanel
             for (var j=0; j < value0.length; j++) {
               var range = value0[j] - value1[j];
-              stepValue[j] = parseInt(value0[j] - range * this.__calculateTiming(timing, i / steps), 10);
+              stepValue[j] = parseInt(value0[j] - range * qx.bom.AnimationFrame.calculateTiming(timing, i / steps), 10);
             };
 
             delta[i][name] = qx.util.ColorUtil.rgbToHexString(stepValue);
@@ -233,7 +247,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
           } else if (!isNaN(parseInt(nItem, 10))) {
             var unit = nItem.substring((parseInt(nItem, 10)+"").length, nItem.length);
             var range = parseFloat(nItem) - parseFloat(last[name]);
-            delta[i][name] = (parseFloat(last[name]) + range * this.__calculateTiming(timing, i / steps)) + unit;
+            delta[i][name] = (parseFloat(last[name]) + range * qx.bom.AnimationFrame.calculateTiming(timing, i / steps)) + unit;
           } else {
             delta[i][name] = last[name] + "";
           }
@@ -255,14 +269,20 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      * @return {qx.bom.element.AnimationHandle} The handle for chaining.
      */
     play : function(handle) {
+      handle.emit("start", handle.el);
       var id = window.setInterval(function() {
         handle.repeatSteps--;
         var values = handle.delta[handle.i % handle.steps];
         // save the init values
-        if (handle.i == 0) {
+        if (handle.i === 0) {
           for (var name in values) {
-            if (handle.initValues[name] == undefined) {
-              if (qx.bom.element.Style) {
+            if (handle.initValues[name] === undefined) {
+              // animate element property
+              if (handle.el[name] !== undefined) {
+                handle.initValues[name] = handle.el[name];
+              }
+              // animate CSS property
+              else if (qx.bom.element.Style) {
                 handle.initValues[name] = qx.bom.element.Style.get(
                   handle.el, qx.lang.String.camelCase(name)
                 );
@@ -277,6 +297,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         handle.i++;
         // iteration condition
         if (handle.i % handle.steps == 0) {
+          handle.emit("iteration", handle.el);
           if (handle.desc.alternate) {
             handle.delta.reverse();
           }
@@ -321,11 +342,22 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       var desc = handle.desc;
       var el = handle.el;
       var initValues = handle.initValues;
-      window.clearInterval(handle.animationId);
+      if (handle.animationId) {
+        window.clearInterval(handle.animationId);
+      }
+
+      // check if animation is already stopped
+      if (el == undefined) {
+        return;
+      }
 
       // if we should keep a frame
-      if (desc.keep != undefined) {
-        this.__applyStyles(el, desc.keyFrames[desc.keep]);
+      var keep = desc.keep;
+      if (keep != undefined) {
+        if (handle.reverse || (desc.alternate && desc.repeat && desc.repeat % 2 == 0)) {
+          keep = 100 - keep;
+        }
+        this.__applyStyles(el, desc.keyFrames[keep]);
       } else {
         this.__applyStyles(el, initValues);
       }
@@ -336,43 +368,6 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       handle.animationId = null;
 
       handle.emit("end", el);
-    },
-
-
-    /**
-     * Calculation of the predefined timing functions. Approximations of the real
-     * bezier curves has ben used for easier calculation. This is good and close
-     * enough for the predefined functions like <code>ease</code> or
-     * <code>linear</code>.
-     *
-     * @param func {String} The defined timing function. One of the following values:
-     *   <code>"ease-in"</code>, <code>"ease-out"</code>, <code>"linear"</code>,
-     *   <code>"ease-in-out"</code>, <code>"ease"</code>.
-     * @param x {Integer} The percent value of the function.
-     */
-    __calculateTiming : function(func, x) {
-      if (func == "ease-in") {
-        var a = [3.1223e-7, 0.0757, 1.2646, -0.167, -0.4387, 0.2654];
-      } else if (func == "ease-out") {
-        var a = [-7.0198e-8, 1.652, -0.551, -0.0458, 0.1255, -0.1807];
-      } else if (func == "linear") {
-        return x;
-      } else if (func == "ease-in-out") {
-        var a = [2.482e-7, -0.2289, 3.3466, -1.0857, -1.7354, 0.7034];
-      } else {
-        // default is 'ease'
-        var a = [-0.0021, 0.2472, 9.8054, -21.6869, 17.7611, -5.1226];
-      }
-
-      // A 6th grade polynom has been used to approximation function
-      // of the original bezier curves  described in the transition spec
-      // http://www.w3.org/TR/css3-transitions/#transition-timing-function_tag
-      // (the same is used for animations as well)
-      var y = 0;
-      for (var i=0; i < a.length; i++) {
-        y += a[i] * Math.pow(x, i);
-      };
-      return y;
     },
 
 
@@ -395,7 +390,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
 
 
     /**
-     * Central method to apply css styles.
+     * Central method to apply css styles and element properties.
      * @param el {Element} The DOM element to apply the styles.
      * @param styles {Map} A map containing styles and values.
      */
@@ -405,6 +400,13 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         if (styles[key] === undefined) {
           continue;
         }
+
+        // apply element property value
+        if (key in el) {
+          el[key] = styles[key];
+          continue;
+        }
+
         var name = qx.lang.String.camelCase(key);
         if (qx.bom.element.Style) {
           qx.bom.element.Style.set(el, name, styles[key]);
@@ -442,7 +444,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      * @return {Array} An orderd list of kyes.
      */
     __getOrderedKeys : function(keyFrames) {
-      var keys = qx.Bootstrap.getKeys(keyFrames);
+      var keys = Object.keys(keyFrames);
       for (var i=0; i < keys.length; i++) {
         keys[i] = parseInt(keys[i], 10);
       };

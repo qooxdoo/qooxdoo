@@ -288,7 +288,6 @@ qx.Class.define("qx.dev.unit.TestResult",
      * @param eventName {String} Name of the event
      * @param exceptions {Error[]} The exception(s), which caused the test to fail
      * @param test {TestSuite|TestFunction} The test
-     * @return {void}
      */
     _createError : function(eventName, exceptions, test)
     {

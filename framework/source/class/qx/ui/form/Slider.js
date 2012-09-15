@@ -115,7 +115,10 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Change event for the value.
      */
-    changeValue: 'qx.event.type.Data'
+    changeValue: 'qx.event.type.Data',
+
+    /** Fired as soon as the slide animation ended. */
+    slideAnimationEnd: 'qx.event.type.Event'
   },
 
 
@@ -252,6 +255,8 @@ qx.Class.define("qx.ui.form.Slider",
     __lastValueEvent: null,
     __dragValue: null,
 
+    __requestId : null,
+
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
@@ -316,7 +321,6 @@ qx.Class.define("qx.ui.form.Slider",
      * Listener of mousewheel event
      *
      * @param e {qx.event.type.Mouse} Incoming event object
-     * @return {void}
      */
     _onMouseWheel : function(e)
     {
@@ -335,7 +339,6 @@ qx.Class.define("qx.ui.form.Slider",
      * Adds support for arrow keys, page up, page down, home and end keys.
      *
      * @param e {qx.event.type.KeySequence} Incoming keypress event
-     * @return {void}
      */
     _onKeyPress : function(e)
     {
@@ -354,19 +357,19 @@ qx.Class.define("qx.ui.form.Slider",
           break;
 
         case "PageDown":
-          this.slidePageForward();
+          this.slidePageForward(100);
           break;
 
         case "PageUp":
-          this.slidePageBack();
+          this.slidePageBack(100);
           break;
 
         case "Home":
-          this.slideToBegin();
+          this.slideToBegin(200);
           break;
 
         case "End":
-          this.slideToEnd();
+          this.slideToEnd(200);
           break;
 
         default:
@@ -382,7 +385,6 @@ qx.Class.define("qx.ui.form.Slider",
      * Listener of mousedown event. Initializes drag or tracking mode.
      *
      * @param e {qx.event.type.Mouse} Incoming event object
-     * @return {void}
      */
     _onMouseDown : function(e)
     {
@@ -459,7 +461,6 @@ qx.Class.define("qx.ui.form.Slider",
      * initialized modes.
      *
      * @param e {qx.event.type.Mouse} Incoming event object
-     * @return {void}
      */
     _onMouseUp : function(e)
     {
@@ -539,7 +540,6 @@ qx.Class.define("qx.ui.form.Slider",
      * Listener of mousemove event for the knob. Only used in drag mode.
      *
      * @param e {qx.event.type.Mouse} Incoming event object
-     * @return {void}
      */
     _onMouseMove : function(e)
     {
@@ -567,7 +567,6 @@ qx.Class.define("qx.ui.form.Slider",
      * in tracking sequences.
      *
      * @param e {qx.event.type.Event} Incoming event object
-     * @return {void}
      */
     _onInterval : function(e)
     {
@@ -596,7 +595,6 @@ qx.Class.define("qx.ui.form.Slider",
      * Listener of resize event for both the slider itself and the knob.
      *
      * @param e {qx.event.type.Data} Incoming event object
-     * @return {void}
      */
     _onUpdate : function(e)
     {
@@ -643,7 +641,6 @@ qx.Class.define("qx.ui.form.Slider",
      * the current mouse position.
      *
      * @param e {qx.event.type.Mouse} Incoming mouse event
-     * @return {void}
      */
     __computeTrackingEnd : function(e)
     {
@@ -764,7 +761,6 @@ qx.Class.define("qx.ui.form.Slider",
      * value. Useful on reflows where the dimensions of the slider
      * itself have been modified.
      *
-     * @return {void}
      */
     _updateKnobPosition : function() {
       this._setKnobPosition(this._valueToPosition(this.getValue()));
@@ -776,7 +772,6 @@ qx.Class.define("qx.ui.form.Slider",
      *
      * @param position {Integer} Any valid position (needs to be
      *   greater or equal than zero)
-     * @return {void}
      */
     _setKnobPosition : function(position)
     {
@@ -787,18 +782,6 @@ qx.Class.define("qx.ui.form.Slider",
       } else {
         container.setStyle("top", position+"px", true);
       }
-
-      // Alternative: Use layout system
-      // Not used because especially in IE7/Firefox2 the
-      // direct element manipulation is a lot faster
-
-      /*
-      if (this.__isHorizontal) {
-        this.getChildControl("knob").setLayoutProperties({left:position});
-      } else {
-        this.getChildControl("knob").setLayoutProperties({top:position});
-      }
-      */
     },
 
 
@@ -806,7 +789,6 @@ qx.Class.define("qx.ui.form.Slider",
      * Reconfigures the size of the knob depending on
      * the optionally defined {@link #knobFactor}.
      *
-     * @return {void}
      */
     _updateKnobSize : function()
     {
@@ -842,28 +824,25 @@ qx.Class.define("qx.ui.form.Slider",
 
     /**
      * Slides backward to the minimum value
-     *
-     * @return {void}
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    slideToBegin : function() {
-      this.slideTo(this.getMinimum());
+    slideToBegin : function(duration) {
+      this.slideTo(this.getMinimum(), duration);
     },
 
 
     /**
      * Slides forward to the maximum value
-     *
-     * @return {void}
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    slideToEnd : function() {
-      this.slideTo(this.getMaximum());
+    slideToEnd : function(duration) {
+      this.slideTo(this.getMaximum(), duration);
     },
 
 
     /**
      * Slides forward (right or bottom depending on orientation)
      *
-     * @return {void}
      */
     slideForward : function() {
       this.slideBy(this.getSingleStep());
@@ -873,7 +852,6 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Slides backward (to left or top depending on orientation)
      *
-     * @return {void}
      */
     slideBack : function() {
       this.slideBy(-this.getSingleStep());
@@ -882,21 +860,19 @@ qx.Class.define("qx.ui.form.Slider",
 
     /**
      * Slides a page forward (to right or bottom depending on orientation)
-     *
-     * @return {void}
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    slidePageForward : function() {
-      this.slideBy(this.getPageStep());
+    slidePageForward : function(duration) {
+      this.slideBy(this.getPageStep(), duration);
     },
 
 
     /**
      * Slides a page backward (to left or top depending on orientation)
-     *
-     * @return {void}
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    slidePageBack : function() {
-      this.slideBy(-this.getPageStep());
+    slidePageBack : function(duration) {
+      this.slideBy(-this.getPageStep(), duration);
     },
 
 
@@ -906,10 +882,10 @@ qx.Class.define("qx.ui.form.Slider",
      * This method works with the value, not with the coordinate.
      *
      * @param offset {Integer} Offset to scroll by
-     * @return {void}
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    slideBy : function(offset) {
-      this.slideTo(this.getValue() + offset);
+    slideBy : function(offset, duration) {
+      this.slideTo(this.getValue() + offset, duration);
     },
 
 
@@ -920,9 +896,9 @@ qx.Class.define("qx.ui.form.Slider",
      *
      * @param value {Integer} Scroll to a value between the defined
      *   minimum and maximum.
-     * @return {void}
+     * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    slideTo : function(value)
+    slideTo : function(value, duration)
     {
       // Bring into allowed range or fix to single step grid
       if (value < this.getMinimum()) {
@@ -933,11 +909,43 @@ qx.Class.define("qx.ui.form.Slider",
         value = this.getMinimum() + Math.round((value - this.getMinimum()) / this.getSingleStep()) * this.getSingleStep()
       }
 
-      // Sync with property
-      this.setValue(value);
+      if (duration) {
+        this.__animateTo(value, duration);
+      } else {
+        // Sync with property directly
+        this.setValue(value);
+      }
     },
 
 
+    /**
+     * Animation helper which takes care of the animated slide.
+     * @param to {Number} The target value.
+     * @param duration {Number} The time in milliseconds the slide to should take.
+     */
+    __animateTo : function(to, duration) {
+      // finish old animation before starting a new one
+      if (this.__requestId) {
+        return;
+      }
+
+      var start = +(new Date());
+      var from = this.getValue();
+
+      var clb = function(time) {
+        // final call
+        if (time >= start + duration) {
+          this.setValue(to);
+          this.__requestId = null;
+          this.fireEvent("slideAnimationEnd");
+        } else {
+          var timePassed = time - start;
+          this.setValue(parseInt(timePassed/duration * (to - from) + from));
+          qx.bom.AnimationFrame.request(clb, this);
+        }
+      };
+      qx.bom.AnimationFrame.request(clb, this);
+    },
 
 
     /*

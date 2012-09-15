@@ -72,7 +72,10 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
   events :
   {
     /** Fired on resize of both the container or the content. */
-    update : "qx.event.type.Event"
+    update : "qx.event.type.Event",
+
+    /** Fired on scroll animation end invoked by 'scroll*' methods. */
+    scrollAnimationEnd : "qx.event.type.Event"
   },
 
 
@@ -117,6 +120,9 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
 
   members :
   {
+    __frame : null,
+
+
     /*
     ---------------------------------------------------------------------------
       CONTENT MANAGEMENT
@@ -128,7 +134,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
      * with the newly given one.
      *
      * @param widget {qx.ui.core.Widget?null} The content widget of the pane
-     * @return {void}
      */
     add : function(widget)
     {
@@ -152,7 +157,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
      * afterwards as only one child is supported by the pane.
      *
      * @param widget {qx.ui.core.Widget?null} The content widget of the pane
-     * @return {void}
      */
     remove : function(widget)
     {
@@ -381,9 +385,9 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
      * Scrolls the element's content to the given left coordinate
      *
      * @param value {Integer} The vertical position to scroll to.
-     * @return {void}
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
-    scrollToX : function(value)
+    scrollToX : function(value, duration)
     {
       var max = this.getScrollMaxX();
 
@@ -393,7 +397,28 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
         value = max;
       }
 
-      this.setScrollX(value);
+      if (duration) {
+        // finish old animation before starting a new one
+        if (this.__frame) {
+          return;
+        }
+
+        var from = this.getScrollX();
+        this.__frame = new qx.bom.AnimationFrame();
+        this.__frame.on("end", function() {
+          this.setScrollX(value);
+          this.__frame = null;
+          this.fireEvent("scrollAnimationEnd");
+        }, this);
+        this.__frame.on("frame", function(timePassed) {
+          var newX = parseInt(timePassed/duration * (value - from) + from);
+          this.setScrollX(newX);
+        }, this);
+        this.__frame.startSequence(duration);
+
+      } else {
+        this.setScrollX(value);
+      }
     },
 
 
@@ -401,9 +426,9 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
      * Scrolls the element's content to the given top coordinate
      *
      * @param value {Integer} The horizontal position to scroll to.
-     * @return {void}
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
-    scrollToY : function(value)
+    scrollToY : function(value, duration)
     {
       var max = this.getScrollMaxY();
 
@@ -413,7 +438,28 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
         value = max;
       }
 
-      this.setScrollY(value);
+      if (duration) {
+        // finish old animation before starting a new one
+        if (this.__frame) {
+          return;
+        }
+
+        var from = this.getScrollY();
+        this.__frame = new qx.bom.AnimationFrame();
+        this.__frame.on("end", function() {
+          this.setScrollY(value);
+          this.__frame = null;
+          this.fireEvent("scrollAnimationEnd");
+        }, this);
+        this.__frame.on("frame", function(timePassed) {
+          var newY = parseInt(timePassed/duration * (value - from) + from);
+          this.setScrollY(newY);
+        }, this);
+        this.__frame.startSequence(duration);
+
+      } else {
+        this.setScrollY(value);
+      }
     },
 
 
@@ -421,10 +467,10 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
      * Scrolls the element's content horizontally by the given amount.
      *
      * @param x {Integer?0} Amount to scroll
-     * @return {void}
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
-    scrollByX : function(x) {
-      this.scrollToX(this.getScrollX() + x);
+    scrollByX : function(x, duration) {
+      this.scrollToX(this.getScrollX() + x, duration);
     },
 
 
@@ -432,10 +478,10 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
      * Scrolls the element's content vertically by the given amount.
      *
      * @param y {Integer?0} Amount to scroll
-     * @return {void}
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
-    scrollByY : function(y) {
-      this.scrollToY(this.getScrollY() + y);
+    scrollByY : function(y, duration) {
+      this.scrollToY(this.getScrollY() + y, duration);
     },
 
 

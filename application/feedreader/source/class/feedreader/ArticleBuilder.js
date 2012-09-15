@@ -19,6 +19,8 @@
 /**
  * This class is a static helper responsible for formating an loaded article
  * model to a HTML output.
+ *
+ * @lint ignoreNoLoopBlock()
  */
 qx.Class.define("feedreader.ArticleBuilder",
 {

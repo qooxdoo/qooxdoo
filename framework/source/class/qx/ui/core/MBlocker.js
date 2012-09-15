@@ -128,7 +128,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
     /**
      * Block direct child widgets with a zIndex below <code>zIndex</code>
      *
-     * @param zIndex {zIndex} All child widgets with a zIndex below this value
+     * @param zIndex {Integer} All child widgets with a zIndex below this value
      *     will be blocked
      */
     blockContent : function(zIndex) {

@@ -31,7 +31,7 @@ qx.Class.define("qx.ui.progressive.renderer.Abstract",
     /**
      * Render the provided element in the renderer's unique way.
      *
-     * @param state {@link qx.ui.progressive.State}
+     * @param state {qx.ui.progressive.State}
      *   Data relevant to the current rendering session.
      *
      * @param element {Object}
@@ -55,7 +55,6 @@ qx.Class.define("qx.ui.progressive.renderer.Abstract",
      *     </dd>
      *   </dl>
      *
-     * @return {void}
      */
     render : function(state, element)
     {

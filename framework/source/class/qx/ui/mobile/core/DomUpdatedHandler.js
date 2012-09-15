@@ -86,7 +86,6 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
      * Informs all handlers. Useful after massive DOM manipulations e.g.
      * through {@link qx.ui.mobile.core.Widget}.
      *
-     * @return {void}
      */
     refresh : function()
     {
@@ -163,7 +162,6 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
      * This method is called by all DOM tree modifying routines
      * to inform the widgets.
      *
-     * @return {void}
      */
     refresh : function()
     {

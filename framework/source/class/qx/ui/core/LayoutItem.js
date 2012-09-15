@@ -609,7 +609,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     /**
      * Computes the size hint of the layout item.
      *
-     * @return The map with the preferred width/height and the allowed
+     * @return {Map} The map with the preferred width/height and the allowed
      *   minimum and maximum values.
      */
     _computeSizeHint : function()
@@ -741,7 +741,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @param top {Integer} top position (relative to the parent)
      * @param width {Integer} width of the layout item
      * @param height {Integer} height of the layout item
-     * @return {void}
      */
     setUserBounds : function(left, top, width, height)
     {
@@ -760,7 +759,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * Clear the user bounds. After this call the layout item is laid out by
      * the layout manager again.
      *
-     * @return {void}
      */
     resetUserBounds : function()
     {
@@ -790,7 +788,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * Stores the given layout properties
      *
      * @param props {Map} Incoming layout property data
-     * @return {void}
      */
     setLayoutProperties : function(props)
     {
@@ -834,7 +831,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
     /**
      * Removes all stored layout properties.
      *
-     * @return {void}
      */
     clearLayoutProperties : function() {
       delete this.__layoutProperties;
@@ -851,7 +847,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * modified widget itself.
      *
      * @param props {Map?null} Optional map of known layout properties
-     * @return {void}
      */
     updateLayoutProperties : function(props)
     {

@@ -7,15 +7,18 @@
 {%- macro breadcrumb() %}
   <a href="http://qooxdoo.org">Home</a>{{ reldelim1 }}
   {%- block rootrellink %}
-    <a href="{{ pathto(master_doc) }}">{{ shorttitle|e }}</a>{{ reldelim1 }}
+    <a href="{{ pathto(master_doc) }}">{{ shorttitle|e }}</a>
   {%- endblock %}
   {%- for parent in parents %}
     {%- if parent.title != "Table of Contents" %}
-    <a href="{{ parent.link|e }}" {% if loop.last %}{{ accesskey("U") }}{% endif %}>{{ parent.title }}</a>
-    {{ reldelim1 }}
+      {{ reldelim1 }}
+      <a href="{{ parent.link|e }}" {% if loop.last %}{{ accesskey("U") }}{% endif %}>{{ parent.title }}</a>
     {%- endif %}
   {%- endfor %}
-  <a href="">{{ title }}</a>
+  {%- if pagename != master_doc %}
+    {{ reldelim1 }}
+    <a href="">{{ title }}</a>
+  {%- endif %}
 {%- endmacro %}
 
 {%- block doctype %}

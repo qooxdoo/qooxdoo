@@ -146,7 +146,7 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
     {
       var Style = qx.bom.element.Style;
 
-      var overflowX = qx.bom.element.Overflow.getX(element);
+      var overflowX = qx.bom.element.Style.get(element, "overflowX");
       var paddingLeft = parseInt(Style.get(element, "paddingLeft")||"0px", 10);
       var paddingRight = parseInt(Style.get(element, "paddingRight")||"0px", 10);
 
@@ -207,7 +207,7 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
     {
       var Style = qx.bom.element.Style;
 
-      var overflowY = qx.bom.element.Overflow.getY(element);
+      var overflowY = qx.bom.element.Style.get(element, "overflowY");
       var paddingTop = parseInt(Style.get(element, "paddingTop")||"0px", 10);
       var paddingBottom = parseInt(Style.get(element, "paddingBottom")||"0px", 10);
 

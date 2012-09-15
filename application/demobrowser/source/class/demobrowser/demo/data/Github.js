@@ -222,6 +222,14 @@ qx.Class.define("github.view.Gist", {
   },
 
   members: {
+    __description : "",
+
+    __gravatar : "",
+
+    __username : "",
+
+    __content : "",
+
     getDescription: function() {
       return this.__description;
     },

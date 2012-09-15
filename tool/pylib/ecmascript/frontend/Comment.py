@@ -23,8 +23,9 @@
 
 import sys, string, re
 
-from ecmascript.frontend import tree
+from ecmascript.frontend import tree, lang
 from generator import Context as context
+from pyparse import pyparsing as py
 from textile import textile
 
 ##
@@ -50,7 +51,7 @@ R_BLOCK_COMMENT_TIGHT_END = re.compile("\S+\*/$")
 R_BLOCK_COMMENT_PURE_START = re.compile("^/\*")
 R_BLOCK_COMMENT_PURE_END = re.compile("\*/$")
 
-R_ATTRIBUTE = re.compile(r'[^{]@(\w+)\b')
+R_ATTRIBUTE = re.compile(r'(?<!{)@(\w+)\b')
 R_JAVADOC_STARS = re.compile(r'^\s*\*')
 
 
@@ -257,116 +258,388 @@ class Comment(object):
         return res
 
 
-    def parse(self, format=True):
-        # print "Parse: " + intext
+    ##
+    # Returns comment attributes ("commentAttributes") for a comment e.g.
+    # 
+    #  /**
+    #   * Checks if a class is compatible to the given mixin (no conflicts)
+    #   *
+    #   * @param mixin {Mixin} mixin to check
+    #   * @param clazz {Class} class to check
+    #   * @throws an exception when the given mixin is incompatible to the class
+    #   * @return {Boolean} true if the mixin is compatible to the given class
+    #   */    
+    #
+    # like this:
+    #  [{'category': 'description',
+    #    'text': u'<p>Checks if a class is compatible to the given mixin (no conflicts)</p>'},
+    #   {'category': u'param',
+    #    'name': u'mixin',
+    #    'text': u'<p>mixin to check</p>',
+    #    'type': [{'dimensions': 0, 'type': u'Mixin'}]},
+    #   {'category': u'param',
+    #    'name': u'clazz',
+    #    'text': u'<p>class to check</p>',
+    #    'type': [{'dimensions': 0, 'type': u'Class'}]},
+    #   {'category': u'throws',
+    #    'text': u'<p>an exception when the given mixin is incompatible to the class</p>'},
+    #   {'category': u'return',
+    #    'text': u'<p>true if the mixin is compatible to the given class</p>',
+    #      'type': [{'dimensions': 0, 'type': u'Boolean'}]}]
+    #
+    def parse(self, format_=True):
 
-        # Strip "/**", "/*!" and "*/"
-        intext = self.string[3:-2]
+        hint_sign = re.compile(r'^\s*@(\w+)')
 
-        # Strip leading stars in every line
-        text = ""
-        for line in intext.split("\n"):
-            text += R_JAVADOC_STARS.sub("", line) + "\n"
+        def remove_decoration(text):
+            # Strip "/**", "/*!" and "*/"
+            intext = self.string[3:-2]
+            # Strip leading stars in every line
+            text = []
+            for line in intext.split("\n"):
+                text.append(R_JAVADOC_STARS.sub("", line))
+            # Autodent
+            text = Text(text).autoOutdent_list()
+            return text
 
-        # Autodent
-        text = Text(text).autoOutdent()
-
-        # Search for attributes
-        desc = { "category" : "description", "text" : "" }
-        attribs = [desc]
-        pos = 0
-
-        while True:
-            # this is necessary to match ^ at the beginning of a line
-            if pos > 0 and  text[pos-1] == "\n": pos -= 1
-            match = R_ATTRIBUTE.search(text, pos)
-
-            if match == None:
-                prevText = text[pos:].rstrip()
-
-                if len(attribs) == 0:
-                    desc["text"] = prevText
+        def lines_to_sections(comment_lines):
+            # compact sections
+            section_lines = ['']  # add a fake empty description
+            in_hint = 0
+            for line in comment_lines:
+                if hint_sign.search(line):
+                    section_lines.append(line)  # new section
+                    in_hint = 1
+                elif in_hint:
+                    line = line.strip()
+                    section_lines[-1] += ' ' + line # concat to previous
                 else:
-                    attribs[-1]["text"] = prevText
+                    section_lines[-1] += '\n' + line # concat to previous
+            return section_lines
 
-                break
+        def getOpts():
+            class COpts(object): pass
+            opts = COpts()
+            opts.warn_unknown_jsdoc_keys = context.jobconf.get("lint-check/warn-unknown-jsdoc-keys", [None])
+            opts.warn_jsdoc_key_syntax = context.jobconf.get("lint-check/warn-jsdoc-key-syntax", True)
+            return opts
 
-            prevText = text[pos:match.start(0)].rstrip()
-            pos = match.end(0)
+        # ----------------------------------------------------------------------
 
-            if len(attribs) == 0:
-                desc["text"] = prevText
+        opts = getOpts()
+
+        # remove '*' etc.
+        comment_lines = remove_decoration(self.string)
+
+        # turn into one line for each: description, @hint1, @hint2, ...
+        section_lines = lines_to_sections(comment_lines)
+
+        attribs = []
+        for line in section_lines:
+            mo = hint_sign.search(line)
+            # @<hint> entry
+            if mo:
+                hint_key = mo.group(1)
+                # specific parsing
+                if hasattr(self, "parse_at_"+hint_key):
+                    try:
+                        entry = getattr(self, "parse_at_"+hint_key)(line)
+                    except py.ParseException, e:
+                        if opts.warn_jsdoc_key_syntax:
+                            context.console.warn("Unable to parse '@%s' JSDoc entry: %s" % (hint_key,line))
+                        continue
+                elif hint_key in ( # temporarily, to see what we have in the framework
+                        'protected', # ?
+                    ):
+                    continue
+                # known tag with default parsing
+                elif hint_key in (
+                        'abstract', # @abstract; pend. bug#6738
+                        'tag',  # @tag foo; in Demobrowser
+                    ):
+                    entry = self.parse_at__default_(line)
+                # unknown tag
+                else:
+                    #raise Exception("Unknown '@' hint in JSDoc comment: " + hint_key)
+                    if opts.warn_unknown_jsdoc_keys==[] or hint_key in opts.warn_unknown_jsdoc_keys:
+                        context.console.warn("Unknown '@' hint in JSDoc comment: " + hint_key)
+                    entry = self.parse_at__default_(line)
+                attribs.append(entry)
+            # description
             else:
-                attribs[-1]["text"] = prevText
+                attribs.append({
+                   "category" : "description", 
+                   "text" : line.strip()
+                })
 
-            attribs.append({ "category" : match.group(1), "text" : "" })
-
-        # parse details
-        for attrib in attribs:
-            self.parseDetail(attrib, format)
-
+        # format texts
+        for entry in attribs:
+            if 'text' in entry and len(entry['text'])>0:
+                if format_:
+                    entry["text"] = self.formatText(entry["text"])
+                else:
+                    entry["text"] = self.cleanupText(entry["text"])
+ 
+        #from pprint import pprint
+        #pprint( attribs)
         return attribs
 
 
-    def parseDetail(self, attrib, format=True):
-        text = attrib["text"]
+    gr_at__default_ = ( py.Suppress('@') + py.Word(py.alphas)('category') + py.restOfLine("text") )
+    ##
+    # "@<hint> text" 
+    def parse_at__default_(self, line):
+        grammar = self.gr_at__default_
+        presult = grammar.parseString(line)
+        res = {
+            'category' : presult.category,
+            'text' : presult.text.strip(),
+        }
+        return res
 
-        if attrib["category"] in ["param", "event", "see", "state", "appearance", "childControl"]:
-            match = R_NAMED_TYPE.search(text)
-        else:
-            match = R_SIMPLE_TYPE.search(text)
+    # the next would be close to the spec (but huge!)
+    #identi = py.Word(u''.join(lang.IDENTIFIER_CHARS_START), u''.join(lang.IDENTIFIER_CHARS_BODY))
+    # but using regex, to be consistent with the parser
+    py_js_identifier = py.Regex(lang.IDENTIFIER_REGEXP)
 
-        if match:
-            text = text[match.end(0):]
+    py_simple_type = py.Suppress('{') + py_js_identifier.copy()('type_name') + py.Suppress('}')
 
-            if attrib["category"] in ["param", "event", "see", "state", "appearance", "childControl"]:
-                attrib["name"] = match.group(1)
-                #print ">>> NAME: %s" % match.group(1)
-                remain = match.group(3)
+    py_single_type = py_js_identifier.copy().setResultsName('type_name') + \
+        py.ZeroOrMore('[]').setResultsName('type_dimensions')
+
+    # mirror: {Foo|Bar? 34}
+    py_type_expression = py.Suppress('{') + py.Optional(
+            py.delimitedList(py_single_type, delim='|')("texp_types") +  # Foo|Bar
+            py.Optional(py.Literal('?')("texp_optional") +               # ?
+                py.Optional(py.Regex(r'[^}]+'))("texp_defval"))           # 34
+        ) + py.Suppress('}')
+
+    ##
+    # "@type {Map}
+    gr_at_type = py.Suppress('@') + py.Literal('type') + py_simple_type
+    def parse_at_type(self, line):
+        grammar = self.gr_at_type
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'type',
+            'type' : presult.type_name,
+        }
+        return res
+
+    ##
+    # "@ignore(foo,bar)"
+    gr_at_ignore = ( py.Suppress('@') + py.Literal('ignore') + py.Suppress('(') + 
+        py.delimitedList(py_js_identifier)('arguments') + py.Suppress(')') )
+    def parse_at_ignore(self, line):
+        grammar = self.gr_at_ignore
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'ignore',
+            'arguments': presult.arguments.asList()  # 'arguments'=(['foo','bar'],{})!?
+        }
+        return res
+
+    ##
+    # "@return {Type} msg"
+    gr_at_return = ( py.Suppress('@') + py.Literal('return')  + 
+        py.Optional(py_type_expression.copy())("type") +   # TODO: remove leading py.Optional
+        py.restOfLine("text") )
+    def parse_at_return(self, line):
+        grammar = self.gr_at_return
+        presult = grammar.parseString(line)
+        types = self._typedim_list_to_typemaps(presult.texp_types.asList() if presult.texp_types else [])
+        res = {
+            'category' : 'return',
+            'type' : types,  #  [{'dimensions': 0, 'type': u'Boolean'}]
+            'text' : presult.text.strip()
+        }
+        return res
+        
+    ##
+    # "@internal"
+    def parse_at_internal(self, line):
+        res = {
+            'category' : 'internal',
+        }
+        return res
+
+    ##
+    # "@deprecated {2.1} use X instead"
+    gr_at_deprecated = ( py.Suppress('@') + py.Literal('deprecated') + 
+        py.QuotedString('{', endQuoteChar='}', unquoteResults=True)("since") + py.restOfLine("text") )
+    def parse_at_deprecated(self, line):
+        grammar = self.gr_at_deprecated
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'deprecated',
+            'since' : presult.since,
+            'text' : presult.text.strip()
+        }
+        return res
+
+    ##
+    # "@throws text"
+    gr_at_throws = ( py.Suppress('@') + py.Literal('throws') + 
+       py.Suppress('{') + py_js_identifier.copy()('exception_type') +
+       py.Suppress('}') + py.restOfLine("text") )
+    def parse_at_throws(self, line):
+        grammar = self.gr_at_throws
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'throws',
+            'type' : presult.exception_type,
+            'text' : presult.text.strip()
+        }
+        return res
+        
+    def _typedim_list_to_typemaps(self, typedim_list):
+        types = []
+        for el in typedim_list: # e.g. ['String', '[]', 'Integer', '[]', '[]']
+            if el != '[]':  # a type name
+                types.append ({'type': el, 'dimensions': 0})
             else:
-                remain = match.group(2)
+                types[-1]['dimensions'] += 1
+        return types
 
-            if remain != None:
-                if attrib["category"] in ("attach", "attachStatic"):
-                    defIndex = remain.find(",")
-                    if defIndex == -1:  # @attach {q}
-                        attrib["targetClass"] = remain.strip()
-                        attrib["targetMethod"] = ""
-                    else:              # @attach {q,m}
-                        attrib["targetClass"] = remain[:defIndex].strip()
-                        attrib["targetMethod"] = remain[defIndex+1:].strip()
-                else:
-                    defIndex = remain.rfind("?")
-                    if defIndex != -1:
-                        attrib["defaultValue"] = remain[defIndex+1:].strip()
-                        remain = remain[0:defIndex].strip()
-                        #print ">>> DEFAULT: %s" % attrib["defaultValue"]
+    gr_at_param = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
+            py_js_identifier.copy()("name") + 
+            py_type_expression + 
+            py.restOfLine("text") )
+    ##
+    # @param foo {Type} text"
+    def parse_at_param(self, line):
+        grammar = self.gr_at_param
+        presult = grammar.parseString(line)
+        types = self._typedim_list_to_typemaps(presult.texp_types.asList() if presult.texp_types else [])
+        res = {
+            'category' : presult.category,
+            'name' : presult.name,
+            'type' : types, # [{'dimensions': 0, 'type': u'Boolean'}]
+            'text' : presult.text.strip()
+        }
+        return res
+        
+    gr_at_childControl = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
+        py.Regex(r'\S+')("name") +   # accept "-" for childControl names
+        py_type_expression + 
+        py.restOfLine("text"))
+    ##
+    # "@childControl foo-bar {Type} text"
+    #
+    # (The only difference to parse_at_param is that <name> can be an arbitrary string
+    # (e.g. containing "-")).
+    def parse_at_childControl(self, line):
+        grammar = self.gr_at_childControl
+        presult = grammar.parseString(line)
+        types = self._typedim_list_to_typemaps(presult.texp_types.asList() if presult.texp_types else [])
+        res = {
+            'category' : presult.category,
+            'name' : presult.name,
+            'type' : types, # [{'dimensions': 0, 'type': u'Boolean'}]
+            'text' : presult.text.strip()
+        }
+        return res
+        
+    gr_at_see = ( py.Suppress('@') + py.Literal('see') + py.Regex(r'\S+')("name") + 
+        py.Optional(py.restOfLine("text")) )
+    ##
+    # "@see qx.core.Object#CONSTANT text"
+    def parse_at_see(self, line):
+        grammar = self.gr_at_see
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'see',
+            'name' : presult.name,
+            'text' : presult.text.strip()
+        }
+        return res
+        
+    gr_at_signature = ( py.Suppress('@') + py.Literal('signature') + py.Literal('function') + 
+        py.Suppress('(') + py.Optional(py.delimitedList(py_js_identifier))('arguments') + 
+        py.Suppress(')') )
+    ##
+    # "@signature function(parm1, parm2)"
+    def parse_at_signature(self, line):
+        grammar = self.gr_at_signature
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'signature',
+            #'text' : ('(' + ",".join(presult[2:]) + ')').strip(), # TODO: this should be removed in favor of 'arguments'
+            'arguments' : presult.arguments.asList() if presult.arguments else []
+        }
+        return res
+        
+    py_comment_term = py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') + \
+        py.Optional(py.delimitedList(py_js_identifier)).setResultsName('t_arguments') + py.Suppress(')')
 
-                    typValues = []
-                    for typ in remain.split("|"):
-                        typValue = typ.strip()
-                        arrayIndex = typValue.find("[")
-
-                        if arrayIndex != -1:
-                            arrayValue = (len(typValue) - arrayIndex) / 2
-                            typValue = typValue[0:arrayIndex]
-                        else:
-                            arrayValue = 0
-
-                        typValues.append({ "type" : typValue, "dimensions" : arrayValue })
-
-                    if len(typValues) > 0:
-                        attrib["type"] = typValues
-                        #print ">>> TYPE: %s" % attrib["type"]
-
-        if format:
-            attrib["text"] = self.formatText(text)
-        else:
-            attrib["text"] = self.cleanupText(text)
-
-        if attrib["text"] == "":
-            del attrib["text"]
-
+    gr_at_lint = py.Suppress('@') + py.Literal('lint') + py_comment_term
+    ##
+    # "@lint ignoreUndefined(foo)"
+    def parse_at_lint(self, line):
+        grammar = self.gr_at_lint
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'lint',
+            'functor' : presult.t_functor,
+            'arguments' : presult.t_arguments.asList()
+        }
+        return res
+        
+    gr_at_attach = ( py.Suppress('@') + py.Literal('attach') + py.Suppress('{') + 
+        py_js_identifier.copy()('clazz') + 
+        py.Optional(py.Suppress(',') + py_js_identifier)('method') + 
+        py.Suppress('}') )
+    ##
+    # "@attach {q, bar}"
+    def parse_at_attach(self, line):
+        grammar = self.gr_at_attach
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'attach',
+            'targetClass'  : presult.clazz,
+            'targetMethod' : presult.method[0] if presult.method else '', # why [0]?!
+        }
+        return res
+        
+    gr_at_attachStatic = ( py.Suppress('@') + py.Literal('attachStatic') + py.Suppress('{') + 
+        py_js_identifier.copy()('clazz') + 
+        py.Optional(py.Suppress(',') + py_js_identifier)('method') + 
+        py.Suppress('}') )
+    ##
+    # "@attachStatic {q, bar}"
+    def parse_at_attachStatic(self, line):
+        grammar = self.gr_at_attachStatic
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'attachStatic',
+            'targetClass'  : presult.clazz,
+            'targetMethod' : presult.method[0] if presult.method else '',
+        }
+        return res
+        
+    gr_at_require = py.Suppress('@') + py_comment_term
+    ##
+    # "@require(foo, bar)"
+    def parse_at_require(self, line):
+        grammar = self.gr_at_require
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'require',
+            'arguments' : presult.t_arguments.asList(),
+        }
+        return res
+        
+    ##
+    # "@use(foo,bar)"
+    def parse_at_use(self, line):
+        grammar = self.gr_at_require
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'use',
+            'arguments' : presult.t_arguments.asList(),
+        }
+        return res
+        
 
     def cleanupText(self, text):
         #print "============= INTEXT ========================="
@@ -514,6 +787,24 @@ class Text(object):
         return re.compile("\n").sub("\n" + indent, self.string)
 
 
+    def autoOutdent_list(self):
+        lines = self.string # needs to be [], actually :)
+        result = []
+        if len(lines) == 0:
+            return lines
+        elif len(lines) ==1:
+            result.append(lines[0].strip())
+            return result
+        else:
+            for line in lines:
+                if len(line) and line[0] != " ":
+                    return lines
+            for line in lines:
+                result.append(line[1:])
+            return result
+
+            
+
     def autoOutdent(self):
         text = self.string
         lines = text.split("\n")
@@ -564,7 +855,7 @@ def getReturns(node, found):
             if expr.hasChild("variable"):
                 var = expr.getChild("variable")
                 if var.getChildrenLength(True) == 1 and var.hasChild("identifier"):
-                    val = nameToType(var.getChild("identifier").get("name"))
+                    val = nameToType(var.getChild("identifier").get("value"))
                 else:
                     val = "var"
 
@@ -637,27 +928,77 @@ def parseNode(node):
     # the intended meaning of <node> is "the node that has comments preceding
     # it"; in the ast, this might not be <node> itself, but the lexically first
     # token that got the comment attached; look for that
+    # in the AST this translates to the left-most child for statements and expressions
     commentsNode = findAssociatedComment(node)
+    #print "comments node:", str(commentsNode)
+    result = []  # [[{}], ...]
 
     if commentsNode and commentsNode.comments:
         # check for a suitable comment, from the back so that the closer wins
-        for comment in commentsNode.comments[::-1]:
-            if comment.get("detail") in ["javadoc", "qtdoc"]:
-                return Comment(comment.get("value", "")).parse()
-    return []
+        for comment in commentsNode.comments:
+            #if comment.get("detail") in ["javadoc", "qtdoc"]:
+            if comment.get("detail") in ["javadoc"]:
+                result.append( Comment(comment.get("value", "")).parse() )
+    if not result:
+        result = [[]]  # to always have a result[-1] element in caller
+    return result
 
 
 def findAssociatedComment(node):
     # traverse <node> tree left-most, looking for comments
     from ecmascript.frontend import treeutil # ugly here, but due to import cycle
 
+    ##
+    # For every <start_node> find the enclosing statement node, and from that
+    # the node of the first token (as this will carry a pot. comment) 
+    def statement_head_from(start_node):
+        # 1. find enclosing "local root" node
+        # (e.g. the enclosing statement or file node)
+        tnode = start_node
+        stmt_node = None
+        while True:  # this will always terminate, as every JS node is a child of a statement
+            if tnode.isStatement():
+                stmt_node = tnode
+                break
+            elif tnode.type == 'file': 
+                # TODO: (bug#6765) why does/n't it crash without this?!
+                #       are file-level comments being picked up correctly?!
+                stmt_node = tnode
+                break
+            elif tnode.parent: 
+                tnode = tnode.parent
+            else: 
+                break
+        # 2. determine left-most token
+        #if stmt_node.isPrefixOp():
+        #    head_token_node = stmt_node
+        #else:
+        #    head_token_node = treeutil.findLeftmostChild(stmt_node)
+        head_token_node = stmt_node.toListG().next()
+        return head_token_node
+
+    # --------------------------------------------------------------------------
+
+    res = None
     if node.comments:
-        return node
+        res = node
     else:
-        if node.children:
-            left_most = treeutil.findLeftmostChild(node)
-            return findAssociatedComment(left_most)
-    return None
+        # above current expression
+        left_most = treeutil.findLeftmostChild(node) # this might return <node> itself
+        if left_most.comments:
+            res = left_most
+        else:
+            # above key : value in maps
+            next_root = treeutil.findAncestor(node, ["keyvalue"], radius=5)
+            if next_root:
+                if next_root.comments:
+                    res = next_root
+            else:
+                # above current statement
+                stmt_head = statement_head_from(node)
+                if stmt_head and stmt_head.comments:
+                    res = stmt_head
+    return res
 
 
 def parseNode_2(node):
@@ -686,8 +1027,8 @@ def fill(node):
     if node.hasParent():
         target = node
 
-        if node.type == "function":
-            name = node.get("name", False)
+        if node.type == "function" and node.getChild("identifier",0):
+            name = node.getChild("identifier", False).get("value")
         else:
             name = ""
 
@@ -698,9 +1039,9 @@ def fill(node):
             assignType = "function"
 
         # move to hook operation
-        while target.parent.type in ["first", "second", "third"] and target.parent.parent.type == "operation" and target.parent.parent.get("operator") == "HOOK":
+        while target.parent.type == "operation" and target.parent.get("operator") == "HOOK":
             alternative = True
-            target = target.parent.parent
+            target = target.parent
 
         # move comment to assignment
         while target.parent.type == "right" and target.parent.parent.type == "assignment":
@@ -711,14 +1052,14 @@ def fill(node):
                     var = left.getChild("variable")
                     last = var.getLastChild(False, True)
                     if last and last.type == "identifier":
-                        name = last.get("name")
+                        name = last.get("value")
                         assignType = "object"
 
                     for child in var.children:
                         if child.type == "identifier":
-                            if child.get("name") in ["prototype", "Proto"]:
+                            if child.get("value") in ["prototype", "Proto"]:
                                 assignType = "member"
-                            elif child.get("name") in ["class", "base", "Class"]:
+                            elif child.get("value") in ["class", "base", "Class"]:
                                 assignType = "static"
 
             elif target.parent.type == "definition":
@@ -891,7 +1232,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
     if params.hasChildren():
         for child in params.children:
             if child.type == "variable":
-                newName = child.getChild("identifier").get("name")
+                newName = child.getChild("identifier").get("value")
                 newType = newTypeText = nameToType(newName)
                 newDefault = ""
                 newText = nameToDescription(newName)

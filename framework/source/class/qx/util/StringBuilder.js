@@ -56,7 +56,7 @@ qx.Class.define("qx.util.StringBuilder",
    * * <code>itemN</code>:  A substring that will make up the newly created StringBuilder.
    * The StringBuilder's length property is set to the number of arguments.
    *
-   * @param length_or_items {Integer|varargs?null} The initial length of the StringBuilder
+   * @param length_or_items {Integer|var?null} The initial length of the StringBuilder
    *        OR an argument list of values.
    */
   construct : function(length_or_items) {
@@ -74,7 +74,6 @@ qx.Class.define("qx.util.StringBuilder",
     /**
      * Removes all content
      *
-     * @return {void}
      */
     clear : function() {
       this.length = 0;
@@ -96,7 +95,6 @@ qx.Class.define("qx.util.StringBuilder",
      *
      * @signature function(varargs)
      * @param varargs {String} The separate strings to add
-     * @return {void}
      */
     add : null,
 

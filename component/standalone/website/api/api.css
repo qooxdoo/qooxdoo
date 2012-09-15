@@ -104,8 +104,7 @@ p {
   margin-top: 5px;
 }
 
-.method > h2, .method > p, .method > h4, .method > ul, .method > ul > li, .method > div, .method > pre, .method > code, 
-.module > h1, .module > p, .module > pre, .module > ul , .module > code, .module > div, .module .events {
+.method > *, .module > * {
   margin-left: 8px;
 }
 

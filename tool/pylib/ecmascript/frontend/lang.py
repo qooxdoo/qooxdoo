@@ -33,6 +33,7 @@ BUILTIN = [
           "Date",
           "document",
           "DOMParser",
+          "DOMException",
           "Element",
           "Error",
           "EvalError",
@@ -64,17 +65,17 @@ BUILTIN = [
 GLOBALS = BUILTIN + [
           # Java
           "java", "sun", "Packages",
-  
+
           # Firefox extension: Firebug
           "console",
-  
+
           # IE
           "event", "offscreenBuffering", "clipboardData", "clientInformation",
           "external", "screenTop", "screenLeft",
-          
+
           # Webkit
           "WebkitCSSMatrix",
-  
+
           # window
           'addEventListener', '__firebug__', 'location', 'netscape',
           'XPCNativeWrapper', 'Components', 'parent', 'top', 'scrollbars',
@@ -95,12 +96,21 @@ GLOBALS = BUILTIN + [
 
           'atob', 'btoa', 'frameElement', 'removeEventListener', 'dispatchEvent',
           'getComputedStyle', 'sessionStorage', 'globalStorage', 'localStorage',
-  
+          'CanvasRenderingContext2D', 'DocumentFragment', 'history', 'Selection',
+          'Storage', 'StyleSheet', 'File',
+
           # Language
           "eval", "decodeURI", "encodeURI", "decodeURIComponent", "encodeURIComponent",
           "escape", "unescape", "parseInt", "parseFloat", "isNaN", "isFinite",
-  
+
           "this", "arguments", "undefined", "NaN", "Infinity"
+          ]
+
+DEPRECATED = [
+          "alert",
+          "confirm",
+          "debugger",
+          "eval",
           ]
 
 TOKENS = {
@@ -252,10 +262,44 @@ SPACE_AFTER = ["VAR", "NEW", "GOTO", "INSTANCEOF", "TYPEOF", "DELETE", "IN", "TH
 SPACE_AFTER_USAGE = ["RETURN", "FUNCTION"]
 PARANTHESIS_BEFORE = ["ELSE", "FINALLY", "CATCH", "WHILE"]
 
+# These are not really chars, but char regexp's
 IDENTIFIER_CHARS          = r'(?u)[\.\w$]'
 IDENTIFIER_ILLEGAL_CHARS  = r'(?u)[^\.\w$]'
-#IDENTIFIER_REGEXP         = r'%s+' % IDENTIFIER_CHARS
-IDENTIFIER_REGEXP         = r'(?u)^(?:[^\W\d]|\$)[\.\w$]*'
+IDENTIFIER_REGEXP         = r'(?u)(?:[^\W\d]|\$)[\.\w$]*'
+
+# These are really chars (sets)
+# Inspired by http://boshi.inimino.org/3box/PanPG/grammars/ECMAScript_5.peg
+# missing: escape sequences (s. ecma section 7.6)
+
+import unicodedata as unidata
+#UNICODE_MAX_CHAR_POINT = 0x10FFFF # entire code range, 0000-10FFFF, makes len(IDENTIFIER_CHARS_BODY)=93.671
+UNICODE_MAX_CHAR_POINT = 65536  # Basic Plane, 0000-FFFF, makes len(IDENTIFIER_CHARS_BODY)=49.029
+
+def unicat(c):
+    try: cat = unidata.category(c)
+    except: cat = ""
+    return cat
+#def twounicats():
+#    start_chars = set()
+#    body_chars = set()
+#    for c in xrange(UNICODE_MAX_CHAR_POINT):
+#        uchar = unichr(c)
+#        try: cat = unidata.category(uchar)
+#        except: cat = ""
+#        if cat in IDENTIFIER_START_CATEGORIES: start_chars.add(uchar)
+#        elif cat in IDENTIFIER_BODY_CATEGORIES: body_chars.add(uchar)
+#    return start_chars, body_chars
+
+IDENTIFIER_START_CATEGORIES = "Lu Ll Lt Lm Lo Nl".split()
+IDENTIFIER_BODY_CATEGORIES = "Mn Mc Nd Pc".split()
+
+IDENTIFIER_CHARS_START = set(['$', '_'] + [
+    unichr(c) for c in xrange(UNICODE_MAX_CHAR_POINT) if unicat(unichr(c)) in IDENTIFIER_START_CATEGORIES])
+IDENTIFIER_CHARS_BODY  = IDENTIFIER_CHARS_START.union([
+    unichr(c) for c in xrange(UNICODE_MAX_CHAR_POINT) if unicat(unichr(c)) in IDENTIFIER_BODY_CATEGORIES])
+#(
+#IDENTIFIER_CHARS_START,
+#IDENTIFIER_CHARS_BODY  ) = twounicats()
 
 ##
 # Re-creating some Unicode information here, as it is not provided by Python

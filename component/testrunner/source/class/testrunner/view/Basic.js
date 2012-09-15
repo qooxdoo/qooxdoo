@@ -49,6 +49,16 @@ qx.Class.define("testrunner.view.Basic", {
 
 
     /**
+     * Terminates the Java VM 
+     */
+    exit : function()
+    {
+      if (qx.core.Environment.get("runtime.name") == "rhino") {
+        java.lang.System.exit(0);
+      }
+    },
+
+    /**
      * Returns the test result counts by type. Failed tests and tests with
      * unexpected errors are both listed as "failed".
      *
@@ -123,6 +133,7 @@ qx.Class.define("testrunner.view.Basic", {
         case "finished" :
           this.setStatus("Test suite finished.");
           this.info(this.getSummary());
+          this.exit();
           break;
         case "aborted" :
           this.setStatus("Test run aborted");

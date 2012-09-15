@@ -580,7 +580,6 @@ qx.Class.define("qx.ui.table.Table",
      *   It contains the following properties:
      *       col, row, xPos, value
      *
-     * @return {void}
      */
     modalCellEditorPreOpenFunction :
     {
@@ -800,9 +799,16 @@ qx.Class.define("qx.ui.table.Table",
     {
       var scrollerArr = this._getPaneScrollerArr();
 
-      for (var i=0; i<scrollerArr.length; i++)
-      {
-        scrollerArr[i]._excludeChildControl("header");
+      for (var i=0; i<scrollerArr.length; i++) {
+        if (value) {
+          scrollerArr[i]._showChildControl("header");
+        } else {
+          scrollerArr[i]._excludeChildControl("header");
+        }
+      }
+      // also hide the column visibility button
+      if(this.getColumnVisibilityButtonVisible()) {
+        this._applyColumnVisibilityButtonVisible(value);
       }
     },
 
@@ -1200,7 +1206,6 @@ qx.Class.define("qx.ui.table.Table",
      * @param fromMetaColumn {Integer} the first meta column to clean up. All following
      *      meta columns will be cleaned up, too. All previous meta columns will
      *      stay unchanged. If 0 all meta columns will be cleaned up.
-     * @return {void}
      */
     _cleanUpMetaColumns : function(fromMetaColumn)
     {
@@ -1220,7 +1225,6 @@ qx.Class.define("qx.ui.table.Table",
      * Event handler. Called when the locale has changed.
      *
      * @param evt {Event} the event.
-     * @return {void}
      */
     _onChangeLocale : function(evt)
     {
@@ -1233,7 +1237,6 @@ qx.Class.define("qx.ui.table.Table",
      * Event handler. Called when the selection has changed.
      *
      * @param evt {Map} the event.
-     * @return {void}
      */
     _onSelectionChanged : function(evt)
     {
@@ -1251,7 +1254,6 @@ qx.Class.define("qx.ui.table.Table",
      * Event handler. Called when the table model meta data has changed.
      *
      * @param evt {Map} the event.
-     * @return {void}
      */
     _onTableModelMetaDataChanged : function(evt)
     {
@@ -1269,7 +1271,6 @@ qx.Class.define("qx.ui.table.Table",
      * Event handler. Called when the table model data has changed.
      *
      * @param evt {Map} the event.
-     * @return {void}
      */
     _onTableModelDataChanged : function(evt)
     {
@@ -1291,7 +1292,6 @@ qx.Class.define("qx.ui.table.Table",
      * @param lastColumn {Integer} The model index of the last column that has changed.
      * @param removeStart {Integer ? null} The first index of the interval (including), to remove selection.
      * @param removeCount {Integer ? null} The count of the interval, to remove selection.
-     * @return {void}
      */
     _updateTableData : function(firstRow, lastRow, firstColumn, lastColumn, removeStart, removeCount)
     {
@@ -1330,7 +1330,6 @@ qx.Class.define("qx.ui.table.Table",
      * Event handler. Called when a TablePaneScroller has been scrolled vertically.
      *
      * @param evt {Map} the event.
-     * @return {void}
      */
     _onScrollY : function(evt)
     {
@@ -1354,7 +1353,6 @@ qx.Class.define("qx.ui.table.Table",
      * Event handler. Called when a key was pressed.
      *
      * @param evt {qx.event.type.KeySequence} the event.
-     * @return {void}
      */
     _onKeyPress : function(evt)
     {
@@ -1499,7 +1497,6 @@ qx.Class.define("qx.ui.table.Table",
      * Event handler. Called when the table gets the focus.
      *
      * @param evt {Map} the event.
-     * @return {void}
      */
     _onFocusChanged : function(evt)
     {
@@ -1515,7 +1512,6 @@ qx.Class.define("qx.ui.table.Table",
      * Event handler. Called when the visibility of a column has changed.
      *
      * @param evt {Map} the event.
-     * @return {void}
      */
     _onColVisibilityChanged : function(evt)
     {
@@ -1540,7 +1536,6 @@ qx.Class.define("qx.ui.table.Table",
      * Event handler. Called when the width of a column has changed.
      *
      * @param evt {Map} the event.
-     * @return {void}
      */
     _onColWidthChanged : function(evt)
     {
@@ -1561,7 +1556,6 @@ qx.Class.define("qx.ui.table.Table",
      * Event handler. Called when the column order has changed.
      *
      * @param evt {Map} the event.
-     * @return {void}
      */
     _onColOrderChanged : function(evt)
     {
@@ -1599,7 +1593,6 @@ qx.Class.define("qx.ui.table.Table",
      * @param row {Integer?null} the model index of the focused cell's row.
      * @param scrollVisible {Boolean ? false} whether to scroll the new focused cell
      *          visible.
-     * @return {void}
      */
     setFocusedCell : function(col, row, scrollVisible)
     {
@@ -1667,7 +1660,6 @@ qx.Class.define("qx.ui.table.Table",
      * @param bHighlight {Boolean}
      *   Flag indicating whether the focused row should be highlighted.
      *
-     * @return {void}
      */
     highlightFocusedRow : function(bHighlight)
     {
@@ -1686,7 +1678,6 @@ qx.Class.define("qx.ui.table.Table",
      *     table.addListener("mouseout", table.clearFocusedRowHighlight);
      *
      * @param evt {qx.event.type.Mouse} Incoming mouse event
-     * @return {void}
      */
     clearFocusedRowHighlight : function(evt)
     {
@@ -1719,7 +1710,6 @@ qx.Class.define("qx.ui.table.Table",
      *
      * @param deltaX {Integer} The delta by which the focus should be moved on the x axis.
      * @param deltaY {Integer} The delta by which the focus should be moved on the y axis.
-     * @return {void}
      */
     moveFocusedCell : function(deltaX, deltaY)
     {
@@ -1755,7 +1745,6 @@ qx.Class.define("qx.ui.table.Table",
      *
      * @param col {Integer} the model index of the column the cell belongs to.
      * @param row {Integer} the model index of the row the cell belongs to.
-     * @return {void}
      */
     scrollCellVisible : function(col, row)
     {
@@ -2140,7 +2129,6 @@ qx.Class.define("qx.ui.table.Table",
      *
      * @param col {Integer} the model index of column.
      * @param width {Integer} the new width in pixels.
-     * @return {void}
      */
     setColumnWidth : function(col, width) {
       this.getTableColumnModel().setColumnWidth(col, width);

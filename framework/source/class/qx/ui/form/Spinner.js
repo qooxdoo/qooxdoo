@@ -411,7 +411,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * {@link #_onTextChange} methods as those cater specifically to numeric
      * values.
      *
-     * @param value {Any}
+     * @param value {var}
      *   The value being set
      * @return {Boolean}
      *   <i>true</i> if the value is allowed;
@@ -603,7 +603,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * Releases the button and disabled the page mode, if necessary.
      *
      * @param e {qx.event.type.KeySequence} keyUp event
-     * @return {void}
      */
     _onKeyUp: function(e)
     {

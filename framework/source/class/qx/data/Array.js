@@ -250,6 +250,9 @@ qx.Class.define("qx.data.Array",
 
       var oldArray = this.__array.concat();
       this.__array.reverse();
+
+      this.__updateEventPropagation(0, this.length);
+
       this.fireDataEvent("change",
         {start: 0, end: this.length - 1, type: "order", items: null}, null
       );
@@ -280,6 +283,8 @@ qx.Class.define("qx.data.Array",
       this.__updateLength();
       // remove the possible added event listener
       this._registerEventChaining(null, item, this.length -1);
+      // as every item has changed its position, we need to update the event bubbling
+      this.__updateEventPropagation(0, this.length);
 
       // fire change bubbles event
       this.fireDataEvent("changeBubble", {
@@ -366,6 +371,9 @@ qx.Class.define("qx.data.Array",
       for (var i = 2; i < arguments.length; i++) {
         this._registerEventChaining(arguments[i], null, startIndex + i);
       }
+      // apply event chaining for every item moved
+      this.__updateEventPropagation(startIndex + arguments.length - 2, this.length);
+
       // fire the changeBubble event
       var value = [];
       for (var i=2; i < arguments.length; i++) {
@@ -407,6 +415,8 @@ qx.Class.define("qx.data.Array",
         return;
       }
 
+      this.__updateEventPropagation(0, this.length);
+
       this.fireDataEvent("change",
         {start: 0, end: this.length - 1, type: "order", items: null}, null
       );
@@ -431,8 +441,8 @@ qx.Class.define("qx.data.Array",
       for (var i = arguments.length - 1; i >= 0; i--) {
         this.__array.unshift(arguments[i])
         this.__updateLength();
-        // apply to every pushed item an event listener for the bubbling
-        this._registerEventChaining(arguments[i], null, 0);
+        // apply to every item an event listener for the bubbling
+        this.__updateEventPropagation(0, this.length);
 
         // fire change bubbles event
         this.fireDataEvent("changeBubble", {
@@ -569,7 +579,7 @@ qx.Class.define("qx.data.Array",
      * Check if the given item is in the current array.
      *
      * @param item {var} The item which is possibly in the array.
-     * @return {boolean} true, if the array contains the given item.
+     * @return {Boolean} true, if the array contains the given item.
      */
     contains: function(item) {
       return this.__array.indexOf(item) !== -1;
@@ -698,7 +708,7 @@ qx.Class.define("qx.data.Array",
      *
      * @param array {Array|qx.data.IListData} The items of this array will
      * be appended.
-     * @throws An exception if the second argument is not an array.
+     * @throws {Error} if the second argument is not an array.
      */
     append : function(array)
     {
@@ -880,6 +890,18 @@ qx.Class.define("qx.data.Array",
       var oldLength = this.length;
       this.length = this.__array.length;
       this.fireDataEvent("changeLength", this.length, oldLength);
+    },
+
+
+    /**
+     * Helper to update the event propagation for a range of items.
+     * @param from {Number} Start index.
+     * @param to {Number} End index.
+     */
+    __updateEventPropagation : function(from, to) {
+      for (var i=from; i < to; i++) {
+        this._registerEventChaining(this.__array[i], this.__array[i], i);
+      };
     }
   },
 

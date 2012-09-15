@@ -17,61 +17,15 @@
      * Daniel Wagner (danielwagner)
 
 ************************************************************************ */
-
+/* ************************************************************************
+#require(qx.lang.normalize.Function)
+#require(qx.lang.normalize.String)
+#require(qx.lang.normalize.Date)
+#require(qx.lang.normalize.Array)
+#require(qx.lang.normalize.Error)
+#require(qx.lang.normalize.Object)
+************************************************************************ */
 /**
  * Adds JavaScript features that may not be supported by all clients.
  */
-qx.Bootstrap.define("qx.module.Polyfill", {
-
-  statics: {
-
-    /**
-     * Wraps the given function so that it will be executed in the given context
-     */
-    functionBind : function() {
-      if (typeof Function.prototype.bind !== "function") {
-        Function.prototype.bind = function(context) {
-          var args = Array.prototype.slice.call(arguments, 1);
-          return qx.Bootstrap.bind.apply(null, [this, context].concat(args));
-        };
-      }
-    },
-
-
-    /**
-     * Removes white space from the left and right sides of a string
-     */
-    stringTrim : function() {
-      if (typeof String.prototype.trim !== "function") {
-        String.prototype.trim = function(context) {
-          return this.replace(/^\s+|\s+$/g,'');
-        };
-      }
-
-
-      /**
-       * Removes white space from the left side of a string
-       */
-      if (typeof String.prototype.trimLeft !== "function") {
-        String.prototype.trimLeft = function(context) {
-          return this.replace(/^\s+/g,'');
-        };
-      }
-
-      /**
-       * Removes white space from the right side of a string
-       */
-      if (typeof String.prototype.trimRight !== "function") {
-        String.prototype.trimRight = function(context) {
-          return this.replace(/\s+$/g,'');
-        };
-      }
-    }
-  },
-
-  defer : function(statics)
-  {
-    statics.functionBind();
-    statics.stringTrim();
-  }
-});
+qx.Bootstrap.define("qx.module.Polyfill", {});

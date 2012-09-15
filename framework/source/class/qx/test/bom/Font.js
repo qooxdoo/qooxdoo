@@ -178,10 +178,10 @@ qx.Class.define("qx.test.bom.Font",
 
       // we expect a map with only 'fontFamily' set, otherwise the null values
       // which are returned are overwriting styles. Only return styles which are set.
-      var keys = qx.lang.Object.getKeys(styles);
+      var keys = Object.keys(styles);
 
       this.assertMap(styles, "Method 'getStyles' should return a map!");
-      this.assertEquals(8, qx.lang.Object.getLength(styles), "Map should contain 7 key!");
+      this.assertEquals(8, qx.lang.Object.getLength(styles), "Map should contain 8 key!");
       this.assertNotUndefined(styles.fontFamily, "Key 'fontFamily' has to be present!");
       this.assertNotUndefined(styles.fontStyle, "Key 'fontStyle' has to be present!");
       this.assertNotUndefined(styles.fontWeight, "Key 'fontWeight' has to be present!");
@@ -201,7 +201,7 @@ qx.Class.define("qx.test.bom.Font",
       this.__font.setDecoration("underline");
 
       var styles = this.__font.getStyles();
-      var keys = qx.lang.Object.getKeys(styles);
+      var keys = Object.keys(styles);
 
       this.assertMap(styles, "Method 'getStyles' should return a map!");
       this.assertEquals("fontFamily", keys[0], "Key 'fontFamily' has to be present!");

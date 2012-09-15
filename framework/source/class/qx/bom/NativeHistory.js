@@ -98,7 +98,6 @@ qx.Class.define("qx.bom.NativeHistory",
      * Save a state into the browser history.
      *
      * @param state {String} state to save
-     * @return {void}
      */
     _writeState : qx.core.Environment.select("engine.name",
     {

@@ -77,7 +77,6 @@ qx.Bootstrap.define("qx.bom.Cookie",
      * @param path {String?null} Path value.
      * @param domain {String?null} Domain value.
      * @param secure {Boolean?null} Secure flag.
-     * @return {void}
      */
     set : function(key, value, expires, path, domain, secure)
     {
@@ -115,7 +114,6 @@ qx.Bootstrap.define("qx.bom.Cookie",
      * @param key {String} The key for the string value.
      * @param path {String?null} Path value.
      * @param domain {String?null} Domain value.
-     * @return {void}
      */
     del : function(key, path, domain)
     {

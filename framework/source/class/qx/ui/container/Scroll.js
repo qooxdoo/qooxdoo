@@ -99,7 +99,6 @@ qx.Class.define("qx.ui.container.Scroll",
      * child with the given one.
      *
      * @param widget {qx.ui.core.Widget} Widget to insert
-     * @return {void}
      */
     add : function(widget) {
       this.getChildControl("pane").add(widget);

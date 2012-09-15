@@ -178,7 +178,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * layer to send the open requests.
      * This method calls itself until every request in the queue is send.
      *
-     * @return {void}
      */
     _check : function()
     {
@@ -243,7 +242,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * transport object in order stop the request.
      *
      * @param vTransport {qx.io.remote.Exchange} Transport object
-     * @return {void}
      */
     _remove : function(vTransport)
     {
@@ -274,7 +272,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * the counter for active requests.
      *
      * @param e {qx.event.type.Event} event object
-     * @return {void}
      */
     _onsending : function(e)
     {
@@ -298,7 +295,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * the event to the current request object.
      *
      * @param e {qx.event.type.Event} event object
-     * @return {void}
      */
     _onreceiving : function(e) {
       e.getTarget().getRequest()._onreceiving(e);
@@ -310,7 +306,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * the counter for active requests.
      *
      * @param e {qx.event.type.Event} event object
-     * @return {void}
      */
     _oncompleted : function(e)
     {
@@ -361,7 +356,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
             request["_onaborted"](event);
           }
         }
-        catch(ex)
+        catch(ex1)
         {
         }
       }
@@ -381,7 +376,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * if the active requests are timed out.
      *
      * @param e {qx.event.type.Event} event object
-     * @return {void}
      */
     _oninterval : function(e)
     {
@@ -465,7 +459,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * Add the request to the pending requests queue.
      *
      * @param vRequest {var} The request
-     * @return {void}
      */
     add : function(vRequest)
     {
@@ -494,7 +487,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
      *  pending requests queue, this method is a noop.
      *
      * @param vRequest {var} The request
-     * @return {void}
      */
     abort : function(vRequest)
     {

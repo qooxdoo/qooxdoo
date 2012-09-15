@@ -36,7 +36,7 @@ qx.Bootstrap.define("qx.module.event.Orientation", {
   {
     /**
      * List of event types to be normalized
-     * @type Array
+     * @type {Array}
      */
     TYPES : ["orientationchange"],
 
@@ -44,7 +44,7 @@ qx.Bootstrap.define("qx.module.event.Orientation", {
     /**
      * List of qx.module.event.Orientation methods to be attached to native
      * event objects
-     * @type Array
+     * @type {Array}
      * @internal
      */
     BIND_METHODS : ["getOrientation", "isLandscape", "isPortrait"],

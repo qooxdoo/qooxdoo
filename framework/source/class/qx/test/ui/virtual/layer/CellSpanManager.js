@@ -121,35 +121,35 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       var result = cellSpan._findCellsInRange("firstRow", 2, 6);
       this.assertArrayEquals(
         ["c1", "c2", "c4"],
-        qx.lang.Object.getKeys(result).sort()
+        Object.keys(result).sort()
       );
 
       var result = cellSpan._findCellsInRange("firstRow", 11, 20);
-      this.assertArrayEquals([], qx.lang.Object.getKeys(result));
+      this.assertArrayEquals([], Object.keys(result));
 
       var result = cellSpan._findCellsInRange("firstRow", 0, 0);
-      this.assertArrayEquals([], qx.lang.Object.getKeys(result));
+      this.assertArrayEquals([], Object.keys(result));
 
       var result = cellSpan._findCellsInRange("firstRow", 0, 5);
       this.assertArrayEquals(
         ["c2", "c4", "c5"],
-        qx.lang.Object.getKeys(result).sort()
+        Object.keys(result).sort()
       );
 
 
       var result = cellSpan._findCellsInRange("lastRow", 3, 8);
-      this.assertArrayEquals(["c2", "c4"], qx.lang.Object.getKeys(result).sort());
+      this.assertArrayEquals(["c2", "c4"], Object.keys(result).sort());
 
       var result = cellSpan._findCellsInRange("firstColumn", 3, 7);
       this.assertArrayEquals(
         ["c1", "c2", "c3"],
-        qx.lang.Object.getKeys(result).sort()
+        Object.keys(result).sort()
       );
 
       var result = cellSpan._findCellsInRange("lastColumn", 0, 22);
       this.assertArrayEquals(
         ["c1", "c2", "c3", "c4", "c5", "c6"],
-        qx.lang.Object.getKeys(result).sort()
+        Object.keys(result).sort()
       );
     },
 

@@ -50,13 +50,13 @@ qx.Bootstrap.define("qx.module.Io", {
         settings = {};
       }
       var xhr = new qx.bom.request.Xhr();
+      xhr.open(settings.method, url, settings.async);
       if (settings.header) {
         var header = settings.header;
         for (var key in header) {
           xhr.setRequestHeader(key, header[key]);
         }
       }
-      xhr.open(settings.method, url, settings.async);
       return xhr;
     },
 
@@ -92,12 +92,13 @@ qx.Bootstrap.define("qx.module.Io", {
      */
     jsonp : function(url, settings) {
       var script = new qx.bom.request.Jsonp();
-      if (settings.callbackName) {
+      if (settings && settings.callbackName) {
         script.setCallbackName(settings.callbackName);
       }
-      if (settings.callbackParam) {
+      if (settings && settings.callbackParam) {
         script.setCallbackParam(settings.callbackParam);
       }
+      script.setPrefix("q.$$"); // needed in case no callback name is given
       script.open("get", url);
       return script;
     }

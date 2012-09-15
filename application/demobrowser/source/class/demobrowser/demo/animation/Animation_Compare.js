@@ -28,8 +28,7 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
   {
     createButton : function(name, desc) {
       var buttons = [];
-      var aniClasses = [qx.bom.element.AnimationCss, qx.bom.element.AnimationJs];
-      for (var i=0; i < aniClasses.length; i++) {
+      for (var i=0; i < this.aniClasses.length; i++) {
         var button = document.createElement("div");
         button.innerHTML = name;
         button.className = "button";
@@ -59,6 +58,8 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
     main: function()
     {
       this.base(arguments);
+      this.aniClasses = [qx.bom.element.AnimationCss, qx.bom.element.AnimationJs];
+
 
       var width = {duration: 1000, keyFrames : {
         0 : {"width" : "100px"},
@@ -106,10 +107,10 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         100 : {"left" : "0px", "top": "0px"}
       }};
 
-      var keep = {duration: 1000, keep : [70], keyFrames : {
-        0 : {"width" : "30px"},
-        70 : {"width" : "100px"},
-        100 : {"width": "50px"}
+      var keep = {duration: 1000, keep : 70, keyFrames : {
+        0 : {"top" : "0px"},
+        70 : {"top" : "5px"},
+        100 : {"top": "30px"}
       }};
 
 
@@ -173,6 +174,23 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
       }};
 
 
+      var keepAlternate = {duration: 500, alternate: true, repeat: 2, keep : 100, keyFrames : {
+        0 : {"top" : "0px"},
+        100 : {"top": "50px"}
+      }};
+
+
+      var keepReverse = {duration: 1000, keep : 100, keyFrames : {
+        0 : {"top" : "0px"},
+        100 : {"top": "50px"}
+      }};
+
+      var keepAlternateReverse = {duration: 500, alternate: true, repeat: 3, keep : 100, keyFrames : {
+        0 : {"top" : "0px"},
+        100 : {"top": "20px"}
+      }};
+
+
       var tests = {
         "Width" : width,
         "Height" : height,
@@ -183,6 +201,9 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         "Dance" : dance,
         "Dance Reverse" : dance,
         "Keep" : keep,
+        "Keep (Alt.)": keepAlternate,
+        "Keep (Reverse)"  : keepReverse,
+        "Keep (Reverse/Alt)"  : keepAlternateReverse,
         "Font-Size": em,
         "Line Height" : lineHeight,
         "Percent Width" : percent,
@@ -227,8 +248,7 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
 
       // STOP
       var buttons = [];
-      var aniClasses = [qx.bom.element.AnimationCss, qx.bom.element.AnimationJs];
-      for (var i=0; i < aniClasses.length; i++) {
+      for (var i=0; i < this.aniClasses.length; i++) {
         var button = document.createElement("div");
         button.innerHTML = "Stop";
         button.className = "button";
@@ -254,9 +274,8 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
 
 
       // PAUSE / PLAY
-      var buttons = [];
-      var aniClasses = [qx.bom.element.AnimationCss, qx.bom.element.AnimationJs];
-      for (var i=0; i < aniClasses.length; i++) {
+      buttons = [];
+      for (var i=0; i < this.aniClasses.length; i++) {
         var button = document.createElement("div");
         button.innerHTML = "Pause";
         button.className = "button";
@@ -284,6 +303,62 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
       var handle2 = [];
       handle2.push(qx.bom.element.AnimationCss.animate(buttons[0], infinite));
       handle2.push(qx.bom.element.AnimationJs.animate(buttons[1], infinite));
+      cssContainer.appendChild(buttons[0]);
+      jsContainer.appendChild(buttons[1]);
+
+
+
+      // ITERATION EVENT
+      buttons = [];
+      for (var i=0; i < this.aniClasses.length; i++) {
+        var button = document.createElement("div");
+        button.innerHTML = "0";
+        button.className = "button";
+        buttons[i] = button;
+        button.style.cursor = "auto";
+      }
+
+      var onIteration = function(e) {
+        e.innerHTML = parseInt(e.innerHTML) + 1;
+      };
+
+      qx.bom.element.AnimationCss.animate(buttons[0], infinite).on("iteration", onIteration);
+      qx.bom.element.AnimationJs.animate(buttons[1], infinite).on("iteration", onIteration);
+      cssContainer.appendChild(buttons[0]);
+      jsContainer.appendChild(buttons[1]);
+
+
+
+      // DELAY
+      var delay = {duration: 500, repeat: 10, delay: 2000, alternate: true, keyFrames: {
+        0: {left: "0px"},
+        100: {left: "10px"}
+      }};
+
+      buttons = [];
+      for (var i=0; i < this.aniClasses.length; i++) {
+        var button = document.createElement("div");
+        button.innerHTML = "Waiting 2s";
+        button.className = "button";
+        buttons[i] = button;
+        button.style.cursor = "auto";
+      }
+
+      var onStart = function(e) {
+        e.innerHTML = "Running";
+      };
+      var onEnd = function(e) {
+        e.innerHTML = "Ended";
+      }
+
+      var handle3 = [];
+      handle3.push(qx.bom.element.AnimationCss.animate(buttons[0], delay));
+      handle3.push(qx.bom.element.AnimationJs.animate(buttons[1], delay));
+      for (var i=0; i < handle3.length; i++) {
+        handle3[i].on("start", onStart);
+        handle3[i].on("end", onEnd);
+      };
+
       cssContainer.appendChild(buttons[0]);
       jsContainer.appendChild(buttons[1]);
     }

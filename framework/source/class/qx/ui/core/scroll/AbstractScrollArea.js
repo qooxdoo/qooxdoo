@@ -39,6 +39,23 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
   /*
   *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    /**
+     * The default width which is used for the width of the scroll bar if
+     * overlaid.
+     */
+    DEFAULT_SCROLLBAR_WIDTH : 14
+  },
+
+
+
+  /*
+  *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
@@ -77,6 +94,13 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
   },
 
 
+  events : {
+    /** Fired as soon as the scroll animation in X direction ends. */
+    scrollAnimationXEnd: 'qx.event.type.Event',
+
+    /** Fired as soon as the scroll animation in X direction ends. */
+    scrollAnimationYEnd: 'qx.event.type.Event'
+  },
 
 
 
@@ -206,9 +230,10 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
           control.exclude();
           control.addListener("scroll", this._onScrollBarX, this);
           control.addListener("changeVisibility", this._onChangeScrollbarXVisibility, this);
+          control.addListener("scrollAnimationEnd", this._onScrollAnimationEnd.bind(this, "X"));
 
           if (qx.core.Environment.get("os.scrollBarOverlayed")) {
-            control.setMinHeight(qx.bom.element.Overflow.DEFAULT_SCROLLBAR_WIDTH);
+            control.setMinHeight(qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH);
             this._add(control, {bottom: 0, right: 0, left: 0});
           } else {
             this._add(control, {row: 1, column: 0});
@@ -223,10 +248,10 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
           control.exclude();
           control.addListener("scroll", this._onScrollBarY, this);
           control.addListener("changeVisibility", this._onChangeScrollbarYVisibility, this);
-
+          control.addListener("scrollAnimationEnd", this._onScrollAnimationEnd.bind(this, "Y"));
 
           if (qx.core.Environment.get("os.scrollBarOverlayed")) {
-            control.setMinWidth(qx.bom.element.Overflow.DEFAULT_SCROLLBAR_WIDTH);
+            control.setMinWidth(qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH);
             this._add(control, {right: 0, bottom: 0, top: 0});
           } else {
             this._add(control, {row: 0, column: 1});
@@ -340,12 +365,13 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Scrolls the element's content to the given left coordinate
      *
      * @param value {Integer} The vertical position to scroll to.
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
-    scrollToX : function(value) {
+    scrollToX : function(value, duration) {
       // First flush queue before scroll
       qx.ui.core.queue.Manager.flush();
 
-      this.getChildControl("scrollbar-x").scrollTo(value);
+      this.getChildControl("scrollbar-x").scrollTo(value, duration);
     },
 
 
@@ -353,12 +379,13 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Scrolls the element's content by the given left offset
      *
      * @param value {Integer} The vertical position to scroll to.
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
-    scrollByX : function(value) {
+    scrollByX : function(value, duration) {
       // First flush queue before scroll
       qx.ui.core.queue.Manager.flush();
 
-      this.getChildControl("scrollbar-x").scrollBy(value);
+      this.getChildControl("scrollbar-x").scrollBy(value, duration);
     },
 
 
@@ -378,12 +405,13 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Scrolls the element's content to the given top coordinate
      *
      * @param value {Integer} The horizontal position to scroll to.
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
-    scrollToY : function(value) {
+    scrollToY : function(value, duration) {
       // First flush queue before scroll
       qx.ui.core.queue.Manager.flush();
 
-      this.getChildControl("scrollbar-y").scrollTo(value);
+      this.getChildControl("scrollbar-y").scrollTo(value, duration);
     },
 
 
@@ -391,13 +419,13 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Scrolls the element's content by the given top offset
      *
      * @param value {Integer} The horizontal position to scroll to.
-     * @return {void}
+     * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
-    scrollByY : function(value) {
+    scrollByY : function(value, duration) {
       // First flush queue before scroll
       qx.ui.core.queue.Manager.flush();
 
-      this.getChildControl("scrollbar-y").scrollBy(value);
+      this.getChildControl("scrollbar-y").scrollBy(value, duration);
     },
 
 
@@ -421,12 +449,19 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
+    /**
+     * Event handler for the scroll animation end event for both scroll bars.
+     *
+     * @param direction {String} Either "X" or "Y".
+     */
+    _onScrollAnimationEnd : function(direction) {
+      this.fireEvent("scrollAnimation" + direction + "End");
+    },
 
     /**
      * Event handler for the scroll event of the horizontal scrollbar
      *
      * @param e {qx.event.type.Data} The scroll event object
-     * @return {void}
      */
     _onScrollBarX : function(e) {
       this.getChildControl("pane").scrollToX(e.getData());
@@ -437,7 +472,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Event handler for the scroll event of the vertical scrollbar
      *
      * @param e {qx.event.type.Data} The scroll event object
-     * @return {void}
      */
     _onScrollBarY : function(e) {
       this.getChildControl("pane").scrollToY(e.getData());
@@ -448,7 +482,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Event handler for the horizontal scroll event of the pane
      *
      * @param e {qx.event.type.Data} The scroll event object
-     * @return {void}
      */
     _onScrollPaneX : function(e) {
       this.scrollToX(e.getData());
@@ -459,7 +492,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Event handler for the vertical scroll event of the pane
      *
      * @param e {qx.event.type.Data} The scroll event object
-     * @return {void}
      */
     _onScrollPaneY : function(e) {
       this.scrollToY(e.getData());
@@ -560,7 +592,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Event handler for visibility changes of horizontal scrollbar.
      *
      * @param e {qx.event.type.Event} Property change event
-     * @return {void}
      */
     _onChangeScrollbarXVisibility : function(e)
     {
@@ -579,7 +610,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * Event handler for visibility changes of horizontal scrollbar.
      *
      * @param e {qx.event.type.Event} Property change event
-     * @return {void}
      */
     _onChangeScrollbarYVisibility : function(e)
     {
@@ -605,7 +635,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     /**
      * Computes the visibility state for scrollbars.
      *
-     * @return {void}
      */
     _computeScrollbars : function()
     {

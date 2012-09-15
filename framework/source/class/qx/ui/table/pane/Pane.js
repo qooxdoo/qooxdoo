@@ -199,7 +199,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @param row {Integer?null} the model index of the focused cell's row.
      * @param massUpdate {Boolean ? false} Whether other updates are planned as well.
      *          If true, no repaint will be done.
-     * @return {void}
      */
     setFocusedCell : function(col, row, massUpdate)
     {
@@ -244,7 +243,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
      *
      * @param col {Integer} the column to change the width for.
      * @param width {Integer} the new width.
-     * @return {void}
      */
     setColumnWidth : function(col, width) {
       this.updateContent(true);
@@ -254,7 +252,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Event handler. Called the column order has changed.
      *
-     * @return {void}
      */
     onColOrderChanged : function() {
       this.updateContent(true);
@@ -295,7 +292,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Event handler. Called when the table model meta data has changed.
      *
-     * @return {void}
      */
     onTableModelMetaDataChanged : function() {
       this.updateContent(true);
@@ -373,7 +369,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @param onlyRow {Integer ? null} if set only the specified row will be updated.
      * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
      *          be updated. Only the row background will.
-     * @return {void}
      */
     updateContent : function(completeUpdate, scrollOffset, onlyRow, onlySelectionOrFocusChanged)
     {

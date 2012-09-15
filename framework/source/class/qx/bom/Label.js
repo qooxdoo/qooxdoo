@@ -228,7 +228,6 @@ qx.Bootstrap.define("qx.bom.Label",
      *
      * @param element {Element} DOM element to modify.
      * @param value {String} Content to insert.
-     * @return {void}
      */
     setValue : function(element, value)
     {
@@ -347,6 +346,11 @@ qx.Bootstrap.define("qx.bom.Label",
       if ((qx.core.Environment.get("engine.name") == "mshtml") && parseFloat(qx.core.Environment.get("engine.version")) >= 9) {
         size.width++;
       }
+      // Chrome since version 22 also has the already known missing pixel [BUG #6799]
+      if (qx.core.Environment.get("browser.name") == "chrome" && parseFloat(qx.core.Environment.get("browser.version")) >= 22) {
+        size.width++;
+      }
+
       return size;
     }
   }

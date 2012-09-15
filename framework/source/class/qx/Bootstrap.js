@@ -107,16 +107,16 @@ qx.Bootstrap = {
       }
 
       var statics = config.statics || {};
-      // use getKeys to include the shadowed in IE
-      for (var i=0, keys=qx.Bootstrap.getKeys(statics), l=keys.length; i<l; i++) {
+      // use keys to include the shadowed in IE
+      for (var i=0, keys=qx.Bootstrap.keys(statics), l=keys.length; i<l; i++) {
         var key = keys[i];
         clazz[key] = statics[key];
       }
 
       proto = clazz.prototype;
       var members = config.members || {};
-      // use getKeys to include the shadowed in IE
-      for (var i=0, keys=qx.Bootstrap.getKeys(members), l=keys.length; i<l; i++) {
+      // use keys to include the shadowed in IE
+      for (var i=0, keys=qx.Bootstrap.keys(members), l=keys.length; i<l; i++) {
         var key = keys[i];
         proto[key] = members[key];
       }
@@ -240,7 +240,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param name {String} The complete namespace to create. Typically, the last part is the class name itself
      * @param object {Object} The object to attach to the namespace
      * @return {Object} last part of the namespace (typically the class name)
-     * @throws an exception when the given object already exists.
+     * @throws {Error} when the given object already exists.
      */
     createNamespace : qx.Bootstrap.createNamespace,
 
@@ -311,9 +311,9 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       // Use helper function/class to save the unnecessary constructor call while
       // setting up inheritance.
-      var helper = new Function;
+      var helper = new Function();
       helper.prototype = superproto;
-      var proto = new helper;
+      var proto = new helper();
 
       // Apply prototype to new helper instance
       clazz.prototype = proto;
@@ -326,7 +326,8 @@ qx.Bootstrap.define("qx.Bootstrap",
         - Store base constructor to constructor-
         - Store reference to extend class
       */
-      construct.base = clazz.superclass = superClass;
+      construct.base = superClass;
+      clazz.superclass = superClass;
 
       /*
         - Store statics/constructor onto constructor/prototype
@@ -359,21 +360,14 @@ qx.Bootstrap.define("qx.Bootstrap",
     */
 
     /**
-     * Get the number of objects in the map
+     * Get the number of own properties in the object.
      *
-     * @signature function(map)
      * @param map {Object} the map
      * @return {Integer} number of objects in the map
+     * @lint ignoreUnused(key)
      */
-    objectGetLength : function(map)
-    {
-      var length = 0;
-
-      for (var key in map) {
-        length++;
-      }
-
-      return length;
+    objectGetLength : function(map) {
+      return qx.Bootstrap.keys(map).length;
     },
 
 
@@ -416,6 +410,7 @@ qx.Bootstrap.define("qx.Bootstrap",
       "toLocaleString",
       "toString",
       "valueOf",
+      "propertyIsEnumerable",
       "constructor"
     ],
 
@@ -423,16 +418,39 @@ qx.Bootstrap.define("qx.Bootstrap",
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
      *
-     * @signature function(map)
+     * @deprecated {2.1.} Please use Object.keys instead.
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    getKeys :
+    getKeys : function(map) {
+      if (qx.Bootstrap.DEBUG) {
+        qx.Bootstrap.warn(
+          "'qx.Bootstrap.getKeys' is deprecated. " +
+          "Please use the native 'Object.keys()' instead."
+        );
+      }
+      return qx.Bootstrap.keys(map);
+    },
+
+
+    /**
+     * Get the keys of a map as array as returned by a "for ... in" statement.
+     *
+     * @signature function(map)
+     * @internal
+     * @param map {Object} the map
+     * @return {Array} array of the keys of the map
+     */
+    keys :
     ({
       "ES5" : Object.keys,
 
       "BROKEN_IE" : function(map)
       {
+        if (map === null || (typeof map != "object" && typeof map != "function")) {
+            throw new TypeError("Object.keys requires an object as argument.");
+        }
+
         var arr = [];
         var hasOwnProperty = Object.prototype.hasOwnProperty;
         for (var key in map) {
@@ -457,6 +475,10 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       "default" : function(map)
       {
+        if (map === null || (typeof map != "object" && typeof map != "function")) {
+            throw new TypeError("Object.keys requires an object as argument.");
+        }
+
         var arr = [];
 
         var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -478,12 +500,19 @@ qx.Bootstrap.define("qx.Bootstrap",
      * Get the keys of a map as string
      *
      * @param map {Object} the map
+     * @deprecated {2.1} Object.keys(map).join('\", "').
      * @return {String} String of the keys of the map
      *         The keys are separated by ", "
      */
     getKeysAsString : function(map)
     {
-      var keys = qx.Bootstrap.getKeys(map);
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.Bootstrap.warn(
+          "'qx.Bootstrap.getKeysAsString' is deprecared. " +
+          "Please use 'Object.keys(map).join()' instead."
+        );
+      }
+      var keys = qx.Bootstrap.keys(map);
       if (keys.length == 0) {
         return "";
       }
@@ -695,7 +724,6 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param message {var} Any number of arguments supported. An argument may
      *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
-     * @return {void}
      */
     debug : function(object, message) {
       qx.Bootstrap.$$logs.push(["debug", arguments]);
@@ -709,7 +737,6 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param message {var} Any number of arguments supported. An argument may
      *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
-     * @return {void}
      */
     info : function(object, message) {
       qx.Bootstrap.$$logs.push(["info", arguments]);
@@ -723,7 +750,6 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param message {var} Any number of arguments supported. An argument may
      *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
-     * @return {void}
      */
     warn : function(object, message) {
       qx.Bootstrap.$$logs.push(["warn", arguments]);
@@ -737,7 +763,6 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param message {var} Any number of arguments supported. An argument may
      *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
-     * @return {void}
      */
     error : function(object, message) {
       qx.Bootstrap.$$logs.push(["error", arguments]);

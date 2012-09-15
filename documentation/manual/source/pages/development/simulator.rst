@@ -142,7 +142,7 @@ This Firefox plugin allows test developers to run Selenium commands against a we
 
 ::
 
-  C:\workspace\qooxdoo-1.4-sdk\component\simulator\tool\user-extensions\user-extensions.js
+  C:\workspace\qooxdoo-%{version}-sdk\component\simulator\tool\user-extensions\user-extensions.js
   
 Inspector
 =========

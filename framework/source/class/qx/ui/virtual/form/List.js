@@ -24,15 +24,14 @@
  *
  * EXPERIMENTAL!
  *
- * @childControl row-layer {qx.ui.virtual.Row} layer for all rows
+ * @childControl row-layer {qx.ui.virtual.layer.Row} layer for all rows
  * @childControl grid-lines {qx.ui.virtual.layer.GridLines} show the grid lines
  *
- * @deprecated This 'qx.ui.virtual.form.List' is deprecated use 'qx.ui.list.List'
- *   instead. The current 'qx.ui.list.List' doens't support HTML rendering, but
+ * @deprecated {2.1} The 'qx.ui.virtual.form.List' is deprecated, use 'qx.ui.list.List'
+ *   instead. The current 'qx.ui.list.List' doesn't support HTML rendering, but
  *   it will have this feature in the future. Due to the missing HTML rendering
- *   feature we suggest only to use deprecated 'qx.ui.virtual.form.List'
- *   implementation when the HTML rendering feature is needed otherwise use
- *   'qx.ui.list.List'.
+ *   support we suggest only to use 'qx.ui.virtual.form.List' when the HTML
+ *   rendering is needed, otherwise use 'qx.ui.list.List'.
  */
 qx.Class.define("qx.ui.virtual.form.List",
 {

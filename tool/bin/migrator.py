@@ -78,6 +78,9 @@ MIGRATION_ORDER = [
     "1.5.1",
     "1.6",
     "2.0",
+    "2.0.1",
+    "2.0.2",
+    "2.1",
 ]
 
 default_old_version = "1.6"
@@ -368,9 +371,10 @@ def setupLogging(verbose=False):
 
 def entryCompiler(line):
     # protect escaped equal symbols
-    line = line.replace("\=", "----EQUAL----")
+    eq_sym = "----EQUAL----"
+    line = line.replace("\=", eq_sym)
 
-    splitLine = line.split("=")
+    splitLine = line.split("=", 1)
 
     if len(splitLine) < 2:
         logging.error("        - Malformed entry: %s" % line)
@@ -382,8 +386,8 @@ def entryCompiler(line):
     #print "%s :: %s" % (orig, value)
 
     # recover protected equal symbols
-    orig = orig.replace("----EQUAL----", "=")
-    repl = repl.replace("----EQUAL----", "=")
+    orig = orig.replace(eq_sym, "=")
+    repl = repl.replace(eq_sym, "=")
 
     return {"expr":re.compile(orig, re.M), "orig":orig, "repl":repl}
 
@@ -562,7 +566,7 @@ def migrateFile(
     if hasPatchModule and fileId is not None:
 
         import patch
-        tree = treegenerator.createSyntaxTree(tokenizer.parseStream(fileContent))
+        tree = treegenerator.createFileTree(tokenizer.parseStream(fileContent))
 
         # If there were any changes, compile the result
         if patch.patch(fileId, tree):

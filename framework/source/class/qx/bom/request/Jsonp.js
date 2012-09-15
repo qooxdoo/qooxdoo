@@ -99,6 +99,9 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      */
     __disposed: null,
 
+    /** Prefix used for the internal callback name. */
+    __prefix : "",
+
     /**
      * Initializes (prepares) request.
      *
@@ -124,7 +127,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
       this.__callbackCalled = false;
 
       callbackParam = this.__callbackParam || "callback";
-      callbackName = this.__callbackName ||
+      callbackName = this.__callbackName || this.__prefix +
         "qx.bom.request.Jsonp[" + this.__id + "].callback";
 
       // Default callback
@@ -238,6 +241,17 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     setCallbackName: function(name) {
       this.__callbackName = name;
       return this;
+    },
+
+
+    /**
+     * Set the prefix used in front of 'qx.' in case 'qx' is not available
+     * (for qx.Website e.g.)
+     * @internal
+     * @param prefix {String} The prefix to put in front of 'qx'
+     */
+    setPrefix : function(prefix) {
+      this.__prefix = prefix;
     },
 
 

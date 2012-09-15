@@ -394,7 +394,6 @@ qx.Class.define("qx.ui.tree.core.AbstractItem",
     * Set source of icon child control
     *
     * @param url {String} The URL of the icon
-    * @return {void}
     */
     __setIconSource : function(url) {
       var icon = this.getChildControl("icon", true);

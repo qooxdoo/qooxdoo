@@ -79,7 +79,7 @@ qx.Class.define("qx.data.marshal.Json",
      * @return {String} The hash representation of the given JavaScript object.
      */
     __jsonToHash: function(data) {
-      return qx.Bootstrap.getKeys(data).sort().join('"');
+      return Object.keys(data).sort().join('"');
     },
 
 
@@ -102,7 +102,21 @@ qx.Class.define("qx.data.marshal.Json",
      *   the bubbling of change events or not.
      */
     toClass: function(data, includeBubbleEvents) {
+      this.__toClass(data, includeBubbleEvents, null, 0);
+    },
 
+
+    /**
+     * Implementation of {@link #toClass} used for recursion.
+     *
+     * @param data {Object} The object for which classes should be created.
+     * @param includeBubbleEvents {Boolean} Whether the model should support
+     *   the bubbling of change events or not.
+     * @param parentProperty {String|null} The name of the property the
+     *   data will be stored in.
+     * @param depth {Number} The depth of the data relative to the data's root.
+     */
+    __toClass : function(data, includeBubbleEvents, parentProperty, depth) {
       // break on all primitive json types and qooxdoo objects
       if (
         !qx.lang.Type.isObject(data)
@@ -112,7 +126,7 @@ qx.Class.define("qx.data.marshal.Json",
         // check for arrays
         if (data instanceof Array || qx.Bootstrap.getClass(data) == "Array") {
           for (var i = 0; i < data.length; i++) {
-            this.toClass(data[i], includeBubbleEvents);
+            this.__toClass(data[i], includeBubbleEvents, null, depth+1);
           }
         }
 
@@ -122,9 +136,14 @@ qx.Class.define("qx.data.marshal.Json",
 
       var hash = this.__jsonToHash(data);
 
+      // ignore rules
+      if (this.__ignore(hash, parentProperty, depth)) {
+        return;
+      }
+
       // check for the possible child classes
       for (var key in data) {
-        this.toClass(data[key], includeBubbleEvents);
+        this.__toClass(data[key], includeBubbleEvents, key, depth+1);
       }
 
       // class already exists
@@ -269,6 +288,19 @@ qx.Class.define("qx.data.marshal.Json",
 
 
     /**
+     * Helper to decide if the delegate decides to ignore a data set.
+     * @param hash {String} The property names.
+     * @param parentProperty {String|null} The name of the property the data
+     *   will be stored in.
+     * @param depth {Number} The depth of the object relative to the data root.
+     */
+    __ignore : function(hash, parentProperty, depth) {
+      var del = this.__delegate;
+      return del && del.ignore && del.ignore(hash, parentProperty, depth);
+    },
+
+
+    /**
      * Creates for the given data the needed models. Be sure to have the classes
      * created with {@link #toClass} before calling this method. The creation
      * of the class itself is delegated to the {@link #__createInstance} method,
@@ -280,6 +312,20 @@ qx.Class.define("qx.data.marshal.Json",
      * @return {qx.core.Object} The created model object.
      */
     toModel: function(data) {
+      return this.__toModel(data, null, 0);
+    },
+
+
+    /**
+     * Implementation of {@link #toModel} used for recursion.
+     *
+     * @param data {Object} The object for which models should be created.
+     * @param parentProperty {String|null} The name of the property the
+     *   data will be stored in.
+     * @param depth {Number} The depth of the data relative to the data's root.
+     * @return {qx.core.Object} The created model object.
+     */
+    __toModel: function(data, parentProperty, depth) {
       var isObject = qx.lang.Type.isObject(data);
       var isArray = data instanceof Array || qx.Bootstrap.getClass(data) == "Array";
 
@@ -290,13 +336,17 @@ qx.Class.define("qx.data.marshal.Json",
       ) {
         return data;
 
+      // ignore rules
+      } else if (this.__ignore(this.__jsonToHash(data), parentProperty, depth)) {
+        return data;
+
       } else if (isArray) {
         var array = new qx.data.Array();
         // set the auto dispose for the array
         array.setAutoDisposeItems(true);
 
         for (var i = 0; i < data.length; i++) {
-          array.push(this.toModel(data[i]));
+          array.push(this.__toModel(data[i], null, depth+1));
         }
         return array;
 
@@ -329,7 +379,7 @@ qx.Class.define("qx.data.marshal.Json",
           // only set the properties if they are available [BUG #5909]
           var setterName = "set" + qx.lang.String.firstUp(propertyName);
           if (model[setterName]) {
-            model[setterName](this.toModel(data[key]));
+            model[setterName](this.__toModel(data[key], key, depth+1));
           }
         }
         return model;

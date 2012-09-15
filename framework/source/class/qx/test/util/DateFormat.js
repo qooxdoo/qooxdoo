@@ -96,7 +96,6 @@ qx.Class.define("qx.test.util.DateFormat",
     /**
      * TODOC
      *
-     * @return {void}
      */
     testDateParse : function()
     {

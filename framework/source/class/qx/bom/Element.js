@@ -67,7 +67,7 @@ qx.Class.define("qx.bom.Element",
      *
      * @param win {Window?} Window to check for
      * @return {Boolean} <code>true</code> if the DOM supports it, <code>false</code> otherwise.
-     * @deprecated since 2.0
+     * @deprecated {2.0}
      */
     allowCreationWithMarkup : function(win) {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee);
@@ -79,7 +79,7 @@ qx.Class.define("qx.bom.Element",
      *
      * @param win {Window?} Window to create the element for
      * @return {Element} The created element node
-     * @deprecated since 2.0
+     * @deprecated {2.0}
      */
     getHelperElement : function (win)
     {
@@ -102,7 +102,7 @@ qx.Class.define("qx.bom.Element",
      * @param attributes {Map?} Map of attributes to apply
      * @param win {Window?} Window to create the element for
      * @return {Element} The created element node
-     * @deprecated since 2.0
+     * @deprecated {2.0}
      */
     create : function(name, attributes, win)
     {
@@ -125,7 +125,7 @@ qx.Class.define("qx.bom.Element",
      *
      * @param element {Element} element to clean
      * @return {String} empty string (new HTML content)
-     * @deprecated since 2.0
+     * @deprecated {2.0}
      */
     empty : function(element) {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use qx.dom.Element.empty instead");
@@ -216,7 +216,6 @@ qx.Class.define("qx.bom.Element",
      * Focuses the given element. The element needs to have a positive <code>tabIndex</code> value.
      *
      * @param element {Element} DOM element to focus
-     * @return {void}
      */
     focus : function(element) {
       qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).focus(element);
@@ -227,7 +226,6 @@ qx.Class.define("qx.bom.Element",
      * Blurs the given element
      *
      * @param element {Element} DOM element to blur
-     * @return {void}
      */
     blur : function(element) {
       qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).blur(element);
@@ -238,7 +236,6 @@ qx.Class.define("qx.bom.Element",
      * Activates the given element. The active element receives all key board events.
      *
      * @param element {Element} DOM element to focus
-     * @return {void}
      */
     activate : function(element) {
       qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).activate(element);
@@ -249,7 +246,6 @@ qx.Class.define("qx.bom.Element",
      * Deactivates the given element. The active element receives all key board events.
      *
      * @param element {Element} DOM element to focus
-     * @return {void}
      */
     deactivate : function(element) {
       qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).deactivate(element);
@@ -273,7 +269,6 @@ qx.Class.define("qx.bom.Element",
      * Releases the given element (from a previous {@link #capture} call)
      *
      * @param element {Element} DOM element to release
-     * @return {void}
      */
     releaseCapture : function(element) {
       qx.event.Registration.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).releaseCapture(element);
@@ -286,7 +281,7 @@ qx.Class.define("qx.bom.Element",
      * @param element {Element} DOM element to test against
      * @param selector {String} Valid selector (CSS3 + extensions)
      * @return {Boolean} whether the element can be selected by the selector or not
-     * @deprecated since 2.0
+     * @deprecated {2.0}
      */
     matchesSelector : function(element,selector) {
       if (selector) {

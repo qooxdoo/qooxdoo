@@ -125,7 +125,6 @@ qx.Class.define("qx.util.AliasManager",
      *
      * @param alias {String} alias name for the resource path/url
      * @param base {String} first part of URI for all images which use this alias
-     * @return {void}
      */
     add : function(alias, base)
     {
@@ -150,7 +149,6 @@ qx.Class.define("qx.util.AliasManager",
      * Remove a previously defined alias
      *
      * @param alias {String} alias name for the resource path/url
-     * @return {void}
      */
     remove : function(alias)
     {

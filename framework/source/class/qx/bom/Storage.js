@@ -34,7 +34,15 @@ qx.Bootstrap.define("qx.bom.Storage", {
      *   An instance of a storage implementation.
      */
     getLocal : function() {
-      return this.__impl.getLocal();
+      // always use HTML5 web storage if available
+      if (qx.core.Environment.get("html.storage.local")) {
+        return qx.bom.storage.Web.getLocal();
+      } else if (qx.core.Environment.get("html.storage.userdata")) { // IE <8 fallback
+        // as fallback,use the userdata storage for IE5.5 - 8
+        return qx.bom.storage.UserData.getLocal();
+      }
+      // as last fallback, use a in memory storage (this one is not persistent)
+      return qx.bom.storage.Memory.getLocal();
     },
 
 
@@ -44,21 +52,15 @@ qx.Bootstrap.define("qx.bom.Storage", {
      *   An instance of a storage implementation.
      */
     getSession : function() {
-      return this.__impl.getSession();
-    }
-  },
-
-
-  defer : function(statics) {
-    // always use HTML5 web storage if available
-    if (qx.core.Environment.get("html.storage.local")) {
-      statics.__impl = qx.bom.storage.Web;
-      // as fallback,use the userdata storage for IE5.5 - 8
-    } else if (qx.core.Environment.get("html.storage.userdata")) { // IE <8 fallback
-      statics.__impl = qx.bom.storage.UserData;
+      // always use HTML5 web storage if available
+      if (qx.core.Environment.get("html.storage.local")) {
+        return qx.bom.storage.Web.getSession();
+      } else if (qx.core.Environment.get("html.storage.userdata")) { // IE <8 fallback
+        // as fallback,use the userdata storage for IE5.5 - 8
+        return qx.bom.storage.UserData.getSession();
+      }
       // as last fallback, use a in memory storage (this one is not persistent)
-    } else {
-      statics.__impl = qx.bom.storage.Memory;
+      return qx.bom.storage.Memory.getSession();
     }
   }
 });

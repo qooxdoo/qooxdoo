@@ -1,0 +1,169 @@
+{
+  "name"    : "includer for basic testrunner",
+
+  "include" : 
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/base.json",
+      "as"   : "base"
+    }
+  ],
+  
+  "let" :
+  {
+    "APPLICATION"  : "testrunner",
+    "QOOXDOO_PATH" : "../..",
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "ROOT"         : ".",
+    "BUILD_PATH"   : "build",
+    "TEST_NAMESPACE" : "${APPLICATION}.test",
+    "TEST_INCLUDE" : "${TEST_NAMESPACE}.*",
+    "TEST_EXCLUDE" : "",
+    "TESTRUNNER_ROOT" : ".",
+    "TESTRUNNER_MAIN_CLASS" : "testrunner.ApplicationBasic",
+    "TESTRUNNER_VIEW" : "testrunner.view.Basic",
+    "BUILD_PATH"   : "build",
+    "TESTRUNNER_SCRIPT" : "testrunner-basic.js",
+    "BUILD_SCRIPT_FILE" : "${BUILD_PATH}/script/${TESTRUNNER_SCRIPT}"
+  },
+  
+  "jobs" :
+  {
+    "testrunner-basic-common" :
+    {
+      "extend" : ["base::cache", "base::libraries"],
+      
+      "config-warnings" :
+      {
+        "exclude" : [
+          "qx.core.Init",
+          "qx.dev.Debug",
+          "${TEST_EXCLUDE}"
+        ]
+      },
+      
+      "library" :
+      [
+        {
+          "manifest" : "${TESTRUNNER_ROOT}/Manifest.json"
+        }
+      ],
+      
+      "include" : [
+        "qx.core.BaseInit",
+        "${TESTRUNNER_MAIN_CLASS}",
+        "${TESTRUNNER_VIEW}",
+        "${TEST_INCLUDE}"
+      ],
+      
+      "exclude" : [
+        "qx.core.Init",
+        "qx.dev.Debug", // Can be removed once qx bug #5330 is fixed
+        "${TEST_EXCLUDE}"
+      ],
+      
+      "environment" :
+      {
+        "qx.debug" : true,
+        "qx.aspects" : false,
+        "qx.version"     : "${QOOXDOO_VERSION}",
+        "qx.revision"    : "${QOOXDOO_REVISION}",
+        "qx.application" : "${TESTRUNNER_MAIN_CLASS}",
+        "qx.testNameSpace" : "${TEST_NAMESPACE}",
+        "qx.globalErrorHandling" : false,
+        "testrunner.view" : "${TESTRUNNER_VIEW}",
+        "testrunner.testParts" : false,
+        "testrunner.reportServer" : null,
+        "testrunner.performance" : true
+      },
+      
+      "compile-options" :
+      {
+        "code" :
+        {
+          "except" : []
+        },
+        "paths" :
+        {
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/basic.loader.js",
+          "app-root" : "."
+        }
+      }
+    },
+
+    "build-basic" :
+    {
+      "run" : ["build-basic-script"]
+    },
+    
+    "build-basic-script" :
+    {
+      "extend" : [ "testrunner-basic-common" ],
+      
+      "environment" :
+      {
+        "qx.debug" : false
+      },
+      
+      "compile-options" :
+      {
+        "code" :
+        {
+          "format"   : true,
+          "optimize" : [ "variables", "basecalls", "privates" , "whitespace"]
+        },
+        
+        "paths" :
+        {
+          "file" : "${BUILD_SCRIPT_FILE}"
+        },
+        
+        "uris" : 
+        {
+          "script" : "."
+        }
+      },
+      
+      "compile" : { "type" : "build" }
+    },
+    
+    "source-basic" :
+    {
+      "run" : ["source-basic-script"],
+      
+      "let" :
+      {
+        "BUILD_PATH" : "source"
+      }
+    },
+    
+    "source-basic-script" :
+    {
+      "extend" : [ "testrunner-basic-common" ],
+      
+      "environment" :
+      {
+        "qx.debug" : true
+      },
+      
+      "compile-options" :
+      {
+        "code" :
+        {
+          "format"   : true,
+          "optimize" : [],
+          "except" : ["*"]
+        },
+        
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/script/testrunner-basic-source.js",
+          "app-root" : "${BUILD_PATH}/script"
+        }
+      },
+      
+      "compile" : { "type" : "source" }
+    }
+  }
+}

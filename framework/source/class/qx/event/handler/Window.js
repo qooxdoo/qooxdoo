@@ -136,7 +136,6 @@ qx.Class.define("qx.event.handler.Window",
     /**
      * Initializes the native mouse event listeners.
      *
-     * @return {void}
      */
     _initWindowObserver : function()
     {
@@ -152,7 +151,6 @@ qx.Class.define("qx.event.handler.Window",
     /**
      * Disconnect the native mouse event listeners.
      *
-     * @return {void}
      */
     _stopWindowObserver : function()
     {
@@ -189,7 +187,7 @@ qx.Class.define("qx.event.handler.Window",
       var win = this._window;
       try {
         var doc = win.document;
-      } catch (e) {
+      } catch (ex) {
         // IE7 sometimes dispatches "unload" events on protected windows
         // Ignore these events
         return;

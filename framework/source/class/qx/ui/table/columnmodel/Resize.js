@@ -180,7 +180,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *   being generated.  The data is a map containing properties <i>table</i>
      *   and <i>menu</i>.
      *
-     * @return {void}
      */
     _addResetColumnWidthButton : function(event)
     {
@@ -209,7 +208,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      * @param event {qx.event.type.Event}
      *   The "onappear" event object.
      *
-     * @return {void}
      */
     _onappear : function(event)
     {
@@ -248,7 +246,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      * @param event {qx.event.type.Event}
      *   The "onwindowresize" event object.
      *
-     * @return {void}
      */
     _onTableWidthChanged : function(event)
     {
@@ -281,7 +278,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *   The "verticalScrollBarChanged" event object.  The data is a boolean
      *   indicating whether a vertical scroll bar is now present.
      *
-     * @return {void}
      */
     _onverticalscrollbarchanged : function(event)
     {
@@ -323,7 +319,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      * @param event {qx.event.type.Data}
      *   The "widthChanged" event object.
      *
-     * @return {void}
      */
     _oncolumnwidthchanged : function(event)
     {
@@ -355,7 +350,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      * @param event {qx.event.type.Data}
      *   The "visibilityChanged" event object.
      *
-     * @return {void}
      */
     _onvisibilitychanged : function(event)
     {

@@ -1,0 +1,31 @@
+/*
+==========================================================
+  override layout.css
+==========================================================
+*/
+
+#teaser{
+  /* half right margin */
+  margin-right: 12px;
+}
+
+#content{
+  /* half left margin */
+  margin-left: 12px;
+
+  /* IE6 interprets height as min-height, so we have a replacement */
+  height: 600px;
+}
+
+body.admin #content,
+body.recent #content,
+body.bugzilla #content{
+  /* original margin, as we have no float anymore here. */
+  margin-right: 25px;
+  margin-left: 25px;
+}
+
+#content pre{
+  /* needed to let horizontal overflow work */
+  width: 100%;
+}

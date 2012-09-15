@@ -84,7 +84,6 @@ qx.Interface.define("qx.ui.table.IColumnMenuButton",
      * Empty the menu of all items, in preparation for building a new column
      * visibility menu.
      *
-     * @return {void}
      */
     empty : function()
     {

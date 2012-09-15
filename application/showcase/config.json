@@ -20,7 +20,9 @@
       "de", "de_DE", "de_AT", 
       "es", "es_ES", "es_MX", 
       "ro", "ro_RO",
-      "sv", "sv_SE"
+      "sv", "sv_SE",
+      "cs",
+      "pt"
     ],
     "ROOT"         : "."
   },
@@ -51,6 +53,12 @@
           "manifest" : "${QOOXDOO_PATH}/component/library/indigo/Manifest.json"
         }
       ],
+      
+      "environment" :
+      {
+        "qx.mobile.nativescroll" : true
+      },
+      
       "packages" : 
       {
         "parts" : 

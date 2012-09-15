@@ -79,6 +79,15 @@ Internationalization
    Internationalization, Localization <development/internationalization>
 
 
+Documenting Code
+=================
+
+.. toctree::
+   :maxdepth: 2
+
+   development/write_api_documentation
+   development/api_jsdoc_ref
+
 Miscellaneous
 =============
 
@@ -86,11 +95,7 @@ Miscellaneous
    :maxdepth: 2
 
    development/image_clipping_and_combining
-
-   development/write_api_documentation
    development/reporting_bugs
-
    development/aspects_template
-
    development/internet_explorer_specific_settings
 

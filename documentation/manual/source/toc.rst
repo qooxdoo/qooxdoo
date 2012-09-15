@@ -88,13 +88,6 @@
 
    pages/tool
 
-.. migration
-
-.. toctree::
-   :maxdepth: 3
-
-   pages/migration
-
 .. toctree::
    :maxdepth: 3
 

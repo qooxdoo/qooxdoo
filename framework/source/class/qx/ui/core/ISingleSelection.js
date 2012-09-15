@@ -63,7 +63,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      * Replaces current selection with the given items.
      *
      * @param items {qx.ui.core.Widget[]} Items to select.
-     * @throws an exception if the item is not a child element.
+     * @throws {Error} if the item is not a child element.
      */
     setSelection : function(items) {
       return arguments.length == 1;
@@ -81,7 +81,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      *
      * @param item {qx.ui.core.Widget} Any valid selectable item
      * @return {Boolean} Whether the item is selected.
-     * @throws an exception if the item is not a child element.
+     * @throws {Error} if the item is not a child element.
      */
     isSelected : function(item) {
       return arguments.length == 1;
@@ -99,7 +99,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
     /**
      * Returns all elements which are selectable.
      *
-     * @param all {boolean} true for all selectables, false for the
+     * @param all {Boolean} true for all selectables, false for the
      *   selectables the user can interactively select
      * @return {qx.ui.core.Widget[]} The contained items.
      */

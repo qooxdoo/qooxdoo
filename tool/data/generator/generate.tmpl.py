@@ -55,6 +55,10 @@ def parseArgs():
         "-c", "--config", dest="config", metavar="CFGFILE", 
         default="config.json", help="path to configuration file"
     )
+    parser.add_option(
+        "-v", "--verbose", dest="verbose", action="store_true",
+        default=False, help="run in verbose mode"
+    )
     (options, args) = parser.parse_args(sys.argv[1:])
     return options, args
 
@@ -91,7 +95,7 @@ def getQxPath():
             got_path = False
             if got_json:
                 config_str = codecs.open(config_file, "r", "utf-8").read()
-                config_str = stripComments(config_str)
+                #config_str = stripComments(config_str)  # not necessary under demjson
                 config = json.loads(config_str)
                 p = config.get("let")
                 if p:
@@ -122,6 +126,8 @@ REAL_GENERATOR = os.path.join(qxpath, 'tool', 'bin', 'generator.py')
 if not os.path.exists(REAL_GENERATOR):
     print "Cannot find real generator script under: \"%s\"; aborting" % REAL_GENERATOR
     sys.exit(1)
+elif ShellOptions.verbose:
+    print "\nInvoking real generator under %s ..." % REAL_GENERATOR
 
 argList = []
 argList.append(CMD_PYTHON)

@@ -29,7 +29,7 @@ qx.Interface.define("qx.event.IEventDispatcher",
     /**
      * Whether the dispatcher is responsible for the this event.
      *
-     * @param target {Element|qx.core.Event} The event dispatch target
+     * @param target {Element|Event} The event dispatch target
      * @param event {qx.event.type.Event} The event object
      * @param type {String} the event type
      * @return {Boolean} Whether the event dispatcher is responsible for the this event
@@ -44,7 +44,7 @@ qx.Interface.define("qx.event.IEventDispatcher",
     /**
      * This function dispatches the event to the event listeners.
      *
-     * @param target {Element|qx.core.Event} The event dispatch target
+     * @param target {Element|Event} The event dispatch target
      * @param event {qx.event.type.Event} event object to dispatch
      * @param type {String} the event type
      */

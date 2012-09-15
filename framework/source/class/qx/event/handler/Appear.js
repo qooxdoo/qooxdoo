@@ -90,7 +90,6 @@ qx.Class.define("qx.event.handler.Appear",
      * Refreshes all appear handlers. Useful after massive DOM manipulations e.g.
      * through qx.html.Element.
      *
-     * @return {void}
      */
      refresh : function()
      {
@@ -167,7 +166,6 @@ qx.Class.define("qx.event.handler.Appear",
      * This method should be called by all DOM tree modifying routines
      * to check the registered nodes for changes.
      *
-     * @return {void}
      */
     refresh : function()
     {

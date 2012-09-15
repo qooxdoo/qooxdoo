@@ -469,7 +469,6 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * Removes all of element's text nodes which contain only whitespace
      *
      * @param element {Element} Element to cleanup
-     * @return {void}
      */
     cleanWhitespace : function(element)
     {

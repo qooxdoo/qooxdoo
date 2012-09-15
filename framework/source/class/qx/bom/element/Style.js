@@ -64,29 +64,21 @@
 #require(qx.bom.element.Cursor#set)
 #require(qx.bom.element.Opacity#set)
 #require(qx.bom.element.BoxSizing#set)
-#require(qx.bom.element.Overflow#setY)
-#require(qx.bom.element.Overflow#setX)
 
 #require(qx.bom.element.Clip#get)
 #require(qx.bom.element.Cursor#get)
 #require(qx.bom.element.Opacity#get)
 #require(qx.bom.element.BoxSizing#get)
-#require(qx.bom.element.Overflow#getX)
-#require(qx.bom.element.Overflow#getY)
 
 #require(qx.bom.element.Clip#reset)
 #require(qx.bom.element.Cursor#reset)
 #require(qx.bom.element.Opacity#reset)
 #require(qx.bom.element.BoxSizing#reset)
-#require(qx.bom.element.Overflow#resetX)
-#require(qx.bom.element.Overflow#resetY)
 
 #require(qx.bom.element.Clip#compile)
 #require(qx.bom.element.Cursor#compile)
 #require(qx.bom.element.Opacity#compile)
 #require(qx.bom.element.BoxSizing#compile)
-#require(qx.bom.element.Overflow#compileX)
-#require(qx.bom.element.Overflow#compileY)
 
 ************************************************************************ */
 
@@ -106,6 +98,10 @@ qx.Bootstrap.define("qx.bom.element.Style",
 
   statics :
   {
+    __styleNames : null,
+
+    __cssNames : null,
+
     /**
      * Detect vendor specific properties.
      */
@@ -180,19 +176,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
       clip : qx.bom.element.Clip,
       cursor : qx.bom.element.Cursor,
       opacity : qx.bom.element.Opacity,
-      boxSizing : qx.bom.element.BoxSizing,
-      overflowX : {
-        set : qx.lang.Function.bind(qx.bom.element.Overflow.setX, qx.bom.element.Overflow),
-        get : qx.lang.Function.bind(qx.bom.element.Overflow.getX, qx.bom.element.Overflow),
-        reset : qx.lang.Function.bind(qx.bom.element.Overflow.resetX, qx.bom.element.Overflow),
-        compile : qx.lang.Function.bind(qx.bom.element.Overflow.compileX, qx.bom.element.Overflow)
-      },
-      overflowY : {
-        set : qx.lang.Function.bind(qx.bom.element.Overflow.setY, qx.bom.element.Overflow),
-        get : qx.lang.Function.bind(qx.bom.element.Overflow.getY, qx.bom.element.Overflow),
-        reset : qx.lang.Function.bind(qx.bom.element.Overflow.resetY, qx.bom.element.Overflow),
-        compile : qx.lang.Function.bind(qx.bom.element.Overflow.compileY, qx.bom.element.Overflow)
-      }
+      boxSizing : qx.bom.element.BoxSizing
     },
 
 
@@ -213,7 +197,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
     {
       var html = [];
       var special = this.__special;
-      var names = this.__cssNames;
+      var cssNames = this.__cssNames;
       var name, value;
 
       for (name in map)
@@ -225,13 +209,16 @@ qx.Bootstrap.define("qx.bom.element.Style",
         }
 
         // normalize name
-        name = names[name] || name;
+        name = this.__styleNames[name] || this.__getStyleName(name) || name;
 
         // process special properties
         if (special[name]) {
           html.push(special[name].compile(value));
         } else {
-          html.push(qx.lang.String.hyphenate(name), ":", value, ";");
+          if (!cssNames[name]) {
+            cssNames[name] = qx.lang.String.hyphenate(name);
+          }
+          html.push(cssNames[name], ":", value, ";");
         }
       }
 
@@ -249,7 +236,6 @@ qx.Bootstrap.define("qx.bom.element.Style",
      *
      * @param element {Element} The DOM element to modify
      * @param value {String} The full CSS string
-     * @return {void}
      */
     setCss : function(element, value)
     {
@@ -370,7 +356,6 @@ qx.Bootstrap.define("qx.bom.element.Style",
      *    and the value is the value to use.
      * @param smart {Boolean?true} Whether the implementation should automatically use
      *    special implementations for some properties
-     * @return {void}
      */
     setStyles : function(element, styles, smart)
     {
@@ -422,7 +407,6 @@ qx.Bootstrap.define("qx.bom.element.Style",
      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
      * @param smart {Boolean?true} Whether the implementation should automatically use
      *    special implementations for some properties
-     * @return {void}
      */
     reset : function(element, name, smart)
     {

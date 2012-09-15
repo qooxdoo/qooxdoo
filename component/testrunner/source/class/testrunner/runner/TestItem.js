@@ -182,7 +182,7 @@ qx.Class.define("testrunner.runner.TestItem", {
             if (msg.indexOf("Backtrace:") < 0) {
               message += exceptions[i].exception.toString();
             } else {
-              message += qx.lang.String.trim(msg.split("Backtrace:")[0]);
+              message += msg.split("Backtrace:")[0].trim();
             }
           }
           return message;

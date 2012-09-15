@@ -1,0 +1,45 @@
+/*
+==========================================================
+  override core.css
+==========================================================
+*/
+
+fieldset{
+  /* padding-top is implemented as margin-top in this case, we reset it */
+  padding-top: 0px;
+}
+
+.clearfix {
+  height: 1%;
+}
+
+
+
+
+
+/*
+==========================================================
+  override layout.css
+==========================================================
+*/
+
+#teaser ul{
+  /* minor margin correction to display the dot completely */
+  margin-left: 16px;
+}
+
+
+
+
+
+
+
+/*
+==========================================================
+  override wordpress.css
+==========================================================
+*/
+
+#content #commentlist li{
+  float: left;
+}

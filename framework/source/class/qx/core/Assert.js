@@ -350,7 +350,7 @@ qx.Class.define("qx.core.Assert",
       (argCount >= minCount && argCount <= maxCount) || this.__fail(
         msg || "",
         "Wrong number of arguments given. Expected '", minCount, "' to '",
-        maxCount, "' arguments but found '", arguments.length, "' arguments."
+        maxCount, "' arguments but found '", argCount, "' arguments."
       )
     },
 
@@ -506,7 +506,7 @@ qx.Class.define("qx.core.Assert",
      * Assert that the value is a key in the given map.
      *
      * @param value {var} Value to check
-     * @param map {map} Map, where the keys represent the valid values
+     * @param map {Map} Map, where the keys represent the valid values
      * @param msg {String} Message to be shown if the assertion fails.
      */
     assertKeyInMap : function(value, map, msg)

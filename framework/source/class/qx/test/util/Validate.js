@@ -138,13 +138,18 @@ qx.Class.define("qx.test.util.Validate",
 
     testRegex : function()
     {
-      //The value is valid if the regex passes
-      qx.util.Validate.regExp(/^\dand\d$/)("1and1");
+      var validator = qx.util.Validate.regExp(/^\dand\d$/);
+      validator("1and1");
 
       //ValidationError raised if the value isn't in array
       this.assertException(function() {
-        qx.util.Validate.regExp(/^\dand\d$/)("oneandone");
-      }, qx.core.ValidationError);
+        validator("oneandone");
+      }, qx.core.ValidationError, /oneandone/g);
+
+      //ValidationError raised if the value isn't in array
+      this.assertException(function() {
+        validator("xyz");
+      }, qx.core.ValidationError, /xyz/g);
 
       // ValidationError raised with a custom message
       this.assertException(function() {

@@ -40,7 +40,7 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : [ "common" ],
+    "job-shadowing" : [ "common", "testrunner-portable::build-script" ],
 
     "environment" : [ "non-literal-keys" ]
   },
@@ -66,11 +66,12 @@
       "environment" :
       {
         "qx.version" : "${QOOXDOO_VERSION}",
-        "qx.debug"   : false
+        "qx.debug"   : false,
+        "json" : true
       },
       "compile-options" :
       {
-        "paths" : 
+        "paths" :
         {
           "file-prefix" : "${QOOXDOO_PATH}/tool/data/generator/copyright.include.js"
         }
@@ -115,7 +116,7 @@
 
         "paths"  :
         {
-          "file" : "${BUILD_PATH}/q.js",
+          "file" : "${BUILD_PATH}/q-${QOOXDOO_VERSION}.js",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
         }
       }
@@ -133,7 +134,7 @@
         },
         "paths"  :
         {
-          "file" : "${BUILD_PATH}/q.min.js"
+          "file" : "${BUILD_PATH}/q-${QOOXDOO_VERSION}.min.js"
         }
       }
     },
@@ -199,25 +200,18 @@
       }
     },
 
-    /*
-    "testrunner-portable::build-script" :
+    "build-min-test" :
     {
-      "library" :
-      [
-        {
-          "manifest"   : "${QOOXDOO_PATH}/component/library/indigo/Manifest.json"
-        },
+      "extend" : ["build-min"],
 
+      "compile-options" :
+      {
+        "paths"  :
         {
-          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
-        },
-
-        {
-          "manifest" : "${TESTRUNNER_ROOT}/Manifest.json"
+          "=file" : "${TEST_SCRIPT_PATH}/q-${QOOXDOO_VERSION}.min.js"
         }
-      ]
+      }
     },
-    */
 
     "test" :
     {
@@ -227,10 +221,21 @@
       },
 
       "run" : [
-        "build-min",
+        "build-min-test",
         "testrunner-portable::build-script",
         "testrunner-portable::gen-css"
       ]
+    },
+
+
+    "testrunner-portable::build-script" :
+    {
+      "exclude" : "${Q_INCLUDES}",
+
+      "config-warnings" :
+      {
+        "exclude" : "${Q_INCLUDES}"
+      }
     },
 
 
@@ -252,7 +257,7 @@
       {
         "paths"  :
         {
-          "file" : "api/script/q.min.js"
+          "file" : "api/script/q-${QOOXDOO_VERSION}.min.js"
         }
       }
     },

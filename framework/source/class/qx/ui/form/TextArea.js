@@ -157,7 +157,6 @@ qx.Class.define("qx.ui.form.TextArea",
     /**
     * Adjust height of <code>TextArea</code> so that content fits without scroll bar.
     *
-    * @return {void}
     */
     __autoSize: function() {
       if (this.isAutoSize()) {
@@ -461,7 +460,6 @@ qx.Class.define("qx.ui.form.TextArea",
     /**
      * Warn when both autoSize and height property are set.
      *
-     * @return {void}
      */
     __warnAutoSizeAndHeight: function() {
       if (this.isAutoSize() && this.getHeight()) {

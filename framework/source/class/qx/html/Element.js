@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#require(qx.module.Animation)
+************************************************************************ */
+
 /**
  * High-performance, high-level DOM element creation and management.
  *
@@ -109,6 +113,12 @@ qx.Class.define("qx.html.Element",
 
     /**  {Map} List of all selections. */
     __selection : {},
+
+
+    __focusHandler : null,
+
+
+    __mouseCapture : null,
 
 
 
@@ -459,7 +469,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Add the element to the global modification list.
      *
-     * @return {void}
      */
     _scheduleChildrenUpdate : function()
     {
@@ -496,7 +505,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Syncs data of an HtmlElement object to the DOM.
      *
-     * @return {void}
      */
     __flush : function()
     {
@@ -562,7 +570,6 @@ qx.Class.define("qx.html.Element",
      * created. After this initial apply {@link #_syncChildren} is used
      * instead.
      *
-     * @return {void}
      */
     _insertChildren : function()
     {
@@ -602,7 +609,6 @@ qx.Class.define("qx.html.Element",
      * for further runtime updates after the element has been created
      * initially.
      *
-     * @return {void}
      */
     _syncChildren : function()
     {
@@ -701,7 +707,6 @@ qx.Class.define("qx.html.Element",
      *
      * @param fromMarkup {Boolean} Whether the copy should respect styles
      *   given from markup
-     * @return {void}
      */
     _copyData : function(fromMarkup)
     {
@@ -765,7 +770,6 @@ qx.Class.define("qx.html.Element",
      * is the counterpart of {@link #_copyData} and is used for further updates
      * after the element has been created.
      *
-     * @return {void}
      */
     _syncData : function()
     {
@@ -880,7 +884,7 @@ qx.Class.define("qx.html.Element",
      * Internal helper for all children addition needs
      *
      * @param child {var} the element to add
-     * @throws an exception if the given element is already a child
+     * @throws {Error} if the given element is already a child
      *     of this element
      */
     __addChildHelper : function(child)
@@ -917,7 +921,7 @@ qx.Class.define("qx.html.Element",
      * Internal helper for all children removal needs
      *
      * @param child {qx.html.Element} the removed element
-     * @throws an exception if the given element is not a child
+     * @throws {Error} if the given element is not a child
      *     of this element
      */
     __removeChildHelper : function(child)
@@ -940,7 +944,7 @@ qx.Class.define("qx.html.Element",
      * Internal helper for all children move needs
      *
      * @param child {qx.html.Element} the moved element
-     * @throws an exception if the given element is not a child
+     * @throws {Error} if the given element is not a child
      *     of this element
      */
     __moveChildHelper : function(child)
@@ -1035,7 +1039,7 @@ qx.Class.define("qx.html.Element",
     /**
      * Append all given children at the end of this element.
      *
-     * @param varargs {qx.html.Element...} elements to insert
+     * @param varargs {qx.html.Element} elements to insert
      * @return {qx.html.Element} this object (for chaining support)
      */
     add : function(varargs)
@@ -1081,7 +1085,7 @@ qx.Class.define("qx.html.Element",
     /**
      * Removes all given children
      *
-     * @param childs {qx.html.Element...} children to remove
+     * @param childs {qx.html.Element} children to remove
      * @return {qx.html.Element} this object (for chaining support)
      */
     remove : function(childs)
@@ -1245,7 +1249,7 @@ qx.Class.define("qx.html.Element",
      *
      * @param index {Integer} the index (starts at 0 for the first child)
      * @return {qx.html.Element} this object (for chaining support)
-     * @throws an exception when the given element is not child
+     * @throws {Error} when the given element is not child
      *      of this element.
      */
     moveTo : function(index)
@@ -1539,6 +1543,54 @@ qx.Class.define("qx.html.Element",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      ANIMATION SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Fades in the element.
+     * @return {qx.bom.element.AnimationHandle} The animation handle to react for
+     *   the fade animation.
+     */
+    fadeIn : function() {
+      var col = q(this.__element);
+      if (col.isPlaying()) {
+        col.stop();
+      }
+      // create the element right away
+      if (!this.__element) {
+        this.__flush();
+        col[0] = this.__element;
+      }
+      if (this.__element) {
+        col.fadeIn();
+        return col.getAnimationHandles()[0];
+      }
+    },
+
+
+    /**
+     * Fades out the element.
+     * @return {qx.bom.element.AnimationHandle} The animation handle to react for
+     *   the fade animation.
+     */
+    fadeOut : function() {
+      var col = q(this.__element);
+      if (col.isPlaying()) {
+        col.stop();
+      }
+
+      if (this.__element) {
+        col.fadeOut().once("animationEnd", function() {
+          this.hide();
+          qx.html.Element.flush();
+        }, this);
+        return col.getAnimationHandles()[0];
+      }
+    },
+
+
 
 
     /*
@@ -1707,7 +1759,6 @@ qx.Class.define("qx.html.Element",
      * @param x {Integer} Horizontal scroll position
      * @param lazy {Boolean?false} Whether the scrolling should be performed
      *    during element flush.
-     * @return {void}
      */
     scrollToX : function(x, lazy)
     {
@@ -1750,7 +1801,6 @@ qx.Class.define("qx.html.Element",
      * @param y {Integer} Vertical scroll position
      * @param lazy {Boolean?false} Whether the scrolling should be performed
      *    during element flush.
-     * @return {void}
      */
     scrollToY : function(y, lazy)
     {
@@ -1916,7 +1966,6 @@ qx.Class.define("qx.html.Element",
      *
      * @param start {Integer} start of the selection (zero based)
      * @param end {Integer} end of the selection
-     * @return {void}
      */
     setTextSelection : function(start, end)
     {
@@ -1941,7 +1990,6 @@ qx.Class.define("qx.html.Element",
      *
      * This method only works if the underlying DOM element is already created.
      *
-     * @return {void}
      */
     clearTextSelection : function()
     {
@@ -1967,7 +2015,6 @@ qx.Class.define("qx.html.Element",
      *
      * @param action {String} action to queue
      * @param args {Array} optional list of arguments for the action
-     * @return {void}
      */
     __performAction : function(action, args)
     {
@@ -1988,7 +2035,6 @@ qx.Class.define("qx.html.Element",
      * If the underlaying DOM element is not yet created, the
      * focus is queued for processing after the element creation.
      *
-     * @return {void}
      */
     focus : function() {
       this.__performAction("focus");
@@ -1998,7 +2044,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Mark this element to get blurred on the next flush of the queue
      *
-     * @return {void}
      */
     blur : function() {
       this.__performAction("blur");
@@ -2008,7 +2053,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Mark this element to get activated on the next flush of the queue
      *
-     * @return {void}
      */
     activate : function() {
       this.__performAction("activate");
@@ -2018,7 +2062,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Mark this element to get deactivated on the next flush of the queue
      *
-     * @return {void}
      */
     deactivate : function() {
       this.__performAction("deactivate");

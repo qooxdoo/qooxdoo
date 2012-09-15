@@ -205,7 +205,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * Sends the request using "script" elements
      *
-     * @return {void}
      */
     send : function()
     {
@@ -277,7 +276,6 @@ qx.Class.define("qx.io.remote.transport.Script",
      * Switches the readystate by setting the internal state.
      *
      * @param vReadyState {String} readystate value
-     * @return {void}
      */
     _switchReadyState : function(vReadyState)
     {
@@ -314,7 +312,6 @@ qx.Class.define("qx.io.remote.transport.Script",
      *
      * @param vLabel {String} Request header name
      * @param vValue {var} Request header value
-     * @return {void}
      */
     setRequestHeader : function(vLabel, vValue) {},
 

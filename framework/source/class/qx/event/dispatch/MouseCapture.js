@@ -233,7 +233,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
         element.setCapture(containerCapture !== false);
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     }),
 
 
@@ -250,7 +250,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
         element.releaseCapture();
       },
 
-      "default" : qx.lang.Function.empty
+      "default" : (function() {})
     })
   },
 

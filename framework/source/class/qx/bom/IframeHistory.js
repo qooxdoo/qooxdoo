@@ -139,7 +139,6 @@ qx.Class.define("qx.bom.IframeHistory",
      * Store state to the iframe
      *
      * @param state {String} state to save
-     * @return {void}
      */
     _writeState : function(state)
     {
@@ -240,7 +239,6 @@ qx.Class.define("qx.bom.IframeHistory",
      * Initializes the iframe
      *
      * @param handler {Function?null} if given this callback is executed after iframe is ready to use
-     * @return {void}
      */
     __initIframe : function(handler)
     {
@@ -263,7 +261,7 @@ qx.Class.define("qx.bom.IframeHistory",
      * Setting the source before adding the iframe to the document.
      * Otherwise IE will bring up a "Unsecure items ..." warning in SSL mode
      *
-     * @return {IframeElement}
+     * @return {Iframe}
      */
     __createIframe : function ()
     {

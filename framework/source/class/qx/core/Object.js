@@ -42,7 +42,7 @@ qx.Class.define("qx.core.Object",
   include : qx.core.Environment.filter({
     "module.databinding" : qx.data.MBinding,
     "module.logger" : qx.core.MLogging,
-    "module.events" : qx.core.MEvents,
+    "module.events" : qx.core.MEvent,
     "module.property" : qx.core.MProperty,
     "qx.debug" : qx.core.MAssert
   }),
@@ -216,7 +216,6 @@ qx.Class.define("qx.core.Object",
      *
      * @param key {String} the key
      * @param value {Object} the value of the user data
-     * @return {void}
      */
     setUserData : function(key, value)
     {
@@ -264,7 +263,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Dispose this object
      *
-     * @return {void}
      */
     dispose : function()
     {

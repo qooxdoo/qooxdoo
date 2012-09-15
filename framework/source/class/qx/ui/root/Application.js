@@ -96,13 +96,13 @@ qx.Class.define("qx.ui.root.Application",
     __doc : null,
 
     // overridden
+    /**
+     * @lint ignoreDeprecated(alert)
+     */
     _createContainerElement : function()
     {
       var doc = this.__doc;
 
-      /**
-       * @lint ignoreDeprecated(alert)
-       */
       if ((qx.core.Environment.get("engine.name") == "webkit"))
       {
         // In the "DOMContentLoaded" event of WebKit (Safari, Chrome) no body
@@ -139,7 +139,6 @@ qx.Class.define("qx.ui.root.Application",
      * Listener for window's resize event
      *
      * @param e {qx.event.type.Event} Event object
-     * @return {void}
      */
     _onResize : function(e) {
       qx.ui.core.queue.Layout.add(this);

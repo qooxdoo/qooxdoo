@@ -43,7 +43,6 @@ qx.Class.define("qx.bom.element.Dataset",
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the attribute [CamelCase variant]
      * @param value {var} New value of the attribute
-     * @return {void}
      *
      */
     set : function(element, name, value)
@@ -89,7 +88,6 @@ qx.Class.define("qx.bom.element.Dataset",
      *
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the attribute
-     * @return {void}
      *
      */
     remove : function(element, name)
