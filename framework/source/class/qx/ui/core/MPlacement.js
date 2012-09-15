@@ -351,6 +351,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * @param target {qx.ui.core.Widget} Target coords align coords
      * @param liveupdate {Boolean} Flag indicating if the position of the
      * widget should be checked and corrected automatically.
+     * @return {Boolean} true if the widget was successfully placed
      */
     placeToWidget : function(target, liveupdate)
     {
