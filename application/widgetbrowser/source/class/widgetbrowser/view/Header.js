@@ -18,10 +18,10 @@
 
 ************************************************************************ */
 /* ************************************************************************
-#require(qx.theme.Indigo);
-#require(qx.theme.Simple);
-#require(qx.theme.Modern);
-#require(qx.theme.Classic);
+#use(qx.theme.Indigo);
+#use(qx.theme.Simple);
+#use(qx.theme.Classic);
+#use(qx.theme.Modern)
 ************************************************************************ */
 
 /**
@@ -85,10 +85,28 @@ qx.Class.define("widgetbrowser.view.Header",
     select.setTextColor("black");
 
     select.addListener("changeSelection", function(evt) {
-      var selected = evt.getData()[0];
-      qx.theme.manager.Meta.getInstance().setTheme(
-        qx.Theme.getByName(selected.getUserData("value"))
-      );
+      var selected = evt.getData()[0].getUserData("value");
+
+      var theme = qx.Theme.getByName(selected);
+      if (theme) {
+        qx.theme.manager.Meta.getInstance().setTheme(theme);
+      } else {
+        var part = selected.substr(selected.lastIndexOf(".") + 1, selected.length);
+        part = part.toLowerCase();
+
+        // change the text of the selected list item to 'Loading...'
+        select.setEnabled(false);
+        var listItem = evt.getData()[0];
+        var oldText = listItem.getLabel();
+        listItem.setLabel("Loading ...");
+        qx.Part.require(part, function() {
+          qx.theme.manager.Meta.getInstance().setTheme(
+            qx.Theme.getByName(selected)
+          );
+          select.setEnabled(true);
+          listItem.setLabel(oldText);
+        }, this);
+      }
     });
 
     // Finally assemble header

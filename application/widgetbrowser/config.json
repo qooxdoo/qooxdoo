@@ -117,6 +117,23 @@
           "misc" :
           {
             "include" : [ "widgetbrowser.pages.Misc" ]
+            },
+
+
+          // Themes
+          "modern" :
+          {
+            "include" : [ "qx.theme.Modern" ]
+          },
+
+          "simple" :
+          {
+            "include" : [ "qx.theme.Simple" ]
+          },
+
+          "classic" :
+          {
+            "include" : [ "qx.theme.Classic" ]
           }
 
         }
