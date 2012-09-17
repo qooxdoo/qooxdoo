@@ -54,6 +54,7 @@
 
   "config-warnings": {
     "job-shadowing": [
+      "api",
       "source-tests-script",
       "build-basic",
       "source-basic",
@@ -167,65 +168,6 @@
     "portable-build" :
     {
       "extend" : ["portable::build"]
-    },
-
-
-    "mobile-common" :
-    {
-      "let" :
-      {
-        "TESTRUNNER_ORIGIN" : "push",
-        "TESTRUNNER_VIEW" : "testrunner.view.Mobile",
-        "TESTRUNNER_MAIN_CLASS" : "testrunner.MobileApplication",
-        "PLATFORM": "ios",
-        "APPLICATION_CSS" : "${APPLICATION}/view/mobile/css/styles.css"
-      },
-
-      "environment" :
-      {
-        "qx.mobile.emulatetouch" : true
-      },
-
-      "run" :
-      [
-        "build-tests-script",
-        "build-tests-resources",
-        "build-tests-files"
-      ],
-
-      "asset-let" : {
-        "qx.mobile.platform" : [ "${PLATFORM}" ]
-      },
-
-      "add-css" : [
-        {
-          //"uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${PLATFORM}.css"
-          "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/indigo.css"
-        },
-        {
-          "uri" : "./resource/${APPLICATION_CSS}"
-        }
-      ]
-    },
-
-    "mobile-source" :
-    {
-      "extend" : ["source", "mobile-common"]
-    },
-
-    "mobile-build" :
-    {
-      "extend" : ["build", "mobile-common"],
-
-      "=add-css" : [
-        {
-          //"uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${PLATFORM}.css"
-          "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/indigo.css"
-        },
-        {
-          "uri" : "../source/resource/${APPLICATION_CSS}"
-        }
-      ]
     },
 
     // -------------------------------------------------------------------------

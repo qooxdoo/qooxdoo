@@ -1,6 +1,6 @@
 {
   "name" : "testrunner (export) config",
-  
+
   "include" :
   [
     {
@@ -23,7 +23,7 @@
     "THEME"        : "qx.theme.Indigo"
   },
 
-  "config-warnings" : 
+  "config-warnings" :
   {
     "environment" : [ "non-literal-keys" ]
   },
@@ -33,7 +33,7 @@
     "build" :
     {
       "desc" : "Generates build versions of the Test Runner and the AUT",
-      
+
       "run" :
       [
         "build-resources",
@@ -44,11 +44,11 @@
         "build-tests-files"
       ]
     },
-    
+
     "build-inline" :
     {
       "desc" : "Generates a build version of the Test Runner with integrated test classes",
-    
+
       "run" :
       [
         "build-resources",
@@ -57,7 +57,7 @@
         "build-tests-resources",
         "build-tests-files"
       ],
-      
+
       "copy-files" :
       {
         "files" :
@@ -70,12 +70,12 @@
         "source" : "${TESTRUNNER_ROOT}/source"
       }
     },
-    
+
     "build-inline-script" :
     {
       "extend" : ["build-script", "tests-common"]
     },
-    
+
     "build-resources":
     {
       "extend" : ["testrunner-common"],
@@ -90,7 +90,7 @@
         "target" : "${BUILD_PATH}"
       }
     },
-    
+
     "build-files" :
     {
       "extend" : ["testrunner-common"],
@@ -107,11 +107,11 @@
         "source" : "${TESTRUNNER_ROOT}/source"
       }
     },
-    
+
     "build-script" :
     {
       "desc" : "Generates build version of Test Runner",
-    
+
       "extend" : ["testrunner-common"],
 
       "compile-options" :
@@ -132,22 +132,22 @@
           "add-nocache-param" : false
         }
       },
-      
+
       "environment" :
       {
         "testrunner.view" : "${TESTRUNNER_VIEW}",
         "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
       },
-      
+
       "compile" : { "type" : "build" }
     },
-    
+
     "source-script" :
     {
       "desc" : "Generates source version of Test Runner",
-      
+
       "extend" : ["testrunner-common"],
-      
+
       "compile-options" :
       {
         "paths" :
@@ -155,7 +155,7 @@
           "file" : "${TESTRUNNER_ROOT}/source/script/testrunner.js",
           "app-root" : "source"
         },
-        "uris" : 
+        "uris" :
         {
           "add-nocache-param" : true
         },
@@ -165,21 +165,21 @@
           "except"  : ["*"]
         }
       },
-      
+
       "environment" :
       {
         "testrunner.view" : "${TESTRUNNER_VIEW}",
         "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
       },
-      
+
       "compile" : { "type" : "source" }
     },
-    
+
     "source-inline-script" :
     {
       "extend" : ["source-script", "tests-common"]
     },
-    
+
     "testrunner-common" :
     {
       "let" :
@@ -188,7 +188,7 @@
         "TESTRUNNER_ORIGIN" : "iframe",
         "TESTRUNNER_MAIN_CLASS" : "testrunner.Application"
       },
-      
+
       "library" :
       [
         {
@@ -239,12 +239,12 @@
         "invalidate-on-tool-change" : true
       }
     },
-    
+
     "tests-common" :
     {
       "config-warnings" :
       {
-        "exclude" : "${TEST_EXCLUDE}"  
+        "exclude" : "${TEST_EXCLUDE}"
       },
 
       "extend"    : [ "common" ],
@@ -266,7 +266,7 @@
       ],
 
       "=include" : ["testrunner.TestLoader", "${TEST_INCLUDE}", "${QXTHEME}"],
-      
+
       "exclude" : ["${TEST_EXCLUDE}"],
 
       "environment" :
@@ -283,11 +283,11 @@
         "compile" : "${CACHE}"
       }
     },
-    
+
     "build-tests-script" :
     {
       "desc" : "Generates build version of AUT",
-    
+
       "extend" : ["tests-common"],
 
       "config-warnings" :
@@ -295,7 +295,7 @@
         "environment" : ["variants-and-url-settings"]
       },
 
-      "environment": 
+      "environment":
       {
         "qx.debug" : false
       },
@@ -320,25 +320,25 @@
           "format"   : true
         }
       },
-      
+
       "compile" : { "type" : "build" }
     },
-    
+
     "build-tests-resources" :
     {
       "extend" : ["tests-common"],
-      
+
       "copy-resources" :
       {
         "target" : "${BUILD_PATH}"
       }
     },
-    
-    
+
+
     "build-tests-files" :
     {
       "extend" : ["tests-common"],
-    
+
       "copy-files" :
       {
         "files" : [],
@@ -347,37 +347,37 @@
         "target" : "${BUILD_PATH}"
       }
     },
-    
+
     "source" :
     {
       "desc" : "Generates source versions of the Test Runner and the AUT",
-      
+
       "run" :
       [
         "source-script",
         "source-tests-script"
       ]
     },
-    
+
     "source-inline" :
     {
       "desc" : "Generates source versions of the Test Runner and the AUT",
-      
+
       "let" :
       {
         "TESTRUNNER_ORIGIN" : "inline"
       },
-      
+
       "run" :
       [
         "source-inline-script"
       ]
     },
-    
+
     "build-with-tests-source" :
     {
       "desc" : "Generates a build version of the Test Runner and a source version of the AUT",
-    
+
       "run" :
       [
         "build-resources",
@@ -385,7 +385,7 @@
         "build-script",
         "source-tests-script"
       ],
-      
+
       "copy-files" :
       {
         "files" :
@@ -398,11 +398,11 @@
         "source" : "${TESTRUNNER_ROOT}/source"
       }
     },
-    
-    "source-tests-script" : 
+
+    "source-tests-script" :
     {
       "desc" : "Generates source version of AUT",
-    
+
       "extend" : ["tests-common"],
 
       "compile-options" :
@@ -412,17 +412,17 @@
           "file"     : "${BUILD_PATH}/script/tests-source.js",
           "app-root" : "${BUILD_PATH}/html"
         },
-        
+
         "code" :
         {
           "locales" : "${LOCALES}",
           "except"  : ["*"]
         }
       },
-      
+
       "compile" : { "type" : "source" }
     },
-    
+
     "build-widget" :
     {
       "let" :
@@ -431,25 +431,25 @@
         "TESTRUNNER_ORIGIN" : "iframe",
         "TESTRUNNER_MAIN_CLASS" : "testrunner.GuiApplication"
       },
-      
+
       "run" : [
         "build-widget-resources",
         "build-files",
         "build-script",
         "build-tests-script"
       ],
-        
+
       "environment" :
       {
         "testrunner.view" : "${TESTRUNNER_VIEW}",
         "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
       }
     },
-    
+
     "build-widget-resources" :
     {
       "extend" : ["build-resources"],
-      
+
       "include" :
       [
         "${TESTRUNNER_MAIN_CLASS}",
@@ -457,7 +457,7 @@
         "${TESTRUNNER_VIEW}"
       ]
     },
-    
+
     "source-widget" :
     {
       "let" :
@@ -466,32 +466,32 @@
         "TESTRUNNER_ORIGIN" : "iframe",
         "TESTRUNNER_MAIN_CLASS" : "testrunner.GuiApplication"
       },
-      
+
       "run" : ["source-script",
         "source-tests-script"],
-        
+
       "environment" :
       {
         "testrunner.view" : "${TESTRUNNER_VIEW}",
         "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
       }
     },
-    
+
     "build-basic-portable" :
     {
       "extend" : ["build-basic"],
-      
+
       "=let" :
       {
         "TESTRUNNER_ORIGIN" : "external",
         "TEST_INCLUDE" : ""
       },
-      
-      "environment" : 
+
+      "environment" :
       {
         "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
       },
-      
+
       "compile-options" :
       {
         "paths" :
@@ -499,7 +499,7 @@
           "loader-template" : "${TESTRUNNER_ROOT}/tool/portable.basic.loader.tmpl.js"
         }
       },
-      
+
       "=library" :
       [
         {
@@ -507,6 +507,64 @@
         },
         {
           "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
+        }
+      ]
+    },
+
+    "mobile-common" :
+    {
+      "let" :
+      {
+        "TESTRUNNER_ORIGIN" : "push",
+        "TESTRUNNER_VIEW" : "testrunner.view.Mobile",
+        "TESTRUNNER_MAIN_CLASS" : "testrunner.MobileApplication",
+        "PLATFORM": "ios",
+        "APPLICATION_CSS" : "${APPLICATION}/view/mobile/css/styles.css"
+      },
+
+      "environment" :
+      {
+        "qx.mobile.emulatetouch" : true
+      },
+
+      "run" :
+      [
+        "build-tests-script",
+        "build-tests-resources",
+        "build-tests-files"
+      ],
+
+      "asset-let" : {
+        "qx.mobile.platform" : [ "${PLATFORM}" ]
+      },
+
+      "add-css" : [
+        {
+          //"uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${PLATFORM}.css"
+          "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/indigo.css"
+        },
+        {
+          "uri" : "./resource/${APPLICATION_CSS}"
+        }
+      ]
+    },
+
+    "mobile-source" :
+    {
+      "extend" : ["source", "mobile-common"]
+    },
+
+    "mobile-build" :
+    {
+      "extend" : ["build", "mobile-common"],
+
+      "=add-css" : [
+        {
+          //"uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${PLATFORM}.css"
+          "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/indigo.css"
+        },
+        {
+          "uri" : "../source/resource/${APPLICATION_CSS}"
         }
       ]
     }
