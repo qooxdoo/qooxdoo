@@ -244,7 +244,12 @@ if __name__ == '__main__':
            (hasattr(options, "stacktrace") and options.stacktrace)):  # or when 'stacktrace' is enabled
             raise
         else:
-            if str(e): # there's something to print
+            err = ''
+            try:
+                err = str(e)
+            except:
+                pass
+            if err: # there's something to print
                 print >> sys.stderr, e
             else:
                 print >> sys.stderr, "Terminating on terminal exception (%r)" % e
