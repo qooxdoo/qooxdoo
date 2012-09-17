@@ -519,7 +519,7 @@
         "TESTRUNNER_VIEW" : "testrunner.view.Mobile",
         "TESTRUNNER_MAIN_CLASS" : "testrunner.MobileApplication",
         "PLATFORM": "ios",
-        "APPLICATION_CSS" : "testrunner/view/mobile/css/styles.css"
+        "TESTRUNNER_CSS" : "testrunner/view/mobile/css/styles.css"
       },
 
       "environment" :
@@ -551,7 +551,7 @@
           "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/indigo.css"
         },
         {
-          "uri" : "./resource/${APPLICATION_CSS}"
+          "uri" : "./resource/${TESTRUNNER_CSS}"
         }
       ]
     },
@@ -565,7 +565,7 @@
           "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/indigo.css"
         },
         {
-          "uri" : "./resource/${APPLICATION_CSS}"
+          "uri" : "./resource/${TESTRUNNER_CSS}"
         }
       ]
     },
@@ -594,7 +594,34 @@
         "build-tests-resources",
         "build-tests-files"
       ]
-    }
+    },
+
+    "build-mobile-with-tests-source" :
+    {
+      "desc" : "Generates a build version of the Test Runner and a source version of the AUT",
+
+      "extend" : ["mobile-common"],
+
+      "run" :
+      [
+        "build-mobile-resources",
+        "build-files",
+        "build-mobile-script",
+        "source-tests-script"
+      ],
+
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index-source.html",
+          "html"
+        ],
+
+        "target" : "${BUILD_PATH}",
+        "source" : "${TESTRUNNER_ROOT}/source"
+      }
+    },
 
   }
 }

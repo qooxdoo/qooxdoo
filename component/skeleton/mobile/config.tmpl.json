@@ -28,6 +28,8 @@
     "source-hybrid",
     "test",
     "test-source",
+    "test-mobile",
+    "test-mobile-source",
     "translation",
     "minify-css",
     "source-ios",
