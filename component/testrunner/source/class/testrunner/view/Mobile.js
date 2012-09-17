@@ -20,6 +20,7 @@
 /* ************************************************************************
 #asset(qx/icon/Tango/22/actions/media-playback-start.png)
 #asset(qx/icon/Tango/22/actions/media-playback-stop.png)
+#asset(testrunner/view/mobile/*)
 ************************************************************************ */
 
 /**

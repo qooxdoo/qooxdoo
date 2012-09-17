@@ -515,11 +515,11 @@
     {
       "let" :
       {
-        "TESTRUNNER_ORIGIN" : "push",
+        "TESTRUNNER_ORIGIN" : "iframe",
         "TESTRUNNER_VIEW" : "testrunner.view.Mobile",
         "TESTRUNNER_MAIN_CLASS" : "testrunner.MobileApplication",
         "PLATFORM": "ios",
-        "APPLICATION_CSS" : "${APPLICATION}/view/mobile/css/styles.css"
+        "APPLICATION_CSS" : "testrunner/view/mobile/css/styles.css"
       },
 
       "environment" :
@@ -527,20 +527,27 @@
         "qx.mobile.emulatetouch" : true
       },
 
-      "run" :
-      [
-        "build-tests-script",
-        "build-tests-resources",
-        "build-tests-files"
-      ],
-
       "asset-let" : {
         "qx.mobile.platform" : [ "${PLATFORM}" ]
-      },
+      }
+    },
+
+    "source-mobile" :
+    {
+      "extend" : ["mobile-common"],
+
+      "run" : [
+        "source-mobile-script",
+        "source-tests-script"
+      ]
+    },
+
+    "source-mobile-script" :
+    {
+      "extend" : ["source-script"],
 
       "add-css" : [
         {
-          //"uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${PLATFORM}.css"
           "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/indigo.css"
         },
         {
@@ -549,23 +556,43 @@
       ]
     },
 
-    "mobile-source" :
+    "build-mobile-script" :
     {
-      "extend" : ["source", "mobile-common"]
-    },
+      "extend" : ["build-script"],
 
-    "mobile-build" :
-    {
-      "extend" : ["build", "mobile-common"],
-
-      "=add-css" : [
+      "add-css" : [
         {
-          //"uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${PLATFORM}.css"
           "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/indigo.css"
         },
         {
-          "uri" : "../source/resource/${APPLICATION_CSS}"
+          "uri" : "./resource/${APPLICATION_CSS}"
         }
+      ]
+    },
+
+    "build-mobile-resources" :
+    {
+      "extend" : ["build-resources"],
+
+      "=include" :
+      [
+        "${TESTRUNNER_MAIN_CLASS}",
+        "${TESTRUNNER_VIEW}"
+      ]
+    },
+
+    "build-mobile" :
+    {
+      "extend" : ["mobile-common"],
+
+      "run" :
+      [
+        "build-mobile-resources",
+        "build-files",
+        "build-mobile-script",
+        "build-tests-script",
+        "build-tests-resources",
+        "build-tests-files"
       ]
     }
 

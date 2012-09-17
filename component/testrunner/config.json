@@ -32,6 +32,7 @@
     "build",
     "build-basic",
     "build-basic-portable",
+    "build-mobile",
     "build-widget",
     "clean-cache",
     "distclean",
@@ -44,10 +45,9 @@
     "source",
     "source-all",
     "source-basic",
+    "source-mobile",
     "source-widget",
-    "translation",
-    "mobile-source",
-    "mobile-build"
+    "translation"
   ],
 
   "default-job" : "source",
