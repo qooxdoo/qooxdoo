@@ -626,6 +626,9 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     this.assertEquals(1, q(".test").getNext().length);
     this.assertEquals("bar", q("#foo").getNext()[0].id);
+
+    // check for null next
+    this.assertEquals(0, test.eq(3).getNext().length);
     test.remove();
   },
 
