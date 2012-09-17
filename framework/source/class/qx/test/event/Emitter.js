@@ -55,6 +55,15 @@ qx.Class.define("qx.test.event.Emitter",
     },
 
 
+    testOffReturnId : function() {
+      var spy = this.spy();
+      this.__ee.on("test", spy, this);
+      var id = this.__ee.on("test2", spy, this);
+
+      var returnId = this.__ee.off("test2", spy, this);
+      this.assertEquals(id, returnId);
+    },
+
     testAddRemove : function() {
       var spy = this.spy();
       this.__ee.addListener("test", spy, this);
