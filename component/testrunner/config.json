@@ -87,6 +87,14 @@
 
   "jobs" :
   {
+    "api" :
+    {
+      "let" :
+      {
+        "BUILD_PATH"     : "${ROOT}/api",
+      }
+    },
+
     "source-tests-script" :
     {
       "compile-options" :
