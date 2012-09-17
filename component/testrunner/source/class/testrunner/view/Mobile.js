@@ -52,7 +52,10 @@ qx.Class.define("testrunner.view.Mobile", {
     _onRunButtonTap : function()
     {
       var suiteState = this.getTestSuiteState();
-      if (suiteState == "ready") {
+      if (suiteState == "ready" || suiteState == "finished") {
+        if (suiteState == "finished") {
+          this._clearResults();
+        }
         this.__suiteResults = {
           startedAt : new Date().getTime(),
           finishedAt : null,
@@ -60,7 +63,7 @@ qx.Class.define("testrunner.view.Mobile", {
         };
         this.fireEvent("runTests");
       }
-      else if (suiteState == "finished") {
+      else if (suiteState == "running") {
         this.fireEvent("stopTests");
       }
     },
@@ -293,6 +296,17 @@ qx.Class.define("testrunner.view.Mobile", {
           this.setStatus("Test run aborted");
           break;
       }
+    },
+
+    /**
+     * Resets the state of all tests in the suite
+     */
+    _clearResults : function()
+    {
+      this.__testList.forEach(function(item, index, list) {
+        item.setState("start");
+        item.setExceptions([]);
+      });
     },
 
     /**
