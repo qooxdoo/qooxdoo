@@ -17,6 +17,12 @@
      * Tristan Koch (tristankoch)
 
 ************************************************************************ */
+/* ************************************************************************
+#require(qx.theme.Indigo);
+#require(qx.theme.Simple);
+#require(qx.theme.Modern);
+#require(qx.theme.Classic);
+************************************************************************ */
 
 /**
  * The Application's header

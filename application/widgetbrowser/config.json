@@ -4,14 +4,7 @@
   "include" :
   [
     {
-      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
-      "block" :
-      [
-        // need to define them locally, as the base.json versions fix qx.theme, QXTHEME, etc.
-        "source",
-        "source-hybrid",
-        "build"
-      ]
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
     }
   ],
 
@@ -21,6 +14,7 @@
   {
     "APPLICATION"  : "widgetbrowser",
     "QOOXDOO_PATH" : "../..",
+    "QXTHEME"      : "qx.theme.Indigo",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : ".",
@@ -32,180 +26,18 @@
     "SIMULATOR_REPORTSERVER" : null
   },
 
-  "config-warnings" : 
+  "config-warnings" :
   {
-    "job-shadowing" : ["source", "source-hybrid", "build-resources", "common", "simulation-run", "translation"],
-    
+    "job-shadowing" : ["common", "simulation-run", "translation"],
+
     "environment" : [ "non-literal-keys" ]
   },
 
   "jobs" :
   {
-    "source" :
-    {
-      "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple", "source-script-indigo"]
-    },
-
-    "source-hybrid" :
-    {
-      "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple", "source-script-indigo"]
-    },
-
-    "source-script-classic" :
-    {
-      "let"     : 
-      { 
-        "QXTHEME" : "qx.theme.Classic",
-        "QXICONTHEME" : ["Oxygen"]
-      },
-      "extend"  : ["source-script"],
-      "compile-options" : {
-        "code" :
-        {
-          "except" : [ "*" ]
-        },
-        "paths" :
-        {
-          "file"  : "source/script/${APPLICATION}.classic.js"
-        }
-      }
-    },
-
-    "source-script-modern" :
-    {
-      "let"     : {"QXTHEME" : "qx.theme.Modern"},
-      "extend"  : ["source-script"],
-      "compile-options" : {
-        "code" :
-        {
-          "except" : [ "*" ]
-        },
-        "paths" :
-        {
-          "file"  : "source/script/${APPLICATION}.modern.js"
-        }
-      }
-    },
-
-    "source-script-simple" :
-    {
-      "let"     : {"QXTHEME" : "qx.theme.Simple"},
-      "extend"  : ["source-script"],
-      "compile-options" : {
-        "code" :
-        {
-          "except" : [ "*" ]
-        },
-        "paths" :
-        {
-          "file"  : "source/script/${APPLICATION}.simple.js"
-        }
-      }
-    },
-
-    "source-script-indigo" :
-    {
-      "let"     : {"QXTHEME" : "qx.theme.Indigo"},
-      "extend"  : ["source-script"],
-      "compile-options" : {
-        "code" :
-        {
-          "except" : [ "*" ]
-        },
-        "paths" :
-        {
-          "file"  : "source/script/${APPLICATION}.indigo.js"
-        }
-      }
-    },
-
-
-    "build" :
-    {
-      "=run" : [
-        "build-resources",
-        "build-script-classic",
-        "build-script-modern",
-        "build-script-simple",
-        "build-script-indigo",
-        "build-files"
-      ]
-
-    },
-
-    "build-resources":
-    {
-      "let" : {"QXICONTHEME" : ["Oxygen", "Tango"]},
-      "include" :
-      [
-        "qx.theme.Classic",
-        "qx.theme.Simple",
-        "qx.theme.Modern",
-        "qx.theme.Indigo"
-      ],
-
-      "copy-resources" :
-      {
-        "target" : "build"
-      }
-    },
-
-    "build-script-classic" :
-    {
-      "let" :
-      {
-        "QXTHEME" : "qx.theme.Classic",
-        "QXICONTHEME" : ["Oxygen"]
-      },
-      "extend"  : ["build-script"],
-      "compile-options" : {
-        "paths" :
-        {
-          "file": "./build/script/${APPLICATION}.classic.js"
-        }
-      }
-    },
-
-    "build-script-modern" :
-    {
-      "let"     : {"QXTHEME" : "qx.theme.Modern"},
-      "extend"  : ["build-script"],
-      "compile-options" : {
-        "paths" :
-        {
-          "file": "./build/script/${APPLICATION}.modern.js"
-        }
-      }
-    },
-
-    "build-script-simple" :
-    {
-      "let"     : {"QXTHEME" : "qx.theme.Simple"},
-      "extend"  : ["build-script"],
-      "compile-options" : {
-        "paths" :
-        {
-          "file": "./build/script/${APPLICATION}.simple.js"
-        }
-      }
-    },
-
-    "build-script-indigo" :
-    {
-      "let"     : {"QXTHEME" : "qx.theme.Indigo"},
-      "extend"  : ["build-script"],
-      "compile-options" : {
-        "paths" :
-        {
-          "file": "./build/script/${APPLICATION}.indigo.js"
-        }
-      }
-    },
-
-
     "common" :
     {
-      "library" : 
+      "library" :
       [
         {
           "manifest" : "${QOOXDOO_PATH}/component/library/formdemo/Manifest.json"
@@ -224,7 +56,7 @@
         {
           "boot" :
           {
-            "include" : [ "${QXTHEME}", "widgetbrowser.Application" ]
+            "include" : [ "widgetbrowser.Application" ]
           },
 
           "tree" :
