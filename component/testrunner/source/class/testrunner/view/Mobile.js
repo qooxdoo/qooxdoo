@@ -53,8 +53,8 @@ qx.Class.define("testrunner.view.Mobile", {
     _onRunButtonTap : function()
     {
       var suiteState = this.getTestSuiteState();
-      if (suiteState == "ready" || suiteState == "finished") {
-        if (suiteState == "finished") {
+      if (suiteState == "ready" || suiteState == "finished" || suiteState == "aborted") {
+        if (suiteState == "finished" || suiteState == "aborted") {
           this._clearResults();
         }
         this.__suiteResults = {
@@ -77,11 +77,12 @@ qx.Class.define("testrunner.view.Mobile", {
       this.__testRows = {};
       var mainPage = this.__mainPage = new qx.ui.mobile.page.NavigationPage();
       mainPage.setTitle("qooxdoo Test Runner");
+
+      var runButton = this.__runButton = this._getRunButton();
+      mainPage.getRightContainer().add(runButton);
+
       mainPage.addListener("initialize", function()
       {
-        var buttonGroup = this._getButtonGroup();
-        mainPage.addAfterNavigationBar(buttonGroup);
-
         this.__testRows = {};
         var list = this.__testListWidget = new qx.ui.mobile.list.List({
           configureItem : this._configureListItem.bind(this)
@@ -172,21 +173,16 @@ qx.Class.define("testrunner.view.Mobile", {
     },
 
     /**
-     * Returns Group widget containing the Run/Stop button
+     * Returns the Run/Stop button
      *
      * @return {qx.ui.mobile.form.Group} Group widget
      */
-    _getButtonGroup : function()
+    _getRunButton : function()
     {
-      var runButton = this.__runButton = new qx.ui.mobile.form.Button();
+      var runButton = new qx.ui.mobile.form.Button();
+      qx.bom.element.Class.replace(runButton.getContentElement(), "button", "navigationbar-backbutton");
       runButton.addListener("tap", this._onRunButtonTap, this);
-      var buttonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
-      buttonContainer.add(runButton);
-      //buttonContainer.add(new qx.ui.mobile.toolbar.Separator(), {flex: 1});
-
-      var buttonGroup = new qx.ui.mobile.form.Group([buttonContainer]);
-      buttonGroup.setShowBorder(false);
-      return buttonGroup;
+      return runButton;
     },
 
     /**
@@ -198,6 +194,7 @@ qx.Class.define("testrunner.view.Mobile", {
     {
       var statusBar = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
       var statusGroup = new qx.ui.mobile.form.Group([statusBar]);
+      statusGroup.getContentElement().id = "statusgroup";
       this.__statusLabel = new qx.ui.mobile.basic.Label("Loading...");
       statusBar.add(this.__statusLabel);
       return statusGroup;
@@ -275,7 +272,7 @@ qx.Class.define("testrunner.view.Mobile", {
         case "ready" :
           this.setStatus(this.getSelectedTests().length + " tests ready to run.");
           this.__runButton.setEnabled(true);
-          this.__runButton.setValue("Run Tests");
+          this.__runButton.setValue("Run");
           break;
         case "error" :
           this.setStatus("Couldn't load test suite!");
@@ -283,7 +280,7 @@ qx.Class.define("testrunner.view.Mobile", {
           break;
         case "running" :
           this.setStatus("Running tests...");
-          this.__runButton.setValue("Stop Tests");
+          this.__runButton.setValue("Stop");
           break;
         case "finished" :
           this.__suiteResults.finishedAt = new Date().getTime();
@@ -291,9 +288,12 @@ qx.Class.define("testrunner.view.Mobile", {
           //re-apply selection so the same suite can be executed again
           this.setSelectedTests(new qx.data.Array());
           this.setSelectedTests(this.__testList);
-          this.__runButton.setValue("Run Tests");
+          this.__runButton.setValue("Run");
           break;
         case "aborted" :
+          this.setSelectedTests(new qx.data.Array());
+          this.setSelectedTests(this.__testList);
+          this.__runButton.setValue("Run");
           this.setStatus("Test run aborted");
           break;
       }
