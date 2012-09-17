@@ -140,7 +140,7 @@ qx.Bootstrap.define("qx.bom.Template", {
 
       // special case for text only conversion
       if (inner.search(/<|>/) === -1) {
-        return inner;
+        return document.createTextNode(inner);
       }
 
       // create a helper to convert the string into DOM nodes
