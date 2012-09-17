@@ -93,17 +93,21 @@ Here is a more advanced example of a method documentation block that uses more `
     *
     * @param dragSource {qx.bla.DragSource} the drag source that was dropped.
     * @param targetElement {Element} the target element the drop aims to.
-    * @param dropType {Integer ? null} the drop type. This is the same type as used in
-    *        {@link qx.bla.DragEvent}.
+    * @param dropType {Integer ? null} the drop type. This is the same type 
+    *        as used in {@link qx.bla.DragEvent}.
     * @return {Boolean} whether the event was handled.
-    * @throws if the targetElement is no child of this drop target.
+    * @throws {Error} if the targetElement is no child of this drop target.
     *
-    * @see #getDragEvent(dragSource, elem, x, y)
-    * @see com.ptvag.webcomponent.ui.dnd.DragEvent
+    * @see #getDragEvent
+    * @see qx.bla.DragEvent
     */
     handleDrop : function(dragSource, targetElement, dropType) {	
       ...
-    };
+    }
+
+This will render in the Apiviewer similarly to this:
+
+.. image:: /_static/apiviewer_method.png
 
 
 As mentioned above the :doc:`JSDoc reference </pages/development/api_jsdoc_ref>` has the complete list of possible section keys and markup possiblities.
