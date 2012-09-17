@@ -47,7 +47,7 @@ qx.Class.define("testrunner.view.Mobile", {
     __suiteResults : null,
 
     /**
-     * Tells the TestRunner to run all configured tests.
+     * Run the suite, or stop a running suite.
      */
     _onRunButtonTap : function()
     {
@@ -65,6 +65,9 @@ qx.Class.define("testrunner.view.Mobile", {
       }
     },
 
+    /**
+     * Creates the main and detail pages
+     */
     _initPage : function()
     {
       this.__testRows = {};
@@ -102,6 +105,13 @@ qx.Class.define("testrunner.view.Mobile", {
       mainPage.show();
     },
 
+    /**
+     * Configures a list item representing a single test function
+     *
+     * @param item {qx.ui.mobile.list.renderer.Default} Created list item
+     * @param data {qx.core.Object} Model item
+     * @param row {Integer} Index of the item's list row
+     */
     _configureListItem : function(item, data, row)
     {
       if (!data) {
@@ -151,12 +161,17 @@ qx.Class.define("testrunner.view.Mobile", {
       var self = this;
       data.addListener("changeState", function(ev) {
         var idx = self.__testRows[this.getFullName()];
-        // Force the list to update
+        // Force the list to update by re-applying the model
         self.__testListWidget.getModel().setItem(idx, null);
         self.__testListWidget.getModel().setItem(idx, data);
       });
     },
 
+    /**
+     * Returns Group widget containing the Run/Stop button
+     *
+     * @return {qx.ui.mobile.form.Group} Group widget
+     */
     _getButtonGroup : function()
     {
       var runButton = this.__runButton = new qx.ui.mobile.form.Button();
@@ -170,6 +185,11 @@ qx.Class.define("testrunner.view.Mobile", {
       return buttonGroup;
     },
 
+    /**
+     * Returns the status bar widget
+     *
+     * @return  {qx.ui.mobile.form.Group} Group widget
+     */
     _getStatusBar : function()
     {
       var statusBar = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
@@ -179,6 +199,11 @@ qx.Class.define("testrunner.view.Mobile", {
       return statusGroup;
     },
 
+    /**
+     * Creates (if necessary) and returns the AUT iframe
+     *
+     * @return {Iframe} AUT Iframe element
+     */
     getIframe : function()
     {
       if (!this.__iframe) {
@@ -200,7 +225,6 @@ qx.Class.define("testrunner.view.Mobile", {
      *
      * @param value {String} AUT URI
      * @param old {String} Previous value
-     * @lint ignoreUndefined($)
      */
     _applyAutUri : function(value, old)
     {
@@ -215,7 +239,7 @@ qx.Class.define("testrunner.view.Mobile", {
     /**
      * Writes a message to the status bar
      *
-     * @param value {String} New status value
+     * @param value {String} New status value (HTML supported)
      * @param old {String} Previous status value
      */
     _applyStatus : function(value, old)
@@ -227,9 +251,8 @@ qx.Class.define("testrunner.view.Mobile", {
       this.__statusLabel.getContentElement().innerHTML = value;
     },
 
-
     /**
-     * Log the test suite's current status.
+     * Applies test suite status changes to the UI
      *
      * @param value {String} New testSuiteState
      * @param value {String} Previous testSuiteState
@@ -272,6 +295,13 @@ qx.Class.define("testrunner.view.Mobile", {
       }
     },
 
+    /**
+     * Applies the test suite model to the main list. Also selects all tests in
+     * the new suite
+     *
+     * @param value {qx.core.Object} New test suite model
+     * @param old {qx.core.Object} Old test suite model
+     */
     _applyTestModel : function(value, old)
     {
       if (!value) {
@@ -288,7 +318,7 @@ qx.Class.define("testrunner.view.Mobile", {
     {},
 
     /**
-     * Logs state changes in testResultData objects.
+     * Reacts to state changes in testResultData objects.
      *
      * @param testResultData {testrunner.unit.TestResultData} Test result data
      * object
@@ -334,6 +364,11 @@ qx.Class.define("testrunner.view.Mobile", {
       }
     },
 
+    /**
+     * Returns a results summary for a finished test suite
+     *
+     * @return  {String} HTML-formatted summary
+     */
     _getSummary : function()
     {
       var pass = 0;
@@ -358,6 +393,11 @@ qx.Class.define("testrunner.view.Mobile", {
              "<span class='skip'>" + skip + "</span>" + " skipped.";
     },
 
+    /**
+     * Displays the details page for a test result when a list entry is tapped.
+     *
+     * @param ev {qx.event.type.Data} The list's changeSelection event
+     */
     _onListChangeSelection : function(ev)
     {
       var testName = qx.lang.Object.getKeyFromValue(this.__testRows, ev.getData());
