@@ -28,9 +28,9 @@
 \bqx\.lang\.Function\.returnThis=(function() {return this;})
 \bqx\.lang\.Function\.returnZero=(function() {return 0;})
 
-\bqx\.lang\.Array\.toArray\((.*?)\);=qx.lang.Array.cast(\1, Array);
-\bqx\.lang\.Array\.toArray\((.*?),(.*?)\);=qx.lang.Array.cast(\1, Array, \2);
-\bqx\.lang\.Array\.fromCollection\((.*?)\);=Array.prototype.slice.call(\1, 0);
+\bqx\.lang\.Array\.toArray\((.*?)\)=qx.lang.Array.cast(\1, Array)
+\bqx\.lang\.Array\.toArray\((.*?),(.*?)\)=qx.lang.Array.cast(\1, Array, \2)
+\bqx\.lang\.Array\.fromCollection\((.*?)\)=Array.prototype.slice.call(\1, 0)
 
 \bqx\.lang\.Object\.hasMinLength\((.*?),(.*?)\)=(\1.length >= \2)
 \bqx\.Bootstrap\.getKeysAsString\((.*?)\)=('"' + qx.Bootstrap.keys(\1).join('\", "') + '"')
