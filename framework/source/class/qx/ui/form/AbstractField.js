@@ -863,8 +863,8 @@ qx.Class.define("qx.ui.form.AbstractField",
     _onChangeTheme : function() {
       this.base(arguments);
       if (this.__placeholder) {
-        // delete the placeholder element because it show a theme dependent color
-        this.__placeholder.destruct();
+        // delete the placeholder element because it uses a theme dependent color
+        this.__placeholder.dispose();
         this.__placeholder = null;
       }
     },
