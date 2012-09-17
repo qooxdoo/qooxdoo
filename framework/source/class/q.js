@@ -41,12 +41,26 @@ qx.Bootstrap.define("q", {
     /**
      * Internal helper to initialize collections.
      *
-     * @param arg {var} An Element or an array of Elements which will
-     *   be initialized as {@link q}.
+     * @param arg {var} An array of Elements which will
+     *   be initialized as {@link q}. All items in the array which are not
+     *   either a window object or a node object will be ignored.
      * @return {q} A new initialized collection.
      */
     $init : function(arg) {
-      var col = qx.lang.Array.cast(arg, q);
+      var clean = [];
+      for (var i = 0; i < arg.length; i++) {
+        var isNode = !!(arg[i] && arg[i].nodeType != null);
+        if (isNode) {
+          clean.push(arg[i]);
+          continue;
+        }
+        var isWindow = !!(arg[i] && arg[i].history && arg[i].location && arg[i].document);
+        if (isWindow) {
+          clean.push(arg[i]);
+        }
+      }
+      // check for node or window object
+      var col = qx.lang.Array.cast(clean, q);
       for (var i=0; i < q.__init.length; i++) {
         q.__init[i].call(col);
       }
