@@ -39,8 +39,12 @@ qx.Class.define("tutorial.Application",
     __header : null,
     __playArea : null,
     __editor : null,
+    __description : null,
+    __selectionWindow : null,
 
-    tutorials_desktop : ["Hello_World"],
+    __desktopTutorials : ["Hello_World", "Single_Value_Bindig"],
+    __mobileTutorials : ["Hello_World"],
+
 
     main : function()
     {
@@ -108,6 +112,20 @@ qx.Class.define("tutorial.Application",
       // load initial tutorial
       this.loadTutorial("Hello_World", "desktop");
       this.__playArea.updateCaption("Hello World");
+
+      // set the blocker color
+      this.getRoot().setBlockerColor("rgba(0, 0, 0, 0.35)")
+    },
+
+
+    openSelectionWindow : function() {
+      if (!this.__selectionWindow) {
+        this.__selectionWindow = new tutorial.view.SelectionWindow(
+          this.__desktopTutorials, 
+          this.__mobileTutorials
+        );
+      }
+      this.__selectionWindow.open();
     },
 
     updateEditor : function(e) {

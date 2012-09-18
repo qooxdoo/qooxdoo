@@ -16,7 +16,7 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-qx.Class.define("tutorial.tutorial.desktop.Hello_World", 
+qx.Class.define("tutorial.tutorial.desktop.Single_Value_Binding", 
 {
   statics :
   {
