@@ -22,6 +22,8 @@
 #require(qx.module.Manipulating)
 #require(qx.module.Attribute)
 #require(qx.module.Traversing)
+
+#require(tutorial.tutorial.desktop.Hello_World)
 ************************************************************************ */
 
 /**
@@ -109,7 +111,7 @@ qx.Class.define("tutorial.Application",
 
     updateEditor : function(e) {
       var code = e.getData().toString();
-      code = code.substring(5, code.length -3);
+      code = code.substring(14, code.length -8);
       code = code.replace(/ {4}/g, "");
       this.__editor.setCode(code);
       this.run();
@@ -157,18 +159,17 @@ qx.Class.define("tutorial.Application",
 
 
     parseTutorial : function(name, type, html) {
-      var tutorial = {
+      var tut = {
         name : name,
         type : type,
         steps : [],
-        code : []
+        code : qx.Class.getByName("tutorial.tutorial." + type + "." + name).steps
       };
       var div = q.create("<div>").setHtml(html);
       div.getChildren().forEach(function(item) {
-        tutorial.steps.push(q(item).getHtml());
-        tutorial.code.push(q(item).getChildren("[class=sample]").getHtml());
+        tut.steps.push(q(item).getHtml());
       });
-      return tutorial;
+      return tut;
     },
 
     loadAce : function(clb, ctx) {
