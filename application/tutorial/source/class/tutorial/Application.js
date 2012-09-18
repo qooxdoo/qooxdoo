@@ -111,6 +111,9 @@ qx.Class.define("tutorial.Application",
     },
 
     updateEditor : function(e) {
+      if (!confirm("Is it ok to replace the current code in the editor?")) {
+        return;
+      }
       var code = e.getData().toString();
       code = code.substring(14, code.length -8);
       code = code.replace(/ {4}/g, "");

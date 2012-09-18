@@ -92,7 +92,7 @@ qx.Class.define("tutorial.view.Description",
         return;
       }
       var headline = "<h1>" + this.getTutorial().name.replace(/_/g, " ") + "</h1>";
-      var step = "<p style='margin-top: -30px; font-size: 11px; color: #CCC;'>Step " + (this.getStep() + 1) + "/" + this.getTutorial().steps.length + "</p>";
+      var step = "<p style='margin-top: -28px; font-size: 11px; color: #CCC;'>Step " + (this.getStep() + 1) + "/" + this.getTutorial().steps.length + "</p>";
       this.__embed.setHtml(headline + step + this.getTutorial().steps[this.getStep()]);
       qx.html.Element.flush();
 
