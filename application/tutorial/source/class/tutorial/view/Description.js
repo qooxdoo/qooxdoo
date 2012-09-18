@@ -91,7 +91,9 @@ qx.Class.define("tutorial.view.Description",
       if (!this.getTutorial()) {
         return;
       }
-      this.__embed.setHtml(this.getTutorial().steps[this.getStep()]);
+      var headline = "<h1>" + this.getTutorial().name.replace(/_/g, " ") + "</h1>";
+      var step = "<p style='margin-top: -30px; font-size: 11px; color: #CCC;'>Step " + (this.getStep() + 1) + "/" + this.getTutorial().steps.length + "</p>";
+      this.__embed.setHtml(headline + step + this.getTutorial().steps[this.getStep()]);
     },
 
 

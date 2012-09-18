@@ -25,10 +25,6 @@ qx.Class.define("tutorial.tutorial.desktop.Hello_World",
     steps: [
       function() {
         var button = new qx.ui.form.Button("Hello...");
-      },
-
-      function() {
-        var button = new qx.ui.form.Button("Hello...");
         this.getRoot().add(button, {left: 30, top: 20});
       },
 

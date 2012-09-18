@@ -92,7 +92,7 @@ qx.Class.define("tutorial.Application",
       }, this);
 
       actionArea.add(this.__playArea, {flex: 1});
-      this.__playArea.updateCaption("Step 1");
+      this.__playArea.updateCaption("");
       this.__playArea.addListener("toggleMaximize", function(e) {
         if (!this.__editor.isExcluded()) {
           this.__editor.exclude();
@@ -107,6 +107,7 @@ qx.Class.define("tutorial.Application",
 
       // load initial tutorial
       this.loadTutorial("Hello_World", "desktop");
+      this.__playArea.updateCaption("Hello World");
     },
 
     updateEditor : function(e) {
