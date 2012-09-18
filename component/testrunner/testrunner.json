@@ -516,7 +516,7 @@
       "let" :
       {
         "TESTRUNNER_ORIGIN" : "iframe",
-        "TESTRUNNER_VIEW" : "testrunner.view.Mobile",
+        "TESTRUNNER_VIEW" : "testrunner.view.mobile.Mobile",
         "TESTRUNNER_MAIN_CLASS" : "testrunner.MobileApplication",
         "PLATFORM": "ios",
         "TESTRUNNER_CSS" : "testrunner/view/mobile/css/styles.css"

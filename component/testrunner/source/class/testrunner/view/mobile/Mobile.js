@@ -26,7 +26,7 @@
 /**
  * Test Runner mobile view
  */
-qx.Class.define("testrunner.view.Mobile", {
+qx.Class.define("testrunner.view.mobile.Mobile", {
 
   extend : testrunner.view.Abstract,
 
@@ -39,7 +39,7 @@ qx.Class.define("testrunner.view.Mobile", {
   {
     __mainPage : null,
     __detailPage : null,
-    __runButton : null,
+    __mainButton : null,
     __iframe : null,
     __testList : null,
     __testListWidget : null,
@@ -50,7 +50,7 @@ qx.Class.define("testrunner.view.Mobile", {
     /**
      * Run the suite, or stop a running suite.
      */
-    _onRunButtonTap : function()
+    _onMainButtonTap : function()
     {
       var suiteState = this.getTestSuiteState();
       if (suiteState == "ready" || suiteState == "finished" || suiteState == "aborted") {
@@ -78,9 +78,9 @@ qx.Class.define("testrunner.view.Mobile", {
       var mainPage = this.__mainPage = new qx.ui.mobile.page.NavigationPage();
       mainPage.setTitle("qx Test Runner");
 
-      var runButton = this.__runButton = new testrunner.view.MainButton();
-      runButton.addListener("tap", this._onRunButtonTap, this);
-      mainPage.getRightContainer().add(runButton);
+      var mainButton = this.__mainButton = new testrunner.view.mobile.MainButton();
+      mainButton.addListener("tap", this._onMainButtonTap, this);
+      mainPage.getRightContainer().add(mainButton);
 
       mainPage.addListener("initialize", function()
       {
@@ -278,7 +278,7 @@ qx.Class.define("testrunner.view.Mobile", {
           this.setStatus("Test run aborted");
           break;
       }
-      this.__runButton.setState(value);
+      this.__mainButton.setState(value);
     },
 
     /**
