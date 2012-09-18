@@ -1741,7 +1741,7 @@ testrunner.define({
 
     var result = q.template.get("tmp", {affe: "george"});
     this.assertEquals(1, result.length);
-    this.assertEquals("george", result[0].textContent);
+    this.assertEquals("george", result[0].data);
     template.remove();
   }
 });
