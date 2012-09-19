@@ -108,16 +108,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__picker = new qx.ui.mobile.dialog.Picker(pickerModel,showPickerButton);
       this.__picker.setTitle("Picker");
       
-      this.__picker.addListener("confirmSelection",function(evt){
-        var pickerData = evt.getData();
-        console.log("confirmSelection",pickerData);
-      }, this);
-
-      this.__picker.addListener("changeSelection",function(evt){
-        var slotData = evt.getData();
-        console.log("changeSelection",slotData);
-      }, this);
-      
       // ANCHORED MENU DIALOG
       var showAnchorMenuButton = new qx.ui.mobile.form.Button("Show Anchor Menu");
       showAnchorMenuButton.addListener("tap", function(e) {
