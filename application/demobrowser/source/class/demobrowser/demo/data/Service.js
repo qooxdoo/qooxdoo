@@ -22,7 +22,7 @@
  * @tag databinding
  * @tag noPlayground
  */
-qx.Class.define("demobrowser.demo.data.Twitter",
+qx.Class.define("demobrowser.demo.data.Service",
 {
   extend : qx.application.Standalone,
 
@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.data.Twitter",
     {
       this.base(arguments);
 
-      this.getRoot().add(new qxc.application.twitterdemo.Demo());
+      this.getRoot().add(new qxc.application.datademo.Demo());
     }
   }
 });
