@@ -405,6 +405,10 @@
  *       <td>html.image.naturaldimensions</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getNaturalDimensions}</td>
  *     </tr>
+ *     <tr>
+ *       <td>html.history.state</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getHistoryState}</td>
+ *     </tr>
 
  *     <tr>
  *       <td colspan="4"><b>XML</b></td>
@@ -851,6 +855,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "html.element.compareDocumentPosition" : "qx.bom.client.Html.getCompareDocumentPosition",
       "html.element.textcontent"    : "qx.bom.client.Html.getTextContent",
       "html.image.naturaldimensions" : "qx.bom.client.Html.getNaturalDimensions",
+      "html.history.state"          : "qx.bom.client.Html.getHistoryState",
       "json"                        : "qx.bom.client.Json.getJson",
       "css.textoverflow"            : "qx.bom.client.Css.getTextOverflow",
       "css.placeholder"             : "qx.bom.client.Css.getPlaceholder",
