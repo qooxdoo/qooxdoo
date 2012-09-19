@@ -66,8 +66,8 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
   extend : qx.ui.mobile.dialog.Dialog,
 
   /**
-   * @param model {qx.data.Array ?} The model which is used to render the pickers slots.
-   * @param anchor {qx.ui.mobile.core.Widget ?} The anchor widget for this item. If no anchor is available,
+   * @param model {qx.data.Array ? null} The model which is used to render the pickers slots.
+   * @param anchor {qx.ui.mobile.core.Widget ? null} The anchor widget for this item. If no anchor is available,
    *       the menu will be displayed modal and centered on screen.
    */
   construct : function(model, anchor)
@@ -410,7 +410,6 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     * Updates the visual position of all available picker slot elements.
     */
     _updateAllSlots : function() {
-
       for(var i =0; i<this.__slotElements.length; i++){
         var slotElement = this.__slotElements[i];
         this._updateSlot(slotElement);

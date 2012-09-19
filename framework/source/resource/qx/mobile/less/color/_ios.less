@@ -426,6 +426,26 @@ input[type="checkbox"]:checked + label {
   display: none;
 }
 
+.popupAnchorPointerTop:before
+{
+  border-bottom-color:@dialog-border-color;
+}
+
+.popupAnchorPointerLeft:before
+{
+  border-right-color:@dialog-border-color;
+}
+
+.popupAnchorPointerRight:after
+{
+  border-left-color:@dialog-border-color;
+}
+
+.popupAnchorPointerBottom:after
+{
+  border-top-color:@dialog-border-color;
+}
+
 //
 // TOGGLEBUTTON
 //
@@ -604,30 +624,39 @@ div.checked .toggleButtonSwitch:before {
 //
 
 
-@picker-dark-color:#555555;
-
-.picker-container {
-  background-color:white;
-  border: 1px solid @picker-dark-color;
-
-}
+@picker-dark-color:#888888;
 
 .picker-label {
   color: #333;
   font-weight:bold;
 }
 
-.picker-slot:before {
-  background-color: @picker-dark-color;
+.picker-slot:before, .picker-slot:after {
+  width:1.5px !important;
+  background-color: black;
+  border-left:2px solid @picker-dark-color;
+  border-right:2px solid @picker-dark-color;
 }
 
-.picker-slot:after {
-  background-color: @picker-dark-color;
+.picker-slot:first-child:before {
+  width:0px !important;
+  border-left:0px solid white;
+}
+
+.picker-slot:last-child:after {
+  width:0px !important;
+  border-right:0px solid white;
+}
+
+.picker-container {
+  background-color:white;
+  border: 1px solid @picker-dark-color;
+  .border-radius(0);
 }
 
 // Spinning Wheel Overlay Gradient
 .picker-container:after {
-  #gradient > .vertical-four(rgba(0,0,0,0.6),rgba(255, 255, 255, 0),rgba(255, 255, 255, 0),rgba(0,0,0,0.6),33%,66%);
+  #gradient > .vertical-four(rgba(0,0,0,0.7),rgba(255, 255, 255, 0),rgba(255, 255, 255, 0),rgba(0,0,0,0.7),33%,66%);
 }
 
 // Selected Area Overlay
