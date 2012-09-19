@@ -1,7 +1,7 @@
 .. _pages/tutorial-part-1#tutorial_part_1:_the_beginning_of_a_identica_app:
 
 Tutorial Part 1: The Beginning of a identica App
-***********************************************
+************************************************
 
 .. _pages/tutorial-part-1#the_missing_manual:
 
@@ -10,7 +10,9 @@ The Missing Manual
 
 We have heard it a couple of times: Users are missing a tutorial a bit more complex than the simple :ref:`"Hello World" tutorial <pages/getting_started/helloworld#helloworld>` we already have. Today, we want to close that gap between the first tutorial and the `demo applications <http://demo.qooxdoo.org>`_ included in the framework like the `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_.
 
-As you sure have read in the headline, we are building a simple identica application. `identica <http://identi.ca>`_ is a twitter like service for posting public short messages and has a `twitter like API <http://status.net/wiki/Twitter-compatible_API>`_ for accessing data. The following mockup shows you how the application should look like at the end.
+As you sure have read in the headline, we are building a simple identica application. `identica <http://identi.ca>`_ is a twitter like service for posting public short messages and has a `twitter like API <http://status.net/wiki/Twitter-compatible_API>`_ for accessing data. twitter itself changed its API to OAuth authorization which would be too much for this tutorial. If your are interested in OAuth, check out the `github demo <http://demo.qooxdoo.org/%{version}/demobrowser/#data~Github.html>`_.
+
+The following mockup shows you how the application should look like at the end.
 
 |identica mockup.png|
 
