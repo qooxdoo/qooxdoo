@@ -21,13 +21,13 @@ Introduction
 .. toctree::
    :maxdepth: 1
 
-   tool/sdk_introduction
-   tool/sdk_requirements
+   tool/sdk/sdk_introduction
+   tool/sdk/sdk_requirements
    tool/getting_started
-   tool/sdk_structure
-   tool/application_structure
-   tool/manifest
-   tool/code_structure
+   tool/sdk/sdk_structure
+   tool/sdk/application_structure
+   tool/sdk/manifest
+   tool/sdk/code_structure
 
 Generator
 =============
@@ -35,12 +35,12 @@ Generator
 .. toctree::
    :maxdepth: 1
 
-   tool/generator
-   tool/generator_usage
-   tool/generator_config
-   tool/generator_optimizations
-   tool/generator_config_articles
-   tool/generator_config_background
+   tool/generator/generator
+   tool/generator/generator_usage
+   tool/generator/generator_config
+   tool/generator/generator_optimizations
+   tool/generator/generator_config_articles
+   tool/generator/generator_config_background
 
 Tutorials
 ------------
@@ -50,14 +50,14 @@ Tutorials
 
    tool/tutorial_basics
 
-.. tool/generator_config_howto
-.. :download:`Generator Cheat Sheet (PDF) <pages/tool/generator_cheat_sheet_1.0.0-1.pdf>`
+.. tool/generator/generator_config_howto
+.. :download:`Generator Cheat Sheet (PDF) <pages/tool/generator/generator_cheat_sheet_1.0.0-1.pdf>`
 
 References
 ------------
-* :doc:`tool/generator_default_jobs`
-* :doc:`tool/generator_config_ref`
-* :doc:`tool/generator_config_macros`
+* :doc:`tool/generator/generator_default_jobs`
+* :doc:`tool/generator/generator_config_ref`
+* :doc:`tool/generator/generator_config_macros`
 
 Lint
 =============

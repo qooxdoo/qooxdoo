@@ -67,7 +67,7 @@ In general, the source version of an app is tailored towards development activit
 makes it easy to write code, run the application, test, debug and
 inspect the application code, fix issues, add enhancements, and repeat.
 
-In the :ref:`source <pages/tool/generator_default_jobs#source>` job, all the classes of the app are in their original source form, and loaded from their original file paths on the file system. 
+In the :ref:`source <pages/tool/generator/generator_default_jobs#source>` job, all the classes of the app are in their original source form, and loaded from their original file paths on the file system. 
 If you inspect your application in a JavaScript debugger like Firebug or
 Chrome Developer Tools, you can identify each of your custom files individually, read
 its code and comments, set breakpoints, inspect variables and so forth.
@@ -78,9 +78,9 @@ dependencies, e.g. by instantiating a class you haven't used before.
 This changes the set of necessary classes for your application, and the
 generator has to re-create the corresponding loader. 
 
-In the :ref:`source-hybrid <pages/tool/generator_default_jobs#source-hybrid>` version, the generator will concatenate class files into a bunch of script files, except for your application classes, which are loaded directly from their original path on the file system. This allows for a reasonable loading speed of your application in the browser, while still providing convenient debug access to your own class files.
+In the :ref:`source-hybrid <pages/tool/generator/generator_default_jobs#source-hybrid>` version, the generator will concatenate class files into a bunch of script files, except for your application classes, which are loaded directly from their original path on the file system. This allows for a reasonable loading speed of your application in the browser, while still providing convenient debug access to your own class files.
 
-With :ref:`source-all <pages/tool/generator_default_jobs#source-all>` all existing classes will be included, be they
+With :ref:`source-all <pages/tool/generator/generator_default_jobs#source-all>` all existing classes will be included, be they
 part of your application, the qooxdoo framework, or any other qooxdoo
 library or contribution you might be using. All those classes are
 included in the build, whether they are currently required or not. This
@@ -312,8 +312,8 @@ so it is available on the command line.
 Further Resources
 ~~~~~~~~~~~~~~~~~
 
-* If you want to embark on the effort of creating custom jobs you're well-advised to make yourself familiar with the :doc:`general generator configuration overview <generator_config>`, and
-* the :doc:`reference of configuration keys <generator_config_ref>` that can be used. 
+* If you want to embark on the effort of creating custom jobs you're well-advised to make yourself familiar with the :doc:`general generator configuration overview <generator/generator_config>`, and
+* the :doc:`reference of configuration keys <generator/generator_config_ref>` that can be used. 
 * Also, there is an example configuration file in *tool/data/config/example.json* to look at.
 * The basic configuration file, *tool/data/config/base.json*, 
 * and the configuration files for the Testrunner (*component/testrunner/testrunner.json*)

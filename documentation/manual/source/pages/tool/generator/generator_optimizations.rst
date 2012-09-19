@@ -1,24 +1,24 @@
 Generator Script Optimizations
 ==============================
 
-When creating the JavaScript output for an application, the generator supports several optimizations. These optimizations can be enabled in the generator configuration using the :ref:`optimize <pages/tool/generator_config_ref#compile-options>` key. Each of them is described here in detail.
+When creating the JavaScript output for an application, the generator supports several optimizations. These optimizations can be enabled in the generator configuration using the :ref:`optimize <pages/tool/generator/generator_config_ref#compile-options>` key. Each of them is described here in detail.
 
 
-.. _pages/tool/generator_config_articles#basecalls:
+.. _pages/tool/generator/generator_config_articles#basecalls:
 
 basecalls
 ---------
 
 Calls to :ref:`this.base() <pages/classes#inheritance>`, which invoke the corresponding superclass method, are inlined, i.e. the superclass method call  is inserted in place of the this.base() call.
 
-.. _pages/tool/generator_optimizations#comments:
+.. _pages/tool/generator/generator_optimizations#comments:
 
 comments
 --------
 
 The *comments* optimization is automatically included in any of the other optimizations, so really only makes a difference when given as the only optimization key for the given build. In that case, comments are stripped from the source code, and the resulting text is passed to the script output, also retaining (most of the) white space of the source version. What you get is a near-source code version in the running application that allows you to focus on the code, and is lighter in terms of transfer size.
 
-.. _pages/tool/generator_config_articles#privates:
+.. _pages/tool/generator/generator_config_articles#privates:
 
 privates
 --------
@@ -63,7 +63,7 @@ The reason for this behaviour is that members, including private members, of a c
 For more details where string references can occur, see e.g. the :doc:`class </pages/core/class_quickref>` and :doc:`property </pages/core/properties_quickref>` quick refs.
 
 
-.. _pages/tool/generator_config_articles#strings:
+.. _pages/tool/generator/generator_config_articles#strings:
 
 strings
 -------
@@ -71,7 +71,7 @@ strings
 With the string optimization, strings are extracted from the class definition and put into lexical variables. The occurrences of the strings in the class definition is then replaced by the variable name. This mainly benefits IE6 and repetitive references to the same string literal.
 
 
-.. _pages/tool/generator_config_articles#statics:
+.. _pages/tool/generator/generator_config_articles#statics:
 
 statics
 -------
@@ -94,17 +94,17 @@ The cure is to add ``#require`` hints to force the inclusion of those methods th
     The statics optimization is highly experimental, and is not for use in normal application development. If you use it, you should expect manual work and multiple iterations to get your classes working again. You best provide a good test coverage in advance so you can convince yourself that all classes are indeed working when this optimization is enabled.
 
 
-.. _pages/tool/generator_config_articles#variables:
+.. _pages/tool/generator/generator_config_articles#variables:
 
 variables
 ---------
 Local variable names are made short. Scoped variables (those declared with a *var* statement in a function) are replaced by generated names that are much shorter (1-2 characters on average). Dependending on the original code, this can result in significant space savings.
 
-.. _pages/tool/generator_optimizations#variants:
+.. _pages/tool/generator/generator_optimizations#variants:
 
 variants
 --------
-With giving the *variants* optimization key, code will be removed that is not relevant for the current build. The decision about relevance is based on the settings given in the job configuration's :ref:`environment <pages/tool/generator_config_ref#environment>` key. Often, these settings will be queried in class code to select a certain code branch. If the value of the setting is known at compile time, the correct branch can be selected right away, and all other branches be removed. This allows to omit code that wouldn't be executed at run time anyway ("dead code removal").
+With giving the *variants* optimization key, code will be removed that is not relevant for the current build. The decision about relevance is based on the settings given in the job configuration's :ref:`environment <pages/tool/generator/generator_config_ref#environment>` key. Often, these settings will be queried in class code to select a certain code branch. If the value of the setting is known at compile time, the correct branch can be selected right away, and all other branches be removed. This allows to omit code that wouldn't be executed at run time anyway ("dead code removal").
 
 The way environment settings are queried in class code is through certain APIs of the `qx.core.Environment <http://demo.qooxdoo.org/%{version}/apiviewer#qx.core.Environment>`_ class. These API calls are searched for, and depending on context safe optimizations are applied. Here are the different calls and how they are treated.
 

@@ -98,7 +98,7 @@ The ``simulator.autHost`` and ``simulator.autPath`` settings are combined to for
 Making the jobs available
 ----------------------------
 
-The identica tutorial application was created before the ``simulation-*`` generator jobs existed, so if you downloaded the tutorial code from Github, you'll get a "No such job" error if you try to run them. To fix this, you need to add both ``simulation-build`` and ``simulation-run`` to the :ref:`"export"<pages/tool/generator_config_ref#export>` list at the top of the application's config.json file. This is not necessary for application skeletons created by more recent qooxdoo SDKs (1.3 and later).
+The identica tutorial application was created before the ``simulation-*`` generator jobs existed, so if you downloaded the tutorial code from Github, you'll get a "No such job" error if you try to run them. To fix this, you need to add both ``simulation-build`` and ``simulation-run`` to the :ref:`"export"<pages/tool/generator/generator_config_ref#export>` list at the top of the application's config.json file. This is not necessary for application skeletons created by more recent qooxdoo SDKs (1.3 and later).
 
 .. _pages/desktop/tutorials/tutorial-part-4-4-1#defining_a_test_case:
 
@@ -162,7 +162,7 @@ Once the build job is finished, run generate.py simulation-run. Assuming everyth
   >>> Simulator run finished in: 0 minutes 15 seconds.
   >>> Done (0m17.20)
 
-You'll notice a warning about the "simulation-run" job being shadowed. Since we're doing that on purpose, we can silence this warning by adding the top-level key :ref:`"config-warnings"<pages/tool/generator_config_ref#config-warnings>` to config.json:
+You'll notice a warning about the "simulation-run" job being shadowed. Since we're doing that on purpose, we can silence this warning by adding the top-level key :ref:`"config-warnings"<pages/tool/generator/generator_config_ref#config-warnings>` to config.json:
 
 ::
 

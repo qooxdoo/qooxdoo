@@ -44,8 +44,8 @@ A qooxdoo application has a well-organized file structure. For an application na
 * ``api`` - contains a searchable :ref:`API viewer <pages/getting_started/helloworld#api_reference>` specific to your application, created by running the command ``generate.py api``. As it is self-consistent, it may be copied anywhere and run offline.
 * ``test`` - a standalone :ref:`Test runner <pages/getting_started/helloworld#unit_testing>` for unit tests you may create for your app, created by running ``generate.py test``.
 * :doc:`Manifest.json <manifest>` - every qooxdoo app has such a Manifest file for some meta information
-* :doc:`config.json </pages/tool/generator_config>` - configuration file for the build process and all other integrated developer tools
-* :ref:`pages/tool/generator_usage#generate.py` - use this script for all kinds of tasks and tools, most importantly to generate the development and the deployment versions of your app.
+* :doc:`config.json </pages/tool/generator/generator_config>` - configuration file for the build process and all other integrated developer tools
+* :ref:`pages/tool/generator/generator_usage#generate.py` - use this script for all kinds of tasks and tools, most importantly to generate the development and the deployment versions of your app.
 
 .. _pages/application_structure#in_other_words:
 

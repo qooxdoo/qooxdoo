@@ -57,7 +57,7 @@ The Selenium Server (selenium-server.jar, or selenium-server-standalone.jar for 
 Generator Configuration
 =======================
 
-Unlike other framework components, the Simulator isn't ready to run out of the box: The application developer needs to specify the location of the required external libraries (Selenium's Java bindings and Mozilla Rhino). This is easily accomplished by redefining the *SIMULATOR_CLASSPATH* macro (in the applicaton's config.json file; be sure to heed the :ref:`general information about paths <pages/tool/generator_config_articles#path_names>` in config files):
+Unlike other framework components, the Simulator isn't ready to run out of the box: The application developer needs to specify the location of the required external libraries (Selenium's Java bindings and Mozilla Rhino). This is easily accomplished by redefining the *SIMULATOR_CLASSPATH* macro (in the applicaton's config.json file; be sure to heed the :ref:`general information about paths <pages/tool/generator/generator_config_articles#path_names>` in config files):
 
 ::
 
@@ -99,8 +99,8 @@ The following example shows the minimum configuration needed to launch a Simulat
       }
     }
 
-See the :ref:`job reference <pages/tool/generator_default_jobs#simulation-run>` for a listing of all supported settings and their default values.
-Additional runtime options are available, although their default settings should be fine for most cases. See the :ref:`simulate job key reference <pages/tool/generator_config_ref#simulate>` for details.
+See the :ref:`job reference <pages/tool/generator/generator_default_jobs#simulation-run>` for a listing of all supported settings and their default values.
+Additional runtime options are available, although their default settings should be fine for most cases. See the :ref:`simulate job key reference <pages/tool/generator/generator_config_ref#simulate>` for details.
 
 .. _pages/development/simulator#writing_tests:
 

@@ -1,4 +1,4 @@
-.. _pages/tool/generator_usage#generator_usage:
+.. _pages/tool/generator/generator_usage#generator_usage:
 
 Generator Usage
 ***************
@@ -7,7 +7,7 @@ The generator is a command-line utility which serves as the single entry front-e
 
 The generator is started to execute various jobs. Those jobs represent the feature set of the tool chain. This page is about how to invoke the generator.
 
-.. _pages/tool/generator_usage#files_and_folder_structure:
+.. _pages/tool/generator/generator_usage#files_and_folder_structure:
 
 Files and Folder Structure
 ==========================
@@ -24,14 +24,14 @@ The qooxdoo SDK has a dedicated ``tool`` folder that contains all elements that 
 
 The generator is actually the program ``tool/bin/generator.py``. 
 
-.. _pages/tool/generator_usage#generate.py:
+.. _pages/tool/generator/generator_usage#generate.py:
 
 generate.py
 ===========
 
 To make it easier to invoke the generator, each library in the SDK (framework, applications, components) contains a ``generate.py`` script that is really just a proxy for the generator itself. It is also part of each project created by the :ref:`create-application.py <pages/getting_started/helloworld#create_your_application>` wizard. The aim is to hide the actual path to the generator program. You can omit using it if you add *<QOOXDOO_PATH>/tool/bin* to your PATH environment variable.
 
-.. _pages/tool/generator_usage#command-line_options:
+.. _pages/tool/generator/generator_usage#command-line_options:
 
 Command-line Options
 ====================
@@ -67,14 +67,14 @@ Since the generator is nearly completely driven by its configuration files, ther
 The most important options are the path of the config file to use (*-c* option), and the list of jobs to execute. The *-m* option allows Json-type values, scalars like strings and numbers, but also maps *{...}* and lists *[...]* [#m_option]_.
 
 
-.. _pages/tool/generator_usage#configuration_files:
+.. _pages/tool/generator/generator_usage#configuration_files:
 
 Configuration Files
 ===================
 
 The single most important way to control the actions of the generator is through specialized configuration files. These files have a `JSON <http://www.json.org>`_ syntax and contain the definitions for the various jobs the generator is supposed to execute. There is a :doc:`whole section <generator_config>` in this manual dedicated to these config files.
 
-.. _pages/tool/generator_usage#usage_patterns:
+.. _pages/tool/generator/generator_usage#usage_patterns:
 
 Usage Patterns
 ==============
@@ -88,7 +88,7 @@ As a few quick hints on how you would invoke the generator, here are the most co
 
 The :ref:`Helloworld <pages/getting_started/helloworld#helloworld>` tutorial will give the complete steps how to start a project and get going.
 
-.. _pages/tool/generator_usage#default_jobs:
+.. _pages/tool/generator/generator_usage#default_jobs:
 
 Default Jobs
 ============

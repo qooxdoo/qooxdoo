@@ -5,7 +5,7 @@ Manifest.json
 
 %{qooxdoo}'s `Manifest files <http://en.wikipedia.org/wiki/Manifest_file>`_ serve to provide meta information for a library in a structured way. Their syntax is in JSON. They have a more informational part (keyed ``info``), which is more interesting for human readers, and a technical part (named ``provides``) that is used in the processing of generator configurations. Here is a brief sample with all the possible keys:
 
-Manifest files are referenced in application's `config.json` files (in the :ref:`pages/tool/generator_config_ref#library` key), to identify the library they stand for.
+Manifest files are referenced in application's `config.json` files (in the :ref:`pages/tool/generator/generator_config_ref#library` key), to identify the library they stand for.
 
 Reference
 =========

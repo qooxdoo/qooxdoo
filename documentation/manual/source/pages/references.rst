@@ -37,9 +37,9 @@ Tooling
 .. toctree::
    :maxdepth: 1
 
-   tool/generator_default_jobs
-   tool/generator_config_ref
-   tool/generator_config_macros
+   tool/generator/generator_default_jobs
+   tool/generator/generator_config_ref
+   tool/generator/generator_config_macros
    tool/ebnf_like
 
 .. _pages/references#miscellaneous:

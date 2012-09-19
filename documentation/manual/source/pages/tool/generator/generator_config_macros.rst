@@ -1,4 +1,4 @@
-.. _pages/tool/generator_config_macros#configuration_macro_reference:
+.. _pages/tool/generator/generator_config_macros#configuration_macro_reference:
 
 Generator Config Macros
 ******************************
@@ -14,7 +14,7 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
       - Default value
   
     * - ADD_NOCACHE_PARAM
-      - turn :ref:`compile-options/uris/add-nocache-param <pages/tool/generator_config_ref#compile-options>`  on/off for *source* builds
+      - turn :ref:`compile-options/uris/add-nocache-param <pages/tool/generator/generator_config_ref#compile-options>`  on/off for *source* builds
       - false
     * - API_EXCLUDE 
       - list of class pattern to exclude from the api documentation
@@ -41,7 +41,7 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
       - ${TMPDIR}/cache 
   
     * - CACHE_KEY
-      - takes the value of a complete :ref:`cache <pages/tool/generator_config_ref#cache>` configuration key (i.e. a map)
+      - takes the value of a complete :ref:`cache <pages/tool/generator/generator_config_ref#cache>` configuration key (i.e. a map)
       - { "compile" : "${CACHE}", "downloads" : "${CACHE}/downloads", "invalidate-on-tool-change" : true }
   
     * - GENERATOR_OPTS
@@ -57,7 +57,7 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
       - [ "en" ] 
   
     * - OPTIMIZE 
-      - list of :ref:`optimization options <pages/tool/generator_config_ref#compile-options>` for build version 
+      - list of :ref:`optimization options <pages/tool/generator/generator_config_ref#compile-options>` for build version 
       - ["basecalls", "comments", "privates", "strings", "variables", "variants", "whitespace"]
   
     * - QOOXDOO_PATH 
