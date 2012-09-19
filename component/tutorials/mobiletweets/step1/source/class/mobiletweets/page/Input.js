@@ -26,7 +26,7 @@ qx.Class.define("mobiletweets.page.Input",
 
   construct : function() {
     this.base(arguments);
-    this.setTitle("Twitter Client");
+    this.setTitle("Identica Client");
   },
 
 
@@ -45,7 +45,7 @@ qx.Class.define("mobiletweets.page.Input",
     {
       this.base(arguments);
 
-      var title = new qx.ui.mobile.form.Title("Please enter a Twitter username");
+      var title = new qx.ui.mobile.form.Title("Please enter a Identica username");
       this.getContent().add(title);
 
       var form = this.__form = new qx.ui.mobile.form.Form();

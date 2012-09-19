@@ -1,0 +1,51 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: you@your.org\n"
+"POT-Creation-Date: 2010-09-16 10:01+0100\n"
+"PO-Revision-Date: 2010-09-16 10:01+0100\n"
+"Last-Translator: you <you@your.org>\n"
+"Language-Team: Team <yourteam@your.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: identica/MainWindow.js:30
+msgid "Reload"
+msgstr "Recharger"
+
+#: identica/MainWindow.js:32
+msgid "Reload the tweets."
+msgstr "recharger les messages."
+
+#: identica/MainWindow.js:44
+msgid "Change the applications settings."
+msgstr "Changer les paramètres de l'application."
+
+#: identica/MainWindow.js:60
+msgid "Enter your message here..."
+msgstr "Saisissez votre message ici..."
+
+#: identica/MainWindow.js:67
+msgid "Post"
+msgstr "Envoyer"
+
+#: identica/MainWindow.js:69
+msgid "Post this message on idenit.ca"
+msgstr ""
+
+#: identica/SettingsWindow.js:8 identica/MainWindow.js:42
+msgid "Preferences"
+msgstr "Préférences"
+
+#: identica/SettingsWindow.js:13
+msgid "Language"
+msgstr "Langage"
+
+#: identica/SettingsWindow.js:20
+msgid "$$languagename"
+msgstr "Français"
+
+#~ msgid "Post this message on identica."
+#~ msgstr "Envoyer ce message sur identica."

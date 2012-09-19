@@ -1,7 +1,7 @@
-Tutorial: How to create a qooxdoo mobile twitter client
+Tutorial: How to create a qooxdoo mobile Identica client
 =======================================================
 
-In this tutorial you will learn how to create a simple Twitter client with the new qooxdoo mobile widgets. The client should display all tweets of a certain user. When a tweet is selected, the details of the tweet should be shown. You can find the full tutorial [here](http://manual.qooxdoo.org/devel/pages/mobile/tutorial.html).
+In this tutorial you will learn how to create a simple Identica client with the new qooxdoo mobile widgets. The client should display all tweets of a certain user. When a tweet is selected, the details of the tweet should be shown. You can find the full tutorial [here](http://manual.qooxdoo.org/devel/pages/mobile/tutorial.html).
 
 Requirements
 ------------

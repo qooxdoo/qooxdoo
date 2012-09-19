@@ -161,26 +161,28 @@ qx.Class.define("mobiletweets.Application",
      */
     __loadTweets : function()
     {
-      // Public Twitter Tweets API
-      var url = "http://twitter.com/statuses/user_timeline/" + this.getUsername() + ".json";
+      // Public Identica Tweets API
+      var url = "http://identi.ca/api/statuses/user_timeline/" + this.getUsername() + ".json";
       // Create a new JSONP store instance with the given url
-      var store = new qx.data.store.Jsonp(url);
+      var self = this;
+      var store = new qx.data.store.Jsonp(url, {manipulateData : function(data) {
+        if (data && data.error) {
+          qx.ui.mobile.dialog.Manager.getInstance().alert(
+            "Error",
+            "Error loading the tweets for user " + self.getUsername(),
+            self.__showStartPage,
+            self,
+            "OK"
+          );
+          return null;
+        }
+        return data;
+      }});
       // Use data binding to bind the "model" property of the store to the "tweets" property
       store.bind("model", this, "tweets");
-
-      // Some error handling
-      store.addListener("error", function(evt) {
-        qx.ui.mobile.dialog.Manager.getInstance().alert(
-          "Error",
-          "Error loading the tweets for user " + this.getUsername(),
-          this.__showStartPage,
-          this,
-          "OK"
-        );
-      }, this);
     },
-    
-    
+
+
     /**
      * Shows the input page of the application.
      */
