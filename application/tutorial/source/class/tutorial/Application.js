@@ -24,6 +24,7 @@
 #require(qx.module.Traversing)
 
 #require(tutorial.tutorial.desktop.Hello_World)
+#require(tutorial.tutorial.desktop.Single_Value_Binding)
 ************************************************************************ */
 
 /**
@@ -42,7 +43,7 @@ qx.Class.define("tutorial.Application",
     __description : null,
     __selectionWindow : null,
 
-    __desktopTutorials : ["Hello_World", "Single_Value_Bindig"],
+    __desktopTutorials : ["Hello_World", "Single_Value_Binding"],
     __mobileTutorials : ["Hello_World"],
 
 
@@ -70,6 +71,7 @@ qx.Class.define("tutorial.Application",
 
       // Create header
       this.__header = new tutorial.view.Header();
+      this.__header.addListener("selectTutorial", this.openSelectionWindow, this);
       mainComposite.add(this.__header);
 
       // create the content
@@ -111,7 +113,6 @@ qx.Class.define("tutorial.Application",
 
       // load initial tutorial
       this.loadTutorial("Hello_World", "desktop");
-      this.__playArea.updateCaption("Hello World");
 
       // set the blocker color
       this.getRoot().setBlockerColor("rgba(0, 0, 0, 0.35)")
@@ -124,9 +125,18 @@ qx.Class.define("tutorial.Application",
           this.__desktopTutorials, 
           this.__mobileTutorials
         );
+        this.__selectionWindow.addListener("changeTutorial", this.__onChangeTutorial, this);
       }
+
       this.__selectionWindow.open();
+      this.__selectionWindow.getContainerElement().fadeIn(333);
     },
+
+
+    __onChangeTutorial : function(e) {
+      this.loadTutorial(e.getData().name, e.getData().type)
+    },
+
 
     updateEditor : function(e) {
       if (!confirm("Is it ok to replace the current code in the editor?")) {
@@ -138,6 +148,7 @@ qx.Class.define("tutorial.Application",
       this.__editor.setCode(code);
       this.run();
     },
+
 
     run : function() {
       // reset the play area
@@ -175,6 +186,7 @@ qx.Class.define("tutorial.Application",
         var req = e.getTarget();
         var tutorial = this.parseTutorial(name, type, req.getResponse());
         this.__description.setTutorial(tutorial);
+        this.__playArea.updateCaption(name.replace(/_/g, " "));
       }, this);
       req.send();
     },

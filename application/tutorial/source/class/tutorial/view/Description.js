@@ -80,7 +80,11 @@ qx.Class.define("tutorial.view.Description",
     __embed : null, 
 
     _applyTutorial : function(value) {
-      this.setStep(0);
+      if (this.getStep() == 0) {
+        this.updateView();
+      } else {
+        this.setStep(0);
+      }
     },
 
     _applyStep : function(value) {

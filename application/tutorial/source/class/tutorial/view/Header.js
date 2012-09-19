@@ -24,11 +24,9 @@ qx.Class.define("tutorial.view.Header",
 {
   extend : qx.ui.container.Composite,
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
+  events : {
+    "selectTutorial" : "qx.event.type.Event"
+  },
 
   /**
    * @lint ignoreUndefined(qxc)
@@ -41,10 +39,18 @@ qx.Class.define("tutorial.view.Header",
     this.setAppearance("app-header");
 
     var title = new qx.ui.basic.Label("Tutorials");
+    var select = new qx.ui.form.Button("Select Tutorial");
+    select.setFont("default");
+    select.setTextColor("black");
+    select.addListener("execute", function() {
+      this.fireEvent("selectTutorial");
+    }, this);
     var version = new qxc.ui.versionlabel.VersionLabel();
     version.setFont("default");
 
     this.add(title);
+    this.add(new qx.ui.core.Spacer, {flex : 1});
+    this.add(select);
     this.add(new qx.ui.core.Spacer, {flex : 1});
     this.add(version);
   }
