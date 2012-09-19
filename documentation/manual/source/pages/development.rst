@@ -78,6 +78,8 @@ Internationalization
 
    Internationalization, Localization <development/internationalization>
 
+* :doc:`PO File Cheat Sheet <tool/translation/po_format>`
+
 
 Documenting Code
 =================

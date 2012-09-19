@@ -41,6 +41,7 @@ Tooling
    tool/generator/generator_config_ref
    tool/generator/generator_config_macros
    tool/ebnf_like
+   tool/translation/po_format
 
 .. _pages/references#miscellaneous:
 
