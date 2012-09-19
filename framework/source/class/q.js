@@ -150,7 +150,7 @@ qx.Bootstrap.define("q", {
    * @return {q} A collection of DOM elements.
    */
   construct : function(selector, context) {
-    if (!selector && this != window) {
+    if (!selector && this instanceof q) {
       return this;
     }
 
