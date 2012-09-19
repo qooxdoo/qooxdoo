@@ -4,19 +4,19 @@
 Tutorial Part 4.2: Custom Widgets
 *********************************
 
-In this tutorial we will deal with how to create a custom widget for our Twitter application. It is necessary that you finished the tutorials part 1 through part 3 to work with this tutorial, but previous knowledge from tutorial 4.1 is not needed.
+In this tutorial we will deal with how to create a custom widget for our identica application. It is necessary that you finished the tutorials part 1 through part 3 to work with this tutorial, but previous knowledge from tutorial 4.1 is not needed.
 
 Do you remember the mockup from tutorial part 1?
 
 |Mockup|
 
-.. |Mockup| image:: /pages/desktop/tutorials/twittermockup1.png
+.. |Mockup| image:: /pages/desktop/tutorials/identicamockup1.png
 
-You can see that one tweet consists of a photo, a text and a creation date, but at the moment the Twitter application doesn't show the creation date of a tweet.  This is because we use the default `ListItem <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.ListItem>`_ to show a tweet and a ListItem can only show an image and/or label. To achieve our goal, we have to create a custom widget which we can use instead of the ListItem.
+You can see that one tweet consists of a photo, a text and a creation date, but at the moment the identica application doesn't show the creation date of a tweet.  This is because we use the default `ListItem <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.ListItem>`_ to show a tweet and a ListItem can only show an image and/or label. To achieve our goal, we have to create a custom widget which we can use instead of the ListItem.
 
 .. note::
 
-    The code in this tutorial should also work when you haven't completed the 4.1 tutorial because it doesn't depend on the code changes from tutorial 4.1. But if you have any problems to run the tutorial, you can also checkout the code from tutorial 4.1 on `github <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.1>`_.
+    The code in this tutorial should also work when you haven't completed the 4.1 tutorial because it doesn't depend on the code changes from tutorial 4.1. But if you have any problems to run the tutorial, you can also checkout the code from tutorial 4.1 on `github <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/identica/step4.1>`_.
 
 .. _pages/desktop/tutorials/tutorial-part-4-2#the_plan:
 
@@ -30,11 +30,11 @@ First of all we have to create a custom widget which fulfills our requirements f
 Create the custom widget class
 ==============================
 
-You should know how to create a class from the previous tutorials. So please create a class for ``twitter.TweetView``, but in our case we need to extend from ``qx.ui.core. Widget``.
+You should know how to create a class from the previous tutorials. So please create a class for ``identica.TweetView``, but in our case we need to extend from ``qx.ui.core. Widget``.
 
 ::
 
-    qx.Class.define("twitter.TweetView",
+    qx.Class.define("identica.TweetView",
     {
       extend : qx.ui.core.Widget,
       include : [qx.ui.form.MModelProperty],
@@ -44,7 +44,7 @@ You should know how to create a class from the previous tutorials. So please cre
       }
     });
 
-The attentive reader noticed that we use the ``include`` key for the first time. ``include`` is used to include a :doc:`mixin </pages/core/mixins>` in a class. This is necessary in our case to support Data Binding. Our Twitter application uses it and therefore it is expected that the new widget implements the `qx.ui.form.IModel <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.IModel>`_ interface. Otherwise the widget can't be used with Data Binding. But fortunately the mixin ``qx.ui.form.MModelProperty`` already implements it, so we can reuse the implementation.
+The attentive reader noticed that we use the ``include`` key for the first time. ``include`` is used to include a :doc:`mixin </pages/core/mixins>` in a class. This is necessary in our case to support Data Binding. Our identica application uses it and therefore it is expected that the new widget implements the `qx.ui.form.IModel <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.IModel>`_ interface. Otherwise the widget can't be used with Data Binding. But fortunately the mixin ``qx.ui.form.MModelProperty`` already implements it, so we can reuse the implementation.
 
 .. _pages/desktop/tutorials/tutorial-part-4-2#define_the_needed_properties:
 
@@ -272,7 +272,7 @@ Now to the delegate, just replace the current delegate with this one:
 
     controller.setDelegate({
       createItem : function() {
-        return new twitter.TweetView();
+        return new identica.TweetView();
       },
 
       bindItem : function(controller, item, id) {
@@ -317,7 +317,7 @@ In our case the photo and the post need no conversion because the source data an
      return new Date(data);
     }
 
-The converter method creates a date object from the given String. Don't be confused by the if statement. The Twitter model has a format which is not standard UTC format in JavaScript and Internet Explorer has problems parsing the String, therefore a short conversion is needed before the date object can be created.
+The converter method creates a date object from the given String. Don't be confused by the if statement. The identica model has a format which is not standard UTC format in JavaScript and Internet Explorer has problems parsing the String, therefore a short conversion is needed before the date object can be created.
 
 The ``configureItem`` method should be known from :doc:`tutorial part 3 <tutorial-part-3>`, there are only some improvements to keep the same behavior as before.
 
@@ -327,4 +327,4 @@ Great, now we've got it! Run ``generate.py`` to create the application.
 
 .. |Step 4-2| image:: /pages/desktop/tutorials/step42.png
 
-Again, if you want to take a `look at the code <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.2>`_, fork the project on github.
+Again, if you want to take a `look at the code <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/identica/step4.2>`_, fork the project on github.

@@ -3,7 +3,7 @@
 Tutorial Part 4.4.1: Automated UI Testing
 *****************************************
 
-Having previously covered :doc:`unit testing </pages/desktop/tutorials/tutorial-part-4-4>`, it's time to take a look at qooxdoo's built-in facilities for automated UI testing. Over the course of this tutorial, we'll set up the required infrastructure and develop a test case that interacts with the Twitter application from the previous tutorials.
+Having previously covered :doc:`unit testing </pages/desktop/tutorials/tutorial-part-4-4>`, it's time to take a look at qooxdoo's built-in facilities for automated UI testing. Over the course of this tutorial, we'll set up the required infrastructure and develop a test case that interacts with the identica application from the previous tutorials.
 
 |Simulator executing a test suite|
 
@@ -26,7 +26,7 @@ Simulator Test cases are defined as qooxdoo classes inheriting from ``simulator.
 
 Setting up the infrastructure
 =============================
-For the purposes of this tutorial, we'll assume that you're using a working directory named ``workspace`` which contains the Twitter tutorial application in a subdirectory named ``qooxdoo-tutorial``. Replace these paths with your own as appropriate.
+For the purposes of this tutorial, we'll assume that you're using a working directory named ``workspace`` which contains the identica tutorial application in a subdirectory named ``qooxdoo-tutorial``. Replace these paths with your own as appropriate.
 
 The test browser will load the application under test (AUT) over HTTP, so make sure you're running a web server and qooxdoo-tutorial is accessible. If you don't want to install a full-blown HTTP server like Apache, you can use Python's built-in web server module. To do so, open a new shell in your ``workspace`` directory and run this command:
 
@@ -98,17 +98,17 @@ The ``simulator.autHost`` and ``simulator.autPath`` settings are combined to for
 Making the jobs available
 ----------------------------
 
-The Twitter tutorial application was created before the ``simulation-*`` generator jobs existed, so if you downloaded the tutorial code from Github, you'll get a "No such job" error if you try to run them. To fix this, you need to add both ``simulation-build`` and ``simulation-run`` to the :ref:`"export"<pages/tool/generator_config_ref#export>` list at the top of the application's config.json file. This is not necessary for application skeletons created by more recent qooxdoo SDKs (1.3 and later).
+The identica tutorial application was created before the ``simulation-*`` generator jobs existed, so if you downloaded the tutorial code from Github, you'll get a "No such job" error if you try to run them. To fix this, you need to add both ``simulation-build`` and ``simulation-run`` to the :ref:`"export"<pages/tool/generator_config_ref#export>` list at the top of the application's config.json file. This is not necessary for application skeletons created by more recent qooxdoo SDKs (1.3 and later).
 
 .. _pages/desktop/tutorials/tutorial-part-4-4-1#defining_a_test_case:
 
 Defining a test case
 ====================
-Now that we've got our infrastructure set up, we can finally start writing tests. First, navigate to the subfolder named ``simulation`` in ``qooxdoo-tutorial/source/class/twitter``. This is the default location for Simulator tests. In this folder, delete the predefined ``DemoSimulation.js`` and create a new file named ``Settings.js``. This will be our test case that is going to interact with the Twitter application's settings dialog. For now, just add a test method stub that will cause the test to fail:
+Now that we've got our infrastructure set up, we can finally start writing tests. First, navigate to the subfolder named ``simulation`` in ``qooxdoo-tutorial/source/class/identica``. This is the default location for Simulator tests. In this folder, delete the predefined ``DemoSimulation.js`` and create a new file named ``Settings.js``. This will be our test case that is going to interact with the identica application's settings dialog. For now, just add a test method stub that will cause the test to fail:
 
 ::
 
-  qx.Class.define("twitter.simulation.Settings", {
+  qx.Class.define("identica.simulation.Settings", {
    
     extend : simulator.unit.TestCase,
    
@@ -125,7 +125,7 @@ Now that we've got our infrastructure set up, we can finally start writing tests
 
 Building and running the test suite
 ===================================
-Time to see the Simulator in action. In the Twitter application's directory, run ``generate.py simulation-build`` to create the test application. Note that there is no simulation-source job (yet) so you must run simulation-build every time you modify your test classes.
+Time to see the Simulator in action. In the identica application's directory, run ``generate.py simulation-build`` to create the test application. Note that there is no simulation-source job (yet) so you must run simulation-build every time you modify your test classes.
 
 Once the build job is finished, run generate.py simulation-run. Assuming everything's set up correctly, two Firefox windows should (very briefly) open up and you should see the result of the failing test right on the shell:
 
@@ -154,7 +154,7 @@ Once the build job is finished, run generate.py simulation-run. Assuming everyth
   >>> Assertion error! Test not implemented!: Called fail().
   >>> Stack trace: 
   
-  >>> ERROR  twitter.simulation.Settings:testChangeLanguage
+  >>> ERROR  identica.simulation.Settings:testChangeLanguage
   >>> Test not implemented!: Called fail().
   
   >>> Test suite finished.
@@ -175,7 +175,7 @@ You'll notice a warning about the "simulation-run" job being shadowed. Since we'
 
 Test development
 ================
-Let's replace that stub with something useful now: We want Selenium to use the Twitter application's preferences window to change the language.
+Let's replace that stub with something useful now: We want Selenium to use the identica application's preferences window to change the language.
 But first, we should set Selenium's execution speed (the delay after each command is excuted) to a value that will allow us to actually see what's going on, say one second. To do so, replace the ``this.fail`` line:
 
 ::
@@ -205,7 +205,7 @@ The qxhv locator allows us to find any widget with a given "label" property valu
 
 A word about locales
 --------------------
-As you'll be aware if you've completed the :ref:`Translation tutorial <pages/desktop/tutorials/tutorial-part-4-3#tutorial_part_4.3:_translation>`, the Twitter application is localized and will automatically switch the display language if the locale of the browser it's opened in matches one of the supported languages (German, English, French and Romanian). This means that depending on the locale of the browser you're using to run the test suite, you may have to adjust the target value of the Preferences label locator step, e.g. ``qxhv=*/[@label=Einstellungen]`` for a German language browser.
+As you'll be aware if you've completed the :ref:`Translation tutorial <pages/desktop/tutorials/tutorial-part-4-3#tutorial_part_4.3:_translation>`, the identica application is localized and will automatically switch the display language if the locale of the browser it's opened in matches one of the supported languages (German, English, French and Romanian). This means that depending on the locale of the browser you're using to run the test suite, you may have to adjust the target value of the Preferences label locator step, e.g. ``qxhv=*/[@label=Einstellungen]`` for a German language browser.
 
 Executing commands
 ------------------
@@ -223,18 +223,18 @@ This should open the Preferences window. To make sure the command worked, we can
 ::
 
   // Check if the Preferences window opened
-  var settingsWindowLocator = "qxhv=[@classname=twitter.SettingsWindow]";
+  var settingsWindowLocator = "qxhv=[@classname=identica.SettingsWindow]";
   var settingsWindowPresent = this.getQxSelenium().isElementPresent(settingsWindowLocator);
   this.assertTrue(settingsWindowPresent);
 
-If the settings window was a ``qx.ui.window.Window``, we could simply use the class name as the locator step. But that only works with classes from the qx.* name space. For a custom widget class like ``twitter.SettingsWindow``, we need to search by ``classname``, a plain JavaScript attribute supported by all qooxdoo objects. The ``@propertyName=value`` locator step covers these as well.
+If the settings window was a ``qx.ui.window.Window``, we could simply use the class name as the locator step. But that only works with classes from the qx.* name space. For a custom widget class like ``identica.SettingsWindow``, we need to search by ``classname``, a plain JavaScript attribute supported by all qooxdoo objects. The ``@propertyName=value`` locator step covers these as well.
 
 All right, time to execute the test again (don't forget to run ``simulation-build`` again first). Assuming all went well and the test passed, the next step is to select one of the language options from the Preferences window. ``qx.ui.form.RadioButton`` also has a ``label`` property (inherited from ``qx.ui.basic.Atom``), so we'll use that:
 
 ::
 
   // Click the radio button for Romanian
-  var romanianLabelLocator = "qxhv=[@classname=twitter.SettingsWindow]/*/[@label=Romanian]";
+  var romanianLabelLocator = "qxhv=[@classname=identica.SettingsWindow]/*/[@label=Romanian]";
   this.getQxSelenium().qxClick(romanianLabelLocator);
 
 Obviously, if your browser's locale is Romanian, this option will already be selected so you should choose a different one.
@@ -244,7 +244,7 @@ Following that, we want to close the Preferences window. The close button doesn'
 ::
 
   // Click the window's close button
-  var windowCloseButtonLocator = "qxhv=[@classname=twitter.SettingsWindow]/qx.ui.container.Composite/[@icon=close\.gif]";
+  var windowCloseButtonLocator = "qxhv=[@classname=identica.SettingsWindow]/qx.ui.container.Composite/[@icon=close\.gif]";
   this.getQxSelenium().qxClick(windowCloseButtonLocator);
 
 We don't need to use the full resource ID of the icon since the ``[@property=value]`` step treats the value as a regular expression.
@@ -261,7 +261,7 @@ This would be a good time to re-generate and run the test to make sure everythin
 
 Verifying the language change
 -----------------------------
-For the final step of this tutorial, we'll check if the language change was correctly applied to the twitter application. The first approach might be to use ``isElementPresent`` to check for the Preferences button with the translated label value (e.g. "Preferinte" for Romanian). That won't work, however, since the value of the "label" property is a  `qx.locale.LocalizedString <http://demo.qooxdoo.org/current/apiviewer/#qx.locale.LocalizedString>`_ object, so the ``[@property=value]`` locator step will try to call ``toString`` on it. This will return the original, untranslated label so the check will fail. To get the visible, translated string, we need to call the LocalizedString's ``translate()`` method. That's where ``QxSelenium.getRunInContext`` comes in: It takes a locator and a snippet of JavaScript code which it uses as the body of a new function. This function will then be called in the context of the widget identified by the locator, i.e. "this" will reference the widget instance. The function's return value is then serialized as JSON and returned by ``getRunInContext``. We can use this to compare the translated label value to what we're expecting:
+For the final step of this tutorial, we'll check if the language change was correctly applied to the identica application. The first approach might be to use ``isElementPresent`` to check for the Preferences button with the translated label value (e.g. "Preferinte" for Romanian). That won't work, however, since the value of the "label" property is a  `qx.locale.LocalizedString <http://demo.qooxdoo.org/current/apiviewer/#qx.locale.LocalizedString>`_ object, so the ``[@property=value]`` locator step will try to call ``toString`` on it. This will return the original, untranslated label so the check will fail. To get the visible, translated string, we need to call the LocalizedString's ``translate()`` method. That's where ``QxSelenium.getRunInContext`` comes in: It takes a locator and a snippet of JavaScript code which it uses as the body of a new function. This function will then be called in the context of the widget identified by the locator, i.e. "this" will reference the widget instance. The function's return value is then serialized as JSON and returned by ``getRunInContext``. We can use this to compare the translated label value to what we're expecting:
 
 ::
 

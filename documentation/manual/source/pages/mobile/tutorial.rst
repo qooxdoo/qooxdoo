@@ -1,7 +1,7 @@
-Tutorial: Creating a Twitter Client with qooxdoo mobile
+Tutorial: Creating a Identica Client with qooxdoo mobile
 *******************************************************
 
-In this tutorial you will learn how to create a simple `Twitter`_ client
+In this tutorial you will learn how to create a simple `identica`_ client
 with the new `qooxdoo mobile`_ widgets. The client should display all
 tweets of a certain user. When a tweet is selected, the details of the
 tweet should be shown. You can find the tutorial code `here`_.
@@ -48,7 +48,7 @@ Define the class like this:
 
       construct : function() {
         this.base(arguments);
-        this.setTitle("Twitter Client");
+        this.setTitle("Identica Client");
       }
     });
 
@@ -56,7 +56,7 @@ The “Input” class inherits from ``qx.ui.mobile.page.NavigationPage``, a
 specialized page that consists of a
 ``qx.ui.mobile.navigationbar.NavigationBar`` including a title, back and
 action buttons, and a scrollable content area. In the constructor of the
-class we set the title of the page to “Twitter Client”.
+class we set the title of the page to “Identica Client”.
 
 To show the “Input” page, we have to create an instance of the class and a page manager.
 The manager does the layouting and displays our page on screen.
@@ -83,7 +83,7 @@ As we have changed the dependencies of our application, recreate the
 source version by calling the generator “source” target as above.
 
 Refresh the index.html in your browser. You will see a page with a
-navigation bar and a title “Twitter Client”. That is all you have to do
+navigation bar and a title “Identica Client”. That is all you have to do
 when you want to display a page.
 
 Navigation between Pages
@@ -229,15 +229,15 @@ We need Data, lots of Data!
 Ok, here we are. You have learned how to create two pages and to wire
 them by reacting on defined events. That is pretty cool, but without
 data to display our app is worthless. To display the tweets
-of a user we will use the public Tweet service of Twitter. `Data
+of a user we will use the public Tweet service of identica. `Data
 binding`_ is a powerful concept of qooxdoo which you can leverage off in
 your mobile applications as well. Extend the ``members`` section of the
 “Application” class by the following code:
 ::
 
         __loadTweets : function() {
-          // Public Twitter Tweets API
-          var url = "http://twitter.com/statuses/user_timeline/" + this.getUsername() + ".json";
+          // Public identica Tweets API
+          var url = "http://identi.ca/api/statuses/user_timeline/" + this.getUsername() + ".json";
           // Create a new JSONP store instance with the given url
           var store = new qx.data.store.Jsonp(url);
           // Use data binding to bind the "model" property of the store to the "tweets" property
@@ -307,7 +307,7 @@ class again and place the following code, before the button instance in
 the ``_initialize`` method:
 ::
 
-    var title = new qx.ui.mobile.form.Title("Please enter a Twitter username");
+    var title = new qx.ui.mobile.form.Title("Please enter a identi.ca username");
     this.getContent().add(title);
 
     var form = this.__form = new qx.ui.mobile.form.Form();
@@ -354,7 +354,7 @@ line to the event listener:
 
 We’ve come full circle. By setting the username the data will be loaded
 and we can proceed to display the data. Rebuild the application and
-refresh it in the browser. Type in a valid twitter username (e.g.
+refresh it in the browser. Type in a valid identica username (e.g.
 “qooxdoo”) and click the “Show” button. Press the ``F7`` key to display
 the qooxdoo logging window or use the console of the browser developer
 tools. You will see the loaded tweets of the user.
@@ -387,7 +387,7 @@ method to the members section of the “Tweets” page.
           configureItem : function(item, value, row) {
             // set the data of the model
             item.setTitle(value.getText());
-            // we use the dataFormat instance to format the data value of the twitter API
+            // we use the dataFormat instance to format the data value of the identica API
             item.setSubtitle(value.getUser().getName() + ", " + dateFormat.format(new Date(value.getCreated_at())));
             item.setImage(value.getUser().getProfile_image_url());
             // we have more data to display, show an arrow
@@ -578,7 +578,7 @@ mobile applications work on Android and iOS devices.
 
 :doc:`%{Mobile} Deployment with Apache Cordova <deployment>`
 
-.. _Twitter: http://twitter.com/
+.. _Identica: http://identi.ca/
 .. _qooxdoo mobile: http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile
 .. _here: https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/mobiletweets
 .. _tool chain: http://manual.qooxdoo.org/%{version}/pages/tool.html

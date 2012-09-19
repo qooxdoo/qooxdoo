@@ -12,10 +12,10 @@ Pre-Evaluation
 
 First, we need to specify what's the data we need to transfer. For that, we need to take a look what tasks our application can handle:
 
-1. Show the public twitter timeline.
-2. Post a tweet.
+1. Show the public identica timeline.
+2. Post a message.
 
-So it's clear that we need to fetch the public timeline (that's how it is called by twitter), and we need to post a message to twitter. It's time to take a look at the `twitter API <https://dev.twitter.com/>`_ so that we know what we need to do to communicate with the service.
+So it's clear that we need to fetch the public timeline (that's how it is called by identica), and we need to post a message to identica. It's time to take a look at the `identica API <http://status.net/wiki/Twitter-compatible_API>`_ so that we know what we need to do to communicate with the service.
 But keep in mind that we are still on a website so we can't just send some ``POST`` or ``GET`` requests due to cross-site scripting restrictions. The one thing we can and should do is take advantage of JSONP. If you have never heard of JSONP, take some time to read the `article on ajaxian <http://ajaxian.com/archives/jsonp-json-with-padding>`_ to get further details.
 
 .. _pages/desktop/tutorials/tutorial-part-3#creating_the_data_access_class:
@@ -23,17 +23,17 @@ But keep in mind that we are still on a website so we can't just send some ``POS
 Creating the Data Access Class
 ==============================
 
-Now, that we know how we want to communicate, we can tackle the first task, fetching the public timeline. twitter offers a `JSONP service for that <http://dev.twitter.com/doc/get/statuses/public_timeline>`_ which we can use. Luckily, there is no login process on the server side so we don't need to bother with that in the client. The following URL returns the public timeline wrapped in a JavaScript method call (that's what JSONP is about):
+Now, that we know how we want to communicate, we can tackle the first task, fetching the public timeline. identica offers a `JSONP service for that <http://status.net/wiki/Twitter-compatible_API#Timeline_resources>`_ which we can use. Luckily, there is no login process on the server side so we don't need to bother with that in the client. The following URL returns the public timeline wrapped in a JavaScript method call (that's what JSONP is about):
 
 ::
 
-  http://api.twitter.com/1/statuses/public_timeline.json?callback=methodName
+  http://identi.ca/api/statuses/public_timeline.json?callback=methodName
 
-Now we know how to get the data from twitter. Its time for us to go back to the qooxdoo code. It is, like in the case of the UI, a good idea to create a separate class for the communication layer. Therefore, we create a class named ``TwitterService``. We don't want to inherit from any advanced qooxdoo class so we extend straight from ``qx.core.Object``. The code for that class should looks like this:
+Now we know how to get the data from identica. Its time for us to go back to the qooxdoo code. It is, like in the case of the UI, a good idea to create a separate class for the communication layer. Therefore, we create a class named ``IdenticaService``. We don't want to inherit from any advanced qooxdoo class so we extend straight from ``qx.core.Object``. The code for that class should looks like this:
 
 ::
 
-  qx.Class.define("twitter.TwitterService",
+  qx.Class.define("identica.IdenticaService",
   {
     extend : qx.core.Object,
     members :
@@ -59,7 +59,7 @@ Now it's time to get this method working. But how do we load the data in qooxdoo
 ::
 
   if (this.__store == null) {
-    var url = "http://api.twitter.com/1/statuses/public_timeline.json";
+    var url = "http://identi.ca/api/statuses/public_timeline.json";
     this.__store = new qx.data.store.Jsonp(url, null, "callback");
     // more to do
   } else {
@@ -70,7 +70,7 @@ We already added the code in case the store exists. In that case, we can just in
 
 But where does the data go? The store has a property called model where the data is available as qooxdoo objects after it finished loading. This is pretty handy because all the data is already wrapped into :ref:`qooxdoo objects <pages/data_binding#the_main_idea>`! Wait, hold a second, what are :doc:`qooxdoo properties </pages/core/understanding_properties>`? Properties are a way to store data. You only need to write a :doc:`definition for a property </pages/core/defining_properties>` and qooxdoo will generate the mutator and accessor methods for that property. You will see that in just a few moments.
 
-We want the data to be available as a property on our own service object. First, we need to add a property definition to the ``TwitterService.js`` file. As with the events specification, the property definition goes alongside with the ``members`` section:
+We want the data to be available as a property on our own service object. First, we need to add a property definition to the ``IdenticaService.js`` file. As with the events specification, the property definition goes alongside with the ``members`` section:
 
 ::
 
@@ -88,13 +88,13 @@ We named our property tweets and added two configuration keys for it:
 
 The real advantage here is the ``event`` key which tells the qooxdoo property system to fire an event every time the property value changes. This event is mandatory for the whole :doc:`data binding </pages/data_binding/single_value_binding>` we want to use later. But that's it for setting up a property. You can find all possible property keys :doc:`in the documentation </pages/core/properties_quickref>`.
 
-Now we need to connect the property of the store with the property of the *twitter service*. That's an easy task with the :doc:`single value binding </pages/data_binding/single_value_binding>` included in the qooxdoo data binding. Just add the following line after the creation of the data store:
+Now we need to connect the property of the store with the property of the *identica service*. That's an easy task with the :doc:`single value binding </pages/data_binding/single_value_binding>` included in the qooxdoo data binding. Just add the following line after the creation of the data store:
 
 ::
 
   this.__store.bind("model", this, "tweets");
 
-This line takes care of synchronizing the two properties, the model property of the store and the tweets property of our service object. That means as soon as data is available in the store, the data will also be set as tweets in the twitter service. Thats all we need to do in the twitter service class for fetching the data. Now its time to bring the data to the UI.
+This line takes care of synchronizing the two properties, the model property of the store and the tweets property of our service object. That means as soon as data is available in the store, the data will also be set as tweets in the identica service. Thats all we need to do in the identica service class for fetching the data. Now its time to bring the data to the UI.
 
 .. _pages/desktop/tutorials/tutorial-part-3#bring_the_tweets_to_the_ui:
 
@@ -105,7 +105,7 @@ For that task we need to go back to our ``Application.js`` file and create an in
 
 ::
 
-  var service = new twitter.TwitterService();
+  var service = new identica.IdenticaService();
 
 You remember the debug listener we added in the last tutorial? Now we change the reload listener to fetch the tweets:
 
@@ -124,7 +124,7 @@ Thats the first step of getting the data connected with the UI. We talk the whol
     this.debug(qx.dev.Debug.debugProperties(e.getData()));
   }, this);
 
-Now it's time for a test. We added a new classes so we need to invoke the generator and load the index file of the application. Hit the reload button of the browser and see the data in your debugging console. The important thing you should see is that the data is an array containing objects holding the items we want to access: the twitter message as ``text`` and ``"user.profile_image_url"`` for the users profile picture. After evaluating what we want to use, we can delete the debugging listener.
+Now it's time for a test. We added a new classes so we need to invoke the generator and load the index file of the application. Hit the reload button of the browser and see the data in your debugging console. The important thing you should see is that the data is an array containing objects holding the items we want to access: the identica message as ``text`` and ``"user.profile_image_url"`` for the users profile picture. After evaluating what we want to use, we can delete the debugging listener.
 
 But how do we connect the available data to the UI? qooxdoo offers :doc:`controllers </pages/data_binding/controller>` for connecting data to a list widget. Thats the right thing we need in that case. But we currently can't access the list of the UI. Thats something we need to change.
 
@@ -169,7 +169,7 @@ The last thing we need to do is to connect the data to the controller. For that,
 
 As soon as the tweets are available the controller will know about it and show the data in the list. How about a test of the whole thing right now? You need (again) to tell the generator to build the source version of the application.
 
-After the application has been loaded in the browser, I guess you see nothing until you hit the reload button of the UI. That's one thing we have to fix: Load the tweets at startup. Two other things are not quite the way we want them to be: The tweets get cut off at the end of the list, and the icons can be delivered by twitter in different sizes. So let's fix those three problems.
+After the application has been loaded in the browser, I guess you see nothing until you hit the reload button of the UI. That's one thing we have to fix: Load the tweets at startup. Two other things are not quite the way we want them to be: The tweets get cut off at the end of the list, and the icons can be delivered by identica in different sizes. So let's fix those three problems.
 
 The first thing is quite easy. We just add a fetch at the end of our application code and that will initiate the whole process of getting the data to the UI:
 
@@ -206,10 +206,10 @@ Posting tweets
 
 As you have seen in the last paragraphs, creating the data access layer is not that hard using qooxdoo's data binding. That is why we want you to implement the rest of the application: Posting of tweets. But I will give you some hints so it does not take that much time for you.
 
-* twitter does only offer an OAuth authentification. Don't make your self too much work by implementing the whole OAuth thing.
-* Tweets can be set to twitters web view by just giving a decoded parameter to the URL: `http://twitter.com/?status=123 <http://twitter.com/?status=123>`_
+* identica does only offer an OAuth authentification. Don't make your self too much work by implementing the whole OAuth thing.
+* Tweets can be set to identicas web view by just giving a decoded parameter to the URL: `http://identi.ca/?action=newnotice&status_textarea=123 <http://identi.ca/?action=newnotice&status_textarea=123>`_
 
-That should be possible for you right now! If you need to take a look at an implementation, you can always take a look at the `code on github <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step3>`_ or fork the project.
+That should be possible for you right now! If you need to take a look at an implementation, you can always take a look at the `code on github <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/identica/step3>`_ or fork the project.
 
 That's it for the third part of the tutorial. With this tutorial, the application should be ready and we can continue our next tutorial lines based on this state of the application. As always, if you have any feedback, please let us know!
 

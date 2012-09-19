@@ -3,13 +3,13 @@
 Tutorial Part 2: Finishing the UI
 *********************************
 
-In the :doc:`first part <tutorial-part-1>` of the tutorial, we built a basic window for our target application, a twitter client. In the second part of the tutorial, we want to finish the UI of the application. So lets get started, we got a lot to do!
+In the :doc:`first part <tutorial-part-1>` of the tutorial, we built a basic window for our target application, a identica client. In the second part of the tutorial, we want to finish the UI of the application. So lets get started, we got a lot to do!
 
 I hope you remember the layout of the application we are trying to build. If not, here is a little reminder.
 
-|twitter mockup1|
+|identica mockup1|
 
-.. |twitter mockup1| image:: /pages/desktop/tutorials/twittermockup1.png
+.. |identica mockup1| image:: /pages/desktop/tutorials/identicamockup1.png
 
 The first thing we need to do is to set a layout for our window. You can see that the text area and the button are side by side while all the other elements are ordered vertically. But all elements are aligned in a grid so we should choose a grid layout for that. We can add the grid layout in our own window class. Just add these lines of code in ``MainWindow.js``:
 
@@ -124,7 +124,7 @@ These two events we add to our window. Adding events is a two step process. Firs
       "post"   : "qx.event.type.Data"
     },
 
-As you can see in the snippet here, it ends with a comma. It always depends on what position you copy the section if the comma is necessary. Just take care the the class definition is a valid JavaScript object. But now back to the events. The reload event is a plain event which only notifies the receiver to reload. The post event is a data event which contains the data to post to twitter. That's why there are two different types of events used.
+As you can see in the snippet here, it ends with a comma. It always depends on what position you copy the section if the comma is necessary. Just take care the the class definition is a valid JavaScript object. But now back to the events. The reload event is a plain event which only notifies the receiver to reload. The post event is a data event which contains the data to post to identica. That's why there are two different types of events used.
 
 Declaring the events is the first step of the process. The second part is firing the events! Let's take a look at the reload event. It needs to be fired when the reload button was triggered (or "was executed" in qooxdoo parlance). The button itself fires an event on execution so we could use this event to fire our own reload event.
 
@@ -171,13 +171,13 @@ As a last task, we can give the UI some finishing touches. Wouldn't it be nice i
     //..
     textarea.setPlaceholder("Enter your message here...");
     //..
-    postButton.setToolTipText("Post this message on twitter.");
+    postButton.setToolTipText("Post this message on identi.ca");
 
-Another nice tweak could be a twitter logo in the windows caption bar. Just download this `logo from twitter <http://twitter-badges.s3.amazonaws.com/t_small-c.png>`_ and save it in the ``source/resource/twitter`` folder of your application. Adding the logo is easy because the window has also a property for an icon, which can be set in the constructor. Adding the reference to the icon in the base call should do the job.
+Another nice tweak could be a identica logo in the windows caption bar. Just download this `logo from identica <https://raw.github.com/qooxdoo/qooxdoo/%{release_tag}/component/tutorials/identica/step2/source/resource/identica/logo.png>`_ and save it in the ``source/resource/identica`` folder of your application. Adding the logo is easy because the window has also a property for an icon, which can be set in the constructor. Adding the reference to the icon in the base call should do the job.
 
 ::
 
-    this.base(arguments, "twitter", "twitter/t_small-c.png");
+    this.base(arguments, "identi.ca", "identica/logo.png");
 
 This time, we added a new reference to an image. Like with class dependencies, we need to run the generator once more. After that, the image should be in the windows caption bar.
 
@@ -187,7 +187,7 @@ Two more minor things are left to finish. First, the button does not look very g
 
     postButton.setWidth(60);
 
-The last task is a bit more complicated than the other tweaks before. As you probably know, twitter messages have a maximum length of 140 characters. So disabling the post button if the entered message has more the 140 characters could help us out in the communication layer. A twitter message with no text at all is also useless and we can disable the post button in that case. To get that we need to know when the text was changed in the text area. Fortunately, the text area has a data event for text changes we can listen to:
+The last task is a bit more complicated than the other tweaks before. As you probably know, identica messages have a maximum length of 140 characters. So disabling the post button if the entered message has more the 140 characters could help us out in the communication layer. A identica message with no text at all is also useless and we can disable the post button in that case. To get that we need to know when the text was changed in the text area. Fortunately, the text area has a data event for text changes we can listen to:
 
 ::
 
@@ -210,6 +210,6 @@ Now go back to the browser and test your new tweaks. It should look like this.
 
 .. |step 2| image:: /pages/desktop/tutorials/step21.png
 
-That's it for building the UI. Again, if you want to take a `look at the code <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step2>`_, fork the project on github.
+That's it for building the UI. Again, if you want to take a `look at the code <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/identica/step2>`_, fork the project on github.
 Next time we take care of getting the data. If you have feedback on this post, just let us know!
 

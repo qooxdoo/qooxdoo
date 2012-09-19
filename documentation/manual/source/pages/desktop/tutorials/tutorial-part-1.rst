@@ -1,6 +1,6 @@
-.. _pages/tutorial-part-1#tutorial_part_1:_the_beginning_of_a_twitter_app:
+.. _pages/tutorial-part-1#tutorial_part_1:_the_beginning_of_a_identica_app:
 
-Tutorial Part 1: The Beginning of a twitter App
+Tutorial Part 1: The Beginning of a identica App
 ***********************************************
 
 .. _pages/tutorial-part-1#the_missing_manual:
@@ -10,11 +10,11 @@ The Missing Manual
 
 We have heard it a couple of times: Users are missing a tutorial a bit more complex than the simple :ref:`"Hello World" tutorial <pages/getting_started/helloworld#helloworld>` we already have. Today, we want to close that gap between the first tutorial and the `demo applications <http://demo.qooxdoo.org>`_ included in the framework like the `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_.
 
-As you sure have read in the headline, we are building a simple twitter application. `twitter <http://twitter.com>`_ is a well known service for posting public short messages and has a `good API <http://apiwiki.twitter.com>`_ for accessing data. The following mockup shows you how the application should look like at the end.
+As you sure have read in the headline, we are building a simple identica application. `identica <http://identi.ca>`_ is a twitter like service for posting public short messages and has a `twitter like API <http://status.net/wiki/Twitter-compatible_API>`_ for accessing data. The following mockup shows you how the application should look like at the end.
 
-|twitter mockup.png|
+|identica mockup.png|
 
-.. |twitter mockup.png| image:: /pages/desktop/tutorials/twittermockup1.png
+.. |identica mockup.png| image:: /pages/desktop/tutorials/identicamockup1.png
 
 If you take a closer look at the mockup, you see a :doc:`window </pages/widget/window>` containing a :doc:`toolbar </pages/widget/toolbar>`, a :doc:`list </pages/widget/list>`, a :doc:`text area </pages/widget/textarea>` and a :doc:`button </pages/widget/button>` to post messages. This should cover some common scenarios of a typical qooxdoo application.
 
@@ -25,13 +25,13 @@ In the first part you'll learn how to create a new application and how to build 
 Getting started
 ===============
 
-The first step is to get a working qooxdoo application where we can start our development. You should already have the qooxdoo SDK and know how to use ``create-application.py``, so we just create an application called ``twitter``.
+The first step is to get a working qooxdoo application where we can start our development. You should already have the qooxdoo SDK and know how to use ``create-application.py``, so we just create an application called ``identica``.
 
 ::
 
-    create-application.py --name=twitter
+    create-application.py --name=identica
 
-After that, we should check if everything works as expected. Change the directory to twitter and run ``./generate.py``. Now the skeleton application is ready to run and you can open the index file located in the ``source`` directory. After that, open the ``Application.js`` file located in ``source/class/twitter/Application.js`` with your favorite editor and we are set up for development!
+After that, we should check if everything works as expected. Change the directory to identica and run ``./generate.py``. Now the skeleton application is ready to run and you can open the index file located in the ``source`` directory. After that, open the ``Application.js`` file located in ``source/class/identica/Application.js`` with your favorite editor and we are set up for development!
 
 You should see the unchanged skeleton code of the application containing the creation of a button. We don't need that anymore so you can delete it including all the listener stuff.
 
@@ -39,13 +39,13 @@ The first part is to create a Window. As the :doc:`Window </pages/widget/window>
 
 ::
 
-    qx.Class.define("twitter.MainWindow",
+    qx.Class.define("identica.MainWindow",
     {
       extend : qx.ui.window.Window,
 
         construct : function()
         {
-          this.base(arguments, "twitter");
+          this.base(arguments, "identi.ca");
         }
     });
 
@@ -54,10 +54,10 @@ To test the window, we need to create an instance of it in the main application.
 
 ::
 
-    var main = new twitter.MainWindow();
+    var main = new identica.MainWindow();
     main.open();
 
-Now its time to test the whole thing in the browser. But before we can do that, we need to run the generator once more because we added the window class as new dependency. So run ``./generate.py`` and open the page in the browser. You should see a window in the top left corner having the name "twitter".
+Now its time to test the whole thing in the browser. But before we can do that, we need to run the generator once more because we added the window class as new dependency. So run ``./generate.py`` and open the page in the browser. You should see a window in the top left corner having the name "identi.ca".
 
 .. _pages/tutorial-part-1#programming_as_configuring:
 
@@ -93,6 +93,6 @@ At this point, your application should look like this.
 
 .. |step 1| image:: /pages/desktop/tutorials/step11.png
 
-Thats it for the first part. If you want to have the `code from the tutorial <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step1>`_, take a look at the project on github and just fork the project.
+Thats it for the first part. If you want to have the `code from the tutorial <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/identica/step1>`_, take a look at the project on github and just fork the project.
 The next part of the tutorial will contain the building of the rest of the UI. If you have feedback or want to see something special in further tutorials, just let us know!
 

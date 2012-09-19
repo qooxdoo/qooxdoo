@@ -3,7 +3,7 @@
 Tutorial Part 4.3: Translation
 ******************************
 
-We've already covered quite a few of qooxdoo's features to get to this point. In this tutorial, we want to :doc:`internationalize </pages/development/internationalization>` the twitter client. Additionally, we want to add a preferences dialog allowing users to change the language during runtime. Adding a window containing a form should be familiar to you if you've read the :doc:`form handling tutorial <tutorial-part-4-1>`
+We've already covered quite a few of qooxdoo's features to get to this point. In this tutorial, we want to :doc:`internationalize </pages/development/internationalization>` the identica client. Additionally, we want to add a preferences dialog allowing users to change the language during runtime. Adding a window containing a form should be familiar to you if you've read the :doc:`form handling tutorial <tutorial-part-4-1>`
 
 .. _pages/desktop/tutorials/tutorial-part-4-3#the_plan:
 
@@ -28,7 +28,7 @@ Now we can benefit from the good design of our application. We put all the view 
   // ...  
   var postButton = new qx.ui.form.Button("Post");
   // ...  
-  postButton.setToolTipText("Post this message on twitter.");
+  postButton.setToolTipText("Post this message on identi.ca");
   
 qooxdoo offers a handy way to tell both the JavaScript code and the generator which strings need to be translated. Wrapping the strings with ``this.tr()`` will mark them as translatable strings. That should be an easy task:
 
@@ -42,7 +42,7 @@ qooxdoo offers a handy way to tell both the JavaScript code and the generator wh
   // ...  
   var postButton = new qx.ui.form.Button(this.tr("Post"));
   // ...  
-  postButton.setToolTipText(this.tr("Post this message on twitter."));
+  postButton.setToolTipText(this.tr("Post this message on identica."));
 
 
 .. _pages/desktop/tutorials/tutorial-part-4-3#generating_the_translation_files:
@@ -68,7 +68,7 @@ You should see two files, one for the default language, English (``en.po``), and
 
 ::
 
-  #: twitter/MainWindow.js:30
+  #: identica/MainWindow.js:30
   msgid "Reload"
   msgstr ""
   
@@ -99,7 +99,7 @@ As you should already be familiar with creating new classes and subclassing a wi
 
 :: 
 
-  qx.Class.define("twitter.SettingsWindow", 
+  qx.Class.define("identica.SettingsWindow", 
   {
     extend : qx.ui.window.Window,
   
@@ -197,7 +197,7 @@ With that, we are done with the preferences window, but we can't access it yet. 
   settingsButton.setToolTipText(this.tr("Change the applications settings."));
   settingsButton.addListener("execute", function() {
     if (!settingsWindow) {
-      settingsWindow = new twitter.SettingsWindow();
+      settingsWindow = new identica.SettingsWindow();
       settingsWindow.moveTo(320,30);
     }
     settingsWindow.open();
@@ -220,4 +220,4 @@ Now you can edit the ``po`` files again and add the new translations. Don't forg
 
 After generating the source version of the application again you should be set up for testing and all should run as expected.
 
-I hope you enjoyed this little exercise and gained an idea how easy it is to internationalize an application using qooxdoo's help. As always, you can find the entire `code on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.3>`_. With that said, I want to encourage you to send me pull requests containing alternative translations we could add. It would be interesting to have the twitter app in many different languages. Really looking forward to your feedback and pull requests!
+I hope you enjoyed this little exercise and gained an idea how easy it is to internationalize an application using qooxdoo's help. As always, you can find the entire `code on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/identica/step4.3>`_. With that said, I want to encourage you to send me pull requests containing alternative translations we could add. It would be interesting to have the identica app in many different languages. Really looking forward to your feedback and pull requests!

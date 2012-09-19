@@ -32,6 +32,6 @@ Page”. When you click on the button, the next page “Page 2”, with a
 
 Now it is your turn. Just open ``source/class/helloworld/Application.js`` and enhance your cross-platform mobile application.
 
-If you need a more detailed tutorial, please have a look at our twitter tutorial:
+If you need a more detailed tutorial, please have a look at our identica tutorial:
 
-:doc:`%{Mobile} Twitter Client Tutorial <tutorial>`
+:doc:`%{Mobile} identica Client Tutorial <tutorial>`
