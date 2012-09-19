@@ -412,8 +412,10 @@ input[type="checkbox"]:checked + label {
 //
 
 .dialog {
-  #gradient > .ellipse(50%, -20px, rgba(99, 115, 150,0.5), 0px, rgb(29, 53, 102,0.5), 175px);
-  
+  background:-webkit-radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
+  background:-moz-radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
+  background:radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
+
   .box-shadow(0px 2px 7px 0px lighten(@shadow-color, 50%));
 
   .border-radius(.7em);
