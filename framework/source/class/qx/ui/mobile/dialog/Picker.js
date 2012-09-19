@@ -1,0 +1,507 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2011-2012 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Christopher Zuendorf (czuendorf)
+
+************************************************************************ */
+
+/**
+ * 
+ * The picker widget gives the user the possibility to select a value out of an array
+ * of values. The picker widget is always shown in a {@link qx.ui.mobile.dialog.Dialog}.
+ * 
+ * The picker widget is able to display multiple picker slots, for letting the user choose
+ * several values at one time, in one single dialog.
+ * 
+ * The selectable value array are passed to this widget through a multi-dimensional {@link qx.data.Array}.
+ *
+ * The first dimension of the array contains information about the order of the slots. The second dimension arrays
+ * contain the selectable values.
+ *
+ * *Example*
+ *
+ * Here is an example of how to use the picker widget.
+ *
+ * <pre class='javascript'>
+ *
+ * var pickerSlot1 = new qx.data.Array(["qx.Desktop", "qx.Mobile", "qx.Website","qx.Server"]);
+ * var pickerSlot2 = new qx.data.Array(["1.8", "2.0", "2.0.1", "2.0.2", "2.1","2.2"]);
+ * var pickerModel = new qx.data.Array([pickerSlot1,pickerSlot2]);
+ * 
+ * var picker = new qx.ui.mobile.dialog.Picker(pickerModel);
+ * picker.setTitle("Picker");
+ *     
+ * var showPickerButton = new qx.ui.mobile.form.Button("Show Picker");
+ * showPickerButton.addListener("tap", picker.show, picker); 
+ * this.getContent().add(showPickerButton);   
+ *     
+ * // Listener when user has confirmed his selection. 
+ * // Contains the selectedIndex and values of all slots in a array.   
+ * picker.addListener("confirmSelection",function(evt){
+ *    var pickerData = evt.getData();
+ * }, this);
+ * 
+ * // Listener for change of picker slots.
+ * picker.addListener("changeSelection",function(evt){
+ *    var slotData = evt.getData();
+ * }, this);
+ * 
+ * </pre>
+ *
+ */
+qx.Class.define("qx.ui.mobile.dialog.Picker",
+{
+  extend : qx.ui.mobile.dialog.Dialog,
+
+  /**
+   * @param model {qx.data.Array ?} The model which is used to render the pickers slots.
+   * @param anchor {qx.ui.mobile.core.Widget ?} The anchor widget for this item. If no anchor is available,
+   *       the menu will be displayed modal and centered on screen.
+   */
+  construct : function(model, anchor)
+  {
+    this.__pickerContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+    this.__pickerContainer.addCssClass("picker-container");
+    
+    this.__pickerContent = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
+    
+    this.__pickerConfirmButton = new qx.ui.mobile.form.Button("OK");
+    this.__pickerConfirmButton.addListener("tap", this.confirm, this);
+    
+    this.__pickerContent.add(this.__pickerContainer);
+    this.__pickerContent.add(this.__pickerConfirmButton);
+    
+    this.__transformPropertyName = qx.bom.Style.getPropertyName("transform");
+    this.__transitionDurationPropertyName = qx.bom.Style.getPropertyName("transition-duration");
+    
+    if(anchor) {
+      this.setModal(false);
+    } 
+    
+    if(model) {
+      this.setModel(model);
+    }
+    
+    this.base(arguments, this.__pickerContent, anchor) ;
+  },
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /**
+     * Fired when the selection of a single slot has changed.
+     */
+    changeSelection : "qx.event.type.Data",
+    
+    /**
+     * Fired when the picker is closed. This means user has confirmed its selection.
+     * Thie events contains all data which were chosen by user.
+     */
+    confirmSelection : "qx.event.type.Data"
+  },
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    // overridden
+    defaultCssClass :
+    {
+      refine : true,
+      init : "picker"
+    },
+    
+    
+    /**
+     * The model which is used to render the pickers slots.
+     */
+    model :
+    {
+      check : "qx.data.Array",
+      apply : "_applyModel",
+      event: "changeModel",
+      nullable : true,
+      init : null
+    }
+  },
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    __pickerConfirmButton : null,
+    __pickerContainer : null,
+    __pickerContent : null,
+    __slotTouchStartPoints : {},
+    __selectedIndex : {},
+    __targetIndex : {},
+    __modelToSlotMap : {},
+    __slotElements : [],
+    __selectedIndexBySlot : [],
+    __transformPropertyName : null,
+    __transitionDurationPropertyName : null,
+    
+    
+    // overridden
+    show : function() {
+      this.base(arguments);
+      this._updateAllSlots();
+    },
+    
+    
+    /**
+     * Confirms the selection, fires "confirmSelection" data event and hides the picker dialog.
+     */
+    confirm : function() {
+      this.hide();
+      this._fireConfirmSelection();
+    },
+    
+    
+    /**
+     * Setter for the selectedIndex of a picker slot, identified by its index.
+     * @param slotIndex {Integer} the index of the target picker slot.
+     * @param value {Integer} the selectedIndex of the slot.
+     */
+    setSelectedIndex : function(slotIndex, value) {
+      var slotElement = this.__slotElements[slotIndex];
+      if(slotElement) {
+        if(this._isSelectedIndexValid(slotElement, value)) {
+          this.__selectedIndex[slotElement.id] = value;
+          this.__selectedIndexBySlot[slotIndex] = value;
+
+          this._updateSlot(slotElement);
+        }
+      }
+    },
+    
+    
+    /**
+     * Setter for the caption of the picker dialog's confirm button.
+     * Default is "OK".
+     * @param caption {String} the caption of the confirm button.
+     */
+    setConfirmButtonCaption : function(caption) {
+      if(this.__pickerConfirmButton) {
+        this.__pickerConfirmButton.setValue(caption);
+      }
+    },
+    
+    
+    /**
+     * Increases the selectedIndex on a specific slot, identified by its content element.
+     * @param contentElement {Element} a picker slot content element.
+     */
+    _increaseSelectedIndex : function(contentElement) {
+      var oldSelectedIndex = this.__selectedIndex[contentElement.id];
+      var newSelectedIndex = oldSelectedIndex +1;
+      
+      var slotIndex = this._getSlotIndexByElement(contentElement); 
+      
+      var model = this._getModelByElement(contentElement);
+      if(model.getLength() == newSelectedIndex) {
+        newSelectedIndex = 0;
+      }
+      
+      this.__selectedIndex[contentElement.id] = newSelectedIndex;
+      this.__selectedIndexBySlot[slotIndex] = newSelectedIndex;
+      
+      this._updateSlot(contentElement);
+    },
+    
+    
+    /**
+     *  Returns the slotIndex of a picker slot, identified by its content element.
+     *  @param contentElement {Element} a picker slot content element.
+     */
+    _getSlotIndexByElement : function(contentElement) {
+      var contentElementId = contentElement.id;
+      var slotIndex = this.__modelToSlotMap[contentElementId];
+      return slotIndex;
+    },
+    
+    
+    /**
+     * Checks if a selectedIndex of a picker slot is valid.
+     * @param contentElement {Element} a picker slot content element.
+     * @param selectedIndex {Integer} a selectedIndex to check.
+     * @return {Boolean} whether the selectedIndex is valid.
+     */
+    _isSelectedIndexValid : function(contentElement, selectedIndex) {
+      var modelLength = this._getModelByElement(contentElement).getLength();
+      return (selectedIndex < modelLength && selectedIndex >= 0);
+    },
+    
+    
+    /**
+     * Returns corresponding model for a picker, identified by its content element.
+     * @param contentElement {Element} the picker slot content element.
+     */
+    _getModelByElement : function(contentElement) {
+      var slotIndex = this._getSlotIndexByElement(contentElement);
+      return this.getModel().getItem(slotIndex);
+    },
+    
+    
+    /**
+     * Collects data for the "confirmSelection" event and fires it.
+     */
+    _fireConfirmSelection : function() {
+      var model = this.getModel();
+      var slotCounter = (model ? model.getLength() : 0);
+      
+      var selectionData = [];
+      
+      for (var slotIndex = 0; slotIndex < slotCounter; slotIndex++) {
+        var selectedIndex = this.__selectedIndexBySlot[slotIndex];
+        var selectedValue = model.getItem(slotIndex).getItem(selectedIndex);
+        
+        var slotData = {index: selectedIndex, item: selectedValue, slot: slotIndex};
+        selectionData.push(slotData);
+      }
+      
+      this.fireDataEvent("confirmSelection", selectionData);
+    },
+    
+    
+    /**
+     * Handler for touchstart events on picker slot.
+     * @param evt {qx.event.type.Touch} The touch event
+     */
+    _onTouchStart : function(evt) {
+      var target = evt.getOriginalTarget();
+      var targetId = target.id;
+      var touchX = evt.getScreenLeft();
+      var touchY = evt.getScreenTop();
+      
+      this.__targetIndex[targetId] = this.__selectedIndex[targetId];
+      
+      qx.bom.element.Style.set(target,this.__transitionDurationPropertyName,"0s");
+      
+      this.__slotTouchStartPoints[targetId] = {x:touchX,y:touchY};
+      
+      var labelHeight = target.children[0].offsetHeight;
+      var labelCount = target.children.length;
+      var pickerSlotHeight = labelCount * labelHeight;
+        
+      qx.bom.element.Style.set(target,"height",pickerSlotHeight+"px");
+      
+      evt.preventDefault();
+    },
+    
+    
+    /**
+     * Handler for touchend events on picker slot.
+     * @param evt {qx.event.type.Touch} The touch event
+     */
+    _onTouchEnd : function(evt) {
+      var target = evt.getOriginalTarget();
+      var targetId = evt.getOriginalTarget().id;
+      
+      var hasChanged = (this.__targetIndex[targetId] != this.__selectedIndex[targetId]);
+      if(hasChanged){
+        // Apply selectedIndex
+        var selectedIndex = this.__targetIndex[targetId];
+        
+        var slotIndex = this._getSlotIndexByElement(target);
+        
+        this.__selectedIndex[targetId] = selectedIndex;
+        this.__selectedIndexBySlot[slotIndex] = selectedIndex;
+
+        this._updateSlot(target);
+        
+        // Fire changeSelection event including change data.
+        var model = this._getModelByElement(target);
+        var selectedValue = model.getItem(selectedIndex);
+        this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedValue, slot: slotIndex});
+      } else {
+        this._increaseSelectedIndex(target);
+      }
+    },
+    
+    
+    /**
+     * Handler for touchmove events on picker slot.
+     * @param evt {qx.event.type.Touch} The touch event
+     */
+    _onTouchMove : function(evt) {
+        var target = evt.getOriginalTarget();
+        var targetId = target.id;
+        
+        var deltaY = evt.getScreenTop() - this.__slotTouchStartPoints[targetId].y;
+        
+        var selectedIndex = this.__selectedIndex[targetId];
+        var labelHeight = target.children[0].offsetHeight;
+        var offsetTop = -selectedIndex*labelHeight;
+        
+        var targetOffset = deltaY + offsetTop;
+        
+        // BOUNCING
+        var upperBounce = labelHeight/3;
+        var lowerBounce = -target.offsetHeight+labelHeight/2;
+        if(targetOffset > upperBounce) {
+          targetOffset = upperBounce;
+        }
+
+        if(targetOffset < lowerBounce) {
+          targetOffset = lowerBounce;
+        }
+        
+        qx.bom.element.Style.set(target,this.__transformPropertyName,"translate3d(0px,"+targetOffset+"px,0px)");
+        
+        var steps = Math.round(-deltaY/labelHeight);
+        var newIndex = selectedIndex+steps;
+        
+        var modelLength = this._getModelByElement(target).getLength();
+        if(newIndex < modelLength && newIndex >= 0) {
+            this.__targetIndex[targetId] = newIndex;
+        }
+        
+        evt.preventDefault();
+    },
+    
+    
+    /**
+     * Updates the visual position of the picker slot element, 
+     * according to the current selectedIndex of the slot.
+     * @param targetElement {Element} the slot target element.
+     */
+     _updateSlot : function(targetElement) {
+       qx.bom.element.Style.set(targetElement,this.__transitionDurationPropertyName,".2s");
+       
+       var selectedIndex = this.__selectedIndex[targetElement.id];
+       var labelHeight = targetElement.children[0].offsetHeight;
+
+       var offsetTop = -selectedIndex*labelHeight;
+       
+       qx.bom.element.Style.set(targetElement,this.__transformPropertyName,"translate3d(0px,"+offsetTop+"px,0px)");
+    },
+    
+    
+    /**
+    * Updates the visual position of all available picker slot elements.
+    */
+    _updateAllSlots : function() {
+
+      for(var i =0; i<this.__slotElements.length; i++){
+        var slotElement = this.__slotElements[i];
+        this._updateSlot(slotElement);
+      }
+    },
+    
+    
+    /**
+     * Renders this picker widget.
+     */
+    _render : function() {
+      var pickerContainersChildren = this.__pickerContainer.getChildren();
+      if(pickerContainersChildren.length>0) {
+        // Re-rendering.
+        this.__pickerContainer.removeAll();
+        
+        this.__selectedIndexBySlot = [];
+        this.__slotElements = [];
+        this.__modelToSlotMap = {};
+        this.__selectedIndex = {};
+      }
+      
+      var model = this.getModel();
+      var slotCounter = (model ? model.getLength() : 0);
+      
+      for (var slotIndex = 0; slotIndex < slotCounter; slotIndex++) {
+        var slotValues = model.getItem(slotIndex);
+        var slotLength = slotValues.getLength();
+        
+        this.__selectedIndexBySlot.push(0);
+        
+        var pickerSlot = this._createPickerSlot(slotIndex);
+        this.__slotElements.push(pickerSlot.getContentElement());
+        this.__pickerContainer.add(pickerSlot,{flex:1});
+        
+        for (var slotValueIndex = 0; slotValueIndex < slotLength; slotValueIndex++) {
+          var labelValue = slotValues.getItem(slotValueIndex);
+          var pickerLabel = this._createPickerValueLabel(labelValue);
+          
+          pickerSlot.add(pickerLabel,{flex:1});
+        }
+      }
+    },
+    
+    
+    /**
+     * Creates a {@link qx.ui.mobile.container.Composite} which represents a picker slot.
+     * @param slotIndex {Integer} index of this slot.
+     */
+    _createPickerSlot : function(slotIndex) {
+      var pickerSlot = new qx.ui.mobile.container.Composite();
+      pickerSlot.addCssClass("picker-slot");
+      
+      pickerSlot.addListener("touchstart", this._onTouchStart, this);
+      pickerSlot.addListener("touchmove", this._onTouchMove, this);
+      pickerSlot.addListener("touchend", this._onTouchEnd, this);
+      
+      this.__modelToSlotMap[pickerSlot.getId()] = slotIndex;
+      this.__selectedIndex[pickerSlot.getId()] = 0;
+      
+      return pickerSlot;
+    },
+    
+    
+    /**
+     * Creates a {@link qx.ui.mobile.container.Composite} which represents a picker label.
+     * @param textValue {String} the caption of the label.
+     */
+    _createPickerValueLabel : function(textValue) {
+      var pickerLabel = new qx.ui.mobile.basic.Label(textValue);
+      pickerLabel.addCssClass("picker-label");
+    
+      return pickerLabel;
+    },
+    
+    
+    // property apply
+    _applyModel : function(value, old) {
+      this._render();
+    }
+  },
+
+  /*
+  *****************************************************************************
+      DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("__pickerContainer", "__pickerConfirmButton","__pickerContent");
+  }
+
+});
