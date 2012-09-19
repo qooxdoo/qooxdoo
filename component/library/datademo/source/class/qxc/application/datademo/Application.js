@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxc.application.twitterdemo.Application",
+qx.Class.define("qxc.application.datademo.Application",
 {
   extend : qx.application.Standalone,
 
@@ -29,7 +29,7 @@ qx.Class.define("qxc.application.twitterdemo.Application",
     {
       this.base(arguments);
 
-      this.getRoot().add(new qxc.application.twitterdemo.Demo());
+      this.getRoot().add(new qxc.application.datademo.Demo());
     }
   }
 });

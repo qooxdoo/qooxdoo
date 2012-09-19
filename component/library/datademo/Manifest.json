@@ -1,10 +1,10 @@
 {
   "info" : 
   {
-    "name" : "twitterdemo",
+    "name" : "datademo",
 
     "summary" : "Common used data binding demo",
-    "description" : "This is a demo containing a container showing a simple twitter client.",
+    "description" : "This is a demo containing a container showing a data bound list.",
     
     "homepage" : "http://qooxdoo.org/",
 
@@ -23,7 +23,7 @@
   
   "provides" : 
   {
-    "namespace"   : "qxc.application.twitterdemo",
+    "namespace"   : "qxc.application.datademo",
     "encoding"    : "utf-8",
     "class"       : "source/class",
     "resource"    : "source/resource",

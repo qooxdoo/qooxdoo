@@ -1,5 +1,5 @@
 {
-  "name"    : "twitterdemo",
+  "name"    : "datademo",
 
   "include" :
   [
@@ -35,7 +35,7 @@
 
   "let" :
   {
-    "APPLICATION"  : "qxc.application.twitterdemo",
+    "APPLICATION"  : "qxc.application.datademo",
     "QOOXDOO_PATH" : "../../..",
     "QXTHEME"      : "qx.theme.Modern",
     "API_EXCLUDE"  : ["qx.test.*"],
