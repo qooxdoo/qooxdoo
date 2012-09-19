@@ -53,19 +53,18 @@ qx.Class.define("showcase.page.databinding.Page",
 
   members :
   {
-    __descriptionText : "The twitter demo illustrates the use of data binding. " +
-    "Twitter offers a REST / JSONP API, making it a perfect match for data " +
+    __descriptionText : "The identica demo illustrates the use of data binding. " +
+    "Identica offers a REST / JSONP API, making it a perfect match for data " +
     "binding. The demo fetches the data and binds the result to the list. " +
     "Clicking on a tweet will invoke a second binding which displays the " +
     "selected tweet in the detail view right beside the list.",
 
     __tryThis : {
-      "Detail View" : "Clicking a tweet in the list shows the details.",
-      "Change Tweet" : "Enter your twitter username in the text field and press \"Show\" to see your recent tweets."
+      "Detail View" : "Clicking a tweet in the list shows the details."
     },
 
     __features : {
-      "Loading Data" : "The data is loaded from twitter in real time via JSONP.",
+      "Loading Data" : "The data is loaded from identica in real time via JSONP.",
       "Binding" : "A binding connects the model to the list view."
     },
 
