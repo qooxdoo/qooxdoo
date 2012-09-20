@@ -96,9 +96,15 @@ qx.Class.define("fce.Util", {
      * (may not be identical)
      */
     valuesEqual : function(a, b) {
-      //debugger;
+      var equal;
       if (typeof a !== typeof b) {
         return false;
+      }
+      if (a === null) {
+        return b === null ? true : false;
+      }
+      if (a === undefined) {
+        return b === undefined ? true : false;
       }
       // primitives
       if (typeof a !== "object") {
@@ -120,7 +126,7 @@ qx.Class.define("fce.Util", {
             return false;
           }
           for (var i=0, l=a.length; i<l; i++) {
-            var equal = fce.Util.valuesEqual(a[i], b[i]);
+            equal = fce.Util.valuesEqual(a[i], b[i]);
             if (!equal) {
               return false;
             }
@@ -128,7 +134,7 @@ qx.Class.define("fce.Util", {
         }
         // Maps
         else {
-          var equal = fce.Util.mapsEqual(a, b);
+          equal = fce.Util.mapsEqual(a, b);
           if (!equal) {
             return false;
           }
