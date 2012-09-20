@@ -91,11 +91,8 @@ qx.Class.define("tutorial.Application",
       this.__editor = new playground.view.Editor();
       actionArea.add(this.__editor, {height: "50%"});
 
-      this.__playArea = new playground.view.RiaPlayArea();
+      this.__playArea = new playground.view.PlayArea();
       this.__playArea.setBackgroundColor("white");
-      this.__playArea.addListener("appear", function() {
-        this.__playArea.init();
-      }, this);
 
       actionArea.add(this.__playArea, {flex: 1});
       this.__playArea.updateCaption("");
@@ -111,11 +108,13 @@ qx.Class.define("tutorial.Application",
 
       content.add(actionArea, {flex: 1});
 
-      // load initial tutorial
-      this.loadTutorial("Hello_World", "desktop");
-
       // set the blocker color
       this.getRoot().setBlockerColor("rgba(0, 0, 0, 0.35)")
+    },
+
+    // overridden
+    finalize: function() {
+      this.loadTutorial("Hello_World", "desktop");
     },
 
 
@@ -186,7 +185,8 @@ qx.Class.define("tutorial.Application",
         var req = e.getTarget();
         var tutorial = this.parseTutorial(name, type, req.getResponse());
         this.__description.setTutorial(tutorial);
-        this.__playArea.updateCaption(name.replace(/_/g, " "));
+        this.__playArea.updateCaption(name.replace(/_/g, " ") + " (" + type + ")");
+        this.__playArea.setMode(type !== "desktop" ? "mobile" : "ria")
       }, this);
       req.send();
     },

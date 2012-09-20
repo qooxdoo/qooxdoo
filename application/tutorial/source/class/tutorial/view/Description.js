@@ -80,6 +80,7 @@ qx.Class.define("tutorial.view.Description",
     __embed : null,
     __next : null,
 
+
     _applyTutorial : function(value) {
       if (this.getStep() == 0) {
         this.updateView();
@@ -89,16 +90,18 @@ qx.Class.define("tutorial.view.Description",
       }
     },
 
+
     _applyStep : function(value) {
       this.updateView();
     },
+
 
     updateView : function() {
       if (!this.getTutorial()) {
         return;
       }
-      var headline = "<h1>" + this.getTutorial().name.replace(/_/g, " ") + "</h1>";
-      var step = "<p style='margin-top: -28px; font-size: 11px; color: #CCC;'>Step " + (this.getStep() + 1) + "/" + this.getTutorial().steps.length + "</p>";
+      var headline = "<p style='font-size: 2em; font-widht: bold;'>" + this.getTutorial().name.replace(/_/g, " ") + "</p>";
+      var step = "<p style='margin-top: -10px; font-size: 11px; color: #CCC;'>Step " + (this.getStep() + 1) + "/" + this.getTutorial().steps.length + "</p>";
       this.__embed.setHtml(headline + step + this.getTutorial().steps[this.getStep()]);
       qx.html.Element.flush();
 
