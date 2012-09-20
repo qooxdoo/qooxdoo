@@ -1,8 +1,8 @@
 Tutorial: Creating a Identica Client with qooxdoo mobile
-*******************************************************
+********************************************************
 
 In this tutorial you will learn how to create a simple `identica`_ client
-with the new `qooxdoo mobile`_ widgets. The client should display all
+with the new `qooxdoo mobile`_ widgets. Identica is a twitter like service which we use instead of twitter due to its, to OAuth restricted, login mechanism. The client should display all
 tweets of a certain user. When a tweet is selected, the details of the
 tweet should be shown. You can find the tutorial code `here`_.
 

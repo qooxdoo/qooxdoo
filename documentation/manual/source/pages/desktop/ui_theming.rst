@@ -280,7 +280,7 @@ Typically, your application will have a certain, pre-defined theme known *at bui
     ...
 
 
-.. _pages/ui_theming#applying_themes:
+.. _pages/ui_theming#switching_themes_during_runtime:
 
 Switching Themes During Runtime
 ===============================
