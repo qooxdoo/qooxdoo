@@ -32,7 +32,7 @@ msgid "Post"
 msgstr "Absenden"
 
 #: identica/MainWindow.js:69
-msgid "Post this message on idenit.ca"
+msgid "Post this message on identi.ca"
 msgstr ""
 
 #: identica/SettingsWindow.js:8 identica/MainWindow.js:42

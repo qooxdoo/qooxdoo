@@ -4,7 +4,7 @@ qx.Class.define("identica.MainWindow",
 
   construct : function()
   {
-    this.base(arguments, "idenit.ca", "identica/logo.png");
+    this.base(arguments, "identi.ca", "identica/logo.png");
 
     // hide the window buttons
     this.setShowClose(false);

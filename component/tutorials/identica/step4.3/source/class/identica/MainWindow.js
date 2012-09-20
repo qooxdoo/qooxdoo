@@ -66,7 +66,7 @@ qx.Class.define("identica.MainWindow",
     // post button
     var postButton = new qx.ui.form.Button(this.tr("Post"));
     this.add(postButton, {row: 2, column: 1});
-    postButton.setToolTipText(this.tr("Post this message on idenit.ca"));
+    postButton.setToolTipText(this.tr("Post this message on identi.ca"));
     postButton.addListener("execute", function() {
       this.fireDataEvent("post", this.__textarea.getValue());
     }, this);
