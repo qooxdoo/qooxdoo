@@ -232,7 +232,7 @@ qx.Bootstrap.define("qx.bom.Html",
       // Append to fragment and filter out scripts... or...
       if (fragment)
       {
-        var scripts=[], elem, temp;
+        var scripts=[], elem;
         for (var i=0; ret[i]; i++)
         {
           elem = ret[i];
