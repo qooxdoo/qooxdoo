@@ -78,7 +78,7 @@ RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 APPLICATIONS = todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor demobrowser
 COMPONENTS = apiviewer testrunner inspector storage server website
 FRAMEWORK_TARGETS = api test
-TUTORIALS = mobiletweets twitter website
+TUTORIALS = mobiletweets identica website
 
 
 ################################################################################
