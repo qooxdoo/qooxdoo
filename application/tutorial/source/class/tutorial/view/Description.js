@@ -77,11 +77,13 @@ qx.Class.define("tutorial.view.Description",
 
 
   members : {
-    __embed : null, 
+    __embed : null,
+    __next : null,
 
     _applyTutorial : function(value) {
       if (this.getStep() == 0) {
         this.updateView();
+        this.__next.setEnabled(value && value.steps.length > 1);
       } else {
         this.setStep(0);
       }
@@ -114,6 +116,7 @@ qx.Class.define("tutorial.view.Description",
       var update = new qx.ui.toolbar.Button("Help me out");
       var run = new qx.ui.toolbar.Button("Run", "icon/22/actions/media-playback-start.png");
       var next = new qx.ui.toolbar.Button(null, "icon/22/actions/media-skip-forward.png");
+      this.__next = next;
 
       // states
       pref.addState("left");
