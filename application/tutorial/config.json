@@ -44,9 +44,76 @@
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."
   },
+  "config-warnings" :
+  {
+    "job-shadowing" : ["source", "source-hybrid", "build-resources", "build-script", "translation"],
+
+    "environment" : [ "non-literal-keys" ]
+  },
 
   "jobs" :
   {
+    // this one so that source, build-script and build-resources use common settings
+    "tutorial-compile" :
+    {
+      "config-warnings" :
+      {
+        "exclude" : ["*"],
+        "environment" : [ "variants-and-url-settings" ]
+      },
+      "include" :
+      [
+        "${APPLICATION}.tutorial.*"
+      ],
+
+      "environment" :
+      {
+        "qx.debug.ui.queue" : true,
+        "qx.nativeScrollBars" : true,
+        "qx.mobile.emulatetouch" : true
+      }
+    },
+
+    "build-script" :
+    {
+      "extend" : [ "tutorial-compile" ],
+      "add-css" :
+      [
+        {
+          "uri" : "resource/qx/mobile/css/android.css"
+        }
+      ]
+    },
+
+
+    "build-resources" :
+    {
+      "extend" : [ "tutorial-compile" ]
+    },
+
+
+    "source" :
+    {
+      "extend" : [ "tutorial-compile" ],
+      "add-css" :
+      [
+        {
+          "uri" : "../../../framework/source/resource/qx/mobile/css/android.css"
+        }
+      ]
+    },
+
+    "source-hybrid" :
+    {
+      "extend" : [ "tutorial-compile" ],
+      "add-css" :
+      [
+        {
+          "uri" : "../../../framework/source/resource/qx/mobile/css/android.css"
+        }
+      ]
+    },
+
     "libraries" :
     {
       "library" :

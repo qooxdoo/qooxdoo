@@ -22,9 +22,6 @@
 #require(qx.module.Manipulating)
 #require(qx.module.Attribute)
 #require(qx.module.Traversing)
-
-#require(tutorial.tutorial.desktop.Hello_World)
-#require(tutorial.tutorial.desktop.Single_Value_Binding)
 ************************************************************************ */
 
 /**
