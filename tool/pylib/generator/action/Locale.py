@@ -221,7 +221,7 @@ class Locale(object):
     # Takes a list of classes and target locales, returns a map of those locales to translation
     # maps, which contain the keys used in the classes and the translation in that locale.
     #
-    def getTranslationData(self, clazzList, variants, targetLocales, addUntranslatedEntries=False):
+    def getTranslationData(self, clazzList, variants, targetLocales, addUntranslatedEntries=False, statsObj=None):
 
         ##
         # Collect the namespaces from classes in clazzlist
@@ -300,8 +300,8 @@ class Locale(object):
             poentries = pot.translated_entries()
             if addUntranslatedEntries:
                 poentries.extend(pot.untranslated_entries())
-            if 1: # if console.debug
-                reportUntranslated(locale, len(pot.untranslated_entries()), len(pot))
+            if statsObj:
+               statsObj.update(locale, len(pot.untranslated_entries()), len(pot))
             transdict = self.entriesToDict(poentries)
             langToTranslationMap[locale] = transdict
 
@@ -413,3 +413,19 @@ class Locale(object):
         self._console.debug("Package contains %s unique translation strings" % len(result))
         self._console.outdent()
         return result
+
+
+##
+# LocStats -- collect stats from translations
+#
+class LocStats(object):
+
+    def __init__(self):
+        self.stats = {}  # {locale: {untranslated: n, total: m}}
+
+    def update(self, locale, untrans, total):
+        if locale not in self.stats:
+            self.stats[locale] = { 'untranslated' : 0, 'total' : 0}
+        self.stats[locale]['untranslated'] += untrans
+        self.stats[locale]['total'] += total
+

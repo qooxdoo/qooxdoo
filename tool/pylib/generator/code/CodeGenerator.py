@@ -29,6 +29,7 @@ from generator.code.Part        import Part
 from generator.code.Package     import Package
 from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.Script      import Script
+from generator.action           import Locale
 import generator.resource.Library # just need the .Library type
 from ecmascript.frontend        import tokenizer, treegenerator, treegenerator_2
 from ecmascript.backend         import pretty
@@ -1262,6 +1263,18 @@ class CodeGenerator(object):
     # Get translation and locale data from all involved classes, and attach it
     # to the corresponding packages.
     def packagesI18NInfo(self, script, addUntranslatedEntries=False):
+
+        def printStats(statsObj):
+            self._console.debug("Untranslated entries per locale:")
+            self._console.indent()
+            for locale, data in statsObj.stats.items():
+                self._console.debug(
+                    "%s:\t untranslated entries: %2d%% (%d/%d)" % (locale, 100*data['untranslated']/data['total'], 
+                        data['untranslated'], data['total'])
+                )
+            self._console.outdent()
+
+        # -----------------------------------------------------------------
         locales = script.locales
 
         if "C" not in locales:
@@ -1270,13 +1283,18 @@ class CodeGenerator(object):
         self._console.info("Processing %s locales  " % len(locales), feed=False)
         self._console.indent()
 
+        statsObj = Locale.LocStats()
+
         for pos, package in enumerate(script.packages):
             self._console.debug("Package %s: " % pos, False)
 
-            pac_dat = self._locale.getTranslationData(package.classes, script.variants, locales, addUntranslatedEntries) # .po data
+            pac_dat = self._locale.getTranslationData(package.classes, script.variants, locales, addUntranslatedEntries, statsObj) # .po data
             loc_dat = self._locale.getLocalizationData(package.classes, locales)  # cldr data
             package.data.translations.update(pac_dat)
             package.data.locales.update(loc_dat)
+
+        if self._console.getLevel() == "debug":
+            printStats(statsObj)
 
         self._console.outdent()
         return
