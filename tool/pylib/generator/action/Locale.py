@@ -240,7 +240,7 @@ class Locale(object):
 
         ##
         # Adding translation entries from <pofiles> to <pot>
-        def translationsFromPofiles(pofiles, pot):
+        def translationsFromPofiles(pofiles, pot, statsObj=None):
             for path in pofiles:
                 self._console.debug("Reading file: %s" % path)
 
@@ -250,10 +250,10 @@ class Locale(object):
                 if po == None:
                     po = polib.pofile(path)
                     self._cache.write(cacheId, po, memory=True)
-                extractTranslations(pot, po)
+                extractTranslations(pot, po, statsObj)
             return pot
 
-        def extractTranslations(pot, po):
+        def extractTranslations(pot, po, statsObj=None):
             po.getIdIndex()
             for potentry in pot:
                 #otherentry = po.find(potentry.msgid)   # this is slower on average than my own functions (bec. 'getattr')
@@ -264,6 +264,8 @@ class Locale(object):
                     if otherentry.msgstr_plural:
                         for pos in otherentry.msgstr_plural:
                             potentry.msgstr_plural[pos] = otherentry.msgstr_plural[pos]
+                    if statsObj and not potentry.translated():
+                        statsObj['untranslated'][potentry.msgid] = po.fpath
             return
 
         def reportUntranslated(locale, cnt_untranslated, cnt_total):
@@ -295,15 +297,17 @@ class Locale(object):
             self._console.debug("Processing translation: %s" % locale)
             self._console.indent()
 
+            if statsObj:
+               statsObj.update(locale, 0, 0)
             # Get relevant entries from po files for this locale, and convert to dict
-            pot = translationsFromPofiles(LocalesToPofiles[locale], pot) # loop through .po files, updating pot
+            pot = translationsFromPofiles(LocalesToPofiles[locale], pot, statsObj.stats[locale]) # loop through .po files, updating pot
             poentries = pot.translated_entries()
             if addUntranslatedEntries:
                 poentries.extend(pot.untranslated_entries())
-            if statsObj:
-               statsObj.update(locale, len(pot.untranslated_entries()), len(pot))
             transdict = self.entriesToDict(poentries)
             langToTranslationMap[locale] = transdict
+            if statsObj:
+                statsObj.stats[locale]['total'] = len(pot)
 
             self._console.outdent()
 
@@ -421,11 +425,11 @@ class Locale(object):
 class LocStats(object):
 
     def __init__(self):
-        self.stats = {}  # {locale: {untranslated: n, total: m}}
+        self.stats = {}  # {locale: {untranslated: {msgid1:PoFilePath}, total: m}}
 
     def update(self, locale, untrans, total):
         if locale not in self.stats:
-            self.stats[locale] = { 'untranslated' : 0, 'total' : 0}
-        self.stats[locale]['untranslated'] += untrans
-        self.stats[locale]['total'] += total
+            self.stats[locale] = { 'untranslated' : {}, 'total' : 0}
+        self.stats[locale]['untranslated'] = {}
+        self.stats[locale]['total'] = total
 

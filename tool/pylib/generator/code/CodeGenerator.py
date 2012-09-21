@@ -1268,10 +1268,17 @@ class CodeGenerator(object):
             self._console.debug("Untranslated entries per locale:")
             self._console.indent()
             for locale, data in statsObj.stats.items():
+                self._console.nl()
                 self._console.debug(
-                    "%s:\t untranslated entries: %2d%% (%d/%d)" % (locale, 100*data['untranslated']/data['total'], 
-                        data['untranslated'], data['total'])
+                    "%s:\t untranslated entries: %3d%% (%d/%d)" % (locale, 100*len(data['untranslated'])/data['total'], 
+                        len(data['untranslated']), data['total'])
                 )
+                self._console.nl()
+                self._console.indent()
+                for key,pofile in data['untranslated'].items():
+                    self._console.debug('"%-30.30s..." : %s' % (key, pofile))
+                self._console.outdent()
+            self._console.nl()
             self._console.outdent()
 
         # -----------------------------------------------------------------
