@@ -8,7 +8,7 @@
 
 ************************************************************************ */
 
-qx.Theme.define("identica.theme.Decoration",
+qx.Theme.define("tweets.theme.Decoration",
 {
   extend : qx.theme.simple.Decoration,
 

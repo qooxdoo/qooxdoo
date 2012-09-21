@@ -1,4 +1,4 @@
-qx.Class.define("identica.LoginWindow",
+qx.Class.define("tweets.LoginWindow",
 {
   extend : qx.ui.window.Window,
 

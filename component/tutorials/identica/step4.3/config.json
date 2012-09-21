@@ -1,5 +1,5 @@
 {
-  "name"    : "identica",
+  "name"    : "tweets",
 
   "include" :
   [
@@ -30,9 +30,9 @@
 
   "let" :
   {
-    "APPLICATION"  : "identica",
+    "APPLICATION"  : "tweets",
     "QOOXDOO_PATH" : "../../../..",
-    "QXTHEME"      : "identica.theme.Theme",
+    "QXTHEME"      : "tweets.theme.Theme",
     "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" , "de" , "fr" , "ro" ],
     "ROOT"         : "."

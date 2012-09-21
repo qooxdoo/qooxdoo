@@ -1,4 +1,4 @@
-qx.Class.define("identica.test.IdenticaService", {
+qx.Class.define("tweets.test.IdenticaService", {
 
   extend : qx.dev.unit.TestCase,
 
@@ -8,7 +8,7 @@ qx.Class.define("identica.test.IdenticaService", {
 
     setUp : function()
     {
-      this.__identicaService = new identica.IdenticaService();
+      this.__identicaService = new tweets.IdenticaService();
     },
 
     tearDown : function()

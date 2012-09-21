@@ -8,7 +8,7 @@
 
 ************************************************************************ */
 
-qx.Theme.define("identica.theme.Color",
+qx.Theme.define("tweets.theme.Color",
 {
   extend : qx.theme.modern.Color,
 

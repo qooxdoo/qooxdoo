@@ -1,6 +1,8 @@
-identica tutorial demo code
-===========================
+Individual step of the tweets tutorial
+======================================
 
-This application is based on a qooxdoo skeleton which is used as a template. It is the code of the tutorials which you can find in the maunal:
+Each step of the tutorial is available as a regular qooxdoo app. 
 
-http://manual.qooxdoo.org/current/pages/desktop/tutorials/tutorial-part-1.html
+Find out more about the tweets tutorial in the manual:
+
+http://manual.qooxdoo.org/current/pages/desktop.html#tutorials

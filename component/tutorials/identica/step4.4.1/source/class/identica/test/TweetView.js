@@ -1,8 +1,8 @@
 /* ************************************************************************
-#asset(identica/logo.png)
+#asset(tweets/*)
 ************************************************************************ */
 
-qx.Class.define("identica.test.TweetView", {
+qx.Class.define("tweets.test.TweetView", {
 
   extend : qx.dev.unit.TestCase,
 
@@ -13,7 +13,7 @@ qx.Class.define("identica.test.TweetView", {
 
     setUp : function()
     {
-      this.__tweetView = new identica.TweetView();
+      this.__tweetView = new tweets.TweetView();
     },
 
     tearDown : function()

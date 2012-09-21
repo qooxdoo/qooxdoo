@@ -1,7 +1,7 @@
 /**
  * @lint ignoreUndefined(simulator)
 */
-qx.Class.define("identica.simulation.Settings", {
+qx.Class.define("tweets.simulation.Settings", {
 
   extend : simulator.unit.TestCase,
 
@@ -15,15 +15,15 @@ qx.Class.define("identica.simulation.Settings", {
       var preferencesButtonLocator = "qxhv=*/[@label=Preferences]";
       this.getQxSelenium().qxClick(preferencesButtonLocator);
       // Check if the Preferences window opened
-      var settingsWindowLocator = "qxhv=[@classname=identica.SettingsWindow]";
+      var settingsWindowLocator = "qxhv=[@classname=tweets.SettingsWindow]";
       var settingsWindowPresent = this.getQxSelenium().isElementPresent(settingsWindowLocator);
       this.assertTrue(settingsWindowPresent);
 
       // Click the radio button for Romanian
-      var romanianLabelLocator = "qxhv=[@classname=identica.SettingsWindow]/*/[@label=Romanian]";
+      var romanianLabelLocator = "qxhv=[@classname=tweets.SettingsWindow]/*/[@label=Romanian]";
       this.getQxSelenium().qxClick(romanianLabelLocator);
       // Click the window's close button
-      var windowCloseButtonLocator = "qxhv=[@classname=identica.SettingsWindow]/qx.ui.container.Composite/[@icon=close\.gif]";
+      var windowCloseButtonLocator = "qxhv=[@classname=tweets.SettingsWindow]/qx.ui.container.Composite/[@icon=close\.gif]";
       this.getQxSelenium().qxClick(windowCloseButtonLocator);
       // Check if the window was closed
       settingsWindowPresent = this.getQxSelenium().isElementPresent(settingsWindowLocator);

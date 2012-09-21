@@ -8,7 +8,7 @@
 
 ************************************************************************ */
 
-qx.Theme.define("identica.theme.Font",
+qx.Theme.define("tweets.theme.Font",
 {
   extend : qx.theme.simple.Font,
 

@@ -8,14 +8,14 @@
 
 ************************************************************************ */
 
-qx.Theme.define("identica.theme.Theme",
+qx.Theme.define("tweets.theme.Theme",
 {
   meta :
   {
-    color : identica.theme.Color,
-    decoration : identica.theme.Decoration,
-    font : identica.theme.Font,
+    color : tweets.theme.Color,
+    decoration : tweets.theme.Decoration,
+    font : tweets.theme.Font,
     icon : qx.theme.icon.Tango,
-    appearance : identica.theme.Appearance
+    appearance : tweets.theme.Appearance
   }
 });

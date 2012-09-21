@@ -1,4 +1,4 @@
-qx.Class.define("identica.MainWindow",
+qx.Class.define("tweets.MainWindow",
 {
   extend : qx.ui.window.Window,
 
@@ -44,7 +44,7 @@ qx.Class.define("identica.MainWindow",
     settingsButton.setToolTipText(this.tr("Change the applications settings."));
     settingsButton.addListener("execute", function() {
       if (!settingsWindow) {
-        settingsWindow = new identica.SettingsWindow();
+        settingsWindow = new tweets.SettingsWindow();
         settingsWindow.moveTo(320,30);
       }
       settingsWindow.open();

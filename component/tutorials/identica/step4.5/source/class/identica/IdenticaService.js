@@ -1,4 +1,4 @@
-qx.Class.define("identica.IdenticaService",
+qx.Class.define("tweets.IdenticaService",
 {
   extend : qx.core.Object,
 

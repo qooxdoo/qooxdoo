@@ -8,7 +8,7 @@
 
 ************************************************************************ */
 
-qx.Theme.define("identica.theme.Appearance",
+qx.Theme.define("tweets.theme.Appearance",
 {
   extend : qx.theme.modern.Appearance,
 

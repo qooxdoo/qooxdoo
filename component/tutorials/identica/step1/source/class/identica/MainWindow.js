@@ -1,4 +1,4 @@
-qx.Class.define("identica.MainWindow",
+qx.Class.define("tweets.MainWindow",
 {
   extend : qx.ui.window.Window,
 

@@ -11,39 +11,39 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: identica/MainWindow.js:30
+#: tweets/MainWindow.js:30
 msgid "Reload"
 msgstr "Reincarca"
 
-#: identica/MainWindow.js:32
+#: tweets/MainWindow.js:32
 msgid "Reload the tweets."
 msgstr "Reincarca tweet-urile"
 
-#: identica/MainWindow.js:44
+#: tweets/MainWindow.js:44
 msgid "Change the applications settings."
 msgstr "Schimba setarile aplicatiei"
 
-#: identica/MainWindow.js:60
+#: tweets/MainWindow.js:60
 msgid "Enter your message here..."
 msgstr "Introduce mesajul tau aici..."
 
-#: identica/MainWindow.js:67
+#: tweets/MainWindow.js:67
 msgid "Post"
 msgstr "Trimite"
 
-#: identica/MainWindow.js:69
+#: tweets/MainWindow.js:69
 msgid "Post this message on identi.ca"
 msgstr ""
 
-#: identica/SettingsWindow.js:8 identica/MainWindow.js:42
+#: tweets/SettingsWindow.js:8 tweets/MainWindow.js:42
 msgid "Preferences"
 msgstr "Preferinte"
 
-#: identica/SettingsWindow.js:13
+#: tweets/SettingsWindow.js:13
 msgid "Language"
 msgstr "Limba"
 
-#: identica/SettingsWindow.js:20
+#: tweets/SettingsWindow.js:20
 msgid "$$languagename"
 msgstr "Romanian"
 

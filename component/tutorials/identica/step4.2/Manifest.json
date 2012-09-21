@@ -1,10 +1,10 @@
 {
   "info" : 
   {
-    "name" : "identica",
+    "name" : "tweets",
 
-    "summary" : "identica tutorial app",
-    "description" : "This is a demo identica client.",
+    "summary" : "tweets tutorial app",
+    "description" : "This is a demo app for tweets using the twitter-like, free identi.ca service.",
     
     "homepage" : "http://qooxdoo.org/",
 
@@ -23,7 +23,7 @@
   
   "provides" : 
   {
-    "namespace"   : "identica",
+    "namespace"   : "tweets",
     "encoding"    : "utf-8",
     "class"       : "source/class",
     "resource"    : "source/resource",

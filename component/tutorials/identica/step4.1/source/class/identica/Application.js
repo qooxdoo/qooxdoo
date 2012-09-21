@@ -10,14 +10,14 @@
 
 /* ************************************************************************
 
-#asset(identica/*)
+#asset(tweets/*)
 
 ************************************************************************ */
 
 /**
- * This is the main application class of your custom application "identica"
+ * This is the main application class of your custom application "tweets"
  */
-qx.Class.define("identica.Application",
+qx.Class.define("tweets.Application",
 {
   extend : qx.application.Standalone,
 
@@ -61,11 +61,11 @@ qx.Class.define("identica.Application",
       */
 
 
-      var main = new identica.MainWindow();
+      var main = new tweets.MainWindow();
       main.moveTo(50, 30);
       main.open();
 
-      var service = new identica.IdenticaService();
+      var service = new tweets.IdenticaService();
 
       // handler after posting a tweet
       service.addListener("postOk", function() {
@@ -99,7 +99,7 @@ qx.Class.define("identica.Application",
       service.bind("tweets", controller, "model");
 
       // show the login window on startup
-      this.__loginWindow = new identica.LoginWindow();
+      this.__loginWindow = new tweets.LoginWindow();
       this.__loginWindow.addListener("changeLoginData", function(ev) {
         var loginData = ev.getData();
         service.fetchTweets(loginData.username, loginData.password);

@@ -1,4 +1,4 @@
-qx.Class.define("identica.TweetView",
+qx.Class.define("tweets.TweetView",
 {
   extend : qx.ui.core.Widget,
   include : [qx.ui.form.MModelProperty],

@@ -10,14 +10,14 @@
 
 /* ************************************************************************
 
-#asset(identica/*)
+#asset(tweets/*)
 
 ************************************************************************ */
 
 /**
- * This is the main application class of your custom application "identica"
+ * This is the main application class of your custom application "tweets"
  */
-qx.Class.define("identica.Application",
+qx.Class.define("tweets.Application",
 {
   extend : qx.application.Standalone,
 
@@ -58,11 +58,11 @@ qx.Class.define("identica.Application",
       */
 
 
-      var main = new identica.MainWindow();
+      var main = new tweets.MainWindow();
       main.moveTo(50, 30);
       main.open();
 
-      var service = new identica.IdenticaService();
+      var service = new tweets.IdenticaService();
 
       // handler after posting a tweet
       service.addListener("postOk", function() {
