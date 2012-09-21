@@ -156,6 +156,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         var anchorPosition = qx.bom.element.Location.get(this.__anchor.getContainerElement());
         var anchorDimension = qx.bom.element.Dimension.getSize(this.__anchor.getContainerElement());
         var dimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
+        
+        var navigationBarHeight = 45;
 
         // Reset Anchor.
         this.removeCssClass('popupAnchorPointerTop');
@@ -163,7 +165,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this.removeCssClass('popupAnchorPointerRight');
         this.removeCssClass('popupAnchorPointerBottom');
 
-        if(anchorPosition.top + dimension.height > qx.bom.Viewport.getHeight()) {
+        if(anchorPosition.top + dimension.height > qx.bom.Viewport.getHeight() - navigationBarHeight) {
           this.addCssClass('popupAnchorPointerBottom');
 
           // Flip position
@@ -293,6 +295,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     __registerEventListener : function()
     {
+      qx.event.Registration.addListener(window, "resize", this._updatePosition, this);
       qx.event.Registration.addListener(window, "resize", this._updatePosition, this);
       /*if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
       {

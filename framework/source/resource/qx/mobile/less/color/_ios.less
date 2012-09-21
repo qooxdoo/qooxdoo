@@ -387,26 +387,6 @@ input[type="checkbox"]:checked + label {
   .dialog();
 }
 
-.popup.popupAnchorPointerTop:before
-{
-  border-bottom-color:@dialog-border-color;
-}
-
-.popup.popupAnchorPointerLeft:before
-{
-  border-right-color:@dialog-border-color;
-}
-
-.popup.popupAnchorPointerRight:after
-{
-  border-left-color:@dialog-border-color;
-}
-
-.popup.popupAnchorPointerBottom:after
-{
-  border-top-color:@dialog-border-color;
-}
-
 //
 // DIALOG
 //
@@ -416,7 +396,7 @@ input[type="checkbox"]:checked + label {
   background:-moz-radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
   background:radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
 
-  .box-shadow(0px 2px 7px 0px lighten(@shadow-color, 50%));
+  .box-shadow(0px 1px 7px 0px lighten(@shadow-color, 40%));
 
   .border-radius(.7em);
   border: 2px solid @dialog-border-color;
@@ -428,25 +408,36 @@ input[type="checkbox"]:checked + label {
   display: none;
 }
 
+@arrow-shadow:rgba(0,0,0,0.3);
+
+.arrow() {
+  border-left-color:@dialog-border-color;
+  border-top-color:@dialog-border-color;
+  border-right:none;
+  border-bottom:none;
+
+  .box-shadow(-1px -1px 2px @arrow-shadow);
+}
+
+// ARROW TOP
 .popupAnchorPointerTop:before
 {
-  border-bottom-color:@dialog-border-color;
+  @arrow-color:#637396;
+  
+  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50%, 51%);
+
+  .arrow();
 }
 
-.popupAnchorPointerLeft:before
+// ARROW LEFT, ARROW RIGHT, ARROW BOTTOM
+.popupAnchorPointerLeft:before, .popupAnchorPointerRight:before, .popupAnchorPointerBottom:after
 {
-  border-right-color:@dialog-border-color;
+  @arrow-color:#1D3566;
+  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50%, 51%);
+
+  .arrow();
 }
 
-.popupAnchorPointerRight:after
-{
-  border-left-color:@dialog-border-color;
-}
-
-.popupAnchorPointerBottom:after
-{
-  border-top-color:@dialog-border-color;
-}
 
 //
 // TOGGLEBUTTON
@@ -589,7 +580,18 @@ div.checked .toggleButtonSwitch:before {
 //
 .master-popup.popupAnchorPointerTop:before,
 {
-  border-bottom-color:@master-popup-border-color;
+  @arrow-color:@ios-button-gradient-stop-1;
+  
+  border-left: 1px solid @master-popup-border-color;
+  border-top: 1px solid @master-popup-border-color;
+  border-right:none;
+  border-bottom:none;
+
+  #gradient > .diagonal(@arrow-color, transparent, 50%, 51%);
+
+  .box-shadow(-1px -1px 2px @arrow-shadow);
+  
+  top:-9px;
 }
 
 

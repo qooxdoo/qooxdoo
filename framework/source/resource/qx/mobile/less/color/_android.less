@@ -372,6 +372,22 @@ input[type=radio] + label:after {
   border: 2px solid #ffffff;
 }
 
+.arrow() {
+  border-left-color:white;
+  border-top-color:white;
+  border-right:none;
+  border-bottom:none;
+}
+
+// ARROW LEFT, ARROW RIGHT, ARROW BOTTOM, ARROW TOP
+.popupAnchorPointerTop:before, .popupAnchorPointerLeft:before, .popupAnchorPointerRight:before, .popupAnchorPointerBottom:after
+{
+  @arrow-color:@dialog-background-color;
+  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50%, 51%);
+
+  .arrow();
+}
+
 
 //
 // TOOLBAR
@@ -454,7 +470,14 @@ input[type=radio] + label:after {
 // MASTER PARENT CONTAINER ARROWS
 //
 .master-popup.popupAnchorPointerTop:before  {
-  border-bottom-color:@master-popup-border-color;
+  @arrow-color:@dialog-background-color;
+  
+  border-right:none;
+  border-bottom:none;
+
+  #gradient > .diagonal(@arrow-color, transparent, 50%, 51%);
+
+  top:-10px;
 }
 
 

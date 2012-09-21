@@ -11,81 +11,61 @@
   clear: both;
 }
 
-@arrow-size: 10px;
+@arrow-size: 16px;
 @arrow-space: 2;
 @arrow-position-offset:15px;
 
 .popupAnchor(){
-  content: ' ';
+  display:block;
   position: absolute;
-  width:0px; 
-  height:0px; 
-  font-size:0px;
   line-height:0px;
+  width:@arrow-size;
+  height:@arrow-size;
+  z-index:1000;
+
+  border-left: 2px solid;
+  border-top: 2px solid;
+
+  content: '';
 }
 
-// Arrow-up
-.popupAnchorPointerTop {
-  margin-top:@arrow-size+@arrow-space;
-}
-
+// Arrow-Top
 .popupAnchorPointerTop:before{
   .popupAnchor();
-
-  top:-(@arrow-size)-@arrow-space;
+  
+  .transform(rotate(45deg));
+  top:-(@arrow-size/2)-2;
   left: @arrow-position-offset;
-
-  border-left:@arrow-size solid transparent;
-  border-right:@arrow-size solid transparent;
-  border-bottom:@arrow-size solid;
 }
 
 // Arrow-Bottom
-.popupAnchorPointerBottom {
-  margin-bottom:@arrow-size+@arrow-space;
-}
-
 .popupAnchorPointerBottom:after{
   .popupAnchor();
+  .transform(rotate(-135deg));
 
-  bottom:-(@arrow-size)-@arrow-space;
+  bottom:-(@arrow-size/2)-2;
   left: @arrow-position-offset;
-
-  border-left:@arrow-size solid transparent;
-  border-right:@arrow-size solid transparent;
-  border-top:@arrow-size solid;
 }
 
 // Arrow-Left
-.popupAnchorPointerLeft {
-  margin-left:@arrow-size+@arrow-space;
-}
-
 .popupAnchorPointerLeft:before{
   .popupAnchor();
+  
+  .transform(rotate(-45deg));
 
-  left:-(@arrow-size)-@arrow-space;
+  left:-(@arrow-size/2)-@arrow-space;
   top: @arrow-position-offset;
 
-  border-bottom:@arrow-size solid transparent;
-  border-top:@arrow-size solid transparent;
-  border-right:@arrow-size solid;
 }
 
 // Arrow-Right
-.popupAnchorPointerRight {
-  margin-right:@arrow-size+@arrow-space;
-}
-
 .popupAnchorPointerRight:before{
   .popupAnchor();
-  
-  right:-(@arrow-size)-@arrow-space;
-  top: @arrow-position-offset;
 
-  border-bottom:@arrow-size solid transparent;
-  border-top:@arrow-size solid transparent;
-  border-left:@arrow-size solid;
+  .transform(rotate(135deg));
+
+  right:-(@arrow-size/2)-@arrow-space;
+  top: @arrow-position-offset;
 }
 
 .popup-content {

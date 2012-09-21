@@ -294,4 +294,13 @@
     background-image: -moz-radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
     background-image: radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
   }
+
+  // Diagonal from top left to bottom right
+  .diagonal(@begin, @end, @stop1: 0%, @stop2: 100%) {
+    background-image: -moz-linear-gradient(-45deg, @begin @stop1, @end @stop2);
+    background-image: -webkit-gradient(linear, left top, right bottom, color-stop(@stop1,@begin), color-stop(@stop2,@end));
+    background-image: -webkit-linear-gradient(-45deg, @begin @stop1,@end @stop2);
+    background-image: linear-gradient(-45deg, @begin @stop1,@end @stop2);
+  }
+  
 }

@@ -225,25 +225,31 @@ ul li.active {
   .dialog();
 }
 
-// Arrow Up
-.popupAnchorPointerTop:before {
-   border-bottom-color:@dark-blue;
+.arrow() {
+  border-left:2px solid @dark-blue;
+  border-top:2px solid @dark-blue;
+  border-right:none;
+  border-bottom:none;
 }
 
-.popupAnchorPointerLeft:before
+// ARROW TOP
+.popupAnchorPointerTop:before
 {
-  border-right-color:@dark-blue;
+  @arrow-color:@title-background-gradient-1;
+  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50%, 51%);
+
+  .arrow();
 }
 
-.popupAnchorPointerRight:after
+// ARROW LEFT, ARROW RIGHT, ARROW BOTTOM, 
+.popupAnchorPointerLeft:before, .popupAnchorPointerRight:before, .popupAnchorPointerBottom:after
 {
-  border-left-color:@dark-blue;
+  @arrow-color:@title-background-gradient-2;
+  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50%, 51%);
+
+  .arrow();
 }
 
-.popupAnchorPointerBottom:after
-{
-  border-top-color:@dark-blue;
-}
 
 .dialogTitleUnderline:after {
   display: none;
@@ -470,6 +476,10 @@ input[type=radio] + label:after {
 .master-popup .layout-card {
   @corner-color: @border-color;
   background-color: white;
+}
+
+.master-popup.popupAnchorPointerTop:before  {
+  top:-10px;
 }
 
 //
