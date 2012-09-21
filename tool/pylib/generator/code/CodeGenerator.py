@@ -1182,8 +1182,8 @@ class CodeGenerator(object):
         # ----------------------------------------------------------------------
 
         translationMaps = getTranslationMaps(script.packages)
-        translationData ,                                      \
-        localeData      = mergeTranslationMaps(translationMaps)
+        translationData , localeData = \
+            mergeTranslationMaps(translationMaps)
         # for each locale code, collect mappings
         transKeys  = translationData.keys()
         localeKeys = localeData.keys()

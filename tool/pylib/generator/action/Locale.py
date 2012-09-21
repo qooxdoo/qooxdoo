@@ -266,6 +266,13 @@ class Locale(object):
                             potentry.msgstr_plural[pos] = otherentry.msgstr_plural[pos]
             return
 
+        def reportUntranslated(locale, cnt_untranslated, cnt_total):
+            if cnt_total > 0:
+                self._console.debug(
+                    "%s:\t untranslated entries: %2d%% (%d/%d)" % (locale, 100*cnt_untranslated/cnt_total, 
+                        cnt_untranslated, cnt_total)
+                )
+
         # -------------------------------------------------------------------------
 
         # Get the actually used translation keys from the code
@@ -293,6 +300,8 @@ class Locale(object):
             poentries = pot.translated_entries()
             if addUntranslatedEntries:
                 poentries.extend(pot.untranslated_entries())
+            if 1: # if console.debug
+                reportUntranslated(locale, len(pot.untranslated_entries()), len(pot))
             transdict = self.entriesToDict(poentries)
             langToTranslationMap[locale] = transdict
 
@@ -305,18 +314,18 @@ class Locale(object):
 
 
     def entriesToDict(self, entries):
-        all = {}
+        all_ = {}
 
         for entry in entries:
             if ('msgstr_plural' in dir(entry) and
                 '0' in entry.msgstr_plural and '1' in entry.msgstr_plural):
-                all[entry.msgid]        = entry.msgstr_plural['0']
-                all[entry.msgid_plural] = entry.msgstr_plural['1']
+                all_[entry.msgid]        = entry.msgstr_plural['0']
+                all_[entry.msgid_plural] = entry.msgstr_plural['1']
                 # missing: handling of potential msgstr_plural[2:N]
             else:
-                all[entry.msgid] = entry.msgstr
+                all_[entry.msgid] = entry.msgstr
 
-        return all
+        return all_
 
 
 
