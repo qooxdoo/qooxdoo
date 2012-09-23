@@ -757,15 +757,6 @@ Configure log/reporting features. Takes a map.
   "log" :
   {
     "classes-unused" : [ "custom.*", "qx.util.*" ],
-    "privates"       : ("on"|"off"),
-    "resources"      :
-    {
-      "file"         : "<filename>"
-    }
-    "filter"         : 
-    {
-      "debug"        : [ "generator.code.PartBuilder.*" ]
-    },
     "dependencies"   : 
     {
       "type"         : ("using"|"used-by"),
@@ -791,6 +782,22 @@ Configure log/reporting features. Takes a map.
         "file"       : "<filename>",
         "pretty"     : (true|false)
       }
+    },
+    "filter"         : 
+    {
+      "debug"        : [ "generator.code.PartBuilder.*" ]
+    },
+    "privates"       : ("on"|"off"),
+    "resources"      :
+    {
+      "file"         : "<filename>"
+    },
+    "translations"   :
+    {
+      "untranslated-keys":
+      {
+        "skip-locales"   : ["C"]
+      }
     }
   }
 
@@ -801,15 +808,6 @@ Configure log/reporting features. Takes a map.
 This key allows you to enable logging features along various axes. 
 
 * **classes-unused** : Report unused classes for the name space patterns given in the list.
-* **privates** : print out list of classes that use a specific private member
-* **resources**: writes the map of resource infos for the involved classes to a json-formatted file
-
-  * **file** : output file path (default *resources.json*)
-
-* **filter** : allows you to define certain log filter 
-
-  * **debug** : in debug ("verbose") logging enabled with the ``-v`` command line switch, only print debug messages from generator modules that match the given pattern
-
 * **dependencies** : print out dependency relations of classes
 
   * **type** *(required)*: which kind of dependencies to log
@@ -846,6 +844,22 @@ This key allows you to enable logging features along various axes.
 
     * **file** : output file path (default *flare.json*)
     * **pretty** : produce formatted Json, with spaces and indentation; if *false* produce compact format (default: *false*)
+
+* **filter** : allows you to define certain log filter 
+
+  * **debug** : in debug ("verbose") logging enabled with the ``-v`` command line switch, only print debug messages from generator modules that match the given pattern
+
+* **privates** : print out list of classes that use a specific private member
+* **resources**: writes the map of resource infos for the involved classes to a json-formatted file
+
+  * **file** : output file path (default *resources.json*)
+
+* **translations** : influence messages about translations
+
+  * **untranslated-keys** :
+
+    * **skip-locales** : skip locales given in the list when reporting about untranslated msgid's in a built application (default: *["C"]*)
+
 
 :ref:`Special section <pages/tool/generator/generator_config_articles#log_key>`.
 
