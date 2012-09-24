@@ -1,14 +1,12 @@
     "source-XXX" :
     {
       "extend" : ["default-demo"],
-      "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY", "BUILDTYPE" : "source", "EXCEPT": ["*"] },
-      "run" : ["default-demo"]
+      "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY", "BUILDTYPE" : "source", "EXCEPT": ["*"] }
     },
 
     "build-XXX" :
     {
       "extend" : ["default-demo"],
       "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY", "BUILDTYPE" : "build", "EXCEPT": [] },
-      "compile-options" : { "code" : { "optimize" : [ "variables", "basecalls", "strings", "privates", "whitespace"] }},
-      "run" : ["default-demo"]
+      "compile-options" : { "code" : { "optimize" : [ "variables", "basecalls", "strings", "privates", "whitespace"] }}
     }

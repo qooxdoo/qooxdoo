@@ -10,8 +10,6 @@
         BUILDTYPE ("source") - source or build, provided
     */
 
-    // -- common stuff ----
-
     "default-demo" :
     {
       "let" : {
