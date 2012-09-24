@@ -142,6 +142,16 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
 
 
     /**
+     * Remove the given sheet from its owner.
+     * @param sheet {Object} the stylesheet object
+     */
+    removeSheet : function(sheet) {
+      var owner = sheet.ownerNode ? sheet.ownerNode : sheet.owningElement;
+      qx.dom.Element.removeChild(owner, owner.parentNode);
+    },
+
+
+    /**
      * Remove all CSS rules from a stylesheet
      *
      * @param sheet {Object} the stylesheet object
