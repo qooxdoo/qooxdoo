@@ -228,6 +228,27 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       
       var model = this._getModelByElement(contentElement);
       if(model.getLength() == newSelectedIndex) {
+        newSelectedIndex = model.getLength() -1;
+      }
+      
+      this.__selectedIndex[contentElement.id] = newSelectedIndex;
+      this.__selectedIndexBySlot[slotIndex] = newSelectedIndex;
+      
+      this._updateSlot(contentElement);
+    },
+    
+    
+    /**
+     * Decreases the selectedIndex on a specific slot, identified by its content element.
+     * @param contentElement {Element} a picker slot content element.
+     */
+    _decreaseSelectedIndex : function(contentElement) {
+      var oldSelectedIndex = this.__selectedIndex[contentElement.id];
+      var newSelectedIndex = oldSelectedIndex -1;
+      
+      var slotIndex = this._getSlotIndexByElement(contentElement); 
+      
+      if(newSelectedIndex < 0) {
         newSelectedIndex = 0;
       }
       
@@ -336,15 +357,30 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         this.__selectedIndex[targetId] = selectedIndex;
         this.__selectedIndexBySlot[slotIndex] = selectedIndex;
 
-        this._updateSlot(target);
-        
         // Fire changeSelection event including change data.
         var model = this._getModelByElement(target);
         var selectedValue = model.getItem(selectedIndex);
         this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedValue, slot: slotIndex});
       } else {
-        this._increaseSelectedIndex(target);
+        // Detects if user touches on upper third or lower third off spinning wheel.
+        // Depending on this detection, the value increases/decreases.
+        var viewportTop = evt.getViewportTop();
+        
+        var offsetParent = qx.bom.element.Location.getOffsetParent(target);
+        var targetTop = qx.bom.element.Location.getTop(offsetParent, "margin");
+        var relativeTop = viewportTop - targetTop;
+        
+        var increaseTouchTopLimit = offsetParent.offsetHeight*(2/3);
+        var decreaseTouchTopLimit = offsetParent.offsetHeight*(1/3);
+        
+        if(relativeTop < decreaseTouchTopLimit) {
+          this._decreaseSelectedIndex(target);
+        } else if (relativeTop > increaseTouchTopLimit) {
+          this._increaseSelectedIndex(target);
+        }
       }
+      
+      this._updateSlot(target);
     },
     
     
@@ -366,7 +402,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         
         // BOUNCING
         var upperBounce = labelHeight/3;
-        var lowerBounce = -target.offsetHeight+labelHeight/2;
+        var lowerBounce = -target.offsetHeight+labelHeight*4.5;
         if(targetOffset > upperBounce) {
           targetOffset = upperBounce;
         }
@@ -410,7 +446,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     * Updates the visual position of all available picker slot elements.
     */
     _updateAllSlots : function() {
-      for(var i =0; i<this.__slotElements.length; i++){
+      for(var i =0; i < this.__slotElements.length; i++){
         var slotElement = this.__slotElements[i];
         this._updateSlot(slotElement);
       }
@@ -445,12 +481,18 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         this.__slotElements.push(pickerSlot.getContentElement());
         this.__pickerContainer.add(pickerSlot,{flex:1});
         
+        pickerSlot.add(this._createPickerValueLabel(""),{flex:1});
+        pickerSlot.add(this._createPickerValueLabel(""),{flex:1});
+        
         for (var slotValueIndex = 0; slotValueIndex < slotLength; slotValueIndex++) {
           var labelValue = slotValues.getItem(slotValueIndex);
           var pickerLabel = this._createPickerValueLabel(labelValue);
           
           pickerSlot.add(pickerLabel,{flex:1});
         }
+        
+        pickerSlot.add(this._createPickerValueLabel(""),{flex:1});
+        pickerSlot.add(this._createPickerValueLabel(""),{flex:1});
       }
     },
     
