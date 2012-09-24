@@ -29,7 +29,7 @@
     {
       "desc"    : "common settings for Demobrowser jobs",
 
-      "let" : 
+      "let" :
       {
         "APPLICATION"  : "demobrowser",
         "LOCALES"      : [ "en" ]
@@ -69,7 +69,7 @@
         "qx.contrib" : false,
         "qx.allowUrlSettings" : true
       },
-      
+
       // the next is in since resource copying is done here for the demos as well
       "asset-let" :
       {
@@ -97,7 +97,7 @@
           "file" : "./source/script/${APPLICATION}.js",
           "app-root" : "source"
         },
-        "code"   : 
+        "code"   :
         {
           "except" : ["*"]
         }
@@ -134,7 +134,7 @@
     {
       "extend"  : [ "source" ],
 
-      "compile-options" : 
+      "compile-options" :
       {
         "code" : { "=except" : [ "${APPLICATION}.*" ] }
       },
