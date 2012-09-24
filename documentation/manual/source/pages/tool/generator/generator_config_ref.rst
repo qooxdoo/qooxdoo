@@ -858,7 +858,7 @@ This key allows you to enable logging features along various axes.
 
   * **untranslated-keys** :
 
-    * **skip-locales** : skip locales given in the list when reporting about untranslated msgid's in a built application (default: *["C"]*)
+    * **skip-locales** : skip locales given in the list when reporting about untranslated msgid's in a built application (default: *[]*)
 
 
 :ref:`Special section <pages/tool/generator/generator_config_articles#log_key>`.
