@@ -122,7 +122,7 @@
     "source-with-translations" : {
       "extend" : ["source"],
       "log" : { 
-        "filter" : { "debug" : ["generator.code.CodeGenerator.printStats"] },
+        "filter" : { "debug" : ["generator.code.CodeGenerator.printTranslationStats"] },
         "translations" : { "untranslated-keys" : { "skip-locales" : [ "C", "en" ] }}
       }
     },
