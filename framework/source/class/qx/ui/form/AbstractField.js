@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.form.AbstractField",
   members :
   {
     __nullValue : true,
-    __placeholder : null,
+    _placeholder : null,
     __oldValue : null,
     __oldInputValue : null,
     __useQxPlaceholder : true,
@@ -823,19 +823,21 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     __getPlaceholderElement : function()
     {
-      if (this.__placeholder == null) {
+      if (this._placeholder == null) {
         // create the placeholder
-        this.__placeholder = new qx.html.Label();
+        this._placeholder = new qx.html.Label();
         var colorManager = qx.theme.manager.Color.getInstance();
-        this.__placeholder.setStyles({
+        this._placeholder.setStyles({
           "visibility" : "hidden",
           "zIndex" : 6,
           "position" : "absolute",
-          "color" : colorManager.resolve("text-placeholder")
+          "color" : colorManager.resolve("text-placeholder"),
+          "whiteSpace": "normal" // enable wrap by default
         });
-        this.getContainerElement().add(this.__placeholder);
+
+        this.getContainerElement().add(this._placeholder);
       }
-      return this.__placeholder;
+      return this._placeholder;
     },
 
 
@@ -862,10 +864,10 @@ qx.Class.define("qx.ui.form.AbstractField",
     // overridden
     _onChangeTheme : function() {
       this.base(arguments);
-      if (this.__placeholder) {
+      if (this._placeholder) {
         // delete the placeholder element because it uses a theme dependent color
-        this.__placeholder.dispose();
-        this.__placeholder = null;
+        this._placeholder.dispose();
+        this._placeholder = null;
       }
     },
 
@@ -934,7 +936,7 @@ qx.Class.define("qx.ui.form.AbstractField",
   */
   destruct : function()
   {
-    this.__placeholder = this.__font = null;
+    this._placeholder = this.__font = null;
 
     if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
