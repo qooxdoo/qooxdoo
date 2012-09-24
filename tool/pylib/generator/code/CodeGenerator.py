@@ -1264,7 +1264,7 @@ class CodeGenerator(object):
     # to the corresponding packages.
     def packagesI18NInfo(self, script, addUntranslatedEntries=False):
 
-        def printStats(statsObj):
+        def printTranslationStats(statsObj):
             skip_locales = self._job.get("log/translations/untranslated-keys/skip-locales", [])
             self._console.debug("Untranslated entries per locale:")
             self._console.indent()
@@ -1303,7 +1303,7 @@ class CodeGenerator(object):
             package.data.locales.update(loc_dat)
 
         if self._console.getLevel() == "debug":
-            printStats(statsObj)
+            printTranslationStats(statsObj)
 
         self._console.outdent()
         return
