@@ -1126,8 +1126,13 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.__themePart.getChildren()[1].setEnabled(false);
         this._iframe.setSource(url);
         this._iframe.addListener("load", function () {
-          this.__themePart.getChildren()[0].setEnabled(true);
-          this.__themePart.getChildren()[1].setEnabled(true);
+          window.setTimeout(function() {
+            var cw = this._iframe.getWindow();
+            if (cw && cw.qx && cw.qx.theme && cw.qx.theme.manager && cw.qx.theme.manager.Meta) {
+              this.__themePart.getChildren()[0].setEnabled(true);
+              this.__themePart.getChildren()[1].setEnabled(true);
+            }
+          }.bind(this), 333);
         }, this);
       }
 
@@ -1694,7 +1699,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.__currentTheme = e.getData()[0].getUserData("value");
       var cw = this._iframe.getWindow();
       var theme = cw.qx.Theme.getByName(this.__currentTheme);
-      if (theme) {
+      if (theme && cw.qx.theme.manager && cw.qx.theme.manager.Meta) {
         cw.qx.theme.manager.Meta.getInstance().setTheme(theme);
       }
     },
