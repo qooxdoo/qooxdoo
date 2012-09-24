@@ -1,10 +1,15 @@
-Tutorial: Creating a Identica Client with qooxdoo mobile
-********************************************************
+Tutorial: Creating a Tweets Client with qooxdoo mobile
+******************************************************
 
-In this tutorial you will learn how to create a simple `identica`_ client
-with the new `qooxdoo mobile`_ widgets. Identica is a twitter like service which we use instead of twitter due to its, to OAuth restricted, login mechanism. The client should display all
+In this tutorial you will learn how to create a simple tweets app with the `qooxdoo mobile`_ widgets.
+
+`identica <http://identi.ca>`_ is a twitter-like service for reading and posting public short messages - called "tweets". It has a `twitter-compatible API <http://status.net/wiki/Twitter-compatible_API>`_ for accessing data. 
+
+`Twitter <http://twitter.com>`_ itself made its authorization scheme more complex, as it starts requiring OAuth even to read public tweets. For this basic tutorial it would be too complex to handle such advanced authorization. If your are interested in OAuth, check out how you could handle that in a qooxdoo app by looking at the `Github demo <http://demo.qooxdoo.org/%{version}/demobrowser/#data~Github.html>`_.
+
+The app that is to be created in this tutorial should display all
 tweets of a certain user. When a tweet is selected, the details of the
-tweet should be shown. You can find the tutorial code `here`_.
+tweet should be shown. You can find the code of the tutorial `here`_.
 
 Requirements + Getting Started
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -27,18 +32,17 @@ But first of all we have to define what a page is:
     interact in order to do something. Most times a page provides a
     single task or a group of related tasks. A qooxdoo mobile
     application is usually composed of one or more loosely bound pages.
-    Typically there is one page that presents the “main” view.*
+    Typically there is one page that presents the "main" view.*
 
 
-Open the “mobiletweets” folder in your favorite IDE, so that you can
-edit all the files. Navigate to the “source/class/mobiletweets” folder,
+Open the "mobiletweets" folder in your favorite IDE, so that you can
+edit all the files. Navigate to the "source/class/mobiletweets" folder,
 were all of the application class files are located. Now you are ready
 to create the application.
 
-First we have to create a new page class. In order to do so, create a new folder “page” under
-“source/class/mobiletweets”, representing a new “namespace”
-``mobiletweets.page``. In this folder create a new JavaScript file named
-“Input.js”. This file will contain the “mobiletweets.page.Input” class.
+First we have to create a new page class. In order to do so, create a new folder "page" under
+"source/class/mobiletweets", representing a new namespace ``mobiletweets.page``. In this folder create a new JavaScript file named
+"Input.js". This file will contain the ``mobiletweets.page.Input`` class.
 Define the class like this:
 ::
 
@@ -52,23 +56,23 @@ Define the class like this:
       }
     });
 
-The “Input” class inherits from ``qx.ui.mobile.page.NavigationPage``, a
+The "Input" class inherits from ``qx.ui.mobile.page.NavigationPage``, a
 specialized page that consists of a
 ``qx.ui.mobile.navigationbar.NavigationBar`` including a title, back and
 action buttons, and a scrollable content area. In the constructor of the
-class we set the title of the page to “Identica Client”.
+class we set the title of the page to "Identica Client".
 
-To show the “Input” page, we have to create an instance of the class and a page manager.
+To show the "Input" page, we have to create an instance of the class and a page manager.
 The manager does the layouting and displays our page on screen.
 Additionally the manager gives us the possibility to use our application in a mobile or tablet device context.
 For our example, we just want to work in a mobile device context. That is why, we construct the manager with
 ``false``.
 
-After creation of manager, we have to add the “Input” page into the manager. 
-Then we call ``show`` method of “Input” page, to display this page on start. 
+After creation of manager, we have to add the "Input" page into the manager. 
+Then we call ``show`` method of "Input" page, to display this page on start. 
 
-Open the “source/class/mobiletweets/Application.js” class file. You will find a comment in the ``main`` method "*Below is your actual
-application code…*" with example code below. As we don’t need this
+Open the "source/class/mobiletweets/Application.js" class file. You will find a comment in the ``main`` method "*Below is your actual
+application code...*" with example code below. As we don't need this
 example code, we can safely replace it with the following lines of code:
 ::
     
@@ -80,10 +84,10 @@ example code, we can safely replace it with the following lines of code:
     inputPage.show();
 
 As we have changed the dependencies of our application, recreate the
-source version by calling the generator “source” target as above.
+source version by calling the generator "source" target as above.
 
 Refresh the index.html in your browser. You will see a page with a
-navigation bar and a title “Identica Client”. That is all you have to do
+navigation bar and a title "Identica Client". That is all you have to do
 when you want to display a page.
 
 Navigation between Pages
@@ -96,7 +100,7 @@ Showing a second page is as easy as showing one page. Just call the
 ``show`` method of the second page and qooxdoo will do the rest. To
 navigate back to the first page you have to call, you have guessed it,
 the ``show`` method of the first page again. To play the animation of
-the page transition “reversed”, call the ``show`` method with an object
+the page transition "reversed", call the ``show`` method with an object
 literal ``{reverse:true}`` as an argument. To change an animation, just
 add an animation key to the passed object literal, e.g.
 ``{animation:fade}``:
@@ -115,23 +119,23 @@ Page Lifecycle:
     shown for the first time, will be initialized and started
     afterwards. For all called lifecylce methods an event is fired.*
     
-Calling the “show” method triggers the following lifecycle methods:
+Calling the "show" method triggers the following lifecycle methods:
 
 -  ``initialize``: Initializes the page to show
 -  ``start``: Starts the page that should be shown
 -  ``stop``: Stops the current shown page
 
 **IMPORTANT**: Define all child widgets of a page when the
-“initialize” lifecycle method is called, either by listening to the
-“initialize” event or overriding the ``_initialize`` method. This is
+"initialize" lifecycle method is called, either by listening to the
+"initialize" event or overriding the ``_initialize`` method. This is
 because a page can be instantiated during application startup and
 would then decrease performance if the widgets would be added during
 constructor call. The initialize event and the ``_initialize``
 lifecycle method are only called when the page is shown for the
 first time.
 
-Lets try it! Create another page class “Tweets” in the
-“source/class/mobiletweets/page” folder:
+Lets try it! Create another page class "Tweets" in the
+"source/class/mobiletweets/page" folder:
 ::
 
     qx.Class.define("mobiletweets.page.Tweets",
@@ -148,12 +152,12 @@ Lets try it! Create another page class “Tweets” in the
       }
     });
 
-In the constructor we show the back button and set the text to “Back” .
+In the constructor we show the back button and set the text to "Back" .
 The title will be replaced later by the given username.
 
-Now we need a button on the “Input” page, so that we can navigate between the two
+Now we need a button on the "Input" page, so that we can navigate between the two
 pages. Create a new instance of a ``qx.ui.mobile.form.Button`` in the
-“Input” class and add it to the content of the page. By listening to the
+"Input" class and add it to the content of the page. By listening to the
 ``tap`` event of the button, the application can handle when the user
 taps on the button. Add a new ``member`` section to the class definition
 and override the protected lifecycle method ``_initialize`` to do that:
@@ -183,17 +187,17 @@ well:
        this.fireDataEvent("requestTweet", null); // Fire a data event. Later we will send the entered "username" as a data.
     }
 
-In the ``_onTap`` method we fire a data event “requestTweet”. The empty
+In the ``_onTap`` method we fire a data event "requestTweet". The empty
 data will be replaced later with the username. The only thing which is
 missing now is to define the event itself. Add a new ``events`` section
-to the “Input” class:
+to the "Input" class:
 ::
 
     events : {
       "requestTweet" : "qx.event.type.Data" // Define the event
     }
 
-In the “Application” class add the following code below the code we have
+In the "Application" class add the following code below the code we have
 just added:
 ::
 
@@ -213,15 +217,15 @@ just added:
       inputPage.show({reverse:true});
     }, this);
 
-After creating a new instance of our new “Tweets” class we listen to the
-``requestTweet`` event of the “Input” page instance. In the event
+After creating a new instance of our new "Tweets" class we listen to the
+``requestTweet`` event of the "Input" page instance. In the event
 handler we call the ``show`` method of the ``tweetsPage`` page object to
 display the page. In the ``back`` event handler of the ``tweetsPage``,
-the “Input” page will be shown with a reversed animation.
+the "Input" page will be shown with a reversed animation.
 
 New classes mean new dependencies which means we have to generate the source code
 again. Refresh the application in the browser and navigate between the
-pages by clicking on the “Show” and on the “Back” button. Nice!
+pages by clicking on the "Show" and on the "Back" button. Nice!
 
 We need Data, lots of Data!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -232,7 +236,7 @@ data to display our app is worthless. To display the tweets
 of a user we will use the public Tweet service of identica. `Data
 binding`_ is a powerful concept of qooxdoo which you can leverage off in
 your mobile applications as well. Extend the ``members`` section of the
-“Application” class by the following code:
+"Application" class by the following code:
 ::
 
         __loadTweets : function() {
@@ -256,7 +260,7 @@ store is updated.
 As you might have noticed the ``__loadTweets`` method
 uses two properties, ``username`` and ``tweets``, that are not defined
 yet. We will define those properties now. Define a new section
-``properties`` in the “Application” class and add the following two
+``properties`` in the "Application" class and add the following two
 properties:
 ::
 
@@ -287,7 +291,7 @@ the tweets for this username are loaded. To see which data is set for
 the ``tweets`` property, we will print the data in the debugging
 console. To do so, we call ``this.debug`` with the stringified value in
 the apply method ``_applyTweets``. Add the following code to the member
-section of the “Application” class:
+section of the "Application" class:
 ::
 
     // property apply
@@ -302,12 +306,12 @@ section of the “Application” class:
 
 Now the username has to be retrieved from the user input. To do so, we
 have to create an input form. The usage of the form classes should be
-familiar to you if you have used the RIA widget set before. Open the “Input”
+familiar to you if you have used the RIA widget set before. Open the "Input"
 class again and place the following code, before the button instance in
 the ``_initialize`` method:
 ::
 
-    var title = new qx.ui.mobile.form.Title("Please enter a identi.ca username");
+    var title = new qx.ui.mobile.form.Title("Please enter an identi.ca username");
     this.getContent().add(title);
 
     var form = this.__form = new qx.ui.mobile.form.Form();
@@ -346,16 +350,16 @@ After successfully validating the form, we retrieve the value of the
 textfield from the member variable and pass it as the data to the event.
 
 As you surely remember we listen to the ``requestTweet`` event in the
-“Application” class. Open the Application class and add the following
+"Application" class. Open the Application class and add the following
 line to the event listener:
 ::
 
     this.setUsername(evt.getData());
 
-We’ve come full circle. By setting the username the data will be loaded
+We've come full circle. By setting the username the data will be loaded
 and we can proceed to display the data. Rebuild the application and
 refresh it in the browser. Type in a valid identica username (e.g.
-“qooxdoo”) and click the “Show” button. Press the ``F7`` key to display
+"qooxdoo") and click the "Show" button. Press the ``F7`` key to display
 the qooxdoo logging window or use the console of the browser developer
 tools. You will see the loaded tweets of the user.
 
@@ -364,13 +368,13 @@ tools. You will see the loaded tweets of the user.
 Displaying the tweets
 ~~~~~~~~~~~~~~~~~~~~~
 
-Now that we have the tweets for a certain user, it’s gonna be pretty
+Now that we have the tweets for a certain user, it's gonna be pretty
 easy to display them. All we need for that is a
 ``qx.ui.mobile.list.List`` and to set up some data binding. Lets proceed
 with the tutorial.
 
 First we have to add the following ``_initialize``
-method to the members section of the “Tweets” page.
+method to the members section of the "Tweets" page.
 ::
 
     members : {
@@ -421,7 +425,7 @@ an arrow on the left corner of the row, indicating that we have more
 data to display.
 
 Finally the model of the list instance is bound to the
-``tweets`` property, which we will add to the “Tweets” class right above
+``tweets`` property, which we will add to the "Tweets" class right above
 the ``member`` section:
 ::
 
@@ -436,20 +440,20 @@ the ``member`` section:
 
 There are only two tasks left:
 
-#. Bind the ``tweets`` property from the “Application” to the ``tweets``
-   property of the “Tweets” page instance.
-#. Bind the ``username`` property form the “Application” to the
-   ``title`` property of the “Tweets” page instance.
+#. Bind the ``tweets`` property from the "Application" to the ``tweets``
+   property of the "Tweets" page instance.
+#. Bind the ``username`` property form the "Application" to the
+   ``title`` property of the "Tweets" page instance.
 
-Open the “Application” class file and add under the instantiation of the
-“Tweets” page ``tweetsPage`` the following code:
+Open the "Application" class file and add under the instantiation of the
+"Tweets" page ``tweetsPage`` the following code:
 ::
 
     this.bind("tweets", tweetsPage, "tweets");
     this.bind("username", tweetsPage, "title");
 
 Generate the source code again and refresh you browser tab. Try the
-username “qooxdoo” and push the “Show” button. It is magic!
+username "qooxdoo" and push the "Show" button. It is magic!
 
 .. image:: tutorial_list.png
 
@@ -460,11 +464,11 @@ Great, you have made it so far! In the last section we will display a
 tweet on a new page when the user selects a certain tweet. Sometimes it
 can happen that a tweet is too long for a list entry. Ellipses are then
 shown at the end of the tweet. That is why we want to give the user a
-chance to display the whole tweet. Lets create a simple “Tweet” page
+chance to display the whole tweet. Lets create a simple "Tweet" page
 that only shows a ``qx.ui.mobile.basic.Label`` with the selected tweet
 text. To do so, we bind the ``text`` property of the tweet to the label
 ``value`` property. Create the page, like you have done before, in the
-“source/class/mobiletweets/page” folder. The code of the page shouldn’t
+"source/class/mobiletweets/page" folder. The code of the page shouldn't
 be something new for you:
 ::
 
@@ -506,8 +510,8 @@ be something new for you:
       }
     });
 
-Now create the instance of the “Tweet” page in the Application ``main``
-method and return to the “Tweets” page, when the ``back`` listener is
+Now create the instance of the "Tweet" page in the Application ``main``
+method and return to the "Tweets" page, when the ``back`` listener is
 called.
 ::
 
@@ -521,8 +525,8 @@ called.
       tweetsPage.show({reverse:true});
     }, this);
 
-Until now we will never see the “Tweet” page as its ``show`` method is
-never called. First we have to react in the “Tweets” page on a selection
+Until now we will never see the "Tweet" page as its ``show`` method is
+never called. First we have to react in the "Tweets" page on a selection
 change event of the list, by registering the ``changeSelection`` event
 on the list in the ``_initialize`` method:
 ::
@@ -540,7 +544,7 @@ The ``__onChangeSelection`` method looks like this:
     }
 
 As you can see, a ``showTweet`` data event is fired here. This data
-event has to be defined in the ``events`` section of the “Tweets” class:
+event has to be defined in the ``events`` section of the "Tweets" class:
 ::
 
     events : {
@@ -548,9 +552,9 @@ event has to be defined in the ``events`` section of the “Tweets” class:
     }
     
 All we need to do now is to listen to the ``showTweet`` event in the
-“Application” class main method, retrieve the index from the data event
+"Application" class main method, retrieve the index from the data event
 and to get the corresponding tweet from the data. Finally we show our
-“Tweet” page.
+"Tweet" page.
 ::
 
     // Show the selected tweet
@@ -566,8 +570,8 @@ are done here.
 
 .. image:: tutorial_details.png
 
-Now you are ready to develop your own applications…
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Now you are ready to develop your own applications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After you have finished this tutorial, you have learned the basics of
 qooxdoo mobile. You have seen how easy it is to develop qooxdoo mobile
