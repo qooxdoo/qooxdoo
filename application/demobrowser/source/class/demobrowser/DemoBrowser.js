@@ -1122,7 +1122,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       else
       {
         this.__logDone = false;
+        this.__themePart.getChildren()[0].setEnabled(false);
+        this.__themePart.getChildren()[1].setEnabled(false);
         this._iframe.setSource(url);
+        this._iframe.addListener("load", function () {
+          this.__themePart.getChildren()[0].setEnabled(true);
+          this.__themePart.getChildren()[1].setEnabled(true);
+        }, this);
       }
 
       // Toggle menu buttons
@@ -1686,7 +1692,11 @@ qx.Class.define("demobrowser.DemoBrowser",
     __onChangeTheme : function(e)
     {
       this.__currentTheme = e.getData()[0].getUserData("value");
-      this.runSample();
+      var cw = this._iframe.getWindow();
+      var theme = cw.qx.Theme.getByName(this.__currentTheme);
+      if (theme) {
+        cw.qx.theme.manager.Meta.getInstance().setTheme(theme);
+      }
     },
 
 
