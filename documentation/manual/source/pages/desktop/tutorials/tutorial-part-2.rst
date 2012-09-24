@@ -3,7 +3,7 @@
 Tutorial Part 2: Finishing the UI
 *********************************
 
-In the :doc:`first part <tutorial-part-1>` of the tutorial, we built a basic window for our target application, a identica client. In the second part of the tutorial, we want to finish the UI of the application. So lets get started, we got a lot to do!
+In the :doc:`first part <tutorial-part-1>` of the tutorial, we built a basic window for our target application, a tweets client. In the second part of the tutorial, we want to finish the UI of the application. So lets get started, we got a lot to do!
 
 I hope you remember the layout of the application we are trying to build. If not, here is a little reminder.
 
@@ -173,11 +173,11 @@ As a last task, we can give the UI some finishing touches. Wouldn't it be nice i
     //..
     postButton.setToolTipText("Post this message on identi.ca");
 
-Another nice tweak could be a identica logo in the windows caption bar. Just download this `logo from identica <https://raw.github.com/qooxdoo/qooxdoo/%{release_tag}/component/tutorials/identica/step2/source/resource/identica/logo.png>`_ and save it in the ``source/resource/identica`` folder of your application. Adding the logo is easy because the window has also a property for an icon, which can be set in the constructor. Adding the reference to the icon in the base call should do the job.
+Another nice tweak could be a identica logo in the windows caption bar. Just download this `logo from identica <https://raw.github.com/qooxdoo/qooxdoo/%{release_tag}/component/tutorials/tweets/step2/source/resource/tweets/logo.png>`_ and save it in the ``source/resource/tweets`` folder of your application. Adding the logo is easy because the window has also a property for an icon, which can be set in the constructor. Adding the reference to the icon in the base call should do the job.
 
 ::
 
-    this.base(arguments, "identi.ca", "identica/logo.png");
+    this.base(arguments, "identi.ca", "tweets/logo.png");
 
 This time, we added a new reference to an image. Like with class dependencies, we need to run the generator once more. After that, the image should be in the windows caption bar.
 
@@ -187,7 +187,7 @@ Two more minor things are left to finish. First, the button does not look very g
 
     postButton.setWidth(60);
 
-The last task is a bit more complicated than the other tweaks before. As you probably know, identica messages have a maximum length of 140 characters. So disabling the post button if the entered message has more the 140 characters could help us out in the communication layer. A identica message with no text at all is also useless and we can disable the post button in that case. To get that we need to know when the text was changed in the text area. Fortunately, the text area has a data event for text changes we can listen to:
+The last task is a bit more complicated than the other tweaks before. As you probably know, identica messages have a maximum length of 140 characters. So disabling the post button if the entered message has more the 140 characters could help us out in the communication layer. An identica message with no text at all is also useless and we can disable the post button in that case. To get that we need to know when the text was changed in the text area. Fortunately, the text area has a data event for text changes we can listen to:
 
 ::
 
@@ -210,6 +210,6 @@ Now go back to the browser and test your new tweaks. It should look like this.
 
 .. |step 2| image:: /pages/desktop/tutorials/step21.png
 
-That's it for building the UI. Again, if you want to take a `look at the code <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/identica/step2>`_, fork the project on github.
+That's it for building the UI. Again, if you want to take a `look at the code <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step2>`_, fork the project on github.
 Next time we take care of getting the data. If you have feedback on this post, just let us know!
 

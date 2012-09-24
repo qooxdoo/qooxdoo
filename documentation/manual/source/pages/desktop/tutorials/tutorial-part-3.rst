@@ -33,7 +33,7 @@ Now we know how to get the data from identica. Its time for us to go back to the
 
 ::
 
-  qx.Class.define("identica.IdenticaService",
+  qx.Class.define("tweets.IdenticaService",
   {
     extend : qx.core.Object,
     members :
@@ -105,7 +105,7 @@ For that task we need to go back to our ``Application.js`` file and create an in
 
 ::
 
-  var service = new identica.IdenticaService();
+  var service = new tweets.IdenticaService();
 
 You remember the debug listener we added in the last tutorial? Now we change the reload listener to fetch the tweets:
 
@@ -204,12 +204,12 @@ Now it should be the way we like it to be. Sure it's not perfect because it has 
 Posting tweets
 ==============
 
-As you have seen in the last paragraphs, creating the data access layer is not that hard using qooxdoo's data binding. That is why we want you to implement the rest of the application: Posting of tweets. But I will give you some hints so it does not take that much time for you.
+As you have seen in the last paragraphs, creating the data access layer is not that hard using qooxdoo's data binding. That is why we want you to implement the rest of the application: Posting of tweets. But we will give you some hints so it does not take that much time for you.
 
-* identica does only offer an OAuth authentification. Don't make your self too much work by implementing the whole OAuth thing.
-* Tweets can be set to identicas web view by just giving a decoded parameter to the URL: `http://identi.ca/?action=newnotice&status_textarea=123 <http://identi.ca/?action=newnotice&status_textarea=123>`_
+* identica uses OAuth authentification for postings. Don't make your self too much work by implementing the whole OAuth thing.
+* Tweets can be set to identica's web view by just giving a decoded parameter to the URL: `http://identi.ca/?action=newnotice&status_textarea=123 <http://identi.ca/?action=newnotice&status_textarea=123>`_
 
-That should be possible for you right now! If you need to take a look at an implementation, you can always take a look at the `code on github <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/identica/step3>`_ or fork the project.
+That should be possible for you right now! If you need to take a look at an implementation, you can always take a look at the `code on github <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step3>`_ or fork the project.
 
 That's it for the third part of the tutorial. With this tutorial, the application should be ready and we can continue our next tutorial lines based on this state of the application. As always, if you have any feedback, please let us know!
 

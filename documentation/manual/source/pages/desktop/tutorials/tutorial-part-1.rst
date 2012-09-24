@@ -1,16 +1,19 @@
-.. _pages/tutorial-part-1#tutorial_part_1:_the_beginning_of_a_identica_app:
+.. _pages/tutorial-part-1#tutorial_part_1:_the_beginning_of_a_tweets_app:
 
-Tutorial Part 1: The Beginning of a identica App
+Tutorial Part 1: The Beginning of a Tweets App
 ************************************************
 
-.. _pages/tutorial-part-1#the_missing_manual:
+.. _pages/tutorial-part-1#introduction:
 
-The Missing Manual
-==================
+Introduction
+============
 
-We have heard it a couple of times: Users are missing a tutorial a bit more complex than the simple :ref:`"Hello World" tutorial <pages/getting_started/helloworld#helloworld>` we already have. Today, we want to close that gap between the first tutorial and the `demo applications <http://demo.qooxdoo.org>`_ included in the framework like the `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_.
+This tutorial covers many practical aspects of developing desktop-like qooxdoo apps. It is set up as a series of tutorials that go beyond the must-read :ref:`"Hello World" tutorial <pages/getting_started/helloworld#helloworld>`. For even more samples of app code you can check the `demo applications <http://demo.qooxdoo.org>`_ included in the framework, for instance the `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_.
 
-As you sure have read in the headline, we are building a simple identica application. `identica <http://identi.ca>`_ is a twitter like service for posting public short messages and has a `twitter like API <http://status.net/wiki/Twitter-compatible_API>`_ for accessing data. twitter itself changed its API to OAuth authorization which would be too much for this tutorial. If your are interested in OAuth, check out the `github demo <http://demo.qooxdoo.org/%{version}/demobrowser/#data~Github.html>`_.
+
+As the headline of this tutorial says, we are building a simple tweets application. `identica <http://identi.ca>`_ is a twitter-like service for reading and posting public short messages - called "tweets". It has a `twitter-compatible API <http://status.net/wiki/Twitter-compatible_API>`_ for accessing data. 
+
+`Twitter <http://twitter.com>`_ itself made its authorization scheme more complex, as it starts requiring OAuth even to read public tweets. For this basic tutorial it would be too complex to handle such advanced authorization. If your are interested in OAuth, check out how you could handle that in a qooxdoo app by looking at the `Github demo <http://demo.qooxdoo.org/%{version}/demobrowser/#data~Github.html>`_.
 
 The following mockup shows you how the application should look like at the end.
 
@@ -27,13 +30,13 @@ In the first part you'll learn how to create a new application and how to build 
 Getting started
 ===============
 
-The first step is to get a working qooxdoo application where we can start our development. You should already have the qooxdoo SDK and know how to use ``create-application.py``, so we just create an application called ``identica``.
+The first step is to get a working qooxdoo application where we can start our development. You should already have the qooxdoo SDK and know how to use ``create-application.py``, so we just create an application called ``tweets``.
 
 ::
 
-    create-application.py --name=identica
+    create-application.py --name=tweets
 
-After that, we should check if everything works as expected. Change the directory to identica and run ``./generate.py``. Now the skeleton application is ready to run and you can open the index file located in the ``source`` directory. After that, open the ``Application.js`` file located in ``source/class/identica/Application.js`` with your favorite editor and we are set up for development!
+After that, we should check that everything works as expected. Change the directory to tweets and run ``./generate.py``. Now the skeleton application is ready to run and you can open the index file located in the ``source`` directory. After that, open the ``Application.js`` file located in ``source/class/tweets/Application.js`` with your favorite editor and we are set up for development!
 
 You should see the unchanged skeleton code of the application containing the creation of a button. We don't need that anymore so you can delete it including all the listener stuff.
 
@@ -41,7 +44,7 @@ The first part is to create a Window. As the :doc:`Window </pages/widget/window>
 
 ::
 
-    qx.Class.define("identica.MainWindow",
+    qx.Class.define("tweets.MainWindow",
     {
       extend : qx.ui.window.Window,
 
@@ -56,7 +59,7 @@ To test the window, we need to create an instance of it in the main application.
 
 ::
 
-    var main = new identica.MainWindow();
+    var main = new tweets.MainWindow();
     main.open();
 
 Now its time to test the whole thing in the browser. But before we can do that, we need to run the generator once more because we added the window class as new dependency. So run ``./generate.py`` and open the page in the browser. You should see a window in the top left corner having the name "identi.ca".
@@ -95,6 +98,6 @@ At this point, your application should look like this.
 
 .. |step 1| image:: /pages/desktop/tutorials/step11.png
 
-Thats it for the first part. If you want to have the `code from the tutorial <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/identica/step1>`_, take a look at the project on github and just fork the project.
-The next part of the tutorial will contain the building of the rest of the UI. If you have feedback or want to see something special in further tutorials, just let us know!
+Thats it for the first part. If you want to have the `code from the tutorial <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step1>`_, take a look at the project at Github and just fork the project.
+The next part of the tutorial will contain the building the other parts of the UI. If you have feedback or want to see something special in further tutorials, just let us know!
 

@@ -3,7 +3,7 @@
 Tutorial Part 4.4: Unit Testing
 *********************************
 
-In this tutorial, we'll be taking a closer look at qooxdoo's integrated unit testing framework. Armed with this new knowledge, we'll then define a few unit tests for the identica application created in previous tutorials, generate the test runner application, and watch the tests in action. As usual, the code can be found on `GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/identica/step4.4>`_.
+In this tutorial, we'll be taking a closer look at qooxdoo's integrated unit testing framework. Armed with this new knowledge, we'll then define a few unit tests for the tweets application created in previous tutorials, generate the test runner application, and watch the tests in action. As usual, the code can be found on `GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.4>`_.
 
 Background
 ==========
@@ -20,7 +20,7 @@ The actual test code is contained in classes living within the namespace of the 
 
 ::
 
-  qx.Class.define("identica.test.DemoTest",
+  qx.Class.define("tweets.test.DemoTest",
   {
     extend : qx.dev.unit.TestCase,
   
@@ -66,28 +66,28 @@ qx.dev.unit.TestCase includes the assertion functions from `qx.core.Assert <http
 Building and running the test application
 =========================================
 
-In the top-level directory of the identica tutorial application, run ``generate.py test``. This command builds both a stand-alone application containing the test classes (the AUT, or "application under test") and the Testrunner GUI which loads the AUT in an Iframe and visualizes the results. Load the Testrunner by opening the file ``test/index.html`` in your favorite browser and click the "Run Tests" button.
+In the top-level directory of the tweets tutorial application, run ``generate.py test``. This command builds both a stand-alone application containing the test classes (the AUT, or "application under test") and the Testrunner GUI which loads the AUT in an Iframe and visualizes the results. Load the Testrunner by opening the file ``test/index.html`` in your favorite browser and click the "Run Tests" button.
 
 .. note::
 
     Some browsers, such as Google Chrome, severely restrict scripts from loading resources from the file system. In this case, the Testrunner should be loaded from a web server.
 
-|Testrunner displaying the results of identica.DemoTest|
+|Testrunner displaying the results of tweets.DemoTest|
 
-.. |Testrunner displaying the results of identica.DemoTest| image:: /pages/desktop/tutorials/tutorial_4_4-1.png
+.. |Testrunner displaying the results of tweets.DemoTest| image:: /pages/desktop/tutorials/tutorial_4_4-1.png
 
 Creating a new test class
 =========================
 
-Now that we've got the basics covered, let's create some more meaningful tests for our identica application, starting with the **identica.TweetView** class. As you'll remember from the previous tutorials, it's responsible for displaying a single Tweet along with the user's icon. To this end, it has a property named ``icon`` with an apply method that sets the ``source`` property on the TweetView's ``icon`` child control. Our test will check if the ``icon`` property value is correctly applied to the icon widget.
-First of all, create a corresponding class **identica.test.TweetView** in the ``source/class/identica/test`` directory. (We won't be needing the DemoTest class any more, so feel free to delete it.)
+Now that we've got the basics covered, let's create some more meaningful tests for our tweets application, starting with the **tweets.TweetView** class. As you'll remember from the previous tutorials, it's responsible for displaying a single Tweet along with the user's icon. To this end, it has a property named ``icon`` with an apply method that sets the ``source`` property on the TweetView's ``icon`` child control. Our test will check if the ``icon`` property value is correctly applied to the icon widget.
+First of all, create a corresponding class **tweets.test.TweetView** in the ``source/class/tweets/test`` directory. (We won't be needing the DemoTest class any more, so feel free to delete it.)
 
 ::
 
   /* ************************************************************************
-  #asset(identica/logo.png)
+  #asset(tweets/logo.png)
   ************************************************************************ */
-  qx.Class.define("identica.test.TweetView",
+  qx.Class.define("tweets.test.TweetView",
   {
     extend : qx.dev.unit.TestCase,
   
@@ -95,7 +95,7 @@ First of all, create a corresponding class **identica.test.TweetView** in the ``
     {
       setUp : function()
       {
-        this.__tweetView = new identica.TweetView();
+        this.__tweetView = new tweets.TweetView();
       },
   
       tearDown : function()
@@ -127,16 +127,16 @@ For cases where the generic class-wide ``tearDown`` isn't enough, methods using 
 The test function
 =================
 
-We need the URI of a valid image for this test, so we add an ``#asset`` hint to the class header that will cause the Generator to add the file ``source/class/identica/resource/logo.png`` to the AUT's resources. In the test function, we first ask qooxdoo's resource manager to resolve the resource ID into a valid URI. This is the expected value for the icon child control's ``source`` property. Next, we apply this value to the TweetView's ``icon`` property, then get the child control's ``source`` property and compare the two values using `assertEquals <http://demo.qooxdoo.org/current/apiviewer/#qx.core.Assert~assertEquals>`_.
+We need the URI of a valid image for this test, so we add an ``#asset`` hint to the class header that will cause the Generator to add the file ``source/class/tweets/resource/logo.png`` to the AUT's resources. In the test function, we first ask qooxdoo's resource manager to resolve the resource ID into a valid URI. This is the expected value for the icon child control's ``source`` property. Next, we apply this value to the TweetView's ``icon`` property, then get the child control's ``source`` property and compare the two values using `assertEquals <http://demo.qooxdoo.org/current/apiviewer/#qx.core.Assert~assertEquals>`_.
 
 OK, time to build the AUT again. This time, run ``generate.py test-source`` instead of ``test``. As you might expect, this will generate a source version of the AUT, which, like the source version of the actual application, is far better suited for development. Open the file ``test/index-source.html`` to load the Testrunner with the source tests.
 
 Asynchronous Tests
 ==================
 
-As with many GUI applications, the various components of the identica app use events to communicate. The ``identica.TweetService`` class, for example, has a method ``fetchTweets`` that causes a ``changeTweets`` event to fire once the data store has finished (re)loading. We can't know in advance just how long this takes, so we need some way to instruct the test to wait until the event fires. This is where asynchronous testing comes in.
+As with many GUI applications, the various components of the tweets app use events to communicate. The ``tweets.TweetService`` class, for example, has a method ``fetchTweets`` that causes a ``changeTweets`` event to fire once the data store has finished (re)loading. We can't know in advance just how long this takes, so we need some way to instruct the test to wait until the event fires. This is where asynchronous testing comes in.
 
-Once again, create a new test class named **identica.test.IdenticaService**. The ``setUp`` and ``tearDown`` methods are mostly identical to the ones from identica.test.TweetView, except of course they initialize/destroy an instance of identica.IdenticaService instead. Here's the actual test function:
+Once again, create a new test class named **tweets.test.IdenticaService**. The ``setUp`` and ``tearDown`` methods are mostly identical to the ones from tweets.test.TweetView, except of course they initialize/destroy an instance of tweets.IdenticaService instead. Here's the actual test function:
 
 ::
 

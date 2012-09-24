@@ -3,37 +3,32 @@
 Tutorial Part 4.1: Form Handling
 ********************************
 
-.. note::
+In the previous steps of this tutorial, we :doc:`laid the groundwork <tutorial-part-1>` for a tweets client application, gave it a :doc:`neat UI <tutorial-part-2>` and implemented a :doc:`communication layer <tutorial-part-3>`. One thing this application still lacks is a nice way for users to input their identica user name and password in order to post a status update. Fortunately, qooxdoo comes with a :doc:`forms API </pages/desktop/ui_form_handling>` that takes the pain out of creating form elements and handling user input.
 
-    This tutorial is outdated! identica changed its API and does not allow basic authentication anymore. Still, the qooxdoo part is valid and worth trying even if you can not access your friends timeline anymore.
-
-
-In the previous steps of this tutorial, we :doc:`laid the groundwork <tutorial-part-1>` for a identica client application, gave it a :doc:`neat UI <tutorial-part-2>` and implemented a :doc:`communication layer <tutorial-part-3>`. One thing this application still lacks is a nice way for users to input their identica user name and password in order to post a status update. Fortunately, qooxdoo comes with a :doc:`forms API </pages/desktop/ui_form_handling>` that takes the pain out of creating form elements and handling user input.
-
-Before we get started, make sure you're working on the version of the identica tutorial application tagged with `"Step 3" in the GitHub repository <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/identica/step3>`_. This includes the posting part of the communication layer that we'll be using in this tutorial.
+Before we get started, make sure you're working on the version of the tweets tutorial application tagged with `"Step 3" in the GitHub repository <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step3>`_. This includes the posting part of the communication layer that we'll be using in this tutorial.
 
 .. _pages/desktop/tutorials/tutorial-part-4-1#the_plan:
 
 The plan
 ========
 
-We want to create a new window with user name and password fields that pops up when the identica application starts. The values will be used to retrieve the user's list of Tweets. Seems simple enough, so let's get right down to business.
+We want to create a new window with user name and password fields that pops up when the tweets application starts. The values will be used to retrieve the user's list of Tweets. Seems simple enough, so let's get right down to business.
 
 .. _pages/desktop/tutorials/tutorial-part-4-1#creating_the_login_window:
 
 Creating the login window
 =========================
 
-We start by creating a new class called identica.LoginWindow that inherits from `qx.ui.window.Window <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.window.Window>`_, similar to the MainWindow class from the first part of this tutorial:
+We start by creating a new class called tweets.LoginWindow that inherits from `qx.ui.window.Window <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.window.Window>`_, similar to the MainWindow class from the first part of this tutorial:
 
 ::
 
-  qx.Class.define("identica.LoginWindow",
+  qx.Class.define("tweets.LoginWindow",
   {
     extend : qx.ui.window.Window,
     construct : function()
     {
-      this.base(arguments, "Login", "identica/logo.png");
+      this.base(arguments, "Login", "tweets/logo.png");
     }
   });
 
@@ -147,11 +142,11 @@ Now to integrate the login window with the other parts of the application. Ident
   },
 
 All that's left is to show the login window when the application is started and call ``fetchTweets`` with the information from the ``changeLoginData`` event.
-In the main application class, we'll create an instance of identica.LoginWindow, position it next to the MainWindow and open it:
+In the main application class, we'll create an instance of tweets.LoginWindow, position it next to the MainWindow and open it:
 
 ::
 
-  this.__loginWindow = new identica.LoginWindow();
+  this.__loginWindow = new tweets.LoginWindow();
   this.__loginWindow.moveTo(320,30);
   this.__loginWindow.open();
 
@@ -169,12 +164,12 @@ Note how all the other calls to ``service.fetchTweets`` can remain unchanged: By
 OK, time to run ``generate.py`` and load the application in a browser to make sure everything works like it's supposed to.
 
 
-|Identica client application with login window|
+|Tweets client application with login window|
 
-.. |Identica client application with login window| image:: /pages/desktop/tutorials/step41.png
+.. |Tweets client application with login window| image:: /pages/desktop/tutorials/step41.png
 
-Identica client application with login window
+Tweets client application with login window
 
 
-And that's it for the form handling chapter. As usual, you'll find the tutorial `code on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/identica/step4.1>`_. Watch out for the next chapter, which will focus on developing your own custom widgets.
+And that's it for the form handling chapter. As usual, you'll find the tutorial `code on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.1>`_. Watch out for the next chapter, which will focus on developing your own custom widgets.
 
