@@ -39,7 +39,30 @@ qx.Class.define("qx.ui.form.AbstractField",
   ],
   type : "abstract",
 
+  statics : {
+    __stylesheet : null,
 
+    __addPlaceholderRules : function(update) {
+      if (this.__stylesheet) {
+        return;
+      }
+      this.__stylesheet = qx.bom.Stylesheet.createElement();
+
+      var colorManager = qx.theme.manager.Color.getInstance();
+      var color = colorManager.resolve("text-placeholder");
+
+      if (qx.core.Environment.get("engine.name") == "gecko") {
+        var selector = "input:-moz-placeholder";
+        qx.bom.Stylesheet.addRule(this.__stylesheet, selector, "color: " + color + " !important");
+      } else if (qx.core.Environment.get("engine.name") == "webkit") {
+        selector = "input.qx-placeholder-color::-webkit-input-placeholder";
+        qx.bom.Stylesheet.addRule(this.__stylesheet, selector, "color: " + color);
+      } else if (qx.core.Environment.get("engine.name") == "mshtml") {
+        selector = "input.qx-placeholder-color:-ms-input-placeholder";
+        qx.bom.Stylesheet.addRule(this.__stylesheet, selector, "color: " + color + " !important");
+      }
+    }
+  },
 
   /*
   *****************************************************************************
@@ -55,9 +78,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     this.base(arguments);
 
     // shortcut for placeholder feature detection
-    this.__useQxPlaceholder = !qx.core.Environment.get("css.placeholder") ||
-              (qx.core.Environment.get("engine.name") == "gecko" &&
-               parseFloat(qx.core.Environment.get("engine.version")) >= 2);
+    this.__useQxPlaceholder = !qx.core.Environment.get("css.placeholder");
 
     if (value != null) {
       this.setValue(value);
@@ -71,6 +92,11 @@ qx.Class.define("qx.ui.form.AbstractField",
     if (this.__useQxPlaceholder) {
       // assign the placeholder text after the appearance has been applied
       this.addListener("syncAppearance", this._syncPlaceholder, this);
+    } else {
+      // add rules for native placeholder color
+      qx.ui.form.AbstractField.__addPlaceholderRules();
+      // add a class to the input to restict the placeholder color
+      this.getContentElement().setAttribute("class", "qx-placeholder-color");
     }
 
     // translation support
