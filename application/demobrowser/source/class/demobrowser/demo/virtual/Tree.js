@@ -16,13 +16,18 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-
+/**
+#asset(qx/icon/${qx.icontheme}/48/places/folder.png)
+ */
 qx.Class.define("demobrowser.demo.virtual.Tree",
 {
   extend : qx.application.Standalone,
 
   members :
   {
+    i: 0,
+    __store: null,
+
     main: function()
     {
       this.base(arguments);
@@ -38,9 +43,35 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       });
       container.add(tree);
 
+      // tree drag & drop
+      tree.setDroppable(true);
+      tree.setDraggable(true);
+      tree.addListener("dragstart", function(e) {
+        e.addType("item")
+        e.addAction("move");
+      });
+      tree.addListener("drop", function(e) {
+        var item = e.getOriginalTarget();
+        var model = item && item.getModel ? item.getModel() : store.getModel();
+
+        if (e.getCurrentAction() == "move"){
+          var newItem = tree.getSelection().getItem(0);
+          this.removeItem(store.getModel(), newItem);
+        } else {
+          var newItem = qx.data.marshal.Json.createModel({
+            "name": "New Item " + this.i++,
+            "children": []
+          });
+        }
+        if (model.getChildren) {
+          model.getChildren().push(newItem);
+        }
+      }, this);
+
       // loads the tree model
       var url = "json/tree.json";
       var store = new qx.data.store.Json(url);
+      this.__store = store;
 
       // connect the store and the tree
       store.bind("model", tree, "model");
@@ -50,13 +81,25 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
         tree.openNode(tree.getModel().getChildren().getItem(0));
       }, this);
 
-
-      /* ***********************************************
-       * Controlls:
-       * ********************************************* */
       var commandFrame = this.getCommandFrame(tree);
       container.add(commandFrame);
     },
+
+
+    removeItem : function(root, item) {
+      if (!root.getChildren || root == item) {
+        return;
+      }
+      var children = root.getChildren();
+      for (var i=0; i < children.length; i++) {
+        if (children.getItem(i) == item) {
+          children.remove(item);
+          return;
+        }
+        this.removeItem(children.getItem(i), item);
+      };
+    },
+
 
     getCommandFrame : function(tree)
     {
@@ -187,6 +230,16 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
 
       var vToggleHeight = new qx.ui.form.Button("Toggle Height");
       commandFrame.add(vToggleHeight, {row: row++, column: 1});
+
+      var ddImg = new qx.ui.basic.Image("icon/48/places/folder.png");
+      ddImg.setDraggable(true);
+      ddImg.addListener("dragstart", function(e) {
+        e.addType("item")
+        e.addAction("copy");
+      });
+      commandFrame.add(new qx.ui.basic.Label("Drag me:"), {row: row, column: 0});
+      commandFrame.add(ddImg, {row: row++, column: 1});
+
 
       var grow = true;
       vToggleHeight.addListener("execute", function(e) {
