@@ -338,6 +338,12 @@ qx.Class.define("demobrowser.DemoBrowser",
     __openWindow : function()
     {
       var sampUrl = this._iframe.getSource();
+      // remove th query params
+      sampUrl = sampUrl.substr(0, sampUrl.indexOf("?"));
+      // add the current theme as env setting
+      if (qx.core.Environment.get("qx.contrib") == false) {
+        sampUrl += "?qxenv:qx.theme:" + this.__currentTheme;
+      }
       window.open(sampUrl, "_blank");
     },
 
@@ -1102,9 +1108,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         treeNode.getTree().setSelection([treeNode]);
         url = 'demo/' + value;
         if (qx.core.Environment.get("qx.contrib") == false) {
-          url += "?qx.theme=" + this.__currentTheme;
+          url += "?qxenv:qx.theme:" + this.__currentTheme;
         }
-
         var currentTags = treeNode.getUserData("tags");
         if (currentTags) {
           this.__playgroundButton.setEnabled(!qx.lang.Array.contains(currentTags, "noPlayground"));
