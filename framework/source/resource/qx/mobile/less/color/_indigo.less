@@ -236,7 +236,7 @@ ul li.active {
 .popupAnchorPointerTop:before
 {
   @arrow-color:@title-background-gradient-1;
-  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50%, 51%);
+  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50.9%, 51%);
 
   .arrow();
 }
@@ -245,7 +245,7 @@ ul li.active {
 .popupAnchorPointerLeft:before, .popupAnchorPointerRight:before, .popupAnchorPointerBottom:after
 {
   @arrow-color:@title-background-gradient-2;
-  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50%, 51%);
+  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50.9%, 51%);
 
   .arrow();
 }
@@ -380,6 +380,8 @@ input[type="checkbox"] + label {
     position:relative;
     .border-radius(.3em);
     border:@border-thickness solid @dark-grey;
+
+    box-sizing:border-box;
     background-color: #929292;
     background: -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
     background: -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
@@ -420,6 +422,10 @@ input[type="checkbox"]:checked + label:after {
 input[type=radio] + label {
     #gradient > .vertical(@button-color, darken(@button-color, 20%));
     border: @border-thickness solid darken(@border-color, 40%);
+    box-sizing:border-box;
+
+    width: 30px;
+    height: 30px;
 }
 
 

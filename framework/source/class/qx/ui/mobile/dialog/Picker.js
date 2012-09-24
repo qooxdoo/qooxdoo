@@ -85,7 +85,11 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     
     this.__transformPropertyName = qx.bom.Style.getPropertyName("transform");
     this.__transitionDurationPropertyName = qx.bom.Style.getPropertyName("transition-duration");
-    
+
+    if(!this.__transitionDurationPropertyName) {
+      this.__transitionDurationPropertyName = "transition-duration";
+    }
+
     if(anchor) {
       this.setModal(false);
     } 

@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * Adds a separation line into the form.
      */
     _addSeparationRow : function() {
-      var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
+      var row = new qx.ui.mobile.form.Row();
       row.addCssClass("formSeparationRow")
       this._add(row);
       this.__rows.push(row);

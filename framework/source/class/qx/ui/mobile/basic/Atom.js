@@ -328,6 +328,8 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       if(icon)
       {  
         this.setIcon(icon);
+      } else {
+        this.__icon.exclude();
       }
 
       var layout;
