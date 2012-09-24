@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.form.AbstractField",
   members :
   {
     __nullValue : true,
-    __placeholder : null,
+    _placeholder : null,
     __oldValue : null,
     __oldInputValue : null,
     __useQxPlaceholder : true,
@@ -735,7 +735,6 @@ qx.Class.define("qx.ui.form.AbstractField",
      *
      * @param start {Integer} start of the selection (zero-based)
      * @param end {Integer} end of the selection
-     * @return {void}
      */
     setTextSelection : function(start, end) {
       this.getContentElement().setTextSelection(start, end);
@@ -747,7 +746,6 @@ qx.Class.define("qx.ui.form.AbstractField",
      * This method only works if the widget is already created and
      * added to the document.
      *
-     * @return {void}
      */
     clearTextSelection : function() {
       this.getContentElement().clearTextSelection();
@@ -757,7 +755,6 @@ qx.Class.define("qx.ui.form.AbstractField",
     /**
      * Selects the whole content
      *
-     * @return {void}
      */
     selectAllText : function() {
       this.setTextSelection(0);
@@ -826,19 +823,21 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     __getPlaceholderElement : function()
     {
-      if (this.__placeholder == null) {
+      if (this._placeholder == null) {
         // create the placeholder
-        this.__placeholder = new qx.html.Label();
+        this._placeholder = new qx.html.Label();
         var colorManager = qx.theme.manager.Color.getInstance();
-        this.__placeholder.setStyles({
+        this._placeholder.setStyles({
           "visibility" : "hidden",
           "zIndex" : 6,
           "position" : "absolute",
-          "color" : colorManager.resolve("text-placeholder")
+          "color" : colorManager.resolve("text-placeholder"),
+          "whiteSpace": "normal" // enable wrap by default
         });
-        this.getContainerElement().add(this.__placeholder);
+
+        this.getContainerElement().add(this._placeholder);
       }
-      return this.__placeholder;
+      return this._placeholder;
     },
 
 
@@ -926,7 +925,7 @@ qx.Class.define("qx.ui.form.AbstractField",
   */
   destruct : function()
   {
-    this.__placeholder = this.__font = null;
+    this._placeholder = this.__font = null;
 
     if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
