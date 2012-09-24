@@ -177,7 +177,7 @@ Another nice tweak could be a identica logo in the windows caption bar. Just dow
 
 ::
 
-    this.base(arguments, "identi.ca", "tweets/logo.png");
+    this.base(arguments, "tweets", "tweets/logo.png");
 
 This time, we added a new reference to an image. Like with class dependencies, we need to run the generator once more. After that, the image should be in the windows caption bar.
 

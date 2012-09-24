@@ -50,7 +50,7 @@ The first part is to create a Window. As the :doc:`Window </pages/widget/window>
 
         construct : function()
         {
-          this.base(arguments, "identi.ca");
+          this.base(arguments, "tweets");
         }
     });
 
@@ -62,7 +62,7 @@ To test the window, we need to create an instance of it in the main application.
     var main = new tweets.MainWindow();
     main.open();
 
-Now its time to test the whole thing in the browser. But before we can do that, we need to run the generator once more because we added the window class as new dependency. So run ``./generate.py`` and open the page in the browser. You should see a window in the top left corner having the name "identi.ca".
+Now its time to test the whole thing in the browser. But before we can do that, we need to run the generator once more because we added the window class as new dependency. So run ``./generate.py`` and open the page in the browser. You should see a window in the top left corner having the name "tweets".
 
 .. _pages/tutorial-part-1#programming_as_configuring:
 
