@@ -502,6 +502,11 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
   destruct : function()
   {
+    // remove dynamic theme listener
+    qx.theme.manager.Appearance.getInstance().removeListener(
+      "changeTheme", this.__linkColors, this
+    );
+
     var name;
 
     for (name in this.__renderers)
@@ -562,12 +567,5 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       "__layout",
       "__defaultCellRenderer",
       "__columnData");
-  },
-
-  destruct : function() {
-    // remove dynamic theme listener
-    qx.theme.manager.Appearance.getInstance().removeListener(
-      "changeTheme", this.__linkColors, this
-    );
   }
 });
