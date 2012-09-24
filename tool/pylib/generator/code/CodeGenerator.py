@@ -1265,9 +1265,11 @@ class CodeGenerator(object):
     def packagesI18NInfo(self, script, addUntranslatedEntries=False):
 
         def printStats(statsObj):
+            skip_locales = self._job.get("log/translations/untranslated-keys/skip-locales", [])
             self._console.debug("Untranslated entries per locale:")
             self._console.indent()
             for locale, data in statsObj.stats.items():
+                if locale in skip_locales: continue
                 self._console.nl()
                 self._console.debug(
                     "%s:\t untranslated entries: %3d%% (%d/%d)" % (locale, 100*len(data['untranslated'])/data['total'], 
