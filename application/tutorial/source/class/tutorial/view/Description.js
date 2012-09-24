@@ -129,10 +129,10 @@ qx.Class.define("tutorial.view.Description",
       next.setIconPosition("right");
 
       // constant width for all buttons
-      pref.setWidth(100);
-      update.setWidth(100);
-      run.setWidth(100);
-      next.setWidth(100);
+      pref.setWidth(90);
+      update.setWidth(90);
+      run.setWidth(90);
+      next.setWidth(90);
 
       // align text middle
       pref.setCenter(true);

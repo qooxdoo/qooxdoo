@@ -39,6 +39,7 @@ qx.Class.define("tutorial.Application",
     __editor : null,
     __description : null,
     __selectionWindow : null,
+    __actionArea : null,
 
     __desktopTutorials : ["Hello_World", "Single_Value_Binding"],
     __mobileTutorials : ["Hello_World"],
@@ -72,7 +73,7 @@ qx.Class.define("tutorial.Application",
       mainComposite.add(this.__header);
 
       // create the content
-      var content = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
+      var content = new qx.ui.splitpane.Pane();
       content.setAppearance("app-splitpane");
       content.setPaddingTop(10);
       mainComposite.add(content, {flex: 1});
@@ -80,18 +81,17 @@ qx.Class.define("tutorial.Application",
       this.__description = new tutorial.view.Description();
       this.__description.addListener("run", this.run, this);
       this.__description.addListener("update", this.updateEditor, this);
-      content.add(this.__description, {width: "50%"});
+      content.add(this.__description, 1);
 
-      var actionArea = new qx.ui.container.Composite();
-      actionArea.setLayout(new qx.ui.layout.VBox(10));
-
+      var actionArea = new qx.ui.splitpane.Pane();
+      this.__actionArea = actionArea;
       this.__editor = new playground.view.Editor();
-      actionArea.add(this.__editor, {height: "50%"});
+      actionArea.add(this.__editor);
 
       this.__playArea = new playground.view.PlayArea();
       this.__playArea.setBackgroundColor("white");
 
-      actionArea.add(this.__playArea, {flex: 1});
+      actionArea.add(this.__playArea);
       this.__playArea.updateCaption("");
       this.__playArea.addListener("toggleMaximize", function(e) {
         if (!this.__editor.isExcluded()) {
@@ -103,7 +103,7 @@ qx.Class.define("tutorial.Application",
         }
       }, this);
 
-      content.add(actionArea, {flex: 1});
+      content.add(actionArea, 3);
 
       // set the blocker color
       this.getRoot().setBlockerColor("rgba(0, 0, 0, 0.35)")
@@ -184,6 +184,7 @@ qx.Class.define("tutorial.Application",
         this.__description.setTutorial(tutorial);
         this.__playArea.updateCaption(name.replace(/_/g, " ") + " (" + type + ")");
         this.__playArea.setMode(type !== "desktop" ? "mobile" : "ria")
+        this.__actionArea.setOrientation(type == "desktop" ? "vertical" : "horizontal");
       }, this);
       req.send();
     },
@@ -202,6 +203,7 @@ qx.Class.define("tutorial.Application",
       });
       return tut;
     },
+
 
     loadAce : function(clb, ctx) {
       var resource = [
