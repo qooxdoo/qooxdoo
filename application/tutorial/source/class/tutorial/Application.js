@@ -125,24 +125,39 @@ qx.Class.define("tutorial.Application",
 
       this.__selectionWindow.open();
       this.render();  // make sure the DOM object is available for the fade
-      this.__selectionWindow.getContainerElement().fadeIn(200);
+      this.__selectionWindow.fadeIn(300);
     },
 
 
     __onChangeTutorial : function(e) {
-      this.loadTutorial(e.getData().name, e.getData().type)
+      this.loadTutorial(e.getData().name, e.getData().type);
+      this.__editor.setCode("");
+      this.run();
     },
 
 
     updateEditor : function(e) {
-      if (!confirm("Is it ok to replace the current code in the editor?")) {
-        return;
-      }
       var code = e.getData().toString();
-      code = code.substring(14, code.length -8);
-      code = code.replace(/ {4}/g, "");
-      this.__editor.setCode(code);
-      this.run();
+      this.confirm("Is it ok to replace the current code in the editor?", function(ok) {
+        if (ok.getData()) {
+          code = code.substring(14, code.length -8);
+          code = code.replace(/ {4}/g, "");
+          this.__editor.setCode(code);
+          this.run();
+        }
+      }, this);
+    },
+
+
+    confirm : function(text, callback, ctx) {
+      if (!this.__confirmWindow) {
+        this.__confirmWindow = new tutorial.view.Confirm();
+      }
+      this.__confirmWindow.setMessage(text);
+      this.__confirmWindow.open();
+      this.render();
+      this.__confirmWindow.fadeIn(300);
+      this.__confirmWindow.addListenerOnce("confirm", callback, ctx);
     },
 
 

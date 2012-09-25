@@ -63,7 +63,9 @@ qx.Class.define("tutorial.view.SelectionWindow",
         this.add(button, {row: i + 1, column: 0});
         button.addListener("execute", (function(name) {
           this.fireDataEvent("changeTutorial", {name: name, type: "desktop"});
-          this.close();
+          this.fadeOut(300).on("end", function() {
+            this.close();
+          }, this);
         }).bind(this, desktopTutorials[i]));
       };
 
@@ -74,7 +76,9 @@ qx.Class.define("tutorial.view.SelectionWindow",
         this.add(button, {row: i + 1, column: 1});
         button.addListener("execute", (function(name) {
           this.fireDataEvent("changeTutorial", {name: name, type: "mobile"});
-          this.close();
+          this.fadeOut(300).on("end", function() {
+            this.close();
+          }, this);
         }).bind(this, mobileTutorials[i]));
       };
     }
