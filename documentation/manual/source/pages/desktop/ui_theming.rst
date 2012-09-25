@@ -119,7 +119,7 @@ In a decoration theme you can use several different decorators depending on the 
 
 .. note::
 
-    It is recommend to define the decorations inside the theme instead of creating manually decorator instances inside your application code. This way the created decorators can be used by multiple widgets.
+    It is recommended to define the decorations inside the theme instead of creating manually decorator instances inside your application code. This way the created decorators can be used by multiple widgets.
 
 What a decoration theme can look like:
 
