@@ -80,6 +80,7 @@ qx.Class.define("playground.view.Editor",
     __highlighted : null,
     __editor : null,
     __ace : null,
+    __errorLabel : null,
 
     /**
      * The constructor was spit up to make the included mixin available during
@@ -104,14 +105,18 @@ qx.Class.define("playground.view.Editor",
       this.setDecorator("main");
 
       // caption
-      var caption = new qx.ui.basic.Label(this.tr("Source Code")).set({
-        font       : "bold",
+      var caption = new qx.ui.container.Composite().set({
         padding    : 5,
         allowGrowX : true,
         allowGrowY : true,
         backgroundColor: "white"
       });
       this.add(caption);
+      // configure caption
+      caption.setLayout(new qx.ui.layout.HBox(10));
+      caption.add(new qx.ui.basic.Label(this.tr("Source Code")).set({font: "bold"}));
+      this.__errorLabel = new qx.ui.basic.Label().set({textColor: "red"});
+      caption.add(this.__errorLabel);
 
       // plain text area
       this.__textarea = new qx.ui.form.TextArea().set({
@@ -221,6 +226,15 @@ qx.Class.define("playground.view.Editor",
         this.__ace.selection.moveCursorFileStart();
       }
       this.__textarea.setValue(code);
+    },
+
+
+    /**
+     * Displays the given error in the caption bar.
+     * @param ex {Exception} The exception to display.
+     */
+    setError : function(ex) {
+      this.__errorLabel.setValue(ex ? ex.toString() : "");
     },
 
 

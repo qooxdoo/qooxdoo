@@ -166,8 +166,10 @@ qx.Class.define("tutorial.Application",
       }
       if (exc) {
         this.__editor.setBackgroundColor("#FFF0F0");
+        this.__editor.setError(exc);
         this.error(exc);
       } else {
+        this.__editor.setError();
         this.__editor.setBackgroundColor("white");
       }
     },
