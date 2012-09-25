@@ -1570,20 +1570,22 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Fade out this widget.
+     * @param duration {Number} Time in ms.
      * @return {qx.bom.element.AnimationHandle} The animation handle to react for
      *   the fade animation.
      */
-    fadeOut : function() {
-      return this.getContainerElement().fadeOut();
+    fadeOut : function(duration) {
+      return this.getContainerElement().fadeOut(duration);
     },
 
     /**
      * Fade in the widget.
+     * @param duration {Number} Time in ms.
      * @return {qx.bom.element.AnimationHandle} The animation handle to react for
      *   the fade animation.
      */
-    fadeIn : function() {
-      return this.getContainerElement().fadeIn();
+    fadeIn : function(duration) {
+      return this.getContainerElement().fadeIn(duration);
     },
 
 

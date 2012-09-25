@@ -1552,10 +1552,11 @@ qx.Class.define("qx.html.Element",
     */
     /**
      * Fades in the element.
+     * @param duration {Number} Time in ms.
      * @return {qx.bom.element.AnimationHandle} The animation handle to react for
      *   the fade animation.
      */
-    fadeIn : function() {
+    fadeIn : function(duration) {
       var col = qxWeb(this.__element);
       if (col.isPlaying()) {
         col.stop();
@@ -1566,7 +1567,7 @@ qx.Class.define("qx.html.Element",
         col[0] = this.__element;
       }
       if (this.__element) {
-        col.fadeIn();
+        col.fadeIn(duration);
         return col.getAnimationHandles()[0];
       }
     },
@@ -1574,17 +1575,18 @@ qx.Class.define("qx.html.Element",
 
     /**
      * Fades out the element.
+     * @param duration {Number} Time in ms.
      * @return {qx.bom.element.AnimationHandle} The animation handle to react for
      *   the fade animation.
      */
-    fadeOut : function() {
+    fadeOut : function(duration) {
       var col = qxWeb(this.__element);
       if (col.isPlaying()) {
         col.stop();
       }
 
       if (this.__element) {
-        col.fadeOut().once("animationEnd", function() {
+        col.fadeOut(duration).once("animationEnd", function() {
           this.hide();
           qx.html.Element.flush();
         }, this);
