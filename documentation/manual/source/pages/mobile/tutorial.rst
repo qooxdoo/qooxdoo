@@ -3,7 +3,7 @@ Tutorial: Creating a Tweets Client with qooxdoo mobile
 
 In this tutorial you will learn how to create a simple tweets app with the `qooxdoo mobile`_ widgets.
 
-`identica <http://identi.ca>`_ is a twitter-like service for reading and posting public short messages - called "tweets". It has a `twitter-compatible API <http://status.net/wiki/Twitter-compatible_API>`_ for accessing data. 
+`identica <http://identi.ca>`_ is a twitter-like service for reading and posting public short messages - called "tweets". It has a `twitter-compatible API <http://status.net/wiki/Twitter-compatible_API>`_ for accessing data.
 
 `Twitter <http://twitter.com>`_ itself made its authorization scheme more complex, as it starts requiring OAuth even to read public tweets. For this basic tutorial it would be too complex to handle such advanced authorization. If your are interested in OAuth, check out how you could handle that in a qooxdoo app by looking at the `Github demo <http://demo.qooxdoo.org/%{version}/demobrowser/#data~Github.html>`_.
 
@@ -582,7 +582,6 @@ mobile applications work on Android and iOS devices.
 
 :doc:`%{Mobile} Deployment with Apache Cordova <deployment>`
 
-.. _Identica: http://identi.ca/
 .. _qooxdoo mobile: http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile
 .. _here: https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/mobiletweets
 .. _tool chain: http://manual.qooxdoo.org/%{version}/pages/tool.html
