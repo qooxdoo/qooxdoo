@@ -41,7 +41,6 @@ from ecmascript.backend.Packer      import Packer
 from ecmascript.backend             import formatter
 from ecmascript.frontend import tokenizer, treeutil
 from ecmascript.frontend import treegenerator
-#from ecmascript.frontend import treegenerator_new_ast as treegenerator
 from ecmascript.transform.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variableoptimizer, variantoptimizer, inlineoptimizer
 from ecmascript.backend import api
 from misc import filetool

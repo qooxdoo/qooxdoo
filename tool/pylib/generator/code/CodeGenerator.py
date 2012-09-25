@@ -747,7 +747,6 @@ class CodeGenerator(object):
             else:
                 if num_proc == 0:
                     for clazz in classList:
-                        #code = clazz.getCode(compConf, treegen=treegenerator_new_ast) # choose parser frontend
                         code = clazz.getCode(compConf, treegen=treegenerator, featuremap=script._featureMap) # choose parser frontend
                         result.append(code)
                         log_progress()
