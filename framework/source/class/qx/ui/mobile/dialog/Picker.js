@@ -25,10 +25,7 @@
  * The picker widget is able to display multiple picker slots, for letting the user choose
  * several values at one time, in one single dialog.
  * 
- * The selectable value array are passed to this widget through a multi-dimensional {@link qx.data.Array}.
- *
- * The first dimension of the array contains information about the order of the slots. The second dimension arrays
- * contain the selectable values.
+ * The selectable value array is passed to this widget through a {@link qx.data.Array} which represents one picker slot.
  *
  * *Example*
  *
@@ -38,10 +35,11 @@
  *
  * var pickerSlot1 = new qx.data.Array(["qx.Desktop", "qx.Mobile", "qx.Website","qx.Server"]);
  * var pickerSlot2 = new qx.data.Array(["1.8", "2.0", "2.0.1", "2.0.2", "2.1","2.2"]);
- * var pickerModel = new qx.data.Array([pickerSlot1,pickerSlot2]);
  * 
- * var picker = new qx.ui.mobile.dialog.Picker(pickerModel);
+ * var picker = new qx.ui.mobile.dialog.Picker();
  * picker.setTitle("Picker");
+ * picker.addSlot(pickerSlot1);
+ * picker.addSlot(pickerSlot2);
  *     
  * var showPickerButton = new qx.ui.mobile.form.Button("Show Picker");
  * showPickerButton.addListener("tap", picker.show, picker); 
@@ -66,12 +64,14 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
   extend : qx.ui.mobile.dialog.Dialog,
 
   /**
-   * @param model {qx.data.Array ? null} The model which is used to render the pickers slots.
    * @param anchor {qx.ui.mobile.core.Widget ? null} The anchor widget for this item. If no anchor is available,
    *       the menu will be displayed modal and centered on screen.
    */
-  construct : function(model, anchor)
+  construct : function(anchor)
   {
+    
+    this.__pickerModel = new qx.data.Array();
+    
     this.__pickerContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
     this.__pickerContainer.addCssClass("picker-container");
     
@@ -93,10 +93,6 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     if(anchor) {
       this.setModal(false);
     } 
-    
-    if(model) {
-      this.setModel(model);
-    }
     
     this.base(arguments, this.__pickerContent, anchor) ;
   },
@@ -136,19 +132,6 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     {
       refine : true,
       init : "picker"
-    },
-    
-    
-    /**
-     * The model which is used to render the pickers slots.
-     */
-    model :
-    {
-      check : "qx.data.Array",
-      apply : "_applyModel",
-      event: "changeModel",
-      nullable : true,
-      init : null
     }
   },
 
@@ -161,6 +144,8 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
   members :
   {
+    // The model which is used to render the pickers slots.
+    __pickerModel : null,
     __pickerConfirmButton : null,
     __pickerContainer : null,
     __pickerContent : null,
@@ -217,6 +202,43 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       if(this.__pickerConfirmButton) {
         this.__pickerConfirmButton.setValue(caption);
       }
+    },
+    
+    
+    /**
+     * Adds an picker slot to the end of the array.
+     * @param slotData {qx.data.Array} the picker slot data to display.
+     */
+    addSlot : function(slotData) {
+      if(slotData != null && slotData instanceof qx.data.Array) {
+        this.__pickerModel.push(slotData);
+        slotData.addListener("changeBubble",this._render,this);
+        this._render();
+      }
+    },
+    
+    
+    /**
+     * Removes the pickerSlot at the given slotIndex.
+     * @param slotIndex {Integer} the index of the target picker slot.
+     */
+    removeSlot : function(slotIndex) {
+      if(this.__pickerModel.getLength() > slotIndex && slotIndex > -1){
+        var slotData = this.__pickerModel.getItem(slotIndex);
+        slotData.removeListener("changeBubble",this._render,this);
+         
+        this.__pickerModel.removeAt(slotIndex);
+        this._render();
+      }
+    },
+    
+    
+    /**
+     * Returns the picker slot count, added to this picker.
+     * @return {Integer} count of picker slots.
+     */
+    getSlotCount : function() {
+      return this.__pickerModel.getLength();
     },
     
     
@@ -292,7 +314,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
      */
     _getModelByElement : function(contentElement) {
       var slotIndex = this._getSlotIndexByElement(contentElement);
-      return this.getModel().getItem(slotIndex);
+      return this.__pickerModel.getItem(slotIndex);
     },
     
     
@@ -300,7 +322,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
      * Collects data for the "confirmSelection" event and fires it.
      */
     _fireConfirmSelection : function() {
-      var model = this.getModel();
+      var model = this.__pickerModel;
       var slotCounter = (model ? model.getLength() : 0);
       
       var selectionData = [];
@@ -472,7 +494,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         this.__selectedIndex = {};
       }
       
-      var model = this.getModel();
+      var model = this.__pickerModel;
       var slotCounter = (model ? model.getLength() : 0);
       
       for (var slotIndex = 0; slotIndex < slotCounter; slotIndex++) {
@@ -529,12 +551,6 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       pickerLabel.addCssClass("picker-label");
     
       return pickerLabel;
-    },
-    
-    
-    // property apply
-    _applyModel : function(value, old) {
-      this._render();
     }
   },
 
@@ -546,7 +562,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
   destruct : function()
   {
-    this._disposeObjects("__pickerContainer", "__pickerConfirmButton","__pickerContent");
+    this._disposeObjects("__pickerModel","__pickerContainer", "__pickerConfirmButton","__pickerContent");
   }
 
 });

@@ -104,9 +104,10 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var pickerSlot1 = new qx.data.Array(["qx.Desktop", "qx.Mobile", "qx.Website","qx.Server"]);
       var pickerSlot2 = new qx.data.Array(["1.8", "2.0", "2.0.1", "2.0.2", "2.1","2.2"]);
 
-      var pickerModel = new qx.data.Array([pickerSlot1,pickerSlot2]);
-      this.__picker = new qx.ui.mobile.dialog.Picker(pickerModel,showPickerButton);
+      this.__picker = new qx.ui.mobile.dialog.Picker(showPickerButton);
       this.__picker.setTitle("Picker");
+      this.__picker.addSlot(pickerSlot1);
+      this.__picker.addSlot(pickerSlot2);
       
       // ANCHORED MENU DIALOG
       var showAnchorMenuButton = new qx.ui.mobile.form.Button("Show Anchor Menu");
