@@ -1000,7 +1000,7 @@ Keys are:
 
 * **general** : General settings.
 
-  * **indent-string** : "<whitespace_string>", e.g. "\t" for tab (default: "  " (2 spaces))
+  * **indent-string** : "<whitespace_string>", e.g. "\\t" for tab (default: "  " (2 spaces))
 
 * **comments** : Settings for pretty-printing comments.
 

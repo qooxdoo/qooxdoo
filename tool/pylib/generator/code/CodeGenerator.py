@@ -33,6 +33,7 @@ from generator.action           import Locale
 import generator.resource.Library # just need the .Library type
 from ecmascript.frontend        import tokenizer, treegenerator, treegenerator_2
 from ecmascript.backend         import pretty
+from ecmascript.backend         import formatter
 #from ecmascript.backend         import pretty_new as pretty
 from ecmascript.backend.Packer  import Packer
 from ecmascript.transform.optimizer    import privateoptimizer
@@ -1035,9 +1036,11 @@ class CodeGenerator(object):
         numClasses = len(classesObj)
         for pos, classId in enumerate(classesObj):
             self._console.progress(pos+1, numClasses)
-            tree = classesObj[classId].tree(treegenerator_2)
+            #tree = classesObj[classId].tree(treegenerator_2)
+            tree = classesObj[classId].tree()
             result = [u'']
-            result = pretty.prettyNode(tree, options, result)
+            #result = pretty.prettyNode(tree, options, result)
+            result = formatter.formatNode(tree, options, result)
             compiled = u''.join(result)
             filetool.save(self._classes[classId].path, compiled)
 

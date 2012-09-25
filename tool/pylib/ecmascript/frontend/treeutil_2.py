@@ -484,7 +484,7 @@ def compileString(jsString, uniqueId=""):
     """
     Compile a string containing a JavaScript fragment into a syntax tree.
     """
-    return treegenerator.createSyntaxTree(tokenizer.parseStream(jsString, uniqueId)).getFirstChild()
+    return treegenerator.createFileTree(tokenizer.parseStream(jsString, uniqueId)).getFirstChild()
 
 
 def variableOrArrayNodeToArray(node):
