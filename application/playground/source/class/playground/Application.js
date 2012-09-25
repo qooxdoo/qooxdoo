@@ -189,7 +189,9 @@ qx.Class.define("playground.Application",
       this.__editor.addListener("disableHighlighting", function() {
         this.__toolbar.enableHighlighting(false);
       }, this);
-      this.__editor.init();
+      playground.view.Editor.loadAce(function() {
+        this.init();
+      }, this);
 
       this.__editorsplit.add(this.__samplesPane, 1);
       this.__editorsplit.add(this.__editor, 4);
@@ -215,8 +217,12 @@ qx.Class.define("playground.Application",
     },
 
 
-    // overridden
-    finalize: function() {
+    /**
+     * Initialization after the external editor has been loaded.
+     */
+    init: function() {
+      this.__editor.init();
+
       // check if mobile chould be used
       if (this.__supportsMode("mobile")) {
         // check for the mode cookie

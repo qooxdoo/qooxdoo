@@ -59,10 +59,6 @@ qx.Class.define("tutorial.Application",
         qx.log.appender.Console;
       }
 
-      this.loadAce(function() {
-        this.__editor.init();
-      }, this);
-
       // Create main layout
       var mainComposite = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       this.getRoot().add(mainComposite, {edge:0});
@@ -87,6 +83,9 @@ qx.Class.define("tutorial.Application",
       this.__actionArea = actionArea;
       this.__editor = new playground.view.Editor();
       actionArea.add(this.__editor);
+      playground.view.Editor.loadAce(function() {
+        this.__editor.init();
+      }, this);
 
       this.__playArea = new playground.view.PlayArea();
       this.__playArea.setBackgroundColor("white");
@@ -202,30 +201,6 @@ qx.Class.define("tutorial.Application",
         tut.steps.push(q(item).getHtml());
       });
       return tut;
-    },
-
-
-    loadAce : function(clb, ctx) {
-      var resource = [
-        "playground/editor/ace.js", 
-        "playground/editor/theme-eclipse.js", 
-        "playground/editor/mode-javascript.js"
-      ];
-      var load = function(list) {
-        if (list.length == 0) {
-          clb.call(ctx);
-          return;
-        }
-        var res = list.shift();
-        var uri = qx.util.ResourceManager.getInstance().toUri(res);
-        var loader = new qx.bom.request.Script();
-        loader.onload = function() {
-          load(list);
-        };
-        loader.open("GET", uri);
-        loader.send();
-      }
-      load(resource);
     }
   }
 });

@@ -33,6 +33,31 @@ qx.Class.define("playground.view.Editor",
   extend : qx.ui.container.Composite,
   include : qx.ui.core.MBlocker,
 
+  statics : {
+    loadAce : function(clb, ctx) {
+      var resource = [
+        "playground/editor/ace.js", 
+        "playground/editor/theme-eclipse.js", 
+        "playground/editor/mode-javascript.js"
+      ];
+      var load = function(list) {
+        if (list.length == 0) {
+          clb.call(ctx);
+          return;
+        }
+        var res = list.shift();
+        var uri = qx.util.ResourceManager.getInstance().toUri(res);
+        var loader = new qx.bom.request.Script();
+        loader.onload = function() {
+          load(list);
+        };
+        loader.open("GET", uri);
+        loader.send();
+      }
+      load(resource);
+    }
+  },
+
 
   construct : function()
   {
