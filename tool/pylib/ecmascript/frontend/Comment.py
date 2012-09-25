@@ -202,11 +202,11 @@ class Comment(object):
     def correctBlock(self):
         source = self.string
         if not self.getFormat() in ["javadoc", "qtdoc"]:
-            if R_BLOCK_COMMENT_TIGHT_START.search(self.string):
-                source = R_BLOCK_COMMENT_PURE_START.sub("/* ", self.string)
+            if R_BLOCK_COMMENT_TIGHT_START.search(source):
+                source = R_BLOCK_COMMENT_PURE_START.sub("/* ", source)
 
             if R_BLOCK_COMMENT_TIGHT_END.search(source):
-                source = R_BLOCK_COMMENT_PURE_END.sub(" */", self.string)
+                source = R_BLOCK_COMMENT_PURE_END.sub(" */", source)
 
         return source
 

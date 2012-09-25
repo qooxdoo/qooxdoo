@@ -987,7 +987,7 @@ def ifix(self, left):
     advance("]")
     return accessor
 
-@method(symbol("["))
+@method(symbol("["))             # "[1, 2, 3]"
 def pfix(self):
     arr = symbol("array")()
     self.patch(arr)

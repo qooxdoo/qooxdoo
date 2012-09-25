@@ -187,7 +187,7 @@ def parseStream(content, uniqueId=""):
                             token['end'] = False
                         if token['begin']:
                             token['source'] = Comment.Text(token['source']).outdent(column - 1)
-                        token['source'] = Comment.Comment(token['source']).correct()
+                        #token['source'] = Comment.Comment(token['source']).correct()
                         if token['end'] and not token['begin']:
                             token['connection'] = "after"
                         else:
