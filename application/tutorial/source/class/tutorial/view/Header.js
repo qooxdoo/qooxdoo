@@ -35,7 +35,7 @@ qx.Class.define("tutorial.view.Header",
   {
     this.base(arguments);
 
-    this.setLayout(new qx.ui.layout.HBox);
+    this.setLayout(new qx.ui.layout.Canvas());
     this.setAppearance("app-header");
 
     var title = new qx.ui.basic.Label("learn.qooxdoo.org");
@@ -48,10 +48,8 @@ qx.Class.define("tutorial.view.Header",
     var version = new qxc.ui.versionlabel.VersionLabel();
     version.setFont("default");
 
-    this.add(title);
-    this.add(new qx.ui.core.Spacer, {flex : 1});
-    this.add(select);
-    this.add(new qx.ui.core.Spacer, {flex : 1});
-    this.add(version);
+    this.add(title, {left: 10, top: 5});
+    this.add(select, {left: "43%", right: "43%"});
+    this.add(version, {right: 10, top: 3});
   }
 });

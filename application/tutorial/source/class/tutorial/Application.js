@@ -124,7 +124,8 @@ qx.Class.define("tutorial.Application",
       }
 
       this.__selectionWindow.open();
-      this.__selectionWindow.getContainerElement().fadeIn(333);
+      this.render();  // make sure the DOM object is available for the fade
+      this.__selectionWindow.getContainerElement().fadeIn(200);
     },
 
 
