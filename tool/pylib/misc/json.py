@@ -35,6 +35,9 @@ def load(path, **kwargs):
     s = codecs.open(path, "r", "utf-8").read()
     return loads(s, **kwargs)
 
+DecodeError = djson.JSONDecodeError
+#DecodeError = ValueError  # for sjson
+EncodeError = TypeError # for sjson
 
 ##
 # default compact encoding to serialize JS code

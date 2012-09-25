@@ -250,7 +250,10 @@ if __name__ == '__main__':
             except:
                 pass
             if err: # there's something to print
-                print >> sys.stderr, e
+                #print >> sys.stderr, e
+                print >> sys.stderr, type(e), ":",
+                for el in e.args:
+                    print >> sys.stderr, el[:300]
             else:
                 print >> sys.stderr, "Terminating on terminal exception (%r)" % e
             sys.exit(1)
