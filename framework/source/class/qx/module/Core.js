@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
+     2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -38,7 +38,5 @@
  * * {@link qx.module.Manipulating}
  * * {@link qx.module.Polyfill}
  * * {@link qx.module.Traversing}
- * * {@link qx.module.Attribute}
- * * {@link qx.module.Css}
  */
 qx.Bootstrap.define("qx.module.Core", {});
