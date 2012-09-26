@@ -130,6 +130,9 @@ We also provide you with a manager to handle command groups more comfortably. A 
   manager.setActiveGroup(group2); // this will deactive all command groups except group2
   
 
+Here you can find an example:
+(`Demobrowser <http://demo.qooxdoo.org/%{version}/demobrowser/#ui~CommandGroupManager.html>`__)
+
 .. _pages/desktop/ui_interaction#focus_handling:
 
 Focus Handling
