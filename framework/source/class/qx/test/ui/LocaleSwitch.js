@@ -60,7 +60,7 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
 
     testCommandInMenuButton : function()
     {
-      var command = new qx.ui.core.Command("Shift-A");
+      var command = new qx.ui.command.Command("Shift-A");
       var menuButton = new qx.ui.menu.Button("Juhu", null, command);
       this.assertEquals("Shift+A", command.toString());
       this.assertEquals("Shift+A", menuButton.getChildControl("shortcut").getValue());

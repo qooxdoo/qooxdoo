@@ -30,7 +30,7 @@ qx.Class.define("qx.test.ui.form.Executable",
         ), "Interface is not implemented."
       );
 
-      var command = new qx.ui.core.Command();
+      var command = new qx.ui.command.Command();
 
       // check if the setter works
       widget.setCommand(command);

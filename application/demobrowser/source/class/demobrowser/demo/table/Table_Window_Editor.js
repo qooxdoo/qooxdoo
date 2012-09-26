@@ -153,7 +153,7 @@ qx.Class.define("demobrowser.demo.table.ModalCellEditorFactory",
       cellEditor.add(save);
 
       // Let them press Enter from the cell editor text field to finish.
-      var command = new qx.ui.core.Command("Enter");
+      var command = new qx.ui.command.Command("Enter");
       command.addListener("execute", function(e)
       {
         save.execute();
