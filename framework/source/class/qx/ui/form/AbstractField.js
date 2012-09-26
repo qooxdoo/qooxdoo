@@ -895,7 +895,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         this._placeholder.dispose();
         this._placeholder = null;
       }
-      if (!this.__useQxPlaceholder) {
+      if (!this.__useQxPlaceholder && qx.ui.form.AbstractField.__stylesheet) {
         qx.bom.Stylesheet.removeSheet(qx.ui.form.AbstractField.__stylesheet);
       }
     },

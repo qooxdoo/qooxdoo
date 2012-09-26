@@ -77,11 +77,6 @@ qx.Class.define("widgetbrowser.view.Header",
       }
     })[0];
 
-    // Set current theme
-    if (currentThemeItem) {
-      select.setSelection([currentThemeItem]);
-    }
-
     select.setTextColor("black");
 
     select.addListener("changeSelection", function(evt) {
@@ -108,6 +103,11 @@ qx.Class.define("widgetbrowser.view.Header",
         }, this);
       }
     });
+
+    // Set current theme
+    if (currentThemeItem) {
+      select.setSelection([currentThemeItem]);
+    }
 
     // Finally assemble header
     this.add(title);
