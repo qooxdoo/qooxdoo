@@ -90,7 +90,7 @@ class Node(object):
         self.attributes[key] = value
         return self
 
-    def get(self, key, mandatory = True):
+    def get(self, key, default = None):
         value = None
         #if hasattr(self, "attributes") and key in self.attributes:
         if key in self.attributes:
@@ -98,7 +98,9 @@ class Node(object):
 
         if value != None:
             return value
-        elif mandatory:
+        elif default != None:
+            return default
+        else:
             raise NodeAccessException("Node " + self.type + " has no attribute " + key, self)
 
     def remove(self, key):
