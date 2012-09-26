@@ -173,7 +173,8 @@ class TokenStream(IterObject):
 
         # tok isinstanceof Token()
         if tok.name == "white":
-            s = symbol_table.get(tok.name)()
+            #s = symbol_table.get(tok.name)()  # grammar doesn't provide for 'white' currently
+            pass
         elif tok.name == 'comment':
             s = symbol_table.get(tok.name)()
             #s.set('connection', tok.connection)  # before/after(!?)

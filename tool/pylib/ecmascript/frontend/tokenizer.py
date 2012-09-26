@@ -77,7 +77,8 @@ def parseStream(content, uniqueId=""):
 
         # white space
         if (tok.name == 'white'):
-            continue
+            #continue
+            token['type'] = 'white'
 
         # end of file
         elif tok.name == 'eof':
@@ -180,9 +181,9 @@ def parseStream(content, uniqueId=""):
                         commnt = alignMultiLines(commnt, token['column'])
                         token['source'] = tok.value + commnt
                         token['detail'] = Comment.Comment(token['source']).getFormat()
-                        token['begin'] = not hasLeadingContent(tokens)
+                        token['begin'] = not hasLeadingContent(tokens)  # first non-white token on line
                         if restLineIsEmpty(scanner):
-                            token['end'] = True
+                            token['end'] = True                 # last non-white token on line
                         else:
                             token['end'] = False
                         if token['begin']:
