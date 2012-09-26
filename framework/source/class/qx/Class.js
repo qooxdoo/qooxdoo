@@ -407,7 +407,7 @@ qx.Bootstrap.define("qx.Class",
      *
      * @signature function(clazz, name)
      * @param clazz {Class} class to check
-     * @param name {String} name of the event to check for
+     * @param name {String} name of the class to check for
      * @return {Map|null} whether the object support the given event.
      */
     getPropertyDefinition : qx.util.OOUtil.getPropertyDefinition,

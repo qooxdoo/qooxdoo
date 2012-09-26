@@ -43,7 +43,7 @@ qx.Bootstrap.define("qx.util.OOUtil",
      * TODO: Correctly support refined properties?
      *
      * @param clazz {Class} class to check
-     * @param name {String} name of the event to check for
+     * @param name {String} name of the class to check for
      * @return {Map|null} whether the object support the given event.
      */
     getPropertyDefinition : function(clazz, name)
