@@ -93,16 +93,42 @@ To handle character inputs e.g. on text boxes, there is a special ``keyinput`` e
 Working with Commands
 =====================
 
-Commands (`API <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.Command>`__) are used to bundle a command to be used by multiple buttons. They can also be used to define a global shortcut to be used for this action.
+Commands (`API <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.command.Command>`__) are used to bundle a command to be used by multiple buttons. They can also be used to define a global shortcut to be used for this action.
 
 Creating new commands is as easy as it can be. A shortcut can simply be defined through the constructor, e.g.:
 
 ::
 
-  var find = new qx.event.Command("Ctrl+F");
-  find.addListener("execute", this._onFind, this);
+  var findCommand = new qx.ui.command.Command("Ctrl+F");
+  findCommand.addListener("execute", this._onFind, this);
 
 The command can easily be attached to many types of Buttons etc. Some of them, like the ``MenuButtons``, automatically display the configured shortcut as well. As seen above, the Commands also make use of the key identifiers.
+
+::
+
+  var button = new qx.ui.form.Button("Search");
+  button.setCommand(findCommand);
+
+Sometimes it's useful to create groups of commands, especially if you want to define the same shortcut in different commands. With the (`API <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.command.Group>`__) class, you can logically organize your commands as well as activate or deactivate all added commands at once.
+
+::
+
+  var group1 = new qx.ui.command.Group();
+  group1.addCommand("find", findCommand);
+  group1.addCommand("copy", copyCommand);
+  group1.addCommand("paste", pasteCommand);
+  group1.setActive(false); // all commands will be deactivated
+
+We also provide you with a manager to handle command groups more comfortably. A common use case is to create multiple instances of one view. If every instance creates the same set of commands, a global shortcut will invoke the command on all instances. So you can easily add your command groups to a command group manager which will activate only one group. An implementation could look like this:
+
+::
+
+  var manager = new qx.ui.command.GroupManager();
+  manager.addGroup(group1);
+  manager.addGroup(group2);
+  manager.addGroup(group3);
+  manager.setActiveGroup(group2); // this will deactive all command groups except group2
+  
 
 .. _pages/desktop/ui_interaction#focus_handling:
 
