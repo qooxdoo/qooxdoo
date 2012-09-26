@@ -76,28 +76,28 @@ qx.Class.define("demobrowser.demo.widget.MenuBar",
 
     createCommands : function()
     {
-      this._newCommand = new qx.ui.core.Command("Ctrl+N");
+      this._newCommand = new qx.ui.command.Command("Ctrl+N");
       this._newCommand.addListener("execute", this.debugCommand);
 
-      this._openCommand = new qx.ui.core.Command("Ctrl+O");
+      this._openCommand = new qx.ui.command.Command("Ctrl+O");
       this._openCommand.addListener("execute", this.debugCommand);
 
-      this._saveCommand = new qx.ui.core.Command("Ctrl+S");
+      this._saveCommand = new qx.ui.command.Command("Ctrl+S");
       this._saveCommand.addListener("execute", this.debugCommand);
 
-      this._undoCommand = new qx.ui.core.Command("Ctrl+Z");
+      this._undoCommand = new qx.ui.command.Command("Ctrl+Z");
       this._undoCommand.addListener("execute", this.debugCommand);
 
-      this._redoCommand = new qx.ui.core.Command("Ctrl+R");
+      this._redoCommand = new qx.ui.command.Command("Ctrl+R");
       this._redoCommand.addListener("execute", this.debugCommand);
 
-      this._cutCommand = new qx.ui.core.Command("Ctrl+X");
+      this._cutCommand = new qx.ui.command.Command("Ctrl+X");
       this._cutCommand.addListener("execute", this.debugCommand);
 
-      this._copyCommand = new qx.ui.core.Command("Ctrl+C");
+      this._copyCommand = new qx.ui.command.Command("Ctrl+C");
       this._copyCommand.addListener("execute", this.debugCommand);
 
-      this._pasteCommand = new qx.ui.core.Command("Ctrl+P");
+      this._pasteCommand = new qx.ui.command.Command("Ctrl+P");
       this._pasteCommand.addListener("execute", this.debugCommand);
 
       this._pasteCommand.setEnabled(false);

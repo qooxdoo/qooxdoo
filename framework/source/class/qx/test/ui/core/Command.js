@@ -29,7 +29,7 @@ qx.Class.define("qx.test.ui.core.Command",
 
     setUp : function()
     {
-      this.__cmd = new qx.ui.core.Command();
+      this.__cmd = new qx.ui.command.Command();
 
       this.__button = new qx.ui.form.Button("a");
       this.__button.setCommand(this.__cmd);
@@ -226,7 +226,7 @@ qx.Class.define("qx.test.ui.core.Command",
       this.assertEquals("c", this.__menuButton.getLabel());
 
       // add a new command
-      var cmd = new qx.ui.core.Command();
+      var cmd = new qx.ui.command.Command();
       cmd.setLabel("x");
 
       this.__button.setCommand(cmd);
@@ -243,7 +243,7 @@ qx.Class.define("qx.test.ui.core.Command",
 
     testIconAsToolTipText : function() {
       // for [BUG #4534]
-      var cmd = new qx.ui.core.Command("Control+D");
+      var cmd = new qx.ui.command.Command("Control+D");
       cmd.setToolTipText("affe");
 
       var button1 = new qx.ui.form.Button("x", "y");
@@ -258,7 +258,7 @@ qx.Class.define("qx.test.ui.core.Command",
 
     testDestructExecutable : function() {
       // Create the command
-      var cmd = new qx.ui.core.Command("Meta+T")
+      var cmd = new qx.ui.command.Command("Meta+T")
 
       // Create a button linked to cmd
       var button = new qx.ui.form.Button("Command button", null,cmd);
