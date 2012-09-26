@@ -177,8 +177,9 @@ class TokenStream(IterObject):
             pass
         elif tok.name == 'comment':
             s = symbol_table.get(tok.name)()
-            #s.set('connection', tok.connection)  # before/after(!?)
-            #s.set('detail', "inline" if tok.value[:2]=="//" else "block") # tok.detail is javadoc/qtdoc/area/divider/header/block
+            s.set('connection', tok.connection)  # relates to preceding or subsequent code
+            s.set('begin', tok.begin)  # first non-white on line
+            s.set('end', tok.end)   # last non-white on line
             s.set('detail', tok.detail)
             s.set('multiline', tok.multiline)  # true/false
             self.comments.append(s)         # keep comments in temp. store
@@ -321,6 +322,8 @@ class symbol_base(Node):
         if column:
             self.set("column", column)
         self.comments = []   # [Node(comment)] of comments preceding the node ("commentsBefore")
+        self.commentsIn    = []
+        self.commentsAfter = []
 
     ##
     # thin wrapper around .children, to maintain .parent in them
@@ -985,6 +988,8 @@ def ifix(self, left):
     key = symbol("key")(token.get("line"), token.get("column"))
     accessor.childappend(key)
     key.childappend(expression())
+    # assert token.id == ']'
+    affix_comments(key.commentsAfter, token)
     advance("]")
     return accessor
 
@@ -992,22 +997,25 @@ def ifix(self, left):
 def pfix(self):
     arr = symbol("array")()
     self.patch(arr)
-    if token.id != "]":
-        is_after_comma = 0
-        while True:
-            if token.id == "]":
-                if is_after_comma:  # preserve dangling comma (bug#6210)
-                    arr.childappend(symbol("(empty)")())
-                break
-            elif token.id == ",":  # elision
+    is_after_comma = 0
+    while True:
+        if token.id == "]":
+            if is_after_comma:  # preserve dangling comma (bug#6210)
                 arr.childappend(symbol("(empty)")())
+            if arr.children:
+                affix_comments(arr.children[-1].commentsAfter, token)
             else:
-                arr.childappend(expression())
-            if token.id != ",":
-                break
-            else:
-                is_after_comma = 1
-                advance(",")
+                affix_comments(arr.commentsIn, token)
+            break
+        elif token.id == ",":  # elision
+            arr.childappend(symbol("(empty)")())
+        else:
+            arr.childappend(expression())
+        if token.id != ",":
+            break
+        else:
+            is_after_comma = 1
+            advance(",")
     advance("]")
     return arr
 
@@ -2174,6 +2182,14 @@ def toJS(self, opts):
     r += ','.join(a)
     r += self.write(")")
     return r
+
+
+# - Helpers --------------------------------------------------------------------
+
+##
+# Add the comments of node2 to node1's commentsAfter
+def affix_comments(node1_list, node2):
+    node1_list.extend(node2.comments)
 
 
 # - Class Frontend for the Grammar Infrastructure ------------------------------

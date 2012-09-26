@@ -661,11 +661,12 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encodin
     hasText = False
 
     # comments
-    if hasattr(node, 'comments') and node.comments:
-        cmtStrings = []
-        for comment in node.comments:
-            cmtStrings.append(nodeToXmlString(comment, prefix, childPrefix, newLine, encoding))
-        asString += u''.join(cmtStrings)
+    for attr in ('comments', 'commentsAfter'):
+        if hasattr(node, attr) and getattr(node, attr):
+            cmtStrings = []
+            for comment in getattr(node, attr):
+                cmtStrings.append(nodeToXmlString(comment, prefix, childPrefix, newLine, encoding))
+            asString += u''.join(cmtStrings)
 
     # own str repr
     asString += prefix + "<" + node.type
