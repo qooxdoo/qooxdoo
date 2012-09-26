@@ -136,7 +136,7 @@ qx.Class.define("ColorSwitch",
     
     toggleColor : function(target, command)
     {
-      this.setBackgroundColor(this.getBackgroundColor() == "red" ? "green" : "red");
+      this.setBackgroundColor(this.getBackgroundColor() == "#ABEFEF" ? "#ABEFAB" : "#ABEFEF");
     },
     
     
