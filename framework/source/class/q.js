@@ -30,7 +30,7 @@
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/website.html' target='_blank'>user manual</a>.
  */
 qx.Bootstrap.define("q", {
-  extend : Array,
+  extend : qx.type.BaseArray,
   statics : {
     // internal storage for all initializers
     __init : [],
@@ -59,11 +59,13 @@ qx.Bootstrap.define("q", {
           clean.push(arg[i]);
         }
       }
+
       // check for node or window object
       var col = qx.lang.Array.cast(clean, q);
       for (var i=0; i < q.__init.length; i++) {
         q.__init[i].call(col);
       }
+
       return col;
     },
 
