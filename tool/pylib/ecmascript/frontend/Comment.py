@@ -581,7 +581,7 @@ class Comment(object):
         res = {
             'category' : 'lint',
             'functor' : presult.t_functor,
-            'arguments' : presult.t_arguments.asList()
+            'arguments' : presult.t_arguments.asList() if presult.t_arguments else []
         }
         return res
         
