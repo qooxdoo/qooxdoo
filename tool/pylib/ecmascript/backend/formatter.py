@@ -735,6 +735,7 @@ def defaultState(state, optns):
     state.indentLevel = 0
     state.currLine    = 1   # current insert line
     state.currColumn  = 1   # current insert column (where the next char will be inserted)
+    state.last_token  = None
     return state
 
 def indentString(optns, state):

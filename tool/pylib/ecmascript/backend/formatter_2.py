@@ -64,11 +64,14 @@ class Formatter(object):
         for tok in tokenArr:
             token = Token(tok)  # prefer objects over dicts
 
+            self.state.currColumn += len(token.value)
+
             if hasattr(self, "format_"+token.name):
                 s = getattr(self, "format_"+token.name)(token)
             else:
                 s = self.format_default(token)
             self.append(s)
+            self.state.last_token = token
 
         return u''.join(self._data)
 
@@ -78,15 +81,42 @@ class Formatter(object):
 
     def format_eol(self, token):
         self.state.currLine += 1
-        indent = indentString(self.optns, self.state)
-        self.state.currColumn = 1 + len(indent)
-        return '\n' + indent
+        #indent = indentString(self.optns, self.state)
+        #self.state.currColumn = 1 + len(indent)
+        #return '\n' + indent
+        self.state.indentLevel = 0
+        return '\n'
 
     def format_string(self, token):
         q = '"' if token.detail == "doublequotes" else "'"
         return q + token.value + q
 
     def format_comment(self, token):
-        return Comment.Text(token.value).indent(u' '*(self.state.currColumn-1))
+        #return Comment.Text(token.value).indent(u' '*(self.state.currColumn-1))
+        return Comment.Text(token.value).indent(indentString(self.optns, self.state))
+
+    def format_white(self, token):
+        if self.state.last_token == None or self.state.last_token.name == 'eol':
+            self.state.indentLevel = 1
+            self.optns.prettypIndentString = token.value
+        return token.value
+
+    #def format_token(self, token):
+    #    if hasattr(self, "format_"+token.detail):  # LP, RP, LC, RC, ...
+    #        return getattr(self, "format_"+token.detail)(token)
+    #    else:
+    #        return self.format_default(token)
+
+    #def format_LC(self, token):
+    #    if self.state.optns.prettypOpenCurlyNewlineBefore in 'nN':
+    #        s = ' {'
+    #    else:
+    #        s = '\n' + indentString(self.optns, self.state) + '{'
+    #    self.state.indentLevel += 1
+    #    return s
+
+    #def format_RC(self, token):
+    #    self.state.indentLevel -= 1
+    #    return indentString(self.optns, self.state) + '}'
         
 
