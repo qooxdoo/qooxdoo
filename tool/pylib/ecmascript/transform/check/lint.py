@@ -221,7 +221,7 @@ class LintChecker(treeutil.NodeVisitor):
         for id_, var_node in scope_node.vars.items():
             if self.multiple_var_decls(var_node):
                 warn("Multiple declarations of variable: '%s' (%r)" % (
-                    id_, [(n.get("line",0) or -1) for n in var_node.decl]), self.file_name, None)
+                    id_, [n.get("line",-1) for n in var_node.decl]), self.file_name, None)
 
     def multiple_var_decls(self, scopeVar):
         return len(scopeVar.decl) > 1

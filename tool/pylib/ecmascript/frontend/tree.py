@@ -285,9 +285,9 @@ class Node(object):
 
 
     def makeComplex(self):
-        makeComplex = self.get("makeComplex", False)
+        makeComplex = self.get("makeComplex", '')
 
-        if makeComplex != None:
+        if makeComplex != '':
             return makeComplex
 
         else:
@@ -336,9 +336,9 @@ class Node(object):
 
 
     def isComplex(self):
-        isComplex = self.get("isComplex", False)
+        isComplex = self.get("isComplex", '')
 
-        if isComplex != None:
+        if isComplex != '':
             return isComplex
         else:
             isComplex = False

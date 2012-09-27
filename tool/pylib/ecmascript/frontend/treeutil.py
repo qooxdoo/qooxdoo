@@ -67,6 +67,7 @@ def isQxDefine(node):
                 className = selectNode(node, "../../arguments/1")
                 if className and className.type == "constant":
                     className = className.get("value", None)
+                    className = None if className == False else className
                 return True, className, variableName
 
     return False, None, ""
@@ -92,6 +93,7 @@ def isQxDefineParent(node):
             className = selectNode(node, "arguments/1")
             if className and className.type == "constant":
                 className = className.get("value", None)
+                className = None if className == False else className
             return True, className, variableName
 
     return False, None, ""
@@ -228,7 +230,7 @@ def nodeIterator(node, nodetypes):
 #
 def findNode(node, nodetypes, attribs): # attribs=[(key,val),...]
     for node in nodeIterator(node, nodetypes):
-        if all([(node.get(key,False)==val) for key,val in attribs]):
+        if all([(node.get(key,not(bool(val)))==val) for key,val in attribs]):
             yield node
 
 
@@ -470,7 +472,12 @@ def getFunctionName(fcnNode):
         return "global"
 
     if fcnNode.type == "function" and fcnNode.getChild("identifier", False):
-        return fcnNode.get("identifier", False).get("value")
+        fcnName = fcnNode.get("identifier", False)
+        if fcnName:
+            fcnName = fcnName.get("value")
+        else:
+            fcnName = None
+        return fcnName
 
     if fcnNode.parent.parent.type == "keyvalue":
         return fcnNode.parent.parent.get("key")
@@ -488,10 +495,10 @@ def getLineAndColumnFromSyntaxItem(syntaxItem):
     """
     Returns a tupel of the line and the column of a tree node.
     """
-    line = None
-    column = None
+    line = False
+    column = False
 
-    while line == None and column == None and syntaxItem:
+    while line is False and column is False and syntaxItem:
         line = syntaxItem.get("line", False)
         column = syntaxItem.get("column", False)
 
@@ -500,6 +507,8 @@ def getLineAndColumnFromSyntaxItem(syntaxItem):
         else:
             syntaxItem = None
 
+    line = None if line is False else line
+    column = None if column is False else column
     return line, column
 
 
@@ -507,8 +516,8 @@ def getFileFromSyntaxItem(syntaxItem):
     """
     Returns the file name of a tree node
     """
-    file = None
-    while file == None and syntaxItem:
+    file = False
+    while file is False and syntaxItem:
         file = syntaxItem.get("file", False)
         if hasattr(syntaxItem, "parent"):
             syntaxItem = syntaxItem.parent
@@ -723,7 +732,7 @@ def isNEWoperand(node):
         operation = node.parent.parent.parent
     elif node.hasParentContext("operation"):
         operation = node.parent
-    return operation and operation.type=="operation" and operation.get("operator",0)=="NEW"
+    return operation and operation.type=="operation" and operation.get("operator","")=="NEW"
 
 
 ##

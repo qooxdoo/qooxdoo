@@ -64,7 +64,8 @@ def isQxDefine(node):
             if node.hasParentContext("call/operand"):
                 className = selectNode(node, "../../params/1")
                 if className and className.type == "constant":
-                    className = className.get("value", None)
+                    className = className.get("value", False)
+                    className = None if className == False else className
                 return True, className, variableName
 
     return False, None, ""
@@ -90,6 +91,7 @@ def isQxDefineParent(node):
             className = selectNode(node, "params/1")
             if className and className.type == "constant":
                 className = className.get("value", None)
+                className = None if className == False else className                
             return True, className, variableName
 
     return False, None, ""
@@ -513,7 +515,8 @@ def getFunctionName(fcnNode):
         return "global"
 
     if fcnNode.type == "function" and fcnNode.get("name", False):
-        return fcnNode.get("name", False)
+        fcnName = fcnNode.get("name", False)
+        return fcnName if fcnName else None
 
     if fcnNode.parent.parent.type == "keyvalue":
         return fcnNode.parent.parent.get("key")
@@ -531,10 +534,10 @@ def getLineAndColumnFromSyntaxItem(syntaxItem):
     """
     Returns a tupel of the line and the column of a tree node.
     """
-    line = None
-    column = None
+    line = False
+    column = False
 
-    while line == None and column == None and syntaxItem:
+    while line is False and column is False and syntaxItem:
         line = syntaxItem.get("line", False)
         column = syntaxItem.get("column", False)
 
@@ -543,6 +546,8 @@ def getLineAndColumnFromSyntaxItem(syntaxItem):
         else:
             syntaxItem = None
 
+    line = None if line is False else line
+    column = None if column is False else column
     return line, column
 
 
@@ -553,6 +558,7 @@ def getFileFromSyntaxItem(syntaxItem):
     file = None
     while file == None and syntaxItem:
         file = syntaxItem.get("file", False)
+        file = None if file==False else file
         if hasattr(syntaxItem, "parent"):
             syntaxItem = syntaxItem.parent
         else:

@@ -157,7 +157,7 @@ Function %s(%s):
 
     def _getExceptionVariables(self):
         identifier = treeutil.selectNode(self.node, "expression/variable/identifier")
-        return [VariableDefinition(identifier.get("name",None), identifier, False, self)]
+        return [VariableDefinition(identifier.get("name",""), identifier, False, self)]
 
 
     ##
@@ -299,6 +299,7 @@ Function %s(%s):
             use = treeutil.selectNode(node, "definitionList/definition")
             if use:
                 name = use.get("identifier", False)
+                name = None if name == False else name
                 yield (name, use)
                 return
 

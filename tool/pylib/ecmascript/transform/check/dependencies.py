@@ -74,7 +74,7 @@ class DependenciesCollector(treeutil.NodeVisitor):
             classname, methname = self.getClassNameFromEnvKey(key, self.opts.envmappings)
             if classname:
                 depsItem = DependencyItem(classname, methname, self.file_name, 
-                                          node.get('line',0) or -1)
+                                          node.get('line',-1))
                 depsItem.isCall = True  # treat as if actual call, to collect recursive deps
                 # check phase
                 functor = node.getChild("operand")  # get the "qx.core.Environment" symbol
@@ -116,7 +116,7 @@ class DependenciesCollector(treeutil.NodeVisitor):
         # requestor (class id of the current tree)
         requestor = self.file_name
         # line (where requested)
-        line = var_node.get("line",False) or -1
+        line = var_node.get("line",-1)
         # is it a static load-time dependency?
         isLoadDep = self.is_static_loaddep(var_node)
 
