@@ -1297,7 +1297,7 @@ def connectClass(docTree, classNode):
 
     # Check whether the class is static
     superClassName = classNode.get("superClass", False)
-    if (superClassName == None) \
+    if not superClassName \
         and classNode.getChild("properties", False) == None \
         and classNode.getChild("methods", False) == None:
         # This class is static
@@ -1369,7 +1369,7 @@ def documentApplyMethod(methodNode, props):
     for prop in props:
         propNames.append(prop.get("name"))
         pType = prop.get("check", False)
-        if pType is None or pType == "Custom check function.":
+        if pType is False or pType == "Custom check function.":
             pType = "var"
         paramTypes.append(pType)
     
@@ -1442,7 +1442,7 @@ def markPropertyApply(docTree, classNode):
                 continue
             applyFor = []
             for prop in props.children:
-                if prop.get("apply", None) == name:
+                if prop.get("apply", False) == name:
                     propNode = tree.Node("entry")
                     propNode.set("applies", dep.get("fullName") + "#" + prop.get("name"))
                     itemNode.addListChild("apply", propNode) 

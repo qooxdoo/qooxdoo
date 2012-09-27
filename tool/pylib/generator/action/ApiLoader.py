@@ -233,7 +233,7 @@ class ApiLoader(object):
             attr = source.attributes
             for key in attr:
                 # Special handling for attributes which stores a list (this is BTW quite ugly)
-                if key in ["childClasses", "includer", "mixins", "implementations"] and target.get(key, False) != None:
+                if key in ["childClasses", "includer", "mixins", "implementations"] and target.get(key, False) != False:
                     target.set(key, "%s,%s" % (target.get(key), attr[key]))
                 else:
                     target.set(key, attr[key])
