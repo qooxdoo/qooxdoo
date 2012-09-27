@@ -1095,7 +1095,7 @@ def addTypeInfo(node, commentAttrib=None, item=None):
         node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
 
     # add types
-    if "type" in commentAttrib:
+    if "type" in commentAttrib and commentAttrib["type"]:
         typesNode = tree.Node("types")
         node.addChild(typesNode)
 

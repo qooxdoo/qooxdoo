@@ -442,7 +442,8 @@ class Comment(object):
     ##
     # "@return {Type} msg"
     gr_at_return = ( py.Suppress('@') + py.Literal('return')  + 
-        py.Optional(py_type_expression.copy())("type") +   # TODO: remove leading py.Optional
+        #py.Optional(py_type_expression.copy())("type") +   # TODO: remove leading py.Optional
+        py_type_expression.copy()("type") + 
         py.restOfLine("text") )
     def parse_at_return(self, line):
         grammar = self.gr_at_return
