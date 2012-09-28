@@ -82,6 +82,8 @@ qx.Class.define("tutorial.Application",
       this.__description = new tutorial.view.Description();
       this.__description.addListener("run", this.run, this);
       this.__description.addListener("update", this.updateEditor, this);
+      this.__description.addListener("selectTutorial", this.openSelectionWindow, this);
+
       content.add(this.__description, 1);
 
       var actionArea = new qx.ui.splitpane.Pane();
