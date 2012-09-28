@@ -29,6 +29,10 @@ qx.Class.define("mobileshowcase.page.Toolbar",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
+  statics : {
+    __toolbarButtonImages: ["mobileshowcase/icon/arrowleft.png","mobileshowcase/icon/camera.png"]
+  },
+
   construct : function()
   {
     this.base(arguments,false);
@@ -57,7 +61,6 @@ qx.Class.define("mobileshowcase.page.Toolbar",
     __areYouSurePopup: null,
     __searchDialog: null,
     __deleteDialog: null,
-    __toolbarButtonImages: ["mobileshowcase/icon/arrowleft.png","mobileshowcase/icon/camera.png"],
     __goBackBtn: null,
     __loadButton: null,
 
@@ -79,10 +82,12 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       var searchDialog = this.__createSearchDialog();
       searchDialog.show();
       }, this);
-      
+
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
-      
-      this.__goBackBtn = new qx.ui.mobile.toolbar.Button(null,this.__toolbarButtonImages[0]);
+
+      this.__goBackBtn = new qx.ui.mobile.toolbar.Button(
+        null, mobileshowcase.page.Toolbar.__toolbarButtonImages[0]
+      );
       toolbar.add( this.__goBackBtn);
        this.__goBackBtn.addListener("tap", function(){
         var popup = this.__createAreYouSurePopup( this.__goBackBtn);
@@ -90,7 +95,9 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       }, this);
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
 
-      this.__loadButton = new qx.ui.mobile.toolbar.Button("Take a new picture",this.__toolbarButtonImages[1]);
+      this.__loadButton = new qx.ui.mobile.toolbar.Button(
+        "Take a new picture", mobileshowcase.page.Toolbar.__toolbarButtonImages[1]
+      );
       this.__loadButton.setIconPosition("top");
       this.__loadButton.setGap(0);
      
