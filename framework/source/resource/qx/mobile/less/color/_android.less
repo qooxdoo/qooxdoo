@@ -177,30 +177,17 @@ input[type="text"]:not(.selectbox),input[type="number"], input[type="password"],
 .scrollContainer textarea {
   padding:2px;
   border:none;
+  background:none;
 }
 
-.scrollContainer:before {
-  position:absolute;
-  top:0px;
-  z-index:500;
+@scShadowOffset:20px;
+@scShadowColor:rgba(0,0,0,1.0);
 
-  #gradient > .vertical(rgba(0,0,0,0.3), rgba(255,255,255,0));
-
-  content:'';
-  width:100%;
-  height:15px;
-}
-
-.scrollContainer:after {
-  position:absolute;
-  bottom:0px;
-  z-index:500;
-
-  #gradient > .vertical(rgba(255,255,255,0), rgba(0,0,0,0.3));
-
-  content:'';
-  width:100%;
-  height:15px;
+.scrollContainer {
+  .box-inset-multi-shadow(
+    0px @scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColor, 
+    0px -@scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColor
+  );
 }
 
 //

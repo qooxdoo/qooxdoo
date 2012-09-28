@@ -66,6 +66,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     this.__currentOffset = [0,0];
     this.__touchStartPoints = [0,0];
     
+    this.addCssClass("scrollableBottom");
+    
     this.__scrollContainer = new qx.ui.mobile.container.Composite();
     this.__scrollContainer.addCssClass("scrollContainerChild");
     
@@ -142,12 +144,30 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       var distanceX = touchX - this.__touchStartPoints[0];
       var distanceY = touchY - this.__touchStartPoints[1];
       
+      var targetElement =  this.__scrollContainer.getContainerElement();
+      var lowerLimit = targetElement.scrollHeight - targetElement.offsetHeight-4;
+      
+       // Upper Limit
+      if(this.__currentOffset[1] >= 0) {
+        this.removeCssClass("scrollableTop");
+      } else {
+        this.addCssClass("scrollableTop");
+      }
+      
+      // Lower Limit
+      if(this.__currentOffset[1] < -lowerLimit) {
+        this.removeCssClass("scrollableBottom");
+      } else {
+        this.addCssClass("scrollableBottom");
+      }
+      
       // X
       this.__currentOffset[0] =  this.__targetOffset[0] + distanceX;
       // Y
       this.__currentOffset[1] =  this.__targetOffset[1] + distanceY;
       
-      qx.bom.element.Style.set(this.__scrollContainer.getContainerElement(),this.__transformPropertyName,"translate3d(0px,"+this.__currentOffset[1]+"px,0px)");
+      qx.bom.element.Style.set(this.__scrollContainer.getContainerElement(),
+        this.__transformPropertyName,"translate3d(0px,"+this.__currentOffset[1]+"px,0px)");
      
       evt.stopPropagation();
     },
@@ -164,12 +184,12 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
        // Upper Limit
       if(this.__currentOffset[1] >= 0) {
         this.__currentOffset[1] = 0;
-      }
+      } 
       
       // Lower Limit
       if(this.__currentOffset[1] < -lowerLimit) {
         this.__currentOffset[1] = -lowerLimit;
-      }
+      } 
       
       qx.bom.element.Style.set(targetElement,this.__transitionDurationPropertyName,".2s");
       qx.bom.element.Style.set(targetElement,this.__transformPropertyName,"translate3d(0px,"+this.__currentOffset[1]+"px,0px)");

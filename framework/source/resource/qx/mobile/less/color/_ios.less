@@ -153,38 +153,51 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 //
 
 .scrollContainer {
+  .border-radius(8px);
   border: 1px solid @button-border-color;
   background-color:white;
+  //.transition(all 0.5s);
 }
 
 .scrollContainer textarea {
   border:none;
   padding:2px;
+  background:none;
 }
 
-.scrollContainer:before {
-  position:absolute;
-  top:0px;
-  z-index:500;
+@scShadowOffset:10px;
+@scShadowColor:rgba(0,0,0,0.7);
 
-  #gradient > .vertical(rgba(0,0,0,0.3), rgba(255,255,255,0));
-
-  content:'';
-  width:100%;
-  height:15px;
+.scrollContainer {
+  .box-inset-multi-shadow(
+    0px @scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColor, 
+    0px -@scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColor
+  );
 }
 
-.scrollContainer:after {
-  position:absolute;
-  bottom:0px;
-  z-index:500;
-
-  #gradient > .vertical(rgba(255,255,255,0), rgba(0,0,0,0.3));
-
-  content:'';
-  width:100%;
-  height:15px;
+/*
+.scrollContainer.scrollableTop.scrollableBottom {
+  .box-inset-multi-shadow(
+    0px @scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColor, 
+    0px -@scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColor
+  );
 }
+
+.scrollContainer.scrollableBottom:not(.scrollableTop) {
+  .box-inset-multi-shadow(
+    0px @scShadowOffset @scShadowOffset -@scShadowOffset rgba(0,0,0,0.0), 
+    0px -@scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColor
+  );
+
+}
+
+.scrollContainer.scrollableTop:not(.scrollableBottom) {
+  .box-inset-multi-shadow(
+    0px @scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColor, 
+    0px -@scShadowOffset @scShadowOffset -@scShadowOffset rgba(0,0,0,0.0)
+  );
+}*/
+
 
 //
 // FORM RENDERING
