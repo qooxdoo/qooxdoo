@@ -41,9 +41,10 @@ qx.Class.define("tutorial.Application",
     __selectionWindow : null,
     __actionArea : null,
 
-    __desktopTutorials : ["Hello_World", "Single_Value_Binding"],
-    __mobileTutorials : ["Hello_World"],
+    __desktopTutorials : null,
+    __mobileTutorials : null,
 
+    __confirmWindow : null,
 
     main : function()
     {
@@ -58,6 +59,10 @@ qx.Class.define("tutorial.Application",
         // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
       }
+
+      // Tutorials List
+      this.__desktopTutorials = ["Hello_World", "Single_Value_Binding"];
+      this.__mobileTutorials = ["Hello_World"];
 
       // Create main layout
       var mainComposite = new qx.ui.container.Composite(new qx.ui.layout.VBox());

@@ -70,7 +70,6 @@ qx.Class.define("tutorial.view.Confirm",
     okButton.addListener("appear", function() {
       okButton.focus();
     });
-    ok = okButton;
 
     this.center();
   },

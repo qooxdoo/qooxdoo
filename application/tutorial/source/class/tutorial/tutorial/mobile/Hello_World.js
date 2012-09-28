@@ -26,6 +26,9 @@ qx.Class.define("tutorial.tutorial.mobile.Hello_World",
         this.getRoot().add(button, {left: 30, top: 20});
       },
 
+      /**
+       * @lint ignoreDeprecated(alert)
+       */
       function() {
         var page = new qx.ui.mobile.page.NavigationPage();
         page.setTitle("Hello World");
