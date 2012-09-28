@@ -78,12 +78,51 @@ h2 {
 }
 
 //
+// SCROLL CONTAINER
+//
+
+.scrollContainer {
+  border: @border-thickness solid @border-color;
+  background-color:white;
+}
+
+.scrollContainer:before {
+  position:absolute;
+  top:0px;
+  z-index:500;
+
+  #gradient > .vertical(rgba(0,0,0,0.25), rgba(255,255,255,0));
+
+  content:'';
+  width:100%;
+  height:15px;
+}
+
+.scrollContainer:after {
+  position:absolute;
+  bottom:0px;
+  z-index:500;
+
+  #gradient > .vertical(rgba(255,255,255,0), rgba(0,0,0,0.25));
+
+  content:'';
+  width:100%;
+  height:15px;
+}
+
+//
 // INPUT FIELDS
 //
 
 input[type="text"], input[type="password"], input[type="number"], textarea {
   border: @border-thickness solid @border-color;
   color:@font-color-light-background;
+}
+
+.scrollContainer textarea {
+  .border-radius(0);
+  border:none;
+  padding:2px;
 }
 
 //

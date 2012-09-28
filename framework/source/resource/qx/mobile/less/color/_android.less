@@ -153,17 +153,54 @@ ul li.active .subtitle {
 //
 
 input[type="text"]:not(.selectbox),input[type="number"], input[type="password"], textarea {
-  //#gradient > .vertical(#e2e0e2, #f8f5f8);
-  //color: #222222;
   border: 0px solid #242424;
   .border-radius(0);
 
+  //#gradient > .vertical(#e2e0e2, #f8f5f8);
+  //color: #222222;
   //.transform(translate3d(0,0,0));
 }
 
 .formRowContent {
   @ul-padding:5px;
   padding: @ul-padding @ul-padding*2 @ul-padding @ul-padding*2;
+}
+
+//
+// SCROLL CONTAINER
+//
+
+.scrollContainer {
+  background-color:white;
+}
+
+.scrollContainer textarea {
+  padding:2px;
+  border:none;
+}
+
+.scrollContainer:before {
+  position:absolute;
+  top:0px;
+  z-index:500;
+
+  #gradient > .vertical(rgba(0,0,0,0.3), rgba(255,255,255,0));
+
+  content:'';
+  width:100%;
+  height:15px;
+}
+
+.scrollContainer:after {
+  position:absolute;
+  bottom:0px;
+  z-index:500;
+
+  #gradient > .vertical(rgba(255,255,255,0), rgba(0,0,0,0.3));
+
+  content:'';
+  width:100%;
+  height:15px;
 }
 
 //
