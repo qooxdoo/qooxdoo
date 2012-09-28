@@ -32,7 +32,7 @@ from ecmascript.frontend.Scanner         import IterObject, LQueue, LimLQueue, i
 from ecmascript.frontend                 import lang, tokenizer, Comment
 from misc                                import filetool
 from misc.NameSpace                      import NameSpace
-from ecmascript.backend.formatter        import FormatterOptions, FormatterState, defaultState, defaultOptions, indentString
+from ecmascript.backend.formatter        import FormatterOptions, FormatterState, defaultState, defaultOptions
 
 # - Interface -----------------------------------------------------------------
 
@@ -57,21 +57,36 @@ class Formatter(object):
     def append(self, el):
         self._data.append(el)
 
+    ##
+    # Returns the line-starting indent string
+    #
+    def indent(self):
+        ident = self.optns.prettypIndentString * self.state.indentLevel
+        return ident
+
+    def maybe_indent(self):
+        if self.state.last_token and self.state.last_token.name=='eol':
+            return self.indent()
+        else:
+            return ''
+
     def format(self, tokenArr):
-        global tokenStream
-        tokenStream = TokenStream(tokenArr)
         
         for tok in tokenArr:
             token = Token(tok)  # prefer objects over dicts
-
-            self.state.currColumn += len(token.value)
+            # skip leading source white space
+            if token.name=="white" and self.state.last_token.name=='eol':
+                continue
 
             if hasattr(self, "format_"+token.name):
                 s = getattr(self, "format_"+token.name)(token)
             else:
                 s = self.format_default(token)
-            self.append(s)
+            si = self.maybe_indent() + s
+            #import pydb; pydb.debugger()
+            self.append(si)
             self.state.last_token = token
+            self.state.currColumn += len(si)
 
         return u''.join(self._data)
 
@@ -79,12 +94,11 @@ class Formatter(object):
     def format_default(self, token):
         return token.value
 
+    ##
+    # 'source' line breaks
     def format_eol(self, token):
         self.state.currLine += 1
-        #indent = indentString(self.optns, self.state)
-        #self.state.currColumn = 1 + len(indent)
-        #return '\n' + indent
-        self.state.indentLevel = 0
+        self.state.currColumn = 1
         return '\n'
 
     def format_string(self, token):
@@ -92,31 +106,31 @@ class Formatter(object):
         return q + token.value + q
 
     def format_comment(self, token):
-        #return Comment.Text(token.value).indent(u' '*(self.state.currColumn-1))
-        return Comment.Text(token.value).indent(indentString(self.optns, self.state))
+        return Comment.Text(token.value).indent(self.indent())
 
     def format_white(self, token):
         if self.state.last_token == None or self.state.last_token.name == 'eol':
-            self.state.indentLevel = 1
-            self.optns.prettypIndentString = token.value
-        return token.value
+            return ''
+        else:
+            return token.value
 
-    #def format_token(self, token):
-    #    if hasattr(self, "format_"+token.detail):  # LP, RP, LC, RC, ...
-    #        return getattr(self, "format_"+token.detail)(token)
-    #    else:
-    #        return self.format_default(token)
+    def format_operator(self, token):
+        if hasattr(self, "format_"+token.detail):  # LP, RP, LC, RC, ...
+            return getattr(self, "format_"+token.detail)(token)
+        else:
+            return self.format_default(token)
 
-    #def format_LC(self, token):
-    #    if self.state.optns.prettypOpenCurlyNewlineBefore in 'nN':
-    #        s = ' {'
-    #    else:
-    #        s = '\n' + indentString(self.optns, self.state) + '{'
-    #    self.state.indentLevel += 1
-    #    return s
+    def format_LC(self, token):
+        if self.optns.prettypOpenCurlyNewlineBefore in 'nN':
+            s = ' {'
+        else:
+            s = '\n' + self.indent() + '{'
+        self.state.indentLevel += 1
+        #import pydb; pydb.debugger()
+        return s
 
-    #def format_RC(self, token):
-    #    self.state.indentLevel -= 1
-    #    return indentString(self.optns, self.state) + '}'
+    def format_RC(self, token):
+        self.state.indentLevel -= 1
+        return '}'
         
 
