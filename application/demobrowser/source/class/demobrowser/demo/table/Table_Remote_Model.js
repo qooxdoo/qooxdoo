@@ -32,6 +32,12 @@ qx.Class.define("demobrowser.demo.table.Table_Remote_Model",
 {
   extend : demobrowser.demo.table.TableDemo,
 
+  construct : function()
+  {
+    this.base(arguments);
+    this.poll();
+  },
+
   members :
   {
 
@@ -65,8 +71,15 @@ qx.Class.define("demobrowser.demo.table.Table_Remote_Model",
       part.add(reload);
 
       return bar;
-    }
+    },
 
+    poll : function()
+    {
+      qx.event.Timer.once(function(){
+        this._tableModel.reloadData();
+        this.poll();
+      }, this, 1000);
+    }
   }
 });
 
