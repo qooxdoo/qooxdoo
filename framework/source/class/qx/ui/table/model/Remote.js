@@ -161,6 +161,8 @@ qx.Class.define("qx.ui.table.model.Remote",
 
     _loadRowCountRequestRunning : false,
 
+    _clearCache : false,
+
 
     /**
      * Returns whether the current request is ignored by the model.
@@ -240,6 +242,12 @@ qx.Class.define("qx.ui.table.model.Remote",
       };
 
       this.fireDataEvent("dataChanged", data);
+      return;
+      if (rowCount == 0) {
+        this.fireDataEvent("dataChanged", data);
+      } else {
+        this._loadRowData();
+      }
     },
 
 
@@ -249,7 +257,8 @@ qx.Class.define("qx.ui.table.model.Remote",
      */
     reloadData : function()
     {
-      this.clearCache();
+      debugger;
+      //this.clearCache();
 
       // If there is currently a request on its way, then this request will bring
       // obsolete data -> Ignore it
@@ -264,6 +273,8 @@ qx.Class.define("qx.ui.table.model.Remote",
           this._ignoreCurrentRequest = true;
         }
       }
+
+      this._clearCache = true;
 
       // Forget a possibly outstanding request
       // (_loadRowCount will tell the listeners anyway, that the whole table
@@ -417,7 +428,7 @@ qx.Class.define("qx.ui.table.model.Remote",
     prefetchRows : function(firstRowIndex, lastRowIndex)
     {
       // this.debug("Prefetch wanted: " + firstRowIndex + ".." + lastRowIndex);
-      if (this._firstLoadingBlock == -1)
+      if (this._firstLoadingBlock == -1 || this._clearCache)
       {
         var blockSize = this.getBlockSize();
         var totalBlockCount = Math.ceil(this._rowCount / blockSize);
@@ -443,7 +454,7 @@ qx.Class.define("qx.ui.table.model.Remote",
 
         for (var block=firstBlock; block<=lastBlock; block++)
         {
-          if (this._rowBlockCache[block] == null || this._rowBlockCache[block].isDirty)
+          if (this._clearCache || this._rowBlockCache[block] == null || this._rowBlockCache[block].isDirty)
           {
             // We don't have this block
             if (firstBlockToLoad == -1) {
@@ -501,6 +512,11 @@ qx.Class.define("qx.ui.table.model.Remote",
      */
     _onRowDataLoaded : function(rowDataArr)
     {
+      if (this._clearCache) {
+        this.clearCache();
+        this._clearCache = false;
+      }
+
       if (rowDataArr != null && !this._ignoreCurrentRequest)
       {
         var blockSize = this.getBlockSize();
