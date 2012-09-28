@@ -242,12 +242,6 @@ qx.Class.define("qx.ui.table.model.Remote",
       };
 
       this.fireDataEvent("dataChanged", data);
-      return;
-      if (rowCount == 0) {
-        this.fireDataEvent("dataChanged", data);
-      } else {
-        this._loadRowData();
-      }
     },
 
 
@@ -257,9 +251,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      */
     reloadData : function()
     {
-      debugger;
-      //this.clearCache();
-
       // If there is currently a request on its way, then this request will bring
       // obsolete data -> Ignore it
       if (this._firstLoadingBlock != -1) {
