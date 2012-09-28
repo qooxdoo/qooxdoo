@@ -69,7 +69,14 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
    */
   construct : function(anchor)
   {
-
+    // parameter init.
+    this.__slotTouchStartPoints = {};
+    this.__selectedIndex = {};
+    this.__targetIndex = {};
+    this.__modelToSlotMap = {};
+    this.__slotElements = [];
+    this.__selectedIndexBySlot = [];
+    
     this.__pickerModel = new qx.data.Array();
 
     this.__pickerContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
@@ -149,12 +156,12 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     __pickerConfirmButton : null,
     __pickerContainer : null,
     __pickerContent : null,
-    __slotTouchStartPoints : {},
-    __selectedIndex : {},
-    __targetIndex : {},
-    __modelToSlotMap : {},
-    __slotElements : [],
-    __selectedIndexBySlot : [],
+    __slotTouchStartPoints : null,
+    __selectedIndex : null,
+    __targetIndex : null,
+    __modelToSlotMap : null,
+    __slotElements : null,
+    __selectedIndexBySlot : null,
     __transformPropertyName : null,
     __transitionDurationPropertyName : null,
 
