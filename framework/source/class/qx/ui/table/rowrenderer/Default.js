@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      */
     initThemeValues : function() {
       this.__fontStyleString = "";
-      this.__fontStyleString = {};
+      this.__fontStyle = {};
 
       this._colors = {};
 
