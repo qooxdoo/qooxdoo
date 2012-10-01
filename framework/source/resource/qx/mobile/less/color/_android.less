@@ -170,8 +170,18 @@ input[type="text"]:not(.selectbox),input[type="number"], input[type="password"],
 // SCROLL CONTAINER
 //
 
+@scShadowOffset:10px;
+@scShadowColor:rgba(0,0,0,0.3);
+@scShadowColorLight:rgba(0,0,0,0.2);
+@scGradientVerticalOffset:15px;
+
 .scrollContainer {
   background-color:white;
+
+  .box-inset-multi-shadow (
+      0px @scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColorLight, 
+      0px -@scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColorLight
+  );
 }
 
 .scrollContainer textarea {
@@ -180,28 +190,42 @@ input[type="text"]:not(.selectbox),input[type="number"], input[type="password"],
   background:none;
 }
 
+.scrollContainer:before {
+  position:absolute;
+  top:0px;
+  z-index:500;
+
+  .box-inset-multi-shadow(
+      0px @scShadowOffset*1.4 @scShadowOffset -@scShadowOffset @scShadowColor, 
+      0px 0px @scShadowOffset -@scShadowOffset @scShadowColor
+  );
+
+  content:'';
+  width:100%;
+  height:0px;
+}
+
 .scrollContainer.scrollableTop:before {
-    position:absolute;
-    top:0px;
-    z-index:500;
+  height:30px;
+}
 
-    #gradient > .vertical(rgba(0,0,0,0.25), rgba(255,255,255,0));
+.scrollContainer:after {
+  position:absolute;
+  bottom:0px;
+  z-index:500;
 
-    content:'';
-    width:100%;
-    height:15px;
+  .box-inset-multi-shadow(
+      0px 0px @scShadowOffset -@scShadowOffset @scShadowColor, 
+      0px -@scShadowOffset*1.4 @scShadowOffset -@scShadowOffset @scShadowColor
+  );
+
+  content:'';
+  width:100%;
+  height:0px;
 }
 
 .scrollContainer.scrollableBottom:after {
-    position:absolute;
-    bottom:0px;
-    z-index:500;
-
-    #gradient > .vertical(rgba(255,255,255,0),rgba(0,0,0,0.5));
-
-    content:'';
-    width:100%;
-    height:15px;
+  height:30px;
 }
 
 //
