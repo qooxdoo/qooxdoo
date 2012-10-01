@@ -94,18 +94,6 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         return;
       }
 
-      // @deprecated {2.0}
-      if (desc.hasOwnProperty("reverse")) {
-        reverse = desc.reverse;
-        if (qx.core.Environment.get("qx.debug")) {
-          qx.log.Logger.warn(
-            "The key 'reverse' is deprecated: Please use the method " +
-            "'animateReverse' instead."
-          );
-          qx.log.Logger.trace();
-        }
-      }
-
       desc = qx.lang.Object.clone(desc, true);
 
       if (duration == undefined) {

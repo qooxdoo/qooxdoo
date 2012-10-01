@@ -99,26 +99,6 @@ qx.Bootstrap.define("qx.bom.Template", {
 
 
     /**
-     * Original and only template method of mustache.js. For further
-     * documentation, please visit https://github.com/janl/mustache.js
-     *
-     * @deprecated {2.0}
-     * @signature function(template, view, partials)
-     * @param template {String} The String containing the template.
-     * @param view {Object} The object holding the data to render.
-     * @param partials {Object} Object holding parts of a template.
-     * @return {String} The parsed template.
-     */
-    toHtml : function(template, view, partials) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-          "Please use the method 'render' instead."
-        );
-      }
-      return this.render(template, view, partials);
-    },
-
-    /**
      * Helper method which provides you with a direct access to templates
      * stored as HTML in the DOM. The DOM node with the given ID will be used
      * as a template, parsed and a new DOM node will be returned containing the
