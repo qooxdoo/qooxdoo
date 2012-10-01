@@ -84,11 +84,18 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
     this.__pickerContent = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
 
-    this.__pickerConfirmButton = new qx.ui.mobile.form.Button("OK");
+    this.__pickerConfirmButton = new qx.ui.mobile.form.Button("Choose");
     this.__pickerConfirmButton.addListener("tap", this.confirm, this);
-
+    
+    this.__pickerCancelButton = new qx.ui.mobile.form.Button("Cancel");
+    this.__pickerCancelButton.addListener("tap", this.hide, this);
+    
+    var buttonContainer = this.__pickerButtonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+    buttonContainer.add(this.__pickerConfirmButton,{flex:1});
+    buttonContainer.add(this.__pickerCancelButton,{flex:1});
+    
     this.__pickerContent.add(this.__pickerContainer);
-    this.__pickerContent.add(this.__pickerConfirmButton);
+    this.__pickerContent.add(buttonContainer);
 
     this.__transformPropertyName = qx.bom.Style.getPropertyName("transform");
     this.__transitionDurationPropertyName = qx.bom.Style.getPropertyName("transition-duration");
@@ -154,7 +161,9 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     // The model which is used to render the pickers slots.
     __pickerModel : null,
     __pickerConfirmButton : null,
+    __pickerCancelButton : null,
     __pickerContainer : null,
+    __pickerButtonContainer : null,
     __pickerContent : null,
     __slotTouchStartPoints : null,
     __selectedIndex : null,
@@ -208,6 +217,18 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     setConfirmButtonCaption : function(caption) {
       if(this.__pickerConfirmButton) {
         this.__pickerConfirmButton.setValue(caption);
+      }
+    },
+    
+    
+    /**
+     * Setter for the caption of the picker dialog's cancel button.
+     * Default is "Cancel".
+     * @param caption {String} the caption of the cancel button.
+     */
+    setCancelButtonCaption : function(caption) {
+      if(this.__pickerCancelButton) {
+        this.__pickerCancelButton.setValue(caption);
       }
     },
 
@@ -569,7 +590,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
   destruct : function()
   {
-    this._disposeObjects("__pickerModel","__pickerContainer", "__pickerConfirmButton","__pickerContent");
+    this._disposeObjects("__pickerModel","__pickerContainer", "__pickerButtonContainer", "__pickerConfirmButton","__pickerCancelButton","__pickerContent");
   }
 
 });
