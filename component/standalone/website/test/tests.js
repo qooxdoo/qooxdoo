@@ -462,6 +462,11 @@ testrunner.define({
   setUp : testrunner.globalSetup,
   tearDown : testrunner.globalTeardown,
 
+  testIsRendered : function() {
+    this.assertTrue(this.sandbox.isRendered());
+    this.assertFalse(q.create("<div>").isRendered());
+  },
+
   testAdd : function() {
     var test = q.create("<div id='testdiv'/>");
     this.assertEquals(1, test.length);

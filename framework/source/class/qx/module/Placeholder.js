@@ -90,8 +90,8 @@ qx.Bootstrap.define("qx.module.Placeholder", {
           }
 
           // remove and add handling
-          var itemInBody = item.getAncestors("body").length > 0;
-          var placeholderElInBody = placeholderEl.getAncestors("body").length > 0;
+          var itemInBody = item.isRendered();
+          var placeholderElInBody = placeholderEl.isRendered();
           if (itemInBody && !placeholderElInBody) {
             item.before(placeholderEl);
           } else if (!itemInBody && placeholderElInBody) {
