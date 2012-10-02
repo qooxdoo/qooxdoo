@@ -52,7 +52,8 @@
     "PLATFORM"     : "ios",  // provide a default
     "CSS_COMB_URI" : "./resource/$${APPLICATION}/css/$${PLATFORM}-style-min.css",
     "CSS_COMBINED" : "$${BUILD_PATH}/$${CSS_COMB_URI}",
-    "ROOT"         : "."
+    "ROOT"         : ".",
+    "QXTHEME"      : "" // preventing mobile app to load desktop icons
   },
 
   "config-warnings" :
