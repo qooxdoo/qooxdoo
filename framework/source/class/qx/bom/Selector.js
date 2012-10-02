@@ -21,7 +21,7 @@
 
    This class contains code based on the following work:
 
-   * Sizzle CSS Selector Engine - v1.5.1
+   * Sizzle CSS Selector Engine - v1.8.2
 
      Homepage:
        http://sizzlejs.com/
@@ -68,8 +68,8 @@
    ----------------------------------------------------------------------
 
      Version:
-       Snapshot taken on 2011-03-15, latest Sizzle commit on 2011-02-18:
-       commit  ef19279f54ba49242c6461d47577c703f4f4e80e
+       Snapshot taken on 2012-10-02, latest Sizzle commit on 2012-09-20:
+       commit  41a7c2ce9be6c66e0c9b8b15e0a29c8e3ca6fb31
 
 ************************************************************************ */
 
