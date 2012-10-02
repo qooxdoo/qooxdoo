@@ -740,16 +740,17 @@ qx.Class.define("qx.test.ui.virtual.Pane",
         "contextmenu" : "cellContextmenu"
       };
 
-
       for (var mouseEvent in eventMouseToCellEvents)
       {
         var cellEvent = eventMouseToCellEvents[mouseEvent];
 
         calls = [];
+        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 99, documentTop: 99}));
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 99, documentTop: 99}));
         this.assertEquals(0, calls.length);
 
         calls = [];
+        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 100, documentTop: 100}));
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 100, documentTop: 100}));
         this.assertEquals(1, calls.length, cellEvent);
         this.assertEquals(0, calls[0].getRow(), cellEvent);
@@ -757,6 +758,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
         this.assertEquals(cellEvent, calls[0].getType(), cellEvent);
 
         calls = [];
+        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 160, documentTop: 103}));
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 160, documentTop: 103}));
         this.assertEquals(1, calls.length, cellEvent);
         this.assertEquals(0, calls[0].getRow(), cellEvent);
@@ -764,6 +766,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
         this.assertEquals(cellEvent, calls[0].getType(), cellEvent);
 
         calls = [];
+        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 105, documentTop: 110}));
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 105, documentTop: 110}));
         this.assertEquals(1, calls.length, cellEvent);
         this.assertEquals(1, calls[0].getRow(), cellEvent);
@@ -771,17 +774,63 @@ qx.Class.define("qx.test.ui.virtual.Pane",
         this.assertEquals(cellEvent, calls[0].getType(), cellEvent);
 
         calls = [];
+        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 105, documentTop: 125}));
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 105, documentTop: 125}));
         this.assertEquals(0, calls.length);
 
         calls = [];
+        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 275, documentTop: 105}));
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 275, documentTop: 105}));
         this.assertEquals(0, calls.length);
 
         calls = [];
+        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 275, documentTop: 105}));
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 275, documentTop: 105}));
         this.assertEquals(0, calls.length);
       }
+
+      pane.destroy();
+      this.flush();
+    },
+
+    "test mouse click bug #6695" : function()
+    {
+      var rowCount = 2;
+      var colCount = 2;
+      var defaultHeight = 10;
+      var defaultWidth = 50;
+
+      var pane = new qx.ui.virtual.core.Pane(
+        rowCount, colCount,
+        defaultHeight, defaultWidth
+      ).set({
+        width: 150,
+        height: 30
+      });
+
+      this.getRoot().add(pane, {left: 100, top: 100});
+      this.flush();
+
+      var calls = [];
+      var listener = function(e) {
+        calls.push(e);
+      }
+      pane.addListener("cellClick", listener);
+
+      var MouseEventMock = qx.test.ui.virtual.MouseEventMock;
+
+      calls = [];
+      pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 100, documentTop: 100}));
+      pane.dispatchEvent(new MouseEventMock("click", {documentLeft: 100, documentTop: 100}));
+      this.assertEquals(1, calls.length);
+      this.assertEquals(0, calls[0].getRow());
+      this.assertEquals(0, calls[0].getColumn());
+      this.assertEquals("cellClick", calls[0].getType());
+
+      calls = [];
+      pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 100, documentTop: 100}));
+      pane.dispatchEvent(new MouseEventMock("click", {documentLeft: 160, documentTop: 103}));
+      this.assertEquals(0, calls.length);
 
       pane.destroy();
       this.flush();
