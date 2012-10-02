@@ -69,6 +69,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     this.addListener("resize", this._onResize, this);
     this.addListenerOnce("appear", this._onAppear, this);
 
+    this.addListener("mousedown", this._onMouseDown, this);
     this.addListener("click", this._onClick, this);
     this.addListener("dblclick", this._onDblclick, this);
     this.addListener("contextmenu", this._onContextmenu, this);
@@ -131,6 +132,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     __dontFireUpdate : null,
     __columnSizes : null,
     __rowSizes : null,
+    __mouseDownCoords : null,
 
 
     /*
@@ -634,6 +636,14 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.fullUpdate();
     },
 
+    /**
+     * Event listener for mouse down. Remembers cell position to prevent mouse event when cell position change.
+     *
+     * @param e {qx.event.type.Mouse} The incoming mouse event.
+     */
+    _onMouseDown : function(e) {
+      this.__mouseDownCoords = this.getCellAtPosition(e.getDocumentLeft(), e.getDocumentTop());
+    },
 
     /**
      * Event listener for mouse clicks. Fires an cellClick event.
@@ -676,6 +686,11 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     {
       var coords = this.getCellAtPosition(e.getDocumentLeft(), e.getDocumentTop());
       if (!coords) {
+        return;
+      }
+
+      var mouseDownCoords = this.__mouseDownCoords;
+      if (mouseDownCoords == null || mouseDownCoords.row !== coords.row || mouseDownCoords.column !== coords.column) {
         return;
       }
 
