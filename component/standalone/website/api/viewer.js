@@ -442,9 +442,10 @@ q.ready(function() {
 
   var printTypes = function() {
     var params = "";
-    for (var i = 0; i < this.types.length; i++) {
-      params += addTypeLink(this.types[i]);
-      if (i < this.types.length - 1) {
+    var types = this.types || this.returns.types;
+    for (var i = 0; i < types.length; i++) {
+      params += addTypeLink(types[i]);
+      if (i < types.length - 1) {
         params += ", ";
       }
     }
