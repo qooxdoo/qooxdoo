@@ -47,12 +47,23 @@ def formatStream(tokenArr, options):
 
 # - ---------------------------------------------------------------------------
 
+class OutputLine(object):
+    def __init__(self, val=''):
+        self.val = val
+    def add(self, val):
+        self.val += val
+    def get(self):
+        return self.val
+    def set(self, val):
+        self.val = val
+
 class Formatter(object):
 
     def __init__(self, optns, state):
         self._data = []
         self.optns = optns
         self.state = state
+        self.line = OutputLine()
 
     def append(self, el):
         self._data.append(el)
@@ -65,12 +76,6 @@ class Formatter(object):
         if incColumn:
             self.state.currColumn += len(indent)
         return indent
-
-    def maybe_indent(self, incColumn=False):
-        if self.state.last_token and self.state.last_token.name=='eol':
-            return self.indentStr(incColumn)
-        else:
-            return ''
 
     def nl(self):
         self.state.currLine += 1
@@ -91,26 +96,6 @@ class Formatter(object):
     line = u''
     re_non_white = re.compile(r'\S',re.U)
     def add(self, str_):
-        #if self.line == '':
-        #    str_ = str_.lstrip()
-        #    self.line += self.indentStr()
-        #if '\n' not in str_:
-        #    self.line += str_
-        #else:
-        #    rest = self.line + str_
-        #    # add parts of str_ line-wise
-        #    while '\n' in rest:
-        #        idx = rest.find('\n')
-        #        line = self.layout_line(rest[:idx])
-        #        self.append(line)
-        #        rest = self.indentStr() + rest[idx+1:]
-        #    self.line = self.indentStr() + rest
-        #self.line = self.indentStr() + rest[:idx].lstrip()
-        #self.append(self.line)
-        #frag = rest[:idx].lstrip()
-        #if frag: # contains non-white
-        #    line = self.layout_line(self.indentStr() + frag)
-        #self.append(line)
         def not_all_white(s):
             return self.re_non_white.search(s)
 
@@ -143,7 +128,6 @@ class Formatter(object):
     def layout_line(self, str_):
         str_ = str_.rstrip() # remove trailing ws
         str_ += self.nl()
-        #import pydb; pydb.debugger()
         return str_
 
     ##
@@ -165,6 +149,8 @@ class Formatter(object):
         for i,tok in enumerate(tokenArr):
             token = Token(tok)  # prefer objects over dicts
 
+            if token.value == '+':
+                import pydb; pydb.debugger()
             # text width
             if (self.optns.prettypTextWidth and 
                 token.name not in ('comment','white') and
@@ -191,7 +177,6 @@ class Formatter(object):
             else:
                 s = self.format_default(token)
 
-            #si = self.maybe_indent() + s
             si = s
             self.add(si)
             self.state.last_token = token
