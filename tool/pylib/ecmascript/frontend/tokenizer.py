@@ -87,7 +87,7 @@ def parseStream(content, uniqueId=""):
         # line break
         elif tok.name == 'nl':
             token['type']   = 'eol'
-            token['source'] = ''    # that's the way the old tokenizer does it
+            token['source'] = '\n'
             line += 1                  # increase line count
             sol  = tok.spos + tok.len  # char pos of next line start
         

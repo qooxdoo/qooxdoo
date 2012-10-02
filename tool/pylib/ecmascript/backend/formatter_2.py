@@ -32,7 +32,7 @@ from ecmascript.frontend.Scanner         import IterObject, LQueue, LimLQueue, i
 from ecmascript.frontend                 import lang, tokenizer, Comment
 from misc                                import filetool
 from misc.NameSpace                      import NameSpace
-from ecmascript.backend.formatter        import FormatterOptions, FormatterState, defaultState, defaultOptions
+from ecmascript.backend.formatter        import FormatterOptions, FormatterState, defaultOptions
 
 # - Interface -----------------------------------------------------------------
 
@@ -60,34 +60,143 @@ class Formatter(object):
     ##
     # Returns the line-starting indent string
     #
-    def indent(self):
-        ident = self.optns.prettypIndentString * self.state.indentLevel
-        return ident
+    def indentStr(self, incColumn=False):
+        indent = self.optns.prettypIndentString * self.state.indentLevel
+        if incColumn:
+            self.state.currColumn += len(indent)
+        return indent
 
-    def maybe_indent(self):
+    def maybe_indent(self, incColumn=False):
         if self.state.last_token and self.state.last_token.name=='eol':
-            return self.indent()
+            return self.indentStr(incColumn)
         else:
             return ''
 
-    def format(self, tokenArr):
-        
-        for tok in tokenArr:
-            token = Token(tok)  # prefer objects over dicts
-            # skip leading source white space
-            if token.name=="white" and self.state.last_token.name=='eol':
-                continue
+    def nl(self):
+        self.state.currLine += 1
+        self.state.currColumn = 1
+        return '\n'
 
+    ##
+    # Increase indent
+    def indent(self):
+        self.state.indentLevel += 1
+
+    ##
+    # Decrease indent
+    def outdent(self):
+        if self.state.indentLevel > 0:
+            self.state.indentLevel -= 1
+
+    line = u''
+    re_non_white = re.compile(r'\S',re.U)
+    def add(self, str_):
+        #if self.line == '':
+        #    str_ = str_.lstrip()
+        #    self.line += self.indentStr()
+        #if '\n' not in str_:
+        #    self.line += str_
+        #else:
+        #    rest = self.line + str_
+        #    # add parts of str_ line-wise
+        #    while '\n' in rest:
+        #        idx = rest.find('\n')
+        #        line = self.layout_line(rest[:idx])
+        #        self.append(line)
+        #        rest = self.indentStr() + rest[idx+1:]
+        #    self.line = self.indentStr() + rest
+        #self.line = self.indentStr() + rest[:idx].lstrip()
+        #self.append(self.line)
+        #frag = rest[:idx].lstrip()
+        #if frag: # contains non-white
+        #    line = self.layout_line(self.indentStr() + frag)
+        #self.append(line)
+        def not_all_white(s):
+            return self.re_non_white.search(s)
+
+        while str_:
+            # Add fragment to line
+            if '\n' in str_:
+                had_eol = True
+                idx = str_.find('\n')
+            else:
+                had_eol = False
+                idx = len(str_)
+            fragment = str_[:idx]
+            if not self.line:
+                if not_all_white(fragment):  # beginning of line with non-white addition
+                    self.line = self.indentStr() + fragment #.lstrip()
+            else:
+                self.line += fragment  # all-white lines will be trimmed in self.layout_line
+
+            # Reduce
+            str_ = str_[idx+1:]
+
+            # Write complete lines
+            if had_eol:
+                line = self.layout_line(self.line)
+                self.append(line)
+                self.line = ''
+        # postcond: rest of str_ is in self.line
+            
+
+    def layout_line(self, str_):
+        str_ = str_.rstrip() # remove trailing ws
+        str_ += self.nl()
+        #import pydb; pydb.debugger()
+        return str_
+
+    ##
+    # Whether the current line trails in non-white elements
+    def hasLeadingContent(self):
+        if not self.line:
+            return False
+        elif self.line == '\n':
+            return False
+        else:
+            return True
+
+    # --------------------------------------------------------------------------
+
+    def format(self, tokenArr):
+        if self.state.indentLevel > 0:
+            self.state.indentLevel -= 1
+        
+        for i,tok in enumerate(tokenArr):
+            token = Token(tok)  # prefer objects over dicts
+
+            # text width
+            if (self.optns.prettypTextWidth and 
+                token.name not in ('comment','white') and
+                token.detail not in ('COMMA', 'SEMICOLON', 'RC', 'RB', 'RC') and
+                len(token.value) + self.state.currColumn > self.optns.prettypTextWidth):
+                self.add('\n')
+                if not self.state.inExpression:
+                    self.indent()
+                    self.state.inExpression = True
+
+            if token.value in ';\n':  # quick statement-end hack
+                if self.state.inExpression:
+                    self.outdent()
+                    self.state.inExpression = False
+
+            # qx.*.define hack
+            if token.value == 'define':
+                if tokenArr[i-4]['source'] == 'qx':  # qx . Class . define
+                    self.state.inQxDefine = True
+
+            # dispatch handlers
             if hasattr(self, "format_"+token.name):
                 s = getattr(self, "format_"+token.name)(token)
             else:
                 s = self.format_default(token)
-            si = self.maybe_indent() + s
-            #import pydb; pydb.debugger()
-            self.append(si)
-            self.state.last_token = token
-            self.state.currColumn += len(si)
 
+            #si = self.maybe_indent() + s
+            si = s
+            self.add(si)
+            self.state.last_token = token
+
+        self.add('\n') # add remainder in self.line
         return u''.join(self._data)
 
 
@@ -97,16 +206,15 @@ class Formatter(object):
     ##
     # 'source' line breaks
     def format_eol(self, token):
-        self.state.currLine += 1
-        self.state.currColumn = 1
-        return '\n'
+        return token.value
 
     def format_string(self, token):
         q = '"' if token.detail == "doublequotes" else "'"
         return q + token.value + q
 
     def format_comment(self, token):
-        return Comment.Text(token.value).indent(self.indent())
+        #return Comment.Text(token.value).indent(self.indentStr())
+        return token.value
 
     def format_white(self, token):
         if self.state.last_token == None or self.state.last_token.name == 'eol':
@@ -121,16 +229,42 @@ class Formatter(object):
             return self.format_default(token)
 
     def format_LC(self, token):
-        if self.optns.prettypOpenCurlyNewlineBefore in 'nN':
-            s = ' {'
-        else:
-            s = '\n' + self.indent() + '{'
-        self.state.indentLevel += 1
-        #import pydb; pydb.debugger()
-        return s
+        if self.optns.prettypOpenCurlyNewlineBefore not in 'nN' and self.hasLeadingContent():
+            self.add('\n')
+        self.add('{')
+        self.indent()
+        return ''
 
     def format_RC(self, token):
-        self.state.indentLevel -= 1
+        self.outdent()
         return '}'
         
+    def format_LP(self, token):
+        if not self.state.inQxDefine:
+            self.indent()
+        else: # reset
+            self.state.inQxDefine = False
+        return '('
+
+    def format_RP(self, token):
+        self.outdent()
+        return ')'
+        
+    def format_LB(self, token):
+        self.indent()
+        return '['
+
+    def format_RB(self, token):
+        self.outdent()
+        return ']'
+
+
+def defaultState(state, optns):
+    state.indentLevel = 0
+    state.currLine    = 1   # current insert line
+    state.currColumn  = 1   # current insert column (where the next char will be inserted)
+    state.last_token  = None
+    state.inExpression = False
+    state.inQxDefine = False
+    return state
 

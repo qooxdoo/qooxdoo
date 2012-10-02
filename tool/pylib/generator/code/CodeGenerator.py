@@ -1011,8 +1011,10 @@ class CodeGenerator(object):
         ppsettings = ExtMap(self._job.get("pretty-print"))  # get the pretty-print config settings
 
         # init options
-        def options(): pass
-        pretty.defaultOptions(options)
+        #def options(): pass
+        #pretty.defaultOptions(options)
+        options = formatter.FormatterOptions()
+        formatter.defaultOptions(options)
 
         # modify according to config
         if 'general/indent-string' in ppsettings:

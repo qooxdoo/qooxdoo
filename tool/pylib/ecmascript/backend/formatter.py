@@ -723,12 +723,13 @@ def defaultOptions(optns):
     optns.prettyPrint = True  # turn on pretty-printing
     optns.prettypCommentsBlockAdd  = True  # comment filling
     optns.prettypIndentString      = "  "   # general indent string
-    optns.prettypOpenCurlyNewlineBefore = 'm'  # mixed, dep. on complexity
+    optns.prettypOpenCurlyNewlineBefore = 'n'  # mixed, dep. on complexity
     optns.prettypOpenCurlyIndentBefore  = False  # indent curly on a new line
     optns.prettypAlignBlockWithCurlies  = False  # put block on same column as curlies
     optns.prettypCommentsTrailingCommentCols = ''  # put trailing comments on fixed columns
     optns.prettypCommentsTrailingKeepColumn  = False  # fix trailing comment on column of original text
     optns.prettypCommentsInlinePadding  = '  '   # space between end of code and beginning of comment
+    optns.prettypTextWidth = 80 # 0
     return optns
 
 def defaultState(state, optns):
@@ -736,6 +737,7 @@ def defaultState(state, optns):
     state.currLine    = 1   # current insert line
     state.currColumn  = 1   # current insert column (where the next char will be inserted)
     state.last_token  = None
+    state.inExpression = False
     return state
 
 def indentString(optns, state):
