@@ -159,6 +159,7 @@ qx.Bootstrap.define("qx.bom.Selector",
 /**
  * Below is the original Sizzle code. Snapshot date is mentioned in the head of
  * this file.
+ * @lint ignoreUnused(j, rnot, rendsWithNot)
  */
 
 /*!
