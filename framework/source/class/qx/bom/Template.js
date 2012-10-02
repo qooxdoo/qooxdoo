@@ -155,13 +155,7 @@ var Mustache;
  * @lint ignoreUndefined(module,define)
  */
 (function (exports) {
-  if (typeof module !== "undefined" && module.exports) {
-    module.exports = exports; // CommonJS
-  } else if (typeof define === "function") {
-    define(exports); // AMD
-  } else {
-    Mustache = exports; // <script>
-  }
+    Mustache = exports;
 }((function () {
 
   var exports = {};
