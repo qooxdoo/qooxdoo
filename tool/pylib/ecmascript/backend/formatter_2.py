@@ -199,7 +199,31 @@ class Formatter(object):
 
     def format_comment(self, token):
         #return Comment.Text(token.value).indent(self.indentStr())
+        if hasattr(self, "format_comment_"+token.detail):  # 'block', 'inline'
+            return getattr(self, "format_comment_"+token.detail)(token)
+        else:
+            return self.format_default(token)
+
+    def format_comment_block(self, token):
         return token.value
+
+    def format_comment_inline(self, token):
+        res = ''
+        if self.optns.prettypCommentsTrailingKeepColumn:
+            if self.state.currColumn < token.column:
+                shiftStr = ' ' * (token.column - self.state.currColumn)
+                res += shiftStr
+        elif self.optns.prettypCommentsTrailingCommentCols:
+            cols = [c for c in self.optns.prettypCommentsTrailingCommentCols
+                    if c > self.state.currColumn]
+            col = cols[0] if cols else 0
+            shiftStr = ' ' * (col - self.state.currColumn)
+            res += shiftStr
+        elif self.optns.prettypCommentsInlinePadding:  
+            # this should actually drop a potential 'white' 
+            # token from the source, otherwise they add up
+            res += self.optns.prettypCommentsInlinePadding
+        return res + token.value
 
     def format_white(self, token):
         if self.state.last_token == None or self.state.last_token.name == 'eol':
@@ -216,12 +240,18 @@ class Formatter(object):
     def format_LC(self, token):
         if self.optns.prettypOpenCurlyNewlineBefore not in 'nN' and self.hasLeadingContent():
             self.add('\n')
+            if self.optns.prettypOpenCurlyIndentBefore:
+                self.indent()
         self.add('{')
-        self.indent()
+        if not self.optns.prettypAlignBlockWithCurlies:
+            self.indent()
         return ''
 
     def format_RC(self, token):
-        self.outdent()
+        if not self.optns.prettypAlignBlockWithCurlies:
+            self.outdent()
+        if self.optns.prettypOpenCurlyIndentBefore:
+            self.outdent()
         return '}'
         
     def format_LP(self, token):
