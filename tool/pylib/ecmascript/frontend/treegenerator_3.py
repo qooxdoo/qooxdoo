@@ -1075,6 +1075,7 @@ symbol("}")
 def pfix(self):
     mmap = symbol("map")()
     self.patch(mmap)
+    mmap.childappend(self)
     if token.id != "}":
         is_after_comma = 0
         while True:
@@ -1082,35 +1083,37 @@ def pfix(self):
                 if is_after_comma:  # prevent dangling comma '...,}' (bug#6210)
                     raise SyntaxException("Illegal dangling comma in map (pos %r)" % ((token.get("line"),token.get("column")),))
                 break
-            is_after_comma = 0
-            # key
-            keyname = expression()
-            map_item = symbol("keyvalue")(token.get("line"), token.get("column"))
-            # the <keyname> node is not entered into the ast, but resolved into <keyvalue>
-            mmap.childappend(map_item)
-            map_item.set("key", keyname.get("value"))
-            quote_type = keyname.get("detail", False)
-            map_item.set("quote", quote_type if quote_type else '')
-            map_item.comments = keyname.comments
-            advance(":")
-            # value
-            keyval = expression()
-            val = symbol("value")(token.get("line"), token.get("column"))
-            val.childappend(keyval)
-            map_item.childappend(val)  # <value> is a child of <keyvalue>
-            if token.id != ",":
-                break
-            else:
-                is_after_comma = 1
+            elif token.id == ",":
+                mmap.childappend(token)
                 advance(",")
+            else: # key:val
+                is_after_comma = 0
+                # key
+                keyname = expression()
+                map_item = symbol("keyvalue")(token.get("line"), token.get("column"))
+                # the <keyname> node is not entered into the ast, but resolved into <keyvalue>
+                mmap.childappend(map_item)
+                map_item.childappend(keyname)
+                # ":"
+                map_item.childappend(token)
+                advance(":")
+                # value
+                keyval = expression()
+                val = symbol("value")(token.get("line"), token.get("column"))
+                val.childappend(keyval)
+                map_item.childappend(val)  # <value> is a child of <keyvalue>
+    mmap.childappend(token)
     advance("}")
     return mmap
 
 @method(symbol("{"))                    # blocks
 def std(self):
-    a = statements()
+    block = symbol("block")()
+    block.childappend(self)
+    block.childappend(statements())
+    block.childappend(token)
     advance("}")
-    return a
+    return block
 
 symbol("map")
 
@@ -1169,12 +1172,8 @@ def toListG(self):
 # call for constructs that have blocks, like "for", "while", etc.
 
 def block():
-    t = token
-    advance("{")
-    s = symbol("block")()
-    t.patch(s)
-    s.childappend(t.std())  # the "{".std takes care of closing "}"
-    return s
+    # token.id == '{'
+    return token.std()
 
 symbol("block")
 
@@ -1198,20 +1197,18 @@ def pfix(self):
     # optional name
     opt_name = None
     if token.id == "identifier":
-        #self.childappend(token.get("value"))
-        #self.childappend(token)
-        #self.set("name", token.get("value"))
-        opt_name = token
+        opt_name = token  # see further
         advance()
     # params
     assert token.id == "("
+    self.childappend(token)
     params = symbol("params")()
     token.patch(params)
     self.childappend(params)
     group = expression()  # group parsing as helper
     for c in group.children:
         params.childappend(c)
-    #params.children = group.children retains group as parent!
+    #params.children = group.children # nope - retains group as parent!
     # body
     body = symbol("body")()
     token.patch(body)
