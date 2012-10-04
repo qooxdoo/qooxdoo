@@ -47,23 +47,19 @@ def formatStream(tokenArr, options):
 
 # - ---------------------------------------------------------------------------
 
-class OutputLine(object):
-    def __init__(self, val=''):
-        self.val = val
-    def add(self, val):
-        self.val += val
-    def get(self):
-        return self.val
-    def set(self, val):
-        self.val = val
-
 class Formatter(object):
 
     def __init__(self, optns, state):
         self._data = []
         self.optns = optns
         self.state = state
-        self.line = OutputLine()
+        self.line = u''
+
+    def _getCurrColumn(self):
+        return len(self.line) + 1
+
+    # use own currColumn instead of self.state.currColumn
+    currColumn = property(_getCurrColumn)
 
     def append(self, el):
         self._data.append(el)
@@ -74,12 +70,13 @@ class Formatter(object):
     def indentStr(self, incColumn=False):
         indent = self.optns.prettypIndentString * self.state.indentLevel
         if incColumn:
-            self.state.currColumn += len(indent)
+            #self.state.currColumn += len(indent)
+            pass
         return indent
 
     def nl(self):
         self.state.currLine += 1
-        self.state.currColumn = 1
+        #self.state.currColumn = 1
         return '\n'
 
     ##
@@ -150,12 +147,13 @@ class Formatter(object):
             token = Token(tok)  # prefer objects over dicts
 
             if token.value == '+':
-                import pydb; pydb.debugger()
+                #import pydb; pydb.debugger()
+                pass
             # text width
             if (self.optns.prettypTextWidth and 
                 token.name not in ('comment','white') and
                 token.detail not in ('COMMA', 'SEMICOLON', 'RC', 'RB', 'RC') and
-                len(token.value) + self.state.currColumn > self.optns.prettypTextWidth):
+                len(token.value) + self.currColumn > self.optns.prettypTextWidth):
                 self.add('\n')
                 if not self.state.inExpression:
                     self.indent()
@@ -210,14 +208,14 @@ class Formatter(object):
     def format_comment_inline(self, token):
         res = ''
         if self.optns.prettypCommentsTrailingKeepColumn:
-            if self.state.currColumn < token.column:
-                shiftStr = ' ' * (token.column - self.state.currColumn)
+            if self.currColumn < token.column:
+                shiftStr = ' ' * (token.column - self.currColumn)
                 res += shiftStr
         elif self.optns.prettypCommentsTrailingCommentCols:
             cols = [c for c in self.optns.prettypCommentsTrailingCommentCols
-                    if c > self.state.currColumn]
+                    if c > self.currColumn]
             col = cols[0] if cols else 0
-            shiftStr = ' ' * (col - self.state.currColumn)
+            shiftStr = ' ' * (col - self.currColumn)
             res += shiftStr
         elif self.optns.prettypCommentsInlinePadding:  
             # this should actually drop a potential 'white' 
