@@ -88,8 +88,8 @@ qx.Class.define("qx.util.placement.Placement",
      *   Comes with the keys <code>left</code>, <code>top</code>,
      *   <code>right</code> and <code>bottom</code>.
      * @param position {String} Alignment of the object on the target, any of
-     *   "top-left", "top-right", "bottom-left", "bottom-right", "left-top",
-     *   "left-bottom", "right-top", "right-bottom".
+     *   "top-left", "top-center", "top-right", "bottom-left", "bottom-center", "bottom-right",
+     *   "left-top", "left-middle", "left-bottom", "right-top", "right-middle", "right-bottom".
      * @param modeX {String} Horizontal placement mode. Valid values are:
      *   <ul>
      *   <li><code>direct</code>: place the object directly at the given
