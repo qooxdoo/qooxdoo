@@ -140,15 +140,14 @@ class Formatter(object):
     # --------------------------------------------------------------------------
 
     def format(self, tokenArr):
+        self.tokenArr = tokenArr
         if self.state.indentLevel > 0:
             self.state.indentLevel -= 1
         
         for i,tok in enumerate(tokenArr):
             token = Token(tok)  # prefer objects over dicts
+            self.tokenIdx = i
 
-            if token.value == '+':
-                #import pydb; pydb.debugger()
-                pass
             # text width
             if (self.optns.prettypTextWidth and 
                 token.name not in ('comment','white') and
@@ -163,11 +162,6 @@ class Formatter(object):
                 if self.state.inExpression:
                     self.outdent()
                     self.state.inExpression = False
-
-            # qx.*.define hack
-            if token.value == 'define':
-                if tokenArr[i-4]['source'] == 'qx':  # qx . Class . define
-                    self.state.inQxDefine = True
 
             # dispatch handlers
             if hasattr(self, "format_"+token.name):
@@ -205,6 +199,8 @@ class Formatter(object):
     def format_comment_block(self, token):
         return token.value
 
+    re_endwhite = re.compile(r'\s*$', re.U)
+
     def format_comment_inline(self, token):
         res = ''
         if self.optns.prettypCommentsTrailingKeepColumn:
@@ -218,9 +214,9 @@ class Formatter(object):
             shiftStr = ' ' * (col - self.currColumn)
             res += shiftStr
         elif self.optns.prettypCommentsInlinePadding:  
-            # this should actually drop a potential 'white' 
-            # token from the source, otherwise they add up
-            res += self.optns.prettypCommentsInlinePadding
+            if self.hasLeadingContent():
+                self.line = self.re_endwhite.sub(
+                    self.optns.prettypCommentsInlinePadding, self.line)
         return res + token.value
 
     def format_white(self, token):
@@ -253,11 +249,14 @@ class Formatter(object):
         return '}'
         
     def format_LP(self, token):
-        if not self.state.inQxDefine:
+        self.add('(')
+        # qx.*.define hack
+        if (self.tokenArr[self.tokenIdx-1]['source'] == 'define' and
+            self.tokenArr[self.tokenIdx-5]['source'] == 'qx'):  # qx . * . define
+                pass  # this works for qx.*.define at the beginning of a line
+        else:
             self.indent()
-        else: # reset
-            self.state.inQxDefine = False
-        return '('
+        return ''
 
     def format_RP(self, token):
         self.outdent()
