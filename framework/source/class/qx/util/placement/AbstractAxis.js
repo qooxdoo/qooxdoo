@@ -78,7 +78,7 @@ qx.Bootstrap.define("qx.util.placement.AbstractAxis",
           return target.start + offsets.start;
 
         case "align-center":
-          return target.start + parseInt((target.end - target.start) / 2, 10) - parseInt(size / 2, 10) + offsets.start;
+          return target.start + parseInt((target.end - target.start - size) / 2, 10) + offsets.start;
 
         case "align-end":
           return target.end - offsets.end - size;
