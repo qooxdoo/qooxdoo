@@ -1098,8 +1098,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     if (pane != null)
     {
       if (pane.hasListener("cellDblclick")) {
-        pane.addListener("cellDblclick", this._onOpen, this);
-      } else if (pane.hasListener("cellClick")) {
+        pane.removeListener("cellDblclick", this._onOpen, this);
+      }
+      if (pane.hasListener("cellClick")) {
         pane.removeListener("cellClick", this._onOpen, this);
       }
     }
@@ -1108,6 +1109,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     {
       this.__deferredCall.cancel();
       this.__deferredCall.dispose();
+    }
+
+    var model = this.getModel();
+    if (model != null) {
+      model.removeListener("changeBubble", this._onChangeBubble, this);
     }
 
     this._layer.removeListener("updated", this._onUpdated, this);
