@@ -491,11 +491,11 @@ qx.Class.define("qx.ui.list.List",
     _applyModel : function(value, old)
     {
       if (value != null) {
-        value.addListener("change", this._onModelChange, this);
+        value.addListener("changeLength", this._onModelChange, this);
       }
 
       if (old != null) {
-        old.removeListener("change", this._onModelChange, this);
+        old.removeListener("changeLength", this._onModelChange, this);
       }
 
       this._provider.removeBindings();
@@ -799,7 +799,7 @@ qx.Class.define("qx.ui.list.List",
   {
     var model = this.getModel();
     if (model != null) {
-      model.removeListener("change", this._onModelChange, this);
+      model.removeListener("changeLength", this._onModelChange, this);
     }
 
     var pane = this.getPane()
