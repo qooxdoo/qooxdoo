@@ -62,7 +62,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
   construct : function(transitionDuration)
   {
     this.base(arguments);
-    
     if(transitionDuration) {
       this.__transitionDuration = transitionDuration;
     }
@@ -112,6 +111,13 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       check : "Boolean",
       init : true,
       apply : "_applyShowPagination"
+    },
+    
+    /* Defines whether nextPage() or previousPage() should scroll back to first or last item, 
+     * when the end of carousel pages is reached  */
+    scrollLoop : {
+      check : "Boolean",
+      init : true
     }
   },
 
@@ -137,7 +143,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     __showTransition : null,
     __transitionDuration : 0.4,
     __swipeVelocityLimit : 1.5,
-
+    
     
     // overridden
     /**
@@ -170,6 +176,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.__pagination.add(paginationLabel);
       
       this._updatePagination(0, this.__shownPageIndex);
+      this._updateCarouselLayout();
+      
     },
     
     
@@ -196,34 +204,19 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     
     
     /**
-     * Scrolls the carousel to the page with the given pageIndex.
-     * @param pageIndex {Integer} the target page index, which should be visible.
-     */
-    scrollToPage : function(pageIndex) {
-      if(pageIndex >= this.__pages.length || pageIndex < 0) {
-        return
-      }
-      
-      this._setShowTransition(true);
-      
-      this._updatePagination(this.__shownPageIndex,pageIndex);
-      this.__shownPageIndex = pageIndex;
-      
-      this._updateCarouselLayout();
-    },
-    
-    
-    /**
      * Scrolls the carousel to next page.
      */
     nextPage : function() {
+      var oldIndex = this.__shownPageIndex;
       if(this.__shownPageIndex == this.__pages.length-1) {
-        return;
+        if(this.isScrollLoop()) {
+          this.__shownPageIndex = -1;
+        } else {
+          return;
+        }
       }
       
       this._setShowTransition(true);
-      
-      var oldIndex = this.__shownPageIndex;
       this.__shownPageIndex = this.__shownPageIndex +1;
       
       this._updatePagination(oldIndex,this.__shownPageIndex);
@@ -236,7 +229,11 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     previousPage : function() {
       if(this.__shownPageIndex == 0) {
-        return;
+        if(this.isInfiniteScroll()) {
+          this.__shownPageIndex = this.__pages.length-1;
+        } else {
+          return;
+        }
       }
       
       this._setShowTransition(true);
