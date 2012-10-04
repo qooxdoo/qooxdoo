@@ -797,6 +797,16 @@ qx.Class.define("qx.ui.list.List",
 
   destruct : function()
   {
+    var model = this.getModel();
+    if (model != null) {
+      model.removeListener("change", this._onModelChange, this);
+    }
+
+    var pane = this.getPane()
+    if (pane != null) {
+      pane.removeListener("resize", this._onResize, this);
+    }
+
     this._background.dispose();
     this._provider.dispose();
     this._layer.dispose();
