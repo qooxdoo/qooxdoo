@@ -33,18 +33,34 @@ qx.Class.define("demobrowser.demo.ui.Placement",
 
       var root = this.getRoot();
 
-      this.__positions = ["bottom-left", "bottom-right", "top-left",
-        "top-right", "right-top", "right-bottom", "left-top", "left-bottom"];
+      this.__positions = [
+        "bottom-left", "bottom-center", "bottom-right",
+        "top-left", "top-center", "top-right",
+        "right-top", "right-middle", "right-bottom",
+        "left-top", "left-middle", "left-bottom"
+      ];
+
+      
 
       // Corners
       root.add(this.createTestField("bottom-left"), { left: 20, top: 20 });
       root.add(this.createTestField("bottom-right"), { right: 20, top: 20 });
-      root.add(this.createTestField("top-left"), { right: 20, bottom: 20 });
-      root.add(this.createTestField("top-right"), { left: 20, bottom: 20 });
+      root.add(this.createTestField("top-right"), { right: 20, bottom: 20 });
+      root.add(this.createTestField("top-left"), { left: 20, bottom: 20 });
+
+      // Top+Bottom Center
+      root.add(this.createTestField("bottom-center"), { left: 400, top: 20 });
+      root.add(this.createTestField("top-center"), { left: 400, bottom: 20 });
+      
 
       // Left+Right Side
-      root.add(this.createTestField("right-top"), { left: 20, top: 250 });
-      root.add(this.createTestField("left-bottom"), { right: 20, top: 250 });
+      root.add(this.createTestField("right-top"), { left: 20, top: 200 });
+      root.add(this.createTestField("right-middle"), { left: 20, top: 275 });
+      root.add(this.createTestField("right-bottom"), { left: 20, top: 350 });
+      
+      root.add(this.createTestField("left-top"), { right: 20, top: 200 });
+      root.add(this.createTestField("left-middle"), { right: 20, top: 275 });
+      root.add(this.createTestField("left-bottom"), { right: 20, top: 350 });
 
       // DOM align test
       root.add(this.createDomClick(), { left: 200, top: 100 });
