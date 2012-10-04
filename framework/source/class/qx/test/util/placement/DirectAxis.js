@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -51,6 +52,11 @@ qx.Class.define("qx.test.util.placement.DirectAxis",
       this.assertEquals(
         510,
         this.axis.computeStart(size, target, offsets, areaSize, "align-start")
+      );
+
+      this.assertEquals(
+        535,
+        this.axis.computeStart(size, target, offsets, areaSize, "align-center")
       );
 
       this.assertEquals(

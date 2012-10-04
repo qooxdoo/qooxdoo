@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -61,7 +62,7 @@ qx.Class.define("qx.util.placement.Placement",
      * Specify with which edge of the target object, the object should be aligned
      */
     align : {
-      check: ["top", "right", "bottom", "left"],
+      check: ["top", "right", "bottom", "left", "center", "middle"],
       init: "right"
     }
   },
@@ -247,6 +248,8 @@ qx.Class.define("qx.util.placement.Placement",
         return "edge-end";
       } else if (align == "left") {
         return "align-start";
+      } else if (align == "center") {
+        return "align-center";
       } else if (align == "right") {
         return "align-end";
       }
@@ -269,6 +272,8 @@ qx.Class.define("qx.util.placement.Placement",
         return "edge-end";
       } else if (align == "top") {
         return "align-start";
+      } else if (align == "middle") {
+        return "align-center";
       } else if (align == "bottom") {
         return "align-end";
       }
