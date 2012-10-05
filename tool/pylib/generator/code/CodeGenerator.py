@@ -1273,8 +1273,12 @@ class CodeGenerator(object):
             for locale, data in statsObj.stats.items():
                 if locale in skip_locales: continue
                 self._console.nl()
+                if data['total']:
+                    percent_ut = 100*len(data['untranslated'])/data['total']
+                else:
+                    percent_ut = 0
                 self._console.debug(
-                    "%s:\t untranslated entries: %3d%% (%d/%d)" % (locale, 100*len(data['untranslated'])/data['total'], 
+                    "%s:\t untranslated entries: %3d%% (%d/%d)" % (locale, percent_ut, 
                         len(data['untranslated']), data['total'])
                 )
                 self._console.nl()
