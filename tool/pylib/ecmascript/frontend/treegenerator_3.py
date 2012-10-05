@@ -1011,12 +1011,12 @@ def pfix(self):
     self.patch(arr)
     # '['
     arr.childappend(self)
-    is_after_comma = 0
     while True:
         if token.id == "]":
             break
         elif token.id == ",":  # elision
             arr.childappend(token)
+            advance(",")
         else:
             arr.childappend(expression())
     # ']'
@@ -1110,6 +1110,7 @@ def pfix(self):
 def std(self):
     block = symbol("block")()
     block.childappend(self)
+    advance('{')
     block.childappend(statements())
     block.childappend(token)
     advance("}")
@@ -1284,22 +1285,23 @@ def pfix(self):
     while True:
         defn = symbol("definition")(token.get("line"), token.get("column"))
         self.childappend(defn)
-        n = token
-        if n.id != "identifier":
+        ident = token
+        if ident.id != "identifier":
             raise SyntaxException("Expected a new variable name (pos %r)" % ((token.get("line"), token.get("column")),))
         advance()
         # initialization
         if token.id == "=":
             t = token
             advance()
-            elem = t.ifix(n)
+            elem = t.ifix(ident)
         # plain identifier
         else:
-            elem = n
+            elem = ident
         defn.childappend(elem)
         if token.id != ",":
             break
         else:
+            self.childappend(token)
             advance(",")
     return self
 
@@ -1360,6 +1362,7 @@ def std(self):
     self.set("loopType", "FOR")
     
     # condition
+    self.childappend(token)
     advance("(")
     # try to consume the first part of a (pot. longer) condition
     if token.id != ";":
@@ -1385,19 +1388,22 @@ def std(self):
         elif token.id == ';':   # single init expr
             first.childappend(chunk)
         elif token.id == ',':   # multiple init expr
-            advance()
             exprList = symbol("expressionList")(token.get("line"), token.get("column"))
             first.childappend(exprList)
             exprList.childappend(chunk)
+            exprList.childappend(token)
+            advance()
             lst = init_list()
             for assgn in lst:
                 exprList.childappend(assgn)
+        condition.childappend(token)
         advance(";")
         # condition part 
         second = symbol("second")(token.get("line"), token.get("column"))
         condition.childappend(second)
         if token.id != ";":
             second.childappend(expression())
+        condition.childappend(token)
         advance(";")
         # update part
         third = symbol("third")(token.get("line"), token.get("column"))
@@ -1408,10 +1414,12 @@ def std(self):
                 expr = expression(0)
                 exprList.childappend(expr)
                 if token.id == ',':
+                    exprList.childappend(token)
                     advance(',')
             third.childappend(exprList)
 
     # body
+    self.childappend(token)
     advance(")")
     body = symbol("body")(token.get("line"), token.get("column"))
     body.childappend(statementOrBlock())
@@ -1480,8 +1488,10 @@ symbol("while")
 def std(self):
     self.type = "loop" # compat with Node.type
     self.set("loopType", "WHILE")
+    self.childappend(token)
     advance("(")
     self.childappend(expression())
+    self.childappend(token)
     advance(")")
     body = symbol("body")(token.get("line"), token.get("column"))
     body.childappend(statementOrBlock())
@@ -1515,9 +1525,12 @@ def std(self):
     body = symbol("body")(token.get("line"), token.get("column"))
     body.childappend(statementOrBlock())
     self.childappend(body)
+    self.childappend(token)
     advance("while")
+    self.childappend(token)
     advance("(")
     self.childappend(expression(0))
+    self.childappend(token)
     advance(")")
     return self
 
@@ -1545,8 +1558,10 @@ symbol("with")
 def std(self):
     self.type = "loop" # compat. with Node.type
     self.set("loopType", "WITH")
+    self.childappend(token)
     advance("(")
     self.childappend(expression(0))
+    self.childappend(token)
     advance(")")
     body = symbol("body")(token.get("line"), token.get("column"))
     body.childappend(statementOrBlock())
@@ -1577,13 +1592,16 @@ symbol("if"); symbol("else")
 def std(self):
     self.type = "loop" # compat with Node.type (i'd rather use explicit 'if', 'for', etc.)
     self.set("loopType", "IF")
+    self.childappend(token)
     advance("(")
     self.childappend(expression(0))
+    self.childappend(token)
     advance(")")
     then_part = symbol("body")(token.get("line"), token.get("column"))
     then_part.childappend(statementOrBlock())
     self.childappend(then_part)
     if (token.id == "else"):
+        self.childappend(token)
         advance("else")
         else_part = symbol("body")(token.get("line"), token.get("column"))
         else_part.childappend(statementOrBlock())
@@ -1746,6 +1764,7 @@ def pfix(self):
     arg = expression(self.bind_left-1)  # first, parse a normal expression (this excludes '()')
     if token.id == '(':  # if the next token indicates a call
         t = token
+        self.childappend(token)
         advance("(")
         arg = t.ifix(left=arg)   # invoke '('.ifix, with class name as <left> arg
     self.childappend(arg)
@@ -1756,9 +1775,12 @@ symbol("switch"); symbol("case"); symbol("default")
 
 @method(symbol("switch"))
 def std(self):
+    self.childappend(token)
     advance("(")
     self.childappend(expression(0))
+    self.childappend(token)
     advance(")")
+    self.childappend(token)
     advance("{")
     body = symbol("body")(token.get("line"), token.get("column"))
     self.childappend(body)
@@ -1766,8 +1788,10 @@ def std(self):
         if token.id == "}": break
         elif token.id == "case":
             case = token  # make 'case' the root node (instead e.g. ':')
+            self.childappend(token)
             advance("case")
             case.childappend(expression(0))
+            self.childappend(token)
             advance(":")
             if token.id in ("case", "default") : # fall-through
                 pass
@@ -1775,13 +1799,16 @@ def std(self):
                 case.childappend(case_block())
         elif token.id == "default":
             case = token
+            self.childappend(token)
             advance("default")
+            self.childappend(token)
             advance(":")
             if token.id in ("case",) : # fall-through
                 pass
             else:
                 case.childappend(case_block())
         body.childappend(case)
+    self.childappend(token)
     advance("}")
     return self
 
@@ -1858,21 +1885,19 @@ def std(self):
         catch = token
         self.childappend(catch)
         advance("catch")
-        #advance("(")
-        #catch.childappend(expression(0))
-        #advance(")")
-
         # insert "params" node, par. to function.pfix
         assert token.id == "("
+        catch.childappend(token)
         params = symbol("params")(token.get("line"), token.get("column"))
         catch.childappend(params)
         group = expression()  # group parsing as helper
         for c in group.children:
             params.childappend(c)  # to have params as parent of group's children
-
+        # the closing ')' is probably swallowed in group
         catch.childappend(block())
     if token.id == "finally":
         finally_ = token
+        self.childappend(token)
         advance("finally")
         self.childappend(finally_)
         finally_.childappend(block())
@@ -1934,11 +1959,13 @@ def expression(bind_right=0):
 symbol("label")
 
 def statement():
+    statmnt = symbol("statement")(token.get("line"), token.get("column"))
     # labeled statement
     if token.type == "identifier" and tokenStream.peek(1).id == ":": # label
         s = symbol("label")(token.get("line"), token.get("column"))
-        s.attributes = token.attributes
+        s.childappend(token)
         advance()
+        s.childappend(token)
         advance(":")
         s.childappend(statement())
     # normal SourceElement
@@ -1950,6 +1977,7 @@ def statement():
             advance()
             s = n.pfix()
             if token.id == ';':  # consume dangling semi
+                s.childappend(token)
                 advance()
         # statement
         else:
@@ -1958,6 +1986,7 @@ def statement():
                 s = n.std()
             elif token.id == ';': # empty statement
                 s = symbol("(empty)")()
+                s.childappend(token)
             elif token.type != 'eol': # it's not an empty line
                 s = expression()
                 # Crockford's too tight here
@@ -1974,10 +2003,15 @@ def statement():
                     s1.childappend(s)
                     s = s1
                     while token.id == ',':
+                        s.childappend(token)
                         advance(',')
                         s.childappend(expression())
             statementEnd()
-    return s
+    statmnt.childappend(s)
+    if token.id == ';':
+        statmnt.childappend(token)
+        advance(';')
+    return statmnt
 
 @method(symbol("statement"))
 def toJS(self, opts):
@@ -1998,11 +2032,14 @@ def toJS(self, opts):
 
 def statementEnd():
     if token.id in (";",):
-        advance()
+        pass
     #elif token.id == "eof":
     #    return token  # ok as stmt end, but don't just skip it (bc. comments)
     elif tokenStream.eolBefore:
         pass # that's ok as statement end
+    else:
+        raise SyntaxException("Unterminated statement (pos %r)" % ((token.get("line"), token.get("column")),))
+
     #if token.id in ("eof", 
     #    "eol", # these are not yielded by the TokenStream currently
     #    ";", 
@@ -2036,8 +2073,6 @@ def statements():  # plural!
             break
         st = statement()
         if st:
-            #stmt = symbol("statement")(st.get("line"), st.get("column")) # insert <statement> for better finding comments later
-            #stmt.childappend(st)
             s.childappend(st)
     return s
 
@@ -2053,6 +2088,8 @@ def toJS(self, opts):
     return u''.join(r)
 
 
+##
+# Parse a list of initializers (e.g. in 'var', 'for', ...)
 def init_list():  # parse anything from "i" to "i, j=3, k,..."
     lst = []
     while True:
@@ -2063,25 +2100,9 @@ def init_list():  # parse anything from "i" to "i, j=3, k,..."
         if token.id != ",":
             break
         else:
+            lst.append(token)
             advance(",")
     return lst
-
-# next is not used!
-def argument_list(list):
-    while 1:
-        if token.id != "identifier":
-            SyntaxException("Expected an argument name (pos %r)." % ((token.get("line"), token.get("column")),))
-        list.append(token)
-        advance()
-        if token.id == "=":
-            advance()
-            list.append(expression())
-        else:
-            list.append(None)
-        if token.id != ",":
-            break
-        advance(",")
-
 
 
 # - Output/Packer methods for AST nodes ----------------------------------------

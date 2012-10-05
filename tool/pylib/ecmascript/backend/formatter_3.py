@@ -26,7 +26,7 @@
 
 import sys, os, re, types, string
 
-from ecmascript.frontend.treegenerator import method, symbol, symbol_base, SYMBOLS, identifier_regex, PackerFlags as pp
+from ecmascript.frontend.treegenerator_3 import method, symbol, symbol_base, SYMBOLS, identifier_regex, PackerFlags as pp
 from ecmascript.frontend import lang, Comment
 
 # ------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ from ecmascript.frontend import lang, Comment
 
 # fall-back in symbol_base
 def format(self, optns, state):
-    r = self.commentsPretty(optns, state)
+    r = self.commentsPretty(self.comments, optns, state)
     r += self.get("value", u'')
     return r
 symbol_base.format = format
@@ -218,25 +218,16 @@ def format(self, optns, state):
 
 @method(symbol("accessor"))
 def format(self, optns, state):
-    r = self.children[0].format(optns, state)
-    r += self.commentsPretty(self.comments, optns, state)
-    r += '['
-    r += self.children[1].format(optns, state)
-    r += ']'
-    return r
+    r = []
+    for cld in self.children:
+        r += [cld.format(optns, state)]
+    return u''.join(r)
 
 @method(symbol("array"))
 def format(self, optns, state):
     res = []
-    res += [self.commentsPretty(self.comments, optns, state)]
-    res += ['[']
-    r = []
-    for c in self.children:
-        r.append(c.format(optns, state))
-    res += [u', '.join(r)]
-    res.append(self.commentsPretty(self.commentsIn, optns, state))
-    res.append(']')
-    res.append(self.commentsPretty(self.commentsAfter, optns, state))
+    for cld in self.children:
+        res += [cld.format(optns, state)]
     return u''.join(res)
 
 @method(symbol("key"))
@@ -612,15 +603,20 @@ def format(self, optns, state):
 def format(self, optns, state):
     r = self.commentsPretty(self.comments, optns, state)
     r = [r]
-    indent = indentString(optns, state)
     for cld in self.children:
-        l = [indent]
         c = cld.format(optns, state)
-        l.append(c)
-        if not c or c[-1] != ';':
-            l.append(';')
-        r.append(u''.join(l))
-    return u'\n'.join(r)
+        r.append(c)
+    return u''.join(r)
+
+@method(symbol("statement"))
+def format(self, optns, state):
+    indent = indentString(optns, state)
+    r = [indent]
+    for cld in self.children:
+        cld_fmted = cld.format(optns, state)
+        r += [cld_fmted]
+    return u''.join(r) + '\n'
+
 
 @method(symbol("block"))
 def format(self, optns, state):

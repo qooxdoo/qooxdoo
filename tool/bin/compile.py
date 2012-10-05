@@ -38,9 +38,10 @@ import qxenviron
 
 from misc.ExtendAction import ExtendAction
 from ecmascript.backend.Packer      import Packer
-from ecmascript.backend             import formatter_2 as formatter
+from ecmascript.backend             import formatter_3 as formatter
 from ecmascript.frontend import tokenizer, treeutil
-from ecmascript.frontend import treegenerator
+#from ecmascript.frontend import treegenerator
+from ecmascript.frontend import treegenerator_3 as treegenerator
 from ecmascript.transform.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variableoptimizer, variantoptimizer, inlineoptimizer
 from ecmascript.backend import api
 from misc import filetool
@@ -103,6 +104,10 @@ def main():
     if not options.quiet:
         print ">>> Creating tree..."
     tree = treegenerator.createFileTree(tokens)
+    # treegenerator_3
+    #print repr(tree)
+    #return
+    # - treegenerator_3
     
     
     #
@@ -169,10 +174,10 @@ def main():
             print ">>> Printing out tree..."
         print tree.toXml().encode('utf-8')
         
-    elif options.pretty:  # for testing formatter_2
-        options = formatter.FormatterOptions()
-        options = formatter.defaultOptions(options)
-        print formatter.formatStream(tokens, options)
+    #elif options.pretty:  # for testing formatter_2
+    #    options = formatter.FormatterOptions()
+    #    options = formatter.defaultOptions(options)
+    #    print formatter.formatStream(tokens, options)
 
     else:
         if not options.quiet:
@@ -225,8 +230,8 @@ def _compileTree(tree, prettyFlag):
         # Set options
         def optns(): pass
         optns = formatter.defaultOptions(optns)
-        #optns.prettypCommentsBlockAdd = False
-        #result = formatter.formatNode(tree, optns, result)
+        optns.prettypCommentsBlockAdd = False
+        result = formatter.formatNode(tree, optns, result)
     else:
         result =  Packer().serializeNode(tree, None, result, True)
 
