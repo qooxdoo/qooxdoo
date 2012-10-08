@@ -922,13 +922,13 @@ def ifix(self, left):
     call.childappend(operand)
     operand.childappend(left)
     # "("
-    call.childappend(self)
-    # params - parse as group
-    params = symbol("arguments")(token.get("line"), token.get("column"))
-    call.childappend(params)
+    #call.childappend(self)
+    # arguments - parse as group
+    arguments = symbol("arguments")(token.get("line"), token.get("column"))
+    call.childappend(arguments)
     group = self.pfix()
     for c in group.children:
-        params.childappend(c)
+        arguments.childappend(c)
     return call
 
 symbol("operand")
@@ -955,6 +955,7 @@ def pfix(self):
     # the parsing methods themselves are class-based.
     group = symbol("group")()
     self.patch(group) # for "line", "column", .comments, etc.
+    group.childappend(self)
     if token.id != ")":
         while True:
             if token.id == ")":
@@ -965,7 +966,7 @@ def pfix(self):
             group.childappend(token)
             advance(",")
     # ")"
-    self.childappend(token)
+    group.childappend(token)
     advance(")")
     return group
 
@@ -1385,24 +1386,30 @@ def std(self):
         condition.childappend(first)
         if chunk is None:       # empty init expr
             pass
-        elif token.id == ';':   # single init expr
-            first.childappend(chunk)
-        elif token.id == ',':   # multiple init expr
+        else:  # at least one init expr
             exprList = symbol("expressionList")(token.get("line"), token.get("column"))
             first.childappend(exprList)
             exprList.childappend(chunk)
-            exprList.childappend(token)
-            advance()
-            lst = init_list()
-            for assgn in lst:
-                exprList.childappend(assgn)
+            if token.id == ',':  # multiple inits
+                exprList.childappend(token)
+                advance(',')
+                lst = init_list()
+                for assgn in lst:
+                    exprList.childappend(assgn)
         condition.childappend(token)
         advance(";")
         # condition part 
         second = symbol("second")(token.get("line"), token.get("column"))
         condition.childappend(second)
         if token.id != ";":
-            second.childappend(expression())
+            exprList = symbol("expressionList")(token.get("line"), token.get("column"))
+            second.childappend(exprList)
+            while token.id != ';':
+                expr = expression (0)
+                exprList.childappend(expr)
+                if token.id == ',':
+                    exprList.childappend(token)
+                    advance(',')
         condition.childappend(token)
         advance(";")
         # update part
@@ -1643,51 +1650,6 @@ def toListG(self):
     for e in itert.chain([self], *[c.toListG() for c in self.children]):
         yield e
 
-symbol("loop")
-
-##
-# TODO: Is this code used?!
-@method(symbol("loop"))
-def toJS(self, opts):
-    r = u''
-    # Additional new line before each loop
-    if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
-        prev = self.getPreviousSibling(False, True)
-
-        # No separation after case statements
-        if prev != None and prev.type in ["case", "default"]:
-            pass
-        elif self.hasChild("elseStatement") or self.getChild("statement").hasBlockChildren():
-            self.sep()
-        else:
-            self.line()
-
-    loopType = self.get("loopType")
-
-    if loopType == "IF":
-        pass
-
-    elif loopType == "WHILE":
-        r += self.write("while")
-        r += self.space(False,result=r)
-
-    elif loopType == "FOR":
-        r += self.write("for")
-        r += self.space(False,result=r)
-
-    elif loopType == "DO":
-        r += self.write("do")
-        r += self.space(False,result=r)
-
-    elif loopType == "WITH":
-        r += self.write("with")
-        r += self.space(False,result=r)
-
-    else:
-        print "Warning: Unknown loop type: %s" % loopType
-    return r
-
-
 symbol("break")
 
 @method(symbol("break"))
@@ -1764,7 +1726,6 @@ def pfix(self):
     arg = expression(self.bind_left-1)  # first, parse a normal expression (this excludes '()')
     if token.id == '(':  # if the next token indicates a call
         t = token
-        self.childappend(token)
         advance("(")
         arg = t.ifix(left=arg)   # invoke '('.ifix, with class name as <left> arg
     self.childappend(arg)
@@ -1780,18 +1741,20 @@ def std(self):
     self.childappend(expression(0))
     self.childappend(token)
     advance(")")
-    self.childappend(token)
-    advance("{")
     body = symbol("body")(token.get("line"), token.get("column"))
     self.childappend(body)
+    block = symbol("block")(token.get("line"), token.get("column"))
+    body.childappend(block)
+    block.childappend(token)
+    advance("{")
     while True:
         if token.id == "}": break
         elif token.id == "case":
             case = token  # make 'case' the root node (instead e.g. ':')
-            self.childappend(token)
+            block.childappend(case)
             advance("case")
             case.childappend(expression(0))
-            self.childappend(token)
+            case.childappend(token)
             advance(":")
             if token.id in ("case", "default") : # fall-through
                 pass
@@ -1799,16 +1762,15 @@ def std(self):
                 case.childappend(case_block())
         elif token.id == "default":
             case = token
-            self.childappend(token)
+            block.childappend(token)
             advance("default")
-            self.childappend(token)
+            case.childappend(token)
             advance(":")
             if token.id in ("case",) : # fall-through
                 pass
             else:
                 case.childappend(case_block())
-        body.childappend(case)
-    self.childappend(token)
+    block.childappend(token)
     advance("}")
     return self
 

@@ -92,8 +92,6 @@ class MClassCode(object):
                 console.indent()
                 #tree = scopes.create_scopes(tree)
                 pass # treegenerator_3
-                #if self.id == "gui.Application":
-                #    import pydb; pydb.debugger()
                 #tree.scope.prrnt()
 
             # lint check
