@@ -207,20 +207,13 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Scrolls the carousel to next page.
      */
     nextPage : function() {
-      var oldIndex = this.__shownPageIndex;
       if(this.__shownPageIndex == this.__pages.length-1) {
         if(this.isScrollLoop()) {
-          this.__shownPageIndex = -1;
-        } else {
-          return;
-        }
+          this._doScrollLoop(0);
+        } 
+      } else {
+        this.scrollToPage(this.__shownPageIndex + 1);
       }
-      
-      this._setShowTransition(true);
-      this.__shownPageIndex = this.__shownPageIndex +1;
-      
-      this._updatePagination(oldIndex,this.__shownPageIndex);
-      this._updateCarouselLayout();
     },
     
     
@@ -229,19 +222,27 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     previousPage : function() {
       if(this.__shownPageIndex == 0) {
-        if(this.isInfiniteScroll()) {
-          this.__shownPageIndex = this.__pages.length-1;
-        } else {
-          return;
-        }
+        if(this.isScrollLoop()) {
+          this._doScrollLoop(this.__pages.length - 1);
+        } 
+      } else {
+        this.scrollToPage(this.__shownPageIndex - 1);
+      }
+    },
+    
+    
+    /**
+     * Scrolls the carousel to the page with the given pageIndex.
+     * @param pageIndex {Integer} the target page index, which should be visible.
+     */
+    scrollToPage : function(pageIndex) {
+      if(pageIndex >= this.__pages.length || pageIndex < 0) {
+        return
       }
       
       this._setShowTransition(true);
-      
-      var oldIndex = this.__shownPageIndex;
-      this.__shownPageIndex = this.__shownPageIndex - 1;
-      
-      this._updatePagination(oldIndex,this.__shownPageIndex);
+      this._updatePagination(this.__shownPageIndex,pageIndex);
+      this.__shownPageIndex = pageIndex;
       this._updateCarouselLayout();
     },
     
@@ -252,6 +253,35 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     getShownPageIndex : function() {
       return this.__shownPageIndex;
+    },
+    
+    
+    /**
+     * Manages the the scroll loop. First fades out carousel scroller >>
+     * waits till fading is done >> scrolls to pageIndex >> waits till scrolling is done
+     * >> fades scroller in.
+     */
+    _doScrollLoop : function(pageIndex) {
+      this._setScrollersOpacity(0);
+          
+      var delayForLayoutUpdate = this.__transitionDuration * 1000;
+
+      qx.event.Timer.once(function() {
+        this.scrollToPage(pageIndex);
+      },this, delayForLayoutUpdate);
+
+      qx.event.Timer.once(function() {
+        this._setScrollersOpacity(1);
+      },this, delayForLayoutUpdate*2);
+    },
+    
+    
+    /**
+     * Changes the opacity of the carouselScroller element.
+     * @param opacity {Integer} the target value of the opacity.
+     */
+    _setScrollersOpacity : function(opacity) {
+      qx.bom.element.Style.set(this.__carouselScroller.getContainerElement(),"opacity",opacity);
     },
     
     
