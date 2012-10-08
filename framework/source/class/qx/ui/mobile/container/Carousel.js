@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       apply : "_applyShowPagination"
     },
     
-    /* Defines whether nextPage() or previousPage() should scroll back to first or last item, 
+    /** Defines whether nextPage() or previousPage() should scroll back to first or last item 
      * when the end of carousel pages is reached  */
     scrollLoop : {
       check : "Boolean",
@@ -260,6 +260,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Manages the the scroll loop. First fades out carousel scroller >>
      * waits till fading is done >> scrolls to pageIndex >> waits till scrolling is done
      * >> fades scroller in.
+     * @param pageIndex {Integer} The page index to which the scroller should move to.
      */
     _doScrollLoop : function(pageIndex) {
       this._setScrollersOpacity(0);

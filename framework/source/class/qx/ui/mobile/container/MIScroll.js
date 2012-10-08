@@ -105,12 +105,12 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     },
     
     
-    /* Scrolls the wrapper contents to the widgets coordinates in a given
+    /**
+    * Scrolls the wrapper contents to the widgets coordinates in a given
     * period.
     *
     * @param elementId {String} the elementId, the scroll container should scroll to.
-    * @param time {Integer} Time slice in which scrolling should
-    *              be done (in seconds).
+    * @param time {Integer} Time slice in which scrolling should be done (in seconds).
     *
     */
     _scrollToElement : function(elementId, time)
