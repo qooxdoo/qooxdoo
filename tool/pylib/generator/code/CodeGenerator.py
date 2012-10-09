@@ -1045,8 +1045,8 @@ class CodeGenerator(object):
             #result = pretty.prettyNode(tree, options, result)
             result = formatter_3.formatNode(tree, options, result)
             # formatter_2
-            file_cont = filetool.read(classesObj[classId].path)
-            result = [formatter_2.formatString(file_cont, options)]
+            #file_cont = filetool.read(classesObj[classId].path)
+            #result = [formatter_2.formatString(file_cont, options)]
             # - formatter_2
             compiled = u''.join(result)
             filetool.save(self._classes[classId].path, compiled)

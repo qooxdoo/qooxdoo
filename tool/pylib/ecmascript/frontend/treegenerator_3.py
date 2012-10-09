@@ -1849,7 +1849,7 @@ def std(self):
         advance("catch")
         # insert "params" node, par. to function.pfix
         assert token.id == "("
-        catch.childappend(token)
+        #catch.childappend(token)
         params = symbol("params")(token.get("line"), token.get("column"))
         catch.childappend(params)
         group = expression()  # group parsing as helper
@@ -1993,10 +1993,11 @@ def toJS(self, opts):
 
 
 def statementEnd():
-    if token.id in (";",):
+    if token.id in (";","}"):
         pass
-    #elif token.id == "eof":
+    elif token.id == "eof":
     #    return token  # ok as stmt end, but don't just skip it (bc. comments)
+        pass
     elif tokenStream.eolBefore:
         pass # that's ok as statement end
     else:
