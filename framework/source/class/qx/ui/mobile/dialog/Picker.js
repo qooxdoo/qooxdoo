@@ -400,9 +400,16 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     _onTouchEnd : function(evt) {
       var target = evt.getOriginalTarget();
       var targetId = evt.getOriginalTarget().id;
-
-      var hasChanged = (this.__targetIndex[targetId] != this.__selectedIndex[targetId]);
-      if(hasChanged){
+      
+      
+      var deltaY = evt.getScreenTop() - this.__slotTouchStartPoints[targetId].y;
+      var labelHeight = target.children[0].offsetHeight;
+      
+      var isSwipe = Math.abs(deltaY) >= labelHeight;
+      
+      if(isSwipe){
+        // SWIPE
+        // 
         // Apply selectedIndex
         var selectedIndex = this.__targetIndex[targetId];
 
@@ -416,7 +423,9 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         var selectedValue = model.getItem(selectedIndex);
         this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedValue, slot: slotIndex});
       } else {
-        // Detects if user touches on upper third or lower third off spinning wheel.
+        // TAP
+        // 
+        // Detect if user touches on upper third or lower third off spinning wheel.
         // Depending on this detection, the value increases/decreases.
         var viewportTop = evt.getViewportTop();
 
