@@ -229,6 +229,46 @@
   appearance: @arguments;
 }
 
+#triangle {
+  .up(@size,@color) {
+    display:block;
+    width: 0; 
+    height: 0; 
+
+    border-left: @size solid transparent;
+    border-right: @size solid transparent;
+    border-bottom: @size solid @color;
+  }
+
+  .down(@size,@color) {
+    display:block;
+    width: 0; 
+    height: 0; 
+
+    border-left: @size solid transparent;
+    border-right: @size solid transparent;
+    border-top: @size solid @color;
+  }
+
+  .left(@size,@color) {
+    display:block;
+    width: 0; 
+    height: 0; 
+    border-top: @size solid transparent;
+    border-bottom: @size solid transparent;
+    border-right: @size solid @color;
+  }
+
+  .right(@size,@color) {
+    display:block;
+    width: 0; 
+    height: 0; 
+    border-top: @size solid transparent;
+    border-bottom: @size solid transparent;
+    border-left: @size solid @color;
+  }
+}
+
 #gradient {
 
   // From top to bottom
@@ -241,7 +281,7 @@
 
   // From top to bottom with intermediate color
   .vertical-three(@begin, @mid, @end, @stop: 50%) {
-    background-image: -webkit-gradient(linear, center top, center bottom, from(@begin), color-stop(@stop, @mid), to(@end));
+    background-image: -webkit-gradient(linear, center top, center bottom, from(@begin), color-stop(50%, @mid), to(@end));
     background-image: -webkit-linear-gradient(top, @begin, @mid @stop, @end);
     background-image: -moz-linear-gradient(top, @begin, @mid @stop, @end);
     background-image: linear-gradient(to bottom, @begin, @mid @stop, @end);

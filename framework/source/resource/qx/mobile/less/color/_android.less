@@ -440,19 +440,66 @@ input[type=radio] + label:after {
 }
 
 .arrow() {
-  border-left-color:white;
-  border-top-color:white;
-  border-right:none;
-  border-bottom:none;
+  position:absolute;
+  content:'';
 }
 
-// ARROW LEFT, ARROW RIGHT, ARROW BOTTOM, ARROW TOP
-.popupAnchorPointerTop:before, .popupAnchorPointerLeft:before, .popupAnchorPointerRight:before, .popupAnchorPointerBottom:after
-{
-  @arrow-color:@dialog-background-color;
-  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50.9%, 51%);
+@arrow-size: 12px;
 
+// ARROW TOP
+
+.popupAnchorPointerTop:before
+{
   .arrow();
+  #triangle > .up(@arrow-size+2, #ffffff);
+}
+
+.popupAnchorPointerTop:after
+{
+  .arrow();
+  #triangle > .up(@arrow-size, @dialog-background-color);
+}
+
+// ARROW BOTTOM
+
+.popupAnchorPointerBottom:before
+{
+  .arrow();
+  #triangle > .down(@arrow-size+2, #ffffff);
+}
+
+.popupAnchorPointerBottom:after
+{
+  .arrow();
+  #triangle > .down(@arrow-size, @dialog-background-color);
+}
+
+// ARROW LEFT
+
+.popupAnchorPointerLeft:before
+{
+  .arrow();
+  #triangle > .left(@arrow-size+2, #ffffff);
+}
+
+.popupAnchorPointerLeft:after
+{
+  .arrow();
+  #triangle > .left(@arrow-size, @dialog-background-color);
+}
+
+// ARROW RIGHT
+
+.popupAnchorPointerRight:before
+{
+  .arrow();
+  #triangle > .right(@arrow-size+2, #ffffff);
+}
+
+.popupAnchorPointerRight:after
+{
+  .arrow();
+  #triangle > .right(@arrow-size, @dialog-background-color);
 }
 
 

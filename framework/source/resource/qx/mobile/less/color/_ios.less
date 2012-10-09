@@ -476,34 +476,68 @@ input[type="checkbox"]:checked + label {
   display: none;
 }
 
+.arrow() {
+  position:absolute;
+  content:'';
+}
+
+@arrow-size: 12px;
 @arrow-shadow:rgba(0,0,0,0.3);
 
-.arrow() {
-  border-left-color:@dialog-border-color;
-  border-top-color:@dialog-border-color;
-  border-right:none;
-  border-bottom:none;
-
-  .box-shadow(-1px -1px 2px @arrow-shadow);
-}
-
 // ARROW TOP
+
 .popupAnchorPointerTop:before
 {
-  @arrow-color:#637396;
-  
-  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50.9%, 51%);
-
   .arrow();
+  #triangle > .up(@arrow-size+2, @dialog-border-color);
 }
 
-// ARROW LEFT, ARROW RIGHT, ARROW BOTTOM
-.popupAnchorPointerLeft:before, .popupAnchorPointerRight:before, .popupAnchorPointerBottom:after
+.popupAnchorPointerTop:after
 {
-  @arrow-color:#1D3566;
-  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50.9%, 51%);
-
   .arrow();
+  #triangle > .up(@arrow-size, #637396);
+}
+
+// ARROW BOTTOM
+
+.popupAnchorPointerBottom:before
+{
+  .arrow();
+  #triangle > .down(@arrow-size+2, @dialog-border-color);
+}
+
+.popupAnchorPointerBottom:after
+{
+  .arrow();
+  #triangle > .down(@arrow-size, #1D3566);
+}
+
+// ARROW LEFT
+
+.popupAnchorPointerLeft:before
+{
+  .arrow();
+  #triangle > .left(@arrow-size+2, @dialog-border-color);
+}
+
+.popupAnchorPointerLeft:after
+{
+  .arrow();
+  #triangle > .left(@arrow-size, #1D3566);
+}
+
+// ARROW RIGHT
+
+.popupAnchorPointerRight:before
+{
+  .arrow();
+  #triangle > .right(@arrow-size+2, @dialog-border-color);
+}
+
+.popupAnchorPointerRight:after
+{
+  .arrow();
+  #triangle > .right(@arrow-size, #1D3566);
 }
 
 
