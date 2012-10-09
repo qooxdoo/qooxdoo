@@ -1203,7 +1203,6 @@ def pfix(self):
         advance()
     # params
     assert token.id == "("
-    self.childappend(token)
     params = symbol("params")()
     token.patch(params)
     self.childappend(params)
