@@ -405,7 +405,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       var deltaY = evt.getScreenTop() - this.__slotTouchStartPoints[targetId].y;
       var labelHeight = target.children[0].offsetHeight;
       
-      var isSwipe = Math.abs(deltaY) >= labelHeight;
+      var isSwipe = Math.abs(deltaY) >= labelHeight/2;
       
       if(isSwipe){
         // SWIPE
