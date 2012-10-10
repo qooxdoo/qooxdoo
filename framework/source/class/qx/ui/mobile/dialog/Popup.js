@@ -258,7 +258,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      * Centers this widget to window's center position.
      */
     _positionToCenter : function() {
-      var childDimension = qx.bom.element.Dimension.getSize(this.__childrenContainer.getContainerElement());
+      var childDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
 
       this.getContainerElement().style.left = "50%";
       this.getContainerElement().style.top = "50%";
