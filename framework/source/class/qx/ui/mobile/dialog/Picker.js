@@ -365,6 +365,18 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
       this.fireDataEvent("confirmSelection", selectionData);
     },
+    
+    
+    /**
+     * Calculates the needes picker slot height, by it child labels.
+     * @param target {Element} The target element.
+     */
+    _fixPickerSlotHeight : function(target) {
+      var labelHeight = target.children[0].offsetHeight;
+      var labelCount = target.children.length;
+      var pickerSlotHeight = labelCount * labelHeight;
+      qx.bom.element.Style.set(target,"height",pickerSlotHeight+"px");
+    },
 
 
     /**
@@ -382,12 +394,8 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       qx.bom.element.Style.set(target,this.__transitionDurationPropertyName,"0s");
 
       this.__slotTouchStartPoints[targetId] = {x:touchX,y:touchY};
-
-      var labelHeight = target.children[0].offsetHeight;
-      var labelCount = target.children.length;
-      var pickerSlotHeight = labelCount * labelHeight;
-
-      qx.bom.element.Style.set(target,"height",pickerSlotHeight+"px");
+      
+      this._fixPickerSlotHeight(target);
 
       evt.preventDefault();
     },
@@ -412,7 +420,6 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         // 
         // Apply selectedIndex
         var selectedIndex = this.__targetIndex[targetId];
-
         var slotIndex = this._getSlotIndexByElement(target);
 
         this.__selectedIndex[targetId] = selectedIndex;
@@ -512,6 +519,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       for(var i =0; i < this.__slotElements.length; i++){
         var slotElement = this.__slotElements[i];
         this._updateSlot(slotElement);
+        this._fixPickerSlotHeight(slotElement);
       }
     },
 
