@@ -1184,7 +1184,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           var category = split[0];
           category = category.charAt(0).toUpperCase() + category.substring(1);
-          var pagename = split[1].replace(".html", "").replace("_", " ");
+          var pagename = split[1].replace(".html", "").replace(/_/g, " ");
           pagename = pagename.charAt(0).toUpperCase() + pagename.substring(1);
           var title = "qooxdoo " + div + " Demo Browser " + div + " " + category + " " + div + " " + pagename;
         }
@@ -1695,7 +1695,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @return {var} TODOC
      */
     polish : function(str) {
-      return str.replace(".html", "").replace("_", " ");
+      return str.replace(".html", "").replace(/_/g, " ");
     },
 
 
