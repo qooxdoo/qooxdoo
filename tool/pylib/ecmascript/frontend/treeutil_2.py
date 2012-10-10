@@ -51,7 +51,7 @@ def findQxDefineR(rootNode):
 ##
 # Checks if the given node is a qx.*.define function invocation
 
-DefiningClasses = "q qx.Bootstrap qx.Class qx.Interface qx.Mixin qx.List qx.Theme".split()
+DefiningClasses = "q qxWeb qx.Bootstrap qx.Class qx.Interface qx.Mixin qx.List qx.Theme".split()
 
 def isQxDefine(node):
     if node.type == "variable":

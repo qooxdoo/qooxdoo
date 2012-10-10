@@ -189,7 +189,7 @@ class Library(object):
         return self.__youngest
 
 
-    _codeExpr = re.compile(r'''(q|(qx.Bootstrap|qx.Class|qx.Mixin|qx.Interface|qx.Theme)).define\s*\(\s*["']((?u)[^"']+)["']''', re.M)
+    _codeExpr = re.compile(r'''(q|qxWeb|(qx.Bootstrap|qx.Class|qx.Mixin|qx.Interface|qx.Theme)).define\s*\(\s*["']((?u)[^"']+)["']''', re.M)
     _illegalIdentifierExpr = re.compile(lang.IDENTIFIER_ILLEGAL_CHARS)
     _ignoredDirEntries = re.compile(r'%s' % '|'.join(filetool.VERSIONCONTROL_DIR_PATTS), re.I)
     _docFilename = "__init__.js"
