@@ -30,7 +30,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Modifies the given style property on all elements in the collection.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param name {String} Name of the style property to modify
      * @param value {var} The value to apply
      * @return {q} The collection for chaining
@@ -50,7 +50,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * Returns the value of the given style property for the first item in the
      * collection.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param name {String} Style property name
      * @return {var} Style property value
      */
@@ -68,7 +68,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Sets multiple style properties for each item in the collection.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param styles {Map} A map of style property name/value pairs
      * @return {q} The collection for chaining
      */
@@ -84,7 +84,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * Returns the values of multiple style properties for each item in the
      * collection
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param names {String[]} List of style property names
      * @return {Map} Map of style property name/value pairs
      */
@@ -100,7 +100,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Adds a class name to each element in the collection
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param name {String} Class name
      * @return {q} The collection for chaining
      */
@@ -115,7 +115,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Adds multiple class names to each element in the collection
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param names {String[]} List of class names to add
      * @return {q} The collection for chaining
      */
@@ -130,7 +130,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Removes a class name from each element in the collection
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param name {String} The class name to remove
      * @return {q} The collection for chaining
      */
@@ -145,7 +145,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Removes multiple class names from each element in the collection
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param names {String[]} List of class names to remove
      * @return {q} The collection for chaining
      */
@@ -160,7 +160,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Checks if the first element in the collection has the given class name
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param name {String} Class name to check for
      * @return {Boolean} <code>true</code> if the first item has the given class name
      */
@@ -175,7 +175,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Returns the class name of the first element in the collection
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {String} Class name
      */
     getClass : function() {
@@ -189,7 +189,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Toggles the given class name on each item in the collection
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param name {String} Class name
      * @return {q} The collection for chaining
      */
@@ -207,7 +207,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Toggles the given list of class names on each item in the collection
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param names {String[]} Class names
      * @return {q} The collection for chaining
      */
@@ -222,7 +222,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Replaces a class name on each element in the collection
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param oldName {String} Class name to remove
      * @param newName {String} Class name to add
      * @return {q} The collection for chaining
@@ -237,7 +237,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
     /**
      * Returns the rendered height of the first element in the collection.
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {Number} The first item's rendered height
      */
     getHeight : function() {
@@ -259,7 +259,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
     /**
      * Returns the rendered width of the first element in the collection
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {Number} The first item's rendered width
      */
     getWidth : function() {
@@ -283,7 +283,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * Returns the computed location of the given element in the context of the
      * document dimensions.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {Map} A map with the keys <code>left<code/>, <code>top<code/>,
      * <code>right<code/> and <code>bottom<code/> which contains the distance
      * of the element relative to the document.
@@ -303,7 +303,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * Returns the content height of the first element in the collection.
      * This is the maximum height the element can use, excluding borders,
      * margins, padding or scroll bars.
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {Number} Computed content height
      */
     getContentHeight : function()
@@ -321,7 +321,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * Returns the content width of the first element in the collection.
      * This is the maximum width the element can use, excluding borders,
      * margins, padding or scroll bars.
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {Number} Computed content width
      */
     getContentWidth : function()
@@ -339,7 +339,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * Returns the distance between the first element in the collection and its
      * offset parent
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {Map} a map with the keys <code>left</code> and <code>top</code>
      * containing the distance between the elements
      */
@@ -357,7 +357,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Includes a Stylesheet file
      *
-     * @attachStatic {q}
+     * @attachStatic {qxWeb}
      * @param uri {String} The stylesheet's URI
      * @param doc {Document?} Document to modify
      */
@@ -371,7 +371,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * style to "none". The previous value is stored so it can be re-applied
      * when {@link #show} is called.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {q} The collection for chaining
      */
     hide : function() {
@@ -393,7 +393,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * "display" style value will be re-applied. Otherwise, the
      * default "display" value for the element type will be applied.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {q} The collection for chaining
      */
     show : function() {
@@ -407,7 +407,7 @@ qx.Bootstrap.define("qx.module.Css", {
             newVal = prevVal;
           }
           else {
-            var doc = q.getDocument(item[0]);
+            var doc = qxWeb.getDocument(item[0]);
             newVal = qx.module.Css.__getDisplayDefault(item[0].tagName, doc);
           }
           item.setStyle("display", newVal);
@@ -438,7 +438,7 @@ qx.Bootstrap.define("qx.module.Css", {
       var defaults = qx.module.Css.__displayDefaults;
       if (!defaults[tagName]) {
         var docu = doc || document;
-        var tempEl = q(docu.createElement(tagName)).appendTo(doc.body);
+        var tempEl = qxWeb(docu.createElement(tagName)).appendTo(doc.body);
         defaults[tagName] = tempEl.getStyle("display");
         tempEl.remove();
       }
@@ -449,7 +449,7 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
   defer : function(statics) {
-    q.$attach({
+    qxWeb.$attach({
       "setStyle" : statics.setStyle,
       "getStyle" : statics.getStyle,
       "setStyles" : statics.setStyles,
@@ -477,7 +477,7 @@ qx.Bootstrap.define("qx.module.Css", {
       "show" : statics.show
     });
 
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       "includeStylesheet" : statics.includeStylesheet
     });
   }

@@ -16,6 +16,9 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
+/* ************************************************************************
+#ignore(q)
+************************************************************************ */
 /**
  * The Core module's responsibility is to query the DOM for elements and offer
  * these elements as a collection. The Core module itself does not offer any methods to
@@ -26,10 +29,14 @@
  * static functions to the global <code>q</code> object or define methods on the
  * collection it returns.
  *
+ * By default, the core module is assigned to a global module named <code>q</code>.
+ * In case <code>q</code> is already defined, the name <code>qxWeb</code>
+ * is used instead.
+ *
  * For further details, take a look at the documentation in the
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/website.html' target='_blank'>user manual</a>.
  */
-qx.Bootstrap.define("q", {
+qx.Bootstrap.define("qxWeb", {
   extend : qx.type.BaseArray,
   statics : {
     // internal storage for all initializers
@@ -61,9 +68,9 @@ qx.Bootstrap.define("q", {
       }
 
       // check for node or window object
-      var col = qx.lang.Array.cast(clean, q);
-      for (var i=0; i < q.__init.length; i++) {
-        q.__init[i].call(col);
+      var col = qx.lang.Array.cast(clean, qxWeb);
+      for (var i=0; i < qxWeb.__init.length; i++) {
+        qxWeb.__init[i].call(col);
       }
 
       return col;
@@ -79,11 +86,11 @@ qx.Bootstrap.define("q", {
     $attach : function(module) {
       for (var name in module) {
         if (qx.core.Environment.get("qx.debug")) {
-          if (q.prototype[name] != undefined && Array.prototype[name] == undefined) {
+          if (qxWeb.prototype[name] != undefined && Array.prototype[name] == undefined) {
             throw new Error("Method '" + name + "' already available.");
           }
         }
-        q.prototype[name] = module[name];
+        qxWeb.prototype[name] = module[name];
       }
     },
 
@@ -97,11 +104,11 @@ qx.Bootstrap.define("q", {
     $attachStatic : function(module) {
       for (var name in module) {
         if (qx.core.Environment.get("qx.debug")) {
-          if (q[name] != undefined) {
+          if (qxWeb[name] != undefined) {
             throw new Error("Method '" + name + "' already available as static method.");
           }
         }
-        q[name] = module[name];
+        qxWeb[name] = module[name];
       }
     },
 
@@ -152,7 +159,7 @@ qx.Bootstrap.define("q", {
    * @return {q} A collection of DOM elements.
    */
   construct : function(selector, context) {
-    if (!selector && this instanceof q) {
+    if (!selector && this instanceof qxWeb) {
       return this;
     }
 
@@ -161,7 +168,7 @@ qx.Bootstrap.define("q", {
     } else if (!(qx.Bootstrap.isArray(selector))) {
       selector = [selector];
     }
-    return q.$init(selector);
+    return qxWeb.$init(selector);
   },
 
 
@@ -176,9 +183,9 @@ qx.Bootstrap.define("q", {
      */
     filter : function(selector) {
       if (qx.lang.Type.isFunction(selector)) {
-        return q.$init(Array.prototype.filter.call(this, selector));
+        return qxWeb.$init(Array.prototype.filter.call(this, selector));
       }
-      return q.$init(qx.bom.Selector.matches(selector, this));
+      return qxWeb.$init(qx.bom.Selector.matches(selector, this));
     },
 
 
@@ -192,10 +199,10 @@ qx.Bootstrap.define("q", {
     slice : function(begin, end) {
       // Old IEs return an empty array if the second argument is undefined
       if (end) {
-        return q.$init(Array.prototype.slice.call(this, begin, end));
+        return qxWeb.$init(Array.prototype.slice.call(this, begin, end));
       }
       else {
-        return q.$init(Array.prototype.slice.call(this, begin));
+        return qxWeb.$init(Array.prototype.slice.call(this, begin));
       }
     },
 
@@ -211,7 +218,7 @@ qx.Bootstrap.define("q", {
      * @return {q} A new collection containing the removed items.
      */
     splice : function(index , howMany, varargs) {
-      return q.$init(Array.prototype.splice.apply(this, arguments));
+      return qxWeb.$init(Array.prototype.splice.apply(this, arguments));
     },
 
 
@@ -224,7 +231,7 @@ qx.Bootstrap.define("q", {
      * @return {q} New collection containing the elements that passed the filter
      */
     map : function(callback, thisarg) {
-      return q.$init(Array.prototype.map.apply(this, arguments));
+      return qxWeb.$init(Array.prototype.map.apply(this, arguments));
     },
 
 
@@ -237,13 +244,22 @@ qx.Bootstrap.define("q", {
     concat : function(varargs) {
       var clone = Array.prototype.slice.call(this, 0);
       for (var i=0; i < arguments.length; i++) {
-        if (arguments[i] instanceof q) {
+        if (arguments[i] instanceof qxWeb) {
           clone = clone.concat(Array.prototype.slice.call(arguments[i], 0));
         } else {
           clone.push(arguments[i]);
         }
       };
-      return q.$init(clone);
+      return qxWeb.$init(clone);
+    }
+  },
+
+  /**
+   * @lint ignoreUndefined(q)
+   */
+  defer : function(statics) {
+    if (window.q == undefined) {
+      q = statics;
     }
   }
 });

@@ -27,7 +27,7 @@
  * The Placement module provides a convenient way to align two elements relative
  * to each other using various pre-defined algorithms.
  */
-q.define("qx.module.Placement", {
+qxWeb.define("qx.module.Placement", {
 
   statics: {
 
@@ -83,7 +83,7 @@ q.define("qx.module.Placement", {
         height : parent.getHeight()
       };
 
-      var target = q(target).getOffset();
+      var target = qxWeb(target).getOffset();
 
       var offsets = offsets || {
         top: 0,
@@ -225,7 +225,7 @@ q.define("qx.module.Placement", {
 
   defer : function(statics)
   {
-    q.$attach({
+    qxWeb.$attach({
      "placeTo" : statics.placeTo
     });
   }

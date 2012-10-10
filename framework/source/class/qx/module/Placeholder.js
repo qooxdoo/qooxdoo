@@ -55,8 +55,8 @@ qx.Bootstrap.define("qx.module.Placeholder", {
      */
     update : function() {
       // ignore if native placeholder are supported
-      if (!q.env.get("css.placeholder")) {
-        q("input[placeholder], textarea[placeholder]").updatePlaceholder();
+      if (!qxWeb.env.get("css.placeholder")) {
+        qxWeb("input[placeholder], textarea[placeholder]").updatePlaceholder();
       }
     },
 
@@ -67,14 +67,14 @@ qx.Bootstrap.define("qx.module.Placeholder", {
      * In case the browser supports native placeholders, this methods simply
      * does nothing.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {q} The collection for chaining
      */
     updatePlaceholder : function() {
       // ignore everything if native placeholder are supported
-      if (!q.env.get("css.placeholder")) {
+      if (!qxWeb.env.get("css.placeholder")) {
         for (var i=0; i < this.length; i++) {
-          var item = q(this[i]);
+          var item = qxWeb(this[i]);
 
           // ignore all not fitting items in the collection
           var placeholder = item.getAttribute("placeholder");
@@ -147,7 +147,7 @@ qx.Bootstrap.define("qx.module.Placeholder", {
      */
     __createPlaceholderElement : function(item) {
       // create the label with initial styles
-      var placeholderEl = q.create("<label>").setStyles({
+      var placeholderEl = qxWeb.create("<label>").setStyles({
         position: "absolute",
         color: "#989898",
         overflow: "hidden",
@@ -163,7 +163,7 @@ qx.Bootstrap.define("qx.module.Placeholder", {
       }.bind(this, item));
 
       // for browsers not supporting pointer events
-      if (!q.env.get("event.pointer")) {
+      if (!qxWeb.env.get("event.pointer")) {
         placeholderEl.setStyle("cursor", "text").on("click", function(item) {
           item.focus();
         }.bind(this, item));
@@ -174,11 +174,11 @@ qx.Bootstrap.define("qx.module.Placeholder", {
 
 
   defer : function(statics) {
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       "placeholder" : {update: statics.update}
     });
 
-    q.$attach({
+    qxWeb.$attach({
       "updatePlaceholder" : statics.updatePlaceholder
     });
   }

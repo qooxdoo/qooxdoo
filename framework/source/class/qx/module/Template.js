@@ -54,7 +54,7 @@ qx.Bootstrap.define("qx.module.Template", {
      */
     get : function(id, view, partials) {
       var el = qx.bom.Template.get(id, view, partials);
-      return q.$init([el]);
+      return qxWeb.$init([el]);
     },
 
     /**
@@ -74,7 +74,7 @@ qx.Bootstrap.define("qx.module.Template", {
 
 
   defer : function(statics) {
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       "template" : {get: statics.get, render: statics.render}
     });
   }

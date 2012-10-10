@@ -86,7 +86,7 @@ qx.Bootstrap.define("qx.module.Messaging", {
 
 
   defer : function(statics) {
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       "messaging" : new qx.event.Messaging()
     });
   }

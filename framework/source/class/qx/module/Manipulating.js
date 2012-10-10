@@ -37,7 +37,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {q} Collection of elements
      */
     create : function(html) {
-      return q.$init(qx.bom.Html.clean([html]));
+      return qxWeb.$init(qx.bom.Html.clean([html]));
     },
 
 
@@ -59,7 +59,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
         this.copyEventsTo(clones);
       }
 
-      return q(clones);
+      return qxWeb(clones);
     },
 
 
@@ -74,7 +74,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      */
     append : function(html) {
       var arr = qx.bom.Html.clean([html]);
-      var children = q.$init(arr);
+      var children = qxWeb.$init(arr);
 
       for (var i=0, l=this.length; i < l; i++) {
         for (var j=0, m=children.length; j < m; j++) {
@@ -191,7 +191,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     __getElementArray : function(arg)
     {
       if (!qx.lang.Type.isArray(arg)) {
-        var fromSelector = q(arg);
+        var fromSelector = qxWeb(arg);
         arg = fromSelector.length > 0 ? fromSelector : [arg];
       }
       return arg;
@@ -237,17 +237,17 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       var coll;
       // Collection/array of DOM elements
       if (qx.lang.Type.isArray(arg)) {
-        coll = q(arg);
+        coll = qxWeb(arg);
       }
       // HTML string
       else {
         var arr = qx.bom.Html.clean([arg]);
         if (arr.length > 0 && qx.dom.Node.isElement(arr[0])) {
-          coll = q(arr);
+          coll = qxWeb(arr);
         }
         // Selector or single element
         else {
-          coll = q(arg);
+          coll = qxWeb(arg);
         }
       }
 
@@ -555,11 +555,11 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
 
   defer : function(statics) {
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       "create" : statics.create
     });
 
-    q.$attach({
+    qxWeb.$attach({
       "append" : statics.append,
       "appendTo" : statics.appendTo,
       "remove" : statics.remove,

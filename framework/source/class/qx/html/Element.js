@@ -1556,7 +1556,7 @@ qx.Class.define("qx.html.Element",
      *   the fade animation.
      */
     fadeIn : function() {
-      var col = q(this.__element);
+      var col = qxWeb(this.__element);
       if (col.isPlaying()) {
         col.stop();
       }
@@ -1578,7 +1578,7 @@ qx.Class.define("qx.html.Element",
      *   the fade animation.
      */
     fadeOut : function() {
-      var col = q(this.__element);
+      var col = qxWeb(this.__element);
       if (col.isPlaying()) {
         col.stop();
       }

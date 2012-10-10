@@ -40,7 +40,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * double the size in X direction and half the size in Y direction.
      * Make sure your browser supports all transformations you apply.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param transforms {Map} The map containing the transforms and value.
      * @return {q} This reference for chaining.
      */
@@ -56,7 +56,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * Translates by the given value. For further details, take
      * a look at the {@link #transform} method.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param value {String|Array} The value to translate e.g. <code>"10px"</code>.
      * @return {q} This reference for chaining.
      */
@@ -69,7 +69,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * Scales by the given value. For further details, take
      * a look at the {@link #transform} method.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param value {Number|Array} The value to scale.
      * @return {q} This reference for chaining.
      */
@@ -93,7 +93,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * Skews by the given value. For further details, take
      * a look at the {@link #transform} method.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param value {String|Array} The value to skew e.g. <code>"90deg"</code>.
      * @return {q} This reference for chaining.
      */
@@ -107,7 +107,7 @@ qx.Bootstrap.define("qx.module.Transform",
      *
      * Spec: http://www.w3.org/TR/css3-3d-transforms/#transform-origin-property
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param value {String} CSS position values like <code>50% 50%</code> or
      *   <code>left top</code>.
      * @return {q} This reference for chaining.
@@ -125,7 +125,7 @@ qx.Bootstrap.define("qx.module.Transform",
      *
      * Spec: http://www.w3.org/TR/css3-3d-transforms/#transform-origin-property
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {String} The set property, e.g. <code>50% 50%</code> or null,
      *   of the collection is empty.
      */
@@ -142,7 +142,7 @@ qx.Bootstrap.define("qx.module.Transform",
      *
      * Spec: http://www.w3.org/TR/css3-3d-transforms/#transform-style-property
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param value {String} Either <code>flat</code> or <code>preserve-3d</code>.
      * @return {q} This reference for chaining.
      */
@@ -159,7 +159,7 @@ qx.Bootstrap.define("qx.module.Transform",
      *
      * Spec: http://www.w3.org/TR/css3-3d-transforms/#transform-style-property
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {String} The set property, either <code>flat</code> or
      *   <code>preserve-3d</code>.
      */
@@ -176,7 +176,7 @@ qx.Bootstrap.define("qx.module.Transform",
      *
      * Spec: http://www.w3.org/TR/css3-3d-transforms/#perspective-property
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param value {Number} The perspective layer. Numbers between 100
      *   and 5000 give the best results.
      * @return {q} This reference for chaining.
@@ -194,7 +194,7 @@ qx.Bootstrap.define("qx.module.Transform",
      *
      * Spec: http://www.w3.org/TR/css3-3d-transforms/#perspective-property
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {String} The set property, e.g. <code>500</code>
      */
     getTransformPerspective : function() {
@@ -210,7 +210,7 @@ qx.Bootstrap.define("qx.module.Transform",
      *
      * Spec: http://www.w3.org/TR/css3-3d-transforms/#perspective-origin-property
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param value {String} CSS position values like <code>50% 50%</code> or
      *   <code>left top</code>.
      * @return {q} This reference for chaining.
@@ -228,7 +228,7 @@ qx.Bootstrap.define("qx.module.Transform",
      *
      * Spec: http://www.w3.org/TR/css3-3d-transforms/#perspective-origin-property
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {String} The set property, e.g. <code>50% 50%</code>
      */
     getTransformPerspectiveOrigin : function() {
@@ -244,7 +244,7 @@ qx.Bootstrap.define("qx.module.Transform",
      *
      * Spec: http://www.w3.org/TR/css3-3d-transforms/#backface-visibility-property
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param value {Boolean} <code>true</code> if the backface should be visible.
      * @return {q} This reference for chaining.
      */
@@ -261,7 +261,7 @@ qx.Bootstrap.define("qx.module.Transform",
      *
      * Spec: http://www.w3.org/TR/css3-3d-transforms/#backface-visibility-property
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @return {Boolean} <code>true</code>, if the backface is visible.
      */
     getTransformBackfaceVisibility : function() {
@@ -274,7 +274,7 @@ qx.Bootstrap.define("qx.module.Transform",
 
 
   defer : function(statics) {
-    q.$attach({
+    qxWeb.$attach({
       "transform" : statics.transform,
       "translate" : statics.translate,
       "rotate" : statics.rotate,

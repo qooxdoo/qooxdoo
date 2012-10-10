@@ -80,8 +80,8 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
 
         case "click":
           // IE does not support buttons on click --> assume left button
-          if (q.env.get("browser.name") === "ie" &&
-            q.env.get("browser.documentmode") < 9)
+          if (qxWeb.env.get("browser.name") === "ie" &&
+            qxWeb.env.get("browser.documentmode") < 9)
           {
             return "left";
           }
@@ -209,6 +209,6 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
   },
 
   defer : function(statics) {
-    q.$registerEventNormalization(qx.module.event.Mouse.TYPES, statics.normalize);
+    qxWeb.$registerEventNormalization(qx.module.event.Mouse.TYPES, statics.normalize);
   }
 });

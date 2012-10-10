@@ -26,7 +26,7 @@ qx.Bootstrap.define("qx.module.Cookie", {
     /**
      * Returns the string value of a cookie.
      *
-     * @attachStatic {q, cookie.get}
+     * @attachStatic {qxWeb, cookie.get}
      * @param key {String} The key for the saved string value.
      * @return {String|null} Returns the saved string value if the cookie
      *    contains a value for the key, otherwise <code>null</code>
@@ -38,7 +38,7 @@ qx.Bootstrap.define("qx.module.Cookie", {
     /**
      * Sets the string value of a cookie.
      *
-     * @attachStatic {q, cookie.set}
+     * @attachStatic {qxWeb, cookie.set}
      * @param key {String} The key for the string value.
      * @param value {String} The string value.
      * @param expires {Number?null} Expires directive value in days starting from now,
@@ -55,7 +55,7 @@ qx.Bootstrap.define("qx.module.Cookie", {
     /**
      * Deletes the string value of a cookie.
      *
-     * @attachStatic {q, cookie.del}
+     * @attachStatic {qxWeb, cookie.del}
      * @param key {String} The key for the string value.
      * @param path {String?null} Path value.
      * @param domain {String?null} Domain value.
@@ -66,7 +66,7 @@ qx.Bootstrap.define("qx.module.Cookie", {
 
 
   defer : function(statics) {
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       "cookie" : {
         get: statics.get,
         set: statics.set,
