@@ -43,7 +43,7 @@ q.ready(function() {
 
 
   // load API data of q
-  q.io.xhr("script/q.json").send().on("loadend", function(xhr) {
+  q.io.xhr("script/qxWeb.json").send().on("loadend", function(xhr) {
     if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
       var ast = JSON.parse(xhr.responseText);
 
