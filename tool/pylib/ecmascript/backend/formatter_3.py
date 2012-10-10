@@ -35,15 +35,13 @@ from ecmascript.frontend import lang, Comment
 
 # fall-back in symbol_base
 def format(self, optns, state):
-    r = []
     if self.children:
         # only synthetic nodes should fall back to this, with no prec. comments
         for cld in self.children:
-            r.append(cld.format(optns, state))
+            cld.format(optns, state)
     else:
-        r += [self.commentsPretty(self.comments, optns, state)]
-        r += [self.get("value", u'')]
-    state.add(u''.join(r),optns)
+        state.add(self.commentsPretty(self.comments, optns, state),optns)
+        state.add(self.get("value", u''),optns)
 symbol_base.format = format
 
 def nl(self, optns, state):
@@ -53,7 +51,11 @@ symbol_base.nl = nl
 def commentsPretty(self, commentsA, optns, state):
     comments = []
     for i,comment in enumerate(commentsA):
-        commentStr = comment.format(optns, state)
+        commentStr = comment.get("value")
+        commentStr = Comment.Text(commentStr).indent(indentString(optns, state))
+        if comment.get('end', False) == True:  # 'inline' needs terminating newline anyway
+            commentStr += self.nl(optns,state)
+        commentStr += state.indentStr(optns)  # to pass on the indentation that was set ahead of the comment
         comments.append(commentStr)
         # handle additional line breaks between comments
         if i>0:
@@ -69,14 +71,12 @@ symbol_base.commentsPretty = commentsPretty
 
 def infix(id_):
     def format(self, optns, state):
-        r = u''
-        r += self.getChild(0).format(optns, state)
-        r += ' '
-        r += self.commentsPretty(self.comments, optns, state)
-        r += self.get("value")
-        r += ' '
-        r += self.getChild(1).format(optns, state)
-        state.add(r,optns)
+        self.getChild(0).format(optns, state)
+        state.add(' ',optns)
+        self.commentsPretty(self.comments, optns, state)
+        state.add(self.get("value"),optns)
+        state.add(' ',optns)
+        self.getChild(1).format(optns, state)
     symbol(id_).format = format
 
 for sym in SYMBOLS['infix']+SYMBOLS['infix_r']:
@@ -86,13 +86,12 @@ for sym in SYMBOLS['infix']+SYMBOLS['infix_r']:
 # infix "verb" operators, i.e. that need a space around themselves (like 'instanceof', 'in')
 def infix_v(id_):
     def format(self, optns, state):  # adapt the output
-        r = self.commentsPretty(self.comments, optns, state)
-        r += self.getChild(0).format(optns, state)
-        r += self.space()
-        r += self.get("value")
-        r += self.space()
-        r += self.getChild(1).format(optns, state)
-        state.add(r,optns)
+        state.add(self.commentsPretty(self.comments, optns, state),optns)
+        self.getChild(0).format(optns, state)
+        state.add(self.space(),optns)
+        state.add(self.get("value"),optns)
+        state.add(self.space(),optns)
+        self.getChild(1).format(optns, state)
     symbol(id_).format = format
         
 for sym in SYMBOLS['infix_v']:
@@ -102,10 +101,9 @@ for sym in SYMBOLS['infix_v']:
 # prefix "sigil" operators, like '!', '~', ...
 def prefix(id_):
     def format(self, optns, state):
-        r = self.commentsPretty(self.comments, optns, state)
-        r += self.get("value")
-        r += self.getChild(0).format(optns, state)
-        state.add(r,optns)
+        state.add(self.commentsPretty(self.comments, optns, state),optns)
+        state.add(self.get("value"),optns)
+        self.getChild(0).format(optns, state)
     symbol(id_).format = format
 
 for sym in SYMBOLS['prefix']:
@@ -115,11 +113,10 @@ for sym in SYMBOLS['prefix']:
 # prefix "verb" operators, i.e. that need a space before their operand like 'delete'
 def prefix_v(id_):
     def format(self, optns, state):
-        r = self.commentsPretty(self.comments, optns, state)
-        r += self.get("value")
-        r += self.space()
-        r += self.getChild(0).format(optns, state)
-        state.add(r,optns)
+        state.add(self.commentsPretty(self.comments, optns, state),optns)
+        state.add(self.get("value"),optns)
+        state.add(self.space(),optns)
+        self.getChild(0).format(optns, state)
     symbol(id_).format = format
 
 for sym in SYMBOLS['prefix_v']:
@@ -128,12 +125,11 @@ for sym in SYMBOLS['prefix_v']:
 # i can re-use some of this semantics for prefix-like keywords, like 'var', 'while', 'if', etc.
 def prefix_keyword(id_):
     def format(self, optns, state):
-        r = [self.commentsPretty(self.comments, optns, state)]
-        r += [self.get("value")]
-        r += [self.space()]
+        state.add(self.commentsPretty(self.comments, optns, state),optns)
+        state.add(self.get("value"),optns)
+        state.add(self.space(),optns)
         for cld in self.children:
-            r.append(cld.format(optns, state))
-        state.add(u''.join(r),optns)
+            cld.format(optns, state)
     symbol(id_).format = format
 
 for sym in "var new throw while if for do with try catch switch case default".split():  # some of them might get overwritten later, or this list should be adjusted
@@ -141,13 +137,12 @@ for sym in "var new throw while if for do with try catch switch case default".sp
 
 def prefix_kw_optarg(id_):  # break, continue, return
     def format(self, optns, state):
-        r = [self.commentsPretty(self.comments, optns, state)]
-        r += [self.get("value")]
+        state.add(self.commentsPretty(self.comments, optns, state),optns)
+        state.add(self.get("value"),optns)
         if self.children:
-            r += [self.space()]
+            state.add(self.space(),optns)
             for cld in self.children:
-                r.append(cld.format(optns, state))
-        state.add(u''.join(r),optns)
+                cld.format(optns, state)
     symbol(id_).format = format
 
 for sym in "break return continue".split():  # some of them might get overwritten later, or this list should be adjusted
@@ -155,17 +150,16 @@ for sym in "break return continue".split():  # some of them might get overwritte
 
 def preinfix(id_):  # pre-/infix operators (+, -)
     def format(self, optns, state):  # need to handle pre/infix cases
-        r = self.commentsPretty(self.comments, optns, state)
-        r = [r]
-        first = self.getChild(0).format(optns, state)
+        state.add(self.commentsPretty(self.comments, optns, state),optns)
         op = self.get("value")
         prefix = self.get("left", 0)
         if prefix and prefix == "true":
-            r = [op, first]
+            state.add(op,optns)
+            self.getChild(0).format(optns, state)
         else:
-            second = self.getChild(1).format(optns, state)
-            r = [first, ' ', op, ' ', second]
-        state.add(''.join(r),optns)
+            self.getChild(0).format(optns, state)
+            state.add(' ' + op + ' ',optns)
+            self.getChild(1).format(optns, state)
     symbol(id_).format = format
 
 for sym in SYMBOLS['preinfix']:
@@ -173,15 +167,13 @@ for sym in SYMBOLS['preinfix']:
 
 def prepostfix(id_):  # pre-/post-fix operators (++, --)
     def format(self, optns, state):
-        r = self.commentsPretty(self.comments, optns, state)
-        operator = self.get("value")
-        operand = self.getChild(0).format(optns, state)
-        r += self.get("value")
+        state.add(self.commentsPretty(self.comments, optns, state),optns)
         if self.get("left", '') == "true":
-            r = [operator, operand]
+            state.add(self.get("value"),optns)
+            self.getChild(0).format(optns, state)
         else:
-            r = [operand, operator]
-        state.add(u''.join(r),optns)
+            self.getChild(0).format(optns, state)
+            state.add(self.get("value"),optns)
     symbol(id_).format = format
 
 for sym in SYMBOLS['prepostfix']:
@@ -190,127 +182,109 @@ for sym in SYMBOLS['prepostfix']:
 
 @method(symbol("constant"))
 def format(self, optns, state):
-    r = self.commentsPretty(self.comments, optns, state)
+    state.add(self.commentsPretty(self.comments, optns, state),optns)
     if self.get("constantType") == "string":
-        if self.get("detail") == "singlequotes":
-            r += self.write("'")
-        else:
-            r += self.write('"')
-        r += self.write(self.get("value"))
-        if self.get("detail") == "singlequotes":
-            r += self.write("'")
-        else:
-            r += self.write('"')
+        quote = "'" if self.get("detail")=="singlequotes" else '"'
+        state.add(self.write(quote + self.get("value") + quote),optns)
     else:
-        r += self.write(self.get("value"))
-    state.add(r,optns)
-
+        state.add(self.write(self.get("value")),optns)
 
 @method(symbol("identifier"))
 def format(self, optns, state):
-    r = self.commentsPretty(self.comments, optns, state)
+    state.add(self.commentsPretty(self.comments, optns, state),optns)
     v = self.get("value", u"")
     if v:
-        r += self.write(v)
-    state.add(r,optns)
+        state.add(self.write(v),optns)
 
 @method(symbol("?"))
 def format(self, optns, state):
-    r = []
-    r.append(self.getChild(0).format(optns, state))
-    r.append(' ')
-    r.append(self.commentsPretty(self.comments, optns, state))
-    r.append(self.get("value", "?"))
-    r.append(' ')
-    r.append(self.getChild(1).format(optns, state))
-    r.append(' ')
-    r.append(self.getChild(2).format(optns, state))
-    r.append(' ')
-    r.append(self.getChild(3).format(optns, state))
-    state.add(''.join(r),optns)
+    self.getChild(0).format(optns, state)
+    state.add(' ',optns)
+    state.add(self.commentsPretty(self.comments, optns, state),optns)
+    state.add(self.get("value", "?"),optns)
+    state.add(' ',optns)
+    self.getChild(1).format(optns, state)
+    state.add(' ',optns)
+    self.getChild(2).format(optns, state)
+    state.add(' ',optns)
+    self.getChild(3).format(optns, state)
 
 #@method(symbol("dotaccessor"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r += self.children[0].format(optns, state)
-#    r += '.'
-#    r += self.children[1].format(optns, state)
-#    state.add(r,optns)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    self.children[0].format(optns, state)
+#    state.add('.',optns)
+#    self.children[1].format(optns, state)
+#    state.add(r,optns,optns)
 
 @method(symbol("operand"))
 def format(self, optns, state):
-    r = self.commentsPretty(self.comments, optns, state)
-    r += self.children[0].format(optns, state)
-    state.add(r,optns)
+    state.add(self.commentsPretty(self.comments, optns, state),optns)
+    self.children[0].format(optns, state)
 
 #@method(symbol("group"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r = [r]
-#    r.append('(')
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add([r],optns)
+#    state.add('(',optns)
 #    a = []
 #    for c in self.children:
 #        a.append(c.format(optns, state))
-#    r.append(', '.join(a))
-#    r.append(')')
-#    state.add(''.join(r),optns)
+#    state.add(', '.join(a),optns)
+#    state.add(')',optns)
+#    state.add(''.join(r,optns),optns)
 
 @method(symbol("accessor"))
 def format(self, optns, state):
-    r = []
+    state.add([],optns)
     for cld in self.children:
-        r += [cld.format(optns, state)]
-    state.add(u''.join(r),optns)
+        cld.format(optns, state)
 
 @method(symbol("array"))
 def format(self, optns, state):
     res = []
     for cld in self.children:
-        res += [cld.format(optns, state)]
-    state.add(u''.join(res),optns)
+        cld.format(optns, state)
 
 #@method(symbol("key"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r += self.children[0].format(optns, state)
-#    state.add(r,optns)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    self.children[0].format(optns, state)
+#    state.add(r,optns,optns)
 
 @method(symbol("map"))
 def format(self, optns, state):
-    r = u''
     # opening {
-    r += self.children[0].format(optns, state)
+    self.children[0].format(optns, state)
     indent = state.indentStr(optns)
     # keyvals
-    a = []
     for c in self.children[1:-1]: # without {}
         if c.id == 'keyvalue':
-            a.append(indent + c.format(optns,state))
+            state.add(indent,optns)
+            c.format(optns,state)
         elif c.id == ',':
-            a.append(c.format(optns,state))
-            a.append('\n')
-    r += ''.join(a) + self.nl(optns,state)
+            c.format(optns,state)
+            state.add(self.nl(optns,state),optns)
+    state.add(self.nl(optns,state),optns)
     # closing }
-    r += self.children[-1].format(optns,state)
-    state.add(r,optns)
+    self.children[-1].format(optns,state)
 
 #@method(symbol("value"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r += self.children[0].format(optns, state)
-#    state.add(r,optns)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    self.children[0].format(optns, state)
+#    state.add(r,optns,optns)
 
 @method(symbol("keyvalue"))
 def format(self, optns, state):
-    res = []
     # key
-    res.append(self.children[0].format(optns, state))
+    self.children[0].format(optns, state)
     # :
-    res.append(self.space())
-    res.append(self.children[1].format(optns, state))
-    res.append(self.space())
+    state.add(self.space(),optns)
+    self.children[1].format(optns, state)
+    state.add(self.space(),optns)
     # value
-    res.append(self.children[2].format(optns, state))
+    self.children[2].format(optns, state)
     #key = self.get("key")
     #key_quote = self.get("quote", '')
     #if key_quote:
@@ -324,90 +298,82 @@ def format(self, optns, state):
     #else:
     #    quote = ''
     #value = self.getChild("value").format(optns, state)
-    #state.add(r + quote + key + quote + ' : ' + value,optns)
-    state.add(u''.join(res),optns)
+    #state.add(r + quote + key + quote + ' : ' + value,optns,optns)
 
 @method(symbol("function"))
 def format(self, optns, state):
-    r = self.commentsPretty(self.comments, optns, state)
-    r += self.write("function") + self.space()
+    state.add(self.commentsPretty(self.comments, optns, state),optns)
+    state.add(self.write("function") + self.space(),optns)
     if self.getChild("identifier",0):
         functionName = self.getChild("identifier").get("value")
-        r += self.write(functionName)
+        state.add(self.write(functionName),optns)
     # params
-    r += self.getChild("params").format(optns, state)
-    r += self.space()
+    self.getChild("params").format(optns, state)
+    state.add(self.space(),optns)
     # body
-    r += self.getChild("body").format(optns, state)
-    state.add(r,optns)
+    self.getChild("body").format(optns, state)
 
 @method(symbol("body"))
 def format(self, optns, state):
-    r = [self.commentsPretty(self.comments, optns, state)]
-    r.append(self.children[0].format(optns, state))
+    state.add(self.commentsPretty(self.comments, optns, state),optns)
+    self.children[0].format(optns, state)
     # 'if', 'while', etc. can have single-statement bodies
     if self.children[0].id != 'block':
-        r.append(';')
-    state.add(u''.join(r),optns)
+        state.add(';',optns)
 
 #@method(symbol("var"))  # this is what becomes of "var"
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r = [r]
-#    r.append("var")
-#    r.append(self.space())
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add([r],optns)
+#    state.add("var",optns)
+#    state.add(self.space(),optns)
 #    a = []
 #    for c in self.children:
 #        a.append(c.format(optns, state))
-#    r.append(','.join(a))
-#    state.add(''.join(r),optns)
+#    state.add(','.join(a),optns)
+#    state.add(''.join(r,optns),optns)
 
 #@method(symbol("definition"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r += self.children[0].format(optns, state)
-#    state.add(r,optns)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    self.children[0].format(optns, state)
+#    state.add(r,optns,optns)
 
 #@method(symbol("for"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r = [r]
-#    r.append('for')
-#    r.append(self.space(False,result=r))
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add([r],optns)
+#    state.add('for',optns)
+#    state.add(self.space(False,result=r),optns)
 #    # cond
-#    r.append('(')
+#    state.add('(',optns)
 #    # for (in)
 #    if self.get("forVariant") == "in":
-#        r.append(self.children[0].format(optns, state))
+#        self.children[0].format(optns, state)
 #    # for (;;)
 #    else:
-#        r.append(self.children[0].children[0].format(optns, state))
-#        r.append(';')
-#        r.append(self.children[0].children[1].format(optns, state))
-#        r.append(';')
-#        r.append(self.children[0].children[2].format(optns, state))
-#    r.append(')')
+#        self.children[0].children[0].format(optns, state)
+#        state.add(';',optns)
+#        self.children[0].children[1].format(optns, state)
+#        state.add(';',optns)
+#        self.children[0].children[2].format(optns, state)
+#    state.add(')',optns)
 #    # body
-#    r.append(self.getChild("body").format(optns, state))
-#    state.add(u''.join(r),optns)
+#    self.getChild("body").format(optns, state)
+#    state.add(u''.join(r,optns),optns)
 
 @method(symbol("in"))  # of 'for (in)'
 def format(self, optns, state):
-    r = self.commentsPretty(self.comments, optns, state)
-    r += self.getChild(0).format(optns, state)
-    r += self.space()
-    r += 'in'
-    r += self.space()
-    r += self.getChild(1).format(optns, state)
-    state.add(r,optns)
+    state.add(self.commentsPretty(self.comments, optns, state),optns)
+    self.getChild(0).format(optns, state)
+    state.add(self.space()+'in'+self.space(),optns)
+    self.getChild(1).format(optns, state)
 
 @method(symbol("expressionList"))
 def format(self, optns, state):  # WARN: this conflicts (and is overwritten) in for(;;).format
-    cmnts = self.commentsPretty(self.comments, optns, state)
-    r = []
+    state.add(self.commentsPretty(self.comments, optns, state),optns)
     for c in self.children:
-        r.append(c.format(optns, state))
-    state.add(cmnts + ''.join(r),optns)
+        c.format(optns, state)
 
 @method(symbol(","))
 def format(self, optns, state):
@@ -415,50 +381,49 @@ def format(self, optns, state):
 
 @method(symbol(";"))
 def format(self, optns, state):
-    r = self.get("value")
-    state.add(r,optns)
+    state.add(self.get("value"),optns)
 
 #@method(symbol("while"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r += self.write("while")
-#    r += self.space(False,result=r)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add(self.write("while",optns))
+#    state.add(self.space(False,result=r,optns))
 #    # cond
-#    r += '('
-#    r += self.children[0].format(optns, state)
-#    r += ')'
+#    state.add('(',optns)
+#    self.children[0].format(optns, state)
+#    state.add(',optns)')
 #    # body
-#    r += self.children[1].format(optns, state)
-#    state.add(r,optns)
+#    self.children[1].format(optns, state)
+#    state.add(r,optns,optns)
 
 #@method(symbol("with"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r = [r]
-#    r.append("with")
-#    r.append(self.space())
-#    r.append('(')
-#    r.append(self.children[0].format(optns, state))
-#    r.append(')')
-#    r.append(self.children[1].format(optns, state))
-#    state.add(''.join(r),optns)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add([r],optns)
+#    state.add("with",optns)
+#    state.add(self.space(),optns)
+#    state.add('(',optns)
+#    self.children[0].format(optns, state)
+#    state.add(')',optns)
+#    self.children[1].format(optns, state)
+#    state.add(''.join(r,optns),optns)
 
 #@method(symbol("do"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r = [r]
-#    r.append("do")
-#    r.append(self.space())
-#    r.append(self.children[0].format(optns, state))
-#    r.append('while')
-#    r.append('(')
-#    r.append(self.children[1].format(optns, state))
-#    r.append(')')
-#    state.add(''.join(r),optns)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add([r],optns)
+#    state.add("do",optns)
+#    state.add(self.space(),optns)
+#    self.children[0].format(optns, state)
+#    state.add('while',optns)
+#    state.add('(',optns)
+#    self.children[1].format(optns, state)
+#    state.add(')',optns)
+#    state.add(''.join(r,optns),optns)
 
 #@method(symbol("if"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
 #    # Additional new line before each loop
 #    if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
 #        prev = self.getPreviousSibling(False, True)
@@ -470,263 +435,254 @@ def format(self, optns, state):
 #        #    self.sep()
 #        #else:
 #        #    self.line()
-#    r += self.write("if")
+#    state.add(self.write("if",optns))
 #    # condition
-#    r += self.write("(")
-#    r += self.children[0].format(optns, state)
-#    r += self.write(")")
+#    state.add(self.write("(",optns))
+#    self.children[0].format(optns, state)
+#    state.add(self.write(",optns)"))
 #    # 'then' part
-#    r += self.children[1].format(optns, state)
+#    self.children[1].format(optns, state)
 #    # (opt) 'else' part
 #    if len(self.children) == 3:
-#        r += self.space()
-#        r += self.write("else")
-#        r += self.space()
-#        r += self.children[2].format(optns, state)
-#    r += self.space(False,result=r)
-#    state.add(r,optns)
+#        state.add(self.space(,optns))
+#        state.add(self.write("else",optns))
+#        state.add(self.space(,optns))
+#        self.children[2].format(optns, state)
+#    state.add(self.space(False,result=r,optns))
+#    state.add(r,optns,optns)
 
 #@method(symbol("break"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r += self.write("break")
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add(self.write("break",optns))
 #    if self.children:
-#        r += self.space(result=r)
-#        r += self.write(self.children[0].format(optns, state))
-#    state.add(r,optns)
+#        state.add(self.space(result=r,optns))
+#        self.write(self.children[0].format(optns, state))
+#    state.add(r,optns,optns)
 
 #@method(symbol("continue"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r += self.write("continue")
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add(self.write("continue",optns))
 #    if self.children:
-#        r += self.space(result=r)
-#        r += self.write(self.children[0].format(optns, state))
-#    state.add(r,optns)
+#        state.add(self.space(result=r,optns))
+#        self.write(self.children[0].format(optns, state))
+#    state.add(r,optns,optns)
 
 #@method(symbol("return"))
 #def format(self, optns, state):
-#    r = [self.commentsPretty(self.comments, optns, state)]
-#    r += ["return"]
+#    state.add([self.commentsPretty(self.comments, optns, state,optns)])
+#    state.add(["return"],optns)
 #    if self.children:
-#        r.append(self.space())
-#        r.append(self.children[0].format(optns, state))
-#    state.add(''.join(r),optns)
+#        state.add(self.space(),optns)
+#        self.children[0].format(optns, state)
+#    state.add(''.join(r,optns),optns)
 
 #@method(symbol("switch"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r = [r]
-#    r.append("switch")
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add([r],optns)
+#    state.add("switch",optns)
 #    # control
-#    r.append('(')
-#    r.append(self.children[0].format(optns, state))
-#    r.append(')')
+#    state.add('(',optns)
+#    self.children[0].format(optns, state)
+#    state.add(')',optns)
 #    # body
-#    r.append('{')
+#    state.add('{',optns)
 #    body = self.getChild("body")
 #    for c in body.children:
-#        r.append(c.format(optns, state))
-#    r.append('}')
-#    state.add(''.join(r),optns)
+#        c.format(optns, state)
+#    state.add('}',optns)
+#    state.add(''.join(r,optns),optns)
 
 
 #@method(symbol("case"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r = [r]
-#    r.append('case')
-#    r.append(self.space())
-#    r.append(self.children[0].format(optns, state))
-#    r.append(':')
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add([r],optns)
+#    state.add('case',optns)
+#    state.add(self.space(),optns)
+#    self.children[0].format(optns, state)
+#    state.add(':',optns)
 #    if len(self.children) > 1:
-#        r.append(self.children[1].format(optns, state))
-#    state.add(''.join(r),optns)
+#        self.children[1].format(optns, state)
+#    state.add(''.join(r,optns),optns)
 
 
 #@method(symbol("default"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r = [r]
-#    r.append('default')
-#    r.append(':')
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add([r],optns)
+#    state.add('default',optns)
+#    state.add(':',optns)
 #    if len(self.children) > 0:
-#        r.append(self.children[0].format(optns, state))
-#    state.add(''.join(r),optns)
+#        self.children[0].format(optns, state)
+#    state.add(''.join(r,optns),optns)
 
 #@method(symbol("try"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r = [r]
-#    r.append("try")
-#    r.append(self.children[0].format(optns, state))
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add([r],optns)
+#    state.add("try",optns)
+#    self.children[0].format(optns, state)
 #    catch = self.getChild("catch", 0)
 #    if catch:
-#        r.append(self.space())
-#        r.append("catch")
-#        r.append(catch.children[0].format(optns, state))
-#        r.append(self.space())
-#        r.append(catch.children[1].format(optns, state))
+#        state.add(self.space(),optns)
+#        state.add("catch",optns)
+#        catch.children[0].format(optns, state)
+#        state.add(self.space(),optns)
+#        catch.children[1].format(optns, state)
 #    finally_ = self.getChild("finally", 0)
 #    if finally_:
-#        r.append("finally")
-#        r.append(finally_.children[0].format(optns, state))
-#    state.add(''.join(r),optns)
+#        state.add("finally",optns)
+#        finally_.children[0].format(optns, state)
+#    state.add(''.join(r,optns),optns)
 
 #@method(symbol("throw"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r += 'throw'
-#    r += self.space()
-#    r += self.children[0].format(optns, state)
-#    state.add(r,optns)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add('throw',optns)
+#    state.add(self.space(,optns))
+#    self.children[0].format(optns, state)
+#    state.add(r,optns,optns)
 
 @method(symbol("(empty)"))
 def format(self, optns, state):
-    r = self.commentsPretty(self.comments, optns, state)
-    state.add(r,optns)
+    state.add(self.commentsPretty(self.comments, optns, state),optns)
 
 @method(symbol("label"))
 def format(self, optns, state):
-    r = self.commentsPretty(self.comments, optns, state)
-    r = [r]
-    r += [self.children[0].format(optns, state)]  # identifier
-    r += [self.children[1].format(optns, state) + self.nl(optns, state)] # :
-    r += [self.children[2].format(optns, state)]  # statement
-    state.add(''.join(r),optns)
+    state.add(self.commentsPretty(self.comments, optns, state),optns)
+    self.children[0].format(optns, state,optns)  # identifier
+    self.children[1].format(optns, state,optns)  # :
+    state.add(self.nl(optns, state),optns)
+    self.children[2].format(optns, state,optns)  # statement)
 
 @method(symbol("{"))
 def format(self, optns, state):
-    r = self.commentsPretty(self.comments,optns, state)
+    state.add(self.commentsPretty(self.comments,optns, state),optns)
     if optns.prettypOpenCurlyNewlineBefore not in 'nN': # and self.hasLeadingContent():
         if optns.prettypOpenCurlyIndentBefore:
             state.indent()
-        r += self.nl(optns,state) + state.indentStr(optns)
-    r += self.get("value") + self.nl(optns,state)
+        state.add(self.nl(optns,state) + state.indentStr(optns),optns)
+    state.add(self.get("value") + self.nl(optns,state),optns)
     if not optns.prettypAlignBlockWithCurlies:
         state.indent()
-    state.add(r,optns)
 
 @method(symbol("}"))
 def format(self, optns, state):
-    r = self.commentsPretty(self.comments,optns, state)
+    state.add(self.commentsPretty(self.comments,optns,state), optns)
     state.outdent()
-    r += state.indentStr(optns) + self.get("value")
-    state.add(r,optns)
+    state.add(state.indentStr(optns) + self.get("value"),optns)
 
 
 #@method(symbol("statements"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r = [r]
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    state.add([r],optns)
 #    for cld in self.children:
 #        c = cld.format(optns, state)
-#        r.append(c)
-#    state.add(u''.join(r),optns)
+#        state.add(c,optns)
+#    state.add(u''.join(r,optns),optns)
 
 @method(symbol("statement"))
 def format(self, optns, state):
     indent = indentString(optns, state)
-    r = [indent]
+    state.add(indent,optns)
     for cld in self.children:
-        cld_fmted = cld.format(optns, state)
-        r += [cld_fmted]
-    state.add(u''.join(r) + '\n',optns)
+        cld.format(optns, state)
+    state.add(self.nl(optns,state),optns)
 
 
-@method(symbol("block"))
-def format(self, optns, state):
-    r = u''
-    # opening {
-    r += self.children[0].format(optns, state)
-    # statements
-    a = []
-    for c in self.getChild("statements").children:
-        a.append(c.format(optns, state))  # 'statement' takes care of indentation
-    r += ''.join(a)
-    # closing }
-    r += self.children[-1].format(optns, state)
-    state.add(r,optns)
+#@method(symbol("block"))
+#def format(self, optns, state):
+#    state.add(u'',optns)
+#    # opening {
+#    self.children[0].format(optns, state)
+#    # statements
+#    for c in self.getChild("statements").children:
+#        c.format(optns, state)  # 'statement' takes care of indentation
+#    # closing }
+#    self.children[-1].format(optns, state)
 
-
-    #r = self.commentsPretty(self.comments, optns, state)
-    #r += self.write("{\n")
+    #state.add(self.commentsPretty(self.comments, optns, state,optns))
+    #state.add(self.write("{\n",optns))
     #state.indentLevel += 1
     #a = []
     #for c in self.children: # should be just "statements"
     #    a.append(c.format(optns, state))
     #a_ = u''.join(a)
-    #r += a_
+    #state.add(a_,optns)
     #if a_:
-    #    r += "\n"
+    #    state.add(self.nl(optns,state),optns)
     #state.indentLevel -= 1
     #indent_string = indentString(optns, state)
-    #r += self.write(indent_string + "}")
-    #state.add(r,optns)
+    #state.add(self.write(indent_string + "}",optns))
+    #state.add(r,optns,optns)
 
 @method(symbol("call"))
 def format(self, optns, state):
-    r = self.commentsPretty(self.comments, optns, state)
-    r += self.getChild("operand").format(optns, state)
-    r += self.getChild("arguments").format(optns, state)
-    state.add(r,optns)
+    state.add(self.commentsPretty(self.comments, optns, state),optns)
+    self.getChild("operand").format(optns, state)
+    self.getChild("arguments").format(optns, state)
 
-@method(symbol("comment"))
-def format(self, optns, state):
-    r = self.get("value")
-    r = Comment.Text(r).indent(indentString(optns, state))
-    if self.get('end', False) == True:  # 'inline' needs terminating newline anyway
-        r += '\n'
-    r += indentString(optns, state)  # to pass on the indentation that was set ahead of the comment
-    state.add(r,optns)
+##
+#@method(symbol("comment"))
+#def format(self, optns, state):
+#    r = self.get("value")
+#    r = Comment.Text(r,optns).indent(indentString(optns, state))
+#    if self.get('end', False) == True:  # 'inline' needs terminating newline anyway
+#        state.add(self.nl(optns,state),optns)
+#    state.add(indentString(optns, state),optns)  # to pass on the indentation that was set ahead of the comment
+#    return r
 
 #@method(symbol("commentsAfter"))
 #def format(self, optns, state):
-#    r = self.toJS(pp)
-#    state.add(r,optns)
+#    state.add(self.toJS(pp,optns))
+#    state.add(r,optns,optns)
 
 #@method(symbol("commentsBefore"))
 #def format(self, optns, state):
-#    r = self.toJS(pp)
-#    state.add(r,optns)
+#    state.add(self.toJS(pp,optns))
+#    state.add(r,optns,optns)
 
 #@method(symbol("file"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
-#    r += self.children[0].format(optns, state)
-#    state.add(r,optns)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
+#    self.children[0].format(optns, state)
+#    state.add(r,optns,optns)
 
 #@method(symbol("first"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
 #    if self.children:  # could be empty in for(;;)
-#        r = self.children[0].format(optns, state)
-#    state.add(r,optns)
+#        self.children[0].format(optns, state)
+#    state.add(r,optns,optns)
 
 #@method(symbol("second"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
 #    if self.children:
-#        r = self.children[0].format(optns, state)
-#    state.add(r,optns)
+#        self.children[0].format(optns, state)
+#    state.add(r,optns,optns)
 
 #@method(symbol("third"))
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
 #    if self.children:
-#        r += self.children[0].format(optns, state)
-#    state.add(r,optns)
+#        self.children[0].format(optns, state)
+#    state.add(r,optns,optns)
 
 #def format(self, optns, state):
-#    r = self.commentsPretty(self.comments, optns, state)
+#    state.add(self.commentsPretty(self.comments, optns, state,optns))
 #    self.noline()
-#    r += self.write("(")
+#    state.add(self.write("(",optns))
 #    a = []
 #    for c in self.children:
 #        a.append(c.format(optns, state))
-#    r += u', '.join(a)
-#    r += self.write(")")
-#    state.add(r,optns)
+#    state.add(u', '.join(a,optns))
+#    state.add(self.write(",optns)"))
+#    state.add(r,optns,optns)
 
 #symbol("params").format = format
 #symbol("arguments").format = format
@@ -792,18 +748,22 @@ class FormatterState(object):
                 self.line = ''
         # postcond: rest of str_ is in self.line
             
-        def layout_line(self, str_):
-            str_ = str_.rstrip() # remove trailing ws
-            str_ += self.nl()
-            return str_
+    def layout_line(self, str_):
+        str_ = str_.rstrip() # remove trailing ws
+        str_ += self.nl()
+        return str_
 
-        ##
-        # Whether the current line has content
-        def hasLeadingContent(self, honorWhite=False):
-            if honorWhite and self.line != '\n':
-                return len(self.line)
-            else:
-                return self.re_non_white.search(self.line)
+    # TODO: duplicates tree.nl() in this module
+    def nl(self):
+        return '\n'
+
+    ##
+    # Whether the current line has content
+    def hasLeadingContent(self, honorWhite=False):
+        if honorWhite and self.line != '\n':
+            return len(self.line)
+        else:
+            return self.re_non_white.search(self.line)
 
 
 class FormatterOptions(object): pass

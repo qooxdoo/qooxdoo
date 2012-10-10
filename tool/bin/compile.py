@@ -38,7 +38,7 @@ import qxenviron
 
 from misc.ExtendAction import ExtendAction
 from ecmascript.backend.Packer      import Packer
-from ecmascript.backend             import formatter_3 as formatter
+from ecmascript.backend             import formatter_4 as formatter
 from ecmascript.frontend import tokenizer, treeutil
 #from ecmascript.frontend import treegenerator
 from ecmascript.frontend import treegenerator_3 as treegenerator
