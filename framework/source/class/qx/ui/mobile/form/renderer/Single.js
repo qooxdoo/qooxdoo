@@ -78,7 +78,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         item instanceof qx.ui.mobile.form.TextField ||
         item instanceof qx.ui.mobile.form.PasswordField || 
         item instanceof qx.ui.mobile.form.NumberField || 
-        item instanceof qx.ui.mobile.form.CheckBox
+        item instanceof qx.ui.mobile.form.CheckBox || 
+        item instanceof qx.ui.mobile.form.SelectBox
       );
     },
 
