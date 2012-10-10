@@ -73,6 +73,10 @@ testrunner.define({
     if (q.$$qx.event) {
       this.assertUndefined(q.$$qx.event.Registration, "event.Registration");
     }
+  },
+
+  testNoConflict : function() {
+    this.assertEquals(q, qxWeb);
   }
 });
 
