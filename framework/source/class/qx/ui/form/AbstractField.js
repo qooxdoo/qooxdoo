@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.form.AbstractField",
   statics : {
     __stylesheet : null,
 
-    __addPlaceholderRules : function(update) {
+    __addPlaceholderRules : function() {
       if (this.__stylesheet) {
         return;
       }
