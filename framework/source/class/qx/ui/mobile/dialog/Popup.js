@@ -325,7 +325,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __registerEventListener : function()
     {
       qx.event.Registration.addListener(window, "resize", this._updatePosition, this);
-      qx.event.Registration.addListener(window, "resize", this._updatePosition, this);
       /*if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
       {
         qx.event.message.Bus.getInstance().subscribe("iscrollstart", this.hide, this);
