@@ -1150,11 +1150,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       }
       
       propertyValue = propertyValue + "scale("+this.getScaleX()+","+this.getScaleY()+") ";
-      
-      // Add translate3d only if any of these values have been modified.
-      if(this.getTranslateX() != 0 || this.getTranslateY() != 0 || this.getTranslateZ() != 0) {
-        propertyValue = propertyValue + "translate3d("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px,"+this.getTranslateZ()+"px) ";
-      }
+      propertyValue = propertyValue + "translate3d("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px,"+this.getTranslateZ()+"px) ";
       
       qx.bom.element.Style.set(this.getContainerElement(),"transform", propertyValue);
     },

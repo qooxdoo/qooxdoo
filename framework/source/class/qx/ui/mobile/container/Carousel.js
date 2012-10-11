@@ -403,12 +403,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         var oldPageIndex = this.__shownPageIndex;
         
         if(direction=="left") {
-          if(this.__shownPageIndex < this.__pages.length-1) {
-            this.__shownPageIndex = this.__shownPageIndex+1;
+          if(this.__shownPageIndex < this.__pages.length - 1) {
+            this.__shownPageIndex = this.__shownPageIndex + 1;
           }
         } else if(direction=="right") {
-          if(this.__shownPageIndex>0) {
-            this.__shownPageIndex = this.__shownPageIndex-1;
+          if(this.__shownPageIndex > 0) {
+            this.__shownPageIndex = this.__shownPageIndex - 1;
           }
         }
         
@@ -427,7 +427,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param showTransition {Boolean} Target value which triggers transition.
      */
     _setShowTransition : function(showTransition) {
-      if(this.__showTransition==showTransition) {
+      if(this.__showTransition == showTransition) {
         return
       }
       

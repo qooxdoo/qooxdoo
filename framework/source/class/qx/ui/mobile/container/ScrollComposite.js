@@ -77,14 +77,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     
     this._setLayout(new qx.ui.mobile.layout.VBox());
     this._add(this.__scrollContainer, {flex:1});
-    
-    this.__transformPropertyName = qx.bom.Style.getPropertyName("transform");
-    this.__transitionDurationPropertyName = qx.bom.Style.getPropertyName("transition-duration");
-
-    if(!this.__transitionDurationPropertyName) {
-      this.__transitionDurationPropertyName = "transition-duration";
-    }
-    
   },
   
   
@@ -112,8 +104,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     __currentOffset : null,
     __scrollTopOnStart : 0,
     __targetScrollTop : 0,
-    __transformPropertyName : null,
-    __transitionDurationPropertyName : null,
     
     
      /**
@@ -124,7 +114,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       var touchX = evt.getScreenLeft();
       var touchY = evt.getScreenTop();
       
-      qx.bom.element.Style.set(this.__scrollContainer.getContainerElement(),this.__transitionDurationPropertyName,"0s");
+      qx.bom.element.Style.set(this.__scrollContainer.getContainerElement(),"transition-duration","0s");
       
       this.__touchStartPoints[0] = touchX;
       this.__touchStartPoints[1] = touchY;
@@ -166,8 +156,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       // Y
       this.__currentOffset[1] =  this.__targetOffset[1] + distanceY;
       
-      qx.bom.element.Style.set(this.__scrollContainer.getContainerElement(),
-        this.__transformPropertyName,"translate3d(0px,"+this.__currentOffset[1]+"px,0px)");
+      this.__scrollContainer.setTranslateY(this.__currentOffset[1]);
      
       evt.stopPropagation();
     },
@@ -191,8 +180,9 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
         this.__currentOffset[1] = -lowerLimit;
       } 
       
-      qx.bom.element.Style.set(targetElement,this.__transitionDurationPropertyName,".2s");
-      qx.bom.element.Style.set(targetElement,this.__transformPropertyName,"translate3d(0px,"+this.__currentOffset[1]+"px,0px)");
+      qx.bom.element.Style.set(targetElement,"transition-duration",".2s");
+      
+      this.__scrollContainer.setTranslateY(this.__currentOffset[1]);
       
       this.__targetOffset[0] = this.__currentOffset[0];
       this.__targetOffset[1] = this.__currentOffset[1];
