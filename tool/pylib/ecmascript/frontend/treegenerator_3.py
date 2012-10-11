@@ -379,8 +379,11 @@ class symbol_base(Node):
 
     # serialization to list of nodes
     def toListG(self):
-        for e in itert.chain([self], *[c.toListG() for c in self.children]):
-            yield e
+        if self.children:
+            for e in itert.chain(*[c.toListG() for c in self.children]):
+                yield e
+        else:
+            yield self
 
 
     def compileToken(self, name, compact=False):
@@ -1130,10 +1133,10 @@ def toJS(self, opts):
     r += self.write("}")
     return r
 
-@method(symbol("map"))
-def toListG(self):
-    for e in itert.chain([self], *[c.toListG() for c in self.children]):
-        yield e
+#@method(symbol("map"))
+#def toListG(self):
+#    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+#        yield e
 
 @method(symbol("value"))
 def toJS(self, opts):
@@ -1163,10 +1166,10 @@ def toJS(self, opts):
     value = self.getChild("value").toJS(opts)
     return quote + key + quote + ':' + value
 
-@method(symbol("keyvalue"))
-def toListG(self):
-    for e in itert.chain([self], self.children[0].toListG()):
-        yield e
+#@method(symbol("keyvalue"))
+#def toListG(self):
+#    for e in itert.chain([self], self.children[0].toListG()):
+#        yield e
 
 
 ##
@@ -1187,10 +1190,10 @@ def toJS(self, opts):
     r.append('}')
     return u''.join(r)
 
-@method(symbol("block"))
-def toListG(self):
-    for e in itert.chain([self], self.children[0].toListG()):
-        yield e
+#@method(symbol("block"))
+#def toListG(self):
+#    for e in itert.chain([self], self.children[0].toListG()):
+#        yield e
 
 symbol("function")
 
@@ -1199,7 +1202,7 @@ def pfix(self):
     # optional name
     opt_name = None
     if token.id == "identifier":
-        opt_name = token  # see further
+        self.childappend(token)
         advance()
     # params
     assert token.id == "("
@@ -1218,9 +1221,6 @@ def pfix(self):
         body.childappend(block())
     else:
         body.childappend(statement())
-    # add optional name as last child
-    if opt_name:
-        self.childappend(opt_name)
     return self
 
 @method(symbol("function"))
@@ -1254,12 +1254,12 @@ def toJS(self, opts):
 symbol("params").toJS = toJS
 symbol("arguments").toJS = toJS  # same here
 
-def toListG(self):
-    for e in itert.chain([self], *[c.toListG() for c in self.children]):
-        yield e
+#def toListG(self):
+#    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+#        yield e
 
-symbol("params").toListG = toListG
-symbol("arguments").toListG = toListG  # same here
+#symbol("params").toListG = toListG
+#symbol("arguments").toListG = toListG  # same here
 
 @method(symbol("body"))
 def toJS(self, opts):
@@ -1270,10 +1270,10 @@ def toJS(self, opts):
         r.append(';')
     return u''.join(r)
 
-@method(symbol("body"))
-def toListG(self):
-    for e in itert.chain([self], *[c.toListG() for c in self.children]):
-        yield e
+#@method(symbol("body"))
+#def toListG(self):
+#    for e in itert.chain([self], *[c.toListG() for c in self.children]):
+#        yield e
 
 
 # -- statements ------------------------------------------------------------

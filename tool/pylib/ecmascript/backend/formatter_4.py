@@ -110,25 +110,15 @@ class Formatter(object):
         for token in self.tokenStream:
 
             ## text width
-            #if (self.optns.prettypTextWidth and 
-            #    token.type not in ('comment','white') and
-            #    token.type not in (',', ';', '}', ']') and
-            #    len(token.get("value")) + self.currColumn > self.optns.prettypTextWidth):
-            #    self.add('\n')
-            #    if not self.state.inExpression:
-            #        self.state.indent()
-            #        self.state.inExpression = True
+            #self.handle_text_width(token)
 
-            #if token.value in ';\n':  # quick statement-end hack
-            #    if self.state.inExpression:
-            #        self.outdent()
-            #        self.state.inExpression = False
 
             # dispatch handlers
             if hasattr(self, "format_"+token.type):
                 s = getattr(self, "format_"+token.type)(token)
             else:
                 s = self.format_default(token)
+            #print ">%s<" % s
             self.state.add(s,self.optns)
             self.state.last_token = token
 
@@ -137,11 +127,49 @@ class Formatter(object):
             
 
     def format_default(self, token):
-        #return token.value
+        r = u''
         if token.get("value", False):
-            return ' ' + token.get("value") + ' ' # for testing
+            #r += ' ' + token.get("value") + ' ' # for testing
+            r += token.get("value")
         else:
-            return u''
+            r += u''
+        if self.is_statement_end(token):
+            r += '\n'
+        return r
+
+    ##
+    # To capture end of function definition
+    def format_function(self, token):
+        r = token.get("value")
+        for tok in token.toListG():
+            self.format(tok)
+        self.state.add('\n')
+        return r
+
+    def is_statement_end(self, token):
+        if (token.parent.type == "statement" and 
+            token.parent.children[-1] is token):
+            return True
+        else:
+            return False
+
+    def handle_text_width(self, token):
+        # start a multi-line
+        if (self.optns.prettypTextWidth and 
+            token.type not in ('comment','white') and
+            token.type not in (',', ';', '}', ']') and
+            len(token.get("value")) + self.currColumn > self.optns.prettypTextWidth):
+            self.state.add('\n')
+            if not self.state.inExpression:
+                self.state.indent()
+                self.state.inExpression = True
+
+        # terminate a multi-line
+        elif token.value in ';\n':  # quick statement-end hack
+            if self.state.inExpression:
+                self.outdent()
+                self.state.inExpression = False
+        return
 
 
     # fall-back in symbol_base
