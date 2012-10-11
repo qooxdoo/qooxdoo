@@ -194,8 +194,8 @@ Sometimes it can be necessary to place an element right beside another one. Thin
 Storage
 -------
 The storage module offers a cross browser way to store data offline. For that, it uses
-the HTML web storage API (http://www.w3.org/TR/webstorage/). If thats not available i.e. in IE < 8, a fallback is used. If non of the storage API is available, a non persistant
-in memory storage is returned which means you can always use the same API.
+the HTML web storage API (http://www.w3.org/TR/webstorage/). If thats not available i.e. in IE < 8, a fallback is used. If non of the storage API is available, a non persistent
+in memory storage is returned which means you can always use the same API. Check out the separate :doc:`page about storage </pages/website/storage>` for more details.
 
 ::
 
@@ -223,3 +223,17 @@ The messaging module offers a message bus. It offers a separation by channel and
     // do something clever
   });
   q.messaging.emit("CHANNEL-X", "test");
+  
+
+Placeholder
+-----------
+The placeholder module offers fallback implementation for placeholders. The module offers two methods, one for updating all input and textarea elements on the site and one for updating only the elements in the given collection
+
+::
+
+  // update all elements on the page
+  q.placeholder.update();
+  // update only the placeholder for the given element
+  q("#nameInput").updatePlaceholder();
+  
+In case the executing browser supports native placeholders, those two method calls won't do anything. This is only relevant for browsers not supporting placeholders like IE < 10.

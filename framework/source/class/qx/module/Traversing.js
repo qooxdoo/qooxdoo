@@ -478,6 +478,21 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     /**
+     * Whether the first element in the collection is inserted into
+     * the document for which it was created.
+     *
+     * @return {Boolean} <code>true</code> when the element is inserted
+     *    into the document.
+     */
+    isRendered : function() {
+      if (!this[0]) {
+        return false;
+      }
+      return qx.dom.Hierarchy.isRendered(this[0]);
+    },
+
+
+    /**
      * Checks if the given object is a DOM element
      *
      * @attachStatic{q}
@@ -598,7 +613,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "getPrevUntil" : statics.getPrevUntil,
       "getSiblings" : statics.getSiblings,
       "not" : statics.not,
-      "getOffsetParent" : statics.getOffsetParent
+      "getOffsetParent" : statics.getOffsetParent,
+      "isRendered" : statics.isRendered
     });
 
     q.$attachStatic({

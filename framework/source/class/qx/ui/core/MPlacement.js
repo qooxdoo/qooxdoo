@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Martin Wittemann (martinwittemann)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -108,10 +109,10 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     {
       check :
       [
-        "top-left", "top-right",
-        "bottom-left", "bottom-right",
-        "left-top", "left-bottom",
-        "right-top", "right-bottom"
+        "top-left", "top-center", "top-right",
+        "bottom-left", "bottom-center", "bottom-right",
+        "left-top", "left-middle", "left-bottom",
+        "right-top", "right-middle", "right-bottom"
       ],
       init : "bottom-left",
       themeable : true
@@ -232,6 +233,11 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
       // Add bounds of the widget itself
       bounds = widget.getBounds();
+      
+      if (!bounds) {
+        return null;
+      }
+      
       left = bounds.left;
       top = bounds.top;
 
@@ -348,9 +354,11 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * @param target {qx.ui.core.Widget} Target coords align coords
      * @param liveupdate {Boolean} Flag indicating if the position of the
      * widget should be checked and corrected automatically.
+     * @return {Boolean} true if the widget was successfully placed
      */
     placeToWidget : function(target, liveupdate)
     {
+      
       // Use the idle event to make sure that the widget's position gets
       // updated automatically (e.g. the widget gets scrolled).
       if (liveupdate)
@@ -373,13 +381,21 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       }
 
       var coords = target.getContainerLocation() || this.getLayoutLocation(target);
-      this.__place(coords);
+      
+      if(coords != null) {
+        this.__place(coords);
+        return true;
+      } else {
+        return false;
+      }
     },
+
 
     /**
      * Removes all resources allocated by the last run of placeToWidget with liveupdate=true
      */
-    __cleanupFromLastPlaceToWidgetLiveUpdate : function(){
+    __cleanupFromLastPlaceToWidgetLiveUpdate : function()
+    {
       if (this.__ptwLiveUpdater)
       {
         qx.event.Idle.getInstance().removeListener("interval", this.__ptwLiveUpdater);

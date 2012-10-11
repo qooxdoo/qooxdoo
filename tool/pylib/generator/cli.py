@@ -282,8 +282,16 @@ def main(argv):
             (hasattr(options, "stacktrace") and options.stacktrace)):  # or when 'stacktrace' is enabled
             raise
         else:
-            if str(e): # there's something to print
-                print >> sys.stderr, e
+            err = ''
+            try:
+                err = str(e)
+            except:
+                pass
+            if err: # there's something to print
+                #print >> sys.stderr, e
+                print >> sys.stderr, type(e), ":",
+                for el in e.args:
+                    print >> sys.stderr, el[:300]
             else:
                 print >> sys.stderr, "Terminating on terminal exception (%r)" % e
             sys.exit(1)

@@ -11,82 +11,55 @@
   clear: both;
 }
 
-@arrow-size: 10px;
+@arrow-size: 12px;
 @arrow-space: 2;
 @arrow-position-offset:15px;
 
-.popupAnchor(){
-  content: ' ';
-  position: absolute;
-  width:0px; 
-  height:0px; 
-  font-size:0px;
-  line-height:0px;
-}
-
-// Arrow-up
-.popupAnchorPointerTop {
-  margin-top:@arrow-size+@arrow-space;
-}
-
-.popupAnchorPointerTop:before{
-  .popupAnchor();
-
-  top:-(@arrow-size)-@arrow-space;
+// Arrow-Top
+.popupAnchorPointerTop:before {
+  top:-(@arrow-size + 3);
   left: @arrow-position-offset;
+}
 
-  border-left:@arrow-size solid transparent;
-  border-right:@arrow-size solid transparent;
-  border-bottom:@arrow-size solid;
+.popupAnchorPointerTop:after {
+  top:-(@arrow-size);
+  left: @arrow-position-offset + 2;
 }
 
 // Arrow-Bottom
-.popupAnchorPointerBottom {
-  margin-bottom:@arrow-size+@arrow-space;
+.popupAnchorPointerBottom:before {
+  bottom:-(@arrow-size + 3);
+  left: @arrow-position-offset;
 }
 
-.popupAnchorPointerBottom:after{
-  .popupAnchor();
-
-  bottom:-(@arrow-size)-@arrow-space;
-  left: @arrow-position-offset;
-
-  border-left:@arrow-size solid transparent;
-  border-right:@arrow-size solid transparent;
-  border-top:@arrow-size solid;
+.popupAnchorPointerBottom:after {
+  bottom: -(@arrow-size);
+  left: @arrow-position-offset + 2;
 }
 
 // Arrow-Left
-.popupAnchorPointerLeft {
-  margin-left:@arrow-size+@arrow-space;
+.popupAnchorPointerLeft:before {
+  left:-(@arrow-size + 3);
+  top: @arrow-position-offset;
 }
 
-.popupAnchorPointerLeft:before{
-  .popupAnchor();
-
-  left:-(@arrow-size)-@arrow-space;
-  top: @arrow-position-offset;
-
-  border-bottom:@arrow-size solid transparent;
-  border-top:@arrow-size solid transparent;
-  border-right:@arrow-size solid;
+.popupAnchorPointerLeft:after {
+  left: -(@arrow-size);
+  top: @arrow-position-offset + 2;
 }
 
 // Arrow-Right
-.popupAnchorPointerRight {
-  margin-right:@arrow-size+@arrow-space;
-}
-
-.popupAnchorPointerRight:before{
-  .popupAnchor();
-  
-  right:-(@arrow-size)-@arrow-space;
+.popupAnchorPointerRight:before {
+  right: -(@arrow-size + 3);
   top: @arrow-position-offset;
-
-  border-bottom:@arrow-size solid transparent;
-  border-top:@arrow-size solid transparent;
-  border-left:@arrow-size solid;
 }
+
+.popupAnchorPointerRight:after {
+  right: -(@arrow-size);
+  top: @arrow-position-offset + 2;
+}
+
+
 
 .popup-content {
   height : 100%;

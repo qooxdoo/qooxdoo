@@ -83,11 +83,12 @@ qx.Class.define("qx.test.mobile.basic.Atom",
       this.assertTrue(atom.getIconWidget().isVisible());
       this.assertFalse(atom.getLabelWidget().isVisible());
 
-      /*atom.setShow('both');
+      atom.setShow('both');
       this.assertTrue(atom.getIconWidget().isVisible());
-      this.assertTrue(atom.getLabelWidget().isVisible());*/
+      this.assertTrue(atom.getLabelWidget().isVisible());
     },
-
+    
+    
     testIconPosition : function()
     {
       var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/user-home.png");
@@ -125,6 +126,8 @@ qx.Class.define("qx.test.mobile.basic.Atom",
 
       this.getRoot()._domUpdated();
     },
+    
+    
     testGap : function()
     {
       var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/user-home.png");
@@ -141,6 +144,30 @@ qx.Class.define("qx.test.mobile.basic.Atom",
 
       this.assertEquals('0px',qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginRight'));
       this.assertEquals('5px',qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginTop'));
+    },
+    
+    
+    testSetLabelAndIcon : function() {
+      
+      var testText = "test234";
+      
+      var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/user-home.png");
+      
+      var atom = new qx.ui.mobile.basic.Atom();
+      atom.setLabel(testText);
+      atom.setIcon(imageURL);
+      
+      var atomElement = atom.getContentElement();
+      var atomChildrenLength = atomElement.children[0].children.length;
+      
+      var atomIconTag = atomElement.children[0].children[0].tagName;
+      var atomIconInnerHtml = atomElement.children[0].children[0].innerHTML;
+      var atomLabelInnerHtml = atomElement.children[0].children[1].innerHTML;
+      
+      this.assertEquals("IMG", atomIconTag, 'Unexpected atom children tag');
+      this.assertEquals(2, atomChildrenLength, 'Unexpected count of atom element children');
+      this.assertEquals('',atomIconInnerHtml, 'Child element of icon has wrong content');
+      this.assertEquals(testText,atomLabelInnerHtml, 'Child element of icon has wrong content');
     }
   }
 

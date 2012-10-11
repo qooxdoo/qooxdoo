@@ -143,7 +143,7 @@ will reduce if *myapp.key* has the value *value2* to just
 
     resvalue2
 
-The :ref:`generator documentation <pages/tool/generator_config_articles#environment_key>` has more details on optimization of *qx.core.Environment* calls.
+The :ref:`generator documentation <pages/tool/generator/generator_config_articles#environment_key>` has more details on optimization of *qx.core.Environment* calls.
 
 
 
@@ -235,7 +235,7 @@ In the web page loading your qooxdoo application, and before the ``<script>`` ta
 In the Generator Config
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-You can define a key and its value in the :ref:`environment <pages/tool/generator_config_ref#environment>` key of the job with which you build the script files of your application (e.g. *source-script*, *build-script*):
+You can define a key and its value in the :ref:`environment <pages/tool/generator/generator_config_ref#environment>` key of the job with which you build the script files of your application (e.g. *source-script*, *build-script*):
 
 ::
 
@@ -248,7 +248,7 @@ You can define a key and its value in the :ref:`environment <pages/tool/generato
     }
   }
 
-Using the generator config adds a special meaning to the provided environment settings. Specifying a **list** of values for a key triggers the creation of multiple output files by the generator. E.g. replacing **value** with **[value1, value2]** in the above example, the generator will create two output files. See the :ref:`environment <pages/tool/generator_config_ref#environment>` key for more information on multiple output generation.
+Using the generator config adds a special meaning to the provided environment settings. Specifying a **list** of values for a key triggers the creation of multiple output files by the generator. E.g. replacing **value** with **[value1, value2]** in the above example, the generator will create two output files. See the :ref:`environment <pages/tool/generator/generator_config_ref#environment>` key for more information on multiple output generation.
 
 
 .. _pages/core/environment#in_url:
@@ -266,7 +266,7 @@ The pattern in the URL parameter is easy. It has three parts separated by colons
 
 .. note:: **qx.allowUrlSettings and "variants" Optimization**
 
-   Setting ``qx.allowUrlSettings`` to true in the configuration somewhat contradicts using the :ref:`pages/tool/generator_optimizations#variants` optimization in builds. The variants optimization takes advantage of the values of environment settings given in the configuration, to remove code like calls to ``qx.core.Environment.get()`` for such a setting and replace it with the corresponding value. That means that changing the value of such a key via URL parameter later has no effect, as the call to retrieve its value is no longer in the code. You can then only set environment values via URL parameter for those keys which have **not** been given a value in the configuration.
+   Setting ``qx.allowUrlSettings`` to true in the configuration somewhat contradicts using the :ref:`pages/tool/generator/generator_optimizations#variants` optimization in builds. The variants optimization takes advantage of the values of environment settings given in the configuration, to remove code like calls to ``qx.core.Environment.get()`` for such a setting and replace it with the corresponding value. That means that changing the value of such a key via URL parameter later has no effect, as the call to retrieve its value is no longer in the code. You can then only set environment values via URL parameter for those keys which have **not** been given a value in the configuration.
 
    Alternatively, you could disable ``variants`` optimization in the build, or remove the setting you want to change via URL parameter from the config. In the latter case, you have other possibilities to set a default for this setting, by either providing an ``environment`` key in the %{JS} class map, or a ``qx.core.Environment.add()`` call in the class' ``defer`` function.
    

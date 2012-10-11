@@ -47,7 +47,7 @@ Defining an apply method
 
 To attach an apply method you must add a key ``apply`` to your configuration which points to a name of a function which needs to be available in your ``members`` section. As the apply method normally should not be called directly, it is always a good idea to make the method at least protected by prefixing the name with an underscore ``_``.
 
-The return value of the apply method is ignored. The first argument is the actual value, the second one is the former or old value. The last argument is the name of the property which can come very handy if you use one apply mehtod for more than one property. The second and third arguments are optional and may be left out.
+The return value of the apply method is ignored. The first argument is the actual value, the second one is the former or old value. The last argument is the name of the property which can come very handy if you use one apply method for more than one property. The second and third arguments are optional and may be left out.
 
 .. _pages/defining_properties#example_value:
 

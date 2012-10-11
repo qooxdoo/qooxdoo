@@ -3,7 +3,7 @@
 Getting Started with %{qooxdoo} %{Mobile}
 ******************************************
 
-Working with %{Mobile} requires downloading and using %{qooxdoo}'s SDK. See here for the :doc:`SDK's requirements </pages/tool/sdk_requirements>`, and follow its *Installation and Setup* section. This requirement applies to the development phase only, the final app is independent of the SDK.
+Working with %{Mobile} requires downloading and using %{qooxdoo}'s SDK. See here for the :doc:`SDK's requirements </pages/tool/sdk/sdk_requirements>`, and follow its *Installation and Setup* section. This requirement applies to the development phase only, the final app is independent of the SDK.
 
 The first step is to create a mobile skeleton, by calling the ``create-applicaton.py`` script from the
 command line. Navigate to the qooxdoo folder and execute the following
@@ -32,6 +32,6 @@ Page”. When you click on the button, the next page “Page 2”, with a
 
 Now it is your turn. Just open ``source/class/helloworld/Application.js`` and enhance your cross-platform mobile application.
 
-If you need a more detailed tutorial, please have a look at our twitter tutorial:
+If you need a more detailed tutorial, please have a look at our mobiletweets tutorial:
 
-:doc:`%{Mobile} Twitter Client Tutorial <tutorial>`
+:doc:`%{Mobile} Tweets Client Tutorial <tutorial>`

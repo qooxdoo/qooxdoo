@@ -29,9 +29,11 @@ from generator.code.Part        import Part
 from generator.code.Package     import Package
 from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.Script      import Script
+from generator.action           import Locale
 import generator.resource.Library # just need the .Library type
 from ecmascript.frontend        import tokenizer, treegenerator, treegenerator_2
 from ecmascript.backend         import pretty
+from ecmascript.backend         import formatter
 #from ecmascript.backend         import pretty_new as pretty
 from ecmascript.backend.Packer  import Packer
 from ecmascript.transform.optimizer    import privateoptimizer
@@ -746,7 +748,6 @@ class CodeGenerator(object):
             else:
                 if num_proc == 0:
                     for clazz in classList:
-                        #code = clazz.getCode(compConf, treegen=treegenerator_new_ast) # choose parser frontend
                         code = clazz.getCode(compConf, treegen=treegenerator, featuremap=script._featureMap) # choose parser frontend
                         result.append(code)
                         log_progress()
@@ -1041,9 +1042,11 @@ class CodeGenerator(object):
         numClasses = len(classesObj)
         for pos, classId in enumerate(classesObj):
             self._console.progress(pos+1, numClasses)
-            tree = classesObj[classId].tree(treegenerator_2)
+            #tree = classesObj[classId].tree(treegenerator_2)
+            tree = classesObj[classId].tree()
             result = [u'']
-            result = pretty.prettyNode(tree, options, result)
+            #result = pretty.prettyNode(tree, options, result)
+            result = formatter.formatNode(tree, options, result)
             compiled = u''.join(result)
             filetool.save(self._classes[classId].path, compiled)
 
@@ -1188,8 +1191,8 @@ class CodeGenerator(object):
         # ----------------------------------------------------------------------
 
         translationMaps = getTranslationMaps(script.packages)
-        translationData ,                                      \
-        localeData      = mergeTranslationMaps(translationMaps)
+        translationData , localeData = \
+            mergeTranslationMaps(translationMaps)
         # for each locale code, collect mappings
         transKeys  = translationData.keys()
         localeKeys = localeData.keys()
@@ -1268,6 +1271,31 @@ class CodeGenerator(object):
     # Get translation and locale data from all involved classes, and attach it
     # to the corresponding packages.
     def packagesI18NInfo(self, script, addUntranslatedEntries=False):
+
+        def printTranslationStats(statsObj):
+            skip_locales = self._job.get("log/translations/untranslated-keys/skip-locales", [])
+            self._console.debug("Untranslated entries per locale:")
+            self._console.indent()
+            for locale, data in statsObj.stats.items():
+                if locale in skip_locales: continue
+                self._console.nl()
+                if data['total']:
+                    percent_ut = 100*len(data['untranslated'])/data['total']
+                else:
+                    percent_ut = 0
+                self._console.debug(
+                    "%s:\t untranslated entries: %3d%% (%d/%d)" % (locale, percent_ut, 
+                        len(data['untranslated']), data['total'])
+                )
+                self._console.nl()
+                self._console.indent()
+                for key,pofile in data['untranslated'].items():
+                    self._console.debug('"%-30.30s..." : %s' % (key, pofile))
+                self._console.outdent()
+            self._console.nl()
+            self._console.outdent()
+
+        # -----------------------------------------------------------------
         locales = script.locales
 
         if "C" not in locales:
@@ -1276,13 +1304,18 @@ class CodeGenerator(object):
         self._console.info("Processing %s locales  " % len(locales), feed=False)
         self._console.indent()
 
+        statsObj = Locale.LocStats()
+
         for pos, package in enumerate(script.packages):
             self._console.debug("Package %s: " % pos, False)
 
-            pac_dat = self._locale.getTranslationData(package.classes, script.variants, locales, addUntranslatedEntries) # .po data
+            pac_dat = self._locale.getTranslationData(package.classes, script.variants, locales, addUntranslatedEntries, statsObj) # .po data
             loc_dat = self._locale.getLocalizationData(package.classes, locales)  # cldr data
             package.data.translations.update(pac_dat)
             package.data.locales.update(loc_dat)
+
+        if self._console.getLevel() == "debug":
+            printTranslationStats(statsObj)
 
         self._console.outdent()
         return

@@ -38,10 +38,10 @@ q.define("qx.module.Placement", {
      * @attach{q}
      * @param target {Element} Placement target
      * @param position {String} Alignment of the object with the target, any of
-     * <code>"top-left"</code>, <code>"top-right"</code>, <code>"bottom-left"</code>,
-     * <code>"bottom-right"</code>, <code>"left-top"</code>,
-     * <code>"left-bottom"</code>, <code>"right-top"</code>,
-     * <code>"right-bottom"</code>
+     * <code>"top-left"</code>, <code>"top-center"</code>, <code>"top-right"</code>,
+     * <code>"bottom-left"</code>, <code>"bottom-center"</code>, <code>"bottom-right"</code>,
+     * <code>"left-top"</code>, <code>"left-middle"</code>, <code>"left-bottom"</code>,
+     * <code>"right-top"</code>, <code>"right-middle"</code>, <code>"right-bottom"</code>
      * @param offsets {Map?null} Map with the desired offsets between the two elements.
      * Must contain the keys <code>left</code>, <code>top</code>,
      * <code>right</code> and <code>bottom</code>

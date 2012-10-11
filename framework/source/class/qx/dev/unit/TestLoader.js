@@ -44,7 +44,10 @@ qx.Class.define("qx.dev.unit.TestLoader",
       // Dependencies to loggers
       qx.log.appender.Console;
 
-      this.setTestNamespace(this._getClassNameFromUrl());
+      var url = this._getClassNameFromUrl();
+      if (url !== "__unknown_class__") {
+        this.setTestNamespace(this._getClassNameFromUrl());
+      }
 
       if (window.top.jsUnitTestSuite)
       {

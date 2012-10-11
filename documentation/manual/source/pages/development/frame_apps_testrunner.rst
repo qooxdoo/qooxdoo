@@ -269,7 +269,7 @@ Create the Test Application
 .. _pages/frame_apps_testrunner#testrunner_views:
 
 Test Runner Views
------------------
+=================
 
 The Test Runner architecture is split between the logic that executes tests and the view that displays the results and allows the user to select which tests to run.
 Views are selected by overriding the ``TESTRUNNER_VIEW`` configuration macro, specifying the desired view class. For example, to build the Test Runner using the HTML view, use the following shell command:
@@ -281,26 +281,33 @@ Views are selected by overriding the ``TESTRUNNER_VIEW`` configuration macro, sp
 Several views are included with the Test Runner:
 
 Widget
-^^^^^^
+------
 
 This is the default view used for the GUI, Native and Inline skeletons' `test` and `test-source` jobs. It is the most fully-featured and convenient to use, making heavy use of data binding to list available tests in a Virtual Tree and to visualize the results. The downside is that can it feel sluggish in environments with poor JavaScript performance.
 
 HTML
-^^^^
+----
 
 .. image:: /pages/development/testrunner_html.png
 
 As the name indicates, this view uses plain (D)HTML instead of qooxdoo's UI layer. It is intended for usage scenarios where speed is more important than good looks.
 
+Mobile
+------
+
+.. image:: /pages/development/testrunner_mobile.png
+
+A view based on qx.Mobile's widget set. In an an application based on the :ref:`Mobile Skeleton <pages/development/skeletons#mobile>`, run `generate.py test-mobile` or `generate.py test-mobile-source` to build a Test Runner with the Mobile view. For other application types, you'll need to add `test-mobile` and/or `test-mobile-source` to the top-level `exports` list in config.json first.
+
 Console
-^^^^^^^
+-------
 
 .. image:: /pages/development/testrunner_console.png
 
 Even more bare-bones than the HTML view, the Console view features no visual elements other than the Iframe containing the test application. Tests are started using the browser's JavaScript console. This is mostly intended as a base for specialized views.
 
 Reporter
-^^^^^^^^
+--------
 
 The Reporter is a specialized view used for automated unit test runs. Based on the Console view, it features (almost) no GUI. The test suite is automatically started as soon as it's ready. A method that returns a map of failed tests is its only means of interaction:
 
@@ -311,7 +318,7 @@ The Reporter is a specialized view used for automated unit test runs. Based on t
 .. _pages/frame_apps_testrunner#testrunner_uri_parameters:
 
 URI parameters
---------------
+==============
 The following URI parameters can be used to modify the Test Runner's behavior:
 
 * **testclass** Restrict the tests to be loaded. Takes a fully qualified class name or namespace that is a subset of the classes included in the test application, e.g. *custom.test.gui* or *custom.test.gui.PreferencesDialog*

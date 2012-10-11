@@ -62,7 +62,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
   construct : function(transitionDuration)
   {
     this.base(arguments);
-    
     if(transitionDuration) {
       this.__transitionDuration = transitionDuration;
     }
@@ -112,6 +111,13 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       check : "Boolean",
       init : true,
       apply : "_applyShowPagination"
+    },
+    
+    /** Defines whether nextPage() or previousPage() should scroll back to first or last item 
+     * when the end of carousel pages is reached  */
+    scrollLoop : {
+      check : "Boolean",
+      init : true
     }
   },
 
@@ -137,7 +143,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     __showTransition : null,
     __transitionDuration : 0.4,
     __swipeVelocityLimit : 1.5,
-
+    
     
     // overridden
     /**
@@ -170,6 +176,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.__pagination.add(paginationLabel);
       
       this._updatePagination(0, this.__shownPageIndex);
+      this._updateCarouselLayout();
+      
     },
     
     
@@ -196,6 +204,34 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     
     
     /**
+     * Scrolls the carousel to next page.
+     */
+    nextPage : function() {
+      if(this.__shownPageIndex == this.__pages.length-1) {
+        if(this.isScrollLoop()) {
+          this._doScrollLoop(0);
+        } 
+      } else {
+        this.scrollToPage(this.__shownPageIndex + 1);
+      }
+    },
+    
+    
+    /**
+     * Scrolls the carousel to previous page.
+     */
+    previousPage : function() {
+      if(this.__shownPageIndex == 0) {
+        if(this.isScrollLoop()) {
+          this._doScrollLoop(this.__pages.length - 1);
+        } 
+      } else {
+        this.scrollToPage(this.__shownPageIndex - 1);
+      }
+    },
+    
+    
+    /**
      * Scrolls the carousel to the page with the given pageIndex.
      * @param pageIndex {Integer} the target page index, which should be visible.
      */
@@ -205,46 +241,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       }
       
       this._setShowTransition(true);
-      
       this._updatePagination(this.__shownPageIndex,pageIndex);
       this.__shownPageIndex = pageIndex;
-      
-      this._updateCarouselLayout();
-    },
-    
-    
-    /**
-     * Scrolls the carousel to next page.
-     */
-    nextPage : function() {
-      if(this.__shownPageIndex == this.__pages.length-1) {
-        return;
-      }
-      
-      this._setShowTransition(true);
-      
-      var oldIndex = this.__shownPageIndex;
-      this.__shownPageIndex = this.__shownPageIndex +1;
-      
-      this._updatePagination(oldIndex,this.__shownPageIndex);
-      this._updateCarouselLayout();
-    },
-    
-    
-    /**
-     * Scrolls the carousel to previous page.
-     */
-    previousPage : function() {
-      if(this.__shownPageIndex == 0) {
-        return;
-      }
-      
-      this._setShowTransition(true);
-      
-      var oldIndex = this.__shownPageIndex;
-      this.__shownPageIndex = this.__shownPageIndex - 1;
-      
-      this._updatePagination(oldIndex,this.__shownPageIndex);
       this._updateCarouselLayout();
     },
     
@@ -255,6 +253,36 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     getShownPageIndex : function() {
       return this.__shownPageIndex;
+    },
+    
+    
+    /**
+     * Manages the the scroll loop. First fades out carousel scroller >>
+     * waits till fading is done >> scrolls to pageIndex >> waits till scrolling is done
+     * >> fades scroller in.
+     * @param pageIndex {Integer} The page index to which the scroller should move to.
+     */
+    _doScrollLoop : function(pageIndex) {
+      this._setScrollersOpacity(0);
+          
+      var delayForLayoutUpdate = this.__transitionDuration * 1000;
+
+      qx.event.Timer.once(function() {
+        this.scrollToPage(pageIndex);
+      },this, delayForLayoutUpdate);
+
+      qx.event.Timer.once(function() {
+        this._setScrollersOpacity(1);
+      },this, delayForLayoutUpdate*2);
+    },
+    
+    
+    /**
+     * Changes the opacity of the carouselScroller element.
+     * @param opacity {Integer} the target value of the opacity.
+     */
+    _setScrollersOpacity : function(opacity) {
+      qx.bom.element.Style.set(this.__carouselScroller.getContainerElement(),"opacity",opacity);
     },
     
     
@@ -375,12 +403,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         var oldPageIndex = this.__shownPageIndex;
         
         if(direction=="left") {
-          if(this.__shownPageIndex < this.__pages.length-1) {
-            this.__shownPageIndex = this.__shownPageIndex+1;
+          if(this.__shownPageIndex < this.__pages.length - 1) {
+            this.__shownPageIndex = this.__shownPageIndex + 1;
           }
         } else if(direction=="right") {
-          if(this.__shownPageIndex>0) {
-            this.__shownPageIndex = this.__shownPageIndex-1;
+          if(this.__shownPageIndex > 0) {
+            this.__shownPageIndex = this.__shownPageIndex - 1;
           }
         }
         
@@ -399,7 +427,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param showTransition {Boolean} Target value which triggers transition.
      */
     _setShowTransition : function(showTransition) {
-      if(this.__showTransition==showTransition) {
+      if(this.__showTransition == showTransition) {
         return
       }
       
@@ -408,8 +436,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         targetValue = this.__transitionDuration+"s";
       }
       
-      var propertyKey = qx.bom.Style.getPropertyName("transitionDuration");
-      qx.bom.element.Style.set(this.__carouselScroller.getContentElement(),propertyKey,targetValue);
+      qx.bom.element.Style.set(this.__carouselScroller.getContentElement(),"transitionDuration",targetValue);
       
       this.__showTransition = showTransition;
     },
@@ -487,10 +514,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param y {Integer} scroller's y position.
      */
     _updateScrollerPosition : function(x,y) {
-      var carouselScrollerElement = this.__carouselScroller.getContentElement();
+      if(isNaN(x) || isNaN(y)) {
+        return;
+      }
       
-      var propertyKey = qx.bom.Style.getPropertyName("transform");
-      qx.bom.element.Style.set(carouselScrollerElement,propertyKey,"translate3d("+x+"px,"+y+"px,0px)");
+      this.__carouselScroller.setTranslateX(x);
+      this.__carouselScroller.setTranslateY(y);
     }
     
   },

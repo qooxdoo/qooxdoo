@@ -24,10 +24,7 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * For a mobile application. Supports the mobile widget set.
- *
  */
 qx.Class.define("qx.application.Mobile",
 {

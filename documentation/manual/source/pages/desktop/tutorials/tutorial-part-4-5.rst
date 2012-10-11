@@ -8,9 +8,9 @@ and use the `virtual List <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.l
 Using the virtual list has a big advantage when we have to render a huge 
 count of items. The virtual list only creates widgets for visible items.
 This saves memory and execution time. As a base we use the already known
-twitter client we built in the :doc:`former tutorials <tutorial-part-3>`.
+tweets client we built in the :doc:`former tutorials <tutorial-part-3>`.
 
-.. image:: tutorial_4_5-1.png
+.. image:: step42.png
 
 .. _pages/desktop/tutorials/tutorial-part-4-5#change_the_instantiation:
 
@@ -18,7 +18,7 @@ Change the instantiation
 ========================
 
 First, we have to use the virtual List instead. Open the
-``twitter.MainWindow`` class and search for the list instantiation:
+``tweets.MainWindow`` class and search for the list instantiation:
 ::
 
     // list
@@ -33,7 +33,7 @@ And create a virtual List instead:
     this.add(this.__list, {row: 1, column: 0, colSpan: 2});
 
 Now we use the virtual List instead of the non virtual List. But before
-we can use the twitter application with the virtual List we have to
+we can use the tweets application with the virtual List we have to
 configure the usage with a delegate.
 
 .. _pages/desktop/tutorials/tutorial-part-4-5#configure_the_virtual_list:
@@ -48,7 +48,7 @@ has the same methods for ``bindItem``, ``createItem``, ``configureItem``
 and ``filter``. We only need to remove the controller stuff and use the
 virtual list instead. The controller is not needed anymore, because the
 virtual list has its own controller implementation. Open the
-``twitter.Application`` and search for the controller instantiation:
+``tweets.Application`` and search for the controller instantiation:
 ::
 
     // create the controller
@@ -92,7 +92,7 @@ items.
 Update list binding
 ===================
 
-Finally, we have to adapt the binding between the twitter service and
+Finally, we have to adapt the binding between the tweets service and
 the virtual list. The virtual list always needs a model instance so we
 need to adapt the current binding:
 ::
@@ -115,4 +115,4 @@ Now we only need to run the generator to resolve the new dependencies:
 
 The virtual List supports some more features like grouping, for
 additional details have a look at the `virtual demos <http://demo.qooxdoo.org/%{version}/demobrowser/#virtual~List.html>`_. As always, the
-`code of the tutorial <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.5/>`_ is on github.
+`code of the tutorial <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.5/>`_ is on github.

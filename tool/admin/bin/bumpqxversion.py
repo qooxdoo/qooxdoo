@@ -102,7 +102,8 @@ Files = {
         r'var qxversion = "(%s)"'    % qxversion_regexp
         ],
     "./readme.rst"  : [ 
-        r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp 
+        r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp,
+        r'api.qooxdoo.org/(%s)\b' % qxversion_regexp 
         ],
     "./framework/Manifest.json" : [
         r'"version"\s*:\s*"(%s)"'              % qxversion_regexp,

@@ -78,12 +78,81 @@ h2 {
 }
 
 //
+// SCROLL CONTAINER
+//
+
+@scShadowOffset:10px;
+@scShadowColor:rgba(0,0,0,0.3);
+@scShadowColorLight:rgba(0,0,0,0.2);
+@scGradientVerticalOffset:15px;
+
+.scrollContainer {
+  border: @border-thickness solid @border-color;
+  background-color:white;
+
+  .border-radius(.4em);
+
+  .box-inset-multi-shadow(
+        0px @scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColorLight, 
+        0px -@scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColorLight
+  );
+}
+
+.scrollContainer:before {
+  .border-radius-top(.4em);
+  position:absolute;
+  top:0px;
+  z-index:500;
+
+  .box-inset-multi-shadow(
+      0px @scShadowOffset*1.4 @scShadowOffset -@scShadowOffset @scShadowColor, 
+      0px 0px @scShadowOffset -@scShadowOffset @scShadowColor
+  );
+
+  content:'';
+  width:100%;
+  height:0px;
+}
+
+.scrollContainer.scrollableTop:before {
+  height:30px;
+}
+
+.scrollContainer:after {
+  .border-radius-bottom(.4em);
+  position:absolute;
+  bottom:0px;
+  z-index:500;
+
+  .box-inset-multi-shadow(
+      0px 0px @scShadowOffset -@scShadowOffset @scShadowColor, 
+      0px -@scShadowOffset*1.4 @scShadowOffset -@scShadowOffset @scShadowColor
+  );
+
+  content:'';
+  width:100%;
+  height:0px;
+}
+
+.scrollContainer.scrollableBottom:after {
+  height:30px;
+}
+
+
+
+//
 // INPUT FIELDS
 //
 
 input[type="text"], input[type="password"], input[type="number"], textarea {
   border: @border-thickness solid @border-color;
   color:@font-color-light-background;
+}
+
+.scrollContainer textarea {
+  .border-radius(0);
+  border:2px solid transparent;
+  background:none;
 }
 
 //
@@ -225,25 +294,69 @@ ul li.active {
   .dialog();
 }
 
-// Arrow Up
-.popupAnchorPointerTop:before {
-   border-bottom-color:@dark-blue;
+.arrow() {
+  position:absolute;
+  content:'';
 }
 
-.popupAnchorPointerLeft:before
+@arrow-size: 12px;
+
+// ARROW TOP
+
+.popupAnchorPointerTop:before
 {
-  border-right-color:@dark-blue;
+  .arrow();
+  #triangle > .up(@arrow-size+2, @dark-blue);
 }
 
-.popupAnchorPointerRight:after
+.popupAnchorPointerTop:after
 {
-  border-left-color:@dark-blue;
+  .arrow();
+  #triangle > .up(@arrow-size, @title-background-gradient-1);
+}
+
+// ARROW BOTTOM
+
+.popupAnchorPointerBottom:before
+{
+  .arrow();
+  #triangle > .down(@arrow-size+2, @dark-blue);
 }
 
 .popupAnchorPointerBottom:after
 {
-  border-top-color:@dark-blue;
+  .arrow();
+  #triangle > .down(@arrow-size, @title-background-gradient-2);
 }
+
+// ARROW LEFT
+
+.popupAnchorPointerLeft:before
+{
+  .arrow();
+  #triangle > .left(@arrow-size+2, @dark-blue);
+}
+
+.popupAnchorPointerLeft:after
+{
+  .arrow();
+  #triangle > .left(@arrow-size, @title-background-gradient-2);
+}
+
+// ARROW RIGHT
+
+.popupAnchorPointerRight:before
+{
+  .arrow();
+  #triangle > .right(@arrow-size+2, @dark-blue);
+}
+
+.popupAnchorPointerRight:after
+{
+  .arrow();
+  #triangle > .right(@arrow-size, @title-background-gradient-2);
+}
+
 
 .dialogTitleUnderline:after {
   display: none;
@@ -374,6 +487,8 @@ input[type="checkbox"] + label {
     position:relative;
     .border-radius(.3em);
     border:@border-thickness solid @dark-grey;
+
+    box-sizing:border-box;
     background-color: #929292;
     background: -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
     background: -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
@@ -414,6 +529,10 @@ input[type="checkbox"]:checked + label:after {
 input[type=radio] + label {
     #gradient > .vertical(@button-color, darken(@button-color, 20%));
     border: @border-thickness solid darken(@border-color, 40%);
+    box-sizing:border-box;
+
+    width: 30px;
+    height: 30px;
 }
 
 
@@ -470,6 +589,10 @@ input[type=radio] + label:after {
 .master-popup .layout-card {
   @corner-color: @border-color;
   background-color: white;
+}
+
+.master-popup.popupAnchorPointerTop:before  {
+  top:-10px;
 }
 
 //
@@ -551,4 +674,42 @@ input[type=radio] + label:after {
   top: -(@pagination-label-size+15px);
 }
 
+//
+// PICKER
+//
 
+.picker-container {
+  background-color:white;
+}
+
+.picker-label {
+  color:black;
+}
+
+.picker-slot:before {
+  background-color: @dark-grey;
+}
+
+.picker-slot:after {
+  background-color: @dark-grey;
+}
+
+// Spinning Wheel Overlay Gradient
+.picker-container:after {
+  #gradient > .vertical-four(rgba(0,0,0,0.6),rgba(255, 255, 255, 0),rgba(255, 255, 255, 0),rgba(0,0,0,0.6),33%,66%);
+}
+
+// Selected Area Overlay
+.picker-container:before {
+  top:32px;
+  height:15px;
+
+  background-color:lighten(@dark-blue,15%);
+  
+  .box-shadow(0px 2px 2px rgba(0, 0, 0, 1.0));
+
+  border-top:1px solid black;
+  border-bottom:15px solid @dark-blue;
+
+  opacity:0.4;
+}

@@ -78,7 +78,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         item instanceof qx.ui.mobile.form.TextField ||
         item instanceof qx.ui.mobile.form.PasswordField || 
         item instanceof qx.ui.mobile.form.NumberField || 
-        item instanceof qx.ui.mobile.form.CheckBox
+        item instanceof qx.ui.mobile.form.CheckBox || 
+        item instanceof qx.ui.mobile.form.SelectBox
       );
     },
 
@@ -97,18 +98,36 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         var name = names[i];
         var isLastItem = (i==items.length-1);
         
-        if(this._isOneLineWidget(item)) {
-          this._addInOneLine(item, name);
+        if(item instanceof qx.ui.mobile.form.TextArea) {
+          this._addInScrollComposite(item,name);
         } else {
-          this._addInSeparateLines(item, name);
+          if(this._isOneLineWidget(item)) {
+            this._addInOneLine(item, name);
+          } else {
+            this._addInSeparateLines(item, name);
+          }
         }
+        
         
         if(!isLastItem) {
           this._addSeparationRow();
         }
       }
       
-       this._addGroupFooterRow();
+      this._addGroupFooterRow();
+    },
+    
+    
+    /**
+     * Wraps the given item with a {@link qx.ui.mobile.container.ScrollComposite} and
+     * calls _addInSeparateLines() with the composite as item.
+     * @param item {qx.ui.mobile.core.Widget} A form item to render.
+     * @param name {String} A name for the form item.
+     */
+    _addInScrollComposite : function(item,name) {
+      var scrollContainer = new qx.ui.mobile.container.ScrollComposite();
+      scrollContainer.add(item,{flex:1});
+      this._addInSeparateLines(scrollContainer,name);
     },
     
     
@@ -166,7 +185,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * Adds a separation line into the form.
      */
     _addSeparationRow : function() {
-      var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
+      var row = new qx.ui.mobile.form.Row();
       row.addCssClass("formSeparationRow")
       this._add(row);
       this.__rows.push(row);

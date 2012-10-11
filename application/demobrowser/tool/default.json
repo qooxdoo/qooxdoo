@@ -10,8 +10,6 @@
         BUILDTYPE ("source") - source or build, provided
     */
 
-    // -- common stuff ----
-
     "default-demo" :
     {
       "let" : {
@@ -27,7 +25,10 @@
       ],
       "include" : [
         "${DCLASS}",
-        "${DTHEME}",
+        "qx.theme.Indigo",
+        "qx.theme.Simple",
+        "qx.theme.Modern",
+        "qx.theme.Classic",
         "qx.log.appender.Native",
         "qx.log.appender.Console",
         "qx.dev.ObjectSummary"
@@ -39,15 +40,16 @@
       "cache" : { "compile" : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache" },
       "environment" : {
         "qx.application" : "${DCLASS}",
-        "qx.theme"       : "${DTHEME}",
+        "qx.theme"       : "qx.theme.Indigo",
         "qx.allowUrlVariants" : true,
         "qx.allowUrlSettings" : true,
         "locale" : "en",
         "locale.variant" : "US"
       },
+      "compile" : { "type"  : "${BUILDTYPE}" },
       "compile-options" : {
         "paths" : {
-          "file"     : "${BUILDTYPE}/script/${DCLASS}-${DTHEME}.js",
+          "file"     : "${BUILDTYPE}/script/${DCLASS}.js",
           "app-root" : "${BUILDTYPE}/demo/yyy"
         },
         "uris" : {
@@ -60,32 +62,6 @@
           "format"   : true
         }
       }
-    }
-
-    // -- generic jobs for *-Classic, *-Modern ----------
-
-    ,"default-Classic" :
-    {
-      "let"     : {"DTHEME" : "qx.theme.Classic"},
-      "compile" : { "type"  : "${BUILDTYPE}" }
-    }
-
-    ,"default-Modern" :
-    {
-      "let"     : {"DTHEME" : "qx.theme.Modern"},
-      "compile" : { "type"  : "${BUILDTYPE}" }
-    }
-    
-    ,"default-Simple" :
-    {
-      "let"     : {"DTHEME" : "qx.theme.Simple"},
-      "compile" : { "type"  : "${BUILDTYPE}" }
-    }
-    
-    ,"default-Indigo" :
-    {
-      "let"     : {"DTHEME" : "qx.theme.Indigo"},
-      "compile" : { "type"  : "${BUILDTYPE}" }
     }
   }
 }

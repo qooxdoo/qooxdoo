@@ -18,14 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.theme.Modern)
-#require(qx.theme.Classic)
-#require(qx.log.Logger)
-
-************************************************************************ */
-
 /**
  * A data cell renderer for the tree column of a simple tree
  *
@@ -84,9 +76,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      */
     __preloadImages : function()
     {
-      // Ensure that the theme is initialized
-      qx.theme.manager.Meta.getInstance().initialize();
-
       var STDCR = qx.ui.treevirtual.SimpleTreeDataCellRenderer;
 
       var ImageLoader = qx.io.ImageLoader;
@@ -189,6 +178,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     __am : null,
     __tm : null,
     __rm : null,
+
+
+    // overridden
+    _onChangeTheme : function() {
+      this.base(arguments);
+      qx.ui.treevirtual.SimpleTreeDataCellRenderer.__preloadImages();
+    },
+
 
     // overridden
     _getCellStyle : function(cellInfo)

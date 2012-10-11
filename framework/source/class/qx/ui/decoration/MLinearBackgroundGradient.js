@@ -156,7 +156,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         // Browsers supporting the unprefixed implementation interpret 0deg as
         // "to top" as defined by the spec [BUG #6513]
         if (prefixedName === "linear-gradient") {
-          deg = deg - 90;
+          deg = this.getOrientation() == "horizontal" ? deg + 90 : deg - 90;
         }
 
         styles["background-image"] =

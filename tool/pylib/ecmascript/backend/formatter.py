@@ -213,8 +213,8 @@ def format(self, optns, state):
 
 @method(symbol("accessor"))
 def format(self, optns, state):
-    r = self.commentsPretty(optns, state)
-    r += self.children[0].format(optns, state)
+    r = self.children[0].format(optns, state)
+    r += self.commentsPretty(optns, state)
     r += '['
     r += self.children[1].format(optns, state)
     r += ']'

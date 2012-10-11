@@ -83,7 +83,6 @@ qx.Class.define("qx.ui.core.Widget",
     this.initFocusable();
     this.initSelectable();
     this.initNativeContextMenu();
-
   },
 
 
@@ -1026,8 +1025,15 @@ qx.Class.define("qx.ui.core.Widget",
 
       var manager = qx.theme.manager.Decoration.getInstance();
 
-      var first = manager.resolve(a).getInsets();
-      var second = manager.resolve(b).getInsets();
+      var first = manager.resolve(a);
+      var second = manager.resolve(b);
+
+      if (!first || !second) {
+        return true;
+      }
+
+      first = first.getInsets();
+      second = second.getInsets();
 
       if (first.top != second.top ||
           first.right != second.right ||
@@ -2642,7 +2648,61 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      DYNAMIC THEME SWITCH SUPPORT
+    ---------------------------------------------------------------------------
+    */
 
+    // overridden
+    _onChangeTheme : function() {
+      this.base(arguments);
+
+      // empty the pool after the reset of the decorator and the shadow properties
+      qx.ui.core.Widget.__decoratorPool.invalidatePool();
+      qx.ui.core.Widget.__shadowPool.invalidatePool();
+
+      // update the appearance
+      this.updateAppearance();
+
+      // DECORATOR //
+      // if its a user value and a string which should be resolved
+      var value = qx.util.PropertyUtil.getUserValue(this, "decorator");
+      if (qx.lang.Type.isString(value)) {
+        // make sure to update the decorator
+        this._applyDecorator(null, value);
+        qx.ui.core.Widget.__decoratorPool.invalidatePool();
+        this._applyDecorator(value);
+      }
+
+      // SHADOW //
+      // if its a user value and a string which should be resolved
+      value = qx.util.PropertyUtil.getUserValue(this, "shadow");
+      if (qx.lang.Type.isString(value)) {
+        // make sure to update the shadow
+        this._applyShadow(null, value);
+        qx.ui.core.Widget.__shadowPool.invalidatePool();
+        this._applyShadow(value);
+      }
+
+      // FONT //
+      value = this.getFont();
+      if (qx.lang.Type.isString(value)) {
+        this._applyFont(value, value);
+      }
+
+      // TEXT COLOR //
+      value = this.getTextColor();
+      if (qx.lang.Type.isString(value)) {
+        this._applyTextColor(value, value);
+      }
+
+      // BACKGROUND COLOR //
+      value = this.getBackgroundColor();
+      if (qx.lang.Type.isString(value)) {
+        this._applyBackgroundColor(value, value);
+      }
+    },
 
 
 

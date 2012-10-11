@@ -386,6 +386,10 @@ qx.Class.define("qx.ui.form.TextArea",
     // property apply
     _applyWrap : function(value, old) {
       this.getContentElement().setWrap(value);
+      if (this._placeholder) {
+        var whiteSpace = value ? "normal" : "nowrap";
+        this._placeholder.setStyle("whiteSpace", whiteSpace);
+      }
       this.__autoSize();
     },
 

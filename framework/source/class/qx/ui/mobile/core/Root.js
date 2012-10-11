@@ -40,6 +40,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
   {
     this.__root = root || document.body;
     this.base(arguments, layout || new qx.ui.mobile.layout.VBox());
+    this.addCssClass("mobile");
   },
 
 

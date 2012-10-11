@@ -48,7 +48,7 @@ def update(node, newname):
 
     if node.type == "identifier":
         name = node.get("value", False)
-        if name != None:
+        if name is not False:
             node.set("value", newname)
 
     # Handle function definition

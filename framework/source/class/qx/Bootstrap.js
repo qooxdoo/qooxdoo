@@ -551,7 +551,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      *
      * *Syntax*
      *
-     * <pre class='javascript'>qx.lang.Function.self(myFunction, [self, [varargs...]]);</pre>
+     * <pre class='javascript'>qx.Bootstrap.bind(myFunction, [self, [varargs...]]);</pre>
      *
      * *Example*
      *
@@ -563,7 +563,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      *   // we'll need to bind this function to the element we want to alter
      * };
      *
-     * var myBoundFunction = qx.lang.Function.bind(myFunction, myElement);
+     * var myBoundFunction = qx.Bootstrap.bind(myFunction, myElement);
      * myBoundFunction(); // this will make the element myElement red.
      * </pre>
      *
@@ -578,7 +578,7 @@ qx.Bootstrap.define("qx.Bootstrap",
       return function() {
         var args = Array.prototype.slice.call(arguments, 0, arguments.length);
         return func.apply(self, fixedArgs.concat(args));
-      }
+      };
     },
 
 

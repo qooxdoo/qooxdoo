@@ -211,6 +211,12 @@
   box-shadow: inset @arg1, inset @arg2;
 }
 
+.box-inset-four-multi-shadow(@arg1, @arg2,@arg3, @arg4) {
+  -moz-box-shadow: inset @arg1, inset @arg2, inset @arg3, inset @arg4;
+  -webkit-box-shadow: inset @arg1, inset @arg2, inset @arg3, inset @arg4;
+  box-shadow: inset @arg1, inset @arg2, inset @arg3, inset @arg4;
+}
+
 .background-clip() {
   -webkit-background-clip: @arguments;
   -moz-background-clip: @arguments;
@@ -221,6 +227,46 @@
   -webkit-appearance: @arguments;
   -moz-appearance: @arguments;
   appearance: @arguments;
+}
+
+#triangle {
+  .up(@size,@color) {
+    display:block;
+    width: 0; 
+    height: 0; 
+
+    border-left: @size solid transparent;
+    border-right: @size solid transparent;
+    border-bottom: @size solid @color;
+  }
+
+  .down(@size,@color) {
+    display:block;
+    width: 0; 
+    height: 0; 
+
+    border-left: @size solid transparent;
+    border-right: @size solid transparent;
+    border-top: @size solid @color;
+  }
+
+  .left(@size,@color) {
+    display:block;
+    width: 0; 
+    height: 0; 
+    border-top: @size solid transparent;
+    border-bottom: @size solid transparent;
+    border-right: @size solid @color;
+  }
+
+  .right(@size,@color) {
+    display:block;
+    width: 0; 
+    height: 0; 
+    border-top: @size solid transparent;
+    border-bottom: @size solid transparent;
+    border-left: @size solid @color;
+  }
 }
 
 #gradient {
@@ -235,7 +281,7 @@
 
   // From top to bottom with intermediate color
   .vertical-three(@begin, @mid, @end, @stop: 50%) {
-    background-image: -webkit-gradient(linear, center top, center bottom, from(@begin), color-stop(@stop, @mid), to(@end));
+    background-image: -webkit-gradient(linear, center top, center bottom, from(@begin), color-stop(50%, @mid), to(@end));
     background-image: -webkit-linear-gradient(top, @begin, @mid @stop, @end);
     background-image: -moz-linear-gradient(top, @begin, @mid @stop, @end);
     background-image: linear-gradient(to bottom, @begin, @mid @stop, @end);
@@ -294,4 +340,13 @@
     background-image: -moz-radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
     background-image: radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
   }
+
+  // Diagonal from top left to bottom right
+  .diagonal(@begin, @end, @stop1: 0%, @stop2: 100%) {
+    background-image: -moz-linear-gradient(-45deg, @begin @stop1, @end @stop2);
+    background-image: -webkit-gradient(linear, left top, right bottom, color-stop(@stop1,@begin), color-stop(@stop2,@end));
+    background-image: -webkit-linear-gradient(-45deg, @begin @stop1,@end @stop2);
+    background-image: linear-gradient(-45deg, @begin @stop1,@end @stop2);
+  }
+  
 }

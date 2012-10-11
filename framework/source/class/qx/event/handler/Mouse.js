@@ -23,6 +23,7 @@
 /* ************************************************************************
 
 #require(qx.event.handler.UserAction)
+#ignore(qx.event.handler.DragDrop)
 
 ************************************************************************ */
 
@@ -377,6 +378,13 @@ qx.Class.define("qx.event.handler.Mouse",
         }
       }
 
+      // prevent click events on drop during Drag&Drop [BUG #6846]
+      var isDrag = qx.event.handler.DragDrop &&
+        this.__manager.getHandler(qx.event.handler.DragDrop).isSessionActive();
+      if (isDrag && type == "click") {
+        return;
+      }
+
       if (this.__rightClickFixPre) {
         this.__rightClickFixPre(domEvent, type, target);
       }
@@ -391,7 +399,7 @@ qx.Class.define("qx.event.handler.Mouse",
         this.__rightClickFixPost(domEvent, type, target);
       }
 
-      if (this.__differentTargetClickFixPost) {
+      if (this.__differentTargetClickFixPost && !isDrag) {
         this.__differentTargetClickFixPost(domEvent, type, target);
       }
 
@@ -553,7 +561,9 @@ qx.Class.define("qx.event.handler.Mouse",
             if (target !== this.__lastMouseDownTarget)
             {
               var commonParent = qx.dom.Hierarchy.getCommonParent(target, this.__lastMouseDownTarget);
-              this.__fireEvent(domEvent, "click", commonParent);
+              if (commonParent) {
+                this.__fireEvent(domEvent, "click", commonParent);
+              }
             }
         }
       }

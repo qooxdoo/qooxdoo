@@ -60,7 +60,7 @@ qx.Class.define("demobrowser.demo.root.Inline_Dynamic_Resize",
       for (var i=0; i<icons.length; i++)
       {
         slideBar.add((new qx.ui.basic.Image("icon/48/devices/" + icons[i])).set({
-          decorator: "group",
+          decorator: "main",
           padding: 4
         }));
       }

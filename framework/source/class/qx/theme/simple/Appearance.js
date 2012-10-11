@@ -2051,7 +2051,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator       : states.today ? "main" : undefined,
           textColor       : states.disabled ? "text-disabled" : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : undefined,
           backgroundColor : states.disabled ? undefined : states.selected ? "background-selected" : undefined,
-          padding         : [ 2, 4 ]
+          padding         : states.today ? [ 1, 3 ] : [2, 4]
         };
       }
     },
@@ -2716,6 +2716,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           paddingTop : 5
+        }
+      }
+    },
+
+
+    "app-splitpane" : {
+      alias : "splitpane",
+      style : function(states) {
+        return {
+          padding: [0, 10, 10, 10],
+          backgroundColor: "light-background"
         }
       }
     }

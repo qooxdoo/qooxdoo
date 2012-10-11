@@ -137,12 +137,7 @@ qx.Class.define("mobileshowcase.page.Basic",
 
       this.getContent().add(new qx.ui.mobile.form.Title("Atoms"));
       
-      var atomGroup = new qx.ui.mobile.form.Group();
-      atomGroup.add(exAtomLeft);
-      atomGroup.add(exAtomTop);
-      atomGroup.add(exAtomRight);
-      atomGroup.add(exAtomBottom);
-      
+      var atomGroup = new qx.ui.mobile.form.Group([exAtomLeft,exAtomTop,exAtomRight,exAtomBottom]);
       this.getContent().add(atomGroup);
     },
 

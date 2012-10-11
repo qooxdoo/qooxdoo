@@ -27,12 +27,12 @@ ul.form li * {
   text-overflow: ellipsis;
 }
 
-ul.form input[type="text"]:not(.selectbox), ul.form input[type="number"], ul.form input[type="password"] {
+ul.form input[type="text"], ul.form input[type="number"], ul.form input[type="password"] {
   display:block;
   width:50%;
 }
 
-input[type="text"]:not(.selectbox),input[type="number"], input[type="password"], textarea {
+input[type="text"]:not(.selectbox),input[type="number"], input[type="password"] {
   .border-radius(.4em);
   .background-clip(padding-box);
   text-indent:4px;
@@ -63,10 +63,19 @@ input[type="checkbox"], input[type="radio"] {
   padding: 10px 10px;
 }
 
+ul.form li .scrollContainer {
+  height: 140px;
+}
+
 textarea {
-  height: 120px;
   resize: none;
   padding-top:4px;
+
+  .background-clip(padding-box);
+  text-indent:4px; 
+  height:1.7em;
+
+  .border-radius(none);
 }
 
 //
@@ -85,7 +94,6 @@ textarea {
 }
 
 .formSeparationRow {
-  height:1px;
 }
 
 .formRowContent {
