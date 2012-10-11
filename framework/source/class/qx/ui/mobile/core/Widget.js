@@ -304,6 +304,78 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       check : "Boolean",
       init : false,
       apply : "_applyAttribute"
+    },
+    
+    
+    /**
+     * Rotates the widget. Negative and positive values are allowed.
+     */
+    rotation :
+    {
+      check : "Number",
+      nullable : true,
+      init : null,
+      apply : "_transform"
+    },
+    
+    
+    /**
+     * Scales the widget in X direction (width).
+     */
+    scaleX : 
+    {
+      check : "Number",
+      nullable : false,
+      init : 1,
+      apply : "_transform"
+    },
+    
+    
+    /**
+     * Scales the widget in Y direction (height).
+     */
+    scaleY : 
+    {
+      check : "Number",
+      nullable : false,
+      init : 1,
+      apply : "_transform"
+    },
+    
+    
+    /**
+     * Moves the widget on X axis.
+     */
+    translateX : 
+    {
+      check : "Number",
+      nullable : false,
+      init : 0,
+      apply : "_transform"
+    },
+    
+    
+    /**
+     * Moves the widget on Y axis.
+     */
+    translateY : 
+    {
+      check : "Number",
+      nullable : false,
+      init : 0,
+      apply : "_transform"
+    },
+    
+    
+    /**
+     * Moves the widget on Z axis.
+     */
+    translateZ : 
+    {
+      check : "Number",
+      nullable : false,
+      init : 0,
+      apply : "_transform"
     }
   },
 
@@ -1055,17 +1127,37 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     */
 
 
-     /**
-      * Sets the innerHTML of the content element and calls the {@link #_domUpdated}
-      * method.
-      *
-      * @param value {String?""} The html to set in the content element.
-      */
-     _setHtml : function(value)
-     {
-       this.getContentElement().innerHTML = value || "";
-       this._domUpdated();
-     },
+    /**
+    * Sets the innerHTML of the content element and calls the {@link #_domUpdated}
+    * method.
+    *
+    * @param value {String?""} The html to set in the content element.
+    */
+    _setHtml : function(value)
+    {
+      this.getContentElement().innerHTML = value || "";
+      this._domUpdated();
+    },
+    
+    
+    /**
+     * Transforms this widget (rotate, scale, translate3d)
+     */
+    _transform : function() {
+      var propertyValue = "";
+      if(this.getRotation()!=null) {
+        propertyValue = propertyValue + "rotate("+this.getRotation()+"deg) ";
+      }
+      
+      propertyValue = propertyValue + "scale("+this.getScaleX()+","+this.getScaleY()+") ";
+      
+      // Add translate3d only if any of these values have been modified.
+      if(this.getTranslateX() != 0 || this.getTranslateY() != 0 || this.getTranslateZ() != 0) {
+        propertyValue = propertyValue + "translate3d("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px,"+this.getTranslateZ()+"px) ";
+      }
+      
+      qx.bom.element.Style.set(this.getContainerElement(),"transform", propertyValue);
+    },
 
 
     /*

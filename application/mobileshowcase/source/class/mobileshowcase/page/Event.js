@@ -38,7 +38,7 @@ qx.Class.define("mobileshowcase.page.Event",
     for (var i=0; i < 15; i++) {
       this.__touchCircleLeft[i] = -1000;
       this.__touchCircleTop[i] = -1000;
-    };
+    }
 
     this.__isFirefox = qx.core.Environment.get("browser.name")=="firefox";
     if(this.__isFirefox==true) {
