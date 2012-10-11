@@ -14,3 +14,4 @@ Using data binding allows you to e.g. keep two widgets automatically synchronize
    data_binding/controller
    data_binding/stores
    data_binding/models
+   data_binding/events

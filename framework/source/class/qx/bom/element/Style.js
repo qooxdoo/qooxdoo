@@ -98,6 +98,10 @@ qx.Bootstrap.define("qx.bom.element.Style",
 
   statics :
   {
+    __styleNames : null,
+
+    __cssNames : null,
+
     /**
      * Detect vendor specific properties.
      */
@@ -499,11 +503,6 @@ qx.Bootstrap.define("qx.bom.element.Style",
 
               // Return value
               return value;
-            }
-
-            // Non-Pixel values may be problematic
-            if (/^-?[\.\d]+(em|pt|%)?$/i.test(currentStyle)) {
-              throw new Error("Untranslated computed property value: " + name + ". Only pixel values work well across different clients.");
             }
 
             // Just the current style

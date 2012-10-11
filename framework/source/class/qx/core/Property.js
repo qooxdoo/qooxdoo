@@ -850,7 +850,7 @@ qx.Bootstrap.define("qx.core.Property",
 
       if (hasCallback)
       {
-        this.__emitCallCallback(code, config, name);
+        this.__emitCallCallback(code, config, name, variant);
 
         // Refresh children
         // Requires the parent/children interface
@@ -1493,12 +1493,13 @@ qx.Bootstrap.define("qx.core.Property",
      * @param code {String[]} String array to append the code to
      * @param config {Object} The property configuration map
      * @param name {String} name of the property
+     * @param variant {String} variant of the method e.g. setThemed
      */
-    __emitCallCallback : function(code, config, name)
+    __emitCallCallback : function(code, config, name, variant)
     {
       // Execute user configured setter
       if (config.apply) {
-        code.push('this.', config.apply, '(computed, old, "', name, '");');
+        code.push('this.', config.apply, '(computed, old, "', name, '", "', variant, '");');
       }
 
       // Fire event

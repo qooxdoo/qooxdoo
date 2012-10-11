@@ -1,10 +1,10 @@
 {
   "name"    : "testrunner",
-  
+
   "include" :
   [
     {
-      "path" : "testrunner.json"  
+      "path" : "testrunner.json"
     },
     {
       "path" : "portable.json",
@@ -12,19 +12,19 @@
     },
     {
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
-      "block"   : 
-      [ 
+      "block"   :
+      [
         "source",
         "source-script",
         "build",
         "build-script",
         "build-resources",
         "build-files",
-        "clean" 
+        "clean"
       ]
     }
   ],
-  
+
   "export" :
   [
     "api",
@@ -32,6 +32,7 @@
     "build",
     "build-basic",
     "build-basic-portable",
+    "build-mobile",
     "build-widget",
     "clean-cache",
     "distclean",
@@ -44,14 +45,16 @@
     "source",
     "source-all",
     "source-basic",
+    "source-mobile",
     "source-widget",
     "translation"
   ],
-  
+
   "default-job" : "source",
-  
+
   "config-warnings": {
     "job-shadowing": [
+      "api",
       "source-tests-script",
       "build-basic",
       "source-basic",
@@ -85,7 +88,15 @@
 
   "jobs" :
   {
-    "source-tests-script" : 
+    "api" :
+    {
+      "let" :
+      {
+        "BUILD_PATH"     : "${ROOT}/api",
+      }
+    },
+
+    "source-tests-script" :
     {
       "compile-options" :
       {
@@ -112,13 +123,13 @@
         "TEST_NAMESPACE" : "${APPLICATION}.test.basic"
       }
     },
-    
+
 
     /*
     "source-script-packages" :
     {
       "extend" : ["source-script"],
-      
+
       "packages" :
       {
         "parts"  :
@@ -137,7 +148,7 @@
           }
         }
       },
-      
+
       "environment" :
       {
         "testrunner.testParts" : ["${TEST_NAMESPACE}.ui", "${TEST_NAMESPACE}.data"]
@@ -154,11 +165,10 @@
       "extend" : ["portable::source-script"]
     },
 
-    "portable-build" : 
+    "portable-build" :
     {
       "extend" : ["portable::build"]
     },
-
 
     // -------------------------------------------------------------------------
     // Misc

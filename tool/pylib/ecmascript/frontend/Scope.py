@@ -165,7 +165,7 @@ Function %s(%s):
         assert self.node.type == "catch"
         identifier = treeutil.selectNode(self.node, "params/identifier")
         assert identifier and identifier.type=="identifier", "Unable to retrieve 'catch' parameter"
-        return [VariableDefinition(identifier.get("value",None), identifier, False, self)]
+        return [VariableDefinition(identifier.get("value", ""), identifier, False, self)]
 
 
     ##
@@ -254,6 +254,7 @@ Function %s(%s):
             use = node.getChild("definition").getDefinee()
             if use:
                 name = use.get("value", False)
+                name = None if name == False else name
                 yield (name, use)
                 return
 
@@ -269,6 +270,7 @@ Function %s(%s):
             # inside a variable only respect the first member
             if not isVariableMember or isFirstChild:
                 name = node.get("value", False)
+                name = None if name == False else name                
                 if name:
                     yield (name, node)
 

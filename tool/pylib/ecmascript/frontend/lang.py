@@ -33,6 +33,7 @@ BUILTIN = [
           "Date",
           "document",
           "DOMParser",
+          "DOMException",
           "Element",
           "Error",
           "EvalError",
@@ -64,17 +65,17 @@ BUILTIN = [
 GLOBALS = BUILTIN + [
           # Java
           "java", "sun", "Packages",
-  
+
           # Firefox extension: Firebug
           "console",
-  
+
           # IE
           "event", "offscreenBuffering", "clipboardData", "clientInformation",
           "external", "screenTop", "screenLeft",
-          
+
           # Webkit
           "WebkitCSSMatrix",
-  
+
           # window
           'addEventListener', '__firebug__', 'location', 'netscape',
           'XPCNativeWrapper', 'Components', 'parent', 'top', 'scrollbars',
@@ -97,11 +98,11 @@ GLOBALS = BUILTIN + [
           'getComputedStyle', 'sessionStorage', 'globalStorage', 'localStorage',
           'CanvasRenderingContext2D', 'DocumentFragment', 'history', 'Selection',
           'Storage', 'StyleSheet', 'File',
-  
+
           # Language
           "eval", "decodeURI", "encodeURI", "decodeURIComponent", "encodeURIComponent",
           "escape", "unescape", "parseInt", "parseFloat", "isNaN", "isFinite",
-  
+
           "this", "arguments", "undefined", "NaN", "Infinity"
           ]
 

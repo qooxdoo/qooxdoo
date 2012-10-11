@@ -53,7 +53,7 @@ These are components that are integrated into the %{JS} class code from our demo
     - License
 
   * - `ACE <http://ajaxorg.github.com/ace/>`_
-    - `MPL/GPL/LGPL <https://github.com/ajaxorg/ace/blob/master/LICENSE>`_
+    - `BSD <https://github.com/ajaxorg/ace/blob/master/LICENSE>`_
 
 
 .. _pages/introduction/third_party_components#resources:

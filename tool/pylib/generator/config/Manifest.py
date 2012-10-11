@@ -33,9 +33,15 @@ from generator.config.ConfigurationError import ConfigurationError
 class Manifest(object):
     def __init__(self, path):
         self.path = path
-        mf = codecs.open(path, "r", "utf-8")
-        manifest = json.loads(mf.read())
-        mf.close()
+        try:
+            mf = codecs.open(path, "r", "utf-8")
+            manifest = json.loads(mf.read())
+            mf.close()
+        except Exception, e:
+            msg = "Reading of manifest file failed: '%s'" % path + (
+                "\n%s" % e.args[0] if e.args else "")
+            e.args = (msg,) + e.args[1:]
+            raise
         self._manifest = manifest
         self.libinfo       = self._manifest['info']
         self.libprovides   = self._manifest['provides']

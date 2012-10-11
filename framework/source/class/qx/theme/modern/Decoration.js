@@ -872,7 +872,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         color : "invalid",
-        width : 1
+        width : 1,
+        insets : 0
       }
     },
 

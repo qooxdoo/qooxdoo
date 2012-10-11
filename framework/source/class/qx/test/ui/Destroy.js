@@ -29,6 +29,9 @@ qx.Class.define("qx.test.ui.Destroy",
 
   members :
   {
+    /**
+     * @lint ignoreDeprecated(eval)
+     */
     assertLayoutDispose : function(clazz, args, layoutArgsArr)
     {
       this.assertDestroy(function()

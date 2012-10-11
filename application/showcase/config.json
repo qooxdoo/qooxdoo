@@ -44,7 +44,7 @@
           "manifest"   : "${QOOXDOO_PATH}/component/library/formdemo/Manifest.json"
         },
         {
-          "manifest"   : "${QOOXDOO_PATH}/component/library/twitterdemo/Manifest.json"
+          "manifest"   : "${QOOXDOO_PATH}/component/library/datademo/Manifest.json"
         },
         {
           "manifest" : "${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"

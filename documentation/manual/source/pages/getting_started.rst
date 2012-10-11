@@ -19,7 +19,7 @@ This section provides you with resources that help you pick the qooxdoo package 
 %{Desktop}
 ==========
 
-:doc:`/pages/desktop` contains the full scope of qooxdoo classes and infrastructure, like the class system, low-level DOM/BOM layers, a theming system, and a rich set of UI widgets and controls. It is available through the :doc:`SDK </pages/tool/sdk_introduction>`. It allows you to create desktop-like, interactive web applications.
+:doc:`/pages/desktop` contains the full scope of qooxdoo classes and infrastructure, like the class system, low-level DOM/BOM layers, a theming system, and a rich set of UI widgets and controls. It is available through the :doc:`SDK </pages/tool/sdk/sdk_introduction>`. It allows you to create desktop-like, interactive web applications.
 
 .. toctree::
    :maxdepth: 1
@@ -31,7 +31,7 @@ This section provides you with resources that help you pick the qooxdoo package 
 %{Mobile}
 =========
 
-:doc:`/pages/mobile` is used to develop applications for mobile platforms, like iOS and Android.It provides specific UI elements and theming capabilities suitable for mobile devices. Like the %{Desktop} component it is available through the :doc:`SDK </pages/tool/sdk_introduction>`.
+:doc:`/pages/mobile` is used to develop applications for mobile platforms, like iOS and Android.It provides specific UI elements and theming capabilities suitable for mobile devices. Like the %{Desktop} component it is available through the :doc:`SDK </pages/tool/sdk/sdk_introduction>`.
 
 .. toctree::
    :maxdepth: 1

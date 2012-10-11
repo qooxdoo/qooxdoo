@@ -43,6 +43,13 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
     this.initMaxLength();
     this.initPlaceholder();
     this.initReadOnly();
+    
+    this.addListener("keypress",function(e) {
+      // On return
+      if(e.getKeyCode() == 13) {
+        this.blur();
+      }
+    }, this);
   },
 
 
@@ -106,6 +113,28 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
     _applyMaxLength : function(value, old)
     {
       this._setAttribute("maxlength", value);
+    },
+    
+    
+    /**
+     * Points the focus of the form to this widget.
+     */
+    focus : function() {
+      var targetElement = this.getContainerElement();
+      if(targetElement) {
+        qx.bom.Element.focus(targetElement);
+      }
+    },
+    
+    
+    /**
+     * Removes the focus from this widget.
+     */
+    blur : function() {
+      var targetElement = this.getContainerElement();
+      if(targetElement) {
+        qx.bom.Element.blur(targetElement);
+      }
     }
   }
 });

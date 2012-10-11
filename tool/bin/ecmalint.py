@@ -26,8 +26,14 @@ import qxenviron
 from optparse import OptionParser
 from ecmascript.frontend import treegenerator
 from ecmascript.transform.check import scopes, lint
+from generator import Context
+from generator.runtime.Log import Log
 
 def main(argv=None):
+
+    # init Context module
+    Context.console = Log()
+    Context.jobconf = {}
 
     if argv is None:
         argv = sys.argv

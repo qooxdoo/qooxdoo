@@ -90,7 +90,7 @@ class Node(object):
         self.attributes[key] = value
         return self
 
-    def get(self, key, mandatory = True):
+    def get(self, key, default = None):
         value = None
         #if hasattr(self, "attributes") and key in self.attributes:
         if key in self.attributes:
@@ -98,7 +98,9 @@ class Node(object):
 
         if value != None:
             return value
-        elif mandatory:
+        elif default != None:
+            return default
+        else:
             raise NodeAccessException("Node " + self.type + " has no attribute " + key, self)
 
     def remove(self, key):
@@ -283,9 +285,9 @@ class Node(object):
 
 
     def makeComplex(self):
-        makeComplex = self.get("makeComplex", False)
+        makeComplex = self.get("makeComplex", '')
 
-        if makeComplex != None:
+        if makeComplex != '':
             return makeComplex
 
         else:
@@ -334,9 +336,9 @@ class Node(object):
 
 
     def isComplex(self):
-        isComplex = self.get("isComplex", False)
+        isComplex = self.get("isComplex", '')
 
-        if isComplex != None:
+        if isComplex != '':
             return isComplex
         else:
             isComplex = False
@@ -562,8 +564,8 @@ class Node(object):
 
         return self.parent.getLastChild(False, ignoreComments) == self
 
-    def isVar(self):
-        return self.type in NODE_VARIABLE_TYPES
+    #def isVar(self):
+    #    return self.type in NODE_VARIABLE_TYPES
 
     def isStatement(self):
         return self.parent and self.parent.type in NODE_STATEMENT_CONTAINERS

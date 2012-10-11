@@ -115,6 +115,12 @@ qx.Class.define("qx.html.Element",
     __selection : {},
 
 
+    __focusHandler : null,
+
+
+    __mouseCapture : null,
+
+
 
 
 

@@ -573,7 +573,7 @@ qx.Bootstrap.define("qx.lang.Array",
           {
             doneObjects[hash][key] = null;
           }
-          catch(ex)
+          catch(ex1)
           {
             throw new Error("Cannot clean-up map entry doneObjects[" + hash + "][" + key + "]");
           }

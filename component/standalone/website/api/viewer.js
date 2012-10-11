@@ -442,9 +442,10 @@ q.ready(function() {
 
   var printTypes = function() {
     var params = "";
-    for (var i = 0; i < this.types.length; i++) {
-      params += addTypeLink(this.types[i]);
-      if (i < this.types.length - 1) {
+    var types = this.types || this.returns.types;
+    for (var i = 0; i < types.length; i++) {
+      params += addTypeLink(types[i]);
+      if (i < types.length - 1) {
         params += ", ";
       }
     }
@@ -537,7 +538,7 @@ q.ready(function() {
   var loadSamples = function() {
     q.io.script("samples.js").send().on("loadend", function() {
       for (var method in samples) {
-        var selector = "#" + method.replace(".", "\\.");
+        var selector = "#" + method.replace(/\./g, "\\.");
         q(selector).append(q.create("<h4>Examples</h4>"));
         for (var i=0; i < samples[method].length; i++) {
           var sample = samples[method][i].toString();

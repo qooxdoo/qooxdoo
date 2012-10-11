@@ -44,23 +44,26 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
   extend : qx.ui.mobile.dialog.Dialog,
 
   /**
-   * @param itemsModel {var?null}, The choosable items of the menu.
+   * @param itemsModel {qx.data.Array ?}, the model which contains the choosable items of the menu.
+   * @param anchor {qx.ui.mobile.core.Widget ?} The anchor widget for this item. If no anchor is available, the menu will be displayed modal and centered on screen.
    */
-  construct : function(itemsModel)
+  construct : function(itemsModel, anchor)
   {
-    this.base(arguments);
-
     // Create the list with a delegate that
     // configures the list item.
     this.__selectionList = this._createSelectionList();
-
-    if(itemsModel){
+    
+    if(itemsModel) {
       this.__selectionList.setModel(itemsModel);
     }
-
-    this.add(this.__selectionList);
-
-    this._getBlocker().addListener("tap", this.__onBlockerTap, this);
+    
+    this.base(arguments, this.__selectionList, anchor);
+    
+    if(anchor) {
+      this.setModal(false);
+    } else {
+      this._getBlocker().addListener("tap", this.__onBlockerTap, this);
+    }
   },
 
 
@@ -165,14 +168,14 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
       // Add an changeSelection event
       selectionList.addListener("changeSelection", this.__onListChangeSelection, this);
-      selectionList.addListener("click", this.__onListClick, this);
+      selectionList.addListener("tap", this.__onListTap, this);
 
       return selectionList;
     },
 
 
     /**
-     *  Sets the items in the menu.
+     *  Sets the choosable items of the menu.
      *
      *  @param itemsModel {qx.data.Array}, the model of choosable items in the menu.
      */
@@ -200,8 +203,10 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      */
     __onListChangeSelection : function (evt) {
       var selectedIndex = evt.getData();
-      var selectedItem = this.__selectionList.getModel().getItem(selectedIndex)
-
+      var selectedItem = this.__selectionList.getModel().getItem(selectedIndex);
+      this.setSelectedIndex(selectedIndex);
+      this._render();
+      
       this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedItem});
     },
 
@@ -220,14 +225,23 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     /**
      * Reacts on selection list click.
      */
-    __onListClick : function () {
+    __onListTap : function () {
         // Last event which is fired by tap on List is a click event,
         // so hide menu, first on click event.
         // If menu is hidden before click-event, event will bubble to ui
         // element which is behind menu, and might cause an unexpected action.
-        this.hide();
+        qx.event.Timer.once(this.hide, this, 500);
+    },
+    
+    
+    /**
+     * Triggers (re-)rendering of menu items.
+     */
+    _render : function() {
+        var tmpModel = this.__selectionList.getModel();
+        this.__selectionList.setModel(null);
+        this.__selectionList.setModel(tmpModel);
     }
-
   },
 
   /*

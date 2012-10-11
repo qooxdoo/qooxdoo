@@ -78,7 +78,7 @@ RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 APPLICATIONS = todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor demobrowser
 COMPONENTS = apiviewer testrunner inspector storage server website
 FRAMEWORK_TARGETS = api test
-TUTORIALS = mobiletweets twitter website
+TUTORIALS = mobiletweets tweets website
 
 
 ################################################################################
@@ -334,6 +334,38 @@ distclean:
 	@cd framework && $(CMD_GENERATOR) distclean
 	@$(CMD_REMOVE) application/*.zip
 	@$(CMD_REMOVE) release
+
+lint: lint-apps lint-components lint-framework
+
+lint-framework:
+	@( cd framework && $(CMD_GENERATOR) lint ) || exit 1
+
+lint-apps:
+	@for APPLICATION in $(APPLICATIONS); do \
+		( cd application/$$APPLICATION && $(CMD_GENERATOR) lint ) \
+	done
+
+##
+# The next contains a near copy of build-tutorials
+lint-components:
+	@for COMPONENT in $(COMPONENTS); do \
+		if [[ "$$COMPONENT" = "apiviewer" || "$$COMPONENT" = "testrunner" || "$$COMPONENT" = "inspector" ]]; then \
+			( cd component/$$COMPONENT && $(CMD_GENERATOR) lint ) \
+		fi; \
+	done
+	@paths=""; for TUTORIAL in $(TUTORIALS); do \
+		TUTDIR="component/tutorials/$$TUTORIAL"; \
+		for STEP in `ls $$TUTDIR`; do \
+			F="$$TUTDIR/$$STEP"; \
+			if [ -d $$F ]; then \
+				paths="$$paths $$TUTORIAL/$$STEP"; \
+				if [ "$$TUTORIAL" != "website" ]; then \
+					( cd $$F && $(CMD_GENERATOR) lint ); \
+				fi; \
+			fi; \
+		done; \
+	done
+		
 
 build: build-apps build-components
 build-apps:

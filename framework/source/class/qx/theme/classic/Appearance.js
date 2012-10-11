@@ -2684,6 +2684,16 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "app-header-label": "label"
+    "app-header-label": "label",
+
+    "app-splitpane" : {
+      alias : "splitpane",
+      style : function(states) {
+        return {
+          padding: [0, 10, 10, 10],
+          backgroundColor: "light-background"
+        }
+      }
+    }
   }
 });

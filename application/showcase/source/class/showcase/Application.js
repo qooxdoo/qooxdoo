@@ -238,7 +238,7 @@ qx.Class.define("showcase.Application",
 
     __fadeIn : function(view)
     {
-      // disabled animation for IE8 because alpha filter and
+      // disabled animation for IE8 because alpha filter
       if (
         qx.core.Environment.get("browser.name") == "ie" &&
         parseInt(qx.core.Environment.get("browser.version")) <= 8

@@ -94,6 +94,9 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       this.assertMatch(req._getUrl(), regExp);
     },
 
+    /**
+     * @lint ignoreUndefined(myExistingCallback)
+     */
     "test: not overwrite existing callback": function() {
       var that = this;
 

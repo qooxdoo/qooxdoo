@@ -34,11 +34,13 @@ from generator import Context
 
 class LintChecker(treeutil.NodeVisitor):
 
-    def __init__(self, root_node, file_name, opts):
+    def __init__(self, root_node, file_name_, opts):
         super(LintChecker, self).__init__()
         self.root_node = root_node
-        self.file_name = file_name  # it's a warning module, so i need a proper file name
+        self.file_name = file_name_  # it's a warning module, so i need a proper file name
         self.opts = opts
+        global file_name
+        file_name = file_name_
 
     def visit_file(self, node):
         # we can run the basic scope checks as with function nodes
@@ -219,7 +221,7 @@ class LintChecker(treeutil.NodeVisitor):
         for id_, var_node in scope_node.vars.items():
             if self.multiple_var_decls(var_node):
                 warn("Multiple declarations of variable: '%s' (%r)" % (
-                    id_, [(n.get("line",0) or -1) for n in var_node.decl]), self.file_name, None)
+                    id_, [n.get("line",-1) for n in var_node.decl]), self.file_name, None)
 
     def multiple_var_decls(self, scopeVar):
         return len(scopeVar.decl) > 1
@@ -464,26 +466,28 @@ def warn(msg, fname, node):
 def get_at_hints(node, at_hints=None):
     if at_hints is None:
         at_hints = defaultdict(dict)
-    commentAttributes = Comment.parseNode(node)  # searches comment "around" this node
-    for entry in commentAttributes:
-         # {'arguments': ['a', 'b'],
-         #  'category': u'lint',
-         #  'functor': u'ignoreReferenceField',
-         #  'text': u'<p>ignoreReferenceField(a,b)</p>'
-         # }
-        cat = entry['category']
-        if cat=='lint':
-            functor = entry['functor']
-            if functor not in at_hints[cat]:
-                at_hints[cat][functor] = set()
-            at_hints[cat][functor].update(entry['arguments']) 
-        elif cat=="ignore":
-            if cat not in at_hints:
-                at_hints[cat] = set()
-            at_hints[cat].update(entry['arguments'])
+    commentsArray = Comment.parseNode(node)  # searches comment "around" this node
+    for commentAttributes in commentsArray:
+        for entry in commentAttributes:
+             # {'arguments': ['a', 'b'],
+             #  'category': u'lint',
+             #  'functor': u'ignoreReferenceField',
+             #  'text': u'<p>ignoreReferenceField(a,b)</p>'
+             # }
+            cat = entry['category']
+            if cat=='lint':
+                functor = entry['functor']
+                if functor not in at_hints[cat]:
+                    at_hints[cat][functor] = set()
+                at_hints[cat][functor].update(entry['arguments']) 
+            elif cat=="ignore":
+                if cat not in at_hints:
+                    at_hints[cat] = set()
+                at_hints[cat].update(entry['arguments'])
     # include @hints of parent scopes
     scope = scopes.find_enclosing(node)
     if scope:
+        if 0: print "debug:", file_name, node, scope.node
         at_hints = get_at_hints(scope.node, at_hints)
     return at_hints
 

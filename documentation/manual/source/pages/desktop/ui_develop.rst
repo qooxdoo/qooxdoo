@@ -36,7 +36,7 @@ For details refer to the API documentation of `qx.ui.core.Widget <http://demo.qo
 Child Controls
 ==============
 
-qooxdoo supports a mechanism called child controls. A child control is a widget as part of another widget. Child controls were introduced to have a common way of accessing these controls and to make it easy to refine them when a class should be extended. Each child control is accessible using an identifier which is basically a string. By convention these strings are all lower-case and use dashes to structure complex identifiers. Typical identifiers are ``button``, ``icon`` or ``arrow-up``. Never slashes ``/`` as this might conflict with the appearance system.
+qooxdoo supports a mechanism called child controls. A child control is a widget as part of another widget. Child controls were introduced to have a common way of accessing these controls and to make it easy to refine them when a class should be extended. Each child control is accessible using an identifier which is basically a string. By convention these strings are all lower-case and use dashes to structure complex identifiers. Typical identifiers are ``button``, ``icon`` or ``arrow-up``. Never use slashes (``/``) as this might conflict with the appearance system.
 
 Instances for the supported child controls are created dynamically as needed. A widget developer just needs to override the method ``_createChildControlImpl``, let the method work on the customized controls, and just call the super class method when the incoming ID is not supported. For example, such a method might look like:
 

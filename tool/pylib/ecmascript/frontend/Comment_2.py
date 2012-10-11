@@ -649,6 +649,7 @@ def fill(node):
 
         if node.type == "function":
             name = node.get("name", False)
+            name = None if name == False else name
         else:
             name = ""
 

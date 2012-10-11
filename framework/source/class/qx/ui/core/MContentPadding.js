@@ -119,6 +119,20 @@ qx.Mixin.define("qx.ui.core.MContentPadding",
 
 
     /**
+     * {Map} Maps property names of content padding to the themed setter of the padding
+     *
+     * @lint ignoreReferenceField(__contentPaddingThemedSetter)
+     */
+    __contentPaddingThemedSetter :
+    {
+      contentPaddingTop : "setThemedPaddingTop",
+      contentPaddingRight : "setThemedPaddingRight",
+      contentPaddingBottom : "setThemedPaddingBottom",
+      contentPaddingLeft : "setThemedPaddingLeft"
+    },
+
+
+    /**
      * {Map} Maps property names of content padding to the resetter of the padding
      *
      * @lint ignoreReferenceField(__contentPaddingResetter)
@@ -133,7 +147,7 @@ qx.Mixin.define("qx.ui.core.MContentPadding",
 
 
     // property apply
-    _applyContentPadding : function(value, old, name)
+    _applyContentPadding : function(value, old, name, variant)
     {
       var target = this._getContentPaddingTarget();
 
@@ -144,8 +158,14 @@ qx.Mixin.define("qx.ui.core.MContentPadding",
       }
       else
       {
-        var setter = this.__contentPaddingSetter[name];
-        target[setter](value);
+        // forward the themed sates if case the apply was invoked by a theme
+        if (variant == "setThemed" || variant == "resetThemed") {
+          var setter = this.__contentPaddingThemedSetter[name];
+          target[setter](value);
+        } else {
+          var setter = this.__contentPaddingSetter[name];
+          target[setter](value);
+        }
       }
     }
   }

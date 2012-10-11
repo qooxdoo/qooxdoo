@@ -8,7 +8,7 @@ var m = Math,
   vendor = (/webkit/i).test(navigator.appVersion) ? 'webkit' :
     (/firefox/i).test(navigator.userAgent) ? 'Moz' :
     'opera' in window ? 'O' : '',
-
+  
     // Browser capabilities
     isAndroid = (/android/gi).test(navigator.appVersion),
     isIDevice = (/iphone|ipad/gi).test(navigator.appVersion),
@@ -511,7 +511,9 @@ iScroll.prototype = {
     }
 
     if (!that.moved) {
-      if (hasTouch) {
+      
+       if (hasTouch) {
+        
         if (that.doubleTapTimer && that.options.zoom) {
           // Double tapped
           clearTimeout(that.doubleTapTimer);
@@ -538,7 +540,7 @@ iScroll.prototype = {
                 e.ctrlKey, e.altKey, e.shiftKey, e.metaKey,
                 0, null);
               ev._fake = true;
-              target.dispatchEvent(ev);
+              //target.dispatchEvent(ev);
             }
           }, that.options.zoom ? 250 : 0);
         }

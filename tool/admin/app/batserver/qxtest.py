@@ -202,7 +202,7 @@ class QxTest:
         import time
         if (self.isSeleniumServer()):
             self.log("Selenium server already running.")
-            return
+            self.killSeleniumServer()
 
         if 'seleniumLog' in self.seleniumConf:
             cmd += " -browserSideLog -log " + self.seleniumConf['seleniumLog']
@@ -237,10 +237,10 @@ class QxTest:
             self.log("Killing Selenium server process")
 
         if self.os == "Linux":
-            invokeExternal("pkill -f selenium-server")
+            invokeExternal("pkill -9 -f selenium")
             return
         if self.os == "Mac OS X":
-            invokeExternal("pkill selenium-server")
+            invokeExternal("pkill selenium")
         else:
             invokeExternal(self.testConf['killSelenium'])
 

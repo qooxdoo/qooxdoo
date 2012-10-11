@@ -189,6 +189,12 @@ qx.Class.define("qx.ui.basic.Image",
     __contentElements : null,
 
 
+    //overridden
+    _onChangeTheme : function() {
+      this.base(arguments);
+      // restyle source (theme change might have changed the resolved url)
+      this._styleSource();
+    },
 
     /*
     ---------------------------------------------------------------------------

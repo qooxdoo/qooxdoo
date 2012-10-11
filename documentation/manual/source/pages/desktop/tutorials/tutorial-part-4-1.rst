@@ -3,37 +3,32 @@
 Tutorial Part 4.1: Form Handling
 ********************************
 
-.. note::
+In the previous steps of this tutorial, we :doc:`laid the groundwork <tutorial-part-1>` for a tweets client application, gave it a :doc:`neat UI <tutorial-part-2>` and implemented a :doc:`communication layer <tutorial-part-3>`. One thing this application still lacks is a nice way for users to input their identica user name and password in order to post a status update. Fortunately, qooxdoo comes with a :doc:`forms API </pages/desktop/ui_form_handling>` that takes the pain out of creating form elements and handling user input.
 
-    This tutorial is outdated! twitter changed its API and does not allow basic authentication anymore. Still, the qooxdoo part is valid and worth trying even if you can not access your friends timeline anymore.
-
-
-In the previous steps of this tutorial, we :doc:`laid the groundwork <tutorial-part-1>` for a Twitter client application, gave it a :doc:`neat UI <tutorial-part-2>` and implemented a :doc:`communication layer <tutorial-part-3>`. One thing this application still lacks is a nice way for users to input their Twitter user name and password in order to post a status update. Fortunately, qooxdoo comes with a :doc:`forms API </pages/desktop/ui_form_handling>` that takes the pain out of creating form elements and handling user input.
-
-Before we get started, make sure you're working on the version of the Twitter tutorial application tagged with `"Step 3" in the GitHub repository <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step3>`_. This includes the posting part of the communication layer that we'll be using in this tutorial.
+Before we get started, make sure you're working on the version of the tweets tutorial application tagged with `"Step 3" in the GitHub repository <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step3>`_. This includes the posting part of the communication layer that we'll be using in this tutorial.
 
 .. _pages/desktop/tutorials/tutorial-part-4-1#the_plan:
 
 The plan
 ========
 
-We want to create a new window with user name and password fields that pops up when the Twitter application starts. The values will be used to retrieve the user's list of Tweets. Seems simple enough, so let's get right down to business.
+We want to create a new window with user name and password fields that pops up when the tweets application starts. The values will be used to retrieve the user's list of Tweets. Seems simple enough, so let's get right down to business.
 
 .. _pages/desktop/tutorials/tutorial-part-4-1#creating_the_login_window:
 
 Creating the login window
 =========================
 
-We start by creating a new class called twitter.LoginWindow that inherits from `qx.ui.window.Window <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.window.Window>`_, similar to the MainWindow class from the first part of this tutorial:
+We start by creating a new class called tweets.LoginWindow that inherits from `qx.ui.window.Window <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.window.Window>`_, similar to the MainWindow class from the first part of this tutorial:
 
 ::
 
-  qx.Class.define("twitter.LoginWindow",
+  qx.Class.define("tweets.LoginWindow",
   {
     extend : qx.ui.window.Window,
     construct : function()
     {
-      this.base(arguments, "Login", "twitter/t_small-c.png");
+      this.base(arguments, "Login", "tweets/logo.png");
     }
   });
 
@@ -128,7 +123,7 @@ Then we add a listener to the submit button that retrieves the values from the m
 Tying it all together
 =====================
 
-Now to integrate the login window with the other parts of the application. Twitter's friends timeline uses .htaccess for authentication so we can add the login details to the request sent by ``TwitterService.fetchTweets()``:
+Now to integrate the login window with the other parts of the application. Identica's friends timeline uses .htaccess for authentication so we can add the login details to the request sent by ``IdenticaService.fetchTweets()``:
 
 ::
 
@@ -138,7 +133,7 @@ Now to integrate the login window with the other parts of the application. Twitt
       if (username != null) {
         login = username + ":" + password + "@";
       }
-      var url = "http://" + login + "twitter.com/statuses/friends_timeline.json";
+      var url = "http://" + login + "identi.ca/api/statuses/friends_timeline.json";
       this.__store = new qx.data.store.Jsonp(url, null, "callback");        
       this.__store.bind("model", this, "tweets");
     } else {
@@ -147,11 +142,11 @@ Now to integrate the login window with the other parts of the application. Twitt
   },
 
 All that's left is to show the login window when the application is started and call ``fetchTweets`` with the information from the ``changeLoginData`` event.
-In the main application class, we'll create an instance of twitter.LoginWindow, position it next to the MainWindow and open it:
+In the main application class, we'll create an instance of tweets.LoginWindow, position it next to the MainWindow and open it:
 
 ::
 
-  this.__loginWindow = new twitter.LoginWindow();
+  this.__loginWindow = new tweets.LoginWindow();
   this.__loginWindow.moveTo(320,30);
   this.__loginWindow.open();
 
@@ -169,12 +164,12 @@ Note how all the other calls to ``service.fetchTweets`` can remain unchanged: By
 OK, time to run ``generate.py`` and load the application in a browser to make sure everything works like it's supposed to.
 
 
-|Twitter client application with login window|
+|Tweets client application with login window|
 
-.. |Twitter client application with login window| image:: /pages/desktop/tutorials/step41.png
+.. |Tweets client application with login window| image:: /pages/desktop/tutorials/step41.png
 
-Twitter client application with login window
+Tweets client application with login window
 
 
-And that's it for the form handling chapter. As usual, you'll find the tutorial `code on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.1>`_. Watch out for the next chapter, which will focus on developing your own custom widgets.
+And that's it for the form handling chapter. As usual, you'll find the tutorial `code on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.1>`_. Watch out for the next chapter, which will focus on developing your own custom widgets.
 

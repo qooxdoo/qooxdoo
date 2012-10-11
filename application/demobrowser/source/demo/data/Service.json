@@ -1,0 +1,27 @@
+{
+ "export" : 
+ [
+  "source-data.Service",
+  "build-data.Service"
+ ],
+
+ "jobs" : 
+ {
+  "source-data.Service" : {
+    "library" : 
+    [
+      {
+        "manifest"   : "${QOOXDOO_PATH}/component/library/datademo/Manifest.json"
+      }
+    ]
+  },
+  "build-data.Service" : {
+    "library" : 
+    [
+      {
+        "manifest"   : "${QOOXDOO_PATH}/component/library/datademo/Manifest.json"
+      }
+    ]
+  }
+ }
+}

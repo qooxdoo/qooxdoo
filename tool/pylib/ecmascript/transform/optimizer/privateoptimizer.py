@@ -93,11 +93,11 @@ def lookup(id, node, privates, globalPrivs):
     
     if node.type == "definition":
         if node.getChild("identifier", False):
-            name = node.getChild("identifier").get("value", False)
+            name = node.getChild("identifier").get("value", '')
         # treat node.getChild("assignment", False) later on its own
 
     elif node.type == "keyvalue":
-        name = node.get("key", False)
+        name = node.get("key", '')
         
     elif node.type == "assignment":
         lval = node.children[0]
@@ -134,13 +134,13 @@ def update(node, privates):
     name = None
             
     if node.type == "identifier":
-        name = node.get("value", False)
+        name = node.get("value", '')
         
     elif node.type == "keyvalue":
-        name = node.get("key", False)    
+        name = node.get("key", '')    
     
     elif node.type == "constant" and node.get("constantType") == "string":
-        name = node.get("value", False)
+        name = node.get("value", '')
     
         # Replace occurrences of privates in larger strings:
         #if not name in privates:

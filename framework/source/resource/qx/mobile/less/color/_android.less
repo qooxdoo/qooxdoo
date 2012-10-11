@@ -153,18 +153,106 @@ ul li.active .subtitle {
 //
 
 input[type="text"]:not(.selectbox),input[type="number"], input[type="password"], textarea {
-  //#gradient > .vertical(#e2e0e2, #f8f5f8);
-  //color: #222222;
   border: 0px solid #242424;
   .border-radius(0);
 
+  //#gradient > .vertical(#e2e0e2, #f8f5f8);
+  //color: #222222;
   //.transform(translate3d(0,0,0));
 }
 
-// OVERRIDDEN
-ul.form li {
+.formRowContent {
   @ul-padding:5px;
-  padding: @ul-padding @ul-padding @ul-padding @ul-padding;
+  padding: @ul-padding @ul-padding*2 @ul-padding @ul-padding*2;
+}
+
+//
+// SCROLL CONTAINER
+//
+
+@scShadowOffset:10px;
+@scShadowColor:rgba(0,0,0,0.3);
+@scShadowColorLight:rgba(0,0,0,0.2);
+@scGradientVerticalOffset:15px;
+
+.scrollContainer {
+  background-color:white;
+
+  .box-inset-multi-shadow (
+      0px @scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColorLight, 
+      0px -@scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColorLight
+  );
+}
+
+.scrollContainer textarea {
+  padding:2px;
+  border:none;
+  background:none;
+}
+
+.scrollContainer:before {
+  position:absolute;
+  top:0px;
+  z-index:500;
+
+  .box-inset-multi-shadow(
+      0px @scShadowOffset*1.4 @scShadowOffset -@scShadowOffset @scShadowColor, 
+      0px 0px @scShadowOffset -@scShadowOffset @scShadowColor
+  );
+
+  content:'';
+  width:100%;
+  height:0px;
+}
+
+.scrollContainer.scrollableTop:before {
+  height:30px;
+}
+
+.scrollContainer:after {
+  position:absolute;
+  bottom:0px;
+  z-index:500;
+
+  .box-inset-multi-shadow(
+      0px 0px @scShadowOffset -@scShadowOffset @scShadowColor, 
+      0px -@scShadowOffset*1.4 @scShadowOffset -@scShadowOffset @scShadowColor
+  );
+
+  content:'';
+  width:100%;
+  height:0px;
+}
+
+.scrollContainer.scrollableBottom:after {
+  height:30px;
+}
+
+//
+// FORM RENDERING
+//
+
+.formSeparationRow {
+  background-color: @border-color;
+}
+
+.formRowGroupTitle {
+  text-shadow: rgba(255,255,255,.2) 0 1px 1px;
+  color: #bdbebd;
+  background-color: #212021;
+  font-size: 0.8em;
+  padding: 0px 10px 0px 10px;
+}
+
+.formRowGroupFirstItem {
+  padding:0px;
+  height:0px;
+}
+
+.formRowGroupLastItem {
+  height:0px;
+  border-top:none;
+  padding:0px;
 }
 
 //
@@ -255,6 +343,8 @@ input[type="checkbox"] + label {
   position:relative;
   .clickable();
 
+  box-sizing:border-box;
+
   .border-radius(.3em);
 }
 
@@ -298,10 +388,12 @@ input[type="checkbox"]:checked + label:after {
 input[type=radio] + label {
     background: #fcfff4;
     #gradient > .vertical-three(#fcfff4, #dfe5d7, #b3bead, 40%);
-
+    
     -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
     -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
     box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+
+    box-sizing:border-box;
 }
 
 
@@ -312,23 +404,24 @@ input[type=radio]+ label:before {
     box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
     
     #gradient > .vertical(darken(@button-color, 60%),darken(@button-color, 40%));
+
 }
 
 
 // Color dot
 input[type=radio] + label:after {
-      background: @android-orange;
+    background: @android-orange;
 
-      @dot-color: @android-orange;
-      @dot-dark-color: darken(@dot-color, 10%);
+    @dot-color: @android-orange;
+    @dot-dark-color: darken(@dot-color, 10%);
 
-      background: -webkit-linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
-      background: -moz-linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
-      background: linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
+    background: -webkit-linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
+    background: -moz-linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
+    background: linear-gradient(top, @dot-color 0%, @dot-dark-color 100%);
 
-      -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-      -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-      box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+    -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+    box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
 }
 
 
@@ -344,6 +437,69 @@ input[type=radio] + label:after {
 .dialog { 
   background-color: @dialog-background-color;
   border: 2px solid #ffffff;
+}
+
+.arrow() {
+  position:absolute;
+  content:'';
+}
+
+@arrow-size: 12px;
+
+// ARROW TOP
+
+.popupAnchorPointerTop:before
+{
+  .arrow();
+  #triangle > .up(@arrow-size+2, #ffffff);
+}
+
+.popupAnchorPointerTop:after
+{
+  .arrow();
+  #triangle > .up(@arrow-size, @dialog-background-color);
+}
+
+// ARROW BOTTOM
+
+.popupAnchorPointerBottom:before
+{
+  .arrow();
+  #triangle > .down(@arrow-size+2, #ffffff);
+}
+
+.popupAnchorPointerBottom:after
+{
+  .arrow();
+  #triangle > .down(@arrow-size, @dialog-background-color);
+}
+
+// ARROW LEFT
+
+.popupAnchorPointerLeft:before
+{
+  .arrow();
+  #triangle > .left(@arrow-size+2, #ffffff);
+}
+
+.popupAnchorPointerLeft:after
+{
+  .arrow();
+  #triangle > .left(@arrow-size, @dialog-background-color);
+}
+
+// ARROW RIGHT
+
+.popupAnchorPointerRight:before
+{
+  .arrow();
+  #triangle > .right(@arrow-size+2, #ffffff);
+}
+
+.popupAnchorPointerRight:after
+{
+  .arrow();
+  #triangle > .right(@arrow-size, @dialog-background-color);
 }
 
 
@@ -364,7 +520,7 @@ input[type=radio] + label:after {
 //
 
 .selectbox {
-  color:@highlighted-text-color;
+  .clickable();
   background-color:transparent;
 }
 
@@ -428,7 +584,14 @@ input[type=radio] + label:after {
 // MASTER PARENT CONTAINER ARROWS
 //
 .master-popup.popupAnchorPointerTop:before  {
-  border-bottom-color:@master-popup-border-color;
+  @arrow-color:@dialog-background-color;
+  
+  border-right:none;
+  border-bottom:none;
+
+  #gradient > .diagonal(@arrow-color, transparent, 50.9%, 51%);
+
+  top:-10px;
 }
 
 
@@ -458,4 +621,39 @@ input[type=radio] + label:after {
 
 .carousel-pagination {
   top: -(@pagination-label-size+15px);
+}
+
+//
+// PICKER
+//
+
+
+.picker-container {
+  background-color:darken(@android-dark-grey,20%);
+  .box-shadow(0px 1px 1px rgba(255, 255, 255, 0.5));
+}
+
+.picker-label {
+  color:white;
+  font-weight:bold;
+}
+
+.picker-slot:before, .picker-slot:after {
+  background-color: @border-color;
+}
+
+// Spinning Wheel Overlay Gradient
+.picker-container:after {
+  #gradient > .vertical-four(rgba(0,0,0,0.8),rgba(0, 0, 0, 0),rgba(0, 0, 0, 0),rgba(0,0,0,0.8),33%,66%);
+}
+
+// Selected Area Overlay
+.picker-container:before {
+  top:33px;
+  height:28px;
+
+  .box-shadow(0px 2px 2px rgba(0, 0, 0, 0.5));
+
+  border-top:1px solid @android-orange;
+  border-bottom:1px solid @android-orange;
 }

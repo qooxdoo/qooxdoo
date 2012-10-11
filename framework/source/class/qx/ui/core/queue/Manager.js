@@ -284,8 +284,8 @@ qx.Class.define("qx.ui.core.queue.Manager",
     __onUserAction : function(e)
     {
       var statics = qx.ui.core.queue.Manager;
-      // pospone the flush for 500ms due to the fact that iOS stops firing
-      // events if the dom gets changed during the vent chain [BUG #4033]
+      // postpone the flush for 500ms due to the fact that iOS stops firing
+      // events if the DOM gets changed during the vent chain [BUG #4033]
       if (e.getData() == "touchend")
       {
         statics.PAUSE = true;

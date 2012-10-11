@@ -210,11 +210,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     {
       this.__createdStyles = [];
       if (this.__styleSheet) {
-        var owner = this.__styleSheet.ownerNode ?
-          this.__styleSheet.ownerNode :
-          this.__styleSheet.owningElement;
-        qx.dom.Element.removeChild(owner,
-          owner.parentNode);
+        qx.bom.Stylesheet.removeSheet(this.__styleSheet);
       }
       this.__styleSheet = null;
     },

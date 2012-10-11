@@ -47,6 +47,8 @@ qx.Class.define("fce.Environment", {
 
     /**
      * Queries qx.core.Environment to retrieve all settings/values
+     *
+     * @lint environmentNonLiteralKey(key)
      */
     check : function()
     {

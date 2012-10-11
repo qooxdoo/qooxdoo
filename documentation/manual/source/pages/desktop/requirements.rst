@@ -36,6 +36,6 @@ An application comprising of the %{qooxdoo} runtime and custom code written agai
 SDK
 =====
 
-Working with %{Desktop} requires from you that you download and use %{qooxdoo}'s SDK. See here for the :doc:`SDK's requirements </pages/tool/sdk_requirements>`, and follow its *Installation and Setup* section. This requirement applies to the development phase only, the final app is independent of the SDK.
+Working with %{Desktop} requires from you that you download and use %{qooxdoo}'s SDK. See here for the :doc:`SDK's requirements </pages/tool/sdk/sdk_requirements>`, and follow its *Installation and Setup* section. This requirement applies to the development phase only, the final app is independent of the SDK.
 
 

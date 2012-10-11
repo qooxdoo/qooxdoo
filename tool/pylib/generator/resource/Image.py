@@ -27,7 +27,7 @@
 
 import re, os, sys, types, base64, struct, codecs
 
-from misc import filetool, Path, json
+from misc import filetool, json
 from generator import Context
 from generator.resource.Resource import Resource
 
@@ -360,7 +360,7 @@ class Base64File(Image):
             cont = self.fp.read()
             json.loads(cont)
             isB64 = True
-        except (UnicodeDecodeError,ValueError):
+        except (UnicodeDecodeError,json.DecodeError):
             isB64 = False
         return isB64
 

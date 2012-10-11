@@ -47,6 +47,14 @@ qx.Class.define("qx.log.appender.Console",
     ---------------------------------------------------------------------------
     */
 
+   __main : null,
+
+   __log : null,
+
+   __cmd : null,
+
+   __lastCommand : null,
+
     /**
      * Initializes the console, building HTML and pushing last
      * log messages to the output window.

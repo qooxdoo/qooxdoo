@@ -462,6 +462,11 @@ testrunner.define({
   setUp : testrunner.globalSetup,
   tearDown : testrunner.globalTeardown,
 
+  testIsRendered : function() {
+    this.assertTrue(this.sandbox.isRendered());
+    this.assertFalse(q.create("<div>").isRendered());
+  },
+
   testAdd : function() {
     var test = q.create("<div id='testdiv'/>");
     this.assertEquals(1, test.length);
@@ -697,6 +702,9 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     this.assertEquals(1, q(".test").getNext().length);
     this.assertEquals("bar", q("#foo").getNext()[0].id);
+
+    // check for null next
+    this.assertEquals(0, test.eq(3).getNext().length);
     test.remove();
   },
 
@@ -1840,9 +1848,10 @@ testrunner.define({
   testGet : function() {
     var template = q.create("<div id='tmp'>{{affe}}</div>");
     template.appendTo(document.body);
+
     var result = q.template.get("tmp", {affe: "george"});
     this.assertEquals(1, result.length);
-    this.assertEquals("george", result[0]);
+    this.assertEquals("george", result[0].data);
     template.remove();
   }
 });
@@ -2294,6 +2303,15 @@ testrunner.define({
     this.wait();
   },
 
+  testXhrWithHeader : function() {
+    q.io.xhr("tests.js", {header: {"Content-Type": "application/json"}}).on("loadend", function(xhr) {
+      this.resume(function() {
+        this.assertEquals(4, xhr.readyState);
+        xhr.dispose();
+      }, this);
+    }, this).send();
+    this.wait();
+  },
 
   testBasicScript : function() {
     q.io.script("scriptload.js").on("loadend", function(script) {
@@ -2364,7 +2382,7 @@ testrunner.define({
   },
 
   testTransformPerspective : function() {
-    this.sandbox.setTransformPerspective("1234px");
+    this.sandbox.setTransformPerspective(1234);
     if (q.env.get("css.transform") != null) {
       this.assertEquals("1234px", this.sandbox.getTransformPerspective());
     }
@@ -2422,5 +2440,124 @@ testrunner.define({
     this.assertEquals(oldLength + 1, q.sessionStorage.getLength());
     q.sessionStorage.removeItem(this.__testKey);
     this.assertEquals(oldLength, q.sessionStorage.getLength());
+  }
+});
+
+
+testrunner.define({
+  classname : "Messaging",
+
+  testOn : function() {
+    var called = 0;
+    var id = q.messaging.on("X", "test", function() {
+      called = called + 1;
+    });
+    q.messaging.emit("X", "test");
+    this.assertEquals(1, called);
+    q.messaging.emit("X", "test");
+    this.assertEquals(2, called);
+    q.messaging.remove(id);
+
+    q.messaging.emit("X", "test");
+    this.assertEquals(2, called);
+  },
+
+
+  testOnAny : function() {
+    // counter for every handler
+    var called = 0;
+    var called2 = 0;
+    var calledAny = 0;
+    // attach 3 handler
+    var id = q.messaging.on("X", "test", function() {
+      called = called + 1;
+    });
+    var id2 = q.messaging.on("Y", "test", function() {
+      called2 = called2 + 1;
+    });
+    var idAny = q.messaging.onAny("test", function() {
+      calledAny = calledAny + 1;
+    });
+
+    // emit test
+    q.messaging.emit("X", "test");
+    this.assertEquals(1, called);
+    this.assertEquals(0, called2);
+    this.assertEquals(1, calledAny);
+
+    // emit test2
+    q.messaging.emit("Y", "test");
+    this.assertEquals(1, called);
+    this.assertEquals(1, called2);
+    this.assertEquals(2, calledAny);
+
+    // remove all handler
+    q.messaging.remove(id);
+    q.messaging.remove(id2);
+    q.messaging.remove(idAny);
+
+    // emit all events and check if the removal worked
+    q.messaging.emit("X", "test");
+    q.messaging.emit("X", "test2");
+    this.assertEquals(1, called);
+    this.assertEquals(1, called2);
+    this.assertEquals(2, calledAny);
+  }
+});
+
+
+testrunner.define({
+  classname : "Placeholder",
+
+  setUp : function() {
+    if (q.env.get("css.placeholder")) {
+      this.skip("Native placeholder supported.");
+    }
+  },
+
+
+  __test : function(input) {
+    input.appendTo(document.body);
+    input.updatePlaceholder();
+
+    var placeholderEl = input.getProperty(q.$$qx.module.Placeholder.PLACEHOLDER_NAME);
+    this.assertEquals("Hmm", placeholderEl.getHtml());
+    this.assertEquals("block", placeholderEl.getStyle("display"));
+
+
+    input.remove().updatePlaceholder();
+  },
+
+  testTextField : function() {
+    this.__test(q.create("<input type='text' placeholder='Hmm' />"));
+  },
+
+  testPasswordField : function() {
+    this.__test(q.create("<input type='password' placeholder='Hmm' />"));
+  },
+
+  testTextArea : function() {
+    this.__test(q.create("<textarea placeholder='Hmm'></textarea>"));
+  },
+
+  testUpdateStatic : function() {
+    var all = q.create(
+      "<div><input type='text' placeholder='Hmm' />" +
+      "<textarea placeholder='Hmm'></textarea>" +
+      "<input type='password' placeholder='Hmm' /></div>"
+    );
+    all.appendTo(document.body);
+
+    q.placeholder.update();
+    var self = this;
+    all.getChildren("input,textarea").forEach(function(input) {
+      input = q(input);
+
+      var placeholderEl = input.getProperty(q.$$qx.module.Placeholder.PLACEHOLDER_NAME);
+      self.assertEquals("Hmm", placeholderEl.getHtml());
+      input.remove().updatePlaceholder();
+    });
+
+    all.remove();
   }
 });

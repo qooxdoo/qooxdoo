@@ -98,7 +98,7 @@ don't break.<br>
   <dt>[a]</dt>
   <dd>
     <ul>
-      <li>run <code>./generate.px qxoo-build</code> in
+      <li>run <code>./generate.py build</code> in
 component/standalone/server</li>
       <li>The output should contain no warning.</li>
     </ul>
@@ -108,7 +108,7 @@ component/standalone/server</li>
     <ul>
       <li>run <code>node test/node.js</code> <code></code>for node.js
 e.g.</li>
-      <li>The output should print 3 times <code>ok</code></li>
+      <li>All tests should pass.</li>
     </ul>
   </dd>
   <dt>[b2]</dt>
@@ -122,7 +122,7 @@ Rhino e.g.</li>
   <dt>[c]</dt>
   <dd>
     <ul>
-      <li>run <code>./generate.px api</code></li>
+      <li>run <code>./generate.py api</code></li>
       <li>The output should contain no warning.</li>
       <li>Check the API viewer in <code>api/index.html</code></li>
     </ul>
@@ -133,13 +133,13 @@ Rhino e.g.</li>
       <li>run <code>./generate.py npm-package-copy</code></li>
       <li>The output should contain no warning.</li>
       <li>The folder&nbsp; <code>npm/build</code> should contain <code>package.json,
-qx-oo-<qxversion>.js</code>.</li>
+qx-oo-&lt;qxversion&gt;.js</code>.</li>
     </ul>
   </dd>
   <dt>[e]</dt>
   <dd>
     <ul>
-      <li>run <code>./generate.px npm-package-test</code></li>
+      <li>run <code>./generate.py npm-package-test</code></li>
       <li>The output should contain 3 times <code>ok</code>.</li>
     </ul>
   </dd>

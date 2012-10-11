@@ -48,9 +48,10 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
     on : function(name, listener, ctx) {
-      this.__getStorage(name).push({listener: listener, ctx: ctx});
+      var id = qx.event.Emitter.__storage.length;
+      this.__getStorage(name).push({listener: listener, ctx: ctx, id: id});
       qx.event.Emitter.__storage.push({name: name, listener: listener, ctx: ctx});
-      return qx.event.Emitter.__storage.length - 1;
+      return id;
     },
 
 
@@ -65,9 +66,10 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
     once : function(name, listener, ctx) {
-      this.__getStorage(name).push({listener: listener, ctx: ctx, once: true});
+      var id = qx.event.Emitter.__storage.length;
+      this.__getStorage(name).push({listener: listener, ctx: ctx, once: true, id: id});
       qx.event.Emitter.__storage.push({name: name, listener: listener, ctx: ctx});
-      return qx.event.Emitter.__storage.length - 1;
+      return id;
     },
 
 
@@ -87,7 +89,8 @@ qx.Bootstrap.define("qx.event.Emitter",
         var entry = storage[i];
         if (entry.listener == listener && entry.ctx == ctx) {
           storage.splice(i, 1);
-          return i;
+          qx.event.Emitter.__storage[entry.id] = null;
+          return entry.id;
         }
       };
       return null;
@@ -162,11 +165,12 @@ qx.Bootstrap.define("qx.event.Emitter",
      */
     emit : function(name, data) {
       var storage = this.__getStorage(name);
-      for (var i = storage.length - 1; i >= 0; i--) {
+      for (var i = 0; i < storage.length; i++) {
         var entry = storage[i];
         entry.listener.call(entry.ctx, data);
         if (entry.once) {
           storage.splice(i, 1);
+          i--;
         }
       };
       // call on any

@@ -189,7 +189,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      */
     setPerspective : function(el, value) {
       if (this.__cssKeys != null) {
-        el.style[this.__cssKeys["perspective"]] = value;
+        el.style[this.__cssKeys["perspective"]] = value + "px";
       }
     },
 

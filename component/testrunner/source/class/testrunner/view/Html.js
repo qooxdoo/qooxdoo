@@ -262,7 +262,7 @@ qx.Class.define("testrunner.view.Html", {
         this.filterTests(filter);
       }, this);
 
-      q("#testfilter").on("input", function(ev) {
+      q("#testfilter").on("keyup", function(ev) {
         this.__filterTimer.restart();
       }, this);
     },

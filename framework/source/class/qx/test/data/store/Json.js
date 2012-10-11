@@ -39,6 +39,9 @@ qx.Class.define("qx.test.data.store.Json",
     __propertyNames : null,
 
 
+    /**
+     * @lint ignoreDeprecated(eval)
+     */
     setUp : function()
     {
       this.__store = new qx.data.store.Json();

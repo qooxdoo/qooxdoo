@@ -430,6 +430,20 @@ qx.Bootstrap.define("qx.bom.client.Html",
       var img = document.createElement("img");
       return typeof img.naturalHeight === "number" &&
         typeof img.naturalWidth === "number";
+    },
+
+
+    /**
+     * Check for HTML5 history manipulation support.
+
+     * @internal
+     * @return {Boolean} <code>true</code> if the HTML5 history API is supported
+     */
+    getHistoryState : function()
+    {
+      return (typeof window.onpopstate !== "undefined" &&
+              typeof window.history.replaceState !== "undefined" &&
+              typeof window.history.pushState !== "undefined");
     }
   },
 
@@ -463,5 +477,6 @@ qx.Bootstrap.define("qx.bom.client.Html",
     qx.core.Environment.add("html.element.textcontent", statics.getTextContent);
     qx.core.Environment.add("html.console", statics.getConsole);
     qx.core.Environment.add("html.image.naturaldimensions", statics.getNaturalDimensions);
+    qx.core.Environment.add("html.history.state", statics.getHistoryState);
   }
 });

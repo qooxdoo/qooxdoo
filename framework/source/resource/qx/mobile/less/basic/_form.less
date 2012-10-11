@@ -4,10 +4,14 @@
 
 ul.form {
   margin-bottom: 10px;
+  background-color:transparent;
+  border:none;
 }
 
-ul.form li {
-  padding: 10px 10px 10px 10px;
+
+ul.form li.formSeparationRow:last-child {
+  background-color:transparent;
+  margin-bottom:0px;
 }
 
 ul.form ul li.error {
@@ -23,7 +27,12 @@ ul.form li * {
   text-overflow: ellipsis;
 }
 
-input[type="text"]:not(.selectbox),input[type="number"], input[type="password"], textarea {
+ul.form input[type="text"], ul.form input[type="number"], ul.form input[type="password"] {
+  display:block;
+  width:50%;
+}
+
+input[type="text"]:not(.selectbox),input[type="number"], input[type="password"] {
   .border-radius(.4em);
   .background-clip(padding-box);
   text-indent:4px;
@@ -54,12 +63,45 @@ input[type="checkbox"], input[type="radio"] {
   padding: 10px 10px;
 }
 
+ul.form li .scrollContainer {
+  height: 140px;
+}
+
 textarea {
-  height: 120px;
   resize: none;
   padding-top:4px;
+
+  .background-clip(padding-box);
+  text-indent:4px; 
+  height:1.7em;
+
+  .border-radius(none);
 }
+
+//
+// RENDERING
+//
 
 .formElementError {
   color: red;
+  text-align:right;
+   border-top:0;
+  padding: 0px 10px 10px 10px;
 }
+
+.formSeparationRow, .formRowGroupHeader, .formRowGroupFooter {
+  padding:0px;
+}
+
+.formSeparationRow {
+}
+
+.formRowContent {
+  border-top:0;
+  padding: 10px 10px 10px 10px;
+}
+
+.formRowContent + .formRowContent {
+  padding-top:0px;
+}
+

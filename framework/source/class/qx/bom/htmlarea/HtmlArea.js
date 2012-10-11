@@ -1711,12 +1711,12 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
               var doc = this._getIframeDocument();
               doc.execCommand("useCSS", false, false);
             }
-            catch(ex)
+            catch(ex1)
             {
               if (!this.__isReady)
               {
                 this.error("Failed to enable rich edit functionality");
-                this.fireDataEvent("loadingError", ex);
+                this.fireDataEvent("loadingError", ex1);
               }
               else {
                 throw new Error("Failed to enable rich edit functionality");
@@ -2168,7 +2168,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
                         if (!this.isSelectionCollapsed()) {
                           sel.collapseToStart();
                         }
-                      } catch(e) {}
+                      } catch(ex) {}
 
                       // We have found the correct text node, leave loop here
                       break;
