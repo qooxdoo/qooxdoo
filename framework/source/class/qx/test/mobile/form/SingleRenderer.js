@@ -61,13 +61,15 @@ qx.Class.define("qx.test.mobile.form.SingleRenderer",
     },
 
     testButtonRow : function() {
-      this.assertNotNull(this.__renderer._getChildren()[1]);
-      this.assertTrue(1=== this.__renderer._getChildren()[3]._getChildren().length); // we have only the button in the row
+      this.assertNotNull(this.__renderer._getChildren()[5]);
+      var buttonRowLength = this.__renderer._getChildren()[5]._getChildren().length;
+      this.assertTrue(1 === buttonRowLength); // we have only the button in the row
     },
     
     testTwoLinesRow : function() {
-      this.assertNotNull(this.__renderer._getChildren()[4]);
-      this.assertTrue(1=== this.__renderer._getChildren()[4]._getChildren().length); // we have two items.
+      this.assertNotNull(this.__renderer._getChildren()[3]);
+      var rowLength = this.__renderer._getChildren()[3]._getChildren().length;
+      this.assertTrue(2 === rowLength);
     }
   }
 });
