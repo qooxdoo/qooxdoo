@@ -436,8 +436,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         targetValue = this.__transitionDuration+"s";
       }
       
-      var propertyKey = qx.bom.Style.getPropertyName("transitionDuration");
-      qx.bom.element.Style.set(this.__carouselScroller.getContentElement(),propertyKey,targetValue);
+      qx.bom.element.Style.set(this.__carouselScroller.getContentElement(),"transitionDuration",targetValue);
       
       this.__showTransition = showTransition;
     },
@@ -515,10 +514,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param y {Integer} scroller's y position.
      */
     _updateScrollerPosition : function(x,y) {
-      var carouselScrollerElement = this.__carouselScroller.getContentElement();
+      if(isNaN(x) || isNaN(y)) {
+        return;
+      }
       
-      var propertyKey = qx.bom.Style.getPropertyName("transform");
-      qx.bom.element.Style.set(carouselScrollerElement,propertyKey,"translate3d("+x+"px,"+y+"px,0px)");
+      this.__carouselScroller.setTranslateX(x);
+      this.__carouselScroller.setTranslateY(y);
     }
     
   },
