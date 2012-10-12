@@ -97,7 +97,7 @@ qx.Class.define("qx.io.PartLoader",
      * @param self {Object?window} Context to execute the given function in
      */
     require : function(partNames, callback, self) {
-      return this._loader.require(partNames, callback, self);
+      this._loader.require(partNames, callback, self);
     },
 
 
