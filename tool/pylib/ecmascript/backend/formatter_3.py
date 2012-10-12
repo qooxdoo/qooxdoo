@@ -50,23 +50,41 @@ def nl(self, optns, state):
     return '\n'
 symbol_base.nl = nl
 
+##
+# Pure text formatter for a list of comment nodes
+#
 def commentsPretty(self, commentsA, optns, state):
+    def has_preceding_text():
+        boolean = (
+            not state.hasLeadingContent() # no dangling comment
+            and state.output # not the first line
+            and state.not_all_white(state.output[-1]) # previous line is not all white
+            )
+        return boolean
+
     comments = []
+    # leading newline
+    if commentsA and has_preceding_text():
+        comments.append('\n')
     for i,comment in enumerate(commentsA):
+        # separate block comments
         commentStr = comment.get("value")
-        commentStr = Comment.Text(commentStr).indent(indentString(optns, state))
+        #commentStr = Comment.Text(commentStr).indent(state.indentStr(optns))
         if comment.get('end', False) == True:  # 'inline' needs terminating newline anyway
             commentStr += self.nl(optns,state)
-        commentStr += state.indentStr(optns)  # to pass on the indentation that was set ahead of the comment
+            # offset block comments with a blank line
+            if comment.get("multiline"):
+                comments.append('\n')
+        #commentStr += state.indentStr(optns)  # to pass on the indentation that was set ahead of the comment
         comments.append(commentStr)
         # handle additional line breaks between comments
-        if i>0:
-            pass
-            #curr_start = comment.get("line")
-            #prev_start = commentsA[i-1].get("line")
-            #prev_lines = comments[i-1].count('\n')
-            #addtl_lb = curr_start - prev_start + prev_lines
-            #comments[i-1] += addtl_lb * '\n'
+        #if i>0:
+        #    pass
+        #    curr_start = comment.get("line")
+        #    prev_start = commentsA[i-1].get("line")
+        #    prev_lines = comments[i-1].count('\n')
+        #    addtl_lb = curr_start - prev_start + prev_lines
+        #    comments[i-1] += addtl_lb * '\n'
     return u''.join(comments)
 symbol_base.commentsPretty = commentsPretty
 
@@ -261,7 +279,7 @@ def format(self, optns, state):
     # keyvals
     for c in self.children[1:-1]: # without {}
         if c.id == 'keyvalue':
-            state.add((indent,_), optns)
+            #state.add((indent,_), optns)
             c.format(optns,state)
         elif c.id == ',':
             c.format(optns,state)
@@ -279,6 +297,8 @@ def format(self, optns, state):
 @method(symbol("keyvalue"))
 def format(self, optns, state):
     # key
+    #if self.children[0].get("value") == '__listController':
+    #    import pydb; pydb.debugger()
     self.children[0].format(optns, state)
     # :
     state.add((self.space(),_), optns)
@@ -304,24 +324,21 @@ def format(self, optns, state):
 @method(symbol("function"))
 def format(self, optns, state):
     state.add((self.commentsPretty(self.comments, optns, state),self.comments), optns)
-    state.add((self.write("function") + self.space(),self), optns)
+    state.add((self.write("function"),self), optns)
     if self.getChild("identifier",0):
         ident = self.getChild("identifier")
         functionName = ident.get("value")
-        state.add((self.write(functionName),ident), optns)
+        state.add((self.space() + self.write(functionName),ident), optns)
     # params
     self.getChild("params").format(optns, state)
     state.add((self.space(),_), optns)
     # body
     self.getChild("body").format(optns, state)
 
-@method(symbol("body"))
-def format(self, optns, state):
-    state.add((self.commentsPretty(self.comments, optns, state),self.comments), optns)
-    self.children[0].format(optns, state)
-    # 'if', 'while', etc. can have single-statement bodies
-    if self.children[0].id != 'block':
-        state.add((';',_), optns)
+#@method(symbol("body"))
+#def format(self, optns, state):
+#    state.add((self.commentsPretty(self.comments, optns, state),self.comments), optns)
+#    self.children[0].format(optns, state)
 
 #@method(symbol("var"))  # this is what becomes of "var"
 #def format(self, optns, state):
@@ -364,6 +381,13 @@ def format(self, optns, state):
 #    self.getChild("body").format(optns, state)
 #    state.add((u''.join(r,optns),self), optns)
 
+@method(symbol("forIterControl"))  # of 'for (;;)'
+def format(self, optns, state):
+    for cld in self.children:
+        cld.format(optns,state)
+        if cld.type == ';':
+            state.add((self.space(),_), optns)
+
 @method(symbol("in"))  # of 'for (in)'
 def format(self, optns, state):
     state.add((self.commentsPretty(self.comments, optns, state),self.comments), optns)
@@ -379,7 +403,7 @@ def format(self, optns, state):  # WARN: this conflicts (and is overwritten) in 
 
 @method(symbol(","))
 def format(self, optns, state):
-    state.add((self.get("value"),self), optns)
+    state.add((self.get("value") + ' ',self), optns)
 
 @method(symbol(";"))
 def format(self, optns, state):
@@ -452,6 +476,12 @@ def format(self, optns, state):
 #        self.children[2].format(optns, state)
 #    state.add((self.space(False,result=r,self), optns))
 #    state.add((r,optns,self), optns)
+
+@method(symbol("else"))
+def format(self, optns, state):
+    state.add((self.commentsPretty(self.comments, optns, state),self), optns)
+    state.add((self.space() + self.get("value") + self.space(),self), optns)
+
 
 #@method(symbol("break"))
 #def format(self, optns, state):
@@ -566,7 +596,9 @@ def format(self, optns, state):
     if optns.prettypOpenCurlyNewlineBefore not in 'nN': # and self.hasLeadingContent():
         if optns.prettypOpenCurlyIndentBefore:
             state.indent()
-        state.add((self.nl(optns,state) + state.indentStr(optns),_), optns)
+        #state.add((self.nl(optns,state) + state.indentStr(optns),_), optns)
+        state.add((self.nl(optns,state),_), optns)
+    state.add((state.intervening_space(),_), optns)  # at least one white space (of some kind)
     state.add((self.get("value") + self.nl(optns,state),self), optns)
     if not optns.prettypAlignBlockWithCurlies:
         state.indent()
@@ -575,7 +607,7 @@ def format(self, optns, state):
 def format(self, optns, state):
     state.add((self.commentsPretty(self.comments,optns,state),self.comments), optns)
     state.outdent()
-    state.add((state.indentStr(optns) + self.get("value"),self), optns)
+    state.add((self.get("value"),self), optns)
 
 
 #@method(symbol("statements"))
@@ -589,8 +621,6 @@ def format(self, optns, state):
 
 @method(symbol("statement"))
 def format(self, optns, state):
-    indent = indentString(optns, state)
-    state.add((indent,_), optns)
     for cld in self.children:
         cld.format(optns, state)
     state.add((self.nl(optns,state),_), optns)
@@ -697,12 +727,14 @@ class FormatterState(object):
     def __init__(self):
         self.indentLevel = 0
         self.currLine    = 1   # current insert line
-        self.currColumn  = 1   # current insert column (where the next char will be inserted)
         self.last_token  = None
         self.inExpression = False
         self.inQxDefine = False
         self.output = []  # list of output lines
         self.line = u''   # current output line buffer
+
+    def currColumn(self):
+        return len(self.line) + 1
 
     def indent(self):
         self.indentLevel += 1
@@ -713,62 +745,67 @@ class FormatterState(object):
 
     def indentStr(self, optns, incColumn=False):
         indent = optns.prettypIndentString * self.indentLevel
-        if incColumn:
-            self.currColumn += len(indent)
         return indent
 
     def append(self, el):
         self.output.append(el)
      
     re_non_white = re.compile(r'\S',re.U)
+    def not_all_white(self, s):
+        return self.re_non_white.search(s)
+
 
     ##
-    # str_ - the string to be inserted (usually a token-level string); can be:
+    # strrng - the string to be inserted (usually a token-level string); can be:
     #     ''  - empty, if all information is conveyed in <tokenOrArr>
     # tokenOrArr - the token object behind the string value; can be:
     #     <symbol> - token behind string
     #     None     - synthetic string, not backed by a token (usually whitespace)
     #     [symbol-comment] - an array of <comment> objects, as passed to commentsPretty
     #
-    def add(self, (str_,tokenOrArr), optns):
-        def not_all_white(s):
-            return self.re_non_white.search(s)
-
-        while str_:
+    def add(self, (strrng,tokenOrArr), optns):
+        #inn = 0
+        #if "else" in strrng:
+        #    inn = 1
+        #if inn:
+        #    import pydb; pydb.debugger()
+        #    #pass
+        #print strrng
+        while strrng:
             # Add fragment to line
-            if '\n' in str_:
+            if '\n' in strrng:
                 had_eol = True
-                idx = str_.find('\n')
+                idx = strrng.find('\n')
             else:
                 had_eol = False
-                idx = len(str_)
-            fragment = str_[:idx]
+                idx = len(strrng)
+            fragment = strrng[:idx]
             
             # check text width and handle continuation lines
             self.handle_text_width(fragment, tokenOrArr, optns)
 
             if not self.line:
-                if not_all_white(fragment):  # beginning of line with non-white addition
+                if self.not_all_white(fragment):  # beginning of line with non-white addition
                     self.line = self.indentStr(optns) + fragment #.lstrip()
             else:
                 self.line += fragment  # all-white lines will be trimmed in self.layout_line
 
             # Reduce
-            str_ = str_[idx+1:]
+            strrng = strrng[idx+1:]
 
             # Write complete lines
             if had_eol:
                 line = self.layout_line(self.line)
                 self.append(line)
                 self.line = ''
-        # postcond: rest of str_ is in self.line
+        # postcond: rest of strrng is in self.line
             
-    def layout_line(self, str_):
-        str_ = str_.rstrip() # remove trailing ws
-        str_ += self.nl()
-        return str_
+    def layout_line(self, strrng):
+        strrng = strrng.rstrip() # remove trailing ws
+        strrng += self.nl()
+        return strrng
 
-    def handle_text_width(self, str_, token, optns):
+    def handle_text_width(self, strrng, token, optns):
         # early escape
         if not token or isinstance(token, types.ListType):
             return
@@ -776,7 +813,7 @@ class FormatterState(object):
         if (optns.prettypTextWidth and 
             token.type not in ('comment','white') and
             token.type not in (',', ';', '}', ']') and
-            len(str_) + self.currColumn > optns.prettypTextWidth):
+            len(strrng) + self.currColumn() > optns.prettypTextWidth):
             self.add(('\n',_),optns)
             if not self.inExpression:
                 self.indent()
@@ -792,6 +829,14 @@ class FormatterState(object):
     # TODO: duplicates tree.nl() in this module
     def nl(self):
         return '\n'
+
+    re_a_white = re.compile('\s', re.U)
+
+    def intervening_space(self):
+        if self.line and not self.re_a_white.match(self.line[-1]):
+            return ' '
+        else:
+            return ''
 
     ##
     # Whether the current line has content

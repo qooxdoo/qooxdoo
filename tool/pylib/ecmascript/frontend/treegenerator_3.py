@@ -1373,12 +1373,14 @@ def std(self):
     # for (in)
     if chunk and chunk.id == 'in':
         self.set("forVariant", "in")
-        self.childappend(chunk)
+        condition = symbol("forInControl")(token.get("line"), token.get("column"))
+        self.childappend(condition)
+        condition.childappend(chunk)
 
     # for (;;) [mind: all three subexpressions are optional]
     else:
         self.set("forVariant", "iter")
-        condition = symbol("expressionList")(token.get("line"), token.get("column"))
+        condition = symbol("forIterControl")(token.get("line"), token.get("column"))
         self.childappend(condition)
         # init part
         first = symbol("first")(token.get("line"), token.get("column"))
