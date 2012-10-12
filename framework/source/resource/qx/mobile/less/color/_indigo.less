@@ -40,6 +40,10 @@
   // No second gradient color is needed.
   #gradient > .vertical(@button-color, darken(@button-color, 20%));
   border: @border-thickness solid darken(@border-color, 40%);
+
+  // iOS6 flickering bug fix
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
 }
 
 .clickable-active {
