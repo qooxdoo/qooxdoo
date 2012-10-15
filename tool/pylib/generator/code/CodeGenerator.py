@@ -1013,8 +1013,8 @@ class CodeGenerator(object):
         # init options
         #def options(): pass
         #pretty.defaultOptions(options)
-        options = formatter.FormatterOptions()
-        formatter.defaultOptions(options)
+        options = formatter_3.FormatterOptions()
+        formatter_3.defaultOptions(options)
 
         # modify according to config
         if 'general/indent-string' in ppsettings:

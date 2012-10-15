@@ -485,6 +485,94 @@ class symbol_base(Node):
         return s
 
 
+    def isComplex(self):
+        isComplex = self.get("isComplex", ())
+
+        if isComplex != ():
+            return isComplex
+        else:
+            isComplex = False
+
+        if not self.children:
+            isComplex = False
+
+        elif self.type == "block":
+            counter = 0
+            for child in self.children:
+                if child.isComplex():
+                    isComplex = True
+                    break
+                elif child.type in '{}':
+                    pass
+                else:
+                    counter += 1
+                if child.comments:
+                    counter += 1
+                if counter > 1:
+                    break
+
+            if not isComplex and counter > 1:
+                isComplex = True
+
+            else:
+                # in else, try to find the mode of the previous if first
+                if (self.parent and self.parent.type == "body"):
+                    preSib = self.parent.getPreviousSibling(False)
+                    if (preSib and preSib.type == "else" and preSib.getPreviousSibling(False)):
+                        isComplex = preSib.getPreviousSibling().isComplex()
+
+                ## in if, try to find the mode of the parent if (if existent)
+                #elif (self.parent and self.parent.type == "body" 
+                #    and self.parent.parent.type == "loop" and self.parent.parent.get("loopType") == "IF")
+                #    and self.parent.parent.get()==self.parent
+                #    ):
+                #    if self.parent.parent.parent and self.parent.parent.parent.parent:
+                #        if self.parent.parent.parent.parent.type == "loop":
+                #            isComplex = self.parent.parent.parent.parent.getChild("statement").hasComplexBlock()
+
+                ## in catch/finally, try to find the mode of the try statement
+                #elif self.parent and self.parent.parent and self.parent.parent.type in ["catch", "finally"]:
+                #    isComplex = self.parent.parent.parent.getChild("statement").hasComplexBlock()
+
+        #elif self.type == "elseStatement":
+        #    if self.hasComplexBlock():
+        #        isComplex = True
+        #    elif self.hasChild("loop") and self.getChild("loop").getChild("statement").hasComplexBlock():
+        #        isComplex = True
+
+        elif self.type == "array" :
+            if self.getChildrenLength(True) > 7:
+                isComplex = True
+
+        elif self.type == "map" :
+            ml = self.getChildrenLength(True)
+            if ml >= 5: # 2 elems in map
+                isComplex = True
+
+        elif self.type == "statements":
+            if self.getChildrenLength(True) > 1:
+                isComplex = True
+
+        elif self.children:
+            for cld in self.children:
+                if cld.isComplex():
+                    isComplex = True
+                    break
+
+        ## Final test: Ask the children (slower)
+        #if not (self.type == "elseStatement" and self.hasChild("loop")):
+        #    if not isComplex and self.hasComplexChildren():
+        #        isComplex = True
+
+        # print self.type + " :: %s" % isComplex
+        self.set("isComplex", isComplex)
+
+        # print "isComplex: %s = %s" % (self.type, isComplex)
+
+        return isComplex
+
+
+
     # end: symbol_base(Node)
 
 

@@ -90,8 +90,7 @@ class MClassCode(object):
                 console.outdent()
                 console.debug("Calculating scopes: %s..." % self.id)
                 console.indent()
-                #tree = scopes.create_scopes(tree)
-                pass # treegenerator_3
+                tree = scopes.create_scopes(tree)  # checks for suitable treegenerator_tag
                 #tree.scope.prrnt()
 
             # lint check

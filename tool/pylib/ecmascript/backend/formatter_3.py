@@ -275,16 +275,15 @@ def format(self, optns, state):
 def format(self, optns, state):
     # opening {
     self.children[0].format(optns, state)
-    indent = state.indentStr(optns)
     # keyvals
     for c in self.children[1:-1]: # without {}
         if c.id == 'keyvalue':
-            #state.add((indent,_), optns)
             c.format(optns,state)
         elif c.id == ',':
             c.format(optns,state)
             state.add((self.nl(optns,state),_), optns)
-    state.add((self.nl(optns,state),_), optns)
+    if 1: #self.isComplex():
+        state.add((self.nl(optns,state),_), optns)
     # closing }
     self.children[-1].format(optns,state)
 
@@ -297,8 +296,6 @@ def format(self, optns, state):
 @method(symbol("keyvalue"))
 def format(self, optns, state):
     # key
-    #if self.children[0].get("value") == '__listController':
-    #    import pydb; pydb.debugger()
     self.children[0].format(optns, state)
     # :
     state.add((self.space(),_), optns)
@@ -593,13 +590,19 @@ def format(self, optns, state):
 @method(symbol("{"))
 def format(self, optns, state):
     state.add((self.commentsPretty(self.comments,optns, state),self.comments), optns)
-    if optns.prettypOpenCurlyNewlineBefore not in 'nN': # and self.hasLeadingContent():
+    # handle opening 'always|never|mixed' mode
+    if (not self.hasParentContext("return/map") and # never insert newline between return and its argument
+        (optns.prettypOpenCurlyNewlineBefore in 'aA' # and self.hasLeadingContent():
+            or (optns.prettypOpenCurlyNewlineBefore in 'mM' and self.parent.isComplex())
+        )):
         if optns.prettypOpenCurlyIndentBefore:
             state.indent()
         #state.add((self.nl(optns,state) + state.indentStr(optns),_), optns)
         state.add((self.nl(optns,state),_), optns)
     state.add((state.intervening_space(),_), optns)  # at least one white space (of some kind)
-    state.add((self.get("value") + self.nl(optns,state),self), optns)
+    state.add((self.get("value"),self), optns)
+    if 1: #self.parent.isComplex():
+        state.add((self.nl(optns,state),_), optns)
     if not optns.prettypAlignBlockWithCurlies:
         state.indent()
 
@@ -768,7 +771,6 @@ class FormatterState(object):
         #if "else" in strrng:
         #    inn = 1
         #if inn:
-        #    import pydb; pydb.debugger()
         #    #pass
         #print strrng
         while strrng:
@@ -780,6 +782,11 @@ class FormatterState(object):
                 had_eol = False
                 idx = len(strrng)
             fragment = strrng[:idx]
+
+            # statement-end hack
+            if '\n' in strrng and self.inExpression:
+                self.outdent()
+                self.inExpression = False
             
             # check text width and handle continuation lines
             self.handle_text_width(fragment, tokenOrArr, optns)
@@ -820,10 +827,10 @@ class FormatterState(object):
                 self.inExpression = True
 
         # terminate a multi-line
-        elif token.get("value") in ';\n':  # quick statement-end hack
-            if self.inExpression:
-                self.outdent()
-                self.inExpression = False
+        #elif strrng in ';\n':  # quick statement-end hack
+        #    if self.inExpression:
+        #        self.outdent()
+        #        self.inExpression = False
         return
 
     # TODO: duplicates tree.nl() in this module
@@ -860,7 +867,7 @@ def defaultOptions(optns):
     optns.prettyPrint = True  # turn on pretty-printing
     optns.prettypCommentsBlockAdd  = True  # comment filling
     optns.prettypIndentString      = "  "   # general indent string
-    optns.prettypOpenCurlyNewlineBefore = 'n'  # mixed, dep. on complexity
+    optns.prettypOpenCurlyNewlineBefore = 'm'  # mixed, dep. on complexity
     optns.prettypOpenCurlyIndentBefore  = False  # indent curly on a new line
     optns.prettypAlignBlockWithCurlies  = False  # put block on same column as curlies
     optns.prettypCommentsTrailingCommentCols = ''  # put trailing comments on fixed columns

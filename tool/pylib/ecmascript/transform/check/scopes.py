@@ -317,10 +317,12 @@ def find_enclosing(node):
 # - Interface function --------------------------------------------------------
 
 def create_scopes(node):
-    #scoper = CreateScopesVisitor(node)
-    #root_scope = scoper.get_scopes(node)
-    #scoper.visit(root_scope)
-    #scoper.visit(node)
+    # check we're scoping a matching tree
+    file_node = node.getRoot()
+    treegen = file_node.get("treegenerator_tag", ())
+    if treegen == () or treegen != 1:
+        # TODO: console.debug("Not creating scopes for unsuitable tree")
+        return node # silently do nothing
 
     # create only the scope tree for this ast
     scopeCollector = CreateScopesVisitor(node)
