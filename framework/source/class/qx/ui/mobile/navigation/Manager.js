@@ -504,7 +504,9 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
       if (!routeMatched && !routeMatchedAny) {
         this.info("No route found for " + path);
-      }
+        return false;
+      } 
+      return true;
     },
 
 
