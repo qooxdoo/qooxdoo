@@ -698,11 +698,11 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encodin
 
 
 def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
-    asString = prefix + '{type:"' + escapeJsonChars(node.type) + '"'
+    asString = prefix + '{"type":"' + escapeJsonChars(node.type) + '"'
 
     #if node.hasAttributes():
     if True:
-        asString += ',attributes:{'
+        asString += ',"attributes":{'
         firstAttribute = True
         for key in node.attributes:
             if not firstAttribute:
@@ -712,13 +712,11 @@ def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
         asString += '}'
 
     if node.hasChildren():
-        asString += ',children:[' + newLine
+        asString += ',"children":[' + newLine
 
-        firstChild = True
         prefix = prefix + childPrefix
         for child in node.children:
             asString += nodeToJsonString(child, prefix, childPrefix, newLine) + ',' + newLine
-            firstChild = False
 
         # NOTE We remove the ',\n' of the last child
         if newLine == "":
