@@ -25,16 +25,17 @@
  * </pre>
  *
  * The following values are predefined:
- * "browser.name" --> The name of the browser
- * "browser.version" --> The version of the browser
- * "browser.quirksmode"  --> <code>true</code> if the browser is in quirksmode
- * "browser.documentmode" --> The document mode of the browser
  *
- * "device.name" --> The name of the device e.g. <code>iPad</code>.
- * "device.type" --> Either <code>desktop</code>, <code>tablet</code> or <code>mobile</code>.
+ * * <code>browser.name</code> : The name of the browser
+ * * <code>browser.version</code> : The version of the browser
+ * * <code>browser.quirksmode</code>  : <code>true</code> if the browser is in quirksmode
+ * * <code>browser.documentmode</code> : The document mode of the browser
  *
- * "engine.name" --> The name of the browser engine
- * "engine.version" --> The version of the browser engine
+ * * <code>device.name</code> : The name of the device e.g. <code>iPad</code>.
+ * * <code>device.type</code> : Either <code>desktop</code>, <code>tablet</code> or <code>mobile</code>.
+ *
+ * * <code>engine.name</code> : The name of the browser engine
+ * * <code>engine.version</code> : The version of the browser engine
  */
 qx.Bootstrap.define("qx.module.Environment", {
   statics :
