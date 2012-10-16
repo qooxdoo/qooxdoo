@@ -3389,6 +3389,16 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Helper to return a instance of a {@link qx.ui.core.DragDropCursor}.
+     * If you want to use your own DragDropCursor, override this method
+     * and return your custom instance.
+     * @return {qx.ui.core.DragDropCursor} A drag drop cursor implementation.
+     */
+    _getDragDropCursor : function() {
+      return qx.ui.core.DragDropCursor.getInstance();
+    },
+
     // property apply
     _applyDraggable : function(value, old)
     {
@@ -3397,7 +3407,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Force cursor creation
-      qx.ui.core.DragDropCursor.getInstance();
+      this._getDragDropCursor();
 
       // Process listeners
       if (value)
@@ -3439,7 +3449,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onDragStart : function(e)
     {
-      qx.ui.core.DragDropCursor.getInstance().placeToMouse(e);
+      this._getDragDropCursor().placeToMouse(e);
       this.getApplicationRoot().setGlobalCursor("default");
     },
 
@@ -3450,7 +3460,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param e {qx.event.type.Drag} Drag event
      */
     _onDrag : function(e) {
-      qx.ui.core.DragDropCursor.getInstance().placeToMouse(e);
+      this._getDragDropCursor().placeToMouse(e);
     },
 
 
@@ -3461,7 +3471,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onDragEnd : function(e)
     {
-      qx.ui.core.DragDropCursor.getInstance().moveTo(-1000, -1000);
+      this._getDragDropCursor().moveTo(-1000, -1000);
       this.getApplicationRoot().resetGlobalCursor();
     },
 
@@ -3473,7 +3483,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onDragChange : function(e)
     {
-      var cursor = qx.ui.core.DragDropCursor.getInstance();
+      var cursor = this._getDragDropCursor();
       var action = e.getCurrentAction();
       action ? cursor.setAction(action) : cursor.resetAction();
     },
