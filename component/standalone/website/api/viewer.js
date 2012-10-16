@@ -643,7 +643,7 @@ q.ready(function() {
     if (type.indexOf("[]") != -1) {
       return "<a target='_blank' href='" + MDC_LINKS["Array"] + "'>" + type + "</a>";
     }
-    if (type == "q") {
+    if (type == "qxWeb") {
       return "<a href='#Core'>q</a>";
     } else if (MDC_LINKS[type]) {
       return "<a target='_blank' href='" + MDC_LINKS[type] + "'>" + type + "</a>";
@@ -655,7 +655,7 @@ q.ready(function() {
     return type;
   };
 
-  var IGNORE_TYPES = ["q", "var", "null"];
+  var IGNORE_TYPES = ["qxWeb", "var", "null"];
 
   var MDC_LINKS = {
     "Event" : "https://developer.mozilla.org/en/DOM/event",
