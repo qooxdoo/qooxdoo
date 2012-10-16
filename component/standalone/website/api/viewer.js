@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 /**
- * @lint ignoreUndefined(q, samples, hljs)
+ * @lint ignoreUndefined(q, qxWeb, samples, hljs)
  */
 q.ready(function() {
   // remove the warning
