@@ -102,6 +102,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
 
     /**
      * Whether the blocker is shown or not.
+     * @return {Boolean} <code>true</code> if the blocker is shown
      */
     isShown : function()
     {

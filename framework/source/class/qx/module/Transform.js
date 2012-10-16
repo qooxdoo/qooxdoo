@@ -47,7 +47,8 @@ qx.Bootstrap.define("qx.module.Transform",
     transform : function(transforms) {
       this.forEach(function(el) {
         qx.bom.element.Transform.transform(el, transforms);
-      })
+      });
+      return this;
     },
 
 

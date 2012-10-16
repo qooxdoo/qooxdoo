@@ -163,6 +163,7 @@ qx.Class.define("qx.fx.effect.core.Scroll",
      *  @return {Boolean} true, if scroll properties are
      *  at a limit, otherwise false: scrolling can be
      *  performed.
+     * @return {Boolean} <code>true</code> if the scroll action can be performed
      * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     _atEndPosition : function(left, top)
@@ -171,8 +172,7 @@ qx.Class.define("qx.fx.effect.core.Scroll",
       var x = this.getX();
       var y = this.getY();
 
-      return
-      (
+      return (
         ( (x < 0) && (left == 0) ) || // left limit
         ( (x > 0) && (left == (element.scrollWidth - element.clientWidth)) ) // right limit
       )

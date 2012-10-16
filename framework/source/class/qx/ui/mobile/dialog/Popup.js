@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         var anchorPosition = qx.bom.element.Location.get(this.__anchor.getContainerElement());
         var anchorDimension = qx.bom.element.Dimension.getSize(this.__anchor.getContainerElement());
         var popupDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
-        
+
         var navigationBarHeight = 45;
         var arrowSize = 12;
 
@@ -168,26 +168,26 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this.__arrow.removeCssClass('popupAnchorPointerLeft');
         this.__arrow.removeCssClass('popupAnchorPointerRight');
         this.__arrow.removeCssClass('popupAnchorPointerBottom');
-        
+
         if (anchorPosition.bottom + popupDimension.height < qx.bom.Viewport.getHeight()) {
            // BOTTOM POSITION
           this.__arrow.addCssClass('popupAnchorPointerTop');
           this.placeTo(anchorPosition.left, anchorPosition.top + anchorDimension.height + arrowSize);
         }
-        else if(anchorPosition.right + popupDimension.width < qx.bom.Viewport.getWidth() 
+        else if(anchorPosition.right + popupDimension.width < qx.bom.Viewport.getWidth()
           && anchorPosition.bottom + popupDimension.height < qx.bom.Viewport.getHeight() + anchorDimension.height) {
           // RIGHT POSITION
           this.__arrow.addCssClass('popupAnchorPointerLeft');
-          
+
           var rightPosition = anchorPosition.right + arrowSize;
 
           this.placeTo(rightPosition, anchorPosition.top);
         }
-        else if(anchorPosition.left - popupDimension.width > 0 
+        else if(anchorPosition.left - popupDimension.width > 0
           && anchorPosition.bottom + popupDimension.height < qx.bom.Viewport.getHeight() + anchorDimension.height) {
           // LEFT POSITION
           this.__arrow.addCssClass('popupAnchorPointerRight');
-          
+
           // Flip Position
           var leftPosition = anchorPosition.left - popupDimension.width - arrowSize;
 
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         else if(anchorPosition.top - popupDimension.height > navigationBarHeight && anchorPosition.top < qx.bom.Viewport.getHeight()) {
           // TOP POSITION
           this.__arrow.addCssClass('popupAnchorPointerBottom');
-          
+
           // Flip position
           var topPosition = anchorPosition.top - popupDimension.height - arrowSize;
 
@@ -249,8 +249,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }
       this.__isShown = false;
     },
-    
-    
+
+
     /**
      * Returns the shown state of this popup.
      * @return {Boolean} whether the popup is shown or not.
@@ -258,8 +258,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     isShown : function() {
       return this.__isShown;
     },
-    
-    
+
+
     /**
      * Toggles the visibility of this popup.
      */
@@ -306,8 +306,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       this.getContainerElement().style.marginLeft = -(childDimension.width/2) + "px";
       this.getContainerElement().style.marginTop = -(childDimension.height/2) + "px";
     },
-    
-    
+
+
     /**
      * Resets the position of this element (left, top, margins...)
      */
@@ -485,6 +485,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
     /**
      * This method removes the widget shown in the popup.
+     * @return {qx.ui.mobile.core.Widget|null} The removed widget or <code>null</code>
+     * if the popup doesn't have an attached widget
      */
     removeWidget : function()
     {

@@ -51,6 +51,7 @@ qx.Bootstrap.define("qx.bom.client.Transport",
      * than 4 parallel XMLHttpRequests to one server at a time.
      *
      * @internal
+     * @return {Integer} Maximum number of parallel requests
      */
     getMaxConcurrentRequestCount: function()
     {

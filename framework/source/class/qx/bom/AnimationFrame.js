@@ -51,7 +51,7 @@
  * frame.startSequence(duration);
  * </pre>
  */
-qx.Bootstrap.define("qx.bom.AnimationFrame", 
+qx.Bootstrap.define("qx.bom.AnimationFrame",
 {
   extend : qx.event.Emitter,
 
@@ -105,6 +105,7 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
      *   <code>"ease-in"</code>, <code>"ease-out"</code>, <code>"linear"</code>,
      *   <code>"ease-in-out"</code>, <code>"ease"</code>.
      * @param x {Integer} The percent value of the function.
+     * @return {Integer} The calculated value
      */
     calculateTiming : function(func, x) {
       if (func == "ease-in") {

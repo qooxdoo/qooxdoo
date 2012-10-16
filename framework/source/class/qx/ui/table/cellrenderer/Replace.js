@@ -130,6 +130,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Replace",
 
     /**
      * adds a reversed replaceMap to itself to translate labels back to the original values
+     * @return {Boolean} <code>true</code>
      */
     addReversedReplaceMap : function()
     {

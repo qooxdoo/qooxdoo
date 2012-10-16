@@ -91,6 +91,7 @@ qx.Class.define("qx.ui.embed.AbstractIframe",
     /**
      * Get the Element wrapper for the iframe
      *
+     * @abstract
      * @return {qx.html.Iframe} the iframe element wrapper
      */
     _getIframeElement : function() {

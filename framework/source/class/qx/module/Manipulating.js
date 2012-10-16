@@ -436,6 +436,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * or <code>scrollTop</code>
      * @param value {Number} Final scroll position
      * @param duration {Number} The animation's duration in ms
+     * @return {q} The collection for chaining.
      */
     __animateScroll : function(property, value, duration)
     {

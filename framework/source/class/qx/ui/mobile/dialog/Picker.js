@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     this.__modelToSlotMap = {};
     this.__slotElements = [];
     this.__selectedIndexBySlot = [];
-    
+
     this.__pickerModel = new qx.data.Array();
 
     this.__pickerContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
@@ -86,14 +86,14 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
     this.__pickerConfirmButton = new qx.ui.mobile.form.Button("Choose");
     this.__pickerConfirmButton.addListener("tap", this.confirm, this);
-    
+
     this.__pickerCancelButton = new qx.ui.mobile.form.Button("Cancel");
     this.__pickerCancelButton.addListener("tap", this.hide, this);
-    
+
     var buttonContainer = this.__pickerButtonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
     buttonContainer.add(this.__pickerConfirmButton,{flex:1});
     buttonContainer.add(this.__pickerCancelButton,{flex:1});
-    
+
     this.__pickerContent.add(this.__pickerContainer);
     this.__pickerContent.add(buttonContainer);
 
@@ -210,8 +210,8 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         this.__pickerConfirmButton.setValue(caption);
       }
     },
-    
-    
+
+
     /**
      * Setter for the caption of the picker dialog's cancel button.
      * Default is "Cancel".
@@ -307,6 +307,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     /**
      *  Returns the slotIndex of a picker slot, identified by its content element.
      *  @param contentElement {Element} a picker slot content element.
+     *  @return {Integer} The slot index of the element
      */
     _getSlotIndexByElement : function(contentElement) {
       var contentElementId = contentElement.id;
@@ -330,6 +331,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     /**
      * Returns corresponding model for a picker, identified by its content element.
      * @param contentElement {Element} the picker slot content element.
+     * @return {qx.data.Array} The picker model item
      */
     _getModelByElement : function(contentElement) {
       var slotIndex = this._getSlotIndexByElement(contentElement);
@@ -356,8 +358,8 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
       this.fireDataEvent("confirmSelection", selectionData);
     },
-    
-    
+
+
     /**
      * Calculates the needes picker slot height, by it child labels.
      * @param target {Element} The target element.
@@ -385,7 +387,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       qx.bom.element.Style.set(target,"transition-duration","0s");
 
       this.__slotTouchStartPoints[targetId] = {x:touchX,y:touchY};
-      
+
       this._fixPickerSlotHeight(target);
 
       evt.preventDefault();
@@ -399,15 +401,15 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     _onTouchEnd : function(evt) {
       var target = evt.getOriginalTarget();
       var targetId = evt.getOriginalTarget().id;
-      
+
       var deltaY = evt.getScreenTop() - this.__slotTouchStartPoints[targetId].y;
       var labelHeight = target.children[0].offsetHeight;
-      
+
       var isSwipe = Math.abs(deltaY) >= labelHeight/2;
-      
+
       if(isSwipe){
         // SWIPE
-        // 
+        //
         // Apply selectedIndex
         var selectedIndex = this.__targetIndex[targetId];
         var slotIndex = this._getSlotIndexByElement(target);
@@ -421,7 +423,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedValue, slot: slotIndex});
       } else {
         // TAP
-        // 
+        //
         // Detect if user touches on upper third or lower third off spinning wheel.
         // Depending on this detection, the value increases/decreases.
         var viewportTop = evt.getViewportTop();
@@ -471,9 +473,9 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         if(targetOffset < lowerBounce) {
           targetOffset = lowerBounce;
         }
-        
+
         target.setTranslateY(targetOffset);
-        
+
         var steps = Math.round(-deltaY/labelHeight);
         var newIndex = selectedIndex+steps;
 
@@ -562,6 +564,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     /**
      * Creates a {@link qx.ui.mobile.container.Composite} which represents a picker slot.
      * @param slotIndex {Integer} index of this slot.
+     * @return {qx.ui.mobile.container.Composite} The picker slot widget
      */
     _createPickerSlot : function(slotIndex) {
       var pickerSlot = new qx.ui.mobile.container.Composite();
@@ -581,6 +584,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     /**
      * Creates a {@link qx.ui.mobile.container.Composite} which represents a picker label.
      * @param textValue {String} the caption of the label.
+     * @return {qx.ui.mobile.basic.Label} The picker label
      */
     _createPickerValueLabel : function(textValue) {
       var pickerLabel = new qx.ui.mobile.basic.Label(textValue);

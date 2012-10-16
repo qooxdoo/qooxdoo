@@ -117,6 +117,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * @param scope {Object} The scope of the handler
      * @param buttons {String[]} Each text entry of the array represents a button and
      *     its title
+     * @return {qx.ui.mobile.dialog.Dialog} The dialog widget
      * @lint ignoreDeprecated(confirm)
      */
     confirm : function(title, text, handler, scope, buttons)
@@ -147,6 +148,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * @param scope {Object} The scope of the handler
      * @param buttons {String[]} Each text entry of the array represents a button and
      *     its title
+     * @return {qx.ui.mobile.dialog.Dialog} The dialog widget
      * @lint ignoreDeprecated(confirm)
      */
     input : function(title, text, handler, scope, buttons)
@@ -166,6 +168,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      *     of the pressed button, starting from 1.
      * @param scope {Object} The scope of the handler
      * @param button {String} The text entry represents a button and its title
+     * @return {qx.ui.mobile.dialog.Dialog} The dialog widget
      * @lint ignoreDeprecated(confirm)
      */
     error : function(title, text, handler, scope, button)
@@ -198,6 +201,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      *     of the pressed button, starting from 1.
      * @param scope {Object} The scope of the handler
      * @param button {String} The text entry represents a button and its title
+     * @return {qx.ui.mobile.dialog.Dialog} The dialog widget
      * @lint ignoreDeprecated(confirm)
      */
     warning : function(title, text, handler, scope, button)
@@ -229,6 +233,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * @param scope {Object} The scope of the handler
      * @param buttons {String[]} Each text entry of the array represents a button and
      *     its title
+     * @return {qx.ui.mobile.dialog.Dialog} The dialog widget
      * @lint ignoreDeprecated(confirm)
      */
     wait : function(title, text, handler, scope, buttons)
@@ -268,6 +273,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * @param scope {Object} The scope of the handler
      * @param buttons {String[]} Each text entry of the array represents a button and
      *     its title
+     * @return {qx.ui.mobile.dialog.Dialog} The dialog widget
      * @param dialogType {Integer} One of the static dialog types.
      */
     __showNonNativeDialog: function(title, text, handler, scope, buttons, dialogType)

@@ -166,9 +166,10 @@ qx.Class.define("qx.ui.form.Resetter",
 
 
     /**
-     * Internel helper top access the value of a given item.
+     * Internal helper top access the value of a given item.
      *
      * @param item {qx.ui.core.Widget} The item to access.
+     * @return {var} The item's value
      */
     __getCurrentValue : function(item)
     {

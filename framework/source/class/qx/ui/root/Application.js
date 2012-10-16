@@ -97,7 +97,10 @@ qx.Class.define("qx.ui.root.Application",
 
     // overridden
     /**
+     * Create the widget's container HTML element.
+     *
      * @lint ignoreDeprecated(alert)
+     * @return {qx.html.Element} The container HTML element
      */
     _createContainerElement : function()
     {

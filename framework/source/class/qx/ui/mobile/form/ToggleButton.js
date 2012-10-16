@@ -138,6 +138,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     /**
      * Creates the child control of the widget. Needed to display the toggle
      * button.
+     * @return {qx.ui.mobile.container.Composite} The child control
      */
     _createChild : function() {
       var composite = new qx.ui.mobile.container.Composite();
@@ -205,8 +206,8 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
         this.toggle();
       }
     },
-    
-    
+
+
      /**
      * Event handler. Called when the touchmove event occurs.
      * Prevents bubbling, because on swipe no scrolling of outer container is wanted.
@@ -221,7 +222,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     /**
      * Event handler. Called when the swipe event occurs.
      * Toggles the button, when.
-     * 
+     *
      * @param evt {qx.event.type.Swipe} The swipe event.
      */
     _onSwipe : function(evt)
@@ -234,19 +235,20 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
           }
         } else {
           if(this.__value == false) {
-            this.toggle(); 
+            this.toggle();
           }
         }
       }
     },
-    
-    
+
+
     /**
      * Checks if last touch event (swipe,tap) is more than 500ms ago.
      * Bugfix for several simulator/emulator, when tap is immediately followed by a swipe.
+     * @return {Boolean} <code>true</code> if the last event was more than 500ms ago
      */
     _checkLastTouchTime : function() {
-      var elapsedTime = new Date().getTime() - this.__lastToggleTimestamp; 
+      var elapsedTime = new Date().getTime() - this.__lastToggleTimestamp;
       this.__lastToggleTimestamp = new Date().getTime();
       return elapsedTime>500;
     }

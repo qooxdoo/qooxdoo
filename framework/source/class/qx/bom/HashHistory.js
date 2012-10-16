@@ -182,12 +182,13 @@ qx.Class.define("qx.bom.HashHistory",
      * Returns the fragment identifier of the top window URL. For gecko browsers we
      * have to use a regular expression to avoid encoding problems.
      *
-     * @return {String} the fragment identifier
+     * @return {String|null} the fragment identifier or <code>null</code> if the
+     * iframe isn't ready yet
      */
     _getHash : function()
     {
       if (!this.__iframeReady){
-        return;
+        return null;
       }
       return this.__iframe.contentWindow.document.location.hash;
     },

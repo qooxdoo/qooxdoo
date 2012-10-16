@@ -260,7 +260,8 @@ qx.Class.define("qx.log.appender.Console",
       }
 
       if (value == "clear") {
-        return this.clear();
+        this.clear();
+        return;
       }
 
       var command = document.createElement("div");

@@ -348,6 +348,8 @@ qx.Class.define("qx.event.handler.DragDrop",
      *    depending on the drag event
      * @param cancelable {Boolean} Whether the event is cancelable
      * @param original {qx.event.type.Mouse} Original mouse event
+     * @return {Boolean} <code>true</code> if the event's default behavior was
+     * not prevented
      */
     __fireEvent : function(type, target, relatedTarget, cancelable, original)
     {

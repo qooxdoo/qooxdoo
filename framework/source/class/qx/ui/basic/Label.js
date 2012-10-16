@@ -377,6 +377,7 @@ qx.Class.define("qx.ui.basic.Label",
      * Internal utility to compute the content dimensions.
      *
      * @param width {Integer?null} Optional width constraint
+     * @return {Map} Map with <code>width</code> and <code>height</code> keys
      */
     __computeContentSize : function(width)
     {

@@ -1019,7 +1019,6 @@ qx.Class.define("qx.util.format.DateFormat",
      * The parse contains everything needed for parsing: The regular expression
      * (in compiled and uncompiled form) and the used rules.
      *
-     * @return {Map} the parse feed.
      * @throws {Error} If the date format is malformed.
      */
     __initParseFeed : function()
@@ -1027,7 +1026,7 @@ qx.Class.define("qx.util.format.DateFormat",
       if (this.__parseFeed != null)
       {
         // We already have the parse feed
-        return ;
+        return;
       }
 
       var format = this.__format;

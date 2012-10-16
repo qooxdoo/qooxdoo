@@ -1229,7 +1229,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Move
       var domEl = elem.getDomElement();
-      // use the DOM element because the cache of the qx.html.Element could be 
+      // use the DOM element because the cache of the qx.html.Element could be
       // wrong due to changes made by the decorators which work on the DOM element too
       if (domEl) {
         domEl.style.top = bounds.top + "px";
@@ -1743,6 +1743,8 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * This function may be overridden to customize a class
      * content.
+     *
+     * @return {qx.html.Element} The widget's content element
      */
     _createContentElement : function()
     {
@@ -2352,8 +2354,6 @@ qx.Class.define("qx.ui.core.Widget",
      * the native behavior of the browser.
      *
      * The protector is placed between the content and the decoration.
-     *
-     * @return {qx.html.Element} The protector element
      */
     _createProtectorElement : function()
     {

@@ -84,6 +84,8 @@ qx.Bootstrap.define("qx.Mixin",
      *         corresponding event type classes.
      *     </td></tr>
      *   </table>
+     *
+     * @return {qx.Mixin} The configured mixin
      */
     define : function(name, config)
     {
@@ -176,6 +178,7 @@ qx.Bootstrap.define("qx.Mixin",
      *
      * @param mixins {Mixin[]} an array of mixins
      * @throws {Error} when there is a conflict between the mixins
+     * @return {Boolean} <code>true</code> if the mixin passed the compatibilty check
      */
     checkCompatibility : function(mixins)
     {

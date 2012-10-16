@@ -341,7 +341,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
       // through this good working switch this part costs nothing when
       // processing non-smart properties
       if (smart!==false && this.__special[name]) {
-        return this.__special[name].set(element, value);
+        this.__special[name].set(element, value);
       } else {
         element.style[name] = value !== null ? value : "";
       }
@@ -415,7 +415,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
 
       // special handling for specific properties
       if (smart!==false && this.__special[name]) {
-        return this.__special[name].reset(element);
+        this.__special[name].reset(element);
       } else {
         element.style[name] = "";
       }

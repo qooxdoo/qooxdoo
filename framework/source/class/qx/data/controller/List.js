@@ -985,6 +985,7 @@ qx.Class.define("qx.data.controller.List",
      * Function for accessing the lookup table.
      *
      * @param index {Integer} The index of the lookup table.
+     * @return {Number} Item index from lookup table
      */
     __lookup: function(index) {
       return this.__lookupTable[index];

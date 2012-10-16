@@ -89,6 +89,7 @@ qx.Class.define("qx.bom.Element",
      *         the event listener.
      * @param capture {Boolean} Whether to remove the event listener of
      *       the bubbling or of the capturing phase.
+     * @return {Boolean} <code>true</code> if the listener was removed
      */
     removeListener : function(element, type, listener, self, capture) {
       return qx.event.Registration.removeListener(element, type, listener, self, capture);
@@ -101,6 +102,7 @@ qx.Class.define("qx.bom.Element",
      *
      * @param target {Object} The event target
      * @param id {String} The id returned by {@link #addListener}
+     * @return {Boolean} <code>true</code> if the listener was removed
      */
     removeListenerById : function(target, id) {
       return qx.event.Registration.removeListenerById(target, id);

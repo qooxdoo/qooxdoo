@@ -474,7 +474,7 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
         functionCode = propData[funcName]
         node = treeutil.compileString(functionCode)
         commentAttributes = Comment.parseNode(node)[-1]
-        docNode = handleFunction(node, funcName, commentAttributes, classNode)
+        docNode = handleFunction(node, funcName, commentAttributes, classNode, False, False)
         docNode.remove("line")
         docNode.set("fromProperty", propertyName)
         classNode.addListChild("methods", docNode)
@@ -833,7 +833,24 @@ def handleConstantDefinition(item, classNode):
     classNode.addListChild("constants", node)
 
 
-def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDesc=True, checkReturn=False):
+def getReturnNodes(parent):
+    returnNodes = []
+
+    def getReturnNode(parent):
+        for node in parent.getChildren():
+            if node.type == "return":
+                returnNodes.append(node)
+                continue
+            if node.type == "function":
+                continue
+            if len(node.getChildren()) > 0:
+                getReturnNode(node)
+
+    getReturnNode(parent)
+    return returnNodes
+
+
+def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDesc=True, checkReturn=True):
 
     node = tree.Node("method")
     node.set("name", name)
@@ -858,9 +875,9 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             node.addListChild("params", paramNode)
 
     # Check whether the function is abstract
-    bodyBlockItem = funcItem.getChild("body").getFirstChild();
-    if bodyBlockItem.type == "block" and bodyBlockItem.hasChildren():
-        firstStatement = bodyBlockItem.children[0];
+    #bodyBlockItem = funcItem.getChild("body").getFirstChild()
+    #if bodyBlockItem.type == "block" and bodyBlockItem.hasChildren():
+    #    firstStatement = bodyBlockItem.children[0]
 
     handleAccess(node, commentAttributes)
 
@@ -920,26 +937,24 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
         elif attrib["category"] == "throws":
 
             if node.hasChild("throws"):
-              throwsNode = node.getChild("throws")
+                throwsNode = node.getChild("throws")
             else:
-              throwsNode = tree.Node("throws")
+                throwsNode = tree.Node("throws")
 
             if not "text" in attrib:
                 addError(node, "Throws documentation is missing.", funcItem)
             else:
-              child = tree.Node("desc")
-              child.set("text", attrib["text"])
-
-              if "type" in attrib:
-                child.set("type", attrib["type"])
-
-              throwsNode.addChild(child)
-              node.addChild(throwsNode)
+                child = tree.Node("desc")
+                child.set("text", attrib["text"])
+                if "type" in attrib:
+                    child.set("type", attrib["type"])
+                throwsNode.addChild(child)
+                node.addChild(throwsNode)
 
     # Check for documentation errors
     # Check whether all parameters have been documented
     if node.hasChild("params"):
-        paramsListNode = node.getChild("params");
+        paramsListNode = node.getChild("params")
         for paramNode in paramsListNode.children:
             if not paramNode.getChild("desc", False):
                 addError(node, "Parameter <code>%s</code> is not documented." % paramNode.get("name"), funcItem)
@@ -973,10 +988,15 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 
         if hasComment and not isInterface and not hasSignatureDef and not isAbstract:
 
+            returnNodes = getReturnNodes(funcItem)
             hasReturnValue = False
-            for returnNode in treeutil.nodeIterator(funcItem, ["return"]):
-                if returnNode.hasChild("expression"):
+            hasNoReturnValue = False
+            hasReturnNodes = len(returnNodes) > 0
+            for returnNode in returnNodes:
+                if len(returnNode.getChildren()) > 0:
                     hasReturnValue = True
+                else:
+                    hasNoReturnValue = True
 
             hasReturnDoc = False
             if Comment.getAttrib(commentAttributes, "return"):
@@ -988,17 +1008,15 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
                 if not hasVoidType:
                     hasReturnDoc = True
 
-            if hasReturnDoc and not hasReturnValue:
-                #debug()
-                msg = classNode.get("fullName") + "#" + name + " documents a returned value but returns nothing!"
-                print msg
-                #printDocError(funcItem, msg)
-                addError(node, "Documentation for return value but returns nothing.", funcItem)
+            isSingletonGetInstance = classNode.get("isSingleton", False) and name == "getInstance"
+
+            if hasReturnDoc and not hasReturnNodes and not isSingletonGetInstance:
+                addError(node, "Has documentation for return value but contains no return statement.", funcItem)
+            if hasReturnDoc and (not hasReturnValue and hasNoReturnValue):
+                addError(node, "Has documentation for return value but returns nothing.", funcItem)
+            if hasReturnDoc and hasReturnValue and hasNoReturnValue:
+                addError(node, "Has documentation for return value but at least one return statement has no value.", funcItem)
             if hasReturnValue and not hasReturnDoc:
-                #debug()
-                msg = classNode.get("fullName") + "#" + name + " missing documentation for returned value!"
-                print msg
-                #printDocError(funcItem, msg)
                 addError(node, "Missing documentation for return value.", funcItem)
 
     return node

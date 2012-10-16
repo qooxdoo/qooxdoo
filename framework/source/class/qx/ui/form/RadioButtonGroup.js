@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      * @throws {Error} if the item is not a child element.
      */
     setSelection : function(items) {
-      return this.__radioGroup.setSelection(items);
+      this.__radioGroup.setSelection(items);
     },
 
 
@@ -253,7 +253,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      * Clears the whole selection at once.
      */
     resetSelection : function() {
-      return this.__radioGroup.resetSelection();
+      this.__radioGroup.resetSelection();
     },
 
 
