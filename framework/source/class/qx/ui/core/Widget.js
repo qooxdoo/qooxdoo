@@ -3442,7 +3442,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Event listener for own <code>dragmove</code> event.
+     * Event listener for own <code>drag</code> event.
      *
      * @param e {qx.event.type.Drag} Drag event
      */
