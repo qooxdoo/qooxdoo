@@ -300,7 +300,8 @@ class Locale(object):
             if statsObj:
                statsObj.update(locale, 0, 0)
             # Get relevant entries from po files for this locale, and convert to dict
-            pot = translationsFromPofiles(LocalesToPofiles[locale], pot, statsObj.stats[locale]) # loop through .po files, updating pot
+            pot = translationsFromPofiles(LocalesToPofiles[locale], pot, 
+                statsObj.stats[locale] if statsObj else statsObj) # loop through .po files, updating pot
             poentries = pot.translated_entries()
             if addUntranslatedEntries:
                 poentries.extend(pot.untranslated_entries())
