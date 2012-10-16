@@ -31,7 +31,15 @@ qx.Class.define("mobileshowcase.page.Event",
     this.setTitle("Events");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
-    
+
+    this.__touchCircleLeft = [];
+    this.__touchCircleTop = [];
+    this.__touchPoints = [];
+    for (var i=0; i < 15; i++) {
+      this.__touchCircleLeft[i] = -1000;
+      this.__touchCircleTop[i] = -1000;
+    }
+
     this.__isFirefox = qx.core.Environment.get("browser.name")=="firefox";
     if(this.__isFirefox==true) {
       this.__vendorPrefix="moz";
@@ -47,7 +55,7 @@ qx.Class.define("mobileshowcase.page.Event",
     __gestureTargetWrap : null,
     __label : null,
     __inMove : null,
-    __touchPoints : [],
+    __touchPoints : null,
     __lastEventType :"",
     __initialScale : 1,
     __initialRotation : -15,
@@ -60,11 +68,10 @@ qx.Class.define("mobileshowcase.page.Event",
     __vendorPrefix:"webkit",
     __logoLeft:-130,
     __logoTop:-130,
-    __touchCircleLeft:[-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000],
-    __touchCircleTop:[-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000],
+    __touchCircleLeft: null,
+    __touchCircleTop: null,
     __touchCount:0,
-    
-    
+
 
     // overridden
     _initialize : function()

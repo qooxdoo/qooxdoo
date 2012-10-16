@@ -599,6 +599,7 @@ qx.Class.define("qx.ui.menu.Menu",
     /**
      * Computes the size of the menu. This method is used by the
      * {@link qx.ui.core.MPlacement} mixin.
+     * @return {Map} The menu bounds
      */
     _computePlacementSize : function() {
       return this._getMenuBounds();
@@ -650,6 +651,8 @@ qx.Class.define("qx.ui.menu.Menu",
      * after the slidebar has been added.
      *
      * @param callback {Function} the callback to call
+     * @return {var|undefined} The return value of the callback if the slidebar
+     * already exists, or <code>undefined</code> if it doesn't
      */
     _assertSlideBar : function(callback)
     {

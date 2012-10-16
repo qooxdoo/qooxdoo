@@ -190,6 +190,7 @@ qx.Class.define("qx.html.Iframe",
      * Sets iframe's source attribute to given value
      *
      * @param source {String} URL to be set.
+     * @return {qx.html.Iframe} The current instance for chaining
      */
     setSource : function(source)
     {
@@ -213,6 +214,7 @@ qx.Class.define("qx.html.Iframe",
      * Sets iframe's name attribute to given value
      *
      * @param name {String} Name to be set.
+     * @return {qx.html.Iframe} The current instance for chaining
      */
     setName : function(name)
     {

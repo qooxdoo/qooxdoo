@@ -712,7 +712,7 @@
  *     </tr>
  *     <tr>
  *       <td>qx.theme</td><td><i>String</i></td><td><code>qx.theme.Modern</code></td>
- *       <td><i>default:</i> <code>&lt;&lt;theme name&gt;&gt;</code></td>
+ *       <td><i>default:</i> <code>&lt;&lt;initial theme name&gt;&gt;</code></td>
  *     </tr>
  *     <tr>
  *       <td>qx.version</td><td><i>String</i></td><td><code>${qxversion}</code></td>

@@ -319,10 +319,21 @@ qx.Class.define("qx.event.handler.DragDrop",
         }
       }
 
-      if (current != this.__currentAction)
-      {
-        this.__currentAction = current;
-        this.__fireEvent("dragchange", this.__dragTarget, this.__dropTarget, false);
+      var old = this.__currentAction;
+      if (current != old) {
+
+        if (this.__dropTarget) {
+          this.__currentAction = current;
+          this.__validAction = this.__fireEvent("dragchange", this.__dropTarget, this.__dragTarget, true);
+          if (!this.__validAction) {
+            current = null;
+          }
+        }
+
+        if (current != old) {
+          this.__currentAction = current;
+          this.__fireEvent("dragchange", this.__dragTarget, this.__dropTarget, false);
+        }
       }
     },
 
@@ -337,6 +348,8 @@ qx.Class.define("qx.event.handler.DragDrop",
      *    depending on the drag event
      * @param cancelable {Boolean} Whether the event is cancelable
      * @param original {qx.event.type.Mouse} Original mouse event
+     * @return {Boolean} <code>true</code> if the event's default behavior was
+     * not prevented
      */
     __fireEvent : function(type, target, relatedTarget, cancelable, original)
     {
@@ -421,7 +434,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     /**
      * Cleans up a drag&drop session when <code>dragstart</code> was fired before.
      */
-    __clearSession : function()
+    clearSession : function()
     {
       if (this.__sessionActive)
       {
@@ -469,7 +482,7 @@ qx.Class.define("qx.event.handler.DragDrop",
      * @param e {qx.event.type.Event} Event object
      */
     _onWindowBlur : function(e) {
-      this.__clearSession();
+      this.clearSession();
     },
 
 
@@ -528,7 +541,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       switch(iden)
       {
         case "Escape":
-          this.__clearSession();
+          this.clearSession();
       }
     },
 
@@ -572,7 +585,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     _onMouseUp : function(e)
     {
       // Fire drop event in success case
-      if (this.__validDrop) {
+      if (this.__validDrop && this.__validAction) {
         this.__fireEvent("drop", this.__dropTarget, this.__dragTarget, false, e);
       }
 
@@ -582,7 +595,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
 
       // Clean up
-      this.__clearSession();
+      this.clearSession();
     },
 
 
@@ -598,7 +611,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       {
         // Fire specialized move event
         if (!this.__fireEvent("drag", this.__dragTarget, this.__dropTarget, true, e)) {
-          this.__clearSession();
+          this.clearSession();
         }
       }
       else

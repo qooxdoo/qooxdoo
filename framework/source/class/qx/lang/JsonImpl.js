@@ -387,6 +387,7 @@ qx.Bootstrap.define("qx.lang.JsonImpl",
      * @param holder {Object} the root object
      * @param key {String} walk holder[key]
      * @param reviver {Function} callback, which is called on every node.
+     * @return {var} The reviver's return value
      */
     __walk : function(holder, key, reviver)
     {

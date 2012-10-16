@@ -293,7 +293,7 @@ qx.Class.define("qx.bom.Shortcut",
       if (!key)
       {
         // no shortcut defined.
-        return ;
+        return false;
       }
 
       // for check special keys

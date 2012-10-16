@@ -88,6 +88,8 @@ qx.Bootstrap.define("qx.Interface",
      *     <tr><th>properties</th><td>Map</td><td>Map of properties and their definitions.</td></tr>
      *     <tr><th>events</th><td>Map</td><td>Map of event names and the corresponding event class name.</td></tr>
      *   </table>
+     *
+     * @return {qx.Interface} The configured interface
      */
     define : function(name, config)
     {

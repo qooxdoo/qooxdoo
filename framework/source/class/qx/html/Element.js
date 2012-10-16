@@ -486,6 +486,7 @@ qx.Class.define("qx.html.Element",
     /**
      * Internal helper to generate the DOM element
      *
+     * @return {Element} DOM element
      */
     _createDomElement : function() {
       return qx.dom.Element.create(this.__nodeName);
@@ -857,6 +858,7 @@ qx.Class.define("qx.html.Element",
      *
      * This method is quite performance hungry as it
      * really walks up recursively.
+     * @return {Boolean} <code>true</code> if the element will be seeable
      */
     __willBeSeeable : function()
     {
@@ -1092,7 +1094,7 @@ qx.Class.define("qx.html.Element",
     {
       var children = this.__children;
       if (!children) {
-        return;
+        return this;
       }
 
       if (arguments[1])
@@ -1312,7 +1314,7 @@ qx.Class.define("qx.html.Element",
       }
 
       if (!parent.__children) {
-        return;
+        return this;
       }
 
       parent.__removeChildHelper(this);
@@ -1496,7 +1498,7 @@ qx.Class.define("qx.html.Element",
     include : function()
     {
       if (this.__included) {
-        return;
+        return this;
       }
 
       delete this.__included;
@@ -1518,7 +1520,7 @@ qx.Class.define("qx.html.Element",
     exclude : function()
     {
       if (!this.__included) {
-        return;
+        return this;
       }
 
       this.__included = false;
@@ -1554,7 +1556,7 @@ qx.Class.define("qx.html.Element",
      *   the fade animation.
      */
     fadeIn : function() {
-      var col = q(this.__element);
+      var col = qxWeb(this.__element);
       if (col.isPlaying()) {
         col.stop();
       }
@@ -1576,7 +1578,7 @@ qx.Class.define("qx.html.Element",
      *   the fade animation.
      */
     fadeOut : function() {
-      var col = q(this.__element);
+      var col = qxWeb(this.__element);
       if (col.isPlaying()) {
         col.stop();
       }
@@ -1609,7 +1611,7 @@ qx.Class.define("qx.html.Element",
     show : function()
     {
       if (this.__visible) {
-        return;
+        return this;
       }
 
       if (this.__element)
@@ -1636,7 +1638,7 @@ qx.Class.define("qx.html.Element",
     hide : function()
     {
       if (!this.__visible) {
-        return;
+        return this;
       }
 
       if (this.__element)
@@ -2113,7 +2115,7 @@ qx.Class.define("qx.html.Element",
       }
 
       if (this.__styleValues[key] == value) {
-        return;
+        return this;
       }
 
       if (value == null) {
@@ -2237,6 +2239,7 @@ qx.Class.define("qx.html.Element",
      */
     removeStyle : function(key, direct) {
       this.setStyle(key, null, direct);
+      return this;
     },
 
 
@@ -2286,7 +2289,7 @@ qx.Class.define("qx.html.Element",
       }
 
       if (this.__attribValues[key] == value) {
-        return;
+        return this;
       }
 
       if (value == null) {
@@ -2352,7 +2355,7 @@ qx.Class.define("qx.html.Element",
      * @return {qx.html.Element} this object (for chaining support)
      */
     removeAttribute : function(key, direct) {
-      this.setAttribute(key, null, direct);
+      return this.setAttribute(key, null, direct);
     },
 
 
@@ -2386,6 +2389,7 @@ qx.Class.define("qx.html.Element",
      * @param name {String} Unique property identifier
      * @param value {var} Any valid value (depends on the property)
      * @return {qx.html.Element} this object (for chaining support)
+     * @abstract
      */
     _applyProperty : function(name, value) {
       // empty implementation
@@ -2408,7 +2412,7 @@ qx.Class.define("qx.html.Element",
       }
 
       if (this.__propertyValues[key] == value) {
-        return;
+        return this;
       }
 
       if (value == null) {
@@ -2455,7 +2459,7 @@ qx.Class.define("qx.html.Element",
      * @return {qx.html.Element} this object (for chaining support)
      */
     _removeProperty : function(key, direct) {
-      this._setProperty(key, null, direct);
+      return this._setProperty(key, null, direct);
     },
 
 

@@ -147,6 +147,74 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   min-width:75px;
 }
 
+
+//
+// SCROLL CONTAINER
+//
+
+@scShadowOffset:10px;
+@scShadowColor:rgba(0,0,0,0.3);
+@scShadowColorLight:rgba(0,0,0,0.2);
+@scGradientVerticalOffset:15px;
+
+.scrollContainer {
+  .border-radius(8px);
+  border: 1px solid @button-border-color;
+  background-color:white;
+
+  .box-inset-multi-shadow (
+      0px @scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColorLight, 
+      0px -@scShadowOffset @scShadowOffset -@scShadowOffset @scShadowColorLight
+  );
+}
+
+.scrollContainer textarea {
+  border:none;
+  padding:2px;
+  background:none;
+}
+
+.scrollContainer:before {
+  .border-radius-top(8px);
+  position:absolute;
+  top:0px;
+  z-index:500;
+
+  .box-inset-multi-shadow(
+      0px @scShadowOffset*1.4 @scShadowOffset -@scShadowOffset @scShadowColor, 
+      0px 0px @scShadowOffset -@scShadowOffset @scShadowColor
+  );
+
+  content:'';
+  width:100%;
+  height:0px;
+}
+
+.scrollContainer.scrollableTop:before {
+  height:30px;
+}
+
+.scrollContainer:after {
+  .border-radius-bottom(8px);
+  position:absolute;
+  bottom:0px;
+  z-index:500;
+
+  .box-inset-multi-shadow(
+      0px 0px @scShadowOffset -@scShadowOffset @scShadowColor, 
+      0px -@scShadowOffset*1.4 @scShadowOffset -@scShadowOffset @scShadowColor
+  );
+
+  content:'';
+  width:100%;
+  height:0px;
+}
+
+.scrollContainer.scrollableBottom:after {
+    height:30px;
+}
+
+
 //
 // FORM RENDERING
 //
@@ -408,34 +476,68 @@ input[type="checkbox"]:checked + label {
   display: none;
 }
 
+.arrow() {
+  position:absolute;
+  content:'';
+}
+
+@arrow-size: 12px;
 @arrow-shadow:rgba(0,0,0,0.3);
 
-.arrow() {
-  border-left-color:@dialog-border-color;
-  border-top-color:@dialog-border-color;
-  border-right:none;
-  border-bottom:none;
-
-  .box-shadow(-1px -1px 2px @arrow-shadow);
-}
-
 // ARROW TOP
+
 .popupAnchorPointerTop:before
 {
-  @arrow-color:#637396;
-  
-  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50.9%, 51%);
-
   .arrow();
+  #triangle > .up(@arrow-size+2, @dialog-border-color);
 }
 
-// ARROW LEFT, ARROW RIGHT, ARROW BOTTOM
-.popupAnchorPointerLeft:before, .popupAnchorPointerRight:before, .popupAnchorPointerBottom:after
+.popupAnchorPointerTop:after
 {
-  @arrow-color:#1D3566;
-  #gradient > .diagonal(@arrow-color, rgba(0,0,0,0), 50.9%, 51%);
-
   .arrow();
+  #triangle > .up(@arrow-size, #6E7D9D);
+}
+
+// ARROW BOTTOM
+
+.popupAnchorPointerBottom:before
+{
+  .arrow();
+  #triangle > .down(@arrow-size+2, @dialog-border-color);
+}
+
+.popupAnchorPointerBottom:after
+{
+  .arrow();
+  #triangle > .down(@arrow-size, #1D3566);
+}
+
+// ARROW LEFT
+
+.popupAnchorPointerLeft:before
+{
+  .arrow();
+  #triangle > .left(@arrow-size+2, @dialog-border-color);
+}
+
+.popupAnchorPointerLeft:after
+{
+  .arrow();
+  #triangle > .left(@arrow-size, #1D3566);
+}
+
+// ARROW RIGHT
+
+.popupAnchorPointerRight:before
+{
+  .arrow();
+  #triangle > .right(@arrow-size+2, @dialog-border-color);
+}
+
+.popupAnchorPointerRight:after
+{
+  .arrow();
+  #triangle > .right(@arrow-size, #1D3566);
 }
 
 

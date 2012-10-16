@@ -315,6 +315,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
      * Performs a lookup.
      *
      * @param index {Number} The index to look at.
+     * @return {qx.core.Object} The model item for the given index
      */
     __lookup: function(index) {
       return this.__lookupTable[index];
@@ -581,6 +582,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
      * Accessor for the row data.
      *
      * @param row {Number} The row to access.
+     * @return {var} Data for the given row
      */
     getCellData: function(row) {
       return this._getRowData(row) || "";

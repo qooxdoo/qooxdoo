@@ -198,6 +198,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
+     * @return {Integer} The route ID
      */
     onGet : function(route, handler, scope)
     {
@@ -212,6 +213,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
+     * @return {Integer} The route ID
      */
     onPost : function(route, handler, scope)
     {
@@ -226,6 +228,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
+     * @return {Integer} The route ID
      */
     onPut : function(route, handler, scope)
     {
@@ -240,6 +243,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
+     * @return {Integer} The route ID
      */
     onDelete : function(route, handler, scope)
     {
@@ -254,6 +258,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
+     * @return {Integer} The route ID
      */
     onAny : function(route, handler, scope)
     {
@@ -268,6 +273,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
+     * @return {Integer} The route ID
      */
     _addRoute : function(operation, route, handler, scope)
     {
@@ -489,8 +495,6 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      * @param path {String} The path to check
      * @param params {Map} The given parameters that should be propagated
      * @param customData {var} The given custom data that should be propagated
-     *
-     * @return {Boolean} Whether the route has been executed
      */
     _execute : function(operation, path, params, customData)
     {
@@ -504,7 +508,9 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
       if (!routeMatched && !routeMatchedAny) {
         this.info("No route found for " + path);
-      }
+        return false;
+      } 
+      return true;
     },
 
 

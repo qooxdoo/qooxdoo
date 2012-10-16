@@ -140,6 +140,7 @@ qx.Bootstrap.define("qx.application.Routing", {
      * @param route {String|RegExp} The route, used for checking if the executed path matches.
      * @param handler {Function} The handler to call, when the route matches with the executed path.
      * @param scope {Object} The scope of the handler.
+     * @return {String} Event listener ID
      */
     onGet : function(route, handler, scope) {
       return this.__messaging.on("get", route, handler, scope);
@@ -152,6 +153,7 @@ qx.Bootstrap.define("qx.application.Routing", {
      * @param route {String|RegExp} The route, used for checking if the executed path matches.
      * @param handler {Function} The handler to call, when the route matches with the executed path.
      * @param scope {Object} The scope of the handler.
+     * @return {String} Event listener ID
      */
     on : function(route, handler, scope) {
       return this.onGet(route, handler, scope);
@@ -165,6 +167,7 @@ qx.Bootstrap.define("qx.application.Routing", {
      * @param route {String|RegExp} The route, used for checking if the executed path matches.
      * @param handler {Function} The handler to call, when the route matches with the executed path.
      * @param scope {Object} The scope of the handler.
+     * @return {String} Event listener ID
      */
     onPost : function(route, handler, scope) {
       return this.__messaging.on("post", route, handler, scope);
@@ -178,6 +181,7 @@ qx.Bootstrap.define("qx.application.Routing", {
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
+     * @return {String} Event listener ID
      */
     onPut : function(route, handler, scope) {
       return this.__messaging.on("put", route, handler, scope);
@@ -191,6 +195,7 @@ qx.Bootstrap.define("qx.application.Routing", {
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
+     * @return {String} Event listener ID
      */
     onDelete : function(route, handler, scope) {
       return this.__messaging.on("delete", route, handler, scope);
@@ -204,6 +209,7 @@ qx.Bootstrap.define("qx.application.Routing", {
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
+     * @return {String} Event listener ID
      */
     onAny : function(route, handler, scope) {
       return this.__messaging.onAny(route, handler, scope);

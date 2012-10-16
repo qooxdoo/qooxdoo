@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Martin Wittemann (martinwittemann)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -108,10 +109,10 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     {
       check :
       [
-        "top-left", "top-right",
-        "bottom-left", "bottom-right",
-        "left-top", "left-bottom",
-        "right-top", "right-bottom"
+        "top-left", "top-center", "top-right",
+        "bottom-left", "bottom-center", "bottom-right",
+        "left-top", "left-middle", "left-bottom",
+        "right-top", "right-middle", "right-bottom"
       ],
       init : "bottom-left",
       themeable : true

@@ -206,6 +206,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      * Gets the whole data as an array of maps.
      *
      * Note: Individual items are retrieved by {@link #getRowDataAsMap}.
+     * @return {Map[]} Array of row data maps
      */
     getDataAsMapArray: function() {
       var len = this.getRowCount();

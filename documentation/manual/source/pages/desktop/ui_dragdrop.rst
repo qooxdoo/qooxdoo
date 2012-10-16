@@ -165,7 +165,7 @@ As known from major operating systems, exactly three actions are supported:
 * ``copy``
 * ``alias``
 
-which could be combined in any way the developer likes. qooxdoo renders a matching cursor depending on the currently selected action during the drag&drop sequence. The event ``dragchange`` is fired on the source widget on every change of the currently selected action.
+which could be combined in any way the developer likes. qooxdoo renders a matching cursor depending on the currently selected action during the drag&drop sequence. The event ``dragchange`` is fired on the source widget on every change of the currently selected action. It is also fired on the target and is cancelable which enables the developers to allow only certain actions on targets.
 
 .. _pages/desktop/ui_dragdrop#runtime_checks:
 

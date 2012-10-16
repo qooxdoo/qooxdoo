@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 /**
- * @lint ignoreUndefined(q, samples, hljs)
+ * @lint ignoreUndefined(q, qxWeb, samples, hljs)
  */
 q.ready(function() {
   // remove the warning
@@ -43,7 +43,7 @@ q.ready(function() {
 
 
   // load API data of q
-  q.io.xhr("script/q.json").send().on("loadend", function(xhr) {
+  q.io.xhr("script/qxWeb.json").send().on("loadend", function(xhr) {
     if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
       var ast = JSON.parse(xhr.responseText);
 
@@ -442,9 +442,10 @@ q.ready(function() {
 
   var printTypes = function() {
     var params = "";
-    for (var i = 0; i < this.types.length; i++) {
-      params += addTypeLink(this.types[i]);
-      if (i < this.types.length - 1) {
+    var types = this.types || this.returns.types;
+    for (var i = 0; i < types.length; i++) {
+      params += addTypeLink(types[i]);
+      if (i < types.length - 1) {
         params += ", ";
       }
     }
@@ -642,7 +643,7 @@ q.ready(function() {
     if (type.indexOf("[]") != -1) {
       return "<a target='_blank' href='" + MDC_LINKS["Array"] + "'>" + type + "</a>";
     }
-    if (type == "q") {
+    if (type == "qxWeb") {
       return "<a href='#Core'>q</a>";
     } else if (MDC_LINKS[type]) {
       return "<a target='_blank' href='" + MDC_LINKS[type] + "'>" + type + "</a>";
@@ -654,7 +655,7 @@ q.ready(function() {
     return type;
   };
 
-  var IGNORE_TYPES = ["q", "var", "null"];
+  var IGNORE_TYPES = ["qxWeb", "var", "null"];
 
   var MDC_LINKS = {
     "Event" : "https://developer.mozilla.org/en/DOM/event",

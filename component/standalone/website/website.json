@@ -33,7 +33,7 @@
     "TEST_SCRIPT_PATH"  : "./test/script",
     "Q_INCLUDES" : [
       "qx.module.*",
-      "q"
+      "qxWeb"
     ],
     "API_INCLUDE" : "${Q_INCLUDES}"
   },

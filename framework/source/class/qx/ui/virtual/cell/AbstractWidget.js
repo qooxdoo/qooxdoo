@@ -30,6 +30,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
     /**
      * Creates the widget instance.
      *
+     * @abstract
      * @return {qx.ui.core.LayoutItem} The widget used to render a cell
      */
     _createWidget : function() {

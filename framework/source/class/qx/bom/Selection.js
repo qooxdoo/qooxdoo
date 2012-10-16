@@ -58,7 +58,7 @@ qx.Class.define("qx.bom.Selection",
      *
      * @signature function(node)
      * @param node {Node} node to retrieve the selection for
-     * @return {String?null) selected text as string
+     * @return {String|null} selected text as string
      */
     get : qx.core.Environment.select("engine.name",
     {

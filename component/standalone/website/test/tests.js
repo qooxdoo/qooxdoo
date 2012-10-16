@@ -73,6 +73,10 @@ testrunner.define({
     if (q.$$qx.event) {
       this.assertUndefined(q.$$qx.event.Registration, "event.Registration");
     }
+  },
+
+  testNoConflict : function() {
+    this.assertEquals(q, qxWeb);
   }
 });
 
@@ -461,6 +465,11 @@ testrunner.define({
 
   setUp : testrunner.globalSetup,
   tearDown : testrunner.globalTeardown,
+
+  testIsRendered : function() {
+    this.assertTrue(this.sandbox.isRendered());
+    this.assertFalse(q.create("<div>").isRendered());
+  },
 
   testAdd : function() {
     var test = q.create("<div id='testdiv'/>");
@@ -2497,5 +2506,62 @@ testrunner.define({
     this.assertEquals(1, called);
     this.assertEquals(1, called2);
     this.assertEquals(2, calledAny);
+  }
+});
+
+
+testrunner.define({
+  classname : "Placeholder",
+
+  setUp : function() {
+    if (q.env.get("css.placeholder")) {
+      this.skip("Native placeholder supported.");
+    }
+  },
+
+
+  __test : function(input) {
+    input.appendTo(document.body);
+    input.updatePlaceholder();
+
+    var placeholderEl = input.getProperty(q.$$qx.module.Placeholder.PLACEHOLDER_NAME);
+    this.assertEquals("Hmm", placeholderEl.getHtml());
+    this.assertEquals("block", placeholderEl.getStyle("display"));
+
+
+    input.remove().updatePlaceholder();
+  },
+
+  testTextField : function() {
+    this.__test(q.create("<input type='text' placeholder='Hmm' />"));
+  },
+
+  testPasswordField : function() {
+    this.__test(q.create("<input type='password' placeholder='Hmm' />"));
+  },
+
+  testTextArea : function() {
+    this.__test(q.create("<textarea placeholder='Hmm'></textarea>"));
+  },
+
+  testUpdateStatic : function() {
+    var all = q.create(
+      "<div><input type='text' placeholder='Hmm' />" +
+      "<textarea placeholder='Hmm'></textarea>" +
+      "<input type='password' placeholder='Hmm' /></div>"
+    );
+    all.appendTo(document.body);
+
+    q.placeholder.update();
+    var self = this;
+    all.getChildren("input,textarea").forEach(function(input) {
+      input = q(input);
+
+      var placeholderEl = input.getProperty(q.$$qx.module.Placeholder.PLACEHOLDER_NAME);
+      self.assertEquals("Hmm", placeholderEl.getHtml());
+      input.remove().updatePlaceholder();
+    });
+
+    all.remove();
   }
 });

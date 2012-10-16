@@ -6,11 +6,13 @@
   .dialog();
 }
 
+@label-height:25px;
+
 .picker-slot {
   position:relative;
   top:0px;
 
-  @distance:-12px;
+  @distance:-(@label-height/2);
 
   margin-top:@distance;
   margin-bottom:-@distance;
@@ -51,7 +53,7 @@
   font-size:1.2em;
   padding-left:5px;
   padding-right:5px;
-  height:25px;
+  height:@label-height;
 
 }
 
@@ -59,7 +61,7 @@
   overflow:hidden;
   position:relative;
   .border-radius(0.3em);
-  height:100px;
+  height:4*@label-height;
 }
 
 .picker-container:after {
@@ -74,7 +76,7 @@
   top:0px;
   left:0px;
 
-  background-size:100% 100px;
+  background-size:100% 4*@label-height;
 }
 
 .picker-container:before {
@@ -87,7 +89,6 @@
   z-index:1000;
  
   left:0px;
-
 }
 
 

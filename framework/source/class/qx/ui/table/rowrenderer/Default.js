@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      */
     initThemeValues : function() {
       this.__fontStyleString = "";
-      this.__fontStyleString = {};
+      this.__fontStyle = {};
 
       this._colors = {};
 
@@ -169,6 +169,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      * Get the row's height CSS style taking the box model into account
      *
      * @param height {Integer} The row's (border-box) height in pixel
+     * @return {String} CSS rule for the row height
      */
     getRowHeightStyle : function(height)
     {

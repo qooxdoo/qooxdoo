@@ -99,18 +99,6 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
     _animate : function(el, desc, duration, reverse) {
       this.__normalizeDesc(desc);
 
-      // @deprecated {2.0}
-      if (desc.hasOwnProperty("reverse")) {
-        reverse = desc.reverse;
-        if (qx.core.Environment.get("qx.debug")) {
-          qx.log.Logger.warn(
-            "The key 'reverse' is deprecated: Please use the method " +
-            "'animateReverse' instead."
-          );
-          qx.log.Logger.trace();
-        }
-      }
-
       // debug validation
       if (qx.core.Environment.get("qx.debug")) {
         this.__validateDesc(desc);
@@ -299,8 +287,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
       "true" : function(desc) {
         var possibleKeys = [
           "origin", "duration", "keep", "keyFrames", "delay",
-          "repeat", "timing", "alternate", "reverse"
-          //@deprecated {2.0} (reverse key)
+          "repeat", "timing", "alternate"
         ];
 
         // check for unknown keys

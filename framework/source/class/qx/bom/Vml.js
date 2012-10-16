@@ -42,6 +42,7 @@ qx.Class.define("qx.bom.Vml",
      * @param attributes {Map?null} An optional map of element attributes
      * @param win {var?null} The browser window element, in which the element
      *     should be created.
+     * @return {Element} The VML element
      */
     create : function(type, attributes, win)
     {

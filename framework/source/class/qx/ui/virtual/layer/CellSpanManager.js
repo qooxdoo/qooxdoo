@@ -327,6 +327,8 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
      *    {@link #findCellsInWindow} to get the bounds for
      * @param firstVisibleRow {Map} The pane's first visible row
      * @param firstVisibleColumn {Map} The pane's first visible column
+     * @return {Map} Boundaries map with the keys <code>left</code>,
+     * <code>top</code>, <code>width</code> and <code>height</code>
      */
     _getSingleCellBounds : function(cell, firstVisibleRow, firstVisibleColumn)
     {
@@ -335,7 +337,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
         top: 0,
         width: 0,
         height: 0
-      }
+      };
 
       bounds.height =
         this._getRowPosition(cell.lastRow) +

@@ -49,6 +49,7 @@ qx.Class.define("qx.ui.core.ColumnData",
 
     /**
      * Get the computed width of the column.
+     * @return {Integer} Computed column width
      */
     getComputedWidth : function() {
       return this.__computedWidth;

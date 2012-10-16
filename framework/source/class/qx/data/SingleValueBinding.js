@@ -1061,6 +1061,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param data {var} The data to convert.
      * @param targetCheck {String} The value of the check property. That usually
      *   contains the target type.
+     * @return {Integer|String|Float} The converted data
      */
     __defaultConversion : function(data, targetCheck) {
       var dataType = qx.lang.Type.getClass(data);

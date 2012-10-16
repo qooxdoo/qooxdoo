@@ -194,10 +194,10 @@ def handleClassDefinition(docTree, callNode, variant):
             handleEvents(valueItem, classNode)
 
     handleSingleton(classNode, docTree)
-    
+
     if not classNode.hasChild("desc"):
-        addError(classNode, "Class documentation is missing.", callNode)    
-    
+        addError(classNode, "Class documentation is missing.", callNode)
+
 
 
 def handleClassExtend(valueItem, classNode, docTree, className):
@@ -474,7 +474,7 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
         functionCode = propData[funcName]
         node = treeutil.compileString(functionCode)
         commentAttributes = Comment.parseNode(node)[-1]
-        docNode = handleFunction(node, funcName, commentAttributes, classNode)
+        docNode = handleFunction(node, funcName, commentAttributes, classNode, False, False)
         docNode.remove("line")
         docNode.set("fromProperty", propertyName)
         classNode.addListChild("methods", docNode)
@@ -781,15 +781,15 @@ def handleAccess(docNode, commentAttributes):
 def handleChildControls(item, classNode, className, commentAttributes):
     childControls = {}
     for attrib in commentAttributes:
-        if attrib["category"] == "childControl":            
+        if attrib["category"] == "childControl":
             childControlName = attrib["name"]
             childControlNode = tree.Node("childControl")
             childControlNode.set("name", childControlName)
-            
+
             if not "type" in attrib:
                 printDocError(item, "No type defined for child control '%s' of class %s" %(childControlName,className))
-            addTypeInfo(childControlNode, attrib, item)            
-            
+            addTypeInfo(childControlNode, attrib, item)
+
             classNode.addListChild("childControls", childControlNode)
 
 
@@ -833,11 +833,28 @@ def handleConstantDefinition(item, classNode):
     classNode.addListChild("constants", node)
 
 
-def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDesc=True, checkReturn=False):
+def getReturnNodes(parent):
+    returnNodes = []
+
+    def getReturnNode(parent):
+        for node in parent.getChildren():
+            if node.type == "return":
+                returnNodes.append(node)
+                continue
+            if node.type == "function":
+                continue
+            if len(node.getChildren()) > 0:
+                getReturnNode(node)
+
+    getReturnNode(parent)
+    return returnNodes
+
+
+def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDesc=True, checkReturn=True):
 
     node = tree.Node("method")
     node.set("name", name)
-    
+
     (line, column) = treeutil.getLineAndColumnFromSyntaxItem(funcItem)
     if line:
         node.set("line", line)
@@ -858,9 +875,9 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             node.addListChild("params", paramNode)
 
     # Check whether the function is abstract
-    bodyBlockItem = funcItem.getChild("body").getFirstChild();
-    if bodyBlockItem.type == "block" and bodyBlockItem.hasChildren():
-        firstStatement = bodyBlockItem.children[0];
+    #bodyBlockItem = funcItem.getChild("body").getFirstChild()
+    #if bodyBlockItem.type == "block" and bodyBlockItem.hasChildren():
+    #    firstStatement = bodyBlockItem.children[0]
 
     handleAccess(node, commentAttributes)
 
@@ -920,26 +937,24 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
         elif attrib["category"] == "throws":
 
             if node.hasChild("throws"):
-              throwsNode = node.getChild("throws")
+                throwsNode = node.getChild("throws")
             else:
-              throwsNode = tree.Node("throws")
+                throwsNode = tree.Node("throws")
 
             if not "text" in attrib:
                 addError(node, "Throws documentation is missing.", funcItem)
             else:
-              child = tree.Node("desc")
-              child.set("text", attrib["text"])
-
-              if "type" in attrib:
-                child.set("type", attrib["type"])
-
-              throwsNode.addChild(child) 
-              node.addChild(throwsNode)
+                child = tree.Node("desc")
+                child.set("text", attrib["text"])
+                if "type" in attrib:
+                    child.set("type", attrib["type"])
+                throwsNode.addChild(child)
+                node.addChild(throwsNode)
 
     # Check for documentation errors
     # Check whether all parameters have been documented
     if node.hasChild("params"):
-        paramsListNode = node.getChild("params");
+        paramsListNode = node.getChild("params")
         for paramNode in paramsListNode.children:
             if not paramNode.getChild("desc", False):
                 addError(node, "Parameter <code>%s</code> is not documented." % paramNode.get("name"), funcItem)
@@ -951,12 +966,12 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
     if checkReturn:
         hasComment = len(commentAttributes) > 0
         isInterface = classNode.get("type", False) == "interface"
-        
+
         hasSignatureDef = False
         for docItem in commentAttributes:
             if docItem["category"] == "signature":
                 hasSignatureDef = True
-      
+
         #overrides = False
         #if len(commentAttributes) == 0:
         #    superClassName = classNode.get("superClass", False)
@@ -964,20 +979,25 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
         #        superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
         #        while superClassNode:
         #            superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
-            
-        isAbstract = classNode.get("isAbstract", False) 
+
+        isAbstract = classNode.get("isAbstract", False)
         for attrib in commentAttributes:
             if "category" in attrib:
                 if attrib["category"] == "abstract":
                     isAbstract = True
-        
+
         if hasComment and not isInterface and not hasSignatureDef and not isAbstract:
-            
+
+            returnNodes = getReturnNodes(funcItem)
             hasReturnValue = False
-            for returnNode in treeutil.nodeIterator(funcItem, ["return"]):
-                if returnNode.hasChild("expression"):
+            hasNoReturnValue = False
+            hasReturnNodes = len(returnNodes) > 0
+            for returnNode in returnNodes:
+                if len(returnNode.getChildren()) > 0:
                     hasReturnValue = True
-            
+                else:
+                    hasNoReturnValue = True
+
             hasReturnDoc = False
             if Comment.getAttrib(commentAttributes, "return"):
                 hasVoidType = False
@@ -985,22 +1005,20 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
                     for typeDef in Comment.getAttrib(commentAttributes, "return")["type"]:
                         if typeDef["type"] == "void":
                             hasVoidType = True
-                if not hasVoidType:        
+                if not hasVoidType:
                     hasReturnDoc = True
-            
-            if hasReturnDoc and not hasReturnValue:
-                #debug()
-                msg = classNode.get("fullName") + "#" + name + " documents a returned value but returns nothing!"
-                print msg
-                #printDocError(funcItem, msg)
-                addError(node, "Documentation for return value but returns nothing.", funcItem)
+
+            isSingletonGetInstance = classNode.get("isSingleton", False) and name == "getInstance"
+
+            if hasReturnDoc and not hasReturnNodes and not isSingletonGetInstance:
+                addError(node, "Has documentation for return value but contains no return statement.", funcItem)
+            if hasReturnDoc and (not hasReturnValue and hasNoReturnValue):
+                addError(node, "Has documentation for return value but returns nothing.", funcItem)
+            if hasReturnDoc and hasReturnValue and hasNoReturnValue:
+                addError(node, "Has documentation for return value but at least one return statement has no value.", funcItem)
             if hasReturnValue and not hasReturnDoc:
-                #debug()
-                msg = classNode.get("fullName") + "#" + name + " missing documentation for returned value!"
-                print msg
-                #printDocError(funcItem, msg)
                 addError(node, "Missing documentation for return value.", funcItem)
-    
+
     return node
 
 
@@ -1095,7 +1113,7 @@ def addTypeInfo(node, commentAttrib=None, item=None):
         node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
 
     # add types
-    if "type" in commentAttrib:
+    if "type" in commentAttrib and commentAttrib["type"]:
         typesNode = tree.Node("types")
         node.addChild(typesNode)
 
@@ -1297,7 +1315,7 @@ def connectClass(docTree, classNode):
 
     # Check whether the class is static
     superClassName = classNode.get("superClass", False)
-    if (superClassName == None) \
+    if not superClassName \
         and classNode.getChild("properties", False) == None \
         and classNode.getChild("methods", False) == None:
         # This class is static
@@ -1369,19 +1387,19 @@ def documentApplyMethod(methodNode, props):
     for prop in props:
         propNames.append(prop.get("name"))
         pType = prop.get("check", False)
-        if pType is None or pType == "Custom check function.":
+        if pType is False or pType == "Custom check function.":
             pType = "var"
         paramTypes.append(pType)
-    
+
     # if all properties have the same value for "check", use that
     if paramTypes[1:] == paramTypes[:-1]:
           paramType = paramTypes[0]
-    
+
     if len(propNames) > 1:
         propNames.sort()
         propList = "</code>, <code>".join(propNames[:-1]) + "</code> and <code>" + propNames[-1]
         propNamesString = "properties <code>%s</code>" %propList
-        
+
         linkList = "}, {@link #".join(propNames[:-1]) + "} and {@link #" + propNames[-1]
         propLinksString = "s: {@link #%s}" %linkList
     else:
@@ -1442,10 +1460,10 @@ def markPropertyApply(docTree, classNode):
                 continue
             applyFor = []
             for prop in props.children:
-                if prop.get("apply", None) == name:
+                if prop.get("apply", False) == name:
                     propNode = tree.Node("entry")
                     propNode.set("applies", dep.get("fullName") + "#" + prop.get("name"))
-                    itemNode.addListChild("apply", propNode) 
+                    itemNode.addListChild("apply", propNode)
                     removeErrors(itemNode)
                     applyFor.append(prop)
             if len(applyFor) > 0:
@@ -1491,9 +1509,6 @@ def postWorkItemList(docTree, classNode, listName, overridable):
     # Sort the list
     sortByName(classNode, listName)
 
-    #if classNode.get("name")=="Table":
-    #    import pydb; pydb.debugger()
-
     # Post work all items
     listNode = classNode.getChild(listName, False)
     if listNode:
@@ -1518,6 +1533,10 @@ def postWorkItemList(docTree, classNode, listName, overridable):
                         interfaceItemNode = item.getListChildByAttribute(listName, "name", name, False)
                         if not interfaceItemNode:
                             continue
+                        if item.get("type", "") == "mixin" and not interfaceItemNode.get("isCtor", False):
+                            # item overrides a mixin item included by a super class
+                            overriddenFound = True
+                            itemNode.set("overriddenFrom", item.get("fullName"))
                         itemNode.set("docFrom", item.get("fullName"))
                         docFound = itemHasAnyDocs(interfaceItemNode)
 
@@ -1546,7 +1565,7 @@ def postWorkItemList(docTree, classNode, listName, overridable):
                             # (Any documentation errors will be recorded in the super class)
                             removeErrors(itemNode)
                         else:
-                            docFound = True;
+                            docFound = True
                     if not overriddenFound:
                         # This super class has the item defined -> Add a overridden attribute
                         itemNode.set("overriddenFrom", superClassName)
@@ -1663,7 +1682,7 @@ def packagesToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n", en
 def getPackageData(node):
     data = {
       "type" : node.type
-    } 
+    }
 
     if node.type == "class":
         node.set("externalRef", True)

@@ -432,6 +432,7 @@ qx.Bootstrap.define("qx.bom.element.Location",
     /**
      * Get the location of the body element relative to the document.
      * @param body {Element} The body element.
+     * @return {Map} map with the keys <code>left</code> and <code>top</code>
      */
     __getBodyLocation : function(body)
     {

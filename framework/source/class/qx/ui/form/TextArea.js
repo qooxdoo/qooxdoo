@@ -288,7 +288,8 @@ qx.Class.define("qx.ui.form.TextArea",
     /**
     * Returns the area clone.
     *
-    * @return {Element} DOM Element
+    * @return {Element|null} DOM Element or <code>null</code> if there is no
+    * original element
     */
     __getAreaClone: function() {
       this.__areaClone = this.__areaClone || this.__createAreaClone();
@@ -310,7 +311,7 @@ qx.Class.define("qx.ui.form.TextArea",
 
       // An existing DOM element is required
       if (!orig.getDomElement()) {
-        return;
+        return null;
       }
 
       // Create DOM clone

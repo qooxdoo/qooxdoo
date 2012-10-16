@@ -164,6 +164,7 @@ qx.Class.define("qx.html.Image",
     /**
      * Resets the current source to null which means that no image
      * is shown anymore.
+     * @return {qx.html.Image} The current instance for chaining
      */
     resetSource : function()
     {

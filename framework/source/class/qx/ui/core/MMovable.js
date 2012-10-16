@@ -145,6 +145,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
      * Computes the new drag coordinates
      *
      * @param e {qx.event.type.Mouse} Mouse event
+     * @return {Map} A map with the computed drag coordinates
      */
     __computeMoveCoordinates : function(e)
     {

@@ -51,6 +51,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
     
     __picker : null,
     
+    __anchoredMenu : null,
     __anchorMenu : null,
 
     __modaldialogpopup : null,
@@ -108,6 +109,8 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__picker.setTitle("Picker");
       this.__picker.addSlot(pickerSlot1);
       this.__picker.addSlot(pickerSlot2);
+      this.__picker.setSelectedIndex(0, 1);
+      this.__picker.setSelectedIndex(1, 4);
       
       // ANCHORED MENU DIALOG
       var showAnchorMenuButton = new qx.ui.mobile.form.Button("Show Anchor Menu");

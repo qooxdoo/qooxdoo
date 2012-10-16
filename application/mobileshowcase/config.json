@@ -50,7 +50,8 @@
     "THEME"        : "indigo",  // provide a default
     "CSS_COMB_URI" : "./resource/${APPLICATION}/css/${THEME}-style-min.css",
     "CSS_COMBINED" : "${BUILD_PATH}/${CSS_COMB_URI}",
-    "ROOT"         : "."
+    "ROOT"         : ".",
+    "QXTHEME"      : ""
   },
 
   "config-warnings" : 

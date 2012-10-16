@@ -330,7 +330,10 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Fired when the drag configuration has been modified e.g. the user
-     * pressed a key which changed the selected action.
+     * pressed a key which changed the selected action. This event will be
+     * fired on the draggable and the droppable element. In case of the
+     * droppable element, you can cancel the event and prevent a drop based on
+     * e.g. the current action.
      */
     dragchange : "qx.event.type.Drag",
 
@@ -1226,7 +1229,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Move
       var domEl = elem.getDomElement();
-      // use the DOM element because the cache of the qx.html.Element could be 
+      // use the DOM element because the cache of the qx.html.Element could be
       // wrong due to changes made by the decorators which work on the DOM element too
       if (domEl) {
         domEl.style.top = bounds.top + "px";
@@ -1740,6 +1743,8 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * This function may be overridden to customize a class
      * content.
+     *
+     * @return {qx.html.Element} The widget's content element
      */
     _createContentElement : function()
     {
@@ -2349,8 +2354,6 @@ qx.Class.define("qx.ui.core.Widget",
      * the native behavior of the browser.
      *
      * The protector is placed between the content and the decoration.
-     *
-     * @return {qx.html.Element} The protector element
      */
     _createProtectorElement : function()
     {
@@ -3386,6 +3389,16 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Helper to return a instance of a {@link qx.ui.core.DragDropCursor}.
+     * If you want to use your own DragDropCursor, override this method
+     * and return your custom instance.
+     * @return {qx.ui.core.DragDropCursor} A drag drop cursor implementation.
+     */
+    _getDragDropCursor : function() {
+      return qx.ui.core.DragDropCursor.getInstance();
+    },
+
     // property apply
     _applyDraggable : function(value, old)
     {
@@ -3394,7 +3407,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Force cursor creation
-      qx.ui.core.DragDropCursor.getInstance();
+      this._getDragDropCursor();
 
       // Process listeners
       if (value)
@@ -3436,18 +3449,18 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onDragStart : function(e)
     {
-      qx.ui.core.DragDropCursor.getInstance().placeToMouse(e);
+      this._getDragDropCursor().placeToMouse(e);
       this.getApplicationRoot().setGlobalCursor("default");
     },
 
 
     /**
-     * Event listener for own <code>dragmove</code> event.
+     * Event listener for own <code>drag</code> event.
      *
      * @param e {qx.event.type.Drag} Drag event
      */
     _onDrag : function(e) {
-      qx.ui.core.DragDropCursor.getInstance().placeToMouse(e);
+      this._getDragDropCursor().placeToMouse(e);
     },
 
 
@@ -3458,7 +3471,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onDragEnd : function(e)
     {
-      qx.ui.core.DragDropCursor.getInstance().moveTo(-1000, -1000);
+      this._getDragDropCursor().moveTo(-1000, -1000);
       this.getApplicationRoot().resetGlobalCursor();
     },
 
@@ -3470,7 +3483,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onDragChange : function(e)
     {
-      var cursor = qx.ui.core.DragDropCursor.getInstance();
+      var cursor = this._getDragDropCursor();
       var action = e.getCurrentAction();
       action ? cursor.setAction(action) : cursor.resetAction();
     },

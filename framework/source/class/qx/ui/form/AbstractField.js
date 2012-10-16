@@ -42,10 +42,11 @@ qx.Class.define("qx.ui.form.AbstractField",
   statics : {
     __stylesheet : null,
 
-    __addPlaceholderRules : function(update) {
+    __addPlaceholderRules : function() {
       if (this.__stylesheet) {
         return;
       }
+
       this.__stylesheet = qx.bom.Stylesheet.createElement();
 
       var colorManager = qx.theme.manager.Color.getInstance();
@@ -897,6 +898,8 @@ qx.Class.define("qx.ui.form.AbstractField",
       }
       if (!this.__useQxPlaceholder && qx.ui.form.AbstractField.__stylesheet) {
         qx.bom.Stylesheet.removeSheet(qx.ui.form.AbstractField.__stylesheet);
+        qx.ui.form.AbstractField.__stylesheet = null;
+        qx.ui.form.AbstractField.__addPlaceholderRules();
       }
     },
 

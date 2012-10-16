@@ -114,7 +114,6 @@ qx.Bootstrap.define("qx.event.GlobalError",
       if (this.__callback)
       {
         this.handleError(new qx.core.WindowError(msg, uri, lineNumber));
-        return true;
       }
     },
 

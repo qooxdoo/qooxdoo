@@ -907,6 +907,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Generates the default content and inserts the given string
      *
      * @param value {String} string to insert into the default content
+     * @return {String} Default content HTML
      */
     __generateDefaultContent : function(value)
     {
@@ -2673,7 +2674,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @return {Boolean} if succeeded
      */
     removeBackgroundColor : function () {
-      this.__commandManager.execute("backgroundcolor", "transparent");
+      return this.__commandManager.execute("backgroundcolor", "transparent");
     },
 
 
@@ -2684,7 +2685,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @return {Boolean} if succeeded
      */
     setBackgroundColor : function (value) {
-      this.__commandManager.execute("backgroundcolor", value);
+      return this.__commandManager.execute("backgroundcolor", value);
     },
 
 
@@ -2694,7 +2695,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @return {Boolean} if succeeded
      */
     removeBackgroundImage : function () {
-      this.__commandManager.execute("backgroundimage");
+      return this.__commandManager.execute("backgroundimage");
     },
 
 
@@ -2728,7 +2729,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
     /**
      * Undo last operation
-     *
+     * @return {Boolean} <code>true</code> if the undo command was executed
+     * successfully or {@link #useUndoRedo} is inactive
      */
     undo : function()
     {
@@ -2742,7 +2744,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
     /**
      * Redo last undo
-     *
+     * @return {Boolean} <code>true</code> if the redo command was executed
+     * successfully or {@link #useUndoRedo} is inactive
      */
     redo : function()
     {

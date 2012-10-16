@@ -270,6 +270,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * will be returned.
      *
      * @param formItem {qx.ui.core.Widget} The form item to check.
+     * @return {var} Validation result
      */
     __validateRequired : function(formItem) {
       if (formItem.getRequired()) {
@@ -298,6 +299,8 @@ qx.Class.define("qx.ui.form.validation.Manager",
      *
      * @param dataEntry {Object} The map stored in {@link #add}
      * @param value {var} The currently set value
+     * @return {Boolean|null} Validation result or <code>null</code> for async
+     * validation
      */
     __validateItem : function(dataEntry, value) {
       var formItem = dataEntry.item;

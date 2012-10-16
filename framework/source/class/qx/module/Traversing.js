@@ -33,9 +33,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Adds an element to the collection
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param el {Element} DOM element to add to the collection
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     add : function(el) {
       this.push(el);
@@ -49,9 +49,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String?null} Optional selector to match
-     * @return {q} Collection containing the child elements
+     * @return {qxWeb} Collection containing the child elements
      */
     getChildren : function(selector) {
       var children = [];
@@ -62,7 +62,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         }
         children = children.concat(found);
       };
-      return q.$init(children);
+      return qxWeb.$init(children);
     },
 
 
@@ -70,10 +70,10 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Executes the provided callback function once for each item in the
      * collection.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param fn {Function} Callback function
      * @param ctx {Object} Context object
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     forEach : function(fn, ctx) {
       for (var i=0; i < this.length; i++) {
@@ -89,9 +89,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String?null} Optional selector to match
-     * @return {q} Collection containing the parent elements
+     * @return {qxWeb} Collection containing the parent elements
      */
     getParents : function(selector) {
       var parents = [];
@@ -102,7 +102,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         }
         parents = parents.concat(found);
       };
-      return q.$init(parents);
+      return qxWeb.$init(parents);
     },
 
 
@@ -112,9 +112,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param filter {String?null} Optional selector to match
-     * @return {q} Collection containing the ancestor elements
+     * @return {qxWeb} Collection containing the ancestor elements
      */
     getAncestors : function(filter) {
       return this.__getAncestors(null, filter);
@@ -128,11 +128,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String} Selector that indicates where to stop including
      * ancestor elements
      * @param filter {String?null} Optional selector to match
-     * @return {q} Collection containing the ancestor elements
+     * @return {qxWeb} Collection containing the ancestor elements
      */
     getAncestorsUntil : function(selector, filter) {
       return this.__getAncestors(selector, filter);
@@ -142,11 +142,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Internal helper for getAncestors and getAncestorsUntil
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String} Selector that indicates where to stop including
      * ancestor elements
      * @param filter {String?null} Optional selector to match
-     * @return {q} Collection containing the ancestor elements
+     * @return {qxWeb} Collection containing the ancestor elements
      * @internal
      */
     __getAncestors : function(selector, filter) {
@@ -165,7 +165,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
           parent = qx.dom.Element.getParentElement(parent);
         }
       }
-      return q.$init(ancestors);
+      return qxWeb.$init(ancestors);
     },
 
 
@@ -175,9 +175,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * If the item itself matches, it is added to the new set. Otherwise, the
      * item's parent chain will be traversed until a match is found.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String} Selector expression to match
-     * @return {q} New collection containing the closest matching ancestors
+     * @return {qxWeb} New collection containing the closest matching ancestors
      */
     getClosest : function(selector) {
       var closest = [];
@@ -195,10 +195,10 @@ qx.Bootstrap.define("qx.module.Traversing", {
       };
 
       for (var i=0; i < this.length; i++) {
-        findClosest(q(this[i]));
+        findClosest(qxWeb(this[i]));
       };
 
-      return q.$init(closest);
+      return qxWeb.$init(closest);
     },
 
 
@@ -206,17 +206,17 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Searches the child elements of each item in the collection and returns
      * a new collection containing the children that match the provided selector
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String} Selector expression to match the child elements
      * against
-     * @return {q} New collection containing the matching child elements
+     * @return {qxWeb} New collection containing the matching child elements
      */
     find : function(selector) {
       var found = [];
       for (var i=0; i < this.length; i++) {
         found = found.concat(qx.bom.Selector.query(selector, this[i]));
       };
-      return q.$init(found);
+      return qxWeb.$init(found);
     },
 
 
@@ -224,15 +224,15 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Gets a new set of elements containing the child nodes of each item in the
      * current set.
      *
-     * @attach {q}
-     * @return {q} New collection containing the child nodes
+     * @attach {qxWeb}
+     * @return {qxWeb} New collection containing the child nodes
      */
     getContents : function() {
       var found = [];
       for (var i=0; i < this.length; i++) {
         found = found.concat(qx.lang.Array.fromCollection(this[i].childNodes));
       }
-      return q.$init(found);
+      return qxWeb.$init(found);
     },
 
 
@@ -241,7 +241,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * filter. This can be either a selector expression or a filter
      * function
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String|Function} Selector expression or filter function
      * @return {Boolean} <code>true</code> if at least one element matches
      */
@@ -256,9 +256,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Reduce the set of matched elements to a single element.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param index {Number} The position of the element in the collection
-     * @return {q} A new collection containing one element
+     * @return {qxWeb} A new collection containing one element
      */
     eq : function(index) {
       return this.slice(index, +index + 1);
@@ -268,8 +268,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Reduces the collection to the first element.
      *
-     * @attach {q}
-     * @return {q} A new collection containing one element
+     * @attach {qxWeb}
+     * @return {qxWeb} A new collection containing one element
      */
     getFirst : function() {
       return this.slice(0, 1);
@@ -279,8 +279,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Reduces the collection to the last element.
      *
-     * @attach {q}
-     * @return {q} A new collection containing one element
+     * @attach {qxWeb}
+     * @return {qxWeb} A new collection containing one element
      */
     getLast : function() {
       return this.slice(this.length - 1);
@@ -291,9 +291,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Gets a collection containing only the elements that have descendants
      * matching the given selector
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String} Selector expression
-     * @return {q} a new collection containing only elements with matching descendants
+     * @return {qxWeb} a new collection containing only elements with matching descendants
      */
     has : function(selector) {
       var found = [];
@@ -303,7 +303,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
           found.push(this[i]);
         }
       }
-      return q.$init(found);
+      return qxWeb.$init(found);
     },
 
 
@@ -313,9 +313,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String?} Optional selector expression
-     * @return {q} New set containing next siblings
+     * @return {qxWeb} New set containing next siblings
      */
     getNext : function(selector) {
       var found = this.map(qx.dom.Hierarchy.getNextElementSibling, qx.dom.Hierarchy);
@@ -332,13 +332,13 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String?} Optional selector expression
-     * @return {q} New set containing following siblings
+     * @return {qxWeb} New set containing following siblings
      */
     getNextAll : function(selector) {
       var ret = qx.module.Traversing.__hierarchyHelper(this, "getNextSiblings", selector);
-      return q.$init(ret);
+      return qxWeb.$init(ret);
     },
 
 
@@ -347,9 +347,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * item in the current set (ignoring text and comment nodes) up to but not
      * including any element that matches the given selector.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String?} Optional selector expression
-     * @return {q} New set containing following siblings
+     * @return {qxWeb} New set containing following siblings
      */
     getNextUntil : function(selector) {
       var found = [];
@@ -363,7 +363,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         }
       });
 
-      return q.$init(found);
+      return qxWeb.$init(found);
     },
 
 
@@ -373,9 +373,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String?} Optional selector expression
-     * @return {q} New set containing previous siblings
+     * @return {qxWeb} New set containing previous siblings
      */
     getPrev : function(selector) {
       var found = this.map(qx.dom.Hierarchy.getPreviousElementSibling, qx.dom.Hierarchy);
@@ -392,13 +392,13 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String?} Optional selector expression
-     * @return {q} New set containing preceding siblings
+     * @return {qxWeb} New set containing preceding siblings
      */
     getPrevAll : function(selector) {
       var ret = qx.module.Traversing.__hierarchyHelper(this, "getPreviousSiblings", selector);
-      return q.$init(ret);
+      return qxWeb.$init(ret);
     },
 
 
@@ -407,9 +407,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * item in the current set (ignoring text and comment nodes) up to but not
      * including any element that matches the given selector.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String?} Optional selector expression
-     * @return {q} New set containing preceding siblings
+     * @return {qxWeb} New set containing preceding siblings
      */
     getPrevUntil : function(selector) {
       var found = [];
@@ -423,7 +423,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         }
       });
 
-      return q.$init(found);
+      return qxWeb.$init(found);
     },
 
 
@@ -433,13 +433,13 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String?} Optional selector expression
-     * @return {q} New set containing sibling elements
+     * @return {qxWeb} New set containing sibling elements
      */
     getSiblings : function(selector) {
       var ret = qx.module.Traversing.__hierarchyHelper(this, "getSiblings", selector);
-      return q.$init(ret);
+      return qxWeb.$init(ret);
     },
 
 
@@ -447,9 +447,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Remove elements from the collection that do not pass the given filter.
      * This can be either a selector expression or a filter function
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param selector {String|Function} Selector or filter function
-     * @return {q} Reduced collection
+     * @return {qxWeb} Reduced collection
      */
     not : function(selector) {
       if (qx.lang.Type.isFunction(selector)) {
@@ -469,8 +469,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Gets a new collection containing the offset parent of each item in the
      * current set.
      *
-     * @attach {q}
-     * @return {q} New collection containing offset parents
+     * @attach {qxWeb}
+     * @return {qxWeb} New collection containing offset parents
      */
     getOffsetParent : function() {
       return this.map(qx.bom.element.Location.getOffsetParent);
@@ -478,9 +478,24 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     /**
+     * Whether the first element in the collection is inserted into
+     * the document for which it was created.
+     *
+     * @return {Boolean} <code>true</code> when the element is inserted
+     *    into the document.
+     */
+    isRendered : function() {
+      if (!this[0]) {
+        return false;
+      }
+      return qx.dom.Hierarchy.isRendered(this[0]);
+    },
+
+
+    /**
      * Checks if the given object is a DOM element
      *
-     * @attachStatic{q}
+     * @attachStatic{qxWeb}
      * @param element {Object} Object to check
      * @return {Boolean} <code>true</code> if the object is a DOM element
      */
@@ -492,7 +507,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Checks if the given object is a DOM node
      *
-     * @attachStatic{q}
+     * @attachStatic{qxWeb}
      * @param node {Object} Object to check
      * @return {Boolean} <code>true</code> if the object is a DOM node
      */
@@ -504,7 +519,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Checks if the given object is a DOM document object
      *
-     * @attachStatic{q}
+     * @attachStatic{qxWeb}
      * @param node {Object} Object to check
      * @return {Boolean} <code>true</code> if the object is a DOM document
      */
@@ -516,7 +531,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Returns the DOM2 <code>defaultView</code> (window) for the given node.
      *
-     * @attachStatic{q}
+     * @attachStatic{qxWeb}
      * @param node {Node|Document|Window} Node to inspect
      * @return {Window} the <code>defaultView</code> for the given node
      */
@@ -528,7 +543,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     /**
      * Returns the owner document of the given node
      *
-     * @attachStatic{q}
+     * @attachStatic{qxWeb}
      * @param node {Node } Node to get the document for
      * @return {Document|null} The document of the given DOM node
      */
@@ -543,7 +558,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Duplicates are removed and the items are filtered if a selector is
      * provided.
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @param collection {Array} Collection to iterate over (any Array-like object)
      * @param method {String} Name of the qx.dom.Hierarchy method to apply
      * @param selector {String?} Optional selector that elements to be included
@@ -574,7 +589,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
   defer : function(statics) {
-    q.$attach({
+    qxWeb.$attach({
       "add" : statics.add,
       "getChildren" : statics.getChildren,
       "forEach" : statics.forEach,
@@ -598,10 +613,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "getPrevUntil" : statics.getPrevUntil,
       "getSiblings" : statics.getSiblings,
       "not" : statics.not,
-      "getOffsetParent" : statics.getOffsetParent
+      "getOffsetParent" : statics.getOffsetParent,
+      "isRendered" : statics.isRendered
     });
 
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       "isElement" : statics.isElement,
       "isNode" : statics.isNode,
       "isDocument" : statics.isDocument,
