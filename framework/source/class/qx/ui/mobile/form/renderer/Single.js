@@ -250,6 +250,24 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       //qx.bom.Element.focus(item.getContainerElement());
       this.__errorMessageContainers.push(errorNode);
     },
+    
+    
+    /**
+     * Shows a single item of this form
+     * @param item {qx.ui.form.IForm} form item which should be hidden.
+     */
+    showItem : function(item) {
+      item.getLayoutParent().removeCssClass("exclude");
+    },
+    
+    
+    /**
+     * Hides a single item of this form
+     * @param item {qx.ui.form.IForm} form item which should be hidden.
+     */
+    hideItem : function(item) {
+      item.getLayoutParent().addCssClass("exclude");
+    },
 
 
     // override

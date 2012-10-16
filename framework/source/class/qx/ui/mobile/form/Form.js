@@ -53,11 +53,11 @@ qx.Class.define("qx.ui.mobile.form.Form",
 
   members :
   {
-
     /**
      * the renderer this form uses to be displayed
      */
     __renderer : null,
+    
     
     /**
      * Contains all invalid items.
@@ -81,6 +81,7 @@ qx.Class.define("qx.ui.mobile.form.Form",
     {
       this.__renderer = renderer;
     },
+
 
     /**
      * Validates the form using the
@@ -126,6 +127,50 @@ qx.Class.define("qx.ui.mobile.form.Form",
       }
 
       return validateResult;
+    },
+    
+    
+    /**
+     * Makes a row visible, identified by its group and row index.
+     * @param groupIndex {Integer} the index of the group to which the row belongs to
+     * @param rowIndex {Integer} the index of the row inside the target group
+     */
+    showRow : function(groupIndex,rowIndex) {
+      var item = this._getItemByIndex(groupIndex,rowIndex);
+      if(item) {
+        this.__renderer.hideItem(item);
+      }
+    },
+    
+    
+    /**
+     * Makes a row invisible, identified by its group and row index.
+     * @param groupIndex {Integer} the index of the group to which the row belongs to
+     * @param rowIndex {Integer} the index of the row inside the target group
+     */
+    hideRow : function(groupIndex, rowIndex) {
+      var item = this._getItemByIndex(groupIndex,rowIndex);
+      if(item) {
+        this.__renderer.hideItem(item);
+      }
+    },
+    
+    
+    /**
+     * Gets the item with the given group and rowIndex.
+     * @param groupIndex {Integer} the index of the group to which the row belongs to
+     * @param rowIndex {Integer} the index of the row inside the target group
+     * @return {qx.ui.form.IForm | null} The validation result.
+     */
+    _getItemByIndex : function(groupIndex,rowIndex) {
+      var groups = this.getGroups();
+      var group = groups[groupIndex];
+      if(group) {
+        var item = group.items[rowIndex];
+        return item;
+      }
+      
+      return null;
     },
   
   
