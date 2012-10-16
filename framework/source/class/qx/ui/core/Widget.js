@@ -330,7 +330,10 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Fired when the drag configuration has been modified e.g. the user
-     * pressed a key which changed the selected action.
+     * pressed a key which changed the selected action. This event will be
+     * fired on the draggable and the droppable element. In case of the
+     * droppable element, you can cancel the event and prevent a drop based on
+     * e.g. the current action.
      */
     dragchange : "qx.event.type.Drag",
 
