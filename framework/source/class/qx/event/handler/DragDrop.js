@@ -324,8 +324,8 @@ qx.Class.define("qx.event.handler.DragDrop",
 
         if (this.__dropTarget) {
           this.__currentAction = current;
-          var ok = this.__fireEvent("dragchange", this.__dropTarget, this.__dragTarget, true);
-          if (!ok) {
+          this.__validAction = this.__fireEvent("dragchange", this.__dropTarget, this.__dragTarget, true);
+          if (!this.__validAction) {
             current = null;
           }
         }
@@ -583,7 +583,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     _onMouseUp : function(e)
     {
       // Fire drop event in success case
-      if (this.__validDrop) {
+      if (this.__validDrop && this.__validAction) {
         this.__fireEvent("drop", this.__dropTarget, this.__dragTarget, false, e);
       }
 
