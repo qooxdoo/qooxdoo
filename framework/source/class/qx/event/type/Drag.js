@@ -230,6 +230,14 @@ qx.Class.define("qx.event.type.Drag",
      */
     getCurrentAction : function() {
       return this.getManager().getCurrentAction();
+    },
+
+
+    /**
+     * Stops the drag&drop session and fires a <code>dragend</code> event.
+     */
+    stopSession : function() {
+      this.getManager().clearSession();
     }
   }
 });

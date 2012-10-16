@@ -432,7 +432,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     /**
      * Cleans up a drag&drop session when <code>dragstart</code> was fired before.
      */
-    __clearSession : function()
+    clearSession : function()
     {
       if (this.__sessionActive)
       {
@@ -480,7 +480,7 @@ qx.Class.define("qx.event.handler.DragDrop",
      * @param e {qx.event.type.Event} Event object
      */
     _onWindowBlur : function(e) {
-      this.__clearSession();
+      this.clearSession();
     },
 
 
@@ -539,7 +539,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       switch(iden)
       {
         case "Escape":
-          this.__clearSession();
+          this.clearSession();
       }
     },
 
@@ -593,7 +593,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
 
       // Clean up
-      this.__clearSession();
+      this.clearSession();
     },
 
 
@@ -609,7 +609,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       {
         // Fire specialized move event
         if (!this.__fireEvent("drag", this.__dragTarget, this.__dropTarget, true, e)) {
-          this.__clearSession();
+          this.clearSession();
         }
       }
       else
