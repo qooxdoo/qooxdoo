@@ -589,12 +589,20 @@ def format(self, optns, state):
 
 @method(symbol("{"))
 def format(self, optns, state):
+    
+    def allowsNewline(node): # args of 'return', 'throw' may not be separated by newline
+        return not (node.parent 
+            and node.parent.parent 
+            and node.parent.parent.type in ('return', 'throw'))
+    
+    def wantsNewline(node): # depending on config and complexity
+        return (optns.prettypOpenCurlyNewlineBefore in 'aA' # and self.hasLeadingContent():
+                or (optns.prettypOpenCurlyNewlineBefore in 'mM' and node.parent.isComplex()))
+    # --------------------------------------------------------------------------
+
     state.add((self.commentsPretty(self.comments,optns, state),self.comments), optns)
     # handle opening 'always|never|mixed' mode
-    if (not self.hasParentContext("return/map") and # never insert newline between return and its argument
-        (optns.prettypOpenCurlyNewlineBefore in 'aA' # and self.hasLeadingContent():
-            or (optns.prettypOpenCurlyNewlineBefore in 'mM' and self.parent.isComplex())
-        )):
+    if (allowsNewline(node=self) and wantsNewline(node=self)):
         if optns.prettypOpenCurlyIndentBefore:
             state.indent()
         #state.add((self.nl(optns,state) + state.indentStr(optns),_), optns)
@@ -813,14 +821,33 @@ class FormatterState(object):
         return strrng
 
     def handle_text_width(self, strrng, token, optns):
+        # restricted productions in JS grammar (see "Note" in 7.9.1 ES3 "Automatic Semicolon Insertion)
+        def hasUnbreakableContext(node):
+            return (
+                    # postfix ++/--
+                    (node.type == "operation"
+                    and node.get("operator", '') in ('DEC', 'INC')
+                    and node.get("left", '')!="true")
+                or 
+                    # break/continue arguments
+                    (node.parent
+                    and node.parent.type in ('break', 'continue',))
+                or
+                    # return/throw arguments
+                    (node.parent
+                    and node.parent.parent
+                    and node.parent.parent.type in ('return', 'throw'))
+                )
+
         # early escape
         if not token or isinstance(token, types.ListType):
             return
         # start a multi-line
-        if (optns.prettypTextWidth and 
-            token.type not in ('comment','white') and
-            token.type not in (',', ';', '}', ']') and
-            len(strrng) + self.currColumn() > optns.prettypTextWidth):
+        if (optns.prettypTextWidth
+            and token.type not in ('comment','white')
+            and token.type not in (',', ';', '}', ']') # breaking before those is ugly
+            and not hasUnbreakableContext(token)
+            and len(strrng) + self.currColumn() > optns.prettypTextWidth):
             self.add(('\n',_),optns)
             if not self.inExpression:
                 self.indent()
