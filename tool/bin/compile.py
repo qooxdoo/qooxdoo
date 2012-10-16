@@ -99,7 +99,7 @@ def main():
     fileName = args[0]
     fileContent = filetool.read(fileName, "utf-8")
     fileId = "xxx"
-    tokens = tokenizer.parseStream(fileContent, fileName)
+    tokens = tokenizer.Tokenizer().parseStream(fileContent, fileName)
     
     if not options.quiet:
         print ">>> Creating tree..."

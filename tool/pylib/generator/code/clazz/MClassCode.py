@@ -68,7 +68,7 @@ class MClassCode(object):
             fileContent = filetool.read(self.path, self.encoding)
             fileId = self.path if self.path else self.id
             try:
-                tokens = tokenizer.parseStream(fileContent, self.id)
+                tokens = tokenizer.Tokenizer().parseStream(fileContent, self.id)
             except SyntaxException, e:
                 # add file info
                 e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]

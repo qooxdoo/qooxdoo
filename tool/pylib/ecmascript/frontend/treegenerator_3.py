@@ -2293,12 +2293,12 @@ def createFileTree(tokenArr, fileId=''):
     return fileNode
 
 def createFileTree_from_string(string_, fileId=''):
-    ts = tokenizer.parseStream(string_)
+    ts = tokenizer.Tokenizer().parseStream(string_)
     return createFileTree(ts, fileId)
 
 # quick high-level frontend
 def parse(string_):
-    ts = tokenizer.parseStream(string_)
+    ts = tokenizer.Tokenizer().parseStream(string_)
     return TreeGenerator().parse(ts)
 
 # - Main ----------------------------------------------------------------------
@@ -2306,7 +2306,7 @@ def parse(string_):
 def test(x, program):
     global token, next, tokenStream
     print ">>>", program
-    tokenArr = tokenizer.parseStream(program)
+    tokenArr = tokenizer.Tokenizer().parseStream(program)
     tokenStream = TokenStream(tokenArr)
     next = iter(tokenStream).next
     token = next()
@@ -2331,7 +2331,7 @@ if __name__ == "__main__":
             text = filetool.read(sys.argv[1])
         else:
             text = arg1.decode('unicode_escape')  # 'string_escape' would work too
-        tokenArr = tokenizer.parseStream(text)
+        tokenArr = tokenizer.Tokenizer().parseStream(text)
         print p.parse(tokenArr).toXml()
     else:
         execfile (os.path.normpath(os.path.join(__file__, "../../../../test/compiler/treegenerator.py"))) # __file__ doesn't seem to work in pydb

@@ -37,7 +37,7 @@ from ecmascript.backend.formatter        import FormatterOptions, FormatterState
 # - Interface -----------------------------------------------------------------
 
 def formatString(string_, options):
-    ts = tokenizer.parseStream(string_)
+    ts = tokenizer.Tokenizer().parseStream(string_)
     return formatStream(ts, options)
 
 def formatStream(tokenArr, options):
