@@ -42,7 +42,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      *
      * @attach {qxWeb}
      * @param html {String} HTML string
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     setHtml : function(html) {
       for (var i=0; i < this.length; i++) {
@@ -58,7 +58,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @attach {qxWeb}
      * @param name {String} Attribute name
      * @param value {var} Attribute value
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     setAttribute : function(name, value) {
       for (var i=0; i < this.length; i++) {
@@ -89,7 +89,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      *
      * @attach {qxWeb}
      * @param name {String} Attribute name
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     removeAttribute : function(name) {
       for (var i=0; i < this.length; i++) {
@@ -104,7 +104,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      *
      * @attach {qxWeb}
      * @param attributes {Map} A map of attribute name/value pairs
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     setAttributes : function(attributes) {
       for (var name in attributes) {
@@ -135,7 +135,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      *
      * @attach {qxWeb}
      * @param attributes {String[]} List of attribute names
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     removeAttributes : function(attributes) {
       for (var i=0, l=attributes.length; i<l; i++) {
@@ -151,7 +151,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @attach {qxWeb}
      * @param name {String} Property name
      * @param value {var} Property value
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     setProperty : function(name, value) {
       for (var i=0; i < this.length; i++) {
@@ -182,7 +182,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      *
      * @attach {qxWeb}
      * @param properties {Map} A map of property name/value pairs
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     setProperties : function(properties) {
       for (var name in properties) {
@@ -237,7 +237,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      *
      * @attach {qxWeb}
      * @param value {String|Number|Array} The value to apply
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     setValue : function(value)
     {

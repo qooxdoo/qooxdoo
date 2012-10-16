@@ -35,7 +35,7 @@ qxWeb.define("qx.module.Placement", {
      * Moves the first element in the collection, aligning it with the given
      * target.
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @param target {Element} Placement target
      * @param position {String} Alignment of the object with the target, any of
      * <code>"top-left"</code>, <code>"top-center"</code>, <code>"top-right"</code>,
@@ -60,7 +60,7 @@ qxWeb.define("qx.module.Placement", {
      *   </ul>
      * @param modeY {String?"direct"} Vertical placement mode. Accepts the same values as
      *   the 'modeX' argument.
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     placeTo : function(target, position, offsets, modeX, modeY) {
       if (!this[0]) {
@@ -146,7 +146,7 @@ qxWeb.define("qx.module.Placement", {
      * @param area {Map} Map with the keys <code>width</code> and <code>height</code>
      * containing the size of the two elements' common parent (available space for
      * placement)
-     * @param target {q} Collection containing the placement target
+     * @param target {qxWeb} Collection containing the placement target
      * @param offsets {Map} Map of offsets (top, right, bottom, left)
      * @param position {Map} Map with the keys <code>x</code> and <code>y</code>,
      * containing the type of positioning for each axis

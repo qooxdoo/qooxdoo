@@ -193,7 +193,7 @@ qxWeb.define("qx.module.Blocker", {
      * @param color {String ? transparent} The color for the blocker element (any CSS color value)
      * @param opacity {Float ? 0} The CSS opacity value for the blocker
      * @param zIndex {Number ? 10000} The zIndex value for the blocker
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     block : function(color, opacity, zIndex)
     {
@@ -217,7 +217,7 @@ qxWeb.define("qx.module.Blocker", {
      * Removes the blockers from all items in the collection
      *
      * @attach {qxWeb}
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     unblock : function()
     {

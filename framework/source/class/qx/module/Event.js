@@ -52,7 +52,7 @@ qx.Bootstrap.define("qx.module.Event", {
      * @param listener {Function} Listener callback
      * @param context {Object?} Context the callback function will be executed in.
      * Default: The element on which the listener was registered
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     on : function(type, listener, context) {
       for (var i=0; i < this.length; i++) {
@@ -128,7 +128,7 @@ qx.Bootstrap.define("qx.module.Event", {
      * @param type {String} Type of the event
      * @param listener {Function} Listener callback
      * @param context {Object?} Listener callback context
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     off : function(type, listener, context) {
       for (var j=0; j < this.length; j++) {
@@ -187,7 +187,7 @@ qx.Bootstrap.define("qx.module.Event", {
      * @param type {String} Event type
      * @param data {var?} Optional data that will be passed to the listener
      * callback function.
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     emit : function(type, data) {
       for (var j=0; j < this.length; j++) {
@@ -208,7 +208,7 @@ qx.Bootstrap.define("qx.module.Event", {
      * @param listener {Function} Listener callback
      * @param context {Object?} Context the callback function will be executed in.
      * Default: The element on which the listener was registered
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     once : function(type, listener, context) {
       var self = this;

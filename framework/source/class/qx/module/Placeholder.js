@@ -51,7 +51,7 @@ qx.Bootstrap.define("qx.module.Placeholder", {
     /**
      * Queries for all input and textarea elements on the page and updates
      * their placeholder.
-     * @attachStatic{q, placeholder.update}
+     * @attachStatic{qxWeb, placeholder.update}
      */
     update : function() {
       // ignore if native placeholder are supported
@@ -68,7 +68,7 @@ qx.Bootstrap.define("qx.module.Placeholder", {
      * does nothing.
      *
      * @attach {qxWeb}
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     updatePlaceholder : function() {
       // ignore everything if native placeholder are supported
@@ -108,7 +108,7 @@ qx.Bootstrap.define("qx.module.Placeholder", {
 
     /**
      * Internal helper method to update the styles for a given input element.
-     * @param item {q} The input element to update.
+     * @param item {qxWeb} The input element to update.
      */
     __syncStyles : function(item) {
       var placeholder = item.getAttribute("placeholder");
@@ -142,8 +142,8 @@ qx.Bootstrap.define("qx.module.Placeholder", {
 
     /**
      * Creates a placeholder element based on the given input element.
-     * @param item {q} The input element.
-     * @return {q} The placeholder element.
+     * @param item {qxWeb} The input element.
+     * @return {qxWeb} The placeholder element.
      */
     __createPlaceholderElement : function(item) {
       // create the label with initial styles

@@ -33,7 +33,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @attach {qxWeb}
      * @param name {String} Name of the style property to modify
      * @param value {var} The value to apply
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     setStyle : function(name, value) {
       if (/\w-\w/.test(name)) {
@@ -70,7 +70,7 @@ qx.Bootstrap.define("qx.module.Css", {
      *
      * @attach {qxWeb}
      * @param styles {Map} A map of style property name/value pairs
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     setStyles : function(styles) {
       for (var name in styles) {
@@ -102,7 +102,7 @@ qx.Bootstrap.define("qx.module.Css", {
      *
      * @attach {qxWeb}
      * @param name {String} Class name
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     addClass : function(name) {
       for (var i=0; i < this.length; i++) {
@@ -117,7 +117,7 @@ qx.Bootstrap.define("qx.module.Css", {
      *
      * @attach {qxWeb}
      * @param names {String[]} List of class names to add
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     addClasses : function(names) {
       for (var i=0; i < this.length; i++) {
@@ -132,7 +132,7 @@ qx.Bootstrap.define("qx.module.Css", {
      *
      * @attach {qxWeb}
      * @param name {String} The class name to remove
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     removeClass : function(name) {
       for (var i=0; i < this.length; i++) {
@@ -147,7 +147,7 @@ qx.Bootstrap.define("qx.module.Css", {
      *
      * @attach {qxWeb}
      * @param names {String[]} List of class names to remove
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     removeClasses : function(names) {
       for (var i=0; i < this.length; i++) {
@@ -191,7 +191,7 @@ qx.Bootstrap.define("qx.module.Css", {
      *
      * @attach {qxWeb}
      * @param name {String} Class name
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     toggleClass : function(name) {
       var bCls = qx.bom.element.Class;
@@ -209,7 +209,7 @@ qx.Bootstrap.define("qx.module.Css", {
      *
      * @attach {qxWeb}
      * @param names {String[]} Class names
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     toggleClasses : function(names) {
       for (var i=0,l=names.length; i<l; i++) {
@@ -225,7 +225,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @attach {qxWeb}
      * @param oldName {String} Class name to remove
      * @param newName {String} Class name to add
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     replaceClass : function(oldName, newName) {
       for (var i=0, l=this.length; i<l; i++) {
@@ -372,7 +372,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * when {@link #show} is called.
      *
      * @attach {qxWeb}
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     hide : function() {
       for (var i=0, l=this.length; i<l; i++) {
@@ -394,7 +394,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * default "display" value for the element type will be applied.
      *
      * @attach {qxWeb}
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     show : function() {
       for (var i=0, l=this.length; i<l; i++) {

@@ -18,10 +18,10 @@
 ************************************************************************ */
 /**
  * Module for querying information about the environment / runtime.
- * It adds a static key <code>env</code> to q and offers the given methods.
+ * It adds a static key <code>env</code> to qxWeb and offers the given methods.
  *
  * <pre class="javascript">
- * qxWeb.env.get("engine.name"); // return "webkit" e.g.
+ * q.env.get("engine.name"); // return "webkit" e.g.
  * </pre>
  *
  * The following values are predefined:
@@ -57,7 +57,7 @@ qx.Bootstrap.define("qx.module.Environment", {
      *
      * @attachStatic {qxWeb, env.add}
      * @param value {var} The value to store.
-     * @return {q} The collection for chaining.
+     * @return {qxWeb} The collection for chaining.
      */
     add : function(key, value) {
       qx.core.Environment.add(key, value);

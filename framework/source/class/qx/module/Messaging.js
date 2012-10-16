@@ -36,7 +36,7 @@ qx.Bootstrap.define("qx.module.Messaging", {
      * Adds a route handler for the given channel. The route is called
      * if the {@link #emit} method finds a match.
      *
-     * @attachStatic{q, messaging.on}
+     * @attachStatic{qxWeb, messaging.on}
      * @param channel {String} The channel of the message.
      * @param type {String|RegExp} The type, used for checking if the executed path matches.
      * @param handler {Function} The handler to call if the route matches the executed path.
@@ -51,7 +51,7 @@ qx.Bootstrap.define("qx.module.Messaging", {
      * Adds a handler for the "any" channel. The "any" channel is called
      * before all other channels.
      *
-     * @attachStatic{q, messaging.onAny}
+     * @attachStatic{qxWeb, messaging.onAny}
      * @param type {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call if the route matches the executed path
      * @param scope {var ? null} The scope of the handler.
@@ -64,7 +64,7 @@ qx.Bootstrap.define("qx.module.Messaging", {
     /**
      * Removes a registered listener by the given id.
      *
-     * @attachStatic{q, messaging.remove}
+     * @attachStatic{qxWeb, messaging.remove}
      * @param id {String} The id of the registered listener.
      * @signature function(id)
      */
@@ -74,7 +74,7 @@ qx.Bootstrap.define("qx.module.Messaging", {
     /**
      * Sends a message on the given channel and informs all matching route handlers.
      *
-     * @attachStatic{q, messaging.emit}
+     * @attachStatic{qxWeb, messaging.emit}
      * @param channel {String} The channel of the message.
      * @param path {String} The path to execute
      * @param params {Map} The given parameters that should be propagated
