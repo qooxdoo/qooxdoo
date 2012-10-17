@@ -962,7 +962,6 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
                 node.addChild(throwsNode)
 
     # Check for documentation errors
-    # Check whether all parameters have been documented
     if node.hasChild("params"):
         paramsListNode = node.getChild("params")
         for paramNode in paramsListNode.children:
@@ -1027,11 +1026,11 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             isSingletonGetInstance = classNode.get("isSingleton", False) and name == "getInstance"
 
             if hasReturnDoc and not hasReturnNodes and not isSingletonGetInstance:
-                addError(node, "Has documentation for return value but contains no return statement.", funcItem)
+                addError(node, "Contains documentation for return value but no return statement found.", funcItem)
             if hasReturnDoc and (not hasReturnValue and hasNoReturnValue) and not hasUndefinedOrVarType:
-                addError(node, "Has documentation for return value but returns nothing.", funcItem)
+                addError(node, "Contains documentation for return value but returns nothing.", funcItem)
             if hasReturnDoc and hasReturnValue and hasNoReturnValue and not hasUndefinedOrVarType:
-                addError(node, "Has documentation for return value but at least one return statement has no value.", funcItem)
+                addError(node, "Contains documentation for return value but at least one return statement has no value.", funcItem)
             if hasReturnValue and not hasReturnDoc:
                 addError(node, "Missing documentation for return value.", funcItem)
 
@@ -1176,18 +1175,19 @@ def addEventNode(classNode, classItem, commentAttrib):
 
 
 
-def addError(node, msg, syntaxItem):
+def addError(node, msg, syntaxItem=None):
     # print "+++ %s (%s:%s)" % (msg, node.type, node.get("name"))
 
     errorNode = tree.Node("error")
     errorNode.set("msg", msg)
 
-    (line, column) = treeutil.getLineAndColumnFromSyntaxItem(syntaxItem)
-    if line:
-        errorNode.set("line", line)
+    if syntaxItem:
+        (line, column) = treeutil.getLineAndColumnFromSyntaxItem(syntaxItem)
+        if line:
+            errorNode.set("line", line)
 
-        if column:
-            errorNode.set("column", column)
+            if column:
+                errorNode.set("column", column)
 
     node.addListChild("errors", errorNode)
     node.set("hasError", True)
