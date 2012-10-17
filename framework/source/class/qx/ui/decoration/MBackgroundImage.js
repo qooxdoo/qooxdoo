@@ -86,8 +86,14 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
   {
     /**
      * Mapping for the dynamic decorator.
+     *
+     * @param styles {Map} CSS styles as map
+     * @param content {String?null} The content of the created div as HTML
+     * @return {String} The generated HTML fragment
      */
-    _generateMarkup : this._generateBackgroundMarkup,
+    _generateMarkup : function(styles, content) {
+      return this._generateBackgroundMarkup(styles, content);
+    },
 
 
     /**
