@@ -148,6 +148,7 @@ def handleClassDefinition(docTree, callNode, variant):
     handleAccess(classNode, commentAttributes)
     handleAppearance(callNode, classNode, className, commentAttributes)
     handleChildControls(callNode, classNode, className, commentAttributes)
+    handleParseErrors(callNode, classNode, commentAttributes)
 
     try:
         children = classMap.children
@@ -348,8 +349,9 @@ def handleStatics(item, classNode):
         if value.type != "function":
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
-                    js_string = 'function('+ ",".join(docItem['arguments']) + '){}'
+                    js_string = 'function(' + ",".join(docItem['arguments']) + '){}'
                     value = treeutil.compileString(js_string)
+                    #TODO: Warn if syntax error
 
         # Function
         if value.type == "function":
@@ -379,7 +381,7 @@ def handleMembers(item, classNode):
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
                     try:
-                        js_string = 'function('+ ",".join(docItem['arguments']) + '){}'
+                        js_string = 'function(' + ",".join(docItem['arguments']) + '){}'
                         value = treeutil.compileString(js_string)
                     except treegenerator.SyntaxException:
                         printDocError(keyvalue, "Invalid signature")
@@ -537,8 +539,6 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
                 node.set("check", "Custom check function.")  # that's good enough so the param type is set to 'var'
         else:
             printDocError(check, "Unknown check value")
-            return node
-
 
     return node
 
@@ -754,6 +754,12 @@ def handleDeprecated(docNode, commentAttributes):
             docNode.addChild(deprecatedNode)
 
 
+def handleParseErrors(callNode, classNode, commentAttributes):
+    for docItem in commentAttributes:
+        if "error" in docItem:
+            addError(classNode, "%s: @%s" % (docItem["message"], docItem["category"]), callNode)
+
+
 def handleAccess(docNode, commentAttributes):
     name = docNode.get("name")
     if name[:2] == "__":
@@ -782,6 +788,10 @@ def handleChildControls(item, classNode, className, commentAttributes):
     childControls = {}
     for attrib in commentAttributes:
         if attrib["category"] == "childControl":
+            if not "name" in attrib:
+                addError(classNode, "No name defined for child control.", item)
+                #printDocError(item, "No name defined for child control '%s' of class %s" %(childControlName,className))
+                return
             childControlName = attrib["name"]
             childControlNode = tree.Node("childControl")
             childControlNode.set("name", childControlName)
@@ -1104,7 +1114,7 @@ def addTypeInfo(node, commentAttrib=None, item=None):
                 pass
 
         elif node.type == "param":
-            addError(node, "Parameter <code>%s</code> in not documented." % commentAttrib.get("name"), item)
+            addError(node, "Parameter <code>%s</code> is not documented." % commentAttrib.get("name"), item)
 
         elif node.type == "return":
             addError(node, "Return value is not documented.", item)
