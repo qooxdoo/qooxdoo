@@ -1791,3 +1791,257 @@ def docTreeIterator(docTree, type_):
         for child in docTree.children:
             for entry in docTreeIterator(child, type_):
                 yield entry
+
+################################################################################
+#
+# API DOC VERIFICATION
+#
+################################################################################
+
+
+# TODO: move to treeutil?
+def getParentAttrib(node, attrib, type=None):
+    while node:
+        if node.hasParent() and node.parent.hasAttributes():
+            if attrib in node.parent.attributes:
+                if type:
+                    if node.parent.type == type:
+                        return node.parent.attributes[attrib]
+                else:
+                    return node.parent.attributes[attrib]
+        if node.hasParent():
+            node = node.parent
+        else:
+            node = None
+    return None
+
+
+def verifyLinks(docTree, index):
+    Context.console.info("Verifying internal doc links...", False)
+
+    linkRegExp = re.compile("\{\s*@link\s*([\w#-_\.]*)[\W\w\d\s]*?\}")
+
+    descNodes = docTree.getAllChildrenOfType("desc")
+
+    links = []
+    for descNode in descNodes:
+        if not "@link" in descNode.attributes["text"]:
+            continue
+        match = linkRegExp.findall(descNode.attributes["text"])
+        if not match:
+            continue
+        internalLinks = []
+        for link in match:
+            if not "<a" in link:
+                internalLinks.append(link)
+        if len(internalLinks) > 0:
+            nodeType = descNode.parent.type
+            if nodeType == "param":
+                itemName = getParentAttrib(descNode.parent, "name")
+                paramName = getParentAttrib(descNode, "name")
+                paramForType = descNode.parent.parent.parent.type
+            else:
+                itemName = getParentAttrib(descNode, "name")
+                paramName = None
+                paramForType = None
+            linkData = {
+                "nodeType": nodeType,
+                "packageName": getParentAttrib(descNode, "packageName"),
+                "className": getParentAttrib(descNode, "name", "class"),
+                "itemName": itemName,
+                "paramName": paramName,
+                "paramForType": paramForType,
+                "links": internalLinks,
+                "parent": descNode.parent
+            }
+            links.append(linkData)
+
+    brokenLinks = []
+    count = 0
+    for link in links:
+        count += 1
+        Context.console.progress(count, len(links))
+        result = checkLink(link, docTree, index)
+        if result:
+            brokenLinks.append(result)
+
+    Context.console.indent()
+    for result in brokenLinks:
+        for ref, link in result.iteritems():
+            if link["nodeType"] == "ctor" or link["itemName"] == "ctor":
+                type = "constructor"
+            elif link["paramForType"]:
+                type = link["paramForType"]
+            else:
+                type = link["nodeType"]
+
+            if link["nodeType"] == "ctor" or link["itemName"] == "ctor":
+                itemName = link["className"]
+            elif link["className"] == link["itemName"]:
+                itemName = link["itemName"]
+            else:
+                itemName = link["className"] + "#" + link["itemName"]
+
+            param = ""
+            if link["paramName"]:
+                param = "the parameter '%s' of " % link["paramName"]
+            msg = "The documentation for %sthe %s %s.%s contains a broken reference to '%s'" % (param, type, link["packageName"], itemName, ref)
+
+            addError(link["parent"], "Unknown link target: '%s'" % ref)
+
+            Context.console.warn(msg)
+    Context.console.outdent()
+
+
+def checkLink(link, docTree, index):
+    brokenLinks = {}
+
+    def getTargetName(ref):
+        targetPackageName = None
+        targetClassName = None
+        targetItemName = None
+
+        classItem = ref.split("#")
+        # internal class item reference
+        if classItem[0] == "":
+            targetPackageName = link["packageName"]
+            targetClassName = link["className"]
+        else:
+            namespace = classItem[0].split(".")
+            targetPackageName = ".".join(namespace[:-1])
+            if targetPackageName == "":
+                if link["nodeType"] == "package":
+                    targetPackageName = link["packageName"] + "." + link["itemName"]
+                else:
+                    targetPackageName = link["packageName"]
+            targetClassName = namespace[-1]
+        if len(classItem) == 2:
+            targetItemName = classItem[1]
+
+        return (targetPackageName + "." + targetClassName, targetItemName)
+
+    def isClassInHierarchy(docTree, className, searchFor):
+        targetClass = docTree.getChildByTypeAndAttribute("class", "fullName", className, False, True)
+        if not targetClass:
+            return False
+
+        while targetClass:
+            if targetClass.attributes["fullName"] in searchFor:
+                return True
+            if "mixins" in targetClass.attributes:
+                for wanted in searchFor:
+                    if wanted in targetClass.attributes["mixins"]:
+                        return True
+            if "superClass" in targetClass.attributes:
+                superClassName = targetClass.attributes["superClass"]
+                targetClass = docTree.getChildByTypeAndAttribute("class", "fullName", superClassName, False, True)
+            else:
+                targetClass = None
+
+        return False
+
+    for ref in link["links"]:
+        # Remove parentheses from method references
+        if ref[-2:] == "()":
+            ref = ref[:-2]
+
+        # ref is a fully qualified package or class name
+        if ref in index["__fullNames__"]:
+            continue
+
+        name = getTargetName(ref)
+        targetClassName = name[0]
+        targetItemName = name[1]
+
+        # unknown class or package
+        if not targetClassName in index["__fullNames__"]:
+            brokenLinks[ref] = link
+            continue
+
+        # valid package or class ref
+        if not targetItemName:
+            continue
+
+        # unknown class item
+        if not "#" + targetItemName in index["__index__"]:
+            brokenLinks[ref] = link
+            continue
+
+        classHasItem = False
+        classesWithItem = []
+        # get all classes that have an item with the same name as the referenced item
+        for occurrence in index["__index__"]["#" + targetItemName]:
+            className = index["__fullNames__"][occurrence[1]]
+            classesWithItem.append(className)
+            if targetClassName == className:
+                classHasItem = True
+                break
+
+        if classHasItem:
+            continue
+
+        # search for a superclass or included mixin with the referenced item
+        classHasItem = isClassInHierarchy(docTree, targetClassName, classesWithItem)
+
+        if not classHasItem:
+            brokenLinks[ref] = link
+
+    return brokenLinks
+
+
+def verifyTypes(docTree, index):
+    Context.console.info("Verifying types...", False)
+    knownTypes = lang.GLOBALS[:]
+    knownTypes = knownTypes + ["var", "null",
+                               # additional types supported by the property system:
+                               "Integer", "PositiveInteger", "PositiveNumber",
+                               "Float", "Double", "Map",
+                               "Node", "Element", "Document", "Window",
+                               "Event", "Class", "Mixin", "Interface", "Theme",
+                               "Color", "Decorator", "Font"
+                              ]
+
+    count = 0
+    docNodes = docTree.getAllChildrenOfType("return")
+    docNodes = docNodes + docTree.getAllChildrenOfType("param")
+    docNodes = docNodes + docTree.getAllChildrenOfType("childControl")
+    total = len(docNodes)
+    brokenLinks = []
+    for docNode in docNodes:
+        count += 1
+        Context.console.progress(count, total)
+        for typesNode in docNode.getAllChildrenOfType("types"):
+            for entryNode in typesNode.getAllChildrenOfType("entry"):
+                unknownTypes = []
+                entryType = entryNode.get("type")
+                if (not entryType in knownTypes) and not ("value" in entryType and re.search("[\<\>\=]", entryType)):
+                    unknownTypes.append(entryType)
+                if len(unknownTypes) > 0:
+                    itemName = getParentAttrib(docNode, "name")
+                    packageName = getParentAttrib(docNode, "packageName")
+                    className = getParentAttrib(docNode, "name", "class")
+
+                    linkData = {
+                      "itemName": itemName,
+                      "packageName": packageName,
+                      "className": className,
+                      "nodeType": docNode.parent.type,
+                      "links": unknownTypes
+                    }
+
+                    docNodeType = ""
+                    if docNode.type == "param":
+                        docNodeType = "Parameter '%s'" % docNode.get("name")
+                    elif docNode.type == "return":
+                        docNodeType = "Return value"
+                    elif docNode.type == "childControl":
+                        docNodeType = "Child control '%s'" % docNode.get("name")
+
+                    for ref in checkLink(linkData, docTree, index):
+                        addError(docNode.parent, "Unknown %s type <code>%s</code>" % (docNodeType, ref), docNode)
+                        brokenLinks.append((docNodeType, "%s.%s#%s" % (packageName, className, itemName), ref))
+
+    Context.console.indent()
+    for entry in brokenLinks:
+        Context.console.warn("%s of %s is documented as unknown type '%s'" % (entry[0], entry[1], entry[2]))
+    Context.console.outdent()
