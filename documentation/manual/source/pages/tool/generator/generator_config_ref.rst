@@ -966,7 +966,8 @@ Triggers code beautification of source class files (in-place-editing). An empty 
   {
     "general" :
     {
-      "indent-string"        : "  "
+      "indent-string"        : "  ",
+      "text-width"           : 80
     },
     "comments" :
     {
@@ -1001,6 +1002,7 @@ Keys are:
 * **general** : General settings.
 
   * **indent-string** : "<whitespace_string>", e.g. "\\t" for tab (default: "  " (2 spaces))
+  * **text-width** : <int >= 0> the intended text width for each source line (0 disables text width); this width is striven for, but is not a hard limit (e.g. string literals that are longer are not broken up). (default: 0)
 
 * **comments** : Settings for pretty-printing comments.
 

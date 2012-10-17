@@ -900,7 +900,7 @@ def defaultOptions(optns):
     optns.prettypCommentsTrailingCommentCols = ''  # put trailing comments on fixed columns
     optns.prettypCommentsTrailingKeepColumn  = False  # fix trailing comment on column of original text
     optns.prettypCommentsInlinePadding  = '  '   # space between end of code and beginning of comment
-    optns.prettypTextWidth = 80 # 0
+    optns.prettypTextWidth = 0
     return optns
 
 def indentString(optns, state):

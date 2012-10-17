@@ -1019,6 +1019,8 @@ class CodeGenerator(object):
         # modify according to config
         if 'general/indent-string' in ppsettings:
             options.prettypIndentString = ppsettings.get('general/indent-string')
+        if 'general/text-width' in ppsettings:
+            options.prettypTextWidth = ppsettings.get('general/text-width')
         if 'comments/block/add' in ppsettings:
             options.prettypCommentsBlockAdd = ppsettings.get('comments/trailing/keep-column')
         if 'comments/trailing/keep-column' in ppsettings:
