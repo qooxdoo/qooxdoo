@@ -2526,8 +2526,12 @@ testrunner.define({
 
     var placeholderEl = input.getProperty(q.$$qx.module.Placeholder.PLACEHOLDER_NAME);
     this.assertEquals("Hmm", placeholderEl.getHtml());
-    this.assertEquals("block", placeholderEl.getStyle("display"));
+    this.assertTrue(placeholderEl.getProperty("offsetWidth") > 0);
 
+    input.setValue("123");
+    input.updatePlaceholder();
+
+    this.assertTrue(placeholderEl.getProperty("offsetWidth") == 0);
 
     input.remove().updatePlaceholder();
   },
