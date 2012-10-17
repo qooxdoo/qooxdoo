@@ -213,13 +213,13 @@
     {
       "provider" :
       {
-        "include" : ["q"]
+        "include" : [ "q", "qxWeb" ]
       }
     },
 
     "provider-deps" :
     {
-      "include" : [ "q" ]
+      "include" : [ "q", "qxWeb" ]
     },
 
     "images" :
