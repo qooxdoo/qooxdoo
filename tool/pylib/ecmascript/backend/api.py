@@ -999,12 +999,18 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
                     hasNoReturnValue = True
 
             hasReturnDoc = False
+            hasUndefinedOrVarType = False
+            hasNonUndefinedOrVarType = False
             if Comment.getAttrib(commentAttributes, "return"):
                 hasVoidType = False
                 if "type" in Comment.getAttrib(commentAttributes, "return"):
                     for typeDef in Comment.getAttrib(commentAttributes, "return")["type"]:
                         if typeDef["type"] == "void":
                             hasVoidType = True
+                        elif typeDef["type"] == "undefined" or typeDef["type"] == "var":
+                            hasUndefinedOrVarType = True
+                        else:
+                            hasNonUndefinedOrVarType = True
                 if not hasVoidType:
                     hasReturnDoc = True
 
@@ -1012,9 +1018,9 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 
             if hasReturnDoc and not hasReturnNodes and not isSingletonGetInstance:
                 addError(node, "Has documentation for return value but contains no return statement.", funcItem)
-            if hasReturnDoc and (not hasReturnValue and hasNoReturnValue):
+            if hasReturnDoc and (not hasReturnValue and hasNoReturnValue) and not hasUndefinedOrVarType:
                 addError(node, "Has documentation for return value but returns nothing.", funcItem)
-            if hasReturnDoc and hasReturnValue and hasNoReturnValue:
+            if hasReturnDoc and hasReturnValue and hasNoReturnValue and not hasUndefinedOrVarType:
                 addError(node, "Has documentation for return value but at least one return statement has no value.", funcItem)
             if hasReturnValue and not hasReturnDoc:
                 addError(node, "Missing documentation for return value.", funcItem)
