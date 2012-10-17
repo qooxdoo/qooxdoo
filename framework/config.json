@@ -37,7 +37,7 @@
   {
     "APPLICATION"  : "qx",
     "QOOXDOO_PATH" : "..",
-    "API_INCLUDE"    : ["q", "qxWeb"],
+    "API_INCLUDE"    : ["q", "qxWeb", "qx.*"],
     "API_EXCLUDE"  : ["qx.test.*"],
     "TEST_INCLUDE" : "qx.test.*",
     "LOCALES"      : [
