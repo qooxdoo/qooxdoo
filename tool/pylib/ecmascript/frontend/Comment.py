@@ -984,18 +984,19 @@ def findAssociatedComment(node):
     if node.comments:
         res = node
     else:
-        # above current expression
-        left_most = treeutil.findLeftmostChild(node) # this might return <node> itself
+        # check current expression
+        #left_most = treeutil.findLeftmostChild(node) # this might return <node> itself
+        left_most = node.toListG().next()
         if left_most.comments:
             res = left_most
         else:
-            # above key : value in maps
+            # check <keyvalue> in maps
             next_root = treeutil.findAncestor(node, ["keyvalue"], radius=5)
             if next_root:
                 if next_root.comments:
                     res = next_root
             else:
-                # above current statement
+                # check enclosing statement
                 stmt_head = statement_head_from(node)
                 if stmt_head and stmt_head.comments:
                     res = stmt_head

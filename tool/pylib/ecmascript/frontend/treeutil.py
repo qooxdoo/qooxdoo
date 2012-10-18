@@ -694,26 +694,25 @@ def findLeftmostChild(node):
 
 
 ##
-# Find the closest ancestor of <node> with type in <node_types> and in distance
-# <radius>.
+# Find the closest ancestor (including self) of <node> with type in <node_types>
+# and in distance <radius> (radius=0 disables distance).
 #
 def findAncestor(node, node_types=[], radius=1):
     res = None
-    if node.parent:
-        lnode = node.parent
-        dist = 0
-        while True:
-            if radius > 0 and dist >= radius:
-                break
-            elif node_types and lnode.type in node_types:
-                res = lnode
-                break
+    lnode = node
+    dist = 0
+    while True:
+        if radius > 0 and dist >= radius:
+            break
+        elif node_types and lnode.type in node_types:
+            res = lnode
+            break
+        else:
+            dist += 1
+            if lnode.parent:
+                lnode = lnode.parent
             else:
-                dist += 1
-                if lnode.parent:
-                    lnode = lnode.parent
-                else:
-                    break
+                break
     return res
 
 
