@@ -361,6 +361,9 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       var carouselWidth = qx.bom.element.Dimension.getWidth(carouselElement);
       
       this.__boundsX[0] = -carouselScrollerWidth+carouselWidth;
+      
+      evt.preventDefault();
+      evt.stopPropagation();
     },
     
 
@@ -386,6 +389,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       
       this._updateScrollerPosition(this.__onMoveOffset[0],this.__onMoveOffset[1]);
       
+      evt.preventDefault();
       evt.stopPropagation();
     },
     
