@@ -148,7 +148,7 @@ qx.Class.define("tutorial.Application",
       this.confirm("Is it ok to replace the current code in the editor?", function(ok) {
         if (ok.getData()) {
           code = code.substring(14, code.length -8);
-          code = code.replace(/ {4}/g, "");
+          code = code.replace(/ {8}/g, "");
           this.__editor.setCode(code);
           this.run();
         }
@@ -169,10 +169,16 @@ qx.Class.define("tutorial.Application",
 
 
     run : function() {
+      var code = this.__editor.getCode();
+
+      // don't run if we have no code
+      if (code == "") {
+        return;
+      }
+
       // reset the play area
       this.__playArea.reset({}, {});
 
-      var code = this.__editor.getCode();
       // try to create a function
       try {
         this.fun = new Function(code);
