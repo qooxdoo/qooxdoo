@@ -20,7 +20,7 @@ qx.Class.define("tutorial.tutorial.desktop.Hello_World",
 {
   statics :
   {
-    description : "Basic", 
+    description : "Basic usage of a button", 
 
     steps: [
       function() {
