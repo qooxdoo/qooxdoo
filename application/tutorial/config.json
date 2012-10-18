@@ -80,7 +80,7 @@
       "add-css" :
       [
         {
-          "uri" : "resource/qx/mobile/css/android.css"
+          "uri" : "resource/qx/mobile/css/ios.css"
         }
       ]
     },
@@ -98,7 +98,7 @@
       "add-css" :
       [
         {
-          "uri" : "../../../framework/source/resource/qx/mobile/css/android.css"
+          "uri" : "../../../framework/source/resource/qx/mobile/css/ios.css"
         }
       ]
     },
@@ -109,7 +109,7 @@
       "add-css" :
       [
         {
-          "uri" : "../../../framework/source/resource/qx/mobile/css/android.css"
+          "uri" : "../../../framework/source/resource/qx/mobile/css/ios.css"
         }
       ]
     },
