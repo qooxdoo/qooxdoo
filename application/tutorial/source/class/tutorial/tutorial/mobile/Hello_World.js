@@ -20,12 +20,14 @@ qx.Class.define("tutorial.tutorial.mobile.Hello_World",
 {
   statics :
   {
-    description : "Basic", 
+    description : "One page showing a button", 
 
     steps: [
       function() {
-        var button = new qx.ui.form.Button("Hello...");
-        this.getRoot().add(button, {left: 30, top: 20});
+        var page = new qx.ui.mobile.page.NavigationPage();
+
+        this.getManager().addDetail(page);
+        page.show();
       },
 
       /**
@@ -35,16 +37,17 @@ qx.Class.define("tutorial.tutorial.mobile.Hello_World",
         var page = new qx.ui.mobile.page.NavigationPage();
         page.setTitle("Hello World");
         page.addListener("initialize", function() {
-          var button = new qx.ui.mobile.form.Button("First Button");
+          var button = new qx.ui.mobile.form.Button(
+            "Hello..."
+          );
           page.getContent().add(button);
 
           button.addListener("tap", function() {
-            alert("Hello World");
+            alert("... World!");
           }, this);
         },this);
 
         this.getManager().addDetail(page);
-
         page.show();
       }
     ]

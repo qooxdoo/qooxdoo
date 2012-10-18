@@ -1,16 +1,39 @@
 <div id="step1">
-  <p>Welcome to the first qooxdoo tutorial. As usual, this is a baisc Hello World app which features a button and a listener on the button execution</p>
-  <p>Let's get started by creating a simple button. Please copy the following line over to the Source Code and hit the run button.</p>
-  <pre>var button = new qx.ui.form.Button("Hello...");</pre>
-  <p>Doing so will not change anything in the application in the lower right corner because we simply created the button but did not add it to our application.
-    <pre>this.getRoot().add(button, {left: 30, top: 20});</pre>
-    Pasting this line right below the first line and hitting run will now show the first button. As you see in the code, we placed the button relative to the root's top left corner. Try to chagne it a bit to see how the button can be positioned.
-  </div>
+  <p>
+    In this tutorial, we want to introduce you to qooxdoo mobile. As a first sample, we want to add a page to our mobile app showing one button. This button should bring up an alert window when pressed.
+  </p>
+  <p>
+    Crating a page is like creating any other widget. As soon as we have this page, we need to tell the page manager to take care of this page. Initially, we want to show this page as well.
+  </p>
+  <pre>var page = new qx.ui.mobile.page.NavigationPage();
+
+this.getManager().addDetail(page);
+page.show();</pre>
+  <p>
+    Running this code shows a blank page, not even having a page title. Thats change that and add a page title.
+  </p>
+  <pre>page.setTitle("Hello World");</pre>
+  <p>
+    Add this line between the creation of the page and the show call. This will set the titel of the page. Run the sample and see the title of the page.
+  </p>
 </div>
 <div id="step2">
-  <p>Having a button is a good first step but we wanted to react on clicks as well. For that, qooxdoo offers a event. As a proof of concept, we simple show an alert to confirm that the listener has been executed. But instead of using the <code>click</code> event, we use the <code>execute</code> event, which will also be fired in case the user uses the keyboard instead of the mouse.</p>
-  <pre>button.addListener("execute", function() {
+  <p>
+    Next, we want to add a button. As mobile devices are usually not that perofrmant, it is always a good idea to delay execution as much as possible. To make sure we don't create every widget on startup, qooxdoo offers a <code>initialize</code> event which will be fired when the page needs to initialize. In out case, we use that to create our buton and add it to the page's content.
+  </p>
+  <pre>page.addListener("initialize", function() {
+  var button = new qx.ui.mobile.form.Button(
+    "Hello..."
+  );
+  page.getContent().add(button);
+}, this);</pre>
+  <p>
+    Add these lines of code to the sample right after setting the title and run it. It will show you your mobile app: a page with a button. As a final step, we want to show the alert as soon as we click on the button. For that, we need to add a listener to the buttons <code>tap</code> event.
+  </p>
+  <pre>  button.addListener("tap", function() {
   alert("... World!");
-});</pre>
-  <p>Copy this code over and run it again. A click on the button shows the alert message. <strong>Congratulations!</strong> You have build your first Application using qooxdoo.</p>
+}, this);</pre>
+  <p>
+    If this code is in the hanlder for the <code>initialize</code> event, run you app and see the final result.
+  </p>
 </div>
