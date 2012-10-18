@@ -62,7 +62,7 @@ qx.Class.define("tutorial.Application",
 
       // Tutorials List
       this.__desktopTutorials = ["Hello_World", "Form", "Single_Value_Binding"];
-      this.__mobileTutorials = ["Hello_World"];
+      this.__mobileTutorials = ["Hello_World", "Pages"];
 
       // Create main layout
       var mainComposite = new qx.ui.container.Composite(new qx.ui.layout.VBox());
