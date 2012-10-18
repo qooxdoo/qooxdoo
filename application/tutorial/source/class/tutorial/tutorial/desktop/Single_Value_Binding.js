@@ -20,6 +20,8 @@ qx.Class.define("tutorial.tutorial.desktop.Single_Value_Binding",
 {
   statics :
   {
+    description : "", 
+
     steps: [
       function() {
         // SVB

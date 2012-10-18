@@ -20,6 +20,8 @@ qx.Class.define("tutorial.tutorial.desktop.Hello_World",
 {
   statics :
   {
+    description : "Basic", 
+
     steps: [
       function() {
         var button = new qx.ui.form.Button("Hello...");

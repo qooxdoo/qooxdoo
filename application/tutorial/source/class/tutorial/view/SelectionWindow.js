@@ -35,6 +35,12 @@ qx.Class.define("tutorial.view.SelectionWindow",
     this.setLayout(new qx.ui.layout.Grid(10, 5));
     this.getLayout().setRowAlign(0, "center", "top");
 
+    this.__buttonFont = new qx.bom.Font(12, ["Lucida Grande", "DejaVu Sans", "Verdana", "sans-serif"]);
+    this.__buttonFont.set({
+      color: "font",
+      lineHeight: 1.3
+    });
+
     // build the headlines
     var desktop = new qx.ui.basic.Label("Desktop");
     desktop.setFont("bold");
@@ -55,11 +61,27 @@ qx.Class.define("tutorial.view.SelectionWindow",
 
   members :
   {
+    __createButton : function(name, desc) {
+      var button = new qx.ui.form.Button(
+        name + "<br><span style='font-size: 11px; color: #777'>" + (desc || "&nbsp;") + "</span>"
+      );
+      button.set({
+        rich: true,
+        width: 200,
+        font: this.__buttonFont,
+        center: false
+      });
+      return button;
+    },
+
+
     __buildSelection : function(desktopTutorials, mobileTutorials) {
       for (var i=0; i < desktopTutorials.length; i++) {
         var name = desktopTutorials[i].replace(/_/g, " ");
-        var button = new qx.ui.form.Button(name);
-        button.setWidth(200);
+        var desc = qx.Class.getByName(
+          "tutorial.tutorial.desktop." + desktopTutorials[i]
+        ).description;
+        var button = this.__createButton(name, desc);
         this.add(button, {row: i + 1, column: 0});
         button.addListener("execute", (function(name) {
           this.fireDataEvent("changeTutorial", {name: name, type: "desktop"});
@@ -71,8 +93,10 @@ qx.Class.define("tutorial.view.SelectionWindow",
 
       for (var i=0; i < mobileTutorials.length; i++) {
         var name = mobileTutorials[i].replace(/_/g, " ");
-        var button = new qx.ui.form.Button(name);
-        button.setWidth(200);
+        var desc = qx.Class.getByName(
+          "tutorial.tutorial.mobile." + desktopTutorials[i]
+        ).description;
+        var button = this.__createButton(name, desc);
         this.add(button, {row: i + 1, column: 1});
         button.addListener("execute", (function(name) {
           this.fireDataEvent("changeTutorial", {name: name, type: "mobile"});
