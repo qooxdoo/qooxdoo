@@ -35,7 +35,20 @@ qx.Class.define("tutorial.tutorial.desktop.Single_Value_Binding",
       },
 
       function() {
-        
+        var slider = new qx.ui.form.Slider();
+        slider.setWidth(100);
+        slider.setMinimum(0);
+        slider.setMaximum(8);
+        this.getRoot().add(slider, {left: 10, top: 15});
+
+        var button = new qx.ui.form.Button("x pieces");
+        this.getRoot().add(button, {left: 120, top: 10});
+
+        slider.bind("value", button, "label", {
+          converter: function(data) {
+            return data + " pieces";
+          }
+        });
       }
     ]
   }

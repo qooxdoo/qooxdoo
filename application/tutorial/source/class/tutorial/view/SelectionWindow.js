@@ -94,7 +94,7 @@ qx.Class.define("tutorial.view.SelectionWindow",
       for (var i=0; i < mobileTutorials.length; i++) {
         var name = mobileTutorials[i].replace(/_/g, " ");
         var desc = qx.Class.getByName(
-          "tutorial.tutorial.mobile." + desktopTutorials[i]
+          "tutorial.tutorial.mobile." + mobileTutorials[i]
         ).description;
         var button = this.__createButton(name, desc);
         this.add(button, {row: i + 1, column: 1});

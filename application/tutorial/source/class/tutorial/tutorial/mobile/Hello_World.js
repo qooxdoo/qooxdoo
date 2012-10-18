@@ -25,6 +25,7 @@ qx.Class.define("tutorial.tutorial.mobile.Hello_World",
     steps: [
       function() {
         var page = new qx.ui.mobile.page.NavigationPage();
+        page.setTitle("Hello World");
 
         this.getManager().addDetail(page);
         page.show();
