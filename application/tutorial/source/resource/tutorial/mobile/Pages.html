@@ -2,6 +2,7 @@
   <p>
     Mobile apps usually consist of many pages. In this tutorial, we want to show you how you can create two pages and link between them. We wont go much into detail about how a page is created, which we already covered in the Hello World tutorial.
   </p>
+  <h3>Page one</h3>
   <p>
     Lets get started with the first page.
   </p>
@@ -17,6 +18,7 @@ page1.setTitle("Page 1");
   );
   page1.getContent().add(button);
 },this);</pre>
+  <h3>Page two</h3>
   <p>
     Now, lets add the second page which is almost like page one.
   </p>
@@ -39,6 +41,7 @@ page1.show();</pre>
   </p>
 </div>
 <div id="step2">
+  <h3>Connect the pages</h3>
   <p>
     The next step is to connect the pages. That means we need to tell the application to jump to the second page in case we press the button on the first page. Add a <code>tap</code> listener to the button of page one in the <code>initialize</code> handler.
   </p>

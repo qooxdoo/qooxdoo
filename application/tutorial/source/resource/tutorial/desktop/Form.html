@@ -2,6 +2,7 @@
   <p>
     In this tutorial, we want to build a simple login form containig a textfield for the username and a password field for the password. Additionally, a button for the loging is needed.
   </p>
+  <h3>Create the Form</h3>
   <p>
     Forms are abstract objects in qooxdoo which hold the input fields and buttons. As we need two input field, we should create them as well. After that, we can add these input fields to the form, as you can see in the following code snippet.
   </p>
@@ -13,7 +14,11 @@ form.add(userName, "Name");
 var password = new qx.ui.form.PasswordField();
 form.add(password, "Password");</pre>
   <p>
-    Running this code creates the form, but does not show anything in the app. As described above, forms are abstract objects and do not contain any information on how to layout the form on the screen. Therefore, form renderer can be used. Take a simple, one column rendere and render the form
+    Running this code creates the form, but does not show anything in the app. As described above, forms are abstract objects and do not contain any information on how to layout the form on the screen. Therefore, form renderer can be used.
+  </p>
+  <h3>Render the Form</h3>
+  <p>
+    Take a simple, one column rendere and render the form.
   </p>
   <pre>this.getRoot().add(
   new qx.ui.form.renderer.Single(form),
@@ -25,6 +30,7 @@ form.add(password, "Password");</pre>
 </div>
 
 <div id="step2">
+  <h3>Add the Button</h3>
   <p>
     As a next step, we want to add the login button. For adding buttons, the form offers a separate method, which will be used in the folloing snippet.
   </p>
@@ -46,6 +52,7 @@ form.addButton(login);</pre>
   </p>
 </div>
 <div id="step3">
+  <h3>Set up the validation</h3>
   <p>But we did not any information how to validate the input fields. We ue two simple cases, the username is required and the password field should at least have 6 characters.</p>
   <p>
     Setting the username as reuqired is really easy. Just tell the username input to be required.
@@ -54,6 +61,7 @@ form.addButton(login);</pre>
   <p>
     Adding this line right after creating the text field will mark the field as required. Running the code now will show you a little red start right beside the name of the field which marks it as required. Hitting the login button now without a user name will fail and highlight the input. Hovering will show a popup containing the error message.
   </p>
+  <h3>Custom validation</h3>
   <p>
     Adding a custom validator is also easy. Search for the line where we add the password field to the form and add a function as third parameter. This function will be your validator. The validator will have access to the current set value as first argument. The new line could look like this.
   </p>

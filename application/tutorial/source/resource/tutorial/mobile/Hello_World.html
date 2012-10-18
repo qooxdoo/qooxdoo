@@ -2,6 +2,7 @@
   <p>
     In this tutorial, we want to introduce you to qooxdoo mobile. As a first sample, we want to add a page to our mobile app showing one button. This button should bring up an alert window when pressed.
   </p>
+  <h3>First Page</h3>
   <p>
     Crating a page is like creating any other widget. As soon as we have this page, we need to tell the page manager to take care of this page. Initially, we want to show this page as well.
   </p>
@@ -18,6 +19,7 @@ page.show();</pre>
   </p>
 </div>
 <div id="step2">
+  <h3>Add the Button</h3>
   <p>
     Next, we want to add a button. As mobile devices are usually not that perofrmant, it is always a good idea to delay execution as much as possible. To make sure we don't create every widget on startup, qooxdoo offers a <code>initialize</code> event which will be fired when the page needs to initialize. In out case, we use that to create our buton and add it to the page's content.
   </p>
@@ -28,7 +30,11 @@ page.show();</pre>
   page.getContent().add(button);
 }, this);</pre>
   <p>
-    Add these lines of code to the sample right after setting the title and run it. It will show you your mobile app: a page with a button. As a final step, we want to show the alert as soon as we click on the button. For that, we need to add a listener to the buttons <code>tap</code> event.
+    Add these lines of code to the sample right after setting the title and run it. It will show you your mobile app: a page with a button.
+  </p>
+  <h3>Reaction</h3>
+  <p>
+    As a final step, we want to show the alert as soon as we click on the button. For that, we need to add a listener to the buttons <code>tap</code> event.
   </p>
   <pre>  button.addListener("tap", function() {
   alert("... World!");

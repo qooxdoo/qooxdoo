@@ -2,6 +2,7 @@
   <p>
     Single Value Binding is the basic concept behind all of qooxdoo's data binding mechanisms. But it is also a very usfull heper during the development. In this tutorial, we connect a sliders value to the text state of the button.
   </p>
+  <h3>Basic UI</h3>
   <p>
     The first step is to setup the basic UI. Therefore, we need a slider and a button next to each other. First, we create a slider with a width of 100 pixel and a range between 0 and 8.
   </p>
@@ -20,6 +21,7 @@ this.getRoot().add(button, {left: 120, top: 10});</pre>
   </p>
 </div>
 <div id="step2">
+  <h3>Binding</h3>
   <p>
     After setting up the UI, we have two tasks left. First, we need to update the buttons text as soon as we move the slider. Therefore, we can use data binding. But we nee to know two things. Single Value Binding connects two properties of qooxdoo objects, no matter what objects. In our case, we want to connect the value property of the slider to the label property of the button.
   </p>
@@ -27,6 +29,7 @@ this.getRoot().add(button, {left: 120, top: 10});</pre>
   <p>
     Adding this line to the bottom of the code will connect the two properties. Give it a try and runn the sampple. You will see that the buttons label changes right away to the value the slider currently has. Move the slider to see the label change.
   </p>
+  <h3>Converters</h3>
   <p>
     But thats not what we plane. We wanted to have a text like "x pieces" in the button. So we need a converter which will convert the value of the slider (which is a number) to the text we want to show. The converter can be added as a additional argument to the bind function.
   </p>
