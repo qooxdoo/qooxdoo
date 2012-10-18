@@ -61,7 +61,7 @@ qx.Class.define("tutorial.Application",
       }
 
       // Tutorials List
-      this.__desktopTutorials = ["Hello_World", "Single_Value_Binding"];
+      this.__desktopTutorials = ["Hello_World", "Form", "Single_Value_Binding"];
       this.__mobileTutorials = ["Hello_World"];
 
       // Create main layout
