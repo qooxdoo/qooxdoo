@@ -20,6 +20,8 @@
 #asset(qx/icon/Tango/22/actions/media-skip-backward.png)
 #asset(qx/icon/Tango/22/actions/media-playback-start.png)
 #asset(qx/icon/Tango/22/actions/media-skip-forward.png)
+#asset(tutorial/default.highlight.css)
+#asset(tutorial/highlight.pack.js)
 ************************************************************************ */
 
 qx.Class.define("tutorial.view.Description",
@@ -33,7 +35,7 @@ qx.Class.define("tutorial.view.Description",
   */
 
   /**
-   * @lint ignoreUndefined(qxc)
+   * @lint ignoreUndefined(qxc, hljs)
    */
   construct : function()
   {
@@ -57,6 +59,10 @@ qx.Class.define("tutorial.view.Description",
     this.__selectButton.exclude();
     this.add(this.__selectButton);
     this.add(this.__createButtonContainer());
+
+    this.loadHljs(function() {
+      q('pre').forEach(function(el) {hljs.highlightBlock(el)});
+    }, this);
 
     this.updateView();
   },
@@ -104,6 +110,26 @@ qx.Class.define("tutorial.view.Description",
     },
 
 
+    loadHljs : function(clb, ctx) {
+      // load the script
+      var res = "tutorial/highlight.pack.js";
+      var uri = qx.util.ResourceManager.getInstance().toUri(res);
+      var loader = new qx.bom.request.Script();
+      loader.onload = function() {
+        clb.call(ctx);
+      };
+      loader.open("GET", uri);
+      loader.send();
+
+      // load the CSS
+      res = "tutorial/default.highlight.css";
+      uri = qx.util.ResourceManager.getInstance().toUri(res);
+      qx.bom.Stylesheet.includeFile(uri);
+    },
+
+    /**
+     * @lint ignoreUndefined(hljs)
+     */
     updateView : function() {
       if (!this.getTutorial()) {
         return;
@@ -127,7 +153,8 @@ qx.Class.define("tutorial.view.Description",
         backgroundColor: "#EEE",
         borderRadius : "4px",
         padding: "7px"
-      });
+      }).filter("pre").forEach(function(el) {window.hljs && hljs.highlightBlock(el)});
+;
     },
 
 
