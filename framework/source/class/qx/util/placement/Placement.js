@@ -115,6 +115,18 @@ qx.Class.define("qx.util.placement.Placement",
       var edge = splitted[0];
       var align = splitted[1];
 
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        if (align === "center" || align === "middle")
+        {
+          var expected = "middle";
+          if (edge === "top" || edge === "bottom") {
+            expected = "center";
+          }
+          qx.core.Assert.assertEquals(expected, align, "Please use '" + edge + "-" + expected + "' instead!");
+        }
+      }
+
       this.__instance.set({
         axisX: this.__getAxis(modeX),
         axisY: this.__getAxis(modeY),
