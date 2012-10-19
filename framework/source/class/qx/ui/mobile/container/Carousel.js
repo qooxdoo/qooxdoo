@@ -143,6 +143,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     __showTransition : null,
     __transitionDuration : 0.4,
     __swipeVelocityLimit : 1.5,
+    __isPageScrollTarget : null,
     
     
     // overridden
@@ -358,6 +359,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       var carouselScrollerWidth = qx.bom.element.Dimension.getWidth(carouselScrollerElement);
       var carouselWidth = qx.bom.element.Dimension.getWidth(carouselElement);
       
+      this.__isPageScrollTarget = null;
+      
       this.__boundsX[0] = -carouselScrollerWidth + carouselWidth;
     },
     
@@ -370,23 +373,22 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this._setShowTransition(false);
       
       var deltaX = evt.getDocumentLeft() - this.__touchStartPosition[0];
-      //var deltaY = evt.getDocumentTop()-this.__touchStartPosition[1];
+      var deltaY = evt.getDocumentTop() - this.__touchStartPosition[1];
       
-      this.__onMoveOffset[0] = deltaX + this.__lastOffset[0];
+      if(this.__isPageScrollTarget == null) {
+        var cosDelta = deltaX/deltaY;
+        this.__isPageScrollTarget = Math.abs(cosDelta) < 1;
+      }
       
-      // If verticalOffset of swipe is above a specific limit, stop 
-      // swiping this carousel, and scrolls the page.
-      var absHorizontalOffset = Math.abs(deltaX);
-      if(absHorizontalOffset > 20) {
+      if(!this.__isPageScrollTarget) {
+        this.__onMoveOffset[0] = deltaX + this.__lastOffset[0];
+        if(!(this.__onMoveOffset[0] < this.__boundsX[1])) {
+          this.__onMoveOffset[0] = this.__boundsX[1];
+        } 
         
         if(!(this.__onMoveOffset[0] > this.__boundsX[0])) {
           this.__onMoveOffset[0] = this.__boundsX[0];
         }
-
-        if(!(this.__onMoveOffset[0] < this.__boundsX[1])) {
-          this.__onMoveOffset[0] = this.__boundsX[1];
-        } 
-
         this._updateScrollerPosition(this.__onMoveOffset[0],this.__onMoveOffset[1]);
         
         evt.preventDefault();
@@ -535,6 +537,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     this._disposeObjects("__carouselScroller, __pagination");
     qx.util.DisposeUtil.disposeArray(this,"__paginationLabels");
     
-    this.__pages = this.__paginationLabels = this.__touchStartPosition = this.__snapPointsX = this.__onMoveOffset = this.__lastOffset = this.__boundsX = null;
+    this.__pages = this.__paginationLabels = this.__touchStartPosition = this.__snapPointsX = this.__onMoveOffset = this.__lastOffset = this.__boundsX = this.__isPageScrollTarget = null;
   }
 });
