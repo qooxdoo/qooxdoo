@@ -493,10 +493,18 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       testResult.addListener("startTest", function(e) {
         var test = e.getData();
 
-        if (this.currentTestData && this.currentTestData.fullName === test.getFullName()
-          && this.currentTestData.getState() == "wait") {
-          this.currentTestData.setState(this.currentTestData.getPreviousState() || "start");
-          return;
+        if (this.currentTestData) {
+          if (this.currentTestData.fullName === test.getFullName() &&
+              this.currentTestData.getState() == "wait")
+          {
+            // test is in wait state, don't add it to the view again
+            this.currentTestData.setState(this.currentTestData.getPreviousState() || "start");
+            return;
+          }
+          else {
+            // test was executed before, clear old exceptions
+            this.currentTestData.setExceptions([]);
+          }
         }
 
         if (!qx.lang.Array.contains(this.__testsInView, this.currentTestData.fullName)) {
