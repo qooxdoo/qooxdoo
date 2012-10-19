@@ -379,9 +379,7 @@ class symbol_base(Node):
 
     # serialization to list of nodes
     def toListG(self):
-        for e in itert.chain([self], *[c.toListG() for c in self.children]):
-            yield e
-        #raise SyntaxException("Symbol '%r' has to implement its own toListG method (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
+        raise SyntaxException("Symbol '%s' has to implement its own toListG method (pos %r)." % (self.id, (self.get("line",-1), self.get("column",-1))))
 
 
     def compileToken(self, name, compact=False):
@@ -680,6 +678,17 @@ def method(s):
         setattr(s, fn.__name__, fn)
         #fn.__name__ = "%s.%s" % (s.id, fn.__name__)
     return bind
+
+def toListG_just_children(self):
+    for cld in self.children:
+        for e in cld.toListG():
+            yield e
+
+def toListG_self_first(self):
+    yield self
+    for cld in self.children:
+        for e in cld.toListG():
+            yield e
 
 # - Grammar ----------------------------------------------------------------
 
@@ -1252,12 +1261,8 @@ def toJS(self, opts):
 symbol("params").toJS = toJS
 symbol("arguments").toJS = toJS  # same here
 
-def toListG(self):
-    for e in itert.chain([self], *[c.toListG() for c in self.children]):
-        yield e
-
-symbol("params").toListG = toListG
-symbol("arguments").toListG = toListG  # same here
+symbol("params").toListG = toListG_self_first
+symbol("arguments").toListG = toListG_self_first
 
 @method(symbol("body"))
 def toJS(self, opts):
@@ -2066,6 +2071,8 @@ def toJS(self, opts):
             r.append(';')
     return u''.join(r)
 
+symbol("statements").toListG = toListG_just_children
+
 
 def init_list():  # parse anything from "i" to "i, j=3, k,..."
     lst = []
@@ -2162,6 +2169,7 @@ symbol("file")
 def toJS(self, opts):
     return self.children[0].toJS(opts)
 
+symbol("file").toListG = toListG_just_children
 
 @method(symbol("first"))
 def toJS(self, opts):
