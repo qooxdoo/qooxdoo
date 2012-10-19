@@ -581,10 +581,7 @@ def prefix(id_, bp):
 ##
 # prefix "verb" operators, i.e. that need a space before their operand like 'delete'
 def prefix_v(id_, bp):
-    def pfix(self):
-        self.childappend(expression(bp-1)) # right-associative
-        return self
-    symbol(id_, bp).pfix = pfix
+    prefix(id_, bp)  # init as prefix op
 
     def toJS(self, opts):
         r = u''
@@ -685,6 +682,7 @@ def toListG_just_children(self):
             yield e
 
 def toListG_self_first(self):
+    #for e in itert.chain(*[c.toListG() for c in self.children]): yield e
     yield self
     for cld in self.children:
         for e in cld.toListG():
@@ -910,6 +908,7 @@ def constant(id_):
         self.id = "constant"
         self.value = id_
         return self
+    symbol(id_).toListG = toListG_self_first
 
 constant("null")
 constant("true")
@@ -1055,11 +1054,7 @@ def toJS(self, opts):
         r.append(c.toJS(opts))
     return '[' + u','.join(r) + ']'
 
-@method(symbol("array"))
-def toListG(self):
-    for c in self.children:
-        for e in c.toListG():
-            yield e
+symbol("array").toListG = toListG_self_first
 
 
 symbol("key")
@@ -1770,6 +1765,8 @@ def pfix(self):
     self.childappend(arg)
     return self
 
+symbol("new").toListG = toListG_self_first
+
 
 symbol("switch"); symbol("case"); symbol("default")
 
@@ -1915,10 +1912,9 @@ def toJS(self, opts):
         r.append(finally_.children[0].toJS(opts))
     return ''.join(r)
 
-@method(symbol("try"))
-def toListG(self):
-    for e in itert.chain([self], *[c.toListG() for c in self.children]):
-        yield e
+symbol("try").toListG = toListG_self_first
+symbol("catch").toListG = toListG_self_first
+symbol("finally").toListG = toListG_self_first
 
 
 symbol("throw")
@@ -1937,6 +1933,8 @@ def toJS(self, opts):
     r += self.space()
     r += self.children[0].toJS(opts)
     return r
+
+symbol("throw").toListG = toListG_self_first
 
 def expression(bind_right=0):
     global token
@@ -2002,9 +2000,13 @@ def statement():
 def toJS(self, opts):
     return self.children[0].toJS(opts)
 
+symbol("statement").toListG = toListG_just_children
+
 @method(symbol("(empty)"))
 def toJS(self, opts):
     return u''
+
+symbol("(empty)").toListG = toListG_self_first
 
 @method(symbol("label"))
 def toJS(self, opts):
@@ -2013,6 +2015,8 @@ def toJS(self, opts):
     r += [":"]
     r += [self.children[0].toJS(opts)]
     return ''.join(r)
+
+symbol("label").toListG = toListG_self_first
 
 
 def statementEnd():
@@ -2039,6 +2043,8 @@ def statementEnd():
 @method(symbol("eof"))
 def toJS(self, opts):
     return u''
+
+symbol("eof").toListG = toListG_self_first
 
 def statementOrBlock(): # for 'if', 'while', etc. bodies
     if token.id == '{':
@@ -2178,6 +2184,8 @@ def toJS(self, opts):
         r = self.children[0].toJS(opts)
     return r
 
+symbol("first").toListG = toListG_just_children
+
 @method(symbol("second"))
 def toJS(self, opts):
     r = u''
@@ -2185,12 +2193,16 @@ def toJS(self, opts):
         r = self.children[0].toJS(opts)
     return r
 
+symbol("second").toListG = toListG_just_children
+
 @method(symbol("third"))
 def toJS(self, opts):
     r = u''
     if self.children:
         r = self.children[0].toJS(opts)
     return r
+
+symbol("third").toListG = toListG_just_children
 
 
 symbol("params")
