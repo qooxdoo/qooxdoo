@@ -214,7 +214,7 @@ qx.Bootstrap.define("qx.lang.Object",
      *
      * @param source {Object} Object to copy
      * @param deep {Boolean} If the clone should be a deep clone.
-     * @return {Object} copy of vObject
+     * @return {Object} A copy of the object
      */
     clone : function(source, deep)
     {
@@ -272,8 +272,8 @@ qx.Bootstrap.define("qx.lang.Object",
 
     /**
      * Get the key of the given value from a map.
-     * If the map has more than one key matching the value the fist match is returned.
-     * If the map does not contain the value <code>null</code> is returned.
+     * If the map has more than one key matching the value, the first match is returned.
+     * If the map does not contain the value, <code>null</code> is returned.
      *
      * @param map {Object} Map to search for the key
      * @param value {var} Value to look for
