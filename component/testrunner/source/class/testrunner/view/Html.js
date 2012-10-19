@@ -153,7 +153,6 @@ qx.Class.define("testrunner.view.Html", {
   */
   members :
   {
-    __testNameToId : null,
     __filterTimer : null,
     __testModel : null,
     __testNamesList : null,
@@ -162,7 +161,6 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Creates the header.
-     * @lint ignoreUndefined($)
      */
     _getHeader : function()
     {
@@ -178,7 +176,6 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Creates the main controls.
-     * @lint ignoreUndefined($)
      */
     _getMainControls : function()
     {
@@ -201,8 +198,6 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Add listeners to the main Test Runner controls
-     *
-     * @lint ignoreUndefined($)
      */
     _bindMainControls : function()
     {
@@ -228,7 +223,6 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Creates the test selection controls.
-     * @lint ignoreUndefined($)
      */
     _getTestControls : function()
     {
@@ -247,8 +241,6 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Add listeners to the test list controls
-     *
-     * @lint ignoreUndefined($)
      */
     _bindTestControls : function() {
       q("#togglealltests").on("change", function(ev) {
@@ -270,7 +262,6 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Creates the list of available tests and attaches it to the root node.
-     * @lint ignoreUndefined($)
      */
     _getTestList : function()
     {
@@ -280,7 +271,6 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Creates the footer/status bar.
-     * @lint ignoreUndefined($)
      */
     _getFooter : function()
     {
@@ -290,18 +280,15 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Empties the results display.
-     *
-     * @lint ignoreUndefined($)
      */
     clearResults : function()
     {
       q("#testlist ul").remove();
-      q("#testlist li label").setAttribute("class", "")
+      q("#testlist li label").setAttribute("class", "");
     },
 
     /**
      * Empties the test list.
-     * @lint ignoreUndefined($)
      */
     clearTestList : function()
     {
@@ -316,6 +303,18 @@ qx.Class.define("testrunner.view.Html", {
       if (this.getTestSuiteState() == "finished" ) {
         this.reset();
       }
+
+      var selection = this.getSelectedTests();
+      selection.removeAll();
+      var checked = [];
+      q("#testlist input:checked").forEach(function(el, index, coll) {
+        var testName = q("label[for=" + el.id + "]")[0].innerHTML;
+        if (q(el).getParents().getClass().indexOf("hidden") == -1) {
+          checked.push(testrunner.runner.ModelUtil.getItemsByProperty(this.__testModel, "fullName", testName)[0]);
+        }
+      }, this);
+      selection.append(checked);
+
       this.fireEvent("runTests");
     },
 
@@ -329,7 +328,6 @@ qx.Class.define("testrunner.view.Html", {
 
     /**
      * Reload the test suite
-     * @lint ignoreUndefined($)
      */
     __reloadAut : function()
     {
@@ -343,7 +341,6 @@ qx.Class.define("testrunner.view.Html", {
      * Returns the iframe element the AUT should be loaded in.
      *
      * @return {DOMElement} The iframe
-     * @lint ignoreUndefined($)
      */
     getIframe : function()
     {
@@ -371,7 +368,6 @@ qx.Class.define("testrunner.view.Html", {
      * {@link qx.log.appender.Element} to display the AUT's log output.
      *
      * @return {Element} DIV element
-     * @lint ignoreUndefined($)
      */
     getLogAppenderElement : function()
     {
@@ -398,36 +394,32 @@ qx.Class.define("testrunner.view.Html", {
 
 
     /**
-     * Selects or deselects all tests in the current test suite.
+     * Selects or deselects all tests visible in the list.
      *
      * @param selected {Boolean} true: select all tests; false: deselect all
      * tests
-     * @param onlyVisible {Boolean} true: only modify tests if the corresponding
-     * entry in the test list is visible. Default: false
-     * @lint ignoreUndefined($)
      */
-    toggleAllTests : function(selected, onlyVisible)
+    toggleAllTests : function(selected)
     {
-      var testsToModify = [];
-      var boxes = q("#testlist input[type=checkbox]");
-      for (var i=0,l=boxes.length; i<l; i++) {
-        if (boxes[i].type == "checkbox" && boxes[i].id.indexOf("cb_") == 0) {
-          if (onlyVisible && boxes[i].parentNode.style.display == "none") {
-            continue;
-          }
-          boxes[i].checked = selected;
-          var testName = this.__testNameToId[boxes[i].id.substr(3)];
-          testsToModify.push(testName);
-        }
+      var boxes = q("#testlist li").filter(function(item) {
+        return !q(item).hasClass("hidden");
+      })
+      .getChildren("input[type=checkbox]");
+
+      if (selected) {
+        boxes.setAttribute("checked", "checked");
       }
-      this.__toggleTestsSelected(testsToModify, selected);
+      else {
+        boxes.removeAttribute("checked");
+      }
+
+      this.__storeSelectedTests();
     },
 
 
     /**
      * Shows and selects any tests matching the search term while hiding and
      * deselecting the rest.
-     * @lint ignoreUndefined($)
      *
      * @param term {String} Search term
      */
@@ -435,53 +427,20 @@ qx.Class.define("testrunner.view.Html", {
     {
       var searchRegExp = new RegExp("^.*" + term + ".*", "ig");
 
-      var matches = [];
-      for (var i=0,l=this.__testNamesList.length; i<l; i++) {
-        if (this.__testNamesList[i].match(searchRegExp)) {
-          matches.push(this.__testNamesList[i]);
+      this.__testNamesList.forEach(function(item, index, list) {
+        var testIndex = list.indexOf(item);
+        var id = "cb_" + testIndex;
+        var listItem = q("#" + id).getParents();
+
+        if (item.match(searchRegExp)) {
+          listItem.removeClass("hidden");
         }
-      }
-      this.toggleAllTests(false, false);
-      this.hideAllTestListEntries();
-      if (matches.length > 0) {
-        var testsToModify = [];
-        for (var i=0,l=matches.length; i<l; i++) {
-          var key = this.__simplifyName(matches[i]);
-          var checkboxId = "cb_" + key;
-          var box = q("#" + checkboxId);
-          box.getParents().setStyle("display", "block");
-          if (q("#togglealltests")[0].checked) {
-            box.setAttribute("checked", "checked");
-            testsToModify.push(matches[i]);
-          }
+        else {
+          listItem.addClass("hidden");
         }
-        this.__toggleTestsSelected(testsToModify, true);
-      }
+      });
+
       q.cookie.set("testFilter", term);
-    },
-
-
-    /**
-     * Hides all entries in the test list.
-     * @lint ignoreUndefined($)
-     */
-    hideAllTestListEntries : function()
-    {
-      q("#testlist").getChildren("li").setStyle("display", "none");
-    },
-
-
-    /**
-     * Simplifies a test function's fully qualified name so it can be used as a
-     * map key.
-     *
-     * @param testName {String} The test's full name
-     * @return {String} The simplified string
-     */
-    __simplifyName : function(testName)
-    {
-      var id = testName.replace(/[\W]/ig, "");
-      return id;
     },
 
 
@@ -496,12 +455,6 @@ qx.Class.define("testrunner.view.Html", {
       this.resetSkippedTestCount();
       this.clearResults();
       this.__testResults = {};
-
-      var selected = this.getSelectedTests();
-      // trigger a "change" event on the selection to allow running it again
-      if (selected.length > 0) {
-        selected.push(selected.pop());
-      }
     },
 
 
@@ -554,7 +507,6 @@ qx.Class.define("testrunner.view.Html", {
      * state
      *
      * @param testResultData {testrunner.runner.TestItem} Test result object
-     * @lint ignoreUndefined($)
      */
     _markTestInList : function(testResultData)
     {
@@ -564,18 +516,22 @@ qx.Class.define("testrunner.view.Html", {
 
       var testName = testResultData.getFullName();
       var state = testResultData.getState();
-      var key = this.__simplifyName(testName);
 
-      var listItem = q("[for=cb_" + key + "]").getParents()
+      var testIndex = this.__testNamesList.indexOf(testName);
+      var id = "cb_" + testIndex;
+      var listItem = q("#" + id).getParents()
       .setAttribute("class", "").addClass("t_" + state);
       listItem.getChildren(".result")[0].innerHTML = state.toUpperCase();
 
+      // remove any previous stack info
+      listItem.getChildren("ol").remove();
+
       var exList = this._getExceptionsList(testResultData);
 
-      this.__testExceptions[key] = exList;
+      this.__testExceptions[testIndex] = exList;
       var that = this;
       window.setTimeout(function() {
-        listItem.append(that.__testExceptions[key]);
+        listItem.append(that.__testExceptions[testIndex]);
       }, 150);
     },
 
@@ -586,7 +542,6 @@ qx.Class.define("testrunner.view.Html", {
      *
      * @param testResultData {testrunner.runner.TestItem} Test data object
      * @return {Element} HTML list element
-     * @lint ignoreUndefined($)
      */
     _getExceptionsList : function(testResultData)
     {
@@ -628,51 +583,21 @@ qx.Class.define("testrunner.view.Html", {
      */
     __onToggleTest : function(ev)
     {
-      var testName = this.__testNameToId[ev.getTarget().id.substr(3)];
-      var selected = ev.getTarget().checked;
-      this.__toggleTestsSelected([testName], selected);
+      this.__storeSelectedTests();
     },
 
 
     /**
-     * Adds or removes tests from the list of selected tests.
-     *
-     * @param tests {String[]} List of tests to be added or removed
-     * @param selected {Boolean} Whether the given tests should be added to or
-     * removed from the selection
+     * Saves the currently selected tests in a cookie
      */
-    __toggleTestsSelected : function(tests, selected)
+    __storeSelectedTests : function()
     {
-      var selectedTests = this.getSelectedTests().copy();
-
-      for (var i=0,l=tests.length; i<l; i++) {
-        var testName = tests[i];
-        var testInSelection = this._listContainsTest(selectedTests, testName);
-        if (selected && !testInSelection) {
-          var testItem = testrunner.runner.ModelUtil.getItemsByProperty(this.__testModel, "fullName", testName)[0];
-          selectedTests.push(testItem);
-        }
-        else if (!selected && testInSelection) {
-          this._removeTestFromList(selectedTests, testName);
-        }
-      }
-
-      this.setSelectedTests(selectedTests);
-      this._writeCookie();
-    },
-
-
-    /**
-     * Stores the current test selection in a cookie
-     */
-    _writeCookie : function()
-    {
-      var selected = this.getSelectedTests();
-      var names = [];
-      for (var i=0,l=selected.length; i<l; i++) {
-        names.push(selected.getItem(i).getFullName());
-      }
-      q.cookie.set("selectedTests", names.join("#"));
+      var selected = [];
+      q("#testlist input:checked").forEach(function(el, index, coll) {
+        var testName = q("label[for=" + el.id + "]")[0].innerHTML;
+        selected.push(testName);
+      });
+      q.cookie.set("selectedTests", selected.join("#"));
     },
 
 
@@ -686,7 +611,6 @@ qx.Class.define("testrunner.view.Html", {
      * Displays a status message.
      * @param value {String} The message to be displayed
      * @param old {String} The previous status
-     * @lint ignoreUndefined($)
      */
     _applyStatus : function(value, old)
     {
@@ -704,8 +628,6 @@ qx.Class.define("testrunner.view.Html", {
      *
      * @param value {String} The test suite's status
      * @param value {String} The previous status
-     *
-     * @lint ignoreUndefined($)
      */
     _applyTestSuiteState : function(value, old)
     {
@@ -729,7 +651,7 @@ qx.Class.define("testrunner.view.Html", {
             this._applyTestCount(this.getTestCount());
           }
           q("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
-          q("#stop").setAttribute("disabled", "disabled")
+          q("#stop").setAttribute("disabled", "disabled");
           this.setFailedTestCount(0);
           this.setSuccessfulTestCount(0);
           if (this.getAutoRun()) {
@@ -760,7 +682,7 @@ qx.Class.define("testrunner.view.Html", {
           q("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
           q("#stop").setAttribute("disabled", "disabled");
           break;
-      };
+      }
     },
 
 
@@ -776,7 +698,6 @@ qx.Class.define("testrunner.view.Html", {
 
       var testList = testrunner.runner.ModelUtil.getItemsByProperty(value, "type", "test");
       this.setSelectedTests(new qx.data.Array());
-      this.__testNameToId = {};
       this.clearTestList();
       this.clearResults();
 
@@ -797,129 +718,46 @@ qx.Class.define("testrunner.view.Html", {
     _applyCookieSelection : function()
     {
       var cookieSelection = q.cookie.get("selectedTests");
-      var foundTests = [];
-      if (cookieSelection) {
-        var cookieSelection = cookieSelection.split("#");
-        for (var i=0,l=cookieSelection.length; i<l; i++) {
-          var found = testrunner.runner.ModelUtil.getItemByFullName(this.__testModel, cookieSelection[i]);
-          if (found) {
-            foundTests.push(found.getFullName());
-          }
-        }
-      }
-
-      if (foundTests.length > 0) {
-        this.toggleAllTests(false);
-        this.__toggleTestsSelected(foundTests, true);
-        for (var i=0,l=foundTests.length; i<l; i++) {
-          this._setTestChecked(foundTests[i], true);
-        }
-      }
-      else {
+      if (!cookieSelection) {
         this.toggleAllTests(true);
+        return;
       }
-    },
-
-
-    /**
-     * Sets the <code>checked</code> attribute of a checkbox corresponding to a
-     * single test
-     *
-     * @param testName {String} The test method's fully qualified name
-     * @param checked {Boolean} <code>true</code> if the test's checkbox should be checked
-     * @lint ignoreUndefined($)
-     */
-    _setTestChecked : function(testName, checked)
-    {
-      var value = checked ? "checked" : "";
-      var target = testName ? "#cb_" + this.__simplifyName(testName) : "input";
-      q("#testlist " + target).setAttribute("checked", value);
-    },
-
-    /**
-     * Removes a single test item from a qx.data.Array of test items
-     *
-     * @param list {qx.data.Array} Test array
-     * @param testName {String} Full name of the test to be removed
-     */
-    _removeTestFromList : function(list, testName)
-    {
-      for (var i=0,l=list.length; i<l; i++) {
-        if (list.getItem(i).getFullName() === testName) {
-          list.remove(list.getItem(i));
-          return;
-        }
-      }
-    },
-
-
-    /**
-     * Checks if a list of test items contains an entry with the given name
-     *
-     * @param list {qx.data.Array} The test list
-     * @param testName {String} Full name of the test to look for
-     * @return {Boolean} True if the test is in the list
-     */
-    _listContainsTest : function(list, testName)
-    {
-      for (var i=0,l=list.length; i<l; i++) {
-        if (list.getItem(i).getFullName() === testName) {
-          return true;
-        }
-      }
-      return false;
+      this.toggleAllTests(false);
+      cookieSelection = cookieSelection.split("#");
+      cookieSelection.forEach(function(testName, idx, arr) {
+        var testIndex = this.__testNamesList.indexOf(testName);
+        var id = "cb_" + testIndex;
+        q("#" + id).setAttribute("checked", "checked");
+      }.bind(this));
+      this.__storeSelectedTests();
     },
 
 
     /**
      * Creates an entry in the HTML test list for each test in the given list
      * @param testList {String[]} Array of test names
-     *
-     * @lint ignoreUndefined($)
      */
     _createTestList : function(testList)
     {
-      var template = '<li><span class="result"></span><input type="checkbox" id="{{id}}"><label for="{{id}}">{{name}}</label></li>';
+      var template = '<li><span class="result"></span><input type="checkbox" id="{{id}}" checked=""><label for="{{id}}">{{name}}</label></li>';
       for (var i=0,l=testList.length; i<l; i++) {
         var testName = testList[i];
-        var key = this.__simplifyName(testName);
-        this.__testNameToId[key] = testName;
 
         var itemHtml = q.template.render(template, {
-          id : "cb_" + key,
+          id : "cb_" + i,
           name : testName
         });
         q("#testlist")[0].innerHTML += itemHtml;
       }
 
       q("#testlist input:checkbox")
-      .setAttribute("checked", null)
       .on("change", this.__onToggleTest, this);
     },
 
 
-    /**
-     * Displays the amount of pending tests.
-     *
-     * @param value {Integer} Amount of pending tests
-     * @param old {Integer} Old value
-     */
     _applyTestCount : function(value, old)
     {
-      return;
-      if (value == null) {
-        return;
-      }
-      var suiteState = this.getTestSuiteState();
-      switch(suiteState)
-      {
-        case "ready" :
-          this.setStatus(value + " tests ready to run");
-          break;
-        case "running" :
-          this.setStatus(value + " tests pending");
-          break;
-      };
+
     },
 
 
@@ -928,7 +766,6 @@ qx.Class.define("testrunner.view.Html", {
      *
      * @param value {String} AUT URI
      * @param old {String} Previous value
-     * @lint ignoreUndefined($)
      */
     _applyAutUri : function(value, old)
     {
@@ -946,8 +783,6 @@ qx.Class.define("testrunner.view.Html", {
      *
      * @param value {Boolean} Incoming property value
      * @param value {Boolean} Previous property value
-     *
-     * @lint ignoreUndefined($)
      */
     _applyShowStack : function(value, old)
     {
@@ -964,8 +799,6 @@ qx.Class.define("testrunner.view.Html", {
      *
      * @param value {Boolean} Incoming property value
      * @param value {Boolean} Previous property value
-     *
-     * @lint ignoreUndefined($)
      */
     _applyShowPassed : function(value, old)
     {
