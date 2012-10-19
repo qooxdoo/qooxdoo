@@ -493,7 +493,7 @@ class MClassDependencies(object):
             # check name in 'new ...' position
             elif ((node.hasParentContext("operation/first") and node.parent.parent.get("operator",0) == "new")
                 or (node.hasParentContext("operation/first/call/operand") and
-                    node.parent.parent.parent.parent.get("operator",0) == "new") # WISH: hasParentContext("operation[@operator='new']/...")
+                    node.parent.parent.parent.parent.get("value",'') == "new") # WISH: hasParentContext("operation[@operator='new']/...")
                 ):
                 context = 'new'
 
