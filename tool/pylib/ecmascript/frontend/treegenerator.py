@@ -379,9 +379,9 @@ class symbol_base(Node):
 
     # serialization to list of nodes
     def toListG(self):
-        #for e in itert.chain([self], *[c.toListG() for c in self.children]):
-        #    yield e
-        raise SyntaxException("Symbol '%r' has to implement its own toListG method (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
+        for e in itert.chain([self], *[c.toListG() for c in self.children]):
+            yield e
+        #raise SyntaxException("Symbol '%r' has to implement its own toListG method (pos %r)." % (self.id, (self.get("line"), self.get("column"))))
 
 
     def compileToken(self, name, compact=False):
