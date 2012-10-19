@@ -7,7 +7,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2012 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -256,6 +256,16 @@ RESERVED = {
     "import": "FUTURE_RESERVED_WORD",
     "public": "FUTURE_RESERVED_WORD"
 }
+
+
+# Global qx symbols, but also start strings of such (qx.$$...)
+QXGLOBALS = [
+    #"clazz",
+    "qxvariants",
+    "qxsettings",
+    "qx.$$",    # qx.$$domReady, qx.$$libraries, ...
+    ]
+
 
 SPACE_BEFORE = ["INSTANCEOF", "IN"]
 SPACE_AFTER = ["VAR", "NEW", "GOTO", "INSTANCEOF", "TYPEOF", "DELETE", "IN", "THROW", "CASE", "VOID"]

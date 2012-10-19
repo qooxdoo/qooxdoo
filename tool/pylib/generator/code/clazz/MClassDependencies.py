@@ -36,14 +36,7 @@ from misc import util
 
 ClassesAll = None # {'cid':generator.code.Class}
 
-QXGLOBALS = [
-    #"clazz",
-    "qxvariants",
-    "qxsettings",
-    r"qx\.\$\$",    # qx.$$domReady, qx.$$libraries, ...
-    ]
-
-GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBALS + QXGLOBALS))
+GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % re.escape(x) for x in lang.GLOBALS + lang.QXGLOBALS))
 
 _memo1_ = [None, None]  # for memoizing getScript()
 
