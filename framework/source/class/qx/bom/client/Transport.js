@@ -92,7 +92,7 @@ qx.Bootstrap.define("qx.bom.client.Transport",
         // Safari: 4
         // http://www.stevesouders.com/blog/2008/03/20/roundup-on-parallel-connections/
 
-        // TODO: Distinguish Chrome from Safari, Chrome has 6 connections
+        // Bug #6917: Distinguish Chrome from Safari, Chrome has 6 connections
         //       according to
         //      http://stackoverflow.com/questions/561046/how-many-concurrent-ajax-xmlhttprequest-requests-are-allowed-in-popular-browser
 

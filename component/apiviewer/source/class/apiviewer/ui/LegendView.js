@@ -150,7 +150,6 @@ qx.Class.define("apiviewer.ui.LegendView",
 
       imageUrl = apiviewer.TreeUtil.iconNameToIconPath(entry.icon);
 
-      // TODO
       if (typeof(imageUrl) != "string") {
         imageUrl = imageUrl[0];
       }

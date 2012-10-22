@@ -1325,8 +1325,6 @@ qx.Class.define("demobrowser.DemoBrowser",
      * then used to construct the uri of the corresponding Javascript source file, which
      * is then loaded into the source tab (through another XHR).
      *
-     * TODO: This method needs a rewrite
-     *
      * @param url {var} TODOC
      * @return {String} TODOC
      */
