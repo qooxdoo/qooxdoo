@@ -105,6 +105,11 @@ q.ready(function() {
     if (loadedClasses.indexOf(name) != -1) {
       return;
     }
+    // ignore the q class
+    if (name == "q") {
+      return;
+    }
+
     loadedClasses.push(name);
     loading++;
     q.io.xhr("script/" + name + ".json").send().on("loadend", function(xhr) {
