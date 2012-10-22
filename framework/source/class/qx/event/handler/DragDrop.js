@@ -461,8 +461,9 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
-    /** {Boolean} Whether a valid drop object exists */
+    /** {Boolean} Whether a valid drop object / action exists */
     __validDrop : false,
+    __validAction : false,
 
 
 
