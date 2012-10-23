@@ -62,10 +62,10 @@
           "file" : "./source/script/${APIVIEWER}.js",
           "app-root" : "source"
         },
-        
+
         "code" : { "except" : [ "*" ] }
       },
-      
+
       "compile" : { "type" : "source" }
     },
 
@@ -84,7 +84,7 @@
     {
       "extend" : ["common"],
       "include" : ["${APIVIEWER}.*"],
-      
+
       "environment" :
       {
         "qx.aspects" : false,
@@ -105,7 +105,7 @@
           "except"   : []
         }
       },
-        
+
       "compile" : { "type" : "build" }
     },
 
@@ -150,10 +150,19 @@
     {
       "run" :
       [
+        "build-viewer",
+        "build-data"
+      ]
+    },
+
+
+    "build-viewer" :
+    {
+      "run" :
+      [
         "build-resources",
         "build-script",
-        "build-files",
-        "build-data"
+        "build-files"
       ]
     },
 
@@ -174,7 +183,7 @@
 
     "build-data" :
     {
-      "config-warnings" : 
+      "config-warnings" :
       {
         "exclude" : "${API_EXCLUDE}",
         "environment" : [ "non-literal-keys" ]

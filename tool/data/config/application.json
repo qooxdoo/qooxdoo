@@ -41,14 +41,16 @@
     {
       "desc"   : "create api doc for the current library",
 
-      "extend" : ["libraries", "apiconf::build"],
+      "extend" : ["libraries", "apiconf::build-viewer"],
+
+      "run" : [
+        "api-data"
+      ],
 
       "let"    :
       {
         "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/component/apiviewer",
-        "BUILD_PATH"     : "${ROOT}/api",
-        "API_INCLUDE"    : ["qx.*", "${APPLICATION}.*"],
-        "API_EXCLUDE"    : ["qx.test.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"]
+        "BUILD_PATH"     : "${ROOT}/api"
       }
     },
 
@@ -61,9 +63,9 @@
 
       "let"    :
       {
-        "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/component/apiviewer",
         "BUILD_PATH"     : "${ROOT}/api",
-        "API_INCLUDE"    : ["qx.*", "${APPLICATION}.*"]
+        "API_INCLUDE"    : ["qx.*", "${APPLICATION}.*"],
+        "API_EXCLUDE"    : ["qx.test.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"]
       }
     },
 
