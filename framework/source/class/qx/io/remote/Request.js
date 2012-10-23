@@ -174,7 +174,7 @@ qx.Class.define("qx.io.remote.Request",
 
 
     /**
-     * Determines what type of request to issue (GET or POST).
+     * Determines what type of request to issue (GET, POST, PUT, HEAD, DELETE).
      */
     method :
     {
