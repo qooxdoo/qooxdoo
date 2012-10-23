@@ -72,8 +72,8 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
   members :
   {
     /**
-     * Displays an alert box. When the application is running in an PhoneGap
-     * environment, a native alert box is shown. For debugging in a browser, a
+     * Displays an alert box. When the application is running in a PhoneGap
+     * environment, a native alert box is shown. When debugging in a browser, a
      * browser alert is shown.
      *
      * @param title {String} The title of the alert box
@@ -82,9 +82,10 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      *     was pressed
      * @param scope {Object} The scope of the handler
      * @param button {String} The button title
-     * @return {qx.ui.mobile.dialog.Dialog|Object} a reference to a alert dialog instance. An {@link Object} if environment is <code>phonegap</code> , or a {@link qx.ui.mobile.dialog.Dialog}
+     * @return {qx.ui.mobile.dialog.Dialog|Object} a reference to an alert dialog 
+     *          instance. An <code>Object</code>, if environment is 
+     *          <code>phonegap</code>, or a {@link qx.ui.mobile.dialog.Dialog}
      *          if not.
-     *
      * @lint ignoreDeprecated(alert)
      */
     alert : function(title, text, handler, scope, button)
@@ -107,8 +108,8 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
 
     /**
-     * Displays a confirm box. When the application is running in an PhoneGap
-     * environment, a native confirm box is shown. For debugging in a browser, a
+     * Displays a confirm box. When the application is running in a PhoneGap
+     * environment, a native confirm box is shown. When debugging in a browser, a
      * browser confirm is shown.
      *
      * @param title {String} The title of the confirm box
