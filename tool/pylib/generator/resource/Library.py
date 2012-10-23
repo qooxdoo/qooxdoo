@@ -318,16 +318,6 @@ class Library(object):
     def _scanClassPath(self, timeOfLastScan=0):
 
         ##
-        # provide a default context dict
-        def get_contextdict():
-            contextdict = {}
-            contextdict["console"] = context.console
-            contextdict["cache"] = context.cache
-            contextdict["jobconf"] = context.jobconf
-            contextdict["envchecksmap"] = {}
-            return contextdict
-
-        ##
         # check class path is on file system
         def check_class_path(classRoot):
             if not os.path.isdir(classRoot):
@@ -351,11 +341,9 @@ class Library(object):
 
         # ----------------------------------------------------------------------
 
-        codeIdFromTree = True  # switch between regex- and tree-based codeId search
         classList = []
         existClassIds = dict([(x.id,x) for x in self._classes])  # if we scanned before
         docs = {}
-        contextdict = get_contextdict() # TODO: Clazz() still relies on a context dict!
         classRoot   = os.path.join(self.path, self.classPath)
 
         check_class_path(classRoot)
@@ -380,80 +368,44 @@ class Library(object):
 
                 # basic attributes
                 filePath = os.path.join(root, fileName)    # /foo/bar/baz/source/class/my/space/AppClass.js
-                fileRel  = filePath.replace(classRoot + os.sep, '')  # my/space/AppClass.js
-                fileExt  = os.path.splitext(fileName)[-1]  # "js"
-                filePathId = fileRel.replace(fileExt, "").replace(os.sep, ".") # my.space.AppClass
-                filePathId = unidata.normalize("NFC", filePathId) # o" -> ö
-                filePackage = filePathId[:filePathId.rfind(".")] if "." in filePathId else ""  # my.space
-                fileStat = os.stat(filePath)
-                fileSize = fileStat.st_size
-                fileMTime= fileStat.st_mtime
+                filePathId = filePath.replace(classRoot + os.sep, '')  # my/space/AppClass.js
+                filePathId = os.path.splitext(filePathId)[0]  # strip pot. ".js" etc.
+                filePathId = filePathId.replace(os.sep, ".") # my.space.AppClass
+
+                p = self.getFileProps(filePathId, filePath)
 
                 # ignore non-script
-                if fileExt != ".js":
+                if p.fileExt != ".js":
                     continue
 
                 # check if known and fresh
-                if (filePathId in existClassIds
-                    and fileMTime < timeOfLastScan):
+                if (p.filePathId in existClassIds
+                    and p.fileMTime < timeOfLastScan):
                     classList.append(existClassIds[filePathId])
                     continue # re-use known class
 
                 # handle doc files
                 if fileName == self._docFilename:
-                    docs[filePackage] = {
-                        "relpath"   : fileRel,
-                        "path"      : filePath,
-                        "encoding"  : self.encoding,
+                    docs[p.filePackage] = {
+                        "relpath"   : p.fileRel,
+                        "path"      : p.filePath,
+                        "encoding"  : p.fileEncoding,
                         "namespace" : self.namespace,
-                        "id"        : filePathId,
-                        "package"   : filePackage,
-                        "size"      : fileSize
+                        "id"        : p.filePathId,
+                        "package"   : p.filePackage,
+                        "size"      : p.fileSize
                     }
                     # stop further processing
                     continue
 
-                if filePathId == "qx.core.Environment":
-                    clazz = qcEnvClass(filePathId, filePath, self, contextdict)
-                else:
-                    clazz = Class(filePathId, filePath, self, contextdict)
-
-                # extract code ID (e.g. class name, mixin name, ...)
-                try:
-                    if codeIdFromTree:
-                        fileCodeId = self._getCodeId(clazz)
-                    else:
-                        # use regexp
-                        fileContent = filetool.read(filePath, self.encoding)
-                        fileCodeId = self._getCodeId1(fileContent)
-                except ValueError, e:
-                    argsList = []
-                    for arg in e.args:
-                        argsList.append(arg)
-                    argsList[0] = argsList[0] + u' (%s)' % fileName
-                    e.args = tuple(argsList)
-                    raise e
+                clazz, fileCodeId = self.makeClassObj(p.filePathId, p.filePath, p)
 
                 # ignore all data files (e.g. translation, doc files, ...)
                 if fileCodeId == None:
                     continue
 
-                # compare path and content
-                if fileCodeId != filePathId:
-                    errmsg = [
-                        u"Detected conflict between filename and classname!\n",
-                        u"    Classname: %s\n" % fileCodeId,
-                        u"    Path: %s\n" % filePath,
-                    ]
-                    raise RuntimeError(u''.join(errmsg))
-
                 # store file data
-                self._console.debug("Adding class %s" % filePathId)
-                clazz.encoding = self.encoding
-                clazz.size     = fileSize     # dependency logging uses this
-                clazz.package  = filePackage  # Apiloader uses this
-                clazz.relpath  = fileRel       # Locale uses this
-                clazz.m_time_  = fileStat.st_mtime
+                self._console.debug("Adding class %s" % p.filePathId)
                 classList.append(clazz)
 
         self._console.indent()
@@ -554,3 +506,63 @@ class Library(object):
                 classId = classId[:-3]
             return (classId, os.path.join(classRoot,*classPathA))
 
+
+    def makeClassObj(self, filePathId, filePath, props):
+        ##
+        # provide a default context dict
+        def get_contextdict():
+            contextdict = {}
+            contextdict["console"] = context.console
+            contextdict["cache"] = context.cache
+            contextdict["jobconf"] = context.jobconf
+            contextdict["envchecksmap"] = {}
+            return contextdict
+
+        # -----------------------------------------------------------------------
+        contextdict = get_contextdict() # TODO: Clazz() still relies on a context dict!
+        if filePathId == "qx.core.Environment":
+            clazz = qcEnvClass(filePathId, filePath, self, contextdict)
+        else:
+            clazz = Class(filePathId, filePath, self, contextdict)
+
+        # extract code ID (e.g. class name, mixin name, ...)
+        try:
+            fileCodeId = self._getCodeId(clazz)
+            ## use regexp
+            #fileContent = filetool.read(filePath, self.encoding)
+            #fileCodeId = self._getCodeId1(fileContent)
+        except ValueError, e:
+            argsList = []
+            for arg in e.args:
+                argsList.append(arg)
+            argsList[0] = argsList[0] + u' (%s)' % props.fileName
+            e.args = tuple(argsList)
+            raise # raises e
+        # compare path and content
+        if fileCodeId and fileCodeId != filePathId:
+            errmsg = [
+                u"Detected conflict between filename and classname!\n",
+                u"    Classname: %s\n" % fileCodeId,
+                u"    Path: %s\n" % filePath,
+            ]
+            raise RuntimeError(u''.join(errmsg))
+        clazz.encoding = props.fileEncoding
+        clazz.size     = props.fileSize     # dependency logging uses this
+        clazz.package  = props.filePackage  # Apiloader uses this
+        clazz.relpath  = props.fileRel       # Locale uses this
+        clazz.m_time_  = props.fileStat.st_mtime
+
+        return clazz, fileCodeId
+
+    def getFileProps(self, filePathId, filePath):
+        def p(): pass
+        p.filePathId = unidata.normalize("NFC", filePathId) # o" -> ö
+        p.filePath = filePath
+        p.fileEncoding = self.encoding
+        p.fileExt  = os.path.splitext(filePath)[-1]  # ".js"
+        p.fileRel  = p.filePathId.replace(".", "/") + p.fileExt  # my/space/AppClass.js
+        p.filePackage = p.filePathId[:p.filePathId.rfind(".")] if "." in p.filePathId else ""  # my.space
+        p.fileStat = os.stat(p.filePath)
+        p.fileSize = p.fileStat.st_size
+        p.fileMTime= p.fileStat.st_mtime
+        return p

@@ -22,8 +22,46 @@
 ##
 # A class representing a list of qooxdoo classes.
 #
+# One application is to represent the list of all known library classes, and
+# for that implements both a local storage and a library lookup in case of
+# key misses.
+#
 
 class ClassList(object):
+
+    def __init__(self, libraries, init_map=None):
+        self._libraries = libraries  # [generator.code.Library()]
+        self._classes = init_map or {}
+
+    def __contains__(self, key):  # 'foo' in ClassList
+        try:
+            self[key]
+        except KeyError:
+            return False
+        return True
+
+    def __getitem__(self, key):   # ClassList['foo']
+        if key in self._classes:
+            return self._classes[key]
+        else:
+            clsId, clsPath, library = '', '', ''
+            for lib in self._libraries:
+                clsId, clsPath = lib.findClass(key)
+                if clsId:
+                    library = lib
+                    break
+            if not clsId:
+                raise KeyError("Class Id '%s' not found in libraries" % key)
+            else:
+                clsProps = library.getFileProps(clsId, clsPath)
+                clazz = library.makeClassObj(clsId, clsPath, clsProps)
+                self._classes[key] = clazz
+                return clazz
+
+    def data(self):
+        return self._classes
+
+
 
     @staticmethod
     def namespaces_from_classnames(classNames):
