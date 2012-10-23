@@ -234,17 +234,28 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     
     /**
      * Scrolls the carousel to the page with the given pageIndex.
-     * @param pageIndex {Integer} the target page index, which should be visible.
+     * @param pageIndex {Integer} the target page index, which should be visible
+     * @param showTransition {Boolean ? true} flag if a transition should be shown or not 
      */
-    scrollToPage : function(pageIndex) {
+    scrollToPage : function(pageIndex, showTransition) {
       if(pageIndex >= this.__pages.length || pageIndex < 0) {
         return
       }
       
-      this._setShowTransition(true);
+      if(showTransition == null) {
+        this._setShowTransition(true);
+      } else {
+        this._setShowTransition(showTransition);
+      }
+      
       this._updatePagination(this.__shownPageIndex,pageIndex);
       this.__shownPageIndex = pageIndex;
-      this._updateCarouselLayout();
+      
+      var snapPoint = -pageIndex * this.__pageWidth;
+      this._updateScrollerPosition(snapPoint, 0);
+      
+      // Update lastOffset, because snapPoint has changed.
+      this.__lastOffset[0] = snapPoint;
     },
     
     
@@ -328,11 +339,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         qx.bom.element.Style.set(pageContentElement,"width",carouselWidth+"px");
       }
       
-      var snapPoint = -this.__shownPageIndex * this.__pageWidth;
-      this._updateScrollerPosition(snapPoint, 0);
-      
-      // Update lastOffset, because snapPoint has changed.
-      this.__lastOffset[0] = snapPoint;
+      this.scrollToPage(this.__shownPageIndex, false);
     },
     
     
@@ -407,20 +414,20 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       var velocityAbs = Math.abs(evt.getVelocity());
       if(velocityAbs > this.__swipeVelocityLimit) {
         var direction = evt.getDirection();
-        var oldPageIndex = this.__shownPageIndex;
+        
+        var targetPageIndex = this.__shownPageIndex;
         
         if(direction=="left") {
           if(this.__shownPageIndex < this.__pages.length - 1) {
-            this.__shownPageIndex = this.__shownPageIndex + 1;
+            targetPageIndex = this.__shownPageIndex + 1;
           }
         } else if(direction=="right") {
           if(this.__shownPageIndex > 0) {
-            this.__shownPageIndex = this.__shownPageIndex - 1;
+            targetPageIndex = this.__shownPageIndex - 1;
           }
         }
         
-        this._updatePagination(oldPageIndex,this.__shownPageIndex);
-        this._updateCarouselLayout();
+        this.scrollToPage(targetPageIndex);
       } else {
         this._snapCarouselPage();
       }
