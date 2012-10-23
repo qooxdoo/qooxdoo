@@ -1571,6 +1571,11 @@ def postWorkItemList(docTree, classNode, listName, overridable):
                             # (Any documentation errors will be recorded in the super class)
                             removeErrors(itemNode)
                         else:
+                            errorsNode = itemNode.getChild("errors", False)
+                            if errorsNode:
+                                for errorNode in errorsNode.getChildren():
+                                    if errorNode.get("msg") == "Documentation is missing.":
+                                        errorNode.set("msg", "Signature of overriding method different from superclass method.")
                             docFound = True
                     if not overriddenFound:
                         # This super class has the item defined -> Add a overridden attribute
