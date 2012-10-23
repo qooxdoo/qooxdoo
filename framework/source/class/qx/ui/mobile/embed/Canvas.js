@@ -74,10 +74,7 @@ qx.Class.define("qx.ui.mobile.embed.Canvas",
 
   members :
   {
-    /**
-     * Returns the tag name of the container element of this widget.
-     * Override this method if you want to create a custom widget.
-     */
+    // overridden
     _getTagName : function()
     {
       return "canvas";

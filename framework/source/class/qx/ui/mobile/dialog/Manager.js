@@ -82,6 +82,8 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      *     was pressed
      * @param scope {Object} The scope of the handler
      * @param button {String} The button title
+     * @return {qx.ui.mobile.dialog.Dialog|Object} a reference to a alert dialog instance. An {@link Object} if environment is <code>phonegap</code> , or a {@link qx.ui.mobile.dialog.Dialog}
+     *          if not.
      *
      * @lint ignoreDeprecated(alert)
      */

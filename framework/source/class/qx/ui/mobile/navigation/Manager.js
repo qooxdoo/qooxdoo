@@ -495,6 +495,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
      * @param path {String} The path to check
      * @param params {Map} The given parameters that should be propagated
      * @param customData {var} The given custom data that should be propagated
+     * @return {Boolean} a flag if route matched or not
      */
     _execute : function(operation, path, params, customData)
     {
