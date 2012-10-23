@@ -539,6 +539,7 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
                 node.set("check", "Custom check function.")  # that's good enough so the param type is set to 'var'
         else:
             printDocError(check, "Unknown check value")
+            addError(node, "Unknown property check value %s" % check.type)
 
     return node
 
@@ -785,19 +786,21 @@ def handleAccess(docNode, commentAttributes):
 
 
 def handleChildControls(item, classNode, className, commentAttributes):
-    childControls = {}
     for attrib in commentAttributes:
         if attrib["category"] == "childControl":
+            if "error" in attrib:
+                # handled by handleParseError
+                return
+
             if not "name" in attrib:
                 addError(classNode, "No name defined for child control.", item)
-                #printDocError(item, "No name defined for child control '%s' of class %s" %(childControlName,className))
                 return
             childControlName = attrib["name"]
             childControlNode = tree.Node("childControl")
             childControlNode.set("name", childControlName)
 
             if not "type" in attrib:
-                printDocError(item, "No type defined for child control '%s' of class %s" %(childControlName,className))
+                addError(classNode, "No type defined for child control '%s'." % childControlName, item)
             addTypeInfo(childControlNode, attrib, item)
 
             classNode.addListChild("childControls", childControlNode)
@@ -914,7 +917,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 
         elif attrib["category"] in ("attach", "attachStatic"):
             if not "targetClass" in attrib:
-                printDocError(funcItem, "Missing target for attach.")
+                addError(node, "Missing target for attach.", funcItem)
                 continue
 
             attachNode = tree.Node(attrib["category"]).set("targetClass", attrib["targetClass"])
