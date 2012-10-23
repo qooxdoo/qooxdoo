@@ -638,7 +638,13 @@ class Config(object):
                     seen   = []
                     oldlib = jobObj.getFeature('library')
                     for lib in oldlib:
-                        libObj = Library(lib, self._console)
+                        if 'manifest' not in lib:
+                            self.raiseConfigError("Attribute 'manifest' is mandatory in config key 'library'")
+                        manipath = lib.get('manifest')
+                        if not manipath.startswith("contrib://"):
+                            manipath = self.absPath(manipath)
+                        libObj = Library(manipath, self._console)
+                        libObj.uri = lib.get('uri', None)
                         newlib.append(libObj)
 
                     jobObj.setFeature('library', newlib)

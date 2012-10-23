@@ -42,22 +42,16 @@ class C(object): pass
 # Represents a qooxdoo library
 class Library(object):
     # is called with a "library" entry from the config.json
-    def __init__(self, libconfig, console):
+    def __init__(self, manipath, console):
 
+        self.manipath = manipath  # manipath is absPath
         self._console = console
-
         self._classes = []
         self._docs = {}
         self._translations = {}
         self.resources  = set()
+        self.uri = None
 
-        #self._init_from_manifest(libconfig)
-        self._libconfig = libconfig
-        self.manipath = libconfig['manifest'] # init self.manipath for compares
-        if not self.manipath.startswith("contrib://"):
-            self.manipath = context.config.absPath(self.manipath)
-
-        #TODO: clean up the others later
         self.assets = {}
         self.assets["classes"] = {}
         self.assets["translations"] = {}
@@ -66,12 +60,7 @@ class Library(object):
         self.__youngest = (None, None) # to memoize youngest file in lib
 
 
-    def _init_from_manifest(self, libconfig=None):
-
-        if libconfig is None:
-            libconfig = self._libconfig
-
-        self.manipath = libconfig['manifest']
+    def _init_from_manifest(self):
 
         # check contrib:// URI
         if self.manipath.startswith("contrib://"):
@@ -79,14 +68,12 @@ class Library(object):
             if not newmanipath:
                 raise RuntimeError("Unable to get contribution from internet: %s" % self.manipath)
             else:
-                self.manipath = newmanipath
+                self.manipath = context.config.absPath(os.path.normpath(newmanipath))
 
-        self.manipath = context.config.absPath(os.path.normpath(self.manipath))
         manifest = Manifest(self.manipath)
         self.manifest = manifest
         
         self.path = os.path.dirname(self.manipath)
-        self.uri = libconfig.get("uri", None)
         self.encoding = manifest.encoding
         self.classPath = manifest.classpath
         self.classUri  = manifest.classpath # TODO: ???
@@ -107,9 +94,7 @@ class Library(object):
 
 
     def __repr__(self):
-        return "<Library:%s>" % ((
-            self.manifest.path if hasattr(self, 'manifest')
-            else self._libconfig['manifest']),)
+        return "<Library:%s>" % self.manipath
 
     def __str__(self):
         return repr(self)
@@ -530,4 +515,42 @@ class Library(object):
             "variant" : variant,
             "namespace" : namespace
         }
+
+    
+    ##
+    # Given a dottedExpr ("foo.bar.baz.a.b.c"), check if there is a matching
+    # file (e.g. "foo/bar/baz.js") or directory ("foo/bar") and return the path,
+    # otherwise ''.
+    #
+    def findClass(self, dottedExpr, includeNamespaces=False):
+
+        def findClassR(nameParts, inDir, pathParts):
+            if not nameParts:
+                if includeNamespaces:
+                    return pathParts
+                else:
+                    return []
+            osListDir = os.listdir(inDir)
+            if nameParts[0] + ".js" in osListDir:
+                return pathParts + [nameParts[0] + ".js"]
+            elif nameParts[0] in osListDir:
+                return findClassR(nameParts[1:], os.path.join(inDir,nameParts[0]), 
+                    pathParts + [nameParts[0]])
+            else:
+                return []  # no matching class in this tree
+
+
+        # ----------------------------------------------------------------------
+
+        classParts = dottedExpr.split(".")
+        classRoot = os.path.join(self.path, self.classPath)
+
+        classPathA = findClassR(classParts, classRoot, []) # e.g. ['qx','core','Object.js']
+        if not classPathA:
+            return ('','')
+        else:
+            classId = ".".join(classPathA)
+            if classId.endswith(".js"):
+                classId = classId[:-3]
+            return (classId, os.path.join(classRoot,*classPathA))
 

@@ -146,29 +146,12 @@ qx.Class.define("qx.util.format.DateFormat",
   statics :
   {
     /**
-     * Returns a <code>DateFomat</code> instance that uses the
-     * format.
+     * Convenience factory that returns a <code>DateFomat</code> instance that
+     * uses a short date-only format. Beware that the overall layout of the
+     * date/time format string is that of the locale in effect when the factory
+     * function is called.
      *
-     * @return {String} the date/time instance.
-     */
-    getDateTimeInstance : function()
-    {
-      var DateFormat = qx.util.format.DateFormat;
-
-      var format = qx.locale.Date.getDateFormat("long") + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
-
-      if (DateFormat._dateInstance == null || DateFormat._dateInstance.__format != format) {
-        DateFormat._dateTimeInstance = new DateFormat();
-      }
-
-      return DateFormat._dateTimeInstance;
-    },
-
-
-    /**
-     * Returns a <code>DateFomat</code> instance that uses the format.
-     *
-     * @return {String} the date instance.
+     * @return {DateFormat} a DateFormat instance.
      */
     getDateInstance : function()
     {
@@ -176,11 +159,25 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var format = qx.locale.Date.getDateFormat("short") + "";
 
-      if (DateFormat._dateInstance == null || DateFormat._dateInstance.__format != format) {
-        DateFormat._dateInstance = new DateFormat(format);
-      }
+      return new DateFormat(format);
+    },
 
-      return DateFormat._dateInstance;
+
+    /**
+     * Convenience factory that returns a <code>DateFomat</code> instance that
+     * uses a long date/time format. Beware that the overall layout of the
+     * date/time format string is that of the locale in effect when the factory
+     * function is called.
+     *
+     * @return {DateFormat} a DateFormat instance.
+     */
+    getDateTimeInstance : function()
+    {
+      var DateFormat = qx.util.format.DateFormat;
+
+      var format = qx.locale.Date.getDateFormat("long") + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
+
+      return new DateFormat(format);
     },
 
 
