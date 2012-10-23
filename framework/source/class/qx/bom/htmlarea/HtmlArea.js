@@ -3053,11 +3053,12 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *  1 = cursor is over content which already received that command. Used to to activate the corresponding buttons (e.g. bold/italic/underline etc.)
      *
      * @lint ignoreDeprecated(_processingExamineCursorContext)
+     * @return {Map?null} A map with the current styles and their value or null if no focus node is available
      */
     __examineCursorContext : function()
     {
       if (this._processingExamineCursorContext || this.getEditable() == false) {
-        return;
+        return null;
       }
       this._processingExamineCursorContext = true;
 
@@ -3067,7 +3068,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
       var focusNode = this.getFocusNode();
       if (focusNode == null) {
-        return;
+        return null;
       }
 
       if (qx.dom.Node.isText(focusNode)) {
