@@ -103,11 +103,10 @@ def createPackageDoc(text, packageName, docTree = None):
 
         elif attrib["category"] == "see":
             if not "name" in attrib:
-                printDocError(package, "Missing target for see.")
-                return docTree
-
-            seeNode = tree.Node("see").set("name", attrib["name"])
-            package.addChild(seeNode)
+                addError(docTree, "Missing target for see in '%s' package documentation." % packageName)
+            else:
+                seeNode = tree.Node("see").set("name", attrib["name"])
+                package.addChild(seeNode)
 
     return docTree
 
@@ -1267,7 +1266,7 @@ def classNodeFromDocTree(docTree, fullClassName, commentAttributes = None):
 
             elif attrib["category"] == "see":
                 if not "name" in attrib:
-                    printDocError(classNode, "Missing target for see.")
+                    addError(classNode, "Missing target for see.")
                     continue
                 seeNode = tree.Node("see").set("name", attrib["name"])
                 classNode.addChild(seeNode)
