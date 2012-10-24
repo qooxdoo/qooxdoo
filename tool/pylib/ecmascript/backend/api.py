@@ -542,8 +542,7 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
             #elif check_tree.type in ('operation', 'call'): # "value<=100", "qx.util.Validate.range(0,100)"
                 node.set("check", "Custom check function.")  # that's good enough so the param type is set to 'var'
         else:
-            printDocError(check, "Unknown check value")
-            addError(node, "Unknown property check value %s" % check.type)
+            addError(node, "Unknown property check value %s" % check.type, propDefinition["check"])
 
     return node
 
