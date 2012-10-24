@@ -56,18 +56,6 @@ class DocException (Exception):
         self.node = syntaxItem
 
 
-hasDocError = False
-
-def printDocError(node, msg):
-    (line, column) = treeutil.getLineAndColumnFromSyntaxItem(node)
-    print "      - Failed: %s, Line: %s, Column: %s" % (
-        msg, str(line), str(column)
-    )
-
-    global hasDocError
-    hasDocError = True
-
-
 def createDoc(syntaxTree, docTree = None):
     if not docTree:
         docTree = tree.Node("doctree")
@@ -79,9 +67,7 @@ def createDoc(syntaxTree, docTree = None):
         handleClassDefinition(docTree, defineNode, variant)
         attachMap = findAttachMethods(docTree)
 
-    global hasDocError
-    ret = (docTree, hasDocError, attachMap)
-    hasDocError = False
+    ret = (docTree, False, attachMap)
 
     return ret
 
@@ -1104,21 +1090,31 @@ def addEventNode(classNode, classItem, commentAttrib):
 
 
 def addError(node, msg, syntaxItem=None):
-    # print "+++ %s (%s:%s)" % (msg, node.type, node.get("name"))
 
     errorNode = tree.Node("error")
     errorNode.set("msg", msg)
 
+    fileInfo = ""
     if syntaxItem:
+        fileName = treeutil.getFileFromSyntaxItem(syntaxItem)
+        if fileName:
+            fileInfo = fileName
         (line, column) = treeutil.getLineAndColumnFromSyntaxItem(syntaxItem)
         if line:
             errorNode.set("line", line)
+            fileInfo = fileInfo + " line " + str(line)
 
             if column:
                 errorNode.set("column", column)
+                fileInfo = fileInfo + " column " + str(column)
+    if fileInfo:
+        fileInfo = fileInfo + ":"
 
     node.addListChild("errors", errorNode)
     node.set("hasError", True)
+
+    #- Warning: qx.event.handler.DragDrop (588,31): Using an undeclared private class feature: '__validAction'
+    Context.console.warn("-Warning: %s %s" % (fileInfo, msg))
 
 
 def getPackageNode(docTree, namespace):
