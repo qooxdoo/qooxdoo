@@ -377,19 +377,24 @@ def handleMembers(item, classNode):
         commentAttributes = Comment.parseNode(keyvalue)[-1]
 
         # handle @signature
+        signatureError = None
         if value.type != "function":
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
-                    try:
-                        js_string = 'function(' + ",".join(docItem['arguments']) + '){}'
-                        value = treeutil.compileString(js_string)
-                    except treegenerator.SyntaxException:
-                        printDocError(keyvalue, "Invalid signature")
+                    if "error" in docItem:
+                        signatureError = "%s: %s" % (docItem["category"], docItem["message"])
+                        value = treeutil.compileString('function(){}')
+                        continue
+
+                    js_string = 'function(' + ",".join(docItem['arguments']) + '){}'
+                    value = treeutil.compileString(js_string)
 
         if value.type == "function":
             node = handleFunction(value, key, commentAttributes, classNode)
             if classNode.get("type", False) == "mixin":
                 node.set("isMixin", True)
+            if signatureError:
+                addError(node, signatureError)
 
             classNode.addListChild("methods", node)
 
