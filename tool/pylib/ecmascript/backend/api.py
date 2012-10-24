@@ -145,7 +145,6 @@ def handleClassDefinition(docTree, callNode, variant):
 
     handleDeprecated(classNode, commentAttributes)
     handleAccess(classNode, commentAttributes)
-    handleAppearance(callNode, classNode, className, commentAttributes)
     handleChildControls(callNode, classNode, className, commentAttributes)
 
     try:
@@ -682,71 +681,6 @@ def handleEvents(item, classNode):
         classNode.addListChild("events", node)
 
 
-def handleAppearance(item, classNode, className, commentAttributes):
-    """
-    handles the declaration of appearances and widget states
-    by evaluating the @state and @appearance attributes
-    """
-    appearances = {}
-    thisAppearance = []
-    classAppearance = None
-
-    # TODO: Needs overhaul for 0.8 features
-    return
-
-    # parse appearances
-    for attrib in commentAttributes:
-        if attrib["category"] == "appearance":
-            appearanceName = attrib["name"]
-            appearances[appearanceName] = attrib
-            if not "type" in attrib:
-                attrib["type"] = className
-            else:
-                attrib["type"] = attrib["type"][0]["type"]
-            if attrib["type"] == className:
-                thisAppearance.append(appearanceName)
-            attrib["states"] = []
-
-    if len(thisAppearance) > 1:
-        printDocError(item, "The class '%s' has more than one own appearance!" % className)
-        return
-
-    # parse states
-    for attrib in commentAttributes:
-        if attrib["category"] == "state":
-            if not "type" in attrib:
-                if thisAppearance == []:
-                    printDocError(item,
-                       "The default state '%s' of the class '%s' is defined but no default appearance is defined"
-                       % (attrib["name"], className)
-                    )
-                    return
-                type = thisAppearance[0]
-            else:
-                type = attrib["type"][0]["type"]
-
-            appearances[type]["states"].append(attrib)
-
-    #generate the doc tree nodes
-    if len(appearances) > 0:
-        for name, appearance in appearances.iteritems():
-            appearanceNode = tree.Node("appearance")
-            appearanceNode.set("name", name)
-            appearanceNode.set("type", appearance["type"])
-
-            if "text" in appearance:
-                appearanceNode.addChild(tree.Node("desc").set("text", appearance["text"]))
-
-            for state in appearance["states"]:
-                stateNode = tree.Node("state")
-                stateNode.set("name", state["name"])
-                if "text" in state:
-                    stateNode.addChild(tree.Node("desc").set("text", state["text"]))
-                appearanceNode.addListChild("states", stateNode)
-
-            classNode.addListChild("appearances", appearanceNode)
-
-
 def handleDeprecated(docNode, commentAttributes):
     for docItem in commentAttributes:
         if docItem["category"] == "deprecated":
@@ -867,10 +801,6 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
     (line, column) = treeutil.getLineAndColumnFromSyntaxItem(funcItem)
     if line:
         node.set("line", line)
-
-    if funcItem.type != "function":
-        printDocError(funcItem, "'funcItem' is no function")
-        return node
 
     # Read the parameters
     params = funcItem.getChild("params", False)
@@ -1189,16 +1119,6 @@ def addError(node, msg, syntaxItem=None):
 
     node.addListChild("errors", errorNode)
     node.set("hasError", True)
-
-
-def getType(item):
-    if item.type == "constant" and item.get("constantType") == "string":
-        val = item.get("value").capitalize()
-        return val
-
-    else:
-        printDocError(item, "Can't gess type. type is neither string nor variable: " + item.type)
-        return "unknown"
 
 
 def getPackageNode(docTree, namespace):
