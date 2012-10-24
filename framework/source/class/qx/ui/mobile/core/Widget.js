@@ -1150,9 +1150,15 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       if(this.getRotation()!=null) {
         propertyValue = propertyValue + "rotate("+this.getRotation()+"deg) ";
       }
-
+      
       propertyValue = propertyValue + "scale("+this.getScaleX()+","+this.getScaleY()+") ";
-      propertyValue = propertyValue + "translate3d("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px,"+this.getTranslateZ()+"px) ";
+
+      var isTransform3d = qx.core.Environment.get("css.transform.3d");
+      if(isTransform3d) {
+        propertyValue = propertyValue + "translate3d("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px,"+this.getTranslateZ()+"px) ";
+      } else {
+        propertyValue = propertyValue + "translate("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px) ";
+      }
 
       qx.bom.element.Style.set(this.getContainerElement(),"transform", propertyValue);
     },
