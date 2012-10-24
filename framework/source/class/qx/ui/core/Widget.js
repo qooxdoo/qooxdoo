@@ -2510,13 +2510,6 @@ qx.Class.define("qx.ui.core.Widget",
           var shadowWidth = bounds.width + insets.left + insets.right;
           var shadowHeight = bounds.height + insets.top + insets.bottom;
 
-          // remove the old insets if given
-          if (old) {
-            var oldInsets = pool.getDecoratorElement(old).getInsets();
-            shadowWidth = shadowWidth - oldInsets.left - oldInsets.right;
-            shadowHeight = shadowHeight - oldInsets.top - oldInsets.bottom;
-          }
-
           elem.resize(shadowWidth, shadowHeight);
         }
 
