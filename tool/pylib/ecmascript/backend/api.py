@@ -148,7 +148,6 @@ def handleClassDefinition(docTree, callNode, variant):
     handleAccess(classNode, commentAttributes)
     handleAppearance(callNode, classNode, className, commentAttributes)
     handleChildControls(callNode, classNode, className, commentAttributes)
-    handleParseErrors(callNode, classNode, commentAttributes)
 
     try:
         children = classMap.children
@@ -760,12 +759,6 @@ def handleDeprecated(docNode, commentAttributes):
             docNode.addChild(deprecatedNode)
 
 
-def handleParseErrors(callNode, classNode, commentAttributes):
-    for docItem in commentAttributes:
-        if "error" in docItem:
-            addError(classNode, "%s: @%s" % (docItem["message"], docItem["category"]), callNode)
-
-
 def handleAccess(docNode, commentAttributes):
     name = docNode.get("name")
     if name[:2] == "__":
@@ -794,8 +787,8 @@ def handleChildControls(item, classNode, className, commentAttributes):
     for attrib in commentAttributes:
         if attrib["category"] == "childControl":
             if "error" in attrib:
-                # handled by handleParseError
-                return
+                msg = "%s: %s" % (attrib["category"], attrib["message"])
+                addError(classNode, msg, item)
 
             if not "name" in attrib:
                 addError(classNode, "No name defined for child control.", item)
