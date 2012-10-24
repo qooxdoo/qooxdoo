@@ -908,12 +908,11 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
                 node.addChild(descNode)
 
         elif attrib["category"] == "see":
-            if not "name" in attrib:
-                printDocError(funcItem, "Missing target for see.")
-                return node
-
-            seeNode = tree.Node("see").set("name", attrib["name"])
-            node.addChild(seeNode)
+            if "name" in attrib:
+                seeNode = tree.Node("see").set("name", attrib["name"])
+                node.addChild(seeNode)
+            else:
+                addError(node, "Missing target for see.", funcItem)
 
         elif attrib["category"] in ("attach", "attachStatic"):
             if not "targetClass" in attrib:
@@ -928,8 +927,8 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 
         elif attrib["category"] == "param":
             if not "name" in attrib:
-                printDocError(funcItem, "Missing name of parameter.")
-                return node
+                addError(node, "Missing name of parameter", funcItem)
+                continue
 
             # Find the matching param node
             paramName = attrib["name"]
