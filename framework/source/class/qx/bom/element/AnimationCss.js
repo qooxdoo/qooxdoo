@@ -177,8 +177,13 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
      * Handler for the animation iteration.
      * @param e {Event} The native event from the browser.
      */
-    __onAnimationIteration : function(e) {
-      e.target.$$animation.emit("iteration", e.target);
+    __onAnimationIteration : function(e)
+    {
+      // It could happen that an animation end event is fired before an
+      // animation iteration appears [BUG #6928]
+      if (e.target != null && e.target.$$animation != null) {
+        e.target.$$animation.emit("iteration", e.target);
+      }
     },
 
 
