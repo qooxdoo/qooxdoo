@@ -390,10 +390,7 @@ ul li.active {
   @tab-stop-2: @blue;
   @tab-stop-3: @dark-blue;
   
-  background: -moz-linear-gradient(top,  @tab-stop-1 2%, @tab-stop-2 4%, @tab-stop-2 49%, @tab-stop-3 53%, @tab-stop-3 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,@tab-stop-1), color-stop(4%,@tab-stop-2), color-stop(49%,@tab-stop-2), color-stop(53%,@tab-stop-3), color-stop(100%,@tab-stop-3));
-  background: -webkit-linear-gradient(top,  @tab-stop-1 2%,@tab-stop-2 4%,@tab-stop-2 49%,@tab-stop-3 53%,@tab-stop-3 100%);
-  background: linear-gradient(top,  @tab-stop-1 2%,@tab-stop-2 4%,@tab-stop-2 49%,@tab-stop-3 53%,@tab-stop-3 100%);
+  #gradient > .vertical-five(@tab-stop-1, @tab-stop-2, @tab-stop-2, @tab-stop-3, @tab-stop-3, 4%, 49%, 53%);
 }
 
 //

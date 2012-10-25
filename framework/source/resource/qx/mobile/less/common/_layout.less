@@ -10,7 +10,6 @@
   //.transform(translate3d(0,0,0) rotate(0) scale(1));
 }
 
-
 //
 // Box-Layout
 //
@@ -18,6 +17,7 @@
 .hbox {
   display: -webkit-box;
   display: -moz-box;
+  display: -ms-flexbox;
   display: box;
 
   .box-orient(horizontal);
@@ -46,26 +46,30 @@
     }
 }
 
-.hbox> * {
+.hbox > * :not(.navigationbar,.master-detail-master) {
   .box-flex(0);
 }
 
 .vbox {
   display: -webkit-box;
   display: -moz-box;
+  display: -ms-flexbox;
   display: box;
-  
+
   .box-orient(vertical);
   .box-sizing(border-box);
+
+  .flexbox-direction(column);
 }
 
-.vbox> * {
+.vbox > * :not(.navigationbar,.master-detail-master) {
   .box-flex(0);
 }
 
 .box {
   display: -webkit-box;
   display: -moz-box;
+  display: -ms-flexbox;
   display: box;
 }
 
@@ -87,7 +91,18 @@
 }
 
 .boxReverse {
+  // MOZ + Webkit syntax
   .box-direction(reverse);
+}
+
+.hbox.boxReverse {
+  // IE10 + new flexbox syntax
+  .flexbox-direction(row-reverse);
+}
+
+.vbox.boxReverse {
+  // IE10 + new flexbox syntax
+  .flexbox-direction( column-reverse);
 }
 
 .boxAlignStart {
