@@ -353,22 +353,23 @@ class Library(object):
         self._console.debug("Scanning class folder...")
 
         # Iterate...
-        for root, dirs, files in filetool.walk(classRoot):
-            # Filter ignored directories
-            for ignoredDir in dirs:
-                if self._ignoredDirEntries.match(ignoredDir):
-                    dirs.remove(ignoredDir)
+        #for root, dirs, files in filetool.walk(classRoot):
+        #    # Filter ignored directories
+        #    for ignoredDir in dirs:
+        #        if self._ignoredDirEntries.match(ignoredDir):
+        #            dirs.remove(ignoredDir)
 
-            # Searching for files
-            for fileName in files:
-                # ignore dot files
-                if fileName.startswith(".") or self._ignoredDirEntries.match(fileName):
-                    continue
+        #    # Searching for files
+        #    for fileName in files:
+        #        # ignore dot files
+        #        if fileName.startswith(".") or self._ignoredDirEntries.match(fileName):
+        #            continue
+        for filePathId, filePath in self.classPathIterator():
                 self._console.dot()
 
                 # basic attributes
-                filePath = os.path.join(root, fileName)    # /foo/bar/baz/source/class/my/space/AppClass.js
-                filePathId = filePath.replace(classRoot + os.sep, '')  # my/space/AppClass.js
+                #filePath = os.path.join(root, fileName)    # /foo/bar/baz/source/class/my/space/AppClass.js
+                #filePathId = filePath.replace(classRoot + os.sep, '')  # my/space/AppClass.js
                 filePathId = os.path.splitext(filePathId)[0]  # strip pot. ".js" etc.
                 filePathId = filePathId.replace(os.sep, ".") # my.space.AppClass
 
@@ -385,7 +386,7 @@ class Library(object):
                     continue # re-use known class
 
                 # handle doc files
-                if fileName == self._docFilename:
+                if os.path.basename(filePath) == self._docFilename:
                     docs[p.filePackage] = {
                         "relpath"   : p.fileRel,
                         "path"      : p.filePath,
@@ -526,8 +527,20 @@ class Library(object):
             clazz = Class(filePathId, filePath, self, contextdict)
 
         # extract code ID (e.g. class name, mixin name, ...)
+        #fileCodeId = self.checkClassId(clazz, filePathId)  # involves parsing
+
+        clazz.encoding = props.fileEncoding
+        clazz.size     = props.fileSize     # dependency logging uses this
+        clazz.package  = props.filePackage  # Apiloader uses this
+        clazz.relpath  = props.fileRel       # Locale uses this
+        clazz.m_time_  = props.fileStat.st_mtime
+
+        return clazz, filePathId
+
+    def checkClassId(self, classObj, filePathId):
+        fileCodeId = u''
         try:
-            fileCodeId = self._getCodeId(clazz)
+            fileCodeId = self._getCodeId(classObj)
             ## use regexp
             #fileContent = filetool.read(filePath, self.encoding)
             #fileCodeId = self._getCodeId1(fileContent)
@@ -543,16 +556,10 @@ class Library(object):
             errmsg = [
                 u"Detected conflict between filename and classname!\n",
                 u"    Classname: %s\n" % fileCodeId,
-                u"    Path: %s\n" % filePath,
+                u"    Path: %s\n" % filePathId,
             ]
             raise RuntimeError(u''.join(errmsg))
-        clazz.encoding = props.fileEncoding
-        clazz.size     = props.fileSize     # dependency logging uses this
-        clazz.package  = props.filePackage  # Apiloader uses this
-        clazz.relpath  = props.fileRel       # Locale uses this
-        clazz.m_time_  = props.fileStat.st_mtime
-
-        return clazz, fileCodeId
+        return fileCodeId
 
     def getFileProps(self, filePathId, filePath):
         def p(): pass
@@ -566,3 +573,24 @@ class Library(object):
         p.fileSize = p.fileStat.st_size
         p.fileMTime= p.fileStat.st_mtime
         return p
+
+    ##
+    # Iterate over fileId's in class path, (my/space/AppClass.js, ...)
+    #
+    def classPathIterator(self):
+        classRoot = os.path.join(self.path, self.classPath)
+        for root, dirs, files in filetool.walk(classRoot):
+            # Filter ignored directories
+            for ignoredDir in dirs:
+                if self._ignoredDirEntries.match(ignoredDir):
+                    dirs.remove(ignoredDir)
+
+            # Searching for files
+            for fileName in files:
+                # ignore dot files
+                if fileName.startswith(".") or self._ignoredDirEntries.match(fileName):
+                    continue
+                filePath = os.path.join(root, fileName)
+                filePathId = filePath.replace(classRoot + os.sep, '')
+                yield (filePathId, filePath)
+

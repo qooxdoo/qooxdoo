@@ -27,7 +27,7 @@ import sys, os, types, re, string, copy
 from ecmascript.backend.Packer      import Packer
 from ecmascript.backend             import formatter
 from ecmascript.frontend import treeutil, tokenizer
-from ecmascript.frontend import treegenerator
+from ecmascript.frontend import treegenerator, lang
 from ecmascript.frontend.SyntaxException import SyntaxException
 from ecmascript.transform.check     import scopes, lint
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, commentoptimizer
@@ -38,6 +38,8 @@ from misc import util, filetool
 
 
 class MClassCode(object):
+    
+    _illegalIdentifierExpr = re.compile(lang.IDENTIFIER_ILLEGAL_CHARS)
 
     # --------------------------------------------------------------------------
     #   Tree Interface
@@ -83,7 +85,15 @@ class MClassCode(object):
             except SyntaxException, e:
                 # add file info
                 e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
-                raise e
+                raise
+
+            # check class id against file id
+            try:
+                self.checkClassId(tree)
+            except ValueError, e:
+                # add file info
+                e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
+                raise
 
             # annotate with scopes
             if True:
@@ -107,6 +117,32 @@ class MClassCode(object):
 
             console.outdent()
         return tree
+
+
+    ##
+    # Raises in case of inconsistencies, otherwise returns None
+    #
+    def checkClassId(self, tree):
+        className = None  # not-found return value
+        filePathId = self.id
+        qxDefine = treeutil.findQxDefine(tree)
+        if qxDefine:
+            className = treeutil.getClassName(qxDefine)
+            if not className:  # might be u''
+                className = None
+            else:
+                illegal = self._illegalIdentifierExpr.search(className)
+                if illegal:
+                    raise ValueError, "Item name '%s' contains illegal character '%s'" % (className,illegal.group(0))
+        if className and className != filePathId:
+            errmsg = [
+                u"Detected conflict between filename and classname!\n",
+                u"    Classname: %s\n" % className,
+                u"    Path: %s\n" % filePathId,
+            ]
+            raise RuntimeError(u''.join(errmsg))
+
+        return
 
 
     # --------------------------------------------------------------------------

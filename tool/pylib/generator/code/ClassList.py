@@ -32,15 +32,17 @@ class ClassList(object):
     def __init__(self, libraries, init_map=None):
         self._libraries = libraries  # [generator.code.Library()]
         self._classes = init_map or {}
-
-    def __contains__(self, key):  # 'foo' in ClassList
+    
+    # 'foo' in ClassList
+    def __contains__(self, key):
         try:
             self[key]
         except KeyError:
             return False
         return True
-
-    def __getitem__(self, key):   # ClassList['foo']
+   
+    # ClassList['foo']
+    def __getitem__(self, key):
         if key in self._classes:
             return self._classes[key]
         else:
@@ -54,15 +56,38 @@ class ClassList(object):
                 raise KeyError("Class Id '%s' not found in libraries" % key)
             else:
                 clsProps = library.getFileProps(clsId, clsPath)
-                clazz = library.makeClassObj(clsId, clsPath, clsProps)
+                clazz, _ = library.makeClassObj(clsId, clsPath, clsProps)
                 self._classes[key] = clazz
                 return clazz
+
+    # for foo in ClassList
+    # - only iterates the current keys of self._classes!
+    def __iter__(self):
+        for el in self._classes:
+            yield el
+
 
     def data(self):
         return self._classes
 
+    ##
+    # This is a wrapper around Library.findClass around the known libs.
+    #
+    def findClassInLibs(self, dottedExpr):
+        classId = u''
+        for lib in self._libraries:
+            classId, _ = lib.findClass(dottedExpr)
+            if classId:
+                break
+        return classId
 
 
+    ##
+    # Provide all files in all libs' class paths.
+    def classPathIterator(self):
+        for lib in self._libraries:
+            for fileId in lib.classPathIterator():
+                yield fileId
     @staticmethod
     def namespaces_from_classnames(classNames):
         res = []
