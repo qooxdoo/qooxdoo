@@ -46,7 +46,8 @@ qx.Class.define("tutorial.view.SelectionWindow",
     desktop.setFont("bold");
     this.add(desktop, {row: 0, column: 0});
 
-    var mobile = new qx.ui.basic.Label("Mobile");
+    var title = "Mobile" + (this.__mobileSupported() ? "" : " (unsupported browser)");
+    var mobile = new qx.ui.basic.Label(title);
     mobile.setFont("bold");
     this.add(mobile, {row: 0, column: 1});
 
@@ -61,6 +62,11 @@ qx.Class.define("tutorial.view.SelectionWindow",
 
   members :
   {
+    __mobileSupported : function() {
+      var engine = qx.core.Environment.get("engine.name");
+      return(engine == "webkit" || engine == "gecko");
+    },
+
     __createButton : function(name, desc) {
       var button = new qx.ui.form.Button(
         name + "<br><span style='font-size: 11px; color: #777'>" + (desc || "&nbsp;") + "</span>"
@@ -91,6 +97,7 @@ qx.Class.define("tutorial.view.SelectionWindow",
         }).bind(this, desktopTutorials[i]));
       };
 
+      var supportsMobile = this.__mobileSupported();
       for (var i=0; i < mobileTutorials.length; i++) {
         var name = mobileTutorials[i].replace(/_/g, " ");
         var desc = qx.Class.getByName(
@@ -98,12 +105,17 @@ qx.Class.define("tutorial.view.SelectionWindow",
         ).description;
         var button = this.__createButton(name, desc);
         this.add(button, {row: i + 1, column: 1});
-        button.addListener("execute", (function(name) {
-          this.fireDataEvent("changeTutorial", {name: name, type: "mobile"});
-          this.fadeOut(300).on("end", function() {
-            this.close();
-          }, this);
-        }).bind(this, mobileTutorials[i]));
+        if (supportsMobile) {
+          button.addListener("execute", (function(name) {
+            this.fireDataEvent("changeTutorial", {name: name, type: "mobile"});
+            this.fadeOut(300).on("end", function() {
+              this.close();
+            }, this);
+          }).bind(this, mobileTutorials[i]));
+        } else {
+          button.setEnabled(false);
+          button.setToolTipText("Not supported on your browser.")
+        }
       };
     }
   }
