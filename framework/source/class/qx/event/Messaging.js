@@ -153,8 +153,6 @@ qx.Bootstrap.define("qx.event.Messaging",
      * @param path {String} The path to check
      * @param params {Map} The given parameters that should be propagated
      * @param customData {var} The given custom data that should be propagated
-     *
-     * @return {Boolean} Whether the route has been executed
      */
     _emit : function(channel, path, params, customData)
     {

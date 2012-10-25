@@ -319,6 +319,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
      * @param frames {Map} A map of key frames that describe the animation.
      * @param reverse {Boolean} <code>true</code>, if the key frames should
      *   be added in reverse order.
+     * @return {String} The generated name of the keyframes rule.
      */
     __addKeyFrames : function(frames, reverse) {
       var rule = "";
