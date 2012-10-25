@@ -37,9 +37,10 @@ class Resource(object):
         self.library= None
         self.m_time_= None  # last-modified time stamp
 
+    ##
+    # <id> -- must be type unicode()
     def set_id(self, id):
         self.id = unidata.normalize("NFC", id)
-        #self.hash = hash(self.id)
 
     def __str__(self):
         return self.id
@@ -59,7 +60,7 @@ class Resource(object):
         if hasattr(self, 'id'):
             return hash(self.id)
         else:
-            return hash(self)
+            return id(self)
     
     def toResinfo(self):
         return self.library.namespace

@@ -255,5 +255,5 @@ if __name__ == '__main__':
                 for el in e.args:
                     print >> sys.stderr, el[:300]
             else:
-                print >> sys.stderr, "Terminating on terminal exception (%r)" % e
+                print >> sys.stderr, "\nTerminating on unprintable exception; please re-run with -s."
             sys.exit(1)
