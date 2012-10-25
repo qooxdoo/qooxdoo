@@ -46,7 +46,8 @@ qx.Class.define("tutorial.view.SelectionWindow",
     desktop.setFont("bold");
     this.add(desktop, {row: 0, column: 0});
 
-    var title = "Mobile" + (this.__mobileSupported() ? "" : " (unsupported browser)");
+    var mobileSupported = tutorial.Application.mobileSupported();
+    var title = "Mobile" + (mobileSupported ? "" : " (unsupported browser)");
     var mobile = new qx.ui.basic.Label(title);
     mobile.setFont("bold");
     this.add(mobile, {row: 0, column: 1});
@@ -62,11 +63,6 @@ qx.Class.define("tutorial.view.SelectionWindow",
 
   members :
   {
-    __mobileSupported : function() {
-      var engine = qx.core.Environment.get("engine.name");
-      return(engine == "webkit" || engine == "gecko");
-    },
-
     __createButton : function(name, desc) {
       var button = new qx.ui.form.Button(
         name + "<br><span style='font-size: 11px; color: #777'>" + (desc || "&nbsp;") + "</span>"
@@ -97,7 +93,7 @@ qx.Class.define("tutorial.view.SelectionWindow",
         }).bind(this, desktopTutorials[i]));
       };
 
-      var supportsMobile = this.__mobileSupported();
+      var supportsMobile = tutorial.Application.mobileSupported();
       for (var i=0; i < mobileTutorials.length; i++) {
         var name = mobileTutorials[i].replace(/_/g, " ");
         var desc = qx.Class.getByName(

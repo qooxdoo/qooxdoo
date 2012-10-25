@@ -31,6 +31,12 @@ qx.Class.define("tutorial.Application",
 {
   extend : qx.application.Standalone,
 
+  statics : {
+    mobileSupported : function() {
+      var engine = qx.core.Environment.get("engine.name");
+      return (engine == "webkit" || engine == "gecko");
+    }
+  },
 
   members :
   {
@@ -117,7 +123,22 @@ qx.Class.define("tutorial.Application",
 
     // overridden
     finalize: function() {
-      this.loadTutorial("Hello_World", "desktop");
+      var state = qx.bom.History.getInstance().getState();
+      if (state == "") {
+        // use the hello world desktop as default
+        this.loadTutorial("Hello_World", "desktop");
+      } else {
+        state = state.split("~");
+        if (state[0] == "desktop") {
+          this.loadTutorial(state[1], state[0]);
+        } else if ((tutorial.Application.mobileSupported())) {
+          this.loadTutorial(state[1], state[0]);
+        } else {
+          // use the hello world desktop as default
+          this.loadTutorial("Hello_World", "desktop");
+        }
+      }
+
     },
 
 
@@ -137,9 +158,12 @@ qx.Class.define("tutorial.Application",
 
 
     __onChangeTutorial : function(e) {
-      this.loadTutorial(e.getData().name, e.getData().type);
+      var type = e.getData().type;
+      var name = e.getData().name;
+      this.loadTutorial(name, type);
       this.__editor.setCode("");
       this.run();
+      qx.bom.History.getInstance().setState(type + "~" + name);
     },
 
 
