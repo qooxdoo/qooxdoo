@@ -16,6 +16,10 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
+
+/**
+ * @lint ignoreUndefined(tutorial)
+ */
 qx.Class.define("tutorial.view.SelectionWindow", 
 {
   extend : qx.ui.window.Window,
@@ -63,6 +67,8 @@ qx.Class.define("tutorial.view.SelectionWindow",
 
   members :
   {
+    __buttonFont : null,
+
     __createButton : function(name, desc) {
       var button = new qx.ui.form.Button(
         name + "<br><span style='font-size: 11px; color: #777'>" + (desc || "&nbsp;") + "</span>"
