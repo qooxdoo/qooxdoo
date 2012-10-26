@@ -151,6 +151,8 @@ qx.Class.define("qx.util.format.DateFormat",
      * date/time format string is that of the locale in effect when the factory
      * function is called.
      *
+     * Implemented as a quasi-singleton, so beware of side effects.
+     *
      * @return {DateFormat} a DateFormat instance.
      */
     getDateInstance : function()
@@ -159,7 +161,12 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var format = qx.locale.Date.getDateFormat("short") + "";
 
-      return new DateFormat(format);
+      // Memoizing the instance, so caller doesn't have to dispose it.
+      if (DateFormat._dateInstance == null || DateFormat._dateInstance.__format != format) {
+        DateFormat._dateInstance = new DateFormat(format);
+      }
+
+      return DateFormat._dateInstance;
     },
 
 
@@ -169,6 +176,8 @@ qx.Class.define("qx.util.format.DateFormat",
      * date/time format string is that of the locale in effect when the factory
      * function is called.
      *
+     * Implemented as a quasi-singleton, so beware of side effects.
+     *
      * @return {DateFormat} a DateFormat instance.
      */
     getDateTimeInstance : function()
@@ -177,7 +186,12 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var format = qx.locale.Date.getDateFormat("long") + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
 
-      return new DateFormat(format);
+      // Memoizing the instance, so caller doesn't have to dispose it.
+      if (DateFormat._dateTimeInstance == null || DateFormat._dateTimeInstance.__format != format) {
+        DateFormat._dateTimeInstance = new DateFormat(format);
+      }
+
+      return DateFormat._dateTimeInstance;
     },
 
 
