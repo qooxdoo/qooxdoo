@@ -48,7 +48,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
       if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(
           arguments.callee, 
-          "Use qx.bom.element.Style.compile({'overflowX': value}) instead."
+          "Use qx.bom.element.Scroll.getScrollbarWidth() instead."
         );
       }
       return qx.bom.element.Scroll.getScrollbarWidth();
