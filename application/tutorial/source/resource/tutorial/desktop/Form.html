@@ -27,6 +27,18 @@ form.add(password, "Password");</pre>
   <p>
     Running these two code snippets will render a simple form showing the two input fields. You can also see lables in front of each form item shoing the name we gave them with the add call. Give it a try and enter some values or even rename the lables in the code and run it once more.
   </p>
+  <script type="text/javascript" charset="utf-8">var form = new qx.ui.form.Form();
+
+var userName = new qx.ui.form.TextField();
+form.add(userName, "Name");
+
+var password = new qx.ui.form.PasswordField();
+form.add(password, "Password");
+
+this.getRoot().add(
+  new qx.ui.form.renderer.Single(form),
+  {left: 10, top: 10}
+);</script>
 </div>
 
 <div id="step2">
@@ -50,6 +62,27 @@ form.addButton(login);</pre>
   <p>
     Appending these code lines to the bottom of the whole sample will attach a listner to the button, which will be executed on click but also on pressing enter when the button is focused. As you can see in the code, we only show the alert in case the validaion reported back as valid.
   </p>
+  <script type="text/javascript" charset="utf-8">var form = new qx.ui.form.Form();
+
+var userName = new qx.ui.form.TextField();
+form.add(userName, "Name");
+
+var password = new qx.ui.form.PasswordField();
+form.add(password, "Password");
+
+var login = new qx.ui.form.Button("Login");
+form.addButton(login);
+
+this.getRoot().add(
+  new qx.ui.form.renderer.Single(form),
+  {left: 10, top: 10}
+);
+
+login.addListener("execute", function() {
+  if (form.validate()) {
+    alert("send...");
+  }
+});</script>
 </div>
 <div id="step3">
   <h3>Set up the validation</h3>
@@ -75,4 +108,29 @@ form.addButton(login);</pre>
   <p>
     Adding this line after the password filed should also fix that issue.
   </p>
+  <script type="text/javascript" charset="utf-8">var form = new qx.ui.form.Form();
+
+var userName = new qx.ui.form.TextField();
+userName.setRequired(true);
+form.add(userName, "Name");
+
+var password = new qx.ui.form.PasswordField();
+password.setInvalidMessage("Password too short.");
+form.add(password, "Password", function(data) {
+  return !!(data && data.length >= 6);
+});
+
+var login = new qx.ui.form.Button("Login");
+form.addButton(login);
+
+this.getRoot().add(
+  new qx.ui.form.renderer.Single(form),
+  {left: 10, top: 10}
+);
+
+login.addListener("execute", function() {
+  if (form.validate()) {
+    alert("send...");
+  }
+});</script>
 </div>

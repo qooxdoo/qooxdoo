@@ -67,8 +67,15 @@ qx.Class.define("tutorial.Application",
       }
 
       // Tutorials List
-      this.__desktopTutorials = ["Hello_World", "Form", "Single_Value_Binding"];
-      this.__mobileTutorials = ["Hello_World", "Pages"];
+      this.__desktopTutorials = {
+        "Hello_World" : "Basic usage of a button", 
+        "Form" : "Simple login form with validation", 
+        "Single_Value_Binding" : "Binding of simple values"
+      };
+      this.__mobileTutorials = {
+        "Hello_World" : "One page showing a button",
+        "Pages" : "App featuring two pages"
+      };
 
       // Create main layout
       var mainComposite = new qx.ui.container.Composite(new qx.ui.layout.VBox());
@@ -171,8 +178,6 @@ qx.Class.define("tutorial.Application",
       var code = e.getData().toString();
       this.confirm("Is it ok to replace the current code in the editor?", function(ok) {
         if (ok.getData()) {
-          code = code.substring(14, code.length -8);
-          code = code.replace(/ {8}/g, "");
           this.__editor.setCode(code);
           this.run();
         }
@@ -249,10 +254,13 @@ qx.Class.define("tutorial.Application",
         name : name,
         type : type,
         steps : [],
-        code : qx.Class.getByName("tutorial.tutorial." + type + "." + name).steps
+        code : []
       };
       var div = q.create("<div>").setHtml(html);
       div.getChildren().forEach(function(item) {
+        var script = q(item).getChildren("script");
+        tut.code.push(script.getHtml());
+        script.remove();
         tut.steps.push(q(item).getHtml());
       });
       return tut;

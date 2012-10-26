@@ -17,6 +17,11 @@ page.show();</pre>
   <p>
     Add this line between the creation of the page and the show call. This will set the titel of the page. Run the sample and see the title of the page.
   </p>
+  <script type="text/javascript" charset="utf-8">var page = new qx.ui.mobile.page.NavigationPage();
+page.setTitle("Hello World");
+
+this.getManager().addDetail(page);
+page.show();</script>
 </div>
 <div id="step2">
   <h3>Add the Button</h3>
@@ -42,4 +47,19 @@ page.show();</pre>
   <p>
     If this code is in the hanlder for the <code>initialize</code> event, run you app and see the final result.
   </p>
+  <script type="text/javascript" charset="utf-8">var page = new qx.ui.mobile.page.NavigationPage();
+page.setTitle("Hello World");
+page.addListener("initialize", function() {
+  var button = new qx.ui.mobile.form.Button(
+    "Hello..."
+  );
+  page.getContent().add(button);
+
+  button.addListener("tap", function() {
+    alert("... World!");
+  }, this);
+},this);
+
+this.getManager().addDetail(page);
+page.show();</script>
 </div>

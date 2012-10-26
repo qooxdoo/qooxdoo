@@ -78,11 +78,10 @@ qx.Class.define("tutorial.view.SelectionWindow",
 
 
     __buildSelection : function(desktopTutorials, mobileTutorials) {
-      for (var i=0; i < desktopTutorials.length; i++) {
-        var name = desktopTutorials[i].replace(/_/g, " ");
-        var desc = qx.Class.getByName(
-          "tutorial.tutorial.desktop." + desktopTutorials[i]
-        ).description;
+      var i = 0;
+      for (var key in desktopTutorials) {
+        var name = key.replace(/_/g, " ");
+        var desc = desktopTutorials[key]
         var button = this.__createButton(name, desc);
         this.add(button, {row: i + 1, column: 0});
         button.addListener("execute", (function(name) {
@@ -90,15 +89,15 @@ qx.Class.define("tutorial.view.SelectionWindow",
           this.fadeOut(300).on("end", function() {
             this.close();
           }, this);
-        }).bind(this, desktopTutorials[i]));
+        }).bind(this, key));
+        i++;
       };
 
       var supportsMobile = tutorial.Application.mobileSupported();
-      for (var i=0; i < mobileTutorials.length; i++) {
-        var name = mobileTutorials[i].replace(/_/g, " ");
-        var desc = qx.Class.getByName(
-          "tutorial.tutorial.mobile." + mobileTutorials[i]
-        ).description;
+      i = 0;
+      for (key in mobileTutorials) {
+        var name = key.replace(/_/g, " ");
+        var desc = mobileTutorials[key];
         var button = this.__createButton(name, desc);
         this.add(button, {row: i + 1, column: 1});
         if (supportsMobile) {
@@ -107,11 +106,12 @@ qx.Class.define("tutorial.view.SelectionWindow",
             this.fadeOut(300).on("end", function() {
               this.close();
             }, this);
-          }).bind(this, mobileTutorials[i]));
+          }).bind(this, key));
         } else {
           button.setEnabled(false);
           button.setToolTipText("Not supported on your browser.")
         }
+        i++;
       };
     }
   }

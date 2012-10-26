@@ -19,6 +19,14 @@ this.getRoot().add(button, {left: 120, top: 10});</pre>
   <p>
     The text of the buton should show how many pieces we have selectd with the slider.
   </p>
+  <script type="text/javascript" charset="utf-8">var slider = new qx.ui.form.Slider();
+slider.setWidth(100);
+slider.setMinimum(0);
+slider.setMaximum(8);
+this.getRoot().add(slider, {left: 10, top: 15});
+
+var button = new qx.ui.form.Button("x pieces");
+this.getRoot().add(button, {left: 120, top: 10});</script>
 </div>
 <div id="step2">
   <h3>Binding</h3>
@@ -41,4 +49,18 @@ this.getRoot().add(button, {left: 120, top: 10});</pre>
   <p>
     Replace the bind we initially added with this one. The converter will add the missing text. These converters are really powerful because you can decide, based on the source's value what to set on the target.
   </p>
+  <script type="text/javascript" charset="utf-8">var slider = new qx.ui.form.Slider();
+slider.setWidth(100);
+slider.setMinimum(0);
+slider.setMaximum(8);
+this.getRoot().add(slider, {left: 10, top: 15});
+
+var button = new qx.ui.form.Button("x pieces");
+this.getRoot().add(button, {left: 120, top: 10});
+
+slider.bind("value", button, "label", {
+  converter: function(data) {
+    return data + " pieces";
+  }
+});</script>
 </div>
