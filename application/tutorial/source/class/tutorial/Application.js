@@ -169,7 +169,7 @@ qx.Class.define("tutorial.Application",
       var name = e.getData().name;
       this.loadTutorial(name, type);
       this.__editor.setCode("");
-      this.run();
+      this.__playArea.reset();
       qx.bom.History.getInstance().setState(type + "~" + name);
     },
 
