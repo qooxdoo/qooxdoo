@@ -189,6 +189,11 @@ class CreateScopesVisitor(treeutil.NodeVisitor):
         # restore old scope
         self.curr_scope = node.scope.parent
 
+    # 'with' does not introduce a nested scope, although ECMA262 says that the
+    # object expression in 'with(...)' is pushed in front of the scope chain.
+    # but all browsers implement it as a normal non-scope introducing statement.
+    # E.g. "with(o){var b=7;}" => b appears in the parent scope of the 'with'.
+    #def visit_with(self, node)
 
 # - Scope class ---------------------------------------------------------------
 
