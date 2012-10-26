@@ -40,8 +40,7 @@ from misc.ExtendAction import ExtendAction
 from ecmascript.backend.Packer      import Packer
 from ecmascript.backend             import formatter_3 as formatter
 from ecmascript.frontend import tokenizer, treeutil
-#from ecmascript.frontend import treegenerator
-from ecmascript.frontend import treegenerator_3 as treegenerator
+from ecmascript.frontend import treegenerator, treegenerator_3
 from ecmascript.transform.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variableoptimizer, variantoptimizer, inlineoptimizer
 from ecmascript.backend import api
 from misc import filetool
@@ -182,6 +181,8 @@ def main():
     else:
         if not options.quiet:
             print ">>> Compiling..."
+        if options.pretty:
+            tree = treegenerator_3.createFileTree(tokens) # use special tree
         compiled = _compileTree(tree, options.pretty)
         print compiled.encode('utf-8')
             
