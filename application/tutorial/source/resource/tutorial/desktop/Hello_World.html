@@ -5,13 +5,13 @@
   <pre>var button = new qx.ui.form.Button("Hello...");</pre>
   <p>Doing so will not change anything in the application in the lower right corner because we simply created the button but did not add it to our application.</p>
   <pre>this.getRoot().add(button, {left: 30, top: 20});</pre>
-    Pasting this line right below the first line and hitting run will now shows the first button. As you see in the code, we placed the button relative to the root's top left corner. Try to chagne it a bit to see how the button can be positioned.
+    Pasting this line right below the first line and hitting run will now shows the first button. As you see in the code, we placed the button relative to the root's top left corner. Try to change it a bit to see how the button can be positioned.
     <script type="text/javascript" charset="utf-8">var button = new qx.ui.form.Button("Hello...");
 this.getRoot().add(button, {left: 30, top: 20});</script>
 </div>
 <div id="step2">
   <h3>Reaction</h3>
-  <p>Having a button is a good first step but we wanted to react on clicks as well. For that, qooxdoo offers a event. As a proof of concept, we simple show an alert to confirm that the listener has been executed. But instead of using the <code>click</code> event, we use the <code>execute</code> event, which will also be fired in case the user uses the keyboard instead of the mouse.</p>
+  <p>Having a button is a good first step but we wanted to react on clicks as well. For that, qooxdoo offers an event. As a proof of concept, we simple show an alert to confirm that the listener has been executed. But instead of using the <code>click</code> event, we use the <code>execute</code> event, which will also be fired in case the user uses the keyboard instead of the mouse.</p>
   <pre>button.addListener("execute", function() {
   alert("... World!");
 });</pre>
