@@ -26,6 +26,7 @@
 ##
 
 import os, sys, re, types, string, copy, codecs
+from collections import defaultdict
 from misc import json
 from generator.config.ConfigurationError import ConfigurationError
 
@@ -43,14 +44,16 @@ class Manifest(object):
             e.args = (msg,) + e.args[1:]
             raise
         self._manifest = manifest
-        self.libinfo       = self._manifest['info']
-        self.libprovides   = self._manifest['provides']
-        self.classpath = self.libprovides['class']
-        self.translation = self.libprovides['translation']
-        self.namespace = self.libprovides['namespace']
-        self.encoding = self.libprovides['encoding']
-        self.resource = self.libprovides['resource']
-        self.type = self.libprovides['type']
+        self.libinfo     = self._manifest['info']
+        self.libprovides = self._manifest['provides']
+
+        self.namespace   = self.libprovides['namespace']
+        self.encoding    = self.libprovides['encoding']
+        # make the others optional
+        self.classpath   = self.libprovides['class'] if 'class' in self.libprovides else None
+        self.translation = self.libprovides['translation'] if 'translation' in self.libprovides else None
+        self.resource    = self.libprovides['resource'] if 'resource' in self.libprovides else None
+        self.type        = self.libprovides['type'] if 'type' in self.libprovides else None
 
     def patchLibEntry(self, libentry):
         '''Patches a "library" entry with the information from Manifest'''

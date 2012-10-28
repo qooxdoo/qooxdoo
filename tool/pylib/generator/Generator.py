@@ -420,9 +420,9 @@ class Generator(object):
 
 
             # create tool chain instances
-            self._locale         = Locale(self._context, self._classesObj, self._translations, self._cache, self._console, )
-            self._depLoader      = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
-            self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._classesObj)
+            self._locale = Locale(self._context, self._classesObj, self._translations, self._cache, self._console, )
+            self._depLoader = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
+            self._codeGenerator = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._classesObj)
 
             # distribute environment checks map
             # TODO : this could also be passed as a parameter to Class.dependencies()
@@ -1923,13 +1923,13 @@ class Generator(object):
             checkFile, fsTime = libObj.mostRecentlyChangedFile()
             cacheId   = "lib-%s" % libObj.manipath
             checkObj, cacheTime  = self._cache.read(cacheId, memory=True)
-            if checkObj:
-                libObj = checkObj  # continue with cached obj
             # need re-scan?
             if not checkObj or cacheTime < fsTime:
                 self._console.debug("Re-scanning lib %s" % libObj.path)
                 libObj.scan(cacheTime)
                 self._cache.write(cacheId, libObj, memory=True)
+            else:
+                libObj = checkObj  # continue with cached obj
 
             namespace = libObj.getNamespace()
             namespaces.append(namespace)

@@ -1140,7 +1140,7 @@ class CodeGenerator(object):
             raise RuntimeError, "Need either lib.uri or appRoot, to calculate final URI"
         #libBaseUri = Uri(libBaseUri.toUri())
 
-        if rType in lib:
+        if rType in lib and lib[rType] is not None:
             libInternalPath = OsPath(lib[rType])
         else:
             raise RuntimeError, "No such resource type: \"%s\"" % rType

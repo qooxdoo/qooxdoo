@@ -88,9 +88,9 @@ class Library(object):
             raise RuntimeError
 
         # ensure translation dir
-        transPath = os.path.join(self.path, self.assets['translations']["path"])
-        if not os.path.isdir(transPath):
-            os.makedirs(transPath)
+        #transPath = os.path.join(self.path, self.assets['translations']["path"])
+        #if not os.path.isdir(transPath):
+        #    os.makedirs(transPath)
 
 
     def __repr__(self):
@@ -156,9 +156,11 @@ class Library(object):
         youngFiles = {} # {timestamp: "filepath"}
         # for each interesting library part
         for category in self.assets:
-            catPath = os.path.join(self.path, self.assets[category]["path"])
-            if category == "translations" and not os.path.isdir(catPath):
+            catsuffix = self.assets[category]['path']
+            if catsuffix is None or not os.path.isdir(
+                    os.path.join(self.path, catsuffix)):
                 continue
+            catPath = os.path.join(self.path, catsuffix)
             # find youngest file
             file_, mtime = filetool.findYoungest(catPath)
             youngFiles[mtime] = file_
@@ -205,8 +207,8 @@ class Library(object):
         scanres = self._scanClassPath(timeOfLastScan)
         self._classes = scanres[0]
         self._docs    = scanres[1]
-        self._scanTranslationPath(os.path.join(self.path, self.assets['translations']['path']))
-        self._scanResourcePath(os.path.join(self.path, self.resourcePath))
+        self._translations = self._scanTranslationPath()
+        self.resources = self._scanResourcePath()
 
         self._console.outdent()
 
@@ -271,10 +273,14 @@ class Library(object):
         return liblist
 
 
-    def _scanResourcePath(self, path):
-        if not os.path.exists(path):
-            raise ValueError("The given resource path does not exist: %s" % path)
+    def _scanResourcePath(self):
+        resources = set()
+        if self.resourcePath is None or not os.path.isdir(
+                os.path.join(self.path,self.resourcePath)):
+            self._console.info("Lib<%s>: Skipping non-existing resource path" % self.namespace)
+            return resources
 
+        path = os.path.join(self.path,self.resourcePath)
         self._console.debug("Scanning resource folder...")
 
         path = os.path.abspath(path)
@@ -282,7 +288,6 @@ class Library(object):
         if not path.endswith(os.sep):
             lib_prefix_len += 1
 
-        self.resources = set()
         for root, dirs, files in filetool.walk(path):
             # filter ignored directories
             for dir in dirs:
@@ -306,22 +311,16 @@ class Library(object):
                 res.set_id(Path.posifyPath(fpath[lib_prefix_len:]))
                 res.library= self
 
-                self.resources.add(res)
+                resources.add(res)
 
         self._console.indent()
-        self._console.debug("Found %s resources" % len(self.resources))
+        self._console.debug("Found %s resources" % len(resources))
         self._console.outdent()
-        return
+        return resources
 
 
 
     def _scanClassPath(self, timeOfLastScan=0):
-
-        ##
-        # check class path is on file system
-        def check_class_path(classRoot):
-            if not os.path.isdir(classRoot):
-                raise ConfigurationError("Class path from Manifest doesn't exist: %s" % self.classPath)
 
         ##
         # check single subdirectory from class path
@@ -342,11 +341,15 @@ class Library(object):
         # ----------------------------------------------------------------------
 
         classList = []
-        existClassIds = dict([(x.id,x) for x in self._classes])  # if we scanned before
         docs = {}
+        if self.classPath is None or not os.path.isdir(
+                os.path.join(self.path,self.classPath)):
+            self._console.info("Lib<%s>: Skipping non-existend class path" % self.namespace)
+            return classList, docs
+
+        existClassIds = dict([(x.id,x) for x in self._classes])  # if we scanned before
         classRoot   = os.path.join(self.path, self.classPath)
 
-        check_class_path(classRoot)
         check_multiple_namespaces(classRoot)
         check_manifest_namespace(classRoot)
             
@@ -418,12 +421,14 @@ class Library(object):
         return classList, docs 
 
 
+    def _scanTranslationPath(self):
+        translations = {}  # reset
+        if self.assets['translations']['path'] is None or not os.path.isdir(
+                os.path.join(self.path,self.assets['translations']['path'])):
+            self._console.info("Lib<%s>: Skipping non-existing translation path" % self.namespace)
+            return translations
 
-    def _scanTranslationPath(self, path):
-        self._translations = {}  # reset
-        if not os.path.exists(path):
-            self._console.warn("The given path does not contain a translation folder: %s" % path)
-
+        path = os.path.join(self.path,self.assets['translations']['path'])
         self._console.debug("Scanning translation folder...")
 
         # Iterate...
@@ -442,11 +447,13 @@ class Library(object):
                 filePath = os.path.join(root, fileName)
                 fileLocale = os.path.splitext(fileName)[0]
 
-                self._translations[fileLocale] = self.translationEntry(fileLocale, filePath, self.namespace)
+                translations[fileLocale] = self.translationEntry(fileLocale, filePath, self.namespace)
 
         self._console.indent()
-        self._console.debug("Found %s translations" % len(self._translations))
+        self._console.debug("Found %s translations" % len(translations))
         self._console.outdent()
+
+        return translations
 
 
     @staticmethod
@@ -494,6 +501,9 @@ class Library(object):
 
 
         # ----------------------------------------------------------------------
+
+        if self.classPath is None:
+            return '',''
 
         classParts = dottedExpr.split(".")
         classRoot = os.path.join(self.path, self.classPath)
@@ -578,6 +588,8 @@ class Library(object):
     # Iterate over fileId's in class path, (my/space/AppClass.js, ...)
     #
     def classPathIterator(self):
+        if self.classPath is None:
+            return
         classRoot = os.path.join(self.path, self.classPath)
         for root, dirs, files in filetool.walk(classRoot):
             # Filter ignored directories
