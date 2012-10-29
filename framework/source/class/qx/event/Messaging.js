@@ -191,7 +191,7 @@ qx.Bootstrap.define("qx.event.Messaging",
       for (var id in listeners)
       {
         var listener = listeners[id];
-        listenerMatched = this._emitRoute(channel, path, listener, params, customData);
+        listenerMatched |= this._emitRoute(channel, path, listener, params, customData);
       }
       return listenerMatched;
     },
@@ -230,7 +230,8 @@ qx.Bootstrap.define("qx.event.Messaging",
         }
         listener.handler.call(listener.scope, {path:path, params:params, customData:customData});
       }
-      return match == undefined;
+
+      return match != undefined;
     }
   }
 });
