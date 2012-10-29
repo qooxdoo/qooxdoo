@@ -1,6 +1,6 @@
 <div id="step1">
   <p>
-    Mobile apps usually consist of many pages. In this tutorial, we want to show you how you can create two pages and link between them. We wont go much into detail about how a page is created, which we already covered in the Hello World tutorial.
+    Mobile apps usually consist of many pages. In this tutorial, we want to show you how you can create two pages and link between them. We won't go into much detail about how a page is created, which we already covered in the Hello World tutorial.
   </p>
   <h3>Page one</h3>
   <p>
@@ -29,7 +29,7 @@ page2.set({
   backButtonText : "Back"
 });</pre>
   <p>
-    The big fifference to page one is that we tell the page to show a back button and what text should be on the back button.
+    The main difference to page one is that we tell the page to show a back button with a certain text.
   </p>
   <p>
     The final things we have to do is to add the two pages to our page manager and show the first page.
@@ -67,12 +67,12 @@ page1.show();</script>
   <pre>  button.addListener("tap", function() {
     page2.show();
   }, this);</pre>
-  <p>Now run your code and click the button. You will see that your seconf page will slide in as expected. But clicking on the back button does not work like expected. That will be our next task, connect the back button.</p>
+  <p>Now run your code and click the button. You will see that your second page will slide in as expected. But clicking on the back button does not work like expected. That will be our next task, connecting the back button.</p>
   <pre>page2.addListener("back", function() {
   page1.show({reverse:true});
 }, this);</pre>
-  <p>Ad these lines of code after the creation of page two. As you see in the code, its like the listener we added to the button on the first page. The only exception is, that we tell the show method to reverse the animation. Now give it a try. You final mobile app featuring two pages is ready!</p>
-  <p>If you want to continue, try to add content to the second page like a <code>qx.ui.mobile.basic.Label</code> or add a third page.</p>
+  <p>Ad these lines of code after the creation of page two. As you see in the code, its like the listener we added to the button on the first page. The only exception is that we tell the show method to reverse the animation. Now give it a try, your final mobile app featuring two pages is ready!</p>
+  <p>If you want to continue, try to add content to the second page like a <code>qx.ui.mobile.basic.Label</code>, or add a third page.</p>
   <script type="text/javascript" charset="utf-8">var page1 = new qx.ui.mobile.page.NavigationPage();
 page1.setTitle("Page 1");
 

@@ -4,18 +4,18 @@
   </p>
   <h3>First Page</h3>
   <p>
-    Crating a page is like creating any other widget. As soon as we have this page, we need to tell the page manager to take care of this page. Initially, we want to show this page as well.
+    Creating a page is like creating any other widget. As soon as we have this page, we need to tell the page manager to take care of it. Initially, we want to show this page as well.
   </p>
   <pre>var page = new qx.ui.mobile.page.NavigationPage();
 
 this.getManager().addDetail(page);
 page.show();</pre>
   <p>
-    Running this code shows a blank page, not even having a page title. Thats change that and add a page title.
+    Running this code shows a blank page, not even having a page title. Let's change that and add a page title.
   </p>
   <pre>page.setTitle("Hello World");</pre>
   <p>
-    Add this line between the creation of the page and the show call. This will set the titel of the page. Run the sample and see the title of the page.
+    Add this line between the creation of the page and the show call. This will set the title of the page. Run the sample to see the result.
   </p>
   <script type="text/javascript" charset="utf-8">var page = new qx.ui.mobile.page.NavigationPage();
 page.setTitle("Hello World");
@@ -26,7 +26,7 @@ page.show();</script>
 <div id="step2">
   <h3>Add the Button</h3>
   <p>
-    Next, we want to add a button. As mobile devices are usually not that perofrmant, it is always a good idea to delay execution as much as possible. To make sure we don't create every widget on startup, qooxdoo offers a <code>initialize</code> event which will be fired when the page needs to initialize. In out case, we use that to create our buton and add it to the page's content.
+    Next, we want to add a button. As mobile devices are usually not that performant, it is always a good idea to delay execution as much as possible. To make sure we don't create every widget on startup, qooxdoo offers an <code>initialize</code> event which will be fired when the page needs to initialize. In our case, we use that to create our button and add it to the page's content.
   </p>
   <pre>page.addListener("initialize", function() {
   var button = new qx.ui.mobile.form.Button(
@@ -35,17 +35,17 @@ page.show();</script>
   page.getContent().add(button);
 }, this);</pre>
   <p>
-    Add these lines of code to the sample right after setting the title and run it. It will show you your mobile app: a page with a button.
+    Add these lines of code to the sample right after setting the title (and before the <code>show</code> call) and run it. It will show you your mobile app, a page with a button.
   </p>
   <h3>Reaction</h3>
   <p>
-    As a final step, we want to show the alert as soon as we click on the button. For that, we need to add a listener to the buttons <code>tap</code> event.
+    As a final step, we want to show an alert every time we click on the button. For that, we need to add a listener to the buttons <code>tap</code> event.
   </p>
   <pre>  button.addListener("tap", function() {
-  alert("... World!");
-}, this);</pre>
+    alert("... World!");
+  }, this);</pre>
   <p>
-    If this code is in the hanlder for the <code>initialize</code> event, run you app and see the final result.
+    Place this code in the handler for the <code>initialize</code> event, run your app and see the final result.
   </p>
   <script type="text/javascript" charset="utf-8">var page = new qx.ui.mobile.page.NavigationPage();
 page.setTitle("Hello World");
