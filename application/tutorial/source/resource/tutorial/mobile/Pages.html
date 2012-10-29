@@ -8,7 +8,7 @@
   </p>
   <pre>var page1 = new qx.ui.mobile.page.NavigationPage();
 page1.setTitle("Page 1");
-</pre>
+this.getManager().addDetail(page1);</pre>
   <p>
     This is the basic setup for our page. We add a button in the <code>initialize</code> handler to jump to the next page.
   </p>
@@ -17,7 +17,8 @@ page1.setTitle("Page 1");
     "Next Page"
   );
   page1.getContent().add(button);
-},this);</pre>
+},this);
+page1.show();</pre>
   <h3>Page two</h3>
   <p>
     Now, lets add the second page which is almost like page one.
@@ -27,20 +28,17 @@ page2.set({
   title : "Page 2",
   showBackButton : true,
   backButtonText : "Back"
-});</pre>
+});
+this.getManager().addDetail(page2);</pre>
   <p>
     The main difference to page one is that we tell the page to show a back button with a certain text.
   </p>
   <p>
-    The final things we have to do is to add the two pages to our page manager and show the first page.
-  </p>
-  <pre>this.getManager().addDetail([page1,page2]);
-page1.show();</pre>
-  <p>
-    Of course, you will only see page one after running your app.
+    Of course, you will only see page one after running your app because we did not connect the buttons.
   </p>
   <script type="text/javascript" charset="utf-8">var page1 = new qx.ui.mobile.page.NavigationPage();
 page1.setTitle("Page 1");
+this.getManager().addDetail(page1);
 
 page1.addListener("initialize", function() {
   var button = new qx.ui.mobile.form.Button(
@@ -48,6 +46,7 @@ page1.addListener("initialize", function() {
   );
   page1.getContent().add(button);
 },this);
+page1.show();
 
 var page2 = new qx.ui.mobile.page.NavigationPage();
 page2.set({
@@ -55,9 +54,7 @@ page2.set({
   showBackButton : true,
   backButtonText : "Back"
 });
-
-this.getManager().addDetail([page1,page2]);
-page1.show();</script>
+this.getManager().addDetail(page2);</script>
 </div>
 <div id="step2">
   <h3>Connect the pages</h3>

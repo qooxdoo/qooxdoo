@@ -60,7 +60,7 @@ form.addButton(login);</pre>
   }
 });</pre>
   <p>
-    Appending these code lines to the bottom of the whole sample will attach a listener to the button, which will be executed on click but also on pressing enter when the button is focused. As you can see in the code, we only show the alert in case the validation reported back as valid.
+    Appending these code lines to the bottom of the whole sample will attach a listener to the button, which will be executed on click but also on pressing enter when the button is focused. As you can see in the code, we only show the alert in case the validation reported back as valid. Of course, as we did not add any validation information, everything is valid currently!
   </p>
   <script type="text/javascript" charset="utf-8">var form = new qx.ui.form.Form();
 
@@ -86,7 +86,7 @@ login.addListener("execute", function() {
 </div>
 <div id="step3">
   <h3>Set up the validation</h3>
-  <p>But we did not supply any information how to validate the input fields. We use two simple cases, the user name is required and the password field should at least have 6 characters.</p>
+  <p>We use two simple cases, the user name is required and the password field should at least have 6 characters.</p>
   <p>
     Making the user name required is really easy. Just tell the user name object to be required.
   </p>

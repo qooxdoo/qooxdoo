@@ -17,7 +17,7 @@ this.getRoot().add(slider, {left: 10, top: 15});</pre>
   <pre>var button = new qx.ui.form.Button("x pieces");
 this.getRoot().add(button, {left: 120, top: 10});</pre>
   <p>
-    The text of the button should show how many pieces we have selected with the slider.
+    The text of the button should show how many pieces we have selected with the slider. As we did not set up the binding, a change of the slider does not change the buttons text.
   </p>
   <script type="text/javascript" charset="utf-8">var slider = new qx.ui.form.Slider();
 slider.setWidth(100);
