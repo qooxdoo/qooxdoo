@@ -38,8 +38,9 @@ qx.Class.define("tutorial.view.Header",
     this.setLayout(new qx.ui.layout.Canvas());
     this.setAppearance("app-header");
 
-    var title = new qx.ui.basic.Label("learn.qooxdoo.org");
+    var title = new qx.ui.basic.Label("Live Tutorial");
     var select = new qx.ui.form.Button("Select Tutorial");
+    select.setToolTipText("Choose another tutorial");
     select.setFont("default");
     select.setTextColor("black");
     select.addListener("execute", function() {

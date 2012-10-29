@@ -54,7 +54,9 @@
       [
         "qx.test.*",
         "qx.dev.unit.*",
-        "playground.test.*"
+        "playground.test.*",
+        "qx.core.MEvents",
+        "qx.lang.Core"
       ],
 
       "environment" :

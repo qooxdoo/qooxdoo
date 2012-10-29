@@ -69,7 +69,9 @@
       "exclude" :
       [
         "qx.test.*",
-        "qx.dev.unit.*"
+        "qx.dev.unit.*",
+        "qx.core.MEvents",
+        "qx.lang.Core"
       ],
 
       "environment" :

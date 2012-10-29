@@ -45,6 +45,10 @@ qx.Class.define("tutorial.view.Confirm",
     });
     this.add(this.__meassage, {row: 0, column: 0, colSpan: 3});
 
+    // ignore checkbox
+    var ignoreBox = new qx.ui.form.CheckBox("Remember my answer");
+    this.add(ignoreBox, {row: 1, column: 0});
+    ignoreBox.bind("value", this, "ignore");
 
     // cancel button
     var cancelButton = new qx.ui.form.Button("Cancel");
@@ -56,6 +60,9 @@ qx.Class.define("tutorial.view.Confirm",
         this.fireDataEvent("confirm", false);
       }, this);
     }, this);
+    ignoreBox.bind("value", cancelButton, "enabled", {converter : function(data) {
+      return !data;
+    }});
 
     // ok button
     var okButton = new qx.ui.form.Button("Ok");
@@ -73,6 +80,15 @@ qx.Class.define("tutorial.view.Confirm",
 
     this.center();
   },
+
+
+  properties : {
+    ignore : {
+      check : "Boolean",
+      event : "changeIgnore"
+    }
+  },
+
 
   events : {
     "confirm" : "qx.event.type.Data"
