@@ -100,11 +100,6 @@ qx.Class.define("qx.test.Mixin",
 
             members :
             {
-              /**
-               * TODOC
-               *
-               * @return {string} TODOC
-               */
               bar : function() {
                 return "bar";
               }

@@ -412,8 +412,6 @@ qx.Bootstrap.define("qx.Class",
      * Returns the definition of the given property. Returns null
      * if the property does not exist.
      *
-     * TODO: Correctly support refined properties?
-     *
      * @signature function(clazz, name)
      * @param clazz {Class} class to check
      * @param name {String} name of the class to check for

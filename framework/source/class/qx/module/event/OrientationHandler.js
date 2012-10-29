@@ -22,7 +22,8 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Orientation handler which is responsible for registering and unregistering a
+ * {@link qx.event.handler.OrientationCore} handler for each given element.
  */
 qx.Bootstrap.define("qx.module.event.OrientationHandler", {
 
