@@ -169,6 +169,7 @@ qx.Class.define("tutorial.Application",
       var name = e.getData().name;
       this.loadTutorial(name, type);
       this.__editor.setCode("");
+      this.__editor.setError();
       this.__playArea.reset();
       qx.bom.History.getInstance().setState(type + "~" + name);
     },
@@ -176,7 +177,7 @@ qx.Class.define("tutorial.Application",
 
     updateEditor : function(e) {
       var code = e.getData().toString();
-      this.confirm("Is it ok to replace the current code in the editor?", function(ok) {
+      this.confirm("This will replace the current code in the editor.", function(ok) {
         if (ok.getData()) {
           this.__editor.setCode(code);
           this.run();
@@ -188,6 +189,10 @@ qx.Class.define("tutorial.Application",
     confirm : function(text, callback, ctx) {
       if (!this.__confirmWindow) {
         this.__confirmWindow = new tutorial.view.Confirm();
+      }
+      if (this.__confirmWindow.getIgnore()) {
+        callback.call(ctx, {getData : function() {return true;}});
+        return;
       }
       this.__confirmWindow.setMessage(text);
       this.__confirmWindow.open();
@@ -232,6 +237,9 @@ qx.Class.define("tutorial.Application",
     },
 
 
+    /**
+     * @lint ignoreDeprecated(alert)
+     */
     loadTutorial : function(name, type) {
       var htmlFileName = qx.util.ResourceManager.getInstance().toUri(
         "tutorial/" + type + "/" + name + ".html"
@@ -246,6 +254,16 @@ qx.Class.define("tutorial.Application",
         this.__actionArea.setOrientation(type == "desktop" ? "vertical" : "horizontal");
       }, this);
       req.send();
+
+      req.addListener("fail",  function(evt) {
+        this.error("Couldn't load file: " + htmlFileName);
+        if (window.location.protocol == "file:") {
+          alert("Failed to load the tutorials from the file system.\n\n" +
+                "The security settings of your browser may prohibit AJAX " +
+                "when using the file protocol. Please try the http protocol " +
+                "instead.");
+        }
+      }, this);
     },
 
 

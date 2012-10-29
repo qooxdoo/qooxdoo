@@ -52,6 +52,7 @@ qx.Class.define("tutorial.view.Description",
     this.add(this.__embed, {flex: 1});
 
     this.__selectButton = new qx.ui.form.Button("Go on with another tutorial!");
+    this.__selectButton.setToolTipText("Choose another tutorial")
     this.__selectButton.setMargin([10, 10, 0, 10]);
     this.__selectButton.addListener("execute", function() {
       this.fireEvent("selectTutorial");
@@ -164,6 +165,12 @@ qx.Class.define("tutorial.view.Description",
       var run = new qx.ui.toolbar.Button("Run", "icon/22/actions/media-playback-start.png");
       var next = new qx.ui.toolbar.Button(null, "icon/22/actions/media-skip-forward.png");
       this.__next = next;
+
+      // tooltips
+      pref.setToolTipText("Previous step");
+      update.setToolTipText("Replace the source code with a working copy");
+      run.setToolTipText("Run the application");
+      next.setToolTipText("Next step");
 
       // states
       pref.addState("left");
