@@ -51,14 +51,6 @@ qx.Class.define("tutorial.view.Description",
     this.__embed.setOverflow("auto", "auto");
     this.add(this.__embed, {flex: 1});
 
-    this.__selectButton = new qx.ui.form.Button("Go on with another tutorial!");
-    this.__selectButton.setToolTipText("Choose another tutorial")
-    this.__selectButton.setMargin([10, 10, 0, 10]);
-    this.__selectButton.addListener("execute", function() {
-      this.fireEvent("selectTutorial");
-    }, this);
-    this.__selectButton.exclude();
-    this.add(this.__selectButton);
     this.add(this.__createButtonContainer());
 
     this.loadHljs(function() {
@@ -71,8 +63,7 @@ qx.Class.define("tutorial.view.Description",
 
   events : {
     "run" : "qx.event.type.Event",
-    "update" : "qx.event.type.Data",
-    "selectTutorial" : "qx.event.type.Event"
+    "update" : "qx.event.type.Data"
   },
 
 
@@ -94,7 +85,6 @@ qx.Class.define("tutorial.view.Description",
   members : {
     __embed : null,
     __next : null,
-    __selectButton : null,
 
     _applyTutorial : function(value) {
       if (this.getStep() == 0) {
@@ -138,13 +128,6 @@ qx.Class.define("tutorial.view.Description",
       var headline = "<p style='font-size: 2em; font-widht: bold;'>" + this.getTutorial().name.replace(/_/g, " ") + "</p>";
       var step = "<p style='margin-top: -10px; font-size: 11px; color: #CCC;'>Step " + (this.getStep() + 1) + "/" + this.getTutorial().steps.length + "</p>";
       var html = headline + step + this.getTutorial().steps[this.getStep()];
-
-      // add a link to open another tutorial at the end
-      if (this.getTutorial().steps.length == this.getStep() + 1) {
-        this.__selectButton.show();
-      } else {
-        this.__selectButton.exclude();
-      }
 
       this.__embed.setHtml(html);
       qx.html.Element.flush();
