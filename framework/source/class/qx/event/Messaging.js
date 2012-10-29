@@ -230,7 +230,7 @@ qx.Bootstrap.define("qx.event.Messaging",
         }
         listener.handler.call(listener.scope, {path:path, params:params, customData:customData});
       }
-      return match;
+      return match == undefined;
     }
   }
 });
