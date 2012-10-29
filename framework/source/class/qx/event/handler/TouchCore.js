@@ -118,6 +118,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         Event.addNativeListener(this.__target, "MSPointerDown", this.__onTouchEventWrapper);
         Event.addNativeListener(this.__target, "MSPointerMove", this.__onTouchEventWrapper);
         Event.addNativeListener(this.__target, "MSPointerUp", this.__onTouchEventWrapper);
+        Event.addNativeListener(this.__target, "MSPointerCancel", this.__onTouchEventWrapper);
       }
     },
 
@@ -145,6 +146,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         Event.removeNativeListener(this.__target, "MSPointerDown", this.__onTouchEventWrapper);
         Event.removeNativeListener(this.__target, "MSPointerMove", this.__onTouchEventWrapper);
         Event.removeNativeListener(this.__target, "MSPointerUp", this.__onTouchEventWrapper);
+        Event.removeNativeListener(this.__target, "MSPointerCancel", this.__onTouchEventWrapper);
       }
     },
 
@@ -190,6 +192,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           if (this.__onMove == true) {
             type = "touchmove";
           }
+        } else if(type == "MSPointerCancel") {
+          type = "touchcancel";
         }
       }
       
@@ -216,16 +220,56 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     _getTarget : function(domEvent)
     {
       var target = qx.bom.Event.getTarget(domEvent);
+      var engineName = qx.core.Environment.get("engine.name");
+      
       // Text node. Fix Safari Bug, see http://www.quirksmode.org/js/events_properties.html
-      if ((qx.core.Environment.get("engine.name") == "webkit"))
+      if (engineName == "webkit")
       {
         if (target && target.nodeType == 3) {
           target = target.parentNode;
         }
+      } else if(engineName == "mshtml") {
+         // Polyfill for IE10 and pointer-events:none
+         var targetForIE = this.__evaluateTarget(domEvent);
+         if(targetForIE) {
+           target = targetForIE;
+         }
       }
+      
       return target;
     },
+    
+    
+    /**
+     * This method polyfills "pointer-events:none" for Internet Explorer 10.
+     * Checks which elements are placed to position x/y and traverses the array
+     * till one element has no "pointer-events:none" inside its style attribute. 
+     * @param domEvent {Event} DOM event
+     * @return {Element} Event target
+     */ 
+    __evaluateTarget : function(domEvent) {
+      if(domEvent && domEvent.touches){
+        var clientX = domEvent.touches[0].clientX;
+        var clientY = domEvent.touches[0].clientY;
+      }
+      
+      // Retrieve an array with elements on point X/Y.
+      var hitTargets = document.msElementsFromPoint(clientX, clientY);
+      if(hitTargets) {
+        // Traverse this array for the elements which has no pointer-events:none inside.
+        for(var i=0; i < hitTargets.length; i++) {
+          var currentTarget = hitTargets[i];
+          var pointerEvents = qx.bom.element.Style.get(currentTarget,"pointer-events",3);
 
+          if(pointerEvents != "none") {
+            return currentTarget;
+          }
+        }
+      }
+      
+      return null;
+    },
+    
 
     /**
      * Fire a touch event with the given parameters

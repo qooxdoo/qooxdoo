@@ -96,6 +96,7 @@ qx.Class.define("mobileshowcase.page.Event",
       containerTouchArea.addListener("touchstart", this._onTouch, this);
       containerTouchArea.addListener("touchmove", this._onTouch, this);
       containerTouchArea.addListener("touchend", this._onTouch, this);
+      
       qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
       container.add(containerTouchArea);
 
@@ -117,6 +118,7 @@ qx.Class.define("mobileshowcase.page.Event",
         touchPoint.addCssClass("touch");
         
         this.__touchPoints.push(touchPoint);
+        touchPoint.setAnonymous(true);
 
         containerTouchArea.add(touchPoint);
       }
@@ -240,19 +242,20 @@ qx.Class.define("mobileshowcase.page.Event",
      * Reacts on touch events and updates the event container background and touch markers.
      */
     __updateTouchVisualisation : function(evt) {
-      var containerLeft = qx.bom.element.Location.getLeft(this.__container.getContentElement(), "padding");
-      var containerTop = qx.bom.element.Location.getTop(this.__container.getContentElement(), "padding");
+        var containerLeft = qx.bom.element.Location.getLeft(this.__container.getContentElement(), "padding");
+        var containerTop = qx.bom.element.Location.getTop(this.__container.getContentElement(), "padding");
 
-      var touches = evt.getAllTouches();
+        var touches = evt.getAllTouches();
+
+        this.__touchCount = touches.length;
+
+        for(var i=0;i<touches.length;i++) {
+          var touchLeft = touches[i].clientX-containerLeft;
+          var touchTop = touches[i].clientY-containerTop;
+          this.__touchCircleLeft[i] = touchLeft;
+          this.__touchCircleTop[i] = touchTop;
+        }
       
-      this.__touchCount = touches.length;
-      
-      for(var i=0;i<touches.length;i++) {
-        var touchLeft = touches[i].clientX-containerLeft;
-        var touchTop = touches[i].clientY-containerTop;
-        this.__touchCircleLeft[i] = touchLeft;
-        this.__touchCircleTop[i] = touchTop;
-      }
     },
 
     
@@ -263,8 +266,9 @@ qx.Class.define("mobileshowcase.page.Event",
      */
     _onTouch : function(evt)
     {
-      this.__updateTouchVisualisation(evt);
+      
       var type = evt.getType();
+      this.__updateTouchVisualisation(evt);
       if (type == "touchstart") {
         // Disable iScroll before
         if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
@@ -282,7 +286,7 @@ qx.Class.define("mobileshowcase.page.Event",
         if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
           this._getScrollContainer().enable();
         }
-      }
+      } 
       
       // Text output of event
       if(this.__lastEventType != evt.getType()) {
