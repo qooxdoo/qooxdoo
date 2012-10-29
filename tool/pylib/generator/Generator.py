@@ -1920,7 +1920,7 @@ class Generator(object):
 
         for libObj in libraryKey:
 
-            checkFile, fsTime = libObj.mostRecentlyChangedFile()
+            checkFile, fsTime = libObj.mostRecentlyChangedFile() # use the fresh Library() object to get the newest file on disk
             cacheId   = "lib-%s" % libObj.manipath
             checkObj, cacheTime  = self._cache.read(cacheId, memory=True)
             # need re-scan?

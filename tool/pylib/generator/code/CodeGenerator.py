@@ -1335,26 +1335,26 @@ class CodeGenerator(object):
             # add resource root URI
             if forceResourceUri:
                 resUriRoot = forceResourceUri
-            else:
+                qxlibs[lib.namespace]['resourceUri'] = forceResourceUri
+            elif hasattr(lib, 'resourcePath') and lib.resourcePath is not None:
                 resUriRoot = self._computeResourceUri(lib, OsPath(""), rType="resource", appRoot=self.approot)
                 resUriRoot = resUriRoot.encodedValue()
-                
-            qxlibs[lib.namespace]['resourceUri'] = "%s" % (resUriRoot,)
+                qxlibs[lib.namespace]['resourceUri'] = "%s" % (resUriRoot,)
             
             # add code root URI
             if forceScriptUri:
-                sourceUriRoot = forceScriptUri
-            else:
+                qxlibs[lib.namespace]['sourceUri'] = forceScriptUri
+            elif hasattr(lib, 'classPath') and lib.classPath is not None:
                 sourceUriRoot = self._computeResourceUri(lib, OsPath(""), rType="class", appRoot=self.approot)
                 sourceUriRoot = sourceUriRoot.encodedValue()
-            
-            qxlibs[lib.namespace]['sourceUri'] = "%s" % (sourceUriRoot,)
+                qxlibs[lib.namespace]['sourceUri'] = "%s" % (sourceUriRoot,)
             
             # TODO: Add version, svn revision, maybe even authors, but at least homepage link, ...
 
             # add version info
             if hasattr(lib, 'version'):
                 qxlibs[lib.namespace]['version'] = "%s" % lib.version
+            # sourceViewUri info
             if 'sourceViewUri' in lib.manifest.libinfo:
                 qxlibs[lib.namespace]['sourceViewUri'] = "%s" % lib.manifest.libinfo['sourceViewUri']
 

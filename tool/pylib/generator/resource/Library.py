@@ -154,20 +154,29 @@ class Library(object):
             return self.__youngest
 
         youngFiles = {} # {timestamp: "filepath"}
-        # for each interesting library part
-        for category in self.assets:
-            catsuffix = self.assets[category]['path']
-            if catsuffix is None or not os.path.isdir(
-                    os.path.join(self.path, catsuffix)):
-                continue
-            catPath = os.path.join(self.path, catsuffix)
-            # find youngest file
-            file_, mtime = filetool.findYoungest(catPath)
-            youngFiles[mtime] = file_
-
         # also check the Manifest file
         file_, mtime = filetool.findYoungest(self.manipath)
         youngFiles[mtime] = file_
+
+        # for each interesting library part
+        for category in self.assets:
+            catsuffix = self.assets[category]['path']
+            if catsuffix is None:  # if this changed recently, the Manifest reflects it
+                continue
+            if not os.path.isdir(os.path.join(self.path, catsuffix)):
+                # this might be a recent change reflected in the parent dirs
+                for sepIdx in [0] + [mo.start() for mo in re.finditer("/", catsuffix)]: # check self.path, self.path + "/foo", self.path + "/foo/bar", ...
+                    pardir = os.path.join(self.path, catsuffix[:sepIdx])
+                    if not os.path.isdir(pardir):
+                        break
+                    else:
+                        mtime = os.stat(pardir).st_mtime
+                        youngFiles[mtime] = pardir
+            else:
+                catPath = os.path.join(self.path, catsuffix)
+                # find youngest file
+                file_, mtime = filetool.findYoungest(catPath)
+                youngFiles[mtime] = file_
 
         # and return the maximum of those
         youngest = sorted(youngFiles.keys())[-1]
