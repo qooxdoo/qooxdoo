@@ -1264,7 +1264,7 @@ def toJS(self, opts):
     r = []
     r.append(self.children[0].toJS(opts))
     # 'if', 'while', etc. can have single-statement bodies
-    if self.children[0].id != 'block':
+    if self.children[0].id != 'block' and not r[-1].endswith(';'):
         r.append(';')
     return u''.join(r)
 
