@@ -659,6 +659,8 @@ qx.Class.define("qx.ui.form.AbstractField",
           var data = this.__nullValue ? null : value;
           this.__oldValue = oldValue;
           this.__fireChangeValueEvent(data);
+          // reset the input value on setValue calls [BUG #6892]
+          this.__oldInputValue = this.__oldValue;
         }
         // native placeholders will be shown by the browser
         if (this.__useQxPlaceholder) {
