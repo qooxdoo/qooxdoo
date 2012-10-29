@@ -232,12 +232,8 @@ qx.Bootstrap.define("qx.event.Messaging",
         }
         listener.handler.call(listener.scope, {path:path, params:params, customData:customData});
       }
-<<<<<<< HEAD
-      return match;
-=======
 
       return match != undefined;
->>>>>>> fe881f1... [BUG #6918] Make sure to return the right value if the route has been executed in case we have more than one listener.
     }
   }
 });
