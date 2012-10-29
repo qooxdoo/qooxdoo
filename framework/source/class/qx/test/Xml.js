@@ -23,12 +23,6 @@ qx.Class.define("qx.test.Xml",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @param arr {Array} TODOC
-     * @return {var} TODOC
-     */
     serializeArray : function(arr)
     {
       var ser = [];
@@ -40,11 +34,6 @@ qx.Class.define("qx.test.Xml",
       return ser.join(", ");
     },
 
-
-    /**
-     * TODOC
-     *
-     */
     testParseSerializeXml : function()
     {
       var doc = qx.xml.Document.create();
@@ -62,10 +51,6 @@ qx.Class.define("qx.test.Xml",
     },
 
 
-    /**
-     * TODOC
-     *
-     */
     testFromString : function()
     {
       var data = "<Root><Row>test1</Row><Row>test2</Row><Row>test3</Row></Root>";
@@ -75,10 +60,6 @@ qx.Class.define("qx.test.Xml",
     },
 
 
-    /**
-     * TODOC
-     *
-     */
     testCreateDocument : function()
     {
       var doc = qx.xml.Document.create("", "rss");
@@ -92,10 +73,6 @@ qx.Class.define("qx.test.Xml",
     },
 
 
-    /**
-     * TODOC
-     *
-     */
     testXPath : function()
     {
       var xmlStr = '<html><body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?</body></html>';
@@ -113,10 +90,7 @@ qx.Class.define("qx.test.Xml",
       this.assertEquals(this.serializeArray(doc2.getElementsByTagName("em")), this.serializeArray(qx.xml.Element.selectNodes(doc2.documentElement, '//em')));
     },
 
-    /**
-     * TODOC
-     *
-     */
+
     testXPathNS : function()
     {
       var xmlStr = '<html xmlns="http://www.w3.org/1999/xhtml"><body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?<foo xmlns="http://qooxdoo.org" id="bar"/></body></html>';
@@ -172,10 +146,6 @@ qx.Class.define("qx.test.Xml",
     },
 
 
-    /**
-     * TODOC
-     *
-     */
     testGetElementsByTagNameNS : function()
     {
       var xmlStr =
@@ -203,10 +173,6 @@ qx.Class.define("qx.test.Xml",
     },
 
 
-    /**
-     * TODOC
-     *
-     */
     testSetAttributeNS : function()
     {
       var doc = qx.xml.Document.create("http://www.w3.org/1999/xhtml", "html");
@@ -222,10 +188,7 @@ qx.Class.define("qx.test.Xml",
       }
     },
 
-    /**
-     * TODOC
-     *
-     */
+
     testGetAttributeNS : function()
     {
       var doc = qx.xml.Document.create("http://www.w3.org/1999/xhtml", "html");

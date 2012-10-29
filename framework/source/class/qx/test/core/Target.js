@@ -27,10 +27,6 @@ qx.Class.define("qx.test.core.Target",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     */
     testEvents : function()
     {
       qx.Class.define("qx.Event",
