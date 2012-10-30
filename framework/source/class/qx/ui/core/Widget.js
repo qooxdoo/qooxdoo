@@ -1147,6 +1147,12 @@ qx.Class.define("qx.ui.core.Widget",
           var shadowHeight = height + insets.top + insets.bottom;
 
           this.__shadowElement.resize(shadowWidth, shadowHeight);
+
+          // Move out of container by top/left inset
+          this.__shadowElement.setStyles({
+            left: -insets.left + "px",
+            top: -insets.top + "px"
+          }, true);
         }
       }
 
@@ -2496,12 +2502,7 @@ qx.Class.define("qx.ui.core.Widget",
         // Add to container
         container.add(elem);
 
-        // Move out of container by top/left inset
         var insets = elem.getInsets();
-        elem.setStyles({
-          left: insets.left + "px",
-          top: insets.top + "px"
-        });
 
         // Directly update for size when possible
         var bounds = this.getBounds();
@@ -2510,14 +2511,13 @@ qx.Class.define("qx.ui.core.Widget",
           var shadowWidth = bounds.width + insets.left + insets.right;
           var shadowHeight = bounds.height + insets.top + insets.bottom;
 
-          // remove the old insets if given
-          if (old) {
-            var oldInsets = pool.getDecoratorElement(old).getInsets();
-            shadowWidth = shadowWidth - oldInsets.left - oldInsets.right;
-            shadowHeight = shadowHeight - oldInsets.top - oldInsets.bottom;
-          }
-
           elem.resize(shadowWidth, shadowHeight);
+
+          // Move out of container by top/left inset
+          elem.setStyles({
+            left: -insets.left + "px",
+            top: -insets.top + "px"
+          }, true);
         }
 
         elem.tint(null);
