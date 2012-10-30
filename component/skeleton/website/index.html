@@ -5,6 +5,12 @@
   <title>My website app</title>
   <script type="text/javascript" src="script/q-2.1.min.js"></script>
   <script type="text/javascript" charset="utf-8">
+    if (typeof q == "undefined") {
+      window.onload = function() {
+        document.body.innerHTML = "Couldn't load q library. Please make sure it is generated before creating an application skeleton by running <em>./generate.py build-min</em> in the <em>component/standalone/website</em> subdirectory of your qooxdoo SDK or Git repository clone.";
+      }
+    }
+
     q.ready(function() {
       // render the "greeting" template from below
       var realname = "qooxdoo user";
