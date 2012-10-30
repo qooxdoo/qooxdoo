@@ -64,6 +64,9 @@ msgstr "Şterge flux"
 msgid "Static Feeds"
 msgstr "Fluxuri statice"
 
+msgid "Theme"
+msgstr ""
+
 msgid "Title"
 msgstr "Titlu"
 
