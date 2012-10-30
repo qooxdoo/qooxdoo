@@ -88,6 +88,11 @@ qx.Class.define("qx.html.Decorator",
      */
     resize : function(width, height) {
       this.__decorator.resize(this.getDomElement(), width, height);
+
+      // hack to reset the elements cache which might be wrong due to direct
+      // style settings in the resize method
+      this.getAllStyles().left = this.getDomElement().style.left;
+      this.getAllStyles().top = this.getDomElement().style.top;
     },
 
 

@@ -114,7 +114,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       Event.addNativeListener(this.__target, "touchend", this.__onTouchEventWrapper);
       Event.addNativeListener(this.__target, "touchcancel", this.__onTouchEventWrapper);
       
-      if (window.navigator.msPointerEnabled) {
+      if (qx.core.Environment.get("event.mspointer")) {
         Event.addNativeListener(this.__target, "MSPointerDown", this.__onTouchEventWrapper);
         Event.addNativeListener(this.__target, "MSPointerMove", this.__onTouchEventWrapper);
         Event.addNativeListener(this.__target, "MSPointerUp", this.__onTouchEventWrapper);
@@ -142,7 +142,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       Event.removeNativeListener(this.__target, "touchend", this.__onTouchEventWrapper);
       Event.removeNativeListener(this.__target, "touchcancel", this.__onTouchEventWrapper);
       
-      if (window.navigator.msPointerEnabled) {
+      if (qx.core.Environment.get("event.mspointer")) {
         Event.removeNativeListener(this.__target, "MSPointerDown", this.__onTouchEventWrapper);
         Event.removeNativeListener(this.__target, "MSPointerMove", this.__onTouchEventWrapper);
         Event.removeNativeListener(this.__target, "MSPointerUp", this.__onTouchEventWrapper);
@@ -179,7 +179,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     {
       var type = type || domEvent.type;
       
-      if (window.navigator.msPointerEnabled) {
+      if (qx.core.Environment.get("event.mspointer")) {
         domEvent.changedTouches = [domEvent];
         domEvent.targetTouches = [domEvent];
         domEvent.touches = [domEvent];
@@ -220,20 +220,19 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     _getTarget : function(domEvent)
     {
       var target = qx.bom.Event.getTarget(domEvent);
-      var engineName = qx.core.Environment.get("engine.name");
       
       // Text node. Fix Safari Bug, see http://www.quirksmode.org/js/events_properties.html
-      if (engineName == "webkit")
+      if (qx.core.Environment.get("engine.name") == "webkit")
       {
         if (target && target.nodeType == 3) {
           target = target.parentNode;
         }
-      } else if(engineName == "mshtml") {
-         // Polyfill for IE10 and pointer-events:none
-         var targetForIE = this.__evaluateTarget(domEvent);
-         if(targetForIE) {
-           target = targetForIE;
-         }
+      } else if(qx.core.Environment.get("event.mspointer")) {
+        // Fix for IE10 and pointer-events:none
+        var targetForIE = this.__evaluateTarget(domEvent);
+        if(targetForIE) {
+          target = targetForIE;
+        }
       }
       
       return target;
@@ -241,11 +240,11 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     
     
     /**
-     * This method polyfills "pointer-events:none" for Internet Explorer 10.
+     * This method fixes "pointer-events:none" for Internet Explorer 10.
      * Checks which elements are placed to position x/y and traverses the array
      * till one element has no "pointer-events:none" inside its style attribute. 
      * @param domEvent {Event} DOM event
-     * @return {Element} Event target
+     * @return {Element | null} Event target
      */ 
     __evaluateTarget : function(domEvent) {
       if(domEvent && domEvent.touches){
