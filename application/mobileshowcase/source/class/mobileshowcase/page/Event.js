@@ -35,14 +35,16 @@ qx.Class.define("mobileshowcase.page.Event",
     this.__touchCircleLeft = [];
     this.__touchCircleTop = [];
     this.__touchPoints = [];
+    
     for (var i=0; i < 15; i++) {
       this.__touchCircleLeft[i] = -1000;
       this.__touchCircleTop[i] = -1000;
     }
 
-    this.__isFirefox = qx.core.Environment.get("browser.name")=="firefox";
-    if(this.__isFirefox==true) {
-      this.__vendorPrefix="moz";
+    if(qx.core.Environment.get("browser.name")=="firefox") {
+      this.__vendorPrefix = "moz";
+    } else if (qx.core.Environment.get("engine.name") == "mshtml") {
+      this.__vendorPrefix = "ms";
     }
   },
 
@@ -64,8 +66,7 @@ qx.Class.define("mobileshowcase.page.Event",
     __maxScale : 1.5,
     __minScale : 0.3,
     __lastMultiTouchEventTime : 0,
-    __isFirefox:false,
-    __vendorPrefix:"webkit",
+    __vendorPrefix: "webkit",
     __logoLeft:-130,
     __logoTop:-130,
     __touchCircleLeft: null,
@@ -101,19 +102,17 @@ qx.Class.define("mobileshowcase.page.Event",
       container.add(containerTouchArea);
 
       // GESTURE TARGET OBJECT
-      
       this.__gestureTarget = new qx.ui.mobile.basic.Image("mobileshowcase/icon/HTML5_Badge_512.png");
       
       this.__gestureTarget.addCssClass("gesture-target");
       this.__gestureTarget.addListener("touchmove", this._onGestureTouchMove, this);
       this.__gestureTarget.addListener("touchend", this._onGestureTouchEnd, this);
-      
       this.__gestureTarget.setDraggable(false);
       
       container.add(this.__gestureTarget);
       
       // TOUCH VISUALISATION CIRCLES
-      for(var i=0;i<15;i++) {
+      for(var i=0; i<15; i++) {
         var touchPoint = new qx.ui.mobile.container.Composite();
         touchPoint.addCssClass("touch");
         
@@ -193,18 +192,6 @@ qx.Class.define("mobileshowcase.page.Event",
     
     
     /**
-     * Moves an HTML element by left and top value.
-     * Uses transform3d for smooth transitions.
-     */
-    __moveElement : function(element,left,top) {
-      var transformKey = "transform";
-      var transformValue = "translate3d("+(left)+"px"+","+(top)+"px,0px)";
-      
-      qx.bom.element.Style.set(element,transformKey, transformValue);
-    },
-
-
-    /**
      * Event handler.
      *
      * @param evt {qx.event.type.Tap} The tap event.
@@ -255,7 +242,6 @@ qx.Class.define("mobileshowcase.page.Event",
           this.__touchCircleLeft[i] = touchLeft;
           this.__touchCircleTop[i] = touchTop;
         }
-      
     },
 
     
@@ -277,7 +263,7 @@ qx.Class.define("mobileshowcase.page.Event",
         this.__label.setValue("");
       } else if (type == "touchend") {
         // Remove all touches out of visible area
-        for(var i=0;i<this.__touchCircleLeft.length;i++) {
+        for(var i=0; i < this.__touchCircleLeft.length;i++) {
           this.__touchCircleLeft[i] = -1000;
           this.__touchCircleTop[i] = -1000;
         }
@@ -299,7 +285,7 @@ qx.Class.define("mobileshowcase.page.Event",
     
     
     _render : function() {
-       // Render HTML5 logo: rotation and scale.
+      // Render HTML5 logo: rotation and scale.
       var gestureTargetElement = this.__gestureTarget.getContentElement();
      
       var transitionKey = "transform";
@@ -311,8 +297,9 @@ qx.Class.define("mobileshowcase.page.Event",
       // Touch Circle Visualization
       for(var i=0;i<this.__touchCircleLeft.length;i++) {
         var touchPoint = this.__touchPoints[i];
-        var targetElement = touchPoint.getContentElement();
-        this.__moveElement(targetElement, this.__touchCircleLeft[i], this.__touchCircleTop[i]);
+        
+        touchPoint.setTranslateX(this.__touchCircleLeft[i]);
+        touchPoint.setTranslateY(this.__touchCircleTop[i]);
       }
       
       // Background Handling
