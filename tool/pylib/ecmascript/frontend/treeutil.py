@@ -317,15 +317,15 @@ def inlineIfStatement(ifNode, conditionValue):
         if conditionValue:
             removedDefinitions = getDefinitions(ifNode.children[2])
             newDefinitions = getDefinitions(ifNode.children[1])
-            replacement = ifNode.children[1].children[0].children
+            replacement = ifNode.children[1].children[0]  # <body>.children: single node, <block> or <statement>
         else:
             removedDefinitions = getDefinitions(ifNode.children[1])
             newDefinitions = getDefinitions(ifNode.children[2])
-            replacement = ifNode.children[2].children[0].children
+            replacement = ifNode.children[2].children[0]
     else:
         if conditionValue:
             newDefinitions = getDefinitions(ifNode.children[1])
-            replacement = ifNode.children[1].children[0].children
+            replacement = ifNode.children[1].children[0]
         else:
             removedDefinitions = getDefinitions(ifNode.children[1])
 
@@ -359,8 +359,7 @@ def inlineIfStatement(ifNode, conditionValue):
 
     # move replacement
     if replacement:
-        replacement = replacement[:] # retain copy for return value
-        replaceChildWithNodes(ifNode.parent, ifNode, replacement)
+        replaceChildWithNodes(ifNode.parent, ifNode, [replacement]) # helper expects list
     else:
         emptyBlock = treegenerator.symbol("block")()
         emptyBlock.set("line", ifNode.get("line"))
@@ -370,7 +369,7 @@ def inlineIfStatement(ifNode, conditionValue):
         else:
             # don't leave single-statement parent loops empty
             ifNode.parent.replaceChild(ifNode, emptyBlock)
-        replacement = [emptyBlock]
+        replacement = emptyBlock
 
     return replacement
 
