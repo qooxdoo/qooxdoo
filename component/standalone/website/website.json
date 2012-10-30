@@ -31,6 +31,7 @@
     "ROOT"         : ".",
     "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
     "TEST_SCRIPT_PATH"  : "./test/script",
+    "API_SCRIPT_PATH" : "api/script",
     "Q_INCLUDES" : [
       "qx.module.*",
       "qxWeb"
@@ -40,7 +41,7 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : [ "common", "testrunner-portable::build-script" ],
+    "job-shadowing" : [ "common", "testrunner-portable::build-script", "distclean", "clean" ],
 
     "environment" : [ "non-literal-keys" ]
   },
@@ -257,7 +258,7 @@
       {
         "paths"  :
         {
-          "file" : "api/script/q-${QOOXDOO_VERSION}.min.js"
+          "file" : "${API_SCRIPT_PATH}/q-${QOOXDOO_VERSION}.min.js"
         }
       }
     },
@@ -271,11 +272,57 @@
       "include" : "${API_INCLUDE}",
 
       "api" : {
-        "path" : "api/script"
+        "path" : "${API_SCRIPT_PATH}"
       },
       "cache" :     {
         "compile"      : "${CACHE}",
         "invalidate-on-tool-change" : true
+      }
+    },
+
+    "distclean" :
+    {
+      "desc"    : "remove local cache and generated .js files (source/build/build-min/test/test-source/api)",
+
+      "cache"   : "${CACHE_KEY}",
+
+      "=clean-files" :
+      {
+        "Deleting build/source" :
+        [
+          "${BUILD_PATH}"
+        ],
+        "Cleaning up tests" :
+        [
+          "${TEST_SCRIPT_PATH}"
+        ],
+        "Cleaning up API data" :
+        [
+          "${API_SCRIPT_PATH}"
+        ]
+      }
+    },
+
+    "clean" :
+    {
+      "desc"    : "remove local cache and generated .js files (source/build/build-min/test/api)",
+
+      "cache"   : "${CACHE_KEY}",
+
+      "=clean-files" :
+      {
+        "Cleaning up source" :
+        [
+          "${BUILD_PATH}/q-source*.js"
+        ],
+        "Cleaning up build" :
+        [
+          "${BUILD_PATH}/q-${QOOXDOO_VERSION}.js"
+        ],
+        "Cleaning up build-min" :
+        [
+          "${BUILD_PATH}/q-${QOOXDOO_VERSION}.min.js"
+        ],
       }
     }
   }
