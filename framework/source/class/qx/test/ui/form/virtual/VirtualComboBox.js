@@ -205,6 +205,19 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       var preselected = this.__comboBox.getChildControl("dropdown")._preselected.getLastname();
       this.assertEquals("Sisko", preselected);
       this.assertEquals("Si", this.__comboBox.getValue());
+    },
+
+    testEmptySelection : function()
+    {
+      this.__comboBox.setLabelPath("label");
+      var rawData = [{
+        label : "foo"
+      }];
+      var model = this.__model = qx.data.marshal.Json.createModel(rawData);
+      this.__comboBox.setModel(model);
+      var selection = this.__comboBox.getChildControl("dropdown").getSelection();
+      selection.push(this.__comboBox.getModel().getItem(0));
+      selection.removeAll();
     }
   }
 
