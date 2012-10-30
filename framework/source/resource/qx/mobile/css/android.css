@@ -1674,6 +1674,7 @@ textarea {
   -webkit-border-radius: none;
   -moz-border-radius: none;
   border-radius: none;
+  overflow: hidden;
 }
 .formElementError {
   color: red;
