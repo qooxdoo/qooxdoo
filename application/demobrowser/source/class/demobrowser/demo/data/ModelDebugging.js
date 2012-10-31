@@ -24,6 +24,7 @@
 /**
  * @tag databinding
  * @tag debugging
+ * @ignore(demobrowser.demo.data.store)
  */
 qx.Class.define("demobrowser.demo.data.ModelDebugging",
 {

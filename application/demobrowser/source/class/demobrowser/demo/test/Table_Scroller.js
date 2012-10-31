@@ -25,6 +25,7 @@
 /**
  * @tag noPlayground
  * @tag test
+ * @ignore(demobrowser.demo.test.DummyTable)
  */
 qx.Class.define("demobrowser.demo.test.Table_Scroller",
 {
