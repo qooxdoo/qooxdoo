@@ -509,6 +509,38 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
         "Expected " + (click ? "" : "no ") + " listener for 'cellClick'!"
       );
     },
+    
+    
+    testFilter : function()
+    {
+      var filterNode = "Node 2";
+      var root = this.model = this.createModel(1);
+      
+      this.tree.setLabelPath("name");
+      this.tree.setChildProperty("children");
+
+      var delegate = {
+        filter : function(child) {
+          return child.getName() == filterNode ? false : true;
+        }
+      }
+      
+      this.tree.setDelegate(delegate);
+      this.tree.setModel(root);
+      this.flush();
+
+      // Get array of child elements of root expect the filtered one
+      var expected = this.__getVisibleItemsFrom(root, [root]);
+      for (var i=0; i < expected.length; i++) {
+        if (expected[i].getName() == filterNode){
+          expected.splice(i, 1);
+        }
+      };
+      
+      qx.lang.Array.insertAt(expected, root, 0);
+      
+      this.assertArrayEquals(expected, this.tree.getLookupTable().toArray());
+    },
 
 
     /*
