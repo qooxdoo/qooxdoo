@@ -2,6 +2,9 @@
 /* ************************************************************************
 #ignore(qx.test.ListItem)
 ************************************************************************ */
+/**
+ * @ignore(qx.test.ListItem)
+ */
 
 qx.Class.define("qx.test.data.controller.ListReverse",
 {

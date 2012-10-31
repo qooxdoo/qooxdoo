@@ -22,6 +22,9 @@
 #ignore(qx.ui.form.core.AbstractVirtualBoxMock)
 
 ************************************************************************ */
+/**
+ * @ignore(qx.ui.form.core.AbstractVirtualBoxMock)
+ */
 
 qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
 {

@@ -104,7 +104,7 @@ class MClassCode(object):
                 #tree.scope.prrnt()
 
             # lint check
-            if False:
+            if False:  # currently done in MClassDependencies, due to global classList
                 console.outdent()
                 console.debug("Checking JavaScript source code: %s..." % self.id)
                 console.indent()

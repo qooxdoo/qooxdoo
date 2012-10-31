@@ -23,6 +23,10 @@
 #ignore(qx.test.ui.tree.virtual.Node)
 
 ************************************************************************ */
+/**
+ * @ignore(qx.test.ui.tree.virtual.Leaf)
+ * @ignore(qx.test.ui.tree.virtual.Node)
+ */
 
 qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
 {

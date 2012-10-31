@@ -16,6 +16,9 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
+/**
+ * @ignore(qx.theme.Foo)
+ */
 
 qx.Class.define("qx.test.Theme",
 {

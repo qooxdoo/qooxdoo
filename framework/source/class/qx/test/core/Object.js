@@ -22,6 +22,9 @@
 #ignore(qx.test.Single)
 
 ************************************************************************ */
+/**
+ * @ignore(qx.test.Single)
+ */
 
 qx.Class.define("qx.test.core.Object",
 {

@@ -23,6 +23,10 @@
 #ignore(qx.test.B)
 #ignore(qx.test.A)
 ************************************************************************ */
+/**
+ * @ignore(qx.Node, qx.test.A, qx.test.B, qx.test.clName, qx.test.IForm)
+ * @ignore(qx.TestProperty)
+ */
 
 qx.Class.define("qx.test.core.Property",
 {

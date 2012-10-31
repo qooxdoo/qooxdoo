@@ -22,6 +22,9 @@ Authors:
 #asset(qx/test/*)
 
 ************************************************************************ */
+/**
+ * @ignore(qx.test.PART_FILES)
+ */
 
 qx.Class.define("qx.test.io.part.Package",
 {

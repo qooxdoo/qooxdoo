@@ -23,6 +23,9 @@ Authors:
 #ignore(qx.test.PART_FILES)
 
 ************************************************************************ */
+/**
+ * @ignore(qx.test.PART_FILES)
+ */
 
 qx.Class.define("qx.test.Part",
 {
