@@ -81,6 +81,7 @@ qx.Mixin.define("qx.core.MEvents",
         this.removeListener(type, callback, this, capture);
         listener.call(self||this, e);
       };
+      listener.$$wrapped_callback = callback;
 
       return this.addListener(type, callback, this, capture);
     },
@@ -99,6 +100,12 @@ qx.Mixin.define("qx.core.MEvents",
     removeListener : function(type, listener, self, capture)
     {
       if (!this.$$disposed) {
+        // special handling for wrapped once listener
+        if (listener.$$wrapped_callback) {
+          var callback = listener.$$wrapped_callback;
+          delete listener.$$wrapped_callback;
+          listener = callback;
+        }
         return this.__Registration.removeListener(this, type, listener, self, capture);
       }
 

@@ -67,12 +67,31 @@ qx.Class.define("qx.test.core.Object",
     },
 
 
+    testAddListenerOnce : function()
+    {
+      var listener = function() {};
+      this.addListenerOnce("testAddListenerOnce", listener, this, false);
+      this.assertTrue(this.hasListener("testAddListenerOnce", false));
+      this.removeListener("testAddListenerOnce", listener, this, false);
+      this.assertFalse(this.hasListener("testAddListenerOnce", false));
+    },
+
+
     testRemoveListenerById : function()
     {
       var id = this.addListener("test", function() {}, this, false);
       this.assertTrue(this.hasListener("test", false));
       this.removeListenerById(id);
       this.assertFalse(this.hasListener("test", false));
+    },
+
+
+    testRemoveListenerOnceById : function()
+    {
+      var id = this.addListenerOnce("testRemoveListenerOnceById", function() {}, this, false);
+      this.assertTrue(this.hasListener("testRemoveListenerOnceById", false));
+      this.removeListenerById(id);
+      this.assertFalse(this.hasListener("testRemoveListenerOnceById", false));
     },
 
 
