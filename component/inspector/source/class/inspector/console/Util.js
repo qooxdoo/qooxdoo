@@ -23,6 +23,8 @@
 
 /**
  * Util class for console.
+ *
+ * @ignore(inspector.$$inspector)
  */
 qx.Class.define("inspector.console.Util",
 {
@@ -33,7 +35,7 @@ qx.Class.define("inspector.console.Util",
      *
      * @param code {String} Code to eval
      * @return {Object|null} Evaluated code, if any.
-     * @throws an Exception if an error occurs by evaluation.
+     * @throws {Error} if an error occurs by evaluation.
      */
     evalOnIframe : function(code) {
       var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
