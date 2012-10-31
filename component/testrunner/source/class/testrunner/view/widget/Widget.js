@@ -964,7 +964,11 @@ qx.Class.define("testrunner.view.widget.Widget", {
 
     _applyAutUri : function(value, old)
     {
-      this.__iframe.setSource(value);
+      if (value == null) {
+        this.__iframe.resetSource();
+      } else {
+        this.__iframe.setSource(value);
+      }
     },
 
     _applyTestModel : function(value, old)
