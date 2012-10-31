@@ -883,8 +883,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
         if (this.isNodeOpen(root))
         {
-          var visibleChildren = this.__getVisibleChildrenFrom(root,
-            nestedLevel);
+          var visibleChildren = this.__getVisibleChildrenFrom(root, nestedLevel);
           lookupTable = lookupTable.concat(visibleChildren);
         }
       }
@@ -924,7 +923,12 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       if (delegate != null) {
         var filter = delegate.filter;
       }
-      
+
+      var sorter = qx.util.Delegate.getMethod(this.getDelegate(), "sorter");
+      if (sorter != null) {
+        children.sort(sorter);
+      }
+
       for (var i = 0; i < children.getLength(); i++)
       {
         var child = children.getItem(i);
@@ -940,8 +944,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
           if (this.isNodeOpen(child))
           {
-            var visibleChildren = this.__getVisibleChildrenFrom(child,
-              nestedLevel);
+            var visibleChildren = this.__getVisibleChildrenFrom(child, nestedLevel);
             visible = visible.concat(visibleChildren);
           }
         }

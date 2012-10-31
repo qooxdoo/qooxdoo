@@ -62,6 +62,17 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
           apply : "_applyEventPropagation",
           nullable : true
         }
+      },
+
+      members :
+      {
+        toString : function() {
+          return this.getName();
+        },
+
+        equals : function(item) {
+          return this.getName() === item.getName();
+        }
       }
     });
 

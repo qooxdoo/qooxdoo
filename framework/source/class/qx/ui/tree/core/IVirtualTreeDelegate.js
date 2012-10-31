@@ -82,6 +82,19 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
      * @param data {var} The data which will be checked.
      * @return {Boolean} True, if the data passes the filter, false otherwise.
      */
-    filter : function(data) {}
+    filter : function(data) {},
+
+
+    /**
+     * Gives the user the opportunity to sort the children items from a node.
+     * The sorting method should return a negative value if a < b, zero 
+     * if a = b, or a positive value if a > b.
+     *
+     * @param a {var} value to compare.
+     * @param b {var} value to compare.
+     * @return {Integer} should return a negative value if a < b, zero
+     *   if a = b, or a positive value if a > b.
+     */
+    sorter : function(a, b) {}
   }
 });
