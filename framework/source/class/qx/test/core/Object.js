@@ -39,40 +39,40 @@ qx.Class.define("qx.test.core.Object",
     testHasListener : function()
     {
       var listener = function() {};
-      this.assertFalse(this.hasListener("test", false));
-      this.assertFalse(this.hasListener("test2", false));
+      this.assertFalse(this.hasListener("testHasListener", false));
+      this.assertFalse(this.hasListener("testHasListener2", false));
 
-      this.addListener("test", listener, this, false);
-      this.assertTrue(this.hasListener("test", false));
-      this.assertFalse(this.hasListener("test2", false));
+      this.addListener("testHasListener", listener, this, false);
+      this.assertTrue(this.hasListener("testHasListener", false));
+      this.assertFalse(this.hasListener("testHasListener2", false));
 
-      this.addListener("test2", listener, this, false);
-      this.assertTrue(this.hasListener("test", false));
-      this.assertTrue(this.hasListener("test2", false));
+      this.addListener("testHasListener2", listener, this, false);
+      this.assertTrue(this.hasListener("testHasListener", false));
+      this.assertTrue(this.hasListener("testHasListener2", false));
 
-      this.removeListener("test", listener, this, false);
-      this.removeListener("test2", listener, this, false);
-      this.assertFalse(this.hasListener("test", false));
-      this.assertFalse(this.hasListener("test2", false));
+      this.removeListener("testHasListener", listener, this, false);
+      this.removeListener("testHasListener2", listener, this, false);
+      this.assertFalse(this.hasListener("testHasListener", false));
+      this.assertFalse(this.hasListener("testHasListener2", false));
     },
 
 
     testAddListener : function()
     {
       var listener = function() {};
-      this.addListener("test", listener, this, false);
-      this.assertTrue(this.hasListener("test", false));
-      this.removeListener("test", listener, this, false);
-      this.assertFalse(this.hasListener("test", false));
+      this.addListener("testAddListener", listener, this, false);
+      this.assertTrue(this.hasListener("testAddListener", false));
+      this.removeListener("testAddListener", listener, this, false);
+      this.assertFalse(this.hasListener("testAddListener", false));
     },
 
 
     testRemoveListenerById : function()
     {
-      var id = this.addListener("test", function() {}, this, false);
-      this.assertTrue(this.hasListener("test", false));
+      var id = this.addListener("testRemoveListenerById", function() {}, this, false);
+      this.assertTrue(this.hasListener("testRemoveListenerById", false));
       this.removeListenerById(id);
-      this.assertFalse(this.hasListener("test", false));
+      this.assertFalse(this.hasListener("testRemoveListenerById", false));
     },
 
 
@@ -93,12 +93,12 @@ qx.Class.define("qx.test.core.Object",
 
     testRemoveListenerByIdAsync: function() {
       var executed = false;
-      var id = this.addListener("test", function() {
+      var id = this.addListener("testRemoveListenerByIdAsync", function() {
         executed = true;
       }, this);
       this.removeListenerById(id);
 
-      this.fireEvent("test");
+      this.fireEvent("testRemoveListenerByIdAsync");
 
       var self = this;
       window.setTimeout(function() {
