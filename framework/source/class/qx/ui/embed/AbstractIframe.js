@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.embed.AbstractIframe",
     {
       check : "String",
       apply : "_applySource",
-      nullable : true
+      init : "about:blank"
     },
 
     /**
