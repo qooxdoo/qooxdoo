@@ -728,7 +728,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
       pp3.add(caption3);
 
       var iframe = new qx.ui.embed.Iframe();
-      iframe.setSource(null);
+      iframe.resetSource();
       this.__iframe = iframe;
       pp3.add(iframe, {flex: 1});
 

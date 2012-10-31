@@ -243,7 +243,7 @@ qx.Class.define("qx.html.Iframe",
       if (element)
       {
         var url = this.getSource();
-        this.setSource(null);
+        this.resetSource();
         this.setSource(url);
       }
     },
