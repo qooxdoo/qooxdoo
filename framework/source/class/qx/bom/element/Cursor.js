@@ -103,7 +103,7 @@ qx.Bootstrap.define("qx.bom.element.Cursor",
 
     // Opera < 12
     } else if (
-      qx.core.Environment.get("engine.name") == "opera" && 
+      qx.core.Environment.get("engine.name") == "opera" &&
       parseInt(qx.core.Environment.get("engine.version")) < 12
     ) {
       statics.__map["nesw-resize"] = "ne-resize";

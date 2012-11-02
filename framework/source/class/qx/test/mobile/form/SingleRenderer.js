@@ -36,12 +36,12 @@ qx.Class.define("qx.test.mobile.form.SingleRenderer",
       this.__form.addButton(this.__b);
       this.__t = new qx.ui.mobile.form.TextField("test");
       this.__form.add(this.__t, "label");
-      
+
       var dd = new qx.data.Array(["1"]);
       this.__s = new qx.ui.mobile.form.SelectBox();
       this.__s.setModel(dd);
       this.__form.add(this.__s, "select");
-      
+
       this.__renderer = new qx.ui.mobile.form.renderer.Single(this.__form);
       this.getRoot().add(this.__renderer);
     },
@@ -55,13 +55,13 @@ qx.Class.define("qx.test.mobile.form.SingleRenderer",
       this.__renderer.dispose();
       this.base(arguments);
     },
-    
-    
+
+
     testShowHideRow : function() {
       this.__renderer.hideItem(this.__b);
       var isHidden = this.__b.getLayoutParent().hasCssClass("exclude");
       this.assertTrue(isHidden,"Buttons parent is expected to contain 'exclude' class");
-      
+
       this.__renderer.showItem(this.__b);
       isHidden = this.__b.getLayoutParent().hasCssClass("exclude");
       this.assertFalse(isHidden,"Button parent is expected to not contain 'exclude' class anymore");
@@ -79,8 +79,8 @@ qx.Class.define("qx.test.mobile.form.SingleRenderer",
       var buttonRowLength = this.__renderer._getChildren()[5]._getChildren().length;
       this.assertTrue(1 === buttonRowLength); // we have only the button in the row
     },
-    
-    
+
+
     testTwoLinesRow : function() {
       this.assertNotNull(this.__renderer._getChildren()[3]);
       var rowLength = this.__renderer._getChildren()[3]._getChildren().length;

@@ -109,34 +109,34 @@ qx.Class.define("mobileshowcase.page.Basic",
       exAtomBottom.addCssClass("space-top");
 
       // BUILD VIEW
-      
+
       var menuGroup = new qx.ui.mobile.form.Group([toggleEnableButton,toggleLabelWrapButton]);
       this.getContent().add(menuGroup);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Button"));
       var buttonGroup = new qx.ui.mobile.form.Group([exButton],false);
       this.getContent().add(buttonGroup);
-      
+
       this.getContent().add(new qx.ui.mobile.form.Title("ToggleButton"));
-      
+
       var toggleButtonGroup = new qx.ui.mobile.form.Group;
       toggleButtonGroup.add(exToggleButton);
       this.getContent().add(toggleButtonGroup);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Label"));
-      
+
       var labelGroup = new qx.ui.mobile.form.Group();
       labelGroup.add(exLabel);
       this.getContent().add(labelGroup);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Image"));
-      
+
       var imageGroup = new qx.ui.mobile.form.Group;
       imageGroup.add(exImage);
       this.getContent().add(imageGroup);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Atoms"));
-      
+
       var atomGroup = new qx.ui.mobile.form.Group([exAtomLeft,exAtomTop,exAtomRight,exAtomBottom]);
       this.getContent().add(atomGroup);
     },

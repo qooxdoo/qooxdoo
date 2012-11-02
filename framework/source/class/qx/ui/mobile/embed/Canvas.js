@@ -27,11 +27,11 @@
  *
  * <pre class='javascript'>
  * var canvas = new qx.ui.mobile.embed.Canvas();
- * 
+ *
  * canvas.setWidth(100);
  * canvas.setHeight(100);
  * this.getContent().add(canvas);
- * 
+ *
  * var ctx= canvas.getContext2d();
  * ctx.fillStyle="#FF0000";
  * ctx.fillRect(0,0,150,75);

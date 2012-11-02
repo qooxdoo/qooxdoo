@@ -57,8 +57,8 @@ qx.Class.define("qx.ui.mobile.form.Form",
      * the renderer this form uses to be displayed
      */
     __renderer : null,
-    
-    
+
+
     /**
      * Contains all invalid items.
      */
@@ -93,9 +93,9 @@ qx.Class.define("qx.ui.mobile.form.Form",
     validate : function()
     {
       var validateResult = this.base(arguments);
-      
+
       this.__invalidItems = [];
-      
+
       if(this.__renderer != null) {
         this.__renderer.resetForm();
       }
@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.mobile.form.Form",
           if(!item.isValid())
           {
             this.__invalidItems.push(item);
-            
+
             if(this.__renderer != null)
             {
               this.__renderer.showErrorForItem(item);
@@ -128,8 +128,8 @@ qx.Class.define("qx.ui.mobile.form.Form",
 
       return validateResult;
     },
-    
-    
+
+
     /**
      * Makes a row visible, identified by its group and row index.
      * @param groupIndex {Integer} the index of the group to which the row belongs to
@@ -141,8 +141,8 @@ qx.Class.define("qx.ui.mobile.form.Form",
         this.__renderer.hideItem(item);
       }
     },
-    
-    
+
+
     /**
      * Makes a row invisible, identified by its group and row index.
      * @param groupIndex {Integer} the index of the group to which the row belongs to
@@ -154,8 +154,8 @@ qx.Class.define("qx.ui.mobile.form.Form",
         this.__renderer.hideItem(item);
       }
     },
-    
-    
+
+
     /**
      * Gets the item with the given group and rowIndex.
      * @param groupIndex {Integer} the index of the group to which the row belongs to
@@ -169,11 +169,11 @@ qx.Class.define("qx.ui.mobile.form.Form",
         var item = group.items[rowIndex];
         return item;
       }
-      
+
       return null;
     },
-  
-  
+
+
     /**
     * Returns the invalid items of the form, which were determined by {@link qx.ui.mobile.form.Form#validate} before.
     * It returns an empty array if no items are invalid.

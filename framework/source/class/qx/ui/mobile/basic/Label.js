@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.mobile.basic.Label",
       this._setHtml(value);
     },
 
-    
+
     // property apply
     _applyWrap : function(value, old)
     {

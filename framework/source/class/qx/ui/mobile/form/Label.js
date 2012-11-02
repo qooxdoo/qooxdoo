@@ -19,13 +19,13 @@
 
 /**
  * The label widget displays a text or HTML content in form context.
- * 
- * It uses the html tag <label>, for making it possible to set the 
+ *
+ * It uses the html tag <label>, for making it possible to set the
  * "for" attribute.
- * 
+ *
  * The "for" attribute specifies which form element a label is bound to.
  * A tap on the label is forwarded to the bound element.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -33,9 +33,9 @@
  * <pre class='javascript'>
  *   var checkBox = new qx.ui.mobile.form.CheckBox();
  *   var label = new qx.ui.mobile.form.Label("Label for CheckBox");
- *   
+ *
  *   label.setLabelFor(checkBox.getId());
- *   
+ *
  *   this.getRoot().add(label);
  *   this.getRoot().add(checkBox);
  * </pre>
@@ -45,7 +45,7 @@
  */
 qx.Class.define("qx.ui.mobile.form.Label",
 {
-  extend : qx.ui.mobile.core.Widget, 
+  extend : qx.ui.mobile.core.Widget,
 
 
   /*
@@ -63,10 +63,10 @@ qx.Class.define("qx.ui.mobile.form.Label",
     if (value) {
       this.setValue(value);
     }
-    
+
     this.addCssClass("boxAlignCenter");
     this._setLayout(new qx.ui.mobile.layout.HBox());
-    
+
     this.initWrap();
   },
 
@@ -135,15 +135,15 @@ qx.Class.define("qx.ui.mobile.form.Label",
     {
       return "label";
     },
-  
-  
+
+
     // property apply
     _applyValue : function(value, old)
     {
       this._setHtml(value);
     },
 
-    
+
     // property apply
     _applyWrap : function(value, old)
     {
@@ -153,14 +153,14 @@ qx.Class.define("qx.ui.mobile.form.Label",
         this.addCssClass("no-wrap");
       }
     },
-    
-    
+
+
     /**
      * Setter for the "for" attribute of this label.
      * The for attribute specifies which form element a label is bound to.
-     * 
+     *
      * @param elementId {String} The id of the element the label is bound to.
-     * 
+     *
      */
     setLabelFor : function(elementId) {
       this._setAttribute("for",elementId);

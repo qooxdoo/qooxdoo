@@ -26,13 +26,13 @@ qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
 {
 
   extend : qx.ui.mobile.form.renderer.Single,
-  
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
-  
+
   /**
    * @param form {qx.ui.mobile.form.Form} The target form of this renderer
    */

@@ -72,10 +72,10 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__closeResultPopup.addListener("tap", function() {
         this.__resultPopup.hide();
       },this);
-      
+
       popupContent.add(this.__result);
       popupContent.add(this.__closeResultPopup);
-      
+
       this.__resultPopup = new qx.ui.mobile.dialog.Dialog(popupContent);
       this.__resultPopup.setTitle("Registration Result");
     },
@@ -94,26 +94,26 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username"});
       this.__name.setRequired(true);
-      
+
       form.addGroupHeader("Contact");
       form.add(this.__name, "Username");
 
       this.__password = new qx.ui.mobile.form.PasswordField().set({placeholder:"Password"});
       form.add(this.__password, "Password");
-      
+
       this.__rememberPass = new qx.ui.mobile.form.CheckBox();
       form.add(this.__rememberPass, "Remember password? ");
       this.__rememberPass.setModel("password_reminder");
       this.__rememberPass.bind("model",this.__password,"value");
       this.__password.bind("value",this.__rememberPass,"model");
-      
+
       // NUMBER FIELD
       this.__numberField = new qx.ui.mobile.form.NumberField();
       this.__numberField.setValue("0");
       this.__numberField.setMaximum(150);
       this.__numberField.setMinimum(0);
       form.add(this.__numberField,"Age");
-      
+
       form.addGroupHeader("Gender");
       this.__radio1 = new qx.ui.mobile.form.RadioButton();
       this.__radio2 = new qx.ui.mobile.form.RadioButton();
@@ -123,7 +123,7 @@ qx.Class.define("mobileshowcase.page.Form",
       radioGroup.add(this.__radio1, this.__radio2);
       form.add(this.__radio1, "Male");
       form.add(this.__radio2, "Female");
-      
+
       form.addGroupHeader("Feedback");
       var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad"]);
       var selQuestion = "How did you hear about us ?";
@@ -131,7 +131,7 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__sel.setDialogTitle(selQuestion);
       this.__sel.setModel(dd);
       form.add(this.__sel, selQuestion);
-      
+
       form.addGroupHeader("License");
       this.__info = new qx.ui.mobile.form.TextArea().set({placeholder:"Terms of Service"});
       form.add(this.__info,"Terms of Service");
@@ -139,11 +139,11 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__slide = new qx.ui.mobile.form.Slider();
       form.add(this.__slide,"Are you human? Drag the slider to prove it.");
-      
+
       this.__save = new qx.ui.mobile.form.ToggleButton(false,"Agree","Reject",13);
       this.__save.addListener("changeValue", this._enableFormSubmitting, this);
       form.add(this.__save, "Agree? ");
-      
+
       // USERNAME validation
       validationManager.add(this.__name, function(value, item){
         var valid = value != null && value.length>3;
@@ -152,7 +152,7 @@ qx.Class.define("mobileshowcase.page.Form",
         }
         return valid;
       }, this);
-      
+
       // PASSWORD validation
       validationManager.add(this.__password, function(value, item){
         var valid = value != null && value.length>3;
@@ -161,7 +161,7 @@ qx.Class.define("mobileshowcase.page.Form",
         }
         return valid;
       }, this);
-      
+
        // AGE validation
       validationManager.add(this.__numberField, function(value, item){
         var valid = value != null && value!="0";
@@ -170,7 +170,7 @@ qx.Class.define("mobileshowcase.page.Form",
         }
         return valid;
       }, this);
-      
+
       return form;
     },
 

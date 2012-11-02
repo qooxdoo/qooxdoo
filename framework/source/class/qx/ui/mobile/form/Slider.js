@@ -123,13 +123,13 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       init : 1,
       event : "changeStep"
     },
-    
-    
+
+
     /**
-     * Reverses the display direction of the slider knob. If true, the maxium of 
+     * Reverses the display direction of the slider knob. If true, the maxium of
      * the slider is on the left side and minimum on the right side.
      */
-    reverseDirection : 
+    reverseDirection :
     {
       check : "Boolean",
       init : false,
@@ -370,8 +370,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       this._setKnobPosition(percent);
       this._setProgressIndicatorPosition(percent);
     },
-    
-    
+
+
     /**
      * Sets the indicator positon based on the give percent value.
      *
@@ -420,9 +420,9 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       var min = this.getMinimum();
       var value = this._limitValue(value);
-      
+
       var percent = ((value - min) * 100) / this._getRange();
-      
+
       if(this.isReverseDirection()) {
         return 100-percent;
       } else {
@@ -446,7 +446,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
         var dist = center-value;
         value = center + dist;
       }
-      
+
       return value;
     },
 

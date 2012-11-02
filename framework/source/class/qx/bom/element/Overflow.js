@@ -47,7 +47,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     getScrollbarWidth : function() {
       if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, 
+          arguments.callee,
           "Use qx.bom.element.Scroll.getScrollbarWidth() instead."
         );
       }
@@ -79,7 +79,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     compileX : function(value) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, 
+          arguments.callee,
           "Use qx.bom.element.Style.compile({'overflowX': value}) instead."
         );
       }
@@ -98,7 +98,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     compileY : function(value) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, 
+          arguments.callee,
           "Use qx.bom.element.Style.compile({'overflowY': value}) instead."
         );
       }
@@ -120,7 +120,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     getX : function(element, mode) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, 
+          arguments.callee,
           "Use qx.bom.element.Style.get(element, 'overflowX', mode) instead."
         );
       }
@@ -143,7 +143,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     setX : function(element, value) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, 
+          arguments.callee,
           "Use qx.bom.element.Style.set(element, 'overflowX', value) instead."
         );
       }
@@ -166,7 +166,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     {
       if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, 
+          arguments.callee,
           "Use qx.bom.element.Style.reset(element, 'overflowX') instead."
         );
       }
@@ -193,7 +193,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     {
       if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, 
+          arguments.callee,
           "Use qx.bom.element.Style.get(element, 'overflowY', mode) instead."
         );
       }
@@ -217,7 +217,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     {
       if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, 
+          arguments.callee,
           "Use qx.bom.element.Style.set(element, 'overflowY', value) instead."
         );
       }
@@ -239,7 +239,7 @@ qx.Bootstrap.define("qx.bom.element.Overflow",
     {
       if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, 
+          arguments.callee,
           "Use qx.bom.element.Style.reset(element, 'overflowY') instead."
         );
       }

@@ -43,7 +43,7 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
     this.initMaxLength();
     this.initPlaceholder();
     this.initReadOnly();
-    
+
     this.addListener("keypress",function(e) {
       // On return
       if(e.getKeyCode() == 13) {
@@ -114,8 +114,8 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
     {
       this._setAttribute("maxlength", value);
     },
-    
-    
+
+
     /**
      * Points the focus of the form to this widget.
      */
@@ -125,8 +125,8 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
         qx.bom.Element.focus(targetElement);
       }
     },
-    
-    
+
+
     /**
      * Removes the focus from this widget.
      */

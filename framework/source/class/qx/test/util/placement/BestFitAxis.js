@@ -90,7 +90,7 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
 
       this.assertEquals(
         0,
-        this.axis.computeStart(260, target, offsets, areaSize, "align-center")        
+        this.axis.computeStart(260, target, offsets, areaSize, "align-center")
       );
 
       this.assertEquals(

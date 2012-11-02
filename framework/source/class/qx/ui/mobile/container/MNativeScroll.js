@@ -66,8 +66,8 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     {
       scrollTo(x,y);
     },
-    
-    
+
+
     /**
     * Scrolls the wrapper contents to the widgets coordinates in a given
     * period.
@@ -78,7 +78,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     */
     _scrollToElement : function(elementId, time)
     {
-      // TODO 
+      // TODO
     }
   }
 });

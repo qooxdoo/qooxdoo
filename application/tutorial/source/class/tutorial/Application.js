@@ -68,8 +68,8 @@ qx.Class.define("tutorial.Application",
 
       // Tutorials List
       this.__desktopTutorials = {
-        "Hello_World" : "Basic usage of a button", 
-        "Form" : "Simple login form with validation", 
+        "Hello_World" : "Basic usage of a button",
+        "Form" : "Simple login form with validation",
         "Single_Value_Binding" : "Binding of simple values"
       };
       this.__mobileTutorials = {
@@ -151,7 +151,7 @@ qx.Class.define("tutorial.Application",
     openSelectionWindow : function() {
       if (!this.__selectionWindow) {
         this.__selectionWindow = new tutorial.view.SelectionWindow(
-          this.__desktopTutorials, 
+          this.__desktopTutorials,
           this.__mobileTutorials
         );
         this.__selectionWindow.addListener("changeTutorial", this.__onChangeTutorial, this);

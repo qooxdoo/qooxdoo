@@ -16,7 +16,7 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-qx.Class.define("tutorial.view.Confirm", 
+qx.Class.define("tutorial.view.Confirm",
 {
   extend : qx.ui.window.Window,
 

@@ -80,12 +80,12 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     this.__pickerModel = new qx.data.Array();
 
     this.__pickerContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
-    
+
     // Set PickerContainer anonymous on IE, because of pointer-events, which should be ignored.
     if(qx.core.Environment.get("engine.name") == "mshtml") {
       this.__pickerContainer.setAnonymous(true);
     }
-    
+
     this.__pickerContainer.addCssClass("picker-container");
 
     this.__pickerContent = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
@@ -577,7 +577,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       pickerSlot.addListener("touchstart", this._onTouchStart, this);
       pickerSlot.addListener("touchmove", this._onTouchMove, this);
       pickerSlot.addListener("touchend", this._onTouchEnd, this);
-      
+
       this.__modelToSlotMap[pickerSlot.getId()] = slotIndex;
       this.__selectedIndex[pickerSlot.getId()] = 0;
 

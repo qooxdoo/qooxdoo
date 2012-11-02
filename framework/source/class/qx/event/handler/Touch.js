@@ -60,7 +60,7 @@ qx.Class.define("qx.event.handler.Touch",
     this.__root = this.__window.document;
 
     qx.event.handler.TouchCore.apply(this, [this.__root]);
-    
+
     // IE10 works with MSPointer Events. No touch emulation needed.
     if (!qx.core.Environment.get("event.mspointer")) {
       this._initMouseObserver();

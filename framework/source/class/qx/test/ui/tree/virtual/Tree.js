@@ -513,13 +513,13 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
         "Expected " + (click ? "" : "no ") + " listener for 'cellClick'!"
       );
     },
-    
-    
+
+
     testFilter : function()
     {
       var filterNode = "Node 2";
       var root = this.model = this.createModel(1);
-      
+
       this.tree.setLabelPath("name");
       this.tree.setChildProperty("children");
 
@@ -528,7 +528,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
           return child.getName() == filterNode ? false : true;
         }
       }
-      
+
       this.tree.setDelegate(delegate);
       this.tree.setModel(root);
       this.flush();
@@ -540,9 +540,9 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
           expected.splice(i, 1);
         }
       };
-      
+
       qx.lang.Array.insertAt(expected, root, 0);
-      
+
       this.assertArrayEquals(expected, this.tree.getLookupTable().toArray());
     },
 

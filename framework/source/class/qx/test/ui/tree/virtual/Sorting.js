@@ -48,7 +48,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
 
       var openNodes = [
         sortedModel,
-        sortedModel.getChildren().getItem(2), 
+        sortedModel.getChildren().getItem(2),
         sortedModel.getChildren().getItem(2).getChildren().getItem(4)
       ];
 

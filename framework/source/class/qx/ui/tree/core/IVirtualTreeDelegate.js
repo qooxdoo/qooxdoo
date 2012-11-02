@@ -87,7 +87,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
 
     /**
      * Gives the user the opportunity to sort the children items from a node.
-     * The sorting method should return a negative value if a < b, zero 
+     * The sorting method should return a negative value if a < b, zero
      * if a = b, or a positive value if a > b.
      *
      * @param a {var} value to compare.

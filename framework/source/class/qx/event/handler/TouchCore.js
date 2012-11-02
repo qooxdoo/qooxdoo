@@ -113,7 +113,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       Event.addNativeListener(this.__target, "touchmove", this.__onTouchEventWrapper);
       Event.addNativeListener(this.__target, "touchend", this.__onTouchEventWrapper);
       Event.addNativeListener(this.__target, "touchcancel", this.__onTouchEventWrapper);
-      
+
       if (qx.core.Environment.get("event.mspointer")) {
         Event.addNativeListener(this.__target, "MSPointerDown", this.__onTouchEventWrapper);
         Event.addNativeListener(this.__target, "MSPointerMove", this.__onTouchEventWrapper);
@@ -141,7 +141,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       Event.removeNativeListener(this.__target, "touchmove", this.__onTouchEventWrapper);
       Event.removeNativeListener(this.__target, "touchend", this.__onTouchEventWrapper);
       Event.removeNativeListener(this.__target, "touchcancel", this.__onTouchEventWrapper);
-      
+
       if (qx.core.Environment.get("event.mspointer")) {
         Event.removeNativeListener(this.__target, "MSPointerDown", this.__onTouchEventWrapper);
         Event.removeNativeListener(this.__target, "MSPointerMove", this.__onTouchEventWrapper);
@@ -178,12 +178,12 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     _commonTouchEventHandler : function(domEvent, type)
     {
       var type = type || domEvent.type;
-      
+
       if (qx.core.Environment.get("event.mspointer")) {
         domEvent.changedTouches = [domEvent];
         domEvent.targetTouches = [domEvent];
         domEvent.touches = [domEvent];
-        
+
         if(type == "MSPointerDown") {
           type = "touchstart"
         } else if (type == "MSPointerUp") {
@@ -196,15 +196,15 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           type = "touchcancel";
         }
       }
-      
+
       if (type == "touchstart") {
         this.__originalTarget = this._getTarget(domEvent);
       }
       this._fireEvent(domEvent, type);
       this.__checkAndFireGesture(domEvent, type);
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       HELPERS
@@ -220,7 +220,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     _getTarget : function(domEvent)
     {
       var target = qx.bom.Event.getTarget(domEvent);
-      
+
       // Text node. Fix Safari Bug, see http://www.quirksmode.org/js/events_properties.html
       if (qx.core.Environment.get("engine.name") == "webkit")
       {
@@ -234,24 +234,24 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           target = targetForIE;
         }
       }
-      
+
       return target;
     },
-    
-    
+
+
     /**
      * This method fixes "pointer-events:none" for Internet Explorer 10.
      * Checks which elements are placed to position x/y and traverses the array
-     * till one element has no "pointer-events:none" inside its style attribute. 
+     * till one element has no "pointer-events:none" inside its style attribute.
      * @param domEvent {Event} DOM event
      * @return {Element | null} Event target
-     */ 
+     */
     __evaluateTarget : function(domEvent) {
       if(domEvent && domEvent.touches){
         var clientX = domEvent.touches[0].clientX;
         var clientY = domEvent.touches[0].clientY;
       }
-      
+
       // Retrieve an array with elements on point X/Y.
       var hitTargets = document.msElementsFromPoint(clientX, clientY);
       if(hitTargets) {
@@ -265,10 +265,10 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           }
         }
       }
-      
+
       return null;
     },
-    
+
 
     /**
      * Fire a touch event with the given parameters
@@ -361,7 +361,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     __gestureEnd : function(domEvent, target)
     {
       this.__onMove = false;
-      
+
       if (this.__isSingleTouchGesture)
       {
         var touch = domEvent.changedTouches[0];
@@ -370,10 +370,10 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
             x : touch.screenX - this.__startPageX,
             y : touch.screenY - this.__startPageY
         };
-        
+
         var clazz = qx.event.handler.TouchCore;
         var eventType;
-        
+
         if (this.__originalTarget == target
             && Math.abs(deltaCoordinates.x) <= clazz.TAP_MAX_DISTANCE
             && Math.abs(deltaCoordinates.y) <= clazz.TAP_MAX_DISTANCE) {

@@ -36,8 +36,8 @@ qx.Class.define("playground.view.Editor",
   statics : {
     loadAce : function(clb, ctx) {
       var resource = [
-        "playground/editor/ace.js", 
-        "playground/editor/theme-eclipse.js", 
+        "playground/editor/ace.js",
+        "playground/editor/theme-eclipse.js",
         "playground/editor/mode-javascript.js"
       ];
       var load = function(list) {

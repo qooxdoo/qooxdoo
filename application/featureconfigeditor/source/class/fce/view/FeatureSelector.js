@@ -316,7 +316,7 @@ qx.Class.define("fce.view.FeatureSelector", {
           var setData = dataMap[setId];
           if (setData[keyName] !== undefined) {
             item[setId] = setData[keyName];
-            
+
             if (distinctValues.length == 0) {
               distinctValues.push(setData[keyName]);
             }

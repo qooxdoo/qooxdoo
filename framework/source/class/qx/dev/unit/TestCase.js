@@ -83,7 +83,7 @@ qx.Class.define("qx.dev.unit.TestCase",
      * function.
      *
      * *Important*
-     * 
+     *
      * The used *deferredFunction* is the last function which is executed before
      * the whole test case is disposed. You have to make sure that this *resume*
      * function is only used once in the whole test case.

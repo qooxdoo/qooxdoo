@@ -83,7 +83,7 @@ qx.Class.define("qx.test.ui.embed.Iframe",
       }, this);
 
       var src = qx.util.ResourceManager.getInstance().toUri("qx/static/blank.html");
-      
+
       this.__iframe.setSource(src);
       this.wait(10000);
     }

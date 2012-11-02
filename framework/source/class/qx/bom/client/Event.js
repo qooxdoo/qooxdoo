@@ -59,8 +59,8 @@ qx.Bootstrap.define("qx.bom.client.Event",
       }
       return false;
     },
-    
-    
+
+
     /**
      * Checks if MSPointer events are available.
      *
@@ -71,7 +71,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
       if ("msPointerEnabled" in window.navigator) {
         return window.navigator.msPointerEnabled;
       }
-      
+
       return false;
     },
 

@@ -20,7 +20,7 @@
 /**
  * @lint ignoreUndefined(tutorial)
  */
-qx.Class.define("tutorial.view.SelectionWindow", 
+qx.Class.define("tutorial.view.SelectionWindow",
 {
   extend : qx.ui.window.Window,
 

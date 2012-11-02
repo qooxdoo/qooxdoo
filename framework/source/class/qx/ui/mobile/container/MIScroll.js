@@ -103,8 +103,8 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         this.__scroll.scrollTo(x, y, time);
       }
     },
-    
-    
+
+
     /**
     * Scrolls the wrapper contents to the widgets coordinates in a given
     * period.
@@ -167,14 +167,14 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         useTransform: this.__useTransform,
         onBeforeScrollStart : function(e) {
           // QOOXDOO ENHANCEMENT: Do not prevent default for form elements
-          /* When updating iScroll, please check out that doubleTapTimer is not active (commented out) 
-           * in code. DoubleTapTimer creates a fake click event. Android 4.1. and newer  
+          /* When updating iScroll, please check out that doubleTapTimer is not active (commented out)
+           * in code. DoubleTapTimer creates a fake click event. Android 4.1. and newer
            * is able to fire native events, which  create side effect with the fake event of iScroll. */
           var target = e.target;
           while (target.nodeType != 1) {
             target = target.parentNode;
           }
-          
+
           if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'LABEL') {
             // Remove focus from input elements, so that the keyboard and the mouse cursor is hidden
             var elements = [];
@@ -186,10 +186,10 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
             for (var i=0, length = elements.length; i < length; i++) {
               elements[i].blur();
             }
-            
+
             e.preventDefault();
-          } 
-          
+          }
+
           // we also want to alert interested parties that we are starting scrolling
           if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
           {
@@ -200,7 +200,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
       });
       return scroll;
     },
-    
+
 
     /**
      * Registers all needed event listener.
@@ -252,8 +252,8 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     {
       this.__scroll = scroll;
     },
-    
-    
+
+
     /**
      * Delegation method for iScroll. Disabled the iScroll objects.
      * Prevents any further scrolling of this container.
@@ -263,8 +263,8 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         this.__scroll.disable();
       }
     },
-    
-    
+
+
     /**
      * Delegation method for iScroll. Enables the iScroll object.
      */
