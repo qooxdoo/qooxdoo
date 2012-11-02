@@ -317,16 +317,16 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
      *
      */
     __createChildren : function(label, icon) {
-     
+
       this.__label = this._createLabelWidget(label);
       if(label)
-      {  
+      {
         this.setLabel(label);
       }
-      
+
       this.__icon = this._createIconWidget(icon);
       if(icon)
-      {  
+      {
         this.setIcon(icon);
       }
 

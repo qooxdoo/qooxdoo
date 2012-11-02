@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       var selectedItem = this.__selectionList.getModel().getItem(selectedIndex);
       this.setSelectedIndex(selectedIndex);
       this._render();
-      
+
       this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedItem});
     },
 
@@ -229,8 +229,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
         // element which is behind menu, and might cause an unexpected action.
         qx.event.Timer.once(this.hide, this, 500);
     },
-    
-    
+
+
     /**
      * Triggers (re-)rendering of menu items.
      */

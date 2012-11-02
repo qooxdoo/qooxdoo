@@ -462,17 +462,17 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     {
       // If OS < Android 4.1,
       // quirks mode for Android should be active.
-      // This means that iScroll does not use transform3d, because 
+      // This means that iScroll does not use transform3d, because
       // this causes layout problems with input fields.
       var osName = qx.core.Environment.get("os.name");
       var osVersion = qx.core.Environment.get("os.version");
-      
+
       var osVersionParts = osVersion.split(".");
-      
+
       // If OS is Android, and version is below 4.1 >> quirksmode active
-      var isAndroidQuirksMode = (osName == "android") 
+      var isAndroidQuirksMode = (osName == "android")
         && ((parseInt(osVersionParts[0]) < 4) || (parseInt(osVersionParts[0]) == 4 && parseInt(osVersionParts[1]) < 1));
-      
+
       if(isAndroidQuirksMode == true) {
         return new qx.ui.mobile.container.Scroll(false);
       } else {

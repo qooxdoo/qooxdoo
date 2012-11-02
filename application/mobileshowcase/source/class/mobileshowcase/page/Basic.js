@@ -126,7 +126,7 @@ qx.Class.define("mobileshowcase.page.Basic",
       this.getContent().add(exImage);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Atoms"));
-      
+
       this.getContent().add(exAtomLeft);
       this.getContent().add(exAtomTop);
       this.getContent().add(exAtomRight);
