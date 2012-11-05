@@ -160,7 +160,6 @@ qx.Class.define("qx.ui.form.TextArea",
     */
     __autoSize: function() {
       if (this.isAutoSize()) {
-
         var clone = this.__getAreaClone();
 
         if (clone) {
@@ -315,7 +314,7 @@ qx.Class.define("qx.ui.form.TextArea",
       }
 
       // Create DOM clone
-      cloneDom = qx.bom.Collection.create(orig.getDomElement()).clone()[0];
+      cloneDom = qx.bom.Element.clone(orig.getDomElement());
 
       // Convert to qx.html Element
       cloneHtml = new qx.html.Input("textarea");
