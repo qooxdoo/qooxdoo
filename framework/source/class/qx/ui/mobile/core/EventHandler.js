@@ -19,6 +19,7 @@
 /* ************************************************************************
 #require(qx.event.handler.Touch)
 #require(qx.event.dispatch.DomBubbling)
+#require(qx.ui.mobile.core.Widget)
 ************************************************************************ */
 
 /**
