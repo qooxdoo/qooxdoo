@@ -60,7 +60,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
       this.tree.setDelegate(delegate);
       this.flush();
 
-      var expected = this._getVisibleItemsFrom(sortedModel, openNodes);
+      var expected = this.getVisibleItemsFrom(sortedModel, openNodes);
       qx.lang.Array.insertAt(expected, sortedModel, 0);
 
       this.__testBuildLookupTable(expected);

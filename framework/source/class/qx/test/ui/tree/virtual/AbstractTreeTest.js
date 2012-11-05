@@ -164,6 +164,29 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
     },
 
 
+    getVisibleItemsFrom : function(parent, openNodes)
+    {
+      var expected = [];
+
+      if (parent.getChildren() != null)
+      {
+        for (var i = 0; i < parent.getChildren().getLength(); i++)
+        {
+          var child = parent.getChildren().getItem(i);
+          expected.push(child);
+
+          if (openNodes.indexOf(child) > -1)
+          {
+            var otherExpected = this.getVisibleItemsFrom(child, openNodes);
+            expected = expected.concat(otherExpected);
+          }
+        }
+      }
+
+      return expected;
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS TO CREATE A TREE STRUCTURE
@@ -204,36 +227,6 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
         prefix = name.substr(5, name.length - 5) + ".";
       }
       return prefix;
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPER METHOD TO CALCULATE THE VISIBLE ITEMS
-    ---------------------------------------------------------------------------
-    */
-
-
-    _getVisibleItemsFrom : function(parent, openNodes)
-    {
-      var expected = [];
-
-      if (parent.getChildren() != null)
-      {
-        for (var i = 0; i < parent.getChildren().getLength(); i++)
-        {
-          var child = parent.getChildren().getItem(i);
-          expected.push(child);
-
-          if (openNodes.indexOf(child) > -1)
-          {
-            var otherExpected = this._getVisibleItemsFrom(child, openNodes);
-            expected = expected.concat(otherExpected);
-          }
-        }
-      }
-
-      return expected;
     }
   },
 
