@@ -69,6 +69,31 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
       sortedModel.dispose();
     },
 
+
+    testModelUnmodified : function()
+    {
+      var sorter = function(a, b)
+      {
+        a = a.getName();
+        b = b.getName();
+        return a < b ? 1 : a > b ? -1 : 0;
+      };
+
+      var root = this.createModelAndSetModel(1);
+      var rootChildrenClone = root.getChildren().concat([]);
+
+      var delegate = {
+        sorter : sorter
+      }
+      this.tree.setDelegate(delegate);
+      this.flush();
+
+      this.__testOrderNotChanged(rootChildrenClone.toArray(), root.getChildren().toArray());
+
+      rootChildrenClone.dispose();
+    },
+
+
     __sortModel : function(model, sorter)
     {
       var children = model.getChildren();
@@ -96,6 +121,18 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
         this.assertTrue(expected[i].equals(found[i]), msg);
       }
       this.assertEquals(expected.length, this.tree.getPane().getRowConfig().getItemCount());
+    },
+
+
+    __testOrderNotChanged : function(expected, found)
+    {
+      var msg = "Expected [" + expected.join(", ") +
+        "], but found [" + found.join(", ") + "]";
+
+      this.assertEquals(expected.length, found.length, msg);
+      for (var i = 0; i < expected.length; i++) {
+        this.assertTrue(expected[i].equals(found[i]), msg);
+      }
     },
 
 

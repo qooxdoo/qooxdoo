@@ -919,6 +919,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         return visible;
       }
 
+      // clone children to keep original model unmodified
+      children = children.copy();
+
       var delegate = this.getDelegate();
       if (delegate != null) {
         var filter = delegate.filter;
@@ -957,6 +960,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
           }
         }
       }
+
+      // dispose children clone
+      children.dispose();
 
       return visible;
     },
