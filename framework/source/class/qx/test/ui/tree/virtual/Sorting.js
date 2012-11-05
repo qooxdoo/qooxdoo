@@ -94,6 +94,43 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
     },
 
 
+    testSorterAndFilter : function()
+    {
+      var sorter = function(a, b)
+      {
+        a = a.getName();
+        b = b.getName();
+        return a < b ? 1 : a > b ? -1 : 0;
+      };
+
+      var sortedModel = this.createModel(1);
+      var root = this.createModelAndSetModel(1);
+
+      // remove filtered node "Node 2"
+      sortedModel.getChildren().removeAt(2);
+
+      this.__sortModel(sortedModel, sorter);
+
+      var delegate = {
+        sorter : sorter,
+
+        filter : function(child) {
+          return child.getName() == "Node 2" ? false : true;
+        }
+      }
+      this.tree.setDelegate(delegate);
+      this.flush();
+
+      var expected = this.getVisibleItemsFrom(sortedModel, []);
+      qx.lang.Array.insertAt(expected, sortedModel, 0);
+
+      this.__testBuildLookupTable(expected);
+
+      //this.__logModel(sortedModel);
+      sortedModel.dispose();
+    },
+
+
     __sortModel : function(model, sorter)
     {
       var children = model.getChildren();
