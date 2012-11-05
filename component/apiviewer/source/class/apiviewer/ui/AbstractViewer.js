@@ -135,10 +135,10 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
           // to its innerHTML the pre tag and the javaScript code and replace the
           // existing pre element with the wrapper element.
           var preWrapper = document.createElement("div");
-          preWrapper.innerHTML = '<pre class="javascript">' + qx.dev.Tokenizer.javaScriptToHtml(element.innerHTML, true) + '</pre>';
+          preWrapper.innerHTML = '<pre class="javascript">' + qx.dev.Tokenizer.javaScriptToHtml(element.textContent, true) + '</pre>';
           element.parentNode.replaceChild(preWrapper, element);
         } else {
-          element.innerHTML = qx.dev.Tokenizer.javaScriptToHtml(element.innerHTML);
+          element.innerHTML = qx.dev.Tokenizer.javaScriptToHtml(element.textContent);
         }
       }
     }
