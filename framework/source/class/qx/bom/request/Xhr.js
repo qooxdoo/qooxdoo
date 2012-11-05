@@ -897,7 +897,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
             this._emit("error");
           } else {
             this._emit("load");
-            this._emitter.emit("load");
           }
         }
       }
