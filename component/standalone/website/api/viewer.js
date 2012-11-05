@@ -56,6 +56,7 @@ q.ready(function() {
       renderList();
       renderContent();
       loadEventNorm();
+      loadPolyfills();
       onContentReady();
     } else {
       q("#warning").setStyle("display", "block");
@@ -96,7 +97,44 @@ q.ready(function() {
     q("#list").append(q.create("<h1>Event Types</h1>"));
     for (var i=0; i < eventNormAsts.length; i++) {
       renderClass(eventNormAsts[i], "event.");
-    };
+    }
+  };
+
+
+  polyfillClasses = [];
+  var loadPolyfills = function() {
+    if (!(q.$$qx.module.Polyfill && q.$$qx.lang.normalize) ) {
+      return;
+    }
+
+    polyfillClasses = Object.keys(q.$$qx.lang.normalize);
+    for (var clazz in q.$$qx.lang.normalize) {
+      loading++;
+      q.io.xhr("script/qx.lang.normalize." + clazz + ".json").send().on("loadend", function(xhr) {
+        loading--;
+        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
+          var ast = JSON.parse(xhr.responseText);
+          renderPolyfill(ast);
+        } else {
+          console && console.warn("Event normalization '" + name + "' could not be loaded.");
+        }
+        onContentReady();
+      });
+    }
+  };
+
+
+  var polyfillAsts = [];
+  var renderPolyfill = function(ast) {
+    polyfillAsts.push(ast);
+    if (polyfillClasses.length > polyfillAsts.length) {
+      return;
+    }
+
+    q("#list").append(q.create("<h1>Polyfills</h1>"));
+    for (var i=0; i < polyfillAsts.length; i++) {
+      renderClass(polyfillAsts[i], "normalize.");
+    }
   };
 
 
@@ -181,7 +219,7 @@ q.ready(function() {
 
   var renderListModule = function(name, data, prefix) {
     var list = q("#list");
-    if (prefix && prefix != "event.") {
+    if (prefix && prefix != "event." && prefix != "normalize.") {
       list.append(q.create("<a href='#" + name + "'><h1>" + name + "</h1></a>"));
     } else {
       list.append(q.create("<a href='#" + name + "'><h2>" + name + "</h2></a>"));
@@ -192,9 +230,9 @@ q.ready(function() {
       var name = getMethodName(ast, prefix);
       var missing = isMethodMissing(name, data.classname);
       q.template.get("list-item", {
-        name: name + "()", 
-        missing: missing, 
-        link: name, 
+        name: name + "()",
+        missing: missing,
+        link: name,
         plugin: isPluginMethod(name)
       }).appendTo(ul);
     });
@@ -204,7 +242,7 @@ q.ready(function() {
       q.template.get("list-item", {
         name: name + "()",
         missing: missing,
-        link: name, 
+        link: name,
         plugin: isPluginMethod(name)
       }).appendTo(ul);
     });
