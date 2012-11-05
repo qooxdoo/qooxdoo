@@ -923,11 +923,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       children = children.copy();
 
       var delegate = this.getDelegate();
-      if (delegate != null) {
-        var filter = delegate.filter;
-      }
+      var filter = qx.util.Delegate.getMethod(delegate, "filter");
+      var sorter = qx.util.Delegate.getMethod(delegate, "sorter");
 
-      var sorter = qx.util.Delegate.getMethod(this.getDelegate(), "sorter");
       if (sorter != null) {
         children.sort(sorter);
       }
