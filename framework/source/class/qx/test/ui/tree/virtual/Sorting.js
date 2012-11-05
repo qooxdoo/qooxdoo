@@ -60,7 +60,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
       this.tree.setDelegate(delegate);
       this.flush();
 
-      var expected = this.__getVisibleItemsFrom(sortedModel, openNodes);
+      var expected = this._getVisibleItemsFrom(sortedModel, openNodes);
       qx.lang.Array.insertAt(expected, sortedModel, 0);
 
       this.__testBuildLookupTable(expected);
@@ -96,36 +96,6 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
         this.assertTrue(expected[i].equals(found[i]), msg);
       }
       this.assertEquals(expected.length, this.tree.getPane().getRowConfig().getItemCount());
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPER METHOD TO CALCULATE THE VISIBLE ITEMS
-    ---------------------------------------------------------------------------
-    */
-
-
-    __getVisibleItemsFrom : function(parent, openNodes)
-    {
-      var expected = [];
-
-      if (parent.getChildren() != null)
-      {
-        for (var i = 0; i < parent.getChildren().getLength(); i++)
-        {
-          var child = parent.getChildren().getItem(i);
-          expected.push(child);
-
-          if (openNodes.indexOf(child) > -1)
-          {
-            var otherExpected = this.__getVisibleItemsFrom(child, openNodes);
-            expected = expected.concat(otherExpected);
-          }
-        }
-      }
-
-      return expected;
     },
 
 
