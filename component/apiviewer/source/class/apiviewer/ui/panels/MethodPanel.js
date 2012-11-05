@@ -255,7 +255,8 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
         node.getErrors().length > 0 ||
         node.isDeprecated() ||
         node.getApply() ||
-        apiviewer.ui.panels.InfoPanel.descriptionHasDetails(node)
+        apiviewer.ui.panels.InfoPanel.descriptionHasDetails(node) ||
+        apiviewer.ui.ClassViewer.getSourceUri(node)
       );
     }
 
