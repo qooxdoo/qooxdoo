@@ -1519,6 +1519,11 @@ input::-webkit-inner-spin-button {
   font-weight: normal;
   font-size: 0.9em;
 }
+.page {
+  /* Disable touch behaviors, like pan and zoom for IE10*/
+
+  -ms-touch-action: none;
+}
 .fontNormal {
   font-size: 0.8em;
   font-weight: normal;
@@ -1823,6 +1828,7 @@ li:last-child a {
   padding-left: 10px;
   padding-right: 10px;
   position: relative;
+  -ms-touch-action: pan-x;
 }
 .navigationbar > .label {
   height: 45px;

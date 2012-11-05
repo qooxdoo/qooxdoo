@@ -2263,6 +2263,11 @@ input[type="radio"] {
   font-weight: normal;
   font-size: 0.9em;
 }
+.page {
+  /* Disable touch behaviors, like pan and zoom for IE10*/
+
+  -ms-touch-action: none;
+}
 h1 {
   font-size: 1.4em;
   text-align: center;
@@ -2292,6 +2297,7 @@ h2 {
   padding-left: 10px;
   padding-right: 10px;
   position: relative;
+  -ms-touch-action: pan-x;
 }
 .navigationbar > .label {
   height: 45px;
