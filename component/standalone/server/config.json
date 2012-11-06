@@ -57,7 +57,8 @@
     "job-shadowing" : 
     [
       "api",
-      "apiconf::build-data"
+      "apiconf::build-data",
+      "distclean"
     ]
   },
 
