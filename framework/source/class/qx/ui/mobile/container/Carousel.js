@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     __pageWidth : 0,
     __showTransition : null,
     __transitionDuration : 0.4,
-    __swipeVelocityLimit : 1.5,
+    __swipeVelocityLimit : 0.25,
     __isPageScrollTarget : null,
 
 
