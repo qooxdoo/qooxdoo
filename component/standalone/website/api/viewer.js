@@ -116,7 +116,7 @@ q.ready(function() {
           var ast = JSON.parse(xhr.responseText);
           renderPolyfill(ast);
         } else {
-          console && console.warn("Event normalization '" + name + "' could not be loaded.");
+          console && console.warn("Polyfill '" + clazz + "' could not be loaded.");
         }
         onContentReady();
       });
