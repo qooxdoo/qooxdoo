@@ -182,6 +182,8 @@
    * <pre class="javascript">
    * qx.bom.Collection.query("#Thing").remove().appendTo(".OneOrMore");
    * </pre>
+   *
+   * @deprecated {2.1} Please use qxWeb instead.
    */
   qx.Class.define("qx.bom.Collection",
   {
@@ -209,6 +211,11 @@
    *        OR an argument list of elements.
    */
   construct : function(length_or_items) {
+
+    qx.log.Logger.deprecatedClassWarning(this.constructor,
+      "Please use qxWeb instead."
+    );
+
     qx.type.BaseArray.apply(this,arguments);
   },
 
