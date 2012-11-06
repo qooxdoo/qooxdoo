@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.form.DateField",
     this._setDefaultDateFormat();
 
     // adds a locale change listener
-    this._addLocaleChangeLeistener();
+    this._addLocaleChangeListener();
   },
 
 
@@ -242,7 +242,7 @@ qx.Class.define("qx.ui.form.DateField",
      * On every change, {@link #_setDefaultDateFormat} is called to reinitialize
      * the format. You can easily override that method to prevent that behavior.
      */
-    _addLocaleChangeLeistener : function() {
+    _addLocaleChangeListener : function() {
       // listen for locale changes
       if (qx.core.Environment.get("qx.dynlocale"))
       {
@@ -251,6 +251,16 @@ qx.Class.define("qx.ui.form.DateField",
             this._setDefaultDateFormat();
           }, this);
       }
+    },
+    
+    
+    /**
+     * @deprecated { since 2.1 } use _addLocaleChangeListener instead
+     */
+    _addLocaleChangeLeistener : function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use _addLocaleChangeListener instead.");
+      
+      this._addLocaleChangeListener();
     },
 
     /*

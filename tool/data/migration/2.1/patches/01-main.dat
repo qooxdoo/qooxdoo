@@ -43,3 +43,5 @@
 
 \bqx\.core\.MEvents\b=qx.core.MEvent
 
+_addLocaleChangeLeistener=_addLocaleChangeListener
+
