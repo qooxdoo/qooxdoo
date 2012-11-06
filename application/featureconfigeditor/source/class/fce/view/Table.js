@@ -111,6 +111,8 @@ qx.Class.define("fce.view.Table", {
           return new qx.ui.table.cellrenderer.Boolean();
         case "number":
           return new qx.ui.table.cellrenderer.Number();
+        case "undefined":
+          return new fce.view.cellrenderer.Undefined();
         default:
           return new qx.ui.table.cellrenderer.String();
       }
