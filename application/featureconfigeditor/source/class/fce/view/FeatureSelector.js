@@ -308,11 +308,11 @@ qx.Class.define("fce.view.FeatureSelector", {
         var item = {
           name : keyName,
           distinctValues : 1
-        }
+        };
 
         var distinctValues = [];
 
-        for (var setId in dataMap) {
+        for (setId in dataMap) {
           var setData = dataMap[setId];
           if (setData[keyName] !== undefined) {
             item[setId] = setData[keyName];
