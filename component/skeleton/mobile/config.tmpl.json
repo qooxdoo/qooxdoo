@@ -60,7 +60,8 @@
       "source-hybrid",
       "build-files",
       "build-script",
-      "source-script"
+      "source-script",
+      "distclean"
     ]
   },
 
@@ -245,6 +246,19 @@
         "command" :
         [
           "$${CATCMD} $${ROOT}/source/resource/$${APPLICATION_CSS} | $${CSSMIN_CMD} > $${BUILD_PATH}/resource/$${APPLICATION_CSS}"
+        ]
+      }
+    },
+
+    "distclean" : 
+    {
+      "clean-files" :
+      {
+        "Deleting other build artefacts" :
+        [
+          "$${ROOT}/build-ios",
+          "$${ROOT}/build-android",
+          "$${ROOT}/build-indigo"
         ]
       }
     }
