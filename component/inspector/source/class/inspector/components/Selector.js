@@ -288,7 +288,7 @@ qx.Class.define("inspector.components.Selector",
     /**
      * Helper method to add the passes widget to the inspected application in full size.
      *
-     * @param widget {qx.ui.core.Widget} to add in full size.
+     * @param widget {qx.ui.core.Widget | qx.ui.mobile.core.Widget} to add in full size.
      */
     __addToApplicationRoot : function(widget)
     {
@@ -309,7 +309,12 @@ qx.Class.define("inspector.components.Selector",
           el.style.width = qx.bom.Document.getHeight(win) + "px";
           el.style.height = qx.bom.Document.getWidth(win) + "px";
         }
-        applicationRoot.add(widget, {left: 0, top: 0});
+        
+        if(widget instanceof win.qx.ui.mobile.core.Widget) {
+          applicationRoot.add(widget);
+        } else {
+          applicationRoot.add(widget, {left: 0, top: 0});
+        }
       }
     },
 
