@@ -529,7 +529,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
         // set the field to valid
         dataEntry.item.setValid(true);
       }
-      // set the manager to its inital valid value
+      // set the manager to its initial valid value
       this.__valid = null;
     },
 

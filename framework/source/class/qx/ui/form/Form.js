@@ -164,10 +164,21 @@ qx.Class.define("qx.ui.form.Form",
      * Redefines the values used for resetting. It calls
      * {@link qx.ui.form.Resetter#redefine} to get that.
      */
-    redefineResetter : function()
-    {
+    redefineResetter : function() {
       this._resetter.redefine();
     },
+
+
+    /**
+     * Redefines the value used for resetting of the given item. It calls
+     * {@link qx.ui.form.Resetter#redefineItem} to get that.
+     *
+     * @param item {qx.ui.core.Widget} The item to redefine.
+     */
+    redefineResetterItem : function(item) {
+      this._resetter.redefineItem(item);
+    },
+
 
 
     /*
