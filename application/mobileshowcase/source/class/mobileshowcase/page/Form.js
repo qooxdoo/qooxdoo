@@ -119,6 +119,21 @@ qx.Class.define("mobileshowcase.page.Form",
       form.add(this.__radio1, "Male");
       form.add(this.__radio2, "Female");
 
+      form.addGroupHeader("Feedback");
+      var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad"]);
+      var selQuestion = "How did you hear about us ?";
+      this.__sel = new qx.ui.mobile.form.SelectBox();
+      this.__sel.set({required: true});
+      this.__sel.set({placeholder:"Unknown"});
+      this.__sel.setClearButtonLabel("Clear");
+      this.__sel.setNullable(true);
+      this.__sel.setDialogTitle(selQuestion);
+      this.__sel.setModel(dd);
+      this.__sel.setSelection(null);
+      
+      form.add(this.__sel, selQuestion);
+
+      form.addGroupHeader("License");
       this.__info = new qx.ui.mobile.form.TextArea().set({placeholder:"Terms of Service"});
       form.add(this.__info,"Terms of Service: ");
       this.__info.setValue("qooxdoo Licensing Information\n=============================\n\nqooxdoo is dual-licensed under the GNU Lesser General Public License (LGPL) and the Eclipse Public License (EPL). \n");
