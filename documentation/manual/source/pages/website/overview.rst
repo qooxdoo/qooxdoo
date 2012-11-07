@@ -125,7 +125,7 @@ Polyfill
 --------
 A polyfill is best explained by a quote from an informative blog post:
 
-  A polyfill, or polyfiller, is a piece of code (or plugin) that provides the technology that you, the developer, expect the browser to provide natively. Flattening the API landscape if you will. `What is a polyfill <http://remysharp.com/2010/10/08/what-is-a-polyfill/>`_
+  *"A polyfill, or polyfiller, is a piece of code (or plugin) that provides the technology that you, the developer, expect the browser to provide natively. Flattening the API landscape if you will."* [#]_
 
 A list of included polyfills can be found in the API documentation of the module.
 
@@ -237,3 +237,7 @@ The placeholder module offers fallback implementation for placeholders. The modu
   q("#nameInput").updatePlaceholder();
   
 In case the executing browser supports native placeholders, those two method calls won't do anything. This is only relevant for browsers not supporting placeholders like IE < 10.
+  
+------------
+
+.. [#] `Remy Sharp, "What is a polyfill" <http://remysharp.com/2010/10/08/what-is-a-polyfill/>`__

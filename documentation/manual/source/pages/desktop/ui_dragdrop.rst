@@ -222,7 +222,7 @@ A typical sequence of events could look like this:
 
 .. _pages/desktop/ui_dragdrop#reordering_items:
 
-Reordering items
+Reordering Items
 ================
 
 Items may also be reordered inside one widget using the drag&drop API. This action is normally not directly data related and may be used without adding any types to the drag&drop session.

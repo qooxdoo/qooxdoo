@@ -30,7 +30,7 @@ Follow these steps:
 
 #. Paste the following line in head part of ``assets/www/index.html``:
 
-``<script type="text/javascript" charset="utf-8" src="cordova-1.6.0.js"></script>``
+  ``<script type="text/javascript" charset="utf-8" src="cordova-1.6.0.js"></script>``
 
 4. Cross-check the version of the "cordova.js" in script tag, against the version you use.
 

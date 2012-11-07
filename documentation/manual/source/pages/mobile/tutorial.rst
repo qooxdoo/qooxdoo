@@ -11,13 +11,11 @@ The app that is to be created in this tutorial should display all
 tweets of a certain user. When a tweet is selected, the details of the
 tweet should be shown. You can find the code of the tutorial `here`_.
 
-Requirements + Getting Started
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Requirements and Getting Started
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Please visit the getting started section, and follow the introduction, which
-describes how to create a %{Mobile} Application.
+Please visit the :doc:`getting started section <getting_started>` and follow the introduction which describes how to create a %{Mobile} Application.
 
-:doc:`%{Mobile} Getting Started <getting_started>`
 
 Creating your first Page
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -31,7 +29,7 @@ But first of all we have to define what a page is:
     *A page is a widget which provides a screen with which users can
     interact in order to do something. Most times a page provides a
     single task or a group of related tasks. A qooxdoo mobile
-    application is usually composed of one or more loosely bound pages.
+    application is usually composed of one or more loosely connected pages.
     Typically there is one page that presents the "main" view.*
 
 
@@ -179,27 +177,25 @@ and override the protected lifecycle method ``_initialize`` to do that:
 
 As you can see, the ``tap`` listener has the ``_onTap`` method as a
 handler. This method has to be implemented in the member section as
-well:
-::
+well::
 
     _onTap : function(evt)
     {
-       this.fireDataEvent("requestTweet", null); // Fire a data event. Later we will send the entered "username" as a data.
+       this.fireDataEvent("requestTweet", null); // Fire a data event. 
+           // Later we will send the entered "username" as a data.
     }
 
 In the ``_onTap`` method we fire a data event "requestTweet". The empty
 data will be replaced later with the username. The only thing which is
 missing now is to define the event itself. Add a new ``events`` section
-to the "Input" class:
-::
+to the "Input" class::
 
     events : {
       "requestTweet" : "qx.event.type.Data" // Define the event
     }
 
 In the "Application" class add the following code below the code we have
-just added:
-::
+just added::
 
     // New instance of the Tweets page
     var tweetsPage = new mobiletweets.page.Tweets();
@@ -373,8 +369,8 @@ easy to display them. All we need for that is a
 ``qx.ui.mobile.list.List`` and to set up some data binding. Lets proceed
 with the tutorial.
 
-First we have to add the following ``_initialize``
-method to the members section of the "Tweets" page.
+First we have to add the following ``_initialize`` method to the members section of the "Tweets" page.
+
 ::
 
     members : {
@@ -392,7 +388,8 @@ method to the members section of the "Tweets" page.
             // set the data of the model
             item.setTitle(value.getText());
             // we use the dataFormat instance to format the data value of the identica API
-            item.setSubtitle(value.getUser().getName() + ", " + dateFormat.format(new Date(value.getCreated_at())));
+            item.setSubtitle(value.getUser().getName() + ", " 
+                + dateFormat.format(new Date(value.getCreated_at())));
             item.setImage(value.getUser().getProfile_image_url());
             // we have more data to display, show an arrow
             item.setShowArrow(true);

@@ -93,12 +93,17 @@ There are different ways for parsing LESS files into CSS.
 
 * `LESS.js <http://www.lesscss.org/>`_: If you are working on source variant of qooxdoo mobile, you can include less.js and link LESS in the application ``index.html`` file directly. Just uncomment the following lines in the ``index.html`` file:
 
-::
+  .. code-block:: html
 
-  <!-- Uncomment the following block to use less.js -->
-  <!-- <link rel="stylesheet/less" type="text/css" media="screen" href="../../../framework/source/resource/qx/mobile/less/android.less">
-  <link rel="stylesheet/less" type="text/css" media="screen" href="resource/mobileshowcase/css/styles.css">
-  <script type="text/javascript" src="https://raw.github.com/cloudhead/less.js/master/dist/less-1.1.6.min.js"></script> -->
+    <!-- Uncomment the following block to use less.js -->
+    <!-- 
+    <link rel="stylesheet/less" type="text/css" media="screen" 
+      href="../../../framework/source/resource/qx/mobile/less/android.less">
+    <link rel="stylesheet/less" type="text/css" media="screen" 
+      href="resource/mobileshowcase/css/styles.css">
+    <script type="text/javascript" 
+      src="https://raw.github.com/cloudhead/less.js/master/dist/less-1.1.6.min.js">
+    -->
 
 
 * `Guard-LESS <https://github.com/guard/guard-less>`_: A guard extension that compiles .less files to .css files when changed. It listens on folders or a set of LESS files for changes, and triggers re-compiling of CSS files automatically. This should be your choice, if you are familar to guard.
