@@ -43,11 +43,11 @@ The following sections describe the steps necessary to set up Simulator tests fo
 Required Libraries
 ==================
 
-The Simulator needs the following external resources to run: 
+The Simulator needs the following external resources to run:
 
 * Java Runtime Environment: Version 1.6 is known to work.
-* `Selenium Server and Java Client Driver <http://seleniumhq.org/download>`_: Version 1.0.3  or later. Later versions should generally be OK as long as the Selenium API remains stable.
-* `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Version 1.7R1 or later.
+* `Selenium Server and Java Client Driver <http://seleniumhq.org/download>`_: Version 1.0.3 or later. All versions up to and including 2.26.0 are known to work. Newer versions should generally be OK as long as the Selenium API remains stable.
+* `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Versions 1.7R1 through 1.7R3 are supported. **Version 1.7R4 does not work!**
 
 The Java archives for the Selenium client driver and Rhino must be located on the same machine as the application to be tested. For Rhino, this means js.jar. Older versions of Selenium provide a single archive (selenium-java-client-driver.jar), while newer ones are split up into the actual driver (selenium-java-<x.y.z>.jar) and several external libraries found in the "libs" folder of the ZIP archive.
 
@@ -63,13 +63,13 @@ Unlike other framework components, the Simulator isn't ready to run out of the b
 
     "let" :
     {
-      "SIMULATOR_CLASSPATH" : 
+      "SIMULATOR_CLASSPATH" :
       [
         "../selenium/selenium-java-2.22.0.jar",
         "../selenium/libs/*",
         "../rhino/js.jar"
       ]
-    } 
+    }
 
 
 The "environment" section of the "simulation-run" job configures where the AUT is located and how to reach the Selenium server that will launch the test browser and run the test commands.
@@ -84,7 +84,7 @@ The following example shows the minimum configuration needed to launch a Simulat
         "SIMULATOR_CLASSPATH" :
         [
           "../selenium/selenium-java-2.22.0.jar",
-          "../selenium/libs/*", 
+          "../selenium/libs/*",
           "../rhino/js.jar"
         ]
       },
@@ -107,8 +107,8 @@ Additional runtime options are available, although their default settings should
 Writing Test Cases
 ------------------
 
-As mentioned above, Simulator test cases are qooxdoo classes living (at least by default) in the application's **simulation** name space. 
-They inherit from simulator.unit.TestCase, which includes the assertion functions from qx.core.MAssert. 
+As mentioned above, Simulator test cases are qooxdoo classes living (at least by default) in the application's **simulation** name space.
+They inherit from simulator.unit.TestCase, which includes the assertion functions from qx.core.MAssert.
 Simulator tests look very similar to qooxdoo unit tests as they follow the same pattern of **setUp**, **testSomething**, **tearDown**. Typically, each test* method will use the QxSelenium API to interact with some part of the AUT,
 then use assertions to check if the AUT's state has changed as expected, e.g. by querying the value of a qooxdoo property.
 
@@ -143,7 +143,7 @@ This Firefox plugin allows test developers to run Selenium commands against a we
 ::
 
   C:\workspace\qooxdoo-%{version}-sdk\component\simulator\tool\user-extensions\user-extensions.js
-  
+
 Inspector
 =========
 
@@ -246,4 +246,4 @@ To launch IE, the *\*iexploreproxy* launcher should be used. The *\*iexplore* la
       [...]
     }
   }
-  
+

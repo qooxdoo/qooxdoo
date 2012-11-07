@@ -9,30 +9,24 @@ qooxdoo's Inspector is not only a very useful tool for application developers, i
 
 The Selenium window
 ===================
-From qooxdoo 1.2 onward, the Inspector features a Selenium window that duplicates some of the functionality of the Selenium IDE Firefox extension, with a qooxdoo twist. It can generate locator strings for any qooxdoo widget and run Selenium commands against the inspected application. The result is a simple Selenium test case that can be exported in the "Selenese" HTML format.
+The Inspector's Selenium window duplicates some of the functionality of the Selenium IDE Firefox extension, with a qooxdoo twist. It can generate locator strings for any qooxdoo widget and run Selenium commands against the inspected application. The result is a simple Selenium test case that can be exported in the "Selenese" HTML format.
 
 .. image:: inspector_selenium_window.png
-
-.. _pages/application/inspector_selenium#prerequisites:
-
-Prerequisites
--------------
-The Selenium window needs to load **Selenium Core** (the JavaScript part of Selenium) This can be downloaded as a zip archive from the `Selenium website <http://seleniumhq.org/download/>`_.
-
-If the Inspector is loaded over HTTP, the required scripts can be loaded directly from their online repository as described below. 
 
 .. _pages/application/inspector_selenium#configuration:
 
 Configuration
 -------------
-Clicking the Options button (the only part of the Selenium window that is active initially) opens a window where this setting can be defined. Enter the URI of a directory with the contents of the Selenium Core zip file.
+The Selenium window must load **Selenium Core** (the JavaScript part of Selenium RC) from an external source. This location can be configured in the options window, which is opened by clicking the rightmost button in the Selenium window.
 
-The protocol used **must** be the same the Inspector is loaded over:
+If the Inspector is loaded over HTTP, the required scripts can be loaded directly from their online repository on Google Code. Just click the "Use default URI" button.
 
-* If you're loading the Inspector from your local file system, extract the archive locally and use a file system URI (``file:///...``).
-* If the Inspector is loaded from a web server, the Selenium Core directory must be accessed over HTTP. In this case, Same Origin Policy restrictions do **not** apply, so the script directory needn't be on the same server as the Inspector itself. If it is, a relative path can be used. 
+If you can't access the Selenium repository or you're loading the Inspector from the local file system, you can manually download and extract Selenium Core:
 
-In the latter case, you can simply click the ``Use default URI`` button. This will enter the URL of the Selenium code repository in the text field.
+* Download the `1.0.2 release of Selenium RC <https://code.google.com/p/selenium/downloads/detail?name=selenium-remote-control-1.0.2.zip>`_
+* Open the downloaded archive and extract the file ``/selenium-remote-control-1.0.2/selenium-server-1.0.2/selenium-server-standalone-1.0.2.jar``
+* From the .jar file, extract the ``core`` directory.
+* In the Options window, enter the path to the **parent directory** of ``core``. Use a file system URI (``file:///...``) if you're loading the Inspector from the file system. If you're loading the Inspector from a web server, use an HTTP URI. In this case, Same Origin Policy restrictions do **not** apply, so the script directory needn't be on the same server as the Inspector itself. If it is, a relative path can be used.
 
 Click "OK" after configuring the paths. The rest of the Selenium window's GUI will be activated once the external scripts are loaded. The configured URI is saved in a cookie so this step is only necessary once per browser.
 
@@ -54,7 +48,7 @@ The **minus button** removes the currently selected lines from the test case.
 
 The **slider** controls the delay between individual commands when playing back a test case. In some cases, e.g. clicking a button that opens a new window, it will be necessary to set this to a higher value to make sure the application finishes rendering before the next command executes.
 
-The **play button** executes selected test commands. If no commands are selected, the will all be run.  
+The **play button** executes selected test commands. If no commands are selected, the will all be run.
 
 While the **record button** is active, a new line will be added whenever a new widget is selected in the Inspector.
 
@@ -85,7 +79,7 @@ Selenese window
 .. image:: inspector_selenese_window.png
 
 Opened by clicking the Import/Export button in the toolbar, the Selenese window displays the current test case in Selenese format. This can be copied and pasted into a file, e.g. to be run by Selenium RC.
-Selenese import is also supported by pasting the contents of a Selenese file in the text area and clicking ``Import``. This will replace any commands in the current test case with those from the pasted Selenese. 
+Selenese import is also supported by pasting the contents of a Selenese file in the text area and clicking ``Import``. This will replace any commands in the current test case with those from the pasted Selenese.
 
 Tutorial
 --------
