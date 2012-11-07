@@ -78,7 +78,7 @@ Debugging
 If you want to debug your qooxdoo mobile application on a mobile device, we propose
 using a web remote debugger called "weinre":
 
-`weinre. Web Inspector Remote <http://phonegap.github.com/weinre/>`_
+`weinre. Web Inspector Remote <https://github.com/apache/incubator-cordova-weinre>`_
 
 Remote debugging allows a developer to use the browsers developer tools from a desktop computer while inspecting and manipulating the website on the mobile device.
 
