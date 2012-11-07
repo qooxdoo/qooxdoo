@@ -1,5 +1,5 @@
 %{Desktop}
-***********
+**********
 
 qooxdoo Desktop is the component to build rich and interactive, desktop-like applications. Its prominent feature is the comprehensive set of GUI widgets and controls, like buttons, sliders, tabviews, trees and tables. Layout managers organize the elements on the screen. Unified keyboard and mouse events provide cross-browser event handling. A dedicated theming system allows the application of styles to the graphical elements independent of the behavioral aspects. Text element like labels can be internationalized. qooxdoo Desktop requires that you use the :doc:`qooxdoo SDK </pages/tool>` with its tool chain. See Overview for a more in-depth introduction.
 
@@ -65,6 +65,7 @@ Technical Concepts
    desktop/event_layer_impl
    desktop/html_element_handling
    desktop/focus_layer_impl
+   desktop/using_q
 
 
 Tutorials
