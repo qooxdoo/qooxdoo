@@ -54,7 +54,9 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   extend : qx.ui.mobile.core.Widget,
   include : [
     qx.ui.mobile.form.MValue,
-    qx.ui.form.MForm
+    qx.ui.form.MForm,
+    qx.ui.mobile.form.MText,
+    qx.ui.mobile.form.MState
   ],
   implement : [
     qx.ui.form.IForm,
@@ -120,7 +122,19 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       refine :true,
       init : true
     },
-
+    
+    
+    /**
+     * Defines if the selectBox has a clearButton, which resets the selection.
+     */
+    nullable : 
+    {
+      init : false,
+      check : "Boolean",
+      apply : "_applyNullable"
+    },
+    
+    
     /**
      * The model to use to render the list.
      */
@@ -182,7 +196,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
       // Hide selectionDialog on tap on blocker.
       menu.setHideOnBlockerClick(true);
-
+      
       return menu;
     },
 
@@ -203,7 +217,12 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     setSelection : function(value) {
       if(this.getModel() && this.getModel().length > value && value > -1) {
         this.__selectedIndex = value;
-        this._setAttribute("value", this.getModel().getItem(value));
+        
+        if(value == null){
+          this._setAttribute("value", null);
+        } else {
+          this._setAttribute("value", this.getModel().getItem(value));
+        }
       }
     },
 
@@ -217,6 +236,24 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
         this.__selectionDialog.setTitle(title);
       }
     },
+    
+    
+    /**
+     * Set the ClearButton label of the selection dialog.
+     * @param value {String} the value to set on the ClearButton at selection dialog.
+     */
+    setClearButtonLabel : function(value) {
+      this.__selectionDialog.setClearButtonLabel(value);
+    },
+    
+    
+    // property apply
+    _applyNullable : function(isNullable) {
+      // Delegate nullable property.
+      if(this.__selectionDialog) {
+        this.__selectionDialog.setNullable(isNullable);
+      }
+    },
 
 
     /**
@@ -224,11 +261,15 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param value {String} the text value which should be selected.
      */
     _setValue : function(value) {
-      if(this.getModel()) {
-        var indexOfValue = this.getModel().indexOf(value);
-        if(indexOfValue > -1) {
-          this.__selectedIndex = indexOfValue;
-          this._setAttribute("value",value);
+      if(value == null){
+        this._setAttribute("value", null);
+      } else {
+        if(this.getModel()) {
+          var indexOfValue = this.getModel().indexOf(value);
+          if(indexOfValue > -1) {
+            this.__selectedIndex = indexOfValue;
+            this._setAttribute("value",value);
+          }
         }
       }
     },
@@ -250,12 +291,18 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      */
     _render : function() {
       if(this.getModel() && this.getModel().length > 0) {
-        // Default selected index is 0.
-        if(!this.__selectedIndex) {
-          this.__selectedIndex = 0;
+        var selectedItem = null;
+        
+        if(this.__selectedIndex == null) {
+          if(!this.isNullable()) {
+            // Default selected index is 0.
+            this.__selectedIndex = 0;
+            selectedItem = this.getModel().getItem(this.__selectedIndex);
+          }
+        } else {
+          selectedItem = this.getModel().getItem(this.__selectedIndex);
         }
-
-        var selectedItem = this.getModel().getItem(this.__selectedIndex);
+        
         this._setAttribute("value", selectedItem);
       }
 

@@ -56,8 +56,16 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     if(itemsModel) {
       this.__selectionList.setModel(itemsModel);
     }
-
-    this.base(arguments, this.__selectionList, anchor);
+    
+    var menuContainer = new qx.ui.mobile.container.Composite();
+    var clearButton = this.__clearButton = new qx.ui.mobile.form.Button(this.getClearButtonLabel());
+    clearButton.addListener("tap", this.__onClearButtonTap, this);
+    clearButton.setVisibility("excluded");
+    
+    menuContainer.add(this.__selectionList);
+    menuContainer.add(clearButton);
+    
+    this.base(arguments, menuContainer, anchor);
 
     if(anchor) {
       this.setModal(false);
@@ -125,6 +133,30 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     unselectedItemClass :
     {
       init : "item-unselected"
+    },
+    
+    
+    /**
+     * Defines if the menu has a null value in the list, which can be chosen
+     * by the user. The label 
+     */
+    nullable : 
+    {
+      init : false,
+      check : "Boolean",
+      apply : "_applyNullable"
+    },
+    
+    
+    /**
+     * The label of the null value entry of the list. Only relevant
+     * when nullable property is set to <code>true</code>.
+     */
+    clearButtonLabel : 
+    {
+      init : "None",
+      check : "String",
+      apply : "_applyClearButtonLabel"
     }
   },
 
@@ -139,6 +171,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
   {
     __selectionList: null,
     __selectedIndex: null,
+    __clearButton : null,
 
 
     /**
@@ -206,7 +239,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       var selectedItem = this.__selectionList.getModel().getItem(selectedIndex);
       this.setSelectedIndex(selectedIndex);
       this._render();
-
+      
       this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedItem});
     },
 
@@ -219,6 +252,31 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
         // Just hide dialog, no changes.
         this.hide();
       }
+    },
+    
+    
+    /**
+     * Event handler for tap on clear button.
+     */
+    __onClearButtonTap : function() {
+      this.fireDataEvent("changeSelection", {index: null, item: null});
+      this.hide();
+    },
+    
+    
+    // property apply
+    _applyNullable : function(value, old) {
+      if(value){
+        this.__clearButton.setVisibility("visible");
+      } else {
+        this.__clearButton.setVisibility("excluded");
+      }
+    },
+    
+    
+    // property apply
+    _applyClearButtonLabel : function(value, old) {
+       this.__clearButton.setValue(value);
     },
 
 
@@ -252,7 +310,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
   destruct : function()
   {
-    this._disposeObjects("__selectionList");
+    this._disposeObjects("__selectionList","__clearButton");
   }
 
 });
