@@ -39,17 +39,17 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      */
     getStackTrace : function()
     {
-      var e;
-      // only thrown errors have the stack property in IE10
-      if (qx.core.Environment.get("engine.name") == "mshtml") {
+      var propName;
+      var e = new Error("e");
+      propName = e.stack ? "stack" : e.stacktrace ? "stacktrace" : null;
+
+      // only thrown errors have the stack property in IE10 and PhantomJS
+      if (!propName) {
         try {
-          throw new Error();
+          throw e;
         } catch(ex) {
           e = ex;
         }
-      }
-      else {
-        e = new Error();
       }
 
       return e.stacktrace ? "stacktrace" : e.stack ? "stack" : null;
