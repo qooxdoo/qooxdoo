@@ -152,7 +152,7 @@ class ApiLoader(object):
         self._console.outdent()
 
         self._console.info("Connecting classes...")
-        api.connectPackage(docTree, docTree)
+        hasError = api.connectPackage(docTree, docTree)
 
         self._console.info("Generating search index...")
         index = self.docTreeToSearchIndex(docTree, "", "", "")
@@ -162,6 +162,8 @@ class ApiLoader(object):
                 api.verifyLinks(docTree, index)
             if "types" in verify:
                 api.verifyTypes(docTree, index)
+
+        api.logErrors(docTree)
 
         self._console.info("Saving data...", False)
         self._console.indent()

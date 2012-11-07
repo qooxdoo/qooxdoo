@@ -1094,27 +1094,16 @@ def addError(node, msg, syntaxItem=None):
     errorNode = tree.Node("error")
     errorNode.set("msg", msg)
 
-    fileInfo = ""
     if syntaxItem:
-        fileName = treeutil.getFileFromSyntaxItem(syntaxItem)
-        if fileName:
-            fileInfo = fileName
         (line, column) = treeutil.getLineAndColumnFromSyntaxItem(syntaxItem)
         if line:
             errorNode.set("line", line)
-            fileInfo = fileInfo + " line " + str(line)
 
             if column:
                 errorNode.set("column", column)
-                fileInfo = fileInfo + " column " + str(column)
-    if fileInfo:
-        fileInfo = fileInfo + ":"
 
     node.addListChild("errors", errorNode)
     node.set("hasError", True)
-
-    #- Warning: qx.event.handler.DragDrop (588,31): Using an undeclared private class feature: '__validAction'
-    Context.console.warn("-Warning: %s %s" % (fileInfo, msg))
 
 
 def getPackageNode(docTree, namespace):
@@ -1349,7 +1338,7 @@ function(%(firstParamName)s, %(secondParamName)s) {}""" % ({
         "secondParamName": secondParam,
         "paramType": paramType,
         "propNames": propNamesString,
-        "propLinks" : propLinksString,
+        "propLinks": propLinksString,
         "propName": methodNode.get("name")
     })
 
@@ -1595,11 +1584,9 @@ def packagesToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n", en
     if node.hasChildren() and node.type != "class":
         asString += ',children:[' + newLine
 
-        firstChild = True
         prefix = prefix + childPrefix
         for child in node.children:
             asString += packagesToJsonString(child, prefix, childPrefix, newLine) + ',' + newLine
-            firstChild = False
 
         # NOTE We remove the ',\n' of the last child
         if newLine == "":
@@ -1697,6 +1684,7 @@ def methodNodeIterator(docTree):
             for method in methodNodeIterator(child):
                 yield method
 
+
 def docTreeIterator(docTree, type_):
     if docTree.type == type_:
         yield docTree
@@ -1770,41 +1758,14 @@ def verifyLinks(docTree, index):
             }
             links.append(linkData)
 
-    brokenLinks = []
     count = 0
     for link in links:
         count += 1
         Context.console.progress(count, len(links))
         result = checkLink(link, docTree, index)
         if result:
-            brokenLinks.append(result)
-
-    Context.console.indent()
-    for result in brokenLinks:
-        for ref, link in result.iteritems():
-            if link["nodeType"] == "ctor" or link["itemName"] == "ctor":
-                type = "constructor"
-            elif link["paramForType"]:
-                type = link["paramForType"]
-            else:
-                type = link["nodeType"]
-
-            if link["nodeType"] == "ctor" or link["itemName"] == "ctor":
-                itemName = link["className"]
-            elif link["className"] == link["itemName"]:
-                itemName = link["itemName"]
-            else:
-                itemName = link["className"] + "#" + link["itemName"]
-
-            param = ""
-            if link["paramName"]:
-                param = "the parameter '%s' of " % link["paramName"]
-            msg = "The documentation for %sthe %s %s.%s contains a broken reference to '%s'" % (param, type, link["packageName"], itemName, ref)
-
-            addError(link["parent"], "Unknown link target: '%s'" % ref)
-
-            Context.console.warn(msg)
-    Context.console.outdent()
+            for ref, link in result.iteritems():
+                addError(link["parent"], "Unknown link target: '%s'" % ref)
 
 
 def checkLink(link, docTree, index):
@@ -1920,7 +1881,7 @@ def verifyTypes(docTree, index):
     docNodes = docNodes + docTree.getAllChildrenOfType("param")
     docNodes = docNodes + docTree.getAllChildrenOfType("childControl")
     total = len(docNodes)
-    brokenLinks = []
+
     for docNode in docNodes:
         count += 1
         Context.console.progress(count, total)
@@ -1952,10 +1913,30 @@ def verifyTypes(docTree, index):
                         docNodeType = "Child control '%s'" % docNode.get("name")
 
                     for ref in checkLink(linkData, docTree, index):
-                        addError(docNode.parent, "Unknown %s type <code>%s</code>" % (docNodeType, ref), docNode)
-                        brokenLinks.append((docNodeType, "%s.%s#%s" % (packageName, className, itemName), ref))
+                        fullName = "%s.%s#%s" % (packageName, className, itemName)
+                        msg = "%s of %s is documented as unknown type '%s'" % (docNodeType, fullName, ref)
+                        addError(docNode.parent, msg, docNode)
 
-    Context.console.indent()
-    for entry in brokenLinks:
-        Context.console.warn("%s of %s is documented as unknown type '%s'" % (entry[0], entry[1], entry[2]))
-    Context.console.outdent()
+
+def logErrors(docTree):
+    for errNode in treeutil.nodeIterator(docTree, ["error"]):
+        itemName = getParentAttrib(errNode, "fullName")
+        itemType = errNode.parent.parent.type
+
+        if itemType == 'doctree':
+            Context.console.warn(errNode.get("msg"))
+            return
+
+        if not itemType in ["class", "package"]:
+            itemName = itemName + "#" + getParentAttrib(errNode, "name")
+
+        line = errNode.get("line", False)
+        column = errNode.get("column", False)
+        lineCol = ""
+        if line:
+            lineCol = " (" + str(line)
+            if column:
+                lineCol = "%s,%s" % (lineCol, str(column))
+            lineCol = lineCol + ")"
+
+        Context.console.warn("%s %s%s: %s" % (itemType, itemName, lineCol, errNode.get("msg")))
