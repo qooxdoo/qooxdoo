@@ -226,6 +226,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
         textHtml.add(apiviewer.ui.panels.InfoPanel.createErrorHtml(method, currentClassDocNode));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createDeprecationHtml(method, "function"));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createSourceLinkHtml(method));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createAttachedFrom(method));
       }
 
       return textHtml.get();
