@@ -633,13 +633,23 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         for (var i=0; i<errors.length; i++)
         {
           html.add('<div class="item-detail-text">', errors[i].attributes.msg, " <br/>");
-          html.add("(");
 
-          if (node.getClass() != currentClassDocNode) {
-            html.add(node.getClass().getFullName(), "; ");
+          if (errors[i].attributes.line || node.getClass() != currentClassDocNode) {
+            html.add("(");
+
+            if (node.getClass() != currentClassDocNode) {
+              html.add(node.getClass().getFullName(), "; ");
+            }
+
+            if (errors[i].attributes.line) {
+              html.add("Line: ", errors[i].attributes.line);
+              if (errors[i].attributes.column) {
+                html.add(", Column:", errors[i].attributes.column);
+              }
+            }
+            html.add(")");
           }
-
-          html.add("Line: ", errors[i].attributes.line, ", Column:", errors[i].attributes.column + ")", '</div>');
+          html.add("</div>");
         }
 
         return html.get();
