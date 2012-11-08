@@ -133,7 +133,16 @@ qx.Class.define("testrunner.view.widget.Widget", {
     showStackTrace :
     {
       check : "Boolean",
-      event : "changeShowStackTrace"
+      event : "changeShowStackTrace",
+      init : true
+    },
+
+    /** Delete any existing results from the list before running tests? */
+    clearResultsOnRun :
+    {
+      check : "Boolean",
+      event : "changeClearResultsOnRun",
+      init : true
     },
 
     /** Running count of failed tests */
@@ -662,17 +671,12 @@ qx.Class.define("testrunner.view.widget.Widget", {
       });
       inner.add(caption1, {edge: "west"});
 
-      // Stack trace toggle
-      var stacktoggle = new qx.ui.form.ToggleButton(this.__app.tr("Show Stack Trace"), "icon/16/actions/document-properties.png");
-      inner.add(stacktoggle, {edge: "east"});
-      stacktoggle.set({
-        toolTipText : this.__app.tr("Show stack trace information for exceptions"),
-        value : true,
-        margin: [3, 5]
-      });
-      //stacktoggle.setShow("both");
-      stacktoggle.bind("value", this, "showStackTrace");
+      var toolbar = new qx.ui.toolbar.ToolBar();
+      toolbar.setBackgroundColor("white");
+      toolbar.setPadding([0,0]);
+      inner.add(toolbar, {edge: "east"});
 
+      toolbar.add(this._getResultsMenuButton());
 
       p1.add(this.__createProgressBar());
 
@@ -683,6 +687,29 @@ qx.Class.define("testrunner.view.widget.Widget", {
       this.bind("showStackTrace", this.__testResultView, "showStackTrace");
 
       return p1;
+    },
+
+    _getResultsMenuButton : function()
+    {
+      var resultsMenuButton = new qx.ui.toolbar.MenuButton("Options", "icon/16/actions/document-properties.png");
+      resultsMenuButton.set({
+        margin: [3, 5]
+      });
+      var resultsMenu = new qx.ui.menu.Menu();
+
+      // Stack trace toggle
+      var stacktoggle = new qx.ui.menu.CheckBox(this.__app.tr("Show Stack Trace"));
+      stacktoggle.setValue(true);
+      stacktoggle.bind("value", this, "showStackTrace");
+      resultsMenu.add(stacktoggle);
+
+      var cleartoggle = new qx.ui.menu.CheckBox(this.__app.tr("Clear results on run"));
+      cleartoggle.setValue(true);
+      cleartoggle.bind("value", this, "clearResultsOnRun");
+      resultsMenu.add(cleartoggle);
+
+      resultsMenuButton.setMenu(resultsMenu);
+      return resultsMenuButton;
     },
 
     /**
@@ -1133,6 +1160,9 @@ qx.Class.define("testrunner.view.widget.Widget", {
       this.resetFailedTestCount();
       this.resetSuccessfulTestCount();
       this.resetSkippedTestCount();
+      if (this.getClearResultsOnRun()) {
+        this.__testResultView.clear();
+      }
     },
 
     /**
