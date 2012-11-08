@@ -196,6 +196,11 @@
       "api" :
       {
         "path" : "${BUILD_PATH}/script"
+      },
+
+      "lint-check" : {
+        "warn-unknown-jsdoc-keys" : [],
+        "warn-jsdoc-key-syntax" : true
       }
     }
   }
