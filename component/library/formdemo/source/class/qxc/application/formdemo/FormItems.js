@@ -59,6 +59,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
 
       // password field
       var passwordField = new qx.ui.form.PasswordField();
+      passwordField.setPlaceholder("password");
       passwordField.setTabIndex(tabIndex++);
       textField.setRequired(true);
       this.__widgets.push(passwordField);
@@ -66,13 +67,14 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
 
       // text area
       var textArea = new qx.ui.form.TextArea();
-      textArea.setPlaceholder("placeholder test...");
+      textArea.setPlaceholder("placeholder text...");
       textArea.setTabIndex(tabIndex++);
       this.__widgets.push(textArea);
       form.add(textArea, "TextArea");
 
       // combo box
       var comboBox = new qx.ui.form.ComboBox();
+      comboBox.setPlaceholder("Pick an item");
       comboBox.setTabIndex(tabIndex++);
       this.__createItems(comboBox);
       this.__widgets.push(comboBox);
@@ -80,6 +82,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
 
       // virtual combo box
       var virtualComboBox = new qx.ui.form.VirtualComboBox();
+      virtualComboBox.setPlaceholder("Pick an item");
       virtualComboBox.setTabIndex(tabIndex++);
       this.__createItemsVirtual(virtualComboBox);
       this.__widgets.push(virtualComboBox);
@@ -87,6 +90,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
 
       // date field
       var dateField = new qx.ui.form.DateField();
+      dateField.setPlaceholder("Pick a date");
       dateField.setTabIndex(tabIndex++);
       this.__widgets.push(dateField);
       form.add(dateField, "DateField");
