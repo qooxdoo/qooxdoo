@@ -88,7 +88,7 @@ class ApiLoader(object):
         return node
 
 
-    def storeApi(self, include, apiPath, variantSet, verify, sitemap):
+    def storeApi(self, include, apiPath, variantSet, jobConf):
         self._console.info("Generating API data...")
         self._console.indent()
 
@@ -152,18 +152,19 @@ class ApiLoader(object):
         self._console.outdent()
 
         self._console.info("Connecting classes...")
-        hasError = api.connectPackage(docTree, docTree)
+        api.connectPackage(docTree, docTree)
 
         self._console.info("Generating search index...")
         index = self.docTreeToSearchIndex(docTree, "", "", "")
 
-        if verify:
-            if "links" in verify:
+        if "verify" in jobConf:
+            if "links" in jobConf["verify"]:
                 api.verifyLinks(docTree, index)
-            if "types" in verify:
+            if "types" in jobConf["verify"]:
                 api.verifyTypes(docTree, index)
 
-        api.logErrors(docTree)
+        if "warnings" in jobConf and "target" in jobConf["warnings"]:
+            api.logErrors(docTree, jobConf["warnings"]["target"])
 
         self._console.info("Saving data...", False)
         self._console.indent()
@@ -196,8 +197,8 @@ class ApiLoader(object):
             fileName = os.path.join(apiPath, className + ".json")
             filetool.save(fileName, nodeJson)
 
-            if sitemap and "link-uri" in sitemap:
-                links.append(sitemap["link-uri"] %className)
+            if "sitemap" in jobConf and "link-uri" in jobConf["sitemap"]:
+                links.append(jobConf["sitemap"]["link-uri"] % className)
 
             #import pdb; pdb.set_trace()
             #for type in ["method", "method-static", "event", "property", "constant"]:
