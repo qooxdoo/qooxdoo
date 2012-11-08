@@ -55,6 +55,7 @@ Themes
    desktop/ui_decorators
    desktop/ui_webfonts
    desktop/ui_using_themes_of_contribs
+   desktop/ui_using_widgetbrowser_for_theme_development
 
 Technical Concepts
 ==================
