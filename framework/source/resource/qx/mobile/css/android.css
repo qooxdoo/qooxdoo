@@ -2537,10 +2537,15 @@ input[type="text"]:not(.selectbox),
 input[type="number"],
 input[type="password"],
 textarea {
-  border: 0px solid #242424;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
+}
+input[type="text"]:not(.selectbox):not(.invalid),
+input[type="number"]:not(.invalid),
+input[type="password"]:not(.invalid),
+textarea:not(.invalid) {
+  border: 0px solid #242424;
 }
 .formRowContent {
   padding: 5px 10px 5px 10px;

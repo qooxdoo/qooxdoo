@@ -136,7 +136,7 @@ page.addListener("initialize", function() {
   form.add(pwd, "Password");
 
   // Use form renderer
-  page.getContent().add(new qx.ui.mobile.form.renderer.SinglePlaceholder(form));
+  page.getContent().add(new qx.ui.mobile.form.renderer.Single(form));
 
   // login button
   var button = new qx.ui.mobile.form.Button("Login");
