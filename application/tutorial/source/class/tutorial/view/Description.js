@@ -54,7 +54,10 @@ qx.Class.define("tutorial.view.Description",
     this.add(this.__createButtonContainer());
 
     this.loadHljs(function() {
-      q('pre').forEach(function(el) {hljs.highlightBlock(el)});
+      q('pre').forEach(function(el) {
+        q(el).addClass("javascript")
+        hljs.highlightBlock(el);
+      });
     }, this);
 
     this.updateView();
@@ -137,7 +140,10 @@ qx.Class.define("tutorial.view.Description",
         backgroundColor: "#EEE",
         borderRadius : "4px",
         padding: "7px"
-      }).filter("pre").forEach(function(el) {window.hljs && hljs.highlightBlock(el)});
+      }).filter("pre").forEach(function(el) {
+        q(el).addClass("javascript");
+        window.hljs && hljs.highlightBlock(el);
+      });
 ;
     },
 
