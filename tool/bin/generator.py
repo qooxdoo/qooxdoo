@@ -33,6 +33,16 @@ from generator.runtime.InterruptRegistry import InterruptRegistry
 #import warnings
 #warnings.filterwarnings("error") # turn warnings into errors - e.g. for UnicodeWarning
 
+# Fix for Jython
+if os.name == 'java':
+  # Java GC cannot be disabled, see http://bugs.jython.org/issue1175
+  import gc
+  try:
+    gc.disable()
+    gc.enable()
+  except NotImplementedError:
+    gc.disable = gc.enable
+
 ## TODO: The next on is a hack, and should be removed once all string handling is
 ## properly done in unicode; it is advisable to comment out the call to setdefaultencoding()
 ## when working on string handling in other parts of the generator
