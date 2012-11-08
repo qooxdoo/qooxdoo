@@ -3,7 +3,7 @@
 Theming
 *******
 
-qooxdoo includes three themes:
+qooxdoo includes four themes:
 
 * ``Modern`` - a graphically rich theme, showcasing many UI capabilities of qooxdoo %{version}
 * ``Classic`` - MS Windows oriented theme
