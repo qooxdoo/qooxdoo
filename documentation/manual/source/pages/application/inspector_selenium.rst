@@ -60,8 +60,11 @@ The **options button** opens a dialog where external script paths can be configu
 
 Test Commands
 ^^^^^^^^^^^^^
+.. foo bar baz
 
-.. image:: inspector_selenium_command_table.png
+.. |command_table| image:: inspector_selenium_command_table.png
+
+|command_table|
 
 The table underneath the toolbar lists the commands in the current test case. Select one or more rows to execute their commands using the play button. Commands, locators and parameters can be edited by double clicking. Editing commands will display a combo box listing all commands supported by Selenium Core.
 

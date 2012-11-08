@@ -55,7 +55,7 @@ Since the generator is nearly completely driven by its configuration files, ther
                           path to configuration file containing job definitions
                           (default: config.json)
     -q, --quiet           quiet output mode (extra quiet)
-    -v, --verbose         verbose output mode (extra verbose)
+    -v, --verbose         verbose output mode of job processing
     -w, --config-verbose  verbose output mode of configuration processing
     -l FILENAME, --logfile=FILENAME
                           log file
@@ -63,6 +63,9 @@ Since the generator is nearly completely driven by its configuration files, ther
     -m KEY:VAL, --macro=KEY:VAL
                           define/overwrite a global 'let' macro KEY with value
                           VAL
+    -I, --no-progress-indicator
+                          suppress animated progress indication
+
 
 The most important options are the path of the config file to use (*-c* option), and the list of jobs to execute. The *-m* option allows Json-type values, scalars like strings and numbers, but also maps *{...}* and lists *[...]* [#m_option]_.
 
@@ -101,22 +104,22 @@ Arguments like ``source`` or ``api``, as shown in the previous section, are so c
 
 This gives you a list of all jobs available through your current config file, many of them with a few words of explanation about what they do:
 
-::
+.. code-block:: text
 
     - api          -- create api doc for the current library
     - build        -- create build version of current application
     - clean        -- remove local cache and generated .js files (source/build)
-    - distclean    -- remove the cache and all generated artefacts of this library (source, build, ...)
-    - fix          -- normalize whitespace in .js files of the current library (tabs, eol, ...)
+    - distclean    -- remove the cache and all generated artefacts of this library...
+    - fix          -- normalize whitespace in .js files of the current library ...
     - inspector    -- (since 0.8.2) create an inspector instance in the current library
     - lint         -- check the source code of the .js files of the current library
-    - migration    -- migrate the .js files of the current library to the current qooxdoo version
+    - migration    -- migrate the .js files of the current library to the current ...
     - pretty       -- pretty-formatting of the source code of the current library
     - profiling    -- includer job, to activate profiling
     - source       -- create source version of current application
     - source-all   -- create source version of current application, with all classes
     - test         -- create a test runner app for unit tests of the current library
-    - test-source          -- create a test runner app for unit tests (source version) of the current library
+    - test-source          -- create a test runner app for unit tests (source...
     - translation          -- create .po files for current library
 
 For an exhaustive reference of these default jobs, see the :doc:`default jobs page <generator_default_jobs>`.
