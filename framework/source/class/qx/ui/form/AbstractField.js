@@ -58,13 +58,13 @@ qx.Class.define("qx.ui.form.AbstractField",
       var color = colorManager.resolve("text-placeholder");
 
       if (qx.core.Environment.get("engine.name") == "gecko") {
-        var selector = "input:-moz-placeholder";
+        var selector = "input:-moz-placeholder, textarea:-moz-placeholder";
         qx.bom.Stylesheet.addRule(this.__stylesheet, selector, "color: " + color + " !important");
       } else if (qx.core.Environment.get("engine.name") == "webkit") {
-        selector = "input.qx-placeholder-color::-webkit-input-placeholder";
+        selector = "input.qx-placeholder-color::-webkit-input-placeholder, textarea.qx-placeholder-color::-webkit-input-placeholder";
         qx.bom.Stylesheet.addRule(this.__stylesheet, selector, "color: " + color);
       } else if (qx.core.Environment.get("engine.name") == "mshtml") {
-        selector = "input.qx-placeholder-color:-ms-input-placeholder";
+        selector = "input.qx-placeholder-color:-ms-input-placeholder, textarea.qx-placeholder-color:-ms-input-placeholder";
         qx.bom.Stylesheet.addRule(this.__stylesheet, selector, "color: " + color + " !important");
       }
     }
