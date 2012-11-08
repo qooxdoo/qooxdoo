@@ -17,6 +17,13 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(showcase/virtuallist/down.png)
+#asset(showcase/virtuallist/right.png)
+
+************************************************************************ */
+
 qx.Class.define("showcase.page.virtuallist.messenger.Group",
 {
   extend : qx.ui.core.Widget,
@@ -47,6 +54,7 @@ qx.Class.define("showcase.page.virtuallist.messenger.Group",
     {
       check : "Boolean",
       event : "changeOpen",
+      apply : "_applyOpen",
       init : true
     },
 
@@ -84,7 +92,7 @@ qx.Class.define("showcase.page.virtuallist.messenger.Group",
           });
           break;
         case "icon" :
-          control = new qx.ui.basic.Image();
+          control = new qx.ui.basic.Image("showcase/virtuallist/down.png");
           control.addListener("click", this._onClick, this);
           break;
         case "count" :
@@ -95,6 +103,18 @@ qx.Class.define("showcase.page.virtuallist.messenger.Group",
           break;
       }
       return control || this.base(arguments, id);
+    },
+
+
+    // apply method
+    _applyOpen : function(value, old)
+    {
+      var source = "showcase/virtuallist/down.png";
+      if (value == false) {
+        source = "showcase/virtuallist/right.png";
+      }
+
+      this.getChildControl("icon").setSource(source);
     },
 
 
