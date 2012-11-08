@@ -312,8 +312,10 @@ qx.Class.define("inspector.components.Selector",
           el.style.height = qx.bom.Document.getWidth(win) + "px";
         }
         
-        if(widget instanceof win.qx.ui.mobile.core.Widget) {
-          applicationRoot.add(widget);
+        if (this.__isMobileApp) {
+          if(widget instanceof win.qx.ui.mobile.core.Widget) {
+            applicationRoot.add(widget);
+          }
         } else {
           applicationRoot.add(widget, {left: 0, top: 0});
         }
