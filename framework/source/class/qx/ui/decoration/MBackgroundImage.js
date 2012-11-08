@@ -53,7 +53,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
     backgroundPositionX :
     {
       nullable : true,
-      apply : "_applyBackgroundImage"
+      apply : "_applyBackgroundPosition"
     },
 
 
@@ -68,7 +68,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
     backgroundPositionY :
     {
       nullable : true,
-      apply : "_applyBackgroundImage"
+      apply : "_applyBackgroundPosition"
     },
 
 
@@ -84,6 +84,13 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 
   members :
   {
+    /**
+     * Whether an info was already displayed for browsers using the AlphaImageLoader (IE6 - IE9)
+     * together with the 'backgroundPosition' property. The AlphaImageLoader is not able to make use
+     * of this CSS property. So the developer should be informed about this *once*.
+     */
+    __infoDisplayed : false,
+
     /**
      * Mapping for the dynamic decorator.
      *
@@ -169,6 +176,19 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
       {
         if (this._isInitialized()) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+        }
+      }
+    },
+
+    // property apply
+    _applyBackgroundPosition : function()
+    {
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        if (qx.bom.element.Decoration.isAlphaImageLoaderEnabled() && !this.__infoDisplayed)
+        {
+          this.info("Applying a background-position value has no impact when using the 'AlphaImageLoader' to display PNG images!");
+          this.__infoDisplayed = true;
         }
       }
     }
