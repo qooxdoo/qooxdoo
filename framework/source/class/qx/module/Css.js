@@ -373,7 +373,7 @@ qx.Bootstrap.define("qx.module.Css", {
      */
     hide : function() {
       for (var i=0, l=this.length; i<l; i++) {
-        var item = this.eq(i);
+        var item = this.slice(i, i + 1);
         var prevStyle = item.getStyle("display");
         if (prevStyle !== "none") {
           item[0].$$qPrevDisp = prevStyle;
@@ -395,7 +395,7 @@ qx.Bootstrap.define("qx.module.Css", {
      */
     show : function() {
       for (var i=0, l=this.length; i<l; i++) {
-        var item = this.eq(i);
+        var item = this.slice(i, i + 1);
         var currentVal = item.getStyle("display");
         var prevVal = item[0].$$qPrevDisp;
         var newVal;
