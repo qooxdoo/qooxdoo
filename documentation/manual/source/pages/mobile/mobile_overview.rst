@@ -11,10 +11,11 @@ Supported Mobile Operating Systems
 
 qooxdoo mobile was tested with the native browsers of the following operating
 systems:
-
+ 
 * iOS
 * Android 1.6+
 * BlackBerry 10 OS (on BlackBerry PlayBook)
+* Windows Phone 8 (Experimental)
 
 Supported Desktop Browsers
 ==========================
@@ -23,8 +24,9 @@ qooxdoo mobile was tested with the following desktop browsers:
 
 * Safari 5
 * Chrome 10+
-* Firefox 10 (Experimental)
-
+* Firefox 10+ (Experimental)
+* Internet Explorer 10
+  
 Features
 ========
 
@@ -34,6 +36,7 @@ Features
 * :doc:`Theming via CSS and LESS <theming>`
 * iOS theme
 * Android theme
+* Indigo theme
 * Touch events: touchstart, touchmove, touchend, touchcancel 
 * Gesture events: swipe, tap
 * Animations between pages
@@ -51,15 +54,15 @@ API Documentation
   The mobile application.
 * `qx.ui.mobile <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_:
   This package contains all mobile widgets. See the API documentation for more
-  information.
+  information. 
 
 
 Create a Mobile Application
 ===========================
-
+ 
 To create a mobile application ``mobileapp`` in your home directory with your shell, change to your home directory (just ``cd``). With a qooxdoo SDK available at ``/opt/qooxdoo-%{version}-sdk``, call the script as follows:
 
-::
+:: 
 
     /opt/qooxdoo-%{version}-sdk/tool/bin/create-application.py --type=mobile --name=mobileapp --out=.
 
@@ -70,51 +73,6 @@ To learn how to develop a basic mobile application, you should try the :doc:`mob
 
 If you are new to qooxdoo, make sure you have read the :ref:`getting started <pages/getting_started/helloworld#setup_the_framework>` tutorial to
 understand the basics of qooxdoo.
-
-
-Debugging
-=========
-
-If you want to debug your qooxdoo mobile application on a mobile device, we propose
-using a web remote debugger called "weinre":
-
-`weinre. Web Inspector Remote <https://github.com/apache/incubator-cordova-weinre>`_
-
-Remote debugging allows a developer to use the browsers developer tools from a desktop computer while inspecting and manipulating the website on the mobile device.
-
-Here are some hints for enabling remote debugging on your qooxdoo mobile application with weinre:
-
-  * Install weinre according to the weinre manual. Create a server.properties file,
-    and change the port number to 8081 or similar.
-
-  * Add the following script tag to the index.html in your qooxdoo mobile application:
-
-    ``<script src="http://[ENTER_YOUR_HOST_IP_HERE]:8081/target/target-script-min.js"></script>``
-
-  * Replace ip placeholder with your desktop computer ip on your "index.html".
-
-  * Start weinre.
-
-  * Call your qooxdoo mobile application from your mobile device.
-
-Important: Please make sure, not having the character "#", behind the "index.html" on your url.
-Weinre uses debug ids, which are appended after the target url, just like "..qooxdoo/foo/../index.html#anonymous".
-On mac computers "anonymous" is the default debug id. Any other debug id, results in a disconnect of 
-target mobile device. 
-
-Unfortunately, there is a clash with qooxdoo mobile navigation logic. Qooxdoo navigation manager uses 
-also the number sign, for navigating through pages:
-
-"../mobileshowcase/source/index.html#/form"
-
-So, if you navigate to a subpage with qooxdoo, and reload the page, weinre interprets
-"#/form" as the debug id "/form". On mac computers, only "anonymous" is allowed, so
-the target device disconnects from debug server.
-
-This means, debugging with weinre works fine, as long as you do not reload a 
-subpage of your qooxdoo mobile page. Your starting point for remote debugging should
-always be the "index.html" without any strings attached.
-
 
 Environment Keys
 ================
@@ -161,7 +119,6 @@ you can have a look on the following demo applications:
 
 * `Mobile Showcase <http://demo.qooxdoo.org/%{version}/mobileshowcase>`_ - see all mobile widgets in action
 * `Mobile Feedreader <http://demo.qooxdoo.org/%{version}/feedreader-mobile>`_ - the feedreader as a mobile app. Using the same logic and models as the feedreader for desktop browsers does.
-
 
 All applications can be found in the ``application`` folder of your qooxdoo checkout.
   

@@ -39,7 +39,7 @@ used in any LESS file. For example the LESS mixin for border-radius:
 This mixin helps you creating border-radius for most browsers,
 just by writing something like:
 
-::
+:: 
 
     .border-radius(4px);
 
@@ -89,7 +89,9 @@ better overview than applying multiple CSS classes to one DOM element.
 Parsing LESS files
 ==================
 
-There are different ways for parsing LESS files into CSS.
+There are different ways for parsing LESS files into CSS. 
+Our LESS files were created with version 1.2.1 of LESS.
+Please make sure that you have this version installed.
 
 * `LESS.js <http://www.lesscss.org/>`_: If you are working on source variant of qooxdoo mobile, you can include less.js and link LESS in the application ``index.html`` file directly. Just uncomment the following lines in the ``index.html`` file:
 
@@ -107,6 +109,15 @@ There are different ways for parsing LESS files into CSS.
 
 
 * `Guard-LESS <https://github.com/guard/guard-less>`_: A guard extension that compiles .less files to .css files when changed. It listens on folders or a set of LESS files for changes, and triggers re-compiling of CSS files automatically. This should be your choice, if you are familar to guard.
+
+  This is the content of our Guardfile which we use for compiling the LESS files:
+
+  **qooxdoo/framework/source/resource/qx/mobile/less/Guardfile**
+  ::
+
+    guard 'less', :all_on_start => true, :output => '../css', :all_after_change => true do
+      watch(%r{^.*\.less$})
+    end
 
 * `Simpless <http://wearekiss.com/simpless>`_: Similar to functionality of Guard-LESS, but with more easier configuration and usage, because of a graphical user interface. It also compiles LESS to CSS files automatically on file change. Simpless is available for every platform (Windows, Mac OS, Linux).
 
