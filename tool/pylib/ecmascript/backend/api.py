@@ -847,7 +847,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             paramNode = node.getListChildByAttribute("params", "name", paramName, False)
 
             if not paramNode:
-                addError(node, "Contains information for a non-existing parameter <code>%s</code>." % paramName, funcItem)
+                addError(node, "Contains information for a non-existing parameter '%s'." % paramName, funcItem)
                 continue
 
             addTypeInfo(paramNode, attrib, funcItem)
@@ -880,7 +880,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
         paramsListNode = node.getChild("params")
         for paramNode in paramsListNode.children:
             if not paramNode.getChild("desc", False):
-                addError(node, "Parameter <code>%s</code> is not documented." % paramNode.get("name"), funcItem)
+                addError(node, "Parameter '%s' is not documented." % paramNode.get("name"), funcItem)
 
     if reportMissingDesc and not node.hasChild("desc"):
         addError(node, "Documentation is missing.", funcItem)
@@ -1027,7 +1027,7 @@ def addTypeInfo(node, commentAttrib=None, item=None):
                 pass
 
         elif node.type == "param":
-            addError(node, "Parameter <code>%s</code> is not documented." % commentAttrib.get("name"), item)
+            addError(node, "Parameter '%s' is not documented." % commentAttrib.get("name"), item)
 
         elif node.type == "return":
             addError(node, "Return value is not documented.", item)
@@ -1759,6 +1759,7 @@ def verifyLinks(docTree, index):
             links.append(linkData)
 
     count = 0
+    classesWithWarnings = []
     for link in links:
         count += 1
         Context.console.progress(count, len(links))
@@ -1766,6 +1767,17 @@ def verifyLinks(docTree, index):
         if result:
             for ref, link in result.iteritems():
                 addError(link["parent"], "Unknown link target: '%s'" % ref)
+
+                if not link["className"] in classesWithWarnings:
+                    parent = link["parent"]
+                    while parent:
+                        if parent.type == "class":
+                            classesWithWarnings.append(link["className"])
+                            parent.set("hasWarning", True)
+                            parent = None
+                            break
+                        if hasattr(parent, "parent"):
+                            parent = parent.parent
 
 
 def checkLink(link, docTree, index):
@@ -1912,10 +1924,26 @@ def verifyTypes(docTree, index):
                     elif docNode.type == "childControl":
                         docNodeType = "Child control '%s'" % docNode.get("name")
 
+                    classesWithWarnings = []
                     for ref in checkLink(linkData, docTree, index):
                         fullName = "%s.%s#%s" % (packageName, className, itemName)
-                        msg = "%s of %s is documented as unknown type '%s'" % (docNodeType, fullName, ref)
-                        addError(docNode.parent, msg, docNode)
+                        #msg = "%s of %s is documented as unknown type '%s'" % (docNodeType, fullName, ref)
+                        msg = "%s: Unknown type '%s'" % (docNodeType, ref)
+                        if (docNode.parent.get("name", False)):
+                            #Add error to method/event/... node, not params node
+                            addError(docNode.parent, msg)
+                        else:
+                            addError(docNode.parent.parent, msg)
+                        if not linkData["className"] in classesWithWarnings:
+                            parent = docNode
+                            while parent:
+                                if parent.type == "class":
+                                    classesWithWarnings.append(linkData["className"])
+                                    parent.set("hasWarning", True)
+                                    parent = None
+                                    break
+                                if hasattr(parent, "parent"):
+                                    parent = parent.parent
 
 
 def logErrors(docTree):
