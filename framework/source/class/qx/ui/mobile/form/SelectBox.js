@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     // This text node is for compatibility reasons, because Firefox can not
     // change appearance of select boxes.
     this._setAttribute("type","text");
-    this._setAttribute("readonly","readonly");
+    this.setReadOnly(true);
 
     // Selection dialog creation.
     this.__selectionDialog = this._createSelectionDialog();
