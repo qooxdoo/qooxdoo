@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       this.addListener("touchstart", this._onTouchStart, this);
       this.addListener("touchmove", this._onTouchMove, this);
       this.addListener("appear", this._refresh, this);
-      
+
       qx.bom.Element.addListener(this._getKnobElement(), "touchstart", this._onTouchStart, this);
       qx.bom.Element.addListener(this._getKnobElement(), "transitionEnd", this._onTransitionEnd, this);
       qx.event.Registration.addListener(window, "resize", this._refresh, this);
@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       this.removeListener("touchstart", this._onTouchStart, this);
       this.removeListener("touchmove", this._onTouchMove, this);
       this.removeListener("appear", this._refresh, this);
-      
+
       qx.bom.Element.removeListener(this._getKnobElement(), "touchstart", this._onTouchStart, this);
       qx.bom.Element.removeListener(this._getKnobElement(), "transitionEnd", this._onTransitionEnd, this);
       qx.event.Registration.removeListener(window, "resize", this._refresh, this);

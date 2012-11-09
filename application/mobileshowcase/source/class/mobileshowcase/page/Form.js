@@ -130,7 +130,7 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__sel.setDialogTitle(selQuestion);
       this.__sel.setModel(dd);
       this.__sel.setSelection(null);
-      
+
       form.add(this.__sel, selQuestion);
 
       form.addGroupHeader("License");

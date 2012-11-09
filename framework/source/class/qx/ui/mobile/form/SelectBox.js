@@ -108,19 +108,19 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       refine :true,
       init : true
     },
-    
-    
+
+
     /**
      * Defines if the selectBox has a clearButton, which resets the selection.
      */
-    nullable : 
+    nullable :
     {
       init : false,
       check : "Boolean",
       apply : "_applyNullable"
     },
-    
-    
+
+
     /**
      * The model to use to render the list.
      */
@@ -182,7 +182,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
       // Hide selectionDialog on tap on blocker.
       menu.setHideOnBlockerClick(true);
-      
+
       return menu;
     },
 
@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     setSelection : function(value) {
       if(this.getModel() && this.getModel().length > value && value > -1){
         this.__selectedIndex = value;
-        
+
         if(value == null){
           this._setAttribute("value", null);
         } else {
@@ -222,8 +222,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
         this.__selectionDialog.setTitle(title);
       }
     },
-    
-    
+
+
     /**
      * Set the ClearButton label of the selection dialog.
      * @param value {String} the value to set on the ClearButton at selection dialog.
@@ -231,8 +231,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     setClearButtonLabel : function(value) {
       this.__selectionDialog.setClearButtonLabel(value);
     },
-    
-    
+
+
     // property apply
     _applyNullable : function(isNullable) {
       // Delegate nullable property.
@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     _render : function() {
       if(this.getModel() && this.getModel().length > 0) {
         var selectedItem = null;
-        
+
         if(this.__selectedIndex == null) {
           if(!this.isNullable()) {
             // Default selected index is 0.
@@ -288,7 +288,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
         } else {
           selectedItem = this.getModel().getItem(this.__selectedIndex);
         }
-        
+
         this._setAttribute("value", selectedItem);
       }
 
