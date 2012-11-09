@@ -521,6 +521,9 @@ qx.Class.define("testrunner.view.Html", {
       var id = "cb_" + testIndex;
       var listItem = q("#" + id).getParents()
       .setAttribute("class", "").addClass("t_" + state);
+      if (state === "success" && !this.getShowPassed()) {
+        listItem.setStyle("display", "none");
+      }
       listItem.getChildren(".result")[0].innerHTML = state.toUpperCase();
 
       // remove any previous stack info
