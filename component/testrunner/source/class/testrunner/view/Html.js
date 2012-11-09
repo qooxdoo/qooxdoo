@@ -564,6 +564,9 @@ qx.Class.define("testrunner.view.Html", {
 
       var listItem = $("[for=cb_" + key + "]").parent()
       .setAttribute("class", "").addClass("t_" + state);
+      if (state === "success" && !this.getShowPassed()) {
+        listItem.setStyle("display", "none");
+      }
       listItem.children(".result")[0].innerHTML = state.toUpperCase();
 
       var exList = this._getExceptionsList(testResultData);
