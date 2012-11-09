@@ -285,7 +285,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @param root {Node} Root node (starting point)
      * @param outputRoot {Boolean} Controls whether the root node is also added to the output
      * @param skipHtmlEncoding {Boolean ? false} whether the html encoding of text nodes should be skipped
-     * @param postProcess {function} optional function to call which is executed with every element processing
+     * @param postProcess {Function} optional function to call which is executed with every element processing
      * @return {String} Content of current node
      */
     __getHtml : function(root, outputRoot, skipHtmlEncoding, postProcess)

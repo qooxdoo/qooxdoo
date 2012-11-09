@@ -219,8 +219,8 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * given actionType to undo/redo the change.
      *
      * @param actionType {String} actionType to react on with undo and redo methods
-     * @param undoHandler {function} undo method
-     * @param redoHandler {function} redo method
+     * @param undoHandler {Function} undo method
+     * @param redoHandler {Function} redo method
      * @param context {Object} In this context the methods are called. When no
      *               context is given the context is the UndoManager itself.
      *
