@@ -27,7 +27,7 @@
  * themes.
  *
  * For more details, take a look at the
- * <a href='http://manual.qooxdoo.org/${qxversion}/pages/gui_toolkit/ui_theming.html' target='_blank'>
+ * <a href='http://manual.qooxdoo.org/${qxversion}/pages/desktop/ui_theming.html' target='_blank'>
  * documentation of the theme system in the qooxdoo manual.</a>
  */
 qx.Bootstrap.define("qx.Theme",
