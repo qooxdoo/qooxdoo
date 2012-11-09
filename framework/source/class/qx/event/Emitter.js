@@ -79,7 +79,11 @@ qx.Bootstrap.define("qx.event.Emitter",
      *
      * @param name {String} The name of the event to listen to.
      * @param listener {Function} The function execute on {@link #emit}.
+<<<<<<< HEAD
      * @param ctx {var?} The context of the listener.
+=======
+     * @param ctx {?var} The context of the listener.
+>>>>>>> 4748125... fixing param type 'function' -> 'Function'
      * @return {Integer|null} The listener's id if it was removed or
      * <code>null</code> if it wasn't found
      */
@@ -115,7 +119,11 @@ qx.Bootstrap.define("qx.event.Emitter",
      * Alternative for {@link #on}.
      * @param name {String} The name of the event to listen to.
      * @param listener {Function} The function execute on {@link #emit}.
+<<<<<<< HEAD
      * @param ctx {var?} The context of the listener.
+=======
+     * @param ctx {?var} The context of the listener.
+>>>>>>> 4748125... fixing param type 'function' -> 'Function'
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
     addListener : function(name, listener, ctx) {
@@ -127,7 +135,11 @@ qx.Bootstrap.define("qx.event.Emitter",
      * Alternative for {@link #once}.
      * @param name {String} The name of the event to listen to.
      * @param listener {Function} The function execute on {@link #emit}.
+<<<<<<< HEAD
      * @param ctx {var?} The context of the listener.
+=======
+     * @param ctx {?var} The context of the listener.
+>>>>>>> 4748125... fixing param type 'function' -> 'Function'
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
     addListenerOnce : function(name, listener, ctx) {
@@ -139,7 +151,11 @@ qx.Bootstrap.define("qx.event.Emitter",
      * Alternative for {@link #off}.
      * @param name {String} The name of the event to listen to.
      * @param listener {Function} The function execute on {@link #emit}.
+<<<<<<< HEAD
      * @param ctx {var?} The context of the listener.
+=======
+     * @param ctx {?var} The context of the listener.
+>>>>>>> 4748125... fixing param type 'function' -> 'Function'
      */
     removeListener : function(name, listener, ctx) {
       this.off(name, listener, ctx);
