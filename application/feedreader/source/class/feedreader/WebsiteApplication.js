@@ -82,7 +82,6 @@ qx.Class.define("feedreader.WebsiteApplication",
         var feed = qx.bom.Event.getTarget(e).feed;
         // if the selected feed is loaded
         if (feed.getState() == "loaded") {
-          list.stop();
           self.fillList(list, feed);
         } else if (feed.getState() == "error") {
           qx.bom.Collection.id("list").setAttribute("html", "Sorry, unable to load the feed.");
