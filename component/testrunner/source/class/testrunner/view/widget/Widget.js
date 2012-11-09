@@ -911,7 +911,8 @@ qx.Class.define("testrunner.view.widget.Widget", {
           break;
         case "ready" :
           this.__stack.setSelection([this.__testTree]);
-          this.setStatus("Test suite ready");
+          this.setStatus("Test suite ready")
+          this.reset();
           this.__progressBar.setValue(0);
           this._setActiveButton(this.__runButton);
           this._applyTestCount(this.getTestCount());
@@ -929,7 +930,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
           if ((this.getAutoReload() && this.__autoReloadActive)
           || this.getAutoRun())
           {
-            this.reset();
             this.fireEvent("runTests");
           }
           break;
@@ -974,6 +974,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
         this.__testTree.setModel(model);
         this.__testTree.openNode(model.getChildren().getItem(0));
         this.__testResultView.clear();
+        //affe
       }
 
     },
