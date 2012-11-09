@@ -939,6 +939,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
         case "ready" :
           this.__stack.setSelection([this.__testTree]);
           this.setStatus("Test suite ready");
+          this.reset();
           this.__progressBar.setValue(0);
           this._setActiveButton(this.__runButton);
           this._applyTestCount(this.getTestCount());
@@ -956,7 +957,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
           if ((this.getAutoReload() && this.__autoReloadActive)
           || this.getAutoRun())
           {
-            this.reset();
             this.fireEvent("runTests");
           }
           break;
