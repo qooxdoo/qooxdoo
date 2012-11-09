@@ -322,7 +322,7 @@ testrunner.define({
     q.create('<h2>Bar</h2><h3>Baz</h3>').insertBefore("#sandbox h1");
     this.assertEquals(2, q("#sandbox h2 + h3 + h1").length);
   },
-  
+
   "test wrap with HTML string" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -330,7 +330,7 @@ testrunner.define({
     test.wrap('<div class="foo"><p class="bar"/></div>');
     this.assertEquals(2, q("#sandbox .foo .bar .baz").length);
   },
-  
+
   "test wrap with element" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -339,7 +339,7 @@ testrunner.define({
     test.wrap(wrapper[0]);
     this.assertEquals(2, q("#sandbox .foo .bar .baz").length);
   },
-  
+
   "test wrap with selector" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -348,7 +348,7 @@ testrunner.define({
     test.wrap('.foo');
     this.assertEquals(2, q('#sandbox .foo .bar .baz').length);
   },
-  
+
   "test wrap with list of elements" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -357,7 +357,7 @@ testrunner.define({
     test.wrap([wrapper[0]]);
     this.assertEquals(2, q('#sandbox .foo .bar .baz').length);
   },
-  
+
   "test wrap with collection" : function()
   {
     var test = q.create('<span class="baz">Inner</span><span class="baz">Inner</span>')
@@ -1017,7 +1017,7 @@ testrunner.define({
       self.resume(function() {
         var val;
         if (typeof window.getComputedStyle == "function") {
-          var compStyle = window.getComputedStyle(q("#sandbox #affe")[0]);
+          var compStyle = window.getComputedStyle(q("#sandbox #affe")[0], null);
           val = compStyle.borderTopWidth;
         }
         else {
@@ -1069,7 +1069,7 @@ testrunner.define({
     this.assertEquals("affe", test.getAttributes(["id", "x"]).id);
     this.assertEquals("y", test.getAttributes(["id", "x"]).x);
     test.removeAttributes(["id", "x"]);
-    
+
     // removed attributes have empty string values in old IEs
     if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 8) {
       this.assertEquals("", test.getAttributes(["id", "x"]).id);
@@ -1114,7 +1114,7 @@ testrunner.define({
     this.assertEquals("affe", q("#sandbox input[type=checkbox]").getValue());
     this.assertEquals("affe", q("#sandbox select").getValue());
     this.assertArrayEquals(["foo", "baz"], q("#multiple").getValue());
-    
+
     q("#sandbox input").setValue("fnord");
     // setting the same value again sets the 'checked' attribute
     q("#sandbox input[type=checkbox]").setValue("affe");
