@@ -1121,7 +1121,7 @@ testrunner.define({
       self.resume(function() {
         var val;
         if (typeof window.getComputedStyle == "function") {
-          var compStyle = window.getComputedStyle(q("#sandbox #affe")[0]);
+          var compStyle = window.getComputedStyle(q("#sandbox #affe")[0], null);
           val = compStyle.borderTopWidth;
         }
         else {
