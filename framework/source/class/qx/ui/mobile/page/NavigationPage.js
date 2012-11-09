@@ -169,8 +169,8 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       check : "Boolean",
       init : false
     },
-    
-    
+
+
     /**
      * Sets the transition duration (in seconds) for the effect when hiding/showing
      * the NavigationBar through boolean property navigationBarHidden.

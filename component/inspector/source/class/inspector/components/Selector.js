@@ -92,7 +92,7 @@ qx.Class.define("inspector.components.Selector",
       if (this.__catchClickLayer != null) {
         this.__updateCatchClickLayer();
         this.__catchClickLayer.show();
-        
+
         // Flush queue before next user interaction occurs.
         qx.ui.core.queue.Manager.flush();
       }
@@ -311,7 +311,7 @@ qx.Class.define("inspector.components.Selector",
           el.style.width = qx.bom.Document.getHeight(win) + "px";
           el.style.height = qx.bom.Document.getWidth(win) + "px";
         }
-        
+
         if (this.__isMobileApp) {
           if(widget instanceof win.qx.ui.mobile.core.Widget) {
             applicationRoot.add(widget);
@@ -352,7 +352,7 @@ qx.Class.define("inspector.components.Selector",
     __onMouseMove : function(e) {
       var xPosition = e.getDocumentLeft();
       var yPosition = e.getDocumentTop();
-      
+
       var object = this.__searchWidgetInAllRoots(xPosition, yPosition);
       this.__highlight(object);
     },
@@ -395,10 +395,10 @@ qx.Class.define("inspector.components.Selector",
     __searchWidget: function(widget, x, y) {
       var returnWidget = widget;
       var excludes = this.__model.getExcludes();
-      
+
       for (var i = 0; i < widget._getChildren().length; i++) {
         var childWidget = widget._getChildren()[i];
-        
+
         try
         {
           var win = this.__applicationWindow;
