@@ -257,7 +257,12 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      */
     __onClearButtonTap : function() {
       this.fireDataEvent("changeSelection", {index: null, item: null});
-      this.hide();
+      
+      // Last event which is fired by tap is a click event,
+      // so hide menu after click event.
+      // If menu is hidden before click-event, event will bubble to ui
+      // element which is behind menu, and might cause an unexpected action.
+      qx.event.Timer.once(this.hide, this, 500);
     },
 
 
