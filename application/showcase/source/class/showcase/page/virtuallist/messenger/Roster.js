@@ -38,7 +38,8 @@ qx.Class.define("showcase.page.virtuallist.messenger.Roster",
       height: 300,
       itemHeight: 28,
       decorator: null,
-      autoGrouping: false
+      autoGrouping: false,
+      padding: 0
     });
     list.setDelegate(this);
     this._add(list, {flex: 1});
