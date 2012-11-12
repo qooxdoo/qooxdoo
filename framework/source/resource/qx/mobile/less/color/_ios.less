@@ -87,6 +87,14 @@ ul {
   border: 1px solid @button-border-color;
 }
 
+li:first-child:not(.formRowGroupFirstItem), li:first-child a {
+  .border-radius-top(.4em);
+}
+
+li:last-child, li:last-child a {
+  .border-radius-bottom(.4em);
+}
+
 ul li {
   color: #666;
   border-top: 1px solid @button-border-color;
