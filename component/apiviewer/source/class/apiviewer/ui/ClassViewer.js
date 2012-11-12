@@ -336,7 +336,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       var className = classNode.getName();
       var sourceUri = this.self(arguments).getSourceUri(classNode);
       if (sourceUri) {
-        className = '<a href="' + sourceUri + '" target="_blank" title="View Source">' + className + '<a/>';
+        className = '<a href="' + sourceUri + '" target="_blank" title="View Source">' + className + '</a>';
       }
 
       titleHtml.add(apiviewer.ui.panels.InfoPanel.setTitleClass(classNode, className));
