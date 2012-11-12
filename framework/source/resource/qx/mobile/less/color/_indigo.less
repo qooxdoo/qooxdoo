@@ -177,6 +177,7 @@ input[type="text"], input[type="password"], input[type="number"], textarea {
 //
 
 ul {
+  .border-radius(.4em);
   border: @border-thickness solid @border-color;
   background-color:white;
 }
@@ -184,6 +185,14 @@ ul {
 ul li {
   color:@font-color-light-background;
   border-top: @border-thickness solid @border-color;
+}
+
+li:first-child:not(.formRowGroupFirstItem), li:first-child a {
+  .border-radius-top(.4em);
+}
+
+li:last-child, li:last-child a {
+  .border-radius-bottom(.4em);
 }
 
 ul li .subtitle {
