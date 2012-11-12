@@ -71,13 +71,9 @@
   top:-4px;
 
   // Rotate arrowhead counter-clockwise 45 deg
-  -webkit-transform: rotate(45deg) translate3d(0.2px, 0, 0);
-  -moz-transform: rotate(45deg) translate3d(0.2px, 0, 0);
-  transform: rotate(45deg) translate3d(0.2px, 0, 0);
+  .transform(rotate(45deg) translate3d(0.2px, 0, 0));
 
-  -webkit-transform-origin: 0;
-  -moz-transform-origin: 0;
-  transform-origin: 0;
+  .transform-origin(0);
 }
 
 // Label of text should be positioned relative, because otherwise the arrowhead is located before text label on z-axis.
