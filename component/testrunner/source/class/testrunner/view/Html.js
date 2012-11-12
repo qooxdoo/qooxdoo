@@ -112,7 +112,7 @@ qx.Class.define("testrunner.view.Html", {
     showPassed :
     {
       check : "Boolean",
-      init : null,
+      init : true,
       nullable : true,
       apply : "_applyShowPassed"
     },
