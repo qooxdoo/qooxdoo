@@ -66,6 +66,7 @@ qx.Class.define("todo.Application",
         qx.bom.Event.addNativeListener(
           checkbox, "change", qx.lang.Function.bind(self.__onChange, self, model)
         );
+
       }, createItem : function(data) {
         // add an automatic id for the label / checkbox connection
         data.id = "task-" + self.__id++;
@@ -86,6 +87,12 @@ qx.Class.define("todo.Application",
 
       // update the clear button at start manually
       this.__updateClearButton(model);
+    },
+
+
+    terminate : function() {
+      this.base(arguments);
+      window.focus();
     },
 
 
