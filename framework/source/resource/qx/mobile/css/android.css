@@ -2220,13 +2220,27 @@ input[type=radio] + label:after {
   color: #000000;
 }
 .selectbox-selected > div > .list-itemlabel:after {
-  border-color: #e89c00;
+  border-color: transparent;
 }
 .selectbox-selected.active > div > .list-itemlabel:after {
-  border-color: black;
+  border-color: transparent;
 }
 .selectbox-selected.active > div > .list-itemlabel {
   color: black;
+}
+.selectbox-selected.active {
+  color: black;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
+  background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
+}
+.selectbox-selected {
+  color: black;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
+  background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
 }
 .item-selected {
   color: black;

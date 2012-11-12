@@ -459,9 +459,17 @@ input[type=radio] + label:after {
 }
 
 .selectbox-selected > div > .list-itemlabel:after {
-  border-color:@dark-blue;
+  border-color:transparent;
 }
 
 .selectbox-selected.active > div > .list-itemlabel:after {
-  border-color:white;
+  border-color:transparent;
+}
+
+.selectbox-selected.active {
+  .clickable-active();
+}
+
+.selectbox-selected {
+  .clickable-active();
 }

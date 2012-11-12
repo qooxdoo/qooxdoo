@@ -361,15 +361,23 @@ input[type=radio] + label:after {
 }
 
 .selectbox-selected > div > .list-itemlabel:after {
-  border-color: @android-orange;
+  border-color: transparent;
 }
 
 .selectbox-selected.active > div > .list-itemlabel:after {
-  border-color:black;
+  border-color: transparent;
 }
 
 .selectbox-selected.active > div > .list-itemlabel {
   color:black;
+}
+
+.selectbox-selected.active {
+  .clickable-active();
+}
+
+.selectbox-selected {
+  .clickable-active();
 }
 
 //

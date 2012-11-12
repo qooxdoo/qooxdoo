@@ -2344,8 +2344,38 @@ input[type=radio] + label:after {
 
 }
 .selectbox-selected > div > .list-itemlabel:after {
-  border-color: #3d72c9;
+  border-color: transparent;
 }
 .selectbox-selected.active > div > .list-itemlabel:after {
-  border-color: white;
+  border-color: transparent;
+}
+.selectbox-selected.active {
+  color: #ffffff;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#7da0db), to(#3d72c9));
+  /* Safari 4+, Chrome 2+ */
+
+  background-image: -webkit-linear-gradient(top, #7da0db, #3d72c9);
+  /* Safari 5.1+, Chrome 10+ */
+
+  background-image: -moz-linear-gradient(top, #7da0db, #3d72c9);
+  /* FF 3.6+ */
+
+  background-image: linear-gradient(to bottom, #7da0db, #3d72c9);
+  /* Standard (in flux) */
+
+}
+.selectbox-selected {
+  color: #ffffff;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#7da0db), to(#3d72c9));
+  /* Safari 4+, Chrome 2+ */
+
+  background-image: -webkit-linear-gradient(top, #7da0db, #3d72c9);
+  /* Safari 5.1+, Chrome 10+ */
+
+  background-image: -moz-linear-gradient(top, #7da0db, #3d72c9);
+  /* FF 3.6+ */
+
+  background-image: linear-gradient(to bottom, #7da0db, #3d72c9);
+  /* Standard (in flux) */
+
 }
