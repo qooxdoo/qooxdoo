@@ -20,6 +20,7 @@
 #content h3:hover a.headerlink,
 #content h4:hover a.headerlink {
   display: inline;
+  line-height: 22px;
 }
 
 #content .note {
