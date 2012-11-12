@@ -36,7 +36,7 @@ qx.Class.define("fce.view.List", {
 
     this._setUpDragDrop();
 
-    this.addListener("keypress", function(ev) {
+    this.addListener("keyup", function(ev) {
       if (ev.getKeyIdentifier() === "Delete") {
         this.removeSelected();
       }
