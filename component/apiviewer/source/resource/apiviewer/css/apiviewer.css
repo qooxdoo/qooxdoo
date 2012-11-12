@@ -519,7 +519,8 @@ div.ClassViewer {
   font-style: italic;
 }
 
-.ClassViewer span.item-deprecated{
+.ClassViewer span.item-deprecated,
+.ClassViewer span.item-deprecated *{
 	text-decoration: line-through;
 	color: #7193b9;
 }
