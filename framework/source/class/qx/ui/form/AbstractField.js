@@ -42,7 +42,11 @@ qx.Class.define("qx.ui.form.AbstractField",
   statics : {
     __stylesheet : null,
 
-    __addPlaceholderRules : function(update) {
+
+    /**
+     * Adds the CSS rules needed to style the native placeholder element.
+     */
+    __addPlaceholderRules : function() {
       if (this.__stylesheet) {
         return;
       }
