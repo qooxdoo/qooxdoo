@@ -106,8 +106,10 @@ qx.Class.define("playground.view.Editor",
           qx.core.Environment.get("browser.documentmode") <= 8;
       }
 
+      var opera = qx.core.Environment.get("engine.name") == "opera";
+
       // FF2 does not have that...
-      if (!document.createElement("div").getBoundingClientRect || badIE || !window.ace) {
+      if (!document.createElement("div").getBoundingClientRect || badIE || opera || !window.ace) {
         this.fireEvent("disableHighlighting");
         highlightDisabled = true;
       } else {
