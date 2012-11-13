@@ -132,6 +132,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     createItemLinkHtml : function(linkText, packageBaseClass, useIcon, useShortName)
     {
+      var classNode = null;
       if (useIcon == null) {
         useIcon = true;
       }
@@ -169,15 +170,19 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           }
           else if (packageBaseClass && className.indexOf(".") == -1)
           {
-            // The class name has no package -> Use the same package as the current class
-            var name = packageBaseClass.getName();
-            if (packageBaseClass instanceof apiviewer.dao.Package) {
-              var packageName = packageBaseClass.getFullName();
-            } else {
-              var fullName = packageBaseClass.getFullName();
-              var packageName = fullName.substring(0, fullName.length - name.length - 1);
+            classNode = apiviewer.dao.Class.getClassByName(className);
+            if (!classNode || classNode.getPackage().getName() !== "") {
+              // The class name has no package -> Use the same package as the current class
+              var name = packageBaseClass.getName();
+              var packageName;
+              if (packageBaseClass instanceof apiviewer.dao.Package) {
+                packageName = packageBaseClass.getFullName();
+              } else {
+                var fullName = packageBaseClass.getFullName();
+                packageName = fullName.substring(0, fullName.length - name.length - 1);
+              }
+              className = packageName + "." + className;
             }
-            className = packageName + "." + className;
           }
 
           // Get the node info
@@ -190,7 +195,9 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           // Add the right icon
           if (useIcon)
           {
-            var classNode = apiviewer.dao.Class.getClassByName(className);
+            if (!classNode) {
+              classNode = apiviewer.dao.Class.getClassByName(className);
+            }
 
             if (classNode)
             {
