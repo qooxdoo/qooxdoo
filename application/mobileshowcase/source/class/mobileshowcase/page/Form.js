@@ -199,6 +199,8 @@ qx.Class.define("mobileshowcase.page.Form",
         result.push("Username: " +  this.__name.getValue());
         result.push("Password: " +  this.__password.getValue());
         result.push("Age: " +  this.__numberField.getValue());
+        result.push("Male: " +  this.__radio1.getValue());
+        result.push("Female: " +  this.__radio2.getValue());
         result.push("Agree on our terms: " +  this.__save.getValue());
         result.push("How did you hear about us : " +  this.__sel.getValue());
         result.push("Are you human? : " +  this.__slide.getValue() +"%");
