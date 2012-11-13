@@ -158,9 +158,6 @@ qx.Bootstrap = {
  * Internal class that is responsible for bootstrapping the qooxdoo
  * framework at load time.
  *
- * Automatically loads JavaScript language fixes and enhancements to
- * bring all engines to at least JavaScript 1.6.
- *
  * Does support:
  *
  * * Construct
