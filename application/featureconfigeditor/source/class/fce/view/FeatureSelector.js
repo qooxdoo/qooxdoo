@@ -116,6 +116,8 @@ qx.Class.define("fce.view.FeatureSelector", {
       var control;
       switch(id) {
         case "table":
+          fce.view.Table.DEFAULT_COLUMNS_PRE = ["name", "detected"];
+          fce.view.Table.DEFAULT_COLUMNS_POST = ["distinctValues"];
           control = new fce.view.Table();
           control.setMinWidth(330);
           this.bind("filter", control, "filter");
