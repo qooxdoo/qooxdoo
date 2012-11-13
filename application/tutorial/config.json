@@ -88,7 +88,7 @@
       "add-css" :
       [
         {
-          "uri" : "resource/qx/mobile/css/ios.css"
+          "uri" : "resource/qx/mobile/css/indigo.css"
         }
       ]
     },
@@ -106,7 +106,7 @@
       "add-css" :
       [
         {
-          "uri" : "../../../framework/source/resource/qx/mobile/css/ios.css"
+          "uri" : "../../../framework/source/resource/qx/mobile/css/indigo.css"
         }
       ]
     },
@@ -117,7 +117,7 @@
       "add-css" :
       [
         {
-          "uri" : "../../../framework/source/resource/qx/mobile/css/ios.css"
+          "uri" : "../../../framework/source/resource/qx/mobile/css/indigo.css"
         }
       ]
     },

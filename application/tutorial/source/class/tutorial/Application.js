@@ -34,7 +34,20 @@ qx.Class.define("tutorial.Application",
   statics : {
     mobileSupported : function() {
       var engine = qx.core.Environment.get("engine.name");
-      return (engine == "webkit" || engine == "gecko");
+
+      // all webkits are ok
+      if (engine == "webkit") {
+        return true;
+      }
+      // ie > 10 is ok
+      if (engine == "mshtml" && parseInt(qx.core.Environment.get("browser.documentmode")) >= 10) {
+        return true;
+      }
+      // ff > 10 is ok
+      if (engine == "gecko" && parseInt(qx.core.Environment.get("engine.version")) >= 10) {
+        return true;
+      }
+      return false;
     }
   },
 
