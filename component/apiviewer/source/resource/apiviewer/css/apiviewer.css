@@ -402,7 +402,7 @@ div.ClassViewer {
 }
 
 .ClassViewer table.info td.icon{
-  text-align: center;
+  text-align: left;
   width: 24px;
 }
 
