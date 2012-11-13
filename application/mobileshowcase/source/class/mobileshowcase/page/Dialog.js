@@ -48,9 +48,9 @@ qx.Class.define("mobileshowcase.page.Dialog",
     __busypopup : null,
 
     __menu : null,
-    
+
     __picker : null,
-    
+
     __anchoredMenu : null,
     __anchorMenu : null,
 
@@ -94,14 +94,14 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var menuModel = new qx.data.Array(["Action 1", "Action 2", "Action 3"]);
       this.__menu = new qx.ui.mobile.dialog.Menu(menuModel);
       this.__menu.setTitle("Menu");
-      
+
       // PICKER DIALOG
       var showPickerButton = new qx.ui.mobile.form.Button("Show Picker");
       showPickerButton.addListener("tap", function(e) {
           this._stop();
           this.__picker.show();
       }, this);
-      
+
       var pickerSlot1 = new qx.data.Array(["qx.Desktop", "qx.Mobile", "qx.Website","qx.Server"]);
       var pickerSlot2 = new qx.data.Array(["1.8", "2.0", "2.0.1", "2.0.2", "2.1","2.2"]);
 
@@ -111,7 +111,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__picker.addSlot(pickerSlot2);
       this.__picker.setSelectedIndex(0, 1);
       this.__picker.setSelectedIndex(1, 4);
-      
+
       // ANCHORED MENU DIALOG
       var showAnchorMenuButton = new qx.ui.mobile.form.Button("Show Anchor Menu");
       showAnchorMenuButton.addListener("tap", function(e) {
@@ -146,7 +146,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
           this._stop();
           this.__menu.show();
       }, this);
-      
+
       this.getContent().add(new qx.ui.mobile.form.Title("Dialog Widget Menu"));
       this.getContent().add(showModalDialogButton);
       this.getContent().add(showPopupButton);
@@ -155,7 +155,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.getContent().add(showAnchorMenuButton);
       this.getContent().add(busyIndicatorButton);
       this.getContent().add(showPickerButton);
-      
+
     },
 
 

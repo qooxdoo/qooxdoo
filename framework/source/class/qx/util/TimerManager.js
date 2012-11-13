@@ -162,10 +162,6 @@ qx.Class.define("qx.util.TimerManager",
      *
      * @param timerId {Integer}
      *   A timer id previously returned by start()
-     *
-     * @return {Boolean}
-     *   <i>true</i> if the specified timer id was found (and removed);
-     *   <i>false</i> if no such timer was found (i.e. it had already expired)
      */
     stop : function(timerId)
     {

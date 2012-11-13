@@ -23,6 +23,10 @@
 #ignore(qx.test.ui.tree.virtual.Node)
 
 ************************************************************************ */
+/**
+ * @ignore(qx.test.ui.tree.virtual.Leaf)
+ * @ignore(qx.test.ui.tree.virtual.Node)
+ */
 
 qx.Class.define("qx.test.ui.tree.virtual.Tree",
 {
@@ -107,7 +111,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     {
       var root = this.createModelAndSetModel(2);
 
-      var expected = this.__getVisibleItemsFrom(root, [root]);
+      var expected = this.getVisibleItemsFrom(root, [root]);
       qx.lang.Array.insertAt(expected, root, 0);
 
       this.__testBuildLookupTable(expected);
@@ -125,7 +129,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       ];
       this.__openNodes(nodesToOpen);
 
-      var expected = this.__getVisibleItemsFrom(root, nodesToOpen);
+      var expected = this.getVisibleItemsFrom(root, nodesToOpen);
       qx.lang.Array.insertAt(expected, root, 0);
 
       this.__testBuildLookupTable(expected);
@@ -146,7 +150,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       this.tree.closeNode(nodesToOpen[nodesToOpen.length - 1]);
       nodesToOpen.pop();
 
-      var expected = this.__getVisibleItemsFrom(root, nodesToOpen);
+      var expected = this.getVisibleItemsFrom(root, nodesToOpen);
       qx.lang.Array.insertAt(expected, root, 0);
 
       this.__testBuildLookupTable(expected);
@@ -185,7 +189,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       this._createNodes(newBranch, 2);
       root.getChildren().getItem(2).getChildren().push(newBranch);
 
-      var expected = this.__getVisibleItemsFrom(root, nodesToOpen);
+      var expected = this.getVisibleItemsFrom(root, nodesToOpen);
       qx.lang.Array.insertAt(expected, root, 0);
 
       this.__testBuildLookupTable(expected);
@@ -198,7 +202,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
 
       this.tree.setHideRoot(true);
 
-      var expected = this.__getVisibleItemsFrom(root, [root]);
+      var expected = this.getVisibleItemsFrom(root, [root]);
       this.__testBuildLookupTable(expected);
     },
 
@@ -215,7 +219,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
 
       this.tree.setShowLeafs(false);
 
-      var allVisibleItems = this.__getVisibleItemsFrom(root, nodesToOpen);
+      var allVisibleItems = this.getVisibleItemsFrom(root, nodesToOpen);
       qx.lang.Array.insertAt(allVisibleItems, root, 0);
 
       var expected = [];
@@ -511,33 +515,35 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      HELPER METHOD TO CALCULATE THE VISIBLE ITEMS
-    ---------------------------------------------------------------------------
-    */
-
-
-    __getVisibleItemsFrom : function(parent, openNodes)
+    testFilter : function()
     {
-      var expected = [];
+      var filterNode = "Node 2";
+      var root = this.model = this.createModel(1);
 
-      if (parent.getChildren() != null)
-      {
-        for (var i = 0; i < parent.getChildren().getLength(); i++)
-        {
-          var child = parent.getChildren().getItem(i);
-          expected.push(child);
+      this.tree.setLabelPath("name");
+      this.tree.setChildProperty("children");
 
-          if (openNodes.indexOf(child) > -1)
-          {
-            var otherExpected = this.__getVisibleItemsFrom(child, openNodes);
-            expected = expected.concat(otherExpected);
-          }
+      var delegate = {
+        filter : function(child) {
+          return child.getName() == filterNode ? false : true;
         }
       }
 
-      return expected;
+      this.tree.setDelegate(delegate);
+      this.tree.setModel(root);
+      this.flush();
+
+      // Get array of child elements of root expect the filtered one
+      var expected = this.getVisibleItemsFrom(root, [root]);
+      for (var i=0; i < expected.length; i++) {
+        if (expected[i].getName() == filterNode){
+          expected.splice(i, 1);
+        }
+      };
+
+      qx.lang.Array.insertAt(expected, root, 0);
+
+      this.assertArrayEquals(expected, this.tree.getLookupTable().toArray());
     },
 
 

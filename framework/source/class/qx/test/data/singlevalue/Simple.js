@@ -26,6 +26,11 @@
 
 /**
  * Test-Class for testing the single value binding
+ *
+ * @ignore(qx.test.SVB)
+ * @ignore(qx.test.TwoProperties)
+ * @ignore(qx.Target)
+ * @ignore(qx.Test)
  */
 qx.Class.define("qx.test.data.singlevalue.Simple",
 {

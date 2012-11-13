@@ -179,8 +179,8 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     {
       this._setAttribute("src", source);
     },
-    
-    
+
+
     /**
      * Sets the attribute draggable to the given value "isDraggable".
      * @param isDraggable {Boolean} target value.

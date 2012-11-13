@@ -1,0 +1,35 @@
+{
+  "info" :
+  {
+    "name" : "Tutorials",
+
+    "summary" : "A tutorial for application for learning",
+    "description" : "This application offers a set of tutorials including live coding.",
+
+    "keywords" : [],
+    "homepage" : "http://demo.qooxdoo.org/current/tutorials",
+
+    "license" : "LGPL/EPL",
+    "authors" :
+    [
+      {
+        "name" : "Martin Wittemann (martinwittemann)",
+        "email" : "martin DOT wittemann AT 1und1 DOT de"
+      }
+    ],
+
+    "version" : "trunk",
+    "qooxdoo-versions": ["trunk"]
+  },
+
+  "provides" :
+  {
+    "namespace"   : "tutorial",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "application"
+  }
+}
+

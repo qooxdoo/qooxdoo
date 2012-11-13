@@ -317,8 +317,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
 
 
     /**
-     * TODO: still uses string-based class spec!!
-     *
      * @param node {String} a class or test name
      * @return {var | Array} TODOC
      */
@@ -396,7 +394,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
      * @param node {Node} TODOC
      * @return {var} TODOC
      * @lint ignoreUnused(tests)
-     * @lint ignoreUndefined(classloop) TODO: Workaround for bug #2221
+     * @lint ignoreUndefined(classloop) Workaround for bug #2221
      */
     classFromTest : function(node)
     {

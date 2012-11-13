@@ -1,0 +1,66 @@
+<div id="step1">
+  <p>
+    Single Value Binding is the basic concept behind all of qooxdoo's data binding mechanisms. But it is also a very useful helper during the development. In this tutorial, we connect a slider value to the text state of the button.
+  </p>
+  <h3>Basic UI</h3>
+  <p>
+    The first step is to setup the basic UI. Therefore, we need a slider and a button next to each other. First, we create a slider with a width of 100 pixel and a range between 0 and 8.
+  </p>
+  <pre>var slider = new qx.ui.form.Slider();
+slider.setWidth(100);
+slider.setMinimum(0);
+slider.setMaximum(8);
+this.getRoot().add(slider, {left: 10, top: 15});</pre>
+  <p>
+    As you can see, we also add the slider to the root widget so running this code will already show the slider. But the button is still missing. Creating a button is also easy.
+  </p>
+  <pre>var button = new qx.ui.form.Button("x pieces");
+this.getRoot().add(button, {left: 120, top: 10});</pre>
+  <p>
+    The text of the button should show how many pieces we have selected with the slider. As we did not set up the binding, a change of the slider does not change the buttons text.
+  </p>
+  <script type="text/javascript" charset="utf-8">var slider = new qx.ui.form.Slider();
+slider.setWidth(100);
+slider.setMinimum(0);
+slider.setMaximum(8);
+this.getRoot().add(slider, {left: 10, top: 15});
+
+var button = new qx.ui.form.Button("x pieces");
+this.getRoot().add(button, {left: 120, top: 10});</script>
+</div>
+<div id="step2">
+  <h3>Binding</h3>
+  <p>
+    After setting up the UI, we have two tasks left. First, we need to update the button's text as soon as we move the slider. For this we can use data binding. But we nee to know two things. Single Value Binding connects two properties of qooxdoo objects, no matter what objects. In our case, we want to connect the value property of the slider to the label property of the button.
+  </p>
+  <pre>slider.bind("value", button, "label");</pre>
+  <p>
+    Adding this line to the bottom of the code will connect the two properties. Give it a try and run the sample. You will see that the button label changes right away to the value the slider currently has. Move the slider to see the label change.
+  </p>
+  <h3>Converters</h3>
+  <p>
+    But that is not what we planed. We wanted to have a text like "x pieces" in the button. So we need a converter which will convert the value of the slider (which is a number) to the text we want to show. The converter can be added as a additional argument to the bind function.
+  </p>
+  <pre>slider.bind("value", button, "label", {
+  converter: function(data) {
+    return data + " pieces";
+  }
+});</pre>
+  <p>
+    Replace the bind call we added with this one. The converter will add the missing text. These converters are really powerful because you can decide, based on the source's value, what to set on the target.
+  </p>
+  <script type="text/javascript" charset="utf-8">var slider = new qx.ui.form.Slider();
+slider.setWidth(100);
+slider.setMinimum(0);
+slider.setMaximum(8);
+this.getRoot().add(slider, {left: 10, top: 15});
+
+var button = new qx.ui.form.Button("x pieces");
+this.getRoot().add(button, {left: 120, top: 10});
+
+slider.bind("value", button, "label", {
+  converter: function(data) {
+    return data + " pieces";
+  }
+});</script>
+</div>

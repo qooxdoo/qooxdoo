@@ -91,7 +91,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
     _animate : function(el, desc, duration, reverse) {
       // stop if an animation is already running
       if (el.$$animation) {
-        return;
+        return null;
       }
 
       desc = qx.lang.Object.clone(desc, true);
@@ -315,6 +315,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       // stop the interval
       window.clearInterval(handle.animationId);
       handle.animationId = null;
+
+      return handle;
     },
 
 
@@ -336,7 +338,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
 
       // check if animation is already stopped
       if (el == undefined) {
-        return;
+        return handle;
       }
 
       // if we should keep a frame
@@ -356,6 +358,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       handle.animationId = null;
 
       handle.emit("end", el);
+
+      return handle;
     },
 
 

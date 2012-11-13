@@ -23,6 +23,7 @@
 
 /**
  * @tag test
+ * @ignore(demobrowser.demo.test.Person)
  */
 qx.Class.define("demobrowser.demo.test.Validation",
 {

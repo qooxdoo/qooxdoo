@@ -51,7 +51,7 @@ def findQxDefineR(rootNode):
 ##
 # Checks if the given node is a qx.*.define function invocation
 
-DefiningClasses = "q qx.Bootstrap qx.Class qx.Interface qx.Mixin qx.List qx.Theme".split()
+DefiningClasses = "q qxWeb qx.Bootstrap qx.Class qx.Interface qx.Mixin qx.List qx.Theme".split()
 
 def isQxDefine(node):
     if node.type == "variable":
@@ -486,7 +486,7 @@ def compileString(jsString, uniqueId=""):
     """
     Compile a string containing a JavaScript fragment into a syntax tree.
     """
-    return treegenerator.createFileTree(tokenizer.parseStream(jsString, uniqueId)).getFirstChild()
+    return treegenerator.createFileTree(tokenizer.Tokenizer().parseStream(jsString, uniqueId)).getFirstChild()
 
 
 def variableOrArrayNodeToArray(node):

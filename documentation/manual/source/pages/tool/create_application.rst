@@ -4,11 +4,11 @@
 Create Application
 ******************
 
-There is a command-line tool from the *tool/bin* directory named ``create-application.py`` that helps you start a new application or library. It basically creates a folder structure with some essential files filled in. This basic setup already comprises a minimal working application which you can build and run, with no changes. But of course the intention is that you then go ahead and change the files' contents, particularly the %{JS} source files, add new classes, and evolve this skeleton into your desired application.
+There is a command-line tool named ``create-application.py``, available from both the SDK root and *tool/bin* directories, that helps you start a new application or library. It basically creates a folder structure with some essential files and values filled in. This basic setup already comprises a minimal working application which you can build and run, with no changes. But of course the intention is that you then go ahead and change the files' contents, particularly the %{JS} source files, add new classes, and evolve this skeleton into your desired application.
 
 The same file structure is suitable to hold a library, i.e. a set of classes that you want to reuse in several applications. You can even have libraries that only hold images or other static resources, like CSS files.
 
-You start it at the command prompt. The minimal set of options you have to provide is an output folder name (*-n*), and optionally an application type (*-t*). Other options let you select an output directory, a different application namespace, or a log file.
+You start it at the command prompt. The minimal set of options you have to provide is an application name (*-n*), and optionally an application type (*-t*). Other options let you select e.g. an output directory, a different application namespace, or a log file.
 
 Here is a simple example:
 

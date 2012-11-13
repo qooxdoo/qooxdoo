@@ -506,8 +506,10 @@ class ApiLoader(object):
                     itemName = link["className"]
                 elif link["className"] == link["itemName"]:
                     itemName = link["itemName"]
-                else:
+                elif link["className"]:
                     itemName = link["className"] + "#" + link["itemName"]
+                else:
+                    itemName = link["itemName"]
                 
                 param = ""
                 if link["paramName"]:

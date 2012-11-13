@@ -336,9 +336,9 @@ class Node(object):
 
 
     def isComplex(self):
-        isComplex = self.get("isComplex", '')
+        isComplex = self.get("isComplex", ())
 
-        if isComplex != '':
+        if isComplex != ():
             return isComplex
         else:
             isComplex = False
@@ -661,11 +661,12 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encodin
     hasText = False
 
     # comments
-    if hasattr(node, 'comments') and node.comments:
-        cmtStrings = []
-        for comment in node.comments:
-            cmtStrings.append(nodeToXmlString(comment, prefix, childPrefix, newLine, encoding))
-        asString += u''.join(cmtStrings)
+    for attr in ('comments', 'commentsAfter'):
+        if hasattr(node, attr) and getattr(node, attr):
+            cmtStrings = []
+            for comment in getattr(node, attr):
+                cmtStrings.append(nodeToXmlString(comment, prefix, childPrefix, newLine, encoding))
+            asString += u''.join(cmtStrings)
 
     # own str repr
     asString += prefix + "<" + node.type
@@ -698,11 +699,11 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encodin
 
 
 def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
-    asString = prefix + '{type:"' + escapeJsonChars(node.type) + '"'
+    asString = prefix + '{"type":"' + escapeJsonChars(node.type) + '"'
 
     #if node.hasAttributes():
     if True:
-        asString += ',attributes:{'
+        asString += ',"attributes":{'
         firstAttribute = True
         for key in node.attributes:
             if not firstAttribute:
@@ -712,13 +713,11 @@ def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
         asString += '}'
 
     if node.hasChildren():
-        asString += ',children:[' + newLine
+        asString += ',"children":[' + newLine
 
-        firstChild = True
         prefix = prefix + childPrefix
         for child in node.children:
             asString += nodeToJsonString(child, prefix, childPrefix, newLine) + ',' + newLine
-            firstChild = False
 
         # NOTE We remove the ',\n' of the last child
         if newLine == "":

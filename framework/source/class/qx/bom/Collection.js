@@ -182,6 +182,8 @@
    * <pre class="javascript">
    * qx.bom.Collection.query("#Thing").remove().appendTo(".OneOrMore");
    * </pre>
+   *
+   * @deprecated {2.1} Please use qxWeb instead.
    */
   qx.Class.define("qx.bom.Collection",
   {
@@ -209,6 +211,11 @@
    *        OR an argument list of elements.
    */
   construct : function(length_or_items) {
+
+    qx.log.Logger.deprecatedClassWarning(this.constructor,
+      "Please use qxWeb instead."
+    );
+
     qx.type.BaseArray.apply(this,arguments);
   },
 
@@ -1726,17 +1733,6 @@
       wrap : function(content)
       {
         var helper = new qx.bom.Collection(1);
-
-        /*
-        // TODO: The current implementation of forEach() breaks in IE7
-
-        return this.forEach(function(elem)
-        {
-          qx.log.Logger.debug("forEach " + elem);
-          helper[0] = elem;
-          helper.wrapAll(content);
-        });
-        */
 
         for (var i=0, l=this.length; i<l; i++)
         {

@@ -98,7 +98,7 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
     getKeyIdentifier : function()
     {
       if (this.type == "keypress" &&
-      (q.env.get("engine.name") != "gecko" || this.charCode !== 0))
+      (qxWeb.env.get("engine.name") != "gecko" || this.charCode !== 0))
       {
         return qx.event.util.Keyboard.charCodeToIdentifier(this.charCode || this.keyCode);
       }
@@ -141,7 +141,7 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
       if (element.type === "text" || element.type === "password" || element.type === "textarea")
       {
         if (!element.__inputFix) {
-          element.__inputFix = q(element).on("keyup", qx.module.event.Keyboard._inputFix);
+          element.__inputFix = qxWeb(element).on("keyup", qx.module.event.Keyboard._inputFix);
         }
       }
     },
@@ -152,8 +152,8 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
      * @param element {Element} target element
      */
     unregisterInputFix : function(element) {
-      if (element.__inputFix && !q(element).hasListener("input")) {
-        q(element).off("keyup", qx.module.event.Keyboard._inputFix);
+      if (element.__inputFix && !qxWeb(element).hasListener("input")) {
+        qxWeb(element).off("keyup", qx.module.event.Keyboard._inputFix);
         element.__inputFix = null;
       }
     },
@@ -169,7 +169,7 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
         return;
       }
       var target = ev.getTarget();
-      var newValue = q(target).getValue();
+      var newValue = qxWeb(target).getValue();
 
       if (!target.__oldInputValue || target.__oldInputValue !== newValue) {
         target.__oldInputValue = newValue;
@@ -180,11 +180,11 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
   },
 
   defer : function(statics) {
-    q.$registerEventNormalization(qx.module.event.Keyboard.TYPES, statics.normalize);
+    qxWeb.$registerEventNormalization(qx.module.event.Keyboard.TYPES, statics.normalize);
 
-    if (q.env.get("engine.name") === "mshtml" && q.env.get("browser.documentmode") === 9)
+    if (qxWeb.env.get("engine.name") === "mshtml" && qxWeb.env.get("browser.documentmode") === 9)
     {
-      q.$registerEventHook("input", statics.registerInputFix, statics.unregisterInputFix);
+      qxWeb.$registerEventHook("input", statics.registerInputFix, statics.unregisterInputFix);
     }
   }
 });

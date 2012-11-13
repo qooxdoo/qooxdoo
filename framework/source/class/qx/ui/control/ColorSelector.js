@@ -1162,7 +1162,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
       var vColor = e.getTarget().getBackgroundColor();
 
       if (!vColor) {
-        return this.error("Missing backgroundColor value for field: " + e.getTarget());
+        this.error("Missing backgroundColor value for field: " + e.getTarget());
+        return;
       }
 
       var rgb = qx.util.ColorUtil.stringToRgb(vColor);

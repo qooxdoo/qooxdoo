@@ -45,6 +45,7 @@ qx.Bootstrap.define("qx.util.placement.AbstractAxis",
      *   <li><code>align-end</code>The end of the object is aligned with the end of the object</li>
      *   </ul>
      * @return {Integer} The computed start position of the object.
+     * @abstract
      */
     computeStart : function(size, target, offsets, areaSize, position) {
       throw new Error("abstract method call!");

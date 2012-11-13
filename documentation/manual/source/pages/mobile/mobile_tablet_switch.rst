@@ -120,7 +120,7 @@ Used when ``isTablet`` of page manager is ``false``.
 All MasterPages and DetailsPages are added to DetailContainer.
 
 .. image:: mobileLayout1.png
-   :scale: 10%
+   :scale: 50%
    :alt: Mobile Layout
 
 Tablet Landscape Layout
@@ -131,7 +131,7 @@ Used when ``isTablet`` of page manager is ``true`` and orientation is portrait.
 MasterPages are added to ``masterContainer``. DetailPages are added to ``detailContainer``.
 
 .. image:: tabletLayoutLandscape.png
-   :scale: 10%
+   :scale: 50%
    :alt: Tablet Layout in Landscape Mode
 
 Tablet Portrait Layout
@@ -144,7 +144,7 @@ Visibility of this container can be controlled by MasterButton. The caption of t
 of ``PortraitMasterContainer`` are bound to shown MasterPage's title.
 
 .. image:: tabletLayoutPortrait.png
-   :scale: 10%
+   :scale: 50%
    :alt: Tablet Layout in Portrait Mode
 
 Example for a %{Mobile} application with tablet support

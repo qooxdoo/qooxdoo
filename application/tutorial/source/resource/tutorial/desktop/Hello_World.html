@@ -1,0 +1,25 @@
+<div id="step1">
+  <p>Welcome to the first qooxdoo tutorial. As usual, this is a basic Hello World app which features a button and a listener on the button's execution.</p>
+  <h3>Create the Button</h3>
+  <p>Let's get started by creating a simple button. Please copy the following line over to the source code editor on the top right.</p>
+  <pre>var button = new qx.ui.form.Button("Hello...");</pre>
+  <p>Hitting the run button now will not change anything in the application in the lower right corner because we simply created the button but did not add it to our application.</p>
+  <pre>this.getRoot().add(button, {left: 30, top: 20});</pre>
+    Pasting this line right below the first line and hitting run will now shows the first button. As you see in the code, we placed the button relative to the root's top left corner. Try to change it a bit to see how the button can be positioned.
+    <script type="text/javascript" charset="utf-8">var button = new qx.ui.form.Button("Hello...");
+this.getRoot().add(button, {left: 30, top: 20});</script>
+</div>
+<div id="step2">
+  <h3>Reaction</h3>
+  <p>Having a button is a good first step but we wanted to react on clicks as well. For that, qooxdoo offers an event. As a proof of concept, we simple show an alert to confirm that the listener has been executed. But instead of using the <code>click</code> event, we use the <code>execute</code> event, which will also be fired in case the user uses the keyboard instead of the mouse.</p>
+  <pre>button.addListener("execute", function() {
+  alert("... World!");
+});</pre>
+  <p>Copy this code over and run it again. A click on the button shows the alert message. <br><strong>Congratulations!</strong> You have build your first Application using qooxdoo.</p>
+  <script type="text/javascript" charset="utf-8">var button = new qx.ui.form.Button("Hello...");
+this.getRoot().add(button, {left: 30, top: 20});
+
+button.addListener("execute", function() {
+  alert("... World!");
+});</script>
+</div>

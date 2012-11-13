@@ -161,14 +161,28 @@ The following example shows how errors can be handled:
 
 The following ``origin``'s are defined:
 
-====================================  ======================================================================================================================================================================
- Constant                              Meaning
-====================================  ======================================================================================================================================================================
- qx.io.remote.Rpc.origin.server        The error occurred on the server (e.g. when a non-existing method is called).
- qx.io.remote.Rpc.origin.application  The error occurred inside the server application (i.e. during a method call in non-qooxdoo code).
- qx.io.remote.Rpc.origin.transport     The error occurred in the communication layer (e.g. when the Rpc instance was constructed with an URL where no backend is deployed, resulting in an HTTP 404 error).
- qx.io.remote.Rpc.origin.local         The error occurred locally (when the call timed out or when it was aborted).
-====================================  ======================================================================================================================================================================
+.. list-table::
+   :header-rows: 1
+
+   * - Constant
+     - Meaning
+
+   * - qx.io.remote.Rpc.origin.server
+     - The error occurred on the server 
+       
+       * e.g. when a non-existing method is called
+   * - qx.io.remote.Rpc.origin.application
+     - The error occurred inside the server application 
+
+       * i.e. during a method call in non-qooxdoo code
+   * - qx.io.remote.Rpc.origin.transport
+     - The error occurred in the communication layer 
+
+       * e.g. when the Rpc instance was constructed with an URL where no backend is deployed, resulting in an HTTP 404 error
+   * - qx.io.remote.Rpc.origin.local
+     - The error occurred locally 
+     
+       * when the call timed out or when it was aborted
 
 The ``code`` depends on the origin. For the server and application origins, the possible codes are defined by the backend implementation. For transport errors, it's the HTTP status code. For local errors, the following codes are defined:
 

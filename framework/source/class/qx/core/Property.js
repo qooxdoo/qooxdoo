@@ -356,6 +356,7 @@ qx.Bootstrap.define("qx.core.Property",
      * Assemble the refresher code and return the generated function
      *
      * @param inheritables {String[]} list of inheritable properties
+     * @return {Function} refresher function
      */
     __createRefresher : function(inheritables)
     {

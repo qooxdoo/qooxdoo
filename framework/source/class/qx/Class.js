@@ -73,6 +73,9 @@
  *   }
  * }
  * </pre>
+ *
+ * By using <code>qx.Class</code> within an app, the native JS data types are
+ * conveniently polyfilled according to {@link qx.lang.normalize}.
  */
 qx.Bootstrap.define("qx.Class",
 {
@@ -409,8 +412,6 @@ qx.Bootstrap.define("qx.Class",
      * Returns the definition of the given property. Returns null
      * if the property does not exist.
      *
-     * TODO: Correctly support refined properties?
-     *
      * @signature function(clazz, name)
      * @param clazz {Class} class to check
      * @param name {String} name of the class to check for
@@ -677,6 +678,7 @@ qx.Bootstrap.define("qx.Class",
      * Helper method to handle singletons
      *
      * @internal
+     * @return {Object} The singleton instance
      */
     getInstance : function()
     {
@@ -1407,6 +1409,7 @@ qx.Bootstrap.define("qx.Class",
      * constructor.
      *
      * @param clazz {Class} The class to wrap
+     * @return {Class} The wrapped class
      */
     __retrospectWrapConstruct : function(clazz)
     {
@@ -1615,6 +1618,7 @@ qx.Bootstrap.define("qx.Class",
      * @param construct {Function} the original constructor
      * @param name {String} name of the class
      * @param type {String} the user specified class type
+     * @return {Function} The wrapped constructor
      */
     __wrapConstructor : function(construct, name, type)
     {

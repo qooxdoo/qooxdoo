@@ -1,7 +1,7 @@
 //
 // COLORS
 //
-
+ 
 @dark-blue : #3D72C9;
 @light-blue: lighten(#5583D0,10%);
 @blue: #5583D0;
@@ -9,7 +9,7 @@
 @dark-grey : #888888;
 @light-grey: #F4F4F4;
 
-@shadow-color:black;
+@shadow-color:black; 
 
 //
 // THEME SPECIFIC VARIABLES
@@ -177,6 +177,7 @@ input[type="text"], input[type="password"], input[type="number"], textarea {
 //
 
 ul {
+  .border-radius(.4em);
   border: @border-thickness solid @border-color;
   background-color:white;
 }
@@ -184,6 +185,14 @@ ul {
 ul li {
   color:@font-color-light-background;
   border-top: @border-thickness solid @border-color;
+}
+
+li:first-child:not(.formRowGroupFirstItem), li:first-child a {
+  .border-radius-top(.4em);
+}
+
+li:last-child, li:last-child a {
+  .border-radius-bottom(.4em);
 }
 
 ul li .subtitle {
@@ -390,10 +399,7 @@ ul li.active {
   @tab-stop-2: @blue;
   @tab-stop-3: @dark-blue;
   
-  background: -moz-linear-gradient(top,  @tab-stop-1 2%, @tab-stop-2 4%, @tab-stop-2 49%, @tab-stop-3 53%, @tab-stop-3 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,@tab-stop-1), color-stop(4%,@tab-stop-2), color-stop(49%,@tab-stop-2), color-stop(53%,@tab-stop-3), color-stop(100%,@tab-stop-3));
-  background: -webkit-linear-gradient(top,  @tab-stop-1 2%,@tab-stop-2 4%,@tab-stop-2 49%,@tab-stop-3 53%,@tab-stop-3 100%);
-  background: linear-gradient(top,  @tab-stop-1 2%,@tab-stop-2 4%,@tab-stop-2 49%,@tab-stop-3 53%,@tab-stop-3 100%);
+  #gradient > .vertical-five(@tab-stop-1, @tab-stop-2, @tab-stop-2, @tab-stop-3, @tab-stop-3, 4%, 49%, 53%);
 }
 
 //
@@ -701,8 +707,8 @@ input[type=radio] + label:after {
 
 // Selected Area Overlay
 .picker-container:before {
-  top:32px;
-  height:15px;
+  top: 32px;
+  height: 15px; 
 
   background-color:lighten(@dark-blue,15%);
   

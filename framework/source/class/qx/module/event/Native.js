@@ -116,6 +116,6 @@ qx.Bootstrap.define("qx.module.event.Native", {
   },
 
   defer : function(statics) {
-    q.$registerEventNormalization(statics.TYPES, statics.normalize);
+    qxWeb.$registerEventNormalization(statics.TYPES, statics.normalize);
   }
 });

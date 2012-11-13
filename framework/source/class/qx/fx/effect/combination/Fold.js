@@ -225,6 +225,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 
     /**
      * Retrieves style properties from element.
+     * @return {Map} Map of styles
      * @deprecated {2.0} Please use qx.bom.element.Animation instead.
      */
     _getStyle : function()

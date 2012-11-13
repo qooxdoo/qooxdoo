@@ -76,24 +76,30 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     this.__modelToSlotMap = {};
     this.__slotElements = [];
     this.__selectedIndexBySlot = [];
-    
+
     this.__pickerModel = new qx.data.Array();
 
     this.__pickerContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+
+    // Set PickerContainer anonymous on IE, because of pointer-events, which should be ignored.
+    if(qx.core.Environment.get("engine.name") == "mshtml") {
+      this.__pickerContainer.setAnonymous(true);
+    }
+
     this.__pickerContainer.addCssClass("picker-container");
 
     this.__pickerContent = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
 
     this.__pickerConfirmButton = new qx.ui.mobile.form.Button("Choose");
     this.__pickerConfirmButton.addListener("tap", this.confirm, this);
-    
+
     this.__pickerCancelButton = new qx.ui.mobile.form.Button("Cancel");
     this.__pickerCancelButton.addListener("tap", this.hide, this);
-    
+
     var buttonContainer = this.__pickerButtonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
     buttonContainer.add(this.__pickerConfirmButton,{flex:1});
     buttonContainer.add(this.__pickerCancelButton,{flex:1});
-    
+
     this.__pickerContent.add(this.__pickerContainer);
     this.__pickerContent.add(buttonContainer);
 
@@ -164,6 +170,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     __modelToSlotMap : null,
     __slotElements : null,
     __selectedIndexBySlot : null,
+    __labelHeight : null,
 
 
     // overridden
@@ -210,8 +217,8 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         this.__pickerConfirmButton.setValue(caption);
       }
     },
-    
-    
+
+
     /**
      * Setter for the caption of the picker dialog's cancel button.
      * Default is "Cancel".
@@ -307,6 +314,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     /**
      *  Returns the slotIndex of a picker slot, identified by its content element.
      *  @param contentElement {Element} a picker slot content element.
+     *  @return {Integer} The slot index of the element
      */
     _getSlotIndexByElement : function(contentElement) {
       var contentElementId = contentElement.id;
@@ -330,6 +338,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     /**
      * Returns corresponding model for a picker, identified by its content element.
      * @param contentElement {Element} the picker slot content element.
+     * @return {qx.data.Array} The picker model item
      */
     _getModelByElement : function(contentElement) {
       var slotIndex = this._getSlotIndexByElement(contentElement);
@@ -356,16 +365,16 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
       this.fireDataEvent("confirmSelection", selectionData);
     },
-    
-    
+
+
     /**
      * Calculates the needes picker slot height, by it child labels.
      * @param target {Element} The target element.
      */
     _fixPickerSlotHeight : function(target) {
-      var labelHeight = target.children[0].offsetHeight;
+      this.__labelHeight = target.children[0].offsetHeight;
       var labelCount = target.children.length;
-      var pickerSlotHeight = labelCount * labelHeight;
+      var pickerSlotHeight = labelCount * this.__labelHeight;
       qx.bom.element.Style.set(target,"height",pickerSlotHeight+"px");
     },
 
@@ -375,7 +384,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
      * @param evt {qx.event.type.Touch} The touch event
      */
     _onTouchStart : function(evt) {
-      var target = evt.getOriginalTarget();
+      var target = evt.getCurrentTarget().getContainerElement();
       var targetId = target.id;
       var touchX = evt.getScreenLeft();
       var touchY = evt.getScreenTop();
@@ -385,7 +394,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       qx.bom.element.Style.set(target,"transition-duration","0s");
 
       this.__slotTouchStartPoints[targetId] = {x:touchX,y:touchY};
-      
+
       this._fixPickerSlotHeight(target);
 
       evt.preventDefault();
@@ -397,17 +406,16 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
      * @param evt {qx.event.type.Touch} The touch event
      */
     _onTouchEnd : function(evt) {
-      var target = evt.getOriginalTarget();
-      var targetId = evt.getOriginalTarget().id;
-      
+      var target = evt.getCurrentTarget().getContainerElement();
+      var targetId = target.id;
+
       var deltaY = evt.getScreenTop() - this.__slotTouchStartPoints[targetId].y;
-      var labelHeight = target.children[0].offsetHeight;
-      
-      var isSwipe = Math.abs(deltaY) >= labelHeight/2;
-      
+
+      var isSwipe = Math.abs(deltaY) >= this.__labelHeight/2;
+
       if(isSwipe){
         // SWIPE
-        // 
+        //
         // Apply selectedIndex
         var selectedIndex = this.__targetIndex[targetId];
         var slotIndex = this._getSlotIndexByElement(target);
@@ -421,7 +429,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedValue, slot: slotIndex});
       } else {
         // TAP
-        // 
+        //
         // Detect if user touches on upper third or lower third off spinning wheel.
         // Depending on this detection, the value increases/decreases.
         var viewportTop = evt.getViewportTop();
@@ -450,20 +458,19 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
      */
     _onTouchMove : function(evt) {
         var target = evt.getCurrentTarget();
-        var targetElement = evt.getOriginalTarget();
+        var targetElement = evt.getCurrentTarget().getContainerElement();
         var targetId = targetElement.id;
 
         var deltaY = evt.getScreenTop() - this.__slotTouchStartPoints[targetId].y;
 
         var selectedIndex = this.__selectedIndex[targetId];
-        var labelHeight = targetElement.children[0].offsetHeight;
-        var offsetTop = -selectedIndex*labelHeight;
+        var offsetTop = -selectedIndex*this.__labelHeight;
 
         var targetOffset = deltaY + offsetTop;
 
         // BOUNCING
-        var upperBounce = labelHeight/3;
-        var lowerBounce = -targetElement.offsetHeight+labelHeight*4.5;
+        var upperBounce = this.__labelHeight/3;
+        var lowerBounce = -targetElement.offsetHeight+this.__labelHeight*4.5;
         if(targetOffset > upperBounce) {
           targetOffset = upperBounce;
         }
@@ -471,10 +478,10 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         if(targetOffset < lowerBounce) {
           targetOffset = lowerBounce;
         }
-        
+
         target.setTranslateY(targetOffset);
-        
-        var steps = Math.round(-deltaY/labelHeight);
+
+        var steps = Math.round(-deltaY/this.__labelHeight);
         var newIndex = selectedIndex+steps;
 
         var modelLength = this._getModelByElement(targetElement).getLength();
@@ -495,9 +502,8 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
        qx.bom.element.Style.set(targetElement,"transition-duration",".2s");
 
        var selectedIndex = this.__selectedIndex[targetElement.id];
-       var labelHeight = targetElement.children[0].offsetHeight;
 
-       var offsetTop = -selectedIndex*labelHeight;
+       var offsetTop = -selectedIndex * this.__labelHeight;
 
        qx.bom.element.Style.set(targetElement,"transform","translate3d(0px,"+offsetTop+"px,0px)");
     },
@@ -562,6 +568,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     /**
      * Creates a {@link qx.ui.mobile.container.Composite} which represents a picker slot.
      * @param slotIndex {Integer} index of this slot.
+     * @return {qx.ui.mobile.container.Composite} The picker slot widget
      */
     _createPickerSlot : function(slotIndex) {
       var pickerSlot = new qx.ui.mobile.container.Composite();
@@ -581,6 +588,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     /**
      * Creates a {@link qx.ui.mobile.container.Composite} which represents a picker label.
      * @param textValue {String} the caption of the label.
+     * @return {qx.ui.mobile.basic.Label} The picker label
      */
     _createPickerValueLabel : function(textValue) {
       var pickerLabel = new qx.ui.mobile.basic.Label(textValue);

@@ -293,7 +293,6 @@ qx.Class.define("qx.ui.table.pane.Header",
 
         var colWidth = columnModel.getColumnWidth(col);
 
-        // TODO: Get real cell renderer
         var cellRenderer = columnModel.getHeaderCellRenderer(col);
 
         cellInfo.xPos = x;

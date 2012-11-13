@@ -272,6 +272,36 @@ qx.Theme.define("qx.theme.simple.Decoration",
       }
     },
 
+    "button-box-hovered-focused-right" :
+    {
+      include : "button-box-hovered-focused",
+
+      style :
+      {
+        radius : [0, 3, 3, 0]
+      }
+    },
+
+    "button-box-pressed-focused-right" :
+    {
+      include : "button-box-pressed-focused",
+
+      style :
+      {
+        radius : [0, 3, 3, 0]
+      }
+    },
+
+    "button-box-pressed-hovered-focused-right" :
+    {
+      include : "button-box-pressed-hovered-focused",
+
+      style :
+      {
+        radius : [0, 3, 3, 0]
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -625,6 +655,39 @@ qx.Theme.define("qx.theme.simple.Decoration",
     "button-box-focused-left" :
     {
       include : "button-box-focused",
+
+      style :
+      {
+        radius : [3, 0, 0, 3],
+        width : [1, 0, 1, 1]
+      }
+    },
+
+    "button-box-hovered-focused-left" :
+    {
+      include : "button-box-hovered-focused",
+
+      style :
+      {
+        radius : [3, 0, 0, 3],
+        width : [1, 0, 1, 1]
+      }
+    },
+
+    "button-box-pressed-hovered-focused-left" :
+    {
+      include : "button-box-pressed-hovered-focused",
+
+      style :
+      {
+        radius : [3, 0, 0, 3],
+        width : [1, 0, 1, 1]
+      }
+    },
+
+    "button-box-pressed-focused-left" :
+    {
+      include : "button-box-pressed-focused",
 
       style :
       {

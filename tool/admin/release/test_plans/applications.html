@@ -1,11 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en"><head>
-
-
-
-
-
-
+<html lang="en">
+<head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Application Test Matrix</title>
   <style type="text/css">
@@ -43,73 +38,78 @@
 
 	</style>
   <script type="text/javascript" src="utils.js"></script>
-</head><body onload="adjustVersionStrings(); autonumbering(); minitests([6,7,9,11,13]);">
+</head>
+<body
+ onload="adjustVersionStrings(); autonumbering(); minitests([7,9]);">
 <div> <em>$Rev$</em>
 </div>
 <div align="center"><b>qooxdoo <span name="versstring">$(qxversion)</span></b></div>
 <table border="1" cellpadding="2" cellspacing="0">
   <thead> <tr>
-    <th rowspan="3" colspan="2">Application Tests</th>
-    <td colspan="11" rowspan="1" style="vertical-align: top;">Platform</td>
+    <th rowspan="4" colspan="2">Application Tests</th>
+    <td colspan="8" rowspan="1" style="vertical-align: top;">Platform</td>
   </tr>
   <tr class="platforms">
-    <td style="vertical-align: top;"><span style="font-weight: bold;">IE7<br>
-    </span>XP<span style="font-weight: bold;"><br>
-    </span></td>
     <td><b>IE8</b><br>
 XP</td>
     <td><b>IE9</b><br>
 Win7</td>
     <td><b>IE10</b><br>
-Win8</td>
+Win8<br>
+    </td>
     <td><b>Chrome Stable</b><br>
 OSX</td>
-    <td><b>Chrome Stable</b><br>
-Win<br>
-    </td>
-    <td><b>Chrome Stable</b><br>
-Linux<br>
-    </td>
     <td><span style="font-weight: bold;">Safari</span><br>
 OSX</td>
     <td><span style="font-weight: bold;">FF Stable</span><br>
-Win</td>
-    <td><span style="font-weight: bold;">FF Stable</span><br>
-OSX</td>
+Win7</td>
+    <td style="vertical-align: top;"><span style="font-weight: bold;">FF
+3.6</span><br style="font-weight: bold;">
+XP<br>
+    </td>
     <td><b>Opera Stable</b><br>
-Win<br>
+Linux<br>
     </td>
   </tr>
   <tr class="platforms">
-    <td style="vertical-align: top;">Website only<br>
+    <td style="vertical-align: top;">Full tests</td>
+    <td style="vertical-align: top;">Full tests</td>
+    <td style="vertical-align: top;">Full tests</td>
+    <td style="vertical-align: top;">Full tests</td>
+    <td style="vertical-align: top;"><br>
     </td>
-    <td>Full<br>tests</td>
-    <td>Full<br>tests</td>
-    <td><br>
-</td>
-    <td><br>
-</td>
-    <td>Full<br>tests</td>
-    <td><br>
-</td>
-    <td>Full<br>tests</td>
-    <td><br>
-</td>
-    <td>Full<br>tests</td>
-    <td><br>
-</td>
+    <td style="vertical-align: top;">Full tests</td>
+    <td style="vertical-align: top;"><br>
+    </td>
+    <td style="vertical-align: top;">Full tests</td>
+  </tr>
+  <tr class="platforms">
+    <td>DW<br>
+    </td>
+    <td>TH<br>
+    </td>
+    <td>CZ<br>
+    </td>
+    <td>MW<br>
+    </td>
+    <td>MW<br>
+    </td>
+    <td>AS<br>
+    </td>
+    <td style="vertical-align: top;">DW<br>
+    </td>
+    <td>RS<br>
+    </td>
   </tr>
   </thead><!-- Don't worry about the line numbers - they will be auto-adjusted. Just make sure to use the 'name="number"' attribute -->
   <tbody>
     <tr>
       <th name="number">1</th>
-      <th colspan="12">API Viewer</th>
+      <th colspan="9">API Viewer</th>
     </tr>
     <tr>
       <td name="number" width="2%">1.1</td>
       <td>No missing API docs</td>
-      <td style="vertical-align: top;">N/A<br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -117,10 +117,6 @@ Win<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -134,7 +130,6 @@ Win<br>
     <tr class="mini">
       <td name="number" width="2%">1.2</td>
       <td>Class docs load</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -142,10 +137,6 @@ Win<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -159,7 +150,6 @@ Win<br>
     <tr>
       <td name="number" width="2%">1.3</td>
       <td>Tabs are working (new with shift-/ctrl-left-mouse)</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -167,10 +157,6 @@ Win<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -184,7 +170,6 @@ Win<br>
     <tr>
       <td name="number" width="2%">1.4</td>
       <td>Internal links in API pages work</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -192,10 +177,6 @@ Win<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -210,7 +191,6 @@ Win<br>
       <td name="number" width="2%">1.5</td>
       <td>Toggling feature display via toolbar (Properties, Includes,
 ...)</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -218,10 +198,6 @@ Win<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -237,7 +213,6 @@ Win<br>
       <td>Enhanced Search: disable various categories to search in
 (package, class, ...) and check results<br>
       </td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -245,10 +220,6 @@ Win<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -262,7 +233,6 @@ Win<br>
     <tr>
       <td name="number" width="2%">1.7</td>
       <td>Resizing browser: Application adapts</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -270,10 +240,6 @@ Win<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -287,7 +253,6 @@ Win<br>
     <tr>
       <td name="number" width="2%">1.8</td>
       <td>Resizing browser: Content/controls remain accessible</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -295,10 +260,6 @@ Win<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -311,13 +272,12 @@ Win<br>
     </tr>
     <tr>
       <th name="number">2</th>
-      <th colspan="12">Test Runner - Framework Tests<br>
+      <th colspan="9">Test Runner - Framework Tests<br>
       </th>
     </tr>
     <tr class="mini">
       <td name="number" width="2%">2.1</td>
       <td>Test App loads</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -325,10 +285,6 @@ Win<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -342,7 +298,6 @@ Win<br>
     <tr class="mini">
       <td name="number" width="2%">2.2</td>
       <td>Select tests</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -350,10 +305,6 @@ Win<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -366,9 +317,7 @@ Win<br>
     </tr>
     <tr class="mini">
       <td name="number" width="2%">2.3</td>
-      <td>Tests run</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
+      <td>Tests run (random samples)<br>
       </td>
       <td><br>
       </td>
@@ -377,8 +326,6 @@ Win<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -392,7 +339,6 @@ Win<br>
     <tr>
       <td name="number" width="2%">2.4</td>
       <td>Setting Log Level works (for new runs)</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -400,10 +346,6 @@ Win<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -418,7 +360,6 @@ Win<br>
       <td name="number" width="2%">2.5</td>
       <td>Show/Hide Stack Trace works (for new and existing runs;
 requires failing test)</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -426,10 +367,6 @@ requires failing test)</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -443,11 +380,6 @@ requires failing test)</td>
     <tr>
       <td style="vertical-align: top;" name="number">2.6 </td>
       <td style="vertical-align: top;">Reload AUT (clears log)<br>
-      </td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -471,11 +403,6 @@ requires failing test)</td>
       <td style="vertical-align: top;">Run tests with "Autoreload"
 (reloads AUT, clears log, runs tests)<br>
       </td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -496,7 +423,6 @@ requires failing test)</td>
     <tr>
       <td name="number" width="2%">2.8</td>
       <td>Resizing browser: Application adapts</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -504,10 +430,6 @@ requires failing test)</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -520,7 +442,7 @@ requires failing test)</td>
     </tr>
     <tr>
       <th name="number">2</th>
-      <th colspan="12">Test Runner - Component Tests<br>
+      <th colspan="9">Test Runner - Component Tests<br>
       </th>
     </tr>
     <tr>
@@ -528,7 +450,6 @@ requires failing test)</td>
       <td>Test App loads (URL:
 &lt;path_to_framework&gt;/component/testrunner/build/index.html)<br>
       </td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -536,10 +457,6 @@ requires failing test)</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -553,7 +470,6 @@ requires failing test)</td>
     <tr>
       <td name="number" width="2%">2.2</td>
       <td>Select tests</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -566,15 +482,12 @@ requires failing test)</td>
       </td>
       <td><br>
       </td>
-      <td><br>
+      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-    </tr><tr>
+    </tr>
+    <tr>
       <td name="number" width="2%">2.2</td>
       <td>Filter test selection using the search box</td>
       <td><br>
@@ -589,13 +502,7 @@ requires failing test)</td>
       </td>
       <td><br>
       </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
+      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -605,7 +512,6 @@ requires failing test)</td>
       <td>Tests run (*Fail should fail, *Ssl should be skipped, all
 other success)<br>
       </td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -613,10 +519,6 @@ other success)<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -630,7 +532,6 @@ other success)<br>
     <tr>
       <td name="number" width="2%">2.5</td>
       <td>Show/Hide Stack Trace works (for new and existing runs)</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -638,10 +539,6 @@ other success)<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -667,27 +564,20 @@ other success)<br>
       </td>
       <td><br>
       </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
+      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
     </tr>
     <tr>
       <th name="number">3</th>
-      <th colspan="12">Demo Browser</th>
+      <th colspan="9">Demo Browser</th>
     </tr>
     <tr class="mini">
       <td name="number" width="2%">3.1</td>
       <td>Interact with a few demos (pick randomly; widgets are covered
 by Widgetbrowser)<br>
       </td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -695,10 +585,6 @@ by Widgetbrowser)<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -712,7 +598,6 @@ by Widgetbrowser)<br>
     <tr>
       <td name="number" width="2%">3.2</td>
       <td>Previous/Next navigation works</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -720,10 +605,6 @@ by Widgetbrowser)<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -737,7 +618,6 @@ by Widgetbrowser)<br>
     <tr>
       <td name="number" width="2%">3.3</td>
       <td>Search for some demo names and class names</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -745,10 +625,6 @@ by Widgetbrowser)<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -762,7 +638,6 @@ by Widgetbrowser)<br>
     <tr>
       <td name="number" width="2%">3.4</td>
       <td>Previous/Next navigation works in Search Results</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -770,10 +645,6 @@ by Widgetbrowser)<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -787,7 +658,6 @@ by Widgetbrowser)<br>
     <tr>
       <td name="number" width="2%">3.5</td>
       <td>Switching of theme (Simple, Classic)</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -795,10 +665,6 @@ by Widgetbrowser)<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -812,7 +678,6 @@ by Widgetbrowser)<br>
     <tr>
       <td name="number" width="2%">3.6</td>
       <td>Toggling of optional panes (HTML Code, JS Code, Log File)</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -820,10 +685,6 @@ by Widgetbrowser)<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -837,16 +698,11 @@ by Widgetbrowser)<br>
     <tr>
       <td name="number" width="2%">3.7</td>
       <td>Check the link to the playground</td>
-      <td style="vertical-align: top;">N/A</td>
       <td>N/A</td>
       <td>N/A</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -860,7 +716,6 @@ by Widgetbrowser)<br>
     <tr>
       <td name="number" width="2%">3.8</td>
       <td>Check the link to own window</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -868,10 +723,6 @@ by Widgetbrowser)<br>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -886,11 +737,6 @@ by Widgetbrowser)<br>
       <td style="vertical-align: top;" name="number">3.9</td>
       <td style="vertical-align: top;">Check if the link to the manual
 and the api works</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -911,7 +757,6 @@ and the api works</td>
     <tr>
       <td name="number" width="2%">3.10</td>
       <td>Resizing browser: Application adapts</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -919,10 +764,6 @@ and the api works</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -936,7 +777,6 @@ and the api works</td>
     <tr>
       <td name="number" width="2%">3.11</td>
       <td>Resizing browser: Content/controls remain accessible</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -944,10 +784,6 @@ and the api works</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -960,12 +796,12 @@ and the api works</td>
     </tr>
     <tr>
       <th name="number">4</th>
-      <th colspan="12">Feed Reader</th>
+      <th colspan="9">Feed Reader - Desktop<br>
+      </th>
     </tr>
     <tr class="mini">
       <td name="number" width="2%">4.1</td>
       <td>Feeds and articles load and look ok</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -973,10 +809,6 @@ and the api works</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -990,7 +822,6 @@ and the api works</td>
     <tr>
       <td name="number" width="2%">4.2</td>
       <td>Language switch reads ok</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -998,10 +829,6 @@ and the api works</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1016,7 +843,6 @@ and the api works</td>
       <td name="number" width="2%">4.3</td>
       <td>Adding a feed works (e.g.
 http://www.theregister.co.uk/headlines.atom)</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -1024,10 +850,6 @@ http://www.theregister.co.uk/headlines.atom)</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1041,7 +863,6 @@ http://www.theregister.co.uk/headlines.atom)</td>
     <tr>
       <td name="number" width="2%">4.4</td>
       <td>Try to reload the feeds</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -1049,10 +870,6 @@ http://www.theregister.co.uk/headlines.atom)</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1067,7 +884,6 @@ http://www.theregister.co.uk/headlines.atom)</td>
       <td name="number" width="2%">4.5</td>
       <td>Try to erase a static (should not work) and a user feed
 (should work)</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -1075,10 +891,6 @@ http://www.theregister.co.uk/headlines.atom)</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1092,7 +904,6 @@ http://www.theregister.co.uk/headlines.atom)</td>
     <tr>
       <td name="number" width="2%">4.6</td>
       <td>Check if the selected article is restored when switching feeds</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -1100,10 +911,6 @@ http://www.theregister.co.uk/headlines.atom)</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1117,7 +924,6 @@ http://www.theregister.co.uk/headlines.atom)</td>
     <tr>
       <td name="number" width="2%">4.6</td>
       <td>App looks ok in all themes</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -1125,10 +931,6 @@ http://www.theregister.co.uk/headlines.atom)</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1142,11 +944,6 @@ http://www.theregister.co.uk/headlines.atom)</td>
     <tr>
       <td name="number" width="2%">4.7</td>
       <td>Resizing browser: Application adapts</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -1159,7 +956,7 @@ http://www.theregister.co.uk/headlines.atom)</td>
       </td>
       <td><br>
       </td>
-      <td><br>
+      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1167,16 +964,11 @@ http://www.theregister.co.uk/headlines.atom)</td>
     <tr>
       <td name="number" width="2%">4.8</td>
       <td>Resizing browser: Content/controls remain accessible</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1191,21 +983,16 @@ http://www.theregister.co.uk/headlines.atom)</td>
     </tr>
     <tr>
       <th name="number">5</th>
-      <th colspan="12">Feed Reader - Website</th>
+      <th colspan="9">Feed Reader - Website</th>
     </tr>
     <tr class="mini">
       <td name="number" width="2%">5.1</td>
       <td>Feeds and articles load and look ok</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1221,16 +1008,11 @@ http://www.theregister.co.uk/headlines.atom)</td>
     <tr class="mini">
       <td name="number" width="2%">5.1</td>
       <td>Select feed</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1246,16 +1028,11 @@ http://www.theregister.co.uk/headlines.atom)</td>
     <tr class="mini">
       <td name="number" width="2%">5.1</td>
       <td>Unfold/fold article</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1270,21 +1047,16 @@ http://www.theregister.co.uk/headlines.atom)</td>
     </tr>
     <tr>
       <th name="number">5</th>
-      <th colspan="12">Todo</th>
+      <th colspan="9">Todo</th>
     </tr>
     <tr class="mini">
       <td name="number" width="2%">5.1</td>
       <td>Add some tasks and check one</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1300,31 +1072,10 @@ http://www.theregister.co.uk/headlines.atom)</td>
     <tr>
       <td name="number" width="2%">5.1</td>
       <td>Reload (all tasks still present)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td>N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-    </tr>
-    <tr>
-      <td name="number" width="2%">5.1</td>
-      <td>Pressing clear removes checked tasks</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -1334,6 +1085,18 @@ http://www.theregister.co.uk/headlines.atom)</td>
       <td><br>
       </td>
       <td style="vertical-align: top;"><br>
+      </td>
+      <td><br>
+      </td>
+    </tr>
+    <tr>
+      <td name="number" width="2%">5.1</td>
+      <td>Pressing clear removes checked tasks</td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
       </td>
       <td><br>
       </td>
@@ -1349,35 +1112,10 @@ http://www.theregister.co.uk/headlines.atom)</td>
     <tr>
       <td name="number" width="2%">5.1</td>
       <td>Reload (removed tasks do not reappear)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td>N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-    </tr>
-    <tr>
-      <th name="number">5</th>
-      <th colspan="12">Playground</th>
-    </tr>
-    <tr class="mini">
-      <td name="number" width="2%">5.1</td>
-      <td>Samples load</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
@@ -1387,6 +1125,186 @@ http://www.theregister.co.uk/headlines.atom)</td>
       <td><br>
       </td>
       <td style="vertical-align: top;"><br>
+      </td>
+      <td><br>
+      </td>
+    </tr>
+    <tr>
+      <th name="number">5</th>
+      <th colspan="9">Tutorial</th>
+    </tr>
+    <tr class="mini">
+      <td name="number" width="2%">5.1</td>
+      <td>Layout and structure are ok</td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td><br>
+      </td>
+    </tr>
+    <tr class="mini">
+      <td name="number" width="2%">5.1</td>
+      <td>Prev and next buttons work</td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td><br>
+      </td>
+    </tr>
+    <tr class="mini">
+      <td name="number" width="2%">5.1</td>
+      <td>Run button works</td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td><br>
+      </td>
+    </tr>
+    <tr class="mini">
+      <td name="number" width="2%">5.1</td>
+      <td>Help me out button works (every tutorial / step)</td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td><br>
+      </td>
+    </tr>
+    <tr class="mini">
+      <td name="number" width="2%">5.1</td>
+      <td>Dialog appears if code will be replaced</td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td><br>
+      </td>
+    </tr>
+    <tr class="mini">
+      <td name="number" width="2%">5.1</td>
+      <td>All desktop tutorials work</td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td><br>
+      </td>
+    </tr>
+    <tr class="mini">
+      <td name="number" width="2%">5.1</td>
+      <td>All mobile tutorials work</td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td><br>
+      </td>
+    </tr>
+    <tr class="mini">
+      <td name="number" width="2%">5.1</td>
+      <td>Syntax highlighting in the description is available</td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td><br>
+      </td>
+    </tr>
+    <tr>
+      <th name="number">5</th>
+      <th colspan="9">Playground</th>
+    </tr>
+    <tr class="mini">
+      <td name="number" width="2%">5.1</td>
+      <td>Samples load</td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
       </td>
       <td><br>
       </td>
@@ -1402,15 +1320,10 @@ http://www.theregister.co.uk/headlines.atom)</td>
     <tr>
       <td name="number" width="2%">5.2</td>
       <td>Syntax highlighting can be toggled</td>
-      <td style="vertical-align: top;">N/A</td>
       <td>N/A</td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1426,16 +1339,11 @@ http://www.theregister.co.uk/headlines.atom)</td>
     <tr class="mini">
       <td name="number" width="2%">5.3</td>
       <td>Running changed code works</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1453,11 +1361,6 @@ http://www.theregister.co.uk/headlines.atom)</td>
       </td>
       <td style="vertical-align: top;">A prompt will be displayed when
 code should be discarded<br>
-      </td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -1484,8 +1387,6 @@ Firefox)<br>
       </td>
       <td style="vertical-align: top;">N/A</td>
       <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A</td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -1494,25 +1395,18 @@ Firefox)<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">N/A<br>
       </td>
       <td style="vertical-align: top;">N/A</td>
     </tr>
     <tr>
       <td name="number" width="2%">6.6</td>
       <td>Check if the log works</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1528,16 +1422,11 @@ Firefox)<br>
     <tr>
       <td name="number" width="2%">6.7</td>
       <td>Check if the link to the Manual, Api and Demobrowser works</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1554,16 +1443,11 @@ Firefox)<br>
       <td name="number" width="2%">6.8</td>
       <td>Shorten URL works (use e.g. a changed sample, where the code
 is in the URL)</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1580,16 +1464,11 @@ is in the URL)</td>
       <td name="number" width="2%">5.9</td>
       <td>Code via URL hash works (use the short URL gained in the
 previous step)</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1605,11 +1484,6 @@ previous step)</td>
     <tr>
       <td name="number" width="2%">5.10</td>
       <td>Try to save an example (static and user selected)<br>
-      </td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
-      </td>
-      <td><br>
       </td>
       <td><br>
       </td>
@@ -1632,11 +1506,6 @@ previous step)</td>
       <td name="number" width="2%">5.11</td>
       <td>Rename a user sample (only user samples should be possible)<br>
       </td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -1657,11 +1526,6 @@ previous step)</td>
     <tr>
       <td name="number" width="2%">5.12</td>
       <td>Delete a user script (only user samples should be possible)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -1683,11 +1547,6 @@ previous step)</td>
       <td name="number" width="2%">5.13</td>
       <td>Check if samples are kept on reload<br>
       </td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -1708,16 +1567,11 @@ previous step)</td>
     <tr>
       <td name="number" width="2%">5.14</td>
       <td>Resizing browser: Application adapts</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1733,16 +1587,11 @@ previous step)</td>
     <tr>
       <td name="number" width="2%">5.15</td>
       <td>Resizing browser: Content/controls remain accessible</td>
-      <td style="vertical-align: top;">N/A</td>
       <td><br>
       </td>
       <td><br>
       </td>
       <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td><br>
       </td>
@@ -1757,295 +1606,177 @@ previous step)</td>
     </tr>
     <tr>
       <th name="number">6</th>
-      <th colspan="12">Inspector - Standalone App<br>
+      <th colspan="9">Inspector - Standalone App<br>
       </th>
     </tr>
     <tr class="mini">
       <td name="number" width="2%">6.1</td>
       <td>Inspect per mouse works (Standalone App)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td>N/A</td>
       <td><br>
       </td>
-      <td>N/A
+      <td>N/A </td>
+      <td>N/A </td>
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td><br>
       </td>
-      <td>N/A
+      <td style="vertical-align: top;">N/A<br>
       </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
+      <td>N/A </td>
     </tr>
     <tr>
       <td name="number" width="2%">6.2</td>
       <td>Object window works (Standalone App)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td>N/A</td>
       <td><br>
       </td>
+      <td>N/A </td>
       <td>N/A</td>
-      <td>N/A
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td><br>
       </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td>N/A </td>
     </tr>
     <tr>
       <td name="number" width="2%">6.3</td>
       <td>Widget hierarchy works (Standalone App)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td>N/A
-      </td>
       <td><br>
       </td>
-      <td>N/A
+      <td>N/A </td>
+      <td>N/A </td>
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td><br>
       </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td>N/A </td>
     </tr>
     <tr>
       <td name="number" width="2%">6.4</td>
       <td>Property editor works (Standalone App)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td>N/A
-      </td>
       <td><br>
       </td>
-      <td>N/A
+      <td>N/A </td>
+      <td>N/A </td>
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td><br>
       </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td>N/A </td>
     </tr>
     <tr>
       <td name="number" width="2%">6.5</td>
       <td>Console works (Standalone App)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td>N/A
-      </td>
       <td><br>
       </td>
-      <td>N/A
+      <td>N/A </td>
+      <td>N/A </td>
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td><br>
       </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td>N/A </td>
     </tr>
     <tr>
       <td name="number" width="2%">6.6</td>
       <td>Selenium window works (s.
 http://manual.qooxdoo.org/<span name="versstring">$(qxversion)</span>/pages/application/inspector_selenium.html)
-(Standalone
-App)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td>N/A
-      </td>
+(Standalone App)</td>
       <td><br>
       </td>
-      <td>N/A
+      <td>N/A </td>
+      <td>N/A </td>
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td><br>
       </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td>N/A </td>
     </tr>
     <tr>
       <td name="number" width="2%">6.11</td>
       <td>Resizing browser: Application adapts</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td>N/A
-      </td>
       <td><br>
       </td>
-      <td>N/A
+      <td>N/A </td>
+      <td>N/A </td>
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td><br>
       </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td>N/A </td>
     </tr>
     <tr>
       <th name="number">6</th>
-      <th colspan="12">Inspector - Inline App<br>
+      <th colspan="9">Inspector - Inline App<br>
       </th>
     </tr>
     <tr>
       <td name="number" width="2%">6.7</td>
       <td>Inspect per mouse works (Inline App; also test with Inline
 App scrolled)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td>N/A
+      <td>N/A </td>
+      <td><br>
       </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td>N/A
+      <td>N/A </td>
+      <td>N/A </td>
+      <td>N/A </td>
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td><br>
       </td>
     </tr>
     <tr>
       <td name="number" width="2%">6.8</td>
       <td>Object window works (Inline App)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td>N/A
+      <td>N/A </td>
+      <td><br>
       </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td>N/A
+      <td>N/A </td>
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td><br>
       </td>
     </tr>
     <tr>
       <td name="number" width="2%">6.9</td>
       <td>Widget hierarchy works (Inline App)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td>N/A
+      <td>N/A </td>
+      <td><br>
       </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td>N/A
+      <td>N/A </td>
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td><br>
       </td>
     </tr>
     <tr>
       <td name="number" width="2%">6.10</td>
       <td>Selenium window works (s.
-http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
+http://manual.qooxdoo.org/<span name="versstring">$(qxversion)</span>/pages/application/inspector_selenium.html)
 (Inline App)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td>N/A
+      <td>N/A </td>
+      <td><br>
       </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td>N/A
+      <td>N/A </td>
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td>N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td><br>
       </td>
     </tr>
     <tr>
       <th name="number">6</th>
-      <th colspan="12">Inspector - Mobile App<br>
+      <th colspan="9">Inspector - Mobile App<br>
       </th>
     </tr>
     <tr class="mini">
@@ -2053,20 +1784,13 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
       <td>Inspect per mouse works (Mobile App)</td>
       <td style="vertical-align: top;">N/A</td>
       <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;">N/A
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td style="vertical-align: top;">N/A </td>
       <td style="vertical-align: top;">N/A</td>
     </tr>
     <tr>
@@ -2074,20 +1798,13 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
       <td>Object window works (Mobile App)</td>
       <td style="vertical-align: top;">N/A</td>
       <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;">N/A
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td style="vertical-align: top;">N/A </td>
       <td style="vertical-align: top;">N/A</td>
     </tr>
     <tr>
@@ -2095,57 +1812,38 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
       <td>Widget hierarchy works (Mobile App)</td>
       <td style="vertical-align: top;">N/A</td>
       <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;">N/A
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td style="vertical-align: top;">N/A </td>
       <td style="vertical-align: top;">N/A</td>
     </tr>
     <tr>
       <td name="number" width="2%">6.14</td>
       <td>Selenium window works (s.
-http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
+http://manual.qooxdoo.org/<span name="versstring">$(qxversion)</span>/pages/application/inspector_selenium.html)
 (Mobile App)</td>
       <td style="vertical-align: top;">N/A</td>
       <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;">N/A
+      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td style="vertical-align: top;">N/A </td>
+      <td style="vertical-align: top;">N/A </td>
       <td style="vertical-align: top;">N/A</td>
     </tr>
     <tr>
       <th name="number">8</th>
-      <th colspan="12">Showcase</th>
+      <th colspan="9">Showcase</th>
     </tr>
     <tr class="mini">
       <td name="number" width="2%">8.1</td>
       <td>Tabs load</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -2166,11 +1864,6 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
     <tr>
       <td name="number" width="2%">8.2</td>
       <td>Interact with showcases</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -2191,11 +1884,6 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
     <tr>
       <td name="number" width="2%">8.3</td>
       <td>Text/Links comply with showcase/-version</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -2215,7 +1903,7 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
     </tr>
     <tr>
       <th name="number">9 </th>
-      <th colspan="12">Widget Browser<br>
+      <th colspan="9">Widget Browser<br>
       </th>
     </tr>
     <tr class="mini">
@@ -2223,11 +1911,6 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
       </td>
       <td style="vertical-align: top;">All tabs load and look okay (all
 themes)<br>
-      </td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -2252,11 +1935,6 @@ themes)<br>
 "Hovered", ...) in supporting tabs works and has appropriate visual
 effect (all themes)<br>
       </td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -2276,7 +1954,7 @@ effect (all themes)<br>
     </tr>
     <tr>
       <th name="number">10 </th>
-      <th colspan="12">Feature Config Editor<br>
+      <th colspan="9">Feature Config Editor<br>
       </th>
     </tr>
     <tr>
@@ -2284,11 +1962,6 @@ effect (all themes)<br>
       </td>
       <td style="vertical-align: top;">Add features from table to list
 by double clicking, by dragging and by using the right arrow button<br>
-      </td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -2312,11 +1985,6 @@ by double clicking, by dragging and by using the right arrow button<br>
       <td style="vertical-align: top;">Remove features from list by
 clicking the left arrow button and by pressing Del<br>
       </td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -2338,11 +2006,6 @@ clicking the left arrow button and by pressing Del<br>
       <td style="vertical-align: top;" name="number">10.3 </td>
       <td style="vertical-align: top;">Edit String and Boolean values
 in the list: JSON view must auto-update after field loses focus<br>
-      </td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -2367,11 +2030,6 @@ in the list: JSON view must auto-update after field loses focus<br>
 (partial) environment map from the JSON view to the import window.
 Table must display a new column after importing<br>
       </td>
-      <td style="vertical-align: top;">N/A</td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -2391,16 +2049,11 @@ Table must display a new column after importing<br>
     </tr>
 <!-- Manual --> <tr>
       <th name="number">13</th>
-      <th colspan="12">Manual</th>
+      <th colspan="9">Manual</th>
     </tr>
     <tr class="mini">
       <td name="number" width="2%">13.1</td>
       <td>Check index.html (general layout, topic listing)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -2421,11 +2074,6 @@ Table must display a new column after importing<br>
     <tr class="mini">
       <td name="number" width="2%">13.2</td>
       <td>Check a few content pages (general layout)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -2446,11 +2094,6 @@ Table must display a new column after importing<br>
     <tr>
       <td name="number" width="2%">13.3</td>
       <td>Check breadcrumbs</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -2472,11 +2115,6 @@ Table must display a new column after importing<br>
       <td name="number" width="2%">13.4</td>
       <td>Try the Search tool (number of hits, display of search
 results)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -2498,11 +2136,6 @@ results)</td>
       <td name="number" width="2%">13.5</td>
       <td>PDF (don't use index.html link, but
 ...build/latex/qooxdoo.pdf; should be around 450-550 pages)</td>
-      <td style="vertical-align: top;">N/A</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -2522,17 +2155,11 @@ results)</td>
     </tr>
 <!-- WEBSITE API --> <tr>
       <th name="number">14</th>
-      <th colspan="12">Website API Viewer</th>
+      <th colspan="9">Website API Viewer</th>
     </tr>
     <tr class="mini">
       <td name="number" width="2%">13.1</td>
       <td style="vertical-align: top;">Documentation looks ok</td>
-      <td style="vertical-align: top;">N/A<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -2552,13 +2179,8 @@ results)</td>
     </tr>
     <tr class="mini">
       <td name="number" width="2%">13.2</td>
-      <td style="vertical-align: top;">No red !! in the list (which means method is missing)</td>
-      <td style="vertical-align: top;">N/A<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
+      <td style="vertical-align: top;">No red !! in the list (which
+means method is missing)</td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -2579,12 +2201,6 @@ results)</td>
     <tr class="mini">
       <td name="number" width="2%">13.1</td>
       <td>Select item from list: Content jumps to the selected item<br>
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td><br>
-      </td>
-      <td><br>
       </td>
       <td><br>
       </td>
@@ -2608,14 +2224,7 @@ results)</td>
       <td style="vertical-align: top;">Syntax highlighting works e.g.
 in the animation module<br>
       </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
+      <td style="vertical-align: top;">N/A </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -2635,12 +2244,6 @@ in the animation module<br>
       <td name="number" width="2%">13.1</td>
       <td style="vertical-align: top;">Links of return types and
 parameters work<br>
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -2664,12 +2267,6 @@ parameters work<br>
       <td style="vertical-align: top;">Plugin API can be toggled
 ($attach appears)<br>
       </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -2689,17 +2286,12 @@ parameters work<br>
     </tr>
 <!-- WEBSITE TESTS --> <tr>
       <th name="number">15</th>
-      <th colspan="12">Website Tests (Portable TR)</th>
+      <th colspan="9">Website Tests (Portable TR)</th>
     </tr>
     <tr class="mini">
       <td name="number" width="2%">13.1</td>
-      <td>Test app loads (URL: &lt;path_to_framework&gt;/component/standalone/website/test/)<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
+      <td>Test app loads (URL:
+&lt;path_to_framework&gt;/component/standalone/website/test/)<br>
       </td>
       <td><br>
       </td>
@@ -2722,12 +2314,6 @@ parameters work<br>
       <td name="number" width="2%">13.1</td>
       <td>Tests run (no errors, skips ok)<br>
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -2747,22 +2333,15 @@ parameters work<br>
     </tr>
 <!-- TUTORIAL TESTS --> <tr>
       <th name="number">15</th>
-      <th colspan="12">Tutorial Samples</th>
+      <th colspan="9">Tutorial Samples</th>
     </tr>
     <tr>
       <td name="number" width="2%">13.1</td>
-      <td>MobileTweets - Step1 loads (URL: &lt;path_to_framework&gt;/component/tutorials/index.html)<br>
+      <td>MobileTweets - Step1 loads (URL:
+&lt;path_to_framework&gt;/component/tutorials/index.html)<br>
       </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td>N/A
-      </td>
-      <td><br>
-      </td>
+      <td>N/A </td>
+      <td>N/A </td>
       <td><br>
       </td>
       <td><br>
@@ -2773,18 +2352,12 @@ parameters work<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td><br>
+      <td>N/A<br>
       </td>
     </tr>
     <tr>
       <td name="number" width="2%">13.1</td>
       <td>TweetsApp - Step1 loads<br>
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td><br>
-      </td>
-      <td><br>
       </td>
       <td><br>
       </td>
@@ -2807,12 +2380,6 @@ parameters work<br>
       <td name="number" width="2%">13.1</td>
       <td>TweetsApp - Step2 loads<br>
       </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -2833,12 +2400,6 @@ parameters work<br>
     <tr>
       <td name="number" width="2%">13.1</td>
       <td>TweetsApp - Step3 loads<br>
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td><br>
-      </td>
-      <td><br>
       </td>
       <td><br>
       </td>
@@ -2861,12 +2422,6 @@ parameters work<br>
       <td name="number" width="2%">13.1</td>
       <td>TweetsApp - Step4.1 loads<br>
       </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -2887,12 +2442,6 @@ parameters work<br>
     <tr>
       <td name="number" width="2%">13.1</td>
       <td>TweetsApp - Step4.2 loads<br>
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td><br>
-      </td>
-      <td><br>
       </td>
       <td><br>
       </td>
@@ -2915,12 +2464,6 @@ parameters work<br>
       <td name="number" width="2%">13.1</td>
       <td>TweetsApp - Step4.2.1 loads<br>
       </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -2941,12 +2484,6 @@ parameters work<br>
     <tr>
       <td name="number" width="2%">13.1</td>
       <td>TweetsApp - Step4.3 loads<br>
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td><br>
-      </td>
-      <td><br>
       </td>
       <td><br>
       </td>
@@ -2969,12 +2506,6 @@ parameters work<br>
       <td name="number" width="2%">13.1</td>
       <td>TweetsApp - Step4.4 loads<br>
       </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -2995,12 +2526,6 @@ parameters work<br>
     <tr>
       <td name="number" width="2%">13.1</td>
       <td>TweetsApp - Step4.4.1 loads<br>
-      </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td><br>
-      </td>
-      <td><br>
       </td>
       <td><br>
       </td>
@@ -3023,12 +2548,6 @@ parameters work<br>
       <td name="number" width="2%">13.1</td>
       <td>TweetsApp - Step4.5 loads<br>
       </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -3050,12 +2569,6 @@ parameters work<br>
       <td name="number" width="2%">13.1</td>
       <td>WebsiteApp - Step1 loads<br>
       </td>
-      <td style="vertical-align: top;">N/A
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
       <td><br>
       </td>
       <td><br>
@@ -3076,9 +2589,13 @@ parameters work<br>
   </tbody>
 </table>
 <div>
-Legend: <img src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">
-&nbsp;Ok &nbsp;&nbsp;&nbsp; (<img src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">)
-&nbsp;Mainly Ok &nbsp;&nbsp;&nbsp; <img src="http://resources.qooxdoo.org/images/icons/edit-delete.22.png">
+Legend: <img
+ src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">
+&nbsp;Ok &nbsp;&nbsp;&nbsp; (<img
+ src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">)
+&nbsp;Mainly Ok &nbsp;&nbsp;&nbsp; <img
+ src="http://resources.qooxdoo.org/images/icons/edit-delete.22.png">
 &nbsp;Not Ok
 </div>
-</body></html>
+</body>
+</html>

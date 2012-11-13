@@ -177,8 +177,13 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
      * Handler for the animation iteration.
      * @param e {Event} The native event from the browser.
      */
-    __onAnimationIteration : function(e) {
-      e.target.$$animation.emit("iteration", e.target);
+    __onAnimationIteration : function(e)
+    {
+      // It could happen that an animation end event is fired before an
+      // animation iteration appears [BUG #6928]
+      if (e.target != null && e.target.$$animation != null) {
+        e.target.$$animation.emit("iteration", e.target);
+      }
     },
 
 
@@ -319,6 +324,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
      * @param frames {Map} A map of key frames that describe the animation.
      * @param reverse {Boolean} <code>true</code>, if the key frames should
      *   be added in reverse order.
+     * @return {String} The generated name of the keyframes rule.
      */
     __addKeyFrames : function(frames, reverse) {
       var rule = "";

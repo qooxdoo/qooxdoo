@@ -76,6 +76,8 @@ textarea {
   height:1.7em;
 
   .border-radius(none);
+
+  overflow:hidden;
 }
 
 //
@@ -85,7 +87,7 @@ textarea {
 .formElementError {
   color: red;
   text-align:right;
-   border-top:0;
+  border-top:0;
   padding: 0px 10px 10px 10px;
 }
 
@@ -103,5 +105,10 @@ textarea {
 
 .formRowContent + .formRowContent {
   padding-top:0px;
+}
+
+// If one row is excluded: hide its separationRow
+.formRowContent.exclude + .formSeparationRow {
+  border-top:0;
 }
 

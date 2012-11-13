@@ -153,8 +153,6 @@ qx.Bootstrap.define("qx.event.Messaging",
      * @param path {String} The path to check
      * @param params {Map} The given parameters that should be propagated
      * @param customData {var} The given custom data that should be propagated
-     *
-     * @return {Boolean} Whether the route has been executed
      */
     _emit : function(channel, path, params, customData)
     {
@@ -193,7 +191,7 @@ qx.Bootstrap.define("qx.event.Messaging",
       for (var id in listeners)
       {
         var listener = listeners[id];
-        listenerMatched = this._emitRoute(channel, path, listener, params, customData);
+        listenerMatched |= this._emitRoute(channel, path, listener, params, customData);
       }
       return listenerMatched;
     },
@@ -232,7 +230,8 @@ qx.Bootstrap.define("qx.event.Messaging",
         }
         listener.handler.call(listener.scope, {path:path, params:params, customData:customData});
       }
-      return match;
+
+      return match != undefined;
     }
   }
 });

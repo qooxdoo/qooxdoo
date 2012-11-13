@@ -201,6 +201,7 @@ qx.Class.define("qx.event.type.Drag",
      * Returns the data of the given type. Used in the <code>drop</code> listener.
      *
      * @param type {String} Any of the supported types.
+     * @return {var} The data for the given type
      */
     getData : function(type) {
       return this.getManager().getData(type);
@@ -230,6 +231,14 @@ qx.Class.define("qx.event.type.Drag",
      */
     getCurrentAction : function() {
       return this.getManager().getCurrentAction();
+    },
+
+
+    /**
+     * Stops the drag&drop session and fires a <code>dragend</code> event.
+     */
+    stopSession : function() {
+      this.getManager().clearSession();
     }
   }
 });

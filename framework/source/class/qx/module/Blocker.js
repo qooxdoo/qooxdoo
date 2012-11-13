@@ -37,7 +37,7 @@
  * q(document).block();
  * </pre>
  */
-q.define("qx.module.Blocker", {
+qxWeb.define("qx.module.Blocker", {
   statics :
   {
     /**
@@ -51,14 +51,14 @@ q.define("qx.module.Blocker", {
      */
     __attachBlocker : function(item, color, opacity, zIndex)
     {
-      var win = q.getWindow(item);
-      var isDocument = q.isDocument(item);
+      var win = qxWeb.getWindow(item);
+      var isDocument = qxWeb.isDocument(item);
 
       if (!item.__blocker) {
         item.__blocker = {
-          div : q.create("<div/>")
+          div : qxWeb.create("<div/>")
         };
-        if ((q.env.get("engine.name") == "mshtml")) {
+        if ((qxWeb.env.get("engine.name") == "mshtml")) {
           item.__blocker.iframe = qx.module.Blocker.__getIframeElement(win)
         }
       }
@@ -71,7 +71,7 @@ q.define("qx.module.Blocker", {
       }
 
       if (isDocument) {
-        q(win).on("resize", qx.module.Blocker.__onWindowResize);
+        qxWeb(win).on("resize", qx.module.Blocker.__onWindowResize);
       }
     },
 
@@ -87,7 +87,7 @@ q.define("qx.module.Blocker", {
      */
     __styleBlocker : function(item, color, opacity, zIndex, isDocument)
     {
-      var qItem = q(item);
+      var qItem = qxWeb(item);
 
       var styles = {
         "zIndex" : zIndex,
@@ -127,7 +127,7 @@ q.define("qx.module.Blocker", {
      */
     __getIframeElement : function(win)
     {
-      var iframe = q.create('<iframe></iframe>');
+      var iframe = qxWeb.create('<iframe></iframe>');
       iframe.setAttributes({
         frameBorder: 0,
         frameSpacing: 0,
@@ -156,9 +156,9 @@ q.define("qx.module.Blocker", {
         width : this.getWidth() + "px",
         height : this.getHeight() + "px"
       }
-      q(win.document.__blocker.div).setStyles(size);
+      qxWeb(win.document.__blocker.div).setStyles(size);
       if (win.document.__blocker.iframe) {
-        q(win.document.__blocker.iframe).setStyles(size);
+        qxWeb(win.document.__blocker.iframe).setStyles(size);
       }
     },
 
@@ -178,8 +178,8 @@ q.define("qx.module.Blocker", {
       if (item.__blocker.iframe) {
         item.__blocker.iframe.remove();
       }
-      if (q.isDocument(item)) {
-        q(q.getWindow(item))
+      if (qxWeb.isDocument(item)) {
+        qxWeb(qxWeb.getWindow(item))
         .off("resize", qx.module.Blocker.__onWindowResize);
       }
     },
@@ -189,11 +189,11 @@ q.define("qx.module.Blocker", {
      * Adds an overlay to all items in the collection that intercepts mouse
      * events.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param color {String ? transparent} The color for the blocker element (any CSS color value)
      * @param opacity {Float ? 0} The CSS opacity value for the blocker
      * @param zIndex {Number ? 10000} The zIndex value for the blocker
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     block : function(color, opacity, zIndex)
     {
@@ -216,8 +216,8 @@ q.define("qx.module.Blocker", {
     /**
      * Removes the blockers from all items in the collection
      *
-     * @attach {q}
-     * @return {q} The collection for chaining
+     * @attach {qxWeb}
+     * @return {qxWeb} The collection for chaining
      */
     unblock : function()
     {
@@ -234,7 +234,7 @@ q.define("qx.module.Blocker", {
 
   defer : function(statics)
   {
-    q.$attach({
+    qxWeb.$attach({
       "block" : statics.block,
       "unblock" : statics.unblock
     });

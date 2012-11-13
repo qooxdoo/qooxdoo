@@ -45,7 +45,7 @@ qx.Mixin.define("qx.ui.core.MLayoutHandling",
      *     <code>null</code> to reset the layout.
      */
     setLayout : function(layout) {
-      return this._setLayout(layout);
+      this._setLayout(layout);
     },
 
 

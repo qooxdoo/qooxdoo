@@ -188,6 +188,8 @@ qx.Class.define("qx.io.remote.Exchange",
      * @param vImpl {Object} transport implementation
      * @param vNeeds {Map} requirements for the request like e.g. "cross-domain"
      * @param vResponseType {String} content type
+     * @return {Boolean} <code>true</code> if the transport implementation supports
+     * the request's requirements
      */
     canHandle : function(vImpl, vNeeds, vResponseType)
     {
@@ -679,7 +681,7 @@ qx.Class.define("qx.io.remote.Exchange",
           {
             this.error("Request handler throws error");
             this.error(ex);
-            return;
+            return false;
           }
         }
       }

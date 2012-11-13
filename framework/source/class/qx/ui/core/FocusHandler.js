@@ -118,6 +118,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * Whether the given widget is the active one
      *
      * @param widget {qx.ui.core.Widget} The widget to check
+     * @return {Boolean} <code>true</code> if the given widget is active
      */
     isActive : function(widget) {
       return this.__activeChild == widget;
@@ -139,6 +140,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * Whether the given widget is the focused one.
      *
      * @param widget {qx.ui.core.Widget} The widget to check
+     * @return {Boolean} <code>true</code> if the given widget is focused
      */
     isFocused : function(widget) {
       return this.__focusedChild == widget;
@@ -149,6 +151,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * Whether the given widgets acts as a focus root.
      *
      * @param widget {qx.ui.core.Widget} The widget to check
+     * @return {Boolean} <code>true</code> if the given widget is a focus root
      */
     isFocusRoot : function(widget) {
       return !!this.__roots[widget.$$hash];
@@ -274,6 +277,8 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * Finds the next focus root, starting with the given widget.
      *
      * @param widget {qx.ui.core.Widget} The widget to find a focus root for.
+     * @return {qx.ui.core.Widget|null} The focus root for the given widget or
+     * <code>true</code> if no focus root could be found
      */
     __findFocusRoot : function(widget)
     {

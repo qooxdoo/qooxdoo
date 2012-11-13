@@ -46,7 +46,6 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      *   "repeat": 1,
      *   "timing": "ease-out",
      *   "alternate": false,
-     *   "reverse": false,
      *   "delay" : 2000
      * }
      * </pre>

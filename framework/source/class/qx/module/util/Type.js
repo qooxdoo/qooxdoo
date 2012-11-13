@@ -39,7 +39,7 @@ qx.Bootstrap.define("qx.module.util.Type", {
      * <code>"Function"</code>,
      * <code>"Error"</code>
      * </pre>
-     * @attachStatic {q, type.get}
+     * @attachStatic {qxWeb, type.get}
      * @signature function(value)
      * @param value {var} Value to get the class for.
      * @return {String} The internal class of the value.
@@ -49,7 +49,7 @@ qx.Bootstrap.define("qx.module.util.Type", {
 
 
   defer : function(statics) {
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       type : {
         get : statics.get
       }

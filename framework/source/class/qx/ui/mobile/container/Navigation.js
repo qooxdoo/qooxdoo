@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       {
         this.assertInterface(widget, qx.ui.mobile.container.INavigation);
       }
-      
+
       this.getContent().add(widget);
     },
 
@@ -180,8 +180,8 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
         this._update(widget);
       }
     },
-    
-    
+
+
     /**
      * Updates the navigation bar depending on the set widget.
      *
@@ -189,13 +189,15 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
      */
     _update : function(widget) {
       var navigationBar = this.getNavigationBar();
-      
+
+      qx.bom.element.Style.set(this.getContainerElement(), "transition-duration", widget.getNavigationBarToggleDuration()+"s");
+
       if(widget.isNavigationBarHidden()){
         this.addCssClass("hidden");
       } else {
         this.removeCssClass("hidden");
       }
-      
+
       navigationBar.removeAll();
 
       var leftContainer = widget.getLeftContainer();

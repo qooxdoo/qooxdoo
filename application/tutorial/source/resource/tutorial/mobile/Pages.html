@@ -1,0 +1,99 @@
+<div id="step1">
+  <p>
+    Mobile apps usually consist of many pages. In this tutorial, we want to show you how you can create two pages and link between them. We won't go into much detail about how a page is created, which we already covered in the Hello World tutorial.
+  </p>
+  <h3>Page one</h3>
+  <p>
+    Lets get started with the first page.
+  </p>
+  <pre>var page1 = new qx.ui.mobile.page.NavigationPage();
+page1.setTitle("Page 1");
+this.getManager().addDetail(page1);</pre>
+  <p>
+    This is the basic setup for our page. We add a button in the <code>initialize</code> handler to jump to the next page.
+  </p>
+  <pre>page1.addListener("initialize", function() {
+  var button = new qx.ui.mobile.form.Button(
+    "Next Page"
+  );
+  page1.getContent().add(button);
+},this);
+page1.show();</pre>
+  <h3>Page two</h3>
+  <p>
+    Now, lets add the second page which is almost like page one.
+  </p>
+  <pre>var page2 = new qx.ui.mobile.page.NavigationPage();
+page2.set({
+  title : "Page 2",
+  showBackButton : true,
+  backButtonText : "Back"
+});
+this.getManager().addDetail(page2);</pre>
+  <p>
+    The main difference to page one is that we tell the page to show a back button with a certain text.
+  </p>
+  <p>
+    Of course, you will only see page one after running your app because we did not connect the buttons.
+  </p>
+  <script type="text/javascript" charset="utf-8">var page1 = new qx.ui.mobile.page.NavigationPage();
+page1.setTitle("Page 1");
+this.getManager().addDetail(page1);
+
+page1.addListener("initialize", function() {
+  var button = new qx.ui.mobile.form.Button(
+    "Next Page"
+  );
+  page1.getContent().add(button);
+},this);
+page1.show();
+
+var page2 = new qx.ui.mobile.page.NavigationPage();
+page2.set({
+  title : "Page 2",
+  showBackButton : true,
+  backButtonText : "Back"
+});
+this.getManager().addDetail(page2);</script>
+</div>
+<div id="step2">
+  <h3>Connect the pages</h3>
+  <p>
+    The next step is to connect the pages. That means we need to tell the application to jump to the second page in case we press the button on the first page. Add a <code>tap</code> listener to the button of page one in the <code>initialize</code> handler.
+  </p>
+  <pre>  button.addListener("tap", function() {
+    page2.show();
+  }, this);</pre>
+  <p>Now run your code and click the button. You will see that your second page will slide in as expected. But clicking on the back button does not work like expected. That will be our next task, connecting the back button.</p>
+  <pre>page2.addListener("back", function() {
+  page1.show({reverse:true});
+}, this);</pre>
+  <p>Ad these lines of code after the creation of page two. As you see in the code, its like the listener we added to the button on the first page. The only exception is that we tell the show method to reverse the animation. Now give it a try, your final mobile app featuring two pages is ready!</p>
+  <p>If you want to continue, try to add content to the second page like a <code>qx.ui.mobile.basic.Label</code>, or add a third page.</p>
+  <script type="text/javascript" charset="utf-8">var page1 = new qx.ui.mobile.page.NavigationPage();
+page1.setTitle("Page 1");
+
+page1.addListener("initialize", function() {
+  var button = new qx.ui.mobile.form.Button(
+    "Next Page"
+  );
+  page1.getContent().add(button);
+
+  button.addListener("tap", function() {
+    page2.show();
+  }, this);
+},this);
+
+var page2 = new qx.ui.mobile.page.NavigationPage();
+page2.set({
+  title : "Page 2",
+  showBackButton : true,
+  backButtonText : "Back"
+});
+page2.addListener("back", function() {
+  page1.show({reverse:true});
+}, this);
+
+this.getManager().addDetail([page1,page2]);
+page1.show();</script>
+</div>

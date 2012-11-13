@@ -1,41 +1,42 @@
 .tap-highlight-color() {
-	-webkit-tap-highlight-color: @arguments;
-	-moz-tap-highlight-color: @arguments;
-	tap-highlight-color: @arguments;
+  -webkit-tap-highlight-color: @arguments;
+  -moz-tap-highlight-color: @arguments;
+  tap-highlight-color: @arguments;
 }
 
 .user-select() {
-	-webkit-user-select: @arguments;
-	-moz-user-select: @arguments;
-	user-select: @arguments;
+  -webkit-user-select: @arguments;
+  -moz-user-select: @arguments;
+  -ms-user-select: @arguments;
+  user-select: @arguments;
 }
 
 .text-size-adjust() {
-	-webkit-text-size-adjust: @arguments;
-	-moz-text-size-adjust: @arguments;
-        text-size-adjust: @arguments;
+  -webkit-text-size-adjust: @arguments;
+  -moz-text-size-adjust: @arguments;
+  text-size-adjust: @arguments;
 }
 
 .transform() {
-	-webkit-transform: @arguments;
-	-moz-transform: @arguments;
-	transform: @arguments;
+  -webkit-transform: @arguments;
+  -moz-transform: @arguments;
+  transform: @arguments;
 }
 
 .box-sizing() {
-	-webkit-box-sizing: @arguments;
-	-moz-box-sizing: @arguments;
-	box-sizing: @arguments;
+  -webkit-box-sizing: @arguments;
+  -moz-box-sizing: @arguments;
+  box-sizing: @arguments;
 }
 
 .perspective() {
-	-webkit-perspective: @arguments;
-	-moz-perspective: @arguments;
-	perspective: @arguments;
+  -webkit-perspective: @arguments;
+  -moz-perspective: @arguments;
+  perspective: @arguments;
 }
 
 .transform-style() {
-	-webkit-transform-style: @arguments;
+  -webkit-transform-style: @arguments;
   -moz-transform-style: @arguments;
   transform-style: @arguments;
 }
@@ -47,33 +48,33 @@
 }
 
 .backface-visibility() {
-	-webkit-backface-visibility: @arguments;
+  -webkit-backface-visibility: @arguments;
   -moz-backface-visibility: @arguments;
   backface-visibility: @arguments;
 }
 
 .animation-timing-function() {
-	-webkit-animation-timing-function: @arguments;
-	-moz-animation-timing-function: @arguments;
-	animation-timing-function: @arguments;
+  -webkit-animation-timing-function: @arguments;
+  -moz-animation-timing-function: @arguments;
+  animation-timing-function: @arguments;
 }
 
 .animation-duration() {
-	-webkit-animation-duration: @arguments;
-	-moz-animation-duration: @arguments;
+  -webkit-animation-duration: @arguments;
+  -moz-animation-duration: @arguments;
   animation-duration: @arguments;
 }
 
 .animation-fill-mode() {
-	-webkit-animation-fill-mode: @arguments;
-	-moz-animation-fill-mode: @arguments;
-	animation-fill-mode: @arguments;
+  -webkit-animation-fill-mode: @arguments;
+  -moz-animation-fill-mode: @arguments;
+  animation-fill-mode: @arguments;
 }
 
 .animation-name() {
-	-webkit-animation-name: @arguments;
-	-moz-animation-name: @arguments;
-	animation-name: @arguments;
+  -webkit-animation-name: @arguments;
+  -moz-animation-name: @arguments;
+  animation-name: @arguments;
 }
 
 .animation-iteration-count() {
@@ -83,9 +84,9 @@
 }
 
 .transform-origin() {
-	-webkit-transform-origin: @arguments;
-	-moz-transform-origin: @arguments;
-	transform-origin: @arguments;
+  -webkit-transform-origin: @arguments;
+  -moz-transform-origin: @arguments;
+  transform-origin: @arguments;
 }
 
 .box-orient() {
@@ -97,12 +98,14 @@
 .box-align() {
   -webkit-box-align: @arguments;
   -moz-box-align: @arguments;
+  -ms-flex-align: @arguments;
   box-align: @arguments;
 }
 
 .box-flex() {
   -webkit-box-flex: @arguments;
   -moz-box-flex: @arguments;
+  -ms-flex: @arguments @arguments auto;
   box-flex: @arguments;
 }
 
@@ -115,6 +118,7 @@
 .box-pack() {
   -webkit-box-pack: @arguments;
   -moz-box-pack: @arguments;
+  -ms-flex-pack: @arguments;
   box-pack: @arguments;
 }
 
@@ -128,6 +132,12 @@
   -moz-box-ordinal-group:@arguments;
   -webkit-box-ordinal-group:@arguments; 
   box-ordinal-group:@arguments;
+}
+
+// FLEXBOX LAYOUT: SYNTAX 08 2012
+
+.flexbox-direction() {
+  -ms-flex-direction: @arguments;
 }
 
 .border-radius() {
@@ -273,10 +283,10 @@
 
   // From top to bottom
   .vertical(@begin, @end) {
-      background-image: -webkit-gradient(linear, center top, center bottom, from(@begin), to(@end)); /* Safari 4+, Chrome 2+ */
-      background-image: -webkit-linear-gradient(top, @begin, @end); /* Safari 5.1+, Chrome 10+ */
-      background-image: -moz-linear-gradient(top, @begin, @end); /* FF 3.6+ */
-      background-image: linear-gradient(to bottom, @begin, @end); /* Standard (in flux) */
+    background-image: -webkit-gradient(linear, center top, center bottom, from(@begin), to(@end)); /* Safari 4+, Chrome 2+ */
+    background-image: -webkit-linear-gradient(top, @begin, @end); /* Safari 5.1+, Chrome 10+ */
+    background-image: -moz-linear-gradient(top, @begin, @end); /* FF 3.6+ */
+    background-image: linear-gradient(to bottom, @begin, @end); /* Standard (in flux) */
   }
 
   // From top to bottom with intermediate color
@@ -293,6 +303,14 @@
     background-image: -webkit-linear-gradient(top, @begin, @mid1 @stop1, @mid2 @stop2, @end);
     background-image: -moz-linear-gradient(top, @begin, @mid1 @stop1, @mid2 @stop2, @end);
     background-image: linear-gradient(to bottom, @begin, @mid1 @stop1, @mid2 @stop2, @end);
+  }
+
+  // From top to bottom with three intermediate colors
+  .vertical-five(@begin, @mid1, @mid2, @mid3, @end, @stop1: 25%, @stop2: 50%, @stop3: 75%) {
+    background-image: -webkit-gradient(linear, center top, center bottom, from(@begin), color-stop(@stop1, @mid1), color-stop(@stop2, @mid2), color-stop(@stop3, @mid3), to(@end));
+    background-image: -webkit-linear-gradient(top, @begin, @mid1 @stop1, @mid2 @stop2, @mid3 @stop3, @end);
+    background-image: -moz-linear-gradient(top, @begin, @mid1 @stop1, @mid2 @stop2, @mid3 @stop3, @end);
+    background-image: linear-gradient(to bottom, @begin, @mid1 @stop1, @mid2 @stop2, @mid3 @stop3, @end);
   }
 
   // From left to right
@@ -331,6 +349,7 @@
   .radial(@x, @y, @begin, @stop1, @end, @stop2) {
     background-image: -webkit-radial-gradient(@x @y, circle, @begin @stop1, @end @stop2);
     background-image: -moz-radial-gradient(@x @y, circle, @begin @stop1, @end @stop2);
+    background-image: -ms-radial-gradient(@x @y, circle, @begin @stop1, @end @stop2);
     background-image: radial-gradient(@x @y, circle, @begin @stop1, @end @stop2);
   }
 
@@ -338,6 +357,7 @@
   .ellipse(@x, @y, @begin, @stop1, @end, @stop2) {
     background-image: -webkit-radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
     background-image: -moz-radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
+    background-image: -ms-radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
     background-image: radial-gradient(@x @y, ellipse farthest-side, @begin @stop1, @end @stop2);
   }
 
@@ -348,5 +368,4 @@
     background-image: -webkit-linear-gradient(-45deg, @begin @stop1,@end @stop2);
     background-image: linear-gradient(-45deg, @begin @stop1,@end @stop2);
   }
-  
 }

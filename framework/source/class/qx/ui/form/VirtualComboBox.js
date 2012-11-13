@@ -331,9 +331,10 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       }
 
       var selected = this.__selection.getItem(0);
-      selected = this.__convertValue(selected);
-
-      this.setValue(selected);
+      if(selected){
+        selected = this.__convertValue(selected);
+        this.setValue(selected);
+      }
     },
 
 

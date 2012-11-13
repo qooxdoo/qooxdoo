@@ -123,13 +123,13 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       init : 1,
       event : "changeStep"
     },
-    
-    
+
+
     /**
-     * Reverses the display direction of the slider knob. If true, the maxium of 
+     * Reverses the display direction of the slider knob. If true, the maxium of
      * the slider is on the left side and minimum on the right side.
      */
-    reverseDirection : 
+    reverseDirection :
     {
       check : "Boolean",
       init : false,
@@ -200,6 +200,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       this.addListener("touchstart", this._onTouchStart, this);
       this.addListener("touchmove", this._onTouchMove, this);
+      this.addListener("appear", this._refresh, this);
+
       qx.bom.Element.addListener(this._getKnobElement(), "touchstart", this._onTouchStart, this);
       qx.bom.Element.addListener(this._getKnobElement(), "transitionEnd", this._onTransitionEnd, this);
       qx.event.Registration.addListener(window, "resize", this._refresh, this);
@@ -215,9 +217,12 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       this.removeListener("touchstart", this._onTouchStart, this);
       this.removeListener("touchmove", this._onTouchMove, this);
+      this.removeListener("appear", this._refresh, this);
+
       qx.bom.Element.removeListener(this._getKnobElement(), "touchstart", this._onTouchStart, this);
       qx.bom.Element.removeListener(this._getKnobElement(), "transitionEnd", this._onTransitionEnd, this);
       qx.event.Registration.removeListener(window, "resize", this._refresh, this);
+      qx.event.Registration.removeListener(window, "orientationchange", this._refresh, this);
       this.removeListener("domupdated", this._refresh, this);
     },
 
@@ -370,8 +375,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       this._setKnobPosition(percent);
       this._setProgressIndicatorPosition(percent);
     },
-    
-    
+
+
     /**
      * Sets the indicator positon based on the give percent value.
      *
@@ -420,9 +425,9 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       var min = this.getMinimum();
       var value = this._limitValue(value);
-      
+
       var percent = ((value - min) * 100) / this._getRange();
-      
+
       if(this.isReverseDirection()) {
         return 100-percent;
       } else {
@@ -446,7 +451,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
         var dist = center-value;
         value = center + dist;
       }
-      
+
       return value;
     },
 

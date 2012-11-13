@@ -11,6 +11,16 @@ Mozilla Firefox.
 In case of webkit browser you have to open the pre-installed developer tools. In Firefox you must have installed
 the add-on "Firebug".
 
+Remote debugging iOS6 devices with Safari
+=========================================
+
+A comfortable way to debug your qx.Mobile application is provided by 
+Apple Safari 6.0 with an iOS6 device.
+
+Have a look at the official tutorial at Safari Developer Library:
+
+`Debugging iOS6 devices <http://developer.apple.com/library/safari/#documentation/appleapplications/reference/safariwebcontent/DebuggingSafarioniPhoneContent/DebuggingSafarioniPhoneContent.html>`_
+
 Remote debugging with weinre
 ============================
 
@@ -20,7 +30,7 @@ If you want to debug your qooxdoo mobile application on a mobile device, we prop
 using a web remote debugger called "weinre":
 
 
-`weinre - Web Inspector Remote <http://phonegap.github.com/weinre/>`_
+`weinre - Web Inspector Remote <https://github.com/apache/incubator-cordova-weinre>`_
 
 
 .. image:: weinre.png

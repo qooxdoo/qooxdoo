@@ -124,6 +124,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      * Converts the incoming value.
      *
      * @param value {var} The value to convert
+     * @return {var} The converted value
      */
     _convertValue : function(value)
     {
@@ -174,8 +175,6 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
     /**
      * Resets the value.
-     *
-     * @return {var} The set value
      */
     resetValue : function()
     {

@@ -1,0 +1,136 @@
+<div id="step1">
+  <p>
+    In this tutorial, we want to build a simple login form containing a text field for the user name and a password field for the password. Additionally, a button for the login is needed.
+  </p>
+  <h3>Create the Form</h3>
+  <p>
+    Forms are abstract objects in qooxdoo which hold the input fields and buttons. As we need two input fields we should create them as well. After that, we can add these input fields to the form, as you can see in the following code snippet.
+  </p>
+  <pre>var form = new qx.ui.form.Form();
+
+var userName = new qx.ui.form.TextField();
+form.add(userName, "Name");
+
+var password = new qx.ui.form.PasswordField();
+form.add(password, "Password");</pre>
+  <p>
+    Running this code creates the form, but does not show anything in the app. As described above, forms are abstract objects and do not contain any information on how to layout the form on the screen. For this, a form renderer can be used.
+  </p>
+  <h3>Render the Form</h3>
+  <p>
+    Take a simple, one column renderer and render the form.
+  </p>
+  <pre>this.getRoot().add(
+  new qx.ui.form.renderer.Single(form),
+  {left: 10, top: 10}
+);</pre>
+  <p>
+    Running these two code snippets will render a simple form showing the two input fields. You can also see labels in front of each form item showing the name we gave it with the <code>add</code> call. Give it a try and enter some values or even rename the labels in the code and run it again.
+  </p>
+  <script type="text/javascript" charset="utf-8">var form = new qx.ui.form.Form();
+
+var userName = new qx.ui.form.TextField();
+form.add(userName, "Name");
+
+var password = new qx.ui.form.PasswordField();
+form.add(password, "Password");
+
+this.getRoot().add(
+  new qx.ui.form.renderer.Single(form),
+  {left: 10, top: 10}
+);</script>
+</div>
+
+<div id="step2">
+  <h3>Add the Button</h3>
+  <p>
+    As a next step, we want to add the login button. For adding buttons, the form offers a separate method, which will be used in the following snippet.
+  </p>
+  <pre>var login = new qx.ui.form.Button("Login");
+form.addButton(login);</pre>
+  <p>
+    Copy this code in front of the form rendering to make sure the renderer knows about the button. Run and see the new added Login button.
+  </p>
+  <p>
+    But the button does not do much right now. We should add a listener to validate the form and send the login request. Of course, sending data would stretch this tutorial a bit too much so we simply show an alert.
+  </p>
+  <pre>login.addListener("execute", function() {
+  if (form.validate()) {
+    alert("send...");
+  }
+});</pre>
+  <p>
+    Appending these code lines to the bottom of the whole sample will attach a listener to the button, which will be executed on click but also on pressing enter when the button is focused. As you can see in the code, we only show the alert in case the validation reported back as valid. Of course, as we did not add any validation information, everything is valid currently!
+  </p>
+  <script type="text/javascript" charset="utf-8">var form = new qx.ui.form.Form();
+
+var userName = new qx.ui.form.TextField();
+form.add(userName, "Name");
+
+var password = new qx.ui.form.PasswordField();
+form.add(password, "Password");
+
+var login = new qx.ui.form.Button("Login");
+form.addButton(login);
+
+this.getRoot().add(
+  new qx.ui.form.renderer.Single(form),
+  {left: 10, top: 10}
+);
+
+login.addListener("execute", function() {
+  if (form.validate()) {
+    alert("send...");
+  }
+});</script>
+</div>
+<div id="step3">
+  <h3>Set up the validation</h3>
+  <p>We use two simple cases, the user name is required and the password field should at least have 6 characters.</p>
+  <p>
+    Making the user name required is really easy. Just tell the user name object to be required.
+  </p>
+  <pre>userName.setRequired(true);</pre>
+  <p>
+    Adding this line right after creating the text field will mark the field as required. Running the code now will show you a little red asterisk right beside the name of the field which marks it as required. Hitting the login button now without a user name will fail and highlight the input. Hovering will show a pop-up containing the error message.
+  </p>
+  <h3>Custom validation</h3>
+  <p>
+    Adding a custom validator is also easy. Search for the line where we added the password field to the form and add a function as third parameter. This function will be your validator. The validator will have access to the current set value as its first argument. The new line could look like this.
+  </p>
+  <pre>form.add(password, "Password", function(data) {
+  return !!(data && data.length >= 6);
+});</pre>
+  <p>
+    After you have replaced the original <code>add</code> call with the new one, give it a try and see that also the password field needs to be filled. Hovering the field does not show an error message, but we can add one in a single line of code.
+  </p>
+  <pre>password.setInvalidMessage("Password too short.");</pre>
+  <p>
+    Adding this line after the password field fixes this issue.
+  </p>
+  <script type="text/javascript" charset="utf-8">var form = new qx.ui.form.Form();
+
+var userName = new qx.ui.form.TextField();
+userName.setRequired(true);
+form.add(userName, "Name");
+
+var password = new qx.ui.form.PasswordField();
+password.setInvalidMessage("Password too short.");
+form.add(password, "Password", function(data) {
+  return !!(data && data.length >= 6);
+});
+
+var login = new qx.ui.form.Button("Login");
+form.addButton(login);
+
+this.getRoot().add(
+  new qx.ui.form.renderer.Single(form),
+  {left: 10, top: 10}
+);
+
+login.addListener("execute", function() {
+  if (form.validate()) {
+    alert("send...");
+  }
+});</script>
+</div>

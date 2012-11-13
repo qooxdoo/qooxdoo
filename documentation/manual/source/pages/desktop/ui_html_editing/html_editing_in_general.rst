@@ -85,6 +85,7 @@ Here is an overview table:
 
 .. list-table::
    :header-rows: 1
+   :widths: 30 20 50
 
    * - Editor
      - License

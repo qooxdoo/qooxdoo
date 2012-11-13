@@ -40,8 +40,13 @@ qx.Class.define("qx.ui.form.AbstractField",
   type : "abstract",
 
   statics : {
+    /** Stylesheet needed to style the native placeholder element. */
     __stylesheet : null,
 
+
+    /**
+     * Adds the CSS rules needed to style the native placeholder element.
+     */
     __addPlaceholderRules : function() {
       if (this.__stylesheet) {
         return;
@@ -53,13 +58,13 @@ qx.Class.define("qx.ui.form.AbstractField",
       var color = colorManager.resolve("text-placeholder");
 
       if (qx.core.Environment.get("engine.name") == "gecko") {
-        var selector = "input:-moz-placeholder";
+        var selector = "input:-moz-placeholder, textarea:-moz-placeholder";
         qx.bom.Stylesheet.addRule(this.__stylesheet, selector, "color: " + color + " !important");
       } else if (qx.core.Environment.get("engine.name") == "webkit") {
-        selector = "input.qx-placeholder-color::-webkit-input-placeholder";
+        selector = "input.qx-placeholder-color::-webkit-input-placeholder, textarea.qx-placeholder-color::-webkit-input-placeholder";
         qx.bom.Stylesheet.addRule(this.__stylesheet, selector, "color: " + color);
       } else if (qx.core.Environment.get("engine.name") == "mshtml") {
-        selector = "input.qx-placeholder-color:-ms-input-placeholder";
+        selector = "input.qx-placeholder-color:-ms-input-placeholder, textarea.qx-placeholder-color:-ms-input-placeholder";
         qx.bom.Stylesheet.addRule(this.__stylesheet, selector, "color: " + color + " !important");
       }
     }
@@ -660,6 +665,8 @@ qx.Class.define("qx.ui.form.AbstractField",
           var data = this.__nullValue ? null : value;
           this.__oldValue = oldValue;
           this.__fireChangeValueEvent(data);
+          // reset the input value on setValue calls [BUG #6892]
+          this.__oldInputValue = this.__oldValue;
         }
         // native placeholders will be shown by the browser
         if (this.__useQxPlaceholder) {

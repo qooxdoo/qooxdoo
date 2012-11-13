@@ -54,7 +54,7 @@ qx.Class.define("demobrowser.demo.ui.Placement",
       root.add(this.createTestField("right-top"), { left: 20, top: 200 });
       root.add(this.createTestField("right-middle"), { left: 20, top: 275 });
       root.add(this.createTestField("right-bottom"), { left: 20, top: 350 });
-      
+
       root.add(this.createTestField("left-top"), { right: 20, top: 200 });
       root.add(this.createTestField("left-middle"), { right: 20, top: 275 });
       root.add(this.createTestField("left-bottom"), { right: 20, top: 350 });

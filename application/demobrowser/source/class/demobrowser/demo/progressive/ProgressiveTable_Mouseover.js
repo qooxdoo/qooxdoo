@@ -7,6 +7,9 @@
 /*
  #ignore(demobrowser.demo.progressive.DateCellRenderer)
  */
+/**
+ * @ignore(demobrowser.demo.progressive.DateCellRenderer)
+ */
 qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Mouseover",
 {
   extend : qx.application.Standalone,

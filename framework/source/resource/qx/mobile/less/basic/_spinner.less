@@ -8,8 +8,8 @@
   .animation-iteration-count(infinite);
   .animation-timing-function(linear);
   background-image: url(../icon/common/spinner.png);
-  margin: 0 auto;
-  vertical-align: middle;
+  margin: 0 auto; 
+  vertical-align: middle;  
 }
 
 @-webkit-keyframes spinnerRotate {
@@ -17,7 +17,7 @@
     .transform(rotate(0deg));
   }
   to {
-    .transform(rotate(360deg));
+    .transform(rotate(360deg)); 
   }
 }
 
@@ -30,8 +30,25 @@
   }
 }
 
+@keyframes spinnerRotate {
+  from {
+    .transform(rotate(0deg));
+  }
+  to {
+    .transform(rotate(360deg));
+  }
+}
+  
 .spinnerContainer {
-  margin: 0 auto;
+  margin: 0 auto;  
   height: 100%;
   text-align: center;
+} 
+
+.spinnerContainer > div {
+  display:inline;
+}
+
+.spinnerContainer .label, .spinnerContainer img {
+  display:inline; 
 }

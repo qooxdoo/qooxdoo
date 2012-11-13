@@ -160,7 +160,6 @@ qx.Class.define("qx.ui.form.TextArea",
     */
     __autoSize: function() {
       if (this.isAutoSize()) {
-
         var clone = this.__getAreaClone();
 
         if (clone) {
@@ -288,7 +287,8 @@ qx.Class.define("qx.ui.form.TextArea",
     /**
     * Returns the area clone.
     *
-    * @return {Element} DOM Element
+    * @return {Element|null} DOM Element or <code>null</code> if there is no
+    * original element
     */
     __getAreaClone: function() {
       this.__areaClone = this.__areaClone || this.__createAreaClone();
@@ -310,11 +310,11 @@ qx.Class.define("qx.ui.form.TextArea",
 
       // An existing DOM element is required
       if (!orig.getDomElement()) {
-        return;
+        return null;
       }
 
       // Create DOM clone
-      cloneDom = qx.bom.Collection.create(orig.getDomElement()).clone()[0];
+      cloneDom = qx.bom.Element.clone(orig.getDomElement());
 
       // Convert to qx.html Element
       cloneHtml = new qx.html.Input("textarea");

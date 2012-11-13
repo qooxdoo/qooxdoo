@@ -90,7 +90,7 @@ qx.Class.define("mobileshowcase.Application",
       var dataBinding = new mobileshowcase.page.DataBinding();
       var maps = new mobileshowcase.page.Maps();
       var themeSwitcher = new mobileshowcase.page.ThemeSwitcher();
-      
+
 
       // Add the pages to the page manager
       var manager = new qx.ui.mobile.page.Manager();
@@ -182,7 +182,7 @@ qx.Class.define("mobileshowcase.Application",
       {
         dialogs.show();
       },this);
-      
+
       nm.onGet("/carousel", function(data)
       {
         carousel.show();
@@ -192,7 +192,7 @@ qx.Class.define("mobileshowcase.Application",
       {
         dataBinding.show();
       },this);
-      
+
       nm.onGet("/maps", function(data)
       {
         maps.show();

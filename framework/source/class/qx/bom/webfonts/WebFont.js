@@ -49,7 +49,7 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
   properties :
   {
     /**
-     * TODOC
+     * The source of the webfont.
      */
     sources :
     {

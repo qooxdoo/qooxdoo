@@ -127,6 +127,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      *
      * @param item {qx.ui.core.Widget} Item to query.
      * @return {Integer} Top offset.
+     * @abstract
      */
     getItemTop : function(item)
     {
@@ -140,6 +141,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      *
      * @param item {qx.ui.core.Widget} Item to query.
      * @return {Integer} Top offset.
+     * @abstract
      */
     getItemBottom : function(item)
     {
@@ -153,6 +155,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      *
      * @param item {qx.ui.core.Widget} Item to query.
      * @return {Integer} Top offset.
+     * @abstract
      */
     getItemLeft : function(item)
     {
@@ -166,6 +169,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      *
      * @param item {qx.ui.core.Widget} Item to query.
      * @return {Integer} Right offset.
+     * @abstract
      */
     getItemRight : function(item)
     {

@@ -80,6 +80,7 @@ qx.Class.define("qx.ui.mobile.basic.Label",
     {
       nullable : true,
       init : null,
+      check : "String",
       apply : "_applyValue",
       event : "changeValue"
     },
@@ -121,7 +122,7 @@ qx.Class.define("qx.ui.mobile.basic.Label",
       this._setHtml(value);
     },
 
-    
+
     // property apply
     _applyWrap : function(value, old)
     {

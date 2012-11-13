@@ -27,6 +27,7 @@
 /**
  * @tag databinding
  * @tag delegate
+ * @ignore(demobrowser.demo.data.ItemsMixin)
  */
 qx.Class.define("demobrowser.demo.data.OwnCodeInModel",
 {

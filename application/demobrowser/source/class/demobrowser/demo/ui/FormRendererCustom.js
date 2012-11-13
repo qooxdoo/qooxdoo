@@ -23,6 +23,7 @@
 
 /**
  * @lint ignoreDeprecated(alert)
+ * @ignore(demobrowser.demo.ui.CustomRenderer)
  */
 qx.Class.define("demobrowser.demo.ui.FormRendererCustom",
 {

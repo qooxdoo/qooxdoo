@@ -201,6 +201,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
      * of the resize sequence.
      *
      * @param e {qx.event.type.Mouse} Last mouse event
+     * @return {Map} A map with the computed boundaries
      */
     __computeResizeResult : function(e)
     {

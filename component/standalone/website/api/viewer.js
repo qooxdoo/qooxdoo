@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 /**
- * @lint ignoreUndefined(q, samples, hljs)
+ * @lint ignoreUndefined(q, qxWeb, samples, hljs)
  */
 q.ready(function() {
   // remove the warning
@@ -43,7 +43,7 @@ q.ready(function() {
 
 
   // load API data of q
-  q.io.xhr("script/q.json").send().on("loadend", function(xhr) {
+  q.io.xhr("script/qxWeb.json").send().on("loadend", function(xhr) {
     if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
       var ast = JSON.parse(xhr.responseText);
 
@@ -56,6 +56,7 @@ q.ready(function() {
       renderList();
       renderContent();
       loadEventNorm();
+      loadPolyfills();
       onContentReady();
     } else {
       q("#warning").setStyle("display", "block");
@@ -96,7 +97,44 @@ q.ready(function() {
     q("#list").append(q.create("<h1>Event Types</h1>"));
     for (var i=0; i < eventNormAsts.length; i++) {
       renderClass(eventNormAsts[i], "event.");
-    };
+    }
+  };
+
+
+  polyfillClasses = [];
+  var loadPolyfills = function() {
+    if (!(q.$$qx.module.Polyfill && q.$$qx.lang.normalize) ) {
+      return;
+    }
+
+    polyfillClasses = Object.keys(q.$$qx.lang.normalize);
+    for (var clazz in q.$$qx.lang.normalize) {
+      loading++;
+      q.io.xhr("script/qx.lang.normalize." + clazz + ".json").send().on("loadend", function(xhr) {
+        loading--;
+        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
+          var ast = JSON.parse(xhr.responseText);
+          renderPolyfill(ast);
+        } else {
+          console && console.warn("Polyfill '" + clazz + "' could not be loaded.");
+        }
+        onContentReady();
+      });
+    }
+  };
+
+
+  var polyfillAsts = [];
+  var renderPolyfill = function(ast) {
+    polyfillAsts.push(ast);
+    if (polyfillClasses.length > polyfillAsts.length) {
+      return;
+    }
+
+    q("#list").append(q.create("<h1>Polyfills</h1>"));
+    for (var i=0; i < polyfillAsts.length; i++) {
+      renderClass(polyfillAsts[i], "normalize.");
+    }
   };
 
 
@@ -105,6 +143,11 @@ q.ready(function() {
     if (loadedClasses.indexOf(name) != -1) {
       return;
     }
+    // ignore the q class
+    if (name == "q") {
+      return;
+    }
+
     loadedClasses.push(name);
     loading++;
     q.io.xhr("script/" + name + ".json").send().on("loadend", function(xhr) {
@@ -176,7 +219,7 @@ q.ready(function() {
 
   var renderListModule = function(name, data, prefix) {
     var list = q("#list");
-    if (prefix && prefix != "event.") {
+    if (prefix && prefix != "event." && prefix != "normalize.") {
       list.append(q.create("<a href='#" + name + "'><h1>" + name + "</h1></a>"));
     } else {
       list.append(q.create("<a href='#" + name + "'><h2>" + name + "</h2></a>"));
@@ -187,9 +230,9 @@ q.ready(function() {
       var name = getMethodName(ast, prefix);
       var missing = isMethodMissing(name, data.classname);
       q.template.get("list-item", {
-        name: name + "()", 
-        missing: missing, 
-        link: name, 
+        name: name + "()",
+        missing: missing,
+        link: name,
         plugin: isPluginMethod(name)
       }).appendTo(ul);
     });
@@ -199,7 +242,7 @@ q.ready(function() {
       q.template.get("list-item", {
         name: name + "()",
         missing: missing,
-        link: name, 
+        link: name,
         plugin: isPluginMethod(name)
       }).appendTo(ul);
     });
@@ -410,7 +453,9 @@ q.ready(function() {
       var name = event.attributes.name;
       var desc = getByType(event, "desc").attributes.text;
       var type = getByType(event, "types").children[0].attributes.type;
-      data.push({name: name, type: addTypeLink(type), desc: desc});
+      // ignore undefined as type
+      type = type == "undefined" ? "" : addTypeLink(type);
+      data.push({name: name, type: type, desc: desc});
     });
     return data;
   };
@@ -643,7 +688,7 @@ q.ready(function() {
     if (type.indexOf("[]") != -1) {
       return "<a target='_blank' href='" + MDC_LINKS["Array"] + "'>" + type + "</a>";
     }
-    if (type == "q") {
+    if (type == "qxWeb") {
       return "<a href='#Core'>q</a>";
     } else if (MDC_LINKS[type]) {
       return "<a target='_blank' href='" + MDC_LINKS[type] + "'>" + type + "</a>";
@@ -655,7 +700,7 @@ q.ready(function() {
     return type;
   };
 
-  var IGNORE_TYPES = ["q", "var", "null"];
+  var IGNORE_TYPES = ["qxWeb", "var", "null"];
 
   var MDC_LINKS = {
     "Event" : "https://developer.mozilla.org/en/DOM/event",

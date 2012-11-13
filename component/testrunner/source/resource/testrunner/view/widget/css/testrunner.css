@@ -35,7 +35,7 @@
   padding: 0;
 }
 
-.testResult{
+.testResult {
   font-family: "Consolas", "Courier New", monospace;
   font-size: 11px;
   margin: 4px;
@@ -43,15 +43,11 @@
   background-color:lime;
 }
 
-.testResult * {
-  padding-left: 20px;
-}
-
 .testResult strong {
   display: block;
 }
 
-.testResult h3{
+.testResult h3 {
   font-size: 11px;
   font-weight: bold;
   color: #134275;
@@ -62,11 +58,20 @@
 }
 
 .resultPane {
-  min-width: 100%;
+  list-style-type: none;
+  background-color: white;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
-.hiddenST{
-  display: none;
+.errorDetail {
+  padding-left: 20px;
+}
+
+.errorDetail strong,
+.trace {
+  padding-top: 5px;
 }
 
 .error,

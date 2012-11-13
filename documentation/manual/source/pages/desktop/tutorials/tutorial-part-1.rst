@@ -17,9 +17,8 @@ As the headline of this tutorial says, we are building a simple tweets applicati
 
 The following mockup shows you how the application should look like at the end.
 
-|identica mockup.png|
-
-.. |identica mockup.png| image:: /pages/desktop/tutorials/identicamockup1.png
+.. image:: /pages/desktop/tutorials/identicamockup1.png
+   :scale: 75 %
 
 If you take a closer look at the mockup, you see a :doc:`window </pages/widget/window>` containing a :doc:`toolbar </pages/widget/toolbar>`, a :doc:`list </pages/widget/list>`, a :doc:`text area </pages/widget/textarea>` and a :doc:`button </pages/widget/button>` to post messages. This should cover some common scenarios of a typical qooxdoo application.
 

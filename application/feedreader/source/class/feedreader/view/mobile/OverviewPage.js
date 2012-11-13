@@ -99,7 +99,7 @@ qx.Class.define("feedreader.view.mobile.OverviewPage",
 
     /**
      * property apply
-     * @lint ignoreUnused(old) 
+     * @lint ignoreUnused(old)
      */
     _applyFeeds : function(value, old) {
       if(value != null){

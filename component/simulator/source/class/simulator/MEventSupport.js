@@ -112,6 +112,7 @@ qx.Mixin.define("simulator.MEventSupport",
      * @return {String} The listener's ID as returned by addListener
      *
      * @lint ignoreUndefined(selenium)
+     * @lint ignoreUndefined(qx.Simulation)
      */
     storeEvent : function(locator, event, script)
     {

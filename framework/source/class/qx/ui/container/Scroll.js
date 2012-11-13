@@ -109,7 +109,6 @@ qx.Class.define("qx.ui.container.Scroll",
      * Returns the content of the scroll area.
      *
      * @param widget {qx.ui.core.Widget} Widget to remove
-     * @return {qx.ui.core.Widget}
      */
     remove : function(widget) {
       this.getChildControl("pane").remove(widget);

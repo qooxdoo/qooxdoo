@@ -66,7 +66,7 @@ The following code shows how such a delegate could look like.
       }
     };
 
-The delegate defines, that ``CheckBox``es should be used as child view items. As the ``CheckBox``es don't have an icon, the ``bindItem`` function needs to re-specify the bindings. It binds the name and the online property of the model to the label and checked property of the ``CheckBox``.
+The delegate defines that ``CheckBox``'es should be used as child view items. As the ``CheckBox``'es don't have an icon, the ``bindItem`` function needs to re-specify the bindings. It binds the name and the online property of the model to the label and checked property of the ``CheckBox``.
 
 .. _pages/data_binding/controller#object_controller:
 

@@ -549,6 +549,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
     /**
      * Dispose object and wrapped native XHR.
+     * @return {Boolean} <code>true</code> if the object was successfully disposed
      */
     dispose: function() {
       if (this.__disposed) {
@@ -567,7 +568,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       try {
         this.__nativeXhr.onreadystatechange;
       } catch(PropertiesNotAccessable) {
-        return;
+        return false;
       }
 
       // Clear out listeners
@@ -897,7 +898,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
             this._emit("error");
           } else {
             this._emit("load");
-            this._emitter.emit("load");
           }
         }
       }
@@ -1020,6 +1020,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     /**
      * Helper method to determine whether browser supports reusing the
      * same native XHR to send more requests.
+     * @return {Boolean} <code>true</code> if request object reuse is supported
      */
     __supportsManyRequests: function() {
       var name = qx.core.Environment.get("engine.name");

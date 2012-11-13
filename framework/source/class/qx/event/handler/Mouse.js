@@ -468,9 +468,6 @@ qx.Class.define("qx.event.handler.Mouse",
      *  2. mouseup  <- not fired by Webkit
      *  3. contextmenu <- not fired by Opera
      *
-     * TODO: Just curious. Where is the webkit version? is the
-     * documentation up-to-date?
-     *
      * @param domEvent {Event} original DOM event
      * @param type {String} event type
      * @param target {Element} event target of the DOM event.

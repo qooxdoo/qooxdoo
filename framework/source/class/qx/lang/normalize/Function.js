@@ -178,7 +178,6 @@ qx.Bootstrap.define("qx.lang.normalize.Function", {
         //   [[Set]]: thrower, [[Enumerable]]: false, [[Configurable]]: false},
         //   and false.
 
-        // TODO
         // NOTE Function objects created using Function.prototype.bind do not
         // have a prototype property or the [[Code]], [[FormalParameters]], and
         // [[Scope]] internal properties.

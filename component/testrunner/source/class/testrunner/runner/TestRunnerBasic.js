@@ -80,14 +80,6 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     this._testNameSpace = this._getTestNameSpace();
 
     this._loadTests();
-
-    // TODO: Check if any test parts are defined
-    this._testParts = [];
-    //var parts = qx.core.Environment.get("testrunner.testParts");
-    var parts = null;
-    if (parts) {
-      this._testParts = this._testParts.concat(parts);
-    }
   },
 
 
@@ -273,6 +265,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     /**
      * Create a new test suite from the class definitions in
      * window.testrunner.testDefinitions
+     * @lint ignoreUndefined(testrunner.testDefinitions)
      */
     _loadExternalTests : function()
     {
@@ -434,28 +427,10 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       }
 
       if (this.testList.length == 0) {
-        /* TODO: Reactivate part loading
-        if (this._testParts && this._testParts.length > 0) {
-          var nextPart = this._testParts.shift();
-          qx.io.PartLoader.require([nextPart], function()
-          {
-            this._loadInlineTests(nextPart);
-            this.runTests();
-          }, this);
-          return;
-        }
-        else {
-        */
-          /*
-           * Ugly hack: Since the tests are run asynchronously we can't rely on
-           * the queue to determine when everything is done.
-           * TODO: de-uglify this.
-           */
-          window.setTimeout(function() {
-            self.setTestSuiteState("finished");
-          }, 250);
-          return;
-        //}
+        window.setTimeout(function() {
+          self.setTestSuiteState("finished");
+        }, 250);
+        return;
       }
 
       var currentTest = this.currentTestData = this.testList.shift();
@@ -493,10 +468,18 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       testResult.addListener("startTest", function(e) {
         var test = e.getData();
 
-        if (this.currentTestData && this.currentTestData.fullName === test.getFullName()
-          && this.currentTestData.getState() == "wait") {
-          this.currentTestData.setState(this.currentTestData.getPreviousState() || "start");
-          return;
+        if (this.currentTestData) {
+          if (this.currentTestData.fullName === test.getFullName() &&
+              this.currentTestData.getState() == "wait")
+          {
+            // test is in wait state, don't add it to the view again
+            this.currentTestData.setState(this.currentTestData.getPreviousState() || "start");
+            return;
+          }
+          else {
+            // test was executed before, clear old exceptions
+            this.currentTestData.setExceptions([]);
+          }
         }
 
         if (!qx.lang.Array.contains(this.__testsInView, this.currentTestData.fullName)) {

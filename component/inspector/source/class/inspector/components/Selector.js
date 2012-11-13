@@ -262,6 +262,8 @@ qx.Class.define("inspector.components.Selector",
         catchClickLayer.addListenerOnce("appear", function() {
           var el = this.getContainerElement();
           el.style.position = "absolute";
+          el.style.left = "0px";
+          el.style.top = "0px";
           el.style.backgroundColor = bgCol;
           el.style.zIndex = zIndex;
           el.style.opacity = opacity;
@@ -288,7 +290,7 @@ qx.Class.define("inspector.components.Selector",
     /**
      * Helper method to add the passes widget to the inspected application in full size.
      *
-     * @param widget {qx.ui.core.Widget} to add in full size.
+     * @param widget {qx.ui.core.Widget | qx.ui.mobile.core.Widget} to add in full size.
      */
     __addToApplicationRoot : function(widget)
     {
@@ -309,7 +311,14 @@ qx.Class.define("inspector.components.Selector",
           el.style.width = qx.bom.Document.getHeight(win) + "px";
           el.style.height = qx.bom.Document.getWidth(win) + "px";
         }
-        applicationRoot.add(widget, {left: 0, top: 0});
+
+        if (this.__isMobileApp) {
+          if(widget instanceof win.qx.ui.mobile.core.Widget) {
+            applicationRoot.add(widget);
+          }
+        } else {
+          applicationRoot.add(widget, {left: 0, top: 0});
+        }
       }
     },
 

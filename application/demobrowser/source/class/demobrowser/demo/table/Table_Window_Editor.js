@@ -29,6 +29,7 @@
  * individually. In this example, the "A number" column is editable.
  *
  * @tag noPlayground
+ * @ignore(demobrowser.demo.table.ModalCellEditorFactory)
  */
 qx.Class.define("demobrowser.demo.table.Table_Window_Editor",
 {

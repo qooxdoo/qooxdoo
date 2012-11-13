@@ -27,10 +27,21 @@ qx.Class.define("qx.test.log.Logger",
 
   members :
   {
+    setUp : function()
+    {
+      this.__initialLogLevel = qx.log.Logger.getLevel();
+    },
+
+    tearDown : function()
+    {
+      qx.log.Logger.setLevel(this.__initialLogLevel);
+    },
+
     testLogException : function()
     {
       var appender = new qx.log.appender.RingBuffer();
 
+      qx.log.Logger.setLevel("debug");
       qx.log.Logger.clear();
       qx.log.Logger.register(appender);
 

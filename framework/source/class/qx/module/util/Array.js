@@ -29,7 +29,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
       * instance as the incoming one if the constructor is identical!
       *
       * @signature function(object, constructor, offset)
-      * @attachStatic {q, array.cast}
+      * @attachStatic {qxWeb, array.cast}
       *
       * @param object {var} any array-like object
       * @param constructor {Function} constructor of the new instance
@@ -44,7 +44,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * equality of the arrays' content.
      *
      * @signature function(arr1, arr2)
-     * @attachStatic {q, array.equals}
+     * @attachStatic {qxWeb, array.equals}
      *
      * @param arr1 {Array} first array
      * @param arr2 {Array} second array
@@ -58,7 +58,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * which are listed in the second array as well.
      *
      * @signature function(arr1, arr2)
-     * @attachStatic {q, array.exclude}
+     * @attachStatic {qxWeb, array.exclude}
      *
      * @param arr1 {Array} the array
      * @param arr2 {Array} the elements of this array will be excluded from the other one
@@ -71,7 +71,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * Convert an arguments object into an array.
      *
      * @signature function(args, offset)
-     * @attachStatic {q, array.fromArguments}
+     * @attachStatic {qxWeb, array.fromArguments}
      *
      * @param args {arguments} arguments object
      * @param offset {Number?0} position to start from
@@ -84,7 +84,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * Insert an element into the array after a given second element.
      *
      * @signature function(arr, obj, obj2)
-     * @attachStatic {q, array.insertAfter}
+     * @attachStatic {qxWeb, array.insertAfter}
      *
      * @param arr {Array} the array
      * @param obj {var} object to be inserted
@@ -98,7 +98,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * Insert an element into the array before a given second element.
      *
      * @signature function(arr, obj, obj2)
-     * @attachStatic {q, array.insertBefore}
+     * @attachStatic {qxWeb, array.insertBefore}
      *
      * @param arr {Array} the array
      * @param obj {var} object to be inserted
@@ -113,7 +113,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * numeric values only.
      *
      * @signature function(arr)
-     * @attachStatic {q, array.max}
+     * @attachStatic {qxWeb, array.max}
      *
      * @param arr {Array} Array to process.
      * @return {Number | undefined} The highest of all values or undefined if array is empty.
@@ -126,7 +126,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * numeric values only.
      *
      * @signature function(arr)
-     * @attachStatic {q, array.min}
+     * @attachStatic {qxWeb, array.min}
      *
      * @param arr {Array} Array to process.
      * @return {Number | undefined} The lowest of all values or undefined if array is empty.
@@ -138,7 +138,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * Remove an element from the array.
      *
      * @signature function(arr, obj)
-     * @attachStatic {q, array.remove}
+     * @attachStatic {qxWeb, array.remove}
      *
      * @param arr {Array} the array
      * @param obj {var} element to be removed from the array
@@ -151,7 +151,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * Remove all elements from the array
      *
      * @signature function(arr)
-     * @attachStatic {q, array.removeAll}
+     * @attachStatic {qxWeb, array.removeAll}
      *
      * @param arr {Array} the array
      * @return {Array} empty array
@@ -165,7 +165,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * Keep in mind that this methods deletes undefined indexes.
      *
      * @signature function(arr)
-     * @attachStatic {q, array.unique}
+     * @attachStatic {qxWeb, array.unique}
      *
      * @param arr {Array} Incoming array
      * @return {Array} Returns a copy with no duplicates
@@ -176,7 +176,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
 
 
   defer : function(statics) {
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       array : {
         cast : statics.cast,
         equals : statics.equals,

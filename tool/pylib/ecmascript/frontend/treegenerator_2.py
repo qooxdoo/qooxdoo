@@ -1044,7 +1044,7 @@ def readTryCatch(stream):
 def test(x, program):
     global token, next, tokenStream
     print ">>>", program
-    tokenArr = tokenizer.parseStream(program)
+    tokenArr = tokenizer.Tokenizer().parseStream(program)
     from pprint import pprint
     #pprint (tokenArr)
     tokenStream = TokenStream(tokenArr)
@@ -1074,7 +1074,7 @@ if __name__ == "__main__":
             text = filetool.read(sys.argv[1])
         else:
             text = arg1
-        tokenArr = tokenizer.parseStream(text)
+        tokenArr = tokenizer.Tokenizer().parseStream(text)
         print p.parse(tokenArr).toXml()
     else:
         execfile (os.path.normpath(os.path.join(__file__, "../../../../test/compiler/treegenerator.py")))

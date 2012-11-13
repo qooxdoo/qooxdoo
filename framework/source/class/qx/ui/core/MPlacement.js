@@ -233,11 +233,11 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
       // Add bounds of the widget itself
       bounds = widget.getBounds();
-      
+
       if (!bounds) {
         return null;
       }
-      
+
       left = bounds.left;
       top = bounds.top;
 
@@ -358,7 +358,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      */
     placeToWidget : function(target, liveupdate)
     {
-      
+
       // Use the idle event to make sure that the widget's position gets
       // updated automatically (e.g. the widget gets scrolled).
       if (liveupdate)
@@ -381,7 +381,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       }
 
       var coords = target.getContainerLocation() || this.getLayoutLocation(target);
-      
+
       if(coords != null) {
         this.__place(coords);
         return true;

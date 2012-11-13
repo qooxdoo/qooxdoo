@@ -119,14 +119,15 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
      * Sets the value of the progress bar.
      *
      * @param value {Number} New value of the progress bar.
-     * @return {Number} The unmodified incoming value.
+     * @return {Number|null} The unmodified incoming value or <code>null</code>
+     * if the value is invalid.
      */
     setValue: function(value) {
       var max = this.getMaximum();
 
       //do nothing if is not a number
       if (!qx.lang.Type.isNumber(value) || !isFinite(value)) {
-        return;
+        return null;
       }
 
       // limit value to 0
@@ -163,7 +164,8 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
      * Sets the maximum value of the progress bar.
      *
      * @param value {Number} New maximum value progress bar.
-     * @return {Number} The unmodified incoming value.
+     * @return {Number|null} The unmodified incoming value or <code>null</code>
+     * if the value is invalid.
      */
     setMaximum: function(value) {
       var max = value;
@@ -171,7 +173,7 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
 
       //do nothing if is not a number, is negative or zero
       if (!qx.lang.Type.isNumber(max) || !isFinite(max) || max <= 0) {
-        return;
+        return null;
       }
 
       //limit max to a greater than 0 value

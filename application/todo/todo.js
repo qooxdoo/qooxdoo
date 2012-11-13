@@ -2,7 +2,7 @@ q.define({
   construct : function() {
     this.__data = q.localStorage.getItem("qx-todo");
     if (!this.__data) {
-      this.__data = [{done: false, name: "My first ToDo"}];
+      this.__data = [{id: Date.now(), done: false, name: "My first ToDo"}];
     }
 
     q("#add").on("click", this._onAdd, this);
@@ -41,7 +41,7 @@ q.define({
 
     _onAdd : function() {
       var name = prompt("Task name", "") || "";
-      this.__data.push({done: false, name: name});
+      this.__data.push({id: Date.now(), done: false, name: name});
       this.save();
     },
 

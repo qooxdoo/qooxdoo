@@ -73,6 +73,10 @@ testrunner.define({
     if (q.$$qx.event) {
       this.assertUndefined(q.$$qx.event.Registration, "event.Registration");
     }
+  },
+
+  testNoConflict : function() {
+    this.assertEquals(q, qxWeb);
   }
 });
 
@@ -1117,7 +1121,7 @@ testrunner.define({
       self.resume(function() {
         var val;
         if (typeof window.getComputedStyle == "function") {
-          var compStyle = window.getComputedStyle(q("#sandbox #affe")[0]);
+          var compStyle = window.getComputedStyle(q("#sandbox #affe")[0], null);
           val = compStyle.borderTopWidth;
         }
         else {
@@ -2370,7 +2374,7 @@ testrunner.define({
   testTransformOrigin : function() {
     this.sandbox.setTransformOrigin("30% 10%");
     if (q.env.get("css.transform") != null) {
-      this.assertEquals("30% 10%", this.sandbox.getTransformOrigin());
+      this.assertNotEquals(-1, this.sandbox.getTransformOrigin().indexOf("30% 10%"));
     }
   },
 
@@ -2522,8 +2526,12 @@ testrunner.define({
 
     var placeholderEl = input.getProperty(q.$$qx.module.Placeholder.PLACEHOLDER_NAME);
     this.assertEquals("Hmm", placeholderEl.getHtml());
-    this.assertEquals("block", placeholderEl.getStyle("display"));
+    this.assertTrue(placeholderEl.getProperty("offsetWidth") > 0);
 
+    input.setValue("123");
+    input.updatePlaceholder();
+
+    this.assertTrue(placeholderEl.getProperty("offsetWidth") == 0);
 
     input.remove().updatePlaceholder();
   },

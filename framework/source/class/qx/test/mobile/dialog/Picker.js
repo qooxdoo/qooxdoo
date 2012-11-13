@@ -31,16 +31,16 @@ qx.Class.define("qx.test.mobile.dialog.Picker",
 
       var picker = new qx.ui.mobile.dialog.Picker();
       picker.setTitle("Picker");
-      
+
       this.assertTrue(picker.getSlotCount()==0, 'Unexpected picker slot count.');
-      
+
       picker.addSlot(pickerSlot1);
       picker.addSlot(pickerSlot2);
-      
+
       this.assertTrue(picker.getSlotCount()==2, 'Unexpected picker slot count.');
-      
+
       picker.removeSlot(0);
-      
+
       this.assertTrue(picker.getSlotCount()==1, 'Unexpected picker slot count.');
     }
   }

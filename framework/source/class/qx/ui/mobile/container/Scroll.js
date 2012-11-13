@@ -114,8 +114,8 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      {
        this._scrollTo(x, y, time);
      },
-     
-     
+
+
     /**
       * Scrolls the wrapper contents to the widgets coordinates in a given
       * period.

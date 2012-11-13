@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
               try {
                 qx.ui.core.queue.Widget.flush();
               } catch (e) {
-                qx.log.Logger.error("Error in the 'Widget' queue:" + e);
+                qx.log.Logger.error(qx.ui.core.queue.Widget, "Error in the 'Widget' queue:" + e, e);
               }
             } else {
               qx.ui.core.queue.Widget.flush();
@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
               try {
                 qx.ui.core.queue.Visibility.flush();
               } catch (e) {
-                qx.log.Logger.error("Error in the 'Visibility' queue:" + e);
+                qx.log.Logger.error(qx.ui.core.queue.Visibility, "Error in the 'Visibility' queue:" + e, e);
               }
             } else {
               qx.ui.core.queue.Visibility.flush();
@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
               try {
                 qx.ui.core.queue.Appearance.flush();
               } catch (e) {
-                qx.log.Logger.error("Error in the 'Appearance' queue:" + e);
+                qx.log.Logger.error(qx.ui.core.queue.Appearance, "Error in the 'Appearance' queue:" + e, e);
               }
             } else {
               qx.ui.core.queue.Appearance.flush();
@@ -157,7 +157,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
               try {
                 qx.ui.core.queue.Layout.flush();
               } catch (e) {
-                qx.log.Logger.error("Error in the 'Layout' queue:" + e);
+                qx.log.Logger.error(qx.ui.core.queue.Layout, "Error in the 'Layout' queue:" + e, e);
               }
             } else {
               qx.ui.core.queue.Layout.flush();

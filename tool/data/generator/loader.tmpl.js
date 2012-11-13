@@ -51,10 +51,10 @@ qx.$$loader = {
   }
 };
 
-var readyStateValue = "complete";
+var readyStateValue = {"complete" : true};
 if (document.documentMode && document.documentMode < 10 ||
     (typeof window.ActiveXObject !== "undefined" && !document.documentMode)) {
-  readyStateValue = "loaded";
+  readyStateValue["loaded"] = true;
 }
 
 function loadScript(uri, callback) {
@@ -62,7 +62,7 @@ function loadScript(uri, callback) {
   elem.charset = "utf-8";
   elem.src = uri;
   elem.onreadystatechange = elem.onload = function() {
-    if (!this.readyState || this.readyState == readyStateValue) {
+    if (!this.readyState || readyStateValue[this.readyState]) {
       elem.onreadystatechange = elem.onload = null;
       if (typeof callback === "function") {
         callback();

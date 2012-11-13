@@ -35,7 +35,9 @@ qx.Mixin.define("qx.dev.unit.MTestLoader", {
   {
     /** The test suite */
     suite : {
-      check    : "qx.dev.unit.TestSuite"
+      check    : "qx.dev.unit.TestSuite",
+      nullable : true,
+      init : null
     }
   },
 

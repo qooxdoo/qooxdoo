@@ -18,23 +18,24 @@
 ************************************************************************ */
 /**
  * Module for querying information about the environment / runtime.
- * It adds a static key <code>env</code> to q and offers the given methods.
+ * It adds a static key <code>env</code> to qxWeb and offers the given methods.
  *
  * <pre class="javascript">
  * q.env.get("engine.name"); // return "webkit" e.g.
  * </pre>
  *
  * The following values are predefined:
- * "browser.name" --> The name of the browser
- * "browser.version" --> The version of the browser
- * "browser.quirksmode"  --> <code>true</code> if the browser is in quirksmode
- * "browser.documentmode" --> The document mode of the browser
  *
- * "device.name" --> The name of the device e.g. <code>iPad</code>.
- * "device.type" --> Either <code>desktop</code>, <code>tablet</code> or <code>mobile</code>.
+ * * <code>browser.name</code> : The name of the browser
+ * * <code>browser.version</code> : The version of the browser
+ * * <code>browser.quirksmode</code>  : <code>true</code> if the browser is in quirksmode
+ * * <code>browser.documentmode</code> : The document mode of the browser
  *
- * "engine.name" --> The name of the browser engine
- * "engine.version" --> The version of the browser engine
+ * * <code>device.name</code> : The name of the device e.g. <code>iPad</code>.
+ * * <code>device.type</code> : Either <code>desktop</code>, <code>tablet</code> or <code>mobile</code>.
+ *
+ * * <code>engine.name</code> : The name of the browser engine
+ * * <code>engine.version</code> : The version of the browser engine
  */
 qx.Bootstrap.define("qx.module.Environment", {
   statics :
@@ -42,7 +43,7 @@ qx.Bootstrap.define("qx.module.Environment", {
     /**
      * Get the value stored for the given key.
      *
-     * @attachStatic {q, env.get}
+     * @attachStatic {qxWeb, env.get}
      * @param key {String} The key to check for.
      * @return {var} The value stored for the given key.
      * @lint environmentNonLiteralKey(key)
@@ -55,9 +56,9 @@ qx.Bootstrap.define("qx.module.Environment", {
      * Adds a new environment setting which can be queried via {@link #get}.
      * @param key {String} The key to store the value for.
      *
-     * @attachStatic {q, env.add}
+     * @attachStatic {qxWeb, env.add}
      * @param value {var} The value to store.
-     * @return {q} The collection for chaining.
+     * @return {qxWeb} The collection for chaining.
      */
     add : function(key, value) {
       qx.core.Environment.add(key, value);
@@ -78,7 +79,7 @@ qx.Bootstrap.define("qx.module.Environment", {
 
     qx.core.Environment.get("device.type");
 
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       "env" : {get: statics.get, add: statics.add}
     });
   }

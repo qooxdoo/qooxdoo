@@ -75,9 +75,9 @@ CMD_SYNC_BACKUP = $(CMD_NICE) rsync --recursive --delete --inplace --copy-links
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-APPLICATIONS = todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor demobrowser
+APPLICATIONS = tutorial todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor demobrowser
 COMPONENTS = apiviewer testrunner inspector storage server website
-FRAMEWORK_TARGETS = api test
+FRAMEWORK_TARGETS = api test test-mobile
 TUTORIALS = mobiletweets tweets website
 
 
@@ -121,18 +121,14 @@ release-sdk-svn-collect:
 	@echo "  * Synchronizing applications/components..."
 	@for APPLICATION in $(APPLICATIONS); do \
 		$(CMD_MKDIR) $(RELEASE_SDK)/application/$$APPLICATION/source/script; \
-		if [ "$$APPLICATION" = "widgetbrowser" ]; then \
-			$(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.modern.js; \
-		else \
-			$(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.js; \
-		fi; \
+		$(CMD_SYNC_OFFLINE) ./tool/data/generator/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.js; \
 	done
 	@# showcase
 	@$(CMD_SYNC_OFFLINE) application/showcase/build/* $(RELEASE_SDK)/application/showcase/build
 	@# libs
 	@for COMPONENT in `echo server website`; do \
 		if [ "$$COMPONENT" == "website" ]; then \
-			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/q.*js $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
+			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/q-$(FRAMEWORK_VERSION)*.js $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
 			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/api/* $(RELEASE_SDK)/component/standalone/$$COMPONENT/api; \
 		else \
 			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/* $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
@@ -335,6 +331,9 @@ distclean:
 	@$(CMD_REMOVE) application/*.zip
 	@$(CMD_REMOVE) release
 
+######################################
+# LINT
+######################################
 lint: lint-apps lint-components lint-framework
 
 lint-framework:
@@ -365,8 +364,64 @@ lint-components:
 			fi; \
 		done; \
 	done
-		
 
+######################################
+# FIX
+######################################
+fix: fix-apps fix-components fix-framework
+
+fix-framework:
+	@( cd framework && $(CMD_GENERATOR) fix ) || exit 1
+
+fix-apps:
+	@for APPLICATION in $(APPLICATIONS); do \
+		( cd application/$$APPLICATION && $(CMD_GENERATOR) fix ) \
+	done
+
+##
+# The next contains a near copy of build-tutorials
+fix-components:
+	@for COMPONENT in $(COMPONENTS); do \
+		if [[ "$$COMPONENT" = "apiviewer" || "$$COMPONENT" = "testrunner" || "$$COMPONENT" = "inspector" ]]; then \
+			( cd component/$$COMPONENT && $(CMD_GENERATOR) fix ) \
+		fi; \
+	done
+	@paths=""; for TUTORIAL in $(TUTORIALS); do \
+		TUTDIR="component/tutorials/$$TUTORIAL"; \
+		for STEP in `ls $$TUTDIR`; do \
+			F="$$TUTDIR/$$STEP"; \
+			if [ -d $$F ]; then \
+				paths="$$paths $$TUTORIAL/$$STEP"; \
+				if [ "$$TUTORIAL" != "website" ]; then \
+					( cd $$F && $(CMD_GENERATOR) fix ); \
+				fi; \
+			fi; \
+		done; \
+	done
+
+######################################
+# TRANSLATION
+######################################
+translation: translate-apps translate-components translate-framework
+
+translate-framework:
+	@( cd framework && $(CMD_GENERATOR) translation ) || exit 1
+
+translate-apps:
+	@for APPLICATION in $(APPLICATIONS); do \
+		( cd application/$$APPLICATION && $(CMD_GENERATOR) translation ) \
+	done
+
+translate-components:
+	@for COMPONENT in $(COMPONENTS); do \
+		if [[ "$$COMPONENT" = "apiviewer" || "$$COMPONENT" = "testrunner" || "$$COMPONENT" = "inspector" ]]; then \
+			( cd component/$$COMPONENT && $(CMD_GENERATOR) translation ) \
+		fi; \
+	done
+
+######################################
+# BUILD
+######################################
 build: build-apps build-components
 build-apps:
 	@time for APPLICATION in $(APPLICATIONS); do \
@@ -594,6 +649,9 @@ publish-apps:
 		fi; \
 		if [ "$$APPLICATION" = "test" ]; then \
 			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/testrunner || exit 1; \
+		fi; \
+		if [ "$$APPLICATION" = "test-mobile" ]; then \
+			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/mobile-tests || exit 1; \
 		fi; \
 	done
 	@echo "  * Syncing components..."

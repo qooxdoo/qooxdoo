@@ -229,6 +229,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * @return {Boolean} Whether the exit should be exit or not. Return <code>true</code
      *     to exit the application. Only needed for Android PhoneGap applications.
      * @see #back
+     * @abstract
      */
     _back : function(triggeredByKeyEvent)
     {

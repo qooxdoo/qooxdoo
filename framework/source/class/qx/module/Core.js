@@ -28,7 +28,7 @@
 
 ************************************************************************ */
 /**
- * Placeholder class which simply defines and includes the core of q.
+ * Placeholder class which simply defines and includes the core of qxWeb.
  * The core modules are:
  *
  * * {@link qx.module.Attribute}

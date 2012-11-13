@@ -676,6 +676,7 @@ qx.Class.define("qx.event.Manager",
      *
      * @param target {Object} The event target
      * @param id {String} The ID returned by {@link #addListener}
+     * @return {Boolean} <code>true</code> if the handler was removed
      */
     removeListenerById : function(target, id)
     {

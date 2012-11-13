@@ -217,7 +217,7 @@ qx.Class.define("qx.ui.mobile.list.List",
       if(evt) {
         var data = evt.getData();
         var hasRowCountChanged = (data.old.length != data.value.length);
-        
+
         if(hasRowCountChanged) {
           this.__render();
         } else {
@@ -230,10 +230,10 @@ qx.Class.define("qx.ui.mobile.list.List",
             this.__render();
           }
         }
-      } 
+      }
     },
-    
-    
+
+
     /**
      * Renders a specific row identified by its index.
      * @param index {Integer} index of the row which should be rendered.
@@ -242,11 +242,11 @@ qx.Class.define("qx.ui.mobile.list.List",
       var model = this.getModel();
       var element = this.getContentElement();
       var itemElement = this.__provider.getItemElement(model.getItem(index), index);
-      
+
       var oldNode = element.childNodes[index];
-      
+
       element.replaceChild(itemElement, oldNode);
-      
+
       this._domUpdated();
     },
 
@@ -257,10 +257,10 @@ qx.Class.define("qx.ui.mobile.list.List",
     __render : function()
     {
       this._setHtml("");
-      
+
       var model = this.getModel();
       this.setItemCount(model ? model.getLength() : 0);
-      
+
       var itemCount = this.getItemCount();
 
       var element = this.getContentElement();
