@@ -1600,16 +1600,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         var decorator = "button-box";
 
-        if (states.disabled) {
-          decorator = "button-box";
-        } else if (states.focused) {
-          decorator = "button-box-focused";
-        } else if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "button-box-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "button-box-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "button-box-pressed";
+        if (!states.disabled) {
+          if (states.pressed || states.checked) {
+            decorator += "-pressed";
+          }
+          if (states.hovered) {
+            decorator += "-hovered";
+          }
+        }
+
+        if (states.focused) {
+          decorator += "-focused";
         }
 
         decorator += "-left";
@@ -1628,16 +1629,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         var decorator = "button-box";
 
-        if (states.disabled) {
-          decorator = "button-box";
-        } else if (states.focused) {
-          decorator = "button-box-focused";
-        } else if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "button-box-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "button-box-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "button-box-pressed";
+        if (!states.disabled) {
+          if (states.pressed || states.checked) {
+            decorator += "-pressed";
+          }
+          if (states.hovered) {
+            decorator += "-hovered";
+          }
+        }
+
+        if (states.focused) {
+          decorator += "-focused";
         }
 
         decorator += "-right";
