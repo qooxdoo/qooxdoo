@@ -77,7 +77,7 @@ RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = tutorial todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor demobrowser
 COMPONENTS = apiviewer testrunner inspector storage server website
-FRAMEWORK_TARGETS = api test
+FRAMEWORK_TARGETS = api test test-mobile
 TUTORIALS = mobiletweets tweets website
 
 
@@ -649,6 +649,9 @@ publish-apps:
 		fi; \
 		if [ "$$APPLICATION" = "test" ]; then \
 			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/testrunner || exit 1; \
+		fi; \
+		if [ "$$APPLICATION" = "test-mobile" ]; then \
+			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/mobile-tests || exit 1; \
 		fi; \
 	done
 	@echo "  * Syncing components..."
