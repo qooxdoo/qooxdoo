@@ -291,76 +291,52 @@ input::-webkit-inner-spin-button {
   -moz-animation-name: fadeOut;
   animation-name: fadeOut;
 }
-@-webkit-keyframes slideRightIn {
+@-webkit-keyframes fadeIn {
   0% {
-    -webkit-transform: translatex(-100%);
-    -moz-transform: translatex(-100%);
-    transform: translatex(-100%);
+    opacity: 0;
   }
   100% {
-    -webkit-transform: translatex(0);
-    -moz-transform: translatex(0);
-    transform: translatex(0);
+    opacity: 1;
   }
 }
-@-moz-keyframes slideRightIn {
+@-moz-keyframes fadeIn {
   0% {
-    -webkit-transform: translatex(-100%);
-    -moz-transform: translatex(-100%);
-    transform: translatex(-100%);
+    opacity: 0;
   }
   100% {
-    -webkit-transform: translatex(0);
-    -moz-transform: translatex(0);
-    transform: translatex(0);
+    opacity: 1;
   }
 }
-@keyframes slideRightIn {
+@keyframes fadeIn {
   0% {
-    -webkit-transform: translatex(-100%);
-    -moz-transform: translatex(-100%);
-    transform: translatex(-100%);
+    opacity: 0;
   }
   100% {
-    -webkit-transform: translatex(0);
-    -moz-transform: translatex(0);
-    transform: translatex(0);
+    opacity: 1;
   }
 }
-@-webkit-keyframes slideRightOut {
+@-webkit-keyframes fadeOut {
   0% {
-    -webkit-transform: translatex(0);
-    -moz-transform: translatex(0);
-    transform: translatex(0);
+    opacity: 1;
   }
   100% {
-    -webkit-transform: translatex(100%);
-    -moz-transform: translatex(100%);
-    transform: translatex(100%);
+    opacity: 0;
   }
 }
-@-moz-keyframes slideRightOut {
+@-moz-keyframes fadeOut {
   0% {
-    -webkit-transform: translatex(0);
-    -moz-transform: translatex(0);
-    transform: translatex(0);
+    opacity: 1;
   }
   100% {
-    -webkit-transform: translatex(100%);
-    -moz-transform: translatex(100%);
-    transform: translatex(100%);
+    opacity: 0;
   }
 }
-@keyframes slideRightOut {
+@keyframes fadeOut {
   0% {
-    -webkit-transform: translatex(0);
-    -moz-transform: translatex(0);
-    transform: translatex(0);
+    opacity: 1;
   }
   100% {
-    -webkit-transform: translatex(100%);
-    -moz-transform: translatex(100%);
-    transform: translatex(100%);
+    opacity: 0;
   }
 }
 .pop.in {
