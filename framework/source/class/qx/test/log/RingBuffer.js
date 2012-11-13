@@ -23,10 +23,21 @@ qx.Class.define("qx.test.log.RingBuffer",
 
   members :
   {
+    setUp : function()
+    {
+      this.__initialLogLevel = qx.log.Logger.getLevel();
+    },
+
+    tearDown : function()
+    {
+      qx.log.Logger.setLevel(this.__initialLogLevel);
+    },
+
     testLog : function()
     {
       var appender = new qx.log.appender.RingBuffer();
 
+      qx.log.Logger.setLevel("debug");
       qx.log.Logger.clear();
       qx.log.Logger.register(appender);
       qx.log.Logger.debug("test");
@@ -62,7 +73,7 @@ qx.Class.define("qx.test.log.RingBuffer",
       {
         var event = {
           index: i
-        }
+        };
         appender.process(event);
       }
 
