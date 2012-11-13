@@ -3146,7 +3146,8 @@ input[type=radio] + label:after {
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
   border-radius: 15px;
-  font-size: 0px;
+  font-size: 1px;
+  font-color: transparent;
 }
 .carousel-pagination-label.active {
   background-color: #3d72c9;

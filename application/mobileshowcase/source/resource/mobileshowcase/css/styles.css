@@ -63,7 +63,7 @@
 
 .carousel-page {
   font-size:2.5em;
-  height:300px;
+  height:350px;
 }
 
 .carousel-page > .label {
@@ -80,33 +80,34 @@
 .carousel-example-2 {
   background-color:#A3D0C1;
   font-size:2.5em;
-  height:300px;
+  height:350px;
   color:#222222;
 }
 
 .carousel-example-3 {
   background-color:#FDF6DD;
   font-size:2.5em;
-  height:300px;
+  height:350px;
   color:#222222;
 }
 
 .carousel-example-4 {
   background-color:#FEE406;
   font-size:2.5em;
-  height:300px;
+  height:350px;
   color:#222222;
 }
 
 .carousel-example-5 {
   background-color:#F4651C;
   font-size:2.5em;
-  height:300px;
+  height:350px;
   color:#222222;
 }
 
 .example-button {
   width:100px;
+  font-size:0.35em;
 }
 
 
@@ -165,7 +166,6 @@
   background-color:white;
 }
 
-
 #osmMap > div {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -175,8 +175,6 @@
 .olMapViewport{
   position:static !important;
 }
-
-
 
 #mapMenu {
   position:absolute;
