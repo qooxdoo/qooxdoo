@@ -29,6 +29,8 @@
     "test-source",
     "test-performance",
     "test-performance-source",
+    "test-mobile",
+    "test-mobile-source",
     "translation"
   ],
 
@@ -68,6 +70,8 @@
       "test",
       "test-source",
       "test-inline",
+      "test-mobile",
+      "test-mobile-source",
       "testrunner::tests-common",
       "translation"
     ]
@@ -206,6 +210,24 @@
         "TEST_INCLUDE"    : "qx.test.performance.*",
         "TEST_EXCLUDE"    : "",
         "BUILD_PATH"      : "${ROOT}/test-performance"
+      }
+    },
+
+    "test-mobile" :
+    {
+      "let" :
+      {
+        "TEST_INCLUDE"    : "qx.test.mobile.*",
+        "BUILD_PATH"      : "${ROOT}/test-mobile"
+      }
+    },
+
+    "test-mobile-source" :
+    {
+      "let" :
+      {
+        "TEST_INCLUDE"    : "qx.test.mobile.*",
+        "BUILD_PATH"      : "${ROOT}/test-mobile"
       }
     },
 
