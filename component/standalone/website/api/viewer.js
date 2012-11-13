@@ -453,7 +453,9 @@ q.ready(function() {
       var name = event.attributes.name;
       var desc = getByType(event, "desc").attributes.text;
       var type = getByType(event, "types").children[0].attributes.type;
-      data.push({name: name, type: addTypeLink(type), desc: desc});
+      // ignore undefined as type
+      type = type == "undefined" ? "" : addTypeLink(type);
+      data.push({name: name, type: type, desc: desc});
     });
     return data;
   };
