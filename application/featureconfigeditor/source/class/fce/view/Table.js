@@ -24,6 +24,12 @@ qx.Class.define("fce.view.Table", {
 
   extend : qx.ui.table.Table,
 
+  statics :
+  {
+    DEFAULT_COLUMNS_PRE : [],
+    DEFAULT_COLUMNS_POST : []
+  },
+
   construct : function()
   {
     this.base(arguments);
@@ -165,11 +171,8 @@ qx.Class.define("fce.view.Table", {
     {
       var tableModel = new qx.ui.table.model.Filtered();
       this.__columnIds = this._getModelProperties(value);
+      this.__columnIds = this._getSortedColumnIds(this._getModelProperties(value));
 
-      if (this.__columnIds.indexOf("distinctValues") >= 0) {
-        this.__columnIds.push(qx.lang.Array.removeAt(this.__columnIds,
-          this.__columnIds.indexOf("distinctValues")));
-      }
       this.__columnIds.push("item");
       tableModel.setColumns(this.__columnIds);
       tableModel.setData(this._getRowData(value));
@@ -197,6 +200,24 @@ qx.Class.define("fce.view.Table", {
         }
       }
       return uniquePropertyNames;
+    },
+
+    /**
+     * Returns a sorted list of column Ids
+     * @param columnIds {String[]} List of column ids
+     * @return {String[]} Sorted IDs
+     */
+    _getSortedColumnIds : function(columnIds)
+    {
+      var defaultColumns = fce.view.Table.DEFAULT_COLUMNS_PRE.concat(fce.view.Table.DEFAULT_COLUMNS_POST);
+      var filtered = columnIds.concat().filter(function(item) {
+        return !qx.lang.Array.contains(defaultColumns, item);
+      });
+
+      filtered = fce.view.Table.DEFAULT_COLUMNS_PRE.concat(filtered);
+      filtered = filtered.concat(fce.view.Table.DEFAULT_COLUMNS_POST);
+
+      return filtered;
     },
 
 
