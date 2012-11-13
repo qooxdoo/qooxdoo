@@ -1381,7 +1381,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         radius : [0, 0, 3, 3],
         width: [0, 1, 1, 1],
-        backgroundColor : "tabview-inactive-start"
+        backgroundColor : "tabview-inactive-start",
+        shadowLength: 0,
+        shadowBlurRadius: 0
       }
     },
 
