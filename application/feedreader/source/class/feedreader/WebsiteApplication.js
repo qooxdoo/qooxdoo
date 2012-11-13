@@ -74,7 +74,7 @@ qx.Class.define("feedreader.WebsiteApplication",
       // add a listener to the tree to change the selected feed
       var self = this;
       tree.on("click", function(e) {
-        var feed = e.target.feed;
+        var feed = (e.target || e.srcElement).feed;
         // if the selected feed is loaded
         if (feed.getState() == "loaded") {
           list.stop();
