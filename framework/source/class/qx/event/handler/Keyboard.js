@@ -103,37 +103,7 @@ qx.Class.define("qx.event.handler.Keyboard",
 
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : true,
-
-
-    /**
-     * Checks whether a given string is a valid keyIdentifier
-     *
-     * @param keyIdentifier {String} The key identifier.
-     * @return {Boolean} whether the given string is a valid keyIdentifier
-     * @deprecated {2.0}
-     */
-    isValidKeyIdentifier : function(keyIdentifier)
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-        "Use qx.event.util.Keyboard.isValidKeyIdentifier instead.");
-      return qx.event.util.Keyboard.isValidKeyIdentifier(keyIdentifier);
-    },
-
-
-    /**
-     * Checks whether a given string is a printable keyIdentifier.
-     *
-     * @param keyIdentifier {String} The key identifier.
-     * @return {Boolean} whether the given string is a printable keyIdentifier.
-     * @deprecated {2.0}
-     */
-    isPrintableKeyIdentifier : function(keyIdentifier)
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-        "Use qx.event.util.Keyboard.isPrintableKeyIdentifier instead.");
-      return qx.event.util.Keyboard.isPrintableKeyIdentifier(keyIdentifier);
-    }
+    IGNORE_CAN_HANDLE : true
   },
 
 
@@ -671,64 +641,6 @@ qx.Class.define("qx.event.handler.Keyboard",
       HELPER METHODS
     ---------------------------------------------------------------------------
     */
-
-
-    /**
-     * Checks whether the keyCode represents a non printable key
-     *
-     * @param keyCode {String} key code to check.
-     * @return {Boolean} Whether the keyCode represents a non printable key.
-     * @deprecated {2.0}
-     */
-    _isNonPrintableKeyCode : function(keyCode) {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-        "Use qx.event.util.Keyboard.isNonPrintableKeyCode instead.");
-      return qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode);
-    },
-
-
-    /**
-     * Check whether the keycode can be reliably detected in keyup/keydown events
-     *
-     * @param keyCode {String} key code to check.
-     * @return {Boolean} Whether the keycode can be reliably detected in keyup/keydown events.
-     * @deprecated {2.0}
-     */
-    _isIdentifiableKeyCode : function(keyCode)
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-        "Use qx.event.util.Keyboard.isIdentifiableKeyCode instead.");
-      return qx.event.util.Keyboard.isIdentifiableKeyCode(keyCode);
-    },
-
-
-    /**
-     * converts a keyboard code to the corresponding identifier
-     *
-     * @param keyCode {Integer} key code
-     * @return {String} key identifier
-     * @deprecated {2.0}
-     */
-    _keyCodeToIdentifier : function(keyCode)
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-        "Use qx.event.util.Keyboard.keyCodeToIdentifier instead.");
-      return qx.event.util.Keyboard.keyCodeToIdentifier(keyCode);
-    },
-
-
-    /**
-     * converts a character code to the corresponding identifier
-     *
-     * @param charCode {String} character code
-     * @return {String} key identifier
-     * @deprecated {2.0}
-     */
-    _charCodeToIdentifier : function(charCode) {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-        "Use qx.event.util.Keyboard.charCodeToIdentifier instead.");
-      return qx.event.util.Keyboard.charCodeToIdentifier(charCode);
-    },
 
 
     /**

@@ -89,7 +89,7 @@ The selection rectangle has the size of 4 x 4 pixels, thus the ``border-width`` 
 
 .. note::
 
-    For more information see the :ref:`slice-image <pages/tool/generator_config_ref#slice-images>` section.
+    For more information see the :ref:`slice-image <pages/tool/generator/generator_config_ref#slice-images>` section.
 
 
 .. _pages/image_clipping_and_combining#image_combining:
@@ -136,7 +136,7 @@ Basically the structure is the same as for the ``image-clipping`` jobs. Let's ta
 
 .. note::
 
-    For more information take a look at the :ref:`combine-images <pages/tool/generator_config_ref#combine-images>` section.
+    For more information take a look at the :ref:`combine-images <pages/tool/generator/generator_config_ref#combine-images>` section.
 
 
 .. _pages/image_clipping_and_combining#run_image_jobs:

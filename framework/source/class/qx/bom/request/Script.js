@@ -206,7 +206,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
      */
     setRequestHeader: function(key, value) {
       if (this.__disposed) {
-        return;
+        return null;
       }
 
       var param = {};
@@ -226,7 +226,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
      */
     send: function() {
       if (this.__disposed) {
-        return;
+        return null;
       }
 
       var script = this.__createScriptElement(),
@@ -259,7 +259,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
      */
     abort: function() {
       if (this.__disposed) {
-        return;
+        return null;
       }
 
       this.__abort = true;
@@ -347,10 +347,12 @@ qx.Bootstrap.define("qx.bom.request.Script",
      *
      * @param key {String}
      *  Key of the header to get the value from.
+     * @return {String|null} Warning message or <code>null</code> if the request
+     * is disposed
      */
     getResponseHeader: function(key) {
       if (this.__disposed) {
-        return;
+        return null;
       }
 
       if (this.__environmentGet("qx.debug")) {
@@ -365,10 +367,12 @@ qx.Bootstrap.define("qx.bom.request.Script",
      *
      * Note: This method exists for compatibility reasons. The script
      * transport does not receive response headers.
+     * @return {String|null} Warning message or <code>null</code> if the request
+     * is disposed
      */
     getAllResponseHeaders: function() {
       if (this.__disposed) {
-        return;
+        return null;
       }
 
       if (this.__environmentGet("qx.debug")) {
@@ -676,6 +680,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
      * Proxy Environment.get to guard against env not being present yet.
      *
      * @param key {String} Environment key.
+     * @return {var} Value of the queried environment key
      * @lint environmentNonLiteralKey(key)
      */
     __environmentGet: function(key) {

@@ -302,6 +302,8 @@ qx.Class.define("qx.bom.Window",
      * Closes the given window
      *
      * @param win {Window} Native window object
+     * @return {var} The return value (if any) of the window's native
+     * <code>close</code> method
      */
     close : function(win)
     {

@@ -26,6 +26,7 @@
 #asset(qx/icon/Oxygen/16/actions/insert-link.png)
 #asset(qx/icon/Oxygen/16/actions/insert-text.png)
 #asset(demobrowser/demo/icons/htmlarea/*)
+#require(qx.module.Core)
 
 ************************************************************************ */
 
@@ -229,7 +230,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
        qx.bom.element.Style.set(button, "outline", "none");
      }
 
-     listItem = qx.bom.Collection.html("<option value=''></option>");
+     listItem = q.create("<option value=''></option>");
      qx.dom.Element.insertEnd(listItem[0], button);
 
      var entries = ["Tahoma", "Verdana", "Times New Roman", "Arial",
@@ -242,7 +243,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
      {
        htmlString = "<option qxKeepFocus='on' qxSelectable='off'" +
                      "value='" + entries[i] + "'>" + entries[i] + "</option>";
-       entry = qx.bom.Collection.html(htmlString);
+       entry = q.create(htmlString);
 
        if (qx.core.Environment.get("engine.name") == "mshtml") {
          qx.bom.element.Attribute.set(entry[0], "hideFocus", "true");
@@ -290,7 +291,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
        qx.bom.element.Style.set(button, "outline", "none");
      }
 
-     listItem = qx.bom.Collection.html("<option value=''></option>");
+     listItem = q.create("<option value=''></option>");
      qx.dom.Element.insertEnd(listItem[0], button);
 
      var entry;
@@ -299,7 +300,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
      {
        htmlString = "<option qxKeepFocus='on' qxSelectable='off' " +
                      "value='" + i + "'>" + i + "</option>";
-       entry = qx.bom.Collection.html(htmlString);
+       entry = q.create(htmlString);
 
        if (qx.core.Environment.get("engine.name") == "mshtml") {
          qx.bom.element.Attribute.set(entry[0], "hideFocus", "true");

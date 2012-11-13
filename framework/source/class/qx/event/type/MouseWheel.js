@@ -59,6 +59,7 @@ qx.Class.define("qx.event.type.MouseWheel",
      * Normalizer for the mouse wheel data.
      *
      * @param delta {Number} The mouse delta.
+     * @return {Number} The normalized delta value
      */
     __normalize : function(delta) {
       var absDelta = Math.abs(delta);

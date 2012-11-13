@@ -20,6 +20,9 @@
 /* ************************************************************************
 #ignore(qx.test.DummyFormRenderer)
 ************************************************************************ */
+/**
+ * @ignore(qx.test.DummyFormRenderer)
+ */
 
 qx.Class.define("qx.test.ui.form.FormManager",
 {

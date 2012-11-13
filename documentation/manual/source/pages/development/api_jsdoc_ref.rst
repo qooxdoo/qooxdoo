@@ -139,6 +139,8 @@ A JSDoc comment consists of different sections, where a section is either a lead
 
    * - API Documentation
      - * `Description`_ 
+       * `@abstract`_
+       * `@childControl`_
        * `@deprecated`_
        * `@internal`_
        * `@link`_
@@ -150,12 +152,14 @@ A JSDoc comment consists of different sections, where a section is either a lead
        * `@type`_
    * - Lint Checking
      - * `@lint`_
-   * - Compile-time Hints
+   * - Compiler
      - * `@attach`_
        * `@attachStatic`_
        * `@ignore`_
        * `@require`_
        * `@use`_
+   * - Extra
+     - * `@tag`_
 
 
 .. _pages/development/api_jsdoc_ref#description:
@@ -172,6 +176,66 @@ Description
 **Syntax**
 
   Free text, without any leading ``@`` attribute, containing HTML and/or markup, and some ``@`` attributes that may be embedded in text (see further). If given must be the first section in the doc comment.
+
+.. _pages/development/api_jsdoc_ref#abstract:
+
+.. rst-class:: api-ref
+
+@abstract
+-------------------------------------------
+
+**Scope**
+
+  methods
+
+**Description**
+
+  Used to signify abstract methods in regular classes.
+
+**Syntax**
+
+  ``@abstract``
+
+
+.. _pages/development/api_jsdoc_ref#childControl:
+
+.. rst-class:: api-ref
+
+@childControl
+-------------------------------------------
+
+**Scope**
+
+  class
+
+**Description**
+
+  In a class description of a widget that is composed of various sub-widgets the ``@childControl`` entry informs about those sub-widgets. This is relevant for users that want to apply a :ref:`custom theme <pages/desktop/ui_appearance#appearance>` to the widget (the name is the default appearance ID), or implement :ref:`own widgets <pages/desktop/ui_develop#child_controls>` that derive from this.
+
+**Syntax**
+
+  ``@childControl <name> { <type> } <description>``
+
+**Parameters**
+
+    .. list-table::
+      :stub-columns: 1
+      :widths: 30 70
+
+      * - name
+        - An identifying name for the child control
+      * - type
+        - The :ref:`type specification <pages/development/api_jsdoc_ref#types_syntax>` of the child control widget
+      * - description
+        - What the child control is used for in the context of this widget
+  
+**Example**
+
+  ::
+
+    @childControl title {qx.ui.basic.Label} caption of the window
+
+
 
 .. _pages/development/api_jsdoc_ref#param:
 
@@ -239,7 +303,7 @@ Description
       :widths: 30 70
 
       * - type
-        - A :ref:`type indicator <pages/development/api_jsdoc_ref#handling_of_data_types>` like ``Map``
+        - A :ref:`type indicator <pages/development/api_jsdoc_ref#types_syntax>` like ``Map``
   
 **Example**
 
@@ -275,7 +339,7 @@ Description
       :widths: 30 70
 
       * - type
-        - The type of the return value.
+        - The :ref:`type <pages/development/api_jsdoc_ref#types_syntax>` of the return value.
       * - description
         - Descriptive text
 
@@ -313,7 +377,7 @@ Description
     :widths: 30 70
 
     * - type
-      - The type of the exception
+      - The :ref:`type <pages/development/api_jsdoc_ref#types_syntax>` of the exception
     * - description
       - Descriptive text under which circumstances this exception is thrown.
 
@@ -552,9 +616,12 @@ Description
                *(Deprecated)* This key is deprecated for the more general :ref:`@ignore <pages/development/api_jsdoc_ref#ignore>` hint.
              * **ignoreUnused**
                
-               Scoped variables (parameters or declared with ``var``) which are never used.
+               Scoped variables (function parameters, function expression's identifier, or variables declared with ``var``) which are never used.
+             * **ignoreJsdocKey** *[Not yet implemented]*
+               
+               JSDoc @ keys which are either unknown (i.e. not documented on this page) or do not comply with the syntax given here.
       * - name
-        - The identifier in the source code which the lint subkey should be applied to.
+        - The identifier which the lint subkey should be applied to.
   
 
 **Example**
@@ -752,4 +819,42 @@ Description
 **Example**
 
   ``@ignore(qx.dev.unit.TestSuite)``
+
+
+.. _pages/development/api_jsdoc_ref#tag:
+
+.. rst-class:: api-ref
+
+@tag
+-------------------------------------------
+
+**Scope**
+
+  any
+
+**Description**
+
+  The ``@tag`` entry allows to do arbitrary tagging on the entity that is being documented (class, method, ...). This allows for pre-processing of the source code with custom programs, e.g. to extract those tags and make them available to the application at runtime (see the :doc:`/pages/application/demobrowser` application for an example of this).
+
+**Syntax**
+
+  ``@tag <text>``
+
+**Parameters**
+
+    .. list-table::
+      :stub-columns: 1
+      :widths: 30 70
+
+      * - text
+        - Arbitrary text, usually short or composed tag names
+  
+**Example**
+
+  ::
+
+    @tag noPlayground
+    @tag single value binding
+
+
 

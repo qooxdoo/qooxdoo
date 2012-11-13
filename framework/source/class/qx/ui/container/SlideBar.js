@@ -289,14 +289,14 @@ qx.Class.define("qx.ui.container.SlideBar",
 
       // old can also be null, so we have to check both explicitly to set
       // the states correctly.
-      if (old == "vertical")
+      if (old == "vertical" && value == "horizontal")
       {
         buttonForward.removeState("vertical");
         buttonBackward.removeState("vertical");
         buttonForward.addState("horizontal");
         buttonBackward.addState("horizontal");
       }
-      else if (old == "horizontal")
+      else if (old == "horizontal" && value == "vertical")
       {
         buttonForward.removeState("horizontal");
         buttonBackward.removeState("horizontal");

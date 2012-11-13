@@ -34,11 +34,13 @@ from generator import Context
 
 class LintChecker(treeutil.NodeVisitor):
 
-    def __init__(self, root_node, file_name, opts):
+    def __init__(self, root_node, file_name_, opts):
         super(LintChecker, self).__init__()
         self.root_node = root_node
-        self.file_name = file_name  # it's a warning module, so i need a proper file name
+        self.file_name = file_name_  # it's a warning module, so i need a proper file name
         self.opts = opts
+        global file_name
+        file_name = file_name_
 
     def visit_file(self, node):
         # we can run the basic scope checks as with function nodes
@@ -141,7 +143,7 @@ class LintChecker(treeutil.NodeVisitor):
                     var_top = treeutil.findVarRoot(var_node)
                     full_name = (treeutil.assembleVariable(var_top))[0]
                     ok = False
-                    if extension_match_in(full_name, self.opts.library_classes +
+                    if extension_match_in(full_name, self.opts.library_classes + lang.QXGLOBALS,
                         self.opts.class_namespaces): # known classes (classList + their namespaces)
                         ok = True
                     else:
@@ -150,7 +152,7 @@ class LintChecker(treeutil.NodeVisitor):
                             ok = ( self.is_name_ignore_filtered(full_name, at_hints)
                                 or self.is_name_lint_filtered(full_name, at_hints, "ignoreUndefined")) # /**deprecated*/
                     if not ok:
-                        warn("Unknown global symbol used: '%s'" % var_node.get("value"), self.file_name, var_node)
+                        warn("Unknown global symbol used: '%s'" % full_name, self.file_name, var_node)
 
     def function_unused_vars(self, funcnode):
         scope = funcnode.scope
@@ -219,7 +221,7 @@ class LintChecker(treeutil.NodeVisitor):
         for id_, var_node in scope_node.vars.items():
             if self.multiple_var_decls(var_node):
                 warn("Multiple declarations of variable: '%s' (%r)" % (
-                    id_, [(n.get("line",0) or -1) for n in var_node.decl]), self.file_name, None)
+                    id_, [n.get("line",-1) for n in var_node.decl]), self.file_name, None)
 
     def multiple_var_decls(self, scopeVar):
         return len(scopeVar.decl) > 1
@@ -464,23 +466,24 @@ def warn(msg, fname, node):
 def get_at_hints(node, at_hints=None):
     if at_hints is None:
         at_hints = defaultdict(dict)
-    commentAttributes = Comment.parseNode(node)  # searches comment "around" this node
-    for entry in commentAttributes:
-         # {'arguments': ['a', 'b'],
-         #  'category': u'lint',
-         #  'functor': u'ignoreReferenceField',
-         #  'text': u'<p>ignoreReferenceField(a,b)</p>'
-         # }
-        cat = entry['category']
-        if cat=='lint':
-            functor = entry['functor']
-            if functor not in at_hints[cat]:
-                at_hints[cat][functor] = set()
-            at_hints[cat][functor].update(entry['arguments']) 
-        elif cat=="ignore":
-            if cat not in at_hints:
-                at_hints[cat] = set()
-            at_hints[cat].update(entry['arguments'])
+    commentsArray = Comment.parseNode(node)  # searches comment "around" this node
+    for commentAttributes in commentsArray:
+        for entry in commentAttributes:
+             # {'arguments': ['a', 'b'],
+             #  'category': u'lint',
+             #  'functor': u'ignoreReferenceField',
+             #  'text': u'<p>ignoreReferenceField(a,b)</p>'
+             # }
+            cat = entry['category']
+            if cat=='lint':
+                functor = entry['functor']
+                if functor not in at_hints[cat]:
+                    at_hints[cat][functor] = set()
+                at_hints[cat][functor].update(entry['arguments']) 
+            elif cat=="ignore":
+                if cat not in at_hints:
+                    at_hints[cat] = set()
+                at_hints[cat].update(entry['arguments'])
     # include @hints of parent scopes
     scope = scopes.find_enclosing(node)
     if scope:
@@ -510,25 +513,28 @@ def defaultOptions():
     return opts
 
 ##
-# Check if a name is in a list, or is a (dot-exact) extension of any of the
-# names in the list (i.e. extension_match_in("foo.bar.baz", ["foo.bar"]) ==
-# True).
+# A known qx global is either exactly a name space, or a dotted identifier that
+# is a dotted extension of a known class.
 #
 # (This is a copy of MClassDependencies._splitQxClass).
 #
-def extension_match_in(name, name_list):
+def extension_match_in(name, name_list, name_spaces):
     res_name = ''
     res_attribute = ''
-    if name in name_list:
+    # check for a name space match
+    if name in name_spaces:
         res_name = name
     # see if name is a (dot-exact) prefix of any of name_list
-    elif "." in name:
-        for list_name in name_list:
-            if name.startswith(list_name) and re.match(r'%s\b' % list_name, name):
-                if len(list_name) > len(res_name): # take the longest match
-                    res_name = list_name
+    else:
+        for class_name in name_list:
+            if (name.startswith(class_name) and 
+                    re.search(r'^%s\b' % re.escape(class_name), name)): 
+                        # re.escape for e.g. the '$' in 'qx.$$'
+                        # '\b' so that 'mylib.Foo' doesn't match 'mylib.FooBar'
+                if len(class_name) > len(res_name): # take the longest match (?!)
+                    res_name = class_name
                     ## compute the 'attribute' suffix
-                    #res_attribute = name[ len(list_name) +1:]  # skip list_name + '.'
+                    #res_attribute = name[ len(class_name) +1:]  # skip class_name + '.'
                     ## see if res_attribute is chained, too
                     #dotidx = res_attribute.find(".")
                     #if dotidx > -1:

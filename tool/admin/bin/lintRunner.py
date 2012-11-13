@@ -45,7 +45,7 @@ except ImportError, e:
 sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), '..', 'app', 'batserver'))
 import qxtest
 
-filter_errors = ["Use of deprecated global identifier", "Multiply declared identifier", "Protected data field"]
+filter_errors = []
 filter_classes = []
 
 mailConf = {
@@ -245,7 +245,7 @@ class QxLint:
             html += '        <tr>\n'
             html += '            <th>File</th>\n'
             html += '            <th>Line/Column</th>\n'
-            if (v[0]["member"] and v[0]["member"] != "{}"):
+            if ("member" in v[0] and v[0]["member"] != "{}"):
                 html += '            <th>Member</th>\n'
             #if (v[0]["hint"]):
             #    html += '            <th>Hint</th>\n'
@@ -254,7 +254,7 @@ class QxLint:
                 html += '        <tr>\n'
                 html += '            <td>' + entry["path"] + '</td>\n'
                 html += '            <td>' + entry["line"] + '</td>\n'
-                if (entry["member"]):
+                if ("member" in entry):
                     html += '            <td>' + entry["member"] + '</td>\n'
                 #if (entry["hint"]):
                 #    html += '            <td>' + entry["hint"] + '</td>\n'
@@ -304,13 +304,14 @@ class QxLint:
             for messageDetails in self.data[message]:
                 flatMessage = {
                     "message": message,
-                    "member": messageDetails["member"],
                     "path": messageDetails["path"],
                     "line": messageDetails["line"],
                     "target": target,
                     "revision": revision,
                     "branch": branch
                 }
+                if "member" in messageDetails:
+                    flatMessage["member"] = messageDetails["member"]
                 flatData.append(flatMessage)
 
         postdata = urllib.urlencode({"lintRun": self.getJson(flatData)})

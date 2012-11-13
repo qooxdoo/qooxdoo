@@ -101,7 +101,8 @@ qx.Class.define('demobrowser.demo.table.RemoteTableModel', {
 
     __call : function(param, callback) {
       var req = new qx.io.request.Xhr();
-      req.setUrl("../../resource/demobrowser/backend/remote_table.php?" + param);
+      var url = qx.util.ResourceManager.getInstance().toUri("demobrowser/backend/remote_table.php");
+      req.setUrl(url + "?" + param);
       req.addListener("success", function() {
         callback.call(this, req.getResponseText())
       }, this);

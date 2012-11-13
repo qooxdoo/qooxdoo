@@ -42,6 +42,7 @@ qx.Class.define("qx.bom.Vml",
      * @param attributes {Map?null} An optional map of element attributes
      * @param win {var?null} The browser window element, in which the element
      *     should be created.
+     * @return {Element} The VML element
      */
     create : function(type, attributes, win)
     {
@@ -142,12 +143,14 @@ qx.Class.define("qx.bom.Vml",
 
   defer : function()
   {
-    if (qx.core.Environment.get("html.vml")) {
-      qx.bom.Stylesheet.createElement("v\\: * { behavior:url(#default#VML);display:inline-block; }");
+    qx.module.Event.ready(function() {
+      if (qx.core.Environment.get("html.vml")) {
+        qx.bom.Stylesheet.createElement("v\\: * { behavior:url(#default#VML);display:inline-block; }");
 
-      if (!document.namespaces["v"]) {
-        document.namespaces.add("v", "urn:schemas-microsoft-com:vml");
+        if (!document.namespaces["v"]) {
+          document.namespaces.add("v", "urn:schemas-microsoft-com:vml");
+        }
       }
-    }
+    });
   }
 });

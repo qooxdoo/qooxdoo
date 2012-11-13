@@ -109,10 +109,10 @@ qx.Class.define("apiviewer.TreeUtil",
      * Gets the icon URL of a doc node.
      *
      * @param node {Map} the node to get the icon for.
-     * @param inherited {Boolean,false} whether the node was inherited.
+     * @param inherited {Boolean? false} whether the node was inherited.
      * @return {var} the URL of the icon. May be a string or an array of string
      *           (in case of an overlay icon).
-     * @throws TODOC
+     * @throws {Error} If node is of an unknown type.
      */
     getIconUrl : function(node, inherited)
     {
@@ -192,13 +192,6 @@ qx.Class.define("apiviewer.TreeUtil",
         if (node.getClass().getType() == "mixin") {
           constName += "_MIXIN";
         }
-
-        // TODO: we don't have an overlay icon for mixins yet.
-        /*
-        else if (node.getClass().getType() == "interface") {
-          constName += "_INTERFACE";
-        }
-        */
       }
       else if (node instanceof dao.Constant)
       {

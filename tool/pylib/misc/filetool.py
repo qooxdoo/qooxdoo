@@ -26,7 +26,7 @@ import textutil
 
 ##
 # directory entry patterns we generally want to ignore
-VERSIONCONTROL_DIR_PATTS = (r'^\.svn$', r'^_svn$', r'^CVS$', r'^\.git.*', r'^\.DS_Store$')
+VERSIONCONTROL_DIR_PATTS = (r'^\.svn$', r'^_svn$', r'^CVS$', r'^\.git.*', r'^\.DS_Store$', r'^__MACOSX$')
 
 def gzip(filePath, content, encoding="utf-8"):
     if not filePath.endswith(".gz"):

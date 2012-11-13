@@ -300,7 +300,7 @@ def getInlineCommentPadding(options, keepColumn):
 
 
 def postProcessMap(m):
-    if m.get("maxKeyLength", False) != None:
+    if m.get("maxKeyLength", False):
         return
 
     maxKeyLength = 0
@@ -313,7 +313,7 @@ def postProcessMap(m):
 
             currKeyLength = len(keyvalue.get("key"))
 
-            if keyvalue.get("quote", False) != None:
+            if keyvalue.get("quote", False):
                 currKeyLength += 2
 
             if currKeyLength > maxKeyLength:
@@ -579,7 +579,7 @@ def _prettyNode(node, optns, result):
 
         if node.get("label", False):
             space()
-            write(node.get("label", False))
+            write(node.get("label"))
 
 
     #
@@ -613,7 +613,7 @@ def _prettyNode(node, optns, result):
 
     elif node.type == "identifier":
         name = node.get("value", False)
-        if name != None:
+        if name:
             write(name)
 
 
@@ -699,6 +699,7 @@ def _prettyNode(node, optns, result):
     elif node.type == "assignment":
         if node.parent.type == "definition":
             oper = node.get("operator", False)
+            oper = None if oper == False else oper
 
             # be compact in for-loops
             compact = inForLoop(node)
@@ -886,7 +887,7 @@ def _prettyNode(node, optns, result):
         keyString = node.get("key")
         keyQuote = node.get("quote", False)
 
-        if keyQuote != None:
+        if keyQuote:
             # print "USE QUOTATION"
             if keyQuote == "doublequotes":
                 keyString = '"' + keyString + '"'
@@ -1223,6 +1224,7 @@ def _prettyNode(node, optns, result):
     elif node.type == "left":
         if node.hasParent() and node.parent.type == "assignment":
             oper = node.parent.get("operator", False)
+            oper = None if oper == False else oper
 
             # be compact in for-loops
             compact = inForLoop(node)
@@ -1494,6 +1496,7 @@ def _prettyNode(node, optns, result):
         # operation
         elif node.parent.type == "operation" and node.parent.get("left", False) != True:
             oper = node.parent.get("operator")
+            oper = None if oper == False else oper
 
             # be compact in for loops
             compact = inForLoop(node)

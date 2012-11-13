@@ -22,6 +22,9 @@
 #asset(qx/test/*)
 
 ************************************************************************ */
+/**
+ * @ignore(qx.data.model)
+ */
 
 qx.Class.define("qx.test.data.store.Jsonp",
 {

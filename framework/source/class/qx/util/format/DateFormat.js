@@ -146,29 +146,14 @@ qx.Class.define("qx.util.format.DateFormat",
   statics :
   {
     /**
-     * Returns a <code>DateFomat</code> instance that uses the
-     * format.
+     * Convenience factory that returns a <code>DateFomat</code> instance that
+     * uses a short date-only format. Beware that the overall layout of the
+     * date/time format string is that of the locale in effect when the factory
+     * function is called.
      *
-     * @return {String} the date/time instance.
-     */
-    getDateTimeInstance : function()
-    {
-      var DateFormat = qx.util.format.DateFormat;
-
-      var format = qx.locale.Date.getDateFormat("long") + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
-
-      if (DateFormat._dateInstance == null || DateFormat._dateInstance.__format != format) {
-        DateFormat._dateTimeInstance = new DateFormat();
-      }
-
-      return DateFormat._dateTimeInstance;
-    },
-
-
-    /**
-     * Returns a <code>DateFomat</code> instance that uses the format.
+     * Implemented as a quasi-singleton, so beware of side effects.
      *
-     * @return {String} the date instance.
+     * @return {DateFormat} a DateFormat instance.
      */
     getDateInstance : function()
     {
@@ -176,11 +161,37 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var format = qx.locale.Date.getDateFormat("short") + "";
 
+      // Memoizing the instance, so caller doesn't have to dispose it.
       if (DateFormat._dateInstance == null || DateFormat._dateInstance.__format != format) {
         DateFormat._dateInstance = new DateFormat(format);
       }
 
       return DateFormat._dateInstance;
+    },
+
+
+    /**
+     * Convenience factory that returns a <code>DateFomat</code> instance that
+     * uses a long date/time format. Beware that the overall layout of the
+     * date/time format string is that of the locale in effect when the factory
+     * function is called.
+     *
+     * Implemented as a quasi-singleton, so beware of side effects.
+     *
+     * @return {DateFormat} a DateFormat instance.
+     */
+    getDateTimeInstance : function()
+    {
+      var DateFormat = qx.util.format.DateFormat;
+
+      var format = qx.locale.Date.getDateFormat("long") + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
+
+      // Memoizing the instance, so caller doesn't have to dispose it.
+      if (DateFormat._dateTimeInstance == null || DateFormat._dateTimeInstance.__format != format) {
+        DateFormat._dateTimeInstance = new DateFormat(format);
+      }
+
+      return DateFormat._dateTimeInstance;
     },
 
 
@@ -1019,7 +1030,6 @@ qx.Class.define("qx.util.format.DateFormat",
      * The parse contains everything needed for parsing: The regular expression
      * (in compiled and uncompiled form) and the used rules.
      *
-     * @return {Map} the parse feed.
      * @throws {Error} If the date format is malformed.
      */
     __initParseFeed : function()
@@ -1027,7 +1037,7 @@ qx.Class.define("qx.util.format.DateFormat",
       if (this.__parseFeed != null)
       {
         // We already have the parse feed
-        return ;
+        return;
       }
 
       var format = this.__format;

@@ -68,9 +68,9 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
             }
             try {
               exString += "Stack: " + targetWin.qx.dev.StackTrace.getStackTraceFromError(ex);
-            } catch(ex) {
-              if (ex.stack) {
-                exString += "Stack: " + ex.stack;
+            } catch(e) {
+              if (e.stack) {
+                exString += "Stack: " + e.stack;
               }
             }
           }

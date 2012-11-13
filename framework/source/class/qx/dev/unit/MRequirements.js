@@ -27,7 +27,7 @@
 
 /**
  * Common requirement checks for unit tests. Example:
- * 
+ *
  * <pre class="javascript">
  * testBackend : function()
  * {

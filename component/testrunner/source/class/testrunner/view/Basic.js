@@ -49,7 +49,7 @@ qx.Class.define("testrunner.view.Basic", {
 
 
     /**
-     * Terminates the Java VM 
+     * Terminates the Java VM
      */
     exit : function()
     {

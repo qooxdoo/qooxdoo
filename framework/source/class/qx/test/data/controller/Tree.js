@@ -22,6 +22,11 @@
 #ignore(qx.test.TreeEndNode)
 #ignore(qx.test.TreeNode)
 ************************************************************************ */
+/**
+ * @ignore(qx.test.MyTreeNode)
+ * @ignore(qx.test.TreeEndNode)
+ * @ignore(qx.test.TreeNode)
+ */
 
 qx.Class.define("qx.test.data.controller.Tree",
 {

@@ -233,7 +233,7 @@ class ApiLoader(object):
             attr = source.attributes
             for key in attr:
                 # Special handling for attributes which stores a list (this is BTW quite ugly)
-                if key in ["childClasses", "includer", "mixins", "implementations"] and target.get(key, False) != None:
+                if key in ["childClasses", "includer", "mixins", "implementations"] and target.get(key, False) != False:
                     target.set(key, "%s,%s" % (target.get(key), attr[key]))
                 else:
                     target.set(key, attr[key])
@@ -506,8 +506,10 @@ class ApiLoader(object):
                     itemName = link["className"]
                 elif link["className"] == link["itemName"]:
                     itemName = link["itemName"]
-                else:
+                elif link["className"]:
                     itemName = link["className"] + "#" + link["itemName"]
+                else:
+                    itemName = link["itemName"]
                 
                 param = ""
                 if link["paramName"]:

@@ -44,13 +44,14 @@ qx.Bootstrap.define("qx.event.Emitter",
      *
      * @param name {String} The name of the event to listen to.
      * @param listener {Function} The function execute on {@link #emit}.
-     * @param ctx {var?} The context of the listener.
+     * @param ctx {var?Window} The context of the listener.
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
     on : function(name, listener, ctx) {
-      this.__getStorage(name).push({listener: listener, ctx: ctx});
+      var id = qx.event.Emitter.__storage.length;
+      this.__getStorage(name).push({listener: listener, ctx: ctx, id: id});
       qx.event.Emitter.__storage.push({name: name, listener: listener, ctx: ctx});
-      return qx.event.Emitter.__storage.length - 1;
+      return id;
     },
 
 
@@ -61,13 +62,14 @@ qx.Bootstrap.define("qx.event.Emitter",
      *
      * @param name {String} The name of the event to listen to.
      * @param listener {Function} The function execute on {@link #emit}.
-     * @param ctx {var?} The context of the listener.
+     * @param ctx {var?Window} The context of the listener.
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
     once : function(name, listener, ctx) {
-      this.__getStorage(name).push({listener: listener, ctx: ctx, once: true});
+      var id = qx.event.Emitter.__storage.length;
+      this.__getStorage(name).push({listener: listener, ctx: ctx, once: true, id: id});
       qx.event.Emitter.__storage.push({name: name, listener: listener, ctx: ctx});
-      return qx.event.Emitter.__storage.length - 1;
+      return id;
     },
 
 
@@ -77,7 +79,7 @@ qx.Bootstrap.define("qx.event.Emitter",
      *
      * @param name {String} The name of the event to listen to.
      * @param listener {Function} The function execute on {@link #emit}.
-     * @param ctx {var?} The context of the listener.
+     * @param ctx {var?Window} The context of the listener.
      * @return {Integer|null} The listener's id if it was removed or
      * <code>null</code> if it wasn't found
      */
@@ -87,7 +89,8 @@ qx.Bootstrap.define("qx.event.Emitter",
         var entry = storage[i];
         if (entry.listener == listener && entry.ctx == ctx) {
           storage.splice(i, 1);
-          return i;
+          qx.event.Emitter.__storage[entry.id] = null;
+          return entry.id;
         }
       };
       return null;
@@ -112,7 +115,7 @@ qx.Bootstrap.define("qx.event.Emitter",
      * Alternative for {@link #on}.
      * @param name {String} The name of the event to listen to.
      * @param listener {Function} The function execute on {@link #emit}.
-     * @param ctx {var?} The context of the listener.
+     * @param ctx {var?Window} The context of the listener.
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
     addListener : function(name, listener, ctx) {
@@ -124,7 +127,7 @@ qx.Bootstrap.define("qx.event.Emitter",
      * Alternative for {@link #once}.
      * @param name {String} The name of the event to listen to.
      * @param listener {Function} The function execute on {@link #emit}.
-     * @param ctx {var?} The context of the listener.
+     * @param ctx {var?Window} The context of the listener.
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
     addListenerOnce : function(name, listener, ctx) {
@@ -136,7 +139,7 @@ qx.Bootstrap.define("qx.event.Emitter",
      * Alternative for {@link #off}.
      * @param name {String} The name of the event to listen to.
      * @param listener {Function} The function execute on {@link #emit}.
-     * @param ctx {var?} The context of the listener.
+     * @param ctx {var?Window} The context of the listener.
      */
     removeListener : function(name, listener, ctx) {
       this.off(name, listener, ctx);
@@ -158,15 +161,16 @@ qx.Bootstrap.define("qx.event.Emitter",
      * Emits an event with the given name. The data will be passed
      * to the listener.
      * @param name {String} The name of the event to emit.
-     * @param data {var?} The data which should be passed to the listener.
+     * @param data {var?undefined} The data which should be passed to the listener.
      */
     emit : function(name, data) {
       var storage = this.__getStorage(name);
-      for (var i = storage.length - 1; i >= 0; i--) {
+      for (var i = 0; i < storage.length; i++) {
         var entry = storage[i];
         entry.listener.call(entry.ctx, data);
         if (entry.once) {
           storage.splice(i, 1);
+          i--;
         }
       };
       // call on any

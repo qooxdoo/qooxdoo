@@ -420,9 +420,9 @@ class Generator(object):
 
 
             # create tool chain instances
-            self._locale         = Locale(self._context, self._classesObj, self._translations, self._cache, self._console, )
-            self._depLoader      = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
-            self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._classesObj)
+            self._locale = Locale(self._context, self._classesObj, self._translations, self._cache, self._console, )
+            self._depLoader = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
+            self._codeGenerator = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._classesObj)
 
             # distribute environment checks map
             # TODO : this could also be passed as a parameter to Class.dependencies()
@@ -493,8 +493,7 @@ class Generator(object):
             if takeout(jobTriggers, "fix-files"):
                 self.runFix(self._classesObj)
             if takeout(jobTriggers, "lint-check"):
-                #self.runLint(self._classesObj)
-                self.runLint_1(self._classesObj)
+                self.runLint(self._classesObj)
             if takeout(jobTriggers, "translate"):
                 self.runUpdateTranslation()
             if takeout(jobTriggers, "pretty-print"):
@@ -1619,59 +1618,6 @@ class Generator(object):
         self._console.outdent()
 
 
-    def runLint_1(self, classes):
-
-        def getFilteredClassList(classes, includePatt_, excludePatt_):
-            # Although lint-check doesn't work with dependencies, we allow
-            # '=' in class pattern for convenience; stripp those now
-            intelli, explicit = self._splitIncludeExcludeList(includePatt_)
-            includePatt = intelli + explicit
-            intelli, explicit = self._splitIncludeExcludeList(excludePatt_)
-            excludePatt = intelli + explicit
-            if len(includePatt):
-                incRegex = map(textutil.toRegExpS, includePatt)
-                incRegex = re.compile("|".join(incRegex))
-            else:
-                incRegex = re.compile(".")  # catch-all
-            if len(excludePatt):
-                excRegex = map(textutil.toRegExpS, excludePatt)
-                excRegex = re.compile("|".join(excRegex))
-            else:
-                excRegex = re.compile("^$")  # catch-none
-
-            classesFiltered = (c for c in classes if incRegex.search(c) and not excRegex.search(c))
-            return classesFiltered
-
-        # ----------------------------------------------------------------------
-
-        if not self._job.get('lint-check', False):
-            return
-
-        lib_class_names = classes.keys()
-        self._console.info("Checking Javascript source code...")
-        self._console.indent()
-
-        # Options
-        lintJob        = self._job
-        opts = lint.defaultOptions()
-        opts.include_patts    = lintJob.get('include', [])  # this is for future use
-        opts.exclude_patts    = lintJob.get('exclude', [])
-
-        classesToCheck = list(getFilteredClassList(lib_class_names, opts.include_patts, opts.exclude_patts))
-        opts.library_classes  = lib_class_names
-        opts.class_namespaces = [x[:x.rfind(".")] for x in opts.library_classes if x.find(".")>-1]
-        # the next requires that the config keys and option attributes be identical (modulo "-"_")
-        for option, value in lintJob.get("lint-check").items():
-            setattr(opts, option.replace("-","_"), value)
-
-        for pos, classId in enumerate(classesToCheck):
-            self._console.debug("Checking %s" % classId)
-            tree = self._classesObj[classId].tree()
-            lint.lint_check(tree, classId, opts)
-
-        self._console.outdent()
-
-
     def runLint(self, classes):
 
         def getFilteredClassList(classes, includePatt_, excludePatt_):
@@ -1700,28 +1646,27 @@ class Generator(object):
         if not self._job.get('lint-check', False) or not self._job.get('lint-check/run', False):
             return
 
-        classes = classes.keys()
+        lib_class_names = classes.keys()
         self._console.info("Checking Javascript source code...")
         self._console.indent()
-        self._shellCmd  = ShellCmd()
 
-        qxPath = self._job.get('let',{})
-        if 'QOOXDOO_PATH' in qxPath:
-            qxPath = qxPath['QOOXDOO_PATH']
-        else:
-            raise RuntimeError, "Need QOOXDOO_PATH setting to run lint command"
-        lintCommand    = os.path.join(qxPath, 'tool', 'bin', "ecmalint.py")
+        # Options
         lintJob        = self._job
-        allowedGlobals = lintJob.get('lint-check/allowed-globals', [])
-        includePatt    = lintJob.get('include', [])  # this is for future use
-        excludePatt    = lintJob.get('exclude', [])
+        opts = lint.defaultOptions()
+        opts.include_patts    = lintJob.get('include', [])  # this is for future use
+        opts.exclude_patts    = lintJob.get('exclude', [])
 
-        #self._actionLib.lint(classes)
-        lint_opts = "".join(map(lambda x: " -g"+x, allowedGlobals))
-        classesToCheck = getFilteredClassList(classes, includePatt, excludePatt)
+        classesToCheck = list(getFilteredClassList(lib_class_names, opts.include_patts, opts.exclude_patts))
+        opts.library_classes  = lib_class_names
+        opts.class_namespaces = [x[:x.rfind(".")] for x in opts.library_classes if x.find(".")>-1]
+        # the next requires that the config keys and option attributes be identical (modulo "-"_")
+        for option, value in lintJob.get("lint-check").items():
+            setattr(opts, option.replace("-","_"), value)
+
         for pos, classId in enumerate(classesToCheck):
             self._console.debug("Checking %s" % classId)
-            self._shellCmd.execute('%s "%s" %s "%s"' % (sys.executable, lintCommand, lint_opts, self._classesObj[classId].path))
+            tree = self._classesObj[classId].tree()
+            lint.lint_check(tree, classId, opts)
 
         self._console.outdent()
 
@@ -1975,16 +1920,16 @@ class Generator(object):
 
         for libObj in libraryKey:
 
-            checkFile, fsTime = libObj.mostRecentlyChangedFile()
+            checkFile, fsTime = libObj.mostRecentlyChangedFile() # use the fresh Library() object to get the newest file on disk
             cacheId   = "lib-%s" % libObj.manipath
             checkObj, cacheTime  = self._cache.read(cacheId, memory=True)
-            if checkObj:
-                libObj = checkObj  # continue with cached obj
             # need re-scan?
             if not checkObj or cacheTime < fsTime:
                 self._console.debug("Re-scanning lib %s" % libObj.path)
                 libObj.scan(cacheTime)
                 self._cache.write(cacheId, libObj, memory=True)
+            else:
+                libObj = checkObj  # continue with cached obj
 
             namespace = libObj.getNamespace()
             namespaces.append(namespace)

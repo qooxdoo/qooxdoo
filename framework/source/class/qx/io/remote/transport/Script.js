@@ -118,7 +118,7 @@ qx.Class.define("qx.io.remote.transport.Script",
 
     /**
      * Returns always true, because script transport is supported by all browsers.
-     *
+     * @return {Boolean} <code>true</code>
      */
     isSupported : function() {
       return true;

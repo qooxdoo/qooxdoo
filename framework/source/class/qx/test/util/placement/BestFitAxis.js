@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -54,6 +55,11 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       );
 
       this.assertEquals(
+        535,
+        this.axis.computeStart(size, target, offsets, areaSize, "align-center")
+      );
+
+      this.assertEquals(
         530,
         this.axis.computeStart(size, target, offsets, areaSize, "align-end")
       );
@@ -80,6 +86,11 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       this.assertEquals(
         40,
         this.axis.computeStart(size, target, offsets, areaSize, "align-start")
+      );
+
+      this.assertEquals(
+        0,
+        this.axis.computeStart(260, target, offsets, areaSize, "align-center")
       );
 
       this.assertEquals(
@@ -112,6 +123,11 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       );
 
       this.assertEquals(
+        210,
+        this.axis.computeStart(290, target, offsets, areaSize, "align-center")
+      );
+
+      this.assertEquals(
         130,
         this.axis.computeStart(size, target, offsets, areaSize, "align-end")
       );
@@ -138,6 +154,11 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       this.assertEquals(
         0,
         this.axis.computeStart(size, target, offsets, areaSize, "align-start")
+      );
+
+      this.assertEquals(
+        -100,
+        this.axis.computeStart(size, target, offsets, areaSize, "align-center")
       );
 
       this.assertEquals(

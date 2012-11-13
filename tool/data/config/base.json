@@ -518,7 +518,7 @@
 
       "lint-check" :
       {
-        "allowed-globals" : [ "q", "qxsettings", "qxvariants" ]
+        "allowed-globals" : [ "q", "qxWeb", "qxsettings", "qxvariants" ]
         ,"ignore-catch-param" : false
         ,"ignore-deprecated-symbols" : false
         ,"ignore-environment-nonlit-key" : false

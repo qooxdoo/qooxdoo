@@ -65,6 +65,9 @@ msgstr "Rimuovi il feed"
 msgid "Static Feeds"
 msgstr "Feed statici"
 
+msgid "Theme"
+msgstr ""
+
 msgid "Title"
 msgstr "Titolo"
 

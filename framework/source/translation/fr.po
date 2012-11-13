@@ -254,8 +254,8 @@ msgstr "Win"
 
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
-msgstr[0] "ligne une de une"
-msgstr[1] "ligne %1 de %2"
+msgstr[0] "une ligne sur une"
+msgstr[1] "%1 lignes sur %2"
 
 msgid "one row"
 msgid_plural "%1 rows"

@@ -202,11 +202,11 @@ class Comment(object):
     def correctBlock(self):
         source = self.string
         if not self.getFormat() in ["javadoc", "qtdoc"]:
-            if R_BLOCK_COMMENT_TIGHT_START.search(self.string):
-                source = R_BLOCK_COMMENT_PURE_START.sub("/* ", self.string)
+            if R_BLOCK_COMMENT_TIGHT_START.search(source):
+                source = R_BLOCK_COMMENT_PURE_START.sub("/* ", source)
 
             if R_BLOCK_COMMENT_TIGHT_END.search(source):
-                source = R_BLOCK_COMMENT_PURE_END.sub(" */", self.string)
+                source = R_BLOCK_COMMENT_PURE_END.sub(" */", source)
 
         return source
 
@@ -317,7 +317,16 @@ class Comment(object):
                     section_lines[-1] += '\n' + line # concat to previous
             return section_lines
 
+        def getOpts():
+            class COpts(object): pass
+            opts = COpts()
+            opts.warn_unknown_jsdoc_keys = context.jobconf.get("lint-check/warn-unknown-jsdoc-keys", [None])
+            opts.warn_jsdoc_key_syntax = context.jobconf.get("lint-check/warn-jsdoc-key-syntax", True)
+            return opts
+
         # ----------------------------------------------------------------------
+
+        opts = getOpts()
 
         # remove '*' etc.
         comment_lines = remove_decoration(self.string)
@@ -336,7 +345,8 @@ class Comment(object):
                     try:
                         entry = getattr(self, "parse_at_"+hint_key)(line)
                     except py.ParseException, e:
-                        context.console.warn("Unable to parse '@%s' JSDoc entry: %s" % (hint_key,line))
+                        if opts.warn_jsdoc_key_syntax:
+                            context.console.warn("Unable to parse '@%s' JSDoc entry: %s" % (hint_key,line))
                         continue
                 elif hint_key in ( # temporarily, to see what we have in the framework
                         'protected', # ?
@@ -351,7 +361,8 @@ class Comment(object):
                 # unknown tag
                 else:
                     #raise Exception("Unknown '@' hint in JSDoc comment: " + hint_key)
-                    context.console.warn("Unknown '@' hint in JSDoc comment: " + hint_key)
+                    if opts.warn_unknown_jsdoc_keys==[] or hint_key in opts.warn_unknown_jsdoc_keys:
+                        context.console.warn("Unknown '@' hint in JSDoc comment: " + hint_key)
                     entry = self.parse_at__default_(line)
                 attribs.append(entry)
             # description
@@ -431,7 +442,8 @@ class Comment(object):
     ##
     # "@return {Type} msg"
     gr_at_return = ( py.Suppress('@') + py.Literal('return')  + 
-        py.Optional(py_type_expression.copy())("type") +   # TODO: remove leading py.Optional
+        #py.Optional(py_type_expression.copy())("type") +   # TODO: remove leading py.Optional
+        py_type_expression.copy()("type") + 
         py.restOfLine("text") )
     def parse_at_return(self, line):
         grammar = self.gr_at_return
@@ -506,6 +518,8 @@ class Comment(object):
             'type' : types, # [{'dimensions': 0, 'type': u'Boolean'}]
             'text' : presult.text.strip()
         }
+        if 'texp_optional' in presult and 'texp_defval' in presult:
+            res['defaultValue'] = presult['texp_defval']
         return res
         
     gr_at_childControl = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
@@ -570,7 +584,7 @@ class Comment(object):
         res = {
             'category' : 'lint',
             'functor' : presult.t_functor,
-            'arguments' : presult.t_arguments.asList()
+            'arguments' : presult.t_arguments.asList() if presult.t_arguments else []
         }
         return res
         
@@ -919,48 +933,75 @@ def parseNode(node):
     # token that got the comment attached; look for that
     # in the AST this translates to the left-most child for statements and expressions
     commentsNode = findAssociatedComment(node)
-
+    #print "comments node:", str(commentsNode)
+    result = []  # [[{}], ...]
 
     if commentsNode and commentsNode.comments:
         # check for a suitable comment, from the back so that the closer wins
-        for comment in commentsNode.comments[::-1]:
+        for comment in commentsNode.comments:
             #if comment.get("detail") in ["javadoc", "qtdoc"]:
             if comment.get("detail") in ["javadoc"]:
-                return Comment(comment.get("value", "")).parse()
-    return []
+                result.append( Comment(comment.get("value", "")).parse() )
+    if not result:
+        result = [[]]  # to always have a result[-1] element in caller
+    return result
 
 
 def findAssociatedComment(node):
     # traverse <node> tree left-most, looking for comments
     from ecmascript.frontend import treeutil # ugly here, but due to import cycle
 
+    ##
+    # For every <start_node> find the enclosing statement node, and from that
+    # the node of the first token (as this will carry a pot. comment) 
+    def statement_head_from(start_node):
+        # 1. find enclosing "local root" node
+        # (e.g. the enclosing statement or file node)
+        tnode = start_node
+        stmt_node = None
+        while True:  # this will always terminate, as every JS node is a child of a statement
+            if tnode.isStatement():
+                stmt_node = tnode
+                break
+            elif tnode.type == 'file': 
+                # TODO: (bug#6765) why does/n't it crash without this?!
+                #       are file-level comments being picked up correctly?!
+                stmt_node = tnode
+                break
+            elif tnode.parent: 
+                tnode = tnode.parent
+            else: 
+                break
+        # 2. determine left-most token
+        #if stmt_node.isPrefixOp():
+        #    head_token_node = stmt_node
+        #else:
+        #    head_token_node = treeutil.findLeftmostChild(stmt_node)
+        head_token_node = stmt_node.toListG().next()
+        return head_token_node
+
+    # --------------------------------------------------------------------------
+
     res = None
     if node.comments:
         res = node
     else:
-        # look down left-most
-        left_most = treeutil.findLeftmostChild(node) # this might return <node> itself
+        # check current expression
+        #left_most = treeutil.findLeftmostChild(node) # this might return <node> itself
+        left_most = node.toListG().next()
         if left_most.comments:
             res = left_most
-        # look upwards, then left-most
         else:
+            # check <keyvalue> in maps
             next_root = treeutil.findAncestor(node, ["keyvalue"], radius=5)
             if next_root:
                 if next_root.comments:
                     res = next_root
-            # look upwards to statement level
             else:
-                # find a statement-level ancestor
-                lnode = node
-                next_root = None
-                while True:
-                    if lnode.isStatement():
-                        next_root = lnode
-                        break
-                    elif lnode.parent: lnode = lnode.parent
-                    else: break
-                if next_root and next_root.comments:
-                    res = next_root
+                # check enclosing statement
+                stmt_head = statement_head_from(node)
+                if stmt_head and stmt_head.comments:
+                    res = stmt_head
     return res
 
 

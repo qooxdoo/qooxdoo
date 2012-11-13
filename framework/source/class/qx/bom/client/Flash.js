@@ -109,7 +109,7 @@ qx.Bootstrap.define("qx.bom.client.Flash",
             full = [ 6, 0, 21 ];
             obj.AllowScriptAccess = "always";
           }
-          catch(ex)
+          catch(ex1)
           {
             if (full[0] == 6) {
               fp6Crash = true;
@@ -120,7 +120,7 @@ qx.Bootstrap.define("qx.bom.client.Flash",
           {
             try {
               obj = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
-            } catch(ex) {}
+            } catch(ex1) {}
           }
         }
 

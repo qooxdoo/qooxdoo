@@ -342,10 +342,20 @@ qx.Bootstrap.define("qx.bom.Label",
       if ((qx.core.Environment.get("engine.name") == "gecko")) {
         size.width++;
       }
+
       // IE9 has problems with the text size calculation for details have a look at bug #4038
       if ((qx.core.Environment.get("engine.name") == "mshtml") && parseFloat(qx.core.Environment.get("engine.version")) >= 9) {
         size.width++;
       }
+      // Chrome since version 22 also has the already known missing pixel [BUG #6799]
+      if (qx.core.Environment.get("browser.name") == "chrome" && parseFloat(qx.core.Environment.get("browser.version")) >= 22) {
+        size.width++;
+      }
+      // add another pixel for safari 6. web fonts have problems otheriwse [BUG #6785]
+      if (qx.core.Environment.get("browser.name") == "safari" && parseFloat(qx.core.Environment.get("browser.version")) >= 6) {
+        size.width++;
+      }
+
       return size;
     }
   }

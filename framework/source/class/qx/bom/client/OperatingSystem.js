@@ -151,18 +151,68 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
      *   could not be detected.
      */
     getVersion : function() {
+      var version = qx.bom.client.OperatingSystem.__getVersionForDesktopOs(navigator.userAgent);
+
+      if(version == null) {
+        version = qx.bom.client.OperatingSystem.__getVersionForMobileOs(navigator.userAgent);
+      }
+
+      if(version != null) {
+        return version;
+      } else {
+        return "";
+      }
+    },
+
+
+    /**
+     * Detect OS version for desktop devices
+     * @param userAgent {String} userAgent parameter, needed for detection.
+     * @return {String} version number as string or null.
+     */
+    __getVersionForDesktopOs : function(userAgent) {
       var str = [];
       for (var key in qx.bom.client.OperatingSystem.__ids) {
         str.push(key);
       }
 
       var reg = new RegExp("(" + str.join("|").replace(/\./g, "\.") + ")", "g");
-      var match = reg.exec(navigator.userAgent);
+      var match = reg.exec(userAgent);
 
       if (match && match[1]) {
         return qx.bom.client.OperatingSystem.__ids[match[1]];
       }
-      return "";
+
+      return null;
+    },
+
+
+    /**
+     * Detect OS version for mobile devices
+     * @param userAgent {String} userAgent parameter, needed for detection.
+     * @return {String} version number as string or null.
+     */
+    __getVersionForMobileOs : function(userAgent) {
+      var android = userAgent.indexOf("Android") != -1;
+      var iOs = userAgent.match(/(iPad|iPhone|iPod)/i) ? true : false ;
+
+      if (android) {
+        var androidVersionRegExp = new RegExp(/ Android (\d+(?:\.\d+)+)/i);
+        var androidMatch = androidVersionRegExp.exec(userAgent);
+
+        if (androidMatch && androidMatch[1]) {
+          return androidMatch[1];
+        }
+      } else if (iOs) {
+        var iOsVersionRegExp = new RegExp(/(CPU|iPhone|iPod) OS (\d+)_(\d+)\s+/);
+        var iOsMatch = iOsVersionRegExp.exec(userAgent);
+
+        if (iOsMatch && iOsMatch[2] && iOsMatch[3]) {
+          return iOsMatch[2]+"."+ iOsMatch[3];
+        }
+      }
+
+      return null;
     }
   },
 

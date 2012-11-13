@@ -185,7 +185,6 @@ qx.Class.define("simulator.qxwebdriver.Util", {
         var label;
         var item = model.getItem(i);
         if (item instanceof qx.core.Object && labelPath) {
-          //TODO: Resolve multi-part property path (bug #6685)
           label = qx.data.SingleValueBinding.resolvePropertyChain(item, labelPath);
         }
         else {

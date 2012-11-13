@@ -110,13 +110,21 @@
       "translate" : { "poentry-with-occurrences" : false  }
     },
 
-    // A logging example job
+    // Some logging example jobs
 
     "source-with-dot" :
     {
       "extend" : ["source", "log-dependencies-dot"]
       // override the default root class for the dot diagram
       ,"log" : { "dependencies" : { "dot" : { "root" : "feedreader.view.desktop.PreferenceWindow" }}}
+    },
+
+    "source-with-translations" : {
+      "extend" : ["source"],
+      "log" : { 
+        "filter" : { "debug" : ["generator.code.CodeGenerator.printTranslationStats"] },
+        "translations" : { "untranslated-keys" : { "skip-locales" : [ "C", "en" ] }}
+      }
     },
 
     // -- Website App -----------------------------------------------------------

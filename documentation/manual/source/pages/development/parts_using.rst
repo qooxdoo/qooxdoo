@@ -56,7 +56,7 @@ In your configuration file, add the following job entries (assuming you are usin
       "extend" : [ "my-parts-config" ]
     }
 
-This will inject your part configuration into the standard build jobs (*source* and *build*), instructing the generator to generate JS files for the "boot" and the additional "settings" part (a single part may be made up of multiple JS files, depending on cross class dependencies with other parts). In the *boot* part, you are repeating the main :ref:`include <pages/tool/generator_config_ref#include>` list of class patterns for you application (the example above mirrors this list of a standard GUI app). In the part you want to separate from the initial boot part, like *settings* above, you carve out some top-level classes or name spaces that constitute the part you want to specify. In our example, this is just the name of the top-level dialog class.
+This will inject your part configuration into the standard build jobs (*source* and *build*), instructing the generator to generate JS files for the "boot" and the additional "settings" part (a single part may be made up of multiple JS files, depending on cross class dependencies with other parts). In the *boot* part, you are repeating the main :ref:`include <pages/tool/generator/generator_config_ref#include>` list of class patterns for you application (the example above mirrors this list of a standard GUI app). In the part you want to separate from the initial boot part, like *settings* above, you carve out some top-level classes or name spaces that constitute the part you want to specify. In our example, this is just the name of the top-level dialog class.
 
 .. _pages/parts_using#add_part_loading_to_your_class_code:
 
@@ -94,7 +94,7 @@ The first argument to the *require* method is a list containing the parts you wa
 
 This section also shows that you cannot run the same application with and without parts. In order to use parts, you have to "instrument" your application code with calls to *qx.io.PartLoader.require*, and currently there is no way these calls can fail gracefully. You have to make a decision. 
 
-These are the essential ingredients to set up and use parts in your application. For full details on the *packages* configuration key, see the :ref:`configuration reference <pages/tool/generator_config_ref#packages>`. For some additional usage information relating to this key, see this :ref:`article <pages/tool/generator_config_articles#packages_key>`. For a complete application that uses parts, check the `Feedreader sources <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/application/feedreader/>`_.
+These are the essential ingredients to set up and use parts in your application. For full details on the *packages* configuration key, see the :ref:`configuration reference <pages/tool/generator/generator_config_ref#packages>`. For some additional usage information relating to this key, see this :ref:`article <pages/tool/generator/generator_config_articles#packages_key>`. For a complete application that uses parts, check the `Feedreader sources <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/application/feedreader/>`_.
 
 
 

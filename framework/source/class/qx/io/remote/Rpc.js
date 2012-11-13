@@ -86,6 +86,9 @@
   #ignore(qx.core.ServerSettings.lastSessionRefresh)
   #ignore(qx.core.ServerSettings.sessionTimeoutInSeconds)
 ************************************************************************ */
+/**
+ * @ignore(qx.core.ServerSettings)
+ */
 
 qx.Class.define("qx.io.remote.Rpc",
 {

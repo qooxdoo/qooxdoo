@@ -32,12 +32,12 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Creates a new collection from the given argument. This can either be an
      * HTML string, a single DOM element or an array of elements
      *
-     * @attachStatic{q}
+     * @attachStatic{qxWeb}
      * @param html {String|Element[]} HTML string or DOM element(s)
-     * @return {q} Collection of elements
+     * @return {qxWeb} Collection of elements
      */
     create : function(html) {
-      return q.$init(qx.bom.Html.clean([html]));
+      return qxWeb.$init(qx.bom.Html.clean([html]));
     },
 
 
@@ -45,9 +45,9 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Clones the items in the current collection and returns them in a new set.
      * Event listeners can also be cloned.
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @param events {Boolean} clone event listeners. Default: <pre>false</pre>
-     * @return {q} New collection with clones
+     * @return {qxWeb} New collection with clones
      */
     clone : function(events) {
       var clones = [];
@@ -59,7 +59,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
         this.copyEventsTo(clones);
       }
 
-      return q(clones);
+      return qxWeb(clones);
     },
 
 
@@ -68,13 +68,13 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Appends content to each element in the current set. Accepts an HTML string,
      * a single DOM element or an array of elements
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @param html {String|Element[]} HTML string or DOM element(s) to append
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     append : function(html) {
       var arr = qx.bom.Html.clean([html]);
-      var children = q.$init(arr);
+      var children = qxWeb.$init(arr);
 
       for (var i=0, l=this.length; i < l; i++) {
         for (var j=0, m=children.length; j < m; j++) {
@@ -97,10 +97,10 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * parents are given, the items will be moved to the first parent, while
      * clones of the items will be appended to subsequent parents.
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @param parent {String|Element[]} Parent selector expression or list of
      * parent elements
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     appendTo : function(parent) {
       parent = qx.module.Manipulating.__getElementArray(parent);
@@ -126,9 +126,9 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * items are moved before the first target. For subsequent targets,
      * clones of the collection items are created and inserted.
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @param target {String|Element} Selector expression or DOM element
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     insertBefore : function(target)
     {
@@ -156,9 +156,9 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * items are moved after the first target. For subsequent targets,
      * clones of the collection items are created and inserted.
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @param target {String|Element} Selector expression or DOM element
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     insertAfter : function(target)
     {
@@ -183,7 +183,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Returns an array from a selector expression or a single element
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @param arg {String|Element} Selector expression or DOM element
      * @return {Element[]} Array of elements
      * @internal
@@ -191,7 +191,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     __getElementArray : function(arg)
     {
       if (!qx.lang.Type.isArray(arg)) {
-        var fromSelector = q(arg);
+        var fromSelector = qxWeb(arg);
         arg = fromSelector.length > 0 ? fromSelector : [arg];
       }
       return arg;
@@ -203,10 +203,10 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Elements will be appended to the deepest nested element in the structure
      * as determined by a depth-first search.
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @param wrapper {var} Selector expression, HTML string, DOM element or
      * list of DOM elements
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     wrap : function(wrapper) {
       var wrapper = qx.module.Manipulating.__getCollectionFromArgument(wrapper);
@@ -230,24 +230,24 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Creates a new collection from the given argument
      * @param arg {var} Selector expression, HTML string, DOM element or list of
      * DOM elements
-     * @return {q} Collection
+     * @return {qxWeb} Collection
      * @internal
      */
     __getCollectionFromArgument : function(arg) {
       var coll;
       // Collection/array of DOM elements
       if (qx.lang.Type.isArray(arg)) {
-        coll = q(arg);
+        coll = qxWeb(arg);
       }
       // HTML string
       else {
         var arr = qx.bom.Html.clean([arg]);
         if (arr.length > 0 && qx.dom.Node.isElement(arr[0])) {
-          coll = q(arr);
+          coll = qxWeb(arr);
         }
         // Selector or single element
         else {
-          coll = q(arg);
+          coll = qxWeb(arg);
         }
       }
 
@@ -280,8 +280,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Removes each element in the current collection from the DOM
      *
-     * @attach{q}
-     * @return {q} The collection for chaining
+     * @attach{qxWeb}
+     * @return {qxWeb} The collection for chaining
      */
     remove : function() {
       for (var i=0; i < this.length; i++) {
@@ -294,8 +294,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Removes all content from the elements in the collection
      *
-     * @attach{q}
-     * @return {q} The collection for chaining
+     * @attach{qxWeb}
+     * @return {qxWeb} The collection for chaining
      */
     empty : function() {
       for (var i=0; i < this.length; i++) {
@@ -310,9 +310,9 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * be an HTML string, an array of HTML strings, a single DOM element or an
      * array of elements.
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @param args {String[]|Element[]} HTML string(s) or DOM element(s)
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     before : function(args) {
       if (!qx.lang.Type.isArray(args)) {
@@ -343,9 +343,9 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * be an HTML string, an array of HTML strings, a single DOM element or an
      * array of elements.
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @param args {String[]|Element[]} HTML string(s) or DOM element(s)
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     after : function(args) {
       if (!qx.lang.Type.isArray(args)) {
@@ -374,7 +374,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Returns the left scroll position of the first element in the collection.
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @return {Number} Current left scroll position
      */
     getScrollLeft : function()
@@ -396,7 +396,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Returns the top scroll position of the first element in the collection.
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @return {Number} Current top scroll position
      */
     getScrollTop : function()
@@ -436,6 +436,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * or <code>scrollTop</code>
      * @param value {Number} Final scroll position
      * @param duration {Number} The animation's duration in ms
+     * @return {q} The collection for chaining.
      */
     __animateScroll : function(property, value, duration)
     {
@@ -447,10 +448,10 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Scrolls the elements of the collection to the given coordinate.
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @param value {Number} Left scroll position
      * @param duration {Number?} Optional: Duration in ms for animated scrolling
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     setScrollLeft : function(value, duration)
     {
@@ -483,10 +484,10 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Scrolls the elements of the collection to the given coordinate.
      *
-     * @attach{q}
+     * @attach{qxWeb}
      * @param value {Number} Top scroll position
      * @param duration {Number?} Optional: Duration in ms for animated scrolling
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     setScrollTop : function(value, duration)
     {
@@ -519,8 +520,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Focuses the first element in the collection
      *
-     * @attach{q}
-     * @return {q} The collection for chaining
+     * @attach{qxWeb}
+     * @return {qxWeb} The collection for chaining
      */
     focus : function()
     {
@@ -536,8 +537,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     /**
      * Blurs each element in the collection
      *
-     * @attach{q}
-     * @return {q} The collection for chaining
+     * @attach{qxWeb}
+     * @return {qxWeb} The collection for chaining
      */
     blur : function()
     {
@@ -554,11 +555,11 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
 
   defer : function(statics) {
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       "create" : statics.create
     });
 
-    q.$attach({
+    qxWeb.$attach({
       "append" : statics.append,
       "appendTo" : statics.appendTo,
       "remove" : statics.remove,

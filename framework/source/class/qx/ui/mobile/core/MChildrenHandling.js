@@ -133,7 +133,7 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
      * @param index {Integer} Index of the widget to remove.
      */
     removeAt : function(index) {
-      return this._removeAt(index);
+      this._removeAt(index);
     },
 
 

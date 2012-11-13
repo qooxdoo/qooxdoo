@@ -64,6 +64,9 @@ msgstr "Enlever un fil"
 msgid "Static Feeds"
 msgstr "Fils statiques"
 
+msgid "Theme"
+msgstr ""
+
 msgid "Title"
 msgstr "Titre"
 

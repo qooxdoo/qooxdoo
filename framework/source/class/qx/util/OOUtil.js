@@ -37,13 +37,11 @@ qx.Bootstrap.define("qx.util.OOUtil",
 
 
     /**
-     * Returns the definition of the given property. Returns null
-     * if the property does not exist.
-     *
-     * TODO: Correctly support refined properties?
+     * Returns the definition of the given property, if not redefined.
+     * Returns null if the property does not exist.
      *
      * @param clazz {Class} class to check
-     * @param name {String} name of the event to check for
+     * @param name {String} name of the class to check for
      * @return {Map|null} whether the object support the given event.
      */
     getPropertyDefinition : function(clazz, name)

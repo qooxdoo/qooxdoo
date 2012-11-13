@@ -62,13 +62,13 @@ Demo Applications
    :maxdepth: 1
 
 
-   application/portal
+   application/tutorial
 
 ..
 
-  A low-level, DOM-oriented application without any high-level qooxdoo widgets.
+  A online tutorial application which contains mobile and desktop tutorial.
   
-  `Online demo <http://demo.qooxdoo.org/%{version}/portal>`__
+  `Online demo <http://demo.qooxdoo.org/%{version}/tutorial>`__
 
 .. toctree::
    :maxdepth: 1

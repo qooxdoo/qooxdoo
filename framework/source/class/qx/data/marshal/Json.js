@@ -293,6 +293,7 @@ qx.Class.define("qx.data.marshal.Json",
      * @param parentProperty {String|null} The name of the property the data
      *   will be stored in.
      * @param depth {Number} The depth of the object relative to the data root.
+     * @return {Boolean} <code>true</code> if the set should be ignored
      */
     __ignore : function(hash, parentProperty, depth) {
       var del = this.__delegate;

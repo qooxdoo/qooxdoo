@@ -34,9 +34,9 @@ def makeLogMessage(level, msg, node=None):
     str = "%s: %s" % (level, msg);
     if node != None:
         if fileId != "":
-            str += " (%s:%s)" % (fileId, node.get("line", False))
+            str += " (%s:%s)" % (fileId, node.get("line", -1))
         else:
-            str += " (Line %s)" % node.get("line", False)
+            str += " (Line %s)" % node.get("line", -1)
     return str
 
 def log(level, msg, node=None):
@@ -441,7 +441,7 @@ def getFilterMap(callNode, fileId_):
 InterestingEnvMethods = ["select", "selectAsync", "get", "getAsync", "filter"]
 
 def findVariantNodes(node):
-    for callnode in treeutil.nodeIterator(node, ['call']):
+    for callnode in list(treeutil.nodeIterator(node, ['call'])): # enforce eagerness so nodes that are moved are still handled
         if isEnvironmentCall(callnode):
             yield treeutil.selectNode(callnode, "operand").getFirstChild()
         else:

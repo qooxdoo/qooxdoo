@@ -103,6 +103,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
      *     create.
      * @param htmlArr {String[]} Target string container. The HTML of the data
      *     cell should be appended to this array.
+     * @return {String} Data cell HTML
      */
     createDataCellHtml : function(cellInfo, htmlArr)
     {

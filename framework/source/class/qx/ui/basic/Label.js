@@ -377,6 +377,7 @@ qx.Class.define("qx.ui.basic.Label",
      * Internal utility to compute the content dimensions.
      *
      * @param width {Integer?null} Optional width constraint
+     * @return {Map} Map with <code>width</code> and <code>height</code> keys
      */
     __computeContentSize : function(width)
     {
@@ -405,13 +406,14 @@ qx.Class.define("qx.ui.basic.Label",
     */
     __fixEllipsis : function()
     {
+      if (!this.getContentElement()) {
+        return;
+      }
       if (qx.core.Environment.get("os.name") == "osx" &&
         qx.core.Environment.get("engine.name") == "gecko" &&
+        parseInt(qx.core.Environment.get("engine.version"), 10) < 16 &&
         parseInt(qx.core.Environment.get("engine.version"), 10) > 9)
       {
-        if (!this.getContentElement()) {
-          return;
-        }
         var domEl = this.getContentElement().getDomElement();
         if (domEl) {
           domEl.innerHTML = domEl.innerHTML;

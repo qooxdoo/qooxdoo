@@ -907,6 +907,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * Generates the default content and inserts the given string
      *
      * @param value {String} string to insert into the default content
+     * @return {String} Default content HTML
      */
     __generateDefaultContent : function(value)
     {
@@ -1711,12 +1712,12 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
               var doc = this._getIframeDocument();
               doc.execCommand("useCSS", false, false);
             }
-            catch(ex)
+            catch(ex1)
             {
               if (!this.__isReady)
               {
                 this.error("Failed to enable rich edit functionality");
-                this.fireDataEvent("loadingError", ex);
+                this.fireDataEvent("loadingError", ex1);
               }
               else {
                 throw new Error("Failed to enable rich edit functionality");
@@ -2168,7 +2169,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
                         if (!this.isSelectionCollapsed()) {
                           sel.collapseToStart();
                         }
-                      } catch(e) {}
+                      } catch(ex) {}
 
                       // We have found the correct text node, leave loop here
                       break;
@@ -2673,7 +2674,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @return {Boolean} if succeeded
      */
     removeBackgroundColor : function () {
-      this.__commandManager.execute("backgroundcolor", "transparent");
+      return this.__commandManager.execute("backgroundcolor", "transparent");
     },
 
 
@@ -2684,7 +2685,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @return {Boolean} if succeeded
      */
     setBackgroundColor : function (value) {
-      this.__commandManager.execute("backgroundcolor", value);
+      return this.__commandManager.execute("backgroundcolor", value);
     },
 
 
@@ -2694,7 +2695,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @return {Boolean} if succeeded
      */
     removeBackgroundImage : function () {
-      this.__commandManager.execute("backgroundimage");
+      return this.__commandManager.execute("backgroundimage");
     },
 
 
@@ -2728,7 +2729,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
     /**
      * Undo last operation
-     *
+     * @return {Boolean} <code>true</code> if the undo command was executed
+     * successfully or {@link #useUndoRedo} is inactive
      */
     undo : function()
     {
@@ -2742,7 +2744,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
     /**
      * Redo last undo
-     *
+     * @return {Boolean} <code>true</code> if the redo command was executed
+     * successfully or {@link #useUndoRedo} is inactive
      */
     redo : function()
     {
@@ -3050,11 +3053,12 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *  1 = cursor is over content which already received that command. Used to to activate the corresponding buttons (e.g. bold/italic/underline etc.)
      *
      * @lint ignoreDeprecated(_processingExamineCursorContext)
+     * @return {Map?null} A map with the current styles and their value or null if no focus node is available
      */
     __examineCursorContext : function()
     {
       if (this._processingExamineCursorContext || this.getEditable() == false) {
-        return;
+        return null;
       }
       this._processingExamineCursorContext = true;
 
@@ -3064,7 +3068,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
       var focusNode = this.getFocusNode();
       if (focusNode == null) {
-        return;
+        return null;
       }
 
       if (qx.dom.Node.isText(focusNode)) {

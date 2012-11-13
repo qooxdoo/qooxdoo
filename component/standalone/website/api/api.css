@@ -13,11 +13,12 @@
 #list h1 {
   margin-top: 10px;
   margin-left: 10px;
-  margin-bottom: 0px;
+  margin-bottom: -10px;
 }
 
 #list h2 {
   margin-top: 10px;
+  line-height: 1;
 }
 
 .plugin {

@@ -363,7 +363,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         }
         else
         {
-          this.error("Failed to send data: " + ex, "send");
+          this.error("Failed to send data to URL '" + vUrl + "': " + ex, "send");
           this.failed();
         }
 

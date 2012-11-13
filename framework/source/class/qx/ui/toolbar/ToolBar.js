@@ -89,6 +89,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       init : "both",
       check : [ "both", "label", "icon" ],
       inheritable : true,
+      apply : "_applyShow",
       event : "changeShow"
     },
 
@@ -491,6 +492,17 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
 
 
+    // property apply
+    _applyShow : function(value) {
+      var children = this._getChildren();
+      for (var i=0; i < children.length; i++) {
+        if (children[i].setShow) {
+          children[i].setShow(value);
+        }
+      };
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       CHILD HANDLING
@@ -499,6 +511,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     // overridden
     _add : function(child, options) {
       this.base(arguments, child, options);
+      // sync the show property
+      if (child.setShow) {
+        child.setShow(this.getShow());
+      }
+
       var newWidth =
         this.getSizeHint().width +
         child.getSizeHint().width +
@@ -509,6 +526,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     // overridden
     _addAt : function(child, index, options) {
       this.base(arguments, child, index, options);
+      // sync the show property
+      if (child.setShow) {
+        child.setShow(this.getShow());
+      }
+
       var newWidth =
         this.getSizeHint().width +
         child.getSizeHint().width +
@@ -519,6 +541,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     // overridden
     _addBefore : function(child, before, options) {
       this.base(arguments, child, before, options);
+      // sync the show property
+      if (child.setShow) {
+        child.setShow(this.getShow());
+      }
+
       var newWidth =
         this.getSizeHint().width +
         child.getSizeHint().width +
@@ -529,6 +556,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     // overridden
     _addAfter : function(child, after, options) {
       this.base(arguments, child, after, options);
+      // sync the show property
+      if (child.setShow) {
+        child.setShow(this.getShow());
+      }
+
       var newWidth =
         this.getSizeHint().width +
         child.getSizeHint().width +

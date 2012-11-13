@@ -63,36 +63,44 @@ qx.Class.define("qx.theme.manager.Color",
     {
       var dest = {};
 
-      if (value)
-      {
-        var source = value.colors;
-        var util = qx.util.ColorUtil;
-        var temp;
+      if (value) {
+        var colors = value.colors;
 
-        for (var key in source)
-        {
-          temp = source[key];
-
-          if (typeof temp === "string")
-          {
-            if (!util.isCssString(temp)) {
-              throw new Error("Could not parse color: " + temp);
-            }
-          }
-          else if (temp instanceof Array)
-          {
-            temp = util.rgbToRgbString(temp);
-          }
-          else
-          {
-            throw new Error("Could not parse color: " + temp);
-          }
-
-          dest[key] = temp;
+        for (var name in colors) {
+          dest[name] = this.__parseColor(colors, name);
         }
       }
 
       this._setDynamic(dest);
+    },
+
+
+    /**
+     * Helper to take a color stored in the theme and returns the string color value.
+     * In most of the times that means it just returns the string stored in the theme.
+     * It additionally checks if its a valid color at all.
+     *
+     * @param colors {Map} The map of color definitions.
+     * @param name {String} The name of the color to check.
+     * @return {String} The resolved color as string.
+     */
+    __parseColor : function(colors, name) {
+      var color = colors[name];
+      if (typeof color === "string") {
+        if (!qx.util.ColorUtil.isCssString(color)) {
+          // check for references to in theme colors
+          if (colors[color] != undefined) {
+            return this.__parseColor(colors, color);
+          }
+          throw new Error("Could not parse color: " + color);
+        }
+        return color;
+
+      } else if (color instanceof Array) {
+        return qx.util.ColorUtil.rgbToRgbString(color);
+      }
+
+      throw new Error("Could not parse color: " + color);
     },
 
 

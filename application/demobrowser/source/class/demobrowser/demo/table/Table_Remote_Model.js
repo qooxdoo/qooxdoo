@@ -32,8 +32,15 @@ qx.Class.define("demobrowser.demo.table.Table_Remote_Model",
 {
   extend : demobrowser.demo.table.TableDemo,
 
+  construct : function()
+  {
+    this.base(arguments);
+    this.__timer = new qx.event.Timer(1000);
+  },
+
   members :
   {
+    __timer : null,
 
     createTable: function()
     {
@@ -43,6 +50,9 @@ qx.Class.define("demobrowser.demo.table.Table_Remote_Model",
           return new qx.ui.table.columnmodel.Resize(obj);
         }
       };
+
+      this.__timer.addListener("interval", tableModel.reloadData, tableModel);
+
 
       var table = new qx.ui.table.Table(tableModel,custom);
       var col = table.getTableColumnModel().getBehavior();
@@ -64,9 +74,20 @@ qx.Class.define("demobrowser.demo.table.Table_Remote_Model",
       }, this);
       part.add(reload);
 
+      var poll = new qx.ui.toolbar.CheckBox('Poll');
+      poll.addListener("execute", function() {
+        if (poll.getValue()) {
+          this.__timer.start();
+        } else {
+          this.__timer.stop();
+        }
+      }, this);
+      part.add(poll);
+
+      // disable the reload button on poll
+      poll.bind("value", reload, "enabled", {converter : function(data) {return !data;}});
+
       return bar;
     }
-
   }
 });
-

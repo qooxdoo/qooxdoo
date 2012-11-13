@@ -168,7 +168,7 @@ qx.Bootstrap.define("qx.bom.Event",
         {
           try {
             e.relatedTarget && e.relatedTarget.nodeType;
-          } catch (e) {
+          } catch (ex) {
             return null;
           }
         }

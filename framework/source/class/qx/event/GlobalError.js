@@ -37,6 +37,12 @@ qx.Bootstrap.define("qx.event.GlobalError",
 {
   statics :
   {
+    __callback : null,
+
+    __originalOnError : null,
+
+    __context : null,
+
     /**
      * Little helper to check if the global error handling is enabled.
      * @return {Boolean} <code>true</code>, if it is enabled.
@@ -108,7 +114,6 @@ qx.Bootstrap.define("qx.event.GlobalError",
       if (this.__callback)
       {
         this.handleError(new qx.core.WindowError(msg, uri, lineNumber));
-        return true;
       }
     },
 

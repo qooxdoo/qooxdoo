@@ -42,7 +42,7 @@ qx.Bootstrap.define("qx.module.Io", {
      * * <code>async</code> flag to mark the request as asynchronous. Default: <pre>true</pre>
      * * <code>header</code> A map of request headers.
      *
-     * @attachStatic {q, io.xhr}
+     * @attachStatic {qxWeb, io.xhr}
      * @return {qx.bom.request.Xhr} The request object.
      */
     xhr : function(url, settings) {
@@ -50,13 +50,13 @@ qx.Bootstrap.define("qx.module.Io", {
         settings = {};
       }
       var xhr = new qx.bom.request.Xhr();
+      xhr.open(settings.method, url, settings.async);
       if (settings.header) {
         var header = settings.header;
         for (var key in header) {
           xhr.setRequestHeader(key, header[key]);
         }
       }
-      xhr.open(settings.method, url, settings.async);
       return xhr;
     },
 
@@ -66,7 +66,7 @@ qx.Bootstrap.define("qx.module.Io", {
      * from cross-domain origins.
      *
      * @param url {String} Mandatory URL to load the data from.
-     * @attachStatic {q, io.script}
+     * @attachStatic {qxWeb, io.script}
      * @return {qx.bom.request.Script} The request object.
      */
     script : function(url) {
@@ -87,17 +87,18 @@ qx.Bootstrap.define("qx.module.Io", {
      * * <code>callbackName</code>: The name of the callback which will
      *      be called by the loaded script.
      * * <code>callbackParam</code>: The name of the callback expected by the server
-     * @attachStatic {q, io.jsonp}
+     * @attachStatic {qxWeb, io.jsonp}
      * @return {qx.bom.request.Jsonp} The request object.
      */
     jsonp : function(url, settings) {
       var script = new qx.bom.request.Jsonp();
-      if (settings.callbackName) {
+      if (settings && settings.callbackName) {
         script.setCallbackName(settings.callbackName);
       }
-      if (settings.callbackParam) {
+      if (settings && settings.callbackParam) {
         script.setCallbackParam(settings.callbackParam);
       }
+      script.setPrefix("qxWeb.$$"); // needed in case no callback name is given
       script.open("get", url);
       return script;
     }
@@ -105,7 +106,7 @@ qx.Bootstrap.define("qx.module.Io", {
 
 
   defer : function(statics) {
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       io : {
         xhr : statics.xhr,
         script : statics.script,

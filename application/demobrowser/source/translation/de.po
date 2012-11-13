@@ -175,15 +175,3 @@ msgstr ""
 
 msgid "Week start:"
 msgstr ""
-
-#~ msgid "Stop"
-#~ msgstr ""
-
-#~ msgid "Global Namespace Pollution"
-#~ msgstr ""
-
-#~ msgid "Clear log"
-#~ msgstr ""
-
-#~ msgid "two"
-#~ msgstr "zwei"

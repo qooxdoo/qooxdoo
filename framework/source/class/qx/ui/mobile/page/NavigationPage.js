@@ -19,7 +19,7 @@
 
 /**
  * Specialized page. This page includes already a {@link qx.ui.mobile.navigationbar.NavigationBar}
- * and and a {@link qx.ui.mobile.container.Scroll} container. 
+ * and and a {@link qx.ui.mobile.container.Scroll} container.
  * The NavigationPage can only be used with a page manager {@link qx.ui.mobile.page.Manager}.
 
  * *Example*
@@ -27,7 +27,7 @@
  * Here is a little example of how to use the widget.
  *
  * <pre class='javascript'>
- *  
+ *
  *  var manager = new qx.ui.mobile.page.Manager();
  *  var page = new qx.ui.mobile.page.NavigationPage();
  *  page.setTitle("Page Title");
@@ -43,7 +43,7 @@
  *  {
  *    otherPage.show({animation:"cube", reverse:true});
  *  },this);
- *  
+ *
  *  manager.addDetail(page);
  *  page.show();
  * </pre>
@@ -56,13 +56,13 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
   extend : qx.ui.mobile.page.Page,
   implement : qx.ui.mobile.container.INavigation,
 
-  
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
- 
+
   /**
    * @param wrapContentByGroup {Boolean} Defines whether a group box should wrap the content. This can be used for defining a page margin.
    * @param layout {qx.ui.mobile.layout.Abstract} The layout of this page.
@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       this._wrapContentByGroup = wrapContentByGroup;
     }
   },
-  
+
   /*
   *****************************************************************************
      EVENTS
@@ -158,19 +158,30 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       init : false,
       apply : "_applyShowButton"
     },
-    
-    
+
+
     /**
-     * Toggles visibility of NavigationBar in 
+     * Toggles visibility of NavigationBar in
      * wrapping container {@link qx.ui.mobile.container.Navigation}
-     */ 
+     */
     navigationBarHidden:
     {
       check : "Boolean",
       init : false
     },
-    
-    
+
+
+    /**
+     * Sets the transition duration (in seconds) for the effect when hiding/showing
+     * the NavigationBar through boolean property navigationBarHidden.
+     */
+    navigationBarToggleDuration:
+    {
+      check : "Number",
+      init : 0.8
+    },
+
+
     /**
      * The CSS class to add to the content per default.
      */
@@ -325,6 +336,24 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
 
     /**
+    * Scrolls the wrapper contents to the widgets coordinates in a given
+    * period.
+    *
+    * @param widget {qx.ui.mobile.core.Widget} the widget, the scroll container should scroll to.
+    * @param time {Integer} Time slice in which scrolling should
+    *              be done.
+    *
+    */
+    scrollToWidget : function(widget, time)
+    {
+      if(widget) {
+        var widgetId = "#"+widget.getId();
+        this.__scrollContainer.scrollToElement(widgetId, time);
+      }
+    },
+
+
+    /**
      * Returns the content container. Add all your widgets to this container.
      *
      * @return {qx.ui.mobile.container.Composite} The content container
@@ -405,8 +434,8 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
         this.__backButton.setValue(value);
       }
     },
-    
-    
+
+
     // property apply
     _applyButtonText : function(value, old)
     {
@@ -475,7 +504,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     _initialize : function()
     {
       this.base(arguments);
-      
+
       this.__scrollContainer = this._createScrollContainer();
       this.__content = this._createContent();
 
@@ -495,14 +524,20 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      */
     _createScrollContainer : function()
     {
-      // If OS is Android and browser is native browser,
+      // If OS < Android 4.1,
       // quirks mode for Android should be active.
-      // This means that iScroll does not use transform3d, because 
+      // This means that iScroll does not use transform3d, because
       // this causes layout problems with input fields.
-      var osName =qx.core.Environment.get("os.name");
-      var isAndroidQuirksMode = (osName =="android");
-      
-      if(isAndroidQuirksMode==true) {
+      var osName = qx.core.Environment.get("os.name");
+      var osVersion = qx.core.Environment.get("os.version");
+
+      var osVersionParts = osVersion.split(".");
+
+      // If OS is Android, and version is below 4.1 >> quirksmode active
+      var isAndroidQuirksMode = (osName == "android")
+        && ((parseInt(osVersionParts[0]) < 4) || (parseInt(osVersionParts[0]) == 4 && parseInt(osVersionParts[1]) < 1));
+
+      if(isAndroidQuirksMode == true) {
         return new qx.ui.mobile.container.Scroll(false);
       } else {
         return new qx.ui.mobile.container.Scroll();
@@ -519,11 +554,11 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     {
       var content = new qx.ui.mobile.container.Composite();
       content.setDefaultCssClass(this.getContentCssClass());
-      
+
       if(this._wrapContentByGroup==true) {
         content.addCssClass("group");
       }
-      
+
       return content;
     },
 

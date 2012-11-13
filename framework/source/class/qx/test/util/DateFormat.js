@@ -93,10 +93,7 @@ qx.Class.define("qx.test.util.DateFormat",
       dateFmt.dispose();
     },
 
-    /**
-     * TODOC
-     *
-     */
+
     testDateParse : function()
     {
       for(var i=0; i<this.__dates.length; i++)

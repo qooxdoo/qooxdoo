@@ -36,14 +36,7 @@ from misc import util
 
 ClassesAll = None # {'cid':generator.code.Class}
 
-QXGLOBALS = [
-    #"clazz",
-    "qxvariants",
-    "qxsettings",
-    r"qx\.\$\$",    # qx.$$domReady, qx.$$libraries, ...
-    ]
-
-GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBALS + QXGLOBALS))
+GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % re.escape(x) for x in lang.GLOBALS + lang.QXGLOBALS))
 
 _memo1_ = [None, None]  # for memoizing getScript()
 
@@ -304,7 +297,7 @@ class MClassDependencies(object):
     # Only applies to qx.*.define calls, checks for a 'defer' child in class map
     def checkDeferNode(self, assembled, node):
         deferNode = None
-        if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define" or assembled == "q.define":
+        if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define" or assembled == "q.define" or assembled == "qxWeb.define":
             if node.hasParentContext("call/operand"):
                 deferNode = treeutil.selectNode(node, "../../arguments/2/keyvalue[@key='defer']/value/function/body/block")
         return deferNode

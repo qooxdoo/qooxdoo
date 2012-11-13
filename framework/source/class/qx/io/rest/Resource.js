@@ -50,8 +50,8 @@
  * var photo = new qx.io.rest.Resource(description);
  * // Can also be written: photo.invoke("get", {id: 1});
  * photo.get({id: 1});
- * 
- * // Additionally sets request data 
+ *
+ * // Additionally sets request data
  * // In a RESTful environment this creates a new resource with the given 'id'
  * photo.put({id: 1}, {title: "Monkey"});
  *
@@ -260,6 +260,7 @@ qx.Class.define("qx.io.rest.Resource",
      * Get request.
      *
      * May be overriden to change type of request.
+     * @return {qx.io.request.Xhr} Xhr object
      */
     _getRequest: function() {
       return new qx.io.request.Xhr();
@@ -269,6 +270,7 @@ qx.Class.define("qx.io.rest.Resource",
      * Create request.
      *
      * @param action {String} The action the created request is associated to.
+     * @return {qx.io.request.AbstractRequest} Request object
      */
     __createRequest: function(action) {
       var req = this._getRequest();
@@ -721,6 +723,7 @@ qx.Class.define("qx.io.rest.Resource",
 
     /**
      * Override to adjust the throttle limit.
+     * @return {Integer} Throttle limit in milliseconds
      */
     _getThrottleLimit: function() {
       return qx.io.rest.Resource.POLL_THROTTLE_LIMIT;
@@ -728,6 +731,7 @@ qx.Class.define("qx.io.rest.Resource",
 
     /**
      * Override to adjust the throttle count.
+     * @return {Integer} Throttle count
      */
     _getThrottleCount: function() {
       return qx.io.rest.Resource.POLL_THROTTLE_COUNT;

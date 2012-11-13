@@ -125,7 +125,7 @@ Polyfill
 --------
 A polyfill is best explained by a quote from an informative blog post:
 
-  A polyfill, or polyfiller, is a piece of code (or plugin) that provides the technology that you, the developer, expect the browser to provide natively. Flattening the API landscape if you will. `What is a polyfill <http://remysharp.com/2010/10/08/what-is-a-polyfill/>`_
+  *"A polyfill, or polyfiller, is a piece of code (or plugin) that provides the technology that you, the developer, expect the browser to provide natively. Flattening the API landscape if you will."* [#]_
 
 A list of included polyfills can be found in the API documentation of the module.
 
@@ -194,10 +194,50 @@ Sometimes it can be necessary to place an element right beside another one. Thin
 Storage
 -------
 The storage module offers a cross browser way to store data offline. For that, it uses
-the HTML web storage API (http://www.w3.org/TR/webstorage/). If thats not available i.e. in IE < 8, a fallback is used. If non of the storage API is available, a non persistant
-in memory storage is returned which means you can always use the same API.
+the HTML web storage API (http://www.w3.org/TR/webstorage/). If thats not available i.e. in IE < 8, a fallback is used. If non of the storage API is available, a non persistent
+in memory storage is returned which means you can always use the same API. Check out the separate :doc:`page about storage </pages/website/storage>` for more details.
 
 ::
 
   var value = q.localStorage.get("my_custom_key");
 
+
+
+Transform
+---------
+The transform module offers a cross browser convenience API for CSS transforms. This includes scaling, skewing, rotating and translating.
+
+::
+
+  q("#myId").rotate("45deg");
+
+
+
+Messaging
+---------
+The messaging module offers a message bus. It offers a separation by channel and type and also offers a way to react on types for every channel.
+
+::
+
+  q.messaging.on("CHANNEL-X", "test", function() {
+    // do something clever
+  });
+  q.messaging.emit("CHANNEL-X", "test");
+  
+
+Placeholder
+-----------
+The placeholder module offers fallback implementation for placeholders. The module offers two methods, one for updating all input and textarea elements on the site and one for updating only the elements in the given collection
+
+::
+
+  // update all elements on the page
+  q.placeholder.update();
+  // update only the placeholder for the given element
+  q("#nameInput").updatePlaceholder();
+  
+In case the executing browser supports native placeholders, those two method calls won't do anything. This is only relevant for browsers not supporting placeholders like IE < 10.
+  
+------------
+
+.. [#] `Remy Sharp, "What is a polyfill" <http://remysharp.com/2010/10/08/what-is-a-polyfill/>`__

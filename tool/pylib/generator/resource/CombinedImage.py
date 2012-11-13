@@ -27,8 +27,7 @@
 
 import re, os, sys, types
 
-from misc                     import filetool, Path, json
-from generator                import Context
+from misc                     import filetool, json
 from generator.resource.Image import Image
 
 
@@ -44,8 +43,15 @@ class CombinedImage(Image):
         # Read the .meta file
         # it doesn't seem worth to apply caching here
         meta_fname   = os.path.splitext(path)[0]+'.meta'
-        meta_content = filetool.read(meta_fname)
-        imgDict      = json.loads(meta_content)
+        try:
+            meta_content = filetool.read(meta_fname)
+            imgDict      = json.loads(meta_content)
+        except Exception, e:
+            msg = "Reading of .meta file failed: '%s'" % meta_fname + (
+                "\n%s" % e.args[0] if e.args else ""
+                )
+            e.args = (msg,) + e.args[1:]
+            raise
 
         # Loop through the images of the .meta file
         for imageId, imageSpec_ in imgDict.items():
@@ -74,7 +80,15 @@ class CombinedImage(Image):
     def toResinfo(self):
         result = super(self.__class__, self).toResinfo()
         if self.format == "b64" and self.path:
-            cont = filetool.read(self.path)
-            cont = json.loads(cont)
-            result.append(cont)
+            try:
+                cont = filetool.read(self.path)
+                cont = json.loads(cont)
+            except Exception, e:
+                msg = "Reading of b64 image file failed: '%s'" % self.path + (
+                    "\n%s" % e.args[0] if e.args else ""
+                    )
+                e.args = (msg,) + e.args[1:]
+                raise
+            else:
+                result.append(cont)
         return result

@@ -1233,6 +1233,16 @@ qx.Class.define("qx.ui.table.Table",
     },
 
 
+    // overridden
+    _onChangeTheme : function() {
+      this.base(arguments);
+
+      this.getDataRowRenderer().initThemeValues();
+      this.updateContent();
+      this._updateStatusBar();
+    },
+
+
     /**
      * Event handler. Called when the selection has changed.
      *

@@ -20,6 +20,9 @@
 /* ************************************************************************
 #ignore(qx.test.ui.core.Test)
 ************************************************************************ */
+/**
+ * @ignore(qx.test.ui.core.Theme, qx.test.ui.core.Test)
+ */
 
 qx.Class.define("qx.test.ui.core.Appearance",
 {

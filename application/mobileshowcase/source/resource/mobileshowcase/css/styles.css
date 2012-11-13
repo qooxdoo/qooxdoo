@@ -39,6 +39,8 @@
   margin-left:-35px;
   margin-top:-35px;
   z-index:5000;
+  
+  pointer-events:none;
 }
 
 .gesture-target {
@@ -214,4 +216,12 @@
   -webkit-border-radius: 0.4em; 
   box-shadow: 2px 2px 3px 0px #444444;
   border:1px solid #888888;
+}
+
+.registration-result {
+  background-color:white;
+  color:#333333;
+  -moz-border-radius: 0.4em;
+  -webkit-border-radius: 0.4em; 
+  padding:4px;
 }

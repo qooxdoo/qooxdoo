@@ -15,6 +15,7 @@ qx.Theme.define("${Namespace}.theme.modern.Theme",
     color : ${Namespace}.theme.modern.Color,
     decoration : ${Namespace}.theme.modern.Decoration,
     font : ${Namespace}.theme.modern.Font,
-    appearance : ${Namespace}.theme.modern.Appearance
+    appearance : ${Namespace}.theme.modern.Appearance,
+    icon : qx.theme.icon.Tango
   }
 });

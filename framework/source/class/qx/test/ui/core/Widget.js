@@ -21,6 +21,9 @@
 #ignore(qx.test.ui.core.W)
 
 ************************************************************************ */
+/**
+ * @ignore(qx.test.ui.core.W)
+ */
 qx.Class.define("qx.test.ui.core.Widget",
 {
   extend : qx.test.ui.LayoutTestCase,

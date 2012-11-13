@@ -238,5 +238,13 @@ qx.Class.define("testrunner.runner.TestItem", {
         this.setPreviousState(oldState);
       }
     }
+  },
+
+  destruct : function()
+  {
+    this.$$test = null;
+    if (this.parent) {
+      this.parent = null;
+    }
   }
 });

@@ -926,17 +926,17 @@ qx.Class.define("qx.data.SingleValueBinding",
             options.onUpdate(sourceObject, targetObject, data);
           }
 
-        } catch (e) {
-          if (! (e instanceof qx.core.ValidationError)) {
-            throw e;
+        } catch (ex) {
+          if (! (ex instanceof qx.core.ValidationError)) {
+            throw ex;
           }
 
           if (options && options.onSetFail) {
-            options.onSetFail(e);
+            options.onSetFail(ex);
           } else {
             qx.log.Logger.warn(
               "Failed so set value " + data + " on " + targetObject
-               + ". Error message: " + e
+               + ". Error message: " + ex
             );
           }
         }
@@ -1061,6 +1061,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param data {var} The data to convert.
      * @param targetCheck {String} The value of the check property. That usually
      *   contains the target type.
+     * @return {Integer|String|Float} The converted data
      */
     __defaultConversion : function(data, targetCheck) {
       var dataType = qx.lang.Type.getClass(data);

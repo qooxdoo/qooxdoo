@@ -29,9 +29,11 @@ from generator.code.Part        import Part
 from generator.code.Package     import Package
 from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.Script      import Script
+from generator.action           import Locale
 import generator.resource.Library # just need the .Library type
-from ecmascript.frontend        import tokenizer, treegenerator, treegenerator_2
+from ecmascript.frontend        import tokenizer, treegenerator, treegenerator_2, treegenerator_3
 from ecmascript.backend         import pretty
+from ecmascript.backend         import formatter, formatter_2, formatter_3
 #from ecmascript.backend         import pretty_new as pretty
 from ecmascript.backend.Packer  import Packer
 from ecmascript.transform.optimizer    import privateoptimizer
@@ -153,7 +155,7 @@ class CodeGenerator(object):
 
             # Compress it
             if False: # - nope; this is taking around 14s on my box, with parsing being 10s  :(
-                resTokens = tokenizer.parseStream(result, templatePath)
+                resTokens = tokenizer.Tokenizer().parseStream(result, templatePath)
                 resTree = treegenerator.createFileTree(resTokens, templatePath)
                 [result] = Packer().serializeNode(resTree, None, None, compConf.get('code/format', False))
 
@@ -746,7 +748,6 @@ class CodeGenerator(object):
             else:
                 if num_proc == 0:
                     for clazz in classList:
-                        #code = clazz.getCode(compConf, treegen=treegenerator_new_ast) # choose parser frontend
                         code = clazz.getCode(compConf, treegen=treegenerator, featuremap=script._featureMap) # choose parser frontend
                         result.append(code)
                         log_progress()
@@ -1016,12 +1017,16 @@ class CodeGenerator(object):
         ppsettings = ExtMap(self._job.get("pretty-print"))  # get the pretty-print config settings
 
         # init options
-        def options(): pass
-        pretty.defaultOptions(options)
+        #def options(): pass
+        #pretty.defaultOptions(options)
+        options = formatter_3.FormatterOptions()
+        formatter_3.defaultOptions(options)
 
         # modify according to config
         if 'general/indent-string' in ppsettings:
             options.prettypIndentString = ppsettings.get('general/indent-string')
+        if 'general/text-width' in ppsettings:
+            options.prettypTextWidth = ppsettings.get('general/text-width')
         if 'comments/block/add' in ppsettings:
             options.prettypCommentsBlockAdd = ppsettings.get('comments/trailing/keep-column')
         if 'comments/trailing/keep-column' in ppsettings:
@@ -1041,9 +1046,16 @@ class CodeGenerator(object):
         numClasses = len(classesObj)
         for pos, classId in enumerate(classesObj):
             self._console.progress(pos+1, numClasses)
-            tree = classesObj[classId].tree(treegenerator_2)
+            #tree = classesObj[classId].tree(treegenerator_2)
+            #tree = classesObj[classId].tree()
+            tree = classesObj[classId].tree(treegenerator_3)
             result = [u'']
-            result = pretty.prettyNode(tree, options, result)
+            #result = pretty.prettyNode(tree, options, result)
+            result = formatter_3.formatNode(tree, options, result)
+            # formatter_2
+            #file_cont = filetool.read(classesObj[classId].path)
+            #result = [formatter_2.formatString(file_cont, options)]
+            # - formatter_2
             compiled = u''.join(result)
             filetool.save(self._classes[classId].path, compiled)
 
@@ -1134,7 +1146,7 @@ class CodeGenerator(object):
             raise RuntimeError, "Need either lib.uri or appRoot, to calculate final URI"
         #libBaseUri = Uri(libBaseUri.toUri())
 
-        if rType in lib:
+        if rType in lib and lib[rType] is not None:
             libInternalPath = OsPath(lib[rType])
         else:
             raise RuntimeError, "No such resource type: \"%s\"" % rType
@@ -1188,8 +1200,8 @@ class CodeGenerator(object):
         # ----------------------------------------------------------------------
 
         translationMaps = getTranslationMaps(script.packages)
-        translationData ,                                      \
-        localeData      = mergeTranslationMaps(translationMaps)
+        translationData , localeData = \
+            mergeTranslationMaps(translationMaps)
         # for each locale code, collect mappings
         transKeys  = translationData.keys()
         localeKeys = localeData.keys()
@@ -1268,6 +1280,31 @@ class CodeGenerator(object):
     # Get translation and locale data from all involved classes, and attach it
     # to the corresponding packages.
     def packagesI18NInfo(self, script, addUntranslatedEntries=False):
+
+        def printTranslationStats(statsObj):
+            skip_locales = self._job.get("log/translations/untranslated-keys/skip-locales", [])
+            self._console.debug("Untranslated entries per locale:")
+            self._console.indent()
+            for locale, data in statsObj.stats.items():
+                if locale in skip_locales: continue
+                self._console.nl()
+                if data['total']:
+                    percent_ut = 100*len(data['untranslated'])/data['total']
+                else:
+                    percent_ut = 0
+                self._console.debug(
+                    "%s:\t untranslated entries: %3d%% (%d/%d)" % (locale, percent_ut, 
+                        len(data['untranslated']), data['total'])
+                )
+                self._console.nl()
+                self._console.indent()
+                for key,pofile in data['untranslated'].items():
+                    self._console.debug('"%-30.30s..." : %s' % (key, pofile))
+                self._console.outdent()
+            self._console.nl()
+            self._console.outdent()
+
+        # -----------------------------------------------------------------
         locales = script.locales
 
         if "C" not in locales:
@@ -1276,13 +1313,18 @@ class CodeGenerator(object):
         self._console.info("Processing %s locales  " % len(locales), feed=False)
         self._console.indent()
 
+        statsObj = Locale.LocStats()
+
         for pos, package in enumerate(script.packages):
             self._console.debug("Package %s: " % pos, False)
 
-            pac_dat = self._locale.getTranslationData(package.classes, script.variants, locales, addUntranslatedEntries) # .po data
+            pac_dat = self._locale.getTranslationData(package.classes, script.variants, locales, addUntranslatedEntries, statsObj) # .po data
             loc_dat = self._locale.getLocalizationData(package.classes, locales)  # cldr data
             package.data.translations.update(pac_dat)
             package.data.locales.update(loc_dat)
+
+        if self._console.getLevel() == "debug":
+            printTranslationStats(statsObj)
 
         self._console.outdent()
         return
@@ -1299,26 +1341,26 @@ class CodeGenerator(object):
             # add resource root URI
             if forceResourceUri:
                 resUriRoot = forceResourceUri
-            else:
+                qxlibs[lib.namespace]['resourceUri'] = forceResourceUri
+            elif hasattr(lib, 'resourcePath') and lib.resourcePath is not None:
                 resUriRoot = self._computeResourceUri(lib, OsPath(""), rType="resource", appRoot=self.approot)
                 resUriRoot = resUriRoot.encodedValue()
-                
-            qxlibs[lib.namespace]['resourceUri'] = "%s" % (resUriRoot,)
+                qxlibs[lib.namespace]['resourceUri'] = "%s" % (resUriRoot,)
             
             # add code root URI
             if forceScriptUri:
-                sourceUriRoot = forceScriptUri
-            else:
+                qxlibs[lib.namespace]['sourceUri'] = forceScriptUri
+            elif hasattr(lib, 'classPath') and lib.classPath is not None:
                 sourceUriRoot = self._computeResourceUri(lib, OsPath(""), rType="class", appRoot=self.approot)
                 sourceUriRoot = sourceUriRoot.encodedValue()
-            
-            qxlibs[lib.namespace]['sourceUri'] = "%s" % (sourceUriRoot,)
+                qxlibs[lib.namespace]['sourceUri'] = "%s" % (sourceUriRoot,)
             
             # TODO: Add version, svn revision, maybe even authors, but at least homepage link, ...
 
             # add version info
             if hasattr(lib, 'version'):
                 qxlibs[lib.namespace]['version'] = "%s" % lib.version
+            # sourceViewUri info
             if 'sourceViewUri' in lib.manifest.libinfo:
                 qxlibs[lib.namespace]['sourceViewUri'] = "%s" % lib.manifest.libinfo['sourceViewUri']
 

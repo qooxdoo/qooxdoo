@@ -176,6 +176,8 @@ Some of the programs that support manipulation of ``.po`` files are:
 * `Lokalize <http://l10n.kde.org/tools/>`_ (Linux)
 * `Gtranslator <http://projects.gnome.org/gtranslator/>`__ (Linux)
 
+If you want to know more about the details of ``.po`` files, see :ref:`pages/tool/translation/po_format`.
+
 .. _pages/internationalization#update_the_application:
 
 Update the Application

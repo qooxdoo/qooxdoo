@@ -1,7 +1,9 @@
 Demobrowser
 ***********
 
-.. image:: demobrowser.png
+|demobrowser.png|
+
+.. |demobrowser.png| image:: demobrowser.png
            :target: http://demo.qooxdoo.org/%{version}/demobrowser
 
 Demobrowser is a runner frame application that hosts nearly 250 sample applications. All those applications are full, stand-alone qooxdoo applications. They cover a wide range, from simple layout test apps to more full-featured form applications. But the focus is usually to exercise a particular widget or feature of the qooxdoo class library. So while they might be simple visually, they are good resources to see how a specific feature can be used in an app. As they are generated in three variants, one for each of qooxdoo's standard themes, you can get an impression how the same application looks under the different themes.

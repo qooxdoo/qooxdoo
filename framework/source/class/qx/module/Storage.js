@@ -18,8 +18,8 @@
 ************************************************************************ */
 
 /**
- * This module offers a cross browser storage implementation. The API is aligned 
- * with the API of the HTML web storage (http://www.w3.org/TR/webstorage/) which is 
+ * This module offers a cross browser storage implementation. The API is aligned
+ * with the API of the HTML web storage (http://www.w3.org/TR/webstorage/) which is
  * also the preferred implementation used. As fallback for IE < 8, we use user data.
  * If both techniques are unsupported, we supply a in memory storage, which is
  * of course, not persistent.
@@ -30,7 +30,7 @@ qx.Bootstrap.define("qx.module.Storage", {
     /**
      * Store an item in the storage.
      *
-     * @attachStatic {q, localStorage.setItem}
+     * @attachStatic {qxWeb, localStorage.setItem}
      * @param key {String} The identifier key.
      * @param value {var} The data, which will be stored as JSON.
      */
@@ -42,7 +42,7 @@ qx.Bootstrap.define("qx.module.Storage", {
     /**
      * Returns the stored item.
      *
-     * @attachStatic {q, localStorage.getItem}
+     * @attachStatic {qxWeb, localStorage.getItem}
      * @param key {String} The identifier to get the data.
      * @return {var} The stored data.
      */
@@ -53,7 +53,7 @@ qx.Bootstrap.define("qx.module.Storage", {
 
     /**
      * Removes an item form the storage.
-     * @attachStatic {q, localStorage.removeItem}
+     * @attachStatic {qxWeb, localStorage.removeItem}
      * @param key {String} The identifier.
      */
     removeLocalItem : function(key) {
@@ -63,7 +63,7 @@ qx.Bootstrap.define("qx.module.Storage", {
 
     /**
      * Returns the amount of key-value pairs stored.
-     * @attachStatic {q, localStorage.getLength}
+     * @attachStatic {qxWeb, localStorage.getLength}
      * @return {Number} The length of the storage.
      */
     getLocalLength : function() {
@@ -73,7 +73,7 @@ qx.Bootstrap.define("qx.module.Storage", {
 
     /**
      * Returns the named key at the given index.
-     * @attachStatic {q, localStorage.getKey}
+     * @attachStatic {qxWeb, localStorage.getKey}
      * @param index {Number} The index in the storage.
      * @return {String} The key stored at the given index.
      */
@@ -84,7 +84,7 @@ qx.Bootstrap.define("qx.module.Storage", {
 
     /**
      * Deletes every stored item in the storage.
-     * @attachStatic {q, localStorage.clear}
+     * @attachStatic {qxWeb, localStorage.clear}
      */
     clearLocal : function() {
       qx.bom.Storage.getLocal().clear();
@@ -94,7 +94,7 @@ qx.Bootstrap.define("qx.module.Storage", {
     /**
      * Helper to access every stored item.
      *
-     * @attachStatic {q, localStorage.forEach}
+     * @attachStatic {qxWeb, localStorage.forEach}
      * @param callback {Function} A function which will be called for every item.
      *   The function will have two arguments, first the key and second the value
      *    of the stored data.
@@ -108,7 +108,7 @@ qx.Bootstrap.define("qx.module.Storage", {
     /**
      * Store an item in the storage.
      *
-     * @attachStatic {q, sessionStorage.setItem}
+     * @attachStatic {qxWeb, sessionStorage.setItem}
      * @param key {String} The identifier key.
      * @param value {var} The data, which will be stored as JSON.
      */
@@ -120,7 +120,7 @@ qx.Bootstrap.define("qx.module.Storage", {
     /**
      * Returns the stored item.
      *
-     * @attachStatic {q, sessionStorage.getItem}
+     * @attachStatic {qxWeb, sessionStorage.getItem}
      * @param key {String} The identifier to get the data.
      * @return {var} The stored data.
      */
@@ -131,7 +131,7 @@ qx.Bootstrap.define("qx.module.Storage", {
 
     /**
      * Removes an item form the storage.
-     * @attachStatic {q, sessionStorage.removeItem}
+     * @attachStatic {qxWeb, sessionStorage.removeItem}
      * @param key {String} The identifier.
      */
     removeSessionItem : function(key) {
@@ -141,7 +141,7 @@ qx.Bootstrap.define("qx.module.Storage", {
 
     /**
      * Returns the amount of key-value pairs stored.
-     * @attachStatic {q, sessionStorage.getLength}
+     * @attachStatic {qxWeb, sessionStorage.getLength}
      * @return {Number} The length of the storage.
      */
     getSessionLength : function() {
@@ -151,7 +151,7 @@ qx.Bootstrap.define("qx.module.Storage", {
 
     /**
      * Returns the named key at the given index.
-     * @attachStatic {q, sessionStorage.getKey}
+     * @attachStatic {qxWeb, sessionStorage.getKey}
      * @param index {Number} The index in the storage.
      * @return {String} The key stored at the given index.
      */
@@ -162,7 +162,7 @@ qx.Bootstrap.define("qx.module.Storage", {
 
     /**
      * Deletes every stored item in the storage.
-     * @attachStatic {q, sessionStorage.clear}
+     * @attachStatic {qxWeb, sessionStorage.clear}
      */
     clearSession : function() {
       qx.bom.Storage.getSession().clear();
@@ -172,7 +172,7 @@ qx.Bootstrap.define("qx.module.Storage", {
     /**
      * Helper to access every stored item.
      *
-     * @attachStatic {q, sessionStorage.forEach}
+     * @attachStatic {qxWeb, sessionStorage.forEach}
      * @param callback {Function} A function which will be called for every item.
      *   The function will have two arguments, first the key and second the value
      *    of the stored data.
@@ -185,7 +185,7 @@ qx.Bootstrap.define("qx.module.Storage", {
 
 
   defer : function(statics) {
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       "localStorage" : {
         setItem : statics.setLocalItem,
         getItem : statics.getLocalItem,

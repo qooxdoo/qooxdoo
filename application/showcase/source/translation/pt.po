@@ -1,5 +1,5 @@
 # Portuguese
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo showcase\n"

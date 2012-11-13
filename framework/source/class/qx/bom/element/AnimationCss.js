@@ -99,18 +99,6 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
     _animate : function(el, desc, duration, reverse) {
       this.__normalizeDesc(desc);
 
-      // @deprecated {2.0}
-      if (desc.hasOwnProperty("reverse")) {
-        reverse = desc.reverse;
-        if (qx.core.Environment.get("qx.debug")) {
-          qx.log.Logger.warn(
-            "The key 'reverse' is deprecated: Please use the method " +
-            "'animateReverse' instead."
-          );
-          qx.log.Logger.trace();
-        }
-      }
-
       // debug validation
       if (qx.core.Environment.get("qx.debug")) {
         this.__validateDesc(desc);
@@ -189,8 +177,13 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
      * Handler for the animation iteration.
      * @param e {Event} The native event from the browser.
      */
-    __onAnimationIteration : function(e) {
-      e.target.$$animation.emit("iteration", e.target);
+    __onAnimationIteration : function(e)
+    {
+      // It could happen that an animation end event is fired before an
+      // animation iteration appears [BUG #6928]
+      if (e.target != null && e.target.$$animation != null) {
+        e.target.$$animation.emit("iteration", e.target);
+      }
     },
 
 
@@ -299,8 +292,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
       "true" : function(desc) {
         var possibleKeys = [
           "origin", "duration", "keep", "keyFrames", "delay",
-          "repeat", "timing", "alternate", "reverse"
-          //@deprecated {2.0} (reverse key)
+          "repeat", "timing", "alternate"
         ];
 
         // check for unknown keys
@@ -332,6 +324,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
      * @param frames {Map} A map of key frames that describe the animation.
      * @param reverse {Boolean} <code>true</code>, if the key frames should
      *   be added in reverse order.
+     * @return {String} The generated name of the keyframes rule.
      */
     __addKeyFrames : function(frames, reverse) {
       var rule = "";

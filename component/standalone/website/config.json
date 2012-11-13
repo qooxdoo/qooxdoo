@@ -17,7 +17,9 @@
     "test",
     "log-deps",
     "api-data",
-    "api"
+    "api",
+    "distclean",
+    "clean"
   ],
 
   "config-warnings" :

@@ -53,7 +53,7 @@ def findQxDefineR(rootNode):
 ##
 # Checks if the given node is a qx.*.define function invocation
 
-DefiningClasses = "q qx.Bootstrap qx.Class qx.Interface qx.Mixin qx.Theme".split()
+DefiningClasses = "q qxWeb qx.Bootstrap qx.Class qx.Interface qx.Mixin qx.Theme".split()
 
 def isQxDefine(node):
     if node.type in tree.NODE_VARIABLE_TYPES:
@@ -67,6 +67,7 @@ def isQxDefine(node):
                 className = selectNode(node, "../../arguments/1")
                 if className and className.type == "constant":
                     className = className.get("value", None)
+                    className = None if className == False else className
                 return True, className, variableName
 
     return False, None, ""
@@ -92,6 +93,7 @@ def isQxDefineParent(node):
             className = selectNode(node, "arguments/1")
             if className and className.type == "constant":
                 className = className.get("value", None)
+                className = None if className == False else className
             return True, className, variableName
 
     return False, None, ""
@@ -228,7 +230,7 @@ def nodeIterator(node, nodetypes):
 #
 def findNode(node, nodetypes, attribs): # attribs=[(key,val),...]
     for node in nodeIterator(node, nodetypes):
-        if all([(node.get(key,False)==val) for key,val in attribs]):
+        if all([(node.get(key,not(bool(val)))==val) for key,val in attribs]):
             yield node
 
 
@@ -315,15 +317,15 @@ def inlineIfStatement(ifNode, conditionValue):
         if conditionValue:
             removedDefinitions = getDefinitions(ifNode.children[2])
             newDefinitions = getDefinitions(ifNode.children[1])
-            replacement = ifNode.children[1].children[0].children
+            replacement = ifNode.children[1].children[0]  # <body>.children: single node, <block> or <statement>
         else:
             removedDefinitions = getDefinitions(ifNode.children[1])
             newDefinitions = getDefinitions(ifNode.children[2])
-            replacement = ifNode.children[2].children[0].children
+            replacement = ifNode.children[2].children[0]
     else:
         if conditionValue:
             newDefinitions = getDefinitions(ifNode.children[1])
-            replacement = ifNode.children[1].children[0].children
+            replacement = ifNode.children[1].children[0]
         else:
             removedDefinitions = getDefinitions(ifNode.children[1])
 
@@ -357,8 +359,7 @@ def inlineIfStatement(ifNode, conditionValue):
 
     # move replacement
     if replacement:
-        replacement = replacement[:] # retain copy for return value
-        replaceChildWithNodes(ifNode.parent, ifNode, replacement)
+        replaceChildWithNodes(ifNode.parent, ifNode, [replacement]) # helper expects list
     else:
         emptyBlock = treegenerator.symbol("block")()
         emptyBlock.set("line", ifNode.get("line"))
@@ -368,7 +369,7 @@ def inlineIfStatement(ifNode, conditionValue):
         else:
             # don't leave single-statement parent loops empty
             ifNode.parent.replaceChild(ifNode, emptyBlock)
-        replacement = [emptyBlock]
+        replacement = emptyBlock
 
     return replacement
 
@@ -441,7 +442,7 @@ def compileString(jsString, uniqueId=""):
     """
     Compile a string containing a JavaScript fragment into a syntax tree.
     """
-    return treegenerator.createFileTree(tokenizer.parseStream(jsString, uniqueId)).getFirstChild().getFirstChild()  # strip (file (statements ...) nodes
+    return treegenerator.createFileTree(tokenizer.Tokenizer().parseStream(jsString, uniqueId)).getFirstChild().getFirstChild()  # strip (file (statements ...) nodes
 
 
 def variableOrArrayNodeToArray(node):
@@ -470,7 +471,12 @@ def getFunctionName(fcnNode):
         return "global"
 
     if fcnNode.type == "function" and fcnNode.getChild("identifier", False):
-        return fcnNode.get("identifier", False).get("value")
+        fcnName = fcnNode.get("identifier", False)
+        if fcnName:
+            fcnName = fcnName.get("value")
+        else:
+            fcnName = None
+        return fcnName
 
     if fcnNode.parent.parent.type == "keyvalue":
         return fcnNode.parent.parent.get("key")
@@ -488,10 +494,10 @@ def getLineAndColumnFromSyntaxItem(syntaxItem):
     """
     Returns a tupel of the line and the column of a tree node.
     """
-    line = None
-    column = None
+    line = False
+    column = False
 
-    while line == None and column == None and syntaxItem:
+    while line is False and column is False and syntaxItem:
         line = syntaxItem.get("line", False)
         column = syntaxItem.get("column", False)
 
@@ -500,6 +506,8 @@ def getLineAndColumnFromSyntaxItem(syntaxItem):
         else:
             syntaxItem = None
 
+    line = None if line is False else line
+    column = None if column is False else column
     return line, column
 
 
@@ -507,8 +515,8 @@ def getFileFromSyntaxItem(syntaxItem):
     """
     Returns the file name of a tree node
     """
-    file = None
-    while file == None and syntaxItem:
+    file = False
+    while file is False and syntaxItem:
         file = syntaxItem.get("file", False)
         if hasattr(syntaxItem, "parent"):
             syntaxItem = syntaxItem.parent
@@ -607,6 +615,8 @@ def _checkQxDefineNode(node):
         pass  # ok
     elif (qxDefineParts == ["q", "define"]):
         pass  # ok
+    elif (qxDefineParts == ["qxWeb", "define"]):
+        pass  # ok
     else:
         raise tree.NodeAccessException("Expected qx define node (as from findQxDefine())", node)
 
@@ -683,26 +693,25 @@ def findLeftmostChild(node):
 
 
 ##
-# Find the closest ancestor of <node> with type in <node_types> and in distance
-# <radius>.
+# Find the closest ancestor (including self) of <node> with type in <node_types>
+# and in distance <radius> (radius=0 disables distance).
 #
 def findAncestor(node, node_types=[], radius=1):
     res = None
-    if node.parent:
-        lnode = node.parent
-        dist = 0
-        while True:
-            if radius > 0 and dist >= radius:
-                break
-            elif node_types and lnode.type in node_types:
-                res = lnode
-                break
+    lnode = node
+    dist = 0
+    while True:
+        if radius > 0 and dist >= radius:
+            break
+        elif node_types and lnode.type in node_types:
+            res = lnode
+            break
+        else:
+            dist += 1
+            if lnode.parent:
+                lnode = lnode.parent
             else:
-                dist += 1
-                if lnode.parent:
-                    lnode = lnode.parent
-                else:
-                    break
+                break
     return res
 
 
@@ -723,7 +732,7 @@ def isNEWoperand(node):
         operation = node.parent.parent.parent
     elif node.hasParentContext("operation"):
         operation = node.parent
-    return operation and operation.type=="operation" and operation.get("operator",0)=="NEW"
+    return operation and operation.type=="operation" and operation.get("operator","")=="NEW"
 
 
 ##

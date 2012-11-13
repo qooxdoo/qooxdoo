@@ -73,4 +73,4 @@ Learn more
   http://manual.qooxdoo.org/2.1
 
 * API Documentation
-  http://api.qooxdoo.org/2.0
+  http://api.qooxdoo.org/2.1

@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.data.Tree_Columns",
         width: 600,
         height: 500
       });
-      
+
       container.add(tree, {left: 20, top: 48});
 
 
@@ -97,7 +97,7 @@ qx.Class.define("demobrowser.demo.data.Tree_Columns",
       var treeController = new qx.data.controller.Tree(null, tree, "children", "label");
       treeController.setDelegate(this);
       treeController.setModel(model);
-      
+
       // make sure the root node is open
       tree.getRoot().setOpen(true);
     },

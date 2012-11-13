@@ -3,9 +3,9 @@
 Tutorial Part 4.2.1: Basic Theming
 **********************************
 This time, we continue with a very exciting topic for the tutorials: Theming. As you might already know, the theming system in qooxdoo is not based on CSS which means you, as an application developer, don't have to bother with cross browser CSS. The qooxdoo framework takes care of all that for you.
-As a base for theming an app, we use the already known twitter client we built in the :doc:`former tutorials <tutorial-part-4-2>`. On the left is a picture how it should look to get you started. The the code of the tutorial `on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.2.1>`_.
+As a base for theming an app, we use the already known tweets client we built in the :doc:`former tutorials <tutorial-part-4-2>`. On the left is a picture how it should look to get you started. The the code of the tutorial `on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.2.1>`_.
 
-.. image:: tutorial_4_2_1-1.png
+.. image:: step42.png
 
 .. _pages/desktop/tutorials/tutorial-part-4-2-1#the_plan:
 
@@ -38,7 +38,7 @@ First, we need to get some knowledge about the theming system itself. Every widg
 
 Now, we have defined a custom appearance key for our own widget but the appearance definition is still missing. But where should we put that definition?
 
-The twitter application is based on a default GUI skeleton which has already a predefined custom theme. This can be found in the ``theme`` namespace of the applications source code (``source/class/twitter/theme/``). Taking a look at the namespace shows you five files in total:
+The tweets application is based on a default GUI skeleton which has already a predefined custom theme. This can be found in the ``theme`` namespace of the applications source code (``source/class/tweets/theme/``). Taking a look at the namespace shows you five files in total:
 
   * ``Appearance.js`` holds all appearance definitions
   * ``Color.js`` holds all color definitions
@@ -51,7 +51,7 @@ The basic outline of such an appearance definition can be compared to a class de
 
 ::
 
-  qx.Theme.define("twitter.theme.Appearance",
+  qx.Theme.define("tweets.theme.Appearance",
   {
     extend : qx.theme.modern.Appearance,
    
@@ -96,7 +96,7 @@ Now, we have defined a color alias for our color which can be used in the whole 
 
 Change the default theme
 ========================
-As a next step, we want to change the default theme, which is the :doc:`Modern theme </pages/desktop/ui_theming>`, to the new :doc:`Simple theme </pages/desktop/ui_theming>` we recently shipped with the `1.4 release <http://news.qooxdoo.org/qooxdoo-1-4-and-1-3-1-released>`_. For that, we have to take another look at the files in the ``theme`` folder. You might have already realized that all these files do have an "extend" key which extends from the Modern theme's files. Thats what we are going to change now. Just open all the files in the theme folder and change the extend key from ``qx.theme.modern.xyz`` to ``qx.theme.simple.xyz`` with *xyz* as a placeholder for the name of the file you are editing. There is only one file you don't have to change which is the meta theme named ``Theme.js``. It does not refer to the framework theme so there is nothing to change. With that change, we included new dependencies to classes and resources which means, we have to rebuild our application. Run ``./generate.py`` in the root folder of your application to rebuild the development version of the twitter application. After the process is done, we can reload the application and see a dramatically changed application using the Simple theme.
+As a next step, we want to change the default theme, which is the :doc:`Modern theme </pages/desktop/ui_theming>`, to the :doc:`Simple theme </pages/desktop/ui_theming>`. For that, we have to take another look at the files in the ``theme`` folder. You might have already realized that all these files do have an "extend" key which extends from the Modern theme's files. Thats what we are going to change now. Just open all the files in the theme folder and change the extend key from ``qx.theme.modern.xyz`` to ``qx.theme.simple.xyz`` with *xyz* as a placeholder for the name of the file you are editing. There is only one file you don't have to change which is the meta theme named ``Theme.js``. It does not refer to the framework theme so there is nothing to change. With that change, we included new dependencies to classes and resources which means, we have to rebuild our application. Run ``./generate.py`` in the root folder of your application to rebuild the development version of the tweets application. After the process is done, we can reload the application and see a dramatically changed application using the Simple theme.
 
 .. image:: tutorial_4_2_1-3.png
 
@@ -127,4 +127,4 @@ This is a named color which comes from the frameworks Simple theme. You can find
 
 Job done
 ========
-With the last step, we have finally managed to change the three basic things we wanted to change. If you are interessted in more details about the theming possibilities in qooxdoo, :doc:`check out the manual </pages/desktop>` for more information. As always, the code of the tutorial is `on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/twitter/step4.2.1>`_.
+With the last step, we have finally managed to change the three basic things we wanted to change. If you are interessted in more details about the theming possibilities in qooxdoo, :doc:`check out the manual </pages/desktop>` for more information. As always, the code of the tutorial is `on GitHub <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.2.1>`_.

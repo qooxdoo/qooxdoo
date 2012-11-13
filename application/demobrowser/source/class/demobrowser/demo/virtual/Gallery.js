@@ -26,6 +26,12 @@
 #asset(qx/icon/${qx.icontheme}/32/places/*)
 
 ************************************************************************ */
+/**
+ * @ignore(demobrowser.demo.virtual.GalleryCell)
+ * @ignore(demobrowser.demo.virtual.HtmlGallery)
+ * @ignore(demobrowser.demo.virtual.WidgetGallery)
+ * @ignore(demobrowser.demo.virtual.AbstractGallery)
+ */
 
 qx.Class.define("demobrowser.demo.virtual.Gallery",
 {

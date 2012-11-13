@@ -221,7 +221,7 @@ class Locale(object):
     # Takes a list of classes and target locales, returns a map of those locales to translation
     # maps, which contain the keys used in the classes and the translation in that locale.
     #
-    def getTranslationData(self, clazzList, variants, targetLocales, addUntranslatedEntries=False):
+    def getTranslationData(self, clazzList, variants, targetLocales, addUntranslatedEntries=False, statsObj=None):
 
         ##
         # Collect the namespaces from classes in clazzlist
@@ -240,7 +240,7 @@ class Locale(object):
 
         ##
         # Adding translation entries from <pofiles> to <pot>
-        def translationsFromPofiles(pofiles, pot):
+        def translationsFromPofiles(pofiles, pot, statsObj=None):
             for path in pofiles:
                 self._console.debug("Reading file: %s" % path)
 
@@ -250,10 +250,10 @@ class Locale(object):
                 if po == None:
                     po = polib.pofile(path)
                     self._cache.write(cacheId, po, memory=True)
-                extractTranslations(pot, po)
+                extractTranslations(pot, po, statsObj)
             return pot
 
-        def extractTranslations(pot, po):
+        def extractTranslations(pot, po, statsObj=None):
             po.getIdIndex()
             for potentry in pot:
                 #otherentry = po.find(potentry.msgid)   # this is slower on average than my own functions (bec. 'getattr')
@@ -264,7 +264,16 @@ class Locale(object):
                     if otherentry.msgstr_plural:
                         for pos in otherentry.msgstr_plural:
                             potentry.msgstr_plural[pos] = otherentry.msgstr_plural[pos]
+                    if statsObj and not potentry.translated():
+                        statsObj['untranslated'][potentry.msgid] = po.fpath
             return
+
+        def reportUntranslated(locale, cnt_untranslated, cnt_total):
+            if cnt_total > 0:
+                self._console.debug(
+                    "%s:\t untranslated entries: %2d%% (%d/%d)" % (locale, 100*cnt_untranslated/cnt_total, 
+                        cnt_untranslated, cnt_total)
+                )
 
         # -------------------------------------------------------------------------
 
@@ -288,13 +297,18 @@ class Locale(object):
             self._console.debug("Processing translation: %s" % locale)
             self._console.indent()
 
+            if statsObj:
+               statsObj.update(locale, 0, 0)
             # Get relevant entries from po files for this locale, and convert to dict
-            pot = translationsFromPofiles(LocalesToPofiles[locale], pot) # loop through .po files, updating pot
+            pot = translationsFromPofiles(LocalesToPofiles[locale], pot, 
+                statsObj.stats[locale] if statsObj else statsObj) # loop through .po files, updating pot
             poentries = pot.translated_entries()
             if addUntranslatedEntries:
                 poentries.extend(pot.untranslated_entries())
             transdict = self.entriesToDict(poentries)
             langToTranslationMap[locale] = transdict
+            if statsObj:
+                statsObj.stats[locale]['total'] = len(pot)
 
             self._console.outdent()
 
@@ -305,18 +319,18 @@ class Locale(object):
 
 
     def entriesToDict(self, entries):
-        all = {}
+        all_ = {}
 
         for entry in entries:
             if ('msgstr_plural' in dir(entry) and
                 '0' in entry.msgstr_plural and '1' in entry.msgstr_plural):
-                all[entry.msgid]        = entry.msgstr_plural['0']
-                all[entry.msgid_plural] = entry.msgstr_plural['1']
+                all_[entry.msgid]        = entry.msgstr_plural['0']
+                all_[entry.msgid_plural] = entry.msgstr_plural['1']
                 # missing: handling of potential msgstr_plural[2:N]
             else:
-                all[entry.msgid] = entry.msgstr
+                all_[entry.msgid] = entry.msgstr
 
-        return all
+        return all_
 
 
 
@@ -404,3 +418,19 @@ class Locale(object):
         self._console.debug("Package contains %s unique translation strings" % len(result))
         self._console.outdent()
         return result
+
+
+##
+# LocStats -- collect stats from translations
+#
+class LocStats(object):
+
+    def __init__(self):
+        self.stats = {}  # {locale: {untranslated: {msgid1:PoFilePath}, total: m}}
+
+    def update(self, locale, untrans, total):
+        if locale not in self.stats:
+            self.stats[locale] = { 'untranslated' : {}, 'total' : 0}
+        self.stats[locale]['untranslated'] = {}
+        self.stats[locale]['total'] = total
+

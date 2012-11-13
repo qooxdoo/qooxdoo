@@ -54,7 +54,9 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   extend : qx.ui.mobile.core.Widget,
   include : [
     qx.ui.mobile.form.MValue,
-    qx.ui.form.MForm
+    qx.ui.form.MForm,
+    qx.ui.mobile.form.MText,
+    qx.ui.mobile.form.MState
   ],
   implement : [
     qx.ui.form.IForm,
@@ -74,13 +76,27 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     // This text node is for compatibility reasons, because Firefox can not
     // change appearance of select boxes.
     this._setAttribute("type","text");
-    this._setAttribute("readonly","readonly");
+    this.setReadOnly(true);
 
     // Selection dialog creation.
     this.__selectionDialog = this._createSelectionDialog();
 
     // When selectionDialogs changes selection, get chosen selectedIndex from it.
     this.__selectionDialog.addListener("changeSelection", this._onChangeSelection, this);
+  },
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  events :
+  {
+    /**
+     * Fired when user selects an item.
+     */
+    changeSelection : "qx.event.type.Data"
   },
 
 
@@ -107,6 +123,18 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       init : true
     },
 
+
+    /**
+     * Defines if the selectBox has a clearButton, which resets the selection.
+     */
+    nullable :
+    {
+      init : false,
+      check : "Boolean",
+      apply : "_applyNullable"
+    },
+
+
     /**
      * The model to use to render the list.
      */
@@ -114,7 +142,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     {
       check : "qx.data.Array",
       apply : "_applyModel",
-      event: "changeModel",
+      event : "changeModel",
       nullable : true,
       init : null
     }
@@ -187,9 +215,14 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param value {Number} the index of the selection
      */
     setSelection : function(value) {
-      if(this.getModel() && this.getModel().length > value && value > -1){
+      if(this.getModel() && this.getModel().length > value && value > -1) {
         this.__selectedIndex = value;
-        this._setAttribute("value", this.getModel().getItem(value));
+
+        if(value == null){
+          this._setAttribute("value", null);
+        } else {
+          this._setAttribute("value", this.getModel().getItem(value));
+        }
       }
     },
 
@@ -199,8 +232,26 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param title {String} the title to set on selection dialog.
      */
     setDialogTitle : function(title) {
-      if(this.__selectionDialog){
+      if(this.__selectionDialog) {
         this.__selectionDialog.setTitle(title);
+      }
+    },
+
+
+    /**
+     * Set the ClearButton label of the selection dialog.
+     * @param value {String} the value to set on the ClearButton at selection dialog.
+     */
+    setClearButtonLabel : function(value) {
+      this.__selectionDialog.setClearButtonLabel(value);
+    },
+
+
+    // property apply
+    _applyNullable : function(isNullable) {
+      // Delegate nullable property.
+      if(this.__selectionDialog) {
+        this.__selectionDialog.setNullable(isNullable);
       }
     },
 
@@ -210,11 +261,15 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param value {String} the text value which should be selected.
      */
     _setValue : function(value) {
-      if(this.getModel()){
-        var indexOfValue = this.getModel().indexOf(value);
-        if(indexOfValue>-1){
-          this.__selectedIndex = indexOfValue;
-          this._setAttribute("value",value);
+      if(value == null){
+        this._setAttribute("value", null);
+      } else {
+        if(this.getModel()) {
+          var indexOfValue = this.getModel().indexOf(value);
+          if(indexOfValue > -1) {
+            this.__selectedIndex = indexOfValue;
+            this._setAttribute("value",value);
+          }
         }
       }
     },
@@ -223,7 +278,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     /**
      * Get the text value of this
      * It is called by setValue method of qx.ui.mobile.form.MValue mixin.
-     * @return {number} the new selected index of the select box.
+     * @return {Number} the new selected index of the select box.
      */
     _getValue : function() {
       return this._getAttribute("value");
@@ -236,12 +291,18 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      */
     _render : function() {
       if(this.getModel() && this.getModel().length > 0) {
-        // Default selected index is 0.
-        if(!this.__selectedIndex) {
-          this.__selectedIndex = 0;
+        var selectedItem = null;
+
+        if(this.__selectedIndex == null) {
+          if(!this.isNullable()) {
+            // Default selected index is 0.
+            this.__selectedIndex = 0;
+            selectedItem = this.getModel().getItem(this.__selectedIndex);
+          }
+        } else {
+          selectedItem = this.getModel().getItem(this.__selectedIndex);
         }
 
-        var selectedItem = this.getModel().getItem(this.__selectedIndex);
         this._setAttribute("value", selectedItem);
       }
 
@@ -276,12 +337,17 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
 
     /**
-     * Gets the selectedIndex out of change selection event, renders view.
+     * Gets the selectedIndex out of change selection event and renders view.
      * @param evt {qx.event.type.Data} data event.
      */
     _onChangeSelection : function (evt) {
-      this.__selectedIndex = evt.getData().index;
+      var evtIndex = evt.getData().index;
+      var evtItem = evt.getData().item;
+      this.__selectedIndex = evtIndex;
       this._render();
+
+      // Bubbling event. For making it possible to listen on changeSelection event fired by SelectBox.
+      this.fireDataEvent("changeSelection", {index: evtIndex, item: evtItem});
     }
   }
   ,

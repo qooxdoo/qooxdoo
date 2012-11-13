@@ -1,0 +1,59 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: you@your.org\n"
+"POT-Creation-Date: 2010-08-31 13:24+0100\n"
+"PO-Revision-Date: 2010-08-31 13:24+0100\n"
+"Last-Translator: you <you@your.org>\n"
+"Language-Team: Team <yourteam@your.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: tweets/MainWindow.js:30
+msgid "Reload"
+msgstr ""
+
+#: tweets/MainWindow.js:32
+msgid "Reload the tweets."
+msgstr ""
+
+#: tweets/MainWindow.js:44
+msgid "Change the applications settings."
+msgstr ""
+
+#: tweets/MainWindow.js:60
+msgid "Enter your message here..."
+msgstr ""
+
+#: tweets/MainWindow.js:67
+msgid "Post"
+msgstr ""
+
+#: tweets/MainWindow.js:69
+msgid "Post this message on identi.ca"
+msgstr ""
+
+#: tweets/SettingsWindow.js:8 tweets/MainWindow.js:42
+msgid "Preferences"
+msgstr ""
+
+#: tweets/SettingsWindow.js:13
+msgid "Language"
+msgstr ""
+
+#: tweets/SettingsWindow.js:20
+msgid "$$languagename"
+msgstr "English"
+
+#: tweets/SettingsWindow.js:13
+msgid "Language"
+msgstr ""
+
+#: tweets/SettingsWindow.js:20
+msgid "$$languagename"
+msgstr "English"
+
+#~ msgid "Post this message on identica."
+#~ msgstr ""

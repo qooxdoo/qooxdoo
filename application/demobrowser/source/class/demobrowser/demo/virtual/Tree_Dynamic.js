@@ -24,7 +24,9 @@
 #asset(demobrowser/demo/icons/loading22.gif)
 
 ************************************************************************ */
-
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.virtual.Tree_Dynamic",
 {
   extend : qx.application.Standalone,

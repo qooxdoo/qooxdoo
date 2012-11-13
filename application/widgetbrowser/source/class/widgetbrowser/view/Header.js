@@ -17,6 +17,12 @@
      * Tristan Koch (tristankoch)
 
 ************************************************************************ */
+/* ************************************************************************
+#use(qx.theme.Indigo);
+#use(qx.theme.Simple);
+#use(qx.theme.Classic);
+#use(qx.theme.Modern)
+************************************************************************ */
 
 /**
  * The Application's header
@@ -71,18 +77,37 @@ qx.Class.define("widgetbrowser.view.Header",
       }
     })[0];
 
+    select.setTextColor("black");
+
+    select.addListener("changeSelection", function(evt) {
+      var selected = evt.getData()[0].getUserData("value");
+
+      var theme = qx.Theme.getByName(selected);
+      if (theme) {
+        qx.theme.manager.Meta.getInstance().setTheme(theme);
+      } else {
+        var part = selected.substr(selected.lastIndexOf(".") + 1, selected.length);
+        part = part.toLowerCase();
+
+        // change the text of the selected list item to 'Loading...'
+        select.setEnabled(false);
+        var listItem = evt.getData()[0];
+        var oldText = listItem.getLabel();
+        listItem.setLabel("Loading ...");
+        qx.Part.require(part, function() {
+          qx.theme.manager.Meta.getInstance().setTheme(
+            qx.Theme.getByName(selected)
+          );
+          select.setEnabled(true);
+          listItem.setLabel(oldText);
+        }, this);
+      }
+    });
+
     // Set current theme
     if (currentThemeItem) {
       select.setSelection([currentThemeItem]);
     }
-
-    select.setTextColor("black");
-
-    select.addListener("changeSelection", function(evt) {
-      var selected = evt.getData()[0];
-      var url = "index.html?qx.theme=" + selected.getUserData("value");
-      window.location = url;
-    });
 
     // Finally assemble header
     this.add(title);

@@ -66,7 +66,7 @@ Parts
 Further Resources
 -----------------
 
-* :ref:`Generator Configuration <pages/tool/generator_config_ref#packages>`
+* :ref:`Generator Configuration <pages/tool/generator/generator_config_ref#packages>`
 * `qooxdoo API <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.io.PartLoader>`_
 
 
@@ -77,6 +77,8 @@ Internationalization
    :maxdepth: 2
 
    Internationalization, Localization <development/internationalization>
+
+* :doc:`PO File Cheat Sheet <tool/translation/po_format>`
 
 
 Documenting Code

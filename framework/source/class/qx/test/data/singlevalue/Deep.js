@@ -18,6 +18,8 @@
 ************************************************************************ */
 /**
  * Test-Class for testing the single value binding
+ *
+ * @ignore(qx.test.MultiBinding)
  */
 qx.Class.define("qx.test.data.singlevalue.Deep",
 {

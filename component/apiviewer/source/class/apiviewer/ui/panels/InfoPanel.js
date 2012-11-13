@@ -760,6 +760,27 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
 
     /**
+     * Creates the link to class where the method has been attached from.
+     *
+     * @param node {apiviewer.dao.ClassItem} the doc node of the item.
+     * @return {String} the HTML.
+     */
+    createAttachedFrom : function(method) {
+      if (method.getAttachedFrom()) {
+        var html = new qx.util.StringBuilder();
+        html.add('<div class="item-detail-headline">', "Attached from:", '</div>');
+        html.add(
+          '<div class="item-detail-text">',
+          this.createItemLinkHtml(method.getAttachedFrom(), method.getClass()),
+          '</div>');
+
+        return html.get();
+      }
+      return "";
+    },
+
+
+    /**
      * Wraps a HTML fragment with a "span" element with CSS classes for
      * the item.
      *

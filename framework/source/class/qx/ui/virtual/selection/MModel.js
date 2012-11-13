@@ -257,7 +257,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       try {
         this._manager.replaceSelection(newSelection);
       }
-      catch(e)
+      catch(ex)
       {
         this._manager.selectItem(newSelection[newSelection.length - 1]);
       }

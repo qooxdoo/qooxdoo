@@ -1,6 +1,6 @@
 .. _pages/data_binding/changebubble#data_binding_events:
 
-Data Binding Events
+Events
 *******************
 
 Events are a key concept of data binding. They are responsible for notifying every connected view (which can be more than one) to update their representation of the data stored in the model. You can see the events as a nervous system for your data bound app. In general, there are two different kinds of events.
@@ -29,7 +29,7 @@ Regular change events might not be enough in every use case. If we consider a hu
 
 Enabling
 ^^^^^^^^
-These bubbling events are disabled by default because firing an additional event for every change is nut always necessary. There are two ways for enabling the events. The most easy and preferred way is to use the :ref:`marhsaler<pages/data_binding/models#json_marshaler>` to create the models. You will find more details about how to do that in the :ref:`marhsaler section<pages/data_binding/models#json_marshaler>`. A second was is to include the mixin to your own classes. More details on that in the `API documentation of that mixin <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.data.marshal.MEventBubbling>`__.
+These bubbling events are disabled by default because firing an additional event for every change is not always necessary. There are two ways for enabling the events. The most easy and preferred way is to use the :ref:`marhsaler<pages/data_binding/models#json_marshaler>` to create the models. You will find more details about how to do that in the :ref:`marhsaler section<pages/data_binding/models#json_marshaler>`. A second way is to include the mixin to your own classes. More details on that in the `API documentation of that mixin <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.data.marshal.MEventBubbling>`__.
 
 Details
 ^^^^^^^
@@ -60,4 +60,4 @@ Think of the unshift action as something which manipulates the index 0 because i
   * ``name``: ``0`` (The name of the changed index)
   * ``item``: *<array>* (The array itself)
 
-Value and old are always an array because there are operation which change several indexes at once like ``splice``.
+The properties ``value`` and ``old`` are always an array because there are operations which change several indexes at once like ``splice``.

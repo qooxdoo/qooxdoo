@@ -28,6 +28,10 @@
 #ignore(qx.test.ExtendError)
 #ignore(qx.test.Construct)
 ************************************************************************ */
+/**
+ * @ignore(qx.test.Construct, qx.test.ExtendError, qx.test.ExtendNull)
+ * @ignore(qx.test.ExtendQxObject, qx.test.ExtendSuper, qx.test.Super)
+ */
 
 qx.Class.define("qx.test.Bootstrap",
 {

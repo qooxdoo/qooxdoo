@@ -82,8 +82,7 @@ qx.Class.define("qx.theme.manager.Font",
       var cache = this._dynamic;
       var resolved = cache[value];
 
-      if (resolved)
-      {
+      if (resolved) {
         return resolved;
       }
 
@@ -160,7 +159,7 @@ qx.Class.define("qx.theme.manager.Font",
     // apply method
     _applyTheme : function(value)
     {
-      var dest = this._getDynamic();
+      var dest = this._dynamic;
 
       for (var key in dest)
       {

@@ -14,10 +14,11 @@ Included Features
 This listing shows the core features of the *%{qooxdoo} %{Server}* package. If you build your own package with the skeleton way of using %{qooxdoo}, the feature set might be extended depending on your application code.
 
 * :doc:`Object Orientation </pages/core/oo_introduction>`
-   * :doc:`Classes </pages/core/classes>`
-   * :doc:`Mixins </pages/core/mixins>`
-   * :doc:`Interfaces </pages/core/interfaces>`
-   * :doc:`Properties </pages/core/understanding_properties>`
+
+  * :doc:`Classes </pages/core/classes>`
+  * :doc:`Mixins </pages/core/mixins>`
+  * :doc:`Interfaces </pages/core/interfaces>`
+  * :doc:`Properties </pages/core/understanding_properties>`
 * :doc:`Events </pages/desktop/event_layer_impl>`
 * :doc:`Single Value Binding </pages/data_binding/single_value_binding>`
 

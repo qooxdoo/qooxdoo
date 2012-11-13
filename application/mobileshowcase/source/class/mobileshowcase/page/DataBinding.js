@@ -204,7 +204,7 @@ qx.Class.define("mobileshowcase.page.DataBinding",
      */
     __createListDataBindings : function() {
       var self = this;
-      
+
       var list = new qx.ui.mobile.list.List({
       configureItem : function(item, data, row)
         {

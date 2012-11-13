@@ -23,6 +23,10 @@
 #ignore(qx.test.ui.tree.virtual.Node)
 
 ************************************************************************ */
+/**
+ * @ignore(qx.test.ui.tree.virtual.Leaf)
+ * @ignore(qx.test.ui.tree.virtual.Node)
+ */
 
 qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
 {
@@ -57,6 +61,17 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
           event : "changeName",
           apply : "_applyEventPropagation",
           nullable : true
+        }
+      },
+
+      members :
+      {
+        toString : function() {
+          return this.getName();
+        },
+
+        equals : function(item) {
+          return this.getName() === item.getName();
         }
       }
     });
@@ -146,6 +161,29 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
       this.tree.setChildProperty("children");
       this.tree.setModel(this.model);
       return this.model;
+    },
+
+
+    getVisibleItemsFrom : function(parent, openNodes)
+    {
+      var expected = [];
+
+      if (parent.getChildren() != null)
+      {
+        for (var i = 0; i < parent.getChildren().getLength(); i++)
+        {
+          var child = parent.getChildren().getItem(i);
+          expected.push(child);
+
+          if (openNodes.indexOf(child) > -1)
+          {
+            var otherExpected = this.getVisibleItemsFrom(child, openNodes);
+            expected = expected.concat(otherExpected);
+          }
+        }
+      }
+
+      return expected;
     },
 
 

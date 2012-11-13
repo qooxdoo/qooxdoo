@@ -43,3 +43,29 @@ samples["q.ready"].push(function() {
     // ready to go
   });
 });
+
+/**
+ * Messaging
+ */
+samples["q.messaging.on"] = [];
+samples["q.messaging.on"].push(function() {
+  q.messaging.on("get", "/address/{id}", function(data) {
+    var id = data.params.id; // 1234
+    // do something with the id...
+  },this);
+});
+samples["q.messaging.onAny"] = [];
+samples["q.messaging.onAny"].push(function() {
+  q.messaging.onAny("/address/{id}", function(data) {
+    var id = data.params.id; // 1234
+    // do something with the id...
+  },this);
+});
+samples["q.messaging.emit"] = [];
+samples["q.messaging.emit"].push(function() {
+  q.messaging.emit("get", "/address/1234"); // emit a message on the 'get' channel
+});
+samples["q.messaging.remove"] = [];
+samples["q.messaging.remove"].push(function() {
+  q.messaging.remove(id); // id must be the return of an 'on' call
+});

@@ -32,7 +32,7 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#ignore(q)
+#ignore(qxWeb)
 ************************************************************************ */
 
 /**
@@ -220,7 +220,7 @@ qx.Bootstrap.define("qx.bom.Html",
         if (obj.nodeType) {
           ret.push(obj);
         } else if (obj instanceof qx.type.BaseArray ||
-            (typeof q !== "undefined" && obj instanceof q)) {
+            (typeof qxWeb !== "undefined" && obj instanceof qxWeb)) {
           ret.push.apply(ret, Array.prototype.slice.call(obj, 0));
         } else if (obj.toElement) {
           ret.push(obj.toElement());
@@ -232,7 +232,7 @@ qx.Bootstrap.define("qx.bom.Html",
       // Append to fragment and filter out scripts... or...
       if (fragment)
       {
-        var scripts=[], elem, temp;
+        var scripts=[], elem;
         for (var i=0; ret[i]; i++)
         {
           elem = ret[i];
@@ -252,8 +252,8 @@ qx.Bootstrap.define("qx.bom.Html",
             if (elem.nodeType === 1)
             {
               // Recursively search for scripts and append them to the list of elements to process
-              temp = Array.prototype.slice.call(elem.getElementsByTagName("script"), 0);
-              ret.splice.apply(ret, [i+1, 0].concat(temp));
+              var scriptList = qx.lang.Array.fromCollection(elem.getElementsByTagName("script"));
+              ret.splice.apply(ret, [i+1, 0].concat(scriptList));
             }
 
             // Finally append element to fragment

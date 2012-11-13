@@ -169,6 +169,14 @@ qx.Class.define("qx.event.handler.Transition",
 
     // interface implementation
     /**
+     * This method is called each time an event listener, for one of the
+     * supported events, is added using {@link qx.event.Manager#addListener}.
+     *
+     * @param target {var} The target to, which the event handler should
+     *     be attached
+     * @param type {String} event type
+     * @param capture {Boolean} Whether to attach the event to the
+     *         capturing phase or the bubbling phase of the event.
      * @signature function(target, type, capture)
      */
     registerEvent: qx.core.Environment.select("engine.name",
@@ -194,6 +202,15 @@ qx.Class.define("qx.event.handler.Transition",
 
     // interface implementation
     /**
+     * This method is called each time an event listener, for one of the
+     * supported events, is removed by using {@link qx.event.Manager#removeListener}
+     * and no other event listener is listening on this type.
+     *
+     * @param target {var} The target from, which the event handler should
+     *     be removed
+     * @param type {String} event type
+     * @param capture {Boolean} Whether to attach the event to the
+     *         capturing phase or the bubbling phase of the event.
      * @signature function(target, type, capture)
      */
     unregisterEvent: qx.core.Environment.select("engine.name",

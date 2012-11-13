@@ -43,7 +43,6 @@ qx.Class.define("demobrowser.demo.bom.Geolocation",
       var geo = qx.bom.GeoLocation.getInstance();
 
       geo.addListener("position", function(position) {
-        //todo: maybe add a map here
         qx.bom.Label.setValue(label1,
         "<p>Latitude: " + position.getLatitude() + "</p>" +
         "<p>Longitude: " + position.getLongitude() + "</p>");
