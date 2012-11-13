@@ -103,8 +103,14 @@ qx.Class.define("fce.Util", {
       if (a === null) {
         return b === null ? true : false;
       }
+      if (b === null) {
+        return a === null ? true : false;
+      }
       if (a === undefined) {
         return b === undefined ? true : false;
+      }
+      if (b === undefined) {
+        return a === undefined ? true : false;
       }
       // primitives
       if (typeof a !== "object") {
