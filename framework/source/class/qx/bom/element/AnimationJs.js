@@ -91,7 +91,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
     _animate : function(el, desc, duration, reverse) {
       // stop if an animation is already running
       if (el.$$animation) {
-        return null;
+        return el.$$animation;
       }
 
       desc = qx.lang.Object.clone(desc, true);
