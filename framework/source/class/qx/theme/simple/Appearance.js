@@ -1753,10 +1753,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
     {
       style : function(states)
       {
+        var backgroundColor;
+        if (states.selected) {
+          backgroundColor = "background-selected";
+          if (states.disabled) {
+            backgroundColor += "-disabled";
+          }
+        }
         return {
           padding : [2, 8, 2, 5],
           icon : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png",
-          backgroundColor : states.selected ? "background-selected" : undefined,
+          backgroundColor : backgroundColor,
           iconOpened : "icon/16/places/folder-open.png"
         };
       }
@@ -1779,7 +1786,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           padding : [ 1, 2 ],
-          textColor : states.selected ? "text-selected" : undefined
+          textColor : states.selected && !states.disabled ? "text-selected" : undefined
         };
       }
     },
