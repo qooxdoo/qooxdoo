@@ -62,6 +62,8 @@
       "api",
       "common",
       "lint",
+      "provider-classes",
+      "provider-deps",
       "test",
       "test-source",
       "test-inline",
