@@ -282,6 +282,10 @@
  *       <td>event.pointer</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Event#getPointer}</td>
  *     </tr>
+ *      <tr>
+ *       <td>event.mspointer</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Event#getMsPointer}</td>
+ *     </tr>
  *     <tr>
  *       <td>event.touch</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Event#getTouch}</td>
