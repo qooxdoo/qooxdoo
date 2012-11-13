@@ -92,9 +92,14 @@ qx.Class.define("tutorial.view.SelectionWindow",
         this.add(button, {row: i + 1, column: 0});
         button.addListener("execute", (function(name) {
           this.fireDataEvent("changeTutorial", {name: name, type: "desktop"});
-          this.fadeOut(300).on("end", function() {
+          if (tutorial.Application.allowFade()) {
+            this.fadeOut(300).on("end", function() {
+              this.close();
+            }, this);
+          } else {
             this.close();
-          }, this);
+          }
+
         }).bind(this, key));
         i++;
       };
@@ -109,9 +114,14 @@ qx.Class.define("tutorial.view.SelectionWindow",
         if (supportsMobile) {
           button.addListener("execute", (function(name) {
             this.fireDataEvent("changeTutorial", {name: name, type: "mobile"});
-            this.fadeOut(300).on("end", function() {
+            if (tutorial.Application.allowFade()) {
+              this.fadeOut(300).on("end", function() {
+                this.close();
+              }, this);
+            } else {
               this.close();
-            }, this);
+            }
+
           }).bind(this, key));
         } else {
           button.setEnabled(false);

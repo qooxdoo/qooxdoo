@@ -55,10 +55,16 @@ qx.Class.define("tutorial.view.Confirm",
     cancelButton.setWidth(80);
     this.add(cancelButton, {row: 1, column: 1});
     cancelButton.addListener("execute", function() {
-      this.fadeOut(300).on("end", function() {
+      if (tutorial.Application.allowFade()) {
+        this.fadeOut(300).on("end", function() {
+          this.close();
+          this.fireDataEvent("confirm", false);
+        }, this);
+      } else {
         this.close();
         this.fireDataEvent("confirm", false);
-      }, this);
+      }
+
     }, this);
     ignoreBox.bind("value", cancelButton, "enabled", {converter : function(data) {
       return !data;
@@ -69,10 +75,16 @@ qx.Class.define("tutorial.view.Confirm",
     okButton.setWidth(80);
     this.add(okButton, {row: 1, column: 2});
     okButton.addListener("execute", function() {
-      this.fadeOut(300).on("end", function() {
+      if (tutorial.Application.allowFade()) {
+        this.fadeOut(300).on("end", function() {
+          this.close();
+          this.fireDataEvent("confirm", true);
+        }, this);
+      } else {
         this.close();
         this.fireDataEvent("confirm", true);
-      }, this);
+      }
+
     }, this);
     okButton.addListener("appear", function() {
       okButton.focus();

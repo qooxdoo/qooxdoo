@@ -48,6 +48,12 @@ qx.Class.define("tutorial.Application",
         return true;
       }
       return false;
+    },
+
+
+    allowFade : function() {
+      return !(qx.core.Environment.get("engine.name") == "mshtml" &&
+        parseInt(qx.core.Environment.get("browser.documentmode")) < 9);
     }
   },
 
@@ -172,7 +178,12 @@ qx.Class.define("tutorial.Application",
 
       this.__selectionWindow.open();
       this.render();  // make sure the DOM object is available for the fade
-      this.__selectionWindow.fadeIn(300);
+      if (tutorial.Application.allowFade()) {
+        this.__selectionWindow.fadeIn(300);
+      } else {
+        this.__selectionWindow.show();
+      }
+
     },
 
 
@@ -209,7 +220,11 @@ qx.Class.define("tutorial.Application",
       this.__confirmWindow.setMessage(text);
       this.__confirmWindow.open();
       this.render();
-      this.__confirmWindow.fadeIn(300);
+      if (tutorial.Application.allowFade()) {
+        this.__confirmWindow.fadeIn(300);
+      } else {
+        this.__confirmWindow.show();
+      }
       this.__confirmWindow.addListenerOnce("confirm", callback, ctx);
     },
 
