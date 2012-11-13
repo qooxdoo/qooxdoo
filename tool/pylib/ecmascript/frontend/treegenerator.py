@@ -173,11 +173,13 @@ class TokenStream(IterObject):
 
         # tok isinstanceof Token()
         if tok.name == "white":
-            s = symbol_table.get(tok.name)()
+            #s = symbol_table.get(tok.name)()  # grammar doesn't provide for 'white' currently
+            pass
         elif tok.name == 'comment':
             s = symbol_table.get(tok.name)()
-            #s.set('connection', tok.connection)  # before/after(!?)
-            #s.set('detail', "inline" if tok.value[:2]=="//" else "block") # tok.detail is javadoc/qtdoc/area/divider/header/block
+            s.set('connection', tok.connection)  # relates to preceding or subsequent code
+            s.set('begin', tok.begin)  # first non-white on line
+            s.set('end', tok.end)   # last non-white on line
             s.set('detail', tok.detail)
             s.set('multiline', tok.multiline)  # true/false
             self.comments.append(s)         # keep comments in temp. store
@@ -320,6 +322,8 @@ class symbol_base(Node):
         if column:
             self.set("column", column)
         self.comments = []   # [Node(comment)] of comments preceding the node ("commentsBefore")
+        self.commentsIn    = []
+        self.commentsAfter = []
 
     ##
     # thin wrapper around .children, to maintain .parent in them
@@ -375,8 +379,7 @@ class symbol_base(Node):
 
     # serialization to list of nodes
     def toListG(self):
-        for e in itert.chain([self], *[c.toListG() for c in self.children]):
-            yield e
+        raise SyntaxException("Symbol '%s' has to implement its own toListG method (pos %r)." % (self.id, (self.get("line",-1), self.get("column",-1))))
 
 
     def compileToken(self, name, compact=False):
@@ -578,10 +581,7 @@ def prefix(id_, bp):
 ##
 # prefix "verb" operators, i.e. that need a space before their operand like 'delete'
 def prefix_v(id_, bp):
-    def pfix(self):
-        self.childappend(expression(bp-1)) # right-associative
-        return self
-    symbol(id_, bp).pfix = pfix
+    prefix(id_, bp)  # init as prefix op
 
     def toJS(self, opts):
         r = u''
@@ -675,6 +675,18 @@ def method(s):
         setattr(s, fn.__name__, fn)
         #fn.__name__ = "%s.%s" % (s.id, fn.__name__)
     return bind
+
+def toListG_just_children(self):
+    for cld in self.children:
+        for e in cld.toListG():
+            yield e
+
+def toListG_self_first(self):
+    #for e in itert.chain(*[c.toListG() for c in self.children]): yield e
+    yield self
+    for cld in self.children:
+        for e in cld.toListG():
+            yield e
 
 # - Grammar ----------------------------------------------------------------
 
@@ -896,6 +908,7 @@ def constant(id_):
         self.id = "constant"
         self.value = id_
         return self
+    symbol(id_).toListG = toListG_self_first
 
 constant("null")
 constant("true")
@@ -984,29 +997,34 @@ def ifix(self, left):
     key = symbol("key")(token.get("line"), token.get("column"))
     accessor.childappend(key)
     key.childappend(expression())
+    # assert token.id == ']'
+    affix_comments(key.commentsAfter, token)
     advance("]")
     return accessor
 
-@method(symbol("["))
+@method(symbol("["))             # "[1, 2, 3]"
 def pfix(self):
     arr = symbol("array")()
     self.patch(arr)
-    if token.id != "]":
-        is_after_comma = 0
-        while True:
-            if token.id == "]":
-                if is_after_comma:  # preserve dangling comma (bug#6210)
-                    arr.childappend(symbol("(empty)")())
-                break
-            elif token.id == ",":  # elision
+    is_after_comma = 0
+    while True:
+        if token.id == "]":
+            if is_after_comma:  # preserve dangling comma (bug#6210)
                 arr.childappend(symbol("(empty)")())
+            if arr.children:
+                affix_comments(arr.children[-1].commentsAfter, token)
             else:
-                arr.childappend(expression())
-            if token.id != ",":
-                break
-            else:
-                is_after_comma = 1
-                advance(",")
+                affix_comments(arr.commentsIn, token)
+            break
+        elif token.id == ",":  # elision
+            arr.childappend(symbol("(empty)")())
+        else:
+            arr.childappend(expression())
+        if token.id != ",":
+            break
+        else:
+            is_after_comma = 1
+            advance(",")
     advance("]")
     return arr
 
@@ -1036,11 +1054,7 @@ def toJS(self, opts):
         r.append(c.toJS(opts))
     return '[' + u','.join(r) + ']'
 
-@method(symbol("array"))
-def toListG(self):
-    for c in self.children:
-        for e in c.toListG():
-            yield e
+symbol("array").toListG = toListG_self_first
 
 
 symbol("key")
@@ -1242,19 +1256,15 @@ def toJS(self, opts):
 symbol("params").toJS = toJS
 symbol("arguments").toJS = toJS  # same here
 
-def toListG(self):
-    for e in itert.chain([self], *[c.toListG() for c in self.children]):
-        yield e
-
-symbol("params").toListG = toListG
-symbol("arguments").toListG = toListG  # same here
+symbol("params").toListG = toListG_self_first
+symbol("arguments").toListG = toListG_self_first
 
 @method(symbol("body"))
 def toJS(self, opts):
     r = []
     r.append(self.children[0].toJS(opts))
     # 'if', 'while', etc. can have single-statement bodies
-    if self.children[0].id != 'block':
+    if self.children[0].id != 'block' and not r[-1].endswith(';'):
         r.append(';')
     return u''.join(r)
 
@@ -1364,41 +1374,56 @@ def std(self):
     # for (;;) [mind: all three subexpressions are optional]
     else:
         self.set("forVariant", "iter")
-        condition = symbol("expressionList")(token.get("line"), token.get("column"))
+        condition = symbol("expressionList")(token.get("line"), token.get("column")) # TODO: expressionList is bogus here
         self.childappend(condition)
         # init part
         first = symbol("first")(token.get("line"), token.get("column"))
         condition.childappend(first)
         if chunk is None:       # empty init expr
             pass
-        elif token.id == ';':   # single init expr
-            first.childappend(chunk)
-        elif token.id == ',':   # multiple init expr
-            advance()
+        else: # at least one init expr
             exprList = symbol("expressionList")(token.get("line"), token.get("column"))
             first.childappend(exprList)
             exprList.childappend(chunk)
-            lst = init_list()
-            for assgn in lst:
-                exprList.childappend(assgn)
+            if token.id == ',':
+                advance(',')
+                lst = init_list()
+                for assgn in lst:
+                    exprList.childappend(assgn)
+        #elif token.id == ';':   # single init expr
+        #    first.childappend(chunk)
+        #elif token.id == ',':   # multiple init expr
+        #    advance()
+        #    exprList = symbol("expressionList")(token.get("line"), token.get("column"))
+        #    first.childappend(exprList)
+        #    exprList.childappend(chunk)
+        #    lst = init_list()
+        #    for assgn in lst:
+        #        exprList.childappend(assgn)
         advance(";")
         # condition part 
         second = symbol("second")(token.get("line"), token.get("column"))
         condition.childappend(second)
         if token.id != ";":
-            second.childappend(expression())
+            exprList = symbol("expressionList")(token.get("line"), token.get("column"))
+            second.childappend(exprList)
+            while token.id != ';':
+                expr = expression (0)
+                exprList.childappend(expr)
+                if token.id == ',':
+                    advance(',')
         advance(";")
         # update part
         third = symbol("third")(token.get("line"), token.get("column"))
         condition.childappend(third)
         if token.id != ")":
             exprList = symbol("expressionList")(token.get("line"), token.get("column"))
+            third.childappend(exprList)
             while token.id != ')':
                 expr = expression(0)
                 exprList.childappend(expr)
                 if token.id == ',':
                     advance(',')
-            third.childappend(exprList)
 
     # body
     advance(")")
@@ -1740,6 +1765,8 @@ def pfix(self):
     self.childappend(arg)
     return self
 
+symbol("new").toListG = toListG_self_first
+
 
 symbol("switch"); symbol("case"); symbol("default")
 
@@ -1885,10 +1912,9 @@ def toJS(self, opts):
         r.append(finally_.children[0].toJS(opts))
     return ''.join(r)
 
-@method(symbol("try"))
-def toListG(self):
-    for e in itert.chain([self], *[c.toListG() for c in self.children]):
-        yield e
+symbol("try").toListG = toListG_self_first
+symbol("catch").toListG = toListG_self_first
+symbol("finally").toListG = toListG_self_first
 
 
 symbol("throw")
@@ -1907,6 +1933,8 @@ def toJS(self, opts):
     r += self.space()
     r += self.children[0].toJS(opts)
     return r
+
+symbol("throw").toListG = toListG_self_first
 
 def expression(bind_right=0):
     global token
@@ -1972,9 +2000,13 @@ def statement():
 def toJS(self, opts):
     return self.children[0].toJS(opts)
 
+symbol("statement").toListG = toListG_just_children
+
 @method(symbol("(empty)"))
 def toJS(self, opts):
     return u''
+
+symbol("(empty)").toListG = toListG_self_first
 
 @method(symbol("label"))
 def toJS(self, opts):
@@ -1983,6 +2015,8 @@ def toJS(self, opts):
     r += [":"]
     r += [self.children[0].toJS(opts)]
     return ''.join(r)
+
+symbol("label").toListG = toListG_self_first
 
 
 def statementEnd():
@@ -2009,6 +2043,8 @@ def statementEnd():
 @method(symbol("eof"))
 def toJS(self, opts):
     return u''
+
+symbol("eof").toListG = toListG_self_first
 
 def statementOrBlock(): # for 'if', 'while', etc. bodies
     if token.id == '{':
@@ -2040,6 +2076,8 @@ def toJS(self, opts):
         if not c or c[-1] != ';':
             r.append(';')
     return u''.join(r)
+
+symbol("statements").toListG = toListG_just_children
 
 
 def init_list():  # parse anything from "i" to "i, j=3, k,..."
@@ -2137,6 +2175,7 @@ symbol("file")
 def toJS(self, opts):
     return self.children[0].toJS(opts)
 
+symbol("file").toListG = toListG_just_children
 
 @method(symbol("first"))
 def toJS(self, opts):
@@ -2145,6 +2184,8 @@ def toJS(self, opts):
         r = self.children[0].toJS(opts)
     return r
 
+symbol("first").toListG = toListG_just_children
+
 @method(symbol("second"))
 def toJS(self, opts):
     r = u''
@@ -2152,12 +2193,16 @@ def toJS(self, opts):
         r = self.children[0].toJS(opts)
     return r
 
+symbol("second").toListG = toListG_just_children
+
 @method(symbol("third"))
 def toJS(self, opts):
     r = u''
     if self.children:
         r = self.children[0].toJS(opts)
     return r
+
+symbol("third").toListG = toListG_just_children
 
 
 symbol("params")
@@ -2173,6 +2218,14 @@ def toJS(self, opts):
     r += ','.join(a)
     r += self.write(")")
     return r
+
+
+# - Helpers --------------------------------------------------------------------
+
+##
+# Add the comments of node2 to node1's commentsAfter
+def affix_comments(node1_list, node2):
+    node1_list.extend(node2.comments)
 
 
 # - Class Frontend for the Grammar Infrastructure ------------------------------
@@ -2201,12 +2254,12 @@ def createFileTree(tokenArr, fileId=''):
     return fileNode
 
 def createFileTree_from_string(string_, fileId=''):
-    ts = tokenizer.parseStream(string_)
+    ts = tokenizer.Tokenizer().parseStream(string_)
     return createFileTree(ts, fileId)
 
 # quick high-level frontend
 def parse(string_):
-    ts = tokenizer.parseStream(string_)
+    ts = tokenizer.Tokenizer().parseStream(string_)
     return TreeGenerator().parse(ts)
 
 # - Main ----------------------------------------------------------------------
@@ -2214,7 +2267,7 @@ def parse(string_):
 def test(x, program):
     global token, next, tokenStream
     print ">>>", program
-    tokenArr = tokenizer.parseStream(program)
+    tokenArr = tokenizer.Tokenizer().parseStream(program)
     tokenStream = TokenStream(tokenArr)
     next = iter(tokenStream).next
     token = next()
@@ -2239,7 +2292,7 @@ if __name__ == "__main__":
             text = filetool.read(sys.argv[1])
         else:
             text = arg1.decode('unicode_escape')  # 'string_escape' would work too
-        tokenArr = tokenizer.parseStream(text)
+        tokenArr = tokenizer.Tokenizer().parseStream(text)
         print p.parse(tokenArr).toXml()
     else:
         execfile (os.path.normpath(os.path.join(__file__, "../../../../test/compiler/treegenerator.py"))) # __file__ doesn't seem to work in pydb

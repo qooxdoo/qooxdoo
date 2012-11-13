@@ -47,17 +47,17 @@ qx.Bootstrap.define("qx.module.Event", {
      * Registers a listener for the given event type on each item in the
      * collection. This can be either native or custom events.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param type {String} Type of the event to listen for
      * @param listener {Function} Listener callback
      * @param context {Object?} Context the callback function will be executed in.
      * Default: The element on which the listener was registered
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     on : function(type, listener, context) {
       for (var i=0; i < this.length; i++) {
         var el = this[i];
-        var ctx = context || q(el);
+        var ctx = context || qxWeb(el);
 
         // call hooks
         var hooks = qx.module.Event.__hooks.on;
@@ -124,11 +124,11 @@ qx.Bootstrap.define("qx.module.Event", {
      * Unregisters event listeners for the given type from each element in the
      * collection.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param type {String} Type of the event
      * @param listener {Function} Listener callback
      * @param context {Object?} Listener callback context
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     off : function(type, listener, context) {
       for (var j=0; j < this.length; j++) {
@@ -183,11 +183,11 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Fire an event of the given type.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param type {String} Event type
      * @param data {var?} Optional data that will be passed to the listener
      * callback function.
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     emit : function(type, data) {
       for (var j=0; j < this.length; j++) {
@@ -203,12 +203,12 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Attaches a listener for the given event that will be executed only once.
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param type {String} Type of the event to listen for
      * @param listener {Function} Listener callback
      * @param context {Object?} Context the callback function will be executed in.
      * Default: The element on which the listener was registered
-     * @return {q} The collection for chaining
+     * @return {qxWeb} The collection for chaining
      */
     once : function(type, listener, context) {
       var self = this;
@@ -225,7 +225,7 @@ qx.Bootstrap.define("qx.module.Event", {
      * Checks if one or more listeners for the given event type are attached to
      * the first element in the collection
      *
-     * @attach {q}
+     * @attach {qxWeb}
      * @param type {String} Event type, e.g. <code>mousedown</code>
      * @return {Boolean} <code>true</code> if one or more listeners are attached
      */
@@ -281,7 +281,7 @@ qx.Bootstrap.define("qx.module.Event", {
             if (listener.original) {
               listener = listener.original;
             }
-            q(target[i]).on(name, listener, storage[name][j].ctx);
+            qxWeb(target[i]).on(name, listener, storage[name][j].ctx);
           };
         }
       };
@@ -294,7 +294,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Executes the given function once the document is ready.
      *
-     * @attachStatic {q}
+     * @attachStatic {qxWeb}
      * @param callback {Function} callback function
      */
     ready : function(callback) {
@@ -311,16 +311,16 @@ qx.Bootstrap.define("qx.module.Event", {
         callback();
       };
 
-      q(window).on("load", onWindowLoad);
+      qxWeb(window).on("load", onWindowLoad);
 
       var wrappedCallback = function() {
-        q(window).off("load", onWindowLoad);
+        qxWeb(window).off("load", onWindowLoad);
         callback();
       };
 
       // Listen for DOMContentLoaded event if available (no way to reliably detect
       // support)
-      if (q.env.get("engine.name") !== "mshtml" || q.env.get("browser.documentmode") > 8) {
+      if (qxWeb.env.get("engine.name") !== "mshtml" || qxWeb.env.get("browser.documentmode") > 8) {
         qx.bom.Event.addNativeListener(document, "DOMContentLoaded", wrappedCallback);
       }
       else {
@@ -356,7 +356,7 @@ qx.Bootstrap.define("qx.module.Event", {
      * The normalizer will be called with two arguments: The original event
      * object and the element on which the event was triggered
      *
-     * @attachStatic {q, $registerEventNormalization}
+     * @attachStatic {qxWeb, $registerEventNormalization}
      * @param types {String[]} List of event types to be normalized. Use an
      * asterisk (<code>*</code>) to normalize all event types
      * @param normalizer {Function} Normalizer function
@@ -382,7 +382,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Unregisters a normalization function from the given event types.
      *
-     * @attachStatic {q, $unregisterEventNormalization}
+     * @attachStatic {qxWeb, $unregisterEventNormalization}
      * @param types {String[]} List of event types
      * @param normalizer {Function} Normalizer function
      */
@@ -404,7 +404,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Returns all registered event normalizers
      *
-     * @attachStatic {q, $getEventNormalizationRegistry}
+     * @attachStatic {qxWeb, $getEventNormalizationRegistry}
      * @return {Map} Map of event types/normalizer functions
      */
     $getRegistry : function()
@@ -416,7 +416,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Registers an event hook for the given event types.
      *
-     * @attachStatic {q, $registerEventHook}
+     * @attachStatic {qxWeb, $registerEventHook}
      * @param types {String[]} List of event types
      * @param registerHook {Function} Hook function to be called on event registration
      * @param unregisterHook {Function?} Hook function to be called on event deregistration
@@ -456,7 +456,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Unregisters a hook from the given event types.
      *
-     * @attachStatic {q, $unregisterEventHooks}
+     * @attachStatic {qxWeb, $unregisterEventHooks}
      * @param types {String[]} List of event types
      * @param registerHook {Function} Hook function to be called on event registration
      * @param unregisterHook {Function?} Hook function to be called on event deregistration
@@ -490,7 +490,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Returns all registered event hooks
      *
-     * @attachStatic {q, $getEventHookRegistry}
+     * @attachStatic {qxWeb, $getEventHookRegistry}
      * @return {Map} Map of event types/registration hook functions
      * @internal
      */
@@ -502,7 +502,7 @@ qx.Bootstrap.define("qx.module.Event", {
 
 
   defer : function(statics) {
-    q.$attach({
+    qxWeb.$attach({
       "on" : statics.on,
       "off" : statics.off,
       "once" : statics.once,
@@ -511,7 +511,7 @@ qx.Bootstrap.define("qx.module.Event", {
       "copyEventsTo" : statics.copyEventsTo
     });
 
-    q.$attachStatic({
+    qxWeb.$attachStatic({
       "ready": statics.ready,
       "$registerEventNormalization" : statics.$registerNormalization,
       "$unregisterEventNormalization" : statics.$unregisterNormalization,

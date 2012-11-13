@@ -29,8 +29,9 @@ from generator.runtime.Log import Log
 
 memcache  = {} # {key: {'content':content, 'time': (time.time()}}
 check_file     = u".cache_check_file"
-CACHE_REVISION = 0xf6a5cae # set this to a unique value (e.g. commit hash prefix)
+CACHE_REVISION = 0x49d7a33 # set this to a unique value (e.g. commit hash prefix)
                            # when existing caches need clearing
+CACHE_THRESHOLD = 500 # lower bound for the number of files in the compile cache for it to be considered "saturated"
 
 class Cache(object):
 
@@ -163,6 +164,8 @@ class Cache(object):
             # defer read/write access test to the first call of read()/write()
             self._console.debug("Using existing directory")
             pass
+        if len(os.listdir(path)) < CACHE_THRESHOLD: # not even minimal framework classes cached
+            self._console.info("Populating the cache, this may take some time")
         self._console.outdent()
 
     ##

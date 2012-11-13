@@ -1,0 +1,46 @@
+{
+  "name"    : "datademo",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "api-data",
+    "build",
+    "clean",
+    "distclean",
+    "fix",
+    "info",
+    "inspector",
+    "lint",
+    "migration",
+    "pretty",
+    "profiling",
+    "source",
+    "source-all",
+    "simulation-build",
+    "simulation-run",
+    "test",
+    "test-source",
+    "translation"
+  ],
+  
+  "default-job" : "source",
+
+  "let" :
+  {
+    "APPLICATION"  : "qxc.application.datademo",
+    "QOOXDOO_PATH" : "../../..",
+    "QXTHEME"      : "qx.theme.Modern",
+    "API_EXCLUDE"  : ["qx.test.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "ROOT"         : "."
+  }
+}

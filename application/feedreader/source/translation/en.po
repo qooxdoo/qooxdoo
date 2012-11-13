@@ -64,6 +64,9 @@ msgstr ""
 msgid "Static Feeds"
 msgstr ""
 
+msgid "Theme"
+msgstr ""
+
 msgid "Title"
 msgstr ""
 

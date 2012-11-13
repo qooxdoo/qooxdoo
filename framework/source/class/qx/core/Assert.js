@@ -857,6 +857,8 @@ qx.Class.define("qx.core.Assert",
      *
      * @param object {var} The object to check.
      * @param classname {String} The classname of the class as string.
+     * @return {Boolean} <code>true</code> if the object is an instance of the
+     * class
      */
     __isQxInstance : function(object, classname)
     {

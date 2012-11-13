@@ -5,16 +5,11 @@ Plugins
 
 The %{Website} library is built from separate modules. Each module offers a set of functionality covering a common topic like CSS, (DOM) Traversing or Animations. You can see a listing of all modules in the :ref:`overview <pages/website/overview#included_modules>`. These modules use the same plugin API that %{Website} offers to all developers. This developer API can be found in the `API reference <http://demo.qooxdoo.org/%{version}/website-api>`__ as well but by default, these methods are hidden and can be displayed using the little link in the top right corner.
 
-Common - The Prefix
--------------------
-Surely you've noticed that the plugin related methods have one thing in common: They're all prefixed with ``$``. 
-
-
 Regular Plugins
 ---------------
 The core module offers a plugin API to write common plugins. This is the default case and can be used to extend the static ``q`` object or the collections returned by the ``q`` function call.
 
-Extending the static object is easily accomplished by using the ``$attachStatic`` function, which offers a convenient way to attach static modules with conflict detection.
+Surely you've noticed that the plugin-related methods have one thing in common: They are all prefixed with ``$``. Extending the static object is easily accomplished by using the ``$attachStatic`` function, which offers a convenient way to attach static modules with conflict detection.
 
 ::
 

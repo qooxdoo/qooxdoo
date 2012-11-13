@@ -271,7 +271,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {String} source of the new icon of the legend sub widget
      */
     getIcon : function() {
-      this.getChildControl("legend").getIcon();
+      return this.getChildControl("legend").getIcon();
     }
   }
 });

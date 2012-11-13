@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
     "paneReloadsData" : "qx.event.type.Data",
 
     /**
-     * Whenever the content of the table panehas been updated (rendered)
+     * Whenever the content of the table pane has been updated (rendered)
      * trigger a paneUpdated event. This allows the canvas cellrenderer to act
      * once the new cells have been integrated in the dom.
      */
@@ -423,7 +423,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var cellInfo = { table : table };
 
       // We don't want to execute the row loop below more than necessary. If
-      // onlyrow is not null, we want to do the loop only for that row.
+      // onlyRow is not null, we want to do the loop only for that row.
       // In that case, we start at (set the "row" variable to) that row, and
       // stop at (set the "end" variable to the offset of) the next row.
       var row = this.getFirstVisibleRow();
@@ -621,7 +621,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var removeRowBase = rowOffset < 0 ? rowCount + rowOffset : 0;
       var addRowBase = rowOffset < 0 ? 0: rowCount - rowOffset;
 
-      for (i=Math.abs(rowOffset)-1; i>=0; i--)
+      for (var i=Math.abs(rowOffset)-1; i>=0; i--)
       {
         var rowElem = tableChildNodes[removeRowBase];
         try {

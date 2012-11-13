@@ -7,7 +7,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2012 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -33,6 +33,7 @@ BUILTIN = [
           "Date",
           "document",
           "DOMParser",
+          "DOMException",
           "Element",
           "Error",
           "EvalError",
@@ -64,17 +65,17 @@ BUILTIN = [
 GLOBALS = BUILTIN + [
           # Java
           "java", "sun", "Packages",
-  
+
           # Firefox extension: Firebug
           "console",
-  
+
           # IE
           "event", "offscreenBuffering", "clipboardData", "clientInformation",
           "external", "screenTop", "screenLeft",
-          
+
           # Webkit
           "WebkitCSSMatrix",
-  
+
           # window
           'addEventListener', '__firebug__', 'location', 'netscape',
           'XPCNativeWrapper', 'Components', 'parent', 'top', 'scrollbars',
@@ -97,11 +98,11 @@ GLOBALS = BUILTIN + [
           'getComputedStyle', 'sessionStorage', 'globalStorage', 'localStorage',
           'CanvasRenderingContext2D', 'DocumentFragment', 'history', 'Selection',
           'Storage', 'StyleSheet', 'File',
-  
+
           # Language
           "eval", "decodeURI", "encodeURI", "decodeURIComponent", "encodeURIComponent",
           "escape", "unescape", "parseInt", "parseFloat", "isNaN", "isFinite",
-  
+
           "this", "arguments", "undefined", "NaN", "Infinity"
           ]
 
@@ -255,6 +256,16 @@ RESERVED = {
     "import": "FUTURE_RESERVED_WORD",
     "public": "FUTURE_RESERVED_WORD"
 }
+
+
+# Global qx symbols, but also start strings of such (qx.$$...)
+QXGLOBALS = [
+    #"clazz",
+    "qxvariants",
+    "qxsettings",
+    "qx.$$",    # qx.$$domReady, qx.$$libraries, ...
+    ]
+
 
 SPACE_BEFORE = ["INSTANCEOF", "IN"]
 SPACE_AFTER = ["VAR", "NEW", "GOTO", "INSTANCEOF", "TYPEOF", "DELETE", "IN", "THROW", "CASE", "VOID"]

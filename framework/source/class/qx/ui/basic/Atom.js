@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.basic.Atom",
 
     /**
      * Configure the visibility of the sub elements/widgets.
-     * Possible values: both, text, icon
+     * Possible values: both, label, icon
      */
     show :
     {

@@ -547,11 +547,12 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
     {
       // [BUG #6406]
       var model = qx.data.marshal.Json.createModel(
-        [{ foo : "one" }, { foo : "two" }, { foo : "three" }], true
+        [{ foo : "one", n: 1}, { foo : "two", n: 2}, { foo : "three", n: 0}], true
       );
-      // first do a shift operation
+
+      // sort by number
       model.sort(function(a, b) {
-        return a.foo !== "two";
+        return a.getN() < b.getN() ? -1 : a.getN() > b.getN() ? 1 : 0;
       });
 
       var that = this;

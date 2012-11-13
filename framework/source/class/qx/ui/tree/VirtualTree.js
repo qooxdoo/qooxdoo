@@ -883,8 +883,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
         if (this.isNodeOpen(root))
         {
-          var visibleChildren = this.__getVisibleChildrenFrom(root,
-            nestedLevel);
+          var visibleChildren = this.__getVisibleChildrenFrom(root, nestedLevel);
           lookupTable = lookupTable.concat(visibleChildren);
         }
       }
@@ -920,9 +919,24 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         return visible;
       }
 
+      // clone children to keep original model unmodified
+      children = children.copy();
+
+      var delegate = this.getDelegate();
+      var filter = qx.util.Delegate.getMethod(delegate, "filter");
+      var sorter = qx.util.Delegate.getMethod(delegate, "sorter");
+
+      if (sorter != null) {
+        children.sort(sorter);
+      }
+
       for (var i = 0; i < children.getLength(); i++)
       {
         var child = children.getItem(i);
+
+        if (filter && !filter(child)) {
+          continue;
+        }
 
         if (this.isNode(child))
         {
@@ -931,8 +945,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
           if (this.isNodeOpen(child))
           {
-            var visibleChildren = this.__getVisibleChildrenFrom(child,
-              nestedLevel);
+            var visibleChildren = this.__getVisibleChildrenFrom(child, nestedLevel);
             visible = visible.concat(visibleChildren);
           }
         }
@@ -945,6 +958,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
           }
         }
       }
+
+      // dispose children clone
+      children.dispose();
 
       return visible;
     },
@@ -1098,8 +1114,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     if (pane != null)
     {
       if (pane.hasListener("cellDblclick")) {
-        pane.addListener("cellDblclick", this._onOpen, this);
-      } else if (pane.hasListener("cellClick")) {
+        pane.removeListener("cellDblclick", this._onOpen, this);
+      }
+      if (pane.hasListener("cellClick")) {
         pane.removeListener("cellClick", this._onOpen, this);
       }
     }
@@ -1108,6 +1125,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     {
       this.__deferredCall.cancel();
       this.__deferredCall.dispose();
+    }
+
+    var model = this.getModel();
+    if (model != null) {
+      model.removeListener("changeBubble", this._onChangeBubble, this);
     }
 
     this._layer.removeListener("updated", this._onUpdated, this);

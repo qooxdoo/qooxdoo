@@ -29,86 +29,86 @@ qx.Class.define("qx.test.mobile.container.Carousel",
       this.getRoot().add(carousel);
       carousel.destroy();
     },
-    
-    
-    testAddCarouselPage : function() 
+
+
+    testAddCarouselPage : function()
     {
       var carousel = new qx.ui.mobile.container.Carousel();
       var carouselPage = new qx.ui.mobile.container.Composite();
       carousel.add(carouselPage);
-      
+
       this.getRoot().add(carousel);
-      
+
       carousel.destroy();
       carouselPage.destroy();
     },
-    
-    
-    testRemoveCarouselPage : function() 
+
+
+    testRemoveCarouselPage : function()
     {
       var carousel = new qx.ui.mobile.container.Carousel();
       var carouselPage = new qx.ui.mobile.container.Composite();
-      
+
       carousel.add(carouselPage);
-      
+
       carousel.removePageByIndex(0);
-      
+
       this.getRoot().add(carousel);
-      
+
       carousel.destroy();
       carouselPage.destroy();
-    }, 
-    
-    
-    testPageSwitch : function() 
+    },
+
+
+    testPageSwitch : function()
     {
       var carousel = new qx.ui.mobile.container.Carousel();
       var carouselPage1 = new qx.ui.mobile.container.Composite();
       carousel.add(carouselPage1);
-      
+
       var carouselPage2 = new qx.ui.mobile.container.Composite();
       carousel.add(carouselPage2);
-      
+
       this.getRoot().add(carousel);
-      
+
       this.assertEquals(0,carousel.getShownPageIndex());
-      
+
       carousel.nextPage();
       this.assertEquals(1, carousel.getShownPageIndex());
-      
+
       // OVERFLOW
       carousel.nextPage();
       this.assertEquals(1, carousel.getShownPageIndex());
-      
+
       carousel.previousPage();
       this.assertEquals(0,carousel.getShownPageIndex());
-      
+
       // OVERFLOW
       carousel.previousPage();
       this.assertEquals(0,carousel.getShownPageIndex());
-      
+
       carousel.destroy();
       carouselPage1.destroy();
       carouselPage2.destroy();
     },
-    
-    
-    testScrollToPage : function() 
+
+
+    testScrollToPage : function()
     {
       var carousel = new qx.ui.mobile.container.Carousel();
       var carouselPage1 = new qx.ui.mobile.container.Composite();
       carousel.add(carouselPage1);
-      
+
       var carouselPage2 = new qx.ui.mobile.container.Composite();
       carousel.add(carouselPage2);
-      
+
       this.getRoot().add(carousel);
-      
+
       this.assertEquals(0,carousel.getShownPageIndex());
-      
+
       carousel.scrollToPage(1);
       this.assertEquals(1, carousel.getShownPageIndex());
-      
+
       carousel.destroy();
       carouselPage1.destroy();
       carouselPage2.destroy();

@@ -29,6 +29,14 @@ qx.Class.define("apiviewer.dao.Method",
   members :
   {
 
+    getAttachedFrom : function() {
+      var attr = this._docNode.attributes;
+      if (attr.sourceClass && attr.sourceMethod) {
+        return attr.sourceClass + "#" + attr.sourceMethod;
+      }
+      return null;
+    },
+
     getName : function()
     {
       if (this.isConstructor())

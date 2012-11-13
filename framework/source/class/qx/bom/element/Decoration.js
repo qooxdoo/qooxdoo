@@ -140,13 +140,14 @@ qx.Class.define("qx.bom.element.Decoration",
 
 
     /**
-     * Creates a decorator image element with the given options.
+     * Creates the HTML for a decorator image element with the given options.
      *
      * @param source {String} Any valid URI
      * @param repeat {String} One of <code>scale-x</code>, <code>scale-y</code>,
      *   <code>scale</code>, <code>repeat</code>, <code>repeat-x</code>,
      *   <code>repeat-y</code>, <code>repeat</code>
      * @param style {Map} Additional styles to apply
+     * @return {String} Decorator image HTML
      */
     create : function(source, repeat, style)
     {
@@ -262,8 +263,6 @@ qx.Class.define("qx.bom.element.Decoration",
       if (style.height == null && height != null) {
         style.height = height + "px";
       }
-
-      return style;
     },
 
 
@@ -302,7 +301,7 @@ qx.Class.define("qx.bom.element.Decoration",
     __processAlphaFix : function(style, repeat, source)
     {
       var dimension = this.__getDimension(source);
-      style = this.__normalizeWidthHeight(style, dimension.width, dimension.height);
+      this.__normalizeWidthHeight(style, dimension.width, dimension.height);
 
       var sizingMethod = repeat == "no-repeat" ? "crop" : "scale";
       var filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +
@@ -332,7 +331,7 @@ qx.Class.define("qx.bom.element.Decoration",
       var uri = qx.util.ResourceManager.getInstance().toUri(source);
       var dimension = this.__getDimension(source);
 
-      style = this.__normalizeWidthHeight(style, dimension.width, dimension.height);
+      this.__normalizeWidthHeight(style, dimension.width, dimension.height);
 
       return {
         src : uri,
@@ -530,8 +529,8 @@ qx.Class.define("qx.bom.element.Decoration",
           }
         }
 
-        style = this.__normalizeWidthHeight(style, dimension.width, dimension.height);
-        style = this.__getStylesForSingleRepeat(style, sourceid, repeat);
+        this.__normalizeWidthHeight(style, dimension.width, dimension.height);
+        this.__getStylesForSingleRepeat(style, sourceid, repeat);
 
         return {
           style : style
@@ -546,8 +545,6 @@ qx.Class.define("qx.bom.element.Decoration",
      * @param style {Map} style information
      * @param repeat {String} repeat mode
      * @param source {String} image source
-     *
-     * @return {Map} style infos
      */
     __getStylesForSingleRepeat : function(style, source, repeat)
     {
@@ -582,8 +579,6 @@ qx.Class.define("qx.bom.element.Decoration",
       if (style.filter) {
         style.filter = "";
       }
-
-      return style;
     },
 
 

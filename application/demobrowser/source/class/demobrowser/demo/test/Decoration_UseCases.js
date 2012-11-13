@@ -22,6 +22,7 @@
 #asset(demobrowser/demo/test/*)
 #asset(qx/decoration/Modern/form/checkbox-focused.png)
 #asset(qx/decoration/Modern/app-header.png)
+#require(qx.module.Core)
 
 ************************************************************************ */
 
@@ -39,7 +40,7 @@ qx.Class.define("demobrowser.demo.test.Decoration_UseCases",
     {
       this.base(arguments);
 
-      var bodyElement = qx.bom.Collection.query("body");
+      var bodyElement = q("body");
 
       var imageSourcePng = "qx/decoration/Modern/app-header.png";
       var imageSourcePngClipped = "demobrowser/demo/test/demobrowser_thumb.png";
@@ -61,7 +62,7 @@ qx.Class.define("demobrowser.demo.test.Decoration_UseCases",
       var pngRepeatY = Decoration.create(imageSourcePng, "repeat-y", { width: "20px", height: "200px", top: "20px", left: "500px" });
       bodyElement.append(pngRepeatY);
 
-      bodyElement.append("<div style='position:absolute;left:600px;top:20px;font-size:36px;font-weight:bold;color:red'>Single PNG</div>");
+      bodyElement.append(q.create("<div style='position:absolute;left:600px;top:20px;font-size:36px;font-weight:bold;color:red'>Single PNG</div>"));
 
 
 
@@ -71,7 +72,7 @@ qx.Class.define("demobrowser.demo.test.Decoration_UseCases",
       var pngClippedRepeatY = Decoration.create(imageSourcePngClipped, "repeat-y", { height: "400px", top: "230px", left: "200px" });
       bodyElement.append(pngClippedRepeatY);
 
-      bodyElement.append("<div style='position:absolute;left:600px;top:230px;font-size:36px;font-weight:bold;color:red'>Clipped PNG</div>");
+      bodyElement.append(q.create("<div style='position:absolute;left:600px;top:230px;font-size:36px;font-weight:bold;color:red'>Clipped PNG</div>"));
 
 
 
@@ -84,7 +85,7 @@ qx.Class.define("demobrowser.demo.test.Decoration_UseCases",
       var alphaPngRepeatY = Decoration.create(imageSourceAlphaPng, "repeat-y", { height: "200px", top: "650px", left: "420px" });
       bodyElement.append(alphaPngRepeatY);
 
-      bodyElement.append("<div style='position:absolute;left:600px;top:650px;font-size:36px;font-weight:bold;color:red'>Repeated Single Alpha PNG</div>");
+      bodyElement.append(q.create("<div style='position:absolute;left:600px;top:650px;font-size:36px;font-weight:bold;color:red'>Repeated Single Alpha PNG</div>"));
 
 
 
@@ -97,7 +98,7 @@ qx.Class.define("demobrowser.demo.test.Decoration_UseCases",
       var pngClippedRepeatY = Decoration.create(imageSourceAlphaPngClippedRepeatY, "repeat-y", { height: "200px", top: "880px", left: "420px" });
       bodyElement.append(pngClippedRepeatY);
 
-      bodyElement.append("<div style='position:absolute;left:600px;top:880px;font-size:36px;font-weight:bold;color:red'>Repeated Clipped Alpha PNG</div>");
+      bodyElement.append(q.create("<div style='position:absolute;left:600px;top:880px;font-size:36px;font-weight:bold;color:red'>Repeated Clipped Alpha PNG</div>"));
 
 
       var pngClippedScaled = Decoration.create(imageSourceAlphaPngClippedRepeatY, "scale", { width: "150px", height: "150px", top: "1100px" });
@@ -109,7 +110,7 @@ qx.Class.define("demobrowser.demo.test.Decoration_UseCases",
       var pngClippedScaleY = Decoration.create(imageSourceAlphaPngClippedRepeatY, "scale-y", { height: "200px", top: "1100px", left: "450px" });
       bodyElement.append(pngClippedScaleY);
 
-      bodyElement.append("<div style='position:absolute;left:600px;top:1100px;font-size:36px;font-weight:bold;color:red'>Scaled Clipped Alpha PNG</div>");
+      bodyElement.append(q.create("<div style='position:absolute;left:600px;top:1100px;font-size:36px;font-weight:bold;color:red'>Scaled Clipped Alpha PNG</div>"));
 
 
       var gifNoRepeat = Decoration.create(imageSourceGif, "no-repeat", { width: "136px", height: "41px", top: "1400px" });
@@ -121,7 +122,7 @@ qx.Class.define("demobrowser.demo.test.Decoration_UseCases",
       var gifRepeatY = Decoration.create(imageSourceGif, "repeat-y", { height: "200px", top: "1400px", left: "450px" });
       bodyElement.append(gifRepeatY);
 
-      bodyElement.append("<div style='position:absolute;left:600px;top:1400px;font-size:36px;font-weight:bold;color:red'>Single GIF</div>");
+      bodyElement.append(q.create("<div style='position:absolute;left:600px;top:1400px;font-size:36px;font-weight:bold;color:red'>Single GIF</div>"));
 
 
 
@@ -131,7 +132,7 @@ qx.Class.define("demobrowser.demo.test.Decoration_UseCases",
       var gifClippedRepeatY = Decoration.create(imageSourceGifClipped, "repeat-y", { width: "19px", height: "200px", top: "1700px", left: "50px" });
       bodyElement.append(gifClippedRepeatY);
 
-      bodyElement.append("<div style='position:absolute;left:600px;top:1700px;font-size:36px;font-weight:bold;color:red'>Clipped GIF</div>");
+      bodyElement.append(q.create("<div style='position:absolute;left:600px;top:1700px;font-size:36px;font-weight:bold;color:red'>Clipped GIF</div>"));
 
 
 

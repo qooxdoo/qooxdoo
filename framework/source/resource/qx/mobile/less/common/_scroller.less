@@ -11,3 +11,16 @@
   position:absolute;
   padding-bottom:10px; // TODO: Experimental
 }
+
+.scrollContainer {
+  // iOS6 flickering bug fix
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+
+  position:relative;
+  overflow:hidden;
+}
+
+.scrollContainerChild {
+  position:relative;
+}

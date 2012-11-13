@@ -53,7 +53,7 @@ These are components that are integrated into the %{JS} class code from our demo
     - License
 
   * - `ACE <http://ajaxorg.github.com/ace/>`_
-    - `MPL/GPL/LGPL <https://github.com/ajaxorg/ace/blob/master/LICENSE>`_
+    - `BSD (mod.) <https://github.com/ajaxorg/ace/blob/master/LICENSE>`_
 
 
 .. _pages/introduction/third_party_components#resources:
@@ -120,7 +120,7 @@ These are the Python modules we use that are not self-written, nor part of a van
    * - `simplejson <http://pypi.python.org/pypi/simplejson>`_
      - `MIT`_
  
-   * - `textile <http://code.google.com/p/pytextile/>`_
+   * - `textile <http://pypi.python.org/pypi/textile/>`_
      - `new BSD <http://www.opensource.org/licenses/bsd-license.php>`_
 
 

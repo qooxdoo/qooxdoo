@@ -189,11 +189,12 @@ qx.Class.define("playground.Application",
       this.__editor.addListener("disableHighlighting", function() {
         this.__toolbar.enableHighlighting(false);
       }, this);
-      this.__editor.init();
+      playground.view.Editor.loadAce(function() {
+        this.init();
+      }, this);
 
       this.__editorsplit.add(this.__samplesPane, 1);
       this.__editorsplit.add(this.__editor, 4);
-
       mainsplit.add(this.__editorsplit, 6);
       mainsplit.add(infosplit, 3);
 
@@ -216,8 +217,12 @@ qx.Class.define("playground.Application",
     },
 
 
-    // overridden
-    finalize: function() {
+    /**
+     * Initialization after the external editor has been loaded.
+     */
+    init: function() {
+      this.__editor.init();
+
       // check if mobile chould be used
       if (this.__supportsMode("mobile")) {
         // check for the mode cookie
@@ -322,7 +327,19 @@ qx.Class.define("playground.Application",
     __supportsMode : function(mode) {
       if (mode == "mobile") {
         var engine = qx.core.Environment.get("engine.name");
-        return (engine == "webkit" || engine == "gecko");
+
+        // all webkits are ok
+        if (engine == "webkit") {
+          return true;
+        }
+        // ie > 10 is ok
+        if (engine == "mshtml" && parseInt(qx.core.Environment.get("browser.documentmode")) >= 10) {
+          return true;
+        }
+        // ff > 10 is ok
+        if (engine == "gecko" && parseInt(qx.core.Environment.get("engine.version")) >= 10) {
+          return true;
+        }
       } else if (mode == "ria") {
         return true;
       }
@@ -795,7 +812,7 @@ qx.Class.define("playground.Application",
         qx.ui.core.queue.Manager.flush();
         this.__beforeReg = qx.lang.Object.clone(qx.core.ObjectRegistry.getRegistry());
 
-        // run the aplpication
+        // run the application
         this.fun.call(this.__playArea.getApp());
         qx.ui.core.queue.Manager.flush();
         this.__afterReg = qx.lang.Object.clone(qx.core.ObjectRegistry.getRegistry());

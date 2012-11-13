@@ -76,17 +76,10 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     this.bind("testModel", this.view, "testModel");
     qx.data.SingleValueBinding.bind(this.view, "selectedTests", this, "selectedTests");
 
+    this._origin = qx.core.Environment.get("testrunner.testOrigin");
     this._testNameSpace = this._getTestNameSpace();
 
     this._loadTests();
-
-    // TODO: Check if any test parts are defined
-    this._testParts = [];
-    //var parts = qx.core.Environment.get("testrunner.testParts");
-    var parts = null;
-    if (parts) {
-      this._testParts = this._testParts.concat(parts);
-    }
   },
 
 
@@ -141,6 +134,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
 
   members :
   {
+    _origin : null,
     loader : null,
     _testParts : null,
     __testsInView : null,
@@ -271,6 +265,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     /**
      * Create a new test suite from the class definitions in
      * window.testrunner.testDefinitions
+     * @lint ignoreUndefined(testrunner.testDefinitions)
      */
     _loadExternalTests : function()
     {
@@ -412,6 +407,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
      */
     runTests : function()
     {
+      var self = this;
       var suiteState = this.getTestSuiteState();
       switch (suiteState) {
         case "loading":
@@ -421,39 +417,20 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
         case "finished":
           if (this.testList.length > 0) {
             this.setTestSuiteState("running");
-            break;
           } else {
             return;
           }
+          break;
         case "aborted":
         case "error":
           return;
       }
 
       if (this.testList.length == 0) {
-        /* TODO: Reactivate part loading
-        if (this._testParts && this._testParts.length > 0) {
-          var nextPart = this._testParts.shift();
-          qx.io.PartLoader.require([nextPart], function()
-          {
-            this._loadInlineTests(nextPart);
-            this.runTests();
-          }, this);
-          return;
-        }
-        else {
-        */
-          var self = this;
-          /*
-           * Ugly hack: Since the tests are run asynchronously we can't rely on
-           * the queue to determine when everything is done.
-           * TODO: de-uglify this.
-           */
-          window.setTimeout(function() {
-            self.setTestSuiteState("finished");
-          }, 250);
-          return;
-        //}
+        window.setTimeout(function() {
+          self.setTestSuiteState("finished");
+        }, 250);
+        return;
       }
 
       var currentTest = this.currentTestData = this.testList.shift();
@@ -463,7 +440,6 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       var functionName = currentTest.getName();
       var testResult = this.__initTestResult(currentTest);
 
-      var self = this;
       window.setTimeout(function() {
         self.loader.runTests(testResult, className, functionName);
       }, 0);
@@ -492,10 +468,18 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       testResult.addListener("startTest", function(e) {
         var test = e.getData();
 
-        if (this.currentTestData && this.currentTestData.fullName === test.getFullName()
-          && this.currentTestData.getState() == "wait") {
-          this.currentTestData.setState(this.currentTestData.getPreviousState() || "start");
-          return;
+        if (this.currentTestData) {
+          if (this.currentTestData.fullName === test.getFullName() &&
+              this.currentTestData.getState() == "wait")
+          {
+            // test is in wait state, don't add it to the view again
+            this.currentTestData.setState(this.currentTestData.getPreviousState() || "start");
+            return;
+          }
+          else {
+            // test was executed before, clear old exceptions
+            this.currentTestData.setExceptions([]);
+          }
         }
 
         if (!qx.lang.Array.contains(this.__testsInView, this.currentTestData.fullName)) {

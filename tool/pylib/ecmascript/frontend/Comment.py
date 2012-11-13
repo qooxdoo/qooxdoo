@@ -202,11 +202,11 @@ class Comment(object):
     def correctBlock(self):
         source = self.string
         if not self.getFormat() in ["javadoc", "qtdoc"]:
-            if R_BLOCK_COMMENT_TIGHT_START.search(self.string):
-                source = R_BLOCK_COMMENT_PURE_START.sub("/* ", self.string)
+            if R_BLOCK_COMMENT_TIGHT_START.search(source):
+                source = R_BLOCK_COMMENT_PURE_START.sub("/* ", source)
 
             if R_BLOCK_COMMENT_TIGHT_END.search(source):
-                source = R_BLOCK_COMMENT_PURE_END.sub(" */", self.string)
+                source = R_BLOCK_COMMENT_PURE_END.sub(" */", source)
 
         return source
 
@@ -442,7 +442,8 @@ class Comment(object):
     ##
     # "@return {Type} msg"
     gr_at_return = ( py.Suppress('@') + py.Literal('return')  + 
-        py.Optional(py_type_expression.copy())("type") +   # TODO: remove leading py.Optional
+        #py.Optional(py_type_expression.copy())("type") +   # TODO: remove leading py.Optional
+        py_type_expression.copy()("type") + 
         py.restOfLine("text") )
     def parse_at_return(self, line):
         grammar = self.gr_at_return
@@ -517,6 +518,8 @@ class Comment(object):
             'type' : types, # [{'dimensions': 0, 'type': u'Boolean'}]
             'text' : presult.text.strip()
         }
+        if 'texp_optional' in presult and 'texp_defval' in presult:
+            res['defaultValue'] = presult['texp_defval']
         return res
         
     gr_at_childControl = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
@@ -581,7 +584,7 @@ class Comment(object):
         res = {
             'category' : 'lint',
             'functor' : presult.t_functor,
-            'arguments' : presult.t_arguments.asList()
+            'arguments' : presult.t_arguments.asList() if presult.t_arguments else []
         }
         return res
         
@@ -983,18 +986,19 @@ def findAssociatedComment(node):
     if node.comments:
         res = node
     else:
-        # above current expression
-        left_most = treeutil.findLeftmostChild(node) # this might return <node> itself
+        # check current expression
+        #left_most = treeutil.findLeftmostChild(node) # this might return <node> itself
+        left_most = node.toListG().next()
         if left_most.comments:
             res = left_most
         else:
-            # above key : value in maps
+            # check <keyvalue> in maps
             next_root = treeutil.findAncestor(node, ["keyvalue"], radius=5)
             if next_root:
                 if next_root.comments:
                     res = next_root
             else:
-                # above current statement
+                # check enclosing statement
                 stmt_head = statement_head_from(node)
                 if stmt_head and stmt_head.comments:
                     res = stmt_head

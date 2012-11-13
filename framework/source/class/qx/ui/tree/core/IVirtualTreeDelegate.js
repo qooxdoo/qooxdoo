@@ -72,6 +72,29 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
      *
      * @param item {qx.ui.core.Widget} Item to modify.
      */
-    onPool : function(item) {}
+    onPool : function(item) {},
+
+
+    /**
+     * Filter checks the current data and returns a boolean if the data should
+     * appear in the filtered data set or not.
+     *
+     * @param data {var} The data which will be checked.
+     * @return {Boolean} True, if the data passes the filter, false otherwise.
+     */
+    filter : function(data) {},
+
+
+    /**
+     * Gives the user the opportunity to sort the children items from a node.
+     * The sorting method should return a negative value if a < b, zero
+     * if a = b, or a positive value if a > b.
+     *
+     * @param a {var} value to compare.
+     * @param b {var} value to compare.
+     * @return {Integer} should return a negative value if a < b, zero
+     *   if a = b, or a positive value if a > b.
+     */
+    sorter : function(a, b) {}
   }
 });

@@ -22,7 +22,8 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Orientation handler which is responsible for registering and unregistering a
+ * {@link qx.event.handler.OrientationCore} handler for each given element.
  */
 qx.Bootstrap.define("qx.module.event.OrientationHandler", {
 
@@ -85,6 +86,6 @@ qx.Bootstrap.define("qx.module.event.OrientationHandler", {
 
   defer : function(statics)
   {
-    q.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
+    qxWeb.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
   }
 });

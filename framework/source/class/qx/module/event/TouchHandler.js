@@ -81,6 +81,6 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
 
   defer : function(statics)
   {
-    q.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
+    qxWeb.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
   }
 });

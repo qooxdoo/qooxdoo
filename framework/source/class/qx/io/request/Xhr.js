@@ -342,6 +342,7 @@ qx.Class.define("qx.io.request.Xhr",
      *         * The function to invoke.
      *           Receives the raw response as argument.
      *
+     * @return {Function} The parser function
      */
     setParser: function(parser) {
       var Xhr = qx.io.request.Xhr;
@@ -369,7 +370,8 @@ qx.Class.define("qx.io.request.Xhr",
      * Override this method to extend the list of content types
      * being handled.
      *
-     * @return {Function} The parser function.
+     * @return {Function|null} The parser function or <code>null</code> if the
+     * content type is undetermined.
      *
      */
     _getParser: function() {
@@ -383,7 +385,7 @@ qx.Class.define("qx.io.request.Xhr",
 
       // Content type undetermined
       if (!this.isDone()) {
-        return;
+        return null;
       }
 
       // See http://restpatterns.org/Glossary/MIME_Type

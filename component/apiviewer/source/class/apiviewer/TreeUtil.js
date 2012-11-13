@@ -192,13 +192,6 @@ qx.Class.define("apiviewer.TreeUtil",
         if (node.getClass().getType() == "mixin") {
           constName += "_MIXIN";
         }
-
-        // TODO: we don't have an overlay icon for mixins yet.
-        /*
-        else if (node.getClass().getType() == "interface") {
-          constName += "_INTERFACE";
-        }
-        */
       }
       else if (node instanceof dao.Constant)
       {

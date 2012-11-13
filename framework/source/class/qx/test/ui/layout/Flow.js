@@ -45,6 +45,20 @@ qx.Class.define("qx.test.ui.layout.Flow",
       qx.ui.core.queue.Manager.flush();
     },
 
+    // test for bug #6818
+    testChangeThemeFromFlow : function() {
+      var c1 = new qx.test.ui.layout.LayoutItem(100, 50);
+
+      this._container = new qx.test.ui.layout.LayoutItem(200, 200);
+      this._container.setLayout(new qx.ui.layout.Flow());
+      this._container.add(c1);
+      this.root.add(this._container);
+
+      // change the theme should not throw an exception
+      this._container.setLayout(new qx.ui.layout.HBox());
+    },
+
+
     testChildrenFitInLine : function()
     {
       var layout = new qx.ui.layout.Flow();

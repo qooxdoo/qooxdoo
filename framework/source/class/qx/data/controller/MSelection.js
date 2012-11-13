@@ -326,6 +326,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * Returns the list item storing the given model in its model property.
      *
      * @param model {var} The representing model of a selectable.
+     * @return {Object|null} List item or <code>null</code> if none was found
      */
     __getSelectableForModel : function(model)
     {
@@ -367,6 +368,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * Helper-Method for checking the state of the selection modification.
      * {@link #_startSelectionModification}
      * {@link #_endSelectionModification}
+     * @return {Boolean} <code>true</code> if selection modification is active
      */
     _inSelectionModification: function() {
       return this._modifingSelection > 0;

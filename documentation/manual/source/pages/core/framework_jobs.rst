@@ -3,7 +3,7 @@
 Framework Generator Jobs
 ************************
 
-This page describes the jobs that are available in the framework. Mainly this is just a reference list with short descriptions of what the jobs do. To find out more about predefined jobs for custom applications, see the :doc:`/pages/tool/generator_default_jobs`.
+This page describes the jobs that are available in the framework. Mainly this is just a reference list with short descriptions of what the jobs do. To find out more about predefined jobs for custom applications, see the :doc:`/pages/tool/generator/generator_default_jobs`.
 
 .. _pages/tool/framework_jobs#action_jobs:
 

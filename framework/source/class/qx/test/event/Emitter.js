@@ -55,6 +55,15 @@ qx.Class.define("qx.test.event.Emitter",
     },
 
 
+    testOffReturnId : function() {
+      var spy = this.spy();
+      this.__ee.on("test", spy, this);
+      var id = this.__ee.on("test2", spy, this);
+
+      var returnId = this.__ee.off("test2", spy, this);
+      this.assertEquals(id, returnId);
+    },
+
     testAddRemove : function() {
       var spy = this.spy();
       this.__ee.addListener("test", spy, this);
@@ -164,6 +173,21 @@ qx.Class.define("qx.test.event.Emitter",
       this.__ee.on("test", spy);
       this.__ee.emit("test", 123);
       this.assertCalledWith(spy, 123);
+    },
+
+
+    testEmitOrder : function() {
+      var i = 0;
+      this.__ee.on("test", function() {
+        i++;
+        this.assertEquals(1, i);
+      }, this);
+      this.__ee.on("test", function() {
+        i++;
+        this.assertEquals(2, i);
+      }, this);
+      this.__ee.emit("test");
+      this.assertEquals(2, i);
     }
   }
 });

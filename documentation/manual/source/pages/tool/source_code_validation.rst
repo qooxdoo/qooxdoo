@@ -89,7 +89,7 @@ Multiply declared identifier
 Explicitly ignoring messages
 ============================
 
-The following doc comments can be used to explicitly ignore specific lint messages:
+Here are some of the @ hints that can be used to explicitly suppress specific lint messages:
 
 ::
 
@@ -98,9 +98,6 @@ The following doc comments can be used to explicitly ignore specific lint messag
     @lint ignoreUndefined(button1, foo)
     @lint ignoreReferenceField(field)
 
-Before lint prints a warning it walks up the AST and looks for the next enclosing API doc comment. Usually these comments should be placed in method JsDoc comments or in the class comment.
+For a comprehensive list of possible @lint hints see the :ref:`JSDoc reference <pages/development/api_jsdoc_ref#lint>`. Before lint prints a warning it walks up the AST and looks for the next enclosing API doc comment. Usually these comments should be placed in method JsDoc comments or in the class comment.
 
-Suppressing additional warnings is not supported because they are always an
-error (e.g. duplicate map keys) or are very hard to implement (e.g. protected
-warnings).
-
+There are additional warning for which there is currently no key to suppress them as they are deemed too important (e.g. duplicate map keys). On the other hand, there might be additional checks to be wanting which are currently not implemented (e.g. checking protected fields).

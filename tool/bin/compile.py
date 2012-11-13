@@ -38,10 +38,9 @@ import qxenviron
 
 from misc.ExtendAction import ExtendAction
 from ecmascript.backend.Packer      import Packer
-from ecmascript.backend             import formatter
+from ecmascript.backend             import formatter_3 as formatter
 from ecmascript.frontend import tokenizer, treeutil
-from ecmascript.frontend import treegenerator
-#from ecmascript.frontend import treegenerator_new_ast as treegenerator
+from ecmascript.frontend import treegenerator, treegenerator_3
 from ecmascript.transform.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variableoptimizer, variantoptimizer, inlineoptimizer
 from ecmascript.backend import api
 from misc import filetool
@@ -99,11 +98,15 @@ def main():
     fileName = args[0]
     fileContent = filetool.read(fileName, "utf-8")
     fileId = "xxx"
-    tokens = tokenizer.parseStream(fileContent, fileName)
+    tokens = tokenizer.Tokenizer().parseStream(fileContent, fileName)
     
     if not options.quiet:
         print ">>> Creating tree..."
     tree = treegenerator.createFileTree(tokens)
+    # treegenerator_3
+    #print repr(tree)
+    #return
+    # - treegenerator_3
     
     
     #
@@ -170,9 +173,16 @@ def main():
             print ">>> Printing out tree..."
         print tree.toXml().encode('utf-8')
         
+    #elif options.pretty:  # for testing formatter_2
+    #    options = formatter.FormatterOptions()
+    #    options = formatter.defaultOptions(options)
+    #    print formatter.formatStream(tokens, options)
+
     else:
         if not options.quiet:
             print ">>> Compiling..."
+        if options.pretty:
+            tree = treegenerator_3.createFileTree(tokens) # use special tree
         compiled = _compileTree(tree, options.pretty)
         print compiled.encode('utf-8')
             
@@ -221,7 +231,7 @@ def _compileTree(tree, prettyFlag):
         # Set options
         def optns(): pass
         optns = formatter.defaultOptions(optns)
-        #optns.prettypCommentsBlockAdd = False
+        optns.prettypCommentsBlockAdd = False
         result = formatter.formatNode(tree, optns, result)
     else:
         result =  Packer().serializeNode(tree, None, result, True)

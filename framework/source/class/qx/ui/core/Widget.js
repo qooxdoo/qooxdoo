@@ -83,7 +83,6 @@ qx.Class.define("qx.ui.core.Widget",
     this.initFocusable();
     this.initSelectable();
     this.initNativeContextMenu();
-
   },
 
 
@@ -331,7 +330,10 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Fired when the drag configuration has been modified e.g. the user
-     * pressed a key which changed the selected action.
+     * pressed a key which changed the selected action. This event will be
+     * fired on the draggable and the droppable element. In case of the
+     * droppable element, you can cancel the event and prevent a drop based on
+     * e.g. the current action.
      */
     dragchange : "qx.event.type.Drag",
 
@@ -1026,8 +1028,15 @@ qx.Class.define("qx.ui.core.Widget",
 
       var manager = qx.theme.manager.Decoration.getInstance();
 
-      var first = manager.resolve(a).getInsets();
-      var second = manager.resolve(b).getInsets();
+      var first = manager.resolve(a);
+      var second = manager.resolve(b);
+
+      if (!first || !second) {
+        return true;
+      }
+
+      first = first.getInsets();
+      second = second.getInsets();
 
       if (first.top != second.top ||
           first.right != second.right ||
@@ -1138,6 +1147,12 @@ qx.Class.define("qx.ui.core.Widget",
           var shadowHeight = height + insets.top + insets.bottom;
 
           this.__shadowElement.resize(shadowWidth, shadowHeight);
+
+          // Move out of container by top/left inset
+          this.__shadowElement.setStyles({
+            left: -insets.left + "px",
+            top: -insets.top + "px"
+          }, true);
         }
       }
 
@@ -1220,7 +1235,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Move
       var domEl = elem.getDomElement();
-      // use the DOM element because the cache of the qx.html.Element could be 
+      // use the DOM element because the cache of the qx.html.Element could be
       // wrong due to changes made by the decorators which work on the DOM element too
       if (domEl) {
         domEl.style.top = bounds.top + "px";
@@ -1561,20 +1576,22 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Fade out this widget.
+     * @param duration {Number} Time in ms.
      * @return {qx.bom.element.AnimationHandle} The animation handle to react for
      *   the fade animation.
      */
-    fadeOut : function() {
-      return this.getContainerElement().fadeOut();
+    fadeOut : function(duration) {
+      return this.getContainerElement().fadeOut(duration);
     },
 
     /**
      * Fade in the widget.
+     * @param duration {Number} Time in ms.
      * @return {qx.bom.element.AnimationHandle} The animation handle to react for
      *   the fade animation.
      */
-    fadeIn : function() {
-      return this.getContainerElement().fadeIn();
+    fadeIn : function(duration) {
+      return this.getContainerElement().fadeIn(duration);
     },
 
 
@@ -1734,6 +1751,8 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * This function may be overridden to customize a class
      * content.
+     *
+     * @return {qx.html.Element} The widget's content element
      */
     _createContentElement : function()
     {
@@ -2343,8 +2362,6 @@ qx.Class.define("qx.ui.core.Widget",
      * the native behavior of the browser.
      *
      * The protector is placed between the content and the decoration.
-     *
-     * @return {qx.html.Element} The protector element
      */
     _createProtectorElement : function()
     {
@@ -2485,12 +2502,7 @@ qx.Class.define("qx.ui.core.Widget",
         // Add to container
         container.add(elem);
 
-        // Move out of container by top/left inset
         var insets = elem.getInsets();
-        elem.setStyles({
-          left: insets.left + "px",
-          top: insets.top + "px"
-        });
 
         // Directly update for size when possible
         var bounds = this.getBounds();
@@ -2499,14 +2511,13 @@ qx.Class.define("qx.ui.core.Widget",
           var shadowWidth = bounds.width + insets.left + insets.right;
           var shadowHeight = bounds.height + insets.top + insets.bottom;
 
-          // remove the old insets if given
-          if (old) {
-            var oldInsets = pool.getDecoratorElement(old).getInsets();
-            shadowWidth = shadowWidth - oldInsets.left - oldInsets.right;
-            shadowHeight = shadowHeight - oldInsets.top - oldInsets.bottom;
-          }
-
           elem.resize(shadowWidth, shadowHeight);
+
+          // Move out of container by top/left inset
+          elem.setStyles({
+            left: -insets.left + "px",
+            top: -insets.top + "px"
+          }, true);
         }
 
         elem.tint(null);
@@ -2642,7 +2653,61 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      DYNAMIC THEME SWITCH SUPPORT
+    ---------------------------------------------------------------------------
+    */
 
+    // overridden
+    _onChangeTheme : function() {
+      this.base(arguments);
+
+      // empty the pool after the reset of the decorator and the shadow properties
+      qx.ui.core.Widget.__decoratorPool.invalidatePool();
+      qx.ui.core.Widget.__shadowPool.invalidatePool();
+
+      // update the appearance
+      this.updateAppearance();
+
+      // DECORATOR //
+      // if its a user value and a string which should be resolved
+      var value = qx.util.PropertyUtil.getUserValue(this, "decorator");
+      if (qx.lang.Type.isString(value)) {
+        // make sure to update the decorator
+        this._applyDecorator(null, value);
+        qx.ui.core.Widget.__decoratorPool.invalidatePool();
+        this._applyDecorator(value);
+      }
+
+      // SHADOW //
+      // if its a user value and a string which should be resolved
+      value = qx.util.PropertyUtil.getUserValue(this, "shadow");
+      if (qx.lang.Type.isString(value)) {
+        // make sure to update the shadow
+        this._applyShadow(null, value);
+        qx.ui.core.Widget.__shadowPool.invalidatePool();
+        this._applyShadow(value);
+      }
+
+      // FONT //
+      value = this.getFont();
+      if (qx.lang.Type.isString(value)) {
+        this._applyFont(value, value);
+      }
+
+      // TEXT COLOR //
+      value = this.getTextColor();
+      if (qx.lang.Type.isString(value)) {
+        this._applyTextColor(value, value);
+      }
+
+      // BACKGROUND COLOR //
+      value = this.getBackgroundColor();
+      if (qx.lang.Type.isString(value)) {
+        this._applyBackgroundColor(value, value);
+      }
+    },
 
 
 
@@ -3326,6 +3391,16 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Helper to return a instance of a {@link qx.ui.core.DragDropCursor}.
+     * If you want to use your own DragDropCursor, override this method
+     * and return your custom instance.
+     * @return {qx.ui.core.DragDropCursor} A drag drop cursor implementation.
+     */
+    _getDragDropCursor : function() {
+      return qx.ui.core.DragDropCursor.getInstance();
+    },
+
     // property apply
     _applyDraggable : function(value, old)
     {
@@ -3334,7 +3409,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Force cursor creation
-      qx.ui.core.DragDropCursor.getInstance();
+      this._getDragDropCursor();
 
       // Process listeners
       if (value)
@@ -3376,18 +3451,18 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onDragStart : function(e)
     {
-      qx.ui.core.DragDropCursor.getInstance().placeToMouse(e);
+      this._getDragDropCursor().placeToMouse(e);
       this.getApplicationRoot().setGlobalCursor("default");
     },
 
 
     /**
-     * Event listener for own <code>dragmove</code> event.
+     * Event listener for own <code>drag</code> event.
      *
      * @param e {qx.event.type.Drag} Drag event
      */
     _onDrag : function(e) {
-      qx.ui.core.DragDropCursor.getInstance().placeToMouse(e);
+      this._getDragDropCursor().placeToMouse(e);
     },
 
 
@@ -3398,7 +3473,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onDragEnd : function(e)
     {
-      qx.ui.core.DragDropCursor.getInstance().moveTo(-1000, -1000);
+      this._getDragDropCursor().moveTo(-1000, -1000);
       this.getApplicationRoot().resetGlobalCursor();
     },
 
@@ -3410,7 +3485,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onDragChange : function(e)
     {
-      var cursor = qx.ui.core.DragDropCursor.getInstance();
+      var cursor = this._getDragDropCursor();
       var action = e.getCurrentAction();
       action ? cursor.setAction(action) : cursor.resetAction();
     },

@@ -25,7 +25,6 @@ import sys, os
 
 # calculate script path
 scriptDir = os.path.dirname(os.path.abspath(__file__))
+QXPYLIB = os.path.normpath(os.path.join(scriptDir, os.pardir, "pylib"))
 # extend PYTHONPATH with 'pylib'
-sys.path.insert(0, 
-    os.path.normpath(
-        os.path.join( scriptDir, os.pardir, "pylib")))
+sys.path.insert(0, QXPYLIB)

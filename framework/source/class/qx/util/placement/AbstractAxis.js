@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -40,9 +41,11 @@ qx.Bootstrap.define("qx.util.placement.AbstractAxis",
      *   <li><code>edge-start</code> The object is placed before the target</li>
      *   <li><code>edge-end</code> The object is placed after the target</li>
      *   <li><code>align-start</code>The start of the object is aligned with the start of the target</li>
+     *   <li><code>align-center</code>The center of the object is aligned with the center of the target</li>
      *   <li><code>align-end</code>The end of the object is aligned with the end of the object</li>
      *   </ul>
      * @return {Integer} The computed start position of the object.
+     * @abstract
      */
     computeStart : function(size, target, offsets, areaSize, position) {
       throw new Error("abstract method call!");
@@ -74,6 +77,9 @@ qx.Bootstrap.define("qx.util.placement.AbstractAxis",
 
         case "align-start":
           return target.start + offsets.start;
+
+        case "align-center":
+          return target.start + parseInt((target.end - target.start - size) / 2, 10) + offsets.start;
 
         case "align-end":
           return target.end - offsets.end - size;

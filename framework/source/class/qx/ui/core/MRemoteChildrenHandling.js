@@ -105,7 +105,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
 
     /**
      * Remove all children.
-     *
+     * @return {Array} An array containing the removed children.
      */
     removeAll : function() {
       return this.__forward("removeAll");

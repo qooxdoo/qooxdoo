@@ -430,6 +430,7 @@ qx.Class.define("qx.fx.Base",
     /**
      * Starts the effect
      * @deprecated {2.0}
+     * @return {Boolean} <code>true</code> if the effect was successfully started
      */
     start : function()
     {

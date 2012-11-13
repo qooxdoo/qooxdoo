@@ -21,6 +21,9 @@
 #ignore(qx.demo)
 #ignore(qx.test.ListWithObject)
 ************************************************************************ */
+/**
+ * @ignore(qx.test.ListWithObject, qx.demo.Parent, qx.demo.Kid)
+ */
 
 qx.Class.define("qx.test.data.controller.ListWithObjects",
 {

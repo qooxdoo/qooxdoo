@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +14,7 @@
 
    Authors:
      * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -197,7 +198,7 @@ qx.Class.define("qx.ui.mobile.list.List",
       if (value != null) {
         value.addListener("changeBubble", this.__onModelChange, this);
       }
-      this.__onModelChange();
+      this.__render();
     },
 
 
@@ -209,12 +210,44 @@ qx.Class.define("qx.ui.mobile.list.List",
 
     /**
      * Reacts on model changes.
+     * @param evt {qx.event.type.Data} data event which contains model change data.
      */
-    __onModelChange : function()
+    __onModelChange : function(evt)
     {
+      if(evt) {
+        var data = evt.getData();
+        var hasRowCountChanged = (data.old.length != data.value.length);
+
+        if(hasRowCountChanged) {
+          this.__render();
+        } else {
+          var row = data.name;
+          if(row) {
+            row = parseInt(row,10);
+            this.__renderRow(row);
+          } else {
+            // FALLBACK
+            this.__render();
+          }
+        }
+      }
+    },
+
+
+    /**
+     * Renders a specific row identified by its index.
+     * @param index {Integer} index of the row which should be rendered.
+     */
+    __renderRow : function(index) {
       var model = this.getModel();
-      this.setItemCount(model ? model.getLength() : 0);
-      this.__render();
+      var element = this.getContentElement();
+      var itemElement = this.__provider.getItemElement(model.getItem(index), index);
+
+      var oldNode = element.childNodes[index];
+
+      element.replaceChild(itemElement, oldNode);
+
+      this._domUpdated();
     },
 
 
@@ -224,8 +257,11 @@ qx.Class.define("qx.ui.mobile.list.List",
     __render : function()
     {
       this._setHtml("");
-      var itemCount = this.getItemCount();
+
       var model = this.getModel();
+      this.setItemCount(model ? model.getLength() : 0);
+
+      var itemCount = this.getItemCount();
 
       var element = this.getContentElement();
       for (var index = 0; index < itemCount; index++) {

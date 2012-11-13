@@ -434,7 +434,8 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
 
     /**
-     * Create the array of empty objects for use by the renderers.
+     * Create the map of empty objects for use by the renderers.
+     * @return {Map} renderer data map
      */
     __createStateRendererData : function()
     {

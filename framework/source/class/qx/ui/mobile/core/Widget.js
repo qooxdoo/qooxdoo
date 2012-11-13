@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     this.base(arguments);
 
     this._setContainerElement(this._createContainerElement());
-    
+
     // Init member variables
 
     this.__children = [];
@@ -304,6 +304,78 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       check : "Boolean",
       init : false,
       apply : "_applyAttribute"
+    },
+
+
+    /**
+     * Rotates the widget. Negative and positive values are allowed.
+     */
+    rotation :
+    {
+      check : "Number",
+      nullable : true,
+      init : null,
+      apply : "_transform"
+    },
+
+
+    /**
+     * Scales the widget in X direction (width).
+     */
+    scaleX :
+    {
+      check : "Number",
+      nullable : false,
+      init : 1,
+      apply : "_transform"
+    },
+
+
+    /**
+     * Scales the widget in Y direction (height).
+     */
+    scaleY :
+    {
+      check : "Number",
+      nullable : false,
+      init : 1,
+      apply : "_transform"
+    },
+
+
+    /**
+     * Moves the widget on X axis.
+     */
+    translateX :
+    {
+      check : "Number",
+      nullable : false,
+      init : 0,
+      apply : "_transform"
+    },
+
+
+    /**
+     * Moves the widget on Y axis.
+     */
+    translateY :
+    {
+      check : "Number",
+      nullable : false,
+      init : 0,
+      apply : "_transform"
+    },
+
+
+    /**
+     * Moves the widget on Z axis.
+     */
+    translateZ :
+    {
+      check : "Number",
+      nullable : false,
+      init : 0,
+      apply : "_transform"
     }
   },
 
@@ -581,6 +653,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Returns the tag name of the container element of this widget.
      * Override this method if you want to create a custom widget.
+     * @return {String} The container element's tag name
      */
     _getTagName : function()
     {
@@ -619,9 +692,10 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Transforms the value of the ID property. When the value is null, an auto
-     * generated ID is set. This makes shure that always an ID is set.
+     * generated ID is set. This makes sure that an ID is always set.
      *
      * @param value {String} The set id of the widget
+     * @return {String} The transformed ID
      */
     _transformId : function(value)
     {
@@ -1055,17 +1129,39 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     */
 
 
-     /**
-      * Sets the innerHTML of the content element and calls the {@link #_domUpdated}
-      * method.
-      *
-      * @param value {String?""} The html to set in the content element.
-      */
-     _setHtml : function(value)
-     {
-       this.getContentElement().innerHTML = value || "";
-       this._domUpdated();
-     },
+    /**
+    * Sets the innerHTML of the content element and calls the {@link #_domUpdated}
+    * method.
+    *
+    * @param value {String?""} The html to set in the content element.
+    */
+    _setHtml : function(value)
+    {
+      this.getContentElement().innerHTML = value || "";
+      this._domUpdated();
+    },
+
+
+    /**
+     * Transforms this widget (rotate, scale, translate3d)
+     */
+    _transform : function() {
+      var propertyValue = "";
+      if(this.getRotation()!=null) {
+        propertyValue = propertyValue + "rotate("+this.getRotation()+"deg) ";
+      }
+
+      propertyValue = propertyValue + "scale("+this.getScaleX()+","+this.getScaleY()+") ";
+
+      var isTransform3d = qx.core.Environment.get("css.transform.3d");
+      if(isTransform3d) {
+        propertyValue = propertyValue + "translate3d("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px,"+this.getTranslateZ()+"px) ";
+      } else {
+        propertyValue = propertyValue + "translate("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px) ";
+      }
+
+      qx.bom.element.Style.set(this.getContainerElement(),"transform", propertyValue);
+    },
 
 
     /*
@@ -1124,6 +1220,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * Returns the set value of the given attribute.
      *
      * @param attribute {String} The attribute name
+     * @return {var} The attribute's value
      */
     _getAttribute : function(attribute)
     {
@@ -1400,6 +1497,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      *
      * Warning: forces rendering of the browser. Do not use this method during
      * animations or performance critical tasks.
+     * @return {Boolean} <code>true</code>if the widget is seeable
      */
     isSeeable : function()
     {

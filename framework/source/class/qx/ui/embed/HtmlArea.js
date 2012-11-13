@@ -1110,7 +1110,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
 
     /**
      * Undo last operation
-     *
+     * @return {Boolean} <code>true</code> if the undo command was executed successfully
      */
     undo : function() {
       return this.__editorComponent != null ? this.__editorComponent.undo() : false;
@@ -1119,7 +1119,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
 
     /**
      * Redo last undo
-     *
+     * @return {Boolean} <code>true</code> if the redo command was executed successfully
      */
     redo : function() {
       return this.__editorComponent != null ? this.__editorComponent.redo() : false;

@@ -33,9 +33,9 @@ def makeLogMessage(level, msg, node=None):
     str = "%s: %s" % (level, msg);
     if node != None:
         if fileId != "":
-            str += " (%s:%s)" % (fileId, node.get("line", False))
+            str += " (%s:%s)" % (fileId, node.get("line", -1))
         else:
-            str += " (Line %s)" % node.get("line", False)
+            str += " (Line %s)" % node.get("line", -1)
     return str
 
 def log(level, msg, node=None):

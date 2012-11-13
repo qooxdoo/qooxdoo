@@ -1132,6 +1132,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param nodeId {Integer}
      *   The id of the node (as would have been returned by addBranch(),
      *   addLeaf(), etc.) to get the row index for.
+     * @return {Integer} row index for the given node ID
      */
     getRowFromNodeId : function(nodeId)
     {

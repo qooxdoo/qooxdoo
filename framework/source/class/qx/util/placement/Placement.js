@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -61,7 +62,7 @@ qx.Class.define("qx.util.placement.Placement",
      * Specify with which edge of the target object, the object should be aligned
      */
     align : {
-      check: ["top", "right", "bottom", "left"],
+      check: ["top", "right", "bottom", "left", "center", "middle"],
       init: "right"
     }
   },
@@ -87,8 +88,8 @@ qx.Class.define("qx.util.placement.Placement",
      *   Comes with the keys <code>left</code>, <code>top</code>,
      *   <code>right</code> and <code>bottom</code>.
      * @param position {String} Alignment of the object on the target, any of
-     *   "top-left", "top-right", "bottom-left", "bottom-right", "left-top",
-     *   "left-bottom", "right-top", "right-bottom".
+     *   "top-left", "top-center", "top-right", "bottom-left", "bottom-center", "bottom-right",
+     *   "left-top", "left-middle", "left-bottom", "right-top", "right-middle", "right-bottom".
      * @param modeX {String} Horizontal placement mode. Valid values are:
      *   <ul>
      *   <li><code>direct</code>: place the object directly at the given
@@ -113,6 +114,18 @@ qx.Class.define("qx.util.placement.Placement",
       var splitted = position.split("-");
       var edge = splitted[0];
       var align = splitted[1];
+
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        if (align === "center" || align === "middle")
+        {
+          var expected = "middle";
+          if (edge === "top" || edge === "bottom") {
+            expected = "center";
+          }
+          qx.core.Assert.assertEquals(expected, align, "Please use '" + edge + "-" + expected + "' instead!");
+        }
+      }
 
       this.__instance.set({
         axisX: this.__getAxis(modeX),
@@ -247,6 +260,8 @@ qx.Class.define("qx.util.placement.Placement",
         return "edge-end";
       } else if (align == "left") {
         return "align-start";
+      } else if (align == "center") {
+        return "align-center";
       } else if (align == "right") {
         return "align-end";
       }
@@ -269,6 +284,8 @@ qx.Class.define("qx.util.placement.Placement",
         return "edge-end";
       } else if (align == "top") {
         return "align-start";
+      } else if (align == "middle") {
+        return "align-center";
       } else if (align == "bottom") {
         return "align-end";
       }

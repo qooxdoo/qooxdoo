@@ -224,7 +224,9 @@ qx.Class.define("qx.ui.layout.Flow",
       // only one line of items which is leading to the wrong height. This
       // wrong height does e.g. surpress scrolling since the scroll pane does
       // not know about the correct needed height.
-      widget.setAllowShrinkY(false);
+      if (widget) {
+        widget.setAllowShrinkY(false);
+      }
     },
 
 

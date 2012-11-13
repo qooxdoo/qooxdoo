@@ -112,6 +112,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       "Function" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function",
       "Array" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array",
       "Object" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object",
+      "Map" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object",
       "RegExp" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/RegExp",
       "Error" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error",
       "Number" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number",
@@ -336,7 +337,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       var className = classNode.getName();
       var sourceUri = this.self(arguments).getSourceUri(classNode);
       if (sourceUri) {
-        className = '<a href="' + sourceUri + '" target="_blank" title="View Source">' + className + '<a/>';
+        className = '<a href="' + sourceUri + '" target="_blank" title="View Source">' + className + '</a>';
       }
 
       titleHtml.add(apiviewer.ui.panels.InfoPanel.setTitleClass(classNode, className));

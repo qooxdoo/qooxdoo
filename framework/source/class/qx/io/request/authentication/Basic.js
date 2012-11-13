@@ -42,6 +42,7 @@ qx.Class.define("qx.io.request.authentication.Basic",
 
     /**
      * Headers to include for basic authentication.
+     * @return {Map} Map containing the authentication credentials
      */
     getAuthHeaders: function() {
       return [

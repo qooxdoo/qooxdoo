@@ -1,7 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en"><head>
-
-
+<html lang="en">
+<head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Mobile Application Test Matrix</title>
   <style type="text/css">
@@ -29,35 +28,54 @@
 
 	</style>
   <script type="text/javascript" src="utils.js"></script>
-</head><body onload="adjustVersionStrings();autonumbering();">
+</head>
+<body onload="adjustVersionStrings();autonumbering();">
 <div> <em>$Rev$</em>
 </div>
 <div align="center"><b>qooxdoo <span name="versstring">$(qxversion)</span></b></div>
 <table border="1" cellpadding="2" cellspacing="0">
   <thead> <tr>
-    <th rowspan="2" colspan="2">Mobile Application Tests</th>
+    <th rowspan="3" colspan="2">Mobile Application Tests</th>
     <th colspan="13">Platform</th>
   </tr>
   <tr>
-    <td style="font-weight: bold;" class="platforms">(Tablet) Safari<br>
-    <span style="font-weight: normal;">iPad</span><br>
-    </td>
-    <td class="platforms"><span style="font-weight: bold;">(Mobile) Safari </span>iPod<br>
-    </td>
-    <td class="platforms"><b>(Mobile) Android 4<br>
-    </b>Nexus (!S)<b><br>
+    <td style="vertical-align: top;"><span style="font-weight: bold;">(Tablet)
+Safari</span><br>
+    <span style="font-weight: normal;">iPad</span></td>
+    <td style="vertical-align: top;"><span style="font-weight: bold;">(Mobile)
+Safari </span>iPod</td>
+    <td style="vertical-align: top;"><b>(Mobile) Android 4<br>
+    </b>Nexus<b><br>
     </b></td>
-    <td class="platforms"><b>(Mobile) Chrome<br>
-    </b>Nexus (!S)<b><br>
+    <td style="vertical-align: top;"><b>(Mobile) Android 2.3<br>
+    </b>Nexus S<b><br>
     </b></td>
-    <td class="platforms"><span style="font-weight: bold;">(Desktop) Chrome dev</span><br>
-Win<br>
-    </td>
-    <td style="vertical-align: top;"><span style="font-weight: bold;">(Desktop) Firefox <br>
-    </span>Linux<span style="font-weight: bold;"><br>
+    <td style="vertical-align: top;"><span style="font-weight: bold;">(Desktop)
+IE10</span><br>
+Win8</td>
+    <td style="vertical-align: top;"><span style="font-weight: bold;">(Desktop)
+Firefox <br>
+    </span> Win7<span style="font-weight: bold;"><br>
     </span></td>
-    <td class="platforms"><span style="font-weight: bold;">(Desktop) Safari </span><br>
-OSX<br>
+    <td style="vertical-align: top;"><span style="font-weight: bold;">(Desktop)
+Safari </span><br>
+OSX</td>
+  </tr>
+  <tr>
+    <td style="font-weight: bold;" class="platforms"><span
+ style="font-weight: normal;">AS</span><br>
+    </td>
+    <td class="platforms"><span style="font-weight: bold;"></span>TH<br>
+    </td>
+    <td class="platforms">RS<b><br>
+    </b></td>
+    <td class="platforms">DW<b><br>
+    </b></td>
+    <td class="platforms"><span style="font-weight: bold;"></span>CZ<br>
+    </td>
+    <td style="vertical-align: top;">AS<span style="font-weight: bold;"><br>
+    </span></td>
+    <td class="platforms">MW<br>
     </td>
   </tr>
   </thead> <tbody>
@@ -159,7 +177,8 @@ and look ok</td>
     </tr>
     <tr>
       <td name="number" width="2%">1.6</td>
-      <td>Looks ok in all available themes: Android theme (only Android device), iOS theme (only iOS device).</td>
+      <td>Looks ok in all available themes: Android theme (only Android
+device), iOS theme (only iOS device).</td>
       <td><br>
       </td>
       <td><br>
@@ -319,7 +338,8 @@ changes with selected tab button</td>
       <td name="number" width="2%">2.5</td>
       <td>Event page loads, tap (click),
 swipe (drag), touch-start (mouse-down), touch-move (mouse-drag),
-touch-end (mouse-up) events are recorded. OrientationChange is fired. (See annotations below)</td>
+touch-end (mouse-up) events are recorded. OrientationChange is fired.
+(See annotations below)</td>
       <td><br>
       </td>
       <td><br>
@@ -396,7 +416,7 @@ transition types work (may differ on OS)</td>
       <td style="vertical-align: top;"><br>
       </td>
     </tr>
-<tr>
+    <tr>
       <td name="number">2.7<br>
       </td>
       <td style="vertical-align: top;">Theme
@@ -422,7 +442,7 @@ devices). <br>
     <tr>
       <td name="number" width="2%">2.8</td>
       <td>Back button works from all pages<br>
-</td>
+      </td>
       <td><br>
       </td>
       <td><br>
@@ -460,7 +480,8 @@ adapts</td>
     </tr>
     <tr>
       <td name="number" width="2%">2.10</td>
-      <td>Tablet view on tablet devices and desktop (See annotations below)</td>
+      <td>Tablet view on tablet devices and desktop (See annotations
+below)</td>
       <td><br>
       </td>
       <td>N/A<br>
@@ -480,24 +501,33 @@ adapts</td>
 </table>
 <div> </div>
 <div>
-Legend: <img src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">
-&nbsp;Ok &nbsp;&nbsp;&nbsp; (<img src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">)
-&nbsp;Mainly Ok &nbsp;&nbsp;&nbsp; <img src="http://resources.qooxdoo.org/images/icons/edit-delete.22.png">
+Legend: <img
+ src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">
+&nbsp;Ok &nbsp;&nbsp;&nbsp; (<img
+ src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">)
+&nbsp;Mainly Ok &nbsp;&nbsp;&nbsp; <img
+ src="http://resources.qooxdoo.org/images/icons/edit-delete.22.png">
 &nbsp;Not Ok
 </div>
 <h3>Annotations</h3>
 <ul>
-  <li>On Desktop, all themes should work. On tablet/mobile devices use the specific OS theme and the Indigo theme.</li>
-  <li>Mobile and desktop devices should be connected to "onair" network. </li>
-  <li>On iOS you only need to enter credentials. For deletion of your credentials, just disconnect once. </li>
+  <li>On Desktop, all themes should work. On tablet/mobile devices use
+the specific OS theme and the Indigo theme.</li>
+  <li>Mobile and desktop devices should be connected to "onair"
+network. </li>
+  <li>On iOS you only need to enter credentials. For deletion of your
+credentials, just disconnect once. </li>
   <li>On
 Android you need to enter credentials (identity and password), chose
 EAP method &gt;&gt; TTLS, and Phase2 authentication &gt;&gt; PAP. After
 testing on Android, please delete WLAN connection.</li>
-  <li>Tablet view has 2 NavigationPages on a screen on landscape orientation, and 1 NavigationPage + Popup in portrait mode.</li>
-  <li>Mobile view just has one NavigationPage and a "Back" button at NavigationBar.</li>
+  <li>Tablet view has 2 NavigationPages on a screen on landscape
+orientation, and 1 NavigationPage + Popup in portrait mode.</li>
+  <li>Mobile view just has one NavigationPage and a "Back" button at
+NavigationBar.</li>
   <li>Orientation
 change can be reached either, by rotating the tablet device by 90
 degrees, or resizing the browser windows size to less/above 50:50 ratio</li>
 </ul>
-</body></html>
+</body>
+</html>

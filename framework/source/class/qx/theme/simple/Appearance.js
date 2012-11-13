@@ -1600,16 +1600,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         var decorator = "button-box";
 
-        if (states.disabled) {
-          decorator = "button-box";
-        } else if (states.focused) {
-          decorator = "button-box-focused";
-        } else if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "button-box-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "button-box-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "button-box-pressed";
+        if (!states.disabled) {
+          if (states.pressed || states.checked) {
+            decorator += "-pressed";
+          }
+          if (states.hovered) {
+            decorator += "-hovered";
+          }
+        }
+
+        if (states.focused) {
+          decorator += "-focused";
         }
 
         decorator += "-left";
@@ -1628,16 +1629,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         var decorator = "button-box";
 
-        if (states.disabled) {
-          decorator = "button-box";
-        } else if (states.focused) {
-          decorator = "button-box-focused";
-        } else if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "button-box-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "button-box-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "button-box-pressed";
+        if (!states.disabled) {
+          if (states.pressed || states.checked) {
+            decorator += "-pressed";
+          }
+          if (states.hovered) {
+            decorator += "-hovered";
+          }
+        }
+
+        if (states.focused) {
+          decorator += "-focused";
         }
 
         decorator += "-right";
@@ -1751,10 +1753,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
     {
       style : function(states)
       {
+        var backgroundColor;
+        if (states.selected) {
+          backgroundColor = "background-selected";
+          if (states.disabled) {
+            backgroundColor += "-disabled";
+          }
+        }
         return {
           padding : [2, 8, 2, 5],
           icon : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png",
-          backgroundColor : states.selected ? "background-selected" : undefined,
+          backgroundColor : backgroundColor,
           iconOpened : "icon/16/places/folder-open.png"
         };
       }
@@ -1777,7 +1786,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           padding : [ 1, 2 ],
-          textColor : states.selected ? "text-selected" : undefined
+          textColor : states.selected && !states.disabled ? "text-selected" : undefined
         };
       }
     },
@@ -2051,7 +2060,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator       : states.today ? "main" : undefined,
           textColor       : states.disabled ? "text-disabled" : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : undefined,
           backgroundColor : states.disabled ? undefined : states.selected ? "background-selected" : undefined,
-          padding         : [ 2, 4 ]
+          padding         : states.today ? [ 1, 3 ] : [2, 4]
         };
       }
     },
@@ -2716,6 +2725,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           paddingTop : 5
+        }
+      }
+    },
+
+
+    "app-splitpane" : {
+      alias : "splitpane",
+      style : function(states) {
+        return {
+          padding: [0, 10, 10, 10],
+          backgroundColor: "light-background"
         }
       }
     }

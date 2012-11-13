@@ -92,6 +92,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     __startPageY : null,
     __startTime : null,
     __isSingleTouchGesture : null,
+    __onMove : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -112,6 +113,13 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       Event.addNativeListener(this.__target, "touchmove", this.__onTouchEventWrapper);
       Event.addNativeListener(this.__target, "touchend", this.__onTouchEventWrapper);
       Event.addNativeListener(this.__target, "touchcancel", this.__onTouchEventWrapper);
+
+      if (qx.core.Environment.get("event.mspointer")) {
+        Event.addNativeListener(this.__target, "MSPointerDown", this.__onTouchEventWrapper);
+        Event.addNativeListener(this.__target, "MSPointerMove", this.__onTouchEventWrapper);
+        Event.addNativeListener(this.__target, "MSPointerUp", this.__onTouchEventWrapper);
+        Event.addNativeListener(this.__target, "MSPointerCancel", this.__onTouchEventWrapper);
+      }
     },
 
 
@@ -133,6 +141,13 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       Event.removeNativeListener(this.__target, "touchmove", this.__onTouchEventWrapper);
       Event.removeNativeListener(this.__target, "touchend", this.__onTouchEventWrapper);
       Event.removeNativeListener(this.__target, "touchcancel", this.__onTouchEventWrapper);
+
+      if (qx.core.Environment.get("event.mspointer")) {
+        Event.removeNativeListener(this.__target, "MSPointerDown", this.__onTouchEventWrapper);
+        Event.removeNativeListener(this.__target, "MSPointerMove", this.__onTouchEventWrapper);
+        Event.removeNativeListener(this.__target, "MSPointerUp", this.__onTouchEventWrapper);
+        Event.removeNativeListener(this.__target, "MSPointerCancel", this.__onTouchEventWrapper);
+      }
     },
 
 
@@ -163,13 +178,31 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     _commonTouchEventHandler : function(domEvent, type)
     {
       var type = type || domEvent.type;
+
+      if (qx.core.Environment.get("event.mspointer")) {
+        domEvent.changedTouches = [domEvent];
+        domEvent.targetTouches = [domEvent];
+        domEvent.touches = [domEvent];
+
+        if(type == "MSPointerDown") {
+          type = "touchstart"
+        } else if (type == "MSPointerUp") {
+          type = "touchend";
+        } else if(type == "MSPointerMove") {
+          if (this.__onMove == true) {
+            type = "touchmove";
+          }
+        } else if(type == "MSPointerCancel") {
+          type = "touchcancel";
+        }
+      }
+
       if (type == "touchstart") {
         this.__originalTarget = this._getTarget(domEvent);
       }
       this._fireEvent(domEvent, type);
       this.__checkAndFireGesture(domEvent, type);
     },
-
 
 
     /*
@@ -187,14 +220,53 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     _getTarget : function(domEvent)
     {
       var target = qx.bom.Event.getTarget(domEvent);
+
       // Text node. Fix Safari Bug, see http://www.quirksmode.org/js/events_properties.html
-      if ((qx.core.Environment.get("engine.name") == "webkit"))
+      if (qx.core.Environment.get("engine.name") == "webkit")
       {
         if (target && target.nodeType == 3) {
           target = target.parentNode;
         }
+      } else if(qx.core.Environment.get("event.mspointer")) {
+        // Fix for IE10 and pointer-events:none
+        var targetForIE = this.__evaluateTarget(domEvent);
+        if(targetForIE) {
+          target = targetForIE;
+        }
       }
+
       return target;
+    },
+
+
+    /**
+     * This method fixes "pointer-events:none" for Internet Explorer 10.
+     * Checks which elements are placed to position x/y and traverses the array
+     * till one element has no "pointer-events:none" inside its style attribute.
+     * @param domEvent {Event} DOM event
+     * @return {Element | null} Event target
+     */
+    __evaluateTarget : function(domEvent) {
+      if(domEvent && domEvent.touches){
+        var clientX = domEvent.touches[0].clientX;
+        var clientY = domEvent.touches[0].clientY;
+      }
+
+      // Retrieve an array with elements on point X/Y.
+      var hitTargets = document.msElementsFromPoint(clientX, clientY);
+      if(hitTargets) {
+        // Traverse this array for the elements which has no pointer-events:none inside.
+        for(var i=0; i < hitTargets.length; i++) {
+          var currentTarget = hitTargets[i];
+          var pointerEvents = qx.bom.element.Style.get(currentTarget,"pointer-events",3);
+
+          if(pointerEvents != "none") {
+            return currentTarget;
+          }
+        }
+      }
+
+      return null;
     },
 
 
@@ -257,6 +329,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     __gestureStart : function(domEvent, target)
     {
       var touch = domEvent.changedTouches[0];
+      this.__onMove = true;
       this.__startPageX = touch.screenX;
       this.__startPageY = touch.screenY;
       this.__startTime = new Date().getTime();
@@ -287,6 +360,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      */
     __gestureEnd : function(domEvent, target)
     {
+      this.__onMove = false;
+
       if (this.__isSingleTouchGesture)
       {
         var touch = domEvent.changedTouches[0];
@@ -298,6 +373,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
         var clazz = qx.event.handler.TouchCore;
         var eventType;
+
         if (this.__originalTarget == target
             && Math.abs(deltaCoordinates.x) <= clazz.TAP_MAX_DISTANCE
             && Math.abs(deltaCoordinates.y) <= clazz.TAP_MAX_DISTANCE) {
@@ -305,7 +381,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
             eventType = qx.event.type.Tap;
           }
 
-          this._fireEvent(domEvent, "tap", target,eventType);
+          this._fireEvent(domEvent, "tap", target, eventType);
         }
         else
         {

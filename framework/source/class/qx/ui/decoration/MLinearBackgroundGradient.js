@@ -146,11 +146,19 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         styles["overflow"] = "hidden";
       // spec like syntax
       } else {
+        // WebKit, Opera and Gecko interpret 0deg as "to right"
         var deg = this.getOrientation() == "horizontal" ? 0 : 270;
+
         var start = startColor + " " + this.getStartColorPosition() + unit;
         var end = endColor + " " + this.getEndColorPosition() + unit;
 
         var prefixedName = qx.core.Environment.get("css.gradient.linear");
+        // Browsers supporting the unprefixed implementation interpret 0deg as
+        // "to top" as defined by the spec [BUG #6513]
+        if (prefixedName === "linear-gradient") {
+          deg = this.getOrientation() == "horizontal" ? deg + 90 : deg - 90;
+        }
+
         styles["background-image"] =
           prefixedName + "(" + deg + "deg, " + start + "," + end + ")";
       }
@@ -201,10 +209,22 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         startColor = startColor.substring(1, startColor.length);
         endColor = endColor.substring(1, endColor.length);
 
-        return "<div style=\"position: absolute; width: 100%; height: 100%; filter:progid:DXImageTransform.Microsoft.Gradient" +
+        // filter gradients block the box shadow implementation ->
+        // we need to set them explicitly [BUG #6761]
+        var shadow = "";
+        if (this.classname.indexOf("MBoxShadow") != -1) {
+          var styles = {};
+          this._styleBoxShadow(styles);
+          shadow = "<div style='width: 100%; height: 100%; position: absolute;" +
+            qx.bom.element.Style.compile(styles) +
+            "'></div>";
+        }
+
+        return "<div style=\"position: absolute; width: 100%; height: 100%; " +
+          "filter:progid:DXImageTransform.Microsoft.Gradient" +
           "(GradientType=" + type + ", " +
           "StartColorStr='#FF" + startColor + "', " +
-          "EndColorStr='#FF" + endColor + "';)\"></div>";
+          "EndColorStr='#FF" + endColor + "';)\">" + shadow + "</div>";
       }
       return "";
     },

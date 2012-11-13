@@ -556,7 +556,7 @@ qx.Class.define("qx.ui.control.DateChooser",
             if (this.getValue() != null)
             {
               this.setValue(null);
-              return true;
+              return;
             }
 
             break;

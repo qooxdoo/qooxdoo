@@ -116,6 +116,8 @@ qx.Class.define("fce.view.FeatureSelector", {
       var control;
       switch(id) {
         case "table":
+          fce.view.Table.DEFAULT_COLUMNS_PRE = ["name", "detected"];
+          fce.view.Table.DEFAULT_COLUMNS_POST = ["distinctValues"];
           control = new fce.view.Table();
           control.setMinWidth(330);
           this.bind("filter", control, "filter");
@@ -308,15 +310,15 @@ qx.Class.define("fce.view.FeatureSelector", {
         var item = {
           name : keyName,
           distinctValues : 1
-        }
+        };
 
         var distinctValues = [];
 
-        for (var setId in dataMap) {
+        for (setId in dataMap) {
           var setData = dataMap[setId];
           if (setData[keyName] !== undefined) {
             item[setId] = setData[keyName];
-            
+
             if (distinctValues.length == 0) {
               distinctValues.push(setData[keyName]);
             }

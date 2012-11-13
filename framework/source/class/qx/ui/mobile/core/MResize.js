@@ -56,7 +56,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
     __lastHeight : null,
     __lastWidth : null,
 
-    
+
     /**
      * Removes fixed size from container.
      */
@@ -69,8 +69,8 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
           qx.bom.element.Style.set(element, "width", "auto");
       }
     },
-    
-        
+
+
     /**
      * Resizes the container element to the height of the parent element.
      */
@@ -81,12 +81,12 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
       if (parent && parent.getContainerElement()) {
         var height = parent.getContainerElement().offsetHeight;
         var width = parent.getContainerElement().offsetWidth;
-        
+
         // Only fix size, when value are above zero.
         if(height == 0 || width == 0) {
           return;
         }
-        
+
         if (!this.getFireDomUpdatedOnResize()) {
           this._setHeight(height);
           this._setWidth(width);
@@ -99,7 +99,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
         }
       }
     },
-        
+
 
     /**
      * Sets the height of the container element.
@@ -136,5 +136,5 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
     }
   }
 
-  
+
 })

@@ -168,9 +168,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
     },
 
     __getPlaceholderValueOf: function(widget) {
-      var useQxPlaceholder = !qx.core.Environment.get("css.placeholder") ||
-        (qx.core.Environment.get("engine.name") == "gecko" &&
-         parseFloat(qx.core.Environment.get("engine.version")) >= 2);
+      var useQxPlaceholder = !qx.core.Environment.get("css.placeholder");
 
       if (!useQxPlaceholder) {
         if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
@@ -188,9 +186,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
     },
 
     __isPlaceholderVisible: function(widget) {
-      var useQxPlaceholder = !qx.core.Environment.get("css.placeholder") ||
-        (qx.core.Environment.get("engine.name") == "gecko" &&
-         parseFloat(qx.core.Environment.get("engine.version")) >= 2);
+      var useQxPlaceholder = !qx.core.Environment.get("css.placeholder");
 
       if (!useQxPlaceholder) {
         var contentElem;

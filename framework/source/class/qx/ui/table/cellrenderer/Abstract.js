@@ -39,8 +39,63 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
     var cr = qx.ui.table.cellrenderer.Abstract;
     if (!cr.__clazz)
     {
-      var colorMgr = qx.theme.manager.Color.getInstance();
       cr.__clazz = this.self(arguments);
+      this._createStyleSheet();
+
+      // add dynamic theme listener
+      qx.theme.manager.Appearance.getInstance().addListener(
+        "changeTheme", this._onChangeTheme, this
+      );
+    }
+  },
+
+
+  properties :
+  {
+    /**
+     * The default cell style. The value of this property will be provided
+     * to the cell renderer as cellInfo.style.
+     */
+    defaultCellStyle :
+    {
+      init : null,
+      check : "String",
+      nullable : true
+    }
+  },
+
+
+  members :
+  {
+    /**
+     * Handler for the theme change.
+     */
+    _onChangeTheme : function() {
+      qx.bom.Stylesheet.removeAllRules(
+        qx.ui.table.cellrenderer.Abstract.__clazz.stylesheet
+      );
+      this._createStyleSheet();
+    },
+
+
+    /**
+     * the sum of the horizontal insets. This is needed to compute the box model
+     * independent size
+     */
+    _insetX : 6+6+1, // paddingLeft + paddingRight + borderRight
+
+    /**
+     * the sum of the vertical insets. This is needed to compute the box model
+     * independent size
+     */
+    _insetY : 0,
+
+
+    /**
+     * Creates the style sheet used for the table cells.
+     */
+    _createStyleSheet : function() {
+      var colorMgr = qx.theme.manager.Color.getInstance();
       var stylesheet =
         ".qooxdoo-table-cell {" +
         qx.bom.element.Style.compile(
@@ -64,40 +119,9 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
         stylesheet += ".qooxdoo-table-cell {" + qx.bom.element.BoxSizing.compile("content-box") + "}";
       }
 
-      cr.__clazz.stylesheet = qx.bom.Stylesheet.createElement(stylesheet);
-    }
-  },
-
-
-  properties :
-  {
-    /**
-     * The default cell style. The value of this property will be provided
-     * to the cell renderer as cellInfo.style.
-     */
-    defaultCellStyle :
-    {
-      init : null,
-      check : "String",
-      nullable : true
-    }
-  },
-
-
-  members :
-  {
-    /**
-     * the sum of the horizontal insets. This is needed to compute the box model
-     * independent size
-     */
-    _insetX : 6+6+1, // paddingLeft + paddingRight + borderRight
-
-    /**
-     * the sum of the vertical insets. This is needed to compute the box model
-     * independent size
-     */
-    _insetY : 0,
-
+      qx.ui.table.cellrenderer.Abstract.__clazz.stylesheet =
+        qx.bom.Stylesheet.createElement(stylesheet);
+    },
 
 
     /**
@@ -203,5 +227,13 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
       );
     }
 
+  },
+
+
+  destruct : function() {
+    // remove dynamic theme listener
+    qx.theme.manager.Appearance.getInstance().removeListener(
+      "changeTheme", this._onChangeTheme, this
+    );
   }
 });

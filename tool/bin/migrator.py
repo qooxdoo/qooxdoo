@@ -78,6 +78,8 @@ MIGRATION_ORDER = [
     "1.5.1",
     "1.6",
     "2.0",
+    "2.0.1",
+    "2.0.2",
     "2.1",
 ]
 
@@ -564,7 +566,7 @@ def migrateFile(
     if hasPatchModule and fileId is not None:
 
         import patch
-        tree = treegenerator.createFileTree(tokenizer.parseStream(fileContent))
+        tree = treegenerator.createFileTree(tokenizer.Tokenizer().parseStream(fileContent))
 
         # If there were any changes, compile the result
         if patch.patch(fileId, tree):

@@ -3,7 +3,7 @@
 Theming
 *******
 
-qooxdoo includes three themes:
+qooxdoo includes four themes:
 
 * ``Modern`` - a graphically rich theme, showcasing many UI capabilities of qooxdoo %{version}
 * ``Classic`` - MS Windows oriented theme
@@ -119,7 +119,7 @@ In a decoration theme you can use several different decorators depending on the 
 
 .. note::
 
-    It is recommend to define the decorations inside the theme instead of creating manually decorator instances inside your application code. This way the created decorators can be used by multiple widgets.
+    It is recommended to define the decorations inside the theme instead of creating manually decorator instances inside your application code. This way the created decorators can be used by multiple widgets.
 
 What a decoration theme can look like:
 
@@ -276,14 +276,23 @@ Typically, your application will have a certain, pre-defined theme known *at bui
 ::
 
     ...
-    QXTHEME : my.theme.Cool,
+    QXTHEME : qx.theme.Modern,
     ...
 
-It is also possible to set a certain appearance *at runtime*:
+
+.. _pages/ui_theming#switching_themes_during_runtime:
+
+Switching Themes During Runtime
+===============================
+
+It is also possible to set a theme *at runtime*:
 
 ::
 
-    qx.theme.manager.Meta.getInstance().setTheme(my.theme.Cool); 
+    qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic); 
 
-For appearance, color, border, icon and widget themes, you can use similar classes in the `qx.theme.manager <http://demo.qooxdoo.org/current/apiviewer/#qx.theme.manager>`_ package.
+Having e.g. the qooxdoo modern theme defined in your config.json file, this line of code switches the whole UI to the classic theme. Of course, this can also be a :ref:`custom theme <pages/desktop/ui_custom_themes#custom_themes>`.
 
+.. note::
+
+    Referencing a second theme in the code also adds a dependency to the theme and all the classes and resources necessary. This is only necessary if the theme switch is actively triggered. :ref:`Parts <pages/parts_overview#parts_and_packages_overview>` offer a convenient way of on demand loading of code, like a second theme.

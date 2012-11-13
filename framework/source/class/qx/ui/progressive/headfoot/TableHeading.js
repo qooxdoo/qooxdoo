@@ -113,6 +113,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     /**
      * This method is required by the box layout. If returns an array of items
      * to relayout.
+     * @return {Array} List of child items
      */
     getLayoutChildren : function()
     {

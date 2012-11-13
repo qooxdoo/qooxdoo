@@ -71,7 +71,7 @@ If you want to use some of the icons as resources that are part of the icon them
 
 (1) Copy the icons you are interested in from the original location in the qooxdoo framework to the local resource folder of your application. You are now independent of the qooxdoo icon theme folders and can manage these icons as you would any other custom images.
 (2) Use a fully-qualified path that points to the qooxdoo resource folder. This solution would contain the icon theme's name explicitly.
-(3) Use a macro to get the icons from the current theme. This would allow for a later change of icon themes at the config file level, without the need to adjust any resource URIs in your application code. The :ref:`Generator documentation <pages/tool/generator_config_articles#asset-let_key>` explains how to declare these macros. 
+(3) Use a macro to get the icons from the current theme. This would allow for a later change of icon themes at the config file level, without the need to adjust any resource URIs in your application code. The :ref:`Generator documentation <pages/tool/generator/generator_config_articles#asset-let_key>` explains how to declare these macros. 
 
 ::
 

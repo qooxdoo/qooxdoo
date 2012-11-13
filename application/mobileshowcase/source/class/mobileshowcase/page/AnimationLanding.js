@@ -61,7 +61,7 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
       if(this._isTablet) {
         qx.event.Registration.addListener(this, "appear", this.__deactiveAnimation, this);
       }
-      
+
       var textGroup = new qx.ui.mobile.form.Group([embed]);
       this.getContent().add(textGroup);
     },

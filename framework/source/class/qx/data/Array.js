@@ -436,10 +436,11 @@ qx.Class.define("qx.data.Array",
      * a change event will be fired.
      *
      * @param varargs {var} As many elements as you want to add to the beginning.
+     * @return {Integer} The new length of the array
      */
     unshift: function(varargs) {
       for (var i = arguments.length - 1; i >= 0; i--) {
-        this.__array.unshift(arguments[i])
+        this.__array.unshift(arguments[i]);
         this.__updateLength();
         // apply to every item an event listener for the bubbling
         this.__updateEventPropagation(0, this.length);
@@ -671,7 +672,7 @@ qx.Class.define("qx.data.Array",
 
       // ignore if array is empty
       if (this.getLength() == 0) {
-        return;
+        return [];
       }
 
       // store the old data

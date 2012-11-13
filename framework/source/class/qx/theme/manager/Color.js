@@ -103,6 +103,7 @@ qx.Class.define("qx.theme.manager.Color",
       throw new Error("Could not parse color: " + color);
     },
 
+
     /**
      * Returns the dynamically interpreted result for the incoming value,
      * (if available), otherwise returns the original value

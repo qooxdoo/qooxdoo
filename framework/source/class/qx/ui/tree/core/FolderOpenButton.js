@@ -93,9 +93,6 @@ qx.Class.define("qx.ui.tree.core.FolderOpenButton",
      *
      * @param e {qx.event.type.Event} The event object
      */
-    // TODO: Could this be done somewhere else. The whole event
-    // connection stuff on this widget (used by AbstractTreeItem)
-    // needs optimization.
     _stopPropagation : function(e) {
       e.stopPropagation();
     },

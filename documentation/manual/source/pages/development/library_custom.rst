@@ -5,7 +5,7 @@ Once your application has grown beyond a certain size, or when you start a secon
 
 In qooxdoo, all application files are organized in what we call "libraries". This affects source code, but also other resources like images, media files with sound or video, or static HTML pages. In this sense, the framework class library and its resources is nothing more than a library. But also your application is in that sense a library. (The fact that it has a "main" class which can be run as an application doesn't matter here). Hence there is this little saying in qooxdoo that *"everything is a library"*.
 
-What constitutes a library is just its :doc:`Manifest.json </pages/tool/manifest>`, which provides the main meta-data, and a *source* path with corresponding subdirectories that holds the class code and resources. That's it, and this is exactly what most application :doc:`skeletons </pages/development/skeletons>` like "desktop" or "server" create. So once you've run *create-application.py* the result can immediately be used as a library.
+What constitutes a library is just its :doc:`Manifest.json </pages/tool/sdk/manifest>`, which provides the main meta-data, and a *source* path with corresponding subdirectories that holds the class code and resources. That's it, and this is exactly what most application :doc:`skeletons </pages/development/skeletons>` like "desktop" or "server" create. So once you've run *create-application.py* the result can immediately be used as a library.
 
 Creating a Custom Library
 =========================
@@ -22,7 +22,7 @@ In an existing application, to use your new library you have to do two things.
 Make it known to the Generator
 -------------------------------
 
-You need to make the new library known to the existing application so it knows where to look for resources. In principle this means that every job that evaluates libraries (like *source*, *build*, etc.) needs to be informed about it through the :ref:`library <pages/tool/generator_config_ref#library>` configuration key.
+You need to make the new library known to the existing application so it knows where to look for resources. In principle this means that every job that evaluates libraries (like *source*, *build*, etc.) needs to be informed about it through the :ref:`library <pages/tool/generator/generator_config_ref#library>` configuration key.
 
 To make it easier for you, so you don't have to add the new library to each and every job individually, there is the *libraries* job. If you override this one, all standard jobs that use the *library* key will automatically inherit it::
 

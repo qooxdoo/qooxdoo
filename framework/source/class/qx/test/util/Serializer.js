@@ -21,6 +21,10 @@
 #ignore(qx.test.SerializerModel)
 #ignore(qx.test.SerializerModelEnc)
 ************************************************************************ */
+/**
+ * @ignore(qx.test.SerializerModel)
+ * @ignore(qx.test.SerializerModelEnc)
+ */
 
 qx.Class.define("qx.test.util.Serializer",
 {

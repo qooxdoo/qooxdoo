@@ -211,6 +211,7 @@ qx.Class.define("qx.util.RingBuffer",
      *
      * @param idx {Number} The current index.
      * @param addMe {Number} The number to add.
+     * @return {Number} The new index
      */
     __addToIndex : function (idx, addMe){
       var max = this.getMaxEntries();

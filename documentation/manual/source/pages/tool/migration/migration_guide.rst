@@ -26,7 +26,7 @@ If you are migrating from a legacy verison of qooxdoo to %{version}, namely from
 
     generate.py migration
 
-* Follow the instructions of the migration script, particularly allow the cache to be deleted. For more information about this script, see the :ref:`corresponding job description <pages/tool/generator_default_jobs#migration>`.
+* Follow the instructions of the migration script, particularly allow the cache to be deleted. For more information about this script, see the :ref:`corresponding job description <pages/tool/generator/generator_default_jobs#migration>`.
 
 * **Migration Log**
   

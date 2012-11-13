@@ -173,6 +173,7 @@ qx.Bootstrap.define("qx.dom.Element",
       } else {
         parent.appendChild(node);
       }
+      return true;
     },
 
 
@@ -185,6 +186,7 @@ qx.Bootstrap.define("qx.dom.Element",
      */
     insertEnd : function(node, parent) {
       parent.appendChild(node);
+      return true;
     },
 
 

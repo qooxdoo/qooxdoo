@@ -19,6 +19,7 @@
 
 /* ************************************************************************
 #require(qx.module.Event)
+#require(qx.module.Environment)
 ************************************************************************ */
 
 /**
@@ -97,9 +98,9 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
     getKeyIdentifier : function()
     {
       if (this.type == "keypress" &&
-      (q.env.get("engine.name") != "gecko" || this.charCode != 0))
+      (qxWeb.env.get("engine.name") != "gecko" || this.charCode !== 0))
       {
-        return qx.event.util.Keyboard.charCodeToIdentifier(this.charCode || this.keyCode)
+        return qx.event.util.Keyboard.charCodeToIdentifier(this.charCode || this.keyCode);
       }
       return qx.event.util.Keyboard.keyCodeToIdentifier(this.keyCode);
     },
@@ -126,10 +127,64 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
       }
 
       return event;
+    },
+
+
+    /**
+     * IE9 will not fire an "input" event on text input elements if the user changes
+     * the field's value by pressing the Backspace key. We fix this by listening
+     * for the "keyup" event and emitting the missing event if necessary
+     *
+     * @param element {Element} Target element
+     */
+    registerInputFix : function(element) {
+      if (element.type === "text" || element.type === "password" || element.type === "textarea")
+      {
+        if (!element.__inputFix) {
+          element.__inputFix = qxWeb(element).on("keyup", qx.module.event.Keyboard._inputFix);
+        }
+      }
+    },
+
+
+    /**
+     * Removes the IE9 input event fix
+     * @param element {Element} target element
+     */
+    unregisterInputFix : function(element) {
+      if (element.__inputFix && !qxWeb(element).hasListener("input")) {
+        qxWeb(element).off("keyup", qx.module.event.Keyboard._inputFix);
+        element.__inputFix = null;
+      }
+    },
+
+
+    /**
+     * IE9 fix: Emits an "input" event if a text input element's value was changed
+     * using the Backspace key
+     * @param ev {Event} Keyup event
+     */
+    _inputFix : function(ev) {
+      if (ev.getKeyIdentifier() !== "Backspace") {
+        return;
+      }
+      var target = ev.getTarget();
+      var newValue = qxWeb(target).getValue();
+
+      if (!target.__oldInputValue || target.__oldInputValue !== newValue) {
+        target.__oldInputValue = newValue;
+        ev.type = ev._type = "input";
+        target.__emitter.emit("input", ev);
+      }
     }
   },
 
   defer : function(statics) {
-    q.$registerEventNormalization(qx.module.event.Keyboard.TYPES, statics.normalize);
+    qxWeb.$registerEventNormalization(qx.module.event.Keyboard.TYPES, statics.normalize);
+
+    if (qxWeb.env.get("engine.name") === "mshtml" && qxWeb.env.get("browser.documentmode") === 9)
+    {
+      qxWeb.$registerEventHook("input", statics.registerInputFix, statics.unregisterInputFix);
+    }
   }
 });

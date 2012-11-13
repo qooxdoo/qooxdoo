@@ -55,10 +55,11 @@ qx.Class.define("qx.test.ui.embed.Iframe",
       this.__iframe.hide();
       qx.ui.core.queue.Manager.flush();
 
-      this.__iframe.setSource("http://www.qooxdoo.org");
+      var src = qx.util.ResourceManager.getInstance().toUri("qx/static/blank.html");
+      this.__iframe.setSource(src);
       qx.ui.core.queue.Manager.flush();
 
-      this.__iframe.addListener("load", function() {
+      this.__iframe.addListenerOnce("load", function() {
         this.resume(function() {
           this.assertEquals(
             this.__iframe.getSource(),
@@ -66,13 +67,14 @@ qx.Class.define("qx.test.ui.embed.Iframe",
           );
         });
       }, this);
+
+      this.wait(10000);
     },
 
 
     testGetWindow : function()
     {
       this.getRoot().add(this.__iframe);
-      this.__iframe.setSource("http://www.qooxdoo.org");
 
       this.__iframe.addListener("load", function() {
         this.resume(function() {
@@ -80,7 +82,10 @@ qx.Class.define("qx.test.ui.embed.Iframe",
         }, this);
       }, this);
 
-      this.wait();
+      var src = qx.util.ResourceManager.getInstance().toUri("qx/static/blank.html");
+
+      this.__iframe.setSource(src);
+      this.wait(10000);
     }
   }
 });

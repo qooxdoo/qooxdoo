@@ -32,6 +32,9 @@ qx.Class.define("qx.core.BaseInit",
 
   statics :
   {
+    __application : null,
+
+
     /**
      * Returns the instantiated qooxdoo application.
      *

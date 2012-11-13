@@ -346,7 +346,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     {
       if (value) {
         this._showChildControl("shortcut");
-      } else { 
+      } else {
         this._excludeChildControl("shortcut");
       }
     }

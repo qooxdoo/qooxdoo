@@ -11,8 +11,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: COLOMBIA\n"
+"X-Poedit-Language: Spanish\n"
 
 msgid "Add"
 msgstr "Agregar"
@@ -64,6 +64,9 @@ msgstr "Eliminar feed"
 
 msgid "Static Feeds"
 msgstr "Feeds Estáticos"
+
+msgid "Theme"
+msgstr ""
 
 msgid "Title"
 msgstr "Título"

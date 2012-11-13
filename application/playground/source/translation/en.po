@@ -19,13 +19,17 @@ msgid ""
 "// %1"
 msgstr ""
 
-msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
+msgid ""
+"// Your browser has a length restriction of the URL parameter which could "
+"have caused the problem."
 msgstr ""
 
 msgid "API Viewer"
 msgstr ""
 
-msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
+msgid ""
+"Cannot append sample code to URL, as it is too long. Disable this warning in"
+" the future?"
 msgstr ""
 
 msgid "Click OK to discard your changes."
@@ -121,7 +125,9 @@ msgstr ""
 msgid "Syntax Highlighting"
 msgstr ""
 
-msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
+msgid ""
+"Unfortunately, an unrecoverable internal error was caused by your code. This"
+" may prevent the playground application to run properly.||"
 msgstr ""
 
 msgid "Use tinyurl to shorten the url."
@@ -132,6 +138,3 @@ msgstr ""
 
 msgid "qooxdoo"
 msgstr ""
-
-#~ msgid "qooxdoo %1"
-#~ msgstr ""

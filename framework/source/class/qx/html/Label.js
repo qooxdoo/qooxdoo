@@ -104,7 +104,7 @@ qx.Class.define("qx.html.Label",
       value = !!value;
 
       if (this.__rich == value) {
-        return;
+        return this;
       }
 
       this.__rich = value;

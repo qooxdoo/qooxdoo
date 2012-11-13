@@ -65,6 +65,20 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     _scrollTo : function(x, y, time)
     {
       scrollTo(x,y);
+    },
+
+
+    /**
+    * Scrolls the wrapper contents to the widgets coordinates in a given
+    * period.
+    *
+    * @param elementId {String} the elementId, the scroll container should scroll to.
+    * @param time {Integer} Time slice in which scrolling should
+    *              be done (in seconds).
+    */
+    _scrollToElement : function(elementId, time)
+    {
+      // TODO
     }
   }
 });

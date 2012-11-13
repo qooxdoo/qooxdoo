@@ -323,14 +323,15 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var req = this.req;
       var fakeReq = this.getFakeReq();
 
-      this.stub(req, "_emit");
+      this.stub(req._emitter, "emit");
       req.open("GET", "/");
       req.send();
 
       // Status does not matter. Set a non-empty response for file:// workaround.
       fakeReq.respond(200, {}, "RESPONSE");
 
-      this.assertCalledWith(req._emit, "load");
+      this.assertCalledWith(req._emitter.emit, "load");
+      this.assertEquals(6, req._emitter.emit.callCount);
     },
 
     //

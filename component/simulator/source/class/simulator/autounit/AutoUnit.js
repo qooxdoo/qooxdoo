@@ -18,7 +18,8 @@
 ************************************************************************ */
 
 /**
- * TODO: Write class doc
+ * Alternative TestCase that can automatically log test results using
+ * {@link simulator.autounit.JunitLog}
  *
  * @lint ignoreUndefined(simulator)
  * @lint ignoreUndefined(selenium)

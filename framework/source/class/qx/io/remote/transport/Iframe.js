@@ -347,8 +347,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      */
     setRequestHeader : function(vLabel, vValue) {},
 
-    // TODO
-    // throw new Error("setRequestHeader is abstract");
+
     /*
     ---------------------------------------------------------------------------
       RESPONSE HEADER SUPPORT

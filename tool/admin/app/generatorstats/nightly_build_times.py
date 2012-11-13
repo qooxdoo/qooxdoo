@@ -382,7 +382,7 @@ def graph(args, opts):
     template = ''
     #template += "echo "
     template += '''rrdtool graph %(outpng)s --start %(fromepoch)d --end %(toepoch)d \
-    --vertical-label "build duration (min)" --zoom 1.3 --logarithmic --units=si \
+    --vertical-label "build duration (min)" --zoom 1.3 %(y_scale)s --units=si \
     DEF:feedreader=nightly_builds.rrd:feedreader:AVERAGE \
     CDEF:mfeedreader=feedreader,60,/ LINE2:mfeedreader#FF0000:Feedreader \
     DEF:showcase=nightly_builds.rrd:showcase:AVERAGE \
@@ -407,7 +407,7 @@ def graph(args, opts):
     # last 4 weeks graph
     now = int(time.time())
     since = now - 28 * 24 * 60 * 60
-    four_week_stats = template % {'rrd_db': rrd_db_name, 'outpng':'four_week_stats.png', 'fromepoch': since, 'toepoch': now}
+    four_week_stats = template % {'rrd_db': rrd_db_name, 'outpng':'four_week_stats.png', 'fromepoch': since, 'toepoch': now, 'y_scale': ''}
     #print four_week_stats
     rc = os.system(four_week_stats)
     assert rc == 0
@@ -415,7 +415,7 @@ def graph(args, opts):
 
     # last year graph
     since = now - 365 * 24 * 60 * 60
-    one_year_stats = template % {'rrd_db': rrd_db_name, 'outpng':'one_year_stats.png', 'fromepoch': since, 'toepoch': now}
+    one_year_stats = template % {'rrd_db': rrd_db_name, 'outpng':'one_year_stats.png', 'fromepoch': since, 'toepoch': now, 'y_scale': '--logarithmic'}
     #print one_year_stats
     rc = os.system(one_year_stats)
     assert rc == 0

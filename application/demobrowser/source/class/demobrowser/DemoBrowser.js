@@ -338,6 +338,12 @@ qx.Class.define("demobrowser.DemoBrowser",
     __openWindow : function()
     {
       var sampUrl = this._iframe.getSource();
+      // remove th query params
+      sampUrl = sampUrl.substr(0, sampUrl.indexOf("?"));
+      // add the current theme as env setting
+      if (qx.core.Environment.get("qx.contrib") == false) {
+        sampUrl += "?qxenv:qx.theme:" + this.__currentTheme;
+      }
       window.open(sampUrl, "_blank");
     },
 
@@ -1102,9 +1108,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         treeNode.getTree().setSelection([treeNode]);
         url = 'demo/' + value;
         if (qx.core.Environment.get("qx.contrib") == false) {
-          url += "?qx.theme=" + this.__currentTheme;
+          url += "?qxenv:qx.theme:" + this.__currentTheme;
         }
-
         var currentTags = treeNode.getUserData("tags");
         if (currentTags) {
           this.__playgroundButton.setEnabled(!qx.lang.Array.contains(currentTags, "noPlayground"));
@@ -1122,7 +1127,18 @@ qx.Class.define("demobrowser.DemoBrowser",
       else
       {
         this.__logDone = false;
+        this.__themePart.getChildren()[0].setEnabled(false);
+        this.__themePart.getChildren()[1].setEnabled(false);
         this._iframe.setSource(url);
+        this._iframe.addListener("load", function () {
+          window.setTimeout(function() {
+            var cw = this._iframe.getWindow();
+            if (cw && cw.qx && cw.qx.theme && cw.qx.theme.manager && cw.qx.theme.manager.Meta) {
+              this.__themePart.getChildren()[0].setEnabled(true);
+              this.__themePart.getChildren()[1].setEnabled(true);
+            }
+          }.bind(this), 333);
+        }, this);
       }
 
       // Toggle menu buttons
@@ -1168,7 +1184,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           var category = split[0];
           category = category.charAt(0).toUpperCase() + category.substring(1);
-          var pagename = split[1].replace(".html", "").replace("_", " ");
+          var pagename = split[1].replace(".html", "").replace(/_/g, " ");
           pagename = pagename.charAt(0).toUpperCase() + pagename.substring(1);
           var title = "qooxdoo " + div + " Demo Browser " + div + " " + category + " " + div + " " + pagename;
         }
@@ -1308,8 +1324,6 @@ qx.Class.define("demobrowser.DemoBrowser",
      * supposedly loads the demo application .js.  The 'src' uri of this script tag is
      * then used to construct the uri of the corresponding Javascript source file, which
      * is then loaded into the source tab (through another XHR).
-     *
-     * TODO: This method needs a rewrite
      *
      * @param url {var} TODOC
      * @return {String} TODOC
@@ -1679,14 +1693,18 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @return {var} TODOC
      */
     polish : function(str) {
-      return str.replace(".html", "").replace("_", " ");
+      return str.replace(".html", "").replace(/_/g, " ");
     },
 
 
     __onChangeTheme : function(e)
     {
       this.__currentTheme = e.getData()[0].getUserData("value");
-      this.runSample();
+      var cw = this._iframe.getWindow();
+      var theme = cw.qx.Theme.getByName(this.__currentTheme);
+      if (theme && cw.qx.theme.manager && cw.qx.theme.manager.Meta) {
+        cw.qx.theme.manager.Meta.getInstance().setTheme(theme);
+      }
     },
 
 

@@ -7,7 +7,7 @@
   }
 
   $method = $_GET["method"];
-  
+
   if ($method == "getRowCount") {
     echo 10000;
   } else if ($method == "getRowData") {
@@ -21,9 +21,9 @@
 
     $firstRow = $_GET["start"];
     $lastRow = $_GET["end"];
-    
+
     $data = "[";
-    for ($i=0; $i < ($lastRow - $firstRow) + 1; $i++) { 
+    for ($i=0; $i < ($lastRow - $firstRow) + 1; $i++) {
       $id = $i + $firstRow;
       $data .= "{\"id\" : \"". $id . "\", \"text\" : \"Requested on " . date("F j, Y, g:i:s a") . " using PHP.\"},";
     }
