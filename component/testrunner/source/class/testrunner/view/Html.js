@@ -718,6 +718,7 @@ qx.Class.define("testrunner.view.Html", {
           $("#testfilter,#togglealltests,#run,#stop").setAttribute("disabled", "disabled");
           break;
         case "ready" :
+          this.reset();
           this.setStatus("Test suite ready");
           var filterFromCookie = qx.bom.Cookie.get("testFilter");
           if (filterFromCookie) {
@@ -729,8 +730,6 @@ qx.Class.define("testrunner.view.Html", {
           }
           $("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
           $("#stop").setAttribute("disabled", "disabled")
-          this.setFailedTestCount(0);
-          this.setSuccessfulTestCount(0);
           if (this.getAutoRun()) {
             this.__runTests();
           }
