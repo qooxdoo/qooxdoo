@@ -136,8 +136,6 @@ qx.Class.define("mobileshowcase.page.Event",
       this.getContent().add(descriptionGroup, {flex:1});
       this.getContent().add(containerGroup, {flex:1});
 
-      qx.event.Timer.once(this._render, this, 5000);
-      
       // Center background gradient, when multiple touches are available.
       qx.bom.element.Style.set(this.__container.getContentElement(),"background","-"+this.__vendorPrefix+"-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
       
