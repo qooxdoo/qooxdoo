@@ -644,6 +644,7 @@ qx.Class.define("testrunner.view.Html", {
           q("#testfilter,#togglealltests,#run,#stop").setAttribute("disabled", "disabled");
           break;
         case "ready" :
+          this.reset();
           this.setStatus("Test suite ready");
           var filterFromCookie = q.cookie.get("testFilter");
           if (filterFromCookie) {
@@ -655,8 +656,6 @@ qx.Class.define("testrunner.view.Html", {
           }
           q("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
           q("#stop").setAttribute("disabled", "disabled");
-          this.setFailedTestCount(0);
-          this.setSuccessfulTestCount(0);
           if (this.getAutoRun()) {
             this.__runTests();
           }
