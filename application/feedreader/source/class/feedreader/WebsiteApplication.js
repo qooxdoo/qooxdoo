@@ -75,6 +75,10 @@ qx.Class.define("feedreader.WebsiteApplication",
       var self = this;
       tree.on("click", function(e) {
         var feed = (e.target || e.srcElement).feed;
+        // ignore clicks on headlines
+        if (!feed) {
+          return;
+        }
         // if the selected feed is loaded
         if (feed.getState() == "loaded") {
           list.stop();
