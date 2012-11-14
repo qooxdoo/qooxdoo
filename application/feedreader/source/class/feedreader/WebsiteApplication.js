@@ -80,6 +80,10 @@ qx.Class.define("feedreader.WebsiteApplication",
       var self = this;
       qx.bom.Event.addNativeListener(tree[0], "click", function(e) {
         var feed = qx.bom.Event.getTarget(e).feed;
+        // ignore clicks on headlines
+        if (!feed) {
+          return;
+        }
         // if the selected feed is loaded
         if (feed.getState() == "loaded") {
           self.fillList(list, feed);
