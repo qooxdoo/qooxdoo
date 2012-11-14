@@ -96,7 +96,7 @@ def npm_version_string(vers_parts):
 #
 Files = {
     "./version.txt" : [
-        r'^(.*)$'
+        r'^(.+)$'
         ],
     "./index.html"  : [
         r'var qxversion = "(%s)"'    % qxversion_regexp
