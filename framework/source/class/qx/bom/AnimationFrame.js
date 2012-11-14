@@ -71,7 +71,8 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
      */
     startSequence : function(duration) {
       var start = +(new Date());
-      var clb = function(time) {
+      var clb = function() {
+        var time = +(new Date())
         // final call
         if (time >= start + duration) {
           this.emit("end");
@@ -145,8 +146,8 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
     request : function(callback, context) {
       var req = qx.core.Environment.get("css.animation.requestframe");
 
-      var clb = function(time) {
-        time = time || +(new Date());
+      var clb = function() {
+        var time = +(new Date());
         callback.call(context, time);
       };
       if (req) {
