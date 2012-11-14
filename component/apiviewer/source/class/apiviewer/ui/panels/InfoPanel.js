@@ -171,7 +171,11 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           else if (packageBaseClass && className.indexOf(".") == -1)
           {
             classNode = apiviewer.dao.Class.getClassByName(className);
-            if (!classNode || classNode.getPackage().getName() !== "") {
+
+            // classNode could be a native JS constructor (String, Boolean, ...)
+            if (!classNode || !classNode.classname ||
+                classNode.getPackage().getName() !== "")
+            {
               // The class name has no package -> Use the same package as the current class
               var name = packageBaseClass.getName();
               var packageName;
