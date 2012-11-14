@@ -3147,7 +3147,7 @@ input[type=radio] + label:after {
   -moz-border-radius: 15px;
   border-radius: 15px;
   font-size: 1px;
-  font-color: transparent;
+  color: rgba(0, 0, 0, 0);
 }
 .carousel-pagination-label.active {
   background-color: #3d72c9;
