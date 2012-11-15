@@ -239,7 +239,7 @@ qx.Class.define("mobileshowcase.page.Event",
 
         this.__touchCount = touches.length;
 
-        for(var i=0;i<touches.length;i++) {
+        for(var i = 0; i < touches.length; i++) {
           var touchLeft = touches[i].clientX-containerLeft;
           var touchTop = touches[i].clientY-containerTop;
           this.__touchCircleLeft[i] = touchLeft;
@@ -265,7 +265,7 @@ qx.Class.define("mobileshowcase.page.Event",
         this.__label.setValue("");
       } else if (type == "touchend") {
         // Remove all touches out of visible area
-        for(var i=0; i < this.__touchCircleLeft.length;i++) {
+        for(var i = 0; i < this.__touchCircleLeft.length; i++) {
           this.__touchCircleLeft[i] = -1000;
           this.__touchCircleTop[i] = -1000;
         }
