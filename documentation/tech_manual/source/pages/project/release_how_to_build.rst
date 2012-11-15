@@ -149,7 +149,7 @@ Test
 Release test plans:
 
 #. `Application testing <https://github.com/qooxdoo/qooxdoo/tree/master/tool/admin/release/release-test-matrix-applications.html>`_ : test standard applications (like Feedreader, Apiviewer, ...) in various browsers
-#. `create-application.py/Platform testing <https://github.com/qooxdoo/qooxdoo/tree/master/tool/admin/release/release-test-matrix-create_application.html>`_ : test ``create-application.py`` on various platforms
+#. `create-application.py / Toolchain testing <https://github.com/qooxdoo/qooxdoo/tree/master/tool/admin/release/release-test-matrix-create_application.html>`_ : test ``create-application.py`` on various platforms
 
 Both the standard apps for 1. as well as an SDK for 2. are usually made available from a build host. For instructions on what to do *there*, in order to proivde them, see further.
 
@@ -177,7 +177,7 @@ Use the controls on the File Manager view.
   * If this is not the file you want, go again to the File Manager, select the desired file, and click on the ``i`` icon (tooltip "View details") to the right of it.
   * In the drop-down dialog, locate the ``Default Download For:`` section, and click ``Select all``. This will make this file the default download for all client platforms (as SF tries client OS detection).
   * Hit the ``Save`` button before leaving the form. 
-* *(Optional)* You can upload a ``*readme*`` file into the same folder which will be displayed automatically when the page is rendered. It doesn't matter if the file name is upper or lower case, and what the extension is as long as it contains the string "readme". SF supports various `markup formats <https://sourceforge.net/p/forge/documentation/Files-Readme/>`_, among them *.rst* (but no HTML, and no binaries like PDF), so we can reuse our manual know-how here.
+* Upload a ``readme.rst`` file into the same folder with the release version and the essential links (usually project/about, release notes and manual; see older releases). This will be displayed automatically when the page is rendered. (This feature is such that any file containing the string "readme" in its name (case-insensitive) will be used in this way. Sourceforge supports various `markup formats <https://sourceforge.net/p/forge/documentation/Files-Readme/>`_, among them *.rst* (but no HTML, and no binaries like PDF), so we can reuse our reST know-how here).
 
 .. _pages/project/release_how_to_build.rst#put_the_demos_online:
 
@@ -315,7 +315,7 @@ Announcements
 * `Release notes <http://qooxdoo.org/project/release_notes>`_ on the homepage
 * `News <http://news.qooxdoo.org/wp-admin/post.php>`_
 * Mailing list (qooxdoo-devel)
-* `Freshmeat <http://freshmeat.net/add-release/53996/>`_
+* `Freshmeat/Freecode <http://freecode.com/projects/qooxdoo>`_
 * `Wikipedia <http://en.wikipedia.org/wiki/Qooxdoo>`_ version number update
 
 
