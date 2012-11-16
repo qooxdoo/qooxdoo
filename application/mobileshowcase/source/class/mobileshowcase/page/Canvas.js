@@ -147,36 +147,49 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
         var touchLeft = touches[i].clientX-this.__canvasLeft;
         var touchTop = touches[i].clientY-this.__canvasTop;
-
+        
         if(lastPoint != null) {
           ctx.beginPath();
+          ctx.lineCap = 'round';
           ctx.moveTo(lastPoint.x, lastPoint.y);
           ctx.lineTo(touchLeft,touchTop);
-
+          
           var deltaX = Math.abs(lastPoint.x - touchLeft);
           var deltaY = Math.abs(lastPoint.y - touchTop);
 
           var velocity = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
-          var opacity =  (100 - velocity) / 100; 
 
+          var opacity =  (100 - velocity) / 100; 
           opacity = Math.round(opacity*Math.pow(10,2))/Math.pow(10,2);
+          
+          if(!lastPoint.opacity) {
+            lastPoint.opacity = 1;
+          }
           
           if(opacity < 0.1) {
             opacity = 0.1;
           }
           
-          ctx.strokeStyle = 'rgba(0,0,0,'+opacity+')';
+          // linear gradient from start to end of line
+          var grad = ctx.createLinearGradient(lastPoint.x, lastPoint.y, touchLeft, touchTop);
+          grad.addColorStop(0, 'rgba(61,114,201,'+lastPoint.opacity+')');
+          grad.addColorStop(1, 'rgba(61,114,201,'+opacity+')');
+          ctx.strokeStyle = grad;
+          
+          ctx.lineWidth = 1.5;
+          
           ctx.stroke();
         } 
 
         this.__lastPoints[i] = {
           "x":touchLeft,
-          "y":touchTop
+          "y":touchTop,
+          "opacity":opacity
         }
       }
     },
-
-
+    
+    
     // overridden
     _back : function()
     {
