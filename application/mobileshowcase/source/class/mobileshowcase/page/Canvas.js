@@ -61,20 +61,19 @@ qx.Class.define("mobileshowcase.page.Canvas",
       
       var canvas  = this.__canvas = new qx.ui.mobile.embed.Canvas();
       
-      canvas.addListener("touchstart", this._onTouchStart,this);
-      canvas.addListener("touchend", this._onTouchEnd,this);
-      canvas.addListener("touchmove", this._onTouchMove,this);
+      canvas.addListener("touchstart", this._onTouchStart, this);
+      canvas.addListener("touchend", this._onTouchEnd, this);
+      canvas.addListener("touchmove", this._onTouchMove, this);
       
       canvas.setWidth(1000);
       canvas.setHeight(1000);
+      
       this.getContent().add(canvas);
-
-      var ctx = canvas.getContext2d();
-      ctx.fillStyle="#ffffff";
-      ctx.fillRect(0,0,1000,1000);
-      ctx.stroke();
+      
+      this.__clearCanvas();
       
       // Comment in Text
+      var ctx = this.__canvas.getContext2d();
       ctx.fillStyle = 'gray';
       ctx.font = 'bold 12pt Helvetica';
       ctx.fillText('Start drawing here...', 15, 25);
@@ -94,7 +93,6 @@ qx.Class.define("mobileshowcase.page.Canvas",
      */
     __clearCanvas : function() {
       this.__canvas.getContentElement().width = this.__canvas.getContentElement().width;
-      this.__firstDraw = false;
 
       var ctx = this.__canvas.getContext2d();
       ctx.fillStyle="#ffffff";
@@ -109,6 +107,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
     _onTouchStart : function(evt) {
       if(this.__firstDraw) {
         this.__clearCanvas();
+        this.__firstDraw = false;
       }
       
       this.__canvasLeft = qx.bom.element.Location.getLeft(this.__canvas.getContentElement(), "padding");
@@ -161,7 +160,11 @@ qx.Class.define("mobileshowcase.page.Canvas",
           var opacity =  (100 - velocity) / 100; 
 
           opacity = Math.round(opacity*Math.pow(10,2))/Math.pow(10,2);
-
+          
+          if(opacity < 0.1) {
+            opacity = 0.1;
+          }
+          
           ctx.strokeStyle = 'rgba(0,0,0,'+opacity+')';
           ctx.stroke();
         } 
