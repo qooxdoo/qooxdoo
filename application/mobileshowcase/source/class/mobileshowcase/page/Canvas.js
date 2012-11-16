@@ -49,7 +49,6 @@ qx.Class.define("mobileshowcase.page.Canvas",
     __canvasTop : 0,
     __canvas : null,
     __lastPoints : null,
-    __firstDraw : true,
 
 
     // overridden
@@ -58,6 +57,11 @@ qx.Class.define("mobileshowcase.page.Canvas",
       this.base(arguments);
       
       this.__initLastPoints();
+      
+      var clearButton = new qx.ui.mobile.navigationbar.Button("Clear");
+      clearButton.addListener("tap", this.__clearCanvas, this);
+      
+      this.getRightContainer().add(clearButton);
       
       var canvas  = this.__canvas = new qx.ui.mobile.embed.Canvas();
       
@@ -71,12 +75,31 @@ qx.Class.define("mobileshowcase.page.Canvas",
       this.getContent().add(canvas);
       
       this.__clearCanvas();
-      
+      this._drawExample();
+    },
+    
+    
+    /**
+     * Draws the example on the canvas.
+     */
+    _drawExample : function() {
       // Comment in Text
       var ctx = this.__canvas.getContext2d();
       ctx.fillStyle = 'gray';
       ctx.font = 'bold 12pt Helvetica';
       ctx.fillText('Start drawing here...', 15, 25);
+      
+      // Smiley
+      ctx.strokeStyle = '#3D72C9';
+      ctx.beginPath();
+      ctx.arc(75,85,50,0,Math.PI*2,true); 
+      ctx.moveTo(110,85);
+      ctx.arc(75,85,35,0,Math.PI,false); 
+      ctx.moveTo(65,75);
+      ctx.arc(60,75,5,0,Math.PI*2,true);
+      ctx.moveTo(95,75);
+      ctx.arc(90,75,5,0,Math.PI*2,true);
+      ctx.stroke();
     },
     
     
@@ -105,11 +128,6 @@ qx.Class.define("mobileshowcase.page.Canvas",
      * Handles the touch start event on canvas.
      */
     _onTouchStart : function(evt) {
-      if(this.__firstDraw) {
-        this.__clearCanvas();
-        this.__firstDraw = false;
-      }
-      
       this.__canvasLeft = qx.bom.element.Location.getLeft(this.__canvas.getContentElement(), "padding");
       this.__canvasTop = qx.bom.element.Location.getTop(this.__canvas.getContentElement(), "padding");
       
