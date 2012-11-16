@@ -130,7 +130,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
     /**
      * Draws the touches on canvas.
      */
-    draw : function(touches) {
+    __draw : function(touches) {
       var ctx = this.__canvas.getContext2d();
       
       for(var i = 0; i < touches.length; i++) {
