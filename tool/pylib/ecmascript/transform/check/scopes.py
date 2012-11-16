@@ -137,8 +137,6 @@ class AssignScopeVarsVisitor(treeutil.NodeVisitor):
         if treeutil.checkFirstChainChild(node):  # only treat leftmost identifier (e.g. in a dotaccessor expression)
             var_name = node.get('value')
             # lookup var
-            #if var_name == "Stack":
-            #    import pydb; pydb.debugger()
             var_scope = self.curr_scope.lookup_decl(var_name)
             if not var_scope: # it's a global reference
                 self.curr_scope.add_use(var_name, node)

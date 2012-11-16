@@ -725,6 +725,10 @@ def checkFirstChainChild(node):
     # compare to current node
     return leftmostIdentifier == node
 
+def findFirstChainChild(node):
+    chainRoot = findChainRoot(node)
+    leftmostIdentifier = findLeftmostChild(chainRoot)
+    return leftmostIdentifier
 
 def isNEWoperand(node):
     operation = None

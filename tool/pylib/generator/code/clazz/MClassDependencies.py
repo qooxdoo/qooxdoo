@@ -25,7 +25,6 @@
 
 import sys, os, types, re, string, time
 from ecmascript.frontend import treeutil, lang
-from ecmascript.frontend.Script     import Script
 from ecmascript.frontend.tree       import Node, NODE_VARIABLE_TYPES
 from ecmascript.transform.optimizer import variantoptimizer
 from ecmascript.transform.check     import lint
@@ -37,8 +36,6 @@ from misc import util
 ClassesAll = None # {'cid':generator.code.Class}
 
 GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % re.escape(x) for x in lang.GLOBALS + lang.QXGLOBALS))
-
-_memo1_ = [None, None]  # for memoizing getScript()
 
 DEFER_ARGS = ("statics", "members", "properties")
 
@@ -629,70 +626,17 @@ class MClassDependencies(object):
 
     ##
     # Check if the detected (pot. complex) identifier <idStr>, with corresponding
-    # AST node <node>, is a scoped identifier in <fileId>.
+    # AST node <node>, is a lexically scoped identifier in <fileId>.
     #
-    # Uses scope analysis (ecmascript.frontend.Scope) of <fileId>; finds the
-    # enclosing scope of <node>, then looks up <idStr> in this scope.
     def _isScopedVar(self, idStr, node, fileId):
+        res = False
+        head_node = treeutil.findFirstChainChild(node)
+        assert head_node and hasattr(head_node, 'scope')
+        var_name = head_node.get('value')
+        var_scope = head_node.scope.lookup_decl(var_name)
+        res = bool(var_scope)
+        return res
 
-        def findScopeNode(node):
-            node1 = node
-            sNode = None
-            while not sNode:
-                if node1.type in ["function", "catch"]:
-                    sNode = node1
-                if node1.hasParent():
-                    node1 = node1.parent
-                else:
-                    break # we're at the root
-            if not sNode:
-                sNode = node1 # use root node
-            return sNode
-
-        def getScript(node, fileId, ):
-            # TODO: checking the root nodes is a fix, as they sometimes differ (prob. caching)
-            # -- looking up nodes in a Script() uses object identity for comparison; sometimes, the
-            #    tree _analyzeClassDepsNode works on and the tree Script is built from are not the
-            #    same in memory, e.g. when the tree is re-read from disk; then those comparisons
-            #    fail (although the nodes are semantically the same); hence we have to
-            #    re-calculate the Script (which is expensive!) when the root node object changes;
-            #    using __memo allows at least to re-use the existing script when a class is worked
-            #    on and this method is called successively for the same tree.
-            rootNode = node.getRoot()
-            #if _memo1_[0] == fileId: # replace with '_memo1_[0] == rootNode', to make it more robust, but slightly less performant
-            if _memo1_[0] == rootNode:
-                script = _memo1_[1]
-            else:
-                # TODO: disentagle use of ecmascript.frontend.Script and generator.code.Script
-                script = Script(rootNode, fileId)
-                _memo1_[0], _memo1_[1] = rootNode, script
-            return script
-
-        def getLeadingId(idStr):
-            leadingId = idStr
-            dotIdx = idStr.find('.')
-            if dotIdx > -1:
-                leadingId = idStr[:dotIdx]
-            return leadingId
-
-        # -----------------------------------------------------------------------------
-
-        # check composite id a.b.c, check only first part
-        idString = getLeadingId(idStr)
-        script   = getScript(node, fileId)
-
-        scopeNode = findScopeNode(node)  # find the node of the enclosing scope (function - catch - global)
-        if scopeNode == script.root:
-            fcnScope = script.getGlobalScope()
-        else:
-            fcnScope  = script.getScope(scopeNode)
-        assert fcnScope != None, "idString: '%s', idStr: '%s', fileId: '%s'" % (idString, idStr, fileId)
-        varDef = script.getVariableDefinition(idString, fcnScope)
-        if varDef:
-            return True
-        return False
-
-        # end:_isScopedVar()
 
 
     # --------------------------------------------------------------------
