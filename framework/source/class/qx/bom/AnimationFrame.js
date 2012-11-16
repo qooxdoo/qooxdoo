@@ -98,7 +98,7 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
 
     /**
      * Calculation of the predefined timing functions. Approximation of the real
-     * bezier curves has ben used for easier calculation. This is good and close
+     * bezier curves has been used for easier calculation. This is good and close
      * enough for the predefined functions like <code>ease</code> or
      * <code>linear</code>.
      *
