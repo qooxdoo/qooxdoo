@@ -48,7 +48,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
     __canvasLeft : 0,
     __canvasTop : 0,
     __canvas : null,
-    __lastPoints : [null,null,null,null,null,null,null],
+    __lastPoints : null,
     __firstDraw : true,
 
 
@@ -56,6 +56,8 @@ qx.Class.define("mobileshowcase.page.Canvas",
     _initialize : function()
     {
       this.base(arguments);
+      
+      this.__initLastPoints();
       
       var canvas  = this.__canvas = new qx.ui.mobile.embed.Canvas();
       
@@ -76,6 +78,14 @@ qx.Class.define("mobileshowcase.page.Canvas",
       ctx.fillStyle = 'gray';
       ctx.font = 'bold 12pt Helvetica';
       ctx.fillText('Start drawing here...', 15, 25);
+    },
+    
+    
+    /**
+     * Inits the lastPoints array.
+     */
+    __initLastPoints : function() {
+      this.__lastPoints = [null,null,null,null,null,null,null,null,null,null];
     },
     
     
@@ -112,7 +122,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
      * Handles the touchend event on canvas.
      */
     _onTouchEnd : function(evt) {
-      this.__lastPoints = [null,null,null,null,null,null,null];
+      this.__initLastPoints();
     },
     
     
