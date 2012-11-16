@@ -26,6 +26,7 @@
 
 ************************************************************************ */
 
+
 /**
  * Mobile page showing a HTML5 canvas example.
  */
@@ -78,46 +79,66 @@ qx.Class.define("mobileshowcase.page.Canvas",
     },
     
     
-    _onTouchStart : function(evt) {
-      if(this.__firstDraw) {
-        this.__canvas.getContentElement().width = this.__canvas.getContentElement().width;
-        this.__firstDraw = false;
-        
-        var ctx = this.__canvas.getContext2d();
-        ctx.fillStyle="#ffffff";
-        ctx.fillRect(0,0,1000,1000);
-        ctx.stroke();
-        
-      }
-      this.__canvasLeft = qx.bom.element.Location.getLeft(this.__canvas.getContentElement(), "padding");
-      this.__canvasTop = qx.bom.element.Location.getTop(this.__canvas.getContentElement(), "padding");
-      
-      this.__render(evt.getAllTouches());
+    /**
+     * Removes any drawings off the canvas.
+     */
+    __clearCanvas : function() {
+      this.__canvas.getContentElement().width = this.__canvas.getContentElement().width;
+      this.__firstDraw = false;
+
+      var ctx = this.__canvas.getContext2d();
+      ctx.fillStyle="#ffffff";
+      ctx.fillRect(0,0,1000,1000);
+      ctx.stroke();
     },
     
     
+    /**
+     * Handles the touch start event on canvas.
+     */
+    _onTouchStart : function(evt) {
+      if(this.__firstDraw) {
+        this.__clearCanvas();
+      }
+      
+      this.__canvasLeft = qx.bom.element.Location.getLeft(this.__canvas.getContentElement(), "padding");
+      this.__canvasTop = qx.bom.element.Location.getTop(this.__canvas.getContentElement(), "padding");
+      
+      this.__draw(evt.getAllTouches());
+    },
+    
+    
+    /**
+     * Handles the touchend event on canvas.
+     */
     _onTouchEnd : function(evt) {
       this.__lastPoints = [null,null,null,null,null,null,null];
     },
     
     
+    /**
+     * Handles the touchmove event on canvas.
+     */
     _onTouchMove : function(evt) {
-      this.__render(evt.getAllTouches());
+      this.__draw(evt.getAllTouches());
       
       evt.preventDefault();
       evt.stopPropagation();
     },
     
     
-    __render : function(touches) {
+    /**
+     * Draws the touches on canvas.
+     */
+    draw : function(touches) {
       var ctx = this.__canvas.getContext2d();
       
       for(var i = 0; i < touches.length; i++) {
         var lastPoint = this.__lastPoints[i];
-        
+
         var touchLeft = touches[i].clientX-this.__canvasLeft;
         var touchTop = touches[i].clientY-this.__canvasTop;
-        
+
         if(lastPoint != null) {
           ctx.beginPath();
           ctx.moveTo(lastPoint.x, lastPoint.y);
@@ -134,8 +155,11 @@ qx.Class.define("mobileshowcase.page.Canvas",
           ctx.strokeStyle = 'rgba(0,0,0,'+opacity+')';
           ctx.stroke();
         } 
-        
-        this.__lastPoints[i] = {"x":touchLeft,"y":touchTop}
+
+        this.__lastPoints[i] = {
+          "x":touchLeft,
+          "y":touchTop
+        }
       }
     },
 
