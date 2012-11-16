@@ -25,11 +25,21 @@
 
 from ecmascript.frontend import treeutil
 
+class ScopeVisitor(object):
+
+    def visit(self, scopeNode):
+        scope_type = scopeNode.node.type
+        if hasattr(self, "visit_"+scope_type):
+            getattr(self, "visit_"+scope_type)(scopeNode)
+        else:
+            for child in scopeNode.children:
+                self.visit(child)
+
 ##
 # Scope visitor that goes through a tree of Scope()'s, invoking an AST visitor on
 # corresponding AST nodes.
 #
-class ScopesVisitor(object):
+class VarsCollector(ScopeVisitor):
 
     def visit(self, scopeNode):
         scope_type = scopeNode.node.type
@@ -200,6 +210,9 @@ class Scope(object):
         self.parent = None
         self.node = node
         self.children = []  # nested scopes
+        self.is_load_time = False # whether this scope's symbols are evaluated at load time
+        self.is_defer = False # whether this is the scope of a 'defer' function (is checked in load_time.py anyway)
+                              # the information goes beyond is_load_time, as e.g. 'statics' references the class name
         self.vars = {}   # vars used in this scope, {"<varname>" : ScopeVar() }
                          # either locally declared, or global (.decl==None)
                          # missing: those of a parent scope that are referenced here
@@ -331,7 +344,7 @@ def create_scopes(node):
     scopeCollector = CreateScopesVisitor(node)
     scopeCollector.visit(node)
     # now go through the scopes and collect vars into it
-    varCollector = ScopesVisitor()
+    varCollector = VarsCollector()
     varCollector.visit(node.scope)
 
     return node

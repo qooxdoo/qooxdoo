@@ -31,7 +31,7 @@ from ecmascript.frontend.treegenerator import PackerFlags as pp
 
 
 ##
-# Finds the next qx.*.define in the given tree
+# Finds the next qx.*.define call in the given tree
 
 def findQxDefine(rootNode):
     for node in nodeIterator(rootNode, tree.NODE_VARIABLE_TYPES):
@@ -42,8 +42,8 @@ def findQxDefine(rootNode):
 
 
 ##
-# Finds all the qx.*.define in the given tree
-
+# Finds all the qx.*.define calls in the given tree
+#
 def findQxDefineR(rootNode):
     for node in nodeIterator(rootNode, tree.NODE_VARIABLE_TYPES):
         if isQxDefine(node)[0]:
@@ -51,8 +51,23 @@ def findQxDefineR(rootNode):
         
 
 ##
-# Checks if the given node is a qx.*.define function invocation
+# Find the enclosing qx.*.define call, if any, of node.
+#
+def findEnclosingQxDefine(node):
+    res = None
+    cnode = node
+    while cnode:
+        if cnode.type == 'call':
+            operand_node = cnode.getChild("operand").children[0]
+            if isQxDefine(operand_node)[0]:
+                res = cnode
+                break
+        cnode = cnode.parent
+    return res
 
+##
+# Checks if the given node is the operand of a qx.*.define function invocation.
+#
 DefiningClasses = "q qxWeb qx.Bootstrap qx.Class qx.Interface qx.Mixin qx.Theme".split()
 
 def isQxDefine(node):
@@ -737,6 +752,33 @@ def isNEWoperand(node):
     elif node.hasParentContext("operation"):
         operation = node.parent
     return operation and operation.type=="operation" and operation.get("operator","")=="NEW"
+
+
+##
+# Check if node is the (function) value of the 'defer' class member
+#
+def isDeferFunction(node):
+    # quick check for function
+    if not node.type == 'function':
+        return False
+
+    # quick check for map and map key
+    if not (isKeyValue(node) and node.parent.parent.get('key') == 'defer'):
+        return False
+
+    # get enclosing qx.*.define
+    qxDefine_node = findEnclosingQxDefine(node)
+    class_map = getClassMap(qxDefine_node)
+    # get its 'defer' section
+    if 'defer' in class_map:
+        defer_function = class_map['defer']
+    else:
+        defer_function = None
+    # compare
+    return defer_function == node
+
+def isKeyValue(node):
+    return node.hasParentContext("map/keyvalue/value")
 
 
 ##

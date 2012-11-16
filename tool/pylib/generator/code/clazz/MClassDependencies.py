@@ -27,7 +27,7 @@ import sys, os, types, re, string, time
 from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.tree       import Node, NODE_VARIABLE_TYPES
 from ecmascript.transform.optimizer import variantoptimizer
-from ecmascript.transform.check     import lint
+from ecmascript.transform.check     import lint, scopes
 from generator.code.DependencyItem  import DependencyItem
 from generator.code.ClassList       import ClassList
 from generator                      import Context
@@ -345,8 +345,6 @@ class MClassDependencies(object):
                 return
                 
             assembled = (treeutil.assembleVariable(node))[0]
-            #if self.id == "qx.log.Logger" and node.toJS(None)=="clazz" and node.parent.type=="dotaccessor":
-            #    import pydb; pydb.debugger()
 
             # treat dependencies in defer as requires
             deferNode = self.checkDeferNode(assembled, node)
@@ -418,6 +416,88 @@ class MClassDependencies(object):
         return
 
         # end:_analyzeClassDepsNode
+
+    def _analyzeClassDepsNode_1(self, node, depsList, inLoadContext, inDefer=False):
+        if node.type in ('file', 'function', 'catch'):
+            top_scope = node.scope
+        else:
+            top_scope = scopes.find_enclosing(node)  # get enclosing scope of node
+        #import pydb; pydb.debugger()
+        for scope in top_scope.scope_iterator(): # walk through this and all nested scopes
+            for global_name, scopeVar in scope.globals().items():  # get the global symbols { sym_name: ScopeVar }
+                for node in scopeVar.uses:       # create a depsItem for all its uses
+                    depsItem = self.qualify_deps_item(node, scope.is_load_time, scope.is_defer)
+                    depsList.append(depsItem)    # and qualify them
+
+        # Augment with feature dependencies introduces with qx.core.Environment.get("...") calls
+        for envCall in variantoptimizer.findVariantNodes(node):
+            className, classAttribute = self.getClassNameFromEnvKey(envCall.getChild("arguments").children[0].get("value", ""))
+            if className:
+                depsItem = DependencyItem(className, classAttribute, self.id, envCall.get('line', -1))
+                depsItem.isCall = True  # treat as if actual call, to collect recursive deps
+                # .inLoadContext
+                # get 'qx' node of 'qx.core.Environment....'
+                call_operand = envCall.getChild("operand").children[0]
+                qx_idnode = treeutil.findFirstChainChild(call_operand)
+                scope = qx_idnode.scope
+                inLoadContext = scope.is_load_time # get its scope's .is_load_time
+                depsItem.isLoadDep = inLoadContext
+                if inLoadContext:
+                    depsItem.needsRecursion = True
+                depsList.append(depsItem)
+
+        return
+
+    ##
+    # Does all the tests to qualify a DependencyItem (inLoad, needsRecursion, ...).
+    def qualify_deps_item(self, node, isLoadTime, inDefer, depsItem=None):
+        if not depsItem:
+            depsItem = DependencyItem('', '', '')
+        depsItem.name = ''
+        depsItem.attribute = ''
+        depsItem.requestor = self.id
+        depsItem.line = node.get("line", -1)
+        depsItem.isLoadDep = isLoadTime
+        depsItem.needsRecursion = False
+        depsItem.isCall = False
+
+        # .isCall
+        if node.hasParentContext("call/operand"): # it's a function call
+            depsItem.isCall = True  # interesting when following transitive deps
+
+        # .name
+        assembled = (treeutil.assembleVariable(node))[0]
+
+        (context, className, classAttribute) = self._isInterestingReference(assembled, node, self.id, inDefer)
+        # postcond: 
+        # - className != '' must always be true, as we know it is an interesting reference
+        # - might be a known qooxdoo class, or an unknown class (use 'className in self._classes')
+        # - if assembled contained ".", classAttribute will contain approx. non-class part
+
+        if className:
+            # we allow self-references, to be able to track method dependencies within the same class
+            if className == 'this':
+                className = self.id
+            elif inDefer and className in DEFER_ARGS:
+                className = self.id
+            if not classAttribute:  # see if we have to provide 'construct'
+                if treeutil.isNEWoperand(node):
+                    classAttribute = 'construct'
+            # Can't do the next; it's catching too many occurrences of 'getInstance' that have
+            # nothing to do with the singleton 'getInstance' method (just grep in the framework)
+            #elif classAttribute == 'getInstance':  # erase 'getInstance' and introduce 'construct' dependency
+            #    classAttribute = 'construct'
+            depsItem.name = className
+            depsItem.attribute = classAttribute
+
+            # .needsRecursion
+            # Mark items that need recursive analysis of their dependencies (bug#1455)
+            if self.followCallDeps(node, self.id, className, isLoadTime):
+                depsItem.needsRecursion = True
+
+        return depsItem
+        
+        
 
 
     def getAllEnvChecks(self, nodeline, inLoadContext):
@@ -504,9 +584,6 @@ class MClassDependencies(object):
             # ------------------------------------------------------------------
 
             context = 'interesting' # every context is interesting, maybe we get more specific or reset to ''
-
-            #if self.id=="qx.Bootstrap" and assembled=="__classToTypeMap":
-            #    import pydb; pydb.debugger()
 
             # don't treat label references
             if node.parent.type in ("break", "continue"):
