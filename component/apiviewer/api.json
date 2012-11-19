@@ -195,17 +195,16 @@
 
       "api" :
       {
-        "path" : "${BUILD_PATH}/script"
+        "path" : "${BUILD_PATH}/script",
+        "warnings" : {
+          "target" : [ "json", "shell" ]
+        }
       },
 
       "lint-check" : {
         "warn-unknown-jsdoc-keys" : [],
         "warn-jsdoc-key-syntax" : true
       },
-
-      "warnings" : {
-        "target" : [ "json", "shell" ]
-      }
     }
   }
 }
