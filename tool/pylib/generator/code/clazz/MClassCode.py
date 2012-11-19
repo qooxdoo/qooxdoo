@@ -105,7 +105,7 @@ class MClassCode(object):
 
             # annotate scopes reg. load time evaluation
             if True:
-                if tree.scope:
+                if hasattr(tree,'scope') and tree.scope:
                     console.outdent()
                     console.debug("Annotating scopes with load time information: %s..." % self.id)
                     console.indent()
