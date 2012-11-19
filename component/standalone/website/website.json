@@ -172,6 +172,36 @@
       }
     },
 
+
+    "build-extras" :
+    {
+      "extend" : ["build"],
+
+      "exclude" : [
+        "qxWeb",
+        "qx.module.Attribute",
+        "qx.module.Css",
+        "qx.module.Environment",
+        "qx.module.Event",
+        "qx.module.Manipulating",
+        "qx.module.Polyfill",
+        "qx.module.Traversing",
+        "qx.Bootstrap",
+        "qx.module.Core"
+      ],
+
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-extras-${QOOXDOO_VERSION}.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
+
+        }
+      }
+    },
+
+
     "source" :
     {
       "extend" : ["website-common", "source-script"],

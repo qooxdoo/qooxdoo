@@ -14,6 +14,7 @@
     "build",
     "build-core-min",
     "build-core",
+    "build-extras",
     "source",
     "test-source",
     "test",
