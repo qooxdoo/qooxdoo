@@ -1252,6 +1252,8 @@ qx.Bootstrap.define("qx.core.Environment",
       this.add("module.logger", function() {return true;});
       this.add("module.property", function() {return true;});
       this.add("module.events", function() {return true;});
+
+      this.add("qx.nativeScrollBars", function() {return false;});
     },
 
 
