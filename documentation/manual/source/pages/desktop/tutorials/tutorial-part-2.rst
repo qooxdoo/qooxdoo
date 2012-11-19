@@ -124,7 +124,7 @@ These two events we add to our window. Adding events is a two step process. Firs
       "post"   : "qx.event.type.Data"
     },
 
-As you can see in the snippet here, it ends with a comma. It always depends on what position you copy the section if the comma is necessary. Just take care the the class definition is a valid JavaScript object. But now back to the events. The reload event is a plain event which only notifies the receiver to reload. The post event is a data event which contains the data to post to identica. That's why there are two different types of events used.
+As you can see in the snippet here, it ends with a comma. It always depends on what position you copy the section if the comma is necessary. Just take care the class definition is a valid JavaScript object. But now back to the events. The reload event is a plain event which only notifies the receiver to reload. The post event is a data event which contains the data to post to identica. That's why there are two different types of events used.
 
 Declaring the events is the first step of the process. The second part is firing the events! Let's take a look at the reload event. It needs to be fired when the reload button was triggered (or "was executed" in qooxdoo parlance). The button itself fires an event on execution so we could use this event to fire our own reload event.
 
