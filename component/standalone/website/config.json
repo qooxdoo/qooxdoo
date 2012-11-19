@@ -12,6 +12,8 @@
   [
     "build-min",
     "build",
+    "build-core-min",
+    "build-core",
     "source",
     "test-source",
     "test",

@@ -123,6 +123,38 @@
       }
     },
 
+
+    "build-core" :
+    {
+      "extend" : ["build"],
+      "let" : {
+        "Q_INCLUDES" : ["qx.module.Core"]
+      },
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-core-${QOOXDOO_VERSION}.js"
+        }
+      }
+    },
+
+
+    "build-core-min" :
+    {
+      "extend" : ["build-min"],
+      "let" : {
+        "Q_INCLUDES" : ["qx.module.Core"]
+      },
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-core-${QOOXDOO_VERSION}.min.js"
+        }
+      }
+    },
+
     "build-min" :
     {
       "extend" : ["build"],
