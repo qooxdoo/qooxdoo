@@ -195,7 +195,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
         "msRequestAnimationFrame",
         "webkitRequestAnimationFrame",
         "mozRequestAnimationFrame",
-        "oRequestAnmiationFrame" // not available currently to I guess the name!
+        "oRequestAnimationFrame" // not available currently to I guess the name!
       ];
       for (var i=0; i < choices.length; i++) {
         if (window[choices[i]] != undefined) {
