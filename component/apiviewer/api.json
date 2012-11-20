@@ -197,7 +197,7 @@
       {
         "path" : "${BUILD_PATH}/script",
         "warnings" : {
-          "target" : [ "json", "shell" ]
+          "output" : [ "data", "console" ]
         }
       },
 

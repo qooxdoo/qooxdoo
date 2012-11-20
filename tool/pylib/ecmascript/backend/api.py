@@ -1948,11 +1948,11 @@ def verifyTypes(docTree, index):
 
 def logErrors(docTree, targets):
     for errNode in treeutil.nodeIterator(docTree, ["error"]):
-        if not "json" in targets:
+        if not "data" in targets:
             #remove error nodes
             pass
 
-        if not "shell" in targets:
+        if not "console" in targets:
             continue
 
         itemName = getParentAttrib(errNode, "fullName")

@@ -163,8 +163,8 @@ class ApiLoader(object):
             if "types" in jobConf["verify"]:
                 api.verifyTypes(docTree, index)
 
-        if "warnings" in jobConf and "target" in jobConf["warnings"]:
-            api.logErrors(docTree, jobConf["warnings"]["target"])
+        if "warnings" in jobConf and "output" in jobConf["warnings"]:
+            api.logErrors(docTree, jobConf["warnings"]["output"])
 
         self._console.info("Saving data...", False)
         self._console.indent()
