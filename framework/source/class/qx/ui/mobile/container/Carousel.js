@@ -106,15 +106,15 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       init : "carousel"
     },
 
-    /** Property for setting visibility of pagination indicator. */
+    /** Property for setting visibility of pagination indicator */
     showPagination : {
       check : "Boolean",
       init : true,
       apply : "_applyShowPagination"
     },
 
-    /** Defines whether nextPage() or previousPage() should scroll back to first or last item
-     * when the end of carousel pages is reached  */
+    /** Defines whether the carousel should scroll back to first or last page
+     * when the start/end of carousel pages is reached  */
     scrollLoop : {
       check : "Boolean",
       init : true
@@ -416,19 +416,19 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       if(velocityAbs > this.__swipeVelocityLimit) {
         var direction = evt.getDirection();
 
-        var targetPageIndex = this.__shownPageIndex;
-
         if(direction=="left") {
           if(this.__shownPageIndex < this.__pages.length - 1) {
-            targetPageIndex = this.__shownPageIndex + 1;
+            this.scrollToPage(this.__shownPageIndex + 1);
+          } else if(this.isScrollLoop()) {
+            this._doScrollLoop(0);
           }
         } else if(direction=="right") {
           if(this.__shownPageIndex > 0) {
-            targetPageIndex = this.__shownPageIndex - 1;
+            this.scrollToPage(this.__shownPageIndex - 1);
+          } else if(this.isScrollLoop()) {
+            this._doScrollLoop(this.__pages.length - 1);
           }
         }
-
-        this.scrollToPage(targetPageIndex);
       } else {
         this._snapCarouselPage();
       }
