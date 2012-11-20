@@ -729,6 +729,22 @@ def findAncestor(node, node_types=[], radius=1):
                 break
     return res
 
+##
+# Check whether <ancestor> is an ancestor of <child>.
+#
+def hasAncestor(child, ancestor):
+    curr = child
+    res = False
+    while curr:
+        if curr==ancestor:
+            res = True
+            break
+        elif curr.parent and curr in curr.parent.children:
+            curr = curr.parent
+        else:
+            break
+    return res
+
 
 ##
 # Check if the given identifier node is the first in a chained

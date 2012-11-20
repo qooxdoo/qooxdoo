@@ -102,6 +102,7 @@ class MClassCode(object):
                 console.indent()
                 tree = scopes.create_scopes(tree)  # checks for suitable treegenerator_tag
                 #tree.scope.prrnt()
+                #print self.id, " (globals):", [c for s in tree.scope.scope_iterator() for c in s.globals()]
 
             # annotate scopes reg. load time evaluation
             if True:

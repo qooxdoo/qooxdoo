@@ -219,6 +219,8 @@ class MClassDependencies(object):
           or force == True
           or not transitiveDepsAreFresh(deps, cacheModTime)):
             cached = False
+            #if self.id=='gui.theme.Appearance':
+            #    import pydb; pydb.debugger()
             deps = buildShallowDeps(tree)
             deps = buildTransitiveDeps(deps)
             if not tree: # don't cache for a passed-in tree
@@ -337,7 +339,7 @@ class MClassDependencies(object):
     # sure how to handle this sub-recursion when the main body is an iteration.
     # TODO:
     # - <recurse> seems artificial, and should be removed when cleaning up dependencies1()
-    def _analyzeClassDepsNode(self, node, depsList, inLoadContext, inDefer=False):
+    def _analyzeClassDepsNode_1(self, node, depsList, inLoadContext, inDefer=False):
 
         if node.isVar():
             if node.dep:
@@ -417,28 +419,34 @@ class MClassDependencies(object):
 
         # end:_analyzeClassDepsNode
 
-    def _analyzeClassDepsNode_1(self, node, depsList, inLoadContext, inDefer=False):
+    def _analyzeClassDepsNode_2(self, node, depsList, inLoadContext, inDefer=False):
         if node.type in ('file', 'function', 'catch'):
             top_scope = node.scope
         else:
             top_scope = scopes.find_enclosing(node)  # get enclosing scope of node
-        #import pydb; pydb.debugger()
         for scope in top_scope.scope_iterator(): # walk through this and all nested scopes
             for global_name, scopeVar in scope.globals().items():  # get the global symbols { sym_name: ScopeVar }
-                for node in scopeVar.uses:       # create a depsItem for all its uses
-                    depsItem = self.qualify_deps_item(node, scope.is_load_time, scope.is_defer)
-                    depsList.append(depsItem)    # and qualify them
+                for var_node in scopeVar.uses:       # create a depsItem for all its uses
+                    if treeutil.hasAncestor(var_node, node): # var_node is not disconnected through optimization
+                        depsItem = self.qualify_deps_item(var_node, scope.is_load_time, scope.is_defer)
+                        # as this also does filtering
+                        if depsItem:
+                            depsList.append(depsItem)    # and qualify them
+                            #if depsItem.name == "qx.log.appender.Console":
+                            #    import pydb; pydb.debugger()
 
         # Augment with feature dependencies introduces with qx.core.Environment.get("...") calls
-        for envCall in variantoptimizer.findVariantNodes(node):
-            className, classAttribute = self.getClassNameFromEnvKey(envCall.getChild("arguments").children[0].get("value", ""))
+        for env_operand in variantoptimizer.findVariantNodes(node):
+            call_node = env_operand.parent.parent
+            env_key = call_node.getChild("arguments").children[0].get("value", "")
+            className, classAttribute = self.getClassNameFromEnvKey(env_key)
             if className:
-                depsItem = DependencyItem(className, classAttribute, self.id, envCall.get('line', -1))
+                #print className
+                depsItem = DependencyItem(className, classAttribute, self.id, env_operand.get('line', -1))
                 depsItem.isCall = True  # treat as if actual call, to collect recursive deps
                 # .inLoadContext
                 # get 'qx' node of 'qx.core.Environment....'
-                call_operand = envCall.getChild("operand").children[0]
-                qx_idnode = treeutil.findFirstChainChild(call_operand)
+                qx_idnode = treeutil.findFirstChainChild(env_operand)
                 scope = qx_idnode.scope
                 inLoadContext = scope.is_load_time # get its scope's .is_load_time
                 depsItem.isLoadDep = inLoadContext
@@ -447,6 +455,8 @@ class MClassDependencies(object):
                 depsList.append(depsItem)
 
         return
+
+    _analyzeClassDepsNode = _analyzeClassDepsNode_1
 
     ##
     # Does all the tests to qualify a DependencyItem (inLoad, needsRecursion, ...).
@@ -460,15 +470,15 @@ class MClassDependencies(object):
         depsItem.isLoadDep = isLoadTime
         depsItem.needsRecursion = False
         depsItem.isCall = False
+        var_root = treeutil.findVarRoot(node)  # various of the tests need the var (dot) root, rather than the head symbol (like 'qx')
 
         # .isCall
-        if node.hasParentContext("call/operand"): # it's a function call
+        if var_root.hasParentContext("call/operand"): # it's a function call
             depsItem.isCall = True  # interesting when following transitive deps
 
         # .name
         assembled = (treeutil.assembleVariable(node))[0]
-
-        (context, className, classAttribute) = self._isInterestingReference(assembled, node, self.id, inDefer)
+        _, className, classAttribute = self._isInterestingReference(assembled, var_root, self.id, inDefer)
         # postcond: 
         # - className != '' must always be true, as we know it is an interesting reference
         # - might be a known qooxdoo class, or an unknown class (use 'className in self._classes')
@@ -492,10 +502,13 @@ class MClassDependencies(object):
 
             # .needsRecursion
             # Mark items that need recursive analysis of their dependencies (bug#1455)
-            if self.followCallDeps(node, self.id, className, isLoadTime):
+            if self.followCallDeps(var_root, self.id, className, isLoadTime):
                 depsItem.needsRecursion = True
 
-        return depsItem
+        if depsItem.name:
+            return depsItem
+        else:
+            return None
         
         
 
@@ -772,6 +785,9 @@ class MClassDependencies(object):
         if featureId == 'construct':  # constructor requested, but not supplied in class map
             # supply the default constructor
             featureNode = treeutil.compileString("function(){this.base(arguments);}", self.path)
+            # the next is a hack to provide minimal scope info
+            featureNode.set("treegenerator_tag", 1)
+            featureNode = scopes.create_scopes(featureNode)
             return self.id, featureNode
 
         # inspect inheritance/mixins
@@ -954,6 +970,9 @@ class MClassDependencies(object):
             console.debug("%s#%s dependencies:" % (classId, methodId))
             console.indent()
 
+            #if (classId,methodId) == ('qx.Class','define'):
+            #    import pydb; pydb.debugger()
+
             if isinstance(attribNode, Node):
 
                 if (attribNode.getChild("function", False)       # is it a function(){..} value?
@@ -965,6 +984,8 @@ class MClassDependencies(object):
                     # Get the method's immediate deps
                     # TODO: is this the right API?!
                     depslist = []
+                    if attribNode.type == 'value':
+                       attribNode = attribNode.children[0] 
                     self._analyzeClassDepsNode(attribNode, depslist, inLoadContext=False)
                     console.debug( "shallow dependencies: %r" % (depslist,))
 
@@ -978,8 +999,9 @@ class MClassDependencies(object):
                         if depsItem.name in my_ignores:
                             continue
                         if self.resultAdd(depsItem, localDeps):
+                            totalDeps = totalDeps.union(localDeps)
                             # Recurse dependencies
-                            downstreamDeps = getTransitiveDepsR(depsItem, variants, totalDeps.union(localDeps))
+                            downstreamDeps = getTransitiveDepsR(depsItem, variants, totalDeps)
                             localDeps.update(downstreamDeps)
 
             # Cache update
