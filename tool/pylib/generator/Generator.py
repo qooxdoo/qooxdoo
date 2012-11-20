@@ -81,7 +81,7 @@ class Generator(object):
         console.resetFilter()   # reset potential filters from a previous job
 
         Context.cache = self._cache
-        
+
         return
 
 
@@ -95,12 +95,12 @@ class Generator(object):
         # -- Helpers ----------------------------------------------------------
 
         def listJobTriggers(): return {
-          
+
             "api" :
             {
               "type"   : "JClassDepJob"
             },
-            
+
             "collect-environment-info" :
             {
               "type"   : "JSimpleJob"
@@ -201,7 +201,7 @@ class Generator(object):
             self._console.info("Collecting classes   ", feed=False)
             self._console.indent()
             classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, [], script, verifyDeps)
-            # with generator.code.ClassList(): 
+            # with generator.code.ClassList():
             #classList = ClassList(self._libraries, includeWithDeps, includeNoDeps, excludeWithDeps, variants, buildType)
             #classList = classList.calculate(verifyDeps)
             self._console.outdent()
@@ -215,7 +215,7 @@ class Generator(object):
         def partsConfigFromClassList(includeWithDeps, excludeWithDeps, script):
 
             def evalPackagesConfig(excludeWithDeps, classList, variants):
-                
+
                 # Reading configuration
                 partsCfg = self._job.get("packages/parts", {})
 
@@ -398,7 +398,7 @@ class Generator(object):
             for key in variants:
                 if len(variantData[key]) > 1:
                     hasVariants = True
-                    
+
             if hasVariants:
                 self._console.info("Switched variants:")
                 self._console.indent()
@@ -406,7 +406,7 @@ class Generator(object):
                     if len(variantData[key]) > 1:
                         self._console.info("%s = %s" % (key, variants[key]))
                 self._console.outdent()
-            
+
             return
 
 
@@ -479,7 +479,7 @@ class Generator(object):
             self.runSimulation()
         if takeout(jobTriggers, "slice-images"):
             self.runImageSlicing()
-         
+
         if jobTriggers:
 
             # -- Process job triggers that require a class list (and some)
@@ -488,7 +488,7 @@ class Generator(object):
             # Preprocess include/exclude lists
             includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
             excludeWithDeps, excludeNoDeps = getExcludes(self._job.get("exclude", []))
-            
+
             # process classdep triggers
             if takeout(jobTriggers, "fix-files"):
                 self.runFix(self._classesObj)
@@ -501,9 +501,9 @@ class Generator(object):
             if takeout(jobTriggers, "provider"):
                 script = Script()
                 script.classesObj = self._classesObj.values()
-                environData = getVariants("environment") 
+                environData = getVariants("environment")
                 variantSets = util.computeCombinations(environData)
-                script.variants = variantSets[0] 
+                script.variants = variantSets[0]
                 script.optimize = config.get("compile-options/code/optimize", [])
                 script.libraries = self._libraries
                 script.namespace = self.getAppName()
@@ -543,7 +543,7 @@ class Generator(object):
                     script.variants = {}
 
                 # get current class list
-                script.classes = computeClassList(includeWithDeps, excludeWithDeps, 
+                script.classes = computeClassList(includeWithDeps, excludeWithDeps,
                                    includeNoDeps, script, verifyDeps=True)
                 # keep the list of class objects in sync
                 script.classesObj = [self._classesObj[id] for id in script.classes]
@@ -570,7 +570,7 @@ class Generator(object):
                     self.runPrivateDebug()
                     self.runLogUnusedClasses(script)
                     self.runLogResources(script)
-                
+
         elapsedsecs = time.time() - starttime
         self._console.info("Done (%dm%05.2f)" % (int(elapsedsecs/60), elapsedsecs % 60))
 
@@ -597,13 +597,12 @@ class Generator(object):
         classList = self._job.get("let/ARGS", [])
         if not classList:
             classList = aClassList
-        
-        self._apiLoader.storeApi(classList, 
-                                 apiPath, 
-                                 variantset, 
-                                 self._job.get("api/verify", []),
-                                 self._job.get("api/sitemap", {}))
-        
+
+        self._apiLoader.storeApi(classList,
+                                 apiPath,
+                                 variantset,
+                                 self._job.get("api", []))
+
         return
 
 
@@ -616,7 +615,7 @@ class Generator(object):
         variants   = script.variants
 
         namespaces = self._job.get("log/classes-unused", [])
-        
+
         self._console.info("Find unused classes...");
         self._console.indent()
 
@@ -631,11 +630,11 @@ class Generator(object):
             for namespace in namespaces:
                 packageClasses = self._expandRegExps([namespace], [x.id for x in package.classes])
                 usedClassesArr[namespace].extend(packageClasses)
-        
+
         # available classes of interest
         for namespace in namespaces:
             allClassesArr[namespace] = self._expandRegExps([namespace])
-        
+
         # check
         for namespace in namespaces:
             self._console.info("Checking namespace: %s" % namespace);
@@ -811,7 +810,7 @@ class Generator(object):
 
         def depsToJsonFile(classDepsIter, depsLogConf):
             data = {}
-            for (packageId, classId, depId, loadOrRun) in classDepsIter:                             
+            for (packageId, classId, depId, loadOrRun) in classDepsIter:
                 if classId not in data:
                     data[classId] = {}
                     data[classId]["load"] = []
@@ -829,7 +828,7 @@ class Generator(object):
                 indent     = None
                 separators = (',', ':')
             filetool.save(file, json.dumps(data, sort_keys=True, indent=indent, separators=separators))
-            
+
             return
 
 
@@ -854,7 +853,7 @@ class Generator(object):
 
             classToDeps = {}
             # Class deps
-            for (packageId, classId, depId, loadOrRun) in classDepsIter:                             
+            for (packageId, classId, depId, loadOrRun) in classDepsIter:
                 if passesOutputFilter(classId):
                     if classId not in classToDeps:
                         classToDeps[classId] = {}
@@ -923,13 +922,13 @@ class Generator(object):
                 indent     = None
                 separators = (',', ':')
             filetool.save(file, json.dumps(classToDeps, sort_keys=True, indent=indent, separators=separators))
-            
+
             return
 
 
         def depsToFlareFile(classDepsIter, depsLogConf):
             data = {}
-            for (packageId, classId, depId, loadOrRun) in classDepsIter:                             
+            for (packageId, classId, depId, loadOrRun) in classDepsIter:
                 if classId not in data:
                     data[classId] = {}
                     data[classId]['name'] = classId
@@ -953,7 +952,7 @@ class Generator(object):
                 indent = None
                 separators = (',', ':')
             filetool.save(file, json.dumps(output, sort_keys=True, indent=indent, separators=separators))
-            
+
             return
 
         def depsToDotFile(classDepsIter, depsLogConf):
@@ -1009,7 +1008,7 @@ class Generator(object):
                         for v2 in st_nodes:
                             if None in (v1, v2):
                                 continue
-                            if gr.has_edge(v1, v2): 
+                            if gr.has_edge(v1, v2):
                                 gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
                 return
 
@@ -1066,7 +1065,7 @@ class Generator(object):
 
 
         def depsToTerms(classDepsIter):
-            
+
             depends = {}
             for (packageId, classId, depId, loadOrRun) in classDepsIter:
                 if classId not in depends:
@@ -1115,7 +1114,7 @@ class Generator(object):
                     for partId in parts:
                         if packageId in (x.id for x in parts[partId].packages):
                             self._console.info("Part %s" % partId)
-                            
+
                 self._console.info("Class: %s" % classId)
 
                 self._console.indent()
@@ -1124,7 +1123,7 @@ class Generator(object):
                 for depId in sorted(depsRun):
                     self._console.info("%s: %s (run)"  % (relstring, depId))
                 self._console.outdent()
-                    
+
             self._console.outdent()
             self._console.outdent()
             return
@@ -1196,7 +1195,7 @@ class Generator(object):
                 depsToProviderFormat(classDepsIter, depsLogConf)
             else:
                 depsToConsole(classDepsIter, type)
-            
+
             return
 
         # -- Main (runLogDependencies) ------------------
@@ -1211,7 +1210,7 @@ class Generator(object):
 
         # create a temp. lookup map to access Class() objects
         ClassIdToObject = dict([(classObj.id, classObj) for classObj in script.classesObj])
-        
+
         depsLogConf = ExtMap(depsLogConf)
 
         self._console.info("Dependency logging  ", feed=False)
@@ -1244,7 +1243,7 @@ class Generator(object):
         self._codeGenerator.packagesResourceInfo(script) # populate package.data.resources
         for packageId, package in enumerate(packages):
             allresources.update(package.data.resources)
-        
+
         file = self._job.get("log/resources/file", "resources.json")
         filetool.save(file, json.dumpsCode(allresources))
         self._console.outdent()
@@ -1299,23 +1298,23 @@ class Generator(object):
 
     def runCollectEnvironmentInfo(self):
         letConfig = self._job.get('let',{})
-        
+
         self._console.info("Environment information")
-        self._console.indent()        
-        
+        self._console.indent()
+
         platformInfo = util.getPlatformInfo()
         self._console.info("Platform: %s %s" % (platformInfo[0], platformInfo[1]))
-        
+
         self._console.info("Python version: %s" % sys.version)
-        
+
         if 'QOOXDOO_PATH' in letConfig:
             qxPath = self._config.absPath(letConfig['QOOXDOO_PATH'])
             self._console.info("qooxdoo path: %s" % qxPath)
-        
+
             versionFile = open(os.path.join(qxPath, "version.txt"))
             version = versionFile.read()
             self._console.info("Framework version: %s" % version.strip())
-        
+
             #TODO: Improve this check
             classFile = os.path.join(qxPath, "framework", "source", "class", "qx", "Class.js")
             self._console.info("Kit looks OK: %s" % os.path.isfile(classFile) )
@@ -1329,7 +1328,7 @@ class Generator(object):
         except Exception:
             self._console.outdent()  # TODO: clean-up from the try block; fix this where the exception occurrs
             expandedjobs = []
-        
+
         if expandedjobs:
             # make sure we're working with Job() objects (bug#5896)
             expandedjobs = [self._config.getJob(x) for x in expandedjobs]
@@ -1339,7 +1338,7 @@ class Generator(object):
             if buildScriptFile:
                 buildScriptFilePath = self._config.absPath(buildScriptFile)
                 self._console.info("Build version generated: %s" % os.path.isfile(buildScriptFilePath) )
-            
+
             # check for source loader
             sourceScriptFile =  expandedjobs[1].get("compile-options/paths/file", None)
             if sourceScriptFile:
@@ -1374,9 +1373,9 @@ class Generator(object):
                     self._console.info("Elements in cache: %d" % len(os.listdir(downDir)))
                 self._console.outdent()
             self._console.outdent()
-        
+
         self._console.outdent()
-            
+
 
 
     def runCopyFiles(self):
@@ -1422,7 +1421,7 @@ class Generator(object):
             self.runShellCommand(shellcmd)
 
 
-    def runShellCommand(self, shellcmd):    
+    def runShellCommand(self, shellcmd):
         rc = 0
         self._shellCmd       = ShellCmd()
 
@@ -1481,7 +1480,7 @@ class Generator(object):
                 prefix            = prefixSpec[0]
                 altprefix         = ""
             return prefix, altprefix
-                
+
         ##
         # strip prefix - if available - from imagePath, and replace by altprefix
         def getImageId(imagePath, prefixSpec):
@@ -1490,7 +1489,7 @@ class Generator(object):
             _, imageId, _ = Path.getCommonPrefix(imagePath, prefix) # assume: imagePath = prefix "/" imageId
             if altprefix:
                 imageId   = altprefix + "/" + imageId
-                
+
             imageId = Path.posifyPath(imageId)
             return imageId
 
@@ -1508,7 +1507,7 @@ class Generator(object):
                     num_files = 0
                     for file in glob.glob(self._config.absPath(filepatt)):  # resolve file globs - TODO: can be removed in generator.action.ImageClipping
                         self._console.debug("adding image %s" % file)
-                        imgDict[file]    = [prefix, altprefix] 
+                        imgDict[file]    = [prefix, altprefix]
                         num_files       += 1
                     if num_files == 0:
                         raise ValueError("Non-existing file spec: %s" % filepatt)
@@ -1546,7 +1545,7 @@ class Generator(object):
 
             # get type of combined image (png, base64, ...)
             combtype = "base64" if image.endswith(".b64.json") else "extension"
-            
+
             # create the combined image
             subconfigs = self._imageClipper.combine(image, input, layout, combtype)
 
@@ -1582,7 +1581,7 @@ class Generator(object):
                     subMap['data']     = sub['data']
                     combinedMap[subId] = subMap
                 filetool.save(image, json.dumpsCode(combinedMap))
-            
+
         self._console.outdent()
 
         return
@@ -1672,7 +1671,7 @@ class Generator(object):
 
 
     def runMigration(self, libs):
-        
+
         if not self._job.get('migrate-files', False):
             return
 
@@ -1767,7 +1766,7 @@ class Generator(object):
 
     def runSimulation(self):
         self._console.info("Running Simulation...")
-        
+
         argv    = []
         javaBin = "java"
         javaClassPath = "-cp"
@@ -1777,24 +1776,24 @@ class Generator(object):
         qxSeleniumPath = self._job.get("simulate/qxselenium-path", False)
         if qxSeleniumPath:
             configClassPath.append(qxSeleniumPath)
-        
+
         classPathSeparator = ":"
         if util.getPlatformInfo()[0] == "Windows":
             classPathSeparator = ";"
-        
+
         configClassPath = classPathSeparator.join(configClassPath)
-        
+
         if "CYGWIN" in util.getPlatformInfo()[0]:
             configClassPath = "`cygpath -wp " + configClassPath + "`"
-        
+
         argv.append(configClassPath)
-        
+
         rhinoClass = self._job.get("simulate/rhino-class", "org.mozilla.javascript.tools.shell.Main")
         runnerScript = self._job.get("simulate/simulator-script")
         argv.extend((rhinoClass, runnerScript))
-        
+
         cmd = " ".join(textutil.quoteCommandArgs(argv))
-        
+
         settings = self._job.get("environment", None)
         for key in settings:
             if type(settings[key]) == unicode:
@@ -1804,12 +1803,12 @@ class Generator(object):
             settings = settings.replace('"','\\"').replace("{", "\{").replace("}", "\}")
             settings = "settings=" + settings
             cmd += " " + settings
-        
+
         self._console.debug("Selenium start command: " + cmd)
         shell = ShellCmd()
         shell.execute_logged(cmd, self._console, True)
-        
-    
+
+
     ##
     # Sorts the entries in [data] in those without ('intelli') and with
     # ('explicit') "=" at the beginning, stripping off the "=" in the latter
@@ -1861,7 +1860,7 @@ class Generator(object):
     ##
     # create a list ['-x', '.svn', '-x', '.git', '-x', ...] for version dir patts
     # used in _copyResources
-    #skip_list = reduce(operator.concat, 
+    #skip_list = reduce(operator.concat,
     #                   [['-x', x.strip("^\\$")] for x in filetool.VERSIONCONTROL_DIR_PATTS],
     #                   [])
 
