@@ -118,6 +118,15 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     scrollLoop : {
       check : "Boolean",
       init : true
+    },
+    
+    /**
+     * Defines the height of the carousel.
+     */
+    height : {
+      check : "Number",
+      init : 200,
+      apply : "_updateCarouselLayout"
     }
   },
 
@@ -160,7 +169,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       }
 
       page.addCssClass("carousel-page");
-
+      
       this.__pages.push(page);
       this.__carouselScroller.add(page);
 
@@ -338,6 +347,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       for(var i =0;i<this.__pages.length;i++) {
         var pageContentElement = this.__pages[i].getContentElement();
         qx.bom.element.Style.set(pageContentElement,"width",carouselWidth+"px");
+        qx.bom.element.Style.set(pageContentElement,"height",this.getHeight()+"px");
       }
 
       this.scrollToPage(this.__shownPageIndex, false);

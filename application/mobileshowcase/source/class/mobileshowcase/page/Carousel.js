@@ -41,6 +41,7 @@ qx.Class.define("mobileshowcase.page.Carousel",
       this.base(arguments);
 
       var carousel = new qx.ui.mobile.container.Carousel(0.5);
+      carousel.setHeight(350);
 
       var page1 = new qx.ui.mobile.container.Composite();
       page1.addCssClass("carousel-example-1");
