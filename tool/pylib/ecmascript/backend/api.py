@@ -1694,6 +1694,16 @@ def docTreeIterator(docTree, type_):
             for entry in docTreeIterator(child, type_):
                 yield entry
 
+
+def errorNodeIterator(docTree):
+    if docTree.get("hasError", False) or docTree.get("hasWarning", False):
+        yield docTree
+
+    if docTree.hasChildren():
+        for child in docTree.children:
+            for fcn in errorNodeIterator(child):
+                yield fcn
+
 ################################################################################
 #
 # API DOC VERIFICATION
@@ -1948,30 +1958,28 @@ def verifyTypes(docTree, index):
 
 def logErrors(docTree, targets):
     for errNode in treeutil.nodeIterator(docTree, ["error"]):
-        if not "data" in targets:
-            #remove error nodes
-            pass
 
-        if not "console" in targets:
-            continue
+        if "console" in targets:
+            itemName = getParentAttrib(errNode, "fullName")
+            itemType = errNode.parent.parent.type
 
-        itemName = getParentAttrib(errNode, "fullName")
-        itemType = errNode.parent.parent.type
+            if itemType == 'doctree':
+                Context.console.warn(errNode.get("msg"))
 
-        if itemType == 'doctree':
-            Context.console.warn(errNode.get("msg"))
-            return
+            if not itemType in ["class", "package"]:
+                itemName = itemName + "#" + getParentAttrib(errNode, "name")
 
-        if not itemType in ["class", "package"]:
-            itemName = itemName + "#" + getParentAttrib(errNode, "name")
+            line = errNode.get("line", False)
+            column = errNode.get("column", False)
+            lineCol = ""
+            if line:
+                lineCol = " (" + str(line)
+                if column:
+                    lineCol = "%s,%s" % (lineCol, str(column))
+                lineCol = lineCol + ")"
 
-        line = errNode.get("line", False)
-        column = errNode.get("column", False)
-        lineCol = ""
-        if line:
-            lineCol = " (" + str(line)
-            if column:
-                lineCol = "%s,%s" % (lineCol, str(column))
-            lineCol = lineCol + ")"
+            Context.console.warn("%s %s%s: %s" % (itemType, itemName, lineCol, errNode.get("msg")))
 
-        Context.console.warn("%s %s%s: %s" % (itemType, itemName, lineCol, errNode.get("msg")))
+    if not "data" in targets:
+        for node in errorNodeIterator(docTree):
+            removeErrors(node)
