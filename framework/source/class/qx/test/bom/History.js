@@ -189,6 +189,23 @@ qx.Class.define("qx.test.bom.History", {
       this.__history.setState("bar");
       history.back();
       this.wait();
+    },
+
+
+    testRequestEventAddHistory : function()
+    {
+      this.__history.addListenerOnce("request", function(ev) {
+        this.resume(function() {
+          this.assertEquals("baz", ev.getData());
+        }, this);
+      }, this);
+
+      var self = this;
+      window.setTimeout(function() {
+        self.__history.addToHistory("baz");
+      }, 250);
+
+      this.wait(500);
     }
   }
 });
