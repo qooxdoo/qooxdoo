@@ -46,7 +46,7 @@
   },
   "config-warnings" :
   {
-    "job-shadowing" : ["source", "source-hybrid", "build-resources", "build-script", "translation"],
+    "job-shadowing" : ["source", "source-hybrid", "build-resources", "build-script", "translation", "libraries"],
 
     "environment" : [ "non-literal-keys" ]
   },
