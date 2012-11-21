@@ -184,7 +184,6 @@ class ApiLoader(object):
         for classData in api.classNodeIterator(docTree):
             length += 1
 
-
         links = []
 
         pos = 0
@@ -197,8 +196,11 @@ class ApiLoader(object):
             fileName = os.path.join(apiPath, className + ".json")
             filetool.save(fileName, nodeJson)
 
-            if "sitemap" in jobConf and "link-uri" in jobConf["sitemap"]:
-                links.append(jobConf["sitemap"]["link-uri"] % className)
+            sitemap = False
+            if "sitemap" in jobConf:
+                sitemap = jobConf["sitemap"]
+                if "link-uri" in sitemap:
+                    links.append(sitemap["link-uri"] % className)
 
             #import pdb; pdb.set_trace()
             #for type in ["method", "method-static", "event", "property", "constant"]:
@@ -210,12 +212,12 @@ class ApiLoader(object):
 
         # write apiindex.json
         self._console.info("Saving index...")
-        indexContent = json.dumps(index, separators=(',',':'), sort_keys=True) # compact encoding
+        indexContent = json.dumps(index, separators=(', ', ':'), sort_keys=True)  # compact encoding
         filetool.save(os.path.join(apiPath, "apiindex.json"), indexContent)
 
         # save sitemap
-        self._console.info("Saving XML sitemap...")
-        if len(links) > 0:
+        if sitemap and len(links) > 0:
+            self._console.info("Saving XML sitemap...")
             sitemapData = self.getSitemap(links)
             if "file" in sitemap:
                 sitemapFile = sitemap["file"]
