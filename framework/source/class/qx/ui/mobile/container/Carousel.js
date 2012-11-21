@@ -332,10 +332,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Updates the layout of the carousel the carousel scroller and its pages.
      */
     _updateCarouselLayout : function() {
-      var carouselWidth = this.getContainerElement().offsetWidth;
-      if(!carouselWidth) {
-        return;
-      }
+      var carouselWidth = qx.bom.element.Dimension.getWidth(this.getContainerElement());
 
       var carouselScrollerWidth = this.__pages.length*carouselWidth;
       var carouselScrollerElement = this.__carouselScroller.getContentElement();
@@ -344,7 +341,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
       this.__pageWidth = carouselWidth;
 
-      for(var i =0;i<this.__pages.length;i++) {
+      for(var i = 0; i < this.__pages.length; i++) {
         var pageContentElement = this.__pages[i].getContentElement();
         qx.bom.element.Style.set(pageContentElement,"width",carouselWidth+"px");
         qx.bom.element.Style.set(pageContentElement,"height",this.getHeight()+"px");
