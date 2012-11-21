@@ -63,6 +63,8 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
   },
 
   members : {
+    __canceled : false,
+
     /**
      * Method used to start a series of animation frames. The series will end as
      * soon as the given duration is over.
@@ -70,8 +72,14 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
      * @param duration {Number} The duration the sequence should take.
      */
     startSequence : function(duration) {
+      this.__canceled = false;
+
       var start = +(new Date());
       var clb = function() {
+        if (this.__canceled) {
+          this.id = null;
+          return;
+        }
         var time = +(new Date())
         // final call
         if (time >= start + duration) {
@@ -85,6 +93,15 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
       }
 
       this.id = qx.bom.AnimationFrame.request(clb, this);
+    },
+
+
+    /**
+     * Cancels a started sequence of frames. It will do nothing if no
+     * sequence is running.
+     */
+    cancelSequence : function() {
+      this.__canceled = true;
     }
   },
 
