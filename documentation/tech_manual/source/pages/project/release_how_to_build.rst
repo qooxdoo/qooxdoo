@@ -217,6 +217,13 @@ Publish SDK at Maven Central
 
 The final build should also be put at Maven Central. To release the new version of the SDK you should follow the instructions of our `maven-central-integration project <https://github.com/qooxdoo/maven-central-integration>`_ at GitHub and the instructions on the internal server (look for the project's git checkout in the workspace). It is necessary to release it using the internal server infrastructure to make sure the artifacts are correctly signed.
 
+.. _pages/project/release_how_to_build.rst#publish_qx_website_at_cdnjs:
+
+Publish qx.Website at cdnjs
+===========================
+
+The minified and non minified version of qx.Website are on a CDN called `cdnjs <http://cdnjs.com/>`_. To update to a newer version, check out the documentation on the `github page <https://github.com/cdnjs/cdnjs>`_ on their repository.
+
 .. _pages/project/release_how_to_build.rst#post_processing:
 
 Post processing
