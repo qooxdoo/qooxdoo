@@ -879,11 +879,15 @@ class QxTest:
         # Any additional options
         seleniumOptions += " %s" % self.seleniumConf["options"]
 
+        startServer = True
+        if 'startServer' in appConf:
+            startServer = appConf['startServer']
+
         individual = True
         if 'individualServer' in appConf:
             individual = appConf['individualServer']
 
-        if not individual:
+        if startServer and not individual:
             self.log("individualServer set to False, using one server instance for "
                              + "all tests")
 
@@ -908,7 +912,7 @@ class QxTest:
             if "kill" in browser:
                 killBrowser = browser['kill']
 
-            if individual:
+            if startServer and individual:
                 browserLauncher = self.browserConf[browser['browserId']]
                 if self.seleniumConf['ieSingleWindow'] and ("iexplore" in browserLauncher or "iepreview" in browserLauncher):
                     seleniumOptions += " -singleWindow"
@@ -980,13 +984,13 @@ class QxTest:
             except KeyError:
                     pass
 
-            if individual:
+            if startServer and individual:
                 self.shutdownSeleniumServer()
                 time.sleep(5)
                 if self.isSeleniumServer():
                     self.killSeleniumServer()
 
-        if not individual:
+        if startServer and not individual:
             self.shutdownSeleniumServer()
             time.sleep(5)
             if self.isSeleniumServer():
