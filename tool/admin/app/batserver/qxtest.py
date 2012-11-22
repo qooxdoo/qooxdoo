@@ -1181,9 +1181,10 @@ class QxTest:
         if "autQxPath" in self.autConf:
             testRun["aut_qxpath"] = self.autConf["autQxPath"]
 
-        if self.mailConf:
-            if "hostId" in self.mailConf:
-                testRun["test_hostid"] = self.mailConf["hostId"]
+        if self.mailConf and "hostId" in self.mailConf:
+            testRun["test_hostid"] = self.mailConf["hostId"]
+        elif "hostId" in self.testConf:
+            testRun["test_hostid"] = self.testConf["hostId"]
 
             if ("webtechnologies" in self.mailConf["mailTo"]):
                 testRun["dev_run"] = False
