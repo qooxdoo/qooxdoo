@@ -1161,7 +1161,6 @@ class QxTest:
             "aut_qxpath": "",
             "aut_path": self.autConf["autPath" + aut],
             "test_host": test_host,
-            "test_hostos": self.os,
             "test_hostid": "",
             "test_type": self.testConf["runType"],
             "revision": "",
