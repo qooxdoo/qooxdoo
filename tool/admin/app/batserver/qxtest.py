@@ -848,11 +848,11 @@ class QxTest:
                     else:
                         self.log("No report HTML to send.")
 
-                    if "reportServerUrl" in self.testConf:
-                        try:
-                            self.reportResults(appConf['appName'], testStartDate, dummyLogFile)
-                        except Exception, e:
-                            self.logError(e, "Sending test results")
+                if "reportServerUrl" in self.testConf:
+                    try:
+                        self.reportResults(appConf['appName'], testStartDate, dummyLogFile)
+                    except Exception, e:
+                        self.logError(e, "Sending test results")
 
                 return
 
@@ -1186,9 +1186,6 @@ class QxTest:
         elif "hostId" in self.testConf:
             testRun["test_hostid"] = self.testConf["hostId"]
 
-            if ("webtechnologies" in self.mailConf["mailTo"]):
-                testRun["dev_run"] = False
-
         return testRun
 
     ##
@@ -1442,7 +1439,11 @@ class QxTest:
         for key in lintConf:
             for target in lintConf[key]:
 
-                options = LintOpts(None, self.mailConf['mailTo'])
+                if self.mailConf and "mailTo" in self.mailConf:
+                    mailTo = self.mailConf["mailTo"]
+                else:
+                    mailTo = None
+                options = LintOpts(None, mailTo)
 
                 if key == "other":
                     options.workdir = os.path.join(self.testConf['qxPathAbs'], target['directory'])
