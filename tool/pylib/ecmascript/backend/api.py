@@ -530,8 +530,8 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
             # test by parsing it
             check_value = check.get("value")
             check_tree = treegenerator.parse(check_value)
-            if check_tree.isVar():  # type name
-                node.set("check", check_value)
+            if check_tree.children[0].isVar(): # tree is (statements (...))
+                node.set("check", check_value)  # type name
             else:  # don't dare to be more specific
             #elif check_tree.type in ('operation', 'call'): # "value<=100", "qx.util.Validate.range(0,100)"
                 node.set("check", "Custom check function.")  # that's good enough so the param type is set to 'var'
