@@ -22,13 +22,19 @@
  * an element.
  *
  * If you want to query or modify styles of HTML elements,
- * take a look at {@see qx.bom.element.Style}.
+ * take a look at {@link qx.bom.element.Style}.
  */
 qx.Bootstrap.define("qx.bom.Style",
 {
   statics : {
-    /** Vendor-specific style property prefixes **/
+    /** Vendor-specific style property prefixes */
     VENDOR_PREFIXES : ["Webkit", "Moz", "O", "ms", "Khtml"],
+
+    /**
+     * Internal lookup table to map property names to CSS names
+     * @internal 
+     */
+    __cssName : {},
 
     /**
      * Takes the name of a style property and returns the name the browser uses
@@ -55,6 +61,42 @@ qx.Bootstrap.define("qx.bom.Style",
       }
 
       return null;
+    },
+
+
+    /**
+     * Takes the name of a JavaScript style property and returns the 
+     * corresponding CSS name. 
+     * 
+     * The name of the style property is taken as is, i.e. it gets not
+     * extended by vendor prefixes. The conversion into the CSS name is 
+     * done by string manipulation, not involving the DOM.
+     *
+     * Example:
+     * <pre class='javascript'>qx.bom.Style.getCssName("MozTransform"); //returns "-moz-transform"</pre>
+     *
+     * @param propertyName {String} JavaScript style property
+     * @return {String} CSS property
+     */
+    getCssName: function(propertyName)
+    {
+      var cssName = this.__cssName[propertyName];
+      
+      if (!cssName) 
+      {
+        // all vendor prefixes (except for "ms") start with an uppercase letter
+        cssName = propertyName.replace(/[A-Z]/g, function(match){
+          return  ('-' + match.charAt(0).toLowerCase());
+        });
+        
+        // lowercase "ms" vendor prefix needs special handling
+        if((/^ms/.test(cssName))) {
+          cssName = "-" + cssName;
+        }
+        this.__cssName[propertyName] = cssName;
+      }
+      
+      return cssName;
     },
 
 

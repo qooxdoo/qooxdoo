@@ -83,9 +83,6 @@ qx.Bootstrap.define("qx.lang.String",
      *
      * Example:
      * <pre class='javascript'>qx.lang.String.camelCase("I-like-cookies"); //returns "ILikeCookies"</pre>
-     * The implementation does not force a lowerCamelCase or upperCamelCase version.
-     * (think java variables that start with lower case versus classnames that start with capital letter)
-     * The first letter of the parameter keeps its case.
      *
      * @param str {String} hyphenated string
      * @return {String} camelcase string
@@ -107,10 +104,7 @@ qx.Bootstrap.define("qx.lang.String",
      * Converts a camelcased string to a hyphenated (separated by '-') string.
      *
      * Example:
-     * <pre class='javascript'>qx.lang.String.hyphenate("ILikeCookies"); //returns "I-like-cookies"</pre>
-     * The implementation does not force a lowerCamelCase or upperCamelCase version.
-     * (think java variables that start with lower case versus classnames that start with capital letter)
-     * The first letter of the parameter keeps its case.
+     * <pre class='javascript'>qx.lang.String.hyphenate("weLikeCookies"); //returns "we-like-cookies"</pre>
      *
      * @param str {String} camelcased string
      * @return {String} hyphenated string

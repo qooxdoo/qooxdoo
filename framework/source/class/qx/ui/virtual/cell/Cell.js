@@ -363,7 +363,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
       if (value === null) {
         this._storeStyle(name, null)
       } else {
-        var cssKey = qx.lang.String.hyphenate(name);
+        var cssKey = qx.bom.Style.getCssName(name);
         this._storeStyle(name, cssKey + ":" + value + "px");
       }
     },
