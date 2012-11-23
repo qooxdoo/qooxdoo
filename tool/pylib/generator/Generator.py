@@ -197,10 +197,10 @@ class Generator(object):
         ##
         # Invoke the DependencyLoader to calculate the list of required classes
         # from include/exclude settings
-        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, script, verifyDeps=False):
+        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, script, verifyDeps=False):
             self._console.info("Collecting classes   ", feed=False)
             self._console.indent()
-            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, [], script, verifyDeps)
+            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, script, verifyDeps)
             # with generator.code.ClassList():
             #classList = ClassList(self._libraries, includeWithDeps, includeNoDeps, excludeWithDeps, variants, buildType)
             #classList = classList.calculate(verifyDeps)
@@ -310,10 +310,11 @@ class Generator(object):
             self._console.indent()
 
             if len(excludeNoDeps) > 0:
-                if self._job.get("config-warnings/exclude", True):
-                    self._console.warn("Excluding without dependencies is not supported, treating them as normal excludes: %r" % excludeNoDeps)
-                excludeWithDeps.extend(excludeNoDeps)
-                excludeNoDeps = []
+                #if self._job.get("config-warnings/exclude", True):
+                #    self._console.warn("Excluding without dependencies is not supported, treating them as normal excludes: %r" % excludeNoDeps)
+                #excludeWithDeps.extend(excludeNoDeps)
+                #excludeNoDeps = []
+                pass
             self._console.debug("Excluding %s items smart, %s items explicit" % (len(excludeWithDeps), len(excludeNoDeps)))
 
             self._console.outdent()
@@ -321,15 +322,12 @@ class Generator(object):
             # Resolve regexps
             self._console.indent()
             self._console.debug("Expanding expressions...")
-            nexcludeWithDeps = []
-            for entry in excludeWithDeps:
-                try:
-                    expanded = self._expandRegExp(entry)
-                    nexcludeWithDeps.extend(expanded)
-                except RuntimeError:
-                    if self._job.get("config-warnings/exclude", True):
-                        self._console.warn("Skipping unresolvable exclude entry: \"%s\"" % entry)
-            excludeWithDeps = nexcludeWithDeps
+            try:
+                excludeWithDeps = self._expandRegExps(excludeWithDeps)
+                excludeNoDeps   = self._expandRegExps(excludeNoDeps)
+            except RuntimeError:
+                self._console.error("Invalid exclude block: %s" % excludeCfg)
+                raise
 
             self._console.outdent()
 
@@ -544,7 +542,7 @@ class Generator(object):
 
                 # get current class list
                 script.classes = computeClassList(includeWithDeps, excludeWithDeps,
-                                   includeNoDeps, script, verifyDeps=True)
+                                   includeNoDeps, excludeNoDeps, script, verifyDeps=True)
                 # keep the list of class objects in sync
                 script.classesObj = [self._classesObj[id] for id in script.classes]
 

@@ -63,11 +63,11 @@ class DependencyLoader(object):
 
     ##
     # Return a class list for the current script
-    def getClassList(self, includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, script, verifyDeps=False):
+    def getClassList(self, includeWithDeps, excludeWithDeps, includeNoDeps, excludeWithDepsHard, script, verifyDeps=False):
         
         ##
         # Resolve intelli include/exclude depdendencies
-        def resolveDepsSmartCludes():
+        def resolveDepsSmartCludes(includeWithDeps, excludeWithDeps):
             if len(includeWithDeps) == 0 and len(includeNoDeps) > 0:
                 if len(excludeWithDeps) > 0:
                     #raise ValueError("Blocking is not supported when only explicit includes are defined!");
@@ -81,22 +81,27 @@ class DependencyLoader(object):
 
         ##
         # Explicit include/exclude
-        def processExplicitCludes(result, includeNoDeps, excludeNoDeps):
-            if len(includeNoDeps) > 0 or len(excludeNoDeps) > 0:
+        def processExplicitCludes(result, includeNoDeps, excludeWithDepsHard):
+            if len(includeNoDeps) > 0 or len(excludeWithDepsHard) > 0:
                 self._console.info("Processing explicitly configured includes/excludes...")
                 for entry in includeNoDeps:
                     if not entry in result:
                         result.append(entry)
 
-                for entry in excludeNoDeps:
+                for entry in excludeWithDepsHard:
                     if entry in result:
+                        print 'removing from classlist:', entry
                         result.remove(entry)
             return result
 
         # ---------------------------------------------------
 
-        result = resolveDepsSmartCludes()
-        result = processExplicitCludes(result, includeNoDeps, excludeWithDeps) # using excludeWithDeps here as well
+        if excludeWithDepsHard:
+            exclude_hard_list = resolveDepsSmartCludes(excludeWithDepsHard, [])
+        else:
+            exclude_hard_list = []
+        result = resolveDepsSmartCludes(includeWithDeps, excludeWithDeps + exclude_hard_list)
+        result = processExplicitCludes(result, includeNoDeps, [])
         # Sort classes
         self._console.info("Sorting %s classes  " % len(result), False)
         result = self.sortClasses(result, script.variants, script.buildType)
