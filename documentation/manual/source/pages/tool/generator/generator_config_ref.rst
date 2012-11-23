@@ -502,7 +502,9 @@ Exclude classes from processing in the job. Takes an array of class specifiers.
 
   "exclude" : ["qx.util.*"]
 
-Classes specified through the *exclude* key are excluded from the job processing, e.g. from the generated build output. The class specifiers can include simple wildcards like "qx.util.*" denoting class id's matching this pattern, including those from sub-name spaces.
+Classes specified through the *exclude* key are excluded from the job processing, e.g. from the generated build output. The class specifiers can include simple wildcards like ``"qx.util.*"`` denoting class id's matching this pattern, including those from sub-name spaces.
+
+A leading ``=`` in front of a class specifier (like in ``"=qx.util.*"``) means to also remove all  dependencies of the specified classes from the build, irrespective of whether they are required by other classes as well. So this will create builds that are no longer self-contained, and will break at runtime unless the required classes are provided otherwise.
 
 
 .. _pages/tool/generator/generator_config_ref#export:
@@ -570,7 +572,7 @@ Include classes to be processed in the job. Takes an array of class specifiers.
 
   "include" : ["qx.util.*"]
 
-The class specifiers can include simple wildcards like 'qx.util.*' denoting all classes starting with the 'qx.util' name space. A leading '=' in front of a class specifier (e.g. '=qx.util.*') means 'without dependencies'. In this case, exactly the listed classes are included (wildcards expanded), but not their dependencies. Otherwise, for the given classes their dependencies are calculated recursively, and those classes are also included.
+The class specifiers can include simple wildcards like 'qx.util.*' denoting all classes starting with the 'qx.util' name space. A leading ``=`` in front of a class specifier (e.g. '=qx.util.*') means 'without dependencies'. In this case, exactly the listed classes are included (wildcards expanded), but not their dependencies. Otherwise, for the given classes their dependencies are calculated recursively, and those classes are also included.
 
 .. _pages/tool/generator/generator_config_ref#include_top-level:
 
