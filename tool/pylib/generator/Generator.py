@@ -197,10 +197,10 @@ class Generator(object):
         ##
         # Invoke the DependencyLoader to calculate the list of required classes
         # from include/exclude settings
-        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, script, verifyDeps=False):
+        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeWithDepsHard, script, verifyDeps=False):
             self._console.info("Collecting classes   ", feed=False)
             self._console.indent()
-            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, script, verifyDeps)
+            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeWithDepsHard, script, verifyDeps)
             # with generator.code.ClassList():
             #classList = ClassList(self._libraries, includeWithDeps, includeNoDeps, excludeWithDeps, variants, buildType)
             #classList = classList.calculate(verifyDeps)
@@ -291,7 +291,7 @@ class Generator(object):
         def getExcludes(excludeCfg):
             #excludeCfg = self._job.get("exclude", [])
             excludeWithDeps = []
-            excludeNoDeps   = []
+            excludeWithDepsHard   = []
 
             if len(excludeCfg) == 0:
                 return [], []
@@ -304,18 +304,18 @@ class Generator(object):
 
             # Splitting lists
             self._console.debug("Preparing exclude configuration...")
-            excludeWithDeps, excludeNoDeps = self._splitIncludeExcludeList(excludeCfg)
+            excludeWithDeps, excludeWithDepsHard = self._splitIncludeExcludeList(excludeCfg)
 
             # Configuration feedback
             self._console.indent()
 
-            if len(excludeNoDeps) > 0:
+            if len(excludeWithDepsHard) > 0:
                 #if self._job.get("config-warnings/exclude", True):
-                #    self._console.warn("Excluding without dependencies is not supported, treating them as normal excludes: %r" % excludeNoDeps)
-                #excludeWithDeps.extend(excludeNoDeps)
-                #excludeNoDeps = []
+                #    self._console.warn("Excluding without dependencies is not supported, treating them as normal excludes: %r" % excludeWithDepsHard)
+                #excludeWithDeps.extend(excludeWithDepsHard)
+                #excludeWithDepsHard = []
                 pass
-            self._console.debug("Excluding %s items smart, %s items explicit" % (len(excludeWithDeps), len(excludeNoDeps)))
+            self._console.debug("Excluding %s items smart, %s items explicit" % (len(excludeWithDeps), len(excludeWithDepsHard)))
 
             self._console.outdent()
 
@@ -324,14 +324,14 @@ class Generator(object):
             self._console.debug("Expanding expressions...")
             try:
                 excludeWithDeps = self._expandRegExps(excludeWithDeps)
-                excludeNoDeps   = self._expandRegExps(excludeNoDeps)
+                excludeWithDepsHard   = self._expandRegExps(excludeWithDepsHard)
             except RuntimeError:
                 self._console.error("Invalid exclude block: %s" % excludeCfg)
                 raise
 
             self._console.outdent()
 
-            return excludeWithDeps, excludeNoDeps
+            return excludeWithDeps, excludeWithDepsHard
 
 
         ##
@@ -485,7 +485,7 @@ class Generator(object):
 
             # Preprocess include/exclude lists
             includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
-            excludeWithDeps, excludeNoDeps = getExcludes(self._job.get("exclude", []))
+            excludeWithDeps, excludeWithDepsHard = getExcludes(self._job.get("exclude", []))
 
             # process classdep triggers
             if takeout(jobTriggers, "fix-files"):
@@ -542,7 +542,7 @@ class Generator(object):
 
                 # get current class list
                 script.classes = computeClassList(includeWithDeps, excludeWithDeps,
-                                   includeNoDeps, excludeNoDeps, script, verifyDeps=True)
+                                   includeNoDeps, excludeWithDepsHard, script, verifyDeps=True)
                 # keep the list of class objects in sync
                 script.classesObj = [self._classesObj[id] for id in script.classes]
 
