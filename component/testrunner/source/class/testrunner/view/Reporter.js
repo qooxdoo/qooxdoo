@@ -33,12 +33,15 @@ qx.Class.define("testrunner.view.Reporter", {
     info.id = "info";
     document.body.appendChild(info);
     this.__infoElem = document.getElementById("info");
+
+    this.__ignoredPackages = this._getIgnoredPackages();
   },
 
   members :
   {
     __testPackages : null,
     __infoElem : null,
+    __ignoredPackages : null,
 
     _applyTestSuiteState : function(value, old)
     {
@@ -77,14 +80,26 @@ qx.Class.define("testrunner.view.Reporter", {
     autoRun : function()
     {
       var nextPackageName = this.__testPackages.shift();
+      while(nextPackageName && qx.lang.Array.contains(this.__ignoredPackages, nextPackageName)) {
+        nextPackageName = this.__testPackages.shift();
+      }
       var nextPackage = testrunner.runner.ModelUtil.getItemByFullName(this.getTestModel(), nextPackageName);
-      if (nextPackage) {
+      this._runPackage(nextPackage);
+    },
+
+    /**
+     * Runs a given subset of tests
+     * @param pkg {testrunner.runner.TestItem} Tests to run
+     */
+    _runPackage : function(pkg)
+    {
+      if (pkg) {
         this.getSelectedTests().removeAll();
-        this.getSelectedTests().push(nextPackage);
-        if (nextPackage.fullName.indexOf("qx.test.io") !== 0) {
+        this.getSelectedTests().push(pkg);
+        if (pkg.fullName.indexOf("qx.test.io") !== 0) {
           this.setGlobalErrorHandler();
         }
-        this.setStatus("Running package " + nextPackage.fullName);
+        this.setStatus("Running package " + pkg.fullName);
         this.run();
       }
     },
@@ -146,6 +161,20 @@ qx.Class.define("testrunner.view.Reporter", {
       {
         this.reportResult(testName);
       }
+    },
+
+
+    /**
+     * Get a list of packages to skip from the <code>ignore</code> URI parameter
+     * @return {String[]} List of package names to ignore
+     */
+    _getIgnoredPackages : function()
+    {
+      var parsedUri = qx.util.Uri.parseUri(location.href);
+      if (parsedUri.queryKey && parsedUri.queryKey.ignorePackages) {
+        return parsedUri.queryKey.ignorePackages.split(",");
+      }
+      return [];
     }
   }
 });
