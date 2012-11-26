@@ -36,6 +36,7 @@ Generator
    :maxdepth: 1
 
    tool/generator/generator
+   tool/generator/features
    tool/generator/generator_usage
    tool/generator/generator_config
    tool/generator/generator_optimizations
