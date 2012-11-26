@@ -811,10 +811,12 @@ class QxTest:
         getReportFrom = self.testConf['getReportFrom']
 
         if getReportFrom == 'testLog':
+            from random import randint
             logPath = os.path.join(self.testConf['testLogDir'], appConf['appName'])
             if not os.path.isdir(logPath):
                 os.makedirs(logPath)
-            logFile = os.path.join(logPath, testStartDate + ".log")
+            logFileName = "%s_%s.log" % (testStartDate, str(randint(100000, 999999)))
+            logFile = os.path.join(logPath, logFileName)
             if not os.path.isabs(logFile):
                 logFile = os.path.abspath(logFile)
 
