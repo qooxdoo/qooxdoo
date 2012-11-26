@@ -38,8 +38,8 @@ qx.Bootstrap.define("qx.module.Io", {
      * @param settings {Map?} Optional settings map which may contain one of
      *   the following settings:
      *
-     * * <code>method</code> The method of the request. Default: <pre>GET</pre>
-     * * <code>async</code> flag to mark the request as asynchronous. Default: <pre>true</pre>
+     * * <code>method</code> The method of the request. Default: <code>GET</code>
+     * * <code>async</code> flag to mark the request as asynchronous. Default: <code>true</code>
      * * <code>header</code> A map of request headers.
      *
      * @attachStatic {qxWeb, io.xhr}
