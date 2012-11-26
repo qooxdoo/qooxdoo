@@ -1771,12 +1771,15 @@ li:first-child a {
   width: auto;
   padding: 6px;
   background-color: #323335;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), color-stop(50%, #323335), to(#323335));
-  background-image: -webkit-linear-gradient(top, #505154, #323335 20px, #323335);
-  background-image: -moz-linear-gradient(top, #505154, #323335 20px, #323335);
-  background-image: linear-gradient(to bottom, #505154, #323335 20px, #323335);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#57595c), color-stop(50%, #262628), to(#262628));
+  background-image: -webkit-linear-gradient(top, #57595c, #262628 20px, #262628);
+  background-image: -moz-linear-gradient(top, #57595c, #262628 20px, #262628);
+  background-image: linear-gradient(to bottom, #57595c, #262628 20px, #262628);
   border: 2px solid #3d72c9;
   color: #ffffff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
   -webkit-box-shadow: 0px 2px 7px 0px #808080;
   -moz-box-shadow: 0px 2px 7px 0px #808080;
   box-shadow: 0px 2px 7px 0px #808080;
@@ -2103,15 +2106,9 @@ li:first-child a {
   display: block;
   font-size: 15.5px;
   font-weight: bold;
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
-  border-radius: 30px;
   overflow: hidden;
 }
 .toggleButton > div {
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
-  border-radius: 30px;
   margin: 0;
   height: 27px;
   width: 80px;
@@ -2295,12 +2292,15 @@ input[type=radio]:checked + label:after {
   width: auto;
   padding: 6px;
   background-color: #323335;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), color-stop(50%, #323335), to(#323335));
-  background-image: -webkit-linear-gradient(top, #505154, #323335 20px, #323335);
-  background-image: -moz-linear-gradient(top, #505154, #323335 20px, #323335);
-  background-image: linear-gradient(to bottom, #505154, #323335 20px, #323335);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#57595c), color-stop(50%, #262628), to(#262628));
+  background-image: -webkit-linear-gradient(top, #57595c, #262628 20px, #262628);
+  background-image: -moz-linear-gradient(top, #57595c, #262628 20px, #262628);
+  background-image: linear-gradient(to bottom, #57595c, #262628 20px, #262628);
   border: 2px solid #3d72c9;
   color: #ffffff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
   -webkit-box-shadow: 0px 2px 7px 0px #808080;
   -moz-box-shadow: 0px 2px 7px 0px #808080;
   box-shadow: 0px 2px 7px 0px #808080;
@@ -2371,42 +2371,11 @@ input[type=radio]:checked + label:after {
   z-index: 1000;
   left: 0px;
 }
-.clickable {
-  color: #333333;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
-  /* Safari 4+, Chrome 2+ */
-
-  background-image: -webkit-linear-gradient(top, #f4f4f4, #c1c1c1);
-  /* Safari 5.1+, Chrome 10+ */
-
-  background-image: -moz-linear-gradient(top, #f4f4f4, #c1c1c1);
-  /* FF 3.6+ */
-
-  background-image: linear-gradient(to bottom, #f4f4f4, #c1c1c1);
-  /* Standard (in flux) */
-
-  border: 1px solid #777777;
-}
-.clickable-active {
-  color: #ffffff;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#7da0db), to(#3d72c9));
-  /* Safari 4+, Chrome 2+ */
-
-  background-image: -webkit-linear-gradient(top, #7da0db, #3d72c9);
-  /* Safari 5.1+, Chrome 10+ */
-
-  background-image: -moz-linear-gradient(top, #7da0db, #3d72c9);
-  /* FF 3.6+ */
-
-  background-image: linear-gradient(to bottom, #7da0db, #3d72c9);
-  /* Standard (in flux) */
-
-}
 .root {
   background-color: #f4f4f4;
 }
 h2 {
-  color: #2446BB;
+  color: #3d72c9;
   font-weight: normal;
   font-size: 16px;
 }
@@ -2415,29 +2384,29 @@ h2 {
 }
 .bordered {
   border: 1px solid #dddddd;
-  background-color: white;
-  -webkit-border-radius: 0.4em;
-  -moz-border-radius: 0.4em;
-  border-radius: 0.4em;
+  background-color: #ffffff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
   padding: 10px;
 }
 .scrollContainer {
   border: 1px solid #dddddd;
   background-color: white;
-  -webkit-border-radius: 0.4em;
-  -moz-border-radius: 0.4em;
-  border-radius: 0.4em;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
   -moz-box-shadow: inset 0px 10px 10px -10px rgba(0, 0, 0, 0.2), inset 0px -10px 10px -10px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: inset 0px 10px 10px -10px rgba(0, 0, 0, 0.2), inset 0px -10px 10px -10px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0px 10px 10px -10px rgba(0, 0, 0, 0.2), inset 0px -10px 10px -10px rgba(0, 0, 0, 0.2);
 }
 .scrollContainer:before {
-  -moz-border-radius-topleft: 0.4em;
-  -moz-border-radius-topright: 0.4em;
-  -webkit-border-radius-topleft: 0.4em;
-  -webkit-border-radius-topright: 0.4em;
-  border-top-right-radius: 0.4em;
-  border-top-left-radius: 0.4em;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-radius-topleft: 4px;
+  -webkit-border-radius-topright: 4px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
   position: absolute;
   top: 0px;
   z-index: 500;
@@ -2452,12 +2421,12 @@ h2 {
   height: 30px;
 }
 .scrollContainer:after {
-  -moz-border-radius-bottomleft: 0.4em;
-  -moz-border-radius-bottomright: 0.4em;
-  -webkit-border-radius-bottomleft: 0.4em;
-  -webkit-border-radius-bottomright: 0.4em;
-  border-bottom-right-radius: 0.4em;
-  border-bottom-left-radius: 0.4em;
+  -moz-border-radius-bottomleft: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-radius-bottomleft: 4px;
+  -webkit-border-radius-bottomright: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
   position: absolute;
   bottom: 0px;
   z-index: 500;
@@ -2471,12 +2440,15 @@ h2 {
 .scrollContainer.scrollableBottom:after {
   height: 30px;
 }
-input[type="text"],
+input[type="text"]:not(.selectbox),
 input[type="password"],
 input[type="number"],
 textarea {
   border: 1px solid #dddddd;
   color: #333333;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
 .scrollContainer textarea {
   -webkit-border-radius: 0;
@@ -2486,59 +2458,64 @@ textarea {
   background: none;
 }
 .navigationbar {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), to(#323335));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#4b4c4f), to(#191a1b));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #505154, #323335);
+  background-image: -webkit-linear-gradient(top, #4b4c4f, #191a1b);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #505154, #323335);
+  background-image: -moz-linear-gradient(top, #4b4c4f, #191a1b);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #505154, #323335);
+  background-image: linear-gradient(to bottom, #4b4c4f, #191a1b);
   /* Standard (in flux) */
 
   color: #ffffff;
+  height: 45px;
 }
 .navigationbar-button,
 .navigationbar-backbutton {
   color: #333333;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#dbdbdb));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #f4f4f4, #c1c1c1);
+  background-image: -webkit-linear-gradient(top, #ffffff, #dbdbdb);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #f4f4f4, #c1c1c1);
+  background-image: -moz-linear-gradient(top, #ffffff, #dbdbdb);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #f4f4f4, #c1c1c1);
+  background-image: linear-gradient(to bottom, #ffffff, #dbdbdb);
   /* Standard (in flux) */
 
   border: 1px solid #777777;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
 .navigationbar-button.active,
 .navigationbar-backbutton.active {
   color: #ffffff;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#7da0db), to(#3d72c9));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -moz-linear-gradient(top, #8dacdf, #3d72c9);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #7da0db, #3d72c9);
+  background-image: linear-gradient(to bottom, #8dacdf, #3d72c9);
   /* Standard (in flux) */
 
+  border: 1px solid #ffffff;
 }
 ul {
-  -webkit-border-radius: 0.4em;
-  -moz-border-radius: 0.4em;
-  border-radius: 0.4em;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
   border: 1px solid #dddddd;
-  background-color: white;
+  background-color: #ffffff;
 }
 ul li {
   color: #333333;
@@ -2546,21 +2523,21 @@ ul li {
 }
 li:first-child:not(.formRowGroupFirstItem),
 li:first-child a {
-  -moz-border-radius-topleft: 0.4em;
-  -moz-border-radius-topright: 0.4em;
-  -webkit-border-radius-topleft: 0.4em;
-  -webkit-border-radius-topright: 0.4em;
-  border-top-right-radius: 0.4em;
-  border-top-left-radius: 0.4em;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-radius-topleft: 4px;
+  -webkit-border-radius-topright: 4px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
 }
 li:last-child,
 li:last-child a {
-  -moz-border-radius-bottomleft: 0.4em;
-  -moz-border-radius-bottomright: 0.4em;
-  -webkit-border-radius-bottomleft: 0.4em;
-  -webkit-border-radius-bottomright: 0.4em;
-  border-bottom-right-radius: 0.4em;
-  border-bottom-left-radius: 0.4em;
+  -moz-border-radius-bottomleft: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-radius-bottomleft: 4px;
+  -webkit-border-radius-bottomright: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 ul li .subtitle {
   color: #3d72c9;
@@ -2573,33 +2550,32 @@ ul li.arrow {
 }
 ul li.active.arrow,
 ul li.selected.arrow {
-  background-image: url("../icon/common/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%, #7da0db), color-stop(100%, #3d72c9));
-  background-image: url("../icon/common/arrow_pressed.png"), -webkit-linear-gradient(top, #7da0db, #3d72c9 100%);
-  background-image: url("../icon/common/arrow_pressed.png"), -moz-linear-gradient(top, #7da0db, #3d72c9 100%);
-  background-image: url("../icon/common/arrow_pressed.png"), linear-gradient(to bottom, #7da0db, #3d72c9 100%);
+  background-image: url("../icon/common/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%, #8dacdf), color-stop(100%, #3d72c9));
+  background-image: url("../icon/common/arrow_pressed.png"), -webkit-linear-gradient(top, #8dacdf, #3d72c9 100%);
+  background-image: url("../icon/common/arrow_pressed.png"), -moz-linear-gradient(top, #8dacdf, #3d72c9 100%);
+  background-image: url("../icon/common/arrow_pressed.png"), linear-gradient(to bottom, #8dacdf, #3d72c9 100%);
   background-position: right center;
   background-repeat: no-repeat;
 }
 ul li.active {
-  color: #ffffff;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#7da0db), to(#3d72c9));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -moz-linear-gradient(top, #8dacdf, #3d72c9);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #7da0db, #3d72c9);
+  background-image: linear-gradient(to bottom, #8dacdf, #3d72c9);
   /* Standard (in flux) */
 
 }
 .formSeparationRow {
-  background-color: #dddddd;
+  background-color: #ffffff;
 }
 .formRowGroupTitle {
-  color: #2446BB;
+  color: #3d72c9;
   font-weight: normal;
   font-size: 16px;
   margin-bottom: 10px;
@@ -2608,37 +2584,37 @@ ul li.active {
 }
 .formRowContent,
 .formElementError {
-  background-color: white;
+  background-color: #ffffff;
   border-left: 1px solid #dddddd;
   border-right: 1px solid #dddddd;
 }
 .formRowGroupFirstItem {
-  background-color: white;
+  background-color: #ffffff;
   border-left: 1px solid #dddddd;
   border-right: 1px solid #dddddd;
   border-top: 1px solid #dddddd;
-  -moz-border-radius-topleft: 0.4em;
-  -moz-border-radius-topright: 0.4em;
-  -webkit-border-radius-topleft: 0.4em;
-  -webkit-border-radius-topright: 0.4em;
-  border-top-right-radius: 0.4em;
-  border-top-left-radius: 0.4em;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-radius-topleft: 4px;
+  -webkit-border-radius-topright: 4px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
   padding: 2px;
   position: relative;
   top: 2px;
 }
 .formRowGroupLastItem {
-  background-color: white;
+  background-color: #ffffff;
   border-top: 0px transparent;
   border-left: 1px solid #dddddd;
   border-right: 1px solid #dddddd;
   border-bottom: 1px solid #dddddd;
-  -moz-border-radius-bottomleft: 0.4em;
-  -moz-border-radius-bottomright: 0.4em;
-  -webkit-border-radius-bottomleft: 0.4em;
-  -webkit-border-radius-bottomright: 0.4em;
-  border-bottom-right-radius: 0.4em;
-  border-bottom-left-radius: 0.4em;
+  -moz-border-radius-bottomleft: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-radius-bottomleft: 4px;
+  -webkit-border-radius-bottomright: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
   padding: 2px;
   position: relative;
   top: -2px;
@@ -2648,44 +2624,50 @@ ul li.active {
 }
 .button {
   color: #333333;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#dbdbdb));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #f4f4f4, #c1c1c1);
+  background-image: -webkit-linear-gradient(top, #ffffff, #dbdbdb);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #f4f4f4, #c1c1c1);
+  background-image: -moz-linear-gradient(top, #ffffff, #dbdbdb);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #f4f4f4, #c1c1c1);
+  background-image: linear-gradient(to bottom, #ffffff, #dbdbdb);
   /* Standard (in flux) */
 
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
   border: 1px solid #777777;
-  color: #333333;
 }
 .button.active {
   color: #ffffff;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#7da0db), to(#3d72c9));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -moz-linear-gradient(top, #8dacdf, #3d72c9);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #7da0db, #3d72c9);
+  background-image: linear-gradient(to bottom, #8dacdf, #3d72c9);
   /* Standard (in flux) */
 
+  border: 1px solid #777777;
 }
 .dialog {
   background-color: #323335;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), color-stop(50%, #323335), to(#323335));
-  background-image: -webkit-linear-gradient(top, #505154, #323335 20px, #323335);
-  background-image: -moz-linear-gradient(top, #505154, #323335 20px, #323335);
-  background-image: linear-gradient(to bottom, #505154, #323335 20px, #323335);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#57595c), color-stop(50%, #262628), to(#262628));
+  background-image: -webkit-linear-gradient(top, #57595c, #262628 20px, #262628);
+  background-image: -moz-linear-gradient(top, #57595c, #262628 20px, #262628);
+  background-image: linear-gradient(to bottom, #57595c, #262628 20px, #262628);
   border: 2px solid #3d72c9;
   color: #ffffff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
   -webkit-box-shadow: 0px 2px 7px 0px #808080;
   -moz-box-shadow: 0px 2px 7px 0px #808080;
   box-shadow: 0px 2px 7px 0px #808080;
@@ -2701,12 +2683,15 @@ ul li.active {
   width: auto;
   padding: 6px;
   background-color: #323335;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), color-stop(50%, #323335), to(#323335));
-  background-image: -webkit-linear-gradient(top, #505154, #323335 20px, #323335);
-  background-image: -moz-linear-gradient(top, #505154, #323335 20px, #323335);
-  background-image: linear-gradient(to bottom, #505154, #323335 20px, #323335);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#57595c), color-stop(50%, #262628), to(#262628));
+  background-image: -webkit-linear-gradient(top, #57595c, #262628 20px, #262628);
+  background-image: -moz-linear-gradient(top, #57595c, #262628 20px, #262628);
+  background-image: linear-gradient(to bottom, #57595c, #262628 20px, #262628);
   border: 2px solid #3d72c9;
   color: #ffffff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
   -webkit-box-shadow: 0px 2px 7px 0px #808080;
   -moz-box-shadow: 0px 2px 7px 0px #808080;
   box-shadow: 0px 2px 7px 0px #808080;
@@ -2729,7 +2714,7 @@ ul li.active {
   height: 0;
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
-  border-bottom: 12px solid #505154;
+  border-bottom: 12px solid #57595c;
 }
 .popupAnchorPointerBottom:before {
   position: absolute;
@@ -2749,7 +2734,7 @@ ul li.active {
   height: 0;
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
-  border-top: 12px solid #323335;
+  border-top: 12px solid #262628;
 }
 .popupAnchorPointerLeft:before {
   position: absolute;
@@ -2769,7 +2754,7 @@ ul li.active {
   height: 0;
   border-top: 12px solid transparent;
   border-bottom: 12px solid transparent;
-  border-right: 12px solid #323335;
+  border-right: 12px solid #262628;
 }
 .popupAnchorPointerRight:before {
   position: absolute;
@@ -2789,7 +2774,7 @@ ul li.active {
   height: 0;
   border-top: 12px solid transparent;
   border-bottom: 12px solid transparent;
-  border-left: 12px solid #323335;
+  border-left: 12px solid #262628;
 }
 .dialogTitleUnderline:after {
   display: none;
@@ -2798,32 +2783,41 @@ ul li.active {
   border-bottom: 3px solid #3d72c9;
 }
 .tabButton {
-  color: #f4f4f4;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#828488), to(#646669));
+  color: #ffffff;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#8d8d8d), to(#5a5a5a));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #828488, #646669);
+  background-image: -webkit-linear-gradient(top, #8d8d8d, #5a5a5a);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #828488, #646669);
+  background-image: -moz-linear-gradient(top, #8d8d8d, #5a5a5a);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #828488, #646669);
+  background-image: linear-gradient(to bottom, #8d8d8d, #5a5a5a);
   /* Standard (in flux) */
 
-  border-top: 1px solid #a2a2a2;
-  border-left: 1px solid #a2a2a2;
-  border-right: 1px solid #a2a2a2;
+  border-top: 1px solid #9a9a9a;
+  border-left: 1px solid #9a9a9a;
+  border-right: 1px solid #9a9a9a;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-radius-topleft: 4px;
+  -webkit-border-radius-topright: 4px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
 }
 .tabButton.active,
 .tabButton.selected {
   border: 1px solid #3d72c9;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), color-stop(4%, #5583d0), color-stop(49%, #5583d0), color-stop(53%, #3d72c9), to(#3d72c9));
-  background-image: -webkit-linear-gradient(top, #8dacdf, #5583d0 4%, #5583d0 49%, #3d72c9 53%, #3d72c9);
-  background-image: -moz-linear-gradient(top, #8dacdf, #5583d0 4%, #5583d0 49%, #3d72c9 53%, #3d72c9);
-  background-image: linear-gradient(to bottom, #8dacdf, #5583d0 4%, #5583d0 49%, #3d72c9 53%, #3d72c9);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), color-stop(4%, #5180cf), color-stop(49%, #5180cf), color-stop(53%, #3d72c9), to(#3d72c9));
+  background-image: -webkit-linear-gradient(top, #8dacdf, #5180cf 4%, #5180cf 49%, #3d72c9 53%, #3d72c9);
+  background-image: -moz-linear-gradient(top, #8dacdf, #5180cf 4%, #5180cf 49%, #3d72c9 53%, #3d72c9);
+  background-image: linear-gradient(to bottom, #8dacdf, #5180cf 4%, #5180cf 49%, #3d72c9 53%, #3d72c9);
 }
 .slider > div {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
   -webkit-box-shadow: 0 0 2px #000000;
   -moz-box-shadow: 0 0 2px #000000;
   box-shadow: 0 0 2px #000000;
@@ -2842,6 +2836,9 @@ ul li.active {
 
 }
 .slider {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
   border-bottom: 1px solid #d6d6d6;
   border-top: 1px solid #929292;
   border-left: 1px solid #b5b5b5;
@@ -2853,12 +2850,18 @@ ul li.active {
 }
 .togglebutton {
   background-color: white;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
 }
 .toggleButton > div {
   -moz-box-shadow: inset 0 2px 2px #999999, inset 0 14px 1px #eaeaea;
   -webkit-box-shadow: inset 0 2px 2px #999999, inset 0 14px 1px #eaeaea;
   box-shadow: inset 0 2px 2px #999999, inset 0 14px 1px #eaeaea;
   border: 1px solid #9e9e9e;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
 }
 .toggleButton > div.checked {
   -moz-box-shadow: inset 0px 3px 2px #23457d, inset 0px 14px 0px #3d72c9;
@@ -2895,18 +2898,21 @@ div.checked .toggleButtonSwitch:before {
   background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
   /* Standard (in flux) */
 
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
 }
 .checkbox-label:before {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#222222), to(#45484d));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#2d2f32), to(#5d6168));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #222222, #45484d);
+  background-image: -webkit-linear-gradient(top, #2d2f32, #5d6168);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #222222, #45484d);
+  background-image: -moz-linear-gradient(top, #2d2f32, #5d6168);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #222222, #45484d);
+  background-image: linear-gradient(to bottom, #2d2f32, #5d6168);
   /* Standard (in flux) */
 
   -webkit-border-radius: 0.1em;
@@ -2915,16 +2921,24 @@ div.checked .toggleButtonSwitch:before {
 }
 input[type="checkbox"] + label {
   position: relative;
-  -webkit-border-radius: 0.3em;
-  -moz-border-radius: 0.3em;
-  border-radius: 0.3em;
-  border: 1px solid #888888;
+  -webkit-border-radius: 0.30000000000000004em;
+  -moz-border-radius: 0.30000000000000004em;
+  border-radius: 0.30000000000000004em;
+  border: 1px solid #777777;
   box-sizing: border-box;
   background-color: #929292;
-  background: -webkit-gradient(linear, left top, left bottom, from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
-  background: -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-  background: -moz-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
-  background: linear-gradient(to bottom, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#c1c1c1));
+  /* Safari 4+, Chrome 2+ */
+
+  background-image: -webkit-linear-gradient(top, #ffffff, #c1c1c1);
+  /* Safari 5.1+, Chrome 10+ */
+
+  background-image: -moz-linear-gradient(top, #ffffff, #c1c1c1);
+  /* FF 3.6+ */
+
+  background-image: linear-gradient(to bottom, #ffffff, #c1c1c1);
+  /* Standard (in flux) */
+
 }
 input[type="checkbox"] + label:after {
   opacity: 0;
@@ -2949,16 +2963,16 @@ input[type="checkbox"]:checked + label:after {
   opacity: 1;
 }
 input[type=radio] + label {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#c1c1c1));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #f4f4f4, #c1c1c1);
+  background-image: -webkit-linear-gradient(top, #ffffff, #c1c1c1);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #f4f4f4, #c1c1c1);
+  background-image: -moz-linear-gradient(top, #ffffff, #c1c1c1);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #f4f4f4, #c1c1c1);
+  background-image: linear-gradient(to bottom, #ffffff, #c1c1c1);
   /* Standard (in flux) */
 
   border: 1px solid #777777;
@@ -2970,16 +2984,16 @@ input[type=radio] + label:before {
   -webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px #ffffff;
   -moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px #ffffff;
   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px #ffffff;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#222222), to(#45484d));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#2d2f32), to(#5d6168));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #222222, #45484d);
+  background-image: -webkit-linear-gradient(top, #2d2f32, #5d6168);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #222222, #45484d);
+  background-image: -moz-linear-gradient(top, #2d2f32, #5d6168);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #222222, #45484d);
+  background-image: linear-gradient(to bottom, #2d2f32, #5d6168);
   /* Standard (in flux) */
 
 }
@@ -3000,6 +3014,11 @@ input[type=radio] + label:after {
   -webkit-box-shadow: inset 0px 1px 1px #ffffff, 0px 1px 3px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: inset 0px 1px 1px #ffffff, 0px 1px 3px rgba(0, 0, 0, 0.5);
   box-shadow: inset 0px 1px 1px #ffffff, 0px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.master-popup {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
 .master-popup * {
   border: none;
@@ -3031,7 +3050,7 @@ input[type=radio] + label:after {
   border-right: 1px solid #777777;
 }
 .master-popup .layout-card {
-  background-color: white;
+  background-color: #f4f4f4;
 }
 .master-popup.popupAnchorPointerTop:before {
   top: -10px;
@@ -3041,79 +3060,84 @@ input[type=radio] + label:after {
 }
 .toolbar-button {
   color: #333333;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#c1c1c1));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #f4f4f4, #c1c1c1);
+  background-image: -webkit-linear-gradient(top, #ffffff, #c1c1c1);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #f4f4f4, #c1c1c1);
+  background-image: -moz-linear-gradient(top, #ffffff, #c1c1c1);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #f4f4f4, #c1c1c1);
+  background-image: linear-gradient(to bottom, #ffffff, #c1c1c1);
   /* Standard (in flux) */
 
   border: 1px solid #777777;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
 .toolbar-button.active {
   color: #ffffff;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#7da0db), to(#3d72c9));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#23457d));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -webkit-linear-gradient(top, #8dacdf, #23457d);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -moz-linear-gradient(top, #8dacdf, #23457d);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #7da0db, #3d72c9);
+  background-image: linear-gradient(to bottom, #8dacdf, #23457d);
   /* Standard (in flux) */
 
 }
 .item-selected {
   color: #ffffff;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#7da0db), to(#3d72c9));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -moz-linear-gradient(top, #8dacdf, #3d72c9);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #7da0db, #3d72c9);
+  background-image: linear-gradient(to bottom, #8dacdf, #3d72c9);
   /* Standard (in flux) */
 
 }
 .selectbox {
-  color: #3d72c9;
   color: #333333;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#c1c1c1));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #f4f4f4, #c1c1c1);
+  background-image: -webkit-linear-gradient(top, #ffffff, #c1c1c1);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #f4f4f4, #c1c1c1);
+  background-image: -moz-linear-gradient(top, #ffffff, #c1c1c1);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #f4f4f4, #c1c1c1);
+  background-image: linear-gradient(to bottom, #ffffff, #c1c1c1);
   /* Standard (in flux) */
 
-  border: 1px solid #777777;
+  border: 1px solid #dddddd;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
 .selectbox:active {
   color: #ffffff;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#7da0db), to(#3d72c9));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -moz-linear-gradient(top, #8dacdf, #3d72c9);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #7da0db, #3d72c9);
+  background-image: linear-gradient(to bottom, #8dacdf, #3d72c9);
   /* Standard (in flux) */
 
 }
@@ -3122,23 +3146,23 @@ input[type=radio] + label:after {
 }
 .selectbox-selected {
   color: #ffffff;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#7da0db), to(#3d72c9));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
   /* Safari 4+, Chrome 2+ */
 
-  background-image: -webkit-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
   /* Safari 5.1+, Chrome 10+ */
 
-  background-image: -moz-linear-gradient(top, #7da0db, #3d72c9);
+  background-image: -moz-linear-gradient(top, #8dacdf, #3d72c9);
   /* FF 3.6+ */
 
-  background-image: linear-gradient(to bottom, #7da0db, #3d72c9);
+  background-image: linear-gradient(to bottom, #8dacdf, #3d72c9);
   /* Standard (in flux) */
 
 }
 .carousel-pagination-label {
   border: 1px solid white;
   opacity: 0.6;
-  background-color: #888888;
+  background-color: #ffffff;
   width: 8px;
   height: 8px;
   text-align: center;
@@ -3157,10 +3181,10 @@ input[type=radio] + label:after {
   top: -23px;
 }
 .picker-container {
-  background-color: white;
+  background-color: #ffffff;
 }
 .picker-label {
-  color: black;
+  color: #333333;
 }
 .picker-slot:before {
   background-color: #888888;
