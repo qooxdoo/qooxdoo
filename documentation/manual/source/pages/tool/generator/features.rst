@@ -9,7 +9,7 @@ Application Generation
 Code Dependency Analysis
 -------------------------
 
-The generator automatically detects dependencies between classes. These dependencies are explored recursively, so only the minimal set of start classes needs to be provided, in order to create a full application consisting of many classes. Except for rare cases, no explicit "requiring" of other classes is necessary in application code.
+The Generator automatically detects dependencies between classes. These dependencies are explored recursively, so only the minimal set of start classes needs to be provided, in order to create a full application consisting of many classes. Except for rare cases, no explicit "requiring" of other classes is necessary in application code.
 
 Code Selection
 ---------------
@@ -46,6 +46,11 @@ File Inclusion
 
 You can add arbitrary .js and .css files to your application that will be loaded ahead of any qooxdoo code.
 
+Contribution Inclusion
+-----------------------
+
+Online hosted qooxdoo contributions can be included like local libraries.
+
 Lazy-Loading Parts
 -------------------
 
@@ -60,6 +65,14 @@ File Watching
 --------------
 
 TBD [Watching files or directory trees for changes, and take a predefined action like re-generating an application, compile Less to Css files, or run a documentation generator.]
+
+Application Development
+=======================
+
+Inspector Console
+-------------------
+
+The Generator allows the creation of an inspector that can load the actual application and provides various console views to inspect and tweak it. E.g. it exposes the object hierarchy of qooxdoo classes, gives access to each class' properties, etc.
 
 Code Maintenance
 ==================
