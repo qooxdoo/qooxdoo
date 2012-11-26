@@ -81,16 +81,15 @@ class DependencyLoader(object):
 
         ##
         # Explicit include/exclude
-        def processExplicitCludes(result, includeNoDeps, excludeWithDepsHard):
-            if len(includeNoDeps) > 0 or len(excludeWithDepsHard) > 0:
+        def processExplicitCludes(result, includeList, excludeList):
+            if len(includeList) > 0 or len(excludeList) > 0:
                 self._console.info("Processing explicitly configured includes/excludes...")
-                for entry in includeNoDeps:
+                for entry in includeList:
                     if not entry in result:
                         result.append(entry)
 
-                for entry in excludeWithDepsHard:
+                for entry in excludeList:
                     if entry in result:
-                        print 'removing from classlist:', entry
                         result.remove(entry)
             return result
 
@@ -100,8 +99,9 @@ class DependencyLoader(object):
             exclude_hard_list = resolveDepsSmartCludes(excludeWithDepsHard, [])
         else:
             exclude_hard_list = []
-        result = resolveDepsSmartCludes(includeWithDeps, excludeWithDeps + exclude_hard_list)
-        result = processExplicitCludes(result, includeNoDeps, [])
+        excludeList = excludeWithDeps + exclude_hard_list
+        result = resolveDepsSmartCludes(includeWithDeps, excludeList)
+        result = processExplicitCludes(result, includeNoDeps, excludeList) # resolveDepsSmartCludes not necessarily removes elems of exlcudeList, hence repeated here
         # Sort classes
         self._console.info("Sorting %s classes  " % len(result), False)
         result = self.sortClasses(result, script.variants, script.buildType)
