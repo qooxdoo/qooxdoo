@@ -322,12 +322,16 @@ class Generator(object):
             # Resolve regexps
             self._console.indent()
             self._console.debug("Expanding expressions...")
-            try:
-                excludeWithDeps = self._expandRegExps(excludeWithDeps)
-                excludeWithDepsHard   = self._expandRegExps(excludeWithDepsHard)
-            except RuntimeError:
-                self._console.error("Invalid exclude block: %s" % excludeCfg)
-                raise
+            for list_ in (excludeWithDeps, excludeWithDepsHard):
+                lst = list_[:]
+                list_[:] = []
+                for elem in lst:
+                    try:
+                        expanded = self._expandRegExp(elem)
+                    except RuntimeError, ex:
+                        self._console.warn("Invalid exclude block: %s\n%s" % (excludeCfg, ex))
+                    else:
+                        list_.extend(expanded)
 
             self._console.outdent()
 
