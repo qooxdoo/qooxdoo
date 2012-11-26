@@ -50,16 +50,23 @@ qx.Class.define("playground.view.Header",
       model: "mobile",
       appearance: "modeButton"
     });
+    var websiteButton = new qx.ui.form.RadioButton(this.tr("Website"));
+    websiteButton.set({
+      model: "website",
+      appearance: "modeButton"
+    });
 
-    this.__buttons = [riaButton, mobileButton];
 
-    this.__group = new qx.ui.form.RadioGroup(riaButton, mobileButton);
+    this.__buttons = [riaButton, mobileButton, websiteButton];
+
+    this.__group = new qx.ui.form.RadioGroup(riaButton, mobileButton, websiteButton);
     this.__group.bind("modelSelection[0]", this, "mode");
 
     this.add(new qx.ui.basic.Label(this.tr("Playground")));
     this.add(new qx.ui.core.Spacer(30));
     this.add(riaButton);
     this.add(mobileButton);
+    this.add(websiteButton);
     this.add(new qx.ui.core.Spacer(), { flex : 1 });
     this.add(version);
   },

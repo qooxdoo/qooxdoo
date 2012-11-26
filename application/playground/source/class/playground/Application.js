@@ -71,12 +71,14 @@ qx.Class.define("playground.Application",
   {
     // UI Components
     __header : null,
+    __mainsplit : null,
     __toolbar : null,
     __log : null,
     __editor : null,
     __playArea : null,
     __samplesPane : null,
     __editorsplit : null,
+    __websiteContent : null,
 
     // storages
     __samples : null,
@@ -143,9 +145,9 @@ qx.Class.define("playground.Application",
       this.__toolbar.addListener("openDemoBrowser",this.__onDemoBrowser,this);
 
       // mainsplit, contains the editor splitpane and the info splitpane
-      var mainsplit = new qx.ui.splitpane.Pane("horizontal");
-      mainContainer.add(mainsplit, { flex : 1 });
-      mainsplit.setAppearance("app-splitpane");
+      this.__mainsplit = new qx.ui.splitpane.Pane("horizontal");
+      mainContainer.add(this.__mainsplit, { flex : 1 });
+      this.__mainsplit.setAppearance("app-splitpane");
 
       // editor split (left side of main split)
       this.__editorsplit = new qx.ui.splitpane.Pane("horizontal");
@@ -195,18 +197,18 @@ qx.Class.define("playground.Application",
 
       this.__editorsplit.add(this.__samplesPane, 1);
       this.__editorsplit.add(this.__editor, 4);
-      mainsplit.add(this.__editorsplit, 6);
-      mainsplit.add(infosplit, 3);
+      this.__mainsplit.add(this.__editorsplit, 6);
+      this.__mainsplit.add(infosplit, 3);
 
       this.__playArea = new playground.view.PlayArea();
       this.__playArea.addListener("toggleMaximize", this._onToggleMaximize, this);
       infosplit.add(this.__playArea, 2);
 
-      mainsplit.getChildControl("splitter").addListener("mousedown", function() {
+      this.__mainsplit.getChildControl("splitter").addListener("mousedown", function() {
         this.__editor.block();
       }, this);
 
-      mainsplit.addListener("losecapture", function() {
+      this.__mainsplit.addListener("losecapture", function() {
         this.__editor.unblock();
       }, this);
 
@@ -298,6 +300,31 @@ qx.Class.define("playground.Application",
     // ***************************************************
     // MODE HANDLING
     // ***************************************************
+    __enableWebsiteMode : function(enabled) {
+      if (enabled) {
+        this.__toolbar.exclude();
+        this.__mainsplit.exclude();
+      } else {
+        this.__toolbar.show();
+        this.__mainsplit.show();
+      }
+
+      // on demand creation
+      if (!this.__websiteContent && enabled) {
+        this.____websiteContent = new playground.view.WebsiteContent();
+        this.getRoot().getChildren()[0].add(this.____websiteContent, {flex: 1});
+      }
+
+      if (this.____websiteContent) {
+        if (!enabled) {
+          this.____websiteContent.exclude();
+        } else {
+          this.____websiteContent.show();
+        }
+      }
+
+    },
+
     /**
      * Event handler for changing the mode of the palyground.
      * @param e {qx.event.type.Data} The data event containing the mode.
@@ -340,7 +367,7 @@ qx.Class.define("playground.Application",
         if (engine == "gecko" && parseInt(qx.core.Environment.get("engine.version")) >= 10) {
           return true;
         }
-      } else if (mode == "ria") {
+      } else if (mode == "ria" || mode == "website") {
         return true;
       }
       return false;
@@ -378,6 +405,8 @@ qx.Class.define("playground.Application",
 
       // erase the code
       this.__editor.setCode("");
+
+      this.__enableWebsiteMode(mode == "website");
 
       return true;
     },
