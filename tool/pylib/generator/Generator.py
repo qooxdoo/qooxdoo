@@ -257,7 +257,9 @@ class Generator(object):
                 script.packages.append(packageObj)
                 partObj            = Part("boot")
                 partObj.packages.append(packageObj)
-                partObj.initial_deps = includeWithDeps
+                initial_deps = list(set(includeWithDeps).difference(script.excludes)) # defining classes from config minus expanded excludes
+                partObj.initial_deps = initial_deps
+                partObj.deps       = initial_deps[:]
                 script.parts       = { "boot" : partObj }
 
             return boot, partPackages, packageClasses
@@ -555,6 +557,11 @@ class Generator(object):
                     script._featureMap = featureMap
                 else:
                     script._featureMap = {}
+
+                # set the complete exclude list for classes
+                excludes = set(excludeWithDeps[:])
+                excludes.update(self._depLoader.expand_hard_excludes(excludeWithDepsHard, script))
+                script.excludes = list(excludes)
 
                 # prepare 'script' object
                 if set(("compile", "log")).intersection(jobTriggers):

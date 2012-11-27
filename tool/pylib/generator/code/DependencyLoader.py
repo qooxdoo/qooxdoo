@@ -51,7 +51,7 @@ from generator.code.DependencyItem  import DependencyItem
 class DependencyLoader(object):
 
     def __init__(self, classesObj, cache, console, require, use, context):
-        self._classesObj = classesObj
+        self._classesObj = classesObj  # _libClassesObj
         self._cache   = cache
         self._console = console
         self._context = context
@@ -59,6 +59,13 @@ class DependencyLoader(object):
         self._require = require
         self._use     = use
         self.counter  = 0
+
+
+    def expand_hard_excludes(self, excludeWithDepsHard, script, verifyDeps=False):
+        excludes_hard = []
+        if excludeWithDepsHard:
+            excludes_hard = self.classlistFromInclude(excludeWithDepsHard, [], script.variants, verifyDeps, script)
+        return excludes_hard
 
 
     ##
@@ -102,6 +109,7 @@ class DependencyLoader(object):
         excludeList = excludeWithDeps + exclude_hard_list
         result = resolveDepsSmartCludes(includeWithDeps, excludeList)
         result = processExplicitCludes(result, includeNoDeps, excludeList) # resolveDepsSmartCludes not necessarily removes elems of exlcudeList, hence repeated here
+
         # Sort classes
         self._console.info("Sorting %s classes  " % len(result), False)
         result = self.sortClasses(result, script.variants, script.buildType)

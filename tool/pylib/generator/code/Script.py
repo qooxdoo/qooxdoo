@@ -51,6 +51,7 @@ class Script(object):
         self.locales    = []   # supported locales, e.g. ["de", "de_DE", "en"]
         self.libraries  = []   # involved libraries [generator.code.Library, ...]
         self.namespace  = u""  # the main name space (config macro "APPLICATION")
+        self.excludes   = []   # fully expanded list of classes to exclude from the build
 
         # adding these methods on instance level, so the counters are fresh
         self.getPartBitMask   = util.powersOfTwoSequence().next  # generator for part bitmasks
