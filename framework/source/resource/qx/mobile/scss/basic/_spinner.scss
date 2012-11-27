@@ -1,0 +1,54 @@
+//
+// SPINNER
+//
+
+.spinner {
+  @include animation-name(spinnerRotate);
+  @include animation-duration(1s);
+  @include animation-iteration-count(infinite);
+  @include animation-timing-function(linear);
+  background-image: url(../icon/common/spinner.png);
+  margin: 0 auto; 
+  vertical-align: middle;  
+}
+
+@-webkit-keyframes spinnerRotate {
+  from {
+    @include transform(rotate(0deg));
+  }
+  to {
+    @include transform(rotate(360deg)); 
+  }
+}
+
+@-moz-keyframes spinnerRotate {
+  from {
+    @include transform(rotate(0deg));
+  }
+  to {
+    @include transform(rotate(360deg));
+  }
+}
+
+@keyframes spinnerRotate {
+  from {
+    @include transform(rotate(0deg));
+  }
+  to {
+    @include transform(rotate(360deg));
+  }
+}
+  
+.spinnerContainer {
+  margin: 0 auto;  
+  height: 100%;
+  text-align: center;
+} 
+
+.spinnerContainer > div {
+  display:inline;
+}
+
+.spinnerContainer .label, .spinnerContainer img {
+  display:inline; 
+}

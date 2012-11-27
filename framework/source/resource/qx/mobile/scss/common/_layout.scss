@@ -1,0 +1,166 @@
+// Card Layout
+
+.layout-card {
+  overflow:hidden;
+  position: relative;
+}
+
+.layout-card-item {
+  @include box-sizing(border-box);
+  //.transform(translate3d(0,0,0) rotate(0) scale(1));
+}
+
+//
+// Box-Layout
+//
+
+.hbox {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: box;
+
+  @include box-orient(horizontal);
+
+  // Subtract padding and border from content width (100%) to prevent
+  // 100% + X situation.
+  @include box-sizing(border-box);
+}
+
+// Firefox only
+@-moz-document url-prefix() {
+    .hbox {
+      // -moz-box elements shrink-wrap by default. The spec states that "a block-level
+      // box placed inside a block level element is positioned and sized as if it were
+      // any other block". This is not true for the (non-standard) implementation in
+      // Firefox.
+      //
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=625694
+      //
+      width: 100%;
+    }
+
+    .vbox { 
+       // See .hbox
+       width: 100%;
+    }
+}
+
+.hbox > * :not(.navigationbar,.master-detail-master) {
+  @include box-flex(0);
+}
+
+.vbox {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: box;
+
+  @include box-orient(vertical);
+  @include box-sizing(border-box);
+
+  @include flexbox-direction(column);
+}
+
+.vbox > * :not(.navigationbar,.master-detail-master) {
+  @include box-flex(0);
+}
+
+.box {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: box;
+}
+
+.box-centered {
+  @extend .boxPackCenter;
+  @include box-align(center);
+}
+
+.content {
+   // Force block formatting context so that elements are laid out
+   // "one after the other", see http://www.w3.org/TR/CSS21/visuren.html#block-formatting
+   //
+   // Fixes clipped content in Firefox.
+  overflow: hidden;
+}
+
+.boxSpacer {
+  @include box-flex(1);
+}
+
+.boxReverse {
+  // MOZ + Webkit syntax
+  @include box-direction(reverse);
+}
+
+.hbox.boxReverse {
+  // IE10 + new flexbox syntax
+  @include flexbox-direction(row-reverse);
+}
+
+.vbox.boxReverse {
+  // IE10 + new flexbox syntax
+  @include flexbox-direction( column-reverse);
+}
+
+.boxAlignStart {
+  @include box-align(start);
+}
+
+.boxAlignCenter {
+  @include box-align(center);
+}
+
+.boxAlignEnd {
+  @include box-align(end);
+}
+
+.boxPackStart {
+  @include box-pack(start);
+}
+
+.boxPackCenter {
+  @include box-pack(center);
+}
+
+.boxPackEnd {
+  @include box-pack(end);
+}
+
+.boxFlex0 {
+  @include box-flex(0);
+}
+
+.boxFlex1, .boxFlex {
+  @include box-flex(1);
+}
+
+.boxFlex2 {
+  @include box-flex(2);
+}
+
+.boxFlex3 {
+  @include box-flex(3);
+}
+
+.boxFlex4 {
+  @include box-flex(4);
+}
+
+.boxFlex5 {
+  @include box-flex(5);
+}
+
+.boxFlex6 {
+  @include box-flex(6);
+}
+
+.boxGroup1 {
+  @include box-flex-group(1);
+}
+
+.boxGroup2 {
+  @include box-flex-group(2);
+}

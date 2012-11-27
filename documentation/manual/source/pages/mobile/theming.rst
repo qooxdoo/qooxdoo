@@ -85,13 +85,39 @@ special values.
 So you are able to use inheritance directly in LESS file, which might give you a
 better overview than applying multiple CSS classes to one DOM element.
 
+Customized Theming For Your Application 
+=======================================
+
+You can customize our Default Theme "Indigo" for your qx.Mobile based application.
+
+For this customization you first have to change the mobile theme at the config.json of
+your application.
+
+Please change the variable ``MOBILE_THEME`` to ``custom``:
+
+::
+
+    "MOBILE_THEME" : "custom"
+
+Then trigger the usage of the theme through ``./generate.py source`` on your shell.
+
+Now you can start to change the application theming. The file for your customization 
+is the ``_application.less`` at the folder ``source/resource/<APP_NAME>/less``.
+
+At this file you find many LESS variables, which gives you the possibility to modify
+the theming.
+
+As an example, just set ``@navigationpage-background-color`` to the value ``red``.
+
+Now you have to parse the LESS files. This step is described in next chapter. 
+ 
 
 Parsing LESS files
 ==================
 
 There are different ways for parsing LESS files into CSS. 
 Our LESS files were created with version 1.2.1 of LESS.
-Please make sure that you have this version installed.
+Please make sure that you have only this version installed.
 
 * `LESS.js <http://www.lesscss.org/>`_: If you are working on source variant of qooxdoo mobile, you can include less.js and link LESS in the application ``index.html`` file directly. Just uncomment the following lines in the ``index.html`` file:
 
