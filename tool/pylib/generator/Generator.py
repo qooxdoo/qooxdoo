@@ -223,7 +223,7 @@ class Generator(object):
                 self._console.debug("Expanding include expressions...")
                 partIncludes = {}
                 for partId in partsCfg:
-                    partIncludes[partId] = self._expandRegExps(partsCfg[partId]['include'])
+                    partIncludes[partId] = textutil.expandGlobs(partsCfg[partId]['include'], self._classesObj)
 
                 # Computing packages
                 #boot, partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, excludeWithDeps, self._context, script)
@@ -329,7 +329,7 @@ class Generator(object):
                 list_[:] = []
                 for elem in lst:
                     try:
-                        expanded = self._expandRegExp(elem)
+                        expanded = textutil.expandGlob(elem, self._classesObj)
                     except RuntimeError, ex:
                         self._console.warn("Invalid exclude block: %s\n%s" % (excludeCfg, ex))
                     else:
@@ -363,8 +363,8 @@ class Generator(object):
                 # Resolve regexps
                 self._console.debug("Expanding expressions...")
                 try:
-                    includeWithDeps = self._expandRegExps(includeWithDeps)
-                    includeNoDeps   = self._expandRegExps(includeNoDeps)
+                    includeWithDeps = textutil.expandGlobs(includeWithDeps, self._classesObj)
+                    includeNoDeps   = textutil.expandGlobs(includeNoDeps, self._classesObj)
                 except RuntimeError:
                     self._console.error("Invalid include block: %s" % includeCfg)
                     raise
@@ -382,7 +382,7 @@ class Generator(object):
 
                 # Resolve regexps
                 self._console.debug("Expanding expressions...")
-                includeWithDeps = self._expandRegExps(includeWithDeps)
+                includeWithDeps = textutil.expandGlobs(includeWithDeps, self._classesObj)
 
             self._console.outdent()
 
@@ -1181,36 +1181,6 @@ class Generator(object):
                     intelli.append(entry)
 
         return intelli, explicit
-
-
-    def _expandRegExps(self, entries, container=None):
-        result = []
-        for entry in entries:
-            expanded = self._expandRegExp(entry, container)
-            result.extend(expanded)
-        return result
-
-
-    ##
-    # Expand a list of class specifiers, pot. containing wildcards, into the
-    # full list of classes that are covered by the initial list.
-    def _expandRegExp(self, entry, container=None):
-        if not container:
-            container = self._classesObj
-        result = []
-
-        # Fast path: Try if a matching class could directly be found
-        if entry in container:
-            result.append(entry)
-        else:
-            regexp   = textutil.toRegExp(entry)
-            for classId in container:
-                if regexp.search(classId) and classId not in result:
-                    result.append(classId)
-            if len(result) == 0:
-                raise RuntimeError, "Expression gives no results. Malformed entry: %s" % entry
-
-        return result
 
 
     ##
