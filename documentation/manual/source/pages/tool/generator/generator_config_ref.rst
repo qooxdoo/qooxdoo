@@ -798,7 +798,7 @@ Configure log/reporting features. Takes a map.
     {
       "debug"        : [ "generator.code.PartBuilder.*" ]
     },
-    "privates"       : ("on"|"off"),
+    "privates"       : (true|false),
     "resources"      :
     {
       "file"         : "<filename>"

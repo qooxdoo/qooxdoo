@@ -1366,11 +1366,12 @@ class CodeGenerator(object):
     # the package.
     #
     # The created data structure is in the form suitable for inclusion in the
-    # generated scripts.For images, the information includes pre-calculated 
+    # generated scripts. For images, the information includes pre-calculated 
     # sizes, and being part of a combined image.
-    def packagesResourceInfo(self, script):
-        classes = Class.mapResourcesToClasses (script.libraries, script.classesObj,
-                                            self._job.get("asset-let", {}))
+    @staticmethod
+    def packagesResourceInfo(script):
+        _ = Class.mapResourcesToClasses (script.libraries, script.classesObj,
+                                         script.jobconfig.get("asset-let", {}))
 
         for package in script.packages:
             package_resources = []
