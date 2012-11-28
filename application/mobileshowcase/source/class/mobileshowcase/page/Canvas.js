@@ -49,6 +49,8 @@ qx.Class.define("mobileshowcase.page.Canvas",
     __canvasTop : 0,
     __canvas : null,
     __lastPoints : null,
+    __canvasWidth : 2000,
+    __canvasHeight : 2000,
 
 
     // overridden
@@ -69,8 +71,8 @@ qx.Class.define("mobileshowcase.page.Canvas",
       canvas.addListener("touchend", this._onTouchEnd, this);
       canvas.addListener("touchmove", this._onTouchMove, this);
       
-      canvas.setWidth(1000);
-      canvas.setHeight(1000);
+      canvas.setWidth(this.__canvasWidth);
+      canvas.setHeight(this.__canvasHeight);
       
       this.getContent().add(canvas);
       
@@ -119,7 +121,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
       var ctx = this.__canvas.getContext2d();
       ctx.fillStyle="#ffffff";
-      ctx.fillRect(0,0,1000,1000);
+      ctx.fillRect(0,0,this.__canvasWidth,this.__canvasHeight);
       ctx.stroke();
     },
     

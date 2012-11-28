@@ -12,6 +12,7 @@ $main-theme-color: #3D72C9;
 
 $light-grey: #F4F4F4;
 $dark-grey: #45484d;
+$grey: #808080;
 
 $border-color: #DDDDDD;
 $widget-border-color: darken($border-color, 40%);
@@ -100,7 +101,7 @@ $radiobutton-background-inner-color: $dark-grey;
 // Tabbar
 
 $tabbar-active-background-color:  $main-theme-color;
-$tabbar-inactive-background-color:  $light-grey;
+$tabbar-inactive-background-color:  $grey;
 $tabbar-active-text-color:  $font-color-dark-background;
 $tabbar-inactive-text-color:  $font-color-dark-background;
 $tabbar-border-radius:  $border-radius;

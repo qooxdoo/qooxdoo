@@ -157,39 +157,39 @@ qx.Class.define("mobileshowcase.page.Maps",
 
     // overridden
     _createContent : function() {
-       var menuContainer = new qx.ui.mobile.container.Composite();
-       menuContainer.setId("mapMenu");
+      var menuContainer = new qx.ui.mobile.container.Composite();
+      menuContainer.setId("mapMenu");
 
-       // LABEL
-       var descriptionLabel = new qx.ui.mobile.basic.Label("Page Title");
-       descriptionLabel.addCssClass("osmMapLabel");
+      // LABEL
+      var descriptionLabel = new qx.ui.mobile.basic.Label("Page Title");
+      descriptionLabel.addCssClass("osmMapLabel");
 
-       // TOGGLE BUTTON
-       var toggleNaviButton = new qx.ui.mobile.form.ToggleButton(true,"Show","Hide",12);
+      // TOGGLE BUTTON
+      var toggleNavigationButton = new qx.ui.mobile.form.ToggleButton(true,"Show","Hide",12);
 
-       // SHOW MY POSITION BUTTON
-       this._showMyPositionButton = new qx.ui.mobile.form.Button("Find me!");
-       this._showMyPositionButton.addListener("tap", this._getGeoPosition, this);
+      // SHOW MY POSITION BUTTON
+      this._showMyPositionButton = new qx.ui.mobile.form.Button("Find me!");
+      this._showMyPositionButton.addListener("tap", this._getGeoPosition, this);
 
-       // Button is disabled, when Geolocation is not possible.
-       this._showMyPositionButton.setEnabled(this._geolocationEnabled);
+      // Button is disabled, when Geolocation is not possible.
+      this._showMyPositionButton.setEnabled(this._geolocationEnabled);
 
-       toggleNaviButton.addListener("changeValue", function() {
+      toggleNavigationButton.addListener("changeValue", function() {
         var newNavBarState = !this.isNavigationBarHidden();
         this.setNavigationBarHidden(newNavBarState);
         this.show();
-       },this);
+      },this);
 
-       var groupPosition = new qx.ui.mobile.form.Group([this._showMyPositionButton],false);
-       var groupFullScreen = new qx.ui.mobile.form.Group([descriptionLabel,toggleNaviButton],true);
+      var groupPosition = new qx.ui.mobile.form.Group([this._showMyPositionButton],false);
+      var groupFullScreen = new qx.ui.mobile.form.Group([descriptionLabel,toggleNavigationButton],true);
 
-       this._showMyPositionButton.addCssClass("map-shadow");
-       groupFullScreen.addCssClass("map-shadow");
+      this._showMyPositionButton.addCssClass("map-shadow");
+      groupFullScreen.addCssClass("map-shadow");
 
-       menuContainer.add(groupFullScreen);
-       menuContainer.add(groupPosition);
+      menuContainer.add(groupFullScreen);
+      menuContainer.add(groupPosition);
 
-       return menuContainer;
+      return menuContainer;
     },
 
 
