@@ -458,7 +458,7 @@ def runLogDependencies(jobconf, script):
         def addNodes(gr, st_nodes):
             # rather gr.add_nodes(st), go through indiviudal nodes for coloring
             useCompiledSize = depsLogConf.get("dot/compiled-class-size", True)
-            optimize        = jobconfig.get("compile-options/code/optimize", [])
+            optimize        = jobconf.get("compile-options/code/optimize", [])
             for cid in st_nodes:
                 if cid == None:  # None is introduced in st
                     continue
