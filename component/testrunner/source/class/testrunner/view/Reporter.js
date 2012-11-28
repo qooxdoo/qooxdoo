@@ -29,10 +29,6 @@ qx.Class.define("testrunner.view.Reporter", {
   construct : function()
   {
     this.base(arguments);
-    var info = document.createElement("div");
-    info.id = "info";
-    document.body.appendChild(info);
-    this.__infoElem = document.getElementById("info");
 
     this.__ignoredPackages = this._getIgnoredPackages();
     if (this.__ignoredPackages.length > 0) {
@@ -41,6 +37,18 @@ qx.Class.define("testrunner.view.Reporter", {
       ignored.innerHTML = "Skipping packages: " + this.__ignoredPackages.join(", ");
       document.body.appendChild(ignored);
     }
+
+    var statusContainer = document.createElement("p");
+    statusContainer.innerHTML = "<strong>Test Suite Status:</strong> ";
+    this.__statusElement = document.createElement("span");
+    statusContainer.appendChild(this.__statusElement);
+    document.body.appendChild(statusContainer);
+
+    var infoContainer = document.createElement("p");
+    infoContainer.innerHTML = "<strong>Current Test:</strong> ";
+    this.__infoElem = document.createElement("span");
+    infoContainer.appendChild(this.__infoElem);
+    document.body.appendChild(infoContainer);
   },
 
   members :
@@ -48,6 +56,7 @@ qx.Class.define("testrunner.view.Reporter", {
     __testPackages : null,
     __infoElem : null,
     __ignoredPackages : null,
+    __statusElement : null,
 
     _applyTestSuiteState : function(value, old)
     {
@@ -85,12 +94,11 @@ qx.Class.define("testrunner.view.Reporter", {
      */
     autoRun : function()
     {
-      var nextPackageName = this.__testPackages.shift();
-      while(nextPackageName && qx.lang.Array.contains(this.__ignoredPackages, nextPackageName)) {
-        nextPackageName = this.__testPackages.shift();
+      if (this.__testPackages.length > 0) {
+        var nextPackageName = this.__testPackages.shift();
+        var nextPackage = testrunner.runner.ModelUtil.getItemByFullName(this.getTestModel(), nextPackageName);
+        this._runPackage(nextPackage);
       }
-      var nextPackage = testrunner.runner.ModelUtil.getItemByFullName(this.getTestModel(), nextPackageName);
-      this._runPackage(nextPackage);
     },
 
     /**
@@ -124,6 +132,9 @@ qx.Class.define("testrunner.view.Reporter", {
         for (var i=0,l=packages.length; i<l; i++) {
           var pkg = packages.getItem(i);
           var packageName = pkg.fullName;
+          if (qx.lang.Array.contains(this.__ignoredPackages, packageName)) {
+            continue;
+          }
           if (packageName == "qx.test.ui") {
             for (var j=0,m=pkg.getChildren().length; j<m; j++) {
               this.__testPackages.push(pkg.getChildren().getItem(j).getFullName());
@@ -181,6 +192,14 @@ qx.Class.define("testrunner.view.Reporter", {
         return parsedUri.queryKey.ignorePackages.split(",");
       }
       return [];
+    },
+
+
+    // overridden
+    _applyStatus : function(value)
+    {
+      this.__statusElement.innerHTML = value;
     }
+
   }
 });
