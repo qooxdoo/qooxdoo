@@ -35,6 +35,12 @@ qx.Class.define("testrunner.view.Reporter", {
     this.__infoElem = document.getElementById("info");
 
     this.__ignoredPackages = this._getIgnoredPackages();
+    if (this.__ignoredPackages.length > 0) {
+      var ignored = document.createElement("p");
+      ignored.style.color = "red";
+      ignored.innerHTML = "Skipping packages: " + this.__ignoredPackages.join(", ");
+      document.body.appendChild(ignored);
+    }
   },
 
   members :
