@@ -26,7 +26,7 @@
 import os, sys, re, types, string
 import graph
 from generator         import Context
-from misc              import filetool, textutil, json
+from misc              import filetool, textutil, json, util
 from misc.ExtMap       import ExtMap
 from ecmascript.transform.optimizer import privateoptimizer
 from generator.code.CodeGenerator   import CodeGenerator
@@ -687,4 +687,89 @@ def runLogResources(jobconf, script):
     console.outdent()
 
     return
+
+
+def runCollectEnvironmentInfo(jobconfig, confObj):
+    letConfig = jobconfig.get('let',{})
+    console = Context.console
+    cache = Context.cache
+
+    console.info("Environment information")
+    console.indent()
+
+    platformInfo = util.getPlatformInfo()
+    console.info("Platform: %s %s" % (platformInfo[0], platformInfo[1]))
+
+    console.info("Python version: %s" % sys.version)
+
+    if 'QOOXDOO_PATH' in letConfig:
+        qxPath = confObj.absPath(letConfig['QOOXDOO_PATH'])
+        console.info("qooxdoo path: %s" % qxPath)
+
+        versionFile = open(os.path.join(qxPath, "version.txt"))
+        version = versionFile.read()
+        console.info("Framework version: %s" % version.strip())
+
+        #TODO: Improve this check
+        classFile = os.path.join(qxPath, "framework", "source", "class", "qx", "Class.js")
+        console.info("Kit looks OK: %s" % os.path.isfile(classFile) )
+
+    console.info("Looking for generated versions...")
+    console.indent()
+    try:
+        expandedjobs = confObj.resolveExtendsAndRuns(["build-script", "source-script"])
+        confObj.includeSystemDefaults(expandedjobs)
+        confObj.resolveMacros(expandedjobs)
+    except Exception:
+        console.outdent()  # TODO: clean-up from the try block; fix this where the exception occurrs
+        expandedjobs = []
+
+    if expandedjobs:
+        # make sure we're working with Job() objects (bug#5896)
+        expandedjobs = [confObj.getJob(x) for x in expandedjobs]
+
+        # check for build loader
+        buildScriptFile =  expandedjobs[0].get("compile-options/paths/file", None)
+        if buildScriptFile:
+            buildScriptFilePath = confObj.absPath(buildScriptFile)
+            console.info("Build version generated: %s" % os.path.isfile(buildScriptFilePath) )
+
+        # check for source loader
+        sourceScriptFile =  expandedjobs[1].get("compile-options/paths/file", None)
+        if sourceScriptFile:
+            sourceScriptFilePath = confObj.absPath(sourceScriptFile)
+            console.info("Source version generated: %s" % os.path.isfile(sourceScriptFilePath) )
+    else:
+        console.info("nope")
+    console.outdent()
+
+    # check cache path
+    cacheCfg = jobconfig.get("cache", None)
+    if cacheCfg:
+        console.info("Cache settings")
+        console.indent()
+        if 'compile' in cacheCfg:
+            compDir = confObj.absPath(cacheCfg['compile'])
+            console.info("Compile cache path is: %s" % compDir )
+            console.indent()
+            isDir = os.path.isdir(compDir)
+            console.info("Existing directory: %s" % isDir)
+            if isDir:
+                console.info("Cache file revision: %d" % cache.getCacheFileVersion())
+                console.info("Elements in cache: %d" % len(os.listdir(compDir)))
+            console.outdent()
+        if 'downloads' in cacheCfg:
+            downDir = confObj.absPath(cacheCfg['downloads'])
+            console.info("Download cache path is: %s" % downDir )
+            console.indent()
+            isDir = os.path.isdir(downDir)
+            console.info("Existing directory: %s" % isDir)
+            if isDir:
+                console.info("Elements in cache: %d" % len(os.listdir(downDir)))
+            console.outdent()
+        console.outdent()
+
+    console.outdent()
+
+
 

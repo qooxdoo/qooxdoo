@@ -468,7 +468,7 @@ class Generator(object):
 
         # process simple triggers
         if takeout(jobTriggers, "collect-environment-info"):
-            self.runCollectEnvironmentInfo()
+            Logging.runCollectEnvironmentInfo(self._job, self._config)
         if takeout(jobTriggers, "copy-files"):
             self.runCopyFiles()
         if takeout(jobTriggers, "combine-images"):
@@ -650,88 +650,6 @@ class Generator(object):
             self._copyResources(res.path, os.path.dirname(resTarget))
 
         self._console.outdent()
-
-
-    def runCollectEnvironmentInfo(self):
-        letConfig = self._job.get('let',{})
-
-        self._console.info("Environment information")
-        self._console.indent()
-
-        platformInfo = util.getPlatformInfo()
-        self._console.info("Platform: %s %s" % (platformInfo[0], platformInfo[1]))
-
-        self._console.info("Python version: %s" % sys.version)
-
-        if 'QOOXDOO_PATH' in letConfig:
-            qxPath = self._config.absPath(letConfig['QOOXDOO_PATH'])
-            self._console.info("qooxdoo path: %s" % qxPath)
-
-            versionFile = open(os.path.join(qxPath, "version.txt"))
-            version = versionFile.read()
-            self._console.info("Framework version: %s" % version.strip())
-
-            #TODO: Improve this check
-            classFile = os.path.join(qxPath, "framework", "source", "class", "qx", "Class.js")
-            self._console.info("Kit looks OK: %s" % os.path.isfile(classFile) )
-
-        self._console.info("Looking for generated versions...")
-        self._console.indent()
-        try:
-            expandedjobs = self._config.resolveExtendsAndRuns(["build-script", "source-script"])
-            self._config.includeSystemDefaults(expandedjobs)
-            self._config.resolveMacros(expandedjobs)
-        except Exception:
-            self._console.outdent()  # TODO: clean-up from the try block; fix this where the exception occurrs
-            expandedjobs = []
-
-        if expandedjobs:
-            # make sure we're working with Job() objects (bug#5896)
-            expandedjobs = [self._config.getJob(x) for x in expandedjobs]
-
-            # check for build loader
-            buildScriptFile =  expandedjobs[0].get("compile-options/paths/file", None)
-            if buildScriptFile:
-                buildScriptFilePath = self._config.absPath(buildScriptFile)
-                self._console.info("Build version generated: %s" % os.path.isfile(buildScriptFilePath) )
-
-            # check for source loader
-            sourceScriptFile =  expandedjobs[1].get("compile-options/paths/file", None)
-            if sourceScriptFile:
-                sourceScriptFilePath = self._config.absPath(sourceScriptFile)
-                self._console.info("Source version generated: %s" % os.path.isfile(sourceScriptFilePath) )
-        else:
-            self._console.info("nope")
-        console.outdent()
-
-        # check cache path
-        cacheCfg = self._job.get("cache", None)
-        if cacheCfg:
-            self._console.info("Cache settings")
-            self._console.indent()
-            if 'compile' in cacheCfg:
-                compDir = self._config.absPath(cacheCfg['compile'])
-                self._console.info("Compile cache path is: %s" % compDir )
-                self._console.indent()
-                isDir = os.path.isdir(compDir)
-                self._console.info("Existing directory: %s" % isDir)
-                if isDir:
-                    self._console.info("Cache file revision: %d" % self._cache.getCacheFileVersion())
-                    self._console.info("Elements in cache: %d" % len(os.listdir(compDir)))
-                self._console.outdent()
-            if 'downloads' in cacheCfg:
-                downDir = self._config.absPath(cacheCfg['downloads'])
-                self._console.info("Download cache path is: %s" % downDir )
-                self._console.indent()
-                isDir = os.path.isdir(downDir)
-                self._console.info("Existing directory: %s" % isDir)
-                if isDir:
-                    self._console.info("Elements in cache: %d" % len(os.listdir(downDir)))
-                self._console.outdent()
-            self._console.outdent()
-
-        self._console.outdent()
-
 
 
     def runCopyFiles(self):
