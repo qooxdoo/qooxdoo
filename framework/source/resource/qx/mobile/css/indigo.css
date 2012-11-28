@@ -2258,14 +2258,14 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   height: 45px; }
 
 .navigationbar-button, .navigationbar-backbutton {
-  color: #333333;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#dbdbdb));
+  color: white;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#57595c), to(#262628));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, white, #dbdbdb);
+  background-image: -webkit-linear-gradient(top, #57595c, #262628);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, white, #dbdbdb);
+  background-image: -moz-linear-gradient(top, #57595c, #262628);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, white, #dbdbdb);
+  background-image: linear-gradient(to bottom, #57595c, #262628);
   /* Standard (in flux) */
   border: 1px solid #777777;
   -webkit-border-radius: 4px;
@@ -2282,7 +2282,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   /* FF 3@mixin 6+ */
   background-image: linear-gradient(to bottom, #8dacdf, #3d72c9);
   /* Standard (in flux) */
-  border: 1px solid white; }
+  border: 1px solid #777777; }
 
 ul {
   -webkit-border-radius: 4px;

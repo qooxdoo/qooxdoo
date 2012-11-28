@@ -130,6 +130,16 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     
     /**
+     * This flag controls whether the hideMasterButton is shown or not.
+     */
+    hideMasterButtonHidden : {
+      init : false,
+      check : "Boolean",
+      apply : "_applyHideMasterButtonHidden"
+    },
+    
+    
+    /**
      * This flag indicates whether the masterContainer is hidden or not.
      */
     masterContainerHidden : {
@@ -456,6 +466,18 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       }
       
       this.__updateMasterButtonVisibility();
+    },
+    
+    
+    // property apply
+    _applyHideMasterButtonHidden : function(value, old) {
+      if(this.__isTablet) {
+        if(value==true){
+          this.__hideMasterButton.exclude();
+        } else {
+          this.__hideMasterButton.show();
+        }
+      }
     },
     
     

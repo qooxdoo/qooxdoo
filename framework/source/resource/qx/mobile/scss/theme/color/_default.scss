@@ -38,13 +38,13 @@ $navigationbar-height:  45px;
 // NavigationBar Button
 
 $navigationbarbutton-border-radius: $border-radius;
-$navigationbarbutton-background-color:  $light-grey;
+$navigationbarbutton-background-color:  lighten($dialog-color,5%);
 $navigationbarbutton-border-color:  $widget-border-color;
-$navigationbarbutton-text-color:  $font-color-light-background;
+$navigationbarbutton-text-color:  $font-color-dark-background;
 
 $navigationbarbutton-active-background-color:  $main-theme-color;
 $navigationbarbutton-active-text-color:  white;
-$navigationbarbutton-active-border-color:  white;
+$navigationbarbutton-active-border-color:  $widget-border-color;
  
 // Dialog
 
