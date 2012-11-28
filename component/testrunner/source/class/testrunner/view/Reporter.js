@@ -137,7 +137,10 @@ qx.Class.define("testrunner.view.Reporter", {
           }
           if (packageName == "qx.test.ui") {
             for (var j=0,m=pkg.getChildren().length; j<m; j++) {
-              this.__testPackages.push(pkg.getChildren().getItem(j).getFullName());
+              packageName = pkg.getChildren().getItem(j).getFullName();
+              if (!qx.lang.Array.contains(this.__ignoredPackages, packageName)) {
+                this.__testPackages.push(packageName);
+              }
             }
           }
           else {
