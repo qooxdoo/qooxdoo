@@ -129,7 +129,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
 
       var delay = desc.delay || 0;
       var self = this;
-      window.setTimeout(function() {
+      handle.delayId = window.setTimeout(function() {
+        handle.delayId = null;
         self.play(handle);
       }, delay);
       return handle;
@@ -334,6 +335,11 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       var initValues = handle.initValues;
       if (handle.animationId) {
         window.clearInterval(handle.animationId);
+      }
+
+      // clear the delay if the animation has not been started
+      if (handle.delayId) {
+        window.clearTimeout(handle.delayId);
       }
 
       // check if animation is already stopped
