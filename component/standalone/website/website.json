@@ -144,7 +144,17 @@
     {
       "extend" : ["build-min"],
       "let" : {
-        "Q_INCLUDES" : ["qx.module.Core"]
+        "Q_INCLUDES" : [
+          "qx.module.Core",
+          "qx.bom.Event",
+          "qx.bom.Stylesheet",
+          "qx.lang.Array",
+          "qx.util.Uri",
+          "qx.lang.Type",
+          "qx.lang.String",
+          "qx.lang.Object",
+          "qx.Bootstrap"
+        ]
       },
       "compile-options" :
       {
