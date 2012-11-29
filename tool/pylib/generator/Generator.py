@@ -46,7 +46,7 @@ from generator.action                import ApiLoader
 from generator.action.Locale         import Locale
 from generator.action                import Locale as Localee
 from generator.action.ActionLib      import ActionLib
-from generator.action                import CodeProvider, Logging, FileSystem
+from generator.action                import CodeProvider, Logging, FileSystem, Resources
 from generator.runtime.Cache         import Cache
 from generator.runtime.ShellCmd      import ShellCmd
 from generator                       import Context
@@ -474,7 +474,7 @@ class Generator(object):
         if takeout(jobTriggers, "copy-files"):
             FileSystem.runCopyFiles(self._job, self._config)
         if takeout(jobTriggers, "combine-images"):
-            self.runImageCombining()
+            Resources.runImageCombining(self._job, self._config)
         if takeout(jobTriggers, "clean-files"):
             FileSystem.runClean(self._job, self._config, self._cache)
         if takeout(jobTriggers, "migrate-files"):
@@ -484,7 +484,8 @@ class Generator(object):
         if takeout(jobTriggers, "simulate"):
             self.runSimulation()
         if takeout(jobTriggers, "slice-images"):
-            self.runImageSlicing()
+            #self.runImageSlicing()
+            Resources.runImageSlicing(self._job, self._config)
 
         if jobTriggers:
 
@@ -626,148 +627,6 @@ class Generator(object):
         if rc != 0:
             raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
         self._console.outdent()
-
-
-    def runImageSlicing(self):
-        """Go through a list of images and slice each one into subimages"""
-        if not self._job.get("slice-images", False):
-            return
-
-        self._imageClipper   = ImageClipping(self._console, self._cache, self._job)
-
-        images = self._job.get("slice-images/images", {})
-        for image, imgspec in images.iteritems():
-            image = self._config.absPath(image)
-            # wpbasti: Rename: Border => Inset as in qooxdoo JS code
-            prefix       = imgspec['prefix']
-            border_width = imgspec['border-width']
-            if 'trim-width' in imgspec:
-                trim_width = imgspec['trim-width']
-            else:
-                trim_width = True
-            self._imageClipper.slice(image, prefix, border_width, trim_width)
-
-
-    ##
-    # Go through a list of images and create them as combination of other images
-    def runImageCombining(self):
-
-        def extractFromPrefixSpec(prefixSpec):
-            prefix = altprefix = ""
-            if not prefixSpec or not isinstance(prefixSpec, types.ListType):
-                if self._job.get("config-warnings/combine-images", True):
-                    self._console.warn("Missing or incorrect prefix spec, might lead to incorrect resource id's.")
-            elif len(prefixSpec) == 2 :  # prefixSpec = [ prefix, altprefix ]
-                prefix, altprefix = prefixSpec
-            elif len(prefixSpec) == 1:
-                prefix            = prefixSpec[0]
-                altprefix         = ""
-            return prefix, altprefix
-
-        ##
-        # strip prefix - if available - from imagePath, and replace by altprefix
-        def getImageId(imagePath, prefixSpec):
-            prefix, altprefix = extractFromPrefixSpec(prefixSpec)
-            imageId = imagePath # init
-            _, imageId, _ = Path.getCommonPrefix(imagePath, prefix) # assume: imagePath = prefix "/" imageId
-            if altprefix:
-                imageId   = altprefix + "/" + imageId
-
-            imageId = Path.posifyPath(imageId)
-            return imageId
-
-        ##
-        # create a dict with the clipped image file path as key, and prefix elements as value
-        def getClippedImagesDict(imageSpec):
-            imgDict = {}
-            inputStruct = imageSpec['input']
-            for group in inputStruct:
-                prefixSpec = group.get('prefix', [])
-                prefix, altprefix = extractFromPrefixSpec(prefixSpec)
-                if prefix:
-                    prefix = self._config.absPath(prefix)
-                for filepatt in group['files']:
-                    num_files = 0
-                    for file in glob.glob(self._config.absPath(filepatt)):  # resolve file globs - TODO: can be removed in generator.action.ImageClipping
-                        self._console.debug("adding image %s" % file)
-                        imgDict[file]    = [prefix, altprefix]
-                        num_files       += 1
-                    if num_files == 0:
-                        raise ValueError("Non-existing file spec: %s" % filepatt)
-
-            return imgDict
-
-        # ----------------------------------------------------------------------
-
-        if not self._job.get("combine-images", False):
-            return
-
-        self._console.info("Combining images...")
-        self._console.indent()
-        self._imageClipper   = ImageClipping(self._console, self._cache, self._job)
-
-        images = self._job.get("combine-images/images", {})
-        for image, imgspec in images.iteritems():
-            self._console.info("Creating image %s" % image)
-            self._console.indent()
-            imageId= getImageId(image, imgspec.get('prefix', []))
-            image  = self._config.absPath(image)  # abs output path
-            config = {}
-
-            # create a dict of clipped image objects - for later look-up
-            clippedImages = getClippedImagesDict(imgspec)
-
-            # collect list of all input files, no matter where they come from
-            input = sorted(clippedImages.keys())
-
-            # collect layout property
-            if 'layout' in imgspec:
-                layout = imgspec['layout'] == "horizontal"
-            else:
-                layout = "horizontal" == "horizontal" # default horizontal=True
-
-            # get type of combined image (png, base64, ...)
-            combtype = "base64" if image.endswith(".b64.json") else "extension"
-
-            # create the combined image
-            subconfigs = self._imageClipper.combine(image, input, layout, combtype)
-
-            # for the meta information, go through the list of returned subconfigs (one per clipped image)
-            for sub in subconfigs:
-                x = Image()
-                x.combId, x.left, x.top, x.width, x.height, x.format = (
-                   imageId, sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
-                subId = getImageId(sub['file'], clippedImages[sub['file']])
-                config[subId] = x.toMeta()
-
-            # store meta data for this combined image
-            bname = os.path.basename(image)
-            ri = bname.rfind('.')
-            if ri > -1:
-                bname = bname[:ri]
-            bname += '.meta'
-            meta_fname = os.path.join(os.path.dirname(image), bname)
-            self._console.debug("writing meta file %s" % meta_fname)
-            filetool.save(meta_fname, json.dumps(config, ensure_ascii=False, sort_keys=True))
-            self._console.outdent()
-
-            # handle base64 type, need to write "combined image" to file
-            if combtype == "base64":
-                combinedMap = {}
-                for sub in subconfigs:
-                    subMap = {}
-                    subId  = getImageId(sub['file'], clippedImages[sub['file']])
-                    subMap['width']    = sub['width']
-                    subMap['height']   = sub['height']
-                    subMap['type']     = sub['type']
-                    subMap['encoding'] = sub['encoding']
-                    subMap['data']     = sub['data']
-                    combinedMap[subId] = subMap
-                filetool.save(image, json.dumpsCode(combinedMap))
-
-        self._console.outdent()
-
-        return
 
 
     def runLint(self, classes):
