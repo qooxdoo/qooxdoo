@@ -44,7 +44,7 @@ from generator.resource.Image        import Image
 from generator.action.ApiLoader      import ApiLoader
 from generator.action.Locale         import Locale
 from generator.action.ActionLib      import ActionLib
-from generator.action                import CodeProvider, Logging
+from generator.action                import CodeProvider, Logging, FileSystem
 from generator.runtime.Cache         import Cache
 from generator.runtime.ShellCmd      import ShellCmd
 from generator                       import Context
@@ -470,7 +470,7 @@ class Generator(object):
         if takeout(jobTriggers, "collect-environment-info"):
             Logging.runCollectEnvironmentInfo(self._job, self._config)
         if takeout(jobTriggers, "copy-files"):
-            self.runCopyFiles()
+            FileSystem.runCopyFiles(self._job, self._config)
         if takeout(jobTriggers, "combine-images"):
             self.runImageCombining()
         if takeout(jobTriggers, "clean-files"):
@@ -571,7 +571,7 @@ class Generator(object):
                 if "api" in jobTriggers:
                     self.runApiData(script.classes, variantset)
                 if "copy-resources" in jobTriggers:
-                    self.runResources(script)
+                    FileSystem.runResources(self._config, script)
                 if "compile" in jobTriggers:
                     self._codeGenerator.runCompiled(script)
                 if "log" in jobTriggers:
@@ -623,61 +623,6 @@ class Generator(object):
             self._locale.updateTranslations(namespace, lib.translationPathSuffix(), locales)
 
         self._console.outdent()
-
-
-    def runResources(self, script):
-        if not self._job.get("copy-resources", False):
-            return
-
-        self._console.info("Copying resources...")
-        classList     = script.classesObj
-        resTargetRoot = self._job.get("copy-resources/target", "build")
-        resTargetRoot = self._config.absPath(resTargetRoot)
-        self.approot  = resTargetRoot  # this is a hack, because resource copying generates uri's
-
-        # map resources to class.resources
-        classList = Class.mapResourcesToClasses(script.libraries, classList, self._job.get("asset-let", {}))
-
-        self._console.indent()
-        # make resources to copy unique
-        resources_to_copy = set(_res for cls in classList for _res in cls.resources)
-        # Copy resources
-        #for lib in libs:
-        for res in resources_to_copy:
-            # construct target path
-            resTarget = os.path.join(resTargetRoot, 'resource', res.id)
-            # Copy
-            self._copyResources(res.path, os.path.dirname(resTarget))
-
-        self._console.outdent()
-
-
-    def runCopyFiles(self):
-        # Copy application files
-        if not self._job.get("copy-files/files", False):
-            return
-
-        filePatts = self._job.get("copy-files/files",[])
-        if filePatts:
-            buildRoot  = self._job.get("copy-files/target", "build")
-            buildRoot  = self._config.absPath(buildRoot)
-            sourceRoot = self._job.get("copy-files/source", "source")
-            sourceRoot  = self._config.absPath(sourceRoot)
-            self._console.info("Copying application files...")
-            self._console.indent()
-            for patt in filePatts:
-                appfiles = glob.glob(os.path.join(sourceRoot, patt))
-                for srcfile in appfiles:
-                    self._console.debug("copying %s" % srcfile)
-                    srcfileSuffix = Path.getCommonPrefix(sourceRoot, srcfile)[2]
-                    destfile = os.path.join(buildRoot,srcfileSuffix)
-                    if (os.path.isdir(srcfile)):
-                        destdir = destfile
-                    else:
-                        destdir = os.path.dirname(destfile)
-                    self._copyResources(srcfile, destdir)
-
-            self._console.outdent()
 
 
     def runShellCommands(self):
@@ -1099,28 +1044,6 @@ class Generator(object):
                     intelli.append(entry)
 
         return intelli, explicit
-
-
-    ##
-    # create a list ['-x', '.svn', '-x', '.git', '-x', ...] for version dir patts
-    # used in _copyResources
-    #skip_list = reduce(operator.concat,
-    #                   [['-x', x.strip("^\\$")] for x in filetool.VERSIONCONTROL_DIR_PATTS],
-    #                   [])
-
-    #skip_list = [x.strip("^\\$") for x in filetool.VERSIONCONTROL_DIR_PATTS]
-    skip_list = filetool.VERSIONCONTROL_DIR_PATTS
-
-
-    def _copyResources(self, srcPath, targPath):
-        # targPath *has* to be directory  -- there is now way of telling a
-        # non-existing target file from a non-existing target directory :-)
-        generator = self
-        #generator._console.debug("_copyResource: %s => %s" % (srcPath, targPath))
-        copier = copytool.CopyTool(generator._console)
-        args      = ['-s', '-x'] + [",".join(self.skip_list)] + [srcPath, targPath]
-        copier.parse_args(args)
-        copier.do_work()
 
 
     def _makeVariantsName(self, pathName, variants):
