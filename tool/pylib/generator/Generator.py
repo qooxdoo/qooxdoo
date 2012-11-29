@@ -46,7 +46,7 @@ from generator.action                import ApiLoader
 from generator.action.Locale         import Locale
 from generator.action                import Locale as Localee
 from generator.action.ActionLib      import ActionLib
-from generator.action                import CodeProvider, Logging, FileSystem, Resources, CodeMaintenance
+from generator.action                import CodeProvider, Logging, FileSystem, Resources, CodeMaintenance, Testing
 from generator.runtime.Cache         import Cache
 from generator.runtime.ShellCmd      import ShellCmd
 from generator                       import Context
@@ -482,9 +482,8 @@ class Generator(object):
         if takeout(jobTriggers, "shell"):
             self.runShellCommands()
         if takeout(jobTriggers, "simulate"):
-            self.runSimulation()
+            Testing.runSimulation(self._job)
         if takeout(jobTriggers, "slice-images"):
-            #self.runImageSlicing()
             Resources.runImageSlicing(self._job, self._config)
 
         if jobTriggers:
@@ -627,69 +626,6 @@ class Generator(object):
         if rc != 0:
             raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
         self._console.outdent()
-
-
-    def runSimulation(self):
-        self._console.info("Running Simulation...")
-
-        argv    = []
-        javaBin = "java"
-        javaClassPath = "-cp"
-        argv.extend((javaBin, javaClassPath))
-
-        configClassPath = self._job.get("simulate/java-classpath", [])
-        qxSeleniumPath = self._job.get("simulate/qxselenium-path", False)
-        if qxSeleniumPath:
-            configClassPath.append(qxSeleniumPath)
-
-        classPathSeparator = ":"
-        if util.getPlatformInfo()[0] == "Windows":
-            classPathSeparator = ";"
-
-        configClassPath = classPathSeparator.join(configClassPath)
-
-        if "CYGWIN" in util.getPlatformInfo()[0]:
-            configClassPath = "`cygpath -wp " + configClassPath + "`"
-
-        argv.append(configClassPath)
-
-        rhinoClass = self._job.get("simulate/rhino-class", "org.mozilla.javascript.tools.shell.Main")
-        runnerScript = self._job.get("simulate/simulator-script")
-        argv.extend((rhinoClass, runnerScript))
-
-        cmd = " ".join(textutil.quoteCommandArgs(argv))
-
-        settings = self._job.get("environment", None)
-        for key in settings:
-            if type(settings[key]) == unicode:
-                settings[key] = settings[key].replace(" ", "$")
-        if settings:
-            settings = json.dumps(settings, separators=(",", ":"))
-            settings = settings.replace('"','\\"').replace("{", "\{").replace("}", "\}")
-            settings = "settings=" + settings
-            cmd += " " + settings
-
-        self._console.debug("Selenium start command: " + cmd)
-        shell = ShellCmd()
-        shell.execute_logged(cmd, self._console, True)
-
-
-    ##
-    # Sorts the entries in [data] in those without ('intelli') and with
-    # ('explicit') "=" at the beginning, stripping off the "=" in the latter
-    # case.
-    def _splitIncludeExcludeList(self, data):
-        intelli = []
-        explicit = []
-
-        for entry in data:
-            if len(entry) > 0:
-                if entry[0] == "=":
-                    explicit.append(entry[1:])
-                else:
-                    intelli.append(entry)
-
-        return intelli, explicit
 
 
     def _makeVariantsName(self, pathName, variants):
