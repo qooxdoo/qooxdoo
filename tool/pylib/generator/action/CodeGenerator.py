@@ -40,9 +40,7 @@ from ecmascript.transform.optimizer    import privateoptimizer
 from misc                       import filetool, json, Path, securehash as sha, util
 from misc.ExtMap                import ExtMap
 from misc.Path                  import OsPath, Uri
-from misc.NameSpace             import NameSpace
-from misc                       import securehash as sha
-        
+
 
 console = None
 

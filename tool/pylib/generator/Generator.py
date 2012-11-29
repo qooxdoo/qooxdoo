@@ -37,7 +37,7 @@ from generator.code.PartBuilder      import PartBuilder
 from generator.code.Script           import Script
 from generator.code.Package          import Package
 from generator.code.Part             import Part
-from generator.code.CodeGenerator    import CodeGenerator
+from generator.action.CodeGenerator    import CodeGenerator
 from generator.resource.Library      import Library
 from generator.resource.ImageClipping    import ImageClipping
 from generator.resource.Image        import Image
