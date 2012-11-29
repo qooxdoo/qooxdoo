@@ -44,6 +44,7 @@ from generator.resource.Image        import Image
 #from generator.action.ApiLoader      import ApiLoader
 from generator.action                import ApiLoader
 from generator.action.Locale         import Locale
+from generator.action                import Locale as Localee
 from generator.action.ActionLib      import ActionLib
 from generator.action                import CodeProvider, Logging, FileSystem
 from generator.runtime.Cache         import Cache
@@ -500,7 +501,7 @@ class Generator(object):
             if takeout(jobTriggers, "lint-check"):
                 self.runLint(self._classesObj)
             if takeout(jobTriggers, "translate"):
-                self.runUpdateTranslation()
+                Localee.runUpdateTranslation(self._job, self._classesObj, self._libraries, self._translations)
             if takeout(jobTriggers, "pretty-print"):
                 self._codeGenerator.runPrettyPrinting(self._classesObj)
             if takeout(jobTriggers, "provider"):
@@ -586,24 +587,6 @@ class Generator(object):
         self._console.info("Done (%dm%05.2f)" % (int(elapsedsecs/60), elapsedsecs % 60))
 
         return
-
-
-    ##
-    # update .po files
-    #
-    def runUpdateTranslation(self):
-        namespaces = self._job.get("translate/namespaces")
-        if not namespaces:
-            return
-
-        locales = self._job.get("translate/locales", None)
-        self._console.info("Updating translations...")
-        self._console.indent()
-        for namespace in namespaces:
-            lib = [x for x in self._libraries if x.namespace == namespace][0]
-            self._locale.updateTranslations(namespace, lib.translationPathSuffix(), locales)
-
-        self._console.outdent()
 
 
     def runShellCommands(self):
