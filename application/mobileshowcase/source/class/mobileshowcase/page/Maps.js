@@ -69,9 +69,10 @@ qx.Class.define("mobileshowcase.page.Maps",
 
       this._loadMapLibrary();
 
-      // Listens on window orientation change, and triggers redraw of map.
+      // Listens on window orientation change and resize, and triggers redraw of map.
       // Needed for triggering OpenLayers to use a bigger area, and draw more tiles.
       qx.event.Registration.addListener(window, "orientationchange", this._redrawMap, this);
+      qx.event.Registration.addListener(window, "resize", this._redrawMap, this);
     },
 
 
@@ -80,7 +81,8 @@ qx.Class.define("mobileshowcase.page.Maps",
      * and drawing markers.
      */
     _redrawMap : function () {
-      if(this._mapnikLayer!= null){
+      if(this._mapnikLayer!= null) {
+        this._map.updateSize();
         this._mapnikLayer.redraw();
       }
     },
