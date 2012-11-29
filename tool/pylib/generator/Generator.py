@@ -474,7 +474,7 @@ class Generator(object):
         if takeout(jobTriggers, "combine-images"):
             self.runImageCombining()
         if takeout(jobTriggers, "clean-files"):
-            self.runClean()
+            FileSystem.runClean(self._job, self._config, self._cache)
         if takeout(jobTriggers, "migrate-files"):
             self.runMigration(config.get("library"))
         if takeout(jobTriggers, "shell"):
@@ -804,36 +804,6 @@ class Generator(object):
         self._console.outdent()
 
         return
-
-
-    def runClean(self):
-
-        def isLocalPath(path):
-            return self._config.absPath(path).startswith(self._config.absPath(self._job.get("let/ROOT")))
-
-        # -------------------------------------------
-
-        if not self._job.get('clean-files', False):
-            return
-
-        self._console.info("Cleaning up files...")
-        self._console.indent()
-
-        # Handle caches
-        #print "-- cache: %s; root: %s" % (self._config.absPath(self._job.get("cache/compile")), self._config.absPath(self._job.get("let/ROOT")))
-
-        if (self._job.name == "clean" and not isLocalPath(self._job.get("cache/compile"))): # "clean" with non-local caches
-            pass
-        else:
-            self._cache.cleanCompileCache()
-        if (self._job.name == "clean" and not isLocalPath(self._job.get("cache/downloads"))): # "clean" with non-local caches
-            pass
-        else:
-            self._cache.cleanDownloadCache()
-        # Clean up other files
-        self._actionLib.clean(self._job.get('clean-files'))
-
-        self._console.outdent()
 
 
     def runLint(self, classes):

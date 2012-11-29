@@ -27,6 +27,7 @@ import sys, os, re, types, string, glob
 from misc import Path, filetool, copytool
 from generator import Context
 from generator.code.Class     import Class
+from generator.action.ActionLib import ActionLib
 
 def runResources(confObj, script):
     jobconf = script.jobconfig
@@ -110,5 +111,36 @@ def _copyResources(srcPath, targPath):
     args      = ['-s', '-x'] + [",".join(skip_list)] + [srcPath, targPath]
     copier.parse_args(args)
     copier.do_work()
+
+
+def runClean(jobconf, confObj, cacheObj):
+
+    def isLocalPath(path):
+        return confObj.absPath(path).startswith(confObj.absPath(jobconf.get("let/ROOT")))
+
+    # -------------------------------------------
+
+    if not jobconf.get('clean-files', False):
+        return
+
+    console = Context.console
+    console.info("Cleaning up files...")
+    console.indent()
+
+    # Handle caches
+    #print "-- cache: %s; root: %s" % (confObj.absPath(jobconf.get("cache/compile")), confObj.absPath(jobconf.get("let/ROOT")))
+
+    if (jobconf.name == "clean" and not isLocalPath(jobconf.get("cache/compile"))): # "clean" with non-local caches
+        pass
+    else:
+        cacheObj.cleanCompileCache()
+    if (jobconf.name == "clean" and not isLocalPath(jobconf.get("cache/downloads"))): # "clean" with non-local caches
+        pass
+    else:
+        cacheObj.cleanDownloadCache()
+    # Clean up other files
+    ActionLib(confObj, console).clean(jobconf.get('clean-files'))
+
+    console.outdent()
 
 
