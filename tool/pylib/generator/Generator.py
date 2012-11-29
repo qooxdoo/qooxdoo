@@ -23,32 +23,20 @@
 
 #
 
-import re, os, sys, zlib, optparse, types, string, glob
-import functools, codecs, operator, time
-import graph
+import re, os, sys, types, string, time
 
-from misc                            import filetool, textutil, util, Path, json, copytool
-from ecmascript.transform.optimizer  import privateoptimizer
-from ecmascript.transform.check      import lint
-from misc.ExtMap                     import ExtMap
-from generator.code.Class            import Class, CompileOptions
+from misc                            import textutil, util, json
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder      import PartBuilder
 from generator.code.Script           import Script
 from generator.code.Package          import Package
 from generator.code.Part             import Part
-from generator.action.CodeGenerator    import CodeGenerator
-from generator.resource.Library      import Library
-from generator.resource.ImageClipping    import ImageClipping
-from generator.resource.Image        import Image
-#from generator.action.ApiLoader      import ApiLoader
-from generator.action                import ApiLoader
-from generator.action.Locale         import Locale
-from generator.action                import Locale as Localee
+from generator.action.CodeGenerator  import CodeGenerator
 from generator.action.ActionLib      import ActionLib
-from generator.action                import CodeProvider, Logging, FileSystem, Resources, CodeMaintenance, Testing
+from generator.action.Locale         import Locale as LocaleCls
+from generator.action                import ApiLoader, Locale, CodeMaintenance, Testing
+from generator.action                import CodeProvider, Logging, FileSystem, Resources
 from generator.runtime.Cache         import Cache
-from generator.runtime.ShellCmd      import ShellCmd
 from generator                       import Context
 
 
@@ -426,7 +414,7 @@ class Generator(object):
 
 
             # create tool chain instances
-            self._locale = Locale(self._context, self._classesObj, self._translations, self._cache, self._console, )
+            self._locale = LocaleCls(self._context, self._classesObj, self._translations, self._cache, self._console, )
             self._depLoader = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
             self._codeGenerator = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._classesObj)
 
@@ -501,7 +489,7 @@ class Generator(object):
             if takeout(jobTriggers, "lint-check"):
                 CodeMaintenance.runLint(self._job, self._classesObj)
             if takeout(jobTriggers, "translate"):
-                Localee.runUpdateTranslation(self._job, self._classesObj, self._libraries, self._translations)
+                Locale.runUpdateTranslation(self._job, self._classesObj, self._libraries, self._translations)
             if takeout(jobTriggers, "pretty-print"):
                 self._codeGenerator.runPrettyPrinting(self._classesObj)
             if takeout(jobTriggers, "provider"):
@@ -587,14 +575,6 @@ class Generator(object):
         self._console.info("Done (%dm%05.2f)" % (int(elapsedsecs/60), elapsedsecs % 60))
 
         return
-
-
-    def _makeVariantsName(self, pathName, variants):
-        (newname, ext) = os.path.splitext(pathName)
-        for key in variants:
-            newname += "_%s:%s" % (str(key), str(variants[key]))
-        newname += ext
-        return newname
 
 
     def getAppName(self, memo={}):
