@@ -480,7 +480,7 @@ class Generator(object):
         if takeout(jobTriggers, "migrate-files"):
             CodeMaintenance.runMigration(self._job, config.get("library"))
         if takeout(jobTriggers, "shell"):
-            self.runShellCommands()
+            self._actionLib.runShellCommands(self._job)
         if takeout(jobTriggers, "simulate"):
             Testing.runSimulation(self._job)
         if takeout(jobTriggers, "slice-images"):
@@ -587,45 +587,6 @@ class Generator(object):
         self._console.info("Done (%dm%05.2f)" % (int(elapsedsecs/60), elapsedsecs % 60))
 
         return
-
-
-    def runShellCommands(self):
-        # wpbasti:
-        # rename trigger from "shell" to "execute-commands"?
-        # Should contain a list of commands instead
-        if not self._job.get("shell/command"):
-            return
-
-        shellcmd = self._job.get("shell/command", "")
-        if isinstance(shellcmd, list):
-            for cmd in shellcmd:
-                self.runShellCommand(cmd)
-        else:
-            self.runShellCommand(shellcmd)
-
-
-    def runShellCommand(self, shellcmd):
-        rc = 0
-        self._shellCmd       = ShellCmd()
-
-        # massage relative paths - tricky!
-        #parts = shellcmd.split()
-        #nparts= []
-        #for p in parts:
-        #    if p.find(os.sep) > -1:
-        #        if not os.path.isabs(p):
-        #            nparts.append(self._config.absPath(p))
-        #            continue
-        #    nparts.append(p)
-
-        #shellcmd = " ".join(nparts)
-        self._console.info("Executing shell command \"%s\"..." % shellcmd)
-        self._console.indent()
-
-        rc = self._shellCmd.execute(shellcmd, self._config.getConfigDir())
-        if rc != 0:
-            raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
-        self._console.outdent()
 
 
     def _makeVariantsName(self, pathName, variants):

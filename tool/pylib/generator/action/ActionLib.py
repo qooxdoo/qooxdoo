@@ -47,3 +47,30 @@ class ActionLib(object):
                     if os.path.splitdrive(entry)[1] == os.sep:
                         raise RuntimeError, "!!! I'm not going to delete '/' recursively !!!"
                     self._shellCmd.rm_rf(entry)
+
+
+    def runShellCommands(self, jobconf):
+        if not jobconf.get("shell/command"):
+            return
+
+        shellcmd = jobconf.get("shell/command", "")
+        if isinstance(shellcmd, list):
+            for cmd in shellcmd:
+                self.runShellCommand(cmd)
+        else:
+            self.runShellCommand(shellcmd)
+
+
+    def runShellCommand(self, shellcmd):
+        rc = 0
+        self._shellCmd       = ShellCmd()
+
+        self._console.info("Executing shell command \"%s\"..." % shellcmd)
+        self._console.indent()
+
+        rc = self._shellCmd.execute(shellcmd, self._config.getConfigDir())
+        if rc != 0:
+            raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
+        self._console.outdent()
+
+
