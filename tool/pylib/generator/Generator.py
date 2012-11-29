@@ -41,7 +41,8 @@ from generator.code.CodeGenerator    import CodeGenerator
 from generator.resource.Library      import Library
 from generator.resource.ImageClipping    import ImageClipping
 from generator.resource.Image        import Image
-from generator.action.ApiLoader      import ApiLoader
+#from generator.action.ApiLoader      import ApiLoader
+from generator.action                import ApiLoader
 from generator.action.Locale         import Locale
 from generator.action.ActionLib      import ActionLib
 from generator.action                import CodeProvider, Logging, FileSystem
@@ -569,7 +570,7 @@ class Generator(object):
 
                 # Execute real tasks
                 if "api" in jobTriggers:
-                    self.runApiData(script.classes, variantset)
+                    ApiLoader.runApiData(self._job, self._config, script, self._docs)
                 if "copy-resources" in jobTriggers:
                     FileSystem.runResources(self._config, script)
                 if "compile" in jobTriggers:
@@ -583,26 +584,6 @@ class Generator(object):
 
         elapsedsecs = time.time() - starttime
         self._console.info("Done (%dm%05.2f)" % (int(elapsedsecs/60), elapsedsecs % 60))
-
-        return
-
-
-    def runApiData(self, aClassList, variantset):
-        apiPath = self._job.get("api/path")
-        if not apiPath:
-            return
-
-        apiPath         = self._config.absPath(apiPath)
-        self._apiLoader = ApiLoader(self._classesObj, self._docs, self._cache, self._console, self._job)
-
-        classList = self._job.get("let/ARGS", [])
-        if not classList:
-            classList = aClassList
-
-        self._apiLoader.storeApi(classList,
-                                 apiPath,
-                                 variantset,
-                                 self._job.get("api", []))
 
         return
 

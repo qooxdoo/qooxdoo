@@ -34,6 +34,7 @@ from misc import json
 from ecmascript.backend import api
 #from ecmascript.frontend import tree, treegenerator_2 as treegenerator
 from ecmascript.frontend import tree, treegenerator, lang
+from generator import Context
 
 
 class ApiLoader(object):
@@ -432,3 +433,28 @@ class ApiLoader(object):
             links[i] = urlTemplate %link
 
         return sitemapTemplate %"\n".join(links)
+
+
+
+def runApiData(jobconf, configObj, script, docs):
+    apiPath = jobconf.get("api/path")
+    if not apiPath:
+        return
+
+    console = Context.console
+    cache = Context.cache
+    apiPath   = configObj.absPath(apiPath)
+    apiLoader = ApiLoader(script.classesAll, docs, cache, console, jobconf)
+
+    classList = jobconf.get("let/ARGS", [])
+    if not classList:
+        classList = script.classes
+
+    apiLoader.storeApi(classList,
+                             apiPath,
+                             script.variants,
+                             jobconf.get("api", []))
+
+    return
+
+
