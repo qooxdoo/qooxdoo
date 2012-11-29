@@ -1460,7 +1460,7 @@ input[type="checkbox"] {
   top: 4px;
   left: 4px; }
 
-.dialog, .menu, .picker, .master-popup {
+.dialog, .menu, .picker {
   -webkit-border-radius: 0.5em;
   -moz-border-radius: 0.5em;
   border-radius: 0.5em;
@@ -1602,7 +1602,19 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   min-width: 300px; }
 
 .master-popup .navigationbar {
-  display: none; }
+  background: none;
+  padding-top: 0px;
+  height: auto;
+  border: none; }
+
+.master-popup h1 {
+  margin: 0px; }
+
+.master-popup .left-container {
+  left: 0px; }
+
+.master-popup .right-container {
+  right: 0px; }
 
 .master-popup .page {
   background: none; }
@@ -2529,7 +2541,7 @@ input[type="checkbox"]:checked + label {
   background-image: -moz-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
   background-image: linear-gradient(to bottom, #cdd5df, #8195af 50%, #6d84a2); }
 
-.dialog, .menu, .picker, .master-popup, .popup {
+.dialog, .menu, .picker, .popup {
   background: -webkit-radial-gradient(50% -33px, ellipse closest-corner, white 0%, #637396 94%, #1d3566 113%);
   background: -moz-radial-gradient(50% -33px, ellipse closest-corner, white 0%, #637396 94%, #1d3566 113%);
   background: radial-gradient(50% -33px, ellipse closest-corner, white 0%, #637396 94%, #1d3566 113%);
@@ -2545,7 +2557,7 @@ input[type="checkbox"]:checked + label {
 .dialogTitleUnderline:after {
   display: none; }
 
-.popupAnchorPointerTop:before {
+.popupAnchorPointerTop:not(.master-popup):before {
   position: absolute;
   content: '';
   display: block;
@@ -2555,7 +2567,7 @@ input[type="checkbox"]:checked + label {
   border-right: 14px solid transparent;
   border-bottom: 14px solid #c7d1e3; }
 
-.popupAnchorPointerTop:after {
+.popupAnchorPointerTop:not(.master-popup):after {
   position: absolute;
   content: '';
   display: block;
@@ -2718,17 +2730,31 @@ div.checked .toggleButtonSwitch:before {
 .master-detail-master.attached {
   border-right: 1px solid #2d3642; }
 
-.master-popup * {
-  background: none;
+.master-popup .navigationbar {
+  background: none; }
+
+.master-popup ul {
   border: none; }
 
-.master-popup {
-  /*background:-webkit-radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
-  background:-moz-radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
-  background:radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
+.master-popup .navigationbar > .label {
+  height: 38px !important;
+  line-height: 34px !important; }
 
-  @include gradient-vertical-three($ios-button-gradient-stop-1, $ios-button-gradient-stop-3,$ios-button-gradient-stop-3, 20px);
-  border:1px solid $master-popup-border-color;*/ }
+.master-popup .left-container {
+  top: 0px; }
+
+.master-popup .right-container {
+  top: 0px; }
+
+.master-popup {
+  background: -webkit-radial-gradient(50% -33px, ellipse closest-corner, white 0%, #637396 94%, #1d3566 113%);
+  background: -moz-radial-gradient(50% -33px, ellipse closest-corner, white 0%, #637396 94%, #1d3566 113%);
+  background: radial-gradient(50% -33px, ellipse closest-corner, white 0%, #637396 94%, #1d3566 113%);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#7c97bb), color-stop(50%, #476999), to(#476999));
+  background-image: -webkit-linear-gradient(top, #7c97bb, #476999 20px, #476999);
+  background-image: -moz-linear-gradient(top, #7c97bb, #476999 20px, #476999);
+  background-image: linear-gradient(to bottom, #7c97bb, #476999 20px, #476999);
+  border: 1px solid #3e5779; }
 
 .master-popup ul li:not(:first-child) {
   border-top: 1px solid #b4b4b4; }
@@ -2753,19 +2779,28 @@ div.checked .toggleButtonSwitch:before {
 .master-popup .layout-card {
   background-color: white; }
 
-.master-popup.popupAnchorPointerTop:before {
-  border-left: 1px solid #3e5779;
-  border-top: 1px solid #3e5779;
-  border-right: none;
-  border-bottom: none;
-  background-image: -moz-linear-gradient(-45deg, #7c97bb 50%, transparent 51%);
-  background-image: -webkit-gradient(linear, left top, right bottom, color-stop(50%, #7c97bb), color-stop(51%, transparent));
-  background-image: -webkit-linear-gradient(-45deg, #7c97bb 50%, transparent 51%);
-  background-image: linear-gradient(-45deg, #7c97bb 50%, transparent 51%);
-  -webkit-box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.3);
-  top: -9px; }
+.master-popup .popupAnchorPointerTop:after {
+  position: absolute;
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 12px solid #7c97bb; }
+
+.master-popup .popupAnchorPointerTop:before {
+  position: absolute;
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-bottom: 14px solid #3e5779;
+  position: absolute;
+  top: -14px;
+  left: 15px; }
 
 .carousel-pagination-label {
   -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);

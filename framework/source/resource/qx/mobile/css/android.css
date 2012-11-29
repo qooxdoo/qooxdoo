@@ -1602,7 +1602,19 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   min-width: 300px; }
 
 .master-popup .navigationbar {
-  display: none; }
+  background: none;
+  padding-top: 0px;
+  height: auto;
+  border: none; }
+
+.master-popup h1 {
+  margin: 0px; }
+
+.master-popup .left-container {
+  left: 0px; }
+
+.master-popup .right-container {
+  right: 0px; }
 
 .master-popup .page {
   background: none; }
@@ -2562,8 +2574,18 @@ input[type=radio] + label:after {
 .menu ul {
   border: 1px solid #6b6d6b; }
 
-.master-popup * {
+.master-popup .navigationbar {
   background: none; }
+
+.master-popup .navigationbar > .label {
+  height: 38px !important;
+  line-height: 34px !important; }
+
+.master-popup .left-container {
+  top: 0px; }
+
+.master-popup .right-container {
+  top: 0px; }
 
 .master-detail-master.attached {
   border-right: 1px solid #6b6d6b; }

@@ -1637,7 +1637,19 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   min-width: 300px; }
 
 .master-popup .navigationbar {
-  display: none; }
+  background: none;
+  padding-top: 0px;
+  height: auto;
+  border: none; }
+
+.master-popup h1 {
+  margin: 0px; }
+
+.master-popup .left-container {
+  left: 0px; }
+
+.master-popup .right-container {
+  right: 0px; }
 
 .master-popup .page {
   background: none; }
@@ -2422,13 +2434,13 @@ ul li.active {
   background-image: -moz-linear-gradient(top, #57595c, #262628 20px, #262628);
   background-image: linear-gradient(to bottom, #57595c, #262628 20px, #262628);
   border: 2px solid #3d72c9;
-  color: white;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
   -webkit-box-shadow: 0px 2px 7px 0px gray;
   -moz-box-shadow: 0px 2px 7px 0px gray;
-  box-shadow: 0px 2px 7px 0px gray; }
+  box-shadow: 0px 2px 7px 0px gray;
+  color: white; }
 
 .popupAnchorPointerTop:before {
   position: absolute;
@@ -2719,11 +2731,34 @@ input[type=radio] + label:after {
 .master-popup {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
-  border-radius: 4px; }
+  border-radius: 4px;
+  padding: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px; }
 
-.master-popup * {
-  border: none;
+.master-popup .navigationbar > .label {
+  height: 40px !important;
+  line-height: 38px !important;
+  font-size: 1.2em; }
+
+.master-popup .left-container {
+  top: 3px; }
+
+.master-popup .right-container {
+  top: 3px; }
+
+.master-popup ul {
+  border: none; }
+
+.master-popup .navigationbar {
   background: none; }
+
+.master-popup .left-container {
+  left: 0px; }
+
+.master-popup .right-container {
+  right: 0px; }
 
 .master-popup ul li:not(:first-child) {
   border-top: 1px solid #dddddd; }

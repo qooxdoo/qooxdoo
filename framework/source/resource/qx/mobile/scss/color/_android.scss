@@ -558,8 +558,21 @@ $arrow-size: 12px;
 
 $master-popup-border-color:white;
 
-.master-popup * {
+.master-popup .navigationbar {
   background: none;
+}
+
+.master-popup .navigationbar > .label {
+  height: 38px !important;
+  line-height: 34px !important;
+}
+
+.master-popup .left-container {
+  top: 0px;
+}
+
+.master-popup .right-container {
+  top:0px;
 }
 
 .master-detail-master.attached {

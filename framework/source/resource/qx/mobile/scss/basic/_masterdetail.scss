@@ -25,12 +25,26 @@
 }
 
 .master-popup .navigationbar {
-  display:none;
+  background:none;
+  padding-top: 0px;
+  height:auto;
+  border: none;
+}
+
+.master-popup h1 {
+  margin: 0px;
+}
+
+.master-popup .left-container {
+  left:0px;
+}
+
+.master-popup .right-container {
+  right:0px;
 }
 
 .master-popup .page {
   background:none;
- 
 }
 
 .master-popup .content {
@@ -45,6 +59,7 @@
 //
 // MASTER PARENT CONTAINER ARROWS
 //
+
 .master-popup.popupAnchorPointerTop:before {
   top:-11px;
 }

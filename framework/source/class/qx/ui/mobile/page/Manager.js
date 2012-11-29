@@ -130,16 +130,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     
     /**
-     * This flag controls whether the hideMasterButton is shown or not.
-     */
-    hideMasterButtonHidden : {
-      init : false,
-      check : "Boolean",
-      apply : "_applyHideMasterButtonHidden"
-    },
-    
-    
-    /**
      * This flag indicates whether the masterContainer is hidden or not.
      */
     masterContainerHidden : {
@@ -166,6 +156,16 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       init : "Hide",
       check : "String",
       apply : "_applyHideMasterButtonCaption"
+    },
+    
+    
+    /**
+     * This flag controls whether the hideMasterButton is shown or not.
+     */
+    hideMasterButtonHidden : {
+      init : false,
+      check : "Boolean",
+      apply : "_applyHideMasterButtonHidden"
     }
   },
 
@@ -456,13 +456,23 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     */
     _onLayoutChange : function(evt) {
       if(!qx.bom.Viewport.isPortrait()) {
+        // LANDSCAPE
+        
         if(this.isMasterContainerHidden()) {
           this.hideMasterContainer();
         } else {
           this.showMasterContainer();
         }
+        
+        this._applyHideMasterButtonHidden();
       } else {
+        // PORTRAIT
+        
         this.showMasterContainer();
+        
+        if(this.__isTablet) {
+          this.__hideMasterButton.exclude();
+        }
       }
       
       this.__updateMasterButtonVisibility();
@@ -472,7 +482,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     // property apply
     _applyHideMasterButtonHidden : function(value, old) {
       if(this.__isTablet) {
-        if(value==true){
+        if(value == true){
           this.__hideMasterButton.exclude();
         } else {
           this.__hideMasterButton.show();
@@ -501,7 +511,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     _applyMasterTitle : function(value, old) {
       if(this.__isTablet) {
         this.__masterButton.setLabel(value);
-        this.__portraitMasterContainer.setTitle(value);
       }
     },
     
@@ -595,10 +604,10 @@ qx.Class.define("qx.ui.mobile.page.Manager",
   {
     if(this.__masterPages) {
       for(var i=0; i<this.__masterPages.length;i++) {
-          var masterPage = this.__masterPages[i];
+        var masterPage = this.__masterPages[i];
 
-          qx.event.Registration.removeListener(masterPage, "appear", this._onMasterPageAppear, this);
-          qx.event.Registration.removeListener(masterPage, "start", this._onMasterPageStart, this);
+        qx.event.Registration.removeListener(masterPage, "appear", this._onMasterPageAppear, this);
+        qx.event.Registration.removeListener(masterPage, "start", this._onMasterPageStart, this);
       }
     }
 

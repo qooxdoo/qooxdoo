@@ -279,18 +279,18 @@ $title-background-gradient-1:lighten($dialog-background-color, 15%);
 $title-background-gradient-2:darken($dialog-background-color, 5%);
 
 .dialog, .popup {
-   // Fallback if no gradient could be set.
-   background-color:$dialog-background-color;
+  // Fallback if no gradient could be set.
+  background-color:$dialog-background-color;
 
-   @include gradient-vertical-three($title-background-gradient-1, $title-background-gradient-2, $title-background-gradient-2, 20px);
-   border: $dialog-border-thickness solid $dialog-border-color;
+  @include gradient-vertical-three($title-background-gradient-1, $title-background-gradient-2, $title-background-gradient-2, 20px);
+  border: $dialog-border-thickness solid $dialog-border-color;
 
-   color: $dialog-title-text-color; 
+  @include border-radius($dialog-border-radius);
+  @include box-shadow(0px 2px 7px 0px lighten($shadow-color, 50%));
 
-   @include border-radius($dialog-border-radius);
-
-   @include box-shadow(0px 2px 7px 0px lighten($shadow-color, 50%));
+  color: $dialog-title-text-color; 
 }
+
 
 @mixin arrow {
   position:absolute;
@@ -566,11 +566,45 @@ input[type=radio] + label:after {
 
 .master-popup {
   @include border-radius($dialog-border-radius);
+  padding: 0px;
+  $padding: 5px;
+  padding-left:$padding;
+  padding-right:$padding;
+  padding-bottom:$padding;
+}
+
+.master-popup .navigationbar > .label {
+  height: 40px !important;
+  line-height: 38px !important;
+  font-size: 1.2em;
+  
+}
+
+.master-popup .left-container {
+  top: 3px;
+}
+
+.master-popup .right-container {
+  top: 3px;
 }
 
 .master-popup * {
+}
+
+.master-popup ul {
   border:none;
+}
+
+.master-popup .navigationbar {
   background:none;
+}
+
+.master-popup .left-container {
+  left:0px;
+}
+
+.master-popup .right-container {
+  right:0px;
 }
 
 .master-popup ul li:not(:first-child) {

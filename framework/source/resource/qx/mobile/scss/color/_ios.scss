@@ -486,13 +486,13 @@ $arrow-shadow:rgba(0,0,0,0.3);
 
 // ARROW TOP
 
-.popupAnchorPointerTop:before
+.popupAnchorPointerTop:not(.master-popup):before
 {
   @include arrow;
   @include triangle-up($arrow-size+2, $dialog-border-color);
 }
 
-.popupAnchorPointerTop:after
+.popupAnchorPointerTop:not(.master-popup):after
 {
   @include arrow;
   @include triangle-up($arrow-size, #6E7D9D);
@@ -649,19 +649,35 @@ $master-popup-border-color:$ios-button-active-gradient-stop-4;
   border-right: 1px solid #2d3642;
 }
 
-.master-popup * {
-  background: none;
-  border: none;
+.master-popup .navigationbar {
+  background:none;
+}
+
+.master-popup ul {
+  border:none;
+}
+
+.master-popup .navigationbar > .label {
+  height: 38px !important;
+  line-height: 34px !important;
+}
+
+.master-popup .left-container {
+  top: 0px;
+}
+
+.master-popup .right-container {
+  top:0px;
 }
 
 .master-popup {
-  @extend .dialog;
-  /*background:-webkit-radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
+  //@extend .dialog;
+  background:-webkit-radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
   background:-moz-radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
   background:radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
 
   @include gradient-vertical-three($ios-button-gradient-stop-1, $ios-button-gradient-stop-3,$ios-button-gradient-stop-3, 20px);
-  border:1px solid $master-popup-border-color;*/
+  border:1px solid $master-popup-border-color;
 }
 
 .master-popup ul li:not(:first-child) {
@@ -689,20 +705,21 @@ $master-popup-border-color:$ios-button-active-gradient-stop-4;
 // 
 // MASTER PARENT CONTAINER ARROWS
 //
-.master-popup.popupAnchorPointerTop:before,
+
+.master-popup .popupAnchorPointerTop:after
 {
-  $arrow-color:$ios-button-gradient-stop-1;
-  
-  border-left: 1px solid $master-popup-border-color;
-  border-top: 1px solid $master-popup-border-color;
-  border-right:none;
-  border-bottom:none;
+  @include arrow;
+  @include triangle-up($arrow-size, $ios-button-gradient-stop-1);
+}
 
-  @include gradient-diagonal($arrow-color, transparent, 50%, 51%);
+.master-popup .popupAnchorPointerTop:before
+{
+  @include arrow;
+  @include triangle-up($arrow-size+2, $master-popup-border-color);
 
-  @include box-shadow(-1px -1px 2px $arrow-shadow);
-  
-  top:-9px;
+  position:absolute;
+  top: -14px;
+  left: 15px;
 }
 
 
