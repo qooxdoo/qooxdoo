@@ -160,6 +160,25 @@ def expandGlob(entry, container=[]):
     return result
 
 
+##
+# Sort a list of string entries that have pot. a "=" prefix into two,
+# one with the elements without prefix and one with those with prefix
+# (but the prefix stripped).
+def splitPrefixedStrings(data):
+    noPrefix = []
+    withPrefix = []
+
+    for entry in data:
+        if len(entry) > 0:
+            if entry[0] == "=":
+                withPrefix.append(entry[1:])
+            else:
+                noPrefix.append(entry)
+
+    return noPrefix, withPrefix
+
+
+
 def main():
     allowed = ["any2Dos", "any2Mac", "any2Unix", "convertDos2Mac", "convertDos2Unix", "convertMac2Dos", "convertMac2Unix", "convertUnix2Dos", "convertUnix2Mac", "spaces2Tab", "tab2Space", "removeTrailingSpaces", "normalizeWhiteSpace"]
     

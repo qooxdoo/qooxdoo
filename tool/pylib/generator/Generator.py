@@ -46,7 +46,7 @@ from generator.action                import ApiLoader
 from generator.action.Locale         import Locale
 from generator.action                import Locale as Localee
 from generator.action.ActionLib      import ActionLib
-from generator.action                import CodeProvider, Logging, FileSystem, Resources
+from generator.action                import CodeProvider, Logging, FileSystem, Resources, CodeMaintenance
 from generator.runtime.Cache         import Cache
 from generator.runtime.ShellCmd      import ShellCmd
 from generator                       import Context
@@ -308,7 +308,7 @@ class Generator(object):
 
             # Splitting lists
             self._console.debug("Preparing exclude configuration...")
-            excludeWithDeps, excludeWithDepsHard = self._splitIncludeExcludeList(excludeCfg)
+            excludeWithDeps, excludeWithDepsHard = textutil.splitPrefixedStrings(excludeCfg)
 
             # Configuration feedback
             self._console.indent()
@@ -351,7 +351,7 @@ class Generator(object):
 
             # Splitting lists
             self._console.debug("Preparing include configuration...")
-            includeWithDeps, includeNoDeps = self._splitIncludeExcludeList(includeCfg)
+            includeWithDeps, includeNoDeps = textutil.splitPrefixedStrings(includeCfg)
             self._console.indent()
 
             if len(includeWithDeps) > 0 or len(includeNoDeps) > 0:
@@ -478,7 +478,7 @@ class Generator(object):
         if takeout(jobTriggers, "clean-files"):
             FileSystem.runClean(self._job, self._config, self._cache)
         if takeout(jobTriggers, "migrate-files"):
-            self.runMigration(config.get("library"))
+            CodeMaintenance.runMigration(self._job, config.get("library"))
         if takeout(jobTriggers, "shell"):
             self.runShellCommands()
         if takeout(jobTriggers, "simulate"):
@@ -498,9 +498,9 @@ class Generator(object):
 
             # process classdep triggers
             if takeout(jobTriggers, "fix-files"):
-                self.runFix(self._classesObj)
+                CodeMaintenance.runFix(self._job, self._classesObj)
             if takeout(jobTriggers, "lint-check"):
-                self.runLint(self._classesObj)
+                CodeMaintenance.runLint(self._job, self._classesObj)
             if takeout(jobTriggers, "translate"):
                 Localee.runUpdateTranslation(self._job, self._classesObj, self._libraries, self._translations)
             if takeout(jobTriggers, "pretty-print"):
@@ -627,153 +627,6 @@ class Generator(object):
         if rc != 0:
             raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
         self._console.outdent()
-
-
-    def runLint(self, classes):
-
-        def getFilteredClassList(classes, includePatt_, excludePatt_):
-            # Although lint-check doesn't work with dependencies, we allow
-            # '=' in class pattern for convenience; stripp those now
-            intelli, explicit = self._splitIncludeExcludeList(includePatt_)
-            includePatt = intelli + explicit
-            intelli, explicit = self._splitIncludeExcludeList(excludePatt_)
-            excludePatt = intelli + explicit
-            if len(includePatt):
-                incRegex = map(textutil.toRegExpS, includePatt)
-                incRegex = re.compile("|".join(incRegex))
-            else:
-                incRegex = re.compile(".")  # catch-all
-            if len(excludePatt):
-                excRegex = map(textutil.toRegExpS, excludePatt)
-                excRegex = re.compile("|".join(excRegex))
-            else:
-                excRegex = re.compile("^$")  # catch-none
-
-            classesFiltered = (c for c in classes if incRegex.search(c) and not excRegex.search(c))
-            return classesFiltered
-
-        # ----------------------------------------------------------------------
-
-        if not self._job.get('lint-check', False) or not self._job.get('lint-check/run', False):
-            return
-
-        lib_class_names = classes.keys()
-        self._console.info("Checking Javascript source code...")
-        self._console.indent()
-
-        # Options
-        lintJob        = self._job
-        opts = lint.defaultOptions()
-        opts.include_patts    = lintJob.get('include', [])  # this is for future use
-        opts.exclude_patts    = lintJob.get('exclude', [])
-
-        classesToCheck = list(getFilteredClassList(lib_class_names, opts.include_patts, opts.exclude_patts))
-        opts.library_classes  = lib_class_names
-        opts.class_namespaces = [x[:x.rfind(".")] for x in opts.library_classes if x.find(".")>-1]
-        # the next requires that the config keys and option attributes be identical (modulo "-"_")
-        for option, value in lintJob.get("lint-check").items():
-            setattr(opts, option.replace("-","_"), value)
-
-        for pos, classId in enumerate(classesToCheck):
-            self._console.debug("Checking %s" % classId)
-            tree = self._classesObj[classId].tree()
-            lint.lint_check(tree, classId, opts)
-
-        self._console.outdent()
-
-
-    def runMigration(self, libs):
-
-        if not self._job.get('migrate-files', False):
-            return
-
-        self._console.info("Please heed the warnings from the configuration file parsing")
-        self._console.info("Migrating Javascript source code to most recent qooxdoo version...")
-        self._console.indent()
-
-        migSettings     = self._job.get('migrate-files')
-        self._shellCmd  = ShellCmd()
-
-        migratorCmd = os.path.join(os.path.dirname(filetool.root()), "bin", "migrator.py")
-
-        libPaths = []
-        for lib in libs:
-            lib._init_from_manifest() # Lib()'s aren't initialized yet
-            libPaths.append(os.path.join(lib.path, lib.classPath))
-
-        mig_opts = []
-        if migSettings.get('from-version', False):
-            mig_opts.extend(["--from-version", migSettings.get('from-version')])
-        if migSettings.get('migrate-html'):
-            mig_opts.append("--migrate-html")
-        mig_opts.extend(["--class-path", ",".join(libPaths)])
-
-        shcmd = " ".join(textutil.quoteCommandArgs([sys.executable, migratorCmd] + mig_opts))
-        self._console.debug("Invoking migrator as: '%s'" % shcmd)
-        self._shellCmd.execute(shcmd)
-
-        self._console.outdent()
-
-
-    def runFix(self, classes):
-
-        def fixPng():
-            return
-
-        def removeBOM(fpath):
-            content = open(fpath, "rb").read()
-            if content.startswith(codecs.BOM_UTF8):
-                self._console.debug("removing BOM: %s" % filePath)
-                open(fpath, "wb").write(content[len(codecs.BOM_UTF8):])
-            return
-
-        # - Main ---------------------------------------------------------------
-
-        if not isinstance(self._job.get("fix-files", False), types.DictType):
-            return
-
-        classes = classes.keys()
-        fixsettings = ExtMap(self._job.get("fix-files"))
-
-        # Fixing JS source files
-        self._console.info("Fixing whitespace in source files...")
-        self._console.indent()
-
-        self._console.info("Fixing files: ", False)
-        numClasses = len(classes)
-        eolStyle = fixsettings.get("eol-style", "LF")
-        tabWidth = fixsettings.get("tab-width", 2)
-        for pos, classId in enumerate(classes):
-            self._console.progress(pos+1, numClasses)
-            classEntry   = self._classesObj[classId]
-            filePath     = classEntry.path
-            fileEncoding = classEntry.encoding
-            fileContent  = filetool.read(filePath, fileEncoding)
-            # Caveat: as filetool.read already calls any2Unix, converting to LF will
-            # not work as the file content appears unchanged to this function
-            if eolStyle == "CR":
-                fixedContent = textutil.any2Mac(fileContent)
-            elif eolStyle == "CRLF":
-                fixedContent = textutil.any2Dos(fileContent)
-            else:
-                fixedContent = textutil.any2Unix(fileContent)
-            fixedContent = textutil.normalizeWhiteSpace(textutil.removeTrailingSpaces(textutil.tab2Space(fixedContent, tabWidth)))
-            if fixedContent != fileContent:
-                self._console.debug("modifying file: %s" % filePath)
-                filetool.save(filePath, fixedContent, fileEncoding)
-            # this has to go separate, as it requires binary operation
-            removeBOM(filePath)
-
-        self._console.outdent()
-
-        # Fixing PNG files -- currently just a stub!
-        if fixsettings.get("fix-png", False):
-            self._console.info("Fixing PNGs...")
-            self._console.indent()
-            fixPng()
-            self._console.outdent()
-
-        return
 
 
     def runSimulation(self):
