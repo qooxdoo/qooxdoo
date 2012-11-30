@@ -1956,6 +1956,24 @@ def verifyTypes(docTree, index):
                                     parent = parent.parent
 
 
+def verifyDocPercentage(docTree):
+    Context.console.info("API Documentation Statistics:")
+    documentableItems = 0
+    undocumentedItems = 0
+    for docNode in treeutil.nodeIterator(docTree, ["package", "class", "property", "event", "method"]):
+        documentableItems += 1
+        if docNode.get("hasError", False):
+            undocumentedItems += 1
+
+    percentageWithErrors = int(round((float(undocumentedItems) / documentableItems) * 100))
+    percentageOk = 100 - percentageWithErrors
+    Context.console.indent()
+    Context.console.info("%s API items total" % documentableItems)
+    Context.console.info("%s API items with missing or incomplete documentation" % undocumentedItems)
+    Context.console.info("%s%% API documentation completeness" % percentageOk)
+    Context.console.outdent()
+
+
 def logErrors(docTree, targets):
     for errNode in treeutil.nodeIterator(docTree, ["error"]):
 

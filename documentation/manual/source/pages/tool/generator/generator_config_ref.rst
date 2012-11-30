@@ -63,7 +63,7 @@ Triggers the generation of a custom Apiviewer application. Takes a map.
   "api" :
   {
     "path"   : "<path>",
-    "verify" : [ "links", "types" ],
+    "verify" : [ "links", "types", "statistics" ],
     "warnings" :
     {
       "output" : [ "data", "console" ]
@@ -84,6 +84,7 @@ Triggers the generation of a custom Apiviewer application. Takes a map.
 
   * **links** : Check internal documentation links (@link{...}) for consistency.
   * **types** : Check if documented parameter and return value types are known classes, valid global objects or built-in types
+  * **statistics** : Show a summary of total API items, items with missing or incomplete documentation and the documentation completeness percentage
 
 * **warnings** : Controls the output of warning messages for API doc errors and omissions.
 

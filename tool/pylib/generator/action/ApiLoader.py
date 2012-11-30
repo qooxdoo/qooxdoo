@@ -167,6 +167,10 @@ class ApiLoader(object):
         if "warnings" in jobConf and "output" in jobConf["warnings"]:
             api.logErrors(docTree, jobConf["warnings"]["output"])
 
+        if "verify" in jobConf:
+            if "statistics" in jobConf["verify"]:
+                api.verifyDocPercentage(docTree)
+
         self._console.info("Saving data...", False)
         self._console.indent()
 

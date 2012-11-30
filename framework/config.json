@@ -278,7 +278,7 @@
       "desc" : "creates an Apiviewer while checking internal links. Also creates an XML sitemap with a link for each class",
       "extend" : [ "api" ],
       "api" : {
-        "verify" : [ "links", "types" ],
+        "verify" : [ "links", "types", "statistics" ],
         "sitemap" :
         {
           "link-uri" : "http://api.qooxdoo.org/#%s",
