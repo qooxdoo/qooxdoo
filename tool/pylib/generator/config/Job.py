@@ -438,6 +438,9 @@ class Job(object):
     def hasFeature(self, feature):
         return feature in self._data
 
+    def set(self, feature, value):
+        self.setFeature(feature, value)
+
     def setFeature(self, feature, value):
         self._data[feature]=value
 
