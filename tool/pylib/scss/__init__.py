@@ -421,7 +421,7 @@ FUNCTIONS_TRANSITIONS = 'cubic-bezier'
 # http://www.w3.org/TR/css3-animations/
 FUNCTIONS_ANIMATIONS = ''  # has 'from' and 'to' block selectors, but no new function
 FUNCTIONS_FILTER = 'grayscale blur sepia saturate opacity brightness contrast hue-rotate invert'
-FUNCTIONS_OTHERS = 'from to mask'
+FUNCTIONS_OTHERS = 'from to mask color-stop' # pyscss issue#29
 VENDORS = '-[^-]+-.+'
 
 _css_functions_re = re.compile(r'^(%s)$' % (
