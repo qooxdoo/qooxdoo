@@ -10,7 +10,7 @@ input[type="radio"] {
 
 
 input[type=radio] + label {
-  content:'';
+  content:"";
   width: 28px;
   height: 28px;
 
@@ -25,7 +25,7 @@ input[type=radio] + label {
 
 
 input[type=radio]+ label:before {
-  content:'';
+  content:"";
   cursor: pointer;
 
   position: absolute;
@@ -44,7 +44,7 @@ input[type=radio]+ label:before {
 // Color dot
 input[type=radio] + label:after {
   opacity: 0;
-  content: '';
+  content:"";;
   position: absolute;
 
   z-index:11;

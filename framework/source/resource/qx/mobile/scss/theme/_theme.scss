@@ -67,7 +67,7 @@ $scGradientVerticalOffset:15px;
       0px 0px $scShadowOffset -1*$scShadowOffset $scShadowColor
   );
 
-  content:'';
+  content:"";
   width:100%;
   height:0px;
 }
@@ -87,7 +87,7 @@ $scGradientVerticalOffset:15px;
       0px -1*$scShadowOffset*1.4 $scShadowOffset -1*$scShadowOffset $scShadowColor
   );
 
-  content:'';
+  content:"";
   width:100%;
   height:0px;
 }
@@ -294,7 +294,7 @@ $title-background-gradient-2:darken($dialog-background-color, 5%);
 
 @mixin arrow {
   position:absolute;
-  content:'';
+  content:"";
 }
 
 $arrow-size: 12px;
@@ -500,7 +500,7 @@ input[type="checkbox"] + label {
 
 input[type="checkbox"] + label:after {
     opacity: 0;
-    content: '';
+    content:"";;
     position: absolute;
     width: 11px;
     height: 6px;

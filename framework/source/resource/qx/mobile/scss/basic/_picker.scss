@@ -24,7 +24,7 @@ $label-height:25px;
 }
 
 .picker-slot:first-child:before {
-  content:'';
+  content:"";
 
   position:absolute;
 
@@ -36,7 +36,7 @@ $label-height:25px;
 }
 
 .picker-slot:first-child:after,.picker-slot:nth-child(n+1):after {
-  content:''; 
+  content:""; 
  
   position:absolute;
   width:2px;
