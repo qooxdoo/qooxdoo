@@ -311,15 +311,15 @@ qx.Class.define("playground.Application",
 
       // on demand creation
       if (!this.__websiteContent && enabled) {
-        this.____websiteContent = new playground.view.WebsiteContent();
-        this.getRoot().getChildren()[0].add(this.____websiteContent, {flex: 1});
+        this.__websiteContent = new playground.view.WebsiteContent();
+        this.getRoot().getChildren()[0].add(this.__websiteContent, {flex: 1});
       }
 
-      if (this.____websiteContent) {
+      if (this.__websiteContent) {
         if (!enabled) {
-          this.____websiteContent.exclude();
+          this.__websiteContent.exclude();
         } else {
-          this.____websiteContent.show();
+          this.__websiteContent.show();
         }
       }
 
