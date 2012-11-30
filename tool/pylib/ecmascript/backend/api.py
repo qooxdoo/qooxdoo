@@ -808,6 +808,8 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 
     handleDeprecated(node, commentAttributes)
 
+    isAbstract = classNode.get("isAbstract", False)
+
     # Read all description, param and return attributes
     for attrib in commentAttributes:
 
@@ -875,6 +877,11 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
                 throwsNode.addChild(child)
                 node.addChild(throwsNode)
 
+        elif attrib["category"] == "abstract":
+            isAbstract = True
+            if not classNode.get("isAbstract", False):
+                node.set("isAbstract", True)
+
     # Check for documentation errors
     if node.hasChild("params"):
         paramsListNode = node.getChild("params")
@@ -902,12 +909,6 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
         #        superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
         #        while superClassNode:
         #            superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
-
-        isAbstract = classNode.get("isAbstract", False)
-        for attrib in commentAttributes:
-            if "category" in attrib:
-                if attrib["category"] == "abstract":
-                    isAbstract = True
 
         if hasComment and not isInterface and not hasSignatureDef and not isAbstract:
 
@@ -1240,10 +1241,6 @@ def connectClass(docTree, classNode):
         # This class is static
         classNode.set("isStatic", True)
 
-    # Check whether the class is abstract
-    if isClassAbstract(docTree, classNode, {}):
-        classNode.set("isAbstract", True)
-
     # Check for errors
     childHasError = (
         classNode.get("hasError", False) or
@@ -1259,33 +1256,6 @@ def connectClass(docTree, classNode):
         classNode.set("hasWarning", True)
 
     return childHasError
-
-
-
-def isClassAbstract(docTree, classNode, visitedMethodNames):
-    if containsAbstractMethods(classNode.getChild("methods", False), visitedMethodNames):
-        # One of the methods is abstract
-        return True
-
-    # No abstract methods found -> Check whether the super class has abstract
-    # methods that haven't been overridden
-    superClassName = classNode.get("superClass", False)
-    if superClassName:
-        superClassNode = classNodeFromDocTree(docTree, superClassName)
-        return isClassAbstract(docTree, superClassNode, visitedMethodNames)
-
-
-
-def containsAbstractMethods(methodListNode, visitedMethodNames):
-    if methodListNode:
-        for methodNode in methodListNode.children:
-            name = methodNode.get("name")
-            if not name in visitedMethodNames:
-                visitedMethodNames[name] = True
-                if methodNode.get("isAbstract", False):
-                    return True
-
-    return False
 
 
 def documentApplyMethod(methodNode, props):
@@ -1312,7 +1282,7 @@ def documentApplyMethod(methodNode, props):
 
     # if all properties have the same value for "check", use that
     if paramTypes[1:] == paramTypes[:-1]:
-          paramType = paramTypes[0]
+        paramType = paramTypes[0]
 
     if len(propNames) > 1:
         propNames.sort()
