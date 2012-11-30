@@ -2258,26 +2258,26 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   background: none; }
 
 .navigationbar {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#4b4c4f), to(#191a1b));
+  background: -webkit-gradient(linear, center top, center bottom, from(#4b4c4f), to(#191a1b));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #4b4c4f, #191a1b);
+  background: -webkit-linear-gradient(top, #4b4c4f, #191a1b);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #4b4c4f, #191a1b);
+  background: -moz-linear-gradient(top, #4b4c4f, #191a1b);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #4b4c4f, #191a1b);
+  background: linear-gradient(to bottom, #4b4c4f, #191a1b);
   /* Standard (in flux) */
   color: white;
   height: 45px; }
 
 .navigationbar-button, .navigationbar-backbutton {
   color: white;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#57595c), to(#262628));
+  background: -webkit-gradient(linear, center top, center bottom, from(#57595c), to(#262628));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #57595c, #262628);
+  background: -webkit-linear-gradient(top, #57595c, #262628);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #57595c, #262628);
+  background: -moz-linear-gradient(top, #57595c, #262628);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #57595c, #262628);
+  background: linear-gradient(to bottom, #57595c, #262628);
   /* Standard (in flux) */
   border: 1px solid #777777;
   -webkit-border-radius: 4px;
@@ -2286,13 +2286,13 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
 
 .navigationbar-button.active, .navigationbar-backbutton.active {
   color: white;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
+  background: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
+  background: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #8dacdf, #3d72c9);
+  background: -moz-linear-gradient(top, #8dacdf, #3d72c9);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #8dacdf, #3d72c9);
+  background: linear-gradient(to bottom, #8dacdf, #3d72c9);
   /* Standard (in flux) */
   border: 1px solid #777777; }
 
@@ -2341,13 +2341,13 @@ ul li.active.arrow, ul li.selected.arrow {
   background-repeat: no-repeat; }
 
 ul li.active {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
+  background: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
+  background: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #8dacdf, #3d72c9);
+  background: -moz-linear-gradient(top, #8dacdf, #3d72c9);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #8dacdf, #3d72c9);
+  background: linear-gradient(to bottom, #8dacdf, #3d72c9);
   /* Standard (in flux) */ }
 
 .formSeparationRow {
@@ -2402,13 +2402,13 @@ ul li.active {
 
 .button {
   color: #333333;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#dbdbdb));
+  background: -webkit-gradient(linear, center top, center bottom, from(white), to(#dbdbdb));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, white, #dbdbdb);
+  background: -webkit-linear-gradient(top, white, #dbdbdb);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, white, #dbdbdb);
+  background: -moz-linear-gradient(top, white, #dbdbdb);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, white, #dbdbdb);
+  background: linear-gradient(to bottom, white, #dbdbdb);
   /* Standard (in flux) */
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -2417,22 +2417,22 @@ ul li.active {
 
 .button.active {
   color: white;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
+  background: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
+  background: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #8dacdf, #3d72c9);
+  background: -moz-linear-gradient(top, #8dacdf, #3d72c9);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #8dacdf, #3d72c9);
+  background: linear-gradient(to bottom, #8dacdf, #3d72c9);
   /* Standard (in flux) */
   border: 1px solid #777777; }
 
 .dialog, .menu, .picker, .popup {
   background-color: #323335;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#57595c), color-stop(50%, #262628), to(#262628));
-  background-image: -webkit-linear-gradient(top, #57595c, #262628 20px, #262628);
-  background-image: -moz-linear-gradient(top, #57595c, #262628 20px, #262628);
-  background-image: linear-gradient(to bottom, #57595c, #262628 20px, #262628);
+  background: -webkit-gradient(linear, center top, center bottom, from(#57595c), color-stop(50%, #262628), to(#262628));
+  background: -webkit-linear-gradient(top, #57595c, #262628 20px, #262628);
+  background: -moz-linear-gradient(top, #57595c, #262628 20px, #262628);
+  background: linear-gradient(to bottom, #57595c, #262628 20px, #262628);
   border: 2px solid #3d72c9;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -2530,13 +2530,13 @@ ul li.active {
 
 .tabButton {
   color: white;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#8d8d8d), to(#5a5a5a));
+  background: -webkit-gradient(linear, center top, center bottom, from(#8d8d8d), to(#5a5a5a));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #8d8d8d, #5a5a5a);
+  background: -webkit-linear-gradient(top, #8d8d8d, #5a5a5a);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #8d8d8d, #5a5a5a);
+  background: -moz-linear-gradient(top, #8d8d8d, #5a5a5a);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #8d8d8d, #5a5a5a);
+  background: linear-gradient(to bottom, #8d8d8d, #5a5a5a);
   /* Standard (in flux) */
   border-top: 1px solid #9a9a9a;
   border-left: 1px solid #9a9a9a;
@@ -2550,10 +2550,10 @@ ul li.active {
 
 .tabButton.active, .tabButton.selected {
   border: 1px solid #3d72c9;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), color-stop(4%, #5180cf), color-stop(49%, #5180cf), color-stop(53%, #3d72c9), to(#3d72c9));
-  background-image: -webkit-linear-gradient(top, #8dacdf, #5180cf 4%, #5180cf 49%, #3d72c9 53%, #3d72c9);
-  background-image: -moz-linear-gradient(top, #8dacdf, #5180cf 4%, #5180cf 49%, #3d72c9 53%, #3d72c9);
-  background-image: linear-gradient(to bottom, #8dacdf, #5180cf 4%, #5180cf 49%, #3d72c9 53%, #3d72c9); }
+  background: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), color-stop(4%, #5180cf), color-stop(49%, #5180cf), color-stop(53%, #3d72c9), to(#3d72c9));
+  background: -webkit-linear-gradient(top, #8dacdf, #5180cf 4%, #5180cf 49%, #3d72c9 53%, #3d72c9);
+  background: -moz-linear-gradient(top, #8dacdf, #5180cf 4%, #5180cf 49%, #3d72c9 53%, #3d72c9);
+  background: linear-gradient(to bottom, #8dacdf, #5180cf 4%, #5180cf 49%, #3d72c9 53%, #3d72c9); }
 
 .slider > div {
   -webkit-border-radius: 20px;
@@ -2563,13 +2563,13 @@ ul li.active {
   -moz-box-shadow: 0 0 2px black;
   box-shadow: 0 0 2px black;
   border: 1px solid #e8e8e8;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#cfcfcf), to(#fdfdfd));
+  background: -webkit-gradient(linear, center top, center bottom, from(#cfcfcf), to(#fdfdfd));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #cfcfcf, #fdfdfd);
+  background: -webkit-linear-gradient(top, #cfcfcf, #fdfdfd);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #cfcfcf, #fdfdfd);
+  background: -moz-linear-gradient(top, #cfcfcf, #fdfdfd);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
+  background: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
   /* Standard (in flux) */ }
 
 .slider {
@@ -2623,26 +2623,26 @@ div.checked .toggleButtonSwitch:before {
   -moz-box-shadow: 1px 0 2px #4b4b4b;
   box-shadow: 1px 0 2px #4b4b4b;
   background: #cfcfcf;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#cfcfcf), to(#fdfdfd));
+  background: -webkit-gradient(linear, center top, center bottom, from(#cfcfcf), to(#fdfdfd));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #cfcfcf, #fdfdfd);
+  background: -webkit-linear-gradient(top, #cfcfcf, #fdfdfd);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #cfcfcf, #fdfdfd);
+  background: -moz-linear-gradient(top, #cfcfcf, #fdfdfd);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
+  background: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
   /* Standard (in flux) */
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
   border-radius: 30px; }
 
 .checkbox-label:before {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#2d2f32), to(#5d6168));
+  background: -webkit-gradient(linear, center top, center bottom, from(#2d2f32), to(#5d6168));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #2d2f32, #5d6168);
+  background: -webkit-linear-gradient(top, #2d2f32, #5d6168);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #2d2f32, #5d6168);
+  background: -moz-linear-gradient(top, #2d2f32, #5d6168);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #2d2f32, #5d6168);
+  background: linear-gradient(to bottom, #2d2f32, #5d6168);
   /* Standard (in flux) */
   -webkit-border-radius: 0.1em;
   -moz-border-radius: 0.1em;
@@ -2656,13 +2656,13 @@ input[type="checkbox"] + label {
   border: 1px solid #777777;
   box-sizing: border-box;
   background-color: #929292;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#c1c1c1));
+  background: -webkit-gradient(linear, center top, center bottom, from(white), to(#c1c1c1));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, white, #c1c1c1);
+  background: -webkit-linear-gradient(top, white, #c1c1c1);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, white, #c1c1c1);
+  background: -moz-linear-gradient(top, white, #c1c1c1);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, white, #c1c1c1);
+  background: linear-gradient(to bottom, white, #c1c1c1);
   /* Standard (in flux) */ }
 
 input[type="checkbox"] + label:after {
@@ -2688,13 +2688,13 @@ input[type="checkbox"]:checked + label:after {
   opacity: 1; }
 
 input[type=radio] + label {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#c1c1c1));
+  background: -webkit-gradient(linear, center top, center bottom, from(white), to(#c1c1c1));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, white, #c1c1c1);
+  background: -webkit-linear-gradient(top, white, #c1c1c1);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, white, #c1c1c1);
+  background: -moz-linear-gradient(top, white, #c1c1c1);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, white, #c1c1c1);
+  background: linear-gradient(to bottom, white, #c1c1c1);
   /* Standard (in flux) */
   border: 1px solid #777777;
   box-sizing: border-box;
@@ -2705,24 +2705,24 @@ input[type=radio] + label:before {
   -webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
   -moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#2d2f32), to(#5d6168));
+  background: -webkit-gradient(linear, center top, center bottom, from(#2d2f32), to(#5d6168));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #2d2f32, #5d6168);
+  background: -webkit-linear-gradient(top, #2d2f32, #5d6168);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #2d2f32, #5d6168);
+  background: -moz-linear-gradient(top, #2d2f32, #5d6168);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #2d2f32, #5d6168);
+  background: linear-gradient(to bottom, #2d2f32, #5d6168);
   /* Standard (in flux) */ }
 
 input[type=radio] + label:after {
   background: #3d72c9;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#3d72c9), to(#2e5ba5));
+  background: -webkit-gradient(linear, center top, center bottom, from(#3d72c9), to(#2e5ba5));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #3d72c9, #2e5ba5);
+  background: -webkit-linear-gradient(top, #3d72c9, #2e5ba5);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #3d72c9, #2e5ba5);
+  background: -moz-linear-gradient(top, #3d72c9, #2e5ba5);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #3d72c9, #2e5ba5);
+  background: linear-gradient(to bottom, #3d72c9, #2e5ba5);
   /* Standard (in flux) */
   -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
@@ -2794,13 +2794,13 @@ input[type=radio] + label:after {
 
 .toolbar-button {
   color: #333333;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#c1c1c1));
+  background: -webkit-gradient(linear, center top, center bottom, from(white), to(#c1c1c1));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, white, #c1c1c1);
+  background: -webkit-linear-gradient(top, white, #c1c1c1);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, white, #c1c1c1);
+  background: -moz-linear-gradient(top, white, #c1c1c1);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, white, #c1c1c1);
+  background: linear-gradient(to bottom, white, #c1c1c1);
   /* Standard (in flux) */
   border: 1px solid #777777;
   -webkit-border-radius: 4px;
@@ -2809,35 +2809,35 @@ input[type=radio] + label:after {
 
 .toolbar-button.active {
   color: white;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#23457d));
+  background: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#23457d));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #8dacdf, #23457d);
+  background: -webkit-linear-gradient(top, #8dacdf, #23457d);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #8dacdf, #23457d);
+  background: -moz-linear-gradient(top, #8dacdf, #23457d);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #8dacdf, #23457d);
+  background: linear-gradient(to bottom, #8dacdf, #23457d);
   /* Standard (in flux) */ }
 
 .item-selected {
   color: white;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
+  background: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
+  background: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #8dacdf, #3d72c9);
+  background: -moz-linear-gradient(top, #8dacdf, #3d72c9);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #8dacdf, #3d72c9);
+  background: linear-gradient(to bottom, #8dacdf, #3d72c9);
   /* Standard (in flux) */ }
 
 .selectbox {
   color: #333333;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#c1c1c1));
+  background: -webkit-gradient(linear, center top, center bottom, from(white), to(#c1c1c1));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, white, #c1c1c1);
+  background: -webkit-linear-gradient(top, white, #c1c1c1);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, white, #c1c1c1);
+  background: -moz-linear-gradient(top, white, #c1c1c1);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, white, #c1c1c1);
+  background: linear-gradient(to bottom, white, #c1c1c1);
   /* Standard (in flux) */
   border: 1px solid #dddddd;
   -webkit-border-radius: 4px;
@@ -2846,13 +2846,13 @@ input[type=radio] + label:after {
 
 .selectbox:active {
   color: white;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
+  background: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
+  background: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #8dacdf, #3d72c9);
+  background: -moz-linear-gradient(top, #8dacdf, #3d72c9);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #8dacdf, #3d72c9);
+  background: linear-gradient(to bottom, #8dacdf, #3d72c9);
   /* Standard (in flux) */ }
 
 .selectbox-selected > div > .list-itemlabel:after {
@@ -2860,13 +2860,13 @@ input[type=radio] + label:after {
 
 .selectbox-selected {
   color: white;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
+  background: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#3d72c9));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
+  background: -webkit-linear-gradient(top, #8dacdf, #3d72c9);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #8dacdf, #3d72c9);
+  background: -moz-linear-gradient(top, #8dacdf, #3d72c9);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #8dacdf, #3d72c9);
+  background: linear-gradient(to bottom, #8dacdf, #3d72c9);
   /* Standard (in flux) */ }
 
 .carousel-pagination-label {
@@ -2903,10 +2903,10 @@ input[type=radio] + label:after {
   background-color: #888888; }
 
 .picker-container:after {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(rgba(0, 0, 0, 0.6)), color-stop(33%, rgba(255, 255, 255, 0)), color-stop(66%, rgba(255, 255, 255, 0)), to(rgba(0, 0, 0, 0.6)));
-  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.6), rgba(255, 255, 255, 0) 33%, rgba(255, 255, 255, 0) 66%, rgba(0, 0, 0, 0.6));
-  background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.6), rgba(255, 255, 255, 0) 33%, rgba(255, 255, 255, 0) 66%, rgba(0, 0, 0, 0.6));
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(255, 255, 255, 0) 33%, rgba(255, 255, 255, 0) 66%, rgba(0, 0, 0, 0.6)); }
+  background: -webkit-gradient(linear, center top, center bottom, from(rgba(0, 0, 0, 0.6)), color-stop(33%, rgba(255, 255, 255, 0)), color-stop(66%, rgba(255, 255, 255, 0)), to(rgba(0, 0, 0, 0.6)));
+  background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.6), rgba(255, 255, 255, 0) 33%, rgba(255, 255, 255, 0) 66%, rgba(0, 0, 0, 0.6));
+  background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.6), rgba(255, 255, 255, 0) 33%, rgba(255, 255, 255, 0) 66%, rgba(0, 0, 0, 0.6));
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(255, 255, 255, 0) 33%, rgba(255, 255, 255, 0) 66%, rgba(0, 0, 0, 0.6)); }
 
 .picker-container:before {
   top: 32px;
