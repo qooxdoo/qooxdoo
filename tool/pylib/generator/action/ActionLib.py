@@ -8,7 +8,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2012 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -20,8 +20,9 @@
 #
 ################################################################################
 
-import re, os, sys, types, glob
+import re, os, sys, types, glob, time
 
+from misc import filetool
 from generator.runtime.ShellCmd import ShellCmd
 
 ##
@@ -47,6 +48,32 @@ class ActionLib(object):
                     if os.path.splitdrive(entry)[1] == os.sep:
                         raise RuntimeError, "!!! I'm not going to delete '/' recursively !!!"
                     self._shellCmd.rm_rf(entry)
+
+
+    def watch(self, jobconf):
+        since = time.time()
+        interval = jobconf.get("watch/interval", 2)
+        path = jobconf.get("watch/path", "")
+        if not path:
+            return
+        exit_on_retcode = jobconf.get("watch/exit-on-retcode", True)
+        command = jobconf.get("watch/command", "")
+        if not command:
+            return
+        print "Press Ctrl-C (Ctrl-Z on Windows) to terminate."
+        while True:
+            time.sleep(interval)
+            ylist = filetool.findYoungest(path,since=since)
+            since = time.time()
+            if ylist:
+                try:
+                    self.runShellCommand(command % ' '.join([f[0] for f in ylist]))
+                except RuntimeError:
+                    if exit_on_retcode:
+                        raise
+                    else:
+                        pass
+        return
 
 
     def runShellCommands(self, jobconf):
