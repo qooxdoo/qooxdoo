@@ -64,7 +64,7 @@ class ActionLib(object):
             return
         per_file = jobconf.get("watch-files/command/per-file", False)
         console.info("Watching changes of '%s'..." % path)
-        console.info("Press Ctrl-C (Ctrl-Z on Windows) to terminate.")
+        console.info("Press Ctrl-C to terminate.")
         pattern = self._watch_pattern(jobconf.get("watch-files/include",[])) 
         while True:
             time.sleep(interval)

@@ -88,6 +88,7 @@ class Key(object):
                 "translate"     : types.DictType,
                 "use"           : types.DictType,
                 "variants"      : types.DictType,
+                "watch-files"   : types.DictType,
                 }
 
 
