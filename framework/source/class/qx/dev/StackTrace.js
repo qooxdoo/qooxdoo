@@ -205,6 +205,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
           className,
           lineNumber,
           columnNumber,
+          fileName,
           url;
 
       var traceProp = qx.dev.StackTrace.hasEnvironmentCheck ?
