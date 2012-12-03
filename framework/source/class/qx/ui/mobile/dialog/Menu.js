@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * This widget displays a menu. A dialog menu extends a dialog and contains a
+ * This widget displays a menu. A dialog menu extends a popup and contains a
  * list, which provides the user the possibility to select one value.
  * The selected value is identified through selected index.
  *
@@ -71,7 +71,6 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       this.setModal(false);
     } else {
       this.setModal(true);
-      this._getBlocker().addListener("tap", this.__onBlockerTap, this);
     }
   },
 
@@ -174,7 +173,17 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     __selectedIndex: null,
     __clearButton : null,
 
-
+     
+    // overidden
+    show : function() {
+      this.base(arguments);
+      
+      if(this.getHideOnBlockerClick()) {
+        this._getBlocker().addListenerOnce("tap", this.hide, this);
+      }
+    },
+    
+    
     /**
      * Creates the selection list. Override this to customize the widget.
      *
@@ -242,17 +251,6 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       this._render();
 
       this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedItem});
-    },
-
-
-    /**
-     * Reacts on blocker tap.
-     */
-    __onBlockerTap : function () {
-      if(this.getHideOnBlockerClick()) {
-        // Just hide dialog, no changes.
-        this.hide();
-      }
     },
 
 
