@@ -1684,13 +1684,29 @@ def errorNodeIterator(docTree):
 # TODO: move to treeutil?
 def getParentAttrib(node, attrib, type=None):
     while node:
-        if node.hasParent() and node.parent.hasAttributes():
-            if attrib in node.parent.attributes:
+        if node.hasAttributes():
+            if attrib in node.attributes:
                 if type:
-                    if node.parent.type == type:
-                        return node.parent.attributes[attrib]
+                    if node.type == type:
+                        return node.attributes[attrib]
                 else:
-                    return node.parent.attributes[attrib]
+                    return node.attributes[attrib]
+
+        if node.hasParent():
+            node = node.parent
+        else:
+            node = None
+    return None
+
+
+def getTopPackage(node):
+    while node:
+        if node.hasAttributes():
+            if "packageName" in node.attributes:
+                if node.attributes["packageName"] == "":
+                    return node.get("name")
+                elif not "." in node.attributes["packageName"]:
+                    return node.get("packageName")
         if node.hasParent():
             node = node.parent
         else:
@@ -1927,21 +1943,33 @@ def verifyTypes(docTree, index):
 
 
 def verifyDocPercentage(docTree):
-    Context.console.info("API Documentation Statistics:")
-    documentableItems = 0
-    undocumentedItems = 0
-    for docNode in treeutil.nodeIterator(docTree, ["package", "class", "property", "event", "method"]):
-        documentableItems += 1
-        if docNode.get("hasError", False):
-            undocumentedItems += 1
+    packages = {}
 
-    percentageWithErrors = int(round((float(undocumentedItems) / documentableItems) * 100))
-    percentageOk = 100 - percentageWithErrors
-    Context.console.indent()
-    Context.console.info("%s API items total" % documentableItems)
-    Context.console.info("%s API items with missing or incomplete documentation" % undocumentedItems)
-    Context.console.info("%s%% API documentation completeness" % percentageOk)
-    Context.console.outdent()
+    for docNode in treeutil.nodeIterator(docTree, ["package", "class", "property", "event", "method"]):
+        pkg = getTopPackage(docNode)
+        if pkg == "":
+            import pydb
+            pydb.set_trace()
+        if not pkg in packages:
+            packages[pkg] = {
+                "documentableItems": 0,
+                "undocumentedItems": 0
+            }
+        packages[pkg]["documentableItems"] += 1
+        if docNode.get("hasError", False):
+            packages[pkg]["undocumentedItems"] += 1
+
+    for pkgName, pkgStats in packages.iteritems():
+        Context.console.info("API Documentation Statistics for package '%s':" % pkgName)
+        undocumentedItems = pkgStats["undocumentedItems"]
+        documentableItems = pkgStats["documentableItems"]
+        percentageWithErrors = (float(undocumentedItems) / documentableItems) * 100
+        percentageOk = "{0:.2f}".format(100 - percentageWithErrors)
+        Context.console.indent()
+        Context.console.info("%s API items total" % documentableItems)
+        Context.console.info("%s API items with missing or incomplete documentation" % undocumentedItems)
+        Context.console.info("%s%% API documentation completeness" % percentageOk)
+        Context.console.outdent()
 
 
 def logErrors(docTree, targets):
