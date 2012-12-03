@@ -39,7 +39,7 @@ qx.Class.define("playground.view.WebsiteContent",
     container.add(headline, {row: 0, column: 1});
 
     var message = new qx.ui.basic.Label(this.tr(
-      "If you want to give qx.Website a try, please check out <a href='http://jsfiddle.net/gh/gist/qooxdoo/2.1/4148412/' target='_blank'>jsFiddle</a>."
+      "If you want to give qx.Website a try, please check out <a href='http://jsfiddle.net/user/qooxdoo/fiddles/' target='_blank'>jsFiddle</a>."
     ));
     message.setWidth(300);
     message.setRich(true);
