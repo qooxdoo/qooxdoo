@@ -1,0 +1,1 @@
+\bqx\.ui\.mobile\.dialog\.Dialog\b=The class 'qx.ui.mobile.dialog.Dialog' has been merged with 'qx.ui.mobile.dialog.Popup'. Please use qx.ui.mobile.dialog.Popup instead and add method call "setModal(true)".
