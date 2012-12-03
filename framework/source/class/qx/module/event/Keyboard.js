@@ -30,7 +30,6 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
   {
     /**
      * List of event types to be normalized
-     * @type {Array}
      */
     TYPES : ["keydown", "keypress", "keyup"],
 
@@ -38,7 +37,6 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
     /**
      * List qx.module.event.Keyboard methods to be attached to native mouse event
      * objects
-     * @type {Array}
      * @internal
      */
     BIND_METHODS : ["getKeyIdentifier"],
