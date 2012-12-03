@@ -332,6 +332,11 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Updates the layout of the carousel the carousel scroller and its pages.
      */
     _updateCarouselLayout : function() {
+      var carouselContainerElement = this.getContainerElement();
+      if(!carouselContainerElement) {
+        return;
+      }
+      
       var carouselWidth = qx.bom.element.Dimension.getWidth(this.getContainerElement());
 
       var carouselScrollerWidth = this.__pages.length*carouselWidth;
