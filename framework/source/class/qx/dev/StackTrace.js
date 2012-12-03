@@ -18,6 +18,7 @@
 ************************************************************************ */
 /* ************************************************************************
 #require(qx.lang.normalize.String)
+#ignore(qx.bom.client.EcmaScript)
 ************************************************************************ */
 
 /**
@@ -66,7 +67,9 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         throw new Error();
       }
       catch(ex) {
-        if (qx.core.Environment.get("ecmascript.error.stacktrace")) {
+        if (qx.dev.StackTrace.hasEnvironmentCheck &&
+            qx.core.Environment.get("ecmascript.error.stacktrace"))
+        {
           var errorTrace = qx.dev.StackTrace.getStackTraceFromError(ex);
           var callerTrace = qx.dev.StackTrace.getStackTraceFromCaller(arguments);
           qx.lang.Array.removeAt(errorTrace, 0);
@@ -197,21 +200,29 @@ qx.Bootstrap.define("qx.dev.StackTrace",
     getStackTraceFromError : function(error)
     {
       var trace = [];
+      var lineRe,
+          hit,
+          className,
+          lineNumber,
+          columnNumber,
+          url;
 
-      if (qx.core.Environment.get("ecmascript.error.stacktrace") === "stack") {
+      var traceProp = qx.dev.StackTrace.hasEnvironmentCheck ?
+          qx.core.Environment.get("ecmascript.error.stacktrace") : null;
+
+      if (traceProp === "stack") {
         if (!error.stack) {
           return trace;
         }
         // Gecko style, e.g. "()@http://localhost:8080/webcomponent-test-SNAPSHOT/webcomponent/js/com/ptvag/webcomponent/common/log/Logger:253"
-        var lineRe = /@(.+):(\d+)$/gm;
-        var hit;
+        lineRe = /@(.+):(\d+)$/gm;
 
         while ((hit = lineRe.exec(error.stack)) != null)
         {
-          var url = hit[1];
-          var lineNumber = hit[2];
+          url = hit[1];
+          lineNumber = hit[2];
 
-          var className = this.__fileNameToClassName(url);
+          className = this.__fileNameToClassName(url);
           trace.push(className + ":" + lineNumber);
         }
 
@@ -223,10 +234,9 @@ qx.Bootstrap.define("qx.dev.StackTrace",
          * at [jsObject].function (fileUrl:line:char)
          * at fileUrl:line:char
          */
-        var lineRe = /at (.*)/gm;
+        lineRe = /at (.*)/gm;
         var fileReParens = /\((.*?)(:[^\/].*)\)/;
         var fileRe = /(.*?)(:[^\/].*)/;
-        var hit;
         while ((hit = lineRe.exec(error.stack)) != null) {
           var fileMatch = fileReParens.exec(hit[1]);
           if (!fileMatch) {
@@ -234,14 +244,15 @@ qx.Bootstrap.define("qx.dev.StackTrace",
           }
 
           if (fileMatch) {
-            var className = this.__fileNameToClassName(fileMatch[1]);
+            className = this.__fileNameToClassName(fileMatch[1]);
             trace.push(className + fileMatch[2]);
           } else {
             trace.push(hit[1]);
           }
         }
       }
-      else if (qx.core.Environment.get("ecmascript.error.stacktrace") === "stacktrace") {
+      else if (traceProp === "stacktrace")
+      {
         // Opera
         var stacktrace = error.stacktrace;
         if (!stacktrace) {
@@ -252,13 +263,12 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         }
 
         // new Opera style (10.6+)
-        var lineRe = /line\ (\d+?),\ column\ (\d+?)\ in\ (?:.*?)\ in\ (.*?):[^\/]/gm;
-        var hit;
+        lineRe = /line\ (\d+?),\ column\ (\d+?)\ in\ (?:.*?)\ in\ (.*?):[^\/]/gm;
         while ((hit = lineRe.exec(stacktrace)) != null) {
-          var lineNumber = hit[1];
-          var columnNumber = hit[2];
-          var url = hit[3];
-          var className = this.__fileNameToClassName(url);
+          lineNumber = hit[1];
+          columnNumber = hit[2];
+          url = hit[3];
+          className = this.__fileNameToClassName(url);
           trace.push(className + ":" + lineNumber + ":" + columnNumber);
         }
 
@@ -267,12 +277,11 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         }
 
         // older Opera style
-        var lineRe = /Line\ (\d+?)\ of\ linked\ script\ (.*?)$/gm;
-        var hit;
+        lineRe = /Line\ (\d+?)\ of\ linked\ script\ (.*?)$/gm;
         while ((hit = lineRe.exec(stacktrace)) != null) {
-          var lineNumber = hit[1];
-          var url = hit[2];
-          var className = this.__fileNameToClassName(url);
+          lineNumber = hit[1];
+          url = hit[2];
+          className = this.__fileNameToClassName(url);
           trace.push(className + ":" + lineNumber);
         }
       }
@@ -284,8 +293,8 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         {
           var reResult = lines[i].match(/\s*Line ([0-9]+) of.* (\S.*)/);
           if (reResult && reResult.length >= 2) {
-            var lineNumber = reResult[1];
-            var fileName = this.__fileNameToClassName(reResult[2]);
+            lineNumber = reResult[1];
+            fileName = this.__fileNameToClassName(reResult[2]);
             trace.push(fileName + ":" + lineNumber);
           }
         }
@@ -363,5 +372,13 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       }
       return trace;
     }
+  },
+
+  defer : function(statics)
+  {
+    // This is necessary to avoid an infinite loop when logging the absence
+    // of the "ecmascript.error.stacktrace" environment key.
+    statics.hasEnvironmentCheck = qx.bom.client.EcmaScript &&
+      qx.bom.client.EcmaScript.getStackTrace;
   }
 });
