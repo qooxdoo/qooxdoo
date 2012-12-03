@@ -22,7 +22,7 @@
 
 import re, os, sys, types, glob, time
 
-from misc import filetool
+from misc import filetool, textutil
 from generator import Context
 from generator.runtime.ShellCmd import ShellCmd
 
@@ -59,24 +59,35 @@ class ActionLib(object):
         if not path:
             return
         exit_on_retcode = jobconf.get("watch-files/exit-on-retcode", True)
-        command = jobconf.get("watch-files/command", "")
+        command = jobconf.get("watch-files/command/line", "")
         if not command:
             return
+        per_file = jobconf.get("watch-files/command/per-file", False)
         console.info("Watching changes of '%s'..." % path)
         console.info("Press Ctrl-C (Ctrl-Z on Windows) to terminate.")
+        pattern = self._watch_pattern(jobconf.get("watch-files/include",[])) 
         while True:
             time.sleep(interval)
             console.debug("checking path '%s'" % path)
-            ylist = filetool.findYoungest(path,since=since)
+            ylist = filetool.findYoungest(path, pattern=pattern, includedirs=False, since=since)
             since = time.time()
-            if ylist:
+            if ylist:     # ylist =[(fpath,fstamp)]
+                flist = [f[0] for f in ylist]
+                cmd_args = {'F': ' '.join(flist)}
+                console.debug("found changed files: %s" % flist)
                 try:
-                    flist = [f[0] for f in ylist]
-                    cmd_args = {'F': ' '.join(flist)}
-                    cmd = command % cmd_args
-                    console.debug("found changed files: %s" % flist)
-                    console.debug("running command '%s'" % cmd)
-                    self.runShellCommand(cmd)
+                    if not per_file:
+                        cmd = command % cmd_args
+                        self.runShellCommand(cmd)
+                    else:
+                        for fname in flist:
+                            cmd_args['f'] = fname
+                            cmd_args['f.d'] = os.path.dirname(fname)
+                            cmd_args['f.b'] = os.path.basename(fname)
+                            cmd_args['f.e'] = os.path.splitext(fname)[1]
+                            print cmd_args
+                            cmd = command % cmd_args
+                            self.runShellCommand(cmd)
                 except RuntimeError:
                     if exit_on_retcode:
                         raise
@@ -84,6 +95,14 @@ class ActionLib(object):
                         pass
         return
 
+    def _watch_pattern(self, include):
+        pattern = u''
+        a = []
+        for entry in include:
+            e = textutil.toRegExpS(entry)
+            a.append(e)
+        pattern = '|'.join(a)
+        return pattern
 
     def runShellCommands(self, jobconf):
         if not jobconf.get("shell/command"):

@@ -648,7 +648,11 @@
 
       "watch-files" : 
       {
-        "command" : "./generate.py source",
+        "command" : 
+        {
+          "line"     : "./generate.py source",
+          "per-file" : false
+        },
         "path"    : "./source/class",
         "include" : [ "*.js" ],
         "exclude" : [],

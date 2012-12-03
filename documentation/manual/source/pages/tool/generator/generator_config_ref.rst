@@ -1252,9 +1252,12 @@ Watch arbitrary files or directories for changes.
   "watch-files" :
   {
     "path"    : "file/or/dir/to/watch",
-    "command" : "generate.py source",
+    "command" : 
+    {
+      "line" : "generate.py source",
+      "per-file" : (true|false)
+    }
     "include" : [ "*.js" ],
-    "exclude" : [ "__init__.js" ],
     "check-interval"  : 10,
     "exit-on-retcode" : (true|false)
   }
@@ -1264,8 +1267,18 @@ Watch arbitrary files or directories for changes.
   peer-keys: :ref:`pages/tool/generator/generator_config_ref#cache`
 
 * **path** *(required)* : Path to file or directory which should be watched. If it is a directory, it is watched recursively.
-* **command** *(required)* : Shell command to be executed when a change is detected.
+* **command** :
+
+  * **line** : *(required)* : Shell command line to be executed when a change is detected. There are a couple of placeholders available that can be interpolated into the command string with ``%(<key>)s``. The different keys are:
+
+    | ``F`` - the (space-separated) list of file paths that have changed
+    | ``f`` - the individual file path that has changed (interesting when *per-file* is true)
+    | ``f.d`` - the directory path (*"dirname"*) of an individual file (e.g. *foo/bar* in *foo/bar/baz.js*
+    | ``f.b`` - just the file name (*"basename"*) of an individual file including extension (e.g. *baz.js* in *foo/bar/baz.js*
+    | ``f.e`` - the file extension (e.g. *js* in *foo/bar/baz.js*
+
+  * **per-file** : Whether the command should be executed for each file that has been changed. (default: *false*)
+
 * **include** : List of file globs to be selected when watching a directory tree. (default: *[\*]*)
-* **exclude** : List of file globs to be excluded when watching a directory tree. (default: *[]*)
 * **check-interval** : Seconds of elapsed time between checks for changes. (default: *2*)
 * **exit-on-retcode**: Whether to terminate when the given command returns a return code != 0, or to continue in this case. (default *true*)
