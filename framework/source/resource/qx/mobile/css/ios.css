@@ -1452,7 +1452,7 @@ input[type="checkbox"] {
   height: 32px; }
 
 .checkbox-label:before {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   width: 22px;
@@ -1970,7 +1970,7 @@ div.checked .toggleButtonSwitch:before {
   transition-duration: .2s; }
 
 .picker-slot:first-child:before {
-  content: '';
+  content: "";
   position: absolute;
   width: 2px;
   top: -200%;
@@ -1978,7 +1978,7 @@ div.checked .toggleButtonSwitch:before {
   z-index: 1000; }
 
 .picker-slot:first-child:after, .picker-slot:nth-child(n+1):after {
-  content: '';
+  content: "";
   position: absolute;
   width: 2px;
   top: -200%;
@@ -2101,7 +2101,7 @@ h1, h2 {
   border-left: 0; }
 
 .navigationbar-backbutton:before {
-  content: '';
+  content: "";
   position: absolute;
   width: 21px;
   height: 21px;
@@ -2303,7 +2303,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   -moz-box-shadow: inset 0px 14px 10px -10px rgba(0, 0, 0, 0.3), inset 0px 0px 10px -10px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: inset 0px 14px 10px -10px rgba(0, 0, 0, 0.3), inset 0px 0px 10px -10px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0px 14px 10px -10px rgba(0, 0, 0, 0.3), inset 0px 0px 10px -10px rgba(0, 0, 0, 0.3);
-  content: '';
+  content: "";
   width: 100%;
   height: 0px; }
 
@@ -2323,7 +2323,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   -moz-box-shadow: inset 0px 0px 10px -10px rgba(0, 0, 0, 0.3), inset 0px -14px 10px -10px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: inset 0px 0px 10px -10px rgba(0, 0, 0, 0.3), inset 0px -14px 10px -10px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0px 0px 10px -10px rgba(0, 0, 0, 0.3), inset 0px -14px 10px -10px rgba(0, 0, 0, 0.3);
-  content: '';
+  content: "";
   width: 100%;
   height: 0px; }
 
@@ -2559,7 +2559,7 @@ input[type="checkbox"]:checked + label {
 
 .popupAnchorPointerTop:not(.master-popup):before {
   position: absolute;
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 0;
@@ -2569,7 +2569,7 @@ input[type="checkbox"]:checked + label {
 
 .popupAnchorPointerTop:not(.master-popup):after {
   position: absolute;
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 0;
@@ -2579,7 +2579,7 @@ input[type="checkbox"]:checked + label {
 
 .popupAnchorPointerBottom:before {
   position: absolute;
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 0;
@@ -2589,7 +2589,7 @@ input[type="checkbox"]:checked + label {
 
 .popupAnchorPointerBottom:after {
   position: absolute;
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 0;
@@ -2599,7 +2599,7 @@ input[type="checkbox"]:checked + label {
 
 .popupAnchorPointerLeft:before {
   position: absolute;
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 0;
@@ -2609,7 +2609,7 @@ input[type="checkbox"]:checked + label {
 
 .popupAnchorPointerLeft:after {
   position: absolute;
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 0;
@@ -2619,7 +2619,7 @@ input[type="checkbox"]:checked + label {
 
 .popupAnchorPointerRight:before {
   position: absolute;
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 0;
@@ -2629,7 +2629,7 @@ input[type="checkbox"]:checked + label {
 
 .popupAnchorPointerRight:after {
   position: absolute;
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 0;
@@ -2781,7 +2781,7 @@ div.checked .toggleButtonSwitch:before {
 
 .master-popup .popupAnchorPointerTop:after {
   position: absolute;
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 0;
@@ -2791,7 +2791,7 @@ div.checked .toggleButtonSwitch:before {
 
 .master-popup .popupAnchorPointerTop:before {
   position: absolute;
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 0;
