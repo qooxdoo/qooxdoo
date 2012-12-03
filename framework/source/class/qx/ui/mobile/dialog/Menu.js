@@ -41,7 +41,7 @@
  */
 qx.Class.define("qx.ui.mobile.dialog.Menu",
 {
-  extend : qx.ui.mobile.dialog.Dialog,
+  extend : qx.ui.mobile.dialog.Popup,
 
   /**
    * @param itemsModel {qx.data.Array ?}, the model which contains the choosable items of the menu.
@@ -70,6 +70,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     if(anchor) {
       this.setModal(false);
     } else {
+      this.setModal(true);
       this._getBlocker().addListener("tap", this.__onBlockerTap, this);
     }
   },

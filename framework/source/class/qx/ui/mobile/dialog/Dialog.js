@@ -31,6 +31,8 @@
  * </pre>
  *
  * This example creates a label widget and adds this widget to a dialog.
+ * 
+ * @deprecated { 2.2 } Pleaes use qx.ui.mobile.Popup instead and call function setModal(true).
  */
 qx.Class.define("qx.ui.mobile.dialog.Dialog",
 {
@@ -49,79 +51,6 @@ qx.Class.define("qx.ui.mobile.dialog.Dialog",
     {
       refine : true,
       init : "dialog"
-    },
-
-
-    /**
-     * Whether the dialog should be displayed modal.
-     */
-    modal :
-    {
-      init : true,
-      check : "Boolean",
-      nullable: false
     }
-
-  },
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-
-    __blocker : false,
-
-
-    /**
-     * Shows the blocker.
-     */
-    show : function()
-    {
-      if(this.getModal())
-      {
-        this._getBlocker().show();
-      }
-      this.base(arguments);
-    },
-
-
-    /**
-     * Hides the blocker. The blocker is only hidden when the hide method
-     * is called as many times as the {@link #show} method.
-     */
-    hide : function()
-    {
-      if(this.getModal())
-      {
-        this._getBlocker().hide();
-      }
-      this.base(arguments);
-    },
-
-
-    /**
-     * Returns the blocker widget.
-     *
-     * @return {qx.ui.mobile.core.Blocker} Returns the blocker widget.
-     */
-    _getBlocker : function()
-    {
-      if(!this.__blocker) {
-        this.__blocker = new qx.ui.mobile.core.Blocker();
-        this.__blocker.hide();
-        qx.core.Init.getApplication().getRoot().add(this.__blocker);
-        var blockerZIndex = qx.bom.element.Style.get(this.__blocker.getContainerElement(), 'zIndex');
-        blockerZIndex = parseInt(blockerZIndex) +1;
-        qx.bom.element.Style.set(this.getContainerElement(), 'zIndex', blockerZIndex);
-      }
-      return this.__blocker;
-    }
-
   }
-
 });

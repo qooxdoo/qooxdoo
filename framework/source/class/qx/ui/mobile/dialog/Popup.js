@@ -14,6 +14,7 @@
 
    Authors:
      * Gabriel Munteanu (gabios)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -127,6 +128,17 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       apply : "_applyIcon",
       nullable : true,
       event : "changeIcon"
+    },
+    
+    
+    /**
+     * Whether the popup should be displayed modal.
+     */
+    modal :
+    {
+      init : false,
+      check : "Boolean",
+      nullable: false
     }
   },
 
@@ -146,6 +158,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __widget: null,
     __titleWidget: null,
     __arrow : null,
+    __blocker : false,
 
 
     /**
@@ -234,6 +247,11 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this._updatePosition();
       }
       this.__isShown = true;
+      
+      if(this.getModal())
+      {
+        this._getBlocker().show();
+      }
     },
 
 
@@ -248,6 +266,11 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this.exclude();
       }
       this.__isShown = false;
+      
+      if(this.getModal())
+      {
+        this._getBlocker().hide();
+      }
     },
 
 
@@ -502,6 +525,25 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         }
         return null;
       }
+    },
+    
+    
+    /**
+     * Returns the blocker widget.
+     *
+     * @return {qx.ui.mobile.core.Blocker} Returns the blocker widget.
+     */
+    _getBlocker : function()
+    {
+      if(!this.__blocker) {
+        this.__blocker = qx.ui.mobile.core.Blocker.getInstance();
+        this.__blocker.hide();
+        
+        var blockerZIndex = qx.bom.element.Style.get(this.__blocker.getContainerElement(), 'zIndex');
+        blockerZIndex = parseInt(blockerZIndex) +1;
+        qx.bom.element.Style.set(this.getContainerElement(), 'zIndex', blockerZIndex);
+      }
+      return this.__blocker;
     }
   },
 

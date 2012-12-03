@@ -76,7 +76,7 @@ qx.Class.define("mobileshowcase.page.Form",
       popupContent.add(this.__result);
       popupContent.add(this.__closeResultPopup);
 
-      this.__resultPopup = new qx.ui.mobile.dialog.Dialog(popupContent);
+      this.__resultPopup = new qx.ui.mobile.dialog.Popup(popupContent);
       this.__resultPopup.setTitle("Registration Result");
     },
 

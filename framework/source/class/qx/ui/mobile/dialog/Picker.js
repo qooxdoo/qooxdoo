@@ -61,7 +61,7 @@
  */
 qx.Class.define("qx.ui.mobile.dialog.Picker",
 {
-  extend : qx.ui.mobile.dialog.Dialog,
+  extend : qx.ui.mobile.dialog.Popup,
 
   /**
    * @param anchor {qx.ui.mobile.core.Widget ? null} The anchor widget for this item. If no anchor is available,
@@ -105,6 +105,8 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
     if(anchor) {
       this.setModal(false);
+    } else {
+      this.setModal(true);
     }
 
     this.base(arguments, this.__pickerContent, anchor) ;
