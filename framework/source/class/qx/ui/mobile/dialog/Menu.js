@@ -23,7 +23,6 @@
  * The selected value is identified through selected index.
  *
  *
- *
  * *Example*
  * <pre class='javascript'>
  *
