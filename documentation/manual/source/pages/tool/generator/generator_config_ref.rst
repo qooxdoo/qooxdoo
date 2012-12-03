@@ -1266,7 +1266,7 @@ Watch arbitrary files or directories for changes.
 
   peer-keys: :ref:`pages/tool/generator/generator_config_ref#cache`
 
-* **path** *(required)* : Path to file or directory which should be watched. If it is a directory, it is watched recursively.
+* **path** *(required)* : Path to file or directory which should be watched. If it is a directory, it is watched recursively (but directories themselves are exempted).
 * **command** :
 
   * **line** : *(required)* : Shell command line to be executed when a change is detected. There are a couple of placeholders available that can be interpolated into the command string with ``%(<key>)s``. The different keys are:
