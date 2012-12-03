@@ -1242,3 +1242,30 @@ Each key is a
 
 * **<class_name>** : each value is an array of used classes of this class.
 
+watch-files
+===========
+
+Watch arbitrary files or directories for changes.
+
+::
+
+  "watch-files" :
+  {
+    "path"    : "file/or/dir/to/watch",
+    "command" : "generate.py source",
+    "include" : [ "*.js" ],
+    "exclude" : [ "__init__.js" ],
+    "check-interval"  : 10,
+    "exit-on-retcode" : (true|false)
+  }
+
+.. note::
+
+  peer-keys: :ref:`pages/tool/generator/generator_config_ref#cache`
+
+* **path** *(required)* : Path to file or directory which should be watched. If it is a directory, it is watched recursively.
+* **command** *(required)* : Shell command to be executed when a change is detected.
+* **include** : List of file globs to be selected when watching a directory tree. (default: *[\*]*)
+* **exclude** : List of file globs to be excluded when watching a directory tree. (default: *[]*)
+* **check-interval** : Seconds of elapsed time between checks for changes. (default: *2*)
+* **exit-on-retcode**: Whether to terminate when the given command returns a return code != 0, or to continue in this case. (default *true*)

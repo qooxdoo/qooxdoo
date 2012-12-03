@@ -180,6 +180,10 @@ class Generator(object):
             "simulate" :
             {
               "type"   : "JSimpleJob"
+            },
+            "watch-files" :
+            {
+              "type"   : "JSimpleJob"
             }
           }
 
@@ -491,6 +495,8 @@ class Generator(object):
             Testing.runSimulation(self._job)
         if takeout(jobTriggers, "slice-images"):
             Resources.runImageSlicing(self._job, self._config)
+        if takeout(jobTriggers, "watch-files"):
+            self._actionLib.watch(self._job, self._config)
 
         if jobTriggers:
 

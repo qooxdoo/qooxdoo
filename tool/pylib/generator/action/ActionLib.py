@@ -23,6 +23,7 @@
 import re, os, sys, types, glob, time
 
 from misc import filetool
+from generator import Context
 from generator.runtime.ShellCmd import ShellCmd
 
 ##
@@ -50,24 +51,32 @@ class ActionLib(object):
                     self._shellCmd.rm_rf(entry)
 
 
-    def watch(self, jobconf):
+    def watch(self, jobconf, confObj):
+        console = Context.console
         since = time.time()
-        interval = jobconf.get("watch/interval", 2)
-        path = jobconf.get("watch/path", "")
+        interval = jobconf.get("watch-files/interval", 2)
+        path = jobconf.get("watch-files/path", "")
         if not path:
             return
-        exit_on_retcode = jobconf.get("watch/exit-on-retcode", True)
-        command = jobconf.get("watch/command", "")
+        exit_on_retcode = jobconf.get("watch-files/exit-on-retcode", True)
+        command = jobconf.get("watch-files/command", "")
         if not command:
             return
-        print "Press Ctrl-C (Ctrl-Z on Windows) to terminate."
+        console.info("Watching changes of '%s'..." % path)
+        console.info("Press Ctrl-C (Ctrl-Z on Windows) to terminate.")
         while True:
             time.sleep(interval)
+            console.debug("checking path '%s'" % path)
             ylist = filetool.findYoungest(path,since=since)
             since = time.time()
             if ylist:
                 try:
-                    self.runShellCommand(command % ' '.join([f[0] for f in ylist]))
+                    flist = [f[0] for f in ylist]
+                    cmd_args = {'F': ' '.join(flist)}
+                    cmd = command % cmd_args
+                    console.debug("found changed files: %s" % flist)
+                    console.debug("running command '%s'" % cmd)
+                    self.runShellCommand(cmd)
                 except RuntimeError:
                     if exit_on_retcode:
                         raise
