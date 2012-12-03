@@ -1276,8 +1276,16 @@ Watch arbitrary files or directories for changes.
     | ``f.d`` - the directory path (*"dirname"*) of an individual file (e.g. *foo/bar* in *foo/bar/baz.js*
     | ``f.b`` - just the file name (*"basename"*) of an individual file including extension (e.g. *baz.js* in *foo/bar/baz.js*
     | ``f.e`` - the file extension (e.g. *js* in *foo/bar/baz.js*
+    | ``f.bx`` - the file name without path and extension (e.g. *baz* in *foo/bar/baz.js*)
+    |
 
-  * **per-file** : Whether the command should be executed for each file that has been changed. (default: *false*)
+    For example, this can be used to create a command line like this::
+    
+      sass %(f)s > path/to/css/%(f.bx)s.css
+    
+    which runs an SCSS compiler on a .scss file (assuming these files are watched), and redirects the output to a file with same name but a .css extension, in a different path.
+
+  * **per-file** : Whether the command should be executed for each file that has been changed. If true, command will be invoked for each file that has changed since the last check. (default: *false*)
 
 * **include** : List of file globs to be selected when watching a directory tree. (default: *[\*]*)
 * **check-interval** : Seconds of elapsed time between checks for changes. (default: *2*)

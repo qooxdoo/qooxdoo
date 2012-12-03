@@ -81,10 +81,11 @@ class ActionLib(object):
                         self.runShellCommand(cmd)
                     else:
                         for fname in flist:
-                            cmd_args['f'] = fname
-                            cmd_args['f.d'] = os.path.dirname(fname)
-                            cmd_args['f.b'] = os.path.basename(fname)
-                            cmd_args['f.e'] = os.path.splitext(fname)[1]
+                            cmd_args['f'] = fname                     # foo/bar/baz.js
+                            cmd_args['f.d'] = os.path.dirname(fname)  # foo/bar
+                            cmd_args['f.b'] = os.path.basename(fname) # baz.js
+                            cmd_args['f.e'] = os.path.splitext(fname)[1]   # .js
+                            cmd_args['f.bx']= os.path.basename(os.path.splitext(fname)[0])  # baz
                             cmd = command % cmd_args
                             self.runShellCommand(cmd)
                 except RuntimeError:
