@@ -85,7 +85,6 @@ class ActionLib(object):
                             cmd_args['f.d'] = os.path.dirname(fname)
                             cmd_args['f.b'] = os.path.basename(fname)
                             cmd_args['f.e'] = os.path.splitext(fname)[1]
-                            print cmd_args
                             cmd = command % cmd_args
                             self.runShellCommand(cmd)
                 except RuntimeError:
