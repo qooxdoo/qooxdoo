@@ -1271,13 +1271,25 @@ Watch arbitrary files or directories for changes.
 
   * **line** : *(required)* : Shell command line to be executed when a change is detected. There are a couple of placeholders available that can be interpolated into the command string with ``%(<key>)s``. The different keys are:
 
-    | ``F`` - the (space-separated) list of file paths that have changed
-    | ``f`` - the individual file path that has changed (interesting when *per-file* is true)
-    | ``f.d`` - the directory path (*"dirname"*) of an individual file (e.g. *foo/bar* in *foo/bar/baz.js*
-    | ``f.b`` - just the file name (*"basename"*) of an individual file including extension (e.g. *baz.js* in *foo/bar/baz.js*
-    | ``f.e`` - the file extension (e.g. *js* in *foo/bar/baz.js*
-    | ``f.bx`` - the file name without path and extension (e.g. *baz* in *foo/bar/baz.js*)
-    |
+    .. list-table::
+      :widths: 10 90
+      :header-rows: 1
+
+      * - Key
+        - Description
+      * - ``F`` 
+        - the (space-separated) list of file paths that have changed
+      * - ``f`` 
+        - the individual file path that has changed (interesting when *per-file* is true)
+      * - ``f.d`` 
+        - the directory path (*"dirname"*) of an individual file (e.g. *foo/bar* in *foo/bar/baz.js*
+      * - ``f.b`` 
+        - just the file name (*"basename"*) of an individual file including extension (e.g. *baz.js* in *foo/bar/baz.js*
+      * -  ``f.e`` 
+        - the file extension (e.g. *js* in *foo/bar/baz.js*
+      * -  ``f.bx`` 
+        - the file name without path and extension (e.g. *baz* in *foo/bar/baz.js*)
+
 
     For example, this can be used to create a command line like this::
     
