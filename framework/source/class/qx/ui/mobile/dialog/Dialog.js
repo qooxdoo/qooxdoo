@@ -37,7 +37,16 @@
 qx.Class.define("qx.ui.mobile.dialog.Dialog",
 {
   extend : qx.ui.mobile.dialog.Popup,
-
+  
+  
+  construct : function()
+  {
+    this.base(arguments);
+    
+    qx.log.Logger.deprecatedClassWarning(this.constructor, "Use qx.ui.mobile.dialog.Popup instead.");
+  },
+  
+  
   /*
   *****************************************************************************
      PROPERTIES

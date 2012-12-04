@@ -186,16 +186,14 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
   },
 
 
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
-
   destruct : function()
   {
+    qx.core.Init.getApplication().getRoot().remove(this);
     this.__unregisterEventListener();
   }
 });

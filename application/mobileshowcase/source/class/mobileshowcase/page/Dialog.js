@@ -19,7 +19,6 @@
 
 /**
  * Mobile page responsible for showing all dialog widgets available:
- * - Dialog
  * - Popup
  * - Confirm dialogs
  * - Anchor dialogs
@@ -40,21 +39,15 @@ qx.Class.define("mobileshowcase.page.Dialog",
   members :
   {
     __anchorpopup : null,
-
     __popup : null,
-
     __dialogpopup : null,
-
     __busypopup : null,
-
     __menu : null,
-
     __picker : null,
-
     __anchoredMenu : null,
     __anchorMenu : null,
-
     __modaldialogpopup : null,
+    
 
     // overridden
     _initialize : function()
@@ -62,10 +55,10 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.base(arguments);
 
       // CLOSING BUTTONS
-      var closeDialogButton1 = new qx.ui.mobile.form.Button("Close Dialog");
+      var closeDialogButton1 = new qx.ui.mobile.form.Button("Close Popup");
       closeDialogButton1.addListener("tap", this._stop, this);
 
-      var closeDialogButton2 = new qx.ui.mobile.form.Button("Close Dialog");
+      var closeDialogButton2 = new qx.ui.mobile.form.Button("Close Popup");
       closeDialogButton2.addListener("tap", this._stop, this);
 
       // EXAMPLE WIDGETS
@@ -78,8 +71,9 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__popup.setTitle("A Popup");
 
       // MODAL DIALOG
-      this.__modaldialogpopup = new qx.ui.mobile.dialog.Dialog(closeDialogButton2);
-      this.__modaldialogpopup.setTitle("A Modal Dialog");
+      this.__modaldialogpopup = new qx.ui.mobile.dialog.Popup(closeDialogButton2);
+      this.__modaldialogpopup.setModal(true);
+      this.__modaldialogpopup.setTitle("A Modal Popup");
 
       // ANCHOR POPUP
       var showAnchorButton = new qx.ui.mobile.form.Button("Show Anchor Popup");
@@ -112,7 +106,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__picker.setSelectedIndex(0, 1);
       this.__picker.setSelectedIndex(1, 4);
 
-      // ANCHORED MENU DIALOG
+      // ANCHORED MENU POPUP
       var showAnchorMenuButton = new qx.ui.mobile.form.Button("Show Anchor Menu");
       showAnchorMenuButton.addListener("tap", function(e) {
           this._stop();
@@ -124,7 +118,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__anchorMenu.setTitle("Colors");
 
       // BUTTONS
-      var showModalDialogButton = new qx.ui.mobile.form.Button("Show Modal Dialog");
+      var showModalDialogButton = new qx.ui.mobile.form.Button("Show Modal Popup");
       showModalDialogButton.addListener("tap", function(e) {
           this._stop();
           this.__modaldialogpopup.show();
@@ -156,7 +150,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.getContent().add(showAnchorMenuButton);
       this.getContent().add(busyIndicatorButton);
       this.getContent().add(showPickerButton);
-
     },
 
 
@@ -221,17 +214,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
     _back : function()
     {
       qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
-    },
-
-
-    /*
-    *****************************************************************************
-      DESTRUCTOR
-    *****************************************************************************
-    */
-    destruct : function()
-    {
-      this._disposeObjects("__anchorpopup", "__modaldialogpopup","__popup","__dialogpopup","__busypopup","__menu");
     }
   }
 });
