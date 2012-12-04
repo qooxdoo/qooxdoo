@@ -27,6 +27,7 @@
     "LOCALES"      : [ "en" ],
     "APPLICATION_MAIN_CLASS" : "${APPLICATION}.Application",
     "ADD_NOCACHE_PARAM"      : false,
+    "SOURCE_PATH"  : "${ROOT}/source",
     "BUILD_PATH"   : "${ROOT}/build"
   },
 
@@ -112,7 +113,7 @@
       {
         "paths" :
         {
-          "file" : "${ROOT}/source/script/${APPLICATION}.js",
+          "file" : "${SOURCE_PATH}/script/${APPLICATION}.js",
           "app-root" : "source"
         },
         "uris" :
@@ -183,7 +184,7 @@
       {
         "paths" :
         {
-          "file" : "${ROOT}/source/script/${APPLICATION}.js",
+          "file" : "${SOURCE_PATH}/script/${APPLICATION}.js",
           "app-root" : "source"
         },
         "uris" :
@@ -283,7 +284,7 @@
           "index.html"
         ],
 
-        "source" : "${ROOT}/source",
+        "source" : "${SOURCE_PATH}",
         "target" : "${BUILD_PATH}"
       }
     },
@@ -360,7 +361,12 @@
         {
           "type" : "using",
           "format" : "provider",
-          "json" : {"pretty" : true, "file" : "${PROVIDER_ROOT}/dependencies.json"}
+          "json"   : 
+          {
+            "pretty" : true, 
+            "file"   : "${PROVIDER_ROOT}/dependencies.json",
+            "replace-dots-in" : [ "keys", "values"]
+          }
         }
       }
     },
@@ -398,6 +404,31 @@
         "include"  : ["${APPLICATION}.*"],
         "exclude"  : ["${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
         "compile"  : ["source", "build"]
+      }
+    },
+
+
+    "dependencies" :
+    {
+      "extend" : ["cache", "scan-local-lib"]
+      ,"config-warnings" : {
+        "exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
+      }
+      ,"include" : [ "=${APPLICATION}.*" ]
+      ,"exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
+
+      ,"log" :
+      {
+        "dependencies" :
+        {
+          "type" : "using",
+          "format" : "provider",
+          "json"   : 
+          {
+            "pretty" : true, 
+            "file"   : "${SOURCE_PATH}/script/dependencies.json"
+          }
+        }
       }
     },
 
@@ -444,7 +475,7 @@
         ],
         "Cleaning up source" :
         [
-          "${ROOT}/source/script/${APPLICATION}*.js"
+          "${SOURCE_PATH}/script/${APPLICATION}*.js"
         ]
         /*
         ,"Deleting local cache" :
@@ -470,7 +501,7 @@
         ],
         "Cleaning up source" :
         [
-          "${ROOT}/source/script"
+          "${SOURCE_PATH}/script"
         ],
         "Deleting api folder" :
         [

@@ -293,6 +293,9 @@ def runLogDependencies(jobconf, script):
         exclregexps = jobconf.get("provider/exclude", [])
         inclregexps = map(textutil.toRegExp, inclregexps)
         exclregexps = map(textutil.toRegExp, exclregexps)
+        replace_dots = depsLogConf.get("json/replace-dots-in", [])
+        slashes_keys = 'keys' in replace_dots
+        slashes_vals = 'values' in replace_dots
 
         classToDeps = {}
         # Class deps
@@ -305,18 +308,19 @@ def runLogDependencies(jobconf, script):
                 if depId != None:
                     classToDeps[classId][loadOrRun].append(depId)
 
-        # transform dep items
-        for key, val in classToDeps.items():
-            newval = []
-            for ldep in val["load"]:
-                newdep = ldep.replace(".", "/")
-                newval.append(newdep)
-            val["load"] = newval
-            newval = []
-            for ldep in val["run"]:
-                newdep = ldep.replace(".", "/")
-                newval.append(newdep)
-            val["run"] = newval
+        if slashes_vals:
+            # transform dep items
+            for key, val in classToDeps.items():
+                newval = []
+                for ldep in val["load"]:
+                    newdep = ldep.replace(".", "/")
+                    newval.append(newdep)
+                val["load"] = newval
+                newval = []
+                for ldep in val["run"]:
+                    newdep = ldep.replace(".", "/")
+                    newval.append(newdep)
+                val["run"] = newval
 
         # Resource deps
         # class list
@@ -342,12 +346,13 @@ def runLogDependencies(jobconf, script):
             if script.classesAll[classId].getHints("cldr"):
                 classToDeps[classId]["run"].append("/locale/locale-${lang}#cldr")
 
-        # transform dep keys ("qx.Class" -> "qx/Class.js")
-        for key, val in classToDeps.items():
-            if key.find(".")>-1:
-                newkey = key.replace(".", "/")
-                classToDeps[newkey] = classToDeps[key]
-                del classToDeps[key]
+        if slashes_keys:
+            # transform dep keys ("qx.Class" -> "qx/Class.js")
+            for key, val in classToDeps.items():
+                if key.find(".")>-1:
+                    newkey = key.replace(".", "/")
+                    classToDeps[newkey] = classToDeps[key]
+                    del classToDeps[key]
 
         # sort information for each class (for stable output)
         for classvals in classToDeps.values():
@@ -355,8 +360,8 @@ def runLogDependencies(jobconf, script):
                 classvals[key] = sorted(classvals[key], reverse=True)
 
         # write to file
-        file = depsLogConf.get('json/file', "deps.json")
-        console.info("Writing dependency data to file: %s" % file)
+        file_ = depsLogConf.get('json/file', "deps.json")
+        console.info("Writing dependency data to file: %s" % file_)
         pretty = depsLogConf.get('json/pretty', None)
         if pretty:
             indent     = 2
@@ -364,7 +369,7 @@ def runLogDependencies(jobconf, script):
         else:
             indent     = None
             separators = (',', ':')
-        filetool.save(file, json.dumps(classToDeps, sort_keys=True, indent=indent, separators=separators))
+        filetool.save(file_, json.dumps(classToDeps, sort_keys=True, indent=indent, separators=separators))
 
         return
 

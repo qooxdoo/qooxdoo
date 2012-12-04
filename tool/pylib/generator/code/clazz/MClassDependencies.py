@@ -212,15 +212,23 @@ class MClassDependencies(object):
         cacheId          = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
         cached           = True
 
+        # try compile cache
         classInfo, classInfoMTime = self._getClassCache()
         (deps, cacheModTime) =  classInfo[cacheId] if cacheId in classInfo else (None,None)
+
+        # try dependencies.json
+        if 1 and deps == None:
+            deps_json, cacheModTime = self.library.getDependencies(self.id)
+            if deps_json is not None:
+                deps = self.depsItems_from_Json(deps_json)
+                if not tree: # don't cache for a passed-in tree
+                    classInfo[cacheId] = (deps, cacheModTime)
+                    self._writeClassCache(classInfo)
 
         if (deps == None
           or force == True
           or not transitiveDepsAreFresh(deps, cacheModTime)):
             cached = False
-            #if self.id=='gui.theme.Appearance':
-            #    import pydb; pydb.debugger()
             deps = buildShallowDeps(tree)
             deps = buildTransitiveDeps(deps)
             if not tree: # don't cache for a passed-in tree
@@ -230,6 +238,25 @@ class MClassDependencies(object):
         return deps, cached
 
         # end:dependencies()
+
+
+    ##
+    # Create depsItems from dependencies.json entry.
+    #
+    # deps_json = {'load':['qx.util.OOUtil', ...], 'run':['qx.util.DisposeUtil',...]}
+    #
+    def depsItems_from_Json(self, deps_json):
+        result = {'run':[], 'load':[], 'ignore':[]}
+        for category in ('run', 'load'):
+            for classId in deps_json[category]:
+                if (classId.startswith('/resource/')
+                    or classId.startswith('/translation/')):
+                    continue  # sorting out resource and msgid dependencies
+                depsItem = DependencyItem(classId, '', '|dependency.json|')
+                depsItem.isLoadDep = category == 'load'
+                result[category].append(depsItem)
+        return result
+
 
 
     def getCombinedDeps(self, classesAll_, variants, config, stripSelfReferences=True, projectClassNames=True, genProxy=None, force=False, tree=None):
@@ -930,7 +957,7 @@ class MClassDependencies(object):
                     return cachedDeps
 
             # Need to calculate deps
-            console.dot("_")
+            console.dot(1)
 
             # Check known class
             if classId not in ClassesAll:

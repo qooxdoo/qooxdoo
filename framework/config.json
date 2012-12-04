@@ -16,6 +16,7 @@
     "api-data",
     "api-verify",
     //"build-all",
+    "dependencies",
     "clean",
     "distclean",
     "fix",
