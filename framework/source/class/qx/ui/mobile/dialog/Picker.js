@@ -513,10 +513,10 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     * Updates the visual position of all available picker slot elements.
     */
     _updateAllSlots : function() {
-      for(var i =0; i < this.__slotElements.length; i++){
+      for(var i = 0; i < this.__slotElements.length; i++) {
         var slotElement = this.__slotElements[i];
-        this._updateSlot(slotElement);
         this._fixPickerSlotHeight(slotElement);
+        this._updateSlot(slotElement);
       }
     },
 
