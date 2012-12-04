@@ -410,7 +410,10 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     _onTouchEnd : function(evt) {
       var target = evt.getCurrentTarget().getContainerElement();
       var targetId = target.id;
-
+      
+      var model = this._getModelByElement(target);
+      var slotIndex = this._getSlotIndexByElement(target);
+      
       var deltaY = evt.getScreenTop() - this.__slotTouchStartPoints[targetId].y;
 
       var isSwipe = Math.abs(deltaY) >= this.__labelHeight/2;
@@ -419,16 +422,8 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         // SWIPE
         //
         // Apply selectedIndex
-        var selectedIndex = this.__targetIndex[targetId];
-        var slotIndex = this._getSlotIndexByElement(target);
-
-        this.__selectedIndex[targetId] = selectedIndex;
-        this.__selectedIndexBySlot[slotIndex] = selectedIndex;
-
-        // Fire changeSelection event including change data.
-        var model = this._getModelByElement(target);
-        var selectedValue = model.getItem(selectedIndex);
-        this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedValue, slot: slotIndex});
+        this.__selectedIndex[targetId] = this.__targetIndex[targetId];
+        this.__selectedIndexBySlot[slotIndex] = this.__targetIndex[targetId];
       } else {
         // TAP
         //
@@ -449,6 +444,12 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
           this._increaseSelectedIndex(target);
         }
       }
+      
+      // Fire changeSelection event including change data.
+      var selectedIndex = this.__selectedIndex[targetId];
+      var selectedValue = model.getItem(selectedIndex);
+        
+      this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedValue, slot: slotIndex});
 
       this._updateSlot(target);
     },

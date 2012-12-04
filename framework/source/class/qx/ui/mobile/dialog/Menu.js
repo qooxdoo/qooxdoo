@@ -42,6 +42,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 {
   extend : qx.ui.mobile.dialog.Popup,
 
+
   /**
    * @param itemsModel {qx.data.Array ?}, the model which contains the choosable items of the menu.
    * @param anchor {qx.ui.mobile.core.Widget ?} The anchor widget for this item. If no anchor is available, the menu will be displayed modal and centered on screen.

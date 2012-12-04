@@ -29,7 +29,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
   construct : function()
   {
-    this.base(arguments);
+    this.base(arguments,false);
     this.setTitle("Dialog Widgets");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
@@ -47,13 +47,17 @@ qx.Class.define("mobileshowcase.page.Dialog",
     __anchoredMenu : null,
     __anchorMenu : null,
     __modaldialogpopup : null,
+    __resultsLabel : null,
     
 
     // overridden
     _initialize : function()
     {
       this.base(arguments);
-
+      
+      this.__resultsLabel = new qx.ui.mobile.basic.Label("No events received so far.");
+      var resultsGroup = new qx.ui.mobile.form.Group([this.__resultsLabel]);
+      
       // CLOSING BUTTONS
       var closeDialogButton1 = new qx.ui.mobile.form.Button("Close Popup");
       closeDialogButton1.addListener("tap", this._stop, this);
@@ -88,6 +92,8 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var menuModel = new qx.data.Array(["Action 1", "Action 2", "Action 3"]);
       this.__menu = new qx.ui.mobile.dialog.Menu(menuModel);
       this.__menu.setTitle("Menu");
+      
+      this.__menu.addListener("changeSelection", this.__onMenuChangeSelection, this);
 
       // PICKER DIALOG
       var showPickerButton = new qx.ui.mobile.form.Button("Show Picker");
@@ -105,6 +111,9 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__picker.addSlot(pickerSlot2);
       this.__picker.setSelectedIndex(0, 1);
       this.__picker.setSelectedIndex(1, 4);
+      
+      this.__picker.addListener("changeSelection", this.__onPickerChangeSelection,this);
+      this.__picker.addListener("confirmSelection", this.__onPickerConfirmSelection,this);
 
       // ANCHORED MENU POPUP
       var showAnchorMenuButton = new qx.ui.mobile.form.Button("Show Anchor Menu");
@@ -143,13 +152,48 @@ qx.Class.define("mobileshowcase.page.Dialog",
       }, this);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Dialog Widget Menu"));
-      this.getContent().add(showModalDialogButton);
-      this.getContent().add(showPopupButton);
-      this.getContent().add(showAnchorButton);
-      this.getContent().add(showMenuButton);
-      this.getContent().add(showAnchorMenuButton);
-      this.getContent().add(busyIndicatorButton);
-      this.getContent().add(showPickerButton);
+      
+      var buttonsGroup = new qx.ui.mobile.form.Group([
+        showModalDialogButton,
+        showPopupButton,
+        showAnchorButton,
+        showMenuButton,
+        showAnchorMenuButton,
+        busyIndicatorButton,
+        showPickerButton
+      ]);
+      
+      this.getContent().add(resultsGroup);
+      this.getContent().add(buttonsGroup);
+    },
+    
+    
+    /**
+     * Reacts on "changeSelection" event on picker, and displays the values on resultsLabel.
+     */
+    __onPickerChangeSelection : function(e) {
+      this.__resultsLabel.setValue("Received <b>changeSelection</b> from Picker Dialog. [slot: "+ e.getData().slot+ "] [item: "+ e.getData().item+"]");
+    },
+    
+    
+    /**
+     * Reacts on "confirmSelection" event on picker, and displays the values on resultsLabel.
+     */
+    __onPickerConfirmSelection : function(e) {
+      this.__resultsLabel.setValue("");
+
+      for(var i =0; i<e.getData().length;i++) { 
+        var data = e.getData()[i];
+        this.__resultsLabel.setValue(this.__resultsLabel.getValue()+ " Received <b>confirmSelection</b> from Picker Dialog. [slot: "+ data.slot+ "] [item: "+ data.item+"] <br>");
+      }
+    },
+    
+    
+    /**
+     * Reacts on "changeSelection" event on Menu, and displays the values on resultsLabel.
+     */
+    __onMenuChangeSelection : function(e) {
+       this.__resultsLabel.setValue("Received <b>changeSelection</b> from Menu Dialog. [index: "+ e.getData().index+ "] [item: "+ e.getData().item+"]");
     },
 
 
