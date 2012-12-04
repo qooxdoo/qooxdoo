@@ -221,17 +221,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
     _back : function()
     {
       qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
-    },
-
-
-    /*
-    *****************************************************************************
-      DESTRUCTOR
-    *****************************************************************************
-    */
-    destruct : function()
-    {
-      this._disposeObjects("__anchorpopup", "__modaldialogpopup","__popup","__dialogpopup","__busypopup","__menu");
     }
   }
 });
