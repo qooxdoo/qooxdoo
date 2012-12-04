@@ -650,7 +650,7 @@
       {
         "command" : 
         {
-          "line"     : "./generate.py source",
+          "line"     : "${PYTHON_CMD} generate.py source",
           "per-file" : false
         },
         "path"    : "./source/class",
