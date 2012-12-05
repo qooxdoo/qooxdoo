@@ -953,8 +953,8 @@ class CodeGenerator(object):
             allClassVariants = script.classVariants()
             allClassVariants.difference_update(variantKeys)
             
-            # do "statics" optimization out of line (needs script.classes)
-            # communicates with compileAndWritePackage via Class._tmp_tree
+            # do "statics" optimization out of line (needs script.classes);
+            # passes results to compileAndWritePackage via Class._tmp_tree
             compOpts = CompileOptions(compConf.get("code/optimize",[]), script.variants, compConf.get("code/format",False)) 
             if "statics" in compOpts.optimize:
                 script.classesObj = optimizeDeadCode(script.classesObj, script._featureMap, 
