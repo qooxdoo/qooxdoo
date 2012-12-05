@@ -295,7 +295,9 @@ qx.Class.define("testrunner.runner.TestRunner", {
         this.__logAppender.clear();
       }
 
-      this._wrapAssertions(this.frameWindow);
+      if (qx.core.Environment.get("engine.name") !== "opera") {
+        this._wrapAssertions(this.frameWindow);
+      }
       this._getTestModel();
     },
 
