@@ -410,7 +410,8 @@
 
     "dependencies" :
     {
-      "extend" : ["cache", "scan-local-lib"]
+      "desc"   : "create a dependencies.json file for the library"
+      ,"extend" : ["cache", "scan-local-lib"]
       ,"config-warnings" : {
         "exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
       }
@@ -429,6 +430,18 @@
             "file"   : "${SOURCE_PATH}/script/dependencies.json"
           }
         }
+      }
+    },
+
+
+    "source-server" :
+    {
+      "desc"  : "start a lightweight web server that exports the source version"
+      ,"extend" : ["cache", "libraries"]
+      ,"web-server" :
+      {
+        "document-root" : ""   // calculate dynamically from libraries
+        ,"server-port"  : 8080
       }
     },
 

@@ -36,6 +36,7 @@ from generator.action.ActionLib      import ActionLib
 from generator.action.Locale         import Locale as LocaleCls
 from generator.action                import ApiLoader, Locale, CodeMaintenance, Testing
 from generator.action                import CodeProvider, Logging, FileSystem, Resources
+from generator.action                import MiniWebServer
 from generator.runtime.Cache         import Cache
 from generator                       import Context
 
@@ -182,6 +183,10 @@ class Generator(object):
               "type"   : "JSimpleJob"
             },
             "watch-files" :
+            {
+              "type"   : "JSimpleJob"
+            },
+            "web-server" :
             {
               "type"   : "JSimpleJob"
             }
@@ -497,6 +502,8 @@ class Generator(object):
             Resources.runImageSlicing(self._job, self._config)
         if takeout(jobTriggers, "watch-files"):
             self._actionLib.watch(self._job, self._config)
+        if takeout(jobTriggers, "web-server"):
+            MiniWebServer.runWebServer(self._job, self._config)
 
         if jobTriggers:
 
