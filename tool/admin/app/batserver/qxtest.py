@@ -326,7 +326,9 @@ class QxTest:
     # to files.
     #
     # @param buildConf {dict} Build configuration
-    def buildAll(self, buildConf):
+    # @param buildOrder {list} List of buildConf keys to determine the order in
+    # which the targets are processed. Default: Alphabetical order
+    def buildAll(self, buildConf={}, buildOrder=None):
         defaultBuildConf = {
             'buildLogLevel': 'error',
             'buildLogDir': '../../logs/build',
@@ -337,7 +339,11 @@ class QxTest:
 
         buildResults = {}
         if "targets" in buildConf:
-            for target in sorted(buildConf['targets'].iterkeys()):
+            if buildOrder:
+                targets = buildOrder
+            else:
+                targets = sorted(buildConf['targets'].iterkeys())
+            for target in targets:
                 buildResult = self.buildTarget(target, buildConf)
                 if buildResult:
                     buildResults[target] = buildResult
