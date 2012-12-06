@@ -96,7 +96,7 @@ def runWebServer(jobconf, confObj):
         (server_interface, server_port), RequestHandler)
     console.info("Starting web server on port '%d', document root is '%s'" % (server_port, doc_root))
     if server_interface == 'localhost':
-        console.info("For security reasons, connections are only allowd from 'localhost'")
+        console.info("For security reasons, connections are only allowed from 'localhost'")
     else:
         console.warn("This server allows remote file access and indexes for the document root and beneath!")
     console.info("Access your source application under 'http://localhost:%d/%s'" % (server_port, app_web_path))
