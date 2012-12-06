@@ -56,7 +56,8 @@ Tutorials
 
 References
 ------------
-* :doc:`tool/generator/generator_default_jobs`
+* :doc:`tool/generator/default_jobs_actions`
+* :doc:`tool/generator/default_jobs_includers`
 * :doc:`tool/generator/generator_config_ref`
 * :doc:`tool/generator/generator_config_macros`
 

@@ -88,7 +88,7 @@ def runWebServer(jobconf, confObj):
     for lib in libs:
         lib._init_from_manifest()
 
-    doc_root = get_doc_root(jobconf, confObj)
+    doc_root = jobconf.get("web-server/document-root", "") or get_doc_root(jobconf, confObj)
     app_web_path = from_doc_root_to_app_root(jobconf, confObj, doc_root)
     os.chdir(doc_root)
 

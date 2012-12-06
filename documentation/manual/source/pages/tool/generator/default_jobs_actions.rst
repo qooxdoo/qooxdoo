@@ -1,14 +1,9 @@
-.. _pages/tool/generator/generator_default_jobs#default_generator_jobs:
+.. _pages/tool/generator/generator_default_jobs#action_jobs:
 
-Generator Default Jobs
+Default Action Jobs
 **********************
 
 This page describes the jobs that are automatically available to all skeleton-based applications (particularly, applications with config.json files that include the framework's *application.json* config file). Mainly this is just a reference list with short descriptions of what the jobs do. But in some cases, there is comprehensive documentation about the interface of this job and how it can be parametrized (This would usually require changing your *config.json* configuration file).
-
-.. _pages/tool/generator/generator_default_jobs#action_jobs:
-
-Action Jobs
-===========
 
 These jobs can be invoked with the generator, e.g. as ``generate.py <jobname>``.
 
@@ -272,6 +267,16 @@ into your application and which code they provide, the source_ version
 will be your choice.
 
 
+.. _pages/tool/generator/generator_default_jobs#source-server:
+
+source-server
+--------------
+
+*(experimental)*
+
+Run a mini web server that serves the source version of an application. The web server will export as document root a root path common to all libraries used by the source version. This overcomes e.g. restrictions by modern browsers that do not allow XHR requests over the *file://* protocol by default.
+
+
 .. _pages/tool/generator/generator_default_jobs#test:
 
 test
@@ -346,47 +351,10 @@ translation
 -----------
 Create .po files for current library.
 
-.. _pages/tool/generator/generator_default_jobs#includer_jobs:
+.. _pages/tool/generator/generator_default_jobs#watch:
 
-Includer Jobs
-=============
+watch
+-----------
 
-These jobs don't do anything sensible on their own, so it is no use to invoke them with the generator. But they can be used in the application's ``config.json``, to modify the behaviour of other jobs, as they pick up their definitions.
+The *watch* job watches the *source/class* path of your application for changed %{JS} files, and automatically runs the default Generator job (usually *"source-hybrid"*) in case of a change.
 
-.. _pages/tool/generator/generator_default_jobs#common:
-
-common
-------
-
-Common includer job for many default jobs, mostly used internally. You should usually not need to use it; if you do, use with care.
-
-.. _pages/tool/generator/generator_default_jobs#libraries:
-
-libraries
----------
-This job should take a single key, :ref:`library <pages/tool/generator/generator_config_ref#library>`.  The *libraries* job is filled by default with your application and the qooxdoo framework library, plus any additional libraries you specify in a custom *libraries* job you added to your application's *config.json*. Here, you can add additional libraries and/or contributions you want to use in your application. See the linked reference for more information on the library key. Various other jobs will evaluate the *libraries* job (like :ref:`pages/tool/generator/generator_default_jobs#api`, :ref:`pages/tool/generator/generator_default_jobs#test`), to work on a common set of libraries.
-
-::
-
-    "libraries" :
-    {
-      "library" : [ { "manifest" : "some/other/lib/Manifest.json" }]
-    }
-
-.. _pages/tool/generator/generator_default_jobs#profiling:
-
-profiling
----------
-Includer job, to activate profiling.
-
-.. _pages/tool/generator/generator_default_jobs#log-parts:
-
-log-parts
----------
-Includer job, to activate verbose logging of part generation; use with the ``-v`` command line switch.
-
-.. _pages/tool/generator/generator_default_jobs#log-dependencies:
-
-log-dependencies
-----------------
-Includer job, to activate verbose logging of class dependencies; use with the ``-v`` command line switch.

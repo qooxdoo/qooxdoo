@@ -1242,6 +1242,9 @@ Each key is a
 
 * **<class_name>** : each value is an array of used classes of this class.
 
+
+.. _pages/tool/generator/generator_config_ref#watch-files:
+
 watch-files
 ===========
 
@@ -1302,3 +1305,32 @@ Watch arbitrary files or directories for changes.
 * **include** : List of file globs to be selected when watching a directory tree. (default: *[\*]*)
 * **check-interval** : Seconds of elapsed time between checks for changes. (default: *2*)
 * **exit-on-retcode**: Whether to terminate when the given command returns a return code != 0, or to continue in this case. (default *true*)
+
+
+.. _pages/tool/generator/generator_config_ref#web-server:
+
+web-server
+==========
+
+*(experimental)*
+
+Start a mini web server to serve local files.
+
+::
+
+    "web-server" :
+    {
+      "document-root" : "",
+      "server-port"  : 8080,
+      "log-level"    : "error",
+      "allow-remote-access" : false
+    }
+
+.. note::
+
+  peer-keys: :ref:`pages/tool/generator/generator_config_ref#cache`, :ref:`pages/tool/generator/generator_config_ref#library`
+
+* **document-root** : File system path to use as the web server's document root. Best left empty, so the generator calculates a common root path of all involved %{qooxdoo} libraries. For this to work, your libraries should be collected in the :ref:`"libraries" <pages/tool/generator/generator_default_jobs#libraries>` default job. (default: *""*)
+* **server-port** : The port the server should listen on. (default: *8080*)
+* **log-level** : Log level of the server, ``"error"`` for errors, ``"info"`` for more verbose logging, ``"fatal"`` for no logging. (default: *"error"*)
+* **allow-remote-access** : Whether the web server allows access from other hosts. If set to false, access is only allowed from *localhost*. This is recommended as the web server might expose a substantial part of your hard disk, including directory indexes. (default: *false*)

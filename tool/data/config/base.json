@@ -700,10 +700,10 @@
       {
         "command" : 
         {
-          "line"     : "${PYTHON_CMD} generate.py source",
+          "line"     : "${PYTHON_CMD} generate.py",
           "per-file" : false
         },
-        "path"    : "./source/class",
+        "path"    : "${SOURCE_PATH}/class",
         "include" : [ "*.js" ],
         "exclude" : [],
         "check-interval" : 2,
