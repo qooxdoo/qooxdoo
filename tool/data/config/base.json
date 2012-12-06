@@ -103,12 +103,8 @@
 
     // -- source jobs --------------------------------------------------
 
-    "source-script" :
+    "source-script-compopts" :
     {
-      "desc"    : "create a source loader (all classes as source files)",
-
-      "extend" : ["common"],
-
       "compile-options" :
       {
         "paths" :
@@ -124,7 +120,15 @@
         {
           "locales" : "${LOCALES}"
         }
-      },
+      }
+    },
+
+
+    "source-script" :
+    {
+      "desc"    : "create a source loader (all classes as source files)",
+
+      "extend" : ["common", "source-script-compopts"],
 
       "compile" : { "type" : "source" }
     },
@@ -437,7 +441,7 @@
     "source-server" :
     {
       "desc"  : "start a lightweight web server that exports the source version"
-      ,"extend" : ["cache", "libraries"]
+      ,"extend" : ["cache", "libraries", "source-script-compopts"]
       ,"web-server" :
       {
         "document-root" : ""   // calculate dynamically from libraries
