@@ -77,6 +77,10 @@ def runWebServer(jobconf, confObj):
     owd = os.getcwdu()
     log_level = jobconf.get("web-server/log-level", "error")
     server_port = jobconf.get("web-server/server-port", default_server_port)
+    if jobconf.get("web-server/allow-remote-access", False):
+        server_interface = ""
+    else:
+        server_interface = "localhost"
 
     libs = jobconf.get("library", [])
     # return if not libs
@@ -88,8 +92,12 @@ def runWebServer(jobconf, confObj):
     os.chdir(doc_root)
 
     server = BaseHTTPServer.HTTPServer(
-        ("", server_port), RequestHandler)
+        (server_interface, server_port), RequestHandler)
     console.info("Starting web server on port '%d', document root is '%s'" % (server_port, doc_root))
+    if server_interface == 'localhost':
+        console.info("For security reasons, connections are only allowd from 'localhost'")
+    else:
+        console.warn("This server allows remote file access and indexes for the document root and beneath!")
     console.info("Access your source application under 'http://localhost:%d/%s'" % (server_port, app_web_path))
     console.info("Terminate the web server with Ctrl-C")
     server.serve_forever()
