@@ -14,6 +14,7 @@
 
    Authors:
      * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -50,8 +51,21 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 {
   extend : qx.ui.mobile.layout.Abstract,
 
+  
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+  construct : function()
+  {
+    this.base(arguments);
 
- /*
+    this.__animations = new qx.ui.mobile.layout.Animations();
+  },
+  
+  
+  /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
@@ -88,6 +102,14 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     {
       check : "Boolean",
       init : true
+    },
+    
+    
+    /** Transition duration of each animation. */
+    animationDuration : 
+    {
+      check : "Integer",
+      init : 350
     }
   },
 
@@ -128,7 +150,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     __inAnimation : null,
     __animation : null,
     __reverse : null,
-
+    __animations : null,
+    
 
     // overridden
     _getCssClasses : function() {
@@ -282,8 +305,26 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       var toCssClasses = this.__getAnimationClasses("in");
       
       this._widget.addCssClass("animationParent");
+      
+      var animation = this.__animations.getMap()[this.__animation];
+      
+      var toElementAnimation = null;
+      var fromElementAnimation = null;
+      
+      if(!this.__reverse) {
+         toElementAnimation = animation["in"];
+         fromElementAnimation = animation["out"];
+      } else {
+         toElementAnimation = animation["reverse"]["in"];
+         fromElementAnimation = animation["reverse"]["out"];
+      }
+      
       qx.bom.element.Class.addClasses(toElement, toCssClasses);
       qx.bom.element.Class.addClasses(fromElement, fromCssClasses);
+
+      qx.bom.element.Animation.animate(toElement, toElementAnimation); 
+      qx.bom.element.Animation.animate(fromElement, fromElementAnimation); 
+      
     },
 
 

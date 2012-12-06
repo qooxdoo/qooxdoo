@@ -24,461 +24,42 @@
 }
 
 //
-// SLIDE LEFT
-//
-
-.slide.in {
-  @include animation-name(slideLeftIn);  
-}
-
-.slide.out {
-  @include animation-name(slideLeftOut);
-}
-
-@mixin slideLeftInFrames {
-  0% {
-      @include transform(translateX(100%));
-  }
-  100% {
-      @include transform(translateX(0));
-  } 
-}
- 
-@mixin slideLeftOutFrames {
-  0% {
-      @include transform(translateX(0px)) ;
-  }
-  100% {
-      @include transform(translateX(-100%));
-  } 
-}
-
-@-webkit-keyframes slideLeftIn {@include slideLeftInFrames}
-@-moz-keyframes slideLeftIn {@include slideLeftInFrames}
-@keyframes slideLeftIn {@include slideLeftInFrames} 
-
-@-webkit-keyframes slideLeftOut {@include slideLeftOutFrames}
-@-moz-keyframes slideLeftOut {@include slideLeftOutFrames}
-@keyframes slideLeftOut {@include slideLeftOutFrames}
- 
-//
-// SLIDE RIGHT
-//
-
-.slide.in.reverse {
-    @include animation-name(slideRightIn);
-} 
- 
-.slide.out.reverse {
-    @include animation-name(slideRightOut);
-}
- 
-@mixin slideRightInFrames {
-    0% {
-        @include transform(translateX(-100%)); 
-    }
-    100% {
-        @include transform(translateX(0));
-    }
-}
-
-@mixin slideRightOutFrames {
-    0% {
-        @include transform(translateX(0));
-    }
-    100% {
-        @include transform(translateX(100%));
-    }
-}
-
-@-webkit-keyframes slideRightIn {@include slideRightInFrames}
-@-moz-keyframes slideRightIn {@include slideRightInFrames}
-@keyframes slideRightIn {@include slideRightInFrames} 
-
-@-webkit-keyframes slideRightOut {@include slideRightOutFrames}
-@-moz-keyframes slideRightOut {@include slideRightOutFrames}
-@keyframes slideRightOut {@include slideRightOutFrames}
-
-
-
-//
-// FADE
-//
-
-.fade.in {
-    @include animation-name(fadeIn);
-}
-
-.fade.out {
-    @include animation-name(fadeOut);
-}
-
-@mixin fadeInFrames {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-@mixin fadeOutFrames {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
-@-webkit-keyframes fadeIn {@include fadeInFrames}
-@-moz-keyframes fadeIn {@include fadeInFrames}
-@keyframes fadeIn {@include fadeInFrames} 
-
-@-webkit-keyframes fadeOut {@include fadeOutFrames}
-@-moz-keyframes fadeOut {@include fadeOutFrames}
-@keyframes fadeOut {@include fadeOutFrames}
-
-//
-// POP
-//
-
-.pop.in {
-    @include animation-name(popIn);
-}
-
-.pop.out {
-    @include animation-name(popOut);
-}
-
-@mixin popInFrames {
-    0% {
-        @include transform(scale(.2));
-        opacity: 0;
-    }
-    100% {
-        @include transform(scale(1));
-        opacity: 1;
-    }
-}
-
-@mixin popOutFrames {
-    0% {
-        @include transform(scale(1));
-        opacity: 1;
-    }
-    100% {
-        @include transform(scale(.2));
-        opacity: 0;
-    }
-}
-
-@-webkit-keyframes popIn {@include popInFrames}
-@-moz-keyframes popIn {@include popInFrames}
-@keyframes popIn {@include popInFrames} 
-
-@-webkit-keyframes popOut {@include popOutFrames}
-@-moz-keyframes popOut {@include popOutFrames}
-@keyframes popOut {@include popOutFrames}
-
-//
-// DISSOLVE
-//
-
-.dissolve.in {
-    @include animation-name(dissolveIn);
-}
-
-.dissolve.out {
-    @include animation-name(dissolveOut);
-}
-
-@mixin dissolveInFrames {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-@mixin dissolveOutFrames {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
-@-webkit-keyframes dissolveIn {@include dissolveInFrames}
-@-moz-keyframes dissolveIn {@include dissolveInFrames}
-@keyframes dissolveIn {@include dissolveInFrames} 
-
-@-webkit-keyframes dissolveOut {@include dissolveOutFrames}
-@-moz-keyframes dissolveOut {@include dissolveOutFrames}
-@keyframes dissolveOut {@include dissolveOutFrames}
-
-//
 // SLIDE UP
 //
 
 .slideup.in {
     z-index: 10;
-    @include animation-name(slideUpIn);
 }
 
 .slideup.out {
     z-index: 0;
-    @include animation-name(slideUpOut);
 }
-
-@mixin slideUpInFrames {
-    0% {
-        @include transform(translateY(100%));
-    }
-    100% {
-        @include transform(translateY(0));
-    }
-}
-
-@mixin slideUpOutFrames {
-    0% {
-        @include transform(translateY(0));
-    }
-    100% {
-        @include transform(translateY(0));
-    }
-}
-
-@-webkit-keyframes slideUpIn {@include slideUpInFrames}
-@-moz-keyframes slideUpIn {@include slideUpInFrames}
-@keyframes slideUpIn {@include slideUpInFrames} 
-
-@-webkit-keyframes slideUpOut {@include slideUpOutFrames}
-@-moz-keyframes slideUpOut {@include slideUpOutFrames}
-@keyframes slideUpOut {@include slideUpOutFrames}
-
 
 .slideup.in.reverse {
   z-index: 0;
-  @include animation-name(slideDownIn);
 }
 
 .slideup.out.reverse {
   z-index: 10;
-  @include animation-name(slideDownOut);
 }
-
-@mixin slideDownInFrames {
-    0% {
-        @include transform(translateY(0));
-    }
-    100% {
-        @include transform(translateY(0));
-    }
-}
-
-@mixin slideDownOutFrames {
-    0% {
-        @include transform(translateY(0));
-    }
-    100% {
-        @include transform(translateY(100%));
-    }
-}
-
-@-webkit-keyframes slideDownIn {@include slideDownInFrames}
-@-moz-keyframes slideDownIn {@include slideDownInFrames}
-@keyframes slideDownIn {@include slideDownInFrames} 
-
-@-webkit-keyframes slideDownOut {@include slideDownOutFrames}
-@-moz-keyframes slideDownOut {@include slideDownOutFrames}
-@keyframes slideDownOut {@include slideDownOutFrames}
 
 //
-// FLIP LEFT
+// FLIP 
 //
 
 .flip {
   @include backface-visibility(hidden);
 }
 
-.flip.in {
-  @include animation-name(flipLeftIn);
-}
-
-.flip.out {
-  @include animation-name(flipLeftOut);
-}
-
-@mixin flipLeftInFrames {
-    0% {
-        @include transform(rotateY(180deg) scale(.8));
-    }
-    100% {
-        @include transform(rotateY(0deg) scale(1));
-    }
-}
-
-@mixin flipLeftOutFrames {
-    0% {
-        @include transform(rotateY(0deg) scale(1));
-    }
-    100% {
-        @include transform(rotateY(-180deg) scale(.8));
-    }
-}
-
-@-webkit-keyframes flipLeftIn {@include flipLeftInFrames}
-@-moz-keyframes flipLeftIn {@include flipLeftInFrames}
-@keyframes flipLeftIn {@include flipLeftInFrames} 
-
-@-webkit-keyframes flipLeftOut {@include flipLeftOutFrames}
-@-moz-keyframes flipLeftOut {@include flipLeftOutFrames}
-@keyframes flipLeftOut {@include flipLeftOutFrames}
 
 //
-// FLIP RIGHT
-//
-
-.flip.in.reverse {
-    @include animation-name(flipRightIn);
-}
-
-.flip.out.reverse {
-    @include animation-name(flipRightOut);
-}
-
-@mixin flipRightInFrames {
-    0% {
-        @include transform(rotateY(-180deg) scale(.8));
-    }
-    100% {
-        @include transform(rotateY(0deg) scale(1));
-    }
-}
-
-@mixin flipRightOutFrames {
-    0% {
-        @include transform(rotateY(0deg) scale(1));
-    }
-    100% {
-        @include transform(rotateY(180deg) scale(.8));
-    }
-}
-
-@-webkit-keyframes flipRightIn {@include flipRightInFrames}
-@-moz-keyframes flipRightIn {@include flipRightInFrames}
-@keyframes flipRightIn {@include flipRightInFrames} 
-
-@-webkit-keyframes flipRightOut {@include flipRightOutFrames}
-@-moz-keyframes flipRightOut {@include flipRightOutFrames}
-@keyframes flipRightOut {@include flipRightOutFrames}
-
-
-//
-// SWAP LEFT
+// SWAP
 //
 
 .swap {
-    @include animation-duration(.7s);
     @include transform(perspective(800));
-    @include animation-timing-function(ease-out);
-}
-.swap.in {
-    @include animation-name(swapLeftIn);
-}
-.swap.out {
-    @include animation-name(swapLeftOut);
 }
 
-@mixin swapLeftInFrames {
-    0% {
-        @include transform(translate3d(0px, 0px, -800px) rotateY(-70deg));
-        opacity:0;
-    }
-    35% {
-        @include transform(translate3d(180px, 0px, -400px) rotateY(-20deg));
-        opacity:1;
-    }
-    100% {
-        opacity:1;
-        @include transform(translate3d(0px, 0px, 0px) rotateY(0deg));
-    }
-}
-
-@mixin swapLeftOutFrames {
-    0% {
-        @include transform(translate3d(0px, 0px, 0px) rotateY(0deg));
-        opacity:1;
-    }
-    35% {
-        @include transform(translate3d(-180px, 0px, -400px) rotateY(20deg));
-        opacity:.5;
-    }
-    100% {
-        @include transform( translate3d(0px, 0px, -800px) rotateY(70deg));
-        opacity:0;
-    }
-}
-
-@-webkit-keyframes swapLeftIn {@include swapLeftInFrames}
-@-moz-keyframes swapLeftIn {@include swapLeftInFrames}
-@keyframes swapLeftIn {@include swapLeftInFrames} 
-
-@-webkit-keyframes swapLeftOut {@include swapLeftOutFrames}
-@-moz-keyframes swapLeftOut {@include swapLeftOutFrames}
-@keyframes swapLeftOut {@include swapLeftOutFrames}
-
-//
-// SWAP RIGHT
-//
-
-.swap.in.reverse {
-    @include animation-name(swapRightIn);
-}
-.swap.out.reverse {
-    @include animation-name(swapRightOut);
-}
-
-@mixin swapRightInFrames {
-    0% {
-        @include transform(translate3d(0px, 0px, -800px) rotateY(70deg));
-        opacity:0;
-    }
-    35% {
-        @include transform(translate3d(-180px, 0px, -400px) rotateY(20deg));
-        opacity:1;
-    }
-    100% {
-        @include transform(translate3d(0px, 0px, 0px) rotateY(0deg));
-        opacity:1;
-    }
-}
-
-@mixin swapRightOutFrames {
-    0% {
-        @include transform(translate3d(0px, 0px, 0px) rotateY(0deg));
-        opacity:1;
-    }
-    35% {
-        @include transform( translate3d(180px, 0px, -400px) rotateY(-20deg));
-        opacity:.5;
-    }
-    100% {
-        @include transform(translate3d(0px, 0px, -800px) rotateY(-70deg));
-        opacity:0;
-    }
-}
-
-@-webkit-keyframes swapRightIn {@include swapRightInFrames}
-@-moz-keyframes swapRightIn {@include swapRightInFrames}
-@keyframes swapRightIn {@include swapRightInFrames} 
-
-@-webkit-keyframes swapRightOut {@include swapRightOutFrames}
-@-moz-keyframes swapRightOut {@include swapRightOutFrames}
-@keyframes swapRightOut {@include swapRightOutFrames}
 
 //
 // CUBE LEFT
@@ -487,48 +68,8 @@
 $cube-z-target: 0px;
 
 .cube {
-    @include animation-duration(.55s);
+    // @include animation-duration(.55s);
 }
-
-.cube.in {
-    @include transform-origin(100% 50%);
-    @include animation-name(cubeLeftIn);
-}
-
-.cube.out {
-    @include transform-origin(0% 50%);
-    @include animation-name(cubeLeftOut);
-}
-
-@mixin cubeLeftInFrames {
-    0% {
-        @include transform(rotateY(90deg) translateZ($cube-z-target) scale(.5));
-        opacity: .5;
-    }
-    100% {
-        @include transform(rotateY(00deg) translateZ(0) scale(1));
-        opacity: 1;
-    }
-}
-
-@mixin cubeLeftOutFrames {
-    0% {
-        @include transform(rotateY(0deg) translateX(0) scale(1));
-        opacity: 1;
-    }
-    100% {
-        @include transform(rotateY(-90deg) translateZ($cube-z-target) scale(.5));
-        opacity: .5;
-    }
-}
-
-@-webkit-keyframes cubeLeftIn {@include cubeLeftInFrames}
-@-moz-keyframes cubeLeftIn {@include cubeLeftInFrames}
-@keyframes cubeLeftIn {@include cubeLeftInFrames} 
-
-@-webkit-keyframes cubeLeftOut {@include cubeLeftOutFrames}
-@-moz-keyframes cubeLeftOut {@include cubeLeftOutFrames}
-@keyframes cubeLeftOut {@include cubeLeftOutFrames}
 
 //
 // CUBE RIGHT
