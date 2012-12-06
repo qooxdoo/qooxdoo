@@ -356,5 +356,8 @@ Create .po files for current library.
 watch
 -----------
 
-The *watch* job watches the *source/class* path of your application for changed %{JS} files, and automatically runs the default Generator job (usually *"source-hybrid"*) in case of a change.
+The *watch* job watches the *source/class* path of your application for changed %{JS} files, and automatically runs the default Generator job (usually *"source-hybrid"*) in case of a change. The config key behind it is :ref:`pages/tool/generator/generator_config_ref#watch-files`. 
 
+When you run the job the process will starting telling you the path it is watching, and will continue until you terminate it with Ctrl-C. On \*ix like systems you can put the job in the shell’s background with ``&``, in order to get your shell prompt back. The job will continue running, and only produce some console output when its associate command is being run. In order to terminate it you have to bring it to the foreground again and then press Ctrl-C (Or you can use a process manager to kill it).
+
+The implementation uses a simple polling mechanism to detect file changes, the check interval is configurable. There are technological alternatives that hook into OS kernel events, but these approaches come with a certain overhead and are more difficult to maintain cross-platform. 
