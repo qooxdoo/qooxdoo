@@ -62,7 +62,7 @@ def get_doc_root(jobconf, confObj):
     lib_paths = []
     for lib in libs:
         lib_paths.append(confObj.absPath(lib.path))
-    croot = os.path.commonprefix(lib_paths)
+    croot = os.path.dirname(os.path.commonprefix(lib_paths))
     return croot
 
 def from_doc_root_to_app_root(jobconf, confObj, doc_root):
