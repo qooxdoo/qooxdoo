@@ -446,6 +446,7 @@
       {
         "document-root" : ""   // calculate dynamically from libraries
         ,"server-port"  : 8080
+        ,"log-level"    : "error"  // use "info" for more console logging, "fatal" for none
       }
     },
 

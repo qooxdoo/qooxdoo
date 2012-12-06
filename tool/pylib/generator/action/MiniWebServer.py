@@ -31,10 +31,31 @@ from generator import Context
 
 default_server_port = 8080
 
+log_levels = {
+  "debug"   : 10,
+  "info"    : 20,
+  "warning" : 30,
+  "error"   : 40,
+  "fatal"   : 50,
+}
+log_level = "error"
+
+
+
 class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
-    pass
     # idea: restrict access from 'localhost' only (parse RequestHandler.request), 
     # to prevent exposing the local file system to outsiders
+
+    # @overridden from BaseHTTPServer
+    def log_request(self, code='-', size='-'):
+        if log_levels[log_level] <= log_levels['info']:
+            self.log_message('"%s" %s %s', self.requestline, str(code), str(size))
+
+    # @overridden from BaseHTTPServer
+    def log_error(self, format, *args):
+        if log_levels[log_level] <= log_levels['error']:
+            self.log_message(format, *args)
+
 
 def get_doc_root(jobconf, confObj):
     libs = jobconf.get("library", [])
@@ -51,9 +72,11 @@ def from_doc_root_to_app_root(jobconf, confObj, doc_root):
     return url_path
 
 def runWebServer(jobconf, confObj):
+    global log_level
     console = Context.console
     owd = os.getcwdu()
-    server_port = default_server_port
+    log_level = jobconf.get("web-server/log-level", "error")
+    server_port = jobconf.get("web-server/server-port", default_server_port)
 
     libs = jobconf.get("library", [])
     # return if not libs
