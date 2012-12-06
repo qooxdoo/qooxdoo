@@ -705,9 +705,8 @@
         },
         "path"    : "${SOURCE_PATH}/class",
         "include" : [ "*.js" ],
-        "exclude" : [],
         "check-interval" : 2,
-        "exit-on-retcode" : true
+        "exit-on-retcode" : false
       }
     }
   }

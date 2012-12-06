@@ -1281,20 +1281,20 @@ Watch arbitrary files or directories for changes.
       * - Key
         - Description
       * - ``F`` 
-        - the (space-separated) list of file paths that have changed
+        - the (space-separated) list of file paths that have changed (e.g. *foo/bar/baz.js foo/bar/yeo.js*)
       * - ``f`` 
-        - the individual file path that has changed (interesting when *per-file* is true)
+        - the individual file path that has changed (e.g. *foo/bar/baz.js*; interesting when *per-file* is true)
       * - ``f.d`` 
-        - the directory path (*"dirname"*) of an individual file (e.g. *foo/bar* in *foo/bar/baz.js*
+        - the directory path (*"dirname"*) of an individual file (e.g. *foo/bar* in *foo/bar/baz.js*)
       * - ``f.b`` 
-        - just the file name (*"basename"*) of an individual file including extension (e.g. *baz.js* in *foo/bar/baz.js*
+        - just the file name (*"basename"*) of an individual file including extension (e.g. *baz.js* in *foo/bar/baz.js*)
       * -  ``f.e`` 
-        - the file extension (e.g. *js* in *foo/bar/baz.js*
+        - the file extension (e.g. *.js* in *foo/bar/baz.js*)
       * -  ``f.bx`` 
         - the file name without path and extension (e.g. *baz* in *foo/bar/baz.js*)
 
 
-    For example, this can be used to create a command line like this::
+    For example, this can be used to create a command line like this ::
     
       sass %(f)s > path/to/css/%(f.bx)s.css
     
@@ -1304,7 +1304,7 @@ Watch arbitrary files or directories for changes.
 
 * **include** : List of file globs to be selected when watching a directory tree. (default: *[\*]*)
 * **check-interval** : Seconds of elapsed time between checks for changes. (default: *2*)
-* **exit-on-retcode**: Whether to terminate when the given command returns a return code != 0, or to continue in this case. (default *true*)
+* **exit-on-retcode**: Whether to terminate when the given command returns a return code != 0, or to continue in this case. (default *false*)
 
 
 .. _pages/tool/generator/generator_config_ref#web-server:
@@ -1330,7 +1330,7 @@ Start a mini web server to serve local files.
 
   peer-keys: :ref:`pages/tool/generator/generator_config_ref#cache`, :ref:`pages/tool/generator/generator_config_ref#library`
 
-* **document-root** : File system path to use as the web server's document root. Best left empty, so the generator calculates a common root path of all involved %{qooxdoo} libraries. For this to work, your libraries should be collected in the :ref:`"libraries" <pages/tool/generator/generator_default_jobs#libraries>` default job. (default: *""*)
+* **document-root** : File system path to use as the web server's document root. Best left empty, so the Generator calculates a common root path of all involved %{qooxdoo} libraries. For this to work, your libraries should be collected in the :ref:`"libraries" <pages/tool/generator/generator_default_jobs#libraries>` default job. (default: *""*)
 * **server-port** : The port the server should listen on. (default: *8080*)
 * **log-level** : Log level of the server, ``"error"`` for errors, ``"info"`` for more verbose logging, ``"fatal"`` for no logging. (default: *"error"*)
 * **allow-remote-access** : Whether the web server allows access from other hosts. If set to false, access is only allowed from *localhost*. This is recommended as the web server might expose a substantial part of your hard disk, including directory indexes. (default: *false*)

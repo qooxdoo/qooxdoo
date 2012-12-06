@@ -58,7 +58,7 @@ class ActionLib(object):
         path = jobconf.get("watch-files/path", "")
         if not path:
             return
-        exit_on_retcode = jobconf.get("watch-files/exit-on-retcode", True)
+        exit_on_retcode = jobconf.get("watch-files/exit-on-retcode", False)
         command = jobconf.get("watch-files/command/line", "")
         if not command:
             return
