@@ -69,6 +69,7 @@ def from_doc_root_to_app_root(jobconf, confObj, doc_root):
     japp_root = jobconf.get("compile-options/paths/app-root", "source")
     app_root = os.path.normpath(os.path.join(confObj.absPath(japp_root), 'index.html'))
     _, _, url_path = Path.getCommonPrefix(doc_root, app_root)
+    url_path = Path.posifyPath(url_path)
     return url_path
 
 def runWebServer(jobconf, confObj):
