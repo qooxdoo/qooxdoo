@@ -10,7 +10,7 @@
 }
 
 .in {
-  z-index: 10;
+  z-index: 10; 
 }
 
 .out {
@@ -70,47 +70,3 @@ $cube-z-target: 0px;
 .cube {
     // @include animation-duration(.55s);
 }
-
-//
-// CUBE RIGHT
-//
-
-.cube.in.reverse {
-    @include transform-origin(0% 50%);
-    @include animation-name(cubeRightIn);
-}
-
-.cube.out.reverse {
-    @include transform-origin(100% 50%);
-    @include animation-name(cubeRightOut);
-}
-
-@mixin cubeRightInFrames {
-    0% {
-        @include transform(rotateY(-90deg) translateZ($cube-z-target) scale(.5));
-        opacity: .5;
-    }
-    100% {
-        @include transform(rotateY(0deg) translateZ(0) scale(1));
-        opacity: 1;
-    }
-}
-
-@mixin cubeRightOutFrames {
-    0% {
-        @include transform(rotateY(0deg) translateX(0) scale(1));
-        opacity: 1;
-    }
-    100% {
-        @include transform(rotateY(90deg) translateZ($cube-z-target) scale(.5));
-        opacity: .5;
-    }
-}
-
-@-webkit-keyframes cubeRightIn {@include cubeRightInFrames}
-@-moz-keyframes cubeRightIn {@include cubeRightInFrames}
-@keyframes cubeRightIn {@include cubeRightInFrames} 
-
-@-webkit-keyframes cubeRightOut {@include cubeRightOutFrames}
-@-moz-keyframes cubeRightOut {@include cubeRightOutFrames}
-@keyframes cubeRightOut {@include cubeRightOutFrames}
