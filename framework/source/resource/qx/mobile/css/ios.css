@@ -683,54 +683,9 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   border-radius: 50px; }
 
 .spinner {
-  -webkit-animation-name: spinnerRotate;
-  -moz-animation-name: spinnerRotate;
-  animation-name: spinnerRotate;
-  -webkit-animation-duration: 1s;
-  -moz-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-iteration-count: infinite;
-  -moz-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-  -moz-animation-timing-function: linear;
-  animation-timing-function: linear;
   background-image: url(../icon/common/spinner.png);
   margin: 0 auto;
   vertical-align: middle; }
-
-@-webkit-keyframes spinnerRotate {
-  from {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    transform: rotate(0deg); }
-
-  to {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    transform: rotate(360deg); } }
-
-@-moz-keyframes spinnerRotate {
-  from {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    transform: rotate(0deg); }
-
-  to {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    transform: rotate(360deg); } }
-
-@keyframes spinnerRotate {
-  from {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    transform: rotate(0deg); }
-
-  to {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    transform: rotate(360deg); } }
 
 .spinnerContainer {
   margin: 0 auto;
