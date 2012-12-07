@@ -459,7 +459,7 @@
       {
         "output-dir" : "${ROOT}"
         ,"template-dir" : "${QOOXDOO_PATH}/tool/data/generator"
-        ,"httpd-type" : "lighttpd"
+        ,"httpd-type" : "apache2"
         ,"httpd-host-url" : "http://localhost"
       }
     },

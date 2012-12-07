@@ -124,7 +124,7 @@ def generateHttpdConfig(jobconf, confObj):
         lib._init_from_manifest()
 
     config_path = os.path.join(jconf_conf_dir, jconf_httpd_type + ".conf")
-    template_path = os.path.join(jconf_template_dir, jconf_httpd_type + ".tmpl.conf")
+    template_path = os.path.join(jconf_template_dir, "httpd." + jconf_httpd_type + ".tmpl.conf")
     alias_path = jconf_app_namespace.replace(".", "/")
 
     # collect config values
