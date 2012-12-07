@@ -17,18 +17,19 @@
 
  ************************************************************************ */
 
-/* ************************************************************************
-
- ************************************************************************ */
-
 /**
- * Contains all animations which are needed for Page Transitions on Card Layout {@link qx.ui.mobile.layout.Card}.
+ * Contains all animations which are needed for page transitions on Card Layout {@link qx.ui.mobile.layout.Card}.
  */
 qx.Class.define("qx.ui.mobile.layout.Animations",
 {
   extend : qx.core.Object,
   
   
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
   construct : function()
   {
     this.base(arguments);
@@ -143,7 +144,6 @@ qx.Class.define("qx.ui.mobile.layout.Animations",
           }
         }
       },
-      
       slideUpIn : {
         duration: this.__animationDuration, 
         timing: "linear", 
@@ -157,7 +157,6 @@ qx.Class.define("qx.ui.mobile.layout.Animations",
           }
         }
       },
-      
       slideUpOut : {
         duration: this.__animationDuration, 
         timing: "linear", 
@@ -259,8 +258,6 @@ qx.Class.define("qx.ui.mobile.layout.Animations",
           }
         }
       },
-      
-      
       swapLeftIn : {
         duration: this.__animationDuration, 
         timing: "ease-out", 
@@ -283,7 +280,6 @@ qx.Class.define("qx.ui.mobile.layout.Animations",
           }
         }
       },
-      
       swapLeftOut : {
         duration: this.__animationDuration, 
         timing: "ease-out", 
@@ -328,7 +324,6 @@ qx.Class.define("qx.ui.mobile.layout.Animations",
           }
         }
       },
-      
       swapRightOut : {
         duration: this.__animationDuration, 
         timing: "ease-out", 
@@ -371,7 +366,6 @@ qx.Class.define("qx.ui.mobile.layout.Animations",
           }
         }
       },
-
       cubeLeftOut : {
         duration: this.__animationDuration, 
         timing: "linear", 
@@ -412,7 +406,6 @@ qx.Class.define("qx.ui.mobile.layout.Animations",
           }
         }
       },
-      
       cubeRightOut : {
         duration: this.__animationDuration, 
         timing: "linear", 
@@ -504,7 +497,7 @@ qx.Class.define("qx.ui.mobile.layout.Animations",
   
  
   members :
-    {
+  {
     __animationDuration : 350,
     __animations : null,
     __animationsMap : null,
@@ -516,5 +509,11 @@ qx.Class.define("qx.ui.mobile.layout.Animations",
     getMap : function() {
       return this.__animationsMap;
     }
+  },
+
+  
+  destruct : function()
+  {
+    this._disposeObjects("__animations", "__animationsMap");
   }
 });
