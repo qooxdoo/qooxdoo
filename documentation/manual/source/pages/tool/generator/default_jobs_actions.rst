@@ -277,6 +277,31 @@ source-server
 Run a mini web server that serves the source version of an application. The web server will export as document root a root path common to all libraries used by the source version. This overcomes e.g. restrictions by modern browsers that do not allow XHR requests over the *file://* protocol by default.
 
 
+.. _pages/tool/generator/generator_default_jobs#source-httpd-config:
+
+source-httpd-config
+---------------------
+
+*(experimental)*
+
+This job is similar in intent to the source-server_ job. But instead of starting
+a dedicated web server, it will create a small web server configuration to be
+used with an already existing web server on your machine. Various popular web
+servers are supported (Apache, lighttpd, nginx) and it is usually
+straight-forward to include the generated configuration file into the main
+server/virtual host configuration. The file contains hints how to achieve that
+for the given server implementation. You can tweak most of the settings involved
+in the job (server type, server URL, ...), the config key behind it is
+:ref:`pages/tool/generator/generator_config_ref#web-server-config`. 
+
+In this way the source version of your application is integrated with an
+existing web server environment which comes in handy if you e.g. want to
+interact with backend services that are already hosted on the same web server.
+
+The generated configuration is actually template-driven so you can add your own
+templates if your web server is not yet supported.
+
+
 .. _pages/tool/generator/generator_default_jobs#test:
 
 test

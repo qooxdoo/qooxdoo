@@ -1334,3 +1334,59 @@ Start a mini web server to serve local files.
 * **server-port** : The port the server should listen on. (default: *8080*)
 * **log-level** : Log level of the server, ``"error"`` for errors, ``"info"`` for more verbose logging, ``"fatal"`` for no logging. (default: *"error"*)
 * **allow-remote-access** : Whether the web server allows access from other hosts. If set to false, access is only allowed from *localhost*. This is recommended as the web server might expose a substantial part of your hard disk, including directory indexes. (default: *false*)
+
+
+.. _pages/tool/generator/generator_config_ref#web-server-config:
+
+web-server-config
+==================
+
+*(experimental)*
+
+Create a web server configuration for the local source version.
+
+::
+
+    "web-server-config" :
+    {
+      "output-dir"     : ".",
+      "template-dir"   : "<path>",
+      "httpd-type"     : "apache2",
+      "httpd-host-url" : "http://localhost:8080"
+    }
+
+.. note::
+
+  peer-keys: :ref:`pages/tool/generator/generator_config_ref#cache`, :ref:`pages/tool/generator/generator_config_ref#library`
+
+* **output-dir** : Directory path where the configuration file is stored. The file itself is named as ``"<httpd-type>.conf"`` so the name already exposes for which server it is being generated. (default: *.*)
+* **template-dir** : Directory path where to look for web server-specific
+  configuration templates. The file name itself is constructed as ``"httpd.<httpd-type>.tmpl.conf"``. (default: *${QOOXDOO_PATH}/tool/data/generator/*)
+
+  Templates can make use of several macros that will expanded during the
+  generation process. Macros are referenced in the template with
+  ``${<macro_name>}``. The following macros are supported:
+
+  .. list-table::
+    :widths: 40 60
+    :header-rows: 1
+
+    * - Macro
+      - Description
+    * - ``APP_DOCUMENT_ROOT`` 
+      - the common root path of all libraries making up the application; this is
+        usually mapped to an alias in the web server, so that all relative URLs to
+        application files continue to work under the web server
+    * - ``APP_NAMESPACE_AS_PATH`` 
+      - the application's namespace, but with "/" in place of "." if it is a
+        complex name; this is usually used as a web server alias in the
+        configuration
+    * - ``APP_HTTPD_CONFIG`` 
+      - the absolute path to the generated configuration file
+    * - ``LOCALHOST_APP_URL`` 
+      - the URL with which the source version can be loaded
+
+* **httpd-type** : The web server implementation. Currently supported types are
+  (``apache2``, ``lighttpd``, ``nginx``). (default: *apache2*)
+* **httpd-host-url** : The host URL part (including protocol) where the server
+  can be contacted for which the configuration is being generated. (default: *http://localhost*)
