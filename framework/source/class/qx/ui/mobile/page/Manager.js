@@ -81,10 +81,10 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
       this.__masterButton = this._createMasterButton();
       this.__masterButton.addListener("tap", this._onMasterButtonTap, this);
-      
+
       this.__hideMasterButton = this._createHideMasterButton();
       this.__hideMasterButton.addListener("tap", this._onHideMasterButtonTap, this);
-      
+
       this.__masterNavigation.addListener("update", this._onMasterContainerUpdate, this);
       this.__detailNavigation.addListener("update", this._onDetailContainerUpdate, this);
 
@@ -127,8 +127,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       init : 5,
       check : "Integer"
     },
-    
-    
+
+
     /**
      * This flag indicates whether the masterContainer is hidden or not.
      */
@@ -137,8 +137,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       check : "Boolean",
       apply : "_updateMasterContainer"
     },
-    
-    
+
+
     /**
      * The width of the masterContainer.
      */
@@ -147,8 +147,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       init : 300,
       apply : "_updateMasterContainer"
     },
-    
-    
+
+
     /**
      * The caption/label of the Hide Master Button.
      */
@@ -157,8 +157,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       check : "String",
       apply : "_applyHideMasterButtonCaption"
     },
-    
-    
+
+
     /**
      * This flag controls whether the hideMasterButton is shown or not.
      */
@@ -184,6 +184,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     __masterDetailContainer : null,
     __portraitMasterContainer : null,
     __masterButton : null,
+    __hideMasterButton : null,
     __masterPages : null,
 
 
@@ -283,8 +284,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     getMasterButton : function() {
       return this.__masterButton;
     },
-    
-    
+
+
     /**
      * Returns the masterNavigation.
      * @return {qx.ui.mobile.container.Navigation}
@@ -292,8 +293,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     getMasterNavigation : function() {
       return this.__masterNavigation;
     },
-    
-    
+
+
     /**
      * Returns the detailNavigation.
      * @return {qx.ui.mobile.container.Navigation}
@@ -360,8 +361,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     _createMasterButton : function() {
       return new qx.ui.mobile.navigationbar.Button(this.getMasterTitle());
     },
-    
-    
+
+
     /**
      * Factory method for the hide master button, which is responsible for hiding masterContainer on Landscape view.
      * @return {qx.ui.mobile.navigationbar.Button}
@@ -427,8 +428,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         this.setMasterContainerHidden(false);
       }
     },
-    
-    
+
+
     /**
     * Called when user taps on hideMasterButton.
     */
@@ -457,28 +458,28 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     _onLayoutChange : function(evt) {
       if(!qx.bom.Viewport.isPortrait()) {
         // LANDSCAPE
-        
+
         if(this.isMasterContainerHidden()) {
           this.hideMasterContainer();
         } else {
           this.showMasterContainer();
         }
-        
+
         this._applyHideMasterButtonHidden();
       } else {
         // PORTRAIT
-        
+
         this.showMasterContainer();
-        
+
         if(this.__isTablet) {
           this.__hideMasterButton.exclude();
         }
       }
-      
+
       this.__updateMasterButtonVisibility();
     },
-    
-    
+
+
     // property apply
     _applyHideMasterButtonHidden : function(value, old) {
       if(this.__isTablet) {
@@ -489,8 +490,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         }
       }
     },
-    
-    
+
+
     /**
     * Called on property changes of hideMasterButtonCaption.
     * @param value {String} new caption
@@ -501,7 +502,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         this.__hideMasterButton.setLabel(value);
       }
     },
-    
+
 
     /**
     * Called on property changes of masterTitle.
@@ -513,8 +514,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         this.__masterButton.setLabel(value);
       }
     },
-    
-    
+
+
     /**
      * Show the MasterContainer on Landscape Mode.
      */
@@ -531,8 +532,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
       qx.event.Registration.fireEvent(window, "resize");
     },
-    
-    
+
+
     /**
      * Hides the MasterContainer on Landscape Mode.
      */
@@ -549,8 +550,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
       qx.event.Registration.fireEvent(window, "resize");
     },
-    
-    
+
+
     /**
      * Updates the visibility of the MasterContainer.
      */
@@ -558,7 +559,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       if(!this.__isTablet || this.__masterDetailContainer == null || this.__masterDetailContainer.getMaster() == null) {
         return;
       }
-          
+
       if(!qx.bom.Viewport.isPortrait()) {
         var masterContainer = this.__masterDetailContainer.getMaster();
         var masterContainerElement = masterContainer.getContainerElement();
@@ -574,8 +575,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         this.showMasterContainer();
       }
     },
-    
-    
+
+
     /**
     * Show/hides master button.
     */
