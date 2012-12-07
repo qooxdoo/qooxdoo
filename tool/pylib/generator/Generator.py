@@ -189,7 +189,11 @@ class Generator(object):
             "web-server" :
             {
               "type"   : "JSimpleJob"
-            }
+            },
+            "web-server-config" :
+            {
+              "type"   : "JSimpleJob"
+            },
           }
 
 
@@ -504,6 +508,8 @@ class Generator(object):
             self._actionLib.watch(self._job, self._config)
         if takeout(jobTriggers, "web-server"):
             MiniWebServer.runWebServer(self._job, self._config)
+        if takeout(jobTriggers, "web-server-config"):
+            MiniWebServer.generateHttpdConfig(self._job, self._config)
 
         if jobTriggers:
 

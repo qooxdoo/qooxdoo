@@ -451,6 +451,19 @@
       }
     },
 
+    "source-httpd-config":
+    {
+      "desc"  : "generate a httpd configuration for the source version"
+      ,"extend" : ["cache", "libraries", "source-script-compopts"]
+      ,"web-server-config" :
+      {
+        "output-dir" : "${ROOT}"
+        ,"template-dir" : "${QOOXDOO_PATH}/tool/data/generator"
+        ,"httpd-type" : "lighttpd"
+        ,"httpd-host-url" : "http://localhost"
+      }
+    },
+
 
     "translation" :
     {

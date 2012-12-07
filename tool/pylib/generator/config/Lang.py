@@ -90,6 +90,7 @@ class Key(object):
                 "variants"      : types.DictType,
                 "watch-files"   : types.DictType,
                 "web-server"    : types.DictType,
+                "web-server-config" : types.DictType,
                 }
 
 
