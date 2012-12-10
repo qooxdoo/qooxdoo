@@ -66,6 +66,13 @@ qx.Class.define("qx.ui.form.MenuButton",
       nullable : true,
       apply : "_applyMenu",
       event : "changeMenu"
+    },
+
+    // overridden
+    appearance :
+    {
+      refine : true,
+      init : "menubutton"
     }
   },
 

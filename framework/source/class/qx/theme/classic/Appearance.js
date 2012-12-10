@@ -241,6 +241,18 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "menubutton" : {
+      include : "button",
+      alias : "button",
+
+      style : function(states) {
+        return {
+          icon : "decoration/arrows/down.gif",
+          iconPosition : "right"
+        };
+      }
+    },
+
     "splitbutton" : {},
     "splitbutton/button" : "button",
     "splitbutton/arrow" :
