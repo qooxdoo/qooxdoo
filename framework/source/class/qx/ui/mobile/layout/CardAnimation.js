@@ -19,7 +19,7 @@
 
 /**
  * Contains all animations which are needed for page transitions on {@link qx.ui.mobile.layout.Card}.
- * Provides a convenience method {@link qx.ui.mobile.layout.CardAnimation#getPageTransition} which 
+ * Provides a convenience method {@link qx.ui.mobile.layout.CardAnimation#getAnimation} which 
  * makes it possibility to resolve the right animation for a pageTransition out of the cardAnimationMap.
  */
 qx.Class.define("qx.ui.mobile.layout.CardAnimation",

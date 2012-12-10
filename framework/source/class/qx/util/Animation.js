@@ -18,8 +18,8 @@
  ************************************************************************ */
 
 /**
- * Contains several property maps for the usage with qx.bom.element.Animation {@link qx.bom.element.Animation}.
- * These animations can be used for page transition for example.
+ * Contains property maps for the usage with qx.bom.element.Animation {@link qx.bom.element.Animation}.
+ * These animations can be used for page transitions for example.
  */
 qx.Class.define("qx.util.Animation",
 {
@@ -201,12 +201,20 @@ qx.Class.define("qx.util.Animation",
       origin: "center", 
       keyFrames : {
         0: {
-          rotate : ["0deg","180deg"],
-          scale : [".8","1"]
+          opacity : 0
+        },
+        49: {
+          opacity : 0
+        },
+        50: {
+          rotate : ["0deg","90deg"],
+          scale : [".8","1"],
+          opacity : 1
         },
         100: {
           rotate : ["0deg","0deg"],
-          scale : ["1","1"]
+          scale : ["1","1"],
+          opacity : 1
         }
       }
     },
@@ -233,12 +241,20 @@ qx.Class.define("qx.util.Animation",
       origin: "center center", 
       keyFrames : {
         0: {
-          rotate : ["0deg","-180deg"],
-          scale : [".8","1"]
+          opacity : 0
+        },
+        49: {
+          opacity : 0
+        },
+        50: {
+          rotate : ["0deg","-90deg"],
+          scale : [".8","1"],
+          opacity : 1
         },
         100: {
           rotate : ["0deg","0deg"],
-          scale : ["1","1"]
+          scale : ["1","1"],
+          opacity : 1
         }
       }
     },
@@ -260,7 +276,7 @@ qx.Class.define("qx.util.Animation",
     },
     
     SWAP_LEFT_IN : {
-      duration: 350, 
+      duration: 700, 
       timing: "ease-out", 
       origin: "center center", 
       keyFrames : {
@@ -283,7 +299,7 @@ qx.Class.define("qx.util.Animation",
     },
     
     SWAP_LEFT_OUT : {
-      duration: 350, 
+      duration: 700, 
       timing: "ease-out", 
       origin: "center center", 
       keyFrames : {
@@ -306,7 +322,7 @@ qx.Class.define("qx.util.Animation",
     },
     
     SWAP_RIGHT_IN : {
-      duration: 350, 
+      duration: 700, 
       timing: "ease-out", 
       origin: "center center", 
       keyFrames : {
@@ -329,7 +345,7 @@ qx.Class.define("qx.util.Animation",
     },
     
     SWAP_RIGHT_OUT : {
-      duration: 350, 
+      duration: 700, 
       timing: "ease-out", 
       origin: "center center", 
       keyFrames : {
@@ -352,7 +368,7 @@ qx.Class.define("qx.util.Animation",
     },
     
     CUBE_LEFT_IN : {
-      duration: 350, 
+      duration: 550, 
       timing: "linear", 
       origin: "100% 50%", 
       keyFrames : {
@@ -372,7 +388,7 @@ qx.Class.define("qx.util.Animation",
     },
     
     CUBE_LEFT_OUT : {
-      duration: 350, 
+      duration: 550, 
       timing: "linear", 
       origin: "0% 50%", 
       keyFrames : {
@@ -392,7 +408,7 @@ qx.Class.define("qx.util.Animation",
     },
     
     CUBE_RIGHT_IN : {
-      duration: 350, 
+      duration: 550, 
       timing: "linear", 
       origin: "0% 50%", 
       keyFrames : {
@@ -412,7 +428,7 @@ qx.Class.define("qx.util.Animation",
     },
     
     CUBE_RIGHT_OUT : {
-      duration: 350, 
+      duration: 550, 
       timing: "linear", 
       origin: "100% 50%", 
       keyFrames : {

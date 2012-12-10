@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
     
     this.__spinnerAnimation = {
       duration: 1000, 
-      timing: "linear", 
+      timing: "linear",
       origin: "center center",
       repeat: "infinite",
       keyFrames : {
@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
           rotate : "0deg"
         },
         100: {
-          rotate : "360deg"
+          rotate : "359deg"
         }
       }
     };

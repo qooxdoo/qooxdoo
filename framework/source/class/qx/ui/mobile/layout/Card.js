@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
      * Getter for this.__cardAnimation.
      * @return {qx.ui.mobile.layout.CardAnimation} the current CardAnimation object.
      */
-    getCardAnimation : function(value) {
+    getCardAnimation : function() {
       return this.__cardAnimation;
     },
     
