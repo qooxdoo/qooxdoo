@@ -50,8 +50,9 @@ qx.Class.define("qx.ui.menu.Manager",
     var el = document.body;
     var Registration = qx.event.Registration;
 
-    // React on mousedown/mouseup events, but on native, to support inline applications
+    // React on mouse events, but on native, to support inline applications
     Registration.addListener(window.document.documentElement, "mousedown", this._onMouseDown, this, true);
+    Registration.addListener(el, "mousewheel", this._onMouseWheel, this, true);
 
     // React on keypress events
     Registration.addListener(el, "keydown", this._onKeyUpDown, this, true);
@@ -815,6 +816,16 @@ qx.Class.define("qx.ui.menu.Manager",
         // Finally dispatch the clone
         button.dispatchEvent(clone);
       }
+    },
+
+
+    /**
+     * Event handler for mousewheel which hides all windows on scroll.
+     *
+     * @param e {qx.event.type.MouseWheel} The mouse wheel event.
+     */
+    _onMouseWheel : function(e) {
+      this.hideAll();
     }
   },
 
