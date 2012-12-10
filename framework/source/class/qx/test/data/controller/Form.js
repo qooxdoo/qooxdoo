@@ -51,6 +51,26 @@ qx.Class.define("qx.test.data.controller.Form",
     },
 
 
+    testSetModelNull : function() {
+      var c = new qx.data.controller.Form(this.__model, this.__form);
+
+      // set some values
+      this.__tf1.setValue("1111");
+      this.__tf2.setValue("2222");
+      this.__cb.setValue(true);
+
+      // set model to null
+      c.setModel(null);
+
+      // all values should be null as well
+      this.assertNull(this.__tf1.getValue());
+      this.assertNull(this.__tf2.getValue());
+      this.assertFalse(this.__cb.getValue());
+
+      c.dispose();
+    },
+
+
     testInitialResetter : function() {
       // create the controller which set the inital values and
       // saves them for resetting
@@ -85,7 +105,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.updateModel();
       this.assertEquals("affee", model.getA().getTf2());
 
-      // distroy the controller
+      // destroy the controller
       c.dispose();
       model.dispose();
     },

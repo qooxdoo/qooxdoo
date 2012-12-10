@@ -360,8 +360,14 @@ qx.Class.define("qx.test.data.controller.Object",
       // Tie the label1s content to the zindex of the model
       this.__controller.addTarget(this.__label1, "value", "zIndex");
 
+      this.__label1.setValue("test");
+
       // set the model of the controller to null and back
       this.__controller.setModel(null);
+
+      // check if the values have been reseted
+      this.assertNull(this.__label1.getValue());
+
       this.__controller.setModel(this.__model);
 
       // set a new zIndex to the model
