@@ -193,34 +193,55 @@ qx.Class.define("qx.ui.mobile.list.List",
     _applyModel : function(value, old)
     {
       if (old != null) {
-        old.removeListener("changeBubble", this.__onModelChange, this);
+        old.removeListener("changeBubble", this.__onModelChangeBubble, this);
       }
       if (value != null) {
-        value.addListener("changeBubble", this.__onModelChange, this);
+        value.addListener("changeBubble", this.__onModelChangeBubble, this);
       }
+      
+      if (old != null) {
+        old.removeListener("change", this.__onModelChange, this);
+      }
+      if (value != null) {
+        value.addListener("change", this.__onModelChange, this);
+      }
+      
       this.__render();
     },
-
-
+    
+    
     // property apply
     _applyDelegate : function(value, old) {
       this.__provider.setDelegate(value);
     },
 
-
+    
     /**
-     * Reacts on model changes.
+     * Reacts on model 'change' event.
      * @param evt {qx.event.type.Data} data event which contains model change data.
      */
-    __onModelChange : function(evt)
+    __onModelChange : function(evt) {
+      if(evt && evt.getData() && evt.getData().type) {
+        var changeType = evt.getData().type;
+        
+        if(changeType == "order" || changeType == "add" || changeType == "remove") {
+          this.__render();
+        }
+      }
+    },
+    
+    
+    /**
+     * Reacts on model 'changeBubble' event.
+     * @param evt {qx.event.type.Data} data event which contains model changeBubble data.
+     */
+    __onModelChangeBubble : function(evt)
     {
       if(evt) {
         var data = evt.getData();
-        var hasRowCountChanged = (data.old.length != data.value.length);
+        var isRowCountEqual = (data.old.length == data.value.length);
 
-        if(hasRowCountChanged) {
-          this.__render();
-        } else {
+        if(isRowCountEqual) {
           var row = data.name;
           if(row) {
             row = parseInt(row,10);
