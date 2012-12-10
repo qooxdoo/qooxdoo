@@ -26,6 +26,7 @@ qx.Class.define("qx.util.Animation",
   
   statics : 
   {
+    /** Target slides in from right. */
     SLIDE_LEFT_IN : {
       duration: 350,
       timing: "linear", 
@@ -39,7 +40,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target slides out from right.*/
     SLIDE_LEFT_OUT : {
       duration: 350, 
       timing: "linear", 
@@ -53,7 +54,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     }, 
-    
+    /** Target slides in from left.*/
     SLIDE_RIGHT_IN : {
       duration: 350, 
       timing: "linear", 
@@ -67,7 +68,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     }, 
-    
+    /** Target slides out from left.*/
     SLIDE_RIGHT_OUT : {
       duration: 350, 
       timing: "linear", 
@@ -81,7 +82,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-      
+    /** Target fades in. */  
     FADE_IN : {
       duration: 350, 
       timing: "linear", 
@@ -95,8 +96,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-      
-    
+    /** Target fades out. */
     FADE_OUT : {
       duration: 350, 
       timing: "linear", 
@@ -110,7 +110,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-      
+    /** Target pops in from center. */
     POP_IN : {
       duration: 350, 
       timing: "linear", 
@@ -124,7 +124,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-      
+    /** Target pops out from center. */ 
     POP_OUT : {
       duration: 350, 
       timing: "linear", 
@@ -138,7 +138,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target slides in to top. */
     SLIDE_UP_IN : {
       duration: 350, 
       timing: "linear", 
@@ -152,7 +152,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target slides out to top.*/
     SLIDE_UP_OUT : {
       duration: 350, 
       timing: "linear", 
@@ -166,7 +166,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-      
+    /** Target slides out to bottom.*/
     SLIDE_DOWN_IN : {
       duration: 350, 
       timing: "linear", 
@@ -180,7 +180,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target slides down to bottom.*/
     SLIDE_DOWN_OUT : {
       duration: 350, 
       timing: "linear", 
@@ -194,7 +194,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target flips (turns) left from back side to front side. */
     FLIP_LEFT_IN : {
       duration: 350, 
       timing: "linear", 
@@ -218,7 +218,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target flips (turns) left from front side to back side. */
     FLIP_LEFT_OUT : {
       duration: 350, 
       timing: "linear", 
@@ -234,7 +234,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-      
+    /** Target flips (turns) right from back side to front side. */  
     FLIP_RIGHT_IN : {
       duration: 350, 
       timing: "linear", 
@@ -258,7 +258,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target flips (turns) right from front side to back side. */  
     FLIP_RIGHT_OUT : {
       duration: 350, 
       timing: "linear", 
@@ -274,7 +274,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target moves in to left. */
     SWAP_LEFT_IN : {
       duration: 700, 
       timing: "ease-out", 
@@ -297,7 +297,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target moves out to left.  */
     SWAP_LEFT_OUT : {
       duration: 700, 
       timing: "ease-out", 
@@ -320,7 +320,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target moves in to right. */
     SWAP_RIGHT_IN : {
       duration: 700, 
       timing: "ease-out", 
@@ -343,7 +343,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target moves out to right. */
     SWAP_RIGHT_OUT : {
       duration: 700, 
       timing: "ease-out", 
@@ -366,7 +366,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target moves in with cube animation from right to left.  */
     CUBE_LEFT_IN : {
       duration: 550, 
       timing: "linear", 
@@ -386,7 +386,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target moves out with cube animation from right to left.  */
     CUBE_LEFT_OUT : {
       duration: 550, 
       timing: "linear", 
@@ -406,7 +406,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target moves in with cube animation from left to right.  */
     CUBE_RIGHT_IN : {
       duration: 550, 
       timing: "linear", 
@@ -426,7 +426,7 @@ qx.Class.define("qx.util.Animation",
         }
       }
     },
-    
+    /** Target moves out with cube animation from left to right.  */
     CUBE_RIGHT_OUT : {
       duration: 550, 
       timing: "linear", 
