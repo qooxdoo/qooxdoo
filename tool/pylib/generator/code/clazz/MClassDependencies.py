@@ -225,9 +225,11 @@ class MClassDependencies(object):
             deps_json, cacheModTime = self.library.getDependencies(self.id)
             if deps_json is not None:
                 deps = self.depsItems_from_Json(deps_json)
-                if not tree: # don't cache for a passed-in tree
-                    classInfo[cacheId] = (deps, cacheModTime)
-                    self._writeClassCache(classInfo)
+                # don't cache at all, so later 'statics' optimized jobs don't
+                # pick up the short depsList from cache
+                #if not tree: # don't cache for a passed-in tree
+                #    classInfo[cacheId] = (deps, cacheModTime)
+                #    self._writeClassCache(classInfo)
 
         if (deps == None
           or force == True
