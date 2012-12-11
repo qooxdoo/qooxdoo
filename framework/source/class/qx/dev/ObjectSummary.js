@@ -99,7 +99,7 @@ qx.Class.define("qx.dev.ObjectSummary",
       {
         vObject = vDb[key];
 
-        if (vObject && vObject.__disposed === false)
+        if (vObject && vObject.isDisposed() === false)
         {
           var sClassName = vObject.classname;
           if (vData[sClassName] == null) {
