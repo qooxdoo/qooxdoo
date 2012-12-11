@@ -1285,13 +1285,13 @@ Watch arbitrary files or directories for changes.
       * - ``FILE`` 
         - the individual file path that has changed (e.g. *foo/bar/baz.js*; interesting when *per-file* is true)
       * - ``DIRNAME`` 
-        - the directory path (*"dirname"*) of an individual file (e.g. *foo/bar* in *foo/bar/baz.js*)
+        - the directory path of an individual file (e.g. *foo/bar* in *foo/bar/baz.js*)
       * - ``BASENAME`` 
-        - just the file name (*"basename"*) of an individual file including extension (e.g. *baz.js* in *foo/bar/baz.js*)
-      * -  ``EXTENSIOIN`` 
-        - the file extension (e.g. *.js* in *foo/bar/baz.js*)
-      * -  ``FILENAME`` 
+        - just the basename of an individual file including extension (e.g. *baz.js* in *foo/bar/baz.js*)
+      * - ``FILENAME`` 
         - the file name without path and extension (e.g. *baz* in *foo/bar/baz.js*)
+      * - ``EXTENSION`` 
+        - the file extension (e.g. *.js* in *foo/bar/baz.js*)
 
 
     For example, this can be used to create a command line like this ::
