@@ -217,7 +217,11 @@ class MClassDependencies(object):
         (deps, cacheModTime) =  classInfo[cacheId] if cacheId in classInfo else (None,None)
 
         # try dependencies.json
-        if 1 and deps == None:
+        if (True  # just a switch
+            and deps == None  
+            # TODO: temp. hack to work around issue with 'statics' optimization and dependencies.json
+            and 'statics' not in Context.jobconf.get("compile-options/code/optimize",[])
+           ):
             deps_json, cacheModTime = self.library.getDependencies(self.id)
             if deps_json is not None:
                 deps = self.depsItems_from_Json(deps_json)
