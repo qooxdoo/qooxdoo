@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import re, os, sys, types, glob, time
+import re, os, sys, types, glob, time, string
 
 from misc import filetool, textutil
 from generator import Context
@@ -51,6 +51,7 @@ class ActionLib(object):
                     self._shellCmd.rm_rf(entry)
 
 
+
     def watch(self, jobconf, confObj):
         console = Context.console
         since = time.time()
@@ -62,6 +63,7 @@ class ActionLib(object):
         command = jobconf.get("watch-files/command/line", "")
         if not command:
             return
+        command_tmpl = CommandLineTemplate(command)
         per_file = jobconf.get("watch-files/command/per-file", False)
         console.info("Watching changes of '%s'..." % path)
         console.info("Press Ctrl-C to terminate.")
@@ -73,20 +75,20 @@ class ActionLib(object):
             since = time.time()
             if ylist:     # ylist =[(fpath,fstamp)]
                 flist = [f[0] for f in ylist]
-                cmd_args = {'F': ' '.join(flist)}
+                cmd_args = {'FILELIST': ' '.join(flist)}
                 console.debug("found changed files: %s" % flist)
                 try:
                     if not per_file:
-                        cmd = command % cmd_args
+                        cmd = command_tmpl.safe_substitute(cmd_args)
                         self.runShellCommand(cmd)
                     else:
                         for fname in flist:
-                            cmd_args['f'] = fname                     # foo/bar/baz.js
-                            cmd_args['f.d'] = os.path.dirname(fname)  # foo/bar
-                            cmd_args['f.b'] = os.path.basename(fname) # baz.js
-                            cmd_args['f.e'] = os.path.splitext(fname)[1]   # .js
-                            cmd_args['f.bx']= os.path.basename(os.path.splitext(fname)[0])  # baz
-                            cmd = command % cmd_args
+                            cmd_args['FILE']      = fname                       # foo/bar/baz.js
+                            cmd_args['DIRNAME']   = os.path.dirname(fname)      # foo/bar
+                            cmd_args['BASENAME']  = os.path.basename(fname)     # baz.js
+                            cmd_args['EXTENSION'] = os.path.splitext(fname)[1]  # .js
+                            cmd_args['FILENAME']  = os.path.basename(os.path.splitext(fname)[0])  # baz
+                            cmd = command_tmpl.safe_substitute(cmd_args)
                             self.runShellCommand(cmd)
                 except RuntimeError:
                     if exit_on_retcode:
@@ -128,4 +130,19 @@ class ActionLib(object):
             raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
         self._console.outdent()
 
+
+class CommandLineTemplate(string.Template):
+    delimiter = "%"
+    idpattern = string.Template.idpattern
+    pattern = r"""
+        %(delim)s(?:
+          (?P<escaped>%(delim)s) |   # Escape sequence of two delimiters
+          (?P<named>%(id)s)      |   # delimiter and a Python identifier
+          \((?P<braced>%(id)s)\) |   # delimiter and a braced identifier
+          (?P<invalid>)              # Other ill-formed delimiter exprs
+        )
+      """ % {
+              'delim': re.escape(delimiter),
+              'id'   : idpattern
+            } 
 

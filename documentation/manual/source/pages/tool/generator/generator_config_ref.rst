@@ -1272,7 +1272,7 @@ Watch arbitrary files or directories for changes.
 * **path** *(required)* : Path to file or directory which should be watched. If it is a directory, it is watched recursively (but directories themselves are exempted).
 * **command** :
 
-  * **line** : *(required)* : Shell command line to be executed when a change is detected. There are a couple of placeholders available that can be interpolated into the command string with ``%(<key>)s``. The different keys are:
+  * **line** : *(required)* : Shell command line to be executed when a change is detected. There are a couple of placeholders available that can be interpolated into the command string with ``%(<KEY>)``. The different keys are:
 
     .. list-table::
       :widths: 10 90
@@ -1280,23 +1280,23 @@ Watch arbitrary files or directories for changes.
 
       * - Key
         - Description
-      * - ``F`` 
+      * - ``FILELIST`` 
         - the (space-separated) list of file paths that have changed (e.g. *foo/bar/baz.js foo/bar/yeo.js*)
-      * - ``f`` 
+      * - ``FILE`` 
         - the individual file path that has changed (e.g. *foo/bar/baz.js*; interesting when *per-file* is true)
-      * - ``f.d`` 
+      * - ``DIRNAME`` 
         - the directory path (*"dirname"*) of an individual file (e.g. *foo/bar* in *foo/bar/baz.js*)
-      * - ``f.b`` 
+      * - ``BASENAME`` 
         - just the file name (*"basename"*) of an individual file including extension (e.g. *baz.js* in *foo/bar/baz.js*)
-      * -  ``f.e`` 
+      * -  ``EXTENSIOIN`` 
         - the file extension (e.g. *.js* in *foo/bar/baz.js*)
-      * -  ``f.bx`` 
+      * -  ``FILENAME`` 
         - the file name without path and extension (e.g. *baz* in *foo/bar/baz.js*)
 
 
     For example, this can be used to create a command line like this ::
     
-      sass %(f)s > path/to/css/%(f.bx)s.css
+      sass %(FILE) > path/to/css/%(FILENAME).css
     
     which runs an SCSS compiler on a .scss file (assuming these files are watched), and redirects the output to a file with same name but a .css extension, in a different path.
 
