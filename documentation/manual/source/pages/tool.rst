@@ -40,6 +40,7 @@ Generator
    tool/generator/generator_usage
    tool/generator/generator_config
    tool/generator/generator_optimizations
+   tool/generator/dependencies_manually
    tool/generator/generator_config_articles
    tool/generator/generator_config_background
 
