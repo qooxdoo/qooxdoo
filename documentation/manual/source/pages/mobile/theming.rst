@@ -3,148 +3,162 @@
 Theming
 *******
 
-CSS and LESS
+CSS and SCSS   
 ============
 
-Theming in qooxdoo mobile is done with `LESS <http://www.lesscss.org/>`_ and CSS. LESS is an extension for CSS to enable style sheets to be more dynamic.
-In LESS you can you use variables, reuse CSS statement inside of CSS file, import CSS files and create mixins.
+Theming in qooxdoo mobile is done with `SCSS <http://www.sass-lang.com/>`_. SCSS is an extension for CSS to enable style sheets to be more dynamic.
+In SCSS you can you use variables, reuse CSS statements inside of a SCSS file, import CSS files and create mixins. 
 
-If you want to extend or change the qooxdoo mobile themes, you always should modify LESS files (\*.less) in folder
-"framework/source/resource/qx/mobile/less". After you modified LESS files, they have to be parsed into CSS.
+Despite we use SCSS, you do not to be a SCSS expert. The main parts of the SCSS are used and maintained by us in our framework. You just need to have some knowledge about CSS.
 
-The target CSS artefacts can be found in folder "framework/source/resource/qx/mobile/css". Please notice: You should not change these files.
+If you want to extend or change the qooxdoo mobile themes, you should always modify the SCSS files (\*.scss) in the folder
+``<APP_ROOT>/source/resource/<APP_NAME>/mobile/scss``. After you modified SCSS files, they have to be compiled into CSS. Otherwise you will not see
+any changes. 
 
-Example usage of LESS in qooxdoo mobile
-=======================================
+qx.Mobile provides a built-in SCSS compiler called `pyScss <https://github.com/Kronuz/pyScss>`_. This compiler is used by our ``watch-scss`` job. You do not need to install the 
+ruby SASS compiler through gem, as mentioned on official SASS website.
 
-When you inspect LESS files of qooxdoo mobile, you will see that there are two main files (android and ios.less).
-These two files consists out of several parts, which are imported with command:
-
-::
-
-    @import "_base";
-
-The files *_android.less* and *_ios.less* both import *_base.less*, which contains *_mixins.less*.
-The *_mixins.less* is a important part, because it contains most important mixins
-used in any LESS file. For example the LESS mixin for border-radius:
-
-::
-
-    .border-radius() {
-        -webkit-border-radius: @arguments;
-        -moz-border-radius: @arguments;
-        border-radius: @arguments;
-    }
-
-This mixin helps you creating border-radius for most browsers,
-just by writing something like:
-
-:: 
-
-    .border-radius(4px);
-
-Another mixin example for buttons can be found in file *_android.less*.
-In this case, mixins are used like inheritance classes.
-There is a class with typical look and feel for Android buttons,
-called *.standard-button*.
-
-::
-
-    .standard-button {
-        @button-color: #f4f4f4;
-        @height: 20px;
-
-        .border-radius(4px);
-        cursor: pointer;
-        width: auto;
-        height: 20px;
-        color: #222222;
-        text-align: center;
-
-        // Less "darken method" helps to make use of android-button easier.
-        // It takes button-color and darkens it. No second gradient color
-        // is needed.
-        #gradient > .vertical(@button-color, darken(@button-color, 20%));
-        border: 1px solid #555555;
-        line-height: @height;
-        font-size:12px;
-    }
-
-
-The toolbar button extends this standard button, and adds some
-special values.
-
-::
-
-    .toolbar-button {
-        .standard-button();
-        height: 50px;
-        font-size: 17px;
-    }
-
-So you are able to use inheritance directly in LESS file, which might give you a
-better overview than applying multiple CSS classes to one DOM element.
-
-Customized Theming For Your Application 
-=======================================
-
-You can customize our Default Theme "Indigo" for your qx.Mobile based application.
-
-For this customization you first have to change the mobile theme at the config.json of
-your application.
-
-Please change the variable ``MOBILE_THEME`` to ``custom``:
-
-::
-
-    "MOBILE_THEME" : "custom"
-
-Then trigger the usage of the theme through ``./generate.py source`` on your shell.
-
-Now you can start to change the application theming. The file for your customization 
-is the ``_application.less`` at the folder ``source/resource/<APP_NAME>/less``.
-
-At this file you find many LESS variables, which gives you the possibility to modify
-the theming.
-
-As an example, just set ``@navigationpage-background-color`` to the value ``red``.
-
-Now you have to parse the LESS files. This step is described in next chapter. 
- 
-
-Parsing LESS files
+Parsing SCSS files
 ==================
 
-There are different ways for parsing LESS files into CSS. 
-Our LESS files were created with version 1.2.1 of LESS.
-Please make sure that you have only this version installed.
+Layout design through CSS is typically done by trial-and-error method. 
+You often change a stylesheet and reload the qx.Mobile application many times. 
 
-* `LESS.js <http://www.lesscss.org/>`_: If you are working on source variant of qooxdoo mobile, you can include less.js and link LESS in the application ``index.html`` file directly. Just uncomment the following lines in the ``index.html`` file:
+When using SCSS you would have to parse the SCSS file after each change of your stylesheet files.
 
-  .. code-block:: html
+To automatically parse the SCSS on change/save, you can use our generator job: 
 
-    <!-- Uncomment the following block to use less.js -->
-    <!-- 
-    <link rel="stylesheet/less" type="text/css" media="screen" 
-      href="../../../framework/source/resource/qx/mobile/less/android.less">
-    <link rel="stylesheet/less" type="text/css" media="screen" 
-      href="resource/mobileshowcase/css/styles.css">
-    <script type="text/javascript" 
-      src="https://raw.github.com/cloudhead/less.js/master/dist/less-1.1.6.min.js">
-    -->
+::
+
+    ./generate.py watch-scss
 
 
-* `Guard-LESS <https://github.com/guard/guard-less>`_: A guard extension that compiles .less files to .css files when changed. It listens on folders or a set of LESS files for changes, and triggers re-compiling of CSS files automatically. This should be your choice, if you are familar to guard.
+It recognizes any changes made to the SCSS files in your qx.Mobile application and triggers the 
+compiling to CSS automatically.
 
-  This is the content of our Guardfile which we use for compiling the LESS files:
+qx.Mobile themes 
+================
 
-  **qooxdoo/framework/source/resource/qx/mobile/less/Guardfile**
-  ::
+qx.Mobile provides a theme for the iOS platform and one theme for the Android platform.
+These themes are not intended to be changed/customized by developers.
 
-    guard 'less', :all_on_start => true, :output => '../css', :all_after_change => true do
-      watch(%r{^.*\.less$})
-    end
+The third one of our themes is the "Indigo" theme. This theme can be modified by developers 
+in many ways, like setting colors or change the used border radius etc.
 
-* `Simpless <http://wearekiss.com/simpless>`_: Similar to functionality of Guard-LESS, but with more easier configuration and usage, because of a graphical user interface. It also compiles LESS to CSS files automatically on file change. Simpless is available for every platform (Windows, Mac OS, Linux).
+Extending the iOS or Android theme
+==================================
 
+You can add your own the CSS rules on top of the iOS or Android theme.
 
+Just append your statements them to the following file:
+
+ ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/styles.css``
+
+Change theme in your qx.Mobile application
+==========================================
+
+You can change the used theme of your qx.Mobile application by opening the ``config.json``
+in your application root. 
+There you find the macro called ``MOBILE_THEME``.
+You can change the macro to one of the following values:
+
+* ``ios``
+* ``android``
+* ``custom`` 
+
+After changing this macro you have to run the source job in your application's root:
+
+::
+
+  ./generate.py source
+
+ 
+Customized theme for your qx.Mobile application
+===============================================
+
+In the qx.Mobile Showcase you can have a look at our default theme, called 'Indigo'.
+You can use and modify this theme in many ways. 
+
+For customization, please follow these steps:
+
+  1.  For enabling the customized theming, you have to change the variable ``MOBILE_THEME`` in your ``<APP_ROOT>/config.json`` 
+      to ``custom``:
+
+      ::
+
+          "MOBILE_THEME" : "custom"
+
+      After changing the variable please run 
+
+      ::
+
+          ./generate.py source
+
+      once.
+
+  2.  Now start the SCSS watch job by running 
+
+      ::
+
+          ./generate.py watch-scss
+  
+      in your application's root.
+
+  3.  Have a look in your application's resource folder:
+      ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/scss/_custom.scss``
+
+      This is the key file for customizing our default theme to your needs.
+
+      At ``_custom.scss`` you find variables for the customization of your qx.Mobile application.
+
+      The variables overwrite the default theme "Indigo". Undeclared variables get styled
+      like in the "Indigo" theme.
+
+  4.  Give it a try: Change the background of the NavigationBar to the color ``green``:
+      
+      ::
+      
+          $navigationbar-background-color: green;
+
+      Your customized theme is compiled automatically by the SCSS watch job to: ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/styles.css``
+
+  5.  Reload your qx.Mobile application and check your changes. It should look like this:
+
+      .. image:: customizedTheme.png
+        :scale: 50%
+
+That is all you need to know for customizing the theme of a qx.Mobile app. Try the other
+SCSS variables of your ``_custom.scss``!
+
+Extending the customized theme with SCSS
+========================================
+
+Additionally to the customization of the variables in ``_custom.scss`` you can extend the theme with your own CSS/SCSS rules. In this case
+you can append your SCSS/CSS statement to the following file:
+
+``<APP_ROOT>/source/resource/<APP_NAME>/mobile/scss/styles.scss``
+
+Please make sure not to change or delete any of the import statements.
+
+More about SCSS
+===============
+
+As mentioned before, you do not need to be an expert in SCSS for theming. 
+But if you want to know more about this exciting CSS enhancement technology, please have a look at the SASS website:
+
+* `SASS official website <http://www.sass-lang.com/>`_
+
+Improving your layouting workflow
+=================================
+
+We have a little hint for you, for improving the layouting workflow of your qx.Mobile application.
+
+There is a plug-in for Google Chrome called **CSS Auto Reload**:
+
+* `CSS Auto Reload for Chrome <https://chrome.google.com/webstore/detail/css-auto-reload/fiikhcfekfejbleebdkkjjgalkcgjoip>`_
+
+This plug-in recognizes when a website's CSS has changed and updates the CSS automatically, without a reload of the site. 
+This plug-in works perfectly in combination with our SCSS watch-job. 
+
+The result: You just have to change a qx.Mobile's SCSS, save it and the qx.Mobile application in Chrome
+updates after a few seconds, and keeps the current state of the application.

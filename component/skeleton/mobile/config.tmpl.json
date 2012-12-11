@@ -43,7 +43,7 @@
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
-    "MOBILE_THEME" : "ios",  // provide a default
+    "MOBILE_THEME" : "ios",  // valid: "ios" | "android" | "custom" 
     "CSS_COMB_URI" : "./resource/$${APPLICATION}/css/$${MOBILE_THEME}-style-min.css",
     "CSS_COMBINED" : "$${BUILD_PATH}/$${CSS_COMB_URI}",
     "ROOT"         : ".",
