@@ -448,6 +448,10 @@ qx.Class.define("qx.ui.basic.Label",
           if (value.isFocusable()) {
             value.focus.apply(value);
           }
+          // furthermore toggle if possible [BUG #6881]
+          if ("toggleValue" in value && typeof value.toggleValue === "function") {
+            value.toggleValue();
+          }
         }, this);
       }
     },
